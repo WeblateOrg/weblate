@@ -399,30 +399,10 @@ class Language(models.Model):
         verbose_name = gettext_lazy("Language")
         verbose_name_plural = gettext_lazy("Languages")
 
-    def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
-        super().__init__(*args, **kwargs)
-        self._plural_examples = {}
-        self.stats = LanguageStats(self)
-
     def __str__(self):
         if self.show_language_code:
             return "{0} ({1})".format(_(self.name), self.code)
         return _(self.name)
-
-    @property
-    def show_language_code(self):
-        return self.code not in data.NO_CODE_LANGUAGES
-
-    def get_absolute_url(self):
-        return reverse("show_language", kwargs={"lang": self.code})
-
-    def get_html(self):
-        """Return html attributes for markup in this language.
-
-        Includes language and direction HTML.
-        """
-        return mark_safe('lang="{0}" dir="{1}"'.format(self.code, self.direction))
 
     def save(self, *args, **kwargs):
         """Set default direction for language."""
@@ -431,6 +411,26 @@ class Language(models.Model):
         else:
             self.direction = "ltr"
         return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("show_language", kwargs={"lang": self.code})
+
+    def __init__(self, *args, **kwargs):
+        """Constructor to initialize some cache properties."""
+        super().__init__(*args, **kwargs)
+        self._plural_examples = {}
+        self.stats = LanguageStats(self)
+
+    @property
+    def show_language_code(self):
+        return self.code not in data.NO_CODE_LANGUAGES
+
+    def get_html(self):
+        """Return html attributes for markup in this language.
+
+        Includes language and direction HTML.
+        """
+        return mark_safe('lang="{0}" dir="{1}"'.format(self.code, self.direction))
 
     @cached_property
     def base_code(self):
@@ -531,6 +531,24 @@ class Plural(models.Model):
     def __str__(self):
         return self.get_type_display()
 
+    def save(self, *args, **kwargs):
+        self.type = get_plural_type(self.language.base_code, self.equation)
+        # Try to calculate based on equation
+        if self.type == data.PLURAL_UNKNOWN:
+            for equations, plural in data.PLURAL_MAPPINGS:
+                for equation in equations:
+                    if self.same_plural(self.number, equation):
+                        self.type = plural
+                        break
+                if self.type != data.PLURAL_UNKNOWN:
+                    break
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return "{}#information".format(
+            reverse("show_language", kwargs={"lang": self.language.code})
+        )
+
     @cached_property
     def plural_form(self):
         return "nplurals={0:d}; plural={1};".format(self.number, self.equation)
@@ -613,24 +631,6 @@ class Plural(models.Model):
                 "name": self.get_plural_name(i),
                 "examples": ", ".join(self.examples.get(i, [])),
             }
-
-    def save(self, *args, **kwargs):
-        self.type = get_plural_type(self.language.base_code, self.equation)
-        # Try to calculate based on equation
-        if self.type == data.PLURAL_UNKNOWN:
-            for equations, plural in data.PLURAL_MAPPINGS:
-                for equation in equations:
-                    if self.same_plural(self.number, equation):
-                        self.type = plural
-                        break
-                if self.type != data.PLURAL_UNKNOWN:
-                    break
-        super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return "{}#information".format(
-            reverse("show_language", kwargs={"lang": self.language.code})
-        )
 
 
 class WeblateLanguagesConf(AppConf):

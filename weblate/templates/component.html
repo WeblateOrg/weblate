@@ -27,6 +27,7 @@
 {% perm 'reports.view' object as user_can_view_reports %}
 {% perm 'translation.add' object as user_can_add_translation %}
 {% perm 'component.edit' object as user_can_edit_component %}
+{% set user_can_start_new_translation = user_can_add_translation or user_can_add_namespaced_translation %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
@@ -74,7 +75,7 @@
       <li><a href="{% url 'checks' %}?project={{ object.project.slug}}&amp;component={{ object.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.project.slug}}&amp;component={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
       <li><a href="{% url 'matrix' project=object.project.slug component=object.slug %}">{% trans "Matrix view" %}</a></li>
-      {% if object.can_add_language and user_can_add_translation %}
+      {% if object.can_add_language and user_can_start_new_translation %}
       <li><a href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a></li>
       {% endif %}
     </ul>
@@ -136,7 +137,7 @@
 {% include "snippets/list-objects.html" with objects=translations name_source="language" label=_("Language") %}
 
 {% if object.can_add_language %}
-{% if user_can_add_translation %}
+{% if user_can_start_new_translation %}
 <a class="btn btn-primary" href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a>
 {% else %}
 <button disabled="disabled" class="btn btn-primary" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please log in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</button>

@@ -96,18 +96,18 @@ class Check(models.Model):
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
 
+    class Meta:
+        unique_together = ("unit", "check")
+
+    def __str__(self):
+        return "{0}: {1}".format(self.unit, self.check)
+
     @cached_property
     def check_obj(self):
         try:
             return CHECKS[self.check]
         except KeyError:
             return None
-
-    class Meta:
-        unique_together = ("unit", "check")
-
-    def __str__(self):
-        return "{0}: {1}".format(self.unit, self.check)
 
     def is_enforced(self):
         return self.check in self.unit.translation.component.enforced_checks

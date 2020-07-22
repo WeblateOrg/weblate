@@ -69,18 +69,18 @@ class ComponentList(models.Model):
         verbose_name = _("Component list")
         verbose_name_plural = _("Component lists")
 
-    def tab_slug(self):
-        return "list-" + self.slug
-
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("component-list", kwargs={"name": self.slug})
+
+    def tab_slug(self):
+        return "list-" + self.slug
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.stats = ComponentListStats(self)
-
-    def get_absolute_url(self):
-        return reverse("component-list", kwargs={"name": self.slug})
 
 
 class AutoComponentList(models.Model):
@@ -102,6 +102,10 @@ class AutoComponentList(models.Model):
         on_delete=models.deletion.CASCADE,
     )
 
+    class Meta:
+        verbose_name = _("Automatic component list assignment")
+        verbose_name_plural = _("Automatic component list assignments")
+
     def __str__(self):
         return self.componentlist.name
 
@@ -111,7 +115,3 @@ class AutoComponentList(models.Model):
         if not re.match(self.component_match, component.slug):
             return
         self.componentlist.components.add(component)
-
-    class Meta:
-        verbose_name = _("Automatic component list assignment")
-        verbose_name_plural = _("Automatic component list assignments")

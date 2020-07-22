@@ -181,6 +181,9 @@ def show_project(request, project):
 def show_component(request, project, component):
     obj = get_component(request, project, component)
     user = request.user
+    user_can_access_namespace = bool(
+        user.groups.filter(roles__name=ACCESS_NAMESPACE).count()
+    )
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
@@ -237,6 +240,7 @@ def show_component(request, project, component):
             ),
             "search_form": SearchForm(request.user),
             "alerts": obj.all_alerts,
+            "user_can_add_namespaced_translation": user_can_access_namespace,
         },
     )
 

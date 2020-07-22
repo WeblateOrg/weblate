@@ -147,6 +147,37 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name = gettext_lazy("Project")
         verbose_name_plural = gettext_lazy("Projects")
 
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+
+        # Renaming detection
+        old = None
+        if self.id:
+            old = Project.objects.get(pk=self.id)
+            # Detect slug changes and rename directory
+            self.check_rename(old)
+            # Rename linked repos
+            if old.slug != self.slug:
+                for component in old.component_set.iterator():
+                    new_component = self.component_set.get(pk=component.pk)
+                    new_component.project = self
+                    component.linked_childs.update(
+                        repo=new_component.get_repo_link_url()
+                    )
+
+        self.create_path()
+
+        super().save(*args, **kwargs)
+
+        # Reload components after source language change
+        if old is not None and old.source_language != self.source_language:
+            from weblate.trans.tasks import perform_load
+
+            for component in self.component_set.iterator():
+                perform_load.delay(component.pk)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
@@ -193,37 +224,6 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def _get_path(self):
         return os.path.join(data_dir("vcs"), self.slug)
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-
-        # Renaming detection
-        old = None
-        if self.id:
-            old = Project.objects.get(pk=self.id)
-            # Detect slug changes and rename directory
-            self.check_rename(old)
-            # Rename linked repos
-            if old.slug != self.slug:
-                for component in old.component_set.iterator():
-                    new_component = self.component_set.get(pk=component.pk)
-                    new_component.project = self
-                    component.linked_childs.update(
-                        repo=new_component.get_repo_link_url()
-                    )
-
-        self.create_path()
-
-        super().save(*args, **kwargs)
-
-        # Reload components after source language change
-        if old is not None and old.source_language != self.source_language:
-            from weblate.trans.tasks import perform_load
-
-            for component in self.component_set.iterator():
-                perform_load.delay(component.pk)
 
     @cached_property
     def languages(self):
