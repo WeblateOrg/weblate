@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-22 09:59+0200\n"
-"PO-Revision-Date: 2020-07-21 18:42+0000\n"
+"PO-Revision-Date: 2020-07-23 02:39+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
@@ -3936,7 +3936,7 @@ msgstr ""
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr ""
+msgstr "Lista de componentes"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
@@ -3944,6 +3944,9 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"Especifique múltiplas listas de componentes para aparecer como opções no "
+"painel do utilizador, a partir do qual os utilizadores podem selecionar uma "
+"visualização como a visão predefinida. Veja :ref:`dashboard` para saber mais."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
@@ -3958,33 +3961,46 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"Os nomes e conteúdos das listas de componentes podem ser especificados na "
+"interface administrativa, na secção :guilabel:`Component lists`. Cada lista "
+"de componentes deve ter um nome que é exibido para o utilizador e uma slug "
+"representando-a na URL."
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering whatdashboard is presented to unauthenticated users."
 msgstr ""
+"Altera as configurações de painel para utilizadores anônimos da interface "
+"administrativa, alterando qual painel é apresentado para utilizadores não "
+"autenticados."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "Listas de componentes automáticas"
 
 #: ../../admin/componentlists.rst:30
 msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
+"Adicione componentes à lista automaticamente com base nas suas slugs criando "
+"regras :guilabel:`Automatic component list assignment`."
 
 #: ../../admin/componentlists.rst:33
 msgid ""
 "Useful for maintaining component lists for large installations or in case"
 msgstr ""
+"Útil para a manutenção de listas de componentes para instalações de grandes "
+"dimensões ou em caso"
 
 #: ../../admin/componentlists.rst:37
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
 msgstr ""
+"Faça uma lista de componentes contendo todos os componentes da sua "
+"instalação Weblate."
 
 #: ../../admin/componentlists.rst:39
 msgid ""
@@ -3992,37 +4008,48 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. Define :guilabel:`Automatic component list assignment` com ``^.*$`` como "
+"expressão regular tanto no projeto quanto nos campos de componente, conforme "
+"nesta imagem:"
 
 #: ../../admin/config.rst:4 ../../faq.rst:5
 msgid "Configuration"
-msgstr ""
+msgstr "Configuração"
 
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Todas as configurações estão armazenadas em :file:`settings.py` (como é "
+"habitual no Django)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
 msgstr ""
+"Após alterar qualquer uma dessas configurações, precisa reiniciar o Weblate -"
+" tanto os processos WSGI quanto os Celery."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as mod_wsgi, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"Caso seja executado como mod_wsgi, precisa reiniciar o Apache para "
+"recarregar a configuração."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Verifique também :doc:`Django's documentation <django:ref/settings>`para "
+"parâmetros de configuração do próprio Django."
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
-msgstr ""
+msgstr "AKISMET_API_KEY"
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -4030,161 +4057,184 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"O Weblate pode usar o Akismet para procurar sugestões recebidas anonimamente "
+"por spam. Visite `akismet.com <https://akismet.com/>`_ para comprar uma "
+"chave API e associá-la a um site."
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
-msgstr ""
+msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "O nome de utilizadores não autenticados."
 
 #: ../../admin/config.rst:39 ../../admin/management.rst:731
 msgid ":ref:`privileges`"
-msgstr ""
+msgstr ":ref:`privileges`"
 
 #: ../../admin/config.rst:44
 msgid "AUDITLOG_EXPIRY"
-msgstr ""
+msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
 msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
 msgstr ""
+"Quantos dias o Weblate deve manter registos de auditoria, que contêm "
+"informações sobre a atividade da conta."
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "A predefinição é de 180 dias."
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
-msgstr ""
+msgstr "AUTH_LOCK_ATTEMPTS"
 
 #: ../../admin/config.rst:60
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Quantidade máxima de tentativas de autenticação que falharam antes da "
+"aplicação da limitação de taxa."
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "Atualmente, isto é aplicado nos locais seguintes:"
 
 #: ../../admin/config.rst:64
 msgid ""
 "Logins. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Logins. Apaga a palavra-passe da conta, impedindo que o utilizador entre sem "
+"solicitar uma nova palavra-passe."
 
 #: ../../admin/config.rst:66
 msgid ""
 "Password resets. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
 msgstr ""
+"Redefinições de palavra-passe. Impede que novos e-mails sejam enviados, "
+"evitando o envio de spam aos utilizadores com muitas tentativas de "
+"redefinição de palavra-passe."
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
-msgstr ""
+msgstr "A predefinição é 10."
 
 #: ../../admin/config.rst:73
 msgid ":ref:`rate-limit`,"
-msgstr ""
+msgstr ":ref:`rate-limit`,"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
-msgstr ""
+msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:84
 msgid ""
 "The original on/off option was changed to differentiate which strings are "
 "accepted."
 msgstr ""
+"A opção original de ligar/desligar foi alterada para diferenciar quais "
+"textos são aceitos."
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Atualiza todos repositórios diariamente."
 
 #: ../../admin/config.rst:90
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Útil se não estiver a user :ref:`hooks` para atualizar os repositórios do "
+"Weblate automaticamente."
 
 #: ../../admin/config.rst:94
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"Existem opções de ligar/desligar, além da selecção de textos para "
+"compatibilidade com versões anteriores."
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr ""
+msgstr "As opções são:"
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:326
 msgid "``\"none\"``"
-msgstr ""
+msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:99
 msgid "No daily updates."
-msgstr ""
+msgstr "Sem atualizações diárias."
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"remote\"`` e também ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr ""
+msgstr "Atualizar apenas os repositórios remotos."
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"full\"`` e também ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Atualizar repositórios remotos e mesclar a cópia de trabalho."
 
 #: ../../admin/config.rst:107
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Isto requer que :ref:`celery` esteja a funcionar e entrará em vigor após ser "
+"reiniciado."
 
 #: ../../admin/config.rst:112
 msgid "AVATAR_URL_PREFIX"
-msgstr ""
+msgstr "AVATAR_URL_PREFIX"
 
 #: ../../admin/config.rst:114
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Prefixo para construção de URLs de avatars: ``${AVATAR_URL_PREFIX}/avatar/"
+"${MAIL_HASH}?${PARAMS}``. Os serviços seguintes funcionam:"
 
 #: ../../admin/config.rst:118
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar (predefinição), conforme https://gravatar.com/"
 
 #: ../../admin/config.rst:119
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:121
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar, conforme https://www.libravatar.org/"
 
 #: ../../admin/config.rst:121
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
 
 #: ../../admin/config.rst:125
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 
 #: ../../admin/config.rst:132
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:136
 msgid ""
@@ -4195,21 +4245,23 @@ msgstr ""
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
-msgstr ""
+msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
-msgstr ""
+msgstr "Quantos dias a usar a mesma palavra-passe deve ser permitido."
 
 #: ../../admin/config.rst:149
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Mudanças de palavra-passe feitas anteriormente ao Weblate 2.15 não serão "
+"consideradas para essa política."
 
 #: ../../admin/config.rst:156
 msgid "AUTOFIX_LIST"
-msgstr ""
+msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
@@ -20182,7 +20234,7 @@ msgstr ""
 
 #: ../../changes.rst:1476
 msgid "Remember URL for login."
-msgstr ""
+msgstr "Lembre-se de URL para fazer o login."
 
 #: ../../changes.rst:1477
 msgid "Naming of text areas while entering plural forms."
