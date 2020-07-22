@@ -55,21 +55,25 @@ Import methods
 
 These are the choices presented when uploading translation files:
 
-Add as translation
+Add as translation (``translate``)
     Imported translations are added as translations. This is the most common usecase, and
     the default behavior.
-Add as suggestion
+Add as suggestion (``suggest``)
     Imported translations are added as suggestions, do this when you want to have your
     uploaded strings reviewed.
-Add as translation needing edit
+Add as translation needing edit (``fuzzy``)
     Imported translations are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
-Replace existing translation file
+Replace existing translation file (``replace``)
     Existing file is replaced with new content. This can lead to loss of existing
     translations, use with caution.
-Update source strings
+Update source strings (``source``)
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.
+
+.. seealso::
+
+   :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
 
 .. _upload-conflicts:
 
