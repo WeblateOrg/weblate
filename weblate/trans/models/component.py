@@ -1603,7 +1603,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         if not created:
             obj.details = details
-            obj.save(update_fields=["details"])
+            obj.save()
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.add_alert(alert, **details)
