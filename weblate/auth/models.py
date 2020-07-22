@@ -72,7 +72,10 @@ class Permission(models.Model):
         verbose_name_plural = _("Permissions")
 
     def __str__(self):
-        return gettext(self.name)
+        name = gettext(self.name)
+        if self.codename in GLOBAL_PERM_NAMES:
+            return gettext("%s (site wide permission)") % name
+        return name
 
 
 class Role(models.Model):
