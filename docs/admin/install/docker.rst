@@ -1033,6 +1033,33 @@ For example:
    :setting:`WEBLATE_ADDONS`,
    :setting:`django:INSTALLED_APPS`
 
+Container settings
+~~~~~~~~~~~~~~~~~~
+
+.. envvar:: CELERY_MAIN_OPTIONS
+.. envvar:: CELERY_NOTIFY_OPTIONS
+.. envvar:: CELERY_TRANSLATE_OPTIONS
+.. envvar:: CELERY_MEMORY_OPTIONS
+.. envvar:: CELERY_BACKUP_OPTIONS
+.. envvar:: CELERY_BEAT_OPTIONS
+
+    These variables allow you to adjust Celery worker options. It can be useful
+    to adjust concurrency (``--concurrency 16``) or use different pool
+    implementation (``--pool=gevent``).
+
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          CELERY_MAIN_OPTIONS: --concurrency 16
+
+    .. seealso::
+
+        :doc:`Celery worker options <celery:reference/celery.bin.worker>`,
+        :ref:`celery`
+
 .. _docker-volume:
 
 Docker container volumes
