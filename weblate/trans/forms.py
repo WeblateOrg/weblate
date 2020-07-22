@@ -1004,10 +1004,12 @@ class NewNamespacedLanguageForm(NewLanguageForm):
     """Form for requesting namespaced language."""
 
     def __init__(self, component, *args, **kwargs):
+        namespace = kwargs.pop("namespace")
         super().__init__(component, *args, **kwargs)
+
         # don't include already-customized translations
         customized_translations = component.translation_set.filter(
-            language_code__contains=NAMESPACE_SEPARATOR + kwargs.get("namespace")
+            language_code__contains=NAMESPACE_SEPARATOR + namespace
         )
         customized_codes = [
             t.language_code.split(NAMESPACE_SEPARATOR)[0]
