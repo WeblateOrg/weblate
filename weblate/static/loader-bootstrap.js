@@ -32,15 +32,17 @@ function addAlert(message, kind = "danger") {
       ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
   );
   e.append(new Text(message));
+  e.hide();
   alerts.show().append(e);
+  e.slideDown(200);
   e.on("closed.bs.alert", function () {
     if (alerts.find(".alert").length == 0) {
       alerts.hide();
     }
   });
-  setTimeout(function () {
-    e.alert("close");
-  }, 5000);
+  e.delay(3000).slideUp(200, function () {
+    $(this).alert("close");
+  });
 }
 
 jQuery.fn.extend({
