@@ -89,6 +89,8 @@ class TranslationManager(models.Manager):
 
 class TranslationQuerySet(models.QuerySet):
     def prefetch(self):
+        from weblate.trans.models import Alert
+
         return self.prefetch_related(
             "component",
             "component__project",
@@ -96,7 +98,13 @@ class TranslationQuerySet(models.QuerySet):
             "component__project__source_language",
             "component__linked_component",
             "component__linked_component__project",
-        ).prefetch_related("language__plural_set", "component__alert_set")
+            "language__plural_set",
+            models.Prefetch(
+                "component__alert_set",
+                queryset=Alert.objects.filter(dismissed=False),
+                to_attr="all_alerts",
+            ),
+        )
 
     def filter_access(self, user):
         if user.is_superuser:

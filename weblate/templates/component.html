@@ -150,8 +150,18 @@
 <div class="panel panel-default">
 <div class="panel-heading">{{ alert }}</div>
 <div class="panel-body">{{ alert.render }}</div>
-{% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
-<div class="panel-footer">{% blocktrans with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktrans %}</div>
+<form action="{% url "dismiss-alert" project=object.project.slug component=object.slug %}" method="post">
+<div class="panel-footer">
+  {% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
+  {% blocktrans with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktrans %}
+  {% if user_can_edit_component and alert.obj.dismissable %}
+    {% csrf_token %}
+    <input type="hidden" value="{{ alert.name }}" name="dismiss" />
+    <input type="submit" value="{% trans "Dismiss" %}" class="pull-right flip btn btn-danger" />
+    <div class="clearfix"></div>
+  {% endif %}
+</div>
+</form>
 </div>
 {% endfor %}
 {% else %}

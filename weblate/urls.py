@@ -620,6 +620,12 @@ real_patterns = [
         weblate.trans.views.settings.move_component,
         name="move",
     ),
+    # Alerts dismiss
+    path(
+        "alerts/<name:project>/<name:component>/dismiss/",
+        weblate.trans.views.settings.dismiss_alert,
+        name="dismiss-alert",
+    ),
     # Locking
     path(
         "lock/<name:project>/",

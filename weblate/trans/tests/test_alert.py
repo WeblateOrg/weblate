@@ -20,6 +20,7 @@
 """Test for alerts."""
 
 from django.test.utils import override_settings
+from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -45,6 +46,16 @@ class AlertTest(ViewTestCase):
         self.assertEqual(
             alert.details["occurrences"][0]["source"], "Thank you for using Weblate."
         )
+
+    def test_dismiss(self):
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "BrokenBrowserURL"},
+        )
+        self.assertRedirects(response, self.component.get_absolute_url() + "#alerts")
+        self.assertTrue(self.component.alert_set.get(name="BrokenBrowserURL").dismissed)
 
     def test_view(self):
         response = self.client.get(self.component.get_absolute_url())

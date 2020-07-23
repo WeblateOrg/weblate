@@ -714,7 +714,7 @@ def indicate_alerts(context, obj):
                 )
             )
 
-        if component.all_alerts.exists():
+        if component.all_alerts:
             result.append(
                 (
                     "state/alert.svg",

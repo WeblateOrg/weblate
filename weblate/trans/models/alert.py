@@ -45,6 +45,7 @@ class Alert(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=150)
+    dismissed = models.BooleanField(default=False, db_index=True)
     details = JSONField(default={})
 
     class Meta:
@@ -80,6 +81,7 @@ class BaseAlert:
     verbose = ""
     on_import = False
     link_wide = False
+    dismissable = False
 
     def __init__(self, instance):
         self.instance = instance
@@ -266,6 +268,7 @@ class UnsupportedConfiguration(BaseAlert):
 class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Broken repository browser URL")
+    dismissable = True
 
     def __init__(self, instance, link, error):
         super().__init__(instance)
@@ -277,6 +280,7 @@ class BrokenBrowserURL(BaseAlert):
 class BrokenProjectURL(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Broken project website URL")
+    dismissable = True
 
     def __init__(self, instance, error=None):
         super().__init__(instance)

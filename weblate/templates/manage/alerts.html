@@ -17,7 +17,10 @@
 <div class="panel-body">
 <p>
     {% for alert in items %}
-        <a href="{{ alert.component.get_absolute_url }}" class="btn btn-link">{{ alert.component }}</a>
+        <a href="{{ alert.component.get_absolute_url }}#alerts" class="btn btn-link">
+          {{ alert.component }}
+          {% if alert.dismissed %}<span class="badge">{% trans "dismissed" %}</span>{% endif %}
+        </a>
     {% endfor %}
 </p>
 </div>

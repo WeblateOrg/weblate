@@ -176,8 +176,17 @@ class ComponentQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
     def prefetch(self):
+        from weblate.trans.models import Alert
+
         return self.prefetch_related(
-            "project", "linked_component", "linked_component__project", "alert_set"
+            "project",
+            "linked_component",
+            "linked_component__project",
+            models.Prefetch(
+                "alert_set",
+                queryset=Alert.objects.filter(dismissed=False),
+                to_attr="all_alerts",
+            ),
         )
 
     def get_linked(self, val):
@@ -1568,7 +1577,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
     @cached_property
     def all_alerts(self):
-        result = self.alert_set.all()
+        result = self.alert_set.filter(dismissed=False)
         list(result)
         return result
 

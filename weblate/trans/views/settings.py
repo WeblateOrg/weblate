@@ -105,6 +105,23 @@ def change_component(request, project, component):
     )
 
 
+@never_cache
+@login_required
+@require_POST
+def dismiss_alert(request, project, component):
+    obj = get_component(request, project, component)
+
+    if not request.user.has_perm("component.edit", obj):
+        raise Http404()
+
+    alert = obj.alert_set.get(name=request.POST["dismiss"])
+    if alert.obj.dismissable:
+        alert.dismissed = True
+        alert.save(update_fields=["dismissed"])
+
+    return redirect_param(obj, "#alerts")
+
+
 @login_required
 @require_POST
 def remove_translation(request, project, component, lang):
