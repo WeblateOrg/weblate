@@ -216,10 +216,10 @@ class ComponentTest(RepoTestCase):
         # Verify source strings are loaded from correct file
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(
-            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+            translation.unit_set.get(context="hello").source, "Hello, world!\n"
         )
         self.assertEqual(
-            translation.unit_set.get(context=".thanks").source,
+            translation.unit_set.get(context="thanks").source,
             "Thank you for using Weblate.",
         )
 
@@ -232,10 +232,10 @@ class ComponentTest(RepoTestCase):
         )
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(
-            translation.unit_set.get(context=".hello").source, "Hello world!\n"
+            translation.unit_set.get(context="hello").source, "Hello world!\n"
         )
         self.assertEqual(
-            translation.unit_set.get(context=".thanks").source,
+            translation.unit_set.get(context="thanks").source,
             "Thanks for using Weblate.",
         )
         component.intermediate = "intermediate/dev.json"
@@ -243,10 +243,10 @@ class ComponentTest(RepoTestCase):
         component.save()
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(
-            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+            translation.unit_set.get(context="hello").source, "Hello, world!\n"
         )
         self.assertEqual(
-            translation.unit_set.get(context=".thanks").source,
+            translation.unit_set.get(context="thanks").source,
             "Thank you for using Weblate.",
         )
 
