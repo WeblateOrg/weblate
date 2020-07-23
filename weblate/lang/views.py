@@ -37,7 +37,7 @@ from weblate.trans.util import sort_objects
 from weblate.utils import messages
 from weblate.utils.stats import GlobalStats, prefetch_stats
 from weblate.utils.views import get_paginator, get_project
-from weblate.vendasta.constants import NAMESPACE_SEPARATOR, ACCESS_NAMESPACE
+from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
 
 def show_languages(request):
@@ -45,7 +45,7 @@ def show_languages(request):
         languages = Language.objects.all()
     else:
         languages = Language.objects.exclude(
-            translation=None, code__contains=NAMESPACE_SEPARATOR
+            Q(translation=None) | Q(code__contains=NAMESPACE_SEPARATOR)
         )
         namespace_query = request.user.groups.filter(
             roles__name=ACCESS_NAMESPACE
