@@ -1045,6 +1045,8 @@ Container settings
     to adjust concurrency (``--concurrency 16``) or use different pool
     implementation (``--pool=gevent``).
 
+    By default, the number of concurrent workers matches number of processors,
+    with exception of backup worker, which is supposed to run only one.
 
     **Example:**
 
