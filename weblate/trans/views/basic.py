@@ -381,7 +381,7 @@ def new_namespaced_language(request, project, component):
         raise PermissionDenied()
 
     if request.method == "POST":
-        form = NewNamespacedLanguageForm(obj, request.POST)
+        form = NewNamespacedLanguageForm(obj, request.POST, namespace=namespace)
 
         if form.is_valid():
             langs = form.cleaned_data["lang"]
@@ -411,7 +411,7 @@ def new_namespaced_language(request, project, component):
             return redirect(obj)
         messages.error(request, _("Please fix errors in the form."))
     else:
-        form = NewNamespacedLanguageForm(obj)
+        form = NewNamespacedLanguageForm(obj, namespace=namespace)
 
     context = {
         "object": obj,
