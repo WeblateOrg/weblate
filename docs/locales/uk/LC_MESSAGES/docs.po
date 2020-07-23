@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-22 09:59+0200\n"
-"PO-Revision-Date: 2020-07-23 12:04+0000\n"
+"PO-Revision-Date: 2020-07-23 19:05+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -2868,6 +2868,8 @@ msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
+"Рядок призначено лише для читання, його не слід редагувати на Weblate, див. "
+":ref:`read-only-strings`."
 
 #: ../../admin/checks.rst:57
 msgid "``priority:N``"
@@ -2879,6 +2881,9 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"Пріоритетність рядка. Рядки із високою пріоритетністю надаються для "
+"перекладу першими. Типовим значенням пріоритетності є 100. Чим вищою є "
+"пріоритетність, тим раніше рядок буде запропоновано до перекладу."
 
 #: ../../admin/checks.rst:59
 msgid "``max-length:N``"
@@ -2889,6 +2894,7 @@ msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`"
 msgstr ""
+"Обмежити максимальну довжину рядка N символами, див. :ref:`check-max-length`"
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -2899,6 +2905,8 @@ msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"Вважати текст документом XML, впливає на :ref:`check-xml-invalid` і :ref"
+":`check-xml-tags`."
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
@@ -2906,7 +2914,7 @@ msgstr "``font-family:НАЗВА``"
 
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Визначає сімейство шрифтів для перевірок обробки, див. :ref:`fonts`."
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
@@ -2914,7 +2922,7 @@ msgstr "``font-weight:ВАГА``"
 
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Визначити вагу шрифту для перевірок обробки, див. :ref:`fonts`."
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
@@ -2922,7 +2930,7 @@ msgstr "``font-size:РОЗМІР``"
 
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Визначити розмір шрифту для перевірок обробки, див. :ref:`fonts`."
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
@@ -2930,7 +2938,7 @@ msgstr "``font-spacing:ІНТЕРВАЛ``"
 
 #: ../../admin/checks.rst:70
 msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "Визначити інтервал шрифту для перевірок обробки, див. :ref:`fonts`."
 
 #: ../../admin/checks.rst:71
 msgid "``placeholders:NAME``"
@@ -2940,6 +2948,8 @@ msgstr "``placeholders:НАЗВА``"
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
+"Рядки-замінники, які слід очікувати у перекладі, див. :ref:`check-"
+"placeholders`."
 
 #: ../../admin/checks.rst:76
 msgid "``replacements:FROM:TO:FROM2:TO2...```"
@@ -2952,6 +2962,11 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "names, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Заміни, які слід виконати при перевірці параметрів тексту у результаті ("
+"наприклад, у :ref:`check-max-size` або :ref:`check-max-length`). Типовим "
+"випадком використання є розгортання замінників для забезпечення "
+"відповідності тексту, навіть за використання довгих імен. Приклад: "
+"``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:78
 msgid "``regex:REGEX``"
@@ -2998,6 +3013,8 @@ msgid ""
 "Make \"Unchanged translation\" avoid using built in words blacklist, see :"
 "ref:`check-same`."
 msgstr ""
+"Наказати перевірці «Незмінений переклад» уникати використання «чорного» "
+"списку вбудованих слів, див. :ref:`check-same`."
 
 #: ../../admin/checks.rst:89
 msgid "``ignore-bbcode``"
@@ -3005,7 +3022,7 @@ msgstr "``ignore-bbcode``"
 
 #: ../../admin/checks.rst:90
 msgid "Skip the \"BBcode markup\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку «Розмітка BBcode»."
 
 #: ../../admin/checks.rst:91
 msgid "``ignore-duplicate``"
@@ -3173,7 +3190,7 @@ msgstr "``ignore-md-link``"
 
 #: ../../admin/checks.rst:132
 msgid "Skip the \"Markdown links\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Посилання Markdown»."
 
 #: ../../admin/checks.rst:133
 msgid "``ignore-md-reflink``"
@@ -3181,7 +3198,7 @@ msgstr "``ignore-md-reflink``"
 
 #: ../../admin/checks.rst:134
 msgid "Skip the \"Markdown references\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Внутрішні посилання Markdown»."
 
 #: ../../admin/checks.rst:135
 msgid "``ignore-md-syntax``"
@@ -3365,7 +3382,7 @@ msgstr "``ignore-url``"
 
 #: ../../admin/checks.rst:180
 msgid "Skip the \"URL\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Адреса URL»."
 
 #: ../../admin/checks.rst:181
 msgid "``ignore-xml-tags``"
@@ -3373,7 +3390,7 @@ msgstr "``ignore-xml-tags``"
 
 #: ../../admin/checks.rst:182
 msgid "Skip the \"XML markup\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку «Розмітка XML»."
 
 #: ../../admin/checks.rst:183
 msgid "``ignore-xml-invalid``"
@@ -3381,7 +3398,7 @@ msgstr "``ignore-xml-invalid``"
 
 #: ../../admin/checks.rst:184
 msgid "Skip the \"XML syntax\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Синтаксис XML»."
 
 #: ../../admin/checks.rst:185
 msgid "``ignore-zero-width-space``"
@@ -3389,7 +3406,7 @@ msgstr "``ignore-zero-width-space``"
 
 #: ../../admin/checks.rst:186
 msgid "Skip the \"Zero-width space\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Пробіл нульової ширини»."
 
 #: ../../admin/checks.rst:187
 msgid "``ignore-ellipsis``"
@@ -3397,7 +3414,7 @@ msgstr "``ignore-ellipsis``"
 
 #: ../../admin/checks.rst:188
 msgid "Skip the \"Ellipsis\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Багатокрапка»."
 
 #: ../../admin/checks.rst:189
 msgid "``ignore-long-untranslated``"
@@ -3405,7 +3422,7 @@ msgstr "``ignore-long-untranslated``"
 
 #: ../../admin/checks.rst:190
 msgid "Skip the \"Long untranslated\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Довге неперекладене»."
 
 #: ../../admin/checks.rst:191
 msgid "``ignore-multiple-failures``"
@@ -3413,7 +3430,7 @@ msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/checks.rst:192
 msgid "Skip the \"Multiple failing checks\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Кратні невдалі перевірки»."
 
 #: ../../admin/checks.rst:193
 msgid "``ignore-unnamed-format``"
@@ -3421,7 +3438,7 @@ msgstr "``ignore-unnamed-format``"
 
 #: ../../admin/checks.rst:194
 msgid "Skip the \"Multiple unnamed variables\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Кратні змінні без назв»."
 
 #: ../../admin/checks.rst:196
 msgid "``ignore-optional-plural``"
@@ -3429,7 +3446,7 @@ msgstr "``ignore-optional-plural``"
 
 #: ../../admin/checks.rst:196
 msgid "Skip the \"Unpluralised\" quality check."
-msgstr ""
+msgstr "Пропустити перевірку якості «Немає форм множини»."
 
 #: ../../admin/checks.rst:200
 msgid ""
@@ -3506,7 +3523,7 @@ msgstr "``max-size:500``"
 
 #: ../../admin/checks.rst:254
 msgid "Defines maximal width."
-msgstr ""
+msgstr "Визначає максимальну ширину."
 
 #: ../../admin/checks.rst:255
 msgid "``font-family:ubuntu``"
@@ -3514,7 +3531,7 @@ msgstr "``font-family:ubuntu``"
 
 #: ../../admin/checks.rst:256
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
+msgstr "Визначає групу шрифтів для використання її визначенням ідентифікатора."
 
 #: ../../admin/checks.rst:259
 msgid "``font-size:22``"
@@ -3542,7 +3559,7 @@ msgstr "Підклас `weblate.checks.Check`"
 
 #: ../../admin/checks.rst:271
 msgid "Set a few attributes."
-msgstr ""
+msgstr "Встановити декілька атрибутів."
 
 #: ../../admin/checks.rst:272
 msgid ""
@@ -3562,7 +3579,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:281
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "Перевірка того, чи не містить текст перекладу «foo»"
 
 #: ../../admin/checks.rst:283
 msgid ""
@@ -3572,7 +3589,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:290
 msgid "Checking that Czech translation text plurals differ"
-msgstr ""
+msgstr "Перевірка того, чи є форми множини у перекладі чеською різними"
 
 #: ../../admin/checks.rst:292
 msgid ""
@@ -3595,7 +3612,7 @@ msgstr ""
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr ""
+msgstr "Стан буде показано для кожного списку складників на панелі приладів."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -20085,11 +20102,11 @@ msgstr ""
 
 #: ../../changes.rst:1477
 msgid "Naming of text areas while entering plural forms."
-msgstr ""
+msgstr "Іменування текстових областей при введенні форм множини."
 
 #: ../../changes.rst:1478
 msgid "Automatic expanding of translation area."
-msgstr ""
+msgstr "Автоматичне розширення області перекладу."
 
 #: ../../changes.rst:1481
 msgid "Weblate 0.1"
@@ -20097,7 +20114,7 @@ msgstr "Weblate 0.1"
 
 #: ../../changes.rst:1483
 msgid "Released on February 6th 2012."
-msgstr ""
+msgstr "Випущено 6 лютого 2012 року."
 
 #: ../../changes.rst:1485
 msgid "Initial release."
@@ -20109,7 +20126,7 @@ msgstr "Про Weblate"
 
 #: ../../contributing/about.rst:5
 msgid "Project goals"
-msgstr ""
+msgstr "Цілі проєкту"
 
 #: ../../contributing/about.rst:7
 msgid ""
@@ -20130,21 +20147,25 @@ msgstr ""
 
 #: ../../contributing/about.rst:23
 msgid "Project logos"
-msgstr ""
+msgstr "Логотипи проєкту"
 
 #: ../../contributing/about.rst:25
 msgid ""
 "The project logos and other graphics is available in <https://github.com/"
 "WeblateOrg/graphics/> repository."
 msgstr ""
+"Логотипи проєкту та інші графічні роботи можна знайти у сховищі "
+"<https://github.com/WeblateOrg/graphics/>."
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
-msgstr ""
+msgstr "Лідерство"
 
 #: ../../contributing/about.rst:31
 msgid "This project is maintained by Michal Čihař <michal@cihar.com>."
 msgstr ""
+"Супровід цього проєкту виконується Міхалом Чихаржем (Michal Čihař) "
+"<michal@cihar.com>."
 
 #: ../../contributing/about.rst:34
 msgid "Authors"
@@ -20155,10 +20176,12 @@ msgid ""
 "Weblate was started by Michal Čihař <michal@cihar.com>. Since its inception "
 "in 2012, thousands of people have contributed."
 msgstr ""
+"Розробку Weblate було розпочато Міхалом Чихаржем (Michal Čihař) <michal@"
+"cihar.com>. З часу появи програми у 2012 внесок до неї зробили тисячі людей."
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
-msgstr ""
+msgstr "Початковий код Weblate"
 
 #: ../../contributing/code.rst:4
 msgid ""
@@ -20166,24 +20189,31 @@ msgid ""
 "You are welcome to fork the code and open pull requests. Patches in any "
 "other form are welcome too."
 msgstr ""
+"Розробка Weblate ведеться на `GitHub <https://github.com/WeblateOrg/weblate>`"
+"_. Ми будемо раді, якщо ви створите відгалуження коду і надсилатимете запити "
+"щодо злиття. Будемо раді будь-яким латкам у будь-якій формі."
 
 #: ../../contributing/code.rst:10
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
 msgstr ""
+"Ознайомтеся із розділом :ref:`internals`, щоб дізнатися про те, як Weblate "
+"виглядає з середини."
 
 #: ../../contributing/code.rst:15
 msgid "Security by Design Principles"
-msgstr ""
+msgstr "Принципи безпеки за компонуванням"
 
 #: ../../contributing/code.rst:17
 msgid ""
 "Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
 msgstr ""
+"Будь-який код для Weblate має бути написано із використанням `Security by "
+"Design Principles`_ (принципів безпеки за компонуванням)."
 
 #: ../../contributing/code.rst:23
 msgid "Coding standard"
-msgstr ""
+msgstr "Стандарт кодування"
 
 #: ../../contributing/code.rst:25
 msgid ""
@@ -20209,11 +20239,11 @@ msgstr ""
 
 #: ../../contributing/code.rst:38
 msgid "You can also trigger check manually, to check all files run:"
-msgstr ""
+msgstr "Ви також можете запустити перевірку вручну. Щоб перевірити усі файли:"
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
-msgstr ""
+msgstr "Діагностика у Weblate"
 
 #: ../../contributing/debugging.rst:4
 msgid ""
@@ -20235,7 +20265,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:20
 msgid "Weblate logs"
-msgstr ""
+msgstr "Журнали Weblate"
 
 #: ../../contributing/debugging.rst:22
 msgid ""
@@ -20244,6 +20274,11 @@ msgid ""
 "in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on your "
 "syslog daemon configuration)."
 msgstr ""
+"Weblate може створювати докладні журнали із записами того, що відбувається "
+"за лаштунками. За типових налаштувань програма використовує журнал системи, "
+"і те, з чого складається журнал записується або до :file:`/var/log/messages`"
+", або до :file:`/var/log/syslog` (залежно від налаштувань фонової служби "
+"системного журналу у вашій системі)."
 
 #: ../../contributing/debugging.rst:27
 msgid ""
@@ -20259,7 +20294,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:35
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "Аналіз аварійних завершень програми"
 
 #: ../../contributing/debugging.rst:37
 msgid ""
@@ -20271,7 +20306,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:43
 msgid "Silent failures"
-msgstr ""
+msgstr "Помилки без повідомлень"
 
 #: ../../contributing/debugging.rst:45
 msgid ""
@@ -20283,7 +20318,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:51
 msgid "Performance issues"
-msgstr ""
+msgstr "Проблеми із швидкодією"
 
 #: ../../contributing/debugging.rst:53
 msgid ""
@@ -20302,17 +20337,19 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
-msgstr ""
+msgstr "Оболонка Weblate"
 
 #: ../../contributing/frontend.rst:4
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
 msgstr ""
+"Поточну версію оболонки побудовано з використанням Bootstrap, jQuery і "
+"декількох сторонніх бібліотек."
 
 #: ../../contributing/frontend.rst:7
 msgid "Dependency management"
-msgstr ""
+msgstr "Керування залежностями"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
@@ -20325,7 +20362,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:16
 msgid "Coding style"
-msgstr ""
+msgstr "Стиль програмного коду"
 
 #: ../../contributing/frontend.rst:18
 msgid ""
@@ -20353,6 +20390,7 @@ msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
+":doc:`Тема перекладу у документації Django <django:topics/i18n/translation>`"
 
 #: ../../contributing/frontend.rst:51
 msgid "Icons"
@@ -20383,11 +20421,11 @@ msgstr ""
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
-msgstr ""
+msgstr ":doc:`issues`"
 
 #: ../../contributing/index.rst:11
 msgid ":doc:`start`"
-msgstr ""
+msgstr ":doc:`start`"
 
 #: ../../contributing/index.rst:12
 msgid ":ref:`translating-weblate`"
@@ -20399,7 +20437,7 @@ msgstr ":ref:`funding-weblate`"
 
 #: ../../contributing/index.rst:18
 msgid "Translating Weblate"
-msgstr ""
+msgstr "Переклад Weblate"
 
 #: ../../contributing/index.rst:20
 msgid ""
@@ -20410,7 +20448,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:27
 msgid "Funding Weblate development"
-msgstr ""
+msgstr "Фінансування розробки Weblate"
 
 #: ../../contributing/index.rst:29
 msgid ""
@@ -20426,39 +20464,39 @@ msgstr ""
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
-msgstr ""
+msgstr "Список спонсорів Weblate:"
 
 #: ../../../BACKERS.rst:6
 msgid "Yashiro Ccs"
-msgstr ""
+msgstr "Yashiro Ccs"
 
 #: ../../../BACKERS.rst:7
 msgid "Cheng-Chia Tseng"
-msgstr ""
+msgstr "Cheng-Chia Tseng"
 
 #: ../../../BACKERS.rst:8
 msgid "Timon Reinhard"
-msgstr ""
+msgstr "Timon Reinhard"
 
 #: ../../../BACKERS.rst:9
 msgid "`Cassidy James <https://cassidyjames.com/>`_"
-msgstr ""
+msgstr "`Cassidy James <https://cassidyjames.com/>`_"
 
 #: ../../../BACKERS.rst:10
 msgid "Loic Dachary"
-msgstr ""
+msgstr "Loic Dachary"
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
-msgstr ""
+msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
-msgstr ""
+msgstr "https://freedombox.org/"
 
 #: ../../../BACKERS.rst:13
 msgid "GNU Solidario (GNU Health)"
-msgstr ""
+msgstr "GNU Solidario (GNU Health)"
 
 #: ../../../BACKERS.rst:15
 msgid ""
@@ -20468,16 +20506,18 @@ msgstr ""
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
-msgstr ""
+msgstr "Нутрощі Weblate"
 
 #: ../../contributing/internals.rst:8
 msgid "This chapter will give you basic overview of Weblate internals."
-msgstr ""
+msgstr "У цьому розділі наведено базовий огляд нутрощів Weblate."
 
 #: ../../contributing/internals.rst:10
 msgid ""
 "Weblate derives most of its code structure from, and is based on `Django`_."
 msgstr ""
+"Структура більшої частини коду Weblate походить від `Django`_ і засновано на "
+"структурі коду Django."
 
 #: ../../contributing/internals.rst:13
 msgid "Directory structure"
@@ -20485,7 +20525,7 @@ msgstr "Структура каталогів"
 
 #: ../../contributing/internals.rst:15
 msgid "Quick overview of directory structure of Weblate main repository:"
-msgstr ""
+msgstr "Короткий огляд структури каталогів основного сховища Weblate:"
 
 #: ../../contributing/internals.rst:17
 msgid "``docs``"
@@ -20496,6 +20536,8 @@ msgid ""
 "Source code for this documentation, built using `Sphinx <https://www.sphinx-"
 "doc.org/>`_."
 msgstr ""
+"Початковий код цієї документації побудовано з використанням `Sphinx "
+"<https://www.sphinx-doc.org/>`_."
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
@@ -20503,7 +20545,7 @@ msgstr "``dev-docker``"
 
 #: ../../contributing/internals.rst:20
 msgid "Docker code to run development server, see :ref:`dev-docker`."
-msgstr ""
+msgstr "Код Docker для запуску сервера розробки, див. :ref:`dev-docker`."
 
 #: ../../contributing/internals.rst:21
 msgid "``weblate``"
@@ -20514,6 +20556,8 @@ msgid ""
 "Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ "
 "application, see :ref:`internals`."
 msgstr ""
+"Початковий код Weblate як програми `Django <https://www.djangoproject.com/>`"
+"_, див. :ref:`internals`."
 
 #: ../../contributing/internals.rst:24
 msgid "``weblate/static``"
@@ -20521,7 +20565,7 @@ msgstr "``weblate/static``"
 
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
-msgstr ""
+msgstr "Клієнтські файли (CSS, Javascript і зображення), див. :doc:`frontend`."
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
@@ -20532,6 +20576,8 @@ msgid ""
 "Weblate consists of several Django applications (some optional, see :doc:`/"
 "admin/optionals`):"
 msgstr ""
+"Weblate складається з декількох програм Django (деякі є необов'язковими, "
+"див. :doc:`/admin/optionals`):"
 
 #: ../../contributing/internals.rst:32
 msgid "``accounts``"
@@ -20555,7 +20601,7 @@ msgstr "``api``"
 
 #: ../../contributing/internals.rst:42
 msgid "API based on `Django REST framework`_."
-msgstr ""
+msgstr "Програмний інтерфейс на основі `Django REST framework`_."
 
 #: ../../contributing/internals.rst:44
 msgid "``auth``"
@@ -20563,7 +20609,7 @@ msgstr "``auth``"
 
 #: ../../contributing/internals.rst:46
 msgid "Authentication and permissions."
-msgstr ""
+msgstr "Розпізнавання і права доступу."
 
 #: ../../contributing/internals.rst:48
 msgid "``billing``"
@@ -20587,7 +20633,7 @@ msgstr "``fonts``"
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
-msgstr ""
+msgstr "Модуль перевірок обробки шрифтів."
 
 #: ../../contributing/internals.rst:60
 msgid "``formats``"
@@ -20595,7 +20641,7 @@ msgstr "``formats``"
 
 #: ../../contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
-msgstr ""
+msgstr "Шар абстракції форматів файлів на основі translate-toolkit."
 
 #: ../../contributing/internals.rst:64
 msgid "``gitexport``"
@@ -20611,7 +20657,7 @@ msgstr "``lang``"
 
 #: ../../contributing/internals.rst:70
 msgid "Module defining language and plural models."
-msgstr ""
+msgstr "Модуль визначення мов і моделей форм множини."
 
 #: ../../contributing/internals.rst:72
 msgid "``langdata``"
@@ -20619,7 +20665,7 @@ msgstr "``langdata``"
 
 #: ../../contributing/internals.rst:74
 msgid "Language data definitions."
-msgstr ""
+msgstr "Визначення даних мов."
 
 #: ../../contributing/internals.rst:76
 msgid "``legal``"
@@ -20635,7 +20681,7 @@ msgstr "``machinery``"
 
 #: ../../contributing/internals.rst:82
 msgid "Integration of machine translation services."
-msgstr ""
+msgstr "Інтеграція служб комп'ютерного перекладу."
 
 #: ../../contributing/internals.rst:84
 msgid "``memory``"
@@ -20643,7 +20689,7 @@ msgstr "``memory``"
 
 #: ../../contributing/internals.rst:86
 msgid "Built in translation memory, see :ref:`translation-memory`."
-msgstr ""
+msgstr "Вбудована пам'ять перекладів, див. :ref:`translation-memory`."
 
 #: ../../contributing/internals.rst:88
 msgid "``screenshots``"
@@ -20694,6 +20740,8 @@ msgid ""
 "Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub:"
 msgstr ""
+"Нашу `систему стеження за вадами <https://github.com/WeblateOrg/weblate/"
+"issues>`_ розташовано на GitHub:"
 
 #: ../../contributing/issues.rst:8
 msgid ""
@@ -20740,12 +20788,13 @@ msgstr ""
 
 #: ../../contributing/issues.rst:36
 msgid ":doc:`Django <django:internals/security>`"
-msgstr ""
+msgstr ":doc:`Django <django:internals/security>`"
 
 #: ../../contributing/issues.rst:37
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`Бібліотека REST Django <https://www.django-rest-framework.org/#security>`_"
 
 #: ../../contributing/issues.rst:38
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
@@ -20757,7 +20806,7 @@ msgstr "Ліцензія"
 
 #: ../../contributing/license.rst:4
 msgid "Copyright (C) 2012 - 2020 Michal Čihař <michal@cihar.com>"
-msgstr ""
+msgstr "© Michal Čihař <michal@cihar.com>, 2012–2020"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -20791,49 +20840,57 @@ msgstr ""
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
-msgstr ""
+msgstr "Створення випусків Weblate"
 
 #: ../../contributing/release.rst:4
 msgid "Things to check prior to release:"
-msgstr ""
+msgstr "Речі, які слід перевірити перед випуском:"
 
 #: ../../contributing/release.rst:6
 msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages`."
 msgstr ""
+"Пошукати нові мови перекладу за допомогою команди :command:`./scripts/list-"
+"translated-languages`."
 
 #: ../../contributing/release.rst:7
 msgid "Set final version by :command:`./scripts/prepare-release`."
 msgstr ""
+"Встановити остаточну версію за допомогою команди :command:`./scripts/prepare-"
+"release`."
 
 #: ../../contributing/release.rst:8
 msgid ""
 "Make sure screenshots are up to date :command:`make -C docs update-"
 "screenshots`"
 msgstr ""
+"Переконатися, що знімки вікон є актуальними за допомогою команди :command:`"
+"make -C docs update-screenshots`"
 
 #: ../../contributing/release.rst:10
 msgid "Perform the release:"
-msgstr ""
+msgstr "Створити випуск:"
 
 #: ../../contributing/release.rst:12
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see bellow for "
 "requirements)"
 msgstr ""
+"Створити випуск за допомогою команди :command:`./scripts/create-release "
+"--tag` (нижче наведено вимоги)"
 
 #: ../../contributing/release.rst:14
 msgid "Post release manual steps:"
-msgstr ""
+msgstr "Після випуску виконати вручну:"
 
 #: ../../contributing/release.rst:16
 msgid "Update Docker image."
-msgstr ""
+msgstr "Оновити образ Docker."
 
 #: ../../contributing/release.rst:17
 msgid "Close GitHub milestone."
-msgstr ""
+msgstr "Закрити етап на GitHub."
 
 #: ../../contributing/release.rst:18
 msgid "Once the Docker image is tested, add a tag and push it."
@@ -20862,6 +20919,7 @@ msgstr ""
 #: ../../contributing/release.rst:25
 msgid "GnuPG with private key used to sign the release"
 msgstr ""
+"GnuPG із закритим ключем, який використовується для підписування випусків"
 
 #: ../../contributing/release.rst:26
 msgid "Push access to Weblate git repositories (it pushes tags)"
