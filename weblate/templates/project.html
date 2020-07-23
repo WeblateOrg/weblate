@@ -16,7 +16,7 @@
 
 {% announcements project=object %}
 
-{% include "watch-dropdown.html" with project=object %}
+{% include "snippets/watch-dropdown.html" with project=object %}
 
 {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
 {% perm 'vcs.commit' object as user_can_commit_translation %}
