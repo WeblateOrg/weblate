@@ -36,6 +36,7 @@ from weblate.trans.util import sort_objects
 from weblate.utils import messages
 from weblate.utils.stats import GlobalStats, prefetch_stats
 from weblate.utils.views import get_paginator, get_project
+from weblate.vendasta.constants import NAMESPACE_SEPARATOR
 
 
 def show_languages(request):
@@ -43,6 +44,7 @@ def show_languages(request):
         languages = Language.objects.all()
     else:
         languages = Language.objects.have_translation()
+    languages = languages.exclude(code__contains=NAMESPACE_SEPARATOR)
     return render(
         request,
         "languages.html",

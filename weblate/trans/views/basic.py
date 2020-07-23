@@ -58,7 +58,7 @@ from weblate.utils.views import (
     get_translation,
     try_set_language,
 )
-from weblate.vendasta.constants import ACCESS_NAMESPACE
+from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
 
 def optional_form(form, perm_user, perm, perm_obj, **kwargs):
@@ -193,7 +193,7 @@ def show_component(request, project, component):
             "object": obj,
             "project": obj.project,
             "translations": sort_objects(
-                prefetch_stats(obj.translation_set.prefetch())
+                prefetch_stats(obj.translation_set.exclude(language_code__contains=NAMESPACE_SEPARATOR).prefetch())
             ),
             "reports_form": ReportsForm(),
             "last_changes": last_changes,
