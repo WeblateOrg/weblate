@@ -20,7 +20,16 @@
         {% endif %}
       </ul>
     {% else %}
-    <a href="{% url 'watch' project=project.slug %}" class="btn btn-link link-post" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% icon "eye.svg" %} {% trans "Watch" %}</a>
+      <a class="btn btn-link dropdown-toggle" type="button" id="notwatch_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#">
+        {% icon "eye.svg" %} {% trans "Not watching" %}
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right flip" aria-labelledby="notwatch_menu">
+        <li><a href="{% url 'watch' project=project.slug %}" class="btn btn-link link-post" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktrans %}Watch project {{ project }}{% endblocktrans %}</a></li>
+        {% if component %}
+        <li><a href="{% url 'watch' project=project.slug component=component.slug %}" class="btn btn-link link-post" title="{% trans "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktrans %}Watch component {{ component }}{% endblocktrans %}</a></li>
+        {% endif %}
+      </ul>
   {% endif %}
 
 </div>

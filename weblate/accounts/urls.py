@@ -66,6 +66,11 @@ urlpatterns = [
     path("unsubscribe/", weblate.accounts.views.unsubscribe, name="unsubscribe"),
     path("subscribe/", weblate.accounts.views.subscribe, name="subscribe"),
     path("watch/<name:project>/", weblate.accounts.views.watch, name="watch"),
+    path(
+        "watch/<name:project>/<name:component>/",
+        weblate.accounts.views.watch,
+        name="watch",
+    ),
     path("unwatch/<name:project>/", weblate.accounts.views.unwatch, name="unwatch"),
     path(
         "mute/<name:project>/<name:component>/",

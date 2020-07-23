@@ -457,6 +457,22 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertEqual(self.user.subscription_set.count(), 8)
 
+    def test_watch_component(self):
+        self.assertEqual(self.user.profile.watched.count(), 0)
+        self.assertEqual(self.user.subscription_set.count(), 8)
+
+        # Watch component
+        self.client.post(reverse("watch", kwargs=self.kw_component))
+        self.assertEqual(self.user.profile.watched.count(), 1)
+        # All project notifications should be muted
+        self.assertEqual(
+            self.user.subscription_set.filter(project=self.project).count(), 18
+        )
+        # Only default notifications should be enabled
+        self.assertEqual(
+            self.user.subscription_set.filter(component=self.component).count(), 3
+        )
+
     def test_unsubscribe(self):
         response = self.client.get(reverse("unsubscribe"), follow=True)
         self.assertRedirects(response, reverse("profile") + "#notifications")

@@ -869,10 +869,29 @@ def userdata(request):
 
 @require_POST
 @login_required
-def watch(request, project):
-    obj = get_project(request, project)
-    request.user.profile.watched.add(obj)
-    return redirect(obj)
+def watch(request, project, component=None):
+    user = request.user
+    if component:
+        redirect_obj = component_obj = get_component(request, project, component)
+        obj = component_obj.project
+        # Mute project level subscriptions
+        mute_real(user, scope=SCOPE_PROJECT, component=None, project=obj)
+        # Manually enable component level subscriptions
+        for default_subscription in user.subscription_set.filter(scope=SCOPE_DEFAULT):
+            subscription, created = user.subscription_set.get_or_create(
+                notification=default_subscription.notification,
+                scope=SCOPE_COMPONENT,
+                component=component_obj,
+                project=None,
+                defaults={"frequency": default_subscription.frequency},
+            )
+            if not created and subscription.frequency != default_subscription.frequency:
+                subscription.frequency = default_subscription.frequency
+                subscription.save(update_fields=["frequency"])
+    else:
+        redirect_obj = obj = get_project(request, project)
+    user.profile.watched.add(obj)
+    return redirect(redirect_obj)
 
 
 @require_POST
