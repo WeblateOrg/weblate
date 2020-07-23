@@ -376,7 +376,7 @@ def new_namespaced_language(request, project, component):
         "name"
     )
     if namespace_query.count():
-        namespace = namespace_query[0]
+        namespace = namespace_query[0].name
     else:
         raise PermissionDenied()
 
