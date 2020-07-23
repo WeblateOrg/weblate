@@ -113,6 +113,7 @@ class BitmapWidget(ContentWidget):
     head_template = '<span letter_spacing="-500"><b>{}</b></span>'
     foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
+    line_spacing = 1
     offset = 0
     column_offset = 0
     lines = True
@@ -188,7 +189,7 @@ class BitmapWidget(ContentWidget):
                 layout.set_alignment(Pango.Alignment.CENTER)
                 layout.set_width(column_width * Pango.SCALE)
 
-                offset += layout.get_pixel_size().height
+                offset += layout.get_pixel_size().height * self.line_spacing
 
                 # Render to cairo context
                 PangoCairo.show_layout(ctx, layout)
@@ -279,6 +280,8 @@ class SmallWidget(BitmapWidget):
     name = "88x31"
     order = 111
     font_size = 7
+    line_spacing = 0.8
+    offset = -1
     verbose = gettext_lazy("Small status badge")
 
     def get_columns(self):
