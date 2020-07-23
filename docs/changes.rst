@@ -22,6 +22,7 @@ Not yet released.
 * Dropped support for some compatibility URL redirects.
 * Added check for ECMAScript template literals.
 * Added option to watch a component.
+* Removed leading dot from JSON unit keys.
 
 Weblate 4.1.1
 -------------

@@ -669,7 +669,16 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
         return False
 
 
-class WebExtensionJSONUnit(MonolingualSimpleUnit):
+class JSONUnit(MonolingualSimpleUnit):
+    @cached_property
+    def context(self):
+        context = super().context
+        if context.startswith("."):
+            return context[1:]
+        return context
+
+
+class WebExtensionJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
         placeholders = self.mainunit.placeholders
@@ -683,7 +692,7 @@ class WebExtensionJSONUnit(MonolingualSimpleUnit):
         )
 
 
-class ARBJSONUnit(MonolingualSimpleUnit):
+class ARBJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
         placeholders = self.mainunit.placeholders
@@ -1081,7 +1090,7 @@ class JSONFormat(TTKitFormat):
     name = _("JSON file")
     format_id = "json"
     loader = ("jsonl10n", "JsonFile")
-    unit_class = MonolingualSimpleUnit
+    unit_class = JSONUnit
     autoload = ("*.json",)
     new_translation = "{}\n"
 
