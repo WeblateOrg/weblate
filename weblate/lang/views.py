@@ -44,15 +44,17 @@ def show_languages(request):
     if request.user.has_perm("language.edit"):
         languages = Language.objects.all()
     else:
-        languages = Language.objects.exclude(translation=None, code__contains=NAMESPACE_SEPARATOR)
-        namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
-            "name"
+        languages = Language.objects.exclude(
+            translation=None, code__contains=NAMESPACE_SEPARATOR
         )
+        namespace_query = request.user.groups.filter(
+            roles__name=ACCESS_NAMESPACE
+        ).order_by("name")
         if bool(namespace_query.count()):
             namespace = namespace_query[0].name
             languages = Language.objects.filter(
-                ~Q(translation=None),
-                ~Q(code__contains=NAMESPACE_SEPARATOR) | Q(code__contains=NAMESPACE_SEPARATOR + namespace)
+                ~Q(code__contains=NAMESPACE_SEPARATOR)
+                | Q(code__contains=NAMESPACE_SEPARATOR + namespace),
             )
 
     return render(

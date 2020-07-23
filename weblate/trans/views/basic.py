@@ -187,10 +187,12 @@ def show_component(request, project, component):
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
-    translations_query = obj.translation_set
+    translations_query = obj.translation_set.exclude(
+        language_code__contains=NAMESPACE_SEPARATOR
+    )
     if user_namespace_query.count():
         namespace = user_namespace_query[0].name
-        translations_query = translations_query.filter(
+        translations_query = obj.translation_set.filter(
             ~Q(language_code__contains=NAMESPACE_SEPARATOR)
             | Q(language_code__contains=NAMESPACE_SEPARATOR + namespace)
         )
