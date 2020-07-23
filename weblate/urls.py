@@ -62,6 +62,7 @@ import weblate.trans.views.search
 import weblate.trans.views.settings
 import weblate.trans.views.source
 import weblate.trans.views.widgets
+import weblate.vendasta.views
 import weblate.wladmin.sites
 import weblate.wladmin.views
 from weblate.auth.decorators import management_access
@@ -1205,7 +1206,7 @@ real_patterns = [
     # VENDASTA URLS BELOW
     url(
         r"^new-namespaced-lang/" + COMPONENT + "$",
-        weblate.trans.views.basic.new_namespaced_language,
+        weblate.vendasta.views.new_namespaced_language,
         name="new-namespaced-language",
     ),
 ]
