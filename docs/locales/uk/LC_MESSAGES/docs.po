@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-22 09:59+0200\n"
-"PO-Revision-Date: 2020-07-23 02:39+0000\n"
+"PO-Revision-Date: 2020-07-23 12:04+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1164,6 +1164,10 @@ msgid ""
 "`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
+"Вмикається під час кожного оновлення у системі керування версіями. Загалом, "
+"подібне до команди керування :djadmin:`import_project`. Один зі способів "
+"стежити за декількома складниками перекладу у одній системі керування "
+"версіями."
 
 #: ../../admin/addons.rst:76
 msgid ""
@@ -1171,6 +1175,10 @@ msgid ""
 "others will employ :ref:`internal-urls` to it as a VCS configuration, and "
 "configure it to find all components in it."
 msgstr ""
+"Створіть один основний складник, ймовірність зникнення якого у майбутньому є "
+"найнижчою, а інші складники використовуватимуть :ref:`internal-urls` до "
+"нього як налаштування системи керування версіями. Налаштуйте систему "
+"керування версіями на пошук усіх складників у ній."
 
 #: ../../admin/addons.rst:80
 msgid ""
@@ -1178,6 +1186,9 @@ msgid ""
 "for complexity in configuration. Some examples for common use cases can be "
 "found in the addon help section."
 msgstr ""
+"Відповідність встановлюватиметься за формальними виразами, перевагою яких є "
+"потужність, а недоліком — складність у визначенні. Деякі приклади для "
+"типових випадків використання можна знайти у розділі довідки щодо додатків."
 
 #: ../../admin/addons.rst:84
 msgid ""
@@ -1185,6 +1196,9 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
+"Після натискання кнопки :guilabel:`Зберегти` буде показано попередній "
+"перегляд відповідних складників, за допомогою якого ви зможете перевірити, "
+"чи відповідають налаштування вашим потребам:"
 
 #: ../../admin/addons.rst:91 ../../admin/addons.rst:164
 msgid ":ref:`markup`"
@@ -3673,7 +3687,7 @@ msgstr ""
 
 #: ../../admin/config.rst:39 ../../admin/management.rst:731
 msgid ":ref:`privileges`"
-msgstr ""
+msgstr ":ref:`privileges`"
 
 #: ../../admin/config.rst:44
 msgid "AUDITLOG_EXPIRY"
@@ -3717,11 +3731,11 @@ msgstr ""
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
-msgstr ""
+msgstr "Типове значення — 10."
 
 #: ../../admin/config.rst:73
 msgid ":ref:`rate-limit`,"
-msgstr ""
+msgstr ":ref:`rate-limit`,"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
@@ -6610,7 +6624,7 @@ msgstr "https://github.com/ubernostrum/akismet"
 
 #: ../../admin/install.rst:101
 msgid "``ruamel.yaml`` (optional for :ref:`yaml`)"
-msgstr ""
+msgstr "``ruamel.yaml`` (необов'язковий, для :ref:`yaml`)"
 
 #: ../../admin/install.rst:102
 msgid "https://pypi.org/project/ruamel.yaml/"
@@ -6618,7 +6632,7 @@ msgstr "https://pypi.org/project/ruamel.yaml/"
 
 #: ../../admin/install.rst:103
 msgid "``Zeep`` (optional for :ref:`ms-terminology`)"
-msgstr ""
+msgstr "``Zeep`` (необов'язковий, для :ref:`ms-terminology`)"
 
 #: ../../admin/install.rst:104
 msgid "https://docs.python-zeep.org/"
@@ -6626,7 +6640,7 @@ msgstr "https://docs.python-zeep.org/"
 
 #: ../../admin/install.rst:106
 msgid "``aeidon`` (optional for :ref:`subtitles`)"
-msgstr ""
+msgstr "``aeidon`` (необов'язковий, для :ref:`subtitles`)"
 
 #: ../../admin/install.rst:106
 msgid "https://pypi.org/project/aeidon/"
@@ -6666,6 +6680,7 @@ msgstr ""
 msgid ""
 "https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`"
 msgstr ""
+"https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`"
 
 #: ../../admin/install.rst:123
 msgid "``hub`` (optional for sending pull requests to GitHub)"
@@ -6998,6 +7013,9 @@ msgid ""
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ""
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install.rst:440
 msgid "HTTP proxy"
@@ -7022,7 +7040,7 @@ msgstr ""
 
 #: ../../admin/install.rst:463
 msgid ":ref:`sample-configuration`"
-msgstr ""
+msgstr ":ref:`sample-configuration`"
 
 #: ../../admin/install.rst:465
 msgid ""
@@ -7064,6 +7082,8 @@ msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
+":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref"
+":`production-hosts`"
 
 #: ../../admin/install.rst:505
 msgid "``SESSION_ENGINE``"
@@ -7084,7 +7104,7 @@ msgstr ""
 
 #: ../../admin/install.rst:521
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
-msgstr ""
+msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
 #: ../../admin/install.rst:526
 msgid "``DATABASES``"
@@ -7101,6 +7121,8 @@ msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
+"databases`"
 
 #: ../../admin/install.rst:539
 msgid "``DEBUG``"
@@ -7201,6 +7223,7 @@ msgstr ""
 msgid ""
 ":ref:`config`, :ref:`privileges`, :ref:`faq-site`, :ref:`production-site`"
 msgstr ""
+":ref:`config`, :ref:`privileges`, :ref:`faq-site`, :ref:`production-site`"
 
 #: ../../admin/install.rst:612
 msgid "Production setup"
@@ -7240,7 +7263,7 @@ msgstr ""
 
 #: ../../admin/install.rst:647 ../../admin/install.rst:665
 msgid ":ref:`configuration`"
-msgstr ""
+msgstr ":ref:`configuration`"
 
 #: ../../admin/install.rst:652
 msgid "Properly configure admins"
@@ -7299,6 +7322,9 @@ msgid ""
 ":ref:`faq-site`, :ref:`production-hosts`, :ref:`production-ssl` :setting:"
 "`ENABLE_HTTPS`, :djadmin:`changesite`, :doc:`django:ref/contrib/sites`"
 msgstr ""
+":ref:`faq-site`, :ref:`production-hosts`, :ref:`production-ssl` "
+":setting:`ENABLE_HTTPS`, :djadmin:`changesite`, :doc:`django:ref/contrib/"
+"sites`"
 
 #: ../../admin/install.rst:716
 msgid "Correctly configure HTTPS"
@@ -7321,6 +7347,7 @@ msgstr ""
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
+":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install.rst:738
 msgid "Set properly SECURE_HSTS_SECONDS"
@@ -7361,6 +7388,8 @@ msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`django:ref/databases`"
 
 #: ../../admin/install.rst:775
 msgid "Enable caching"
@@ -7374,7 +7403,7 @@ msgstr ""
 
 #: ../../admin/install.rst:798
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
-msgstr ""
+msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:804
 msgid "Avatar caching"
@@ -7391,6 +7420,8 @@ msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:841
 msgid "Configure e-mail sending"
@@ -7421,6 +7452,8 @@ msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:873
 msgid "Allowed hosts setup"
@@ -7449,6 +7482,8 @@ msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
+"site`"
 
 #: ../../admin/install.rst:895
 msgid "Django secret key"
@@ -7506,7 +7541,7 @@ msgstr ""
 
 #: ../../admin/install.rst:938
 msgid ":ref:`vcs-repos`"
-msgstr ""
+msgstr ":ref:`vcs-repos`"
 
 #: ../../admin/install.rst:943
 msgid "Template loading"
@@ -7650,7 +7685,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1073
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
-msgstr ""
+msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
 #: ../../admin/install.rst:1079
 msgid "Running server"
@@ -7664,7 +7699,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1083
 msgid "Database server (see :ref:`database-setup`)"
-msgstr ""
+msgstr "Сервер бази даних (див. :ref:`database-setup`)"
 
 #: ../../admin/install.rst:1084
 msgid "Cache server (see :ref:`production-cache`)"
@@ -7754,7 +7789,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1144
 msgid ":file:`/static/`"
-msgstr ""
+msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1144
 msgid ""
@@ -7764,7 +7799,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1146
 msgid ":file:`/media/`"
-msgstr ""
+msgstr ":file:`/media/`"
 
 #: ../../admin/install.rst:1147
 msgid "Used for user media uploads (e.g. screenshots)."
@@ -7772,7 +7807,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1149
 msgid ":file:`/favicon.ico`"
-msgstr ""
+msgstr ":file:`/favicon.ico`"
 
 #: ../../admin/install.rst:1149
 msgid ""
@@ -7784,6 +7819,8 @@ msgid ""
 ":ref:`production-compress`, :doc:`django:howto/deployment/index`, :doc:"
 "`django:howto/static-files/deployment`"
 msgstr ""
+":ref:`production-compress`, :doc:`django:howto/deployment/index`, "
+":doc:`django:howto/static-files/deployment`"
 
 #: ../../admin/install.rst:1160
 msgid "Content security policy"
@@ -8211,7 +8248,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:77
 msgid ":ref:`invoke-manage`"
-msgstr ""
+msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:82
 msgid "Docker container with HTTPS support"
@@ -8382,7 +8419,7 @@ msgstr "**Приклад:**"
 
 #: ../../admin/install/docker.rst:240
 msgid ":ref:`production-debug`."
-msgstr ""
+msgstr ":ref:`production-debug`."
 
 #: ../../admin/install/docker.rst:244
 msgid "Configures the logging verbosity."
@@ -8401,7 +8438,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:268
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
-msgstr ""
+msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:274
 msgid "Sets the password for the `admin` user."
@@ -8436,6 +8473,8 @@ msgid ""
 ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
 "`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+":envvar:`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:300
 msgid "Configures the address for outgoing e-mails."
@@ -8443,7 +8482,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:304
 msgid ":ref:`production-email`"
-msgstr ""
+msgstr ":ref:`production-email`"
 
 #: ../../admin/install/docker.rst:308
 msgid ""
@@ -8455,6 +8494,7 @@ msgstr ""
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install/docker.rst:326
 msgid "Configures the secret used by Django for cookie signing."
@@ -8468,7 +8508,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:335
 msgid ":ref:`production-secret`"
-msgstr ""
+msgstr ":ref:`production-secret`"
 
 #: ../../admin/install/docker.rst:339
 msgid ""
@@ -8509,7 +8549,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:396 ../../admin/management.rst:181
 #: ../../faq.rst:252
 msgid ":ref:`production-site`"
-msgstr ""
+msgstr ":ref:`production-site`"
 
 #: ../../admin/install/docker.rst:400
 msgid ""
@@ -8596,7 +8636,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:482 ../../admin/install/docker.rst:491
 #: ../../admin/install/docker.rst:500 ../../admin/install/docker.rst:1160
 msgid ":ref:`vcs-gitlab` :ref:`lab-setup`"
-msgstr ""
+msgstr ":ref:`vcs-gitlab` :ref:`lab-setup`"
 
 #: ../../admin/install/docker.rst:487
 msgid "Configures GitLab Host for GitLab merge-requests"
@@ -8671,51 +8711,59 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:567
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
-msgstr ""
+msgstr "Вмикає :ref:`google-translate` і встановлює :setting:`MT_GOOGLE_KEY`"
 
 #: ../../admin/install/docker.rst:571
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`"
 msgstr ""
+"Вмикає :ref:`ms-cognitive-translate` і встановлює "
+":setting:`MT_MICROSOFT_COGNITIVE_KEY`"
 
 #: ../../admin/install/docker.rst:575
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_ENDPOINT_URL`"
 msgstr ""
+"Вмикає :ref:`ms-cognitive-translate` і встановлює "
+":setting:`MT_MICROSOFT_ENDPOINT_URL`"
 
 #: ../../admin/install/docker.rst:579
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_BASE_URL`"
 msgstr ""
+"Вмикає :ref:`ms-cognitive-translate` і встановлює "
+":setting:`MT_MICROSOFT_BASE_URL`"
 
 #: ../../admin/install/docker.rst:583
 msgid "Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`."
-msgstr ""
+msgstr "Вмикає :ref:`modernmt` і встановлює :setting:`MT_MODERNMT_KEY`."
 
 #: ../../admin/install/docker.rst:587
 msgid ""
 "Enables :ref:`mymemory` machine translation and sets :setting:"
 "`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Вмикає комп'ютерний переклад :ref:`mymemory` і встановлює "
+":setting:`MT_MYMEMORY_EMAIL` у значення :envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: ../../admin/install/docker.rst:599
 msgid "Enables :ref:`glosbe` machine translation."
-msgstr ""
+msgstr "Вмикає комп'ютерний переклад :ref:`glosbe`."
 
 #: ../../admin/install/docker.rst:608
 msgid "Enables :ref:`ms-terminology` machine translation."
-msgstr ""
+msgstr "Вмикає комп'ютерний переклад :ref:`ms-terminology`."
 
 #: ../../admin/install/docker.rst:621
 msgid "Configures :ref:`saptranslationhub` machine translation."
-msgstr ""
+msgstr "Налаштовує комп'ютерний переклад :ref:`saptranslationhub`."
 
 #: ../../admin/install/docker.rst:635
 msgid "Authentication settings"
-msgstr ""
+msgstr "Параметри розпізнавання"
 
 #: ../../admin/install/docker.rst:638
 msgid "LDAP"
@@ -8739,7 +8787,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:687
 msgid ":ref:`ldap-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:690 ../../vcs.rst:256
 msgid "GitHub"
@@ -8747,7 +8795,7 @@ msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:695
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr "Вмикає :ref:`github_auth`."
 
 #: ../../admin/install/docker.rst:698
 msgid "Bitbucket"
@@ -8755,7 +8803,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:703
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr "Вмикає :ref:`bitbucket_auth`."
 
 #: ../../admin/install/docker.rst:706
 msgid "Facebook"
@@ -8763,7 +8811,7 @@ msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:711
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr "Вмикає :ref:`facebook_auth`."
 
 #: ../../admin/install/docker.rst:714
 msgid "Google"
@@ -8771,7 +8819,7 @@ msgstr "Google"
 
 #: ../../admin/install/docker.rst:721
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr "Вмикає :ref:`google_auth`."
 
 #: ../../admin/install/docker.rst:724 ../../vcs.rst:314
 msgid "GitLab"
@@ -8779,7 +8827,7 @@ msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:730
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr "Вмикає :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:733
 msgid "Azure Active Directory"
@@ -8788,6 +8836,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:738
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
+"Вмикає розпізнавання за даними Active Directory в Azure, див. :ref:`azure-"
+"auth`."
 
 #: ../../admin/install/docker.rst:741
 msgid "Azure Active Directory with Tenant support"
@@ -8859,7 +8909,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:811
 msgid ":ref:`database-setup`"
-msgstr ""
+msgstr ":ref:`database-setup`"
 
 #: ../../admin/install/docker.rst:815
 msgid "PostgreSQL password."
@@ -8894,7 +8944,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:843
 msgid ":ref:`backup-dumps`"
-msgstr ""
+msgstr ":ref:`backup-dumps`"
 
 #: ../../admin/install/docker.rst:847
 msgid ""
@@ -8914,7 +8964,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:856 ../../admin/projects.rst:819
 msgid ":ref:`production-cache`"
-msgstr ""
+msgstr ":ref:`production-cache`"
 
 #: ../../admin/install/docker.rst:860
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
@@ -8959,7 +9009,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:909
 msgid ":ref:`out-mail`"
-msgstr ""
+msgstr ":ref:`out-mail`"
 
 #: ../../admin/install/docker.rst:913
 msgid "Mail server hostname or IP address."
@@ -9030,7 +9080,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:973
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
-msgstr ""
+msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:977
 msgid "Error reporting"
@@ -9589,7 +9639,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:64
 msgid ":ref:`language-parsing-codes`"
-msgstr ""
+msgstr ":ref:`language-parsing-codes`"
 
 #: ../../admin/languages.rst:69 ../../admin/projects.rst:724 ../../api.rst:628
 #: ../../api.rst:630 ../../api.rst:681 ../../api.rst:691
@@ -9637,6 +9687,10 @@ msgid ""
 "Rules by the Unicode Consortium <http://unicode.org/cldr/charts/latest/"
 "supplemental/language_plural_rules.html>`_"
 msgstr ""
+":ref:`plurals`, `інструменти GNU gettext: форми множини <https://www.gnu.org/"
+"software/gettext/manual/html_node/Plural-forms.html>`_, `правила форм "
+"множини у мовах від консорціуму Unicode <http://unicode.org/cldr/charts/"
+"latest/supplemental/language_plural_rules.html>`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -9734,6 +9788,8 @@ msgid ""
 ":ref:`amagama:installation`, :doc:`virtaal:amagama`, `amaGama Translation "
 "Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
+":ref:`amagama:installation`, :doc:`virtaal:amagama`, `пам'ять перекладів "
+"amaGama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:29 ../../changes.rst:1440
 msgid "Apertium"
@@ -10118,6 +10174,9 @@ msgid ""
 "installation`, :doc:`virtaal:amagama`, `Amagama Translation Memory <https://"
 "amagama.translatehouse.org/>`_"
 msgstr ""
+":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` "
+":ref:`amagama:installation`, :doc:`virtaal:amagama`, `пам'ять перекладів "
+"Amagama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:323
 msgid "Yandex Translate"
@@ -10175,7 +10234,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:360
 msgid "Weblate"
-msgstr ""
+msgstr "Weblate"
 
 #: ../../admin/machine.rst:362
 msgid ""
@@ -10330,6 +10389,8 @@ msgid ""
 ":ref:`quick-docker`, :doc:`install/venv-debian`, :doc:`install/venv-suse`, :"
 "doc:`install/venv-redhat`"
 msgstr ""
+":ref:`quick-docker`, :doc:`install/venv-debian`, :doc:`install/venv-suse`, "
+":doc:`install/venv-redhat`"
 
 #: ../../admin/management.rst:81
 msgid "add_suggestions"
@@ -10392,7 +10453,7 @@ msgstr ""
 
 #: ../../admin/management.rst:150
 msgid ":ref:`auto-translation`"
-msgstr ""
+msgstr ":ref:`auto-translation`"
 
 #: ../../admin/management.rst:153
 msgid "celery_queues"
@@ -10469,7 +10530,7 @@ msgstr ""
 
 #: ../../admin/management.rst:226
 msgid ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
-msgstr ""
+msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:230
 msgid "cleanuptrans"
@@ -10484,7 +10545,7 @@ msgstr ""
 
 #: ../../admin/management.rst:239
 msgid ":ref:`production-cron`"
-msgstr ""
+msgstr ":ref:`production-cron`"
 
 #: ../../admin/management.rst:242
 msgid "createadmin"
@@ -10534,7 +10595,7 @@ msgstr ""
 
 #: ../../admin/management.rst:287 ../../admin/management.rst:379
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
-msgstr ""
+msgstr ":ref:`translation-memory`, :ref:`schema-memory`"
 
 #: ../../admin/management.rst:291
 msgid "dumpuserdata"
@@ -11163,7 +11224,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:88
 msgid ":ref:`schema-memory`"
-msgstr ""
+msgstr ":ref:`schema-memory`"
 
 #: ../../admin/memory.rst:95
 msgid ""
@@ -11372,6 +11433,8 @@ msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :setting:"
 "`ENABLE_AVATARS`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, "
+":setting:`ENABLE_AVATARS`"
 
 #: ../../admin/optionals.rst:187
 msgid "Spam protection"
@@ -11399,7 +11462,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:202
 msgid ":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`"
-msgstr ""
+msgstr ":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`"
 
 #: ../../admin/optionals.rst:209
 msgid "Signing Git commits with GnuPG"
@@ -11564,7 +11627,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:267
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`"
-msgstr ""
+msgstr ":ref:`user-rate`, :ref:`reverse-proxy`"
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
@@ -11739,7 +11802,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
-msgstr ""
+msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
@@ -11770,7 +11833,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:127 ../../admin/projects.rst:732 ../../api.rst:744
 msgid "Project slug"
-msgstr ""
+msgstr "Ідентифікатор проєкту"
 
 #: ../../admin/projects.rst:129
 msgid "Project name suitable for URLs."
@@ -11894,6 +11957,8 @@ msgid ""
 ":ref:`component-intermediate`, :ref:`source-quality-gateway`, :ref:"
 "`bimono`, :ref:`languages`"
 msgstr ""
+":ref:`component-intermediate`, :ref:`source-quality-gateway`, :ref:`bimono`, "
+":ref:`languages`"
 
 #: ../../admin/projects.rst:232
 msgid "Component configuration"
@@ -11950,7 +12015,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:267 ../../admin/projects.rst:728 ../../api.rst:1989
 msgid "Component slug"
-msgstr ""
+msgstr "Ідентифікатор складника"
 
 #: ../../admin/projects.rst:269
 msgid "Component name suitable for URLs."
@@ -11962,7 +12027,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:276
 msgid ":ref:`project` where the component belongs."
-msgstr ""
+msgstr ":ref:`project`, якому належить складник."
 
 #: ../../admin/projects.rst:281
 msgid "Version control system"
@@ -11971,6 +12036,8 @@ msgstr "Система керування версіями"
 #: ../../admin/projects.rst:283
 msgid "VCS to use, see :ref:`vcs` for details."
 msgstr ""
+"Система керування версіями, якою слід скористатися. Див. докладний опис у "
+"розділі :ref:`vcs`."
 
 #: ../../admin/projects.rst:288 ../../devel/starting.rst:273
 msgid "Source code repository"
@@ -11982,7 +12049,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:294
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
-msgstr ""
+msgstr "Див. :ref:`vcs-repos`, щоб дізнатися більше про визначення адрес."
 
 #: ../../admin/projects.rst:298
 msgid ""
@@ -12093,7 +12160,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:378 ../../admin/projects.rst:390
 msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
-msgstr ""
+msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:384 ../../formats.rst:171 ../../formats.rst:235
 #: ../../formats.rst:341 ../../formats.rst:353 ../../formats.rst:394
@@ -12143,6 +12210,7 @@ msgstr ""
 msgid ""
 ":ref:`source-quality-gateway`, :ref:`bimono`, :ref:`faq-duplicate-files`"
 msgstr ""
+":ref:`source-quality-gateway`, :ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:423 ../../devel/starting.rst:277
 #: ../../formats.rst:173 ../../formats.rst:237 ../../formats.rst:343
@@ -12175,6 +12243,8 @@ msgid ""
 ":ref:`new-translations`, :ref:`component-new_lang`, :ref:`bimono`, :ref:`faq-"
 "duplicate-files`"
 msgstr ""
+":ref:`new-translations`, :ref:`component-new_lang`, :ref:`bimono`, :ref:`faq-"
+"duplicate-files`"
 
 #: ../../admin/projects.rst:443 ../../devel/starting.rst:279
 #: ../../formats.rst:175 ../../formats.rst:239 ../../formats.rst:345
@@ -12341,7 +12411,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:542
 msgid ":ref:`adding-translation`."
-msgstr ""
+msgstr ":ref:`adding-translation`."
 
 #: ../../admin/projects.rst:547
 msgid "Language code style"
@@ -12529,7 +12599,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:673
 msgid ":ref:`faq-vcs`, :ref:`alerts`"
-msgstr ""
+msgstr ":ref:`faq-vcs`, :ref:`alerts`"
 
 #: ../../admin/projects.rst:678
 msgid "Priority"
@@ -12593,15 +12663,15 @@ msgstr ""
 
 #: ../../admin/projects.rst:715
 msgid ":ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/projects.rst:716
 msgid ":ref:`addon-weblate.generate.generate`"
-msgstr ""
+msgstr ":ref:`addon-weblate.generate.generate`"
 
 #: ../../admin/projects.rst:717
 msgid ":ref:`addon-script`"
-msgstr ""
+msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:719
 msgid "There following variables are available in the component templates:"
@@ -12812,11 +12882,11 @@ msgstr ""
 
 #: ../../admin/projects.rst:820
 msgid ":ref:`production-database`"
-msgstr ""
+msgstr ":ref:`production-database`"
 
 #: ../../admin/projects.rst:821 ../../contributing/debugging.rst:17
 msgid ":ref:`production-debug`"
-msgstr ""
+msgstr ":ref:`production-debug`"
 
 #: ../../admin/projects.rst:824
 msgid "Check resource limits"
@@ -12886,7 +12956,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:861
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
@@ -12962,7 +13032,7 @@ msgstr ""
 
 #: ../../admin/support.rst:39
 msgid ":ref:`cloudbackup`"
-msgstr ""
+msgstr ":ref:`cloudbackup`"
 
 #: ../../admin/support.rst:43
 msgid ""
@@ -13052,7 +13122,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:66 ../../admin/translating.rst:82
 msgid ":ref:`checks`"
-msgstr ""
+msgstr ":ref:`checks`"
 
 #: ../../admin/translating.rst:75
 msgid ""
@@ -13292,7 +13362,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:132 ../../admin/upgrade.rst:145
 msgid ":ref:`generic-upgrade-instructions`"
-msgstr ""
+msgstr ":ref:`generic-upgrade-instructions`"
 
 #: ../../admin/upgrade.rst:135
 msgid "Upgrade from 4.1 to 4.2"
@@ -14140,7 +14210,7 @@ msgstr "назва проєкту"
 
 #: ../../api.rst:758
 msgid "project slug"
-msgstr ""
+msgstr "ідентифікатор проєкту"
 
 #: ../../api.rst:759 ../../api.rst:1509
 msgid ""
@@ -15200,7 +15270,7 @@ msgstr ""
 
 #: ../../api.rst:2037
 msgid ":ref:`github-setup`"
-msgstr ""
+msgstr ":ref:`github-setup`"
 
 #: ../../api.rst:2038
 msgid "For instruction on setting up GitHub integration"
@@ -15232,7 +15302,7 @@ msgstr ""
 
 #: ../../api.rst:2051
 msgid ":ref:`gitlab-setup`"
-msgstr ""
+msgstr ":ref:`gitlab-setup`"
 
 #: ../../api.rst:2052
 msgid "For instruction on setting up GitLab integration"
@@ -15254,7 +15324,7 @@ msgstr ""
 
 #: ../../api.rst:2065
 msgid ":ref:`bitbucket-setup`"
-msgstr ""
+msgstr ":ref:`bitbucket-setup`"
 
 #: ../../api.rst:2066
 msgid "For instruction on setting up Bitbucket integration"
@@ -15277,7 +15347,7 @@ msgstr ""
 
 #: ../../api.rst:2081
 msgid ":ref:`pagure-setup`"
-msgstr ""
+msgstr ":ref:`pagure-setup`"
 
 #: ../../api.rst:2082
 msgid "For instruction on setting up Pagure integration"
@@ -15299,7 +15369,7 @@ msgstr ""
 
 #: ../../api.rst:2097
 msgid ":ref:`azure-setup`"
-msgstr ""
+msgstr ":ref:`azure-setup`"
 
 #: ../../api.rst:2098
 msgid "For instruction on setting up Azure integration"
@@ -15322,7 +15392,7 @@ msgstr ""
 
 #: ../../api.rst:2113
 msgid ":ref:`gitea-setup`"
-msgstr ""
+msgstr ":ref:`gitea-setup`"
 
 #: ../../api.rst:2114
 msgid "For instruction on setting up Gitea integration"
@@ -15344,7 +15414,7 @@ msgstr ""
 
 #: ../../api.rst:2129
 msgid ":ref:`gitee-setup`"
-msgstr ""
+msgstr ":ref:`gitee-setup`"
 
 #: ../../api.rst:2130
 msgid "For instruction on setting up Gitee integration"
@@ -15425,7 +15495,7 @@ msgstr ""
 
 #: ../../changes.rst:2
 msgid "Weblate 4.2"
-msgstr ""
+msgstr "Weblate 4.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -15504,7 +15574,7 @@ msgstr ""
 
 #: ../../changes.rst:25
 msgid "Weblate 4.1.1"
-msgstr ""
+msgstr "Weblate 4.1.1"
 
 #: ../../changes.rst:27
 msgid "Released on June 19th 2020."
@@ -15554,7 +15624,7 @@ msgstr ""
 
 #: ../../changes.rst:41
 msgid "Weblate 4.1"
-msgstr ""
+msgstr "Weblate 4.1"
 
 #: ../../changes.rst:43
 msgid "Released on June 15th 2020."
@@ -15718,7 +15788,7 @@ msgstr ""
 
 #: ../../changes.rst:84
 msgid "Weblate 4.0.4"
-msgstr ""
+msgstr "Weblate 4.0.4"
 
 #: ../../changes.rst:86
 msgid "Released on May 07th 2020."
@@ -15760,7 +15830,7 @@ msgstr ""
 
 #: ../../changes.rst:98
 msgid "Weblate 4.0.3"
-msgstr ""
+msgstr "Weblate 4.0.3"
 
 #: ../../changes.rst:100
 msgid "Released on May 02nd 2020."
@@ -15788,7 +15858,7 @@ msgstr ""
 
 #: ../../changes.rst:109
 msgid "Weblate 4.0.2"
-msgstr ""
+msgstr "Weblate 4.0.2"
 
 #: ../../changes.rst:111
 msgid "Released on April 27th 2020."
@@ -15868,7 +15938,7 @@ msgstr ""
 
 #: ../../changes.rst:133
 msgid "Weblate 4.0.1"
-msgstr ""
+msgstr "Weblate 4.0.1"
 
 #: ../../changes.rst:135 ../../changes.rst:142
 msgid "Released on April 16th 2020."
@@ -15880,7 +15950,7 @@ msgstr ""
 
 #: ../../changes.rst:140
 msgid "Weblate 4.0"
-msgstr ""
+msgstr "Weblate 4.0"
 
 #: ../../changes.rst:144
 msgid "Weblate now requires Python 3.6 or newer."
@@ -15988,7 +16058,7 @@ msgstr ""
 
 #: ../../changes.rst:173
 msgid "Weblate 3.11.3"
-msgstr ""
+msgstr "Weblate 3.11.3"
 
 #: ../../changes.rst:175
 msgid "Released on March 11th 2020."
@@ -16068,7 +16138,7 @@ msgstr ""
 
 #: ../../changes.rst:197
 msgid "Weblate 3.11.2"
-msgstr ""
+msgstr "Weblate 3.11.2"
 
 #: ../../changes.rst:199
 msgid "Released on February 22nd 2020."
@@ -16084,7 +16154,7 @@ msgstr ""
 
 #: ../../changes.rst:205
 msgid "Weblate 3.11.1"
-msgstr ""
+msgstr "Weblate 3.11.1"
 
 #: ../../changes.rst:207
 msgid "Released on February 20th 2020."
@@ -16116,7 +16186,7 @@ msgstr ""
 
 #: ../../changes.rst:217
 msgid "Weblate 3.11"
-msgstr ""
+msgstr "Weblate 3.11"
 
 #: ../../changes.rst:219
 msgid "Released on February 17th 2020."
@@ -16201,7 +16271,7 @@ msgstr ""
 
 #: ../../changes.rst:240
 msgid "Added option for :ref:`enforcing-checks`."
-msgstr ""
+msgstr "Додано параметр для :ref:`enforcing-checks`."
 
 #: ../../changes.rst:241
 msgid "Increased default validity of confirmation links."
@@ -16225,7 +16295,7 @@ msgstr ""
 
 #: ../../changes.rst:248
 msgid "Weblate 3.10.3"
-msgstr ""
+msgstr "Weblate 3.10.3"
 
 #: ../../changes.rst:250 ../../changes.rst:257
 msgid "Released on January 18th 2020."
@@ -16237,7 +16307,7 @@ msgstr ""
 
 #: ../../changes.rst:255
 msgid "Weblate 3.10.2"
-msgstr ""
+msgstr "Weblate 3.10.2"
 
 #: ../../changes.rst:259
 msgid "Add lock indication to projects."
@@ -16285,7 +16355,7 @@ msgstr ""
 
 #: ../../changes.rst:272
 msgid "Weblate 3.10.1"
-msgstr ""
+msgstr "Weblate 3.10.1"
 
 #: ../../changes.rst:274
 msgid "Released on January 9th 2020."
@@ -16329,7 +16399,7 @@ msgstr ""
 
 #: ../../changes.rst:287
 msgid "Weblate 3.10"
-msgstr ""
+msgstr "Weblate 3.10"
 
 #: ../../changes.rst:289
 msgid "Released on December 20th 2019."
@@ -16429,7 +16499,7 @@ msgstr ""
 
 #: ../../changes.rst:316
 msgid "Weblate 3.9.1"
-msgstr ""
+msgstr "Weblate 3.9.1"
 
 #: ../../changes.rst:318
 msgid "Released on October 28th 2019."
@@ -16481,7 +16551,7 @@ msgstr ""
 
 #: ../../changes.rst:333
 msgid "Weblate 3.9"
-msgstr ""
+msgstr "Weblate 3.9"
 
 #: ../../changes.rst:335
 msgid "Released on October 15th 2019."
@@ -16620,7 +16690,7 @@ msgstr ""
 
 #: ../../changes.rst:371
 msgid "Weblate 3.8"
-msgstr ""
+msgstr "Weblate 3.8"
 
 #: ../../changes.rst:373
 msgid "Released on August 15th 2019."
@@ -16739,7 +16809,7 @@ msgstr ""
 
 #: ../../changes.rst:405
 msgid "Weblate 3.7.1"
-msgstr ""
+msgstr "Weblate 3.7.1"
 
 #: ../../changes.rst:407
 msgid "Released on June 28th 2019."
@@ -16775,7 +16845,7 @@ msgstr ""
 
 #: ../../changes.rst:418
 msgid "Weblate 3.7"
-msgstr ""
+msgstr "Weblate 3.7"
 
 #: ../../changes.rst:420
 msgid "Released on June 21st 2019."
@@ -16900,7 +16970,7 @@ msgstr ""
 
 #: ../../changes.rst:453
 msgid "Weblate 3.6.1"
-msgstr ""
+msgstr "Weblate 3.6.1"
 
 #: ../../changes.rst:455
 msgid "Released on April 26th 2019."
@@ -16932,7 +17002,7 @@ msgstr ""
 
 #: ../../changes.rst:466
 msgid "Weblate 3.6"
-msgstr ""
+msgstr "Weblate 3.6"
 
 #: ../../changes.rst:468
 msgid "Released on April 20th 2019."
@@ -17012,7 +17082,7 @@ msgstr ""
 
 #: ../../changes.rst:490
 msgid "Weblate 3.5.1"
-msgstr ""
+msgstr "Weblate 3.5.1"
 
 #: ../../changes.rst:492
 msgid "Released on March 10th 2019."
@@ -17058,7 +17128,7 @@ msgstr ""
 
 #: ../../changes.rst:506
 msgid "Weblate 3.5"
-msgstr ""
+msgstr "Weblate 3.5"
 
 #: ../../changes.rst:508
 msgid "Released on March 3rd 2019."
@@ -17130,7 +17200,7 @@ msgstr ""
 
 #: ../../changes.rst:528
 msgid "Weblate 3.4"
-msgstr ""
+msgstr "Weblate 3.4"
 
 #: ../../changes.rst:530
 msgid "Released on January 22nd 2019."
@@ -17196,7 +17266,7 @@ msgstr ""
 
 #: ../../changes.rst:548
 msgid "Weblate 3.3"
-msgstr ""
+msgstr "Weblate 3.3"
 
 #: ../../changes.rst:550
 msgid "Released on November 30th 2018."
@@ -17233,7 +17303,7 @@ msgstr ""
 
 #: ../../changes.rst:561
 msgid "Weblate 3.2.2"
-msgstr ""
+msgstr "Weblate 3.2.2"
 
 #: ../../changes.rst:563
 msgid "Released on October 20th 2018."
@@ -17273,7 +17343,7 @@ msgstr ""
 
 #: ../../changes.rst:575
 msgid "Weblate 3.2.1"
-msgstr ""
+msgstr "Weblate 3.2.1"
 
 #: ../../changes.rst:577
 msgid "Released on October 10th 2018."
@@ -17317,7 +17387,7 @@ msgstr ""
 
 #: ../../changes.rst:590
 msgid "Weblate 3.2"
-msgstr ""
+msgstr "Weblate 3.2"
 
 #: ../../changes.rst:592
 msgid "Released on October 6th 2018."
@@ -17416,7 +17486,7 @@ msgstr ""
 
 #: ../../changes.rst:620
 msgid "Weblate 3.1.1"
-msgstr ""
+msgstr "Weblate 3.1.1"
 
 #: ../../changes.rst:622 ../../changes.rst:629
 msgid "Released on July 27th 2018."
@@ -17428,7 +17498,7 @@ msgstr ""
 
 #: ../../changes.rst:627
 msgid "Weblate 3.1"
-msgstr ""
+msgstr "Weblate 3.1"
 
 #: ../../changes.rst:631
 msgid "Upgrades from older version than 3.0.1 are not supported."
@@ -17482,7 +17552,7 @@ msgstr ""
 
 #: ../../changes.rst:645
 msgid "Weblate 3.0.1"
-msgstr ""
+msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:647
 msgid "Released on June 10th 2018."
@@ -17510,7 +17580,7 @@ msgstr ""
 
 #: ../../changes.rst:657
 msgid "Weblate 3.0"
-msgstr ""
+msgstr "Weblate 3.0"
 
 #: ../../changes.rst:659
 msgid "Released on June 1st 2018."
@@ -17571,7 +17641,7 @@ msgstr ""
 
 #: ../../changes.rst:678
 msgid "Weblate 2.20"
-msgstr ""
+msgstr "Weblate 2.20"
 
 #: ../../changes.rst:680
 msgid "Released on April 4th 2018."
@@ -17650,7 +17720,7 @@ msgstr "Додано підтримку переупорядковування �
 
 #: ../../changes.rst:700
 msgid "Weblate 2.19.1"
-msgstr ""
+msgstr "Weblate 2.19.1"
 
 #: ../../changes.rst:702
 msgid "Released on February 20th 2018."
@@ -17666,7 +17736,7 @@ msgstr ""
 
 #: ../../changes.rst:708
 msgid "Weblate 2.19"
-msgstr ""
+msgstr "Weblate 2.19"
 
 #: ../../changes.rst:710
 msgid "Released on February 15th 2018."
@@ -17747,7 +17817,7 @@ msgstr ""
 
 #: ../../changes.rst:732
 msgid "Weblate 2.18"
-msgstr ""
+msgstr "Weblate 2.18"
 
 #: ../../changes.rst:734
 msgid "Released on December 15th 2017."
@@ -17800,7 +17870,7 @@ msgstr ""
 
 #: ../../changes.rst:749
 msgid "Weblate 2.17.1"
-msgstr ""
+msgstr "Weblate 2.17.1"
 
 #: ../../changes.rst:751 ../../changes.rst:759
 msgid "Released on October 13th 2017."
@@ -17816,7 +17886,7 @@ msgstr ""
 
 #: ../../changes.rst:757
 msgid "Weblate 2.17"
-msgstr ""
+msgstr "Weblate 2.17"
 
 #: ../../changes.rst:761
 msgid "Weblate by default does shallow Git clones now."
@@ -17864,7 +17934,7 @@ msgstr ""
 
 #: ../../changes.rst:775
 msgid "Weblate 2.16"
-msgstr ""
+msgstr "Weblate 2.16"
 
 #: ../../changes.rst:777
 msgid "Released on August 11th 2017."
@@ -17912,7 +17982,7 @@ msgstr ""
 
 #: ../../changes.rst:791
 msgid "Weblate 2.15"
-msgstr ""
+msgstr "Weblate 2.15"
 
 #: ../../changes.rst:793
 msgid "Released on June 30th 2017."
@@ -17960,7 +18030,7 @@ msgstr ""
 
 #: ../../changes.rst:807
 msgid "Weblate 2.14.1"
-msgstr ""
+msgstr "Weblate 2.14.1"
 
 #: ../../changes.rst:809
 msgid "Released on May 24th 2017."
@@ -17988,7 +18058,7 @@ msgstr ""
 
 #: ../../changes.rst:818
 msgid "Weblate 2.14"
-msgstr ""
+msgstr "Weblate 2.14"
 
 #: ../../changes.rst:820
 msgid "Released on May 17th 2017."
@@ -18072,7 +18142,7 @@ msgstr ""
 
 #: ../../changes.rst:842
 msgid "Weblate 2.13.1"
-msgstr ""
+msgstr "Weblate 2.13.1"
 
 #: ../../changes.rst:844 ../../changes.rst:854
 msgid "Released on Apr 12th 2017."
@@ -18097,7 +18167,7 @@ msgstr ""
 
 #: ../../changes.rst:852
 msgid "Weblate 2.13"
-msgstr ""
+msgstr "Weblate 2.13"
 
 #: ../../changes.rst:856
 msgid "Fixed quality checks on translation templates."
@@ -18153,7 +18223,7 @@ msgstr ""
 
 #: ../../changes.rst:871
 msgid "Weblate 2.12"
-msgstr ""
+msgstr "Weblate 2.12"
 
 #: ../../changes.rst:873
 msgid "Released on Mar 3rd 2017."
@@ -18210,7 +18280,7 @@ msgstr ""
 
 #: ../../changes.rst:889
 msgid "Weblate 2.11"
-msgstr ""
+msgstr "Weblate 2.11"
 
 #: ../../changes.rst:891
 msgid "Released on Jan 31st 2017."
@@ -18269,7 +18339,7 @@ msgstr ""
 
 #: ../../changes.rst:908
 msgid "Weblate 2.10.1"
-msgstr ""
+msgstr "Weblate 2.10.1"
 
 #: ../../changes.rst:910
 msgid "Released on Jan 20th 2017."
@@ -18281,7 +18351,7 @@ msgstr ""
 
 #: ../../changes.rst:915
 msgid "Weblate 2.10"
-msgstr ""
+msgstr "Weblate 2.10"
 
 #: ../../changes.rst:917
 msgid "Released on Dec 15th 2016."
@@ -18338,7 +18408,7 @@ msgstr ""
 
 #: ../../changes.rst:933
 msgid "Weblate 2.9"
-msgstr ""
+msgstr "Weblate 2.9"
 
 #: ../../changes.rst:935
 msgid "Released on Nov 4th 2016."
@@ -18412,7 +18482,7 @@ msgstr ""
 
 #: ../../changes.rst:955
 msgid "Weblate 2.8"
-msgstr ""
+msgstr "Weblate 2.8"
 
 #: ../../changes.rst:957
 msgid "Released on Aug 31st 2016."
@@ -18486,7 +18556,7 @@ msgstr ""
 
 #: ../../changes.rst:977
 msgid "Weblate 2.7"
-msgstr ""
+msgstr "Weblate 2.7"
 
 #: ../../changes.rst:979
 msgid "Released on Jul 10th 2016."
@@ -18530,7 +18600,7 @@ msgstr ""
 
 #: ../../changes.rst:992
 msgid "Weblate 2.6"
-msgstr ""
+msgstr "Weblate 2.6"
 
 #: ../../changes.rst:994
 msgid "Released on Apr 28th 2016."
@@ -18562,7 +18632,7 @@ msgstr ""
 
 #: ../../changes.rst:1004
 msgid "Weblate 2.5"
-msgstr ""
+msgstr "Weblate 2.5"
 
 #: ../../changes.rst:1006
 msgid "Released on Mar 10th 2016."
@@ -18727,7 +18797,7 @@ msgstr ""
 
 #: ../../changes.rst:1051
 msgid "Weblate 2.4"
-msgstr ""
+msgstr "Weblate 2.4"
 
 #: ../../changes.rst:1053
 msgid "Released on Sep 20th 2015."
@@ -18859,7 +18929,7 @@ msgstr ""
 
 #: ../../changes.rst:1087
 msgid "Weblate 2.3"
-msgstr ""
+msgstr "Weblate 2.3"
 
 #: ../../changes.rst:1089
 msgid "Released on May 22nd 2015."
@@ -18923,7 +18993,7 @@ msgstr ""
 
 #: ../../changes.rst:1107
 msgid "Weblate 2.2"
-msgstr ""
+msgstr "Weblate 2.2"
 
 #: ../../changes.rst:1109
 msgid "Released on Feb 19th 2015."
@@ -18980,7 +19050,7 @@ msgstr ""
 
 #: ../../changes.rst:1125
 msgid "Weblate 2.1"
-msgstr ""
+msgstr "Weblate 2.1"
 
 #: ../../changes.rst:1127
 msgid "Released on Dec 5th 2014."
@@ -19032,7 +19102,7 @@ msgstr ""
 
 #: ../../changes.rst:1143
 msgid "Weblate 2.0"
-msgstr ""
+msgstr "Weblate 2.0"
 
 #: ../../changes.rst:1145
 msgid "Released on Nov 6th 2014."
@@ -19112,7 +19182,7 @@ msgstr ""
 
 #: ../../changes.rst:1170
 msgid "Weblate 1.9"
-msgstr ""
+msgstr "Weblate 1.9"
 
 #: ../../changes.rst:1172
 msgid "Released on May 6th 2014."
@@ -19156,7 +19226,7 @@ msgstr ""
 
 #: ../../changes.rst:1185
 msgid "Weblate 1.8"
-msgstr ""
+msgstr "Weblate 1.8"
 
 #: ../../changes.rst:1187
 msgid "Released on November 7th 2013."
@@ -19205,7 +19275,7 @@ msgstr ""
 
 #: ../../changes.rst:1202
 msgid "Weblate 1.7"
-msgstr ""
+msgstr "Weblate 1.7"
 
 #: ../../changes.rst:1204
 msgid "Released on October 7th 2013."
@@ -19262,7 +19332,7 @@ msgstr ""
 
 #: ../../changes.rst:1221
 msgid "Weblate 1.6"
-msgstr ""
+msgstr "Weblate 1.6"
 
 #: ../../changes.rst:1223
 msgid "Released on July 25th 2013."
@@ -19334,7 +19404,7 @@ msgstr ""
 
 #: ../../changes.rst:1243
 msgid "Weblate 1.5"
-msgstr ""
+msgstr "Weblate 1.5"
 
 #: ../../changes.rst:1245
 msgid "Released on April 16th 2013."
@@ -19410,7 +19480,7 @@ msgstr ""
 
 #: ../../changes.rst:1267
 msgid "Weblate 1.4"
-msgstr ""
+msgstr "Weblate 1.4"
 
 #: ../../changes.rst:1269
 msgid "Released on January 23rd 2013."
@@ -19494,7 +19564,7 @@ msgstr ""
 
 #: ../../changes.rst:1293
 msgid "Weblate 1.3"
-msgstr ""
+msgstr "Weblate 1.3"
 
 #: ../../changes.rst:1295
 msgid "Released on November 16th 2012."
@@ -19575,7 +19645,7 @@ msgstr ""
 
 #: ../../changes.rst:1317
 msgid "Weblate 1.2"
-msgstr ""
+msgstr "Weblate 1.2"
 
 #: ../../changes.rst:1319
 msgid "Released on August 14th 2012."
@@ -19670,7 +19740,7 @@ msgstr ""
 
 #: ../../changes.rst:1345
 msgid "Weblate 1.1"
-msgstr ""
+msgstr "Weblate 1.1"
 
 #: ../../changes.rst:1347
 msgid "Released on July 4th 2012."
@@ -19698,7 +19768,7 @@ msgstr ""
 
 #: ../../changes.rst:1356
 msgid "Weblate 1.0"
-msgstr ""
+msgstr "Weblate 1.0"
 
 #: ../../changes.rst:1358
 msgid "Released on May 10th 2012."
@@ -19730,7 +19800,7 @@ msgstr ""
 
 #: ../../changes.rst:1370
 msgid "Weblate 0.9"
-msgstr ""
+msgstr "Weblate 0.9"
 
 #: ../../changes.rst:1372
 msgid "Released on April 18th 2012."
@@ -19786,7 +19856,7 @@ msgstr ""
 
 #: ../../changes.rst:1391
 msgid "Weblate 0.8"
-msgstr ""
+msgstr "Weblate 0.8"
 
 #: ../../changes.rst:1393
 msgid "Released on April 3rd 2012."
@@ -19859,7 +19929,7 @@ msgstr ""
 
 #: ../../changes.rst:1413
 msgid "Weblate 0.7"
-msgstr ""
+msgstr "Weblate 0.7"
 
 #: ../../changes.rst:1415
 msgid "Released on February 16th 2012."
@@ -19887,7 +19957,7 @@ msgstr ""
 
 #: ../../changes.rst:1424
 msgid "Weblate 0.6"
-msgstr ""
+msgstr "Weblate 0.6"
 
 #: ../../changes.rst:1426
 msgid "Released on February 14th 2012."
@@ -19915,7 +19985,7 @@ msgstr ""
 
 #: ../../changes.rst:1435
 msgid "Weblate 0.5"
-msgstr ""
+msgstr "Weblate 0.5"
 
 #: ../../changes.rst:1437
 msgid "Released on February 12th 2012."
@@ -19955,7 +20025,7 @@ msgstr ""
 
 #: ../../changes.rst:1451
 msgid "Weblate 0.4"
-msgstr ""
+msgstr "Weblate 0.4"
 
 #: ../../changes.rst:1453 ../../changes.rst:1461
 msgid "Released on February 8th 2012."
@@ -19971,7 +20041,7 @@ msgstr ""
 
 #: ../../changes.rst:1459
 msgid "Weblate 0.3"
-msgstr ""
+msgstr "Weblate 0.3"
 
 #: ../../changes.rst:1463
 msgid "Better display of source for plural translations."
@@ -19995,7 +20065,7 @@ msgstr ""
 
 #: ../../changes.rst:1470
 msgid "Weblate 0.2"
-msgstr ""
+msgstr "Weblate 0.2"
 
 #: ../../changes.rst:1472
 msgid "Released on February 7th 2012."
@@ -20023,7 +20093,7 @@ msgstr ""
 
 #: ../../changes.rst:1481
 msgid "Weblate 0.1"
-msgstr ""
+msgstr "Weblate 0.1"
 
 #: ../../changes.rst:1483
 msgid "Released on February 6th 2012."
@@ -20185,6 +20255,7 @@ msgstr ""
 msgid ""
 ":ref:`sample-configuration` contains :setting:`django:LOGGING` configuration."
 msgstr ""
+":ref:`sample-configuration` містить налаштування :setting:`django:LOGGING`."
 
 #: ../../contributing/debugging.rst:35
 msgid "Analyzing application crashes"
@@ -20285,7 +20356,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:51
 msgid "Icons"
-msgstr ""
+msgstr "Піктограми"
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -20320,11 +20391,11 @@ msgstr ""
 
 #: ../../contributing/index.rst:12
 msgid ":ref:`translating-weblate`"
-msgstr ""
+msgstr ":ref:`translating-weblate`"
 
 #: ../../contributing/index.rst:13
 msgid ":ref:`funding-weblate`"
-msgstr ""
+msgstr ":ref:`funding-weblate`"
 
 #: ../../contributing/index.rst:18
 msgid "Translating Weblate"
@@ -20500,7 +20571,7 @@ msgstr "``billing``"
 
 #: ../../contributing/internals.rst:50
 msgid "The optional :ref:`billing` module."
-msgstr ""
+msgstr "Додатковий модуль :ref:`billing`."
 
 #: ../../contributing/internals.rst:52
 msgid "``checks``"
@@ -20508,7 +20579,7 @@ msgstr "``checks``"
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
-msgstr ""
+msgstr "Модуль :ref:`checks` для рядків перекладів."
 
 #: ../../contributing/internals.rst:56
 msgid "``fonts``"
@@ -20532,7 +20603,7 @@ msgstr "``gitexport``"
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
-msgstr ""
+msgstr "Додатковий модуль :ref:`git-exporter`."
 
 #: ../../contributing/internals.rst:68
 msgid "``lang``"
@@ -20556,7 +20627,7 @@ msgstr "``legal``"
 
 #: ../../contributing/internals.rst:78
 msgid "The optional :ref:`legal` module."
-msgstr ""
+msgstr "Додатковий модуль :ref:`legal`."
 
 #: ../../contributing/internals.rst:80
 msgid "``machinery``"
@@ -20822,6 +20893,7 @@ msgstr ""
 msgid ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 msgstr ""
+":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
@@ -21153,7 +21225,7 @@ msgstr ""
 
 #: ../../devel/alerts.rst:29
 msgid ":ref:`production-certs`"
-msgstr ""
+msgstr ":ref:`production-certs`"
 
 #: ../../devel/community.rst:2
 msgid "Building translators community"
@@ -22587,7 +22659,7 @@ msgstr ":ref:`processing`"
 
 #: ../../faq.rst:323
 msgid "Where do language definitions come from and how can I add my own?"
-msgstr ""
+msgstr "Звідки беруться визначення мов і як можна додати власне визначення?"
 
 #: ../../faq.rst:325
 msgid ""
@@ -22604,7 +22676,7 @@ msgstr ""
 
 #: ../../faq.rst:333
 msgid "Can Weblate highlight changes in a fuzzy string?"
-msgstr ""
+msgstr "Чи може Weblate підсвічувати зміни у неточно перекладеному рядку?"
 
 #: ../../faq.rst:335
 msgid ""
@@ -23191,7 +23263,7 @@ msgstr "Маска файла"
 #: ../../formats.rst:983 ../../formats.rst:1032 ../../formats.rst:1067
 #: ../../formats.rst:1101 ../../formats.rst:1131 ../../formats.rst:1161
 msgid "`Empty`"
-msgstr ""
+msgstr "`Порожньо`"
 
 #: ../../formats.rst:173 ../../formats.rst:237
 msgid "``po/messages.pot``"
@@ -23208,10 +23280,14 @@ msgid ""
 "gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :ref:`addon-"
 "weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`,"
 msgstr ""
+"`Gettext у Вікіпедії <https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:"
+"formats/po`, :ref:`addon-weblate.gettext.configure`, :ref:`addon-weblate."
+"gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :ref:`addon-weblate"
+".gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`,"
 
 #: ../../formats.rst:191
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "Одномовний gettext"
 
 #: ../../formats.rst:193
 msgid ""
@@ -23235,7 +23311,7 @@ msgstr "``po/en.po``"
 
 #: ../../formats.rst:239
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`файл PO Gettext (одномовний)`"
 
 #: ../../formats.rst:245
 msgid "XLIFF"
@@ -24871,7 +24947,7 @@ msgstr ""
 
 #: ../../user/checks.rst:37
 msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":setting:`CHECK_LIST`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:40
 msgid "Translation checks"
@@ -25267,6 +25343,9 @@ msgid ""
 "<https://www.gnu.org/software/gettext/manual/html_node/python_002dformat."
 "html>`_"
 msgstr ""
+":ref:`Форматування із фігурними дужками у Python <python:formatstrings>`, `"
+"Рядки форматування у Python <https://www.gnu.org/software/gettext/manual/"
+"html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:325
 msgid "Python format"
@@ -25274,7 +25353,7 @@ msgstr "Формат Python"
 
 #: ../../user/checks.rst:327
 msgid "*Python format string does not match source*"
-msgstr ""
+msgstr "*Рядок форматування Python не відповідає джерелу*"
 
 #: ../../user/checks.rst:332
 msgid "``Your balance is %(amount) %(currency)``"
@@ -25290,6 +25369,9 @@ msgid ""
 "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "python_002dformat.html>`_"
 msgstr ""
+":ref:`Форматуватування рядків у Python <python:old-string-formatting>`, `"
+"Рядки форматування у Python <https://www.gnu.org/software/gettext/manual/"
+"html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:343
 msgid "Qt format"
@@ -25556,7 +25638,7 @@ msgstr ""
 
 #: ../../user/checks.rst:558
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
-msgstr ""
+msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 
 #: ../../user/checks.rst:563
 msgid "Mismatched \\n"
@@ -25625,7 +25707,7 @@ msgstr ""
 
 #: ../../user/checks.rst:613
 msgid ":ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`custom-checks`"
 
 #: ../../user/checks.rst:618
 msgid "Punctuation spacing"
@@ -25690,7 +25772,7 @@ msgstr ""
 
 #: ../../user/checks.rst:674
 msgid ":ref:`check-end-newline`"
-msgstr ""
+msgstr ":ref:`check-end-newline`"
 
 #: ../../user/checks.rst:679
 msgid "Starting spaces"
@@ -25783,7 +25865,7 @@ msgstr ""
 
 #: ../../user/checks.rst:746
 msgid ":ref:`check-begin-newline`"
-msgstr ""
+msgstr ":ref:`check-begin-newline`"
 
 #: ../../user/checks.rst:751
 msgid "Trailing question mark"
@@ -25893,7 +25975,7 @@ msgstr ""
 
 #: ../../user/checks.rst:829
 msgid ":ref:`component`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:835
 msgid "Unsafe HTML"
@@ -26403,7 +26485,7 @@ msgstr ""
 
 #: ../../user/profile.rst:107
 msgid ":ref:`componentlists`"
-msgstr ""
+msgstr ":ref:`componentlists`"
 
 #: ../../user/profile.rst:110
 msgid "Avatar"
@@ -26505,7 +26587,7 @@ msgstr ""
 
 #: ../../user/profile.rst:183
 msgid ":ref:`reverse-proxy`"
-msgstr ""
+msgstr ":ref:`reverse-proxy`"
 
 #: ../../user/search.rst:2
 msgid "Searching"
@@ -26844,7 +26926,7 @@ msgstr ""
 
 #: ../../user/translating.rst:22
 msgid ":ref:`privileges`, :ref:`workflows`"
-msgstr ""
+msgstr ":ref:`privileges`, :ref:`workflows`"
 
 #: ../../user/translating.rst:28
 msgid ""
@@ -26908,7 +26990,7 @@ msgstr ""
 
 #: ../../user/translating.rst:78
 msgid ":ref:`variants`"
-msgstr ""
+msgstr ":ref:`variants`"
 
 #: ../../user/translating.rst:81
 msgid "Labels"
@@ -26923,7 +27005,7 @@ msgstr ""
 
 #: ../../user/translating.rst:89
 msgid ":ref:`labels`"
-msgstr ""
+msgstr ":ref:`labels`"
 
 #: ../../user/translating.rst:94
 msgid ""
@@ -26981,7 +27063,7 @@ msgstr ""
 
 #: ../../user/translating.rst:132
 msgid ":ref:`plural-formula`"
-msgstr ""
+msgstr ":ref:`plural-formula`"
 
 #: ../../user/translating.rst:137
 msgid "Keyboard shortcuts"
@@ -27572,7 +27654,7 @@ msgstr ""
 
 #: ../../vcs.rst:125
 msgid ":ref:`hosted-push`"
-msgstr ""
+msgstr ":ref:`hosted-push`"
 
 #: ../../vcs.rst:130
 msgid "Weblate internal URLs"
@@ -27765,7 +27847,7 @@ msgstr ""
 
 #: ../../vcs.rst:269 ../../vcs.rst:329
 msgid ":ref:`push-changes`"
-msgstr ""
+msgstr ":ref:`push-changes`"
 
 #: ../../vcs.rst:275
 msgid "Pushing changes to GitHub as pull requests"
@@ -27841,6 +27923,7 @@ msgstr ""
 msgid ""
 ":setting:`GITLAB_USERNAME`, :ref:`lab-setup` for configuration instructions"
 msgstr ""
+":setting:`GITLAB_USERNAME`, :ref:`lab-setup` щодо настанов з налаштовування"
 
 #: ../../vcs.rst:348
 msgid "Setting up Lab"
@@ -27988,7 +28071,7 @@ msgstr ""
 
 #: ../../wlc.rst:51
 msgid ":ref:`wlc-config`"
-msgstr ""
+msgstr ":ref:`wlc-config`"
 
 #: ../../wlc.rst:54
 msgid "Synopsis"
