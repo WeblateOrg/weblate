@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load translations %}
+{% load humanize %}
 
   {% with billing.plan as plan %}
   <table class="table">
@@ -17,7 +18,7 @@
   <tr>
     <th>{% trans "Monthly price" %}</th>
     <td>
-        {{ plan.price }} EUR
+        {{ plan.price|intcomma }} EUR
     </td>
     <td>
         {% if payment_enabled and billing.can_be_paid and plan.price and not hide_buttons %}
@@ -33,7 +34,7 @@
   </tr>
   <tr>
     <th>{% trans "Yearly price" %}</th>
-    <td>{{ plan.yearly_price }} EUR</td>
+    <td>{{ plan.yearly_price|intcomma }} EUR</td>
     <td>
         {% if payment_enabled and billing.can_be_paid and plan.yearly_price and not hide_buttons %}
         <form class="form-inline" method="post" action="{% url 'create-billing' %}">
