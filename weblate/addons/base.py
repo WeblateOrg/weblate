@@ -39,6 +39,7 @@ from weblate.trans.exceptions import FileParseError
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
@@ -231,6 +232,7 @@ class BaseAddon:
                     "error": str(err),
                 }
             )
+            report_error(cause="Addon script error")
 
     def trigger_alerts(self, component):
         if self.alerts:
