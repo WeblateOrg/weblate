@@ -92,6 +92,7 @@ Check is false when double space is found in source meaning double space is inte
 .. _check-angularjs-format:
 .. _check-c-format:
 .. _check-c-sharp-format:
+.. _check-es-format:
 .. _check-i18next-interpolation:
 .. _check-java-format:
 .. _check-java-messageformat:
@@ -180,6 +181,21 @@ C# format
 .. seealso::
 
     `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+
+ECMAScript template literals
+****************************
+
+*ECMAScript template literals do not match source*
+
++------------------------+------------------------------------------------------------+
+| Interpolation          | ``There are ${number} apples``                             |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `es-format`                                                |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>`_
 
 i18next interpolation
 *********************

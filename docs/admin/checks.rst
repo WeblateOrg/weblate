@@ -98,6 +98,8 @@ Here is a list of flags currently accepted:
     Skip the "C format" quality check.
 ``ignore-c-sharp-format``
     Skip the "C# format" quality check.
+``ignore-es-format``
+    Skip the "ECMAScript template literals" quality check.
 ``ignore-i18next-interpolation``
     Skip the "i18next interpolation" quality check.
 ``ignore-java-format``

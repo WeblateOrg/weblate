@@ -25,6 +25,7 @@ from django.test import SimpleTestCase
 from weblate.checks.format import (
     CFormatCheck,
     CSharpFormatCheck,
+    ESTemplateLiteralsCheck,
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
@@ -859,6 +860,49 @@ class I18NextInterpolationCheckTest(CheckTestCase):
     def test_wrong_format(self):
         self.assertTrue(
             self.check.check_format("{{foo}} string", "{{bar}} string", False)
+        )
+
+
+class ESTemplateLiteralsCheck(CheckTestCase):
+    check = ESTemplateLiteralsCheck()
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            "es-format",
+            "${foo} string ${bar}",
+            [(0, 6, "${foo}"), (14, 20, "${bar}")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("strins", "string", False))
+
+    def test_format(self):
+        self.assertFalse(
+            self.check.check_format("${foo} string", "${foo} string", False)
+        )
+        self.assertFalse(
+            self.check.check_format("${ foo } string", "${ foo } string", False)
+        )
+        self.assertFalse(
+            self.check.check_format("${ foo } string", "${foo} string", False)
+        )
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format("${foo} string", "string", False))
+
+    def test_wrong_format(self):
+        self.assertTrue(
+            self.check.check_format("${foo} string", "${bar} string", False)
+        )
+
+    def test_description(self):
+        unit = Unit(source="${foo}", target="${bar}", extra_flags="es-format",)
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Following format strings are missing: ${foo}<br />"
+            "Following format strings are extra: ${bar}",
         )
 
 

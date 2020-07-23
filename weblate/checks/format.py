@@ -173,6 +173,18 @@ I18NEXT_MATCH = re.compile(
     re.VERBOSE,
 )
 
+ES_TEMPLATE_MATCH = re.compile(
+    r"""
+    \${             # start symbol
+        \s*         # ignore whitespace
+        (([^}]+))   # variable name
+        \s*         # ignore whitespace
+    }               # end symbol
+    """,
+    re.VERBOSE,
+)
+
+
 PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 
 WHITESPACE = re.compile(r"\s+")
@@ -500,6 +512,21 @@ class I18NextInterpolationCheck(BaseFormatCheck):
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
+
+
+class ESTemplateLiteralsCheck(BaseFormatCheck):
+    """Check for ES template literals."""
+
+    check_id = "es_format"
+    name = _("ECMAScript template literals")
+    description = _("ECMAScript template literals do not match source")
+    regexp = ES_TEMPLATE_MATCH
+
+    def cleanup_string(self, text):
+        return WHITESPACE.sub("", text)
+
+    def format_string(self, string):
+        return f"${{{string}}}"
 
 
 class PercentPlaceholdersCheck(BaseFormatCheck):
