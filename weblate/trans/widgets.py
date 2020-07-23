@@ -110,7 +110,7 @@ class BitmapWidget(ContentWidget):
     content_type = "image/png"
     order = 100
     show = True
-    head_template = '<span letter_spacing="-1000"><b>{}</b></span>'
+    head_template = '<span letter_spacing="-500"><b>{}</b></span>'
     foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
     offset = 0
