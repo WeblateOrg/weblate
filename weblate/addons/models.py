@@ -121,7 +121,7 @@ class Addon(models.Model):
     def delete(self, *args, **kwargs):
         # Delete any addon alerts
         if self.addon.alert:
-            self.component.alert_set.filter(name=self.addon.alert).delete()
+            self.component.delete_alert(self.addon.alert)
         super().delete(*args, **kwargs)
 
 
