@@ -23,6 +23,7 @@ Not yet released.
 * Added check for ECMAScript template literals.
 * Added option to watch a component.
 * Removed leading dot from JSON unit keys.
+* Removed separate Celery queue for translation memory.
 
 Weblate 4.1.1
 -------------

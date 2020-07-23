@@ -142,6 +142,7 @@ Notable configuration or dependencies changes:
 * There are some new and updated requirements.
 * There are several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
 * The keys for JSON based formats no longer include leading dot. The strings are adjusted during the database migration, but external components might need adjustment in case you rely on keys in exports or API.
+* The Celery configuration was changed to no longer use ``memory`` queue. Please adjust your startup scripts and :setting:`CELERY_TASK_ROUTES`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
