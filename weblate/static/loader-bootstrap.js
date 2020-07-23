@@ -734,6 +734,15 @@ $(function () {
 
   /* Copy to clipboard */
   var clipboard = new ClipboardJS("[data-clipboard-text]");
+  clipboard.on("success", function (e) {
+    addAlert(gettext("Text copied to clipboard."), (kind = "info"));
+  });
+  clipboard.on("error", function (e) {
+    addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
+  });
+  $("[data-clipboard-text]").on("click", function (e) {
+    e.preventDefault();
+  });
 
   /* Auto translate source select */
   var select_auto_source = $('input[name="auto_source"]');
