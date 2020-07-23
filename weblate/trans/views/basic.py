@@ -20,6 +20,7 @@
 
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_str
@@ -179,12 +180,20 @@ def show_project(request, project):
 def show_component(request, project, component):
     obj = get_component(request, project, component)
     user = request.user
-    user_can_access_namespace = bool(
-        user.groups.filter(roles__name=ACCESS_NAMESPACE).count()
+    user_namespace_query = user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
+        "name"
     )
+    user_can_access_namespace = bool(user_namespace_query.count())
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
+    translations_query = obj.translation_set
+    if user_namespace_query.count():
+        namespace = user_namespace_query[0].name
+        translations_query = translations_query.filter(
+            ~Q(language_code__contains=NAMESPACE_SEPARATOR)
+            | Q(language_code__contains=NAMESPACE_SEPARATOR + namespace)
+        )
     return render(
         request,
         "component.html",
@@ -192,9 +201,7 @@ def show_component(request, project, component):
             "allow_index": True,
             "object": obj,
             "project": obj.project,
-            "translations": sort_objects(
-                prefetch_stats(obj.translation_set.exclude(language_code__contains=NAMESPACE_SEPARATOR).prefetch())
-            ),
+            "translations": sort_objects(prefetch_stats(translations_query.prefetch())),
             "reports_form": ReportsForm(),
             "last_changes": last_changes,
             "last_changes_url": urlencode(

@@ -20,6 +20,7 @@
 
 
 from django.contrib.auth.decorators import permission_required
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
@@ -36,15 +37,24 @@ from weblate.trans.util import sort_objects
 from weblate.utils import messages
 from weblate.utils.stats import GlobalStats, prefetch_stats
 from weblate.utils.views import get_paginator, get_project
-from weblate.vendasta.constants import NAMESPACE_SEPARATOR
+from weblate.vendasta.constants import NAMESPACE_SEPARATOR, ACCESS_NAMESPACE
 
 
 def show_languages(request):
     if request.user.has_perm("language.edit"):
         languages = Language.objects.all()
     else:
-        languages = Language.objects.have_translation()
-    languages = languages.exclude(code__contains=NAMESPACE_SEPARATOR)
+        languages = Language.objects.exclude(translation=None, code__contains=NAMESPACE_SEPARATOR)
+        namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
+            "name"
+        )
+        if bool(namespace_query.count()):
+            namespace = namespace_query[0].name
+            languages = Language.objects.filter(
+                ~Q(translation=None),
+                ~Q(code__contains=NAMESPACE_SEPARATOR) | Q(code__contains=NAMESPACE_SEPARATOR + namespace)
+            )
+
     return render(
         request,
         "languages.html",
