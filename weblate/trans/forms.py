@@ -51,6 +51,7 @@ from weblate.checks import CHECKS
 from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
+from weblate.logger import LOGGER
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
@@ -1011,16 +1012,20 @@ class NewNamespacedLanguageForm(NewLanguageForm):
         customized_translations = component.translation_set.filter(
             language_code__contains=NAMESPACE_SEPARATOR + namespace
         )
+        LOGGER.info("########## num customized translations: %s", customized_translations.count())
         customized_codes = [
             t.language_code.split(NAMESPACE_SEPARATOR)[0]
             for t in customized_translations
         ]
+        LOGGER.info("########## customized codes: %s", ",".join(customized_codes))
         base_translations = component.translation_set.exclude(
             language_code__contains=NAMESPACE_SEPARATOR
         )
+        LOGGER.info("########## num base translations: %s", base_translations.count())
         uncustomized_translations = base_translations.exclude(
             language_code__in=customized_codes
         )
+        LOGGER.info("########## num uncustomized translations: %s", uncustomized_translations.count())
 
         self.fields["lang"].choices = sort_choices(
             [
