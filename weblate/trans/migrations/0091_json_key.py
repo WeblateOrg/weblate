@@ -23,6 +23,8 @@ def migrate_componentlist(apps, schema_editor):
         )
     )
     count = units.count()
+    if not count:
+        return
     progress = -1
     for pos, unit in enumerate(units.iterator()):
         if unit.context.startswith("."):
