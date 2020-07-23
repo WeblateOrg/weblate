@@ -333,3 +333,27 @@ operation again.
 
 The default limits are described in the administrative manual in
 :ref:`rate-limit`, but can be tweaked by configuration.
+
+.. _bulk-edit:
+
+Bulk edit
+---------
+
+Bulk edit allows you to perform operation on number of strings. You define
+search strings and operation to perform and all matching strings are updated.
+Following operations are supported:
+
+* Changing string state (for example to approve all strings waiting for review)
+* Adjust translation flags (see :ref:`custom-checks`)
+* Adjust string labels (see :ref:`labels`)
+
+.. hint::
+
+    This tool is called :guilabel:`Bulk edit` accessible in the
+    :guilabel:`Tools` menu for each project, component or translation.
+
+
+
+.. seealso::
+
+   :ref:`Bulk edit addon <addon-weblate.flags.bulk>`

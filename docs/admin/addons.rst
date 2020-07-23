@@ -103,6 +103,10 @@ Automating the labeling of new strings can be useful (start out with search quer
 has:label`` and add desired labels till all strings are properly labeled).
 You can also carry out any other automated operations for Weblate metadata.
 
+.. seealso::
+
+   :ref:`bulk-edit`
+
 
 .. _addon-weblate.flags.same_edit:
 
