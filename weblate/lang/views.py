@@ -53,6 +53,7 @@ def show_languages(request):
         if bool(namespace_query.count()):
             namespace = namespace_query[0].name
             languages = Language.objects.filter(
+                ~Q(translation=None),
                 ~Q(code__contains=NAMESPACE_SEPARATOR)
                 | Q(code__contains=NAMESPACE_SEPARATOR + namespace),
             )
