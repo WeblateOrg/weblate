@@ -1058,6 +1058,19 @@ Container settings
         :doc:`Celery worker options <celery:reference/celery.bin.worker>`,
         :ref:`celery`
 
+.. envvar:: UWSGI_WORKERS
+
+    Configure how many uwsgi workers should be executed.
+
+    It defaults to number of processors + 1.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          UWSGI_WORKERS: 32
+
 .. _docker-volume:
 
 Docker container volumes
