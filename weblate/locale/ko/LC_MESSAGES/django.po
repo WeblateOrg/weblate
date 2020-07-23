@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-22 07:57+0000\n"
+"POT-Creation-Date: 2020-07-23 19:26+0000\n"
 "PO-Revision-Date: 2020-07-21 18:41+0000\n"
 "Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -179,7 +179,7 @@ msgid "Project website"
 msgstr "프로젝트 누리집"
 
 #: weblate/accounts/forms.py:562 weblate/trans/forms.py:1492
-#: weblate/trans/models/component.py:257
+#: weblate/trans/models/component.py:266
 msgid "Source code repository"
 msgstr "소스 코드 저장소"
 
@@ -189,7 +189,7 @@ msgstr "소스 코드 저장소의 URL(예: Git 또는 Mercurial)."
 
 #: weblate/accounts/forms.py:568 weblate/templates/component_info.html:63
 #: weblate/templates/trans/discover-choice.html:5
-#: weblate/trans/models/component.py:322
+#: weblate/trans/models/component.py:331
 msgid "Filemask"
 msgstr "파일 마스크"
 
@@ -533,7 +533,9 @@ msgstr "기본 참여 프로젝트 뷰"
 msgid "Default component list"
 msgstr "기본 구성 요소 목록"
 
-#: weblate/accounts/models.py:406 weblate/templates/watch-dropdown.html:23
+#: weblate/accounts/models.py:406
+#: weblate/templates/snippets/watch-dropdown.html:28
+#: weblate/templates/snippets/watch-dropdown.html:30
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
@@ -806,51 +808,51 @@ msgstr "비밀번호 변경"
 msgid "Password reset has been already completed."
 msgstr "비밀번호 초기화가 이미 완료되었습니다."
 
-#: weblate/accounts/views.py:967
+#: weblate/accounts/views.py:986
 msgid "Could not remove user identity"
 msgstr "사용자 ID를 제거할 수 없습니다"
 
-#: weblate/accounts/views.py:976
+#: weblate/accounts/views.py:995
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "먼저 전자 우편 주소를 확인하여 다른 ID를 추가합니다."
 
-#: weblate/accounts/views.py:1025
+#: weblate/accounts/views.py:1044
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
 "다시 등록하여 신원을 확인해 보십시오. 확인 토큰이 만료되었을 수 있습니다."
 
-#: weblate/accounts/views.py:1032
+#: weblate/accounts/views.py:1051
 msgid "Could not authenticate due to invalid session state."
 msgstr "잘못된 세션 상태로 인해 인증 할 수 없습니다."
 
-#: weblate/accounts/views.py:1039
+#: weblate/accounts/views.py:1058
 msgid "Got no e-mail address from third party authentication service."
 msgstr "타사 인증 서비스에서 전자우편이 없습니다."
 
-#: weblate/accounts/views.py:1041
+#: weblate/accounts/views.py:1060
 msgid "Please register using e-mail instead."
 msgstr "이메일을 사용하여 가입해 주십시오."
 
-#: weblate/accounts/views.py:1048
+#: weblate/accounts/views.py:1067
 msgid "New registrations are turned off."
 msgstr "새로운 등록이 해제되었습니다."
 
-#: weblate/accounts/views.py:1106
+#: weblate/accounts/views.py:1125
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr "토큰이 만료되었거나 연결 오류로 인해 인증에 실패했습니다."
 
-#: weblate/accounts/views.py:1112
+#: weblate/accounts/views.py:1131
 msgid "Authentication cancelled."
 msgstr "인증이 취소되었습니다."
 
-#: weblate/accounts/views.py:1115
+#: weblate/accounts/views.py:1134
 msgid "The server does not allow authentication."
 msgstr "서버가 인증을 허용하지 않습니다."
 
-#: weblate/accounts/views.py:1120
+#: weblate/accounts/views.py:1139
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
@@ -858,11 +860,11 @@ msgstr ""
 "등록을 완료하지 못했습니다. 제공된 인증, 전자우편 주소 또는 사용자 이름이 이"
 "미 다른 계정에 연결되어 있습니다."
 
-#: weblate/accounts/views.py:1145 weblate/accounts/views.py:1158
+#: weblate/accounts/views.py:1164 weblate/accounts/views.py:1177
 msgid "Notification settings adjusted."
 msgstr "알림 설정이 조정되었습니다."
 
-#: weblate/accounts/views.py:1163
+#: weblate/accounts/views.py:1182
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -881,7 +883,7 @@ msgid ""
 "components."
 msgstr "번역엔진 또는 그 외의 구성 요소를 사용해 문자열을 자동으로 번역합니다."
 
-#: weblate/addons/base.py:298 weblate/trans/views/create.py:195
+#: weblate/addons/base.py:300 weblate/trans/views/create.py:195
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -981,7 +983,7 @@ msgstr ""
 "하면 개발자가 만든 번역을 쉽게 골라내 편집할 수 있습니다."
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:71
-#: weblate/templates/component.html:203 weblate/templates/project.html:105
+#: weblate/templates/component.html:213 weblate/templates/project.html:105
 #: weblate/templates/snippets/project-nav.html:77
 #: weblate/templates/snippets/project-nav.html:86
 #: weblate/templates/translation.html:69 weblate/templates/translation.html:275
@@ -1148,7 +1150,7 @@ msgstr "번역 파일과 일치하는 정규 표현식"
 #: weblate/addons/forms.py:236
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:546
-#: weblate/trans/forms.py:1434 weblate/trans/models/component.py:373
+#: weblate/trans/forms.py:1434 weblate/trans/models/component.py:382
 msgid "File format"
 msgstr "파일 유형"
 
@@ -1168,7 +1170,7 @@ msgstr "2개 국어로 번역되는 파일의 경우 비워 두십시오."
 msgid "Define the base file for new translations"
 msgstr "새 번역을 위한 기본 파일 정의하기"
 
-#: weblate/addons/forms.py:257 weblate/trans/models/component.py:367
+#: weblate/addons/forms.py:257 weblate/trans/models/component.py:376
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1176,7 +1178,7 @@ msgstr ""
 "새로운 번역을 만들기 위해 사용되는 파일의 파일 명. Gettext에서는 .pot파일을 "
 "선택하십시오."
 
-#: weblate/addons/forms.py:262 weblate/trans/models/component.py:559
+#: weblate/addons/forms.py:262 weblate/trans/models/component.py:568
 msgid "Language filter"
 msgstr "언어 필터"
 
@@ -1842,7 +1844,7 @@ msgstr "구성 요소 목록에서"
 
 #: weblate/auth/models.py:127 weblate/billing/admin.py:73
 #: weblate/billing/models.py:241 weblate/templates/base.html:123
-#: weblate/templates/billing/status.html:66 weblate/templates/language.html:18
+#: weblate/templates/billing/status.html:67 weblate/templates/language.html:18
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:169
 #: weblate/trans/views/basic.py:83
 msgid "Projects"
@@ -1853,7 +1855,7 @@ msgstr "프로젝트"
 #: weblate/templates/mail/base.html:287
 #: weblate/templates/snippets/project-nav.html:14
 #: weblate/templates/snippets/project-nav.html:19 weblate/trans/forms.py:814
-#: weblate/trans/forms.py:1718 weblate/trans/models/component.py:605
+#: weblate/trans/forms.py:1718 weblate/trans/models/component.py:614
 msgid "Components"
 msgstr "구성 요소"
 
@@ -2022,7 +2024,7 @@ msgstr "문자열의 갯수"
 msgid "N/A"
 msgstr "없음"
 
-#: weblate/billing/models.py:317 weblate/templates/billing/status.html:59
+#: weblate/billing/models.py:317 weblate/templates/billing/status.html:60
 msgid "Last invoice"
 msgstr "최근 청구서"
 
@@ -2285,7 +2287,7 @@ msgid "Font spacing"
 msgstr "글꼴 간격"
 
 #: weblate/checks/flags.py:63 weblate/templates/snippets/sort-field.html:17
-#: weblate/trans/models/component.py:581 weblate/utils/views.py:95
+#: weblate/trans/models/component.py:590 weblate/utils/views.py:95
 msgid "Priority"
 msgstr "우선 순위"
 
@@ -2313,113 +2315,125 @@ msgstr "번역 플래그, 잘못된 파라미터 : \"%s\""
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "번역 플래그, 필요한 파라미터 없음: \"%s\""
 
-#: weblate/checks/format.py:327
+#: weblate/checks/format.py:339
 #, python-format
 msgid "Following format strings are missing: %s"
 msgstr "다음 형식 문자열이 누락됐습니다: %s"
 
-#: weblate/checks/format.py:331
+#: weblate/checks/format.py:343
 #, python-format
 msgid "Following format strings are extra: %s"
 msgstr "다음의 형식 문자열을 추가: %s"
 
-#: weblate/checks/format.py:382
+#: weblate/checks/format.py:394
 msgid "Python format"
 msgstr "파이썬(Python) 형식"
 
-#: weblate/checks/format.py:383
+#: weblate/checks/format.py:395
 msgid "Python format string does not match source"
 msgstr "파이썬 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:390
+#: weblate/checks/format.py:402
 msgid "PHP format"
 msgstr "PHP 형식"
 
-#: weblate/checks/format.py:391
+#: weblate/checks/format.py:403
 msgid "PHP format string does not match source"
 msgstr "PHP 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:398
+#: weblate/checks/format.py:410
 msgid "C format"
 msgstr "C 형식"
 
-#: weblate/checks/format.py:399
+#: weblate/checks/format.py:411
 msgid "C format string does not match source"
 msgstr "C 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:406
+#: weblate/checks/format.py:418
 msgid "Perl format"
 msgstr "Perl 형식"
 
-#: weblate/checks/format.py:407
+#: weblate/checks/format.py:419
 msgid "Perl format string does not match source"
 msgstr "Perl 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:414
+#: weblate/checks/format.py:426
 msgid "JavaScript format"
 msgstr "자바스크립트 형식"
 
-#: weblate/checks/format.py:415
+#: weblate/checks/format.py:427
 msgid "JavaScript format string does not match source"
 msgstr "자바스크립트 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:422
+#: weblate/checks/format.py:434
 msgid "Python brace format"
 msgstr "파이썬 중괄호 형식"
 
-#: weblate/checks/format.py:423
+#: weblate/checks/format.py:435
 msgid "Python brace format string does not match source"
 msgstr "파이썬 중괄호 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:437
+#: weblate/checks/format.py:449
 msgid "C# format"
 msgstr "C# 형식"
 
-#: weblate/checks/format.py:438
+#: weblate/checks/format.py:450
 msgid "C# format string does not match source"
 msgstr "C# 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:452
+#: weblate/checks/format.py:464
 msgid "Java format"
 msgstr "자바 형식"
 
-#: weblate/checks/format.py:453
+#: weblate/checks/format.py:465
 msgid "Java format string does not match source"
 msgstr "자바 형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:460
+#: weblate/checks/format.py:472
 msgid "Java MessageFormat"
 msgstr "자바 메시지형식"
 
-#: weblate/checks/format.py:461
+#: weblate/checks/format.py:473
 msgid "Java MessageFormat string does not match source"
 msgstr "자바 메시지형식 문자열이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:491
+#: weblate/checks/format.py:503
 msgid "You need to pair up an apostrophe with another one."
 msgstr "홑따옴표 짝을 맞춰야 합니다."
 
-#: weblate/checks/format.py:497
+#: weblate/checks/format.py:509
 msgid "i18next interpolation"
 msgstr "i18next 인터폴레이션"
 
-#: weblate/checks/format.py:498
+#: weblate/checks/format.py:510
 msgid "The i18next interpolation does not match source"
 msgstr "i18next 인터폴레이션이 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:507
+#: weblate/checks/format.py:521
+#, fuzzy
+#| msgid "Cached template loader"
+msgid "ECMAScript template literals"
+msgstr "캐쉬된 템플릿 로더"
+
+#: weblate/checks/format.py:522
+#, fuzzy
+#| msgid "JavaScript format string does not match source"
+msgid "ECMAScript template literals do not match source"
+msgstr "자바스크립트 형식 문자열이 원본과 일치하지 않습니다"
+
+#: weblate/checks/format.py:534
 msgid "Percent placeholders"
 msgstr "퍼센트 자리 표시자"
 
-#: weblate/checks/format.py:508
+#: weblate/checks/format.py:535
 msgid "The percent placeholders do not match source"
 msgstr "퍼센트 자리 표시자가 원본과 일치하지 않습니다"
 
-#: weblate/checks/format.py:514
+#: weblate/checks/format.py:541
 msgid "Multiple unnamed variables"
 msgstr "명명되지 않은 여러 변수"
 
-#: weblate/checks/format.py:516
+#: weblate/checks/format.py:543
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -2718,143 +2732,143 @@ msgstr "Excel 오픈 XML"
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:397 weblate/formats/ttkit.py:1070
+#: weblate/formats/exporters.py:397 weblate/formats/ttkit.py:1079
 msgid "Android String Resource"
 msgstr "안드로이드 문자열 리소스"
 
-#: weblate/formats/exporters.py:413 weblate/formats/ttkit.py:963
+#: weblate/formats/exporters.py:413 weblate/formats/ttkit.py:972
 msgid "iOS strings"
 msgstr "iOS 문자열"
 
-#: weblate/formats/ttkit.py:874
+#: weblate/formats/ttkit.py:883
 msgid "gettext PO file"
 msgstr "gettext PO 파일"
 
-#: weblate/formats/ttkit.py:887
+#: weblate/formats/ttkit.py:896
 msgid "gettext PO file (monolingual)"
 msgstr "gettext PO 파일 (단일 단어)"
 
-#: weblate/formats/ttkit.py:902
+#: weblate/formats/ttkit.py:911
 msgid "Qt Linguist translation file"
 msgstr "큐트 언어학자(Qt Linguist) 번역 파일"
 
-#: weblate/formats/ttkit.py:918
+#: weblate/formats/ttkit.py:927
 msgid "XLIFF translation file"
 msgstr "XLIFF 번역 파일"
 
-#: weblate/formats/ttkit.py:933
+#: weblate/formats/ttkit.py:942
 msgid "XLIFF translation file with PO extensions"
 msgstr "PO 확장이 있는 XLIFF 번역 파일"
 
-#: weblate/formats/ttkit.py:972
+#: weblate/formats/ttkit.py:981
 msgid "iOS strings (UTF-8)"
 msgstr "iOS 문자열 (UTF-8)"
 
-#: weblate/formats/ttkit.py:979
+#: weblate/formats/ttkit.py:988
 msgid "Java Properties (UTF-8)"
 msgstr "자바 속성 (UTF-8)"
 
-#: weblate/formats/ttkit.py:987
+#: weblate/formats/ttkit.py:996
 msgid "Java Properties (UTF-16)"
 msgstr "자바 속성 (UTF-16)"
 
-#: weblate/formats/ttkit.py:1002
+#: weblate/formats/ttkit.py:1011
 msgid "Java Properties (ISO 8859-1)"
 msgstr "자바 속성 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1019
+#: weblate/formats/ttkit.py:1028
 msgid "Joomla Language File"
 msgstr "줌라(Joomla) 언어 파일"
 
-#: weblate/formats/ttkit.py:1028
+#: weblate/formats/ttkit.py:1037
 msgid "GWT Properties"
 msgstr "GWT 환경 설정"
 
-#: weblate/formats/ttkit.py:1035
+#: weblate/formats/ttkit.py:1044
 msgid "PHP strings"
 msgstr "PHP 문자열"
 
-#: weblate/formats/ttkit.py:1054
+#: weblate/formats/ttkit.py:1063
 msgid "Laravel PHP strings"
 msgstr "라라벨 PHP 문자열"
 
-#: weblate/formats/ttkit.py:1060
+#: weblate/formats/ttkit.py:1069
 msgid ".NET resource file"
 msgstr "닷넷(.NET) 리소스 파일"
 
-#: weblate/formats/ttkit.py:1081
+#: weblate/formats/ttkit.py:1090
 msgid "JSON file"
 msgstr "JSON 파일"
 
-#: weblate/formats/ttkit.py:1100
+#: weblate/formats/ttkit.py:1109
 msgid "JSON nested structure file"
 msgstr "JSON 중첩 구조 파일"
 
-#: weblate/formats/ttkit.py:1107
+#: weblate/formats/ttkit.py:1116
 msgid "WebExtension JSON file"
 msgstr "웹확장 JSON 파일"
 
-#: weblate/formats/ttkit.py:1116
+#: weblate/formats/ttkit.py:1125
 msgid "i18next JSON file"
 msgstr "i18next JSON 파일"
 
-#: weblate/formats/ttkit.py:1124
+#: weblate/formats/ttkit.py:1133
 msgid "go-i18n JSON file"
 msgstr "go-i18n JSON 파일"
 
-#: weblate/formats/ttkit.py:1131
+#: weblate/formats/ttkit.py:1140
 msgid "ARB file"
 msgstr "ARB 파일"
 
-#: weblate/formats/ttkit.py:1139
+#: weblate/formats/ttkit.py:1148
 msgid "CSV file"
 msgstr "CSV 파일"
 
-#: weblate/formats/ttkit.py:1215
+#: weblate/formats/ttkit.py:1224
 msgid "Simple CSV file"
 msgstr "Simple CSV 파일"
 
-#: weblate/formats/ttkit.py:1236
+#: weblate/formats/ttkit.py:1245
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Simple CSV 파일 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1243
+#: weblate/formats/ttkit.py:1252
 msgid "YAML file"
 msgstr "YAML 파일"
 
-#: weblate/formats/ttkit.py:1262
+#: weblate/formats/ttkit.py:1271
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 파일"
 
-#: weblate/formats/ttkit.py:1269
+#: weblate/formats/ttkit.py:1278
 msgid "DTD file"
 msgstr "DTD 파일"
 
-#: weblate/formats/ttkit.py:1310
+#: weblate/formats/ttkit.py:1319
 msgid "SubRip subtitle file"
 msgstr "SubRip 자막 파일"
 
-#: weblate/formats/ttkit.py:1324
+#: weblate/formats/ttkit.py:1333
 msgid "MicroDVD subtitle file"
 msgstr "마이크로DVD 자막 파일"
 
-#: weblate/formats/ttkit.py:1331
+#: weblate/formats/ttkit.py:1340
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "고급 변전소 알파 자막 파일"
 
-#: weblate/formats/ttkit.py:1338
+#: weblate/formats/ttkit.py:1347
 msgid "SubStation Alpha subtitle file"
 msgstr "변전소 알파 자막 파일"
 
-#: weblate/formats/ttkit.py:1345
+#: weblate/formats/ttkit.py:1354
 msgid "Flat XML file"
 msgstr "플렛 XML 파일"
 
-#: weblate/formats/ttkit.py:1354
+#: weblate/formats/ttkit.py:1363
 msgid "INI file"
 msgstr "INI 파일"
 
-#: weblate/formats/ttkit.py:1389
+#: weblate/formats/ttkit.py:1398
 msgid "InnoSetup INI file"
 msgstr "이노셋업(InnoSetup) INI 파일"
 
@@ -4469,7 +4483,7 @@ msgstr "대문자가 첫 문자로 있는 구성 요소 파일 이름"
 #: weblate/templates/language-project.html:51 weblate/templates/project.html:32
 #: weblate/templates/translate.html:263 weblate/templates/translation.html:187
 #: weblate/trans/forms.py:1354 weblate/trans/models/announcement.py:90
-#: weblate/trans/models/component.py:604
+#: weblate/trans/models/component.py:613
 msgid "Component"
 msgstr "구성 요소"
 
@@ -4514,7 +4528,7 @@ msgid "Translation filename"
 msgstr "번역 파일이름"
 
 #: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1340
-#: weblate/trans/models/component.py:230
+#: weblate/trans/models/component.py:239
 msgid "Component name"
 msgstr "구성 요소 이름"
 
@@ -4580,7 +4594,7 @@ msgstr "관리"
 msgid "Configuration errors"
 msgstr "설정 오류"
 
-#: weblate/templates/base.html:200 weblate/templates/component.html:239
+#: weblate/templates/base.html:200 weblate/templates/component.html:249
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
@@ -4599,7 +4613,7 @@ msgstr "설정 오류"
 msgid "Add"
 msgstr "추가"
 
-#: weblate/templates/base.html:202 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:202 weblate/templates/billing/status.html:75
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "새로운 번역 프로젝트 추가"
@@ -4770,57 +4784,57 @@ msgid ""
 "grant you access."
 msgstr "프로젝트의 결제 기능에 접근할 수 없는 경우 관리자에게 연락하십시오."
 
-#: weblate/templates/billing/status.html:7
+#: weblate/templates/billing/status.html:8
 msgid "Current plan"
 msgstr "현재 플랜"
 
-#: weblate/templates/billing/status.html:8
+#: weblate/templates/billing/status.html:9
 #, python-format
 msgid ", expires %(expires)s"
 msgstr ", %(expires)s 만기됨"
 
-#: weblate/templates/billing/status.html:12
+#: weblate/templates/billing/status.html:13
 msgid "Change plan"
 msgstr "플랜 변경"
 
-#: weblate/templates/billing/status.html:18
+#: weblate/templates/billing/status.html:19
 msgid "Monthly price"
 msgstr "월간 가격"
 
-#: weblate/templates/billing/status.html:29
-#: weblate/templates/billing/status.html:44
+#: weblate/templates/billing/status.html:30
+#: weblate/templates/billing/status.html:45
 #: weblate/templates/mail/billing_expired.html:29
 msgid "New payment"
 msgstr "새 결제"
 
-#: weblate/templates/billing/status.html:35
+#: weblate/templates/billing/status.html:36
 msgid "Yearly price"
 msgstr "연간 가격"
 
-#: weblate/templates/billing/status.html:49
+#: weblate/templates/billing/status.html:50
 msgid "Strings limit"
 msgstr "문자열 제한"
 
-#: weblate/templates/billing/status.html:54
+#: weblate/templates/billing/status.html:55
 msgid "Languages limit"
 msgstr "언어 제한"
 
-#: weblate/templates/billing/status.html:61
+#: weblate/templates/billing/status.html:62
 msgid "Projects limit"
 msgstr "프로젝트 제한"
 
-#: weblate/templates/billing/status.html:71
+#: weblate/templates/billing/status.html:72
 msgid "No projects currently assigned!"
 msgstr "현재 지정된 프로젝트가 없습니다!"
 
 #. Translators: Number of projects/repositories/strings used in billing when there is no limit
-#: weblate/templates/billing/used.html:6
+#: weblate/templates/billing/used.html:7
 #, python-format
 msgid "Used %(used)s"
 msgstr "%(used)s 사용됨"
 
 #. Translators: Number of projects/repositories/strings used in billing from given limit
-#: weblate/templates/billing/used.html:9
+#: weblate/templates/billing/used.html:10
 #, python-format
 msgid "Used %(used)s of %(total)s"
 msgstr "%(total)s 의 %(used)s 사용됨"
@@ -4868,7 +4882,7 @@ msgstr "프로젝트 액세스 관리를 변경할 권한이 없습니다."
 #: weblate/templates/snippets/list-objects.html:14 weblate/trans/forms.py:1408
 #: weblate/trans/forms.py:1480 weblate/trans/forms.py:1947
 #: weblate/trans/models/announcement.py:83
-#: weblate/trans/models/component.py:241 weblate/trans/models/component.py:266
+#: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
 #: weblate/trans/models/project.py:168
 msgid "Project"
 msgstr "프로젝트"
@@ -4888,8 +4902,8 @@ msgstr "처리됨"
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
 #: weblate/templates/engage.html:33
 #: weblate/templates/snippets/list-objects.html:15
-#: weblate/templates/translation.html:407 weblate/trans/widgets.py:272
-#: weblate/trans/widgets.py:288
+#: weblate/templates/translation.html:407 weblate/trans/widgets.py:273
+#: weblate/trans/widgets.py:291
 msgid "Translated"
 msgstr "번역됨"
 
@@ -5041,7 +5055,7 @@ msgid "Tools"
 msgstr "도구"
 
 #. Translators: Name of event in the history
-#: weblate/templates/component.html:68 weblate/templates/component.html:185
+#: weblate/templates/component.html:68 weblate/templates/component.html:195
 #: weblate/templates/project.html:87 weblate/templates/replace.html:14
 #: weblate/templates/snippets/project-nav.html:74
 #: weblate/templates/snippets/project-nav.html:83
@@ -5099,7 +5113,7 @@ msgstr "저장소 유지 보수"
 msgid "Screenshots"
 msgstr "갈무리"
 
-#: weblate/templates/component.html:97 weblate/templates/component.html:231
+#: weblate/templates/component.html:97 weblate/templates/component.html:241
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:125
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/snippets/project-nav.html:115
@@ -5107,7 +5121,7 @@ msgstr "갈무리"
 msgid "Post announcement"
 msgstr "공지사항 작성"
 
-#: weblate/templates/component.html:108 weblate/templates/component.html:264
+#: weblate/templates/component.html:108 weblate/templates/component.html:274
 #: weblate/templates/project.html:158
 #: weblate/templates/snippets/project-nav.html:129
 #: weblate/templates/snippets/project-nav.html:132
@@ -5158,16 +5172,22 @@ msgid "Please sign in to start new translation"
 msgstr "새로운 번역을 시작하시려면 로그인하십시오"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
-#: weblate/templates/component.html:154
+#: weblate/templates/component.html:156
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
 msgstr "%(first)s에 나타남, %(last)s에 마지막으로 봄"
 
-#: weblate/templates/component.html:158
+#: weblate/templates/component.html:160
+#: weblate/templates/manage/performance.html:42
+#: weblate/templates/translate.html:409
+msgid "Dismiss"
+msgstr "해제"
+
+#: weblate/templates/component.html:168
 msgid "Please sign in to see the alerts."
 msgstr "알림을 보려면 로그인하십시오."
 
-#: weblate/templates/component.html:187 weblate/templates/project.html:89
+#: weblate/templates/component.html:197 weblate/templates/project.html:89
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
@@ -5175,27 +5195,27 @@ msgstr ""
 "문자열의 모든 인스턴스를 대체할 수 있습니다. 검색은 간단한 하위 문자열 대소문"
 "자 구분 검색입니다."
 
-#: weblate/templates/component.html:192 weblate/templates/project.html:94
+#: weblate/templates/component.html:202 weblate/templates/project.html:94
 #: weblate/templates/replace.html:52 weblate/templates/translation.html:264
 msgid "Replace"
 msgstr "교체"
 
-#: weblate/templates/component.html:205 weblate/templates/translation.html:277
+#: weblate/templates/component.html:215 weblate/templates/translation.html:277
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 "주어진 유형과 일치하는 모든 문자열의 상태를 한 번에 바꾸실 수 있습니다."
 
-#: weblate/templates/component.html:209 weblate/templates/project.html:111
+#: weblate/templates/component.html:219 weblate/templates/project.html:111
 #: weblate/templates/translation.html:245
 #: weblate/templates/translation.html:281
 msgid "Apply"
 msgstr "적용"
 
-#: weblate/templates/component.html:218 weblate/templates/translate.html:307
+#: weblate/templates/component.html:228 weblate/templates/translate.html:307
 msgid "Browse all component changes"
 msgstr "모든 구성 요소 변경 사항 찾아보기"
 
-#: weblate/templates/component.html:236
+#: weblate/templates/component.html:246
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
@@ -5203,11 +5223,11 @@ msgstr ""
 "이 메시지는 구성 요소 내의 모든 번역에 대해 지정된 만기일까지 또는 영구적으"
 "로 삭제될 때까지 표시됩니다."
 
-#: weblate/templates/component.html:256
+#: weblate/templates/component.html:266
 msgid "Rename component"
 msgstr "구성 요소 이름 변경"
 
-#: weblate/templates/component.html:259
+#: weblate/templates/component.html:269
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
@@ -5215,11 +5235,11 @@ msgstr ""
 "구성 요소의 이름을 변경하면 모든 URL 또한 변경될 것입니다, 사용자는 복사된 저"
 "장소에서 북마크나 참조를 업데이트해야 합니다!"
 
-#: weblate/templates/component.html:271
+#: weblate/templates/component.html:281
 msgid "Move component"
 msgstr "구성 요소 이동"
 
-#: weblate/templates/component.html:274
+#: weblate/templates/component.html:284
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
@@ -5227,16 +5247,16 @@ msgstr ""
 "구성 요소를 이동하면 URL 또한 변경될 것입니다, 사용자는 복사된 저장소에서 북"
 "마크나 참조를 업데이트해야 합니다!"
 
-#: weblate/templates/component.html:279
+#: weblate/templates/component.html:289
 msgid "Move"
 msgstr "이동"
 
-#: weblate/templates/component.html:290 weblate/templates/project.html:168
+#: weblate/templates/component.html:300 weblate/templates/project.html:168
 #: weblate/templates/translate.html:301 weblate/templates/translation.html:371
 msgid "Loading…"
 msgstr "로드 중…"
 
-#: weblate/templates/component.html:297
+#: weblate/templates/component.html:307
 #: weblate/templates/dashboard/user.html:100 weblate/templates/project.html:175
 msgid ""
 "You don't have permission to view reports for all users, only your "
@@ -5244,12 +5264,12 @@ msgid ""
 msgstr ""
 "모든 사용자에 대한 보고서를 볼 수 있는 권한이 없으며, 기여도만 나열됩니다."
 
-#: weblate/templates/component.html:307
+#: weblate/templates/component.html:317
 #: weblate/templates/dashboard/user.html:110 weblate/templates/project.html:185
 msgid "Credits"
 msgstr "크레딧"
 
-#: weblate/templates/component.html:311
+#: weblate/templates/component.html:321
 msgid ""
 "Lists all translators contributing to this component in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
@@ -5258,7 +5278,7 @@ msgstr ""
 "주어진 기간 동안이 구성 요소에 기여하는 모든 번역자를 나열합니다. 번역가에게 "
 "감사하고 의견을 내기 위해 문서 또는 앱 자체에 포함할 때 유용합니다."
 
-#: weblate/templates/component.html:315 weblate/templates/component.html:334
+#: weblate/templates/component.html:325 weblate/templates/component.html:344
 #: weblate/templates/dashboard/user.html:118
 #: weblate/templates/dashboard/user.html:137
 #: weblate/templates/manage/ssh.html:48 weblate/templates/project.html:193
@@ -5266,12 +5286,12 @@ msgstr ""
 msgid "Generate"
 msgstr "생성하기"
 
-#: weblate/templates/component.html:326
+#: weblate/templates/component.html:336
 #: weblate/templates/dashboard/user.html:129 weblate/templates/project.html:204
 msgid "Contributor stats"
 msgstr "참여자 통계"
 
-#: weblate/templates/component.html:330
+#: weblate/templates/component.html:340
 #: weblate/templates/dashboard/user.html:133 weblate/templates/project.html:208
 msgid "Reports the number of strings and words translated by each translator."
 msgstr "각 변역자들에 의해 번역된 문자열 및 단어 수를 보고합니다."
@@ -5322,13 +5342,13 @@ msgstr "번역은 2개 국어로 된 파일을 사용합니다."
 
 #: weblate/templates/component_info.html:42
 #: weblate/templates/snippets/license_info.html:6
-#: weblate/trans/models/component.py:433
+#: weblate/trans/models/component.py:442
 msgid "Translation license"
 msgstr "번역 허가서"
 
 #: weblate/templates/component_info.html:55
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/trans/models/component.py:440
+#: weblate/trans/models/component.py:449
 msgid "Contributor agreement"
 msgstr "기여자 계약"
 
@@ -5346,7 +5366,7 @@ msgid "View"
 msgstr "보기"
 
 #: weblate/templates/component_info.html:68
-#: weblate/trans/models/component.py:332
+#: weblate/trans/models/component.py:341
 msgid "Monolingual base language file"
 msgstr "단일언어 기반 언어 파일"
 
@@ -5531,13 +5551,13 @@ msgstr ""
 "%(project)s는 개발자와 번역자를 위해 쉽게 디자인된 웹 툴인 "
 "%(weblate_name_link)s를 이용하여 번역되고 있습니다."
 
-#: weblate/templates/engage.html:25 weblate/trans/widgets.py:256
+#: weblate/templates/engage.html:25 weblate/trans/widgets.py:257
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "문자열"
 
-#: weblate/templates/engage.html:29 weblate/trans/widgets.py:266
+#: weblate/templates/engage.html:29 weblate/trans/widgets.py:267
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
@@ -6507,11 +6527,17 @@ msgstr ""
 msgid "Component alerts"
 msgstr "구성 요소 알림"
 
-#: weblate/templates/manage/alerts.html:30
+#: weblate/templates/manage/alerts.html:22
+#, fuzzy
+#| msgid "Dismissed"
+msgid "dismissed"
+msgstr "처리됨"
+
+#: weblate/templates/manage/alerts.html:33
 msgid "Projects without components"
 msgstr "컴포넌트 없는 프로젝트"
 
-#: weblate/templates/manage/alerts.html:42
+#: weblate/templates/manage/alerts.html:45
 #: weblate/templates/manage/performance.html:92
 msgid "Congratulations, your setup seems to work."
 msgstr "축하합니다, 설치가 제대로 작동할 것으로 보입니다."
@@ -6602,11 +6628,6 @@ msgstr "성능 보고"
 #: weblate/templates/manage/performance.html:25
 msgid "Last occurrence"
 msgstr "최종 발생"
-
-#: weblate/templates/manage/performance.html:42
-#: weblate/templates/translate.html:409
-msgid "Dismiss"
-msgstr "해제"
 
 #: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
@@ -7158,7 +7179,7 @@ msgid "Repository"
 msgstr "저장소"
 
 #: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1367
-#: weblate/trans/forms.py:1500 weblate/trans/models/component.py:306
+#: weblate/trans/forms.py:1500 weblate/trans/models/component.py:315
 msgid "Repository branch"
 msgstr "저장소 가지"
 
@@ -7441,7 +7462,7 @@ msgstr "의견 개수"
 
 #. Translators: Translation key for monolingual translations
 #: weblate/templates/snippets/sort-field.html:23
-#: weblate/trans/models/component.py:2537 weblate/utils/views.py:101
+#: weblate/trans/models/component.py:2546 weblate/utils/views.py:101
 msgctxt "Translation key"
 msgid "Key"
 msgstr "키"
@@ -7539,6 +7560,45 @@ msgstr "의견있음"
 msgctxt "String state"
 msgid "Suggested"
 msgstr "제안됨"
+
+#: weblate/templates/snippets/watch-dropdown.html:9
+msgid "Watching"
+msgstr "참여중"
+
+#: weblate/templates/snippets/watch-dropdown.html:13
+#, python-format
+msgid "Unwatch project %(project)s"
+msgstr "%(project)s 프로젝트 참여 해제하기"
+
+#: weblate/templates/snippets/watch-dropdown.html:15
+#: weblate/templates/snippets/watch-dropdown.html:18
+#, python-format
+msgid "Customize notifications for %(object)s"
+msgstr "%(object)s 에 대한 알림 사용자 지정"
+
+#: weblate/templates/snippets/watch-dropdown.html:16
+#: weblate/templates/snippets/watch-dropdown.html:19
+#, python-format
+msgid "Mute notifications for %(object)s"
+msgstr "%(object)s 에 대한 알림 음소거"
+
+#: weblate/templates/snippets/watch-dropdown.html:24
+#, fuzzy
+#| msgid "Watching"
+msgid "Not watching"
+msgstr "참여중"
+
+#: weblate/templates/snippets/watch-dropdown.html:28
+#, fuzzy, python-format
+#| msgid "Unwatch project %(project)s"
+msgid "Watch project %(project)s"
+msgstr "%(project)s 프로젝트 참여 해제하기"
+
+#: weblate/templates/snippets/watch-dropdown.html:30
+#, fuzzy, python-format
+#| msgid "New translation component %(component)s"
+msgid "Watch component %(component)s"
+msgstr "새로운 번역 구성 요소 %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -7728,7 +7788,7 @@ msgstr ""
 "로 병합하거나 이것이 자동으로 후크되도록 설정하십시오."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
-#: weblate/trans/forms.py:1483 weblate/trans/models/component.py:245
+#: weblate/trans/forms.py:1483 weblate/trans/models/component.py:254
 msgid "Version control system"
 msgstr "버전 관리 시스템"
 
@@ -8377,31 +8437,6 @@ msgstr "최종 변경 사항"
 msgid "Last author"
 msgstr "최종 저자"
 
-#: weblate/templates/watch-dropdown.html:9
-msgid "Watching"
-msgstr "참여중"
-
-#: weblate/templates/watch-dropdown.html:13
-#, python-format
-msgid "Unwatch project %(project)s"
-msgstr "%(project)s 프로젝트 참여 해제하기"
-
-#: weblate/templates/watch-dropdown.html:15
-#: weblate/templates/watch-dropdown.html:18
-#, python-format
-msgid "Customize notifications for %(object)s"
-msgstr "%(object)s 에 대한 알림 사용자 지정"
-
-#: weblate/templates/watch-dropdown.html:16
-#: weblate/templates/watch-dropdown.html:19
-#, python-format
-msgid "Mute notifications for %(object)s"
-msgstr "%(object)s 에 대한 알림 음소거"
-
-#: weblate/templates/watch-dropdown.html:23
-msgid "Watch"
-msgstr "참여하기"
-
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
 msgstr "위젯"
@@ -8946,17 +8981,17 @@ msgstr "단일 언어 번역"
 msgid "Adding new languages"
 msgstr "새로운 언어 추가"
 
-#: weblate/trans/forms.py:1342 weblate/trans/models/component.py:232
+#: weblate/trans/forms.py:1342 weblate/trans/models/component.py:241
 #: weblate/trans/models/componentlist.py:43 weblate/trans/models/project.py:80
 msgid "Display name"
 msgstr "표시된 이름"
 
-#: weblate/trans/forms.py:1345 weblate/trans/models/component.py:235
+#: weblate/trans/forms.py:1345 weblate/trans/models/component.py:244
 #: weblate/trans/models/componentlist.py:47 weblate/trans/models/project.py:83
 msgid "URL slug"
 msgstr "URL 슬러그"
 
-#: weblate/trans/forms.py:1347 weblate/trans/models/component.py:237
+#: weblate/trans/forms.py:1347 weblate/trans/models/component.py:246
 #: weblate/trans/models/componentlist.py:51 weblate/trans/models/project.py:86
 msgid "Name used in URLs and filenames."
 msgstr "URL 및 파일 이름에 사용 되는 이름입니다."
@@ -8986,7 +9021,7 @@ msgstr ""
 "저장소의 URL은 다른 구성 요소와 공유하기 위해 weblate://project/component를 "
 "사용합니다."
 
-#: weblate/trans/forms.py:1502 weblate/trans/models/component.py:308
+#: weblate/trans/forms.py:1502 weblate/trans/models/component.py:317
 msgid "Repository branch to translate"
 msgstr "번역할 저장소 분기"
 
@@ -9104,87 +9139,87 @@ msgid "Author username"
 msgstr "작성자 이름"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:146
+#: weblate/trans/models/alert.py:148
 msgid "Duplicated string found in the file."
 msgstr "파일에 중복된 문자열이 있습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:153
+#: weblate/trans/models/alert.py:155
 msgid "Duplicated translation."
 msgstr "중복된 문자열."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:174
+#: weblate/trans/models/alert.py:176
 msgid "Duplicated filemask."
 msgstr "중복된 파일마스크."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:185
+#: weblate/trans/models/alert.py:187
 msgid "Could not merge the repository."
 msgstr "저장소를 병합할 수 없습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:192
+#: weblate/trans/models/alert.py:194
 msgid "Could not update the repository."
 msgstr "저장소를 업데이트 할 수 없습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:199
+#: weblate/trans/models/alert.py:201
 msgid "Could not push the repository."
 msgstr "저장소를 푸시 할 수 없습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:206
+#: weblate/trans/models/alert.py:208
 msgid "Could not parse translation files."
 msgstr "번역 파일을 구문 분석할 수 없습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:213
+#: weblate/trans/models/alert.py:215
 msgid "Your billing plan has exceeded its limits."
 msgstr "당신의 결제 플랜이 한도 초과하였습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:219
+#: weblate/trans/models/alert.py:221
 msgid "Repository outdated."
 msgstr "저장소가 오래되었습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:226
+#: weblate/trans/models/alert.py:228
 msgid "Repository has changes."
 msgstr "저장소가 변경 사항이 있습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:233
+#: weblate/trans/models/alert.py:235
 msgid "License info missing."
 msgstr "라이선스 정보가 없습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:239 weblate/trans/models/alert.py:245
+#: weblate/trans/models/alert.py:241 weblate/trans/models/alert.py:247
 msgid "Could not run addon."
 msgstr "애드온을 실행할 수 없습니다."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:251
+#: weblate/trans/models/alert.py:253
 msgid "Misconfigured monolingual translation."
 msgstr "잘못 구성된 단일 언어 번역."
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:257
+#: weblate/trans/models/alert.py:259
 msgid "Unsupported component configuration"
 msgstr "지원되지 않는 구성 요소 설정"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:268
+#: weblate/trans/models/alert.py:270
 msgid "Broken repository browser URL"
 msgstr "저장소 탐색기 URL이 잘못됨"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:279
+#: weblate/trans/models/alert.py:282
 msgid "Broken project website URL"
 msgstr "프로젝트 누리집의 URL이 잘못됨"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:289
+#: weblate/trans/models/alert.py:293
 msgid "Unused screenshot"
 msgstr "갈무리가 사용되지 않음"
 
@@ -9535,7 +9570,7 @@ msgstr "자바 스타일"
 msgid "Merge"
 msgstr "병합"
 
-#: weblate/trans/models/component.py:248
+#: weblate/trans/models/component.py:257
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -9544,7 +9579,7 @@ msgstr ""
 "번역이 포함된 저장소에 접근하는데 사용할 버전 제어 시스템. 또한 병합 요청을 "
 "제출하기 위해 타사 공급자와의 추가 통합을 선택할 수 있습니다."
 
-#: weblate/trans/models/component.py:260
+#: weblate/trans/models/component.py:269
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -9552,19 +9587,19 @@ msgstr ""
 "저장소의 URL을 사용하여 weblate://project/component를 다른 구성 요소와 공유하"
 "십시오."
 
-#: weblate/trans/models/component.py:272
+#: weblate/trans/models/component.py:281
 msgid "Repository push URL"
 msgstr "저장소에 Push할 URL"
 
-#: weblate/trans/models/component.py:275
+#: weblate/trans/models/component.py:284
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr "올리기(Push) 저장소의 URL, 올리기(Push) 저장소가 비어 있으면 꺼집니다."
 
-#: weblate/trans/models/component.py:280
+#: weblate/trans/models/component.py:289
 msgid "Repository browser"
 msgstr "저장소 탐색기"
 
-#: weblate/trans/models/component.py:282
+#: weblate/trans/models/component.py:291
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
@@ -9572,19 +9607,19 @@ msgstr ""
 "저장소 탐색기로 연결합니다, 분기로 {{branch}} 를, 파일 이름과 줄 플레이스홀더"
 "로 {{filename}}과 {{line}}를 사용하십시오."
 
-#: weblate/trans/models/component.py:289
+#: weblate/trans/models/component.py:298
 msgid "Exported repository URL"
 msgstr "내보내기된 저장소 URL"
 
-#: weblate/trans/models/component.py:292
+#: weblate/trans/models/component.py:301
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr "사용자가 웨블레이트에서 변경사항을 가져올 수 있는 저장소 URL"
 
-#: weblate/trans/models/component.py:297
+#: weblate/trans/models/component.py:306
 msgid "Source string bug reporting address"
 msgstr "원본 문자열 버그 보고 주소"
 
-#: weblate/trans/models/component.py:299
+#: weblate/trans/models/component.py:308
 msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
@@ -9592,16 +9627,16 @@ msgstr ""
 "원본 문자열의 오류에 대한 보고서의 이메일 주소입니다. 이메일 주소이 없으면 비"
 "워 둡니다."
 
-#: weblate/trans/models/component.py:313
+#: weblate/trans/models/component.py:322
 msgid "Push branch"
 msgstr "분기 푸시"
 
-#: weblate/trans/models/component.py:316
+#: weblate/trans/models/component.py:325
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
 "변경 사항을 분기에 푸시하기 위한 분기, 저장소 분기를 사용하려면 비워 두십시오"
 
-#: weblate/trans/models/component.py:326
+#: weblate/trans/models/component.py:335
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -9609,7 +9644,7 @@ msgstr ""
 "저장소 루트와 관련되어 번역할 파일 경로, 언어 코드 대신 * 를 사용하세요. 예"
 "를 들면 다음과 같습니다: po/*.po 또는 locale/*/LC_MESSAGE/django.po."
 
-#: weblate/trans/models/component.py:336
+#: weblate/trans/models/component.py:345
 msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
@@ -9617,21 +9652,21 @@ msgstr ""
 "모든 문자열과 원본이 포함된 번역 기반 파일의 파일 이름. 단일 언어 번역 형식"
 "에 권장됩니다."
 
-#: weblate/trans/models/component.py:343
+#: weblate/trans/models/component.py:352
 msgid "Edit base file"
 msgstr "기반 파일 편집"
 
-#: weblate/trans/models/component.py:346
+#: weblate/trans/models/component.py:355
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr "사용자가 단일 언어 번역을 위해 기본 파일을 편집할 수 있는지 여부."
 
-#: weblate/trans/models/component.py:351
+#: weblate/trans/models/component.py:360
 msgid "Intermediate language file"
 msgstr "중간 언어 파일"
 
-#: weblate/trans/models/component.py:355
+#: weblate/trans/models/component.py:364
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -9640,59 +9675,59 @@ msgstr ""
 "중간 번역 파일의 파일 이름. 대부분의 경우 개발자가 제공하는 번역 파일이며, 실"
 "제 원본 문자열을 만들 때 사용됩니다."
 
-#: weblate/trans/models/component.py:363
+#: weblate/trans/models/component.py:372
 msgid "Template for new translations"
 msgstr "새 번역 템플릿"
 
-#: weblate/trans/models/component.py:380
+#: weblate/trans/models/component.py:389
 msgid "Locked"
 msgstr "잠김"
 
-#: weblate/trans/models/component.py:383
+#: weblate/trans/models/component.py:392
 msgid "Locked component will not get any translation updates."
 msgstr "잠긴 구성 요소는 번역 갱신을 받지 않습니다."
 
-#: weblate/trans/models/component.py:387
+#: weblate/trans/models/component.py:396
 msgid "Allow translation propagation"
 msgstr "번역 전파 허용"
 
-#: weblate/trans/models/component.py:391
+#: weblate/trans/models/component.py:400
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr "다른 구성 요소에서의 번역 업데이트를 이 프로젝트에 자동 적용 여부"
 
-#: weblate/trans/models/component.py:396
+#: weblate/trans/models/component.py:405
 msgid "Turn on suggestions"
 msgstr "제안 사용"
 
-#: weblate/trans/models/component.py:398
+#: weblate/trans/models/component.py:407
 msgid "Whether to allow translation suggestions at all."
 msgstr "번역 암시를 허용할지 여부."
 
-#: weblate/trans/models/component.py:401
+#: weblate/trans/models/component.py:410
 msgid "Suggestion voting"
 msgstr "제안사항 투표"
 
-#: weblate/trans/models/component.py:403
+#: weblate/trans/models/component.py:412
 msgid "Whether users can vote for suggestions."
 msgstr "사용자가 제안에 대한 투표를 할 수 있는지 여부."
 
-#: weblate/trans/models/component.py:406
+#: weblate/trans/models/component.py:415
 msgid "Autoaccept suggestions"
 msgstr "자동 승인된 번역"
 
-#: weblate/trans/models/component.py:409
+#: weblate/trans/models/component.py:418
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr "투표를 가지는 제안을 자동으로 수락하지 않으려면 0을 사용하십시오."
 
-#: weblate/trans/models/component.py:415 weblate/trans/models/unit.py:255
+#: weblate/trans/models/component.py:424 weblate/trans/models/unit.py:255
 msgid "Translation flags"
 msgstr "번역 플래그"
 
-#: weblate/trans/models/component.py:418 weblate/trans/models/unit.py:258
+#: weblate/trans/models/component.py:427 weblate/trans/models/unit.py:258
 msgid ""
 "Additional comma-separated flags to influence quality checks. Possible "
 "values can be found in the documentation."
@@ -9700,33 +9735,33 @@ msgstr ""
 "추가 쉼표로 구분된 플래그는 품질 검사에 영향을 미칠 수 있습니다. 가능한 값은 "
 "참고 자료에서 찾을 수 있습니다."
 
-#: weblate/trans/models/component.py:425
+#: weblate/trans/models/component.py:434
 msgid "Enforced checks"
 msgstr "강제 검사"
 
-#: weblate/trans/models/component.py:426
+#: weblate/trans/models/component.py:435
 msgid "List of checks which can not be ignored."
 msgstr "무시할 수 없는 검사 목록입니다."
 
-#: weblate/trans/models/component.py:444
+#: weblate/trans/models/component.py:453
 msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr "사용자가 이 구성 요소를 번역하기 전에 승인해야 하는 사용자 계약."
 
-#: weblate/trans/models/component.py:451
+#: weblate/trans/models/component.py:460
 msgid "Adding new translation"
 msgstr "새로운 번역 추가"
 
-#: weblate/trans/models/component.py:455
+#: weblate/trans/models/component.py:464
 msgid "How to handle requests for creating new translations."
 msgstr "새로운 번역을 만들기 위한 요청을 처리하는 방법."
 
-#: weblate/trans/models/component.py:458
+#: weblate/trans/models/component.py:467
 msgid "Language code style"
 msgstr "언어 코드 차림새"
 
-#: weblate/trans/models/component.py:464
+#: weblate/trans/models/component.py:473
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
@@ -9734,11 +9769,11 @@ msgstr ""
 "웨블레이트에서 만든 번역 파일 이름을 생성하는데 사용되는 언어 코드를 사용자 "
 "지정화 합니다."
 
-#: weblate/trans/models/component.py:471
+#: weblate/trans/models/component.py:480
 msgid "Merge style"
 msgstr "병합 스타일"
 
-#: weblate/trans/models/component.py:476
+#: weblate/trans/models/component.py:485
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
@@ -9746,13 +9781,13 @@ msgstr ""
 "웨블레이트가 업스트림 저장소를 병합해야 하는지 또는 변경사항을 여기에 다시 적"
 "용해야 하는지 여부를 정의합니다."
 
-#: weblate/trans/models/component.py:481
+#: weblate/trans/models/component.py:490
 msgid "Commit message when translating"
 msgstr "번역할 때 커밋 메시지"
 
-#: weblate/trans/models/component.py:483 weblate/trans/models/component.py:492
-#: weblate/trans/models/component.py:501 weblate/trans/models/component.py:510
-#: weblate/trans/models/component.py:519
+#: weblate/trans/models/component.py:492 weblate/trans/models/component.py:501
+#: weblate/trans/models/component.py:510 weblate/trans/models/component.py:519
+#: weblate/trans/models/component.py:528
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
@@ -9760,82 +9795,82 @@ msgstr ""
 "서식 언어를 사용하여 다양한 정보를 확인할 수 있으며 자세한 내용은 설명서를 참"
 "조하십시오."
 
-#: weblate/trans/models/component.py:490
+#: weblate/trans/models/component.py:499
 msgid "Commit message when adding translation"
 msgstr "번역을 추가할 때 커밋 메시지"
 
-#: weblate/trans/models/component.py:499
+#: weblate/trans/models/component.py:508
 msgid "Commit message when removing translation"
 msgstr "번역을 삭제할 때 커밋 메시지"
 
-#: weblate/trans/models/component.py:508
+#: weblate/trans/models/component.py:517
 msgid "Commit message when merging translation"
 msgstr "번역을 병합할 때 커밋 메시지"
 
-#: weblate/trans/models/component.py:517
+#: weblate/trans/models/component.py:526
 msgid "Commit message when addon makes a change"
 msgstr "기능이 변경했을 때 커밋 메시지"
 
-#: weblate/trans/models/component.py:526
+#: weblate/trans/models/component.py:535
 msgid "Committer name"
 msgstr "참여자 이름"
 
-#: weblate/trans/models/component.py:531
+#: weblate/trans/models/component.py:540
 msgid "Committer e-mail"
 msgstr "참여자 이메일"
 
-#: weblate/trans/models/component.py:536
+#: weblate/trans/models/component.py:545
 msgid "Push on commit"
 msgstr "커밋 푸시"
 
-#: weblate/trans/models/component.py:539
+#: weblate/trans/models/component.py:548
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "매 커밋마다 업스트림에 푸시될지를 선택합니다."
 
-#: weblate/trans/models/component.py:543
+#: weblate/trans/models/component.py:552
 msgid "Age of changes to commit"
 msgstr "변경사항을 커밋하기까지의 시간"
 
-#: weblate/trans/models/component.py:546
+#: weblate/trans/models/component.py:555
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr "대기 중인 변경 사항이 VCS에 커밋되는 시간."
 
-#: weblate/trans/models/component.py:551
+#: weblate/trans/models/component.py:560
 msgid "Lock on error"
 msgstr "오류시 잠금"
 
-#: weblate/trans/models/component.py:554
+#: weblate/trans/models/component.py:563
 msgid "Whether the component should be locked on repository errors."
 msgstr "저장소 오류에서 구성 요소를 잠글 지 여부."
 
-#: weblate/trans/models/component.py:563
+#: weblate/trans/models/component.py:572
 msgid ""
 "Regular expression used to filter translation when scanning for filemask."
 msgstr "파일마스크를 검사할 때 번역을 골라내는데 사용되는 정규식."
 
-#: weblate/trans/models/component.py:568
+#: weblate/trans/models/component.py:577
 msgid "Variants regular expression"
 msgstr "변형 정규표현식"
 
-#: weblate/trans/models/component.py:574
+#: weblate/trans/models/component.py:583
 msgid "Regular expression used to determine variants of a string."
 msgstr "문자열의 변형을 결정하는 데 사용되는 정규식."
 
-#: weblate/trans/models/component.py:583
+#: weblate/trans/models/component.py:592
 msgid "Components with higher priority are offered first to translators."
 msgstr "우선순위가 높은 구성 요소는 번역가가 먼저 볼 수 있게 제공됩니다."
 
-#: weblate/trans/models/component.py:587
+#: weblate/trans/models/component.py:596
 msgid "Restricted component"
 msgstr "제한된 구성 요소"
 
-#: weblate/trans/models/component.py:591
+#: weblate/trans/models/component.py:600
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr "명시적으로 주어진 권한으로만 구성 요소에 대한 액세스를 제한합니다."
 
-#: weblate/trans/models/component.py:1040
+#: weblate/trans/models/component.py:1049
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -9843,7 +9878,7 @@ msgstr ""
 "SSH 호스트 키를 확인할 수 없으므로 관리 인터페이스의 SSH 페이지에 추가하십시"
 "오."
 
-#: weblate/trans/models/component.py:1049
+#: weblate/trans/models/component.py:1058
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
@@ -9851,76 +9886,76 @@ msgstr ""
 "저장소에 인증이 필요합니다. URL에 인증 정보를 지정하거나 SSH 접근을 사용하십"
 "시오."
 
-#: weblate/trans/models/component.py:1055
+#: weblate/trans/models/component.py:1064
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "저장소를 가져올 수 없습니다: %s"
 
-#: weblate/trans/models/component.py:1250
+#: weblate/trans/models/component.py:1259
 #, python-format
 msgid "Could not push to remote branch on %s."
 msgstr "%s 의 원격 분기로 밀기(Push)할 수 없습니다."
 
-#: weblate/trans/models/component.py:1259
+#: weblate/trans/models/component.py:1268
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "%s 에 대한 밀기(Push)가 해제되었습니다."
 
-#: weblate/trans/models/component.py:1317
+#: weblate/trans/models/component.py:1326
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "%s 에서 원격 분기로 재설정할 수 없습니다."
 
-#: weblate/trans/models/component.py:1347
+#: weblate/trans/models/component.py:1356
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "%s 에서 저장소를 정리할 수 없습니다."
 
-#: weblate/trans/models/component.py:1463
+#: weblate/trans/models/component.py:1472
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "지역 분기를 원격 분기 %s 에 다시 배치할 수 없음."
 
-#: weblate/trans/models/component.py:1469
+#: weblate/trans/models/component.py:1478
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "원격 분기를 %s 에 합칠 수 없습니다."
 
-#: weblate/trans/models/component.py:1863
+#: weblate/trans/models/component.py:1872
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "웨블레이트 프로젝트에 대한 연결이 잘못되었으므로 연결된 저장소에 연결할 수 없"
 "습니다!"
 
-#: weblate/trans/models/component.py:1872
+#: weblate/trans/models/component.py:1881
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "웨블레이트 프로젝트에 대한 연결주소가 잘못돼 자체 연결할 수 없습니다!"
 
-#: weblate/trans/models/component.py:1881
+#: weblate/trans/models/component.py:1890
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "웨블레이트 프로젝트의 링크가 잘못되었습니다, weblate://project/component를 사"
 "용하세요."
 
-#: weblate/trans/models/component.py:1890
+#: weblate/trans/models/component.py:1899
 msgid "Option is not available for linked repositories."
 msgstr "연결된 저장소에 대해 선택사항을 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:1899
+#: weblate/trans/models/component.py:1908
 msgid "The filemask did not match any files."
 msgstr "파일 마스크가 파일과 일치하지 않았습다."
 
-#: weblate/trans/models/component.py:1908
+#: weblate/trans/models/component.py:1917
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "%s 의 언어 코드가 비어 있습니다, 파일 마스크를 확인하십시오."
 
-#: weblate/trans/models/component.py:1915
+#: weblate/trans/models/component.py:1924
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "\"%s\" 언어 코드가 너무 깁니다. 파일 마스크를 확인하십시오."
 
-#: weblate/trans/models/component.py:1922
+#: weblate/trans/models/component.py:1931
 #, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
@@ -9929,25 +9964,25 @@ msgstr ""
 "단일 언어(%s)에 대한 파일이 더 많으므로 파일 마스크를 조정하고 구성 요소를 사"
 "용하여 서로 다른 자원을 번역하십시오."
 
-#: weblate/trans/models/component.py:1936
+#: weblate/trans/models/component.py:1945
 msgid "Could not find any matching language, please check the filemask."
 msgstr "일치하는 언어를 찾을 수 없습니다, 파일 마스크를 확인하십시오."
 
-#: weblate/trans/models/component.py:1955
+#: weblate/trans/models/component.py:1964
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "일치하는 %d 개 파일을 구문 분석할 수 없습니다."
 
-#: weblate/trans/models/component.py:1978
+#: weblate/trans/models/component.py:1987
 msgid "Unrecognized base file for new translations."
 msgstr "새로운 번역에 대해 인식할 수 없는 기본 파일."
 
-#: weblate/trans/models/component.py:1980
+#: weblate/trans/models/component.py:1989
 msgid "Base file for new translations not found."
 msgstr "새 번역을 위한 기본 파일을 찾을 수 없습니다."
 
-#: weblate/trans/models/component.py:1983
+#: weblate/trans/models/component.py:1992
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -9955,72 +9990,72 @@ msgstr ""
 "새로운 번역 파일을 추가하기 위해 웨블레이트를 설정했지만 이를 위해 기본 파일"
 "을 제공하지는 않았습니다."
 
-#: weblate/trans/models/component.py:1996
+#: weblate/trans/models/component.py:2005
 msgid "You can not use a base file for bilingual translation."
 msgstr "2개 국어의 번역에는 기본 파일을 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:2002
-#: weblate/trans/models/component.py:2008
+#: weblate/trans/models/component.py:2011
+#: weblate/trans/models/component.py:2017
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "중간 언어 파일은 서식 편집 없이 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:2015
+#: weblate/trans/models/component.py:2024
 msgid "Using a .pot file as base file is unsupported."
 msgstr ".pot 파일을 기본 파일로 사용하는 것은 지원되지 않습니다."
 
-#: weblate/trans/models/component.py:2026
+#: weblate/trans/models/component.py:2035
 msgid "Could not find template file."
 msgstr "서식 파일을 찾을 수 없습니다."
 
-#: weblate/trans/models/component.py:2032
+#: weblate/trans/models/component.py:2041
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "번역 기준 파일을 구문 분석할 수 없습니다: %s"
 
-#: weblate/trans/models/component.py:2040
+#: weblate/trans/models/component.py:2049
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "템플릿 언어 ({0})가 프로젝트 원본 언어 ({1})와 맞지 않습니다!"
 
-#: weblate/trans/models/component.py:2046
+#: weblate/trans/models/component.py:2055
 msgid "You can not use a monolingual translation without a base file."
 msgstr "기본 파일 없이는 단일 언어 번역을 사용할 수 없습니다."
 
-#: weblate/trans/models/component.py:2062
+#: weblate/trans/models/component.py:2071
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "저장소를 업데이트할 수 없습니다: %s"
 
-#: weblate/trans/models/component.py:2072
+#: weblate/trans/models/component.py:2081
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
 "안내 URL을 채우거나 새로운 언어를 추가할 때 다른 선택사항을 사용하십시오."
 
-#: weblate/trans/models/component.py:2116
+#: weblate/trans/models/component.py:2125
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "유효하지 않은 정규 표현식 때문에 파일 일치를 검사할 수 없습니다."
 
-#: weblate/trans/models/component.py:2126
+#: weblate/trans/models/component.py:2135
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "제안을 수락하면 투표 기능이 자동으로 작동합니다."
 
-#: weblate/trans/models/component.py:2434
+#: weblate/trans/models/component.py:2443
 msgid "Could not add new translation file."
 msgstr "새로운 번역 파일을 추가할 수 없습니다."
 
-#: weblate/trans/models/component.py:2445
+#: weblate/trans/models/component.py:2454
 msgid "The given language is filtered by the language filter."
 msgstr "주어진 언어는 언어 필터에 의해 걸려집니다."
 
-#: weblate/trans/models/component.py:2467
+#: weblate/trans/models/component.py:2476
 msgid "Translation file already exists!"
 msgstr "번역 파일이 이미 존재합니다!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2535
+#: weblate/trans/models/component.py:2544
 msgid "Context"
 msgstr "상황・문맥"
 
@@ -10163,16 +10198,16 @@ msgstr "모든 구성 요소에서 원본 문자열에 사용된 언어"
 msgid "Failed to accept suggestion!"
 msgstr "제안 승인에 실패함!"
 
-#: weblate/trans/models/translation.py:153
+#: weblate/trans/models/translation.py:161
 msgid "source"
 msgstr "원본"
 
-#: weblate/trans/models/translation.py:153
+#: weblate/trans/models/translation.py:161
 #: weblate/trans/templatetags/translations.py:699
 msgid "This translation is used for source strings."
 msgstr "이 변환은 원본 문자열에 사용됩니다."
 
-#: weblate/trans/models/translation.py:194
+#: weblate/trans/models/translation.py:202
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -10181,7 +10216,7 @@ msgstr ""
 "파일이름 %s를 저장소에서 찾을 수 없습니다! 새로운 언어를 추가 하려면, 저장소"
 "에서 언어파일을 추가 하십시오."
 
-#: weblate/trans/models/translation.py:203
+#: weblate/trans/models/translation.py:211
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "파일 %(file)s: %(error)s 의 구문 분석 실패"
@@ -10880,15 +10915,15 @@ msgstr "설정을 저장했습니다"
 msgid "Invalid settings, please check the form for errors!"
 msgstr "설정이 잘못되었습니다. 입력 값에 문제가 없는지 확인해 보세요!"
 
-#: weblate/trans/views/settings.py:122
+#: weblate/trans/views/settings.py:139
 msgid "Translation has been removed."
 msgstr "번역이 삭제되었습니다."
 
-#: weblate/trans/views/settings.py:141
+#: weblate/trans/views/settings.py:158
 msgid "Translation component was scheduled for removal."
 msgstr "번역 내용이 제거될 예정이었습니다."
 
-#: weblate/trans/views/settings.py:160
+#: weblate/trans/views/settings.py:177
 msgid "Project was scheduled for removal."
 msgstr "번역 프로젝트가 삭제될 예정입니다."
 
@@ -10896,32 +10931,46 @@ msgstr "번역 프로젝트가 삭제될 예정입니다."
 msgid "Failed to change a context!"
 msgstr "문맥을 변경하지 못했습니다!"
 
-#: weblate/trans/widgets.py:246
+#: weblate/trans/widgets.py:247
 msgid "Big status badge"
 msgstr "대형 상태 배지"
 
-#: weblate/trans/widgets.py:282
+#: weblate/trans/widgets.py:285
 msgid "Small status badge"
 msgstr "작은 상태 배지"
 
-#: weblate/trans/widgets.py:304
-msgid "Open Graph image"
-msgstr "그래프 이미지 열기"
+#: weblate/trans/widgets.py:307
+msgctxt "Status widget name"
+msgid "Panel"
+msgstr ""
 
-#: weblate/trans/widgets.py:361
+#. Translators: Text on OpenGraph image
+#: weblate/trans/widgets.py:320
+#, fuzzy, python-format
+#| msgid "Projects"
+msgid "Project %s"
+msgstr "프로젝트"
+
+#: weblate/trans/widgets.py:365
 msgid "Status badge"
 msgstr "상태 배지"
 
-#: weblate/trans/widgets.py:364
+#: weblate/trans/widgets.py:368
 msgid "translated"
 msgstr "번역"
 
-#: weblate/trans/widgets.py:412
-msgid "Vertical multi language status widget"
+#: weblate/trans/widgets.py:416
+#, fuzzy
+#| msgid "Vertical multi language status widget"
+msgctxt "Status widget name"
+msgid "Vertical language bar chart"
 msgstr "수직 다국어 상태 위젯"
 
-#: weblate/trans/widgets.py:487
-msgid "Horizontal multi language status widget"
+#: weblate/trans/widgets.py:494
+#, fuzzy
+#| msgid "Horizontal multi language status widget"
+msgctxt "Status widget name"
+msgid "Horizontal language bar chart"
 msgstr "수평 다국어 상태 위젯"
 
 #. Translators: Name of a color
@@ -11293,6 +11342,12 @@ msgstr "백업 프로세스가 트리거됨"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "구성 오류를 해제할 수 없습니다!"
+
+#~ msgid "Watch"
+#~ msgstr "참여하기"
+
+#~ msgid "Open Graph image"
+#~ msgstr "그래프 이미지 열기"
 
 #~ msgid "Add new projects (site wide)"
 #~ msgstr "새 프로젝트 추가 (사이트 전체)"
@@ -12887,9 +12942,6 @@ msgstr "구성 오류를 해제할 수 없습니다!"
 
 #~ msgid "Allowed hosts"
 #~ msgstr "허용된 호스트"
-
-#~ msgid "Cached template loader"
-#~ msgstr "캐쉬된 템플릿 로더"
 
 #~ msgid "Admin static files"
 #~ msgstr "관리자 정적 파일"
