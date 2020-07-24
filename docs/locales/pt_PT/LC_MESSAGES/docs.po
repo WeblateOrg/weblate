@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-24 15:58+0200\n"
+"POT-Creation-Date: 2020-07-24 20:40+0200\n"
 "PO-Revision-Date: 2020-07-24 18:39+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
@@ -24,10 +24,16 @@ msgid "Access control"
 msgstr "Controlo de acesso"
 
 #: ../../admin/access.rst:8
+#, fuzzy
+#| msgid ""
+#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
+#| "specifically built for Weblate. If you are using an older version, please "
+#| "the consult documentation for that version, the information here will not "
+#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using an older version, please "
-"the consult documentation for that version, the information here will not "
+"consult the documentation for that version, the information here will not "
 "apply."
 msgstr ""
 "Antes do Weblate 3.0, o sistema de privilégios era baseado no Django, mas "
@@ -341,7 +347,9 @@ msgstr ""
 "âmbito, e as seguintes verificações são realizadas na ordem:"
 
 #: ../../admin/access.rst:160
-msgid ":guilabel:`Component list` are matched against component or project."
+#, fuzzy
+#| msgid ":guilabel:`Component list` are matched against component or project."
+msgid ":guilabel:`Component list` is matched against component or project."
 msgstr ""
 ":guilabel:`Lista de componentes` são comparadas com o componente ou o "
 "projeto."
@@ -355,8 +363,12 @@ msgid ":guilabel:`Projects` are matched against project."
 msgstr ":guilabel:`Projetos` são comparados com o projeto."
 
 #: ../../admin/access.rst:166
+#, fuzzy
+#| msgid ""
+#| "As you can see, grating access to a component automatically grants user "
+#| "access to a containing project as well."
 msgid ""
-"As you can see, grating access to a component automatically grants user "
+"As you can see, granting access to a component automatically grants user "
 "access to a containing project as well."
 msgstr ""
 "Como pode ver, o acesso de acesso a um componente também concede "
@@ -546,10 +558,19 @@ msgid "Custom access control"
 msgstr "Controle de acesso personalizado"
 
 #: ../../admin/access.rst:287
+#, fuzzy
+#| msgid ""
+#| "By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate "
+#| "will stop managing access for a given project, and all users and groups "
+#| "can be managed using the Django``` admin interface. This can be used to "
+#| "define more complex access control, or set up a shared access policy for "
+#| "all projects in a single Weblate instance. If you want to turn this on "
+#| "for all projects by default, please configure the :setting:"
+#| "`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will "
 "stop managing access for a given project, and all users and groups can be "
-"managed using the Django``` admin interface. This can be used to define more "
+"managed using the Django admin interface. This can be used to define more "
 "complex access control, or set up a shared access policy for all projects in "
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
@@ -1657,9 +1678,11 @@ msgstr ""
 "de componente)."
 
 #: ../../admin/addons.rst:415
-msgid ""
-"Previous HEAD on update (available only available when running post update "
-"hook)."
+#, fuzzy
+#| msgid ""
+#| "Previous HEAD on update (available only available when running post "
+#| "update hook)."
+msgid "Previous HEAD on update (available only when running post update hook)."
 msgstr ""
 "HEAD anterior na atualização (disponível apenas ao executar o hook de "
 "atualização após)."
@@ -2454,7 +2477,9 @@ msgstr ""
 "pesquisa e fornecer um utilizador para associar à pesquisa. Por exemplo:"
 
 #: ../../admin/auth.rst:496
-msgid "Active directory integration"
+#, fuzzy
+#| msgid "Active directory integration"
+msgid "Active Directory integration"
 msgstr "Integração com o Active Directory"
 
 #: ../../admin/auth.rst:525
@@ -2564,8 +2589,14 @@ msgid "Automated backup"
 msgstr "Backup automatizado"
 
 #: ../../admin/backup.rst:11
+#, fuzzy
+#| msgid ""
+#| "Weblate has built in support for creating service backups using "
+#| "`BorgBackup`_. Borg creates space-effective encrypted backups which can "
+#| "be safely stored in the cloud. The backups can be controlled in the "
+#| "management interface on the :guilabel:`Backups` tab."
 msgid ""
-"Weblate has built in support for creating service backups using "
+"Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface on the :guilabel:`Backups` tab."
@@ -3307,8 +3338,12 @@ msgid "``strict-same``"
 msgstr "``strict-same``"
 
 #: ../../admin/checks.rst:88
+#, fuzzy
+#| msgid ""
+#| "Make \"Unchanged translation\" avoid using built in words blacklist, see :"
+#| "ref:`check-same`."
 msgid ""
-"Make \"Unchanged translation\" avoid using built in words blacklist, see :"
+"Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
 msgstr ""
 "Faz com que \"Tradução não alterada\" evite usar a lista negra de palavras "
@@ -3994,9 +4029,13 @@ msgstr ""
 "representando-a na URL."
 
 #: ../../admin/componentlists.rst:22
+#, fuzzy
+#| msgid ""
+#| "Change dashboard settings for anonymous users from the admin interface, "
+#| "altering whatdashboard is presented to unauthenticated users."
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
-"altering whatdashboard is presented to unauthenticated users."
+"altering what dashboard is presented to unauthenticated users."
 msgstr ""
 "Altera as configurações de painel para utilizadores anônimos da interface "
 "administrativa, alterando qual painel é apresentado para utilizadores não "
@@ -4508,8 +4547,8 @@ msgstr ""
 
 #: ../../admin/config.rst:298
 msgid ""
-"This directory has to be writable by Weblate. If if running it as uWSGI "
-"means the ``www-data`` user should have write access to it."
+"This directory has to be writable by Weblate. Running it as uWSGI means the "
+"``www-data`` user should have write access to it."
 msgstr ""
 
 #: ../../admin/config.rst:301
@@ -5782,7 +5821,7 @@ msgid "STATUS_URL"
 msgstr ""
 
 #: ../../admin/config.rst:1481
-msgid "The URL where your Weblate instance reports it's status."
+msgid "The URL where your Weblate instance reports its status."
 msgstr ""
 
 #: ../../admin/config.rst:1486
@@ -8045,7 +8084,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1120
 msgid ""
-"The Django built in server serves static files only with :setting:`DEBUG` "
+"The Django built-in server serves static files only with :setting:`DEBUG` "
 "enabled as it is intended for development only. For production use, please "
 "see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
@@ -8338,7 +8377,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1363
 msgid ""
-"Weblate has built in support for `Sentry <https://sentry.io/>`_. To use it, "
+"Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
 
@@ -9396,7 +9435,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1009
 msgid ""
-"The built in configuration of enabled checks, addons or autofixes can be "
+"The built-in configuration of enabled checks, addons or autofixes can be "
 "adjusted by the following variables:"
 msgstr ""
 
@@ -14383,8 +14422,8 @@ msgstr ""
 msgid "Array of aliases for language"
 msgstr ""
 
-#: ../../api.rst:677
-msgid "Changes the lnnguage parameters."
+#: ../../api.rst:677 ../../api.rst:687
+msgid "Changes the language parameters."
 msgstr ""
 
 #: ../../api.rst:679 ../../api.rst:689 ../../api.rst:699
@@ -14393,10 +14432,6 @@ msgstr ""
 
 #: ../../api.rst:683 ../../api.rst:693
 msgid "Language plural details"
-msgstr ""
-
-#: ../../api.rst:687
-msgid "Changes the language parameters."
 msgstr ""
 
 #: ../../api.rst:697
@@ -21056,7 +21091,7 @@ msgstr ""
 
 #: ../../contributing/release.rst:12
 msgid ""
-"Create a release :command:`./scripts/create-release --tag` (see bellow for "
+"Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)"
 msgstr ""
 
@@ -23950,7 +23985,7 @@ msgid "Laravel PHP strings"
 msgstr "Cadeias de PHP Laravel"
 
 #: ../../formats.rst:716
-msgid "The Laravel PHP locazation files are supported as well with plurals:"
+msgid "The Laravel PHP localization files are supported as well with plurals:"
 msgstr ""
 
 #: ../../formats.rst:727
@@ -24646,7 +24681,7 @@ msgid "Java style"
 msgstr "Estilo Java"
 
 #: ../../formats.rst:1388
-msgid "User by Java—mostly BCP with legacy codes for Chinese."
+msgid "Used by Java—mostly BCP with legacy codes for Chinese."
 msgstr ""
 
 #: ../../formats.rst:1392
@@ -24833,11 +24868,18 @@ msgstr ""
 "criptografia para autenticação, integridade de dados e confidencialidade."
 
 #: ../../legal.rst:30
+#, fuzzy
+#| msgid ""
+#| "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
+#| "publicly available libre software, it should not be subject to EAR (see "
+#| "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index."
+#| "php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-"
+#| "ear>`_."
 msgid ""
 "Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as "
 "publicly available libre software, it should not be subject to EAR (see "
 "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index.php/"
-"policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_."
+"policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_)."
 msgstr ""
 "Provavelmente Weblate seria classificado como ECCN 5D002 ou 5D992 e, como "
 "software livre publicamente disponível, não deve ser sujeito ao EAR (veja "
@@ -25262,7 +25304,7 @@ msgstr ""
 
 #: ../../user/checks.rst:132
 msgid ""
-"Besides checking, this will also highligh the formatting strings to easily "
+"Besides checking, this will also highlight the formatting strings to easily "
 "insert them into translated strings:"
 msgstr ""
 
@@ -27658,8 +27700,8 @@ msgid "Displays terms from the project glossary used in the current message."
 msgstr "Exibe termos do glossário do projeto usados na mensagem atual."
 
 #: ../../user/translating.rst:218
-msgid "Recent edits"
-msgstr "Edições recentes"
+msgid "Recent changes"
+msgstr "Alterações recentes"
 
 #: ../../user/translating.rst:219
 msgid "List of people whom have changed this message recently using Weblate."
@@ -29075,6 +29117,9 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ""
+
+#~ msgid "Recent edits"
+#~ msgstr "Edições recentes"
 
 #~ msgid "Skip the \"Trailing colon\" quality check."
 #~ msgstr "Pular a verificação de qualidade \"Dois pontos no final\"."
