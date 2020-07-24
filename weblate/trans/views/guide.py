@@ -18,6 +18,7 @@
 #
 
 
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
@@ -256,7 +257,13 @@ class AddonGuideline(Guideline):
 
     @property
     def description(self):
-        return ADDONS[self.addon].description
+        return render_to_string(
+            "trans/guide/addon.html",
+            {
+                "name": ADDONS[self.addon].verbose,
+                "description": ADDONS[self.addon].description,
+            },
+        )
 
 
 @register
