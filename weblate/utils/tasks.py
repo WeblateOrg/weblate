@@ -42,7 +42,7 @@ from weblate.vcs.models import VCS_REGISTRY
 @app.task(trail=False)
 def ping():
     return {
-        "version": weblate.VERSION,
+        "version": weblate.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
