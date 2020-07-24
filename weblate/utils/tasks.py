@@ -20,6 +20,7 @@
 
 import os
 import subprocess
+import sys
 import time
 from importlib import import_module
 from shutil import copyfile
@@ -44,6 +45,7 @@ def ping():
         "version": weblate.VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
+        "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
     }
 
 
