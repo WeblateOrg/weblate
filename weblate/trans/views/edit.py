@@ -485,7 +485,9 @@ def translate(request, project, component, lang):
 
     # Access namespace
     user_can_access_namespace = False
-    namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by("name")
+    namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
+        "name"
+    )
     if bool(namespace_query.count()):
         namespace = namespace_query[0].name
         if NAMESPACE_SEPARATOR + namespace in lang:

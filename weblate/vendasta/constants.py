@@ -2,7 +2,8 @@
 # Groups
 VENDASTA_DEVELOPERS = "Vendasta Developers"
 PARTNER_USERS = "Partner Users"
-PUBLIC_LANGUAGES = "Public Languages"
+VIEW_PUBLIC_LANGUAGES = "View Public Languages"
+TRANSLATE_PUBLIC_LANGUAGES = "Translate Public Languages"
 TRANSLATORS = "Translators"
 
 # Roles
