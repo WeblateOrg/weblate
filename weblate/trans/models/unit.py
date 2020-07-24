@@ -38,7 +38,7 @@ from weblate.memory.tasks import update_memory
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
-from weblate.trans.search import Fulltext
+from weblate.trans.search import Fulltext, LOGGER
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
     get_distinct_translations,
@@ -515,9 +515,10 @@ class Unit(models.Model, LoggerMixin):
             if unit.target == self.target and unit.state == self.state:
                 continue
             if (
-                len(unit.change_set) > 0
-                and unit.change_set.content().order()[0].action == Change.ACTION_AUTO
+                unit.change_set.count() > 0
+                and unit.change_set.content().order()[0].action != Change.ACTION_AUTO
             ):
+                LOGGER.info('################### last change %s', unit.change_set.content().order()[0].action)
                 continue
             unit.target = self.target
             unit.state = self.state
