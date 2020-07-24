@@ -20,6 +20,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -41,6 +42,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.site import get_site_url
 from weblate.utils.views import get_paginator, get_project, import_message
+from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
 
 def dict_title(prj, lang):
@@ -54,15 +56,29 @@ def dict_title(prj, lang):
 @never_cache
 def show_dictionaries(request, project):
     obj = get_project(request, project)
+
+    if request.user.has_perm("language.edit"):
+        dicts = Language.objects.filter(translation__component__project=obj)
+    else:
+        dicts = Language.objects.filter(translation__component__project=obj).exclude(
+            code__contains=NAMESPACE_SEPARATOR
+        )
+        namespace_query = request.user.groups.filter(
+            roles__name=ACCESS_NAMESPACE
+        ).order_by("name")
+        if bool(namespace_query.count()):
+            dicts = Language.objects.filter(translation__component__project=obj).filter(
+                ~Q(code__contains=NAMESPACE_SEPARATOR)
+                | Q(code__contains=NAMESPACE_SEPARATOR + namespace_query[0].name),
+            )
+
     return render(
         request,
         "dictionaries.html",
         {
             "title": _("Glossaries"),
             "object": obj,
-            "dicts": sort_objects(
-                Language.objects.filter(translation__component__project=obj).distinct()
-            ),
+            "dicts": sort_objects(dicts.distinct()),
             "project": obj,
         },
     )
