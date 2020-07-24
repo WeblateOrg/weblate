@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-23 19:26+0000\n"
-"PO-Revision-Date: 2020-07-23 02:39+0000\n"
+"PO-Revision-Date: 2020-07-24 13:57+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1984,7 +1984,7 @@ msgstr "Plaćeno"
 
 #: weblate/billing/models.py:162
 msgid "In limits"
-msgstr "U granicama"
+msgstr "Unutar ograničenja"
 
 #: weblate/billing/models.py:165
 msgid "Grace period for payments"
@@ -2030,7 +2030,7 @@ msgstr "Zadnji račun"
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:339
 msgid "In display limits"
-msgstr "U granicama ekrana"
+msgstr "Unutar prikazanih ograničenja"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -2412,13 +2412,11 @@ msgstr "i18next interpolacija se ne poklapa s izvorom"
 
 #: weblate/checks/format.py:521
 msgid "ECMAScript template literals"
-msgstr ""
+msgstr "ECMAScript predlošci (template literals)"
 
 #: weblate/checks/format.py:522
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
-msgstr "Niz u JavaScript formatu se ne poklapa s izvorom"
+msgstr "ECMAScript predlošci (template literals) se ne poklapaju s izvorom"
 
 #: weblate/checks/format.py:534
 msgid "Percent placeholders"
@@ -4768,7 +4766,7 @@ msgstr "Prekoraćen datum dospijeća"
 
 #: weblate/templates/billing/detail.html:21
 msgid "Exceeds limits"
-msgstr "Prelazi granice"
+msgstr "Prelazi ograničenja"
 
 #: weblate/templates/billing/detail.html:32
 msgid "Change plan or payment method"
@@ -4857,15 +4855,15 @@ msgstr "Godišnja cijena"
 
 #: weblate/templates/billing/status.html:50
 msgid "Strings limit"
-msgstr "Ograničenje izraza"
+msgstr "Maks. broj izraza"
 
 #: weblate/templates/billing/status.html:55
 msgid "Languages limit"
-msgstr "Ograničenje jezika"
+msgstr "Maks. broj jezika"
 
 #: weblate/templates/billing/status.html:62
 msgid "Projects limit"
-msgstr "Ograničenje projekta"
+msgstr "Maks. broj projekta"
 
 #: weblate/templates/billing/status.html:72
 msgid "No projects currently assigned!"
@@ -6624,10 +6622,8 @@ msgid "Component alerts"
 msgstr "Upozorenja komponenata"
 
 #: weblate/templates/manage/alerts.html:22
-#, fuzzy
-#| msgid "Dismissed"
 msgid "dismissed"
-msgstr "Odbačeno"
+msgstr "odbačeno"
 
 #: weblate/templates/manage/alerts.html:33
 msgid "Projects without components"
@@ -7683,7 +7679,7 @@ msgstr "Predloženo"
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
-msgstr "Praćenje"
+msgstr "Prati se"
 
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
@@ -7703,22 +7699,18 @@ msgid "Mute notifications for %(object)s"
 msgstr "Isključi obavijesti za %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
-#, fuzzy
-#| msgid "Watching"
 msgid "Not watching"
-msgstr "Praćenje"
+msgstr "Ne prati se"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
-#, fuzzy, python-format
-#| msgid "Unwatch project %(project)s"
+#, python-format
 msgid "Watch project %(project)s"
-msgstr "Prestani pratiti %(project)s"
+msgstr "Prati projekt %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
-#, fuzzy, python-format
-#| msgid "New translation component %(component)s"
+#, python-format
 msgid "Watch component %(component)s"
-msgstr "Nova prevodilačka komponenta %(component)s"
+msgstr "Prati komponentu %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -11175,14 +11167,13 @@ msgstr "Mala značka stanja"
 #: weblate/trans/widgets.py:307
 msgctxt "Status widget name"
 msgid "Panel"
-msgstr ""
+msgstr "Ploča"
 
 #. Translators: Text on OpenGraph image
 #: weblate/trans/widgets.py:320
-#, fuzzy, python-format
-#| msgid "Projects"
+#, python-format
 msgid "Project %s"
-msgstr "Projekti"
+msgstr "Projekt %s"
 
 #: weblate/trans/widgets.py:365
 msgid "Status badge"
@@ -11193,18 +11184,14 @@ msgid "translated"
 msgstr "prevedeno"
 
 #: weblate/trans/widgets.py:416
-#, fuzzy
-#| msgid "Vertical multi language status widget"
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
-msgstr "Okomiti prikaz stanja jezika"
+msgstr "Stupčani prikaz jezika okomito"
 
 #: weblate/trans/widgets.py:494
-#, fuzzy
-#| msgid "Horizontal multi language status widget"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
-msgstr "Vodoravni prikaz stanja jezika"
+msgstr "Stupčani prikaz jezika vodoravno"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:24
