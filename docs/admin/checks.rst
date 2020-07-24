@@ -142,6 +142,18 @@ Here is a list of flags currently accepted:
     Skip the "Maximum size of translation" quality check.
 ``ignore-escaped-newline``
     Skip the "Mismatched \n" quality check.
+``ignore-end-colon``
+    Skip the "Mismatched colon" quality check.
+``ignore-end-ellipsis``
+    Skip the "Mismatched ellipsis" quality check.
+``ignore-end-exclamation``
+    Skip the "Mismatched exclamation mark" quality check.
+``ignore-end-stop``
+    Skip the "Mismatched full stop" quality check.
+``ignore-end-question``
+    Skip the "Mismatched question mark" quality check.
+``ignore-end-semicolon``
+    Skip the "Mismatched semicolon" quality check.
 ``ignore-newline-count``
     Skip the "Mismatching line breaks" quality check.
 ``ignore-plurals``
@@ -158,22 +170,10 @@ Here is a list of flags currently accepted:
     Skip the "Starting newline" quality check.
 ``ignore-begin-space``
     Skip the "Starting spaces" quality check.
-``ignore-end-colon``
-    Skip the "Trailing colon" quality check.
-``ignore-end-ellipsis``
-    Skip the "Trailing ellipsis" quality check.
-``ignore-end-exclamation``
-    Skip the "Trailing exclamation mark" quality check.
 ``ignore-end-newline``
     Skip the "Trailing newline" quality check.
-``ignore-end-question``
-    Skip the "Trailing question mark" quality check.
-``ignore-end-semicolon``
-    Skip the "Trailing semicolon" quality check.
 ``ignore-end-space``
     Skip the "Trailing space" quality check.
-``ignore-end-stop``
-    Skip the "Trailing stop" quality check.
 ``ignore-same``
     Skip the "Unchanged translation" quality check.
 ``ignore-safe-html``

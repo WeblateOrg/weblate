@@ -165,7 +165,7 @@ class EndStopCheck(TargetCheck):
     """Check for final stop."""
 
     check_id = "end_stop"
-    name = _("Trailing stop")
+    name = _("Mismatched full stop")
     description = _("Source and translation do not both end with a full stop")
 
     def check_single(self, source, target, unit):
@@ -204,7 +204,7 @@ class EndColonCheck(TargetCheck):
     """Check for final colon."""
 
     check_id = "end_colon"
-    name = _("Trailing colon")
+    name = _("Mismatched colon")
     description = _("Source and translation do not both end with a colon")
 
     def _check_hy(self, source, target):
@@ -235,7 +235,7 @@ class EndQuestionCheck(TargetCheck):
     """Check for final question mark."""
 
     check_id = "end_question"
-    name = _("Trailing question mark")
+    name = _("Mismatched question mark")
     description = _("Source and translation do not both end with a question mark")
     question_el = ("?", ";", ";")
 
@@ -268,7 +268,7 @@ class EndExclamationCheck(TargetCheck):
     """Check for final exclamation mark."""
 
     check_id = "end_exclamation"
-    name = _("Trailing exclamation mark")
+    name = _("Mismatched exclamation mark")
     description = _("Source and translation do not both end with an exclamation mark")
 
     def check_single(self, source, target, unit):
@@ -292,7 +292,7 @@ class EndEllipsisCheck(TargetCheck):
     """Check for ellipsis at the end of string."""
 
     check_id = "end_ellipsis"
-    name = _("Trailing ellipsis")
+    name = _("Mismatched ellipsis")
     description = _("Source and translation do not both end with an ellipsis")
 
     def check_single(self, source, target, unit):
@@ -363,7 +363,7 @@ class EndSemicolonCheck(TargetCheck):
     """Check for semicolon at end."""
 
     check_id = "end_semicolon"
-    name = _("Trailing semicolon")
+    name = _("Mismatched semicolon")
     description = _("Source and translation do not both end with a semicolon")
 
     def check_single(self, source, target, unit):

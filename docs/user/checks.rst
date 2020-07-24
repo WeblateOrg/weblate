@@ -583,6 +583,99 @@ Mismatched \n
 Usually escaped newlines are important for formatting program output.
 Check fails if the number of ``\\n`` literals in translation do not match the source.
 
+.. _check-end-colon:
+
+Mismatched colon
+~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a colon*
+
+Checks that colons are replicated between both source and translation. The
+presence of colons is also checked for various languages where they do not
+belong (Chinese or Japanese).
+
+.. seealso::
+
+   `Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_
+
+.. _check-end-ellipsis:
+
+Mismatched ellipsis
+~~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with an ellipsis*
+
+Checks that trailing ellipses are replicated between both source and translation.
+This only checks for real ellipsis (``…``) not for three dots (``...``).
+
+An ellipsis is usually rendered nicer than three dots in print, and sounds better with text-to-speech.
+
+.. seealso::
+
+   `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
+
+
+.. _check-end-exclamation:
+
+Mismatched exclamation mark
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with an exclamation mark*
+
+Checks that exclamations are replicated between both source and translation.
+The presence of exclamation marks is also checked for various languages where
+they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, Myanmar or
+Nko).
+
+.. seealso::
+
+   `Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/Exclamation_mark>`_
+
+.. _check-end-stop:
+
+Mismatched full stop
+~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a full stop*
+
+Checks that full stops are replicated between both source and translation.
+The presence of full stops is checked for various languages where they do not belong
+(Chinese, Japanese, Devanagari or Urdu).
+
+.. seealso::
+
+   `Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_
+
+.. _check-end-question:
+
+Mismatched question mark
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a question mark*
+
+Checks that question marks are replicated between both source and translation.
+The presence of question marks is also checked for various languages where they
+do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or
+Coptic).
+
+.. seealso::
+
+   `Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_
+
+.. _check-end-semicolon:
+
+Mismatched semicolon
+~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a semicolon*
+
+Checks that semicolons at the end of sentences are replicated between both source and translation.
+This can be useful to keep formatting of entries such as desktop files.
+
+.. seealso::
+
+   `Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_
+
 .. _check-newline-count:
 
 Mismatching line breaks
@@ -699,54 +792,6 @@ Starting spaces
 A space in the beginning of a string is usually used for indentation in the interface and thus
 important to keep.
 
-.. _check-end-colon:
-
-Trailing colon
-~~~~~~~~~~~~~~
-
-*Source and translation do not both end with a colon*
-
-Checks that colons are replicated between both source and translation. The
-presence of colons is also checked for various languages where they do not
-belong (Chinese or Japanese).
-
-.. seealso::
-
-   `Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_
-
-.. _check-end-ellipsis:
-
-Trailing ellipsis
-~~~~~~~~~~~~~~~~~
-
-*Source and translation do not both end with an ellipsis*
-
-Checks that trailing ellipses are replicated between both source and translation.
-This only checks for real ellipsis (``…``) not for three dots (``...``).
-
-An ellipsis is usually rendered nicer than three dots in print, and sounds better with text-to-speech.
-
-.. seealso::
-
-   `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
-
-
-.. _check-end-exclamation:
-
-Trailing exclamation mark
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-*Source and translation do not both end with an exclamation mark*
-
-Checks that exclamations are replicated between both source and translation.
-The presence of exclamation marks is also checked for various languages where
-they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, Myanmar or
-Nko).
-
-.. seealso::
-
-   `Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/Exclamation_mark>`_
-
 .. _check-end-newline:
 
 Trailing newline
@@ -761,38 +806,6 @@ can lead to formatting problems when the translated text is put to use.
 
    :ref:`check-begin-newline`
 
-.. _check-end-question:
-
-Trailing question mark
-~~~~~~~~~~~~~~~~~~~~~~
-
-
-*Source and translation do not both end with a question mark*
-Checks that question marks are replicated between both source and translation.
-The presence of question marks is also checked for various languages where they
-do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or
-Coptic).
-
-.. seealso::
-
-   `Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_
-
-
-
-.. _check-end-semicolon:
-
-Trailing semicolon
-~~~~~~~~~~~~~~~~~~
-
-*Source and translation do not both end with a semicolon*
-
-Checks that semicolons at the end of sentences are replicated between both source and translation.
-This can be useful to keep formatting of entries such as desktop files.
-
-.. seealso::
-
-   `Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_
-
 .. _check-end-space:
 
 Trailing space
@@ -804,21 +817,6 @@ Checks that trailing spaces are replicated between both source and translation.
 
 Trailing space is usually utilized to space out neighbouring elements, so
 removing it might break layout.
-
-.. _check-end-stop:
-
-Trailing stop
-~~~~~~~~~~~~~
-
-*Source and translation do not both end with a full stop*
-
-Checks that full stops are replicated between both source and translation.
-The presence of full stops is checked for various languages where they do not belong
-(Chinese, Japanese, Devanagari or Urdu).
-
-.. seealso::
-
-   `Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_
 
 .. _check-same:
 
