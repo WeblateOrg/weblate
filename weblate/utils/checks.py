@@ -203,12 +203,19 @@ def check_celery(app_configs, **kwargs):
         result = ping.delay()
         try:
             pong = result.get(timeout=10, disable_sync_subtasks=False)
+            current = ping()
             # Check for outdated Celery running different version of configuration
-            if ping() != pong:
+            if current != pong:
+                differing = [
+                    key
+                    for key, value in current.items()
+                    if key not in pong or value != pong[key]
+                ]
                 errors.append(
                     weblate_check(
                         "weblate.E034",
-                        "The Celery process is outdated, please restart it.",
+                        "The Celery process is outdated or misconfigured."
+                        " Following items differ: {}".format(", ".join(differing)),
                     )
                 )
         except TimeoutError:
