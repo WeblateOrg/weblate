@@ -1005,7 +1005,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             new_base="po-duplicates/hello.pot",
             file_format="po",
         )
-        self.do_login()
+        self.do_login(superuser=True)
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("Browse all projects")
