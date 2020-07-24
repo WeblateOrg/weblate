@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-23 19:26+0000\n"
-"PO-Revision-Date: 2020-07-17 08:38+0000\n"
+"PO-Revision-Date: 2020-07-24 13:56+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -1610,39 +1610,28 @@ msgstr "Uppdatera det interna arkivet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-#, fuzzy
-#| msgid "Use management interface (site wide)"
 msgid "Use management interface"
-msgstr "Använd administrationsgränssnittet (hela webbplatsen)"
+msgstr "Använd administrationsgränssnittet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Add new projects"
-msgstr "Ytterligare projekt"
+msgstr "Lägga till nya projekt"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-#, fuzzy
-#| msgid "Add language definitions (site wide)"
 msgid "Add language definitions"
-msgstr "Lägg till språkdefinitioner (hela webbplatsen)"
+msgstr "Lägg till språkdefinitioner"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-#, fuzzy
-#| msgid "Manage language definitions (site wide)"
 msgid "Manage language definitions"
-msgstr "Hantera språkdefinitioner (hela webbplatsen)"
+msgstr "Hantera språkdefinitioner"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgctxt "Access control group"
-#| msgid "Managers"
 msgid "Manage groups"
-msgstr "Administratörer"
+msgstr "Hantera grupper"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134 weblate/templates/manage-access.html:10
@@ -1651,33 +1640,23 @@ msgstr "Hantera användare"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgctxt "Access control group"
-#| msgid "Managers"
 msgid "Manage roles"
-msgstr "Administratörer"
+msgstr "Hantera roller"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "New announcement"
 msgid "Manage announcements"
-msgstr "Nytt meddelande"
+msgstr "Hantera meddelanden"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory"
 msgstr "Hantera översättningsminne"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage component lists (site wide)"
 msgid "Manage component lists"
-msgstr "Hantera komponentlistor (hela webbplatsen)"
+msgstr "Hantera komponentlistor"
 
 #: weblate/auth/data.py:168
 msgctxt "Access control role"
@@ -1824,10 +1803,9 @@ msgid "Permission"
 msgstr "Behörighet"
 
 #: weblate/auth/models.py:77
-#, fuzzy, python-format
-#| msgid "Versions"
+#, python-format
 msgid "%s (site wide permission)"
-msgstr "Versioner"
+msgstr "%s (behörighet gällande hela webbplatsen)"
 
 #: weblate/auth/models.py:82 weblate/auth/models.py:107
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2444,13 +2422,11 @@ msgstr "i18next interpolationen matchar inte källan"
 
 #: weblate/checks/format.py:521
 msgid "ECMAScript template literals"
-msgstr ""
+msgstr "EMAScript-mallitteraler"
 
 #: weblate/checks/format.py:522
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
-msgstr "JavaScript-formatsträngen matchar inte källan"
+msgstr "ECMAScript-mallitteraler matchar inte källan"
 
 #: weblate/checks/format.py:534
 msgid "Percent placeholders"
@@ -6647,10 +6623,8 @@ msgid "Component alerts"
 msgstr "Komponentvarningar"
 
 #: weblate/templates/manage/alerts.html:22
-#, fuzzy
-#| msgid "Dismissed"
 msgid "dismissed"
-msgstr "Avfärdad"
+msgstr "avfärdad"
 
 #: weblate/templates/manage/alerts.html:33
 msgid "Projects without components"
@@ -7729,22 +7703,18 @@ msgid "Mute notifications for %(object)s"
 msgstr "Inaktivera aviseringar för %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
-#, fuzzy
-#| msgid "Watching"
 msgid "Not watching"
-msgstr "Bevakar"
+msgstr "Bevakar inte"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
-#, fuzzy, python-format
-#| msgid "Unwatch project %(project)s"
+#, python-format
 msgid "Watch project %(project)s"
-msgstr "Sluta bevaka projektet %(project)s"
+msgstr "Bevaka projektet %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
-#, fuzzy, python-format
-#| msgid "New translation component %(component)s"
+#, python-format
 msgid "Watch component %(component)s"
-msgstr "Ny översättningskomponent %(component)s"
+msgstr "Bevaka komponent %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -11164,14 +11134,13 @@ msgstr "Litet statusmärke"
 #: weblate/trans/widgets.py:307
 msgctxt "Status widget name"
 msgid "Panel"
-msgstr ""
+msgstr "Panel"
 
 #. Translators: Text on OpenGraph image
 #: weblate/trans/widgets.py:320
-#, fuzzy, python-format
-#| msgid "Projects"
+#, python-format
 msgid "Project %s"
-msgstr "Projekt"
+msgstr "Projekt %s"
 
 #: weblate/trans/widgets.py:365
 msgid "Status badge"
@@ -11182,18 +11151,14 @@ msgid "translated"
 msgstr "översatt"
 
 #: weblate/trans/widgets.py:416
-#, fuzzy
-#| msgid "Vertical multi language status widget"
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
-msgstr "Vertikal widget med status för flera språk"
+msgstr "Lodrät stapeldiagram över språk"
 
 #: weblate/trans/widgets.py:494
-#, fuzzy
-#| msgid "Horizontal multi language status widget"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
-msgstr "Horisontell widget med status för flera språk"
+msgstr "Vågrät stapeldiagram över språk"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:24
