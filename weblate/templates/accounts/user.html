@@ -14,7 +14,7 @@
     <h3>{{ page_user }}</h3>
     <p>
         <span class="middle-dot-divider">@{{ page_user.username }}</span>
-        <span class="middle-dot-divider">{% blocktrans with date=user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktrans %}</span>
+        <span class="middle-dot-divider">{% blocktrans with date=page_user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktrans %}</span>
     </p>
     {% if page_profile.translated or page_profile.suggested or page_profile.uploaded %}
     <p>
