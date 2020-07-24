@@ -553,6 +553,7 @@ SAME_BLACKLIST = {
     "page",
     "pager",
     "pages",
+    "panel",
     "parameter",
     "parameters",
     "park",

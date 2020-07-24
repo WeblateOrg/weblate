@@ -399,7 +399,11 @@
         {% with fixup=check.get_fixup_json %}
         {% if fixup %}
         <p class="list-group-item-text list-buttons check-fixup">
-            <a data-check-fixup="{{ fixup }}" class="btn btn-primary">{% trans "Fix string" %}</a>
+            <a data-check-fixup="{{ fixup }}" class="btn btn-primary"
+              {% if locked or not user_can_translate %}
+                disabled="disabled"
+              {% endif %}
+            >{% trans "Fix string" %}</a>
         </p>
         {% endif %}
         {% endwith %}
