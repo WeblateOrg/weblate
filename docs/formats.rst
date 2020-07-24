@@ -713,7 +713,7 @@ Laravel PHP strings
 
 .. versionchanged:: 4.1
 
-The Laravel PHP locazation files are supported as well with plurals:
+The Laravel PHP localization files are supported as well with plurals:
 
 .. code-block:: php
 
@@ -1385,7 +1385,7 @@ Android style
    Only used in Android apps, produces language codes like
    `pt-rBR`.
 Java style
-   User by Java—mostly BCP with legacy codes for Chinese.
+   Used by Java—mostly BCP with legacy codes for Chinese.
 
 .. note::
 

@@ -8,7 +8,7 @@ Automated backup
 
 .. versionadded:: 3.9
 
-Weblate has built in support for creating service backups using `BorgBackup`_.
+Weblate has built-in support for creating service backups using `BorgBackup`_.
 Borg creates space-effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface on the
 :guilabel:`Backups` tab.

@@ -215,7 +215,7 @@ Translation memory
     Look at similar strings translated in past, see :ref:`memory`.
 Glossary
     Displays terms from the project glossary used in the current message.
-Recent edits
+Recent changes
     List of people whom have changed this message recently using Weblate.
 Project
     Project information like instructions for translators, or information about

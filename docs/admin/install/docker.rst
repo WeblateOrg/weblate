@@ -1006,7 +1006,7 @@ Changing enabled apps, checks, addons or autofixes
 
 .. versionadded:: 3.8-5
 
-The built in configuration of enabled checks, addons or autofixes can be
+The built-in configuration of enabled checks, addons or autofixes can be
 adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS

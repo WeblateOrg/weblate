@@ -674,7 +674,7 @@ Languages
 
 .. http:put:: /api/languages/(string:language)/
 
-    Changes the lnnguage parameters.
+    Changes the language parameters.
 
     :param language: Language's code
     :type language: string
