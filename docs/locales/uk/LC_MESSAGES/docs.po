@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-23 21:26+0200\n"
-"PO-Revision-Date: 2020-07-24 11:54+0000\n"
+"PO-Revision-Date: 2020-07-24 13:57+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1450,6 +1450,10 @@ msgid ""
 "squashed commit message. This also generates proper ``Co-authored-by:`` "
 "credit for every translator."
 msgstr ""
+"Трейлери (рядки внеску, подібні до ``Co-authored-by: ...``) можна, якщо "
+"хочеться, вилучити з початкових повідомлень про внесок і дописати наприкінці "
+"об'єднаного повідомлення про внесок. Це також створює належний запис "
+"авторських прав ``Co-authored-by:`` для кожного перекладача."
 
 #: ../../admin/addons.rst:270
 msgid "Customize JSON output"
@@ -1483,6 +1487,9 @@ msgid ""
 "Use with care as comment being old does not mean they have lost their "
 "importance."
 msgstr ""
+"Це може бути корисним для вилучення застарілих коментарів, які могли "
+"перестати бути актуальними. Користайтеся цією можливістю обережно, оскільки "
+"те, що коментар застарів, не означає, що він перестав бути важливим."
 
 #: ../../admin/addons.rst:297
 msgid "Stale suggestion removal"
@@ -1498,6 +1505,9 @@ msgid ""
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
+"Це може бути дуже корисним у поєднанні із голосуванням за пропозиції (див. "
+":ref:`peer-review`) для вилучення пропозицій, які не отримують достатньої "
+"кількості позитивних голосів протягом вказаного часового проміжку."
 
 #: ../../admin/addons.rst:310
 msgid "Update RESX files"
@@ -1541,6 +1551,8 @@ msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include class absolute name in this setting."
 msgstr ""
+"Список додатків налаштовується :setting:`WEBLATE_ADDONS`. Щоб додати "
+"додаток, просто до цього параметра включіть абсолютну назву класу."
 
 #: ../../admin/addons.rst:342
 msgid "Writing addon"
@@ -1552,6 +1564,9 @@ msgid ""
 "``BaseAddon``, define the addon metadata and implement a callback which will "
 "do the processing."
 msgstr ""
+"Ви також можете створити власні додатки — усе, що потрібно, створити підклас "
+"``BaseAddon``, визначити метадані додатка і реалізувати зворотний виклик, "
+"який виконуватиме обробку."
 
 #: ../../admin/addons.rst:347
 msgid "Here is an example addon:"
@@ -1567,6 +1582,9 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
 msgstr ""
+"Додатками також можна скористатися для виконання зовнішніх скриптів. Цю "
+"можливість інтегровано до Weblate, але тепер вам потрібно написати певний "
+"код обгортки вашого скрипту до стану додатка."
 
 #: ../../admin/addons.rst:364
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -1578,6 +1596,8 @@ msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Скрипт виконується у поточному каталозі, яким є кореневий каталог сховища "
+"системи керування версіями для будь-якого заданого компонента."
 
 #: ../../admin/addons.rst:369
 msgid "Additionally, the following environment variables are available:"
@@ -1653,7 +1673,7 @@ msgstr "Адреса складника."
 
 #: ../../admin/addons.rst:451
 msgid "Project engage URL."
-msgstr ""
+msgstr "Адреса роботи з проєктом."
 
 #: ../../admin/addons.rst:455 ../../faq.rst:265
 msgid ":ref:`component`"
@@ -1743,6 +1763,8 @@ msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
+":guilabel:`Мови Weblate` містять визначення мов, докладніший опис у розділі "
+":ref:`languages`."
 
 #: ../../admin/admin.rst:39
 msgid "Adding a project"
@@ -1754,6 +1776,10 @@ msgid ""
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
 msgstr ""
+"Додавання проєкту створює контейнер для усіх складників. Зазвичай, ви "
+"створюєте один проєкт для однієї частини програмного забезпечення або для "
+"однієї книги (див. :ref:`project`, щоб дізнатися більше про окремі "
+"параметри):"
 
 #: ../../admin/admin.rst:49
 msgid ":ref:`project`"
@@ -1768,6 +1794,8 @@ msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Після додавання проєкту до нього можна додати складники перекладу. (Див. "
+":ref:`component`, щоб дізнатися більше про окремі параметри):"
 
 #: ../../admin/admin.rst:63 ../../admin/admin.rst:79
 msgid ":ref:`component`, :ref:`bimono`"
@@ -1802,18 +1830,23 @@ msgstr ""
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
 msgstr ""
+"Оголошуйте про мету, контрольні дати, стан або вказуйте цілі для перекладу."
 
 #: ../../admin/announcements.rst:12
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
 msgstr ""
+"Користувачі отримають сповіщення при появі оголошень у проєктах, за якими "
+"вони спостерігають (якщо таке отримання не було вимкнено явним чином)."
 
 #: ../../admin/announcements.rst:15
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
 msgstr ""
+"Це може бути корисним для різних речей — від оголошення мети на рівні сайта "
+"до визначення цілей для перекладу."
 
 #: ../../admin/announcements.rst:18
 msgid ""
@@ -2487,6 +2520,10 @@ msgid ""
 "not be able to restore the backup. The passphrase is generated when adding "
 "new backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ створює зашифровані резервні копії і без пароля ви не зможете "
+"відновити дані з резервної копії. Пароль створюється при додаванні нової "
+"служби резервного копіювання, і вам слід скопіювати його і зберігати його у "
+"безпечному місці."
 
 #: ../../admin/backup.rst:67
 msgid ""
