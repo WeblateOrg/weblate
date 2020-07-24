@@ -55,6 +55,7 @@ from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.views import get_translation, show_form_errors
+from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
 
 def get_other_units(unit):
@@ -482,6 +483,14 @@ def translate(request, project, component, lang):
     # Prepare form
     form = TranslationForm(request.user, translation, unit)
 
+    # Access namespace
+    user_can_access_namespace = False
+    namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by("name")
+    if bool(namespace_query.count()):
+        namespace = namespace_query[0].name
+        if NAMESPACE_SEPARATOR + namespace in lang:
+            user_can_access_namespace = True
+
     return render(
         request,
         "translate.html",
@@ -516,6 +525,7 @@ def translate(request, project, component, lang):
             "locked": locked,
             "glossary": Dictionary.objects.get_words(unit),
             "addword_form": InlineWordForm(),
+            "user_can_access_namespace": user_can_access_namespace,
         },
     )
 

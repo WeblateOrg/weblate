@@ -179,8 +179,8 @@
   </div>
   <div class="panel-footer">
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
-    {% if locked or not user_can_translate %}disabled="disabled"{% endif %}
-    {% if not user_can_translate %}
+    {% if locked or not user_can_translate and not user_can_access_namespace %}disabled="disabled"{% endif %}
+    {% if not user_can_translate and not user_can_access_namespace %}
     {% if not user.is_authenticated %}
     title="{% trans "Please log in to save translations." %}"
     {% elif unit.approved %}
