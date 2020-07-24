@@ -3,7 +3,7 @@
 # Simple wrapper to start/stop celery workers
 
 python -m celery -A weblate.utils multi $1 \
-    search notify celery backup translate \
+    notify celery backup translate \
     --pidfile=$PWD/weblate-%n.pid \
     --logfile=$PWD/weblate-%n%I.log --loglevel=DEBUG \
     --beat:celery --concurrency:celery=4 --queues:celery=celery --prefetch-multiplier:celery=4 \
