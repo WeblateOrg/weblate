@@ -7,7 +7,7 @@ Access control
 
     Before Weblate 3.0, the privilege system was based on Django, but is now
     specifically built for Weblate. If you are using an older version, please
-    the consult documentation for that version, the information here will not apply.
+    consult the documentation for that version, the information here will not apply.
 
 Weblate comes with a fine grained privilege system to assign user permissions
 for the whole instance, or in a limited scope.
@@ -157,13 +157,13 @@ Whenever a permission is checked to decide whether one is able to perform a
 given action, the check is carried out according to scope, and the following
 checks are performed in the order:
 
-1. :guilabel:`Component list` are matched against component or project.
+1. :guilabel:`Component list` is matched against component or project.
 
 2. :guilabel:`Components` are matched against component or project.
 
 3. :guilabel:`Projects` are matched against project.
 
-As you can see, grating access to a component automatically grants user access
+As you can see, granting access to a component automatically grants user access
 to a containing project as well.
 
 .. note::
@@ -285,7 +285,7 @@ Custom access control
 ---------------------
 
 By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will stop
-managing access for a given project, and all users and groups can be managed using the Django```
+managing access for a given project, and all users and groups can be managed using the Django
 admin interface. This can be used to define more complex access control, or
 set up a shared access policy for all projects in a single Weblate instance. If you
 want to turn this on for all projects by default, please configure the

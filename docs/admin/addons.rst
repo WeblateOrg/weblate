@@ -412,7 +412,7 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_PREVIOUS_HEAD
 
-    Previous HEAD on update (available only available when running post update hook).
+    Previous HEAD on update (available only when running post update hook).
 
 .. envvar:: WL_COMPONENT_SLUG
 

@@ -492,7 +492,7 @@ and provide a user to bind for the search. For example:
    AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
        ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 
-Active directory integration
+Active Directory integration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python

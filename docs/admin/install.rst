@@ -1117,7 +1117,7 @@ For testing purposes, you can use the built-in web server in Django:
 
 .. hint::
 
-   The Django built in server serves static files only with :setting:`DEBUG`
+   The Django built-in server serves static files only with :setting:`DEBUG`
    enabled as it is intended for development only. For production use, please
    see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and
    :ref:`static-files`.
@@ -1360,7 +1360,7 @@ Weblate has support for the following services:
 Sentry
 ++++++
 
-Weblate has built in support for `Sentry <https://sentry.io/>`_. To use
+Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use
 it, it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:
 
 .. code-block:: python

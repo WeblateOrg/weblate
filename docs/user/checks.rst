@@ -129,7 +129,7 @@ happens to be used.
    In case specific format check is not available in Weblate, you can use
    generic :ref:`check-placeholders`.
 
-Besides checking, this will also highligh the formatting strings to easily
+Besides checking, this will also highlight the formatting strings to easily
 insert them into translated strings:
 
 .. image:: /images/format-highlight.png

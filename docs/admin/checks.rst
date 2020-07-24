@@ -85,7 +85,7 @@ Here is a list of flags currently accepted:
     :ref:`check-c-sharp-format`, :ref:`check-java-format`,
     :ref:`check-java-messageformat`, :ref:`check-same`.
 ``strict-same``
-    Make "Unchanged translation" avoid using built in words blacklist, see :ref:`check-same`.
+    Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
 ``ignore-bbcode``
     Skip the "BBcode markup" quality check.
 ``ignore-duplicate``

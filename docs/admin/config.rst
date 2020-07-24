@@ -295,7 +295,7 @@ The following subdirectories usually exist:
 
 .. note::
 
-    This directory has to be writable by Weblate. If if running it as uWSGI means
+    This directory has to be writable by Weblate. Running it as uWSGI means
     the ``www-data`` user should have write access to it.
 
     The easiest way to achieve this is to make the user the owner of the directory:
@@ -1478,7 +1478,7 @@ Example:
 STATUS_URL
 ----------
 
-The URL where your Weblate instance reports it's status.
+The URL where your Weblate instance reports its status.
 
 .. setting:: SUGGESTION_CLEANUP_DAYS
 
@@ -1582,7 +1582,7 @@ example:
 .. code-block:: python
 
     WEBLATE_ADDONS = (
-        # Built in addons
+        # Built-in addons
         'weblate.addons.gettext.GenerateMoAddon',
         'weblate.addons.gettext.UpdateLinguasAddon',
         'weblate.addons.gettext.UpdateConfigureAddon',
