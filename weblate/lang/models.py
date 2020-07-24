@@ -423,7 +423,7 @@ class Language(models.Model):
 
     @property
     def show_language_code(self):
-        return self.code not in data.NO_CODE_LANGUAGES
+        return self.code not in data.NO_CODE_LANGUAGES and NAMESPACE_SEPARATOR not in self.code
 
     def get_html(self):
         """Return html attributes for markup in this language.
