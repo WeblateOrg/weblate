@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 15:58+0200\n"
-"PO-Revision-Date: 2020-07-24 13:57+0000\n"
+"PO-Revision-Date: 2020-07-24 18:39+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -14826,6 +14826,10 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
+"Эта конечная точка API использует отличающуюся от остального API логику "
+"вывода, так как она работает не с данными, а с целым файлом. Отличается "
+"логика при установке допустимого параметра ``format`` — без него вы получите "
+"файл перевода, хранящийся в системе контроля версий."
 
 #: ../../api.rst:1676
 msgid ""
@@ -14840,17 +14844,19 @@ msgstr ""
 
 #: ../../api.rst:1687
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "Загружает новый файл с переводами."
 
 #: ../../api.rst:1695
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``)"
 msgstr ""
+"Как поступать с конфликтами (``ignore``, ``replace-translated`` или "
+"``replace-approved``)"
 
 #: ../../api.rst:1696 ../../api.rst:1886 ../../api.rst:1913
 msgid "Uploaded file"
-msgstr ""
+msgstr "Загруженный файл"
 
 #: ../../api.rst:1697
 msgid "Author e-mail"
@@ -14865,10 +14871,12 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``), see :ref:`upload-method`"
 msgstr ""
+"Метод загрузки (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
+"``replace`` или ``source``), смотрите раздел :ref:`upload-method`"
 
 #: ../../api.rst:1700
 msgid "Fuzzy strings processing (*empty*, ``process``, ``approve``)"
-msgstr ""
+msgstr "Обработка строк «на правку» (*пусто*, ``process`` или ``approve``)"
 
 #: ../../api.rst:1715
 msgid ""
@@ -14884,31 +14892,31 @@ msgstr "Возвращает подробную статистику по пер
 
 #: ../../api.rst:1752
 msgid "number of failing checks"
-msgstr ""
+msgstr "количество неудачных проверок"
 
 #: ../../api.rst:1753
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "процент неудачных проверок"
 
 #: ../../api.rst:1754
 msgid "number of strings needing review"
-msgstr ""
+msgstr "количество строк, нуждающихся в пересмотре"
 
 #: ../../api.rst:1755
 msgid "percentage of strings needing review"
-msgstr ""
+msgstr "процент строк, нуждающихся в пересмотре"
 
 #: ../../api.rst:1759
 msgid "date of last change"
-msgstr ""
+msgstr "дата последнего изменения"
 
 #: ../../api.rst:1764
 msgid "URL to access the translation (engagement URL)"
-msgstr ""
+msgstr "URL-адрес для доступа к переводу (URL-адрес вводной страницы)"
 
 #: ../../api.rst:1765
 msgid "URL to access the translation (real translation URL)"
-msgstr ""
+msgstr "URL-адрес для доступа к переводу (реальный URL-адрес перевода)"
 
 #: ../../api.rst:1768
 msgid "Units"
@@ -14931,11 +14939,11 @@ msgstr "Возвращает информацию о единице перево
 
 #: ../../api.rst:1784 ../../api.rst:1903
 msgid "Unit ID"
-msgstr ""
+msgstr "Идентификатор единицы перевода"
 
 #: ../../api.rst:1786 ../../api.rst:1838
 msgid "URL of a related translation object"
-msgstr ""
+msgstr "URL-адрес связанного объекта перевода"
 
 #: ../../api.rst:1787
 msgid "source string"
@@ -15198,7 +15206,7 @@ msgstr "Плашка списка компонентов"
 
 #: ../../api.rst:1942 ../../api.rst:1954 ../../api.rst:1964
 msgid "name of a component list"
-msgstr ""
+msgstr "название списка компонентов"
 
 #: ../../api.rst:1943 ../../api.rst:1955 ../../api.rst:1965
 msgid "slug of a component list"
@@ -15206,15 +15214,15 @@ msgstr "плашка списка компонентов"
 
 #: ../../api.rst:1944 ../../api.rst:1956 ../../api.rst:1966
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "показывать ли его на панели управления"
 
 #: ../../api.rst:1946
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "правила автоматического назначения"
 
 #: ../../api.rst:1950 ../../api.rst:1960
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "Изменяет параметры списка компонентов."
 
 #: ../../api.rst:1970
 msgid "Deletes the component list."
@@ -15222,15 +15230,15 @@ msgstr "Удаляет список компонентов."
 
 #: ../../api.rst:1977
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "Связывает компонент со списком компонентов."
 
 #: ../../api.rst:1981
 msgid "Component ID"
-msgstr ""
+msgstr "Идентификатор компонента"
 
 #: ../../api.rst:1985
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "Отвязывает компонент от списка компонентов."
 
 #: ../../api.rst:1995
 msgid "Notification hooks"
@@ -15241,6 +15249,8 @@ msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
 msgstr ""
+"Обработчики уведомлений позволяют внешним приложениям уведомлять Weblate об "
+"обновлении репозитория системы контроля версий."
 
 #: ../../api.rst:2000
 msgid ""
@@ -15258,30 +15268,43 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"Пожалуйста, используйте вместо этой конечной точки точку :http:post:`/api/"
+"components/(string:project)/(string:component)/repository/`, которая "
+"корректно работает с аутентификацией для проектов, ограниченных списками "
+"контроля доступа."
 
 #: ../../api.rst:2011
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
 msgstr ""
+"Запускает обновление компонента (извлечение кода из системы контроля версий "
+"и поиск в нём изменений перевода)."
 
 #: ../../api.rst:2018
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+"Пожалуйста, используйте вместо этой конечной точки точку :http:post:`/api/"
+"projects/(string:project)/repository/`, которая корректно работает с "
+"аутентификацией для проектов, ограниченных списками контроля доступа."
 
 #: ../../api.rst:2021
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
 msgstr ""
+"Запускает обновление всех компонентов в проекте (извлечение кода из системы "
+"контроля версий и поиск в нём изменений перевода)."
 
 #: ../../api.rst:2026
 msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
 msgstr ""
+"Специальный обработчик для обработки уведомлений GitHub и автоматического "
+"обновления соответствующих компонентов."
 
 #: ../../api.rst:2031
 msgid ""
@@ -15289,6 +15312,9 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"GitHub включает прямую поддержку уведомлений Weblate: включите сервисный "
+"обработчик Weblate в настройках репозитория и установите URL-адрес в "
+"соответствие с URL-адресом вашей установки Weblate."
 
 #: ../../api.rst:2037
 msgid ":ref:`github-setup`"
@@ -15296,7 +15322,7 @@ msgstr ":ref:`github-setup`"
 
 #: ../../api.rst:2038
 msgid "For instruction on setting up GitHub integration"
-msgstr ""
+msgstr "Инструкция по настройке интеграции с GitHub"
 
 #: ../../api.rst:2039
 msgid "https://help.github.com/en/github/extending-github/about-webhooks"
@@ -15304,7 +15330,7 @@ msgstr "https://help.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2040
 msgid "Generic information about GitHub Webhooks"
-msgstr ""
+msgstr "Общая информация о веб-обработчиках GitHub"
 
 #: ../../api.rst:2041 ../../api.rst:2055 ../../api.rst:2069 ../../api.rst:2085
 #: ../../api.rst:2101 ../../api.rst:2117 ../../api.rst:2133
@@ -15314,13 +15340,15 @@ msgstr ":setting:`ENABLE_HOOKS`"
 #: ../../api.rst:2042 ../../api.rst:2056 ../../api.rst:2070 ../../api.rst:2086
 #: ../../api.rst:2102 ../../api.rst:2118 ../../api.rst:2134
 msgid "For enabling hooks for whole Weblate"
-msgstr ""
+msgstr "Для включения обработчиков для всего Weblate"
 
 #: ../../api.rst:2046
 msgid ""
 "Special hook for handling GitLab notifications and automatically updating "
 "matching components."
 msgstr ""
+"Специальный обработчик для обработки уведомлений GitLab и автоматического "
+"обновления соответствующих компонентов."
 
 #: ../../api.rst:2051
 msgid ":ref:`gitlab-setup`"
@@ -15328,7 +15356,7 @@ msgstr ":ref:`gitlab-setup`"
 
 #: ../../api.rst:2052
 msgid "For instruction on setting up GitLab integration"
-msgstr ""
+msgstr "Инструкция по настройке интеграции с GitLab"
 
 #: ../../api.rst:2053
 msgid "https://docs.gitlab.com/ce/user/project/integrations/webhooks.html"
@@ -15336,13 +15364,15 @@ msgstr "https://docs.gitlab.com/ce/user/project/integrations/webhooks.html"
 
 #: ../../api.rst:2054
 msgid "Generic information about GitLab Webhooks"
-msgstr ""
+msgstr "Общая информация о веб-обработчиках GitLab"
 
 #: ../../api.rst:2060
 msgid ""
 "Special hook for handling Bitbucket notifications and automatically updating "
 "matching components."
 msgstr ""
+"Специальный обработчик для обработки уведомлений Bitbucket и автоматического "
+"обновления соответствующих компонентов."
 
 #: ../../api.rst:2065
 msgid ":ref:`bitbucket-setup`"
@@ -15350,7 +15380,7 @@ msgstr ":ref:`bitbucket-setup`"
 
 #: ../../api.rst:2066
 msgid "For instruction on setting up Bitbucket integration"
-msgstr ""
+msgstr "Инструкция по настройке интеграции с Bitbucket"
 
 #: ../../api.rst:2067
 msgid ""
@@ -15360,13 +15390,15 @@ msgstr ""
 
 #: ../../api.rst:2068
 msgid "Generic information about Bitbucket Webhooks"
-msgstr ""
+msgstr "Общая информация о веб-обработчиках Bitbucket"
 
 #: ../../api.rst:2076
 msgid ""
 "Special hook for handling Pagure notifications and automatically updating "
 "matching components."
 msgstr ""
+"Специальный обработчик для обработки уведомлений Pagure и автоматического "
+"обновления соответствующих компонентов."
 
 #: ../../api.rst:2081
 msgid ":ref:`pagure-setup`"
@@ -15374,7 +15406,7 @@ msgstr ":ref:`pagure-setup`"
 
 #: ../../api.rst:2082
 msgid "For instruction on setting up Pagure integration"
-msgstr ""
+msgstr "Инструкция по настройке интеграции с Pagure"
 
 #: ../../api.rst:2083
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
@@ -15382,13 +15414,15 @@ msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2084
 msgid "Generic information about Pagure Webhooks"
-msgstr ""
+msgstr "Общая информация о веб-обработчиках Pagure"
 
 #: ../../api.rst:2092
 msgid ""
 "Special hook for handling Azure Repos notifications and automatically "
 "updating matching components."
 msgstr ""
+"Специальный обработчик для обработки уведомлений Azure Repos и "
+"автоматического обновления соответствующих компонентов."
 
 #: ../../api.rst:2097
 msgid ":ref:`azure-setup`"
@@ -15396,7 +15430,7 @@ msgstr ":ref:`azure-setup`"
 
 #: ../../api.rst:2098
 msgid "For instruction on setting up Azure integration"
-msgstr ""
+msgstr "Инструкция по настройке интеграции с Azure"
 
 #: ../../api.rst:2099
 msgid ""
@@ -15406,13 +15440,15 @@ msgstr ""
 
 #: ../../api.rst:2100
 msgid "Generic information about Azure Repos Web Hooks"
-msgstr ""
+msgstr "Общая информация о веб-обработчиках Azure Repos"
 
 #: ../../api.rst:2108
 msgid ""
 "Special hook for handling Gitea Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Специальный обработчик для обработки уведомлений Gitea и автоматического "
+"обновления соответствующих компонентов."
 
 #: ../../api.rst:2113
 msgid ":ref:`gitea-setup`"
@@ -15420,7 +15456,7 @@ msgstr ":ref:`gitea-setup`"
 
 #: ../../api.rst:2114
 msgid "For instruction on setting up Gitea integration"
-msgstr ""
+msgstr "Инструкция по настройке интеграции с Gitea"
 
 #: ../../api.rst:2115
 msgid "https://docs.gitea.io/en-us/webhooks/"
@@ -15428,13 +15464,15 @@ msgstr "https://docs.gitea.io/en-us/webhooks/"
 
 #: ../../api.rst:2116
 msgid "Generic information about Gitea Webhooks"
-msgstr ""
+msgstr "Общая информация о веб-обработчиках Gitea"
 
 #: ../../api.rst:2124
 msgid ""
 "Special hook for handling Gitee Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Специальный обработчик для обработки уведомлений Gitee и автоматического "
+"обновления соответствующих компонентов."
 
 #: ../../api.rst:2129
 msgid ":ref:`gitee-setup`"
@@ -15442,7 +15480,7 @@ msgstr ":ref:`gitee-setup`"
 
 #: ../../api.rst:2130
 msgid "For instruction on setting up Gitee integration"
-msgstr ""
+msgstr "Инструкция по настройке интеграции с Gitee"
 
 #: ../../api.rst:2131
 msgid "https://gitee.com/help/categories/40"
@@ -15450,16 +15488,18 @@ msgstr "https://gitee.com/help/categories/40"
 
 #: ../../api.rst:2132
 msgid "Generic information about Gitee Webhooks"
-msgstr ""
+msgstr "Общая информация о веб-обработчиках Gitee"
 
 #: ../../api.rst:2139
 msgid "Exports"
-msgstr ""
+msgstr "Экспорты"
 
 #: ../../api.rst:2141
 msgid ""
 "Weblate provides various exports to allow you to further process the data."
 msgstr ""
+"Чтобы позволить вам и дальше обрабатывать данные, Weblate предоставляет вам "
+"различные виды экспорта."
 
 #: ../../api.rst:2145
 msgid "Output format: either ``json`` or ``csv``"
@@ -15472,10 +15512,15 @@ msgid ""
 "component)/(string:language)/statistics/` instead; it allows access to ACL "
 "controlled projects as well."
 msgstr ""
+"Пожалуйста, используйте вместо этой конечной точки точки :http:get:`/api/"
+"components/(string:project)/(string:component)/statistics/` или :http:get:`/"
+"api/translations/(string:project)/(string:component)/(string:language)/"
+"statistics/`; они также разрешает доступ к проектам, контролируемым списками "
+"контроля доступа."
 
 #: ../../api.rst:2153
 msgid "Retrieves statistics for given component in given format."
-msgstr ""
+msgstr "Возвращает статистику по указанному компоненту в заданном формате."
 
 #: ../../api.rst:2155
 msgid "**Example request**:"
@@ -15491,31 +15536,31 @@ msgstr "RSS-каналы"
 
 #: ../../api.rst:2230
 msgid "Changes in translations are exported in RSS feeds."
-msgstr ""
+msgstr "Изменения в переводах экспортируются в RSS-каналы."
 
 #: ../../api.rst:2234
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr ""
+msgstr "Возвращает RSS-ленту с последними изменениями в переводе."
 
 #: ../../api.rst:2238
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr ""
+msgstr "Возвращает RSS-ленту с последними изменениями в компоненте."
 
 #: ../../api.rst:2242
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr ""
+msgstr "Возвращает RSS-ленту с последними изменениями в проекте."
 
 #: ../../api.rst:2246
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr ""
+msgstr "Возвращает RSS-ленту с последними изменениями в языке."
 
 #: ../../api.rst:2250
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
-msgstr ""
+msgstr "Возвращает RSS-ленту с последними изменениями в экземпляре Weblate."
 
 #: ../../api.rst:2254
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`RSS на Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 4.2"
@@ -15608,26 +15653,20 @@ msgstr ""
 "ради совместимости."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Added check for ECMAScript template literals."
-msgstr "Загрузчик кешированных шаблонов"
+msgstr "Добавлена проверка для шаблонных литералов ECMAScript."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Return to the component"
 msgid "Added option to watch a component."
-msgstr "Вернуться к компоненту"
+msgstr "Добавлен параметр для отслеживания компонента."
 
 #: ../../changes.rst:25
 msgid "Removed leading dot from JSON unit keys."
-msgstr ""
+msgstr "Из ключей единиц перевода JSON удалена ведущая точка."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Removed separate Celery queue for translation memory."
-msgstr "Использовать совместную память переводов"
+msgstr "Удалена отдельная очередь Celery для памяти переводов."
 
 #: ../../changes.rst:29
 msgid "Weblate 4.1.1"
@@ -15640,44 +15679,50 @@ msgstr "Выпущен 19 июня 2020 года."
 #: ../../changes.rst:33
 msgid "Fixed changing autofix or addons configuration in Docker."
 msgstr ""
+"Исправлено изменение конфигурации автоматического исправления или надстроек "
+"в Docker."
 
 #: ../../changes.rst:34
 msgid "Fixed possible crash in about page."
-msgstr ""
+msgstr "Исправлено возможное падение на странице «О Weblate»."
 
 #: ../../changes.rst:35
 msgid "Improved installation of byte-compiled locale files."
-msgstr ""
+msgstr "Улучшена установка скомпилированных файлов локали."
 
 #: ../../changes.rst:36
 msgid "Fixed adding words to glossary."
-msgstr ""
+msgstr "Исправлено добавление слов в глоссарий."
 
 #: ../../changes.rst:37
 msgid "Fixed keyboard shortcuts for machinery."
-msgstr ""
+msgstr "Исправлено сочетание клавиш для автоматизированного перевода."
 
 #: ../../changes.rst:38
 msgid ""
 "Removed debugging output causing discarding of log events in some setups."
 msgstr ""
+"Удалён отладочный вывод, вызывающий при некоторых настройках отбрасывание "
+"событий журнала."
 
 #: ../../changes.rst:39
 msgid "Fixed lock indication on project listing."
-msgstr ""
+msgstr "Исправлена индикация блокировки в списке проектов."
 
 #: ../../changes.rst:40
 msgid "Fixed listing GPG keys is some setups."
-msgstr ""
+msgstr "Исправлено перечисление ключей GPG при некоторых настройках."
 
 #: ../../changes.rst:41
 msgid "Added option to configure DeepL API version to use."
-msgstr ""
+msgstr "Добавлен параметр для настройки используемой версии API DeepL."
 
 #: ../../changes.rst:42
 msgid ""
 "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
 msgstr ""
+"Добавлена поддержка работы в качестве провайдера SAML-сервиса, смотрите :ref"
+":`saml-auth`."
 
 #: ../../changes.rst:45
 msgid "Weblate 4.1"
@@ -15689,72 +15734,78 @@ msgstr "Выпущен 15 июня 2020 года."
 
 #: ../../changes.rst:49
 msgid "Added support for creating new translations with included country code."
-msgstr ""
+msgstr "Добавлена поддержка создания новых переводов с включённым кодом страны."
 
 #: ../../changes.rst:50
 msgid "Added support for searching source strings with screenshot."
-msgstr ""
+msgstr "Добавлена поддержка поиска исходных строк со снимками экрана."
 
 #: ../../changes.rst:51
 msgid "Extended information available in the stats insights."
-msgstr ""
+msgstr "Расширен состав информации, доступный в статистике."
 
 #: ../../changes.rst:52
 msgid "Improved search editing on translate pages."
-msgstr ""
+msgstr "Улучшено редактирование поиска на страницах перевода."
 
 #: ../../changes.rst:53
 msgid "Improve handling of concurrent repository updates."
-msgstr ""
+msgstr "Улучшена обработка одновременных обновлений репозитория."
 
 #: ../../changes.rst:54
 msgid "Include source language in project creation form."
-msgstr ""
+msgstr "В форму создания проекта включён исходный язык."
 
 #: ../../changes.rst:55
 msgid "Include changes count in credits."
-msgstr ""
+msgstr "В список авторов включено количество изменений."
 
 #: ../../changes.rst:56
 msgid "Fixed UI language selection in some cases."
 msgstr ""
+"Исправлена возникающая в некоторых случаях ошибка выбора языка "
+"пользовательского интерфейса."
 
 #: ../../changes.rst:57
 msgid "Allow to whitelist registration methods with registrations closed."
 msgstr ""
+"Разрешение внесения методов регистрации в белый список при закрытых "
+"регистрациях."
 
 #: ../../changes.rst:58
 msgid "Improved lookup of related terms in glossary."
-msgstr ""
+msgstr "Улучшен поиск смежных терминов в глоссарии."
 
 #: ../../changes.rst:59
 msgid "Improved translation memory matches."
-msgstr ""
+msgstr "Улучшены соответствия с памятью переводов."
 
 #: ../../changes.rst:60
 msgid "Group same machinery results."
-msgstr ""
+msgstr "Группировка одинаковых результатов автоматизированного перевода."
 
 #: ../../changes.rst:61
 msgid "Add direct link to edit screenshot from translate page."
 msgstr ""
+"Добавление прямой ссылки для редактирования снимка экрана прямо со страницы "
+"перевода."
 
 #: ../../changes.rst:62
 msgid "Improved removal confirmation dialog."
-msgstr ""
+msgstr "Улучшен диалог подтверждения удаления."
 
 #: ../../changes.rst:63
 msgid "Include templates in ZIP download."
-msgstr ""
+msgstr "В скачиваемый ZIP-файл включены шаблоны."
 
 #: ../../changes.rst:64
 msgid ""
 "Add support for Markdown and notification configuration in announcements."
-msgstr ""
+msgstr "В объявлениях добавлена поддержка Markdown и настройка уведомлений."
 
 #: ../../changes.rst:65
 msgid "Extended details in check listings."
-msgstr ""
+msgstr "Расширенная информация в списках проверок."
 
 #: ../../changes.rst:66
 msgid ""
@@ -15762,86 +15813,101 @@ msgid ""
 "`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:"
 "`go-i18n-json`, :ref:`arb`."
 msgstr ""
+"Добавлена поддержка новых форматов файлов: :ref:`laravel-php`, :ref:`html`, "
+":ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, "
+":ref:`go-i18n-json` и :ref:`arb`."
 
 #: ../../changes.rst:67
 msgid "Consistently use dismissed as state of dismissed checks."
 msgstr ""
+"Последовательное использование статуса «пропущена» в качестве статуса "
+"пропущенных проверок."
 
 #: ../../changes.rst:68
 msgid "Add support for configuring default addons to enable."
-msgstr ""
+msgstr "Добавлена поддержка для настройки включённых надстроек по умолчанию."
 
 #: ../../changes.rst:69
 msgid "Fixed editor keyboard shortcut to dismiss checks."
-msgstr ""
+msgstr "Исправлено сочетание клавиш редактора для пропуска проверок."
 
 #: ../../changes.rst:70
 msgid "Improved machine translation of strings with placeholders."
-msgstr ""
+msgstr "Улучшен машинный перевод строк с заполнителями."
 
 #: ../../changes.rst:71
 msgid "Show ghost translation for user languages to ease starting them."
 msgstr ""
+"Показ призрачного перевода для языков пользователя, чтобы упростить ему "
+"начало перевода."
 
 #: ../../changes.rst:72
 msgid "Improved language code parsing."
-msgstr ""
+msgstr "Улучшен разбор кода языка."
 
 #: ../../changes.rst:73
 msgid "Show translations in user language first in the list."
-msgstr ""
+msgstr "Показ переводов на язык пользователя на первом месте в списке."
 
 #: ../../changes.rst:74
 msgid "Renamed shapings to more generic name variants."
-msgstr ""
+msgstr "Переименование «форм» на более обобщённые «варианты»."
 
 #: ../../changes.rst:75
 msgid ""
 "Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-"
 "untranslated`, :ref:`check-duplicate`."
 msgstr ""
+"Добавлены новые проверки качества: :ref:`check-unnamed-format`, :ref:`check-"
+"long-untranslated` и :ref:`check-duplicate`."
 
 #: ../../changes.rst:76
 msgid "Reintroduced support for wiping translation memory."
-msgstr ""
+msgstr "Вновь введена поддержка стирания памяти переводов."
 
 #: ../../changes.rst:77
 msgid "Fixed option to ignore source checks."
 msgstr ""
+"Исправлен параметр для включения в исходной строке игнорирования проверок."
 
 #: ../../changes.rst:78
 msgid "Added support for configuring different branch for pushing changes."
 msgstr ""
+"Добавлена поддержка настройки различных веток, в которые следует отправлять "
+"изменения."
 
 #: ../../changes.rst:79
 msgid "API now reports rate limiting status in the HTTP headers."
 msgstr ""
+"API теперь сообщает об ограничении в частоте запросов в заголовках HTTP."
 
 #: ../../changes.rst:80
 msgid "Added support for Google Translate V3 API (Advanced)."
-msgstr ""
+msgstr "Добавлена поддержка Google Translate V3 API (расширенная)."
 
 #: ../../changes.rst:81
 msgid "Added ability to restrict access on component level."
-msgstr ""
+msgstr "Добавлена возможность ограничения доступа на уровне компонентов."
 
 #: ../../changes.rst:82
 msgid ""
 "Added support for whitespace and other special chars in translation flags, "
 "see :ref:`custom-checks`."
 msgstr ""
+"Во флагах перевода добавлена поддержка пробельных и других специальных "
+"символов, смотрите раздел :ref:`custom-checks`."
 
 #: ../../changes.rst:83
 msgid "Always show rendered text check if enabled."
-msgstr ""
+msgstr "Отображаемый текст, если он включён, показывается всегда."
 
 #: ../../changes.rst:84
 msgid "API now supports filtering of changes."
-msgstr ""
+msgstr "API теперь поддерживает фильтрацию изменений."
 
 #: ../../changes.rst:85
 msgid "Added support for sharing glossaries between projects."
-msgstr ""
+msgstr "Добавлена поддержка обмена глоссариями между проектами."
 
 #: ../../changes.rst:88
 msgid "Weblate 4.0.4"
@@ -15854,36 +15920,43 @@ msgstr "Выпущен 7 мая 2020 года."
 #: ../../changes.rst:92
 msgid "Fixed testsuite execution on some Python 3.8 environments."
 msgstr ""
+"Исправлено выполнение тестового набора в некоторых окружениях с Python’ом 3."
+"8."
 
 #: ../../changes.rst:93
 msgid "Typo fixes in the documentation."
-msgstr ""
+msgstr "Исправление опечаток в документации."
 
 #: ../../changes.rst:94
 msgid "Fixed creating components using API in some cases."
 msgstr ""
+"Исправлена возникавшая в некоторых случаях ошибка создания компонентов с "
+"помощью API."
 
 #: ../../changes.rst:95
 msgid "Fixed JavaScript errors breaking mobile navigation."
 msgstr ""
+"Исправлены ошибки JavaScript, ломающие навигацию на мобильных устройствах."
 
 #: ../../changes.rst:96
 msgid "Fixed crash on displaying some checks."
-msgstr ""
+msgstr "Исправлено падение при отображении некоторых проверок."
 
 #: ../../changes.rst:97
 msgid "Fixed screenshots listing."
-msgstr ""
+msgstr "Исправлен вывод списка снимков экрана."
 
 #: ../../changes.rst:98
 msgid "Fixed monthly digest notifications."
-msgstr ""
+msgstr "Исправлены ежемесячные выдержки с уведомлениями."
 
 #: ../../changes.rst:99
 msgid ""
 "Fixed intermediate translation behavior with units non existing in "
 "translation."
 msgstr ""
+"Исправлено поведение промежуточного перевода с единицами перевода, не "
+"существовавшими в переводе."
 
 #: ../../changes.rst:102
 msgid "Weblate 4.0.3"
@@ -15895,23 +15968,24 @@ msgstr "Выпущен 2 мая 2020 года."
 
 #: ../../changes.rst:106
 msgid "Fixed possible crash in reports."
-msgstr ""
+msgstr "Исправлено возможное падение в отчётах."
 
 #: ../../changes.rst:107
 msgid "User mentions in comments are now case insensitive."
 msgstr ""
+"Упоминания пользователей в комментариях теперь не чувствительны к регистру."
 
 #: ../../changes.rst:108
 msgid "Fixed PostgreSQL migration for non superusers."
-msgstr ""
+msgstr "Исправлена миграция PostgreSQL для не суперпользователей."
 
 #: ../../changes.rst:109
 msgid "Fixed changing the repository URL while creating component."
-msgstr ""
+msgstr "Исправлено изменение URL-адреса репозитория при создании компонента."
 
 #: ../../changes.rst:110
 msgid "Fixed crash when upstream repository is gone."
-msgstr ""
+msgstr "Исправлено падение при исчезновении вышестоящего репозитория."
 
 #: ../../changes.rst:113
 msgid "Weblate 4.0.2"
@@ -15923,75 +15997,82 @@ msgstr "Выпущен 27 апреля 2020 года."
 
 #: ../../changes.rst:117
 msgid "Improved performance of translation stats."
-msgstr ""
+msgstr "Улучшена производительность статистики перевода."
 
 #: ../../changes.rst:118
 msgid "Improved performance of changing labels."
-msgstr ""
+msgstr "Улучшена производительность смены меток."
 
 #: ../../changes.rst:119
 msgid "Improved bulk edit performance."
-msgstr ""
+msgstr "Улучшена производительность массовой правки."
 
 #: ../../changes.rst:120
 msgid "Improved translation memory performance."
-msgstr ""
+msgstr "Улучшена производительность памяти переводов."
 
 #: ../../changes.rst:121
 msgid "Fixed possible crash on component deletion."
-msgstr ""
+msgstr "Исправлено возможное падение при удалении компонента."
 
 #: ../../changes.rst:122
 msgid "Fixed displaying of translation changes in some corner cases."
 msgstr ""
+"Исправлено отображение изменений перевода в некоторых пограничных случаях."
 
 #: ../../changes.rst:123
 msgid "Improved warning about too long celery queue."
-msgstr ""
+msgstr "Улучшено предупреждение о слишком длинной очереди Celery."
 
 #: ../../changes.rst:124
 msgid "Fixed possible false positives in the consistency check."
-msgstr ""
+msgstr "Исправлены возможные ложные срабатывания при проверке согласованности."
 
 #: ../../changes.rst:125
 msgid "Fixed deadlock when changing linked component repository."
 msgstr ""
+"Исправлена взаимоблокировка при изменении репозитория связанного компонента."
 
 #: ../../changes.rst:126
 msgid "Included edit distance in changes listing and CSV and reports."
-msgstr ""
+msgstr "В список изменений, CSV и отчёты включено расстояние редактирования."
 
 #: ../../changes.rst:127
 msgid "Avoid false positives of punctuation spacing check for Canadian French."
 msgstr ""
+"Обход ложных срабатываний проверки интервала между знаками препинания для "
+"канадского французского языка."
 
 #: ../../changes.rst:128
 msgid "Fixed XLIFF export with placeholders."
-msgstr ""
+msgstr "Исправлен экспорт в формат XLIFF с заполнителями."
 
 #: ../../changes.rst:129
 msgid "Fixed false positive with zero width check."
-msgstr ""
+msgstr "Исправлено ложное срабатывание с проверкой на символ нулевой ширины."
 
 #: ../../changes.rst:130
 msgid "Improved reporting of configuration errors."
-msgstr ""
+msgstr "Улучшены отчёты об ошибках конфигурации."
 
 #: ../../changes.rst:131
 msgid "Fixed bilingual source upload."
-msgstr ""
+msgstr "Исправлена загрузка двуязычных исходных текстов."
 
 #: ../../changes.rst:132
 msgid "Automatically detect supported languages for DeepL machine translation."
 msgstr ""
+"Автоматическое определение поддерживаемых языков для машинного перевода "
+"DeepL."
 
 #: ../../changes.rst:133
 msgid "Fixed progress bar display in some corner cases."
 msgstr ""
+"Исправлено отображение индикатора выполнения в некоторых пограничных случаях."
 
 #: ../../changes.rst:134
 msgid "Fixed some checks triggering on non translated strings."
-msgstr ""
+msgstr "Исправлено срабатывание некоторых проверок на непереведённых строках."
 
 #: ../../changes.rst:137
 msgid "Weblate 4.0.1"
@@ -16003,7 +16084,7 @@ msgstr "Выпущен 16 апреля 2020 года."
 
 #: ../../changes.rst:141
 msgid "Fixed package installation from PyPI."
-msgstr ""
+msgstr "Исправлена установка пакета из PyPI."
 
 #: ../../changes.rst:144
 msgid "Weblate 4.0"
@@ -16011,71 +16092,76 @@ msgstr "Weblate 4.0"
 
 #: ../../changes.rst:148
 msgid "Weblate now requires Python 3.6 or newer."
-msgstr ""
+msgstr "Weblate теперь требует Python 3.6 или новее."
 
 #: ../../changes.rst:149
 msgid "Added management overview of component alerts."
-msgstr ""
+msgstr "Добавлен обзор управления предупреждений компонентов."
 
 #: ../../changes.rst:150
 msgid "Added component alert for broken repository browser URLs."
 msgstr ""
+"Добавлено предупреждение компонента о сломанных URL-адресах браузера "
+"репозитория."
 
 #: ../../changes.rst:151
 msgid "Improved sign in and registration pages."
-msgstr ""
+msgstr "Улучшены страницы входа и регистрации."
 
 #: ../../changes.rst:152
 msgid ""
 "Project access control and workflow configuration integrated to project "
 "settings."
 msgstr ""
+"Управление доступом к проекту и конфигурация рабочего процесса интегрированы "
+"в настройки проекта."
 
 #: ../../changes.rst:153
 msgid "Added check and highlighter for i18next interpolation and nesting."
 msgstr ""
+"Добавлена проверка и подсветка для интерполяции и вложенных строк i18next."
 
 #: ../../changes.rst:154
 msgid "Added check and highlighter for percent placeholders."
-msgstr ""
+msgstr "Добавлена проверка и подсветка для процентных заполнителей."
 
 #: ../../changes.rst:155
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Display suggestions failing checks."
-msgstr "Сообщение имеет сбойные проверки"
+msgstr "Отображение неудачных проверок в предложениях."
 
 #: ../../changes.rst:156
 msgid "Record source string changes in history."
-msgstr ""
+msgstr "Запись изменений исходной строки в историю."
 
 #: ../../changes.rst:157
 msgid "Upgraded Microsoft Translator to version 3 API."
-msgstr ""
+msgstr "Обновление переводчика Microsoft Translator на третью версию его API."
 
 #: ../../changes.rst:158
 msgid "Reimplemented translation memory backend."
-msgstr ""
+msgstr "Повторная реализация серверной части памяти переводов."
 
 #: ../../changes.rst:159
 msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
-msgstr ""
+msgstr "В :doc:`user/search` добавлена поддержка нескольких ``is:`` поисков."
 
 #: ../../changes.rst:160
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
 msgstr ""
+"Разрешено делать так, чтобы проверка :ref:`check-same` не попадала во "
+"внутренний чёрный список."
 
 #: ../../changes.rst:161
 msgid "Improved comments extraction from monolingual po files."
-msgstr ""
+msgstr "Улучшено извлечение комментариев из одноязычных po файлов."
 
 #: ../../changes.rst:162
 msgid "Renamed whiteboard messages to announcements."
-msgstr ""
+msgstr "«Доски сообщений» переименованы в «объявления»."
 
 #: ../../changes.rst:163
 msgid "Fixed occasional problems with registration mails."
-msgstr ""
+msgstr "Исправлены случайные проблемы с регистрационными письмами."
 
 #: ../../changes.rst:164
 msgid "Improved LINGUAS update addon to handle more syntax variants."
@@ -16083,33 +16169,35 @@ msgstr ""
 
 #: ../../changes.rst:165
 msgid "Fixed editing monolingual XLIFF source file."
-msgstr ""
+msgstr "Исправлено редактирование одноязычного исходного файла XLIFF."
 
 #: ../../changes.rst:166
 msgid "Added support for exact matching in :doc:`user/search`."
-msgstr ""
+msgstr "В :doc:`user/search` добавлена поддержка точного соответствия."
 
 #: ../../changes.rst:167
 msgid ""
 "Extended API to cover screenshots, users, groups, componentlists and "
 "extended creating projects."
 msgstr ""
+"Расширенный API, охватывающий снимки экрана, пользователей, группы, списки "
+"компонентов и расширенное создание проектов."
 
 #: ../../changes.rst:168
 msgid "Add support for source upload on bilingual translations."
-msgstr ""
+msgstr "Добавлена поддержка загрузки исходных текстов в двуязычные переводы."
 
 #: ../../changes.rst:169
 msgid "Added support for intermediate language from developers."
-msgstr ""
+msgstr "Добавлена поддержка промежуточного языка от разработчиков."
 
 #: ../../changes.rst:170
 msgid "Added support for source strings review."
-msgstr ""
+msgstr "Добавлена поддержка рецензирования исходных строк."
 
 #: ../../changes.rst:171
 msgid "Extended download options for platform wide translation memory."
-msgstr ""
+msgstr "Расширенные параметры скачивания памяти переводов со всей платформы."
 
 #: ../../changes.rst:174
 msgid "Weblate 3.x series"
@@ -16125,15 +16213,15 @@ msgstr "Выпущен 11 марта 2020 года."
 
 #: ../../changes.rst:181
 msgid "Fixed searching for fields with certain priority."
-msgstr ""
+msgstr "Исправлен поиск полей с определённым приоритетом."
 
 #: ../../changes.rst:182
 msgid "Fixed predefined query for recently added strings."
-msgstr ""
+msgstr "Исправлен предопределённый запрос для недавно добавленных строк."
 
 #: ../../changes.rst:183
 msgid "Fixed searching returning duplicate matches."
-msgstr ""
+msgstr "Исправлен поиск, возвращающий повторяющиеся совпадения."
 
 #: ../../changes.rst:184
 msgid "Fixed notifications rendering in Gmail."
@@ -21299,7 +21387,7 @@ msgstr ""
 
 #: ../../devel/community.rst:5
 msgid "Community localization checklist"
-msgstr ""
+msgstr "Контрольный список локализации сообщества"
 
 #: ../../devel/community.rst:9
 msgid ""
@@ -25718,10 +25806,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:589
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "Несовпадающие \\n"
+msgstr "Несовпадающие двоеточия"
 
 #: ../../user/checks.rst:591
 msgid "*Source and translation do not both end with a colon*"
@@ -25740,10 +25826,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:604
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "Несовпадающие \\n"
+msgstr "Несовпадающие многоточия"
 
 #: ../../user/checks.rst:606
 msgid "*Source and translation do not both end with an ellipsis*"
@@ -25767,10 +25851,8 @@ msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 msgstr ""
 
 #: ../../user/checks.rst:621
-#, fuzzy
-#| msgid "Trailing exclamation mark"
 msgid "Mismatched exclamation mark"
-msgstr "Восклицательный знак в конце"
+msgstr "Несовпадающие восклицательные знаки"
 
 #: ../../user/checks.rst:623
 msgid "*Source and translation do not both end with an exclamation mark*"
@@ -25791,10 +25873,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:637
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "Несовпадающие \\n"
+msgstr "Несовпадающие точки"
 
 #: ../../user/checks.rst:639
 msgid "*Source and translation do not both end with a full stop*"
@@ -25812,10 +25892,8 @@ msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
 msgstr ""
 
 #: ../../user/checks.rst:652
-#, fuzzy
-#| msgid "Trailing question mark"
 msgid "Mismatched question mark"
-msgstr "Вопросительный знак в конце"
+msgstr "Несовпадающие вопросительные знаки"
 
 #: ../../user/checks.rst:654
 #, fuzzy
@@ -25837,10 +25915,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:668
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "Несовпадающие \\n"
+msgstr "Несовпадающие точки с запятой"
 
 #: ../../user/checks.rst:670
 msgid "*Source and translation do not both end with a semicolon*"
