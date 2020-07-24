@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-23 19:26+0000\n"
+"POT-Creation-Date: 2020-07-24 13:57+0000\n"
 "PO-Revision-Date: 2020-07-24 13:56+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -1002,7 +1002,7 @@ msgstr ""
 "vyžadující úpravu. Takto je užitečné hlavně pro souborové formáty, které "
 "obsahují všechny řetězce, i když nejsou přeložené."
 
-#: weblate/addons/flags.py:96 weblate/templates/component.html:71
+#: weblate/addons/flags.py:96 weblate/templates/component.html:70
 #: weblate/templates/component.html:213 weblate/templates/project.html:105
 #: weblate/templates/snippets/project-nav.html:77
 #: weblate/templates/snippets/project-nav.html:86
@@ -1486,7 +1486,7 @@ msgid "Delete screenshot"
 msgstr "Odstranit snímek obrazovky"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:638
+#: weblate/auth/data.py:72 weblate/templates/translate.html:642
 msgid "Edit additional string info"
 msgstr "Upravit podrobnosti řetězce"
 
@@ -2093,23 +2093,29 @@ msgid "Translation contains double space"
 msgstr "Překlad obsahuje dvojitou mezeru"
 
 #: weblate/checks/chars.py:168
-msgid "Trailing stop"
-msgstr "Koncová tečka"
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Mismatched full stop"
+msgstr "Neodpovídající \\n"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "Překlad a zdroj oba nekončí tečkou"
 
 #: weblate/checks/chars.py:207
-msgid "Trailing colon"
-msgstr "Koncová dvojtečka"
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Mismatched colon"
+msgstr "Neodpovídající \\n"
 
 #: weblate/checks/chars.py:208
 msgid "Source and translation do not both end with a colon"
 msgstr "Překlad a zdroj oba nekončí dvojtečkou"
 
 #: weblate/checks/chars.py:238
-msgid "Trailing question mark"
+#, fuzzy
+#| msgid "Trailing question mark"
+msgid "Mismatched question mark"
 msgstr "Koncový otazník"
 
 #: weblate/checks/chars.py:239
@@ -2117,16 +2123,20 @@ msgid "Source and translation do not both end with a question mark"
 msgstr "Překlad a zdroj oba nekončí otazníkem"
 
 #: weblate/checks/chars.py:271
-msgid "Trailing exclamation mark"
+#, fuzzy
+#| msgid "Trailing exclamation mark"
+msgid "Mismatched exclamation mark"
 msgstr "Koncový vykřičník"
 
 #: weblate/checks/chars.py:272
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem"
 
-#: weblate/checks/chars.py:295 weblate/trans/autofixes/chars.py:31
-msgid "Trailing ellipsis"
-msgstr "Koncová výpustka"
+#: weblate/checks/chars.py:295
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Mismatched ellipsis"
+msgstr "Neodpovídající \\n"
 
 #: weblate/checks/chars.py:296
 msgid "Source and translation do not both end with an ellipsis"
@@ -2165,8 +2175,10 @@ msgid "Translation should not exceed given length"
 msgstr "Délka překladu by neměla překročit zadané omezení"
 
 #: weblate/checks/chars.py:366
-msgid "Trailing semicolon"
-msgstr "Koncový středník"
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Mismatched semicolon"
+msgstr "Neodpovídající \\n"
 
 #: weblate/checks/chars.py:367
 msgid "Source and translation do not both end with a semicolon"
@@ -2592,7 +2604,7 @@ msgstr "Dlouho nepřeloženo"
 msgid "The string has not been translated for a long time"
 msgstr "Tento řetězec už dlouho není přeložený"
 
-#: weblate/checks/views.py:86 weblate/templates/component.html:74
+#: weblate/checks/views.py:86 weblate/templates/component.html:73
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:14
 #: weblate/templates/snippets/project-nav.html:80
@@ -2943,7 +2955,7 @@ msgstr "Přidat jako další překlad"
 #: weblate/glossary/forms.py:106 weblate/glossary/models.py:243
 #: weblate/templates/glossary.html:10 weblate/templates/glossary.html:55
 #: weblate/templates/language-project.html:19
-#: weblate/templates/translate.html:470 weblate/templates/translation.html:37
+#: weblate/templates/translate.html:474 weblate/templates/translation.html:37
 msgid "Glossary"
 msgstr "Glosář"
 
@@ -4052,7 +4064,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:189 weblate/templates/translate.html:355
-#: weblate/templates/translate.html:503 weblate/templates/translate.html:644
+#: weblate/templates/translate.html:507 weblate/templates/translate.html:648
 msgid "Save"
 msgstr "Uložit"
 
@@ -4320,7 +4332,7 @@ msgstr "Nastavit moje heslo"
 msgid "Reset my password"
 msgstr "Obnovit heslo"
 
-#: weblate/templates/accounts/user.html:6 weblate/templates/component.html:100
+#: weblate/templates/accounts/user.html:6 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
 #: weblate/templates/manage/users.html:9
@@ -4680,7 +4692,7 @@ msgstr "Profil"
 msgid "Billing overview"
 msgstr "Přehled předplatného"
 
-#: weblate/templates/base.html:231 weblate/templates/component.html:95
+#: weblate/templates/base.html:231 weblate/templates/component.html:94
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
@@ -4734,8 +4746,8 @@ msgstr "Přispějte do Weblate"
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
-#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:496
-#: weblate/templates/translate.html:637
+#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:500
+#: weblate/templates/translate.html:641
 msgid "Close"
 msgstr "Zavřít"
 
@@ -4985,14 +4997,14 @@ msgstr ""
 "Kontroly vám pomohou najít problematické překlady nebo řetězce, které se "
 "těžko překládají."
 
-#: weblate/templates/component-list.html:17 weblate/templates/component.html:56
+#: weblate/templates/component-list.html:17 weblate/templates/component.html:55
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:61
 #: weblate/templates/translation.html:50 weblate/trans/forms.py:1273
 msgid "Files"
 msgstr "Soubory"
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20 weblate/templates/component.html:58
 #: weblate/templates/language-project.html:34
 #: weblate/templates/snippets/project-nav.html:64
 #: weblate/templates/translation-download.html:7
@@ -5086,17 +5098,12 @@ msgstr "Stáhnout statistiky (JSON)"
 msgid "Translation reports"
 msgstr "Souhrny překladů"
 
-#: weblate/templates/component.html:51 weblate/templates/guide.html:10
-#: weblate/templates/guide.html:26
-msgid "Localization guide"
-msgstr "Průvodce lokalizací"
-
-#: weblate/templates/component.html:59
+#: weblate/templates/component.html:58
 #: weblate/templates/snippets/project-nav.html:64
 msgid "Download translation files as ZIP file"
 msgstr "Stáhnout soubory s překladem jako ZIP"
 
-#: weblate/templates/component.html:64
+#: weblate/templates/component.html:63
 #: weblate/templates/language-project.html:39
 #: weblate/templates/language.html:25 weblate/templates/manage/tools.html:9
 #: weblate/templates/snippets/project-nav.html:69
@@ -5105,7 +5112,7 @@ msgid "Tools"
 msgstr "Nástroje"
 
 #. Translators: Name of event in the history
-#: weblate/templates/component.html:68 weblate/templates/component.html:195
+#: weblate/templates/component.html:67 weblate/templates/component.html:195
 #: weblate/templates/project.html:87 weblate/templates/replace.html:14
 #: weblate/templates/snippets/project-nav.html:74
 #: weblate/templates/snippets/project-nav.html:83
@@ -5114,24 +5121,24 @@ msgstr "Nástroje"
 msgid "Search and replace"
 msgstr "Vyhledat a nahradit"
 
-#: weblate/templates/component.html:73 weblate/templates/data.html:7
+#: weblate/templates/component.html:72 weblate/templates/data.html:7
 #: weblate/templates/snippets/project-nav.html:79
 #: weblate/templates/snippets/project-nav.html:88
 #: weblate/templates/translation.html:61
 msgid "Data exports"
 msgstr "Export dat"
 
-#: weblate/templates/component.html:75
+#: weblate/templates/component.html:74
 msgid "Matrix view"
 msgstr "Maticový pohled"
 
-#: weblate/templates/component.html:77 weblate/templates/component.html:139
+#: weblate/templates/component.html:76 weblate/templates/component.html:139
 #: weblate/templates/component.html:141 weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
 msgstr "Začít nový překlad"
 
-#: weblate/templates/component.html:84 weblate/templates/manage/alerts.html:6
+#: weblate/templates/component.html:83 weblate/templates/manage/alerts.html:6
 #: weblate/templates/manage/backups.html:7
 #: weblate/templates/manage/index.html:14
 #: weblate/templates/manage/performance.html:8
@@ -5144,32 +5151,37 @@ msgstr "Začít nový překlad"
 msgid "Manage"
 msgstr "Spravovat"
 
-#: weblate/templates/component.html:88 weblate/templates/js/git-status.html:80
+#: weblate/templates/component.html:87 weblate/templates/js/git-status.html:80
 #: weblate/templates/snippets/project-nav.html:100
 #: weblate/templates/translation.html:83
 msgid "Commit"
 msgstr "Zapsat"
 
-#: weblate/templates/component.html:91
+#: weblate/templates/component.html:90
 #: weblate/templates/snippets/project-nav.html:104
 #: weblate/templates/snippets/project-nav.html:106
 #: weblate/templates/translation.html:86
 msgid "Repository maintenance"
 msgstr "Správa repozitáře"
 
-#: weblate/templates/component.html:94
+#: weblate/templates/component.html:93
 #: weblate/templates/screenshots/screenshot_detail.html:11
 #: weblate/templates/screenshots/screenshot_list.html:11
 msgid "Screenshots"
 msgstr "Snímky obrazovky"
 
-#: weblate/templates/component.html:97 weblate/templates/component.html:241
+#: weblate/templates/component.html:96 weblate/templates/component.html:241
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:125
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/snippets/project-nav.html:115
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:349
 msgid "Post announcement"
 msgstr "Vydat oznámení"
+
+#: weblate/templates/component.html:102 weblate/templates/guide.html:10
+#: weblate/templates/guide.html:26
+msgid "Community localization checklist"
+msgstr ""
 
 #: weblate/templates/component.html:108 weblate/templates/component.html:274
 #: weblate/templates/project.html:158
@@ -5229,7 +5241,7 @@ msgstr "Přidáno %(first)s, obnoveno %(last)s"
 
 #: weblate/templates/component.html:160
 #: weblate/templates/manage/performance.html:42
-#: weblate/templates/translate.html:409
+#: weblate/templates/translate.html:413
 msgid "Dismiss"
 msgstr "Zahodit"
 
@@ -5418,8 +5430,8 @@ msgstr "Dohoda s přispěvatelem"
 #: weblate/templates/mail/pending_suggestions.html:15
 #: weblate/templates/mail/todo_strings.html:15
 #: weblate/templates/screenshots/screenshot_sources_body.html:13
-#: weblate/templates/translate.html:385 weblate/templates/translate.html:442
-#: weblate/templates/translate.html:456
+#: weblate/templates/translate.html:385 weblate/templates/translate.html:446
+#: weblate/templates/translate.html:460
 msgid "View"
 msgstr "Zobrazit"
 
@@ -6078,7 +6090,7 @@ msgid "Rebase local changes onto the remote repository"
 msgstr "Přeskládat změny na vzdálený repozitář"
 
 #: weblate/templates/js/git-status.html:136
-#: weblate/templates/translate.html:414
+#: weblate/templates/translate.html:418
 msgid "Reset"
 msgstr "Obnovit"
 
@@ -6168,7 +6180,7 @@ msgstr "Vyřešený komentář"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
-#: weblate/templates/translate.html:125 weblate/templates/translate.html:558
+#: weblate/templates/translate.html:125 weblate/templates/translate.html:562
 msgid "Source string comment"
 msgstr "Komentář ke zdrojovému řetězci"
 
@@ -6564,7 +6576,7 @@ msgid "Source string"
 msgstr "Zdrojový řetězec"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
-#: weblate/templates/translate.html:524
+#: weblate/templates/translate.html:528
 msgid "Screenshot context"
 msgstr "Snímek obrazovky"
 
@@ -7046,7 +7058,7 @@ msgstr "Potřebuje upravit"
 #: weblate/templates/project-labels.html:9
 #: weblate/templates/snippets/project-nav.html:123
 #: weblate/templates/snippets/sort-field.html:18
-#: weblate/templates/translate.html:567 weblate/trans/models/unit.py:280
+#: weblate/templates/translate.html:571 weblate/trans/models/unit.py:280
 #: weblate/utils/views.py:96
 msgid "Labels"
 msgstr "Štítky"
@@ -7360,8 +7372,8 @@ msgid "Suggestions"
 msgstr "Návrhy"
 
 #: weblate/templates/snippets/list-objects.html:23
-#: weblate/templates/translate.html:221 weblate/templates/translate.html:438
-#: weblate/templates/translate.html:600
+#: weblate/templates/translate.html:221 weblate/templates/translate.html:442
+#: weblate/templates/translate.html:604
 msgid "Comments"
 msgstr "Komentáře"
 
@@ -8104,6 +8116,12 @@ msgstr "Překlad k odstranění"
 msgid "The detected file format is not supported."
 msgstr "Zjištěný formát souboru není podporován."
 
+#: weblate/templates/trans/guide/addon.html:3
+#, fuzzy
+#| msgid "Example addon"
+msgid "Enable addon:"
+msgstr "Doplněk pro ukázku"
+
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
 msgstr "Typický postup pro vyřešení konfliktů"
@@ -8199,7 +8217,7 @@ msgstr "Změna zdroje"
 msgid "Intermediate language"
 msgstr "Zprostředkující jazyk"
 
-#: weblate/templates/translate.html:133 weblate/templates/translate.html:538
+#: weblate/templates/translate.html:133 weblate/templates/translate.html:542
 #: weblate/trans/models/unit.py:265
 msgid "Explanation"
 msgstr "Vysvětlení"
@@ -8276,7 +8294,7 @@ msgstr "Okolní klíče"
 msgid "Variants of the string"
 msgstr "Varianty řetězce"
 
-#: weblate/templates/translate.html:212 weblate/templates/translate.html:452
+#: weblate/templates/translate.html:212 weblate/templates/translate.html:456
 msgid "Variants"
 msgstr "Varianty"
 
@@ -8351,15 +8369,15 @@ msgstr[0] "Pro tento řetězec je %(count)s návrh."
 msgstr[1] "Pro tento řetězec jsou %(count)s návrhy."
 msgstr[2] "Pro tento řetězec je %(count)s návrhů."
 
-#: weblate/templates/translate.html:402
+#: weblate/templates/translate.html:406
 msgid "Fix string"
 msgstr "Opravit řetězec"
 
-#: weblate/templates/translate.html:411
+#: weblate/templates/translate.html:415
 msgid "Dismiss for all languages"
 msgstr "Zahodit pro všechny jazyky"
 
-#: weblate/templates/translate.html:440
+#: weblate/templates/translate.html:444
 #, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
@@ -8367,7 +8385,7 @@ msgstr[0] "Pro tento řetězec je %(count)s komentář."
 msgstr[1] "Pro tento řetězec jsou %(count)s komentáře."
 msgstr[2] "Pro tento řetězec je %(count)s komentářů."
 
-#: weblate/templates/translate.html:454
+#: weblate/templates/translate.html:458
 #, python-format
 msgid "There is %(count)s variant for this string."
 msgid_plural "There are %(count)s variants for this string."
@@ -8375,51 +8393,51 @@ msgstr[0] "Tento řetězec má %(count)s variant."
 msgstr[1] "Tento řetězec má %(count)s varianty."
 msgstr[2] "Tento řetězec má %(count)s variant."
 
-#: weblate/templates/translate.html:468
+#: weblate/templates/translate.html:472
 msgid "Manage glossary"
 msgstr "Spravovat glosář"
 
-#: weblate/templates/translate.html:487 weblate/templates/translate.html:497
+#: weblate/templates/translate.html:491 weblate/templates/translate.html:501
 msgid "Add term to glossary"
 msgstr "Přidat slovo do glosáře"
 
-#: weblate/templates/translate.html:516
+#: weblate/templates/translate.html:520
 msgid "Source information"
 msgstr "Informace o zdroji"
 
-#: weblate/templates/translate.html:529
+#: weblate/templates/translate.html:533
 msgid "No screenshot currently associated."
 msgstr "Nebyl nahrán žádný snímek obrazovky."
 
-#: weblate/templates/translate.html:543
+#: weblate/templates/translate.html:547
 msgid "No explanation currently provided."
 msgstr "Nebylo zadáno žádné vysvětlení."
 
-#: weblate/templates/translate.html:572
+#: weblate/templates/translate.html:576
 msgid "No labels currently set."
 msgstr "Nebyly nastaveny žádné štítky."
 
-#: weblate/templates/translate.html:580
+#: weblate/templates/translate.html:584
 msgid "Flags"
 msgstr "Příznaky"
 
-#: weblate/templates/translate.html:585
+#: weblate/templates/translate.html:589
 msgid "No flags currently set."
 msgstr "Nebyly nastaveny žádné příznaky."
 
-#: weblate/templates/translate.html:592
+#: weblate/templates/translate.html:596
 msgid "Source string location"
 msgstr "Umístění zdrojového řetězce"
 
-#: weblate/templates/translate.html:607
+#: weblate/templates/translate.html:611
 msgid "Source string age"
 msgstr "Stáří zdrojového řetězce"
 
-#: weblate/templates/translate.html:614 weblate/templates/translation.html:200
+#: weblate/templates/translate.html:618 weblate/templates/translation.html:200
 msgid "Translation file"
 msgstr "Soubor s překladem"
 
-#: weblate/templates/translate.html:617
+#: weblate/templates/translate.html:621
 #, python-format
 msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s, řetězec %(position)s"
@@ -8679,6 +8697,10 @@ msgstr "VCS repozitáře"
 #: weblate/trans/apps.py:27
 msgid "Weblate translations"
 msgstr "Překlady Weblate"
+
+#: weblate/trans/autofixes/chars.py:31
+msgid "Trailing ellipsis"
+msgstr "Koncová výpustka"
 
 #: weblate/trans/autofixes/chars.py:57
 msgid "Control characters"
@@ -10658,7 +10680,7 @@ msgid "This component is linked to the %(target)s repository."
 msgstr "Repozitář pro tuto součást je propojen s %(target)s."
 
 #: weblate/trans/templatetags/translations.py:721
-#: weblate/trans/views/guide.py:157
+#: weblate/trans/views/guide.py:158
 msgid "Fix this component to clear its alerts."
 msgstr "Opravte tuto součást, abyste vyčistili její upozornění."
 
@@ -11001,49 +11023,49 @@ msgstr "Všechny repozitáře byly resetovány."
 msgid "All repositories have been cleaned up."
 msgstr "Všechny repozitáře byly vyčistěny."
 
-#: weblate/trans/views/guide.py:79
+#: weblate/trans/views/guide.py:80
 msgid "Version control integration"
 msgstr "Používání verzovacího systému"
 
-#: weblate/trans/views/guide.py:88
+#: weblate/trans/views/guide.py:89
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr "Nastavte háčky repozitáře pro automatizovaný tok změn do Weblate."
 
-#: weblate/trans/views/guide.py:106
+#: weblate/trans/views/guide.py:107
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
 "Nastavte URL pro odesílání aby Weblate mohlo odesílat změny do repozitáře."
 
-#: weblate/trans/views/guide.py:120
+#: weblate/trans/views/guide.py:121
 msgid "Building community"
 msgstr "Budování komunity"
 
-#: weblate/trans/views/guide.py:128
+#: weblate/trans/views/guide.py:129
 msgid "Define translation instructions to give translators a guideline."
 msgstr "Udejte pokyny k překladu, aby překladatelé měli návod."
 
-#: weblate/trans/views/guide.py:144
+#: weblate/trans/views/guide.py:145
 msgid "Make your translations available under a libre license."
 msgstr "Zpřístupněte své překlady pod svobodnou licencí."
 
-#: weblate/trans/views/guide.py:170
+#: weblate/trans/views/guide.py:171
 msgid "Provide context to the translators"
 msgstr "Poskytněte překladatelům kontext"
 
-#: weblate/trans/views/guide.py:178
+#: weblate/trans/views/guide.py:179
 msgid "Add screenshots to show where strings are being used."
 msgstr "Přidejte obrázky a ukažte, kde se řetězce používají."
 
-#: weblate/trans/views/guide.py:190
+#: weblate/trans/views/guide.py:191
 msgid "Use flags to indicate special strings in your translation."
 msgstr "Pomocí příznaků označte ve svém překladu speciální řetězce."
 
-#: weblate/trans/views/guide.py:208
+#: weblate/trans/views/guide.py:209
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
 "Přidejte příznak „safe-html“ pro zamezení nebezpečného HTML v překladech."
 
-#: weblate/trans/views/guide.py:231
+#: weblate/trans/views/guide.py:232
 msgid "Workflow customization"
 msgstr "Přizpůsobení pracovního postupu"
 
@@ -11538,6 +11560,18 @@ msgstr "Záloha byla spuštěna"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Nepodařilo se pominout chybu v nastavení!"
+
+#~ msgid "Trailing stop"
+#~ msgstr "Koncová tečka"
+
+#~ msgid "Trailing colon"
+#~ msgstr "Koncová dvojtečka"
+
+#~ msgid "Trailing semicolon"
+#~ msgstr "Koncový středník"
+
+#~ msgid "Localization guide"
+#~ msgstr "Průvodce lokalizací"
 
 #~ msgid "Watch"
 #~ msgstr "Sledovat"
