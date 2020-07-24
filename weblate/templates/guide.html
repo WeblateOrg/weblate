@@ -7,7 +7,7 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-<li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Localization guide" %}</a></li>
+<li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Community localization checklist" %}</a></li>
 
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' project=object.project.slug component=object.slug widget='svg' color='badge' extension='svg' %}" />
@@ -23,7 +23,7 @@
 {% perm 'component.edit' object as user_can_edit_component %}
 
 <div class="panel panel-default">
-<div class="panel-heading">{% trans "Localization guide" %}</div>
+<div class="panel-heading">{% trans "Community localization checklist" %}</div>
 <div class="panel-body">
 {% trans "Here you can find guidance to make your localization project attractive to the community." %}
 </div>

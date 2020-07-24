@@ -48,7 +48,6 @@
       {% if user.is_authenticated %}
       <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
       {% endif %}
-      <li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Localization guide" %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
@@ -100,6 +99,7 @@
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
       {% if user_can_edit_component %}
+      <li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Community localization checklist" %}</a></li>
       <li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
       <li><a href="{% url 'settings' project=object.project.slug component=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}

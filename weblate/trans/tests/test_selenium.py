@@ -1016,9 +1016,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Alerts")
         self.screenshot("alerts.png")
 
-        self.click("Insights")
+        self.click("Manage")
         with self.wait_for_page_load():
-            self.click("Localization guide")
+            self.click("Community localization checklist")
         self.screenshot("guide.png")
 
     def test_fonts(self):
