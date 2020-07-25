@@ -77,7 +77,12 @@ class Check:
             return False
         if self.should_skip(unit):
             return False
-        return self.check_target_unit(sources, targets, unit)
+        if self.check_id in unit.check_cache:
+            return unit.check_cache[self.check_id]
+        unit.check_cache[self.check_id] = result = self.check_target_unit(
+            sources, targets, unit
+        )
+        return result
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""

@@ -82,6 +82,7 @@ class MockUnit:
         self.readonly = False
         self.state = 20
         self.note = note
+        self.check_cache = {}
 
     @property
     def all_flags(self):

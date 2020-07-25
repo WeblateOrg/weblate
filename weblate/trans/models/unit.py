@@ -336,6 +336,7 @@ class Unit(models.Model, LoggerMixin):
         self.is_batch_update = False
         self.is_bulk_edit = False
         self.source_updated = False
+        self.check_cache = {}
 
     @property
     def approved(self):
