@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-24 14:52+0000\n"
+"PO-Revision-Date: 2020-07-25 05:29+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -26,12 +26,6 @@ msgid "Access control"
 msgstr "Керування доступом"
 
 #: ../../admin/access.rst:8
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using an older version, please "
-#| "the consult documentation for that version, the information here will not "
-#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using an older version, please "
@@ -352,12 +346,10 @@ msgstr ""
 "а перевірки застосовуються у такому порядку:"
 
 #: ../../admin/access.rst:160
-#, fuzzy
-#| msgid ":guilabel:`Component list` are matched against component or project."
 msgid ":guilabel:`Component list` is matched against component or project."
 msgstr ""
-"Встановлюється відповідність значення параметра :guilabel:`Список "
-"складників` складнику або проєкту."
+"Встановлюється відповідність значення параметра :guilabel:`Список складників`"
+" складнику або проєкту."
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
@@ -370,10 +362,6 @@ msgid ":guilabel:`Projects` are matched against project."
 msgstr "Встановлюється відповідність значення :guilabel:`Проєкти` проєкту."
 
 #: ../../admin/access.rst:166
-#, fuzzy
-#| msgid ""
-#| "As you can see, grating access to a component automatically grants user "
-#| "access to a containing project as well."
 msgid ""
 "As you can see, granting access to a component automatically grants user "
 "access to a containing project as well."
@@ -570,15 +558,6 @@ msgid "Custom access control"
 msgstr "Нетипове керування доступом"
 
 #: ../../admin/access.rst:287
-#, fuzzy
-#| msgid ""
-#| "By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate "
-#| "will stop managing access for a given project, and all users and groups "
-#| "can be managed using the Django``` admin interface. This can be used to "
-#| "define more complex access control, or set up a shared access policy for "
-#| "all projects in a single Weblate instance. If you want to turn this on "
-#| "for all projects by default, please configure the :setting:"
-#| "`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will "
 "stop managing access for a given project, and all users and groups can be "
@@ -587,13 +566,13 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Якщо вибрати варіант :guilabel:`Нетиповий` для :guilabel:`Керування "
-"доступом`, Weblate припинить керування доступом для вказаного проєкту — "
-"керування усіма записами користувачів і груп може бути здійснене за "
-"допомогою адміністративного інтерфейсу Django. За допомогою цього інтерфейсу "
-"можна здійснювати складніше керування доступом або налаштувати правила "
-"спільного доступу для усіх проєктів у межах окремого екземпляра Weblate. "
-"Якщо ви хочете типово увімкнути такий варіант для усіх проєктів, будь ласка, "
+"Якщо вибрати варіант :guilabel:`Нетиповий` для :guilabel:`Керування доступом`"
+", Weblate припинить керування доступом для вказаного проєкту — керування "
+"усіма записами користувачів і груп може бути здійснене за допомогою "
+"адміністративного інтерфейсу Django. За допомогою цього інтерфейсу можна "
+"здійснювати складніше керування доступом або налаштувати правила спільного "
+"доступу для усіх проєктів у межах окремого екземпляра Weblate. Якщо ви "
+"хочете типово увімкнути такий варіант для усіх проєктів, будь ласка, "
 "налаштуйте :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:296
@@ -2357,8 +2336,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:496
-#, fuzzy
-#| msgid "Active directory integration"
 msgid "Active Directory integration"
 msgstr "Інтеграція із Active Directory"
 
@@ -3080,10 +3057,6 @@ msgid "``strict-same``"
 msgstr "``strict-same``"
 
 #: ../../admin/checks.rst:88
-#, fuzzy
-#| msgid ""
-#| "Make \"Unchanged translation\" avoid using built in words blacklist, see :"
-#| "ref:`check-same`."
 msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
@@ -4193,10 +4166,6 @@ msgstr ""
 "dumps`."
 
 #: ../../admin/config.rst:298
-#, fuzzy
-#| msgid ""
-#| "This directory has to be writable by Weblate. If if running it as uWSGI "
-#| "means the ``www-data`` user should have write access to it."
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
@@ -5565,8 +5534,6 @@ msgid "STATUS_URL"
 msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1481
-#, fuzzy
-#| msgid "The URL where your Weblate instance reports it's status."
 msgid "The URL where your Weblate instance reports its status."
 msgstr "Адреса, на яку екземпляр Weblate повідомляє про свій стан."
 
@@ -21025,16 +20992,12 @@ msgid "Perform the release:"
 msgstr "Створити випуск:"
 
 #: ../../contributing/release.rst:12
-#, fuzzy
-#| msgid ""
-#| "Create a release :command:`./scripts/create-release --tag` (see bellow "
-#| "for requirements)"
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)"
 msgstr ""
-"Створити випуск за допомогою команди :command:`./scripts/create-release --"
-"tag` (нижче наведено вимоги)"
+"Створити випуск за допомогою команди :command:`./scripts/create-release "
+"--tag` (нижче наведено вимоги)"
 
 #: ../../contributing/release.rst:14
 msgid "Post release manual steps:"
@@ -24783,8 +24746,6 @@ msgid "Java style"
 msgstr "Стиль Java"
 
 #: ../../formats.rst:1388
-#, fuzzy
-#| msgid "User by Java—mostly BCP with legacy codes for Chinese."
 msgid "Used by Java—mostly BCP with legacy codes for Chinese."
 msgstr ""
 "Використовується у BCP із переважним використанням Java з застарілими кодами "
