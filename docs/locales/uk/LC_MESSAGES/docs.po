@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-25 05:29+0000\n"
+"PO-Revision-Date: 2020-07-25 08:02+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1648,6 +1648,8 @@ msgstr ""
 #: ../../admin/addons.rst:415
 msgid "Previous HEAD on update (available only when running post update hook)."
 msgstr ""
+"Попередній HEAD при оновленні (доступно, лише якщо запускається скрипт "
+"обробки після оновлення)."
 
 #: ../../admin/addons.rst:421
 msgid "Component slug used to construct URL."
@@ -1688,6 +1690,11 @@ msgid ""
 "Weblate only sees files committed to the VCS, so you need to commit changes "
 "as a part of the script."
 msgstr ""
+"Обробкою сховища після оновлення можна скористатися для оновлення файлів "
+"перекладу, коли міняється джерело у основному сховищі системи керування "
+"версіями. Слід пам'ятати, що Weblate «бачить» лише файли, які внесено до "
+"системи керування версіями, тому вам доведеться внести зміни до сховища у "
+"самому скрипті."
 
 #: ../../admin/addons.rst:465
 msgid "For example with Gulp you can do it using following code:"
@@ -1702,6 +1709,8 @@ msgid ""
 "Use the commit script to automatically make changes to the translation "
 "before it is committed to the repository."
 msgstr ""
+"Скористайтеся скриптом внесення даних для автоматичного внесення змін до "
+"перекладу перед тим, як його буде внесено до сховища."
 
 #: ../../admin/addons.rst:480
 msgid ""
@@ -1721,6 +1730,10 @@ msgid ""
 "management/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
+"Адміністративні параметри інтерфейсу керування зберігаються у каталозі "
+":file:`/management/`. Доступ до інтерфейсу можуть отримати користувачі, які "
+"увійшли до системи із правами доступу адміністратора. Кнопку доступу із "
+"зображенням гайкового ключа розташовано у верхній правій частині сторінки:"
 
 #: ../../admin/admin.rst:16
 msgid "The Django admin interface"
@@ -1748,6 +1761,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+"У розділі :guilabel:`Звіти` ви можете перевірити стан вашого сайта, "
+"скоригувати його для :ref:`production` або керувати ключами SSH, які "
+"використовуються для доступу до :ref:`vcs-repos`."
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -1851,6 +1867,8 @@ msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
+"Оголошення можна розміщувати на будь-якому рівні меню :guilabel:`Управління` "
+"за допомогою :guilabel:`Повідомлення оголошення`:"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -1940,12 +1958,16 @@ msgstr ""
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
 msgstr ""
+"Django можна додатково налаштувань для розпізнавання в інших системах "
+"розпізнавання."
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+"У розділі :ref:`docker-auth` описано, як налаштувати розпізнавання у "
+"офіційному образі Docker."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
@@ -2019,12 +2041,16 @@ msgid ""
 "You need to register an application on GitHub and then tell Weblate all its "
 "secrets:"
 msgstr ""
+"Вам слід зареєструвати програму на GitHub, а потім повідомити Weblate усі її "
+"реєстраційні дані:"
 
 #: ../../admin/auth.rst:106
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
+"GitHub слід налаштувати, щоб адреса зворотного виклику була подібно до "
+"``https://example.com/accounts/complete/github/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -2046,6 +2072,8 @@ msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
+"Вам слід зареєструвати програму на Bitbucket, а потім повідомити Weblate усі "
+"її реєстраційні дані:"
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
@@ -2060,6 +2088,9 @@ msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
+"Щоб скористатися OAuth 2 Google, вам слід зареєструвати програму на "
+"<https://console.developers.google.com/> і увімкнути програмний інтерфейс "
+"Google+."
 
 #: ../../admin/auth.rst:150
 msgid ""
@@ -2082,6 +2113,9 @@ msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"Як звично для служб OAuth 2, вам слід зареєструвати вашу програму за "
+"допомогою Facebook. Після цього, вам слід налаштувати Weblate на її "
+"використання:"
 
 #: ../../admin/auth.rst:179
 msgid ""
@@ -2136,6 +2170,10 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant specific authentication."
 msgstr ""
+"Адресою переспрямування є ``https://СЕРВЕР WEBLATE/accounts/complete/"
+"azuread-oauth2/`` для звичайного і ``https://СЕРВЕР WEBLATE/accounts/"
+"complete/azuread-tenant-oauth2/`` для специфічного для орендаря "
+"розпізнавання."
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
@@ -2181,12 +2219,17 @@ msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
 msgstr ""
+"Ви все ще можете скористатися для створених тут вручну записів користувачів "
+"розпізнаванням за паролями для адміністративного інтерфейсу. Просто "
+"перейдіть до ``/admin/``."
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
+"Наприклад, розпізнаванням з використанням лише надавача даних Open ID "
+"openSUSE Open ID можна скористатися ось так:"
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
@@ -2313,6 +2356,8 @@ msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
+"Після встановлення пакунка, ви можете вставити його до скрипту розпізнавання "
+"Django:"
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -2374,6 +2419,8 @@ msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
+"Після встановлення пакунка, ви можете вставити його до скрипту розпізнавання "
+"Django внесенням змін до файла :file:`settings.py`:"
 
 #: ../../admin/auth.rst:569
 msgid ""
@@ -2449,7 +2496,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:28
 msgid "Using Weblate provisioned backup storage"
-msgstr ""
+msgstr "Використання передбаченого у Weblate сховища резервних копій"
 
 #: ../../admin/backup.rst:30
 msgid ""
@@ -2475,6 +2522,8 @@ msgid ""
 "Weblate will connect to the cloud service and obtain access information for "
 "the backups."
 msgstr ""
+"Weblate з'єднається із «хмарною» службою і отримати дані для доступу до "
+"резервних копій."
 
 #: ../../admin/backup.rst:37
 msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
@@ -3686,7 +3735,7 @@ msgstr ""
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "Автоматичні списки складників"
 
 #: ../../admin/componentlists.rst:30
 msgid ""
@@ -3741,7 +3790,7 @@ msgstr ""
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
-msgstr ""
+msgstr "AKISMET_API_KEY"
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -3752,7 +3801,7 @@ msgstr ""
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
-msgstr ""
+msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
@@ -3764,7 +3813,7 @@ msgstr ":ref:`privileges`"
 
 #: ../../admin/config.rst:44
 msgid "AUDITLOG_EXPIRY"
-msgstr ""
+msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
 msgid ""
@@ -3774,11 +3823,11 @@ msgstr ""
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "Типовим є значення у 180 днів."
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
-msgstr ""
+msgstr "AUTH_LOCK_ATTEMPTS"
 
 #: ../../admin/config.rst:60
 msgid ""
@@ -3812,7 +3861,7 @@ msgstr ":ref:`rate-limit`,"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
-msgstr ""
+msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:84
 msgid ""
@@ -3822,7 +3871,7 @@ msgstr ""
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Оновлює усі сховища щоденно."
 
 #: ../../admin/config.rst:90
 msgid ""
@@ -4025,7 +4074,7 @@ msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:208
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Список перевірок якості, які слід виконати над перекладом."
 
 #: ../../admin/config.rst:212
 msgid ""
@@ -5487,7 +5536,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1431
 msgid "Turn this off if you want to different translations for each variant."
-msgstr ""
+msgstr "Вимкніть, якщо вам потрібні різні переклади для кожного з варіантів."
 
 #: ../../admin/config.rst:1436
 msgid "SITE_TITLE"
@@ -11109,11 +11158,11 @@ msgstr ""
 
 #: ../../admin/management.rst:677
 msgid "pushgit"
-msgstr ""
+msgstr "pushgit"
 
 #: ../../admin/management.rst:681
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr ""
+msgstr "Записує внесені зміни до основного сховища системи керування версіями."
 
 #: ../../admin/management.rst:685
 msgid "Force commits any pending changes, prior to pushing."
@@ -11127,7 +11176,7 @@ msgstr ""
 
 #: ../../admin/management.rst:696
 msgid "unlock_translation"
-msgstr ""
+msgstr "unlock_translation"
 
 #: ../../admin/management.rst:700
 msgid "Unlocks a given component, making it available for translation."
@@ -11135,11 +11184,11 @@ msgstr ""
 
 #: ../../admin/management.rst:711
 msgid ":djadmin:`lock_translation`"
-msgstr ""
+msgstr ":djadmin:`lock_translation`"
 
 #: ../../admin/management.rst:714
 msgid "setupgroups"
-msgstr ""
+msgstr "setupgroups"
 
 #: ../../admin/management.rst:718
 msgid ""
@@ -11159,11 +11208,11 @@ msgstr ""
 
 #: ../../admin/management.rst:734
 msgid "setuplang"
-msgstr ""
+msgstr "setuplang"
 
 #: ../../admin/management.rst:738
 msgid "Updates list of defined languages in Weblate."
-msgstr ""
+msgstr "Оновлює список визначених мов у Weblate."
 
 #: ../../admin/management.rst:742
 msgid "Turns of automatic updates of existing languages (only adds new ones)."
@@ -11171,11 +11220,11 @@ msgstr ""
 
 #: ../../admin/management.rst:745
 msgid "updatechecks"
-msgstr ""
+msgstr "updatechecks"
 
 #: ../../admin/management.rst:749
 msgid "Updates all checks for all strings."
-msgstr ""
+msgstr "Оновлює усі перевірки для усіх рядків."
 
 #: ../../admin/management.rst:753
 msgid "Useful for upgrades which do major changes to checks."
@@ -12553,6 +12602,8 @@ msgstr ""
 #: ../../admin/projects.rst:572
 msgid "Message used when committing a translation, see :ref:`markup`."
 msgstr ""
+"Повідомлення, яке буде використано при внесенні перекладу, див. "
+":ref:`markup`."
 
 #: ../../admin/projects.rst:574
 msgid ""
@@ -12560,6 +12611,9 @@ msgid ""
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`."
 msgstr ""
+"Типове значення можна змінити за допомогою :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`."
 
 #: ../../admin/projects.rst:581
 msgid "Committer name"
@@ -12574,6 +12628,7 @@ msgstr ""
 #: ../../admin/projects.rst:586
 msgid "Default value can be changed by :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
+"Типове значення можна змінити за допомогою :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../admin/projects.rst:591
 msgid "Committer e-mail"
@@ -12613,6 +12668,7 @@ msgstr ""
 #: ../../admin/projects.rst:618
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
 msgstr ""
+"Типове значення можна змінити за допомогою :setting:`COMMIT_PENDING_HOURS`."
 
 #: ../../admin/projects.rst:623
 msgid "Lock on error"
@@ -12630,6 +12686,7 @@ msgid ""
 "The component will be automatically unlocked once there are no repository "
 "errors left."
 msgstr ""
+"Складник буде автоматично розблоковано, щойно у сховищі не лишиться помилок."
 
 #: ../../admin/projects.rst:635
 msgid "Language filter"
@@ -12640,18 +12697,23 @@ msgid ""
 "Regular expression used to filter the translation when scanning for "
 "filemask. This can be used to limit the list of languages managed by Weblate."
 msgstr ""
+"Регулярний вираз, який використовується для фільтрації перекладу при "
+"скануванні маски файлу. Цим можна скористатися для обмеження списку мов, "
+"якими керує Weblate."
 
 #: ../../admin/projects.rst:642
 msgid "You need to list language codes as they appear in the filename."
 msgstr ""
+"Вам слід вказати список кодів мов так, як їх використовуються у назвах "
+"файлів."
 
 #: ../../admin/projects.rst:644
 msgid "Some examples of filtering:"
-msgstr ""
+msgstr "Ось декілька прикладів фільтрування:"
 
 #: ../../admin/projects.rst:647
 msgid "Filter description"
-msgstr ""
+msgstr "Опис фільтра"
 
 #: ../../admin/projects.rst:647 ../../user/checks.rst:746
 msgid "Regular expression"
@@ -12659,23 +12721,23 @@ msgstr "Регулярний вираз"
 
 #: ../../admin/projects.rst:649
 msgid "Selected languages only"
-msgstr ""
+msgstr "Лише вибрані мови"
 
 #: ../../admin/projects.rst:649
 msgid "``^(cs|de|es)$``"
-msgstr ""
+msgstr "``^(cs|de|es)$``"
 
 #: ../../admin/projects.rst:651
 msgid "Exclude languages"
-msgstr ""
+msgstr "Виключити мови"
 
 #: ../../admin/projects.rst:651
 msgid "``^(?!(it|fr)$).+$``"
-msgstr ""
+msgstr "``^(?!(it|fr)$).+$``"
 
 #: ../../admin/projects.rst:653
 msgid "Exclude non language files"
-msgstr ""
+msgstr "Виключити файли, які не є мовними"
 
 #: ../../admin/projects.rst:653
 msgid "``^(?!(blank)$).+$``"
@@ -12683,11 +12745,11 @@ msgstr "``^(?!(blank)$).+$``"
 
 #: ../../admin/projects.rst:655
 msgid "Include all files (default)"
-msgstr ""
+msgstr "Включити усі файли (типовий варіант)"
 
 #: ../../admin/projects.rst:655
 msgid "``^[^.]+$``"
-msgstr ""
+msgstr "``^[^.]+$``"
 
 #: ../../admin/projects.rst:661
 msgid "Variants regular expression"
@@ -12698,12 +12760,16 @@ msgid ""
 "Regular expression used to determine the variants of a string, see :ref:"
 "`variants`."
 msgstr ""
+"Формальний вираз, який використовується для визначення варіантів рядка, див. "
+":ref:`variants`."
 
 #: ../../admin/projects.rst:668
 msgid ""
 "Most of the fields can be edited by project owners or managers, in the "
 "Weblate interface."
 msgstr ""
+"Більшість полів можуть редагувати власники або керівники проєкту за "
+"допомогою інтерфейсу Weblate."
 
 #: ../../admin/projects.rst:673
 msgid ":ref:`faq-vcs`, :ref:`alerts`"
@@ -12719,7 +12785,7 @@ msgstr "Перекладачам спершу пропонуються скла�
 
 #: ../../admin/projects.rst:685
 msgid "Restricted access"
-msgstr ""
+msgstr "Обмежений доступ"
 
 #: ../../admin/projects.rst:687
 msgid ""
