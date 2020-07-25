@@ -219,6 +219,7 @@ class UserSettingsForm(ProfileBaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["special_chars"].strip = False
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
