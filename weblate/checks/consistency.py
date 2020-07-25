@@ -126,3 +126,9 @@ class TranslatedCheck(TargetCheck):
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
         return False
+
+    def get_fixup(self, unit):
+        target = self.check_target_unit(unit.source, unit.target, unit)
+        if not target:
+            return None
+        return [(".*", target, "u")]
