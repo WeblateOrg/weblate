@@ -160,7 +160,7 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     ADMINS_BILLING = []
 
     # Special chars for visual keyboard
-    SPECIAL_CHARS = ("\t", "\n", "…")
+    SPECIAL_CHARS = ("\t", "\n", "\u00a0", "…")
 
     DEFAULT_ADDONS = {}
 
