@@ -719,7 +719,7 @@ Configures default groups and optionally assigns all users to that default group
 
 .. django-admin-option:: --no-privs-update
 
-    Turns of automatic updating of existing groups (only adds new ones).
+    Turns off automatic updating of existing groups (only adds new ones).
 
 .. django-admin-option:: --no-projects-update
 
@@ -739,7 +739,7 @@ Updates list of defined languages in Weblate.
 
 .. django-admin-option:: --no-update
 
-    Turns of automatic updates of existing languages (only adds new ones).
+    Turns off automatic updates of existing languages (only adds new ones).
 
 updatechecks
 ------------
