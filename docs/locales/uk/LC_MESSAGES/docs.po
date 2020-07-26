@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-25 08:02+0000\n"
+"PO-Revision-Date: 2020-07-26 22:44+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1771,6 +1771,10 @@ msgid ""
 "one is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
+"Ви можете керувати об'єктами бази даних у будь-якому із описаних нижче "
+"розділів. Ймовірно, найцікавішим буде розділ :guilabel:`Переклади Weblate`, "
+"де ви можете керувати придатними до перекладу проєктами, див. :ref:`project` "
+"і :ref:`component`."
 
 #: ../../admin/admin.rst:35
 msgid ""
@@ -1825,6 +1829,10 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Для спрощення перекладу вкажіть файл шаблона, який міститиме прив'язку "
+"ідентифікаторів повідомлень до відповідної початкової мови (зазвичай, "
+"англійської). (Див. :ref:`component`, щоб дізнатися більше про окремі "
+"параметри):"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -1833,12 +1841,15 @@ msgstr "Оголошення"
 #: ../../admin/announcements.rst:6
 msgid "In prior releases this feature was called whiteboard messages."
 msgstr ""
+"У попередніх випусках ця можливість мала назву «повідомлення білої дошки»."
 
 #: ../../admin/announcements.rst:8
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
 msgstr ""
+"Надайте інформацію вашим перекладачам за допомогою створення оголошень — на "
+"рівні усього сайта, проєкту, складника або мови."
 
 #: ../../admin/announcements.rst:10
 msgid ""
@@ -1930,6 +1941,10 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"За типових налаштувань Weblate використовує python-social-auth, форму на "
+"сайті для обробки реєстрації нових користувачів. Після підтвердження адреси "
+"електронної пошти новий користувач може робити внески або проходити "
+"розпізнавання за допомогою однієї зі сторонніх служб."
 
 #: ../../admin/auth.rst:11
 msgid ""
@@ -1953,6 +1968,11 @@ msgid ""
 "social options to do so. Using it means you can import the user database of "
 "other Django based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"Для розпізнавання використовується вбудоване рішення Django, у якому "
+"передбачено різноманітні варіанти розпізнавань для соціальних мереж. "
+"Використання цього рішення означає, що чи можете імпортувати базу даних "
+"користувачів інших заснованих на Django проєктів (див. :ref:`pootle-"
+"migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
@@ -1996,6 +2016,12 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"Типово, Weblate покладається на сторонні служби розпізнавання для "
+"забезпечення коректності адреси електронної пошти. Якщо у якихось із служб, "
+"якими ви хочете скористатися, підтримки перевірки коректності адреси "
+"електронної пошти не передбачено, будь ласка, скористайтеся примусовою "
+"перевіркою адреси електронної пошти на боці Weblate, налаштувавши для таких "
+"служб параметр FORCE_EMAIL_VALIDATION. Приклад:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -2010,6 +2036,13 @@ msgid ""
 "otherwise Weblate will not be able to properly credit contributions users "
 "make."
 msgstr ""
+"Вмикання окремих модулів обробки є доволі простою справою — достатньо додати "
+"запис до параметра ``AUTHENTICATION_BACKENDS`` і, можливо, додати ключі, "
+"потрібні для вказаного способу розпізнавання. Будь ласка, зауважте, що у "
+"деяких модулях обробки типово не надається параметра адреси електронної "
+"пошти користувача — вам слід надсилати запит щодо неї явним чином, інакше "
+"Weblate не зможе належним чином зберігати авторські права учасників "
+"перекладу."
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -2027,6 +2060,9 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
+"Для служб на основі OpenID, зазвичай, достатньо просто вмикання. Вказаний "
+"нижче розділ вмикає розпізнавання за OpenID для систем OpenSUSE, Fedora і "
+"Ubuntu:"
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
@@ -2058,6 +2094,9 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"Надана Weblate адреса зворотного виклику під час розпізнавання містить дані "
+"щодо налаштованого домену. Якщо система повідомляє вам про помилки щодо "
+"невідповідності, вам варто внести виправлення, див. :ref:`production-site`."
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
@@ -2213,6 +2252,11 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"Розпізнавання за адресою електронної пошти і паролем можна вимкнути "
+"вилученням запису ``social_core.backends.email.EmailAuth`` з "
+":setting:`django:AUTHENTICATION_BACKENDS`. Не вилучайте ``weblate.accounts."
+"auth.WeblateUserBackend`` — цей запис потрібне для реалізації основних "
+"функціональних можливостей Weblate."
 
 #: ../../admin/auth.rst:325
 msgid ""
@@ -2279,6 +2323,10 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"Крім того, ви можете встановити `django-zxcvbn-password <https://pypi.org/"
+"project/django-zxcvbn-password/>`_ — додаток, який дає доволі реалістичну "
+"оцінку складності пароля та надає змогу відмовляти у реєстрації паролів, які "
+"не є достатньо складними."
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
@@ -2342,6 +2390,8 @@ msgid ""
 "With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work "
 "properly for newly created users."
 msgstr ""
+"Якщо використано django-auth-ldap давнішої за версію 1.3.0, :ref:`autogroup` "
+"не працюватиме належним чином для новостворених записів користувачів."
 
 #: ../../admin/auth.rst:428
 msgid ""
@@ -2350,6 +2400,11 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"Маємо певні несумісності із модулем Python LDAP 3.1.0, які можуть вам "
+"завадити вам користуватися цією версією. Якщо система повідомляє вам про "
+"помилку `AttributeError: 'module' object has no attribute '_trace_level' "
+"<https://github.com/python-ldap/python-ldap/issues/226>`_, зниження версії "
+"python-ldap до 3.0.0 може вирішити проблему."
 
 #: ../../admin/auth.rst:434
 msgid ""
@@ -2369,6 +2424,14 @@ msgid ""
 "in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+"Вам слід вилучити ``'social_core.backends.email.EmailAuth'`` з параметра "
+"``AUTHENTICATION_BACKENDS``, інакше користувачі зможу встановлювати пароль у "
+"Weblate і проходити розпізнавання за допомогою пароля. Збереження ``'weblate."
+"accounts.auth.WeblateUserBackend'`` все одно потрібен для того, щоб "
+"встановити права доступу і полегшити роботу із анонімними користувачами. Цей "
+"параметр також надає вам змогу входити до системи за допомогою локального "
+"адміністративного облікового запису, якщо ви його створили (наприклад, за "
+"допомогою :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
@@ -2379,6 +2442,9 @@ msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Якщо ви не можете скористатися безпосередньою прив'язкою для розпізнавання, "
+"вам доведеться скористатися пошуком і вказати користувача для прив'язки "
+"пошуку. Приклад:"
 
 #: ../../admin/auth.rst:496
 msgid "Active Directory integration"
@@ -2405,10 +2471,16 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"Першим кроком є розкриття поля адреси електронної пошти користувача за "
+"допомогою CAS. Цю можливість має бути налаштовано на самому сервері CAS, "
+"вона потребує роботи із принаймні версією 2 CAS, оскільки у версії 1 CAS не "
+"передбачено підтримки атрибутів взагалі."
 
 #: ../../admin/auth.rst:540
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
+"Другим кроком є оновлення Weblate для використання вашого сервера CAS і "
+"атрибутів."
 
 #: ../../admin/auth.rst:542
 msgid "To install `django-cas-ng`:"
@@ -2429,6 +2501,11 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"Нарешті, для прив'язки поля адреси електронної пошти до об'єкта користувача "
+"можна скористатися сигналом. Щоб це спрацювало, вам слід імпортувати сигнал "
+"з пакунка `django-cas-ng` і з'єднати ваш код із цим сигналом. Виконання "
+"цього завдання у файлів параметрів може спричинити проблеми, тому пропонуємо "
+"вам такий варіант:"
 
 #: ../../admin/auth.rst:574
 msgid ""
@@ -2469,6 +2546,9 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Типово, встановлення полягає у додаванні модуля розпізнавання до запису "
+":setting:`django:AUTHENTICATION_BACKENDS` і встановленні програми для "
+"розпізнавання (якщо таку передбачено) до :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -4466,6 +4546,8 @@ msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Зображення аватарів отримуються і кешуються на сервері — це знижує ризик "
+"витоку приватних даних і пришвидшує обробку даних для користувача."
 
 #: ../../admin/config.rst:508
 msgid ""
@@ -5457,10 +5539,14 @@ msgstr ""
 #: ../../admin/config.rst:1363
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
+"Типове значення — ``.*``, що надає змогу реєструвати будь-яку адресу "
+"електронної пошти."
 
 #: ../../admin/config.rst:1365
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
+"Ви можете скористатися ним для обмеження реєстрації єдиним доменом "
+"електронної пошти:"
 
 #: ../../admin/config.rst:1374
 msgid "REGISTRATION_OPEN"
@@ -5545,6 +5631,8 @@ msgstr "SITE_TITLE"
 #: ../../admin/config.rst:1438
 msgid "Site title to be used for the website and sent e-mails."
 msgstr ""
+"Назва сайта, яку буде використано для сайта і надсилання повідомлень "
+"електронною поштою."
 
 #: ../../admin/config.rst:1443
 msgid "SPECIAL_CHARS"
@@ -5555,6 +5643,8 @@ msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
 msgstr ""
+"Додаткові символи, які слід включити на візуальну клавіатуру, :ref:`visual-"
+"keyboard`."
 
 #: ../../admin/config.rst:1447
 msgid "The default value is:"
@@ -5653,7 +5743,7 @@ msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1553
 msgid "Configures how deep cloning of repositories Weblate should do."
-msgstr ""
+msgstr "Визначає, наскільки глибоким має бути клонування сховищ у Weblate."
 
 #: ../../admin/config.rst:1557
 msgid ""
@@ -6606,6 +6696,8 @@ msgid ""
 "Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
 "systems will most likely work too."
 msgstr ""
+"Відомо, що Weblate працює у Linux, FreeBSD і macOS. Ймовірно, Weblate працює "
+"на більшості інших Unix-подібних системах."
 
 #: ../../admin/install.rst:48
 msgid ""
@@ -6625,7 +6717,7 @@ msgstr ""
 
 #: ../../admin/install.rst:57
 msgid "PostgreSQL database server, see :ref:`database-setup`."
-msgstr ""
+msgstr "Сервер бази даних PostgreSQL, див. :ref:`database-setup`."
 
 #: ../../admin/install.rst:58
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
@@ -7186,7 +7278,7 @@ msgstr ""
 
 #: ../../admin/install.rst:482
 msgid "``ALLOWED_HOSTS``"
-msgstr ""
+msgstr "``ALLOWED_HOSTS``"
 
 #: ../../admin/install.rst:484
 msgid ""
@@ -7196,7 +7288,7 @@ msgstr ""
 
 #: ../../admin/install.rst:491
 msgid "Alternatively you can include wildcard:"
-msgstr ""
+msgstr "Крім того, ви можете включити символ-замінник:"
 
 #: ../../admin/install.rst:499
 msgid ""
@@ -7208,7 +7300,7 @@ msgstr ""
 
 #: ../../admin/install.rst:505
 msgid "``SESSION_ENGINE``"
-msgstr ""
+msgstr "``SESSION_ENGINE``"
 
 #: ../../admin/install.rst:507
 msgid ""
@@ -7264,24 +7356,26 @@ msgstr ""
 
 #: ../../admin/install.rst:550
 msgid ":setting:`django:DEBUG`"
-msgstr ""
+msgstr ":setting:`django:DEBUG`"
 
 #: ../../admin/install.rst:554
 msgid "``DEFAULT_FROM_EMAIL``"
-msgstr ""
+msgstr "``DEFAULT_FROM_EMAIL``"
 
 #: ../../admin/install.rst:556
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
+"Адреса електронної пошти відправника для вихідної електронної пошти, "
+"наприклад, повідомлень електронної пошти щодо реєстрації."
 
 #: ../../admin/install.rst:560
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:564
 msgid "``SECRET_KEY``"
-msgstr ""
+msgstr "``SECRET_KEY``"
 
 #: ../../admin/install.rst:566
 msgid ""
@@ -7291,11 +7385,11 @@ msgstr ""
 
 #: ../../admin/install.rst:571
 msgid ":setting:`django:SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`django:SECRET_KEY`"
 
 #: ../../admin/install.rst:575
 msgid "``SERVER_EMAIL``"
-msgstr ""
+msgstr "``SERVER_EMAIL``"
 
 #: ../../admin/install.rst:577
 msgid ""
@@ -7305,11 +7399,11 @@ msgstr ""
 
 #: ../../admin/install.rst:582
 msgid ":setting:`django:SERVER_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:587
 msgid "Filling up the database"
-msgstr ""
+msgstr "Заповнення бази даних"
 
 #: ../../admin/install.rst:589
 msgid ""
@@ -7370,11 +7464,11 @@ msgstr ":doc:`django:howto/deployment/checklist`"
 
 #: ../../admin/install.rst:634
 msgid "Disable debug mode"
-msgstr ""
+msgstr "Вимкнути режим діагностики"
 
 #: ../../admin/install.rst:636
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
-msgstr ""
+msgstr "Вимикання режиму діагностики Django (:setting:`DEBUG`):"
 
 #: ../../admin/install.rst:642
 msgid ""
@@ -7399,7 +7493,7 @@ msgstr ""
 
 #: ../../admin/install.rst:670
 msgid "Set correct site domain"
-msgstr ""
+msgstr "Встановлення належного домену сайта"
 
 #: ../../admin/install.rst:672
 msgid ""
@@ -7448,7 +7542,7 @@ msgstr ""
 
 #: ../../admin/install.rst:716
 msgid "Correctly configure HTTPS"
-msgstr ""
+msgstr "Належне налаштовування HTTPS"
 
 #: ../../admin/install.rst:718
 msgid ""
@@ -7495,7 +7589,7 @@ msgstr ""
 
 #: ../../admin/install.rst:760
 msgid "Use a powerful database engine"
-msgstr ""
+msgstr "Використання потужного рушія бази даних"
 
 #: ../../admin/install.rst:762
 msgid ""
@@ -7624,7 +7718,7 @@ msgstr ""
 
 #: ../../admin/install.rst:905
 msgid ":setting:`SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`SECRET_KEY`"
 
 #: ../../admin/install.rst:910
 msgid "Home directory"
@@ -7677,11 +7771,11 @@ msgstr ""
 
 #: ../../admin/install.rst:979
 msgid ":py:class:`django:django.template.loaders.cached.Loader`"
-msgstr ""
+msgstr ":py:class:`django:django.template.loaders.cached.Loader`"
 
 #: ../../admin/install.rst:984
 msgid "Running maintenance tasks"
-msgstr ""
+msgstr "Запуск завдань щодо супроводу"
 
 #: ../../admin/install.rst:986
 msgid ""
@@ -7692,7 +7786,7 @@ msgstr ""
 
 #: ../../admin/install.rst:989
 msgid "Configuration health check (hourly)."
-msgstr ""
+msgstr "Перевірка коректності налаштувань (щогодинно)."
 
 #: ../../admin/install.rst:990
 msgid ""
@@ -7702,7 +7796,7 @@ msgstr ""
 
 #: ../../admin/install.rst:991
 msgid "Updating component alerts (daily)."
-msgstr ""
+msgstr "Оновлення нагадувань щодо складників (щоденно)."
 
 #: ../../admin/install.rst:992
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
@@ -7726,7 +7820,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1004
 msgid "System locales and encoding"
-msgstr ""
+msgstr "Локалі і кодування системи"
 
 #: ../../admin/install.rst:1006
 msgid ""
@@ -7743,7 +7837,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1016
 msgid "Using custom certificate authority"
-msgstr ""
+msgstr "Використання нетипових уповноважень за сертифікатом"
 
 #: ../../admin/install.rst:1018
 msgid ""
@@ -7809,7 +7903,7 @@ msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
 #: ../../admin/install.rst:1079
 msgid "Running server"
-msgstr ""
+msgstr "Запуск сервера"
 
 #: ../../admin/install.rst:1081
 msgid ""
@@ -7823,7 +7917,7 @@ msgstr "Сервер бази даних (див. :ref:`database-setup`)"
 
 #: ../../admin/install.rst:1084
 msgid "Cache server (see :ref:`production-cache`)"
-msgstr ""
+msgstr "Сервер кешу (див. :ref:`production-cache`)"
 
 #: ../../admin/install.rst:1085
 msgid ""
@@ -7833,11 +7927,11 @@ msgstr ""
 
 #: ../../admin/install.rst:1086
 msgid "Wsgi server for dynamic content (see :ref:`uwsgi`)"
-msgstr ""
+msgstr "Сервер Wsgi для динамічних даних (див. :ref:`uwsgi`)"
 
 #: ../../admin/install.rst:1087
 msgid "Celery for executing background tasks (see :ref:`celery`)"
-msgstr ""
+msgstr "Celery для виконання фонових завдань (див. :ref:`celery`)"
 
 #: ../../admin/install.rst:1091
 msgid ""
@@ -7855,7 +7949,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1100
 msgid "Running web server"
-msgstr ""
+msgstr "Запуск вебсервера"
 
 #: ../../admin/install.rst:1102
 msgid ""
@@ -7885,7 +7979,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1128
 msgid "Serving static files"
-msgstr ""
+msgstr "Обслуговування статичних файлів"
 
 #: ../../admin/install.rst:1132
 msgid ""
@@ -7944,7 +8038,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1160
 msgid "Content security policy"
-msgstr ""
+msgstr "Правила щодо безпеки даних"
 
 #: ../../admin/install.rst:1162
 msgid ""
@@ -7958,7 +8052,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1172
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Зразок налаштувань для Apache"
 
 #: ../../admin/install.rst:1174
 msgid ""
@@ -7978,7 +8072,7 @@ msgstr ":doc:`django:howto/deployment/wsgi/modwsgi`"
 
 #: ../../admin/install.rst:1190
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Зразок налаштувань для Apache і Gunicorn"
 
 #: ../../admin/install.rst:1192
 msgid ""
@@ -7992,7 +8086,7 @@ msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1206
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr ""
+msgstr "Зразок налаштувань для NGINX і uWSGI"
 
 #: ../../admin/install.rst:1209
 msgid ""
@@ -8013,12 +8107,16 @@ msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
+"Налаштування для NGINX (також доступні як :file:`weblate/examples/weblate."
+"nginx.conf`):"
 
 #: ../../admin/install.rst:1222
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
+"Налаштування для uWSGI (також доступне як :file:`weblate/examples/weblate."
+"uwsgi.ini`):"
 
 #: ../../admin/install.rst:1229
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
@@ -8030,7 +8128,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1236
 msgid "This is supported since Weblate 1.3."
-msgstr ""
+msgstr "Підтримку передбачено з версії Weblate 1.3."
 
 #: ../../admin/install.rst:1238
 msgid ""
@@ -8040,11 +8138,11 @@ msgstr ""
 
 #: ../../admin/install.rst:1244
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Крім того, вам слід скоригувати :file:`weblate/settings.py`:"
 
 #: ../../admin/install.rst:1253
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Фонові завдання з використанням Celery"
 
 #: ../../admin/install.rst:1257
 msgid ""
@@ -8066,7 +8164,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1280
 msgid "Running Celery as system service"
-msgstr ""
+msgstr "Запуск Celery як служби системи"
 
 #: ../../admin/install.rst:1282
 msgid ""
@@ -8081,17 +8179,22 @@ msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
+"Модуль systemd, який слід зберегти як :file:`/etc/systemd/system/celery-"
+"weblate.service`:"
 
 #: ../../admin/install.rst:1293
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
+"Налаштування середовища, які слід зберегти як :file:`/etc/default/celery-"
+"weblate`:"
 
 #: ../../admin/install.rst:1299
 msgid ""
 "Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
+"Налаштування logrotate, які слід зберегти як :file:`/etc/logrotate.d/celery`:"
 
 #: ../../admin/install.rst:1307
 msgid ""
@@ -8102,7 +8205,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1312
 msgid "Periodic tasks using Celery beat"
-msgstr ""
+msgstr "Регулярні завдання з використанням тактів Celery"
 
 #: ../../admin/install.rst:1314
 msgid ""
@@ -8120,7 +8223,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1322
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Спостереження за станом Celery"
 
 #: ../../admin/install.rst:1324
 msgid ""
@@ -8148,7 +8251,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1344
 msgid "Monitoring Weblate"
-msgstr ""
+msgstr "Спостереження за Weblate"
 
 #: ../../admin/install.rst:1346
 msgid ""
@@ -8158,7 +8261,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1352
 msgid "Collecting error reports"
-msgstr ""
+msgstr "Збирання звітів щодо помилок"
 
 #: ../../admin/install.rst:1354
 msgid ""
@@ -8192,17 +8295,19 @@ msgstr ""
 
 #: ../../admin/install.rst:1376
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr ""
+msgstr "Якщо коротко, вам слід скоригувати :file:`settings.py`:"
 
 #: ../../admin/install.rst:1395
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
 msgstr ""
+"Усе інше інтегровано автоматично, ви тепер збираєте помилки на боці сервера "
+"і на боці клієнта."
 
 #: ../../admin/install.rst:1404
 msgid "Migrating Weblate to another server"
-msgstr ""
+msgstr "Перенесення Weblate на інший сервер"
 
 #: ../../admin/install.rst:1406
 msgid ""
@@ -8213,7 +8318,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1411
 msgid "Migrating database"
-msgstr ""
+msgstr "Перенесення бази даних"
 
 #: ../../admin/install.rst:1413
 msgid ""
@@ -8233,7 +8338,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1431
 msgid "Migrating VCS repositories"
-msgstr ""
+msgstr "Перенесення сховищ системи керування версіями"
 
 #: ../../admin/install.rst:1433
 msgid ""
@@ -8244,7 +8349,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1438
 msgid "Other notes"
-msgstr ""
+msgstr "Інші нотатки"
 
 #: ../../admin/install.rst:1440
 msgid ""
@@ -8254,7 +8359,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:4
 msgid "Installing using Docker"
-msgstr ""
+msgstr "Встановлення за допомогою Docker"
 
 #: ../../admin/install/docker.rst:6
 msgid ""
@@ -8265,7 +8370,7 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
-msgstr ""
+msgstr "Вимоги щодо обладнання"
 
 #: ../../admin/install/steps/hw.rst:4
 msgid ""
@@ -8276,7 +8381,7 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
-msgstr ""
+msgstr "2 ГБ оперативної пам'яті"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
@@ -8284,13 +8389,15 @@ msgstr "2 ядра процесора"
 
 #: ../../admin/install/steps/hw.rst:10
 msgid "1 GB of storage space"
-msgstr ""
+msgstr "1 ГБ вільного місця на диску"
 
 #: ../../admin/install/steps/hw.rst:12
 msgid ""
 "The more memory the better - it is used for caching on all levels "
 "(filesystem, database and Weblate)."
 msgstr ""
+"Чим більше пам'яті — тим краще. Пам'ять використовується для кешування на "
+"усіх рівнях (у файловій системі, базі даних та Weblate)."
 
 #: ../../admin/install/steps/hw.rst:15
 msgid ""
@@ -8321,7 +8428,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:20
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "Клонування сховища weblate-docker:"
 
 #: ../../admin/install/docker.rst:27
 msgid ""
@@ -8349,7 +8456,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:58
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "Запуск контейнерів Weblate:"
 
 #: ../../admin/install/docker.rst:64
 msgid ""
@@ -8375,7 +8482,7 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:82
 msgid "Docker container with HTTPS support"
-msgstr ""
+msgstr "Контейнер Docker із підтримкою HTTPS"
 
 #: ../../admin/install/docker.rst:84
 msgid ""
@@ -8385,7 +8492,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:88
 msgid "Using own SSL certificates"
-msgstr ""
+msgstr "Використання власних сертифікатів SSL"
 
 #: ../../admin/install/docker.rst:92
 msgid ""
@@ -8398,10 +8505,12 @@ msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
+":file:`ssl/fullchain.pem` містить сертифікат, включно із будь-якими "
+"потрібними сертифікатами служби сертифікації"
 
 #: ../../admin/install/docker.rst:96
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ""
+msgstr ":file:`ssl/privkey.pem` містить закритий ключ"
 
 #: ../../admin/install/docker.rst:98
 msgid ""
@@ -8453,7 +8562,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:170
 msgid "Upgrading the Docker container"
-msgstr ""
+msgstr "Оновлення контейнера Docker"
 
 #: ../../admin/install/docker.rst:172
 msgid ""
@@ -8512,10 +8621,12 @@ msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:220
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Змінні середовища Docker"
 
 #: ../../admin/install/docker.rst:222
 msgid ""
@@ -8529,7 +8640,7 @@ msgstr "Загальні параметри"
 
 #: ../../admin/install/docker.rst:229
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr ""
+msgstr "Налаштовує режим діагностики Django за допомогою :setting:`DEBUG`."
 
 #: ../../admin/install/docker.rst:231 ../../admin/install/docker.rst:258
 #: ../../admin/install/docker.rst:311 ../../admin/install/docker.rst:341
@@ -8547,11 +8658,13 @@ msgstr ":ref:`production-debug`."
 
 #: ../../admin/install/docker.rst:244
 msgid "Configures the logging verbosity."
-msgstr ""
+msgstr "Налаштовує докладність ведення журналу."
 
 #: ../../admin/install/docker.rst:249
 msgid "Configures the site-title shown on the heading of all pages."
 msgstr ""
+"Налаштовує заголовок сайта, який буде показано у верхньому колонтитулі усіх "
+"сторінок."
 
 #: ../../admin/install/docker.rst:254
 msgid ""
@@ -8566,17 +8679,21 @@ msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:274
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "Встановлює пароль для користувача `admin`."
 
 #: ../../admin/install/docker.rst:276
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Якщо не встановлено і користувача `admin` не існує, його буде створено із "
+"випадковим паролем, який буде показано при першому запуску контейнера."
 
 #: ../../admin/install/docker.rst:278
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Якщо не встановлено, а запис користувача `admin` існує, ніяких дій не "
+"виконуватиметься."
 
 #: ../../admin/install/docker.rst:279
 msgid ""
@@ -8584,6 +8701,9 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Якщо встановлено, запис користувача `admin` буде скориговано під час кожного "
+"запуску контейнера відповідно до :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+":envvar:`WEBLATE_ADMIN_NAME` і :envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: ../../admin/install/docker.rst:285
 msgid ""
@@ -8602,7 +8722,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:300
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Налаштовує адресу для вихідних повідомлень електронної пошти."
 
 #: ../../admin/install/docker.rst:304
 msgid ":ref:`production-email`"
@@ -8623,12 +8743,15 @@ msgstr ""
 #: ../../admin/install/docker.rst:326
 msgid "Configures the secret used by Django for cookie signing."
 msgstr ""
+"Налаштовує ключ, який використовуватиметься Django для підписування кук."
 
 #: ../../admin/install/docker.rst:330
 msgid ""
 "The secret is now generated automatically on first startup, there is no need "
 "to set it manually."
 msgstr ""
+"Ключ у поточній версії створюється автоматично при першому запуску — немає "
+"потреби у встановленні його вручну."
 
 #: ../../admin/install/docker.rst:335
 msgid ":ref:`production-secret`"
@@ -8686,6 +8809,8 @@ msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
+"Вмикає :setting:`IP_BEHIND_REVERSE_PROXY` і встановлює "
+":setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/install/docker.rst:407
 msgid ""
@@ -8696,19 +8821,19 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:411
 msgid "converts all characters to uppercase"
-msgstr ""
+msgstr "перетворює усі символи до верхнього регістру"
 
 #: ../../admin/install/docker.rst:412
 msgid "replaces any hyphens with underscores"
-msgstr ""
+msgstr "замінює усі дефіси символами підкреслення"
 
 #: ../../admin/install/docker.rst:413
 msgid "prepends ``HTTP_`` prefix"
-msgstr ""
+msgstr "дописує префікс ``HTTP_``"
 
 #: ../../admin/install/docker.rst:415
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Отже ``X-Forwarded-For`` буде пов'язано із ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/install/docker.rst:427
 msgid ""
@@ -8719,7 +8844,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:440
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
-msgstr ""
+msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:444
 msgid ""
@@ -9151,7 +9276,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:928
 msgid ":setting:`django:EMAIL_PORT`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_PORT`"
 
 #: ../../admin/install/docker.rst:932
 msgid "Email authentication user."
@@ -9159,7 +9284,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:934
 msgid ":setting:`django:EMAIL_HOST_USER`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_USER`"
 
 #: ../../admin/install/docker.rst:938
 msgid "Email authentication password."
@@ -9167,7 +9292,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:940
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:944
 msgid ""
@@ -9183,6 +9308,8 @@ msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, "
+":setting:`django:EMAIL_USE_SSL`"
 
 #: ../../admin/install/docker.rst:957
 msgid ""
@@ -9197,6 +9324,8 @@ msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_USE_TLS`"
 
 #: ../../admin/install/docker.rst:970
 msgid "Configures Django backend to use for sending e-mails."
@@ -9255,6 +9384,8 @@ msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 msgstr ""
+":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, "
+":setting:`django:INSTALLED_APPS`"
 
 #: ../../admin/install/docker.rst:1037
 msgid "Container settings"
@@ -9902,13 +10033,16 @@ msgstr ""
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
-msgstr ""
+msgstr "Ліцензування для користувачів"
 
 #: ../../admin/licensing.rst:33
 msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Будь-який користувач може ознайомитися із усіма ліцензійними угодами щодо "
+"перекладу усіх відкритих проєктів екземпляра Weblate за допомогою сторінки "
+"профілю:"
 
 #: ../../admin/machine.rst:4 ../../user/translating.rst:282
 msgid "Machine translation"
@@ -9924,21 +10058,23 @@ msgstr ""
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
-msgstr ""
+msgstr "Початкову мову можна налаштувати у розділі :ref:`project`."
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
-msgstr ""
+msgstr "amaGama"
 
 #: ../../admin/machine.rst:15
 msgid "Special installation of :ref:`tmserver` run by the authors of Virtaal."
-msgstr ""
+msgstr "Особливий екземпляр :ref:`tmserver`, яким керують розробники Virtaal."
 
 #: ../../admin/machine.rst:17
 msgid ""
 "Turn on this service by adding ``weblate.machinery.tmserver."
 "AmagamaTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.tmserver."
+"AmagamaTranslation`` до :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:22
 msgid ""
@@ -9950,18 +10086,22 @@ msgstr ""
 
 #: ../../admin/machine.rst:29 ../../changes.rst:1444
 msgid "Apertium"
-msgstr ""
+msgstr "Apertium"
 
 #: ../../admin/machine.rst:31
 msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Платформа перекладу вільного програмного забезпечення, яка забезпечує "
+"переклади обмеженим набором мов."
 
 #: ../../admin/machine.rst:34
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"Рекомендованим способом використання Apertium є запуск вашого власного "
+"сервера Apertium-APy."
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -9969,36 +10109,46 @@ msgid ""
 "ApertiumAPYTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_APERTIUM_APY`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.apertium."
+"ApertiumAPYTranslation`` до :setting:`MT_SERVICES` і встановіть "
+":setting:`MT_APERTIUM_APY`."
 
 #: ../../admin/machine.rst:41
 msgid ""
 ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_, "
 "`Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
+":setting:`MT_APERTIUM_APY`, `сайт Apertium <https://www.apertium.org/>`_, `"
+"Документація з Apertium APy <http://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:47
 msgid "AWS"
-msgstr ""
+msgstr "AWS"
 
 #: ../../admin/machine.rst:51
 msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages."
 msgstr ""
+"Amazon Translate — служба перекладу на основі нейронних машин для перекладу "
+"тексту англійською мовою і з англійської мови для декількох підтримуваних "
+"мов."
 
 #: ../../admin/machine.rst:54
 msgid ""
 "1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` "
 "to :setting:`MT_SERVICES`."
 msgstr ""
+"1. Увімкніть цю службу додаванням ``weblate.machinery.aws.AWSTranslation`` "
+"до :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:57
 msgid "Install the `boto3` module."
-msgstr ""
+msgstr "Встановіть модуль `boto3`."
 
 #: ../../admin/machine.rst:58
 msgid "Configure Weblate."
-msgstr ""
+msgstr "Налаштуйте Weblate."
 
 #: ../../admin/machine.rst:62
 msgid ""
@@ -10006,20 +10156,25 @@ msgid ""
 "`MT_AWS_SECRET_ACCESS_KEY` `Amazon Translate Documentation <https://docs.aws."
 "amazon.com/translate/>`_"
 msgstr ""
+":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, "
+":setting:`MT_AWS_SECRET_ACCESS_KEY` `Документація до Amazon Translate "
+"<https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:68
 msgid "Baidu API machine translation"
-msgstr ""
+msgstr "Програмний інтерфейс комп'ютерного перекладу Baidu"
 
 #: ../../admin/machine.rst:72
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "Служба комп'ютерного перекладу, яка надається Baidu."
 
 #: ../../admin/machine.rst:74
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Ця служба використовує програмний інтерфейс — вам слід отримати у Baidu "
+"ідентифікатор і ключ до програмного інтерфейсу, щоб скористатися нею."
 
 #: ../../admin/machine.rst:76
 msgid ""
@@ -10027,12 +10182,17 @@ msgid ""
 "to :setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and :setting:"
 "`MT_BAIDU_SECRET`."
 msgstr ""
+"Увімкніть цю службу додаванням запису ``weblate.machinery.baidu."
+"BaiduTranslation`` до :setting:`MT_SERVICES` і встановленням "
+":setting:`MT_BAIDU_ID` та :setting:`MT_BAIDU_SECRET`."
 
 #: ../../admin/machine.rst:82
 msgid ""
 ":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Baidu Translate API "
 "<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
+":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Програмний інтерфейс "
+"перекладу Baidu <https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:89
 msgid "DeepL"
@@ -10065,15 +10225,20 @@ msgid ""
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgstr ""
+":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_VERSION`, `DeepL website "
+"<https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/pro>`_, `"
+"Документація з програмного інтерфейсу DeepL <https://www.deepl.com/api."
+"html>`_"
 
 #: ../../admin/machine.rst:118
 msgid "Glosbe"
-msgstr ""
+msgstr "Glosbe"
 
 #: ../../admin/machine.rst:120
 msgid ""
 "Free dictionary and translation memory for almost every living language."
 msgstr ""
+"Вільний словник та пам'ять перекладів для майже будь-якої із актуальних мов."
 
 #: ../../admin/machine.rst:122
 msgid ""
@@ -10087,36 +10252,46 @@ msgid ""
 "Turn on this service by adding ``weblate.machinery.glosbe."
 "GlosbeTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.glosbe.GlosbeTranslation``"
+" до :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:131
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Сайт Glosbe <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:136
 msgid "Google Translate"
-msgstr ""
+msgstr "Перекладач Google"
 
 #: ../../admin/machine.rst:138
 msgid "Machine translation service provided by Google."
-msgstr ""
+msgstr "Служба комп'ютерного перекладу, яка надається Google."
 
 #: ../../admin/machine.rst:140
 msgid ""
 "This service uses the Google Translation API, and you need to obtain an API "
 "key and turn on billing in the Google API console."
 msgstr ""
+"Ця служба використовує програмний інтерфейс Перекладача Google — вам слід "
+"отримати ключ до програмного інтерфейсу і увімкнути облік у консолі "
+"програмного інтерфейсу Google."
 
 #: ../../admin/machine.rst:143
 msgid ""
 "To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`."
 msgstr ""
+"Щоб увімкнути цю службу, додайте ``weblate.machinery.google."
+"GoogleTranslation`` до :setting:`MT_SERVICES` і встановіть "
+":setting:`MT_GOOGLE_KEY`."
 
 #: ../../admin/machine.rst:148
 msgid ""
 ":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
 "google.com/translate/docs>`_"
 msgstr ""
+":setting:`MT_GOOGLE_KEY`, `Документація з Перекладача Google <https://cloud."
+"google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:154
 msgid "Google Translate API V3 (Advanced)"
@@ -10124,7 +10299,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:156
 msgid "Machine translation service provided by Google Cloud services."
-msgstr ""
+msgstr "Служба комп'ютерного перекладу, яка надається хмарними службами Google."
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -10135,11 +10310,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:162
 msgid ":setting:`MT_GOOGLE_CREDENTIALS`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_CREDENTIALS`"
 
 #: ../../admin/machine.rst:163
 msgid ":setting:`MT_GOOGLE_PROJECT`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_PROJECT`"
 
 #: ../../admin/machine.rst:165
 msgid ""
@@ -10153,6 +10328,9 @@ msgid ""
 "`MT_GOOGLE_LOCATION` `Google translate documentation <https://cloud.google."
 "com/translate/docs>`_"
 msgstr ""
+":setting:`MT_GOOGLE_CREDENTIALS`, :setting:`MT_GOOGLE_PROJECT`, "
+":setting:`MT_GOOGLE_LOCATION` `Документація з програмного інтерфейсу Google "
+"<https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:175
 msgid "Microsoft Cognitive Services Translator"
@@ -10166,7 +10344,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:182
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "У Weblate реалізовано програмний інтерфейс перекладача версії 3."
 
 #: ../../admin/machine.rst:184
 msgid ""
@@ -10174,10 +10352,13 @@ msgid ""
 "MicrosoftCognitiveTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`."
 msgstr ""
+"Щоб увімкнути цю службу, додайте ``weblate.machinery.microsoft."
+"MicrosoftCognitiveTranslation`` до :setting:`MT_SERVICES` і встановіть "
+":setting:`MT_MICROSOFT_COGNITIVE_KEY`."
 
 #: ../../admin/machine.rst:188
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "Текстовий програмний інтерфейс перекладача версії 2"
 
 #: ../../admin/machine.rst:189
 msgid "The key you use with Translator API V2 can be used with API 3."
@@ -10185,7 +10366,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:192
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "Текстовий програмний інтерфейс перекладача версії 3"
 
 #: ../../admin/machine.rst:193
 msgid ""
@@ -10201,10 +10382,14 @@ msgid ""
 "services/cognitive-services/translator-text-api/>`_, `Microsoft Azure Portal "
 "<https://portal.azure.com/>`_"
 msgstr ""
+":setting:`MT_MICROSOFT_COGNITIVE_KEY`, :setting:`MT_MICROSOFT_REGION`, `"
+"Когнітивні служби — програмний інтерфейс текстового перекладу <https://azure."
+"microsoft.com/services/cognitive-services/translator-text-api/>`_, `Портал "
+"Microsoft Azure <https://portal.azure.com/>`_"
 
 #: ../../admin/machine.rst:205
 msgid "Microsoft Terminology Service"
-msgstr ""
+msgstr "Служба термінології Microsoft"
 
 #: ../../admin/machine.rst:209
 msgid ""
@@ -10218,16 +10403,20 @@ msgid ""
 "Turn this service on by adding ``weblate.machinery.microsoftterminology."
 "MicrosoftTerminologyService`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.microsoftterminology."
+"MicrosoftTerminologyService`` до :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:218
 msgid ""
 "`Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/"
 "Microsoft-Terminology-API>`_"
 msgstr ""
+"`Програмний інтерфейс служби термінології Microsoft <https://www.microsoft."
+"com/en-us/language/Microsoft-Terminology-API>`_"
 
 #: ../../admin/machine.rst:223
 msgid "ModernMT"
-msgstr ""
+msgstr "ModernMT"
 
 #: ../../admin/machine.rst:228
 msgid ""
@@ -10235,20 +10424,25 @@ msgid ""
 "ModernMTTranslation`` to :setting:`MT_SERVICES` and configure :setting:"
 "`MT_MODERNMT_KEY`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.modernmt."
+"ModernMTTranslation`` до :setting:`MT_SERVICES` і налаштуйте "
+":setting:`MT_MODERNMT_KEY`."
 
 #: ../../admin/machine.rst:233
 msgid ""
 "`ModernMT API <https://www.modernmt.com/api/translate/>`_, :setting:"
 "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgstr ""
+"`Програмний інтерфейс ModernMT <https://www.modernmt.com/api/translate/>`_, "
+":setting:`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/machine.rst:240 ../../changes.rst:1446
 msgid "MyMemory"
-msgstr ""
+msgstr "MyMemory"
 
 #: ../../admin/machine.rst:242
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "Величезна пам'ять перекладів із комп'ютерним перекладом."
 
 #: ../../admin/machine.rst:244
 msgid ""
@@ -10263,25 +10457,33 @@ msgid ""
 "MyMemoryTranslation`` to :setting:`MT_SERVICES` and  set :setting:"
 "`MT_MYMEMORY_EMAIL`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.mymemory."
+"MyMemoryTranslation`` до :setting:`MT_SERVICES` і встановіть "
+":setting:`MT_MYMEMORY_EMAIL`."
 
 #: ../../admin/machine.rst:253
 msgid ""
 ":setting:`MT_MYMEMORY_EMAIL`, :setting:`MT_MYMEMORY_USER`, :setting:"
 "`MT_MYMEMORY_KEY`, `MyMemory website <https://mymemory.translated.net/>`_"
 msgstr ""
+":setting:`MT_MYMEMORY_EMAIL`, :setting:`MT_MYMEMORY_USER`, "
+":setting:`MT_MYMEMORY_KEY`, `сайт MyMemory <https://mymemory.translated.net/"
+">`_"
 
 #: ../../admin/machine.rst:261
 msgid "NetEase Sight API machine translation"
-msgstr ""
+msgstr "Програмний інтерфейс комп'ютерного перекладу NetEase Sight"
 
 #: ../../admin/machine.rst:265
 msgid "Machine translation service provided by Netease."
-msgstr ""
+msgstr "Служба комп'ютерного перекладу, яка надається NetEase."
 
 #: ../../admin/machine.rst:267
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Ця служба використовує програмний інтерфейс — вам слід отримати ключ і "
+"пароль від NetEase."
 
 #: ../../admin/machine.rst:269
 msgid ""
@@ -10289,16 +10491,21 @@ msgid ""
 "NeteaseSightTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_NETEASE_KEY` and :setting:`MT_NETEASE_SECRET`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.youdao."
+"NeteaseSightTranslation`` до :setting:`MT_SERVICES` і встановіть "
+":setting:`MT_NETEASE_KEY` і :setting:`MT_NETEASE_SECRET`."
 
 #: ../../admin/machine.rst:275
 msgid ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
 "Translation Platform <https://sight.netease.com/>`_"
 msgstr ""
+":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Платформа перекладу "
+"Netease Sight <https://sight.netease.com/>`_"
 
 #: ../../admin/machine.rst:282
 msgid "tmserver"
-msgstr ""
+msgstr "tmserver"
 
 #: ../../admin/machine.rst:284
 msgid ""
@@ -10309,21 +10516,23 @@ msgstr ""
 
 #: ../../admin/machine.rst:288
 msgid "First you will want to import some data to the translation memory:"
-msgstr ""
+msgstr "Спочатку вам варто імпортувати якісь дані до пам'яті перекладів:"
 
 #: ../../admin/machine.rst:290
 msgid ""
 "2. Turn on this service by adding ``weblate.machinery.tmserver."
 "TMServerTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"2. Увімкніть цю службу додаванням ``weblate.machinery.tmserver."
+"TMServerTranslation`` до :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:299
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "Запустіть tmserver для очікування на ваші запити:"
 
 #: ../../admin/machine.rst:305
 msgid "Configure Weblate to talk to it:"
-msgstr ""
+msgstr "Налаштуйте Weblate на обмін даними зі службою:"
 
 #: ../../admin/machine.rst:313
 msgid ""
@@ -10337,11 +10546,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:323
 msgid "Yandex Translate"
-msgstr ""
+msgstr "Переклад Yandex"
 
 #: ../../admin/machine.rst:325
 msgid "Machine translation service provided by Yandex."
-msgstr ""
+msgstr "Служба комп'ютерного перекладу, яка надається Yandex."
 
 #: ../../admin/machine.rst:327
 msgid ""
@@ -10355,26 +10564,33 @@ msgid ""
 "YandexTranslation`` to :setting:`MT_SERVICES`, and set :setting:"
 "`MT_YANDEX_KEY`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.yandex.YandexTranslation``"
+" до :setting:`MT_SERVICES` і встановіть :setting:`MT_YANDEX_KEY`."
 
 #: ../../admin/machine.rst:334
 msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
+":setting:`MT_YANDEX_KEY`, `Програмний інтерфейс перекладу Yandex "
+"<https://tech.yandex.com/translate/>`_, `Yandex.Translate <https://translate."
+"yandex.com/>`_"
 
 #: ../../admin/machine.rst:341
 msgid "Youdao Zhiyun API machine translation"
-msgstr ""
+msgstr "Програмний інтерфейс комп'ютерного перекладу Youdao Zhiyun"
 
 #: ../../admin/machine.rst:345
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "Служба комп'ютерного перекладу, яка надається Youdao."
 
 #: ../../admin/machine.rst:347
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
 msgstr ""
+"Ця служба використовує програмний інтерфейс — вам слід отримати у Youdao "
+"ідентифікатор і ключ до програмного інтерфейсу, щоб скористатися нею."
 
 #: ../../admin/machine.rst:349
 msgid ""
@@ -10382,12 +10598,18 @@ msgid ""
 "YoudaoTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_YOUDAO_ID` and :setting:`MT_YOUDAO_SECRET`."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.youdao.YoudaoTranslation``"
+" до :setting:`MT_SERVICES` і встановіть :setting:`MT_YOUDAO_ID` і "
+":setting:`MT_YOUDAO_SECRET`."
 
 #: ../../admin/machine.rst:355
 msgid ""
 ":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
 "Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
 msgstr ""
+":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Служба прекладу "
+"природними мовами Youdao Zhiyun <https://ai.youdao.com/product-fanyi-text."
+"s>`_"
 
 #: ../../admin/machine.rst:360
 msgid "Weblate"
@@ -10404,30 +10626,36 @@ msgid ""
 "Turn on these services by adding ``weblate.machinery.weblatetm."
 "WeblateTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Увімкніть ці служби додаванням ``weblate.machinery.weblatetm."
+"WeblateTranslation`` до :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:371
 msgid "Weblate Translation Memory"
-msgstr ""
+msgstr "Пам'ять перекладів Weblate"
 
 #: ../../admin/machine.rst:375
 msgid ""
 "The :ref:`translation-memory` can be used as a source for machine "
 "translation suggestions as well."
 msgstr ""
+"Ви також можете скористатися :ref:`translation-memory` як джерелом для "
+"пропозицій комп'ютерного перекладу."
 
 #: ../../admin/machine.rst:378
 msgid ""
 "Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to "
 "the :setting:`MT_SERVICES`. This service is turned on by default."
 msgstr ""
+"Увімкніть ці служби додаванням ``weblate.memory.machine.WeblateMemory`` до "
+":setting:`MT_SERVICES`. Типово, цю службу увімкнено."
 
 #: ../../admin/machine.rst:385
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "Концентратор перекладів SAP"
 
 #: ../../admin/machine.rst:387
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "Служба комп'ютерного перекладу, яка надається SAP."
 
 #: ../../admin/machine.rst:389
 msgid ""
@@ -10441,12 +10669,18 @@ msgid ""
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
 "to either sandbox or the productive API."
 msgstr ""
+"Увімкніть цю службу додаванням ``weblate.machinery.saptranslationhub."
+"SAPTranslationHub`` до :setting:`MT_SERVICES` і встановіть відповідний "
+"доступ або до програмного інтерфейсу пісочниці, або до промислового "
+"програмного інтерфейсу."
 
 #: ../../admin/machine.rst:398
 msgid ""
 "To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL` and :"
 "setting:`MT_SAP_SANDBOX_APIKEY`."
 msgstr ""
+"Щоб отримати доступ до програмного інтерфейсу пісочниці, вам слід встановити "
+":setting:`MT_SAP_BASE_URL` і :setting:`MT_SAP_SANDBOX_APIKEY`."
 
 #: ../../admin/machine.rst:401
 msgid ""
@@ -10461,10 +10695,15 @@ msgid ""
 "Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_"
 msgstr ""
+":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, "
+":setting:`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, "
+":setting:`MT_SAP_USE_MT` `Програмний інтерфейс вузла перекладу SAP "
+"<https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/"
+"translationhub>`_"
 
 #: ../../admin/machine.rst:414
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Нетиповий комп'ютерний переклад"
 
 #: ../../admin/machine.rst:416
 msgid ""
@@ -10481,7 +10720,7 @@ msgstr ""
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "Команди керування"
 
 #: ../../admin/management.rst:8
 msgid ""
@@ -10499,11 +10738,13 @@ msgstr ""
 
 #: ../../admin/management.rst:18
 msgid "Invoking management commands"
-msgstr ""
+msgstr "Виклик команд керування"
 
 #: ../../admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr ""
+"Як ми вже згадували раніше, виклик залежить від того, як убуло встановлено "
+"Weblate."
 
 #: ../../admin/management.rst:22
 msgid ""
@@ -10551,7 +10792,7 @@ msgstr ""
 
 #: ../../admin/management.rst:81
 msgid "add_suggestions"
-msgstr ""
+msgstr "add_suggestions"
 
 #: ../../admin/management.rst:87
 msgid ""
@@ -10567,7 +10808,7 @@ msgstr ""
 
 #: ../../admin/management.rst:103
 msgid "auto_translate"
-msgstr ""
+msgstr "auto_translate"
 
 #: ../../admin/management.rst:109
 msgid "Performs automatic translation based on other component translations."
@@ -10587,26 +10828,30 @@ msgstr ""
 
 #: ../../admin/management.rst:123
 msgid "Whether to overwrite existing translations."
-msgstr ""
+msgstr "Чи переписувати наявні переклади."
 
 #: ../../admin/management.rst:127
 msgid ""
 "Whether to overwrite existing translations that are inconsistent (see :ref:"
 "`check-inconsistent`)."
 msgstr ""
+"Чи переписувати наявні переклади, які є несумісними із попередніми (див. :ref"
+":`check-inconsistent`)."
 
 #: ../../admin/management.rst:132
 msgid "Automatically add language if a given translation does not exist."
-msgstr ""
+msgstr "Автоматично додавати мову, якщо вказаного перекладу не існує."
 
 #: ../../admin/management.rst:136
 msgid ""
 "Use machine translation instead of other components as machine translations."
 msgstr ""
+"Використовувати комп'ютерний переклад замість інших складників комп'ютерних "
+"перекладів."
 
 #: ../../admin/management.rst:140
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr ""
+msgstr "Поріг подібності для комп'ютерного перекладу. Типовим значенням є 80."
 
 #: ../../admin/management.rst:150
 msgid ":ref:`auto-translation`"
@@ -10614,37 +10859,39 @@ msgstr ":ref:`auto-translation`"
 
 #: ../../admin/management.rst:153
 msgid "celery_queues"
-msgstr ""
+msgstr "celery_queues"
 
 #: ../../admin/management.rst:159
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Показує довжину черг завдань Celery."
 
 #: ../../admin/management.rst:162
 msgid "changesite"
-msgstr ""
+msgstr "changesite"
 
 #: ../../admin/management.rst:168
 msgid ""
 "Change or display the name of your site from the command-line without using "
 "the admin interface by adding this."
 msgstr ""
+"Додаванням цього параметра можна змінити або показати назву вашого сайта з "
+"командного рядка без використання адміністративного інтерфейсу."
 
 #: ../../admin/management.rst:173
 msgid "Gives the site a name."
-msgstr ""
+msgstr "Надає сайту назву."
 
 #: ../../admin/management.rst:177
 msgid "Prints the current name of your site."
-msgstr ""
+msgstr "Виводити поточну назву вашого сайта."
 
 #: ../../admin/management.rst:184
 msgid "checkgit"
-msgstr ""
+msgstr "checkgit"
 
 #: ../../admin/management.rst:188
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "Виводить поточний стан сховища модуля Git."
 
 #: ../../admin/management.rst:190 ../../admin/management.rst:200
 #: ../../admin/management.rst:210 ../../admin/management.rst:627
@@ -10655,28 +10902,33 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"Ви можете або визначити проєкт або складник для оновлення (наприклад, ``"
+"weblate/application``), або скористатися ``--all`` для оновлення усіх "
+"наявних складників."
 
 #: ../../admin/management.rst:194
 msgid "commitgit"
-msgstr ""
+msgstr "commitgit"
 
 #: ../../admin/management.rst:198
 msgid "Commits any possible pending changes to the back-end Git repository."
-msgstr ""
+msgstr "Надсилає усі можливі зміни з черги до сховища Git модуля обробки."
 
 #: ../../admin/management.rst:204
 msgid "commit_pending"
-msgstr ""
+msgstr "commit_pending"
 
 #: ../../admin/management.rst:208
 msgid "Commits pending changes older than a given age."
-msgstr ""
+msgstr "Вносить зміни з черги, вік яких перевищує вказаний."
 
 #: ../../admin/management.rst:215
 msgid ""
 "Age in hours for committing. If not specified the value configured in :ref:"
 "`component` is used."
 msgstr ""
+"Вік у годинах для внесків. Якщо не вказано, буде використано значення, яке "
+"налаштовано у :ref:`component`."
 
 #: ../../admin/management.rst:220
 msgid ""
@@ -10691,7 +10943,7 @@ msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:230
 msgid "cleanuptrans"
-msgstr ""
+msgstr "cleanuptrans"
 
 #: ../../admin/management.rst:234
 msgid ""
@@ -10706,7 +10958,7 @@ msgstr ":ref:`production-cron`"
 
 #: ../../admin/management.rst:242
 msgid "createadmin"
-msgstr ""
+msgstr "createadmin"
 
 #: ../../admin/management.rst:246
 msgid ""
@@ -10716,39 +10968,44 @@ msgstr ""
 #: ../../admin/management.rst:250
 msgid "Provides a password on the command-line, to not generate a random one."
 msgstr ""
+"Надає пароль у командному рядку, щоб не створювати його випадковим чином."
 
 #: ../../admin/management.rst:254
 msgid "Do not set password, this can be useful with --update."
-msgstr ""
+msgstr "Не встановлювати пароль. Може бути корисним із поєднанням --update."
 
 #: ../../admin/management.rst:258
 msgid "Use the given name instead of ``admin``."
-msgstr ""
+msgstr "Використовувати вказане ім'я замість ``admin``."
 
 #: ../../admin/management.rst:262
 msgid "Specify the admin e-mail address."
-msgstr ""
+msgstr "Вказати адресу електронної пошти адміністратора."
 
 #: ../../admin/management.rst:266
 msgid "Specify the admin name (visible)."
-msgstr ""
+msgstr "Вказати ім'я адміністратора (видиме)."
 
 #: ../../admin/management.rst:270
 msgid "Update the existing user (you can use this to change passwords)."
 msgstr ""
+"Оновити запис наявного користувача (ви можете скористатися цим для зміни "
+"паролів)."
 
 #: ../../admin/management.rst:274
 msgid ""
 "Added parameters ``--username``, ``--email``, ``--name`` and ``--update``."
 msgstr ""
+"Додані параметри ``--username``, ``--email``, ``--name`` і ``--update``."
 
 #: ../../admin/management.rst:277
 msgid "dump_memory"
-msgstr ""
+msgstr "dump_memory"
 
 #: ../../admin/management.rst:283
 msgid "Export a JSON file containing Weblate Translation Memory content."
 msgstr ""
+"Експортувати файл JSON, який міститиме вміст пам'яті перекладів Weblate."
 
 #: ../../admin/management.rst:287 ../../admin/management.rst:379
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
@@ -10756,37 +11013,43 @@ msgstr ":ref:`translation-memory`, :ref:`schema-memory`"
 
 #: ../../admin/management.rst:291
 msgid "dumpuserdata"
-msgstr ""
+msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:295
 msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`"
 msgstr ""
+"Створити дамп даних користувачів у файлі для наступного використання у "
+":djadmin:`importuserdata`"
 
 #: ../../admin/management.rst:299
 msgid "This comes in handy when migrating or merging Weblate instances."
 msgstr ""
+"Ця можливість стане у пригоді, якщо ви вирішите перенести або злити "
+"екземпляри Weblate."
 
 #: ../../admin/management.rst:302
 msgid "import_demo"
-msgstr ""
+msgstr "import_demo"
 
 #: ../../admin/management.rst:308
 msgid ""
 "Creates a demo project with components based on <https://github.com/"
 "WeblateOrg/demo>."
 msgstr ""
+"Створює демонстраційний проєкт зі складниками на основі <https://github.com/"
+"WeblateOrg/demo>."
 
 #: ../../admin/management.rst:310
 msgid "This can be useful when developing Weblate."
-msgstr ""
+msgstr "Ця можливість може бути корисною для розробників Weblate."
 
 #: ../../admin/management.rst:314
 msgid "import_json"
-msgstr ""
+msgstr "import_json"
 
 #: ../../admin/management.rst:320
 msgid "Batch import of components based on JSON data."
-msgstr ""
+msgstr "Пакетне імпортування складників на основі даних JSON."
 
 #: ../../admin/management.rst:322
 msgid ""
@@ -10797,41 +11060,45 @@ msgstr ""
 
 #: ../../admin/management.rst:328
 msgid "Specifies where the components will be imported from."
-msgstr ""
+msgstr "Вказує, звідки буде імпортовано складники."
 
 #: ../../admin/management.rst:332
 msgid "Use the given VCS repository from this component for all of them."
 msgstr ""
+"Використовувати вказане сховище системи керування версіями з цього складника "
+"для усіх складників."
 
 #: ../../admin/management.rst:336
 msgid "Skip (already) imported components."
-msgstr ""
+msgstr "Пропустити (вже) імпортовані складники."
 
 #: ../../admin/management.rst:340
 msgid "Update (already) imported components."
-msgstr ""
+msgstr "Оновити (вже) імпортовані складники."
 
 #: ../../admin/management.rst:344
 msgid ""
 "The parameters ``--ignore`` and ``--update`` are there to deal with already "
 "imported components."
 msgstr ""
+"Параметри ``--ignore`` і ``--update`` тут для обробки вже імпортованих "
+"складників."
 
 #: ../../admin/management.rst:347
 msgid "Example of JSON file:"
-msgstr ""
+msgstr "Приклад файла JSON:"
 
 #: ../../admin/management.rst:355 ../../admin/memory.rst:101
 msgid ":djadmin:`import_memory`"
-msgstr ""
+msgstr ":djadmin:`import_memory`"
 
 #: ../../admin/management.rst:358
 msgid "import_memory"
-msgstr ""
+msgstr "import_memory"
 
 #: ../../admin/management.rst:364
 msgid "Imports a TMX or JSON file into the Weblate translation memory."
-msgstr ""
+msgstr "Імпортує файл TMX або JSON до пам'яті перекладів Weblate."
 
 #: ../../admin/management.rst:368
 msgid ""
@@ -10853,7 +11120,7 @@ msgstr ""
 
 #: ../../admin/management.rst:383
 msgid "import_project"
-msgstr ""
+msgstr "import_project"
 
 #: ../../admin/management.rst:389
 msgid ""
@@ -10911,11 +11178,11 @@ msgstr ""
 
 #: ../../admin/management.rst:419
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr ""
+msgstr "Приклад: ``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:423
 msgid "Customize the base file for monolingual translations."
-msgstr ""
+msgstr "Налаштувати базовий файл для одномовних перекладів."
 
 #: ../../admin/management.rst:425
 msgid "For example: ``{{ component }}/res/values/string.xml``"
@@ -11653,7 +11920,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:230
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
-msgstr ""
+msgstr ":setting:`WEBLATE_GPG_IDENTITY`"
 
 #: ../../admin/optionals.rst:235 ../../api.rst:150
 #: ../../user/translating.rst:327
@@ -12023,13 +12290,15 @@ msgstr ""
 
 #: ../../admin/projects.rst:155
 msgid "Set Language-Team header"
-msgstr ""
+msgstr "Встановлення заголовка «Language-Team»"
 
 #: ../../admin/projects.rst:157
 msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"Визначає, чи має Weblate керувати заголовком ``Language-Team`` (у поточній "
+"версії ця можливість є застосовню лише до файлів :ref:`gettext`)."
 
 #: ../../admin/projects.rst:163
 msgid "Use shared translation memory"
@@ -12040,6 +12309,8 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Визначає, чи слід використовувати спільну пам'ять перекладів, щоб дізнатися "
+"більше, див. :ref:`shared-tm`."
 
 #: ../../admin/projects.rst:170
 msgid "Contribute to shared translation memory"
@@ -12050,14 +12321,19 @@ msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
 msgstr ""
+"Визначає, чи слід вносити дані до спільної пам'яті перекладів, щоб дізнатися "
+"більше, див. :ref:`shared-tm`."
 
 #: ../../admin/projects.rst:179
 msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
+"Налаштувати керування доступом на рівні проєктів. Щоб дізнатися більше, див. "
+":ref:`acl`."
 
 #: ../../admin/projects.rst:181
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Типове значення можна змінити за допомогою :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/projects.rst:186 ../../workflows.rst:58 ../../workflows.rst:88
 #: ../../workflows.rst:123
@@ -12066,7 +12342,7 @@ msgstr "Увімкнути рецензії"
 
 #: ../../admin/projects.rst:188
 msgid "Enable review workflow for translations, see :ref:`reviews`."
-msgstr ""
+msgstr "Увімкнути процес перекладу із рецензуванням, див. :ref:`reviews`."
 
 #: ../../admin/projects.rst:193
 msgid "Enable source reviews"
@@ -12075,6 +12351,8 @@ msgstr "Увімкнути рецензування початкових дан�
 #: ../../admin/projects.rst:195
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
+"Увімкнути процес рецензування для початкових рядків, див. :ref:`source-"
+"reviews`."
 
 #: ../../admin/projects.rst:200
 msgid "Enable hooks"
@@ -12119,7 +12397,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:232
 msgid "Component configuration"
-msgstr ""
+msgstr "Налаштовування складників"
 
 #: ../../admin/projects.rst:234
 msgid ""
@@ -12168,7 +12446,7 @@ msgstr "Назва складника"
 
 #: ../../admin/projects.rst:262
 msgid "Verbose component name, used to display the component name."
-msgstr ""
+msgstr "Повна назва складника, яка використовується для показу назви складника."
 
 #: ../../admin/projects.rst:267 ../../admin/projects.rst:728 ../../api.rst:1989
 msgid "Component slug"
@@ -12453,6 +12731,8 @@ msgstr ""
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"Типове значення можна змінити за допомогою "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/projects.rst:472 ../../workflows.rst:60 ../../workflows.rst:90
 #: ../../workflows.rst:125
@@ -12594,6 +12874,7 @@ msgstr ""
 #: ../../admin/projects.rst:561
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr ""
+"Типове значення можна змінити за допомогою :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:570
 msgid "Commit, add, delete, merge and addon messages"
@@ -12805,6 +13086,8 @@ msgstr ""
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Типове значення можна змінити за допомогою "
+":setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/projects.rst:699
 msgid ""
@@ -14309,7 +14592,7 @@ msgstr ""
 #: ../../api.rst:712 ../../api.rst:996 ../../api.rst:1011 ../../api.rst:1518
 #: ../../api.rst:1762
 msgid "number of translated strings"
-msgstr ""
+msgstr "кількість перекладених рядків"
 
 #: ../../api.rst:713 ../../api.rst:997 ../../api.rst:1012 ../../api.rst:1519
 #: ../../api.rst:1763
@@ -15471,7 +15754,7 @@ msgstr ""
 #: ../../api.rst:2041 ../../api.rst:2055 ../../api.rst:2069 ../../api.rst:2085
 #: ../../api.rst:2101 ../../api.rst:2117 ../../api.rst:2133
 msgid ":setting:`ENABLE_HOOKS`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS`"
 
 #: ../../api.rst:2042 ../../api.rst:2056 ../../api.rst:2070 ../../api.rst:2086
 #: ../../api.rst:2102 ../../api.rst:2118 ../../api.rst:2134
@@ -24133,7 +24416,7 @@ msgstr "``langs/translation-en.json``"
 
 #: ../../formats.rst:791
 msgid "`JSON nested structure file`"
-msgstr ""
+msgstr "`файл JSON із вкладеною структурою`"
 
 #: ../../formats.rst:796
 msgid ""
@@ -25290,7 +25573,7 @@ msgstr "Розмітка BBcode"
 
 #: ../../user/checks.rst:50
 msgid "*BBcode in translation does not match source*"
-msgstr ""
+msgstr "*BB-код у перекладі не збігається з BB-кодом у джерелі*"
 
 #: ../../user/checks.rst:52
 msgid ""
@@ -25314,7 +25597,7 @@ msgstr "Послідовне повторення слів"
 
 #: ../../user/checks.rst:67
 msgid "*Text contains the same word twice in a row:*"
-msgstr ""
+msgstr "*Текст містить те саме слово двічі поспіль:*"
 
 #: ../../user/checks.rst:71
 msgid ""
@@ -25394,7 +25677,7 @@ msgstr "Рядок інтерполяції AngularJS"
 
 #: ../../user/checks.rst:140
 msgid "*AngularJS interpolation strings do not match source*"
-msgstr ""
+msgstr "*Рядки інтерполяції AngularJS не відповідають джерелу*"
 
 #: ../../user/checks.rst:143 ../../user/checks.rst:330
 #: ../../user/checks.rst:348 ../../user/checks.rst:398
@@ -25403,7 +25686,7 @@ msgstr "Іменований рядок форматування"
 
 #: ../../user/checks.rst:143
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr ""
+msgstr "``Your balance is {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:145 ../../user/checks.rst:162
 #: ../../user/checks.rst:178 ../../user/checks.rst:193
@@ -25432,7 +25715,7 @@ msgstr "Формат C"
 
 #: ../../user/checks.rst:155
 msgid "*C format string does not match source*"
-msgstr ""
+msgstr "*Рядок формату C# не відповідає джерелу*"
 
 #: ../../user/checks.rst:158 ../../user/checks.rst:226
 #: ../../user/checks.rst:262 ../../user/checks.rst:279
@@ -25478,11 +25761,11 @@ msgstr "Формат C#"
 
 #: ../../user/checks.rst:173
 msgid "*C# format string does not match source*"
-msgstr ""
+msgstr "*Рядок формату C# не відповідає джерелу*"
 
 #: ../../user/checks.rst:176 ../../user/checks.rst:244
 msgid "``There are {0} apples``"
-msgstr ""
+msgstr "``There are {0} apples``"
 
 #: ../../user/checks.rst:178
 msgid "`c-sharp-format`"
@@ -26109,7 +26392,7 @@ msgstr ""
 
 #: ../../user/checks.rst:647
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
-msgstr ""
+msgstr "`Крапка у Вікіпедії <https://en.wikipedia.org/wiki/Full_stop>`_"
 
 #: ../../user/checks.rst:652
 msgid "Mismatched question mark"
@@ -26228,6 +26511,8 @@ msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
+"`Французькі і англійські інтервали у Вікіпедії <https://en.wikipedia.org/"
+"wiki/History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:748
 msgid "*Translation does not match regular expression:*"
@@ -26238,6 +26523,8 @@ msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
 msgstr ""
+"Переклад не відповідає формальному виразу. Вираз або видобувається з файла "
+"перекладу, або визначається вручну за допомогою прапорця ``regex``:"
 
 #: ../../user/checks.rst:764
 msgid "Same plurals"
@@ -26252,6 +26539,8 @@ msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
 msgstr ""
+"Перевірка вважається не пройденою, якщо у перекладі усі форми множини є "
+"однаковими. У більшості мов форми множини мають бути різними."
 
 #: ../../user/checks.rst:774
 msgid "Starting newline"
@@ -26336,7 +26625,7 @@ msgstr ""
 
 #: ../../user/checks.rst:833
 msgid "This check can help find strings mistakenly untranslated."
-msgstr ""
+msgstr "Ця перевірка може допомогти рядки, які помилково не було перекладено."
 
 #: ../../user/checks.rst:835
 msgid ""
@@ -26418,7 +26707,7 @@ msgstr "*Цей переклад не є правильним XML*"
 
 #: ../../user/checks.rst:902
 msgid "The XML markup is not valid."
-msgstr ""
+msgstr "Розмітка XML є некоректною."
 
 #: ../../user/checks.rst:907
 msgid "Zero-width space"
@@ -26556,11 +26845,11 @@ msgstr ""
 
 #: ../../user/checks.rst:998
 msgid "For example with Gettext in Python it could be:"
-msgstr ""
+msgstr "Наприклад, із Gettext у Python це може бути:"
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
-msgstr ""
+msgstr "Отримання і вивантаження перекладів"
 
 #: ../../user/files.rst:4
 msgid ""
@@ -26568,14 +26857,18 @@ msgid ""
 "again. This allows working offline, and then merging changes back into the "
 "existing translation. This works even if it has been changed in the meantime."
 msgstr ""
+"Ви можете експортувати файли з перекладу, внести зміни і імпортувати змінені "
+"файли до системи. Таким чином, можна працювати поза мережею, а потім "
+"надіслати зміну до наявного перекладу. Це працює, навіть якщо початкові "
+"рядки було змінено під час перекладу."
 
 #: ../../user/files.rst:10
 msgid "The available options might be limited by :ref:`privileges`."
-msgstr ""
+msgstr "Доступні пункти може бути обмежено :ref:`privileges`."
 
 #: ../../user/files.rst:13
 msgid "Downloading translations"
-msgstr ""
+msgstr "Отримання перекладів"
 
 #: ../../user/files.rst:15
 msgid ""
@@ -26584,6 +26877,10 @@ msgid ""
 "`Files` menu, producing a copy of the file as it is stored in the upstream "
 "Version Control System."
 msgstr ""
+"З панелі прикладів проєкту або складника, придатні до перекладу файли можна "
+"отримати за допомогою пункту :guilabel:`Звантажити початковий файл` у меню "
+":guilabel:`Файли`. У результаті буде створено копію файла із тим самим "
+"вмістом, що і в основній системі керування версіями."
 
 #: ../../user/files.rst:19
 msgid ""
@@ -26591,6 +26888,10 @@ msgid ""
 "widely used localization formats. The converted files will be enriched with "
 "data provided in Weblate such as additional context, comments or flags."
 msgstr ""
+"Ви можете або отримати початковий файл без зміни формату, або отримати дані "
+"в одному із поширених форматів локалізації. Перетворені файли буде "
+"скомпоновано із даними, які надаються Weblate, зокрема додатковим "
+"контекстом, коментарями або прапорцями."
 
 #: ../../user/files.rst:23
 msgid ""
@@ -26598,6 +26899,10 @@ msgid ""
 "choice of application (for example ``.mo`` files for GNU Gettext) using the :"
 "guilabel:`Files` menu."
 msgstr ""
+"Доступними є декілька форматів файлів, зокрема зібраний файл, яким можна "
+"скористатися у вибраній вами програмі (наприклад, файл``.mo`` для GNU "
+"Gettext). Відповідний варіант можна вибрати за допомогою меню "
+":guilabel:`Файли`."
 
 #: ../../user/files.rst:28
 msgid "Uploading translations"
@@ -26608,6 +26913,8 @@ msgid ""
 "When you have made your changes, use :guilabel:`Upload translation` in the :"
 "guilabel:`Files` menu."
 msgstr ""
+"Після внесення бажаних змін поза мережею скористайтеся пунктом :guilabel:`"
+"Вивантажити переклад` з меню :guilabel:`Файли`."
 
 #: ../../user/files.rst:40
 msgid ""
@@ -26615,12 +26922,18 @@ msgid ""
 "recommended to use the same file format as the one used for translation, "
 "otherwise some features might not be translated properly."
 msgstr ""
+"Вивантажувати можна файл у будь-якому підтримуваному форматі. Втім, "
+"рекомендуємо скористатися тим самим форматом, який використовується для "
+"перекладу, інакше не можна гарантувати належний переклад усіх рядків."
 
 #: ../../user/files.rst:48
 msgid ""
 "The uploaded file is merged to update the translation, overwriting existing "
 "entries by default (this can be turned off or on in the upload dialog)."
 msgstr ""
+"Вивантажений файл об'єднується із наявними даними для оновлення перекладу. "
+"Типово, наявні записи буде оновлено (цю можливість можна вимкнути на "
+"сторінці вивантаження даних)."
 
 #: ../../user/files.rst:54
 msgid "Import methods"
@@ -26629,6 +26942,8 @@ msgstr "Способи імпортування"
 #: ../../user/files.rst:56
 msgid "These are the choices presented when uploading translation files:"
 msgstr ""
+"Під час вивантаження файлів перекладу ви можете вибрати значення таких "
+"параметрів:"
 
 #: ../../user/files.rst:59
 msgid "Add as translation (``translate``)"
@@ -26639,6 +26954,8 @@ msgid ""
 "Imported translations are added as translations. This is the most common "
 "usecase, and the default behavior."
 msgstr ""
+"Імпортовані переклади буде додано як переклади. Це найпоширеніший варіант, "
+"який є типовим."
 
 #: ../../user/files.rst:62
 msgid "Add as suggestion (``suggest``)"
@@ -26649,6 +26966,8 @@ msgid ""
 "Imported translations are added as suggestions, do this when you want to "
 "have your uploaded strings reviewed."
 msgstr ""
+"Імпортовані переклади буде додано як пропозиції. Виберіть цей варіант, якщо "
+"ви хочете вивантажити переклади для рецензування."
 
 #: ../../user/files.rst:65
 msgid "Add as translation needing edit (``fuzzy``)"
@@ -26659,6 +26978,9 @@ msgid ""
 "Imported translations are added as translations needing edit. This can be "
 "useful when you want translations to be used, but also reviewed."
 msgstr ""
+"Імпортовані переклади буде додано як переклади, які потребують редагування. "
+"Цей варіант може бути корисним, якщо ви хочете, щоб переклади було "
+"використано, але також і рецензовано."
 
 #: ../../user/files.rst:68
 msgid "Replace existing translation file (``replace``)"
@@ -26669,6 +26991,8 @@ msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
+"Наявний файл буде замінено новими даними. Це призведе до втрати наявних "
+"перекладів. Будьте обережним із використанням цього варіанта."
 
 #: ../../user/files.rst:72
 msgid "Update source strings (``source``)"
@@ -26766,10 +27090,12 @@ msgstr ""
 #: ../../user/profile.rst:32
 msgid "You can switch to different views using the navigation tabs."
 msgstr ""
+"Ви можете перемкнутися на інші панелі перегляду за допомогою навігаційних "
+"вкладок."
 
 #: ../../user/profile.rst:36
 msgid "The menu has these options:"
-msgstr ""
+msgstr "У меню ви побачите такі пункти:"
 
 #: ../../user/profile.rst:38
 msgid ""
@@ -26803,6 +27129,8 @@ msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
 msgstr ""
+"Налаштувати вашу типову особисту панель приладів за допомогою розділу "
+":guilabel:`Preferences` параметрів профілю вашого запису користувача."
 
 #: ../../user/profile.rst:54
 msgid ""
@@ -26821,12 +27149,18 @@ msgid ""
 "The user profile is accessible by clicking your user icon in the top-right "
 "of the top menu, then the :guilabel:`Settings` menu."
 msgstr ""
+"Доступ до профілю користувача можна отримати клацанням на піктограмі вашого "
+"користувача у верхньому правому куті верхнього меню. Вам слід вибрати пункт "
+":guilabel:`Налаштування`."
 
 #: ../../user/profile.rst:65
 msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
+"Профіль користувача містить параметри вашого облікового запису. Ім'я і "
+"адреса електронної пошти використовуються у внесках до системи керування "
+"версіями, тому слід точно вказати ці дані."
 
 #: ../../user/profile.rst:70
 msgid "All language selections only offer currently translated languages."
@@ -26943,7 +27277,7 @@ msgstr ""
 
 #: ../../user/profile.rst:153
 msgid "You will not receive notifications for your own actions."
-msgstr ""
+msgstr "Ви не отримуватиме сповіщень щодо ваших власних дій."
 
 #: ../../user/profile.rst:158
 msgid "Account"
@@ -27072,29 +27406,31 @@ msgstr "``added:ДАТА_ЧАС``"
 
 #: ../../user/search.rst:40
 msgid "Timestamp for when the string was added to Weblate."
-msgstr ""
+msgstr "Часова позначка додавання рядка до Weblate."
 
 #: ../../user/search.rst:41
 msgid "``state:TEXT``"
-msgstr ""
+msgstr "``state:ТЕКСТ``"
 
 #: ../../user/search.rst:42
 msgid ""
 "State search (``approved``, ``translated``, ``needs-editing``, ``empty``, "
 "``read-only``), supports :ref:`search-operators`."
 msgstr ""
+"Пошук за станом (``approved``, ``translated``, ``needs-editing``, ``empty``, "
+"``read-only``), передбачено підтримку :ref:`search-operators`."
 
 #: ../../user/search.rst:43
 msgid "``pending:BOOLEAN``"
-msgstr ""
+msgstr "``pending:БУЛЕВЕ``"
 
 #: ../../user/search.rst:44
 msgid "String pending for flushing to VCS."
-msgstr ""
+msgstr "Рядок у черзі на залиття до системи керування версіями."
 
 #: ../../user/search.rst:45
 msgid "``has:TEXT``"
-msgstr ""
+msgstr "``has:ТЕКСТ``"
 
 #: ../../user/search.rst:46
 msgid ""
@@ -27102,87 +27438,92 @@ msgid ""
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot`` (works only on source strings)."
 msgstr ""
+"Шукати за атрибутами рядка — ``plural``, ``context``, ``suggestion``, "
+"``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
+"``screenshot`` (працює лише для рядків початковою мовою)."
 
 #: ../../user/search.rst:47
 msgid "``is:TEXT``"
-msgstr ""
+msgstr "``is:ТЕКСТ``"
 
 #: ../../user/search.rst:48
 msgid ""
 "Search for string states (``pending``, ``translated``, ``untranslated``)."
-msgstr ""
+msgstr "Шукати за станом рядка (``pending``, ``translated``, ``untranslated``)."
 
 #: ../../user/search.rst:49
 msgid "``language:TEXT``"
-msgstr ""
+msgstr "``language:ТЕКСТ``"
 
 #: ../../user/search.rst:50
 msgid "String target language."
-msgstr ""
+msgstr "Рядок цільової мови."
 
 #: ../../user/search.rst:51
 msgid "``changed_by:TEXT``"
-msgstr ""
+msgstr "``changed_by:ТЕКСТ``"
 
 #: ../../user/search.rst:52
 msgid "String was changed by author with given username."
-msgstr ""
+msgstr "Рядок було змінено автором із вказаним ім'ям користувача."
 
 #: ../../user/search.rst:53
 msgid "``changed:DATETIME``"
-msgstr ""
+msgstr "``changed:ДАТА_І_ЧАС``"
 
 #: ../../user/search.rst:54
 msgid "String was changed on date, supports :ref:`search-operators`."
 msgstr ""
+"Рядок було змінено у вказаний момент часу, передбачено підтримку :ref"
+":`search-operators`."
 
 #: ../../user/search.rst:55
 msgid "``check:TEXT``"
-msgstr ""
+msgstr "``check:ТЕКСТ``"
 
 #: ../../user/search.rst:56
 msgid "String has failing check."
-msgstr ""
+msgstr "Рядок не пройшов перевірки."
 
 #: ../../user/search.rst:57
 msgid "``dismissed_check:TEXT``"
-msgstr ""
+msgstr "``dismissed_check:ТЕКСТ``"
 
 #: ../../user/search.rst:58
 msgid "String has dismissed check."
-msgstr ""
+msgstr "Перевірку для рядка скасовано."
 
 #: ../../user/search.rst:59
 msgid "``comment:TEXT``"
-msgstr ""
+msgstr "``comment:ТЕКСТ``"
 
 #: ../../user/search.rst:60
 msgid "Search in user comments."
-msgstr ""
+msgstr "Шукати у коментарях користувачів."
 
 #: ../../user/search.rst:61
 msgid "``comment_author:TEXT``"
-msgstr ""
+msgstr "``comment_author:ТЕКСТ``"
 
 #: ../../user/search.rst:62
 msgid "Filter by comment author."
-msgstr ""
+msgstr "Фільтрувати за автором коментаря."
 
 #: ../../user/search.rst:63
 msgid "``suggestion:TEXT``"
-msgstr ""
+msgstr "``suggestion:ТЕКСТ``"
 
 #: ../../user/search.rst:64
 msgid "Search in suggestions."
-msgstr ""
+msgstr "Шукати у пропозиціях."
 
 #: ../../user/search.rst:66
 msgid "``suggestion_author:TEXT``"
-msgstr ""
+msgstr "``suggestion_author:ТЕКСТ``"
 
 #: ../../user/search.rst:66
 msgid "Filter by suggestion author."
-msgstr ""
+msgstr "Фільтрувати за автором пропозиції."
 
 #: ../../user/search.rst:69
 msgid "Boolean operators"
@@ -27194,24 +27535,29 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
+"Ви можете поєднувати критерії пошуку за допомогою операторів ``AND``, ``OR``"
+", ``NOT`` та дужок для формування складених запитів. Приклад: ``state:"
+"translated AND (source:hello OR source:bar)``"
 
 #: ../../user/search.rst:77
 msgid "Field operators"
-msgstr ""
+msgstr "Оператори полів"
 
 #: ../../user/search.rst:79
 msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
 msgstr ""
+"Ви можете вказати оператори, діапазони або часткові пошуки для пошуків за "
+"датою та числових пошуків:"
 
 #: ../../user/search.rst:81
 msgid "``state:>=translated``"
-msgstr ""
+msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:82
 msgid "State is ``translated`` or better (``approved``)."
-msgstr ""
+msgstr "Стан ``translated`` або кращий (``approved``)."
 
 #: ../../user/search.rst:83
 msgid "``changed:2019``"
@@ -27231,7 +27577,7 @@ msgstr "Змінено між двома вказаними датами."
 
 #: ../../user/search.rst:89
 msgid "Exact operators"
-msgstr ""
+msgstr "Точні оператори"
 
 #: ../../user/search.rst:91
 msgid ""
@@ -27255,25 +27601,29 @@ msgstr ""
 
 #: ../../user/search.rst:104
 msgid "Predefined queries"
-msgstr ""
+msgstr "Попередньо визначені запити"
 
 #: ../../user/search.rst:106
 msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
 msgstr ""
+"Ви можете вибрати попередньо визначені запити на сторінці пошуку. Це надає "
+"вам змогу швидко отримувати доступ до найпоширеніших варіантів запитів щодо "
+"пошуку:"
 
 #: ../../user/search.rst:111
 msgid "Ordering the results"
-msgstr ""
+msgstr "Упорядковування результатів"
 
 #: ../../user/search.rst:113
 msgid "There are many options to order the strings according to your needs:"
 msgstr ""
+"Передбачено багато варіантів упорядковування, відповідно до ваших потреб:"
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
-msgstr ""
+msgstr "Переклад за допомогою Weblate"
 
 #: ../../user/translating.rst:4
 msgid ""
@@ -27281,37 +27631,44 @@ msgid ""
 "set up for direct translation, or by way of accepting suggestions made by "
 "users without accounts."
 msgstr ""
+"Дякуємо за вашу зацікавленість у перекладі за допомогою Weblate. Для "
+"проєктів можна налаштувати або безпосередній переклад, або переклад "
+"прийняттям пропозицій користувачів без облікових записів."
 
 #: ../../user/translating.rst:8
 msgid "Overall, there are two modes of translation:"
-msgstr ""
+msgstr "Загалом, передбачено два режими перекладу:"
 
 #: ../../user/translating.rst:10
 msgid "The project accepts direct translations"
-msgstr ""
+msgstr "Проєкт приймає безпосередні переклади"
 
 #: ../../user/translating.rst:11
 msgid ""
 "The project accepts only suggestions, which are automatically validated once "
 "a defined number of votes is reached"
 msgstr ""
+"Проєкт приймає лише пропозиції, які автоматично підтверджуються, якщо за них "
+"проголосує визначена кількість користувачів"
 
 #: ../../user/translating.rst:13
 msgid ""
 "Please see :ref:`workflows` for more information on translation workflow."
 msgstr ""
+"Щоб дізнатися більше про усталені процедури перекладу, будь ласка, "
+"зверніться до розділу :ref:`workflows`."
 
 #: ../../user/translating.rst:15
 msgid "Options for translation project visibility:"
-msgstr ""
+msgstr "Варіанти видимості проєкту перекладу:"
 
 #: ../../user/translating.rst:17
 msgid "Publicly visible and anybody can contribute"
-msgstr ""
+msgstr "Видимий для усіх, участь може взяти будь-хто"
 
 #: ../../user/translating.rst:18
 msgid "Visible only to a certain group of translators"
-msgstr ""
+msgstr "Видимий лише певній групі перекладачів"
 
 #: ../../user/translating.rst:22
 msgid ":ref:`privileges`, :ref:`workflows`"
@@ -27322,10 +27679,12 @@ msgid ""
 "Translation projects hold related components, related to the same software, "
 "book, or project."
 msgstr ""
+"У проєктах перекладу містяться пов'язані складники, які пов'язано із однією "
+"частиною програмного забезпечення, книгою або проєктом."
 
 #: ../../user/translating.rst:35
 msgid "Translation links"
-msgstr ""
+msgstr "Посилання на переклади"
 
 #: ../../user/translating.rst:37
 msgid ""
@@ -27339,6 +27698,8 @@ msgstr ""
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
 msgstr ""
+"Справжні права доступу можуть бути різними і залежать від налаштувань "
+"Weblate."
 
 #: ../../user/translating.rst:52
 msgid ""
@@ -27352,6 +27713,8 @@ msgid ""
 "The suggestions are scanned on a daily basis to remove duplicate ones or "
 "suggestions that match the current translation."
 msgstr ""
+"Сканування пропозицій відбувається щоденно для вилучення дублікатів або "
+"пропозицій, які відповідають поточному перекладу."
 
 #: ../../user/translating.rst:62
 msgid ""
@@ -27366,6 +27729,8 @@ msgid ""
 "You can use Markdown syntax in the comments and mention other users using "
 "``@mention``."
 msgstr ""
+"Ви можете скористатися синтаксисом Markdown у коментарях і згадувати інших "
+"користувачів за допомогою записів — ``@згадка``."
 
 #: ../../user/translating.rst:71
 msgid "Variants"
@@ -27391,6 +27756,9 @@ msgid ""
 "further customize the localization workflow, for example to define "
 "categories of strings."
 msgstr ""
+"Мітки використовуються для категоризації рядків у межах проєкту. Мітками "
+"можна скористатися для подальшого коригування процесу локалізації, наприклад "
+"для визначення категорій рядків."
 
 #: ../../user/translating.rst:89
 msgid ":ref:`labels`"
@@ -27424,6 +27792,8 @@ msgid ""
 "Below the translation, any suggestion made by others will be shown, which "
 "you can in turn accept, accept with changes, or delete."
 msgstr ""
+"Під перекладом буде показано усі пропозиції інших перекладачів. Ви можете "
+"прийняти їх, прийняти зі змінами або вилучити пропозицію."
 
 #: ../../user/translating.rst:112
 msgid "Plurals"
@@ -27771,11 +28141,15 @@ msgid ""
 "Maximal length in characters defined by translation file or flag, see :ref:"
 "`check-max-length`."
 msgstr ""
+"Максимальна довжина у символах визначається файлом перекладу або прапорцем, "
+"див. :ref:`check-max-length`."
 
 #: ../../user/translating.rst:248
 msgid ""
 "Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`."
 msgstr ""
+"Максимальний оброблений розмір у пікселях визначається прапорцями, див. :ref"
+":`check-max-size`."
 
 #: ../../user/translating.rst:255
 msgid ""
@@ -27794,6 +28168,8 @@ msgid ""
 "On the :guilabel:`Glossaries` tab of each project page, you can edit "
 "existing glossaries."
 msgstr ""
+"За допомогою вкладки :guilabel:`Глосарії` кожної сторінки проєкту ви можете "
+"редагувати наявні глосарії."
 
 #: ../../user/translating.rst:267
 msgid ""
@@ -27892,14 +28268,16 @@ msgstr ""
 msgid ""
 "Changing string state (for example to approve all strings waiting for review)"
 msgstr ""
+"Зміна стану рядка (наприклад, можна підтвердити усі рядки , які очікують на "
+"рецензування)"
 
 #: ../../user/translating.rst:347
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
-msgstr "Скоригувати прапорці перекладу (див. :ref:`custom-checks`)"
+msgstr "Коригування прапорців перекладу (див. :ref:`custom-checks`)"
 
 #: ../../user/translating.rst:348
 msgid "Adjust string labels (see :ref:`labels`)"
-msgstr ""
+msgstr "Коригування міток рядків (див. :ref:`labels`)"
 
 #: ../../user/translating.rst:352
 msgid ""
@@ -27909,7 +28287,7 @@ msgstr ""
 
 #: ../../user/translating.rst:359
 msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
-msgstr ""
+msgstr ":ref:`Додаток пакетного редагування <addon-weblate.flags.bulk>`"
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -27924,7 +28302,7 @@ msgstr ""
 
 #: ../../vcs.rst:13
 msgid "Accessing repositories"
-msgstr ""
+msgstr "Доступ до сховищ"
 
 #: ../../vcs.rst:15
 msgid ""
@@ -27937,7 +28315,7 @@ msgstr ""
 
 #: ../../vcs.rst:24
 msgid "Accessing repositories from Hosted Weblate"
-msgstr ""
+msgstr "Доступ до сховищ з Hosted Weblate"
 
 #: ../../vcs.rst:26
 msgid ""
@@ -27955,6 +28333,8 @@ msgid ""
 "The invitations on GitHub are accepted automatically within five minutes, on "
 "other services manual processing might be needed, so please be patient."
 msgstr ""
+"Запрошення на GitHub приймаються автоматично протягом п'яти хвилин. У інших "
+"службах може знадобитися обробка вручну, тому, будь ласка, майте терпіння."
 
 #: ../../vcs.rst:37
 msgid ""
@@ -27965,7 +28345,7 @@ msgstr ""
 
 #: ../../vcs.rst:44
 msgid "SSH repositories"
-msgstr ""
+msgstr "Сховища із доступом за SSH"
 
 #: ../../vcs.rst:46
 msgid ""
@@ -27990,16 +28370,20 @@ msgstr ""
 #: ../../vcs.rst:58
 msgid "In case adjustment is needed, do so from the Weblate admin interface:"
 msgstr ""
+"Якщо потрібні якісь коригування, виконайте їх за допомогою адміністративного "
+"інтерфейсу Weblate:"
 
 #: ../../vcs.rst:66
 msgid "Weblate SSH key"
-msgstr ""
+msgstr "Ключ SSH Weblate"
 
 #: ../../vcs.rst:68
 msgid ""
 "The Weblate public key is visible to all users browsing the :guilabel:"
 "`About` page."
 msgstr ""
+"Відкритий ключ Weblate доступний до перегляду усіма користувачами на "
+"сторінці :guilabel:`Про програму`."
 
 #: ../../vcs.rst:70
 msgid ""
@@ -28012,6 +28396,8 @@ msgid ""
 "The corresponding private SSH key can not currently have a password, so make "
 "sure it is well protected."
 msgstr ""
+"У поточній версії відповідний закритий ключ SSH не захищено паролем, тому "
+"вам слід переконатися, що його добре захищено."
 
 #: ../../vcs.rst:80
 msgid "Make a backup of the generated private Weblate SSH key."
@@ -28282,6 +28668,7 @@ msgstr ""
 msgid ""
 ":setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration instructions"
 msgstr ""
+":setting:`GITHUB_USERNAME`, :ref:`hub-setup` — настанови з налаштовування"
 
 #: ../../vcs.rst:288
 msgid "Setting up hub"
