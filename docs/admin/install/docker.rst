@@ -321,19 +321,6 @@ Generic settings
         :ref:`production-hosts`,
         :ref:`production-site`
 
-.. envvar:: WEBLATE_SECRET_KEY
-
-    Configures the secret used by Django for cookie signing.
-
-    .. deprecated:: 2.9
-
-        The secret is now generated automatically on first startup, there is no
-        need to set it manually.
-
-    .. seealso::
-
-        :ref:`production-secret`
-
 .. envvar:: WEBLATE_REGISTRATION_OPEN
 
     Configures whether registrations are open by toggling :std:setting:`REGISTRATION_OPEN`.
