@@ -24,6 +24,7 @@ from datetime import datetime
 from typing import List, Optional
 from zipfile import ZipFile
 
+import requests
 from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -281,6 +282,33 @@ class GitRepository(Repository):
             ('branch "{0}"'.format(branch), "merge", "refs/heads/{0}".format(branch)),
         )
         self.branch = branch
+
+    def api_url(self):
+        return self.component.repo.replace(".git", "").replace(
+            "github.com", "api.github.com/repos"
+        )
+
+    def configure_fork_remote(self, pull_url, remote_name):
+        """Configure fork remote repository."""
+        self.config_update(
+            # Pull url
+            ('remote "{}"'.format(remote_name), "url", pull_url),
+            # Push url
+            ('remote "{}"'.format(remote_name), "pushurl", pull_url),
+        )
+
+    def fork(self):
+        fork_url = "{}/forks".format(self.api_url())
+        r = requests.post(
+            fork_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": "token {}".format(settings.GITHUB_TOKEN),
+            },
+            data={},
+        )
+        response = r.json()
+        self.configure_fork_remote(response["clone_url"], self.get_username())
 
     def list_branches(self, *args):
         cmd = ["branch", "--list"]
@@ -577,7 +605,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(["remote"]).splitlines()
         if self.get_username() not in remotes:
-            self.execute(["fork"])
+            super().fork()
 
     def push(self, branch):
         """Fork repository on Github and push changes.
@@ -653,18 +681,22 @@ class GithubRepository(GitMergeRequestBase):
             head = fork_branch
         else:
             head = "{0}:{1}".format(fork_remote, fork_branch)
-        self.execute(
-            [
-                "pull-request",
-                "--force",
-                "--head",
-                head,
-                "--base",
-                origin_branch,
-                "--message",
-                self.get_merge_message(),
-            ]
+        pr_url = "{}/pulls".format(self.api_url())
+        r = requests.post(
+            pr_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": "token {}".format(settings.GITHUB_TOKEN),
+            },
+            json={
+                "head": head,
+                "base": origin_branch,
+                "title": self.get_merge_message(),
+            },
         )
+        response = r.json()
+        if not response["url"]:
+            report_error(cause=response["message"])
 
 
 class LocalRepository(GitRepository):
