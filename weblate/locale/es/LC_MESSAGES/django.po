@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-24 18:39+0000\n"
-"PO-Revision-Date: 2020-07-24 18:38+0000\n"
+"PO-Revision-Date: 2020-07-26 22:43+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -2092,7 +2092,7 @@ msgstr ""
 
 #: weblate/checks/chars.py:46
 msgid "Starting newline"
-msgstr "Salto de línea al incio"
+msgstr "Salto de renglón al incio"
 
 #: weblate/checks/chars.py:47
 msgid "Source and translation do not both start with a newline"
@@ -2100,7 +2100,7 @@ msgstr "Sólo uno de original y traducción comienza con un salto de línea"
 
 #: weblate/checks/chars.py:57
 msgid "Trailing newline"
-msgstr "Salto de línea al final"
+msgstr "Salto de renglón al final"
 
 #: weblate/checks/chars.py:58
 msgid "Source and translation do not both end with a newline"
@@ -2132,50 +2132,40 @@ msgid "Translation contains double space"
 msgstr "La traducción contiene un espacio doble"
 
 #: weblate/checks/chars.py:168
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "Diferencias de \\n"
+msgstr "Punto final desigual"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "Sólo uno de original y traducción termina con un punto"
 
 #: weblate/checks/chars.py:207
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "Diferencias de \\n"
+msgstr "Dos puntos desiguales"
 
 #: weblate/checks/chars.py:208
 msgid "Source and translation do not both end with a colon"
 msgstr "El original o la traducción no acaba con dos puntos"
 
 #: weblate/checks/chars.py:238
-#, fuzzy
-#| msgid "Trailing question mark"
 msgid "Mismatched question mark"
-msgstr "Signo de interrogación al final"
+msgstr "Signo de interrogación desigual"
 
 #: weblate/checks/chars.py:239
 msgid "Source and translation do not both end with a question mark"
 msgstr "El original o la traducción no acaba con un signo de interrogación"
 
 #: weblate/checks/chars.py:271
-#, fuzzy
-#| msgid "Trailing exclamation mark"
 msgid "Mismatched exclamation mark"
-msgstr "Signo de exclamación al final"
+msgstr "Signo de exclamación desigual"
 
 #: weblate/checks/chars.py:272
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "El original o la traducción no acaba con un signo de exclamación"
 
 #: weblate/checks/chars.py:295
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "Diferencias de \\n"
+msgstr "Puntos suspensivos desiguales"
 
 #: weblate/checks/chars.py:296
 msgid "Source and translation do not both end with an ellipsis"
@@ -2183,7 +2173,9 @@ msgstr "El original o la traducción no acaba con puntos suspensivos"
 
 #: weblate/checks/chars.py:314
 msgid "Mismatched \\n"
-msgstr "Diferencias de \\n"
+msgstr ""
+"\\n"
+" desiguales"
 
 #: weblate/checks/chars.py:315
 msgid "Number of \\n in translation does not match source"
@@ -2218,10 +2210,8 @@ msgid "Translation should not exceed given length"
 msgstr "La traducción no debe exceder la longitud indicada"
 
 #: weblate/checks/chars.py:366
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "Diferencias de \\n"
+msgstr "Punto y coma desigual"
 
 #: weblate/checks/chars.py:367
 msgid "Source and translation do not both end with a semicolon"
@@ -2261,7 +2251,7 @@ msgstr "Algunas formas plurales se traducen de la misma manera"
 
 #: weblate/checks/consistency.py:71
 msgid "Inconsistent"
-msgstr "Inconsistente"
+msgstr "Incoherente"
 
 #: weblate/checks/consistency.py:73
 msgid ""
@@ -2471,16 +2461,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "La interpolación de i18next no coincide con aquella en el original"
 
 #: weblate/checks/format.py:521
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "ECMAScript template literals"
-msgstr "Cargador de plantillas con caché"
+msgstr "Literales de plantilla ECMAScript"
 
 #: weblate/checks/format.py:522
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
-msgstr "La cadena en formato JavaScript no coincide con la de origen"
+msgstr "Los literales de la plantilla ECMAScript no coinciden con los de origen"
 
 #: weblate/checks/format.py:534
 msgid "Percent placeholders"
@@ -2539,7 +2525,7 @@ msgstr "Las referencias de enlaces de Markdown no coinciden con las de origen"
 
 #: weblate/checks/markup.py:243
 msgid "Markdown links"
-msgstr "Enlaces de descuento"
+msgstr "Enlaces de Markdown"
 
 #: weblate/checks/markup.py:244
 msgid "Markdown links do not match source"
@@ -2729,11 +2715,8 @@ msgid "Entry by the same name already exists."
 msgstr "Ya existe una entrada con ese nombre."
 
 #: weblate/fonts/views.py:74
-#, fuzzy
-#| msgid "Creation failed, please the fix errors below."
 msgid "Creation failed, please fix the errors below."
-msgstr ""
-"Falló la carga de la captura de pantalla. Corrija los errores siguientes."
+msgstr "Falló la creación. Corrija los errores siguientes."
 
 #: weblate/fonts/views.py:96
 msgid "Font deleted."
@@ -8720,7 +8703,7 @@ msgstr ""
 
 #: weblate/templates/widgets.html:17
 msgid "Promoting specific translations"
-msgstr "Promocionando traducciones específicas"
+msgstr "Promocionar traducciones específicas"
 
 #: weblate/templates/widgets.html:20
 msgid ""
@@ -8770,7 +8753,7 @@ msgstr "Código Textile"
 
 #: weblate/templates/widgets.html:62
 msgid "Image URL"
-msgstr "Dirección URL de imagen"
+msgstr "URL de imagen"
 
 #: weblate/templates/zen-units.html:17
 msgid "Open in full editor"
@@ -8782,15 +8765,15 @@ msgstr "La traducción ha finalizado."
 
 #: weblate/templates/zen.html:38
 msgid "Edit in single string mode"
-msgstr "Editar en el modo de una sola cadena"
+msgstr "Editar en el modo de cadena única"
 
 #: weblate/templates/zen.html:38
 msgid "Exit Zen"
-msgstr "Salir"
+msgstr "Salir de zen"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
-msgstr "Enviar cambios pendientes"
+msgstr "Consignar cambios pendientes"
 
 #: weblate/trans/admin.py:46
 msgid "Update VCS repository"
