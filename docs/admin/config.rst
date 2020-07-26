@@ -215,7 +215,7 @@ List of quality checks to perform on a translation.
 Adjust the list of checks to include ones relevant to you.
 
 All built-in quality :ref:`checks` are turned on by default, from
-where you can change these settings. By default they arecommented out in :ref:`sample-configuration`
+where you can change these settings. By default they are commented out in :ref:`sample-configuration`
 so that default values are used. New checks then carried out for each new Weblate version.
 
 You can turn off all checks:
