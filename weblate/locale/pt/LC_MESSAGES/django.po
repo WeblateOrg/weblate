@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-24 18:39+0000\n"
-"PO-Revision-Date: 2020-07-23 19:05+0000\n"
+"PO-Revision-Date: 2020-07-26 22:43+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -2122,50 +2122,40 @@ msgid "Translation contains double space"
 msgstr "A tradução contém espaço duplo"
 
 #: weblate/checks/chars.py:168
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "Não correspondido \\n"
+msgstr "Ponto final não correspondente"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "A fonte e a tradução não terminam ambas com ponto"
 
 #: weblate/checks/chars.py:207
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "Não correspondido \\n"
+msgstr "Dois pontos não correspondentes"
 
 #: weblate/checks/chars.py:208
 msgid "Source and translation do not both end with a colon"
 msgstr "A fonte e a tradução não terminam ambas com uma vírgula"
 
 #: weblate/checks/chars.py:238
-#, fuzzy
-#| msgid "Trailing question mark"
 msgid "Mismatched question mark"
-msgstr "Ponto de interrogação no final"
+msgstr "Ponto de interrogação não correspondente"
 
 #: weblate/checks/chars.py:239
 msgid "Source and translation do not both end with a question mark"
 msgstr "A fonte e a tradução não terminam ambas com um ponto de interrogação"
 
 #: weblate/checks/chars.py:271
-#, fuzzy
-#| msgid "Trailing exclamation mark"
 msgid "Mismatched exclamation mark"
-msgstr "Ponto de exclamação no final"
+msgstr "Ponto de exclamação não correspondente"
 
 #: weblate/checks/chars.py:272
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "A fonte e a tradução não terminam ambas com um ponto de exclamação"
 
 #: weblate/checks/chars.py:295
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "Não correspondido \\n"
+msgstr "Reticências não correspondentes"
 
 #: weblate/checks/chars.py:296
 msgid "Source and translation do not both end with an ellipsis"
@@ -2204,10 +2194,8 @@ msgid "Translation should not exceed given length"
 msgstr "A tradução não deve exceder o tamanho dado"
 
 #: weblate/checks/chars.py:366
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "Não correspondido \\n"
+msgstr "Ponto e vírgula não correspondente"
 
 #: weblate/checks/chars.py:367
 msgid "Source and translation do not both end with a semicolon"
@@ -2456,16 +2444,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "A interpolação de i18next não coincide com a fonte"
 
 #: weblate/checks/format.py:521
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "ECMAScript template literals"
-msgstr "Carregador de modelos em memória"
+msgstr "Literais de modelo de ECMAScript"
 
 #: weblate/checks/format.py:522
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
-msgstr "O formato JavaScript da cadeia não coincide com a fonte"
+msgstr "Literais de modelo ECMAScript não correspondem com a fonte"
 
 #: weblate/checks/format.py:534
 msgid "Percent placeholders"
@@ -2707,8 +2691,6 @@ msgid "Entry by the same name already exists."
 msgstr "Já existe uma entrada com esse nome."
 
 #: weblate/fonts/views.py:74
-#, fuzzy
-#| msgid "Creation failed, please the fix errors below."
 msgid "Creation failed, please fix the errors below."
 msgstr "A criação falhou, por favor, corrija os erros abaixo."
 
@@ -5221,7 +5203,7 @@ msgstr "Publicar anúncio"
 #: weblate/templates/component.html:102 weblate/templates/guide.html:10
 #: weblate/templates/guide.html:26
 msgid "Community localization checklist"
-msgstr ""
+msgstr "Lista de verificação de localização da comunidade"
 
 #: weblate/templates/component.html:108 weblate/templates/component.html:274
 #: weblate/templates/project.html:158
@@ -6671,10 +6653,8 @@ msgid "Component alerts"
 msgstr "Alertas de componente"
 
 #: weblate/templates/manage/alerts.html:22
-#, fuzzy
-#| msgid "Dismissed"
 msgid "dismissed"
-msgstr "Ignorada"
+msgstr "demitido"
 
 #: weblate/templates/manage/alerts.html:33
 msgid "Projects without components"
@@ -7757,22 +7737,18 @@ msgid "Mute notifications for %(object)s"
 msgstr "Silenciar as notificações para %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
-#, fuzzy
-#| msgid "Watching"
 msgid "Not watching"
-msgstr "A vigiar"
+msgstr "Não a vigiar"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
-#, fuzzy, python-format
-#| msgid "Unwatch project %(project)s"
+#, python-format
 msgid "Watch project %(project)s"
-msgstr "Deixar de vigiar o projeto %(project)s"
+msgstr "Vigiar o projeto %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
-#, fuzzy, python-format
-#| msgid "New translation component %(component)s"
+#, python-format
 msgid "Watch component %(component)s"
-msgstr "Novo componente de tradução %(component)s"
+msgstr "Vigiar o componente de tradução %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -8183,10 +8159,8 @@ msgid "The detected file format is not supported."
 msgstr "O formato de ficheiro detectado não é suportado."
 
 #: weblate/templates/trans/guide/addon.html:3
-#, fuzzy
-#| msgid "Example addon"
 msgid "Enable addon:"
-msgstr "Extensão exemplo"
+msgstr "Ativar extra:"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -11243,14 +11217,13 @@ msgstr "Emblema pequeno de estado"
 #: weblate/trans/widgets.py:307
 msgctxt "Status widget name"
 msgid "Panel"
-msgstr ""
+msgstr "Painel"
 
 #. Translators: Text on OpenGraph image
 #: weblate/trans/widgets.py:320
-#, fuzzy, python-format
-#| msgid "Projects"
+#, python-format
 msgid "Project %s"
-msgstr "Projetos"
+msgstr "Projeto %s"
 
 #: weblate/trans/widgets.py:365
 msgid "Status badge"
@@ -11261,18 +11234,14 @@ msgid "translated"
 msgstr "traduzido"
 
 #: weblate/trans/widgets.py:416
-#, fuzzy
-#| msgid "Vertical multi language status widget"
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
-msgstr "Widget de estado de multi-idiomas vertical"
+msgstr "Gráfico de barras de idiomas vertical"
 
 #: weblate/trans/widgets.py:494
-#, fuzzy
-#| msgid "Horizontal multi language status widget"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
-msgstr "Widget de estado de multi-idiomas horizontal"
+msgstr "Gráfico de barras de idiomas horizontal"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:24
