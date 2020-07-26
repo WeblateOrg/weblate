@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-26 13:15+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2020-07-26 22:43+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -212,16 +212,16 @@ msgstr ""
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
-msgstr ""
+msgstr "ACL が有効でも、入手できるプロジェクトに関する概要情報:"
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
-msgstr ""
+msgstr "すべてのプロジェクトの数を含む、インスタンス全体の統計。"
 
 #: ../../admin/access.rst:100
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
-msgstr ""
+msgstr "すべてのプロジェクトの数を含む、インスタンス全体の言語の概要。"
 
 #: ../../admin/access.rst:105
 msgid "Automatic group assignments"
@@ -233,12 +233,15 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"Weblate を設定すると、ユーザーのメール "
+"アドレスに基づいてユーザーをグループに自動的に追加できます。この自動割当は、アカウントの作成時にのみ実行されます。"
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
 msgstr ""
+"これは、各グループの Django 管理インターフェイスで設定できます（ :guilabel:`Authentication` セクションにあります）。"
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -246,81 +249,83 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
+"`Users` グループと ` Viewers` グループの自動グループ割り当ては、移行時に常に Weblate によって作成されます。無効する場合は、"
+"正規表現を ``^$`` に設定するだけで、一致しなくなります。"
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
-msgstr ""
+msgstr "ユーザー、役割、グループ、および権限"
 
 #: ../../admin/access.rst:124
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "認証モデルは、次のような複数のオブジェクトで構成されています。"
 
 #: ../../admin/access.rst:127
 msgid "`Permission`"
-msgstr ""
+msgstr "`権限`"
 
 #: ../../admin/access.rst:127
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
-msgstr ""
+msgstr "Weblate によって定義された個別のアクセス権限。個々の権限を割り当てることはできません。これは、役割の割り当てを通じてのみ実行できます。"
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
-msgstr ""
+msgstr "`役割`"
 
 #: ../../admin/access.rst:130
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
-msgstr ""
+msgstr "役割は、一連のアクセス権限を定義します。これにより、このセットを複数の場所で再利用でき、管理が容易になります。"
 
 #: ../../admin/access.rst:132
 msgid "`User`"
-msgstr ""
+msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:133
 msgid "Users can be members of several groups."
-msgstr ""
+msgstr "ユーザーは複数のグループのメンバーに参加できます。"
 
 #: ../../admin/access.rst:136
 msgid "`Group`"
-msgstr ""
+msgstr "`グループ`"
 
 #: ../../admin/access.rst:135
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
-msgstr ""
+msgstr "グループは、役割、ユーザー、認証オブジェクト（プロジェクト、言語、コンポーネント リスト）を関連付けます。"
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
-msgstr ""
+msgstr "アクセス権の確認"
 
 #: ../../admin/access.rst:156
 msgid ""
 "Whenever a permission is checked to decide whether one is able to perform a "
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
-msgstr ""
+msgstr "特定の操作を実行できるかどうかを判断するための許可の確認が行われるたびに、次のような順番でスコープに応じて確認が行われます。"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` is matched against component or project."
-msgstr ""
+msgstr ":guilabel:`コンポーネント リスト` は、コンポーネントまたはプロジェクトと照合されます。"
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
-msgstr ""
+msgstr ":guilabel:`コンポーネント` は、コンポーネントまたはプロジェクトと照合されます。"
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
-msgstr ""
+msgstr ":guilabel:`プロジェクト` は、プロジェクトと照合されます。"
 
 #: ../../admin/access.rst:166
 msgid ""
 "As you can see, granting access to a component automatically grants user "
 "access to a containing project as well."
-msgstr ""
+msgstr "ご覧のように、コンポーネントへのアクセスを許可すると、そのコンポーネントを含むプロジェクトへのアクセスも自動的に許可されます。"
 
 #: ../../admin/access.rst:171
 msgid ""
@@ -20818,7 +20823,7 @@ msgstr ""
 
 #: ../../devel/community.rst:5
 msgid "Community localization checklist"
-msgstr ""
+msgstr "現地化コミュニティのチェックリスト"
 
 #: ../../devel/community.rst:9
 msgid ""
@@ -24656,7 +24661,7 @@ msgstr ""
 
 #: ../../user/checks.rst:186
 msgid "ECMAScript template literals"
-msgstr "ECMAScriptテンプレートリテラル"
+msgstr "ECMAScript テンプレート リテラル"
 
 #: ../../user/checks.rst:188
 #, fuzzy
