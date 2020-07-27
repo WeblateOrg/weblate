@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.20.0 (53369b86) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.20.1 (0df0db1b) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4701,9 +4701,16 @@ var Sentry = (function (exports) {
      */
     function injectReportDialog(options) {
         if (options === void 0) { options = {}; }
+        if (!options.eventId) {
+            logger.error("Missing eventId option in showReportDialog call");
+            return;
+        }
+        if (!options.dsn) {
+            logger.error("Missing dsn option in showReportDialog call");
+            return;
+        }
         var script = document.createElement('script');
         script.async = true;
-        // tslint:disable-next-line: no-non-null-assertion
         script.src = new API(options.dsn).getReportDialogEndpoint(options);
         if (options.onLoad) {
             script.onload = options.onLoad;
@@ -5459,7 +5466,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.20.0';
+    var SDK_VERSION = '5.20.1';
 
     /**
      * The Sentry Browser SDK Client.
@@ -5514,19 +5521,10 @@ var Sentry = (function (exports) {
                 return;
             }
             if (!this._isEnabled()) {
-                logger.error('Trying to call showReportDialog with Sentry Client is disabled');
+                logger.error('Trying to call showReportDialog with Sentry Client disabled');
                 return;
             }
-            var dsn = options.dsn || this.getDsn();
-            if (!options.eventId) {
-                logger.error('Missing `eventId` option in showReportDialog call');
-                return;
-            }
-            if (!dsn) {
-                logger.error('Missing `Dsn` option in showReportDialog call');
-                return;
-            }
-            injectReportDialog(options);
+            injectReportDialog(__assign({}, options, { dsn: options.dsn || this.getDsn() }));
         };
         return BrowserClient;
     }(BaseClient));
