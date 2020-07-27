@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-24 18:39+0000\n"
-"PO-Revision-Date: 2020-07-13 17:56+0000\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2020-07-28 16:41+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -491,7 +491,7 @@ msgstr "相鄰字串數目"
 
 #: weblate/accounts/models.py:365
 msgid "Number of nearby strings to show in each direction in the full editor."
-msgstr ""
+msgstr "在完整編輯器中要在各方向顯示的相鄰字串數。"
 
 #: weblate/accounts/models.py:375 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1325,7 +1325,7 @@ msgstr "身份核對"
 #: weblate/auth/admin.py:112 weblate/auth/models.py:72
 #: weblate/auth/models.py:85
 msgid "Permissions"
-msgstr "允可"
+msgstr "權限"
 
 #: weblate/auth/admin.py:113
 msgid "Important dates"
@@ -1550,39 +1550,28 @@ msgstr "更新內部儲存庫"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-#, fuzzy
-#| msgid "Use management interface (site wide)"
 msgid "Use management interface"
-msgstr "使用管理介面（全平臺）"
+msgstr "使用管理介面"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Add new projects"
-msgstr "其他專案"
+msgstr "加入新的專案"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-#, fuzzy
-#| msgid "Add language definitions (site wide)"
 msgid "Add language definitions"
-msgstr "加入語言定義（全平臺）"
+msgstr "加入語言定義"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-#, fuzzy
-#| msgid "Manage language definitions (site wide)"
 msgid "Manage language definitions"
-msgstr "管理語言定義（全平臺）"
+msgstr "管理語言定義"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgctxt "Access control group"
-#| msgid "Managers"
 msgid "Manage groups"
-msgstr "管理者"
+msgstr "管理群組"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134 weblate/templates/manage-access.html:10
@@ -1591,33 +1580,23 @@ msgstr "管理使用者"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgctxt "Access control group"
-#| msgid "Managers"
 msgid "Manage roles"
-msgstr "管理者"
+msgstr "管理角色"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "New announcement"
 msgid "Manage announcements"
-msgstr "新增公告"
+msgstr "管理公告"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory"
 msgstr "管理翻譯記憶"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage component lists (site wide)"
 msgid "Manage component lists"
-msgstr "管理組件列表（全平臺）"
+msgstr "管理組件列表"
 
 #: weblate/auth/data.py:168
 msgctxt "Access control role"
@@ -1761,13 +1740,12 @@ msgstr "帳單"
 
 #: weblate/auth/models.py:71
 msgid "Permission"
-msgstr "允可"
+msgstr "權限"
 
 #: weblate/auth/models.py:77
-#, fuzzy, python-format
-#| msgid "Filtered permissions"
+#, python-format
 msgid "%s (site wide permission)"
-msgstr "過濾的許可"
+msgstr "%s (網站全域權限)"
 
 #: weblate/auth/models.py:82 weblate/auth/models.py:107
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -1778,7 +1756,7 @@ msgstr "名稱"
 
 #: weblate/auth/models.py:87
 msgid "Choose permissions granted to this role."
-msgstr "選擇要賦予此角色的權利許可。"
+msgstr "選擇要賦予此角色的取用權。"
 
 #: weblate/auth/models.py:110
 msgid "Roles"
@@ -1867,7 +1845,7 @@ msgstr "超級使用者狀態"
 
 #: weblate/auth/models.py:308
 msgid "User has all possible permissions."
-msgstr "使用者擁有全部可用的權限許可。"
+msgstr "使用者擁有全部可用的取用權。"
 
 #: weblate/auth/models.py:311 weblate/billing/models.py:137
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
@@ -1886,7 +1864,7 @@ msgstr "群組"
 #: weblate/auth/models.py:321
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr "使用者將取得所有其加入群組賦予的權利許可。"
+msgstr "使用者將獲得所有其加入群組所賦予的取用權。"
 
 #: weblate/auth/models.py:591
 msgid "E-mail regular expression"
@@ -2058,50 +2036,40 @@ msgid "Translation contains double space"
 msgstr "翻譯含有兩個空白"
 
 #: weblate/checks/chars.py:168
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "不相配 \\n"
+msgstr "句號不相符"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "翻譯沒有和來源一致以句號結尾"
 
 #: weblate/checks/chars.py:207
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "不相配 \\n"
+msgstr "冒號不相符"
 
 #: weblate/checks/chars.py:208
 msgid "Source and translation do not both end with a colon"
 msgstr "翻譯沒有和來源一致以冒號結尾"
 
 #: weblate/checks/chars.py:238
-#, fuzzy
-#| msgid "Trailing question mark"
 msgid "Mismatched question mark"
-msgstr "問號符結尾"
+msgstr "問號不相符"
 
 #: weblate/checks/chars.py:239
 msgid "Source and translation do not both end with a question mark"
 msgstr "翻譯沒有和來源一致以問號結尾"
 
 #: weblate/checks/chars.py:271
-#, fuzzy
-#| msgid "Trailing exclamation mark"
 msgid "Mismatched exclamation mark"
-msgstr "驚嘆號符結尾"
+msgstr "驚嘆號不相符"
 
 #: weblate/checks/chars.py:272
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "翻譯沒有和來源一致以驚嘆號結尾"
 
 #: weblate/checks/chars.py:295
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "不相配 \\n"
+msgstr "刪節號不相符"
 
 #: weblate/checks/chars.py:296
 msgid "Source and translation do not both end with an ellipsis"
@@ -2140,10 +2108,8 @@ msgid "Translation should not exceed given length"
 msgstr "翻譯不該超過指定長度"
 
 #: weblate/checks/chars.py:366
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "不相配 \\n"
+msgstr "分號不相符"
 
 #: weblate/checks/chars.py:367
 msgid "Source and translation do not both end with a semicolon"
@@ -2390,16 +2356,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "i18next 插補與來源不符"
 
 #: weblate/checks/format.py:521
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "ECMAScript template literals"
-msgstr "快取的模板載入器"
+msgstr "ECMAScript 模板字面值"
 
 #: weblate/checks/format.py:522
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
-msgstr "JavaScript 格式字串與來源不符"
+msgstr "ECMAScript 模板字面值與來源不相符"
 
 #: weblate/checks/format.py:534
 msgid "Percent placeholders"
@@ -2636,10 +2598,8 @@ msgid "Entry by the same name already exists."
 msgstr "已經有相同名稱的條目。"
 
 #: weblate/fonts/views.py:74
-#, fuzzy
-#| msgid "Creation failed, please the fix errors below."
 msgid "Creation failed, please fix the errors below."
-msgstr "建立失敗，請嘗試修正下列錯誤。"
+msgstr "建立失敗，請修正下列錯誤。"
 
 #: weblate/fonts/views.py:96
 msgid "Font deleted."
@@ -3474,7 +3434,7 @@ msgstr "我們很抱歉，但似乎在處理你的請求時有事情出錯了。
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:44 weblate/trans/views/error.py:52
 msgid "Permission Denied"
-msgstr "未獲得許可"
+msgstr "取用遭拒"
 
 #: weblate/templates/403.html:11
 msgid "Insufficient privileges to display this page."
@@ -4809,7 +4769,7 @@ msgstr "只有選定的使用者看得到。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
-msgstr "許可權不是在 Weblate 中管理。"
+msgstr "權限不在 Weblate 中管理。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid ""
@@ -4822,7 +4782,7 @@ msgstr ""
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:67
 #: weblate/trans/forms.py:1648 weblate/trans/forms.py:1690
 msgid "You do not have permission to change project access control."
-msgstr "您沒有獲得更改專案存取控制的許可。"
+msgstr "您無權更改專案存取控制。"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -5065,7 +5025,7 @@ msgstr "張貼公告"
 #: weblate/templates/component.html:102 weblate/templates/guide.html:10
 #: weblate/templates/guide.html:26
 msgid "Community localization checklist"
-msgstr ""
+msgstr "社群在地化查核列表"
 
 #: weblate/templates/component.html:108 weblate/templates/component.html:274
 #: weblate/templates/project.html:158
@@ -5111,7 +5071,7 @@ msgstr "狀態小元件"
 
 #: weblate/templates/component.html:141
 msgid "You don't have permission to start a new translation"
-msgstr "您沒有開展新翻譯的權利許可"
+msgstr "您無權開展新翻譯"
 
 #: weblate/templates/component.html:141
 msgid "Please sign in to start new translation"
@@ -5121,7 +5081,7 @@ msgstr "請登入以開展新翻譯"
 #: weblate/templates/component.html:156
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
-msgstr ""
+msgstr "出現於 %(first)s，上次見到是 %(last)s"
 
 #: weblate/templates/component.html:160
 #: weblate/templates/manage/performance.html:42
@@ -5203,7 +5163,7 @@ msgstr "載入中…"
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
-msgstr "您沒有權限檢視所有使用者的報告，只會列出您的貢獻。"
+msgstr "您的無權檢視所有使用者的報告，只會列出您的貢獻。"
 
 #: weblate/templates/component.html:317
 #: weblate/templates/dashboard/user.html:110 weblate/templates/project.html:185
@@ -6405,7 +6365,7 @@ msgstr "重新傳送邀請函"
 msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
-msgstr "移除使用者的所有許可權後，則使用者會從專案中移除。"
+msgstr "移除使用者所有的取用權後，則使用者會從專案中移除。"
 
 #: weblate/templates/manage-access.html:78
 msgid "Add a user"
@@ -6425,15 +6385,13 @@ msgstr "邀請"
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
-msgstr "Weblate 使用者管理已關閉，您可以在 Django 管理介面中更動許可權。"
+msgstr "Weblate 使用者管理已關閉，您可以在 Django 管理介面中更改權限。"
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
 msgstr "組件警告"
 
 #: weblate/templates/manage/alerts.html:22
-#, fuzzy
-#| msgid "Dismissed"
 msgid "dismissed"
 msgstr "已略過"
 
@@ -7302,8 +7260,6 @@ msgid "Approved strings with suggestions"
 msgstr "有翻譯建議的核可後字串"
 
 #: weblate/templates/snippets/query-builder.html:100
-#, fuzzy
-#| msgid "All untranslated strings added in the past month"
 msgid "All untranslated strings added the past month"
 msgstr "近一個月加入的所有未翻譯字串"
 
@@ -7468,22 +7424,18 @@ msgid "Mute notifications for %(object)s"
 msgstr "靜音 %(object)s 通知"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
-#, fuzzy
-#| msgid "Watching"
 msgid "Not watching"
-msgstr "關注中"
+msgstr "不關注"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
-#, fuzzy, python-format
-#| msgid "Unwatch project %(project)s"
+#, python-format
 msgid "Watch project %(project)s"
-msgstr "取消 %(project)s 專案的關注"
+msgstr "關注 %(project)s 專案"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
-#, fuzzy, python-format
-#| msgid "New translation component %(component)s"
+#, python-format
 msgid "Watch component %(component)s"
-msgstr "新翻譯組件 %(component)s"
+msgstr "關注 %(component)s 組件"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -7697,7 +7649,7 @@ msgstr "建立組件"
 #: weblate/templates/trans/component_create.html:14
 #: weblate/templates/trans/component_form.html:12
 msgid "You do not have permission to create components in any projects."
-msgstr "您尚未獲得在任何專案中建立組件的許可。"
+msgstr "您無權在任何專案中建立組件。"
 
 #: weblate/templates/trans/component_create.html:25
 msgid "From version control"
@@ -7839,10 +7791,8 @@ msgid "The detected file format is not supported."
 msgstr "不支援偵測到的檔案格式。"
 
 #: weblate/templates/trans/guide/addon.html:3
-#, fuzzy
-#| msgid "Example addon"
 msgid "Enable addon:"
-msgstr "範例附加元件"
+msgstr "啟用附加元件："
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -7896,7 +7846,7 @@ msgstr "建立專案"
 
 #: weblate/templates/trans/project_form.html:12
 msgid "You currently do not have permission to create projects."
-msgstr "您目前尚未獲得建立專案的存取控制許可。"
+msgstr "目前您尚無權建立專案。"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -8234,14 +8184,10 @@ msgid ""
 msgstr "利用啟用的機器翻譯引擎自動翻譯以盡可能取得最佳翻譯，並套用到此專案中。"
 
 #: weblate/templates/translation.html:259
-#, fuzzy
-#| msgid ""
-#| "You can substitute all instances of a string. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can substitute all instances of a string. The search is a simple case "
 "sensitive substring search."
-msgstr "您可以取代字串中的所有實例。搜尋是個簡易且區分大小寫的子字串搜尋。"
+msgstr "您可以取代字串中的所有實例。搜尋採用簡易區分大小寫的子字串搜尋。"
 
 #: weblate/templates/translation.html:294
 msgid ""
@@ -8261,16 +8207,10 @@ msgid "The uploaded file will be merged with the current translation."
 msgstr "上傳的檔案會與目前的翻譯合併。"
 
 #: weblate/templates/translation.html:354
-#, fuzzy
-#| msgid ""
-#| "The message is shown on the translation page, until its given expiry, or "
-#| "permanently until it is deleted."
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
-msgstr ""
-"此訊息將顯示在翻譯頁面上。此訊息將顯示到指定的過期時間，若未指定則會顯示直到"
-"訊息被刪除。"
+msgstr "此訊息將顯示在翻譯頁面上，持續直到指定時間到期，或刪除為止。"
 
 #: weblate/templates/translation.html:392
 msgid "Percent"
@@ -8479,10 +8419,8 @@ msgid "Strings without a label"
 msgstr "沒有標籤的字串"
 
 #: weblate/trans/filter.py:63
-#, fuzzy
-#| msgid "Translated string"
 msgid "Pluralized string"
-msgstr "已翻譯字串"
+msgstr "複數化字串"
 
 #: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 msgid "Failed check: {}"
@@ -8786,7 +8724,7 @@ msgstr "開始日期必須早於結束日期！"
 
 #: weblate/trans/forms.py:1114
 msgid "You do not have permission to access this component!"
-msgstr "您尚未獲得存取此組件的許可！"
+msgstr "您無權存取此組件！"
 
 #: weblate/trans/forms.py:1213 weblate/trans/forms.py:1696
 msgid "Basic"
@@ -9315,7 +9253,7 @@ msgstr "移動了組件"
 #: weblate/trans/models/change.py:317 weblate/trans/models/change.py:417
 msgid "New string to translate"
 msgid_plural "New strings to translate"
-msgstr[0] "有新字串要翻譯"
+msgstr[0] "有新字串可翻譯"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:325
@@ -9697,7 +9635,7 @@ msgstr "受限組件"
 #: weblate/trans/models/component.py:600
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
-msgstr "將組件的存取權 限縮至 明確指定的權限。"
+msgstr "將組件的存取權設定限縮至特定指明的權限範圍。"
 
 #: weblate/trans/models/component.py:1049
 msgid ""
@@ -10747,14 +10685,13 @@ msgstr "小型狀態徽章"
 #: weblate/trans/widgets.py:307
 msgctxt "Status widget name"
 msgid "Panel"
-msgstr ""
+msgstr "面板"
 
 #. Translators: Text on OpenGraph image
 #: weblate/trans/widgets.py:320
-#, fuzzy, python-format
-#| msgid "Projects"
+#, python-format
 msgid "Project %s"
-msgstr "專案"
+msgstr "%s 專案"
 
 #: weblate/trans/widgets.py:365
 msgid "Status badge"
@@ -10765,18 +10702,14 @@ msgid "translated"
 msgstr "已翻譯"
 
 #: weblate/trans/widgets.py:416
-#, fuzzy
-#| msgid "Vertical multi language status widget"
 msgctxt "Status widget name"
 msgid "Vertical language bar chart"
-msgstr "垂直多語言狀態元件"
+msgstr "垂直的語言長條圖"
 
 #: weblate/trans/widgets.py:494
-#, fuzzy
-#| msgid "Horizontal multi language status widget"
 msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
-msgstr "水平多語言狀態元件"
+msgstr "水平的語言長條圖"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:24
