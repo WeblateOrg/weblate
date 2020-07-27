@@ -941,7 +941,7 @@ $(function () {
     }
   });
   $(".search-group input")
-    .not("#id_q,#id_position")
+    .not("#id_q,#id_position,#id_term")
     .on("keydown", function (event) {
       if (event.key === "Enter") {
         $(this).closest(".input-group").find(".search-add").click();

@@ -18,6 +18,7 @@
 #
 
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Div, Field, Layout
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -46,6 +47,20 @@ class OneTermForm(forms.Form):
     term = forms.CharField(
         label=_("Search"), max_length=GLOSSARY_LENGTH, required=False
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = Layout(
+            Div(
+                Field("term", template="snippets/user-query-field.html"),
+                css_class="btn-toolbar",
+                role="toolbar",
+            ),
+        )
 
 
 class GlossaryForm(forms.ModelForm):

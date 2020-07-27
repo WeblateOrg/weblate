@@ -40,6 +40,11 @@
 
 <div class="tab-content">
 <div class="tab-pane active" id="browse">
+
+<form class="searchform result-page-form" action="{% url 'show_glossary' project=project.slug lang=language.code %}">
+{% crispy searchform %}
+</form>
+
 {% include "paginator.html" %}
 
 <form class="autosubmit form-inline pull-right flip">
@@ -85,10 +90,6 @@
 {% else %}
 <p>{% trans "No words found!" %}</p>
 {% endif %}
-<form class="searchform" action="{% url 'show_glossary' project=project.slug lang=language.code %}">
-{{ searchform | crispy }}
-<button type="submit" class="btn btn-ok"> {% trans "Search" %} </button>
-</form>
 </div>
 
 {% if user_can_add_glossary %}
