@@ -143,6 +143,7 @@ function screenshotResultSet(results) {
       '<tr><td class="text"></td>' +
         '<td class="context"></td>' +
         '<td class="location"></td>' +
+        '<td class="assigned"></td>' +
         '<td><a class="add-string btn btn-primary"> ' +
         gettext("Add to screenshot") +
         "</tr>"
@@ -151,6 +152,7 @@ function screenshotResultSet(results) {
     row.find(".text").text(value.text);
     row.find(".context").text(value.context);
     row.find(".location").text(value.location);
+    row.find(".assigned").text(value.assigned);
     row.find(".add-string").data("pk", value.pk);
     $("#search-results").append(row);
   });

@@ -9,6 +9,7 @@
 <td class="translatetext">{% format_translation unit.source unit.translation.component.project.source_language %}</td>
 <td>{{ unit.context }}</td>
 <td>{{ unit.location }}</td>
+<td>{{ unit.screenshots.count }}</td>
 <td>
 <a href="{{ unit.get_absolute_url }}" class="btn btn-primary">{% trans "View" %}</a>
 </td>

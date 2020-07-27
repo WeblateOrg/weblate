@@ -189,6 +189,7 @@ def search_results(code, obj, units=None):
             "pk": unit.pk,
             "context": unit.context,
             "location": unit.location,
+            "assigned": unit.screenshots.count(),
         }
         for unit in units
     ]
