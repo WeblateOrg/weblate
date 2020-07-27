@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-26 22:44+0000\n"
+"PO-Revision-Date: 2020-07-27 13:22+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -2565,6 +2565,11 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface on the :guilabel:`Backups` tab."
 msgstr ""
+"У Weblate передбачено вбудовану підтримку створення резервних копій за "
+"допомогою `BorgBackup`_. Borg створює шифровані резервні копії мінімального "
+"розміру, які можна безпечно зберігати у «хмарі». Керувати резервним "
+"копіюванням можна за допомогою інтерфейсу керування на вкладці :guilabel:`"
+"Резервні копії`."
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -2573,6 +2578,10 @@ msgid ""
 "migrate to PostgreSQL as that will be the only supported database in the 4.0 "
 "release. See :ref:`database-migration`."
 msgstr ""
+"До автоматизованих резервних копій буде включено лише базу даних PostgreSQL. "
+"Резервні копії даних інших рушіїв керування базами даних має бути збережено "
+"вручну. Рекомендуємо вам перейти на PostgreSQL, оскільки у випуску 4.0 "
+"передбачено підтримку лише цього рушія. Див. :ref:`database-migration`."
 
 #: ../../admin/backup.rst:28
 msgid "Using Weblate provisioned backup storage"
@@ -2584,6 +2593,9 @@ msgid ""
 "service at weblate.org <https://weblate.org/support/#backup>`_. The process "
 "of activating can be performed in few steps:"
 msgstr ""
+"Найпростішим способом резервного копіювання вашого екземпляра Weblate є "
+"придбання `служби резервного копіювання на weblate.org <https://weblate.org/"
+"support/#backup>`_. Активацію можна виконати за декілька кроків:"
 
 #: ../../admin/backup.rst:34
 msgid "Purchase backup service on https://weblate.org/support/#backup."
@@ -2608,12 +2620,16 @@ msgstr ""
 #: ../../admin/backup.rst:37
 msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
 msgstr ""
+"Увімкніть нові налаштування резервного копіювання на вкладці :guilabel:`"
+"Резервні копії`."
 
 #: ../../admin/backup.rst:38
 msgid ""
 "Backup Borg credentials in order to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
+"Створіть резервну копію реєстраційних даних Borg з метою уможливлення "
+"відновлення резервних копій, див. :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:42
 msgid ""
@@ -2621,6 +2637,9 @@ msgid ""
 "no data is sent to the backup repository obtained through the registration "
 "process."
 msgstr ""
+"Крок вмикання вручну додано з метою убезпечення ваших даних. Без вашої згоди "
+"під час процедури реєстрації до сховища резервних копій не буде надіслано "
+"жодних даних."
 
 #: ../../admin/backup.rst:48
 msgid "Using custom backup storage"
@@ -2632,6 +2651,9 @@ msgid ""
 "backups on the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"Ви також можете скористатися власним сховищем для резервних копій. Для "
+"збереження резервних копій на віддаленому сервері можна скористатися SSH. На "
+"сервері сховища копій має бути встановлено `BorgBackup`_."
 
 #: ../../admin/backup.rst:56
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -2657,6 +2679,9 @@ msgid ""
 "In case you are using :ref:`cloudbackup`, please backup your private SSH key "
 "as well — it is used to access your backups."
 msgstr ""
+"Якщо ви користуєтеся :ref:`cloudbackup`, будь ласка, включіть до резервного "
+"копіювання і ваш закритий ключ SSH — його буде використано для доступу до "
+"ваших резервних копій."
 
 #: ../../admin/backup.rst:72
 msgid ":doc:`borg:usage/init`"
@@ -2676,22 +2701,29 @@ msgstr ""
 #: ../../admin/backup.rst:79
 msgid "List backup existing on the server using ``borg list REPOSITORY``."
 msgstr ""
+"Отримайте список резервних копій на сервері за допомогою команди ``borg list "
+"СХОВИЩЕ``."
 
 #: ../../admin/backup.rst:81
 msgid ""
 "Restore the desired backup to current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Відновіть бажану резервну копію до поточного каталогу за допомогою команди ``"
+"borg extract СХОВИЩЕ::АРХІВ``."
 
 #: ../../admin/backup.rst:83
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Відновіть базу даних із дампу SQL із розташування у каталозі ``backup`` "
+"каталогу даних Weblate (див. :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:85
 msgid "Copy Weblate configuration and data dir to the correct location."
 msgstr ""
+"Скопіюйте налаштування Weblate і каталог даних до поточного розташування."
 
 #: ../../admin/backup.rst:87
 msgid "The Borg session might look like:"
@@ -2710,6 +2742,8 @@ msgid ""
 "Depending on what you want to save, back up the type data Weblate stores in "
 "each respective place."
 msgstr ""
+"Залежно від того, що саме ви хочете зберегти, створіть резервні копії типів "
+"даних, які Weblate зберігає у відповідних каталогах."
 
 #: ../../admin/backup.rst:113
 msgid ""
@@ -2718,6 +2752,10 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"Якщо ви виконуєте резервне копіювання вручну, вам варто увімкнути "
+"попередження Weblate щодо відсутності резервних копій додаванням ``weblate."
+"I028`` до :setting:`django:SILENCED_SYSTEM_CHECKS` у :file:`settings.py` або "
+":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` для Docker."
 
 #: ../../admin/backup.rst:123
 msgid "Database"
@@ -2733,6 +2771,9 @@ msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database, without it all your translation setup will be gone."
 msgstr ""
+"Найважливішим сховищем даних є база даних. Налаштуйте регулярне резервне "
+"копіювання вашої бази даних — якщо її буде втрачено, буде втрачену усі ваші "
+"налаштування перекладу."
 
 #: ../../admin/backup.rst:131
 msgid "Native database backup"
@@ -2745,6 +2786,11 @@ msgid ""
 "performs better than Django backup and restores complete tables with all "
 "data."
 msgstr ""
+"Рекомендованим способом створення дампу бази даних є використання власних "
+"інструментів засобу керування базою даних, зокрема :program:`pg_dump` або "
+":program:`mysqldump`. Такий інструмент, зазвичай, працює краще за засіб "
+"резервного копіювання Django і може відновлювати таблиці повністю із усіма "
+"даними."
 
 #: ../../admin/backup.rst:137
 msgid ""
@@ -2753,6 +2799,10 @@ msgid ""
 "consult :doc:`upgrade` on more detailed information how to perform upgrade "
 "between versions."
 msgstr ""
+"Ви можете відновити цю резервну копію у новішому випуску Weblate — усі "
+"необхідні процедури із перенесення даних буде виконано під час запуску "
+":djadmin:`django:migrate`. Будь ласка, зверніться до розділу :doc:`upgrade`, "
+"щоб ознайомитися із докладнішими відомостями щодо оновлення версій."
 
 #: ../../admin/backup.rst:143
 msgid "Django database backup"
@@ -2764,6 +2814,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change database backend."
 msgstr ""
+"Ви також можете створити резервну копію бази даних за допомогою команди "
+":djadmin:`django:dumpdata` Django. Резервне копіювання у такий спосіб не "
+"прив'язане до засобу керування базою даних — ним можна скористатися, якщо ви "
+"хочете змінити модуль обробки бази даних."
 
 #: ../../admin/backup.rst:149
 msgid ""
@@ -2773,6 +2827,12 @@ msgid ""
 "some way. After installing the same version, run all database migrations "
 "using :djadmin:`django:migrate`."
 msgstr ""
+"Перш ніж відновлювати дані, вам слід встановити і запустити точну ту саму "
+"версію Weblate, що і на сервері, на якому виконувалося резервне копіювання. "
+"Це необхідно, оскільки структура бази даних змінюється між випусками, отже, "
+"використання неналежної версії може призвести до певного пошкодження даних. "
+"Після встановлення тієї самої версії запустіть усі процедури перенесення "
+"бази даних за допомогою команди :djadmin:`django:migrate`."
 
 #: ../../admin/backup.rst:155
 msgid ""
@@ -2781,6 +2841,9 @@ msgid ""
 "is to delete such entries manually using management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"Щойно встановлення буде виконано, у базі даних з'являться деякі записи, які "
+"вже є у резервній копії. Рекомендуємо вилучити такі записи вручну за "
+"допомогою оболонки керування (див. :ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:166
 msgid "Files"
@@ -2793,6 +2856,11 @@ msgid ""
 "The following sections describe in detail what you should back up and what "
 "you can skip."
 msgstr ""
+"Якщо у вас достатньо місця, рекомендуємо просто створити резервну копію усіх "
+"даних у :setting:`DATA_DIR`. Це найбезпечніший варіант, навіть якщо при "
+"цьому до резервної копії потраплять непотрібні вам файли. У наступних "
+"розділах докладно описано те, що має потрапити до резервної копії, і дані, "
+"які можна безпечно пропустити при резервному копіюванні."
 
 #: ../../admin/backup.rst:176
 msgid "Dumped data for backups"
@@ -2808,12 +2876,18 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate створює тут дамп різноманітних даних, і ви можете включити ці файли "
+"для отримання повнішої резервної копії. Файли оновлюються щоденно (це "
+"потребує запуску сервера Celery, див. :ref:`celery`). У поточній версії сюди "
+"включено:"
 
 #: ../../admin/backup.rst:184
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Параметри Weblate у файлі :file:`settings.py` (розширена версія зберігається "
+"у :file:`settings-expanded.py`)."
 
 #: ../../admin/backup.rst:185
 msgid "PostgreSQL database backup as :file:`database.sql`."
@@ -2824,6 +2898,9 @@ msgid ""
 "The database backup are by default saved as plain text, but they can also be "
 "compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Типово, резервна копія зберігається у форматі простого тексту. Втім, її "
+"можна стиснути або повністю пропустити за допомогою параметра "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:191
 msgid "Version control repositories"
@@ -2841,6 +2918,12 @@ msgid ""
 "and you do not have to backup the repositories on the Weblate side. They can "
 "be cloned again from the upstream locations with no data loss."
 msgstr ""
+"У сховищах систем керування версіями зберігаються копії базових сховищ зі "
+"змінами, які внесено Weblate. Якщо для усіх ваших складників перекладу "
+"увімкнено негайний запис до сховища після внеску, усі внесені Weblate буде "
+"включено до основного сховища, і вам не потрібно буде створювати резервні "
+"копії сховищ на боці Weblate. Сховища можна буде просто знову клонувати із "
+"основного сховища без втрати даних."
 
 #: ../../admin/backup.rst:202
 msgid "SSH and GPG keys"
@@ -2858,6 +2941,9 @@ msgid ""
 "these locations, otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Якщо ви користуєтеся ключами SSH або GPG, які створено Weblate, вам слід "
+"створити резервні копії цих даних, інакше ви можете втратити закриті ключі, "
+"і вам доведеться створювати нові."
 
 #: ../../admin/backup.rst:211
 msgid "User uploaded files"
@@ -2882,6 +2968,8 @@ msgid ""
 "Using a cron task, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
 msgstr ""
+"За допомогою завдання cron ви можете наказати системі виконувати щодня "
+"команду bash. Приклад:"
 
 #: ../../admin/backup.rst:226
 msgid ""
@@ -2889,12 +2977,17 @@ msgid ""
 "for instance the amount of memory used for compression; see https://linux."
 "die.net/man/1/xz"
 msgstr ""
+"За допомогою рядка у лапках після XZ_OPT ви можете вибрати параметри xz, "
+"наприклад об'єм пам'яті для стискання; див. https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:228
 msgid ""
 "You can adjust the list of folders and files to your needs. For instance, to "
 "avoid saving the translation memory (in backups folder), you could use:"
 msgstr ""
+"Ви можете скоригувати список тек і файлів за вашими потребами. Наприклад, "
+"щоб уникнути зберігання пам'яті перекладів (у теці резервних копій), ви "
+"можете скористатися таким:"
 
 #: ../../admin/backup.rst:236
 msgid "Celery tasks"
@@ -2908,6 +3001,11 @@ msgid ""
 "repository updates upon restoring anyhow, so there is no problem in losing "
 "these."
 msgstr ""
+"У черзі завдань Celery можуть міститися корисні дані, але,зазвичай, "
+"створення їхньої резервної копії не виправдано. У найгіршому випадку ви "
+"втратите оновлення пам'яті перекладів, які ще не було оброблено. Такі дані "
+"рекомендовано оновлювати за цілими текстами та сховищами під час "
+"відновлення, тому ніяких проблем із втратою черги завдань не повинно бути."
 
 #: ../../admin/backup.rst:245
 msgid ":ref:`celery`"
@@ -2934,6 +3032,8 @@ msgid ""
 "Relocate your installation to a different system by following the backup and "
 "restore instructions above."
 msgstr ""
+"Перенесіть ваш екземпляр на іншу систему за допомогою настанов зі створення "
+"і відновлення резервних копій, які наведено вище."
 
 #: ../../admin/backup.rst:266
 msgid ":ref:`py3`, :ref:`database-migration`"
@@ -2952,12 +3052,16 @@ msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"Ви можете також реалізувати ваші власні виправлення на додачу до стандартних "
+"і включити їх до :setting:`AUTOFIX_LIST`."
 
 #: ../../admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage;  be careful "
 "when writing one."
 msgstr ""
+"Автоматичні виправлення є потужним засобом, але вони можуть пошкодити дані. "
+"Будьте обережні із написанням автоматичних виправлень."
 
 #: ../../admin/checks.rst:15
 msgid ""
