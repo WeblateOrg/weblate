@@ -26,6 +26,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from weblate.trans.fields import RegexField
+from weblate.trans.mixins import CacheKeyMixin
 from weblate.utils.stats import ComponentListStats
 
 
@@ -34,7 +35,7 @@ class ComponentListQuerySet(models.QuerySet):
         return self.order_by("name")
 
 
-class ComponentList(models.Model):
+class ComponentList(models.Model, CacheKeyMixin):
 
     name = models.CharField(
         verbose_name=_("Component list name"),
