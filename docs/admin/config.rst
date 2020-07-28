@@ -165,7 +165,7 @@ List of automatic fixes to apply when saving a string.
 Available fixes:
 
 ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
-    Matches whitespace at the strt and end of the string to the source.
+    Matches whitespace at the start and end of the string to the source.
 ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
     Replaces trailing dots (...) if the source string has ellipsis (…).
 ``weblate.trans.autofixes.chars.RemoveZeroSpace``
@@ -275,7 +275,7 @@ Number of hours between committing pending changes by way of the background task
 DATA_DIR
 --------
 
-The folder Weblate stores all data in. it contains links to VCS repositories,
+The folder Weblate stores all data in. It contains links to VCS repositories,
 a fulltext index and various configuration files for external tools.
 
 The following subdirectories usually exist:
