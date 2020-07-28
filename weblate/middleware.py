@@ -36,7 +36,7 @@ CSP_TEMPLATE = (
 )
 
 # URLs requiring inline javascipt
-INLINE_PATHS = {"social:begin", "saml_login_process"}
+INLINE_PATHS = {"social:begin", "djangosaml2idp:saml_login_process"}
 
 
 class ProxyMiddleware:
