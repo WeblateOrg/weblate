@@ -196,7 +196,7 @@ class BaseStats:
 
     @cached_property
     def cache_key(self):
-        return "stats-{}-{}".format(self._object.__class__.__name__, self._object.pk)
+        return "stats-{}".format(self._object.cache_key)
 
     def __getattr__(self, name):
         if self._data is None:

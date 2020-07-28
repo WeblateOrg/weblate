@@ -42,6 +42,7 @@ from weblate.langdata.languages import LANGUAGES
 from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
+from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.util import sort_choices, sort_objects
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_plural_formula
@@ -441,7 +442,7 @@ def setup_lang(sender, **kwargs):
         Language.objects.setup(False)
 
 
-class Language(models.Model):
+class Language(models.Model, CacheKeyMixin):
     code = models.SlugField(
         max_length=LANGUAGE_CODE_LENGTH,
         unique=True,

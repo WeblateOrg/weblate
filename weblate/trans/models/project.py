@@ -31,7 +31,7 @@ from django.utils.translation import gettext_lazy
 from weblate.lang.models import Language, get_english_lang
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
-from weblate.trans.mixins import PathMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.utils.data import data_dir
 from weblate.utils.db import FastDeleteMixin
 from weblate.utils.site import get_site_url
@@ -60,7 +60,7 @@ def prefetch_project_flags(projects):
     return projects
 
 
-class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
+class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100

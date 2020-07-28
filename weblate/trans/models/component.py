@@ -60,7 +60,7 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
-from weblate.trans.mixins import PathMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
 from weblate.trans.models.change import Change
 from weblate.trans.models.translation import Translation
@@ -234,7 +234,7 @@ class ComponentQuerySet(models.QuerySet):
         return self
 
 
-class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
+class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin):
     name = models.CharField(
         verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,

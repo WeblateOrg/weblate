@@ -41,7 +41,7 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import FileParseError, PluralFormsMismatch
-from weblate.trans.mixins import LoggerMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import (
@@ -118,7 +118,7 @@ class TranslationQuerySet(models.QuerySet):
         )
 
 
-class Translation(models.Model, URLMixin, LoggerMixin):
+class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)

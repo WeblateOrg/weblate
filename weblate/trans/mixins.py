@@ -150,3 +150,9 @@ class UserDisplayMixin:
 
     def get_user_text_display(self):
         return get_user_display(self.user, icon=False, link=True)
+
+
+class CacheKeyMixin:
+    @cached_property
+    def cache_key(self):
+        return "{}-{}".format(self.__class__.__name__, self.pk)
