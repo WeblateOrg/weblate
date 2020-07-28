@@ -112,7 +112,7 @@ def cleanup_session(session):
             del session[key]
 
 
-def search(translation, request, form_class=SearchForm):
+def search(base, unit_set, request, form_class=SearchForm):
     """Perform search or returns cached search results."""
     # Possible new search
     form = form_class(request.user, request.GET, show_builder=False)
@@ -128,7 +128,7 @@ def search(translation, request, form_class=SearchForm):
         "checksum": form.cleaned_data.get("checksum"),
     }
     search_url = form.urlencode()
-    session_key = "search_{0}_{1}".format(translation.pk, search_url)
+    session_key = "search_{0}_{1}".format(base.cache_key, search_url)
 
     if (
         session_key in request.session
@@ -138,7 +138,7 @@ def search(translation, request, form_class=SearchForm):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = translation.unit_set.search(form.cleaned_data.get("q", "")).distinct()
+    allunits = unit_set.search(form.cleaned_data.get("q", "")).distinct()
 
     search_query = form.get_search_query() if form_valid else ""
     name = form.get_name()
@@ -151,7 +151,7 @@ def search(translation, request, form_class=SearchForm):
     # Check empty search results
     if not unit_ids:
         messages.warning(request, _("No string matched your search!"))
-        return redirect(translation)
+        return redirect(base)
 
     # Remove old search results
     cleanup_session(request.session)
@@ -398,12 +398,13 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
 def translate(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, component, lang)
+    unit_set = translation.unit_set
 
     # Check locks
     locked = translation.component.locked
 
     # Search results
-    search_result = search(translation, request, PositionSearchForm)
+    search_result = search(translation, unit_set, request, PositionSearchForm)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -418,7 +419,7 @@ def translate(request, project, component, lang):
     # Checksum unit access
     if search_result["checksum"]:
         try:
-            unit = translation.unit_set.get(id_hash=search_result["checksum"])
+            unit = unit_set.get(id_hash=search_result["checksum"])
             offset = search_result["ids"].index(unit.id) + 1
         except (Unit.DoesNotExist, ValueError):
             messages.warning(request, _("No string matched your search!"))
@@ -434,7 +435,7 @@ def translate(request, project, component, lang):
 
         # Grab actual unit
         try:
-            unit = translation.unit_set.get(pk=search_result["ids"][offset - 1])
+            unit = unit_set.get(pk=search_result["ids"][offset - 1])
         except Unit.DoesNotExist:
             # Can happen when using SID for other translation
             messages.error(request, _("Invalid search string!"))
@@ -664,8 +665,9 @@ def resolve_comment(request, pk):
 
 def get_zen_unitdata(translation, request):
     """Load unit data for zen mode."""
+    unit_set = translation.unit_set
     # Search results
-    search_result = search(translation, request)
+    search_result = search(translation, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -674,9 +676,7 @@ def get_zen_unitdata(translation, request):
     offset = search_result["offset"] - 1
     search_result["last_section"] = offset + 20 >= len(search_result["ids"])
 
-    units = translation.unit_set.filter(
-        pk__in=search_result["ids"][offset : offset + 20]
-    ).order()
+    units = unit_set.filter(pk__in=search_result["ids"][offset : offset + 20]).order()
 
     unitdata = [
         {
