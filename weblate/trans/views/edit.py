@@ -423,14 +423,22 @@ def translate(request, project, component, lang):
         except (Unit.DoesNotExist, ValueError):
             messages.warning(request, _("No string matched your search!"))
             return redirect(translation)
+    else:
+        # Check boundaries
+        if not 0 < offset <= num_results:
+            messages.info(request, _("The translation has come to an end."))
+            # Delete search
+            del request.session[search_result["key"]]
+            # Redirect to translation
+            return redirect(translation)
 
-    # Check boundaries
-    if not 0 < offset <= num_results:
-        messages.info(request, _("The translation has come to an end."))
-        # Delete search
-        del request.session[search_result["key"]]
-        # Redirect to translation
-        return redirect(translation)
+        # Grab actual unit
+        try:
+            unit = translation.unit_set.get(pk=search_result["ids"][offset - 1])
+        except Unit.DoesNotExist:
+            # Can happen when using SID for other translation
+            messages.error(request, _("Invalid search string!"))
+            return redirect(translation)
 
     # Some URLs we will most likely use
     base_unit_url = "{0}?{1}&offset=".format(
@@ -475,14 +483,6 @@ def translate(request, project, component, lang):
     # Pass possible redirect further
     if response is not None:
         return response
-
-    # Grab actual unit
-    try:
-        unit = translation.unit_set.get(pk=search_result["ids"][offset - 1])
-    except Unit.DoesNotExist:
-        # Can happen when using SID for other translation
-        messages.error(request, _("Invalid search string!"))
-        return redirect(translation)
 
     # Show secondary languages for signed in users
     if request.user.is_authenticated:
