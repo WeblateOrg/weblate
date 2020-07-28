@@ -25,7 +25,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_str
 from django.utils.http import urlencode
@@ -41,6 +46,7 @@ from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
+    ChecksumForm,
     CommentForm,
     ContextForm,
     MergeForm,
@@ -125,7 +131,6 @@ def search(base, unit_set, request, form_class=SearchForm):
     search_result = {
         "form": form,
         "offset": form.cleaned_data.get("offset", 1),
-        "checksum": form.cleaned_data.get("checksum"),
     }
     search_url = form.urlencode()
     session_key = "search_{0}_{1}".format(base.cache_key, search_url)
@@ -252,7 +257,7 @@ def perform_translation(unit, form, request):
 
 
 @session_ratelimit_post("translate")
-def handle_translate(request, translation, this_unit_url, next_unit_url):
+def handle_translate(request, unit, this_unit_url, next_unit_url):
     """Save translation or suggestion to database and backend."""
     # Antispam protection
     antispam = AntispamForm(request.POST)
@@ -260,12 +265,11 @@ def handle_translate(request, translation, this_unit_url, next_unit_url):
         # Silently redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
-    form = TranslationForm(request.user, translation, None, request.POST)
+    form = TranslationForm(request.user, unit, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return None
 
-    unit = form.cleaned_data["unit"]
     go_next = True
 
     if "suggest" in request.POST:
@@ -281,14 +285,13 @@ def handle_translate(request, translation, this_unit_url, next_unit_url):
     return HttpResponseRedirect(this_unit_url)
 
 
-def handle_merge(translation, request, next_unit_url):
+def handle_merge(unit, request, next_unit_url):
     """Handle unit merging."""
-    mergeform = MergeForm(translation, request.GET)
+    mergeform = MergeForm(unit, request.GET)
     if not mergeform.is_valid():
         messages.error(request, _("Invalid merge request!"))
         return None
 
-    unit = mergeform.cleaned_data["unit"]
     merged = mergeform.cleaned_data["merge_unit"]
 
     if not request.user.has_perm("unit.edit", unit):
@@ -301,13 +304,12 @@ def handle_merge(translation, request, next_unit_url):
     return HttpResponseRedirect(next_unit_url)
 
 
-def handle_revert(translation, request, next_unit_url):
-    revertform = RevertForm(translation, request.GET)
+def handle_revert(unit, request, next_unit_url):
+    revertform = RevertForm(unit, request.GET)
     if not revertform.is_valid():
         messages.error(request, _("Invalid revert request!"))
         return None
 
-    unit = revertform.cleaned_data["unit"]
     change = revertform.cleaned_data["revert_change"]
 
     if not request.user.has_perm("unit.edit", unit):
@@ -417,11 +419,12 @@ def translate(request, project, component, lang):
     offset = search_result["offset"]
 
     # Checksum unit access
-    if search_result["checksum"]:
+    checksum_form = ChecksumForm(unit_set, request.GET or request.POST)
+    if checksum_form.is_valid():
+        unit = checksum_form.cleaned_data["unit"]
         try:
-            unit = unit_set.get(id_hash=search_result["checksum"])
             offset = search_result["ids"].index(unit.id) + 1
-        except (Unit.DoesNotExist, ValueError):
+        except ValueError:
             messages.warning(request, _("No string matched your search!"))
             return redirect(translation)
     else:
@@ -464,9 +467,7 @@ def translate(request, project, component, lang):
             and "downvote" not in request.POST
         ):
             # Handle translation
-            response = handle_translate(
-                request, translation, this_unit_url, next_unit_url
-            )
+            response = handle_translate(request, unit, this_unit_url, next_unit_url)
         elif not locked or "delete" in request.POST or "spam" in request.POST:
             # Handle accepting/deleting suggestions
             response = handle_suggestions(
@@ -475,11 +476,11 @@ def translate(request, project, component, lang):
 
     # Handle translation merging
     elif "merge" in request.GET and not locked:
-        response = handle_merge(translation, request, next_unit_url)
+        response = handle_merge(unit, request, next_unit_url)
 
     # Handle reverting
     elif "revert" in request.GET and not locked:
-        response = handle_revert(translation, request, this_unit_url)
+        response = handle_revert(unit, request, this_unit_url)
 
     # Pass possible redirect further
     if response is not None:
@@ -495,7 +496,7 @@ def translate(request, project, component, lang):
     antispam = AntispamForm()
 
     # Prepare form
-    form = TranslationForm(request.user, translation, unit)
+    form = TranslationForm(request.user, unit)
     sort = get_sort_name(request)
 
     return render(
@@ -688,7 +689,7 @@ def get_zen_unitdata(translation, request):
                 else None
             ),
             "form": ZenTranslationForm(
-                request.user, translation, unit, tabindex=100 + (unit.position * 10)
+                request.user, unit, tabindex=100 + (unit.position * 10)
             ),
             "offset": offset + pos + 1,
         }
@@ -755,17 +756,22 @@ def load_zen(request, project, component, lang):
 def save_zen(request, project, component, lang):
     """Save handler for zen mode."""
     translation = get_translation(request, project, component, lang)
+    unit_set = translation.unit_set
 
-    form = TranslationForm(request.user, translation, None, request.POST)
-    unit = None
+    checksum_form = ChecksumForm(unit_set, request.POST)
+    if not checksum_form.is_valid():
+        show_form_errors(request, checksum_form)
+        return HttpResponseBadRequest("Invalid checksum")
+
+    unit = checksum_form.cleaned_data["unit"]
     translationsum = ""
+
+    form = TranslationForm(request.user, unit, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-    elif not request.user.has_perm("unit.edit", form.cleaned_data["unit"]):
+    elif not request.user.has_perm("unit.edit", unit):
         messages.error(request, _("Insufficient privileges for saving translations."))
     else:
-        unit = form.cleaned_data["unit"]
-
         perform_translation(unit, form, request)
 
         translationsum = hash_to_checksum(unit.get_target_hash())

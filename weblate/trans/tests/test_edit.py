@@ -85,8 +85,8 @@ class EditTest(ViewTestCase):
             target_1="Opice má %d banány.\n",
             target_2="Opice má %d banánů.\n",
         )
-        # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 2)
+        # We should get to next message
+        self.assert_redirects_offset(response, self.translate_url, 3)
         # Check translations
         unit = self.get_unit("Orangutan")
         plurals = unit.get_target_plurals()

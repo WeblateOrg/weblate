@@ -389,8 +389,8 @@ class ChecksumForm(forms.Form):
 
     checksum = ChecksumField(required=True)
 
-    def __init__(self, translation, *args, **kwargs):
-        self.translation = translation
+    def __init__(self, unit_set, *args, **kwargs):
+        self.unit_set = unit_set
         super().__init__(*args, **kwargs)
 
     def clean_checksum(self):
@@ -398,7 +398,7 @@ class ChecksumForm(forms.Form):
         if "checksum" not in self.cleaned_data:
             return
 
-        unit_set = self.translation.unit_set
+        unit_set = self.unit_set
 
         try:
             self.cleaned_data["unit"] = unit_set.filter(
@@ -408,6 +408,12 @@ class ChecksumForm(forms.Form):
             raise ValidationError(
                 _("The string you wanted to translate is no longer available.")
             )
+
+
+class UnitForm(forms.Form):
+    def __init__(self, unit: Unit, *args, **kwargs):
+        self.unit = unit
+        super().__init__(*args, **kwargs)
 
 
 class FuzzyField(forms.BooleanField):
@@ -423,7 +429,7 @@ class FuzzyField(forms.BooleanField):
         self.widget.attrs["class"] = "fuzzy_checkbox"
 
 
-class TranslationForm(ChecksumForm):
+class TranslationForm(UnitForm):
     """Form used for translation of single string."""
 
     contentsum = ChecksumField(required=True)
@@ -441,10 +447,9 @@ class TranslationForm(ChecksumForm):
         widget=forms.RadioSelect,
     )
 
-    def __init__(self, user, translation, unit, *args, **kwargs):
+    def __init__(self, user, unit: Unit, *args, **kwargs):
         if unit is not None:
             kwargs["initial"] = {
-                "checksum": unit.checksum,
                 "contentsum": hash_to_checksum(unit.content_hash),
                 "translationsum": hash_to_checksum(unit.get_target_hash()),
                 "target": unit,
@@ -453,7 +458,7 @@ class TranslationForm(ChecksumForm):
             }
             kwargs["auto_id"] = "id_{0}_%s".format(unit.checksum)
         tabindex = kwargs.pop("tabindex", 100)
-        super().__init__(translation, *args, **kwargs)
+        super().__init__(unit, *args, **kwargs)
         self.user = user
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
@@ -466,7 +471,6 @@ class TranslationForm(ChecksumForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = Layout(
-            Field("checksum"),
             Field("target"),
             Field("fuzzy"),
             Field("contentsum"),
@@ -482,11 +486,11 @@ class TranslationForm(ChecksumForm):
         super().clean()
 
         # Check required fields
-        required = {"unit", "target", "contentsum", "translationsum"}
+        required = {"target", "contentsum", "translationsum"}
         if not required.issubset(self.cleaned_data):
             return
 
-        unit = self.cleaned_data["unit"]
+        unit = self.unit
 
         if self.cleaned_data["contentsum"] != unit.content_hash:
             raise ValidationError(
@@ -519,10 +523,10 @@ class TranslationForm(ChecksumForm):
 
 
 class ZenTranslationForm(TranslationForm):
-    def __init__(self, user, translation, unit, *args, **kwargs):
-        super().__init__(user, translation, unit, *args, **kwargs)
+    def __init__(self, user, unit, *args, **kwargs):
+        super().__init__(user, unit, *args, **kwargs)
         self.helper.form_action = reverse(
-            "save_zen", kwargs=translation.get_reverse_url_kwargs()
+            "save_zen", kwargs=unit.translation.get_reverse_url_kwargs()
         )
         self.helper.form_tag = True
         self.helper.disable_csrf = False
@@ -698,7 +702,7 @@ class SearchForm(forms.Form):
     def items(self):
         items = []
         # Skip checksum and offset as these change
-        ignored = {"checksum", "offset"}
+        ignored = {"offset"}
         for param in sorted(self.cleaned_data):
             value = self.cleaned_data[param]
             # We don't care about empty values or ignored
@@ -733,7 +737,6 @@ class SearchForm(forms.Form):
         """Reset offset to avoid using form as default for new search."""
         data = copy.copy(self.data)
         data["offset"] = "1"
-        data["checksum"] = ""
         self.data = data
         return self
 
@@ -743,46 +746,46 @@ class PositionSearchForm(SearchForm):
     offset_kwargs = {"template": "snippets/position-field.html"}
 
 
-class MergeForm(ChecksumForm):
+class MergeForm(UnitForm):
     """Simple form for merging translation of two units."""
 
     merge = forms.IntegerField()
 
     def clean(self):
         super().clean()
-        if "unit" not in self.cleaned_data or "merge" not in self.cleaned_data:
+        if "merge" not in self.cleaned_data:
             return None
         try:
-            project = self.translation.component.project
+            unit = self.unit
+            translation = unit.translation
+            project = translation.component.project
             self.cleaned_data["merge_unit"] = merge_unit = Unit.objects.get(
                 pk=self.cleaned_data["merge"],
                 translation__component__project=project,
-                translation__language=self.translation.language,
+                translation__language=translation.language,
+                id_hash=unit.id_hash,
+                content_hash=unit.content_hash,
             )
-            unit = self.cleaned_data["unit"]
-            if (
-                unit.id_hash != merge_unit.id_hash
-                and unit.content_hash != merge_unit.content_hash
-                and unit.source != merge_unit.source
-            ):
+            # Compare in Python to ensure case sensitiveness on MySQL
+            if unit.source != merge_unit.source:
                 raise ValidationError(_("Could not find merged string."))
         except Unit.DoesNotExist:
             raise ValidationError(_("Could not find merged string."))
         return self.cleaned_data
 
 
-class RevertForm(ChecksumForm):
+class RevertForm(UnitForm):
     """Form for reverting edits."""
 
     revert = forms.IntegerField()
 
     def clean(self):
         super().clean()
-        if "unit" not in self.cleaned_data or "revert" not in self.cleaned_data:
+        if "revert" not in self.cleaned_data:
             return None
         try:
             self.cleaned_data["revert_change"] = Change.objects.get(
-                pk=self.cleaned_data["revert"], unit=self.cleaned_data["unit"]
+                pk=self.cleaned_data["revert"], unit=self.unit,
             )
         except Change.DoesNotExist:
             raise ValidationError(_("Could not find reverted change."))
