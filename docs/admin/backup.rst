@@ -184,7 +184,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 * Weblate settings as :file:`settings.py` (there is also expanded version in :file:`settings-expanded.py`).
 * PostgreSQL database backup as :file:`database.sql`.
 
-The database backup are by default saved as plain text, but they can also be compressed
+The database backups are by default saved as plain text, but they can also be compressed
 or entirely skipped by using :setting:`DATABASE_BACKUP`.
 
 Version control repositories
@@ -236,7 +236,7 @@ Celery tasks
 ------------
 
 The Celery tasks queue might contain some info, but is usually not needed
-for a backup. At most you will lose updates that have not yet ben processed to translation
+for a backup. At most you will lose updates that have not yet been processed to translation
 memory. It is recommended to perform the fulltext or repository updates upon
 restoring anyhow, so there is no problem in losing these.
 
