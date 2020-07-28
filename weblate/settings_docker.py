@@ -688,14 +688,8 @@ if MT_DEEPL_KEY:
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
 MT_MICROSOFT_REGION = None
-
-ms_endpoint_url = os.environ.get("WEBLATE_MT_MICROSOFT_ENDPOINT_URL", None)
-if ms_endpoint_url is not None:
-    MT_MICROSOFT_ENDPOINT_URL = ms_endpoint_url
-
-ms_base_url = os.environ.get("WEBLATE_MT_MICROSOFT_BASE_URL", None)
-if ms_base_url is not None:
-    MT_MICROSOFT_BASE_URL = ms_base_url
+MT_MICROSOFT_ENDPOINT_URL = os.environ.get("WEBLATE_MT_MICROSOFT_ENDPOINT_URL", None)
+MT_MICROSOFT_BASE_URL = os.environ.get("WEBLATE_MT_MICROSOFT_BASE_URL", None)
 
 if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
