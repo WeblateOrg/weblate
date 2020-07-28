@@ -296,6 +296,7 @@ def show_translation(request, project, component, lang):
 
     search_form = SearchForm(request.user)
 
+    # Translations to same language from other components in this project
     other_translations = prefetch_stats(
         list(
             Translation.objects.prefetch()
@@ -304,7 +305,8 @@ def show_translation(request, project, component, lang):
         )
     )
 
-    # Include ghost translations for other components
+    # Include ghost translations for other components, this
+    # adds quick way to create transaltions in other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(obj.component.slug)
     for test_component in obj.component.project.component_set.filter_access(
