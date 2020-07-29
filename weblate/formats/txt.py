@@ -18,11 +18,11 @@
 #
 """Plain text file formats."""
 
-
 import os
 from collections import OrderedDict
 from glob import glob
 from itertools import chain
+from typing import Tuple
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -72,7 +72,7 @@ class TextSerializer:
 
 
 class MultiParser:
-    filenames = ()
+    filenames: Tuple[Tuple[str, str], ...] = ()
 
     def __init__(self, storefile):
         if not isinstance(storefile, str):

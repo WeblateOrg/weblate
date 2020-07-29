@@ -1150,7 +1150,7 @@ class CSVFormat(TTKitFormat):
     format_id = "csv"
     loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit
-    autoload = ("*.csv",)
+    autoload: Tuple[str, ...] = ("*.csv",)
     encoding = "auto"
 
     def __init__(

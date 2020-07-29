@@ -48,7 +48,7 @@ class PagesSitemap(Sitemap):
 
 
 class WeblateSitemap(Sitemap):
-    priority = None
+    priority = 0
     changefreq = None
     limit = 1000
 

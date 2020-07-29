@@ -105,7 +105,7 @@ class ContentWidget(Widget):
 class BitmapWidget(ContentWidget):
     """Base class for bitmap rendering widgets."""
 
-    colors = ("grey", "white", "black")
+    colors: Tuple[str, ...] = ("grey", "white", "black")
     extension = "png"
     content_type = "image/png"
     order = 100
@@ -296,7 +296,7 @@ class SmallWidget(BitmapWidget):
 @register_widget
 class OpenGraphWidget(NormalWidget):
     name = "open"
-    colors = ("graph",)
+    colors: Tuple[str, ...] = ("graph",)
     order = 120
     lines = False
     offset = 300
@@ -345,7 +345,7 @@ class BadgeWidget(RedirectWidget):
     """Legacy badge which used to render PNG."""
 
     name = "status"
-    colors = ("badge",)
+    colors: Tuple[str, ...] = ("badge",)
 
 
 @register_widget
@@ -353,13 +353,13 @@ class ShieldsBadgeWidget(RedirectWidget):
     """Legacy badge which used to redirect to shields.io."""
 
     name = "shields"
-    colors = ("badge",)
+    colors: Tuple[str, ...] = ("badge",)
 
 
 @register_widget
 class SVGBadgeWidget(SVGWidget):
     name = "svg"
-    colors = ("badge",)
+    colors: Tuple[str, ...] = ("badge",)
     order = 80
     template_name = "svg/badge.svg"
     verbose = gettext_lazy("Status badge")
@@ -411,7 +411,7 @@ class SVGBadgeWidget(SVGWidget):
 class MultiLanguageWidget(SVGWidget):
     name = "multi"
     order = 81
-    colors = ("auto", "red", "green", "blue")
+    colors: Tuple[str, ...] = ("auto", "red", "green", "blue")
     template_name = "svg/multi-language-badge.svg"
     verbose = pgettext_lazy("Status widget name", "Vertical language bar chart")
 
