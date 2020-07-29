@@ -119,7 +119,7 @@ class TranslationUnit:
         """
         if self.template is None:
             return calculate_hash(self.source, self.context)
-        return calculate_hash(None, self.context)
+        return calculate_hash(self.context)
 
     @cached_property
     def content_hash(self):

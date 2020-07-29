@@ -1041,7 +1041,7 @@ class Unit(models.Model, LoggerMixin):
         return 10000
 
     def get_target_hash(self):
-        return calculate_hash(None, self.target)
+        return calculate_hash(self.target)
 
     @cached_property
     def recent_content_changes(self):
