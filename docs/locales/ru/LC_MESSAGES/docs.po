@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
 "PO-Revision-Date: 2020-07-29 17:15+0000\n"
-"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -3216,7 +3216,7 @@ msgstr "``ignore-plurals``"
 
 #: ../../admin/checks.rst:160
 msgid "Skip the \"Missing plurals\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Нет форм множественного числа»."
 
 #: ../../admin/checks.rst:161
 msgid "``ignore-placeholders``"
@@ -3248,7 +3248,7 @@ msgstr "``ignore-same-plurals``"
 
 #: ../../admin/checks.rst:168
 msgid "Skip the \"Same plurals\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Одинаковые формы множественного числа»."
 
 #: ../../admin/checks.rst:169
 msgid "``ignore-begin-newline``"
@@ -25368,7 +25368,7 @@ msgstr "Java-формат"
 
 #: ../../user/checks.rst:223
 msgid "*Java format string does not match source*"
-msgstr ""
+msgstr "*Строка в формате Java не соответствует источнику*"
 
 #: ../../user/checks.rst:230
 msgid "`java-format`"
@@ -25379,6 +25379,8 @@ msgid ""
 "`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
 "Formatter.html>`_"
 msgstr ""
+"`Строки в формате Java <https://docs.oracle.com/javase/7/docs/api/java/util/"
+"Formatter.html>`_"
 
 #: ../../user/checks.rst:239
 msgid "Java MessageFormat"
@@ -25386,23 +25388,27 @@ msgstr "Java MessageFormat"
 
 #: ../../user/checks.rst:241
 msgid "*Java MessageFormat string does not match source*"
-msgstr ""
+msgstr "*Строка в формате Java MessageFormat не соответствует источнику*"
 
 #: ../../user/checks.rst:246
 msgid "`java-messageformat` enables the check unconditionally"
-msgstr ""
+msgstr "Флаг `java-messageformat` включает эту проверку безусловно"
 
 #: ../../user/checks.rst:248
 msgid ""
 "`auto-java-messageformat` enables check only if there is a format string in "
 "the source"
 msgstr ""
+"Флаг `auto-java-messageformat` включает проверку только если в исходной "
+"строке содержится строка формата"
 
 #: ../../user/checks.rst:254
 msgid ""
 "`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
 "MessageFormat.html>`_"
 msgstr ""
+"`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
+"MessageFormat.html>`_"
 
 #: ../../user/checks.rst:257
 msgid "JavaScript format"
@@ -25410,7 +25416,7 @@ msgstr "JavaScript-формат"
 
 #: ../../user/checks.rst:259
 msgid "*JavaScript format string does not match source*"
-msgstr ""
+msgstr "*Строка в формате JavaScript не соответствует источнику*"
 
 #: ../../user/checks.rst:264
 msgid "`javascript-format`"
@@ -25421,6 +25427,8 @@ msgid ""
 "`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/javascript_002dformat.html>`_"
 msgstr ""
+"`Строки форматирования JavaScript <https://www.gnu.org/software/gettext/"
+"manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:272
 msgid "Percent placeholders"
@@ -25428,11 +25436,11 @@ msgstr "Символы-заполнители в процентной нотац
 
 #: ../../user/checks.rst:274
 msgid "*The percent placeholders do not match source*"
-msgstr ""
+msgstr "*Символы-заполнители в процентной нотации не соответствуют источнику*"
 
 #: ../../user/checks.rst:279
 msgid "``There are %number% apples``"
-msgstr ""
+msgstr "``There are %number% apples``"
 
 #: ../../user/checks.rst:281
 msgid "`percent-placeholders`"
@@ -25444,7 +25452,7 @@ msgstr "Perl-формат"
 
 #: ../../user/checks.rst:288
 msgid "*Perl format string does not match source*"
-msgstr ""
+msgstr "*Строка в формате Perl’а не соответствует источнику*"
 
 #: ../../user/checks.rst:295
 msgid "`perl-format`"
@@ -25456,6 +25464,9 @@ msgid ""
 "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "perl_002dformat.html>`_"
 msgstr ""
+"`Функция sprintf Perl’а <https://perldoc.perl.org/functions/sprintf.html>`_, "
+"`Строки формата Perl’а <https://www.gnu.org/software/gettext/manual/"
+"html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:304
 msgid "PHP format"
@@ -25463,7 +25474,7 @@ msgstr "PHP- формат"
 
 #: ../../user/checks.rst:306
 msgid "*PHP format string does not match source*"
-msgstr ""
+msgstr "*Строка в формате PHP не соответствует источнику*"
 
 #: ../../user/checks.rst:313
 msgid "`php-format`"
@@ -25475,6 +25486,9 @@ msgid ""
 "php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/php_002dformat.html>`_"
 msgstr ""
+"`Документация по функции sprintf PHP <https://www.php.net/manual/ru/function."
+"sprintf.php>`_, `Строки формата PHP <https://www.gnu.org/software/gettext/"
+"manual/html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:323
 msgid "Python brace format"
@@ -25482,15 +25496,15 @@ msgstr "Python-формат: фиг. скобки"
 
 #: ../../user/checks.rst:325
 msgid "*Python brace format string does not match source*"
-msgstr ""
+msgstr "*Форматирование фигурных скобок в Python не соответствует источнику*"
 
 #: ../../user/checks.rst:328
 msgid "``There are {} apples``"
-msgstr ""
+msgstr "``There are {} apples``"
 
 #: ../../user/checks.rst:330
 msgid "``Your balance is {amount} {currency}``"
-msgstr ""
+msgstr "``Your balance is {amount} {currency}``"
 
 #: ../../user/checks.rst:332
 msgid "`python-brace-format`"
@@ -25502,6 +25516,9 @@ msgid ""
 "<https://www.gnu.org/software/gettext/manual/html_node/python_002dformat."
 "html>`_"
 msgstr ""
+":ref:`Формат фигурных скобок в Python’е <python:formatstrings>`, `Python’ьи "
+"строки формата <https://www.gnu.org/software/gettext/manual/html_node/"
+"python_002dformat.html>`_"
 
 #: ../../user/checks.rst:341
 msgid "Python format"
@@ -25509,11 +25526,11 @@ msgstr "Python-формат"
 
 #: ../../user/checks.rst:343
 msgid "*Python format string does not match source*"
-msgstr ""
+msgstr "*Строка в формате Python’а не соответствует источнику*"
 
 #: ../../user/checks.rst:348
 msgid "``Your balance is %(amount) %(currency)``"
-msgstr ""
+msgstr "``Your balance is %(amount) %(currency)``"
 
 #: ../../user/checks.rst:350
 msgid "`python-format`"
@@ -25525,6 +25542,9 @@ msgid ""
 "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "python_002dformat.html>`_"
 msgstr ""
+":ref:`Форматирование строк в Python’е <python:old-string-formatting>`, "
+"`Python’ьи строки формата <https://www.gnu.org/software/gettext/manual/"
+"html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:359
 msgid "Qt format"
@@ -25532,11 +25552,11 @@ msgstr "Qt-формат"
 
 #: ../../user/checks.rst:361
 msgid "*Qt format string does not match source*"
-msgstr ""
+msgstr "*Строка в формате Qt не соответствует источнику*"
 
 #: ../../user/checks.rst:364
 msgid "``There are %1 apples``"
-msgstr ""
+msgstr "``There are %1 apples``"
 
 #: ../../user/checks.rst:366
 msgid "`qt-format`"
@@ -25544,7 +25564,7 @@ msgstr "`qt-format`"
 
 #: ../../user/checks.rst:371
 msgid "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
-msgstr ""
+msgstr "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
 
 #: ../../user/checks.rst:374
 msgid "Qt plural format"
@@ -25552,15 +25572,15 @@ msgstr "Формат множественного числа Qt"
 
 #: ../../user/checks.rst:376
 msgid "*Qt plural format string does not match source*"
-msgstr ""
+msgstr "*Строка в формате множественного числа Qt не соответствует источнику*"
 
 #: ../../user/checks.rst:379
 msgid "Plural format string"
-msgstr ""
+msgstr "Строка в формате множественного числа"
 
 #: ../../user/checks.rst:379
 msgid "``There are %Ln apple(s)``"
-msgstr ""
+msgstr "``There are %Ln apple(s)``"
 
 #: ../../user/checks.rst:381
 msgid "`qt-plural-format`"
@@ -25571,6 +25591,8 @@ msgid ""
 "`Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-"
 "plurals>`_"
 msgstr ""
+"`Руководство Qt по интернационализации <https://doc.qt.io/qt-5/i18n-source-"
+"translation.html#handling-plurals>`_"
 
 #: ../../user/checks.rst:389
 msgid "Ruby format"
@@ -25578,23 +25600,23 @@ msgstr "Ruby-формат"
 
 #: ../../user/checks.rst:391
 msgid "*Ruby format string does not match source*"
-msgstr ""
+msgstr "*Строка формата Ruby не соответствует источнику*"
 
 #: ../../user/checks.rst:396
 msgid "``Your balance is %1$f %2$s``"
-msgstr ""
+msgstr "``Your balance is %1$f %2$s``"
 
 #: ../../user/checks.rst:398
 msgid "``Your balance is %+.2<amount>f %<currency>s``"
-msgstr ""
+msgstr "``Your balance is %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:400
 msgid "Named template string"
-msgstr ""
+msgstr "Именованная шаблонная строка"
 
 #: ../../user/checks.rst:400
 msgid "``Your balance is %{amount} %{currency}``"
-msgstr ""
+msgstr "``Your balance is %{amount} %{currency}``"
 
 #: ../../user/checks.rst:402
 msgid "`ruby-format`"
@@ -25605,6 +25627,8 @@ msgid ""
 "`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-"
 "sprintf>`_"
 msgstr ""
+"`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
+"html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:412
 msgid "Has been translated"
@@ -25612,13 +25636,15 @@ msgstr "Уже переведено"
 
 #: ../../user/checks.rst:414
 msgid "*This string has been translated in the past*"
-msgstr ""
+msgstr "*Эта строка уже переводилась*"
 
 #: ../../user/checks.rst:416
 msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
 msgstr ""
+"Означает, что строка уже переведена. Это может произойти, если переводы "
+"откатывались в системе контроля версий или иным образом терялись."
 
 #: ../../user/checks.rst:422
 msgid "Inconsistent"
@@ -25629,12 +25655,16 @@ msgid ""
 "*This string has more than one translation in this project or is not "
 "translated in some components.*"
 msgstr ""
+"*Эта строка имеет более одного перевода в этом проекте, либо же в некоторых "
+"компонентах она не переведена.*"
 
 #: ../../user/checks.rst:427
 msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
 msgstr ""
+"Weblate проверяет переводы одинаковых строк по всем переводам в проекте, "
+"чтобы помочь вам поддерживать переводы согласованными."
 
 #: ../../user/checks.rst:430
 msgid ""
@@ -25642,6 +25672,10 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
+"Проверка срабатывает, когда в проекте обнаруживаются различные переводы "
+"одной и той же строки. Также это может привести к несогласованности в "
+"отображаемых проверках. Другие переводы этой строки можно найти на вкладке "
+":guilabel:`Другие вхождения`."
 
 #: ../../user/checks.rst:436
 msgid ""
@@ -25651,6 +25685,11 @@ msgid ""
 "guilabel:`Use this string` button displayed on each line in the :guilabel:"
 "`Other occurences` tab."
 msgstr ""
+"Также эта проверка срабатывает в том случае, если строка в одном компоненте "
+"переведена, а в другом — нет. Она может использоваться, чтобы по-быстрому "
+"вручную обработать строки, не переведённые в некоторых компонентах; для "
+"этого надо просто на вкладке :guilabel:`Другие вхождения` нажать на кнопку "
+":guilabel:`Использовать эту строку`, отображаемую напротив каждой строки."
 
 #: ../../user/checks.rst:442
 msgid ""
@@ -25658,6 +25697,9 @@ msgid ""
 "automate translating of newly added strings which are already translated in "
 "another component."
 msgstr ""
+"Для автоматизации перевода новых добавленных строк, которые уже переведены в "
+"другом компоненте, вы можете использовать надстройку :ref:`addon-weblate."
+"autotranslate.autotranslate`."
 
 #: ../../user/checks.rst:454
 msgid "Kashida letter used"
@@ -25665,17 +25707,19 @@ msgstr "Используется кашида"
 
 #: ../../user/checks.rst:456
 msgid "*The decorative kashida letters should not be used*"
-msgstr ""
+msgstr "*Декоративные буквы кашиды не должны использоваться*"
 
 #: ../../user/checks.rst:460
 msgid ""
 "The decorative Kashida letters should not be used in translation. These are "
 "also known as Tatweel."
 msgstr ""
+"Декоративные буквы кашида не должны использоваться в переводе. Также они "
+"известны как татвиль."
 
 #: ../../user/checks.rst:465
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
-msgstr ""
+msgstr "`Кашида в Википедии <https://ru.wikipedia.org/wiki/Кашида>`_"
 
 #: ../../user/checks.rst:470
 msgid "Markdown links"
@@ -25683,15 +25727,15 @@ msgstr "Ссылки Markdown"
 
 #: ../../user/checks.rst:472
 msgid "*Markdown links do not match source*"
-msgstr ""
+msgstr "*Ссылки Markdown-разметки не соответствуют источнику*"
 
 #: ../../user/checks.rst:476
 msgid "Markdown links do not match source."
-msgstr ""
+msgstr "Ссылки Markdown-разметки не соответствуют источнику."
 
 #: ../../user/checks.rst:480 ../../user/checks.rst:496
 msgid "`Markdown links`_"
-msgstr ""
+msgstr "`Ссылки Markdown`_"
 
 #: ../../user/checks.rst:486
 msgid "Markdown references"
@@ -25699,11 +25743,11 @@ msgstr "Сноски Markdown"
 
 #: ../../user/checks.rst:488
 msgid "*Markdown link references do not match source*"
-msgstr ""
+msgstr "*Ссылки на сноски Markdown не соответствуют источнику*"
 
 #: ../../user/checks.rst:492
 msgid "Markdown link references do not match source."
-msgstr ""
+msgstr "Ссылки на сноски Markdown не соответствуют источнику."
 
 #: ../../user/checks.rst:501
 msgid "Markdown syntax"
@@ -25711,7 +25755,7 @@ msgstr "Синтаксис Markdown"
 
 #: ../../user/checks.rst:503
 msgid "*Markdown syntax does not match source*"
-msgstr ""
+msgstr "*Синтаксис Markdown-разметки не соответствует источнику*"
 
 #: ../../user/checks.rst:507
 msgid "Markdown syntax does not match source"
@@ -25719,7 +25763,7 @@ msgstr "Синтаксис Markdown-разметки не соответству
 
 #: ../../user/checks.rst:511
 msgid "`Markdown span elements`_"
-msgstr ""
+msgstr "`Строчные элементы Markdown`_"
 
 #: ../../user/checks.rst:519
 msgid "Maximum length of translation"
@@ -25727,19 +25771,24 @@ msgstr "Максимальная длина перевода"
 
 #: ../../user/checks.rst:521
 msgid "*Translation should not exceed given length*"
-msgstr ""
+msgstr "*Перевод не должен превышать заданную длину*"
 
 #: ../../user/checks.rst:523
 msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
 msgstr ""
+"Проверяет, что переводы имеют приемлемую длину, чтобы укладываться в "
+"доступное пространство. Эта проверка проверяет только длину символов "
+"перевода."
 
 #: ../../user/checks.rst:526
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-length:100``."
 msgstr ""
+"В отличие от других проверок, флаг для этой проверки должен быть установлен "
+"в виде пары ``ключ:значение``, например, ``max-length:100``."
 
 #: ../../user/checks.rst:531
 msgid ""
@@ -25747,12 +25796,17 @@ msgid ""
 "using proportional fonts to render the text. The :ref:`check-max-size` check "
 "does check actual rendering of the text."
 msgstr ""
+"Эта проверка смотрит на количество символов, что может быть не самой лучшей "
+"метрикой при использовании для отображения текста пропорциональных шрифтов. "
+"Проверка :ref:`check-max-size` проверяет фактическую отрисовку текста."
 
 #: ../../user/checks.rst:535 ../../user/checks.rst:569
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
 "checking the string."
 msgstr ""
+"Также для расширения позиций-заполнителей перед проверкой строки может быть "
+"полезен флаг ``replacements:``."
 
 #: ../../user/checks.rst:541
 msgid "Maximum size of translation"
@@ -25760,13 +25814,16 @@ msgstr "Максимальный размер перевода"
 
 #: ../../user/checks.rst:543
 msgid "*Translation rendered text should not exceed given size*"
-msgstr ""
+msgstr "*Отрисованный текст перевода не должен превышать заданный размер*"
 
 #: ../../user/checks.rst:547
 msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "with line wrapping and checks if it fits into given boundaries."
 msgstr ""
+"Отрисованный текст перевода не должен превышать заданный размер. Эта "
+"проверка отрисовывает текст с переносом по строкам и проверяет, вписывается "
+"ли он в заданные границы."
 
 #: ../../user/checks.rst:550
 msgid ""
@@ -25774,6 +25831,9 @@ msgid ""
 "lines. In case the number of lines is not provided, one line text is "
 "considered."
 msgstr ""
+"Для этой проверки требуется один или два параметра — максимальная ширина и "
+"максимальное количество строк. В случае, если количество строк не указано, "
+"считается, что текст должен уместиться в одну строку."
 
 #: ../../user/checks.rst:554
 msgid ""
@@ -25781,6 +25841,10 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
+"Также директивами ``font-*`` вы можете настроить используемый шрифт ("
+"смотрите раздел :ref:`custom-checks`), например, следующие флаги перевода "
+"говорят, что текст, отрисовываемый шрифтом ubuntu размера 22, должен "
+"вписаться в две строки и 500 пикселей:"
 
 #: ../../user/checks.rst:565
 msgid ""
@@ -25788,6 +25852,10 @@ msgid ""
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
+"Возможно, вы захотите установить директивы ``font-*`` в :ref:`настройках "
+"компонента <component>`, чтобы для всех строк компонента был настроен один и "
+"тот же шрифт. В случае, если вам нужно будет настроить их для отдельной "
+"строки, вы сможете переопределить их значения для этой строки."
 
 #: ../../user/checks.rst:574
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
@@ -25800,6 +25868,8 @@ msgstr "Несовпадающие \\n"
 #: ../../user/checks.rst:581
 msgid "*Number of \\n in translation does not match source*"
 msgstr ""
+"*Количество \\n"
+" в переводе не соответствует источнику*"
 
 #: ../../user/checks.rst:583
 msgid ""
@@ -25807,6 +25877,9 @@ msgid ""
 "fails if the number of ``\\\\n`` literals in translation do not match the "
 "source."
 msgstr ""
+"Экранированные символы новой строки обычно важны при форматировании вывода "
+"программы. Проверка срабатывает, если количество символов ``\\\\n"
+"`` в переводе не совпадает с их количеством в исходной строке."
 
 #: ../../user/checks.rst:589
 msgid "Mismatched colon"
@@ -25814,7 +25887,7 @@ msgstr "Несовпадающие двоеточия"
 
 #: ../../user/checks.rst:591
 msgid "*Source and translation do not both end with a colon*"
-msgstr ""
+msgstr "*Источник и перевод не заканчиваются оба двоеточием*"
 
 #: ../../user/checks.rst:593
 msgid ""
@@ -25822,11 +25895,14 @@ msgid ""
 "presence of colons is also checked for various languages where they do not "
 "belong (Chinese or Japanese)."
 msgstr ""
+"Проверяет, что двоеточия в исходной строке и в переводе одинаковы. Также "
+"проверяется наличие двоеточий для тех языков, в которых они не используются ("
+"китайский или японский)."
 
 #: ../../user/checks.rst:599
 msgid ""
 "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
-msgstr ""
+msgstr "`Двоеточие в Википедии <https://ru.wikipedia.org/wiki/Двоеточие>`_"
 
 #: ../../user/checks.rst:604
 msgid "Mismatched ellipsis"
@@ -25834,7 +25910,7 @@ msgstr "Несовпадающие многоточия"
 
 #: ../../user/checks.rst:606
 msgid "*Source and translation do not both end with an ellipsis*"
-msgstr ""
+msgstr "*Источник и перевод не заканчиваются оба многоточием*"
 
 #: ../../user/checks.rst:608
 msgid ""
@@ -25842,16 +25918,21 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
+"Проверяет, что конечные многоточия в исходной строке и в переводе одинаковы. "
+"Эта проверка проверяет только настоящие многоточия (символы ``…``), но не "
+"три подряд идущих точки (``...``)."
 
 #: ../../user/checks.rst:611
 msgid ""
 "An ellipsis is usually rendered nicer than three dots in print, and sounds "
 "better with text-to-speech."
 msgstr ""
+"Как правило, на печати многоточие отрисовывается лучше, чем три подряд "
+"стоящих точки и лучше звучит при преобразовании текста в речь."
 
 #: ../../user/checks.rst:615 ../../user/checks.rst:941
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
-msgstr ""
+msgstr "`Многоточие в Википедии <https://ru.wikipedia.org/wiki/Многоточие>`_"
 
 #: ../../user/checks.rst:621
 msgid "Mismatched exclamation mark"
@@ -25859,7 +25940,7 @@ msgstr "Несовпадающие восклицательные знаки"
 
 #: ../../user/checks.rst:623
 msgid "*Source and translation do not both end with an exclamation mark*"
-msgstr ""
+msgstr "*Источник и перевод не заканчиваются оба восклицательным знаком*"
 
 #: ../../user/checks.rst:625
 msgid ""
@@ -25868,12 +25949,18 @@ msgid ""
 "where they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, "
 "Myanmar or Nko)."
 msgstr ""
+"Проверяет, что восклицательные знаки в исходной строке и в переводе "
+"одинаковы. Также проверяется наличие восклицательных знаков для тех языков, "
+"в которых они не используются (китайский, японский, корейский, армянский, "
+"лимбу, бирманский или нко)."
 
 #: ../../user/checks.rst:632
 msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
 msgstr ""
+"`Восклицательный знак в Википедии <https://ru.wikipedia.org/wiki/"
+"Восклицательный_знак>`_"
 
 #: ../../user/checks.rst:637
 msgid "Mismatched full stop"
@@ -25881,7 +25968,7 @@ msgstr "Несовпадающие точки"
 
 #: ../../user/checks.rst:639
 msgid "*Source and translation do not both end with a full stop*"
-msgstr ""
+msgstr "*Источник и перевод не заканчиваются оба точкой*"
 
 #: ../../user/checks.rst:641
 msgid ""
@@ -25889,10 +25976,14 @@ msgid ""
 "The presence of full stops is checked for various languages where they do "
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
 msgstr ""
+"Проверяет, что точки в исходной строке и в переводе одинаковы. Также "
+"проверяется наличие точек для тех языков, в которых они не используются ("
+"китайский, японский, деванагари или урду)."
 
 #: ../../user/checks.rst:647
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
 msgstr ""
+"`Точка в Википедии <https://ru.wikipedia.org/wiki/Точка_(знак_препинания)>`_"
 
 #: ../../user/checks.rst:652
 msgid "Mismatched question mark"
@@ -25909,11 +26000,17 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
+"Проверяет, что вопросительные знаки в исходной строке и в переводе "
+"одинаковы. Также проверяется наличие вопросительных знаков для тех языков, в "
+"которых они не используются (армянский, арабский, китайский, корейский, "
+"японский, эфиопский, ваи или коптский)."
 
 #: ../../user/checks.rst:663
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
 msgstr ""
+"`Вопросительный знак в Википедии <https://ru.wikipedia.org/wiki/"
+"Вопросительный_знак>`_"
 
 #: ../../user/checks.rst:668
 msgid "Mismatched semicolon"
@@ -25921,7 +26018,7 @@ msgstr "Несовпадающие точки с запятой"
 
 #: ../../user/checks.rst:670
 msgid "*Source and translation do not both end with a semicolon*"
-msgstr ""
+msgstr "*Источник и перевод не заканчиваются оба точкой с запятой*"
 
 #: ../../user/checks.rst:672
 msgid ""
@@ -25929,10 +26026,15 @@ msgid ""
 "source and translation. This can be useful to keep formatting of entries "
 "such as desktop files."
 msgstr ""
+"Проверяет, что точки с запятой в конце предложений в исходной строке и в "
+"переводе одинаковы. Эта проверка может быть полезна, например, для "
+"сохранения форматирования в записях файлов ``.desktop``."
 
 #: ../../user/checks.rst:677
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 msgstr ""
+"`Точка с запятой в Википедии <https://ru.wikipedia.org/wiki/"
+"Точка_с_запятой>`_"
 
 #: ../../user/checks.rst:682
 msgid "Mismatching line breaks"
@@ -25941,20 +26043,24 @@ msgstr "Несовпадающие переводы строк"
 #: ../../user/checks.rst:684
 msgid "*Number of new lines in translation does not match source*"
 msgstr ""
+"*Количество символов новой строки в переводе не соответствует источнику*"
 
 #: ../../user/checks.rst:686
 msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of ``\\n`` literals in translation do not match the source."
 msgstr ""
+"Символы новой строки обычно важны при форматировании вывода программы. "
+"Проверка срабатывает, если количество литералов``\\n"
+"`` в переводе не совпадает с их количеством в исходной строке."
 
 #: ../../user/checks.rst:693
 msgid "Missing plurals"
-msgstr "Нет форм мн. числа"
+msgstr "Нет форм множественного числа"
 
 #: ../../user/checks.rst:695
 msgid "*Some plural forms are not translated*"
-msgstr ""
+msgstr "*Некоторые формы множественного числа не переведены*"
 
 #: ../../user/checks.rst:697
 msgid ""
@@ -25962,12 +26068,18 @@ msgid ""
 "Specifics on how each plural form is used can be found in the string "
 "definition."
 msgstr ""
+"Проверяет, что были переведены все формы множественного числа исходной "
+"строки. Сведения о том, как используется каждая форма множественного числа, "
+"можно найти в определении строки."
 
 #: ../../user/checks.rst:700
 msgid ""
 "Failing to fill in plural forms will in some cases lead to displaying "
 "nothing when the plural form is in use."
 msgstr ""
+"Отсутствие перевода в форме множественного числа в некоторых случаях "
+"приводит к тому, что при использовании формы множественного числа ничего не "
+"будет отображаться."
 
 #: ../../user/checks.rst:706
 msgid "Placeholders"
@@ -25975,7 +26087,7 @@ msgstr "Символы-заполнители"
 
 #: ../../user/checks.rst:708
 msgid "*Translation is missing some placeholders:*"
-msgstr ""
+msgstr "*В переводе пропущены некоторые символы-заполнители:*"
 
 #: ../../user/checks.rst:712
 msgid ""
@@ -25983,6 +26095,10 @@ msgid ""
 "the translation file or defined manually using ``placeholders`` flag, more "
 "can be separated with colon, strings with space can be quoted:"
 msgstr ""
+"В переводе пропущены некоторые символы-заполнители. Эти символы либо "
+"извлекаются из файла перевода, либо определяются вручную с помощью флага "
+"``placeholders`; если их несколько, они разделяются двоеточием, а строки с "
+"пробелами могут быть заключены в кавычки:"
 
 #: ../../user/checks.rst:722
 msgid ":ref:`custom-checks`"
@@ -25994,7 +26110,7 @@ msgstr "Пробелы и пунктуация"
 
 #: ../../user/checks.rst:729
 msgid "*Missing non breakable space before double punctuation sign*"
-msgstr ""
+msgstr "*Отсутствует неразрывный пробел перед знаком двойной пунктуации*"
 
 #: ../../user/checks.rst:733
 msgid ""
@@ -26003,36 +26119,49 @@ msgid ""
 "only in a few selected languages like French or Breton, where space before "
 "double punctuation sign is a typographic rule."
 msgstr ""
+"Проверяет наличие неразрывного пробела перед знаком двойной пунктуации ("
+"восклицательным знаком, вопросительным знаком, точкой с запятой или "
+"двоеточием). Это правило используется только в некоторых избранных языках, "
+"вроде французского или бретонского, где по типографским правилам обязателен "
+"пробел перед знаком двойной пунктуации."
 
 #: ../../user/checks.rst:740
 msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
+"`Пробелы во французском и английском языках в (англоязычной) Википедии "
+"<https://en.wikipedia.org/wiki/"
+"History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:748
 msgid "*Translation does not match regular expression:*"
-msgstr ""
+msgstr "*Перевод не соответствует регулярному выражению:*"
 
 #: ../../user/checks.rst:752
 msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
 msgstr ""
+"Перевод не соответствует регулярному выражению. Это выражение либо "
+"извлекается из файла перевода, либо определяется вручную с помощью флага "
+"``regex``:"
 
 #: ../../user/checks.rst:764
 msgid "Same plurals"
-msgstr "Те же формы мн. числа"
+msgstr "Одинаковые формы множественного числа"
 
 #: ../../user/checks.rst:766
 msgid "*Some plural forms are translated in the same way*"
-msgstr ""
+msgstr "*Некоторые формы множественного числа переведены одинаково*"
 
 #: ../../user/checks.rst:768
 msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
 msgstr ""
+"Проверка срабатывает, если некоторые формы множественного числа в переводе "
+"переведены одинаково. В большинстве языков они должны быть разными."
 
 #: ../../user/checks.rst:774
 msgid "Starting newline"
@@ -26040,7 +26169,7 @@ msgstr "Пустая строка в начале"
 
 #: ../../user/checks.rst:776
 msgid "*Source and translation do not both start with a newline*"
-msgstr ""
+msgstr "*Источник и перевод не начинаются оба с новой строки*"
 
 #: ../../user/checks.rst:778 ../../user/checks.rst:802
 msgid ""
@@ -26048,6 +26177,9 @@ msgid ""
 "additions can lead to formatting problems when the translated text is put to "
 "use."
 msgstr ""
+"Обычно символы новой строки в исходных текстах появляются по уважительной "
+"причине, их пропуск или добавление могут привести к проблемам с "
+"форматированием при использовании переведённого текста."
 
 #: ../../user/checks.rst:783
 msgid ":ref:`check-end-newline`"
@@ -26059,13 +26191,15 @@ msgstr "Пробелы в начале"
 
 #: ../../user/checks.rst:790
 msgid "*Source and translation do not both start with same number of spaces*"
-msgstr ""
+msgstr "*Источник и перевод не начинаются оба одинаковым числом пробелов*"
 
 #: ../../user/checks.rst:792
 msgid ""
 "A space in the beginning of a string is usually used for indentation in the "
 "interface and thus important to keep."
 msgstr ""
+"Пробелы в начале строки обычно используются для набивания отступов в "
+"интерфейсе, поэтому их важно сохранить."
 
 #: ../../user/checks.rst:798
 msgid "Trailing newline"
@@ -26073,7 +26207,7 @@ msgstr "Пустая строка в конце"
 
 #: ../../user/checks.rst:800
 msgid "*Source and translation do not both end with a newline*"
-msgstr ""
+msgstr "*Источник и перевод не заканчиваются оба новой строкой*"
 
 #: ../../user/checks.rst:807
 msgid ":ref:`check-begin-newline`"
@@ -26085,19 +26219,23 @@ msgstr "Пробелы в конце"
 
 #: ../../user/checks.rst:814
 msgid "*Source and translation do not both end with a space*"
-msgstr ""
+msgstr "*Источник и перевод не заканчиваются оба пробелом*"
 
 #: ../../user/checks.rst:816
 msgid ""
 "Checks that trailing spaces are replicated between both source and "
 "translation."
 msgstr ""
+"Проверяет, что количество конечных пробелов в исходной строке и в переводе "
+"одинаково."
 
 #: ../../user/checks.rst:818
 msgid ""
 "Trailing space is usually utilized to space out neighbouring elements, so "
 "removing it might break layout."
 msgstr ""
+"Конечные пробелы обычно используется для добавления отступа до соседних "
+"элементов, поэтому их удаление может поломать макет."
 
 #: ../../user/checks.rst:824
 msgid "Unchanged translation"
@@ -26105,7 +26243,7 @@ msgstr "Перевод без изменения"
 
 #: ../../user/checks.rst:826
 msgid "*Source and translation are identical*"
-msgstr ""
+msgstr "*Источник и перевод тождественны*"
 
 #: ../../user/checks.rst:828
 msgid ""
@@ -26114,10 +26252,14 @@ msgid ""
 "all languages are ignored, and various markup is stripped. This reduces the "
 "number of false positives."
 msgstr ""
+"Возникает, если исходная строка и соответствующая строка перевода идентичны, "
+"по крайней мере в одной из форм множественного числа. Некоторые строки, "
+"обычно встречающиеся во всех языках, игнорируются, а различная разметка "
+"удаляется. Это уменьшает количество ложных срабатываний."
 
 #: ../../user/checks.rst:833
 msgid "This check can help find strings mistakenly untranslated."
-msgstr ""
+msgstr "Эта проверка может помочь найти ошибочно не переведённые строки."
 
 #: ../../user/checks.rst:835
 msgid ""
@@ -26128,6 +26270,12 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
+"Поведение этой проверки по умолчанию заключается в исключении из проверки "
+"слов из встроенного чёрного списка. Это такие слова, которые зачастую не "
+"переводятся. Это полезно для того, чтобы избежать ложных срабатываний на "
+"коротких строках, которые состоят только из одного слова, одинакового в "
+"нескольких языках. Этот чёрный список можно отключить, добавив в строку или "
+"в компонент флаг ``strict-same``."
 
 #: ../../user/checks.rst:843
 msgid ":ref:`component`, :ref:`custom-checks`"
@@ -26139,7 +26287,7 @@ msgstr "Небезопасный HTML-код"
 
 #: ../../user/checks.rst:851
 msgid "*The translation uses unsafe HTML markup*"
-msgstr ""
+msgstr "*Перевод использует небезопасную HTML-разметку*"
 
 #: ../../user/checks.rst:855
 msgid ""
@@ -26147,12 +26295,18 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
+"Перевод использует небезопасную HTML-разметку. Эта проверка должна быть "
+"включена с помощью флага ``safe-html`` (смотрите раздел :ref:`custom-checks`)"
+". Также имеется соответствующий автоматический исправляльщик, который может "
+"автоматически почистить разметку."
 
 #: ../../user/checks.rst:861
 msgid ""
 "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
 ">`_ library developed by Mozilla."
 msgstr ""
+"Проверка HTML осуществляется с помощью разработанной Mozilla библиотеки `"
+"Bleach <https://bleach.readthedocs.io/`_."
 
 #: ../../user/checks.rst:869
 msgid "URL"
@@ -26160,7 +26314,7 @@ msgstr "URL-ы"
 
 #: ../../user/checks.rst:871
 msgid "*The translation does not contain an URL*"
-msgstr ""
+msgstr "*Перевод не содержит URL*"
 
 #: ../../user/checks.rst:875
 msgid ""
@@ -26168,6 +26322,9 @@ msgid ""
 "unit is marked as containing URL. In that case the translation has to be a "
 "valid URL."
 msgstr ""
+"Перевод не содержит URL-адрес. Эта проверка срабатывает только в том случае, "
+"если единица перевода помечена как содержащая URL-адрес. В этом случае "
+"перевод должен быть корректным URL-адресом."
 
 #: ../../user/checks.rst:882
 msgid "XML markup"
@@ -26175,7 +26332,7 @@ msgstr "XML-разметка"
 
 #: ../../user/checks.rst:884
 msgid "*XML tags in translation do not match source*"
-msgstr ""
+msgstr "*XML-теги в переводе не соответствуют источнику*"
 
 #: ../../user/checks.rst:886
 msgid ""
@@ -26183,11 +26340,14 @@ msgid ""
 "this is not a desired result from changing the translation, but occasionally "
 "it is."
 msgstr ""
+"Обычно это означает, что полученный результат будет выглядеть по-другому. В "
+"большинстве случаев такое изменение из-за перевода не является желаемым "
+"результатом, но иногда именно это и надо."
 
 #: ../../user/checks.rst:889
 msgid ""
 "Checks that XML tags are replicated between both source and translation."
-msgstr ""
+msgstr "Проверяет, что XML-теги в исходной строке и в переводе одинаковы."
 
 #: ../../user/checks.rst:896
 msgid "XML syntax"
@@ -26195,11 +26355,11 @@ msgstr "Синтаксис XML"
 
 #: ../../user/checks.rst:898
 msgid "*The translation is not valid XML*"
-msgstr ""
+msgstr "*Перевод не является корректным XML*"
 
 #: ../../user/checks.rst:902
 msgid "The XML markup is not valid."
-msgstr ""
+msgstr "Разметка XML некорректна."
 
 #: ../../user/checks.rst:907
 msgid "Zero-width space"
@@ -26207,13 +26367,15 @@ msgstr "Пробел нулевой ширины"
 
 #: ../../user/checks.rst:909
 msgid "*Translation contains extra zero-width space character*"
-msgstr ""
+msgstr "*Перевод содержит лишние символы пробела нулевой ширины*"
 
 #: ../../user/checks.rst:911
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
 msgstr ""
+"Символы пробела нулевой ширины (<U+200B>) используются для разбиения "
+"сообщений по словам (переноса по словам)."
 
 #: ../../user/checks.rst:913
 msgid ""
@@ -26221,21 +26383,28 @@ msgid ""
 "are present in translation. Some programs might have problems when this "
 "character is used."
 msgstr ""
+"Поскольку обычно они вставляются по ошибке, эта проверка срабатывает на их "
+"присутствие в переводе. В некоторых программах при использовании этого "
+"символа могут возникнуть проблемы."
 
 #: ../../user/checks.rst:918
 msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
+"`Пробел нулевой ширины в (англоязычной) Википедии <https://en.wikipedia.org/"
+"wiki/Zero-width_space>`_"
 
 #: ../../user/checks.rst:923
 msgid "Source checks"
-msgstr ""
+msgstr "Проверки для исходных строк"
 
 #: ../../user/checks.rst:925
 msgid ""
 "Source checks can help developers improve the quality of source strings."
 msgstr ""
+"Проверки для исходных строк могут помочь разработчикам улучшить качество "
+"исходных строк."
 
 #: ../../user/checks.rst:930
 msgid "Ellipsis"
@@ -26244,18 +26413,25 @@ msgstr "Многоточие"
 #: ../../user/checks.rst:932
 msgid "*The string uses three dots (...) instead of an ellipsis character (…)*"
 msgstr ""
+"*В этой строке используются три точки (...) вместо символа многоточия (…)*"
 
 #: ../../user/checks.rst:934
 msgid ""
 "This fails when the string uses three dots (``...``) when it should use an "
 "ellipsis character (``…``)."
 msgstr ""
+"Эта проверка срабатывает, когда в строке используются три подряд стоящих "
+"точки (``...``), когда вместо них должен использоваться символ многоточия "
+"(``…``)."
 
 #: ../../user/checks.rst:936
 msgid ""
 "Using the Unicode character is in most cases the better approach and looks "
 "better rendered, and may sound better with text-to-speech."
 msgstr ""
+"Использование юникодного символа в большинстве случаев является лучшим "
+"подходом; он лучше выглядит при отрисовке текста и может лучше звучать при "
+"преобразовании текста в речь."
 
 #: ../../user/checks.rst:947
 msgid "Long untranslated"
@@ -26263,13 +26439,15 @@ msgstr "Давно не переводилась"
 
 #: ../../user/checks.rst:949
 msgid "*The string has not been translated for a long time*"
-msgstr ""
+msgstr "*Строка давно не переводилась*"
 
 #: ../../user/checks.rst:953
 msgid ""
 "When the string has not been translated for a long time, it is can indicate "
 "problem in a source string making it hard to translate."
 msgstr ""
+"Если строка долгое время не переводилась, это может указывать на проблему в "
+"исходной строке, затрудняющую её перевод."
 
 #: ../../user/checks.rst:960
 msgid "Multiple failing checks"
@@ -26277,7 +26455,7 @@ msgstr "Множество неудачных проверок"
 
 #: ../../user/checks.rst:962
 msgid "*The translations in several languages have failing checks*"
-msgstr ""
+msgstr "*Переводы на несколько языков имеют неудачные проверки*"
 
 #: ../../user/checks.rst:964
 msgid ""
@@ -26285,6 +26463,9 @@ msgid ""
 "usually an indication that something could be done to improve the source "
 "string."
 msgstr ""
+"Во многих переводах этой строки имеются неудачные проверки качества. Обычно "
+"это свидетельствует о том, что нужно что-то сделать для улучшения исходной "
+"строки."
 
 #: ../../user/checks.rst:968
 msgid ""
@@ -26292,6 +26473,10 @@ msgid ""
 "end of a sentence, or similar minor issues which translators tend to fix in "
 "translation, while it would be better to fix it in the source string."
 msgstr ""
+"Часто неудачная проверка может быть вызвана пропущенной точкой в конце "
+"предложения или подобными мелкими проблемами, которые переводчики склонны "
+"исправлять в переводе, в то время как лучше было бы их исправить в исходной "
+"строке."
 
 #: ../../user/checks.rst:975
 msgid "Multiple unnamed variables"
@@ -26302,17 +26487,24 @@ msgid ""
 "*There are multiple unnamed variables in the string, making it impossible "
 "for translators to reorder them*"
 msgstr ""
+"*Строка содержит несколько неименованных переменных, что не позволяет "
+"переводчикам их переупорядочивать*"
 
 #: ../../user/checks.rst:982
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
+"Строка содержит несколько неименованных переменных, что не позволяет "
+"переводчикам их переупорядочивать."
 
 #: ../../user/checks.rst:985
 msgid ""
 "Consider using named variables instead to allow translators to reorder them."
 msgstr ""
+"Рассмотрите возможность использования именованных переменных вместо "
+"неименованных, чтобы позволить переводчикам менять их порядок в переводимом "
+"тексте."
 
 #: ../../user/checks.rst:990
 msgid "Unpluralised"
@@ -26321,6 +26513,8 @@ msgstr "Формы единственного числа"
 #: ../../user/checks.rst:992
 msgid "*The string is used as plural, but not using plural forms*"
 msgstr ""
+"*Строка содержит множественное число, но не использует формы множественного "
+"числа*"
 
 #: ../../user/checks.rst:994
 msgid ""
@@ -26328,10 +26522,14 @@ msgid ""
 "translation system supports this, you should use the plural aware variant of "
 "it."
 msgstr ""
+"Строка содержит множественное число, но не использует формы множественного "
+"числа. В случае, если ваша система перевода его поддерживает, вы должны "
+"использовать вариант, учитывающий множественное число."
 
 #: ../../user/checks.rst:998
 msgid "For example with Gettext in Python it could be:"
 msgstr ""
+"Например, при использовании Python’а и Gettext’а это может выглядеть так:"
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -26885,23 +27083,28 @@ msgstr ":ref:`reverse-proxy`"
 
 #: ../../user/search.rst:2
 msgid "Searching"
-msgstr ""
+msgstr "Поиск"
 
 #: ../../user/search.rst:6
 msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
 msgstr ""
+"Для поиска нужных строк можно использовать расширенные поисковые запросы, "
+"включающие в себя логические операции, круглые скобки или поиск по "
+"конкретным полям."
 
 #: ../../user/search.rst:9
 msgid ""
 "When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Target` and :guilabel:`Context` fields."
 msgstr ""
+"Если поле не определено, поиск проводится по полям :guilabel:`Источник`, "
+":guilabel:`Перевод` и :guilabel:`Контекст`."
 
 #: ../../user/search.rst:15
 msgid "Simple search"
-msgstr ""
+msgstr "Простой поиск"
 
 #: ../../user/search.rst:17
 msgid ""
@@ -26910,6 +27113,11 @@ msgid ""
 "into quotes (both single (') and double (\") quotes will work): ``\"this is "
 "a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
+"Любая фраза, введённая в поле поиска, разбивается на слова. При поиске "
+"показываются строки, содержащие любое из этих слов. Чтобы найти точную "
+"фразу, поместите \"фразу для поиска\" в кавычки (работают как одинарные ('), "
+"так и двойные (\") кавычки): ``\"это строка, заключённая в кавычки\"`` или ``"
+"'другая закавыченная строка'``."
 
 #: ../../user/search.rst:23
 msgid "Fields"
@@ -26921,7 +27129,7 @@ msgstr "``source:ТЕКСТ``"
 
 #: ../../user/search.rst:26
 msgid "Source string case insensitive search."
-msgstr ""
+msgstr "Регистронезависимый поиск по исходной строке."
 
 #: ../../user/search.rst:27
 msgid "``target:TEXT``"
@@ -26929,7 +27137,7 @@ msgstr "``target:ТЕКСТ``"
 
 #: ../../user/search.rst:28
 msgid "Target string case insensitive search."
-msgstr ""
+msgstr "Регистронезависимый поиск по целевой строке."
 
 #: ../../user/search.rst:29
 msgid "``context:TEXT``"
@@ -26937,7 +27145,7 @@ msgstr "``context:ТЕКСТ``"
 
 #: ../../user/search.rst:30
 msgid "Context string case insensitive search."
-msgstr ""
+msgstr "Регистронезависимый поиск по строке контекста."
 
 #: ../../user/search.rst:31
 msgid "``key:TEXT``"
@@ -26945,7 +27153,7 @@ msgstr "``key:ТЕКСТ``"
 
 #: ../../user/search.rst:32
 msgid "Key string case insensitive search."
-msgstr ""
+msgstr "Регистронезависимый поиск по строке ключа."
 
 #: ../../user/search.rst:33
 msgid "``note:TEXT``"
@@ -26953,7 +27161,7 @@ msgstr "``note:ТЕКСТ``"
 
 #: ../../user/search.rst:34
 msgid "Comment string case insensitive search."
-msgstr ""
+msgstr "Регистронезависимый поиск по строке комментария."
 
 #: ../../user/search.rst:35
 msgid "``location:TEXT``"
@@ -26961,7 +27169,7 @@ msgstr "``location:ТЕКСТ``"
 
 #: ../../user/search.rst:36
 msgid "Location string case insensitive search."
-msgstr ""
+msgstr "Регистронезависимый поиск по строке местоположения."
 
 #: ../../user/search.rst:37
 msgid "``priority:NUMBER``"
@@ -26969,7 +27177,7 @@ msgstr "``priority:ЧИСЛО``"
 
 #: ../../user/search.rst:38
 msgid "String priority."
-msgstr ""
+msgstr "Приоритет строки."
 
 #: ../../user/search.rst:39
 msgid "``added:DATETIME``"
@@ -26977,7 +27185,7 @@ msgstr "``added:ДАТА_И_ВРЕМЯ``"
 
 #: ../../user/search.rst:40
 msgid "Timestamp for when the string was added to Weblate."
-msgstr ""
+msgstr "Метка времени, когда строка была добавлена в Weblate."
 
 #: ../../user/search.rst:41
 msgid "``state:TEXT``"
@@ -26988,6 +27196,8 @@ msgid ""
 "State search (``approved``, ``translated``, ``needs-editing``, ``empty``, "
 "``read-only``), supports :ref:`search-operators`."
 msgstr ""
+"Поиск по состоянию (``approved``, ``translated``, ``needs-editing``, "
+"``empty``, ``read-only``), поддерживает :ref:`search-operators`."
 
 #: ../../user/search.rst:43
 msgid "``pending:BOOLEAN``"
@@ -26995,7 +27205,7 @@ msgstr "``pending:ЛОГИЧЕСКОЕ_ЗНАЧЕНИЕ``"
 
 #: ../../user/search.rst:44
 msgid "String pending for flushing to VCS."
-msgstr ""
+msgstr "Строка, ожидающая сброса в систему контроля версий."
 
 #: ../../user/search.rst:45
 msgid "``has:TEXT``"
@@ -27007,6 +27217,9 @@ msgid ""
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot`` (works only on source strings)."
 msgstr ""
+"Поиск строк, имеющих атрибуты — ``plural``, ``context``, ``suggestion``, "
+"``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
+"``screenshot`` (работает только для исходных строк)."
 
 #: ../../user/search.rst:47
 msgid "``is:TEXT``"
@@ -27016,6 +27229,7 @@ msgstr "``is:ТЕКСТ``"
 msgid ""
 "Search for string states (``pending``, ``translated``, ``untranslated``)."
 msgstr ""
+"Поиск по состояниям строки (``pending``, ``translated``, ``untranslated``)."
 
 #: ../../user/search.rst:49
 msgid "``language:TEXT``"
@@ -27023,7 +27237,7 @@ msgstr "``language:ТЕКСТ``"
 
 #: ../../user/search.rst:50
 msgid "String target language."
-msgstr ""
+msgstr "Целевой язык строки."
 
 #: ../../user/search.rst:51
 msgid "``changed_by:TEXT``"
@@ -27031,7 +27245,7 @@ msgstr "``changed_by:ТЕКСТ``"
 
 #: ../../user/search.rst:52
 msgid "String was changed by author with given username."
-msgstr ""
+msgstr "Строка была изменена автором с указанным именем пользователя."
 
 #: ../../user/search.rst:53
 msgid "``changed:DATETIME``"
@@ -27039,7 +27253,7 @@ msgstr "``changed:ДАТА_И_ВРЕМЯ``"
 
 #: ../../user/search.rst:54
 msgid "String was changed on date, supports :ref:`search-operators`."
-msgstr ""
+msgstr "Дата изменения строки, поддерживает :ref:`search-operators`."
 
 #: ../../user/search.rst:55
 msgid "``check:TEXT``"
@@ -27047,7 +27261,7 @@ msgstr "``check:ТЕКСТ``"
 
 #: ../../user/search.rst:56
 msgid "String has failing check."
-msgstr ""
+msgstr "Строка имеет неудачные проверки."
 
 #: ../../user/search.rst:57
 msgid "``dismissed_check:TEXT``"
@@ -27055,7 +27269,7 @@ msgstr "``dismissed_check:ТЕКСТ``"
 
 #: ../../user/search.rst:58
 msgid "String has dismissed check."
-msgstr ""
+msgstr "Строка имеет скрытые проверки."
 
 #: ../../user/search.rst:59
 msgid "``comment:TEXT``"
@@ -27063,7 +27277,7 @@ msgstr "``comment:ТЕКСТ``"
 
 #: ../../user/search.rst:60
 msgid "Search in user comments."
-msgstr ""
+msgstr "Поиск в пользовательских комментариях."
 
 #: ../../user/search.rst:61
 msgid "``comment_author:TEXT``"
@@ -27071,7 +27285,7 @@ msgstr "``comment_author:ТЕКСТ``"
 
 #: ../../user/search.rst:62
 msgid "Filter by comment author."
-msgstr ""
+msgstr "Фильтр по авторским комментариям."
 
 #: ../../user/search.rst:63
 msgid "``suggestion:TEXT``"
@@ -27079,7 +27293,7 @@ msgstr "``suggestion:ТЕКСТ``"
 
 #: ../../user/search.rst:64
 msgid "Search in suggestions."
-msgstr ""
+msgstr "Поиск в предложениях."
 
 #: ../../user/search.rst:66
 msgid "``suggestion_author:TEXT``"
@@ -27087,11 +27301,11 @@ msgstr "``suggestion_author:ТЕКСТ``"
 
 #: ../../user/search.rst:66
 msgid "Filter by suggestion author."
-msgstr ""
+msgstr "Фильтр по автору предложения."
 
 #: ../../user/search.rst:69
 msgid "Boolean operators"
-msgstr ""
+msgstr "Логические операторы"
 
 #: ../../user/search.rst:71
 msgid ""
@@ -27099,16 +27313,21 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
+"Вы можете комбинировать поисковые запросы, используя для формирования "
+"сложных запросов операторы ``AND``, ``OR`` и ``NOT`` и круглые скобки. "
+"Например: ``state:translated AND (source:hello OR source:bar)``"
 
 #: ../../user/search.rst:77
 msgid "Field operators"
-msgstr ""
+msgstr "Операторы поиска по полям"
 
 #: ../../user/search.rst:79
 msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
 msgstr ""
+"Вы можете указать операторы, диапазоны или частичный поиск по дате или "
+"числам:"
 
 #: ../../user/search.rst:81
 msgid "``state:>=translated``"
@@ -27116,7 +27335,7 @@ msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:82
 msgid "State is ``translated`` or better (``approved``)."
-msgstr ""
+msgstr "Состояние `` translated`` или лучше (`` approved``)."
 
 #: ../../user/search.rst:83
 msgid "``changed:2019``"
@@ -27132,11 +27351,11 @@ msgstr "``changed:[2019-03-01 to 2019-04-01]``"
 
 #: ../../user/search.rst:86
 msgid "Changed between two given dates."
-msgstr ""
+msgstr "Изменено между двумя указанными датами."
 
 #: ../../user/search.rst:89
 msgid "Exact operators"
-msgstr ""
+msgstr "Операторы точного поиска"
 
 #: ../../user/search.rst:91
 msgid ""
@@ -27146,10 +27365,16 @@ msgid ""
 "expressions, you can skip quotes. For example, to search for all source "
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
+"С помощью оператора ``=`` вы можете сделать запрос на точное совпадение "
+"различных строковых полей. Например, для поиска по всем исходным строкам, "
+"точно совпадающим строке ``hello world``, используйте запрос ``source:="
+"\"hello world\"``. При поиске односложных выражений кавычки можно опустить. "
+"Например, для поиска по всем исходным строкам, соответствующим строке "
+"``hello``, вы можете использовать запрос ``source:=hello``."
 
 #: ../../user/search.rst:98
 msgid "Regular expressions"
-msgstr "Регулярное выражение"
+msgstr "Регулярные выражения"
 
 #: ../../user/search.rst:100
 msgid ""
@@ -27157,6 +27382,9 @@ msgid ""
 "\"regexp\"``. For instance, to search for all source strings which contain "
 "any digit between 2 and 5, use: ``source:r\"[2-5]\"``"
 msgstr ""
+"Везде, где принимается текст, вы также можете указать регулярное выражение в "
+"виде ``r\"выражение\"``. Например, для поиска по исходным строкам, "
+"содержащим любую цифру от 2 до 5, используйте запрос ``source:r\"[2-5]\"``"
 
 #: ../../user/search.rst:104
 msgid "Predefined queries"
