@@ -398,6 +398,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 def translate(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, component, lang)
+    project = translation.component.project
     unit_set = translation.unit_set
 
     # Check locks
@@ -505,7 +506,7 @@ def translate(request, project, component, lang):
             "next_unit_url": next_unit_url,
             "prev_unit_url": base_unit_url + str(offset - 1),
             "object": translation,
-            "project": translation.component.project,
+            "project": project,
             "unit": unit,
             "nearby": unit.nearby(request.user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(request.user.profile.nearby_strings),
@@ -522,7 +523,7 @@ def translate(request, project, component, lang):
             "form": form,
             "antispam": antispam,
             "comment_form": CommentForm(
-                translation,
+                project,
                 initial={
                     "scope": "global" if unit.translation.is_source else "translation"
                 },
@@ -532,7 +533,7 @@ def translate(request, project, component, lang):
             "secondary": secondary,
             "locked": locked,
             "glossary": Term.objects.get_terms(unit),
-            "addterm_form": TermForm(translation.component.project),
+            "addterm_form": TermForm(project),
             "last_changes": unit.change_set.prefetch().order()[:10],
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
@@ -589,7 +590,7 @@ def comment(request, pk):
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied()
 
-    form = CommentForm(unit.translation, request.POST)
+    form = CommentForm(component.project, request.POST)
 
     if form.is_valid():
         # Is this source or target comment?

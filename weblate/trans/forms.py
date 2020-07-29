@@ -898,10 +898,10 @@ class CommentForm(forms.Form):
         max_length=1000,
     )
 
-    def __init__(self, translation, *args, **kwargs):
+    def __init__(self, project, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Remove bug report in case source review is not enabled
-        if not translation.component.project.source_review:
+        if not project.source_review:
             self.fields["scope"].choices = self.fields["scope"].choices[1:]
 
 
