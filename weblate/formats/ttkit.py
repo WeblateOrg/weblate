@@ -24,6 +24,7 @@ import inspect
 import os
 import re
 import subprocess
+from typing import Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -927,7 +928,7 @@ class XliffFormat(TTKitFormat):
     name = _("XLIFF translation file")
     format_id = "xliff"
     loader = xlifffile
-    autoload = ("*.xlf", "*.xliff")
+    autoload: Tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
     language_format = "bcp"
 
@@ -972,7 +973,7 @@ class StringsFormat(PropertiesBaseFormat):
     name = _("iOS strings")
     format_id = "strings"
     loader = ("properties", "stringsfile")
-    new_translation = "\n".encode("utf-16")
+    new_translation: Optional[Union[str, bytes]] = "\n".encode("utf-16")
     autoload = ("*.strings",)
     language_format = "bcp"
 
@@ -1091,7 +1092,7 @@ class JSONFormat(TTKitFormat):
     format_id = "json"
     loader = ("jsonl10n", "JsonFile")
     unit_class = JSONUnit
-    autoload = ("*.json",)
+    autoload: Tuple[str, ...] = ("*.json",)
     new_translation = "{}\n"
 
     @staticmethod
@@ -1223,7 +1224,7 @@ class CSVFormat(TTKitFormat):
 class CSVSimpleFormat(CSVFormat):
     name = _("Simple CSV file")
     format_id = "csv-simple"
-    autoload = ("*.txt",)
+    autoload: Tuple[str, ...] = ("*.txt",)
     encoding = "auto"
 
     @staticmethod
@@ -1253,7 +1254,7 @@ class YAMLFormat(TTKitFormat):
     format_id = "yaml"
     loader = ("yaml", "YAMLFile")
     unit_class = MonolingualSimpleUnit
-    autoload = ("*.pyml",)
+    autoload: Tuple[str, ...] = ("*.pyml",)
     new_translation = "{}\n"
 
     @staticmethod
