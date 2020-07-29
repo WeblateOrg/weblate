@@ -284,9 +284,9 @@ class GitRepository(Repository):
         self.branch = branch
 
     def api_url(self):
-        return self.component.repo.replace(".git", "").replace(
-            "github.com", "api.github.com/repos"
-        )
+        slug = self.component.repo.split("/")[-1].replace(".git", "")
+        owner = self.component.repo.split("/")[-2]
+        return "https://api.github.com/repos/{0}/{1}".format(owner, slug)
 
     def configure_fork_remote(self, pull_url, remote_name):
         """Configure fork remote repository."""
@@ -296,19 +296,6 @@ class GitRepository(Repository):
             # Push url
             ('remote "{}"'.format(remote_name), "pushurl", pull_url),
         )
-
-    def fork(self):
-        fork_url = "{}/forks".format(self.api_url())
-        r = requests.post(
-            fork_url,
-            headers={
-                "Accept": "application/vnd.github.v3+json",
-                "Authorization": "token {}".format(settings.GITHUB_TOKEN),
-            },
-            data={},
-        )
-        response = r.json()
-        self.configure_fork_remote(response["clone_url"], self.get_username())
 
     def list_branches(self, *args):
         cmd = ["branch", "--list"]
@@ -594,18 +581,20 @@ class GitMergeRequestBase(GitForcePushRepository):
         """Push given local branch to branch in forked repository."""
         self.execute(
             [
+                "git",
                 "push",
                 "--force",
                 self.get_username(),
                 "{0}:{1}".format(local_branch, fork_branch),
-            ]
+            ],
+            fullcmd=True,
         )
 
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(["remote"]).splitlines()
         if self.get_username() not in remotes:
-            super().fork()
+            self.create_fork()
 
     def push(self, branch):
         """Fork repository on Github and push changes.
@@ -635,6 +624,9 @@ class GitMergeRequestBase(GitForcePushRepository):
                 # Pull request already exists.
                 return
             raise
+
+    def create_fork(self):
+        raise NotImplementedError()
 
     def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         raise NotImplementedError()
@@ -672,6 +664,22 @@ class GithubRepository(GitMergeRequestBase):
 
         return env
 
+    def create_fork(self):
+        fork_url = "{}/forks".format(self.api_url())
+        r = requests.post(
+            fork_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": "token {}".format(settings.GITHUB_TOKEN),
+            },
+            data={},
+        )
+        response = r.json()
+        pull_url = "https://{0}:{1}@github.com/{2}.git".format(
+            self.get_username(), settings.GITHUB_TOKEN, response["full_name"]
+        )
+        self.configure_fork_remote(pull_url, self.get_username())
+
     def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         """Create pull request.
 
@@ -695,8 +703,15 @@ class GithubRepository(GitMergeRequestBase):
             },
         )
         response = r.json()
-        if not response["url"]:
-            report_error(cause=response["message"])
+        if "url" not in response:
+            for error in response["errors"]:
+                if "message" in error:
+                    report_error(cause=error["message"])
+                else:
+                    report_error(
+                        cause="{0}: {1}".format(error["resource"], response["message"]),
+                        level="error",
+                    )
 
 
 class LocalRepository(GitRepository):
