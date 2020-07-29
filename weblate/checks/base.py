@@ -237,7 +237,7 @@ class TargetCheckParametrized(Check):
 class CountingCheck(TargetCheck):
     """Check whether there is same count of given string."""
 
-    string = None
+    string = ""
 
     def check_single(self, source, target, unit):
         if not target or not source:
