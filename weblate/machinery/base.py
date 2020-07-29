@@ -204,7 +204,7 @@ class MachineTranslation:
         if not self.cache_translations:
             return None
         return "mt:{}:{}:{}".format(
-            self.mtid, calculate_hash(source, language), calculate_hash(None, text)
+            self.mtid, calculate_hash(source, language), calculate_hash(text)
         )
 
     def cleanup_text(self, unit):
