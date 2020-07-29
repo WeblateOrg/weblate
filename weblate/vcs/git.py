@@ -264,11 +264,9 @@ class GitRepository(Repository):
 
     def configure_remote(self, pull_url, push_url, branch):
         """Configure remote repository."""
-        self.config_update(
+        updates = [
             # Pull url
             ('remote "origin"', "url", pull_url),
-            # Push url
-            ('remote "origin"', "pushurl", push_url or ""),
             # Fetch all branches (needed for clone branch)
             ('remote "origin"', "fetch", "+refs/heads/*:refs/remotes/origin/*"),
             # Disable fetching tags
@@ -276,7 +274,11 @@ class GitRepository(Repository):
             # Set branch to track
             ('branch "{0}"'.format(branch), "remote", "origin"),
             ('branch "{0}"'.format(branch), "merge", "refs/heads/{0}".format(branch)),
-        )
+        ]
+        # Push url
+        if push_url is not None:
+            updates.append(('remote "origin"', "pushurl", push_url or ""))
+        self.config_update(*updates)
         self.branch = branch
 
     def list_branches(self, *args):
