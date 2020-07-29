@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-28 16:42+0000\n"
+"PO-Revision-Date: 2020-07-29 14:02+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -90,7 +90,7 @@ msgid ""
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
 "为了管理整个事例的权限，只通过将用户添加到 `Users` （这通常使用：ref:`autogroup`默认实现）、 "
-"`Reviewers`和`Managers` 用户组中即可。将所有的项目保持为`Public`（请参考：ref:`acl`）。"
+"`Reviewers`和`Managers` 群组中即可。将所有的项目保持为`Public`（请参考：ref:`acl`）。"
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
@@ -113,8 +113,8 @@ msgid ""
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
-"可以根据项目、组件或语言向任何用户另外授予权限。为了实现这一目的，对给定的资源建立新的用户组（例如“捷克语译者”）并配置。对于所选的资源，任何指定的权限可"
-"以授予用户组内的成员。"
+"可以根据项目、组件或语言向任何用户另外授予权限。为了实现这一目的，对给定的资源建立新的群组（例如“捷克语译者”）并配置。对于所选的资源，任何指定的权限可以"
+"授予群组内的成员。"
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -123,8 +123,8 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
-"如果根据项目权限使用的话，无需另外设置即可正常工作。对于整个事例的权限，您可能还想从 `Users`用户组中去掉这些权限，"
-"或者改变将所有用户自动指定给那个用户组 （请参考：ref:`autogroup`）。"
+"如果根据项目权限使用的话，无需另外设置即可正常工作。对于整个事例的权限，您可能还想从 `Users`群组中去掉这些权限，"
+"或者改变将所有用户自动指定给那个群组 （请参考：ref:`autogroup`）。"
 
 #: ../../admin/access.rst:62
 msgid ":ref:`perm-check`"
@@ -148,7 +148,7 @@ msgid ""
 "ref:`groups`."
 msgstr ""
 "可以限制用户访问独立的项目。这个特性通过每个单独项目的配置中：guilabel:`Access "
-"control`来打开。这会为这个项目自动建立几个用户组，请参考：ref:`groups`。"
+"control`来打开。这会为这个项目自动建立几个群组，请参考：ref:`groups`。"
 
 #: ../../admin/access.rst:78
 msgid "The following choices exist for :guilabel:`Access control`:"
@@ -193,7 +193,7 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
-"为了允许访问这个项目，必须将权限直接添加给特定用户，或在Django管理界面上添加给用户所在的用户组，或者使用项目页面上的用户管理，如下面的描述：ref"
+"为了允许访问这个项目，必须将权限直接添加给特定用户，或在Django管理界面上添加给用户所在的群组，或者使用项目页面上的用户管理，如下面的描述：ref"
 ":`manage-acl`。"
 
 #: ../../admin/access.rst:97
@@ -310,7 +310,7 @@ msgstr ":guilabel:`Projects`与项目匹配。"
 msgid ""
 "As you can see, granting access to a component automatically grants user "
 "access to a containing project as well."
-msgstr ""
+msgstr "可以看到，为组件授予访问权限同样也会自动地授予用户所包括项目的访问权限。"
 
 #: ../../admin/access.rst:171
 msgid ""
@@ -318,27 +318,30 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
+"只使用第一条规则。所以如果设置所有的 :guilabel:`Component list`、 :guilabel:`Components` 和 "
+":guilabel:`Project`，只会应用:guilabel:`Component list`。"
 
 #: ../../admin/access.rst:175
 msgid ""
 "An additional step is performed if checking permission for the translation:"
-msgstr ""
+msgstr "如果检查翻译许可，则会执行另外的步骤："
 
 #: ../../admin/access.rst:178
 msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
-msgstr ""
+msgstr "4. :guilabel:`Languages`如果设置的话则与翻译领域匹配，如果不设置，则不予任何语言匹配。"
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
+"可以使用:guilabel:`Language selection`或:guilabel:`Project selection`来自动包括所有语言或项目。"
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
-msgstr ""
+msgstr "检查项目的访问权限"
 
 #: ../../admin/access.rst:189
 msgid ""
@@ -347,6 +350,8 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"用于可以成为与项目或其中任何组件相连接的用户组的成员。只有成员即可，不需要特别许可来访问项目（这在默认的`Viewers`用户组中使用，请见:ref"
+":`default-groups`）。"
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
@@ -359,24 +364,26 @@ msgid ""
 "the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
+"一旦用户可以访问包含的项目，就能访问不受限制的组件。通过允许:ref:`component-"
+"restricted`，访问组件需要组件（或包含组件列表）的明确授权。"
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr "管理用户和组"
+msgstr "管理用户和群组"
 
 #: ../../admin/access.rst:206
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
-msgstr ""
+msgstr "可以使用:file:`/admin/` URL下面的Django管理界面，来管理所有用户和用户组。"
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
-msgstr ""
+msgstr "根据项目访问控制来管理"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
-msgstr ""
+msgstr "这个特性只对ACL控制的项目起作用，请见:ref:`acl`。"
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -384,27 +391,29 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+"具有:guilabel:`Can manage ACL rules for a "
+"project`特权的用户（请见:ref:`privileges`）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许你："
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "将现有用户添加到项目中"
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "邀请新用户参加到项目中"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "更改用户的权限"
 
 #: ../../admin/access.rst:225
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "取消用户的权限"
 
 #: ../../admin/access.rst:227
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
-msgstr ""
+msgstr "可以在项目菜单的:guilabel:`Manage`进行用户管理："
 
 #: ../../admin/access.rst:233
 msgid ":ref:`acl`"
@@ -412,56 +421,56 @@ msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:238
 msgid "Predefined groups"
-msgstr ""
+msgstr "预定义的群组"
 
 #: ../../admin/access.rst:240
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
-msgstr ""
+msgstr "Weblate的项目带有预定义的群组，您可以为之指定用户。"
 
 #: ../../admin/access.rst:245
 msgid "Has all permissions available in the project."
-msgstr ""
+msgstr "在项目中可以有所有的权限。"
 
 #: ../../admin/access.rst:249
 msgid "Can manage glossary (add or remove entries, or upload)."
-msgstr ""
+msgstr "可以管理词汇表（添加或删除权限，或上传）。"
 
 #: ../../admin/access.rst:253
 msgid "Can manage translated languages - add or remove translations."
-msgstr ""
+msgstr "可以管理翻译语言——添加或删除翻译。"
 
 #: ../../admin/access.rst:257
 msgid ""
 "Can manage screenshots - add or remove them, and associate them to source "
 "strings."
-msgstr ""
+msgstr "可以管理截屏——添加或删除截屏，并将其与源字符串联系起来。"
 
 #: ../../admin/access.rst:262
 msgid ""
 "Can edit translation templates in :ref:`monolingual` and source string info."
-msgstr ""
+msgstr "可以在:ref:`monolingual`编辑翻译模板和源字符串信息。"
 
 #: ../../admin/access.rst:267
 msgid "Can translate the project, and upload translations made offline."
-msgstr ""
+msgstr "可以翻译项目，并将离线的翻译上传。"
 
 #: ../../admin/access.rst:271
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "可以管理VCS版本控制系统并访问导出的仓库。"
 
 #: ../../admin/access.rst:275
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "可以在复查时批准翻译。"
 
 #: ../../admin/access.rst:279
 msgid "Can access billing info (see :ref:`billing`)."
-msgstr ""
+msgstr "可以访问账单信息（请见:ref:`billing`）。"
 
 #: ../../admin/access.rst:285
 msgid "Custom access control"
-msgstr ""
+msgstr "客户访问控制"
 
 #: ../../admin/access.rst:287
 msgid ""
@@ -472,29 +481,32 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"通过选择:guilabel:`Custom`作为:guilabel:`Access control`，Weblate会对停止管理给定项目的访问权限，使用D"
+"jango管理界面可以管理所有用户和群组。这可以用于确定更富在的访问控制，或在单一的Weblate界面中对所有项目设置可分享的访问策略。如果想要对所有项目"
+"默认打开这个功能，请配置:setting:`DEFAULT_ACCESS_CONTROL`。"
 
 #: ../../admin/access.rst:296
 msgid ""
 "By turning this on, Weblate will remove all :ref:`acl` it has created for "
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
-msgstr ""
+msgstr "通过将其打开，Weblate会删除所有为这个项目建立的:ref:`acl`。如果没有事件的管理权限却去做的话，会立即丢失管理项目的访问权限。"
 
 #: ../../admin/access.rst:303
 msgid "Default groups and roles"
-msgstr ""
+msgstr "默认群组和角色"
 
 #: ../../admin/access.rst:306
 msgid "List of privileges"
-msgstr ""
+msgstr "特权列表"
 
 #: ../../admin/access.rst:309
 msgid "Billing (see :ref:`billing`)"
-msgstr ""
+msgstr "账单（请见:ref:`billing`）"
 
 #: ../../admin/access.rst:309
 msgid "View billing info [`Administration`, `Billing`]"
-msgstr ""
+msgstr "查看账单信息[`Administration`, `Billing`]"
 
 #: ../../admin/access.rst:312 ../../api.rst:1810
 msgid "Changes"
@@ -502,7 +514,7 @@ msgstr "修改"
 
 #: ../../admin/access.rst:312
 msgid "Download changes [`Administration`]"
-msgstr ""
+msgstr "下载更改[`Administration`]"
 
 #: ../../admin/access.rst:317 ../../user/translating.rst:60
 msgid "Comments"
@@ -513,6 +525,8 @@ msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"发表评论[`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:317
 #, fuzzy
@@ -543,21 +557,21 @@ msgstr "词汇表"
 
 #: ../../admin/access.rst:325
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "添加词汇表入口[`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:327
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "编辑词汇表入口[`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:329
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "删除词汇表入口[`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:331
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "上传词汇表入口[`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:334
 msgid "Machinery"
@@ -591,7 +605,7 @@ msgstr "报告"
 
 #: ../../admin/access.rst:342
 msgid "Download reports [`Administration`]"
-msgstr ""
+msgstr "下载报告[`Administration`]"
 
 #: ../../admin/access.rst:349 ../../api.rst:1850 ../../user/translating.rst:205
 msgid "Screenshots"
@@ -599,15 +613,15 @@ msgstr "截图"
 
 #: ../../admin/access.rst:345
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "添加截屏[`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:347
 msgid "Edit screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "编辑截屏[`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:349
 msgid "Delete screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "删除截屏[`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:352
 msgid "Source strings"
@@ -615,7 +629,7 @@ msgstr "源字符串"
 
 #: ../../admin/access.rst:352
 msgid "Edit source string info [`Administration`, `Edit source`]"
-msgstr ""
+msgstr "编辑源字符串信息[`Administration`, `Edit source`]"
 
 #: ../../admin/access.rst:365
 msgid "Strings"
@@ -632,16 +646,20 @@ msgid ""
 "Ignore failing checks [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"忽略失败的复查[`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:359
 msgid ""
 "Edit strings [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"编辑字符串 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:361
 msgid "Review strings [`Administration`, `Review strings`]"
-msgstr ""
+msgstr "复查字符串[`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:363
 #, fuzzy
@@ -653,7 +671,7 @@ msgstr "当建议被强制执行时需要编辑字符串"
 
 #: ../../admin/access.rst:365
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
-msgstr ""
+msgstr "编辑源字符串[`Administration`, `Edit source`, `Power user`]"
 
 #: ../../admin/access.rst:374 ../../user/translating.rst:46
 #: ../../workflows.rst:44
@@ -665,12 +683,16 @@ msgid ""
 "Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"接受建议[`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:370
 msgid ""
 "Add suggestions [`Add suggestion`, `Administration`, `Edit source`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
+"添加建议[`Add suggestion`, `Administration`, `Edit source`, `Power user`, `"
+"Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:372
 #, fuzzy
@@ -683,6 +705,8 @@ msgid ""
 "Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"为建议投票[`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:383 ../../api.rst:1478
 msgid "Translations"
@@ -697,11 +721,11 @@ msgstr "开始新翻译到更多语言"
 
 #: ../../admin/access.rst:379
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
-msgstr ""
+msgstr "执行自动翻译[`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:381
 msgid "Delete existing translations [`Administration`, `Manage languages`]"
-msgstr ""
+msgstr "删除现有的翻译[`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:383
 #, fuzzy
@@ -712,7 +736,7 @@ msgstr "开始新翻译到更多语言"
 
 #: ../../admin/access.rst:390
 msgid "Uploads"
-msgstr ""
+msgstr "上传"
 
 #: ../../admin/access.rst:386
 #, fuzzy
@@ -725,12 +749,16 @@ msgid ""
 "Overwrite existing strings with an upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
+"使用上传的内容覆盖现有的字符串[`Administration`, `Edit source`, `Power user`, `Review "
+"strings`, `Translate`]"
 
 #: ../../admin/access.rst:390
 msgid ""
 "Upload translation strings [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"上传翻译的字符串 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:403
 msgid "VCS"
@@ -741,6 +769,8 @@ msgid ""
 "Access the internal repository [`Access repository`, `Administration`, "
 "`Manage repository`, `Power user`]"
 msgstr ""
+"访问内部仓库[`Access repository`, `Administration`, `Manage repository`, `Power "
+"user`]"
 
 #: ../../admin/access.rst:395
 #, fuzzy
@@ -771,6 +801,8 @@ msgid ""
 "View upstream repository location [`Access repository`, `Administration`, "
 "`Manage repository`, `Power user`]"
 msgstr ""
+"查看上游仓库位置[`Access repository`, `Administration`, `Manage repository`, `Power "
+"user`]"
 
 #: ../../admin/access.rst:403
 #, fuzzy
@@ -780,7 +812,7 @@ msgstr "更新内部代码库"
 
 #: ../../admin/access.rst:422
 msgid "Site wide privileges"
-msgstr ""
+msgstr "全网站特权"
 
 #: ../../admin/access.rst:406
 msgid "Use management interface"
@@ -827,17 +859,17 @@ msgid ""
 "The site wide privileges are not granted to any default role. These are "
 "powerful and quite close to the superuser status—most of them affect all the "
 "projects of your Weblate installation."
-msgstr ""
+msgstr "全网站特权不会授予任何默认角色。这些特权特别强大，非常接近超级用户状态——多数特权会影响Weblate安装的所有项目。"
 
 #: ../../admin/access.rst:431
 msgid "List of groups"
-msgstr ""
+msgstr "群组列表"
 
 #: ../../admin/access.rst:433
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
-msgstr ""
+msgstr "下面的群组在安装时建立（或在执行后 :djadmin:`setupgroups`）："
 
 #: ../../admin/access.rst:444
 msgid "`Guests`"
@@ -845,23 +877,23 @@ msgstr "`Guests`"
 
 #: ../../admin/access.rst:437
 msgid "Defines permissions for non authenticated users."
-msgstr ""
+msgstr "对非授权用户确定权限。"
 
 #: ../../admin/access.rst:439
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
-msgstr ""
+msgstr "这个群组只包括匿名用户（请见:setting:`ANONYMOUS_USER_NAME`）。"
 
 #: ../../admin/access.rst:441
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
-msgstr ""
+msgstr "可以从群组中去掉角色，来限制非授权用户的权限。"
 
 #: ../../admin/access.rst:444
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "默认角色: `Add suggestion`, `Access repository`"
 
 #: ../../admin/access.rst:452
 msgid "`Viewers`"
@@ -871,15 +903,15 @@ msgstr "`Viewers`"
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
-msgstr ""
+msgstr "这一角色确保公开项目对所有用户可见。所有用户默认是这个群组的成员。"
 
 #: ../../admin/access.rst:450
 msgid "By default all users are members of this group, using :ref:`autogroup`."
-msgstr ""
+msgstr "所有用户默认为这个群组的成员，使用:ref:`autogroup`。"
 
 #: ../../admin/access.rst:452
 msgid "Default roles: none"
-msgstr ""
+msgstr "默认角色：无"
 
 #: ../../admin/access.rst:459
 msgid "`Users`"
@@ -887,15 +919,15 @@ msgstr "`Users`"
 
 #: ../../admin/access.rst:455
 msgid "Default group for all users."
-msgstr ""
+msgstr "所有用户的默认群组。"
 
 #: ../../admin/access.rst:457
 msgid "By default all users are members of this group using :ref:`autogroup`."
-msgstr ""
+msgstr "所有用户默认为这个群组的成员，使用:ref:`autogroup`。"
 
 #: ../../admin/access.rst:459
 msgid "Default roles: `Power user`"
-msgstr ""
+msgstr "默认角色: `Power user`"
 
 #: ../../admin/access.rst:464
 msgid "`Reviewers`"
@@ -903,11 +935,11 @@ msgstr "`Reviewers`"
 
 #: ../../admin/access.rst:462
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "复核员的群组（参见:ref:`workflows`）。"
 
 #: ../../admin/access.rst:464
 msgid "Default roles: `Review strings`"
-msgstr ""
+msgstr "默认角色: `Review strings`"
 
 #: ../../admin/access.rst:469
 msgid "`Managers`"
@@ -915,18 +947,18 @@ msgstr "`Managers`"
 
 #: ../../admin/access.rst:467
 msgid "Group for administrators."
-msgstr ""
+msgstr "管理员的群组。"
 
 #: ../../admin/access.rst:469
 msgid "Default roles: `Administration`"
-msgstr ""
+msgstr "默认角色: `Administration`"
 
 #: ../../admin/access.rst:473
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
 "all privileges from them."
-msgstr ""
+msgstr "永远不要删除预先定义的Weblate群组和用户，因为这会导致意外的错误。如果不想要使用这些特性，只去掉他们的特权即可。"
 
 #: ../../admin/addons.rst:4
 msgid "Addons"
@@ -939,10 +971,12 @@ msgid ""
 "management is available from the :guilabel:`Manage` ↓ `Addons` menu of each "
 "respective translation component for admins."
 msgstr ""
+"插件提供了将翻译流程个性化的方式。插件可以安装在翻译组件视图中，并在后台工作。为了管理，可以从每个而翻译组件的:guilabel:`Manage` ↓ "
+"`Addons`菜单中管理插件。"
 
 #: ../../admin/addons.rst:16
 msgid "Built-in addons"
-msgstr ""
+msgstr "内置插件"
 
 #: ../../admin/addons.rst:21 ../../admin/continuous.rst:409
 #: ../../user/translating.rst:295
@@ -958,7 +992,7 @@ msgstr "使用机器翻译或其他组件自动翻译字符串。"
 #: ../../admin/addons.rst:27
 msgid ""
 "This addon is triggered automatically when new strings appear in a component."
-msgstr ""
+msgstr "当新的字符串出现在组件中时，这个插件自动触发。"
 
 #: ../../admin/addons.rst:31
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -990,23 +1024,23 @@ msgstr "确保一个项目中的所有组件都为每种要添加的语言进行
 #: ../../admin/addons.rst:51
 msgid ""
 "It creates empty translations in languages that have unadded components."
-msgstr ""
+msgstr "它对未添加到组件中的语言建立空的翻译。"
 
 #: ../../admin/addons.rst:54
 msgid ""
 "Missing languages are checked once every 24 hours and when a new language is "
 "added in Weblate."
-msgstr ""
+msgstr "每24小时并当新的语言加入Weblate时，检查一次丢失的语言。"
 
 #: ../../admin/addons.rst:57
 msgid "Unlike most others, this addon affects the whole project."
-msgstr ""
+msgstr "不像其他多数插件，这个插件影响整个项目。"
 
 #: ../../admin/addons.rst:61
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
-msgstr ""
+msgstr "用:ref:`addon-weblate.autotranslate.autotranslate`自动翻译新添加的字符串。"
 
 #: ../../admin/addons.rst:67
 msgid "Component discovery"
@@ -1024,6 +1058,8 @@ msgid ""
 "`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
+"每次VCS版本控制系统升级时触发，否则与:djadmin:`import_project`管理命令相似。这种方式可以在一个VCS版本控制系统中跟踪多个翻译"
+"组件。"
 
 #: ../../admin/addons.rst:76
 msgid ""
@@ -1031,20 +1067,21 @@ msgid ""
 "others will employ :ref:`internal-urls` to it as a VCS configuration, and "
 "configure it to find all components in it."
 msgstr ""
+"建立一个至少未来不大可能会消失的主要组件，其他会采用其:ref:`internal-urls`作为VCS版本管理软件配置，并且配置它来找到其中的所有组件。"
 
 #: ../../admin/addons.rst:80
 msgid ""
 "The matching is done using regular expressions, where power is a tradeoff "
 "for complexity in configuration. Some examples for common use cases can be "
 "found in the addon help section."
-msgstr ""
+msgstr "使用正则表达式进行匹配，其功能与配置的复杂性进行权衡。一般使用情况的一些例子可以在插件的帮助部分找到。"
 
 #: ../../admin/addons.rst:84
 msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
-msgstr ""
+msgstr "一旦点击了:guilabel:`Save`，将显示匹配组件的预览，可以检查配置是否匹配于自己的需要："
 
 #: ../../admin/addons.rst:91 ../../admin/addons.rst:168
 msgid ":ref:`markup`"
@@ -1065,6 +1102,8 @@ msgid ""
 "labeled). You can also carry out any other automated operations for Weblate "
 "metadata."
 msgstr ""
+"新字符串自动贴标签会有用（通过搜索查询``NOT "
+"has:label``开始，并且添加所需要的标签，直到所有的字符串都适当地被贴上标签）。还以对Weblate元数据执行其他任何自动化操作。"
 
 #: ../../admin/addons.rst:108
 #, fuzzy
@@ -1124,11 +1163,11 @@ msgstr "生成一个包含翻译详细信息的文件。"
 msgid ""
 "You can use Django template in both filename and content, see :ref:`markup` "
 "for a detailed markup description."
-msgstr ""
+msgstr "可以在文件名和内容中使用Django模板，参见:ref:`markup`的具体标记表述。"
 
 #: ../../admin/addons.rst:150
 msgid "For example generating summary file for each translation:"
-msgstr ""
+msgstr "例如对每个翻译产生摘要文件："
 
 #: ../../admin/addons.rst:152
 msgid "Name of generated file"
@@ -1136,11 +1175,11 @@ msgstr "所生成文件的名称"
 
 #: ../../admin/addons.rst:153
 msgid "``locale/{{ language_code }}.json``"
-msgstr ""
+msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:164
 msgid "Content"
-msgstr ""
+msgstr "内容"
 
 #: ../../admin/addons.rst:173
 msgid "Contributors in comment"
@@ -1155,7 +1194,7 @@ msgstr "在 PO 文件的头部以注释的形式添加贡献者的名字与贡�
 #: ../../admin/addons.rst:178
 msgid ""
 "The PO file header will contain a list of contributors and years contributed:"
-msgstr ""
+msgstr "PO文件头包含贡献者与贡献年份的列表："
 
 #: ../../admin/addons.rst:190
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1166,6 +1205,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"当新的翻译添加时，更新:file:`configure`、:file:`configure.in`或任何:file:`configure."
+"ac`文件中的ALL_LINGUAS变量。"
 
 #: ../../admin/addons.rst:198
 msgid "Customize gettext output"
@@ -1178,11 +1219,11 @@ msgstr "允许自定义 gettext 的输出行为，例如是否启用自动换行
 
 #: ../../admin/addons.rst:202
 msgid "It offers the following options:"
-msgstr ""
+msgstr "提供了后面的选项："
 
 #: ../../admin/addons.rst:204
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr ""
+msgstr "在77个字符处和新一行时来换行"
 
 #: ../../admin/addons.rst:205
 msgid "Only wrap lines at newlines"
@@ -1196,7 +1237,7 @@ msgstr "不换行"
 msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, it wraps only at newlines."
-msgstr ""
+msgstr "默认gettext在77个字符处和新一行时换行。使用``--no-wrap``参数时只在新一行时换行。"
 
 #: ../../admin/addons.rst:217
 msgid "Update LINGUAS file"
@@ -1236,7 +1277,7 @@ msgstr "推送变更之前压缩 Git 提交。"
 
 #: ../../admin/addons.rst:243
 msgid "You can choose one of following modes:"
-msgstr ""
+msgstr "可以选择后面的模式之一："
 
 #: ../../admin/addons.rst:247
 msgid "All commits into one"
@@ -1258,13 +1299,13 @@ msgstr "每个作者"
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected, or the commit message is customized to include it."
-msgstr ""
+msgstr "原始提交信息保留，但其作者信息丢失，除非选择了 \"Per author\"，或者定制提交信息来包括它。"
 
 #: ../../admin/addons.rst:260
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
-msgstr ""
+msgstr "原始提交信息可选地由定制的提交信息覆盖。"
 
 #: ../../admin/addons.rst:262
 msgid ""
@@ -1273,6 +1314,8 @@ msgid ""
 "squashed commit message. This also generates proper ``Co-authored-by:`` "
 "credit for every translator."
 msgstr ""
+"预告（提交行像``Co-authored-by: ...``）可选地从原始提交信息中去掉，并且添加在去掉的提交信息后面。这还可以为每一位翻译者产生适当的"
+"``Co-authored-by:``信誉。"
 
 #: ../../admin/addons.rst:270
 msgid "Customize JSON output"
@@ -1304,7 +1347,7 @@ msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comment being old does not mean they have lost their "
 "importance."
-msgstr ""
+msgstr "这可以用于去掉可能过时的旧的评论。小心使用，因为旧评论不意味着失去了重要性。"
 
 #: ../../admin/addons.rst:297
 msgid "Stale suggestion removal"
@@ -1319,7 +1362,7 @@ msgid ""
 "This can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
-msgstr ""
+msgstr "可以用于连接建议投票（请见 :ref:`peer-review`），将给定时间内没有得到足够积极票数的建议删除。"
 
 #: ../../admin/addons.rst:310
 msgid "Update RESX files"
@@ -1338,7 +1381,7 @@ msgstr ""
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
-msgstr ""
+msgstr "如果只想删除陈旧的翻译键，那么使用:ref:`addon-weblate.cleanup.generic`。"
 
 #: ../../admin/addons.rst:325
 msgid "Customize YAML output"
@@ -1351,95 +1394,95 @@ msgstr "允许调整 YAML 的输出，例如自定义缩进或自定义换行。
 
 #: ../../admin/addons.rst:333
 msgid "Customizing list of addons"
-msgstr ""
+msgstr "将插件列表定制化"
 
 #: ../../admin/addons.rst:335
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include class absolute name in this setting."
-msgstr ""
+msgstr "插件列表由:setting:`WEBLATE_ADDONS`配置。为了添加其他插件，简单地在这个设置中包含类绝对名称即可。"
 
 #: ../../admin/addons.rst:342
 msgid "Writing addon"
-msgstr ""
+msgstr "编写插件"
 
 #: ../../admin/addons.rst:344
 msgid ""
 "You can write your own addons too, all you need to do is subclass "
 "``BaseAddon``, define the addon metadata and implement a callback which will "
 "do the processing."
-msgstr ""
+msgstr "也可以编写自己的插件，所需要做的是子类``BaseAddon``，定义插件的元数据，并应用执行处理的回调。"
 
 #: ../../admin/addons.rst:347
 msgid "Here is an example addon:"
-msgstr ""
+msgstr "这里有一个插件的例子："
 
 #: ../../admin/addons.rst:355
 msgid "Executing scripts from addon"
-msgstr ""
+msgstr "从插件执行脚本"
 
 #: ../../admin/addons.rst:357
 msgid ""
 "Addons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
-msgstr ""
+msgstr "插件还可以用于执行外部脚本。这曾经集成在Weblate中，但现在必须写一些代码，将脚本包裹在插件中。"
 
 #: ../../admin/addons.rst:364
 msgid "For installation instructions see :ref:`custom-addon-modules`."
-msgstr ""
+msgstr "安装方法请见 :ref:`custom-addon-modules`。"
 
 #: ../../admin/addons.rst:366
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
-msgstr ""
+msgstr "对于任何给定的组件，当前路径设置为VCS版本控制系统仓库的根目录时，执行脚本。"
 
 #: ../../admin/addons.rst:369
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "此外，可以访问后面的环境参数："
 
 #: ../../admin/addons.rst:373
 msgid "Version control system used."
-msgstr ""
+msgstr "使用的版本控制系统。"
 
 #: ../../admin/addons.rst:377
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "上游仓库URL。"
 
 #: ../../admin/addons.rst:381
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "VCS版本控制系统仓库的绝对路径。"
 
 #: ../../admin/addons.rst:387
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "当前组件配置的仓库分支。"
 
 #: ../../admin/addons.rst:391
 msgid "Filemask for current component."
-msgstr ""
+msgstr "当前组件的Filemask。"
 
 #: ../../admin/addons.rst:395
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr ""
+msgstr "单语言翻译模板的文件名（可以为空）。"
 
 #: ../../admin/addons.rst:401
 msgid "Filename of the file used for creating new translations (can be empty)."
-msgstr ""
+msgstr "建立新的翻译所使用文件的文件名（可以为空）。"
 
 #: ../../admin/addons.rst:406
 msgid "Fileformat used in current component."
-msgstr ""
+msgstr "当前组件使用的文件格式。"
 
 #: ../../admin/addons.rst:410
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
-msgstr ""
+msgstr "当前处理的翻译语言（对于组件水平的hook不可获得）。"
 
 #: ../../admin/addons.rst:415
 msgid "Previous HEAD on update (available only when running post update hook)."
-msgstr ""
+msgstr "之前更新上的HEAD（只有当运行过去的更新hook时可获得）。"
 
 #: ../../admin/addons.rst:421
 msgid "Component slug used to construct URL."
