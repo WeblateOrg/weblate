@@ -132,10 +132,10 @@ class UsernameField(forms.CharField):
         if value is None:
             return None
         if value is not None:
-            existing = User.objects.filter(username=value)
+            existing = User.objects.filter(username__iexact=value)
             if existing.exists() and value != self.valid:
                 raise forms.ValidationError(
-                    _("This username is already taken. " "Please choose another.")
+                    _("This username is already taken. Please choose another.")
                 )
 
         return super().clean(value)
