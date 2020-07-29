@@ -61,7 +61,7 @@ class NeteaseSightTranslation(MachineTranslation):
 
         sign = settings.MT_NETEASE_SECRET + nonce + timestamp
         sign = sign.encode()
-        sign = sha1(sign).hexdigest()
+        sign = sha1(sign).hexdigest()  # nosec
 
         return {
             "Content-Type": "application/json",

@@ -399,7 +399,7 @@ class Repository:
         example permissions).
         """
         real_path = os.path.join(self.path, self.resolve_symlinks(path))
-        objhash = hashlib.sha1()
+        objhash = hashlib.sha1()  # nosec
 
         if os.path.isdir(real_path):
             files = []
