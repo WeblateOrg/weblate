@@ -17,8 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os.path
+from typing import Tuple
 
 import cairo
 import gi
@@ -61,9 +61,9 @@ def register_widget(widget):
 class Widget:
     """Generic widget class."""
 
-    name = None
+    name = ""
     verbose = ""
-    colors = ()
+    colors: Tuple[str, ...] = ()
     extension = "png"
     content_type = "image/png"
     order = 100
@@ -113,7 +113,7 @@ class BitmapWidget(ContentWidget):
     head_template = '<span letter_spacing="-500"><b>{}</b></span>'
     foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
-    line_spacing = 1
+    line_spacing = 1.0
     offset = 0
     column_offset = 0
     lines = True
