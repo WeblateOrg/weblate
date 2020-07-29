@@ -330,11 +330,11 @@ def handle_revert(unit, request, next_unit_url):
     return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggest_permissions(request, mode, translation, suggestion):
+def check_suggest_permissions(request, mode, unit, suggestion):
     """Check permission for suggestion handling."""
     user = request.user
     if mode in ("accept", "accept_edit"):
-        if not user.has_perm("suggestion.accept", translation):
+        if not user.has_perm("suggestion.accept", unit):
             messages.error(
                 request, _("You do not have privilege to accept suggestions!")
             )
@@ -346,7 +346,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
             )
             return False
     elif mode in ("upvote", "downvote"):
-        if not user.has_perm("suggestion.vote", translation):
+        if not user.has_perm("suggestion.vote", unit):
             messages.error(
                 request, _("You do not have privilege to vote for suggestions!")
             )
@@ -354,7 +354,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
     return True
 
 
-def handle_suggestions(translation, request, this_unit_url, next_unit_url):
+def handle_suggestions(request, unit, this_unit_url, next_unit_url):
     """Handle suggestion deleting/accepting."""
     sugid = ""
     params = ("accept", "accept_edit", "delete", "spam", "upvote", "downvote")
@@ -370,20 +370,18 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
 
     # Fetch suggestion
     try:
-        suggestion = Suggestion.objects.get(
-            pk=int(sugid), unit__translation=translation
-        )
+        suggestion = Suggestion.objects.get(pk=int(sugid), unit=unit)
     except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _("Invalid suggestion!"))
         return HttpResponseRedirect(this_unit_url)
 
     # Permissions check
-    if not check_suggest_permissions(request, mode, translation, suggestion):
+    if not check_suggest_permissions(request, mode, unit, suggestion):
         return HttpResponseRedirect(this_unit_url)
 
     # Perform operation
     if "accept" in request.POST or "accept_edit" in request.POST:
-        suggestion.accept(translation, request)
+        suggestion.accept(request)
         if "accept" in request.POST:
             redirect_url = next_unit_url
     elif "delete" in request.POST or "spam" in request.POST:
@@ -470,9 +468,7 @@ def translate(request, project, component, lang):
             response = handle_translate(request, unit, this_unit_url, next_unit_url)
         elif not locked or "delete" in request.POST or "spam" in request.POST:
             # Handle accepting/deleting suggestions
-            response = handle_suggestions(
-                translation, request, this_unit_url, next_unit_url
-            )
+            response = handle_suggestions(request, unit, this_unit_url, next_unit_url)
 
     # Handle translation merging
     elif "merge" in request.GET and not locked:

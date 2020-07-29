@@ -134,7 +134,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         )
 
     @transaction.atomic
-    def accept(self, translation, request, permission="suggestion.accept"):
+    def accept(self, request, permission="suggestion.accept"):
         if not request.user.has_perm(permission, self.unit):
             messages.error(request, _("Failed to accept suggestion!"))
             return
@@ -184,7 +184,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         # Automatic accepting
         required_votes = self.unit.translation.component.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
-            self.accept(self.unit.translation, request, "suggestion.vote")
+            self.accept(request, "suggestion.vote")
 
     def get_checks(self):
         # Build fake unit to run checks
