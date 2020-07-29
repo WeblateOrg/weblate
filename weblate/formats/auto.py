@@ -16,13 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""translate-toolkit based file format wrappers."""
-
+"""Automatic detection of file format."""
 
 import os.path
 from fnmatch import fnmatch
 
-from django.utils.translation import gettext_lazy as _
 from translate.storage import factory
 
 from weblate.formats.helpers import BytesIOMode
@@ -72,8 +70,11 @@ def try_load(filename, content, original_format, template_store):
 
 
 class AutodetectFormat(TTKitFormat):
-    name = _("Automatic detection")
-    format_id = None
+    """
+    Automatic detection based on translate-toolkit logic.
+
+    This is last fallback when uploaded file was not correctly parsed before.
+    """
 
     @classmethod
     def parse(
