@@ -17,18 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-from hashlib import md5
-
 from django.conf import settings
 from django.contrib.auth import logout
 from django.core.cache import cache
 from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes
 
 from weblate.utils import messages
+from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
 
 
@@ -44,8 +41,8 @@ def get_cache_key(scope, request=None, address=None, user=None):
         if address is None:
             address = get_ip_address(request)
         origin = "ip"
-        key = md5(force_bytes(address)).hexdigest()
-    return "ratelimit-{0}-{1}-{2}".format(origin, scope, key)
+        key = calculate_checksum(address)
+    return f"ratelimit-{origin}-{scope}-{key}"
 
 
 def reset_rate_limit(scope, request=None, address=None, user=None):

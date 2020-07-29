@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import hashlib
 import os
 import subprocess
@@ -31,6 +30,7 @@ from django.utils.translation import gettext as _
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.data import data_dir
+from weblate.utils.hash import calculate_checksum
 
 # SSH key files
 KNOWN_HOSTS = "known_hosts"
@@ -204,9 +204,8 @@ class SSHWrapper:
 
         It is based on template and DATA_DIR settings.
         """
-        md5 = hashlib.md5(self.SSH_WRAPPER_TEMPLATE.encode())
-        md5.update(data_dir("ssh").encode())
-        return ssh_file("ssh-weblate-wrapper-{0}".format(md5.hexdigest()))
+        digest = calculate_checksum(self.SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
+        return ssh_file(f"ssh-weblate-wrapper-{digest}")
 
     def create(self):
         """Create wrapper for SSH to pass custom known hosts and key."""
