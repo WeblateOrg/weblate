@@ -277,7 +277,7 @@ class GitRepository(Repository):
         ]
         # Push url
         if push_url is not None:
-            updates.append(('remote "origin"', "pushurl", push_url or ""))
+            updates.append(('remote "origin"', "pushurl", push_url))
         self.config_update(*updates)
         self.branch = branch
 
