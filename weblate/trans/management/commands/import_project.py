@@ -146,7 +146,7 @@ class Command(BaseCommand):
         # Create temporary working dir
         workdir = tempfile.mkdtemp(dir=project.full_path)
         # Make the temporary directory readable by others
-        os.chmod(workdir, 0o755)
+        os.chmod(workdir, 0o755)  # nosec
 
         # Initialize git repository
         self.logger.info("Cloning git repository...")
