@@ -51,7 +51,7 @@ from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
-from weblate.utils.stats import BaseStats, ProjectLanguageStats
+from weblate.utils.stats import BaseStats
 
 register = template.Library()
 
@@ -638,13 +638,6 @@ def get_browse_url(context, obj):
         return reverse(
             "project-language",
             kwargs={"lang": context["language"].code, "project": obj.slug},
-        )
-
-    # Language listing on porject page
-    if isinstance(obj, ProjectLanguageStats):
-        return reverse(
-            "project-language",
-            kwargs={"lang": obj.language.code, "project": obj.obj.slug},
         )
 
     return obj.get_absolute_url()

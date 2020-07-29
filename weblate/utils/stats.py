@@ -30,6 +30,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Sum
 from django.db.models.functions import Length
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -153,6 +154,12 @@ class BaseStats:
     @property
     def pk(self):
         return self._object.pk
+
+    def get_absolute_url(self):
+        return self._object.get_absolute_url()
+
+    def get_translate_url(self):
+        return self._object.get_translate_url()
 
     @property
     def obj(self):
@@ -648,26 +655,41 @@ class ComponentStats(LanguageStats):
             return DummyTranslationStats(language)
 
 
-class ProjectLanguageStats(LanguageStats):
-    def __init__(self, obj, lang):
-        self.language = lang
-        super().__init__(obj)
+class ProjectLanguage:
+    """Wrapper class used in project-language listings and stats."""
 
-    @property
-    def pk(self):
-        return "{}-{}".format(self._object.pk, self.language.pk)
+    def __init__(self, project, language: Language):
+        self.project = project
+        self.language = language
 
     @cached_property
-    def has_review(self):
-        return self._object.source_review or self._object.translation_review
+    def pk(self):
+        return "{}-{}".format(self.project.pk, self.language.pk)
 
     @cached_property
     def cache_key(self):
-        return "{}-{}".format(super().cache_key, self.language.pk)
+        return "{}-{}".format(self.project.cache_key, self.language.pk)
+
+    def get_absolute_url(self):
+        return reverse(
+            "project-language",
+            kwargs={"lang": self.language.code, "project": self.project.slug},
+        )
+
+
+class ProjectLanguageStats(LanguageStats):
+    def __init__(self, obj: ProjectLanguage):
+        self.language = obj.language
+        self.project = obj.project
+        super().__init__(obj)
+
+    @cached_property
+    def has_review(self):
+        return self.project.source_review or self.project.translation_review
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.component_set.prefetch_source_stats())
+        return prefetch_stats(self.project.component_set.prefetch_source_stats())
 
     @cached_property
     def translation_set(self):
@@ -719,7 +741,7 @@ class ProjectStats(BaseStats):
         return prefetch_stats(self._object.component_set.prefetch_source_stats())
 
     def get_single_language_stats(self, language, prefetch: bool = False):
-        result = ProjectLanguageStats(self._object, language)
+        result = ProjectLanguageStats(ProjectLanguage(self._object, language))
         if prefetch:
             # Share component set here
             result.__dict__["component_set"] = self.component_set
