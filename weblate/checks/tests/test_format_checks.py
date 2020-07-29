@@ -863,7 +863,7 @@ class I18NextInterpolationCheckTest(CheckTestCase):
         )
 
 
-class ESTemplateLiteralsCheck(CheckTestCase):
+class ESTemplateLiteralsCheckTest(CheckTestCase):
     check = ESTemplateLiteralsCheck()
 
     def setUp(self):
