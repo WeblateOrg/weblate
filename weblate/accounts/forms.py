@@ -73,7 +73,7 @@ class UniqueEmailMixin:
         self.cleaned_data["email_user"] = None
         mail = self.cleaned_data["email"]
         users = User.objects.filter(
-            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email__iexact=mail),
+            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email=mail),
             is_active=True,
         )
         if users.exists():
@@ -132,7 +132,7 @@ class UsernameField(forms.CharField):
         if value is None:
             return None
         if value is not None:
-            existing = User.objects.filter(username__iexact=value)
+            existing = User.objects.filter(username=value)
             if existing.exists() and value != self.valid:
                 raise forms.ValidationError(
                     _("This username is already taken. Please choose another.")

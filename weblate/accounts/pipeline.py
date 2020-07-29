@@ -249,7 +249,7 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs):
     """
     if user or not username:
         return
-    if User.objects.filter(username__iexact=username).exists():
+    if User.objects.filter(username=username).exists():
         raise AuthAlreadyAssociated(backend, "Username exists")
     return
 

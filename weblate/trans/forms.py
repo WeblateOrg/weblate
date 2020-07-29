@@ -152,7 +152,7 @@ class UserField(forms.CharField):
         if not value:
             return None
         try:
-            return User.objects.get(Q(username__iexact=value) | Q(email__iexact=value))
+            return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
             raise ValidationError(_("No matching user found."))
         except User.MultipleObjectsReturned:

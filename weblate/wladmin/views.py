@@ -326,7 +326,7 @@ def users_check(request):
     if form.is_valid():
         email = form.cleaned_data["email"]
         user_list = User.objects.filter(
-            Q(email__iexact=email) | Q(social_auth__verifiedemail__email__iexact=email)
+            Q(email=email) | Q(social_auth__verifiedemail__email__iexact=email)
         ).distinct()
 
     return render(

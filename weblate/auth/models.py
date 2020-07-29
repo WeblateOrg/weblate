@@ -56,6 +56,7 @@ from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.validators import (
     validate_email,
     validate_fullname,
@@ -277,7 +278,7 @@ class GroupManyToManyField(models.ManyToManyField):
 
 
 class User(AbstractBaseUser):
-    username = models.CharField(
+    username = UsernameField(
         _("Username"),
         max_length=USERNAME_LENGTH,
         unique=True,
@@ -294,7 +295,7 @@ class User(AbstractBaseUser):
         blank=False,
         validators=[validate_fullname],
     )
-    email = models.EmailField(  # noqa: DJ01
+    email = EmailField(  # noqa: DJ01
         _("E-mail"),
         blank=False,
         null=True,
