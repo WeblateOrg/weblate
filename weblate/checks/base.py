@@ -121,7 +121,7 @@ class Check:
         except IndexError:
             return False
 
-        return (src in chars) is not (tgt in chars)
+        return (src in chars) != (tgt in chars)
 
     def is_language(self, unit, vals):
         """Detect whether language is in given list, ignores variants."""
