@@ -5,13 +5,14 @@
 # Janar Leas <janar.leas@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
+# Priit Jõerüüt <hwlate@joeruut.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-24 18:39+0000\n"
-"PO-Revision-Date: 2020-07-12 14:30+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-07-31 03:39+0000\n"
+"Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -106,10 +107,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "Aktiveerimis e-kiri saadetakse sinna."
 
 #: weblate/accounts/forms.py:360
-#, fuzzy
-#| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "Liiga palju nurjunud registreerumis katseid sellest asukohast!"
+msgstr "Liiga palju nurjunud registreerumiskatseid sellest asukohast."
 
 #: weblate/accounts/forms.py:367
 msgid "New password"
@@ -164,10 +163,8 @@ msgid "This account is inactive."
 msgstr "See konto pole aktiivne."
 
 #: weblate/accounts/forms.py:502
-#, fuzzy
-#| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
-msgstr "Liiga palju tõendamis katseid sellest asukohatst!"
+msgstr "Liiga palju autentimiskatseid sellest asukohast."
 
 #: weblate/accounts/forms.py:558 weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:77
@@ -235,16 +232,12 @@ msgid "Managed projects"
 msgstr "Korralda jälgitavaid projekte"
 
 #: weblate/accounts/forms.py:688
-#, fuzzy
-#| msgid "Project name"
 msgid "Project: {}"
-msgstr "Projekti nimi"
+msgstr "Projekt: {}"
 
 #: weblate/accounts/forms.py:689
-#, fuzzy
-#| msgid "Component list"
 msgid "Component: {}"
-msgstr "Komponentide nimekiri"
+msgstr "Komponent: {}"
 
 #: weblate/accounts/forms.py:695
 #, fuzzy
@@ -267,20 +260,14 @@ msgid ""
 msgstr "Saate teatise iga sellise sündmuse kohta jälgitavates projektides."
 
 #: weblate/accounts/forms.py:705
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "Saate teatise iga sellise sündmuse kohta jälgitavates projektides."
+msgstr "Saate teatise iga sellise sündmuse kohta %(project)s projektis."
 
 #: weblate/accounts/forms.py:708
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "Saate teatise iga sellise sündmuse kohta jälgitavates projektides."
+msgstr "Saate teatise iga sellise sündmuse kohta %(component)s projektiosises."
 
 #: weblate/accounts/forms.py:715
 #, fuzzy
@@ -305,26 +292,20 @@ msgstr ""
 "Saate need teatised ainult tõlgitud keelte puhul jälgitavates projektides."
 
 #: weblate/accounts/forms.py:725
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr ""
-"Saate need teatised ainult tõlgitud keelte puhul jälgitavates projektides."
+msgstr "Saate need teatised ainult tõlgitud keelte puhul %(project)s projektis."
 
 #: weblate/accounts/forms.py:729
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Saate need teatised ainult tõlgitud keelte puhul jälgitavates projektides."
+"Saate need teatised ainult tõlgitud keelte puhul %(component)s "
+"projektiosises."
 
 #: weblate/accounts/forms.py:771 weblate/auth/models.py:315
 #: weblate/templates/manage/users_check.html:21
@@ -422,26 +403,20 @@ msgid "Invited to Weblate by {username}."
 msgstr ""
 
 #: weblate/accounts/models.py:103
-#, fuzzy
-#| msgid "Configure dashboard"
 msgid "Configured password to sign in."
-msgstr "Seadista tarvikulaud"
+msgstr "Sisselogimiseks seadistatud salasõna."
 
 #: weblate/accounts/models.py:104
-#, fuzzy
-#| msgid "Set my password"
 msgid "Signed in using password."
-msgstr "Sea minu salasõna"
+msgstr "Sisse logitud salasõna alusel."
 
 #: weblate/accounts/models.py:105
 msgid "Signed in using password from a new device."
 msgstr ""
 
 #: weblate/accounts/models.py:106
-#, fuzzy
-#| msgid "Set my password"
 msgid "Could not sign in using password."
-msgstr "Sea minu salasõna"
+msgstr "Ei õnnestunud salasõna alusel sisse logida."
 
 #: weblate/accounts/models.py:111
 msgid "To restore access to your account, please reset your password."
@@ -776,10 +751,8 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr ""
 
 #: weblate/accounts/password_validation.py:68
-#, fuzzy
-#| msgid "Set my password"
 msgid "Can not reuse previously used password."
-msgstr "Sea minu salasõna"
+msgstr "Sa ei saa kasutada varasemat salasõna."
 
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
@@ -824,10 +797,8 @@ msgid "User registration"
 msgstr ""
 
 #: weblate/accounts/views.py:215
-#, fuzzy
-#| msgid "Username or email"
 msgid "Could not send message to administrator."
-msgstr "Kasutajanimi või e-post"
+msgstr "Ei õnnestunud saata sõnumit haldajale."
 
 #: weblate/accounts/views.py:235
 msgid "Message has been sent to administrator."
@@ -1257,10 +1228,8 @@ msgid "Define the monolingual base filename"
 msgstr ""
 
 #: weblate/addons/forms.py:250
-#, fuzzy
-#| msgid "Translation key"
 msgid "Leave empty for bilingual translation files."
-msgstr "Tõlke võti"
+msgstr "Kakskeelsete tõlkefailide puhul jäta see tühjaks."
 
 #: weblate/addons/forms.py:253
 msgid "Define the base file for new translations"
@@ -1277,11 +1246,9 @@ msgid "Language filter"
 msgstr ""
 
 #: weblate/addons/forms.py:267
-#, fuzzy
-#| msgid "Translation key"
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
-msgstr "Tõlke võti"
+msgstr "Regulaaravaldis tõlke filtreerimiseks failimaski skannimisel."
 
 #: weblate/addons/forms.py:272
 msgid "Clone addons from the main component to the newly created ones"
@@ -1308,10 +1275,8 @@ msgid "Statistics generator"
 msgstr ""
 
 #: weblate/addons/generate.py:33
-#, fuzzy
-#| msgid "Repository containing Weblate translations"
 msgid "Generates a file containing detailed info about the translation."
-msgstr "Varamu sisaldab Weblate tõlkeid"
+msgstr "Loob faili, mis sisaldab üksikasjalikku teavet selle tõlke kohta."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2054,10 +2019,8 @@ msgid "E-mail regular expression"
 msgstr ""
 
 #: weblate/auth/models.py:594
-#, fuzzy
-#| msgid "Translation key"
 msgid "Regular expression used to match user e-mail."
-msgstr "Tõlke võti"
+msgstr "Regulaaravaldis, mida pruugitakse kasutaja e-posti vastendamiseks."
 
 #: weblate/auth/models.py:597
 msgid "Group to assign"
@@ -2378,10 +2341,9 @@ msgid "This string has been translated in the past"
 msgstr ""
 
 #: weblate/checks/consistency.py:105
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Last translation was \"%s\"."
-msgstr "Tõlke võti"
+msgstr "Viimane tõlge oli „%s“."
 
 #: weblate/checks/duplicate.py:73
 msgid "Consecutive duplicated words"
@@ -2455,34 +2417,29 @@ msgid "Replacements while rendering"
 msgstr ""
 
 #: weblate/checks/flags.py:228
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Tõlke võti"
+msgstr "Vigane tõlketunnus: „%s“"
 
 #: weblate/checks/flags.py:232
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Translation flag has no parameters: \"%s\""
-msgstr "Tõlke võti"
+msgstr "Tõlketunnusel pole parameetreid: „%s“"
 
 #: weblate/checks/flags.py:238
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Tõlke võti"
+msgstr "Tõlketunnuse valed parameetrid: „%s“"
 
 #: weblate/checks/flags.py:242
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Tõlke võti"
+msgstr "Tõlketunnuse puuduvad parameetrid: „%s“"
 
 #: weblate/checks/format.py:339
-#, fuzzy, python-format
-#| msgid "Following components matched existing ones"
+#, python-format
 msgid "Following format strings are missing: %s"
-msgstr "Järgmistele osistele leidusid olemasolevad vasted"
+msgstr "Järgmised vormingustringid puuduvad: %s"
 
 #: weblate/checks/format.py:343
 #, python-format
@@ -2683,10 +2640,8 @@ msgid "Regular expression"
 msgstr ""
 
 #: weblate/checks/placeholders.py:78
-#, fuzzy
-#| msgid "Translated"
 msgid "Translation does not match regular expression:"
-msgstr "Tõlgitud"
+msgstr "Tõlge ei klapi regulaaravaldisega:"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3177,10 +3132,9 @@ msgid "Translation"
 msgstr ""
 
 #: weblate/glossary/views.py:57
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "%(language)s glossary for %(project)s"
-msgstr "Tõlke võti"
+msgstr "%(project)s projekti sõnastik %(language)s keeles"
 
 #: weblate/glossary/views.py:130 weblate/glossary/views.py:145
 msgid "Glossary was not found."
@@ -3427,10 +3381,8 @@ msgid "Plural form %d"
 msgstr ""
 
 #: weblate/lang/views.py:69
-#, fuzzy
-#| msgid "Translated"
 msgid "Remove all translations using this language first."
-msgstr "Tõlgitud"
+msgstr "Eemalda kõik tõlked, kasutades esmalt seda keelt."
 
 #: weblate/lang/views.py:73
 #, python-format
@@ -3609,10 +3561,8 @@ msgid "Failed to parse TMX file!"
 msgstr ""
 
 #: weblate/memory/models.py:161
-#, fuzzy
-#| msgid "Register to manage your languages"
 msgid "Failed to find source language!"
-msgstr "Oma keelte haldamiseks registreeru"
+msgstr "Ei leidnud lähtekeelt!"
 
 #: weblate/memory/models.py:238
 #, fuzzy
@@ -4347,7 +4297,7 @@ msgstr "Kasutajanimi"
 
 #: weblate/templates/accounts/profile.html:231
 msgid "No recent activity found!"
-msgstr "Hiljutist tegevust  ei leidunud!"
+msgstr "Hiljutist tegevust ei leidunud!"
 
 #: weblate/templates/accounts/profile.html:236
 #: weblate/templates/mail/account_activity.html:36
@@ -4450,7 +4400,7 @@ msgstr "Paraku on sellel lehel uued registreerumised välja lülitatud."
 
 #: weblate/templates/accounts/register.html:68
 msgid "You can contact us for more details."
-msgstr "Täpsustuste  tarvis võid meiega ühendust võtta."
+msgstr "Täpsustuste tarvis võid meiega ühendust võtta."
 
 #: weblate/templates/accounts/removal.html:14
 msgid "Account removal"
@@ -4517,29 +4467,26 @@ msgstr[0] "%(count)s tõlge"
 msgstr[1] "%(count)s tõlget"
 
 #: weblate/templates/accounts/user.html:28
-#, fuzzy, python-format
-#| msgid "Translated"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "Tõlgitud"
-msgstr[1] "Tõlgitud"
+msgstr[0] "%(count)s soovitus"
+msgstr[1] "%(count)s soovitust"
 
 #: weblate/templates/accounts/user.html:35
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Translated"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Tõlgitud"
-msgstr[1] "Tõlgitud"
+msgstr[0] "%(count)s ootel ettepanek"
+msgstr[1] "%(count)s ootel ettepanekut"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "Screenshots"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "Kuvatõmmised"
-msgstr[1] "Kuvatõmmised"
+msgstr[0] "%(count)s kuvatõmmis"
+msgstr[1] "%(count)s kuvatõmmist"
 
 #: weblate/templates/accounts/user.html:59
 #, fuzzy
@@ -4593,7 +4540,7 @@ msgid ""
 "This addon is used for the whole project, it is enough to install it for one "
 "component."
 msgstr ""
-"Seda laiendust kasutatakse kogu projektile, piisab selle lisamisest ühele "
+"Seda laiendust kasutatakse kogu projektis, piisab selle lisamisest ühele "
 "osisele."
 
 #: weblate/templates/addons/addon_head.html:7
@@ -4667,7 +4614,7 @@ msgstr "Üks kaust keele kohta, mis sisaldab tõlke faile osistele."
 
 #: weblate/templates/addons/discovery_help.html:32
 msgid "Usual structure for storing gettext PO files."
-msgstr "Tavapärane struktuur gettext PO  failide talletamiseks."
+msgstr "Tavapärane struktuur gettext PO failide talletamiseks."
 
 #: weblate/templates/addons/discovery_help.html:42
 msgid "Using both component and language name within filename."
@@ -4797,10 +4744,9 @@ msgid "Checks"
 msgstr "Kontrollid"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Jälgitavad projektid"
+msgstr "Loogiliste kontrollide tulemusel leitud vead %(project)s projektis"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -4843,7 +4789,7 @@ msgstr "Lisa uus tõlkeprojekt"
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
-msgstr "Lisa uus tõlke osis"
+msgstr "Lisa uus tõlkeosis"
 
 #: weblate/templates/base.html:227
 msgid "Profile"
@@ -4970,9 +4916,8 @@ msgid "Invoices"
 msgstr "Arved"
 
 #: weblate/templates/billing/detail.html:56
-#, fuzzy
 msgid "Invoice period"
-msgstr "Arve periood"
+msgstr "Arve ajavahemik"
 
 #: weblate/templates/billing/detail.html:57
 msgid "Invoice amount"
@@ -5209,7 +5154,7 @@ msgstr "Katkesta uuendamine"
 
 #: weblate/templates/component-progress.html:38
 msgid "Return to the component after completion"
-msgstr "Lõpetamisel naaseb osisele"
+msgstr "Lõpetamisel naase osise juurde"
 
 #: weblate/templates/component.html:32
 msgid "Translations"
@@ -5769,10 +5714,9 @@ msgid "Change word"
 msgstr ""
 
 #: weblate/templates/engage.html:14
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "Get involved in <strong>%(project)s</strong>"
-msgstr "Jälgitavad projektid"
+msgstr "Osale <strong>%(project)s</strong> projektis"
 
 #: weblate/templates/engage.html:17
 msgid "Hello and thank you for your interest"
@@ -5786,22 +5730,18 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/engage.html:25 weblate/trans/widgets.py:257
-#, fuzzy
-#| msgid "Translated"
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Tõlgitud"
-msgstr[1] "Tõlgitud"
+msgstr[0] "Lausend"
+msgstr[1] "Lausendid"
 
 #: weblate/templates/engage.html:29 weblate/trans/widgets.py:267
-#, fuzzy
-#| msgid "Your languages"
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
-msgstr[0] "Sinu keeled"
-msgstr[1] "Sinu keeled"
+msgstr[0] "Keel"
+msgstr[1] "Keeled"
 
 #: weblate/templates/engage.html:32
 #: weblate/trans/templatetags/translations.py:806 weblate/trans/widgets.py:100
@@ -5835,13 +5775,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/engage.html:46
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "Jälgitavad projektid"
-msgstr[1] "Jälgitavad projektid"
+msgstr[0] "Seda tõlgitakse <strong>%(count)s keelde</strong>."
+msgstr[1] "Seda tõlgitakse <strong>%(count)s keelde</strong>."
 
 #: weblate/templates/engage.html:48
 #, python-format
@@ -6378,10 +6317,9 @@ msgid "Your registration on %(site_title)s"
 msgstr ""
 
 #: weblate/templates/mail/approved_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Approved translation in %(translation)s"
-msgstr "Tõlke võti"
+msgstr "Heakskiidetud tõlge %(translation)s"
 
 #: weblate/templates/mail/base.html:258
 #, fuzzy
@@ -6481,11 +6419,12 @@ msgid "New translation in %(translation)s"
 msgstr ""
 
 #: weblate/templates/mail/component_license.html:7
-#, fuzzy, python-format
-#| msgid "Your languages"
+#, python-format
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
-msgstr "Sinu keeled"
+msgstr ""
+"Osise %(component)s vana litsents %(old)s muutus uueks litsentsiks "
+"%(target)s."
 
 #: weblate/templates/mail/component_license_subject.txt:3
 #, fuzzy, python-format
@@ -6494,10 +6433,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "Sinu keeled"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Component %(component)s was locked"
-msgstr "Tõlke võti"
+msgstr "%(component)s osis lukustati"
 
 #: weblate/templates/mail/component_lock_subject.txt:6
 #, python-format
@@ -6526,10 +6464,9 @@ msgid "View all alerts"
 msgstr ""
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "Tõlke võti"
+msgstr "Uus hoiatus %(component)s osises"
 
 #: weblate/templates/mail/new_announcement.html:7
 #: weblate/trans/models/announcement.py:133
@@ -6537,16 +6474,14 @@ msgid "Announcement"
 msgstr "Kuulutus"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Tõlke võti"
+msgstr "Uus teadaanne %(project)s projektis"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Additional message"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Lisatekst"
+msgstr "Uus teadaanne %(site_title)s veebisaidis"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -6554,16 +6489,14 @@ msgid "Comment"
 msgstr ""
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Tõlke võti"
+msgstr "Uus kommentaar %(component)s osises"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "Tõlke võti"
+msgstr "Uus tõlkeosis %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:6
 #, fuzzy
@@ -6588,12 +6521,13 @@ msgid "Added language"
 msgstr "Tõlgitud keeled"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "Your languages"
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
-msgstr "Sinu keeled"
+msgstr ""
+"Kasutaja %(user)s on soovinud %(component)s osisesse %(site_title)s saidis "
+"uue keele lisamist."
 
 #: weblate/templates/mail/new_language.html:16
 msgid ""
@@ -6620,16 +6554,14 @@ msgid "View translation component"
 msgstr "Tõlke võti"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Your languages"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "Sinu keeled"
+msgstr "Uus keel lisati %(component)s osisesse"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "Tõlke võti"
+msgstr "Palve uue keele lisamiseks %(component)s osisesse"
 
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
@@ -6667,12 +6599,11 @@ msgid "Strings with suggestions"
 msgstr ""
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "Tõlke võti"
-msgstr[1] "Tõlke võti"
+msgstr[0] "%(count)s ootel soovitus %(component)s osises"
+msgstr[1] "%(count)s ootel soovitust %(component)s osises"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6685,16 +6616,14 @@ msgid "Account removal on %(site_title)s"
 msgstr ""
 
 #: weblate/templates/mail/repository_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Repository failure in %(component)s"
-msgstr "Tõlke võti"
+msgstr "Koodihoidla viga %(component)s osises"
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Repository operation in %(component)s"
-msgstr "Tõlke võti"
+msgstr "Toiming koodihoidlaga %(component)s osises"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -6751,20 +6680,18 @@ msgid "Screenshot context"
 msgstr ""
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Tõlke võti"
-msgstr[1] "Tõlke võti"
+msgstr[0] "%(count)s lausend vajab tähelepanu %(component)s osises"
+msgstr[1] "%(count)s lausendit vajavad tähelepanu %(component)s osises"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "Tõlke võti"
-msgstr[1] "Tõlke võti"
+msgstr[0] "%(count)s lausend vajab tähelepanu"
+msgstr[1] "%(count)s lausendit vajavad tähelepanu"
 
 #: weblate/templates/manage-access.html:27
 #: weblate/templates/manage/users_check.html:20
@@ -7115,10 +7042,9 @@ msgid "off"
 msgstr ""
 
 #: weblate/templates/memory/index.html:57
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Number of entries for %(project)s"
-msgstr "Tõlke võti"
+msgstr "Sisestuste arv projektis %(project)s"
 
 #: weblate/templates/memory/index.html:59
 #, fuzzy
@@ -7204,10 +7130,9 @@ msgid "Click to edit position"
 msgstr ""
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "%(position)s / %(total)s"
-msgstr "%(total)s on kasutatud %(used)s"
+msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/paginator.html:12
 #: weblate/templates/snippets/position-field.html:10
@@ -7519,10 +7444,9 @@ msgid "Additional labels can be defined by project administrators."
 msgstr ""
 
 #: weblate/templates/snippets/list-objects-percent.html:5
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "%(value)s of %(all)s"
-msgstr "%(total)s on kasutatud %(used)s"
+msgstr "%(value)s / %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
 #, fuzzy
@@ -7877,11 +7801,9 @@ msgid "Untranslated"
 msgstr "tõlgitud"
 
 #: weblate/templates/snippets/unit-state.html:12
-#, fuzzy
-#| msgid "Watched projects"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "Jälgitavad projektid"
+msgstr "Ei suutnud kontrollida:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
@@ -7913,17 +7835,15 @@ msgid "Watching"
 msgstr ""
 
 #: weblate/templates/snippets/watch-dropdown.html:13
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Jälgitavad projektid"
+msgstr "Lõpeta projekti %(project)s jälgimine"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "Tõlke võti"
+msgstr "Kohanda %(object)s teavitusi"
 
 #: weblate/templates/snippets/watch-dropdown.html:16
 #: weblate/templates/snippets/watch-dropdown.html:19
@@ -8013,10 +7933,8 @@ msgid "The following filemasks were found multiple times:"
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
-#, fuzzy
-#| msgid "Translated"
 msgid "The component contains translation file for the source language."
-msgstr "Tõlgitud"
+msgstr "Osises leidub lähtekeele tõlkefail."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatelanguage.html:25
@@ -8048,10 +7966,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:22
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "Please fix this by removing one of the translation files."
-msgstr "Soovitatud tõlked"
+msgstr "Palun paranda see viga ühe tõlkefaili eemaldamise teel."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:28
 msgid ""
@@ -8166,10 +8082,8 @@ msgstr "Vaikimisi komponentide nimekiri"
 
 #: weblate/templates/trans/component_create.html:14
 #: weblate/templates/trans/component_form.html:12
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "You do not have permission to create components in any projects."
-msgstr "Soovitatud tõlked"
+msgstr "Sul pole õigusi mitte üheski projektis osiseid lisada."
 
 #: weblate/templates/trans/component_create.html:25
 msgid "From version control"
@@ -8274,10 +8188,8 @@ msgstr ""
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
-#, fuzzy
-#| msgid "Translation key"
 msgid "The following translation components will be removed:"
-msgstr "Tõlke võti"
+msgstr "Eemaldame järgnevad tõlkeosised:"
 
 #: weblate/templates/trans/delete-component.html:20
 #, fuzzy
@@ -8326,10 +8238,8 @@ msgid "The detected file format is not supported."
 msgstr ""
 
 #: weblate/templates/trans/guide/addon.html:3
-#, fuzzy
-#| msgid "Available addons"
 msgid "Enable addon:"
-msgstr "Saadaolevad laiendused"
+msgstr "Võta laiendus kasutusele:"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -8384,10 +8294,8 @@ msgid "Create project"
 msgstr "Jälgitavad projektid"
 
 #: weblate/templates/trans/project_form.html:12
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "You currently do not have permission to create projects."
-msgstr "Soovitatud tõlked"
+msgstr "Sul hetkel pole õigusi projektide algatamiseks."
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -8449,10 +8357,8 @@ msgid "This translation is currently locked."
 msgstr ""
 
 #: weblate/templates/translate.html:174
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to save translations."
-msgstr "Palume siseneda uue tõlke käivitamiseks"
+msgstr "Tõlgete salvestamiseks palun logi sisse."
 
 #: weblate/templates/translate.html:176
 msgid ""
@@ -8578,12 +8484,11 @@ msgid "Things to check"
 msgstr ""
 
 #: weblate/templates/translate.html:383
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Tõlke võti"
-msgstr[1] "Tõlke võti"
+msgstr[0] "Sellele lausendile on %(count)s soovitus."
+msgstr[1] "Sellele lausendile on %(count)s soovitust."
 
 #: weblate/templates/translate.html:406
 #, fuzzy
@@ -8605,12 +8510,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/translate.html:458
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "There is %(count)s variant for this string."
 msgid_plural "There are %(count)s variants for this string."
-msgstr[0] "Tõlke võti"
-msgstr[1] "Tõlke võti"
+msgstr[0] "Sellest lausendist on %(count)s variant."
+msgstr[1] "Sellest lausendist on %(count)s varianti."
 
 #: weblate/templates/translate.html:472
 msgid "Manage glossary"
@@ -8625,30 +8529,24 @@ msgid "Source information"
 msgstr ""
 
 #: weblate/templates/translate.html:533
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No screenshot currently associated."
-msgstr "Hetkel pole ühtegi projekti määratud!"
+msgstr "Hetkel ei ole ühtegi seostatud ekraanitõmmist ."
 
 #: weblate/templates/translate.html:547
 msgid "No explanation currently provided."
 msgstr ""
 
 #: weblate/templates/translate.html:576
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No labels currently set."
-msgstr "Hetkel pole ühtegi projekti määratud!"
+msgstr "Ühtegi silti pole hetkel kirjeldatud."
 
 #: weblate/templates/translate.html:584
 msgid "Flags"
 msgstr ""
 
 #: weblate/templates/translate.html:589
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No flags currently set."
-msgstr "Hetkel pole ühtegi projekti määratud!"
+msgstr "Ühtegi tunnust pole hetkel määratud."
 
 #: weblate/templates/translate.html:596
 msgid "Source string location"
@@ -9343,10 +9241,8 @@ msgid "Starting date has to be before ending date!"
 msgstr ""
 
 #: weblate/trans/forms.py:1114
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "You do not have permission to access this component!"
-msgstr "Soovitatud tõlked"
+msgstr "Sinul puuduvad õigused ligipääsuks sellele osisele!"
 
 #: weblate/trans/forms.py:1213 weblate/trans/forms.py:1696
 msgid "Basic"
@@ -9540,10 +9436,8 @@ msgid "I accept the contributor agreement"
 msgstr ""
 
 #: weblate/trans/forms.py:1903
-#, fuzzy
-#| msgid "Translated"
 msgid "The slug does not match the one marked for deletion!"
-msgstr "Tõlgitud"
+msgstr "See URL-i saba ei vasta tollele, mis on märgitud kustutamiseks!"
 
 #: weblate/trans/forms.py:1909 weblate/trans/forms.py:1918
 #: weblate/trans/forms.py:1927
@@ -9933,12 +9827,10 @@ msgstr "Vaikimisi komponentide nimekiri"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:317 weblate/trans/models/change.py:417
-#, fuzzy
-#| msgid "Suggested translations"
 msgid "New string to translate"
 msgid_plural "New strings to translate"
-msgstr[0] "Soovitatud tõlked"
-msgstr[1] "Soovitatud tõlked"
+msgstr[0] "Uus tõlkimist ootav lausend"
+msgstr[1] "Uued tõlkimist ootavad lausendid"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:325
@@ -10446,12 +10338,11 @@ msgid "Could not find any matching language, please check the filemask."
 msgstr "Tõlke võti"
 
 #: weblate/trans/models/component.py:1964
-#, fuzzy, python-format
-#| msgid "Translation key"
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "Tõlke võti"
-msgstr[1] "Tõlke võti"
+msgstr[0] "Ei õnnestunud töödelda ühte sobivat faili."
+msgstr[1] "Ei õnnestunud töödelda %d sobivat faili."
 
 #: weblate/trans/models/component.py:1987
 #, fuzzy
@@ -10997,10 +10888,8 @@ msgid "This translation is locked."
 msgstr "Tõlke võti"
 
 #: weblate/trans/templatetags/translations.py:735
-#, fuzzy
-#| msgid "Translation key"
 msgid "Updating translation component…"
-msgstr "Tõlke võti"
+msgstr "Uuendan tõlkeosist…"
 
 #: weblate/trans/templatetags/translations.py:747
 msgid "Some of the components within this project have alerts."
@@ -11626,10 +11515,9 @@ msgid "Empty"
 msgstr ""
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component list"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Komponentide nimekiri"
+msgstr "Kompileerimine ebaõnnestus: {0}"
 
 #: weblate/utils/validators.py:69
 #, fuzzy
