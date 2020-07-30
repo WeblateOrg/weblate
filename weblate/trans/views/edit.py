@@ -68,6 +68,16 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.views import get_sort_name, get_translation, show_form_errors
 
 
+def parse_params(request, project, component, lang):
+    """Parses base object and unit set from request."""
+    # Translation case
+    obj = get_translation(request, project, component, lang)
+    unit_set = obj.unit_set
+    project = obj.component.project
+
+    return obj, project, unit_set
+
+
 def get_other_units(unit):
     """Returns other units to show while translating."""
     result = {"total": 0, "same": [], "matching": [], "context": [], "source": []}
@@ -397,9 +407,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 
 def translate(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
-    obj = get_translation(request, project, component, lang)
-    project = obj.component.project
-    unit_set = obj.unit_set
+    obj, project, unit_set = parse_params(request, project, component, lang)
 
     # Search results
     search_result = search(obj, unit_set, request, PositionSearchForm)
@@ -696,9 +704,7 @@ def get_zen_unitdata(obj, unit_set, request):
 
 def zen(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
-    obj = get_translation(request, project, component, lang)
-    unit_set = obj.unit_set
-    project = obj.component.project
+    obj, project, unit_set = parse_params(request, project, component, lang)
 
     search_result, unitdata = get_zen_unitdata(obj, unit_set, request)
     sort = get_sort_name(request)
@@ -729,9 +735,8 @@ def zen(request, project, component, lang):
 
 def load_zen(request, project, component, lang):
     """Load additional units for zen editor."""
-    obj = get_translation(request, project, component, lang)
-    unit_set = obj.unit_set
-    project = obj.component.project
+    obj, project, unit_set = parse_params(request, project, component, lang)
+
     search_result, unitdata = get_zen_unitdata(obj, unit_set, request)
 
     # Handle redirects
@@ -756,8 +761,7 @@ def load_zen(request, project, component, lang):
 @require_POST
 def save_zen(request, project, component, lang):
     """Save handler for zen mode."""
-    translation = get_translation(request, project, component, lang)
-    unit_set = translation.unit_set
+    _obj, _project, unit_set = parse_params(request, project, component, lang)
 
     checksum_form = ChecksumForm(unit_set, request.POST)
     if not checksum_form.is_valid():
