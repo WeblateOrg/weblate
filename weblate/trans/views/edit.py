@@ -401,9 +401,6 @@ def translate(request, project, component, lang):
     project = translation.component.project
     unit_set = translation.unit_set
 
-    # Check locks
-    locked = translation.component.locked
-
     # Search results
     search_result = search(translation, unit_set, request, PositionSearchForm)
 
@@ -442,6 +439,9 @@ def translate(request, project, component, lang):
             # Can happen when using SID for other translation
             messages.error(request, _("Invalid search string!"))
             return redirect(translation)
+
+    # Check locks
+    locked = unit.translation.component.locked
 
     # Some URLs we will most likely use
     base_unit_url = "{0}?{1}&offset=".format(
