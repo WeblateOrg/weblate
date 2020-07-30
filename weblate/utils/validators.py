@@ -211,3 +211,10 @@ def validate_filename(value):
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
+
+
+def validate_slug(value):
+    """Prohibits some special values."""
+    # This one is used as wildcard in the URL for widgets and translate pages
+    if value == "-":
+        raise ValidationError(_("This name is prohibited"))

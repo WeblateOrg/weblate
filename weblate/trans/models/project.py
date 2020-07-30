@@ -36,6 +36,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.db import FastDeleteMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
+from weblate.utils.validators import validate_slug
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -84,6 +85,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         unique=True,
         max_length=PROJECT_NAME_LENGTH,
         help_text=gettext_lazy("Name used in URLs and filenames."),
+        validators=[validate_slug],
     )
     web = models.URLField(
         verbose_name=gettext_lazy("Project website"),

@@ -103,7 +103,11 @@ from weblate.utils.requests import get_uri_error
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats, prefetch_stats
-from weblate.utils.validators import validate_filename, validate_re_nonempty
+from weblate.utils.validators import (
+    validate_filename,
+    validate_re_nonempty,
+    validate_slug,
+)
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -244,6 +248,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         verbose_name=gettext_lazy("URL slug"),
         max_length=COMPONENT_NAME_LENGTH,
         help_text=gettext_lazy("Name used in URLs and filenames."),
+        validators=[validate_slug],
     )
     project = models.ForeignKey(
         "Project",
