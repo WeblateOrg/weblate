@@ -22,10 +22,10 @@ import os.path
 import shutil
 from io import BytesIO
 from unittest import SkipTest, TestCase
-from xml.etree import ElementTree
 
 import translate.__version__
 from django.utils.encoding import force_str
+from lxml import etree
 from translate.storage.po import pofile
 
 from weblate.formats.auto import AutodetectFormat, detect_filename
@@ -890,11 +890,11 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
             newdata,
         )
         self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n" 
-            "-->",
-            newdata,
+            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->", newdata
         )
-        xml_data = ElementTree.XML(newdata)
+        # Remove XML declaration so that etree doesn't complain for parsing
+        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
+        xml_data = etree.XML(newdata)
         self.assertEqual("1", xml_data.find("translation").text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
@@ -927,9 +927,17 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))
 
-        self.translate_unit(units, translation_data, 1, "Erreur lors de la désactivation du compte.")
-        self.translate_unit(units, translation_data, 2, "L'utilisateur que vous êtes sur le point de supprimer est le dernier auteur de {0}{1,choice,1#1 page|1<{1} pages}{2}.")
-        self.translate_unit(units, translation_data, 4, "Si rempli à \"Oui\"...")
+        self.translate_unit(
+            units, translation_data, 1, "Erreur lors de la désactivation du compte."
+        )
+        expected_translation = (
+            "L'utilisateur que vous êtes sur le point de "
+            "supprimer est le dernier auteur de "
+            "{0}{1,choice,1#1 page|1<{1} pages}{2}."
+        )
+        self.translate_unit(units, translation_data, 2, expected_translation)
+
+        self.translate_unit(units, translation_data, 4, 'Si rempli à "Oui"...')
 
         # Save test file
         translation_data.save()
@@ -999,11 +1007,12 @@ class XWikiFullPageFormatTest(AutoFormatTest):
             newdata,
         )
         self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n"
-            "-->",
+            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n" "-->",
             newdata,
         )
-        xml_data = ElementTree.XML(newdata)
+        # Remove XML declaration so that etree doesn't complain for parsing
+        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
+        xml_data = etree.XML(newdata)
         self.assertEqual("1", xml_data.find("translation").text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
@@ -1036,7 +1045,12 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         translation_units = translation_data.all_units
         self.assertEqual(self.COUNT, len(translation_units))
 
-        self.translate_unit(units, translation_data, 0, "L'area test o sandbox è una parte del wiki che si può modificare liberamente.\n\n{{info}}Non preoccupatevi >{{/info}}")
+        expected_translation = (
+            "L'area test o sandbox è una parte del wiki che si "
+            "può modificare liberamente.\n\n{{info}}Non "
+            "preoccupatevi >{{/info}}"
+        )
+        self.translate_unit(units, translation_data, 0, expected_translation)
         self.translate_unit(units, translation_data, 1, "Bac à sable")
 
         # Save test file
