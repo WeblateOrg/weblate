@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-30 16:43+0000\n"
+"PO-Revision-Date: 2020-07-31 03:40+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -5959,6 +5959,8 @@ msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
+"Порогове значення для вмикання попередження щодо застарілих сховищ або "
+"сховищ, у яких міститься надто багато змін. Типове значення — 25."
 
 #: ../../admin/config.rst:1406
 msgid ":ref:`alerts`"
@@ -6037,12 +6039,19 @@ msgid ""
 "in case there is actually only single project in Weblate. Alternatively set "
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
+"Переспрямовує користувачів безпосередньо до проєкту або складника замість "
+"показу панелі приладів. Ви можете встановити значення ``True`` — у цьому "
+"випадку це працюватиме, лише якщо на Weblate є лише один проєкт. У "
+"протилежному випадку встановіть ідентифікатор проєкту, і він безумовно "
+"переспрямовуватиме до цього проєкту."
 
 #: ../../admin/config.rst:1467
 msgid ""
 "The setting now also accepts a project slug, to force displaying that single "
 "project."
 msgstr ""
+"У поточній версії цього параметра також приймається ідентифікатор проєкту "
+"для примусового показу лише цього проєкту."
 
 #: ../../admin/config.rst:1479
 msgid "STATUS_URL"
@@ -6061,6 +6070,8 @@ msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr ""
+"Автоматично вилучає пропозицій після вказаної кількості днів. Типовим є "
+"значення ``None``, тобто пропозиції не вилучаються."
 
 #: ../../admin/config.rst:1496
 msgid "URL_PREFIX"
@@ -6071,6 +6082,9 @@ msgid ""
 "This settings allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
 msgstr ""
+"За допомогою цього параметра ви можете запускати Weblate з певним значенням "
+"шляху (якщо параметр не вказано, програма покладатиметься на те, що її "
+"запущено з кореневого каталогу вебсервера)."
 
 #: ../../admin/config.rst:1503
 msgid ""
@@ -6078,6 +6092,9 @@ msgid ""
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
+"Щоб скористатися цим параметром, вам також слід налаштувати ваш сервер на "
+"вилучення цього префікса. Наприклад, для WSGI вилучення можна досягти "
+"встановленням параметра ``WSGIScriptAlias``."
 
 #: ../../admin/config.rst:1508
 msgid "The prefix should start with a ``/``."
@@ -6088,6 +6105,8 @@ msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
 msgstr ""
+"Цей параметр не працює із вбудованим сервером Django. Вам доведеться "
+"скоригувати :file:`urls.py` так, щоб у ньому містився цей префікс."
 
 #: ../../admin/config.rst:1524
 msgid "VCS_BACKENDS"
@@ -6129,6 +6148,12 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
+"У поточній версії підтримку передбачено лише у :ref:`vcs-git`. Типово, "
+"Weblate створює поверхневі клони сховищ, щоб пришвидшити клонування і "
+"заощадити місце на диску. Залежно від ваших підходів до користування ("
+"наприклад, використання нетипових :ref:`addons`), у вас може виникнути "
+"потреба у збільшенні глибини або вимиканні поверхневих клонів повністю "
+"встановленням значення 0."
 
 #: ../../admin/config.rst:1564
 msgid ""
@@ -6336,6 +6361,11 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
+"Конфлікти об'єнання з даними Weblate виникають тоді, коли якийсь файл було "
+"змінено одразу у Weblate і поза ним. Існує два підходи до усування "
+"можливості конфліктів — заборона редагування поза Weblate або інтеграція "
+"Weblate до вашого процесу оновлення так, щоб зміни було отримано до "
+"оновлення файлів поза системою Weblate."
 
 #: ../../admin/continuous.rst:68
 msgid ""
@@ -6356,6 +6386,9 @@ msgid ""
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
 msgstr ""
+"Другий підхід можна реалізувати за допомогою :ref:`api` — змусити Weblate "
+"записати усі зміни з черги і заблокувати переклад, доки ви виконуєте зміни "
+"на вашому боці."
 
 #: ../../admin/continuous.rst:82
 msgid "The script for doing updates can look like this:"
@@ -6402,6 +6435,9 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
+"Щоб отримувати сповіщення щодо кожного запису до сховища GitHub, додайте "
+"вебскрипт Weblate до параметрів сховища (:guilabel:`Webhooks`), як це "
+"показано на наведеному нижче зображенні:"
 
 #: ../../admin/continuous.rst:136
 msgid ""
@@ -6486,6 +6522,9 @@ msgid ""
 "devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/azure/`, :ref:"
 "`hosted-push`"
 msgstr ""
+"`Вебскрипти у підручнику розробника Azure <https://docs.microsoft.com/en-us/"
+"azure/devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/azure/`, "
+":ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:215
 msgid "Automatically receiving changes from Gitea Repos"
@@ -6559,6 +6598,8 @@ msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
+"Параметри запису до сховища є різним для різних :ref:`vcs`. Подробиці можна "
+"знайти у цьому розділі."
 
 #: ../../admin/continuous.rst:267
 msgid ""
@@ -6570,7 +6611,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
-msgstr ""
+msgstr "Загалом, у Git, GitHub і GitLab можна скористатися такими параметрами:"
 
 #: ../../admin/continuous.rst:275
 msgid "Desired setup"
@@ -6649,12 +6690,17 @@ msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
+"Ви також можете увімкнути автоматичний запис змін після внесків Weblate. "
+"Зробити це можна у :ref:`component-push_on_commit`."
 
 #: ../../admin/continuous.rst:300
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
 msgstr ""
+"Опис налаштовування ключів SSH можна знайти у розділі :ref:`vcs-repos`. Дані "
+"щодо того, яким чином Weblate визначає потребу у внесенні змін, можна знайти "
+"у розділі :ref:`lazy-commit`."
 
 #: ../../admin/continuous.rst:304
 msgid "Protected branches"
@@ -6722,6 +6768,7 @@ msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
 msgstr ""
+"Зміни у цьому режимі вносяться, щойно буде виконано будь-яку з таких умов:"
 
 #: ../../admin/continuous.rst:353
 msgid "Somebody else changes an already changed string."
@@ -6740,6 +6787,8 @@ msgid ""
 "Change is older than period defined as :guilabel:`Age of changes to commit` "
 "on :ref:`component`."
 msgstr ""
+"Зміна є старішою за часовий проміжок, визначений як :guilabel:`Вік змін для "
+"подання` у :ref:`component`."
 
 #: ../../admin/continuous.rst:360
 msgid ""
@@ -7469,10 +7518,13 @@ msgid ""
 "Download the keyring from `Michal's server <https://cihar.com/.well-known/"
 "openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:"
 msgstr ""
+"Отримайте збірку ключів з `сервера Міхала <https://cihar.com/.well-known/"
+"openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, потім імпортуйте її за "
+"допомогою такої команди:"
 
 #: ../../admin/install.rst:207
 msgid "Download and import the key from one of the key servers:"
-msgstr ""
+msgstr "Отримайте та імпортуйте ключ з одного із серверів ключів:"
 
 #: ../../admin/install.rst:216
 msgid ""
@@ -7494,7 +7546,7 @@ msgstr ""
 
 #: ../../admin/install.rst:242
 msgid "Once the key is trusted, the warning will not occur:"
-msgstr ""
+msgstr "Щойно ключ стане довіреним, має бути показано попередження:"
 
 #: ../../admin/install.rst:256
 msgid ""
@@ -7618,20 +7670,24 @@ msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
 msgstr ""
+"Скористайтеся набором символів ``utf8mb4``, щоб уможливити обробку вищих "
+"блоків Unicode (зокрема емодзі)."
 
 #: ../../admin/install.rst:382
 msgid ""
 "Configure the server with ``Innodb_large_prefix`` to allow longer indices on "
 "text fields."
 msgstr ""
+"Налаштуйте сервер за допомогою ``Innodb_large_prefix`` так, щоб уможливити "
+"довші індекси у текстових полях."
 
 #: ../../admin/install.rst:383
 msgid "Set the isolation level to ``READ COMMITTED``."
-msgstr ""
+msgstr "Встановіть рівень ізоляції ``READ COMMITTED``."
 
 #: ../../admin/install.rst:384
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
-msgstr ""
+msgstr "Режим SQL має бути встановлено у значення ``STRICT_TRANS_TABLES``."
 
 #: ../../admin/install.rst:387
 msgid "Other configurations"
@@ -7665,7 +7721,7 @@ msgstr ""
 
 #: ../../admin/install.rst:413
 msgid "Running behind reverse proxy"
-msgstr ""
+msgstr "Робота за реверсивним проксі-сервером"
 
 #: ../../admin/install.rst:415
 msgid ""
@@ -8911,18 +8967,26 @@ msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Якщо :envvar:`WEBLATE_ADMIN_PASSWORD` не встановлено, для адміністративного "
+"користувача буде створено випадковий пароль, який буде показано під час "
+"першого запуску."
 
 #: ../../admin/install/docker.rst:52
 msgid ""
 "Append ``,localhost`` to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to "
 "access locally for testing."
 msgstr ""
+"Додайте ``,localhost`` до :envvar:`WEBLATE_ALLOWED_HOSTS`, щоб мати змогу "
+"отримувати доступ локально для тестування."
 
 #: ../../admin/install/docker.rst:55
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose-override.yml` file to change it."
 msgstr ""
+"У наданому прикладі Weblate очікуватиме на дані на порту 80. Змініть "
+"прив'язку портів у файлі :file:`docker-compose-override.yml`, щоб "
+"скоригувати цю типову поведінку."
 
 #: ../../admin/install/docker.rst:58
 msgid "Start Weblate containers:"
@@ -8959,6 +9023,9 @@ msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
+"Будь ласка, ознайомтеся із розділом :ref:`docker-deploy`, щоб отримати "
+"загальні настанови щодо розгортання. У цьому розділі наведено лише "
+"відмінності від типової процедури."
 
 #: ../../admin/install/docker.rst:88
 msgid "Using own SSL certificates"
@@ -9012,7 +9079,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:137
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "Автоматична сертифікація SSL за допомогою Let’s Encrypt"
 
 #: ../../admin/install/docker.rst:139
 msgid ""
@@ -9071,7 +9138,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:202
 msgid "Admin login"
-msgstr ""
+msgstr "Вхід від імені адміністратора"
 
 #: ../../admin/install/docker.rst:204
 msgid ""
@@ -9085,6 +9152,8 @@ msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Щоб скинути пароль `admin`, перезапустіть контейнер зі змінною "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, значенням якої є новий пароль."
 
 #: ../../admin/install/docker.rst:213
 msgid ""
@@ -9232,24 +9301,32 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Налаштовує, чи відкрита реєстрація перемиканням "
+":std:setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/install/docker.rst:350
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+"Налаштувати, які способи розпізнавання може бути використано для створення "
+"облікового запису за допомогою :setting:`REGISTRATION_ALLOW_BACKENDS`."
 
 #: ../../admin/install/docker.rst:363
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
+"Налаштовує використаний часовий пояс у Weblate, див. "
+":std:setting:`django:TIME_ZONE`."
 
 #: ../../admin/install/docker.rst:367
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
+"Щоб змінити часовий пояс самого контейнера Docker, скористайтеся змінною "
+"середовища ``TZ``."
 
 #: ../../admin/install/docker.rst:379
 msgid ""
@@ -9288,6 +9365,9 @@ msgid ""
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
+"Формат має відповідати очікуванням Django. Django `перетворює <https://docs."
+"djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest.META>`"
+"_ прості назви заголовків HTTP ось так:"
 
 #: ../../admin/install/docker.rst:411
 msgid "converts all characters to uppercase"
@@ -9321,36 +9401,48 @@ msgid ""
 "Configures login required for the whole of the Weblate installation using :"
 "setting:`LOGIN_REQUIRED_URLS`."
 msgstr ""
+"Налаштовує обліковий запис, потрібний для усього встановленого Weblate, за "
+"допомогою :setting:`LOGIN_REQUIRED_URLS`."
 
 #: ../../admin/install/docker.rst:457
 msgid ""
 "Adds URL exceptions for login required for the whole Weblate installation "
 "using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
+"Додає виключення адрес для облікового запису, потрібного для усього "
+"встановлення Weblate, за допомогою :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 
 #: ../../admin/install/docker.rst:459
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
+"Ви можете або замінити усі параметри, або змінити типове значення за "
+"допомогою змінних ``ADD`` і ``REMOVE``."
 
 #: ../../admin/install/docker.rst:463
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
+"Налаштовує ідентифікато для Google Analytics зміною "
+":setting:`GOOGLE_ANALYTICS_ID`."
 
 #: ../../admin/install/docker.rst:467
 msgid ""
 "Configures GitHub username for GitHub pull-requests by changing :setting:"
 "`GITHUB_USERNAME`."
 msgstr ""
+"Налаштовує ім'я користувача GitHub для запитів щодо об'єднання GitHub зміною "
+":setting:`GITHUB_USERNAME`."
 
 #: ../../admin/install/docker.rst:477
 msgid ""
 "Configures GitLab username for GitLab merge-requests by changing :setting:"
 "`GITLAB_USERNAME`"
 msgstr ""
+"Налаштовує ім'я користувача GitLab для запитів щодо об'єднання GitLab зміною "
+":setting:`GITLAB_USERNAME`"
 
 #: ../../admin/install/docker.rst:482 ../../admin/install/docker.rst:491
 #: ../../admin/install/docker.rst:500 ../../admin/install/docker.rst:1202
@@ -9359,23 +9451,25 @@ msgstr ":ref:`vcs-gitlab` :ref:`lab-setup`"
 
 #: ../../admin/install/docker.rst:487
 msgid "Configures GitLab Host for GitLab merge-requests"
-msgstr ""
+msgstr "Налаштовує вузол GitLab для запитів щодо об'єднання GitLab"
 
 #: ../../admin/install/docker.rst:496
 msgid "Configures GitLab access token for GitLab merge-requests"
-msgstr ""
+msgstr "Налаштовує ключ доступу GitLab для запитів щодо об'єднання GitLab"
 
 #: ../../admin/install/docker.rst:505
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
-msgstr ""
+msgstr "Налаштовує правила спрощення мов, див. :setting:`SIMPLIFY_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:509
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Налаштовує типове :ref:`project-access_control` для нових проєктів, див. "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/install/docker.rst:513
 msgid ""
