@@ -450,6 +450,7 @@ class TranslationForm(UnitForm):
     def __init__(self, user, unit: Unit, *args, **kwargs):
         if unit is not None:
             kwargs["initial"] = {
+                "checksum": unit.checksum,
                 "contentsum": hash_to_checksum(unit.content_hash),
                 "translationsum": hash_to_checksum(unit.get_target_hash()),
                 "target": unit,
@@ -523,6 +524,8 @@ class TranslationForm(UnitForm):
 
 
 class ZenTranslationForm(TranslationForm):
+    checksum = ChecksumField(required=True)
+
     def __init__(self, user, unit, *args, **kwargs):
         super().__init__(user, unit, *args, **kwargs)
         self.helper.form_action = reverse(
@@ -530,6 +533,7 @@ class ZenTranslationForm(TranslationForm):
         )
         self.helper.form_tag = True
         self.helper.disable_csrf = False
+        self.helper.layout.append(Field("checksum"))
 
 
 class AntispamForm(forms.Form):
