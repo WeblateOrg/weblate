@@ -19,10 +19,12 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project }}</a></li>
-<li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
-<li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
-<li><a href="{{ unit.translation.get_translate_url }}">{% trans "Translate" %}</a></li>
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+{% if object.component.slug != "-" %}
+<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
+{% endif %}
+<li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+<li><a href="{{ object.get_translate_url }}">{% trans "Translate" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' project=object.component.project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
 </a>
@@ -47,7 +49,7 @@
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
 {% endif %}
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
@@ -56,7 +58,7 @@
 {% with variants=unit.variants %}
 
 <div class="query-container">
-  <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
+  <form method="GET" class="result-page-form">
     {% crispy search_form  %}
   </form>
 </div>

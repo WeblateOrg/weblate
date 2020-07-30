@@ -397,12 +397,12 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
 
 def translate(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
-    translation = get_translation(request, project, component, lang)
-    project = translation.component.project
-    unit_set = translation.unit_set
+    obj = get_translation(request, project, component, lang)
+    project = obj.component.project
+    unit_set = obj.unit_set
 
     # Search results
-    search_result = search(translation, unit_set, request, PositionSearchForm)
+    search_result = search(obj, unit_set, request, PositionSearchForm)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -422,15 +422,14 @@ def translate(request, project, component, lang):
             offset = search_result["ids"].index(unit.id) + 1
         except ValueError:
             messages.warning(request, _("No string matched your search!"))
-            return redirect(translation)
+            return redirect(obj)
     else:
         # Check boundaries
         if not 0 < offset <= num_results:
             messages.info(request, _("The translation has come to an end."))
             # Delete search
             del request.session[search_result["key"]]
-            # Redirect to translation
-            return redirect(translation)
+            return redirect(obj)
 
         # Grab actual unit
         try:
@@ -438,14 +437,14 @@ def translate(request, project, component, lang):
         except Unit.DoesNotExist:
             # Can happen when using SID for other translation
             messages.error(request, _("Invalid search string!"))
-            return redirect(translation)
+            return redirect(obj)
 
     # Check locks
     locked = unit.translation.component.locked
 
     # Some URLs we will most likely use
     base_unit_url = "{0}?{1}&offset=".format(
-        translation.get_translate_url(), search_result["url"]
+        obj.get_translate_url(), search_result["url"]
     )
     this_unit_url = base_unit_url + str(offset)
     next_unit_url = base_unit_url + str(offset + 1)
@@ -505,7 +504,7 @@ def translate(request, project, component, lang):
             "last_unit_url": base_unit_url + str(num_results),
             "next_unit_url": next_unit_url,
             "prev_unit_url": base_unit_url + str(offset - 1),
-            "object": translation,
+            "object": obj,
             "project": project,
             "unit": unit,
             "nearby": unit.nearby(request.user.profile.nearby_strings),
@@ -661,11 +660,10 @@ def resolve_comment(request, pk):
     return redirect_next(request.POST.get("next"), fallback_url)
 
 
-def get_zen_unitdata(translation, request):
+def get_zen_unitdata(obj, unit_set, request):
     """Load unit data for zen mode."""
-    unit_set = translation.unit_set
     # Search results
-    search_result = search(translation, unit_set, request)
+    search_result = search(obj, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -698,8 +696,11 @@ def get_zen_unitdata(translation, request):
 
 def zen(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
-    translation = get_translation(request, project, component, lang)
-    search_result, unitdata = get_zen_unitdata(translation, request)
+    obj = get_translation(request, project, component, lang)
+    unit_set = obj.unit_set
+    project = obj.component.project
+
+    search_result, unitdata = get_zen_unitdata(obj, unit_set, request)
     sort = get_sort_name(request)
 
     # Handle redirects
@@ -710,8 +711,8 @@ def zen(request, project, component, lang):
         request,
         "zen.html",
         {
-            "object": translation,
-            "project": translation.component.project,
+            "object": obj,
+            "project": project,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "filter_name": search_result["name"],
@@ -728,8 +729,10 @@ def zen(request, project, component, lang):
 
 def load_zen(request, project, component, lang):
     """Load additional units for zen editor."""
-    translation = get_translation(request, project, component, lang)
-    search_result, unitdata = get_zen_unitdata(translation, request)
+    obj = get_translation(request, project, component, lang)
+    unit_set = obj.unit_set
+    project = obj.component.project
+    search_result, unitdata = get_zen_unitdata(obj, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -739,7 +742,8 @@ def load_zen(request, project, component, lang):
         request,
         "zen-units.html",
         {
-            "object": translation,
+            "object": obj,
+            "project": project,
             "unitdata": unitdata,
             "search_query": search_result["query"],
             "search_url": search_result["url"],
