@@ -77,6 +77,7 @@ Changing the logo
 
 1. Create a simple Django app containing the static files you want to overwrite
 (see :ref:`custom-module`).
+
 2. Add it to :setting:`django:INSTALLED_APPS`:
 
 .. code-block:: python

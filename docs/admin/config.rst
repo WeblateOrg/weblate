@@ -1374,7 +1374,7 @@ REGISTRATION_OPEN
 -----------------
 
 Whether registration of new accounts is currently permitted.
-This optional setting can remain the default``True``, or changed to ``False``.
+This optional setting can remain the default ``True``, or changed to ``False``.
 
 This setting affects built-in authentication by e-mail address or through the
 Python Social Auth (you can whitelist certain back-ends using
@@ -1495,7 +1495,7 @@ Defaults to ``None``, meaning no deletions.
 URL_PREFIX
 ----------
 
-This settings allows you to run Weblate under some path (otherwise it relies on
+This setting allows you to run Weblate under some path (otherwise it relies on
 being run from the webserver root).
 
 .. note::
