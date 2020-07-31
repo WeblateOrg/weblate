@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-31 08:32+0200\n"
-"PO-Revision-Date: 2020-07-31 03:40+0000\n"
+"PO-Revision-Date: 2020-07-31 12:53+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -553,7 +553,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Weblate administration"
 msgid "Delete comment [`Administration`]"
-msgstr "Weblate 管理"
+msgstr "删除评论[`Administration`]"
 
 #: ../../admin/access.rst:322
 msgid "Component"
@@ -569,7 +569,7 @@ msgstr "编辑组件设置"
 #, fuzzy
 #| msgid "Lock component, preventing translations"
 msgid "Lock component, preventing it from being translated [`Administration`]"
-msgstr "锁定组件，阻止翻译"
+msgstr "锁定组件，防止被翻译 [`Administration`]"
 
 #: ../../admin/access.rst:331 ../../user/translating.rst:216
 #: ../../user/translating.rst:253
@@ -1986,7 +1986,7 @@ msgstr "重定向URL为``https://WEBLATE SERVER/accounts/complete/facebook/``"
 
 #: ../../admin/auth.rst:199
 msgid ":doc:`psa:backends/facebook`"
-msgstr ""
+msgstr ":doc:`psa:backends/facebook`"
 
 #: ../../admin/auth.rst:205
 msgid "GitLab OAuth 2"
@@ -2005,6 +2005,8 @@ msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
+"重定向URL为``https://WEBLATE SERVER/accounts/complete/gitlab/"
+"``，并确保你标记`read_user`范围。"
 
 #: ../../admin/auth.rst:234
 msgid ":doc:`psa:backends/gitlab`"
@@ -2018,7 +2020,7 @@ msgstr "微软Azure Active Directory"
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
-msgstr ""
+msgstr "可以配置Weblate，使用一般或特定租户进行身份验证。"
 
 #: ../../admin/auth.rst:243
 msgid ""
@@ -2032,7 +2034,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
-msgstr ""
+msgstr ":doc:`psa:backends/azuread`"
 
 #: ../../admin/auth.rst:288 ../../admin/install/docker.rst:763
 msgid "Slack"
@@ -2042,20 +2044,20 @@ msgstr "Slack"
 msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
-msgstr ""
+msgstr "为了使用Slack OAuth 2，需要在<https://api.slack.com/apps>上注册应用。"
 
 #: ../../admin/auth.rst:293
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
-msgstr ""
+msgstr "重定向URL为``https://WEBLATE SERVER/accounts/complete/slack/``。"
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
-msgstr ""
+msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:315
 msgid "Turning off password authentication"
-msgstr ""
+msgstr "关闭密码身份验证"
 
 #: ../../admin/auth.rst:317
 msgid ""
@@ -2064,22 +2066,25 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"通过从:setting:`django:AUTHENTICATION_BACKENDS`删除``social_core.backends.email."
+"EmailAuth``，可以关闭电子邮箱和密码身份验证。总是将``weblate.accounts.auth."
+"WeblateUserBackend``保留在那里，它用于Weblate核心工作。"
 
 #: ../../admin/auth.rst:325
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
-msgstr ""
+msgstr "对于手动建立的用户，可以仍然在管理界面使用密码身份验证。只需导航到``/admin/``。"
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
-msgstr ""
+msgstr "例如，使用后面的设置可以实现只是用openSUSE Open ID的身份验证："
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
-msgstr ""
+msgstr "密码身份验证"
 
 #: ../../admin/auth.rst:342
 msgid ""
@@ -2430,11 +2435,11 @@ msgstr ""
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
-msgstr ""
+msgstr "从放置在Weblate数据目录下``backup``目录中的SQL备份中恢复数据库（请见:ref:`backup-dumps`）。"
 
 #: ../../admin/backup.rst:85
 msgid "Copy Weblate configuration and data dir to the correct location."
-msgstr ""
+msgstr "将Weblate配置和数据目录复制到正确的位置。"
 
 #: ../../admin/backup.rst:87
 msgid "The Borg session might look like:"
