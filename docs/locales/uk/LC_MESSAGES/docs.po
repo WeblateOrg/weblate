@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-31 08:32+0200\n"
-"PO-Revision-Date: 2020-07-31 08:12+0000\n"
+"PO-Revision-Date: 2020-07-31 12:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -6664,6 +6664,11 @@ msgid ""
 "you can activate these by choosing :guilabel:`GitHub`, :guilabel:`GitLab` "
 "or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"Якщо вам не потрібне безпосереднє записування до сховища від Weblate, "
+"передбачено підтримку запитів щодо об'єднання :ref:`vcs-github`, :ref:`vcs-"
+"gitlab` або рецензувань :ref:`vcs-gerrit`. Ви можете активувати їх вибором "
+":guilabel:`GitHub`, :guilabel:`GitLab` або :guilabel:`Gerrit` як :ref"
+":`component-vcs` у розділі :ref:`component`."
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -6769,6 +6774,11 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
+"Якщо ви використовуєте Weblate для захищеної гілки, ви можете налаштувати "
+"його на використання запитів щодо об'єднання і увімкнути рецензування "
+"перекладів (може бути проблематичним для мов, яких ви не знаєте). "
+"Альтернативним підходом є відмова від цього обмеження для користувача "
+"Weblate, який записуватиме дані до сховища."
 
 #: ../../admin/continuous.rst:311
 msgid "For example on GitHub this can be done in the repository configuration:"
@@ -6785,12 +6795,19 @@ msgid ""
 "In case you don't need this, you can enable rebasing of changes on upstream, "
 "which will produce a history with fewer merge commits."
 msgstr ""
+"Типово, Weblate зливає основне сховище до власного. Цей найбезпечніший "
+"спосіб, якщо у вас є альтернативні способи доступу до базового сховища. Якщо "
+"це вам не потрібно, ви можете увімкнути перенесення (rebase) змін до "
+"основного сховища, що створюватиме журнал із меншою кількістю внесків "
+"об'єднання."
 
 #: ../../admin/continuous.rst:327
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
 msgstr ""
+"Перенесення може призвести до проблем, якщо злиття є складним. Тому вам слід "
+"бути обережним із його вмиканням."
 
 #: ../../admin/continuous.rst:331
 msgid "Interacting with others"
@@ -6818,6 +6835,12 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the Managers group, see :ref:`privileges`)."
 msgstr ""
+"Weblate групує внески від одного автора так, щоб остаточний внесок був "
+"якомога більшим. Це значно зменшує кількість внесків, але призводить до "
+"того, що у вас може виникнути потреба явним чином ініціювати внески, якщо ви "
+"хочете підтримувати синхронізацію зі сховищем системи керування версіями, "
+"наприклад, для злиття (таке злиття типово увімкнено для групи керівників "
+"проєкту, див. :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:350
 msgid ""
@@ -6852,6 +6875,9 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` addon in that case."
 msgstr ""
+"Внески створюються для кожного складника. Отже, якщо у вас багато "
+"складників, у вас буде багато внесків. Щоб зменшити кількість, ви можете "
+"скористатися додатком :ref:`addon-weblate.git.squash`."
 
 #: ../../admin/continuous.rst:364
 msgid ""
@@ -6871,6 +6897,9 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through addons."
 msgstr ""
+"Спосіб взаємодії Weblate зі сховищем коду можна змінити за допомогою "
+":ref:`addons`. Зверніться до розділу :ref:`addon-script`, щоб дізнатися про "
+"те, як виконувати зовнішні скрипти з додатків."
 
 #: ../../admin/continuous.rst:383
 msgid "Keeping translations same across components"
@@ -6882,6 +6911,9 @@ msgid ""
 "the same strings have same translation. This can be achieved at several "
 "levels."
 msgstr ""
+"Якщо у вас декілька складників перекладу, у вас може виникнути потреба у "
+"тому, щоб однакові рядки мали однакові переклади. Досягти такої "
+"синхронізації можна на декількох рівнях."
 
 #: ../../admin/continuous.rst:389
 msgid "Translation propagation"
@@ -6894,12 +6926,19 @@ msgid ""
 "with matching strings. Such translations are properly credited to currently "
 "translating user in all components."
 msgstr ""
+"Якщо увімкнено поширення перекладів (типова поведінка, див. :ref:`component`)"
+", усі нові переклади автоматично виконуватимуться в усіх складниках із "
+"відповідними рядками. Авторство таких перекладів буде визначено належним "
+"чином — автором в усіх складниках вважатиметься той, хто здійснив переклад в "
+"одному із складників."
 
 #: ../../admin/continuous.rst:398
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
 msgstr ""
+"Поширення перекладів потребує використання однакового ключа для одномовних "
+"форматів перекладу. Це слід мати на увазі при створенні ключів перекладу."
 
 #: ../../admin/continuous.rst:402
 msgid "Consistency check"
@@ -15169,7 +15208,7 @@ msgstr "Мови"
 
 #: ../../api.rst:618
 msgid "Returns a list of all languages."
-msgstr ""
+msgstr "Повертає список усіх мов."
 
 #: ../../api.rst:622
 msgid ""
@@ -15179,65 +15218,65 @@ msgstr ""
 
 #: ../../api.rst:626
 msgid "Creates a new language."
-msgstr ""
+msgstr "Створює мову."
 
 #: ../../api.rst:632 ../../api.rst:682 ../../api.rst:692
 msgid "Language direction"
-msgstr ""
+msgstr "Напрямок писемності мови"
 
 #: ../../api.rst:634
 msgid "Language plural formula and number"
-msgstr ""
+msgstr "Кількість і формула форм множини мови"
 
 #: ../../api.rst:639
 msgid "Returns information about a language."
-msgstr ""
+msgstr "Повертає відомості щодо мови."
 
 #: ../../api.rst:645
 msgid "Object of language plural information"
-msgstr ""
+msgstr "Об'єкт даних щодо форм множини мови"
 
 #: ../../api.rst:646
 msgid "Array of aliases for language"
-msgstr ""
+msgstr "Масив альтернативних назв мови"
 
 #: ../../api.rst:677 ../../api.rst:687
 msgid "Changes the language parameters."
-msgstr ""
+msgstr "Зміни у параметрах мови."
 
 #: ../../api.rst:679 ../../api.rst:689 ../../api.rst:699
 msgid "Language's code"
-msgstr ""
+msgstr "Код мови"
 
 #: ../../api.rst:683 ../../api.rst:693
 msgid "Language plural details"
-msgstr ""
+msgstr "Подробиці щодо форм множини мови"
 
 #: ../../api.rst:697
 msgid "Deletes the Language."
-msgstr ""
+msgstr "Вилучає мову."
 
 #: ../../api.rst:704
 msgid "Returns statistics for a language."
-msgstr ""
+msgstr "Повертає статистику щодо мови."
 
 #: ../../api.rst:708 ../../api.rst:995 ../../api.rst:1010 ../../api.rst:1515
 #: ../../api.rst:1761
 msgid "total number of strings"
-msgstr ""
+msgstr "загальна кількість рядків"
 
 #: ../../api.rst:709 ../../api.rst:998 ../../api.rst:1013 ../../api.rst:1516
 #: ../../api.rst:1756
 msgid "total number of words"
-msgstr ""
+msgstr "загальна кількість слів"
 
 #: ../../api.rst:710
 msgid "last changes in the language"
-msgstr ""
+msgstr "останні зміни у мові"
 
 #: ../../api.rst:711
 msgid "total number of changes"
-msgstr ""
+msgstr "загальна кількість змін"
 
 #: ../../api.rst:712 ../../api.rst:996 ../../api.rst:1011 ../../api.rst:1518
 #: ../../api.rst:1762
@@ -15247,66 +15286,68 @@ msgstr "кількість перекладених рядків"
 #: ../../api.rst:713 ../../api.rst:997 ../../api.rst:1012 ../../api.rst:1519
 #: ../../api.rst:1763
 msgid "percentage of translated strings"
-msgstr ""
+msgstr "частка перекладених рядків"
 
 #: ../../api.rst:714 ../../api.rst:999 ../../api.rst:1014 ../../api.rst:1520
 #: ../../api.rst:1757
 msgid "number of translated words"
-msgstr ""
+msgstr "кількість перекладених слів"
 
 #: ../../api.rst:715 ../../api.rst:1000 ../../api.rst:1015
 msgid "percentage of translated words"
-msgstr ""
+msgstr "частка перекладених слів"
 
 #: ../../api.rst:716
 msgid "number of translated characters"
-msgstr ""
+msgstr "кількість перекладених символів"
 
 #: ../../api.rst:717
 msgid "percentage of translated characters"
-msgstr ""
+msgstr "частка перекладених символів"
 
 #: ../../api.rst:718
 msgid "number of total characters"
-msgstr ""
+msgstr "загальна кількість символів"
 
 #: ../../api.rst:719
 msgid "number of fuzzy strings"
-msgstr ""
+msgstr "кількість неточно перекладених рядків"
 
 #: ../../api.rst:720
 msgid "percentage of fuzzy strings"
-msgstr ""
+msgstr "частка неточно перекладених рядків"
 
 #: ../../api.rst:721
 msgid "number of failing strings"
-msgstr ""
+msgstr "кількість рядків, які не пройшли перевірки"
 
 #: ../../api.rst:722
 msgid "percentage of failing strings"
-msgstr ""
+msgstr "відсоток рядків, які не пройшли перевірки"
 
 #: ../../api.rst:730
 msgid "Returns a list of all projects."
-msgstr ""
+msgstr "Повертає список усіх проєктів."
 
 #: ../../api.rst:734
 msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/(string:"
 "project)/`."
 msgstr ""
+"Атрибути об'єкта проєкту описано у :http:get:`/api/projects/"
+"(string:project)/`."
 
 #: ../../api.rst:740
 msgid "Creates a new project."
-msgstr ""
+msgstr "Створює проєкт."
 
 #: ../../api.rst:748
 msgid "Project source language code (optional)"
-msgstr ""
+msgstr "Код початкової мови проєкту (необов'язковий)"
 
 #: ../../api.rst:753
 msgid "Returns information about a project."
-msgstr ""
+msgstr "Повертає відомості щодо проєкту."
 
 #: ../../api.rst:755 ../../api.rst:790 ../../api.rst:798 ../../api.rst:808
 #: ../../api.rst:830 ../../api.rst:877 ../../api.rst:887 ../../api.rst:990
@@ -16377,6 +16418,8 @@ msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
 msgstr ""
+"Особливий скрипт для обробки сповіщень GitHub і автоматичного оновлення "
+"відповідних компонентів."
 
 #: ../../api.rst:2031
 msgid ""
@@ -16391,15 +16434,15 @@ msgstr ":ref:`github-setup`"
 
 #: ../../api.rst:2038
 msgid "For instruction on setting up GitHub integration"
-msgstr ""
+msgstr "Настанови щодо налаштовування інтеграції із GitHub"
 
 #: ../../api.rst:2039
 msgid "https://help.github.com/en/github/extending-github/about-webhooks"
-msgstr ""
+msgstr "https://help.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2040
 msgid "Generic information about GitHub Webhooks"
-msgstr ""
+msgstr "Загальні відомості щодо вебскриптів GitHub"
 
 #: ../../api.rst:2041 ../../api.rst:2055 ../../api.rst:2069 ../../api.rst:2085
 #: ../../api.rst:2101 ../../api.rst:2117 ../../api.rst:2133
@@ -16409,13 +16452,15 @@ msgstr ":setting:`ENABLE_HOOKS`"
 #: ../../api.rst:2042 ../../api.rst:2056 ../../api.rst:2070 ../../api.rst:2086
 #: ../../api.rst:2102 ../../api.rst:2118 ../../api.rst:2134
 msgid "For enabling hooks for whole Weblate"
-msgstr ""
+msgstr "Вмикання скриптів для усього екземпляра Weblate"
 
 #: ../../api.rst:2046
 msgid ""
 "Special hook for handling GitLab notifications and automatically updating "
 "matching components."
 msgstr ""
+"Особливий скрипт для обробки сповіщень GitLab і автоматичного оновлення "
+"відповідних компонентів."
 
 #: ../../api.rst:2051
 msgid ":ref:`gitlab-setup`"
@@ -16423,21 +16468,23 @@ msgstr ":ref:`gitlab-setup`"
 
 #: ../../api.rst:2052
 msgid "For instruction on setting up GitLab integration"
-msgstr ""
+msgstr "Настанови щодо налаштовування інтеграції із GitLab"
 
 #: ../../api.rst:2053
 msgid "https://docs.gitlab.com/ce/user/project/integrations/webhooks.html"
-msgstr ""
+msgstr "https://docs.gitlab.com/ce/user/project/integrations/webhooks.html"
 
 #: ../../api.rst:2054
 msgid "Generic information about GitLab Webhooks"
-msgstr ""
+msgstr "Загальні відомості щодо вебскриптів GitLab"
 
 #: ../../api.rst:2060
 msgid ""
 "Special hook for handling Bitbucket notifications and automatically updating "
 "matching components."
 msgstr ""
+"Особливий скрипт для обробки сповіщень Bitbucket і автоматичного оновлення "
+"відповідних компонентів."
 
 #: ../../api.rst:2065
 msgid ":ref:`bitbucket-setup`"
@@ -16445,22 +16492,25 @@ msgstr ":ref:`bitbucket-setup`"
 
 #: ../../api.rst:2066
 msgid "For instruction on setting up Bitbucket integration"
-msgstr ""
+msgstr "Настанови щодо налаштовування інтеграції із Bitbucket"
 
 #: ../../api.rst:2067
 msgid ""
 "https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html"
 msgstr ""
+"https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html"
 
 #: ../../api.rst:2068
 msgid "Generic information about Bitbucket Webhooks"
-msgstr ""
+msgstr "Загальні відомості щодо вебскриптів Bitbucket"
 
 #: ../../api.rst:2076
 msgid ""
 "Special hook for handling Pagure notifications and automatically updating "
 "matching components."
 msgstr ""
+"Особливий скрипт для обробки сповіщень Pagure і автоматичного оновлення "
+"відповідних компонентів."
 
 #: ../../api.rst:2081
 msgid ":ref:`pagure-setup`"
@@ -16468,21 +16518,23 @@ msgstr ":ref:`pagure-setup`"
 
 #: ../../api.rst:2082
 msgid "For instruction on setting up Pagure integration"
-msgstr ""
+msgstr "Настанови щодо налаштовування інтеграції із Pagure"
 
 #: ../../api.rst:2083
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
-msgstr ""
+msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2084
 msgid "Generic information about Pagure Webhooks"
-msgstr ""
+msgstr "Загальні відомості щодо вебскриптів Pagure"
 
 #: ../../api.rst:2092
 msgid ""
 "Special hook for handling Azure Repos notifications and automatically "
 "updating matching components."
 msgstr ""
+"Особливий скрипт для обробки сповіщень Azure Repos і автоматичного оновлення "
+"відповідних компонентів."
 
 #: ../../api.rst:2097
 msgid ":ref:`azure-setup`"
@@ -16490,22 +16542,25 @@ msgstr ":ref:`azure-setup`"
 
 #: ../../api.rst:2098
 msgid "For instruction on setting up Azure integration"
-msgstr ""
+msgstr "Настанови щодо налаштовування інтеграції із Azure"
 
 #: ../../api.rst:2099
 msgid ""
 "https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks"
 msgstr ""
+"https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks"
 
 #: ../../api.rst:2100
 msgid "Generic information about Azure Repos Web Hooks"
-msgstr ""
+msgstr "Загальні відомості щодо вебскриптів сховищ Azure"
 
 #: ../../api.rst:2108
 msgid ""
 "Special hook for handling Gitea Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Особливий скрипт для обробки сповіщень вебскриптів Gitea і автоматичного "
+"оновлення відповідних компонентів."
 
 #: ../../api.rst:2113
 msgid ":ref:`gitea-setup`"
@@ -16513,21 +16568,23 @@ msgstr ":ref:`gitea-setup`"
 
 #: ../../api.rst:2114
 msgid "For instruction on setting up Gitea integration"
-msgstr ""
+msgstr "Настанови щодо налаштовування інтеграції із Gitea"
 
 #: ../../api.rst:2115
 msgid "https://docs.gitea.io/en-us/webhooks/"
-msgstr ""
+msgstr "https://docs.gitea.io/en-us/webhooks/"
 
 #: ../../api.rst:2116
 msgid "Generic information about Gitea Webhooks"
-msgstr ""
+msgstr "Загальні відомості щодо вебскриптів Gitea"
 
 #: ../../api.rst:2124
 msgid ""
 "Special hook for handling Gitee Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Особливий скрипт для обробки сповіщень вебскриптів Gitee і автоматичного "
+"оновлення відповідних компонентів."
 
 #: ../../api.rst:2129
 msgid ":ref:`gitee-setup`"
@@ -16535,15 +16592,15 @@ msgstr ":ref:`gitee-setup`"
 
 #: ../../api.rst:2130
 msgid "For instruction on setting up Gitee integration"
-msgstr ""
+msgstr "Настанови щодо налаштовування інтеграції із Gitee"
 
 #: ../../api.rst:2131
 msgid "https://gitee.com/help/categories/40"
-msgstr ""
+msgstr "https://gitee.com/help/categories/40"
 
 #: ../../api.rst:2132
 msgid "Generic information about Gitee Webhooks"
-msgstr ""
+msgstr "Загальні відомості щодо вебскриптів Gitee"
 
 #: ../../api.rst:2139
 msgid "Exports"
@@ -16553,10 +16610,12 @@ msgstr "Експорт"
 msgid ""
 "Weblate provides various exports to allow you to further process the data."
 msgstr ""
+"У Weblate надає різні засоби експортування для уможливлення подальшої "
+"обробки даних."
 
 #: ../../api.rst:2145
 msgid "Output format: either ``json`` or ``csv``"
-msgstr ""
+msgstr "Формат виведення: ``json`` або ``csv``"
 
 #: ../../api.rst:2149
 msgid ""
@@ -16568,15 +16627,15 @@ msgstr ""
 
 #: ../../api.rst:2153
 msgid "Retrieves statistics for given component in given format."
-msgstr ""
+msgstr "Отримує статистичні дані для вказаного складника у вказаному форматі."
 
 #: ../../api.rst:2155
 msgid "**Example request**:"
-msgstr ""
+msgstr "**Приклад запиту**:"
 
 #: ../../api.rst:2163
 msgid "**Example response**:"
-msgstr ""
+msgstr "**Приклад відповіді**:"
 
 #: ../../api.rst:2228
 msgid "RSS feeds"
@@ -16584,31 +16643,31 @@ msgstr "RSS-стрічки"
 
 #: ../../api.rst:2230
 msgid "Changes in translations are exported in RSS feeds."
-msgstr ""
+msgstr "Зміни у перекладах експортуються до стрічок RSS."
 
 #: ../../api.rst:2234
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr ""
+msgstr "Отримує стрічку RSS із останніми змінами у перекладі."
 
 #: ../../api.rst:2238
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr ""
+msgstr "Отримує стрічку RSS із останніми змінами у складнику."
 
 #: ../../api.rst:2242
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr ""
+msgstr "Отримує стрічку RSS із останніми змінами у проєкті."
 
 #: ../../api.rst:2246
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr ""
+msgstr "Отримує стрічку RSS із останніми змінами у мові."
 
 #: ../../api.rst:2250
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
-msgstr ""
+msgstr "Отримує стрічку RSS із останніми змінами у екземплярі Weblate."
 
 #: ../../api.rst:2254
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 4.2"
@@ -16616,74 +16675,85 @@ msgstr "Weblate 4.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
-msgstr ""
+msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
 msgid "Improved user pages and added listing of users."
-msgstr ""
+msgstr "Удосконалено сторінки користувачів і додано список користувачів."
 
 #: ../../changes.rst:7
 msgid ""
 "Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0."
 msgstr ""
+"Відкинуто підтримку перенесення даних з випусків 3.x — перенесення слід "
+"виконувати із проміжними версіями 4.1 або 4.0."
 
 #: ../../changes.rst:8
 msgid "Added exports in several monolingual formats."
-msgstr ""
+msgstr "Додано експортування до декількох одномовних форматів."
 
 #: ../../changes.rst:9
 msgid "Improved activity charts."
-msgstr ""
+msgstr "Удосконалено діаграми діяльності."
 
 #: ../../changes.rst:10
 msgid "Number of displayed nearby strings can be configured."
-msgstr ""
+msgstr "Уможливлено налаштовування кількості показаних сусідніх рядків."
 
 #: ../../changes.rst:11
 msgid "Added support for locking component while there is repository error."
 msgstr ""
+"Додано підтримку блокування складника, якщо у сховищі коду виявлено помилку."
 
 #: ../../changes.rst:12
 msgid "Simplified main navigation (replaced buttons with icons)."
-msgstr ""
+msgstr "Спрощено основну навігацію (кнопки замінено піктограмами)."
 
 #: ../../changes.rst:13
 msgid "Improved language codes handling in Google Translate integration."
-msgstr ""
+msgstr "Удосконалено обробку кодів мов у інтеграції із Google Перекладачем."
 
 #: ../../changes.rst:14
 msgid "The Git squash addon can generate ``Co-authored-by:`` trailers."
 msgstr ""
+"Реалізовано можливість створення трейлерів ``Co-authored-by:`` у додатку "
+"об'єднання внесків Git."
 
 #: ../../changes.rst:15
 msgid "Improved query search parser."
-msgstr ""
+msgstr "Удосконалено обробник запитів щодо пошуку."
 
 #: ../../changes.rst:16
 msgid "Improved user feedback from format strings checks."
-msgstr ""
+msgstr "Удосконалено повідомлення перевірок щодо форматування рядків."
 
 #: ../../changes.rst:17
 msgid "Improved performance of bulk state changes."
-msgstr ""
+msgstr "Підвищено швидкодію обробки пакетних змін у стані."
 
 #: ../../changes.rst:18
 msgid "Added compatibility redirects after project or component renaming."
 msgstr ""
+"Додано переспрямовування для сумісності після перейменовування проєкту або "
+"складника."
 
 #: ../../changes.rst:19
 msgid ""
 "Added notifications for strings approval, component locking and license "
 "change."
 msgstr ""
+"Додано сповіщення щодо підтвердження рядків, блокування складників та зміни "
+"умов ліцензування."
 
 #: ../../changes.rst:20
 msgid "Added support for ModernMT."
-msgstr ""
+msgstr "Додано підтримку ModernMT."
 
 #: ../../changes.rst:21
 msgid "Allow to avoid overwriting approved translations on file upload."
 msgstr ""
+"Уможливлено вимикання перезаписування затверджених перекладів при "
+"вивантаженні файла перекладу."
 
 #: ../../changes.rst:22
 msgid "Dropped support for some compatibility URL redirects."
@@ -16699,7 +16769,7 @@ msgstr "Додано параметр для спостереження за с�
 
 #: ../../changes.rst:25
 msgid "Removed leading dot from JSON unit keys."
-msgstr ""
+msgstr "Вилучено початкову крапку з ключів модулів JSON."
 
 #: ../../changes.rst:26
 msgid "Removed separate Celery queue for translation memory."
@@ -18922,31 +18992,32 @@ msgstr ""
 
 #: ../../changes.rst:727
 msgid "Added support for SAP Translation Hub service."
-msgstr ""
+msgstr "Додано підтримку служб SAP Translation Hub."
 
 #: ../../changes.rst:728
 msgid "Added support for Microsoft Terminology service."
-msgstr ""
+msgstr "Додано підтримку служби Microsoft Terminology."
 
 #: ../../changes.rst:729
 msgid "Removed support for advertisement in notification e-mails."
-msgstr ""
+msgstr "Вилучено підтримку реклами у листах сповіщень."
 
 #: ../../changes.rst:730
 msgid "Improved translation progress reporting at language level."
-msgstr ""
+msgstr "Удосконалено звітування щодо поступу перекладу на рівні мови."
 
 #: ../../changes.rst:731
 msgid "Improved support for different plural formulas."
-msgstr ""
+msgstr "Удосконалено підтримку різних формул форм множини."
 
 #: ../../changes.rst:732
 msgid "Added support for Subversion repositories not using stdlayout."
 msgstr ""
+"Додано підтримку сховищ Subversion, у яких не використовується stdlayout."
 
 #: ../../changes.rst:733
 msgid "Added addons to customize translation workflows."
-msgstr ""
+msgstr "Додано додатки для налаштовування процедур перекладу."
 
 #: ../../changes.rst:736
 msgid "Weblate 2.18"
@@ -18954,7 +19025,7 @@ msgstr "Weblate 2.18"
 
 #: ../../changes.rst:738
 msgid "Released on December 15th 2017."
-msgstr ""
+msgstr "Випущено 15 грудня 2017 року."
 
 #: ../../changes.rst:740
 msgid "Extended contributor stats."
