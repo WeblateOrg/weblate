@@ -12,12 +12,13 @@ This works even if it has been changed in the meantime.
 Downloading translations
 ------------------------
 
-From the project or component dashboard, translatable files can be downloaded using the :guilabel:`Download source file`
-in the :guilabel:`Files` menu, producing a copy of the file as it is stored
-in the upstream Version Control System.
+From the project or component dashboard, translatable files can be downloaded
+using the :guilabel:`Download original translation file` in the :guilabel:`Files`
+menu, producing a copy of the original file as it is stored in the upstream
+Version Control System.
 
-You can either download the original file as is or converted into one of widely
-used localization formats. The converted files will be enriched with data
+You can also download the translation converted into one of widely used
+localization formats. The converted files will be enriched with data
 provided in Weblate such as additional context, comments or flags.
 
 Several file formats are available, including a compiled file
