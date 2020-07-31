@@ -1444,7 +1444,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
                 if not unit.has_content():
                     unit.unit = unit.mainunit
                 else:
-                    missingunit, added = self.find_unit(unit.context, unit.source)
+                    missingunit = self.find_unit(unit.context, unit.source)[0]
                     unit.unit = missingunit.unit
                     unit.unit.missing = True
             self.add_unit(unit.unit)
