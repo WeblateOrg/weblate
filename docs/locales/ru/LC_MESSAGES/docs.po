@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-24 20:40+0200\n"
+"POT-Creation-Date: 2020-07-31 08:32+0200\n"
 "PO-Revision-Date: 2020-07-31 03:39+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
@@ -573,14 +573,14 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"При выборе в графе :guilabel:`Управление доступом` пункта "
-":guilabel:`Настраиваемый`, Weblate прекратит управление доступом для данного "
-"проекта и всеми пользователями и группами можно будет управлять с помощью "
+"При выборе в графе :guilabel:`Управление доступом` пункта :guilabel:"
+"`Настраиваемый`, Weblate прекратит управление доступом для данного проекта и "
+"всеми пользователями и группами можно будет управлять с помощью "
 "административного интерфейса Django. Этот пункт можно использовать для "
 "определения более сложного контроля доступа, либо для настройки политики "
 "общего доступа для всех проектов на одном экземпляре Weblate. Если вы хотите "
-"включить его для всех проектов по умолчанию, пожалуйста, задайте параметр "
-":setting:`DEFAULT_ACCESS_CONTROL`."
+"включить его для всех проектов по умолчанию, пожалуйста, задайте параметр :"
+"setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:296
 msgid ""
@@ -1024,7 +1024,8 @@ msgstr ""
 msgid "Default roles: none"
 msgstr "Роли по умолчанию: нет"
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:459 ../../workflows.rst:67 ../../workflows.rst:98
+#: ../../workflows.rst:134
 msgid "`Users`"
 msgstr "`Пользователи`"
 
@@ -1042,7 +1043,7 @@ msgstr ""
 msgid "Default roles: `Power user`"
 msgstr "Роли по умолчанию: `Опытный пользователь`"
 
-#: ../../admin/access.rst:464
+#: ../../admin/access.rst:464 ../../workflows.rst:137
 msgid "`Reviewers`"
 msgstr "`Рецензенты`"
 
@@ -2066,7 +2067,7 @@ msgstr ""
 msgid ":doc:`psa:backends/azuread`"
 msgstr ":doc:`psa:backends/azuread`"
 
-#: ../../admin/auth.rst:288 ../../admin/install/docker.rst:776
+#: ../../admin/auth.rst:288 ../../admin/install/docker.rst:763
 msgid "Slack"
 msgstr "Slack"
 
@@ -2581,8 +2582,8 @@ msgstr ""
 
 #: ../../admin/backup.rst:187
 msgid ""
-"The database backup are by default saved as plain text, but they can also be "
-"compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
+"The database backups are by default saved as plain text, but they can also "
+"be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
 msgstr ""
 
 #: ../../admin/backup.rst:191
@@ -2660,7 +2661,7 @@ msgstr ""
 #: ../../admin/backup.rst:238
 msgid ""
 "The Celery tasks queue might contain some info, but is usually not needed "
-"for a backup. At most you will lose updates that have not yet ben processed "
+"for a backup. At most you will lose updates that have not yet been processed "
 "to translation memory. It is recommended to perform the fulltext or "
 "repository updates upon restoring anyhow, so there is no problem in losing "
 "these."
@@ -3150,9 +3151,7 @@ msgstr "``ignore-escaped-newline``"
 
 #: ../../admin/checks.rst:144
 msgid "Skip the \"Mismatched \\n\" quality check."
-msgstr ""
-"Пропускает проверку качества «Несовпадающие \\n"
-"»."
+msgstr "Пропускает проверку качества «Несовпадающие \\n»."
 
 #: ../../admin/checks.rst:145
 msgid "``ignore-end-colon``"
@@ -3820,7 +3819,7 @@ msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
-msgid "Matches whitespace at the strt and end of the string to the source."
+msgid "Matches whitespace at the start and end of the string to the source."
 msgstr ""
 
 #: ../../admin/config.rst:169
@@ -3904,7 +3903,7 @@ msgstr ""
 #: ../../admin/config.rst:217
 msgid ""
 "All built-in quality :ref:`checks` are turned on by default, from where you "
-"can change these settings. By default they arecommented out in :ref:`sample-"
+"can change these settings. By default they are commented out in :ref:`sample-"
 "configuration` so that default values are used. New checks then carried out "
 "for each new Weblate version."
 msgstr ""
@@ -3962,7 +3961,7 @@ msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:278
 msgid ""
-"The folder Weblate stores all data in. it contains links to VCS "
+"The folder Weblate stores all data in. It contains links to VCS "
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
@@ -4328,8 +4327,8 @@ msgstr "GITHUB_USERNAME"
 msgid "GitHub username used to send pull requests for translation updates."
 msgstr ""
 
-#: ../../admin/config.rst:571 ../../admin/install/docker.rst:472
-#: ../../admin/install/docker.rst:1170
+#: ../../admin/config.rst:571 ../../admin/install/docker.rst:459
+#: ../../admin/install/docker.rst:1157
 msgid ":ref:`vcs-github`, :ref:`hub-setup`"
 msgstr ":ref:`vcs-github`, :ref:`hub-setup`"
 
@@ -5446,7 +5445,7 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1629 ../../admin/config.rst:1646
-#: ../../user/files.rst:46
+#: ../../user/files.rst:47
 msgid ":ref:`formats`"
 msgstr ":ref:`formats`"
 
@@ -5477,7 +5476,7 @@ msgid ""
 "ref:`gpg-sign` for more details."
 msgstr ""
 
-#: ../../admin/config.rst:1667 ../../admin/install/docker.rst:529
+#: ../../admin/config.rst:1667 ../../admin/install/docker.rst:516
 msgid ":ref:`gpg-sign`"
 msgstr ":ref:`gpg-sign`"
 
@@ -8282,12 +8281,12 @@ msgid "Configures Django debug mode using :setting:`DEBUG`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:231 ../../admin/install/docker.rst:258
-#: ../../admin/install/docker.rst:311 ../../admin/install/docker.rst:341
-#: ../../admin/install/docker.rst:353 ../../admin/install/docker.rst:370
-#: ../../admin/install/docker.rst:387 ../../admin/install/docker.rst:417
-#: ../../admin/install/docker.rst:431 ../../admin/install/docker.rst:446
-#: ../../admin/install/docker.rst:590 ../../admin/install/docker.rst:1021
-#: ../../admin/install/docker.rst:1053 ../../admin/install/docker.rst:1071
+#: ../../admin/install/docker.rst:311 ../../admin/install/docker.rst:328
+#: ../../admin/install/docker.rst:340 ../../admin/install/docker.rst:357
+#: ../../admin/install/docker.rst:374 ../../admin/install/docker.rst:404
+#: ../../admin/install/docker.rst:418 ../../admin/install/docker.rst:433
+#: ../../admin/install/docker.rst:577 ../../admin/install/docker.rst:1008
+#: ../../admin/install/docker.rst:1040 ../../admin/install/docker.rst:1058
 msgid "**Example:**"
 msgstr "**Пример:**"
 
@@ -8371,515 +8370,501 @@ msgstr ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install/docker.rst:326
-msgid "Configures the secret used by Django for cookie signing."
-msgstr ""
-
-#: ../../admin/install/docker.rst:330
-msgid ""
-"The secret is now generated automatically on first startup, there is no need "
-"to set it manually."
-msgstr ""
-
-#: ../../admin/install/docker.rst:335
-msgid ":ref:`production-secret`"
-msgstr ":ref:`production-secret`"
-
-#: ../../admin/install/docker.rst:339
 msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:350
+#: ../../admin/install/docker.rst:337
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:363
+#: ../../admin/install/docker.rst:350
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:367
+#: ../../admin/install/docker.rst:354
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
 
-#: ../../admin/install/docker.rst:379
+#: ../../admin/install/docker.rst:366
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
 
-#: ../../admin/install/docker.rst:384
+#: ../../admin/install/docker.rst:371
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
 
-#: ../../admin/install/docker.rst:396 ../../admin/management.rst:181
+#: ../../admin/install/docker.rst:383 ../../admin/management.rst:181
 #: ../../faq.rst:252
 msgid ":ref:`production-site`"
 msgstr ":ref:`production-site`"
 
-#: ../../admin/install/docker.rst:400
+#: ../../admin/install/docker.rst:387
 msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
 msgstr ""
 
-#: ../../admin/install/docker.rst:403
+#: ../../admin/install/docker.rst:390
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:407
+#: ../../admin/install/docker.rst:394
 msgid ""
 "The format must conform to Django's expectations. Django `transforms "
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
 "HttpRequest.META>`_ raw HTTP header names as follows:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:411
+#: ../../admin/install/docker.rst:398
 msgid "converts all characters to uppercase"
 msgstr ""
 
-#: ../../admin/install/docker.rst:412
+#: ../../admin/install/docker.rst:399
 msgid "replaces any hyphens with underscores"
 msgstr ""
 
-#: ../../admin/install/docker.rst:413
+#: ../../admin/install/docker.rst:400
 msgid "prepends ``HTTP_`` prefix"
 msgstr ""
 
-#: ../../admin/install/docker.rst:415
+#: ../../admin/install/docker.rst:402
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:427
+#: ../../admin/install/docker.rst:414
 msgid ""
 "A tuple representing a HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
 
-#: ../../admin/install/docker.rst:440
+#: ../../admin/install/docker.rst:427
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install/docker.rst:444
+#: ../../admin/install/docker.rst:431
 msgid ""
 "Configures login required for the whole of the Weblate installation using :"
 "setting:`LOGIN_REQUIRED_URLS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:457
+#: ../../admin/install/docker.rst:444
 msgid ""
 "Adds URL exceptions for login required for the whole Weblate installation "
 "using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:459
+#: ../../admin/install/docker.rst:446
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
 
-#: ../../admin/install/docker.rst:463
+#: ../../admin/install/docker.rst:450
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:467
+#: ../../admin/install/docker.rst:454
 msgid ""
 "Configures GitHub username for GitHub pull-requests by changing :setting:"
 "`GITHUB_USERNAME`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:477
+#: ../../admin/install/docker.rst:464
 msgid ""
 "Configures GitLab username for GitLab merge-requests by changing :setting:"
 "`GITLAB_USERNAME`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:482 ../../admin/install/docker.rst:491
-#: ../../admin/install/docker.rst:500 ../../admin/install/docker.rst:1202
+#: ../../admin/install/docker.rst:469 ../../admin/install/docker.rst:478
+#: ../../admin/install/docker.rst:487 ../../admin/install/docker.rst:1189
 msgid ":ref:`vcs-gitlab` :ref:`lab-setup`"
 msgstr ":ref:`vcs-gitlab` :ref:`lab-setup`"
 
-#: ../../admin/install/docker.rst:487
+#: ../../admin/install/docker.rst:474
 msgid "Configures GitLab Host for GitLab merge-requests"
 msgstr ""
 
-#: ../../admin/install/docker.rst:496
+#: ../../admin/install/docker.rst:483
 msgid "Configures GitLab access token for GitLab merge-requests"
 msgstr ""
 
-#: ../../admin/install/docker.rst:505
+#: ../../admin/install/docker.rst:492
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:509
+#: ../../admin/install/docker.rst:496
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:513
+#: ../../admin/install/docker.rst:500
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:517
+#: ../../admin/install/docker.rst:504
 msgid ""
 "Configures the default value for :ref:`component-"
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:521
+#: ../../admin/install/docker.rst:508
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:525
+#: ../../admin/install/docker.rst:512
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:533
+#: ../../admin/install/docker.rst:520
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:537
+#: ../../admin/install/docker.rst:524
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:542
+#: ../../admin/install/docker.rst:529
 msgid "Machine translation settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:548
+#: ../../admin/install/docker.rst:535
 msgid "Configures :ref:`aws` machine translation."
 msgstr ""
 
-#: ../../admin/install/docker.rst:559
+#: ../../admin/install/docker.rst:546
 msgid ""
 "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:563
+#: ../../admin/install/docker.rst:550
 msgid ""
 "Configures :ref:`deepl` API version to use, see :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:567
+#: ../../admin/install/docker.rst:554
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:571
+#: ../../admin/install/docker.rst:558
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:575
+#: ../../admin/install/docker.rst:562
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_ENDPOINT_URL`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:579
+#: ../../admin/install/docker.rst:566
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_BASE_URL`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:583
+#: ../../admin/install/docker.rst:570
 msgid "Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:587
+#: ../../admin/install/docker.rst:574
 msgid ""
 "Enables :ref:`mymemory` machine translation and sets :setting:"
 "`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:599
+#: ../../admin/install/docker.rst:586
 msgid "Enables :ref:`glosbe` machine translation."
 msgstr ""
 
-#: ../../admin/install/docker.rst:608
+#: ../../admin/install/docker.rst:595
 msgid "Enables :ref:`ms-terminology` machine translation."
 msgstr ""
 
-#: ../../admin/install/docker.rst:621
+#: ../../admin/install/docker.rst:608
 msgid "Configures :ref:`saptranslationhub` machine translation."
 msgstr ""
 
-#: ../../admin/install/docker.rst:635
+#: ../../admin/install/docker.rst:622
 msgid "Authentication settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:638
+#: ../../admin/install/docker.rst:625
 msgid "LDAP"
 msgstr "LDAP"
 
-#: ../../admin/install/docker.rst:649
+#: ../../admin/install/docker.rst:636
 msgid "LDAP authentication configuration."
 msgstr ""
 
-#: ../../admin/install/docker.rst:651
+#: ../../admin/install/docker.rst:638
 msgid "**Example for direct bind:**"
 msgstr ""
 
-#: ../../admin/install/docker.rst:662
+#: ../../admin/install/docker.rst:649
 msgid "**Example for search and bind:**"
 msgstr ""
 
-#: ../../admin/install/docker.rst:674
+#: ../../admin/install/docker.rst:661
 msgid "**Example with search and bind against Active Directory:**"
 msgstr ""
 
-#: ../../admin/install/docker.rst:689
+#: ../../admin/install/docker.rst:676
 msgid ":ref:`ldap-auth`"
 msgstr ":ref:`ldap-auth`"
 
-#: ../../admin/install/docker.rst:692 ../../vcs.rst:256
+#: ../../admin/install/docker.rst:679 ../../vcs.rst:256
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ../../admin/install/docker.rst:697
+#: ../../admin/install/docker.rst:684
 msgid "Enables :ref:`github_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:700
+#: ../../admin/install/docker.rst:687
 msgid "Bitbucket"
 msgstr "Bitbucket"
 
-#: ../../admin/install/docker.rst:705
+#: ../../admin/install/docker.rst:692
 msgid "Enables :ref:`bitbucket_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:708
+#: ../../admin/install/docker.rst:695
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../../admin/install/docker.rst:713
+#: ../../admin/install/docker.rst:700
 msgid "Enables :ref:`facebook_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:716
+#: ../../admin/install/docker.rst:703
 msgid "Google"
 msgstr "Google"
 
-#: ../../admin/install/docker.rst:723
+#: ../../admin/install/docker.rst:710
 msgid "Enables :ref:`google_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:726 ../../vcs.rst:314
+#: ../../admin/install/docker.rst:713 ../../vcs.rst:314
 msgid "GitLab"
 msgstr "GitLab"
 
-#: ../../admin/install/docker.rst:732
+#: ../../admin/install/docker.rst:719
 msgid "Enables :ref:`gitlab_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:735
+#: ../../admin/install/docker.rst:722
 msgid "Azure Active Directory"
 msgstr ""
 
-#: ../../admin/install/docker.rst:740
+#: ../../admin/install/docker.rst:727
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:743
+#: ../../admin/install/docker.rst:730
 msgid "Azure Active Directory with Tenant support"
 msgstr ""
 
-#: ../../admin/install/docker.rst:749
+#: ../../admin/install/docker.rst:736
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:753
+#: ../../admin/install/docker.rst:740
 msgid "Keycloak"
 msgstr "Keycloak"
 
-#: ../../admin/install/docker.rst:762
+#: ../../admin/install/docker.rst:749
 msgid ""
 "Enables Keycloak authentication, see `documentation <https://github.com/"
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
 "py>`_."
 msgstr ""
 
-#: ../../admin/install/docker.rst:766
+#: ../../admin/install/docker.rst:753
 msgid "Linux vendors"
 msgstr ""
 
-#: ../../admin/install/docker.rst:768
+#: ../../admin/install/docker.rst:755
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
 
-#: ../../admin/install/docker.rst:781
+#: ../../admin/install/docker.rst:768
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:786
+#: ../../admin/install/docker.rst:773
 msgid "SAML"
 msgstr "SAML"
 
-#: ../../admin/install/docker.rst:788
+#: ../../admin/install/docker.rst:775
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:796
+#: ../../admin/install/docker.rst:783
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:800
+#: ../../admin/install/docker.rst:787
 msgid "Other authentication settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:804
+#: ../../admin/install/docker.rst:791
 msgid "Disables e-mail authentication when set to any value."
 msgstr ""
 
-#: ../../admin/install/docker.rst:808
+#: ../../admin/install/docker.rst:795
 msgid "PostgreSQL database setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:810
+#: ../../admin/install/docker.rst:797
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
 
-#: ../../admin/install/docker.rst:813
+#: ../../admin/install/docker.rst:800
 msgid ":ref:`database-setup`"
 msgstr ":ref:`database-setup`"
 
-#: ../../admin/install/docker.rst:817
+#: ../../admin/install/docker.rst:804
 msgid "PostgreSQL password."
 msgstr ""
 
-#: ../../admin/install/docker.rst:821
+#: ../../admin/install/docker.rst:808
 msgid "PostgreSQL username."
 msgstr ""
 
-#: ../../admin/install/docker.rst:825
+#: ../../admin/install/docker.rst:812
 msgid "PostgreSQL database name."
 msgstr ""
 
-#: ../../admin/install/docker.rst:829
+#: ../../admin/install/docker.rst:816
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:833
+#: ../../admin/install/docker.rst:820
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:837
+#: ../../admin/install/docker.rst:824
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
 "docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_"
 msgstr ""
 
-#: ../../admin/install/docker.rst:842
+#: ../../admin/install/docker.rst:829
 msgid "Database backup settings"
 msgstr ""
 
-#: ../../admin/install/docker.rst:845
+#: ../../admin/install/docker.rst:832
 msgid ":ref:`backup-dumps`"
 msgstr ":ref:`backup-dumps`"
 
-#: ../../admin/install/docker.rst:849
+#: ../../admin/install/docker.rst:836
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:853
+#: ../../admin/install/docker.rst:840
 msgid "Caching server setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:855
+#: ../../admin/install/docker.rst:842
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:858 ../../admin/projects.rst:819
+#: ../../admin/install/docker.rst:845 ../../admin/projects.rst:819
 msgid ":ref:`production-cache`"
 msgstr ":ref:`production-cache`"
 
-#: ../../admin/install/docker.rst:862
+#: ../../admin/install/docker.rst:849
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:866
+#: ../../admin/install/docker.rst:853
 msgid "The Redis server port. Defaults to ``6379``."
 msgstr "Порт сервера Redis. По умолчанию установлен в ``6379``."
 
-#: ../../admin/install/docker.rst:870
+#: ../../admin/install/docker.rst:857
 msgid "The Redis database number, defaults to ``1``."
 msgstr "Нобер базы данных Redis, по умолчанию установлен в ``1``."
 
-#: ../../admin/install/docker.rst:874
+#: ../../admin/install/docker.rst:861
 msgid "The Redis server password, not used by default."
 msgstr ""
 
-#: ../../admin/install/docker.rst:878
+#: ../../admin/install/docker.rst:865
 msgid "Enables using SSL for Redis connection."
 msgstr ""
 
-#: ../../admin/install/docker.rst:882
+#: ../../admin/install/docker.rst:869
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr ""
 
-#: ../../admin/install/docker.rst:885
+#: ../../admin/install/docker.rst:872
 msgid "Email server setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:887
+#: ../../admin/install/docker.rst:874
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr ""
 
-#: ../../admin/install/docker.rst:889
+#: ../../admin/install/docker.rst:876
 msgid "Example TLS configuration:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:898
+#: ../../admin/install/docker.rst:885
 msgid "Example SSL configuration:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:911
+#: ../../admin/install/docker.rst:898
 msgid ":ref:`out-mail`"
 msgstr ":ref:`out-mail`"
 
-#: ../../admin/install/docker.rst:915
+#: ../../admin/install/docker.rst:902
 msgid "Mail server hostname or IP address."
 msgstr ""
 
-#: ../../admin/install/docker.rst:919
+#: ../../admin/install/docker.rst:906
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
@@ -8887,31 +8872,31 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
-#: ../../admin/install/docker.rst:926
+#: ../../admin/install/docker.rst:913
 msgid "Mail server port, defaults to 25."
 msgstr "Порт почтового сервера, по умолчанию установлен в 25."
 
-#: ../../admin/install/docker.rst:928
+#: ../../admin/install/docker.rst:915
 msgid ":setting:`django:EMAIL_PORT`"
 msgstr ":setting:`django:EMAIL_PORT`"
 
-#: ../../admin/install/docker.rst:932
+#: ../../admin/install/docker.rst:919
 msgid "Email authentication user."
 msgstr ""
 
-#: ../../admin/install/docker.rst:934
+#: ../../admin/install/docker.rst:921
 msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ":setting:`django:EMAIL_HOST_USER`"
 
-#: ../../admin/install/docker.rst:938
+#: ../../admin/install/docker.rst:925
 msgid "Email authentication password."
 msgstr ""
 
-#: ../../admin/install/docker.rst:940
+#: ../../admin/install/docker.rst:927
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:944
+#: ../../admin/install/docker.rst:931
 msgid ""
 "Whether to use an implicit TLS (secure) connection when talking to the SMTP "
 "server. In most e-mail documentation, this type of TLS connection is "
@@ -8920,7 +8905,7 @@ msgid ""
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:951
+#: ../../admin/install/docker.rst:938
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
@@ -8928,7 +8913,7 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 
-#: ../../admin/install/docker.rst:957
+#: ../../admin/install/docker.rst:944
 msgid ""
 "Whether to use a TLS (secure) connection when talking to the SMTP server. "
 "This is used for explicit TLS connections, generally on port 587 or 25. If "
@@ -8936,7 +8921,7 @@ msgid ""
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:964
+#: ../../admin/install/docker.rst:951
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
@@ -8944,59 +8929,59 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 
-#: ../../admin/install/docker.rst:970
+#: ../../admin/install/docker.rst:957
 msgid "Configures Django backend to use for sending e-mails."
 msgstr ""
 
-#: ../../admin/install/docker.rst:975
+#: ../../admin/install/docker.rst:962
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
-#: ../../admin/install/docker.rst:979
+#: ../../admin/install/docker.rst:966
 msgid "Error reporting"
 msgstr ""
 
-#: ../../admin/install/docker.rst:981
+#: ../../admin/install/docker.rst:968
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:984
+#: ../../admin/install/docker.rst:971
 msgid "To enable support for Rollbar, set the following:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:988
+#: ../../admin/install/docker.rst:975
 msgid "Your Rollbar post server access token."
 msgstr ""
 
-#: ../../admin/install/docker.rst:992
+#: ../../admin/install/docker.rst:979
 msgid "Your Rollbar environment, defaults to ``production``."
 msgstr ""
 
-#: ../../admin/install/docker.rst:994
+#: ../../admin/install/docker.rst:981
 msgid "To enable support for Sentry, set following:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:998
+#: ../../admin/install/docker.rst:985
 msgid "Your Sentry DSN."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1002
+#: ../../admin/install/docker.rst:989
 msgid "Your Sentry Environment (optional)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1005
+#: ../../admin/install/docker.rst:992
 msgid "Changing enabled apps, checks, addons or autofixes"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1009
+#: ../../admin/install/docker.rst:996
 msgid ""
 "The built-in configuration of enabled checks, addons or autofixes can be "
 "adjusted by the following variables:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1031
+#: ../../admin/install/docker.rst:1018
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
@@ -9004,55 +8989,55 @@ msgstr ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 
-#: ../../admin/install/docker.rst:1037
+#: ../../admin/install/docker.rst:1024
 msgid "Container settings"
 msgstr "Параметры контейнера"
 
-#: ../../admin/install/docker.rst:1046
+#: ../../admin/install/docker.rst:1033
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1050
+#: ../../admin/install/docker.rst:1037
 msgid ""
 "By default, the number of concurrent workers matches number of processors, "
 "with exception of backup worker, which is supposed to run only one."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1062
+#: ../../admin/install/docker.rst:1049
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1067
+#: ../../admin/install/docker.rst:1054
 msgid "Configure how many uwsgi workers should be executed."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1069
+#: ../../admin/install/docker.rst:1056
 msgid "It defaults to number of processors + 1."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1081
+#: ../../admin/install/docker.rst:1068
 msgid "Docker container volumes"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1083
+#: ../../admin/install/docker.rst:1070
 msgid ""
 "There is single data volume exported by the Weblate container. The other "
 "service containers (PostgreSQL or Redis) have their data volumes as well, "
 "but those are not covered by this document."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1087
+#: ../../admin/install/docker.rst:1074
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1090
+#: ../../admin/install/docker.rst:1077
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -9060,26 +9045,26 @@ msgid ""
 "`/app/data`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1097
+#: ../../admin/install/docker.rst:1084
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1100
+#: ../../admin/install/docker.rst:1087
 msgid "Further configuration customization"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1102
+#: ../../admin/install/docker.rst:1089
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1108
+#: ../../admin/install/docker.rst:1095
 msgid "Custom configuration files"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1110
+#: ../../admin/install/docker.rst:1097
 msgid ""
 "You can additionally override the configuration in :file:`/app/data/settings-"
 "override.py` (see :ref:`docker-volume`). This is executed after all "
@@ -9087,11 +9072,11 @@ msgid ""
 "used to customize anything."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1116
+#: ../../admin/install/docker.rst:1103
 msgid "Replacing logo and other static files"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1120
+#: ../../admin/install/docker.rst:1107
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -9099,62 +9084,62 @@ msgid ""
 "the favicon."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1127
+#: ../../admin/install/docker.rst:1114
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1130
+#: ../../admin/install/docker.rst:1117
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1143
+#: ../../admin/install/docker.rst:1130
 msgid "Adding own Python modules"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1147
+#: ../../admin/install/docker.rst:1134
 msgid ""
 "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
 "using :ref:`docker-custom-config`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1153
+#: ../../admin/install/docker.rst:1140
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1156
+#: ../../admin/install/docker.rst:1143
 msgid "Hub setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1158
+#: ../../admin/install/docker.rst:1145
 msgid ""
 "In order to use the GitHub's pull-request feature, you must initialize hub "
 "configuration by entering the Weblate container and executing an arbitrary "
 "Hub command. For example:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1166
+#: ../../admin/install/docker.rst:1153
 msgid ""
 "The username passed for credentials must be the same as :setting:"
 "`GITHUB_USERNAME`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1175
+#: ../../admin/install/docker.rst:1162
 msgid "Lab setup"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1177
+#: ../../admin/install/docker.rst:1164
 msgid ""
 "In order to use GitLab's merge-request feature, you must initialize ``lab`` "
 "configuration by entering the weblate contained and executing ``lab`` "
 "command. For example:"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1187
+#: ../../admin/install/docker.rst:1174
 msgid ""
 "You can also use environment variables to configure ``lab`` on each "
 "container start. Just add ``WEBLATE_GITLAB_USERNAME``, "
@@ -9162,17 +9147,17 @@ msgid ""
 "configuration."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1198
+#: ../../admin/install/docker.rst:1185
 msgid ""
 "The ``access_token`` passed for lab configuration must be same as :setting:"
 "`GITLAB_USERNAME`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1207
+#: ../../admin/install/docker.rst:1194
 msgid "Select your machine - local or cloud providers"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1209
+#: ../../admin/install/docker.rst:1196
 msgid ""
 "With docker-machine you can create your Weblate deployment either on your "
 "local machine, or on any large number of cloud-based deployments on e.g. "
@@ -10938,7 +10923,7 @@ msgid ""
 msgstr ""
 
 #: ../../admin/management.rst:722
-msgid "Turns of automatic updating of existing groups (only adds new ones)."
+msgid "Turns off automatic updating of existing groups (only adds new ones)."
 msgstr ""
 
 #: ../../admin/management.rst:726
@@ -10956,7 +10941,7 @@ msgid "Updates list of defined languages in Weblate."
 msgstr ""
 
 #: ../../admin/management.rst:742
-msgid "Turns of automatic updates of existing languages (only adds new ones)."
+msgid "Turns off automatic updates of existing languages (only adds new ones)."
 msgstr ""
 
 #: ../../admin/management.rst:745
@@ -11806,8 +11791,8 @@ msgstr ""
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
 
-#: ../../admin/projects.rst:186 ../../workflows.rst:58 ../../workflows.rst:88
-#: ../../workflows.rst:123
+#: ../../admin/projects.rst:186 ../../workflows.rst:58 ../../workflows.rst:89
+#: ../../workflows.rst:125
 msgid "Enable reviews"
 msgstr "Включить рецензии"
 
@@ -12201,8 +12186,8 @@ msgid ""
 "Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
 
-#: ../../admin/projects.rst:472 ../../workflows.rst:60 ../../workflows.rst:90
-#: ../../workflows.rst:125
+#: ../../admin/projects.rst:472 ../../workflows.rst:60 ../../workflows.rst:91
+#: ../../workflows.rst:127
 msgid "Enable suggestions"
 msgstr "Включить предложения"
 
@@ -12211,7 +12196,7 @@ msgid "Whether translation suggestions are accepted for this component."
 msgstr ""
 
 #: ../../admin/projects.rst:479 ../../admin/translating.rst:7
-#: ../../workflows.rst:63 ../../workflows.rst:92 ../../workflows.rst:128
+#: ../../workflows.rst:63 ../../workflows.rst:93 ../../workflows.rst:130
 msgid "Suggestion voting"
 msgstr "Голосование по предложению"
 
@@ -12219,8 +12204,8 @@ msgstr "Голосование по предложению"
 msgid "Turns on votecasting for suggestions, see :ref:`voting`."
 msgstr ""
 
-#: ../../admin/projects.rst:486 ../../workflows.rst:65 ../../workflows.rst:94
-#: ../../workflows.rst:130
+#: ../../admin/projects.rst:486 ../../workflows.rst:65 ../../workflows.rst:95
+#: ../../workflows.rst:132
 msgid "Autoaccept suggestions"
 msgstr "Автоматическое принятие предложений"
 
@@ -13649,8 +13634,7 @@ msgstr "Точка входа в API"
 msgid "The API root entry point."
 msgstr "Корневая точка входа в API."
 
-#: ../../api.rst:213 ../../workflows.rst:67 ../../workflows.rst:97
-#: ../../workflows.rst:132
+#: ../../api.rst:213
 msgid "Users"
 msgstr "Пользователи"
 
@@ -18781,7 +18765,8 @@ msgstr ""
 
 #: ../../changes.rst:1014
 msgid "New management command to add suggestions from command line."
-msgstr "Новая команда поддержки для добавления предложений из командной строки."
+msgstr ""
+"Новая команда поддержки для добавления предложений из командной строки."
 
 #: ../../changes.rst:1015
 msgid "Added support for merging comments on file upload."
@@ -21358,8 +21343,8 @@ msgid ""
 "If it is missing, the component clears all current checks. Alerts can not be "
 "ignored, but will disappear once the underlying problem has been fixed."
 msgstr ""
-"Предупреждения выводятся на соответствующей странице компонента в разделе "
-":guilabel:`Предупреждения`. Если они отсутствуют, компонент очищает все "
+"Предупреждения выводятся на соответствующей странице компонента в разделе :"
+"guilabel:`Предупреждения`. Если они отсутствуют, компонент очищает все "
 "текущие проверки. Предупреждения не могут быть проигнорированы, но исчезнут, "
 "как только нижележащая проблема будет устранена."
 
@@ -21580,7 +21565,7 @@ msgstr ""
 msgid "michal@cihar.com"
 msgstr "michal@cihar.com"
 
-#: ../../devel/reporting-example.rst:4 ../../workflows.rst:94
+#: ../../devel/reporting-example.rst:4 ../../workflows.rst:95
 msgid "1"
 msgstr "1"
 
@@ -21597,7 +21582,7 @@ msgid "21"
 msgstr "21"
 
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
-#: ../../workflows.rst:65 ../../workflows.rst:130
+#: ../../workflows.rst:65 ../../workflows.rst:132
 msgid "0"
 msgstr "0"
 
@@ -21889,8 +21874,8 @@ msgstr ""
 "Выбирайте тот фреймворк, который является стандартом для вашей платформы, "
 "постарайтесь не изобретать заново колесо, создавая свой собственный "
 "фреймворк для работы с локализациями. Weblate поддерживает большинство "
-"широко используемых фреймворков, подробнее смотрите раздел :ref:`formats` ("
-"особенно его подраздел :ref:`fmt_capabs`)."
+"широко используемых фреймворков, подробнее смотрите раздел :ref:`formats` "
+"(особенно его подраздел :ref:`fmt_capabs`)."
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -22013,14 +21998,14 @@ msgstr ""
 #: ../../devel/starting.rst:71
 msgid "You can also use :ref:`javaprop` if plurals are not needed."
 msgstr ""
-"Также, если множественные числа вам не нужны, вы можете использовать "
-":ref:`javaprop`."
+"Также, если множественные числа вам не нужны, вы можете использовать :ref:"
+"`javaprop`."
 
 #: ../../devel/starting.rst:75
 msgid "You can also use plain :ref:`json` if plurals are not needed."
 msgstr ""
-"Также, если множественные числа вам не нужны, вы можете использовать простой "
-":ref:`json`."
+"Также, если множественные числа вам не нужны, вы можете использовать "
+"простой :ref:`json`."
 
 #: ../../devel/starting.rst:77
 msgid ""
@@ -22049,8 +22034,8 @@ msgstr ""
 "простой, но гибкий способ локализации программного обеспечения. Он имеет "
 "отличную поддержку форм множественного числа, может добавлять к переводимым "
 "строкам дополнительный контекст и на его основе построено довольно большое "
-"количество инструментов. И конечно, он имеет отличную поддержку в Weblate ("
-"смотрите описание формата файла :ref:`gettext`)."
+"количество инструментов. И конечно, он имеет отличную поддержку в Weblate "
+"(смотрите описание формата файла :ref:`gettext`)."
 
 #: ../../devel/starting.rst:91
 msgid ""
@@ -22120,8 +22105,8 @@ msgid ""
 msgstr ""
 "После расстановки по коду вызовов gettext, вы можете воспользоваться "
 "программой :program:`xgettext` для извлечения из кода сообщений и записи их "
-"в `.pot-файлы <https://www.gnu.org/software/gettext/manual/gettext.html"
-"#index-files_002c-_002epot>`_:"
+"в `.pot-файлы <https://www.gnu.org/software/gettext/manual/gettext."
+"html#index-files_002c-_002epot>`_:"
 
 #: ../../devel/starting.rst:150
 msgid ""
@@ -22223,8 +22208,8 @@ msgstr ""
 msgid "Field"
 msgstr "Поле"
 
-#: ../../devel/starting.rst:271 ../../workflows.rst:56 ../../workflows.rst:86
-#: ../../workflows.rst:121
+#: ../../devel/starting.rst:271 ../../workflows.rst:56 ../../workflows.rst:87
+#: ../../workflows.rst:123
 msgid "Value"
 msgstr "Значение"
 
@@ -22279,8 +22264,8 @@ msgstr ""
 "`Sphinx`_ — это инструмент для создания красивой документации. Он использует "
 "простой синтаксис reStructuredText и может генерировать вывод во многих "
 "форматах. Если вы ищете пример, то эта документация также собирается с его "
-"помощью. Очень полезным спутником при использовании Sphinx является сервис `"
-"Read the Docs`_, который бесплатно будет собирать и публиковать вашу "
+"помощью. Очень полезным спутником при использовании Sphinx является сервис "
+"`Read the Docs`_, который бесплатно будет собирать и публиковать вашу "
 "документацию."
 
 #: ../../devel/starting.rst:300
@@ -22308,10 +22293,10 @@ msgid ""
 "and link it from main project as a translation."
 msgstr ""
 "Если вы пользуетесь сервисом Read the Docs, вы запустить сборку переведённой "
-"документации на Read the Docs. Их :doc:`документация по локализации "
-"<rtd:localization>` покрывает практически всё, что вам нужно знать — "
-"создание ещё одного проекта, установку его языка и связывание его с основным "
-"проектом в качестве перевода."
+"документации на Read the Docs. Их :doc:`документация по локализации <rtd:"
+"localization>` покрывает практически всё, что вам нужно знать — создание ещё "
+"одного проекта, установку его языка и связывание его с основным проектом в "
+"качестве перевода."
 
 #: ../../devel/starting.rst:312
 msgid ""
@@ -22369,8 +22354,8 @@ msgstr ""
 "Для получения обновлённых строк из Weblate вы можете просто затянуть "
 "изменения из нижележащего репозитория (либо из файловой системы, либо его "
 "можно сделать доступным через :ref:`git-exporter`). До этого вы можете "
-"захотеть зафиксировать любые отложенные изменения (смотрите раздел :ref"
-":`lazy-commit`). Это можно сделать либо через пользовательский интерфейс (в "
+"захотеть зафиксировать любые отложенные изменения (смотрите раздел :ref:"
+"`lazy-commit`). Это можно сделать либо через пользовательский интерфейс (в "
 "разделе :guilabel:`Обслуживание репозитория`), либо из командной строки при "
 "помощи :ref:`клиента Weblate <wlc>`."
 
@@ -23027,8 +23012,8 @@ msgid ""
 "exclude it."
 msgstr ""
 "Если же файл перевода для исходного языка необходим, но должен "
-"игнорироваться Weblate, пожалуйста, настройте для его исключения :ref:`"
-"языковой фильтр <component-language_regex>`."
+"игнорироваться Weblate, пожалуйста, настройте для его исключения :ref:"
+"`языковой фильтр <component-language_regex>`."
 
 #: ../../faq.rst:430
 msgid "Features"
@@ -23119,7 +23104,7 @@ msgid ""
 "as ``sr_Hans``."
 msgstr ""
 
-#: ../../formats.rst:4 ../../user/files.rst:38
+#: ../../formats.rst:4 ../../user/files.rst:39
 msgid "Supported file formats"
 msgstr "Поддерживаемые форматы файлов"
 
@@ -25335,10 +25320,10 @@ msgid ""
 "string syntax happens to be used."
 msgstr ""
 "Её можно добавлять как индивидуально в каждую единицу перевода (смотрите "
-"раздел :ref:`additional`), так и в :ref:`конфигурации компонента <component>`"
-". Определение формата для компонента целиком проще, но может привести к "
-"ложным срабатываниям, если строка не интерпретируется как строка формата, но "
-"при этом внутри неё используется синтаксис строки формата."
+"раздел :ref:`additional`), так и в :ref:`конфигурации компонента "
+"<component>`. Определение формата для компонента целиком проще, но может "
+"привести к ложным срабатываниям, если строка не интерпретируется как строка "
+"формата, но при этом внутри неё используется синтаксис строки формата."
 
 #: ../../user/checks.rst:129
 msgid ""
@@ -25466,8 +25451,8 @@ msgid ""
 "`C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string."
 "format?view=netframework-4.7.2>`_"
 msgstr ""
-"`Строки формата C# <https://docs.microsoft.com/ru-ru/dotnet/api/system.string"
-".format?view=netframework-4.7.2>`_"
+"`Строки формата C# <https://docs.microsoft.com/ru-ru/dotnet/api/system."
+"string.format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:186
 msgid "ECMAScript template literals"
@@ -25794,8 +25779,8 @@ msgid ""
 "`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-"
 "sprintf>`_"
 msgstr ""
-"`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
-"html#method-i-sprintf>`_"
+"`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-"
+"sprintf>`_"
 
 #: ../../user/checks.rst:412
 msgid "Has been translated"
@@ -25841,8 +25826,8 @@ msgid ""
 msgstr ""
 "Проверка срабатывает, когда в проекте обнаруживаются различные переводы "
 "одной и той же строки. Также это может привести к несогласованности в "
-"отображаемых проверках. Другие переводы этой строки можно найти на вкладке "
-":guilabel:`Другие вхождения`."
+"отображаемых проверках. Другие переводы этой строки можно найти на вкладке :"
+"guilabel:`Другие вхождения`."
 
 #: ../../user/checks.rst:436
 msgid ""
@@ -25855,8 +25840,8 @@ msgstr ""
 "Также эта проверка срабатывает в том случае, если строка в одном компоненте "
 "переведена, а в другом — нет. Она может использоваться, чтобы по-быстрому "
 "вручную обработать строки, не переведённые в некоторых компонентах; для "
-"этого надо просто на вкладке :guilabel:`Другие вхождения` нажать на кнопку "
-":guilabel:`Использовать эту строку`, отображаемую напротив каждой строки."
+"этого надо просто на вкладке :guilabel:`Другие вхождения` нажать на кнопку :"
+"guilabel:`Использовать эту строку`, отображаемую напротив каждой строки."
 
 #: ../../user/checks.rst:442
 msgid ""
@@ -26008,8 +25993,8 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
-"Также директивами ``font-*`` вы можете настроить используемый шрифт ("
-"смотрите раздел :ref:`custom-checks`), например, следующие флаги перевода "
+"Также директивами ``font-*`` вы можете настроить используемый шрифт "
+"(смотрите раздел :ref:`custom-checks`), например, следующие флаги перевода "
 "говорят, что текст, отрисовываемый шрифтом ubuntu размера 22, должен "
 "вписаться в две строки и 500 пикселей:"
 
@@ -26034,9 +26019,7 @@ msgstr "Несовпадающие \\n"
 
 #: ../../user/checks.rst:581
 msgid "*Number of \\n in translation does not match source*"
-msgstr ""
-"*Количество \\n"
-" в переводе не соответствует источнику*"
+msgstr "*Количество \\n в переводе не соответствует источнику*"
 
 #: ../../user/checks.rst:583
 msgid ""
@@ -26045,8 +26028,8 @@ msgid ""
 "source."
 msgstr ""
 "Экранированные символы новой строки обычно важны при форматировании вывода "
-"программы. Проверка срабатывает, если количество символов ``\\\\n"
-"`` в переводе не совпадает с их количеством в исходной строке."
+"программы. Проверка срабатывает, если количество символов ``\\\\n`` в "
+"переводе не совпадает с их количеством в исходной строке."
 
 #: ../../user/checks.rst:589
 msgid "Mismatched colon"
@@ -26063,8 +26046,8 @@ msgid ""
 "belong (Chinese or Japanese)."
 msgstr ""
 "Проверяет, что двоеточия в исходной строке и в переводе одинаковы. Также "
-"проверяется наличие двоеточий для тех языков, в которых они не используются ("
-"китайский или японский)."
+"проверяется наличие двоеточий для тех языков, в которых они не используются "
+"(китайский или японский)."
 
 #: ../../user/checks.rst:599
 msgid ""
@@ -26144,8 +26127,8 @@ msgid ""
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
 msgstr ""
 "Проверяет, что точки в исходной строке и в переводе одинаковы. Также "
-"проверяется наличие точек для тех языков, в которых они не используются ("
-"китайский, японский, деванагари или урду)."
+"проверяется наличие точек для тех языков, в которых они не используются "
+"(китайский, японский, деванагари или урду)."
 
 #: ../../user/checks.rst:647
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
@@ -26218,8 +26201,8 @@ msgid ""
 "the number of ``\\n`` literals in translation do not match the source."
 msgstr ""
 "Символы новой строки обычно важны при форматировании вывода программы. "
-"Проверка срабатывает, если количество литералов``\\n"
-"`` в переводе не совпадает с их количеством в исходной строке."
+"Проверка срабатывает, если количество литералов``\\n`` в переводе не "
+"совпадает с их количеством в исходной строке."
 
 #: ../../user/checks.rst:693
 msgid "Missing plurals"
@@ -26286,8 +26269,8 @@ msgid ""
 "only in a few selected languages like French or Breton, where space before "
 "double punctuation sign is a typographic rule."
 msgstr ""
-"Проверяет наличие неразрывного пробела перед знаком двойной пунктуации ("
-"восклицательным знаком, вопросительным знаком, точкой с запятой или "
+"Проверяет наличие неразрывного пробела перед знаком двойной пунктуации "
+"(восклицательным знаком, вопросительным знаком, точкой с запятой или "
 "двоеточием). Это правило используется только в некоторых избранных языках, "
 "вроде французского или бретонского, где по типографским правилам обязателен "
 "пробел перед знаком двойной пунктуации."
@@ -26463,17 +26446,17 @@ msgid ""
 "autofixer which can automatically sanitize the markup."
 msgstr ""
 "Перевод использует небезопасную HTML-разметку. Эта проверка должна быть "
-"включена с помощью флага ``safe-html`` (смотрите раздел :ref:`custom-checks`)"
-". Также имеется соответствующий автоматический исправляльщик, который может "
-"автоматически почистить разметку."
+"включена с помощью флага ``safe-html`` (смотрите раздел :ref:`custom-"
+"checks`). Также имеется соответствующий автоматический исправляльщик, "
+"который может автоматически почистить разметку."
 
 #: ../../user/checks.rst:861
 msgid ""
 "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
 ">`_ library developed by Mozilla."
 msgstr ""
-"Проверка HTML осуществляется с помощью разработанной Mozilla библиотеки `"
-"Bleach <https://bleach.readthedocs.io/`_."
+"Проверка HTML осуществляется с помощью разработанной Mozilla библиотеки "
+"`Bleach <https://bleach.readthedocs.io/`_."
 
 #: ../../user/checks.rst:869
 msgid "URL"
@@ -26724,29 +26707,41 @@ msgid "Downloading translations"
 msgstr "Скачивание переводов"
 
 #: ../../user/files.rst:15
+#, fuzzy
+#| msgid ""
+#| "From the project or component dashboard, translatable files can be "
+#| "downloaded using the :guilabel:`Download source file` in the :guilabel:"
+#| "`Files` menu, producing a copy of the file as it is stored in the "
+#| "upstream Version Control System."
 msgid ""
 "From the project or component dashboard, translatable files can be "
-"downloaded using the :guilabel:`Download source file` in the :guilabel:"
-"`Files` menu, producing a copy of the file as it is stored in the upstream "
-"Version Control System."
+"downloaded using the :guilabel:`Download original translation file` in the :"
+"guilabel:`Files` menu, producing a copy of the original file as it is stored "
+"in the upstream Version Control System."
 msgstr ""
 "Из панели управления проекта или компонента переводимые файлы можно скачать "
 "через пункт :guilabel:`Скачать исходный файл` меню :guilabel:`Файлы`, "
 "который создаёт копию файла в том виде, в котором он хранится в вышестоящей "
 "системе контроля версий."
 
-#: ../../user/files.rst:19
+#: ../../user/files.rst:20
+#, fuzzy
+#| msgid ""
+#| "You can either download the original file as is or converted into one of "
+#| "widely used localization formats. The converted files will be enriched "
+#| "with data provided in Weblate such as additional context, comments or "
+#| "flags."
 msgid ""
-"You can either download the original file as is or converted into one of "
-"widely used localization formats. The converted files will be enriched with "
-"data provided in Weblate such as additional context, comments or flags."
+"You can also download the translation converted into one of widely used "
+"localization formats. The converted files will be enriched with data "
+"provided in Weblate such as additional context, comments or flags."
 msgstr ""
 "Вы можете скачать исходный файл либо в его исходном виде, либо преобразовать "
 "его в один из широко распространённых форматов локализации. Преобразованные "
 "файлы будут обогащены данными, предоставленными Weblate, такими как "
 "дополнительный контекст, комментарии или флаги."
 
-#: ../../user/files.rst:23
+#: ../../user/files.rst:24
 msgid ""
 "Several file formats are available, including a compiled file to use in your "
 "choice of application (for example ``.mo`` files for GNU Gettext) using the :"
@@ -26756,11 +26751,11 @@ msgstr ""
 "скомпилированные файлы для использования в выбранном вами приложении "
 "(например, файлы ``.mo`` для GNU Gettext)."
 
-#: ../../user/files.rst:28
+#: ../../user/files.rst:29
 msgid "Uploading translations"
 msgstr "Загрузка переводов"
 
-#: ../../user/files.rst:30
+#: ../../user/files.rst:31
 msgid ""
 "When you have made your changes, use :guilabel:`Upload translation` in the :"
 "guilabel:`Files` menu."
@@ -26768,7 +26763,7 @@ msgstr ""
 "После того, как вы внесли в перевод свои изменения, воспользуйтесь пунктом :"
 "guilabel:`Загрузить перевод` меню :guilabel:`Файлы`."
 
-#: ../../user/files.rst:40
+#: ../../user/files.rst:41
 msgid ""
 "Any file in a supported file format can be uploaded, but it is still "
 "recommended to use the same file format as the one used for translation, "
@@ -26778,7 +26773,7 @@ msgstr ""
 "использовать тот же самый формат файла, который используется для перевода, в "
 "противном случае некоторые возможности могут быть перенесены неправильно."
 
-#: ../../user/files.rst:48
+#: ../../user/files.rst:49
 msgid ""
 "The uploaded file is merged to update the translation, overwriting existing "
 "entries by default (this can be turned off or on in the upload dialog)."
@@ -26787,20 +26782,20 @@ msgstr ""
 "умолчанию перезаписывая существующие записи (это можно отключить или "
 "включить в диалоге загрузки)."
 
-#: ../../user/files.rst:54
+#: ../../user/files.rst:55
 msgid "Import methods"
 msgstr "Способы импортирования"
 
-#: ../../user/files.rst:56
+#: ../../user/files.rst:57
 msgid "These are the choices presented when uploading translation files:"
 msgstr ""
 "При загрузке файлов перевода вы можете выбирать из следующих вариантов:"
 
-#: ../../user/files.rst:59
+#: ../../user/files.rst:60
 msgid "Add as translation (``translate``)"
 msgstr "Добавить как перевод (``translate``)"
 
-#: ../../user/files.rst:59
+#: ../../user/files.rst:60
 msgid ""
 "Imported translations are added as translations. This is the most common "
 "usecase, and the default behavior."
@@ -26808,11 +26803,11 @@ msgstr ""
 "Импортированные переводы добавляются как переводы. Это наиболее "
 "распространённое использование и поведение по умолчанию."
 
-#: ../../user/files.rst:62
+#: ../../user/files.rst:63
 msgid "Add as suggestion (``suggest``)"
 msgstr "Добавить как предложение (``suggest``)"
 
-#: ../../user/files.rst:62
+#: ../../user/files.rst:63
 msgid ""
 "Imported translations are added as suggestions, do this when you want to "
 "have your uploaded strings reviewed."
@@ -26820,11 +26815,11 @@ msgstr ""
 "Импортированные переводы добавляются как предложения, делайте это тогда, "
 "когда хотите, чтобы загруженные строки были отрецензированы."
 
-#: ../../user/files.rst:65
+#: ../../user/files.rst:66
 msgid "Add as translation needing edit (``fuzzy``)"
 msgstr "Добавить перевод как «На правку» (``fuzzy``)"
 
-#: ../../user/files.rst:65
+#: ../../user/files.rst:66
 msgid ""
 "Imported translations are added as translations needing edit. This can be "
 "useful when you want translations to be used, but also reviewed."
@@ -26833,11 +26828,11 @@ msgstr ""
 "может быть полезно, когда вы хотите, чтобы переводы не только "
 "использовались, но также были и отрецензированы."
 
-#: ../../user/files.rst:68
+#: ../../user/files.rst:69
 msgid "Replace existing translation file (``replace``)"
 msgstr "Заменить существующий файл перевода (``replace``)"
 
-#: ../../user/files.rst:68
+#: ../../user/files.rst:69
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
@@ -26845,11 +26840,11 @@ msgstr ""
 "Существующий файл заменяется новым содержимым. Это может привести к потере "
 "существующих переводов, используйте этот вариант с осторожностью."
 
-#: ../../user/files.rst:72
+#: ../../user/files.rst:73
 msgid "Update source strings (``source``)"
 msgstr "Обновить исходные строки (``source``)"
 
-#: ../../user/files.rst:71
+#: ../../user/files.rst:72
 msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
@@ -26857,28 +26852,28 @@ msgstr ""
 "Обновляет исходные строки в двуязычном файле перевода. Это поведение похоже "
 "на то, что делает надстройка :ref:`addon-weblate.gettext.msgmerge`."
 
-#: ../../user/files.rst:76
+#: ../../user/files.rst:77
 msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
-":http:post:`/api/translations/"
-"(string:project)/(string:component)/(string:language)/file/`"
+":http:post:`/api/translations/(string:project)/(string:component)/(string:"
+"language)/file/`"
 
-#: ../../user/files.rst:81
+#: ../../user/files.rst:82
 msgid "Conflicts handling"
 msgstr "Разрешение конфликтов"
 
-#: ../../user/files.rst:83
+#: ../../user/files.rst:84
 msgid "Defines how to deal with uploaded strings which are already translated."
 msgstr ""
 "Определяет, что делать с загружаемыми строками, которые уже переведены."
 
-#: ../../user/files.rst:88
+#: ../../user/files.rst:89
 msgid "Strings needing edit"
 msgstr "Строки, отмеченные как «На правку»"
 
-#: ../../user/files.rst:90
+#: ../../user/files.rst:91
 msgid ""
 "There is also an option for how to handle strings needing edit in the "
 "imported file. Such strings can be handle in one of the three following "
@@ -26891,11 +26886,11 @@ msgstr ""
 "«Импортировать строки, как отмеченные „На правку“» или «Импортировать как "
 "переведённое»."
 
-#: ../../user/files.rst:98
+#: ../../user/files.rst:99
 msgid "Overriding authorship"
 msgstr "Переопределение авторства"
 
-#: ../../user/files.rst:100
+#: ../../user/files.rst:101
 msgid ""
 "With admin permissions, you can also specify authorship of uploaded file. "
 "This can be useful in case you've received the file in another way and want "
@@ -27167,8 +27162,13 @@ msgid "Notifications"
 msgstr "Уведомления"
 
 #: ../../user/profile.rst:138
+#, fuzzy
+#| msgid ""
+#| "Subscribe to various notifications from the :guilabel:`Subscriptions` "
+#| "tab. Notifications for selected events on watched or administered "
+#| "projects will be sent to you per e-mail."
 msgid ""
-"Subscribe to various notifications from the :guilabel:`Subscriptions` tab. "
+"Subscribe to various notifications from the :guilabel:`Notifications` tab. "
 "Notifications for selected events on watched or administered projects will "
 "be sent to you per e-mail."
 msgstr ""
@@ -27266,8 +27266,8 @@ msgid ""
 "When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Target` and :guilabel:`Context` fields."
 msgstr ""
-"Если поле не определено, поиск проводится по полям :guilabel:`Источник`, "
-":guilabel:`Перевод` и :guilabel:`Контекст`."
+"Если поле не определено, поиск проводится по полям :guilabel:`Источник`, :"
+"guilabel:`Перевод` и :guilabel:`Контекст`."
 
 #: ../../user/search.rst:15
 msgid "Simple search"
@@ -28341,8 +28341,8 @@ msgid ""
 "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
 "`Tools` menu for each project, component or translation."
 msgstr ""
-"Этот инструмент называется :guilabel:`Массовая правка` и доступен он из меню "
-":guilabel:`Инструменты` проекта, компонента или перевода."
+"Этот инструмент называется :guilabel:`Массовая правка` и доступен он из "
+"меню :guilabel:`Инструменты` проекта, компонента или перевода."
 
 #: ../../user/translating.rst:359
 msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
@@ -29313,151 +29313,146 @@ msgid ""
 "sure about the change."
 msgstr ""
 
-#: ../../workflows.rst:56 ../../workflows.rst:86 ../../workflows.rst:121
+#: ../../workflows.rst:56 ../../workflows.rst:87 ../../workflows.rst:123
 msgid "Setting"
 msgstr ""
 
-#: ../../workflows.rst:56 ../../workflows.rst:86 ../../workflows.rst:121
+#: ../../workflows.rst:56 ../../workflows.rst:87 ../../workflows.rst:123
 msgid "Note"
 msgstr "Примечание"
 
-#: ../../workflows.rst:58 ../../workflows.rst:63
-msgid "Off"
-msgstr ""
+#: ../../workflows.rst:58 ../../workflows.rst:63 ../../workflows.rst:89
+#: ../../workflows.rst:93 ../../workflows.rst:127 ../../workflows.rst:130
+msgid "off"
+msgstr "выкл"
 
-#: ../../workflows.rst:58 ../../workflows.rst:88 ../../workflows.rst:123
+#: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
 msgid "Configured at project level."
 msgstr ""
 
-#: ../../workflows.rst:60
-msgid "On"
-msgstr ""
+#: ../../workflows.rst:60 ../../workflows.rst:91 ../../workflows.rst:125
+msgid "on"
+msgstr "вкл"
 
-#: ../../workflows.rst:60 ../../workflows.rst:125
+#: ../../workflows.rst:60 ../../workflows.rst:127
 msgid "It is useful for users to be able to suggest when they are not sure."
 msgstr ""
 
-#: ../../workflows.rst:67 ../../workflows.rst:97 ../../workflows.rst:132
+#: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Translators group"
 msgstr ""
 
-#: ../../workflows.rst:67 ../../workflows.rst:97 ../../workflows.rst:132
-msgid "Or Translate with access control."
-msgstr ""
+#: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
+#, fuzzy
+#| msgid ":ref:`privileges`"
+msgid "Or `Translate` with :ref:`privileges`."
+msgstr ":ref:`privileges`"
 
-#: ../../workflows.rst:69 ../../workflows.rst:99 ../../workflows.rst:134
+#: ../../workflows.rst:70 ../../workflows.rst:101 ../../workflows.rst:137
 msgid "Reviewers group"
 msgstr ""
 
-#: ../../workflows.rst:69 ../../workflows.rst:99
+#: ../../workflows.rst:70 ../../workflows.rst:101
 msgid "N/A"
 msgstr "Н/Д"
 
-#: ../../workflows.rst:69
+#: ../../workflows.rst:70
 msgid "Not used."
 msgstr ""
 
-#: ../../workflows.rst:76
+#: ../../workflows.rst:77
 msgid "Peer review"
 msgstr ""
 
-#: ../../workflows.rst:78
+#: ../../workflows.rst:79
 msgid ""
 "With this workflow, anybody can add suggestions, and need approval from "
 "additional member(s) before it is accepted as a translation."
 msgstr ""
 
-#: ../../workflows.rst:81
+#: ../../workflows.rst:82
 msgid "*Any user* can add suggestions."
 msgstr ""
 
-#: ../../workflows.rst:82
+#: ../../workflows.rst:83
 msgid "*Any user* can vote for suggestions."
 msgstr ""
 
-#: ../../workflows.rst:83
+#: ../../workflows.rst:84
 msgid ""
 "Suggestions become translations when given a predetermined number of votes."
 msgstr ""
 
-#: ../../workflows.rst:88 ../../workflows.rst:125 ../../workflows.rst:128
-msgid "off"
-msgstr "выкл"
-
-#: ../../workflows.rst:90 ../../workflows.rst:92 ../../workflows.rst:123
-msgid "on"
-msgstr "вкл"
-
-#: ../../workflows.rst:94
+#: ../../workflows.rst:95
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
 
-#: ../../workflows.rst:99
+#: ../../workflows.rst:101
 msgid "Not used, all translators review."
 msgstr ""
 
-#: ../../workflows.rst:105
+#: ../../workflows.rst:107
 msgid "Dedicated reviewers"
 msgstr ""
 
-#: ../../workflows.rst:109
+#: ../../workflows.rst:111
 msgid "The proper review workflow is supported since Weblate 2.18."
 msgstr ""
 
-#: ../../workflows.rst:111
+#: ../../workflows.rst:113
 msgid ""
 "With dedicated reviewers you have two groups of users, one able to submit "
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
 
-#: ../../workflows.rst:115
+#: ../../workflows.rst:117
 msgid "*Any user* can edit unapproved translations."
 msgstr ""
 
-#: ../../workflows.rst:116
-msgid "*Reviewer* can approve / unapproved strings."
-msgstr ""
+#: ../../workflows.rst:118
+#, fuzzy
+#| msgid "Requires dedicated reviewers to approve source strings."
+msgid "*Reviewer* can approve / unapprove strings."
+msgstr "Требуются выделенные рецензенты для одобрения исходных строк."
 
-#: ../../workflows.rst:117
+#: ../../workflows.rst:119
 msgid "*Reviewer* can edit all translations (including approved ones)."
 msgstr ""
 
-#: ../../workflows.rst:118
+#: ../../workflows.rst:120
 msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr ""
 
-#: ../../workflows.rst:134
-msgid "Reviewers"
-msgstr "Рецензенты"
+#: ../../workflows.rst:137
+#, fuzzy
+#| msgid ":ref:`privileges`"
+msgid "Or `Review` with :ref:`privileges`."
+msgstr ":ref:`privileges`"
 
-#: ../../workflows.rst:134
-msgid "Or Review with access control."
-msgstr ""
-
-#: ../../workflows.rst:138
+#: ../../workflows.rst:142
 msgid "Turning on reviews"
 msgstr ""
 
-#: ../../workflows.rst:140
+#: ../../workflows.rst:144
 msgid ""
 "Reviews can be turned on in the project configuration, from the :guilabel:"
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → `Settings` menu):"
 msgstr ""
 
-#: ../../workflows.rst:148
+#: ../../workflows.rst:152
 msgid ""
 "Depending on Weblate configuration, the setting might not be available to "
 "you. For example on Hosted Weblate this is not available for projects hosted "
 "for free."
 msgstr ""
 
-#: ../../workflows.rst:155
+#: ../../workflows.rst:159
 msgid "Quality gateway for the source strings"
 msgstr ""
 
-#: ../../workflows.rst:157
+#: ../../workflows.rst:161
 msgid ""
 "In many cases the original source language strings are coming from "
 "developers, because they write the code and provide initial strings. However "
@@ -29467,7 +29462,7 @@ msgid ""
 "the strings between developers and translators and users."
 msgstr ""
 
-#: ../../workflows.rst:164
+#: ../../workflows.rst:168
 msgid ""
 "By setting :ref:`component-intermediate`, this file will be used as source "
 "for the strings, but it will be edited to source language to polish it.  "
@@ -29475,16 +29470,16 @@ msgid ""
 "for translators to translate into additional languages."
 msgstr ""
 
-#: ../../workflows.rst:214
+#: ../../workflows.rst:218
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 msgstr ""
 ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 
-#: ../../workflows.rst:221
+#: ../../workflows.rst:225
 msgid "Source strings reviews"
 msgstr ""
 
-#: ../../workflows.rst:223
+#: ../../workflows.rst:227
 msgid ""
 "With :ref:`project-source_review` enabled, the review process can be applied "
 "on the source strings. Once enabled, users can report issues in the source "
@@ -29492,14 +29487,14 @@ msgid ""
 "monolingual formats."
 msgstr ""
 
-#: ../../workflows.rst:228
+#: ../../workflows.rst:232
 msgid ""
 "For monolingual formats, the source string review behaves similarly as with :"
 "ref:`reviews` - once issue is reported on the source string, it is marked "
 "as :guilabel:`Needs editing`."
 msgstr ""
 
-#: ../../workflows.rst:232
+#: ../../workflows.rst:236
 msgid ""
 "The bilingual formats do not allow direct editing of the source strings "
 "(these are typically extracted directly from the source code). In this case :"
@@ -29508,9 +29503,15 @@ msgid ""
 "source or remove the label."
 msgstr ""
 
-#: ../../workflows.rst:240
+#: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid ":ref:`production-secret`"
+#~ msgstr ":ref:`production-secret`"
+
+#~ msgid "Reviewers"
+#~ msgstr "Рецензенты"
 
 #~ msgid "Changes the lnnguage parameters."
 #~ msgstr "Изменяет параметры языка."
