@@ -18,7 +18,7 @@ Installation
 ++++++++++++
 
 The Weblate Client is shipped separately and includes the Python module.
-You need to install :mod:`wlc`:, wlc to use these.
+To use the commands below, you need to install :mod:`wlc`:
 
 .. code-block:: sh
 
