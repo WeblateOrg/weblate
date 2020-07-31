@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-31 08:32+0200\n"
-"PO-Revision-Date: 2020-07-31 03:40+0000\n"
+"PO-Revision-Date: 2020-07-31 08:12+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -2893,17 +2893,13 @@ msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr "Резервна копія бази даних PostgreSQL у файлі :file:`database.sql`."
 
 #: ../../admin/backup.rst:187
-#, fuzzy
-#| msgid ""
-#| "The database backup are by default saved as plain text, but they can also "
-#| "be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
 msgid ""
 "The database backups are by default saved as plain text, but they can also "
 "be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
 msgstr ""
-"Типово, резервна копія зберігається у форматі простого тексту. Втім, її "
-"можна стиснути або повністю пропустити за допомогою параметра :setting:"
-"`DATABASE_BACKUP`."
+"Типово, резервні копії зберігаються у форматі простого тексту. Втім, її "
+"можна стиснути або повністю пропустити за допомогою параметра "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:191
 msgid "Version control repositories"
@@ -2997,13 +2993,6 @@ msgid "Celery tasks"
 msgstr "Завдання Celery"
 
 #: ../../admin/backup.rst:238
-#, fuzzy
-#| msgid ""
-#| "The Celery tasks queue might contain some info, but is usually not needed "
-#| "for a backup. At most you will lose updates that have not yet ben "
-#| "processed to translation memory. It is recommended to perform the "
-#| "fulltext or repository updates upon restoring anyhow, so there is no "
-#| "problem in losing these."
 msgid ""
 "The Celery tasks queue might contain some info, but is usually not needed "
 "for a backup. At most you will lose updates that have not yet been processed "
@@ -4302,8 +4291,6 @@ msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
-#, fuzzy
-#| msgid "Matches whitespace at the strt and end of the string to the source."
 msgid "Matches whitespace at the start and end of the string to the source."
 msgstr "Відповідає пробілу на початку і наприкінці початкового рядка."
 
@@ -4395,12 +4382,6 @@ msgid "Adjust the list of checks to include ones relevant to you."
 msgstr "Скоригувати список перевірок для включення потрібних вам."
 
 #: ../../admin/config.rst:217
-#, fuzzy
-#| msgid ""
-#| "All built-in quality :ref:`checks` are turned on by default, from where "
-#| "you can change these settings. By default they arecommented out in :ref:"
-#| "`sample-configuration` so that default values are used. New checks then "
-#| "carried out for each new Weblate version."
 msgid ""
 "All built-in quality :ref:`checks` are turned on by default, from where you "
 "can change these settings. By default they are commented out in :ref:`sample-"
@@ -4471,11 +4452,6 @@ msgid "DATA_DIR"
 msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:278
-#, fuzzy
-#| msgid ""
-#| "The folder Weblate stores all data in. it contains links to VCS "
-#| "repositories, a fulltext index and various configuration files for "
-#| "external tools."
 msgid ""
 "The folder Weblate stores all data in. It contains links to VCS "
 "repositories, a fulltext index and various configuration files for external "
@@ -6401,6 +6377,17 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will make sure that all pending changes are included prior to this operation."
 msgstr ""
+"Перший підхід спрощує роботу із одномовними файлами — ви можете додавати "
+"нові рядки у Weblate і покластися на редагування файлів у вбудованому "
+"редакторі. Для двомовних файлів, зазвичай, перекладу передує певна процедура "
+"видобування рядків для створення придатних до перекладу файлів із "
+"початкового коду. У деяких випадках цей процес може бути поділено на дві "
+"частини — спочатку під час видобування створюється шаблон (наприклад, файл "
+"POT gettext створюється за допомогою :program:`xgettext`), а потім, у "
+"подальшому процесі, об'єднується із поточними перекладами (файли PO gettext "
+"оновлюються за допомогою :program:`msgmerge`). Ви можете виконати другий "
+"крок у Weblate, і програмні засоби забезпечать включення усіх змін у черзі "
+"до виконання цієї дії."
 
 #: ../../admin/continuous.rst:78
 msgid ""
@@ -6450,6 +6437,10 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
+"Якщо ви користуєтеся Hosted Weblate, рекомендованим підходом є встановлення `"
+"програми Weblate <https://github.com/apps/weblate>`_. У такий спосіб ви "
+"отримаєте належну конфігурацію без зайвої метушні із налаштовуванням. Нею "
+"також можна використати для записування змін назад до сховища."
 
 #: ../../admin/continuous.rst:130
 msgid ""
@@ -6467,12 +6458,17 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"Щоб отримати адресу даних, допишіть ``/hooks/github/`` до адреси сайта "
+"вашого Weblate. Наприклад, для служби Hosted Weblate це ``https://hosted."
+"weblate.org/hooks/github/``."
 
 #: ../../admin/continuous.rst:139
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
 msgstr ""
+"Ви можете лишити типові значення для решти параметрів (Weblate може "
+"одночасно обробляти обидва типи даних і споживатиметься лише подію `push`)."
 
 #: ../../admin/continuous.rst:144
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
@@ -6489,6 +6485,10 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"У Weblate передбачено підтримку вебскриптів Bitbucket. Додайте вебскрипт, "
+"який вмикає запис до сховища із адресою призначення ``/hooks/bitbucket/`` у "
+"вашому встановленому Weblate (наприклад, ``https://hosted.weblate.org/hooks/"
+"bitbucket/``)."
 
 #: ../../admin/continuous.rst:160
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -6504,6 +6504,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"У Weblate передбачено підтримку скриптів GitLab. Додайте вебскрипт проєкту "
+"із адресою призначення ``/hooks/gitlab/`` у встановленому вами Weblate ("
+"наприклад, ``https://hosted.weblate.org/hooks/gitlab/``)."
 
 #: ../../admin/continuous.rst:173
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -6520,6 +6523,11 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"У Weblate передбачено підтримку скриптів Pagure. Додайте вебскрипт із "
+"адресою призначення ``/hooks/pagure/`` у встановленому вами Weblate ("
+"наприклад, ``https://hosted.weblate.org/hooks/pagure/``). Зробити це можна "
+"за допомогою пункту :guilabel:`Activate Web-hooks` у розділі :guilabel:`"
+"Project options`:"
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -6537,6 +6545,11 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"У Weblate передбачено підтримку веб скриптів сховищ Azure. Додайте вебскрипт "
+"для події :guilabel:`Code pushed` із адресою призначення ``/hooks/azure/`` у "
+"встановленому вами Weblate (наприклад, ``https://hosted.weblate.org/hooks/"
+"azure/``). Зробити це можна за допомогою пункту :guilabel:`Service hooks` у "
+"розділі :guilabel:`Project settings`."
 
 #: ../../admin/continuous.rst:209
 msgid ""
@@ -6560,6 +6573,11 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"У Weblate передбачено підтримку вебскриптів Gitea. Додайте :guilabel:`Gitea "
+"Webhook` для події :guilabel:`Push events` із адресою призначення ``/hooks/"
+"gitea/`` у встановленому вами Weblate (наприклад, ``https://hosted.weblate."
+"org/hooks/gitea/``). Зробити це можна за допомогою пункту "
+":guilabel:`Webhooks` у розділі :guilabel:`Settings` сховища."
 
 #: ../../admin/continuous.rst:226
 msgid ""
@@ -6581,6 +6599,11 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"У Weblate передбачено підтримку вебскриптів Gitee. Додайте "
+":guilabel:`WebHook` для події :guilabel:`Push` із адресою призначення ``/"
+"hooks/gitee/`` у встановленому вами Weblate (наприклад, ``https://hosted."
+"weblate.org/hooks/gitee/``). Зробити це можна за допомогою пункту "
+":guilabel:`WebHooks` у розділі :guilabel:`Management` сховища."
 
 #: ../../admin/continuous.rst:243
 msgid ""
@@ -6600,6 +6623,9 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate автоматично отримує вміст віддалених сховищ щодня для поліпшення "
+"швидкодії при наступному об'єднанні змін. Якщо хочете, можете перетворити це "
+"на щоденні об'єднання, увімкнувши :setting:`AUTO_UPDATE`."
 
 #: ../../admin/continuous.rst:256
 msgid "Pushing changes from Weblate"
@@ -6614,6 +6640,14 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
+"Для кожного складника перекладу може бути налаштовано адресу запису (див. "
+":ref:`component-push`). Якщо таку назву налаштовано, Weblate зможе "
+"записувати зміни до віддаленого сховища. Крім того, Weblate можна "
+"налаштувати на автоматичне записування змін при кожному внеску (це типова "
+"поведінка, див. :ref:`component-push_on_commit`). Якщо ви не хочете, щоб "
+"зміни записувалися автоматично, ви можете записувати їх вручну у розділі "
+":guilabel:`Супровід сховища` або за допомогою програмного інтерфейсу: "
+":option:`wlc push`."
 
 #: ../../admin/continuous.rst:265
 msgid ""
@@ -27487,12 +27521,6 @@ msgid "Downloading translations"
 msgstr "Отримання перекладів"
 
 #: ../../user/files.rst:15
-#, fuzzy
-#| msgid ""
-#| "From the project or component dashboard, translatable files can be "
-#| "downloaded using the :guilabel:`Download source file` in the :guilabel:"
-#| "`Files` menu, producing a copy of the file as it is stored in the "
-#| "upstream Version Control System."
 msgid ""
 "From the project or component dashboard, translatable files can be "
 "downloaded using the :guilabel:`Download original translation file` in the :"
@@ -27500,26 +27528,19 @@ msgid ""
 "in the upstream Version Control System."
 msgstr ""
 "З панелі прикладів проєкту або складника, придатні до перекладу файли можна "
-"отримати за допомогою пункту :guilabel:`Звантажити початковий файл` у меню :"
-"guilabel:`Файли`. У результаті буде створено копію файла із тим самим "
-"вмістом, що і в основній системі керування версіями."
+"отримати за допомогою пункту :guilabel:`Звантажити початковий файл перекладу`"
+" у меню :guilabel:`Файли`. У результаті буде створено копію початкового "
+"файла із тим самим вмістом, що і в основній системі керування версіями."
 
 #: ../../user/files.rst:20
-#, fuzzy
-#| msgid ""
-#| "You can either download the original file as is or converted into one of "
-#| "widely used localization formats. The converted files will be enriched "
-#| "with data provided in Weblate such as additional context, comments or "
-#| "flags."
 msgid ""
 "You can also download the translation converted into one of widely used "
 "localization formats. The converted files will be enriched with data "
 "provided in Weblate such as additional context, comments or flags."
 msgstr ""
-"Ви можете або отримати початковий файл без зміни формату, або отримати дані "
-"в одному із поширених форматів локалізації. Перетворені файли буде "
-"скомпоновано із даними, які надаються Weblate, зокрема додатковим "
-"контекстом, коментарями або прапорцями."
+"Ви також можете отримати початкові дані перекладу в одному із поширених "
+"форматів локалізації. Перетворені файли буде скомпоновано із даними, які "
+"надаються Weblate, зокрема додатковим контекстом, коментарями або прапорцями."
 
 #: ../../user/files.rst:24
 msgid ""
@@ -29945,10 +29966,8 @@ msgid "Translators group"
 msgstr "Група перекладачів"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
-#, fuzzy
-#| msgid "Or Translate with access control."
 msgid "Or `Translate` with :ref:`privileges`."
-msgstr "Або переклад із керуванням доступом."
+msgstr "Або `Перекласти` із :ref:`privileges`."
 
 #: ../../workflows.rst:70 ../../workflows.rst:101 ../../workflows.rst:137
 msgid "Reviewers group"
@@ -30025,8 +30044,6 @@ msgid "*Any user* can edit unapproved translations."
 msgstr "*Будь-який користувач* може редагувати незатверджені переклади."
 
 #: ../../workflows.rst:118
-#, fuzzy
-#| msgid "*Reviewer* can approve / unapproved strings."
 msgid "*Reviewer* can approve / unapprove strings."
 msgstr ""
 "*Рецензент* може затверджувати рядки та скасовувати затвердження рядків."
@@ -30042,10 +30059,8 @@ msgstr ""
 "затверджених рядків."
 
 #: ../../workflows.rst:137
-#, fuzzy
-#| msgid ":ref:`privileges`"
 msgid "Or `Review` with :ref:`privileges`."
-msgstr ":ref:`privileges`"
+msgstr "Або `Рецензувати` із :ref:`privileges`."
 
 #: ../../workflows.rst:142
 msgid "Turning on reviews"
