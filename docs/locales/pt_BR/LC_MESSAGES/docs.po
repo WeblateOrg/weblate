@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-24 20:40+0200\n"
-"PO-Revision-Date: 2020-07-31 03:42+0000\n"
+"PO-Revision-Date: 2020-07-31 06:28+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -26364,7 +26364,7 @@ msgstr ""
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
-msgstr ""
+msgstr "Baixando e enviando traduções"
 
 #: ../../user/files.rst:4
 msgid ""
@@ -26372,14 +26372,18 @@ msgid ""
 "again. This allows working offline, and then merging changes back into the "
 "existing translation. This works even if it has been changed in the meantime."
 msgstr ""
+"Você pode exportar arquivos a partir de uma tradução, fazer alterações e "
+"importá-los novamente. Isso permite trabalhar offline e, em seguida, mesclar "
+"mudanças de volta na tradução existente. Isso funciona mesmo que tenha sido "
+"alterado nesse meio tempo."
 
 #: ../../user/files.rst:10
 msgid "The available options might be limited by :ref:`privileges`."
-msgstr ""
+msgstr "As opções disponíveis podem ser limitadas por :ref:`privileges`."
 
 #: ../../user/files.rst:13
 msgid "Downloading translations"
-msgstr ""
+msgstr "Baixando traduções"
 
 #: ../../user/files.rst:15
 msgid ""
@@ -26388,6 +26392,10 @@ msgid ""
 "`Files` menu, producing a copy of the file as it is stored in the upstream "
 "Version Control System."
 msgstr ""
+"A partir do painel do projeto ou do componente, os arquivos traduzíveis "
+"podem ser baixados usando o :guilabel:`Baixar arquivo de tradução original` "
+"no menu :guilabel:`Arquivos`, produzindo uma cópia do arquivo à medida que "
+"ele é armazenado no sistema de controle de versão upstream."
 
 #: ../../user/files.rst:19
 msgid ""
@@ -26395,6 +26403,10 @@ msgid ""
 "widely used localization formats. The converted files will be enriched with "
 "data provided in Weblate such as additional context, comments or flags."
 msgstr ""
+"Você pode baixar o arquivo original como está ou convertido em um dos "
+"formatos de localização amplamente utilizados. Os arquivos convertidos serão "
+"enriquecidos com dados fornecidos no Weblate, como contexto adicional, "
+"comentários ou sinalizadores."
 
 #: ../../user/files.rst:23
 msgid ""
@@ -26402,16 +26414,21 @@ msgid ""
 "choice of application (for example ``.mo`` files for GNU Gettext) using the :"
 "guilabel:`Files` menu."
 msgstr ""
+"Vários formatos de arquivo estão disponíveis, incluindo um arquivo compilado "
+"para usar na sua escolha de aplicativo (por exemplo, arquivos ``.mo`` para "
+"GNU Gettext) usando o menu :guilabel:`Arquivos`."
 
 #: ../../user/files.rst:28
 msgid "Uploading translations"
-msgstr ""
+msgstr "Enviando traduções"
 
 #: ../../user/files.rst:30
 msgid ""
 "When you have made your changes, use :guilabel:`Upload translation` in the :"
 "guilabel:`Files` menu."
 msgstr ""
+"Quando você tiver feito suas alterações, use :guilabel:`Enviar tradução` no "
+"menu :guilabel:`Arquivos`."
 
 #: ../../user/files.rst:40
 msgid ""
@@ -26419,20 +26436,27 @@ msgid ""
 "recommended to use the same file format as the one used for translation, "
 "otherwise some features might not be translated properly."
 msgstr ""
+"Qualquer arquivo em um formato de arquivo suportado pode ser carregado, mas "
+"ainda é recomendado usar o mesmo formato de arquivo que o usado para "
+"tradução, caso contrário, alguns recursos podem não ser traduzidos "
+"corretamente."
 
 #: ../../user/files.rst:48
 msgid ""
 "The uploaded file is merged to update the translation, overwriting existing "
 "entries by default (this can be turned off or on in the upload dialog)."
 msgstr ""
+"O arquivo enviado é mesclado para atualizar a tradução, substituindo as "
+"entradas existentes por padrão (isso pode ser desativado ou ativado na caixa "
+"de diálogo de envio)."
 
 #: ../../user/files.rst:54
 msgid "Import methods"
-msgstr ""
+msgstr "Métodos de importação"
 
 #: ../../user/files.rst:56
 msgid "These are the choices presented when uploading translation files:"
-msgstr ""
+msgstr "Estas são as opções apresentadas ao enviar arquivos de tradução:"
 
 #: ../../user/files.rst:59
 msgid "Add as translation (``translate``)"
@@ -26443,6 +26467,8 @@ msgid ""
 "Imported translations are added as translations. This is the most common "
 "usecase, and the default behavior."
 msgstr ""
+"Traduções importadas são adicionadas como traduções. Este é o caso de uso "
+"mais comum e o comportamento padrão."
 
 #: ../../user/files.rst:62
 msgid "Add as suggestion (``suggest``)"
@@ -26453,6 +26479,8 @@ msgid ""
 "Imported translations are added as suggestions, do this when you want to "
 "have your uploaded strings reviewed."
 msgstr ""
+"As traduções importadas são adicionadas como sugestões, faça isso quando "
+"quiser ter seus textos enviados revisados."
 
 #: ../../user/files.rst:65
 msgid "Add as translation needing edit (``fuzzy``)"
@@ -26463,6 +26491,9 @@ msgid ""
 "Imported translations are added as translations needing edit. This can be "
 "useful when you want translations to be used, but also reviewed."
 msgstr ""
+"As traduções importadas são adicionadas como traduções que necessitam de "
+"edição. Isso pode ser útil quando você quer que as traduções sejam usadas, "
+"mas também revisadas."
 
 #: ../../user/files.rst:68
 msgid "Replace existing translation file (``replace``)"
@@ -26473,6 +26504,8 @@ msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
+"O arquivo existente é substituído por novo conteúdo. Isso pode levar à perda "
+"de traduções existentes, use com cuidado."
 
 #: ../../user/files.rst:72
 msgid "Update source strings (``source``)"
@@ -26483,24 +26516,28 @@ msgid ""
 "Updates source strings in bilingual translation file. This is similar to "
 "what :ref:`addon-weblate.gettext.msgmerge` does."
 msgstr ""
+"Atualiza textos fonte em arquivo de tradução bilíngue. Isso é semelhante ao "
+"que :ref:`addon-weblate.gettext.msgmerge` faz."
 
 #: ../../user/files.rst:76
 msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
+":http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../user/files.rst:81
 msgid "Conflicts handling"
-msgstr ""
+msgstr "Gestão de conflitos"
 
 #: ../../user/files.rst:83
 msgid "Defines how to deal with uploaded strings which are already translated."
-msgstr ""
+msgstr "Define como lidar com textos enviados que já são traduzidos."
 
 #: ../../user/files.rst:88
 msgid "Strings needing edit"
-msgstr ""
+msgstr "Textos necessitando de edição"
 
 #: ../../user/files.rst:90
 msgid ""
@@ -26509,10 +26546,14 @@ msgid ""
 "ways: \"Do not import\", \"Import as string needing edit\", or \"Import as "
 "translated\"."
 msgstr ""
+"Há também uma opção de como lidar com textos que necessitam de edição no "
+"arquivo importado. Tais strings podem ser manuseados de uma das três "
+"maneiras seguintes: \"Não importar\", \"Importar como texto que necessita "
+"edição\" ou \"Importar como traduzido\"."
 
 #: ../../user/files.rst:98
 msgid "Overriding authorship"
-msgstr ""
+msgstr "Substituindo autoria"
 
 #: ../../user/files.rst:100
 msgid ""
@@ -26521,6 +26562,10 @@ msgid ""
 "to merge it into existing translations while properly crediting the actual "
 "author."
 msgstr ""
+"Com permissões administrativas, você também pode especificar a autoria do "
+"arquivo enviado. Isso pode ser útil no caso de você ter recebido o arquivo "
+"de outra maneira e quiser mesclá-lo em traduções existentes enquanto credita "
+"corretamente o autor real."
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
@@ -29108,6 +29153,9 @@ msgid ""
 "ref:`reviews` - once issue is reported on the source string, it is marked "
 "as :guilabel:`Needs editing`."
 msgstr ""
+"Para formatos monolíngues, a revisão de texto fonte se comporta da mesma "
+"forma que com :ref:`reviews` - uma vez que o problema é relatado no texto "
+"fonte, ele é marcado como :guilabel:`Necessita edição`."
 
 #: ../../workflows.rst:232
 msgid ""
@@ -29117,10 +29165,15 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source or remove the label."
 msgstr ""
+"Os formatos bilíngues não permitem a edição direta de textos fonte (estes "
+"são normalmente extraídos diretamente do código-fonte). Neste caso, o rótulo "
+":guilabel:`Fonte precisa de revisão` é anexado aos textos relatados por "
+"tradutores. Você deve revisar esses textos e editá-los na fonte ou remover o "
+"rótulo."
 
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
-msgstr ""
+msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 
 #~ msgid "Recent edits"
 #~ msgstr "Edições recentes"
