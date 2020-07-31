@@ -113,7 +113,7 @@ translations, and one able to review them to ensure translations are
 consistent and that the quality is good.
 
 * *Any user* can edit unapproved translations.
-* *Reviewer* can approve / unapproved strings.
+* *Reviewer* can approve / unapprove strings.
 * *Reviewer* can edit all translations (including approved ones).
 * Suggestions can also be used to suggest changes for approved strings.
 
