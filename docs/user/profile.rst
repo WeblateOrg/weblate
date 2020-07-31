@@ -135,7 +135,7 @@ A source code link is shown in the web-browser configured in the
 Notifications
 -------------
 
-Subscribe to various notifications from the :guilabel:`Subscriptions` tab.
+Subscribe to various notifications from the :guilabel:`Notifications` tab.
 Notifications for selected events on watched or administered
 projects will be sent to you per e-mail.
 
