@@ -52,22 +52,23 @@ This is also the default setup in Weblate.
 * Suggestions are optional ways to suggest changes, when translators are not
   sure about the change.
 
-+------------------------+------------+-------------------------------------+
-| Setting                |   Value    |   Note                              |
-+========================+============+=====================================+
-| Enable reviews         | Off        | Configured at project level.        |
-+------------------------+------------+-------------------------------------+
-| Enable suggestions     | On         | It is useful for users to be able to|
-|                        |            | suggest when they are not sure.     |
-+------------------------+------------+-------------------------------------+
-| Suggestion voting      | Off        |                                     |
-+------------------------+------------+-------------------------------------+
-| Autoaccept suggestions | 0          |                                     |
-+------------------------+------------+-------------------------------------+
-| Translators group      | Users      | Or Translate with access control.   |
-+------------------------+------------+-------------------------------------+
-| Reviewers group        | N/A        | Not used.                           |
-+------------------------+------------+-------------------------------------+
++------------------------+-------------+------------------------------------+
+| Setting                |   Value     |   Note                             |
++========================+=============+====================================+
+| Enable reviews         | off         | Configured at project level.       |
++------------------------+-------------+------------------------------------+
+| Enable suggestions     | on          | It is useful for users to be able  |
+|                        |             | to suggest when they are not sure. |
++------------------------+-------------+------------------------------------+
+| Suggestion voting      | off         |                                    |
++------------------------+-------------+------------------------------------+
+| Autoaccept suggestions | 0           |                                    |
++------------------------+-------------+------------------------------------+
+| Translators group      | `Users`     | Or `Translate` with                |
+|                        |             | :ref:`privileges`.                 |
++------------------------+-------------+------------------------------------+
+| Reviewers group        | N/A         | Not used.                          |
++------------------------+-------------+------------------------------------+
 
 
 .. _peer-review:
@@ -82,22 +83,23 @@ from additional member(s) before it is accepted as a translation.
 * *Any user* can vote for suggestions.
 * Suggestions become translations when given a predetermined number of votes.
 
-+------------------------+------------+-------------------------------------+
-| Setting                |   Value    |   Note                              |
-+========================+============+=====================================+
-| Enable reviews         | off        | Configured at project level.        |
-+------------------------+------------+-------------------------------------+
-| Enable suggestions     | on         |                                     |
-+------------------------+------------+-------------------------------------+
-| Suggestion voting      | on         |                                     |
-+------------------------+------------+-------------------------------------+
-| Autoaccept suggestions | 1          | You can set higher value to require |
-|                        |            | more peer reviews.                  |
-+------------------------+------------+-------------------------------------+
-| Translators group      | Users      | Or Translate with access control.   |
-+------------------------+------------+-------------------------------------+
-| Reviewers group        | N/A        | Not used, all translators review.   |
-+------------------------+------------+-------------------------------------+
++------------------------+-------------+------------------------------------+
+| Setting                |   Value     |   Note                             |
++========================+=============+====================================+
+| Enable reviews         | off         | Configured at project level.       |
++------------------------+-------------+------------------------------------+
+| Enable suggestions     | on          |                                    |
++------------------------+-------------+------------------------------------+
+| Suggestion voting      | off         |                                    |
++------------------------+-------------+------------------------------------+
+| Autoaccept suggestions | 1           | You can set higher value to        |
+|                        |             | require more peer reviews.         |
++------------------------+-------------+------------------------------------+
+| Translators group      | `Users`     | Or `Translate` with                |
+|                        |             | :ref:`privileges`.                 |
++------------------------+-------------+------------------------------------+
+| Reviewers group        | N/A         | Not used, all translators review.  |
++------------------------+-------------+------------------------------------+
 
 .. _reviews:
 
@@ -117,22 +119,24 @@ consistent and that the quality is good.
 * *Reviewer* can edit all translations (including approved ones).
 * Suggestions can also be used to suggest changes for approved strings.
 
-+------------------------+------------+-------------------------------------+
-| Setting                |   Value    |   Note                              |
-+========================+============+=====================================+
-| Enable reviews         | on         | Configured at project level.        |
-+------------------------+------------+-------------------------------------+
-| Enable suggestions     | off        | It is useful for users to be able to|
-|                        |            | suggest when they are not sure.     |
-+------------------------+------------+-------------------------------------+
-| Suggestion voting      | off        |                                     |
-+------------------------+------------+-------------------------------------+
-| Autoaccept suggestions | 0          |                                     |
-+------------------------+------------+-------------------------------------+
-| Translators group      | Users      | Or Translate with access control.   |
-+------------------------+------------+-------------------------------------+
-| Reviewers group        | Reviewers  | Or Review with access control.      |
-+------------------------+------------+-------------------------------------+
++------------------------+-------------+------------------------------------+
+| Setting                |   Value     |   Note                             |
++========================+=============+====================================+
+| Enable reviews         | on          | Configured at project level.       |
++------------------------+-------------+------------------------------------+
+| Enable suggestions     | off         | It is useful for users to be able  |
+|                        |             | to suggest when they are not sure. |
++------------------------+-------------+------------------------------------+
+| Suggestion voting      | off         |                                    |
++------------------------+-------------+------------------------------------+
+| Autoaccept suggestions | 0           |                                    |
++------------------------+-------------+------------------------------------+
+| Translators group      | `Users`     | Or `Translate` with                |
+|                        |             | :ref:`privileges`.                 |
++------------------------+-------------+------------------------------------+
+| Reviewers group        | `Reviewers` | Or `Review` with                   |
+|                        |             | :ref:`privileges`.                 |
++------------------------+-------------+------------------------------------+
 
 Turning on reviews
 ------------------
