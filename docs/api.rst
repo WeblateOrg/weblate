@@ -298,7 +298,7 @@ Users
 
 .. http:delete:: /api/users/(str:username)/
 
-    Deletes all user information and mark the user inactive.
+    Deletes all user information and marks the user inactive.
 
     :param username: User's username
     :type username: string
