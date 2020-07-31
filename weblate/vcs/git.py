@@ -20,6 +20,7 @@
 
 import os
 import os.path
+import urllib.parse
 from datetime import datetime
 from typing import List, Optional
 from zipfile import ZipFile
@@ -282,20 +283,6 @@ class GitRepository(Repository):
             ('branch "{0}"'.format(branch), "merge", "refs/heads/{0}".format(branch)),
         )
         self.branch = branch
-
-    def api_url(self):
-        slug = self.component.repo.split("/")[-1].replace(".git", "")
-        owner = self.component.repo.split("/")[-2]
-        return "https://api.github.com/repos/{0}/{1}".format(owner, slug)
-
-    def configure_fork_remote(self, pull_url, remote_name):
-        """Configure fork remote repository."""
-        self.config_update(
-            # Pull url
-            ('remote "{}"'.format(remote_name), "url", pull_url),
-            # Push url
-            ('remote "{}"'.format(remote_name), "pushurl", pull_url),
-        )
 
     def list_branches(self, *args):
         cmd = ["branch", "--list"]
@@ -590,6 +577,13 @@ class GitMergeRequestBase(GitForcePushRepository):
             fullcmd=True,
         )
 
+    def configure_fork_remote(self, push_url, remote_name):
+        """Configure fork remote repository."""
+        self.config_update(
+            # Push url
+            ('remote "{}"'.format(remote_name), "pushurl", push_url),
+        )
+
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(["remote"]).splitlines()
@@ -657,6 +651,11 @@ class GithubRepository(GitMergeRequestBase):
 
         return env
 
+    def api_url(self):
+        slug = self.component.repo.split("/")[-1].replace(".git", "")
+        owner = self.component.repo.split("/")[-2]
+        return "https://api.github.com/repos/{0}/{1}".format(owner, slug)
+
     def create_fork(self):
         fork_url = "{}/forks".format(self.api_url())
         r = requests.post(
@@ -668,10 +667,7 @@ class GithubRepository(GitMergeRequestBase):
             data={},
         )
         response = r.json()
-        pull_url = "https://{0}:{1}@github.com/{2}.git".format(
-            self.get_username(), settings.GITHUB_TOKEN, response["full_name"]
-        )
-        self.configure_fork_remote(pull_url, self.get_username())
+        self.configure_fork_remote(response["ssh_url"], self.get_username())
 
     def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         """Create pull request.
@@ -697,14 +693,9 @@ class GithubRepository(GitMergeRequestBase):
         )
         response = r.json()
         if "url" not in response:
-            for error in response["errors"]:
-                if "message" in error:
-                    report_error(cause=error["message"])
-                else:
-                    report_error(
-                        cause="{0}: {1}".format(error["resource"], response["message"]),
-                        level="error",
-                    )
+            report_error(
+                cause="Pull request failed", extra_data={"errors": response["errors"]}
+            )
 
 
 class LocalRepository(GitRepository):
@@ -796,9 +787,6 @@ class GitLabRepository(GitMergeRequestBase):
 
     _version = None
 
-    # docs: https://zaquestion.github.io/lab/
-    _cmd = "lab"
-
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
@@ -815,35 +803,50 @@ class GitLabRepository(GitMergeRequestBase):
     def get_username():
         return settings.GITLAB_USERNAME
 
-    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
-        """Create merge (a.k.a pull) request.
-
-        Used to merge branch in forked repository into branch of remote
-        repository.
-
-        :param origin_branch: Git branch in the project's repo to create pull
-            request against.
-        :param fork_branch: Git branch in the fork's repo which contains the
-            updates.
-        """
-        # Checkout the branch we want to use as the source for new MR.
-        self.execute(
-            ["checkout", "-B", fork_branch, "{}/{}".format(fork_remote, fork_branch)]
+    def api_url(self):
+        repo_name_index = self.component.repo.rfind(
+            "/", 0, self.component.repo.rfind("/")
         )
-        # Reset the branch to be up to date with our main branch
-        self.execute(["reset", "--hard", self.branch])
-        try:
-            # Create a new MR against origin/<origin_branch> from the fork.
-            self.execute(
-                [
-                    "mr",
-                    "create",
-                    "origin",
-                    origin_branch,
-                    "--message",
-                    self.get_merge_message(),
-                ]
+        api_url = "{}/api/v4/projects/{}".format(
+            self.component.repo[:repo_name_index],
+            urllib.parse.quote(
+                self.component.repo[(repo_name_index + 1) :].replace(".git", ""),
+                safe="",
+            ),
+        )
+        return api_url
+
+    def create_fork(self):
+        fork_url = "{}/fork".format(self.api_url())
+        r = requests.post(
+            fork_url,
+            headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+            data={},
+        )
+        response = r.json()
+        self.configure_fork_remote(response["ssh_url_to_repo"], self.get_username())
+
+    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
+        """Create pull request.
+
+        Use to merge branch in forked repository into branch of remote repository.
+        """
+        if fork_remote == "origin":
+            head = fork_branch
+        else:
+            head = "{0}:{1}".format(fork_remote, fork_branch)
+        pr_url = "{}/merge_requests".format(self.api_url())
+        r = requests.post(
+            pr_url,
+            headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+            json={
+                "source_branch": head,
+                "target_branch": origin_branch,
+                "title": self.get_merge_message(),
+            },
+        )
+        response = r.json()
+        if "web_url" not in response:
+            report_error(
+                cause="Pull request failed", extra_data={"errors": response["errors"]}
             )
-        finally:
-            # Return to the previous checked out branch.
-            self.execute(["checkout", "-"])
