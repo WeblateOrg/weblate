@@ -1074,6 +1074,7 @@ class ProjectAPITest(APIBaseTest):
                 "filemask": "po/*.po",
                 "file_format": "po",
                 "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
             },
         )
         self.assertEqual(Component.objects.count(), 2)
@@ -1085,7 +1086,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_create_component_no_format(self):
         repo_url = self.format_local_path(self.git_repo_path)
-        self.do_request(
+        response = self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
@@ -1096,8 +1097,10 @@ class ProjectAPITest(APIBaseTest):
                 "slug": "api-project",
                 "repo": repo_url,
                 "filemask": "po/*.po",
+                "new_lang": "none",
             },
         )
+        self.assertIn("file_format", response.data)
 
     def test_create_component_no_push(self):
         repo_url = self.format_local_path(self.git_repo_path)
@@ -1113,6 +1116,7 @@ class ProjectAPITest(APIBaseTest):
                 "repo": repo_url,
                 "filemask": "po/*.po",
                 "file_format": "po",
+                "new_lang": "none",
             },
         )
         self.assertEqual(Component.objects.count(), 2)
@@ -1137,6 +1141,7 @@ class ProjectAPITest(APIBaseTest):
                 "push": "",
                 "filemask": "po/*.po",
                 "file_format": "po",
+                "new_lang": "none",
             },
         )
         self.assertEqual(Component.objects.count(), 2)
@@ -1145,6 +1150,25 @@ class ProjectAPITest(APIBaseTest):
             repo_url,
         )
         self.assertEqual(response.data["repo"], repo_url)
+
+    def test_create_component_no_match(self):
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "po/*.invalid-po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertEqual(Component.objects.count(), 1)
+        self.assertIn("filemask", response.data)
 
 
 class ComponentAPITest(APIBaseTest):

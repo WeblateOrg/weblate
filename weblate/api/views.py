@@ -657,10 +657,10 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
                 self.permission_denied(request, message="Can not create components")
             with transaction.atomic():
                 serializer = ComponentSerializer(
-                    data=request.data, context={"request": request}
+                    data=request.data, context={"request": request, "project": obj}
                 )
                 serializer.is_valid(raise_exception=True)
-                serializer.save(project=obj)
+                serializer.save()
                 serializer.instance.post_create(self.request.user)
                 return Response(
                     serializer.data,

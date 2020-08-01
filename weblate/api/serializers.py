@@ -462,6 +462,18 @@ class ComponentSerializer(RemovableSerializer):
             result["push"] = None
         return result
 
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
+        if "project" in self._context:
+            result["project"] = self._context["project"]
+        return result
+
+    def validate(self, attrs):
+        # Call model validation here, DRF does not do that
+        instance = Component(**attrs)
+        instance.clean()
+        return attrs
+
 
 class NotificationSerializer(serializers.ModelSerializer):
     project = ProjectSerializer(read_only=True)
