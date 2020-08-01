@@ -25,6 +25,7 @@ from unittest import SkipTest, TestCase
 
 import translate.__version__
 from django.utils.encoding import force_str
+from lxml import etree
 from translate.storage.po import pofile
 
 from weblate.formats.auto import AutodetectFormat, detect_filename
@@ -52,6 +53,9 @@ from weblate.formats.ttkit import (
     TSFormat,
     WebExtensionJSONFormat,
     XliffFormat,
+    XWikiFullPageFormat,
+    XWikiPagePropertiesFormat,
+    XWikiPropertiesFormat,
     YAMLFormat,
 )
 from weblate.lang.models import Language
@@ -85,6 +89,11 @@ TEST_HE_CLDR = get_test_file("he-cldr.po")
 TEST_HE_CUSTOM = get_test_file("he-custom.po")
 TEST_HE_SIMPLE = get_test_file("he-simple.po")
 TEST_HE_THREE = get_test_file("he-three.po")
+TEST_XWIKI_PROPERTIES = get_test_file("xwiki.properties")
+TEST_XWIKI_PAGE_PROPERTIES = get_test_file("XWikiPageProperties.xml")
+TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml")
+TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
+TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 
 
 class AutoLoadTest(TestCase):
@@ -818,3 +827,242 @@ class INIFormatTest(AutoFormatTest):
 class InnoSetupINIFormatTest(INIFormatTest):
     FORMAT = InnoSetupINIFormat
     EXT = "islu"
+
+
+class XWikiPropertiesFormatTest(PropertiesFormatTest):
+    FORMAT = XWikiPropertiesFormat
+    FILE = TEST_XWIKI_PROPERTIES
+    BASE = ""
+    MIME = "text/plain"
+    COUNT = 10
+    COUNT_CONTENT = 8
+    EXT = "properties"
+    MASK = "java/xwiki_*.properties"
+    EXPECTED_PATH = "java/xwiki_cs-CZ.properties"
+    FIND = "job.question.button.confirm"
+    FIND_CONTEXT = "job.question.button.confirm"
+    FIND_MATCH = "Confirm the operation {0}"
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    EXPECTED_FLAGS = ""
+    EDIT_TARGET = "[{0}] تىپتىكى خىزمەتنى باشلاش"
+
+
+class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
+    FORMAT = XWikiPagePropertiesFormat
+    FILE = TEST_XWIKI_PAGE_PROPERTIES
+    SOURCE_FILE = TEST_XWIKI_PAGE_PROPERTIES_SOURCE
+    BASE = ""
+    MIME = "text/plain"
+    COUNT = 6
+    COUNT_CONTENT = 4
+    EXT = "xml"
+    MASK = "xml/XWikiSource.*.xml"
+    EXPECTED_PATH = "xml/XWikiSource.cs.xml"
+    FIND = "administration.section.users.disableUser.done"
+    FIND_CONTEXT = "administration.section.users.disableUser.done"
+    FIND_MATCH = "User account disabled"
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    EXPECTED_FLAGS = ""
+
+    def test_get_language_filename(self):
+        self.assertEqual(
+            self.FORMAT.get_language_filename(self.MASK, "cs"), self.EXPECTED_PATH
+        )
+
+    def test_save(self, edit=False):
+        self.maxDiff = None
+        super().test_save(edit)
+
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+
+        # Read new content
+        with open(testfile, "rb") as handle:
+            newdata = force_str(handle.read())
+
+        # Perform some general assertions about the copyright
+        self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
+        self.assertIn(
+            "<!--\n"
+            " * See the NOTICE file distributed with"
+            " this work for additional",
+            newdata,
+        )
+        self.assertIn(
+            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->", newdata
+        )
+        # Remove XML declaration so that etree doesn't complain for parsing
+        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
+        xml_data = etree.XML(newdata)
+        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertIs(None, xml_data.find("attachment"))
+        self.assertIs(None, xml_data.find("object"))
+
+    def translate_unit(self, units, translation_data, index, target):
+        unit_to_translate, create = translation_data.find_unit(
+            units[index].context, units[index].source
+        )
+        self.assertTrue(create)
+        translation_data.add_unit(unit_to_translate.unit)
+        translation_data.all_units[index].unit = unit_to_translate.unit
+        unit_to_translate.set_target(target)
+
+    def test_translate_file(self):
+        self.maxDiff = None
+        # Parse test file
+        storage = self.parse_file(self.SOURCE_FILE)
+        units = storage.all_units
+
+        # # Create appropriate target file
+        translation_file = os.path.join(
+            self.tempdir, os.path.basename(self.EXPECTED_PATH)
+        )
+        self.FORMAT.add_language(
+            translation_file, Language.objects.get(code="fr"), self.BASE
+        )
+        translation_data = self.FORMAT(
+            storefile=translation_file, template_store=storage, language_code="fr"
+        )
+        translation_units = translation_data.all_units
+        self.assertEqual(self.COUNT, len(translation_units))
+
+        self.translate_unit(
+            units, translation_data, 1, "Erreur lors de la désactivation du compte."
+        )
+        expected_translation = (
+            "L'utilisateur que vous êtes sur le point de "
+            "supprimer est le dernier auteur de "
+            "{0}{1,choice,1#1 page|1<{1} pages}{2}."
+        )
+        self.translate_unit(units, translation_data, 2, expected_translation)
+
+        self.translate_unit(units, translation_data, 4, 'Si rempli à "Oui"...')
+
+        # Save test file
+        translation_data.save()
+
+        # Read new content
+        with open(translation_file, "rb") as handle:
+            newdata = handle.read()
+
+        # Read source file content
+        with open(self.FILE, "rb") as handle:
+            testdata = handle.read()
+
+        # Check if content matches
+        self.assert_same(testdata, newdata)
+
+
+class XWikiFullPageFormatTest(AutoFormatTest):
+    FORMAT = XWikiFullPageFormat
+    FILE = TEST_XWIKI_FULL_PAGE
+    SOURCE_FILE = TEST_XWIKI_FULL_PAGE_SOURCE
+    BASE = ""
+    MIME = "text/plain"
+    COUNT = 2
+    EXT = "xml"
+    MASK = "xml/XWikiFullPage.*.xml"
+    EXPECTED_PATH = "xml/XWikiFullPage.cs.xml"
+    FIND = "title"
+    FIND_CONTEXT = "title"
+    FIND_MATCH = "Bac à sable"
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    EXPECTED_FLAGS = ""
+    EDIT_TARGET = """= Titre=\n"
+                "\n"
+                "* [[Bac à sable>>Sandbox.TestPage1]]\n"
+                "{{info}}\n"
+                "Ne vous inquiétez pas d'écraser\n"
+                "{{/info}}"
+                [{0}] تىپتىكى خىزمەتنى باشلاش"""
+
+    def test_get_language_filename(self):
+        self.assertEqual(
+            self.FORMAT.get_language_filename(self.MASK, "cs"), self.EXPECTED_PATH
+        )
+
+    def test_new_unit(self):
+        # This test does not make sense in this context, since we're not supposed
+        # to be able to add new units.
+        pass
+
+    def test_save(self, edit=False):
+        self.maxDiff = None
+        super().test_save(edit)
+
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+
+        # Read new content
+        with open(testfile, "rb") as handle:
+            newdata = force_str(handle.read())
+
+        # Perform some general assertions about the copyright
+        self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
+        self.assertIn(
+            "<!--\n"
+            " * See the NOTICE file distributed with"
+            " this work for additional",
+            newdata,
+        )
+        self.assertIn(
+            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n" "-->",
+            newdata,
+        )
+        # Remove XML declaration so that etree doesn't complain for parsing
+        newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
+        xml_data = etree.XML(newdata)
+        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertIs(None, xml_data.find("attachment"))
+        self.assertIs(None, xml_data.find("object"))
+
+    def translate_unit(self, units, translation_data, index, target):
+        unit_to_translate, create = translation_data.find_unit(
+            units[index].context, units[index].source
+        )
+        self.assertTrue(create)
+        translation_data.add_unit(unit_to_translate.unit)
+        translation_data.all_units[index].unit = unit_to_translate.unit
+        unit_to_translate.set_target(target)
+
+    def test_translate_file(self):
+        self.maxDiff = None
+        # Parse test file
+        storage = self.parse_file(self.SOURCE_FILE)
+        units = storage.all_units
+
+        # # Create appropriate target file
+        translation_file = os.path.join(
+            self.tempdir, os.path.basename(self.EXPECTED_PATH)
+        )
+        self.FORMAT.add_language(
+            translation_file, Language.objects.get(code="it"), self.BASE
+        )
+        translation_data = self.FORMAT(
+            storefile=translation_file, template_store=storage, language_code="it"
+        )
+        translation_units = translation_data.all_units
+        self.assertEqual(self.COUNT, len(translation_units))
+
+        expected_translation = (
+            "L'area test o sandbox è una parte del wiki che si "
+            "può modificare liberamente.\n\n{{info}}Non "
+            "preoccupatevi >{{/info}}"
+        )
+        self.translate_unit(units, translation_data, 0, expected_translation)
+        self.translate_unit(units, translation_data, 1, "Bac à sable")
+
+        # Save test file
+        translation_data.save()
+
+        # Read new content
+        with open(translation_file, "rb") as handle:
+            newdata = handle.read()
+
+        # Read source file content
+        with open(self.FILE, "rb") as handle:
+            testdata = handle.read()
+
+        # Check if content matches
+        self.assert_same(testdata, newdata)
