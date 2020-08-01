@@ -41,6 +41,7 @@ from django.views.decorators.http import require_POST
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import Term
+from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
@@ -65,15 +66,29 @@ from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
-from weblate.utils.views import get_sort_name, get_translation, show_form_errors
+from weblate.utils.stats import ProjectLanguage
+from weblate.utils.views import (
+    get_project,
+    get_sort_name,
+    get_translation,
+    show_form_errors,
+)
 
 
 def parse_params(request, project, component, lang):
     """Parses base object and unit set from request."""
-    # Translation case
-    obj = get_translation(request, project, component, lang)
-    unit_set = obj.unit_set
-    project = obj.component.project
+    if component == "-":
+        project = get_project(request, project)
+        language = get_object_or_404(Language, code=lang)
+        obj = ProjectLanguage(project, language)
+        unit_set = Unit.objects.filter(
+            translation__component__project=project, translation__language=language
+        )
+    else:
+        # Translation case
+        obj = get_translation(request, project, component, lang)
+        unit_set = obj.unit_set
+        project = obj.component.project
 
     return obj, project, unit_set
 

@@ -24,9 +24,12 @@
 <li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
 {% endif %}
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+{% if object.component.slug == "-" %}
+<li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
+{% endif %}
 <li><a href="{{ object.get_translate_url }}">{% trans "Translate" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=object.component.project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
+<img src="{% url 'widget-image' project=project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
 </a>
 {% endblock %}
 

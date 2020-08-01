@@ -21,7 +21,7 @@
   {% if object.slug and object.project.slug %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.project.slug widget='open' color='graph' extension='png' %}" />
   <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-component' project=object.project.slug component=object.slug %}" />
-  {% elif object.component.slug and object.component.project.slug and object.language_code %}
+  {% elif object.component.slug and object.component.slug != "-" and object.component.project.slug and object.language_code %}
   <meta property="og:image" content="{{ site_url }}{% url 'widget-image' project=object.component.project.slug widget='open' color='graph' extension='png' %}" />
   <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss-translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" />
   {% elif object.slug and object.web %}

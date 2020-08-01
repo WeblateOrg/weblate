@@ -33,11 +33,17 @@
 
 {% block content %}
 
-{% include "snippets/component/state.html" with object=object.component %}
+{% if object.component.slug == "-" %}
+  {% for component in project.component_set.all %}
+    {% include "snippets/component/state.html" with object=component %}
+  {% endfor %}
+{% else %}
+  {% include "snippets/component/state.html" with object=object.component %}
+{% endif %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 
-<a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-link">{% icon "close.svg" %} {% trans "Exit Zen" %}</a>
+<a href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in single string mode" %}" class="btn btn-link">{% icon "close.svg" %} {% trans "Exit Zen" %}</a>
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
@@ -55,7 +61,7 @@
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
 {% loading_icon "next" %}
-<a href="{% url 'load_zen' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" class="hidden" id="zen-load" data-offset="{{ offset }}"></a>
+<a href="{% url 'load_zen' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" class="hidden" id="zen-load" data-offset="{{ offset }}"></a>
 </td></tr>
 </tfoot>
 </table>
