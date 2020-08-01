@@ -655,12 +655,25 @@ class ComponentStats(LanguageStats):
             return DummyTranslationStats(language)
 
 
+class ProjectLanguageComponent:
+    def __init__(self):
+        self.slug = "-"
+
+
 class ProjectLanguage:
     """Wrapper class used in project-language listings and stats."""
 
     def __init__(self, project, language: Language):
         self.project = project
         self.language = language
+        self.component = ProjectLanguageComponent()
+
+    def __str__(self):
+        return f"{self.project} - {self.language}"
+
+    @cached_property
+    def stats(self):
+        return ProjectLanguageStats(self)
 
     @cached_property
     def pk(self):
@@ -674,6 +687,16 @@ class ProjectLanguage:
         return reverse(
             "project-language",
             kwargs={"lang": self.language.code, "project": self.project.slug},
+        )
+
+    def get_translate_url(self):
+        return reverse(
+            "translate",
+            kwargs={
+                "lang": self.language.code,
+                "project": self.project.slug,
+                "component": "-",
+            },
         )
 
 
@@ -718,6 +741,9 @@ class ProjectLanguageStats(LanguageStats):
     def _prefetch_basic(self):
         super()._prefetch_basic()
         self.store("languages", 1)
+
+    def get_single_language_stats(self, language):
+        return self
 
 
 class ProjectStats(BaseStats):

@@ -18,7 +18,7 @@
 #
 
 from django.http import Http404, HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -31,6 +31,7 @@ from weblate.trans.models import Component
 from weblate.trans.util import render
 from weblate.trans.widgets import WIDGETS, SiteOpenGraphWidget
 from weblate.utils.site import get_site_url
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import get_component, get_project, try_set_language
 
 
@@ -117,11 +118,15 @@ def render_widget(
     # We intentionally skip ACL here to allow widget sharing
     if component is None:
         obj = get_project(request, project, skip_acl=True)
+    elif component == "-":
+        project = get_project(request, project, skip_acl=True)
+        lang = get_object_or_404(Language, code=lang)
+        obj = ProjectLanguage(project, lang)
     else:
         obj = get_component(request, project, component, skip_acl=True)
 
     # Handle language parameter
-    if lang is not None:
+    if lang is not None and isinstance(lang, str):
         lang = Language.objects.fuzzy_get(code=lang, strict=True)
         if lang is None:
             raise Http404()
