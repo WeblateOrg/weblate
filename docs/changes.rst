@@ -5,12 +5,12 @@ Not yet released.
 
 * Improved user pages and added listing of users.
 * Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0.
-* Added exports in several monolingual formats.
+* Added exports for several monolingual formats.
 * Improved activity charts.
 * Number of displayed nearby strings can be configured.
-* Added support for locking component while there is repository error.
+* Added support for locking components experiencing repository errors.
 * Simplified main navigation (replaced buttons with icons).
-* Improved language codes handling in Google Translate integration.
+* Improved language code handling in Google Translate integration.
 * The Git squash addon can generate ``Co-authored-by:`` trailers.
 * Improved query search parser.
 * Improved user feedback from format strings checks.
@@ -24,7 +24,7 @@ Not yet released.
 * Added option to watch a component.
 * Removed leading dot from JSON unit keys.
 * Removed separate Celery queue for translation memory.
-* Allow to translsate all components of one language at once.
+* Allow translating all components a language at once.
 
 Weblate 4.1.1
 -------------
@@ -32,14 +32,14 @@ Weblate 4.1.1
 Released on June 19th 2020.
 
 * Fixed changing autofix or addons configuration in Docker.
-* Fixed possible crash in about page.
+* Fixed possible crash in "About" page.
 * Improved installation of byte-compiled locale files.
 * Fixed adding words to glossary.
 * Fixed keyboard shortcuts for machinery.
-* Removed debugging output causing discarding of log events in some setups.
+* Removed debugging output causing discarding log events in some setups.
 * Fixed lock indication on project listing.
-* Fixed listing GPG keys is some setups.
-* Added option to configure DeepL API version to use.
+* Fixed listing GPG keys in some setups.
+* Added option for which DeepL API version to use.
 * Added support for acting as SAML Service Provider, see :ref:`saml-auth`.
 
 Weblate 4.1
@@ -49,8 +49,8 @@ Released on June 15th 2020.
 
 * Added support for creating new translations with included country code.
 * Added support for searching source strings with screenshot.
-* Extended information available in the stats insights.
-* Improved search editing on translate pages.
+* Extended info available in the stats insights.
+* Improved search editing on "Translate" pages.
 * Improve handling of concurrent repository updates.
 * Include source language in project creation form.
 * Include changes count in credits.
