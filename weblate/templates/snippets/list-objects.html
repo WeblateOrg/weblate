@@ -27,7 +27,6 @@
 
 <tbody>
 {% for object in objects %}
-{% get_stats object stats_attr as stats %}
 {% get_translate_url object as translate_url %}
 {% get_browse_url object as browse_url %}
 {% get_unique_row_id object as row_id %}
@@ -41,7 +40,7 @@
     </form>
 {% else %}
     {% if translate_url %}
-        <a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-link green" title="{% trans "Translate" %}" alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
+        <a href="{{ translate_url }}{% if object.stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-link green" title="{% trans "Translate" %}" alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
     {% else %}
         <a href="{{ browse_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-search-outline.svg" %}</a>
     {% endif %}
@@ -58,6 +57,8 @@
         {{ object.name }}
     {% elif name_source == "language" %}
         {{ object.language }}
+    {% elif name_source == "project" %}
+        {{ object.project }}
     {% else %}
         {{ object }}
     {% endif %}
@@ -75,6 +76,8 @@
         {{ object.name }}
     {% elif name_source == "language" %}
         {{ object.language }}
+    {% elif name_source == "project" %}
+        {{ object.project }}
     {% else %}
         {{ object }}
     {% endif %}
@@ -82,19 +85,19 @@
 {% endif %}
 {% indicate_alerts object %}
 </th>
-{% include "snippets/list-objects-percent.html" with percent=stats.translated_percent value=stats.translated all=stats.all %}
+{% include "snippets/list-objects-percent.html" with percent=object.stats.translated_percent value=object.stats.translated all=object.stats.all %}
 {% if global_base %}
-    {% global_stats object stats global_base as global_stats %}
+    {% global_stats object object.stats global_base as global_stats %}
     {% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
 {% endif %}
-{% include "snippets/list-objects-number.html" with value=stats.todo query="q=state:<translated" class="zero-width-640" %}
-{% include "snippets/list-objects-number.html" with value=stats.todo_words query="q=state:<translated" class="zero-width-720" %}
-{% include "snippets/list-objects-number.html" with value=stats.allchecks query="q=has:check" class="zero-width-768" %}
-{% include "snippets/list-objects-number.html" with value=stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
-{% include "snippets/list-objects-number.html" with value=stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.todo query="q=state:<translated" class="zero-width-640" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-768" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
+{% include "snippets/list-objects-number.html" with value=object.stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
 </tr>
 <tr data-parent="{{ row_id }}">
-<td colspan="{% if global_base %}8{% else %}7{% endif %}" class="progress-row autocolspan">{% translation_progress stats %}</td>
+<td colspan="{% if global_base %}8{% else %}7{% endif %}" class="progress-row autocolspan">{% translation_progress object.stats %}</td>
 </tr>
 {% endfor %}
 </tbody>

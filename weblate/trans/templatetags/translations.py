@@ -51,7 +51,7 @@ from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
-from weblate.utils.stats import BaseStats
+from weblate.utils.stats import BaseStats, ProjectLanguage
 
 register = template.Library()
 
@@ -450,13 +450,6 @@ def global_stats(obj, stats, parent):
     return get_stats_parent(stats, parent)
 
 
-@register.simple_tag
-def get_stats(obj, attr):
-    if not attr:
-        attr = "stats"
-    return getattr(obj, attr)
-
-
 def translation_progress_data(readonly, approved, translated, fuzzy, checks):
     return {
         "readonly": "{0:.1f}".format(readonly),
@@ -621,7 +614,7 @@ def show_contributor_agreement(context, component):
 @register.simple_tag(takes_context=True)
 def get_translate_url(context, obj):
     """Get translate URL based on user preference."""
-    if not isinstance(obj, Translation):
+    if not hasattr(obj, "get_translate_url"):
         return ""
     if context["user"].profile.translate_mode == Profile.TRANSLATE_ZEN:
         name = "zen"
@@ -661,6 +654,55 @@ def get_filter_name(name):
     return names[name]
 
 
+def translation_alerts(translation):
+    if translation.is_source:
+        yield (
+            "state/source.svg",
+            gettext("This translation is used for source strings."),
+            None,
+        )
+
+
+def component_alerts(component):
+    if component.is_repo_link:
+        yield (
+            "state/link.svg",
+            gettext("This component is linked to the %(target)s repository.")
+            % {"target": component.linked_component},
+            None,
+        )
+
+    if component.all_alerts:
+        yield (
+            "state/alert.svg",
+            gettext("Fix this component to clear its alerts."),
+            component.get_absolute_url() + "#alerts",
+        )
+
+    if component.locked:
+        yield ("state/lock.svg", gettext("This translation is locked."), None)
+
+    if component.in_progress():
+        yield (
+            "state/update.svg",
+            gettext("Updating translation component…"),
+            reverse("component_progress", kwargs=component.get_reverse_url_kwargs())
+            + "?info=1",
+        )
+
+
+def project_alerts(project):
+    if project.has_alerts:
+        yield (
+            "state/alert.svg",
+            gettext("Some of the components within this project have alerts."),
+            None,
+        )
+
+    if project.locked:
+        yield ("state/lock.svg", gettext("This translation is locked."), None)
+
+
 @register.inclusion_tag("trans/embed-alert.html", takes_context=True)
 def indicate_alerts(context, obj):
     result = []
@@ -678,6 +720,8 @@ def indicate_alerts(context, obj):
         project = component.project
     elif isinstance(obj, Project):
         project = obj
+    elif isinstance(obj, ProjectLanguage):
+        project = obj.project
 
     if context["user"].has_perm("project.edit", project):
         result.append(
@@ -685,67 +729,13 @@ def indicate_alerts(context, obj):
         )
 
     if translation:
-        if translation.is_source:
-            result.append(
-                (
-                    "state/source.svg",
-                    gettext("This translation is used for source strings."),
-                    None,
-                )
-            )
+        result.extend(translation_alerts(translation))
 
     if component:
-        project = component.project
-
-        if component.is_repo_link:
-            result.append(
-                (
-                    "state/link.svg",
-                    gettext("This component is linked to the %(target)s repository.")
-                    % {"target": component.linked_component},
-                    None,
-                )
-            )
-
-        if component.all_alerts:
-            result.append(
-                (
-                    "state/alert.svg",
-                    gettext("Fix this component to clear its alerts."),
-                    component.get_absolute_url() + "#alerts",
-                )
-            )
-
-        if component.locked:
-            result.append(
-                ("state/lock.svg", gettext("This translation is locked."), None)
-            )
-
-        if component.in_progress():
-            result.append(
-                (
-                    "state/update.svg",
-                    gettext("Updating translation component…"),
-                    reverse(
-                        "component_progress", kwargs=component.get_reverse_url_kwargs()
-                    )
-                    + "?info=1",
-                )
-            )
+        result.extend(component_alerts(component))
     elif project:
-        if project.has_alerts:
-            result.append(
-                (
-                    "state/alert.svg",
-                    gettext("Some of the components within this project have alerts."),
-                    None,
-                )
-            )
+        result.extend(project_alerts(project))
 
-        if project.locked:
-            result.append(
-                ("state/lock.svg", gettext("This translation is locked."), None)
-            )
     if getattr(obj, "is_ghost", False):
         result.append(
             ("state/ghost.svg", gettext("This translation does not yet exist."), None)

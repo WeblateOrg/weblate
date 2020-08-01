@@ -179,7 +179,7 @@ def show_project(request, project):
             "last_announcements": last_announcements,
             "reports_form": ReportsForm(),
             "last_changes_url": urlencode({"project": obj.slug}),
-            "language_stats": language_stats,
+            "language_stats": [stat.obj for stat in language_stats],
             "search_form": SearchForm(request.user),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "project.edit", obj

@@ -24,6 +24,7 @@ Not yet released.
 * Added option to watch a component.
 * Removed leading dot from JSON unit keys.
 * Removed separate Celery queue for translation memory.
+* Allow to translsate all components of one language at once.
 
 Weblate 4.1.1
 -------------

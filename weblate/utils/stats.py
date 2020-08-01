@@ -689,15 +689,15 @@ class ProjectLanguage:
             kwargs={"lang": self.language.code, "project": self.project.slug},
         )
 
+    def get_reverse_url_kwargs(self):
+        return {
+            "lang": self.language.code,
+            "project": self.project.slug,
+            "component": "-",
+        }
+
     def get_translate_url(self):
-        return reverse(
-            "translate",
-            kwargs={
-                "lang": self.language.code,
-                "project": self.project.slug,
-                "component": "-",
-            },
-        )
+        return reverse("translate", kwargs=self.get_reverse_url_kwargs(),)
 
 
 class ProjectLanguageStats(LanguageStats):
@@ -705,6 +705,7 @@ class ProjectLanguageStats(LanguageStats):
         self.language = obj.language
         self.project = obj.project
         super().__init__(obj)
+        obj.stats = self
 
     @cached_property
     def has_review(self):
