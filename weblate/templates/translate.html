@@ -195,12 +195,14 @@
 
     {% if unit.translation.component.enable_suggestions %}
     <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="151"
-    {% if project_locked or not user_can_suggest %}disabled="disabled"{% endif %}
-    {% if not user_can_suggest %}
-    title="{% trans "Insufficient privileges for adding suggestions." %}"
-    {% elif project_locked %}
-    title="{% trans "This translation is currently locked." %}"
-    {% endif %}
+    {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
+      {% if not user_can_suggest %}
+        title="{% trans "Insufficient privileges for adding suggestions." %}"
+      {% elif project_locked %}
+        title="{% trans "This translation is currently locked." %}"
+      {% elif unit.readonly %}
+        title="{% trans "Read only" %}"
+      {% endif %}
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
     <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="152">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
