@@ -272,7 +272,7 @@ can be adjusted using :setting:`CHECK_LIST`, and you can also add custom checks.
 1. Subclass the `weblate.checks.Check`
 2. Set a few attributes.
 3. Implement either the ``check`` (if you want to deal with plurals in your code) or
-   the ``check_single`` method, (which does it for you).
+   the ``check_single`` method (which does it for you).
 
 Some examples:
 
