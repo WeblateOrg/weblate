@@ -23,6 +23,7 @@ from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
 from weblate.checks.models import Check
+from weblate.trans.models import Component, Project
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
@@ -82,6 +83,8 @@ class StatsView(AboutView):
         context["total_words"] = stats.all_words
         context["total_languages"] = stats.languages
         context["total_checks"] = Check.objects.count()
+        context["total_projects"] = Project.objects.count()
+        context["total_components"] = Component.objects.count()
         context["dismissed_checks"] = Check.objects.filter(dismissed=True).count()
 
         top_translations = Profile.objects.order_by("-translated")[:10]
