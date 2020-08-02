@@ -307,6 +307,7 @@ class Profile(models.Model):
     suggested = models.IntegerField(default=0, db_index=True)
     translated = models.IntegerField(default=0, db_index=True)
     uploaded = models.IntegerField(default=0, db_index=True)
+    commented = models.IntegerField(default=0, db_index=True)
 
     hide_completed = models.BooleanField(
         verbose_name=_("Hide completed translations on the dashboard"), default=False

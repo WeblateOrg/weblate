@@ -42,6 +42,11 @@
                 {% blocktrans count cnt=page_profile.uploaded with count=page_profile.uploaded|intcomma %}{{ count }} screenshot{% plural %}{{ count }} screenshots{% endblocktrans %}
             </span>
         {% endif %}
+        {% if page_profile.commented %}
+            <span class="middle-dot-divider">
+                {% blocktrans count cnt=page_profile.commented with count=page_profile.commented|intcomma %}{{ count }} comment{% plural %}{{ count }} comments{% endblocktrans %}
+            </span>
+        {% endif %}
     </p>
     {% endif %}
     {% if user_languages %}
