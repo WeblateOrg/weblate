@@ -8,8 +8,8 @@ interfaces or refactoring the code.
 
 .. warning::
 
-   Neither internal interfaces or templates are considered a stable API.
-   Please review your own customizations for every upgrade, the interface or their
+   Neither internal interfaces nor templates are considered a stable API.
+   Please review your own customizations for every upgrade, the interfaces or their
    semantics might change without notice.
 
 .. seealso::
