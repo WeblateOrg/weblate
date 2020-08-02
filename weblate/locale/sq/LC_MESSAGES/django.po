@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-31 06:32+0000\n"
+"POT-Creation-Date: 2020-08-02 18:00+0000\n"
 "PO-Revision-Date: 2020-07-21 23:32+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -220,13 +220,13 @@ msgstr "Njoftime përkthimi"
 msgid "Use default setting"
 msgstr "Përdor rregullimin parazgjedhje"
 
-#: weblate/accounts/forms.py:680 weblate/accounts/models.py:404
+#: weblate/accounts/forms.py:680 weblate/accounts/models.py:405
 #: weblate/templates/accounts/profile.html:69
-#: weblate/templates/accounts/user.html:61
+#: weblate/templates/accounts/user.html:66
 msgid "Watched projects"
 msgstr "Projekte të mbikëqyrur"
 
-#: weblate/accounts/forms.py:682 weblate/templates/accounts/user.html:60
+#: weblate/accounts/forms.py:682 weblate/templates/accounts/user.html:65
 msgid "Managed projects"
 msgstr "Projektet e menaxhuara"
 
@@ -303,11 +303,25 @@ msgstr ""
 msgid "Date joined"
 msgstr "Datë anëtarësimi"
 
-#: weblate/accounts/forms.py:768 weblate/templates/about/stats.html:96
+#: weblate/accounts/forms.py:768 weblate/templates/about/stats.html:120
 msgid "Translations made"
 msgstr "Përkthimet të bëra"
 
-#: weblate/accounts/forms.py:791
+#: weblate/accounts/forms.py:769 weblate/templates/about/stats.html:116
+msgid "Suggestions made"
+msgstr "Sugjerime të bëra"
+
+#: weblate/accounts/forms.py:770
+#, fuzzy
+#| msgid "Comment added"
+msgid "Comments made"
+msgstr "U shtua koment"
+
+#: weblate/accounts/forms.py:771
+msgid "Screenshots uploaded"
+msgstr "U ngarkuan foto ekrani"
+
+#: weblate/accounts/forms.py:794
 msgid "Invalid ordering"
 msgstr "Renditje e pavlefshme"
 
@@ -445,23 +459,23 @@ msgstr ""
 "Zgjidhni gjuhë që kuptoni, përtej vargut burim do të shfaqen vargje në këto "
 "gjuhë."
 
-#: weblate/accounts/models.py:312
+#: weblate/accounts/models.py:313
 msgid "Hide completed translations on the dashboard"
 msgstr "Fshihi përkthimet e plotësua te pulti"
 
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:316
 msgid "Show secondary translations in the Zen mode"
 msgstr "Nën mënyrën Zen shfaq përkthime dytësore"
 
-#: weblate/accounts/models.py:318
+#: weblate/accounts/models.py:319
 msgid "Hide source if a secondary translation exists"
 msgstr "Fshihe burimin nëse ekziston një përkthim dytësor"
 
-#: weblate/accounts/models.py:324
+#: weblate/accounts/models.py:325
 msgid "Editor link"
 msgstr "Lidhje përpunuesi"
 
-#: weblate/accounts/models.py:326
+#: weblate/accounts/models.py:327
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -471,35 +485,35 @@ msgstr ""
 "përdorni {{branch}} për degë, {{filename}} dhe {{line}} si vendmbajtëse për "
 "emër kartele dhe rresht."
 
-#: weblate/accounts/models.py:335
+#: weblate/accounts/models.py:336
 msgid "Translation editor mode"
 msgstr "Mënyrë përpunuesi përkthimesh"
 
-#: weblate/accounts/models.py:336
+#: weblate/accounts/models.py:337
 msgid "Full editor"
 msgstr "Përpunues i plotë"
 
-#: weblate/accounts/models.py:336
+#: weblate/accounts/models.py:337
 msgid "Zen mode"
 msgstr "Mënyra Zen"
 
-#: weblate/accounts/models.py:342
+#: weblate/accounts/models.py:343
 msgid "Zen editor mode"
 msgstr "Mënyra përpunues Zen"
 
-#: weblate/accounts/models.py:344
+#: weblate/accounts/models.py:345
 msgid "Top to bottom"
 msgstr "Nga sipër poshtë"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:346
 msgid "Side by side"
 msgstr "Krah për krah"
 
-#: weblate/accounts/models.py:353
+#: weblate/accounts/models.py:354
 msgid "Special characters"
 msgstr "Shenja speciale"
 
-#: weblate/accounts/models.py:355
+#: weblate/accounts/models.py:356
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
@@ -509,43 +523,43 @@ msgstr ""
 "përkthimit. Mund të jetë e dobishme për shenja që përdorni shpesh, por që "
 "janë të zorshme për t’u shtypur nga tastiera juaj."
 
-#: weblate/accounts/models.py:361
+#: weblate/accounts/models.py:362
 msgid "Number of nearby strings"
 msgstr "Numër vargjesh atypari"
 
-#: weblate/accounts/models.py:365
+#: weblate/accounts/models.py:366
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
 "Numër vargjesh atypari për t’u shfaqur në çdo kah te përpunuesi i plotë."
 
-#: weblate/accounts/models.py:375 weblate/templates/dashboard/user.html:20
+#: weblate/accounts/models.py:376 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
 msgstr "Përkthime të mbikëqyrur"
 
-#: weblate/accounts/models.py:376 weblate/auth/models.py:134
+#: weblate/accounts/models.py:377 weblate/auth/models.py:134
 #: weblate/templates/dashboard/user.html:23
 #: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Lista përbërësish"
 
-#: weblate/accounts/models.py:377 weblate/templates/dashboard/user.html:66
+#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Listë përbërësish"
 
-#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:25
+#: weblate/accounts/models.py:379 weblate/templates/dashboard/user.html:25
 msgid "Suggested translations"
 msgstr "Përkthime të sugjeruar"
 
-#: weblate/accounts/models.py:390
+#: weblate/accounts/models.py:391
 msgid "Default dashboard view"
 msgstr "Pamje parazgjedhje e pultit"
 
-#: weblate/accounts/models.py:396
+#: weblate/accounts/models.py:397
 msgid "Default component list"
 msgstr "Listë parazgjedhje përbërësish"
 
-#: weblate/accounts/models.py:406
+#: weblate/accounts/models.py:407
 #: weblate/templates/snippets/watch-dropdown.html:28
 #: weblate/templates/snippets/watch-dropdown.html:30
 msgid ""
@@ -555,17 +569,17 @@ msgstr ""
 "Mund të merrni njoftime për projektet që vëzhgoni dhe, si parazgjedhje, ato "
 "shfaqen te pulti."
 
-#: weblate/accounts/models.py:443
+#: weblate/accounts/models.py:452
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr ""
 "Ju lutemi, përzgjidhni cilën listë përbërësish doni të shfaqet te pulti."
 
-#: weblate/accounts/models.py:454
+#: weblate/accounts/models.py:463
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "Përzgjedhja e liste përbërësish s’ka efekt, kur nuk shfaqet te pulti."
 
-#: weblate/accounts/models.py:578
+#: weblate/accounts/models.py:587
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -645,7 +659,7 @@ msgid "Mentioned in comment"
 msgstr "Përmendur në koment"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:577 weblate/templates/translate.html:351
+#: weblate/accounts/notifications.py:577 weblate/templates/translate.html:356
 #: weblate/trans/forms.py:900
 msgid "New comment"
 msgstr "Koment i ri"
@@ -1543,7 +1557,7 @@ msgid "Delete screenshot"
 msgstr "Të fshijë foto ekrani"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:644
+#: weblate/auth/data.py:72 weblate/templates/translate.html:649
 msgid "Edit additional string info"
 msgstr "Të përpunojë të dhëna shtesë vargjesh"
 
@@ -1927,14 +1941,15 @@ msgid "From component list"
 msgstr "Prej liste përbërësish"
 
 #: weblate/auth/models.py:128 weblate/billing/admin.py:73
-#: weblate/billing/models.py:241 weblate/templates/base.html:123
-#: weblate/templates/billing/status.html:67 weblate/templates/language.html:18
-#: weblate/templates/projects.html:5 weblate/trans/models/project.py:171
-#: weblate/trans/views/basic.py:83
+#: weblate/billing/models.py:241 weblate/templates/about/stats.html:84
+#: weblate/templates/base.html:123 weblate/templates/billing/status.html:67
+#: weblate/templates/language.html:18 weblate/templates/projects.html:5
+#: weblate/trans/models/project.py:171 weblate/trans/views/basic.py:83
 msgid "Projects"
 msgstr "Projekte"
 
-#: weblate/auth/models.py:131 weblate/templates/component-list.html:13
+#: weblate/auth/models.py:131 weblate/templates/about/stats.html:88
+#: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16
 #: weblate/templates/mail/base.html:287
 #: weblate/templates/snippets/project-nav.html:14
@@ -1952,7 +1967,7 @@ msgid "All languages"
 msgstr "Tërë gjuhët"
 
 #: weblate/auth/models.py:146 weblate/billing/models.py:276
-#: weblate/lang/models.py:469 weblate/lang/views.py:51
+#: weblate/lang/models.py:469 weblate/lang/views.py:56
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:139
 #: weblate/templates/lang/create.html:6
@@ -2090,14 +2105,14 @@ msgstr "Ndryshime katërmujorin e shkuar"
 msgid "Changes in last year"
 msgstr "Ndryshime vitin e shkuar"
 
-#: weblate/billing/models.py:250 weblate/templates/about/stats.html:68
+#: weblate/billing/models.py:250 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Vargje burim"
 
-#: weblate/billing/models.py:259 weblate/templates/about/stats.html:72
+#: weblate/billing/models.py:259 weblate/templates/about/stats.html:96
 #: weblate/trans/admin.py:100
 msgid "Source words"
 msgstr "Fjalë burimi"
@@ -2371,7 +2386,7 @@ msgstr "Pikas automatikisht Java MessageFormat"
 
 #: weblate/checks/flags.py:52 weblate/templates/progress.html:5
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#: weblate/templates/translate.html:184
+#: weblate/templates/translate.html:187 weblate/templates/translate.html:204
 msgid "Read only"
 msgstr "Vetëm për lexim"
 
@@ -3029,7 +3044,7 @@ msgstr "Listë e pavlefshme numrash!"
 #: weblate/templates/snippets/user-query-field.html:4
 #: weblate/templates/trans/change_list.html:55
 #: weblate/templates/trans/change_list.html:60
-#: weblate/templates/translate.html:320 weblate/templates/translation.html:36
+#: weblate/templates/translate.html:325 weblate/templates/translation.html:36
 msgid "Search"
 msgstr "Kërkim"
 
@@ -3065,7 +3080,7 @@ msgstr "Shtoje si tjetër përkthim"
 #: weblate/glossary/forms.py:121 weblate/glossary/models.py:243
 #: weblate/templates/glossary.html:10 weblate/templates/glossary.html:60
 #: weblate/templates/language-project.html:19
-#: weblate/templates/translate.html:476 weblate/templates/translation.html:37
+#: weblate/templates/translate.html:481 weblate/templates/translation.html:37
 msgid "Glossary"
 msgstr "Fjalorth"
 
@@ -3102,7 +3117,7 @@ msgstr "Ngjyrë"
 #: weblate/glossary/models.py:247 weblate/templates/glossary.html:58
 #: weblate/templates/matrix.html:18
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/templates/translate.html:326
+#: weblate/templates/translate.html:331
 msgid "Source"
 msgstr "Burim"
 
@@ -3111,8 +3126,8 @@ msgstr "Burim"
 #: weblate/templates/mail/changed_translation.html:9
 #: weblate/templates/mail/pending_suggestions.html:8
 #: weblate/templates/mail/todo_strings.html:8
-#: weblate/templates/translate.html:78 weblate/templates/translate.html:265
-#: weblate/templates/translate.html:325 weblate/trans/forms.py:1227
+#: weblate/templates/translate.html:81 weblate/templates/translate.html:270
+#: weblate/templates/translate.html:330 weblate/trans/forms.py:1227
 msgid "Translation"
 msgstr "Përkthim"
 
@@ -3147,7 +3162,7 @@ msgstr[1] "Prej kartelës së ngarkuar u importuan %d fjalë."
 msgid "File upload has failed: %s"
 msgstr "Ngarkimi i kartelës dështoi: %s"
 
-#: weblate/glossary/views.py:266 weblate/trans/views/edit.py:563
+#: weblate/glossary/views.py:266 weblate/trans/views/edit.py:578
 #: weblate/trans/views/search.py:86 weblate/trans/views/search.py:231
 msgid "Failed to process form!"
 msgstr "S’u arrit të përpunohej formular!"
@@ -3371,11 +3386,11 @@ msgstr "Shumës"
 msgid "Plural form %d"
 msgstr "Formë shumësi %d"
 
-#: weblate/lang/views.py:69
+#: weblate/lang/views.py:74
 msgid "Remove all translations using this language first."
 msgstr "Së pari, hiq krejt përkthimet që përdorin këtë gjuhë."
 
-#: weblate/lang/views.py:73
+#: weblate/lang/views.py:78
 #, python-format
 msgid "Language %s removed."
 msgstr "Gjuha %s u hoq."
@@ -3616,21 +3631,21 @@ msgstr "Figurë"
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgstr "Ngarkoni figura JPEG ose PNG deri në 2000x2000 piksel."
 
-#: weblate/screenshots/views.py:98
+#: weblate/screenshots/views.py:97
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "Fotoja e ekranit u ngarkua, tani mund t’i përshoqëroni varg burim."
 
-#: weblate/screenshots/views.py:104
+#: weblate/screenshots/views.py:103
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
 "S’u arrit të ngarkohet foto ekrani, ju lutemi ndreqni gabimet më poshtë."
 
-#: weblate/screenshots/views.py:155
+#: weblate/screenshots/views.py:153
 #, python-format
 msgid "Screenshot %s has been deleted."
 msgstr "Fotoja e ekranit %s u fshi."
 
-#: weblate/screenshots/views.py:175
+#: weblate/screenshots/views.py:173
 msgid "Source has been removed."
 msgstr "Burimi u hoq."
 
@@ -3745,7 +3760,7 @@ msgstr ""
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
 #: weblate/templates/base.html:248 weblate/templates/footer.html:6
-#: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
+#: weblate/trans/views/about.py:33 weblate/trans/views/about.py:45
 msgid "About Weblate"
 msgstr "Rreth Weblate-it"
 
@@ -3806,7 +3821,7 @@ msgstr "Lidhuni me ne për strehim komercial"
 msgid "Weblate is built on libre software"
 msgstr "Weblate është ndërtuar mbi software të lirë"
 
-#: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:102
+#: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:107
 msgid "Weblate keys"
 msgstr "Kyçe Weblate"
 
@@ -3845,10 +3860,10 @@ msgstr ""
 msgid "Commit signing is not configured."
 msgstr "Nënshkrimi i depozitimeve s’është formësuar."
 
-#: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:64
+#: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:80
 #: weblate/templates/dashboard/user.html:37 weblate/templates/data.html:51
 #: weblate/templates/translation.html:45 weblate/templates/translation.html:387
-#: weblate/trans/views/about.py:33
+#: weblate/trans/views/about.py:34
 msgid "Statistics"
 msgstr "Statistika"
 
@@ -3864,31 +3879,33 @@ msgstr "Sugjeruesit më aktiv"
 msgid "Most active screenshot uploaders"
 msgstr "Ngarkuesit më aktivë të fotove të ekranit"
 
-#: weblate/templates/about/stats.html:76
+#: weblate/templates/about/stats.html:64
+#, fuzzy
+#| msgid "Most active suggesters"
+msgid "Most active commenters"
+msgstr "Sugjeruesit më aktiv"
+
+#: weblate/templates/about/stats.html:100
 msgid "Translatable strings"
 msgstr "Vargje të përkthyeshëm"
 
-#: weblate/templates/about/stats.html:80
+#: weblate/templates/about/stats.html:104
 msgid "Translatable words"
 msgstr "Fjalë të përkthyeshme"
 
-#: weblate/templates/about/stats.html:84
+#: weblate/templates/about/stats.html:108
 msgid "Used languages"
 msgstr "Gjuhë të përdorura"
 
-#: weblate/templates/about/stats.html:88
+#: weblate/templates/about/stats.html:112
 msgid "Registered users"
 msgstr "Përdorues të regjistruar"
 
-#: weblate/templates/about/stats.html:92
-msgid "Suggestions made"
-msgstr "Sugjerime të bëra"
-
-#: weblate/templates/about/stats.html:100
+#: weblate/templates/about/stats.html:124
 msgid "Failing checks found"
 msgstr "U gjetën dështime kontrollesh"
 
-#: weblate/templates/about/stats.html:104
+#: weblate/templates/about/stats.html:128
 msgid "Dismissed checks"
 msgstr "Kontrolle të hedhur tej"
 
@@ -4202,8 +4219,8 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_detail.html:106
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
-#: weblate/templates/translate.html:191 weblate/templates/translate.html:357
-#: weblate/templates/translate.html:509 weblate/templates/translate.html:650
+#: weblate/templates/translate.html:194 weblate/templates/translate.html:362
+#: weblate/templates/translate.html:514 weblate/templates/translate.html:655
 msgid "Save"
 msgstr "Ruaje"
 
@@ -4524,13 +4541,22 @@ msgid_plural "%(count)s screenshots"
 msgstr[0] "%(count)s votë"
 msgstr[1] "%(count)s vota"
 
-#: weblate/templates/accounts/user.html:59
+#: weblate/templates/accounts/user.html:47
+#, fuzzy, python-format
+#| msgid "%(count)s vote"
+#| msgid_plural "%(count)s votes"
+msgid "%(count)s comment"
+msgid_plural "%(count)s comments"
+msgstr[0] "%(count)s votë"
+msgstr[1] "%(count)s vota"
+
+#: weblate/templates/accounts/user.html:64
 #, fuzzy
 #| msgid "Project Information"
 msgid "Project contributions"
 msgstr "Të dhëna Projekti"
 
-#: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
+#: weblate/templates/accounts/user.html:67 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:21
@@ -4540,11 +4566,11 @@ msgstr "Të dhëna Projekti"
 msgid "Activity"
 msgstr "Veprimtari"
 
-#: weblate/templates/accounts/user.html:63
+#: weblate/templates/accounts/user.html:68
 msgid "Recent changes"
 msgstr "Ndryshime së fundi"
 
-#: weblate/templates/accounts/user.html:96
+#: weblate/templates/accounts/user.html:101
 msgid "Browse all changes for user"
 msgstr "Shfletoni krejt ndryshimet për përdorues"
 
@@ -4688,7 +4714,7 @@ msgstr "Emër kartele përbërësi me shkronjën e parë të madhe"
 #: weblate/templates/dashboard/user.html:73
 #: weblate/templates/dashboard/user.html:82
 #: weblate/templates/language-project.html:51 weblate/templates/project.html:32
-#: weblate/templates/translate.html:265 weblate/templates/translation.html:187
+#: weblate/templates/translate.html:270 weblate/templates/translation.html:187
 #: weblate/trans/forms.py:1361 weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:618
 msgid "Component"
@@ -4848,7 +4874,7 @@ msgstr "Përmbledhje faturimi"
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
 #: weblate/templates/snippets/project-nav.html:110
-#: weblate/templates/translate.html:317
+#: weblate/templates/translate.html:322
 #: weblate/wladmin/templates/admin/weblate-index.html:43
 #: weblate/wladmin/views.py:61
 msgid "Translation memory"
@@ -4897,8 +4923,8 @@ msgstr "Kontribuoni te Weblate"
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
-#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:502
-#: weblate/templates/translate.html:643
+#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
+#: weblate/templates/translate.html:648
 msgid "Close"
 msgstr "Mbylle"
 
@@ -5232,7 +5258,7 @@ msgstr "Tendenca"
 #: weblate/templates/language.html:20
 #: weblate/templates/snippets/project-nav.html:35
 #: weblate/templates/snippets/project-nav.html:46
-#: weblate/templates/translate.html:229 weblate/templates/translation.html:43
+#: weblate/templates/translate.html:234 weblate/templates/translation.html:43
 msgid "History"
 msgstr "Historik"
 
@@ -5397,7 +5423,7 @@ msgstr ""
 
 #: weblate/templates/component.html:160
 #: weblate/templates/manage/performance.html:42
-#: weblate/templates/translate.html:415
+#: weblate/templates/translate.html:420
 msgid "Dismiss"
 msgstr "Hidhe tej"
 
@@ -5430,7 +5456,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Zbatoje"
 
-#: weblate/templates/component.html:228 weblate/templates/translate.html:309
+#: weblate/templates/component.html:228 weblate/templates/translate.html:314
 msgid "Browse all component changes"
 msgstr "Shfletoni krejt ndryshimet e përbërësve"
 
@@ -5471,7 +5497,7 @@ msgid "Move"
 msgstr "Lëvize"
 
 #: weblate/templates/component.html:300 weblate/templates/project.html:168
-#: weblate/templates/translate.html:303 weblate/templates/translation.html:371
+#: weblate/templates/translate.html:308 weblate/templates/translation.html:371
 msgid "Loading…"
 msgstr "Po ngarkohet…"
 
@@ -5585,8 +5611,8 @@ msgstr "Marrëveshje kontribuesi"
 #: weblate/templates/mail/pending_suggestions.html:15
 #: weblate/templates/mail/todo_strings.html:15
 #: weblate/templates/screenshots/screenshot_sources_body.html:14
-#: weblate/templates/translate.html:387 weblate/templates/translate.html:448
-#: weblate/templates/translate.html:462
+#: weblate/templates/translate.html:392 weblate/templates/translate.html:453
+#: weblate/templates/translate.html:467
 msgid "View"
 msgstr "Shihni"
 
@@ -5799,7 +5825,7 @@ msgstr[0] "Gjuhë"
 msgstr[1] "Gjuhë"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:799 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:789 weblate/trans/widgets.py:100
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -5888,8 +5914,8 @@ msgstr ""
 "Pasi të keni aktivizuar llogarinë tuaj, vazhdoni te ndarja për përkthimet."
 
 #: weblate/templates/engage.html:64
-#: weblate/templates/snippets/list-objects.html:44
-#: weblate/templates/translate.html:27 weblate/templates/translation.html:137
+#: weblate/templates/snippets/list-objects.html:43
+#: weblate/templates/translate.html:30 weblate/templates/translation.html:137
 msgid "Translate"
 msgstr "Përktheni"
 
@@ -6031,7 +6057,7 @@ msgid "Create new glossary"
 msgstr "Të administrojë fjalorth"
 
 #: weblate/templates/glossary.html:21
-#: weblate/templates/snippets/list-objects.html:46
+#: weblate/templates/snippets/list-objects.html:45
 msgid "Browse"
 msgstr "Shfletoni"
 
@@ -6260,7 +6286,7 @@ msgid "Rebase local changes onto the remote repository"
 msgstr "Kryeni rebase të ndryshimeve vendore te depoja e largët"
 
 #: weblate/templates/js/git-status.html:136
-#: weblate/templates/translate.html:420
+#: weblate/templates/translate.html:425
 msgid "Reset"
 msgstr "Reset"
 
@@ -6349,7 +6375,7 @@ msgstr "Koment i zgjidhur"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
-#: weblate/templates/translate.html:127 weblate/templates/translate.html:564
+#: weblate/templates/translate.html:130 weblate/templates/translate.html:569
 msgid "Source string comment"
 msgstr "Koment vargu burim"
 
@@ -6746,12 +6772,12 @@ msgstr "Ripohoni regjistrimin"
 #: weblate/templates/mail/snippets/source-string.html:9
 #: weblate/templates/screenshots/screenshot_detail.html:27
 #: weblate/templates/screenshots/screenshot_detail.html:55
-#: weblate/templates/translate.html:76
+#: weblate/templates/translate.html:79
 msgid "Source string"
 msgstr "Varg burim"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
-#: weblate/templates/translate.html:530
+#: weblate/templates/translate.html:535
 msgid "Screenshot context"
 msgstr "Kontekst fotoje ekrani"
 
@@ -7249,7 +7275,7 @@ msgstr "Lyp përpunim"
 #: weblate/templates/project-labels.html:9
 #: weblate/templates/snippets/project-nav.html:123
 #: weblate/templates/snippets/sort-field.html:18
-#: weblate/templates/translate.html:573 weblate/trans/models/unit.py:280
+#: weblate/templates/translate.html:578 weblate/trans/models/unit.py:280
 #: weblate/utils/views.py:96
 msgid "Labels"
 msgstr "Etiketa"
@@ -7477,7 +7503,7 @@ msgid "View contributor agreement"
 msgstr "Shihni marrëveshje kontribuesi"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:8
-#: weblate/templates/translate.html:182
+#: weblate/templates/translate.html:185
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
@@ -7570,24 +7596,24 @@ msgstr "Fjalë të papërkthyera"
 
 #: weblate/templates/snippets/list-objects.html:22
 #: weblate/templates/trans/suggestion_list.html:8
-#: weblate/templates/translate.html:217 weblate/templates/translate.html:383
+#: weblate/templates/translate.html:222 weblate/templates/translate.html:388
 #: weblate/trans/forms.py:1229
 msgid "Suggestions"
 msgstr "Sugjerime"
 
 #: weblate/templates/snippets/list-objects.html:23
-#: weblate/templates/translate.html:223 weblate/templates/translate.html:444
-#: weblate/templates/translate.html:606
+#: weblate/templates/translate.html:228 weblate/templates/translate.html:449
+#: weblate/templates/translate.html:611
 msgid "Comments"
 msgstr "Komente"
 
-#: weblate/templates/snippets/list-objects.html:40
+#: weblate/templates/snippets/list-objects.html:39
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Create translation"
 msgstr "Përkthime Weblate"
 
-#: weblate/templates/snippets/list-objects.html:103
+#: weblate/templates/snippets/list-objects.html:106
 msgid "Nothing to list here."
 msgstr "S’ka gjë për shfaqje këtu."
 
@@ -7853,7 +7879,7 @@ msgid "Source in review"
 msgstr "Burim nën shqyrtim"
 
 #: weblate/templates/snippets/unit-state.html:5
-#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:31
+#: weblate/trans/templatetags/translations.py:494 weblate/utils/state.py:31
 msgctxt "String state"
 msgid "Needs editing"
 msgstr "Lyp përpunim"
@@ -7864,13 +7890,13 @@ msgid "Read only"
 msgstr "Vetëm lexim"
 
 #: weblate/templates/snippets/unit-state.html:7
-#: weblate/trans/templatetags/translations.py:505 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:498 weblate/utils/state.py:33
 msgctxt "String state"
 msgid "Approved"
 msgstr "E miratuar"
 
 #: weblate/templates/snippets/unit-state.html:8
-#: weblate/trans/templatetags/translations.py:507 weblate/utils/state.py:32
+#: weblate/trans/templatetags/translations.py:500 weblate/utils/state.py:32
 msgctxt "String state"
 msgid "Translated"
 msgstr "E përkthyer"
@@ -8430,58 +8456,58 @@ msgstr ""
 "tjetër. Nëse lënda e depos është e ndryshme, mund të ishte më mirë të "
 "krijohej një përkthim i ri."
 
-#: weblate/templates/translate.html:52
+#: weblate/templates/translate.html:55
 msgid "Edit in Zen mode"
 msgstr "Përpunojeni nën mënyrën Zen"
 
-#: weblate/templates/translate.html:52 weblate/templates/zen.html:26
+#: weblate/templates/translate.html:55 weblate/templates/zen.html:26
 msgid "Zen"
 msgstr "Zen"
 
-#: weblate/templates/translate.html:55 weblate/templates/zen.html:42
+#: weblate/templates/translate.html:58 weblate/templates/zen.html:48
 msgid "Configure editor"
 msgstr "Formësoni përpunuesin"
 
-#: weblate/templates/translate.html:73
+#: weblate/templates/translate.html:76
 msgid "Copy permalink"
 msgstr "Kopjoje permalidhjen"
 
-#: weblate/templates/translate.html:93 weblate/templates/zen-units.html:56
+#: weblate/templates/translate.html:96 weblate/templates/zen-units.html:56
 msgid "Edit string"
 msgstr "Përpunoni vargun"
 
-#: weblate/templates/translate.html:103 weblate/templates/zen-units.html:66
+#: weblate/templates/translate.html:106 weblate/templates/zen-units.html:66
 msgid "Source change"
 msgstr "Ndryshim burimi"
 
-#: weblate/templates/translate.html:119
+#: weblate/templates/translate.html:122
 msgid "Intermediate language"
 msgstr "Gjuhë ndërmjetëse"
 
-#: weblate/templates/translate.html:135 weblate/templates/translate.html:544
+#: weblate/templates/translate.html:138 weblate/templates/translate.html:549
 #: weblate/trans/models/unit.py:265
 #, fuzzy
 #| msgid "Translation"
 msgid "Explanation"
 msgstr "Përkthim"
 
-#: weblate/templates/translate.html:157 weblate/templates/zen-units.html:76
+#: weblate/templates/translate.html:160 weblate/templates/zen-units.html:76
 msgid "Edit source string"
 msgstr "Përpunoni vargun burim"
 
-#: weblate/templates/translate.html:159 weblate/trans/forms.py:887
+#: weblate/templates/translate.html:162 weblate/trans/forms.py:887
 msgid "Report issue with the source string"
 msgstr "Njoftoni problem me vargun burim"
 
-#: weblate/templates/translate.html:174 weblate/templates/translate.html:199
+#: weblate/templates/translate.html:177 weblate/templates/translate.html:202
 msgid "This translation is currently locked."
 msgstr "Ky përkthim është hëpërhë i kyçur."
 
-#: weblate/templates/translate.html:176
+#: weblate/templates/translate.html:179
 msgid "Please sign in to save translations."
 msgstr "Që të ruani përkthime, ju lutemi, bëni hyrjen."
 
-#: weblate/templates/translate.html:178
+#: weblate/templates/translate.html:181
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
@@ -8489,148 +8515,148 @@ msgstr ""
 "Vargjet e miratuara mund të ndryshohen vetëm nga shqyrtues, ju lutemi, nëse "
 "mendoni se vargu duhet ndryshuar, shtoni një sugjerim."
 
-#: weblate/templates/translate.html:180
+#: weblate/templates/translate.html:183
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr "Ky përkthim pranon vetëm sugjerime dhe këto miratohen me votë."
 
-#: weblate/templates/translate.html:186
+#: weblate/templates/translate.html:189
 #, fuzzy
 #| msgid "Insufficient privileges for adding suggestions."
 msgid "Insufficient privileges for editing source strings."
 msgstr "Privilegje të pamjaftueshme për shtim sugjerimesh."
 
-#: weblate/templates/translate.html:188 weblate/trans/views/edit.py:288
-#: weblate/trans/views/edit.py:308 weblate/trans/views/edit.py:326
-#: weblate/trans/views/edit.py:778
+#: weblate/templates/translate.html:191 weblate/trans/views/edit.py:303
+#: weblate/trans/views/edit.py:323 weblate/trans/views/edit.py:341
+#: weblate/trans/views/edit.py:793
 msgid "Insufficient privileges for saving translations."
 msgstr "Privilegje të pamjaftueshme për ruajtje përkthimesh."
 
-#: weblate/templates/translate.html:197
+#: weblate/templates/translate.html:200
 msgid "Insufficient privileges for adding suggestions."
 msgstr "Privilegje të pamjaftueshme për shtim sugjerimesh."
 
-#: weblate/templates/translate.html:201
+#: weblate/templates/translate.html:206
 msgid "Suggest"
 msgstr "Sugjeroni"
 
-#: weblate/templates/translate.html:203
+#: weblate/templates/translate.html:208
 msgid "Skip"
 msgstr "Anashkaloje"
 
-#: weblate/templates/translate.html:209
+#: weblate/templates/translate.html:214
 msgid "Messages placed around this one"
 msgstr "Mesazhe të vendosur rreth këtij këtu"
 
-#: weblate/templates/translate.html:209
+#: weblate/templates/translate.html:214
 msgid "Nearby strings"
 msgstr "Vargje atypari"
 
-#: weblate/templates/translate.html:211
+#: weblate/templates/translate.html:216
 msgid "Strings with similar keys"
 msgstr "Vargje me identifikues të ngjashëm"
 
-#: weblate/templates/translate.html:211
+#: weblate/templates/translate.html:216
 msgid "Nearby keys"
 msgstr "Identifikues atypari"
 
-#: weblate/templates/translate.html:214
+#: weblate/templates/translate.html:219
 #, fuzzy
 #| msgid "Shapings of the string"
 msgid "Variants of the string"
 msgstr "Forma të vargut"
 
-#: weblate/templates/translate.html:214 weblate/templates/translate.html:458
+#: weblate/templates/translate.html:219 weblate/templates/translate.html:463
 #, fuzzy
 #| msgid "Color variants:"
 msgid "Variants"
 msgstr "Variante ngjyre:"
 
-#: weblate/templates/translate.html:220
+#: weblate/templates/translate.html:225
 msgid "Other occurrences"
 msgstr "Hasje të tjera"
 
-#: weblate/templates/translate.html:226
+#: weblate/templates/translate.html:231
 #, fuzzy
 #| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
 msgstr "Sugjerime përkthimi nga makina"
 
-#: weblate/templates/translate.html:226
+#: weblate/templates/translate.html:231
 #, fuzzy
 #| msgid "Machame"
 msgid "Machinery"
 msgstr "maçamisht"
 
-#: weblate/templates/translate.html:228
+#: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
 msgstr "Përkthime të këtij vargu në gjuhët e tjera"
 
-#: weblate/templates/translate.html:228
+#: weblate/templates/translate.html:233
 msgid "Other languages"
 msgstr "Gjuhë të tjera"
 
-#: weblate/templates/translate.html:229
+#: weblate/templates/translate.html:234
 msgid "List of recent changes done in Weblate"
 msgstr "Listë e ndryshimeve së fundi të bëra në Weblate"
 
-#: weblate/templates/translate.html:275
+#: weblate/templates/translate.html:280
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
 msgstr[0] "Vargu vijues ka të njëjtin kontekst dhe të njëjtin burim."
 msgstr[1] "Vargjet vijuese kanë të njëjtin kontekst dhe të njëjtin burim."
 
-#: weblate/templates/translate.html:283
+#: weblate/templates/translate.html:288
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
 msgstr[0] "Vargu vijues ka tjetër kontekst, por të njëjtin burim."
 msgstr[1] "Vargjet vijues kanë kontekste të ndryshme, por të njëjtin burim."
 
-#: weblate/templates/translate.html:291
+#: weblate/templates/translate.html:296
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
 msgstr[0] "Vargu vijues ka tjetër burim, por të njëjtin kontekst."
 msgstr[1] "Vargjet vijues kanë burime të ndryshme, por të njëjtin kontekst."
 
-#: weblate/templates/translate.html:327
+#: weblate/templates/translate.html:332
 msgid "Origin"
 msgstr "Origjinë"
 
-#: weblate/templates/translate.html:328
+#: weblate/templates/translate.html:333
 msgid "Similarity"
 msgstr "Ngjashmëri"
 
-#: weblate/templates/translate.html:353
+#: weblate/templates/translate.html:358
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr "Komentoni këtë varg për përkthyesit e tjerë dhe zhvilluesit."
 
-#: weblate/templates/translate.html:375
+#: weblate/templates/translate.html:380
 msgid "Things to check"
 msgstr "Gjëra për t’u kontrolluar"
 
-#: weblate/templates/translate.html:385
+#: weblate/templates/translate.html:390
 #, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
 msgstr[0] "Ka %(count)s sugjerim për këtë varg."
 msgstr[1] "Ka %(count)s sugjerime për këtë varg."
 
-#: weblate/templates/translate.html:408
+#: weblate/templates/translate.html:413
 msgid "Fix string"
 msgstr "Ndreqe vargun"
 
-#: weblate/templates/translate.html:417
+#: weblate/templates/translate.html:422
 msgid "Dismiss for all languages"
 msgstr "Hidhe tej për krejt gjuhët"
 
-#: weblate/templates/translate.html:446
+#: weblate/templates/translate.html:451
 #, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
 msgstr[0] "Ka %(count)s koment për këtë varg."
 msgstr[1] "Ka %(count)s komente për këtë varg."
 
-#: weblate/templates/translate.html:460
+#: weblate/templates/translate.html:465
 #, fuzzy, python-format
 #| msgid "There is %(count)s shaping for this string."
 #| msgid_plural "There are %(count)s shapings for this string."
@@ -8639,61 +8665,61 @@ msgid_plural "There are %(count)s variants for this string."
 msgstr[0] "Për këtë varg ka %(count)s formë."
 msgstr[1] "Për këtë varg ka %(count)s forma."
 
-#: weblate/templates/translate.html:474
+#: weblate/templates/translate.html:479
 msgid "Manage glossary"
 msgstr "Të administrojë fjalorth"
 
-#: weblate/templates/translate.html:493 weblate/templates/translate.html:503
+#: weblate/templates/translate.html:498 weblate/templates/translate.html:508
 #, fuzzy
 #| msgid "Added to glossary"
 msgid "Add term to glossary"
 msgstr "U shtua në fjalorth"
 
-#: weblate/templates/translate.html:522
+#: weblate/templates/translate.html:527
 msgid "Source information"
 msgstr "Të dhëna burimi"
 
-#: weblate/templates/translate.html:535
+#: weblate/templates/translate.html:540
 #, fuzzy
 #| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
 msgstr "Hëpërhë s’ka foto ekrani të përshoqëruar!"
 
-#: weblate/templates/translate.html:549
+#: weblate/templates/translate.html:554
 #, fuzzy
 #| msgid "This translation is currently locked."
 msgid "No explanation currently provided."
 msgstr "Ky përkthim është hëpërhë i kyçur."
 
-#: weblate/templates/translate.html:578
+#: weblate/templates/translate.html:583
 #, fuzzy
 #| msgid "No labels currently set!"
 msgid "No labels currently set."
 msgstr "Hëpërhë s’ka etiketa të ujdisura!"
 
-#: weblate/templates/translate.html:586
+#: weblate/templates/translate.html:591
 msgid "Flags"
 msgstr "Flamuj"
 
-#: weblate/templates/translate.html:591
+#: weblate/templates/translate.html:596
 #, fuzzy
 #| msgid "No flags currently set!"
 msgid "No flags currently set."
 msgstr "Hëpërhë s’ka flamurka të ujdisura!"
 
-#: weblate/templates/translate.html:598
+#: weblate/templates/translate.html:603
 msgid "Source string location"
 msgstr "Vendndodhje vargu burim"
 
-#: weblate/templates/translate.html:613
+#: weblate/templates/translate.html:618
 msgid "Source string age"
 msgstr "Moshë vargu burim"
 
-#: weblate/templates/translate.html:620 weblate/templates/translation.html:200
+#: weblate/templates/translate.html:625 weblate/templates/translation.html:200
 msgid "Translation file"
 msgstr "Kartelë përkthimi"
 
-#: weblate/templates/translate.html:623
+#: weblate/templates/translate.html:628
 #, python-format
 msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s, vargu %(position)s"
@@ -8928,15 +8954,15 @@ msgstr "URL Figure"
 msgid "Open in full editor"
 msgstr "Hape në përpunuesin eplotë"
 
-#: weblate/templates/zen-units.html:106 weblate/trans/views/edit.py:437
+#: weblate/templates/zen-units.html:106 weblate/trans/views/edit.py:452
 msgid "The translation has come to an end."
 msgstr "Përkthimi mbërriti në fund."
 
-#: weblate/templates/zen.html:40
+#: weblate/templates/zen.html:46
 msgid "Edit in single string mode"
 msgstr "Përpunojeni nën mënyrën njëshe"
 
-#: weblate/templates/zen.html:40
+#: weblate/templates/zen.html:46
 msgid "Exit Zen"
 msgstr "Dil nga Zen-i"
 
@@ -10700,7 +10726,7 @@ msgstr "Gjuhë burimi"
 msgid "Language used for source strings in all components"
 msgstr "Gjuhë e përdorur për vargjet burim në krejt përbërësit"
 
-#: weblate/trans/models/suggestion.py:139
+#: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
 msgstr "S’u arrit të pranohej sugjerimi!"
 
@@ -10709,7 +10735,7 @@ msgid "source"
 msgstr "burimi"
 
 #: weblate/trans/models/translation.py:161
-#: weblate/trans/templatetags/translations.py:692
+#: weblate/trans/templatetags/translations.py:661
 msgid "This translation is used for source strings."
 msgstr "Ky përkthim përdoret për vargje burim."
 
@@ -10975,50 +11001,50 @@ msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s orë nga tani"
 msgstr[1] "%(count)s orë nga tani"
 
-#: weblate/trans/templatetags/translations.py:503
+#: weblate/trans/templatetags/translations.py:496
 msgctxt "String state"
 msgid "Not translated"
 msgstr "E papërkthyer"
 
-#: weblate/trans/templatetags/translations.py:536
+#: weblate/trans/templatetags/translations.py:529
 #, python-format
 msgid "string ID %s"
 msgstr "ID vargu %s"
 
-#: weblate/trans/templatetags/translations.py:684
-msgid "You administrate this project."
-msgstr "E administroni këtë projekt."
-
-#: weblate/trans/templatetags/translations.py:704
+#: weblate/trans/templatetags/translations.py:670
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr "Ky përbërës është lidhur me depon %(target)s."
 
-#: weblate/trans/templatetags/translations.py:714
+#: weblate/trans/templatetags/translations.py:678
 #: weblate/trans/views/guide.py:158
 msgid "Fix this component to clear its alerts."
 msgstr "Që të spastrohen sinjalizimet për të, ndreqeni këtë përbërës."
 
-#: weblate/trans/templatetags/translations.py:721
-#: weblate/trans/templatetags/translations.py:747
+#: weblate/trans/templatetags/translations.py:683
+#: weblate/trans/templatetags/translations.py:703
 msgid "This translation is locked."
 msgstr "Ky përkthim është i kyçur."
 
-#: weblate/trans/templatetags/translations.py:728
+#: weblate/trans/templatetags/translations.py:688
 msgid "Updating translation component…"
 msgstr "Po përditësohet përbërës përkthimi…"
 
-#: weblate/trans/templatetags/translations.py:740
+#: weblate/trans/templatetags/translations.py:698
 msgid "Some of the components within this project have alerts."
 msgstr "Disa nga përbërësit brenda këtij projekti kanë sinjalizime."
 
-#: weblate/trans/templatetags/translations.py:751
+#: weblate/trans/templatetags/translations.py:728
+msgid "You administrate this project."
+msgstr "E administroni këtë projekt."
+
+#: weblate/trans/templatetags/translations.py:741
 #, fuzzy
 #| msgid "This translation is locked."
 msgid "This translation does not yet exist."
 msgstr "Ky përkthim është i kyçur."
 
-#: weblate/trans/templatetags/translations.py:772
+#: weblate/trans/templatetags/translations.py:762
 msgid "enabled"
 msgstr "e aktivizuar"
 
@@ -11063,11 +11089,11 @@ msgstr ""
 "Vlera 1 nuk lejohet për vetëpranim, ngaqë do t’u lejonte përdoruesve të "
 "votonin sugjerimet e veta."
 
-#: weblate/trans/views/about.py:34
+#: weblate/trans/views/about.py:35
 msgid "Keys"
 msgstr "Kyçe"
 
-#: weblate/trans/views/about.py:68
+#: weblate/trans/views/about.py:69
 msgid "Weblate statistics"
 msgstr "Statistika Weblate"
 
@@ -11185,99 +11211,99 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Ju lutemi, caktoni te profili juaj emrin tuaj të plotë dhe email-in."
 
-#: weblate/trans/views/edit.py:168 weblate/trans/views/edit.py:432
+#: weblate/trans/views/edit.py:183 weblate/trans/views/edit.py:447
 msgid "No string matched your search!"
 msgstr "Me kërkimin tuaj s’u përputh ndonjë varg!"
 
-#: weblate/trans/views/edit.py:192
+#: weblate/trans/views/edit.py:207
 msgid "Your suggestion is empty!"
 msgstr "Sugjerimi juaj është i zbrazët!"
 
-#: weblate/trans/views/edit.py:197
+#: weblate/trans/views/edit.py:212
 msgid "You don't have privileges to add suggestions!"
 msgstr "S’keni privilegje të shtoni sugjerime!"
 
-#: weblate/trans/views/edit.py:203
+#: weblate/trans/views/edit.py:218
 msgid "Your suggestion has been identified as spam!"
 msgstr "Sugjerimi juaj është identifikuar si mesazh i padëshiruar!"
 
-#: weblate/trans/views/edit.py:214
+#: weblate/trans/views/edit.py:229
 msgid "Your suggestion already exists!"
 msgstr "Sugjerimi juaj ekziston tashmë!"
 
-#: weblate/trans/views/edit.py:242
+#: weblate/trans/views/edit.py:257
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Te përkthimi u aplikuan riparimet vijuese: %s"
 
-#: weblate/trans/views/edit.py:259
+#: weblate/trans/views/edit.py:274
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "Përkthimi u ruajt, megjithatë ka disa dështime të reja kontrolli: {0}"
 
-#: weblate/trans/views/edit.py:302
+#: weblate/trans/views/edit.py:317
 msgid "Invalid merge request!"
 msgstr "Kërkesë e pavlefshme përzierjeje!"
 
-#: weblate/trans/views/edit.py:320
+#: weblate/trans/views/edit.py:335
 msgid "Invalid revert request!"
 msgstr "Kërkesë e pavlefshme prapësimi!"
 
-#: weblate/trans/views/edit.py:330
+#: weblate/trans/views/edit.py:345
 msgid "Can not revert to empty translation!"
 msgstr "S’mund të prapësohet përkthim i zbrazët!"
 
-#: weblate/trans/views/edit.py:349
+#: weblate/trans/views/edit.py:364
 msgid "You do not have privilege to accept suggestions!"
 msgstr "S’keni privilegje të pranoni sugjerime!"
 
-#: weblate/trans/views/edit.py:355
+#: weblate/trans/views/edit.py:370
 msgid "You do not have privilege to delete suggestions!"
 msgstr "S’keni privilegje të fshini sugjerime!"
 
-#: weblate/trans/views/edit.py:361
+#: weblate/trans/views/edit.py:376
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "S’keni privilegje të votoni për sugjerime!"
 
-#: weblate/trans/views/edit.py:385
+#: weblate/trans/views/edit.py:400
 msgid "Invalid suggestion!"
 msgstr "Sugjerim: i pavlefshëm!"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:462
 msgid "Invalid search string!"
 msgstr "Varg i pavlefshëm kërkimi!"
 
-#: weblate/trans/views/edit.py:583
+#: weblate/trans/views/edit.py:598
 msgid "Automatic translation in progress"
 msgstr "Përkthim i automatizuar në kryerje e sipër"
 
-#: weblate/trans/views/edit.py:620
+#: weblate/trans/views/edit.py:635
 msgid "Source needs review"
 msgstr "Burimi lyp shqyrtim"
 
-#: weblate/trans/views/edit.py:623
+#: weblate/trans/views/edit.py:638
 msgid "Posted new comment"
 msgstr "U postua koment i ri"
 
-#: weblate/trans/views/edit.py:625
+#: weblate/trans/views/edit.py:640
 msgid "Failed to add comment!"
 msgstr "S’u arrit të shtohej koment!"
 
-#: weblate/trans/views/edit.py:646
+#: weblate/trans/views/edit.py:661
 msgid "Translation comment has been deleted."
 msgstr "Komenti i përkthimit u fshi."
 
-#: weblate/trans/views/edit.py:666
+#: weblate/trans/views/edit.py:681
 msgid "Translation comment has been resolved."
 msgstr "Komenti i përkthimit u zgjidh."
 
-#: weblate/trans/views/edit.py:821
+#: weblate/trans/views/edit.py:836
 msgid "Translation with this key seem to already exist!"
 msgstr "Duket se ekziston tashmë përkthim me këtë identifikues!"
 
-#: weblate/trans/views/edit.py:825
+#: weblate/trans/views/edit.py:840
 msgid "New string has been added."
 msgstr "U shtua varg i ri."
 
@@ -12059,9 +12085,6 @@ msgstr "S’u hodh dot tej gabimi i formësimit!"
 
 #~ msgid "Browse pending"
 #~ msgstr "Shfletoni vargje pezull"
-
-#~ msgid "Screenshots uploaded"
-#~ msgstr "U ngarkuan foto ekrani"
 
 #~ msgid "Registration date"
 #~ msgstr "Datë regjistrimi"
