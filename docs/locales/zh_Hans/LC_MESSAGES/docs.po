@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-31 08:32+0200\n"
-"PO-Revision-Date: 2020-08-01 11:12+0000\n"
+"PO-Revision-Date: 2020-08-02 08:17+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -58,9 +58,8 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`"
 msgstr ""
-"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :"
-"ref:`default-groups`）。此外，启用 :ref:`acl` 后，您可以将用户分配给特定的翻"
-"译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置"
+"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :ref:`default-groups` ）。此外，启用 "
+":ref:`acl` 后，您可以将用户分配给特定的翻译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -76,12 +75,12 @@ msgid ""
 "`LOGIN_REQUIRED_URLS` to force users to sign in and :setting:"
 "`REGISTRATION_OPEN` to prevent new registrations."
 msgstr ""
-"为了完全锁定Weblate安装，可以使用 :setting:`LOGIN_REQUIRED_URLS` 来强制用户登录并 "
+"为了完全锁定 Weblate 安装，可以使用 :setting:`LOGIN_REQUIRED_URLS` 来强制用户登录并 "
 ":setting:`REGISTRATION_OPEN` 来 防止新注册。"
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
-msgstr "整个网站的权限"
+msgstr "全网站范围的权限"
 
 #: ../../admin/access.rst:37
 msgid ""
@@ -89,8 +88,8 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
-"为了管理整个事例的权限，只通过将用户添加到 `Users` （这通常使用 :ref:`autogroup`默认实现）、 `Reviewers`和 "
-"`Managers` 群组中即可。将所有的项目保持为 `Public`（请参考 :ref:`acl`）。"
+"为了管理整个事例的权限，只通过将用户添加到 `Users` （这通常使用 :ref:`autogroup` 默认实现）、 `Reviewers` 和 "
+"`Managers` 群组中即可。将所有的项目保持为 `Public` （请参考 :ref:`acl` ）。"
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
@@ -100,7 +99,7 @@ msgstr "各项目的权限"
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
-msgstr "将项目设置为 `Protected`或 `Private`，并在Weblate的界面上根据项目来管理用户。"
+msgstr "将项目设置为 `Protected` 或 `Private` ，并在Weblate的界面上根据项目来管理用户。"
 
 #: ../../admin/access.rst:48
 msgid "Adding permissions to languages, components or projects"
@@ -124,8 +123,8 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
-"如果根据项目权限使用的话，无需另外设置即可正常工作。对于整个事例的权限，您可能还想从 `Users`群组中去掉这些权限，"
-"或者改变将所有用户自动指定给那个群组 （请参考 :ref:`autogroup`）。"
+"如果根据项目权限使用的话，无需另外设置即可正常工作。对于整个事例的权限，您可能还想从 `Users` 群组中去掉这些权限，"
+"或者改变将所有用户自动指定给那个群组 （请参考 :ref:`autogroup` ）。"
 
 #: ../../admin/access.rst:62
 msgid ":ref:`perm-check`"
@@ -139,8 +138,7 @@ msgstr "根据项目的访问控制"
 msgid ""
 "By enabling ACL, all users are prohibited from accessing anything within a "
 "given project, unless you add the permissions for them to do just that."
-msgstr ""
-"通过允许ACL，所有用户禁止访问给定项目的任何内容，除非可以将权限授予他们去做。"
+msgstr "通过允许 ACL ，所有用户禁止访问给定项目的任何内容，除非可以将权限授予他们去做。"
 
 #: ../../admin/access.rst:74
 msgid ""
@@ -149,12 +147,12 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
-"可以限制用户访问独立的项目。这个特性通过每个单独项目的配置中 :guilabel:`Access control`来打开。这会为这个项目自动建立几个群组，"
-"请参考 :ref:`groups`。"
+"可以限制用户访问独立的项目。这个特性通过每个单独项目的配置中 :guilabel:`Access control` "
+"来打开。这会为这个项目自动建立几个群组，请参考 :ref:`groups` 。"
 
 #: ../../admin/access.rst:78
 msgid "The following choices exist for :guilabel:`Access control`:"
-msgstr "后面的选择是为了 :guilabel:`Access control`："
+msgstr "后面的选择是为了 :guilabel:`Access control` ："
 
 #: ../../admin/access.rst:80
 msgid "Public"
@@ -186,7 +184,7 @@ msgstr "自定义"
 
 #: ../../admin/access.rst:87
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
-msgstr "Weblate不允许管理用户，请参考 :ref:`custom-acl`。"
+msgstr "Weblate 不允许管理用户，请参考 :ref:`custom-acl` 。"
 
 #: ../../admin/access.rst:91
 msgid ""
@@ -195,14 +193,14 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
-"为了允许访问这个项目，必须将权限直接添加给特定用户，或在Django管理界面上添加给用户所在的群组，或者使用项目页面上的用户管理，如下面的描述 :ref"
-":`manage-acl`。"
+"为了允许访问这个项目，必须将权限直接添加给特定用户，或在 Django 管理界面上添加给用户所在的群组，或者使用项目页面上的用户管理，如下面的描述 "
+":ref:`manage-acl` 。"
 
 #: ../../admin/access.rst:97
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
-msgstr "即使打开ACL，也可以看到项目的一些概要信息："
+msgstr "即使打开 ACL ，也可以看到项目的一些概要信息："
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -222,15 +220,13 @@ msgid ""
 "You can set up Weblate to automatically add users to groups based on their e-"
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
-msgstr ""
-"可以设置Weblate根据用户的邮件地址自动将用户添加到用户组中。只有在建立账户时这"
-"一自动指定才进行。"
+msgstr "可以设置 Weblate 根据用户的邮件地址自动将用户添加到用户组中。只有在建立账户时这一自动指定才进行。"
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
-msgstr "可以对每个用户组在Django管理界面中设置（在 :guilabel:`Authentication`部分）。"
+msgstr "可以对每个用户组在 Django 管理界面中设置（在 :guilabel:`Authentication` 部分）。"
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -238,8 +234,8 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
-"对于 `Users`和 `Viewers`用户组的自动用户组指定，总是通过Weblate在合并时建立，在想将其关闭的时候，简单地设置正则表达式为 "
-"``^$``即可，因为永远不匹配。"
+"对于 `Users` 和 `Viewers` 用户组的自动用户组指定，总是通过 Weblate 在合并时建立，在想将其关闭的时候，简单地设置正则表达式为 "
+"``^$`` 即可，因为永远不匹配。"
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
@@ -257,7 +253,7 @@ msgstr "`Permission`"
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
-msgstr "Weblate定义的各自权限。可以不指定各自权限，这可以只通过角色指定实现。"
+msgstr "Weblate 定义的各自权限。可以不指定各自权限，这可以只通过角色指定实现。"
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
@@ -302,15 +298,15 @@ msgstr ""
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` is matched against component or project."
-msgstr ":guilabel:`Component list`与组件或项目匹配。"
+msgstr ":guilabel:`Component list` 与组件或项目匹配。"
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
-msgstr ":guilabel:`Component`与组件或项目匹配。"
+msgstr ":guilabel:`Component` 与组件或项目匹配。"
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
-msgstr ":guilabel:`Projects`与项目匹配。"
+msgstr ":guilabel:`Projects` 与项目匹配。"
 
 #: ../../admin/access.rst:166
 msgid ""
@@ -325,8 +321,8 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
-"只使用第一条规则。所以如果设置所有的 :guilabel:`Component list`、 :guilabel:`Components` 和 "
-":guilabel:`Project`，只会应用 :guilabel:`Component list`。"
+"只使用第一条规则。所以如果设置所有的 :guilabel:`Component list` 、 :guilabel:`Components` 和 "
+":guilabel:`Project` ，只会应用 :guilabel:`Component list` 。"
 
 #: ../../admin/access.rst:175
 msgid ""
@@ -337,17 +333,15 @@ msgstr "如果检查翻译许可，则会执行另外的步骤："
 msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
-msgstr ""
-"4. :guilabel:`Languages`如果设置的话则与翻译领域匹配，如果不设置，则不予任何"
-"语言匹配。"
+msgstr "4. :guilabel:`Languages` 如果设置的话则与翻译领域匹配，如果不设置，则不予任何语言匹配。"
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
-"可以使用 :guilabel:`Language selection`或 :guilabel:`Project "
-"selection`来自动包括所有语言或项目。"
+"可以使用 :guilabel:`Language selection` 或 :guilabel:`Project selection` "
+"来自动包括所有语言或项目。"
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
@@ -360,8 +354,8 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
-"用于可以成为与项目或其中任何组件相连接的用户组的成员。只有成员即可，不需要特别许可来访问项目（这在默认的 `Viewers`用户组中使用，请见 :ref"
-":`default-groups`）。"
+"用于可以成为与项目或其中任何组件相连接的用户组的成员。只有成员即可，不需要特别许可来访问项目（这在默认的 `Viewers` 用户组中使用，请见 :ref"
+":`default-groups` ）。"
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
@@ -374,8 +368,8 @@ msgid ""
 "the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
-"一旦用户可以访问包含的项目，就能访问不受限制的组件。通过允许 :ref:`component-"
-"restricted`，访问组件需要组件（或包含组件列表）的明确授权。"
+"一旦用户可以访问包含的项目，就能访问不受限制的组件。通过允许 :ref:`component-restricted` "
+"，访问组件需要组件（或包含组件列表）的明确授权。"
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
@@ -385,7 +379,7 @@ msgstr "管理用户和群组"
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
-msgstr "可以使用 :file:`/admin/` URL下面的Django管理界面，来管理所有用户和用户组。"
+msgstr "可以使用 :file:`/admin/` URL 下面的 Django 管理界面，来管理所有用户和用户组。"
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
@@ -393,7 +387,7 @@ msgstr "根据项目访问控制来管理"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
-msgstr "这个特性只对ACL控制的项目起作用，请见 :ref:`acl`。"
+msgstr "这个特性只对 ACL 控制的项目起作用，请见 :ref:`acl` 。"
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -401,8 +395,8 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
-"具有 :guilabel:`Can manage ACL rules for a project`特权的用户（请见 "
-":ref:`privileges`）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许您："
+"具有 :guilabel:`Can manage ACL rules for a project` 特权的用户（请见 :ref:`privileges` "
+"）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许您："
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
@@ -423,7 +417,7 @@ msgstr "取消用户的权限"
 #: ../../admin/access.rst:227
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
-msgstr "可以在项目菜单的 :guilabel:`Manage`进行用户管理："
+msgstr "可以在项目菜单的 :guilabel:`Manage` 进行用户管理："
 
 #: ../../admin/access.rst:233
 msgid ":ref:`acl`"
@@ -437,7 +431,7 @@ msgstr "预定义的群组"
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
-msgstr "Weblate的项目带有预定义的群组，您可以为之指定用户。"
+msgstr "Weblate 的项目带有预定义的群组，您可以为之指定用户。"
 
 #: ../../admin/access.rst:245
 msgid "Has all permissions available in the project."
@@ -460,7 +454,7 @@ msgstr "可以管理截屏——添加或删除截屏，并将其与源字符串
 #: ../../admin/access.rst:262
 msgid ""
 "Can edit translation templates in :ref:`monolingual` and source string info."
-msgstr "可以在 :ref:`monolingual`编辑翻译模板和源字符串信息。"
+msgstr "可以在 :ref:`monolingual` 编辑翻译模板和源字符串信息。"
 
 #: ../../admin/access.rst:267
 msgid "Can translate the project, and upload translations made offline."
@@ -468,7 +462,7 @@ msgstr "可以翻译项目，并将离线的翻译上传。"
 
 #: ../../admin/access.rst:271
 msgid "Can manage VCS and access the exported repository."
-msgstr "可以管理VCS版本控制系统并访问导出的仓库。"
+msgstr "可以管理 VCS 版本控制系统并访问导出的仓库。"
 
 #: ../../admin/access.rst:275
 msgid "Can approve translations during review."
@@ -476,7 +470,7 @@ msgstr "可以在复查时批准翻译。"
 
 #: ../../admin/access.rst:279
 msgid "Can access billing info (see :ref:`billing`)."
-msgstr "可以访问账单信息（请见 :ref:`billing`）。"
+msgstr "可以访问账单信息（请见 :ref:`billing` ）。"
 
 #: ../../admin/access.rst:285
 msgid "Custom access control"
@@ -491,16 +485,17 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"通过选择 :guilabel:`Custom`作为 :guilabel:`Access control`，Weblate会对停止管理给定项目的访问权限，使"
-"用Django管理界面可以管理所有用户和群组。这可以用于确定更富在的访问控制，或在单一的Weblate界面中对所有项目设置可分享的访问策略。如果想要对所有"
-"项目默认打开这个功能，请配置 :setting:`DEFAULT_ACCESS_CONTROL`。"
+"通过选择 :guilabel:`Custom` 作为 :guilabel:`Access control` ， Weblate "
+"会对停止管理给定项目的访问权限，使用 Django 管理界面可以管理所有用户和群组。这可以用于确定更富在的访问控制，或在单一的 Weblate "
+"界面中对所有项目设置可分享的访问策略。如果想要对所有项目默认打开这个功能，请配置 :setting:`DEFAULT_ACCESS_CONTROL` 。"
 
 #: ../../admin/access.rst:296
 msgid ""
 "By turning this on, Weblate will remove all :ref:`acl` it has created for "
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
-msgstr "通过将其打开，Weblate会删除所有为这个项目建立的 :ref:`acl`。如果没有事件的管理权限却去做的话，会立即丢失管理项目的访问权限。"
+msgstr ""
+"通过将其打开， Weblate 会删除所有为这个项目建立的 :ref:`acl` 。如果没有事件的管理权限却去做的话，会立即丢失管理项目的访问权限。"
 
 #: ../../admin/access.rst:303
 msgid "Default groups and roles"
@@ -512,7 +507,7 @@ msgstr "特权列表"
 
 #: ../../admin/access.rst:309
 msgid "Billing (see :ref:`billing`)"
-msgstr "账单（请见 :ref:`billing`）"
+msgstr "账单（请见 :ref:`billing` ）"
 
 #: ../../admin/access.rst:309
 msgid "View billing info [`Administration`, `Billing`]"
@@ -750,7 +745,7 @@ msgstr ""
 
 #: ../../admin/access.rst:403
 msgid "VCS"
-msgstr "版本控制系统（VCS）"
+msgstr "版本控制系统（ VCS ）"
 
 #: ../../admin/access.rst:393
 msgid ""
@@ -800,7 +795,7 @@ msgstr "更新内部代码库"
 
 #: ../../admin/access.rst:422
 msgid "Site wide privileges"
-msgstr "全网站特权"
+msgstr "全网站范围的特权"
 
 #: ../../admin/access.rst:406
 msgid "Use management interface"
@@ -847,9 +842,7 @@ msgid ""
 "The site wide privileges are not granted to any default role. These are "
 "powerful and quite close to the superuser status—most of them affect all the "
 "projects of your Weblate installation."
-msgstr ""
-"全网站特权不会授予任何默认角色。这些特权特别强大，非常接近超级用户状态——多数"
-"特权会影响Weblate安装的所有项目。"
+msgstr "全网站特权不会授予任何默认角色。这些特权特别强大，非常接近超级用户状态——多数特权会影响 Weblate 安装的所有项目。"
 
 #: ../../admin/access.rst:431
 msgid "List of groups"
@@ -859,7 +852,7 @@ msgstr "群组列表"
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
-msgstr "下面的群组在安装时建立（或在执行后 :djadmin:`setupgroups`）："
+msgstr "下面的群组在安装时建立（或在执行后 :djadmin:`setupgroups` ）："
 
 #: ../../admin/access.rst:444
 msgid "`Guests`"
@@ -873,7 +866,7 @@ msgstr "对非授权用户确定权限。"
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
-msgstr "这个群组只包括匿名用户（请见 :setting:`ANONYMOUS_USER_NAME`）。"
+msgstr "这个群组只包括匿名用户（请见 :setting:`ANONYMOUS_USER_NAME` ）。"
 
 #: ../../admin/access.rst:441
 msgid ""
@@ -897,7 +890,7 @@ msgstr "这一角色确保公开项目对所有用户可见。所有用户默认
 
 #: ../../admin/access.rst:450
 msgid "By default all users are members of this group, using :ref:`autogroup`."
-msgstr "所有用户默认为这个群组的成员，使用 :ref:`autogroup`。"
+msgstr "所有用户默认为这个群组的成员，使用 :ref:`autogroup` 。"
 
 #: ../../admin/access.rst:452
 msgid "Default roles: none"
@@ -914,7 +907,7 @@ msgstr "所有用户的默认群组。"
 
 #: ../../admin/access.rst:457
 msgid "By default all users are members of this group using :ref:`autogroup`."
-msgstr "所有用户默认为这个群组的成员，使用 :ref:`autogroup`。"
+msgstr "所有用户默认为这个群组的成员，使用 :ref:`autogroup` 。"
 
 #: ../../admin/access.rst:459
 msgid "Default roles: `Power user`"
@@ -926,7 +919,7 @@ msgstr "`Reviewers`"
 
 #: ../../admin/access.rst:462
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr "复核员的群组（参见 :ref:`workflows`）。"
+msgstr "复核员的群组（参见 :ref:`workflows` ）。"
 
 #: ../../admin/access.rst:464
 msgid "Default roles: `Review strings`"
@@ -949,9 +942,7 @@ msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
 "all privileges from them."
-msgstr ""
-"永远不要删除预先定义的Weblate群组和用户，因为这会导致意外的错误。如果不想要使"
-"用这些特性，只去掉他们的特权即可。"
+msgstr "永远不要删除预先定义的 Weblate 群组和用户，因为这会导致意外的错误。如果不想要使用这些特性，只去掉他们的特权即可。"
 
 #: ../../admin/addons.rst:4
 msgid "Addons"
@@ -965,7 +956,7 @@ msgid ""
 "respective translation component for admins."
 msgstr ""
 "插件提供了将翻译流程个性化的方式。插件可以安装在翻译组件视图中，并在后台工作。为了管理，可以从每个而翻译组件的 :guilabel:`Manage` ↓ "
-"`Addons`菜单中管理插件。"
+"`Addons` 菜单中管理插件。"
 
 #: ../../admin/addons.rst:16
 msgid "Built-in addons"
@@ -1023,7 +1014,7 @@ msgstr "它对未添加到组件中的语言建立空的翻译。"
 msgid ""
 "Missing languages are checked once every 24 hours and when a new language is "
 "added in Weblate."
-msgstr "每24小时并当新的语言加入Weblate时，检查一次丢失的语言。"
+msgstr "每24小时，和在新的语言加入 Weblate 时，检查一次丢失的语言。"
 
 #: ../../admin/addons.rst:57
 msgid "Unlike most others, this addon affects the whole project."
@@ -1033,7 +1024,7 @@ msgstr "不像其他多数插件，这个插件影响整个项目。"
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
-msgstr "用 :ref:`addon-weblate.autotranslate.autotranslate`自动翻译新添加的字符串。"
+msgstr "用 :ref:`addon-weblate.autotranslate.autotranslate` 自动翻译新添加的字符串。"
 
 #: ../../admin/addons.rst:67
 msgid "Component discovery"
@@ -1051,8 +1042,8 @@ msgid ""
 "`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
-"每次VCS版本控制系统升级时触发，否则与 "
-":djadmin:`import_project`管理命令相似。这种方式可以在一个VCS版本控制系统中跟踪多个翻译组件。"
+"每次版本控制系统（ VCS ）升级时触发，否则与 :djadmin:`import_project` 管理命令相似。这种方式可以在一个版本控制系统（ "
+"VCS ）中跟踪多个翻译组件。"
 
 #: ../../admin/addons.rst:76
 msgid ""
@@ -1060,8 +1051,8 @@ msgid ""
 "others will employ :ref:`internal-urls` to it as a VCS configuration, and "
 "configure it to find all components in it."
 msgstr ""
-"建立一个至少未来不大可能会消失的主要组件，其他会采用其 :ref:`internal-"
-"urls`作为VCS版本管理软件配置，并且配置它来找到其中的所有组件。"
+"建立一个至少未来不大可能会消失的主要组件，其他会采用其 :ref:`internal-urls` 作为版本管理系统（ VCS "
+"）的配置，并且配置它来找到其中的所有组件。"
 
 #: ../../admin/addons.rst:80
 msgid ""
@@ -1077,7 +1068,7 @@ msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
-msgstr "一旦点击了 :guilabel:`Save`，将显示匹配组件的预览，可以检查配置是否匹配于自己的需要："
+msgstr "一旦点击了 :guilabel:`Save` ，将显示匹配组件的预览，可以检查配置是否匹配于自己的需要："
 
 #: ../../admin/addons.rst:91 ../../admin/addons.rst:168
 msgid ":ref:`markup`"
@@ -1098,8 +1089,8 @@ msgid ""
 "labeled). You can also carry out any other automated operations for Weblate "
 "metadata."
 msgstr ""
-"新字符串自动贴标签会有用（通过搜索查询 ``NOT "
-"has:label``开始，并且添加所需要的标签，直到所有的字符串都适当地被贴上标签）。还以对Weblate元数据执行其他任何自动化操作。"
+"新字符串自动贴标签会有用（通过搜索查询 ``NOT has:label`` 开始，并且添加所需要的标签，直到所有的字符串都适当地被贴上标签）。还以对 "
+"Weblate 元数据执行其他任何自动化操作。"
 
 #: ../../admin/addons.rst:108
 #, fuzzy
@@ -1118,8 +1109,8 @@ msgid ""
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"每当新的翻译字符串从版本控制系统（VCS）中导入时，它将在 Weblate 中被标记为需"
-"要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
+"每当新的翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate "
+"中被标记为需要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
 
 #: ../../admin/addons.rst:125
 msgid "Flag new source strings as \"Needs editing\""
@@ -1131,8 +1122,7 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"每当一个新的源字符串从版本控制系统（VCS）中导入时，它将在 Weblate 中被标记为"
-"需要编辑。这样您就可以简单地筛选并编辑开发者编写的源字符串。"
+"每当一个新的源字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记为需要编辑。这样您就可以简单地筛选并编辑开发者编写的源字符串。"
 
 #: ../../admin/addons.rst:134
 msgid "Flag new translations as \"Needs editing\""
@@ -1144,8 +1134,7 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"每当一个新的可翻译字符串从版本控制系统（VCS）中导入时，它将在 Weblate 中被标"
-"记为需要编辑。这样您就可以简单地筛选并编辑开发者创建的翻译。"
+"每当一个新的可翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记为需要编辑。这样您就可以简单地筛选并编辑开发者创建的翻译。"
 
 #: ../../admin/addons.rst:143
 msgid "Statistics generator"
@@ -1159,7 +1148,7 @@ msgstr "生成一个包含翻译详细信息的文件。"
 msgid ""
 "You can use Django template in both filename and content, see :ref:`markup` "
 "for a detailed markup description."
-msgstr "可以在文件名和内容中使用Django模板，参见 :ref:`markup`的具体标记表述。"
+msgstr "可以在文件名和内容中使用 Django 模板，参见 :ref:`markup` 的具体标记表述。"
 
 #: ../../admin/addons.rst:150
 msgid "For example generating summary file for each translation:"
@@ -1190,7 +1179,7 @@ msgstr "在 PO 文件的头部以注释的形式添加贡献者的名字与贡�
 #: ../../admin/addons.rst:178
 msgid ""
 "The PO file header will contain a list of contributors and years contributed:"
-msgstr "PO文件头包含贡献者与贡献年份的列表："
+msgstr "PO 文件头包含贡献者与贡献年份的列表："
 
 #: ../../admin/addons.rst:190
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1201,8 +1190,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
-"当新的翻译添加时，更新 :file:`configure`、 :file:`configure.in`或任何 :file:`configure."
-"ac`文件中的ALL_LINGUAS变量。"
+"当新的翻译添加时，更新 :file:`configure` 、 :file:`configure.in` 或任何 :file:`configure.ac`"
+" 文件中的 ALL_LINGUAS 变量。"
 
 #: ../../admin/addons.rst:198
 msgid "Customize gettext output"
@@ -1219,7 +1208,7 @@ msgstr "提供了后面的选项："
 
 #: ../../admin/addons.rst:204
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "在77个字符处和新一行时来换行"
+msgstr "在 77 个字符处和新一行时来换行"
 
 #: ../../admin/addons.rst:205
 msgid "Only wrap lines at newlines"
@@ -1233,7 +1222,7 @@ msgstr "不换行"
 msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, it wraps only at newlines."
-msgstr "默认gettext在77个字符处和新一行时换行。使用 ``--no-wrap``参数时只在新一行时换行。"
+msgstr "默认 gettext 在 77 个字符处和新一行时换行。使用 ``--no-wrap`` 参数时只在新一行时换行。"
 
 #: ../../admin/addons.rst:217
 msgid "Update LINGUAS file"
@@ -1295,7 +1284,7 @@ msgstr "每个作者"
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected, or the commit message is customized to include it."
-msgstr "原始提交信息保留，但其作者信息丢失，除非选择了“Per author”，或者定制提交信息来包括它。"
+msgstr "原始提交信息保留，但其作者信息丢失，除非选择了 “Per author” ，或者定制提交信息来包括它。"
 
 #: ../../admin/addons.rst:260
 msgid ""
@@ -1310,8 +1299,8 @@ msgid ""
 "squashed commit message. This also generates proper ``Co-authored-by:`` "
 "credit for every translator."
 msgstr ""
-"预告（提交行像 ``Co-authored-by: ...``）可选地从原始提交信息中去掉，并且添加在去掉的提交信息后面。"
-"这还可以为每一位翻译者产生适当的 ``Co-authored-by:``信誉。"
+"预告（提交行像 ``Co-authored-by: ...`` ）可选地从原始提交信息中去掉，并且添加在去掉的提交信息后面。"
+"这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` 信誉。"
 
 #: ../../admin/addons.rst:270
 msgid "Customize JSON output"
@@ -1358,9 +1347,7 @@ msgid ""
 "This can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
-msgstr ""
-"可以用于连接建议投票（请见 :ref:`peer-review`），将给定时间内没有得到足够积极"
-"票数的建议删除。"
+msgstr "可以用于连接建议投票（请见 :ref:`peer-review` ），将给定时间内没有得到足够积极票数的建议删除。"
 
 #: ../../admin/addons.rst:310
 msgid "Update RESX files"
@@ -1398,7 +1385,7 @@ msgstr "将插件列表定制化"
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include class absolute name in this setting."
-msgstr "插件列表由 :setting:`WEBLATE_ADDONS`配置。为了添加其他插件，简单地在这个设置中包含类绝对名称即可。"
+msgstr "插件列表由 :setting:`WEBLATE_ADDONS` 配置。为了添加其他插件，简单地在这个设置中包含类绝对名称即可。"
 
 #: ../../admin/addons.rst:342
 msgid "Writing addon"
@@ -1409,7 +1396,7 @@ msgid ""
 "You can write your own addons too, all you need to do is subclass "
 "``BaseAddon``, define the addon metadata and implement a callback which will "
 "do the processing."
-msgstr "也可以编写自己的插件，所需要做的是子类 ``BaseAddon``，定义插件的元数据，并应用执行处理的回调。"
+msgstr "也可以编写自己的插件，所需要做的是子类 ``BaseAddon`` ，定义插件的元数据，并应用执行处理的回调。"
 
 #: ../../admin/addons.rst:347
 msgid "Here is an example addon:"
@@ -1424,20 +1411,17 @@ msgid ""
 "Addons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
-msgstr ""
-"插件还可以用于执行外部脚本。这曾经集成在Weblate中，但现在必须写一些代码，将脚"
-"本包裹在插件中。"
+msgstr "插件还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代码，将脚本包裹在插件中。"
 
 #: ../../admin/addons.rst:364
 msgid "For installation instructions see :ref:`custom-addon-modules`."
-msgstr "安装方法请见 :ref:`custom-addon-modules`。"
+msgstr "安装方法请见 :ref:`custom-addon-modules` 。"
 
 #: ../../admin/addons.rst:366
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
-msgstr ""
-"对于任何给定的组件，当前路径设置为VCS版本控制系统仓库的根目录时，执行脚本。"
+msgstr "对于任何给定的组件，当前路径设置为版本控制系统（ VCS ）仓库的根目录时，执行脚本。"
 
 #: ../../admin/addons.rst:369
 msgid "Additionally, the following environment variables are available:"
@@ -1449,11 +1433,11 @@ msgstr "使用的版本控制系统。"
 
 #: ../../admin/addons.rst:377
 msgid "Upstream repository URL."
-msgstr "上游仓库URL。"
+msgstr "上游仓库 URL 。"
 
 #: ../../admin/addons.rst:381
 msgid "Absolute path to VCS repository."
-msgstr "VCS版本控制系统仓库的绝对路径。"
+msgstr "版本控制系统（ VCS ）仓库的绝对路径。"
 
 #: ../../admin/addons.rst:387
 msgid "Repository branch configured in the current component."
@@ -1479,19 +1463,19 @@ msgstr "当前组件使用的文件格式。"
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
-msgstr "当前处理的翻译语言（对于组件水平的hook不可获得）。"
+msgstr "当前处理的翻译语言（对于组件水平的 hook 不可获得）。"
 
 #: ../../admin/addons.rst:415
 msgid "Previous HEAD on update (available only when running post update hook)."
-msgstr "之前更新上的HEAD（只有当运行过去的更新hook时可获得）。"
+msgstr "之前更新上的 HEAD （只有当运行过去的更新 hook 时可获得）。"
 
 #: ../../admin/addons.rst:421
 msgid "Component slug used to construct URL."
-msgstr "组件标识串用于构建URL。"
+msgstr "组件标识串用于构建 URL 。"
 
 #: ../../admin/addons.rst:427
 msgid "Project slug used to construct URL."
-msgstr "项目标识串用于构建URL。"
+msgstr "项目标识串用于构建 URL 。"
 
 #: ../../admin/addons.rst:433
 msgid "Component name."
@@ -1503,7 +1487,7 @@ msgstr "项目名称。"
 
 #: ../../admin/addons.rst:445
 msgid "Component URL."
-msgstr "组件URL。"
+msgstr "组件 URL 。"
 
 #: ../../admin/addons.rst:451
 msgid "Project engage URL."
@@ -1524,13 +1508,12 @@ msgid ""
 "Weblate only sees files committed to the VCS, so you need to commit changes "
 "as a part of the script."
 msgstr ""
-"以往更新仓库处理可以用于在VCS版本控制系统上游源改变时，更新翻译文件。为了实现"
-"这个功能，请记住Weblate只看到提交给VCS版本控制系统的文件，所以需要提交更改作"
-"为脚本的一部分。"
+"以往更新仓库处理可以用于在版本控制系统（ VCS ）上游源改变时，更新翻译文件。为了实现这个功能，请记住 Weblate 只看到提交给版本控制系统（ "
+"VCS ）的文件，所以需要提交更改作为脚本的一部分。"
 
 #: ../../admin/addons.rst:465
 msgid "For example with Gulp you can do it using following code:"
-msgstr "例如Gulp，可以使用后面的代码来执行："
+msgstr "例如 Gulp ，可以使用后面的代码来执行："
 
 #: ../../admin/addons.rst:475
 msgid "Pre commit processing of translations"
@@ -1558,17 +1541,17 @@ msgid ""
 "management/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
-"管理界面在 :file:`/management/` URL下面提供管理设置。它对于具有管理特权的登录用户是可用的，通过使用右上角的扳手图标来访问："
+"管理界面在 :file:`/management/` URL 下面提供管理设置。它对于具有管理特权的登录用户是可用的，通过使用右上角的扳手图标来访问："
 
 #: ../../admin/admin.rst:16
 msgid "The Django admin interface"
-msgstr "Django管理界面"
+msgstr "Django 管理界面"
 
 #: ../../admin/admin.rst:20
 msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
-msgstr "将来会删除，因为其应用困难——多数特性可以直接在Weblate中管理。"
+msgstr "将来会删除，因为其应用困难——多数特性可以直接在 Weblate 中管理。"
 
 #: ../../admin/admin.rst:23
 msgid ""
@@ -1582,8 +1565,8 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
-"在 :guilabel:`Reports`部分，可以检查网站的状态，为 :ref:`production`进行调整，或者管理用于访问的SSH密钥 :ref"
-":`vcs-repos`。"
+"在 :guilabel:`Reports` 部分，可以检查网站的状态，为 :ref:`production` 进行调整，或者管理用于访问的 SSH 密钥 "
+":ref:`vcs-repos` 。"
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -1591,14 +1574,14 @@ msgid ""
 "one is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
-"在下面的任何部分管理数据库对象。最有趣的恐怕是 :guilabel:`Weblate translations`，可以在这里管理可翻译的项目，请见 "
-":ref:`project`和 :ref:`component`。"
+"在下面的任何部分管理数据库对象。最有趣的恐怕是 :guilabel:`Weblate translations` ，可以在这里管理可翻译的项目，请见 "
+":ref:`project` 和 :ref:`component` 。"
 
 #: ../../admin/admin.rst:35
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
-msgstr ":guilabel:`Weblate languages`保持语言定义，在 :ref:`languages`中进一步解释。"
+msgstr ":guilabel:`Weblate languages` 保持语言定义，在 :ref:`languages` 中进一步解释。"
 
 #: ../../admin/admin.rst:39
 msgid "Adding a project"
@@ -1609,7 +1592,7 @@ msgid ""
 "Adding a project serves as container for all components. Usually you create "
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
-msgstr "添加项目作为所有组件的容器。通常可以为一部分软件或图书（各自参数的信息请见 :ref:`project`）来建立一个项目："
+msgstr "添加项目作为所有组件的容器。通常可以为一部分软件或图书（各自参数的信息请见 :ref:`project` ）来建立一个项目："
 
 #: ../../admin/admin.rst:49
 msgid ":ref:`project`"
@@ -1623,9 +1606,7 @@ msgstr "双语言组件"
 msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
-msgstr ""
-"一旦添加了一个项目，就可以添加翻译组件了。（关于各自参数的信息，请见 :ref:"
-"`component`）："
+msgstr "一旦添加了一个项目，就可以添加翻译组件了。（关于各自参数的信息，请见 :ref:`component` ）："
 
 #: ../../admin/admin.rst:63 ../../admin/admin.rst:79
 msgid ":ref:`component`, :ref:`bimono`"
@@ -1633,7 +1614,7 @@ msgstr ":ref:`component`, :ref:`bimono`"
 
 #: ../../admin/admin.rst:69
 msgid "Monolingual components"
-msgstr "但语言组件"
+msgstr "单语言组件"
 
 #: ../../admin/admin.rst:71
 msgid ""
@@ -1641,7 +1622,7 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
-"为了使这些翻译更容易，提供了模板文件，包含了各自源语言的对应信息ID（通常为英语）。（对于各自参数的信息，请见 :ref:`component`）："
+"为了使这些翻译更容易，提供了模板文件，包含了各自源语言的对应信息 ID （通常为英语）。（对于各自参数的信息，请见 :ref:`component` ）："
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -1678,9 +1659,7 @@ msgstr "这会用于从发布网站的目的到指定翻译的目标的各种事
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
-msgstr ""
-"可以使用 :guilabel:`Post announcement`，在 :guilabel:`Manage`菜单的每一届张贴"
-"公告："
+msgstr "可以使用 :guilabel:`Post announcement` ，在 :guilabel:`Manage` 菜单的每一届张贴公告："
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -1742,18 +1721,18 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
-"Weblate的默认设置使用python-social-auth，网站上处理新用户注册的一种形式。确定"
-"电子邮箱后，新用户可以通过使用一种第三方服务来贡献或证实。"
+"Weblate 的默认设置使用 python-social-auth "
+"，网站上处理新用户注册的一种形式。确定电子邮箱后，新用户可以通过使用一种第三方服务来贡献或证实。"
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
-msgstr "还可以使用 :setting:`REGISTRATION_OPEN`关闭新用户注册。"
+msgstr "还可以使用 :setting:`REGISTRATION_OPEN` 关闭新用户注册。"
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr "身份验证尝试服从于 :ref:`rate-limit`。"
+msgstr "身份验证尝试服从于 :ref:`rate-limit` 。"
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
@@ -1765,19 +1744,19 @@ msgid ""
 "social options to do so. Using it means you can import the user database of "
 "other Django based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"使用Django的内在解决方式进行身份验证，包括各种社交选项来执行。使用它意味着可"
-"以提高基于Django其他项目的用户数据库（请见 :ref:`pootle-migration`）。"
+"使用 Django 的内在解决方式进行身份验证，包括各种社交选项来执行。使用它意味着可以导入基于 Django 其他项目的用户数据库（请见 :ref"
+":`pootle-migration` ）。"
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
-msgstr "也可以另外设置Django，相对于其他方式进行身份验证。"
+msgstr "也可以另外设置 Django，相对于其他方式进行身份验证。"
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
-msgstr ":ref:`docker-auth`描述了如何配置官方Docker镜像的身份验证。"
+msgstr ":ref:`docker-auth` 描述了如何配置官方 Docker 镜像的身份验证。"
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
@@ -1787,13 +1766,14 @@ msgstr "社交身份验证"
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
-msgstr "由于 :doc:`psa:index`，Weblate支持很多使用第三方服务的身份验证，如GitLab、Ubuntu、Fedora等。"
+msgstr ""
+"由于 :doc:`psa:index` ， Weblate 支持很多使用第三方服务的身份验证，如 GitLab 、 Ubuntu 、 Fedora 等。"
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
-msgstr "请检查 :doc:`psa:configuration/django`中的通用配置指示的文件。"
+msgstr "请检查 :doc:`psa:configuration/django` 中的通用配置指示的文件。"
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -1802,9 +1782,8 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"Weblate默认依赖于第三方身份验证服务来提供合法的电子邮箱地址。如果想要使用的一"
-"些服务不支持，请通过为其配置configuring FORCE_EMAIL_VALIDATION，来强制Weblate"
-"网站上的电子邮箱验证："
+"Weblate 默认依赖于第三方身份验证服务来提供合法的电子邮箱地址。如果想要使用的一些服务不支持，请通过为其配置 "
+"FORCE_EMAIL_VALIDATION ，来强制 Weblate 网站上的电子邮箱验证："
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -1819,8 +1798,8 @@ msgid ""
 "otherwise Weblate will not be able to properly credit contributions users "
 "make."
 msgstr ""
-"允许各自的后端非常容易，只是添加 ``AUTHENTICATION_BACKENDS``入口设置，并且可能为给定的身份验证方法添加所需的密钥。请注意，一些"
-"后端不默认提供用户邮箱，必须另外请求，否则Weblate不能确认用户做出的贡献。"
+"允许各自的后端非常容易，只是添加 ``AUTHENTICATION_BACKENDS`` "
+"入口设置，并且可能为给定的身份验证方法添加所需的密钥。请注意，一些后端不默认提供用户邮箱，必须另外请求，否则 Weblate 不能确认用户做出的贡献。"
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -1828,7 +1807,7 @@ msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:65
 msgid "OpenID authentication"
-msgstr "OpenID身份验证"
+msgstr "OpenID 身份验证"
 
 #: ../../admin/auth.rst:67
 msgid ""
@@ -1836,8 +1815,7 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
-"对于基于OpenID的服务，通常只是允许他们。后面的部分对于OpenSUSE、Fedora和"
-"Ubuntu允许OpenID身份验证："
+"对于基于 OpenID 的服务，通常只是允许他们。后面的部分对于 OpenSUSE 、 Fedora 和 Ubuntu 允许 OpenID 身份验证："
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
@@ -1845,26 +1823,28 @@ msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:88
 msgid "GitHub authentication"
-msgstr "GitHub身份验证"
+msgstr "GitHub 身份验证"
 
 #: ../../admin/auth.rst:90
 msgid ""
 "You need to register an application on GitHub and then tell Weblate all its "
 "secrets:"
-msgstr "需要在GitHub上注册应用，然后告诉Weblate所有的秘密："
+msgstr "需要在 GitHub 上注册应用，然后告诉 Weblate 所有的秘密："
 
 #: ../../admin/auth.rst:106
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
-msgstr "应该配置GitHub具有回调URL作为 ``https://example.com/accounts/complete/github/``。"
+msgstr ""
+"应该配置GitHub 具有回调 URL 作为 ``https://example.com/accounts/complete/github/`` 。"
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
 "Weblate provided callback URL during the authentication includes configured "
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
-msgstr "Weblate在身份验证时提供的回调URL。在得到URL不匹配的错误时，可以需改修改，请见 :ref:`production-site`。"
+msgstr ""
+"Weblate在身份验证时提供的回调 URL 。在得到 URL 不匹配的错误时，可以需改修改，请见 :ref:`production-site` 。"
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
@@ -1872,13 +1852,13 @@ msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:118
 msgid "Bitbucket authentication"
-msgstr "Bitbucket身份验证"
+msgstr "Bitbucket 身份验证"
 
 #: ../../admin/auth.rst:120
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
-msgstr "需要在Bitbucket上注册应用，然后告诉Weblate所有的秘密："
+msgstr "需要在 Bitbucket 上注册应用，然后告诉 Weblate 所有的秘密："
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
@@ -1893,14 +1873,14 @@ msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
-"为了使用Google OAuth 2，可以在<https://console.developers.google.com/>上注册"
-"应用，并允许Google+ API。"
+"为了使用 Google OAuth 2 ，可以在 <https://console.developers.google.com/> 上注册应用，并允许 "
+"Google+ API 。"
 
 #: ../../admin/auth.rst:150
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
-msgstr "重定向URL为 ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``"
+msgstr "重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``"
 
 #: ../../admin/auth.rst:169
 msgid ":doc:`psa:backends/google`"
@@ -1914,14 +1894,12 @@ msgstr "Facebook OAuth 2"
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
-msgstr ""
-"根据通常的OAuth2服务，需要注册Facebook应用。一旦完成，就可以设置Weblate使用"
-"了："
+msgstr "通常根据 OAuth2 服务，需要注册 Facebook 应用。一旦完成，就可以设置 Weblate 来使用了："
 
 #: ../../admin/auth.rst:179
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
-msgstr "重定向URL为 ``https://WEBLATE SERVER/accounts/complete/facebook/``"
+msgstr "重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 
 #: ../../admin/auth.rst:199
 msgid ":doc:`psa:backends/facebook`"
@@ -1936,16 +1914,15 @@ msgid ""
 "For using GitLab OAuth 2, you need to register an application on <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
-"为了使用GitLab OAuth 2，需要在<https://gitlab.com/profile/applications>上注册"
-"应用。"
+"为了使用 GitLab OAuth 2 ，需要在 <https://gitlab.com/profile/applications> 上注册应用。"
 
 #: ../../admin/auth.rst:210
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
-"重定向URL为 ``https://WEBLATE SERVER/accounts/complete/gitlab/``，并确保你标记 "
-"`read_user`范围。"
+"重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/gitlab/`` ，并确保你标记 "
+"`read_user` 范围。"
 
 #: ../../admin/auth.rst:234
 msgid ":doc:`psa:backends/gitlab`"
@@ -1953,13 +1930,13 @@ msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:239
 msgid "Microsoft Azure Active Directory"
-msgstr "微软Azure Active Directory"
+msgstr "微软 Azure Active Directory"
 
 #: ../../admin/auth.rst:241
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
-msgstr "可以配置Weblate，使用一般或特定租户进行身份验证。"
+msgstr "可以配置 Weblate，使用一般或特定租户进行身份验证。"
 
 #: ../../admin/auth.rst:243
 msgid ""
@@ -1967,9 +1944,9 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant specific authentication."
 msgstr ""
-"一般的重定向URL为 ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``， "
-"``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/"
-"``用于租户特定身份验证。"
+"一般的重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/`` ， "
+"``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/`` "
+"用于租户特定身份验证。"
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
@@ -1983,12 +1960,12 @@ msgstr "Slack"
 msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
-msgstr "为了使用Slack OAuth 2，需要在<https://api.slack.com/apps>上注册应用。"
+msgstr "为了使用 Slack OAuth 2 ，需要在 <https://api.slack.com/apps> 上注册应用。"
 
 #: ../../admin/auth.rst:293
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
-msgstr "重定向URL为 ``https://WEBLATE SERVER/accounts/complete/slack/``。"
+msgstr "重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/slack/`` 。"
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
@@ -2005,21 +1982,21 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
-"通过从 :setting:`django:AUTHENTICATION_BACKENDS`删除 ``social_core.backends.email."
-"EmailAuth``，可以关闭电子邮箱和密码身份验证。总是将 ``weblate.accounts.auth."
-"WeblateUserBackend``保留在那里，它用于Weblate核心工作。"
+"通过从 :setting:`django:AUTHENTICATION_BACKENDS` 删除 ``social_core.backends.email"
+".EmailAuth`` ，可以关闭电子邮箱和密码身份验证。总是将 ``weblate.accounts.auth."
+"WeblateUserBackend`` 保留在那里，它用于 Weblate 核心功能。"
 
 #: ../../admin/auth.rst:325
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
-msgstr "对于手动建立的用户，可以仍然在管理界面使用密码身份验证。只需导航到 ``/admin/``。"
+msgstr "对于手动建立的用户，可以仍然在管理界面使用密码身份验证。只需导航到 ``/admin/`` 。"
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
-msgstr "例如，使用后面的设置可以实现只是用openSUSE Open ID的身份验证："
+msgstr "例如，使用后面的设置可以实现只是用 openSUSE Open ID 的身份验证："
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
@@ -2030,7 +2007,8 @@ msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
-"默认 :file:`settings.py`与一组合理的设置 :setting:`django:AUTH_PASSWORD_VALIDATORS`在一起："
+"默认 :file:`settings.py` 与一组合理的设置 :setting:`django:AUTH_PASSWORD_VALIDATORS` "
+"在一起："
 
 #: ../../admin/auth.rst:345
 msgid "Passwords can't be too similar to your other personal info."
@@ -2038,7 +2016,7 @@ msgstr "密码不能与其它个人信息太相似。"
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr "密码必须包含10个字符。"
+msgstr "密码必须包含 10 个字符。"
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
@@ -2201,6 +2179,8 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"最后，可以使用信号将电子邮箱域投射到用户对象上。为了生效，必须将信号从 `django-cas-ng` "
+"软件包导入，并将你的代码与这个信号连接。在设置文件中这样做可能产生问题，这样建议将它放进去："
 
 #: ../../admin/auth.rst:574
 msgid ""
@@ -2283,6 +2263,8 @@ msgid ""
 "service at weblate.org <https://weblate.org/support/#backup>`_. The process "
 "of activating can be performed in few steps:"
 msgstr ""
+"备份 Weblate 事例最简单的方法是购买 `backup service at weblate.org <https://weblate.org/"
+"support/#backup>`_ 。激活过程可以以几步来执行："
 
 #: ../../admin/backup.rst:34
 msgid "Purchase backup service on https://weblate.org/support/#backup."
@@ -2307,7 +2289,7 @@ msgstr ""
 msgid ""
 "Backup Borg credentials in order to be able to restore the backups, see :ref:"
 "`borg-keys`."
-msgstr ""
+msgstr "备份 Borg 凭据，以便能够恢复备份，请见 :ref:`borg-keys` 。"
 
 #: ../../admin/backup.rst:42
 msgid ""
@@ -2375,11 +2357,12 @@ msgstr ""
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
-msgstr "从放置在Weblate数据目录下 ``backup``目录中的SQL备份中恢复数据库（请见 :ref:`backup-dumps`）。"
+msgstr ""
+"从放置在 Weblate 数据目录下 ``backup`` 目录中的 SQL 备份中恢复数据库（请见 :ref:`backup-dumps`）。"
 
 #: ../../admin/backup.rst:85
 msgid "Copy Weblate configuration and data dir to the correct location."
-msgstr "将Weblate配置和数据目录复制到正确的位置。"
+msgstr "将 Weblate 配置和数据目录复制到正确的位置。"
 
 #: ../../admin/backup.rst:87
 msgid "The Borg session might look like:"
@@ -2820,7 +2803,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:79
 msgid "Regular expression to match translation, see :ref:`check-regex`."
-msgstr "用于匹配翻译文件的正则表达式，详见 :ref:`check-regex`。"
+msgstr "用于匹配翻译文件的正则表达式，详见 :ref:`check-regex` 。"
 
 #: ../../admin/checks.rst:85
 msgid ""
@@ -2903,7 +2886,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:102
 msgid "Skip the \"ECMAScript template literals\" quality check."
-msgstr "跳过\"ECMAScript 模板文本\"质量检查。"
+msgstr "跳过 “ECMAScript 模板文本” 质量检查。"
 
 #: ../../admin/checks.rst:103
 msgid "``ignore-i18next-interpolation``"
@@ -3079,7 +3062,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:146
 msgid "Skip the \"Mismatched colon\" quality check."
-msgstr "跳过\"不匹配的冒号\"质量检查。"
+msgstr "跳过 “不匹配的冒号” 质量检查。"
 
 #: ../../admin/checks.rst:147
 msgid "``ignore-end-ellipsis``"
@@ -3087,7 +3070,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:148
 msgid "Skip the \"Mismatched ellipsis\" quality check."
-msgstr "跳过\"不匹配的冒号\"质量检查。"
+msgstr "跳过 “不匹配的冒号” 质量检查。"
 
 #: ../../admin/checks.rst:149
 msgid "``ignore-end-exclamation``"
@@ -3095,7 +3078,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:150
 msgid "Skip the \"Mismatched exclamation mark\" quality check."
-msgstr "跳过 \"不匹配的感叹号 \"质量检查。"
+msgstr "跳过 “不匹配的感叹号” 质量检查。"
 
 #: ../../admin/checks.rst:151
 msgid "``ignore-end-stop``"
