@@ -83,8 +83,7 @@ class SuggestionManager(models.Manager):
 
         # Update suggestion stats
         if user is not None:
-            user.profile.suggested += 1
-            user.profile.save()
+            user.profile.increase_count("suggested")
 
         return suggestion
 

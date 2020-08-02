@@ -27,7 +27,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import F, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone, translation
@@ -423,6 +423,14 @@ class Profile(models.Model):
 
     def get_user_name(self):
         return get_user_display(self.user, False)
+
+    def increase_count(self, item: str, increase: int = 1):
+        """Updates user actions counter."""
+        # Update our copy
+        setattr(self, item, getattr(self, item) + increase)
+        # Update database
+        update = {item: F(item) + increase}
+        Profile.objects.filter(pk=self.pk).update(**update)
 
     @property
     def full_name(self):

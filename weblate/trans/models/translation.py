@@ -812,9 +812,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         if accepted > 0:
             self.invalidate_cache()
-            request.user.profile.refresh_from_db()
-            request.user.profile.translated += accepted
-            request.user.profile.save(update_fields=["translated"])
+            request.user.profile.increase_count("translated", accepted)
 
         return (not_found, skipped, accepted, len(list(store2.content_units)))
 

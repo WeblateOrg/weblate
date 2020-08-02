@@ -59,9 +59,7 @@ class AutoTranslate:
         if self.updated > 0:
             self.translation.invalidate_cache()
             if self.user:
-                self.user.profile.refresh_from_db()
-                self.user.profile.translated += self.updated
-                self.user.profile.save(update_fields=["translated"])
+                self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
     def process_others(self, source):
