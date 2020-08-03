@@ -1,0 +1,11 @@
+{% if title %}
+  {{ title }} @ {{ site_title }}
+{% elif object %}
+  {{ object }} @ {{ site_title }}
+{% elif page_user %}
+  {{ page_user }} @ {{ site_title }}
+{% elif site_title %}
+  {{ site_title }}
+{% else %}
+  Weblate
+{% endif %}
