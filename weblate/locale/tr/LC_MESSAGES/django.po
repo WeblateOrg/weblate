@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-03 17:47+0000\n"
-"PO-Revision-Date: 2020-08-03 17:46+0000\n"
+"PO-Revision-Date: 2020-08-04 02:03+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -923,14 +923,12 @@ msgstr ""
 "alamayabilirsin."
 
 #: weblate/addons/cdn.py:38
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "JavaScript biçimi"
+msgstr "JavaScript yerelleştirme CDN'i"
 
 #: weblate/addons/cdn.py:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr ""
+msgstr "JavaScript veya HTML yerelleştirmesi için yerelleştirme CDN'i ekler."
 
 #: weblate/addons/cleanup.py:78
 msgid "Cleanup translation files"
@@ -1257,46 +1255,40 @@ msgid "Please include component markup in the template."
 msgstr "Lütfen şablona bileşen işaretlemesi ekleyin."
 
 #: weblate/addons/forms.py:393
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation threshold"
-msgstr "Kaldırılacak çeviri"
+msgstr "Çeviri eşiği"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Threshold for included translations."
-msgstr "Yeni çeviriler için şablon"
+msgstr "Dahil edilen çeviriler için eşik."
 
 #: weblate/addons/forms.py:401
-#, fuzzy
-#| msgid "Select"
 msgid "CSS selector"
-msgstr "Seç"
+msgstr "CSS seçici"
 
 #: weblate/addons/forms.py:404
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "Yerelleştirilebilir öğeleri algılamak için CSS seçici."
 
 #: weblate/addons/forms.py:407
-#, fuzzy
-#| msgid "Language name"
 msgid "Language cookie name"
-msgstr "Dil adı"
+msgstr "Dil tanımlama bilgisi adı"
 
 #: weblate/addons/forms.py:410
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "Dil tercihini saklayan tanımlama bilgisi adı."
 
 #: weblate/addons/forms.py:414
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "HTML dosyalarından dizgileri çıkar"
 
 #: weblate/addons/forms.py:417
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Çevrilebilir dizgiler için ayrıştırılacak şu anki depodaki veya uzak "
+"URL'lerdeki dosya adlarının listesi."
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
@@ -1433,7 +1425,7 @@ msgstr "Geçersiz eklenti adı belirtildi!"
 
 #: weblate/addons/views.py:97
 msgid "Addon installed, please review integration instructions."
-msgstr ""
+msgstr "Eklenti yüklendi, lütfen bütünleştirme talimatlarını gözden geçirin."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -4550,18 +4542,18 @@ msgid "Some addons will ask for additional configuration during installation."
 msgstr "Bazı eklentiler kurulum sırasında ek yapılandırma isteyecektir."
 
 #: weblate/templates/addons/cdnjs.html:5
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Integration instructions"
-msgstr "Çeviri talimatları"
+msgstr "Bütünleştirme talimatları"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
 msgstr ""
+"CDN'den yerelleştirmeyi yüklemek için aşağıdaki kod parçacığını dahil edin:"
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
+"Yerelleştirilebilir öğeler yapılandırılmış CSS seçiciyle eşleşmek zorundadır."
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
@@ -7861,10 +7853,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "Proje web sitesi URL'si varolmayan bir yeri gösteriyor:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not execute script addon."
 msgid "Weblate could not parse HTML files using the addon."
-msgstr "Weblate betik eklentisini çalıştıramadı."
+msgstr "Weblate, eklentiyi kullanarak HTML dosyalarını ayrıştıramadı."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -10468,16 +10458,15 @@ msgid "Language used for source strings in all components"
 msgstr "Tüm bileşenlerde kaynak dizgiler için kullanılan dil"
 
 #: weblate/trans/models/project.py:164
-#, fuzzy
-#| msgid "Language name"
 msgid "Language aliases"
-msgstr "Dil adı"
+msgstr "Dil kod adları"
 
 #: weblate/trans/models/project.py:168
 msgid ""
 "Comma separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
 msgstr ""
+"Dil kodu eşlemelerinin virgülle ayrılmış listesi, örneğin: en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -11473,7 +11462,7 @@ msgstr "Bu ad yasaktır"
 
 #: weblate/utils/validators.py:229
 msgid "Syntax error in language aliases."
-msgstr ""
+msgstr "Dil kod adlarında sözdizimi hatası."
 
 #: weblate/utils/views.py:98
 msgid "Word count"
