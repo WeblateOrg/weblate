@@ -5,7 +5,7 @@ Not yet released.
 
 * Improved user pages and added listing of users.
 * Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0.
-* Added exports for several monolingual formats.
+* Added exports into several monolingual formats.
 * Improved activity charts.
 * Number of displayed nearby strings can be configured.
 * Added support for locking components experiencing repository errors.
