@@ -344,9 +344,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         # List of updated units (used for cleanup and duplicates detection)
         updated = {}
 
-        # Position of current unit
-        pos = 0
-
         try:
             store = self.store
             translation_store = None
@@ -368,7 +365,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 translation_store = store
                 store = self.load_store(force_intermediate=True)
 
-            for unit in store.content_units:
+            for pos, unit in enumerate(store.content_units):
                 # Use translation store if exists and if it contains the string
                 if translation_store is not None:
                     try:
@@ -406,9 +403,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                         unit_pk=newunit.pk,
                     )
                     continue
-
-                # Update position
-                pos += 1
 
                 self.sync_unit(dbunits, updated, id_hash, unit, pos)
 
