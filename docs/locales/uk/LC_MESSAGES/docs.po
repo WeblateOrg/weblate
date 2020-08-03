@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-02 20:01+0200\n"
-"PO-Revision-Date: 2020-08-02 19:49+0000\n"
+"PO-Revision-Date: 2020-08-03 17:47+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -7618,6 +7618,13 @@ msgid ""
 "need both Cairo and Pango, which in turn need Glib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
+"Weblate використовує Pango і Cairo для обробки растрових віджетів (див. "
+":ref:`promotion`) і перевірки обробки перекладених рядків в інтерфейсі (див. "
+":ref:`fonts`). Для належного встановлення прив'язок Python для цих "
+"складників вам слід встановити спочатку загальносистемні бібліотеки — вам "
+"потрібні і Cairo, і Pango, які, очевидно, залежать від Glib. Усі ці пакунки "
+"слід встановити разом із пакунками для розробки та даними інтроспекції "
+"GObject."
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
@@ -7647,6 +7654,10 @@ msgid ""
 "was released. You should also verify the date of the signature to make sure "
 "that you downloaded the latest version."
 msgstr ""
+"Вам слід перевірити, чи відповідає підпис отриманому вами архіву. Перевірка "
+"дає змогу впевнитися, що ви використовуєте саме той код, який було випущено "
+"розробниками. Вам також слід перевірити дату підписування, щоб переконатися, "
+"що отримано найсвіжішу версію."
 
 #: ../../admin/install.rst:172
 msgid ""
@@ -7654,12 +7665,17 @@ msgid ""
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
 msgstr ""
+"Разом із кожним архівом розповсюджуються файли ``.asc``, які містять підпис "
+"PGP до архіву. Якщо ви запишете файл архіву разом із підписом до однієї "
+"теки, ви зможете перевірити підпис:"
 
 #: ../../admin/install.rst:183
 msgid ""
 "As you can see gpg complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
 msgstr ""
+"Як можна бачити, gpg скаржиться на те, що відкритий ключ є невідомим "
+"програмі. На цьому етапі ви можете виконати один з таких кроків:"
 
 #: ../../admin/install.rst:186
 msgid "Use wkd to download the key:"
@@ -7736,6 +7752,10 @@ msgid ""
 "under the same user as Weblate itself is running, otherwise permissions on "
 "some files might be wrong."
 msgstr ""
+"Вам також слід бути обережним із запуском :ref:`manage`, оскільки програму "
+"слід запускати від імені того самого користувача, що і користувач, від імені "
+"якого запущено Weblate, інакше права доступу до деяких файлів можуть "
+"виявитися не тими, які потрібні для працездатності системи."
 
 #: ../../admin/install.rst:291
 msgid ":ref:`static-files`"
@@ -7748,6 +7768,8 @@ msgstr "Налаштування бази даних для Weblate"
 #: ../../admin/install.rst:298
 msgid "It is recommended to run Weblate with a PostgreSQL database server."
 msgstr ""
+"Рекомендуємо користуватися Weblate у поєднанні із сервером баз даних "
+"PostgreSQL."
 
 #: ../../admin/install.rst:302
 msgid ""
@@ -14347,7 +14369,7 @@ msgstr ""
 
 #: ../../admin/support.rst:27
 msgid "URL where your Weblate instance is configured"
-msgstr ""
+msgstr "Адреса, за якою налаштовано ваш екземпляр Weblate"
 
 #: ../../admin/support.rst:28
 msgid "Your site title"
@@ -14440,7 +14462,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:41
 msgid "Additional info on source strings"
-msgstr ""
+msgstr "Додаткові відомості щодо початкових рядків"
 
 #: ../../admin/translating.rst:43
 msgid ""
@@ -16728,6 +16750,9 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"Будь ласка, скористайтеся замість цього :http:post:`/api/components/"
+"(string:component)/repository/`, яка працює належним чином із розпізнаванням "
+"для обмежених ACL проєктів."
 
 #: ../../api.rst:2011
 msgid ""
@@ -24816,6 +24841,11 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
+"Прапорці видобуваються з нестандартного атрибута ``weblate-flags`` для усіх "
+"заснованих на XML форматів. Крім того, передбачено підтримку ``max-length:N``"
+" шляхом обробки `атрибута <http://docs.oasis-open.org/xliff/v1.2/os/xliff-"
+"core.html#maxwidth>`_ ``maxwidth`` у формі, яку визначено у стандарті XLIFF, "
+"див. :ref:`xliff-flags`."
 
 #: ../../formats.rst:132
 msgid ""
@@ -24834,12 +24864,18 @@ msgid ""
 "Most widely used format for translating libre software. This was first "
 "format supported by Weblate and still has the best support."
 msgstr ""
+"Найпоширеніший формат для перекладу вільного програмного забезпечення. Цей "
+"формат був першим, підтримку якого було реалізовано у Weblate. Його "
+"підтримка є і досі найповнішою."
 
 #: ../../formats.rst:146
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"Підтримку контекстних даних, які зберігаються у файлі, реалізовано "
+"коригуванням його заголовків та прив'язкою до відповідних файлів початкового "
+"коду."
 
 #: ../../formats.rst:149
 msgid "The bilingual gettext PO file typically looks like this:"
@@ -24854,7 +24890,7 @@ msgstr "Типовий двомовний файл PO gettext виглядає �
 #: ../../formats.rst:1095 ../../formats.rst:1125 ../../formats.rst:1155
 #: ../../formats.rst:1191 ../../formats.rst:1222 ../../formats.rst:1248
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "Типовий :ref:`component` Weblate"
 
 #: ../../formats.rst:169 ../../formats.rst:233 ../../formats.rst:339
 #: ../../formats.rst:392 ../../formats.rst:423 ../../formats.rst:456
@@ -24909,6 +24945,10 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"У деяких проєктах розробники використовують gettext як одномовний формат — у "
+"початковому коді є лише ідентифікатори, а рядок має бути перекладено усіма "
+"мовами, зокрема і англійською. Підтримку таких форматів передбачено, але цей "
+"формат слід вибрати явним чином при імпортуванні складників до Weblate."
 
 #: ../../formats.rst:198
 msgid "The monolingual gettext PO file typically looks like this:"
@@ -24935,16 +24975,21 @@ msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
 msgstr ""
+"Формат на основі XML створено для стандартизації файлів перекладу, але, "
+"врешті, він став лише одним із `багатьох стандартів <https://xkcd.com/927/>`"
+"_ у цій області."
 
 #: ../../formats.rst:253
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
+"`XML Localization Interchange File Format (XLIFF)` зазвичай використовується "
+"як двомовний, але у Weblate передбачено підтримку і одномовних варіантів."
 
 #: ../../formats.rst:257
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
-msgstr ""
+msgstr "Специфікація `XML Localization Interchange File Format (XLIFF)`"
 
 #: ../../formats.rst:263 ../../workflows.rst:24
 msgid "Translation states"
@@ -24952,7 +24997,7 @@ msgstr "Стани перекладу"
 
 #: ../../formats.rst:267
 msgid "Weblate ignored the state attribute prior to the 3.3 release."
-msgstr ""
+msgstr "Weblate ігнорував атрибутом стану до версії 3.3."
 
 #: ../../formats.rst:269
 msgid ""
@@ -24970,27 +25015,34 @@ msgid ""
 "into Weblate as \"Approved\", anything else will be imported as \"Waiting "
 "for review\" (which matches the XLIFF specification)."
 msgstr ""
+"Якщо рядок перекладу має атрибут ``approved=\"yes\"``, його також буде "
+"імпортовано до Weblate як «Підтверджений». Усі інші переклади буде "
+"імпортовано як «Очікують на рецензування» (що відповідає специфікації XLIFF)."
 
 #: ../../formats.rst:280
 msgid "While saving, Weblate doesn't add those attributes unless necessary:"
 msgstr ""
+"Під час збереження Weblate не додає ці атрибути, якщо вони не є потрібними:"
 
 #: ../../formats.rst:282
 msgid ""
 "The ``state`` attribute is only added in case string is marked as needing "
 "edit."
 msgstr ""
+"Атрибут ``state`` додається, лише якщо рядок позначено як таки, який "
+"потребує редагування."
 
 #: ../../formats.rst:283
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
-msgstr ""
+msgstr "Атрибут ``approved`` буде додано, лише якщо рядок було рецензовано."
 
 #: ../../formats.rst:284
 msgid ""
 "In other cases the attributes are not added, but they are updated in case "
 "they are present."
 msgstr ""
+"У інших випадках атрибути не додаються, але їх буде оновлено, якщо вони були."
 
 #: ../../formats.rst:286
 msgid ""
@@ -24998,6 +25050,9 @@ msgid ""
 "turn on the Weblate review process, in order to see and change the approved "
 "state of strings."
 msgstr ""
+"Це означає, що при використанні формату XLIFF, наполегливо рекомендуємо "
+"увімкнути процес рецензування Weblate, щоб переглядати і змінювати стан "
+"підтвердження рядків."
 
 #: ../../formats.rst:289
 msgid "See :ref:`reviews`."
@@ -25009,6 +25064,9 @@ msgid ""
 "guilabel:`Import as translated` under :guilabel:`Processing of strings "
 "needing review`."
 msgstr ""
+"Так само, під час імпортування таких файлів (у вивантаженій формі) ви можете "
+"вибрати варіант :guilabel:`Імпортувати як перекладено` у розділі :guilabel:`"
+"Обробка рядків, які потребують рецензування`."
 
 #: ../../formats.rst:296
 msgid "Whitespace and newlines in XLIFF"
@@ -25020,6 +25078,9 @@ msgid ""
 "XML formats. If you want to keep it, you have to add the ``xml:space="
 "\"preserve\"`` flag to the string."
 msgstr ""
+"Загалом, типи або кількість пробілів у форматах XML не враховуються. Якщо ви "
+"хочете зберегти пробіли, вам слід додати прапорець ``xml:space=\"preserve\"``"
+" до рядка."
 
 #: ../../formats.rst:315
 msgid "Specifying translation flags"
@@ -25031,6 +25092,9 @@ msgid ""
 "using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` "
 "and ``font`` attributes from the XLIFF specification:"
 msgstr ""
+"Ви можете вказати додаткові прапорці перекладу (див. :ref:`custom-checks`) "
+"за допомогою атрибута ``weblate-flags``. Крім того, Weblate розуміє атрибути "
+"``maxwidth`` і ``font`` зі специфікації XLIFF:"
 
 #: ../../formats.rst:330
 msgid ""
@@ -25040,10 +25104,16 @@ msgid ""
 "Pro`` becomes ``Source_Sans_Pro``, please keep that in mind when naming the "
 "font group (see :ref:`fonts`)."
 msgstr ""
+"Атрибут ``font`` обробляється для отримання сімейства шрифтів, розміру та "
+"ваги. У наведеному вище прикладі показано усе це, хоча потрібним є лише "
+"сімейство шрифтів. Усі пробіли у записі сімейства шрифтів буде перетворено "
+"на підкреслювання, отже ``Source Sans Pro`` буде перетворено "
+"``Source_Sans_Pro``. Будь ласка, зверніть увагу на це при іменуванні групи "
+"шрифтів (див. :ref:`fonts`)."
 
 #: ../../formats.rst:337
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
-msgstr ""
+msgstr "Типовий :ref:`component` Weblate для двомовних XLIFF"
 
 #: ../../formats.rst:339 ../../formats.rst:351
 msgid "``localizations/*.xliff``"
@@ -25059,7 +25129,7 @@ msgstr "`файл перекладу XLIFF`"
 
 #: ../../formats.rst:349
 msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
-msgstr ""
+msgstr "Типовий :ref:`component` Weblate для одномовних XLIFF"
 
 #: ../../formats.rst:362
 msgid ""
@@ -25093,12 +25163,20 @@ msgid ""
 "example ``zkou\\u0161ka``), all others encode characters directly either in "
 "UTF-8 or UTF-16."
 msgstr ""
+"У Weblate передбачено підтримку варіантів ISO-8859-1, UTF-8 і UTF-16 цього "
+"формату. У всіх з цих форматів передбачено збереження усіх символів Unicode, "
+"лише у різних кодуваннях. В ISO-8859-1 використовуються екрановані "
+"послідовності Unicode (наприклад ``zkou\\u0161ka``). У інших варіантах "
+"символи кодуються безпосередньо, у UTF-8 або UTF-16."
 
 #: ../../formats.rst:386
 msgid ""
 "Loading escape sequences works in UTF-8 mode as well, so please be careful "
 "choosing the correct encoding set to match your application needs."
 msgstr ""
+"Завантаження екранованих послідовностей працює також і у режимі UTF-8, тому, "
+"будь ласка, будьте обережними із вибором належного кодування, яке "
+"відповідатиме потребам вашої програми."
 
 #: ../../formats.rst:392 ../../formats.rst:423
 msgid "``src/app/Bundle_*.properties``"
@@ -25118,6 +25196,9 @@ msgid ""
 "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate.properties."
 "sort`, :ref:`addon-weblate.cleanup.generic`,"
 msgstr ""
+"`Властивості Java у Вікіпедії <https://en.wikipedia.org/wiki/.properties>`_, "
+":doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :ref"
+":`addon-weblate.cleanup.generic`,"
 
 #: ../../formats.rst:411
 msgid "GWT properties"
@@ -25192,6 +25273,8 @@ msgid ""
 "The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t`` "
 "placeholders for line break and tab."
 msgstr ""
+"Єдиною помітною відмінністю від :ref:`ini` є підтримка замінників ``%n`` і "
+"``%t`` для розриву рядка і табуляції."
 
 #: ../../formats.rst:493
 msgid "``language/*.islu``"
@@ -25210,6 +25293,8 @@ msgid ""
 "Only Unicode files (``.islu``) are currently supported, ANSI variant (``."
 "isl``) is currently not supported."
 msgstr ""
+"У поточній версії передбачено підтримку лише файлів Unicode (``.islu``), "
+"підтримки варіанта ANSI (``.isl``) у поточній версії не передбачено."
 
 #: ../../formats.rst:509
 msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
@@ -25245,6 +25330,9 @@ msgid ""
 "Specification_of_language_files>`_, :doc:`tt:formats/properties`, :ref:"
 "`ini`, :ref:`islu`"
 msgstr ""
+"`Специфікація мовних файлів Joomla <https://docs.joomla.org/"
+"Specification_of_language_files>`_, :doc:`tt:formats/properties`, :ref:`ini`"
+", :ref:`islu`"
 
 #: ../../formats.rst:549
 msgid "Qt Linguist .ts"
@@ -25263,7 +25351,7 @@ msgstr ""
 
 #: ../../formats.rst:560
 msgid "Typical Weblate :ref:`component` when using as bilingual"
-msgstr ""
+msgstr "Типовий :ref:`component` Weblate при використанні як двомовного файла"
 
 #: ../../formats.rst:562 ../../formats.rst:574
 msgid "``i18n/app.*.ts``"
@@ -25279,7 +25367,7 @@ msgstr "`файл перекладу Qt Linguist`"
 
 #: ../../formats.rst:572
 msgid "Typical Weblate :ref:`component` when using as monolingual"
-msgstr ""
+msgstr "Типовий :ref:`component` Weblate при використанні як одномовного файла"
 
 #: ../../formats.rst:576 ../../formats.rst:578
 msgid "``i18n/app.en.ts``"
@@ -25307,6 +25395,9 @@ msgid ""
 "language file` file is stored in a different location from the others :file:"
 "`res/values/strings.xml`."
 msgstr ""
+"Рядкові ресурси Android є одномовними. Файл :guilabel:`Одномовний базовий "
+"мовний файл` зберігається у іншому місці, якщо порівнювати із іншими :file:`"
+"res/values/strings.xml`."
 
 #: ../../formats.rst:607
 msgid "``res/values-*/strings.xml``"
@@ -25333,22 +25424,28 @@ msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
 msgstr ""
+"У поточній версії підтримки `string-array` Android не передбачено. Щоб "
+"обійти це обмеження, ви можете розбити ваші рядкові масиви на частини:"
 
 #: ../../formats.rst:633
 msgid "become:"
-msgstr ""
+msgstr "стане:"
 
 #: ../../formats.rst:644
 msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
 msgstr ""
+"`string-array`, який вказує на елементи `string`, має бути збережено у "
+"іншому файлі і не повинен бути доступним для перекладу."
 
 #: ../../formats.rst:647
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
 msgstr ""
+"Цей скрипт може допомогти у попередній обробці наявних файлів strings.xml і "
+"перекладів: https://gist.github.com/paour/11291062"
 
 #: ../../formats.rst:652
 msgid "Apple iOS strings"
@@ -25360,6 +25457,9 @@ msgid ""
 "and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; "
 "translation>` application translations."
 msgstr ""
+"Специфічний формат файлів Apple для програм для перекладу. Використовується "
+"у перекладах програм iOS і :index:`iPhone <pair: iPhone; "
+"translation>`/:index:`iPad <pair: iPad; translation>`."
 
 #: ../../formats.rst:660
 msgid "Apple iOS strings are usually used as bilingual translations."
@@ -25398,6 +25498,8 @@ msgid ""
 "PHP translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
+"Переклади PHP є, зазвичай, одномовними, тому рекомендуємо вказувати базовий "
+"файл, яким (здебільшого) є файл з рядками англійською мовою."
 
 #: ../../formats.rst:691 ../../formats.rst:762 ../../formats.rst:825
 #: ../../formats.rst:937 ../../formats.rst:1021
@@ -25423,6 +25525,7 @@ msgstr "Рядки PHP Laravel"
 #: ../../formats.rst:716
 msgid "The Laravel PHP localization files are supported as well with plurals:"
 msgstr ""
+"Передбачено підтримку файлів локалізації PHP Laravel, а також форм множини:"
 
 #: ../../formats.rst:727
 msgid ":doc:`tt:formats/php`, `Localization in Laravel`_"
@@ -25437,16 +25540,22 @@ msgid ""
 "Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested "
 "structure JSON files are supported as well."
 msgstr ""
+"З версії Weblate 2.16 і принаймні з версії translate-toolkit 2.2.4 "
+"передбачено підтримку і вкладеної структури файлів JSON."
 
 #: ../../formats.rst:747
 msgid ""
 "JSON format is used mostly for translating applications implemented in "
 "JavaScript."
 msgstr ""
+"Формат JSON використовується здебільшого для перекладу програм, які "
+"реалізовано мовою JavaScript."
 
 #: ../../formats.rst:750
 msgid "Weblate currently supports several variants of JSON translations:"
 msgstr ""
+"У поточній версії Weblate передбачено підтримку декількох варіантів "
+"перекладів JSON:"
 
 #: ../../formats.rst:752
 msgid "Simple key / value files."
@@ -25461,12 +25570,16 @@ msgid ""
 "JSON translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
+"Переклади JSON є, зазвичай, одномовними, тому рекомендуємо вказувати базовий "
+"файл, яким (здебільшого) є файл з рядками англійською мовою."
 
 #: ../../formats.rst:768
 msgid ""
 "Nested files are supported as well (see above for requirements), such a file "
 "can look like:"
 msgstr ""
+"Підтримку файлів із вкладеністю також реалізовано (див. вимоги вище). Такий "
+"файл може виглядати ось так:"
 
 #: ../../formats.rst:776
 msgid ""
@@ -25474,6 +25587,10 @@ msgid ""
 "serializing issues when special chars such as ``.`` or ``[]`` are used in "
 "the actual keys, because Weblate thinks it is indication of nesting."
 msgstr ""
+"Поточна версія Weblate обробляє JSON із вкладеністю шляхом спрощення ключів. "
+"Це призводить до вад із перетворенням у послідовну форму, якщо у ключах "
+"використано спеціальні символи, зокрема ``.`` або ``[]``, оскільки Weblate "
+"вважає такі символи позначками вкладеності."
 
 #: ../../formats.rst:780
 msgid "See <https://github.com/WeblateOrg/weblate/issues/2149>"
@@ -25508,6 +25625,8 @@ msgid ""
 "Since Weblate 2.17 and with translate-toolkit at-least 2.2.5, i18next JSON "
 "files with plurals are supported as well."
 msgstr ""
+"З версії Weblate 2.17 і принаймні з версії translate-toolkit 2.2.5 "
+"передбачено підтримку файлів JSON i18next із формами множини."
 
 #: ../../formats.rst:813
 msgid ""
@@ -25515,18 +25634,26 @@ msgid ""
 "written in and for JavaScript. Weblate supports its localization files with "
 "features such as plurals."
 msgstr ""
+"`i18next <https://www.i18next.com/>`_ — бібліотека для перекладу, яку "
+"написано на JavaScript і для JavaScript. У Weblate передбачено підтримку "
+"файлів локалізації цієї бібліотеки із різними можливостями, зокрема формами "
+"множини."
 
 #: ../../formats.rst:817
 msgid ""
 "i18next translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Переклади i18next є одномовними, тому рекомендуємо вказувати базовий файл, "
+"яким (здебільшого) є файл з рядками англійською мовою."
 
 #: ../../formats.rst:822
 msgid ""
 "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
 "mostly compatible, with exception of how plurals are handled."
 msgstr ""
+"У Weblate передбачено підтримку формату версії 3 JSON i18next. Версії 2 і 1 "
+"є здебільшого сумісними, за винятком способу обробки форм множини."
 
 #: ../../formats.rst:834 ../../formats.rst:871
 msgid "``langs/*.json``"
@@ -25615,6 +25742,12 @@ msgid ""
 "internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
 "weblate.cleanup.generic`,"
 msgstr ""
+":doc:`tt:formats/json`, `Специфікація пакунків ресурсів програм "
+"<https://github.com/google/app-resource-bundle/wiki/"
+"ApplicationResourceBundleSpecification>`_, `Інтернаціоналізація програм "
+"Flutter <https://flutter.dev/docs/development/accessibility-and-localization/"
+"internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
+"weblate.cleanup.generic`,"
 
 #: ../../formats.rst:923
 msgid "WebExtension JSON"
@@ -25723,6 +25856,8 @@ msgid ""
 "Files with fields as defined by translate-toolkit: location, source, target, "
 "ID, fuzzy, context, translator_comments, developer_comments"
 msgstr ""
+"Файли із полями, які визначено у translate-toolkit: location, source, "
+"target, ID, fuzzy, context, translator_comments, developer_comments"
 
 #: ../../formats.rst:1016
 msgid ""
@@ -26371,7 +26506,7 @@ msgstr "`GnuPG <https://www.gnupg.org/>`_"
 
 #: ../../legal.rst:41 ../../legal.rst:43
 msgid "Optionally used by Weblate"
-msgstr ""
+msgstr "Може використовуватися Weblate"
 
 #: ../../legal.rst:42
 msgid "`Git <https://git-scm.com/>`_"
@@ -26442,6 +26577,8 @@ msgid ""
 "`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
 "blog/ear/>`_"
 msgstr ""
+"`Обмеження щодо експорту (EAR) для вільного відкритого програмного "
+"забезпечення <https://www.magicsplat.com/blog/ear/>`_"
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
@@ -26525,6 +26662,9 @@ msgid ""
 "`wlc` configuration file (:file:`~/.config/wlc`) placed in your XDG "
 "configuration path (:file:`/etc/xdg/wlc`)."
 msgstr ""
+"Завантажує налаштування з файла. Якщо файл не вказано, завантаження "
+"відбуватиметься з файла налаштувань `wlc` (:file:`~/.config/wlc`), який "
+"розташовано у вашому каталозі налаштувань XDG (:file:`/etc/xdg/wlc`)."
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
@@ -26532,19 +26672,19 @@ msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
-msgstr ""
+msgstr "Параметри для перевизначення у форматі списку кортежів"
 
 #: ../../python.rst:101
 msgid "stdout file object for printing output, uses ``sys.stdout`` as default"
-msgstr ""
+msgstr "Файловий об'єкт stdout для виведення даних. Типовим є ``sys.stdout``"
 
 #: ../../python.rst:103
 msgid "Command-line arguments to process, uses ``sys.args`` as default"
-msgstr ""
+msgstr "Аргументи командного рядка для обробки. Типовими є ``sys.args``"
 
 #: ../../python.rst:106
 msgid "Main entry point for command-line interface."
-msgstr ""
+msgstr "Головна точка входу для інтерфейсу командного рядка."
 
 #: ../../python.rst:110
 msgid ""
@@ -26781,6 +26921,8 @@ msgid ""
 "`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
 "$interpolate>`_"
 msgstr ""
+"`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
+"$interpolate>`_"
 
 #: ../../user/checks.rst:153
 msgid "C format"
@@ -26815,7 +26957,7 @@ msgstr ""
 #: ../../user/checks.rst:160 ../../user/checks.rst:228
 #: ../../user/checks.rst:293 ../../user/checks.rst:311
 msgid "``Your balance is %1$d %2$s``"
-msgstr ""
+msgstr "``Your balance is %1$d %2$s``"
 
 #: ../../user/checks.rst:162
 msgid "`c-format`"
@@ -26842,7 +26984,7 @@ msgstr "``There are {0} apples``"
 
 #: ../../user/checks.rst:178
 msgid "`c-sharp-format`"
-msgstr ""
+msgstr "`c-sharp-format`"
 
 #: ../../user/checks.rst:183
 msgid ""
@@ -26942,7 +27084,7 @@ msgstr "*Рядок формату Java Message не відповідає дже
 
 #: ../../user/checks.rst:246
 msgid "`java-messageformat` enables the check unconditionally"
-msgstr ""
+msgstr "`java-messageformat` вмикає перевірку безумовно"
 
 #: ../../user/checks.rst:248
 msgid ""
@@ -26955,6 +27097,8 @@ msgid ""
 "`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
 "MessageFormat.html>`_"
 msgstr ""
+"`MessageFormat Java <https://docs.oracle.com/javase/7/docs/api/java/text/"
+"MessageFormat.html>`_"
 
 #: ../../user/checks.rst:257
 msgid "JavaScript format"
@@ -27032,6 +27176,9 @@ msgid ""
 "php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/php_002dformat.html>`_"
 msgstr ""
+"`Документація PHP з sprintf <https://www.php.net/manual/en/function.sprintf."
+"php>`_, `Рядки форматування PHP <https://www.gnu.org/software/gettext/manual/"
+"html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:323
 msgid "Python brace format"
@@ -28087,15 +28234,15 @@ msgstr ""
 
 #: ../../user/files.rst:82
 msgid "Conflicts handling"
-msgstr ""
+msgstr "Обробка конфліктів"
 
 #: ../../user/files.rst:84
 msgid "Defines how to deal with uploaded strings which are already translated."
-msgstr ""
+msgstr "Визначає спосіб обробки вивантажених рядків, які вже перекладено."
 
 #: ../../user/files.rst:89
 msgid "Strings needing edit"
-msgstr ""
+msgstr "Рядки, які потребують редагування"
 
 #: ../../user/files.rst:91
 msgid ""
@@ -28107,7 +28254,7 @@ msgstr ""
 
 #: ../../user/files.rst:99
 msgid "Overriding authorship"
-msgstr ""
+msgstr "Перевизначення авторства"
 
 #: ../../user/files.rst:101
 msgid ""
@@ -28119,7 +28266,7 @@ msgstr ""
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
-msgstr ""
+msgstr "Реєстрація і профіль користувача"
 
 #: ../../user/profile.rst:7
 msgid ""
@@ -28130,19 +28277,21 @@ msgstr ""
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr ""
+msgstr "Ви можете зареєструватися, виконавши декілька простих кроків:"
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
-msgstr ""
+msgstr "Заповніть реєстраційну форму вашими реєстраційними даними."
 
 #: ../../user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
 msgstr ""
+"Активуйте реєстрацію переходом за посиланням у отриманому вами повідомленні "
+"електронної пошти."
 
 #: ../../user/profile.rst:15
 msgid "Optionally adjust your profile to choose which languages you know."
-msgstr ""
+msgstr "Якщо хочете, скоригуйте ваш профіль, вибравши відомі вам мови."
 
 #: ../../user/profile.rst:20
 msgid "Dashboard"
@@ -29479,13 +29628,15 @@ msgstr ""
 
 #: ../../vcs.rst:85
 msgid "Verifying SSH host keys"
-msgstr ""
+msgstr "Перевірка ключів SSH вузла"
 
 #: ../../vcs.rst:87
 msgid ""
 "Weblate automatically remembers the SSH host keys on first access and "
 "remembers them for further use."
 msgstr ""
+"Weblate автоматично запам'ятовує ключів SSH вузла при першому доступі і "
+"використовує їх у подальшому."
 
 #: ../../vcs.rst:90
 msgid ""
@@ -29499,7 +29650,7 @@ msgstr ""
 
 #: ../../vcs.rst:102
 msgid "GitHub repositories"
-msgstr ""
+msgstr "Сховища GitHub"
 
 #: ../../vcs.rst:104
 msgid ""
@@ -29537,7 +29688,7 @@ msgstr ":ref:`hosted-push`"
 
 #: ../../vcs.rst:130
 msgid "Weblate internal URLs"
-msgstr ""
+msgstr "Внутрішні адреси Weblate"
 
 #: ../../vcs.rst:132
 msgid ""
@@ -29560,11 +29711,11 @@ msgstr ""
 
 #: ../../vcs.rst:143
 msgid "Saves disk space on the server, the repository is stored just once."
-msgstr ""
+msgstr "Заощаджує місце на диску сервера — сховище зберігається лише один раз."
 
 #: ../../vcs.rst:144
 msgid "Makes the updates faster, only one repository is updated."
-msgstr ""
+msgstr "Пришвидшує оновлення — оновлюється лише одне сховище."
 
 #: ../../vcs.rst:145
 msgid ""
@@ -29580,7 +29731,7 @@ msgstr ""
 
 #: ../../vcs.rst:150
 msgid "HTTPS repositories"
-msgstr ""
+msgstr "Сховища HTTPS"
 
 #: ../../vcs.rst:152
 msgid ""
@@ -29604,7 +29755,7 @@ msgstr ""
 
 #: ../../vcs.rst:166
 msgid "Using proxy"
-msgstr ""
+msgstr "Використання проксі-сервера"
 
 #: ../../vcs.rst:168
 msgid ""
@@ -29632,6 +29783,8 @@ msgid ""
 "`The cURL manpage <https://curl.haxx.se/docs/manpage.html>`_, `Git config "
 "documentation <https://git-scm.com/docs/git-config>`_"
 msgstr ""
+"`Сторінка підручника cURL <https://curl.haxx.se/docs/manpage.html>`_, `"
+"Документація з налаштувань Git <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:194
 msgid "Git"
@@ -29642,6 +29795,8 @@ msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
 msgstr ""
+"Див. розділ :ref:`vcs-repos`, щоб дізнатися більше про доступ до сховищ "
+"різних типів."
 
 #: ../../vcs.rst:201
 msgid "Git with force push"
@@ -29659,10 +29814,12 @@ msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
 msgstr ""
+"Будьте обережні із використанням, оскільки так можна дуже просто втратити "
+"внески до вашого основного сховища."
 
 #: ../../vcs.rst:213
 msgid "Customizing Git configuration"
-msgstr ""
+msgstr "Налаштовування Git"
 
 #: ../../vcs.rst:215
 msgid ""
@@ -29698,7 +29855,7 @@ msgstr ""
 
 #: ../../vcs.rst:236
 msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar::"
-msgstr ""
+msgstr "Клонування проєкту ``gnuhello`` з Launchpad за допомогою Bazaar::"
 
 #: ../../vcs.rst:240
 msgid "For the ``hello`` repository from selenic.com using Mercurial::"
@@ -29730,7 +29887,7 @@ msgstr ":ref:`push-changes`"
 
 #: ../../vcs.rst:275
 msgid "Pushing changes to GitHub as pull requests"
-msgstr ""
+msgstr "Записування змін до GitHub у формі запитів щодо об'єднання"
 
 #: ../../vcs.rst:277
 msgid ""
@@ -29785,7 +29942,7 @@ msgstr ""
 
 #: ../../vcs.rst:334
 msgid "Pushing changes to GitLab as merge requests"
-msgstr ""
+msgstr "Записування змін до GitLab у формі запитів щодо злиття"
 
 #: ../../vcs.rst:336
 msgid ""
@@ -29807,7 +29964,7 @@ msgstr ""
 
 #: ../../vcs.rst:348
 msgid "Setting up Lab"
-msgstr ""
+msgstr "Налаштовування Lab"
 
 #: ../../vcs.rst:350
 msgid ""
@@ -29831,7 +29988,7 @@ msgstr ""
 
 #: ../../vcs.rst:380
 msgid "Gerrit"
-msgstr ""
+msgstr "Gerrit"
 
 #: ../../vcs.rst:384
 msgid ""
@@ -29889,7 +30046,7 @@ msgstr ""
 
 #: ../../vcs.rst:442
 msgid "Subversion credentials"
-msgstr ""
+msgstr "Реєстраційні дані Subversion"
 
 #: ../../vcs.rst:444
 msgid ""
@@ -29921,7 +30078,7 @@ msgstr ""
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
-msgstr ""
+msgstr "Клієнт Weblate"
 
 #: ../../wlc.rst:14
 msgid ""
@@ -29947,7 +30104,7 @@ msgstr ""
 
 #: ../../wlc.rst:42
 msgid "You can then invoke commands on the default server:"
-msgstr ""
+msgstr "Далі, ви можете викликати команди на типовому сервері:"
 
 #: ../../wlc.rst:51
 msgid ":ref:`wlc-config`"
@@ -29959,7 +30116,7 @@ msgstr "Короткий опис"
 
 #: ../../wlc.rst:60
 msgid "Commands actually indicate which operation should be performed."
-msgstr ""
+msgstr "Команди вказують на те, яку дію має бути виконано."
 
 #: ../../wlc.rst:63
 msgid "Description"
@@ -29981,10 +30138,12 @@ msgid ""
 "The program accepts the following options for a whole instance, which must "
 "be entered before any subcommand."
 msgstr ""
+"Програма приймає вказані нижче параметри для усього екземпляра Weblate. Ці "
+"параметри можна ввести перед будь-якою допоміжною командою."
 
 #: ../../wlc.rst:76
 msgid "Specify the output format."
-msgstr ""
+msgstr "Вказати формат виведення даних."
 
 #: ../../wlc.rst:80
 msgid ""
@@ -30002,78 +30161,88 @@ msgstr ""
 
 #: ../../wlc.rst:90
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
-msgstr ""
+msgstr "Перевизначає шлях до файла налаштувань, див. :ref:`wlc-config`."
 
 #: ../../wlc.rst:94
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
+"Перевизначає розділ файла налаштувань для використання, див. :ref:`wlc-"
+"config`."
 
 #: ../../wlc.rst:97
 msgid "Subcommands"
-msgstr ""
+msgstr "Допоміжні команди"
 
 #: ../../wlc.rst:99
 msgid "The following subcommands are available:"
-msgstr ""
+msgstr "Можна скористатися такими допоміжними командами:"
 
 #: ../../wlc.rst:103
 msgid "Prints the current version."
-msgstr ""
+msgstr "Виводить поточну версію."
 
 #: ../../wlc.rst:107
 msgid "Lists used languages in Weblate."
-msgstr ""
+msgstr "Виводить список використаних у Weblate мов."
 
 #: ../../wlc.rst:111
 msgid "Lists projects in Weblate."
-msgstr ""
+msgstr "Виводить список проєктів у Weblate."
 
 #: ../../wlc.rst:115
 msgid "Lists components in Weblate."
-msgstr ""
+msgstr "Виводить список складників у Weblate."
 
 #: ../../wlc.rst:119
 msgid "Lists translations in Weblate."
-msgstr ""
+msgstr "Виводить список перекладів у Weblate."
 
 #: ../../wlc.rst:123
 msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Показує об'єкт Weblate (переклад, складник або проєкт)."
 
 #: ../../wlc.rst:127
 msgid "Lists Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Виводить список об'єкта Weblate (переклад, складник або проєкт)."
 
 #: ../../wlc.rst:131
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
 msgstr ""
+"Вносить зміни, які виконано в об'єкті Weblate (перекладі, складнику або "
+"проєкті)."
 
 #: ../../wlc.rst:135
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
 msgstr ""
+"Отримує зміни у віддаленому сховищі до об'єкта Weblate (перекладу, складника "
+"або проєкту)."
 
 #: ../../wlc.rst:139
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
 msgstr ""
+"Записує зміни у об'єкті Weblate до віддаленого сховища (переклад, складник "
+"або проєкт)."
 
 #: ../../wlc.rst:145 ../../wlc.rst:201
 msgid "Supported since wlc 0.7."
-msgstr ""
+msgstr "Підтримку передбачено з версії wlc 0.7."
 
 #: ../../wlc.rst:147
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
 msgstr ""
+"Скидає зміни в об'єкті Weblate так, щоб дані збігалися із даними у "
+"віддаленому сховищі (переклад, складник або проєкт)."
 
 #: ../../wlc.rst:153 ../../wlc.rst:218
 msgid "Supported since wlc 0.9."
-msgstr ""
+msgstr "Підтримку передбачено з версії wlc 0.9."
 
 #: ../../wlc.rst:155
 msgid ""
@@ -30086,65 +30255,76 @@ msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Показує стан у сховищі для вказаного об'єкта Weblate (перекладу, складника "
+"або проєкту)."
 
 #: ../../wlc.rst:163
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
 msgstr ""
+"Показує докладну статистику щодо вказаного об'єкта Weblate (перекладу, "
+"складника або проєкту)."
 
 #: ../../wlc.rst:169 ../../wlc.rst:177 ../../wlc.rst:185
 msgid "Supported since wlc 0.5."
-msgstr ""
+msgstr "Підтримку передбачено з версії wlc 0.5."
 
 #: ../../wlc.rst:171
 msgid "Displays lock status."
-msgstr ""
+msgstr "Показує стан блокування."
 
 #: ../../wlc.rst:179
 msgid "Locks component from further translation in Weblate."
-msgstr ""
+msgstr "Блокує складник від подальшого перекладу на Weblate."
 
 #: ../../wlc.rst:187
 msgid "Unlocks translation of Weblate component."
-msgstr ""
+msgstr "Розблоковує переклад складника Weblate."
 
 #: ../../wlc.rst:193
 msgid "Supported since wlc 0.7 and Weblate 2.10."
-msgstr ""
+msgstr "Підтримку передбачено з версії wlc 0.7 і версії Weblate 2.10."
 
 #: ../../wlc.rst:195
 msgid "Displays changes for a given object."
-msgstr ""
+msgstr "Показує зміни у вказаному об'єкті."
 
 #: ../../wlc.rst:203
 msgid "Downloads a translation file."
-msgstr ""
+msgstr "Отримує файл перекладу."
 
 #: ../../wlc.rst:207
 msgid ""
 "Converts file format, if unspecified no conversion happens on the server and "
 "the file is downloaded as is to the repository."
 msgstr ""
+"Перетворює формат файла. Якщо формат файла не вказано, перетворення на "
+"сервері не відбуватиметься, а файл буде отримано у форматі, у якому він "
+"зберігається у сховищі."
 
 #: ../../wlc.rst:212
 msgid ""
 "Specifies file to save output in, if left unspecified it is printed to "
 "stdout."
 msgstr ""
+"Вказує файл для зберігання виведених даних. Якщо файл не вказано, дані буде "
+"виведено до стандартного виведення (stdout)."
 
 #: ../../wlc.rst:220
 msgid "Uploads a translation file."
-msgstr ""
+msgstr "Вивантажує файл перекладу."
 
 #: ../../wlc.rst:224
 msgid "Overwrite existing translations upon uploading."
-msgstr ""
+msgstr "Перезаписати наявні переклади під час вивантаження."
 
 #: ../../wlc.rst:228
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
 msgstr ""
+"Файл, з якого читатимуться дані. Якщо не вказано, дані буде прочитано зі "
+"stdin."
 
 #: ../../wlc.rst:233
 msgid "Configuration files"
@@ -30152,27 +30332,27 @@ msgstr "Файли налаштувань"
 
 #: ../../wlc.rst:235
 msgid ":file:`.weblate`"
-msgstr ""
+msgstr ":file:`.weblate`"
 
 #: ../../wlc.rst:236
 msgid "Per project configuration file"
-msgstr ""
+msgstr "Файл налаштувань окремого проєкту"
 
 #: ../../wlc.rst:237
 msgid ":file:`~/.config/weblate`"
-msgstr ""
+msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:238
 msgid "User configuration file"
-msgstr ""
+msgstr "Файл налаштувань користувача"
 
 #: ../../wlc.rst:240
 msgid ":file:`/etc/xdg/weblate`"
-msgstr ""
+msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:240
 msgid "System wide configuration file"
-msgstr ""
+msgstr "Загальносистемний файл налаштувань"
 
 #: ../../wlc.rst:242
 msgid ""
