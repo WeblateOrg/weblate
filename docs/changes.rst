@@ -27,6 +27,7 @@ Not yet released.
 * Allow to translate all components of one language at once.
 * Allow to configure ``Content-Security-Policy`` HTTP headers.
 * Added support for aliasing languages at project level.
+* New addon to help with HTML or JavaScript localization, see :ref:`addon-weblate.cdn.cdnjs`.
 
 Weblate 4.1.1
 -------------

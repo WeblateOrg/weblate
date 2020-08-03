@@ -786,6 +786,25 @@ The restriction is the length of the source string * 10 characters.
 
     Defaults to ``True``.
 
+.. setting:: LOCALIZE_CDN_URL
+.. setting:: LOCALIZE_CDN_PATH
+
+LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
+--------------------------------------
+
+These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon.
+:setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
+available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
+store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
+
+.. hint::
+
+   On Hosted Weblate, this uses ``https://weblate-cdn.com/``.
+
+.. seealso::
+
+   :ref:`addon-weblate.cdn.cdnjs`
+
 .. setting:: LOGIN_REQUIRED_URLS
 
 LOGIN_REQUIRED_URLS

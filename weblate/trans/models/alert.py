@@ -242,6 +242,12 @@ class AddonScriptError(MultiAlert):
 
 
 @register
+class CDNAddonError(MultiAlert):
+    # Translators: Name of an alert
+    verbose = _("Could not run addon.")
+
+
+@register
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
     verbose = _("Could not run addon.")
