@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-02 20:01+0200\n"
-"PO-Revision-Date: 2020-08-02 18:00+0000\n"
+"PO-Revision-Date: 2020-08-03 17:47+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -2103,26 +2103,29 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"可以另外安装 `django-zxcvbn-password <https://pypi.org/project/"
+"django-zxcvbn-password/>`_ 这会非常实际地估计密码的难度，并允许拒绝低于下面适当阈值的密码。"
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
-msgstr ""
+msgstr "SAML 身份验证"
 
 #: ../../admin/auth.rst:366
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
-msgstr ""
+msgstr "请遵守 Python Social Auth 的指示来配置。显著的差异有："
 
 #: ../../admin/auth.rst:368
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate 支持单一 IDP ，在 ``SOCIAL_AUTH_SAML_ENABLED_IDPS`` 中被称为 ``weblate`` 。"
 
 #: ../../admin/auth.rst:370
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "SAML XML 元数据 URL 为 ``/accounts/metadata/saml/`` 。"
 
 #: ../../admin/auth.rst:371
 msgid ""
@@ -2130,31 +2133,34 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"后面的设置自动填入： ``SOCIAL_AUTH_SAML_SP_ENTITY_ID`` 、 "
+"``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT`` 、 ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:375
 msgid "Example configuration:"
-msgstr ""
+msgstr "配置的例子："
 
 #: ../../admin/auth.rst:402
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgstr ""
+":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:408
 msgid "LDAP authentication"
-msgstr ""
+msgstr "LDAP 身份验证"
 
 #: ../../admin/auth.rst:410
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
-msgstr ""
+msgstr "LDAP 身份验证可以使用 `django-auth-ldap` 软件包而最好地实现。可以使用通常的方式安装："
 
 #: ../../admin/auth.rst:423
 msgid ""
 "With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work "
 "properly for newly created users."
-msgstr ""
+msgstr "早于 1.3.0 版的 django-auth-ldap ， :ref:`autogroup` 对新建立的用户无法正常工作。"
 
 #: ../../admin/auth.rst:428
 msgid ""
@@ -2163,12 +2169,15 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"在 Python LDAP 3.1.0 模块中有一些不兼容，导致可能无法使用那个版本。如果得到错误信息 `AttributeError: "
+"'module' object has no attribute '_trace_level' <https://github.com/"
+"python-ldap/python-ldap/issues/226>`_ ，将 python-ldap 降回到 3.0.0 版可能会有帮助。"
 
 #: ../../admin/auth.rst:434
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
-msgstr ""
+msgstr "一旦安装了软件包，就可以钩入 Django 身份验证了："
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -2180,16 +2189,20 @@ msgid ""
 "in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+"应该从 ``AUTHENTICATION_BACKENDS`` 设置中删除 ``'social_core.backends.email."
+"EmailAuth'`` ，否则用户将能够在 Weblate 中设置自己的密码，并且用来进行身份验证。仍然需要保留 ``'weblate.accounts"
+".auth.WeblateUserBackend'`` 来生成权限，并实现匿名用户。这也会让你使用本地管理账户来登录，如果有的话（例如通过使用 "
+":djadmin:`createadmin` ）。"
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
-msgstr ""
+msgstr "使用绑定密码"
 
 #: ../../admin/auth.rst:482
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
-msgstr ""
+msgstr "如果可以为身份验证使用直接绑定，那么需要使用搜索，并为用户搜索提供绑定，例如："
 
 #: ../../admin/auth.rst:496
 msgid "Active Directory integration"
@@ -2197,16 +2210,16 @@ msgstr "活动目录集成"
 
 #: ../../admin/auth.rst:525
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
-msgstr ""
+msgstr ":doc:`ldap:index`, :doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:532
 msgid "CAS authentication"
-msgstr ""
+msgstr "CAS 身份验证"
 
 #: ../../admin/auth.rst:534
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
-msgstr ""
+msgstr "可以使用软件包如 `django-cas-ng` 来实现 CAS 身份验证。"
 
 #: ../../admin/auth.rst:536
 msgid ""
@@ -2214,20 +2227,21 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"第一步通过 CAS 揭示了用户的电子邮箱域。这必须在 CAS 服务器自身来配置，并需要至少运行 CAS v2 ，因为 CAS v1 不支持属性。"
 
 #: ../../admin/auth.rst:540
 msgid "Step two is updating Weblate to use your CAS server and attributes."
-msgstr ""
+msgstr "第二步更新 Weblate ，来使用 CAS 服务器和属性。"
 
 #: ../../admin/auth.rst:542
 msgid "To install `django-cas-ng`:"
-msgstr ""
+msgstr "为了安装 `django-cas-ng` ："
 
 #: ../../admin/auth.rst:548
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
-msgstr ""
+msgstr "一旦安装了软件包，就可以通过修改 :file:`settings.py` 文件将其钩到 Django 身份验证系统："
 
 #: ../../admin/auth.rst:569
 msgid ""
@@ -2243,30 +2257,30 @@ msgstr ""
 #: ../../admin/auth.rst:574
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
-msgstr ""
+msgstr "在你的 app 配置的 :py:meth:`django:django.apps.AppConfig.ready` 方法"
 
 #: ../../admin/auth.rst:575
 msgid "In the project's :file:`urls.py` file (when no models exist)"
-msgstr ""
+msgstr "在项目的 :file:`urls.py` 文件中（当没有模块存在时）"
 
 #: ../../admin/auth.rst:590
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr ""
+msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:593
 msgid "Configuring third party Django authentication"
-msgstr ""
+msgstr "配置第三方 Django 身份验证"
 
 #: ../../admin/auth.rst:595
 msgid ""
 "Generally any Django authentication plugin should work with Weblate. Just "
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
-msgstr ""
+msgstr "一般地，任何 Django 身份认证插件应该可以在 Weblate 上工作。只需要按照插件的说明，只记住安装了 Weblate 用户后台。"
 
 #: ../../admin/auth.rst:601
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
 
 #: ../../admin/auth.rst:604
 msgid ""
@@ -2274,6 +2288,8 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"典型的安装包括，将身份验证后台添加到 :setting:`django:AUTHENTICATION_BACKENDS` ，并将身份验证 app "
+"（如果有的话）安装到 :setting:`django:INSTALLED_APPS` ："
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -2320,22 +2336,22 @@ msgstr ""
 
 #: ../../admin/backup.rst:34
 msgid "Purchase backup service on https://weblate.org/support/#backup."
-msgstr ""
+msgstr "在 https://weblate.org/support/#backup 上购买备份服务。"
 
 #: ../../admin/backup.rst:35
 msgid ""
 "Enter obtained key in the management interface, see :ref:`activate-support`."
-msgstr ""
+msgstr "在管理界面输入得到的密钥，请见 :ref:`activate-support` 。"
 
 #: ../../admin/backup.rst:36
 msgid ""
 "Weblate will connect to the cloud service and obtain access information for "
 "the backups."
-msgstr ""
+msgstr "Weblate 将连接到云服务，并得到访问信息来备份。"
 
 #: ../../admin/backup.rst:37
 msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
-msgstr ""
+msgstr "在 :guilabel:`Backups` 标签打开新的备份配置。"
 
 #: ../../admin/backup.rst:38
 msgid ""
@@ -2348,62 +2364,62 @@ msgid ""
 "The manual step of turning on is there for your safety. Without your consent "
 "no data is sent to the backup repository obtained through the registration "
 "process."
-msgstr ""
+msgstr "为了安全起见，有打开的手动步骤。没有你的同意，就不会有数据发送到通过注册步骤得到的备份仓库。"
 
 #: ../../admin/backup.rst:48
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "使用客户的备份存储"
 
 #: ../../admin/backup.rst:50
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups on the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
-msgstr ""
+msgstr "也可以使用自己的存储来备份。 SSH 可以用于在远程目的地存储备份，目标服务器需要安装 `BorgBackup`_ 。"
 
 #: ../../admin/backup.rst:56
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` 在 Borg 文件中"
 
 #: ../../admin/backup.rst:61
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Borg 加密密钥"
 
 #: ../../admin/backup.rst:63
 msgid ""
 "`BorgBackup`_ creates encrypted backups and without a passphrase you will "
 "not be able to restore the backup. The passphrase is generated when adding "
 "new backup service and you should copy it and keep it in a secure place."
-msgstr ""
+msgstr "`BorgBackup`_  生成加密的备份，没有密码的话就不能恢复备份。当添加备份服务时产生密码，并且应该将其复制并保存在安全的地方。"
 
 #: ../../admin/backup.rst:67
 msgid ""
 "In case you are using :ref:`cloudbackup`, please backup your private SSH key "
 "as well — it is used to access your backups."
-msgstr ""
+msgstr "在使用 :ref:`cloudbackup` 的情况下，请同样备份私有 SSH 密钥——它用于访问你的备份。"
 
 #: ../../admin/backup.rst:72
 msgid ":doc:`borg:usage/init`"
-msgstr ""
+msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:75
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "从 BorgBackup 恢复"
 
 #: ../../admin/backup.rst:77
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
-msgstr ""
+msgstr "恢复功能会访问你的备份仓库，并准备备份密码。"
 
 #: ../../admin/backup.rst:79
 msgid "List backup existing on the server using ``borg list REPOSITORY``."
-msgstr ""
+msgstr "使用 ``borg list REPOSITORY`` 列出服务器上存在的备份。"
 
 #: ../../admin/backup.rst:81
 msgid ""
 "Restore the desired backup to current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
-msgstr ""
+msgstr "使用 ``borg extract REPOSITORY::ARCHIVE`` 将所需备份恢复到当前目录。"
 
 #: ../../admin/backup.rst:83
 msgid ""
@@ -2419,21 +2435,21 @@ msgstr "将 Weblate 配置和数据目录复制到正确的位置。"
 
 #: ../../admin/backup.rst:87
 msgid "The Borg session might look like:"
-msgstr ""
+msgstr "Borg 会话会是这个样子的："
 
 #: ../../admin/backup.rst:99
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:107
 msgid "Manual backup"
-msgstr ""
+msgstr "手动备份"
 
 #: ../../admin/backup.rst:109
 msgid ""
 "Depending on what you want to save, back up the type data Weblate stores in "
 "each respective place."
-msgstr ""
+msgstr "依赖于您想存储什么， Weblate 存储的类型数据备份在各自的位置。"
 
 #: ../../admin/backup.rst:113
 msgid ""
@@ -2442,24 +2458,27 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"在进行手动备份时，会想要通过将 ``weblate.I028`` 添加到 :file:`settings.py` 的 "
+":setting:`django:SILENCED_SYSTEM_CHECKS` 中，或 Docker的 "
+":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` 中， 来关闭 Weblate 的缺少备份警告。"
 
 #: ../../admin/backup.rst:123
 msgid "Database"
-msgstr ""
+msgstr "数据库"
 
 #: ../../admin/backup.rst:125
 msgid "The actual storage location depends on your database setup."
-msgstr ""
+msgstr "实际存储位置依赖于数据库的设置。"
 
 #: ../../admin/backup.rst:127
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database, without it all your translation setup will be gone."
-msgstr ""
+msgstr "数据库是最重要的存储。要设置数据库的常规备份，没有的话翻译设置就丢失了。"
 
 #: ../../admin/backup.rst:131
 msgid "Native database backup"
-msgstr ""
+msgstr "本地数据库备份"
 
 #: ../../admin/backup.rst:133
 msgid ""
@@ -2468,6 +2487,8 @@ msgid ""
 "performs better than Django backup and restores complete tables with all "
 "data."
 msgstr ""
+"建议的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:`mysqldump` "
+"来备份数据库。这通常比Django备份执行得好，并且恢复所有数据的完整表格。"
 
 #: ../../admin/backup.rst:137
 msgid ""
@@ -2476,10 +2497,12 @@ msgid ""
 "consult :doc:`upgrade` on more detailed information how to perform upgrade "
 "between versions."
 msgstr ""
+"可以在更新版的 Weblate 中恢复备份，当运行 :djadmin:`django:migrate` 时执行任何必要的迁移。"
+"如何在两个版本之间执行升级的更多细节信息请咨询 :doc:`upgrade` 。"
 
 #: ../../admin/backup.rst:143
 msgid "Django database backup"
-msgstr ""
+msgstr "Django 数据库备份"
 
 #: ../../admin/backup.rst:145
 msgid ""
@@ -2487,6 +2510,8 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change database backend."
 msgstr ""
+"另外，可以使用 Django 的 :djadmin:`django:dumpdata` "
+"命令备份数据库。那种方式是不依托数据库的，并且可以用于先要改变数据库后端的情况。"
 
 #: ../../admin/backup.rst:149
 msgid ""
@@ -2496,6 +2521,9 @@ msgid ""
 "some way. After installing the same version, run all database migrations "
 "using :djadmin:`django:migrate`."
 msgstr ""
+"在恢复前，需要运行与进行备份使用的 Weblate "
+"完全一致的版本。这是必须的，因为数据库结构在发布版本之间有变化，并且会导致某种方式的数据损坏。在安装相同版本后，使用 "
+":djadmin:`django:migrate` 来运行所有的数据库迁移。"
 
 #: ../../admin/backup.rst:155
 msgid ""
@@ -2504,6 +2532,8 @@ msgid ""
 "is to delete such entries manually using management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"一旦完成，数据库中就已经建立了一些入口，并且同样建立在数据库备份中。建议的方法是使用管理 shell （请见 :ref:`invoke-manage` "
+"）手动删除这样的入口："
 
 #: ../../admin/backup.rst:166
 msgid "Files"
@@ -2516,14 +2546,16 @@ msgid ""
 "The following sections describe in detail what you should back up and what "
 "you can skip."
 msgstr ""
+"如果有充足的备份空间，则简单地备份整个 :setting:`DATA_DIR` "
+"。即使包括一些不想要的文件，这样做也是安全的。后面的部分具体描述了什么应该备份，什么应该跳过。"
 
 #: ../../admin/backup.rst:176
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "下载的数据用于备份"
 
 #: ../../admin/backup.rst:178
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "存储在 :setting:`DATA_DIR` ``/backups`` 中。"
 
 #: ../../admin/backup.rst:180
 msgid ""
@@ -2531,22 +2563,25 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate 这里备份各种数据，可以包括这些文件用于更完整的备份。文件每日更新（需要运行 Celery beat 服务器，请见 "
+":ref:`celery` ）。当前，这包括："
 
 #: ../../admin/backup.rst:184
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Weblate 设置为 :file:`settings.py` （还有扩展版，在 :file:`settings-expanded.py` ）。"
 
 #: ../../admin/backup.rst:185
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr ""
+msgstr "PostgreSQL 数据库备份为 :file:`database.sql` 。"
 
 #: ../../admin/backup.rst:187
 msgid ""
 "The database backups are by default saved as plain text, but they can also "
 "be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
-msgstr ""
+msgstr "数据库备份默认存储为纯文本，但也可以通过使用 :setting:`DATABASE_BACKUP`来压缩的或整个跳过。"
 
 #: ../../admin/backup.rst:191
 msgid "Version control repositories"
