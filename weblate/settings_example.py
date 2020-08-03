@@ -745,6 +745,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.addons.removal.RemoveSuggestions",
 #     "weblate.addons.resx.ResxUpdateAddon",
 #     "weblate.addons.yaml.YAMLCustomizeAddon",
+#     "weblate.addons.cdn.CDNJSAddon",
 #     "weblate.addons.autotranslate.AutoTranslateAddon",
 # )
 

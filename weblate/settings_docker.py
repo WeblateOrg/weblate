@@ -939,6 +939,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.removal.RemoveSuggestions",
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.yaml.YAMLCustomizeAddon",
+    "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
