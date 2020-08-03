@@ -365,6 +365,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Test SSH admin interface."""
         self.open_admin()
 
+        time.sleep(0.5)
         self.screenshot("admin.png")
 
         # Open SSH page
