@@ -50,7 +50,7 @@ actions.
 
 .. note::
 
-   Depending on your setup, access to the Weblte repository might require
+   Depending on your setup, access to the Weblate repository might require
    authentication. When using the built in :ref:`git-exporter` in Weblate, you
    authenticate with your username and the API key.
 
