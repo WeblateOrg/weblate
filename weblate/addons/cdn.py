@@ -26,14 +26,14 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_DAILY, EVENT_POST_COMMIT
+from weblate.addons.events import EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE
 from weblate.addons.forms import CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
 from weblate.utils.state import STATE_TRANSLATED
 
 
 class CDNJSAddon(BaseAddon):
-    events = (EVENT_POST_COMMIT, EVENT_DAILY)
+    events = (EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE)
     name = "weblate.cdn.cdnjs"
     verbose = _("JavaScript localization CDN")
     description = _("Adds localization CDN for JavaScript or HTML localization.")
@@ -132,3 +132,6 @@ class CDNJSAddon(BaseAddon):
             self.instance.configuration["css_selector"],
             component.id,
         )
+
+    def post_update(self, component, previous_head):
+        self.daily(component)
