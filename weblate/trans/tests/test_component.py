@@ -760,7 +760,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_lang_code_double(self):
-        component = Component()
+        component = Component(project=Project())
         component.filemask = "path/*/resources/MessagesBundle_*.properties"
         self.assertEqual(
             component.get_lang_code(

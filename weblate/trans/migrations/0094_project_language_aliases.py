@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
             name="language_aliases",
             field=models.CharField(
                 default="",
+                blank=True,
                 help_text="Comma separated list of language code mappings, for example: en_GB:en,en_US:en",
                 max_length=200,
                 validators=[weblate.utils.validators.validate_language_aliases],

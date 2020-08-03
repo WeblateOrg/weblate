@@ -163,6 +163,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         max_length=200,
         verbose_name=gettext_lazy("Language aliases"),
         default="",
+        blank=True,
         help_text=gettext_lazy(
             "Comma separated list of language code mappings, "
             "for example: en_GB:en,en_US:en"
