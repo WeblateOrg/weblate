@@ -25,6 +25,7 @@ Not yet released.
 * Removed leading dot from JSON unit keys.
 * Removed separate Celery queue for translation memory.
 * Allow to translate all components of one language at once.
+* Allow to configure ``Content-Security-Policy`` HTTP headers.
 
 Weblate 4.1.1
 -------------

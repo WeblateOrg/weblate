@@ -524,6 +524,22 @@ Generic settings
    Configures checks which you do not want to be displayed, see
    :setting:`django:SILENCED_SYSTEM_CHECKS`.
 
+.. envvar:: WEBLATE_CSP_SCRIPT_SRC
+.. envvar:: WEBLATE_CSP_IMG_SRC
+.. envvar:: WEBLATE_CSP_CONNECT_SRC
+.. envvar:: WEBLATE_CSP_STYLE_SRC
+.. envvar:: WEBLATE_CSP_FONT_SRC
+
+    Allows to customize ``Content-Security-Policy`` HTTP header.
+
+    .. seealso::
+
+        :ref:`csp`,
+        :setting:`CSP_SCRIPT_SRC`,
+        :setting:`CSP_IMG_SRC`,
+        :setting:`CSP_CONNECT_SRC`,
+        :setting:`CSP_STYLE_SRC`,
+        :setting:`CSP_FONT_SRC`
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

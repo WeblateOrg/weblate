@@ -1162,9 +1162,15 @@ Content security policy
 The default Weblate configuration enables ``weblate.middleware.SecurityMiddleware``
 middleware which sets security related HTTP headers like ``Content-Security-Policy``
 or ``X-XSS-Protection``. These are by default set up to work with Weblate and its
-configuration, but this might clash with your customization. If that is the
-case, it is recommended to disable this middleware and set these headers
-manually.
+configuration, but this might need customization for your environment.
+
+.. seealso::
+
+    :setting:`CSP_SCRIPT_SRC`,
+    :setting:`CSP_IMG_SRC`,
+    :setting:`CSP_CONNECT_SRC`,
+    :setting:`CSP_STYLE_SRC`,
+    :setting:`CSP_FONT_SRC`
 
 .. _apache:
 

@@ -200,6 +200,33 @@ Used to derive several other paths by default:
 
 Default value: Top level directory of Weblate sources.
 
+.. setting:: CSP_SCRIPT_SRC
+.. setting:: CSP_IMG_SRC
+.. setting:: CSP_CONNECT_SRC
+.. setting:: CSP_STYLE_SRC
+.. setting:: CSP_FONT_SRC
+
+CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC
+-------------------------------------------------------------------------
+
+Customize ``Content-Security-Policy`` header for Weblate. The header is
+automatically generated based on enabled integrations with third-party services
+(Matomo, Google Analytics, Sentry, ...).
+
+All these default to empty list.
+
+** Example:: **
+
+.. code-block:: python
+
+    # Enable Cloudflare Javascript optimizations
+    CSP_SCRIPT_SRC = ["ajax.cloudflare.com"]
+
+.. seealso::
+
+    :ref:`csp`,
+    `Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP>`_
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST
