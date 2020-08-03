@@ -568,13 +568,11 @@ class GitMergeRequestBase(GitForcePushRepository):
         """Push given local branch to branch in forked repository."""
         self.execute(
             [
-                "git",
                 "push",
                 "--force",
                 self.get_username(),
                 "{0}:{1}".format(local_branch, fork_branch),
-            ],
-            fullcmd=True,
+            ]
         )
 
     def configure_fork_remote(self, push_url, remote_name):
@@ -786,18 +784,6 @@ class GitLabRepository(GitMergeRequestBase):
     req_version = "0.16"
 
     _version = None
-
-    @classmethod
-    def _get_version(cls):
-        """Return VCS program version."""
-        try:
-            return cls._popen(["--version"], merge_err=False).split()[-1]
-        except RepositoryException as error:
-            # It asks for configuration even with --version, see
-            # https://github.com/zaquestion/lab/issues/374
-            if error.retcode == 1 and "EOF" in error.get_message():
-                return "0.16"
-            raise
 
     @staticmethod
     def get_username():

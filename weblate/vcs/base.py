@@ -35,7 +35,7 @@ from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 from sentry_sdk import add_breadcrumb
 
-from weblate.trans.util import cleanup_repo_url, get_clean_env, path_separator
+from weblate.trans.util import get_clean_env, path_separator
 from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger("weblate.vcs")
@@ -50,11 +50,7 @@ class RepositoryException(Exception):
 
     def get_message(self):
         if self.retcode != 0:
-            fork_url = "https://{0}:{1}@github.com".format(
-                settings.GITHUB_USERNAME, settings.GITHUB_TOKEN
-            )
-            error_message = cleanup_repo_url(fork_url, text=self.args[0])
-            return "{0} ({1})".format(error_message, self.retcode)
+            return "{0} ({1})".format(self.args[0], self.retcode)
         return self.args[0]
 
     def __str__(self):
