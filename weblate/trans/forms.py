@@ -766,8 +766,6 @@ class MergeForm(UnitForm):
                 pk=self.cleaned_data["merge"],
                 translation__component__project=project,
                 translation__language=translation.language,
-                id_hash=unit.id_hash,
-                content_hash=unit.content_hash,
             )
             # Compare in Python to ensure case sensitiveness on MySQL
             if unit.source != merge_unit.source:
