@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-02 20:01+0200\n"
-"PO-Revision-Date: 2020-08-01 11:12+0000\n"
+"PO-Revision-Date: 2020-08-03 17:46+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -454,25 +454,25 @@ msgid ""
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
 "Os usuários com o privilégio :guilabel:`Pode gerenciar regras ACL para um "
-"projeto` (veja a :ref:`privileges`) também pode gerenciar usuários em "
+"projeto` (veja a :ref:`privileges`) também podem gerenciar usuários em "
 "projetos de controle de acesso ativado através da página do projeto. A "
 "interface permite que você:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
-msgstr "Adicionar usuários existentes ao projeto"
+msgstr "Adicione usuários existentes ao projeto"
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr "Convidar novos usuários para o projeto"
+msgstr "Convide novos usuários para o projeto"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
-msgstr "Alterar permissões dos usuários"
+msgstr "Altere permissões dos usuários"
 
 #: ../../admin/access.rst:225
 msgid "Revoke access to the users"
-msgstr "Revogar acesso dos usuários"
+msgstr "Revogue acesso dos usuários"
 
 #: ../../admin/access.rst:227
 msgid ""
@@ -3898,10 +3898,6 @@ msgid "Set a few attributes."
 msgstr "Defina alguns atributos."
 
 #: ../../admin/checks.rst:274
-#, fuzzy
-#| msgid ""
-#| "Implement either the ``check`` (if you want to deal with plurals in your "
-#| "code) or the ``check_single`` method, (which does it for you)."
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
@@ -4191,7 +4187,7 @@ msgstr "``\"remote\"`` e também ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr "Atualizar apenas os repositórios remotos."
+msgstr "Atualiza apenas os repositórios remotos."
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
@@ -4199,7 +4195,7 @@ msgstr "``\"full\"`` e também ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
-msgstr "Atualizar repositórios remotos e mesclar cópia de trabalho."
+msgstr "Atualiza os repositórios remotos e mescla os cópia de trabalho."
 
 #: ../../admin/config.rst:107
 msgid ""
@@ -4253,6 +4249,9 @@ msgid ""
 "reset e-mails is valid for. Set in number of seconds, defaulting to 172800 "
 "(2 days)."
 msgstr ""
+"Por quanto tempo o token de autenticação e a senha temporária dos e-mails de "
+"redefinição de senha são válidos. Definido em número de segundos, usando "
+"como padrão 172800 (2 dias)."
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
@@ -4276,103 +4275,114 @@ msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "Lista de correções automáticas para aplicar ao salvar um texto."
 
 #: ../../admin/config.rst:162
 msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
 msgstr ""
+"Forneça um caminho totalmente qualificado para a classe Python que "
+"implementa a interface de correção automática."
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "Correções disponíveis:"
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
-msgstr ""
+msgstr "corresponde o espaço em branco no início e no fim do texto com a fonte."
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
 msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
 msgstr ""
+"Substitui pontos ao final (...) se o texto fonte tiver caractere de "
+"reticências (…)."
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Remove caracteres de espaço de largura zero se a fonte não contiver nenhum."
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Remove caracteres de controle se a fonte não contiver nenhum."
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:176
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Remove a marcação HTML insegura dos textos sinalizados como ``safe-html`` ("
+"veja :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Você pode selecionar quais usar:"
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
-msgstr ""
+msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BASE_DIR"
-msgstr ""
+msgstr "BASE_DIR"
 
 #: ../../admin/config.rst:196
 msgid ""
 "Base directory where Weblate sources are located. Used to derive several "
 "other paths by default:"
 msgstr ""
+"Diretório base onde as fontes do Weblate estão localizadas. Usado para "
+"derivar vários outros caminhos por padrão:"
 
 #: ../../admin/config.rst:199 ../../faq.rst:399 ../../vcs.rst:455
 msgid ":setting:`DATA_DIR`"
-msgstr ""
+msgstr ":setting:`DATA_DIR`"
 
 #: ../../admin/config.rst:201
 msgid "Default value: Top level directory of Weblate sources."
-msgstr ""
+msgstr "Valor padrão: Diretório de nível superior de fontes do Weblate."
 
 #: ../../admin/config.rst:206
 msgid "CHECK_LIST"
-msgstr ""
+msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:208
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Lista de verificações de qualidade para realizar em uma tradução."
 
 #: ../../admin/config.rst:212
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Forneça um caminho totalmente qualificado para a classe Python implementando "
+"a interface de verificação."
 
 #: ../../admin/config.rst:215
 msgid "Adjust the list of checks to include ones relevant to you."
-msgstr ""
+msgstr "Ajuste a lista de verificações para incluir as relevantes para você."
 
 #: ../../admin/config.rst:217
 msgid ""
@@ -4381,14 +4391,18 @@ msgid ""
 "configuration` so that default values are used. New checks then carried out "
 "for each new Weblate version."
 msgstr ""
+"Todas as :ref:`checks` embutidas estão ativadas por padrão, de onde você "
+"pode alterar essas configurações. Por padrão, eles são comentados em :ref"
+":`sample-configuration` para que os valores padrão sejam usados. Novas "
+"verificações então realizadas para cada nova versão do Weblate."
 
 #: ../../admin/config.rst:221
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Você pode desativar todas as verificações:"
 
 #: ../../admin/config.rst:227
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Você pode ativar apenas algumas:"
 
 #: ../../admin/config.rst:239
 msgid ""
@@ -4396,40 +4410,50 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :djadmin:`updatechecks`."
 msgstr ""
+"Alterar esta configuração afeta apenas as traduções recém-alteradas, as "
+"verificações existentes ainda serão armazenadas no banco de dados. Para "
+"também aplicar alterações nas traduções armazenadas, execute "
+":djadmin:`updatechecks`."
 
 #: ../../admin/config.rst:245
 msgid ":ref:`checks`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`checks`, :ref:`custom-checks`"
 
 #: ../../admin/config.rst:250
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:254
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Exclui comentários após um determinado número de dias. O padrão é ``None``, "
+"ou seja, nenhuma exclusão."
 
 #: ../../admin/config.rst:260
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:264
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
+"Número de horas entre fazer o commit de alterações pendentes por meio da "
+"tarefa de segundo plano."
 
 #: ../../admin/config.rst:268
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :djadmin:`commit_pending`"
 msgstr ""
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :djadmin:`commit_pending`"
 
 #: ../../admin/config.rst:276
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:278
 msgid ""
@@ -4437,78 +4461,89 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"A pasta na qual Weblate armazena todos os dados. Ela contém links para "
+"repositórios VCS, um índice de texto e vários arquivos de configuração para "
+"ferramentas externas."
 
 #: ../../admin/config.rst:281
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Os seguintes subdiretórios geralmente existem:"
 
 #: ../../admin/config.rst:283
 msgid ":file:`home`"
-msgstr ""
+msgstr ":file:`home`"
 
 #: ../../admin/config.rst:284
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Diretório pessoal usado para invocar scripts."
 
 #: ../../admin/config.rst:285
 msgid ":file:`ssh`"
-msgstr ""
+msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:286
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "Chaves e configuração de SSH."
 
 #: ../../admin/config.rst:287
 msgid ":file:`static`"
-msgstr ""
+msgstr ":file:`static`"
 
 #: ../../admin/config.rst:288
 msgid "Default location for static Django files, specified by ``STATIC_ROOT``."
 msgstr ""
+"Localização padrão para arquivos Django estáticos, especificados por "
+"``STATIC_ROOT``."
 
 #: ../../admin/config.rst:289
 msgid ":file:`media`"
-msgstr ""
+msgstr ":file:`media`"
 
 #: ../../admin/config.rst:290
 msgid "Default location for Django media files, specified by ``MEDIA_ROOT``."
 msgstr ""
+"Localização padrão para arquivos de mídia Django, especificado por "
+"``MEDIA_ROOT``."
 
 #: ../../admin/config.rst:291
 msgid ":file:`vcs`"
-msgstr ""
+msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:292
 msgid "Version control repositories."
-msgstr ""
+msgstr "Repositórios de controle de versão."
 
 #: ../../admin/config.rst:294
 msgid ":file:`backups`"
-msgstr ""
+msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:294
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
-msgstr ""
+msgstr "Dados de backup diário. Confira :ref:`backup-dumps` para detalhes."
 
 #: ../../admin/config.rst:298
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Este diretório tem que ser escrito pelo Weblate. Executá-lo como uWSGI "
+"significa que o usuário ``www-data`` deve ter acesso de escrita."
 
 #: ../../admin/config.rst:301
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"A maneira mais fácil de conseguir isso é fazer do usuário o proprietário do "
+"diretório:"
 
 #: ../../admin/config.rst:307
 msgid "Defaults to ``$BASE_DIR/data``."
-msgstr ""
+msgstr "O padrão é ``$BASE_DIR/data``."
 
 #: ../../admin/config.rst:311
 msgid ":setting:`BASE_DIR`, :doc:`backup`"
-msgstr ""
+msgstr ":setting:`BASE_DIR`, :doc:`backup`"
 
 #: ../../admin/config.rst:317
 msgid "DATABASE_BACKUP"
@@ -25160,16 +25195,21 @@ msgid ""
 "translation is in good shape. The checks can be ignored in case of false "
 "positives."
 msgstr ""
+"As verificações de qualidade ajudam a pegar erros comuns do tradutor, "
+"garantindo que a tradução esteja em boa forma. As verificações podem ser "
+"ignoradas em caso de falsos positivos."
 
 #: ../../user/checks.rst:7
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
 msgstr ""
+"Uma vez que enviar uma tradução com uma verificação de falha, isso é "
+"imediatamente mostrado ao usuário:"
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
-msgstr ""
+msgstr "Correções automáticas"
 
 #: ../../user/checks.rst:18
 msgid ""
@@ -25177,14 +25217,17 @@ msgid ""
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
+"Além de :ref:`checks`, o Weblate também pode corrigir alguns erros comuns em "
+"strings traduzidas automaticamente. Use isso com cuidado para não causar "
+"erros por meio disto."
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
-msgstr ""
+msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:29
 msgid "Quality checks"
-msgstr ""
+msgstr "Verificações de qualidade"
 
 #: ../../user/checks.rst:31
 msgid ""
@@ -25192,20 +25235,26 @@ msgid ""
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
 msgstr ""
+"O Weblate emprega uma ampla gama de verificações de qualidade em strings. A "
+"seção a seguir descreve todos eles em mais detalhes. Há também verificações "
+"específicas de idiomas. Por favor, preencha um relatório de erro se alguma "
+"verificação for relatada por engano."
 
 #: ../../user/checks.rst:37
 msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":setting:`CHECK_LIST`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:40
 msgid "Translation checks"
-msgstr ""
+msgstr "Verificações de tradução"
 
 #: ../../user/checks.rst:42
 msgid ""
 "Executed upon every translation change, helping translators maintain good "
 "quality translations."
 msgstr ""
+"Executado a cada alteração na tradução, ajudando os tradutores a manter "
+"traduções de boa qualidade."
 
 #: ../../user/checks.rst:48
 msgid "BBcode markup"
@@ -25213,23 +25262,27 @@ msgstr "Marcação de BBcode"
 
 #: ../../user/checks.rst:50
 msgid "*BBcode in translation does not match source*"
-msgstr ""
+msgstr "*BBcode na tradução não corresponde à fonte*"
 
 #: ../../user/checks.rst:52
 msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
 msgstr ""
+"BBCode representa marcação simples, como, por exemplo, destacar partes "
+"importantes de uma mensagem em fonte em negrito, ou itálico."
 
 #: ../../user/checks.rst:55
 msgid "This check ensures they are also found in translation."
-msgstr ""
+msgstr "Esta verificação garante que eles também sejam encontrados na tradução."
 
 #: ../../user/checks.rst:59
 msgid ""
 "The method for detecting BBcode is currently quite simple so this check "
 "might produce false positives."
 msgstr ""
+"O método para detectar BBcode é atualmente bastante simples, então esta "
+"verificação pode produzir falsos positivos."
 
 #: ../../user/checks.rst:65
 msgid "Consecutive duplicated words"
@@ -25237,19 +25290,23 @@ msgstr "Há palavras duplicadas de forma consecutiva"
 
 #: ../../user/checks.rst:67
 msgid "*Text contains the same word twice in a row:*"
-msgstr ""
+msgstr "*O texto contém a mesma palavra duas vezes seguidas:*"
 
 #: ../../user/checks.rst:71
 msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
 msgstr ""
+"Verifica se não ocorrem palavras duplicadas consecutivas em uma tradução. "
+"Isso geralmente indica um erro na tradução."
 
 #: ../../user/checks.rst:76
 msgid ""
 "This check includes language specific rules to avoid false positives. In "
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
 msgstr ""
+"Esta verificação inclui regras específicas do idioma para evitar falsos "
+"positivos. Caso seja falso no seu caso, avise-nos. Veja :ref:`report-issue`."
 
 #: ../../user/checks.rst:83
 msgid "Double space"
@@ -25257,23 +25314,27 @@ msgstr "Espaço duplo"
 
 #: ../../user/checks.rst:85
 msgid "*Translation contains double space*"
-msgstr ""
+msgstr "*A tradução contém espaço duplo*"
 
 #: ../../user/checks.rst:87
 msgid ""
 "Checks that double space is present in translation to avoid false positives "
 "on other space-related checks."
 msgstr ""
+"Verifica se o espaço duplo está presente na tradução para evitar falsos "
+"positivos em outras verificações relacionadas ao espaço."
 
 #: ../../user/checks.rst:89
 msgid ""
 "Check is false when double space is found in source meaning double space is "
 "intentional."
 msgstr ""
+"A verificação é falsa quando o espaço duplo é encontrado no texto fonte, o "
+"que significa que o espaço duplo é intencional."
 
 #: ../../user/checks.rst:110
 msgid "Formatted strings"
-msgstr ""
+msgstr "Textos formatados"
 
 #: ../../user/checks.rst:112
 msgid ""
@@ -25281,6 +25342,9 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
+"Verifica se a formatação em textos é replicada entre a fonte e a tradução. "
+"Omitir textos de formato na tradução geralmente causa problemas graves, de "
+"modo que a formatação em textos geralmente deve coincidir com a fonte."
 
 #: ../../user/checks.rst:116
 msgid ""
@@ -25290,6 +25354,12 @@ msgid ""
 "probably have to add it manually for other file formats or if your PO files "
 "are not generated by :program:`xgettext`."
 msgstr ""
+"Weblate tem suporte a verificar textos de formato em vários idiomas. A "
+"verificação não é ativada automaticamente, somente se um texto for "
+"sinalizado adequadamente (por exemplo, \"c-format' para formato C). O "
+"Gettext adiciona isso automaticamente, mas você provavelmente terá que "
+"adicioná-lo manualmente para outros formatos de arquivo ou se seus arquivos "
+"PO não forem gerados por :program:`xgettext`."
 
 #: ../../user/checks.rst:122
 msgid ""
@@ -25298,18 +25368,26 @@ msgid ""
 "in case the string is not interpreted as a formatting string, but format "
 "string syntax happens to be used."
 msgstr ""
+"Isso pode ser feito por unidade (ver :ref:`additional`) na :ref:`component`. "
+"Tê-lo definido por componente é mais simples, mas pode levar a falsos "
+"positivos no caso de o texto não ser interpretado como um texto de "
+"formatação, mas a sintaxe de textos de formato passa a ser usada."
 
 #: ../../user/checks.rst:129
 msgid ""
 "In case specific format check is not available in Weblate, you can use "
 "generic :ref:`check-placeholders`."
 msgstr ""
+"Caso a verificação de formato específico não esteja disponível no Weblate, "
+"você pode usar :ref:`check-placeholders` genéricos."
 
 #: ../../user/checks.rst:132
 msgid ""
 "Besides checking, this will also highlight the formatting strings to easily "
 "insert them into translated strings:"
 msgstr ""
+"Além de verificar, isso também destacará os textos e formatação para inseri-"
+"los facilmente em textos traduzidos:"
 
 #: ../../user/checks.rst:138
 msgid "AngularJS interpolation string"
@@ -25317,16 +25395,16 @@ msgstr "Texto de interpolação AngularJS"
 
 #: ../../user/checks.rst:140
 msgid "*AngularJS interpolation strings do not match source*"
-msgstr ""
+msgstr "*O texto de interpolação AngularJS não corresponde à fonte*"
 
 #: ../../user/checks.rst:143 ../../user/checks.rst:330
 #: ../../user/checks.rst:348 ../../user/checks.rst:398
 msgid "Named format string"
-msgstr ""
+msgstr "Texto de formato nomeado"
 
 #: ../../user/checks.rst:143
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr ""
+msgstr "``Seu saldo é {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:145 ../../user/checks.rst:162
 #: ../../user/checks.rst:178 ../../user/checks.rst:193
@@ -25337,17 +25415,19 @@ msgstr ""
 #: ../../user/checks.rst:350 ../../user/checks.rst:366
 #: ../../user/checks.rst:381 ../../user/checks.rst:402
 msgid "Flag to enable"
-msgstr ""
+msgstr "Sinalizador para habilitar"
 
 #: ../../user/checks.rst:145
 msgid "`angularjs-format`"
-msgstr ""
+msgstr "`angularjs-format`"
 
 #: ../../user/checks.rst:150
 msgid ""
 "`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
 "$interpolate>`_"
 msgstr ""
+"`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
+"$interpolate>`_"
 
 #: ../../user/checks.rst:153
 msgid "C format"
@@ -25355,7 +25435,7 @@ msgstr "Formato C"
 
 #: ../../user/checks.rst:155
 msgid "*C format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato C não corresponde à fonte*"
 
 #: ../../user/checks.rst:158 ../../user/checks.rst:226
 #: ../../user/checks.rst:262 ../../user/checks.rst:279
@@ -25363,30 +25443,30 @@ msgstr ""
 #: ../../user/checks.rst:328 ../../user/checks.rst:346
 #: ../../user/checks.rst:394
 msgid "Simple format string"
-msgstr ""
+msgstr "Texto de formato simples"
 
 #: ../../user/checks.rst:158 ../../user/checks.rst:226
 #: ../../user/checks.rst:262 ../../user/checks.rst:291
 #: ../../user/checks.rst:309 ../../user/checks.rst:346
 #: ../../user/checks.rst:394
 msgid "``There are %d apples``"
-msgstr ""
+msgstr "``Há %d maçãs``"
 
 #: ../../user/checks.rst:160 ../../user/checks.rst:176
 #: ../../user/checks.rst:228 ../../user/checks.rst:244
 #: ../../user/checks.rst:293 ../../user/checks.rst:311
 #: ../../user/checks.rst:364 ../../user/checks.rst:396
 msgid "Position format string"
-msgstr ""
+msgstr "Texto de formato de posição"
 
 #: ../../user/checks.rst:160 ../../user/checks.rst:228
 #: ../../user/checks.rst:293 ../../user/checks.rst:311
 msgid "``Your balance is %1$d %2$s``"
-msgstr ""
+msgstr "``Seu saldo é %1$d %2$s``"
 
 #: ../../user/checks.rst:162
 msgid "`c-format`"
-msgstr ""
+msgstr "`c-format`"
 
 #: ../../user/checks.rst:167
 msgid ""
@@ -25394,6 +25474,9 @@ msgid ""
 "c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
 "Printf_format_string>`_"
 msgstr ""
+"`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
+"Printf_format_string>`_"
 
 #: ../../user/checks.rst:171
 msgid "C# format"
@@ -25401,21 +25484,23 @@ msgstr "Formato C#"
 
 #: ../../user/checks.rst:173
 msgid "*C# format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato C# não corresponde à fonte*"
 
 #: ../../user/checks.rst:176 ../../user/checks.rst:244
 msgid "``There are {0} apples``"
-msgstr ""
+msgstr "``Há {0} maçãs``"
 
 #: ../../user/checks.rst:178
 msgid "`c-sharp-format`"
-msgstr ""
+msgstr "`c-sharp-format`"
 
 #: ../../user/checks.rst:183
 msgid ""
 "`C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string."
 "format?view=netframework-4.7.2>`_"
 msgstr ""
+"`C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string."
+"format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:186
 msgid "ECMAScript template literals"
@@ -25423,16 +25508,15 @@ msgstr "Literais de modelo de ECMAScript"
 
 #: ../../user/checks.rst:188
 msgid "*ECMAScript template literals do not match source*"
-msgstr ""
-"*O formato de literais de modelo de ECMAScript não corresponde com a fonte*"
+msgstr "*Os literais de modelo de ECMAScript não correspondem à fonte*"
 
 #: ../../user/checks.rst:191 ../../user/checks.rst:208
 msgid "Interpolation"
-msgstr ""
+msgstr "Interpolação"
 
 #: ../../user/checks.rst:191
 msgid "``There are ${number} apples``"
-msgstr ""
+msgstr "``Há ${number} maçãs``"
 
 #: ../../user/checks.rst:193
 msgid "`es-format`"
@@ -25443,6 +25527,8 @@ msgid ""
 "`Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/"
 "Reference/Template_literals>`_"
 msgstr ""
+"`Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/"
+"Reference/Template_literals>`_"
 
 #: ../../user/checks.rst:201
 msgid "i18next interpolation"
@@ -25450,29 +25536,31 @@ msgstr "Interpolação de i18next"
 
 #: ../../user/checks.rst:203
 msgid "*The i18next interpolation does not match source*"
-msgstr ""
+msgstr "*A interpolação de i18next não corresponde à fonte*"
 
 #: ../../user/checks.rst:208
 msgid "``There are {{number}} apples``"
-msgstr ""
+msgstr "``Há {{number}} maçãs``"
 
 #: ../../user/checks.rst:210
 msgid "Nesting"
-msgstr ""
+msgstr "Aninhamento"
 
 #: ../../user/checks.rst:210
 msgid "``There are $t(number) apples``"
-msgstr ""
+msgstr "``Há $t(number) maçãs``"
 
 #: ../../user/checks.rst:212
 msgid "`i18next-interpolation`"
-msgstr ""
+msgstr "`i18next-interpolation`"
 
 #: ../../user/checks.rst:217
 msgid ""
 "`i18next interpolation <https://www.i18next.com/translation-function/"
 "interpolation>`_"
 msgstr ""
+"`Interpolação i18next <https://www.i18next.com/translation-function/"
+"interpolation>`_"
 
 #: ../../user/checks.rst:221
 msgid "Java format"
@@ -25480,17 +25568,19 @@ msgstr "Formato Java"
 
 #: ../../user/checks.rst:223
 msgid "*Java format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato java não corresponde à fonte*"
 
 #: ../../user/checks.rst:230
 msgid "`java-format`"
-msgstr ""
+msgstr "`java-format`"
 
 #: ../../user/checks.rst:235
 msgid ""
 "`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
 "Formatter.html>`_"
 msgstr ""
+"`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
+"Formatter.html>`_"
 
 #: ../../user/checks.rst:239
 msgid "Java MessageFormat"
@@ -25498,23 +25588,27 @@ msgstr "MessageFormat do Java"
 
 #: ../../user/checks.rst:241
 msgid "*Java MessageFormat string does not match source*"
-msgstr ""
+msgstr "*O texto de MessageFormat do Java não corresponde à fonte*"
 
 #: ../../user/checks.rst:246
 msgid "`java-messageformat` enables the check unconditionally"
-msgstr ""
+msgstr "`java-messageformat` habilita a verificação incondicionalmente"
 
 #: ../../user/checks.rst:248
 msgid ""
 "`auto-java-messageformat` enables check only if there is a format string in "
 "the source"
 msgstr ""
+"`auto-java-messageformat` habilita verificação somente se houver um texto de "
+"formato na fonte"
 
 #: ../../user/checks.rst:254
 msgid ""
 "`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
 "MessageFormat.html>`_"
 msgstr ""
+"`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
+"MessageFormat.html>`_"
 
 #: ../../user/checks.rst:257
 msgid "JavaScript format"
@@ -25522,17 +25616,19 @@ msgstr "Formato JavaScript"
 
 #: ../../user/checks.rst:259
 msgid "*JavaScript format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato JavaScript não corresponde à fonte*"
 
 #: ../../user/checks.rst:264
 msgid "`javascript-format`"
-msgstr ""
+msgstr "`javascript-format`"
 
 #: ../../user/checks.rst:269
 msgid ""
 "`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/javascript_002dformat.html>`_"
 msgstr ""
+"`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
+"html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:272
 msgid "Percent placeholders"
@@ -25540,15 +25636,15 @@ msgstr "Espaços reservados de porcentagem"
 
 #: ../../user/checks.rst:274
 msgid "*The percent placeholders do not match source*"
-msgstr ""
+msgstr "*Os espaços reservados de porcentagem não correspondem à fonte*"
 
 #: ../../user/checks.rst:279
 msgid "``There are %number% apples``"
-msgstr ""
+msgstr "``Há %number% maçãs``"
 
 #: ../../user/checks.rst:281
 msgid "`percent-placeholders`"
-msgstr ""
+msgstr "`percent-placeholders`"
 
 #: ../../user/checks.rst:286
 msgid "Perl format"
@@ -25556,11 +25652,11 @@ msgstr "Formato Perl"
 
 #: ../../user/checks.rst:288
 msgid "*Perl format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato Perl não corresponde à fonte*"
 
 #: ../../user/checks.rst:295
 msgid "`perl-format`"
-msgstr ""
+msgstr "`perl-format`"
 
 #: ../../user/checks.rst:300
 msgid ""
@@ -25568,6 +25664,9 @@ msgid ""
 "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "perl_002dformat.html>`_"
 msgstr ""
+"`Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_, `Perl "
+"Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:304
 msgid "PHP format"
@@ -25575,11 +25674,11 @@ msgstr "Formato PHP"
 
 #: ../../user/checks.rst:306
 msgid "*PHP format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato PHP não corresponde à fonte*"
 
 #: ../../user/checks.rst:313
 msgid "`php-format`"
-msgstr ""
+msgstr "`php-format`"
 
 #: ../../user/checks.rst:318
 msgid ""
@@ -25587,6 +25686,9 @@ msgid ""
 "php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/php_002dformat.html>`_"
 msgstr ""
+"`Documentação de PHP sprintf <https://www.php.net/manual/en/function.sprintf."
+"php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/manual/"
+"html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:323
 msgid "Python brace format"
@@ -25594,19 +25696,19 @@ msgstr "Formato de chaves Python"
 
 #: ../../user/checks.rst:325
 msgid "*Python brace format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato de chaves Python não corresponde à fonte*"
 
 #: ../../user/checks.rst:328
 msgid "``There are {} apples``"
-msgstr ""
+msgstr "``Há {} maçãs``"
 
 #: ../../user/checks.rst:330
 msgid "``Your balance is {amount} {currency}``"
-msgstr ""
+msgstr "``Seu saldo é {amount} {currency}``"
 
 #: ../../user/checks.rst:332
 msgid "`python-brace-format`"
-msgstr ""
+msgstr "`python-brace-format`"
 
 #: ../../user/checks.rst:337
 msgid ""
@@ -25614,6 +25716,9 @@ msgid ""
 "<https://www.gnu.org/software/gettext/manual/html_node/python_002dformat."
 "html>`_"
 msgstr ""
+":ref:`Formato de chaves Python <python:formatstrings>`, `Python Format "
+"Strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"python_002dformat.html>`_"
 
 #: ../../user/checks.rst:341
 msgid "Python format"
@@ -25621,15 +25726,15 @@ msgstr "Formato Python"
 
 #: ../../user/checks.rst:343
 msgid "*Python format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato Python não corresponde à fonte*"
 
 #: ../../user/checks.rst:348
 msgid "``Your balance is %(amount) %(currency)``"
-msgstr ""
+msgstr "``Seu saldo é %(amount) %(currency)``"
 
 #: ../../user/checks.rst:350
 msgid "`python-format`"
-msgstr ""
+msgstr "`python-format`"
 
 #: ../../user/checks.rst:355
 msgid ""
@@ -25637,6 +25742,9 @@ msgid ""
 "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "python_002dformat.html>`_"
 msgstr ""
+":ref:`Formatação de texto Python <python:old-string-formatting>`, `Python "
+"Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"python_002dformat.html>`_"
 
 #: ../../user/checks.rst:359
 msgid "Qt format"
@@ -25644,19 +25752,19 @@ msgstr "Formato Qt"
 
 #: ../../user/checks.rst:361
 msgid "*Qt format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato Qt não corresponde à fonte*"
 
 #: ../../user/checks.rst:364
 msgid "``There are %1 apples``"
-msgstr ""
+msgstr "``Há %1 maçãs``"
 
 #: ../../user/checks.rst:366
 msgid "`qt-format`"
-msgstr ""
+msgstr "`qt-format`"
 
 #: ../../user/checks.rst:371
 msgid "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
-msgstr ""
+msgstr "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
 
 #: ../../user/checks.rst:374
 msgid "Qt plural format"
@@ -25664,25 +25772,27 @@ msgstr "Formato de plural Qt"
 
 #: ../../user/checks.rst:376
 msgid "*Qt plural format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato de plural do Qt não corresponde à fonte*"
 
 #: ../../user/checks.rst:379
 msgid "Plural format string"
-msgstr ""
+msgstr "Texto de formato de plural"
 
 #: ../../user/checks.rst:379
 msgid "``There are %Ln apple(s)``"
-msgstr ""
+msgstr "``Há %Ln maçã(s)``"
 
 #: ../../user/checks.rst:381
 msgid "`qt-plural-format`"
-msgstr ""
+msgstr "`qt-plural-format`"
 
 #: ../../user/checks.rst:386
 msgid ""
 "`Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-"
 "plurals>`_"
 msgstr ""
+"`Guia de i18n do Qt <https://doc.qt.io/qt-5/i18n-source-translation.html"
+"#handling-plurals>`_"
 
 #: ../../user/checks.rst:389
 msgid "Ruby format"
@@ -25690,33 +25800,35 @@ msgstr "Formato Ruby"
 
 #: ../../user/checks.rst:391
 msgid "*Ruby format string does not match source*"
-msgstr ""
+msgstr "*O texto de formato Ruby não corresponde à fonte*"
 
 #: ../../user/checks.rst:396
 msgid "``Your balance is %1$f %2$s``"
-msgstr ""
+msgstr "``Seu saldo é %1$f %2$s``"
 
 #: ../../user/checks.rst:398
 msgid "``Your balance is %+.2<amount>f %<currency>s``"
-msgstr ""
+msgstr "``Seu saldo é %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:400
 msgid "Named template string"
-msgstr ""
+msgstr "Texto do modelo nomeado"
 
 #: ../../user/checks.rst:400
 msgid "``Your balance is %{amount} %{currency}``"
-msgstr ""
+msgstr "``Seu saldo é %{amount} %{currency}``"
 
 #: ../../user/checks.rst:402
 msgid "`ruby-format`"
-msgstr ""
+msgstr "`ruby-format`"
 
 #: ../../user/checks.rst:407
 msgid ""
 "`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-"
 "sprintf>`_"
 msgstr ""
+"`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
+"html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:412
 msgid "Has been translated"
@@ -25724,13 +25836,15 @@ msgstr "Foi traduzido"
 
 #: ../../user/checks.rst:414
 msgid "*This string has been translated in the past*"
-msgstr ""
+msgstr "*Este texto foi traduzido no passado*"
 
 #: ../../user/checks.rst:416
 msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
 msgstr ""
+"Significa que um texto já foi traduzido. Isso pode acontecer quando as "
+"traduções foram revertidas no VCS ou perdidas de outra forma."
 
 #: ../../user/checks.rst:422
 msgid "Inconsistent"
@@ -25741,12 +25855,16 @@ msgid ""
 "*This string has more than one translation in this project or is not "
 "translated in some components.*"
 msgstr ""
+"*Este texto tem mais de uma tradução neste projeto ou não é traduzida em "
+"alguns componentes.*"
 
 #: ../../user/checks.rst:427
 msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
 msgstr ""
+"O Weblate verifica traduções da mesmo texto em todas as traduções de um "
+"projeto para ajudar a manter traduções consistentes."
 
 #: ../../user/checks.rst:430
 msgid ""
@@ -25754,6 +25872,10 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
+"A verificação falha em diferentes traduções de um texto dentro de um "
+"projeto. Isso também pode levar a inconsistências nas verificações exibidas. "
+"Você pode encontrar outras traduções deste texto na aba :guilabel:`Outras "
+"ocorrências`."
 
 #: ../../user/checks.rst:436
 msgid ""
@@ -25763,6 +25885,11 @@ msgid ""
 "guilabel:`Use this string` button displayed on each line in the :guilabel:"
 "`Other occurences` tab."
 msgstr ""
+"Esta verificação também é disparada no caso de o texto estar traduzido em um "
+"componente e não em outro. Ela pode ser usado como uma maneira rápida de "
+"manusear manualmente textos que não estão traduzidos em alguns componentes "
+"apenas clicando no botão :guilabel:`Usar esta tradução` exibido em cada "
+"linha na aba :guilabel:`Outras ocorrências`."
 
 #: ../../user/checks.rst:442
 msgid ""
@@ -25770,6 +25897,9 @@ msgid ""
 "automate translating of newly added strings which are already translated in "
 "another component."
 msgstr ""
+"Você pode usar :ref:`addon-weblate.autotranslate.autotranslate` para "
+"automatizar a tradução de textos recém-adicionadas que já são traduzidas em "
+"outro componente."
 
 #: ../../user/checks.rst:454
 msgid "Kashida letter used"
@@ -25777,17 +25907,19 @@ msgstr "Letra Kashida usada"
 
 #: ../../user/checks.rst:456
 msgid "*The decorative kashida letters should not be used*"
-msgstr ""
+msgstr "*As letras kashida decorativas não devem ser usadas*"
 
 #: ../../user/checks.rst:460
 msgid ""
 "The decorative Kashida letters should not be used in translation. These are "
 "also known as Tatweel."
 msgstr ""
+"As letras Kashida decorativas não devem ser usadas na tradução. Estas também "
+"são conhecidas como Tatweel."
 
 #: ../../user/checks.rst:465
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
-msgstr ""
+msgstr "`Kashida na Wikipédia <https://en.wikipedia.org/wiki/Kashida>`_"
 
 #: ../../user/checks.rst:470
 msgid "Markdown links"
@@ -28596,10 +28728,6 @@ msgstr ""
 "ocorrer."
 
 #: ../../wlc.rst:20
-#, fuzzy
-#| msgid ""
-#| "The Weblate Client is shipped separately and includes the Python module. "
-#| "You need to install :mod:`wlc`:, wlc to use these."
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :mod:`wlc`:"
@@ -28640,11 +28768,6 @@ msgid "Description"
 msgstr "Descrição"
 
 #: ../../wlc.rst:65
-#, fuzzy
-#| msgid ""
-#| "Weblate Client is a Python library and command-line utility to manage "
-#| "Weblate remotely using :ref:`api`. The command-line utility can be "
-#| "invoked as :command:`wlc` and is built on :mod:`wlc`."
 msgid ""
 "Weblate Client is a Python library and command-line utility to manage "
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
@@ -28652,8 +28775,8 @@ msgid ""
 msgstr ""
 "Weblate Client é uma biblioteca Python e utilitário de linha de comando para "
 "gerenciar o Weblate remotamente usando a :ref:`api`. O utilitário de linha "
-"de comando pode ser invocado como :command:`wlc` e está embutido em :mod:"
-"`wlc`."
+"de comando pode ser invocado como :command:`wlc` e está embutido em "
+":mod:`wlc`."
 
 #: ../../wlc.rst:70
 msgid "Site wide options"
