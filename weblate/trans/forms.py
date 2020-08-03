@@ -631,11 +631,10 @@ class ExtraUploadForm(UploadForm):
 
 def get_upload_form(user, translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
-    project = translation.component.project
-    if user.has_perm("upload.authorship", project):
+    if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm
         kwargs["initial"] = {"author_name": user.full_name, "author_email": user.email}
-    elif user.has_perm("upload.overwrite", project):
+    elif user.has_perm("upload.overwrite", translation):
         form = UploadForm
     else:
         form = SimpleUploadForm
