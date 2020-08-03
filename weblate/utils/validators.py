@@ -218,3 +218,12 @@ def validate_slug(value):
     # This one is used as wildcard in the URL for widgets and translate pages
     if value == "-":
         raise ValidationError(_("This name is prohibited"))
+
+
+def validate_language_aliases(value):
+    """Validates language aliases - comma separated semi colon values."""
+    if not value:
+        return
+    for part in value.split(","):
+        if part.count(":") != 1:
+            raise ValidationError(_("Syntax error in language aliases."))

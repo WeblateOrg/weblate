@@ -1833,6 +1833,10 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         # Use longest matched code
         code = max(matches.groups(), key=len)
 
+        # Language code aliases
+        if code in self.project.language_aliases_dict:
+            return self.project.language_aliases_dict[code]
+
         # Remove possible encoding part
         if "." in code and (".utf" in code.lower() or ".iso" in code.lower()):
             return code.split(".")[0]

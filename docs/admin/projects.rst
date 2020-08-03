@@ -226,6 +226,29 @@ translating from something else than English.
    :ref:`bimono`,
    :ref:`languages`
 
+.. _project-language_aliases:
+
+Language aliases
+++++++++++++++++
+
+Define language codes mapping when importing translations into Weblate. Use
+this when language codes are inconsistent in your repositories and you want to
+get a consistent view in Weblate.
+
+The typical use case might be mapping American English to English: ``en_US:en``
+
+Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``
+
+.. hint::
+
+   The language codes are mapped when matching the translation files and the
+   matches are case sensitive, so make sure you use the source language codes
+   in same form as used in the filenames.
+
+.. seealso::
+
+    :ref:`language-parsing-codes`
+
 .. _component:
 
 Component configuration

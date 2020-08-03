@@ -26,6 +26,7 @@ Not yet released.
 * Removed separate Celery queue for translation memory.
 * Allow to translate all components of one language at once.
 * Allow to configure ``Content-Security-Policy`` HTTP headers.
+* Added support for aliasing languages at project level.
 
 Weblate 4.1.1
 -------------
