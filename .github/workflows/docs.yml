@@ -27,7 +27,7 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.8
       - name: Install apt dependencies
@@ -58,7 +58,7 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.8
       - name: Install pip dependencies
