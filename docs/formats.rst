@@ -471,7 +471,7 @@ INI translations are usually used as monolingual translations.
 .. _islu:
 
 Inno Setup INI translations
---------------------------
+---------------------------
 
 .. index::
     pair: INI translations; file format
