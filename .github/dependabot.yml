@@ -1,24 +1,24 @@
 version: 2
 updates:
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-- package-ecosystem: pip
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: psycopg2-binary
-    versions:
-    - "> 2.7.7"
-  - dependency-name: pygobject
-    versions:
-    - "> 3.30.4"
-- package-ecosystem: npm
-  directory: "/scripts/yarn"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: psycopg2-binary
+        versions:
+          - "> 2.7.7"
+      - dependency-name: pygobject
+        versions:
+          - "> 3.30.4"
+  - package-ecosystem: npm
+    directory: "/scripts/yarn"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
