@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-03 19:47+0200\n"
-"PO-Revision-Date: 2020-07-26 22:43+0000\n"
+"PO-Revision-Date: 2020-08-04 13:58+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -31,6 +31,10 @@ msgid ""
 "consult the documentation for that version, the information here will not "
 "apply."
 msgstr ""
+"Hasta Weblate 3.0, el sistema de privilegios se basaba en Django, pero ahora "
+"se ha construido específicamente para Weblate. Si utiliza una versión "
+"antigua, consulte la documentación que corresponda a esa versión, ya que la "
+"información que aquí se ofrece no será relevante."
 
 #: ../../admin/access.rst:12
 msgid ""
@@ -687,10 +691,8 @@ msgid "Uploads"
 msgstr "Cargas"
 
 #: ../../admin/access.rst:386
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "Define author of translation upload [`Administration`]"
-msgstr "Definir autor/a de la traducción cargada"
+msgstr "Definir autor/a de la traducción cargada [`Administración`]"
 
 #: ../../admin/access.rst:388
 msgid ""
@@ -751,7 +753,7 @@ msgstr ""
 
 #: ../../admin/access.rst:422
 msgid "Site wide privileges"
-msgstr ""
+msgstr "Privilegios en todo el sitio"
 
 #: ../../admin/access.rst:406
 msgid "Use management interface"
@@ -766,20 +768,16 @@ msgid "Manage language definitions"
 msgstr "Gestionar definiciones de idioma"
 
 #: ../../admin/access.rst:412
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add groups"
-msgstr "Añadir grupo de tipos de letra"
+msgstr "Añadir grupos"
 
 #: ../../admin/access.rst:414
 msgid "Manage groups"
 msgstr "Gestionar grupos"
 
 #: ../../admin/access.rst:416
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add users"
-msgstr "Añadir usuario"
+msgstr "Añadir usuarios"
 
 #: ../../admin/access.rst:418
 msgid "Manage users"
@@ -939,14 +937,12 @@ msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
 msgstr ""
 
 #: ../../admin/addons.rst:37
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "Formato JavaScript"
+msgstr "CDN de regionalización de JavaScript"
 
 #: ../../admin/addons.rst:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr ""
+msgstr "Añade un CDN para la regionalización de JavaScript o HTML."
 
 #: ../../admin/addons.rst:41
 msgid ""
@@ -965,10 +961,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:51
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "String extraction"
-msgstr "Cadenas que necesitan intervención"
+msgstr "Extracción de cadenas"
 
 #: ../../admin/addons.rst:53
 msgid ""
@@ -999,10 +993,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:85
-#, fuzzy
-#| msgid "Localization"
 msgid "HTML localization"
-msgstr "Regionalización"
+msgstr "Regionalización de HTML"
 
 #: ../../admin/addons.rst:87
 msgid ""
@@ -1023,10 +1015,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:101
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization"
-msgstr "Formato JavaScript"
+msgstr "Regionalización de JavaScript"
 
 #: ../../admin/addons.rst:103
 msgid ""
@@ -1874,11 +1864,6 @@ msgid "OpenID authentication"
 msgstr "Autenticación por OpenID"
 
 #: ../../admin/auth.rst:67
-#, fuzzy
-#| msgid ""
-#| "For OpenID based services it's usually just a matter of enabling them. "
-#| "The following section enables OpenID authentication for OpenSUSE, Fedora "
-#| "and Ubuntu:"
 msgid ""
 "For OpenID-based services it's usually just a matter of enabling them. The "
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
@@ -2589,7 +2574,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:211
 msgid "User uploaded files"
-msgstr ""
+msgstr "Archivos cargados por los usuarios"
 
 #: ../../admin/backup.rst:213
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
@@ -2608,6 +2593,8 @@ msgid ""
 "Using a cron task, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
 msgstr ""
+"Con la ayuda de una tarea de cron es posible montar una orden de bash que se "
+"ejecute diariamente. Por ejemplo:"
 
 #: ../../admin/backup.rst:226
 msgid ""
@@ -2624,7 +2611,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:236
 msgid "Celery tasks"
-msgstr ""
+msgstr "Tareas de Celery"
 
 #: ../../admin/backup.rst:238
 msgid ""
@@ -3877,16 +3864,16 @@ msgid "All these default to empty list."
 msgstr ""
 
 #: ../../admin/config.rst:218
-#, fuzzy
-#| msgid "**Example request**:"
 msgid "** Example:: **"
-msgstr "**Ejemplo de solicitud**:"
+msgstr "** Ejemplo:: **"
 
 #: ../../admin/config.rst:227
 msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+":ref:`csp`, `Directiva de seguridad de contenido (CSP) <https://developer."
+"mozilla.org/en-US/docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:233
 msgid "CHECK_LIST"
@@ -3894,7 +3881,7 @@ msgstr ""
 
 #: ../../admin/config.rst:235
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Lista de comprobaciones de calidad que ejecutar en una traducción."
 
 #: ../../admin/config.rst:239
 msgid ""
@@ -3916,11 +3903,11 @@ msgstr ""
 
 #: ../../admin/config.rst:248
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Puede desactivar todas las comprobaciones:"
 
 #: ../../admin/config.rst:254
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Puede activar solo algunas:"
 
 #: ../../admin/config.rst:266
 msgid ""
@@ -3972,51 +3959,55 @@ msgstr ""
 
 #: ../../admin/config.rst:308
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "A menudo existen los subdirectorios siguientes:"
 
 #: ../../admin/config.rst:310
 msgid ":file:`home`"
-msgstr ""
+msgstr ":file:`home`"
 
 #: ../../admin/config.rst:311
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Directorio de inicio utilizado para invocar secuencias de órdenes."
 
 #: ../../admin/config.rst:312
 msgid ":file:`ssh`"
-msgstr ""
+msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:313
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "Claves SSH y su configuración."
 
 #: ../../admin/config.rst:314
 msgid ":file:`static`"
-msgstr ""
+msgstr ":file:`static`"
 
 #: ../../admin/config.rst:315
 msgid "Default location for static Django files, specified by ``STATIC_ROOT``."
 msgstr ""
+"Ubicación predeterminada de los archivos de Django, especificada por "
+"``STATIC_ROOT``."
 
 #: ../../admin/config.rst:316
 msgid ":file:`media`"
-msgstr ""
+msgstr ":file:`media`"
 
 #: ../../admin/config.rst:317
 msgid "Default location for Django media files, specified by ``MEDIA_ROOT``."
 msgstr ""
+"Ubicación predeterminada de los archivos multimedia de Django, especificada "
+"por ``MEDIA_ROOT``."
 
 #: ../../admin/config.rst:318
 msgid ":file:`vcs`"
-msgstr ""
+msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:319
 msgid "Version control repositories."
-msgstr ""
+msgstr "Repositorios de control de versiones."
 
 #: ../../admin/config.rst:321
 msgid ":file:`backups`"
-msgstr ""
+msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:321
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
@@ -4027,12 +4018,17 @@ msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Weblate necesita ser capaz de escribir en este directorio. Ejecutarlo como "
+"uWSGI implica que el usuario ``www-data`` debe tener privilegios de "
+"escritura aquí."
 
 #: ../../admin/config.rst:328
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"La manera más sencilla de lograrlo es hacer que el usuario sea propietario "
+"del directorio:"
 
 #: ../../admin/config.rst:334
 msgid "Defaults to ``$BASE_DIR/data``."
@@ -4071,6 +4067,7 @@ msgstr ""
 #: ../../admin/config.rst:366
 msgid "The default access control setting for new projects:"
 msgstr ""
+"La configuración de control de acceso predeterminada para proyectos nuevos:"
 
 #: ../../admin/config.rst:368
 msgid "``0``"
@@ -4078,7 +4075,7 @@ msgstr ""
 
 #: ../../admin/config.rst:369
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Público`"
 
 #: ../../admin/config.rst:370
 msgid "``1``"
@@ -4086,7 +4083,7 @@ msgstr ""
 
 #: ../../admin/config.rst:371
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Protegido`"
 
 #: ../../admin/config.rst:372
 msgid "``100``"
@@ -4094,7 +4091,7 @@ msgstr ""
 
 #: ../../admin/config.rst:373
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Privado`"
 
 #: ../../admin/config.rst:375
 msgid "``200``"
@@ -4102,7 +4099,7 @@ msgstr ""
 
 #: ../../admin/config.rst:375
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Personalizado`"
 
 #: ../../admin/config.rst:377
 msgid ""
@@ -4120,7 +4117,7 @@ msgstr ""
 
 #: ../../admin/config.rst:393
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "El valor predeterminado para la restricción de componentes."
 
 #: ../../admin/config.rst:397
 msgid ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
@@ -4149,17 +4146,19 @@ msgstr ""
 #: ../../admin/config.rst:425
 msgid "Default addons to install on every created component."
 msgstr ""
+"Los complementos predeterminados que se instalarán en todos los componentes "
+"que se creen."
 
 #: ../../admin/config.rst:429
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Esta configuración solo surte efecto en los componentes nuevos."
 
 #: ../../admin/config.rst:431 ../../admin/config.rst:716
 #: ../../admin/config.rst:1370 ../../admin/config.rst:1516
 #: ../../admin/config.rst:1556 ../../admin/management.rst:95
 #: ../../admin/management.rst:142 ../../admin/management.rst:666
 msgid "Example:"
-msgstr ""
+msgstr "Ejemplo:"
 
 #: ../../admin/config.rst:452
 msgid ":djadmin:`install_addon`"
@@ -7409,7 +7408,7 @@ msgstr ""
 
 #: ../../admin/install.rst:943
 msgid "Template loading"
-msgstr ""
+msgstr "Carga de plantillas"
 
 #: ../../admin/install.rst:945
 msgid ""
@@ -7425,7 +7424,7 @@ msgstr ""
 
 #: ../../admin/install.rst:984
 msgid "Running maintenance tasks"
-msgstr ""
+msgstr "Efectuar tareas de mantenimiento"
 
 #: ../../admin/install.rst:986
 msgid ""
@@ -11867,10 +11866,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:232
-#, fuzzy
-#| msgid "Language name"
 msgid "Language aliases"
-msgstr "Nombre del idioma"
+msgstr "Alias de idiomas"
 
 #: ../../admin/projects.rst:234
 msgid ""
@@ -11878,6 +11875,10 @@ msgid ""
 "this when language codes are inconsistent in your repositories and you want "
 "to get a consistent view in Weblate."
 msgstr ""
+"Defina una vinculación entre códigos de idioma durante la importación de "
+"traducciones en Weblate. Utilice esta función si los códigos de idioma son "
+"irregulares en sus repositorios y quiere obtener una visualización coherente "
+"en Weblate."
 
 #: ../../admin/projects.rst:238
 msgid ""
@@ -11919,6 +11920,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or addons, book chapters or websites)."
 msgstr ""
+"Es aconsejable mantener un tamaño razonable para los componentes de "
+"traducción. Divídala en secciones que tengan sentido para su proyecto (por "
+"ejemplo, por aplicaciones o complementos, capítulos o sitios web)."
 
 #: ../../admin/projects.rst:269
 msgid ""
@@ -11926,6 +11930,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate puede manejar con facilidad traducciones de decenas de miles de "
+"cadenas, pero es más difícil distribuir el trabajo y coordinar los "
+"traductores al utilizar componentes de tales dimensiones."
 
 #: ../../admin/projects.rst:272
 msgid ""
@@ -16196,7 +16203,7 @@ msgstr ""
 
 #: ../../changes.rst:238
 msgid "Include more detailed license info on the project pages."
-msgstr ""
+msgstr "Se detalló la información sobre licencias en las páginas de proyecto."
 
 #: ../../changes.rst:239
 msgid "Automatically unshallow local copies if needed."
@@ -16204,7 +16211,7 @@ msgstr ""
 
 #: ../../changes.rst:240
 msgid "Fixed download of strings needing action."
-msgstr ""
+msgstr "Se arregló la descarga de cadenas pendientes de intervención."
 
 #: ../../changes.rst:241
 msgid "New alert to warn about using the same filemask twice."
@@ -16221,7 +16228,7 @@ msgstr ""
 
 #: ../../changes.rst:244
 msgid "Added option to resolve comments."
-msgstr ""
+msgstr "Se añadió una opción para marcar comentarios como resueltos."
 
 #: ../../changes.rst:245
 msgid "Added bulk editing of flags."
@@ -16241,7 +16248,7 @@ msgstr ""
 
 #: ../../changes.rst:249
 msgid "Increased default validity of confirmation links."
-msgstr ""
+msgstr "Se incrementó la validez predeterminada de los enlaces de confirmación."
 
 #: ../../changes.rst:250
 msgid "Improved Matomo integration."
@@ -25683,6 +25690,10 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
+"Comprueba que tanto la cadena de origen como la traducción tengan signos de "
+"interrogación. La presencia de estos signos también se comprueba en varios "
+"idiomas que no los utilizan (armenio, árabe, chino, coreano, japonés, "
+"etíope, vai y copto)."
 
 #: ../../user/checks.rst:663
 msgid ""
@@ -25703,6 +25714,10 @@ msgid ""
 "source and translation. This can be useful to keep formatting of entries "
 "such as desktop files."
 msgstr ""
+"Comprueba que los punto y coma al final de las oraciones de la cadena de "
+"origen y de la traducción sean una réplica mutua. Esto puede resultar útil "
+"para garantizar un buen formato de cadenas tales como las de los archivos ."
+"desktop."
 
 #: ../../user/checks.rst:677
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
@@ -26214,10 +26229,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:69
-#, fuzzy
-#| msgid "Replace existing translation file"
 msgid "Replace existing translation file (``replace``)"
-msgstr "Reemplazar archivo de traducción existente"
+msgstr "Reemplazar archivo de traducción existente (``replace``)"
 
 #: ../../user/files.rst:69
 msgid ""
@@ -28558,24 +28571,29 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"Al activar los revisores dedicados dividirá sus usuarios en dos grupos: uno "
+"será capaz de enviar traducciones, y el otro podrá revisarlas para "
+"garantizar que sean coherentes y su calidad sea buena."
 
 #: ../../workflows.rst:117
 msgid "*Any user* can edit unapproved translations."
-msgstr ""
+msgstr "*Cualquier usuario* puede editar traducciones no aprobadas."
 
 #: ../../workflows.rst:118
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve source strings."
 msgid "*Reviewer* can approve / unapprove strings."
-msgstr "Se necesitan revisores especializados que aprueben cadenas de origen."
+msgstr "Los *revisores* pueden aprobar o desaprobar las cadenas."
 
 #: ../../workflows.rst:119
 msgid "*Reviewer* can edit all translations (including approved ones)."
 msgstr ""
+"Los *revisores* pueden editar todas las traducciones (incluidas las "
+"aprobadas)."
 
 #: ../../workflows.rst:120
 msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr ""
+"Es posible asimismo emplear las sugerencias para proponer modificaciones a "
+"las cadenas aprobadas."
 
 #: ../../workflows.rst:137
 msgid "Or `Review` with :ref:`privileges`."
