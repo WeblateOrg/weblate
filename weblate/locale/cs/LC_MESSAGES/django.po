@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-03 17:47+0000\n"
-"PO-Revision-Date: 2020-08-03 17:46+0000\n"
+"PO-Revision-Date: 2020-08-04 06:44+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -917,14 +917,12 @@ msgstr ""
 "očekávaným."
 
 #: weblate/addons/cdn.py:38
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "Formát JavaScriptu"
+msgstr "Lokalizační CDN pro JavaScript"
 
 #: weblate/addons/cdn.py:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr ""
+msgstr "Přidá lokalizační CDN pro lokalizaci JavaScriptu nebo HTML."
 
 #: weblate/addons/cleanup.py:78
 msgid "Cleanup translation files"
@@ -1252,46 +1250,40 @@ msgid "Please include component markup in the template."
 msgstr "Nezapomeňte na označení součásti."
 
 #: weblate/addons/forms.py:393
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation threshold"
-msgstr "Překlad k odstranění"
+msgstr "Práh překladů"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Threshold for included translations."
-msgstr "Šablona pro nové překlady"
+msgstr "Prahová hodnota zahrnutých překladů."
 
 #: weblate/addons/forms.py:401
-#, fuzzy
-#| msgid "Select"
 msgid "CSS selector"
-msgstr "Zvolit"
+msgstr "CSS selektor"
 
 #: weblate/addons/forms.py:404
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "CSS selektor pro nalezení překladatelných řetězců."
 
 #: weblate/addons/forms.py:407
-#, fuzzy
-#| msgid "Language name"
 msgid "Language cookie name"
-msgstr "Název jazyka"
+msgstr "Název jazykového souboru cookie"
 
 #: weblate/addons/forms.py:410
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "Název souboru cookie, který ukládá jazykové preference."
 
 #: weblate/addons/forms.py:414
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Extrahujte řetězce ze souborů HTML"
 
 #: weblate/addons/forms.py:417
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Seznam názvů souborů v aktuálním repozitáři nebo vzdálených adresách URL, ve "
+"kterých se mají hledat překladatelné řetězce."
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
@@ -1426,7 +1418,7 @@ msgstr "Zadán neplatný název doplňku!"
 
 #: weblate/addons/views.py:97
 msgid "Addon installed, please review integration instructions."
-msgstr ""
+msgstr "Doplněk nainstalován, přečtěte si prosím pokyny pro integraci."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -4546,18 +4538,16 @@ msgid "Some addons will ask for additional configuration during installation."
 msgstr "Některé doplňky budou při instalaci požadovat další nastavení."
 
 #: weblate/templates/addons/cdnjs.html:5
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Integration instructions"
-msgstr "Instrukce k překladu"
+msgstr "Pokyny pro integraci"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
-msgstr ""
+msgstr "Chcete-li načíst lokalizaci z CDN, vložte následující úryvek:"
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
-msgstr ""
+msgstr "Překladatelné prvky musí odpovídat zvolenému CSS selektoru."
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
@@ -7865,10 +7855,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "URL adresa webu projektu odkazuje na neexistující umístění:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not execute script addon."
 msgid "Weblate could not parse HTML files using the addon."
-msgstr "Weblate se nepodařilo spustit skript v doplňku."
+msgstr "Weblate se nepodařilo zpracovat HTML soubory v doplňku."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -10460,16 +10448,16 @@ msgid "Language used for source strings in all components"
 msgstr "Jazyk, který je použitý jako zdrojový ve všech součástech"
 
 #: weblate/trans/models/project.py:164
-#, fuzzy
-#| msgid "Language name"
 msgid "Language aliases"
-msgstr "Název jazyka"
+msgstr "Jazykové aliasy"
 
 #: weblate/trans/models/project.py:168
 msgid ""
 "Comma separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
 msgstr ""
+"Seznam mapování jazykových kódů oddělených čárkami, například: "
+"en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -11486,7 +11474,7 @@ msgstr "Tento název je zakázaný"
 
 #: weblate/utils/validators.py:229
 msgid "Syntax error in language aliases."
-msgstr ""
+msgstr "Chyba syntaxe v jazykových aliasech."
 
 #: weblate/utils/views.py:98
 msgid "Word count"
