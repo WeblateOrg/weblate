@@ -28,8 +28,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-03 17:47+0000\n"
-"PO-Revision-Date: 2020-07-31 14:03+0000\n"
-"Last-Translator: Gianluca Boiano <morf3089@gmail.com>\n"
+"PO-Revision-Date: 2020-08-04 06:44+0000\n"
+"Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -324,10 +324,8 @@ msgid "Suggestions made"
 msgstr "Suggerimenti fatti"
 
 #: weblate/accounts/forms.py:770
-#, fuzzy
-#| msgid "Comment added"
 msgid "Comments made"
-msgstr "Aggiunto commento"
+msgstr "Commenti fatti"
 
 #: weblate/accounts/forms.py:771
 msgid "Screenshots uploaded"
@@ -944,14 +942,12 @@ msgstr ""
 "fino a quando non lo aggiorni."
 
 #: weblate/addons/cdn.py:38
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "Formato JavaScript"
+msgstr "CDN Localizzazione Java"
 
 #: weblate/addons/cdn.py:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr ""
+msgstr "Aggiunge la CDN localizzazione per la localizzazione JavaScript o HTML."
 
 #: weblate/addons/cleanup.py:78
 msgid "Cleanup translation files"
@@ -1287,46 +1283,40 @@ msgid "Please include component markup in the template."
 msgstr "Includi nel modello il markup del componente."
 
 #: weblate/addons/forms.py:393
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation threshold"
-msgstr "Traduzione da rimuovere"
+msgstr "Soglia traduzione"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Threshold for included translations."
-msgstr "Modello per le nuove traduzioni"
+msgstr "Soglia per traduzioni incluse."
 
 #: weblate/addons/forms.py:401
-#, fuzzy
-#| msgid "Select"
 msgid "CSS selector"
-msgstr "Seleziona"
+msgstr "Selettore CSS"
 
 #: weblate/addons/forms.py:404
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "Selettore CSS per rilevare elementi localizzabili."
 
 #: weblate/addons/forms.py:407
-#, fuzzy
-#| msgid "Language name"
 msgid "Language cookie name"
-msgstr "Nome lingua"
+msgstr "Nome cookie lingua"
 
 #: weblate/addons/forms.py:410
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "Nome del cookie che memorizza la impostazioni della lingua."
 
 #: weblate/addons/forms.py:414
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Estrai stringhe da file HTML"
 
 #: weblate/addons/forms.py:417
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Elenco di nomi di file nel repository attuale o URL remoti da analizzare per "
+"le stringhe traducibili."
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
@@ -1464,6 +1454,7 @@ msgstr "Nome del componente aggiuntivo indicato non valido!"
 #: weblate/addons/views.py:97
 msgid "Addon installed, please review integration instructions."
 msgstr ""
+"Componente aggiuntivo installato. Consulta le istruzioni di integrazione."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -3840,10 +3831,8 @@ msgid "Most active screenshot uploaders"
 msgstr "Caricatori di schermate più attivi"
 
 #: weblate/templates/about/stats.html:64
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active commenters"
-msgstr "Suggeritori molto attivi"
+msgstr "Suggeritori più attivi"
 
 #: weblate/templates/about/stats.html:100
 msgid "Translatable strings"
@@ -4490,13 +4479,11 @@ msgstr[0] "%(count)s schermata"
 msgstr[1] "%(count)s schermate"
 
 #: weblate/templates/accounts/user.html:47
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "%(count)s voto"
-msgstr[1] "%(count)s voti"
+msgstr[0] "%(count)s commento"
+msgstr[1] "%(count)s commenti"
 
 #: weblate/templates/accounts/user.html:64
 msgid "Project contributions"
@@ -4605,18 +4592,17 @@ msgstr ""
 "l'installazione."
 
 #: weblate/templates/addons/cdnjs.html:5
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Integration instructions"
-msgstr "Istruzioni di traduzione"
+msgstr "Istruzioni integrazione"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
-msgstr ""
+msgstr "Includi il frammento seguente per caricare la localizzazione dal CDN:"
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
+"Gli elementi localizzabili devono corrispondere al selettore CSS configurato."
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
@@ -7936,10 +7922,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "L'URL del sito web del progetto punta ad una destinazione inesistente:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not execute script addon."
 msgid "Weblate could not parse HTML files using the addon."
-msgstr "Weblate non può eseguire il componente aggiuntivo degli script."
+msgstr "Weblate non può analizzare i file HTMLusando il componente aggiuntivo."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -10589,16 +10573,16 @@ msgid "Language used for source strings in all components"
 msgstr "Lingua usata per le stringhe sorgenti in tutti i componenti"
 
 #: weblate/trans/models/project.py:164
-#, fuzzy
-#| msgid "Language name"
 msgid "Language aliases"
-msgstr "Nome lingua"
+msgstr "Alias lingua"
 
 #: weblate/trans/models/project.py:168
 msgid ""
 "Comma separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
 msgstr ""
+"Elenco separato da virgole di mappature codice lingua, ad esempio: "
+"en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -11602,7 +11586,7 @@ msgstr "Questo nome è proibito"
 
 #: weblate/utils/validators.py:229
 msgid "Syntax error in language aliases."
-msgstr ""
+msgstr "Errore di sintassi negli alias lingua."
 
 #: weblate/utils/views.py:98
 msgid "Word count"

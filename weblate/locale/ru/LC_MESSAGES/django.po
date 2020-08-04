@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-03 17:47+0000\n"
-"PO-Revision-Date: 2020-08-03 17:46+0000\n"
+"PO-Revision-Date: 2020-08-04 06:44+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -945,14 +945,12 @@ msgstr ""
 "пока не обновите его."
 
 #: weblate/addons/cdn.py:38
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "JavaScript-формат"
+msgstr "CDN локализации JavaScript’а"
 
 #: weblate/addons/cdn.py:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr ""
+msgstr "Добавляет CDN локализации для локализации JavaScript’а или HTML’я."
 
 #: weblate/addons/cleanup.py:78
 msgid "Cleanup translation files"
@@ -1211,7 +1209,7 @@ msgstr "Порог голосования"
 
 #: weblate/addons/forms.py:225
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr "Порог для удаления. Это поле не действует при отключенном голосовании."
+msgstr "Порог для удаления. Это поле не действует при отключённом голосовании."
 
 #: weblate/addons/forms.py:232
 msgid "Regular expression to match translation files against"
@@ -1280,46 +1278,40 @@ msgid "Please include component markup in the template."
 msgstr "Включите разметку компонента в шаблон."
 
 #: weblate/addons/forms.py:393
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation threshold"
-msgstr "Удаляемый перевод"
+msgstr "Порог перевода"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Threshold for included translations."
-msgstr "Шаблон для новых переводов"
+msgstr "Порог для включённых переводов."
 
 #: weblate/addons/forms.py:401
-#, fuzzy
-#| msgid "Select"
 msgid "CSS selector"
-msgstr "Выбрать"
+msgstr "Селектор CSS"
 
 #: weblate/addons/forms.py:404
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "Селектор CSS для обнаружения локализуемых элементов."
 
 #: weblate/addons/forms.py:407
-#, fuzzy
-#| msgid "Language name"
 msgid "Language cookie name"
-msgstr "Название языка"
+msgstr "Имя языковой куки"
 
 #: weblate/addons/forms.py:410
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "Имя куки, в которой сохраняется предпочитаемый язык."
 
 #: weblate/addons/forms.py:414
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Извлечение строк из HTML-файлов"
 
 #: weblate/addons/forms.py:417
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Список имён файлов в текущем репозитории или URL-адреса, которые нужно "
+"разобрать для извлечения переводимых строк."
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
@@ -1455,6 +1447,8 @@ msgstr "Указано неверное имя надстройки!"
 #: weblate/addons/views.py:97
 msgid "Addon installed, please review integration instructions."
 msgstr ""
+"Надстройка установлена, пожалуйста, ознакомьтесь с инструкциями по "
+"интеграции."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -4602,18 +4596,17 @@ msgstr ""
 "установке."
 
 #: weblate/templates/addons/cdnjs.html:5
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Integration instructions"
-msgstr "Инструкции для переводчиков"
+msgstr "Инструкции по интеграции"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
-msgstr ""
+msgstr "Включите следующий фрагмент кода для загрузки локализации с CDN:"
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
+"Локализуемые элементы должны соответствовать настроенному селектору CSS."
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
@@ -7937,10 +7930,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "Ссылка на сайт проекта указывает на несуществующее расположение:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not execute script addon."
 msgid "Weblate could not parse HTML files using the addon."
-msgstr "Weblate не удалось исполнить скрипт надстройки."
+msgstr "Weblate не удалось разобрать HTML-файлы с помощью надстройки."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -10572,16 +10563,16 @@ msgid "Language used for source strings in all components"
 msgstr "Язык, используемый в исходных строках всех компонентов"
 
 #: weblate/trans/models/project.py:164
-#, fuzzy
-#| msgid "Language name"
 msgid "Language aliases"
-msgstr "Название языка"
+msgstr "Псевдонимы языка"
 
 #: weblate/trans/models/project.py:168
 msgid ""
 "Comma separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
 msgstr ""
+"Разделённый запятыми список сопоставлений кодов языка, например: "
+"en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -11607,7 +11598,7 @@ msgstr "Это имя запрещено"
 
 #: weblate/utils/validators.py:229
 msgid "Syntax error in language aliases."
-msgstr ""
+msgstr "Синтаксическая ошибка в псевдонимах языка."
 
 #: weblate/utils/views.py:98
 msgid "Word count"
