@@ -112,7 +112,7 @@ jobs:
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: ${{ matrix.python-version }}
       - name: Used versions

@@ -47,7 +47,7 @@ jobs:
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Set up Python 3.7
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.7
       - name: Used versions
@@ -86,7 +86,7 @@ jobs:
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.8
       - name: Install pip dependencies
