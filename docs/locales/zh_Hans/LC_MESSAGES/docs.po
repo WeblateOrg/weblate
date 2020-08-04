@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-03 19:47+0200\n"
 "PO-Revision-Date: 2020-08-04 08:32+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1008,14 +1008,14 @@ msgstr "它可以用于将静态 HTML 网页本地化，或者用于在 JavaScri
 
 #: ../../admin/addons.rst:43
 msgid "Upon installation the addon generates unique URL for your component."
-msgstr "安装时，插件为你的组件生成唯一的 URL 。"
+msgstr "安装时，附加组件为你的组件生成唯一的 URL 。"
 
 #: ../../admin/addons.rst:47
 msgid ""
 "This addon requires additional configuration, see :setting:"
 "`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
-"这个插件需要另外配置，请见 :setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH` 。"
+"这个附加组件需要另外配置，请见 :setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH` 。"
 
 #: ../../admin/addons.rst:51
 msgid "String extraction"
@@ -1051,7 +1051,7 @@ msgstr "在不想修改现有代码的情况下，还可以使用 ``*`` 作为�
 msgid ""
 "Right now, only text of the elements is extracted. This addon doesn't "
 "support localization of element attributes or elements with childs."
-msgstr "只有元素的文本被立刻提取。这个插件不支持元素属性或具有子类的元素的本地化。"
+msgstr "目前只有元素的文本被提取。这个附加组件不支持元素属性或具有子类的元素的本地化。"
 
 #: ../../admin/addons.rst:85
 msgid "HTML localization"
@@ -1126,7 +1126,7 @@ msgstr "每24小时，和在新的语言加入 Weblate 时，检查一次丢失�
 
 #: ../../admin/addons.rst:137
 msgid "Unlike most others, this addon affects the whole project."
-msgstr "不像其他多数插件，这个插件影响整个项目。"
+msgstr "不像其他多数附加组件，这个附加组件影响整个项目。"
 
 #: ../../admin/addons.rst:141
 msgid ""
@@ -1168,9 +1168,7 @@ msgid ""
 "The matching is done using regular expressions, where power is a tradeoff "
 "for complexity in configuration. Some examples for common use cases can be "
 "found in the addon help section."
-msgstr ""
-"使用正则表达式进行匹配，其功能与配置的复杂性进行权衡。一般使用情况的一些例子"
-"可以在插件的帮助部分找到。"
+msgstr "匹配是使用正则表达式完成的，在正则表达式中，强大的功能是配置复杂性的一种折衷。一些常见用例的例子可以在附加组件帮助部分找到。"
 
 #: ../../admin/addons.rst:164
 msgid ""
@@ -1502,45 +1500,39 @@ msgstr "允许调整 YAML 的输出，例如自定义缩进或自定义换行。
 
 #: ../../admin/addons.rst:413
 msgid "Customizing list of addons"
-msgstr "将插件列表定制化"
+msgstr "定制附加组件列表"
 
 #: ../../admin/addons.rst:415
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include class absolute name in this setting."
-msgstr ""
-"插件列表由 :setting:`WEBLATE_ADDONS` 配置。为了添加其他插件，简单地在这个设置"
-"中包含类绝对名称即可。"
+msgstr "附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个设置中包含类绝对名称即可。"
 
 #: ../../admin/addons.rst:422
 msgid "Writing addon"
-msgstr "编写插件"
+msgstr "编写附加组件"
 
 #: ../../admin/addons.rst:424
 msgid ""
 "You can write your own addons too, all you need to do is subclass "
 "``BaseAddon``, define the addon metadata and implement a callback which will "
 "do the processing."
-msgstr ""
-"也可以编写自己的插件，所需要做的是子类 ``BaseAddon`` ，定义插件的元数据，并应"
-"用执行处理的回调。"
+msgstr "你也可以编写自己的附加组件，所需要做的是子类 ``BaseAddon`` ，定义附加组件的元数据，并实现一个会执行处理的回调。"
 
 #: ../../admin/addons.rst:427
 msgid "Here is an example addon:"
-msgstr "这里有一个插件的例子："
+msgstr "这是一个附加组件示例："
 
 #: ../../admin/addons.rst:435
 msgid "Executing scripts from addon"
-msgstr "从插件执行脚本"
+msgstr "从附加组件执行脚本"
 
 #: ../../admin/addons.rst:437
 msgid ""
 "Addons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
-msgstr ""
-"插件还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代码，将"
-"脚本包裹在插件中。"
+msgstr "附加逐渐还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代码，将脚本包裹在附加组件中。"
 
 #: ../../admin/addons.rst:444
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -4282,7 +4274,7 @@ msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:425
 msgid "Default addons to install on every created component."
-msgstr "在每个也创建的组件上安装的默认插件。"
+msgstr "安装在每个创建的组件上的默认附加组件。"
 
 #: ../../admin/config.rst:429
 msgid "This setting affects only newly created components."
