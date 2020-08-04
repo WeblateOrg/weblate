@@ -1396,7 +1396,7 @@ class INIFormat(TTKitFormat):
 
 
 class InnoSetupINIFormat(INIFormat):
-    name = _("InnoSetup INI file")
+    name = _("Inno Setup INI file")
     format_id = "islu"
     loader = ("ini", "inifile")
 
