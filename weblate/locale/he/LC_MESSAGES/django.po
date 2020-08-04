@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-03 17:47+0000\n"
-"PO-Revision-Date: 2020-08-03 17:46+0000\n"
+"PO-Revision-Date: 2020-08-04 13:58+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -890,14 +890,12 @@ msgid ""
 msgstr "תוקף המאגר פג, יכול להיות שתופענה תוצאות לא הגיוניות עד לעדכון."
 
 #: weblate/addons/cdn.py:38
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "תבנית JavaScript"
+msgstr "CDN לתרגום JavaScript"
 
 #: weblate/addons/cdn.py:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr ""
+msgstr "הוספת CDN תרגום לטובת תרגום של JavaScript או HTML."
 
 #: weblate/addons/cleanup.py:78
 msgid "Cleanup translation files"
@@ -1216,46 +1214,40 @@ msgid "Please include component markup in the template."
 msgstr "נא לכלול סימון רכיב בתבנית."
 
 #: weblate/addons/forms.py:393
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation threshold"
-msgstr "תרגום להסרה"
+msgstr "סף תרגום"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Threshold for included translations."
-msgstr "תבנית לתרגומים חדשים"
+msgstr "סף לתרגומים שיופיעו."
 
 #: weblate/addons/forms.py:401
-#, fuzzy
-#| msgid "Select"
 msgid "CSS selector"
-msgstr "בחירה"
+msgstr "בורר CSS"
 
 #: weblate/addons/forms.py:404
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "בורר CSS לאיתור רכיבים שניתן לתרגם."
 
 #: weblate/addons/forms.py:407
-#, fuzzy
-#| msgid "Language name"
 msgid "Language cookie name"
-msgstr "שם השפה"
+msgstr "שם עוגיית השפה"
 
 #: weblate/addons/forms.py:410
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "שם העוגייה שמאחסנת את העדפות השפה."
 
 #: weblate/addons/forms.py:414
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "חילוץ מחרוזות מקובצי HTML"
 
 #: weblate/addons/forms.py:417
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"רשימת שמות קבצים במאגר הנוכחי או בכתובות מרוחקות שיש לעבד כדי לאתר מחרוזות "
+"לתרגום."
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
@@ -1384,7 +1376,7 @@ msgstr "שם התוסף שצוין שגוי!"
 
 #: weblate/addons/views.py:97
 msgid "Addon installed, please review integration instructions."
-msgstr ""
+msgstr "הותקן תוסף, נא לעיין בהנחיות השילוב."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -4470,18 +4462,16 @@ msgid "Some addons will ask for additional configuration during installation."
 msgstr "חלק מהתוספים ידרשו הגדרות נוספות במהלך ההתקנה."
 
 #: weblate/templates/addons/cdnjs.html:5
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Integration instructions"
-msgstr "הנחיות לתרגום"
+msgstr "הנחיות שילוב"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
-msgstr ""
+msgstr "יש לכלול את מקטע הקוד הבא כדי לטעון את התרגום מה־CDN:"
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
-msgstr ""
+msgstr "הרכיבים שמיועדים לתרגום חייבים להתאים לבורר ה־CSS שהוגדר."
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
@@ -7737,10 +7727,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "כתובת אתר המיזם מצביעה למיקום שאינו קיים:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not execute script addon."
 msgid "Weblate could not parse HTML files using the addon."
-msgstr "ל־Weblate אין אפשרות להפעיל את תוסף הסקריפטים."
+msgstr "ל־Weblate אין אפשרות לעבד קובצי HTML באמצעות התוסף."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -10267,16 +10255,14 @@ msgid "Language used for source strings in all components"
 msgstr "שפה המשמשת למחרוזות המקור של כל הרכיבים"
 
 #: weblate/trans/models/project.py:164
-#, fuzzy
-#| msgid "Language name"
 msgid "Language aliases"
-msgstr "שם השפה"
+msgstr "כינויי שפות"
 
 #: weblate/trans/models/project.py:168
 msgid ""
 "Comma separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
-msgstr ""
+msgstr "רשימה מופרדת בפסיקים של מיפויי קודים של שפות, למשל: he_IL:he,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -11297,7 +11283,7 @@ msgstr "חל איסור על שם זה"
 
 #: weblate/utils/validators.py:229
 msgid "Syntax error in language aliases."
-msgstr ""
+msgstr "שגיאת תחביר בכינויי השפות."
 
 #: weblate/utils/views.py:98
 msgid "Word count"
