@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-03 19:47+0200\n"
 "PO-Revision-Date: 2020-08-04 08:08+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1004,17 +1004,18 @@ msgstr "添加用于JavaScript或 HTML本地化的本地化CDN。"
 msgid ""
 "It can be used to localize static HTML pages or used to load localization in "
 "the JavaScript code."
-msgstr ""
+msgstr "它可以用于将静态 HTML 网页本地化，或者用于在 JavaScript 代码中导入本地化文件。"
 
 #: ../../admin/addons.rst:43
 msgid "Upon installation the addon generates unique URL for your component."
-msgstr ""
+msgstr "安装时，插件为你的组件生成唯一的 URL 。"
 
 #: ../../admin/addons.rst:47
 msgid ""
 "This addon requires additional configuration, see :setting:"
 "`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"这个插件需要另外配置，请见 :setting:`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH` 。"
 
 #: ../../admin/addons.rst:51
 msgid "String extraction"
@@ -1028,6 +1029,9 @@ msgid ""
 "automatically. The files have to present in the repository or contain remote "
 "URLs which will be download and parsed regularly by Weblate."
 msgstr ""
+"翻译字符串必须在 Weblate 中出现。可以手动管理，使用 API 来建立，或使用 :guilabel:`Extract strings from "
+"HTML files` 列出文件或 URL ，Weblate 会自动提取它们。文件必须出现在残酷中，或者包含远程 URL ，由 "
+"Weblate下载并规则地分析。"
 
 #: ../../admin/addons.rst:59
 msgid ""
@@ -1035,18 +1039,19 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+":guilabel:`CSS selector` 的默认配置提取 CSS class ``l10n`` 的元素，例如从后面的一段中提取两个字符串："
 
 #: ../../admin/addons.rst:76
 msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
-msgstr ""
+msgstr "在不想修改现有代码的情况下，还可以使用 ``*`` 作为选择器处理所有元素。"
 
 #: ../../admin/addons.rst:81
 msgid ""
 "Right now, only text of the elements is extracted. This addon doesn't "
 "support localization of element attributes or elements with childs."
-msgstr ""
+msgstr "只有元素的文本被立刻提取。这个插件不支持元素属性或具有子类的元素的本地化。"
 
 #: ../../admin/addons.rst:85
 msgid "HTML localization"
@@ -1055,20 +1060,21 @@ msgstr "HTML本地化"
 #: ../../admin/addons.rst:87
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
-msgstr ""
+msgstr "为了将 HTML 文件本地化，需要导入 :file:`weblate.js` 脚本："
 
 #: ../../admin/addons.rst:93
 msgid ""
 "Upon loading, this will automatically find all matching translatable "
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
-msgstr ""
+msgstr "导入时，会自动发现所有匹配的翻译元素（基于 :guilabel:`CSS selector` ），并用翻译替代其文本。"
 
 #: ../../admin/addons.rst:97
 msgid ""
 "The user language is detected from the cookie (if :guilabel:`Language cookie "
 "name` is configured) and user preferred languages configured in the browser."
 msgstr ""
+"从cookie（如果配置了 :guilabel:`Language cookie name` ）和浏览器的用户选用语言的配置中，检测到用户语言。"
 
 #: ../../admin/addons.rst:101
 msgid "JavaScript localization"
@@ -1078,11 +1084,11 @@ msgstr "JavaScript本地化"
 msgid ""
 "The invidiual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
-msgstr ""
+msgstr "各个翻译显示为 CDN 下的双语 JSON 文件。为了取得一个，可以使用后面的代码："
 
 #: ../../admin/addons.rst:112
 msgid "The actual localization logic needs to be implemented in this case."
-msgstr ""
+msgstr "在这种情况下需要采用实际的本地化逻辑。"
 
 #: ../../admin/addons.rst:117
 msgid "Cleanup translation files"
@@ -25622,7 +25628,7 @@ msgstr ""
 msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
-msgstr ""
+msgstr "检查翻译的长度是否可匹配可用的空间。这只检查翻译字符的长度。"
 
 #: ../../user/checks.rst:526
 msgid ""
