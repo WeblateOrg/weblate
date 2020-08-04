@@ -253,7 +253,7 @@ Generic settings
 
         In case it is not set, the first item from :envvar:`WEBLATE_ALLOWED_HOSTS` is used.
 
-    .. seeals::
+    .. seealso::
 
         :ref:`production-site`,
         :setting:`SITE_DOMAIN`
