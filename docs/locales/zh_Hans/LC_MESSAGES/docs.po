@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-03 19:47+0200\n"
-"PO-Revision-Date: 2020-08-04 08:08+0000\n"
+"PO-Revision-Date: 2020-08-04 08:32+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -1639,9 +1639,8 @@ msgid ""
 "Weblate only sees files committed to the VCS, so you need to commit changes "
 "as a part of the script."
 msgstr ""
-"以往更新仓库处理可以用于在版本控制系统（ VCS ）上游源改变时，更新翻译文件。为"
-"了实现这个功能，请记住 Weblate 只看到提交给版本控制系统（ VCS ）的文件，所以"
-"需要提交更改作为脚本的一部分。"
+"以往更新仓库处理可以用于在版本控制系统（ VCS ）上游源改变时，更新翻译文件。为了实现这个功能，请记住 Weblate 只看到提交给版本控制系统（ "
+"VCS ）的文件，所以需要同意更改作为脚本的一部分。"
 
 #: ../../admin/addons.rst:545
 msgid "For example with Gulp you can do it using following code:"
@@ -2711,7 +2710,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:191
 msgid "Version control repositories"
-msgstr ""
+msgstr "版本控制仓库"
 
 #: ../../admin/backup.rst:193
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
@@ -2725,6 +2724,8 @@ msgid ""
 "and you do not have to backup the repositories on the Weblate side. They can "
 "be cloned again from the upstream locations with no data loss."
 msgstr ""
+"版本控制仓库包含了带有 Weblate 更改的上游仓库的复制备份。 如果对所有翻译组件推进了同意允许，那么所有 Weblate 更改都包括在上游中，"
+"并且不必备份 Weblate 侧的仓库。它们可以从上游位置再次克隆，而不会丢失数据。"
 
 #: ../../admin/backup.rst:202
 msgid "SSH and GPG keys"
@@ -2733,7 +2734,7 @@ msgstr ""
 #: ../../admin/backup.rst:204
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
-msgstr ""
+msgstr "存储在 :setting:`DATA_DIR` ``/ssh`` 和 :setting:`DATA_DIR` ``/home`` 中。"
 
 #: ../../admin/backup.rst:206
 msgid ""
@@ -2744,7 +2745,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:211
 msgid "User uploaded files"
-msgstr ""
+msgstr "用户上传的文件"
 
 #: ../../admin/backup.rst:213
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
@@ -2752,7 +2753,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:215
 msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
-msgstr ""
+msgstr "可以备份用户上传的文件（例如 :ref:`screenshots` ）。"
 
 #: ../../admin/backup.rst:218
 msgid "Command line for manual backup"
@@ -2762,7 +2763,7 @@ msgstr ""
 msgid ""
 "Using a cron task, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
-msgstr ""
+msgstr "使用 crom 任务，可以设置批处理命令，以每天为单位来执行，例如："
 
 #: ../../admin/backup.rst:226
 msgid ""
@@ -2775,7 +2776,7 @@ msgstr ""
 msgid ""
 "You can adjust the list of folders and files to your needs. For instance, to "
 "avoid saving the translation memory (in backups folder), you could use:"
-msgstr ""
+msgstr "可以根据需要调整文件夹和文件的列表。例如，为了节省翻译内存（在备份文件夹中），可以使用："
 
 #: ../../admin/backup.rst:236
 msgid "Celery tasks"
@@ -2789,6 +2790,7 @@ msgid ""
 "repository updates upon restoring anyhow, so there is no problem in losing "
 "these."
 msgstr ""
+"Celery 任务队列会包含一些信息，但备份通常不需要它。最多就是丢失了翻译内存还没有处理的更新。建议恢复时随便执行全文或仓库更新，这样不会有丢失的问题。"
 
 #: ../../admin/backup.rst:245
 msgid ":ref:`celery`"
@@ -2796,7 +2798,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:248
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "恢复手动备份"
 
 #: ../../admin/backup.rst:250
 msgid "Restore all data you have backed up."
@@ -2804,7 +2806,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:252
 msgid "Update all repositories using :djadmin:`updategit`."
-msgstr ""
+msgstr "使用 :djadmin:`updategit` 更新所有仓库。"
 
 #: ../../admin/backup.rst:259
 msgid "Moving a Weblate installation"
@@ -2814,7 +2816,7 @@ msgstr ""
 msgid ""
 "Relocate your installation to a different system by following the backup and "
 "restore instructions above."
-msgstr ""
+msgstr "按照上面备份与恢复的说明，将安装重定位到不同系统。"
 
 #: ../../admin/backup.rst:266
 msgid ":ref:`py3`, :ref:`database-migration`"
@@ -2822,17 +2824,17 @@ msgstr ""
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
-msgstr ""
+msgstr "检查并修正"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "定制的自动修正"
 
 #: ../../admin/checks.rst:9
 msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
-msgstr ""
+msgstr "还可以应用除了自动修正以外自己的自动修正，并将它们包括到 :setting:`AUTOFIX_LIST` 。"
 
 #: ../../admin/checks.rst:12
 msgid ""
