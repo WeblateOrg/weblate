@@ -404,7 +404,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     )
                     continue
 
-                self.sync_unit(dbunits, updated, id_hash, unit, pos)
+                self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
 
         except FileParseError as error:
             self.log_warning("skipping update due to parse error: %s", error)
