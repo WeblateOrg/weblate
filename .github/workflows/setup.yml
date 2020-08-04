@@ -40,7 +40,7 @@ jobs:
       - name: Start services
         run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
@@ -79,7 +79,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
