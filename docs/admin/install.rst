@@ -670,45 +670,21 @@ Set correct site domain
 +++++++++++++++++++++++
 
 Adjust site name and domain in the admin interface, otherwise links in RSS or
-registration e-mails will not work.
+registration e-mails will not work. This is configured using
+:setting:`SITE_DOMAIN` which should contain site domain name.
 
-Please open the admin interface and edit the default sitename and domain under the
-:guilabel:`Sites › Sites` (or do it directly at the
-``/admin/sites/site/1/`` URL under your Weblate installation). You have to change
-the :guilabel:`Domain name` to match your setup.
+.. versionchanged:: 4.2
 
-.. note::
-
-    This setting should only contain the domain name. For configuring protocol,
-    (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing
-    URL, use :setting:`URL_PREFIX`.
-
-Alternatively, you can set the site name from the commandline using
-:djadmin:`changesite`. For example, when using the built-in server:
-
-.. code-block:: sh
-
-    weblate changesite --set-name 127.0.0.1:8000
-
-For a production site, you want something like:
-
-.. code-block:: sh
-
-    weblate changesite --set-name weblate.example.com
-
-.. hint::
-
-   On a Docker container, the site domain is configured through
-   :envvar:`WEBLATE_ALLOWED_HOSTS`.
+   Prior to the 4.2 release the Django sites framework was used instead, please
+   see :doc:`django:ref/contrib/sites`.
 
 .. seealso::
 
-   :ref:`faq-site`,
    :ref:`production-hosts`,
    :ref:`production-ssl`
-   :setting:`ENABLE_HTTPS`,
-   :djadmin:`changesite`,
-   :doc:`django:ref/contrib/sites`
+   :setting:`SITE_DOMAIN`,
+   :envvar:`WEBLATE_SITE_DOMAIN`,
+   :setting:`ENABLE_HTTPS`
 
 .. _production-ssl:
 

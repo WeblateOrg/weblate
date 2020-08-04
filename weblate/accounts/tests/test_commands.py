@@ -21,9 +21,7 @@
 
 import os
 
-from django.contrib.sites.models import Site
 from django.core.management import call_command
-from django.core.management.base import CommandError
 from django.test import TestCase
 
 from weblate.accounts.models import Profile
@@ -75,15 +73,3 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertTrue(profile.languages.filter(code="cs").exists())
         self.assertTrue(profile.secondary_languages.filter(code="cs").exists())
         self.assertTrue(profile.watched.exists())
-
-    def test_changesite(self):
-        call_command("changesite", get_name=True)
-        self.assertNotEqual(Site.objects.get(pk=1).domain, "test.weblate.org")
-        call_command("changesite", set_name="test.weblate.org")
-        self.assertEqual(Site.objects.get(pk=1).domain, "test.weblate.org")
-
-    def test_changesite_new(self):
-        with self.assertRaises(CommandError):
-            call_command("changesite", get_name=True, site_id=2)
-        call_command("changesite", set_name="test.weblate.org", site_id=2)
-        self.assertEqual(Site.objects.get(pk=2).domain, "test.weblate.org")

@@ -34,6 +34,7 @@ from django.core.mail import get_connection
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
 from weblate.utils.docs import get_doc_url
+from weblate.utils.site import check_domain, get_site_domain
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
@@ -385,8 +386,6 @@ def check_data_writable(app_configs=None, **kwargs):
 
 
 def check_site(app_configs, **kwargs):
-    from weblate.utils.site import check_domain, get_site_domain
-
     errors = []
     if not check_domain(get_site_domain()):
         errors.append(weblate_check("weblate.E017", "Correct the site domain"))

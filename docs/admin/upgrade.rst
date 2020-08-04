@@ -143,6 +143,7 @@ Notable configuration or dependencies changes:
 * There are several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
 * The keys for JSON based formats no longer include leading dot. The strings are adjusted during the database migration, but external components might need adjustment in case you rely on keys in exports or API.
 * The Celery configuration was changed to no longer use ``memory`` queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting.
+* The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure it before running Weblate.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

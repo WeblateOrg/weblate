@@ -37,6 +37,9 @@ class WeblateConf(AppConf):
     # Title of site to use
     SITE_TITLE = "Weblate"
 
+    # Site domain
+    SITE_DOMAIN = ""
+
     # Whether this is hosted.weblate.org
     OFFER_HOSTING = False
 

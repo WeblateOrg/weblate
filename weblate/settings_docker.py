@@ -549,7 +549,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin.apps.SimpleAdminConfig",
@@ -761,6 +760,9 @@ if MT_SAP_BASE_URL:
 # Title of site to use
 SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
 
+# Site domain
+SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
+
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
 
@@ -952,7 +954,7 @@ SERVER_EMAIL = os.environ["WEBLATE_SERVER_EMAIL"]
 DEFAULT_FROM_EMAIL = os.environ["WEBLATE_DEFAULT_FROM_EMAIL"]
 
 # List of URLs your site is supposed to serve
-ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
+ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", [SITE_DOMAIN])
 
 # Extract redis password
 REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", None)

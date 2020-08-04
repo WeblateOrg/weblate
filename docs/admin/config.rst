@@ -1476,6 +1476,45 @@ combinations.
 
 Turn this off if you want to different translations for each variant.
 
+.. setting:: SITE_DOMAIN
+
+SITE_DOMAIN
+-----------
+
+Configures site domain. This is necessary to produce correct absolute links in
+many scopes (for example activation e-mails, notifications or RSS feeds).
+
+In case Weblate is running on non-standard port, include it here as well.
+
+**Examples:**
+
+.. code-block:: python
+
+    # Production site with domain name
+    SITE_DOMAIN = "weblate.example.com"
+
+    # Local development with IP address and port
+    SITE_DOMAIN = "127.0.0.1:8000"
+
+.. note::
+
+    This setting should only contain the domain name. For configuring protocol,
+    (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing
+    URL, use :setting:`URL_PREFIX`.
+
+.. hint::
+
+   On a Docker container, the site domain is configured through
+   :envvar:`WEBLATE_ALLOWED_HOSTS`.
+
+.. seealso::
+
+   :ref:`production-site`,
+   :ref:`production-hosts`,
+   :ref:`production-ssl`
+   :envvar:`WEBLATE_SITE_DOMAIN`,
+   :setting:`ENABLE_HTTPS`
+
 .. setting:: SITE_TITLE
 
 SITE_TITLE
