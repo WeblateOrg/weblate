@@ -49,10 +49,6 @@ The following examples assume you have a working Docker environment, with
         If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created with
         a random password shown on first startup.
 
-        Include :envvar:`WEBLATE_ALLOWED_HOSTS` with value
-        ``weblate.example.com,localhost`` to  to be able to access locally for
-        testing.
-
         The provided example makes Weblate listen on port 80, edit the port
         mapping in the :file:`docker-compose-override.yml` file to change it.
 
@@ -321,7 +317,7 @@ Generic settings
 
     Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`.
 
-    Defaults to host name configured in :envvar:`WEBLATE_SITE_DOMAIN`.
+    Defaults to ``*`` which allows all hostnames.
 
     **Example:**
 

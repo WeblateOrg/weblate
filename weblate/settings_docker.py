@@ -954,7 +954,7 @@ SERVER_EMAIL = os.environ["WEBLATE_SERVER_EMAIL"]
 DEFAULT_FROM_EMAIL = os.environ["WEBLATE_DEFAULT_FROM_EMAIL"]
 
 # List of URLs your site is supposed to serve
-ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", [SITE_DOMAIN])
+ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 
 # Extract redis password
 REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", None)
