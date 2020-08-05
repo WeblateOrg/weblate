@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-05 06:36+0000\n"
-"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"PO-Revision-Date: 2020-08-05 10:24+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -2530,30 +2530,38 @@ msgstr "Восстановление из резервной копии Borg"
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Восстановите доступ к своему репозиторию резервных копий и подготовьте свою "
+"парольную фразу для резервного копирования."
 
 #: ../../admin/backup.rst:79
 msgid "List backup existing on the server using ``borg list REPOSITORY``."
 msgstr ""
+"Получите список существующих на сервере резервных копий с помощью команды ``"
+"borg list РЕПОЗИТОРИЙ``."
 
 #: ../../admin/backup.rst:81
 msgid ""
 "Restore the desired backup to current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Восстановите нужную резервную копию в текущий каталог с помощью команды ``"
+"borg extract РЕПОЗИТОРИЙ::АРХИВ``."
 
 #: ../../admin/backup.rst:83
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Восстановите базу данных из SQL-дампа, размещённого в каталоге ``backup`` "
+"каталога данных Weblate (смотрите раздел :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:85
 msgid "Copy Weblate configuration and data dir to the correct location."
-msgstr ""
+msgstr "Скопируйте в правильное место настройки и каталог данных Weblate."
 
 #: ../../admin/backup.rst:87
 msgid "The Borg session might look like:"
-msgstr ""
+msgstr "Сеанс Borg может выглядеть так:"
 
 #: ../../admin/backup.rst:99
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
@@ -2561,7 +2569,7 @@ msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:107
 msgid "Manual backup"
-msgstr ""
+msgstr "Ручное резервное копирование"
 
 #: ../../admin/backup.rst:109
 msgid ""
@@ -2593,7 +2601,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:131
 msgid "Native database backup"
-msgstr ""
+msgstr "Встроенные средства базы данных для резервного копирования"
 
 #: ../../admin/backup.rst:133
 msgid ""
@@ -2613,7 +2621,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:143
 msgid "Django database backup"
-msgstr ""
+msgstr "Резервное копирование базы данных средствами Django"
 
 #: ../../admin/backup.rst:145
 msgid ""
@@ -2653,11 +2661,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:176
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Дампы данных для резервного копирования"
 
 #: ../../admin/backup.rst:178
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "Хранятся в :setting:`DATA_DIR` ``/backups``."
 
 #: ../../admin/backup.rst:180
 msgid ""
@@ -2684,11 +2692,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:191
 msgid "Version control repositories"
-msgstr ""
+msgstr "Репозитории системы контроля версий"
 
 #: ../../admin/backup.rst:193
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Хранятся в :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:195
 msgid ""
@@ -2701,12 +2709,13 @@ msgstr ""
 
 #: ../../admin/backup.rst:202
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "Ключи SSH и GPG"
 
 #: ../../admin/backup.rst:204
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
+"Хранятся в :setting:`DATA_DIR` ``/ssh`` и :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:206
 msgid ""
@@ -2717,11 +2726,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:211
 msgid "User uploaded files"
-msgstr ""
+msgstr "Загруженные пользователем файлы"
 
 #: ../../admin/backup.rst:213
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Хранятся в :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:215
 msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
@@ -2729,7 +2738,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:218
 msgid "Command line for manual backup"
-msgstr ""
+msgstr "Командная строка для ручного резервного копирования"
 
 #: ../../admin/backup.rst:220
 msgid ""
@@ -2752,7 +2761,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:236
 msgid "Celery tasks"
-msgstr ""
+msgstr "Задачи Celery"
 
 #: ../../admin/backup.rst:238
 msgid ""
@@ -2769,25 +2778,27 @@ msgstr ":ref:`celery`"
 
 #: ../../admin/backup.rst:248
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "Восстановление ручных резервных копий"
 
 #: ../../admin/backup.rst:250
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Восстановите все данные, сохранённые вами в резервной копии."
 
 #: ../../admin/backup.rst:252
 msgid "Update all repositories using :djadmin:`updategit`."
-msgstr ""
+msgstr "Обновите все репозитории с помощью команды :djadmin:`updategit`."
 
 #: ../../admin/backup.rst:259
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Перенос установки Weblate"
 
 #: ../../admin/backup.rst:261
 msgid ""
 "Relocate your installation to a different system by following the backup and "
 "restore instructions above."
 msgstr ""
+"Переместите свою установку на другую систему, следуя приведённым выше "
+"инструкциям по резервному копированию и восстановлению из резервной копии."
 
 #: ../../admin/backup.rst:266
 msgid ":ref:`py3`, :ref:`database-migration`"
@@ -2799,7 +2810,7 @@ msgstr "Проверки и исправления"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Пользовательские автоматические исправления"
 
 #: ../../admin/checks.rst:9
 msgid ""
@@ -2827,7 +2838,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior"
-msgstr ""
+msgstr "Настройка поведения"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -2846,7 +2857,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:41
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Вот список принимаемых в настоящее время флагов:"
 
 #: ../../admin/checks.rst:43
 msgid "``rst-text``"
@@ -6410,7 +6421,9 @@ msgstr ""
 
 #: ../../admin/customize.rst:110
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
-msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
+msgstr ""
+":doc:`Управление статическими файлами (изображениями, JavaScript, CSS и "
+"прочими подобными) <django:howto/static-files/index>`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:117
 msgid "Custom quality checks, addons and auto-fixes"
@@ -6947,8 +6960,8 @@ msgid ""
 ":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
 "migration`"
 msgstr ""
-":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
-"migration`"
+":ref:`production-database`, :doc:`Базы данных <django:ref/databases>`, :ref"
+":`database-migration`"
 
 #: ../../admin/install.rst:307
 msgid "PostgreSQL"
@@ -7201,8 +7214,8 @@ msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
-":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
-"databases`"
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`Базы данных "
+"<django:ref/databases>`"
 
 #: ../../admin/install.rst:539
 msgid "``DEBUG``"
@@ -7325,7 +7338,8 @@ msgstr ""
 
 #: ../../admin/install.rst:626
 msgid ":doc:`django:howto/deployment/checklist`"
-msgstr ":doc:`django:howto/deployment/checklist`"
+msgstr ""
+":doc:`Контрольный список развертывания <django:howto/deployment/checklist>`"
 
 #: ../../admin/install.rst:631
 msgid "Disable debug mode"
@@ -7441,8 +7455,8 @@ msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
-":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
-"`django:ref/databases`"
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`Базы данных <django:ref/databases>`"
 
 #: ../../admin/install.rst:748
 msgid "Enable caching"
@@ -7456,7 +7470,9 @@ msgstr ""
 
 #: ../../admin/install.rst:771
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
-msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
+msgstr ""
+":ref:`production-cache-avatar`, :doc:`Фреймворк кэширования Django <django:"
+"topics/cache>`"
 
 #: ../../admin/install.rst:777
 msgid "Avatar caching"
@@ -7473,8 +7489,9 @@ msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
-":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
-"ref:`production-cache`, :doc:`django:topics/cache`"
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`Фреймворк кэширования Django <django:topics/"
+"cache>`"
 
 #: ../../admin/install.rst:814
 msgid "Configure e-mail sending"
@@ -7872,8 +7889,9 @@ msgid ""
 ":ref:`production-compress`, :doc:`django:howto/deployment/index`, :doc:"
 "`django:howto/static-files/deployment`"
 msgstr ""
-":ref:`production-compress`, :doc:`django:howto/deployment/index`, :doc:"
-"`django:howto/static-files/deployment`"
+":ref:`production-compress`, :doc:`Развёртывание Django <django:howto/"
+"deployment/index>`, :doc:`Развёртывание статических файлов <django:howto/"
+"static-files/deployment>`"
 
 #: ../../admin/install.rst:1133
 msgid "Content security policy"
@@ -7912,7 +7930,9 @@ msgstr ""
 
 #: ../../admin/install.rst:1164
 msgid ":doc:`django:howto/deployment/wsgi/modwsgi`"
-msgstr ":doc:`django:howto/deployment/wsgi/modwsgi`"
+msgstr ""
+":doc:`Как совместно использовать Django c Apache и mod_wsgi <django:howto/"
+"deployment/wsgi/modwsgi>`"
 
 #: ../../admin/install.rst:1169
 msgid "Sample configuration for Apache and Gunicorn"
@@ -7926,7 +7946,9 @@ msgstr ""
 
 #: ../../admin/install.rst:1179
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
+msgstr ""
+":doc:`Как совместно использовать Django c Gunicorn <django:howto/deployment/"
+"wsgi/gunicorn>`"
 
 #: ../../admin/install.rst:1185
 msgid "Sample configuration for NGINX and uWSGI"
@@ -7960,7 +7982,9 @@ msgstr ""
 
 #: ../../admin/install.rst:1208
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
-msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
+msgstr ""
+":doc:`Как совместно использовать Django c uWSGI <django:howto/deployment/"
+"wsgi/uwsgi>`"
 
 #: ../../admin/install.rst:1211
 msgid "Running Weblate under path"
@@ -7982,7 +8006,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1232
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Фоновые задачи с использованием Celery"
 
 #: ../../admin/install.rst:1236
 msgid ""
@@ -8004,7 +8028,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1259
 msgid "Running Celery as system service"
-msgstr ""
+msgstr "Запуск Celery в качестве системной службы"
 
 #: ../../admin/install.rst:1261
 msgid ""
@@ -8040,7 +8064,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1291
 msgid "Periodic tasks using Celery beat"
-msgstr ""
+msgstr "Периодические задачи при помощи Celery beat"
 
 #: ../../admin/install.rst:1293
 msgid ""
@@ -8058,7 +8082,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1301
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Мониторинг состояния Celery"
 
 #: ../../admin/install.rst:1303
 msgid ""
@@ -8080,13 +8104,15 @@ msgid ""
 "`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:"
 "`celery_queues`"
 msgstr ""
-":doc:`celery:userguide/configuration`, :doc:`celery:userguide/workers`, :doc:"
-"`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:"
-"`celery_queues`"
+":doc:`Конфигурация и настройки по умолчанию <celery:userguide/configuration>`"
+", :doc:`Руководство по рабочим <celery:userguide/workers>`, :doc:`"
+"Демонизация <celery:userguide/daemonizing>`, :doc:`Руководство по "
+"мониторингу и управлению <celery:userguide/monitoring>`, "
+":djadmin:`celery_queues`"
 
 #: ../../admin/install.rst:1323
 msgid "Monitoring Weblate"
-msgstr ""
+msgstr "Мониторинг Weblate"
 
 #: ../../admin/install.rst:1325
 msgid ""
@@ -8140,7 +8166,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1383
 msgid "Migrating Weblate to another server"
-msgstr ""
+msgstr "Перенос Weblate на другой сервер"
 
 #: ../../admin/install.rst:1385
 msgid ""
@@ -8151,7 +8177,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1390
 msgid "Migrating database"
-msgstr ""
+msgstr "Перенос базы данных"
 
 #: ../../admin/install.rst:1392
 msgid ""
@@ -8171,7 +8197,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1410
 msgid "Migrating VCS repositories"
-msgstr ""
+msgstr "Перенос репозиториев системы контроля версий"
 
 #: ../../admin/install.rst:1412
 msgid ""
@@ -8182,7 +8208,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1417
 msgid "Other notes"
-msgstr ""
+msgstr "Прочие заметки"
 
 #: ../../admin/install.rst:1419
 msgid ""
@@ -8192,7 +8218,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:4
 msgid "Installing using Docker"
-msgstr ""
+msgstr "Установка с помощью Docker’а"
 
 #: ../../admin/install/docker.rst:6
 msgid ""
@@ -8203,7 +8229,7 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
-msgstr ""
+msgstr "Требования к оборудованию"
 
 #: ../../admin/install/steps/hw.rst:4
 msgid ""
@@ -8214,15 +8240,15 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
-msgstr ""
+msgstr "2 ГБ оперативной памяти"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
-msgstr ""
+msgstr "2-х ядерный процессор"
 
 #: ../../admin/install/steps/hw.rst:10
 msgid "1 GB of storage space"
-msgstr ""
+msgstr "1 ГБ дискового пространства"
 
 #: ../../admin/install/steps/hw.rst:12
 msgid ""
@@ -9385,7 +9411,7 @@ msgstr ""
 
 #: ../../admin/install/openshift.rst:4
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Установка на OpenShift"
 
 #: ../../admin/install/openshift.rst:8
 msgid ""
@@ -9401,7 +9427,7 @@ msgstr ""
 
 #: ../../admin/install/source.rst:4
 msgid "Installing from sources"
-msgstr ""
+msgstr "Установка из исходников"
 
 #: ../../admin/install/source.rst:6
 msgid "Please follow the installation instructions for your system first:"
@@ -24874,7 +24900,9 @@ msgstr ""
 
 #: ../../formats.rst:990
 msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
-msgstr ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
+msgstr ""
+":doc:`Файлы ресурсов .NET (.resx) <tt:formats/resx>`, :ref:`addon-weblate."
+"cleanup.generic`,"
 
 #: ../../formats.rst:996
 msgid "CSV files"
@@ -25000,7 +25028,7 @@ msgstr "`Файл DTD`"
 
 #: ../../formats.rst:1136
 msgid ":doc:`tt:formats/dtd`"
-msgstr ":doc:`tt:formats/dtd`"
+msgstr ":doc:`Формат DTD Mozilla <tt:formats/dtd>`"
 
 #: ../../formats.rst:1141
 msgid "Flat XML files"
@@ -25024,7 +25052,7 @@ msgstr "`Плоский XML-файл`"
 
 #: ../../formats.rst:1166
 msgid ":doc:`tt:formats/flatxml`"
-msgstr ":doc:`tt:formats/flatxml`"
+msgstr ":doc:`Плоские XML-файлы <tt:formats/flatxml>`"
 
 #: ../../formats.rst:1171
 msgid "Windows RC files"
@@ -25059,7 +25087,7 @@ msgstr "`Файл RC`"
 
 #: ../../formats.rst:1202
 msgid ":doc:`tt:formats/rc`"
-msgstr ":doc:`tt:formats/rc`"
+msgstr ":doc:`Ресурсные файлы Windows <tt:formats/rc>`"
 
 #: ../../formats.rst:1207
 msgid "App store metadata files"
@@ -25149,7 +25177,7 @@ msgstr ""
 
 #: ../../formats.rst:1261
 msgid ":doc:`tt:formats/subtitles`"
-msgstr ":doc:`tt:formats/subtitles`"
+msgstr ":doc:`Субтитры <tt:formats/subtitles>`"
 
 #: ../../formats.rst:1266
 msgid "Excel Open XML"
@@ -25196,7 +25224,7 @@ msgstr ""
 
 #: ../../formats.rst:1312
 msgid ":doc:`tt:formats/odf`"
-msgstr ":doc:`tt:formats/odf`"
+msgstr ":doc:`Формат OpenDocument <tt:formats/odf>`"
 
 #: ../../formats.rst:1317
 msgid "IDML Format"
