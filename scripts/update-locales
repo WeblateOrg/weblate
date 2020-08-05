@@ -5,7 +5,10 @@
 # Exit on failure
 set -e
 
-version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print(weblate.VERSION_BASE)'`
+export CI_DATABASE=postgresql
+export DJANGO_SETTINGS_MODULE=weblate.settings_test
+
+version=`python -c 'import weblate; print(weblate.VERSION_BASE)'`
 
 # Lock Weblate
 wlc lock weblate/application
@@ -16,12 +19,13 @@ wlc lock weblate/documentation
 # Push changes from Weblate to GitHub
 wlc push weblate
 
+# Update Weblate remote
+git remote update weblate
+
 # Pull changes from GitHub
-git pull --rebase
+git rebase --onto weblate/master
 
 # Update po files itself
-export DJANGO_SETTINGS_MODULE=weblate.settings_test
-export CI_DATABASE=postgresql
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*'
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs
 
