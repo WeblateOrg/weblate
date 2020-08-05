@@ -165,7 +165,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         default="",
         blank=True,
         help_text=gettext_lazy(
-            "Comma separated list of language code mappings, "
+            "Comma-separated list of language code mappings, "
             "for example: en_GB:en,en_US:en"
         ),
         validators=[validate_language_aliases],
