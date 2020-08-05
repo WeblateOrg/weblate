@@ -1,14 +1,23 @@
+# This file is generated in https://github.com/WeblateOrg/meta/
 version: 2
 updates:
   - package-ecosystem: github-actions
-    directory: "/"
+    directory: /
     schedule:
       interval: daily
+    labels:
+      - dependencies
+      - automerge
+  - package-ecosystem: gitsubmodule
+    directory: /
+    schedule:
+      interval: daily
+    labels:
+      - dependencies
   - package-ecosystem: pip
-    directory: "/"
+    directory: /
     schedule:
       interval: daily
-  - package-ecosystem: npm
-    directory: "/scripts/yarn"
-    schedule:
-      interval: daily
+    labels:
+      - dependencies
+      - automerge
