@@ -303,6 +303,8 @@ It is recommended to run Weblate with a PostgreSQL database server.
    :doc:`django:ref/databases`,
    :ref:`database-migration`
 
+.. _postgresql:
+
 PostgreSQL
 ++++++++++
 
@@ -374,7 +376,17 @@ MySQL and MariaDB
 +++++++++++++++++
 
 Weblate can be also used with MySQL or MariaDB, please see
-:ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with those.
+:ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
+Django with those.
+
+.. hint::
+
+    Some Weblate will perform better with :ref:`postgresql`. This includes
+    searching and translation memory, which both utilize full-text features in
+    the database and PostgreSQL implementation is superior.
+
+    Because of this it is recommended to use :ref:`postgresql` for new
+    installations.
 
 Following configuration is recommended for Weblate:
 
