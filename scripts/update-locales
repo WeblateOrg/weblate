@@ -21,6 +21,7 @@ git pull --rebase
 
 # Update po files itself
 export DJANGO_SETTINGS_MODULE=weblate.settings_test
+export CI_DATABASE=postgresql
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*'
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs
 
