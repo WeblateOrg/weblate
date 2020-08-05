@@ -159,7 +159,7 @@ Account
 
 The :guilabel:`Account` tab lets you set up basic account details,
 connect various services you can use to sign in into Weblate, completely
-remove your account, or download your user data.
+remove your account, or download your user data (see :ref:`schema-userdata`).
 
 .. note::
 
