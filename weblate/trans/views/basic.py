@@ -306,7 +306,7 @@ def show_translation(request, project, component, lang):
     )
 
     # Include ghost translations for other components, this
-    # adds quick way to create transaltions in other components
+    # adds quick way to create translations in other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(obj.component.slug)
     for test_component in obj.component.project.component_set.filter_access(
@@ -314,6 +314,11 @@ def show_translation(request, project, component, lang):
     ).exclude(slug__in=existing):
         if test_component.can_add_new_language(user):
             other_translations.append(GhostTranslation(test_component, obj.language))
+
+    # Limit the number of other components displayed to 10, preferring untranslated ones
+    other_translations = sorted(
+        other_translations, key=lambda t: t.stats.translated_percent
+    )[:10]
 
     return render(
         request,
