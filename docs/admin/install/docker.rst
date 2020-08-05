@@ -981,7 +981,7 @@ Example SSL configuration:
 
 .. envvar:: WEBLATE_EMAIL_BACKEND
 
-    Configures Django backend to use for sending e-mails.
+    Configures Django back-end to use for sending e-mails.
 
 
     .. seealso::
@@ -1061,8 +1061,8 @@ Container settings
     to adjust concurrency (``--concurrency 16``) or use different pool
     implementation (``--pool=gevent``).
 
-    By default, the number of concurrent workers matches number of processors,
-    with exception of backup worker, which is supposed to run only one.
+    By default, the number of concurrent workers matches the number of processors
+    (except the backup worker, which is supposed to run only once).
 
     **Example:**
 
@@ -1078,7 +1078,7 @@ Container settings
 
 .. envvar:: UWSGI_WORKERS
 
-    Configure how many uwsgi workers should be executed.
+    Configure how many uWSGI workers should be executed.
 
     It defaults to number of processors + 1.
 
@@ -1169,7 +1169,7 @@ using :ref:`docker-custom-config`.
 Hub setup
 ---------
 
-In order to use the GitHub's pull-request feature, you must initialize hub configuration by entering the Weblate container and executing an arbitrary Hub command. For example:
+In order to use the GitHub's pull-request feature, you must initialize your hub configuration by entering the Weblate container and executing an arbitrary Hub command. For example:
 
 .. code-block:: sh
 
@@ -1188,8 +1188,8 @@ The username passed for credentials must be the same as :setting:`GITHUB_USERNAM
 Lab setup
 ---------
 
-In order to use GitLab's merge-request feature, you must initialize ``lab``
-configuration by entering the weblate contained and executing ``lab``
+In order to use GitLab's merge-request feature, you must initialize the ``lab``
+configuration by entering the Weblate container and executing the ``lab``
 command. For example:
 
 .. code-block:: sh
@@ -1220,6 +1220,6 @@ The ``access_token`` passed for lab configuration must be same as :setting:`GITL
 Select your machine - local or cloud providers
 ----------------------------------------------
 
-With docker-machine you can create your Weblate deployment either on your local
+With Docker Machine you can create your Weblate deployment either on your local
 machine, or on any large number of cloud-based deployments on e.g. Amazon AWS,
 Greenhost, and many other providers.
