@@ -271,10 +271,10 @@ LICENSES = (
         True,
     ),
     (
-        "BSD-2-Clause-FreeBSD",
-        "BSD 2-Clause FreeBSD License",
+        "BSD-2-Clause-Views",
+        "BSD 2-Clause with views sentence",
         "http://www.freebsd.org/copyright/freebsd-license.html",
-        True,
+        False,
     ),
     (
         "BSD-3-Clause",
@@ -543,6 +543,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-3.0-AT",
+        "Creative Commons Attribution 3.0 Austria",
+        "https://creativecommons.org/licenses/by/3.0/at/legalcode",
+        False,
+    ),
+    (
         "CC-BY-3.0",
         "Creative Commons Attribution 3.0 Unported",
         "https://creativecommons.org/licenses/by/3.0/legalcode",
@@ -633,6 +639,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-ND-3.0-IGO",
+        "Creative Commons Attribution Non Commercial No Derivatives 3.0 IGO",
+        "https://creativecommons.org/licenses/by-nc-nd/3.0/igo/legalcode",
+        False,
+    ),
+    (
         "CC-BY-NC-ND-3.0",
         "Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported",
         "https://creativecommons.org/licenses/by-nc-nd/3.0/legalcode",
@@ -703,6 +715,12 @@ LICENSES = (
         "Creative Commons Attribution Share Alike 4.0 International",
         "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
         True,
+    ),
+    (
+        "CC-BY-SA-3.0-AT",
+        "Creative Commons Attribution-Share Alike 3.0 Austria",
+        "https://creativecommons.org/licenses/by-sa/3.0/at/legalcode",
+        False,
     ),
     (
         "CC-PDDC",
@@ -1143,6 +1161,12 @@ LICENSES = (
         True,
     ),
     (
+        "GLWTPL",
+        "Good Luck With That Public License",
+        "https://github.com/me-shaon/GLWTPL/commit/da5f6bc734095efbacb442c0b31e33a65b9d6e85",
+        False,
+    ),
+    (
         "gSOAP-1.3b",
         "gSOAP Public License v1.3b",
         "http://www.cs.fsu.edu/~engelen/license.html",
@@ -1488,6 +1512,18 @@ LICENSES = (
         "Newsletr",
         "Newsletr License",
         "https://fedoraproject.org/wiki/Licensing/Newsletr",
+        False,
+    ),
+    (
+        "NIST-PD",
+        "NIST Public Domain Notice",
+        "https://github.com/tcheneau/simpleRPL/blob/e645e69e38dd4e3ccfeceb2db8cba05b7c2e0cd3/LICENSE.txt",
+        False,
+    ),
+    (
+        "NIST-PD-fallback",
+        "NIST Public Domain Notice with license fallback",
+        "https://github.com/usnistgov/jsip/blob/59700e6926cbe96c5cdae897d9a7d2656b42abe3/LICENSE",
         False,
     ),
     (
@@ -1847,7 +1883,7 @@ LICENSES = (
     ),
     (
         "RSA-MD",
-        "RSA Message-Digest License ",
+        "RSA Message-Digest License",
         "http://www.faqs.org/rfcs/rfc1321.html",
         False,
     ),
