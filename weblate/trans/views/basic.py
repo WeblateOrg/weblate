@@ -316,7 +316,10 @@ def show_translation(request, project, component, lang):
             other_translations.append(GhostTranslation(test_component, obj.language))
 
     # Limit the number of other components displayed to 10, preferring untranslated ones
-    other_translations = sorted(other_translations, key=lambda t : t.stats.translated_percent)[:10]
+    other_translations = sorted(
+        other_translations,
+        key=lambda t : t.stats.translated_percent
+    )[:10]
 
     return render(
         request,
