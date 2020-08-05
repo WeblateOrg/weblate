@@ -2,17 +2,9 @@ name: Docs
 
 on:
   push:
-    paths:
-      - docs/**
-      - .github/workflows/docs.yml
-      - scripts/weblate_schemas
     branches-ignore:
       - "dependabot/**"
   pull_request:
-    paths:
-      - docs/**
-      - .github/workflows/docs.yml
-      - scripts/weblate_schemas
 
 jobs:
   build:
