@@ -1586,6 +1586,12 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         list(result)
         return result
 
+    @property
+    def lock_alerts(self):
+        if not self.auto_lock_error:
+            return []
+        return [alert for alert in self.all_alerts if alert.name in LOCKING_ALERTS]
+
     def trigger_alert(self, name, **kwargs):
         if name in self.alerts_trigger:
             self.alerts_trigger[name].append(kwargs)

@@ -15,5 +15,14 @@
   {% endif %}
 </div>
 {% trans "The translation is temporarily closed for contributions due to maintenance, please come back later." %}
+{% with alerts=object.lock_alerts %}
+  {% if alerts %}
+    <br />
+    {% trans "The translation was automatically locked due to following alerts:" %}
+    {% for alert in alerts %}
+      <a href="{{ object.get_absolute_url }}#alerts">{{ alert }}</a>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 <div class="clearfix"></div>
 {% endblock %}
