@@ -656,6 +656,10 @@ class GithubRepository(GitMergeRequestBase):
 
     def create_fork(self):
         fork_url = "{}/forks".format(self.api_url())
+
+        # GitHub API returns the entire data of the fork, in case the fork
+        # already exists. Hence this is perfectly handled, if the fork already
+        # exists in the remote side.
         r = requests.post(
             fork_url,
             headers={
@@ -803,14 +807,28 @@ class GitLabRepository(GitMergeRequestBase):
         return api_url
 
     def create_fork(self):
+        get_fork_url = "{}/forks?owned=True".format(self.api_url())
         fork_url = "{}/fork".format(self.api_url())
-        r = requests.post(
-            fork_url,
+        ssh_url_to_forked_repo = ""
+
+        # Check if Fork already exists owned by current user. If the
+        # fork already exists, set that fork as remote.
+        # Else, create a new fork
+        r = requests.get(
+            get_fork_url,
             headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
-            data={},
         )
-        response = r.json()
-        self.configure_fork_remote(response["ssh_url_to_repo"], self.get_username())
+        for fork in r.json():
+            if "owner" in fork and fork["owner"]["username"] == self.get_username():
+                ssh_url_to_forked_repo = fork["ssh_url_to_repo"]
+        if not ssh_url_to_forked_repo:
+            r = requests.post(
+                fork_url,
+                headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+                data={},
+            )
+            ssh_url_to_forked_repo = r.json()["ssh_url_to_repo"]
+        self.configure_fork_remote(ssh_url_to_forked_repo, self.get_username())
 
     def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         """Create pull request.
