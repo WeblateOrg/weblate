@@ -2,21 +2,9 @@ name: Test
 
 on:
   push:
-    paths:
-      - weblate/**
-      - "*.py"
-      - requirements*.txt
-      - ci/*
-      - .github/workflows/test.yml
     branches-ignore:
       - "dependabot/**"
   pull_request:
-    paths:
-      - weblate/**
-      - "*.py"
-      - requirements*.txt
-      - ci/*
-      - .github/workflows/test.yml
 
 jobs:
   test:
