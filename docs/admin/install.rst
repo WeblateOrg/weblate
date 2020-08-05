@@ -1157,6 +1157,34 @@ configuration, but this might need customization for your environment.
     :setting:`CSP_STYLE_SRC`,
     :setting:`CSP_FONT_SRC`
 
+.. _uwsgi:
+
+Sample configuration for NGINX and uWSGI
+++++++++++++++++++++++++++++++++++++++++
+
+
+To run production webserver, use the wsgi wrapper installed with Weblate (in
+virtual env case it is installed as
+:file:`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py`).  Don't
+forget to set the Python search path to your virtualenv as well (for example
+using ``virtualenv = /home/user/weblate-env`` in uWSGI).
+
+The following configuration runs Weblate as uWSGI under the NGINX webserver.
+
+Configuration for NGINX (also available as :file:`weblate/examples/weblate.nginx.conf`):
+
+.. literalinclude:: ../../weblate/examples/weblate.nginx.conf
+    :language: nginx
+
+Configuration for uWSGI (also available as :file:`weblate/examples/weblate.uwsgi.ini`):
+
+.. literalinclude:: ../../weblate/examples/weblate.uwsgi.ini
+    :language: ini
+
+.. seealso::
+
+    :doc:`django:howto/deployment/wsgi/uwsgi`
+
 .. _apache:
 
 Sample configuration for Apache
@@ -1196,34 +1224,6 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
 
     :doc:`django:howto/deployment/wsgi/gunicorn`
 
-
-.. _uwsgi:
-
-Sample configuration for NGINX and uWSGI
-++++++++++++++++++++++++++++++++++++++++
-
-
-To run production webserver, use the wsgi wrapper installed with Weblate (in
-virtual env case it is installed as
-:file:`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py`).  Don't
-forget to set the Python search path to your virtualenv as well (for example
-using ``virtualenv = /home/user/weblate-env`` in uWSGI).
-
-The following configuration runs Weblate as uWSGI under the NGINX webserver.
-
-Configuration for NGINX (also available as :file:`weblate/examples/weblate.nginx.conf`):
-
-.. literalinclude:: ../../weblate/examples/weblate.nginx.conf
-    :language: nginx
-
-Configuration for uWSGI (also available as :file:`weblate/examples/weblate.uwsgi.ini`):
-
-.. literalinclude:: ../../weblate/examples/weblate.uwsgi.ini
-    :language: ini
-
-.. seealso::
-
-    :doc:`django:howto/deployment/wsgi/uwsgi`
 
 Running Weblate under path
 ++++++++++++++++++++++++++
