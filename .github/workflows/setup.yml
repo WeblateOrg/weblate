@@ -2,9 +2,23 @@ name: Distribution
 
 on:
   push:
+    paths:
+      - weblate/**
+      - "*.py"
+      - MANIFEST.in
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/setup.yml
     branches-ignore:
       - "dependabot/**"
   pull_request:
+    paths:
+      - weblate/**
+      - "*.py"
+      - MANIFEST.in
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/setup.yml
 
 jobs:
   setup:
