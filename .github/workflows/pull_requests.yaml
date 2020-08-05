@@ -1,0 +1,16 @@
+name: Pull request automation
+
+on:
+  pull_request:
+    types: opened
+
+jobs:
+  weblate_automerge:
+    runs-on: ubuntu-latest
+    name: Weblate automerge
+    if: github.actor == 'weblate'
+    steps:
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: automerge
