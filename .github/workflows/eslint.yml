@@ -13,14 +13,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.0
         with:
           path: |
             ~/.cache/pip
             ~/.cache/pre-commit
           key: ${{ runner.os }}-pip-lint-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.8
       - name: Install dependencies

@@ -103,7 +103,7 @@ jobs:
       - name: Start services
         run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
@@ -112,7 +112,7 @@ jobs:
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: ${{ matrix.python-version }}
       - name: Used versions
@@ -151,7 +151,7 @@ jobs:
         run: |
           curl https://deepsource.io/cli | sh
           ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2.1.3
         if: always()
         with:
           name: Screenshots

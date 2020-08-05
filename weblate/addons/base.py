@@ -58,6 +58,7 @@ class BaseAddon:
     has_summary = False
     alert: Optional[str] = None
     trigger_update = False
+    stay_on_create = False
 
     """Base class for Weblate addons."""
 

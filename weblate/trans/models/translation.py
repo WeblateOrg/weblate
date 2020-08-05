@@ -21,7 +21,7 @@ import codecs
 import os
 import tempfile
 from datetime import datetime
-from typing import BinaryIO, Optional
+from typing import BinaryIO, Dict, Optional
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -344,9 +344,6 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         # List of updated units (used for cleanup and duplicates detection)
         updated = {}
 
-        # Position of current unit
-        pos = 0
-
         try:
             store = self.store
             translation_store = None
@@ -368,7 +365,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 translation_store = store
                 store = self.load_store(force_intermediate=True)
 
-            for unit in store.content_units:
+            for pos, unit in enumerate(store.content_units):
                 # Use translation store if exists and if it contains the string
                 if translation_store is not None:
                     try:
@@ -407,10 +404,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     )
                     continue
 
-                # Update position
-                pos += 1
-
-                self.sync_unit(dbunits, updated, id_hash, unit, pos)
+                self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
 
         except FileParseError as error:
             self.log_warning("skipping update due to parse error: %s", error)
@@ -812,9 +806,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         if accepted > 0:
             self.invalidate_cache()
-            request.user.profile.refresh_from_db()
-            request.user.profile.translated += accepted
-            request.user.profile.save(update_fields=["translated"])
+            request.user.profile.increase_count("translated", accepted)
 
         return (not_found, skipped, accepted, len(list(store2.content_units)))
 
@@ -1047,19 +1039,39 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             author=user,
         )
 
-    def new_unit(self, request, key, value):
+    def new_unit(
+        self,
+        request,
+        key: Optional[str],
+        value: Optional[str],
+        batch: Optional[Dict[str, str]] = None,
+    ):
+        from weblate.auth.models import get_anonymous
+
+        user = request.user if request else get_anonymous()
         with self.component.repository.lock:
-            self.component.commit_pending("new unit", request.user)
-            Change.objects.create(
-                translation=self,
-                action=Change.ACTION_NEW_UNIT,
-                target=value,
-                user=request.user,
-                author=request.user,
-            )
-            self.store.new_unit(key, value)
+            self.component.commit_pending("new unit", user)
+            if batch:
+                for key, value in batch.items():
+                    self.store.new_unit(key, value)
+                    Change.objects.create(
+                        translation=self,
+                        action=Change.ACTION_NEW_UNIT,
+                        target=value,
+                        user=user,
+                        author=user,
+                    )
+            else:
+                self.store.new_unit(key, value)
+                Change.objects.create(
+                    translation=self,
+                    action=Change.ACTION_NEW_UNIT,
+                    target=value,
+                    user=user,
+                    author=user,
+                )
             self.component.create_translations(request=request)
-            self.git_commit(request.user, request.user.get_author_name())
+            self.git_commit(user, user.get_author_name())
 
 
 class GhostTranslation:

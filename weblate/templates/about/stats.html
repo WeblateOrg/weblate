@@ -61,9 +61,33 @@
 
 <div class="col-lg-6">
 <div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active commenters" %}</h4></div>
+<table class="table">
+<tbody>
+{% for u in top_comments %}
+<tr>
+<td>{{ u.get_user_display_link }}</td>
+<td class="number">{{ u.commented|intcomma }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="col-lg-6">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
 
 <table class="table">
+<tr>
+<th>{% trans "Projects" %}</th>
+<td class="number">{{ total_projects|intcomma }}</td>
+</tr>
+<tr>
+<th>{% trans "Components" %}</th>
+<td class="number">{{ total_components|intcomma }}</td>
+</tr>
 <tr>
 <th>{% trans "Source strings" %}</th>
 <td class="number">{{ source_strings|intcomma }}</td>

@@ -61,6 +61,8 @@ ADMINS = (("Weblate test", "noreply@weblate.org"),)
 # The secret key is needed for tests
 SECRET_KEY = "secret key used for tests only"
 
+SITE_DOMAIN = "example.com"
+
 # Different root for test repos
 DATA_DIR = os.path.join(BASE_DIR, "data-test")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")

@@ -59,7 +59,7 @@ class UtilsConfig(AppConfig):
         register(check_cache, deploy=True)
         register(check_settings, deploy=True)
         register(check_templates, deploy=True)
-        register(check_site, deploy=True)
+        register(check_site)
         register(check_perms, deploy=True)
         register(check_errors, deploy=True)
         register(check_version, deploy=True)

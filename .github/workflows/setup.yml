@@ -40,14 +40,14 @@ jobs:
       - name: Start services
         run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Set up Python 3.7
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.7
       - name: Used versions
@@ -79,14 +79,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.8
       - name: Install pip dependencies

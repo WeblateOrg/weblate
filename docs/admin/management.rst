@@ -158,28 +158,6 @@ celery_queues
 
 Displays length of Celery task queues.
 
-changesite
-----------
-
-.. django-admin:: changesite
-
-.. versionadded:: 2.4
-
-Change or display the name of your site from the command-line without using the
-admin interface by adding this.
-
-.. django-admin-option:: --set-name NAME
-
-    Gives the site a name.
-
-.. django-admin-option:: --get-name
-
-    Prints the current name of your site.
-
-.. seealso::
-
-   :ref:`production-site`
-
 checkgit
 --------
 

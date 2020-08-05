@@ -15,6 +15,8 @@ Parsing language codes
 While parsing translations, Weblate attempts to map language code
 (usually the ISO 639-1 one) to any existing language object.
 
+You can further adjust this mapping at project level by :ref:`project-language_aliases`.
+
 If no exact match can be found, an attempt will be made
 to best fit it into an existing language (e.g. ignoring the default country code
 for a given language—choosing ``cs`` instead of ``cs_CZ``).

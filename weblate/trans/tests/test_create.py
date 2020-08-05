@@ -23,6 +23,7 @@
 from django.test.utils import modify_settings
 from django.urls import reverse
 
+from weblate.lang.models import get_english_lang
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
@@ -52,7 +53,7 @@ class CreateTest(ViewTestCase):
             "name": "Create Project",
             "slug": "create-project",
             "web": "https://weblate.org/",
-            "source_language": "1",
+            "source_language": get_english_lang(),
         }
         params.update(kwargs)
         response = self.client.post(reverse("create-project"), params)

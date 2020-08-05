@@ -697,8 +697,7 @@ class Unit(models.Model, LoggerMixin):
             self.translation.invalidate_cache()
 
             # Update user stats
-            author.profile.translated += 1
-            author.profile.save()
+            author.profile.increase_count("translated")
 
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit.target != self.target:

@@ -367,7 +367,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin.apps.SimpleAdminConfig",
@@ -571,6 +570,9 @@ MT_SAP_USE_MT = True
 # Title of site to use
 SITE_TITLE = "Weblate"
 
+# Site domain
+SITE_DOMAIN = ""
+
 # Whether site uses https
 ENABLE_HTTPS = False
 
@@ -745,6 +747,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.addons.removal.RemoveSuggestions",
 #     "weblate.addons.resx.ResxUpdateAddon",
 #     "weblate.addons.yaml.YAMLCustomizeAddon",
+#     "weblate.addons.cdn.CDNJSAddon",
 #     "weblate.addons.autotranslate.AutoTranslateAddon",
 # )
 
@@ -756,7 +759,7 @@ SERVER_EMAIL = "noreply@example.com"
 DEFAULT_FROM_EMAIL = "noreply@example.com"
 
 # List of URLs your site is supposed to serve
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [SITE_DOMAIN]
 
 # Configuration for caching
 CACHES = {

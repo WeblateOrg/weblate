@@ -28,7 +28,6 @@ from unittest import SkipTest
 
 import social_django.utils
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -85,6 +84,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     driver = None
     driver_error = ""
     image_path = None
+    site_domain = ""
 
     @classmethod
     def _databases_support_transactions(cls):
@@ -144,9 +144,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         super().setUp()
         self.driver.get("{0}{1}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1200, 1024)
-        site = Site.objects.get(pk=1)
-        site.domain = "{}:{}".format(self.host, self.server_thread.port)
-        site.save()
+        self.site_domain = settings.SITE_DOMAIN
+        settings.SITE_DOMAIN = "{}:{}".format(self.host, self.server_thread.port)
+
+    def tearDown(self):
+        super().tearDown()
+        settings.SITE_DOMAIN = self.site_domain
 
     @classmethod
     def tearDownClass(cls):
@@ -365,6 +368,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Test SSH admin interface."""
         self.open_admin()
 
+        time.sleep(0.5)
         self.screenshot("admin.png")
 
         # Open SSH page

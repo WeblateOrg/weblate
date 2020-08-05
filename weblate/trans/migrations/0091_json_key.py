@@ -5,12 +5,6 @@ from django.db.models import F
 from django.db.models.functions import Substr
 
 
-def report_progress(previous, current):
-    if previous != current and current % 5 == 0:
-        print(f"Migrating JSON strings ... {current}%")
-    return current
-
-
 def migrate_componentlist(apps, schema_editor):
     Unit = apps.get_model("trans", "Unit")
     db_alias = schema_editor.connection.alias

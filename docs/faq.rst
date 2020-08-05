@@ -50,7 +50,7 @@ actions.
 
 .. note::
 
-   Depending on your setup, access to the Weblte repository might require
+   Depending on your setup, access to the Weblate repository might require
    authentication. When using the built in :ref:`git-exporter` in Weblate, you
    authenticate with your username and the API key.
 
@@ -239,17 +239,6 @@ Weblate includes a set of configuration checks which you can see in the admin
 interface, just follow the :guilabel:`Performance report` link in the admin interface, or
 open the ``/manage/performance/`` URL directly.
 
-.. _faq-site:
-
-Why do links contain example.com as the domain?
------------------------------------------------
-
-Weblate uses Django's sites framework and defines the sitename inside the
-database. You need to set the domain name to match your installation.
-
-.. seealso::
-
-   :ref:`production-site`
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
 ---------------------------------------------------------------

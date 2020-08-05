@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Layout
 from django import forms
@@ -387,3 +386,53 @@ class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
             result["remove_labels"].values_list("name", flat=True)
         )
         return result
+
+
+class CDNJSForm(BaseAddonForm):
+    threshold = forms.IntegerField(
+        label=_("Translation threshold"),
+        initial=0,
+        max_value=100,
+        min_value=0,
+        required=True,
+        help_text=_("Threshold for included translations."),
+    )
+    css_selector = forms.CharField(
+        label=_("CSS selector"),
+        required=True,
+        initial=".l10n",
+        help_text=_("CSS selector to detect localizable elements."),
+    )
+    cookie_name = forms.CharField(
+        label=_("Language cookie name"),
+        required=False,
+        initial="",
+        help_text=_("Name of cookie which stores language preference."),
+    )
+    files = forms.CharField(
+        widget=forms.Textarea(),
+        label=_("Extract strings from HTML files"),
+        required=False,
+        help_text=_(
+            "List of filenames in current repository or remote URLs to parse "
+            "for translatable strings."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field("threshold"),
+            Field("css_selector"),
+            Field("cookie_name"),
+            Field("files"),
+        )
+        if self.is_bound and self._addon.instance.pk:
+            self.helper.layout.insert(
+                0,
+                ContextDiv(
+                    template="addons/cdnjs.html",
+                    context={"url": self._addon.cdn_js_url},
+                ),
+            )

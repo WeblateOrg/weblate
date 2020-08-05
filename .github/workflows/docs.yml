@@ -22,12 +22,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.8
       - name: Install apt dependencies
@@ -41,7 +41,7 @@ jobs:
           echo "::add-matcher::.github/matchers/sphinx.json"
           ./ci/run-docs
           echo "::remove-matcher owner=sphinx::"
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2.1.3
         with:
           name: Documentation
           path: docs/_build/html
@@ -53,12 +53,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.0
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.1
         with:
           python-version: 3.8
       - name: Install pip dependencies
@@ -72,7 +72,7 @@ jobs:
           echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
           sed 's@^@docs/@' docs/_build/linkcheck/output.txt
           echo "::remove-matcher owner=sphinx::"
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2.1.3
         if: always()
         with:
           name: Linkcheck report

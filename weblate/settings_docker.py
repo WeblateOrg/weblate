@@ -249,10 +249,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", ""
 )
 SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = get_env_list(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS", ""
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS"
 )
 SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = get_env_list(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS", ""
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS"
 )
 
 if "WEBLATE_SOCIAL_AUTH_GITLAB_KEY" in os.environ:
@@ -470,6 +470,13 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+# Content-Security-Policy
+CSP_SCRIPT_SRC = get_env_list("WEBLATE_CSP_SCRIPT_SRC")
+CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
+CSP_CONNECT_SRC = get_env_list("WEBLATE_CSP_CONNECT_SRC")
+CSP_STYLE_SRC = get_env_list("WEBLATE_CSP_STYLE_SRC")
+CSP_FONT_SRC = get_env_list("WEBLATE_CSP_FONT_SRC")
+
 # Allow new user registrations
 REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
 REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS")
@@ -542,7 +549,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin.apps.SimpleAdminConfig",
@@ -754,6 +760,9 @@ if MT_SAP_BASE_URL:
 # Title of site to use
 SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
 
+# Site domain
+SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
+
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
 
@@ -932,6 +941,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.removal.RemoveSuggestions",
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.yaml.YAMLCustomizeAddon",
+    "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")

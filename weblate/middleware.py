@@ -172,11 +172,11 @@ class SecurityMiddleware:
         if settings.DEBUG:
             return response
 
-        style = {"'self'", "'unsafe-inline'"}
-        script = {"'self'"}
-        image = {"'self'"}
-        connect = {"'self'"}
-        font = {"'self'"}
+        style = {"'self'", "'unsafe-inline'"} | set(settings.CSP_STYLE_SRC)
+        script = {"'self'"} | set(settings.CSP_SCRIPT_SRC)
+        image = {"'self'"} | set(settings.CSP_IMG_SRC)
+        connect = {"'self'"} | set(settings.CSP_CONNECT_SRC)
+        font = {"'self'"} | set(settings.CSP_FONT_SRC)
 
         if request.resolver_match and request.resolver_match.view_name in INLINE_PATHS:
             script.add("'unsafe-inline'")

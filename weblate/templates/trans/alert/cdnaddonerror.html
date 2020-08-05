@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load translations %}
+
+<p>{% trans "Weblate could not parse HTML files using the addon." %}</p>
+
+<p>{% trans "The following occurrences were found:" %}</p>
+
+<table class="table table-condensed">
+<thead>
+<tr><th>{% trans "Filename" %}</th><th>{% trans "Error" %}</th></tr>
+</thead>
+<tbody>
+{% for occurrence in occurrences %}
+<tr><td>{{ occurrence.filename }}</td><td>{{ occurrence.error }}</td></tr>
+{% endfor %}
+</tbody>
+</table>

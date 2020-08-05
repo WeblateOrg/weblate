@@ -28,7 +28,7 @@ and other settings:
 In the :guilabel:`Reports` section, you can check the status of your site, tweak
 it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-repos`.
 
-Manage database objects in any of the sections below.
+Manage database objects under any of the sections.
 The most interesting one is probably :guilabel:`Weblate translations`,
 where you can manage translatable projects, see :ref:`project` and :ref:`component`.
 

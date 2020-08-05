@@ -200,6 +200,33 @@ Used to derive several other paths by default:
 
 Default value: Top level directory of Weblate sources.
 
+.. setting:: CSP_SCRIPT_SRC
+.. setting:: CSP_IMG_SRC
+.. setting:: CSP_CONNECT_SRC
+.. setting:: CSP_STYLE_SRC
+.. setting:: CSP_FONT_SRC
+
+CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC
+-------------------------------------------------------------------------
+
+Customize ``Content-Security-Policy`` header for Weblate. The header is
+automatically generated based on enabled integrations with third-party services
+(Matomo, Google Analytics, Sentry, ...).
+
+All these default to empty list.
+
+** Example:: **
+
+.. code-block:: python
+
+    # Enable Cloudflare Javascript optimizations
+    CSP_SCRIPT_SRC = ["ajax.cloudflare.com"]
+
+.. seealso::
+
+    :ref:`csp`,
+    `Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP>`_
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST
@@ -214,7 +241,7 @@ List of quality checks to perform on a translation.
 
 Adjust the list of checks to include ones relevant to you.
 
-All built-in quality :ref:`checks` are turned on by default, from
+All built-in :ref:`checks` are turned on by default, from
 where you can change these settings. By default they are commented out in :ref:`sample-configuration`
 so that default values are used. New checks then carried out for each new Weblate version.
 
@@ -758,6 +785,25 @@ The restriction is the length of the source string * 10 characters.
 .. note::
 
     Defaults to ``True``.
+
+.. setting:: LOCALIZE_CDN_URL
+.. setting:: LOCALIZE_CDN_PATH
+
+LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
+--------------------------------------
+
+These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon.
+:setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
+available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
+store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
+
+.. hint::
+
+   On Hosted Weblate, this uses ``https://weblate-cdn.com/``.
+
+.. seealso::
+
+   :ref:`addon-weblate.cdn.cdnjs`
 
 .. setting:: LOGIN_REQUIRED_URLS
 
@@ -1430,6 +1476,45 @@ combinations.
 
 Turn this off if you want to different translations for each variant.
 
+.. setting:: SITE_DOMAIN
+
+SITE_DOMAIN
+-----------
+
+Configures site domain. This is necessary to produce correct absolute links in
+many scopes (for example activation e-mails, notifications or RSS feeds).
+
+In case Weblate is running on non-standard port, include it here as well.
+
+**Examples:**
+
+.. code-block:: python
+
+    # Production site with domain name
+    SITE_DOMAIN = "weblate.example.com"
+
+    # Local development with IP address and port
+    SITE_DOMAIN = "127.0.0.1:8000"
+
+.. note::
+
+    This setting should only contain the domain name. For configuring protocol,
+    (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing
+    URL, use :setting:`URL_PREFIX`.
+
+.. hint::
+
+   On a Docker container, the site domain is configured through
+   :envvar:`WEBLATE_ALLOWED_HOSTS`.
+
+.. seealso::
+
+   :ref:`production-site`,
+   :ref:`production-hosts`,
+   :ref:`production-ssl`
+   :envvar:`WEBLATE_SITE_DOMAIN`,
+   :setting:`ENABLE_HTTPS`
+
 .. setting:: SITE_TITLE
 
 SITE_TITLE
@@ -1583,31 +1668,32 @@ example:
 
     WEBLATE_ADDONS = (
         # Built-in addons
-        'weblate.addons.gettext.GenerateMoAddon',
-        'weblate.addons.gettext.UpdateLinguasAddon',
-        'weblate.addons.gettext.UpdateConfigureAddon',
-        'weblate.addons.gettext.MsgmergeAddon',
-        'weblate.addons.gettext.GettextCustomizeAddon',
-        'weblate.addons.gettext.GettextAuthorComments',
-        'weblate.addons.cleanup.CleanupAddon',
-        'weblate.addons.consistency.LangaugeConsistencyAddon',
-        'weblate.addons.discovery.DiscoveryAddon',
-        'weblate.addons.flags.SourceEditAddon',
-        'weblate.addons.flags.TargetEditAddon',
-        'weblate.addons.flags.SameEditAddon',
-        'weblate.addons.flags.BulkEditAddon',
-        'weblate.addons.generate.GenerateFileAddon',
-        'weblate.addons.json.JSONCustomizeAddon',
-        'weblate.addons.properties.PropertiesSortAddon',
-        'weblate.addons.git.GitSquashAddon',
-        'weblate.addons.removal.RemoveComments',
-        'weblate.addons.removal.RemoveSuggestions',
-        'weblate.addons.resx.ResxUpdateAddon',
-        'weblate.addons.autotranslate.AutoTranslateAddon',
-        'weblate.addons.yaml.YAMLCustomizeAddon',
+        "weblate.addons.gettext.GenerateMoAddon",
+        "weblate.addons.gettext.UpdateLinguasAddon",
+        "weblate.addons.gettext.UpdateConfigureAddon",
+        "weblate.addons.gettext.MsgmergeAddon",
+        "weblate.addons.gettext.GettextCustomizeAddon",
+        "weblate.addons.gettext.GettextAuthorComments",
+        "weblate.addons.cleanup.CleanupAddon",
+        "weblate.addons.consistency.LangaugeConsistencyAddon",
+        "weblate.addons.discovery.DiscoveryAddon",
+        "weblate.addons.flags.SourceEditAddon",
+        "weblate.addons.flags.TargetEditAddon",
+        "weblate.addons.flags.SameEditAddon",
+        "weblate.addons.flags.BulkEditAddon",
+        "weblate.addons.generate.GenerateFileAddon",
+        "weblate.addons.json.JSONCustomizeAddon",
+        "weblate.addons.properties.PropertiesSortAddon",
+        "weblate.addons.git.GitSquashAddon",
+        "weblate.addons.removal.RemoveComments",
+        "weblate.addons.removal.RemoveSuggestions",
+        "weblate.addons.resx.ResxUpdateAddon",
+        "weblate.addons.autotranslate.AutoTranslateAddon",
+        "weblate.addons.yaml.YAMLCustomizeAddon",
+        "weblate.addons.cdn.CDNJSAddon",
 
         # Addon you want to include
-        'weblate.addons.example.ExampleAddon',
+        "weblate.addons.example.ExampleAddon",
     )
 
 .. seealso::

@@ -36,7 +36,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.db import FastDeleteMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
-from weblate.utils.validators import validate_slug
+from weblate.utils.validators import validate_language_aliases, validate_slug
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -159,6 +159,17 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         default=get_english_lang,
         on_delete=models.deletion.CASCADE,
     )
+    language_aliases = models.CharField(
+        max_length=200,
+        verbose_name=gettext_lazy("Language aliases"),
+        default="",
+        blank=True,
+        help_text=gettext_lazy(
+            "Comma separated list of language code mappings, "
+            "for example: en_GB:en,en_US:en"
+        ),
+        validators=[validate_language_aliases],
+    )
 
     is_lockable = True
     _reverse_url_name = "project"
@@ -221,6 +232,12 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
+
+    @cached_property
+    def language_aliases_dict(self):
+        if not self.language_aliases:
+            return {}
+        return dict(part.split(":") for part in self.language_aliases.split(","))
 
     def get_group(self, group):
         return self.group_set.get(name="{0}{1}".format(self.name, group))

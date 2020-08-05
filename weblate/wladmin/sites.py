@@ -21,8 +21,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import AdminSite
 from django.contrib.auth.views import LogoutView
-from django.contrib.sites.admin import SiteAdmin
-from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -174,9 +172,6 @@ class WeblateAdminSite(AdminSite):
 
         # Django REST Framework
         self.register(Token, TokenAdmin)
-
-        # Django core
-        self.register(Site, SiteAdmin)
 
         # Simple SSO
         if "simple_sso.sso_server" in settings.INSTALLED_APPS:

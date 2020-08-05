@@ -43,6 +43,7 @@ class CommentManager(models.Manager):
                 "agent": get_user_agent_raw(request),
             },
         )
+        user.profile.increase_count("commented")
         Change.objects.create(
             unit=unit,
             comment=new_comment,

@@ -40,7 +40,7 @@ The following examples assume you have a working Docker environment, with
               WEBLATE_EMAIL_HOST_PASSWORD: pass
               WEBLATE_SERVER_EMAIL: weblate@example.com
               WEBLATE_DEFAULT_FROM_EMAIL: weblate@example.com
-              WEBLATE_ALLOWED_HOSTS: weblate.example.com,localhost
+              WEBLATE_SITE_DOMAIN: weblate.example.com
               WEBLATE_ADMIN_PASSWORD: password for the admin user
               WEBLATE_ADMIN_EMAIL: weblate.admin@example.com
 
@@ -48,9 +48,6 @@ The following examples assume you have a working Docker environment, with
 
         If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created with
         a random password shown on first startup.
-
-        Append ``,localhost`` to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to
-        access locally for testing.
 
         The provided example makes Weblate listen on port 80, edit the port
         mapping in the :file:`docker-compose-override.yml` file to change it.
@@ -152,7 +149,7 @@ a :file:`docker-compose-https.override.yml` file with your settings:
           WEBLATE_EMAIL_HOST: smtp.example.com
           WEBLATE_EMAIL_HOST_USER: user
           WEBLATE_EMAIL_HOST_PASSWORD: pass
-          WEBLATE_ALLOWED_HOSTS: weblate.example.com
+          WEBLATE_SITE_DOMAIN: weblate.example.com
           WEBLATE_ADMIN_PASSWORD: password for admin user
       https-portal:
         environment:
@@ -248,6 +245,19 @@ Generic settings
 
     Configures the site-title shown on the heading of all pages.
 
+.. envvar:: WEBLATE_SITE_DOMAIN
+
+    Configures the site domain.
+
+    .. hint::
+
+        In case it is not set, the first item from :envvar:`WEBLATE_ALLOWED_HOSTS` is used.
+
+    .. seealso::
+
+        :ref:`production-site`,
+        :setting:`SITE_DOMAIN`
+
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
 
@@ -305,8 +315,9 @@ Generic settings
 
 .. envvar:: WEBLATE_ALLOWED_HOSTS
 
-    Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS` and sets
-    sitename to the first one.
+    Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`.
+
+    Defaults to ``*`` which allows all hostnames.
 
     **Example:**
 
@@ -524,6 +535,22 @@ Generic settings
    Configures checks which you do not want to be displayed, see
    :setting:`django:SILENCED_SYSTEM_CHECKS`.
 
+.. envvar:: WEBLATE_CSP_SCRIPT_SRC
+.. envvar:: WEBLATE_CSP_IMG_SRC
+.. envvar:: WEBLATE_CSP_CONNECT_SRC
+.. envvar:: WEBLATE_CSP_STYLE_SRC
+.. envvar:: WEBLATE_CSP_FONT_SRC
+
+    Allows to customize ``Content-Security-Policy`` HTTP header.
+
+    .. seealso::
+
+        :ref:`csp`,
+        :setting:`CSP_SCRIPT_SRC`,
+        :setting:`CSP_IMG_SRC`,
+        :setting:`CSP_CONNECT_SRC`,
+        :setting:`CSP_STYLE_SRC`,
+        :setting:`CSP_FONT_SRC`
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

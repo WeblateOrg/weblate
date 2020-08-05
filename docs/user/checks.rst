@@ -436,7 +436,7 @@ translations of this string on the :guilabel:`Other occurrences` tab.
    This check also fires in case the string is translated in one component and
    not in another. It can be used as a quick way to manually handle strings
    which are not translated in some components just by clicking on the
-   :guilabel:`Use this string` button displayed on each line in the
+   :guilabel:`Use this translation` button displayed on each line in the
    :guilabel:`Other occurences` tab.
 
    You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to

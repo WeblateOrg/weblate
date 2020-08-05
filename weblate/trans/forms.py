@@ -631,11 +631,10 @@ class ExtraUploadForm(UploadForm):
 
 def get_upload_form(user, translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
-    project = translation.component.project
-    if user.has_perm("upload.authorship", project):
+    if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm
         kwargs["initial"] = {"author_name": user.full_name, "author_email": user.email}
-    elif user.has_perm("upload.overwrite", project):
+    elif user.has_perm("upload.overwrite", translation):
         form = UploadForm
     else:
         form = SimpleUploadForm
@@ -767,8 +766,6 @@ class MergeForm(UnitForm):
                 pk=self.cleaned_data["merge"],
                 translation__component__project=project,
                 translation__language=translation.language,
-                id_hash=unit.id_hash,
-                content_hash=unit.content_hash,
             )
             # Compare in Python to ensure case sensitiveness on MySQL
             if unit.source != merge_unit.source:
@@ -1624,6 +1621,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             "contribute_shared_tm",
             "enable_hooks",
             "source_language",
+            "language_aliases",
             "access_control",
             "translation_review",
             "source_review",
@@ -1717,6 +1715,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     "contribute_shared_tm",
                     "enable_hooks",
                     "source_language",
+                    "language_aliases",
                     "translation_review",
                     "source_review",
                     css_id="workflow",

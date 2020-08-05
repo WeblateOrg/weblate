@@ -124,7 +124,7 @@ Notable configuration or dependencies changes:
 * There are several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
 * There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
 * There are new quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
-* There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting the in API.
+* There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting in the API.
 * There are some new and updated requirements.
 * There is a change in :setting:`django:INSTALLED_APPS`.
 * The :ref:`deepl` machine translation now defaults to v2 API, you might need to adjust :setting:`MT_DEEPL_API_VERSION` in case your current DeepL subscription does not support that.
@@ -143,6 +143,7 @@ Notable configuration or dependencies changes:
 * There are several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
 * The keys for JSON based formats no longer include leading dot. The strings are adjusted during the database migration, but external components might need adjustment in case you rely on keys in exports or API.
 * The Celery configuration was changed to no longer use ``memory`` queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting.
+* The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure it before running Weblate.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

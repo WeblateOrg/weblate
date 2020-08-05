@@ -139,7 +139,7 @@ class Event(models.Model):
 
 
 class AddonsConf(AppConf):
-    ADDONS = (
+    WEBLATE_ADDONS = (
         "weblate.addons.gettext.GenerateMoAddon",
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
@@ -162,10 +162,14 @@ class AddonsConf(AppConf):
         "weblate.addons.removal.RemoveSuggestions",
         "weblate.addons.resx.ResxUpdateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
+        "weblate.addons.cdn.CDNJSAddon",
     )
 
+    LOCALIZE_CDN_URL = None
+    LOCALIZE_CDN_PATH = None
+
     class Meta:
-        prefix = "WEBLATE"
+        prefix = ""
 
 
 def handle_addon_error(addon, component):

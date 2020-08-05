@@ -37,6 +37,9 @@ class WeblateConf(AppConf):
     # Title of site to use
     SITE_TITLE = "Weblate"
 
+    # Site domain
+    SITE_DOMAIN = ""
+
     # Whether this is hosted.weblate.org
     OFFER_HOSTING = False
 
@@ -88,12 +91,6 @@ class WeblateConf(AppConf):
 
     # Hiding repository credentials
     HIDE_REPO_CREDENTIALS = True
-
-    # GitHub username for sending pull requests
-    GITHUB_USERNAME = None
-
-    # GitLab username for sending merge requests
-    GITLAB_USERNAME = None
 
     # Default committer
     DEFAULT_COMMITER_EMAIL = "noreply@weblate.org"

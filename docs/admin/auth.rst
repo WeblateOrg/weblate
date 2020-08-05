@@ -17,10 +17,10 @@ The authentication attempts are subject to :ref:`rate-limit`.
 Authentication backends
 -----------------------
 
-The inbuilt solution of Django is used for authentication,
+The built-in solution of Django is used for authentication,
 including various social options to do so.
-Using it means you can import the user database of other Django based projects (see
-:ref:`pootle-migration`).
+Using it means you can import the user database of other Django-based projects
+(see :ref:`pootle-migration`).
 
 Django can additionally be set up to authenticate against other means too.
 
@@ -64,7 +64,7 @@ to properly credit contributions users make.
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-For OpenID based services it's usually just a matter of enabling them. The following
+For OpenID-based services it's usually just a matter of enabling them. The following
 section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
 .. code-block:: python
@@ -242,7 +242,7 @@ Weblate can be configured to use common or specific tenants for authentication.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``
 for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/``
-for tenant specific authentication.
+for tenant-specific authentication.
 
 .. code-block:: python
 

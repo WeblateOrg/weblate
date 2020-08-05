@@ -730,12 +730,19 @@ class ComponentValidationTest(RepoTestCase):
         self.component.full_clean()
 
     def test_lang_code(self):
-        component = Component()
+        project = Project(language_aliases="xx:cs")
+        component = Component(project=project)
         component.filemask = "Solution/Project/Resources.*.resx"
+        # Pure extraction
         self.assertEqual(
             component.get_lang_code("Solution/Project/Resources.es-mx.resx"), "es-mx"
         )
+        # No match
         self.assertEqual(component.get_lang_code("Solution/Project/Resources.resx"), "")
+        # Language aliases
+        self.assertEqual(
+            component.get_lang_code("Solution/Project/Resources.xx.resx"), "cs"
+        )
         self.assertRaisesMessage(
             ValidationError,
             "The language code for "
@@ -753,7 +760,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_lang_code_double(self):
-        component = Component()
+        component = Component(project=Project())
         component.filemask = "path/*/resources/MessagesBundle_*.properties"
         self.assertEqual(
             component.get_lang_code(

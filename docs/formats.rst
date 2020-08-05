@@ -470,17 +470,17 @@ INI translations are usually used as monolingual translations.
 
 .. _islu:
 
-InnoSetup INI translations
---------------------------
+Inno Setup INI translations
+---------------------------
 
 .. index::
     pair: INI translations; file format
 
 .. versionadded:: 4.1
 
-InnoSetup INI file format for translations.
+Inno Setup INI file format for translations.
 
-InnoSetup INI translations are usually used as monolingual translations.
+Inno Setup INI translations are usually used as monolingual translations.
 
 .. note::
 
@@ -496,7 +496,7 @@ InnoSetup INI translations are usually used as monolingual translations.
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `InnoSetup INI File`             |
+| File format                    | `Inno Setup INI File`            |
 +--------------------------------+----------------------------------+
 
 .. note::

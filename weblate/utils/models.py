@@ -61,6 +61,12 @@ class WeblateConf(AppConf):
 
     DATABASE_BACKUP = "plain"
 
+    CSP_SCRIPT_SRC = []
+    CSP_IMG_SRC = []
+    CSP_CONNECT_SRC = []
+    CSP_STYLE_SRC = []
+    CSP_FONT_SRC = []
+
     class Meta:
         prefix = ""
 
