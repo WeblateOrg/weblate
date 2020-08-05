@@ -306,7 +306,7 @@ def show_translation(request, project, component, lang):
     )
 
     # Include ghost translations for other components, this
-    # adds quick way to create transaltions in other components
+    # adds quick way to create translations in other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(obj.component.slug)
     for test_component in obj.component.project.component_set.filter_access(
