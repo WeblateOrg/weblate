@@ -1171,6 +1171,12 @@ mod_wsgi (available as :file:`weblate/examples/apache.conf`):
 This configuration is for Apache 2.4 and later. For earlier versions of Apache,
 replace `Require all granted` with `Allow from all`.
 
+.. note::
+
+    Weblate requires Python 3, so please make sure you are running Python 3
+    variant of the modwsgi. Usually it is available as a separate package, for
+    example ``libapache2-mod-wsgi-py3``.
+
 .. seealso::
 
     :doc:`django:howto/deployment/wsgi/modwsgi`
