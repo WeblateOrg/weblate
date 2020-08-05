@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-04 02:03+0000\n"
+"PO-Revision-Date: 2020-08-06 10:46+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -917,20 +917,16 @@ msgid "Manage language definitions"
 msgstr "Gerir definições de idioma"
 
 #: ../../admin/access.rst:412
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add groups"
-msgstr "Adicionar grupo de tipos de letra"
+msgstr "Adicionar grupos"
 
 #: ../../admin/access.rst:414
 msgid "Manage groups"
 msgstr "Gerir grupos"
 
 #: ../../admin/access.rst:416
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add users"
-msgstr "Adicionar um utilizador"
+msgstr "Adicionar utilizadores"
 
 #: ../../admin/access.rst:418
 msgid "Manage users"
@@ -4138,7 +4134,7 @@ msgstr ""
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr ""
+msgstr "Um estado vai ser apresentado para cada componente listado no painel."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -4455,21 +4451,23 @@ msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "Lista de correções automáticas para aplicar ao gravar um texto."
 
 #: ../../admin/config.rst:162
 msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
 msgstr ""
+"Forneça um caminho totalmente qualificado para a classe Python que "
+"implementa a interface de correção automática."
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "Correções disponíveis:"
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
@@ -4477,63 +4475,70 @@ msgstr ""
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
 msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
 msgstr ""
+"Substitui pontos ao final (...) se o texto fonte tiver um caractere de "
+"reticências (…)."
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Remove caracteres de espaço de largura zero se a fonte não contiver nenhum."
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Remove caracteres de controle se a fonte não contiver nenhum."
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:176
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Remove a marcação HTML insegura dos textos sinalizados como ``safe-html`` ("
+"veja :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Pode selecionar quais usar:"
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
-msgstr ""
+msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BASE_DIR"
-msgstr ""
+msgstr "BASE_DIR"
 
 #: ../../admin/config.rst:196
 msgid ""
 "Base directory where Weblate sources are located. Used to derive several "
 "other paths by default:"
 msgstr ""
+"Diretório base onde as fontes do Weblate estão localizadas. Usado para "
+"derivar vários outros caminhos por predefinição:"
 
 #: ../../admin/config.rst:199 ../../faq.rst:388 ../../vcs.rst:455
 msgid ":setting:`DATA_DIR`"
-msgstr ""
+msgstr ":setting:`DATA_DIR`"
 
 #: ../../admin/config.rst:201
 msgid "Default value: Top level directory of Weblate sources."
-msgstr ""
+msgstr "Valor predefinido: Diretório de nível superior de fontes do Weblate."
 
 #: ../../admin/config.rst:210
 msgid ""
@@ -4563,17 +4568,19 @@ msgstr ""
 
 #: ../../admin/config.rst:233
 msgid "CHECK_LIST"
-msgstr ""
+msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:235
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Lista de verificações de qualidade para realizar numa tradução."
 
 #: ../../admin/config.rst:239
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Forneça um caminho totalmente qualificado para a classe Python que "
+"implementa a interface de verificação."
 
 #: ../../admin/config.rst:242
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -4589,11 +4596,11 @@ msgstr ""
 
 #: ../../admin/config.rst:248
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Pode desativar todas as verificações:"
 
 #: ../../admin/config.rst:254
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Pode ativar apenas algumas:"
 
 #: ../../admin/config.rst:266
 msgid ""
@@ -4601,24 +4608,30 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :djadmin:`updatechecks`."
 msgstr ""
+"Alterar esta configuração afeta apenas as traduções recém-alteradas, as "
+"verificações existentes ainda serão armazenadas no banco de dados. Para "
+"também aplicar alterações nas traduções armazenadas, execute "
+":djadmin:`updatechecks`."
 
 #: ../../admin/config.rst:272
 msgid ":ref:`checks`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`checks`, :ref:`custom-checks`"
 
 #: ../../admin/config.rst:277
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:281
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Apaga comentários após uma determinada quantidade de dias. A predefinição é "
+"``None``, ou seja, nada apagado."
 
 #: ../../admin/config.rst:287
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:291
 msgid ""
@@ -4631,10 +4644,12 @@ msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :djadmin:`commit_pending`"
 msgstr ""
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :djadmin:`commit_pending`"
 
 #: ../../admin/config.rst:303
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:305
 msgid ""
@@ -4645,51 +4660,55 @@ msgstr ""
 
 #: ../../admin/config.rst:308
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Os subdiretórios seguintes geralmente existem:"
 
 #: ../../admin/config.rst:310
 msgid ":file:`home`"
-msgstr ""
+msgstr ":file:`home`"
 
 #: ../../admin/config.rst:311
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "O diretório pessoal usado para invocar scripts."
 
 #: ../../admin/config.rst:312
 msgid ":file:`ssh`"
-msgstr ""
+msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:313
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "Chaves e configuração de SSH."
 
 #: ../../admin/config.rst:314
 msgid ":file:`static`"
-msgstr ""
+msgstr ":file:`static`"
 
 #: ../../admin/config.rst:315
 msgid "Default location for static Django files, specified by ``STATIC_ROOT``."
 msgstr ""
+"Localização predefinida para ficheiros estáticos de Django, especificados "
+"por ``STATIC_ROOT``."
 
 #: ../../admin/config.rst:316
 msgid ":file:`media`"
-msgstr ""
+msgstr ":file:`media`"
 
 #: ../../admin/config.rst:317
 msgid "Default location for Django media files, specified by ``MEDIA_ROOT``."
 msgstr ""
+"Localização predefinida para ficheiros de mídia Django, especificado por "
+"``MEDIA_ROOT``."
 
 #: ../../admin/config.rst:318
 msgid ":file:`vcs`"
-msgstr ""
+msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:319
 msgid "Version control repositories."
-msgstr ""
+msgstr "Repositórios de controle de versão."
 
 #: ../../admin/config.rst:321
 msgid ":file:`backups`"
-msgstr ""
+msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:321
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
@@ -4706,76 +4725,80 @@ msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"A maneira mais fácil de conseguir isto é fazer do usuário o proprietário do "
+"diretório:"
 
 #: ../../admin/config.rst:334
 msgid "Defaults to ``$BASE_DIR/data``."
-msgstr ""
+msgstr "A predefinição é ``$BASE_DIR/data``."
 
 #: ../../admin/config.rst:338
 msgid ":setting:`BASE_DIR`, :doc:`backup`"
-msgstr ""
+msgstr ":setting:`BASE_DIR`, :doc:`backup`"
 
 #: ../../admin/config.rst:344
 msgid "DATABASE_BACKUP"
-msgstr ""
+msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:348
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Se os backups de banco de dados devem ser armazenados como texto simples, "
+"compactado ou ignorado. Os valores autorizados são:"
 
 #: ../../admin/config.rst:351
 msgid "``\"plain\"``"
-msgstr ""
+msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:352
 msgid "``\"compressed\"``"
-msgstr ""
+msgstr "``\"compressed\"``"
 
 #: ../../admin/config.rst:357
 msgid ":ref:`backup`"
-msgstr ""
+msgstr ":ref:`backup`"
 
 #: ../../admin/config.rst:362
 msgid "DEFAULT_ACCESS_CONTROL"
-msgstr ""
+msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:366
 msgid "The default access control setting for new projects:"
-msgstr ""
+msgstr "A configuração predefinida de controle de acesso para novos projetos:"
 
 #: ../../admin/config.rst:368
 msgid "``0``"
-msgstr ""
+msgstr "``0``"
 
 #: ../../admin/config.rst:369
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`Público`"
 
 #: ../../admin/config.rst:370
 msgid "``1``"
-msgstr ""
+msgstr "``1``"
 
 #: ../../admin/config.rst:371
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`Protegido`"
 
 #: ../../admin/config.rst:372
 msgid "``100``"
-msgstr ""
+msgstr "``100``"
 
 #: ../../admin/config.rst:373
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`Privado`"
 
 #: ../../admin/config.rst:375
 msgid "``200``"
-msgstr ""
+msgstr "``200``"
 
 #: ../../admin/config.rst:375
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`Personalizado`"
 
 #: ../../admin/config.rst:377
 msgid ""
@@ -4785,25 +4808,27 @@ msgstr ""
 
 #: ../../admin/config.rst:382
 msgid ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
-msgstr ""
+msgstr ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
 
 #: ../../admin/config.rst:389
 msgid "DEFAULT_RESTRICTED_COMPONENT"
-msgstr ""
+msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:393
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "O valor predefinido para a restrição de componentes."
 
 #: ../../admin/config.rst:397
 msgid ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
-msgstr ""
+msgstr ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
 
 #: ../../admin/config.rst:408
 msgid ""
 "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgstr ""
+"DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
+"DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 
 #: ../../admin/config.rst:410
 msgid ""
@@ -4813,50 +4838,54 @@ msgstr ""
 
 #: ../../admin/config.rst:415
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
-msgstr ""
+msgstr ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
 
 #: ../../admin/config.rst:423
 msgid "DEFAULT_ADDONS"
-msgstr ""
+msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:425
 msgid "Default addons to install on every created component."
-msgstr ""
+msgstr "Complementos predefinidos para instalar em cada componente criado."
 
 #: ../../admin/config.rst:429
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Essa configuração afeta apenas componentes recém-criados."
 
 #: ../../admin/config.rst:431 ../../admin/config.rst:716
 #: ../../admin/config.rst:1370 ../../admin/config.rst:1555
 #: ../../admin/config.rst:1595 ../../admin/management.rst:95
 #: ../../admin/management.rst:142 ../../admin/management.rst:644
 msgid "Example:"
-msgstr ""
+msgstr "Exemplo:"
 
 #: ../../admin/config.rst:452
 msgid ":djadmin:`install_addon`"
-msgstr ""
+msgstr ":djadmin:`install_addon`"
 
 #: ../../admin/config.rst:457
 msgid "DEFAULT_COMMITER_EMAIL"
-msgstr ""
+msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:461
 msgid ""
 "Committer e-mail address for created translation components defaulting to "
 "``noreply@weblate.org``."
 msgstr ""
+"Endereço de e-mail do committer para componentes de tradução criados com a "
+"predefinição ``noreply@weblate.org``."
 
 #: ../../admin/config.rst:465
 msgid ""
 ":setting:`DEFAULT_COMMITER_NAME`, :ref:`component`, :ref:`component-"
 "committer_email`"
 msgstr ""
+":setting:`DEFAULT_COMMITER_NAME`, :ref:`component`, :ref:`component-"
+"committer_email`"
 
 #: ../../admin/config.rst:472
 msgid "DEFAULT_COMMITER_NAME"
-msgstr ""
+msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:476
 msgid ""
@@ -4868,50 +4897,56 @@ msgid ""
 ":setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`, :ref:`component-"
 "committer_name`"
 msgstr ""
+":setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`, :ref:`component-"
+"committer_name`"
 
 #: ../../admin/config.rst:487
 msgid "DEFAULT_MERGE_STYLE"
-msgstr ""
+msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:491
 msgid "Merge style for any new components."
-msgstr ""
+msgstr "Mescla o estilo para quaisquer componentes novos."
 
 #: ../../admin/config.rst:493
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - predefinição"
 
 #: ../../admin/config.rst:494
 msgid "`merge`"
-msgstr ""
+msgstr "`merge`"
 
 #: ../../admin/config.rst:498
 msgid ":ref:`component`, :ref:`component-merge_style`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-merge_style`"
 
 #: ../../admin/config.rst:504
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
-msgstr ""
+msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 
 #: ../../admin/config.rst:508
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
+"Configuração predefinida para propagação de tradução, sendo a predefinição "
+"``True``."
 
 #: ../../admin/config.rst:512
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
 
 #: ../../admin/config.rst:518
 msgid "DEFAULT_PULL_MESSAGE"
-msgstr ""
+msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:520
 msgid "Title for new pull requests, defaulting to ``'Update from Weblate'``."
 msgstr ""
+"Título para pull requests novas, sendo a predefinição ``'Update from "
+"Weblate'``."
 
 #: ../../admin/config.rst:526
 msgid "ENABLE_AVATARS"
-msgstr ""
+msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:528
 msgid ""
@@ -4923,39 +4958,46 @@ msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Avatares são buscados e armazenados em cache no servidor, diminuindo o risco "
+"de vazamento de informações privadas, acelerando a experiência do utilizador."
 
 #: ../../admin/config.rst:535
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 
 #: ../../admin/config.rst:542
 msgid "ENABLE_HOOKS"
-msgstr ""
+msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:544
 msgid "Whether to enable anonymous remote hooks."
-msgstr ""
+msgstr "Se se deve ativar ganchos remotos anônimos."
 
 #: ../../admin/config.rst:548
 msgid ":ref:`hooks`"
-msgstr ""
+msgstr ":ref:`hooks`"
 
 #: ../../admin/config.rst:553
 msgid "ENABLE_HTTPS"
-msgstr ""
+msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:555
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Se se deve enviar ligações para Weblate como HTTPS ou HTTP. Esta "
+"configuração afeta os e-mails enviados e as URLs absolutas geradas."
 
 #: ../../admin/config.rst:560
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS."
 msgstr ""
+"Na configuração predefinida, isto também é usado para várias configurações "
+"de Django relacionadas ao HTTPS."
 
 #: ../../admin/config.rst:565
 msgid ""
@@ -4963,10 +5005,12 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
+", :setting:`django:SECURE_SSL_REDIRECT`, :ref:`production-site`"
 
 #: ../../admin/config.rst:573
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:575
 msgid ""
@@ -4976,7 +5020,7 @@ msgstr ""
 
 #: ../../admin/config.rst:580
 msgid "GITLAB_USERNAME"
-msgstr ""
+msgstr "GITLAB_USERNAME"
 
 #: ../../admin/config.rst:582
 msgid "GitLab username used to send merge requests for translation updates."
@@ -4984,11 +5028,11 @@ msgstr ""
 
 #: ../../admin/config.rst:586
 msgid ":ref:`vcs-gitlab`, :ref:`lab-setup`"
-msgstr ""
+msgstr ":ref:`vcs-gitlab`, :ref:`lab-setup`"
 
 #: ../../admin/config.rst:592
 msgid "GITHUB_USERNAME"
-msgstr ""
+msgstr "GITHUB_USERNAME"
 
 #: ../../admin/config.rst:594
 msgid "GitHub username used to send pull requests for translation updates."
@@ -4997,11 +5041,11 @@ msgstr ""
 #: ../../admin/config.rst:598 ../../admin/install/docker.rst:470
 #: ../../admin/install/docker.rst:1184
 msgid ":ref:`vcs-github`, :ref:`hub-setup`"
-msgstr ""
+msgstr ":ref:`vcs-github`, :ref:`hub-setup`"
 
 #: ../../admin/config.rst:604
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:606
 msgid ""
@@ -5032,7 +5076,7 @@ msgstr ""
 
 #: ../../admin/config.rst:628
 msgid "IP_BEHIND_REVERSE_PROXY"
-msgstr ""
+msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:632
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -5052,17 +5096,19 @@ msgstr ""
 
 #: ../../admin/config.rst:644
 msgid "This is not on by default."
-msgstr ""
+msgstr "Isto está ligado por predefinição."
 
 #: ../../admin/config.rst:648
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:656
 msgid "IP_PROXY_HEADER"
-msgstr ""
+msgstr "IP_PROXY_HEADER"
 
 #: ../../admin/config.rst:660
 msgid ""
@@ -5080,10 +5126,13 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:676
 msgid "IP_PROXY_OFFSET"
-msgstr ""
+msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:680
 msgid ""
@@ -5117,7 +5166,7 @@ msgstr ""
 
 #: ../../admin/config.rst:705
 msgid "LEGAL_URL"
-msgstr ""
+msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:709
 msgid "URL where your Weblate instance shows its legal documents."
@@ -5131,7 +5180,7 @@ msgstr ""
 
 #: ../../admin/config.rst:725
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:727
 msgid "Additional licenses to include in the license choices."
@@ -5150,7 +5199,7 @@ msgstr ""
 
 #: ../../admin/config.rst:748
 msgid "LICENSE_FILTER"
-msgstr ""
+msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:750
 msgid "Optional addition of licenses to show."
@@ -5162,7 +5211,7 @@ msgstr ""
 
 #: ../../admin/config.rst:765
 msgid "LICENSE_REQUIRED"
-msgstr ""
+msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:767
 msgid "Defines whether the license attribute in :ref:`component` is required."
@@ -5174,7 +5223,7 @@ msgstr ""
 
 #: ../../admin/config.rst:776
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
-msgstr ""
+msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:778
 msgid ""
@@ -5190,7 +5239,7 @@ msgstr ""
 
 #: ../../admin/config.rst:787
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "A predefinição é \"True\"."
 
 #: ../../admin/config.rst:793
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
@@ -5214,7 +5263,7 @@ msgstr ""
 
 #: ../../admin/config.rst:811
 msgid "LOGIN_REQUIRED_URLS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:813
 msgid ""
@@ -5234,7 +5283,7 @@ msgstr ""
 
 #: ../../admin/config.rst:835
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:837
 msgid ""
@@ -5248,7 +5297,7 @@ msgstr ""
 
 #: ../../admin/config.rst:858
 msgid "MATOMO_SITE_ID"
-msgstr ""
+msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:860
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
@@ -5260,11 +5309,11 @@ msgstr ""
 
 #: ../../admin/config.rst:868
 msgid ":setting:`MATOMO_URL`"
-msgstr ""
+msgstr ":setting:`MATOMO_URL`"
 
 #: ../../admin/config.rst:874
 msgid "MATOMO_URL"
-msgstr ""
+msgstr "MATOMO_URL"
 
 #: ../../admin/config.rst:876
 msgid ""
@@ -5275,11 +5324,11 @@ msgstr ""
 
 #: ../../admin/config.rst:892
 msgid ":setting:`MATOMO_SITE_ID`"
-msgstr ""
+msgstr ":setting:`MATOMO_SITE_ID`"
 
 #: ../../admin/config.rst:899
 msgid "MT_SERVICES"
-msgstr ""
+msgstr "MT_SERVICES"
 
 #: ../../admin/config.rst:903
 msgid ""
@@ -5303,7 +5352,7 @@ msgstr ""
 
 #: ../../admin/config.rst:939
 msgid "MT_APERTIUM_APY"
-msgstr ""
+msgstr "MT_APERTIUM_APY"
 
 #: ../../admin/config.rst:941
 msgid ""
@@ -5317,7 +5366,7 @@ msgstr ""
 
 #: ../../admin/config.rst:950
 msgid "MT_AWS_ACCESS_KEY_ID"
-msgstr ""
+msgstr "MT_AWS_ACCESS_KEY_ID"
 
 #: ../../admin/config.rst:952
 msgid "Access key ID for Amazon Translate."
@@ -5331,7 +5380,7 @@ msgstr ""
 
 #: ../../admin/config.rst:961
 msgid "MT_AWS_SECRET_ACCESS_KEY"
-msgstr ""
+msgstr "MT_AWS_SECRET_ACCESS_KEY"
 
 #: ../../admin/config.rst:963
 msgid "API secret key for Amazon Translate."
@@ -5339,7 +5388,7 @@ msgstr ""
 
 #: ../../admin/config.rst:972
 msgid "MT_AWS_REGION"
-msgstr ""
+msgstr "MT_AWS_REGION"
 
 #: ../../admin/config.rst:974
 msgid "Region name to use for Amazon Translate."
@@ -5347,7 +5396,7 @@ msgstr ""
 
 #: ../../admin/config.rst:983
 msgid "MT_BAIDU_ID"
-msgstr ""
+msgstr "MT_BAIDU_ID"
 
 #: ../../admin/config.rst:985
 msgid ""
@@ -5363,7 +5412,7 @@ msgstr ""
 
 #: ../../admin/config.rst:994
 msgid "MT_BAIDU_SECRET"
-msgstr ""
+msgstr "MT_BAIDU_SECRET"
 
 #: ../../admin/config.rst:996
 msgid ""
@@ -5373,7 +5422,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1005
 msgid "MT_DEEPL_API_VERSION"
-msgstr ""
+msgstr "MT_DEEPL_API_VERSION"
 
 #: ../../admin/config.rst:1009
 msgid ""
@@ -5382,7 +5431,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1011
 msgid "v1"
-msgstr ""
+msgstr "v1"
 
 #: ../../admin/config.rst:1012
 msgid "Is meant for CAT tools and is usable with user based subscription."
@@ -5390,7 +5439,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1014
 msgid "v2"
-msgstr ""
+msgstr "v2"
 
 #: ../../admin/config.rst:1014
 msgid "Is meant for API usage and the subscription is usage based."
@@ -5408,10 +5457,11 @@ msgstr ""
 msgid ""
 ":ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
+":ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 
 #: ../../admin/config.rst:1028
 msgid "MT_DEEPL_KEY"
-msgstr ""
+msgstr "MT_DEEPL_KEY"
 
 #: ../../admin/config.rst:1030
 msgid ""
@@ -5420,7 +5470,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1039
 msgid "MT_GOOGLE_KEY"
-msgstr ""
+msgstr "MT_GOOGLE_KEY"
 
 #: ../../admin/config.rst:1041
 msgid ""
@@ -5433,10 +5483,12 @@ msgid ""
 ":ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
+":ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
+"translation`"
 
 #: ../../admin/config.rst:1050
 msgid "MT_GOOGLE_CREDENTIALS"
-msgstr ""
+msgstr "MT_GOOGLE_CREDENTIALS"
 
 #: ../../admin/config.rst:1052
 msgid ""
@@ -5448,7 +5500,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1059
 msgid "MT_GOOGLE_PROJECT"
-msgstr ""
+msgstr "MT_GOOGLE_PROJECT"
 
 #: ../../admin/config.rst:1061
 msgid ""
@@ -5459,7 +5511,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1067
 msgid "MT_GOOGLE_LOCATION"
-msgstr ""
+msgstr "MT_GOOGLE_LOCATION"
 
 #: ../../admin/config.rst:1069
 msgid ""
@@ -5475,11 +5527,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1076
 msgid ":ref:`google-translate-api3`"
-msgstr ""
+msgstr ":ref:`google-translate-api3`"
 
 #: ../../admin/config.rst:1081
 msgid "MT_MICROSOFT_BASE_URL"
-msgstr ""
+msgstr "MT_MICROSOFT_BASE_URL"
 
 #: ../../admin/config.rst:1083
 msgid ""
@@ -5498,7 +5550,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1093
 msgid "MT_MICROSOFT_COGNITIVE_KEY"
-msgstr ""
+msgstr "MT_MICROSOFT_COGNITIVE_KEY"
 
 #: ../../admin/config.rst:1095
 msgid "Client key for the Microsoft Cognitive Services Translator API."
@@ -5514,7 +5566,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1105
 msgid "MT_MICROSOFT_REGION"
-msgstr ""
+msgstr "MT_MICROSOFT_REGION"
 
 #: ../../admin/config.rst:1107
 msgid ""
@@ -5525,7 +5577,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1112
 msgid "MT_MICROSOFT_ENDPOINT_URL"
-msgstr ""
+msgstr "MT_MICROSOFT_ENDPOINT_URL"
 
 #: ../../admin/config.rst:1114
 msgid ""
@@ -5545,7 +5597,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1125
 msgid "MT_MODERNMT_KEY"
-msgstr ""
+msgstr "MT_MODERNMT_KEY"
 
 #: ../../admin/config.rst:1127
 msgid "API key for the ModernMT machine translation engine."
@@ -5553,11 +5605,11 @@ msgstr "Motores de tradução automática"
 
 #: ../../admin/config.rst:1131
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
-msgstr ""
+msgstr ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/config.rst:1137
 msgid "MT_MODERNMT_URL"
-msgstr ""
+msgstr "MT_MODERNMT_URL"
 
 #: ../../admin/config.rst:1139
 msgid ""
@@ -5567,11 +5619,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1144
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_KEY`"
-msgstr ""
+msgstr ":ref:`modernmt` :setting:`MT_MODERNMT_KEY`"
 
 #: ../../admin/config.rst:1151
 msgid "MT_MYMEMORY_EMAIL"
-msgstr ""
+msgstr "MT_MYMEMORY_EMAIL"
 
 #: ../../admin/config.rst:1153
 msgid ""
@@ -5587,7 +5639,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1163
 msgid "MT_MYMEMORY_KEY"
-msgstr ""
+msgstr "MT_MYMEMORY_KEY"
 
 #: ../../admin/config.rst:1165
 msgid ""
@@ -5604,7 +5656,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1175
 msgid "MT_MYMEMORY_USER"
-msgstr ""
+msgstr "MT_MYMEMORY_USER"
 
 #: ../../admin/config.rst:1177
 msgid ""
@@ -5614,7 +5666,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1187
 msgid "MT_NETEASE_KEY"
-msgstr ""
+msgstr "MT_NETEASE_KEY"
 
 #: ../../admin/config.rst:1189
 msgid ""
@@ -5629,7 +5681,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1198
 msgid "MT_NETEASE_SECRET"
-msgstr ""
+msgstr "MT_NETEASE_SECRET"
 
 #: ../../admin/config.rst:1200
 msgid ""
@@ -5639,7 +5691,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1209
 msgid "MT_TMSERVER"
-msgstr ""
+msgstr "MT_TMSERVER"
 
 #: ../../admin/config.rst:1211
 msgid "URL where tmserver is running."
@@ -5653,7 +5705,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1221
 msgid "MT_YANDEX_KEY"
-msgstr ""
+msgstr "MT_YANDEX_KEY"
 
 #: ../../admin/config.rst:1223
 msgid ""
@@ -5669,7 +5721,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1232
 msgid "MT_YOUDAO_ID"
-msgstr ""
+msgstr "MT_YOUDAO_ID"
 
 #: ../../admin/config.rst:1234
 msgid ""
@@ -5685,7 +5737,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1243
 msgid "MT_YOUDAO_SECRET"
-msgstr ""
+msgstr "MT_YOUDAO_SECRET"
 
 #: ../../admin/config.rst:1245
 msgid ""
@@ -5695,7 +5747,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1254
 msgid "MT_SAP_BASE_URL"
-msgstr ""
+msgstr "MT_SAP_BASE_URL"
 
 #: ../../admin/config.rst:1256
 msgid "API URL to the SAP Translation Hub service."
@@ -5711,7 +5763,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1264
 msgid "MT_SAP_SANDBOX_APIKEY"
-msgstr ""
+msgstr "MT_SAP_SANDBOX_APIKEY"
 
 #: ../../admin/config.rst:1266
 msgid "API key for sandbox API usage"
@@ -5719,7 +5771,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1274
 msgid "MT_SAP_USERNAME"
-msgstr ""
+msgstr "MT_SAP_USERNAME"
 
 #: ../../admin/config.rst:1276
 msgid "Your SAP username"
@@ -5727,7 +5779,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1284
 msgid "MT_SAP_PASSWORD"
-msgstr ""
+msgstr "MT_SAP_PASSWORD"
 
 #: ../../admin/config.rst:1286
 msgid "Your SAP password"
@@ -5735,7 +5787,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1294
 msgid "MT_SAP_USE_MT"
-msgstr ""
+msgstr "MT_SAP_USE_MT"
 
 #: ../../admin/config.rst:1296
 msgid ""
@@ -5745,7 +5797,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1305
 msgid "NEARBY_MESSAGES"
-msgstr ""
+msgstr "NEARBY_MESSAGES"
 
 #: ../../admin/config.rst:1307
 msgid ""
@@ -5755,7 +5807,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1312
 msgid "RATELIMIT_ATTEMPTS"
-msgstr ""
+msgstr "RATELIMIT_ATTEMPTS"
 
 #: ../../admin/config.rst:1316
 msgid ""
@@ -5770,10 +5822,11 @@ msgstr ""
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/config.rst:1329
 msgid "RATELIMIT_WINDOW"
-msgstr ""
+msgstr "RATELIMIT_WINDOW"
 
 #: ../../admin/config.rst:1333
 msgid "How long authentication is accepted after rate limiting applies."
@@ -5788,10 +5841,12 @@ msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, "
+":setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/config.rst:1346
 msgid "RATELIMIT_LOCKOUT"
-msgstr ""
+msgstr "RATELIMIT_LOCKOUT"
 
 #: ../../admin/config.rst:1350
 msgid "How long authentication is locked after rate limiting applies."
@@ -5805,10 +5860,11 @@ msgstr ""
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 msgstr ""
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 
 #: ../../admin/config.rst:1363
 msgid "REGISTRATION_ALLOW_BACKENDS"
-msgstr ""
+msgstr "REGISTRATION_ALLOW_BACKENDS"
 
 #: ../../admin/config.rst:1367
 msgid ""
@@ -5822,11 +5878,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1382
 msgid ":setting:`REGISTRATION_OPEN`"
-msgstr ""
+msgstr ":setting:`REGISTRATION_OPEN`"
 
 #: ../../admin/config.rst:1387
 msgid "REGISTRATION_CAPTCHA"
-msgstr ""
+msgstr "REGISTRATION_CAPTCHA"
 
 #: ../../admin/config.rst:1389
 msgid ""
@@ -5859,7 +5915,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1403
 msgid "REGISTRATION_EMAIL_MATCH"
-msgstr ""
+msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1407
 msgid "Allows you to filter which e-mail addresses can register."
@@ -5875,7 +5931,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1420
 msgid "REGISTRATION_OPEN"
-msgstr ""
+msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1422
 msgid ""
@@ -5901,10 +5957,11 @@ msgstr ""
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
 msgstr ""
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
 
 #: ../../admin/config.rst:1443
 msgid "REPOSITORY_ALERT_THRESHOLD"
-msgstr ""
+msgstr "REPOSITORY_ALERT_THRESHOLD"
 
 #: ../../admin/config.rst:1447
 msgid ""
@@ -5914,11 +5971,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1452
 msgid ":ref:`alerts`"
-msgstr ""
+msgstr ":ref:`alerts`"
 
 #: ../../admin/config.rst:1457
 msgid "SENTRY_DSN"
-msgstr ""
+msgstr "SENTRY_DSN"
 
 #: ../../admin/config.rst:1461
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
@@ -5932,7 +5989,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1470
 msgid "SIMPLIFY_LANGUAGES"
-msgstr ""
+msgstr "SIMPLIFY_LANGUAGES"
 
 #: ../../admin/config.rst:1472
 msgid ""
@@ -5986,7 +6043,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1521
 msgid "SITE_TITLE"
-msgstr ""
+msgstr "SITE_TITLE"
 
 #: ../../admin/config.rst:1523
 msgid "Site title to be used for the website and sent e-mails."
@@ -5994,7 +6051,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1528
 msgid "SPECIAL_CHARS"
-msgstr ""
+msgstr "SPECIAL_CHARS"
 
 #: ../../admin/config.rst:1530
 msgid ""
@@ -6008,7 +6065,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1541
 msgid "SINGLE_PROJECT"
-msgstr ""
+msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1545
 msgid ""
@@ -6026,7 +6083,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1564
 msgid "STATUS_URL"
-msgstr ""
+msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1566
 msgid "The URL where your Weblate instance reports its status."
@@ -6034,7 +6091,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1571
 msgid "SUGGESTION_CLEANUP_DAYS"
-msgstr ""
+msgstr "SUGGESTION_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:1575
 msgid ""
@@ -6044,7 +6101,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1581
 msgid "URL_PREFIX"
-msgstr ""
+msgstr "URL_PREFIX"
 
 #: ../../admin/config.rst:1583
 msgid ""
@@ -6071,7 +6128,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1609
 msgid "VCS_BACKENDS"
-msgstr ""
+msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1611
 msgid "Configuration of available VCS backends."
@@ -6087,11 +6144,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1629 ../../faq.rst:441
 msgid ":ref:`vcs`"
-msgstr ""
+msgstr ":ref:`vcs`"
 
 #: ../../admin/config.rst:1634
 msgid "VCS_CLONE_DEPTH"
-msgstr ""
+msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1638
 msgid "Configures how deep cloning of repositories Weblate should do."
@@ -6115,7 +6172,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1659
 msgid "WEBLATE_ADDONS"
-msgstr ""
+msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:1661
 msgid ""
@@ -6127,7 +6184,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1701 ../../admin/management.rst:550
 msgid ":ref:`addons`"
-msgstr ""
+msgstr ":ref:`addons`"
 
 #: ../../admin/config.rst:1706
 msgid "WEBLATE_EXPORTERS"
@@ -6142,11 +6199,11 @@ msgstr ""
 #: ../../admin/config.rst:1715 ../../admin/config.rst:1732
 #: ../../user/files.rst:47
 msgid ":ref:`formats`"
-msgstr ""
+msgstr ":ref:`formats`"
 
 #: ../../admin/config.rst:1720
 msgid "WEBLATE_FORMATS"
-msgstr ""
+msgstr "WEBLATE_FORMATS"
 
 #: ../../admin/config.rst:1724
 msgid "List of file formats available for use."
@@ -6158,7 +6215,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1737
 msgid "WEBLATE_GPG_IDENTITY"
-msgstr ""
+msgstr "WEBLATE_GPG_IDENTITY"
 
 #: ../../admin/config.rst:1741
 msgid "Identity used by Weblate to sign Git commits, for example:"
@@ -6504,15 +6561,15 @@ msgstr ""
 
 #: ../../admin/continuous.rst:275
 msgid ":ref:`component-vcs`"
-msgstr ""
+msgstr ":ref:`component-vcs`"
 
 #: ../../admin/continuous.rst:275
 msgid ":ref:`component-push`"
-msgstr ""
+msgstr ":ref:`component-push`"
 
 #: ../../admin/continuous.rst:275
 msgid ":ref:`component-push_branch`"
-msgstr ""
+msgstr ":ref:`component-push_branch`"
 
 #: ../../admin/continuous.rst:277
 msgid "No push"
@@ -6521,7 +6578,7 @@ msgstr ""
 #: ../../admin/continuous.rst:277 ../../admin/continuous.rst:279
 #: ../../admin/continuous.rst:281
 msgid ":ref:`vcs-git`"
-msgstr ""
+msgstr ":ref:`vcs-git`"
 
 #: ../../admin/continuous.rst:277 ../../admin/continuous.rst:279
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
@@ -6535,7 +6592,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:279 ../../admin/continuous.rst:281
 msgid "SSH URL"
-msgstr ""
+msgstr "URL de SSH"
 
 #: ../../admin/continuous.rst:281
 msgid "Push to separate branch"
@@ -6552,7 +6609,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
 msgid ":ref:`vcs-github`"
-msgstr ""
+msgstr ":ref:`vcs-github`"
 
 #: ../../admin/continuous.rst:285
 msgid "GitHub pull request from branch"
@@ -6564,7 +6621,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:287 ../../admin/continuous.rst:289
 msgid ":ref:`vcs-gitlab`"
-msgstr ""
+msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/continuous.rst:289
 msgid "GitLab merge request from branch"
@@ -6626,7 +6683,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:337
 msgid ":ref:`api`"
-msgstr ""
+msgstr ":ref:`api`"
 
 #: ../../admin/continuous.rst:342
 msgid "Lazy commits"
@@ -8697,7 +8754,7 @@ msgstr ""
 #: ../../admin/optionals.rst:129 ../../../README.rst:46 ../../python.rst:11
 #: ../../wlc.rst:18
 msgid "Installation"
-msgstr ""
+msgstr "Instalação"
 
 #: ../../admin/install/docker.rst:17
 msgid ""
@@ -9638,10 +9695,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1051
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Container settings"
-msgstr "Configurações de notificação"
+msgstr "Configurações do contentor"
 
 #: ../../admin/install/docker.rst:1060
 msgid ""
@@ -10234,7 +10289,7 @@ msgstr ""
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Licenciar traduções"
 
 #: ../../admin/licensing.rst:3
 msgid ""
