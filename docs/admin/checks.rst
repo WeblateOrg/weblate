@@ -31,7 +31,7 @@ string (in source strings review, see :ref:`additional`) or in the
 :ref:`component` (:ref:`component-check_flags`). Some file formats also allow
 to specify flags directly in the format (see :ref:`formats`).
 
-The flags are comma separated, the parameters are separated with colon. You can
+The flags are comma-separated, the parameters are separated with colon. You can
 use quotes to include whitespace or special chars in the string. For example:
 
 .. code-block:: text
