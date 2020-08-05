@@ -315,6 +315,9 @@ def show_translation(request, project, component, lang):
         if test_component.can_add_new_language(user):
             other_translations.append(GhostTranslation(test_component, obj.language))
 
+    # Limit the number of other components displayed to 10, preferring untranslated ones
+    other_translations = sorted(other_translations, key=lambda t : t.stats.translated_percent)[:10]
+
     return render(
         request,
         "translation.html",
