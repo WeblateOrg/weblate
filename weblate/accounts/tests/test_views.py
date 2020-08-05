@@ -26,6 +26,8 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.encoding import force_str
+from jsonschema import validate
+from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_DEFAULT
@@ -360,6 +362,7 @@ class ProfileTest(FixtureTestCase):
         response = self.client.post(reverse("userdata"))
         self.assertContains(response, '"pl"')
         self.assertContains(response, '"de"')
+        validate(response.json(), load_schema("weblate-userdata.schema.json"))
 
     def test_subscription(self):
         # Get profile page
