@@ -7,6 +7,8 @@ It up to you to decide how many of its features you want to make use of.
 .. toctree::
 
     starting
+    gettext
+    sphinx
     alerts
     community
     translations

@@ -177,6 +177,8 @@ The bilingual gettext PO file typically looks like this:
 
 .. seealso::
 
+    :doc:`devel/gettext`,
+    :doc:`devel/sphinx`,
     `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
     :doc:`tt:formats/po`,
     :ref:`addon-weblate.gettext.configure`,
