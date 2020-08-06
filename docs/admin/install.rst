@@ -381,9 +381,9 @@ Django with those.
 
 .. hint::
 
-    Some Weblate will perform better with :ref:`postgresql`. This includes
-    searching and translation memory, which both utilize full-text features in
-    the database and PostgreSQL implementation is superior.
+    Some Weblate features will perform better with :ref:`postgresql`. This
+    includes searching and translation memory, which both utilize full-text
+    features in the database and PostgreSQL implementation is superior.
 
     Because of this it is recommended to use :ref:`postgresql` for new
     installations.
