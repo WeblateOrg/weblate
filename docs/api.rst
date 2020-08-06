@@ -1906,6 +1906,15 @@ Screenshots
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
+.. http:delete:: /api/screenshots/(int:id)/units/(int:unit_id)
+
+    Remove source string association with screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
+    :param unit_id: Source string unit ID
+    :type id: int
+
 .. http:post:: /api/screenshots/
 
     Creates a new screenshot.
@@ -1918,6 +1927,35 @@ Screenshots
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+.. http:patch:: /api/screenshots/(int:id)/
+
+    Edit partial information about screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+.. http:put:: /api/screenshots/(int:id)/
+
+    Edit full information about screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+.. http:delete:: /api/screenshots/(int:id)/
+
+    Delete screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
 
 
 Component lists
