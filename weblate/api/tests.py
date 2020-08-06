@@ -199,7 +199,7 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": User.objects.filter(is_active=True).first().username},
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             request={"group_id": -1},
         )
         self.do_request(
@@ -248,7 +248,7 @@ class UserAPITest(APIBaseTest):
             "api:user-notifications-details",
             kwargs={"username": user.username, "subscription_id": -1},
             method="get",
-            code=400,
+            code=422,
         )
         self.do_request(
             "api:user-notifications-details",
@@ -402,7 +402,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             request={"role_id": -1},
         )
         self.do_request(
@@ -427,7 +427,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             request={"component_id": -1},
         )
         self.do_request(
@@ -462,7 +462,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id, "component_id": -1},
             method="delete",
             superuser=True,
-            code=400,
+            code=422,
         )
         self.do_request(
             "api:group-delete-components",
@@ -489,7 +489,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             request={"project_id": -1},
         )
         self.do_request(
@@ -524,7 +524,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id, "project_id": -1},
             method="delete",
             superuser=True,
-            code=400,
+            code=422,
         )
         self.do_request(
             "api:group-delete-projects",
@@ -551,7 +551,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             request={"language_code": "invalid"},
         )
         self.do_request(
@@ -586,7 +586,7 @@ class GroupAPITest(APIBaseTest):
             },
             method="delete",
             superuser=True,
-            code=400,
+            code=422,
         )
         self.do_request(
             "api:group-delete-languages",
@@ -611,7 +611,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             request={"component_list_id": -1},
         )
         self.do_request(
@@ -648,7 +648,7 @@ class GroupAPITest(APIBaseTest):
             kwargs={"id": Group.objects.get(name="Users").id, "component_list_id": -1},
             method="delete",
             superuser=True,
-            code=400,
+            code=422,
         )
         self.do_request(
             "api:group-delete-componentlists",
@@ -736,7 +736,7 @@ class RoleAPITest(APIBaseTest):
             "api:role-list",
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             format="json",
             request={"name": "Role", "permissions": ["invalid.codename"]},
         )
@@ -882,7 +882,7 @@ class ProjectAPITest(APIBaseTest):
         self.do_request(
             "api:project-repository",
             self.project_kwargs,
-            code=400,
+            code=422,
             method="post",
             superuser=True,
             request={"operation": "invalid"},
@@ -990,7 +990,7 @@ class ProjectAPITest(APIBaseTest):
         error_response = self.do_request(
             "api:project-list",
             method="post",
-            code=400,
+            code=422,
             superuser=True,
             format="json",
             request={
@@ -1025,7 +1025,7 @@ class ProjectAPITest(APIBaseTest):
         self.do_request(
             "api:project-list",
             method="post",
-            code=400,
+            code=422,
             superuser=True,
             format=format,
             request=payload,
@@ -1090,7 +1090,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-components",
             self.project_kwargs,
             method="post",
-            code=400,
+            code=422,
             superuser=True,
             request={
                 "name": "API project",
@@ -1156,7 +1156,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-components",
             self.project_kwargs,
             method="post",
-            code=400,
+            code=422,
             superuser=True,
             request={
                 "name": "API project",
@@ -1370,7 +1370,7 @@ class LanguageAPITest(APIBaseTest):
             "api:language-list",
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             format="json",
             request={"code": "new_lang", "name": "New Language", "direction": "rtl"},
         )
@@ -1407,12 +1407,12 @@ class LanguageAPITest(APIBaseTest):
             method="get",
             code=200,
         )
-        # Creation with duplicate code gives 400
+        # Creation with duplicate code gives 422
         response = self.do_request(
             "api:language-list",
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             format="json",
             request={
                 "code": "new_lang",
@@ -1560,7 +1560,7 @@ class TranslationAPITest(APIBaseTest):
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
                 {"file": handle.read()},
             )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 422)
 
     def test_upload_overwrite(self):
         self.test_upload()
@@ -1622,7 +1622,7 @@ class TranslationAPITest(APIBaseTest):
         response = self.client.put(
             reverse("api:translation-file", kwargs=self.translation_kwargs)
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 422)
 
     def test_upload_error(self):
         self.authenticate()
@@ -1631,7 +1631,7 @@ class TranslationAPITest(APIBaseTest):
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
                 {"file": handle},
             )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 422)
         self.assertIn("detail", response.data)
 
     def test_repo_status_denied(self):
@@ -1700,7 +1700,7 @@ class TranslationAPITest(APIBaseTest):
             superuser=True,
             method="post",
             request={"mode": "invalid"},
-            code=400,
+            code=422,
         )
         response = self.do_request(
             "api:translation-autotranslate",
@@ -1755,7 +1755,7 @@ class TranslationAPITest(APIBaseTest):
             method="post",
             superuser=True,
             request={"key": "key", "value": "Source Language"},
-            code=400,
+            code=422,
         )
 
     def test_delete(self):
@@ -1829,7 +1829,7 @@ class ScreenshotAPITest(APIBaseTest):
         self.test_upload(False, 403)
 
     def test_upload_invalid(self):
-        self.test_upload(True, 400, TEST_PO)
+        self.test_upload(True, 422, TEST_PO)
 
     def test_create(self):
         with open(TEST_SCREENSHOT, "rb") as handle:
@@ -1847,7 +1847,7 @@ class ScreenshotAPITest(APIBaseTest):
             self.do_request(
                 "api:screenshot-list",
                 method="post",
-                code=400,
+                code=422,
                 superuser=True,
                 data={
                     "detail": ErrorDetail(
@@ -1863,7 +1863,7 @@ class ScreenshotAPITest(APIBaseTest):
             self.do_request(
                 "api:screenshot-list",
                 method="post",
-                code=400,
+                code=422,
                 superuser=True,
                 data={
                     "result": "Unsuccessful",
@@ -1879,7 +1879,7 @@ class ScreenshotAPITest(APIBaseTest):
             self.do_request(
                 "api:screenshot-list",
                 method="post",
-                code=400,
+                code=422,
                 superuser=True,
                 data={
                     "result": "Unsuccessful",
@@ -1977,7 +1977,7 @@ class ScreenshotAPITest(APIBaseTest):
             reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
             {"unit_id": -1},
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 422)
 
     def test_units(self):
         self.authenticate(True)
@@ -2002,7 +2002,7 @@ class ScreenshotAPITest(APIBaseTest):
                 kwargs={"pk": Screenshot.objects.get().pk, "unit_id": -1},
             ),
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 422)
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
@@ -2117,7 +2117,7 @@ class ComponentListAPITest(APIBaseTest):
             kwargs={"slug": ComponentList.objects.get().slug},
             method="post",
             superuser=True,
-            code=400,
+            code=422,
             request={"component_id": -1},
         )
         self.do_request(
@@ -2147,7 +2147,7 @@ class ComponentListAPITest(APIBaseTest):
             },
             method="delete",
             superuser=True,
-            code=400,
+            code=422,
         )
         self.do_request(
             "api:componentlist-delete-components",
