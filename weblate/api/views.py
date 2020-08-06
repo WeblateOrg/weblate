@@ -42,7 +42,7 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
-    HTTP_422_UNPROCESSABLE_ENTITY,
+    HTTP_400_BAD_REQUEST,
 )
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
@@ -328,7 +328,7 @@ class UserViewSet(viewsets.ModelViewSet):
         except (Group.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.groups.add(group)
@@ -373,7 +373,7 @@ class UserViewSet(viewsets.ModelViewSet):
         except (Subscription.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         if request.method == "DELETE":
@@ -442,7 +442,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Role.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.roles.add(role)
@@ -465,7 +465,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Language.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.languages.add(language)
@@ -485,7 +485,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Language.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.languages.remove(language)
         return Response(status=HTTP_204_NO_CONTENT)
@@ -505,7 +505,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -522,7 +522,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.projects.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
@@ -544,7 +544,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -564,7 +564,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.componentlists.remove(component_list)
         return Response(status=HTTP_204_NO_CONTENT)
@@ -585,7 +585,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -604,7 +604,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
@@ -996,7 +996,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                         "result": "Unsuccessful",
                         "detail": "Translation with this key seem to already exist!",
                     },
-                    status=HTTP_422_UNPROCESSABLE_ENTITY,
+                    status=HTTP_400_BAD_REQUEST,
                 )
 
             obj.new_unit(request, key, value)
@@ -1022,7 +1022,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                     "result": "Unsuccessful",
                     "detail": "Failed to process autotranslation data!",
                 },
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         args = (
             request.user.id,
@@ -1150,7 +1150,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except (Unit.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.units.add(source_string)
@@ -1171,7 +1171,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except (Unit.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.units.remove(source_string)
         return Response(status=HTTP_204_NO_CONTENT)
@@ -1192,7 +1192,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except (Project.DoesNotExist, Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         if not request.user.has_perm("screenshot.add", component):
@@ -1297,7 +1297,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.components.add(component)
@@ -1319,7 +1319,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_422_UNPROCESSABLE_ENTITY,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
