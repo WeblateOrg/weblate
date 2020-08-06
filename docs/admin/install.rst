@@ -995,6 +995,14 @@ system, please change locales to UTF-8 variant.
 For example by editing :file:`/etc/default/locale` and setting there
 ``LANG="C.UTF-8"``.
 
+In some cases the individual services have separate configuration for locales.
+For example when using Apache you might want to set it in :file:`/etc/apache2/envvars`:
+
+.. code-block:: sh
+
+    export LANG='en_US.UTF-8'
+    export LC_ALL='en_US.UTF-8'
+
 .. _production-certs:
 
 Using custom certificate authority
@@ -1204,6 +1212,7 @@ mod_wsgi (available as :file:`weblate/examples/apache.conf`):
 
 .. seealso::
 
+    :ref:`production-encoding`,
     :doc:`django:howto/deployment/wsgi/modwsgi`
 
 .. _apache-gunicorn:
