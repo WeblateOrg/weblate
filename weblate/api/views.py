@@ -1206,14 +1206,12 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        request.user.check_access_component(instance.component)
         if not request.user.has_perm("screenshot.edit", instance.component):
             self.permission_denied(request, message="Can not edit screenshot.")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        request.user.check_access_component(instance.component)
         if not request.user.has_perm("screenshot.delete", instance.component):
             self.permission_denied(request, message="Can not delete screenshot.")
         return super().destroy(request, *args, **kwargs)

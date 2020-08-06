@@ -1911,6 +1911,13 @@ class ScreenshotAPITest(APIBaseTest):
             "api:screenshot-detail",
             kwargs={"pk": Screenshot.objects.get().pk},
             method="patch",
+            code=403,
+            request={"name": "Test New screenshot"},
+        )
+        self.do_request(
+            "api:screenshot-detail",
+            kwargs={"pk": Screenshot.objects.get().pk},
+            method="patch",
             code=200,
             superuser=True,
             request={"name": "Test New screenshot"},
@@ -1926,7 +1933,14 @@ class ScreenshotAPITest(APIBaseTest):
         self.do_request(
             "api:screenshot-detail",
             kwargs={"pk": Screenshot.objects.get().pk},
-            method="patch",
+            method="put",
+            code=403,
+            request=request,
+        )
+        self.do_request(
+            "api:screenshot-detail",
+            kwargs={"pk": Screenshot.objects.get().pk},
+            method="put",
             code=200,
             superuser=True,
             request=request,
@@ -1934,6 +1948,12 @@ class ScreenshotAPITest(APIBaseTest):
         self.assertEqual(Screenshot.objects.get().name, "Test new screenshot")
 
     def test_delete_screenshot(self):
+        self.do_request(
+            "api:screenshot-detail",
+            kwargs={"pk": Screenshot.objects.get().pk},
+            method="delete",
+            code=403,
+        )
         self.do_request(
             "api:screenshot-detail",
             kwargs={"pk": Screenshot.objects.get().pk},
@@ -1976,6 +1996,13 @@ class ScreenshotAPITest(APIBaseTest):
             reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
             {"unit_id": unit.pk},
         )
+        response = self.client.delete(
+            reverse(
+                "api:screenshot-delete-units",
+                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": -1},
+            ),
+        )
+        self.assertEqual(response.status_code, 400)
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
