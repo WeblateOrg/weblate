@@ -54,7 +54,7 @@ class WeblateTranslation(MachineTranslation):
         )
 
         for munit in matching_units:
-            source = munit.get_source_plurals()[0]
+            source = munit.source_string
             quality = self.comparer.similarity(text, source)
             if quality < 10 or (quality < 75 and not search):
                 continue
