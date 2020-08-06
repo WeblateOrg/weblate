@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-05 10:24+0000\n"
+"PO-Revision-Date: 2020-08-06 10:46+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -23765,10 +23765,15 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"При выборе формата файла для вашего приложения лучше придерживаться какого-"
+"нибудь устоявшегося формата для используемого вами инструментария/платформы. "
+"Таким образом, ваши переводчики в дополнение смогут использовать любые "
+"инструменты, к которым они привыкли, и вероятность внесения ими своего "
+"вклада в ваш проект будет выше."
 
 #: ../../formats.rst:25
 msgid "Bilingual and monolingual formats"
-msgstr ""
+msgstr "Двуязычные и одноязычные форматы"
 
 #: ../../formats.rst:27
 msgid ""
@@ -23781,6 +23786,14 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
+"Поддерживаются как :index:`одноязычные <pair: перевод; одноязычный формат>`, "
+"так и :index:`двуязычные <pair: перевод; двуязычный формат>` форматы. "
+"Двуязычные форматы хранят в одном файле два языка — исходный язык и перевод ("
+"типичными примерами являются :ref:`gettext`, :ref:`xliff` или :ref:`apple`). "
+"С другой стороны, одноязычные форматы идентифицируют строку по "
+"идентификатору, и каждый языковой файл содержит только сопоставление этих "
+"форматов с любым заданным языком (обычно это :ref:`aresource`). Некоторые "
+"форматы файлов могут использоваться и так, и эдак, подробнее смотрите ниже."
 
 #: ../../formats.rst:35
 msgid ""
@@ -23789,6 +23802,11 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"Для правильного использования одноязычных файлов Weblate требует доступа к "
+"файлу, содержащему полный список строк для перевода и их «перевод» на "
+"исходный язык — этот файл внутри Weblate называется :ref:`одноязычным "
+"базовым файлом <component-template>` , хотя в вашей парадигме наименование "
+"этой сущности может отличаться."
 
 #: ../../formats.rst:40
 msgid ""
@@ -23796,6 +23814,10 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"Кроме того, этот рабочий процесс может быть расширен с помощью :ref:`файла "
+"промежуточного языка <component-intermediate>`, позволяющего включить в "
+"перевод строки, предоставленные разработчиками, но не использованными «как "
+"есть» в окончательных строках."
 
 #: ../../formats.rst:45
 msgid "Automatic detection"
@@ -23807,6 +23829,10 @@ msgid ""
 "detection can harm your performance and will limit features specific to "
 "given file format (for example automatic addition of new translations)."
 msgstr ""
+"Weblate умеет автоматически обнаруживать некоторые широко распространенные "
+"форматы файлов, но это обнаружение может навредить вашей производительности "
+"и ограничено возможностями, специфичными для данного формата файла (к "
+"примеру, автоматическим добавлением новых переводов)."
 
 #: ../../formats.rst:54
 msgid "Translation types capabilities"
@@ -24015,11 +24041,15 @@ msgstr "Смотрите раздел :ref:`bimono`"
 #: ../../formats.rst:123
 msgid "Plurals are necessary to properly localize strings with variable count."
 msgstr ""
+"Множественные формы необходимы для правильной локализации строк, содержащих "
+"переменную количества."
 
 #: ../../formats.rst:124
 msgid ""
 "Comments can be used to pass additional info about the string to translate."
 msgstr ""
+"Комментарии могут быть использованы для указания дополнительной информации о "
+"строке для перевода."
 
 #: ../../formats.rst:125
 msgid ""
@@ -24027,24 +24057,33 @@ msgid ""
 "(for example `Sun` can be used as an abbreviated name of the day \"Sunday\" "
 "or as the name of our closest star)."
 msgstr ""
+"Контекст используется для различения одинаковых строк, используемых в разных "
+"областях (например, `Sun` может означать как сокращённое название дня "
+"«воскресенье» — «Sunday» — так и название нашей ближайшей звезды)."
 
 #: ../../formats.rst:126
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
 msgstr ""
+"Расположение строки в исходном коде может помочь опытным переводчикам понять "
+"предназначение этой строки."
 
 #: ../../formats.rst:127
 msgid ""
 "Additional states supported by the file format in addition to \"Not "
 "translated\" and \"Translated\"."
 msgstr ""
+"Дополнительные состояния, поддерживаемые форматом файла в дополнение к "
+"состояниям «Не переведено» и «Переведено»."
 
 #: ../../formats.rst:128
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a developer "
 "comment."
 msgstr ""
+"Комментарий XML,, размещённый перед элементом ``<string>``, трактуется как "
+"комментарий разработчика."
 
 #: ../../formats.rst:129
 msgid "See :ref:`custom-checks`"
@@ -24052,7 +24091,7 @@ msgstr "Смотрите раздел :ref:`custom-checks`"
 
 #: ../../formats.rst:130
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "В качестве флагов используются комментарии типа gettext."
 
 #: ../../formats.rst:131
 msgid ""
@@ -24062,12 +24101,20 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
+"Для всех форматов на основе XML флаги извлекаются из нестандартного атрибута "
+"``weblate-flags``. Кроме того, флаг ``max-length:N`` поддерживается через `"
+"атрибут <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`"
+"_ ``maxwidth``, как определено в стандарте XLIFF, смотрите раздел :ref"
+":`xliff-flags`."
 
 #: ../../formats.rst:132
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
+"Множественные формы поддерживаются только для Laravel, который использует "
+"для их определения внутристрочный синтаксис, смотрите документ `Локализация "
+"в Laravel`_."
 
 #: ../../formats.rst:137
 msgid "GNU gettext"
@@ -24078,16 +24125,21 @@ msgid ""
 "Most widely used format for translating libre software. This was first "
 "format supported by Weblate and still has the best support."
 msgstr ""
+"Наиболее широко используемый формат для перевода свободного программного "
+"обеспечения. Этот формат Weblate поддержал самым первым, и он до сих пор "
+"имеет самую лучшую поддержку."
 
 #: ../../formats.rst:146
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"Контекстная информация, хранящаяся в файле, поддерживается настройкой его "
+"заголовков или его привязкой к соответствующим исходным файлам."
 
 #: ../../formats.rst:149
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Двуязычный PO-файл gettext обычно выглядит следующим образом:"
 
 #: ../../formats.rst:167 ../../formats.rst:231 ../../formats.rst:390
 #: ../../formats.rst:421 ../../formats.rst:454 ../../formats.rst:491
@@ -24098,7 +24150,7 @@ msgstr ""
 #: ../../formats.rst:1095 ../../formats.rst:1125 ../../formats.rst:1155
 #: ../../formats.rst:1191 ../../formats.rst:1222 ../../formats.rst:1248
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "Типичная :ref:`настройка компонента <component>` в Weblate"
 
 #: ../../formats.rst:169 ../../formats.rst:233 ../../formats.rst:339
 #: ../../formats.rst:392 ../../formats.rst:423 ../../formats.rst:456
@@ -24128,7 +24180,7 @@ msgstr "``po/messages.pot``"
 
 #: ../../formats.rst:175
 msgid "`Gettext PO file`"
-msgstr "`Gettext PO-файл`"
+msgstr "`PO-файл gettext`"
 
 #: ../../formats.rst:180
 msgid ""
@@ -24137,6 +24189,10 @@ msgid ""
 "gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :ref:`addon-"
 "weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`,"
 msgstr ""
+"`Gettext в Википедии <https://ru.wikipedia.org/wiki/Gettext>`_, :doc:`PO-"
+"файлы <tt:formats/po>`, :ref:`addon-weblate.gettext.configure`, :ref:`addon-"
+"weblate.gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :ref"
+":`addon-weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`"
 
 #: ../../formats.rst:191
 msgid "Monolingual gettext"
@@ -24149,14 +24205,19 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"Некоторые проекты решают использовать gettext в качестве одноязычного "
+"формата — в их исходном коде присутствуют только идентификаторы и строка "
+"должна быть переведена на все языки, в том числе и на английский. Такая "
+"конфигурация поддерживается, хотя для этого и надо явно выбирать этот формат "
+"файлов при импорте компонентов в Weblate."
 
 #: ../../formats.rst:198
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Одноязычный PO-файл gettext обычно выглядит следующим образом:"
 
 #: ../../formats.rst:214
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "А базовый языковой файл — вот таким образом:"
 
 #: ../../formats.rst:235
 msgid "``po/en.po``"
@@ -24164,7 +24225,7 @@ msgstr "``po/en.po``"
 
 #: ../../formats.rst:239
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`PO-файл gettext (одноязычный)`"
 
 #: ../../formats.rst:245
 msgid "XLIFF"
@@ -24175,16 +24236,22 @@ msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
 msgstr ""
+"Формат на основе XML, созданный для стандартизации файлов перевода, но в "
+"конечном итоге ставший просто ещё одним из `многочисленных стандартов "
+"<https://xkcd.ru/927/>`_ в этой области."
 
 #: ../../formats.rst:253
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
+"`Формат файла XML для обмена локализациями (XLIFF)` обычно используется как "
+"двуязычный, но Weblate поддерживает его использование и в качестве "
+"одноязычного."
 
 #: ../../formats.rst:257
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
-msgstr ""
+msgstr "Спецификация `формата файла XML для обмена локализациями (XLIFF)`"
 
 #: ../../formats.rst:263 ../../workflows.rst:24
 msgid "Translation states"
@@ -24192,7 +24259,7 @@ msgstr "Состояния перевода"
 
 #: ../../formats.rst:267
 msgid "Weblate ignored the state attribute prior to the 3.3 release."
-msgstr ""
+msgstr "До выпуска 3.3 Weblate игнорировал атрибут состояния."
 
 #: ../../formats.rst:269
 msgid ""
@@ -24203,6 +24270,12 @@ msgid ""
 "attribute be missing, a string is considered translated as soon as a "
 "``<target>`` element exists."
 msgstr ""
+"Атрибут состояния ``state`` в файле частично обрабатывается и отображается в "
+"Weblate в состояние «На правку» (следующие состояния используются для "
+"пометки строки на правку, если присутствует цель: ``new``, ``needs-"
+"translation``, ``needs-adaptation``, ``needs-l10n``). Если атрибут ``state`` "
+"отсутствует, то строка считается переведённой, если существует элемент "
+"``<target>``."
 
 #: ../../formats.rst:276
 msgid ""
@@ -24210,27 +24283,39 @@ msgid ""
 "into Weblate as \"Approved\", anything else will be imported as \"Waiting "
 "for review\" (which matches the XLIFF specification)."
 msgstr ""
+"Если строка перевода имеет атрибут ``approved=\"yes\"``, она также будет "
+"импортирована в Weblate в состоянии «Одобрено», все остальные строки будут "
+"импортированы в состоянии «Ожидает рецензирования» (что соответствует "
+"спецификации XLIFF)."
 
 #: ../../formats.rst:280
 msgid "While saving, Weblate doesn't add those attributes unless necessary:"
 msgstr ""
+"При сохранении Weblate добавляет эти атрибуты только если они действительно "
+"необходимы:"
 
 #: ../../formats.rst:282
 msgid ""
 "The ``state`` attribute is only added in case string is marked as needing "
 "edit."
 msgstr ""
+"Атрибут ``state`` добавляется только в том случае, если строка помечена на "
+"правку."
 
 #: ../../formats.rst:283
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
 msgstr ""
+"Атрибут ``approved`` добавляется только в том случае, если строка была "
+"отрецензирована."
 
 #: ../../formats.rst:284
 msgid ""
 "In other cases the attributes are not added, but they are updated in case "
 "they are present."
 msgstr ""
+"В остальных случаях эти атрибуты не добавляются, но если они присутствуют, "
+"они обновляются."
 
 #: ../../formats.rst:286
 msgid ""
@@ -24238,6 +24323,9 @@ msgid ""
 "turn on the Weblate review process, in order to see and change the approved "
 "state of strings."
 msgstr ""
+"Это означает, что при использовании формата XLIFF настоятельно рекомендуется "
+"включить в Weblate процесс рецензирования, чтобы видеть и изменять состояние "
+"одобрения строк."
 
 #: ../../formats.rst:289
 msgid "See :ref:`reviews`."
@@ -24249,10 +24337,13 @@ msgid ""
 "guilabel:`Import as translated` under :guilabel:`Processing of strings "
 "needing review`."
 msgstr ""
+"Аналогично, при импорте таких файлов (в форме загрузки) в выпадающем списке "
+":guilabel:`Обработка строк, отмеченных как «На правку»` необходимо выбрать "
+"пункт :guilabel:`Импортировать как переведённое`."
 
 #: ../../formats.rst:296
 msgid "Whitespace and newlines in XLIFF"
-msgstr ""
+msgstr "Пробелы и переводы строк в файлах XLIFF"
 
 #: ../../formats.rst:298
 msgid ""
@@ -24260,6 +24351,9 @@ msgid ""
 "XML formats. If you want to keep it, you have to add the ``xml:space="
 "\"preserve\"`` flag to the string."
 msgstr ""
+"Как правило, тип или количество пробельных символов в XML-форматах не "
+"различаются. Если вы хотите их сохранить, вы должны добавить к строке флаг "
+"``xml:space=\"preserve\"``."
 
 #: ../../formats.rst:315
 msgid "Specifying translation flags"
@@ -24271,6 +24365,9 @@ msgid ""
 "using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` "
 "and ``font`` attributes from the XLIFF specification:"
 msgstr ""
+"С помощью атрибута ``weblate-flags`` вы можете указать дополнительные флаги "
+"перевода (смотрите раздел :ref:`custom-checks`). Также Weblate понимает "
+"атрибуты ``maxwidth`` и ``font`` из спецификации XLIFF:"
 
 #: ../../formats.rst:330
 msgid ""
@@ -24280,10 +24377,19 @@ msgid ""
 "Pro`` becomes ``Source_Sans_Pro``, please keep that in mind when naming the "
 "font group (see :ref:`fonts`)."
 msgstr ""
+"Атрибут ``font`` разбирается в семейство шрифтов, размер и вес шрифта, "
+"приведённый выше пример показывает использование всех трёх параметров, хотя "
+"к указанию обязательно только семейство шрифтов. Любые пробельные символы в "
+"наименовании семейства шрифтов преобразуются в подчеркивания, так что "
+"семейство ``Source Sans Pro`` становится семейством ``Source_Sans_Pro``, "
+"поэтому при именовании группы шрифтов (смотрите раздел :ref:`fonts`) имейте "
+"это в виду."
 
 #: ../../formats.rst:337
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
 msgstr ""
+"Типичная :ref:`настройка компонента <component>` в Weblate для двуязычного "
+"XLIFF"
 
 #: ../../formats.rst:339 ../../formats.rst:351
 msgid "``localizations/*.xliff``"
@@ -24300,6 +24406,8 @@ msgstr "`Файл перевода XLIFF`"
 #: ../../formats.rst:349
 msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
 msgstr ""
+"Типичная :ref:`настройка компонента <component>` в Weblate для одноязычного "
+"XLIFF"
 
 #: ../../formats.rst:362
 msgid ""
@@ -24308,6 +24416,10 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
 "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
+"`XLIFF в Википедии <https://ru.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:formats/"
+"xliff`, `Атрибут font в XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/"
+"xliff-core.html#font>`_, `Атрибут maxwidth в XLIFF 1.2 <http://docs.oasis-"
+"open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats.rst:370
 msgid "Java properties"
@@ -24320,6 +24432,7 @@ msgstr "Родной формат Java для переводов."
 #: ../../formats.rst:377
 msgid "Java properties are usually used as monolingual translations."
 msgstr ""
+"Файлы свойств Java обычно используются в качестве одноязычных переводов."
 
 #: ../../formats.rst:379
 msgid ""
@@ -24329,12 +24442,20 @@ msgid ""
 "example ``zkou\\u0161ka``), all others encode characters directly either in "
 "UTF-8 or UTF-16."
 msgstr ""
+"Weblate поддерживает варианты этого формата в кодировках ISO-8859-1, UTF-8 и "
+"UTF-16. Все они поддерживают сохранение всех символов юникода, просто в "
+"разных кодировках. В формате ISO-8859-1 используются юникодные экранирующие "
+"последовательности (например, ``zkou\\u0161ka``), остальные кодируют символы "
+"непосредственно в UTF-8 или UTF-16."
 
 #: ../../formats.rst:386
 msgid ""
 "Loading escape sequences works in UTF-8 mode as well, so please be careful "
 "choosing the correct encoding set to match your application needs."
 msgstr ""
+"Загрузка экранирующих последовательностей также работает в режиме UTF-8, "
+"поэтому, пожалуйста, будьте внимательны при выборе правильного набора "
+"кодировок в соответствии с потребностями вашего приложения."
 
 #: ../../formats.rst:392 ../../formats.rst:423
 msgid "``src/app/Bundle_*.properties``"
@@ -24354,6 +24475,9 @@ msgid ""
 "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate.properties."
 "sort`, :ref:`addon-weblate.cleanup.generic`,"
 msgstr ""
+"`Свойства Java в Википедии <https://ru.wikipedia.org/wiki/.properties>`_, "
+":doc:`Файлы свойств Mozilla и Java <tt:formats/properties>`, :ref:`addon-"
+"weblate.properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:411
 msgid "GWT properties"
@@ -24365,7 +24489,7 @@ msgstr "Родной формат GWT для переводов."
 
 #: ../../formats.rst:418
 msgid "GWT properties are usually used as monolingual translations."
-msgstr ""
+msgstr "Файлы свойств GWT обычно используются в качестве одноязычных переводов."
 
 #: ../../formats.rst:429
 msgid "`GWT Properties`"
@@ -24377,6 +24501,10 @@ msgid ""
 "html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :"
 "ref:`addon-weblate.cleanup.generic`,"
 msgstr ""
+"`Руководство по локализации GWT <http://www.gwtproject.org/doc/latest/"
+"DevGuideI18n.html>`_ :doc:`Файлы свойств Mozilla и Java <tt:formats/"
+"properties>`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:442
 msgid "INI translations"
@@ -24384,11 +24512,12 @@ msgstr "Переводы в INI-файлах"
 
 #: ../../formats.rst:449
 msgid "INI file format for translations."
-msgstr ""
+msgstr "Формат INI-файла для переводов."
 
 #: ../../formats.rst:451
 msgid "INI translations are usually used as monolingual translations."
 msgstr ""
+"Переводы в INI-файлах обычно используются в качестве одноязычных переводов."
 
 #: ../../formats.rst:456
 msgid "``language/*.ini``"
@@ -24404,11 +24533,11 @@ msgstr "`INI-файл`"
 
 #: ../../formats.rst:467
 msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`islu`"
-msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`islu`"
+msgstr ":doc:`INI-файлы <tt:formats/ini>`, :ref:`joomla`, :ref:`islu`"
 
 #: ../../formats.rst:474
 msgid "Inno Setup INI translations"
-msgstr "INI-файлы перевода Inno Setup"
+msgstr "Переводы в INI-файлах Inno Setup"
 
 #: ../../formats.rst:481
 msgid "Inno Setup INI file format for translations."
@@ -24418,7 +24547,7 @@ msgstr "Формат INI-файлов Inno Setup для переводов."
 msgid ""
 "Inno Setup INI translations are usually used as monolingual translations."
 msgstr ""
-"INI-файлы перевода Inno Setup обычно используются в качестве одноязычных "
+"Переводы в INI-файлах Inno Setup обычно используются в качестве одноязычных "
 "переводов."
 
 #: ../../formats.rst:487
@@ -24426,6 +24555,9 @@ msgid ""
 "The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t`` "
 "placeholders for line break and tab."
 msgstr ""
+"Единственным заметным отличием от :ref:`обычных переводов в INI-файлах <ini>`"
+" является поддержка заполнителей ``%n`` и ``%t`` для символов переноса "
+"строки и табуляции."
 
 #: ../../formats.rst:493
 msgid "``language/*.islu``"
@@ -24444,10 +24576,12 @@ msgid ""
 "Only Unicode files (``.islu``) are currently supported, ANSI variant (``."
 "isl``) is currently not supported."
 msgstr ""
+"На текущий момент поддерживаются только юникодные файлы (``.islu``), файлы в "
+"кодировке ANSI (``.isl``) в настоящее время не поддерживаются."
 
 #: ../../formats.rst:509
 msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
-msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
+msgstr ":doc:`INI-файлы <tt:formats/ini>`, :ref:`joomla`, :ref:`ini`"
 
 #: ../../formats.rst:516
 msgid "Joomla translations"
@@ -24459,7 +24593,7 @@ msgstr "Родной формат Joomla для переводов."
 
 #: ../../formats.rst:525
 msgid "Joomla translations are usually used as monolingual translations."
-msgstr ""
+msgstr "Переводы Joomla обычно используются в качестве одноязычных переводов."
 
 #: ../../formats.rst:530
 msgid "``language/*/com_foobar.ini``"
@@ -24479,6 +24613,9 @@ msgid ""
 "Specification_of_language_files>`_, :doc:`tt:formats/properties`, :ref:"
 "`ini`, :ref:`islu`"
 msgstr ""
+"`Спецификация языковых файлов Joomla <https://docs.joomla.org/"
+"Specification_of_language_files>`_, :doc:`Файлы свойств Mozilla и Java <tt:"
+"formats/properties>`, :ref:`ini`, :ref:`islu`"
 
 #: ../../formats.rst:549
 msgid "Qt Linguist .ts"
@@ -24486,16 +24623,19 @@ msgstr "Файлы .ts Qt Linguist"
 
 #: ../../formats.rst:555
 msgid "Translation format used in Qt based applications."
-msgstr ""
+msgstr "Формат перевода, используемый в приложениях на основе Qt."
 
 #: ../../formats.rst:557
 msgid ""
 "Qt Linguist files are used as both bilingual and monolingual translations."
 msgstr ""
+"Файлы Qt Linguist используются и как двуязычные, так и одноязычные переводы."
 
 #: ../../formats.rst:560
 msgid "Typical Weblate :ref:`component` when using as bilingual"
 msgstr ""
+"Типичная :ref:`настройка компонента <component>` в Weblate при использовании "
+"формата как двуязычного"
 
 #: ../../formats.rst:562 ../../formats.rst:574
 msgid "``i18n/app.*.ts``"
@@ -24507,11 +24647,13 @@ msgstr "``i18n/app.ru.ts``"
 
 #: ../../formats.rst:568 ../../formats.rst:580
 msgid "`Qt Linguist Translation File`"
-msgstr ""
+msgstr "`Файл перевода Qt Linguist`"
 
 #: ../../formats.rst:572
 msgid "Typical Weblate :ref:`component` when using as monolingual"
 msgstr ""
+"Типичная :ref:`настройка компонента <component>` в Weblate при использовании "
+"формата как одноязычного"
 
 #: ../../formats.rst:576 ../../formats.rst:578
 msgid "``i18n/app.en.ts``"
@@ -24522,6 +24664,8 @@ msgid ""
 "`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>`_, :doc:"
 "`tt:formats/ts`, :ref:`bimono`"
 msgstr ""
+"`Руководство по Qt Linguist <https://doc.qt.io/qt-5/qtlinguist-index.html>`"
+"_, :doc:`tt:formats/ts`, :ref:`bimono`"
 
 #: ../../formats.rst:592
 msgid "Android string resources"
@@ -24529,7 +24673,7 @@ msgstr "Строковые ресурсы Android"
 
 #: ../../formats.rst:598
 msgid "Android specific file format for translating applications."
-msgstr ""
+msgstr "Специфичный для Android формат файла для перевода приложений."
 
 #: ../../formats.rst:600
 msgid ""
@@ -24537,6 +24681,9 @@ msgid ""
 "language file` file is stored in a different location from the others :file:"
 "`res/values/strings.xml`."
 msgstr ""
+"Строковые ресурсы Android являются одноязычными, :guilabel:`Одноязычный "
+"базовый файл` хранится в другом месте, нежели остальные строки — в файле "
+":file:`res/values/strings.xml`."
 
 #: ../../formats.rst:607
 msgid "``res/values-*/strings.xml``"
@@ -24555,28 +24702,38 @@ msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 msgstr ""
+"`Документация по строковым ресурсам Android <https://developer.android.com/"
+"guide/topics/resources/string-resource>`_, :doc:`Строковые ресурсы Android "
+"<tt:formats/android>`"
 
 #: ../../formats.rst:623
 msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
 msgstr ""
+"Структуры строкового массива Android, `string-array`, в настоящее время не "
+"поддерживаются. Чтобы это обойти, вы можете разбить свои строковые массивы "
+"на части:"
 
 #: ../../formats.rst:633
 msgid "become:"
-msgstr ""
+msgstr "станет:"
 
 #: ../../formats.rst:644
 msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
 msgstr ""
+"Элемент `string-array`, указывающий на элементы `string`, должен храниться в "
+"другом файле и не должен быть доступен для перевода."
 
 #: ../../formats.rst:647
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
 msgstr ""
+"Помочь в подготовке существующих файлов strings.xml и переводов вам может "
+"вот этот скрипт: https://gist.github.com/paour/11291062"
 
 #: ../../formats.rst:652
 msgid "Apple iOS strings"
@@ -24588,10 +24745,13 @@ msgid ""
 "and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; "
 "translation>` application translations."
 msgstr ""
+"Специфичный для Apple формат файла для перевода приложений, используемый для "
+"переводов приложений как для iOS, так и для :index:`iPhone’а <pair: iPhone; "
+"перевод>`/:index:`iPad’а <pair: iPad; перевод>`."
 
 #: ../../formats.rst:660
 msgid "Apple iOS strings are usually used as bilingual translations."
-msgstr ""
+msgstr "Строки Apple iOS обычно используются в качестве двуязычных переводов."
 
 #: ../../formats.rst:665
 msgid "``Resources/*.lproj/Localizable.strings``"
@@ -24612,6 +24772,10 @@ msgid ""
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, :doc:`tt:"
 "formats/strings`"
 msgstr ""
+"`Документация Apple по «строковым файлам» <https://developer.apple.com/"
+"library/archive/documentation/MacOSX/Conceptual/BPInternational/"
+"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, :doc:`"
+"Строки Mac OSX <tt:formats/strings>`"
 
 #: ../../formats.rst:682
 msgid "PHP strings"
@@ -24622,6 +24786,8 @@ msgid ""
 "PHP translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
+"Переводы PHP обычно одноязычные, поэтому рекомендуется указывать базовый "
+"файл со строками на (как это чаще всего бывает) английском языке."
 
 #: ../../formats.rst:691 ../../formats.rst:762 ../../formats.rst:825
 #: ../../formats.rst:937 ../../formats.rst:1021
@@ -24646,7 +24812,7 @@ msgstr "Строки Laravel PHP"
 
 #: ../../formats.rst:716
 msgid "The Laravel PHP localization files are supported as well with plurals:"
-msgstr ""
+msgstr "Файлы локализации Laravel PHP также поддерживают множественные формы:"
 
 #: ../../formats.rst:727
 msgid ":doc:`tt:formats/php`, `Localization in Laravel`_"
@@ -24661,16 +24827,21 @@ msgid ""
 "Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested "
 "structure JSON files are supported as well."
 msgstr ""
+"Начиная с Weblate версии 2.16 и translate-toolkit версии не ниже 2.2.4 также "
+"поддерживаются JSON-файлы с вложенной структурой."
 
 #: ../../formats.rst:747
 msgid ""
 "JSON format is used mostly for translating applications implemented in "
 "JavaScript."
 msgstr ""
+"Формат JSON используется в основном для перевода приложений, реализованных "
+"на JavaScript."
 
 #: ../../formats.rst:750
 msgid "Weblate currently supports several variants of JSON translations:"
 msgstr ""
+"В настоящее время Weblate поддерживает несколько вариантов переводов в JSON:"
 
 #: ../../formats.rst:752
 msgid "Simple key / value files."
@@ -24685,12 +24856,16 @@ msgid ""
 "JSON translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
+"Переводы JSON обычно одноязычные, поэтому рекомендуется указывать базовый "
+"файл со строками на (как это чаще всего бывает) английском языке."
 
 #: ../../formats.rst:768
 msgid ""
 "Nested files are supported as well (see above for requirements), such a file "
 "can look like:"
 msgstr ""
+"Также поддерживается вложенная структура файлов (условия поддержки смотрите "
+"выше), такой файл может выглядеть следующим образом:"
 
 #: ../../formats.rst:776
 msgid ""
@@ -24698,6 +24873,10 @@ msgid ""
 "serializing issues when special chars such as ``.`` or ``[]`` are used in "
 "the actual keys, because Weblate thinks it is indication of nesting."
 msgstr ""
+"В настоящее время Weblate обрабатывает вложенные JSON-файлы, уплощая их "
+"ключи. Это приводит к проблемам сериализации, когда в реальных ключах "
+"используются такие символы как ``.`` или ``[]``, потому что Weblate думает, "
+"что это признак вложенного ключа."
 
 #: ../../formats.rst:780
 msgid "See <https://github.com/WeblateOrg/weblate/issues/2149>"
@@ -24725,13 +24904,15 @@ msgstr ""
 
 #: ../../formats.rst:803
 msgid "JSON i18next files"
-msgstr "Файлы JSON i18next"
+msgstr "JSON -файлы i18next"
 
 #: ../../formats.rst:810
 msgid ""
 "Since Weblate 2.17 and with translate-toolkit at-least 2.2.5, i18next JSON "
 "files with plurals are supported as well."
 msgstr ""
+"Начиная с Weblate версии 2.17 и translate-toolkit версии не ниже 2.2.5 также "
+"поддерживаются JSON-файлы i18next с множественными формами."
 
 #: ../../formats.rst:813
 msgid ""
@@ -24739,18 +24920,26 @@ msgid ""
 "written in and for JavaScript. Weblate supports its localization files with "
 "features such as plurals."
 msgstr ""
+"`i18next <https://www.i18next.com/>`_ — это фреймворк интернационализации, "
+"написанный на и для JavaScript. Weblate поддерживает его файлы локализации с "
+"такими возможностями, как формы множественного числа."
 
 #: ../../formats.rst:817
 msgid ""
 "i18next translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Переводы i18next обычно одноязычные, поэтому рекомендуется указывать базовый "
+"файл со строками на (как это чаще всего бывает) английском языке."
 
 #: ../../formats.rst:822
 msgid ""
 "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
 "mostly compatible, with exception of how plurals are handled."
 msgstr ""
+"Weblate поддерживает формат JSON-файла i18next версии v3. Версии v2 и v1 в "
+"основном совместимы, за исключением того, как они работают с формами "
+"множественного числа."
 
 #: ../../formats.rst:834 ../../formats.rst:871
 msgid "``langs/*.json``"
@@ -24762,7 +24951,7 @@ msgstr "``langs/en.json``"
 
 #: ../../formats.rst:840
 msgid "`i18next JSON file`"
-msgstr "`i18next файл JSON`"
+msgstr "`JSON-файл i18next`"
 
 #: ../../formats.rst:845
 msgid ""
@@ -24770,26 +24959,33 @@ msgid ""
 "json-format>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate."
 "cleanup.generic`,"
 msgstr ""
+":doc:`tt:formats/json`, `Формат JSON i18next <https://www.i18next.com/misc/"
+"json-format>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:853
 msgid "go-i18n JSON files"
-msgstr "Файлы JSON go-i18n"
+msgstr "JSON -файлы go-i18n"
 
 #: ../../formats.rst:860
 msgid ""
 "go-i18n translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Переводы go-i18n обычно одноязычные, поэтому рекомендуется указывать базовый "
+"файл со строками на (как это чаще всего бывает) английском языке."
 
 #: ../../formats.rst:865
 msgid ""
 "Weblate supports the go-i18n JSON v2 format, it does not support flat JSON "
 "files supported in v1."
 msgstr ""
+"Weblate поддерживает формат JSON-файла go-i18n версии v2, который не "
+"поддерживает плоские JSON-файлы, поддерживаемые версией v1."
 
 #: ../../formats.rst:877
 msgid "`go-i18n JSON file`"
-msgstr "`Файл JSON go-i18n`"
+msgstr "`JSON -файл go-i18n`"
 
 #: ../../formats.rst:882
 msgid ""
@@ -24808,6 +25004,8 @@ msgid ""
 "ARB translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Переводы ARB обычно одноязычные, поэтому рекомендуется указывать базовый "
+"файл со строками на (как это чаще всего бывает) английском языке."
 
 #: ../../formats.rst:903
 msgid "``lib/l10n/intl_*.arb``"
@@ -24830,22 +25028,32 @@ msgid ""
 "internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
 "weblate.cleanup.generic`,"
 msgstr ""
+":doc:`tt:formats/json`, `Спецификация пакета ресурсов приложения "
+"<https://github.com/google/app-resource-bundle/wiki/"
+"ApplicationResourceBundleSpecification>`_, `Интернационализация приложений "
+"Flutter <https://flutter.dev/docs/development/accessibility-and-localization/"
+"internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
+"weblate.cleanup.generic`"
 
 #: ../../formats.rst:923
 msgid "WebExtension JSON"
-msgstr "Файлы WebExtension JSON"
+msgstr "JSON-файлы WebExtension"
 
 #: ../../formats.rst:927
 msgid ""
 "This is supported since Weblate 2.16 and with translate-toolkit at-least "
 "2.2.4."
 msgstr ""
+"Поддерживаются с версии Weblate 2.16 и translate-toolkit версии не ниже 2.2."
+"4."
 
 #: ../../formats.rst:929
 msgid ""
 "File format used when translating extensions for Mozilla Firefox or Google "
 "Chromium."
 msgstr ""
+"Формат файла, используемый при переводе расширений для Mozilla Firefox или "
+"Google Chromium."
 
 #: ../../formats.rst:933
 msgid ""
@@ -24853,6 +25061,9 @@ msgid ""
 "comments, which are not part of JSON specification. Weblate currently does "
 "not support file with comments."
 msgstr ""
+"Хотя этот формат называется JSON, его спецификация позволяет включать "
+"комментарии, которые не являются частью спецификации JSON. В настоящее время "
+"Weblate не поддерживает файл с комментариями."
 
 #: ../../formats.rst:946
 msgid "``_locales/*/messages.json``"
@@ -24864,7 +25075,7 @@ msgstr "``_locales/en/messages.json``"
 
 #: ../../formats.rst:952
 msgid "`WebExtension JSON file`"
-msgstr "`Файл WebExtension JSON`"
+msgstr "`JSON-файл WebExtension`"
 
 #: ../../formats.rst:957
 msgid ""
@@ -24873,6 +25084,10 @@ msgid ""
 "developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/"
 "Internationalization>`_"
 msgstr ""
+":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
+"extensions/i18n>`_, `Интернационализация расширений Mozilla "
+"<https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/"
+"Интернационализация>`_"
 
 #: ../../formats.rst:964
 msgid ".XML resource files"
@@ -24885,6 +25100,10 @@ msgid ""
 "identical syntax to .resx](https://lingohub.com/developers/resource-files/"
 "resw-resx-localization)."
 msgstr ""
+"В .XML-файле ресурса (.resx) применяется формат одноязычного XML-файла, "
+"используемый в приложениях Microsoft .NET. Он `взаимозаменяем с форматом ."
+"resw, который использует синтаксис, идентичный синтаксису .resx "
+"<https://lingohub.com/developers/resource-files/resw-resx-localization>`."
 
 #: ../../formats.rst:979
 msgid "``Resources/Language.*.resx``"
@@ -24896,7 +25115,7 @@ msgstr "``Resources/Language.resx``"
 
 #: ../../formats.rst:985
 msgid "`.XML resource file`"
-msgstr ""
+msgstr "`.XML-файл ресурсов`"
 
 #: ../../formats.rst:990
 msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
@@ -24913,24 +25132,32 @@ msgid ""
 "CSV files can contain a simple list of source and translation. Weblate "
 "supports the following files:"
 msgstr ""
+"Файлы CSV могут содержать простой список исходных строк и переводов. Weblate "
+"поддерживает следующие файлы:"
 
 #: ../../formats.rst:1007
 msgid ""
 "Files with header defining fields (source, translation, location, …). This "
 "is the recommended approach, as it is the least error prone."
 msgstr ""
+"Файлы с заголовком, определяющим поля (источник, перевод, местоположение, …)"
+". Это рекомендуемый подход, так как он наименее подвержен ошибкам."
 
 #: ../../formats.rst:1009
 msgid ""
 "Files with two fields—source and translation (in this order), choose :"
 "guilabel:`Simple CSV file` as file format"
 msgstr ""
+"Файлы с двумя полями — источником и переводом (в этом порядке), для этого в "
+"качестве формата файла выберите :guilabel:`Простой CSV файл`"
 
 #: ../../formats.rst:1011
 msgid ""
 "Files with fields as defined by translate-toolkit: location, source, target, "
 "ID, fuzzy, context, translator_comments, developer_comments"
 msgstr ""
+"Файлы с полями, определёнными translate-toolkit: location, source, target, "
+"ID, fuzzy, context, translator_comments, developer_comments"
 
 #: ../../formats.rst:1016
 msgid ""
