@@ -9,6 +9,7 @@ It up to you to decide how many of its features you want to make use of.
     starting
     gettext
     sphinx
+    html
     alerts
     community
     translations

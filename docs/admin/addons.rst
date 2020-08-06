@@ -38,78 +38,19 @@ JavaScript localization CDN
 
 Adds localization CDN for JavaScript or HTML localization.
 
-It can be used to localize static HTML pages or used to load localization in the JavaScript code.
+It can be used to localize static HTML pages or used to load localization in
+the JavaScript code.
 
-Upon installation the addon generates unique URL for your component.
+Upon installation the addon generates unique URL for your component which you
+can include in the HTML documents to get them localized. See :ref:`weblate-cdn`
+for more details.
 
-.. note::
+.. seealso::
 
-   This addon requires additional configuration, see
-   :setting:`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`.
-
-String extraction
-~~~~~~~~~~~~~~~~~
-
-The translation strings have to be present in Weblate. You can either manage
-these manually, use API to create them or list files or URLs using
-:guilabel:`Extract strings from HTML files` and Weblate will extract them
-automatically. The files have to present in the repository or contain remote
-URLs which will be download and parsed regularly by Weblate.
-
-The default configuration for :guilabel:`CSS selector` extracts elements with
-CSS class ``l10n``, for example it would extract two strings from following
-snippets:
-
-.. code-block:: html
-
-  <section class="content">
-      <div class="row">
-          <div class="wrap">
-              <h1 class="section-title min-m l10n">Maintenance in progress</h1>
-              <div class="page-desc">
-                  <p class="l10n">We're sorry, but this site is currently down for maintenance.</p>
-              </div>
-          </div>
-      </div>
-  </section>
-
-In case you don't want to modify existing code, you can also use ``*`` as a
-selector to process all elements.
-
-.. note::
-
-   Right now, only text of the elements is extracted. This addon doesn't support localization
-   of element attributes or elements with childs.
-
-HTML localization
-~~~~~~~~~~~~~~~~~
-
-To localize a HTML document, you need to load the :file:`weblate.js` script:
-
-.. code-block:: html
-
-    <script src="https://weblate-cdn.com/a5ba5dc29f39498aa734528a54b50d0a/weblate.js" async></script>
-
-Upon loading, this will automatically find all matching translatable elements
-(based on :guilabel:`CSS selector` configuration) and replace their text with a
-translation.
-
-The user language is detected from the cookie (if :guilabel:`Language cookie
-name` is configured) and user preferred languages configured in the browser.
-
-JavaScript localization
-~~~~~~~~~~~~~~~~~~~~~~~
-
-The invidiual translations are exposed as bilingual JSON files under the CDN.
-To fetch one you can use following code:
-
-.. code-block:: javascript
-
-    fetch(("https://weblate-cdn.com/a5ba5dc29f39498aa734528a54b50d0a/cs.json")
-      .then(response => response.json())
-      .then(data => console.log(data));
-
-The actual localization logic needs to be implemented in this case.
+    :ref:`cdn-addon-config`,
+    :ref:`weblate-cdn`,
+    :ref:`cdn-addon-extract`,
+    :ref:`cdn-addon-html`
 
 .. _addon-weblate.cleanup.generic:
 

@@ -78,6 +78,7 @@ The more detailed workflow for some formats is described in following chapters:
 
 * :doc:`gettext`
 * :doc:`sphinx`
+* :doc:`html`
 
 Integrating with Weblate
 ------------------------
