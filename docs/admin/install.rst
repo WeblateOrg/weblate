@@ -1196,9 +1196,6 @@ mod_wsgi (available as :file:`weblate/examples/apache.conf`):
 .. literalinclude:: ../../weblate/examples/apache.conf
     :language: apache
 
-This configuration is for Apache 2.4 and later. For earlier versions of Apache,
-replace `Require all granted` with `Allow from all`.
-
 .. note::
 
     Weblate requires Python 3, so please make sure you are running Python 3
