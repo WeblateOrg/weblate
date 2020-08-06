@@ -31,6 +31,13 @@ def setup(app):
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-pro.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     app.add_css_file("docs.css")
+    # Used in Sphinx docs, needed for intersphinx links to it
+    app.add_object_type(
+        "confval",
+        "confval",
+        objname="configuration value",
+        indextemplate="pair: %s; configuration value",
+    )
 
 
 # -- Project information -----------------------------------------------------

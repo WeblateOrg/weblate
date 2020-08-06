@@ -483,6 +483,28 @@ Filtering only translations in a chosen language:
         https://github.com/WeblateOrg/weblate.git \
         'weblate/locale/*/LC_MESSAGES/**.po'
 
+Importing Sphinx documentation split to multiple files:
+
+.. code-block:: console
+
+    $ weblate import_project --name-template 'Documentation: %s' \
+        --file-format po \
+        project https://github.com/project/docs.git master \
+        'docs/locale/*/LC_MESSAGES/**.po'
+
+Importing Sphinx documentation split to multiple files and directories:
+
+.. code-block:: console
+
+    $ weblate import_project --name-template 'Directory 1: %s' \
+        --file-format po \
+        project https://github.com/project/docs.git master \
+        'docs/locale/*/LC_MESSAGES/dir1/**.po'
+    $ weblate import_project --name-template 'Directory 2: %s' \
+        --file-format po \
+        project https://github.com/project/docs.git master \
+        'docs/locale/*/LC_MESSAGES/dir2/**.po'
+
 .. seealso::
 
     More detailed examples can be found in the :ref:`starting` chapter,

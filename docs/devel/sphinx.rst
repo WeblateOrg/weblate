@@ -19,33 +19,57 @@ documentation on the Read the Docs. Their :doc:`rtd:localization` covers pretty
 much everything you need - creating another project, set its language and link
 it from main project as a translation.
 
-Now all you need is translating the documentation content. As Sphinx splits
-the translation files per source file, you might end up with dozen of files,
-which might be challenging to import using the Weblate's web interface. For
-that reason, there is the :djadmin:`import_project` management command.
+Now all you need is translating the documentation content. Sphinx generates PO
+file for each directory or top level file, what can lead to quite a lot of
+files to translate (depending on :confval:`sphinx:gettext_compact` settings).
+You can import the :file:`index.po` into Weblate as an initial component and
+then configure :ref:`addon-weblate.discovery.discovery` addon to automatically
+discover all others.
 
-Depending on exact setup, importing of the translation might look like:
 
-.. code-block:: console
+.. list-table:: Component configuration
 
-    $ weblate import_project --name-template 'Documentation: %s' \
-        --file-format po \
-        project https://github.com/project/docs.git master \
-        'docs/locale/*/LC_MESSAGES/**.po'
+   * - :ref:`component-name`
+     - ``Documentation``
+   * - :ref:`component-filemask`
+     - ``docs/locales/*/LC_MESSAGES/index.po``
+   * - :ref:`component-new_base`
+     - ``docs/locales/index.pot``
+   * - :ref:`component-file_format`
+     - `gettext PO file`
+   * - :ref:`component-check_flags`
+     - ``rst-text``
 
-If you have more complex document structure, importing different folders is not
-directly supported; you currently have to list them separately:
+.. list-table:: Component discovery configuration
 
-.. code-block:: console
+   * - Regular expression to match translation files against
+     - ``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\.po``
+   * - Customize the component name
+     - ``Documentation: {{ component|title }}``
+   * - Define the base file for new translations
+     - ``docs/locales/{{ component }}.pot``
 
-    $ weblate import_project --name-template 'Directory 1: %s' \
-        --file-format po \
-        project https://github.com/project/docs.git master \
-        'docs/locale/*/LC_MESSAGES/dir1/**.po'
-    $ weblate import_project --name-template 'Directory 2: %s' \
-        --file-format po \
-        project https://github.com/project/docs.git master \
-        'docs/locale/*/LC_MESSAGES/dir2/**.po'
+.. hint::
+
+    Would you prefer Sphinx to generate just single PO file? There is a hacky
+    way to achieve this (used by Weblate documentation) by overriding Sphinx
+    way to get a Gettext domain of a document. Place following snippet to your
+    Sphinx configuration in :file:`conf.py`:
+
+    .. code-block:: python
+
+        import sphinx.transforms.i18n
+        import sphinx.util.i18n
+
+        # Hacky way to have all localized content in single domain
+        sphinx.transforms.i18n.docname_to_domain = (
+            sphinx.util.i18n.docname_to_domain
+        ) = lambda docname, compact: "docs"
+
+
+    This might be directly supported by Sphinx in future releases, see
+    <https://github.com/sphinx-doc/sphinx/issues/784>.
+
 
 .. seealso::
 
@@ -55,5 +79,5 @@ directly supported; you currently have to list them separately:
 
 
 .. _Odorik: https://github.com/nijel/odorik/
-.. _Sphinx: http://www.sphinx-doc.org/
+.. _Sphinx: https://www.sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.org/
