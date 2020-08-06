@@ -366,7 +366,6 @@ can schedule a regular task to perform a commit:
 
 .. literalinclude:: ../../weblate/examples/beat-settings.py
     :language: python
-    :encoding: utf-8
 
 .. _processing:
 

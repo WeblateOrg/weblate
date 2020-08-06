@@ -58,7 +58,6 @@ Generates the number of translated words and strings by translator name:
 
 .. literalinclude:: reporting-example.rst
     :language: rst
-    :encoding: utf-8
 
 And it will get rendered as:
 

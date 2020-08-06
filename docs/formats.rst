@@ -692,7 +692,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.php
     :language: php
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -763,13 +762,11 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.json
     :language: json
-    :encoding: utf-8
 
 Nested files are supported as well (see above for requirements), such a file can look like:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-nested.json
     :language: json
-    :encoding: utf-8
 
 .. warning::
 
@@ -826,7 +823,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/en.i18next.json
     :language: json
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -938,7 +934,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-webext.json
     :language: json
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1022,7 +1017,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
     :language: text
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1055,7 +1049,6 @@ Example of a YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.pyml
     :language: yaml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1089,7 +1082,6 @@ Example Ruby i18n YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.ryml
     :language: yaml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1119,7 +1111,6 @@ Example DTD file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.dtd
     :language: yaml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1149,7 +1140,6 @@ Example of a flat XML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-flat.xml
     :language: xml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1185,7 +1175,6 @@ Example Windows RC file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-CZ.rc
     :language: text
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |

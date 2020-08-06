@@ -1282,19 +1282,16 @@ Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate.service`:
 
 .. literalinclude:: ../../weblate/examples/celery-weblate.service
     :language: ini
-    :encoding: utf-8
 
 Environment configuration to be placed as :file:`/etc/default/celery-weblate`:
 
 .. literalinclude:: ../../weblate/examples/celery-weblate.conf
     :language: sh
-    :encoding: utf-8
 
 Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
 
 .. literalinclude:: ../../weblate/examples/celery-weblate.logrotate
     :language: text
-    :encoding: utf-8
 
 .. note::
 

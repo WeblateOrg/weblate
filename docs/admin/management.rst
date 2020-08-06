@@ -326,7 +326,6 @@ Example of JSON file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/components.json
    :language: json
-   :encoding: utf-8
 
 .. seealso::
 
