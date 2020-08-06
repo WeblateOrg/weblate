@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-06 10:46+0000\n"
+"PO-Revision-Date: 2020-08-06 12:59+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -18092,7 +18092,7 @@ msgstr ""
 
 #: ../../changes.rst:674
 msgid "Added basic support for Windows RC files."
-msgstr ""
+msgstr "Добавлена базовая поддержка файлов ресурсов Windows."
 
 #: ../../changes.rst:675
 msgid "New addon to store contributor names in PO file headers."
@@ -25166,6 +25166,11 @@ msgid ""
 "results. This is especially true for CSV files with newlines in the values. "
 "As a workaround it is recommended to omit quoting characters."
 msgstr ""
+"Формат CSV в настоящее время автоматически определяет диалект файла CSV. В "
+"некоторых случаях автоматическое определение может не сработать, и вы "
+"получите смешанные результаты. Особенно это касается файлов CSV с символами "
+"новых строк внутри значений. В качестве обходного пути рекомендуется на "
+"использовать кавычки."
 
 #: ../../formats.rst:1030
 msgid "``locale/*.csv``"
@@ -25192,6 +25197,8 @@ msgid ""
 "The plain YAML files with string keys and values. Weblate also extract "
 "strings from lists or dictionaries."
 msgstr ""
+"Простые файлы YAML со строковыми ключами и значениями. Также Weblate "
+"извлекает строки из списков и словарей."
 
 #: ../../formats.rst:1054
 msgid "Example of a YAML file:"
@@ -25219,11 +25226,11 @@ msgstr "Файлы Ruby YAML"
 
 #: ../../formats.rst:1086
 msgid "Ruby i18n YAML files with language as root node."
-msgstr ""
+msgstr "Файлы YAML локализации Ruby с языком в качестве корневого узла."
 
 #: ../../formats.rst:1088
 msgid "Example Ruby i18n YAML file:"
-msgstr ""
+msgstr "Пример файла YAML локализации Ruby:"
 
 #: ../../formats.rst:1103
 msgid "`Ruby YAML file`"
@@ -25263,7 +25270,7 @@ msgstr "Плоские XML-файлы"
 
 #: ../../formats.rst:1148
 msgid "Example of a flat XML file:"
-msgstr ""
+msgstr "Пример плоского XML-файла:"
 
 #: ../../formats.rst:1157
 msgid "``locale/*.xml``"
@@ -25283,11 +25290,11 @@ msgstr ":doc:`Плоские XML-файлы <tt:formats/flatxml>`"
 
 #: ../../formats.rst:1171
 msgid "Windows RC files"
-msgstr "RC-файлы Windows"
+msgstr "Файлы ресурсов Windows"
 
 #: ../../formats.rst:1175
 msgid "Support for Windows RC files has been rewritten."
-msgstr ""
+msgstr "Поддержка файлов ресурсов Windows была переписана."
 
 #: ../../formats.rst:1179 ../../formats.rst:1289 ../../formats.rst:1306
 #: ../../formats.rst:1323
@@ -25295,10 +25302,12 @@ msgid ""
 "Support for this format is currently in beta, feedback from testing is "
 "welcome."
 msgstr ""
+"Поддержка этого формата в настоящее время находится в бета-режиме, "
+"приветствуются обратная связь от тестирования."
 
 #: ../../formats.rst:1184
 msgid "Example Windows RC file:"
-msgstr ""
+msgstr "Пример файла ресурсов Windows:"
 
 #: ../../formats.rst:1193
 msgid "``lang/*.rc``"
@@ -25314,7 +25323,7 @@ msgstr "`Файл RC`"
 
 #: ../../formats.rst:1202
 msgid ":doc:`tt:formats/rc`"
-msgstr ":doc:`Ресурсные файлы Windows <tt:formats/rc>`"
+msgstr ":doc:`Файлы ресурсов Windows <tt:formats/rc>`"
 
 #: ../../formats.rst:1207
 msgid "App store metadata files"
@@ -25325,12 +25334,17 @@ msgid ""
 "Metadata used for publishing apps in various app stores can be translated. "
 "Currently the following tools are compatible:"
 msgstr ""
+"Метаданные, используемые для публикации приложений в различных магазинах "
+"приложений, могут быть переведены. В настоящее время совместимы следующие "
+"инструменты:"
 
 #: ../../formats.rst:1214
 msgid ""
 "`Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
 "publisher>`_"
 msgstr ""
+"`Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
+"publisher>`_"
 
 #: ../../formats.rst:1215
 msgid ""
@@ -25353,6 +25367,8 @@ msgid ""
 "The metadata consists of several textfiles, which Weblate will present as "
 "separate strings to translate."
 msgstr ""
+"Метаданные состоят из нескольких текстовых файлов, которые Weblate "
+"представляет для перевода в виде отдельных строк."
 
 #: ../../formats.rst:1224
 msgid "``fastlane/android/metadata/*``"
@@ -25364,7 +25380,7 @@ msgstr "``fastlane/android/metadata/en-US``"
 
 #: ../../formats.rst:1230
 msgid "`App store metadata files`"
-msgstr ""
+msgstr "`Файлы метаданных магазина приложений`"
 
 #: ../../formats.rst:1236
 msgid "Subtitle files"
@@ -25376,19 +25392,19 @@ msgstr "Weblate может переводить различные файлы с
 
 #: ../../formats.rst:1242
 msgid "SubRip subtitle file (``*.srt``)"
-msgstr ""
+msgstr "Файл субтитров SubRip (``*.srt``)"
 
 #: ../../formats.rst:1243
 msgid "MicroDVD subtitle file (``*.sub``)"
-msgstr ""
+msgstr "Файл субтитров MicroDVD (``*.sub``)"
 
 #: ../../formats.rst:1244
 msgid "Advanced Substation Alpha subtitles file (``*.ass``)"
-msgstr ""
+msgstr "Файл субтитров Advanced SubStation Alpha (``*.ass``)"
 
 #: ../../formats.rst:1245
 msgid "Substation Alpha subtitle file (``*.ssa``)"
-msgstr ""
+msgstr "Файл субтитров SubStation Alpha (``*.ssa``)"
 
 #: ../../formats.rst:1250
 msgid "``path/*.srt``"
@@ -25400,7 +25416,7 @@ msgstr "``path/en.srt``"
 
 #: ../../formats.rst:1256
 msgid "`SubRip subtitle file`"
-msgstr ""
+msgstr "`Файл субтитров SubRip`"
 
 #: ../../formats.rst:1261
 msgid ":doc:`tt:formats/subtitles`"
@@ -25412,7 +25428,7 @@ msgstr "Excel Open XML"
 
 #: ../../formats.rst:1270
 msgid "Excel Open XML (.xlsx) files can be imported and exported."
-msgstr ""
+msgstr "Можно импортировать и экспортировать файлы Excel Open XML (.xlsx)."
 
 #: ../../formats.rst:1272
 msgid ""
@@ -25424,6 +25440,12 @@ msgid ""
 "string). If you use the XLSX download for exporting the translations into an "
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
+"Загружая для перевода файлы XLSX, имейте в виду, что учитывается только "
+"активный рабочий лист, и должны быть хотя бы колонки с названием ``source`` ("
+"содержащая исходную строку) и ``target`` (содержащая перевод). Дополнительно "
+"может быть колонка с названием ``context`` (содержащая путь к контексту "
+"строки перевода). Если вы используете скачанный XLSX для экспорта переводов "
+"в рабочую книгу Excel, вы уже получите файл в правильном формате."
 
 #: ../../formats.rst:1283
 msgid "HTML files"
@@ -25434,6 +25456,8 @@ msgid ""
 "The translatable content is extracted from the HTML files and offered for "
 "the translation."
 msgstr ""
+"Переводимое содержимое извлекается из HTML-файлов и предлагается для "
+"перевода."
 
 #: ../../formats.rst:1295
 msgid ":doc:`tt:formats/html`"
@@ -25448,6 +25472,8 @@ msgid ""
 "The translatable content is extracted from the OpenDocument files and "
 "offered for the translation."
 msgstr ""
+"Переводимое содержимое извлекается из файлов OpenDocument и предлагается для "
+"перевода."
 
 #: ../../formats.rst:1312
 msgid ":doc:`tt:formats/odf`"
@@ -25462,6 +25488,8 @@ msgid ""
 "The translatable content is extracted from the Adobe InDesign Markup "
 "Language files and offered for the translation."
 msgstr ""
+"Переводимое содержимое извлекается из файлов языка разметки Adobe InDesign и "
+"предлагается для перевода."
 
 #: ../../formats.rst:1329
 msgid "Others"
@@ -25474,17 +25502,25 @@ msgid ""
 "some thin layer is needed in Weblate to hide differences in behavior of "
 "different translate-toolkit storages."
 msgstr ""
+"Большинство форматов, которые поддерживают сериализацию и которые "
+"поддерживает translate-toolkit, могут быть легко поддержаны, но они (пока) "
+"не прошли никакого тестирования. В большинстве случаев, чтобы скрыть "
+"различия в поведении различных хранилищ translate-toolkit, для Weblate "
+"требуется тонкая прослойка."
 
 #: ../../formats.rst:1347
 msgid ""
 "In versions prior to 2.18 the behaviour of adding new translations was file "
 "format specific."
 msgstr ""
+"В версиях до 2.18 поведение добавления новых переводов зависело от формата "
+"файла."
 
 #: ../../formats.rst:1350
 msgid ""
 "Weblate can automatically start new translation for all of the file formats."
 msgstr ""
+"Weblate может автоматически начинать новый перевод для всех форматов файлов."
 
 #: ../../formats.rst:1353
 msgid ""
@@ -25494,6 +25530,12 @@ msgid ""
 "really doesn't depend on the format, but rather on the framework you use to "
 "handle the translation (for example with :ref:`json`)."
 msgstr ""
+"Некоторые форматы ожидают, что они будут начинаться с пустого файла и в него "
+"будут включены только переведённые строки (например, :ref:`aresource`), в то "
+"время как другие ожидают, что в файле будут присутствовать все ключи ("
+"например, :ref:`gettext`). В некоторых ситуациях это на самом деле зависит "
+"не от формата, а от фреймворка, который вы используете для работы с файлами "
+"перевода (например, с :ref:`файлами JSON <json>`)."
 
 #: ../../formats.rst:1359
 msgid ""
@@ -25501,6 +25543,10 @@ msgid ""
 "use this file to start new translations. Any exiting translations will be "
 "removed from the file when doing so."
 msgstr ""
+"При указании в :ref:`конфигурации компонента <component>` файла :ref:`"
+"шаблона нового перевода <component-new_base>` Weblate будет использовать его "
+"для начинания новых переводов. Все существующие переводы при этом будут из "
+"файла удалены."
 
 #: ../../formats.rst:1363
 msgid ""
@@ -25508,12 +25554,17 @@ msgid ""
 "supports it, an empty file is created where new strings will be added once "
 "they are translated."
 msgstr ""
+"Если поле :guilabel:`Шаблон для новых переводов` на заполнено, а формат "
+"файла его требует, создаётся пустой файл, в который добавляются новые строки "
+"после их перевода."
 
 #: ../../formats.rst:1367
 msgid ""
 "The :guilabel:`Language code style` allows you to customize language code "
 "used in generated filenames:"
 msgstr ""
+"Параметр :guilabel:`Стиль кода языка` позволяет вам настраивать код языка, "
+"используемый в именах сгенерированных файлов:"
 
 #: ../../formats.rst:1370
 msgid "Default based on the file format"
@@ -25522,6 +25573,7 @@ msgstr "Умолчание, основанное на формате файла"
 #: ../../formats.rst:1371
 msgid "Dependent on file format, for most of them POSIX is used."
 msgstr ""
+"Зависит от формата файла, для большинства форматов используется стиль POSIX."
 
 #: ../../formats.rst:1373
 msgid "POSIX style using underscore as a separator"
@@ -25532,6 +25584,8 @@ msgid ""
 "Typically used by gettext and related tools, produces language codes like "
 "`pt_BR`."
 msgstr ""
+"Обычно используется gettext’ом и связанными с ним инструментами, выдаёт коды "
+"языков вида `ru_RU`."
 
 #: ../../formats.rst:1376
 msgid "POSIX style using underscore as a separator, including country code"
@@ -25544,18 +25598,21 @@ msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(for example 'cs_CZ')."
 msgstr ""
+"Код языка в стиле POSIX, включающий код страны, даже если в этом нет "
+"необходимости (например, `cs_CZ`)."
 
 #: ../../formats.rst:1379
 msgid "BCP style using hyphen as a separator"
-msgstr "Стиль BCP, использующий дефис как разделитель"
+msgstr "Стиль BCP, использующий в качестве разделителя дефис"
 
 #: ../../formats.rst:1379
 msgid "Typically used on web platforms, produces language codes like `pt-BR`."
-msgstr ""
+msgstr "Обычно используется на веб-платформах, выдаёт коды языков вида `ru-RU`."
 
 #: ../../formats.rst:1382
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr "Стиль BCP, использующий дефис как разделитель и включающий код страны"
+msgstr ""
+"Стиль BCP, использующий в качестве разделителя дефис и включающий код страны"
 
 #: ../../formats.rst:1382
 msgid ""
