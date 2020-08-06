@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-05 06:36+0000\n"
+"PO-Revision-Date: 2020-08-06 12:59+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -1117,6 +1117,8 @@ msgid ""
 "This addon requires additional configuration, see :setting:"
 "`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"Esta extensão requer configuração adicional, veja :setting:`LOCALIZE_CDN_URL`"
+" e :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../admin/addons.rst:51
 msgid "String extraction"
@@ -1130,6 +1132,11 @@ msgid ""
 "automatically. The files have to present in the repository or contain remote "
 "URLs which will be download and parsed regularly by Weblate."
 msgstr ""
+"Os textos de tradução devem estar presentes no Weblate. Você pode gerenciá-"
+"los manualmente, usar API para criá-los ou listar arquivos ou URLs usando "
+":guilabel:`Extrair textos de arquivos HTML` e o Weblate irá extraí-los "
+"automaticamente. Os arquivos devem apresentar no repositório ou conter URLs "
+"remotas que serão baixadas e analisadas regularmente pelo Weblate."
 
 #: ../../admin/addons.rst:59
 msgid ""
@@ -1137,6 +1144,9 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+"A configuração padrão para :guilabel:`Seletor CSS` extrai elementos com "
+"classe CSS ``l10n``. Por exemplo, extrairia dois textos dos seguintes "
+"trechos:"
 
 #: ../../admin/addons.rst:76
 msgid ""
@@ -1171,12 +1181,18 @@ msgid ""
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"Ao carregar, isso encontrará automaticamente todos os elementos traduzíveis "
+"correspondentes (com base na configuração :guilabel:`Seletor CSS` ) e "
+"substituirá seu texto por uma tradução."
 
 #: ../../admin/addons.rst:97
 msgid ""
 "The user language is detected from the cookie (if :guilabel:`Language cookie "
 "name` is configured) and user preferred languages configured in the browser."
 msgstr ""
+"O idioma do usuário é detectado a partir do cookie (se :guilabel:`Nome do "
+"cookie de idioma` estiver configurado) e idiomas preferidos do usuário "
+"configurados no navegador."
 
 #: ../../admin/addons.rst:101
 msgid "JavaScript localization"
@@ -1187,10 +1203,12 @@ msgid ""
 "The invidiual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
 msgstr ""
+"As traduções individuais são expostas como arquivos JSON bilíngues sob o "
+"CDN. Para buscar um, você pode usar o seguinte código:"
 
 #: ../../admin/addons.rst:112
 msgid "The actual localization logic needs to be implemented in this case."
-msgstr ""
+msgstr "A lógica de localização real precisa ser implementada neste caso."
 
 #: ../../admin/addons.rst:117
 msgid "Cleanup translation files"
@@ -4469,6 +4487,7 @@ msgstr "Valor padrão: Diretório de nível superior de fontes do Weblate."
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgstr ""
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:212
 msgid ""
@@ -4476,10 +4495,13 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, ...)."
 msgstr ""
+"Personaliza o cabeçalho ``Content-Security-Policy`` para Weblate. O "
+"cabeçalho é gerado automaticamente com base em integrações habilitadas com "
+"serviços de terceiros (Matomo, Google Analytics, Sentry, ...)."
 
 #: ../../admin/config.rst:216
 msgid "All these default to empty list."
-msgstr ""
+msgstr "Todos esses tem como padrão uma lista vazia."
 
 #: ../../admin/config.rst:218
 msgid "** Example:: **"
@@ -4490,6 +4512,8 @@ msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/"
+"en-US/docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:233
 msgid "CHECK_LIST"
@@ -4953,51 +4977,59 @@ msgstr ""
 
 #: ../../admin/config.rst:573
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:575
 msgid ""
 "Turn on/off the \"Share\" menu so users can share translation progress on "
 "social networks."
 msgstr ""
+"Ativa/desativa o menu \"Compartilhar\" para que os usuários possam "
+"compartilhar o progresso da tradução nas redes sociais."
 
 #: ../../admin/config.rst:580
 msgid "GITLAB_USERNAME"
-msgstr ""
+msgstr "GITLAB_USERNAME"
 
 #: ../../admin/config.rst:582
 msgid "GitLab username used to send merge requests for translation updates."
 msgstr ""
+"O nome de usuário GitLab usado para enviar merge requests para atualizações "
+"de tradução."
 
 #: ../../admin/config.rst:586
 msgid ":ref:`vcs-gitlab`, :ref:`lab-setup`"
-msgstr ""
+msgstr ":ref:`vcs-gitlab`, :ref:`lab-setup`"
 
 #: ../../admin/config.rst:592
 msgid "GITHUB_USERNAME"
-msgstr ""
+msgstr "GITHUB_USERNAME"
 
 #: ../../admin/config.rst:594
 msgid "GitHub username used to send pull requests for translation updates."
 msgstr ""
+"O nome de usuário GitHub usado para enviar pull request para atualizações de "
+"tradução."
 
 #: ../../admin/config.rst:598 ../../admin/install/docker.rst:470
 #: ../../admin/install/docker.rst:1184
 msgid ":ref:`vcs-github`, :ref:`hub-setup`"
-msgstr ""
+msgstr ":ref:`vcs-github`, :ref:`hub-setup`"
 
 #: ../../admin/config.rst:604
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:606
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
+"Google Analytics ID para ativar o monitoramento do Weblate usando o Google "
+"Analytics."
 
 #: ../../admin/config.rst:611
 msgid "HIDE_REPO_CREDENTIALS"
-msgstr ""
+msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:613
 msgid ""
@@ -5005,6 +5037,9 @@ msgid ""
 "have repository URL with user and password, Weblate will hide it when "
 "related info is shown to users."
 msgstr ""
+"Oculta credenciais de repositório na interface web. No caso de você ter URL "
+"do repositório com usuário e senha, o Weblate irá ocultá-la quando as "
+"informações relacionadas são mostradas aos usuários."
 
 #: ../../admin/config.rst:617
 msgid ""
@@ -5012,54 +5047,66 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"Por exemplo, em vez de ``https://usuário:senha@git.example.com/repo.git``, "
+"ela vai mostrar apenas ''https://git.example.com/repo.git'''. Ela tenta "
+"limpar mensagens de erro VCS também de forma semelhante."
 
 #: ../../admin/config.rst:623
 msgid "This is turned on by default."
-msgstr ""
+msgstr "Isso está ativado por padrão."
 
 #: ../../admin/config.rst:628
 msgid "IP_BEHIND_REVERSE_PROXY"
-msgstr ""
+msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:632
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Indica se o Weblate está sendo usado atrás de um proxy reverso."
 
 #: ../../admin/config.rst:634
 msgid ""
 "If set to \"True\", Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
+"Se definido como \"True\", o Weblate obtém endereço IP de um cabeçalho "
+"definido por :setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/config.rst:639
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"Certifique-se de que você está realmente usando um proxy reverso e que ele "
+"define este cabeçalho, caso contrário, os usuários poderão falsificar o "
+"endereço IP."
 
 #: ../../admin/config.rst:644
 msgid "This is not on by default."
-msgstr ""
+msgstr "Isso não está ativado por padrão."
 
 #: ../../admin/config.rst:648
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:656
 msgid "IP_PROXY_HEADER"
-msgstr ""
+msgstr "IP_PROXY_HEADER"
 
 #: ../../admin/config.rst:660
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
+"Indica de qual cabeçalho o Weblate deve obter o endereço IP quando "
+":setting:`IP_BEHIND_REVERSE_PROXY` está ativado."
 
 #: ../../admin/config.rst:663
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "Padrão é ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/config.rst:667
 msgid ""
@@ -5067,16 +5114,21 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:676
 msgid "IP_PROXY_OFFSET"
-msgstr ""
+msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:680
 msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
+"Indica qual parte de :setting:`IP_PROXY_HEADER` é usada como endereço IP do "
+"cliente."
 
 #: ../../admin/config.rst:683
 msgid ""
@@ -5084,16 +5136,22 @@ msgid ""
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
+"Dependendo da configuração, este cabeçalho pode consistir em vários "
+"endereços IP (por exemplo, ``X-Forwarded-For: a, b, client-ip``) e você pode "
+"configurar qual endereço do cabeçalho é usado como endereço IP do cliente "
+"aqui."
 
 #: ../../admin/config.rst:689
 msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
 msgstr ""
+"Configurar isso afeta a segurança da sua instalação, então você só deve "
+"configurá-la para usar proxies confiáveis para determinar o endereço IP."
 
 #: ../../admin/config.rst:692
 msgid "Defaults to 0."
-msgstr ""
+msgstr "O padrão é 0."
 
 #: ../../admin/config.rst:696
 msgid ""
@@ -5101,87 +5159,98 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:705
 msgid "LEGAL_URL"
-msgstr ""
+msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:709
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "URL onde sua instância de Weblate mostra seus documentos legais."
 
 #: ../../admin/config.rst:713
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Útil se você hospeda seus documentos legais fora do Weblate para incorporá-"
+"los ao Weblate, verifique :ref:`legal` para obter detalhes."
 
 #: ../../admin/config.rst:725
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:727
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "Licenças adicionais para incluir nas opções de licença."
 
 #: ../../admin/config.rst:731
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
+"Cada definição de licença deve ser uma tupla de seu nome curto, um nome "
+"longo e uma URL."
 
 #: ../../admin/config.rst:733 ../../admin/config.rst:756
 #: ../../admin/config.rst:883 ../../formats.rst:302
 msgid "For example:"
-msgstr ""
+msgstr "Por exemplo:"
 
 #: ../../admin/config.rst:748
 msgid "LICENSE_FILTER"
-msgstr ""
+msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:750
 msgid "Optional addition of licenses to show."
-msgstr ""
+msgstr "Adição opcional de licenças para mostrar."
 
 #: ../../admin/config.rst:754
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Este filtro usa os nomes de licença curtos."
 
 #: ../../admin/config.rst:765
 msgid "LICENSE_REQUIRED"
-msgstr ""
+msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:767
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr ""
+msgstr "Define se o atributo de licença em :ref:`component` é necessário."
 
 #: ../../admin/config.rst:771
 msgid "This is off by default."
-msgstr ""
+msgstr "Isso está desativado por padrão."
 
 #: ../../admin/config.rst:776
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
-msgstr ""
+msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:778
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string * 10 characters."
 msgstr ""
+"Se o comprimento de uma determinada tradução deve ser limitado. A restrição "
+"é o comprimento do texto fonte * 10 caracteres."
 
 #: ../../admin/config.rst:783
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
 msgstr ""
+"Defina isso como ``False`` para permitir traduções mais longas (até 10.000 "
+"caracteres) independentemente do comprimento do texto fonte."
 
 #: ../../admin/config.rst:787
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "O padrão é ``True``."
 
 #: ../../admin/config.rst:793
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL e LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:795
 msgid ""
@@ -5190,10 +5259,15 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"Essas configurações definem a extensão :ref:`addon-weblate.cdn.cdnjs`. "
+":setting:`LOCALIZE_CDN_URL` define a URL raiz onde o CDN de localização está "
+"disponível e :setting:`LOCALIZE_CDN_PATH` define o caminho onde o Weblate "
+"deve armazenar arquivos gerados que serão servidos em "
+":setting:`LOCALIZE_CDN_URL`."
 
 #: ../../admin/config.rst:802
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "No Hosted Weblate, é usada com ``https://weblate-cdn.com/``."
 
 #: ../../admin/config.rst:806
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -5201,45 +5275,50 @@ msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:811
 msgid "LOGIN_REQUIRED_URLS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:813
 msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
+"Uma lista de URLs para as quais você deseja exigir autenticação. (Além das "
+"regras padrão incorporadas ao Weblate)."
 
 #: ../../admin/config.rst:817
 msgid "This allows you to password protect a whole installation using:"
-msgstr ""
+msgstr "Isso permite que você proteja com senha toda uma instalação usando:"
 
 #: ../../admin/config.rst:830
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr ""
+"É desejável bloquear o acesso à API também, como mostrado no exemplo acima."
 
 #: ../../admin/config.rst:835
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:837
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the login page."
 msgstr ""
+"Lista de exceções para :setting:`LOGIN_REQUIRED_URLS`. Se não especificado, "
+"os usuários podem acessar a página de autenticação."
 
 #: ../../admin/config.rst:840
 msgid "Some of exceptions you might want to include:"
-msgstr ""
+msgstr "Algumas das exceções que você pode querer incluir:"
 
 #: ../../admin/config.rst:858
 msgid "MATOMO_SITE_ID"
-msgstr ""
+msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:860
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
-msgstr ""
+msgstr "ID de um site em Matomo (anteriormente Piwik) que você quer rastrear."
 
 #: ../../admin/config.rst:864 ../../admin/config.rst:881
 msgid "This integration does not support the Matomo Tag Manager."
