@@ -1,7 +1,7 @@
 {% if title %}
   {{ title }} @ {{ site_title }}
 {% elif unit %}
-  {{ object }} @ {{ site_title }}: {{ unit.get_source_plurals.0|truncatewords:10 }}
+  {{ object }} @ {{ site_title }}: {{ unit.source_string|truncatewords:10 }}
 {% elif object %}
   {{ object }} @ {{ site_title }}
 {% elif page_user %}

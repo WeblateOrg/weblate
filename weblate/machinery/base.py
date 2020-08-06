@@ -209,7 +209,7 @@ class MachineTranslation:
 
     def cleanup_text(self, unit):
         """Removes placeholder to avoid confusing the machine translation."""
-        text = unit.get_source_plurals()[0]
+        text = unit.source_string
         replacements = {}
         if not self.do_cleanup:
             return text, replacements

@@ -90,7 +90,7 @@ class BeginSpaceCheck(TargetCheck):
         return source_space != target_space
 
     def get_fixup(self, unit):
-        source = unit.get_source_plurals()[0]
+        source = unit.source_string
         stripped_source = source.lstrip(" ")
         spaces = len(source) - len(stripped_source)
         if spaces:
@@ -129,7 +129,7 @@ class EndSpaceCheck(TargetCheck):
         return source_space != target_space
 
     def get_fixup(self, unit):
-        source = unit.get_source_plurals()[0]
+        source = unit.source_string
         stripped_source = source.rstrip(" ")
         spaces = len(source) - len(stripped_source)
         if spaces:

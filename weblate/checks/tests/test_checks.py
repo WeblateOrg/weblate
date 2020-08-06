@@ -91,6 +91,10 @@ class MockUnit:
     def get_source_plurals(self):
         return [self.source]
 
+    @property
+    def source_string(self):
+        return self.source
+
 
 class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
