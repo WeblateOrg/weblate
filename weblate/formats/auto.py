@@ -39,10 +39,18 @@ def detect_filename(filename):
 
 def try_load(filename, content, original_format, template_store):
     """Try to load file by guessing type."""
+    # Start with original format and translate-toolkit based autodetection
     formats = [original_format, AutodetectFormat]
     detected_format = detect_filename(filename)
-    if detected_format is not None:
-        formats.insert(0, detected_format)
+    if detected_format is not None and detected_format != original_format:
+        # Insert detected filename into most probable location. In case the extension
+        # matches original, insert it after that as it is more likely that the upload
+        # is in the original format (for example if component is monolingual PO file,
+        # the uploaded PO file is more likely to be monolingual as well).
+        formats.insert(
+            1 if detected_format.extension == original_format.extension else 0,
+            detected_format,
+        )
     failure = Exception("Bug!")
     for file_format in formats:
         if file_format.monolingual in (True, None) and template_store:
