@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-04 13:59+0000\n"
-"PO-Revision-Date: 2020-08-02 18:00+0000\n"
+"PO-Revision-Date: 2020-08-08 20:04+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -297,14 +297,12 @@ msgid "Suggestions made"
 msgstr "提出的建議"
 
 #: weblate/accounts/forms.py:770
-#, fuzzy
-#| msgid "Comment added"
 msgid "Comments made"
-msgstr "加入了評註"
+msgstr "撰寫的評註"
 
 #: weblate/accounts/forms.py:771
 msgid "Screenshots uploaded"
-msgstr "畫面快照上傳"
+msgstr "上傳的螢幕擷圖"
 
 #: weblate/accounts/forms.py:794
 msgid "Invalid ordering"
@@ -885,14 +883,12 @@ msgid ""
 msgstr "儲存庫已過期，若未更新，可能無法得到預期結果。"
 
 #: weblate/addons/cdn.py:38
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "JavaScript 格式"
+msgstr "JavaScript 在地化 CDN"
 
 #: weblate/addons/cdn.py:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr ""
+msgstr "加入適用在地化 JavaScript 或 HTML 的在地化 CDN。"
 
 #: weblate/addons/cleanup.py:78
 msgid "Cleanup translation files"
@@ -1205,46 +1201,38 @@ msgid "Please include component markup in the template."
 msgstr "請在模板中納入組件標記。"
 
 #: weblate/addons/forms.py:393
-#, fuzzy
-#| msgid "Translation to remove"
 msgid "Translation threshold"
-msgstr "要移除的翻譯"
+msgstr "最低翻譯數"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Threshold for included translations."
-msgstr "新翻譯的模板"
+msgstr "包含翻譯的最低門檻。"
 
 #: weblate/addons/forms.py:401
-#, fuzzy
-#| msgid "Select"
 msgid "CSS selector"
-msgstr "選取"
+msgstr "CSS 選擇器"
 
 #: weblate/addons/forms.py:404
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "用來偵測可在地化元件的 CSS 選擇器。"
 
 #: weblate/addons/forms.py:407
-#, fuzzy
-#| msgid "Language name"
 msgid "Language cookie name"
-msgstr "語言名稱"
+msgstr "語言 Cookie 名稱"
 
 #: weblate/addons/forms.py:410
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "儲存語言偏好設定的 Cookie 名稱。"
 
 #: weblate/addons/forms.py:414
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "從 HTML 檔案擷取字串"
 
 #: weblate/addons/forms.py:417
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
-msgstr ""
+msgstr "目前儲存庫或遠端 URL 中，要解析可翻譯字串的檔案名稱清單。"
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
@@ -1373,7 +1361,7 @@ msgstr "指定的附加元件名稱無效！"
 
 #: weblate/addons/views.py:97
 msgid "Addon installed, please review integration instructions."
-msgstr ""
+msgstr "已安裝附加元件，請查看整合說明。"
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -2877,10 +2865,8 @@ msgid "INI file"
 msgstr "INI 檔"
 
 #: weblate/formats/ttkit.py:1399
-#, fuzzy
-#| msgid "InnoSetup INI file"
 msgid "Inno Setup INI file"
-msgstr "InnoSetup INI 檔"
+msgstr "Inno Setup INI 檔"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3709,10 +3695,8 @@ msgid "Most active screenshot uploaders"
 msgstr "最活躍的畫面快照上傳者"
 
 #: weblate/templates/about/stats.html:64
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active commenters"
-msgstr "最活躍的建議者"
+msgstr "最活躍的評註者"
 
 #: weblate/templates/about/stats.html:100
 msgid "Translatable strings"
@@ -4317,12 +4301,10 @@ msgid_plural "%(count)s screenshots"
 msgstr[0] "%(count)s 張螢幕擷圖"
 
 #: weblate/templates/accounts/user.html:47
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "%(count)s 票"
+msgstr[0] "%(count)s 則評註"
 
 #: weblate/templates/accounts/user.html:64
 msgid "Project contributions"
@@ -4423,18 +4405,16 @@ msgid "Some addons will ask for additional configuration during installation."
 msgstr "有些附加組件在安裝時會要求額外設定組態。"
 
 #: weblate/templates/addons/cdnjs.html:5
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Integration instructions"
-msgstr "翻譯指示"
+msgstr "整合說明"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
-msgstr ""
+msgstr "請加入以下程式碼片段，以從 CDN 讀取在地化內容："
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
-msgstr ""
+msgstr "可在地化的元件必須跟設定的 CSS 選擇器一致。"
 
 #: weblate/templates/addons/discovery_help.html:3
 msgid ""
@@ -7589,10 +7569,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "專案的網站網址指向不存在的位置："
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not execute script addon."
 msgid "Weblate could not parse HTML files using the addon."
-msgstr "Weblate 無法執行指令稿附加元件。"
+msgstr "Weblate 無法使用此附加元件解析 HTML。"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -10057,16 +10035,14 @@ msgid "Language used for source strings in all components"
 msgstr "此語言將作為所有組件的來源字串"
 
 #: weblate/trans/models/project.py:164
-#, fuzzy
-#| msgid "Language name"
 msgid "Language aliases"
-msgstr "語言名稱"
+msgstr "語言別名"
 
 #: weblate/trans/models/project.py:168
 msgid ""
 "Comma separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
-msgstr ""
+msgstr "用逗號分隔的語言碼映射清單，例如：en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
@@ -11023,7 +10999,7 @@ msgstr "禁止使用這個名稱"
 
 #: weblate/utils/validators.py:229
 msgid "Syntax error in language aliases."
-msgstr ""
+msgstr "語言別名中的語法錯誤。"
 
 #: weblate/utils/views.py:98
 msgid "Word count"
