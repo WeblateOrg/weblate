@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-05 06:36+0000\n"
+"PO-Revision-Date: 2020-08-10 22:05+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1109,16 +1109,21 @@ msgid ""
 "It can be used to localize static HTML pages or used to load localization in "
 "the JavaScript code."
 msgstr ""
+"Ним можна скористатися для локалізації статичних сторінок HTML або "
+"завантаження локалізації у коді JavaScript."
 
 #: ../../admin/addons.rst:43
 msgid "Upon installation the addon generates unique URL for your component."
 msgstr ""
+"Після встановлення додаток створює унікальну адрес для вашого складника."
 
 #: ../../admin/addons.rst:47
 msgid ""
 "This addon requires additional configuration, see :setting:"
 "`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"Цей додаток потребує додаткового налаштовування, див. "
+":setting:`LOCALIZE_CDN_URL` і :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../admin/addons.rst:51
 msgid "String extraction"
@@ -1132,6 +1137,12 @@ msgid ""
 "automatically. The files have to present in the repository or contain remote "
 "URLs which will be download and parsed regularly by Weblate."
 msgstr ""
+"Рядки перекладу мають бути на Weblate. Ви можете досягти цього або вручну за "
+"допомогою створення записів з програмного інтерфейсу, або вказавши адреси за "
+"допомогою поля :guilabel:`Видобути рядки з файлів HTML` (Weblate виконає "
+"видобування рядків автоматично). Файли мають зберігатися у сховищі коду або "
+"містити віддалені адреси, дані з яких може бути отримано і оброблено Weblate "
+"на регулярній основі."
 
 #: ../../admin/addons.rst:59
 msgid ""
@@ -1139,18 +1150,25 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+"За типових налаштувань :guilabel:`Селектор CSS` видобуває елементи із класом "
+"CSS ``l10n``. Наприклад, буде видобуто два рядки з таких фрагментів коду:"
 
 #: ../../admin/addons.rst:76
 msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
 msgstr ""
+"Якщо ви не хочете модифікувати наявний код, ви можете також скористатися "
+"``*`` як селектором для обробки таких елементів."
 
 #: ../../admin/addons.rst:81
 msgid ""
 "Right now, only text of the elements is extracted. This addon doesn't "
 "support localization of element attributes or elements with childs."
 msgstr ""
+"У поточній версії видобуватиметься лише текст елементів. У цьому додатку не "
+"передбачено підтримки локалізації атрибутів елементів або елементів із "
+"дочірніми записами."
 
 #: ../../admin/addons.rst:85
 msgid "HTML localization"
@@ -1160,6 +1178,8 @@ msgstr "Локалізація HTML"
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
+"Щоб локалізувати документ HTML, вам слід завантажити скрипт :file:`weblate."
+"js`:"
 
 #: ../../admin/addons.rst:93
 msgid ""
@@ -1167,12 +1187,17 @@ msgid ""
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"Після завантаження він автоматично знайде усі відповідні придатні до "
+"перекладу елементи (на основі налаштувань :guilabel:`селектора CSS`) і "
+"замінить їх текст на переклад."
 
 #: ../../admin/addons.rst:97
 msgid ""
 "The user language is detected from the cookie (if :guilabel:`Language cookie "
 "name` is configured) and user preferred languages configured in the browser."
 msgstr ""
+"Мова користувача визначається за кукою (якщо налаштовано :guilabel:`Назву "
+"куки мови`) і бажані мови, які налаштовано у браузері."
 
 #: ../../admin/addons.rst:101
 msgid "JavaScript localization"
@@ -4458,6 +4483,7 @@ msgstr "Типове значення: каталог верхнього рів�
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgstr ""
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:212
 msgid ""
@@ -4468,7 +4494,7 @@ msgstr ""
 
 #: ../../admin/config.rst:216
 msgid "All these default to empty list."
-msgstr ""
+msgstr "Для усіх цих змінних типових значенням є порожній список."
 
 #: ../../admin/config.rst:218
 msgid "** Example:: **"
@@ -4479,6 +4505,8 @@ msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/"
+"en-US/docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:233
 msgid "CHECK_LIST"
@@ -5218,7 +5246,7 @@ msgstr "Типове значення — ``True``."
 
 #: ../../admin/config.rst:793
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL і LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:795
 msgid ""
@@ -5230,7 +5258,7 @@ msgstr ""
 
 #: ../../admin/config.rst:802
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "На базовому Weblate використано ``https://weblate-cdn.com/``."
 
 #: ../../admin/config.rst:806
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -6139,7 +6167,7 @@ msgstr "Вимкніть, якщо вам потрібні різні перек
 
 #: ../../admin/config.rst:1482
 msgid "SITE_DOMAIN"
-msgstr ""
+msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1484
 msgid ""
@@ -7923,6 +7951,8 @@ msgid ""
 "Weblate tries to create these directories automatically, but it will fail "
 "when it does not have permissions to do so."
 msgstr ""
+"Weblate намагається створити каталоги автоматично, але це неможливо зробити, "
+"якщо для цього немає прав доступу."
 
 #: ../../admin/install.rst:285
 msgid ""
@@ -8020,6 +8050,10 @@ msgid ""
 "mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with "
 "those."
 msgstr ""
+"Weblate можна також користуватися із MySQL або MariaDB. Будь ласка, "
+"ознайомтеся із розділами :ref:`django:mysql-notes` і :ref:`django:mariadb-"
+"notes`, щоб дізнатися більше про можливі проблеми із використанням Django "
+"разом із цими серверами баз даних."
 
 #: ../../admin/install.rst:379
 msgid "Following configuration is recommended for Weblate:"
@@ -8063,6 +8097,9 @@ msgid ""
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
 msgstr ""
+"Weblate надсилає повідомлення електронної пошти з різних нагод — для "
+"активації облікових записів та сповіщення щодо різних подій, які налаштовано "
+"користувачами. Для надсилання пошти програмі потрібен доступ до сервера SMTP."
 
 #: ../../admin/install.rst:398
 msgid ""
@@ -8071,6 +8108,11 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
+"Сервер електронної пошти можна налаштувати за допомогою таких параметрів: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_HOST_USER` і :setting:`django:EMAIL_PORT`. Назви "
+"параметрів є доволі прозорими з точки зору їхнього призначення, але ви "
+"можете знайти і докладніший опис у документації до Django."
 
 #: ../../admin/install.rst:406
 msgid ""
