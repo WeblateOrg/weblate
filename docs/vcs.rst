@@ -257,7 +257,7 @@ GitHub
 
 .. versionadded:: 2.3
 
-This adds a thin layer atop :ref:`vcs-git` using the `hub`_ tool to allow pushing
+This adds a thin layer atop :ref:`vcs-git` using the `Github API`_ to allow pushing
 translation changes as pull requests, instead of pushing directly to the repository.
 
 :ref:`vcs-git` pushes changes directly to a repository, while
@@ -275,38 +275,15 @@ Pushing changes to GitHub as pull requests
 ++++++++++++++++++++++++++++++++++++++++++
 
 If not wanting to push translations to a GitHub repository, they can be sent as either
-one or many pull requests instead.
+one or many pull requests instead. You need to setup a :setting:`GITHUB_TOKEN`
+used to make API calls
 
 
 .. seealso::
 
-   :setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration instructions
+   :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN` for configuration instructions
 
-.. _hub-setup:
-
-Setting up hub
-++++++++++++++
-
-:ref:`github-push` requires a configured `hub`_ installation on your server.
-Follow the installation instructions at https://hub.github.com/ use `hub`_ to
-finish the configuration, for example:
-
-.. code-block:: sh
-
-    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
-    HOME=${DATA_DIR}/home hub clone octocat/Spoon-Knife
-
-The `hub`_ will ask you for your GitHub credentials, retrieve a token and store
-it in :file:`~/.config/hub`. This file has to be readable by the user running
-Weblate.
-
-.. note::
-
-    Use the username you configured :guilabel:`hub` with, as
-    :setting:`GITHUB_USERNAME` (:envvar:`WEBLATE_GITHUB_USERNAME` for the
-    Docker image).
-
-.. _hub: https://hub.github.com/
+.. _Github API: https://docs.github.com/en/rest
 
 .. _vcs-gitlab:
 
@@ -315,7 +292,7 @@ GitLab
 
 .. versionadded:: 3.9
 
-This just adds a thin layer atop :ref:`vcs-git` using the `lab`_ tool to allow
+This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to allow
 pushing translation changes as merge requests instead of
 pushing directly to the repository.
 
@@ -336,43 +313,13 @@ Pushing changes to GitLab as merge requests
 If not wanting to push translations to a GitLab repository, they can be sent as either
 one or many merge requests instead.
 
-Configure the `lab`_ command line tool and set :setting:`GITLAB_USERNAME` for this to work.
+Set :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN` for this to work.
 
 .. seealso::
 
-   :setting:`GITLAB_USERNAME`, :ref:`lab-setup` for configuration instructions
+   :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN` for configuration instructions
 
-.. _lab-setup:
-
-Setting up Lab
-++++++++++++++
-
-:ref:`gitlab-push` requires a configured `lab`_ installation on your server.
-Follow the installation instructions at `lab`_ and run it without any arguments to
-finish the configuration, for example:
-
-.. code-block:: sh
-
-    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
-    $ HOME=${DATA_DIR}/home lab
-    Enter GitLab host (default: https://gitlab.com):
-    Create a token here: https://gitlab.com/profile/personal_access_tokens
-    Enter default GitLab token (scope: api):
-    (Config is saved to ~/.config/lab.hcl)
-
-
-The `lab`_ will ask you for your GitLab access token, retrieve it and
-store it in :file:`~/.config/lab.hcl`. The file has to be readable by
-the user running Weblate.
-
-
-.. note::
-
-    Use the username you configured :guilabel:`lab` with, as
-    :setting:`GITLAB_USERNAME` (:envvar:`WEBLATE_GITLAB_USERNAME` for the
-    Docker image).
-
-.. _lab: https://github.com/zaquestion/lab
+.. _GitLab API: https://docs.gitlab.com/ee/api/
 
 .. _vcs-gerrit:
 

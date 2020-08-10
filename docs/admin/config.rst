@@ -583,8 +583,19 @@ GitLab username used to send merge requests for translation updates.
 
 .. seealso::
 
+   :ref:`vcs-gitlab`
+
+.. setting:: GITLAB_TOKEN
+
+GITLAB_TOKEN
+---------------
+
+GitLab personal access token used to make API calls for translation updates.
+
+.. seealso::
+
    :ref:`vcs-gitlab`,
-   :ref:`lab-setup`
+   `GitLab: Personal access token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_
 
 .. setting:: GITHUB_USERNAME
 
@@ -595,8 +606,20 @@ GitHub username used to send pull requests for translation updates.
 
 .. seealso::
 
+   :ref:`vcs-github`
+
+.. setting:: GITHUB_TOKEN
+
+GITHUB_TOKEN
+---------------
+
+GitHub personal access token used to make API calls to send pull requests for
+translation updates.
+
+.. seealso::
+
    :ref:`vcs-github`,
-   :ref:`hub-setup`
+   `Creating a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
