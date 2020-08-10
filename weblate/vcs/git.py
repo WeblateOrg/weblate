@@ -685,6 +685,7 @@ class GithubRepository(GitMergeRequestBase):
             },
         )
         response = r.json()
+
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
         # doesn't return any other separate indication for a pull request existing
@@ -693,14 +694,20 @@ class GithubRepository(GitMergeRequestBase):
             # Sometimes GitHub returns the error messages in an errors list
             # instead of the message. Sometimes, there is no errors list.
             # Hence the different logics
-            if "errors" in response and not response["errors"][0]["message"].find(
-                "A pull request already exists"
+            if (
+                "errors" in response
+                and response["errors"][0]["message"].find(
+                    "A pull request already exists"
+                )
+                == -1
             ):
                 error_message = "{}: {}".format(
                     response["message"], response["errors"][0]["message"]
                 )
-            else:
+            elif "message" in response:
                 error_message = response["message"]
+            else:
+                return
             report_error(
                 cause="Pull request failed", extra_data={"errors": response["message"]}
             )
@@ -932,9 +939,10 @@ class GitLabRepository(GitMergeRequestBase):
             },
         )
         response = r.json()
+
         if "web_url" not in response and (
             type(response["message"]) is not list
-            or not response["message"][0].find("open merge request already exists")
+            or response["message"][0].find("open merge request already exists") == -1
         ):
             report_error(
                 cause="Pull request failed", extra_data={"errors": response["message"]}
