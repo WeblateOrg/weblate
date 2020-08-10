@@ -168,13 +168,13 @@ The following keyboard shortcuts can be utilized during translation:
 :kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`
     Ignore one item in the list of failing checks.
 :kbd:`Ctrl+J` or :kbd:`Cmd+J`
-    Shows nearby strings tab.
+    Shows the :guilabel:`Nearby strings` tab.
 :kbd:`Ctrl+S` or :kbd:`Cmd+S`
     Shows search tab.
 :kbd:`Ctrl+O` or :kbd:`Cmd+O`
     Copies source string.
 :kbd:`Ctrl+Y` or :kbd:`Cmd+Y`
-    Toggles "Needs editing" flag.
+    Toggles the :guilabel:`Needs editing` flag.
 
 .. _visual-keyboard:
 

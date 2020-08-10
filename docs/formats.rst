@@ -185,7 +185,7 @@ The bilingual gettext PO file typically looks like this:
     :ref:`addon-weblate.gettext.customize`,
     :ref:`addon-weblate.gettext.linguas`,
     :ref:`addon-weblate.gettext.mo`,
-    :ref:`addon-weblate.gettext.msgmerge`,
+    :ref:`addon-weblate.gettext.msgmerge`
 
 .. _mono_gettext:
 
@@ -292,7 +292,7 @@ See :ref:`reviews`.
 
 Similarly upon importing such files (in the upload form), you should choose
 :guilabel:`Import as translated` under
-:guilabel:`Processing of strings needing review`.
+:guilabel:`Processing of strings needing edit`.
 
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
@@ -405,7 +405,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
     :doc:`tt:formats/properties`,
     :ref:`addon-weblate.properties.sort`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _gwt:
 
@@ -436,7 +436,7 @@ GWT properties are usually used as monolingual translations.
     `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_
     :doc:`tt:formats/properties`,
     :ref:`addon-weblate.properties.sort`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _ini:
 
@@ -843,7 +843,7 @@ Example file:
     :doc:`tt:formats/json`,
     `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
     :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _go-i18n-json:
 
@@ -913,7 +913,7 @@ with (what is most often the) English strings.
     `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
     `Internationalizing Flutter apps <https://flutter.dev/docs/development/accessibility-and-localization/internationalization>`_,
     :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _webex:
 
@@ -967,8 +967,8 @@ Example file:
 .. versionadded:: 2.3
 
 A .XML resource (.resx) file employs a monolingual XML file format used in Microsoft
-.NET applications. It is [interchangeable with .resw, when using identical
-syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-localization).
+.NET applications. It is :ref:`interchangeable with .resw, when using identical
+syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-localization>`.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -979,7 +979,7 @@ syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-locali
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `.XML resource file`             |
+| File format                    | `.NET resource file`             |
 +--------------------------------+----------------------------------+
 
 .. seealso::
