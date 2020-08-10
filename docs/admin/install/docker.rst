@@ -469,6 +469,15 @@ Generic settings
 
        :ref:`vcs-github`
 
+.. envvar:: WEBLATE_GITHUB_TOKEN
+
+    Configures GitHub personal access token for GitHub pull-requests via API by changing
+    :setting:`GITHUB_TOKEN`.
+
+    .. seealso::
+
+       :ref:`vcs-github`
+
 .. envvar:: WEBLATE_GITLAB_USERNAME
 
     Configures GitLab username for GitLab merge-requests by changing
@@ -478,17 +487,18 @@ Generic settings
 
        :ref:`vcs-gitlab`
 
-.. envvar:: WEBLATE_GITLAB_HOST
+.. envvar:: WEBLATE_GITLAB_TOKEN
 
-    Configures GitLab Host for GitLab merge-requests
+    Configures GitLab personal access token for GitLab merge-requests via API by changing
+    :setting:`GITLAB_TOKEN`
 
     .. seealso::
 
        :ref:`vcs-gitlab`
 
-.. envvar:: WEBLATE_GITLAB_TOKEN
+.. envvar:: WEBLATE_GITLAB_HOST
 
-    Configures GitLab access token for GitLab merge-requests
+    Configures GitLab Host for GitLab merge-requests
 
     .. seealso::
 
