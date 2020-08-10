@@ -29,13 +29,7 @@ from django.db import connection
 
 import weblate
 from weblate.utils.errors import report_error
-from weblate.vcs.git import (
-    GithubRepository,
-    GitLabRepository,
-    GitRepository,
-    GitWithGerritRepository,
-    SubversionRepository,
-)
+from weblate.vcs.git import GitRepository, GitWithGerritRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
 
 REQUIRES = [
@@ -145,16 +139,6 @@ def get_optional_versions():
                 "https://pypi.org/project/git-review/",
                 GitWithGerritRepository.get_version(),
             )
-        )
-
-    if GithubRepository.is_supported():
-        result.append(
-            ("hub", "https://hub.github.com/", GithubRepository.get_version())
-        )
-
-    if GitLabRepository.is_supported():
-        result.append(
-            ("lab", "https://zaquestion.github.io/lab/", GitLabRepository.get_version())
         )
 
     return result
