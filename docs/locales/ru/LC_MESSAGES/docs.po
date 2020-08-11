@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-10 22:05+0000\n"
-"Last-Translator: Alexey Napalkov <flynbit@gmail.com>\n"
+"PO-Revision-Date: 2020-08-12 07:29+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -8691,6 +8691,9 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
+"С помощью докеризированного развёртывания Weblate вы можете запустить ваш "
+"личный экземпляр Weblate за считанные секунды. Все зависимости Weblate уже "
+"включены в образ. В качестве базы данных по умолчанию настроена PostgreSQL."
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -8702,6 +8705,9 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
+"Weblate должен без проблем работать на всём современном оборудовании, ниже "
+"приведена минимальная конфигурация, необходимая для запуска Weblate на одном "
+"узле (сам Weblate, база данных и веб-сервер):"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -8720,18 +8726,25 @@ msgid ""
 "The more memory the better - it is used for caching on all levels "
 "(filesystem, database and Weblate)."
 msgstr ""
+"Чем больше памяти, тем лучше — она используется для кэширования на всех "
+"уровнях (на уровне файловой системы, уровне базы данных и уровне Weblate)."
 
 #: ../../admin/install/steps/hw.rst:15
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
 msgstr ""
+"Множество одновременно работающих пользователей увеличивают количество "
+"необходимых ядер процессора. Для сотен компонентов перевода рекомендуется не "
+"менее 4 Гб оперативной памяти."
 
 #: ../../admin/install/steps/hw.rst:21
 msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
+"Фактические требования к вашей установке Weblate сильно зависят от размера "
+"управляемый ей переводов."
 
 #: ../../admin/install/docker.rst:15
 #: ../../admin/install/steps/install-system-devel.rst:2
@@ -8747,50 +8760,69 @@ msgid ""
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
 msgstr ""
+"В следующих примерах предполагается, что у вас есть рабочее окружение Docker’"
+"а, в котором установлен ``docker-compose``. Для получения конкретных "
+"инструкций ознакомьтесь с документацией к Docker’у."
 
 #: ../../admin/install/docker.rst:20
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "Склонируйте репозиторий weblate-docker:"
 
 #: ../../admin/install/docker.rst:27
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Создайте файл :file:`docker-compose.override.yml` со своими настройками. "
+"Полный список переменных окружения приведён в разделе :ref:`docker-"
+"environment`."
 
 #: ../../admin/install/docker.rst:49
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Если переменная :envvar:`WEBLATE_ADMIN_PASSWORD` не установлена, то "
+"пользователь-администратор создаётся со случайным паролем, отображаемым при "
+"первом запуске."
 
 #: ../../admin/install/docker.rst:52
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose-override.yml` file to change it."
 msgstr ""
+"Приведённый пример настраивает Weblate на прослушку порта 80, чтобы его "
+"изменить, отредактируйте отображение портов в файле :file:`docker-compose-"
+"override.yml`."
 
 #: ../../admin/install/docker.rst:55
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "Запустите контейнеры Weblate:"
 
 #: ../../admin/install/docker.rst:61
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Наслаждайтесь своим развёрнутым Weblate’ом, он доступен на порту 80 "
+"контейнера ``weblate``."
 
 #: ../../admin/install/docker.rst:65
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
 msgstr ""
+"Недавно настройка изменилась, ранее существовал отдельный контейнер веб-"
+"сервера, но с версии 2.15-2 веб-сервер встроен в контейнер Weblate."
 
 #: ../../admin/install/docker.rst:71
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers is not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
 msgstr ""
+"С июля 2019 года (начиная с метки 3.7.1-6) контейнеры больше не запускают "
+"своё содержимое под пользователем root. Это изменение привело к изменению "
+"открытого порта с 80 на 8080."
 
 #: ../../admin/install/docker.rst:74
 msgid ":ref:`invoke-manage`"
@@ -8798,7 +8830,7 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:79
 msgid "Docker container with HTTPS support"
-msgstr ""
+msgstr "Контейнер Docker с поддержкой HTTPS"
 
 #: ../../admin/install/docker.rst:81
 msgid ""
@@ -8808,7 +8840,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:85
 msgid "Using own SSL certificates"
-msgstr ""
+msgstr "Использование собственных SSL-сертификатов"
 
 #: ../../admin/install/docker.rst:89
 msgid ""
@@ -8856,7 +8888,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:134
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "Автоматический выпуск SSL-сертификатов с помощью сервиса Let’s Encrypt"
 
 #: ../../admin/install/docker.rst:136
 msgid ""
@@ -8876,7 +8908,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:167
 msgid "Upgrading the Docker container"
-msgstr ""
+msgstr "Обновление контейнера Docker’а"
 
 #: ../../admin/install/docker.rst:169
 msgid ""
@@ -8915,7 +8947,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:199
 msgid "Admin login"
-msgstr ""
+msgstr "Вход под администратором"
 
 #: ../../admin/install/docker.rst:201
 msgid ""
@@ -8923,12 +8955,18 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"После настройки контейнера вы можете войти в систему под пользователем "
+"`admin` с паролем, указанным в переменной окружения "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, или случайным паролем, сгенерированным при "
+"первом запуске, если он не был установлен явно."
 
 #: ../../admin/install/docker.rst:205
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Для сброса пароля пользователя `admin` перезапустите контейнер с переменной "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, установленной в новое значение пароля."
 
 #: ../../admin/install/docker.rst:210
 msgid ""
@@ -8940,21 +8978,25 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:217
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Переменные окружения Docker’а"
 
 #: ../../admin/install/docker.rst:219
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using "
 "environment variables:"
 msgstr ""
+"Многие :ref:`конфигурационные настройки <config>` Weblate в контейнере "
+"Docker могут быть установлены через переменные окружения:"
 
 #: ../../admin/install/docker.rst:222
 msgid "Generic settings"
-msgstr ""
+msgstr "Общие параметры"
 
 #: ../../admin/install/docker.rst:226
 msgid "Configures Django debug mode using :setting:`DEBUG`."
 msgstr ""
+"Настраивает отладочный режим Django, используя её переменную "
+":setting:`DEBUG`."
 
 #: ../../admin/install/docker.rst:228 ../../admin/install/docker.rst:268
 #: ../../admin/install/docker.rst:322 ../../admin/install/docker.rst:339
@@ -9011,17 +9053,21 @@ msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:284
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "Устанавливает пароль для пользователя `admin`."
 
 #: ../../admin/install/docker.rst:286
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Если не установлен и пользователя `admin` не существует, он создаётся со "
+"случайным паролем, который показывается при первом запуске контейнера."
 
 #: ../../admin/install/docker.rst:288
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Если не установлен и пользователя `admin` не существует, никакие действия не "
+"выполняются."
 
 #: ../../admin/install/docker.rst:289
 msgid ""
@@ -9029,6 +9075,10 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Если установлен, при каждом запуске контейнера пользователю `admin` "
+"устанавливаются соответствующие пароль :envvar:`WEBLATE_ADMIN_PASSWORD`, имя "
+":envvar:`WEBLATE_ADMIN_NAME` и адрес электронной почты "
+":envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: ../../admin/install/docker.rst:295
 msgid ""
@@ -9036,6 +9086,10 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
+"Хранение пароля в файле конфигурации может представлять собой угрозу "
+"безопасности. Подумайте об использовании этой переменной только для "
+"начальной установки (или пусть Weblate сгенерирует при начальной загрузке "
+"случайный пароль) или для восстановления пароля."
 
 #: ../../admin/install/docker.rst:302
 msgid ""
@@ -9047,7 +9101,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:310
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Настраивает адрес для исходящих сообщений электронной почты."
 
 #: ../../admin/install/docker.rst:314
 msgid ":ref:`production-email`"
@@ -9056,10 +9110,13 @@ msgstr ":ref:`production-email`"
 #: ../../admin/install/docker.rst:318
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr ""
+"Настраивает разрешённые имена HTTP-хостов с помощью параметра "
+":setting:`ALLOWED_HOSTS`."
 
 #: ../../admin/install/docker.rst:320
 msgid "Defaults to ``*`` which allows all hostnames."
 msgstr ""
+"По умолчанию установлен в ``*``, что позволяет использовать все имена хостов."
 
 #: ../../admin/install/docker.rst:331
 msgid ""
@@ -9072,36 +9129,50 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Настраивает статус открытия регистрации, переключая параметр "
+":std:setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/install/docker.rst:348
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+"Настраивает через параметр :setting:`REGISTRATION_ALLOW_BACKENDS` методы "
+"аутентификации, которые можно использовать для создания новой учётной записи."
 
 #: ../../admin/install/docker.rst:361
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
+"Настраивает используемый в Weblate часовой пояс, смотрите описание параметра "
+":std:setting:`django:TIME_ZONE`."
 
 #: ../../admin/install/docker.rst:365
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
+"Для изменения часового пояса самого контейнера Docker используйте переменную "
+"окружения ``TZ``."
 
 #: ../../admin/install/docker.rst:377
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
+"Заставляет Weblate думать, что он работает за обратным HTTPS-прокси, что "
+"принуждает Weblate использовать HTTPS в ссылках писем электронной почты и "
+"API или устанавливать у кук флаги безопасности."
 
 #: ../../admin/install/docker.rst:382
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
+"Этот параметр не включает разрешение на приём контейнером Weblate’а "
+"соединений по HTTPS, его нужно настроить отдельно, для примеров смотрите "
+"раздел :ref:`docker-ssl`."
 
 #: ../../admin/install/docker.rst:394
 msgid ":ref:`production-site`"
@@ -9196,29 +9267,38 @@ msgstr ":ref:`vcs-gitlab` :ref:`lab-setup`"
 
 #: ../../admin/install/docker.rst:485
 msgid "Configures GitLab Host for GitLab merge-requests"
-msgstr ""
+msgstr "Настраивает хост GitLab’а для GitLab’овских запросов на слияние"
 
 #: ../../admin/install/docker.rst:494
 msgid "Configures GitLab access token for GitLab merge-requests"
 msgstr ""
+"Настраивает токен доступа GitLab’а для GitLab’овских запросов на слияние"
 
 #: ../../admin/install/docker.rst:503
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
+"Настраивает политику упрощения языка, смотрите описание параметра "
+":setting:`SIMPLIFY_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:507
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Настраивает значение по умолчанию для :ref:`управления доступом <project-"
+"access_control>` в новых проектах, смотрите описание параметра "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/install/docker.rst:511
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Настраивает значение по умолчанию для :ref:`ограниченного доступа <component-"
+"restricted>` в новых компонентах, смотрите описание параметра "
+":setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/install/docker.rst:515
 msgid ""
@@ -9226,61 +9306,79 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"Настраивает значение по умолчанию для значения настройки :ref:`component-"
-"allow_translation_propagation` в новых компонентах, смотрите параметр :"
-"setting:`DEFAULT_TRANSLATION_PROPAGATION`."
+"Настраивает значение по умолчанию для :ref:`разрешения распространения "
+"переводов <component-allow_translation_propagation>` в новых компонентах, "
+"смотрите описание параметра :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:519
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr ""
+"Настраивает API-ключ Akismet, смотрите описание параметра "
+":setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:523
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
+"Настраивает подписывание коммитов через GPG, смотрите описание параметра "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:531
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
+"Настраивает префикс URL-адреса, на котором запущен Weblate, смотрите "
+"описание параметра :setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:535
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
+"Настраивает проверки, которые вы не хотите видеть, смотрите описание "
+"параметра :setting:`django:SILENCED_SYSTEM_CHECKS`."
 
 #: ../../admin/install/docker.rst:544
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr ""
+"Позволяет настраивать HTTP-заголовок политики безопасности содержимого "
+"``Content-Security-Policy``."
 
 #: ../../admin/install/docker.rst:548
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgstr ""
+":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
 #: ../../admin/install/docker.rst:556
 msgid "Machine translation settings"
-msgstr ""
+msgstr "Параметры машинного перевода"
 
 #: ../../admin/install/docker.rst:562
 msgid "Configures :ref:`aws` machine translation."
-msgstr ""
+msgstr "Настраивает машинный перевод от :ref:`aws`."
 
 #: ../../admin/install/docker.rst:573
 msgid ""
 "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
 msgstr ""
+"Включает машинный перевод от :ref:`deepl` и устанавливает параметр "
+":setting:`MT_DEEPL_KEY`"
 
 #: ../../admin/install/docker.rst:577
 msgid ""
 "Configures :ref:`deepl` API version to use, see :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
+"Настраивает используемую версию API :ref:`deepl`, смотрите описание "
+"параметра :setting:`MT_DEEPL_API_VERSION`."
 
 #: ../../admin/install/docker.rst:581
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
 msgstr ""
+"Включает машинный перевод от :ref:`google-translate` и устанавливает "
+"параметр :setting:`MT_GOOGLE_KEY`"
 
 #: ../../admin/install/docker.rst:585
 msgid ""
@@ -9312,19 +9410,21 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:613
 msgid "Enables :ref:`glosbe` machine translation."
-msgstr ""
+msgstr "Включает машинный перевод от :ref:`glosbe`."
 
 #: ../../admin/install/docker.rst:622
 msgid "Enables :ref:`ms-terminology` machine translation."
 msgstr ""
+"Включает машинный перевод от :ref:`терминологической службы Майкрософт <ms-"
+"terminology>`."
 
 #: ../../admin/install/docker.rst:635
 msgid "Configures :ref:`saptranslationhub` machine translation."
-msgstr ""
+msgstr "Настраивает машинный перевод от :ref:`saptranslationhub`."
 
 #: ../../admin/install/docker.rst:649
 msgid "Authentication settings"
-msgstr ""
+msgstr "Параметры аутентификации"
 
 #: ../../admin/install/docker.rst:652
 msgid "LDAP"
@@ -9332,19 +9432,19 @@ msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:663
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "Конфигурация аутентификации через LDAP."
 
 #: ../../admin/install/docker.rst:665
 msgid "**Example for direct bind:**"
-msgstr ""
+msgstr "**Пример прямой привязки:**"
 
 #: ../../admin/install/docker.rst:676
 msgid "**Example for search and bind:**"
-msgstr ""
+msgstr "**Пример поиска и привязки:**"
 
 #: ../../admin/install/docker.rst:688
 msgid "**Example with search and bind against Active Directory:**"
-msgstr ""
+msgstr "**Пример поиска и привязки в Active Directory:**"
 
 #: ../../admin/install/docker.rst:703
 msgid ":ref:`ldap-auth`"
@@ -9356,7 +9456,7 @@ msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:711
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr "Включает :ref:`аутентификацию через GitHub <github_auth>`."
 
 #: ../../admin/install/docker.rst:714
 msgid "Bitbucket"
@@ -9364,7 +9464,7 @@ msgstr "Bitbucket"
 
 #: ../../admin/install/docker.rst:719
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr "Включает :ref:`аутентификацию через Bitbucket <bitbucket_auth>`."
 
 #: ../../admin/install/docker.rst:722
 msgid "Facebook"
@@ -9372,7 +9472,7 @@ msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:727
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr "Включает :ref:`facebook_auth`."
 
 #: ../../admin/install/docker.rst:730
 msgid "Google"
@@ -9380,7 +9480,7 @@ msgstr "Google"
 
 #: ../../admin/install/docker.rst:737
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr "Включает :ref:`google_auth`."
 
 #: ../../admin/install/docker.rst:740 ../../vcs.rst:314
 msgid "GitLab"
@@ -9388,25 +9488,29 @@ msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:746
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr "Включает :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:749
 msgid "Azure Active Directory"
-msgstr ""
+msgstr "Azure Active Directory"
 
 #: ../../admin/install/docker.rst:754
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
+"Включает аутентификацию через Azure Active Directory, смотрите :ref:`azure-"
+"auth`."
 
 #: ../../admin/install/docker.rst:757
 msgid "Azure Active Directory with Tenant support"
-msgstr ""
+msgstr "Azure Active Directory с поддержкой Tenant"
 
 #: ../../admin/install/docker.rst:763
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
+"Включает аутентификацию через Azure Active Directory с поддержкой Tenant, "
+"смотрите :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:767
 msgid "Keycloak"
@@ -9418,10 +9522,13 @@ msgid ""
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
 "py>`_."
 msgstr ""
+"Включает аутентификацию через Keycloak, смотрите `документацию "
+"<https://github.com/python-social-auth/social-core/blob/master/social_core/"
+"backends/keycloak.py>`_."
 
 #: ../../admin/install/docker.rst:780
 msgid "Linux vendors"
-msgstr ""
+msgstr "Поставщики Linux"
 
 #: ../../admin/install/docker.rst:782
 msgid ""
@@ -9450,21 +9557,25 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:814
 msgid "Other authentication settings"
-msgstr ""
+msgstr "Другие параметры аутентификации"
 
 #: ../../admin/install/docker.rst:818
 msgid "Disables e-mail authentication when set to any value."
 msgstr ""
+"При установке в любое значение отключает аутентификацию через электронную "
+"почту."
 
 #: ../../admin/install/docker.rst:822
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "Настройки базы данных PostgreSQL"
 
 #: ../../admin/install/docker.rst:824
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"База данных создается в файле :file:`docker-compose.yml`, поэтому эти "
+"настройки влияют как на контейнер Weblate, так и на контейнер PostgreSQL."
 
 #: ../../admin/install/docker.rst:827
 msgid ":ref:`database-setup`"
@@ -9472,23 +9583,26 @@ msgstr ":ref:`database-setup`"
 
 #: ../../admin/install/docker.rst:831
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "Пароль PostgreSQL."
 
 #: ../../admin/install/docker.rst:835
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "Имя пользователя PostgreSQL."
 
 #: ../../admin/install/docker.rst:839
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "Имя базы данных PostgreSQL."
 
 #: ../../admin/install/docker.rst:843
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"Имя хоста или IP-адрес сервера PostgreSQL. По умолчанию равен ``database``."
 
 #: ../../admin/install/docker.rst:847
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"Порт сервера PostgreSQL. По умолчанию не установлен (используется значение "
+"по умолчанию)."
 
 #: ../../admin/install/docker.rst:851
 msgid ""
@@ -9499,7 +9613,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:856
 msgid "Database backup settings"
-msgstr ""
+msgstr "Параметры резервного копирования базы данных"
 
 #: ../../admin/install/docker.rst:859
 msgid ":ref:`backup-dumps`"
@@ -9513,7 +9627,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:867
 msgid "Caching server setup"
-msgstr ""
+msgstr "Настройка сервера кэширования"
 
 #: ../../admin/install/docker.rst:869
 msgid ""
@@ -9552,7 +9666,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:899
 msgid "Email server setup"
-msgstr ""
+msgstr "Настройка почтового сервера"
 
 #: ../../admin/install/docker.rst:901
 msgid "To make outgoing e-mail work, you need to provide a mail server."
@@ -9560,11 +9674,11 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:903
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "Пример конфигурации TLS:"
 
 #: ../../admin/install/docker.rst:912
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "Пример конфигурации SSL:"
 
 #: ../../admin/install/docker.rst:925
 msgid ":ref:`out-mail`"
@@ -9649,7 +9763,7 @@ msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:993
 msgid "Error reporting"
-msgstr ""
+msgstr "Отчёты об ошибках"
 
 #: ../../admin/install/docker.rst:995
 msgid ""
@@ -9684,6 +9798,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:1019
 msgid "Changing enabled apps, checks, addons or autofixes"
 msgstr ""
+"Изменение включённых приложений, проверок, надстроек или автоматических "
+"исправлений"
 
 #: ../../admin/install/docker.rst:1023
 msgid ""
@@ -9762,7 +9878,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1114
 msgid "Further configuration customization"
-msgstr ""
+msgstr "Дальнейшая настройка конфигурации"
 
 #: ../../admin/install/docker.rst:1116
 msgid ""
@@ -9772,7 +9888,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1122
 msgid "Custom configuration files"
-msgstr ""
+msgstr "Пользовательские файлы конфигурации"
 
 #: ../../admin/install/docker.rst:1124
 msgid ""
@@ -9784,7 +9900,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1130
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "Замена логотипа и других статических файлов"
 
 #: ../../admin/install/docker.rst:1134
 msgid ""
@@ -9808,7 +9924,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1157
 msgid "Adding own Python modules"
-msgstr ""
+msgstr "Добавление собственных Python’ьих модулей"
 
 #: ../../admin/install/docker.rst:1161
 msgid ""
@@ -9823,7 +9939,7 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1170
 msgid "Hub setup"
-msgstr ""
+msgstr "Настройка hub"
 
 #: ../../admin/install/docker.rst:1172
 msgid ""
@@ -9840,7 +9956,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1189
 msgid "Lab setup"
-msgstr ""
+msgstr "Настройка lab"
 
 #: ../../admin/install/docker.rst:1191
 msgid ""
