@@ -243,7 +243,7 @@ Generic settings
 
 .. envvar:: WEBLATE_SITE_TITLE
 
-    Configures the site-title shown on the heading of all pages.
+    Changes the site-title shown in the header of all pages.
 
 .. envvar:: WEBLATE_SITE_DOMAIN
 
@@ -943,13 +943,13 @@ Example SSL configuration:
 
 .. envvar:: WEBLATE_EMAIL_HOST_USER
 
-    Email authentication user.
+    E-mail authentication user.
 
     .. seealso:: :setting:`django:EMAIL_HOST_USER`
 
 .. envvar:: WEBLATE_EMAIL_HOST_PASSWORD
 
-    Email authentication password.
+    E-mail authentication password.
 
     .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
 
