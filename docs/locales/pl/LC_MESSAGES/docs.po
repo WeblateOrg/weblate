@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-04 13:58+0000\n"
+"PO-Revision-Date: 2020-08-12 07:29+0000\n"
 "Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
@@ -2927,10 +2927,8 @@ msgid "``ignore-es-format``"
 msgstr ""
 
 #: ../../admin/checks.rst:102
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the \"ECMAScript template literals\" quality check."
-msgstr "Buforowany program wczytujący szablon"
+msgstr "Pomiń kontrolę jakości „Literałów szablonów ECMAScript”."
 
 #: ../../admin/checks.rst:103
 msgid "``ignore-i18next-interpolation``"
@@ -3105,60 +3103,48 @@ msgid "``ignore-end-colon``"
 msgstr ""
 
 #: ../../admin/checks.rst:146
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the \"Mismatched colon\" quality check."
-msgstr "Buforowany program wczytujący szablon"
+msgstr "Pomiń kontrolę jakości „Niedopasowany dwukropek”."
 
 #: ../../admin/checks.rst:147
 msgid "``ignore-end-ellipsis``"
 msgstr ""
 
 #: ../../admin/checks.rst:148
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the \"Mismatched ellipsis\" quality check."
-msgstr "Buforowany program wczytujący szablon"
+msgstr "Pomiń kontrolę jakości „Niedopasowane wielokropki”."
 
 #: ../../admin/checks.rst:149
 msgid "``ignore-end-exclamation``"
 msgstr ""
 
 #: ../../admin/checks.rst:150
-#, fuzzy
-#| msgid "Trailing exclamation mark"
 msgid "Skip the \"Mismatched exclamation mark\" quality check."
-msgstr "Końcowy wykrzyknik"
+msgstr "Pomiń kontrolę jakości „Niedopasowany wykrzyknik”."
 
 #: ../../admin/checks.rst:151
 msgid "``ignore-end-stop``"
 msgstr ""
 
 #: ../../admin/checks.rst:152
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the \"Mismatched full stop\" quality check."
-msgstr "Buforowany program wczytujący szablon"
+msgstr "Pomiń kontrolę jakości „Niedopasowane kropki”."
 
 #: ../../admin/checks.rst:153
 msgid "``ignore-end-question``"
 msgstr ""
 
 #: ../../admin/checks.rst:154
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the \"Mismatched question mark\" quality check."
-msgstr "Buforowany program wczytujący szablon"
+msgstr "Pomiń kontrolę jakości „Niedopasowany znak zapytania”."
 
 #: ../../admin/checks.rst:155
 msgid "``ignore-end-semicolon``"
 msgstr ""
 
 #: ../../admin/checks.rst:156
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the \"Mismatched semicolon\" quality check."
-msgstr "Buforowany program wczytujący szablon"
+msgstr "Pomiń kontrolę jakości „Niedopasowany średnik”."
 
 #: ../../admin/checks.rst:157
 msgid "``ignore-newline-count``"
@@ -4849,10 +4835,8 @@ msgid "MT_MODERNMT_KEY"
 msgstr ""
 
 #: ../../admin/config.rst:1127
-#, fuzzy
-#| msgid "Machine translation engines"
 msgid "API key for the ModernMT machine translation engine."
-msgstr "Silniki tłumaczenia maszynowego"
+msgstr "Klucz API do silnika tłumaczenia maszynowego ModernMT."
 
 #: ../../admin/config.rst:1131
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
@@ -5427,10 +5411,14 @@ msgid ""
 "when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
+"Lista dodatków dostępnych do użycia. Aby z nich skorzystać, muszą być "
+"włączone dla danego komponentu tłumaczeniowego. Domyślnie obejmuje to "
+"wszystkie wbudowane dodatki, podczas rozszerzania listy prawdopodobnie "
+"będziesz chciał pozostawić włączone istniejące, na przykład:"
 
 #: ../../admin/config.rst:1701 ../../admin/management.rst:550
 msgid ":ref:`addons`"
-msgstr ""
+msgstr ":ref: `dodatki`"
 
 #: ../../admin/config.rst:1706
 msgid "WEBLATE_EXPORTERS"
@@ -5441,11 +5429,13 @@ msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
 msgstr ""
+"Lista istniejących eksporterów, oferujących pobieranie tłumaczeń i słowników "
+"w różnych formatach."
 
 #: ../../admin/config.rst:1715 ../../admin/config.rst:1732
 #: ../../user/files.rst:47
 msgid ":ref:`formats`"
-msgstr ""
+msgstr ":ref:'formaty'"
 
 #: ../../admin/config.rst:1720
 msgid "WEBLATE_FORMATS"
@@ -5453,11 +5443,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1724
 msgid "List of file formats available for use."
-msgstr ""
+msgstr "Lista formatów plików dostępnych do użycia."
 
 #: ../../admin/config.rst:1728
 msgid "The default list already has the common formats."
-msgstr ""
+msgstr "Domyślna lista ma już wspólne formaty."
 
 #: ../../admin/config.rst:1737
 msgid "WEBLATE_GPG_IDENTITY"
@@ -5466,6 +5456,7 @@ msgstr ""
 #: ../../admin/config.rst:1741
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
+"Tożsamość używana przez Weblate do podpisywania zatwierdzeń Git, na przykład:"
 
 #: ../../admin/config.rst:1747
 msgid ""
@@ -5488,10 +5479,13 @@ msgid ""
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
 msgstr ""
+"Istnieje infrastruktura, dzięki której Twoje tłumaczenie ściśle odpowiada "
+"rozwojowi. W ten sposób tłumacze mogą pracować nad tłumaczeniami przez cały "
+"czas, zamiast pracować nad ogromną ilością nowego tekstu tuż przed wydaniem."
 
 #: ../../admin/continuous.rst:10
 msgid "This is the process:"
-msgstr ""
+msgstr "To jest proces:"
 
 #: ../../admin/continuous.rst:12
 msgid "Developers make changes and push them to the VCS repository."
@@ -14483,10 +14477,8 @@ msgid "number of strings with suggestion"
 msgstr ""
 
 #: ../../api.rst:1508
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "whether the translation has a monolingual base"
-msgstr "Tłumaczenie wykorzystuje pliki jednojęzyczne."
+msgstr "czy tłumaczenie ma jednojęzyczną podstawę"
 
 #: ../../api.rst:1510
 msgid ""
@@ -14754,10 +14746,8 @@ msgid "translation unit flags"
 msgstr ""
 
 #: ../../api.rst:1796
-#, fuzzy
-#| msgid "Strings marked for review:"
 msgid "whether the unit is fuzzy or marked for review"
-msgstr "Teksty przeznaczone do kontroli:"
+msgstr "czy jednostka jest rozmyta lub oznaczona do przeglądu"
 
 #: ../../api.rst:1797
 #, fuzzy
@@ -15370,16 +15360,12 @@ msgid "Dropped support for some compatibility URL redirects."
 msgstr ""
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Added check for ECMAScript template literals."
-msgstr "Buforowany program wczytujący szablon"
+msgstr "Dodano sprawdzanie literałów szablonów ECMAScript."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Return to the component"
 msgid "Added option to watch a component."
-msgstr "Wróć do komponentu"
+msgstr "Dodano opcję oglądania komponentu."
 
 #: ../../changes.rst:25
 msgid "Removed leading dot from JSON unit keys."
@@ -15826,10 +15812,8 @@ msgid "Added check and highlighter for percent placeholders."
 msgstr ""
 
 #: ../../changes.rst:160
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Display suggestions failing checks."
-msgstr "Ciąg nie przeszedł testów"
+msgstr "Wyświetlanie sugestii nieudanych kontroli."
 
 #: ../../changes.rst:161
 msgid "Record source string changes in history."
@@ -16062,10 +16046,8 @@ msgid "Display nearby keys on monolingual translations."
 msgstr ""
 
 #: ../../changes.rst:236
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Added support for grouping string shapings."
-msgstr "Istnieją jakieś niezatwierdzone zmiany!"
+msgstr "Dodano wsparcie dla grupowania kształtów ciągów."
 
 #: ../../changes.rst:237
 msgid "Recommend upgrade to new Weblate versions in the system checks."
@@ -17562,10 +17544,8 @@ msgid "Machine translation results are now cached inside Weblate."
 msgstr ""
 
 #: ../../changes.rst:706
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "Added support for reordering committed changes."
-msgstr "Istnieją jakieś niezatwierdzone zmiany!"
+msgstr "Dodano wsparcie kolejności zatwierdzonych zmian."
 
 #: ../../changes.rst:709
 msgid "Weblate 2.19.1"
@@ -18541,10 +18521,8 @@ msgid "Performance improvements for quality checks."
 msgstr ""
 
 #: ../../changes.rst:1031
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Fixed site wide search for failing checks."
-msgstr "Teksty nie przechodzące testu"
+msgstr "Poprawiono wyszukiwanie na całej stronie pod kątem nieudanych kontroli."
 
 #: ../../changes.rst:1032
 msgid "Added option to specify source language."
@@ -24043,10 +24021,8 @@ msgid "Subtitle files"
 msgstr ""
 
 #: ../../formats.rst:1240
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Weblate can translate various subtitle files:"
-msgstr "Wyczyść pliki tłumaczenia"
+msgstr "Weblate może tłumaczyć różne pliki z napisami:"
 
 #: ../../formats.rst:1242
 msgid "SubRip subtitle file (``*.srt``)"
@@ -26911,10 +26887,8 @@ msgid ":kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`"
 msgstr ""
 
 #: ../../user/translating.rst:155
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Save current translation."
-msgstr "Tłumaczenie maszynowe"
+msgstr "Zapisz bieżące tłumaczenie."
 
 #: ../../user/translating.rst:156
 msgid ":kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`"
@@ -26969,10 +26943,8 @@ msgid ":kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`"
 msgstr ""
 
 #: ../../user/translating.rst:169
-#, fuzzy
-#| msgid "Ignore failing check"
 msgid "Ignore one item in the list of failing checks."
-msgstr "W przypadku braku wyboru Ignoruj"
+msgstr "Zignoruj jedną pozycję na liście testów zakończonych niepowodzeniem."
 
 #: ../../user/translating.rst:170
 msgid ":kbd:`Ctrl+J` or :kbd:`Cmd+J`"
