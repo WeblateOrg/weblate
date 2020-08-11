@@ -724,7 +724,7 @@ Set properly SECURE_HSTS_SECONDS
 
 If your site is served over SSL, you have to consider setting a value for :setting:`SECURE_HSTS_SECONDS`
 in the :file:`settings.py` to enable HTTP Strict Transport Security.
-By default its set to 0 as shown below.
+By default it's set to 0 as shown below.
 
 .. code-block:: python
 
