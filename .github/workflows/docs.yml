@@ -34,7 +34,7 @@ jobs:
           echo "::add-matcher::.github/matchers/sphinx.json"
           ./ci/run-docs
           echo "::remove-matcher owner=sphinx::"
-      - uses: actions/upload-artifact@v2.1.3
+      - uses: actions/upload-artifact@v2.1.4
         with:
           name: Documentation
           path: docs/_build/html
@@ -65,7 +65,7 @@ jobs:
           echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
           sed 's@^@docs/@' docs/_build/linkcheck/output.txt
           echo "::remove-matcher owner=sphinx::"
-      - uses: actions/upload-artifact@v2.1.3
+      - uses: actions/upload-artifact@v2.1.4
         if: always()
         with:
           name: Linkcheck report
