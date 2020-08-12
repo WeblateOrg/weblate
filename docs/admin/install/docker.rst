@@ -68,7 +68,7 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 
 .. versionchanged:: 3.7.1-6
 
-   In July 2019 (starting with the 3.7.1-6 tag), the containers is not running
+   In July 2019 (starting with the 3.7.1-6 tag), the containers are not running
    as a root user. This has changed the exposed port from 80 to 8080.
 
 .. seealso:: :ref:`invoke-manage`
