@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-12 07:29+0000\n"
+"PO-Revision-Date: 2020-08-12 20:26+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -6557,12 +6557,11 @@ msgstr ""
 
 #: ../../admin/install.rst:24
 msgid ":ref:`quick-docker`, recommended for production setups."
-msgstr ":ref:`quick-docker`, рекомендуется для продуктовых установок."
+msgstr ":ref:`quick-docker`, рекомендуется для рабочей среды."
 
 #: ../../admin/install.rst:26
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr ""
-"Установка в виртуальное окружение, рекомендуется для продуктовых установок:"
+msgstr "Установка в виртуальное окружение, рекомендуется для рабочей среды:"
 
 #: ../../admin/install.rst:28
 msgid ":doc:`install/venv-debian`"
@@ -7401,11 +7400,10 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"Отключите эту настройку для любого продуктового сервера. При включённом "
-"режиме отладки Django в случае возникновения ошибки будет показывать "
-"трассировки стека пользователям, при его же отключении ошибки будут "
-"отправляться на адреса электронной почты из массива ``ADMINS`` (смотрите "
-"выше)."
+"Отключите эту настройку для любого рабочего сервера. При включённом режиме "
+"отладки Django в случае возникновения ошибки будет показывать трассировки "
+"стека пользователям, при его же отключении ошибки будут отправляться на "
+"адреса электронной почты из массива ``ADMINS`` (смотрите выше)."
 
 #: ../../admin/install.rst:545
 msgid ""
@@ -7508,7 +7506,7 @@ msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:609
 msgid "Production setup"
-msgstr "Продуктовая установка"
+msgstr "Рабочая среда"
 
 #: ../../admin/install.rst:611
 msgid ""
@@ -7517,7 +7515,7 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
-"Для продуктовой установки необходимо провести корректировки, описанные в "
+"Для установки в рабочую среду необходимо провести корректировки, описанные в "
 "следующих разделах. Наиболее критичные настройки вызовут предупреждение, "
 "которое обозначается восклицательным знаком в верхней панели, если вы вошли "
 "в систему под суперпользователем:"
@@ -7550,7 +7548,7 @@ msgid ""
 msgstr ""
 "При включённом отладочном режиме Django сохраняет все выполненные запросы и "
 "при возникновении ошибок показывает пользователям обратную трассировку "
-"стека, что в продуктовой установке не желательно."
+"стека, что в рабочей среде не желательно."
 
 #: ../../admin/install.rst:644 ../../admin/install.rst:662
 msgid ":ref:`configuration`"
@@ -7672,7 +7670,7 @@ msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
-"Пожалуйста, используйте для продуктового окружения PostgreSQL, для получения "
+"Пожалуйста, используйте для рабочего окружения PostgreSQL, для получения "
 "более подробной информации смотрите раздел :ref:`database-setup`."
 
 #: ../../admin/install.rst:740
@@ -8160,7 +8158,7 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
-"НЕ ИСПОЛЬЗУЙТЕ ЭТОТ СЕРВЕР В ПРОДУКТОВЫХ УСЛОВИЯХ. Он не проходил аудиты "
+"НЕ ИСПОЛЬЗУЙТЕ ЭТОТ СЕРВЕР В РАБОЧЕЙ СРЕДЕ. Он не проходил аудиты "
 "безопасности или тесты производительности. Также смотрите документацию "
 "Django по команде :djadmin:`django:runserver`."
 
@@ -8173,9 +8171,9 @@ msgid ""
 msgstr ""
 "Встроенный сервер Django обслуживает статические файлы только с включённым "
 "параметром :setting:`DEBUG`, поскольку он предназначен только для "
-"разработки. Для использования в продуктовом окружении смотрите установки "
-"wsgi в разделах :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn` и :ref"
-":`static-files`."
+"разработки. Для использования в рабочей среде смотрите установки wsgi в "
+"разделах :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn` и :ref:`static-"
+"files`."
 
 #: ../../admin/install.rst:1101
 msgid "Serving static files"
@@ -8336,12 +8334,11 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"Для запуска продуктового веб-сервера используйте обёртку wsgi, "
-"устанавливаемую вместе с Weblate (в виртуальном окружении она "
-"устанавливается в :file:`~/weblate-env/lib/python3.7/site-packages/weblate/"
-"wsgi.py`). Не забудьте также поместить ваше виртуальное окружение в пути "
-"поиска Python’а (например, используя установку ``virtualenv = /home/user/"
-"weblate-env`` в uWSGI)."
+"Для запуска рабочего веб-сервера используйте обёртку wsgi, устанавливаемую "
+"вместе с Weblate (в виртуальном окружении она устанавливается в :file"
+":`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py`). Не забудьте "
+"также поместить ваше виртуальное окружение в пути поиска Python’а (например, "
+"используя установку ``virtualenv = /home/user/weblate-env`` в uWSGI)."
 
 #: ../../admin/install.rst:1194
 msgid ""
@@ -8405,8 +8402,7 @@ msgid ""
 msgstr ""
 "Для обработки фоновых задач Weblate использует Celery. Пример настроек "
 "поставляется с готовой конфигурацией, которая обрабатывает все задачи на "
-"месте, но для продуктовой установки вы захотите изменить их на что-то более "
-"разумное."
+"месте, но для рабочей среды вы захотите изменить их на что-то более разумное."
 
 #: ../../admin/install.rst:1240
 msgid "A typical setup using Redis as a backend looks like this:"
@@ -8744,7 +8740,7 @@ msgid ""
 "the size of the translations managed in it."
 msgstr ""
 "Фактические требования к вашей установке Weblate сильно зависят от размера "
-"управляемый ей переводов."
+"управляемых ею переводов."
 
 #: ../../admin/install/docker.rst:15
 #: ../../admin/install/steps/install-system-devel.rst:2
@@ -9781,7 +9777,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1006
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Ваше окружение Rollbar, по умолчанию установлена в ``production``."
 
 #: ../../admin/install/docker.rst:1008
 msgid "To enable support for Sentry, set following:"
@@ -10054,6 +10050,10 @@ msgid ""
 "can stick with shipped example for testing purposes, but you will want "
 "changes for production setup, see :ref:`configuration`."
 msgstr ""
+"По своему усмотрению подкорректируйте значения в новом файле :file:`settings."
+"py`. Для тестирования вы можете использовать поставляемый пример, но для "
+"рабочей среды вы захотите внести в него изменения, смотрите раздел "
+":ref:`configuration`."
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
@@ -10099,10 +10099,10 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
-"При желании установите программное обеспечение для запуска продуктового "
-"сервера, смотрите разделы :ref:`server`, :ref:`database-setup` и "
-":ref:`celery`. В зависимости от размера вашей установки вы можете захотеть "
-"запустить эти компоненты на выделенных серверах."
+"При желании установите программное обеспечение для запуска рабочего сервера, "
+"смотрите разделы :ref:`server`, :ref:`database-setup` и :ref:`celery`. В "
+"зависимости от размера вашей установки вы можете захотеть запустить эти "
+"компоненты на выделенных серверах."
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
@@ -10172,6 +10172,9 @@ msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgstr ""
+"Создайте базу данных и её структуру для Weblate (пример настройки использует "
+"PostgreSQL, для установки в рабочую среду ознакомьтесь разделом :ref"
+":`database-setup`):"
 
 #: ../../admin/install/steps/install-configure.rst:24
 msgid ""
@@ -10190,6 +10193,8 @@ msgstr ""
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
 msgstr ""
+"Сожмите файлы JavaScript и CSS (необязательно, смотрите раздел :ref"
+":`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:43
 msgid ""
@@ -10200,6 +10205,8 @@ msgstr ""
 #: ../../admin/install/steps/install-configure.rst:50
 msgid "Start the development server (see :ref:`server` for production setup):"
 msgstr ""
+"Запустите сервер разработки (шаги для запуска рабочего сервера смотрите в "
+"разделе :ref:`server`):"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
@@ -13668,6 +13675,11 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
+"Конфигурация по умолчанию полезна для тестирования и отладки Weblate, в то "
+"же время для установки в рабочую среду в неё необходимо внести некоторые "
+"коррективы. Многие из параметров довольно сильно влияют на "
+"производительность. Для получения более подробной информации обратитесь к "
+"разделу :ref:`production`, особенно обратите внимание на следующие темы:"
 
 #: ../../admin/projects.rst:841
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
@@ -14063,6 +14075,8 @@ msgstr ""
 #: ../../admin/upgrade.rst:81
 msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr ""
+"Убедитесь, что ваша установка в порядке (также смотрите раздел "
+":ref:`production`):"
 
 #: ../../admin/upgrade.rst:87
 msgid "Restart celery worker (see :ref:`celery`)."
@@ -17771,8 +17785,8 @@ msgstr "Sentry теперь поддерживается через соврем
 #: ../../changes.rst:369
 msgid "Changed example settings to be better fit for production environment."
 msgstr ""
-"Изменены примеры настроек, чтобы они лучше соответствовали продуктовому "
-"окружению."
+"Изменены примеры настроек, чтобы они лучше соответствовали окружению рабочей "
+"среды."
 
 #: ../../changes.rst:370
 msgid "Added automated backups using BorgBackup."
@@ -20648,6 +20662,8 @@ msgstr ""
 #: ../../changes.rst:1287
 msgid "Provide hints for production setup in admin interface."
 msgstr ""
+"В интерфейс администратора добавлены подсказки по настройке Weblate для "
+"рабочей среды."
 
 #: ../../changes.rst:1288
 msgid "Added per language widgets and engage page."
@@ -21363,6 +21379,10 @@ msgid ""
 "useful to debug issues in the web interface, but not suitable for production "
 "environment as it has performance consequences and might leak private data."
 msgstr ""
+"При включении режима отладки исключения будут отображаться в браузере. Это "
+"полезно для отладки проблем в веб-интерфейсе, но для рабочей среды он не "
+"подходит, поскольку сильно влияет на производительность и может привести к "
+"утечке конфиденциальных данных."
 
 #: ../../contributing/debugging.rst:20
 msgid "Weblate logs"
@@ -22188,6 +22208,8 @@ msgid ""
 "This is not suitable setup for production, it includes several hacks which "
 "are insecure, but make development easier."
 msgstr ""
+"Эта установка не подходит для рабочей среды, она включает в себя несколько "
+"небезопасных хаков, которые, однако, упрощают разработку."
 
 #: ../../contributing/start.rst:126
 msgid "Bootstraping your devel instance"
