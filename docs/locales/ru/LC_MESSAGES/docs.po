@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
 "PO-Revision-Date: 2020-08-12 20:26+0000\n"
-"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
+"Last-Translator: Victor K <ktrace@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -1146,6 +1146,8 @@ msgid ""
 "This addon requires additional configuration, see :setting:"
 "`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"Это дополнение требует дополнительной настройки, см. "
+":setting:`LOCALIZE_CDN_URL` и :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../admin/addons.rst:51
 msgid "String extraction"
@@ -1167,11 +1169,15 @@ msgstr ""
 "анализироваться Weblate."
 
 #: ../../admin/addons.rst:59
+#, fuzzy
 msgid ""
 "The default configuration for :guilabel:`CSS selector` extracts elements "
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+"В конфигурации по умолчанию для :guilabel:`CSS selector` извлекаются "
+"элементы с CSS класса ``l10n``, например, извлекаются две строки из "
+"следующих фрагментов:"
 
 #: ../../admin/addons.rst:76
 msgid ""
@@ -1194,32 +1200,45 @@ msgid "HTML localization"
 msgstr "Локализация HTML"
 
 #: ../../admin/addons.rst:87
+#, fuzzy
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
+"Для локализации документа HTML необходимо загрузить сценарий :file:`weblate."
+"js`:"
 
 #: ../../admin/addons.rst:93
+#, fuzzy
 msgid ""
 "Upon loading, this will automatically find all matching translatable "
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"При загрузке автоматически будут найдены все соответствующие переводимые "
+"элементы (на основе конфигурации :guilabel:CSS selector`) и заменены их "
+"переводом."
 
 #: ../../admin/addons.rst:97
+#, fuzzy
 msgid ""
 "The user language is detected from the cookie (if :guilabel:`Language cookie "
 "name` is configured) and user preferred languages configured in the browser."
 msgstr ""
+"Язык пользователя определяется из файлов cookie (если задано :guilabel:`"
+"Language cookie name`) и предпочтительных языков, настроенных в браузере."
 
 #: ../../admin/addons.rst:101
 msgid "JavaScript localization"
 msgstr "Локализация JavaScript"
 
 #: ../../admin/addons.rst:103
+#, fuzzy
 msgid ""
 "The invidiual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
 msgstr ""
+"Индивидуальные переводы представлены в виде двуязычных файлов JSON в сети "
+"CDN. Чтобы получить их, вы можете использовать следующий код:"
 
 #: ../../admin/addons.rst:112
 msgid "The actual localization logic needs to be implemented in this case."
@@ -1271,10 +1290,13 @@ msgid "Unlike most others, this addon affects the whole project."
 msgstr "В отличие от большинства других надстроек, эта влияет на весь проект."
 
 #: ../../admin/addons.rst:141
+#, fuzzy
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
+"Автоматический перевод вновь добавленных строк с помощью :ref:`addon-weblate."
+"autotranslate.autotranslate`."
 
 #: ../../admin/addons.rst:147
 msgid "Component discovery"
@@ -9315,7 +9337,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:523
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
-"Настраивает подписывание коммитов через GPG, смотрите описание параметра "
+"Настраивает GPG для подписи коммитов, смотрите описание параметра "
 ":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:531
@@ -12462,8 +12484,9 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:51
+#, fuzzy
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "Вы можете просмотреть текущий тарифный план на отдельной странице:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -12475,14 +12498,20 @@ msgstr ""
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
 msgstr ""
+"После создания проекта вы попадаете непосредственно на страницу проекта:"
 
 #: ../../admin/projects.rst:64
+#, fuzzy
 msgid ""
 "Creating a new translation component can be initiated via a single click "
 "there. The process of creating a component is multi-staged and automatically "
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"Создание нового компонента перевода можно инициировать одним щелчком мыши. "
+"Процесс создания компонента многоступенчатый и автоматически определяет "
+"большинство параметров перевода. Существует несколько подходов к созданию "
+"компонента:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -12519,11 +12548,15 @@ msgid "Upload translations files"
 msgstr "Загрузить файлы перевода"
 
 #: ../../admin/projects.rst:75
+#, fuzzy
 msgid ""
 "Upload translation files to Weblate in case you do not have version control "
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Загрузите файлы перевода в Weblate, если у вас нет контроля версий или вы не "
+"хотите интегрировать её с Weblate. Позже вы можете обновить содержимое с "
+"помощью веб-интерфейса или :ref:`api`."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -12531,45 +12564,57 @@ msgstr "Перевести документ"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document and translate that."
-msgstr ""
+msgstr "Загрузите одиночный документ и переведите его."
 
 #: ../../admin/projects.rst:81
 msgid "Start from scratch"
 msgstr "Начать с нуля"
 
 #: ../../admin/projects.rst:81
+#, fuzzy
 msgid "Create blank translation project and add strings manually."
-msgstr ""
+msgstr "Создайте пустой проект перевода и добавьте строки вручную."
 
 #: ../../admin/projects.rst:83
+#, fuzzy
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Имея существующие компоненты перевода, вы также можете легко добавлять новые "
+"для дополнительных файлов или веток, используя тот же репозиторий."
 
 #: ../../admin/projects.rst:86
+#, fuzzy
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Сначала вам нужно указать наименование и месторасположение репозитория:"
 
 #: ../../admin/projects.rst:90
+#, fuzzy
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"На следующей странице вам будет представлен список обнаруженных переводимых "
+"ресурсов:"
 
 #: ../../admin/projects.rst:94
+#, fuzzy
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"На последнем этапе просмотрите информацию о компоненте перевода и укажите "
+"дополнительные сведения:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
+#, fuzzy
 msgid "Project configuration"
-msgstr ""
+msgstr "Конфигурация проекта"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -12591,8 +12636,9 @@ msgid "Project name"
 msgstr "Название проекта"
 
 #: ../../admin/projects.rst:122
+#, fuzzy
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "Подробное наименование проекта, которое будет отображаться."
 
 #: ../../admin/projects.rst:127 ../../admin/projects.rst:755 ../../api.rst:744
 msgid "Project slug"
@@ -12600,7 +12646,7 @@ msgstr "Плашка проекта"
 
 #: ../../admin/projects.rst:129
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "Название проекта, подходящее для указания его в URL-адресе."
 
 #: ../../admin/projects.rst:134 ../../api.rst:746
 #: ../../contributing/about.rst:16
@@ -12608,8 +12654,11 @@ msgid "Project website"
 msgstr "Веб-сайт проекта"
 
 #: ../../admin/projects.rst:136
+#, fuzzy
 msgid "URL where translators can find more info about the project."
 msgstr ""
+"URL-адрес, по которому переводчики могут найти дополнительную информацию о "
+"проекте."
 
 #: ../../admin/projects.rst:141
 msgid "Mailing list"
@@ -12648,6 +12697,8 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Использовать ли совместно используемую память переводов, см. подробнее :ref"
+":`shared-tm`."
 
 #: ../../admin/projects.rst:170
 msgid "Contribute to shared translation memory"
@@ -12664,8 +12715,11 @@ msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
 
 #: ../../admin/projects.rst:181
+#, fuzzy
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Значение по умолчанию можно изменить с помощью  "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/projects.rst:186 ../../workflows.rst:58 ../../workflows.rst:89
 #: ../../workflows.rst:125
@@ -26579,8 +26633,9 @@ msgid "Accessing remote servers using secure protocols (HTTPS)"
 msgstr ""
 
 #: ../../legal.rst:63
+#, fuzzy
 msgid "Generating signatures for code commits (PGP)"
-msgstr ""
+msgstr "Создание PGP подписей для коммитов"
 
 #: ../../legal.rst:67
 msgid ""
