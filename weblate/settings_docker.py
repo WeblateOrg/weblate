@@ -365,7 +365,7 @@ if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     import ldap
-    from django_auth_ldap.config import LDAPSearch
+    from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion
 
     AUTH_LDAP_SERVER_URI = os.environ.get("WEBLATE_AUTH_LDAP_SERVER_URI")
     AUTH_LDAP_USER_DN_TEMPLATE = (
@@ -384,6 +384,17 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
             ldap.SCOPE_SUBTREE,
             os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
         )
+
+    if "WEBLATE_AUTH_LDAP_USER_SEARCH_UNION" in os.environ:
+        DELIMITER = os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
+
+        SEARCH_FILTER = os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)")
+
+        SEARCH_UNION = []
+        for string in os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(DELIMITER):
+            SEARCH_UNION.append(LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER))
+
+        AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(*SEARCH_UNION)
 
     if not get_env_bool("WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS", True):
         AUTH_LDAP_CONNECTION_OPTIONS = {
