@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-10 22:06+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"PO-Revision-Date: 2020-08-14 11:33+0000\n"
+"Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -22970,18 +22970,18 @@ msgstr ""
 
 #: ../../formats.rst:4 ../../user/files.rst:39
 msgid "Supported file formats"
-msgstr ""
+msgstr "支持的文件格式"
 
 #: ../../formats.rst:6
 msgid ""
 "Weblate supports most translation format understood by translate-toolkit, "
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
-msgstr ""
+msgstr "Weblate 支持 translate-toolkit 理解的大多数翻译格式，但是每种格式都略有不同，可能会出现未经良好测试的格式问题。"
 
 #: ../../formats.rst:12 ../../formats.rst:1338
 msgid ":doc:`tt:formats/index`"
-msgstr ""
+msgstr ":doc:`tt:formats/index`"
 
 #: ../../formats.rst:16
 msgid ""
@@ -22990,10 +22990,12 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"为您的应用程序选择文件格式时，最好在您使用的工具箱/平台中保留一些公认的格式。这样，您的翻译人员可以额外使用他们习惯使用的任何工具，并且更有可能为您的项目"
+"做出贡献。"
 
 #: ../../formats.rst:25
 msgid "Bilingual and monolingual formats"
-msgstr ""
+msgstr "双语和单语格式"
 
 #: ../../formats.rst:27
 msgid ""
@@ -23006,6 +23008,10 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
+"支持 :index:`monolingual <pair: translation; monolingual>` 和 :index:`bilingual "
+"<pair: translation; bilingual>` 格式。双语格式在单个文件中存储两种语言 —— 源和翻译（典型示例是 "
+":ref:`gettext`，:ref:`xliff` 或 :ref:`apple` 字符串）。另一方面，单语格式通过 ID "
+"识别字符串，每个语言文件仅包含那些语言到任何给定语言（通常是 :ref:`aresource`）的映射。两种变体都使用某些文件格式，请参见下面的详细说明。"
 
 #: ../../formats.rst:35
 msgid ""
@@ -23014,6 +23020,8 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"为了正确使用单语文件，Weblate 要求访问一个包含完整字符串列表的文件，以与其源一起翻译 —— 该文件在 Weblate 中称为 :ref"
+":`component-template`，尽管命名方式可能会有所不同。"
 
 #: ../../formats.rst:40
 msgid ""
@@ -23021,6 +23029,7 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"另外，可以利用 :ref:`component-intermediate` 扩展此工作流程，以包括开发人员提供的字符串，但不要在最终的字符串中使用。"
 
 #: ../../formats.rst:45
 msgid "Automatic detection"
@@ -23031,51 +23040,51 @@ msgid ""
 "Weblate can automatically detect several widespread file formats, but this "
 "detection can harm your performance and will limit features specific to "
 "given file format (for example automatic addition of new translations)."
-msgstr ""
+msgstr "Weblate 可以自动检测几种常用的文件格式，但是这种检测会损害您的性能，并且会限制特定于给定文件格式的功能（例如，自动添加新翻译）。"
 
 #: ../../formats.rst:54
 msgid "Translation types capabilities"
-msgstr ""
+msgstr "翻译类型功能"
 
 #: ../../formats.rst:56
 msgid "Capabilities of all supported formats:"
-msgstr ""
+msgstr "所有受支持格式的功能："
 
 #: ../../formats.rst:59
 msgid "Format"
-msgstr ""
+msgstr "格式"
 
 #: ../../formats.rst:59
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "语言能力 [#m]_"
 
 #: ../../formats.rst:59
 msgid "Plurals [#p]_"
-msgstr ""
+msgstr "复数 [#p]_"
 
 #: ../../formats.rst:59
 msgid "Comments [#n]_"
-msgstr ""
+msgstr "注释 [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
-msgstr ""
+msgstr "语境 [#c]_"
 
 #: ../../formats.rst:59
 msgid "Location [#l]_"
-msgstr ""
+msgstr "位置 [#l]_"
 
 #: ../../formats.rst:59
 msgid "Flags [#f]_"
-msgstr ""
+msgstr "标志 [#f]_"
 
 #: ../../formats.rst:59
 msgid "Additional states [#a]_"
-msgstr ""
+msgstr "附加状态 [#a]_"
 
 #: ../../formats.rst:61 ../../formats.rst:77
 msgid "bilingual"
-msgstr ""
+msgstr "双语"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:65
 #: ../../formats.rst:67 ../../formats.rst:69 ../../formats.rst:71
@@ -23296,23 +23305,23 @@ msgstr ""
 
 #: ../../formats.rst:137
 msgid "GNU gettext"
-msgstr ""
+msgstr "GNU gettext"
 
 #: ../../formats.rst:143
 msgid ""
 "Most widely used format for translating libre software. This was first "
 "format supported by Weblate and still has the best support."
-msgstr ""
+msgstr "翻译自由软件的最广泛使用的格式。这是 Weblate 支持的第一种格式，至今仍获得最好的支持。"
 
 #: ../../formats.rst:146
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
-msgstr ""
+msgstr "通过调整文件头或链接到相应的源文件，可以支持存储在文件中的上下文信息。"
 
 #: ../../formats.rst:149
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "双语 gettext PO 文件通常如下所示："
 
 #: ../../formats.rst:167 ../../formats.rst:231 ../../formats.rst:390
 #: ../../formats.rst:421 ../../formats.rst:454 ../../formats.rst:491
@@ -23323,7 +23332,7 @@ msgstr ""
 #: ../../formats.rst:1095 ../../formats.rst:1125 ../../formats.rst:1155
 #: ../../formats.rst:1191 ../../formats.rst:1222 ../../formats.rst:1248
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "典型的 Weblate :ref:`component`"
 
 #: ../../formats.rst:169 ../../formats.rst:233 ../../formats.rst:339
 #: ../../formats.rst:392 ../../formats.rst:423 ../../formats.rst:456
@@ -23365,7 +23374,7 @@ msgstr ""
 
 #: ../../formats.rst:191
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "单语 gettext"
 
 #: ../../formats.rst:193
 msgid ""
@@ -23374,14 +23383,16 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"一些项目决定使用 gettext 作为单语格式 —— 它们仅在源代码中编码 ID，然后将字符串翻译成所有语言，包括英语。支持此功能，尽管在将组件导入 "
+"Weblate 时必须明确选择此文件格式。"
 
 #: ../../formats.rst:198
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "单语种的 gettext PO 文件通常如下所示："
 
 #: ../../formats.rst:214
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "基本语言文件将是："
 
 #: ../../formats.rst:235
 msgid "``po/en.po``"
@@ -23389,7 +23400,7 @@ msgstr ""
 
 #: ../../formats.rst:239
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`Gettext PO 文件（单语）`"
 
 #: ../../formats.rst:245
 msgid "XLIFF"
@@ -23399,7 +23410,7 @@ msgstr "XLIFF"
 msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
-msgstr ""
+msgstr "创建基于 XML 的格式来标准化翻译文件，但最终它是该领域中 `许多标准 <https://xkcd.com/927/>`_ 之一。"
 
 #: ../../formats.rst:253
 msgid ""
