@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-14 11:32+0000\n"
+"PO-Revision-Date: 2020-08-16 03:28+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -13394,12 +13394,16 @@ msgid ""
 "In earlier versions translation memory could be only loaded from a file "
 "corresponding to the current imported translation memory scope."
 msgstr ""
+"У попередніх версіях пам'ять перекладів можна було завантажувати лише з "
+"файла, що відповідає поточній області імпортованої пам'яті перекладів."
 
 #: ../../admin/memory.rst:34
 msgid ""
 "The translation memory scopes are there to allow both privacy and sharing of "
 "translations, to suit the desired behavior."
 msgstr ""
+"Області пам'яті перекладів використовуються для забезпечення "
+"конфіденційності та поширення перекладів, залежно від бажаної поведінки."
 
 #: ../../admin/memory.rst:38
 msgid "Imported translation memory"
@@ -13411,6 +13415,9 @@ msgid ""
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
+"Імпортування довільних даних пам'яті перекладів за допомогою команди "
+":djadmin:`import_memory` робить вміст пам'яті перекладів доступним для усіх "
+"користувачів і проєктів."
 
 #: ../../admin/memory.rst:44
 msgid "Per user translation memory"
@@ -13454,6 +13461,9 @@ msgid ""
 "Please consider carefully whether to turn this feature on for shared Weblate "
 "installations, as it can have severe implications:"
 msgstr ""
+"Будь ласка, ретельно зважте, чи слід вмикати цю можливість для екземплярів "
+"Weblate, які є спільними для різних проєктів, оскільки вмикання може "
+"призвести до суттєвих наслідків:"
 
 #: ../../admin/memory.rst:65
 msgid "The translations can be used by anybody else."
@@ -13477,12 +13487,18 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
+"За допомогою базового інтерфейсу користувача ви можете керувати записами "
+"пам'яті перекладів для окремого користувача або окремого проєкту. Цим "
+"інтерфейсом можна скористатися для отримання, очищення або імпортування "
+"пам'яті перекладів."
 
 #: ../../admin/memory.rst:83
 msgid ""
 "Translation memory in JSON can be imported into Weblate, TMX is provided for "
 "interoperability with other tools."
 msgstr ""
+"До Weblate можна імпортувати пам'ять перекладів у форматі JSON. Обробку TMX "
+"передбачено для обміну даними із іншими інструментами."
 
 #: ../../admin/memory.rst:88
 msgid ":ref:`schema-memory`"
@@ -13494,6 +13510,9 @@ msgid ""
 "content. These operate on the translation memory as whole, unfiltered by "
 "scopes (unless requested by parameters):"
 msgstr ""
+"Передбачено декілька команд керування для роботи із вмістом пам'яті "
+"перекладів. Ці команди працюють із усією пам'яттю перекладів, без "
+"фільтрування за областями (якщо це не вказано параметрами):"
 
 #: ../../admin/memory.rst:99
 msgid ":djadmin:`dump_memory`"
@@ -13550,6 +13569,10 @@ msgid ""
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/master/``:"
 msgstr ""
+"Модуль автоматично обробляє дані Weblate і встановлює адресу експортованого "
+"сховища у :ref:`компоненті <component>`. Доступ до сховищ можна отримати за "
+"частиною ``/git/`` адреси Weblate, наприклад ``https://example.org/git/"
+"weblate/master/``:"
 
 #: ../../admin/optionals.rst:44
 msgid ""
@@ -13557,6 +13580,9 @@ msgid ""
 "requires authenticate using your API token (it can be obtained in your :ref:"
 "`user-profile`):"
 msgstr ""
+"Доступ до сховищ є анонімним, якщо не увімкнено :ref:`acl`. Це потребує "
+"розпізнавання за допомогою ключа програмного інтерфейсу (його можна отримати "
+"у вашому :ref:`профілі користувача <user-profile>`):"
 
 #: ../../admin/optionals.rst:56
 msgid "Billing"
@@ -13567,6 +13593,9 @@ msgid ""
 "This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define "
 "billing plans, track invoices and usage limits."
 msgstr ""
+"Це використовується на `Hosted Weblate <https://weblate.org/hosting/>`_ для "
+"визначення тарифних планів, створення рахунків та встановлення обмежень у "
+"користуванні."
 
 #: ../../admin/optionals.rst:66
 msgid "1. Add ``weblate.billing`` to installed apps in :file:`settings.py`:"
@@ -13579,6 +13608,8 @@ msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
 msgstr ""
+"Запустіть перенесення бази даних, щоб додатково встановити структури бази "
+"даних для модуля:"
 
 #: ../../admin/optionals.rst:84
 msgid ""
@@ -13586,6 +13617,10 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"Після встановлення ви можете керувати рахунками за допомогою "
+"адміністративного інтерфейсу. Користувачі із увімкненим обліком побачать "
+"нову вкладку, :guilabel:`Оплата`, у їхньому :ref:`профілі користувача <user-"
+"profile>`."
 
 #: ../../admin/optionals.rst:88
 msgid ""
@@ -13593,12 +13628,18 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
+"Крім того, модуль обліку надає змогу адміністраторам проєкту створювати "
+"проєкти і складники без отримання прав суперкористувача (див. :ref:`adding-"
+"projects`). Це можливо при задоволенні таких умов:"
 
 #: ../../admin/optionals.rst:92
 msgid ""
 "The billing is in it's configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if it's price is non zero)"
 msgstr ""
+"Рахунок перебуває у налаштованих межах (будь-яке перевищення обмежень "
+"призведе до блокування створення проєктів і складників) із сплачено (якщо "
+"тарифний план не є нульовим)"
 
 #: ../../admin/optionals.rst:94
 msgid ""
@@ -13606,12 +13647,17 @@ msgid ""
 "billing (the latter is necessary when creating new billing for users to be "
 "able to import new projects)."
 msgstr ""
+"Користувач є адміністратором наявного проєкту із обліком або користувач є "
+"власником рахунка (останнє є необхідним при створенні нового рахунку для "
+"користувачів, щоб мати змогу імпортувати нові проєкти)."
 
 #: ../../admin/optionals.rst:98
 msgid ""
 "Upon project creation user is able to choose which billing should be charged "
 "for the project in case he has access to more of them."
 msgstr ""
+"Під час створення проєкту користувач може вибрати, до якого рахунка слід "
+"включати проєкт, якщо користувач має доступ до декількох з них."
 
 #: ../../admin/optionals.rst:105
 msgid "Legal"
@@ -13623,6 +13669,9 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"Це використовується на `Hosted Weblate <https://weblate.org/hosting/>`_ для "
+"надання обов'язкових юридичних документів. Типово використовуються порожні "
+"документи. Ви маєте заповнити такі шаблони у документах:"
 
 #: ../../admin/optionals.rst:113
 msgid ":file:`legal/documents/tos.html`"
@@ -13654,28 +13703,39 @@ msgid ""
 "repository <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/legal/"
 "templates/legal/documents>."
 msgstr ""
+"Юридичні документи для служби Hosted Weblate доступні у цьому сховищі Git: "
+"<https://github.com/WeblateOrg/hosted/tree/master/wlhosted/legal/templates/"
+"legal/documents>."
 
 #: ../../admin/optionals.rst:125
 msgid ""
 "Most likely these will not be directly usable to you, but might come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
+"Найімовірніше, ці документи не будуть безпосередньо придатними для "
+"використання вами, але можуть бути корисними як база, яку ви можете "
+"скоригувати до ваших потреб."
 
 #: ../../admin/optionals.rst:131
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. Додайте ``weblate.legal`` до встановлених програм у :file:`settings.py`:"
 
 #: ../../admin/optionals.rst:158
 msgid ""
 "Edit the legal documents in the :file:`weblate/legal/templates/legal/` "
 "folder to match your service."
 msgstr ""
+"Змініть юридичні документи у теці :file:`weblate/legal/templates/legal/` "
+"так, щоб вони відповідали вашій службі."
 
 #: ../../admin/optionals.rst:163
 msgid ""
 "After installation and editing, the legal documents are shown in the Weblate "
 "UI."
 msgstr ""
+"Після встановлення і редагування юридичні документи буде показано у "
+"інтерфейсі користувача Weblate."
 
 #: ../../admin/optionals.rst:168
 msgid "Avatars"
@@ -13688,6 +13748,10 @@ msgid ""
 "from e-mails addresses configured for it can be turned off using :setting:"
 "`ENABLE_AVATARS`."
 msgstr ""
+"Аватари завантажуються і кешуються на боці сервера для зменшення витоку "
+"відомостей для сайтів, які їх типово обслуговують. Вбудовану підтримку для "
+"отримання аватарів з адрес електронної пошти, які для них налаштовано, можна "
+"вимкнути за допомогою :setting:`ENABLE_AVATARS`."
 
 #: ../../admin/optionals.rst:174
 msgid "Weblate currently supports:"
@@ -13714,6 +13778,9 @@ msgid ""
 "You can protect against suggestion spamming by unauthenticated users by "
 "using the `akismet.com <https://akismet.com/>`_ service."
 msgstr ""
+"Ви можете захистити систему від спаму пропозиціями від користувачів, які не "
+"зареєструвалися у системі, за допомогою служби `akismet.com <https://akismet."
+"com/>`_."
 
 #: ../../admin/optionals.rst:192
 msgid "Install the `akismet` Python module"
@@ -13728,6 +13795,8 @@ msgid ""
 "This (among other things) relies on IP address of the client, please see :"
 "ref:`reverse-proxy` for properly configuring that."
 msgstr ""
+"Це (окрім інших речей) залежить від даних IP-адреси клієнта. Будь ласка, "
+"див. :ref:`reverse-proxy`, щоб дізнатися більше про належне налаштовування."
 
 #: ../../admin/optionals.rst:202
 msgid ":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`"
@@ -13747,6 +13816,9 @@ msgid ""
 "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG "
 "key when needed and will use it to sign all translation commits.)"
 msgstr ""
+"1. Увімкніть :setting:`WEBLATE_GPG_IDENTITY`. (Weblate створить ключ GnuPG, "
+"якщо потрібно, і використовуватиме його для підписування усіх внесків із "
+"перекладами.)"
 
 #: ../../admin/optionals.rst:218
 msgid "This feature needs GnuPG 2.1 or newer installed."
@@ -13758,12 +13830,16 @@ msgid ""
 "You can find the key in the :setting:`DATA_DIR` and the public key is shown "
 "on the \"About\" page:"
 msgstr ""
+"Ключ зберігається у каталозі :setting:`DATA_DIR`, а відкритий ключ буде "
+"показано на сторінці «Про Weblate»:"
 
 #: ../../admin/optionals.rst:225
 msgid ""
 "2. Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
+"2. Крім того, ви можете імпортувати до Weblate наявні ключі. Просто вкажіть "
+"``HOME=$DATA_DIR/home`` при виклику gpg."
 
 #: ../../admin/optionals.rst:230
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
@@ -13776,7 +13852,7 @@ msgstr "Обмеження частоти"
 
 #: ../../admin/optionals.rst:239
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr ""
+msgstr "У поточній версії засіб обмеження частоти можна налаштувати точніше."
 
 #: ../../admin/optionals.rst:241
 msgid ""
@@ -13787,10 +13863,17 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
+"Частоту деяких дій у Weblate можна обмежити. Дозволено виконувати "
+":setting:`RATELIMIT_ATTEMPTS` спроб дії протягом :setting:`RATELIMIT_WINDOW` "
+"секунд. При перевищенні обмеження користувача буде заблоковано на значення "
+":setting:`RATELIMIT_LOCKOUT`. Також передбачено специфічні параметри для "
+"областей, наприклад ``RATELIMIT_CONTACT_ATTEMPTS`` або "
+"``RATELIMIT_TRANSLATE_ATTEMPTS``. У розташованій нижче таблиці наведено "
+"повний список доступних областей."
 
 #: ../../admin/optionals.rst:245
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "Обмеженню частоти підлягають такі дії:"
 
 #: ../../admin/optionals.rst:248 ../../devel/reporting-example.rst:2
 msgid "Name"
@@ -13806,7 +13889,7 @@ msgstr "Дозволені спроби"
 
 #: ../../admin/optionals.rst:248
 msgid "Ratelimit window"
-msgstr ""
+msgstr "Вікно обмеження частоти"
 
 #: ../../admin/optionals.rst:248
 msgid "Lockout period"
@@ -13895,6 +13978,9 @@ msgid ""
 "authentication will be turned off on the account until having gone through "
 "the process of having its password reset."
 msgstr ""
+"Якщо користувач не зможе увійти до системи :setting:`AUTH_LOCK_ATTEMPTS` "
+"разів, на обліковому записі буде вимкнено розпізнавання за паролем, аж доки "
+"не буде виконано процедуру скидання пароля облікового запису."
 
 #: ../../admin/optionals.rst:267
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`"
@@ -13913,6 +13999,8 @@ msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
 msgstr ""
+"Weblate упорядковує придатні до перекладу дані системи керування версіями "
+"проєкту і складників у деревоподібну структуру."
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -13920,6 +14008,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"Об'єктом нижнього рівня є :ref:`проєкт <project>`. Проєкт має містити усі "
+"переклади, які йому належать, разом (наприклад, переклади декількох версій "
+"програми та/або відповідної документації)."
 
 #: ../../admin/projects.rst:13
 msgid ""
@@ -13927,6 +14018,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"Рівнем вище розташовано :ref:`складник <component>`, який є, власне, "
+"складником, який перекладають. Ви визначаєте сховище системи керування "
+"версіями, яке слід використовувати, та маску файлів, які слід перекладати."
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -13934,12 +14028,19 @@ msgid ""
 "automatically by Weblate as translation files (which match the mask defined "
 "in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Над :ref:`складником <component>` розташовано окремі переклади, які "
+"керуються Weblate у автоматичному режимі як файли перекладу (які "
+"відповідають масці, заданій у :ref:`складнику <component>`) у сховищі "
+"системи керування версіями."
 
 #: ../../admin/projects.rst:20
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"У Weblate передбачено підтримку широкого діапазону форматів перекладів ("
+"двомовних і одномовних). Підтримку реалізовано на основі Translate Toolkit, "
+"див. :ref:`formats`."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -13975,7 +14076,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "Дані поточного тарифного плану можна переглянути на окремій сторінці:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -13986,7 +14087,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
-msgstr ""
+msgstr "Після створення проєкту ви перейдете безпосередньо до сторінки проєкту:"
 
 #: ../../admin/projects.rst:64
 msgid ""
