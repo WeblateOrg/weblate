@@ -54,9 +54,11 @@ from weblate.auth.utils import (
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
+from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
+from weblate.utils.stats import UserStats
 from weblate.utils.validators import (
     validate_email,
     validate_fullname,
@@ -277,7 +279,7 @@ class GroupManyToManyField(models.ManyToManyField):
             related_manager_cls.remove = wrap_group(related_manager_cls.remove)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, CacheKeyMixin):
     username = UsernameField(
         _("Username"),
         max_length=USERNAME_LENGTH,
@@ -357,6 +359,7 @@ class User(AbstractBaseUser):
         self.cla_cache = {}
         self._permissions = None
         self.current_subscription = None
+        self.stats = UserStats(self)
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)

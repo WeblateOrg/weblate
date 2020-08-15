@@ -398,6 +398,14 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
+    @action(detail=True, methods=["get"])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        serializer = StatisticsSerializer(obj, context={"request": request})
+
+        return Response(serializer.data)
+
 
 class GroupViewSet(viewsets.ModelViewSet):
     """Groups API."""

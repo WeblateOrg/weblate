@@ -184,6 +184,9 @@ class FullUserSerializer(serializers.ModelSerializer):
         lookup_field="username",
         source="subscriptions",
     )
+    statistics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:user-statistics", lookup_field="username"
+    )
 
     class Meta:
         model = User
@@ -197,6 +200,7 @@ class FullUserSerializer(serializers.ModelSerializer):
             "is_active",
             "date_joined",
             "url",
+            "statistics_url",
         )
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}

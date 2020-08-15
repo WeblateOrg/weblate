@@ -833,6 +833,50 @@ class ComponentListStats(BaseStats):
         self.store(item, result)
 
 
+class UserStats(BaseStats):
+    basic_keys = SOURCE_KEYS
+
+    def project_set(self):
+        from weblate.trans.models import Change, Project
+
+        user = self._object
+        allowed_project_ids = user.allowed_project_ids
+
+        # Filter all user activity
+        all_changes = Change.objects.last_changes(user).filter(user=user)
+
+        # Filter where project is active
+        user_projects_ids = set(
+            all_changes.values_list("translation__component__project", flat=True)
+        )
+        user_projects = Project.objects.filter(
+            id__in=user_projects_ids & allowed_project_ids
+        )
+        user_owned_projects = user.owned_projects.filter(id__in=allowed_project_ids)
+        return prefetch_stats(user_projects.union(user_owned_projects))
+
+    def _prefetch_basic(self):
+        stats = zero_stats(self.basic_keys)
+        for project in self.project_set():
+            stats_obj = project.stats
+            stats_obj.ensure_basic()
+            for item in self.basic_keys:
+                aggregate(stats, item, stats_obj)
+
+        for key, value in stats.items():
+            self.store(key, value)
+
+        # Calculate percents
+        self.calculate_basic_percents()
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        result = 0
+        for project in self.project_set():
+            result += getattr(project.stats, item)
+        self.store(item, result)
+
+
 class GlobalStats(BaseStats):
     basic_keys = SOURCE_KEYS
 
