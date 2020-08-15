@@ -84,7 +84,7 @@ add_suggestions
 
 .. versionadded:: 2.5
 
-Imports a translation from the file to use as a suggestions for the given translation.
+Imports a translation from the file to use as a suggestion for the given translation.
 It skips duplicated translations; only different ones are added.
 
 .. django-admin-option:: --author USER@EXAMPLE.COM

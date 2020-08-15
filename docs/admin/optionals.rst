@@ -89,8 +89,8 @@ The billing module additionally allows project admins to create new projects
 and components without being superusers (see :ref:`adding-projects`). This is
 possible when following conditions are met:
 
-* The billing is in it's configured limits (any overusage results in blocking
-  of project/component creation) and paid (if it's price is non zero)
+* The billing is in its configured limits (any overusage results in blocking
+  of project/component creation) and paid (if its price is non zero)
 * The user is admin of existing project with billing or user is owner of
   billing (the latter is necessary when creating new billing for users to be
   able to import new projects).
