@@ -1606,8 +1606,8 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/changes/
 
-    Returns a list of translation changes. This is essentially a component scoped
-    :http:get:`/api/changes/` accepting same params.
+    Returns a list of translation changes. This is essentially a translations-scoped
+    :http:get:`/api/changes/` accepting the same parameters.
 
     :param project: Project URL slug
     :type project: string

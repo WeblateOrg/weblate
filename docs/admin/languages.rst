@@ -78,7 +78,7 @@ Text direction
 ++++++++++++++
 
 Determines whether language is written right to left or left to right. This
-properly is autodetected correctly for most of the languages.
+property is autodetected correctly for most of the languages.
 
 .. _plural-number:
 

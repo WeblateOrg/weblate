@@ -133,7 +133,7 @@ AUTH_TOKEN_VALID
 
 .. versionadded:: 2.14
 
-How long the the authentication token and temporary password from password reset e-mails is valid for.
+How long the authentication token and temporary password from password reset e-mails is valid for.
 Set in number of seconds, defaulting to 172800 (2 days).
 
 
@@ -374,7 +374,7 @@ The default access control setting for new projects:
 ``200``
    :guilabel:`Custom`
 
-Use :guilabel:`Custom` if you managing ACL manually, which means not relying
+Use :guilabel:`Custom` if you are managing ACL manually, which means not relying
 on the internal Weblate management.
 
 .. seealso::
@@ -525,7 +525,7 @@ defaulting to ``'Update from Weblate'``.
 ENABLE_AVATARS
 --------------
 
-Whether to turn on Gravatar based avatars for users. By default this is on.
+Whether to turn on Gravatar-based avatars for users. By default this is on.
 
 Avatars are fetched and cached on the server, lowering the risk of
 leaking private info, speeding up the user experience.
@@ -572,7 +572,7 @@ e-mails and generated absolute URLs.
 ENABLE_SHARING
 --------------
 
-Turn on/off the "Share" menu so users can share translation progress on social networks.
+Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
 
 .. setting:: GITLAB_USERNAME
 
@@ -874,7 +874,7 @@ MATOMO_URL
 ----------
 
 Full URL (including trailing slash) of a Matomo (formerly Piwik) installation you want
-to use to track Weblate use. Please check <https://matomo.org/> for more deails.
+to use to track Weblate use. Please check <https://matomo.org/> for more details.
 
 .. hint::
 
@@ -1009,7 +1009,7 @@ MT_DEEPL_API_VERSION
 API version to use with DeepL service. The version limits scope of usage:
 
 v1
-    Is meant for CAT tools and is usable with user based subscription.
+    Is meant for CAT tools and is usable with user-based subscription.
 v2
     Is meant for API usage and the subscription is usage based.
 

@@ -160,7 +160,7 @@ For example the GitHub URL with authentication added might look like:
 
     If you username or password contains special characters, those have to be
     URL encoded, for example
-    ``https://user%40example.com:%24password%23@bitbucket.org/…```.
+    ``https://user%40example.com:%24password%23@bitbucket.org/…``.
 
 Using proxy
 +++++++++++

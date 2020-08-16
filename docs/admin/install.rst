@@ -342,7 +342,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
    If you don't want to make the Weblate user a superuser in PostgreSQL, you can
    omit that. In that case you will have to perform some of the migration steps
-   manually as a PostgreSQL superuser in schama Weblate will use:
+   manually as a PostgreSQL superuser in schema Weblate will use:
 
    .. code-block:: postgres
 
@@ -723,8 +723,8 @@ Set properly SECURE_HSTS_SECONDS
 ++++++++++++++++++++++++++++++++
 
 If your site is served over SSL, you have to consider setting a value for :setting:`SECURE_HSTS_SECONDS`
-in the settings.py to enable HTTP Strict Transport Security.
-By default its set to 0 as shown below.
+in the :file:`settings.py` to enable HTTP Strict Transport Security.
+By default it's set to 0 as shown below.
 
 .. code-block:: python
 
@@ -915,7 +915,7 @@ example to set it to ``configuration`` directory under the Weblate tree:
     On Linux, and other UNIX like systems, the path to user's home directory is
     defined in :file:`/etc/passwd`. Many distributions default to a non-writable
     directory for users used for serving web content (such as ``apache``,
-    ``www-data`` or ``wwwrun``, so you either have to run Weblate under
+    ``www-data`` or ``wwwrun``), so you either have to run Weblate under
     a different user, or change this setting.
 
 .. seealso::
@@ -1139,7 +1139,7 @@ use that for the following paths:
 :file:`/media/`
     Used for user media uploads (e.g. screenshots).
 :file:`/favicon.ico`
-    Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`
+    Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`.
 
 .. seealso::
 
