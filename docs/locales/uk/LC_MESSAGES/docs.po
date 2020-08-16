@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-16 03:28+0000\n"
+"PO-Revision-Date: 2020-08-17 11:05+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -14048,6 +14048,12 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Ви можете використовувати спільне клоноване із системи керування версіям "
+"сховище для декількох складників за допомогою можливості :ref:`internal-urls`"
+". Наполегливо рекомендуємо скористатися цією можливістю, якщо у вашому "
+"проєкті декілька складників використовують те саме сховище системи керування "
+"версіями. Таким чином ви пришвидшите роботу системі і зменшите витрату місця "
+"на диску."
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
@@ -14058,12 +14064,16 @@ msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
 msgstr ""
+"Включено інтерфейс для додавання проєктів і складників — у вас більше немає "
+"потреби у використанні :ref:`адміністративного інтерфейсу <admin-interface>`."
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
 msgstr ""
+"У нових версіях процедуру додавання компонентів поділено на декілька кроків "
+"і реалізовано автоматичне визначення значень більшості параметрів."
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -14073,6 +14083,12 @@ msgid ""
 "also create those based on your plans allowance from the user account that "
 "manages billing."
 msgstr ""
+"На основі даних щодо ваших прав доступу, можна створювати нові проєкти та "
+"складники. Ці дії завжди доступні для суперкористувачів і, якщо у вашому "
+"екземплярі використовується облік (наприклад, він використовується на "
+"https://hosted.weblate.org/, див. :ref:`billing`), ви також можете "
+"створювати рахунки на основі ваших тарифних планів з облікового запису "
+"користувача, який керує рахунками."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
@@ -14084,6 +14100,9 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"З цієї сторінки або меню на панелі навігації ви можете ініціювати створення "
+"проєкту, заповнивши базові відомості щодо проєкту перекладу для повного його "
+"додавання:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
@@ -14096,6 +14115,10 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"Створити складник перекладу можна за допомогою одинарного клацання на цьому "
+"пункті. Процедура створення складника є багатокроковою, більшість параметрів "
+"перекладу буде визначено автоматично. Передбачено декілька підходів до "
+"створення складника:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -14104,6 +14127,7 @@ msgstr "З контролю версій"
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
 msgstr ""
+"Створює складник на основі віддаленого сховища системи керування версіями."
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -14112,7 +14136,7 @@ msgstr "З наявного складника"
 #: ../../admin/projects.rst:71
 msgid ""
 "Creates additional component to existing one by choosing different files."
-msgstr ""
+msgstr "Створює додатковий складник до наявного шляхом вибору інших файлів."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -14121,7 +14145,7 @@ msgstr "Додаткове відділення"
 #: ../../admin/projects.rst:73
 msgid ""
 "Creates additional component to existing one, just for different branch."
-msgstr ""
+msgstr "Створює додатковий складник до наявного, але для іншої гілки у сховищі."
 
 #: ../../admin/projects.rst:76
 msgid "Upload translations files"
@@ -14133,6 +14157,10 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Вивантажити файли перекладу до Weblate, якщо у вас немає системи керування "
+"версіями або ви не хочете інтегрувати її з Weblate. Пізніше ви можете "
+"оновити дані за допомогою вебінтерфейсу або :ref:`програмного "
+"інтерфейсу<api>`."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -14140,7 +14168,7 @@ msgstr "Перекласти документ"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document and translate that."
-msgstr ""
+msgstr "Вивантажити один документ і перекласти його."
 
 #: ../../admin/projects.rst:81
 msgid "Start from scratch"
@@ -14148,29 +14176,36 @@ msgstr "Почати спочатку"
 
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
-msgstr ""
+msgstr "Створити порожній проєкт перекладу і додати рядки вручну."
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Якщо у вас вже є наявні складники перекладу, ви також можете без проблем "
+"додати нові складники для додаткових файлів або гілки з використанням того "
+"самого сховища."
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Спочатку вам слід заповнити назву і розташування сховища:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"На наступній сторінці вам буде показано список виявлених придатних до "
+"перекладу ресурсів:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"На останньому кроці ви можете переглянути дані щодо складника перекладу і "
+"вкажіть додаткові подробиці:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
@@ -14189,10 +14224,16 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Створіть проєкт перекладу, а потім додайте новий складник для перекладу до "
+"нього. Проєкт подібний до шафи, у якій складено самі переклади. Усі "
+"складники в одному проєкті мають спільні пропозицій і словник. Крім того, "
+"переклади автоматично переносяться на усі складники в одному проєкті (якщо "
+"поширення перекладів не було вимкнено у налаштуваннях складника), див. "
+":ref:`memory`."
 
 #: ../../admin/projects.rst:115
 msgid "These basic attributes set up and inform translators of a project:"
-msgstr ""
+msgstr "Ці базові атрибути допомагають перекладачам проєкту та інформують їх:"
 
 #: ../../admin/projects.rst:120 ../../admin/projects.rst:753 ../../api.rst:742
 #: ../../contributing/about.rst:11
@@ -14201,7 +14242,7 @@ msgstr "Назва проєкту"
 
 #: ../../admin/projects.rst:122
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "Докладна назва проєкту, використовується для показу назви проєкту."
 
 #: ../../admin/projects.rst:127 ../../admin/projects.rst:755 ../../api.rst:744
 msgid "Project slug"
@@ -14237,7 +14278,7 @@ msgstr "Вказівки з перекладу"
 
 #: ../../admin/projects.rst:150
 msgid "URL to more site with more detailed instructions for translators."
-msgstr ""
+msgstr "Адреса до додаткового сайта із докладними настановами для перекладачів."
 
 #: ../../admin/projects.rst:155
 msgid "Set Language-Team header"
@@ -14313,6 +14354,8 @@ msgstr "Дозволити гачки"
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
 msgstr ""
+"Визначає, чи буде використано :ref:`скрипти слідкування<hooks>` для цього "
+"сховища."
 
 #: ../../admin/projects.rst:207
 msgid "Source language"
@@ -14323,6 +14366,8 @@ msgid ""
 "Language used for source strings in all components. Change this if you are "
 "translating from something else than English."
 msgstr ""
+"Мова, яку буде використано для початкових рядків в усіх складниках. Змініть "
+"цю мову, якщо ви перекладаєте з якоїсь мови, відмінної від англійської."
 
 #: ../../admin/projects.rst:214
 msgid ""
@@ -14331,12 +14376,18 @@ msgid ""
 "choose :guilabel:`English (Developer)` as a source language. To avoid "
 "conflict between name of the source language and existing translation."
 msgstr ""
+"Якщо ви перекладаєте двомовні файли з англійської, але хочете мати "
+"можливість для виправлення і у перекладі англійською, вам варто вибрати "
+":guilabel:`Англійська (розробник)` як початкову мову. Щоб уникнути конфлікту "
+"між назвою початкової мови і наявним перекладом."
 
 #: ../../admin/projects.rst:219
 msgid ""
 "For monolingual translations, you can use intermediate translation in this "
 "case, see :ref:`component-intermediate`."
 msgstr ""
+"У цьому випадку для одномовних перекладів ви можете скористатися проміжним "
+"перекладом, див. :ref:`component-intermediate`."
 
 #: ../../admin/projects.rst:224
 msgid ""
@@ -14356,16 +14407,21 @@ msgid ""
 "this when language codes are inconsistent in your repositories and you want "
 "to get a consistent view in Weblate."
 msgstr ""
+"Визначте прив'язку кодів мов при імпортуванні перекладів до Weblate. "
+"Скористайтеся цим, якщо коди мов у ваших сховищах є нестандартними, і ви "
+"хочете мати однорідний вигляд у Weblate."
 
 #: ../../admin/projects.rst:238
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
 msgstr ""
+"Типовим випадком використання є прив'язка американської англійської до "
+"англійської: ``en_US:en``"
 
 #: ../../admin/projects.rst:240
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
-msgstr ""
+msgstr "Декілька прив'язок слід відокремлювати комою: ``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:244
 msgid ""
@@ -14373,6 +14429,10 @@ msgid ""
 "matches are case sensitive, so make sure you use the source language codes "
 "in same form as used in the filenames."
 msgstr ""
+"Коди мов прив'язуються при встановленні відповідності файлів перекладу, "
+"прив'язки встановлюються без врахування регістру, тому переконайтеся, що ви "
+"використовуєте коди початкових мов у тій самій формі, яку використано у "
+"назвах файлів."
 
 #: ../../admin/projects.rst:255
 msgid "Component configuration"
@@ -14385,11 +14445,17 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Складник групує дані для перекладу. Ви вводите адресу сховища системи "
+"керування версіями і маску файлів, для яких виконуватиметься переклад, і "
+"Weblate автоматично отримує дані з цієї системи керування версіями і "
+"знаходить усі відповідні придатні до перекладу файли."
 
 #: ../../admin/projects.rst:261
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
 msgstr ""
+"Ви можете знайти деякі приклади типових налаштувань у "
+":ref:`форматах<formats>`."
 
 #: ../../admin/projects.rst:265
 msgid ""
@@ -14397,6 +14463,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or addons, book chapters or websites)."
 msgstr ""
+"Рекомендуємо зберігати притомний розмір складників перекладу — поділіть "
+"переклад за будь-яким критерієм, який має сенс у вашому випадку (окремі "
+"програми або додатки, глави книги або сторінки сайта)."
 
 #: ../../admin/projects.rst:269
 msgid ""
@@ -14404,6 +14473,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate без проблем обробляє переклади із десятками тисяч рядків, але для "
+"таких файлів важче розподілити роботу і виконати координацію між "
+"перекладачами у таких великих складниках перекладу."
 
 #: ../../admin/projects.rst:272
 msgid ""
@@ -14412,12 +14484,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Якщо визначення мови для перекладу пропущено, буде створено порожнє "
+"визначення із назвою, подібною до «cs_CZ (generated)». Вам слід скоригувати "
+"визначення і повідомити про нього авторам Weblate, щоб пропущені мови можна "
+"було включити до наступного випуску."
 
 #: ../../admin/projects.rst:277
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"Складник містить усі важливі параметри для роботи із системою керування "
+"версіями і для отримання перекладів з неї:"
 
 #: ../../admin/projects.rst:283 ../../admin/projects.rst:749
 msgid "Component name"
@@ -14474,6 +14552,9 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
+"Це може бути або реальна адреса системи керування версіями або "
+"``weblate://проєкт/складник``, що вказує на те, що сховище має бути спільним "
+"із іншим складником. Див. :ref:`internal-urls`, щоб дізнатися більше."
 
 #: ../../admin/projects.rst:328
 msgid "Repository push URL"
@@ -14485,12 +14566,19 @@ msgid ""
 "git` and :ref:`vcs-mercurial` and push support is turned off for these when "
 "this is empty."
 msgstr ""
+"Адреса сховища, яка використовуватиметься для запису даних до сховища. Цей "
+"параметр використовується лише для :ref:`vcs-git` і :ref:`vcs-mercurial`, а "
+"підтримку запису вимкнено для цих систем керування версіями, якщо значення "
+"цього параметра є порожнім."
 
 #: ../../admin/projects.rst:336
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgstr ""
+"Див. :ref:`vcs-repos`, щоб дізнатися більше про те, як вказати адресу "
+"сховища, і :ref:`push-changes`, щоб дізнатися більше про те, як записувати "
+"зміни до сховища з Weblate."
 
 #: ../../admin/projects.rst:342
 msgid "Repository browser"
@@ -14502,12 +14590,17 @@ msgid ""
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
 msgstr ""
+"Адреса навігатора сховищем, який використовується для показу початкового "
+"коду файлів (розташування використаних повідомлень). Якщо значення порожнє, "
+"такі посилання створення не буде. Ви можете скористатися :ref:`markup`."
 
 #: ../../admin/projects.rst:347
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"Наприклад, для GitHub скористайтеся чимось таким: ``https://github.com/"
+"WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:350
 msgid ""
@@ -14516,6 +14609,10 @@ msgid ""
 "github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}"
 "``"
 msgstr ""
+"Якщо ваші шляхи є відносними щодо іншої теки, вам варто вилучити початковий "
+"каталог за допомогою фільтра ``parentdir`` (див. :ref:`markup`): "
+"``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:357
 msgid "Exported repository URL"
@@ -14528,6 +14625,10 @@ msgid ""
 "merge changes. You can use :ref:`git-exporter` to automate this for Git "
 "repositories."
 msgstr ""
+"Адреса, куди експортуються зміни, внесені Weblate. Це важливо, якщо не "
+"використано :ref:`continuous-translation` або є потреба в об'єднанні змін "
+"вручну. Ви можете скористатися :ref:`git-exporter` для автоматизації цього "
+"для сховища Git."
 
 #: ../../admin/projects.rst:367
 msgid "Repository branch"
@@ -14537,6 +14638,8 @@ msgstr "Гілка сховища"
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
 msgstr ""
+"Яку гілку слід отримати зі сховища керування версіями, і де слід шукати "
+"переклади."
 
 #: ../../admin/projects.rst:374
 msgid "Push branch"
@@ -14545,6 +14648,8 @@ msgstr "Гілка для запису"
 #: ../../admin/projects.rst:376
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
 msgstr ""
+"Гілка, до якої слід записувати зміни. Не заповнюйте, якщо слід "
+"використовувати :ref:`component-branch`."
 
 #: ../../admin/projects.rst:380
 msgid ""
@@ -14635,6 +14740,10 @@ msgid ""
 "source translation, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
+"Якщо встановлено, переклад джерела засновано на цьому файлі, але усі інші "
+"засновано на :ref:`component-template`. Якщо рядок не перекладено у "
+"перекладі джерела, переклад іншими мовами заборонено. Цей параметр надає :ref"
+":`source-quality-gateway`."
 
 #: ../../admin/projects.rst:439
 msgid ""
@@ -14938,6 +15047,9 @@ msgid ""
 "Name of the committer used for Weblate commits, the author will always be "
 "the real translator. On some VCSs this might be not supported."
 msgstr ""
+"Ім'я автора внеску, яке буде використано у внесках Weblate. Автором завжди "
+"буде реальний перекладач. У деяких системах керування версіями підтримки "
+"визначення автора внеску не передбачено."
 
 #: ../../admin/projects.rst:609
 msgid "Default value can be changed by :setting:`DEFAULT_COMMITER_NAME`."
@@ -14954,6 +15066,11 @@ msgid ""
 "real translator. On some VCSs this might be not supported. The default value "
 "can be changed in :setting:`DEFAULT_COMMITER_EMAIL`."
 msgstr ""
+"Адреса електронної пошти автора внеску, яке буде використано у внесках "
+"Weblate. Автором завжди буде реальний перекладач. У деяких системах "
+"керування версіями підтримки визначення адреси електронної пошти автора "
+"внеску не передбачено. Типове значення може бути змінено за допомогою "
+"параметра :setting:`DEFAULT_COMMITER_EMAIL`."
 
 #: ../../admin/projects.rst:623
 msgid "Push on commit"
@@ -14966,6 +15083,11 @@ msgid ""
 "to its internal repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
+"Визначає, чи слід записані зміни автоматично записувати до основного сховища "
+"коду. Якщо увімкнено, запис буде ініційовано одразу після того, як Weblate "
+"запише зміни до внутрішнього сховища (див. :ref:`lazy-commit`). Щоб "
+"насправді увімкнути запис, слід також налаштувати :guilabel:`Адресу запису "
+"до сховища`."
 
 #: ../../admin/projects.rst:634
 msgid "Age of changes to commit"
@@ -14978,6 +15100,10 @@ msgid ""
 "changes in a component are committed once there is at least one older than "
 "this period."
 msgstr ""
+"Встановлює, наскільки старими (у годинах) мають бути зміни, перш ніж їх буде "
+"внесено фоновим завданням або командою керування :djadmin:`commit_pending`. "
+"Усі зміни у складнику буде записано у момент, коли зміни у принаймні одному "
+"зі складників стануть старішими за вказаний час."
 
 #: ../../admin/projects.rst:641
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -14994,6 +15120,10 @@ msgid ""
 "merge). Locking in this situation avoids adding another conflict which would "
 "have to be resolved manually."
 msgstr ""
+"Вмикає блокування складника при помилці у сховищі (помилки отримання даних "
+"зі сховища, запису даних до сховища або об'єднання даних зі сховищем). "
+"Блокування у цьому випадку запобігає додаванню конфліктів, які доведеться "
+"вирішувати вручну."
 
 #: ../../admin/projects.rst:652
 msgid ""
@@ -15107,6 +15237,9 @@ msgid ""
 "project, even if the person can not perform any changes in the component. "
 "This makes it easier to keep translation consistency within the project."
 msgstr ""
+"Типово, складник є видимим для усіх, хто має доступу до проєкту, навіть якщо "
+"особа не може вносити зміни до складника. Це спрощує підтримання "
+"однорідності перекладу у межах проєкту."
 
 #: ../../admin/projects.rst:714
 msgid ""
@@ -15114,6 +15247,9 @@ msgid ""
 "the project level permissions will not apply and you will have to specify "
 "component or component list level permission in order to grant access."
 msgstr ""
+"Вмикайте це, якщо ви хочете надати доступ до цього складника явним чином — "
+"права доступу на рівні проєкту не застосовуватимуться, і вам слід вказати "
+"рівень прав доступу до складника або списку складників для надання доступу."
 
 #: ../../admin/projects.rst:718
 msgid ""
@@ -15127,6 +15263,8 @@ msgid ""
 "This applies to project managers as well - please make sure you will not "
 "loose access to the component after toggling the status."
 msgstr ""
+"Це стосується і керівників проєкту — будь ласка, переконайтеся, що ви не "
+"втратите доступ до складника після перемикання його стану."
 
 #: ../../admin/projects.rst:728
 msgid "Template markup"
@@ -15138,6 +15276,9 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
+"Weblate використовує просту мову розмітки у декількох місця, де потрібна "
+"обробка тексту. Її засновано на :doc:`django:ref/templates/language`, тому "
+"може бути доволі потужною."
 
 #: ../../admin/projects.rst:734
 msgid "Currently it is used in:"
@@ -15165,7 +15306,7 @@ msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:742
 msgid "There following variables are available in the component templates:"
-msgstr ""
+msgstr "Доступними у шаблонах складників є такі змінні:"
 
 #: ../../admin/projects.rst:744
 msgid "``{{ language_code }}``"
@@ -15287,12 +15428,14 @@ msgstr "``{{ addon_name }}``"
 msgid ""
 "Name of currently executed addon, available only in the addon commit message."
 msgstr ""
+"Назва поточного виконаного додатка, доступна лише у повідомленні про внесок "
+"додатка."
 
 #: ../../admin/projects.rst:781
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
-msgstr ""
+msgstr "Доступними у навігаторі сховища або шаблонах редактора є такі змінні:"
 
 #: ../../admin/projects.rst:783
 msgid "``{{branch}}``"
@@ -15319,6 +15462,8 @@ msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
+"назва файла, ви також можете вилучити початкові частини за допомогою фільтра "
+"``parentdir``; приклад: ``{{filename|parentdir}}``"
 
 #: ../../admin/projects.rst:790
 msgid "You can combine them with filters:"
@@ -15330,7 +15475,7 @@ msgstr "Ви можете скористатися умовами:"
 
 #: ../../admin/projects.rst:802
 msgid "There is additional tag available for replacing characters:"
-msgstr ""
+msgstr "Передбачено додатковий теґ для заміни символів:"
 
 #: ../../admin/projects.rst:808
 msgid "You can combine it with filters:"
@@ -15353,6 +15498,9 @@ msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
 msgstr ""
+"Отримання сховища системи керування версіями та імпортування перекладів до "
+"Weblate може бути тривалим процесом, залежно від розміру ваших перекладів. "
+"Ось декілька підказок:"
 
 #: ../../admin/projects.rst:834
 msgid "Optimize configuration"
@@ -15365,6 +15513,11 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
+"Типові налаштування є корисними для тестування і діагностування Weblate, а "
+"для промислової конфігурації вам слід виконати певні коригування. Багато з "
+"налаштувань значно впливають на швидкодію. Будь ласка, ознайомтеся із "
+"розділом :ref:`production`, щоб дізнатися більше, особливо з такими "
+"підрозділами:"
 
 #: ../../admin/projects.rst:841
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
@@ -15380,7 +15533,7 @@ msgstr ":ref:`production-debug`"
 
 #: ../../admin/projects.rst:847
 msgid "Check resource limits"
-msgstr ""
+msgstr "Перевірка обмежень на ресурси"
 
 #: ../../admin/projects.rst:849
 msgid ""
