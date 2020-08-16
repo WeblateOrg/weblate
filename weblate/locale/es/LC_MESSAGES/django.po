@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-04 13:59+0000\n"
-"PO-Revision-Date: 2020-08-04 13:58+0000\n"
+"PO-Revision-Date: 2020-08-12 07:28+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -2153,11 +2153,11 @@ msgstr ""
 
 #: weblate/checks/chars.py:46
 msgid "Starting newline"
-msgstr "Salto de renglón al incio"
+msgstr "Salto de renglón al inicio"
 
 #: weblate/checks/chars.py:47
 msgid "Source and translation do not both start with a newline"
-msgstr "Sólo uno de original y traducción comienza con un salto de línea"
+msgstr "El original o la traducción no comienza con un salto de renglón"
 
 #: weblate/checks/chars.py:57
 msgid "Trailing newline"
@@ -2165,7 +2165,7 @@ msgstr "Salto de renglón al final"
 
 #: weblate/checks/chars.py:58
 msgid "Source and translation do not both end with a newline"
-msgstr "Sólo uno de original y traducción finaliza con un salto de línea"
+msgstr "El original o la traducción no acaba con un salto de renglón"
 
 #: weblate/checks/chars.py:68
 msgid "Starting spaces"
@@ -2182,7 +2182,7 @@ msgstr "Espacio al final"
 
 #: weblate/checks/chars.py:108
 msgid "Source and translation do not both end with a space"
-msgstr "Sólo uno de original y traducción termina con un espacio"
+msgstr "El original o la traducción no acaba con un espacio"
 
 #: weblate/checks/chars.py:146
 msgid "Double space"
@@ -2198,7 +2198,7 @@ msgstr "Punto final desigual"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
-msgstr "Sólo uno de original y traducción termina con un punto"
+msgstr "El original o la traducción no acaba con un punto"
 
 #: weblate/checks/chars.py:207
 msgid "Mismatched colon"
@@ -2984,10 +2984,8 @@ msgid "INI file"
 msgstr "Archivo INI"
 
 #: weblate/formats/ttkit.py:1399
-#, fuzzy
-#| msgid "InnoSetup INI file"
 msgid "Inno Setup INI file"
-msgstr "Archivo INI de InnoSetup"
+msgstr "Archivo INI de Inno Setup"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3003,7 +3001,7 @@ msgstr "Glosarios"
 
 #: weblate/glossary/forms.py:41
 msgid "Invalid integer list!"
-msgstr "¡Lista de número entero inválida!"
+msgstr "La lista de números entenos no es válida."
 
 #: weblate/glossary/forms.py:48 weblate/templates/component.html:37
 #: weblate/templates/dashboard/user.html:43
@@ -3042,11 +3040,11 @@ msgstr "Método de fusionado"
 
 #: weblate/glossary/forms.py:114
 msgid "Keep current"
-msgstr "Mantener actual"
+msgstr "Mantener actuales"
 
 #: weblate/glossary/forms.py:115
 msgid "Overwrite existing"
-msgstr "Sobrescribir existente"
+msgstr "Sobrescribir existentes"
 
 #: weblate/glossary/forms.py:116
 msgid "Add as other translation"
@@ -3742,7 +3740,7 @@ msgstr "Traducciones alojadas"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
-"Esta instancia de Weblate contiene traducciones para varios proyectos de "
+"Esta instalación de Weblate contiene traducciones para varios proyectos de "
 "software libre."
 
 #: weblate/templates/about/index.html:29
@@ -4913,7 +4911,7 @@ msgstr "Editar"
 #: weblate/templates/billing-failure.html:10
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:69
 msgid "Check your billing status"
-msgstr "Compruebe el estado de su facturación"
+msgstr "Comprobar estado de su facturación"
 
 #: weblate/templates/billing-failure.html:12
 msgid ""
@@ -5373,7 +5371,7 @@ msgstr "Página de participación"
 #: weblate/templates/snippets/project-nav.html:149
 #: weblate/templates/translation.html:109
 msgid "Status widgets"
-msgstr "Indicadores de estado"
+msgstr "Injertos web de estado"
 
 #: weblate/templates/component.html:141
 msgid "You don't have permission to start a new translation"
@@ -6171,7 +6169,7 @@ msgstr "Estado del repositorio"
 
 #: weblate/templates/js/git-status.html:20
 msgid "There are some uncommitted changes!"
-msgstr "¡Hay algunos cambios no confirmados!"
+msgstr "Algunos cambios no se han consignado."
 
 #: weblate/templates/js/git-status.html:24
 msgid "There has been a merge failure in the repository"
@@ -6412,7 +6410,7 @@ msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
-msgstr "Este plan de pagos cubre los siguientes proyectos:"
+msgstr "Este plan de facturación abarca los proyectos siguientes:"
 
 #: weblate/templates/mail/billing_expired.html:15
 msgid "Remove the project"
@@ -8518,8 +8516,8 @@ msgstr "Lista de cambios recientes realizados en Weblate"
 #: weblate/templates/translate.html:280
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
-msgstr[0] "Esta cadena tiene el mismo contexto y la misma fuente."
-msgstr[1] "Estas cadenas tienen el mismo contexto y la misma fuente."
+msgstr[0] "Esta cadena tiene el mismo contexto y el mismo origen."
+msgstr[1] "Estas cadenas tienen el mismo contexto y el mismo origen."
 
 #: weblate/templates/translate.html:288
 msgid "Following string has different context but same source."
@@ -8781,7 +8779,7 @@ msgstr "Último autor"
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
-msgstr "Widgets"
+msgstr "Injertos web"
 
 #: weblate/templates/widgets.html:11
 msgid "Promoting translation projects"
@@ -11592,7 +11590,7 @@ msgstr "El nombre de usuario no puede iniciar con punto."
 
 #: weblate/utils/validators.py:183 weblate/utils/validators.py:186
 msgid "Enter a valid e-mail address."
-msgstr "Introduzca una dirección de correo electrónico válida."
+msgstr "Proporcione una dirección de correo electrónico válida."
 
 #: weblate/utils/validators.py:188
 msgid "This e-mail address is disallowed."
@@ -11709,11 +11707,11 @@ msgstr "Servicio alojado"
 
 #: weblate/wladmin/models.py:67
 msgid "Basic self-hosted support"
-msgstr "Asistencia básica para instancias autoalojadas"
+msgstr "Asistencia básica para instalaciones autoalojadas"
 
 #: weblate/wladmin/models.py:68
 msgid "Extended self-hosted support"
-msgstr "Asistencia ampliada para instancias autoalojadas"
+msgstr "Asistencia ampliada para instalaciones autoalojadas"
 
 #: weblate/wladmin/models.py:167
 msgid "Backup performed"

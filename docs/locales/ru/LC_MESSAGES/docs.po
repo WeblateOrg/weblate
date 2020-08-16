@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-10 22:05+0000\n"
-"Last-Translator: Alexey Napalkov <flynbit@gmail.com>\n"
+"PO-Revision-Date: 2020-08-14 11:32+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -1146,6 +1146,8 @@ msgid ""
 "This addon requires additional configuration, see :setting:"
 "`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
+"Это дополнение требует дополнительной настройки, см. "
+":setting:`LOCALIZE_CDN_URL` и :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../admin/addons.rst:51
 msgid "String extraction"
@@ -1172,6 +1174,9 @@ msgid ""
 "with CSS class ``l10n``, for example it would extract two strings from "
 "following snippets:"
 msgstr ""
+"В конфигурации по умолчанию для :guilabel:`CSS selector` извлекаются "
+"элементы с CSS класса ``l10n``, например, извлекаются две строки из "
+"следующих фрагментов:"
 
 #: ../../admin/addons.rst:76
 msgid ""
@@ -1194,32 +1199,45 @@ msgid "HTML localization"
 msgstr "Локализация HTML"
 
 #: ../../admin/addons.rst:87
+#, fuzzy
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
+"Для локализации документа HTML необходимо загрузить сценарий :file:`weblate."
+"js`:"
 
 #: ../../admin/addons.rst:93
+#, fuzzy
 msgid ""
 "Upon loading, this will automatically find all matching translatable "
 "elements (based on :guilabel:`CSS selector` configuration) and replace their "
 "text with a translation."
 msgstr ""
+"При загрузке автоматически будут найдены все соответствующие переводимые "
+"элементы (на основе конфигурации :guilabel:CSS selector`) и заменены их "
+"переводом."
 
 #: ../../admin/addons.rst:97
+#, fuzzy
 msgid ""
 "The user language is detected from the cookie (if :guilabel:`Language cookie "
 "name` is configured) and user preferred languages configured in the browser."
 msgstr ""
+"Язык пользователя определяется из файлов cookie (если задано :guilabel:`"
+"Language cookie name`) и предпочтительных языков, настроенных в браузере."
 
 #: ../../admin/addons.rst:101
 msgid "JavaScript localization"
 msgstr "Локализация JavaScript"
 
 #: ../../admin/addons.rst:103
+#, fuzzy
 msgid ""
 "The invidiual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
 msgstr ""
+"Индивидуальные переводы представлены в виде двуязычных файлов JSON в сети "
+"CDN. Чтобы получить их, вы можете использовать следующий код:"
 
 #: ../../admin/addons.rst:112
 msgid "The actual localization logic needs to be implemented in this case."
@@ -1271,10 +1289,13 @@ msgid "Unlike most others, this addon affects the whole project."
 msgstr "В отличие от большинства других надстроек, эта влияет на весь проект."
 
 #: ../../admin/addons.rst:141
+#, fuzzy
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
+"Автоматический перевод вновь добавленных строк с помощью :ref:`addon-weblate."
+"autotranslate.autotranslate`."
 
 #: ../../admin/addons.rst:147
 msgid "Component discovery"
@@ -1732,7 +1753,7 @@ msgstr "Плашка проекта, используемая для постр�
 
 #: ../../admin/addons.rst:513
 msgid "Component name."
-msgstr ""
+msgstr "Имя компонента."
 
 #: ../../admin/addons.rst:519
 msgid "Project name."
@@ -1784,7 +1805,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:93
 msgid "Management interface"
-msgstr ""
+msgstr "Интерфейс управления"
 
 #: ../../admin/admin.rst:6
 msgid ""
@@ -1846,7 +1867,7 @@ msgstr ":ref:`project`"
 
 #: ../../admin/admin.rst:54
 msgid "Bilingual components"
-msgstr ""
+msgstr "Двуязычные компоненты"
 
 #: ../../admin/admin.rst:56
 msgid ""
@@ -1860,7 +1881,7 @@ msgstr ":ref:`component`, :ref:`bimono`"
 
 #: ../../admin/admin.rst:69
 msgid "Monolingual components"
-msgstr ""
+msgstr "Одноязычные компоненты"
 
 #: ../../admin/admin.rst:71
 msgid ""
@@ -2001,7 +2022,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "Социальная аутентификация"
 
 #: ../../admin/auth.rst:35
 msgid ""
@@ -2039,11 +2060,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:65
 msgid "OpenID authentication"
-msgstr ""
+msgstr "Аутентификация OpenID"
 
 #: ../../admin/auth.rst:67
 msgid ""
@@ -2058,7 +2079,7 @@ msgstr ":doc:`OpenID <psa:backends/openid>`"
 
 #: ../../admin/auth.rst:88
 msgid "GitHub authentication"
-msgstr ""
+msgstr "Аутентификация GitHub"
 
 #: ../../admin/auth.rst:90
 msgid ""
@@ -2085,7 +2106,7 @@ msgstr ":doc:`GitHub <psa:backends/github>`"
 
 #: ../../admin/auth.rst:118
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Аутентификация Bitbucket"
 
 #: ../../admin/auth.rst:120
 msgid ""
@@ -5483,7 +5504,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1482
 msgid "SITE_DOMAIN"
-msgstr ""
+msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1484
 msgid ""
@@ -6064,7 +6085,7 @@ msgstr ":ref:`vcs-git`"
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
 #: ../../admin/continuous.rst:287 ../../admin/continuous.rst:289
 msgid "`empty`"
-msgstr ""
+msgstr "`empty`"
 
 #: ../../admin/continuous.rst:279
 msgid "Push directly"
@@ -6557,12 +6578,11 @@ msgstr ""
 
 #: ../../admin/install.rst:24
 msgid ":ref:`quick-docker`, recommended for production setups."
-msgstr ":ref:`quick-docker`, рекомендуется для продуктовых установок."
+msgstr ":ref:`quick-docker`, рекомендуется для рабочей среды."
 
 #: ../../admin/install.rst:26
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr ""
-"Установка в виртуальное окружение, рекомендуется для продуктовых установок:"
+msgstr "Установка в виртуальное окружение, рекомендуется для рабочей среды:"
 
 #: ../../admin/install.rst:28
 msgid ":doc:`install/venv-debian`"
@@ -7401,11 +7421,10 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"Отключите эту настройку для любого продуктового сервера. При включённом "
-"режиме отладки Django в случае возникновения ошибки будет показывать "
-"трассировки стека пользователям, при его же отключении ошибки будут "
-"отправляться на адреса электронной почты из массива ``ADMINS`` (смотрите "
-"выше)."
+"Отключите эту настройку для любого рабочего сервера. При включённом режиме "
+"отладки Django в случае возникновения ошибки будет показывать трассировки "
+"стека пользователям, при его же отключении ошибки будут отправляться на "
+"адреса электронной почты из массива ``ADMINS`` (смотрите выше)."
 
 #: ../../admin/install.rst:545
 msgid ""
@@ -7508,7 +7527,7 @@ msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:609
 msgid "Production setup"
-msgstr "Продуктовая установка"
+msgstr "Рабочая среда"
 
 #: ../../admin/install.rst:611
 msgid ""
@@ -7517,7 +7536,7 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
-"Для продуктовой установки необходимо провести корректировки, описанные в "
+"Для установки в рабочую среду необходимо провести корректировки, описанные в "
 "следующих разделах. Наиболее критичные настройки вызовут предупреждение, "
 "которое обозначается восклицательным знаком в верхней панели, если вы вошли "
 "в систему под суперпользователем:"
@@ -7550,7 +7569,7 @@ msgid ""
 msgstr ""
 "При включённом отладочном режиме Django сохраняет все выполненные запросы и "
 "при возникновении ошибок показывает пользователям обратную трассировку "
-"стека, что в продуктовой установке не желательно."
+"стека, что в рабочей среде не желательно."
 
 #: ../../admin/install.rst:644 ../../admin/install.rst:662
 msgid ":ref:`configuration`"
@@ -7672,7 +7691,7 @@ msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
 msgstr ""
-"Пожалуйста, используйте для продуктового окружения PostgreSQL, для получения "
+"Пожалуйста, используйте для рабочего окружения PostgreSQL, для получения "
 "более подробной информации смотрите раздел :ref:`database-setup`."
 
 #: ../../admin/install.rst:740
@@ -8160,7 +8179,7 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
-"НЕ ИСПОЛЬЗУЙТЕ ЭТОТ СЕРВЕР В ПРОДУКТОВЫХ УСЛОВИЯХ. Он не проходил аудиты "
+"НЕ ИСПОЛЬЗУЙТЕ ЭТОТ СЕРВЕР В РАБОЧЕЙ СРЕДЕ. Он не проходил аудиты "
 "безопасности или тесты производительности. Также смотрите документацию "
 "Django по команде :djadmin:`django:runserver`."
 
@@ -8173,9 +8192,9 @@ msgid ""
 msgstr ""
 "Встроенный сервер Django обслуживает статические файлы только с включённым "
 "параметром :setting:`DEBUG`, поскольку он предназначен только для "
-"разработки. Для использования в продуктовом окружении смотрите установки "
-"wsgi в разделах :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn` и :ref"
-":`static-files`."
+"разработки. Для использования в рабочей среде смотрите установки wsgi в "
+"разделах :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn` и :ref:`static-"
+"files`."
 
 #: ../../admin/install.rst:1101
 msgid "Serving static files"
@@ -8336,12 +8355,11 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"Для запуска продуктового веб-сервера используйте обёртку wsgi, "
-"устанавливаемую вместе с Weblate (в виртуальном окружении она "
-"устанавливается в :file:`~/weblate-env/lib/python3.7/site-packages/weblate/"
-"wsgi.py`). Не забудьте также поместить ваше виртуальное окружение в пути "
-"поиска Python’а (например, используя установку ``virtualenv = /home/user/"
-"weblate-env`` в uWSGI)."
+"Для запуска рабочего веб-сервера используйте обёртку wsgi, устанавливаемую "
+"вместе с Weblate (в виртуальном окружении она устанавливается в :file"
+":`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py`). Не забудьте "
+"также поместить ваше виртуальное окружение в пути поиска Python’а (например, "
+"используя установку ``virtualenv = /home/user/weblate-env`` в uWSGI)."
 
 #: ../../admin/install.rst:1194
 msgid ""
@@ -8405,8 +8423,7 @@ msgid ""
 msgstr ""
 "Для обработки фоновых задач Weblate использует Celery. Пример настроек "
 "поставляется с готовой конфигурацией, которая обрабатывает все задачи на "
-"месте, но для продуктовой установки вы захотите изменить их на что-то более "
-"разумное."
+"месте, но для рабочей среды вы захотите изменить их на что-то более разумное."
 
 #: ../../admin/install.rst:1240
 msgid "A typical setup using Redis as a backend looks like this:"
@@ -8691,6 +8708,9 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
+"С помощью докеризированного развёртывания Weblate вы можете запустить ваш "
+"личный экземпляр Weblate за считанные секунды. Все зависимости Weblate уже "
+"включены в образ. В качестве базы данных по умолчанию настроена PostgreSQL."
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -8702,6 +8722,9 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
+"Weblate должен без проблем работать на всём современном оборудовании, ниже "
+"приведена минимальная конфигурация, необходимая для запуска Weblate на одном "
+"узле (сам Weblate, база данных и веб-сервер):"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -8720,18 +8743,25 @@ msgid ""
 "The more memory the better - it is used for caching on all levels "
 "(filesystem, database and Weblate)."
 msgstr ""
+"Чем больше памяти, тем лучше — она используется для кэширования на всех "
+"уровнях (на уровне файловой системы, уровне базы данных и уровне Weblate)."
 
 #: ../../admin/install/steps/hw.rst:15
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
 msgstr ""
+"Множество одновременно работающих пользователей увеличивают количество "
+"необходимых ядер процессора. Для сотен компонентов перевода рекомендуется не "
+"менее 4 Гб оперативной памяти."
 
 #: ../../admin/install/steps/hw.rst:21
 msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
+"Фактические требования к вашей установке Weblate сильно зависят от размера "
+"управляемых ею переводов."
 
 #: ../../admin/install/docker.rst:15
 #: ../../admin/install/steps/install-system-devel.rst:2
@@ -8747,50 +8777,69 @@ msgid ""
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
 msgstr ""
+"В следующих примерах предполагается, что у вас есть рабочее окружение Docker’"
+"а, в котором установлен ``docker-compose``. Для получения конкретных "
+"инструкций ознакомьтесь с документацией к Docker’у."
 
 #: ../../admin/install/docker.rst:20
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "Склонируйте репозиторий weblate-docker:"
 
 #: ../../admin/install/docker.rst:27
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Создайте файл :file:`docker-compose.override.yml` со своими настройками. "
+"Полный список переменных окружения приведён в разделе :ref:`docker-"
+"environment`."
 
 #: ../../admin/install/docker.rst:49
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Если переменная :envvar:`WEBLATE_ADMIN_PASSWORD` не установлена, то "
+"пользователь-администратор создаётся со случайным паролем, отображаемым при "
+"первом запуске."
 
 #: ../../admin/install/docker.rst:52
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose-override.yml` file to change it."
 msgstr ""
+"Приведённый пример настраивает Weblate на прослушку порта 80, чтобы его "
+"изменить, отредактируйте отображение портов в файле :file:`docker-compose-"
+"override.yml`."
 
 #: ../../admin/install/docker.rst:55
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "Запустите контейнеры Weblate:"
 
 #: ../../admin/install/docker.rst:61
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Наслаждайтесь своим развёрнутым Weblate’ом, он доступен на порту 80 "
+"контейнера ``weblate``."
 
 #: ../../admin/install/docker.rst:65
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
 msgstr ""
+"Недавно настройка изменилась, ранее существовал отдельный контейнер веб-"
+"сервера, но с версии 2.15-2 веб-сервер встроен в контейнер Weblate."
 
 #: ../../admin/install/docker.rst:71
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers is not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
 msgstr ""
+"С июля 2019 года (начиная с метки 3.7.1-6) контейнеры больше не запускают "
+"своё содержимое под пользователем root. Это изменение привело к изменению "
+"открытого порта с 80 на 8080."
 
 #: ../../admin/install/docker.rst:74
 msgid ":ref:`invoke-manage`"
@@ -8798,7 +8847,7 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:79
 msgid "Docker container with HTTPS support"
-msgstr ""
+msgstr "Контейнер Docker с поддержкой HTTPS"
 
 #: ../../admin/install/docker.rst:81
 msgid ""
@@ -8808,7 +8857,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:85
 msgid "Using own SSL certificates"
-msgstr ""
+msgstr "Использование собственных SSL-сертификатов"
 
 #: ../../admin/install/docker.rst:89
 msgid ""
@@ -8856,7 +8905,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:134
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "Автоматический выпуск SSL-сертификатов с помощью сервиса Let’s Encrypt"
 
 #: ../../admin/install/docker.rst:136
 msgid ""
@@ -8876,7 +8925,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:167
 msgid "Upgrading the Docker container"
-msgstr ""
+msgstr "Обновление контейнера Docker’а"
 
 #: ../../admin/install/docker.rst:169
 msgid ""
@@ -8915,7 +8964,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:199
 msgid "Admin login"
-msgstr ""
+msgstr "Вход под администратором"
 
 #: ../../admin/install/docker.rst:201
 msgid ""
@@ -8923,12 +8972,18 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"После настройки контейнера вы можете войти в систему под пользователем "
+"`admin` с паролем, указанным в переменной окружения "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, или случайным паролем, сгенерированным при "
+"первом запуске, если он не был установлен явно."
 
 #: ../../admin/install/docker.rst:205
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgstr ""
+"Для сброса пароля пользователя `admin` перезапустите контейнер с переменной "
+":envvar:`WEBLATE_ADMIN_PASSWORD`, установленной в новое значение пароля."
 
 #: ../../admin/install/docker.rst:210
 msgid ""
@@ -8940,21 +8995,25 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:217
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Переменные окружения Docker’а"
 
 #: ../../admin/install/docker.rst:219
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using "
 "environment variables:"
 msgstr ""
+"Многие :ref:`конфигурационные настройки <config>` Weblate в контейнере "
+"Docker могут быть установлены через переменные окружения:"
 
 #: ../../admin/install/docker.rst:222
 msgid "Generic settings"
-msgstr ""
+msgstr "Общие параметры"
 
 #: ../../admin/install/docker.rst:226
 msgid "Configures Django debug mode using :setting:`DEBUG`."
 msgstr ""
+"Настраивает отладочный режим Django, используя её переменную "
+":setting:`DEBUG`."
 
 #: ../../admin/install/docker.rst:228 ../../admin/install/docker.rst:268
 #: ../../admin/install/docker.rst:322 ../../admin/install/docker.rst:339
@@ -9011,17 +9070,21 @@ msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:284
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "Устанавливает пароль для пользователя `admin`."
 
 #: ../../admin/install/docker.rst:286
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
 msgstr ""
+"Если не установлен и пользователя `admin` не существует, он создаётся со "
+"случайным паролем, который показывается при первом запуске контейнера."
 
 #: ../../admin/install/docker.rst:288
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr ""
+"Если не установлен и пользователя `admin` не существует, никакие действия не "
+"выполняются."
 
 #: ../../admin/install/docker.rst:289
 msgid ""
@@ -9029,6 +9092,10 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Если установлен, при каждом запуске контейнера пользователю `admin` "
+"устанавливаются соответствующие пароль :envvar:`WEBLATE_ADMIN_PASSWORD`, имя "
+":envvar:`WEBLATE_ADMIN_NAME` и адрес электронной почты "
+":envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: ../../admin/install/docker.rst:295
 msgid ""
@@ -9036,6 +9103,10 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
+"Хранение пароля в файле конфигурации может представлять собой угрозу "
+"безопасности. Подумайте об использовании этой переменной только для "
+"начальной установки (или пусть Weblate сгенерирует при начальной загрузке "
+"случайный пароль) или для восстановления пароля."
 
 #: ../../admin/install/docker.rst:302
 msgid ""
@@ -9047,7 +9118,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:310
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Настраивает адрес для исходящих сообщений электронной почты."
 
 #: ../../admin/install/docker.rst:314
 msgid ":ref:`production-email`"
@@ -9056,10 +9127,13 @@ msgstr ":ref:`production-email`"
 #: ../../admin/install/docker.rst:318
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr ""
+"Настраивает разрешённые имена HTTP-хостов с помощью параметра "
+":setting:`ALLOWED_HOSTS`."
 
 #: ../../admin/install/docker.rst:320
 msgid "Defaults to ``*`` which allows all hostnames."
 msgstr ""
+"По умолчанию установлен в ``*``, что позволяет использовать все имена хостов."
 
 #: ../../admin/install/docker.rst:331
 msgid ""
@@ -9072,36 +9146,50 @@ msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Настраивает статус открытия регистрации, переключая параметр "
+":std:setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/install/docker.rst:348
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
 msgstr ""
+"Настраивает через параметр :setting:`REGISTRATION_ALLOW_BACKENDS` методы "
+"аутентификации, которые можно использовать для создания новой учётной записи."
 
 #: ../../admin/install/docker.rst:361
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr ""
+"Настраивает используемый в Weblate часовой пояс, смотрите описание параметра "
+":std:setting:`django:TIME_ZONE`."
 
 #: ../../admin/install/docker.rst:365
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr ""
+"Для изменения часового пояса самого контейнера Docker используйте переменную "
+"окружения ``TZ``."
 
 #: ../../admin/install/docker.rst:377
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
+"Заставляет Weblate думать, что он работает за обратным HTTPS-прокси, что "
+"принуждает Weblate использовать HTTPS в ссылках писем электронной почты и "
+"API или устанавливать у кук флаги безопасности."
 
 #: ../../admin/install/docker.rst:382
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
 msgstr ""
+"Этот параметр не включает разрешение на приём контейнером Weblate’а "
+"соединений по HTTPS, его нужно настроить отдельно, для примеров смотрите "
+"раздел :ref:`docker-ssl`."
 
 #: ../../admin/install/docker.rst:394
 msgid ":ref:`production-site`"
@@ -9196,29 +9284,38 @@ msgstr ":ref:`vcs-gitlab` :ref:`lab-setup`"
 
 #: ../../admin/install/docker.rst:485
 msgid "Configures GitLab Host for GitLab merge-requests"
-msgstr ""
+msgstr "Настраивает хост GitLab’а для GitLab’овских запросов на слияние"
 
 #: ../../admin/install/docker.rst:494
 msgid "Configures GitLab access token for GitLab merge-requests"
 msgstr ""
+"Настраивает токен доступа GitLab’а для GitLab’овских запросов на слияние"
 
 #: ../../admin/install/docker.rst:503
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr ""
+"Настраивает политику упрощения языка, смотрите описание параметра "
+":setting:`SIMPLIFY_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:507
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Настраивает значение по умолчанию для :ref:`управления доступом <project-"
+"access_control>` в новых проектах, смотрите описание параметра "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/install/docker.rst:511
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"Настраивает значение по умолчанию для :ref:`ограниченного доступа <component-"
+"restricted>` в новых компонентах, смотрите описание параметра "
+":setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/install/docker.rst:515
 msgid ""
@@ -9226,61 +9323,79 @@ msgid ""
 "allow_translation_propagation` for new components, see :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"Настраивает значение по умолчанию для значения настройки :ref:`component-"
-"allow_translation_propagation` в новых компонентах, смотрите параметр :"
-"setting:`DEFAULT_TRANSLATION_PROPAGATION`."
+"Настраивает значение по умолчанию для :ref:`разрешения распространения "
+"переводов <component-allow_translation_propagation>` в новых компонентах, "
+"смотрите описание параметра :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:519
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr ""
+"Настраивает API-ключ Akismet, смотрите описание параметра "
+":setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:523
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
+"Настраивает GPG для подписи коммитов, смотрите описание параметра "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:531
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr ""
+"Настраивает префикс URL-адреса, на котором запущен Weblate, смотрите "
+"описание параметра :setting:`URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:535
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
+"Настраивает проверки, которые вы не хотите видеть, смотрите описание "
+"параметра :setting:`django:SILENCED_SYSTEM_CHECKS`."
 
 #: ../../admin/install/docker.rst:544
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr ""
+"Позволяет настраивать HTTP-заголовок политики безопасности содержимого "
+"``Content-Security-Policy``."
 
 #: ../../admin/install/docker.rst:548
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgstr ""
+":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
 #: ../../admin/install/docker.rst:556
 msgid "Machine translation settings"
-msgstr ""
+msgstr "Параметры машинного перевода"
 
 #: ../../admin/install/docker.rst:562
 msgid "Configures :ref:`aws` machine translation."
-msgstr ""
+msgstr "Настраивает машинный перевод от :ref:`aws`."
 
 #: ../../admin/install/docker.rst:573
 msgid ""
 "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
 msgstr ""
+"Включает машинный перевод от :ref:`deepl` и устанавливает параметр "
+":setting:`MT_DEEPL_KEY`"
 
 #: ../../admin/install/docker.rst:577
 msgid ""
 "Configures :ref:`deepl` API version to use, see :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
+"Настраивает используемую версию API :ref:`deepl`, смотрите описание "
+"параметра :setting:`MT_DEEPL_API_VERSION`."
 
 #: ../../admin/install/docker.rst:581
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
 msgstr ""
+"Включает машинный перевод от :ref:`google-translate` и устанавливает "
+"параметр :setting:`MT_GOOGLE_KEY`"
 
 #: ../../admin/install/docker.rst:585
 msgid ""
@@ -9312,19 +9427,21 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:613
 msgid "Enables :ref:`glosbe` machine translation."
-msgstr ""
+msgstr "Включает машинный перевод от :ref:`glosbe`."
 
 #: ../../admin/install/docker.rst:622
 msgid "Enables :ref:`ms-terminology` machine translation."
 msgstr ""
+"Включает машинный перевод от :ref:`терминологической службы Майкрософт <ms-"
+"terminology>`."
 
 #: ../../admin/install/docker.rst:635
 msgid "Configures :ref:`saptranslationhub` machine translation."
-msgstr ""
+msgstr "Настраивает машинный перевод от :ref:`saptranslationhub`."
 
 #: ../../admin/install/docker.rst:649
 msgid "Authentication settings"
-msgstr ""
+msgstr "Параметры аутентификации"
 
 #: ../../admin/install/docker.rst:652
 msgid "LDAP"
@@ -9332,19 +9449,19 @@ msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:663
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "Конфигурация аутентификации через LDAP."
 
 #: ../../admin/install/docker.rst:665
 msgid "**Example for direct bind:**"
-msgstr ""
+msgstr "**Пример прямой привязки:**"
 
 #: ../../admin/install/docker.rst:676
 msgid "**Example for search and bind:**"
-msgstr ""
+msgstr "**Пример поиска и привязки:**"
 
 #: ../../admin/install/docker.rst:688
 msgid "**Example with search and bind against Active Directory:**"
-msgstr ""
+msgstr "**Пример поиска и привязки в Active Directory:**"
 
 #: ../../admin/install/docker.rst:703
 msgid ":ref:`ldap-auth`"
@@ -9356,7 +9473,7 @@ msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:711
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr "Включает :ref:`аутентификацию через GitHub <github_auth>`."
 
 #: ../../admin/install/docker.rst:714
 msgid "Bitbucket"
@@ -9364,7 +9481,7 @@ msgstr "Bitbucket"
 
 #: ../../admin/install/docker.rst:719
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr "Включает :ref:`аутентификацию через Bitbucket <bitbucket_auth>`."
 
 #: ../../admin/install/docker.rst:722
 msgid "Facebook"
@@ -9372,7 +9489,7 @@ msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:727
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr "Включает :ref:`facebook_auth`."
 
 #: ../../admin/install/docker.rst:730
 msgid "Google"
@@ -9380,7 +9497,7 @@ msgstr "Google"
 
 #: ../../admin/install/docker.rst:737
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr "Включает :ref:`google_auth`."
 
 #: ../../admin/install/docker.rst:740 ../../vcs.rst:314
 msgid "GitLab"
@@ -9388,25 +9505,29 @@ msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:746
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr "Включает :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:749
 msgid "Azure Active Directory"
-msgstr ""
+msgstr "Azure Active Directory"
 
 #: ../../admin/install/docker.rst:754
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr ""
+"Включает аутентификацию через Azure Active Directory, смотрите :ref:`azure-"
+"auth`."
 
 #: ../../admin/install/docker.rst:757
 msgid "Azure Active Directory with Tenant support"
-msgstr ""
+msgstr "Azure Active Directory с поддержкой Tenant"
 
 #: ../../admin/install/docker.rst:763
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr ""
+"Включает аутентификацию через Azure Active Directory с поддержкой Tenant, "
+"смотрите :ref:`azure-auth`."
 
 #: ../../admin/install/docker.rst:767
 msgid "Keycloak"
@@ -9418,10 +9539,13 @@ msgid ""
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
 "py>`_."
 msgstr ""
+"Включает аутентификацию через Keycloak, смотрите `документацию "
+"<https://github.com/python-social-auth/social-core/blob/master/social_core/"
+"backends/keycloak.py>`_."
 
 #: ../../admin/install/docker.rst:780
 msgid "Linux vendors"
-msgstr ""
+msgstr "Поставщики Linux"
 
 #: ../../admin/install/docker.rst:782
 msgid ""
@@ -9450,21 +9574,25 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:814
 msgid "Other authentication settings"
-msgstr ""
+msgstr "Другие параметры аутентификации"
 
 #: ../../admin/install/docker.rst:818
 msgid "Disables e-mail authentication when set to any value."
 msgstr ""
+"При установке в любое значение отключает аутентификацию через электронную "
+"почту."
 
 #: ../../admin/install/docker.rst:822
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "Настройки базы данных PostgreSQL"
 
 #: ../../admin/install/docker.rst:824
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"База данных создается в файле :file:`docker-compose.yml`, поэтому эти "
+"настройки влияют как на контейнер Weblate, так и на контейнер PostgreSQL."
 
 #: ../../admin/install/docker.rst:827
 msgid ":ref:`database-setup`"
@@ -9472,23 +9600,26 @@ msgstr ":ref:`database-setup`"
 
 #: ../../admin/install/docker.rst:831
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "Пароль PostgreSQL."
 
 #: ../../admin/install/docker.rst:835
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "Имя пользователя PostgreSQL."
 
 #: ../../admin/install/docker.rst:839
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "Имя базы данных PostgreSQL."
 
 #: ../../admin/install/docker.rst:843
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"Имя хоста или IP-адрес сервера PostgreSQL. По умолчанию равен ``database``."
 
 #: ../../admin/install/docker.rst:847
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"Порт сервера PostgreSQL. По умолчанию не установлен (используется значение "
+"по умолчанию)."
 
 #: ../../admin/install/docker.rst:851
 msgid ""
@@ -9499,7 +9630,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:856
 msgid "Database backup settings"
-msgstr ""
+msgstr "Параметры резервного копирования базы данных"
 
 #: ../../admin/install/docker.rst:859
 msgid ":ref:`backup-dumps`"
@@ -9513,7 +9644,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:867
 msgid "Caching server setup"
-msgstr ""
+msgstr "Настройка сервера кэширования"
 
 #: ../../admin/install/docker.rst:869
 msgid ""
@@ -9552,7 +9683,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:899
 msgid "Email server setup"
-msgstr ""
+msgstr "Настройка почтового сервера"
 
 #: ../../admin/install/docker.rst:901
 msgid "To make outgoing e-mail work, you need to provide a mail server."
@@ -9560,11 +9691,11 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:903
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "Пример конфигурации TLS:"
 
 #: ../../admin/install/docker.rst:912
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "Пример конфигурации SSL:"
 
 #: ../../admin/install/docker.rst:925
 msgid ":ref:`out-mail`"
@@ -9649,7 +9780,7 @@ msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:993
 msgid "Error reporting"
-msgstr ""
+msgstr "Отчёты об ошибках"
 
 #: ../../admin/install/docker.rst:995
 msgid ""
@@ -9667,7 +9798,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1006
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Ваше окружение Rollbar, по умолчанию установлена в ``production``."
 
 #: ../../admin/install/docker.rst:1008
 msgid "To enable support for Sentry, set following:"
@@ -9684,6 +9815,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:1019
 msgid "Changing enabled apps, checks, addons or autofixes"
 msgstr ""
+"Изменение включённых приложений, проверок, надстроек или автоматических "
+"исправлений"
 
 #: ../../admin/install/docker.rst:1023
 msgid ""
@@ -9762,7 +9895,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1114
 msgid "Further configuration customization"
-msgstr ""
+msgstr "Дальнейшая настройка конфигурации"
 
 #: ../../admin/install/docker.rst:1116
 msgid ""
@@ -9772,7 +9905,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1122
 msgid "Custom configuration files"
-msgstr ""
+msgstr "Пользовательские файлы конфигурации"
 
 #: ../../admin/install/docker.rst:1124
 msgid ""
@@ -9784,7 +9917,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1130
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "Замена логотипа и других статических файлов"
 
 #: ../../admin/install/docker.rst:1134
 msgid ""
@@ -9808,7 +9941,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1157
 msgid "Adding own Python modules"
-msgstr ""
+msgstr "Добавление собственных Python’ьих модулей"
 
 #: ../../admin/install/docker.rst:1161
 msgid ""
@@ -9823,7 +9956,7 @@ msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1170
 msgid "Hub setup"
-msgstr ""
+msgstr "Настройка hub"
 
 #: ../../admin/install/docker.rst:1172
 msgid ""
@@ -9840,7 +9973,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1189
 msgid "Lab setup"
-msgstr ""
+msgstr "Настройка lab"
 
 #: ../../admin/install/docker.rst:1191
 msgid ""
@@ -9938,6 +10071,10 @@ msgid ""
 "can stick with shipped example for testing purposes, but you will want "
 "changes for production setup, see :ref:`configuration`."
 msgstr ""
+"По своему усмотрению подкорректируйте значения в новом файле :file:`settings."
+"py`. Для тестирования вы можете использовать поставляемый пример, но для "
+"рабочей среды вы захотите внести в него изменения, смотрите раздел "
+":ref:`configuration`."
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
@@ -9983,10 +10120,10 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
-"При желании установите программное обеспечение для запуска продуктового "
-"сервера, смотрите разделы :ref:`server`, :ref:`database-setup` и "
-":ref:`celery`. В зависимости от размера вашей установки вы можете захотеть "
-"запустить эти компоненты на выделенных серверах."
+"При желании установите программное обеспечение для запуска рабочего сервера, "
+"смотрите разделы :ref:`server`, :ref:`database-setup` и :ref:`celery`. В "
+"зависимости от размера вашей установки вы можете захотеть запустить эти "
+"компоненты на выделенных серверах."
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
@@ -10056,6 +10193,9 @@ msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgstr ""
+"Создайте базу данных и её структуру для Weblate (пример настройки использует "
+"PostgreSQL, для установки в рабочую среду ознакомьтесь разделом :ref"
+":`database-setup`):"
 
 #: ../../admin/install/steps/install-configure.rst:24
 msgid ""
@@ -10074,6 +10214,8 @@ msgstr ""
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
 msgstr ""
+"Сожмите файлы JavaScript и CSS (необязательно, смотрите раздел :ref"
+":`production-compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:43
 msgid ""
@@ -10084,6 +10226,8 @@ msgstr ""
 #: ../../admin/install/steps/install-configure.rst:50
 msgid "Start the development server (see :ref:`server` for production setup):"
 msgstr ""
+"Запустите сервер разработки (шаги для запуска рабочего сервера смотрите в "
+"разделе :ref:`server`):"
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
@@ -12339,8 +12483,9 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:51
+#, fuzzy
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "Вы можете просмотреть текущий тарифный план на отдельной странице:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -12352,14 +12497,20 @@ msgstr ""
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
 msgstr ""
+"После создания проекта вы попадаете непосредственно на страницу проекта:"
 
 #: ../../admin/projects.rst:64
+#, fuzzy
 msgid ""
 "Creating a new translation component can be initiated via a single click "
 "there. The process of creating a component is multi-staged and automatically "
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"Создание нового компонента перевода можно инициировать одним щелчком мыши. "
+"Процесс создания компонента многоступенчатый и автоматически определяет "
+"большинство параметров перевода. Существует несколько подходов к созданию "
+"компонента:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -12396,11 +12547,15 @@ msgid "Upload translations files"
 msgstr "Загрузить файлы перевода"
 
 #: ../../admin/projects.rst:75
+#, fuzzy
 msgid ""
 "Upload translation files to Weblate in case you do not have version control "
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Загрузите файлы перевода в Weblate, если у вас нет контроля версий или вы не "
+"хотите интегрировать её с Weblate. Позже вы можете обновить содержимое с "
+"помощью веб-интерфейса или :ref:`api`."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -12408,45 +12563,57 @@ msgstr "Перевести документ"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document and translate that."
-msgstr ""
+msgstr "Загрузите одиночный документ и переведите его."
 
 #: ../../admin/projects.rst:81
 msgid "Start from scratch"
 msgstr "Начать с нуля"
 
 #: ../../admin/projects.rst:81
+#, fuzzy
 msgid "Create blank translation project and add strings manually."
-msgstr ""
+msgstr "Создайте пустой проект перевода и добавьте строки вручную."
 
 #: ../../admin/projects.rst:83
+#, fuzzy
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Имея существующие компоненты перевода, вы также можете легко добавлять новые "
+"для дополнительных файлов или веток, используя тот же репозиторий."
 
 #: ../../admin/projects.rst:86
+#, fuzzy
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Сначала вам нужно указать наименование и месторасположение репозитория:"
 
 #: ../../admin/projects.rst:90
+#, fuzzy
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"На следующей странице вам будет представлен список обнаруженных переводимых "
+"ресурсов:"
 
 #: ../../admin/projects.rst:94
+#, fuzzy
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"На последнем этапе просмотрите информацию о компоненте перевода и укажите "
+"дополнительные сведения:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
+#, fuzzy
 msgid "Project configuration"
-msgstr ""
+msgstr "Конфигурация проекта"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -12468,8 +12635,9 @@ msgid "Project name"
 msgstr "Название проекта"
 
 #: ../../admin/projects.rst:122
+#, fuzzy
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "Подробное наименование проекта, которое будет отображаться."
 
 #: ../../admin/projects.rst:127 ../../admin/projects.rst:755 ../../api.rst:744
 msgid "Project slug"
@@ -12477,7 +12645,7 @@ msgstr "Плашка проекта"
 
 #: ../../admin/projects.rst:129
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "Название проекта, подходящее для указания его в URL-адресе."
 
 #: ../../admin/projects.rst:134 ../../api.rst:746
 #: ../../contributing/about.rst:16
@@ -12485,8 +12653,11 @@ msgid "Project website"
 msgstr "Веб-сайт проекта"
 
 #: ../../admin/projects.rst:136
+#, fuzzy
 msgid "URL where translators can find more info about the project."
 msgstr ""
+"URL-адрес, по которому переводчики могут найти дополнительную информацию о "
+"проекте."
 
 #: ../../admin/projects.rst:141
 msgid "Mailing list"
@@ -12525,6 +12696,8 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Использовать ли совместно используемую память переводов, см. подробнее :ref"
+":`shared-tm`."
 
 #: ../../admin/projects.rst:170
 msgid "Contribute to shared translation memory"
@@ -12543,6 +12716,8 @@ msgstr ""
 #: ../../admin/projects.rst:181
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Значение по умолчанию можно изменить установкой параметра "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/projects.rst:186 ../../workflows.rst:58 ../../workflows.rst:89
 #: ../../workflows.rst:125
@@ -13552,6 +13727,11 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
+"Конфигурация по умолчанию полезна для тестирования и отладки Weblate, в то "
+"же время для установки в рабочую среду в неё необходимо внести некоторые "
+"коррективы. Многие из параметров довольно сильно влияют на "
+"производительность. Для получения более подробной информации обратитесь к "
+"разделу :ref:`production`, особенно обратите внимание на следующие темы:"
 
 #: ../../admin/projects.rst:841
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
@@ -13947,6 +14127,8 @@ msgstr ""
 #: ../../admin/upgrade.rst:81
 msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr ""
+"Убедитесь, что ваша установка в порядке (также смотрите раздел "
+":ref:`production`):"
 
 #: ../../admin/upgrade.rst:87
 msgid "Restart celery worker (see :ref:`celery`)."
@@ -17655,8 +17837,8 @@ msgstr "Sentry теперь поддерживается через соврем
 #: ../../changes.rst:369
 msgid "Changed example settings to be better fit for production environment."
 msgstr ""
-"Изменены примеры настроек, чтобы они лучше соответствовали продуктовому "
-"окружению."
+"Изменены примеры настроек, чтобы они лучше соответствовали окружению рабочей "
+"среды."
 
 #: ../../changes.rst:370
 msgid "Added automated backups using BorgBackup."
@@ -20532,6 +20714,8 @@ msgstr ""
 #: ../../changes.rst:1287
 msgid "Provide hints for production setup in admin interface."
 msgstr ""
+"В интерфейс администратора добавлены подсказки по настройке Weblate для "
+"рабочей среды."
 
 #: ../../changes.rst:1288
 msgid "Added per language widgets and engage page."
@@ -21155,7 +21339,7 @@ msgstr ""
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
-msgstr ""
+msgstr "Руководство"
 
 #: ../../contributing/about.rst:31
 msgid "This project is maintained by Michal Čihař <michal@cihar.com>."
@@ -21247,10 +21431,14 @@ msgid ""
 "useful to debug issues in the web interface, but not suitable for production "
 "environment as it has performance consequences and might leak private data."
 msgstr ""
+"При включении режима отладки исключения будут отображаться в браузере. Это "
+"полезно для отладки проблем в веб-интерфейсе, но для рабочей среды он не "
+"подходит, поскольку сильно влияет на производительность и может привести к "
+"утечке конфиденциальных данных."
 
 #: ../../contributing/debugging.rst:20
 msgid "Weblate logs"
-msgstr ""
+msgstr "Журналы Weblate"
 
 #: ../../contributing/debugging.rst:22
 msgid ""
@@ -21273,7 +21461,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:35
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "Анализ падений программы"
 
 #: ../../contributing/debugging.rst:37
 msgid ""
@@ -21370,7 +21558,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:51
 msgid "Icons"
-msgstr ""
+msgstr "Иконки"
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -22072,6 +22260,8 @@ msgid ""
 "This is not suitable setup for production, it includes several hacks which "
 "are insecure, but make development easier."
 msgstr ""
+"Эта установка не подходит для рабочей среды, она включает в себя несколько "
+"небезопасных хаков, которые, однако, упрощают разработку."
 
 #: ../../contributing/start.rst:126
 msgid "Bootstraping your devel instance"
@@ -26441,8 +26631,9 @@ msgid "Accessing remote servers using secure protocols (HTTPS)"
 msgstr ""
 
 #: ../../legal.rst:63
+#, fuzzy
 msgid "Generating signatures for code commits (PGP)"
-msgstr ""
+msgstr "Создание PGP подписей для коммитов"
 
 #: ../../legal.rst:67
 msgid ""
@@ -29292,7 +29483,7 @@ msgstr ":ref:`plural-formula`"
 
 #: ../../user/translating.rst:137
 msgid "Keyboard shortcuts"
-msgstr "Сочетания клавиш"
+msgstr "Горячие клавиши"
 
 #: ../../user/translating.rst:141
 msgid ""
