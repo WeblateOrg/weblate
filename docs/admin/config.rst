@@ -631,7 +631,7 @@ IP_BEHIND_REVERSE_PROXY
 
 Indicates whether Weblate is running behind a reverse proxy.
 
-If set to "True", Weblate gets IP address from a header defined by
+If set to ``True``, Weblate gets IP address from a header defined by
 :setting:`IP_PROXY_HEADER`.
 
 .. warning::
@@ -1294,7 +1294,7 @@ MT_SAP_USE_MT
 -------------
 
 Whether to also use machine translation services, in addition to the term database.
-Possible values: True / False
+Possible values: ``True`` or ``False``
 
 .. seealso::
     :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
