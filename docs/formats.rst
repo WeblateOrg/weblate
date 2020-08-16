@@ -968,7 +968,7 @@ Example file:
 
 A .XML resource (.resx) file employs a monolingual XML file format used in Microsoft
 .NET applications. It is `interchangeable with .resw, when using identical
-syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-localization>`.
+syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-localization>`_.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
