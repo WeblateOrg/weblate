@@ -84,6 +84,8 @@ EXACT_FIELD_MAP = {
     "check": "check__check",
     "dismissed_check": "check__check",
     "language": "translation__language__code",
+    "component": "translation__component__slug",
+    "project": "translation__component__project__slug",
     "changed_by": "change__author__username",
     "suggestion_author": "suggestion__user__username",
     "comment_author": "comment__user__username",

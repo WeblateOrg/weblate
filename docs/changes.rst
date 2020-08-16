@@ -29,6 +29,7 @@ Not yet released.
 * Added support for aliasing languages at project level.
 * New addon to help with HTML or JavaScript localization, see :ref:`addon-weblate.cdn.cdnjs`.
 * The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN`.
+* Add support for searching by component and project.
 
 Weblate 4.1.1
 -------------
