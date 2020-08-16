@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-08 07:36+0000\n"
+"PO-Revision-Date: 2020-08-10 22:05+0000\n"
 "Last-Translator: C. Rüdinger <Mail-an-CR@web.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -219,21 +219,31 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
+"Um den Zugriff auf dieses Projekt zu erlauben, müssen Sie die Berechtigung "
+"entweder direkt in der Django-Administratoren-Oberfläche für einen "
+"bestimmten Benutzer oder eine Gruppe von Benutzern ergänzen oder Sie "
+"verwenden dazu das Benutzermanagement auf der Projektseite, wie in :ref"
+":`manage-acl` beschrieben."
 
 #: ../../admin/access.rst:97
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
 msgstr ""
+"Selbst mit aktiviertem ACL stehen einige zusammenfassende Infos über Ihr "
+"Projekt zur Verfügung:"
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
 msgstr ""
+"Statistik für die gesamte Instanz, dazu gehören die Zähler für alle Projekte."
 
 #: ../../admin/access.rst:100
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
 msgstr ""
+"Übersicht über die Sprachen für die gesamte Instanz, einschließlich der "
+"Zähler für alle Projekte."
 
 #: ../../admin/access.rst:105
 msgid "Automatic group assignments"
@@ -245,12 +255,17 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"Sie können Weblate so einrichten, dass Benutzer nach ihren E-Mail-Adressen "
+"automatisch in Gruppen eingefügt werden. Diese automatische Zuordnung "
+"geschieht nur zum Zeitpunkt der Kontoerstellung."
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
 msgstr ""
+"Dies kann in der Admin-Oberfläche von Django für jede Gruppe (im Abschnitt "
+":guilabel:`Authentication`) festgelegt werden."
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -265,49 +280,57 @@ msgstr ""
 
 #: ../../admin/access.rst:124
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Die Legitimierungsmodelle bestehen aus verschiedenen Objekten:"
 
 #: ../../admin/access.rst:127
 msgid "`Permission`"
-msgstr ""
+msgstr "`Genehmigung`"
 
 #: ../../admin/access.rst:127
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
 msgstr ""
+"Durch Weblate bestimmte individuelle Genehmigungen. Sie können keine "
+"individuellen Genehmigungen zuteilen, dies kann nur durch Rollenzuordnungen "
+"geschehen."
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
-msgstr ""
+msgstr "`Rolle`"
 
 #: ../../admin/access.rst:130
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
+"Eine Rolle bestimmt eine Zusammenstellung von Genehmigungen. Dies ermöglicht "
+"die Wiederverwendung dieser Zusammenstellungen an verschiedenen Orten und "
+"vereinfacht deren Verwaltung."
 
 #: ../../admin/access.rst:132
 msgid "`User`"
-msgstr ""
+msgstr "`Benutzer`"
 
 #: ../../admin/access.rst:133
 msgid "Users can be members of several groups."
-msgstr ""
+msgstr "Benutzer können Mitglieder verschiedener Gruppen sein."
 
 #: ../../admin/access.rst:136
 msgid "`Group`"
-msgstr ""
+msgstr "`Gruppe`"
 
 #: ../../admin/access.rst:135
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
+"Gruppen verbinden Rollen, Benutzer und Legitimierungsobjekte (Projekte, "
+"Sprachen und Komponentenlisten)."
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
-msgstr ""
+msgstr "Kontrolle von Genehmigungen"
 
 #: ../../admin/access.rst:156
 msgid ""
@@ -315,24 +338,31 @@ msgid ""
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
 msgstr ""
+"Wann immer eine Genehmigung kontrolliert wird, um zu entscheiden, ob jemand "
+"eine bestimmte Aktion durchführen darf, wird die Kontrolle gemäß dem "
+"Gültigkeitsbereich ausgeführt und es werden der Reihe nach die folgenden "
+"Prüfungen durchgeführt:"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` is matched against component or project."
 msgstr ""
+"Abgleich von :guilabel:`Component list` gegenüber Komponente oder Projekt."
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
-msgstr ""
+msgstr "Abgleich von :guilabel:`Components` gegenüber Komponente oder Projekt."
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
-msgstr ""
+msgstr "Abgleich von :guilabel:`Projects` gegenüber Projekt."
 
 #: ../../admin/access.rst:166
 msgid ""
 "As you can see, granting access to a component automatically grants user "
 "access to a containing project as well."
 msgstr ""
+"Wie Sie sehen, gewährt die Zugriffsbewilligung auf eine Komponente auch den "
+"Benutzerzugriff auf ein Projekt, das sie enthält."
 
 #: ../../admin/access.rst:171
 msgid ""
@@ -340,11 +370,16 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
+"Nur die erste Regel wird verwendet werden. Wenn Sie also alle festlegen - "
+":guilabel:`Component list`, :guilabel:`Components` und :guilabel:`Project`-, "
+"wird nur :guilabel:`Component list` angewendet werden."
 
 #: ../../admin/access.rst:175
 msgid ""
 "An additional step is performed if checking permission for the translation:"
 msgstr ""
+"Bei Kontrolle der Genehmigung zur Übersetzung wird ein zusätzlicher Schritt "
+"durchgeführt:"
 
 #: ../../admin/access.rst:178
 msgid ""
@@ -357,10 +392,12 @@ msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
+"Sie können :guilabel:`Language selection` oder :guilabel:`Project selection` "
+"nutzen, um automatisch alle Sprachen oder Projekte einzuschließen."
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
-msgstr ""
+msgstr "Kontrolle des Zugriffs auf ein Projekt"
 
 #: ../../admin/access.rst:189
 msgid ""
@@ -369,10 +406,15 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"Ein Benutzer muss Mitglied einer Gruppe sein, die mit dem Projekt oder "
+"irgendeiner Komponente in ihm verknüpft ist. Mitgliedschaft allein genügt, "
+"es sind keine speziellen Genehmigungen erforderlich, um auf ein Projekt "
+"zuzugreifen (dies wird in der Standardgruppe `Viewers` angewendet, siehe :ref"
+":`default-groups`)."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
-msgstr ""
+msgstr "Kontrolle des Zugriffs auf eine Komponente"
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -381,24 +423,32 @@ msgid ""
 "the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
+"Ein Benutzer kann auf Komponenten ohne Einschränkungen zugreifen, sobald er "
+"auf das Projekt, das sie enthält, zugreifen kann. Ist :ref:`component-"
+"restricted` aktiviert, erfordert der Zugriff die ausdrückliche Genehmigung "
+"für die Komponente (oder die sie beinhaltende Komponentenliste)."
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr ""
+msgstr "Verwaltung von Benutzern und Gruppen"
 
 #: ../../admin/access.rst:206
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
 msgstr ""
+"Alle Benutzer und Gruppen können über die Django-Admin-Oberfläche verwaltet "
+"werden, die unter der URL :file:`/admin/` zugänglich ist."
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
-msgstr ""
+msgstr "Verwaltung der Zugriffssteuerung nach Projekt"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgstr ""
+"Dieses Merkmal funktioniert nur für ACL-gesteuerte Projekte, siehe "
+":ref:`acl`."
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -406,80 +456,95 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+"Benutzer mit der Berechtigung :guilabel:`Can manage ACL rules for a project` "
+"(siehe :ref:`privileges`) können in Projekten mit aktivierter "
+"Zugriffssteuerung über die Projektseite auch Benutzer verwalten. Die "
+"Schnittstelle erlaubt:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "Vorhandene Benutzer einem Projekt zuordnen"
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "Neue Benutzer in ein Projekt einladen"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "Genehmigungen der Benutzer ändern"
 
 #: ../../admin/access.rst:225
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "Nutzerzugriffe widerrufen"
 
 #: ../../admin/access.rst:227
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
 msgstr ""
+"DIe Benutzerverwaltung ist im Menü :guilabel:`Manage` eines Projekts "
+"abrufbar:"
 
 #: ../../admin/access.rst:233
 msgid ":ref:`acl`"
-msgstr ""
+msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:238
 msgid "Predefined groups"
-msgstr ""
+msgstr "Vordefinierte Gruppen"
 
 #: ../../admin/access.rst:240
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
 msgstr ""
+"Weblate bringt eine vordefinierte Sammlung von Gruppen für ein Projekt mit, "
+"aus denen Sie Benutzern zuordnen können."
 
 #: ../../admin/access.rst:245
 msgid "Has all permissions available in the project."
-msgstr ""
+msgstr "Besitzt alle verfügbaren Genehmigungen im Projekt."
 
 #: ../../admin/access.rst:249
 msgid "Can manage glossary (add or remove entries, or upload)."
 msgstr ""
+"Darf das Glossar verwalten (Einträge ergänzen oder entfernen oder hochladen)."
 
 #: ../../admin/access.rst:253
 msgid "Can manage translated languages - add or remove translations."
 msgstr ""
+"Darf übersetzte Sprachen verwalten - Übersetzungen hinzufügen oder entfernen."
 
 #: ../../admin/access.rst:257
 msgid ""
 "Can manage screenshots - add or remove them, and associate them to source "
 "strings."
 msgstr ""
+"Darf Bildschirmfotos verwalten - sie hinzufügen, entfernen und mit "
+"Ausgangszeichenketten verbinden."
 
 #: ../../admin/access.rst:262
 msgid ""
 "Can edit translation templates in :ref:`monolingual` and source string info."
 msgstr ""
+"Darf Übersetzungsvorlagen in :ref:`monolingual` und Infos zur "
+"Ausgangszeichenkette bearbeiten."
 
 #: ../../admin/access.rst:267
 msgid "Can translate the project, and upload translations made offline."
 msgstr ""
+"Darf das Projekt übersetzen und offline erstellte Übersetzungen hochladen."
 
 #: ../../admin/access.rst:271
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "Darf das VCS verwalten und auf das exportierte Repository zugreifen."
 
 #: ../../admin/access.rst:275
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Darf Übersetzungen bei der Überprüfung freigeben."
 
 #: ../../admin/access.rst:279
 msgid "Can access billing info (see :ref:`billing`)."
-msgstr ""
+msgstr "Darf auf Abrechnungsdaten zugreifen (siehe :ref:`billing`)."
 
 #: ../../admin/access.rst:285
 msgid "Custom access control"

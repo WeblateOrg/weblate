@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-04 13:59+0000\n"
-"PO-Revision-Date: 2020-08-07 09:26+0000\n"
+"PO-Revision-Date: 2020-08-14 11:32+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -2013,10 +2013,9 @@ msgid "Permission"
 msgstr "Tillatelse"
 
 #: weblate/auth/models.py:78
-#, fuzzy, python-format
-#| msgid "Filtered permissions"
+#, python-format
 msgid "%s (site wide permission)"
-msgstr "Filtrerte tillatelser"
+msgstr "%s (tilgang for hele siden)"
 
 #: weblate/auth/models.py:83 weblate/auth/models.py:108
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2315,20 +2314,16 @@ msgid "Translation contains double space"
 msgstr "Oversettelsen inneholder dobbelt mellomrom"
 
 #: weblate/checks/chars.py:168
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "Manglende samsvar \\n"
+msgstr "Manglende samsvar avsluttende punktum"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "Kilde og oversettelse slutter ikke begge med et punktum"
 
 #: weblate/checks/chars.py:207
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "Manglende samsvar \\n"
+msgstr "Manglende samsvar kolon"
 
 #: weblate/checks/chars.py:208
 msgid "Source and translation do not both end with a colon"
@@ -2355,10 +2350,8 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Kilde og oversettelse slutter ikke begge med utropstegn"
 
 #: weblate/checks/chars.py:295
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "Manglende samsvar \\n"
+msgstr "Manglende samsvar utelatelsestegn"
 
 #: weblate/checks/chars.py:296
 msgid "Source and translation do not both end with an ellipsis"
@@ -2398,10 +2391,8 @@ msgid "Translation should not exceed given length"
 msgstr "Oversettelse bør ikke overstige gitt lengde"
 
 #: weblate/checks/chars.py:366
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "Manglende samsvar \\n"
+msgstr "Manglende samsvar semikolon"
 
 #: weblate/checks/chars.py:367
 msgid "Source and translation do not both end with a semicolon"
@@ -4442,10 +4433,9 @@ msgid "Your avatar"
 msgstr "Din avatar"
 
 #: weblate/templates/accounts/profile.html:196
-#, fuzzy, python-format
-#| msgid "Avatars are provided using Gravatar."
+#, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Avatarer håndteres av Gravatar."
+msgstr "Avatarer håndteres ved bruk av %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:205
 #: weblate/templates/addons/discovery_help.html:10
@@ -6008,11 +5998,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
 msgstr[0] ""
-"Oversettelsesprosjekt for %(project)s inneholder for tiden <strong>%(total)s "
-"strenger</strong> som kan oversettes."
+"Oversettelsesprosjektet for %(project)s inneholder for tiden <strong>%(count)"
+"s streng</strong> som kan oversettes."
 msgstr[1] ""
-"Oversettelsesprosjekt for %(project)s inneholder for tiden <strong>%(total)s "
-"streng</strong> som kan oversettes."
+"Oversettelsesprosjektet for %(project)s inneholder for tiden <strong>%(count)"
+"s strenger</strong> som kan oversettes."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -11762,7 +11752,7 @@ msgstr "Panel"
 #, fuzzy, python-format
 #| msgid "Projects"
 msgid "Project %s"
-msgstr "Prosjekter"
+msgstr "Prosjekt %s"
 
 #: weblate/trans/widgets.py:365
 msgid "Status badge"
