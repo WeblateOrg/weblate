@@ -223,6 +223,16 @@ class QueryParserTest(TestCase):
         self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
         self.assert_query('language:r".*"', Q(translation__language__code__regex=".*"))
 
+    def test_component(self):
+        self.assert_query(
+            "component:hello", Q(translation__component__slug__iexact="hello")
+        )
+
+    def test_project(self):
+        self.assert_query(
+            "project:hello", Q(translation__component__project__slug__iexact="hello")
+        )
+
     def test_html(self):
         self.assert_query(
             "<b>bold</b>",

@@ -21,6 +21,7 @@
 from django import forms
 
 from weblate.screenshots.models import Screenshot
+from weblate.trans.forms import QueryField
 
 
 class ScreenshotForm(forms.ModelForm):
@@ -29,3 +30,7 @@ class ScreenshotForm(forms.ModelForm):
     class Meta:
         model = Screenshot
         fields = ("name", "image")
+
+
+class SearchForm(forms.Form):
+    q = QueryField(required=False)

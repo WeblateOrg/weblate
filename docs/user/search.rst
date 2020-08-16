@@ -48,6 +48,10 @@ Fields
    Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
    String target language.
+``component:TEXT``
+   Component slug, see :ref:`component-slug`.
+``project:TEXT``
+   Project slug, see :ref:`project-slug`.
 ``changed_by:TEXT``
    String was changed by author with given username.
 ``changed:DATETIME``
