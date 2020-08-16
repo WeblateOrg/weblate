@@ -133,7 +133,7 @@ AUTH_TOKEN_VALID
 
 .. versionadded:: 2.14
 
-How long the the authentication token and temporary password from password reset e-mails is valid for.
+How long the authentication token and temporary password from password reset e-mails is valid for.
 Set in number of seconds, defaulting to 172800 (2 days).
 
 
