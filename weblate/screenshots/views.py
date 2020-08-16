@@ -28,7 +28,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
 
-from weblate.screenshots.forms import ScreenshotForm
+from weblate.screenshots.forms import ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Unit
 from weblate.utils import messages
@@ -201,9 +201,12 @@ def search_source(request, pk):
     obj = get_screenshot(request, pk)
     translation = obj.component.source_translation
 
-    units = translation.unit_set.filter(parse_query(request.POST.get("q", "")))
-
-    return search_results(200, obj, units)
+    form = SearchForm(request.POST)
+    if not form.is_valid():
+        return search_results(400, obj)
+    return search_results(
+        200, obj, translation.unit_set.filter(parse_query(form.cleaned_data["q"]))
+    )
 
 
 def ocr_extract(api, image, strings):
