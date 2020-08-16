@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-14 11:33+0000\n"
-"Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
+"PO-Revision-Date: 2020-08-16 03:28+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -3748,6 +3748,8 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. 在项目和组件域用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic component list "
+"assignment` ，如这张图所示："
 
 #: ../../admin/config.rst:4 ../../faq.rst:5
 msgid "Configuration"
@@ -3762,23 +3764,24 @@ msgstr "所有的设置存储在 :file:`settings.py` 中，（如 Django 通常�
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
-msgstr ""
+msgstr "在更改这些设置的任何一部分后，需要重新启动 Weblate —— WSGI 和 Celery 两个过程。"
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as mod_wsgi, you need to restart Apache to reload the "
 "configuration."
-msgstr ""
+msgstr "在它作为 mod_wsgi 运行的情况下，需要重新启动 Apache ，来重新载入配置。"
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"请同样查看 :doc:`Django's documentation <django:ref/settings>` 关于配置 Django 自己的参数。"
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
-msgstr ""
+msgstr "AKISMET_API_KEY"
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -3786,116 +3789,118 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate 可以使用 Akismet 对垃圾邮件检查到来的匿名建议。请访问 `akismet.com <https://akismet.com/>`"
+"_ 来购买 API 密钥，并将它域网站相联系。"
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
-msgstr ""
+msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "未登录用户的用户名。"
 
 #: ../../admin/config.rst:39 ../../admin/management.rst:709
 msgid ":ref:`privileges`"
-msgstr ""
+msgstr ":ref:`privileges`"
 
 #: ../../admin/config.rst:44
 msgid "AUDITLOG_EXPIRY"
-msgstr ""
+msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
 msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
-msgstr ""
+msgstr "Weblate 应该将审计日志保存多少天，审计日志包括了账户活动的信息。"
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "默认为 180 天。"
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
-msgstr ""
+msgstr "AUTH_LOCK_ATTEMPTS"
 
 #: ../../admin/config.rst:60
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
-msgstr ""
+msgstr "在rate限制应用前，授权尝试失败的最大次数。"
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "当前，这应用在后面的位置："
 
 #: ../../admin/config.rst:64
 msgid ""
 "Logins. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
-msgstr ""
+msgstr "登录。删除账户密码，防止用户不请求新的密码而登录。"
 
 #: ../../admin/config.rst:66
 msgid ""
 "Password resets. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
-msgstr ""
+msgstr "密码重置。防止发出新的电子邮件，避免向用户发出太多密码重置尝试的垃圾邮件。"
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
-msgstr ""
+msgstr "默认为 10 。"
 
 #: ../../admin/config.rst:73
 msgid ":ref:`rate-limit`,"
-msgstr ""
+msgstr ":ref:`rate-limit` ，"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
-msgstr ""
+msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:84
 msgid ""
 "The original on/off option was changed to differentiate which strings are "
 "accepted."
-msgstr ""
+msgstr "改变原来的开关选项，来区别接受哪个字符串。"
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "以每天的频率更新所有仓库。"
 
 #: ../../admin/config.rst:90
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
-msgstr ""
+msgstr "在不使用 :ref:`hooks` 来自动更新 Weblate 仓库的情况下有用。"
 
 #: ../../admin/config.rst:94
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
-msgstr ""
+msgstr "除了字符串选项还存在开关选项，用于向后兼容。"
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr ""
+msgstr "选项有："
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:353
 msgid "``\"none\"``"
-msgstr ""
+msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:99
 msgid "No daily updates."
-msgstr ""
+msgstr "不进行每日更新。"
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"remote\"`` 也是 ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr ""
+msgstr "只进行远程更新。"
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"full\"`` 也是 ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
