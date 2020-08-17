@@ -395,7 +395,7 @@ class CDNJSForm(BaseAddonForm):
         max_value=100,
         min_value=0,
         required=True,
-        help_text=_("Threshold for included translations."),
+        help_text=_("Threshold for inclusion of translations."),
     )
     css_selector = forms.CharField(
         label=_("CSS selector"),
