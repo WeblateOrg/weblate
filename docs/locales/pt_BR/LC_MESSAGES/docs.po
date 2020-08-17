@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-17 13:06+0200\n"
-"PO-Revision-Date: 2020-08-17 13:35+0000\n"
+"PO-Revision-Date: 2020-08-18 09:05+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -7091,6 +7091,10 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
+"Amplie e personalize usando Django e Python. Contribua suas alterações para "
+"o upstream acima para que todos possam se beneficiar. Isso reduz seus custos "
+"de manutenção; código no Weblate é cuidado ao alterar interfaces internas ou "
+"refatorar o código."
 
 #: ../../admin/customize.rst:11
 msgid ""
@@ -7098,14 +7102,17 @@ msgid ""
 "Please review your own customizations for every upgrade, the interfaces or "
 "their semantics might change without notice."
 msgstr ""
+"Nem interfaces internas nem modelos são considerados uma API estável. Por "
+"favor, revise suas próprias personalizações para cada atualização, as "
+"interfaces ou sua semântica podem mudar sem aviso prévio."
 
 #: ../../admin/customize.rst:17
 msgid ":ref:`contributing`"
-msgstr ""
+msgstr ":ref:`contributing`"
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Criando um módulo Python"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -7113,6 +7120,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"Se você não está familiarizado com Python, você pode querer olhar para `"
+"Python For Beginners <https://www.python.org/about/gettingstarted/>`_, "
+"explicando o básico e apontando para os tutoriais adicionais."
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -7121,182 +7131,219 @@ msgid ""
 "python3.7/site-packages/`) or in the Weblate directory, which is also added "
 "to the interpreter search path."
 msgstr ""
+"Para escrever algum código Python personalizado (chamado de módulo), é "
+"necessário um lugar para armazená-lo, seja no caminho do sistema (geralmente "
+"algo como :file:`/usr/lib/python3.7/site-packages/`) ou no diretório "
+"Weblate, que também é adicionado ao caminho de pesquisa do interpretador."
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
 msgstr ""
+"Melhor ainda, transforme sua personalização em um pacote Python adequado:"
 
 #: ../../admin/customize.rst:35
 msgid "Create a folder for your package (we will use `weblate_customization`)."
-msgstr ""
+msgstr "Crie uma pasta para o seu pacote (usaremos `weblate_customization`)."
 
 #: ../../admin/customize.rst:36
 msgid "within it, create a :file:`setup.py` file to describe the package:"
-msgstr ""
+msgstr "Dentro dele, crie um arquivo :file:`setup.py` para descrever o pacote:"
 
 #: ../../admin/customize.rst:53
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
+"Crie uma pasta para o módulo Python (também chamado de "
+"``weblate_customization``) para o código de personalização."
 
 #: ../../admin/customize.rst:55
 msgid ""
 "Within it, create a :file:`__init__.py` file to make sure Python can import "
 "the module."
 msgstr ""
+"Dentro dele, crie um arquivo :file:`__init__.py` para garantir que o Python "
+"possa importar o módulo."
 
 #: ../../admin/customize.rst:56
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
+"Este pacote agora pode ser instalado usando :command:`pip install -e`. Mais "
+"informações a serem encontradas em :ref:`pip:editable-installs`."
 
 #: ../../admin/customize.rst:57
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"Uma vez instalado, o módulo pode ser usado na configuração Weblate (por "
+"exemplo, ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:60
 msgid "Your module structure should look like this:"
-msgstr ""
+msgstr "Sua estrutura de módulo deve ser assim:"
 
 #: ../../admin/customize.rst:71
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"Você pode encontrar um exemplo de personalização do Weblate em "
+"<https://github.com/WeblateOrg/customize-example>, ele abrange todos os "
+"tópicos descritos abaixo."
 
 #: ../../admin/customize.rst:76
 msgid "Changing the logo"
-msgstr ""
+msgstr "Alterando o logotipo"
 
 #: ../../admin/customize.rst:78
 msgid ""
 "1. Create a simple Django app containing the static files you want to "
 "overwrite (see :ref:`custom-module`)."
 msgstr ""
+"1. Crie um aplicativo Django simples contendo os arquivos estáticos que "
+"deseja substituir (veja :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:81
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
-msgstr ""
+msgstr "Adicione-o a :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/customize.rst:92
 msgid "Branding appears in the following files:"
-msgstr ""
+msgstr "A marca aparece nos seguintes arquivos:"
 
 #: ../../admin/customize.rst:94
 msgid ":file:`icons/weblate.svg`"
-msgstr ""
+msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:95
 msgid "Logo shown in the navigation bar."
-msgstr ""
+msgstr "Logotipo mostrado na barra de navegação."
 
 #: ../../admin/customize.rst:96
 msgid ":file:`logo-*.png`"
-msgstr ""
+msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:97
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr ""
+msgstr "Ícones web dependendo da resolução da tela e do navegador web."
 
 #: ../../admin/customize.rst:98
 msgid ":file:`favicon.ico`"
-msgstr ""
+msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:99
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "Ícone web usado por navegadores legados."
 
 #: ../../admin/customize.rst:100
 msgid ":file:`weblate-*.png`"
-msgstr ""
+msgstr ":file:`weblate-*.png`"
 
 #: ../../admin/customize.rst:101
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
+"Avatares para bots ou usuários anônimos. Alguns navegadores web usam-nos "
+"como ícones de atalho."
 
 #: ../../admin/customize.rst:103
 msgid ":file:`email-logo.png`"
-msgstr ""
+msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:103
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "Usado em e-mails de notificações."
 
 #: ../../admin/customize.rst:105
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
+"Execute :samp:`weblate collectstatic --noinput`, para coletar arquivos "
+"estáticos servidos aos clientes."
 
 #: ../../admin/customize.rst:110
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
-msgstr ""
+msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:117
 msgid "Custom quality checks, addons and auto-fixes"
 msgstr ""
+"Verificações de qualidade personalizadas, extensões e correções automáticas"
 
 #: ../../admin/customize.rst:119
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` and in Weblate:"
 msgstr ""
+"Para instalar seu código para :ref:`custom-autofix`, :ref:`own-checks` ou "
+":ref:`own-addon` e no Weblate:"
 
 #: ../../admin/customize.rst:122
 msgid ""
 "Place the files in your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
+"Coloque os arquivos no módulo Python contendo a personalização ao Weblate ("
+"veja :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:124
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
+"Adicione seu caminho totalmente qualificado à classe Python nas "
+"configurações dedicadas (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` ou "
+":setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:146
 msgid ""
 ":ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
 msgstr ""
+":ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
+"script`"
 
 #: ../../admin/deployments.rst:4
 msgid "Weblate deployments"
-msgstr ""
+msgstr "Implantações de Weblate"
 
 #: ../../admin/deployments.rst:6
 msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
 msgstr ""
+"O Weblate pode ser facilmente instalado em sua nuvem. Encontre um guia "
+"detalhado para sua plataforma:"
 
 #: ../../admin/deployments.rst:8
 msgid ":ref:`quick-docker`"
-msgstr ""
+msgstr ":ref:`quick-docker`"
 
 #: ../../admin/deployments.rst:9
 msgid ":ref:`quick-openshift`"
-msgstr ""
+msgstr ":ref:`quick-openshift`"
 
 #: ../../admin/deployments.rst:12
 msgid "Helm Chart"
-msgstr ""
+msgstr "Helm Chart"
 
 #: ../../admin/deployments.rst:14
 msgid ""
 "You can install Weblate on Kubernetes using Helm. See <https://github.com/"
 "WeblateOrg/helm/tree/master/charts/weblate> for the detailed instructions."
 msgstr ""
+"Você pode instalar Weblate em Kubernetes usando Helm. Consulte "
+"<https://github.com/WeblateOrg/helm/tree/master/charts/weblate> para as "
+"instruções detalhadas."
 
 #: ../../admin/deployments.rst:18
 msgid "Bitnami Weblate stack"
-msgstr ""
+msgstr "Pilha Weblate para Bitnami"
 
 #: ../../admin/deployments.rst:20
 msgid ""
@@ -7304,10 +7351,14 @@ msgid ""
 "stack/weblate>. The setup will be adjusted during installation, see <https://"
 "bitnami.com/stack/weblate/README.txt> for more documentation."
 msgstr ""
+"Bitnami fornece uma pilha Weblate para muitas plataformas em <https://bitnami"
+".com/stack/weblate>. A configuração será ajustada durante a instalação, "
+"consulte <https://bitnami.com/stack/weblate/README.txt> para mais "
+"documentação."
 
 #: ../../admin/deployments.rst:26
 msgid "Weblate in YunoHost"
-msgstr ""
+msgstr "Weblate no YunoHost"
 
 #: ../../admin/deployments.rst:28
 msgid ""
@@ -7317,28 +7368,35 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
+"O projeto de hospedagem própria `YunoHost <https://yunohost.org/>`_ fornece "
+"um pacote para Weblate. Uma vez que você tenha a sua instalação YunoHost, "
+"você pode instalar o Weblate como qualquer outro aplicativo. Ele fornecerá "
+"uma pilha de trabalho completo com backup e restauração, mas você ainda pode "
+"ter que editar seu arquivo de configurações para usos específicos."
 
 #: ../../admin/deployments.rst:34
 msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
 msgstr ""
+"Você pode usar sua interface de administração ou este botão (ele vai levá-lo "
+"ao seu servidor):"
 
 #: ../../admin/deployments.rst:40
 msgid "It also is possible to use the commandline interface:"
-msgstr ""
+msgstr "Também é possível usar a interface da linha de comando:"
 
 #: ../../admin/install.rst:9
 msgid "Quick setup guide"
-msgstr ""
+msgstr "Guia de configuração rápida"
 
 #: ../../admin/install.rst:4
 msgid "Configuration instructions"
-msgstr ""
+msgstr "Instruções de configuração"
 
 #: ../../admin/install.rst:7
 msgid "Installing Weblate"
-msgstr ""
+msgstr "Instalando o Weblate"
 
 #: ../../admin/install.rst:22
 msgid ""
