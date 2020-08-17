@@ -26,12 +26,12 @@
 </tr>
 
 
-{% if item.unit.comment %}
-<tr id="row-comment-{{ item.unit.checksum }}">
+{% if item.unit.note %}
+<tr id="row-note-{{ item.unit.checksum }}">
 <td></td>
 <td colspan="2" class="translatetext">
-    <label>{% trans "Comment" %}</label>
-    {% format_translation item.unit.comment item.unit.translation.component.project.source_language %}
+    <label>{% trans "Source string comment" %}</label>
+    {% format_translation item.unit.note item.unit.translation.component.project.source_language %}
 </td>
 </tr>
 {% endif %}
