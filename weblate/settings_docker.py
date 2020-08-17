@@ -98,6 +98,7 @@ LANGUAGES = (
     ("hu", "Magyar"),
     ("hr", "Hrvatski"),
     ("id", "Indonesia"),
+    ("is", "Íslenska"),
     ("it", "Italiano"),
     ("ja", "日本語"),
     ("kab", "Taqbaylit"),
