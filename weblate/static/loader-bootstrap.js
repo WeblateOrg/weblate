@@ -893,7 +893,7 @@ $(function () {
   /* Advanced search */
   $(".search-group li a").click(function () {
     var $this = $(this);
-    var $button = $this.closest(".input-group-btn").find("button");
+    var $button = $this.closest(".input-group-btn").find("button.search-field");
     var $group = $this.closest(".search-group");
 
     $button.attr("data-field", $this.data("field"));
@@ -963,18 +963,22 @@ $(function () {
   });
   $(".search-add").click(function () {
     var group = $(this).closest(".input-group");
-    var button = group.find("button");
+    var button = group.find("button.search-field");
     var input = group.find("input");
 
     if (input.length === 0) {
-      $("#id_q").insertAtCaret(" " + button.data("field") + " ");
+      $("#id_q").insertAtCaret(" " + button.attr("data-field") + " ");
     } else if (input.val() !== "") {
       var prefix = "";
       if ($("#is-exact input[type=checkbox]").is(":checked")) {
         prefix = "=";
       }
       $("#id_q").insertAtCaret(
-        " " + button.data("field") + prefix + quoteSearch(input.val()) + " "
+        " " +
+          button.attr("data-field") +
+          prefix +
+          quoteSearch(input.val()) +
+          " "
       );
     }
   });
