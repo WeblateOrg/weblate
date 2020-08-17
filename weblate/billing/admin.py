@@ -50,9 +50,8 @@ class BillingAdmin(WeblateModelAdmin):
         "state",
         "removal",
         "expiry",
-        "count_changes_1m",
-        "count_changes_1q",
-        "count_changes_1y",
+        "monthly_changes",
+        "total_changes",
         "unit_count",
         "display_projects",
         "display_strings",
@@ -68,7 +67,7 @@ class BillingAdmin(WeblateModelAdmin):
     filter_horizontal = ("projects", "owners")
 
     def list_projects(self, obj):
-        return ",".join(obj.projects.values_list("name", flat=True))
+        return ",".join([project.name for project in obj.all_projects])
 
     list_projects.short_description = _("Projects")
 
