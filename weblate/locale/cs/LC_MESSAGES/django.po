@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-17 11:06+0000\n"
+"POT-Creation-Date: 2020-08-17 13:46+0000\n"
 "PO-Revision-Date: 2020-08-05 06:36+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -1254,7 +1254,9 @@ msgid "Translation threshold"
 msgstr "Práh překladů"
 
 #: weblate/addons/forms.py:398
-msgid "Threshold for included translations."
+#, fuzzy
+#| msgid "Threshold for included translations."
+msgid "Threshold for inclusion of translations."
 msgstr "Prahová hodnota zahrnutých překladů."
 
 #: weblate/addons/forms.py:401
@@ -1546,7 +1548,7 @@ msgid "Delete screenshot"
 msgstr "Odstranit snímek obrazovky"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:649
+#: weblate/auth/data.py:72 weblate/templates/translate.html:653
 msgid "Edit additional string info"
 msgstr "Upravit podrobnosti řetězce"
 
@@ -4109,7 +4111,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:194 weblate/templates/translate.html:362
-#: weblate/templates/translate.html:514 weblate/templates/translate.html:655
+#: weblate/templates/translate.html:514 weblate/templates/translate.html:659
 msgid "Save"
 msgstr "Uložit"
 
@@ -4813,7 +4815,7 @@ msgstr "Přispějte do Weblate"
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
 #: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
-#: weblate/templates/translate.html:648
+#: weblate/templates/translate.html:652
 msgid "Close"
 msgstr "Zavřít"
 
@@ -7829,9 +7831,13 @@ msgid "Error"
 msgstr "Chyba"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has exceeded its limits. You can still use the service, "
+#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
-"but are recommended to upgrade it."
+"but are recommended to upgrade the billing plan."
 msgstr ""
 "Vaše překročilo omezení balíčku. Službu můžete nadále používat, ale "
 "doporučujeme vám změnit předplatné na vyšší balíček."
@@ -8520,9 +8526,15 @@ msgstr "Stáří zdrojového řetězce"
 msgid "Translation file"
 msgstr "Soubor s překladem"
 
-#: weblate/templates/translate.html:628
+#: weblate/templates/translate.html:629
 #, python-format
 msgid "%(filename)s, string %(position)s"
+msgstr "%(filename)s, řetězec %(position)s"
+
+#: weblate/templates/translate.html:631
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "string %(position)s"
 msgstr "%(filename)s, řetězec %(position)s"
 
 #: weblate/templates/translation-download.html:7

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-17 11:06+0000\n"
+"POT-Creation-Date: 2020-08-17 13:46+0000\n"
 "PO-Revision-Date: 2020-08-06 12:59+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -1252,7 +1252,9 @@ msgid "Translation threshold"
 msgstr "翻訳のしきい値"
 
 #: weblate/addons/forms.py:398
-msgid "Threshold for included translations."
+#, fuzzy
+#| msgid "Threshold for included translations."
+msgid "Threshold for inclusion of translations."
 msgstr "翻訳のしきい値。"
 
 #: weblate/addons/forms.py:401
@@ -1537,7 +1539,7 @@ msgid "Delete screenshot"
 msgstr "スクリーンショットの削除"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:649
+#: weblate/auth/data.py:72 weblate/templates/translate.html:653
 msgid "Edit additional string info"
 msgstr "原文情報の追加編集"
 
@@ -4107,7 +4109,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:194 weblate/templates/translate.html:362
-#: weblate/templates/translate.html:514 weblate/templates/translate.html:655
+#: weblate/templates/translate.html:514 weblate/templates/translate.html:659
 msgid "Save"
 msgstr "保存"
 
@@ -4801,7 +4803,7 @@ msgstr "Weblate への貢献"
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
 #: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
-#: weblate/templates/translate.html:648
+#: weblate/templates/translate.html:652
 msgid "Close"
 msgstr "閉じる"
 
@@ -7775,9 +7777,13 @@ msgid "Error"
 msgstr "エラー"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has exceeded its limits. You can still use the service, "
+#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
-"but are recommended to upgrade it."
+"but are recommended to upgrade the billing plan."
 msgstr ""
 "ご利用の課金プランは期限切れの状態になっています。サービスはご利用いただけま"
 "すが、更新を行うことを推奨します。"
@@ -8470,9 +8476,15 @@ msgstr "原文の保存経過期間"
 msgid "Translation file"
 msgstr "翻訳ファイル"
 
-#: weblate/templates/translate.html:628
+#: weblate/templates/translate.html:629
 #, python-format
 msgid "%(filename)s, string %(position)s"
+msgstr "%(filename)s、%(position)s 番目の文字列"
+
+#: weblate/templates/translate.html:631
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "string %(position)s"
 msgstr "%(filename)s、%(position)s 番目の文字列"
 
 #: weblate/templates/translation-download.html:7

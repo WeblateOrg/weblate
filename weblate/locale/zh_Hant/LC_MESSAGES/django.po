@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-17 11:06+0000\n"
+"POT-Creation-Date: 2020-08-17 13:46+0000\n"
 "PO-Revision-Date: 2020-08-10 22:05+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1205,7 +1205,9 @@ msgid "Translation threshold"
 msgstr "最低翻譯數"
 
 #: weblate/addons/forms.py:398
-msgid "Threshold for included translations."
+#, fuzzy
+#| msgid "Threshold for included translations."
+msgid "Threshold for inclusion of translations."
 msgstr "包含翻譯的最低門檻。"
 
 #: weblate/addons/forms.py:401
@@ -1487,7 +1489,7 @@ msgid "Delete screenshot"
 msgstr "刪除畫面快照"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:649
+#: weblate/auth/data.py:72 weblate/templates/translate.html:653
 msgid "Edit additional string info"
 msgstr "編輯額外字串資訊"
 
@@ -4000,7 +4002,7 @@ msgstr "請傳送請求至想翻譯的專案以加入缺少的語言。"
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:194 weblate/templates/translate.html:362
-#: weblate/templates/translate.html:514 weblate/templates/translate.html:655
+#: weblate/templates/translate.html:514 weblate/templates/translate.html:659
 msgid "Save"
 msgstr "儲存"
 
@@ -4673,7 +4675,7 @@ msgstr "為 Weblate 做出貢獻"
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
 #: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
-#: weblate/templates/translate.html:648
+#: weblate/templates/translate.html:652
 msgid "Close"
 msgstr "關閉"
 
@@ -7548,9 +7550,13 @@ msgid "Error"
 msgstr "錯誤"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has exceeded its limits. You can still use the service, "
+#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
-"but are recommended to upgrade it."
+"but are recommended to upgrade the billing plan."
 msgstr "您已超出付費方案上限。您仍可以繼續使用本服務，但建議您升級方案。"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
@@ -8185,9 +8191,15 @@ msgstr "來源字串存在時間"
 msgid "Translation file"
 msgstr "翻譯檔"
 
-#: weblate/templates/translate.html:628
+#: weblate/templates/translate.html:629
 #, python-format
 msgid "%(filename)s, string %(position)s"
+msgstr "%(filename)s，字串 %(position)s"
+
+#: weblate/templates/translate.html:631
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "string %(position)s"
 msgstr "%(filename)s，字串 %(position)s"
 
 #: weblate/templates/translation-download.html:7

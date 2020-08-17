@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-17 11:06+0000\n"
+"POT-Creation-Date: 2020-08-17 13:46+0000\n"
 "PO-Revision-Date: 2020-08-08 20:04+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -1275,7 +1275,9 @@ msgid "Translation threshold"
 msgstr "Vertaaldrempelwaarde"
 
 #: weblate/addons/forms.py:398
-msgid "Threshold for included translations."
+#, fuzzy
+#| msgid "Threshold for included translations."
+msgid "Threshold for inclusion of translations."
 msgstr "Drempelwaarde voor opgenomen vertalingen."
 
 #: weblate/addons/forms.py:401
@@ -1570,7 +1572,7 @@ msgid "Delete screenshot"
 msgstr "Schermfoto verwijderen"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:649
+#: weblate/auth/data.py:72 weblate/templates/translate.html:653
 msgid "Edit additional string info"
 msgstr "Aanvullende tekenreeksgegevens aanpassen"
 
@@ -4155,7 +4157,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:194 weblate/templates/translate.html:362
-#: weblate/templates/translate.html:514 weblate/templates/translate.html:655
+#: weblate/templates/translate.html:514 weblate/templates/translate.html:659
 msgid "Save"
 msgstr "Opslaan"
 
@@ -4866,7 +4868,7 @@ msgstr "Bijdragen aan Weblate"
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
 #: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
-#: weblate/templates/translate.html:648
+#: weblate/templates/translate.html:652
 msgid "Close"
 msgstr "Sluiten"
 
@@ -7891,9 +7893,13 @@ msgid "Error"
 msgstr "Fout"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has exceeded its limits. You can still use the service, "
+#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
-"but are recommended to upgrade it."
+"but are recommended to upgrade the billing plan."
 msgstr ""
 "Uw facturatiepakket heeft de beperkingen overschreden. U kunt de dienst "
 "blijven gebruiken, maar wordt geadviseerd om een hoger pakket aan te "
@@ -8601,9 +8607,15 @@ msgstr "Ouderdom van brontekenreeks"
 msgid "Translation file"
 msgstr "Vertaalbestand"
 
-#: weblate/templates/translate.html:628
+#: weblate/templates/translate.html:629
 #, python-format
 msgid "%(filename)s, string %(position)s"
+msgstr "%(filename)s, tekenreeks %(position)s"
+
+#: weblate/templates/translate.html:631
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "string %(position)s"
 msgstr "%(filename)s, tekenreeks %(position)s"
 
 #: weblate/templates/translation-download.html:7

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-17 11:06+0000\n"
+"POT-Creation-Date: 2020-08-17 13:46+0000\n"
 "PO-Revision-Date: 2020-08-03 17:46+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
@@ -1288,7 +1288,7 @@ msgstr "Oversættelse som skal fjernes"
 #: weblate/addons/forms.py:398
 #, fuzzy
 #| msgid "Base file for new translations"
-msgid "Threshold for included translations."
+msgid "Threshold for inclusion of translations."
 msgstr "Skabelonfil for nye oversættelser"
 
 #: weblate/addons/forms.py:401
@@ -1623,7 +1623,7 @@ msgid "Delete screenshot"
 msgstr "Slet skærmbillede"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:649
+#: weblate/auth/data.py:72 weblate/templates/translate.html:653
 msgid "Edit additional string info"
 msgstr "Rediger yderligere stringinformation"
 
@@ -4392,7 +4392,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:194 weblate/templates/translate.html:362
-#: weblate/templates/translate.html:514 weblate/templates/translate.html:655
+#: weblate/templates/translate.html:514 weblate/templates/translate.html:659
 msgid "Save"
 msgstr "Gem"
 
@@ -5141,7 +5141,7 @@ msgstr "Bidrag til Weblate"
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
 #: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
-#: weblate/templates/translate.html:648
+#: weblate/templates/translate.html:652
 msgid "Close"
 msgstr "Luk"
 
@@ -8389,9 +8389,13 @@ msgid "Error"
 msgstr "Fejl"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has exceeded its limits. You can still use the service, "
+#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
-"but are recommended to upgrade it."
+"but are recommended to upgrade the billing plan."
 msgstr ""
 "Din faktureringsplan har oversteget sine grænser. Du kan fortsat bruge "
 "tjenesten, men det anbefales at opgradere den."
@@ -9153,9 +9157,15 @@ msgstr "Kildestrengens alder"
 msgid "Translation file"
 msgstr "Oversættelsens fil"
 
-#: weblate/templates/translate.html:628
+#: weblate/templates/translate.html:629
 #, python-format
 msgid "%(filename)s, string %(position)s"
+msgstr "%(filename)s, streng %(position)s"
+
+#: weblate/templates/translate.html:631
+#, fuzzy, python-format
+#| msgid "%(filename)s, string %(position)s"
+msgid "string %(position)s"
 msgstr "%(filename)s, streng %(position)s"
 
 #: weblate/templates/translation-download.html:7

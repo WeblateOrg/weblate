@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-17 11:06+0000\n"
+"POT-Creation-Date: 2020-08-17 13:46+0000\n"
 "PO-Revision-Date: 2020-08-03 17:46+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/"
@@ -1484,7 +1484,7 @@ msgstr "Превод је уклоњен."
 #: weblate/addons/forms.py:398
 #, fuzzy
 #| msgid "Weblate translations"
-msgid "Threshold for included translations."
+msgid "Threshold for inclusion of translations."
 msgstr "Веблејт преводи"
 
 #: weblate/addons/forms.py:401
@@ -1822,7 +1822,7 @@ msgid "Delete screenshot"
 msgstr "Обриши снимак екрана"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:649
+#: weblate/auth/data.py:72 weblate/templates/translate.html:653
 #, fuzzy
 #| msgid "Edit source string"
 msgid "Edit additional string info"
@@ -4805,7 +4805,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:194 weblate/templates/translate.html:362
-#: weblate/templates/translate.html:514 weblate/templates/translate.html:655
+#: weblate/templates/translate.html:514 weblate/templates/translate.html:659
 msgid "Save"
 msgstr "Сачувај"
 
@@ -5584,7 +5584,7 @@ msgstr "Допринесите Веблејту"
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
 #: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
-#: weblate/templates/translate.html:648
+#: weblate/templates/translate.html:652
 msgid "Close"
 msgstr "Затвори"
 
@@ -8982,7 +8982,7 @@ msgstr ""
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
-"but are recommended to upgrade it."
+"but are recommended to upgrade the billing plan."
 msgstr ""
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
@@ -9749,10 +9749,16 @@ msgstr "Старост изворне ниске"
 msgid "Translation file"
 msgstr "Фајл превода"
 
-#: weblate/templates/translate.html:628
+#: weblate/templates/translate.html:629
 #, python-format
 msgid "%(filename)s, string %(position)s"
 msgstr ""
+
+#: weblate/templates/translate.html:631
+#, fuzzy, python-format
+#| msgid "Hosting translations"
+msgid "string %(position)s"
+msgstr "Хостинг превода"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
