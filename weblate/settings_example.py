@@ -477,7 +477,7 @@ LOGGING = {
         # },
         "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
-        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "INFO"},
+        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Python Social Auth
         "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Django Authentication Using LDAP
