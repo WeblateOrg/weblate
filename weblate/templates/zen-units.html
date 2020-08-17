@@ -37,6 +37,23 @@
 {% endif %}
 
 
+{% if item.unit.explanation %}
+<tr id="row-explanation-{{ item.unit.checksum }}">
+<td></td>
+<td colspan="2" class="translatetext">
+    <label>{% trans "Explanation" %}</label>
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="list-group-item-text">
+                {{ item.unit.explanation|markdown }}
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+{% endif %}
+
+
 <tr id="row-source-{{ item.unit.checksum }}">
 <td>
 {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}
