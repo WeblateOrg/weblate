@@ -624,7 +624,7 @@
     {% trans "Translation file" %}
     </h5>
     <span class="long-filename">
-    {% if filename %}
+    {% if unit.translation.filename %}
       {% blocktrans with filename=unit.translation.filename position=unit.position %}{{ filename }}, string {{ position }}{% endblocktrans %}
     {% else %}
       {% blocktrans with filename=unit.translation.filename %}string {{ position }}{% endblocktrans %}
