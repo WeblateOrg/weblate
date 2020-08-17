@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-16 03:28+0000\n"
+"PO-Revision-Date: 2020-08-17 11:05+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -1641,7 +1641,7 @@ msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:538
 msgid "Post update repository processing"
-msgstr "以往更新仓库处理"
+msgstr "以往的更新仓库处理"
 
 #: ../../admin/addons.rst:540
 msgid ""
@@ -2004,8 +2004,7 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
-"Weblate在身份验证时提供的回调 URL 。在得到 URL 不匹配的错误时，可以需改修改，"
-"请见 :ref:`production-site` 。"
+"Weblate在身份验证时提供的回调 URL 。在得到 URL 不匹配的错误时，可以根据需要来修改，请见 :ref:`production-site` 。"
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
@@ -2456,8 +2455,8 @@ msgid ""
 "service at weblate.org <https://weblate.org/support/#backup>`_. The process "
 "of activating can be performed in few steps:"
 msgstr ""
-"备份 Weblate 事例最简单的方法是购买 `backup service at weblate.org <https://"
-"weblate.org/support/#backup>`_ 。激活过程可以以几步来执行："
+"备份 Weblate 事例最简单的方法是购买 `backup service at weblate.org <https://weblate.org/"
+"support/#backup>`_ 。激活过程可以分几步来执行："
 
 #: ../../admin/backup.rst:34
 msgid "Purchase backup service on https://weblate.org/support/#backup."
@@ -2873,7 +2872,7 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"为了安装定制的检查，在 :setting:`AUTOFIX_LIST` 中为 Python 类提供有资格的路径，请见 :ref:`custom-"
+"为了安装定制的检查，在 :setting:`AUTOFIX_LIST` 中为 Python 类提供完全合规的路径，请见 :ref:`custom-"
 "check-modules` 。"
 
 #: ../../admin/checks.rst:27
@@ -3777,7 +3776,7 @@ msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
-"请同样查看 :doc:`Django's documentation <django:ref/settings>` 关于配置 Django 自己的参数。"
+"还要请查看 :doc:`Django's documentation <django:ref/settings>` 中关于配置 Django 自身的参数。"
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
@@ -3789,8 +3788,8 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
-"Weblate 可以使用 Akismet 对垃圾邮件检查到来的匿名建议。请访问 `akismet.com <https://akismet.com/>`"
-"_ 来购买 API 密钥，并将它域网站相联系。"
+"Weblate 可以使用 Akismet 检查到来的对垃圾邮件的匿名建议。请访问 `akismet.com <https://akismet.com/>`"
+"_ 来购买 API 密钥，并将它与网站相联系。"
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
@@ -3826,7 +3825,7 @@ msgstr "AUTH_LOCK_ATTEMPTS"
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
-msgstr "在rate限制应用前，授权尝试失败的最大次数。"
+msgstr "在rate限制应用前，授权尝试失败的最多次数。"
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
@@ -3904,55 +3903,58 @@ msgstr "``\"full\"`` 也是 ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "更新远程，并合并工作副本。"
 
 #: ../../admin/config.rst:107
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
-msgstr ""
+msgstr "这需要 :ref:`celery` 工作，并在重启后生效。"
 
 #: ../../admin/config.rst:112
 msgid "AVATAR_URL_PREFIX"
-msgstr ""
+msgstr "AVATAR_URL_PREFIX"
 
 #: ../../admin/config.rst:114
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"构成头像 URL 的前缀为： ``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}`` "
+"。已知后面的服务工作："
 
 #: ../../admin/config.rst:118
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar （默认），根据 https://gravatar.com/"
 
 #: ../../admin/config.rst:119
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:121
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar ，根据 https://www.libravatar.org/"
 
 #: ../../admin/config.rst:121
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
 
 #: ../../admin/config.rst:125
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`ENABLE_AVATARS`, :ref:`avatars`"
 
 #: ../../admin/config.rst:132
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:136
 msgid ""
 "How long the the authentication token and temporary password from password "
 "reset e-mails is valid for. Set in number of seconds, defaulting to 172800 "
 "(2 days)."
-msgstr ""
+msgstr "密码重置email的授权令牌和临时密码有效时间的长度。设置以秒为单位，默认为 172800 （ 2 天）。"
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
@@ -3960,104 +3962,105 @@ msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
-msgstr ""
+msgstr "应该允许几天来使用相同的密码。"
 
 #: ../../admin/config.rst:149
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
-msgstr ""
+msgstr "Weblate 2.15 版本之前的密码更改不遵从这个原则。"
 
 #: ../../admin/config.rst:156
 msgid "AUTOFIX_LIST"
-msgstr ""
+msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "当存储字符串时应用自动修复列表。"
 
 #: ../../admin/config.rst:162
 msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
-msgstr ""
+msgstr "为应用自动修复见面的 Python 类提供完全合规的路径。"
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "可用的修复："
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
-msgstr ""
+msgstr "将字符串开始与结尾的空白字符与元字符串匹配。"
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
 msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
-msgstr ""
+msgstr "如果字符串有省略号的话（ … ），用来连续的点符号（ ... ）代替。"
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
-msgstr ""
+msgstr "去掉零宽度字符，如果源字符串不包含的话。"
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "去掉控制字符，如果源字符串不包含的话。"
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:176
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
-msgstr ""
+msgstr "从标记为 ``safe-html`` 的字符串中去掉不安全的 HTML 标记（ 请见 :ref:`check-safe-html` ）。"
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "可以选择使用哪一个："
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
-msgstr ""
+msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BASE_DIR"
-msgstr ""
+msgstr "BASE_DIR"
 
 #: ../../admin/config.rst:196
 msgid ""
 "Base directory where Weblate sources are located. Used to derive several "
 "other paths by default:"
-msgstr ""
+msgstr "Weblate 源所在的基本目录。用于默认得到几个其他路径："
 
 #: ../../admin/config.rst:199 ../../faq.rst:388 ../../vcs.rst:455
 msgid ":setting:`DATA_DIR`"
-msgstr ""
+msgstr ":setting:`DATA_DIR`"
 
 #: ../../admin/config.rst:201
 msgid "Default value: Top level directory of Weblate sources."
-msgstr ""
+msgstr "默认值：Weblate 源的顶层目录。"
 
 #: ../../admin/config.rst:210
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgstr ""
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:212
 msgid ""
@@ -4065,10 +4068,12 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, ...)."
 msgstr ""
+"为 Weblate 定制 ``Content-Security-Policy`` 标头。根据允许集成的第三方服务（ Matomo 、 Google "
+"Analytics 、 Sentry ……）来自动生成标头。"
 
 #: ../../admin/config.rst:216
 msgid "All these default to empty list."
-msgstr ""
+msgstr "这些默认为空列表。"
 
 #: ../../admin/config.rst:218
 msgid "** Example:: **"
@@ -4079,24 +4084,26 @@ msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/"
+"en-US/docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:233
 msgid "CHECK_LIST"
-msgstr ""
+msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:235
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "翻译时执行的质量检查列表。"
 
 #: ../../admin/config.rst:239
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
-msgstr ""
+msgstr "为实施检查界面的 Python 类提供完全合规的路径。"
 
 #: ../../admin/config.rst:242
 msgid "Adjust the list of checks to include ones relevant to you."
-msgstr ""
+msgstr "调整检查列表，来包括与您相关的那些检查。"
 
 #: ../../admin/config.rst:244
 msgid ""
@@ -4105,14 +4112,16 @@ msgid ""
 "configuration` so that default values are used. New checks then carried out "
 "for each new Weblate version."
 msgstr ""
+"所有内建的 :ref:`checks` 默认都打开，可以从那里更改设置。它们在 :ref:`sample-configuration` "
+"中被默认注释掉，从而使用默认值。然后每个新的 Weblate 版本执行新的检查。"
 
 #: ../../admin/config.rst:248
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "可以关闭所有检查："
 
 #: ../../admin/config.rst:254
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "可以只打开一部分检查："
 
 #: ../../admin/config.rst:266
 msgid ""
@@ -4120,137 +4129,140 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :djadmin:`updatechecks`."
 msgstr ""
+"更改这些设置只影响新更改的翻译，现存的检查仍然存储在数据库中。为了将更改同样应用到存储的翻译中，运行 :djadmin:`updatechecks` 。"
 
 #: ../../admin/config.rst:272
 msgid ":ref:`checks`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`checks`, :ref:`custom-checks`"
 
 #: ../../admin/config.rst:277
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:281
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
-msgstr ""
+msgstr "在一定天数后删除评论。默认为 ``None`` ，意味着不删除。"
 
 #: ../../admin/config.rst:287
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:291
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
-msgstr ""
+msgstr "通过后台任务方式执行的将更改挂起之间的小时数。"
 
 #: ../../admin/config.rst:295
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :djadmin:`commit_pending`"
 msgstr ""
+":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-cron`"
+", :djadmin:`commit_pending`"
 
 #: ../../admin/config.rst:303
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:305
 msgid ""
 "The folder Weblate stores all data in. It contains links to VCS "
 "repositories, a fulltext index and various configuration files for external "
 "tools."
-msgstr ""
+msgstr "Weblate 文件夹将所有数据存储其中。它包含到 VCS 仓库的链接，全文本索引和外部工具的各种文件。"
 
 #: ../../admin/config.rst:308
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "后面的子目录通常存在："
 
 #: ../../admin/config.rst:310
 msgid ":file:`home`"
-msgstr ""
+msgstr ":file:`home`"
 
 #: ../../admin/config.rst:311
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Home 目录用于调用脚本。"
 
 #: ../../admin/config.rst:312
 msgid ":file:`ssh`"
-msgstr ""
+msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:313
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "SSH 密钥和配置。"
 
 #: ../../admin/config.rst:314
 msgid ":file:`static`"
-msgstr ""
+msgstr ":file:`static`"
 
 #: ../../admin/config.rst:315
 msgid "Default location for static Django files, specified by ``STATIC_ROOT``."
-msgstr ""
+msgstr "静态 Django 文件的默认位置，由 ``STATIC_ROOT`` 指定。"
 
 #: ../../admin/config.rst:316
 msgid ":file:`media`"
-msgstr ""
+msgstr ":file:`media`"
 
 #: ../../admin/config.rst:317
 msgid "Default location for Django media files, specified by ``MEDIA_ROOT``."
-msgstr ""
+msgstr "Django 媒体文件的默认位置，由 ``MEDIA_ROOT`` 指定。"
 
 #: ../../admin/config.rst:318
 msgid ":file:`vcs`"
-msgstr ""
+msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:319
 msgid "Version control repositories."
-msgstr ""
+msgstr "版本控制仓库。"
 
 #: ../../admin/config.rst:321
 msgid ":file:`backups`"
-msgstr ""
+msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:321
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
-msgstr ""
+msgstr "每日备份数据，细节请参考 :ref:`backup-dumps` 。"
 
 #: ../../admin/config.rst:325
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
-msgstr ""
+msgstr "这个目录必须由 Weblate 写入。运行作为 uWSGI 意味着 ``www-data`` 用户应该对它具有写入权限。"
 
 #: ../../admin/config.rst:328
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
-msgstr ""
+msgstr "实现这个的最简单方式是使用户作为目录的所有者："
 
 #: ../../admin/config.rst:334
 msgid "Defaults to ``$BASE_DIR/data``."
-msgstr ""
+msgstr "默认到 ``$BASE_DIR/data`` 。"
 
 #: ../../admin/config.rst:338
 msgid ":setting:`BASE_DIR`, :doc:`backup`"
-msgstr ""
+msgstr ":setting:`BASE_DIR`, :doc:`backup`"
 
 #: ../../admin/config.rst:344
 msgid "DATABASE_BACKUP"
-msgstr ""
+msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:348
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
-msgstr ""
+msgstr "数据库备份应该存储为纯文本，压缩还是跳过。授权值为："
 
 #: ../../admin/config.rst:351
 msgid "``\"plain\"``"
-msgstr ""
+msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:352
 msgid "``\"compressed\"``"
-msgstr ""
+msgstr "``\"compressed\"``"
 
 #: ../../admin/config.rst:357
 msgid ":ref:`backup`"
@@ -4300,7 +4312,7 @@ msgstr ":guilabel:`Custom`"
 msgid ""
 "Use :guilabel:`Custom` if you managing ACL manually, which means not relying "
 "on the internal Weblate management."
-msgstr ""
+msgstr "如果手动管理 ACL 则使用 :guilabel:`Custom` ，这意味着不依赖于 Weblate 内部管理。"
 
 #: ../../admin/config.rst:382
 msgid ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
@@ -4316,19 +4328,21 @@ msgstr "组件限制的默认值。"
 
 #: ../../admin/config.rst:397
 msgid ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
-msgstr ""
+msgstr ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
 
 #: ../../admin/config.rst:408
 msgid ""
 "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgstr ""
+"DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
+"DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 
 #: ../../admin/config.rst:410
 msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
-msgstr ""
+msgstr "不同操作的默认执行信息，细节请查阅 :ref:`component` 。"
 
 #: ../../admin/config.rst:415
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
@@ -4383,7 +4397,7 @@ msgstr "DEFAULT_COMMITER_NAME"
 #: ../../admin/config.rst:476
 msgid ""
 "Committer name for created translation components defaulting to ``Weblate``."
-msgstr ""
+msgstr "建立翻译部件的执行者姓名默认为 ``Weblate`` 。"
 
 #: ../../admin/config.rst:480
 msgid ""
@@ -4440,46 +4454,47 @@ msgstr "ENABLE_AVATARS"
 #: ../../admin/config.rst:528
 msgid ""
 "Whether to turn on Gravatar based avatars for users. By default this is on."
-msgstr ""
+msgstr "是否为用户打开基于 Gravatar 的头像。默认打开。"
 
 #: ../../admin/config.rst:530
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
-msgstr ""
+msgstr "头像取出并缓存在从服务器中，降低了泄漏个人信息的风险，加速了用户体验。"
 
 #: ../../admin/config.rst:535
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 
 #: ../../admin/config.rst:542
 msgid "ENABLE_HOOKS"
-msgstr ""
+msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:544
 msgid "Whether to enable anonymous remote hooks."
-msgstr ""
+msgstr "是否允许匿名远程钩子。"
 
 #: ../../admin/config.rst:548
 msgid ":ref:`hooks`"
-msgstr ""
+msgstr ":ref:`hooks`"
 
 #: ../../admin/config.rst:553
 msgid "ENABLE_HTTPS"
-msgstr ""
+msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:555
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
-msgstr ""
+msgstr "将链接作为 HTTPS 还是 HTTP 发送给 Weblate。这个设置影响发送电子邮件，并产生绝对 URL。"
 
 #: ../../admin/config.rst:560
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS."
-msgstr ""
+msgstr "在默认配置中，这还用于与 HTTPS 相关的几个 Django 设置。"
 
 #: ../../admin/config.rst:565
 msgid ""
@@ -4487,24 +4502,26 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
+", :setting:`django:SECURE_SSL_REDIRECT`, :ref:`production-site`"
 
 #: ../../admin/config.rst:573
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:575
 msgid ""
 "Turn on/off the \"Share\" menu so users can share translation progress on "
 "social networks."
-msgstr ""
+msgstr "打开/关闭 \"Share\" 菜单，使用户能够将翻译过程分享到社交网络上。"
 
 #: ../../admin/config.rst:580
 msgid "GITLAB_USERNAME"
-msgstr ""
+msgstr "GITLAB_USERNAME"
 
 #: ../../admin/config.rst:582
 msgid "GitLab username used to send merge requests for translation updates."
-msgstr ""
+msgstr "GitLab 用户名，用于发送翻译更新的和并请求。"
 
 #: ../../admin/config.rst:586
 msgid ":ref:`vcs-gitlab`, :ref:`lab-setup`"
@@ -4516,7 +4533,7 @@ msgstr "GITHUB_USERNAME"
 
 #: ../../admin/config.rst:594
 msgid "GitHub username used to send pull requests for translation updates."
-msgstr "用于发送翻译更新的 Pull Request 的 GitHub 用户名。"
+msgstr "GitHub 用户名，用于发送翻译更新的 Pull Request 。"
 
 #: ../../admin/config.rst:598 ../../admin/install/docker.rst:470
 #: ../../admin/install/docker.rst:1184
@@ -4541,7 +4558,7 @@ msgid ""
 "Hide repository credentials from appearing in the web interface. In case you "
 "have repository URL with user and password, Weblate will hide it when "
 "related info is shown to users."
-msgstr ""
+msgstr "隐藏仓库证明避免出现在 web 网站界面中。在仓库 URL 带有用户名和密码的情况下， Weblate 会在相关信息显示给用户时将其隐藏起来。"
 
 #: ../../admin/config.rst:617
 msgid ""
@@ -4549,54 +4566,58 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"例如除了 ``https://user:password@git.example.com/repo.git`` 会只显示 ``https://git."
+"example.com/repo.git`` 。它也试图以相似的方式清除 VCS 错误信息。"
 
 #: ../../admin/config.rst:623
 msgid "This is turned on by default."
-msgstr ""
+msgstr "默认这是打开的。"
 
 #: ../../admin/config.rst:628
 msgid "IP_BEHIND_REVERSE_PROXY"
-msgstr ""
+msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:632
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "指示 Weblate 是否在反向代理后面运行。"
 
 #: ../../admin/config.rst:634
 msgid ""
 "If set to \"True\", Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
-msgstr ""
+msgstr "如果设置为 \"True\" ， Weblate 会从 :setting:`IP_PROXY_HEADER`定义的标头中得到 IP 地址。"
 
 #: ../../admin/config.rst:639
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
-msgstr ""
+msgstr "确保真正使用反向代理，并且设置了这个标头，否则用户将能够假冒 IP 地址。"
 
 #: ../../admin/config.rst:644
 msgid "This is not on by default."
-msgstr ""
+msgstr "默认这不是打开的。"
 
 #: ../../admin/config.rst:648
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:656
 msgid "IP_PROXY_HEADER"
-msgstr ""
+msgstr "IP_PROXY_HEADER"
 
 #: ../../admin/config.rst:660
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
-msgstr ""
+msgstr "指示当 :setting:`IP_BEHIND_REVERSE_PROXY` 打开时，Weblate应该从那个标头得到 IP 地址。"
 
 #: ../../admin/config.rst:663
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "默认为 ``HTTP_X_FORWARDED_FOR`` 。"
 
 #: ../../admin/config.rst:667
 msgid ""
@@ -4604,16 +4625,19 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_OFFSET`"
 
 #: ../../admin/config.rst:676
 msgid "IP_PROXY_OFFSET"
-msgstr ""
+msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:680
 msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
-msgstr ""
+msgstr "指示 :setting:`IP_PROXY_HEADER` 的哪部分用作客户端 IP 地址。"
 
 #: ../../admin/config.rst:683
 msgid ""
@@ -4621,16 +4645,18 @@ msgid ""
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
+"依赖于您的设置，这个标头会包括几个 IP 地址，（例如 ``X-Forwarded-For: a, b, client-ip`` ），"
+"并且可以配置标头的哪个地址在这里用作客户端 IP 地址。"
 
 #: ../../admin/config.rst:689
 msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
-msgstr ""
+msgstr "设置这个会影响您安装的安全性，您应该只配置它来使用信任的代理来确定 IP 地址。"
 
 #: ../../admin/config.rst:692
 msgid "Defaults to 0."
-msgstr ""
+msgstr "默认为 0 。"
 
 #: ../../admin/config.rst:696
 msgid ""
@@ -4638,87 +4664,90 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
+":ref:`reverse-proxy`, :ref:`rate-limit`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`"
+", :setting:`IP_PROXY_HEADER`"
 
 #: ../../admin/config.rst:705
 msgid "LEGAL_URL"
-msgstr ""
+msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:709
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "您的 Weblate 事例显示其法律文件的 URL 。"
 
 #: ../../admin/config.rst:713
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
-msgstr ""
+msgstr "在您将您的法律文件保存在 Weblate 之外，而将其嵌入 Weblate 的情况下有用。细节请查看 :ref:`legal` 。"
 
 #: ../../admin/config.rst:725
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:727
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "包括在许可选择中的其他许可。"
 
 #: ../../admin/config.rst:731
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
-msgstr ""
+msgstr "每个许可的定义应该是其短名称、长名称和 URL 的元组。"
 
 #: ../../admin/config.rst:733 ../../admin/config.rst:756
 #: ../../admin/config.rst:883 ../../formats.rst:302
 msgid "For example:"
-msgstr ""
+msgstr "例如："
 
 #: ../../admin/config.rst:748
 msgid "LICENSE_FILTER"
-msgstr ""
+msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:750
 msgid "Optional addition of licenses to show."
-msgstr ""
+msgstr "用于显示的许可以外的选项。"
 
 #: ../../admin/config.rst:754
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "这个过滤器使用了短许可名称。"
 
 #: ../../admin/config.rst:765
 msgid "LICENSE_REQUIRED"
-msgstr ""
+msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:767
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr ""
+msgstr "定义了是否需要 :ref:`component` 中的许可属性。"
 
 #: ../../admin/config.rst:771
 msgid "This is off by default."
-msgstr ""
+msgstr "默认这是关闭的。"
 
 #: ../../admin/config.rst:776
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
-msgstr ""
+msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:778
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string * 10 characters."
-msgstr ""
+msgstr "给定翻译的长度是否应被限制。限制为源字符串的长度 * 10 个字符。"
 
 #: ../../admin/config.rst:783
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
-msgstr ""
+msgstr "将其设置为 ``False`` 来允许更长的翻译，而不管源字符串的长度。"
 
 #: ../../admin/config.rst:787
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "默认为 ``True`` 。"
 
 #: ../../admin/config.rst:793
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:795
 msgid ""
@@ -4727,68 +4756,71 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"这些设置配置了 :ref:`addon-weblate.cdn.cdnjs` 插件。 :setting:`LOCALIZE_CDN_URL` "
+"定义了可获得本地化 CDN 的根 URL ，而 :setting:`LOCALIZE_CDN_PATH` 定义了 Weblate 应该存储生成文件的路径，"
+"生成的文件在 :setting:`LOCALIZE_CDN_URL` 使用。"
 
 #: ../../admin/config.rst:802
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "在hosted Weblate 中，这使用 ``https://weblate-cdn.com/`` 。"
 
 #: ../../admin/config.rst:806
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:811
 msgid "LOGIN_REQUIRED_URLS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:813
 msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
-msgstr ""
+msgstr "您希望需要登录的 URL 列表。（除了 Weblate 内建立的标准规则）。"
 
 #: ../../admin/config.rst:817
 msgid "This allows you to password protect a whole installation using:"
-msgstr ""
+msgstr "这允许密码保护整个安装，通过使用："
 
 #: ../../admin/config.rst:830
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
-msgstr ""
+msgstr "同样想要锁住 API 访问，如上面的例子所示。"
 
 #: ../../admin/config.rst:835
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:837
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the login page."
-msgstr ""
+msgstr "用于 :setting:`LOGIN_REQUIRED_URLS` 的例外列表。如果不指定，可以允许用户访问登录页。"
 
 #: ../../admin/config.rst:840
 msgid "Some of exceptions you might want to include:"
-msgstr ""
+msgstr "您可能想要包括的一些例外："
 
 #: ../../admin/config.rst:858
 msgid "MATOMO_SITE_ID"
-msgstr ""
+msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:860
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
-msgstr ""
+msgstr "您想要跟踪的 Matomo （以前的 Piwik ）中的网站 ID。"
 
 #: ../../admin/config.rst:864 ../../admin/config.rst:881
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr ""
+msgstr "这个集成不支持 Matomo Tag Manager 。"
 
 #: ../../admin/config.rst:868
 msgid ":setting:`MATOMO_URL`"
-msgstr ""
+msgstr ":setting:`MATOMO_URL`"
 
 #: ../../admin/config.rst:874
 msgid "MATOMO_URL"
-msgstr ""
+msgstr "MATOMO_URL"
 
 #: ../../admin/config.rst:876
 msgid ""
@@ -4796,129 +4828,137 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more deails."
 msgstr ""
+"您想要跟踪的 Matomo （以前的 Piwik ）安装的全 URL （包括反斜杠）。细节请查阅 <https://matomo.org/> 。"
 
 #: ../../admin/config.rst:892
 msgid ":setting:`MATOMO_SITE_ID`"
-msgstr ""
+msgstr ":setting:`MATOMO_SITE_ID`"
 
 #: ../../admin/config.rst:899
 msgid "MT_SERVICES"
-msgstr ""
+msgstr "MT_SERVICES"
 
 #: ../../admin/config.rst:903
 msgid ""
 "The setting was renamed from ``MACHINE_TRANSLATION_SERVICES`` to "
 "``MT_SERVICES`` to be consistent with other machine translation settings."
 msgstr ""
+"设置从 ``MACHINE_TRANSLATION_SERVICES`` 重命名为 ``MT_SERVICES`` ，而与其它机器翻译设置一致。"
 
 #: ../../admin/config.rst:906
 msgid "List of enabled machine translation services to use."
-msgstr ""
+msgstr "允许使用的机器翻译服务的列表。"
 
 #: ../../admin/config.rst:910
 msgid ""
 "Many of the services need additional configuration like API keys, please "
 "check their documentation ref: `machine` for more details."
-msgstr ""
+msgstr "很多服务需要像 API 密钥一样的另外的配置，细节请查阅其文件 ref: `machine` 。"
 
 #: ../../admin/config.rst:933 ../../faq.rst:288
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
-msgstr ""
+msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 
 #: ../../admin/config.rst:939
 msgid "MT_APERTIUM_APY"
-msgstr ""
+msgstr "MT_APERTIUM_APY"
 
 #: ../../admin/config.rst:941
 msgid ""
 "URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy"
-msgstr ""
+msgstr "Apertium-APy 服务器的 URL， https://wiki.apertium.org/wiki/Apertium-apy"
 
 #: ../../admin/config.rst:945
 msgid ""
 ":ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
+":ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 
 #: ../../admin/config.rst:950
 msgid "MT_AWS_ACCESS_KEY_ID"
-msgstr ""
+msgstr "MT_AWS_ACCESS_KEY_ID"
 
 #: ../../admin/config.rst:952
 msgid "Access key ID for Amazon Translate."
-msgstr ""
+msgstr "Amazon Translate 的访问密钥 ID 。"
 
 #: ../../admin/config.rst:956 ../../admin/config.rst:967
 #: ../../admin/config.rst:978
 msgid ""
 ":ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
+":ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 
 #: ../../admin/config.rst:961
 msgid "MT_AWS_SECRET_ACCESS_KEY"
-msgstr ""
+msgstr "MT_AWS_SECRET_ACCESS_KEY"
 
 #: ../../admin/config.rst:963
 msgid "API secret key for Amazon Translate."
-msgstr ""
+msgstr "Amazon Translate 的 API 密钥。"
 
 #: ../../admin/config.rst:972
 msgid "MT_AWS_REGION"
-msgstr ""
+msgstr "MT_AWS_REGION"
 
 #: ../../admin/config.rst:974
 msgid "Region name to use for Amazon Translate."
-msgstr ""
+msgstr "Amazon Translate 使用的区域名称。"
 
 #: ../../admin/config.rst:983
 msgid "MT_BAIDU_ID"
-msgstr ""
+msgstr "MT_BAIDU_ID"
 
 #: ../../admin/config.rst:985
 msgid ""
 "Client ID for the Baidu Zhiyun API, you can register at https://api.fanyi."
 "baidu.com/api/trans/product/index"
 msgstr ""
+"百度智云 API 的客户端 ID ，可以在 https://api.fanyi.baidu.com/api/trans/product/index 注册"
 
 #: ../../admin/config.rst:989 ../../admin/config.rst:1000
 msgid ""
 ":ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
+":ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
+"translation`"
 
 #: ../../admin/config.rst:994
 msgid "MT_BAIDU_SECRET"
-msgstr ""
+msgstr "MT_BAIDU_SECRET"
 
 #: ../../admin/config.rst:996
 msgid ""
 "Client secret for the Baidu Zhiyun API, you can register at https://api."
 "fanyi.baidu.com/api/trans/product/index"
 msgstr ""
+"百度智云 API 的客户端密钥，可以在 https://api.fanyi.baidu.com/api/trans/product/index 注册"
 
 #: ../../admin/config.rst:1005
 msgid "MT_DEEPL_API_VERSION"
-msgstr ""
+msgstr "MT_DEEPL_API_VERSION"
 
 #: ../../admin/config.rst:1009
 msgid ""
 "API version to use with DeepL service. The version limits scope of usage:"
-msgstr ""
+msgstr "DeepL 服务使用的 API 版本。版本限制了使用范围："
 
 #: ../../admin/config.rst:1011
 msgid "v1"
-msgstr ""
+msgstr "v1"
 
 #: ../../admin/config.rst:1012
 msgid "Is meant for CAT tools and is usable with user based subscription."
-msgstr ""
+msgstr "意味着计算机辅助翻译工具，并且在基于用户的订阅时使用。"
 
 #: ../../admin/config.rst:1014
 msgid "v2"
-msgstr ""
+msgstr "v2"
 
 #: ../../admin/config.rst:1014
 msgid "Is meant for API usage and the subscription is usage based."
-msgstr ""
+msgstr "意味着 API 应用，并且订阅是基于使用的。"
 
 #: ../../admin/config.rst:1016
 msgid ""
@@ -4927,6 +4967,8 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"此前 Weblate 被 DeepL 分类为计算机辅助翻译工具，因此应该使用 v1 API ，但现在应该使用 v2 API 。这样默认为 v2 "
+"，您可以在现有计算机辅助翻译工具订阅，并想要 Weblate 使用它的情况下，将其更改为 v1 。"
 
 #: ../../admin/config.rst:1023 ../../admin/config.rst:1034
 msgid ""
