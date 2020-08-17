@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-17 13:06+0200\n"
-"PO-Revision-Date: 2020-08-17 13:08+0000\n"
+"PO-Revision-Date: 2020-08-17 18:39+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1118,6 +1118,9 @@ msgid ""
 "you can include in the HTML documents to get them localized. See :ref:"
 "`weblate-cdn` for more details."
 msgstr ""
+"Після встановлення додаток створює унікальну адресу для вашого складника, "
+"яку ви можете включати до документів HTML для налаштовування їхньої "
+"локалізації. Див. :ref:`weblate-cdn`, щоб дізнатися більше."
 
 #: ../../admin/addons.rst:50
 msgid ""
@@ -8020,12 +8023,18 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
+"Деякі можливості Weblate працюватимуть краще з використанням "
+":ref:`postgresql`. Це стосується пошуку і пам'яті перекладів — можливостей, "
+"у яких використовується повнотекстова обробка у базі даних — реалізація у "
+"PostgreSQL є найкращою."
 
 #: ../../admin/install.rst:388
 msgid ""
 "Because of this it is recommended to use :ref:`postgresql` for new "
 "installations."
 msgstr ""
+"Через це, ми рекомендуємо використовувати для нових встановлених екземплярів "
+":ref:`postgresql`."
 
 #: ../../admin/install.rst:391
 msgid "Following configuration is recommended for Weblate:"
@@ -8864,6 +8873,9 @@ msgid ""
 "locales. For example when using Apache you might want to set it in :file:`/"
 "etc/apache2/envvars`:"
 msgstr ""
+"У деяких випадках окремі служби мають окремі налаштування для локалей. "
+"Наприклад, при використанні Apache вам, можливо, слід встановити їх у файлі "
+":file:`/etc/apache2/envvars`:"
 
 #: ../../admin/install.rst:1009
 msgid "Using custom certificate authority"
@@ -9219,6 +9231,9 @@ msgid ""
 "variant of the modwsgi. Usually it is available as a separate package, for "
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Для роботи Weblate потрібен Python 3, тому вам слід переконатися, що ви "
+"працюєте із версією modwsgi для Python 3. Зазвичай, ця версія встановлюється "
+"з окремого пакунка, наприклад ``libapache2-mod-wsgi-py3``."
 
 #: ../../admin/install.rst:1215
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
@@ -12962,11 +12977,12 @@ msgstr "Фільтрування з метою отримання лише пе�
 
 #: ../../admin/management.rst:486
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr ""
+msgstr "Імпортування документації Sphinx, поділеної на декілька файлів:"
 
 #: ../../admin/management.rst:495
 msgid "Importing Sphinx documentation split to multiple files and directories:"
 msgstr ""
+"Імпортування документації Sphinx, поділеної на декілька файлів і каталогів:"
 
 #: ../../admin/management.rst:510
 msgid ""
@@ -15481,24 +15497,32 @@ msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
 msgstr ""
+"Якщо ви імпортуєте великі об'єми перекладів або сховищ, ви можете зіткнутися "
+"із обмеженнями на ресурси на вашому сервері."
 
 #: ../../admin/projects.rst:852
 msgid ""
 "Check the amount of free memory, having translation files cached by the "
 "operating system will greatly improve performance."
 msgstr ""
+"Перевірте, чи достатньо вільної пам'яті. Кешування файлів перекладу з боку "
+"операційної системи може значно підвищити швидкодію."
 
 #: ../../admin/projects.rst:853
 msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
 msgstr ""
+"Вузьким місцем можуть бути дії із диском, якщо потрібно обробляти багато "
+"рядків — дані на диск записуватимуть одразу Weblate і база даних."
 
 #: ../../admin/projects.rst:854
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
 msgstr ""
+"Додаткові ядра процесора можуть підвищити швидкодію виконання фонових "
+"завдань (див. :ref:`celery`)."
 
 #: ../../admin/projects.rst:857
 msgid "Disable unneeded checks"
@@ -15510,6 +15534,10 @@ msgid ""
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
 msgstr ""
+"Деякі перевірки якості є доволі витратними щодо ресурсів. Якщо вони є "
+"непотрібними, ви можете заощадити певний час під час імпортування, якщо ви "
+"пропустите їх. Див. :setting:`CHECK_LIST`, щоб дізнатися більше про "
+"налаштовування."
 
 #: ../../admin/projects.rst:866
 msgid "Automatic creation of components"
@@ -15523,6 +15551,12 @@ msgid ""
 "djadmin:`import_project` or :djadmin:`import_json`, or by installing the :"
 "ref:`addon-weblate.discovery.discovery` addon."
 msgstr ""
+"Якщо у проєкт є з десяток файлів перекладу (наприклад, для різних доменів "
+"gettext або частин програм Android), у вас може виникнути потреба у "
+"імпортування цих файлів автоматично. Цього можна досягти або за допомогою "
+"командного рядка з використанням :djadmin:`import_project` чи "
+":djadmin:`import_json`, або за допомогою встановлення додатка :ref:`addon-"
+"weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:874
 msgid ""
@@ -15530,6 +15564,10 @@ msgid ""
 "file (choose the one that is the least likely to be renamed or removed in "
 "future), and install the addon on this component."
 msgstr ""
+"Щоб скористатися додатком, вам слід спочатку створити складник для одного "
+"файла перекладу (виберіть той з них, який має найменшу ймовірність "
+"перейменовування або вилучення у майбутньому), а потім встановити додаток "
+"для цього складника."
 
 #: ../../admin/projects.rst:878
 msgid ""
@@ -15537,6 +15575,8 @@ msgid ""
 "all components and then run :djadmin:`import_project` or :djadmin:"
 "`import_json`."
 msgstr ""
+"Для команд керування вам слід створити проєкт, який міститиме усі складники, "
+"а потім віддати команду :djadmin:`import_project` або :djadmin:`import_json`."
 
 #: ../../admin/projects.rst:884
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
@@ -15565,10 +15605,16 @@ msgid ""
 "available for everyone. You can find more info about current support "
 "offerings at <https://weblate.org/support/>."
 msgstr ""
+"Weblate є вільним програмним забезпеченням, модифікація якого можлива лише "
+"за умов вільного її поширення, із супроводом, який забезпечується спільнотою "
+"користувачів. Передплатники отримують пріоритетну підтримку без додаткових "
+"сплат. Передплачені пакунки допомоги доступні для всіх. Докладніше про "
+"поточні пропозиції супроводу можна дізнатися за допомогою сторінки "
+"<https://weblate.org/support/>."
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
-msgstr ""
+msgstr "Інтегрування підтримки"
 
 #: ../../admin/support.rst:18
 msgid ""
@@ -15577,10 +15623,14 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
+"Придбані пакунки підтримки може бути, якщо хочете, інтегровано до інтерфейсу "
+"`керування передплатами <https://weblate.org/user/>`_ вашого Weblate, де "
+"буде розміщено відповідні посилання. У цьому випадку до Weblate "
+"надсилатимуться дані щодо базових параметрів встановленого вами екземпляра."
 
 #: ../../admin/support.rst:25
 msgid "Data submitted to the Weblate"
-msgstr ""
+msgstr "Дані, які подаються до Weblate"
 
 #: ../../admin/support.rst:27
 msgid "URL where your Weblate instance is configured"
@@ -15599,6 +15649,8 @@ msgid ""
 "Tallies of some objects in your Weblate database (projects, components, "
 "languages, source strings and users)"
 msgstr ""
+"Бирки деяких об'єктів у вашій базі даних Weblate (проєктів, складників, "
+"записів мов, початкових рядків та користувачів)"
 
 #: ../../admin/support.rst:31
 msgid "The public SSH key of your instance"
@@ -15606,7 +15658,7 @@ msgstr "Відкритий ключ SSH вашого екземпляра"
 
 #: ../../admin/support.rst:33
 msgid "No other data is submitted."
-msgstr ""
+msgstr "Інші дані не подаються."
 
 #: ../../admin/support.rst:36
 msgid "Integration services"
@@ -15614,7 +15666,7 @@ msgstr "Служби інтеграції"
 
 #: ../../admin/support.rst:38
 msgid "See if your support package is still valid"
-msgstr ""
+msgstr "Переконайтеся, що ваш пакунок підтримки є чинним"
 
 #: ../../admin/support.rst:39
 msgid ":ref:`cloudbackup`"
@@ -15625,6 +15677,8 @@ msgid ""
 "Purchased support packages are already activated upon purchase, and can be "
 "used without integrating them."
 msgstr ""
+"Придбані пакунки підтримки є активованими з моменту придбання — ними можна "
+"користуватися без інтеграції."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -15639,6 +15693,15 @@ msgid ""
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
+"Типово, надсилати пропозиції може кожен, а приймати пропозиції можуть "
+"зареєстровані користувачі. Можна скористатися голосуванням за пропозиції, "
+"коли рядок використовується, лише якщо за нього проголосувала більшість "
+"зареєстрованих користувачів. Для цього у налаштуваннях "
+":ref:`складника<component>` слід увімкнути :guilabel:`Голосування за "
+"пропозиції` і встановити порогове значення :guilabel:`Автоматичне прийняття "
+"пропозиції` для визначення порогового значення для прийнятих пропозицій (до "
+"голосів буде включено голос користувача, який вніс пропозицію, якщо він може "
+"голосувати)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -15647,12 +15710,18 @@ msgid ""
 "with the :guilabel:`Can override suggestion state` privilege (see :ref:"
 "`privileges`)."
 msgstr ""
+"Щойно буде налаштовано автоматичне прийняття, звичайні користувачі втратять "
+"право безпосередньо зберігати переклади або приймати пропозиції. Це можна "
+"перевизначити за допомогою прав доступу :guilabel:`Може перевизначати стан "
+"пропозиції` (див. :ref:`privileges`)."
 
 #: ../../admin/translating.rst:23
 msgid ""
 "You can combine these with :ref:`privileges` into one of the following "
 "setups:"
 msgstr ""
+"Ви можете поєднувати ці можливості за допомогою :ref:`прав "
+"доступу<privileges>` у одну за допомогою таких конфігурацій:"
 
 #: ../../admin/translating.rst:25
 msgid ""
@@ -15660,6 +15729,9 @@ msgid ""
 "accepted. - Turn on voting. - Turn off automatic acceptance. - Don't let "
 "users save translations."
 msgstr ""
+"Користувачі пропонують переклади і голосують за пропозиції, а обмежена група "
+"контролює, що саме буде прийнято. - Увімкніть голосування. - Вимкніть "
+"автоматичне прийняття. - Забороніть користувачам зберігати переклади."
 
 #: ../../admin/translating.rst:30
 msgid ""
@@ -15667,6 +15739,10 @@ msgid ""
 "defined number of them agree. - Turn on voting. - Set the desired number of "
 "votes for automatic acceptance."
 msgstr ""
+"Користувачі пропонують переклади і голосують за переклади із автоматичним "
+"прийняттям, щойно буде досягнуто визначеної кількості позитивних голосів. - "
+"Увімкніть голосування. - Встановіть бажану кількість голосів для "
+"автоматичного прийняття."
 
 #: ../../admin/translating.rst:34
 msgid ""
@@ -15674,6 +15750,9 @@ msgid ""
 "are unsure about a translation by making multiple suggestions.) - Only turn "
 "on voting."
 msgstr ""
+"Необов'язкове голосування за пропозиції. (Може, якщо треба, "
+"використовуватися користувачами, якщо вони не певні щодо перекладу і надають "
+"декілька пропозицій.) - Лише увімкніть голосування."
 
 #: ../../admin/translating.rst:41
 msgid "Additional info on source strings"
@@ -15685,6 +15764,10 @@ msgid ""
 "files. This includes explanation, string priority, check flags, or providing "
 "visual context.  All these features can be set in the :ref:`source-review`:"
 msgstr ""
+"Удоскональте процес перекладу наданням даних, які будуть доступними у "
+"файлах, які перекладають. Ці дані включають пояснення, пріоритетність рядка, "
+"прапорці та візуальний контекст.  Усі ці можливості можна налаштувати у "
+"розділі :ref:`source-review`:"
 
 #: ../../admin/translating.rst:49
 msgid ""
@@ -17904,16 +17987,12 @@ msgid "Component Slug"
 msgstr "Ідентифікатор складників"
 
 #: ../../api.rst:1933
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Edit partial information about screenshot."
-msgstr "Повертає дані щодо даних знімка вікна."
+msgstr "Редагувати часткові відомості щодо знімка вікна."
 
 #: ../../api.rst:1944
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Edit full information about screenshot."
-msgstr "Повертає дані щодо даних знімка вікна."
+msgstr "Редагувати повні відомості щодо знімка вікна."
 
 #: ../../api.rst:1955
 msgid "Delete screenshot."
@@ -18044,6 +18123,9 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"До GitHub включено безпосередню підтримку сповіщень Weblate: увімкніть "
+"скрипт перехоплення для служби Weblate у параметрах сховища і встановіть "
+"адресу, яка відповідає встановленому вами екземпляру Weblate."
 
 #: ../../api.rst:2075
 msgid ":ref:`github-setup`"
@@ -18310,8 +18392,6 @@ msgstr ""
 "виконувати із проміжними версіями 4.1 або 4.0."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added exports in several monolingual formats."
 msgid "Added exports into several monolingual formats."
 msgstr "Додано експортування до декількох одномовних форматів."
 
@@ -18324,19 +18404,15 @@ msgid "Number of displayed nearby strings can be configured."
 msgstr "Уможливлено налаштовування кількості показаних сусідніх рядків."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for locking component while there is repository error."
 msgid "Added support for locking components experiencing repository errors."
 msgstr ""
-"Додано підтримку блокування складника, якщо у сховищі коду виявлено помилку."
+"Додано підтримку блокування складників із помилками, пов'язаними зі сховищем."
 
 #: ../../changes.rst:12
 msgid "Simplified main navigation (replaced buttons with icons)."
 msgstr "Спрощено основну навігацію (кнопки замінено піктограмами)."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved language codes handling in Google Translate integration."
 msgid "Improved language code handling in Google Translate integration."
 msgstr "Удосконалено обробку кодів мов у інтеграції із Google Перекладачем."
 
@@ -18444,8 +18520,6 @@ msgid "Fixed changing autofix or addons configuration in Docker."
 msgstr "Виправлено зміну налаштувань автовиправлення або додатків у Docker."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed possible crash in about page."
 msgid "Fixed possible crash in \"About\" page."
 msgstr ""
 "Виправлено можливе аварійне завершення роботи на сторінці інформації щодо "
@@ -24353,10 +24427,8 @@ msgstr ""
 "на GitHub: <https://github.com/WeblateOrg/hello>."
 
 #: ../../devel/html.rst:4
-#, fuzzy
-#| msgid "Translating using Weblate"
 msgid "Translating HTML and JavaScript using Weblate CDN"
-msgstr "Переклад за допомогою Weblate"
+msgstr "Переклад HTML і JavaScript за допомогою CDN Weblate"
 
 #: ../../devel/html.rst:6
 msgid ""
@@ -24365,17 +24437,14 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:11
-#, fuzzy
-#| msgid ""
-#| "This addon requires additional configuration, see :setting:"
-#| "`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH`."
 msgid ""
 "This feature is configured on Hosted Weblate. It requires additional "
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and :"
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
-"Цей додаток потребує додаткового налаштовування, див. :setting:"
-"`LOCALIZE_CDN_URL` і :setting:`LOCALIZE_CDN_PATH`."
+"Цю можливість налаштовано на Hosted Weblate. Вона потребує додаткового "
+"налаштовування у вашому екземплярі, див. :setting:`LOCALIZE_CDN_URL` і "
+":setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../devel/html.rst:15
 msgid ""
@@ -24385,10 +24454,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:20
-#, fuzzy
-#| msgid "Create component"
 msgid "Creating component"
-msgstr "Створити складник"
+msgstr "Створення складника"
 
 #: ../../devel/html.rst:22
 msgid ""
@@ -24421,10 +24488,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:45
-#, fuzzy
-#| msgid "Configuring Weblate"
 msgid "Configuring Weblate CDN addon"
-msgstr "Налаштовування Weblate"
+msgstr "Налаштовування додатка CDN Weblate"
 
 #: ../../devel/html.rst:47
 msgid ""
@@ -24472,10 +24537,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:65
-#, fuzzy
-#| msgid "String extraction"
 msgid "String extraction for Weblate CDN"
-msgstr "Видобування рядків"
+msgstr "Видобування рядків для CDN Weblate"
 
 #: ../../devel/html.rst:67
 msgid ""
@@ -24519,10 +24582,8 @@ msgstr ""
 "дочірніми записами."
 
 #: ../../devel/html.rst:101
-#, fuzzy
-#| msgid "Translating using Weblate"
 msgid "HTML localization using Weblate CDN"
-msgstr "Переклад за допомогою Weblate"
+msgstr "Локалізація HTML за допомогою CDN Weblate"
 
 #: ../../devel/html.rst:103
 msgid ""
@@ -24542,17 +24603,12 @@ msgstr ""
 "замінить їх текст на переклад."
 
 #: ../../devel/html.rst:113
-#, fuzzy
-#| msgid ""
-#| "The user language is detected from the cookie (if :guilabel:`Language "
-#| "cookie name` is configured) and user preferred languages configured in "
-#| "the browser."
 msgid ""
 "The user language is detected from the configured cookie and falls back to "
 "user preferred languages configured in the browser."
 msgstr ""
-"Мова користувача визначається за кукою (якщо налаштовано :guilabel:`Назву "
-"куки мови`) і бажані мови, які налаштовано у браузері."
+"Мова користувача визначається за налаштованою кукою і резервним варіантом — "
+"бажаною мовою користувача, яку налаштовано у браузері."
 
 #: ../../devel/html.rst:116
 msgid ""
@@ -24566,10 +24622,6 @@ msgid "JavaScript localization"
 msgstr "Локалізація JavaScript"
 
 #: ../../devel/html.rst:122
-#, fuzzy
-#| msgid ""
-#| "The invidiual translations are exposed as bilingual JSON files under the "
-#| "CDN. To fetch one you can use following code:"
 msgid ""
 "The individual translations are exposed as bilingual JSON files under the "
 "CDN. To fetch one you can use following code:"
@@ -24698,11 +24750,11 @@ msgstr ""
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source chars new"
-msgstr ""
+msgstr "Кількість нових символів у початкових рядків"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target words new"
-msgstr ""
+msgstr "Кількість нових слід у перекладі"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target chars new"
@@ -24710,11 +24762,11 @@ msgstr ""
 
 #: ../../devel/reporting-example.rst:2
 msgid "Count approved"
-msgstr ""
+msgstr "Кількість схвалених"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source words approved"
-msgstr ""
+msgstr "Кількість затверджених слів початкових рядків"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source chars approved"
@@ -25054,62 +25106,44 @@ msgid ""
 msgstr ""
 
 #: ../../devel/sphinx.rst:32
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-name`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-name`"
 
 #: ../../devel/sphinx.rst:33
-#, fuzzy
-#| msgid "Documentation"
 msgid "``Documentation``"
-msgstr "Документація"
+msgstr "``Documentation``"
 
 #: ../../devel/sphinx.rst:34
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-filemask`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-filemask`"
 
 #: ../../devel/sphinx.rst:35
 msgid "``docs/locales/*/LC_MESSAGES/index.po``"
 msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
 
 #: ../../devel/sphinx.rst:36
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-new_base`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-new_base`"
 
 #: ../../devel/sphinx.rst:37
-#, fuzzy
-#| msgid "``locale/en.dtd``"
 msgid "``docs/locales/index.pot``"
-msgstr "``locale/en.dtd``"
+msgstr "``docs/locales/index.pot``"
 
 #: ../../devel/sphinx.rst:38
-#, fuzzy
-#| msgid ":ref:`componentlists`"
 msgid ":ref:`component-file_format`"
-msgstr ":ref:`componentlists`"
+msgstr ":ref:`component-file_format`"
 
 #: ../../devel/sphinx.rst:39
-#, fuzzy
-#| msgid "`Gettext PO file`"
 msgid "`gettext PO file`"
-msgstr "`файл PO Gettext`"
+msgstr "`файл PO gettext`"
 
 #: ../../devel/sphinx.rst:40
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-check_flags`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-check_flags`"
 
 #: ../../devel/sphinx.rst:43
-#, fuzzy
-#| msgid "Component configuration"
 msgid "Component discovery configuration"
-msgstr "Налаштовування складників"
+msgstr "Налаштовування виявлення складників"
 
 #: ../../devel/sphinx.rst:45
 msgid "Regular expression to match translation files against"
@@ -25119,26 +25153,23 @@ msgstr "Регулярний вираз для зіставлення файлі
 msgid ""
 "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr ""
+"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../devel/sphinx.rst:47
 msgid "Customize the component name"
 msgstr "Налаштувати назву складника"
 
 #: ../../devel/sphinx.rst:48
-#, fuzzy
-#| msgid "For example: ``Documentation: {{ component }}``"
 msgid "``Documentation: {{ component|title }}``"
-msgstr "Приклад: ``Documentation: {{ component }}``"
+msgstr "``Documentation: {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:49
 msgid "Define the base file for new translations"
 msgstr "Визначити основний файл для нового перекладу"
 
 #: ../../devel/sphinx.rst:50
-#, fuzzy
-#| msgid "``{{ component_name }}``"
 msgid "``docs/locales/{{ component }}.pot``"
-msgstr "``{{ component_name }}``"
+msgstr "``docs/locales/{{ component }}.pot``"
 
 #: ../../devel/sphinx.rst:54
 msgid ""
@@ -25191,7 +25222,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:24
 msgid "Choosing internationalization framework"
-msgstr ""
+msgstr "Вибір оболонки інтернаціоналізації"
 
 #: ../../devel/starting.rst:26
 msgid ""
@@ -25315,38 +25346,32 @@ msgstr ""
 #: ../../devel/starting.rst:71
 msgid "You can also use :ref:`javaprop` if plurals are not needed."
 msgstr ""
+"Ви також можете скористатися :ref:`javaprop`, якщо форми множини не "
+"використовуються."
 
 #: ../../devel/starting.rst:75
 msgid "You can also use plain :ref:`json` if plurals are not needed."
 msgstr ""
+"Ви також можете скористатися простим :ref:`json`, якщо форми множини не "
+"використовуються."
 
 #: ../../devel/starting.rst:77
-#, fuzzy
-#| msgid "The status of rate limiting is reported in following headers:"
 msgid ""
 "The more detailed workflow for some formats is described in following "
 "chapters:"
-msgstr ""
-"Стан обмеження за частотою повідомляється за допомогою таких частин "
-"заголовка:"
+msgstr "Докладнішу процедуру для деяких форматів описано у наступних розділах:"
 
 #: ../../devel/starting.rst:79
-#, fuzzy
-#| msgid ":ref:`gettext`"
 msgid ":doc:`gettext`"
-msgstr ":ref:`gettext`"
+msgstr ":doc:`gettext`"
 
 #: ../../devel/starting.rst:80
-#, fuzzy
-#| msgid ":doc:`psa:pipeline`"
 msgid ":doc:`sphinx`"
-msgstr ":doc:`psa:pipeline`"
+msgstr ":doc:`sphinx`"
 
 #: ../../devel/starting.rst:81
-#, fuzzy
-#| msgid ":ref:`html`"
 msgid ":doc:`html`"
-msgstr ":ref:`html`"
+msgstr ":doc:`html`"
 
 #: ../../devel/starting.rst:84
 msgid "Integrating with Weblate"
@@ -26537,12 +26562,6 @@ msgid "`Gettext PO file`"
 msgstr "`файл PO Gettext`"
 
 #: ../../formats.rst:180
-#, fuzzy
-#| msgid ""
-#| "`Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:"
-#| "formats/po`, :ref:`addon-weblate.gettext.configure`, :ref:`addon-weblate."
-#| "gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :ref:`addon-"
-#| "weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`,"
 msgid ""
 ":doc:`devel/gettext`, :doc:`devel/sphinx`, `Gettext on Wikipedia <https://en."
 "wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-weblate."
@@ -26550,10 +26569,11 @@ msgid ""
 "weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
 "weblate.gettext.msgmerge`"
 msgstr ""
-"`Gettext у Вікіпедії <https://en.wikipedia.org/wiki/Gettext>`_, :doc:`tt:"
-"formats/po`, :ref:`addon-weblate.gettext.configure`, :ref:`addon-weblate."
-"gettext.customize`, :ref:`addon-weblate.gettext.linguas`, :ref:`addon-"
-"weblate.gettext.mo`, :ref:`addon-weblate.gettext.msgmerge`,"
+":doc:`devel/gettext`, :doc:`devel/sphinx`, `Gettext у Вікіпедії <https://en."
+"wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-weblate."
+"gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref:`addon-"
+"weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
+"weblate.gettext.msgmerge`"
 
 #: ../../formats.rst:193
 msgid "Monolingual gettext"
@@ -26680,19 +26700,14 @@ msgid "See :ref:`reviews`."
 msgstr "Див. :ref:`reviews`."
 
 #: ../../formats.rst:293
-#, fuzzy
-#| msgid ""
-#| "Similarly upon importing such files (in the upload form), you should "
-#| "choose :guilabel:`Import as translated` under :guilabel:`Processing of "
-#| "strings needing review`."
 msgid ""
 "Similarly upon importing such files (in the upload form), you should choose :"
 "guilabel:`Import as translated` under :guilabel:`Processing of strings "
 "needing edit`."
 msgstr ""
 "Так само, під час імпортування таких файлів (у вивантаженій формі) ви можете "
-"вибрати варіант :guilabel:`Імпортувати як перекладено` у розділі :guilabel:"
-"`Обробка рядків, які потребують рецензування`."
+"вибрати варіант :guilabel:`Імпортувати як перекладено` у розділі :guilabel:`"
+"Обробка рядків, які потребують рецензування`."
 
 #: ../../formats.rst:298
 msgid "Whitespace and newlines in XLIFF"
@@ -26817,19 +26832,14 @@ msgid "`Java Properties (ISO-8859-1)`"
 msgstr "`властивості Java (ISO-8859-1)`"
 
 #: ../../formats.rst:405
-#, fuzzy
-#| msgid ""
-#| "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
-#| "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate."
-#| "properties.sort`, :ref:`addon-weblate.cleanup.generic`,"
 msgid ""
 "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
 "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate.properties."
 "sort`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Властивості Java у Вікіпедії <https://en.wikipedia.org/wiki/."
-"properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate.properties."
-"sort`, :ref:`addon-weblate.cleanup.generic`,"
+"`Властивості Java у Вікіпедії <https://en.wikipedia.org/wiki/.properties>`_, "
+":doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:413
 msgid "GWT properties"
@@ -26848,11 +26858,6 @@ msgid "`GWT Properties`"
 msgstr "`властивості GWT`"
 
 #: ../../formats.rst:436
-#, fuzzy
-#| msgid ""
-#| "`GWT localization guide <http://www.gwtproject.org/doc/latest/"
-#| "DevGuideI18n.html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate."
-#| "properties.sort`, :ref:`addon-weblate.cleanup.generic`,"
 msgid ""
 "`GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :"
@@ -26860,7 +26865,7 @@ msgid ""
 msgstr ""
 "`Підручник з локалізації GWT <http://www.gwtproject.org/doc/latest/"
 "DevGuideI18n.html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate."
-"properties.sort`, :ref:`addon-weblate.cleanup.generic`,"
+"properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:444
 msgid "INI translations"
@@ -27304,11 +27309,6 @@ msgid "`i18next JSON file`"
 msgstr "`файл i18next JSON`"
 
 #: ../../formats.rst:843
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `i18next JSON Format <https://www.i18next.com/"
-#| "misc/json-format>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-#| "weblate.cleanup.generic`,"
 msgid ""
 ":doc:`tt:formats/json`, `i18next JSON Format <https://www.i18next.com/misc/"
 "json-format>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate."
@@ -27316,7 +27316,7 @@ msgid ""
 msgstr ""
 ":doc:`tt:formats/json`, `формат JSON i18next <https://www.i18next.com/misc/"
 "json-format>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate."
-"cleanup.generic`,"
+"cleanup.generic`"
 
 #: ../../formats.rst:851
 msgid "go-i18n JSON files"
@@ -27375,14 +27375,6 @@ msgid "`ARB file`"
 msgstr "`файл ARB`"
 
 #: ../../formats.rst:912
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Application Resource Bundle Specification "
-#| "<https://github.com/google/app-resource-bundle/wiki/"
-#| "ApplicationResourceBundleSpecification>`_, `Internationalizing Flutter "
-#| "apps <https://flutter.dev/docs/development/accessibility-and-localization/"
-#| "internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-#| "weblate.cleanup.generic`,"
 msgid ""
 ":doc:`tt:formats/json`, `Application Resource Bundle Specification <https://"
 "github.com/google/app-resource-bundle/wiki/"
@@ -27391,12 +27383,12 @@ msgid ""
 "internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
 "weblate.cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/json`, `Специфікація пакунків ресурсів програм <https://"
-"github.com/google/app-resource-bundle/wiki/"
+":doc:`tt:formats/json`, `Специфікація пакунків ресурсів програм "
+"<https://github.com/google/app-resource-bundle/wiki/"
 "ApplicationResourceBundleSpecification>`_, `Інтернаціоналізація програм "
 "Flutter <https://flutter.dev/docs/development/accessibility-and-localization/"
 "internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-"weblate.cleanup.generic`,"
+"weblate.cleanup.generic`"
 
 #: ../../formats.rst:921
 msgid "WebExtension JSON"
@@ -27469,10 +27461,8 @@ msgid "``Resources/Language.resx``"
 msgstr "``Resources/Language.resx``"
 
 #: ../../formats.rst:982
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "`.NET resource file`"
-msgstr "Файл ресурсів .NET"
+msgstr "`файл ресурсів .NET`"
 
 #: ../../formats.rst:987
 msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
@@ -30334,20 +30324,16 @@ msgid "String target language."
 msgstr "Рядок цільової мови."
 
 #: ../../user/search.rst:51
-#, fuzzy
-#| msgid "``comment:TEXT``"
 msgid "``component:TEXT``"
-msgstr "``comment:ТЕКСТ``"
+msgstr "``component:ТЕКСТ``"
 
 #: ../../user/search.rst:52
 msgid "Component slug, see :ref:`component-slug`."
 msgstr "Ідентифікатор складника, див. :ref:`component-slug`."
 
 #: ../../user/search.rst:53
-#, fuzzy
-#| msgid "``target:TEXT``"
 msgid "``project:TEXT``"
-msgstr "``target:ТЕКСТ``"
+msgstr "``project:ТЕКСТ``"
 
 #: ../../user/search.rst:54
 msgid "Project slug, see :ref:`project-slug`."
@@ -30838,10 +30824,8 @@ msgid ":kbd:`Ctrl+J` or :kbd:`Cmd+J`"
 msgstr ":kbd:`Ctrl+J` або :kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:171
-#, fuzzy
-#| msgid "Shows nearby strings tab."
 msgid "Shows the :guilabel:`Nearby strings` tab."
-msgstr "Показує вкладку близьких рядків."
+msgstr "Показує вкладку :guilabel:`Сусідні рядки`."
 
 #: ../../user/translating.rst:172
 msgid ":kbd:`Ctrl+S` or :kbd:`Cmd+S`"
@@ -30864,10 +30848,8 @@ msgid ":kbd:`Ctrl+Y` or :kbd:`Cmd+Y`"
 msgstr ":kbd:`Ctrl+Y` або :kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:177
-#, fuzzy
-#| msgid "Toggles \"Needs editing\" flag."
 msgid "Toggles the :guilabel:`Needs editing` flag."
-msgstr "Перемикає прапорець «Потребує редагування»."
+msgstr "Перемикає прапорець :guilabel:`Потребує редагування`."
 
 #: ../../user/translating.rst:182
 msgid "Visual keyboard"
