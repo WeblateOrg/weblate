@@ -18,13 +18,15 @@
 #
 
 import os
+from typing import List
 
 from django.db import transaction
 from lxml import html
 
 from weblate.addons.events import EVENT_DAILY
 from weblate.addons.models import Addon
-from weblate.trans.models import Component
+from weblate.lang.models import Language
+from weblate.trans.models import Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.requests import request
@@ -77,6 +79,17 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
         component.add_alert("CDNAddonError", occurrences=errors)
     else:
         component.delete_alert("CDNAddonError")
+
+
+@app.task(trail=False)
+def language_consistency(project_id: int, language_ids: List[int]):
+    project = Project.objects.get(pk=project_id)
+    languages = Language.objects.filter(id__in=language_ids)
+
+    for component in project.component_set.iterator():
+        missing = languages.exclude(translation__component=component)
+        for language in missing:
+            component.add_new_language(language, None, send_signal=False)
 
 
 @app.task(trail=False)
