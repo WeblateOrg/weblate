@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-04 15:59+0200\n"
-"PO-Revision-Date: 2020-08-14 11:32+0000\n"
+"PO-Revision-Date: 2020-08-17 11:05+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -3077,9 +3077,9 @@ msgid ""
 "for instance the amount of memory used for compression; see https://linux."
 "die.net/man/1/xz"
 msgstr ""
-"A string entre aspas após XZ_OPT permite que você escolha suas opções do xz, "
-"por exemplo, a quantidade de memória utilizada para compressão; veja https://"
-"linux.die.net/man/1/xz"
+"O texto entre aspas após XZ_OPT permite que você escolha suas opções do xz, "
+"por exemplo, a quantidade de memória utilizada para compressão; veja "
+"https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:228
 msgid ""
@@ -6551,6 +6551,11 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
+"Os conflitos de mesclagem do Weblate surgem quando o mesmo arquivo foi "
+"alterado tanto no Weblate quanto fora dele. Existem duas abordagens para "
+"lidar com isso - evitar edições fora do Weblate ou integrar o Weblate no seu "
+"processo de atualização, de modo que ele descarte alterações antes de "
+"atualizar os arquivos fora do Weblate."
 
 #: ../../admin/continuous.rst:68
 msgid ""
@@ -6564,6 +6569,16 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will make sure that all pending changes are included prior to this operation."
 msgstr ""
+"A primeira abordagem é fácil com arquivos monolíngues - você pode adicionar "
+"novos textos no Weblate e deixar a edição completa dos arquivos lá. Para "
+"arquivos bilíngues, geralmente há algum tipo de processo de extração de "
+"mensagens para gerar arquivos traduzíveis a partir do código fonte. Em "
+"alguns casos, isso pode ser dividido em duas partes - uma para a extração "
+"gera modelo (por exemplo, o GETTEXT POT é gerado usando :program:`xgettext`) "
+"e, em seguida, o processo mais mescla-o em traduções reais (os arquivos "
+"GETTEXT PO são atualizados usando :program:`msgmerge`). Você pode executar o "
+"segundo passo dentro do Weblate e ele garantirá que todas as alterações "
+"pendentes sejam incluídas antes desta operação."
 
 #: ../../admin/continuous.rst:78
 msgid ""
@@ -6571,16 +6586,21 @@ msgid ""
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
 msgstr ""
+"A segunda abordagem pode ser alcançada usando :ref:`api` para forçar o "
+"Weblate a fazer push de todas as alterações pendentes e bloquear a tradução "
+"enquanto você está fazendo alterações do seu lado."
 
 #: ../../admin/continuous.rst:82
 msgid "The script for doing updates can look like this:"
-msgstr ""
+msgstr "O script para fazer atualizações pode ser assim:"
 
 #: ../../admin/continuous.rst:103
 msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
 msgstr ""
+"Se você tiver vários componentes compartilhando o mesmo repositório, você "
+"precisa bloqueá-los todos separadamente:"
 
 #: ../../admin/continuous.rst:114
 msgid ""
@@ -6588,14 +6608,18 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of wlc, e.g. curl, see :ref:`api`."
 msgstr ""
+"O exemplo usa :ref:`wlc`, que precisa de configuração (chaves de API) para "
+"ser capaz de controlar o Weblate remotamente. Você também pode conseguir "
+"isso usando qualquer cliente HTTP em vez de wlc, por exemplo, curl, ver "
+":ref:`api`."
 
 #: ../../admin/continuous.rst:121
 msgid "Automatically receiving changes from GitHub"
-msgstr ""
+msgstr "Recebendo automaticamente alterações do GitHub"
 
 #: ../../admin/continuous.rst:123
 msgid "Weblate comes with native support for GitHub."
-msgstr ""
+msgstr "O Weblate vem com suporte nativo ao GitHub."
 
 #: ../../admin/continuous.rst:125
 msgid ""
@@ -6604,6 +6628,10 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
+"Se você estiver usando o Hosted Weblate, a abordagem recomendada é instalar "
+"o `aplicativo Weblate <https://github.com/apps/weblate>`_, dessa forma você "
+"terá a configuração correta sem ter que configurar muita coisa. Também pode "
+"ser usado para fazer push de mudanças de volta."
 
 #: ../../admin/continuous.rst:130
 msgid ""
@@ -6611,6 +6639,9 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
+"Para receber notificações em cada push a um repositório do GitHub, adicione "
+"o webhook do Weblate nas configurações do repositório (:guilabel:`Webhooks`) "
+"como mostrado na imagem abaixo:"
 
 #: ../../admin/continuous.rst:136
 msgid ""
@@ -6618,20 +6649,25 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"Para a URL de carga útil, anexar ``/hooks/github/`` à URL do Weblate, por "
+"exemplo, para o serviço Hosted Weblate, este é ``https://hosted.weblate.org/"
+"hooks/github/``."
 
 #: ../../admin/continuous.rst:139
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
 msgstr ""
+"Você pode deixar outros valores nas configurações padrão (o Weblate pode "
+"lidar com ambos os tipos de conteúdo e consome apenas o evento `push`)."
 
 #: ../../admin/continuous.rst:144
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/github/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:149
 msgid "Automatically receiving changes from Bitbucket"
-msgstr ""
+msgstr "Recebendo automaticamente alterações do Bitbucket"
 
 #: ../../admin/continuous.rst:151
 msgid ""
@@ -6640,14 +6676,18 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"O Weblate tem suporte para webhooks do Bitbucket, adicione um webhook que "
+"aciona no push do repositório, com destino a URL ``/hooks/bitbucket/`` na "
+"instalação do Weblate (por exemplo, ``https://hosted.weblate.org/hooks/"
+"bitbucket/``)."
 
 #: ../../admin/continuous.rst:160
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:165
 msgid "Automatically receiving changes from GitLab"
-msgstr ""
+msgstr "Recebendo automaticamente alterações do GitLab"
 
 #: ../../admin/continuous.rst:167
 msgid ""
@@ -6655,14 +6695,17 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"O Weblate tem suporte para ganchos do GitLab, adiciona um webhook de projeto "
+"com destino a URL ``/hooks/gitlab/`` na instalação do Weblate (por exemplo, "
+"``https://hosted.weblate.org/hooks/gitlab/``)."
 
 #: ../../admin/continuous.rst:173
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:178
 msgid "Automatically receiving changes from Pagure"
-msgstr ""
+msgstr "Recebendo automaticamente alterações do Pagure"
 
 #: ../../admin/continuous.rst:182
 msgid ""
@@ -6671,14 +6714,18 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"O Weblate tem suporte para ganchos Pagure. Adicione um webhook com destino a "
+"URL ``/hooks/pagure/`` na instalação do Weblate (por exemplo, "
+"``https://hosted.weblate.org/hooks/pagure/``). Isso pode ser feito em "
+":guilabel:`Web-hooks` em :guilabel:`Project options`:"
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:196
 msgid "Automatically receiving changes from Azure Repos"
-msgstr ""
+msgstr "Recebendo automaticamente alterações do Azure Repos"
 
 #: ../../admin/continuous.rst:200
 msgid ""
@@ -6688,6 +6735,11 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"O Weblate tem suporte para webhooks do Azure Repos, adicione um webhook para "
+"evento :guilabel:`Code pushed` com destino para URL ``/ganchos/azure/`` na "
+"instalação do Weblate (por exemplo, ``https://hosted.weblate.org/hooks/azure/"
+"``). Isso pode ser feito em :guilabel:`Service hooks ` em :guilabel:`Project "
+"settings`."
 
 #: ../../admin/continuous.rst:209
 msgid ""
@@ -6695,10 +6747,13 @@ msgid ""
 "devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/azure/`, :ref:"
 "`hosted-push`"
 msgstr ""
+"`Webhooks no manual do Azure DevOps <https://docs.microsoft.com/en-us/azure/"
+"devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/azure/`, :ref"
+":`hosted-push`"
 
 #: ../../admin/continuous.rst:215
 msgid "Automatically receiving changes from Gitea Repos"
-msgstr ""
+msgstr "Recebendo automaticamente alterações do Gitea Repos"
 
 #: ../../admin/continuous.rst:219
 msgid ""
@@ -6708,16 +6763,23 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"Weblate tem suporte para webhooks do Gitea, adicione um :guilabel:`Gitea "
+"Webhook` para evento :guilabel:`Push events` com destino para a URL ``/hooks/"
+"gitea/`` na instalação do Weblate (por exemplo, ``https://hosted.weblate.org/"
+"hooks/gitea/``). Isso pode ser feito no :guilabel:`Webhooks` em "
+":guilabel:`Settings` do repositório."
 
 #: ../../admin/continuous.rst:226
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_, :http:"
 "post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgstr ""
+"`Webhooks no manual do Gitea <https://docs.gitea.io/en-us/webhooks/>`_, "
+":http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:232
 msgid "Automatically receiving changes from Gitee Repos"
-msgstr ""
+msgstr "Recebendo automaticamente alterações de Gitee Repos"
 
 #: ../../admin/continuous.rst:236
 msgid ""
@@ -6727,16 +6789,23 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"O Weblate tem suporte para webhooks Gitee, adicione um :guilabel:`WebHook` "
+"para o evento :guilabel:`Push` com destino para URL ``/hooks/gitee/`` na "
+"instalação do Weblate (por exemplo, ``https://hosted.weblate.org/hooks/gitee/"
+"``). Isso pode ser feito em :guilabel:`WebHooks` sob :guilabel:`Management` "
+"do repositório."
 
 #: ../../admin/continuous.rst:243
 msgid ""
 "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_, :http:"
 "post:`/hooks/gitee/`, :ref:`hosted-push`"
 msgstr ""
+"`Webhooks no manual do Gitee <https://gitee.com/help/categories/40>`_, "
+":http:post:`/hooks/gitee/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:247
 msgid "Automatically updating repositories nightly"
-msgstr ""
+msgstr "Atualizando automaticamente repositórios *nightly*"
 
 #: ../../admin/continuous.rst:249
 msgid ""
@@ -6744,10 +6813,14 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"O Weblate busca automaticamente repositórios remotos *nightly* para melhorar "
+"o desempenho ao mesclar alterações mais tarde. Você pode opcionalmente "
+"transformar isso em fazer mesclagens noturnas também, ativando "
+":setting:`AUTO_UPDATE`."
 
 #: ../../admin/continuous.rst:256
 msgid "Pushing changes from Weblate"
-msgstr ""
+msgstr "Fazendo push das alterações do Weblate"
 
 #: ../../admin/continuous.rst:258
 msgid ""
@@ -6758,12 +6831,21 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
+"Cada componente de tradução pode ter uma URL de push configurada (veja :ref"
+":`component-push`) e, nesse caso, o Weblate será capaz de fazer push de "
+"alteração para o repositório remoto. O Weblate também pode ser configurado "
+"para fazer push automaticamente das alterações em cada commit (isso é o "
+"padrão, veja :ref:`component-push_on_commit`). Se você não quiser que seja "
+"feito push automático das alterações, você pode fazer isso manualmente em "
+":guilabel:`Manutenção do repositório` ou usando API via :option:`wlc push`."
 
 #: ../../admin/continuous.rst:265
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
+"As opções de push diferem com base no :ref:`vcs` usado, mais detalhes são "
+"encontrados nesse capítulo."
 
 #: ../../admin/continuous.rst:267
 msgid ""
@@ -6772,49 +6854,55 @@ msgid ""
 "you can activate these by choosing :guilabel:`GitHub`, :guilabel:`GitLab` "
 "or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"No caso de você não querer pushes diretos pelo Weblate, há suporte para :ref"
+":`vcs-github`, pull requests do :ref:`vcs-gitlab` ou reviews do :ref:`vcs-"
+"gerrit`, você pode ativá-los escolhendo :guilabel:`GitHub`, "
+":guilabel:`GitLab` ou :guilabel:`Gerrit` como :ref:`component-vcs` em "
+":ref:`component`."
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
 msgstr ""
+"No geral, as opções a seguir estão disponíveis com Git, GitHub e GitLab:"
 
 #: ../../admin/continuous.rst:275
 msgid "Desired setup"
-msgstr ""
+msgstr "Configuração desejada"
 
 #: ../../admin/continuous.rst:275
 msgid ":ref:`component-vcs`"
-msgstr ""
+msgstr ":ref:`component-vcs`"
 
 #: ../../admin/continuous.rst:275
 msgid ":ref:`component-push`"
-msgstr ""
+msgstr ":ref:`component-push`"
 
 #: ../../admin/continuous.rst:275
 msgid ":ref:`component-push_branch`"
-msgstr ""
+msgstr ":ref:`component-push_branch`"
 
 #: ../../admin/continuous.rst:277
 msgid "No push"
-msgstr ""
+msgstr "Sem push"
 
 #: ../../admin/continuous.rst:277 ../../admin/continuous.rst:279
 #: ../../admin/continuous.rst:281
 msgid ":ref:`vcs-git`"
-msgstr ""
+msgstr ":ref:`vcs-git`"
 
 #: ../../admin/continuous.rst:277 ../../admin/continuous.rst:279
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
 #: ../../admin/continuous.rst:287 ../../admin/continuous.rst:289
 msgid "`empty`"
-msgstr ""
+msgstr "`vazio`"
 
 #: ../../admin/continuous.rst:279
 msgid "Push directly"
-msgstr ""
+msgstr "Push diretamente"
 
 #: ../../admin/continuous.rst:279 ../../admin/continuous.rst:281
 msgid "SSH URL"
-msgstr ""
+msgstr "URL de SSH"
 
 #: ../../admin/continuous.rst:281
 msgid "Push to separate branch"
@@ -6823,47 +6911,52 @@ msgstr "Fazer push para ramo separado"
 #: ../../admin/continuous.rst:281 ../../admin/continuous.rst:285
 #: ../../admin/continuous.rst:289
 msgid "Branch name"
-msgstr ""
+msgstr "Nome do ramo"
 
 #: ../../admin/continuous.rst:283
 msgid "GitHub pull request from fork"
-msgstr ""
+msgstr "Pull request de GitHub do fork"
 
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
 msgid ":ref:`vcs-github`"
-msgstr ""
+msgstr ":ref:`vcs-github`"
 
 #: ../../admin/continuous.rst:285
 msgid "GitHub pull request from branch"
-msgstr ""
+msgstr "Pull request de GitHub do ramo"
 
 #: ../../admin/continuous.rst:287
 msgid "GitLab merge request from fork"
-msgstr ""
+msgstr "Merge request de GitLab do fork"
 
 #: ../../admin/continuous.rst:287 ../../admin/continuous.rst:289
 msgid ":ref:`vcs-gitlab`"
-msgstr ""
+msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/continuous.rst:289
 msgid "GitLab merge request from branch"
-msgstr ""
+msgstr "Merge request de GitLab do ramo"
 
 #: ../../admin/continuous.rst:295
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
+"Você também pode habilitar o push automático de alterações após o Weblate "
+"fazer commit, isso pode ser feito em :ref:`component-push_on_commit`."
 
 #: ../../admin/continuous.rst:300
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
 msgstr ""
+"Consulte :ref:`vcs-repos` para configurar chaves SSH e :ref:`lazy-commit` "
+"para obter informações sobre quando o Weblate decide fazer commit de "
+"alterações."
 
 #: ../../admin/continuous.rst:304
 msgid "Protected branches"
-msgstr ""
+msgstr "Ramos protegidos"
 
 #: ../../admin/continuous.rst:306
 msgid ""
@@ -6872,14 +6965,20 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
+"Se você estiver usando o Weblate em ramo protegido, você pode configurá-lo "
+"para usar pull requests e executar revisão real sobre as traduções (o que "
+"pode ser problemático para idiomas que você não conhece). Uma abordagem "
+"alternativa é abrir mão desta limitação em favor do usuário de push no "
+"Weblate."
 
 #: ../../admin/continuous.rst:311
 msgid "For example on GitHub this can be done in the repository configuration:"
 msgstr ""
+"Por exemplo, no GitHub, isso pode ser feito na configuração do repositório:"
 
 #: ../../admin/continuous.rst:318
 msgid "Merge or rebase"
-msgstr ""
+msgstr "Merge ou rebase"
 
 #: ../../admin/continuous.rst:320
 msgid ""
@@ -6888,28 +6987,35 @@ msgid ""
 "In case you don't need this, you can enable rebasing of changes on upstream, "
 "which will produce a history with fewer merge commits."
 msgstr ""
+"Por padrão, o Weblate mescla o repositório upstream em seu próprio. Esta é a "
+"maneira mais segura no caso de você também acessar o repositório subjacente "
+"por outros meios. Caso você não precise disso, você pode permitir fazer "
+"rebase de alterações em upstream, o que produzirá um histórico com menos "
+"compromissos de mesclagem."
 
 #: ../../admin/continuous.rst:327
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
 msgstr ""
+"Rebasing pode causar problemas em caso de mesclagens complicadas, então "
+"considere cuidadosamente se você quer ou não habilitá-los."
 
 #: ../../admin/continuous.rst:331
 msgid "Interacting with others"
-msgstr ""
+msgstr "Interagindo com os outros"
 
 #: ../../admin/continuous.rst:333
 msgid "Weblate makes it easy to interact with others using its API."
-msgstr ""
+msgstr "O Weblate facilita a interação com outras pessoas usando sua API."
 
 #: ../../admin/continuous.rst:337
 msgid ":ref:`api`"
-msgstr ""
+msgstr ":ref:`api`"
 
 #: ../../admin/continuous.rst:342
 msgid "Lazy commits"
-msgstr ""
+msgstr "Commits adiados"
 
 #: ../../admin/continuous.rst:344
 msgid ""
@@ -6919,30 +7025,40 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the Managers group, see :ref:`privileges`)."
 msgstr ""
+"O comportamento do Weblate é agrupar commits do mesmo autor em um só commit, "
+"se possível. Isso reduz consideravelmente o número de commits, no entanto, "
+"você pode precisar dizer explicitamente para ele fazer os commits no caso de "
+"você querer deixar o repositório VCS em sincronia, por exemplo, para "
+"mesclagem (isso é por padrão permitido para o grupo :guilabel:`Managers`, "
+"consulte :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:350
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
 msgstr ""
+"As alterações neste modo têm seu commit feito assim que qualquer uma das "
+"seguintes condições são cumpridas:"
 
 #: ../../admin/continuous.rst:353
 msgid "Somebody else changes an already changed string."
-msgstr ""
+msgstr "Outra pessoa altera um texto já alterado."
 
 #: ../../admin/continuous.rst:354
 msgid "A merge from upstream occurs."
-msgstr ""
+msgstr "Um merge do upstream é feito."
 
 #: ../../admin/continuous.rst:355
 msgid "An explicit commit is requested."
-msgstr ""
+msgstr "Um commit explícito é solicitado."
 
 #: ../../admin/continuous.rst:356
 msgid ""
 "Change is older than period defined as :guilabel:`Age of changes to commit` "
 "on :ref:`component`."
 msgstr ""
+"A alteração é mais antiga do que o período definido como :guilabel:`Idade "
+"das alterações para fazer commit` em ref:`component`."
 
 #: ../../admin/continuous.rst:360
 msgid ""
@@ -6950,16 +7066,22 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` addon in that case."
 msgstr ""
+"Os commits são criados para cada componente. Então, caso você tenha muitos "
+"componentes, você ainda verá muitos compromissos. Você pode utilizar a "
+"extensão :ref:`addon-weblate.git.squash` neste caso."
 
 #: ../../admin/continuous.rst:364
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit:"
 msgstr ""
+"Se você quiser fazer commit das alterações com mais frequência e sem "
+"verificar a idade, você pode agendar uma tarefa regular para realizar um "
+"commit:"
 
 #: ../../admin/continuous.rst:374
 msgid "Processing repository with scripts"
-msgstr ""
+msgstr "Processando repositório com scripts"
 
 #: ../../admin/continuous.rst:376
 msgid ""
@@ -6967,10 +7089,13 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through addons."
 msgstr ""
+"A maneira de personalizar como o Weblate interage com o repositório é com "
+":ref:`addons`. Consulte :ref:`addon-script` para obter informações sobre "
+"como executar scripts externos através de extensões."
 
 #: ../../admin/continuous.rst:383
 msgid "Keeping translations same across components"
-msgstr ""
+msgstr "Mantendo traduções iguais entre componentes"
 
 #: ../../admin/continuous.rst:385
 msgid ""
@@ -6978,10 +7103,13 @@ msgid ""
 "the same strings have same translation. This can be achieved at several "
 "levels."
 msgstr ""
+"Uma vez que você tenha vários componentes de tradução, você pode querer "
+"garantir que os mesmos textos tenham a mesma tradução. Isso pode ser "
+"alcançado em vários níveis."
 
 #: ../../admin/continuous.rst:389
 msgid "Translation propagation"
-msgstr ""
+msgstr "Propagação de tradução"
 
 #: ../../admin/continuous.rst:391
 msgid ""
@@ -6990,16 +7118,24 @@ msgid ""
 "with matching strings. Such translations are properly credited to currently "
 "translating user in all components."
 msgstr ""
+"Com a propagação de tradução habilitada (que é o padrão, consulte "
+":ref:`component`), todas as novas traduções são feitas automaticamente em "
+"todos os componentes com strings correspondentes. Estas traduções são "
+"devidamente creditadas ao usuário que traduz atualmente em todos os "
+"componentes."
 
 #: ../../admin/continuous.rst:398
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
 msgstr ""
+"A propagação de tradução requer a chave para ser compatível com formatos de "
+"tradução monolíngue, por isso tenha isso em mente ao criar chaves de "
+"tradução."
 
 #: ../../admin/continuous.rst:402
 msgid "Consistency check"
-msgstr ""
+msgstr "Verificação de consistência"
 
 #: ../../admin/continuous.rst:404
 msgid ""
@@ -7007,6 +7143,9 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
+"A verificação :ref:`check-inconsistente` é acionada sempre que os textos são "
+"diferentes. Você pode usar isso para rever tais diferenças manualmente e "
+"escolher a tradução certa."
 
 #: ../../admin/continuous.rst:411
 msgid ""
@@ -7016,10 +7155,15 @@ msgid ""
 "repository update using addon (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
+"A tradução automática com base em diferentes componentes pode ser uma "
+"maneira de sincronizar as traduções entre os componentes. Você pode acioná-"
+"la manualmente (veja :ref:`auto-translation`) ou fazê-la ser executada "
+"automaticamente na atualização do repositório usando uma extensão (veja :ref"
+":`addon-weblate.autotranslate.autotranslate`)."
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr ""
+msgstr "Personalizando o Weblate"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -25751,7 +25895,7 @@ msgid ""
 "errors."
 msgstr ""
 "Além de :ref:`checks`, o Weblate também pode corrigir alguns erros comuns em "
-"strings traduzidas automaticamente. Use isso com cuidado para não causar "
+"textos traduzidos automaticamente. Use isso com cuidado para não causar "
 "erros por meio disto."
 
 #: ../../user/checks.rst:24
@@ -25768,7 +25912,7 @@ msgid ""
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
 msgstr ""
-"O Weblate emprega uma ampla gama de verificações de qualidade em strings. A "
+"O Weblate emprega uma ampla gama de verificações de qualidade em textos. A "
 "seção a seguir descreve todos eles em mais detalhes. Há também verificações "
 "específicas de idiomas. Por favor, preencha um relatório de erro se alguma "
 "verificação for relatada por engano."
@@ -27296,9 +27440,9 @@ msgid ""
 "translated\"."
 msgstr ""
 "Há também uma opção de como lidar com textos que necessitam de edição no "
-"arquivo importado. Tais strings podem ser manuseados de uma das três "
-"maneiras seguintes: \"Não importar\", \"Importar como texto que necessita "
-"edição\" ou \"Importar como traduzido\"."
+"arquivo importado. Tais textos podem ser manuseados de uma das três maneiras "
+"seguintes: \"Não importar\", \"Importar como texto que necessita edição\" ou "
+"\"Importar como traduzido\"."
 
 #: ../../user/files.rst:99
 msgid "Overriding authorship"
@@ -27548,8 +27692,8 @@ msgid ""
 "the VCS source code file of translated strings. You can use :ref:`markup`."
 msgstr ""
 "Ao definir o :guilabel:`Link do editor`, você usa o editor local para abrir "
-"o arquivo de código-fonte VCS de strings traduzidas. Você pode usar :ref:"
-"`markup`."
+"o arquivo de código-fonte VCS de textos traduzidos. Você pode usar "
+":ref:`markup`."
 
 #: ../../user/profile.rst:126
 msgid ""
@@ -27589,9 +27733,9 @@ msgid ""
 "level (for example merge errors). These two groups of notifications are "
 "visually separated in the settings."
 msgstr ""
-"Algumas das notificações são enviadas apenas para eventos em seus idiomas "
-"(por exemplo, sobre novas strings para traduzir), enquanto algumas acionam "
-"no nível de componente (por exemplo, erros de fusão). Esses dois grupos de "
+"Algumas das notificações são enviadas apenas para eventos em seus idiomas ("
+"por exemplo, sobre novas strings para traduzir), enquanto algumas acionam no "
+"nível de componente (por exemplo, erros de mesclagem). Esses dois grupos de "
 "notificações são visualmente separados nas configurações."
 
 #: ../../user/profile.rst:147
@@ -28324,7 +28468,7 @@ msgstr ":kbd:`Ctrl+O` ou :kbd:`Cmd+O`"
 
 #: ../../user/translating.rst:175
 msgid "Copies source string."
-msgstr "Copa o texto fonte."
+msgstr "Copia o texto fonte."
 
 #: ../../user/translating.rst:177
 msgid ":kbd:`Ctrl+Y` or :kbd:`Cmd+Y`"
@@ -29909,7 +30053,7 @@ msgid ""
 "the strings between developers and translators and users."
 msgstr ""
 "Em muitos casos, as textos fonte do idioma de origem vêm de desenvolvedores, "
-"porque eles escrevem o código e fornecem strings iniciais. No entanto, os "
+"porque eles escrevem o código e fornecem textos iniciais. No entanto, os "
 "desenvolvedores muitas vezes não são falantes nativos do idioma de origem e "
 "não fornecem qualidade desejada dos textos fonte. A tradução intermediária "
 "pode ajudá-lo a lidar com isso - há uma rota de qualidade adicional para os "
