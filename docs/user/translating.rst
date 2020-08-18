@@ -125,7 +125,7 @@ used in the translated application depends on the configured plural formula.
 Weblate shows the basic information, but you can find a more detailed description in
 the `Language Plural Rules`_ by the Unicode Consortium.
 
-.. _Language Plural Rules: http://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
+.. _Language Plural Rules: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
 
 .. seealso::
 
