@@ -282,12 +282,14 @@ Overall, following options are available with Git, GitHub and GitLab:
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitHub pull request from fork     | :ref:`vcs-github`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitHub pull request from branch   | :ref:`vcs-github`             | `empty`                       | Branch name                   |
+| GitHub pull request from branch   | :ref:`vcs-github`             | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitLab merge request from branch  | :ref:`vcs-gitlab`             | `empty`                       | Branch name                   |
+| GitLab merge request from branch  | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+
+.. [#empty] Can be empty in case :ref:`component-repo` supports pushing.
 
 
 .. note::
