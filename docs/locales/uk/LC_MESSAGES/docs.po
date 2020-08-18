@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-17 13:06+0200\n"
-"PO-Revision-Date: 2020-08-17 18:39+0000\n"
+"PO-Revision-Date: 2020-08-18 13:41+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -15774,6 +15774,9 @@ msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
 msgstr ""
+"Доступ до можливості можна отримати безпосередньо з інтерфейсу перекладу, "
+"натиснувши піктограму «Редагувати», яку розташовано поруч із написом "
+":guilabel:`Контекст знімка вікна` або :guilabel:`Прапорці`."
 
 #: ../../admin/translating.rst:55
 msgid "Strings prioritization"
@@ -15784,6 +15787,8 @@ msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag"
 msgstr ""
+"Пріоритетність рядків може бути змінено так, щоб рядки з вищою "
+"пріоритетністю було перекладено раніше, за допомогою прапорця ``пріоритет``"
 
 #: ../../admin/translating.rst:64
 msgid "This can be used to order the flow of translation in a logical manner."
@@ -15798,6 +15803,8 @@ msgid ""
 "Previously called :guilabel:`Quality checks flags`, it no longer configures "
 "only checks."
 msgstr ""
+"Раніше ця можливість мала назву :guilabel:`Прапорці перевірок якості`. У "
+"поточній версії ця можливість налаштовує не лише перевірки."
 
 #: ../../admin/translating.rst:78
 msgid ""
@@ -15805,6 +15812,9 @@ msgid ""
 "`component` and the translation file. However, you might want to use it to "
 "customize this per source string."
 msgstr ""
+"Типовий набір прапорців перекладу визначається за "
+":ref:`складниками<component>` перекладу і файлом перекладу. Втім, ви можете "
+"скористатися ним для налаштовування на рівні початкових рядків."
 
 #: ../../admin/translating.rst:85
 msgid "Explanation"
@@ -15847,6 +15857,10 @@ msgid ""
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
+"Окрім :ref:`source-review`, знімки вікон маю окремий інтерфейс керування за "
+"допомогою меню :guilabel:`Інструменти`. Вивантажуйте знімки вікон, "
+"пов'язуйте з ними початкові рядки вручну, або скористайтеся для цього "
+"оптичним розпізнаванням символів."
 
 #: ../../admin/translating.rst:114
 msgid ""
@@ -15884,6 +15898,12 @@ msgid ""
 "your :file:`settings.py` to match changes in the configuration (consult :"
 "file:`settings_example.py` for correct values)."
 msgstr ""
+"Перш ніж оновлювати програми, будь ласка, ознайомтеся із поточними "
+":ref:`вимогами<requirements>`, оскільки їх могло бути змінено. Щойно усі "
+"потрібні пакунки буде встановлено або оновлено, будь ласка, скоригуйте ваш "
+":file:`settings.py` так, щоб він відповідав змінам у налаштуваннях ("
+"зверніться до :file:`settings_example.py`, щоб дізнатися більше про "
+"правильні значення)."
 
 #: ../../admin/upgrade.rst:20
 msgid ""
@@ -15893,6 +15913,13 @@ msgid ""
 "intermediate version to ensure a smooth migration. Upgrading across multiple "
 "releases should work, but is not as well tested as single version upgrades."
 msgstr ""
+"Завжди ознайомлюйтеся із :ref:`настановами щодо специфіки версії<version-"
+"specific-instructions>` до оновлення. Якщо ви пропустили декілька попередніх "
+"версій, будь ласка, виконайте настанови для усіх версій, які ви пропускаєте "
+"при оновленні. Іноді краще оновитися до проміжної версії, щоб забезпечити "
+"безпроблемне перенесення даних. Оновлення із пропусканням декількох випусків "
+"мають працювати, але їхня перевірка на коректність виконується набагато менш "
+"ретельно, ніж перевірка оновлень без пропускання версій."
 
 #: ../../admin/upgrade.rst:28
 msgid ""
@@ -15909,6 +15936,9 @@ msgid ""
 "in the database, so it is always safer to avoid old processes running while "
 "upgrading."
 msgstr ""
+"Зупиніть процеси wsgi і Celery. Оновлення може призвести до несумісних змін "
+"у базі даних, тому завжди безпечніше, якщо під час оновлення застарілі "
+"процеси не працюватимуть."
 
 #: ../../admin/upgrade.rst:34
 msgid "Upgrade Weblate code."
@@ -15923,12 +15953,17 @@ msgid ""
 "With Git checkout you need to fetch new source code and update your "
 "installation:"
 msgstr ""
+"Якщо ви працюєте із копією з Git, вам слід отримати новий початковий коді і "
+"оновити встановлену у вас версію:"
 
 #: ../../admin/upgrade.rst:53
 msgid ""
 "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
 "`version-specific-instructions` for needed steps."
 msgstr ""
+"Оновіть файл налаштувань. Зверніться до файла :file:`settings_example.py` "
+"або :ref:`специфічних для випуску настанов<version-specific-instructions>`, "
+"щоб ознайомитися із потрібними для цього діями."
 
 #: ../../admin/upgrade.rst:56
 msgid "Upgrade database structure:"
@@ -15973,6 +16008,10 @@ msgid ""
 "continue upgrading in the 3.x series.  Upgrades skipping this step are not "
 "supported and will break."
 msgstr ""
+"Якщо ви оновлюєте систему з версії 2.x, завжди спочатку оновіться до версії "
+"3.0.1, а потім продовжіть оновлення у межах послідовності версій 3.x. "
+"Оновлення, у яких пропущено цей крок, вважаються непідтримуваними — вони не "
+"працюватимуть як слід."
 
 #: ../../admin/upgrade.rst:104
 msgid ""
@@ -15992,6 +16031,10 @@ msgid ""
 "continue upgrading in the 4.x series.  Upgrades skipping this step are not "
 "supported and will break."
 msgstr ""
+"Якщо ви оновлюєте систему з версії 3.x, завжди спочатку оновіться до версії "
+"4.0.4, а потім продовжіть оновлення у межах послідовності версій 4.x. "
+"Оновлення, у яких пропущено цей крок, вважаються непідтримуваними — вони не "
+"працюватимуть як слід."
 
 #: ../../admin/upgrade.rst:115
 msgid ""
@@ -16119,6 +16162,9 @@ msgid ""
 "`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure "
 "it before running Weblate."
 msgstr ""
+"Домен Weblate тепер налаштовується у параметрах, див. :setting:`SITE_DOMAIN` "
+"(або :envvar:`WEBLATE_SITE_DOMAIN`). Вам слід буде налаштувати його до "
+"запуску Weblate."
 
 #: ../../admin/upgrade.rst:153
 msgid "Upgrading from Python 2 to Python 3"
@@ -16446,6 +16492,10 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
+"Запити до програмного інтерфейсу обмежено за частотою: за типових "
+"налаштувань можна виконувати не більше 100 запитів на день для анонімних "
+"користувачів і не більше 5000 запитів на годину для користувачів, які "
+"пройшли розпізнавання у системі."
 
 #: ../../api.rst:156
 msgid ""
@@ -16453,6 +16503,10 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"Обмеження за частотою можна скоригувати у файлі :file:`settings.py`; див. `"
+"дроселювання у документації до бібліотек REST Django <https://www.django-"
+"rest-framework.org/api-guide/throttling/>`_, щоб дізнатися більше про те, як "
+"налаштувати це обмеження."
 
 #: ../../api.rst:160
 msgid "The status of rate limiting is reported in following headers:"
@@ -17620,6 +17674,10 @@ msgid ""
 "parameter) or as converted to a standard format (currently supported: "
 "Gettext PO, MO, XLIFF and TBX)."
 msgstr ""
+"Отримати поточний файл перекладу у форматі, у якому він зберігається у "
+"системі керування версіями, (без параметра ``format``) або у стандартному "
+"форматі (у поточній версії підтримуваними форматами є: Gettext PO, MO, XLIFF "
+"іd TBX)."
 
 #: ../../api.rst:1671
 msgid ""
@@ -17628,6 +17686,11 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
+"Ця кінцева точка програмного інтерфейсу використовує іншу логіку для "
+"виведення даних, якщо порівнювати із рештою програмного інтерфейсу, оскільки "
+"працює із цілим файлом, а не із даними цього файла. Набір прийнятних значень "
+"параметра``format`` є іншим. Без цього параметра ви отримаєте файл перекладу "
+"у тому форматі, у якому він зберігається у системі керування версіями."
 
 #: ../../api.rst:1676
 msgid ""
@@ -18011,6 +18074,8 @@ msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
+"Атрибути об'єкта списку складників документовано у :http:get:`/api/"
+"component-lists/(str:slug)/`."
 
 #: ../../api.rst:1976
 msgid "Returns information about component list."
@@ -18066,6 +18131,8 @@ msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
 msgstr ""
+"Обробники сповіщень надають змогу стороннім програмам сповіщати Weblate про "
+"оновлення у сховищі коду системи керування версіями."
 
 #: ../../api.rst:2038
 msgid ""
@@ -18073,6 +18140,9 @@ msgid ""
 "to update individual repositories; see :http:post:`/api/projects/(string:"
 "project)/repository/` for documentation."
 msgstr ""
+"Ви можете скористатися кінцевими точками для проєктів, складників та "
+"перекладів у сховищі для оновлення окремих сховищ. Див. документацію у "
+":http:post:`/api/projects/(string:project)/repository/`."
 
 #: ../../api.rst:2046
 msgid ""
@@ -18485,7 +18555,7 @@ msgstr "Дозволити переклад усіх складників одр
 
 #: ../../changes.rst:28
 msgid "Allow to configure ``Content-Security-Policy`` HTTP headers."
-msgstr ""
+msgstr "Дозволити налаштовувати заголовки HTTP ``Content-Security-Policy``."
 
 #: ../../changes.rst:29
 msgid "Added support for aliasing languages at project level."
@@ -18496,12 +18566,15 @@ msgid ""
 "New addon to help with HTML or JavaScript localization, see :ref:`addon-"
 "weblate.cdn.cdnjs`."
 msgstr ""
+"Новий додаток, який полегшує локалізацію коду HTML або JavaScript, див. :ref"
+":`addon-weblate.cdn.cdnjs`."
 
 #: ../../changes.rst:31
 msgid ""
 "The Weblate domain is now configured in the settings, see :setting:"
 "`SITE_DOMAIN`."
 msgstr ""
+"Домен Weblate тепер налаштовується у параметрах, див. :setting:`SITE_DOMAIN`."
 
 #: ../../changes.rst:32
 msgid "Add support for searching by component and project."
@@ -18540,18 +18613,22 @@ msgstr "Виправлено клавіатурні скорочення для 
 #: ../../changes.rst:44
 msgid "Removed debugging output causing discarding log events in some setups."
 msgstr ""
+"Вилучено діагностичне виведення, яке спричиняло у певних випадках відкидання "
+"записів подій журналу."
 
 #: ../../changes.rst:45
 msgid "Fixed lock indication on project listing."
-msgstr ""
+msgstr "Виправлено індикатор блокування у списку проєктів."
 
 #: ../../changes.rst:46
 msgid "Fixed listing GPG keys in some setups."
-msgstr ""
+msgstr "Виправлено побудову списку ключів GPG у деяких конфігураціях."
 
 #: ../../changes.rst:47
 msgid "Added option for which DeepL API version to use."
 msgstr ""
+"Додано параметр для визначення версії програмного інтерфейсу DeepL, яким "
+"слід скористатися."
 
 #: ../../changes.rst:48
 msgid ""
