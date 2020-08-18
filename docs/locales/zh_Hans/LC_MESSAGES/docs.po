@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-17 13:06+0200\n"
-"PO-Revision-Date: 2020-08-18 09:50+0000\n"
+"PO-Revision-Date: 2020-08-18 11:51+0000\n"
 "Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -11875,14 +11875,14 @@ msgid ""
 "The bottom level object is :ref:`project`, which should hold all "
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
-msgstr ""
+msgstr "底层对象是 :ref:`project`，该项目配置应将所有翻译归在一起（例如，多个版本的应用程序翻译和/或随附的文档）。"
 
 #: ../../admin/projects.rst:13
 msgid ""
 "On the level above, :ref:`component`, which is actually the component to "
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
-msgstr ""
+msgstr "在上面的级别上，:ref:`component`（实际上是要翻译的组件），您定义要使用的 VCS 仓库以及要翻译的文件的掩码。"
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -11890,12 +11890,14 @@ msgid ""
 "automatically by Weblate as translation files (which match the mask defined "
 "in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"在 :ref:`component` 上方，有单独的翻译，当 VCS 仓库中出现翻译文件（与 :ref:`component` 中定义的掩码匹配）时，"
+"Weblate 会自动处理这些翻译。"
 
 #: ../../admin/projects.rst:20
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
-msgstr ""
+msgstr "Weblate 支持 Translate Toolkit 支持的多种翻译格式（双语和单语），请参阅 :ref:`formats`。"
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -11903,22 +11905,24 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"您可以使用 :ref:`internal-urls` 共享克隆的 VCS 仓库。当您有许多共享同一 VCS "
+"的组件时，强烈建议使用此功能。它提高了性能并减少了所需的磁盘空间。"
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
-msgstr ""
+msgstr "添加翻译项目和组件"
 
 #: ../../admin/projects.rst:37
 msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
-msgstr ""
+msgstr "已包含用于添加项目和组件的界面，您不再需要使用 :ref:`admin-interface`。"
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
-msgstr ""
+msgstr "现在，添加组件的过程是多阶段的，可以自动发现大多数参数。"
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -11928,10 +11932,12 @@ msgid ""
 "also create those based on your plans allowance from the user account that "
 "manages billing."
 msgstr ""
+"根据您的许可，可以创建新的翻译项目和组件。超级用户始终允许使用此功能，并且如果您的实例使用计费方式（例如 https://hosted.weblate."
+"org/ 参见 :ref:`billing`），您还可以根据管理计费的用户帐户中的计划额度来创建计费方式。"
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
-msgstr ""
+msgstr "您可以在单独的页面上查看当前的结算方案："
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -12030,11 +12036,11 @@ msgstr "最后，您检查翻译组件信息并填写可选详细信息："
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
-msgstr ""
+msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
-msgstr ""
+msgstr "项目配置"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -12045,10 +12051,12 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"创建一个翻译项目，然后在其中添加一个新的翻译组件。这个项目就像一个架子，里面堆放着真正的翻译。同一项目中的所有组件共享建议及其字典；翻译也将自动传播到单个"
+"项目中的所有组件（除非在组件配置中关闭），请参见 :ref:`memory`。"
 
 #: ../../admin/projects.rst:115
 msgid "These basic attributes set up and inform translators of a project:"
-msgstr ""
+msgstr "这些基本属性设置并通知翻译人员项目："
 
 #: ../../admin/projects.rst:120 ../../admin/projects.rst:753 ../../api.rst:742
 #: ../../contributing/about.rst:11
@@ -12057,15 +12065,15 @@ msgstr "项目名称"
 
 #: ../../admin/projects.rst:122
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "详细的项目名称，用于显示项目名称。"
 
 #: ../../admin/projects.rst:127 ../../admin/projects.rst:755 ../../api.rst:744
 msgid "Project slug"
-msgstr ""
+msgstr "Project slug"
 
 #: ../../admin/projects.rst:129
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "适用于 URL 的项目名称。"
 
 #: ../../admin/projects.rst:134 ../../api.rst:746
 #: ../../contributing/about.rst:16
@@ -12074,7 +12082,7 @@ msgstr "项目网站"
 
 #: ../../admin/projects.rst:136
 msgid "URL where translators can find more info about the project."
-msgstr ""
+msgstr "译者可以在其中找到有关该项目的更多信息的 URL。"
 
 #: ../../admin/projects.rst:141
 msgid "Mailing list"
@@ -12082,7 +12090,7 @@ msgstr "邮件列表"
 
 #: ../../admin/projects.rst:143
 msgid "Mailing list where translators can discuss or comment translations."
-msgstr ""
+msgstr "译者可以在其中讨论或评论翻译的邮件列表。"
 
 #: ../../admin/projects.rst:148
 msgid "Translation instructions"
@@ -12090,17 +12098,17 @@ msgstr "翻译说明"
 
 #: ../../admin/projects.rst:150
 msgid "URL to more site with more detailed instructions for translators."
-msgstr ""
+msgstr "指向更多网站的 URL，为翻译人员提供了更详细的说明。"
 
 #: ../../admin/projects.rst:155
 msgid "Set Language-Team header"
-msgstr ""
+msgstr "设置 Language-Team 头"
 
 #: ../../admin/projects.rst:157
 msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
-msgstr ""
+msgstr "Weblate 是否应管理 ``Language-Team`` 头（目前这是仅 :ref:`gettext` 功能）。"
 
 #: ../../admin/projects.rst:163
 msgid "Use shared translation memory"
@@ -12110,7 +12118,7 @@ msgstr "使用共享的翻译记忆库"
 msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
-msgstr ""
+msgstr "是否使用共享翻译记忆库，有关更多详细信息，请参见 :ref:`shared-tm`。"
 
 #: ../../admin/projects.rst:170
 msgid "Contribute to shared translation memory"
@@ -12120,15 +12128,15 @@ msgstr "贡献到共享的翻译记忆库"
 msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
-msgstr ""
+msgstr "是否贡献到共享翻译记忆库，请参阅 :ref:`shared-tm` 以获取更多详细信息。"
 
 #: ../../admin/projects.rst:179
 msgid "Configure per project access control, see :ref:`acl` for more details."
-msgstr ""
+msgstr "配置每个项目的访问控制，请参阅 :ref:`acl` 以获取更多详细信息。"
 
 #: ../../admin/projects.rst:181
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr ""
+msgstr "可以通过 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
 
 #: ../../admin/projects.rst:186 ../../workflows.rst:58 ../../workflows.rst:89
 #: ../../workflows.rst:125
@@ -12149,12 +12157,12 @@ msgstr ""
 
 #: ../../admin/projects.rst:200
 msgid "Enable hooks"
-msgstr "启用钩子"
+msgstr "启用 hooks"
 
 #: ../../admin/projects.rst:202
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
-msgstr ""
+msgstr "是否将未经身份验证的 :ref:`hooks` 用于此仓库。"
 
 #: ../../admin/projects.rst:207
 msgid "Source language"
@@ -12164,7 +12172,7 @@ msgstr "源语言"
 msgid ""
 "Language used for source strings in all components. Change this if you are "
 "translating from something else than English."
-msgstr ""
+msgstr "所有组件中用于源字符串的语言。如果您要翻译的不是英语，请更改此选项。"
 
 #: ../../admin/projects.rst:214
 msgid ""
@@ -12399,20 +12407,22 @@ msgid ""
 "processed). In case your repository contains more than one translation file "
 "(e.g. more gettext domains), you need to create a component for each of them."
 msgstr ""
+"要翻译的文件的掩码，包括路径。它应包含一个“*”替换语言代码（有关处理方式的信息，请参阅 "
+":ref:`languages`）。如果您的仓库包含多个翻译文件（例如，多个 gettext 域），则您需要为每个文件创建一个组件。"
 
 #: ../../admin/projects.rst:394
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
-msgstr ""
+msgstr "例如``po/*.po`` 或 ``locale/*/LC_MESSAGES/django.po``。"
 
 #: ../../admin/projects.rst:396
 msgid ""
 "In case your filename contains special characters such as ``[``, ``]``, "
 "these need to be escaped as ``[[]`` or ``[]]``."
-msgstr ""
+msgstr "如果文件名包含特殊字符（例如``[``，``]``），则需要将这些特殊字符转义为 ``[[]`` 或 ``[]]``。"
 
 #: ../../admin/projects.rst:401 ../../admin/projects.rst:413
 msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
-msgstr ""
+msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:407 ../../formats.rst:171 ../../formats.rst:237
 #: ../../formats.rst:343 ../../formats.rst:355 ../../formats.rst:396
@@ -12614,7 +12624,7 @@ msgstr "添加新翻译"
 #: ../../admin/projects.rst:547
 msgid ""
 "How to handle requests for creation of new languages. Available options:"
-msgstr ""
+msgstr "如何处理创建新语言的请求。可用选项："
 
 #: ../../admin/projects.rst:551
 msgid "Contact maintainers"
@@ -12625,7 +12635,7 @@ msgid ""
 "User can select desired language and the project maintainers will receive a "
 "notification about this. It is up to them to add (or not) the language to "
 "the repository."
-msgstr ""
+msgstr "用户可以选择所需的语言，项目维护者将收到有关该语言的通知。由他们决定是否向仓库添加（或不添加）语言。"
 
 #: ../../admin/projects.rst:555
 msgid "Point to translation instructions URL"
@@ -12636,7 +12646,7 @@ msgid ""
 "User is presented a link to page which describes process of starting new "
 "translations. Use this in case more formal process is desired (for example "
 "forming a team of people before starting actual translation)."
-msgstr ""
+msgstr "向用户显示的页面链接描述了开始新翻译的过程。如果需要更正式的流程（例如，在开始实际翻译之前组成人员团队），请使用此选项。"
 
 #: ../../admin/projects.rst:558
 msgid "Create new language file"
@@ -12646,7 +12656,7 @@ msgstr "创建新语言文件"
 msgid ""
 "User can select language and Weblate automatically creates the file for it "
 "and translation can begin."
-msgstr ""
+msgstr "用户可以选择语言，然后 Weblate 会自动为其创建文件并开始翻译。"
 
 #: ../../admin/projects.rst:561
 msgid "Disable adding new translations"
@@ -12654,11 +12664,11 @@ msgstr "禁用添加新翻译"
 
 #: ../../admin/projects.rst:561
 msgid "There will be no option for user to start new translation."
-msgstr ""
+msgstr "用户将无法选择开始新的翻译。"
 
 #: ../../admin/projects.rst:565
 msgid ":ref:`adding-translation`."
-msgstr ""
+msgstr ":ref:`adding-translation`."
 
 #: ../../admin/projects.rst:570
 msgid "Language code style"
