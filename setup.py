@@ -55,7 +55,8 @@ with open("requirements-optional.txt") as requirements:
         else:
             dep = line.split(";")[0].strip()
             EXTRAS[section] = dep
-            EXTRAS["all"].append(dep)
+            if section != "MySQL":
+                EXTRAS["all"].append(dep)
 
 
 class WeblateBuildPy(build_py):
