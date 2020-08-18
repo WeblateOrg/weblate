@@ -1,18 +1,15 @@
 .. _api:
 
-Weblate's Web API
-=================
-
 .. index::
     single: REST
     single: API
 
-REST API
---------
+Weblate's REST API
+==================
 
 .. versionadded:: 2.6
 
-    The API is available since Weblate 2.6.
+    The REST API is available since Weblate 2.6.
 
 The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <https://www.django-rest-framework.org/>`_.
@@ -2056,7 +2053,7 @@ Component lists
 .. _hooks:
 
 Notification hooks
-------------------
+++++++++++++++++++
 
 Notification hooks allow external applications to notify Weblate that the VCS
 repository has been updated.
@@ -2200,7 +2197,7 @@ update individual repositories; see
 .. _exports:
 
 Exports
--------
++++++++
 
 Weblate provides various exports to allow you to further process the data.
 
@@ -2289,7 +2286,7 @@ Weblate provides various exports to allow you to further process the data.
 .. _rss:
 
 RSS feeds
----------
++++++++++
 
 Changes in translations are exported in RSS feeds.
 
