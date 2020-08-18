@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-17 13:06+0200\n"
-"PO-Revision-Date: 2020-08-18 11:51+0000\n"
+"PO-Revision-Date: 2020-08-18 13:41+0000\n"
 "Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -28889,21 +28889,21 @@ msgstr ""
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
-msgstr ""
+msgstr "翻译工作流"
 
 #: ../../workflows.rst:6
 msgid "Several translation workflows are supported."
-msgstr ""
+msgstr "支持多种翻译工作流。"
 
 #: ../../workflows.rst:8
 msgid ""
 "The following is not a complete list of ways to configure Weblate. You can "
 "base other workflows on the most usual examples listed here."
-msgstr ""
+msgstr "以下不是配置 Weblate 的方法的完整列表。您可以将其他工作流基于此处列出的最常见的示例。"
 
 #: ../../workflows.rst:12
 msgid "Translation access"
-msgstr ""
+msgstr "翻译访问"
 
 #: ../../workflows.rst:14
 msgid ""
@@ -28911,6 +28911,7 @@ msgid ""
 "control option can be applied to any workflow. Please consult that "
 "documentation for information on how to manage access to translations."
 msgstr ""
+":ref:`privileges` 在工作流中没有太多讨论，因为每个访问控制选项都可以应用于任何工作流。请查阅该文档以获取有关如何管理对翻译的访问的信息。"
 
 #: ../../workflows.rst:17
 msgid ""
@@ -28918,10 +28919,12 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user that has a :guilabel:`Translate` permission for the project."
 msgstr ""
+"在以下各章中，*任何用户*都是指有权访问翻译的用户。如果项目是公共项目，则可以是任何经过身份验证的用户，也可以是具有项目 "
+":guilabel:`Translate` 权限的用户。"
 
 #: ../../workflows.rst:26
 msgid "Each translated string can be in one of following states:"
-msgstr ""
+msgstr "每个翻译的字符串可以处于以下状态之一："
 
 #: ../../workflows.rst:29
 msgid "Untranslated"
@@ -28931,7 +28934,7 @@ msgstr "未翻译"
 msgid ""
 "Translation is empty, it might or not be stored in the file, depending on "
 "the file format."
-msgstr ""
+msgstr "翻译是空的，取决于文件格式，翻译是否可能存储在文件中。"
 
 #: ../../workflows.rst:33
 msgid "Needs editing"
@@ -28943,6 +28946,7 @@ msgid ""
 "change. The translation is stored in the file, depending on the file format "
 "it might be marked as needing edit (for example as it gets a fuzzy flag)."
 msgstr ""
+"翻译需要编辑，这通常是源字符串更改的结果。转换文件存储在文件中，具体取决于文件格式，它可能被标记为需要编辑（例如，当它获得 fuzzy 标志时）。"
 
 #: ../../workflows.rst:36
 msgid "Waiting for review"
@@ -28952,7 +28956,7 @@ msgstr "等待复查"
 msgid ""
 "Translation is made, but not reviewed. It is stored in the file as a valid "
 "translation."
-msgstr ""
+msgstr "翻译已完成，但未进行审核。它作为有效翻译存储在文件中。"
 
 #: ../../workflows.rst:40
 msgid "Approved"
@@ -28963,35 +28967,35 @@ msgid ""
 "Translation has been approved in the review. It can no longer be changed by "
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
-msgstr ""
+msgstr "翻译已在审核中得到批准。翻译者不能再更改它，只能由审阅者更改。译者只能向其中添加建议。"
 
 #: ../../workflows.rst:43
 msgid "Suggestions are stored in Weblate only and not in the translation file."
-msgstr ""
+msgstr "建议仅存储在 Weblate 中，而不存储在翻译文件中。"
 
 #: ../../workflows.rst:47
 msgid "Direct translation"
-msgstr ""
+msgstr "直接翻译"
 
 #: ../../workflows.rst:48
 msgid ""
 "This is most usual setup for smaller teams, anybody can directly translate. "
 "This is also the default setup in Weblate."
-msgstr ""
+msgstr "这是小型团队最常用的设置，任何人都可以直接翻译。这也是 Weblate 中的默认设置。"
 
 #: ../../workflows.rst:51
 msgid "*Any user* can edit translations."
-msgstr ""
+msgstr "*任何用户*都可以编辑翻译。"
 
 #: ../../workflows.rst:52
 msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
-msgstr ""
+msgstr "当翻译者不确定更改时，建议是建议更改的可选方法。"
 
 #: ../../workflows.rst:56 ../../workflows.rst:87 ../../workflows.rst:123
 msgid "Setting"
-msgstr ""
+msgstr "设置"
 
 #: ../../workflows.rst:56 ../../workflows.rst:87 ../../workflows.rst:123
 msgid "Note"
@@ -29004,7 +29008,7 @@ msgstr "已关闭"
 
 #: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
 msgid "Configured at project level."
-msgstr ""
+msgstr "在项目级别配置。"
 
 #: ../../workflows.rst:60 ../../workflows.rst:91 ../../workflows.rst:125
 msgid "on"
@@ -29012,19 +29016,19 @@ msgstr "已开启"
 
 #: ../../workflows.rst:60 ../../workflows.rst:127
 msgid "It is useful for users to be able to suggest when they are not sure."
-msgstr ""
+msgstr "用户可以在不确定时提出建议，这很有用。"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Translators group"
-msgstr ""
+msgstr "翻译组"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Or `Translate` with :ref:`privileges`."
-msgstr ""
+msgstr "或使用 :ref:`privileges` 进行`翻译`。"
 
 #: ../../workflows.rst:70 ../../workflows.rst:101 ../../workflows.rst:137
 msgid "Reviewers group"
-msgstr ""
+msgstr "审核者组"
 
 #: ../../workflows.rst:70 ../../workflows.rst:101
 msgid "N/A"
@@ -29032,57 +29036,57 @@ msgstr "不可用"
 
 #: ../../workflows.rst:70
 msgid "Not used."
-msgstr ""
+msgstr "不曾用过。"
 
 #: ../../workflows.rst:77
 msgid "Peer review"
-msgstr ""
+msgstr "同行评审"
 
 #: ../../workflows.rst:79
 msgid ""
 "With this workflow, anybody can add suggestions, and need approval from "
 "additional member(s) before it is accepted as a translation."
-msgstr ""
+msgstr "使用此工作流程，任何人都可以添加建议，并且需要其他成员的同意才能被接受为翻译。"
 
 #: ../../workflows.rst:82
 msgid "*Any user* can add suggestions."
-msgstr ""
+msgstr "*任何用户*都可以添加建议。"
 
 #: ../../workflows.rst:83
 msgid "*Any user* can vote for suggestions."
-msgstr ""
+msgstr "*任何用户*都可以对建议投票。"
 
 #: ../../workflows.rst:84
 msgid ""
 "Suggestions become translations when given a predetermined number of votes."
-msgstr ""
+msgstr "当给定预定数量的投票时，建议就变成翻译。"
 
 #: ../../workflows.rst:95
 msgid "You can set higher value to require more peer reviews."
-msgstr ""
+msgstr "您可以设置更高的值，以要求更多的同行评审。"
 
 #: ../../workflows.rst:101
 msgid "Not used, all translators review."
-msgstr ""
+msgstr "未使用，所有翻译员都审阅。"
 
 #: ../../workflows.rst:107
 msgid "Dedicated reviewers"
-msgstr ""
+msgstr "专门的审核者"
 
 #: ../../workflows.rst:111
 msgid "The proper review workflow is supported since Weblate 2.18."
-msgstr ""
+msgstr "从 Weblate 2.18 开始，支持正确的审核工作流。"
 
 #: ../../workflows.rst:113
 msgid ""
 "With dedicated reviewers you have two groups of users, one able to submit "
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
-msgstr ""
+msgstr "使用专门的审核者，您有两组用户，一组可以提交翻译，而另一组可以审核它们以确保翻译一致且质量良好。"
 
 #: ../../workflows.rst:117
 msgid "*Any user* can edit unapproved translations."
-msgstr ""
+msgstr "*任何用户*都可以编辑未批准的翻译。"
 
 #: ../../workflows.rst:118
 msgid "*Reviewer* can approve / unapprove strings."
@@ -29090,19 +29094,19 @@ msgstr "*Reviewer* 可以批准/否决字符串。"
 
 #: ../../workflows.rst:119
 msgid "*Reviewer* can edit all translations (including approved ones)."
-msgstr ""
+msgstr "*审核者*可以编辑所有翻译（包括批准的翻译）。"
 
 #: ../../workflows.rst:120
 msgid "Suggestions can also be used to suggest changes for approved strings."
-msgstr ""
+msgstr "建议还可以用于建议更改已批准的字符串。"
 
 #: ../../workflows.rst:137
 msgid "Or `Review` with :ref:`privileges`."
-msgstr ""
+msgstr "或使用 :ref:`privileges` 进行`审核`。"
 
 #: ../../workflows.rst:142
 msgid "Turning on reviews"
-msgstr ""
+msgstr "开启审核"
 
 #: ../../workflows.rst:144
 msgid ""
@@ -29110,13 +29114,15 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → `Settings` menu):"
 msgstr ""
+"可以在项目设置的 :guilabel:`Workflow` 子页面中的项目配置中打开审核（位于 :guilabel:`Manage` → "
+"`Settings` 菜单中）："
 
 #: ../../workflows.rst:152
 msgid ""
 "Depending on Weblate configuration, the setting might not be available to "
 "you. For example on Hosted Weblate this is not available for projects hosted "
 "for free."
-msgstr ""
+msgstr "根据 Weblate 配置的不同，该设置可能对您不可用。例如，在 Hosted Weblate 上，这不适用于免费托管的项目。"
 
 #: ../../workflows.rst:159
 msgid "Quality gateway for the source strings"
