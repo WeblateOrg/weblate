@@ -123,6 +123,11 @@ spec:
             secretKeyRef:
               name: weblate-admin-password
               key: admin-password
+        - name: WEBLATE_ADMIN_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: weblate-admin-api-token
+              key: weblate-admin-api-token
         # EMAIL
         - name: WEBLATE_SERVER_EMAIL
           value: weblate@vendasta.com
@@ -279,4 +284,7 @@ spec:
       - name: weblate-social-auth-secret
         secret:
           secretName: weblate-social-auth-secret
+      - name: weblate-admin-api-token
+        secret:
+          secretName: weblate-admin-api-token
 status: {}
