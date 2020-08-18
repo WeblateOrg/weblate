@@ -241,7 +241,7 @@ For the ``hello`` repository from selenic.com using Mercurial::
 
     hg::http://selenic.com/repo/hello
 
-.. _remote helpers: https://git-scm.com/docs/git-remote-helpers
+.. _remote helpers: https://git-scm.com/docs/gitremote-helpers
 .. _git-remote-hg: https://github.com/felipec/git-remote-hg
 .. _git-remote-bzr: https://github.com/felipec/git-remote-bzr
 
