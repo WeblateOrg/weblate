@@ -112,7 +112,7 @@ upstream repository and chosen branch.
 For smaller deployments, use HTTPS authentication with a personal access
 token and your GitHub account, see `Creating an access token for command-line use`_.
 
-.. _Creating an access token for command-line use: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+.. _Creating an access token for command-line use: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 
 For bigger setups, it is usually better to create a dedicated user for Weblate,
 assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)
