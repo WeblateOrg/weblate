@@ -120,6 +120,7 @@ SAME_BLACKLIST = {
     "clipboard",
     "cloud",
     "club",
+    "cmd",
     "cockpit",
     "code",
     "codec",
