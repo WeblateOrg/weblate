@@ -32,7 +32,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from weblate.auth.models import User
-from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
@@ -252,13 +251,9 @@ class Billing(models.Model):
 
     @cached_property
     def count_languages(self):
-        return (
-            Language.objects.filter(
-                translation__component__project__in=self.all_projects
-            )
-            .distinct()
-            .count()
-        )
+        if not self.all_projects:
+            return 0
+        return max(p.stats.languages for p in self.all_projects)
 
     def display_languages(self):
         return "{0} / {1}".format(
