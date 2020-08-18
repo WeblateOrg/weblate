@@ -893,8 +893,8 @@ $(function () {
   /* Advanced search */
   $(".search-group li a").click(function () {
     var $this = $(this);
-    var $button = $this.closest(".input-group-btn").find("button.search-field");
     var $group = $this.closest(".search-group");
+    var $button = $group.find("button.search-field");
 
     $button.attr("data-field", $this.data("field"));
     var $title = $this.find("span.title");
@@ -962,7 +962,7 @@ $(function () {
     }
   });
   $(".search-add").click(function () {
-    var group = $(this).closest(".input-group");
+    var group = $(this).closest(".search-group");
     var button = group.find("button.search-field");
     var input = group.find("input");
 
@@ -970,7 +970,7 @@ $(function () {
       $("#id_q").insertAtCaret(" " + button.attr("data-field") + " ");
     } else if (input.val() !== "") {
       var prefix = "";
-      if ($("#is-exact input[type=checkbox]").is(":checked")) {
+      if (group.find("#is-exact input[type=checkbox]").is(":checked")) {
         prefix = "=";
       }
       $("#id_q").insertAtCaret(
