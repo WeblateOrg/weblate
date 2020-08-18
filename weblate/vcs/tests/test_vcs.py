@@ -21,9 +21,10 @@
 import os.path
 import shutil
 import tempfile
-from unittest import SkipTest, mock
+from unittest import SkipTest
 from unittest.mock import patch
 
+import responses
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -419,12 +420,7 @@ class VCSGitForcePushTest(VCSGitTest):
     _class = GitForcePushRepository
 
 
-@override_settings(GITHUB_USERNAME="test")
-class VCSGithubTest(VCSGitTest):
-    _class = GithubFakeRepository
-    _vcs = "git"
-    _sets_push = False
-
+class VCSGitUpstreamTest(VCSGitTest):
     def add_remote_commit(self, conflict=False, rename=False):
         # Use Git to create changed upstream repo
         backup = self._class
@@ -434,23 +430,28 @@ class VCSGithubTest(VCSGitTest):
         finally:
             self._class = backup
 
-    def _mock_response(self, json_data, status):
+
+@override_settings(GITHUB_USERNAME="test")
+class VCSGithubTest(VCSGitUpstreamTest):
+    _class = GithubFakeRepository
+    _vcs = "git"
+    _sets_push = False
+
+    def mock_responses(self, pr_response, pr_status=200):
         """Mock response helper function.
 
-        This function will act as a helper function for response
+        This function will mock request responses for both fork and PRs
         """
-        mock_resp = mock.Mock()
-        mock_resp.status_code = status
-        mock_resp.json = mock.Mock(return_value=json_data)
-        return mock_resp
-
-    def side_effect(self, *args, **kwargs):
-        if args[0].find("fork") != -1:
-            return self._mock_response(
-                status=200, json_data={"ssh_url": "git@github.com:test/test.git"}
-            )
-        return self._mock_response(
-            status=200, json_data={"url": "https://github.com/WeblateOrg/test/pull/1"},
+        responses.add(
+            responses.POST,
+            "https://api.github.com/repos/WeblateOrg/test/forks",
+            json={"ssh_url": "git@github.com:test/test.git"},
+        )
+        responses.add(
+            responses.POST,
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            json=pr_response,
+            status=pr_status,
         )
 
     def test_api_url(self):
@@ -459,6 +460,7 @@ class VCSGithubTest(VCSGitTest):
             self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
 
+    @responses.activate
     def test_push(self, branch=""):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
 
@@ -470,17 +472,13 @@ class VCSGithubTest(VCSGitTest):
         mock_push_to_fork = mock_push_to_fork_patcher.start()
         mock_push_to_fork.return_value = ""
 
-        # Mock post requests for both the fork and PR requests sent.
-        # Sending an iterable to side effects ensure that consecutive calls
-        # to the mock function returns the consecutive values in the iterable.
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_post.side_effect = self.side_effect
-
+        self.mock_responses(
+            pr_response={"url": "https://github.com/WeblateOrg/test/pull/1"}
+        )
         super().test_push(branch)
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
+    @responses.activate
     def test_pull_request_error(self, branch=""):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
 
@@ -492,22 +490,14 @@ class VCSGithubTest(VCSGitTest):
         mock_push_to_fork = mock_push_to_fork_patcher.start()
         mock_push_to_fork.return_value = ""
 
-        # Mock post requests for both the fork and PR requests sent.
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_fork_response = self._mock_response(
-            status=200, json_data={"ssh_url": "git@github.com:test/test.git"}
-        )
-        mock_pr_response = self._mock_response(
-            status=422, json_data={"message": "Some error"}
-        )
-        mock_post.side_effect = [mock_fork_response, mock_pr_response]
+        # Mock PR to return error
+        self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
 
         with self.assertRaises(RepositoryException):
             super().test_push(branch)
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
+    @responses.activate
     def test_pull_request_exists(self, branch=""):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
 
@@ -520,84 +510,113 @@ class VCSGithubTest(VCSGitTest):
         mock_push_to_fork.return_value = ""
 
         # Check that it doesn't raise error when pull request already exists
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_fork_response = self._mock_response(
-            status=200, json_data={"ssh_url": "git@github.com:test/test.git"}
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
         )
-        mock_pr_response = self._mock_response(
-            status=422,
-            json_data={"errors": [{"message": "A pull request already exists"}]},
-        )
-        mock_post.side_effect = [mock_fork_response, mock_pr_response]
 
         super().test_push(branch)
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
 
 @override_settings(GITLAB_USERNAME="test")
-class VCSGitLabTest(VCSGitTest):
+class VCSGitLabTest(VCSGitUpstreamTest):
     _class = GitLabFakeRepository
     _vcs = "git"
     _sets_push = False
 
-    def add_remote_commit(self, conflict=False, rename=False):
-        # Use Git to create changed upstream repo
-        backup = self._class
-        self._class = GitRepository
-        try:
-            super().add_remote_commit(conflict, rename)
-        finally:
-            self._class = backup
-
-    def _mock_response(self, json_data, status):
-        """Mock response helper function.
-
-        This function will act as a helper function for response
-        """
-        mock_resp = mock.Mock()
-        mock_resp.status_code = status
-        mock_resp.json = mock.Mock(return_value=json_data)
-        return mock_resp
-
-    def post_side_effect(self, *args, **kwargs):
-        if args[0].find("fork") != -1:
-            return self._mock_response(
-                status=200,
-                json_data={
+    def mock_fork_responses(self, get_forks, duplicate_repo):
+        if duplicate_repo:
+            # Response to mock existing of repo with duplicate name
+            # In case repo name already taken, append number at the end
+            responses.add(
+                responses.POST,
+                "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
+                json={
+                    "message": {
+                        "name": ["has already been taken"],
+                        "path": ["has already been taken"],
+                    }
+                },
+                status=409,
+            )
+            responses.add(
+                responses.POST,
+                "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
+                json={
+                    "ssh_url_to_repo": "git@gitlab.com:test/test-6184.git",
+                    "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+                },
+            )
+        else:
+            responses.add(
+                responses.POST,
+                "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
+                json={
                     "ssh_url_to_repo": "git@gitlab.com:test/test.git",
                     "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
                 },
             )
-        return self._mock_response(
-            status=200,
-            json_data={
-                "web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"
-            },
+        # Mock GET responses to get forks for the repo
+        responses.add(
+            responses.GET,
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
+            json=[] if not get_forks else get_forks,
         )
 
-    def get_empty_side_effect(self, *args, **kwargs):
-        if args[0].find("forks") != -1:
-            return self._mock_response(status=200, json_data=[])
+    def mock_pr_responses(self, pr_response, pr_status):
+        # PR response in case fork is create with a suffix due to duplicate
+        # repo name
+        responses.add(
+            responses.POST,
+            "https://gitlab.com/api/v4/projects/test%2Ftest-6184/merge_requests",
+            json=pr_response,
+            status=pr_status,
+        )
 
-        return self._mock_response(status=200, json_data={"id": 20227391})
+        # In case the remote is origin, we send the PR to itself
+        responses.add(
+            responses.POST,
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/merge_requests",
+            json=pr_response,
+            status=pr_status,
+        )
 
-    def get_side_effect(self, *args, **kwargs):
-        if args[0].find("forks") != -1:
-            return self._mock_response(
-                status=200,
-                json_data=[
-                    {
-                        "ssh_url_to_repo": "git@gitlab.com:test/test.git",
-                        "owner": {"username": "test"},
-                        "_links": {
-                            "self": "https://gitlab.com/api/v4/projects/20227391"
-                        },
-                    }
-                ],
-            )
-        return self._mock_response(status=200, json_data={"id": 20227391})
+        # General PR response
+        responses.add(
+            responses.POST,
+            "https://gitlab.com/api/v4/projects/test%2Ftest/merge_requests",
+            json=pr_response,
+            status=pr_status,
+        )
+
+    def mock_disable_fork_features(self):
+        responses.add(
+            responses.PUT,
+            "https://gitlab.com/api/v4/projects/20227391",
+            json={"web_url": "https://gitlab.com/test/test"},
+        )
+
+    def mock_get_project_id(self):
+        responses.add(
+            responses.GET,
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
+            json={"id": 20227391},
+        )
+
+    def mock_responses(
+        self, pr_response, pr_status=200, get_forks=None, duplicate_repo=False
+    ):
+        """Mock response helper function.
+
+        This function will mock request responses for both fork and PRs,
+        GET request to get all forks and target project id, and PUT request
+        to disable fork features
+        """
+        self.mock_fork_responses(get_forks, duplicate_repo)
+        self.mock_pr_responses(pr_response, pr_status)
+        self.mock_disable_fork_features()
+        self.mock_get_project_id()
 
     def test_api_url(self):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
@@ -605,6 +624,7 @@ class VCSGitLabTest(VCSGitTest):
             self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
         )
 
+    @responses.activate
     def test_push(self, branch=""):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
@@ -617,26 +637,15 @@ class VCSGitLabTest(VCSGitTest):
         mock_push_to_fork.return_value = ""
 
         # Mock post, put and get requests for both the fork and PR requests sent.
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_post.side_effect = self.post_side_effect
-
-        mock_put_patcher = patch("requests.put")
-        mock_put = mock_put_patcher.start()
-        mock_put.return_value = self._mock_response(
-            status=200, json_data={"web_url": "https://gitlab.com/test/test"},
+        self.mock_responses(
+            pr_response={
+                "web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"
+            }
         )
-
-        mock_get_patcher = patch("requests.get")
-        mock_get = mock_get_patcher.start()
-        mock_get.side_effect = self.get_empty_side_effect
-
         super().test_push(branch)
-        mock_get_patcher.stop()
-        mock_put_patcher.stop()
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
+    @responses.activate
     def test_push_with_existing_fork(self, branch=""):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
@@ -649,29 +658,28 @@ class VCSGitLabTest(VCSGitTest):
         mock_push_to_fork.return_value = ""
 
         # Mock post, put and get requests for both the fork and PR requests sent.
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_post.side_effect = self.post_side_effect
-
-        mock_put_patcher = patch("requests.put")
-        mock_put = mock_put_patcher.start()
-        mock_put.return_value = self._mock_response(
-            status=200, json_data={"web_url": "https://gitlab.com/test/test"},
+        self.mock_responses(
+            pr_response={
+                "web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"
+            },
+            get_forks=[
+                {
+                    "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                    "owner": {"username": "test"},
+                    "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+                }
+            ],
         )
-
-        # Test that if fork already exists for the repo, it uses the fork
-        mock_get_patcher = patch("requests.get")
-        mock_get = mock_get_patcher.start()
-        mock_get.side_effect = self.get_side_effect
-
         super().test_push(branch)
-
-        self.assertEqual(mock_post.call_count, 1)
-        mock_get_patcher.stop()
-        mock_put_patcher.stop()
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
+        # Test that the POST request to create a new fork was not called
+        call_count = len(
+            [1 for call in responses.calls if call.request.method == "POST"]
+        )
+        self.assertEqual(call_count, 1)
+
+    @responses.activate
     def test_push_duplicate_repo_name(self, branch=""):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
@@ -684,55 +692,23 @@ class VCSGitLabTest(VCSGitTest):
         mock_push_to_fork.return_value = ""
 
         # Mock post, put and get requests for both the fork and PR requests sent.
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_duplicate_name_fork_response = self._mock_response(
-            status=409,
-            json_data={
-                "message": {
-                    "name": ["has already been taken"],
-                    "path": ["has already been taken"],
-                }
-            },
-        )
-        mock_fork_response = self._mock_response(
-            status=200,
-            json_data={
-                "ssh_url_to_repo": "git@gitlab.com:test/test-6184.git",
-                "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
-            },
-        )
-        mock_pr_response = self._mock_response(
-            status=200,
-            json_data={
+        self.mock_responses(
+            pr_response={
                 "web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"
             },
+            duplicate_repo=True,
         )
-        mock_post.side_effect = [
-            mock_duplicate_name_fork_response,
-            mock_fork_response,
-            mock_pr_response,
-        ]
-
-        mock_put_patcher = patch("requests.put")
-        mock_put = mock_put_patcher.start()
-        mock_put.return_value = self._mock_response(
-            status=200, json_data={"web_url": "https://gitlab.com/test/test"},
-        )
-
-        # Test that if fork already exists for the repo, it uses the fork
-        mock_get_patcher = patch("requests.get")
-        mock_get = mock_get_patcher.start()
-        mock_get.side_effect = self.get_empty_side_effect
-
         super().test_push(branch)
-
-        self.assertEqual(mock_post.call_count, 3)
-        mock_get_patcher.stop()
-        mock_put_patcher.stop()
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
+        # Test that the POST request to create a new fork was called again to
+        # create different repo name
+        call_count = len(
+            [1 for call in responses.calls if call.request.method == "POST"]
+        )
+        self.assertEqual(call_count, 3)
+
+    @responses.activate
     def test_pull_request_error(self, branch=""):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
@@ -745,37 +721,12 @@ class VCSGitLabTest(VCSGitTest):
         mock_push_to_fork.return_value = ""
 
         # Mock post, put and get requests for both the fork and PR requests sent.
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_fork_response = self._mock_response(
-            status=200,
-            json_data={
-                "ssh_url_to_repo": "git@gitlab.com:test/test.git",
-                "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
-            },
-        )
-        mock_pr_response = self._mock_response(
-            status=200, json_data={"message": "Some error"}
-        )
-        mock_post.side_effect = [mock_fork_response, mock_pr_response]
-
-        mock_put_patcher = patch("requests.put")
-        mock_put = mock_put_patcher.start()
-        mock_put.return_value = self._mock_response(
-            status=200, json_data={"web_url": "https://gitlab.com/test/test"},
-        )
-
-        mock_get_patcher = patch("requests.get")
-        mock_get = mock_get_patcher.start()
-        mock_get.side_effect = self.get_empty_side_effect
-
+        self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
         with self.assertRaises(RepositoryException):
             super().test_push(branch)
-        mock_get_patcher.stop()
-        mock_put_patcher.stop()
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
+    @responses.activate
     def test_pull_request_exists(self, branch=""):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
 
@@ -788,51 +739,18 @@ class VCSGitLabTest(VCSGitTest):
         mock_push_to_fork.return_value = ""
 
         # Check that it doesn't raise error when pull request already exists
-        mock_post_patcher = patch("requests.post")
-        mock_post = mock_post_patcher.start()
-        mock_fork_response = self._mock_response(
-            status=200,
-            json_data={
-                "ssh_url_to_repo": "git@gitlab.com:test/test.git",
-                "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
-            },
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"message": ["Another open merge request already exists"]},
         )
-        mock_pr_response = self._mock_response(
-            status=200,
-            json_data={"message": ["Another open merge request already exists"]},
-        )
-        mock_post.side_effect = [mock_fork_response, mock_pr_response]
-
-        mock_put_patcher = patch("requests.put")
-        mock_put = mock_put_patcher.start()
-        mock_put.return_value = self._mock_response(
-            status=200, json_data={"web_url": "https://gitlab.com/test/test"},
-        )
-
-        mock_get_patcher = patch("requests.get")
-        mock_get = mock_get_patcher.start()
-        mock_get.side_effect = self.get_empty_side_effect
-
         super().test_push(branch)
-        mock_get_patcher.stop()
-        mock_put_patcher.stop()
-        mock_post_patcher.stop()
         mock_push_to_fork.stop()
 
 
-class VCSGerritTest(VCSGitTest):
+class VCSGerritTest(VCSGitUpstreamTest):
     _class = GitWithGerritRepository
     _vcs = "git"
     _sets_push = True
-
-    def add_remote_commit(self, conflict=False, rename=False):
-        # Use Git to create changed upstream repo
-        backup = self._class
-        self._class = GitRepository
-        try:
-            super().add_remote_commit(conflict, rename)
-        finally:
-            self._class = backup
 
     def fixup_repo(self, repo):
         # Create commit-msg hook, so that git-review doesn't try
