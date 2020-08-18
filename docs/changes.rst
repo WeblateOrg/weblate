@@ -1,7 +1,7 @@
 Weblate 4.2
 -----------
 
-Not yet released.
+Released on August 18th 2020.
 
 * Improved user pages and added listing of users.
 * Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0.
