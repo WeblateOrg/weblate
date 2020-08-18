@@ -396,7 +396,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             if self._sets_push:
                 self.repo.configure_remote("pullurl", "", "branch")
-                self.assertEqual(self.repo.get_config("remote.origin.pushURL"), "")
+                with self.assertRaises(RepositoryException):
+                    self.repo.get_config("remote.origin.pushURL")
                 self.repo.configure_remote("pullurl", "push", "branch")
                 self.assertEqual(self.repo.get_config("remote.origin.pushURL"), "push")
 

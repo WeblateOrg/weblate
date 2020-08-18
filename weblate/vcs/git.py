@@ -64,7 +64,10 @@ class GitRepository(Repository):
         filename = os.path.join(self.path, ".git", "config")
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
-                if config.get_value(section, key, -1) != value:
+                old = config.get_value(section, key, -1)
+                if value is None and old:
+                    config.remove_option(section, key)
+                elif old != value:
                     config.set_value(section, key, value)
 
     def check_config(self):
@@ -264,9 +267,11 @@ class GitRepository(Repository):
 
     def configure_remote(self, pull_url, push_url, branch):
         """Configure remote repository."""
-        updates = [
+        self.config_update(
             # Pull url
             ('remote "origin"', "url", pull_url),
+            # Push URL, None remove it
+            ('remote "origin"', "pushurl", push_url or None),
             # Fetch all branches (needed for clone branch)
             ('remote "origin"', "fetch", "+refs/heads/*:refs/remotes/origin/*"),
             # Disable fetching tags
@@ -274,11 +279,7 @@ class GitRepository(Repository):
             # Set branch to track
             ('branch "{0}"'.format(branch), "remote", "origin"),
             ('branch "{0}"'.format(branch), "merge", "refs/heads/{0}".format(branch)),
-        ]
-        # Push url
-        if push_url is not None:
-            updates.append(('remote "origin"', "pushurl", push_url))
-        self.config_update(*updates)
+        )
         self.branch = branch
 
     def list_branches(self, *args):
