@@ -39,7 +39,7 @@ Turn on this service by adding ``weblate.machinery.apertium.ApertiumAPYTranslati
 .. seealso::
 
     :setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_,
-    `Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-apy>`_
+    `Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_
 
 .. _aws:
 
