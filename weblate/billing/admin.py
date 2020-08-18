@@ -66,13 +66,16 @@ class BillingAdmin(WeblateModelAdmin):
     search_fields = ("projects__name",)
     filter_horizontal = ("projects", "owners")
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related("projects", "owners")
+
     def list_projects(self, obj):
         return ",".join([project.name for project in obj.all_projects])
 
     list_projects.short_description = _("Projects")
 
     def list_owners(self, obj):
-        return ",".join(obj.owners.values_list("full_name", flat=True))
+        return ",".join([owner.full_name for owner in obj.owners.all()])
 
     list_owners.short_description = _("Owners")
 
