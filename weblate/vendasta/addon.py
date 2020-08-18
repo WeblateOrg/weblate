@@ -32,7 +32,11 @@ class NotifyLexicon(BaseAddon):
         response = request(
             "get",
             url,
-            headers={"Authorization": "Token: {}".format(os.environ.get("WEBLATE_ADMIN_API_TOKEN"))},
+            headers={
+                "Authorization": "Token: {}".format(
+                    os.environ.get("WEBLATE_ADMIN_API_TOKEN")
+                )
+            },
         )
         if response.status_code != requests.codes.ok:
             LOGGER.error(
