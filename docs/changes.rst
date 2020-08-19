@@ -1,7 +1,7 @@
 Weblate 4.2.1
 -------------
 
-Not yet released.
+Released on August 21st 2020.
 
 * Fixed saving plurals for some locales in Android resources.
 * Fixed crash in the cleanup addon for some XLIFF files.
