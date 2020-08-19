@@ -952,7 +952,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 }
             )
         except Exception as error:
-            report_error(cause="Upload error")
+            report_error(cause="Upload error", print_tb=True)
             return Response(
                 data={"result": False, "detail": force_str(error)}, status=400
             )
