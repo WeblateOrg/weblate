@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-19 10:59+0200\n"
-"PO-Revision-Date: 2020-08-18 09:05+0000\n"
+"PO-Revision-Date: 2020-08-20 05:45+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -2597,12 +2597,6 @@ msgstr ""
 "controlados na interface de gerenciamento na aba :guilabel:`Backups`."
 
 #: ../../admin/backup.rst:18
-#, fuzzy
-#| msgid ""
-#| "Only PostgreSQL database is included in the automated backups. Other "
-#| "database engines have to be backed up manually. You are recommended to "
-#| "migrate to PostgreSQL as that will be the only supported database in the "
-#| "4.0 release. See :ref:`database-migration`."
 msgid ""
 "Only PostgreSQL database is included in the automated backups. Other "
 "database engines have to be backed up manually. You are recommended to "
@@ -2611,30 +2605,28 @@ msgid ""
 msgstr ""
 "Apenas o banco de dados PostgreSQL está incluído nos backups automatizados. "
 "Outros mecanismos de banco de dados devem ter seus backups feitos "
-"manualmente. Recomenda-se migrar para o PostgreSQL, pois esse será o único "
-"banco de dados suportado na versão 4.0. Consulte :ref:`database-migration`."
+"manualmente. Recomenda-se migrar para o PostgreSQL. Consulte :ref:`database-"
+"migration`."
 
 #: ../../admin/backup.rst:23
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
+"Os backups que usam o Borg são incrementais e o Weblate é configurado para "
+"manter os seguintes backups:"
 
 #: ../../admin/backup.rst:25
-#, fuzzy
-#| msgid "Manual backup"
 msgid "14 daily backups"
-msgstr "Backup manual"
+msgstr "14 backups diários"
 
 #: ../../admin/backup.rst:26
 msgid "8 weekly backups"
-msgstr ""
+msgstr "8 backups semanais"
 
 #: ../../admin/backup.rst:27
-#, fuzzy
-#| msgid "Manual backup"
 msgid "6 monthly backups"
-msgstr "Backup manual"
+msgstr "6 backups mensais"
 
 #: ../../admin/backup.rst:34
 msgid "Using Weblate provisioned backup storage"
@@ -2770,12 +2762,16 @@ msgid ""
 "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
 "dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Copie a configuração do Weblate (:file:`backups/settings.py`, veja :ref"
+":`backup-dumps`) até o local correto, veja :ref:`configuration`."
 
 #: ../../admin/backup.rst:93
 msgid ""
 "Copy the whole restored data dir to location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Copie todo o diretório de dados restaurados para o local configurado por "
+":setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:95
 msgid "The Borg session might look like:"
@@ -6881,7 +6877,7 @@ msgstr "Pull request de GitHub do ramo"
 
 #: ../../admin/continuous.rst:285 ../../admin/continuous.rst:289
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "URL de SSH [#empty]_"
 
 #: ../../admin/continuous.rst:287
 msgid "GitLab merge request from fork"
@@ -6897,7 +6893,7 @@ msgstr "Merge request de GitLab do ramo"
 
 #: ../../admin/continuous.rst:292
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr ""
+msgstr "Pode estar vazia caso o :ref:`component-repo` tenha suporte a push."
 
 #: ../../admin/continuous.rst:297
 msgid ""
@@ -7445,10 +7441,12 @@ msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
 msgstr ""
+"Dependendo da sua configuração e experiência, escolha um método de "
+"instalação apropriado para você:"
 
 #: ../../admin/install.rst:24
 msgid ":ref:`quick-docker`, recommended for production setups."
-msgstr ""
+msgstr ":ref:`quick-docker`, recomendado para configurações de produção."
 
 #: ../../admin/install.rst:26
 msgid "Virtualenv installation, recommended for production setups:"
@@ -15412,50 +15410,36 @@ msgid ":ref:`component-name`"
 msgstr ":ref:`component-name`"
 
 #: ../../api.rst:1035
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-slug`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-slug`"
 
 #: ../../api.rst:1037
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-repo`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-repo`"
 
 #: ../../api.rst:1038
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-git_export`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-git_export`"
 
 #: ../../api.rst:1039
-#, fuzzy
-#| msgid ":ref:`component-push_branch`"
 msgid ":ref:`component-branch`"
-msgstr ":ref:`component-push_branch`"
+msgstr ":ref:`component-branch`"
 
 #: ../../api.rst:1041 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
 msgstr ":ref:`component-filemask`"
 
 #: ../../api.rst:1042
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-template`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-template`"
 
 #: ../../api.rst:1043
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-edit_template`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-edit_template`"
 
 #: ../../api.rst:1044
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-intermediate`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-intermediate`"
 
 #: ../../api.rst:1045 ../../devel/sphinx.rst:36
 msgid ":ref:`component-new_base`"
@@ -15466,152 +15450,104 @@ msgid ":ref:`component-file_format`"
 msgstr ":ref:`component-file_format`"
 
 #: ../../api.rst:1047
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-license`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-license`"
 
 #: ../../api.rst:1048
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-agreement`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-agreement`"
 
 #: ../../api.rst:1049
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-new_lang`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-new_lang`"
 
 #: ../../api.rst:1050
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-language_code_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-language_code_style`"
 
 #: ../../api.rst:1052 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
 msgstr ":ref:`component-check_flags`"
 
 #: ../../api.rst:1053
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-priority`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-priority`"
 
 #: ../../api.rst:1054
-#, fuzzy
-#| msgid ":ref:`component-check_flags`"
 msgid ":ref:`component-enforced_checks`"
-msgstr ":ref:`component-check_flags`"
+msgstr ":ref:`component-enforced_checks`"
 
 #: ../../api.rst:1055
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-restricted`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-restricted`"
 
 #: ../../api.rst:1056
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-repoweb`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-repoweb`"
 
 #: ../../api.rst:1057
-#, fuzzy
-#| msgid ":ref:`component-push`"
 msgid ":ref:`component-report_source_bugs`"
-msgstr ":ref:`component-push`"
+msgstr ":ref:`component-report_source_bugs`"
 
 #: ../../api.rst:1058
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_style`"
 
 #: ../../api.rst:1059
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-commit_message`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-commit_message`"
 
 #: ../../api.rst:1060
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-add_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-add_message`"
 
 #: ../../api.rst:1061
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-delete_message`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-delete_message`"
 
 #: ../../api.rst:1062
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_message`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_message`"
 
 #: ../../api.rst:1063
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-addon_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-addon_message`"
 
 #: ../../api.rst:1064
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgid ":ref:`component-allow_translation_propagation`"
-msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
+msgstr ":ref:`component-allow_translation_propagation`"
 
 #: ../../api.rst:1065
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-enable_suggestions`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-enable_suggestions`"
 
 #: ../../api.rst:1066
-#, fuzzy
-#| msgid ":ref:`component-push`"
 msgid ":ref:`component-suggestion_voting`"
-msgstr ":ref:`component-push`"
+msgstr ":ref:`component-suggestion_voting`"
 
 #: ../../api.rst:1067
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-suggestion_autoaccept`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-suggestion_autoaccept`"
 
 #: ../../api.rst:1068
-#, fuzzy
-#| msgid ":ref:`component-push_branch`"
 msgid ":ref:`component-push_on_commit`"
-msgstr ":ref:`component-push_branch`"
+msgstr ":ref:`component-push_on_commit`"
 
 #: ../../api.rst:1069
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-commit_pending_age`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-commit_pending_age`"
 
 #: ../../api.rst:1070
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-auto_lock_error`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-auto_lock_error`"
 
 #: ../../api.rst:1071
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-language_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-language_regex`"
 
 #: ../../api.rst:1072
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-variant_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-variant_regex`"
 
 #: ../../api.rst:1073
 msgid ""
@@ -16680,10 +16616,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 4.2.1"
-msgstr "Chaves do Weblate"
+msgstr "Weblate 4.2.1"
 
 #: ../../changes.rst:4
 msgid "Released on August 21st 2020."
