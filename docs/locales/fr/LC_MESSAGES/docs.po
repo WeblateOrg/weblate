@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-17 13:06+0200\n"
-"PO-Revision-Date: 2020-08-04 02:03+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2020-08-19 08:57+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -417,10 +417,14 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"Un utilisateur doit être membre d’un groupe lié au projet ou de l’un des "
+"composants. Il suffit d’être membre, aucune permission spécifique n’est "
+"nécessaire pour accéder à un projet (ceci est utilisé dans le groupe par "
+"défaut `Lecteurs`, voir :ref:`default-groups`)."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
-msgstr ""
+msgstr "Contrôle de l’accès à un composant"
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -429,24 +433,32 @@ msgid ""
 "the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
+"Un utilisateur peut accéder au composant non restreint dès qu’il peut "
+"accéder au projet le contenant. Avec l’option :ref:`composant-restricted`, l’"
+"accès au composant nécessite une autorisation explicite au composant (ou à "
+"la liste des composants contenant le contenant)."
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr ""
+msgstr "Gestion des utilisateurs et des groupes"
 
 #: ../../admin/access.rst:206
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
 msgstr ""
+"Tous les utilisateurs et groupes peuvent être gérés à l’aide de l’interface "
+"d’administration Django, disponible sous l’URL :file:`/admin/`."
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
-msgstr ""
+msgstr "Gestion du contrôle d’accès par projet"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgstr ""
+"Cette fonctionnalité ne fonctionne que pour les projets contrôlés par ACL, "
+"voir :ref:`acl`."
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -454,84 +466,101 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+"Les utilisateurs disposant du privilège :guilabel:`Peut gérer les règles ACL "
+"pour un projet` (voir :ref:`privileges`) peuvent également gérer les "
+"utilisateurs dans les projets dont le contrôle d’accès est activé via la "
+"page de projet. L’interface vous permet de :"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "Ajouter des utilisateurs existants au projet"
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "Inviter de nouveaux utilisateurs au projet"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "Modifier les droits des utilisateurs"
 
 #: ../../admin/access.rst:225
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "Révoquer l’accès aux utilisateurs"
 
 #: ../../admin/access.rst:227
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
 msgstr ""
+"La gestion utilisateur est disponible dans le menu :guilabel:`Gérer` d’un "
+"projet :"
 
 #: ../../admin/access.rst:233
 msgid ":ref:`acl`"
-msgstr ""
+msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:238
 msgid "Predefined groups"
-msgstr ""
+msgstr "Groupes prédéfinis"
 
 #: ../../admin/access.rst:240
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
 msgstr ""
+"Weblate est livré avec un ensemble prédéfini de groupes pour un projet, où "
+"vous pouvez affecter des utilisateurs."
 
 #: ../../admin/access.rst:245
 msgid "Has all permissions available in the project."
-msgstr ""
+msgstr "A tous les droits disponibles dans le projet."
 
 #: ../../admin/access.rst:249
 msgid "Can manage glossary (add or remove entries, or upload)."
 msgstr ""
+"Peut gérer le glossaire (ajouter ou supprimer des entrées, ou téléverser)."
 
 #: ../../admin/access.rst:253
 msgid "Can manage translated languages - add or remove translations."
 msgstr ""
+"Peut gérer les langues traduites — ajouter ou supprimer des traductions."
 
 #: ../../admin/access.rst:257
 msgid ""
 "Can manage screenshots - add or remove them, and associate them to source "
 "strings."
 msgstr ""
+"Peut gérer les captures d’écran — les ajouter ou les supprimer, et les "
+"associer à des chaînes de caractères source."
 
 #: ../../admin/access.rst:262
 msgid ""
 "Can edit translation templates in :ref:`monolingual` and source string info."
 msgstr ""
+"Peut modifier des modèles de traduction dans :ref:`monolingual` et les "
+"informations de chaîne source."
 
 #: ../../admin/access.rst:267
 msgid "Can translate the project, and upload translations made offline."
 msgstr ""
+"Peut traduire le projet et téléverser des traductions effectuées hors ligne."
 
 #: ../../admin/access.rst:271
 msgid "Can manage VCS and access the exported repository."
 msgstr ""
+"Peut gérer le système de contrôle des versions et accéder au référentiel "
+"exporté."
 
 #: ../../admin/access.rst:275
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Peut approuver les traductions lors de la révision."
 
 #: ../../admin/access.rst:279
 msgid "Can access billing info (see :ref:`billing`)."
-msgstr ""
+msgstr "Peut accéder aux informations de facturation (voir :ref:`billing`)."
 
 #: ../../admin/access.rst:285
 msgid "Custom access control"
-msgstr ""
+msgstr "Contrôle d’accès personnalisé"
 
 #: ../../admin/access.rst:287
 msgid ""
@@ -542,6 +571,14 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"En choisissant :guilabel:`Personnalisé` comme :guilabel:`Contrôle d’accès`, "
+"Weblate cessera de gérer les accès pour un projet donné, et tous les "
+"utilisateurs et groupes pourront être gérés en utilisant l’interface d’"
+"administration de Django. Cela peut être utilisé pour définir un contrôle d’"
+"accès plus complexe, ou pour mettre en place une politique d’accès partagé "
+"pour tous les projets dans une seule instance de Weblate. Si vous souhaitez "
+"activer cette fonction pour tous les projets par défaut, veuillez configurer "
+"le paramètre :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:296
 msgid ""
@@ -549,22 +586,27 @@ msgid ""
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
 msgstr ""
+"En activant cette fonction, Weblate supprimera toutes les :ref:`acl` qu’il a "
+"créés pour ce projet. Si vous faites cela sans l’autorisation de l’"
+"administrateur de l’instance, vous perdrez instantanément votre accès pour "
+"gérer le projet."
 
 #: ../../admin/access.rst:303
 msgid "Default groups and roles"
-msgstr ""
+msgstr "Groupes et rôles par défaut"
 
 #: ../../admin/access.rst:306
 msgid "List of privileges"
-msgstr ""
+msgstr "Liste de privilèges"
 
 #: ../../admin/access.rst:309
 msgid "Billing (see :ref:`billing`)"
-msgstr ""
+msgstr "Facturation (voir :ref:`billing`)"
 
 #: ../../admin/access.rst:309
 msgid "View billing info [`Administration`, `Billing`]"
 msgstr ""
+"Afficher les informations de facturation [`Administration`, `Facturation`]"
 
 #: ../../admin/access.rst:312 ../../api.rst:1810
 msgid "Changes"
@@ -572,7 +614,7 @@ msgstr "Modifications"
 
 #: ../../admin/access.rst:312
 msgid "Download changes [`Administration`]"
-msgstr ""
+msgstr "Télécharger les modifications [`Administration`]"
 
 #: ../../admin/access.rst:317 ../../user/translating.rst:60
 msgid "Comments"
@@ -583,6 +625,8 @@ msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Publier un commentaire [`Administration`,` Modifier la source`, `Utilisateur "
+"expérimenté`,` Vérifier les chaînes`, `Traduire`]"
 
 #: ../../admin/access.rst:317
 msgid "Delete comment [`Administration`]"
@@ -609,20 +653,28 @@ msgstr "Glossaire"
 #: ../../admin/access.rst:325
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Ajouter une entrée de glossaire [`Administration`,` Gérer le glossaire`, `"
+"Utilisateur expérimenté`]"
 
 #: ../../admin/access.rst:327
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Modifier une entrée de glossaire [`Administration`,` Gérer le glossaire`, `"
+"Utilisateur expérimenté`]"
 
 #: ../../admin/access.rst:329
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Supprimer une entrée de glossaire [`Administration`,` Gérer le glossaire`, `"
+"Utilisateur expérimenté`]"
 
 #: ../../admin/access.rst:331
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Téléverser des entrées de glossaire [`Administration`,` Gérer le glossaire`, "
+"`Utilisateur expérimenté`]"
 
 #: ../../admin/access.rst:334
 msgid "Machinery"
@@ -652,7 +704,7 @@ msgstr "Rapports"
 
 #: ../../admin/access.rst:342
 msgid "Download reports [`Administration`]"
-msgstr ""
+msgstr "Télécharger des rapports [`Administration`]"
 
 #: ../../admin/access.rst:349 ../../api.rst:1850 ../../user/translating.rst:205
 msgid "Screenshots"
@@ -661,14 +713,18 @@ msgstr "Captures d’écran"
 #: ../../admin/access.rst:345
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
 msgstr ""
+"Ajouter une capture d’écran [`Administration`,` Gérer les captures d’écran`]"
 
 #: ../../admin/access.rst:347
 msgid "Edit screenshot [`Administration`, `Manage screenshots`]"
 msgstr ""
+"Modifier une capture d’écran [`Administration`,` Gérer les captures d’écran`]"
 
 #: ../../admin/access.rst:349
 msgid "Delete screenshot [`Administration`, `Manage screenshots`]"
 msgstr ""
+"Supprimer une capture d'écran [`Administration`,` Gérer les captures "
+"d’écran`]"
 
 #: ../../admin/access.rst:352
 msgid "Source strings"
@@ -677,6 +733,8 @@ msgstr "Chaînes sources"
 #: ../../admin/access.rst:352
 msgid "Edit source string info [`Administration`, `Edit source`]"
 msgstr ""
+"Modifier les informations de la chaîne source [`Administration`,` Modifier "
+"la source`]"
 
 #: ../../admin/access.rst:365
 msgid "Strings"
@@ -691,28 +749,34 @@ msgid ""
 "Ignore failing checks [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"Ignorer les vérifications échouées [`Administration`,` Modifier la source`, `"
+"Utilisateur expérimenté`,` Vérifier les chaînes`, `Traduire`]"
 
 #: ../../admin/access.rst:359
 msgid ""
 "Edit strings [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Modifier les chaînes [`Administration`,` Modifier la source`, `Utilisateur "
+"expérimenté`,` Vérifier les chaînes`, `Traduire`]"
 
 #: ../../admin/access.rst:361
 msgid "Review strings [`Administration`, `Review strings`]"
-msgstr ""
+msgstr "Réviser les chaînes [`Administration`,` Réviser les chaînes`]"
 
 #: ../../admin/access.rst:363
-#, fuzzy
-#| msgid "Edit string when suggestions are enforced"
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
-msgstr "Modifier une chaîne lorsque les suggestions sont appliquées"
+msgstr ""
+"Modifier une chaîne lorsque les suggestions sont appliquées [`Administration`"
+", `Réviser les chaînes`]"
 
 #: ../../admin/access.rst:365
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgstr ""
+"Modifier les chaînes source [`Administration`,` Modifier la source`, `"
+"Utilisateur expérimenté`]"
 
 #: ../../admin/access.rst:374 ../../user/translating.rst:46
 #: ../../workflows.rst:44
@@ -724,12 +788,17 @@ msgid ""
 "Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Accepter les suggestions [`Administration`,` Modifier la source`, `"
+"Utilisateur expérimenté`,` Réviser les chaînes`, `Traduire`]"
 
 #: ../../admin/access.rst:370
 msgid ""
 "Add suggestions [`Add suggestion`, `Administration`, `Edit source`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
+"Ajouter des suggestions [`Ajouter une suggestion`,` Administration`, `"
+"Modifier la source`,` Utilisateur expérimenté`, `Réviser les chaînes`,` "
+"Traduire`]"
 
 #: ../../admin/access.rst:372
 msgid "Delete suggestions [`Administration`]"
@@ -740,54 +809,60 @@ msgid ""
 "Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Votez sur les suggestions [`Administration`,` Modifier la source`, `"
+"Utilisateur expérimenté`,` Vérifier les chaînes`, `Traduire`]"
 
 #: ../../admin/access.rst:383 ../../api.rst:1478
 msgid "Translations"
 msgstr "Traductions"
 
 #: ../../admin/access.rst:377
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 "Start new translation [`Administration`, `Manage languages`, `Power user`]"
-msgstr "Débuter la traduction dans une nouvelle langue"
+msgstr ""
+"Démarrer une nouvelle traduction [`Administration`,` Gérer les langues`, `"
+"Utilisateur expérimenté`]"
 
 #: ../../admin/access.rst:379
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgstr ""
+"Effectuer une traduction automatique [`Administration`,` Gérer les langues`]"
 
 #: ../../admin/access.rst:381
 msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgstr ""
+"Supprimer les traductions existantes [`Administration`,` Gérer les langues`]"
 
 #: ../../admin/access.rst:383
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 "Start translation into a new language [`Administration`, `Manage languages`]"
-msgstr "Débuter la traduction dans une nouvelle langue"
+msgstr ""
+"Démarrer la traduction dans une nouvelle langue [`Administration`,` Gérer "
+"les langues`]"
 
 #: ../../admin/access.rst:390
 msgid "Uploads"
-msgstr ""
+msgstr "Téléversements"
 
 #: ../../admin/access.rst:386
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "Define author of translation upload [`Administration`]"
-msgstr "Définir l’auteur de la traduction téléversée"
+msgstr "Définir l’auteur des traductions téléversées [`Administration`]"
 
 #: ../../admin/access.rst:388
 msgid ""
 "Overwrite existing strings with an upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
+"Remplacer les chaînes existantes en téléversant [`Administration`,` Modifier "
+"la source`, `Utilisateur expérimenté`,` Réviser les chaînes`, `Traduire`]"
 
 #: ../../admin/access.rst:390
 msgid ""
 "Upload translation strings [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"Téléverser des chaînes de traduction [`Administration`,` Modifier la source`"
+", `Utilisateur expérimenté`,` Réviser les chaînes`, `Traduire`]"
 
 #: ../../admin/access.rst:403
 msgid "VCS"
@@ -798,30 +873,32 @@ msgid ""
 "Access the internal repository [`Access repository`, `Administration`, "
 "`Manage repository`, `Power user`]"
 msgstr ""
+"Accédez au référentiel interne [`Accès au dépôt`,` Administration`, `Gestion "
+"du dépôt`,`Utilisateur expérimenté`]"
 
 #: ../../admin/access.rst:395
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid ""
 "Commit changes to the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "Archiver les modifications dans le dépôt interne"
+msgstr ""
+"Valider les modifications dans le dépôt interne [`Administration`,` Gérer le "
+"dépôt`]"
 
 #: ../../admin/access.rst:397
-#, fuzzy
-#| msgid "Push change from the internal repository"
 msgid ""
 "Push change from the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "Pousser les modifications depuis le dépôt local"
+msgstr ""
+"Pousser les modifications depuis le dépôt local [`Administration`, `Gestion "
+"du dépôt`]"
 
 #: ../../admin/access.rst:399
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
 msgid ""
 "Reset changes in the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "Réinitialiser les modifications dans le dépôt interne"
+msgstr ""
+"Réinitialiser les modifications dans le dépôt interne [`Administration`, `"
+"Gestion du dépôt`]"
 
 #: ../../admin/access.rst:401
 msgid ""
