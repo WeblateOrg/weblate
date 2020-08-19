@@ -28,8 +28,8 @@ Installing on Debian and Ubuntu
     # Web server option 2: Apache with ``mod_wsgi``
     apt install apache2 libapache2-mod-wsgi
 
-    # Caching backend: Redis
-    apt install redis-server
+    # Caching backend: Redis and Rabbitmq
+    apt install redis-server rabbitmq-server
 
     # Database server: PostgreSQL
     apt install postgresql postgresql-contrib
