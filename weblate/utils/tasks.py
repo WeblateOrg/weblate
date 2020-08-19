@@ -107,6 +107,7 @@ def database_backup():
         )
     except subprocess.CalledProcessError as error:
         report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
+        raise
 
 
 @app.on_after_finalize.connect
