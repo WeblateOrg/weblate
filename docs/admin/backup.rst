@@ -20,6 +20,12 @@ the cloud. The backups can be controlled in the management interface on the
    migrate to PostgreSQL, see :ref:`database-setup` and
    :ref:`database-migration`.
 
+The backups using Borg are incremental and Weblate is configured to keep following backups:
+
+* 14 daily backups
+* 8 weekly backups
+* 6 monthly backups
+
 .. image:: /images/backups.png
 
 .. _cloudbackup:
