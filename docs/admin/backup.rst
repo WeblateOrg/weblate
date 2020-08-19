@@ -17,8 +17,8 @@ the cloud. The backups can be controlled in the management interface on the
 
    Only PostgreSQL database is included in the automated backups. Other
    database engines have to be backed up manually. You are recommended to
-   migrate to PostgreSQL as that will be the only supported database in the
-   4.0 release. See :ref:`database-migration`.
+   migrate to PostgreSQL, see :ref:`database-setup` and
+   :ref:`database-migration`.
 
 .. image:: /images/backups.png
 
