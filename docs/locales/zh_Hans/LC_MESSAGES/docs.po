@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-17 13:06+0200\n"
 "PO-Revision-Date: 2020-08-19 08:57+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -5799,37 +5799,37 @@ msgid ""
 "There is infrastructure in place so that your translation closely follows "
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
-msgstr ""
+msgstr "有适当的基础结构，因此您的翻译紧随开发。这样，翻译人员可以一直进行翻译，而不必在发布之前处理大量的新文本。"
 
 #: ../../admin/continuous.rst:10
 msgid "This is the process:"
-msgstr ""
+msgstr "这是过程："
 
 #: ../../admin/continuous.rst:12
 msgid "Developers make changes and push them to the VCS repository."
-msgstr ""
+msgstr "开发人员进行更改并将其推送到 VCS 仓库。"
 
 #: ../../admin/continuous.rst:13
 msgid ""
 "Optionally the translation files are updated (this depends on the file "
 "format, see :ref:`translations-update`)."
-msgstr ""
+msgstr "可以选择更新翻译文件（这取决于文件格式，请参阅 :ref:`translations-update`）。"
 
 #: ../../admin/continuous.rst:14
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
-msgstr ""
+msgstr "Weblate 从 VCS 仓库中拉取更改，请参阅 :ref:`update-vcs`。"
 
 #: ../../admin/continuous.rst:15
 msgid ""
 "Once Weblate detects changes in translations, translators are notified based "
 "on their subscription settings."
-msgstr ""
+msgstr "一旦 Weblate 检测到翻译更改，便会根据翻译者的订阅设置通知他们。"
 
 #: ../../admin/continuous.rst:16
 msgid ""
 "Translators submit translations using the Weblate web interface, or upload "
 "offline changes."
-msgstr ""
+msgstr "翻译者使用 Weblate Web 界面提交翻译，或上传离线更改。"
 
 #: ../../admin/continuous.rst:17
 msgid ""
@@ -5837,10 +5837,12 @@ msgid ""
 "repository (see :ref:`lazy-commit`) and pushes them back if it has "
 "permissions to do so (see :ref:`push-changes`)."
 msgstr ""
+"翻译者完成后，Weblate 会将更改提交到本地仓库（请参阅 :ref:`lazy-commit`），如果有权限将其推回（请参阅 :ref:`push-"
+"changes`）。"
 
 #: ../../admin/continuous.rst:45
 msgid "Updating repositories"
-msgstr ""
+msgstr "更新仓库"
 
 #: ../../admin/continuous.rst:47
 msgid ""
@@ -23855,7 +23857,7 @@ msgstr ""
 
 #: ../../formats.rst:265 ../../workflows.rst:24
 msgid "Translation states"
-msgstr ""
+msgstr "翻译状态"
 
 #: ../../formats.rst:269
 msgid "Weblate ignored the state attribute prior to the 3.3 release."
@@ -28620,45 +28622,45 @@ msgstr ""
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
-msgstr ""
+msgstr "Weblate 客户端"
 
 #: ../../wlc.rst:14
 msgid ""
 "There has been full wlc utility support ever since Weblate 2.7. If you are "
 "using an older version some incompatibilities with the API might occur."
-msgstr ""
+msgstr "自从 Weblate 2.7 以来，已经有完整的 wlc 实用程序支持。如果您使用的是旧版本，则可能会与 API 发生某些不兼容。"
 
 #: ../../wlc.rst:20
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :mod:`wlc`:"
-msgstr ""
+msgstr "Weblate 客户端是单独提供的，包括 Python 模块。要使用下面的命令，您需要安装 :mod:`wlc`："
 
 #: ../../wlc.rst:28
 msgid "Getting started"
-msgstr ""
+msgstr "入门"
 
 #: ../../wlc.rst:30
 msgid ""
 "The wlc configuration is stored in ``~/.config/weblate``, please create it "
 "to match your environment:"
-msgstr ""
+msgstr "wlc 配置存储在 ``~/.config/weblate`` 中，请创建它以匹配您的环境："
 
 #: ../../wlc.rst:42
 msgid "You can then invoke commands on the default server:"
-msgstr ""
+msgstr "然后，您可以在默认服务器上调用命令："
 
 #: ../../wlc.rst:51
 msgid ":ref:`wlc-config`"
-msgstr ""
+msgstr ":ref:`wlc-config`"
 
 #: ../../wlc.rst:54
 msgid "Synopsis"
-msgstr ""
+msgstr "概要"
 
 #: ../../wlc.rst:60
 msgid "Commands actually indicate which operation should be performed."
-msgstr ""
+msgstr "命令实际上指示应该执行哪个操作。"
 
 #: ../../wlc.rst:63
 msgid "Description"
@@ -28670,20 +28672,22 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
+"Weblate 客户端是一个 Python 库和命令行实用程序，可使用 :ref:`api` 远程管理 Weblate。命令行实用程序可以作为 "
+":command:`wlc` 调用，并且内置在 :mod:`wlc` 上。"
 
 #: ../../wlc.rst:70
 msgid "Site wide options"
-msgstr ""
+msgstr "网站范围内的选项"
 
 #: ../../wlc.rst:72
 msgid ""
 "The program accepts the following options for a whole instance, which must "
 "be entered before any subcommand."
-msgstr ""
+msgstr "程序为整个实例接受以下选项，必须在任何子命令之前输入这些选项。"
 
 #: ../../wlc.rst:76
 msgid "Specify the output format."
-msgstr ""
+msgstr "指定输出格式。"
 
 #: ../../wlc.rst:80
 msgid ""
@@ -28691,6 +28695,8 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
+"指定 API URL。覆盖在配置文件中找到的任何值，请参阅 :ref:`wlc-config`。该网址应以 ``/api/`` 结尾，例如 "
+"``https://hosted.weblate.org/api/``。"
 
 #: ../../wlc.rst:85
 msgid ""
@@ -28698,180 +28704,181 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
+"指定要使用的 API 用户密钥。覆盖在配置文件中找到的任何值，请参阅 :ref:`wlc-config`。您可以在 Weblate 的个人资料中找到密钥。"
 
 #: ../../wlc.rst:90
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
-msgstr ""
+msgstr "覆盖配置文件路径，请参阅 :ref:`wlc-config`。"
 
 #: ../../wlc.rst:94
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
-msgstr ""
+msgstr "覆盖正在使用的配置文件部分，请参阅 :ref:`wlc-config`。"
 
 #: ../../wlc.rst:97
 msgid "Subcommands"
-msgstr ""
+msgstr "子命令"
 
 #: ../../wlc.rst:99
 msgid "The following subcommands are available:"
-msgstr ""
+msgstr "以下子命令可用："
 
 #: ../../wlc.rst:103
 msgid "Prints the current version."
-msgstr ""
+msgstr "打印当前版本。"
 
 #: ../../wlc.rst:107
 msgid "Lists used languages in Weblate."
-msgstr ""
+msgstr "列出 Weblate 中使用的语言。"
 
 #: ../../wlc.rst:111
 msgid "Lists projects in Weblate."
-msgstr ""
+msgstr "列出 Weblate 中的项目。"
 
 #: ../../wlc.rst:115
 msgid "Lists components in Weblate."
-msgstr ""
+msgstr "列出 Weblate 中的组件。"
 
 #: ../../wlc.rst:119
 msgid "Lists translations in Weblate."
-msgstr ""
+msgstr "列出 Weblate 中的翻译。"
 
 #: ../../wlc.rst:123
 msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
+msgstr "显示 Weblate 对象（翻译，组件或项目）。"
 
 #: ../../wlc.rst:127
 msgid "Lists Weblate object (translation, component or project)."
-msgstr ""
+msgstr "列出 Weblate 对象（翻译，组件或项目）。"
 
 #: ../../wlc.rst:131
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
-msgstr ""
+msgstr "提交在 Weblate 对象（翻译，组件或项目）中所做的更改。"
 
 #: ../../wlc.rst:135
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
-msgstr ""
+msgstr "将远程仓库更改拉入 Weblate 对象（翻译，组件或项目）。"
 
 #: ../../wlc.rst:139
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
-msgstr ""
+msgstr "将 Weblate 对象更改推送到远程仓库（翻译，组件或项目）。"
 
 #: ../../wlc.rst:145 ../../wlc.rst:201
 msgid "Supported since wlc 0.7."
-msgstr ""
+msgstr "自 wlc 0.7 起受支持。"
 
 #: ../../wlc.rst:147
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
-msgstr ""
+msgstr "重置 Weblate 对象中的更改以匹配远程存储库（翻译，组件或项目）。"
 
 #: ../../wlc.rst:153 ../../wlc.rst:218
 msgid "Supported since wlc 0.9."
-msgstr ""
+msgstr "从 wlc 0.9 开始受支持。"
 
 #: ../../wlc.rst:155
 msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
-msgstr ""
+msgstr "删除 Weblate 对象中所有未跟踪的更改以匹配远程仓库（翻译，组件或项目）。"
 
 #: ../../wlc.rst:159
 msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
-msgstr ""
+msgstr "显示给定 Weblate 对象（翻译，组件或项目）的仓库状态。"
 
 #: ../../wlc.rst:163
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
-msgstr ""
+msgstr "显示给定 Weblate 对象（翻译，组件或项目）的详细统计信息。"
 
 #: ../../wlc.rst:169 ../../wlc.rst:177 ../../wlc.rst:185
 msgid "Supported since wlc 0.5."
-msgstr ""
+msgstr "自 wlc 0.5 起受支持。"
 
 #: ../../wlc.rst:171
 msgid "Displays lock status."
-msgstr ""
+msgstr "显示锁定状态。"
 
 #: ../../wlc.rst:179
 msgid "Locks component from further translation in Weblate."
-msgstr ""
+msgstr "锁定组件以防止在 Weblate 中进一步翻译。"
 
 #: ../../wlc.rst:187
 msgid "Unlocks translation of Weblate component."
-msgstr ""
+msgstr "解锁 Weblate 组件的翻译。"
 
 #: ../../wlc.rst:193
 msgid "Supported since wlc 0.7 and Weblate 2.10."
-msgstr ""
+msgstr "从 wlc 0.7 和 Weblate 2.10 开始受支持。"
 
 #: ../../wlc.rst:195
 msgid "Displays changes for a given object."
-msgstr ""
+msgstr "显示给定对象的更改。"
 
 #: ../../wlc.rst:203
 msgid "Downloads a translation file."
-msgstr ""
+msgstr "下载翻译文件。"
 
 #: ../../wlc.rst:207
 msgid ""
 "Converts file format, if unspecified no conversion happens on the server and "
 "the file is downloaded as is to the repository."
-msgstr ""
+msgstr "转换文件格式，如果未指定，则在服务器上不进行任何转换，并且将文件原样下载到仓库中。"
 
 #: ../../wlc.rst:212
 msgid ""
 "Specifies file to save output in, if left unspecified it is printed to "
 "stdout."
-msgstr ""
+msgstr "指定要保存输出的文件，如果未指定，则将其打印到 stdout。"
 
 #: ../../wlc.rst:220
 msgid "Uploads a translation file."
-msgstr ""
+msgstr "上传翻译文件。"
 
 #: ../../wlc.rst:224
 msgid "Overwrite existing translations upon uploading."
-msgstr ""
+msgstr "上传时覆盖现有翻译。"
 
 #: ../../wlc.rst:228
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
-msgstr ""
+msgstr "从中读取内容的文件，如果未指定，则从 stdin 中读取。"
 
 #: ../../wlc.rst:233
 msgid "Configuration files"
-msgstr ""
+msgstr "配置文件"
 
 #: ../../wlc.rst:235
 msgid ":file:`.weblate`"
-msgstr ""
+msgstr ":file:`.weblate`"
 
 #: ../../wlc.rst:236
 msgid "Per project configuration file"
-msgstr ""
+msgstr "每个项目的配置文件"
 
 #: ../../wlc.rst:237
 msgid ":file:`~/.config/weblate`"
-msgstr ""
+msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:238
 msgid "User configuration file"
-msgstr ""
+msgstr "用户配置文件"
 
 #: ../../wlc.rst:240
 msgid ":file:`/etc/xdg/weblate`"
-msgstr ""
+msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:240
 msgid "System wide configuration file"
-msgstr ""
+msgstr "系统范围的配置文件"
 
 #: ../../wlc.rst:242
 msgid ""
@@ -28879,32 +28886,34 @@ msgid ""
 "config files by environment variables ``XDG_CONFIG_HOME`` or "
 "``XDG_CONFIG_DIRS``."
 msgstr ""
+"该程序遵循 XDG 规范，因此您可以通过环境变量 ``XDG_CONFIG_HOME`` 或 ``XDG_CONFIG_DIRS`` "
+"来调整配置文件的位置。"
 
 #: ../../wlc.rst:245
 msgid ""
 "Following settings can be configured in the ``[weblate]`` section (you can "
 "customize this by :option:`--config-section`):"
-msgstr ""
+msgstr "可以在 ``[weblate]`` 部分中配置以下设置（您可以通过 :option:`--config-section` 进行自定义）："
 
 #: ../../wlc.rst:250
 msgid "API KEY to access Weblate."
-msgstr ""
+msgstr "用于访问 Weblate 的 API KEY。"
 
 #: ../../wlc.rst:254
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
-msgstr ""
+msgstr "API 服务器网址，默认为 ``http://127.0.0.1:8000/api/``。"
 
 #: ../../wlc.rst:258
 msgid "Path to the default translation - component or project."
-msgstr ""
+msgstr "默认翻译的路径 —— 组件或项目。"
 
 #: ../../wlc.rst:260
 msgid "The configuration file is an INI file, for example:"
-msgstr ""
+msgstr "配置文件是一个 INI 文件，例如："
 
 #: ../../wlc.rst:269
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
-msgstr ""
+msgstr "另外，API 密钥可以存储在 ``[keys]`` 部分中："
 
 #: ../../wlc.rst:276
 msgid ""
@@ -28912,27 +28921,28 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that wlc knows which "
 "server it should talk to."
 msgstr ""
+"这样，您就可以在 VCS 仓库中使用 :file:`.weblate` 配置时，将密钥存储在个人设置中，以便 wlc 知道它应该与哪个服务器通信。"
 
 #: ../../wlc.rst:281
 msgid "Examples"
-msgstr ""
+msgstr "示例"
 
 #: ../../wlc.rst:283
 msgid "Print current program version:"
-msgstr ""
+msgstr "打印当前程序版本："
 
 #: ../../wlc.rst:290
 msgid "List all projects:"
-msgstr ""
+msgstr "列出所有项目："
 
 #: ../../wlc.rst:302
 msgid "You can also designate what project wlc should work on:"
-msgstr ""
+msgstr "您还可以指定 wlc 应该从事的项目："
 
 #: ../../wlc.rst:329
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
-msgstr ""
+msgstr "通过此设置，可以轻松地提交当前项目中的未决更改："
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
@@ -28966,7 +28976,7 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user that has a :guilabel:`Translate` permission for the project."
 msgstr ""
-"在以下各章中，*任何用户*都是指有权访问翻译的用户。如果项目是公共项目，则可以是任何经过身份验证的用户，也可以是具有项目 "
+"在以下各章中，*任何用户* 都是指有权访问翻译的用户。如果项目是公共项目，则可以是任何经过身份验证的用户，也可以是具有项目 "
 ":guilabel:`Translate` 权限的用户。"
 
 #: ../../workflows.rst:26
@@ -29032,7 +29042,7 @@ msgstr "这是小型团队最常用的设置，任何人都可以直接翻译。
 
 #: ../../workflows.rst:51
 msgid "*Any user* can edit translations."
-msgstr "*任何用户*都可以编辑翻译。"
+msgstr "*任何用户* 都可以编辑翻译。"
 
 #: ../../workflows.rst:52
 msgid ""
@@ -29071,7 +29081,7 @@ msgstr "翻译组"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Or `Translate` with :ref:`privileges`."
-msgstr "或使用 :ref:`privileges` 进行`翻译`。"
+msgstr "或使用 :ref:`privileges` 进行 `翻译`。"
 
 #: ../../workflows.rst:70 ../../workflows.rst:101 ../../workflows.rst:137
 msgid "Reviewers group"
@@ -29097,11 +29107,11 @@ msgstr "使用此工作流程，任何人都可以添加建议，并且需要其
 
 #: ../../workflows.rst:82
 msgid "*Any user* can add suggestions."
-msgstr "*任何用户*都可以添加建议。"
+msgstr "*任何用户* 都可以添加建议。"
 
 #: ../../workflows.rst:83
 msgid "*Any user* can vote for suggestions."
-msgstr "*任何用户*都可以对建议投票。"
+msgstr "*任何用户* 都可以对建议投票。"
 
 #: ../../workflows.rst:84
 msgid ""
@@ -29133,7 +29143,7 @@ msgstr "使用专门的审核者，您有两组用户，一组可以提交翻译
 
 #: ../../workflows.rst:117
 msgid "*Any user* can edit unapproved translations."
-msgstr "*任何用户*都可以编辑未批准的翻译。"
+msgstr "*任何用户* 都可以编辑未批准的翻译。"
 
 #: ../../workflows.rst:118
 msgid "*Reviewer* can approve / unapprove strings."
@@ -29141,7 +29151,7 @@ msgstr "*Reviewer* 可以批准/否决字符串。"
 
 #: ../../workflows.rst:119
 msgid "*Reviewer* can edit all translations (including approved ones)."
-msgstr "*审核者*可以编辑所有翻译（包括批准的翻译）。"
+msgstr "*审核者* 可以编辑所有翻译（包括批准的翻译）。"
 
 #: ../../workflows.rst:120
 msgid "Suggestions can also be used to suggest changes for approved strings."
@@ -29149,11 +29159,11 @@ msgstr "建议还可以用于建议更改已批准的字符串。"
 
 #: ../../workflows.rst:137
 msgid "Or `Review` with :ref:`privileges`."
-msgstr "或使用 :ref:`privileges` 进行`审核`。"
+msgstr "或使用 :ref:`privileges` 进行 `审核`。"
 
 #: ../../workflows.rst:142
 msgid "Turning on reviews"
-msgstr "开启审核"
+msgstr "打开审核"
 
 #: ../../workflows.rst:144
 msgid ""
