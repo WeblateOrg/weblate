@@ -659,6 +659,8 @@ LDAP
 .. envvar:: WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH
 .. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER
+.. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_UNION
+.. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER
 
     LDAP authentication configuration.
 
@@ -683,6 +685,19 @@ LDAP
           WEBLATE_AUTH_LDAP_BIND_PASSWORD: password
           WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
           WEBLATE_AUTH_LDAP_USER_SEARCH: CN=Users,DC=example,DC=com
+
+
+    **Example for union search and bind:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_AUTH_LDAP_SERVER_URI: ldap://ldap.example.org
+          WEBLATE_AUTH_LDAP_BIND_DN: CN=ldap,CN=Users,DC=example,DC=com
+          WEBLATE_AUTH_LDAP_BIND_PASSWORD: password
+          WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
+          WEBLATE_AUTH_LDAP_USER_SEARCH: CN=Users,DC=example,DC=com
+          WEBLATE_AUTH_LDAP_USER_SEARCH_UNION: ou=users,dc=example,dc=com|ou=otherusers,dc=example,dc=com
 
 
     **Example with search and bind against Active Directory:**
