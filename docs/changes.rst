@@ -4,6 +4,7 @@ Weblate 4.2.1
 Not yet released.
 
 * Fixed saving plurals for some locales in Android resources.
+* Fixed crash in the cleanup addon for some XLIFF files.
 
 Weblate 4.2
 -----------
