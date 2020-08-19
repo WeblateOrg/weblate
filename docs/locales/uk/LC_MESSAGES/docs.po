@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-19 10:59+0200\n"
-"PO-Revision-Date: 2020-08-19 08:57+0000\n"
+"PO-Revision-Date: 2020-08-20 05:45+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -2605,12 +2605,6 @@ msgstr ""
 "`Резервні копії`."
 
 #: ../../admin/backup.rst:18
-#, fuzzy
-#| msgid ""
-#| "Only PostgreSQL database is included in the automated backups. Other "
-#| "database engines have to be backed up manually. You are recommended to "
-#| "migrate to PostgreSQL as that will be the only supported database in the "
-#| "4.0 release. See :ref:`database-migration`."
 msgid ""
 "Only PostgreSQL database is included in the automated backups. Other "
 "database engines have to be backed up manually. You are recommended to "
@@ -2619,30 +2613,28 @@ msgid ""
 msgstr ""
 "До автоматизованих резервних копій буде включено лише базу даних PostgreSQL. "
 "Резервні копії даних інших рушіїв керування базами даних має бути збережено "
-"вручну. Рекомендуємо вам перейти на PostgreSQL, оскільки у випуску 4.0 "
-"передбачено підтримку лише цього рушія. Див. :ref:`database-migration`."
+"вручну. Рекомендуємо вам перейти на PostgreSQL, див. :ref:`database-setup` і "
+":ref:`database-migration`."
 
 #: ../../admin/backup.rst:23
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
+"Резервні копії з використанням Borg є нарощувальними, а Weblate "
+"налаштовування на збереження таких резервних копій:"
 
 #: ../../admin/backup.rst:25
-#, fuzzy
-#| msgid "Manual backup"
 msgid "14 daily backups"
-msgstr "Резервне копіювання вручну"
+msgstr "резервний копій із 14-денним період створення"
 
 #: ../../admin/backup.rst:26
 msgid "8 weekly backups"
-msgstr ""
+msgstr "резервних копій із 8-тижневим періодом створення"
 
 #: ../../admin/backup.rst:27
-#, fuzzy
-#| msgid "Manual backup"
 msgid "6 monthly backups"
-msgstr "Резервне копіювання вручну"
+msgstr "резервних копій із 6-місячним періодом створення"
 
 #: ../../admin/backup.rst:34
 msgid "Using Weblate provisioned backup storage"
@@ -2786,12 +2778,16 @@ msgid ""
 "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
 "dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Скопіюйте налаштування Weblate (:file:`backups/settings.py`, див. :ref"
+":`backup-dumps`) у відповідне місце, див. :ref:`configuration`."
 
 #: ../../admin/backup.rst:93
 msgid ""
 "Copy the whole restored data dir to location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Скопіюйте увесь каталог відновлених даних до місця, яке налаштовано змінною "
+":setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:95
 msgid "The Borg session might look like:"
@@ -6913,7 +6909,7 @@ msgstr "Запит щодо об'єднання у GitHub з гілки"
 
 #: ../../admin/continuous.rst:285 ../../admin/continuous.rst:289
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "SSH URL [#empty]_"
 
 #: ../../admin/continuous.rst:287
 msgid "GitLab merge request from fork"
@@ -6930,6 +6926,8 @@ msgstr "Запит щодо злиття на GitLab з гілки"
 #: ../../admin/continuous.rst:292
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
 msgstr ""
+"Може бути порожнім, якщо у :ref:`сховищі<component-repo>` передбачено запис "
+"змін."
 
 #: ../../admin/continuous.rst:297
 msgid ""
@@ -11591,12 +11589,6 @@ msgstr ""
 "буде використано формулу множини, яка сумісна із Gettext."
 
 #: ../../admin/languages.rst:99
-#, fuzzy
-#| msgid ""
-#| ":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
-#| "Rules by the Unicode Consortium <http://unicode.org/cldr/charts/latest/"
-#| "supplemental/language_plural_rules.html>`_"
 msgid ""
 ":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
 "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
@@ -11604,8 +11596,7 @@ msgid ""
 msgstr ""
 ":ref:`plurals`, `інструменти GNU gettext: форми множини <https://www.gnu.org/"
 "software/gettext/manual/html_node/Plural-forms.html>`_, `правила форм "
-"множини у мовах від консорціуму Unicode <http://unicode.org/cldr/charts/"
-"latest/supplemental/language_plural_rules.html>`_"
+"множини у мовах від консорціуму Unicode`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -11763,17 +11754,12 @@ msgstr ""
 "`MT_APERTIUM_APY`."
 
 #: ../../admin/machine.rst:41
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/"
-#| ">`_, `Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-"
-#| "apy>`_"
 msgid ""
 ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_, "
 "`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
-":setting:`MT_APERTIUM_APY`, `сайт Apertium <https://www.apertium.org/>`_, "
-"`Документація з Apertium APy <http://wiki.apertium.org/wiki/Apertium-apy>`_"
+":setting:`MT_APERTIUM_APY`, `сайт Apertium <https://www.apertium.org/>`_, `"
+"Документація з Apertium APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:47
 msgid "AWS"
@@ -16347,16 +16333,12 @@ msgstr ""
 "djadmin:`importusers`."
 
 #: ../../api.rst:8
-#, fuzzy
-#| msgid "Weblate's Web API"
 msgid "Weblate's REST API"
-msgstr "Програмний вебінтерфейс Weblate"
+msgstr "Програмний інтерфейс REST Weblate"
 
 #: ../../api.rst:12
-#, fuzzy
-#| msgid "The API is available since Weblate 2.6."
 msgid "The REST API is available since Weblate 2.6."
-msgstr "Програмний інтерфейс доступним з версії Weblate 2.6."
+msgstr "Програмний інтерфейс REST є доступним з версії Weblate 2.6."
 
 #: ../../api.rst:14
 msgid ""
@@ -17308,50 +17290,36 @@ msgid ":ref:`component-name`"
 msgstr ":ref:`component-name`"
 
 #: ../../api.rst:1035
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-slug`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-slug`"
 
 #: ../../api.rst:1037
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-repo`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-repo`"
 
 #: ../../api.rst:1038
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-git_export`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-git_export`"
 
 #: ../../api.rst:1039
-#, fuzzy
-#| msgid ":ref:`component-push_branch`"
 msgid ":ref:`component-branch`"
-msgstr ":ref:`component-push_branch`"
+msgstr ":ref:`component-branch`"
 
 #: ../../api.rst:1041 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
 msgstr ":ref:`component-filemask`"
 
 #: ../../api.rst:1042
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-template`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-template`"
 
 #: ../../api.rst:1043
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-edit_template`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-edit_template`"
 
 #: ../../api.rst:1044
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-intermediate`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-intermediate`"
 
 #: ../../api.rst:1045 ../../devel/sphinx.rst:36
 msgid ":ref:`component-new_base`"
@@ -17362,152 +17330,104 @@ msgid ":ref:`component-file_format`"
 msgstr ":ref:`component-file_format`"
 
 #: ../../api.rst:1047
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-license`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-license`"
 
 #: ../../api.rst:1048
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-agreement`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-agreement`"
 
 #: ../../api.rst:1049
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-new_lang`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-new_lang`"
 
 #: ../../api.rst:1050
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-language_code_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-language_code_style`"
 
 #: ../../api.rst:1052 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
 msgstr ":ref:`component-check_flags`"
 
 #: ../../api.rst:1053
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-priority`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-priority`"
 
 #: ../../api.rst:1054
-#, fuzzy
-#| msgid ":ref:`component-check_flags`"
 msgid ":ref:`component-enforced_checks`"
-msgstr ":ref:`component-check_flags`"
+msgstr ":ref:`component-enforced_checks`"
 
 #: ../../api.rst:1055
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-restricted`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-restricted`"
 
 #: ../../api.rst:1056
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-repoweb`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-repoweb`"
 
 #: ../../api.rst:1057
-#, fuzzy
-#| msgid ":ref:`component-push`"
 msgid ":ref:`component-report_source_bugs`"
-msgstr ":ref:`component-push`"
+msgstr ":ref:`component-report_source_bugs`"
 
 #: ../../api.rst:1058
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_style`"
 
 #: ../../api.rst:1059
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-commit_message`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-commit_message`"
 
 #: ../../api.rst:1060
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-add_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-add_message`"
 
 #: ../../api.rst:1061
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-delete_message`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-delete_message`"
 
 #: ../../api.rst:1062
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_message`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_message`"
 
 #: ../../api.rst:1063
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-addon_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-addon_message`"
 
 #: ../../api.rst:1064
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgid ":ref:`component-allow_translation_propagation`"
-msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
+msgstr ":ref:`component-allow_translation_propagation`"
 
 #: ../../api.rst:1065
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-enable_suggestions`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-enable_suggestions`"
 
 #: ../../api.rst:1066
-#, fuzzy
-#| msgid ":ref:`component-push`"
 msgid ":ref:`component-suggestion_voting`"
-msgstr ":ref:`component-push`"
+msgstr ":ref:`component-suggestion_voting`"
 
 #: ../../api.rst:1067
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-suggestion_autoaccept`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-suggestion_autoaccept`"
 
 #: ../../api.rst:1068
-#, fuzzy
-#| msgid ":ref:`component-push_branch`"
 msgid ":ref:`component-push_on_commit`"
-msgstr ":ref:`component-push_branch`"
+msgstr ":ref:`component-push_on_commit`"
 
 #: ../../api.rst:1069
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-commit_pending_age`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-commit_pending_age`"
 
 #: ../../api.rst:1070
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-auto_lock_error`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-auto_lock_error`"
 
 #: ../../api.rst:1071
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-language_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-language_regex`"
 
 #: ../../api.rst:1072
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-variant_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-variant_regex`"
 
 #: ../../api.rst:1073
 msgid ""
@@ -18446,10 +18366,8 @@ msgid "For instruction on setting up GitHub integration"
 msgstr "Настанови щодо налаштовування інтеграції із GitHub"
 
 #: ../../api.rst:2100
-#, fuzzy
-#| msgid "https://help.github.com/en/github/extending-github/about-webhooks"
 msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
-msgstr "https://help.github.com/en/github/extending-github/about-webhooks"
+msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2101
 msgid "Generic information about GitHub Webhooks"
@@ -18685,34 +18603,31 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.2.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.2.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on August 14th 2012."
 msgid "Released on August 21st 2020."
-msgstr "Випущено 14 серпня 2012 року."
+msgstr "Випущено 21 серпня 2020 року."
 
 #: ../../changes.rst:6
 msgid "Fixed saving plurals for some locales in Android resources."
 msgstr ""
+"Виправлено збереження форм множини для деяких локалей у ресурсах Android."
 
 #: ../../changes.rst:7
 msgid "Fixed crash in the cleanup addon for some XLIFF files."
 msgstr ""
+"Виправлено аварійне завершення роботи у додатку очищення для деяких файлів "
+"XLIFF."
 
 #: ../../changes.rst:10
 msgid "Weblate 4.2"
 msgstr "Weblate 4.2"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Released on August 14th 2012."
 msgid "Released on August 18th 2020."
-msgstr "Випущено 14 серпня 2012 року."
+msgstr "Випущено 18 серпня 2020 року."
 
 #: ../../changes.rst:14
 msgid "Improved user pages and added listing of users."
@@ -19296,14 +19211,19 @@ msgid ""
 "Project access control and workflow configuration integrated to project "
 "settings."
 msgstr ""
+"Керування доступом до проєкту та налаштовування робочого процесу інтегровано "
+"до параметрів проєкту."
 
 #: ../../changes.rst:167
 msgid "Added check and highlighter for i18next interpolation and nesting."
 msgstr ""
+"Додано перевірку та засіб підсвічування для інтерполяції та вкладення "
+"i18next."
 
 #: ../../changes.rst:168
 msgid "Added check and highlighter for percent placeholders."
 msgstr ""
+"Додано перевірку та засіб підсвічування для замінників із символом відсотків."
 
 #: ../../changes.rst:169
 msgid "Display suggestions failing checks."
@@ -19311,73 +19231,82 @@ msgstr "Реалізовано показ пропозицій, які не пр
 
 #: ../../changes.rst:170
 msgid "Record source string changes in history."
-msgstr ""
+msgstr "Реалізовано запис змін у початковому рядку до журналу."
 
 #: ../../changes.rst:171
 msgid "Upgraded Microsoft Translator to version 3 API."
-msgstr ""
+msgstr "Оновлено програмний інтерфейс Microsoft Translator до версії 3."
 
 #: ../../changes.rst:172
 msgid "Reimplemented translation memory backend."
-msgstr ""
+msgstr "Повторно реалізовано модуль пам'яті перекладів."
 
 #: ../../changes.rst:173
 msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
-msgstr ""
+msgstr "Додано підтримку для декількох фільтрів ``is:`` у :doc:`user/search`."
 
 #: ../../changes.rst:174
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
 msgstr ""
+"Уможливлено запобігання :ref:`перевірці на повторення<check-same>` за "
+"вбудованим «чорним» списком."
 
 #: ../../changes.rst:175
 msgid "Improved comments extraction from monolingual po files."
-msgstr ""
+msgstr "Удосконалено видобування коментарів з одномовних файлів po."
 
 #: ../../changes.rst:176
 msgid "Renamed whiteboard messages to announcements."
-msgstr ""
+msgstr "Повідомлення дошки перейменовано на «оголошення»."
 
 #: ../../changes.rst:177
 msgid "Fixed occasional problems with registration mails."
-msgstr ""
+msgstr "Виправлено певні проблеми із поштовими повідомленнями щодо реєстрації."
 
 #: ../../changes.rst:178
 msgid "Improved LINGUAS update addon to handle more syntax variants."
 msgstr ""
+"Удосконалено додаток оновлення LINGUAS з метою розширення спектра обробки "
+"синтаксичних варіантів."
 
 #: ../../changes.rst:179
 msgid "Fixed editing monolingual XLIFF source file."
-msgstr ""
+msgstr "Виправлено редагування одномовних початкових файлів XLIFF."
 
 #: ../../changes.rst:180
 msgid "Added support for exact matching in :doc:`user/search`."
-msgstr ""
+msgstr "Додано підтримку точної відповідності у :doc:`user/search`."
 
 #: ../../changes.rst:181
 msgid ""
 "Extended API to cover screenshots, users, groups, componentlists and "
 "extended creating projects."
 msgstr ""
+"Розширено програмний інтерфейс для роботи із знімками вікон, записами "
+"користувачів, груп, списками складників та розширено засоби створення "
+"проєктів."
 
 #: ../../changes.rst:182
 msgid "Add support for source upload on bilingual translations."
 msgstr ""
+"Додано підтримку вивантаження початкових даних для двомовних перекладів."
 
 #: ../../changes.rst:183
 msgid "Added support for intermediate language from developers."
-msgstr ""
+msgstr "Додано підтримку проміжної мови для розробників."
 
 #: ../../changes.rst:184
 msgid "Added support for source strings review."
-msgstr ""
+msgstr "Додано підтримку рецензування початкових рядків."
 
 #: ../../changes.rst:185
 msgid "Extended download options for platform wide translation memory."
 msgstr ""
+"Розширено параметри отримання для платформи із широкою пам'яттю перекладів."
 
 #: ../../changes.rst:188
 msgid "Weblate 3.x series"
-msgstr ""
+msgstr "Випуски Weblate 3.x"
 
 #: ../../changes.rst:191
 msgid "Weblate 3.11.3"
@@ -19389,75 +19318,82 @@ msgstr "Випущено 11 березня 2020 року."
 
 #: ../../changes.rst:195
 msgid "Fixed searching for fields with certain priority."
-msgstr ""
+msgstr "Виправлено пошук за полями у певній пріоритетності."
 
 #: ../../changes.rst:196
 msgid "Fixed predefined query for recently added strings."
-msgstr ""
+msgstr "Виправлено попередньо визначений запит щодо нещодавно доданих рядків."
 
 #: ../../changes.rst:197
 msgid "Fixed searching returning duplicate matches."
-msgstr ""
+msgstr "Виправлено повернення під час пошуку дублікатів."
 
 #: ../../changes.rst:198
 msgid "Fixed notifications rendering in Gmail."
-msgstr ""
+msgstr "Виправлено показ сповіщень у Gmail."
 
 #: ../../changes.rst:199
 msgid "Fixed reverting changes from the history."
-msgstr ""
+msgstr "Виправлення показ змін із скасуванням у журналі."
 
 #: ../../changes.rst:200
 msgid "Added links to events in digest notifications."
-msgstr ""
+msgstr "Додано посилання на записи подій у сповіщеннях-резюме."
 
 #: ../../changes.rst:201
 msgid "Fixed email for account removal confirmation."
 msgstr ""
+"Виправлено адресу електронної пошти для підтвердження вилучення облікового "
+"запису."
 
 #: ../../changes.rst:202
 msgid "Added support for Slack authentication in Docker container."
-msgstr ""
+msgstr "Додано підтримку розпізнавання Slack у контейнері Docker."
 
 #: ../../changes.rst:203
 msgid "Avoid sending notifications for not subscribed languages."
-msgstr ""
+msgstr "Усунено надсилання сповіщень для мов без підписки."
 
 #: ../../changes.rst:204
 msgid "Include Celery queues in performance overview."
-msgstr ""
+msgstr "У огляд швидкодії включено черги Celery."
 
 #: ../../changes.rst:205
 msgid "Fixed documentation links for addons."
-msgstr ""
+msgstr "Виправлено посилання на додатки у документації."
 
 #: ../../changes.rst:206
 msgid "Reduced false negatives for unchanged translation check."
 msgstr ""
+"Зменшено частину помилкових результатів у перевірках незмінених перекладів."
 
 #: ../../changes.rst:207
 msgid "Raised bleach dependency to address CVE-2020-6802."
-msgstr ""
+msgstr "Підвищено залежність bleach з метою усування наслідків CVE-2020-6802."
 
 #: ../../changes.rst:208
 msgid "Fixed listing project level changes in history."
-msgstr ""
+msgstr "Виправлено побудову списку змін на рівні проєкту у журналі."
 
 #: ../../changes.rst:209
 msgid "Fixed stats invalidation in some corner cases."
 msgstr ""
+"Виправлено скасування результатів обчислення статистики у деяких рідкісних "
+"випадках."
 
 #: ../../changes.rst:210
 msgid "Fixed searching for certain string states."
-msgstr ""
+msgstr "Виправлено пошук для певних станів рядків."
 
 #: ../../changes.rst:211
 msgid "Improved format string checks behavior on missing percent."
 msgstr ""
+"Удосконалено поведінку перевірок форматування рядків на пропущений символ "
+"відсотків."
 
 #: ../../changes.rst:212
 msgid "Fixed authentication using some third party providers."
-msgstr ""
+msgstr "Виправлено розпізнавання на основі даних сторонніх надавачів послуг."
 
 #: ../../changes.rst:215
 msgid "Weblate 3.11.2"
@@ -19469,11 +19405,11 @@ msgstr "Випущено 22 лютого 2020 року."
 
 #: ../../changes.rst:219
 msgid "Fixed rendering of suggestions."
-msgstr ""
+msgstr "Виправлено показ пропозицій."
 
 #: ../../changes.rst:220
 msgid "Fixed some strings wrongly reported as having no words."
-msgstr ""
+msgstr "Виправлено помилкове сповіщення щодо відсутності слів у деяких рядках."
 
 #: ../../changes.rst:223
 msgid "Weblate 3.11.1"
@@ -19485,27 +19421,27 @@ msgstr "Випущено 20 лютого 2020 року."
 
 #: ../../changes.rst:227
 msgid "Documented Celery setup changes."
-msgstr ""
+msgstr "Документовано зміни у конфігурації Celery."
 
 #: ../../changes.rst:228
 msgid "Improved filename validation on component creation."
-msgstr ""
+msgstr "Удосконалено перевірку назв файлів при створенні складників."
 
 #: ../../changes.rst:229
 msgid "Fixed minimal versions of some dependencies."
-msgstr ""
+msgstr "Виправлено мінімальні версії деяких залежностей."
 
 #: ../../changes.rst:230
 msgid "Fixed adding groups with certain Django versions."
-msgstr ""
+msgstr "Виправлено додавання груп і певними версіями Django."
 
 #: ../../changes.rst:231
 msgid "Fixed manual pushing to upstream repository."
-msgstr ""
+msgstr "Виправлено запис вручну до основного сховища коду."
 
 #: ../../changes.rst:232
 msgid "Improved glossary matching."
-msgstr ""
+msgstr "Удосконалено встановлення відповідності записам глосарія."
 
 #: ../../changes.rst:235
 msgid "Weblate 3.11"
@@ -19518,26 +19454,32 @@ msgstr "Випущено 17 лютого 2012 року."
 #: ../../changes.rst:239
 msgid "Allow using VCS push URL during component creation via API."
 msgstr ""
+"Уможливлено використання адреси запису системи керування версіями під час "
+"створення складників за допомогою програмного інтерфейсу."
 
 #: ../../changes.rst:240
 msgid "Rendered width check now shows image with the render."
 msgstr ""
+"Реалізовано показ зображення-результату у перевірці ширини результату "
+"перекладу."
 
 #: ../../changes.rst:241
 msgid "Fixed links in notifications e-mails."
-msgstr ""
+msgstr "Виправлено посилання у сповіщеннях електронною поштою."
 
 #: ../../changes.rst:242
 msgid "Improved look of plaintext e-mails."
-msgstr ""
+msgstr "Удосконалено вигляд простих текстових повідомлень електронної пошти."
 
 #: ../../changes.rst:243
 msgid "Display ignored checks and allow to make them active again."
 msgstr ""
+"Реалізовано показ проігнорованих перевірок і уможливлено їхню повторну "
+"активацію."
 
 #: ../../changes.rst:244
 msgid "Display nearby keys on monolingual translations."
-msgstr ""
+msgstr "Реалізовано показ сусідніх ключів для одномовних перекладів."
 
 #: ../../changes.rst:245
 msgid "Added support for grouping string shapings."
@@ -19545,52 +19487,56 @@ msgstr "Додано підтримку групування форм рядкі
 
 #: ../../changes.rst:246
 msgid "Recommend upgrade to new Weblate versions in the system checks."
-msgstr ""
+msgstr "Рекомендовано оновлення до новіших версій Weblate у перевірках системи."
 
 #: ../../changes.rst:247
 msgid "Provide more detailed analysis for duplicate language alert."
-msgstr ""
+msgstr "Реалізовано докладніший аналіз для попереджень щодо дублювання мов."
 
 #: ../../changes.rst:248
 msgid "Include more detailed license info on the project pages."
 msgstr ""
+"На сторінках проєкту реалізовано включення докладних відомостей щодо "
+"ліцензування."
 
 #: ../../changes.rst:249
 msgid "Automatically unshallow local copies if needed."
-msgstr ""
+msgstr "Реалізовано автоматичне поглиблення локальних копій, якщо це потрібно."
 
 #: ../../changes.rst:250
 msgid "Fixed download of strings needing action."
-msgstr ""
+msgstr "Виправлено отримання рядків, які потребують дій."
 
 #: ../../changes.rst:251
 msgid "New alert to warn about using the same filemask twice."
-msgstr ""
+msgstr "Нове попередження щодо використання двічі тієї самої маски файлів."
 
 #: ../../changes.rst:252
 msgid "Improve XML placeables extraction."
-msgstr ""
+msgstr "Удосконалено видобування позиційних аргументів XML."
 
 #: ../../changes.rst:253
 msgid ""
 "The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project."
 msgstr ""
+"Реалізовано примусове переспрямовування на вибраний проєкт за допомогою "
+":setting:`SINGLE_PROJECT`."
 
 #: ../../changes.rst:254
 msgid "Added option to resolve comments."
-msgstr ""
+msgstr "Додано параметр для розв'язання проблем із коментарями."
 
 #: ../../changes.rst:255
 msgid "Added bulk editing of flags."
-msgstr ""
+msgstr "Додано пакетне редагування прапорців."
 
 #: ../../changes.rst:256
 msgid "Added support for :ref:`labels`."
-msgstr ""
+msgstr "Додано підтримку :ref:`міток<labels>`."
 
 #: ../../changes.rst:257
 msgid "Added bulk edit addon."
-msgstr ""
+msgstr "Додано додаток пакетного редагування."
 
 #: ../../changes.rst:258
 msgid "Added option for :ref:`enforcing-checks`."
@@ -19598,23 +19544,28 @@ msgstr "Додано параметр для :ref:`enforcing-checks`."
 
 #: ../../changes.rst:259
 msgid "Increased default validity of confirmation links."
-msgstr ""
+msgstr "Підвищено типовий рівень чинності для посилань щодо підтвердження."
 
 #: ../../changes.rst:260
 msgid "Improved Matomo integration."
-msgstr ""
+msgstr "Удосконалено інтеграцію із Matomo."
 
 #: ../../changes.rst:261
 msgid "Fixed :ref:`check-translated` to correctly handle source string change."
 msgstr ""
+"Виправлено :ref:`перевірку перекладеності<check-translated>` так, щоб у ній "
+"належним чином оброблялися зміни у початковому рядку."
 
 #: ../../changes.rst:262
 msgid "Extended automatic updates configuration by :setting:`AUTO_UPDATE`."
 msgstr ""
+"Розширено налаштування автоматичного оновлення за допомогою змінної "
+":setting:`AUTO_UPDATE`."
 
 #: ../../changes.rst:263
 msgid "LINGUAS addons now do full sync of translations in Weblate."
 msgstr ""
+"Реалізовано повну синхронізацію перекладів у Weblate для додатків LINGUAS."
 
 #: ../../changes.rst:266
 msgid "Weblate 3.10.3"
@@ -19626,7 +19577,7 @@ msgstr "Випущено 18 січня 2020 року."
 
 #: ../../changes.rst:270
 msgid "Support for translate-toolkit 2.5.0."
-msgstr ""
+msgstr "Реалізовано підтримку translate-toolkit 2.5.0."
 
 #: ../../changes.rst:273
 msgid "Weblate 3.10.2"
@@ -19634,47 +19585,52 @@ msgstr "Weblate 3.10.2"
 
 #: ../../changes.rst:277
 msgid "Add lock indication to projects."
-msgstr ""
+msgstr "Додано позначку блокування для проєктів."
 
 #: ../../changes.rst:278
 msgid "Fixed CSS bug causing flickering in some web browsers."
-msgstr ""
+msgstr "Виправлено ваду CSS, яка спричиняла блимання у деяких браузерах."
 
 #: ../../changes.rst:279
 msgid "Fixed searching on systems with non-English locales."
-msgstr ""
+msgstr "Виправлено пошуку у системах із локалями, відмінними від англійської."
 
 #: ../../changes.rst:280
 msgid "Improved repository matching for GitHub and Bitbucket hooks."
 msgstr ""
+"Удосконалено встановлення відповідності у сховищах для спостережних скриптів "
+"GitHub і Bitbucket."
 
 #: ../../changes.rst:281
 msgid "Fixed data migration on some Python 2.7 installations."
 msgstr ""
+"Виправлено перенесення даних для деяких систем зі встановленим Python 2.7."
 
 #: ../../changes.rst:282
 msgid "Allow configuration of Git shallow cloning."
-msgstr ""
+msgstr "Уможливлено налаштовування поверхневого клонування Git."
 
 #: ../../changes.rst:283
 msgid "Improved background notification processing."
-msgstr ""
+msgstr "Удосконалено обробку фонових сповіщень."
 
 #: ../../changes.rst:284
 msgid "Fixed broken form submission when navigating back in web browser."
-msgstr ""
+msgstr "Виправлено помилкове подання форми при навігації назад у браузері."
 
 #: ../../changes.rst:285
 msgid "New addon to configure YAML formatting."
-msgstr ""
+msgstr "Новий додаток для налаштовування форматування YAML."
 
 #: ../../changes.rst:286
 msgid "Fixed same plurals check to not fire on single plural form languages."
 msgstr ""
+"Виправлено перевірку однаковості форм множини: у новій версії вона не "
+"ініціюється для мов із однією формою множини."
 
 #: ../../changes.rst:287
 msgid "Fixed regex search on some fields."
-msgstr ""
+msgstr "Виправлено пошук за формальними виразами у деяких полях."
 
 #: ../../changes.rst:290
 msgid "Weblate 3.10.1"
@@ -19686,39 +19642,39 @@ msgstr "Випущено 9 січня 2020 року."
 
 #: ../../changes.rst:294
 msgid "Extended API with translation creation."
-msgstr ""
+msgstr "Програмний інтерфейс розширено для створення перекладів."
 
 #: ../../changes.rst:295
 msgid "Fixed several corner cases in data migrations."
-msgstr ""
+msgstr "Виправлено обробку деяких рідкісних випадків при перенесенні даних."
 
 #: ../../changes.rst:296
 msgid "Compatibility with Django 3.0."
-msgstr ""
+msgstr "Забезпечено сумісність із Django 3.0."
 
 #: ../../changes.rst:297
 msgid "Improved data cleanup performance."
-msgstr ""
+msgstr "Удосконалено швидкодію при очищенні даних."
 
 #: ../../changes.rst:298
 msgid "Added support for customizable security.txt."
-msgstr ""
+msgstr "Додано підтримку нетипового security.txt."
 
 #: ../../changes.rst:299
 msgid "Improved breadcrumbs in changelog."
-msgstr ""
+msgstr "Удосконалено структуру журналу змін."
 
 #: ../../changes.rst:300
 msgid "Improved translations listing on dashboard."
-msgstr ""
+msgstr "Удосконалено список перекладів на панелі приладів."
 
 #: ../../changes.rst:301
 msgid "Improved HTTP responses for webhooks."
-msgstr ""
+msgstr "Удосконалено відповіді HTTP для спостережних скриптів."
 
 #: ../../changes.rst:302
 msgid "Added support for GitLab merge requests in Docker container."
-msgstr ""
+msgstr "Додано підтримку запитів щодо об'єднання GitLab у контейнері Docker."
 
 #: ../../changes.rst:305
 msgid "Weblate 3.10"
@@ -19730,95 +19686,103 @@ msgstr "Випущено 20 грудня 2019 року."
 
 #: ../../changes.rst:309
 msgid "Improved application user interface."
-msgstr ""
+msgstr "Удосконалено інтерфейс користувача програми."
 
 #: ../../changes.rst:310
 msgid "Added doublespace check."
-msgstr ""
+msgstr "Додано перевірку на подвійні пробіли."
 
 #: ../../changes.rst:311
 msgid "Fixed creating new languages."
-msgstr ""
+msgstr "Виправлено створення нових мов."
 
 #: ../../changes.rst:312
 msgid "Avoid sending auditlog notifications to deleted e-mails."
 msgstr ""
+"Усунено можливість надсилання сповіщень щодо журналу рецензування на "
+"вилучені адреси електронної пошти."
 
 #: ../../changes.rst:313
 msgid "Added support for read only strings."
-msgstr ""
+msgstr "Додано підтримку придатних лише для читання рядків."
 
 #: ../../changes.rst:314
 msgid "Added support for Markdown in comments."
-msgstr ""
+msgstr "Додано підтримку коду Markdown у коментарях."
 
 #: ../../changes.rst:315
 msgid "Allow placing translation instruction text in project info."
 msgstr ""
+"Уможливлено розташування тексту настанови щодо перекладу у відомостях щодо "
+"проєкту."
 
 #: ../../changes.rst:316
 msgid "Add copy to clipboard for secondary languages."
-msgstr ""
+msgstr "Додано копіювання до буфера обміну для вторинних мов."
 
 #: ../../changes.rst:317
 msgid "Improved support for Mercurial."
-msgstr ""
+msgstr "Удосконалено підтримку для Mercurial."
 
 #: ../../changes.rst:318
 msgid "Improved Git repository fetching performance."
-msgstr ""
+msgstr "Удосконалено швидкодію отримання даних зі сховищ Git."
 
 #: ../../changes.rst:319
 msgid "Add search lookup for age of string."
-msgstr ""
+msgstr "Додано підтримку пошуку за віком рядка."
 
 #: ../../changes.rst:320
 msgid "Show source language for all translations."
-msgstr ""
+msgstr "Реалізовано показ початкової мови для усіх перекладів."
 
 #: ../../changes.rst:321
 msgid "Show context for nearby strings."
-msgstr ""
+msgstr "Реалізовано показ контексту для сусідніх рядків."
 
 #: ../../changes.rst:322
 msgid "Added support for notifications on repository operations."
-msgstr ""
+msgstr "Додано підтримку сповіщень щодо дій у сховищі."
 
 #: ../../changes.rst:323
 msgid "Improved translation listings."
-msgstr ""
+msgstr "Удосконалено списки перекладів."
 
 #: ../../changes.rst:324 ../../changes.rst:785
 msgid "Extended search capabilities."
-msgstr ""
+msgstr "Розширено можливості з пошуку."
 
 #: ../../changes.rst:325
 msgid "Added support for automatic translation strings marked for editing."
 msgstr ""
+"Додано підтримку автоматично перекладних рядків, які позначено для "
+"редагування."
 
 #: ../../changes.rst:326
 msgid "Avoid sending duplicate notifications for linked component alerts."
 msgstr ""
+"Усунено надсилання дублікатів сповіщень для пов'язаних зі складниками "
+"попереджень."
 
 #: ../../changes.rst:327
 msgid "Improve default merge request message."
-msgstr ""
+msgstr "Удосконалено типове повідомлення запиту щодо об'єднання."
 
 #: ../../changes.rst:328
 msgid "Better indicate string state in Zen mode."
-msgstr ""
+msgstr "Удосконалено показ стану рядка у дзен-режимі."
 
 #: ../../changes.rst:329
 msgid "Added support for more languages in Yandex Translate."
-msgstr ""
+msgstr "Додано підтримку ширшого спектра мов у перекладачі Yandex."
 
 #: ../../changes.rst:330 ../../changes.rst:397
 msgid "Improved look of notification e-mails."
-msgstr ""
+msgstr "Удосконалено вигляд повідомлень електронної пошти зі сповіщеннями."
 
 #: ../../changes.rst:331
 msgid "Provide choice for translation license."
-msgstr ""
+msgstr "Надано можливість вибору умов ліцензування перекладу."
 
 #: ../../changes.rst:334
 msgid "Weblate 3.9.1"
@@ -19830,47 +19794,53 @@ msgstr "Випущено 28 жовтня 2019 року."
 
 #: ../../changes.rst:338
 msgid "Remove some unneeded files from backups."
-msgstr ""
+msgstr "Зі списків резервного копіювання вилучено декілька непотрібних файлів."
 
 #: ../../changes.rst:339
 msgid "Fixed potential crash in reports."
-msgstr ""
+msgstr "Виправлено можливе аварійне завершення при побудові звітів."
 
 #: ../../changes.rst:340
 msgid "Fixed cross database migration failure."
-msgstr ""
+msgstr "Виправлено помилку при перенесенні даних між базами даних."
 
 #: ../../changes.rst:341
 msgid "Added support for force pushing Git repositories."
-msgstr ""
+msgstr "Додано підтримку примусового запису до сховищ Git."
 
 #: ../../changes.rst:342
 msgid "Reduced risk of registration token invalidation."
-msgstr ""
+msgstr "Зменшено ризик втрати чинності ключем реєстрації."
 
 #: ../../changes.rst:343
 msgid "Fixed account removal hitting rate limiter."
 msgstr ""
+"Виправлено помилку, пов'язану із тим, що засіб вилучення облікових записів "
+"перевищував обмеження на частоту звернення до програмного інтерфейсу."
 
 #: ../../changes.rst:344
 msgid "Added search based on priority."
-msgstr ""
+msgstr "Додано пошук на основі пріоритетності."
 
 #: ../../changes.rst:345
 msgid "Fixed possible crash on adding strings to JSON file."
 msgstr ""
+"Усунено можливе аварійне завершення роботи при додаванні рядків до файла "
+"JSON."
 
 #: ../../changes.rst:346
 msgid "Safe HTML check and fixup now honor source string markup."
 msgstr ""
+"У новій версії враховано розміру початкового рядка при перевірці HTML на "
+"безпечність і виправленні рядків."
 
 #: ../../changes.rst:347
 msgid "Avoid sending notifications to invited and deleted users."
-msgstr ""
+msgstr "Усунено надсилання сповіщень запрошеним або вилученим користувачам."
 
 #: ../../changes.rst:348
 msgid "Fix SSL connection to redis in Celery in Docker container."
-msgstr ""
+msgstr "Виправлено з'єднання SSL із redis у Celery у контейнері Docker."
 
 #: ../../changes.rst:351
 msgid "Weblate 3.9"
@@ -19882,134 +19852,153 @@ msgstr "Випущено 15 жовтня 2019 року."
 
 #: ../../changes.rst:355
 msgid "Include Weblate metadata in downloaded files."
-msgstr ""
+msgstr "До отримуваних файлів включено метадані Weblate."
 
 #: ../../changes.rst:356
 msgid "Improved UI for failing checks."
-msgstr ""
+msgstr "Удосконалено інтерфейс перегляду непройдених перевірок."
 
 #: ../../changes.rst:357
 msgid "Indicate missing strings in format checks."
-msgstr ""
+msgstr "У перевірках форматування позначено пропущені рядки."
 
 #: ../../changes.rst:358
 msgid "Separate check for French punctuation spacing."
 msgstr ""
+"Реалізовано окрему перевірку для пробілів навколо пунктуації у перекладах "
+"французькою."
 
 #: ../../changes.rst:359
 msgid "Add support for fixing some of quality checks errors."
 msgstr ""
+"Додано підтримку для виправлення деяких помилок, пов'язаних із якістю "
+"перекладів."
 
 #: ../../changes.rst:360
 msgid "Add separate permission to create new projects."
-msgstr ""
+msgstr "Додано окремі права доступу для створення проєктів."
 
 #: ../../changes.rst:361
 msgid "Extend stats for char counts."
-msgstr ""
+msgstr "Розширено статистичні дані для кількості символів."
 
 #: ../../changes.rst:362
 msgid "Improve support for Java style language codes."
-msgstr ""
+msgstr "Удосконалено підтримку для кодів мов у стилі Java."
 
 #: ../../changes.rst:363
 msgid "Added new generic check for placeholders."
-msgstr ""
+msgstr "Додано нову загальну перевірку символів-замінників."
 
 #: ../../changes.rst:364
 msgid "Added support for WebExtension JSON placeholders."
-msgstr ""
+msgstr "Додано підтримку замінників WebExtension JSON."
 
 #: ../../changes.rst:365
 msgid "Added support for flat XML format."
-msgstr ""
+msgstr "Додано підтримку простого формату XML."
 
 #: ../../changes.rst:366
 msgid ""
 "Extended API with project, component and translation removal and creation."
 msgstr ""
+"Програмний інтерфейс розширено можливостями вилучення і створення проєктів, "
+"складників та перекладів."
 
 #: ../../changes.rst:367
 msgid "Added support for Gitea and Gitee webhooks."
-msgstr ""
+msgstr "Додано підтримку скриптів стеження для Gitea і Gitee."
 
 #: ../../changes.rst:368
 msgid "Added new custom regex based check."
-msgstr ""
+msgstr "Додано нову перевірку на основі нетипових формальних виразів."
 
 #: ../../changes.rst:369
 msgid "Allow to configure contributing to shared translation memory."
 msgstr ""
+"Уможливлено налаштовування прав доступу до внесення записів до спільної "
+"пам'яті перекладів."
 
 #: ../../changes.rst:370
 msgid "Added ZIP download for more translation files."
 msgstr ""
+"Додано можливість отримання архівів ZIP для ширшого спектра файлів "
+"перекладів."
 
 #: ../../changes.rst:371
 msgid "Make XLIFF standard compliant parsing of maxwidth and font."
-msgstr ""
+msgstr "XLIFF узгоджено зі стандартом шляхом обробки записів maxwidth і font."
 
 #: ../../changes.rst:372
 msgid ""
 "Added new check and fixer for safe HTML markup for translating web "
 "applications."
 msgstr ""
+"Додано нову перевірку і засіб виправлення для безпечної розмітки HTML для "
+"перекладу вебпрограм."
 
 #: ../../changes.rst:373
 msgid "Add component alert on unsupported configuration."
-msgstr ""
+msgstr "Додано попередження щодо складників при непідтримуваних налаштуваннях."
 
 #: ../../changes.rst:374
 msgid "Added automatic translation addon to bootstrap translations."
-msgstr ""
+msgstr "Додано додаток автоматичного перекладу для побудови перекладів."
 
 #: ../../changes.rst:375
 msgid "Extend automatic translation to add suggestions."
 msgstr ""
+"Засоби автоматичного перекладу розширено на випадок додавання пропозицій."
 
 #: ../../changes.rst:376
 msgid "Display addon parameters on overview."
-msgstr ""
+msgstr "Реалізовано показ параметрів додатка в огляді."
 
 #: ../../changes.rst:377
 msgid "Sentry is now supported through modern Sentry SDK instead of Raven."
 msgstr ""
+"Підтримку Sentry реалізовано за допомогою сучасного Sentry SDK замість Raven."
 
 #: ../../changes.rst:378
 msgid "Changed example settings to be better fit for production environment."
 msgstr ""
+"Змінено параметри прикладу так, щоб вони краще відповідали промисловому "
+"середовищу."
 
 #: ../../changes.rst:379
 msgid "Added automated backups using BorgBackup."
-msgstr ""
+msgstr "Додано автоматичне створення резервних копій за допомогою BorgBackup."
 
 #: ../../changes.rst:380
 msgid "Split cleanup addon for RESX to avoid unwanted file updates."
 msgstr ""
+"Відділено додаток очищення для RESX для запобігання небажаним оновленням "
+"файлів."
 
 #: ../../changes.rst:381
 msgid "Added advanced search capabilities."
-msgstr ""
+msgstr "Додано розширені можливості з пошуку."
 
 #: ../../changes.rst:382
 msgid "Allow users to download their own reports."
-msgstr ""
+msgstr "Уможливлено отримання власних звітів користувачами."
 
 #: ../../changes.rst:383
 msgid "Added localization guide to help configuring components."
 msgstr ""
+"Додано підручник з локалізації, який має допомогти налаштовувати складники."
 
 #: ../../changes.rst:384
 msgid "Added support for GitLab merge requests."
-msgstr ""
+msgstr "Додано підтримку запитів щодо об'єднання GitLab."
 
 #: ../../changes.rst:385
 msgid "Improved display of repository status."
-msgstr ""
+msgstr "Удосконалено показ стану сховища."
 
 #: ../../changes.rst:386
 msgid "Perform automated translation in the background."
-msgstr ""
+msgstr "Реалізовано виконання автоматичного перекладу у фоновому режимі."
 
 #: ../../changes.rst:389
 msgid "Weblate 3.8"
@@ -20021,114 +20010,127 @@ msgstr "Випущено 15 серпня 2019 року."
 
 #: ../../changes.rst:393
 msgid "Added support for simplified creating of similar components."
-msgstr ""
+msgstr "Додано підтримку спрощеного створення подібних складників."
 
 #: ../../changes.rst:394
 msgid ""
 "Added support for parsing translation flags from the XML based file formats."
 msgstr ""
+"Додано підтримку обробки прапорців перекладу із заснованих на XML форматах "
+"файлів."
 
 #: ../../changes.rst:395
 msgid "Log exceptions into Celery log."
-msgstr ""
+msgstr "Реалізовано запис виключено до журналу Celery."
 
 #: ../../changes.rst:396
 msgid "Improve performance of repository scoped addons."
-msgstr ""
+msgstr "Удосконалено швидкодію додатків, які діють на рівні сховища."
 
 #: ../../changes.rst:398
 msgid "Fixed password reset behavior."
-msgstr ""
+msgstr "Виправлено поведінку при скиданні пароля."
 
 #: ../../changes.rst:399
 msgid "Improved performance on most of translation pages."
-msgstr ""
+msgstr "Удосконалено швидкодію обробки на більшості сторінок перекладу."
 
 #: ../../changes.rst:400
 msgid "Fixed listing of languages not known to Weblate."
-msgstr ""
+msgstr "Виправлено побудову списку для мов, які невідомі Weblate."
 
 #: ../../changes.rst:401
 msgid "Add support for cloning addons to discovered components."
-msgstr ""
+msgstr "Додано підтримку клонування додатків до виявлених складників."
 
 #: ../../changes.rst:402
 msgid "Add support for replacing file content with uploaded."
-msgstr ""
+msgstr "Додано підтримку заміни вмісту файлів при вивантаженні."
 
 #: ../../changes.rst:403
 msgid "Add support for translating non VCS based content."
 msgstr ""
+"Додано підтримку перекладу даних, які не зберігаються у системі керування "
+"версіями."
 
 #: ../../changes.rst:404
 msgid "Added OpenGraph widget image to use on social networks."
 msgstr ""
+"Додано зображення віджета OpenGraph для використання у соціальних мережах."
 
 #: ../../changes.rst:405
 msgid "Added support for animated screenshots."
-msgstr ""
+msgstr "Додано підтримку анімованих знімків вікон."
 
 #: ../../changes.rst:406 ../../changes.rst:475
 msgid "Improved handling of monolingual XLIFF files."
-msgstr ""
+msgstr "Удосконалено обробку одномовних файлів XLIFF."
 
 #: ../../changes.rst:407
 msgid "Avoid sending multiple notifications for single event."
-msgstr ""
+msgstr "Усунено можливість надсилання декількох сповіщень для однієї події."
 
 #: ../../changes.rst:408
 msgid "Add support for filtering changes."
-msgstr ""
+msgstr "Додано підтримку змін у фільтруванні."
 
 #: ../../changes.rst:409
 msgid "Extended predefined periods for reporting."
-msgstr ""
+msgstr "Розширено спектр попередньо визначених періодів для звітування."
 
 #: ../../changes.rst:410
 msgid "Added webhook support for Azure Repos."
-msgstr ""
+msgstr "Додано підтримку скриптів стеження для сховищ Azure."
 
 #: ../../changes.rst:411
 msgid ""
 "New opt-in notifications on pending suggestions or untranslated strings."
 msgstr ""
+"Нові включні сповіщення щодо пропозицій у черзі або неперекладених рядків."
 
 #: ../../changes.rst:412
 msgid "Add one click unsubscribe link to notification e-mails."
 msgstr ""
+"До повідомлень зі сповіщеннями додано посилання для скасовування підписки у "
+"одне клацання."
 
 #: ../../changes.rst:413
 msgid "Fixed false positives with Has been translated check."
-msgstr ""
+msgstr "Виправлено помилки у перевірці «Було перекладено»."
 
 #: ../../changes.rst:414
 msgid "New management interface for admins."
-msgstr ""
+msgstr "Новий інтерфейс керування для адміністраторів."
 
 #: ../../changes.rst:415
 msgid "String priority can now be specified using flags."
 msgstr ""
+"У новій версії можна встановити пріоритетність рядка за допомогою прапорців."
 
 #: ../../changes.rst:416
 msgid "Added language management views."
-msgstr ""
+msgstr "Додано сторінки керування мовами."
 
 #: ../../changes.rst:417
 msgid "Add checks for Qt library and Ruby format strings."
-msgstr ""
+msgstr "Додано перевірки для форматованих рядків для бібліотеки Qt і Ruby."
 
 #: ../../changes.rst:418
 msgid "Added configuration to better fit single project installations."
 msgstr ""
+"Додано налаштування для кращої відповідності встановленим екземплярам із "
+"одним проєктом."
 
 #: ../../changes.rst:419
 msgid ""
 "Notify about new string on source string change on monolingual translations."
 msgstr ""
+"Реалізовано сповіщення щодо нового рядка при зміні рядків у одномовних "
+"перекладах."
 
 #: ../../changes.rst:420
 msgid "Added separate view for translation memory with search capability."
-msgstr ""
+msgstr "Додано окрему панель пам'яті перекладів із можливостями пошуку."
 
 #: ../../changes.rst:423
 msgid "Weblate 3.7.1"
@@ -20140,31 +20142,33 @@ msgstr "Випущено 28 червня 2019 року."
 
 #: ../../changes.rst:427 ../../changes.rst:1395
 msgid "Documentation updates."
-msgstr ""
+msgstr "Оновлення документації."
 
 #: ../../changes.rst:428
 msgid "Fixed some requirements constraints."
-msgstr ""
+msgstr "Виправлено декілька обмежень-вимог."
 
 #: ../../changes.rst:429
 msgid "Updated language database."
-msgstr ""
+msgstr "Оновлено базу даних мов."
 
 #: ../../changes.rst:430 ../../changes.rst:521 ../../changes.rst:668
 msgid "Localization updates."
-msgstr ""
+msgstr "Оновлення локалізації."
 
 #: ../../changes.rst:431
 msgid "Various user interface tweaks."
-msgstr ""
+msgstr "Різноманітні удосконалення інтерфейсу користувача."
 
 #: ../../changes.rst:432
 msgid "Improved handling of unsupported but discovered translation files."
 msgstr ""
+"Удосконалено обробку непідтримуваних, але придатних до виявлення файлів "
+"перекладу."
 
 #: ../../changes.rst:433
 msgid "More verbosely report missing file format requirements."
-msgstr ""
+msgstr "Реалізовано докладніше звіт щодо пропущених вимог для форматів файлів."
 
 #: ../../changes.rst:436
 msgid "Weblate 3.7"
@@ -20176,64 +20180,71 @@ msgstr "Випущено 21 червня 2019 року."
 
 #: ../../changes.rst:440
 msgid "Added separate Celery queue for notifications."
-msgstr ""
+msgstr "Додано окрему чергу Celery для сповіщень."
 
 #: ../../changes.rst:441
 msgid "Use consistent look with application for API browsing."
 msgstr ""
+"Використано однорідний вигляд із програмою для сторінок навігації програмним "
+"інтерфейсом."
 
 #: ../../changes.rst:442
 msgid "Include approved stats in the reports."
 msgstr ""
+"Реалізовано включення статистики щодо затверджених перекладів до звітів."
 
 #: ../../changes.rst:443
 msgid "Report progress when updating translation component."
-msgstr ""
+msgstr "Реалізовано звітування щодо поступу при оновленні складника перекладу."
 
 #: ../../changes.rst:444
 msgid "Allow to abort running background component update."
-msgstr ""
+msgstr "Уможливлено переривання запущеного фонового оновлення складника."
 
 #: ../../changes.rst:445
 msgid "Extend template language for filename manipulations."
-msgstr ""
+msgstr "Мову шаблонів розширено для обробки назв файлів."
 
 #: ../../changes.rst:446
 msgid "Use templates for editor link and repository browser URL."
 msgstr ""
+"Реалізовано використання шаблонів для посилань редактора та адреси "
+"навігатора сховищем коду."
 
 #: ../../changes.rst:447
 msgid ""
 "Indicate max length and current characters count when editing translation."
 msgstr ""
+"Реалізовано показ максимальної довжини і поточної кількості символів при "
+"редагуванні перекладу."
 
 #: ../../changes.rst:448
 msgid "Improved handling of abbreviations in unchanged translation check."
-msgstr ""
+msgstr "Удосконалено обробку абревіатур у перевірці незмінених перекладів."
 
 #: ../../changes.rst:449
 msgid "Refreshed landing page for new contributors."
-msgstr ""
+msgstr "Оновлено початкову сторінку для нових учасників команди."
 
 #: ../../changes.rst:450
 msgid "Add support for configuring msgmerge addon."
-msgstr ""
+msgstr "Додано підтримку налаштовування додатка msgmerge."
 
 #: ../../changes.rst:451
 msgid "Delay opening SMTP connection when sending notifications."
-msgstr ""
+msgstr "Реалізовано затримку відкриття SMTP-з'єднання при надсиланні сповіщень."
 
 #: ../../changes.rst:452
 msgid "Improved error logging."
-msgstr ""
+msgstr "Удосконалено журналювання помилок."
 
 #: ../../changes.rst:453
 msgid "Allow custom location in MO generating addon."
-msgstr ""
+msgstr "Уможливлено визначення нетипового місця для додатка створення MO."
 
 #: ../../changes.rst:454
 msgid "Added addons to cleanup old suggestions or comments."
-msgstr ""
+msgstr "Додано додатки для очищення застарілих пропозицій або коментарів."
 
 #: ../../changes.rst:455
 msgid "Added option to enable horizontal mode in the Zen editor."
@@ -20601,7 +20612,7 @@ msgstr ""
 
 #: ../../changes.rst:571
 msgid "Improved performance for some monolingual translations."
-msgstr ""
+msgstr "Удосконалено швидкодію обробки деяких одномовних перекладів."
 
 #: ../../changes.rst:572
 msgid ""
@@ -20614,15 +20625,15 @@ msgstr ""
 
 #: ../../changes.rst:574
 msgid "Added support for XLIFF states."
-msgstr ""
+msgstr "Додано підтримку станів XLIFF."
 
 #: ../../changes.rst:575
 msgid "Added check for non writable files in DATA_DIR."
-msgstr ""
+msgstr "Додано перевірку щодо непридатних до запису файлів у DATA_DIR."
 
 #: ../../changes.rst:576
 msgid "Improved CSV export for changes."
-msgstr ""
+msgstr "Удосконалено експортування даних щодо змін до CSV."
 
 #: ../../changes.rst:579
 msgid "Weblate 3.2.2"
@@ -20634,15 +20645,15 @@ msgstr "Випущено 20 жовтня 2018 року."
 
 #: ../../changes.rst:583
 msgid "Remove no longer needed Babel dependency."
-msgstr ""
+msgstr "Вилучено непотрібну вже залежність від Babel."
 
 #: ../../changes.rst:584
 msgid "Updated language definitions."
-msgstr ""
+msgstr "Оновлено визначення мов."
 
 #: ../../changes.rst:585
 msgid "Improve documentation for addons, LDAP and Celery."
-msgstr ""
+msgstr "Удосконалено документацію щодо додатків, LDAP і Celery."
 
 #: ../../changes.rst:586
 msgid "Fixed enabling new dos-eol and auto-java-messageformat flags."
@@ -20960,7 +20971,7 @@ msgstr ""
 
 #: ../../changes.rst:693
 msgid "Weblate 2.x series"
-msgstr ""
+msgstr "Випуски Weblate 2.x"
 
 #: ../../changes.rst:696
 msgid "Weblate 2.20"
@@ -21748,12 +21759,14 @@ msgstr ""
 
 #: ../../changes.rst:957
 msgid "Added support for YAML files."
-msgstr ""
+msgstr "Додано підтримку файлів YAML."
 
 #: ../../changes.rst:958
 msgid ""
 "Project owners can now configure translation component and project details."
 msgstr ""
+"У новій версії власники проєкту можуть налаштовувати складник перекладу і "
+"подробиці щодо проєкту."
 
 #: ../../changes.rst:959
 msgid "Use \"Watched\" instead of \"Subscribed\" projects."
@@ -22502,7 +22515,7 @@ msgstr ""
 
 #: ../../changes.rst:1185
 msgid "Weblate 1.x series"
-msgstr ""
+msgstr "Випуски Weblate 1.x"
 
 #: ../../changes.rst:1188
 msgid "Weblate 1.9"
@@ -23120,7 +23133,7 @@ msgstr ""
 
 #: ../../changes.rst:1385
 msgid "Weblate 0.x series"
-msgstr ""
+msgstr "Випуски Weblate 0.x"
 
 #: ../../changes.rst:1388
 msgid "Weblate 0.9"
@@ -24882,6 +24895,8 @@ msgstr "Налаштовування додатка CDN Weblate"
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` addon provides few configuration options."
 msgstr ""
+"Для додатка :ref:`addon-weblate.cdn.cdnjs` передбачено декілька параметрів "
+"налаштовування."
 
 #: ../../devel/html.rst:49
 msgid "Translation threshold"
@@ -24891,6 +24906,8 @@ msgstr "Порогове значення перекладу"
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
 msgstr ""
+"Переклади із рівнем, який перевищує це порогове значення, буде включено до "
+"CDN."
 
 #: ../../devel/html.rst:52
 msgid "CSS selector"
@@ -25022,7 +25039,7 @@ msgstr "У цьому випадку слід реалізувати справ�
 
 #: ../../devel/index.rst:2
 msgid "Application developer guide"
-msgstr ""
+msgstr "Підручник розробника програм"
 
 #: ../../devel/index.rst:4
 msgid ""
@@ -25033,7 +25050,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
-msgstr ""
+msgstr "Звітування щодо поступу перекладу"
 
 #: ../../devel/reporting.rst:4
 msgid ""
@@ -25060,10 +25077,12 @@ msgid ""
 "Generates a document usable for crediting translators - sorted by language "
 "and lists all contributors to a given language:"
 msgstr ""
+"Створює документ із даними щодо подяк перекладачам — упорядкованих за мовою, "
+"зі списком усіх учасників перекладу певною мовою:"
 
 #: ../../devel/reporting.rst:36
 msgid "It will render as:"
-msgstr ""
+msgstr "Буде оброблено до такого:"
 
 #: ../../devel/reporting.rst:38
 msgid "Czech"
@@ -25089,6 +25108,8 @@ msgstr "Jae Doe <jane@example.com> (42)"
 msgid ""
 "The number in parenthesis indicates number of contributions in given period."
 msgstr ""
+"Число у дужках вказує на кількість учасників перекладу протягом заданого "
+"періоду."
 
 #: ../../devel/reporting.rst:55
 msgid "Contributor stats"
@@ -25098,10 +25119,12 @@ msgstr "Статистика учасника"
 msgid ""
 "Generates the number of translated words and strings by translator name:"
 msgstr ""
+"Виводить дані щодо кількості перекладених слів і рядків за іменами "
+"перекладачів:"
 
 #: ../../devel/reporting.rst:62
 msgid "And it will get rendered as:"
-msgstr ""
+msgstr "Буде оброблено до такого:"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Email"
@@ -25121,7 +25144,7 @@ msgstr "Загальна к-ть початкових символів"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target words total"
-msgstr ""
+msgstr "Кількість слів у перекладі"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target chars total"
