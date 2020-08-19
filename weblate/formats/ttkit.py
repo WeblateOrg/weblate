@@ -220,7 +220,8 @@ class TTKitFormat(TranslationFormat):
         super().__init__(storefile, template_store, language_code, is_template)
         # Set language (needed for some which do not include this)
         if language_code is not None and self.store.gettargetlanguage() is None:
-            self.store.settargetlanguage(self.get_language_code(language_code))
+            # This gets already native language code, so no conversion is needed
+            self.store.settargetlanguage(language_code)
 
     @staticmethod
     def serialize(store):

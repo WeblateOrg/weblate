@@ -3,6 +3,8 @@ Weblate 4.2.1
 
 Not yet released.
 
+* Fixed saving plurals for some locales in Android resources.
+
 Weblate 4.2
 -----------
 
