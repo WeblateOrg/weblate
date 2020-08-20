@@ -586,11 +586,15 @@ Machine translation settings
 
 .. envvar:: WEBLATE_MT_MICROSOFT_ENDPOINT_URL
 
-    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_ENDPOINT_URL`
+    Sets :setting:`MT_MICROSOFT_ENDPOINT_URL`, please note this is supposed to contain domain name only.
+
+.. envvar:: WEBLATE_MT_MICROSOFT_REGION
+
+    Sets :setting:`MT_MICROSOFT_REGION`
 
 .. envvar:: WEBLATE_MT_MICROSOFT_BASE_URL
 
-    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_BASE_URL`
+    Sets :setting:`MT_MICROSOFT_BASE_URL`
 
 .. envvar:: WEBLATE_MT_MODERNMT_KEY
 
