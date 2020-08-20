@@ -1108,6 +1108,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 self.click(self.driver.find_element_by_class_name("runbackup"))
             self.click(self.driver.find_element_by_class_name("createdbackup"))
+            time.sleep(0.5)
             self.screenshot("backups.png")
         finally:
             self.remove_temp()

@@ -52,6 +52,7 @@ from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
 from weblate.utils.stats import BaseStats, ProjectLanguage
+from weblate.utils.views import SORT_CHOICES
 
 register = template.Library()
 
@@ -795,3 +796,8 @@ def percent_format(number):
 def hash_text(name):
     """Hash text for use in HTML id."""
     return hash_to_checksum(siphash("Weblate URL hash", name.encode()))
+
+
+@register.simple_tag
+def sort_choices():
+    return SORT_CHOICES.items()

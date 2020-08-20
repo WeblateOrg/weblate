@@ -1,18 +1,15 @@
 .. _api:
 
-Weblate's Web API
-=================
-
 .. index::
     single: REST
     single: API
 
-REST API
---------
+Weblate's REST API
+==================
 
 .. versionadded:: 2.6
 
-    The API is available since Weblate 2.6.
+    The REST API is available since Weblate 2.6.
 
 The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <https://www.django-rest-framework.org/>`_.
@@ -1033,24 +1030,50 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json string branch: VCS repository branch
-    :>json string file_format: file format of translations
-    :>json string filemask: mask of translation files in the repository
-    :>json string git_export: URL of the exported VCS repository with translations
-    :>json string license: license for translations
-    :>json string license_url: URL of license for translations
-    :>json string name: name of component
-    :>json string slug: slug of component
     :>json object project: the translation project; see :http:get:`/api/projects/(string:project)/`
-    :>json string repo: VCS repository URL
-    :>json string template: base file for monolingual translations
-    :>json string new_base: base file for adding new translations
-    :>json string vcs: version control system
+    :>json string name: :ref:`component-name`
+    :>json string slug: :ref:`component-slug`
+    :>json string vcs: :ref:`component-vcs`
+    :>json string repo: :ref:`component-repo`
+    :>json string git_export: :ref:`component-git_export`
+    :>json string branch: :ref:`component-branch`
+    :>json string push_branch: :ref:`component-push_branch`
+    :>json string filemask: :ref:`component-filemask`
+    :>json string template: :ref:`component-template`
+    :>json string edit_template: :ref:`component-edit_template`
+    :>json string intermediate: :ref:`component-intermediate`
+    :>json string new_base: :ref:`component-new_base`
+    :>json string file_format: :ref:`component-file_format`
+    :>json string license: :ref:`component-license`
+    :>json string agreement: :ref:`component-agreement`
+    :>json string new_lang: :ref:`component-new_lang`
+    :>json string language_code_style: :ref:`component-language_code_style`
+    :>json string push: :ref:`component-push`
+    :>json string check_flags: :ref:`component-check_flags`
+    :>json string priority: :ref:`component-priority`
+    :>json string enforced_checks: :ref:`component-enforced_checks`
+    :>json string restricted: :ref:`component-restricted`
+    :>json string repoweb: :ref:`component-repoweb`
+    :>json string report_source_bugs: :ref:`component-report_source_bugs`
+    :>json string merge_style: :ref:`component-merge_style`
+    :>json string commit_message: :ref:`component-commit_message`
+    :>json string add_message: :ref:`component-add_message`
+    :>json string delete_message: :ref:`component-delete_message`
+    :>json string merge_message: :ref:`component-merge_message`
+    :>json string addon_message: :ref:`component-addon_message`
+    :>json string allow_translation_propagation: :ref:`component-allow_translation_propagation`
+    :>json string enable_suggestions: :ref:`component-enable_suggestions`
+    :>json string suggestion_voting: :ref:`component-suggestion_voting`
+    :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
+    :>json string push_on_commit: :ref:`component-push_on_commit`
+    :>json string commit_pending_age: :ref:`component-commit_pending_age`
+    :>json string auto_lock_error: :ref:`component-auto_lock_error`
+    :>json string language_regex: :ref:`component-language_regex`
+    :>json string variant_regex: :ref:`component-variant_regex`
     :>json string repository_url: URL to repository status; see :http:get:`/api/components/(string:project)/(string:component)/repository/`
     :>json string translations_url: URL to translations list; see :http:get:`/api/components/(string:project)/(string:component)/translations/`
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
-    :>json string push: URL of a push repository
 
     **Example JSON data:**
 
@@ -2030,7 +2053,7 @@ Component lists
 .. _hooks:
 
 Notification hooks
-------------------
+++++++++++++++++++
 
 Notification hooks allow external applications to notify Weblate that the VCS
 repository has been updated.
@@ -2174,7 +2197,7 @@ update individual repositories; see
 .. _exports:
 
 Exports
--------
++++++++
 
 Weblate provides various exports to allow you to further process the data.
 
@@ -2263,7 +2286,7 @@ Weblate provides various exports to allow you to further process the data.
 .. _rss:
 
 RSS feeds
----------
++++++++++
 
 Changes in translations are exported in RSS feeds.
 

@@ -70,6 +70,8 @@ class BillingAdmin(WeblateModelAdmin):
         return super().get_queryset(request).prefetch_related("projects", "owners")
 
     def list_projects(self, obj):
+        if not obj.all_projects:
+            return "none projects associated"
         return ",".join([project.name for project in obj.all_projects])
 
     list_projects.short_description = _("Projects")

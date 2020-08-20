@@ -7,9 +7,9 @@
 # Anonymous <noreply@weblate.org>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.2\n"
+"Project-Id-Version: Weblate 4.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-17 13:46+0000\n"
+"POT-Creation-Date: 2020-08-19 08:59+0000\n"
 "PO-Revision-Date: 2020-08-03 17:46+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
@@ -1007,11 +1007,11 @@ msgstr ""
 "gyfer y rhan fwyaf o fformatau ffeil, mae hyn yn golygu dileu hen allweddi "
 "cyfieithu nad ydynt yn bresennol yn y ffeil sylfaen mwyach."
 
-#: weblate/addons/consistency.py:31
+#: weblate/addons/consistency.py:32
 msgid "Language consistency"
 msgstr "Cysondeb iaith"
 
-#: weblate/addons/consistency.py:33
+#: weblate/addons/consistency.py:34
 #, fuzzy
 #| msgid ""
 #| "Ensure that all components within one project have translation to same "
@@ -2068,8 +2068,8 @@ msgstr "Pob project gwarchodedig"
 msgid "From component list"
 msgstr "O'r rhestr gydrannau"
 
-#: weblate/auth/models.py:128 weblate/billing/admin.py:73
-#: weblate/billing/models.py:241 weblate/templates/about/stats.html:84
+#: weblate/auth/models.py:128 weblate/billing/admin.py:75
+#: weblate/billing/models.py:232 weblate/templates/about/stats.html:84
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:67
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:182 weblate/trans/views/basic.py:83
@@ -2094,7 +2094,7 @@ msgstr "Dewis iaith"
 msgid "All languages"
 msgstr "Pob iaith"
 
-#: weblate/auth/models.py:146 weblate/billing/models.py:276
+#: weblate/auth/models.py:146 weblate/billing/models.py:263
 #: weblate/lang/models.py:469 weblate/lang/views.py:56
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:139
@@ -2126,7 +2126,7 @@ msgstr "Statws uwchddefnyddiwr"
 msgid "User has all possible permissions."
 msgstr "Mae gan y defnyddiwr bob caniatâd posibl."
 
-#: weblate/auth/models.py:312 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:136
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
 #: weblate/templates/check_project.html:23 weblate/templates/checks.html:21
 msgid "Active"
@@ -2167,98 +2167,96 @@ msgstr "Aseinio grŵp yn awtomatig"
 msgid "Automatic group assignments"
 msgstr "Aseiniadau grŵp awtomatig"
 
-#: weblate/billing/admin.py:78
+#: weblate/billing/admin.py:80
 msgid "Owners"
 msgstr "Perchnogion"
 
-#: weblate/billing/models.py:129 weblate/templates/billing/detail.html:12
+#: weblate/billing/models.py:128 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Cynllun bilio"
 
-#: weblate/billing/models.py:132
+#: weblate/billing/models.py:131
 msgid "Billed projects"
 msgstr "Projectau wedi'u bilio"
 
-#: weblate/billing/models.py:134
+#: weblate/billing/models.py:133
 msgid "Billing owners"
 msgstr "Perchnogion bilio"
 
-#: weblate/billing/models.py:138
+#: weblate/billing/models.py:137
 msgid "Trial"
 msgstr "Profi"
 
-#: weblate/billing/models.py:139 weblate/templates/billing/detail.html:17
+#: weblate/billing/models.py:138 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:32
 msgid "Expired"
 msgstr "Wedi dod i ben"
 
-#: weblate/billing/models.py:140
+#: weblate/billing/models.py:139
 msgid "Terminated"
 msgstr "Wedi'i derfynu"
 
-#: weblate/billing/models.py:143
+#: weblate/billing/models.py:142
 msgid "Billing state"
 msgstr "Cyflwr bilio"
 
-#: weblate/billing/models.py:149
+#: weblate/billing/models.py:148
 msgid "Trial expiry date"
 msgstr "Dyddiad dod a'r profi i ben"
 
-#: weblate/billing/models.py:156
+#: weblate/billing/models.py:155
 msgid "Scheduled removal"
 msgstr "Tynnu wedi'i drefnu"
 
-#: weblate/billing/models.py:159
+#: weblate/billing/models.py:158
 msgid "Paid"
 msgstr "Talu"
 
-#: weblate/billing/models.py:162
+#: weblate/billing/models.py:161
 msgid "In limits"
 msgstr "Mewn terfynau"
 
-#: weblate/billing/models.py:165
+#: weblate/billing/models.py:164
 msgid "Grace period for payments"
 msgstr "Cyfnod gras ar gyfer taliadau"
 
-#: weblate/billing/models.py:220
+#: weblate/billing/models.py:217
 msgid "Changes in last month"
 msgstr "Newidiadau yn y mis diwethaf"
 
-#: weblate/billing/models.py:226
-msgid "Changes in last quarter"
-msgstr "Newidiadau yn y chwarter diwethaf"
+#: weblate/billing/models.py:223
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Number of changes"
+msgstr "Nifer y llinynnau"
 
-#: weblate/billing/models.py:232
-msgid "Changes in last year"
-msgstr "Newidiadau yn y flwyddyn diwethaf"
-
-#: weblate/billing/models.py:250 weblate/templates/about/stats.html:92
+#: weblate/billing/models.py:241 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Llinynnau ffynhonnell"
 
-#: weblate/billing/models.py:259 weblate/templates/about/stats.html:96
+#: weblate/billing/models.py:250 weblate/templates/about/stats.html:96
 #: weblate/trans/admin.py:100
 msgid "Source words"
 msgstr "Geiriau ffynhonnell"
 
-#: weblate/billing/models.py:308 weblate/templates/addons/generate_help.html:16
+#: weblate/billing/models.py:293 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:5
 msgid "Number of strings"
 msgstr "Nifer y llinynnau"
 
-#: weblate/billing/models.py:315
+#: weblate/billing/models.py:300
 msgid "N/A"
 msgstr "Amherthnasol"
 
-#: weblate/billing/models.py:317 weblate/templates/billing/status.html:60
+#: weblate/billing/models.py:302 weblate/templates/billing/status.html:60
 msgid "Last invoice"
 msgstr "Anfoneb ddiwethaf"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:339
+#: weblate/billing/models.py:324
 msgid "In display limits"
 msgstr "Mewn cyfyngiadau dangos"
 
@@ -2543,8 +2541,8 @@ msgstr "Pwysau ' r ffont"
 msgid "Font spacing"
 msgstr "Bylchiad ffont"
 
-#: weblate/checks/flags.py:63 weblate/templates/snippets/sort-field.html:17
-#: weblate/trans/models/component.py:595 weblate/utils/views.py:95
+#: weblate/checks/flags.py:63 weblate/trans/models/component.py:595
+#: weblate/utils/views.py:94
 msgid "Priority"
 msgstr "Flaenoriaeth"
 
@@ -3010,149 +3008,149 @@ msgstr ""
 msgid "JSON"
 msgstr ""
 
-#: weblate/formats/exporters.py:397 weblate/formats/ttkit.py:1080
+#: weblate/formats/exporters.py:397 weblate/formats/ttkit.py:1081
 msgid "Android String Resource"
 msgstr ""
 
-#: weblate/formats/exporters.py:413 weblate/formats/ttkit.py:973
+#: weblate/formats/exporters.py:413 weblate/formats/ttkit.py:974
 msgid "iOS strings"
 msgstr ""
 
-#: weblate/formats/ttkit.py:884
+#: weblate/formats/ttkit.py:885
 msgid "gettext PO file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:897
+#: weblate/formats/ttkit.py:898
 msgid "gettext PO file (monolingual)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:912
+#: weblate/formats/ttkit.py:913
 msgid "Qt Linguist translation file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:928
+#: weblate/formats/ttkit.py:929
 msgid "XLIFF translation file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:943
+#: weblate/formats/ttkit.py:944
 msgid "XLIFF translation file with PO extensions"
 msgstr ""
 
-#: weblate/formats/ttkit.py:982
+#: weblate/formats/ttkit.py:983
 msgid "iOS strings (UTF-8)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:989
+#: weblate/formats/ttkit.py:990
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:997
+#: weblate/formats/ttkit.py:998
 msgid "Java Properties (UTF-16)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1012
+#: weblate/formats/ttkit.py:1013
 msgid "Java Properties (ISO 8859-1)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1029
+#: weblate/formats/ttkit.py:1030
 msgid "Joomla Language File"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1038
+#: weblate/formats/ttkit.py:1039
 msgid "GWT Properties"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1045
+#: weblate/formats/ttkit.py:1046
 msgid "PHP strings"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1064
+#: weblate/formats/ttkit.py:1065
 #, fuzzy
 #| msgid "Review strings"
 msgid "Laravel PHP strings"
 msgstr "Adolygu llinynnau"
 
-#: weblate/formats/ttkit.py:1070
+#: weblate/formats/ttkit.py:1071
 msgid ".NET resource file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1091
+#: weblate/formats/ttkit.py:1092
 msgid "JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1110
+#: weblate/formats/ttkit.py:1111
 msgid "JSON nested structure file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1117
+#: weblate/formats/ttkit.py:1118
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1126
+#: weblate/formats/ttkit.py:1127
 msgid "i18next JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1134
+#: weblate/formats/ttkit.py:1135
 msgid "go-i18n JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1141
+#: weblate/formats/ttkit.py:1142
 #, fuzzy
 #| msgid "Per file"
 msgid "ARB file"
 msgstr "Fesul ffeil"
 
-#: weblate/formats/ttkit.py:1149
+#: weblate/formats/ttkit.py:1150
 msgid "CSV file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1225
+#: weblate/formats/ttkit.py:1226
 msgid "Simple CSV file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1246
+#: weblate/formats/ttkit.py:1247
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1253
+#: weblate/formats/ttkit.py:1254
 msgid "YAML file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1272
+#: weblate/formats/ttkit.py:1273
 msgid "Ruby YAML file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1279
+#: weblate/formats/ttkit.py:1280
 msgid "DTD file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1320
+#: weblate/formats/ttkit.py:1321
 msgid "SubRip subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1334
+#: weblate/formats/ttkit.py:1335
 msgid "MicroDVD subtitle file"
 msgstr "Ffeil Isdeitlau MicroDVD"
 
-#: weblate/formats/ttkit.py:1341
+#: weblate/formats/ttkit.py:1342
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Ffeil is-deitl Advanced SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1348
+#: weblate/formats/ttkit.py:1349
 msgid "SubStation Alpha subtitle file"
 msgstr "Ffeil is-deitl SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1355
+#: weblate/formats/ttkit.py:1356
 msgid "Flat XML file"
 msgstr "Ffeil XML fflat"
 
-#: weblate/formats/ttkit.py:1364
+#: weblate/formats/ttkit.py:1365
 #, fuzzy
 #| msgid "Flat XML file"
 msgid "INI file"
 msgstr "Ffeil XML fflat"
 
-#: weblate/formats/ttkit.py:1399
+#: weblate/formats/ttkit.py:1400
 msgid "Inno Setup INI file"
 msgstr ""
 
@@ -5879,7 +5877,7 @@ msgstr[4] ""
 msgstr[5] ""
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:789 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:790 weblate/trans/widgets.py:100
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -6420,6 +6418,7 @@ msgstr "Dileu sylw"
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/translate.html:130 weblate/templates/translate.html:569
+#: weblate/templates/zen-units.html:33
 msgid "Source string comment"
 msgstr ""
 
@@ -6621,7 +6620,6 @@ msgid "New announcement at %(site_title)s"
 msgstr ""
 
 #: weblate/templates/mail/new_comment.html:9
-#: weblate/templates/zen-units.html:33
 msgid "Comment"
 msgstr ""
 
@@ -7302,9 +7300,8 @@ msgstr ""
 #: weblate/templates/project-label-edit.html:9
 #: weblate/templates/project-labels.html:9
 #: weblate/templates/snippets/project-nav.html:123
-#: weblate/templates/snippets/sort-field.html:18
 #: weblate/templates/translate.html:578 weblate/trans/models/unit.py:280
-#: weblate/utils/views.py:96
+#: weblate/utils/views.py:95
 msgid "Labels"
 msgstr ""
 
@@ -7363,8 +7360,7 @@ msgstr ""
 msgid "Instructions for translators"
 msgstr ""
 
-#: weblate/templates/project_stats.html:10
-#: weblate/templates/snippets/sort-field.html:20
+#: weblate/templates/project_stats.html:10 weblate/utils/views.py:97
 msgid "Number of words"
 msgstr ""
 
@@ -7822,45 +7818,11 @@ msgstr ""
 msgid "Query"
 msgstr ""
 
-#: weblate/templates/snippets/sort-field.html:9
-#: weblate/templates/snippets/sort-field.html:13
+#: weblate/templates/snippets/sort-field.html:10
+#: weblate/templates/snippets/sort-field.html:14
 #: weblate/templates/snippets/user-sort-field.html:9
 #: weblate/templates/snippets/user-sort-field.html:13
 msgid "Sort By"
-msgstr ""
-
-#: weblate/templates/snippets/sort-field.html:15 weblate/utils/views.py:102
-#: weblate/utils/views.py:105
-msgid "Position and priority"
-msgstr ""
-
-#: weblate/templates/snippets/sort-field.html:16 weblate/utils/views.py:94
-msgid "Position"
-msgstr ""
-
-#: weblate/templates/snippets/sort-field.html:19 weblate/utils/views.py:97
-#, fuzzy
-#| msgid "Number of strings"
-msgid "Age of string"
-msgstr "Nifer y llinynnau"
-
-#: weblate/templates/snippets/sort-field.html:21 weblate/utils/views.py:100
-#, fuzzy
-#| msgid "Multiple failing checks"
-msgid "Number of failing checks"
-msgstr "Gwiriadau methu lluosog"
-
-#: weblate/templates/snippets/sort-field.html:22 weblate/utils/views.py:99
-#, fuzzy
-#| msgid "New comment"
-msgid "Number of comments"
-msgstr "Sylw newydd"
-
-#. Translators: Translation key for monolingual translations
-#: weblate/templates/snippets/sort-field.html:23
-#: weblate/trans/models/component.py:2561 weblate/utils/views.py:101
-msgctxt "Translation key"
-msgid "Key"
 msgstr ""
 
 #. Translators: Name of event in the history
@@ -7912,7 +7874,7 @@ msgid "Source in review"
 msgstr "Llinynnau ffynhonnell"
 
 #: weblate/templates/snippets/unit-state.html:5
-#: weblate/trans/templatetags/translations.py:494 weblate/utils/state.py:31
+#: weblate/trans/templatetags/translations.py:495 weblate/utils/state.py:31
 msgctxt "String state"
 msgid "Needs editing"
 msgstr ""
@@ -7923,13 +7885,13 @@ msgid "Read only"
 msgstr ""
 
 #: weblate/templates/snippets/unit-state.html:7
-#: weblate/trans/templatetags/translations.py:498 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:499 weblate/utils/state.py:33
 msgctxt "String state"
 msgid "Approved"
 msgstr ""
 
 #: weblate/templates/snippets/unit-state.html:8
-#: weblate/trans/templatetags/translations.py:500 weblate/utils/state.py:32
+#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:32
 #, fuzzy
 #| msgid "Translate"
 msgctxt "String state"
@@ -8463,11 +8425,11 @@ msgstr ""
 msgid "Copy permalink"
 msgstr ""
 
-#: weblate/templates/translate.html:96 weblate/templates/zen-units.html:56
+#: weblate/templates/translate.html:96 weblate/templates/zen-units.html:73
 msgid "Edit string"
 msgstr ""
 
-#: weblate/templates/translate.html:106 weblate/templates/zen-units.html:66
+#: weblate/templates/translate.html:106 weblate/templates/zen-units.html:83
 msgid "Source change"
 msgstr ""
 
@@ -8478,13 +8440,13 @@ msgid "Intermediate language"
 msgstr "Iaith Rhyngwyneb"
 
 #: weblate/templates/translate.html:138 weblate/templates/translate.html:549
-#: weblate/trans/models/unit.py:265
+#: weblate/templates/zen-units.html:44 weblate/trans/models/unit.py:265
 #, fuzzy
 #| msgid "Upload translations"
 msgid "Explanation"
 msgstr "Llwytho cyfieithiadau i fyny"
 
-#: weblate/templates/translate.html:160 weblate/templates/zen-units.html:76
+#: weblate/templates/translate.html:160 weblate/templates/zen-units.html:93
 msgid "Edit source string"
 msgstr "Golygu llinyn ffynhonnell"
 
@@ -8944,7 +8906,7 @@ msgstr ""
 msgid "Open in full editor"
 msgstr ""
 
-#: weblate/templates/zen-units.html:106 weblate/trans/views/edit.py:452
+#: weblate/templates/zen-units.html:123 weblate/trans/views/edit.py:452
 msgid "The translation has come to an end."
 msgstr ""
 
@@ -10519,6 +10481,12 @@ msgstr ""
 msgid "Context"
 msgstr ""
 
+#. Translators: Translation key for monolingual translations
+#: weblate/trans/models/component.py:2561 weblate/utils/views.py:100
+msgctxt "Translation key"
+msgid "Key"
+msgstr ""
+
 #: weblate/trans/models/componentlist.py:41
 msgid "Component list name"
 msgstr ""
@@ -10676,7 +10644,7 @@ msgid "source"
 msgstr ""
 
 #: weblate/trans/models/translation.py:161
-#: weblate/trans/templatetags/translations.py:661
+#: weblate/trans/templatetags/translations.py:662
 msgid "This translation is used for source strings."
 msgstr ""
 
@@ -10765,31 +10733,31 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:73
+#: weblate/trans/templatetags/translations.py:74
 msgid "Good configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:74
+#: weblate/trans/templatetags/translations.py:75
 msgid "Bad configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:75
+#: weblate/trans/templatetags/translations.py:76
 msgid "Possible configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:110
+#: weblate/trans/templatetags/translations.py:111
 msgid "Tab character"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:186
+#: weblate/trans/templatetags/translations.py:187
 msgid "New line"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:309
+#: weblate/trans/templatetags/translations.py:310
 msgid "a year ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:310
+#: weblate/trans/templatetags/translations.py:311
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
@@ -10800,11 +10768,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:316
+#: weblate/trans/templatetags/translations.py:317
 msgid "a month ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:317
+#: weblate/trans/templatetags/translations.py:318
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
@@ -10815,7 +10783,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:322
+#: weblate/trans/templatetags/translations.py:323
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
@@ -10826,15 +10794,15 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:327
+#: weblate/trans/templatetags/translations.py:328
 msgid "a week ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:329
+#: weblate/trans/templatetags/translations.py:330
 msgid "yesterday"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:330
+#: weblate/trans/templatetags/translations.py:331
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
@@ -10845,16 +10813,16 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:334
-#: weblate/trans/templatetags/translations.py:391
+#: weblate/trans/templatetags/translations.py:335
+#: weblate/trans/templatetags/translations.py:392
 msgid "now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:337
+#: weblate/trans/templatetags/translations.py:338
 msgid "a second ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:339
+#: weblate/trans/templatetags/translations.py:340
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
@@ -10865,11 +10833,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:344
+#: weblate/trans/templatetags/translations.py:345
 msgid "a minute ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:345
+#: weblate/trans/templatetags/translations.py:346
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
@@ -10880,11 +10848,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:350
+#: weblate/trans/templatetags/translations.py:351
 msgid "an hour ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:351
+#: weblate/trans/templatetags/translations.py:352
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
@@ -10895,11 +10863,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:366
+#: weblate/trans/templatetags/translations.py:367
 msgid "a year from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:368
+#: weblate/trans/templatetags/translations.py:369
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
@@ -10910,11 +10878,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:373
+#: weblate/trans/templatetags/translations.py:374
 msgid "a month from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:375
+#: weblate/trans/templatetags/translations.py:376
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
@@ -10925,7 +10893,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:381
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
@@ -10936,15 +10904,15 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:384
+#: weblate/trans/templatetags/translations.py:385
 msgid "tomorrow"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:386
+#: weblate/trans/templatetags/translations.py:387
 msgid "a week from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:389
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
@@ -10955,11 +10923,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:394
+#: weblate/trans/templatetags/translations.py:395
 msgid "a second from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:396
+#: weblate/trans/templatetags/translations.py:397
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
@@ -10970,11 +10938,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:401
+#: weblate/trans/templatetags/translations.py:402
 msgid "a minute from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:403
+#: weblate/trans/templatetags/translations.py:404
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
@@ -10985,11 +10953,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:407
+#: weblate/trans/templatetags/translations.py:408
 msgid "an hour from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:408
+#: weblate/trans/templatetags/translations.py:409
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -11000,52 +10968,52 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: weblate/trans/templatetags/translations.py:496
+#: weblate/trans/templatetags/translations.py:497
 #, fuzzy
 #| msgid "translate"
 msgctxt "String state"
 msgid "Not translated"
 msgstr "Cyfieithu"
 
-#: weblate/trans/templatetags/translations.py:529
+#: weblate/trans/templatetags/translations.py:530
 #, python-format
 msgid "string ID %s"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:670
+#: weblate/trans/templatetags/translations.py:671
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:678
+#: weblate/trans/templatetags/translations.py:679
 #: weblate/trans/views/guide.py:158
 msgid "Fix this component to clear its alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:683
-#: weblate/trans/templatetags/translations.py:703
+#: weblate/trans/templatetags/translations.py:684
+#: weblate/trans/templatetags/translations.py:704
 msgid "This translation is locked."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:688
+#: weblate/trans/templatetags/translations.py:689
 msgid "Updating translation component…"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:698
+#: weblate/trans/templatetags/translations.py:699
 msgid "Some of the components within this project have alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:728
+#: weblate/trans/templatetags/translations.py:729
 msgid "You administrate this project."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:741
+#: weblate/trans/templatetags/translations.py:742
 #, fuzzy
 #| msgid "The translation does not contain an URL"
 msgid "This translation does not yet exist."
 msgstr "Nid yw'r cyfieithiad yn cynnwys URL"
 
-#: weblate/trans/templatetags/translations.py:762
+#: weblate/trans/templatetags/translations.py:763
 msgid "enabled"
 msgstr ""
 
@@ -11732,20 +11700,42 @@ msgstr "Mae angen y maes hwn."
 msgid "Syntax error in language aliases."
 msgstr ""
 
-#: weblate/utils/views.py:98
-msgid "Word count"
+#: weblate/utils/views.py:92 weblate/utils/views.py:109
+msgid "Position and priority"
 msgstr ""
 
-#: weblate/utils/views.py:265
+#: weblate/utils/views.py:93
+msgid "Position"
+msgstr ""
+
+#: weblate/utils/views.py:96
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Age of string"
+msgstr "Nifer y llinynnau"
+
+#: weblate/utils/views.py:98
+#, fuzzy
+#| msgid "New comment"
+msgid "Number of comments"
+msgstr "Sylw newydd"
+
+#: weblate/utils/views.py:99
+#, fuzzy
+#| msgid "Multiple failing checks"
+msgid "Number of failing checks"
+msgstr "Gwiriadau methu lluosog"
+
+#: weblate/utils/views.py:269
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr ""
 
-#: weblate/vcs/git.py:547
+#: weblate/vcs/git.py:548
 msgid "Git with force push"
 msgstr ""
 
-#: weblate/vcs/git.py:676
+#: weblate/vcs/git.py:673
 msgid "No remote repository"
 msgstr ""
 
@@ -11919,6 +11909,12 @@ msgstr "Mae eich cyfrif wedi'i dynnu."
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr ""
+
+#~ msgid "Changes in last quarter"
+#~ msgstr "Newidiadau yn y chwarter diwethaf"
+
+#~ msgid "Changes in last year"
+#~ msgstr "Newidiadau yn y flwyddyn diwethaf"
 
 #~ msgid "Trailing stop"
 #~ msgstr "Stop dilynnol"

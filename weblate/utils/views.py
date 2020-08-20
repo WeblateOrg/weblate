@@ -28,7 +28,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
-from django.utils.translation import pgettext
+from django.utils.translation import gettext_lazy, pgettext_lazy
 from django.views.generic.edit import FormView
 
 from weblate.formats.models import EXPORTERS
@@ -88,21 +88,25 @@ class ProjectViewMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
+SORT_CHOICES = {
+    "-priority,position": gettext_lazy("Position and priority"),
+    "position": gettext_lazy("Position"),
+    "priority": gettext_lazy("Priority"),
+    "labels": gettext_lazy("Labels"),
+    "timestamp": gettext_lazy("Age of string"),
+    "num_words": gettext_lazy("Number of words"),
+    "num_comments": gettext_lazy("Number of comments"),
+    "num_failing_checks": gettext_lazy("Number of failing checks"),
+    "context": pgettext_lazy("Translation key", "Key"),
+}
+
+SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
+
+
 def get_sort_name(request):
     """Gets sort name."""
-    sort_dict = {
-        "position": _("Position"),
-        "priority": _("Priority"),
-        "labels": _("Labels"),
-        "timestamp": _("Age of string"),
-        "num_words": _("Word count"),
-        "num_comments": _("Number of comments"),
-        "num_failing_checks": _("Number of failing checks"),
-        "context": pgettext("Translation key", "Key"),
-        "priority,position": _("Position and priority"),
-    }
     sort_params = request.GET.get("sort_by", "-priority,position").replace("-", "")
-    sort_name = sort_dict.get(sort_params, _("Position and priority"))
+    sort_name = SORT_LOOKUP.get(sort_params, _("Position and priority"))
     result = {
         "query": request.GET.get("sort_by", "-priority,position"),
         "name": sort_name,

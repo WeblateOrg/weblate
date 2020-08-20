@@ -1,7 +1,16 @@
+Weblate 4.2.1
+-------------
+
+Released on August 21st 2020.
+
+* Fixed saving plurals for some locales in Android resources.
+* Fixed crash in the cleanup addon for some XLIFF files.
+* Allow to configure localization CDN in Docker image.
+
 Weblate 4.2
 -----------
 
-Not yet released.
+Released on August 18th 2020.
 
 * Improved user pages and added listing of users.
 * Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0.

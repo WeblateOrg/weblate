@@ -73,6 +73,10 @@ CELERY_BROKER_URL = "memory://"
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_RESULT_BACKEND = None
 
+# Localize CDN addon
+LOCALIZE_CDN_URL = "https://cdn.example.com/"
+LOCALIZE_CDN_PATH = os.path.join(DATA_DIR, "l10n-cdn")
+
 # Needed for makemessages, otherwise it does not discover all available locales
 # and the -a parameter does not work
 LOCALE_PATHS = [os.path.join(os.path.dirname(__file__), "locale")]

@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load icons %}
+{% load translations %}
 <div class="btn-group search-group sort-field" role="group">
   <div class="btn-group" role="group">
     <button type="button" id="query-sort-dropdown" class="btn btn-default dropdown-toggle search-field" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -12,15 +13,10 @@
     </button>
     <input type="hidden" id="id_sort_by" name="sort_by" value="{{ sort_query|default:'-priority,position' }}" aria-label="{% trans "Sort By" %}" />
     <ul class="dropdown-menu">
-      <li><a href="#" data-sort="-priority,position">{% trans "Position and priority" %}</a></li>
-      <li><a href="#" data-sort="position">{% trans "Position" %}</a></li>
-      <li><a href="#" data-sort="priority">{% trans "Priority" %}</a></li>
-      <li><a href="#" data-sort="labels">{% trans "Labels" %}</a></li>
-      <li><a href="#" data-sort="timestamp">{% trans "Age of string" %}</a></li>
-      <li><a href="#" data-sort="num_words">{% trans "Number of words" %}</a></li>
-      <li><a href="#" data-sort="num_failing_checks">{% trans "Number of failing checks" %}</a></li>
-      <li><a href="#" data-sort="num_comments">{% trans "Number of comments" %}</a></li>
-      <li><a href="#" data-sort="context">{% trans "Key" context "Translation key" %}</a></li>
+      {% sort_choices as sort_choices %}
+      {% for key, name in sort_choices %}
+        <li><a href="#" data-sort="{{ key }}">{{ name }}</a></li>
+      {% endfor %}
     </ul>
   </div>
   <div class="btn-group" role="group">

@@ -135,6 +135,14 @@
     var $row = $this.closest("tr");
     var checksum = $row.find("[name=checksum]").val();
 
+    /* Wait until previous operation on this field is completed */
+    if ($("#loading-" + checksum).is(":visible")) {
+      setTimeout(function () {
+        $this.trigger("change");
+      }, 100);
+      return;
+    }
+
     $row.addClass("translation-modified");
 
     var form = $row.find("form");

@@ -6,8 +6,9 @@ if ! git diff --exit-code --quiet ; then
     exit 1
 fi
 
-version=$(DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print(weblate.VERSION_BASE)')
-today=$(DJANGO_SETTINGS_MODULE=weblate.settings_example ./manage.py shell -c 'from django.utils.dateformat import format; import datetime; print(format(datetime.date.today(), "F dS Y"))')
+export CI_DATABASE=postgresql
+version=$(DJANGO_SETTINGS_MODULE=weblate.settings_test python -c 'import weblate; print(weblate.VERSION_BASE)')
+today=$(DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py shell -c 'from django.utils.dateformat import format; import datetime; print(format(datetime.date.today(), "F dS Y"))')
 
 sed -i "s/^VERSION =.*/VERSION = \"$version\"/" weblate/__init__.py
 sed -i "s/^Not yet released./Released on $today./" docs/changes.rst

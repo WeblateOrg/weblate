@@ -17,8 +17,14 @@ the cloud. The backups can be controlled in the management interface on the
 
    Only PostgreSQL database is included in the automated backups. Other
    database engines have to be backed up manually. You are recommended to
-   migrate to PostgreSQL as that will be the only supported database in the
-   4.0 release. See :ref:`database-migration`.
+   migrate to PostgreSQL, see :ref:`database-setup` and
+   :ref:`database-migration`.
+
+The backups using Borg are incremental and Weblate is configured to keep following backups:
+
+* 14 daily backups
+* 8 weekly backups
+* 6 monthly backups
 
 .. image:: /images/backups.png
 
@@ -82,7 +88,9 @@ Restoring from BorgBackup
 
 4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
 
-5. Copy Weblate configuration and data dir to the correct location.
+5. Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-dumps`) to the correct location, see :ref:`configuration`.
+
+6. Copy the whole restored data dir to location configured by :setting:`DATA_DIR`.
 
 The Borg session might look like:
 

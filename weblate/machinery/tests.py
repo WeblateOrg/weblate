@@ -735,7 +735,7 @@ class YandexTranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.GET,
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
-            json={"code": 401, "message": "Invalid request"},
+            json={"code": 400, "message": "Invalid request"},
         )
 
     def mock_response(self):
@@ -749,6 +749,22 @@ class YandexTranslationTest(BaseMachineTranslationTest):
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
             json={"code": 200, "lang": "en-cs", "text": ["svet"]},
         )
+
+    @responses.activate
+    def test_error_message(self):
+        message = "Invalid test request"
+        responses.add(
+            responses.GET,
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
+            json={"langs": {"en": "English", "cs": "Czech"}},
+        )
+        responses.add(
+            responses.GET,
+            "https://translate.yandex.net/api/v1.5/tr.json/translate",
+            json={"code": 400, "message": message},
+        )
+        with self.assertRaisesRegex(MachineTranslationError, message):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
 
 @override_settings(MT_YOUDAO_ID="id", MT_YOUDAO_SECRET="secret")

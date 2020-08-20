@@ -313,6 +313,7 @@ class AndroidAddonTest(ViewTestCase):
         addon.post_update(self.component, "")
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("android-not-synced/values-cs/strings.xml", commit)
+        self.assertIn('\n-    <string name="hello"/>', commit)
 
 
 class IntermediateAddonTest(ViewTestCase):
