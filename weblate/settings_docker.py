@@ -1145,6 +1145,10 @@ DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
 
+# Localize CDN addon
+LOCALIZE_CDN_URL = os.environ.get("WEBLATE_LOCALIZE_CDN_URL", None)
+LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
+
 # Third party services integration
 MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
 MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
