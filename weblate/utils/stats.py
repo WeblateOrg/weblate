@@ -834,46 +834,27 @@ class ComponentListStats(BaseStats):
 
 
 class UserStats(BaseStats):
-    basic_keys = SOURCE_KEYS
-
-    def project_set(self):
-        from weblate.trans.models import Change, Project
-
-        user = self._object
-        allowed_project_ids = user.allowed_project_ids
-
-        # Filter all user activity
-        all_changes = Change.objects.last_changes(user).filter(user=user)
-
-        # Filter where project is active
-        user_projects_ids = set(
-            all_changes.values_list("translation__component__project", flat=True)
-        )
-        user_projects = Project.objects.filter(
-            id__in=user_projects_ids & allowed_project_ids
-        )
-        user_owned_projects = user.owned_projects.filter(id__in=allowed_project_ids)
-        return prefetch_stats(user_projects.union(user_owned_projects))
+    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
+        super().invalidate()
 
     def _prefetch_basic(self):
-        stats = zero_stats(self.basic_keys)
-        for project in self.project_set():
-            stats_obj = project.stats
-            stats_obj.ensure_basic()
-            for item in self.basic_keys:
-                aggregate(stats, item, stats_obj)
+        base = self._object.profile
+        stats = {
+            "all": base.translated + base.suggested + base.uploaded + base.commented,
+            "translated": base.translated,
+            "suggested": base.suggested,
+            "uploaded": base.uploaded,
+            "commented": base.commented,
+        }
 
         for key, value in stats.items():
             self.store(key, value)
 
-        # Calculate percents
-        self.calculate_basic_percents()
+        self.store("languages", base.languages.count())
 
     def calculate_item(self, item):
-        """Calculate stats for translation."""
-        result = 0
-        for project in self.project_set():
-            result += getattr(project.stats, item)
+        """Calculate stats for user."""
+        result = getattr(self._object.profile, item)
         self.store(item, result)
 
 

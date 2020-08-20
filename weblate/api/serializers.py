@@ -691,6 +691,20 @@ class StatisticsSerializer(ReadOnlySerializer):
         return result
 
 
+class UserStatisticsSerializer(ReadOnlySerializer):
+    def to_representation(self, instance):
+        stats = instance.stats
+        result = {
+            "total": stats.all,
+            "translated": stats.translated,
+            "suggested": stats.suggested,
+            "uploaded": stats.uploaded,
+            "commented": stats.commented,
+            "languages": stats.languages,
+        }
+        return result
+
+
 class UnitSerializer(RemovableSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(

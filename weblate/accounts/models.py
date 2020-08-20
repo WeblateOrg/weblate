@@ -432,6 +432,7 @@ class Profile(models.Model):
         # Update database
         update = {item: F(item) + increase}
         Profile.objects.filter(pk=self.pk).update(**update)
+        self.user.stats.invalidate()
 
     @property
     def full_name(self):
