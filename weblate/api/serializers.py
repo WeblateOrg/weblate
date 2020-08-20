@@ -693,14 +693,13 @@ class StatisticsSerializer(ReadOnlySerializer):
 
 class UserStatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
-        stats = instance.stats
+        profile = instance.profile
         result = {
-            "total": stats.all,
-            "translated": stats.translated,
-            "suggested": stats.suggested,
-            "uploaded": stats.uploaded,
-            "commented": stats.commented,
-            "languages": stats.languages,
+            "translated": profile.translated,
+            "suggested": profile.suggested,
+            "uploaded": profile.uploaded,
+            "commented": profile.commented,
+            "languages": profile.languages.count(),
         }
         return result
 

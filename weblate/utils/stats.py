@@ -833,31 +833,6 @@ class ComponentListStats(BaseStats):
         self.store(item, result)
 
 
-class UserStats(BaseStats):
-    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
-        super().invalidate()
-
-    def _prefetch_basic(self):
-        base = self._object.profile
-        stats = {
-            "all": base.translated + base.suggested + base.uploaded + base.commented,
-            "translated": base.translated,
-            "suggested": base.suggested,
-            "uploaded": base.uploaded,
-            "commented": base.commented,
-        }
-
-        for key, value in stats.items():
-            self.store(key, value)
-
-        self.store("languages", base.languages.count())
-
-    def calculate_item(self, item):
-        """Calculate stats for user."""
-        result = getattr(self._object.profile, item)
-        self.store(item, result)
-
-
 class GlobalStats(BaseStats):
     basic_keys = SOURCE_KEYS
 
