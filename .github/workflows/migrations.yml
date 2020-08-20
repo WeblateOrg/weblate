@@ -28,7 +28,7 @@ jobs:
       - name: Start services
         run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
-        uses: actions/cache@v2.1.0
+        uses: actions/cache@v2.1.1
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
