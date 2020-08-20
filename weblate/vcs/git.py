@@ -20,6 +20,7 @@
 
 import os
 import os.path
+from configparser import NoOptionError, NoSectionError
 from datetime import datetime
 from typing import List, Optional
 from zipfile import ZipFile
@@ -64,10 +65,16 @@ class GitRepository(Repository):
         filename = os.path.join(self.path, ".git", "config")
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
-                old = config.get_value(section, key, -1)
-                if value is None and old:
-                    config.remove_option(section, key)
-                elif old != value:
+                try:
+                    old = config.get(section, key)
+                    if value is None:
+                        config.remove_option(section, key)
+                        continue
+                    if old == value:
+                        continue
+                except (NoSectionError, NoOptionError):
+                    pass
+                if value is not None:
                     config.set_value(section, key, value)
 
     def check_config(self):
