@@ -24,9 +24,10 @@ class NotifyLexicon(BaseAddon):
     def post_commit(self, component, translation=None):
         """Notify Lexicon after committing changes."""
         env = os.environ.get("ENVIRONMENT", "prod")
+        component_name = "{}/{}".format(component.project.slug, component.slug)
         url = self.lexicon_url_template.format(
             env=env,
-            component_name=component.name,
+            component_name=component_name,
             language_code=translation.language_code,
         )
         response = request(
