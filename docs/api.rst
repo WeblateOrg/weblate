@@ -265,6 +265,7 @@ Users
             "is_active": true,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/"
+            "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
 .. http:put:: /api/users/(str:username)/
@@ -307,6 +308,18 @@ Users
     :param username: User's username
     :type username: string
     :form string group_id: The unique group ID
+
+.. http:get:: /api/users/(str:username)/statistics/
+
+    List statistics of a user.
+
+    :param username: User's username
+    :type username: string
+    :>json int translated: Number of translations by user
+    :>json int suggested: Number of suggestions by user
+    :>json int uploaded: Number of uploads by user
+    :>json int commented: Number of comments by user
+    :>json int languages: Number of languages user can translate
 
 .. http:get:: /api/users/(str:username)/notifications/
 
