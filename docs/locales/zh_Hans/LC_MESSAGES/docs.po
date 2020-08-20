@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-19 10:59+0200\n"
-"PO-Revision-Date: 2020-08-20 05:46+0000\n"
+"PO-Revision-Date: 2020-08-20 07:18+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -6516,21 +6516,23 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
+"使用 Django 和 Python 扩展与定制。将您的更改贡献给上游使每人都能够受益。这降低了您的维护成本； Weblate "
+"中的代码对更改内部界面或重构编码时的情况。"
 
 #: ../../admin/customize.rst:11
 msgid ""
 "Neither internal interfaces nor templates are considered a stable API. "
 "Please review your own customizations for every upgrade, the interfaces or "
 "their semantics might change without notice."
-msgstr ""
+msgstr "内部界面与模板都不被认为是稳定的 API 。请您对每次升级都复查自己的定制，接口或其语义可能未经通知就进行更改。"
 
 #: ../../admin/customize.rst:17
 msgid ":ref:`contributing`"
-msgstr ""
+msgstr ":ref:`contributing`"
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr ""
+msgstr "建立 Python 模块"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -6538,6 +6540,8 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"如果您不熟悉 Python ，您可以查看 `Python For Beginners <https://www.python.org/about/"
+"gettingstarted/>`_ ，它解释了其基本内容并指向了高级教程。"
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -6546,62 +6550,69 @@ msgid ""
 "python3.7/site-packages/`) or in the Weblate directory, which is also added "
 "to the interpreter search path."
 msgstr ""
+"为了写出一些定制 Python 代码（被称为模块），需要一个地方进行存储，或者在系统路径（通常像 :file:`/usr/lib/python3.7/"
+"site-packages/` 的地方），或者在 Weblate 目录下，同样也添加到翻译搜索路径下。"
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr ""
+msgstr "更好地是，将您的定制化转变为适当的 Python 包："
 
 #: ../../admin/customize.rst:35
 msgid "Create a folder for your package (we will use `weblate_customization`)."
-msgstr ""
+msgstr "为您的包建立文件夹（我们会使用 `weblate_customization` ）。"
 
 #: ../../admin/customize.rst:36
 msgid "within it, create a :file:`setup.py` file to describe the package:"
-msgstr ""
+msgstr "在里面建立 :file:`setup.py` 文件来描述包："
 
 #: ../../admin/customize.rst:53
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
-msgstr ""
+msgstr "建立定制代码的 Python 模块（ 也被成为 ``weblate_customization`` ）的文件夹。"
 
 #: ../../admin/customize.rst:55
 msgid ""
 "Within it, create a :file:`__init__.py` file to make sure Python can import "
 "the module."
-msgstr ""
+msgstr "在里面建立 :file:`__init__.py` 文件来确认 Python 可以导入模块。"
 
 #: ../../admin/customize.rst:56
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
+"现在可以使用 :command:`pip install -e` 安装这个包。更多信息可以在 :ref:`pip:editable-installs` "
+"中找到。"
 
 #: ../../admin/customize.rst:57
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"模块一旦安装，就可以用在 Webalte 配置中（例如 ``weblate_customization.checks.FooCheck`` ）。"
 
 #: ../../admin/customize.rst:60
 msgid "Your module structure should look like this:"
-msgstr ""
+msgstr "您的模块结构应该看起来像这样："
 
 #: ../../admin/customize.rst:71
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"可以在 <https://github.com/WeblateOrg/customize-example> 找到定制 Weblate "
+"的例子，它涵盖了下面描述的所有题目。"
 
 #: ../../admin/customize.rst:76
 msgid "Changing the logo"
-msgstr ""
+msgstr "更改 Logo"
 
 #: ../../admin/customize.rst:78
 msgid ""
 "1. Create a simple Django app containing the static files you want to "
 "overwrite (see :ref:`custom-module`)."
-msgstr ""
+msgstr "1. 建立简单的 Django app 来包含想要覆盖的静态文件（请见 :ref:`custom-module` ）。"
 
 #: ../../admin/customize.rst:81
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
@@ -6609,119 +6620,127 @@ msgstr "把它添加到:setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/customize.rst:92
 msgid "Branding appears in the following files:"
-msgstr ""
+msgstr "品牌出现在后面的文件中："
 
 #: ../../admin/customize.rst:94
 msgid ":file:`icons/weblate.svg`"
-msgstr ""
+msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:95
 msgid "Logo shown in the navigation bar."
-msgstr ""
+msgstr "导航栏中显示的 Logo 。"
 
 #: ../../admin/customize.rst:96
 msgid ":file:`logo-*.png`"
-msgstr ""
+msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:97
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr ""
+msgstr "根据屏幕分辨率和 web 浏览器的 Web 图标。"
 
 #: ../../admin/customize.rst:98
 msgid ":file:`favicon.ico`"
-msgstr ""
+msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:99
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "传统浏览器使用的 Web 图标。"
 
 #: ../../admin/customize.rst:100
 msgid ":file:`weblate-*.png`"
-msgstr ""
+msgstr ":file:`weblate-*.png`"
 
 #: ../../admin/customize.rst:101
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
-msgstr ""
+msgstr "机器人或匿名用户使用的头像。一些 Web 浏览器 使用这些作为快捷图标。"
 
 #: ../../admin/customize.rst:103
 msgid ":file:`email-logo.png`"
-msgstr ""
+msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:103
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "在通知电子邮件中使用。"
 
 #: ../../admin/customize.rst:105
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
-msgstr ""
+msgstr "运行 :samp:`weblate collectstatic --noinput` ，来收集提供给客户端的静态文件。"
 
 #: ../../admin/customize.rst:110
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
-msgstr ""
+msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:117
 msgid "Custom quality checks, addons and auto-fixes"
-msgstr ""
+msgstr "定制的质量检查、插件和自动修复"
 
 #: ../../admin/customize.rst:119
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` and in Weblate:"
 msgstr ""
+"为了 :ref:`custom-autofix` 、 :ref:`own-checks` 或 :ref:`own-addon` 并在 Weblate "
+"中安装您的代码："
 
 #: ../../admin/customize.rst:122
 msgid ""
 "Place the files in your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
-msgstr ""
+msgstr "将文件放在您的包含 Weblate 定制的 Python 模块中（请见 :ref:`custom-module` ）。"
 
 #: ../../admin/customize.rst:124
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
+"在专用设置（ :setting:`WEBLATE_ADDONS` 、 :setting:`CHECK_LIST` 或 "
+":setting:`AUTOFIX_LIST` ）中将其完全合法的路径添加到 Python 类中："
 
 #: ../../admin/customize.rst:146
 msgid ""
 ":ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
 msgstr ""
+":ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
+"script`"
 
 #: ../../admin/deployments.rst:4
 msgid "Weblate deployments"
-msgstr ""
+msgstr "Weblate 部署"
 
 #: ../../admin/deployments.rst:6
 msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
-msgstr ""
+msgstr "Weblate 可以容易地安装到您的云中。请针对您的平台找到具体的指南："
 
 #: ../../admin/deployments.rst:8
 msgid ":ref:`quick-docker`"
-msgstr ""
+msgstr ":ref:`quick-docker`"
 
 #: ../../admin/deployments.rst:9
 msgid ":ref:`quick-openshift`"
-msgstr ""
+msgstr ":ref:`quick-openshift`"
 
 #: ../../admin/deployments.rst:12
 msgid "Helm Chart"
-msgstr ""
+msgstr "Helm Chart"
 
 #: ../../admin/deployments.rst:14
 msgid ""
 "You can install Weblate on Kubernetes using Helm. See <https://github.com/"
 "WeblateOrg/helm/tree/master/charts/weblate> for the detailed instructions."
 msgstr ""
+"可以使用 Helm 将 Weblate 安装到 Kubernetes 上。具体的手册请见 <https://github.com/WeblateOrg/"
+"helm/tree/master/charts/weblate> 。"
 
 #: ../../admin/deployments.rst:18
 msgid "Bitnami Weblate stack"
-msgstr ""
+msgstr "Bitnami Weblate 栈"
 
 #: ../../admin/deployments.rst:20
 msgid ""
@@ -6729,10 +6748,12 @@ msgid ""
 "stack/weblate>. The setup will be adjusted during installation, see <https://"
 "bitnami.com/stack/weblate/README.txt> for more documentation."
 msgstr ""
+"Bitnami 为很多平台提供 Weblate 栈 <https://bitnami.com/stack/weblate> 。设置在安装过程中调整，"
+"更多文件请见 <https://bitnami.com/stack/weblate/README.txt> 。"
 
 #: ../../admin/deployments.rst:26
 msgid "Weblate in YunoHost"
-msgstr ""
+msgstr "YunoHost 中的 Weblate"
 
 #: ../../admin/deployments.rst:28
 msgid ""
@@ -6742,6 +6763,8 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
+"自托管项目 `YunoHost <https://yunohost.org/>`_ 为 Weblate提供了包。一旦安装了 YunoHost ，"
+"就可以同其它应用一样安装 Weblate 。它还为你提供带有备份和恢复的完全工作栈，但您必须为特定应用编辑设置文件。"
 
 #: ../../admin/deployments.rst:34
 msgid ""
