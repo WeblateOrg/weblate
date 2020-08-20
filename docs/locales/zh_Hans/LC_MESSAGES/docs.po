@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-19 10:59+0200\n"
-"PO-Revision-Date: 2020-08-19 08:57+0000\n"
-"Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
+"PO-Revision-Date: 2020-08-20 05:46+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2361,43 +2361,32 @@ msgstr ""
 "上控制备份。"
 
 #: ../../admin/backup.rst:18
-#, fuzzy
-#| msgid ""
-#| "Only PostgreSQL database is included in the automated backups. Other "
-#| "database engines have to be backed up manually. You are recommended to "
-#| "migrate to PostgreSQL as that will be the only supported database in the "
-#| "4.0 release. See :ref:`database-migration`."
 msgid ""
 "Only PostgreSQL database is included in the automated backups. Other "
 "database engines have to be backed up manually. You are recommended to "
 "migrate to PostgreSQL, see :ref:`database-setup` and :ref:`database-"
 "migration`."
 msgstr ""
-"自动备份仅包含 PostgreSQL 数据库。其他数据库引擎必须手动备份。建议您迁移到 "
-"PostgreSQL，因为它将是 4.0 版本中唯一受支持的数据库。请参阅 :ref:`database-"
-"migration`。"
+"自动备份仅包含 PostgreSQL 数据库。其他数据库引擎必须手动备份。建议您迁移到 PostgreSQL，请见 :ref:`database-"
+"setup` 和 :ref:`database-migration` 。"
 
 #: ../../admin/backup.rst:23
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
-msgstr ""
+msgstr "使用 Borg 的备份是递增的， Weblate 配置为保留后面的备份："
 
 #: ../../admin/backup.rst:25
-#, fuzzy
-#| msgid "Manual backup"
 msgid "14 daily backups"
-msgstr "手动备份"
+msgstr "14 个每天备份"
 
 #: ../../admin/backup.rst:26
 msgid "8 weekly backups"
-msgstr ""
+msgstr "8 个每周备份"
 
 #: ../../admin/backup.rst:27
-#, fuzzy
-#| msgid "Manual backup"
 msgid "6 monthly backups"
-msgstr "手动备份"
+msgstr "6个 每月备份"
 
 #: ../../admin/backup.rst:34
 msgid "Using Weblate provisioned backup storage"
@@ -2520,12 +2509,14 @@ msgid ""
 "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
 "dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"将 Weblate 配置 （ :file:`backups/settings.py` ，请见 :ref:`backup-dumps` ）复制到正确的位置，"
+"请见 :ref:`configuration` 。"
 
 #: ../../admin/backup.rst:93
 msgid ""
 "Copy the whole restored data dir to location configured by :setting:"
 "`DATA_DIR`."
-msgstr ""
+msgstr "将整个存储的数据目录复制到在 :setting:`DATA_DIR` 中配置的位置。"
 
 #: ../../admin/backup.rst:95
 msgid "The Borg session might look like:"
@@ -6039,6 +6030,8 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
+"如果使用 Hosted Weblate ，建议的方法是安装 `Weblate app <https://github.com/apps/"
+"weblate>`_，该方法能够得到正确的设置，而不必设置很多东西。它还可以用于将更改推送回来。"
 
 #: ../../admin/continuous.rst:130
 msgid ""
@@ -6046,6 +6039,8 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
+"为了在每次推送到 GitHub 仓库时接收通知，将 Weblate Webhook 添加到仓库设置（ :guilabel:`Webhooks` "
+"）中，如下图所示："
 
 #: ../../admin/continuous.rst:136
 msgid ""
@@ -6053,20 +6048,22 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"对于负载 URL，将 ``/hooks/github/`` 增补到您的 Weblate URL中，例如对于 Hosted Weblate 服务，这是 "
+"``https://hosted.weblate.org/hooks/github/`` 。"
 
 #: ../../admin/continuous.rst:139
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
-msgstr ""
+msgstr "可以将其他设置保留为默认值（ Weblate 可以处理内容类型，并只消费 `push` 事件）。"
 
 #: ../../admin/continuous.rst:144
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/github/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:149
 msgid "Automatically receiving changes from Bitbucket"
-msgstr ""
+msgstr "从 Bitbucket 自动接收更改"
 
 #: ../../admin/continuous.rst:151
 msgid ""
@@ -6075,14 +6072,16 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"Weblate 已经支持 Bitbucket webhooks ，添加仓库推送时触发的 webhook ，目的地为您 Weblate 安装上的 ``/"
+"hooks/bitbucket/`` （例如 ``https://hosted.weblate.org/hooks/bitbucket/`` ）。"
 
 #: ../../admin/continuous.rst:160
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:165
 msgid "Automatically receiving changes from GitLab"
-msgstr ""
+msgstr "从 GitLab 自动接收更改"
 
 #: ../../admin/continuous.rst:167
 msgid ""
@@ -6090,14 +6089,16 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"Weblate 已经支持 GitLab hooks ，添加项目的 webhook ，目的地为您 Weblate 安装上的 ``/hooks/gitlab/"
+"`` （例如 ``https://hosted.weblate.org/hooks/gitlab/`` ）。"
 
 #: ../../admin/continuous.rst:173
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:178
 msgid "Automatically receiving changes from Pagure"
-msgstr ""
+msgstr "从 Pagure 自动接受更改"
 
 #: ../../admin/continuous.rst:182
 msgid ""
@@ -6106,14 +6107,17 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate 已经支持 Pagure hooks ，添加项目的 webhook ，目的地为您 Weblate 安装上的 ``/hooks/pagure/"
+"`` （例如 ``https://hosted.weblate.org/hooks/pagure/`` ）。这可以在 :guilabel:`"
+"Project options` 之下的 :guilabel:`Activate Web-hooks` 中完成："
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:196
 msgid "Automatically receiving changes from Azure Repos"
-msgstr ""
+msgstr "从 Azure Repos 自动接收更改"
 
 #: ../../admin/continuous.rst:200
 msgid ""
@@ -6123,6 +6127,10 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"Weblate 已经支持 Azure Repos web hooks ，为 :guilabel:`Code pushed` 事件添加 webhook ，"
+"目的地为您 Weblate 安装上的 ``/hooks/azure/`` URL （例如 ``https://hosted.weblate.org/"
+"hooks/azure/`` ）。这可以在 :guilabel:`Project settings` 之下的 :guilabel:`Service "
+"hooks` 中完成。"
 
 #: ../../admin/continuous.rst:209
 msgid ""
@@ -6130,10 +6138,13 @@ msgid ""
 "devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/azure/`, :ref:"
 "`hosted-push`"
 msgstr ""
+"`Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/"
+"devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/azure/`, :ref"
+":`hosted-push`"
 
 #: ../../admin/continuous.rst:215
 msgid "Automatically receiving changes from Gitea Repos"
-msgstr ""
+msgstr "从 Gitea Repos 自动接收更改"
 
 #: ../../admin/continuous.rst:219
 msgid ""
@@ -6143,16 +6154,22 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"Weblate 已经支持 Gitea webhooks ，为 :guilabel:`Push events` 事件添加 :guilabel:`Gitea "
+"Webhook` ，目的地为您 Weblate 安装上的 ``/hooks/gitea/`` URL （例如 ``https://hosted."
+"weblate.org/hooks/gitea/`` ）。这可以在 :guilabel:`Settings` 之下的 "
+":guilabel:`Webhooks` 中完成。"
 
 #: ../../admin/continuous.rst:226
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_, :http:"
 "post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgstr ""
+"`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_, "
+":http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:232
 msgid "Automatically receiving changes from Gitee Repos"
-msgstr ""
+msgstr "从 Gitee Repos 自动接收更改"
 
 #: ../../admin/continuous.rst:236
 msgid ""
@@ -6162,16 +6179,21 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"Weblate 已经支持 Gitee webhooks ，为 :guilabel:`Push` 事件添加 :guilabel:`Webhook` ，"
+"目的地为您 Weblate 安装上的 ``/hooks/gitee/`` URL （例如 ``https://hosted.weblate.org/"
+"hooks/gitee/`` ）。这可以在 :guilabel:`Management` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: ../../admin/continuous.rst:243
 msgid ""
 "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_, :http:"
 "post:`/hooks/gitee/`, :ref:`hosted-push`"
 msgstr ""
+"`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_, "
+":http:post:`/hooks/gitee/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:247
 msgid "Automatically updating repositories nightly"
-msgstr ""
+msgstr "每晚自动更新仓库"
 
 #: ../../admin/continuous.rst:249
 msgid ""
@@ -6179,10 +6201,12 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate 在后面合并更改时，每晚自动获取远程仓库来提高性能。您可以选择将其同样转换为进行每晚合并，通过允许 "
+":setting:`AUTO_UPDATE` 。"
 
 #: ../../admin/continuous.rst:256
 msgid "Pushing changes from Weblate"
-msgstr ""
+msgstr "推送 Weblate 的更改"
 
 #: ../../admin/continuous.rst:258
 msgid ""
@@ -6193,12 +6217,16 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
+"每个翻译组件可以具有一个 URL 设置（请见 :ref:`component-push` ），在那种情况下 Weblate 能够将更改推送到远程仓库。 "
+"Weblate 还可以配置在每次提交时自动推送更改（这是默认的，请见 :ref:`component-push_on_commit` "
+"）。如果不想更改自动给推送，可以在 :guilabel:`Repository maintenance` 之下手动进行，或通过 :option:`wlc "
+"push` 使用 API。"
 
 #: ../../admin/continuous.rst:265
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
-msgstr ""
+msgstr "推送选项根据使用的 :ref:`vcs` 而不同，更多细节可以在那个章节中找到。"
 
 #: ../../admin/continuous.rst:267
 msgid ""
@@ -6207,48 +6235,51 @@ msgid ""
 "you can activate these by choosing :guilabel:`GitHub`, :guilabel:`GitLab` "
 "or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"在不想由 Weblate 直接推送的情况下，有对 :ref:`vcs-github` 、 :ref:`vcs-gitlab` 推送请求或 :ref"
+":`vcs-gerrit` 复查的支持，可以通过选择 :guilabel:`GitHub` 、 :guilabel:`GitLab` 或 "
+":guilabel:`Gerrit` 作为 :ref:`component` 中的 :ref:`component-vcs` 来激活。"
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
-msgstr ""
+msgstr "整体上， Git 、 GitHub 和 GitLab 可以具有后面的选项："
 
 #: ../../admin/continuous.rst:275
 msgid "Desired setup"
-msgstr ""
+msgstr "需要的设置"
 
 #: ../../admin/continuous.rst:275 ../../api.rst:1036
 msgid ":ref:`component-vcs`"
-msgstr ""
+msgstr ":ref:`component-vcs`"
 
 #: ../../admin/continuous.rst:275 ../../api.rst:1051
 msgid ":ref:`component-push`"
-msgstr ""
+msgstr ":ref:`component-push`"
 
 #: ../../admin/continuous.rst:275 ../../api.rst:1040
 msgid ":ref:`component-push_branch`"
-msgstr ""
+msgstr ":ref:`component-push_branch`"
 
 #: ../../admin/continuous.rst:277
 msgid "No push"
-msgstr ""
+msgstr "不推送"
 
 #: ../../admin/continuous.rst:277 ../../admin/continuous.rst:279
 #: ../../admin/continuous.rst:281
 msgid ":ref:`vcs-git`"
-msgstr ""
+msgstr ":ref:`vcs-git`"
 
 #: ../../admin/continuous.rst:277 ../../admin/continuous.rst:279
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:287
 msgid "`empty`"
-msgstr ""
+msgstr "`empty`"
 
 #: ../../admin/continuous.rst:279
 msgid "Push directly"
-msgstr ""
+msgstr "直接推送"
 
 #: ../../admin/continuous.rst:279 ../../admin/continuous.rst:281
 msgid "SSH URL"
-msgstr ""
+msgstr "SSH URL"
 
 #: ../../admin/continuous.rst:281
 msgid "Push to separate branch"
@@ -6257,55 +6288,56 @@ msgstr "推送到单独的分支"
 #: ../../admin/continuous.rst:281 ../../admin/continuous.rst:285
 #: ../../admin/continuous.rst:289
 msgid "Branch name"
-msgstr ""
+msgstr "分支名称"
 
 #: ../../admin/continuous.rst:283
 msgid "GitHub pull request from fork"
-msgstr ""
+msgstr "来自叉子的 GitHub 拉取请求"
 
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
 msgid ":ref:`vcs-github`"
-msgstr ""
+msgstr ":ref:`vcs-github`"
 
 #: ../../admin/continuous.rst:285
 msgid "GitHub pull request from branch"
-msgstr ""
+msgstr "来自分支的 GitHub 拉取请求"
 
 #: ../../admin/continuous.rst:285 ../../admin/continuous.rst:289
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "SSH URL [#empty]_"
 
 #: ../../admin/continuous.rst:287
 msgid "GitLab merge request from fork"
-msgstr ""
+msgstr "来自叉子的 GitLab 结合请求"
 
 #: ../../admin/continuous.rst:287 ../../admin/continuous.rst:289
 msgid ":ref:`vcs-gitlab`"
-msgstr ""
+msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/continuous.rst:289
 msgid "GitLab merge request from branch"
-msgstr ""
+msgstr "来自分支的 GitLab 结合请求"
 
 #: ../../admin/continuous.rst:292
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
-msgstr ""
+msgstr "在 :ref:`component-repo` 支持推送的情况下可以为空。"
 
 #: ../../admin/continuous.rst:297
 msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
-msgstr ""
+msgstr "还可以允许 Weblate 提交后更改的自动推送，这可以在 :ref:`component-push_on_commit` 中完成。"
 
 #: ../../admin/continuous.rst:302
 msgid ""
 "See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for "
 "info about when Weblate decides to commit changes."
 msgstr ""
+"请见 :ref:`vcs-repos` 来设置 SSH 密钥，和 :ref:`lazy-commit` 获得关于 Weblate 决定提交更改的信息。"
 
 #: ../../admin/continuous.rst:306
 msgid "Protected branches"
-msgstr ""
+msgstr "受保护的分支"
 
 #: ../../admin/continuous.rst:308
 msgid ""
@@ -6314,14 +6346,16 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
+"如果在受保护的分支上使用 Weblate ，可以配置使用推送请求，并执行翻译的实际复查（对您不知道的语言可能有问题）。另一个方法是去掉对 Weblate "
+"推送用户的这个限制。"
 
 #: ../../admin/continuous.rst:313
 msgid "For example on GitHub this can be done in the repository configuration:"
-msgstr ""
+msgstr "例如在 GitHub ，这可以在仓库配置中进行："
 
 #: ../../admin/continuous.rst:320
 msgid "Merge or rebase"
-msgstr ""
+msgstr "结合或变基"
 
 #: ../../admin/continuous.rst:322
 msgid ""
@@ -6330,28 +6364,30 @@ msgid ""
 "In case you don't need this, you can enable rebasing of changes on upstream, "
 "which will produce a history with fewer merge commits."
 msgstr ""
+"Weblate 默认将 "
+"上游仓库结合到自身。在您还通过其他方式访问下层仓库的情况下，这是最安全的方式。在不需要这个的情况下，可以允许上游更改的变基，这会产生较少的融合提交的历史。"
 
 #: ../../admin/continuous.rst:329
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
-msgstr ""
+msgstr "在复杂融合的情况下，变基可能是您产生麻烦，因此请仔细考虑是否允许它们。"
 
 #: ../../admin/continuous.rst:333
 msgid "Interacting with others"
-msgstr ""
+msgstr "与他人交互"
 
 #: ../../admin/continuous.rst:335
 msgid "Weblate makes it easy to interact with others using its API."
-msgstr ""
+msgstr "Weblate 通过使用它的 API ，使与他人的交流更容易。"
 
 #: ../../admin/continuous.rst:339
 msgid ":ref:`api`"
-msgstr ""
+msgstr ":ref:`api`"
 
 #: ../../admin/continuous.rst:344
 msgid "Lazy commits"
-msgstr ""
+msgstr "惰性提交"
 
 #: ../../admin/continuous.rst:346
 msgid ""
@@ -6361,30 +6397,32 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the Managers group, see :ref:`privileges`)."
 msgstr ""
+"Weblate的行为是，如果可能的话，将来自相同作者的提交分组成为一个提交。这极大地减少了提交的数量，然而，在您想要同步得到版本管理系统 VCS "
+"仓库，例如用于结合的情况下（这对管理者群组是默认允许的，请见 :ref:`privileges` ），您可能需要明确告诉它进行提交。"
 
 #: ../../admin/continuous.rst:352
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
-msgstr ""
+msgstr "一旦后面的任何条件满足，这种模式的更改将被提交："
 
 #: ../../admin/continuous.rst:355
 msgid "Somebody else changes an already changed string."
-msgstr ""
+msgstr "某人另外更改了已经被更改的字符串。"
 
 #: ../../admin/continuous.rst:356
 msgid "A merge from upstream occurs."
-msgstr ""
+msgstr "来自上游的结合发生了。"
 
 #: ../../admin/continuous.rst:357
 msgid "An explicit commit is requested."
-msgstr ""
+msgstr "明确地请求了提交。"
 
 #: ../../admin/continuous.rst:358
 msgid ""
 "Change is older than period defined as :guilabel:`Age of changes to commit` "
 "on :ref:`component`."
-msgstr ""
+msgstr "更改比 :ref:`component` 上的 :guilabel:`Age of changes to commit` 定义的时间段更陈旧。"
 
 #: ../../admin/continuous.rst:362
 msgid ""
@@ -6392,16 +6430,18 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` addon in that case."
 msgstr ""
+"每个组件都建立提交。所以在具有很多组件的情况下，仍然会看到很多提交。在这种情况下您会使用 :ref:`addon-weblate.git.squash` "
+"插件。"
 
 #: ../../admin/continuous.rst:366
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit:"
-msgstr ""
+msgstr "如果想要更频繁地提交更改，并且不检查新旧，可以安排周期定时性任务来执行提交："
 
 #: ../../admin/continuous.rst:375
 msgid "Processing repository with scripts"
-msgstr ""
+msgstr "用脚本处理仓库"
 
 #: ../../admin/continuous.rst:377
 msgid ""
@@ -6409,21 +6449,23 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through addons."
 msgstr ""
+"定制 Weblate 与仓库交互的方式是 :ref:`addons` 。关于如何通过插件执行外部脚本的信息，请咨询 :ref:`addon-script`"
+" 。"
 
 #: ../../admin/continuous.rst:384
 msgid "Keeping translations same across components"
-msgstr ""
+msgstr "在部件之间保持翻译一致"
 
 #: ../../admin/continuous.rst:386
 msgid ""
 "Once you have multiple translation components, you might want to ensure that "
 "the same strings have same translation. This can be achieved at several "
 "levels."
-msgstr ""
+msgstr "一旦具有多个翻译组件，您会想要确保相同的字符串具有相同的翻译。这可以在几个层次实现。"
 
 #: ../../admin/continuous.rst:390
 msgid "Translation propagation"
-msgstr ""
+msgstr "翻译宣传"
 
 #: ../../admin/continuous.rst:392
 msgid ""
@@ -6432,23 +6474,25 @@ msgid ""
 "with matching strings. Such translations are properly credited to currently "
 "translating user in all components."
 msgstr ""
+"允许翻译宣传时（这是默认的，请见 :ref:`component` "
+"），在所有的组件中字符串匹配时，所有新的翻译自动进行。在所有的组件中这样的翻译都适当地归功于当前翻译的用户。"
 
 #: ../../admin/continuous.rst:399
 msgid ""
 "The translation propagation requires the key to be match for monolingual "
 "translation formats, so keep that in mind when creating translation keys."
-msgstr ""
+msgstr "翻译宣传需要密钥来匹配单语种翻译格式，因此在建立翻译密钥匙请记住。"
 
 #: ../../admin/continuous.rst:403
 msgid "Consistency check"
-msgstr ""
+msgstr "一致性检查"
 
 #: ../../admin/continuous.rst:405
 msgid ""
 "The :ref:`check-inconsistent` check fires whenever the strings are "
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
-msgstr ""
+msgstr "任何时候字符串不同时 :ref:`check-inconsistent` 都会检查启动。可以使用这个来手动复查这样的差异，并选择正确的翻译。"
 
 #: ../../admin/continuous.rst:412
 msgid ""
@@ -6458,10 +6502,12 @@ msgid ""
 "repository update using addon (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
+"基于不同组件的自动翻译，可以是在组件之间同步翻译的方式。可以或者手动触发（请见 :ref:`auto-translation` ），或者使用插件（ "
+":ref:`addon-weblate.autotranslate.autotranslate` ）在仓库更新时自动运行。"
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr ""
+msgstr "定制 Weblate"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -13925,10 +13971,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:8
-#, fuzzy
-#| msgid "Weblate SSH key"
 msgid "Weblate's REST API"
-msgstr "Weblate SSH 密钥"
+msgstr "Weblate 的 REST API"
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
@@ -14810,50 +14854,36 @@ msgid ":ref:`component-name`"
 msgstr ":ref:`component-name`"
 
 #: ../../api.rst:1035
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-slug`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-slug`"
 
 #: ../../api.rst:1037
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-repo`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-repo`"
 
 #: ../../api.rst:1038
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-git_export`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-git_export`"
 
 #: ../../api.rst:1039
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-branch`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-branch`"
 
 #: ../../api.rst:1041 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
 msgstr ":ref:`component-filemask`"
 
 #: ../../api.rst:1042
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-template`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-template`"
 
 #: ../../api.rst:1043
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-edit_template`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-edit_template`"
 
 #: ../../api.rst:1044
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-intermediate`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-intermediate`"
 
 #: ../../api.rst:1045 ../../devel/sphinx.rst:36
 msgid ":ref:`component-new_base`"
@@ -14864,152 +14894,104 @@ msgid ":ref:`component-file_format`"
 msgstr ":ref:`component-file_format`"
 
 #: ../../api.rst:1047
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-license`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-license`"
 
 #: ../../api.rst:1048
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-agreement`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-agreement`"
 
 #: ../../api.rst:1049
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-new_lang`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-new_lang`"
 
 #: ../../api.rst:1050
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-language_code_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-language_code_style`"
 
 #: ../../api.rst:1052 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
 msgstr ":ref:`component-check_flags`"
 
 #: ../../api.rst:1053
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-priority`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-priority`"
 
 #: ../../api.rst:1054
-#, fuzzy
-#| msgid ":ref:`component-check_flags`"
 msgid ":ref:`component-enforced_checks`"
-msgstr ":ref:`component-check_flags`"
+msgstr ":ref:`component-enforced_checks`"
 
 #: ../../api.rst:1055
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-restricted`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-restricted`"
 
 #: ../../api.rst:1056
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-repoweb`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-repoweb`"
 
 #: ../../api.rst:1057
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-report_source_bugs`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-report_source_bugs`"
 
 #: ../../api.rst:1058
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_style`"
 
 #: ../../api.rst:1059
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-commit_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-commit_message`"
 
 #: ../../api.rst:1060
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-add_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-add_message`"
 
 #: ../../api.rst:1061
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-delete_message`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-delete_message`"
 
 #: ../../api.rst:1062
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_message`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_message`"
 
 #: ../../api.rst:1063
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-addon_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-addon_message`"
 
 #: ../../api.rst:1064
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgid ":ref:`component-allow_translation_propagation`"
-msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
+msgstr ":ref:`component-allow_translation_propagation`"
 
 #: ../../api.rst:1065
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-enable_suggestions`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-enable_suggestions`"
 
 #: ../../api.rst:1066
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-suggestion_voting`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-suggestion_voting`"
 
 #: ../../api.rst:1067
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-suggestion_autoaccept`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-suggestion_autoaccept`"
 
 #: ../../api.rst:1068
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-push_on_commit`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-push_on_commit`"
 
 #: ../../api.rst:1069
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-commit_pending_age`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-commit_pending_age`"
 
 #: ../../api.rst:1070
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-auto_lock_error`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-auto_lock_error`"
 
 #: ../../api.rst:1071
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-language_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-language_regex`"
 
 #: ../../api.rst:1072
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-variant_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-variant_regex`"
 
 #: ../../api.rst:1073
 msgid ""
@@ -16073,8 +16055,6 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 4.2.1"
 msgstr "Weblate 密钥"
 
