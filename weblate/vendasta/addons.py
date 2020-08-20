@@ -33,7 +33,7 @@ class NotifyLexicon(BaseAddon):
             "get",
             url,
             headers={
-                "Authorization": "Token: {}".format(
+                "Authorization": "Token {}".format(
                     os.environ.get("WEBLATE_ADMIN_API_TOKEN")
                 )
             },
