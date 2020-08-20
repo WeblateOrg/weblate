@@ -20,4 +20,4 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 .. seealso::
 
     :ref:`user-profile`,
-    :djadmin:`dump_userdata`
+    :djadmin:`dumpuserdata`
