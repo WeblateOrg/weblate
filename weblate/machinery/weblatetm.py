@@ -41,10 +41,6 @@ class WeblateTranslation(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def is_rate_limited(self):
-        """This service has no rate limiting."""
-        return False
-
     def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         if user:
