@@ -38,7 +38,6 @@ from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.views import get_paginator
 
 
 def get_untranslated(base, limit=None):
@@ -267,7 +266,7 @@ def dashboard_user(request):
             "allow_index": True,
             "suggestions": suggestions,
             "search_form": SearchForm(request.user),
-            "usersubscriptions": get_paginator(request, usersubscriptions),
+            "usersubscriptions": usersubscriptions,
             "componentlists": componentlists,
             "all_componentlists": prefetch_stats(
                 ComponentList.objects.filter(

@@ -39,7 +39,7 @@ from weblate.utils.stats import (
     ProjectLanguageStats,
     prefetch_stats,
 )
-from weblate.utils.views import get_paginator, get_project
+from weblate.utils.views import get_project
 
 
 def show_languages(request):
@@ -117,13 +117,11 @@ def show_project(request, lang, project):
         language=obj, project=pobj
     )[:10]
 
-    # Paginate translations.
     translation_list = (
         obj.translation_set.prefetch()
         .filter(component__project=pobj)
         .order_by("component__priority", "component__name")
     )
-    translations = get_paginator(request, translation_list)
 
     return render(
         request,
@@ -134,7 +132,7 @@ def show_project(request, lang, project):
             "project": pobj,
             "last_changes": last_changes,
             "last_changes_url": urlencode({"lang": obj.code, "project": pobj.slug}),
-            "translations": translations,
+            "translations": translation_list,
             "title": "{0} - {1}".format(pobj, obj),
             "search_form": SearchForm(request.user),
             "licenses": pobj.component_set.exclude(license="").order_by("license"),
