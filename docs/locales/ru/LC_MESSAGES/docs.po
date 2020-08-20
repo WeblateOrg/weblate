@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-19 10:59+0200\n"
-"PO-Revision-Date: 2020-08-19 08:57+0000\n"
+"PO-Revision-Date: 2020-08-20 05:45+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1143,6 +1143,9 @@ msgid ""
 "you can include in the HTML documents to get them localized. See :ref:"
 "`weblate-cdn` for more details."
 msgstr ""
+"После установки надстройка генерирует для вашего компонента уникальный URL-"
+"адрес, который вы можете включить в HTML-документы для их локализации. "
+"Подробности смотрите в разделе :ref:`weblate-cdn`."
 
 #: ../../admin/addons.rst:50
 msgid ""
@@ -1162,8 +1165,8 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Обновить все файлы переводов до соответствия одноязычному базовому файлу. "
-"Для большинства форматов файлов это означает удаление устарелых ключей "
+"Обновляет все файлы переводов до соответствия одноязычному базовому файлу. "
+"Для большинства форматов файлов это означает удаление устаревших ключей "
 "переводов, которых больше нет в базовом файле."
 
 #: ../../admin/addons.rst:67
@@ -1175,15 +1178,14 @@ msgid ""
 "Ensures all components within one project have translations for every added "
 "language for translation."
 msgstr ""
-"Убедитесь, что все компоненты в рамках одного проекта переведены на все "
-"языки проекта."
+"Гарантирует, что все компоненты в рамках одного проекта имеют переводы на "
+"все языки проекта."
 
 #: ../../admin/addons.rst:72
 msgid ""
 "It creates empty translations in languages that have unadded components."
 msgstr ""
-"Он создает пустые переводы на языках, у которых есть недобавленные "
-"компоненты."
+"Она создаёт пустые переводы на языках, в которые компоненты не добавлены."
 
 #: ../../admin/addons.rst:75
 msgid ""
@@ -1264,6 +1266,10 @@ msgid ""
 "labeled). You can also carry out any other automated operations for Weblate "
 "metadata."
 msgstr ""
+"Автоматическая пометка новых строк может очень пригодиться (начните с "
+"поискового запроса ``NOT has:label`` и добавляйте нужные метки до тех пор, "
+"пока все строки не будут правильно помечены). Также вы можете выполнять "
+"любые другие автоматические операции с метаданными Weblate."
 
 #: ../../admin/addons.rst:129
 msgid ":ref:`bulk-edit`"
@@ -1271,7 +1277,7 @@ msgstr ":ref:`bulk-edit`"
 
 #: ../../admin/addons.rst:135
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Отмечать неизменённые переводы как «На правку»"
+msgstr "Пометка неизменённых переводов флагом «На правку»"
 
 #: ../../admin/addons.rst:139
 msgid ""
@@ -1280,13 +1286,14 @@ msgid ""
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"При импорте из VCS подлежащей переводу строки и ее совпадении с исходной, "
-"она помечается в Weblate как «На правку». Это особенно полезно для файловых "
-"форматов, которые включают в себя все строки, даже если они не переведены."
+"При импорте строки для перевода из системы контроля версий и при её "
+"совпадении с исходной строкой она помечается в Weblate флагом «На правку». "
+"Особенно это полезно для тех форматов файлов, которые включают в себя все "
+"строки, даже если те не переведены."
 
 #: ../../admin/addons.rst:146
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Отмечать новые исходные строки как «На правку»"
+msgstr "Пометка новых исходных строк флагом «На правку»"
 
 #: ../../admin/addons.rst:148
 msgid ""
@@ -1294,13 +1301,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Когда новая исходная строка импортируется из VCS, она помечается как «На "
-"правку» в Weblate. Таким образом, вы можете легко фильтровать и править "
-"исходные строки, добавленные разработчиками."
+"При импорте новой исходной строки из системы контроля версий она помечается "
+"в Weblate флагом «На правку». Таким образом, вы можете легко фильтровать и "
+"редактировать исходные строки, добавленные разработчиками."
 
 #: ../../admin/addons.rst:155
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Пометить новые переводы как «На правку»"
+msgstr "Пометка новых переводов флагом «На правку»"
 
 #: ../../admin/addons.rst:157
 msgid ""
@@ -1308,9 +1315,9 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"При импорте из VCS подлежащей переводу строки она помечается в Weblate как "
-"«На правку». Таким образом, вы можете легко фильтровать и редактировать "
-"переводы, созданные разработчиками."
+"При импорте строки для перевода из системы контроля версий она помечается в "
+"Weblate флагом «На правку». Таким образом, вы можете легко фильтровать и "
+"редактировать переводы, созданные разработчиками."
 
 #: ../../admin/addons.rst:164
 msgid "Statistics generator"
@@ -1325,10 +1332,14 @@ msgid ""
 "You can use Django template in both filename and content, see :ref:`markup` "
 "for a detailed markup description."
 msgstr ""
+"Для имени файла и его содержимого вы можете использовать шаблоны Django, "
+"подробное описание разметки шаблона смотрите в разделе :ref:`markup`."
 
 #: ../../admin/addons.rst:171
 msgid "For example generating summary file for each translation:"
-msgstr "Например, создание сводного файла для каждого перевода:"
+msgstr ""
+"К примеру, сгенерировать файл со сводкой по каждому переводу можно со "
+"следующими настройками:"
 
 #: ../../admin/addons.rst:173
 msgid "Name of generated file"
@@ -1351,28 +1362,29 @@ msgid ""
 "Update the comment in the PO file header to include contributor names and "
 "years of contributions."
 msgstr ""
-"Обновлять комментарий в заголовке PO-файла для включения имён участников и "
-"лет участия."
+"Обновляет комментарий в заголовке PO-файла, включая в него имена участников "
+"и годы их участия."
 
 #: ../../admin/addons.rst:199
 msgid ""
 "The PO file header will contain a list of contributors and years contributed:"
-msgstr ""
-"Заголовок файла PO будет содержать список внесших вклад и годы участия:"
+msgstr "Заголовок PO-файла будет содержать список участников и годы их участия:"
 
 #: ../../admin/addons.rst:211
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Обновлять переменную ALL_LINGUAS в файле \"configure\""
+msgstr "Обновление переменной ALL_LINGUAS в файле «configure»"
 
 #: ../../admin/addons.rst:213
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"Обновляет переменную ALL_LINGUAS в файлах :file:`configure`, :file:`configure"
+".in` и :file:`configure.ac` при добавлении нового перевода."
 
 #: ../../admin/addons.rst:219
 msgid "Customize gettext output"
-msgstr "Настроить вывод gettext"
+msgstr "Настройка вывода gettext"
 
 #: ../../admin/addons.rst:221
 msgid ""
@@ -1381,15 +1393,15 @@ msgstr "Позволяет настроить поведение вывода ge
 
 #: ../../admin/addons.rst:223
 msgid "It offers the following options:"
-msgstr "Он предлагает следующие варианты:"
+msgstr "Она предлагает следующие варианты:"
 
 #: ../../admin/addons.rst:225
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "Переносить строки длиной 77 символов и у символов перевода строки"
+msgstr "Переносить строки на 77-м символе и у символов перевода строки"
 
 #: ../../admin/addons.rst:226
 msgid "Only wrap lines at newlines"
-msgstr "Переносить строки только в конце строки"
+msgstr "Переносить строки только у символов перевода строки"
 
 #: ../../admin/addons.rst:227
 msgid "No line wrapping"
@@ -1400,20 +1412,21 @@ msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, it wraps only at newlines."
 msgstr ""
-"По умолчанию gettext переносит строки из 77 символов и символы новой строки. "
-"С параметром --no-wrap переносится только на символах новой строки."
+"По умолчанию gettext переносит строки на 77-м символе и у символов перевода "
+"строки. С параметром ``--no-wrap`` он переносит их только у символов "
+"перевода строки."
 
 #: ../../admin/addons.rst:238
 msgid "Update LINGUAS file"
-msgstr "Обновлять LINGUAS-файл"
+msgstr "Обновление файла LINGUAS"
 
 #: ../../admin/addons.rst:240
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Обновляет LINGUAS-файл при добавлении нового перевода."
+msgstr "Обновляет файл LINGUAS при добавлении нового перевода."
 
 #: ../../admin/addons.rst:245
 msgid "Generate MO files"
-msgstr "Генерировать MO-файлы"
+msgstr "Генерирование MO-файлов"
 
 #: ../../admin/addons.rst:247
 msgid "Automatically generates a MO file for every changed PO file."
@@ -1434,11 +1447,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:260
 msgid "Squash Git commits"
-msgstr "Склеивать Git-коммиты"
+msgstr "Склеивание Git-коммитов"
 
 #: ../../admin/addons.rst:262
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Склеивать Git-коммиты до отправки изменений."
+msgstr "Склеивает Git-коммиты до отправки изменений."
 
 #: ../../admin/addons.rst:264
 msgid "You can choose one of following modes:"
@@ -1465,12 +1478,17 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected, or the commit message is customized to include it."
 msgstr ""
+"Исходные сообщения коммита сохраняются, но авторство коммитов теряется, если "
+"только не выбран режим «По автору», или сообщение коммита не настроено на "
+"включение в него его авторов."
 
 #: ../../admin/addons.rst:281
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
+"Исходные сообщения коммитов могут быть переопределены пользовательским "
+"сообщением коммита."
 
 #: ../../admin/addons.rst:283
 msgid ""
@@ -1479,21 +1497,25 @@ msgid ""
 "squashed commit message. This also generates proper ``Co-authored-by:`` "
 "credit for every translator."
 msgstr ""
+"Дополнительно из исходных сообщений коммитов могут быть удалены завершители ("
+"строки коммита вида ``Co-authored-by: ...``) с последующим их присоединением "
+"к концу сообщения склеенного коммита. Также в этом режиме для каждого "
+"переводчика генерируется соответствующий завершитель ``Co-authored-by:``."
 
 #: ../../admin/addons.rst:291
 msgid "Customize JSON output"
-msgstr "Настроить вывод JSON"
+msgstr "Настройка вывода в JSON"
 
 #: ../../admin/addons.rst:293
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Позволяет подправить поведение вывода JSON, например, отступы или сортировку "
-"ключей."
+"Позволяет подправить поведение вывода в JSON, например, отступы или "
+"сортировку ключей."
 
 #: ../../admin/addons.rst:298
 msgid "Formats the Java properties file"
-msgstr "Форматирует файл свойств Java"
+msgstr "Форматирование файла свойств Java"
 
 #: ../../admin/addons.rst:300
 msgid "Sorts the Java properties file."
@@ -1501,7 +1523,7 @@ msgstr "Сортирует файл свойств Java."
 
 #: ../../admin/addons.rst:305
 msgid "Stale comment removal"
-msgstr "Удаление устаревшего комментария"
+msgstr "Удаление устаревших комментариев"
 
 #: ../../admin/addons.rst:309
 msgid "Set a timeframe for removal of comments."
@@ -1513,10 +1535,13 @@ msgid ""
 "Use with care as comment being old does not mean they have lost their "
 "importance."
 msgstr ""
+"Может быть полезна для удаления старых комментариев, которые могли потерять "
+"актуальность. Используйте её с осторожностью, поскольку то, что комментарий "
+"старый, не означает, что он потерял свою значимость."
 
 #: ../../admin/addons.rst:318
 msgid "Stale suggestion removal"
-msgstr "Устаревшее предложение удалено"
+msgstr "Удаление устаревших предложений"
 
 #: ../../admin/addons.rst:322
 msgid "Set a timeframe for removal of suggestions."
@@ -1528,10 +1553,14 @@ msgid ""
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
+"В сочетании с голосованием по предложениям (смотрите раздел :ref:`peer-"
+"review`) может быть очень полезна для удаления предложений, которые не "
+"получили достаточного количества положительных голосов в заданный промежуток "
+"времени."
 
 #: ../../admin/addons.rst:331
 msgid "Update RESX files"
-msgstr "Обновить файлы RESX"
+msgstr "Обновление файлов RESX"
 
 #: ../../admin/addons.rst:335
 msgid ""
@@ -1539,7 +1568,7 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"Обновлять все файлы перевода, приводя их в соответствие с одноязычным "
+"Обновляет все файлы перевода, приводя их в соответствие с одноязычным "
 "исходным базовым файлом. Неиспользуемые строки удаляются, а новые "
 "добавляются как копии исходных строк."
 
@@ -1548,31 +1577,36 @@ msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
+"Если вы хотите только удалить устаревшие ключи перевода, используйте "
+"надстройку :ref:`addon-weblate.cleanup.generic`."
 
 #: ../../admin/addons.rst:346
 msgid "Customize YAML output"
-msgstr "Настроить вывод YAML"
+msgstr "Настройка вывода в YAML"
 
 #: ../../admin/addons.rst:350
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
-"Позволяет подправить поведение вывода YAML, например, длину строк и символы "
-"перевода строк."
+"Позволяет подправить поведение вывода в YAML, например, длину строк и "
+"символы перевода строк."
 
 #: ../../admin/addons.rst:354
 msgid "Customizing list of addons"
-msgstr ""
+msgstr "Настройка списка надстроек"
 
 #: ../../admin/addons.rst:356
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include class absolute name in this setting."
 msgstr ""
+"Список надстроек настраивается параметром :setting:`WEBLATE_ADDONS`. Для "
+"добавления ещё одной надстройки просто включите в этот параметр полное имя "
+"класса."
 
 #: ../../admin/addons.rst:363
 msgid "Writing addon"
-msgstr ""
+msgstr "Написание надстройки"
 
 #: ../../admin/addons.rst:365
 msgid ""
@@ -1580,14 +1614,17 @@ msgid ""
 "``BaseAddon``, define the addon metadata and implement a callback which will "
 "do the processing."
 msgstr ""
+"Также вы можете написать свою собственную надстройку, всё, что вам для этого "
+"нужно — это создать подкласс ``BaseAddon``, определить метаданные надстройки "
+"и реализовать обратный вызов, который будет выполнять обработку."
 
 #: ../../admin/addons.rst:368
 msgid "Here is an example addon:"
-msgstr ""
+msgstr "Вот пример надстройки:"
 
 #: ../../admin/addons.rst:376
 msgid "Executing scripts from addon"
-msgstr ""
+msgstr "Выполнение скриптов из надстройки"
 
 #: ../../admin/addons.rst:378
 msgid ""
@@ -1670,11 +1707,11 @@ msgstr "Название проекта."
 
 #: ../../admin/addons.rst:466
 msgid "Component URL."
-msgstr ""
+msgstr "URL-адрес компонента."
 
 #: ../../admin/addons.rst:472
 msgid "Project engage URL."
-msgstr ""
+msgstr "URL-адрес для присоединения к переводу проекта."
 
 #: ../../admin/addons.rst:476 ../../faq.rst:254
 msgid ":ref:`component`"
@@ -2398,20 +2435,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:25
-#, fuzzy
-#| msgid "Manual backup"
 msgid "14 daily backups"
-msgstr "Ручное резервное копирование"
+msgstr "14 ежедневных резервных копий"
 
 #: ../../admin/backup.rst:26
 msgid "8 weekly backups"
-msgstr ""
+msgstr "8 еженедельных резервных копий"
 
 #: ../../admin/backup.rst:27
-#, fuzzy
-#| msgid "Manual backup"
 msgid "6 monthly backups"
-msgstr "Ручное резервное копирование"
+msgstr "6 ежемесячных резервных копий"
 
 #: ../../admin/backup.rst:34
 msgid "Using Weblate provisioned backup storage"
@@ -10432,22 +10465,14 @@ msgstr ""
 "количества."
 
 #: ../../admin/languages.rst:99
-#, fuzzy
-#| msgid ""
-#| ":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
-#| "Rules by the Unicode Consortium <http://unicode.org/cldr/charts/latest/"
-#| "supplemental/language_plural_rules.html>`_"
 msgid ""
 ":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
 "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
 "Rules by the Unicode Consortium`_"
 msgstr ""
-":ref:`plurals`, `Утилиты GNU gettext: формы множественного числа <https://"
-"www.gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_, "
-"`Языковые правила для форм множественного числа от Консорциума Юникода "
-"<http://unicode.org/cldr/charts/latest/supplemental/language_plural_rules."
-"html>`_"
+":ref:`plurals`, `Утилиты GNU gettext: формы множественного числа <https://www"
+".gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_, `Языковые "
+"правила для форм множественного числа от Консорциума Юникода`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -14339,16 +14364,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:8
-#, fuzzy
-#| msgid "Weblate's Web API"
 msgid "Weblate's REST API"
-msgstr "Веб API Weblate’а"
+msgstr "REST API Weblate’а"
 
 #: ../../api.rst:12
-#, fuzzy
-#| msgid "The API is available since Weblate 2.6."
 msgid "The REST API is available since Weblate 2.6."
-msgstr "API доступен с версии Weblate 2.6."
+msgstr "REST API доступен с версии Weblate 2.6."
 
 #: ../../api.rst:14
 msgid ""
@@ -15310,50 +15331,36 @@ msgid ":ref:`component-name`"
 msgstr ":ref:`component-name`"
 
 #: ../../api.rst:1035
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-slug`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-slug`"
 
 #: ../../api.rst:1037
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-repo`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-repo`"
 
 #: ../../api.rst:1038
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-git_export`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-git_export`"
 
 #: ../../api.rst:1039
-#, fuzzy
-#| msgid ":ref:`component-push_branch`"
 msgid ":ref:`component-branch`"
-msgstr ":ref:`component-push_branch`"
+msgstr ":ref:`component-branch`"
 
 #: ../../api.rst:1041 ../../devel/sphinx.rst:34
 msgid ":ref:`component-filemask`"
 msgstr ":ref:`component-filemask`"
 
 #: ../../api.rst:1042
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-template`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-template`"
 
 #: ../../api.rst:1043
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-edit_template`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-edit_template`"
 
 #: ../../api.rst:1044
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-intermediate`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-intermediate`"
 
 #: ../../api.rst:1045 ../../devel/sphinx.rst:36
 msgid ":ref:`component-new_base`"
@@ -15364,152 +15371,104 @@ msgid ":ref:`component-file_format`"
 msgstr ":ref:`component-file_format`"
 
 #: ../../api.rst:1047
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-license`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-license`"
 
 #: ../../api.rst:1048
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-agreement`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-agreement`"
 
 #: ../../api.rst:1049
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-new_lang`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-new_lang`"
 
 #: ../../api.rst:1050
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-language_code_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-language_code_style`"
 
 #: ../../api.rst:1052 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
 msgstr ":ref:`component-check_flags`"
 
 #: ../../api.rst:1053
-#, fuzzy
-#| msgid ":ref:`component-file_format`"
 msgid ":ref:`component-priority`"
-msgstr ":ref:`component-file_format`"
+msgstr ":ref:`component-priority`"
 
 #: ../../api.rst:1054
-#, fuzzy
-#| msgid ":ref:`component-check_flags`"
 msgid ":ref:`component-enforced_checks`"
-msgstr ":ref:`component-check_flags`"
+msgstr ":ref:`component-enforced_checks`"
 
 #: ../../api.rst:1055
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-restricted`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-restricted`"
 
 #: ../../api.rst:1056
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-repoweb`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-repoweb`"
 
 #: ../../api.rst:1057
-#, fuzzy
-#| msgid ":ref:`component-push`"
 msgid ":ref:`component-report_source_bugs`"
-msgstr ":ref:`component-push`"
+msgstr ":ref:`component-report_source_bugs`"
 
 #: ../../api.rst:1058
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_style`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_style`"
 
 #: ../../api.rst:1059
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-commit_message`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-commit_message`"
 
 #: ../../api.rst:1060
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-add_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-add_message`"
 
 #: ../../api.rst:1061
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`component-delete_message`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`component-delete_message`"
 
 #: ../../api.rst:1062
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-merge_message`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-merge_message`"
 
 #: ../../api.rst:1063
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-addon_message`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-addon_message`"
 
 #: ../../api.rst:1064
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgid ":ref:`component-allow_translation_propagation`"
-msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
+msgstr ":ref:`component-allow_translation_propagation`"
 
 #: ../../api.rst:1065
-#, fuzzy
-#| msgid ":ref:`component-new_base`"
 msgid ":ref:`component-enable_suggestions`"
-msgstr ":ref:`component-new_base`"
+msgstr ":ref:`component-enable_suggestions`"
 
 #: ../../api.rst:1066
-#, fuzzy
-#| msgid ":ref:`component-push`"
 msgid ":ref:`component-suggestion_voting`"
-msgstr ":ref:`component-push`"
+msgstr ":ref:`component-suggestion_voting`"
 
 #: ../../api.rst:1067
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-suggestion_autoaccept`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-suggestion_autoaccept`"
 
 #: ../../api.rst:1068
-#, fuzzy
-#| msgid ":ref:`component-push_branch`"
 msgid ":ref:`component-push_on_commit`"
-msgstr ":ref:`component-push_branch`"
+msgstr ":ref:`component-push_on_commit`"
 
 #: ../../api.rst:1069
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-commit_pending_age`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-commit_pending_age`"
 
 #: ../../api.rst:1070
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-auto_lock_error`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-auto_lock_error`"
 
 #: ../../api.rst:1071
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-language_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-language_regex`"
 
 #: ../../api.rst:1072
-#, fuzzy
-#| msgid ":ref:`component-name`"
 msgid ":ref:`component-variant_regex`"
-msgstr ":ref:`component-name`"
+msgstr ":ref:`component-variant_regex`"
 
 #: ../../api.rst:1073
 msgid ""
@@ -16460,10 +16419,8 @@ msgid "For instruction on setting up GitHub integration"
 msgstr "Инструкция по настройке интеграции с GitHub"
 
 #: ../../api.rst:2100
-#, fuzzy
-#| msgid "https://help.github.com/en/github/extending-github/about-webhooks"
 msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
-msgstr "https://help.github.com/en/github/extending-github/about-webhooks"
+msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2101
 msgid "Generic information about GitHub Webhooks"
@@ -16700,34 +16657,30 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.2.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.2.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on August 14th 2012."
 msgid "Released on August 21st 2020."
-msgstr "Выпущен 14 августа 2012 года."
+msgstr "Выпущен 21 августа 2020 года."
 
 #: ../../changes.rst:6
 msgid "Fixed saving plurals for some locales in Android resources."
 msgstr ""
+"Исправлено сохранение форм множественного числа для некоторых локалей в "
+"ресурсах Android’а."
 
 #: ../../changes.rst:7
 msgid "Fixed crash in the cleanup addon for some XLIFF files."
-msgstr ""
+msgstr "Исправлено падение надстройки очистки на некоторых файлах XLIFF."
 
 #: ../../changes.rst:10
 msgid "Weblate 4.2"
 msgstr "Weblate 4.2"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Released on August 14th 2012."
 msgid "Released on August 18th 2020."
-msgstr "Выпущен 14 августа 2012 года."
+msgstr "Выпущен 18 августа 2020 года."
 
 #: ../../changes.rst:14
 msgid "Improved user pages and added listing of users."
@@ -16854,6 +16807,8 @@ msgid ""
 "The Weblate domain is now configured in the settings, see :setting:"
 "`SITE_DOMAIN`."
 msgstr ""
+"Теперь домен Weblate настраивается в настройках, смотрите описание параметра "
+":setting:`SITE_DOMAIN`."
 
 #: ../../changes.rst:40
 msgid "Add support for searching by component and project."
@@ -18134,11 +18089,11 @@ msgstr "Исправлен список языков, неизвестных Web
 
 #: ../../changes.rst:401
 msgid "Add support for cloning addons to discovered components."
-msgstr ""
+msgstr "Добавлена поддержка клонирования надстроек в обнаруженные компоненты."
 
 #: ../../changes.rst:402
 msgid "Add support for replacing file content with uploaded."
-msgstr ""
+msgstr "Добавлена поддержка замены содержимого файла загруженным файлом."
 
 #: ../../changes.rst:403
 msgid "Add support for translating non VCS based content."
@@ -18147,6 +18102,8 @@ msgstr ""
 #: ../../changes.rst:404
 msgid "Added OpenGraph widget image to use on social networks."
 msgstr ""
+"Добавлен виджет изображения OpenGraph для его использования в социальных "
+"сетях."
 
 #: ../../changes.rst:405
 msgid "Added support for animated screenshots."
@@ -18154,7 +18111,7 @@ msgstr ""
 
 #: ../../changes.rst:406 ../../changes.rst:475
 msgid "Improved handling of monolingual XLIFF files."
-msgstr ""
+msgstr "Улучшена обработка одноязычных файлов XLIFF."
 
 #: ../../changes.rst:407
 msgid "Avoid sending multiple notifications for single event."
@@ -18162,7 +18119,7 @@ msgstr ""
 
 #: ../../changes.rst:408
 msgid "Add support for filtering changes."
-msgstr ""
+msgstr "Добавлена поддержка фильтра по изменениям."
 
 #: ../../changes.rst:409
 msgid "Extended predefined periods for reporting."
@@ -18170,7 +18127,7 @@ msgstr ""
 
 #: ../../changes.rst:410
 msgid "Added webhook support for Azure Repos."
-msgstr ""
+msgstr "Добавлена поддержка веб-обработчиков для репозиториев Azure Repos."
 
 #: ../../changes.rst:411
 msgid ""
@@ -18180,6 +18137,7 @@ msgstr ""
 #: ../../changes.rst:412
 msgid "Add one click unsubscribe link to notification e-mails."
 msgstr ""
+"В письма с уведомлениями добавлена ссылка для отписки от них в одно нажатие."
 
 #: ../../changes.rst:413
 msgid "Fixed false positives with Has been translated check."
@@ -18187,7 +18145,7 @@ msgstr ""
 
 #: ../../changes.rst:414
 msgid "New management interface for admins."
-msgstr ""
+msgstr "Новый интерфейс управления для администраторов."
 
 #: ../../changes.rst:415
 msgid "String priority can now be specified using flags."
@@ -18195,7 +18153,7 @@ msgstr ""
 
 #: ../../changes.rst:416
 msgid "Added language management views."
-msgstr ""
+msgstr "Добавлены представления управления языком."
 
 #: ../../changes.rst:417
 msgid "Add checks for Qt library and Ruby format strings."
@@ -18204,6 +18162,8 @@ msgstr ""
 #: ../../changes.rst:418
 msgid "Added configuration to better fit single project installations."
 msgstr ""
+"Добавлена конфигурация, лучше подходящая для установок с единственным "
+"проектом."
 
 #: ../../changes.rst:419
 msgid ""
@@ -18213,6 +18173,7 @@ msgstr ""
 #: ../../changes.rst:420
 msgid "Added separate view for translation memory with search capability."
 msgstr ""
+"Добавлено отдельное представление для памяти переводов с возможностью поиска."
 
 #: ../../changes.rst:423
 msgid "Weblate 3.7.1"
