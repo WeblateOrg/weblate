@@ -117,7 +117,9 @@ class LanguageGlossary:
 def show_glossaries(request, project):
     obj = get_project(request, project)
     language_glossaries = LanguageGlossary(obj, request.POST, request.user)
-    new_form = GlossaryForm(request.user, obj)
+    new_form = GlossaryForm(
+        request.user, obj, initial={"source_language": obj.source_language}
+    )
     if request.method == "POST" and request.user.has_perm("project.edit", obj):
         if "delete_glossary" in request.POST:
             try:
@@ -281,7 +283,9 @@ def download_glossary(request, project, lang):
         export_format = "csv"
 
     # Grab all terms
-    terms = Term.objects.for_project(prj).filter(language=lang).order()
+    terms = (
+        Term.objects.for_project(prj, prj.source_language).filter(language=lang).order()
+    )
 
     # Translate toolkit based export
     exporter = EXPORTERS[export_format](
@@ -333,7 +337,7 @@ def add_glossary_term(request, unit_id):
                 {
                     "glossary": (
                         Term.objects.get_terms(unit).order()
-                        | Term.objects.for_project(project=prj)
+                        | Term.objects.for_project(prj, prj.source_language)
                         .filter(pk__in=terms)
                         .order()
                     ),
@@ -372,7 +376,9 @@ def show_glossary(request, project, lang):
 
     uploadform = GlossaryUploadForm(prj)
 
-    terms = Term.objects.for_project(prj).filter(language=lang).order()
+    terms = (
+        Term.objects.for_project(prj, prj.source_language).filter(language=lang).order()
+    )
 
     letterform = LetterForm(request.GET)
 

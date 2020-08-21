@@ -66,16 +66,14 @@ class OneTermForm(forms.Form):
 class GlossaryForm(forms.ModelForm):
     class Meta:
         model = Glossary
-        fields = ["name", "color", "links"]
+        fields = ["name", "color", "source_language", "links"]
         widgets = {"color": ColorWidget}
 
     def __init__(self, user, project, data=None, instance=None, **kwargs):
         super().__init__(data=data, instance=instance, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.fields["links"].queryset = user.owned_projects.exclude(
-            pk=project.id,
-        ).filter(source_language=project.source_language)
+        self.fields["links"].queryset = user.owned_projects.exclude(pk=project.id)
 
 
 class TermForm(forms.ModelForm):
