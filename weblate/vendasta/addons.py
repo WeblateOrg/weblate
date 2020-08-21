@@ -27,7 +27,7 @@ class NotifyLexicon(BaseAddon):
         component_name = "{}/{}".format(component.project.slug, component.slug)
 
         for translation in component.translation_set.iterator():
-            language_code = translation.language_code if translation else None
+            language_code = translation.language.code
             url = self.lexicon_url_template.format(
                 env=env, component_name=component_name, language_code=language_code,
             )
