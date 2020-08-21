@@ -860,8 +860,8 @@ with (what is most often the) English strings.
 
 .. note::
 
-   Weblate supports the go-i18n JSON v2 format, it does not support flat
-   JSON files supported in v1.
+   Weblate supports the go-i18n JSON v1 format, for flat JSON formats please
+   use :ref:`json`. The v2 format with hash is currently not supported.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
