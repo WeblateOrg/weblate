@@ -31,8 +31,6 @@
 
 {% include "snippets/list-objects.html" with objects=components name_source="name" label=_("Component") %}
 
-{% include "paginator.html" with page_obj=components%}
-
 {% if user_can_edit_project %}
 <p>
   <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
