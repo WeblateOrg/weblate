@@ -4,8 +4,8 @@ from weblate.logger import LOGGER
 from weblate.vendasta.constants import (
     ACCESS_NAMESPACE,
     PARTNER_USERS,
-    VIEW_PUBLIC_LANGUAGES,
     VENDASTA_DEVELOPERS,
+    VIEW_PUBLIC_LANGUAGES,
 )
 
 

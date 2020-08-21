@@ -917,6 +917,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
+    "weblate.vendasta.addons.NotifyLexicon",
 ]
 modify_env_list(CHECK_LIST, "ADDONS")
 
