@@ -47,7 +47,7 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.site import get_site_url
-from weblate.utils.views import get_project, import_message
+from weblate.utils.views import get_paginator, get_project, import_message
 
 EXPORT_TYPES = ("csv", "po", "tbx", "xliff")
 
@@ -389,6 +389,8 @@ def show_glossary(request, project, lang):
         letter = letterform.cleaned_data["letter"]
     else:
         letter = ""
+
+    terms = get_paginator(request, terms)
 
     last_changes = (
         Change.objects.last_changes(request.user)

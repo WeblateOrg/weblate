@@ -45,6 +45,8 @@
 {% crispy searchform %}
 </form>
 
+{% include "paginator.html" %}
+
 <form class="autosubmit form-inline pull-right flip">
 {% crispy letterform %}
 </form>
@@ -84,6 +86,7 @@
 {% endfor %}
 </tbody>
 </table>
+{% include "paginator.html" %}
 {% else %}
 <p>{% trans "No words found!" %}</p>
 {% endif %}
