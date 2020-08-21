@@ -17,7 +17,7 @@
 
 <ul class="nav nav-pills">
 {% if user.is_authenticated %}
-<li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions.count }}</span></a></li>
+<li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions|length }}</span></a></li>
 {% endif %}
 {% if all_componentlists %}
 <li {% active_link "componentlists" %}><a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a></li>
