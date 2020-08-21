@@ -3,6 +3,10 @@ Weblate 4.3
 
 Not yet released.
 
+* Include user stats in the API.
+* Fixed component ordering on paginated pages.
+* Define source language for a glossary.
+
 Weblate 4.2.1
 -------------
 

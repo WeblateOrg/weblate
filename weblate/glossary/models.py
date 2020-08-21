@@ -36,7 +36,7 @@ from whoosh.lang import NoStopWords
 
 from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
-from weblate.lang.models import Language
+from weblate.lang.models import Language, get_english_lang
 from weblate.trans.defines import GLOSSARY_LENGTH, PROJECT_NAME_LENGTH
 from weblate.trans.models.project import Project
 from weblate.utils.colors import COLOR_CHOICES
@@ -74,6 +74,12 @@ class Glossary(models.Model):
         choices=COLOR_CHOICES,
         blank=False,
         default=None,
+    )
+    source_language = models.ForeignKey(
+        Language,
+        verbose_name=gettext_lazy("Source language"),
+        default=get_english_lang,
+        on_delete=models.deletion.CASCADE,
     )
 
     objects = GlossaryQuerySet.as_manager()
@@ -159,8 +165,12 @@ class TermManager(models.Manager):
 class TermQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
-    def for_project(self, project):
-        return self.filter(glossary__in=Glossary.objects.for_project(project))
+    def for_project(self, project, source_language):
+        return self.filter(
+            glossary__in=Glossary.objects.for_project(project).filter(
+                source_language=source_language
+            )
+        )
 
     def get_terms(self, unit):
         """Return list of term pairs for an unit."""
@@ -228,9 +238,9 @@ class TermQuerySet(models.QuerySet):
                 ),
             )
 
-        return results.for_project(unit.translation.component.project).filter(
-            language=unit.translation.language
-        )
+        return results.for_project(
+            unit.translation.component.project, source_language
+        ).filter(language=unit.translation.language)
 
     def order(self):
         return self.order_by(Lower("source"))
@@ -296,4 +306,9 @@ class Term(models.Model):
 def create_glossary(sender, instance, created, **kwargs):
     """Creates glossary on project creation."""
     if created:
-        Glossary.objects.create(name=instance.name, color="silver", project=instance)
+        Glossary.objects.create(
+            name=instance.name,
+            color="silver",
+            project=instance,
+            source_language=instance.source_language,
+        )

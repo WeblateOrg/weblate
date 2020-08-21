@@ -56,7 +56,6 @@ from weblate.utils import messages
 from weblate.utils.stats import GhostProjectLanguageStats, prefetch_stats
 from weblate.utils.views import (
     get_component,
-    get_paginator,
     get_project,
     get_translation,
     try_set_language,
@@ -164,9 +163,8 @@ def show_project(request, project):
         ),
     )
 
-    # Paginate components of project.
     all_components = obj.component_set.filter_access(user).prefetch().order()
-    components = prefetch_tasks(prefetch_stats(get_paginator(request, all_components)))
+    components = prefetch_tasks(prefetch_stats(all_components))
 
     return render(
         request,

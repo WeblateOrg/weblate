@@ -70,6 +70,7 @@ from weblate.api.serializers import (
     TranslationSerializer,
     UnitSerializer,
     UploadRequestSerializer,
+    UserStatisticsSerializer,
 )
 from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
@@ -397,6 +398,14 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer.save()
 
         return Response(serializer.data, status=HTTP_200_OK)
+
+    @action(detail=True, methods=["get"])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        serializer = UserStatisticsSerializer(obj, context={"request": request})
+
+        return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ModelViewSet):

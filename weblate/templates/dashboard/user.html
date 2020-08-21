@@ -17,7 +17,7 @@
 
 <ul class="nav nav-pills">
 {% if user.is_authenticated %}
-<li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions.paginator.count }}</span></a></li>
+<li {% active_link "your-subscriptions" %}><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched translations" %} <span class="badge">{{ usersubscriptions|length }}</span></a></li>
 {% endif %}
 {% if all_componentlists %}
 <li {% active_link "componentlists" %}><a href="#componentlists" data-toggle="tab">{% trans "Component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a></li>
@@ -49,8 +49,6 @@
 {% if watched_projects %}
     {% if usersubscriptions %}
         {% include "snippets/list-objects.html" with objects=usersubscriptions label=_("Component") hide_completed=user.profile.hide_completed name_source="translation" %}
-
-        {% include "paginator.html" with page_obj=usersubscriptions anchor='your-subscriptions' %}
     {% else %}
         {% include "list-projects.html" with projects=watched_projects %}
     {% endif %}
