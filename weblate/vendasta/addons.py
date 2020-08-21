@@ -27,9 +27,7 @@ class NotifyLexicon(BaseAddon):
         component_name = "{}/{}".format(component.project.slug, component.slug)
         language_code = translation.language_code if translation else None
         url = self.lexicon_url_template.format(
-            env=env,
-            component_name=component_name,
-            language_code=language_code,
+            env=env, component_name=component_name, language_code=language_code,
         )
         LOGGER.info("###### url: %s", url)
         # response = request(
