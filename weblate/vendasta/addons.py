@@ -17,7 +17,7 @@ class NotifyLexicon(BaseAddon):
     verbose = "Notify Lexicon"
     description = "When this component commits changes, notify Lexicon"
     lexicon_url_template = (
-        "https://lexicon-{env}.apigateway.co"
+        "https://lexicon-{env}.apigateway.co/update-translation"
         "?componentName={component_name}&languageCode={language_code}"
     )
 
