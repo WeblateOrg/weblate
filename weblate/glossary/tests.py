@@ -26,6 +26,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from weblate.glossary.models import Glossary, Term
+from weblate.lang.models import get_english_lang
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 
@@ -416,7 +417,14 @@ class GlossaryTest(FixtureTestCase):
         self.assertContains(response, "This field is required.")
 
         # Create
-        self.client.post(url, {"name": "GlossaryName", "color": "navy"})
+        self.client.post(
+            url,
+            {
+                "name": "GlossaryName",
+                "color": "navy",
+                "source_language": get_english_lang(),
+            },
+        )
         self.assertEqual(Glossary.objects.count(), 2)
 
         glossary = Glossary.objects.get(name="GlossaryName")
@@ -431,7 +439,13 @@ class GlossaryTest(FixtureTestCase):
 
         # Edit
         self.client.post(
-            url, {"name": "OtherName", "color": "navy", "edit_glossary": glossary.pk}
+            url,
+            {
+                "name": "OtherName",
+                "color": "navy",
+                "source_language": get_english_lang(),
+                "edit_glossary": glossary.pk,
+            },
         )
         glossary.refresh_from_db()
         self.assertEqual(glossary.name, "OtherName")
