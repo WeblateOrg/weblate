@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 
+import requests
+
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT
 from weblate.logger import LOGGER
+from weblate.utils.requests import request
 
 
 class NotifyLexicon(BaseAddon):
@@ -28,19 +31,18 @@ class NotifyLexicon(BaseAddon):
             url = self.lexicon_url_template.format(
                 env=env, component_name=component_name, language_code=language_code,
             )
-            LOGGER.info("###### url: %s", url)
-        # response = request(
-        #     "get",
-        #     url,
-        #     headers={
-        #         "Authorization": "Token {}".format(
-        #             os.environ.get("WEBLATE_ADMIN_API_TOKEN")
-        #         )
-        #     },
-        # )
-        # if response.status_code != requests.codes.ok:
-        #     LOGGER.error(
-        #         "Unable to notify lexicon of changes to (%s, %s)",
-        #         component.name,
-        #         translation.language_code,
-        #     )
+            response = request(
+                "get",
+                url,
+                headers={
+                    "Authorization": "Token {}".format(
+                        os.environ.get("WEBLATE_ADMIN_API_TOKEN")
+                    )
+                },
+            )
+            if response.status_code != requests.codes.ok:
+                LOGGER.error(
+                    "Unable to notify lexicon of changes to (%s, %s)",
+                    component_name,
+                    language_code,
+                )
