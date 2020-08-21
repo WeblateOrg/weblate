@@ -331,8 +331,8 @@ Users
 
     :param username: User's username
     :type username: string
-    :param subscription_id: Name of notification registered
-    :param subscription_id: int
+    :param subscription_id: ID of notification registered
+    :type subscription_id: int
 
 .. http:put:: /api/users/(str:username)/notifications/(int:subscription_id)/
 
@@ -340,8 +340,8 @@ Users
 
     :param username: User's username
     :type username: string
-    :param subscription_id: Name of notification registered
-    :param subscription_id: int
+    :param subscription_id: ID of notification registered
+    :type subscription_id: int
     :<json string notification: Name of notification registered
     :<json int scope: Scope of notification from the available choices
     :<json int frequency: Frequency choices for notifications
@@ -352,8 +352,8 @@ Users
 
     :param username: User's username
     :type username: string
-    :param subscription_id: Name of notification registered
-    :param subscription_id: int
+    :param subscription_id: ID of notification registered
+    :type subscription_id: int
     :<json string notification: Name of notification registered
     :<json int scope: Scope of notification from the available choices
     :<json int frequency: Frequency choices for notifications
