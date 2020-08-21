@@ -316,6 +316,13 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(Subscription.objects.count(), 7)
 
+    def test_statistics(self):
+        user = User.objects.filter(is_active=True).first()
+        request = self.do_request(
+            "api:user-statistics", kwargs={"username": user.username}, superuser=True,
+        )
+        self.assertEqual(request.data["commented"], user.profile.commented)
+
     def test_put(self):
         self.do_request(
             "api:user-detail",

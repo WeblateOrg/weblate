@@ -184,6 +184,9 @@ class FullUserSerializer(serializers.ModelSerializer):
         lookup_field="username",
         source="subscriptions",
     )
+    statistics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:user-statistics", lookup_field="username"
+    )
 
     class Meta:
         model = User
@@ -197,6 +200,7 @@ class FullUserSerializer(serializers.ModelSerializer):
             "is_active",
             "date_joined",
             "url",
+            "statistics_url",
         )
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
@@ -684,6 +688,19 @@ class StatisticsSerializer(ReadOnlySerializer):
             result["url"] = get_site_url(instance.get_absolute_url())
         if hasattr(instance, "get_translate_url"):
             result["translate_url"] = get_site_url(instance.get_translate_url())
+        return result
+
+
+class UserStatisticsSerializer(ReadOnlySerializer):
+    def to_representation(self, instance):
+        profile = instance.profile
+        result = {
+            "translated": profile.translated,
+            "suggested": profile.suggested,
+            "uploaded": profile.uploaded,
+            "commented": profile.commented,
+            "languages": profile.languages.count(),
+        }
         return result
 
 
