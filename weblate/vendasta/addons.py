@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 
-import requests
-
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT
 from weblate.logger import LOGGER
-from weblate.utils.requests import request
 
 
 class NotifyLexicon(BaseAddon):
