@@ -962,6 +962,7 @@ class CDNJSAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_json_mono()
 
+    @override_settings(LOCALIZE_CDN_URL=None)
     def test_noconfigured(self):
         self.assertFalse(CDNJSAddon.can_install(self.component, None))
 

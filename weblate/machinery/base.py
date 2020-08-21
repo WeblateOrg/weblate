@@ -181,8 +181,6 @@ class MachineTranslation:
         )
 
     def is_rate_limited(self):
-        if self.cache_translations:
-            return False
         return cache.get(self.rate_limit_cache, False)
 
     def set_rate_limit(self):
