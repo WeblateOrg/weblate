@@ -264,7 +264,7 @@ Users
             "is_superuser": true,
             "is_active": true,
             "date_joined": "2020-03-29T18:42:42.617681Z",
-            "url": "http://example.com/api/users/exampleusername/"
+            "url": "http://example.com/api/users/exampleusername/",
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
