@@ -28,6 +28,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils.encoding import force_str
 from jsonschema import validate
+from social_core.backends.utils import load_backends
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
@@ -236,6 +237,7 @@ class ViewTest(TestCase):
                 "social_core.backends.github.GithubOAuth2",
                 "weblate.accounts.auth.WeblateUserBackend",
             )
+            load_backends(social_django.utils.BACKENDS, force_load=True)
 
             response = self.client.get(reverse("login"))
             self.assertContains(
