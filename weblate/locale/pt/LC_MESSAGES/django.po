@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-19 08:59+0000\n"
-"PO-Revision-Date: 2020-08-06 10:46+0000\n"
+"PO-Revision-Date: 2020-08-23 08:42+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -372,7 +372,7 @@ msgstr "Sessão iniciada, utilizando {method} ({name})."
 #: weblate/accounts/models.py:91
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Sessão iniciada, utilizando {method} ({name}) de um novo dispositivo."
+msgstr "Sessão iniciada, utilizando {method} ({name}) de um novo aparelho."
 
 #: weblate/accounts/models.py:92
 msgid "Somebody has attempted to register with your e-mail."
@@ -415,8 +415,7 @@ msgstr "Sessão iniciada, utilizando palavra-passe."
 
 #: weblate/accounts/models.py:105
 msgid "Signed in using password from a new device."
-msgstr ""
-"Sessão iniciada, utilizando palavra-passe a partir de um novo dispositivo."
+msgstr "Sessão iniciada, utilizando palavra-passe de um novo aparelho."
 
 #: weblate/accounts/models.py:106
 msgid "Could not sign in using password."
@@ -527,12 +526,13 @@ msgstr ""
 
 #: weblate/accounts/models.py:362
 msgid "Number of nearby strings"
-msgstr "Número de cadeias próximas"
+msgstr "Quantidade de cadeias próximas"
 
 #: weblate/accounts/models.py:366
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
-"Número de cadeias próximas para mostrar em cada direção no editor completo."
+"Quantidade de cadeias próximas para mostrar em cada direção no editor "
+"completo."
 
 #: weblate/accounts/models.py:376 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -935,8 +935,8 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
-"O repositório está desatualizado, você pode não obter os resultados "
-"esperados até que o atualize."
+"O repositório está desatualizado, pode não obter os resultados esperados até "
+"que o atualize."
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
@@ -1114,7 +1114,7 @@ msgstr "Submeter com squash"
 
 #: weblate/addons/forms.py:140
 msgid "All commits into one"
-msgstr "Todos os commits em um só"
+msgstr "Todos os commits num só"
 
 #: weblate/addons/forms.py:141
 msgid "Per language"
@@ -1504,7 +1504,7 @@ msgstr "Publicar comentário"
 #. Translators: Permission name
 #: weblate/auth/data.py:44
 msgid "Delete comment"
-msgstr "Eliminar comentário"
+msgstr "Apagar comentário"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:46
@@ -1519,7 +1519,7 @@ msgstr "Editar entrada de glossário"
 #. Translators: Permission name
 #: weblate/auth/data.py:50
 msgid "Delete glossary entry"
-msgstr "Eliminar entrada de glossário"
+msgstr "Apagar entrada de glossário"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:52
@@ -1539,7 +1539,7 @@ msgstr "Editar memória de tradução"
 #. Translators: Permission name
 #: weblate/auth/data.py:58
 msgid "Delete translation memory"
-msgstr "Eliminar memória de tradução"
+msgstr "Apagar memória de tradução"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:60
@@ -1571,7 +1571,7 @@ msgstr "Editar captura de ecrã"
 #: weblate/auth/data.py:70
 #: weblate/templates/screenshots/screenshot_detail.html:124
 msgid "Delete screenshot"
-msgstr "Eliminar captura de ecrã"
+msgstr "Apagar captura de ecrã"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:72 weblate/templates/translate.html:653
@@ -1591,7 +1591,7 @@ msgstr "Adicionar sugestão"
 #. Translators: Permission name
 #: weblate/auth/data.py:78
 msgid "Delete suggestion"
-msgstr "Eliminar sugestão"
+msgstr "Apagar sugestão"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -1611,7 +1611,7 @@ msgstr "Realizar tradução automática"
 #. Translators: Permission name
 #: weblate/auth/data.py:86
 msgid "Delete existing translation"
-msgstr "Eliminar tradução existente"
+msgstr "Apagar tradução existente"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:88
@@ -2164,7 +2164,8 @@ msgstr "Espaços no início"
 
 #: weblate/checks/chars.py:70
 msgid "Source and translation do not both start with same number of spaces"
-msgstr "A fonte e a tradução não iniciam ambas com o mesmo número de espaços"
+msgstr ""
+"A fonte e a tradução não iniciam ambas com a mesma quantidade de espaços"
 
 #: weblate/checks/chars.py:107
 msgid "Trailing space"
@@ -2228,7 +2229,9 @@ msgstr "Não correspondido \\n"
 
 #: weblate/checks/chars.py:315
 msgid "Number of \\n in translation does not match source"
-msgstr "O número de \\n na tradução não corresponde ao da fonte"
+msgstr ""
+"A quantidade de \\n"
+" na tradução não corresponde ao da fonte"
 
 #: weblate/checks/chars.py:323
 msgid "Mismatching line breaks"
@@ -2236,7 +2239,7 @@ msgstr "Quebras de linha não coincidentes"
 
 #: weblate/checks/chars.py:324
 msgid "Number of new lines in translation does not match source"
-msgstr "O número de novas linhas na tradução não corresponde ao da fonte"
+msgstr "A quantidade de novas linhas na tradução não corresponde ao da fonte"
 
 #: weblate/checks/chars.py:331 weblate/trans/autofixes/chars.py:43
 msgid "Zero-width space"
@@ -2529,7 +2532,7 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
 msgstr ""
-"Há várias variáveis sem nome no texto, o que faz impossível aos tradutores "
+"Há várias variáveis sem nome na cadeia, o que faz impossível aos tradutores "
 "reordená-las"
 
 #: weblate/checks/markup.py:76
@@ -2757,7 +2760,7 @@ msgstr "A criação falhou, por favor, corrija os erros abaixo."
 
 #: weblate/fonts/views.py:96
 msgid "Font deleted."
-msgstr "Letra eliminada."
+msgstr "Letra foi apagada."
 
 #: weblate/fonts/views.py:155
 msgid "No override found."
@@ -2765,7 +2768,7 @@ msgstr "Sem sobreposição encontrada."
 
 #: weblate/fonts/views.py:158
 msgid "Font group deleted."
-msgstr "Grupo de letras eliminado."
+msgstr "Grupo de letras apagado."
 
 #: weblate/formats/base.py:221
 msgid "Failed to load strings from the file, try choosing other format."
@@ -3289,7 +3292,7 @@ msgstr "Fórmula manualmente inserida"
 
 #: weblate/lang/models.py:585 weblate/templates/language.html:76
 msgid "Number of plurals"
-msgstr "Número de plurais"
+msgstr "Quantidade de plurais"
 
 #: weblate/lang/models.py:592 weblate/templates/language.html:99
 #: weblate/templates/snippets/plural-formula.html:4
@@ -3338,7 +3341,7 @@ msgstr "Idioma %s removido."
 
 #: weblate/legal/forms.py:27
 msgid "I agree with the Terms of Service document"
-msgstr "Eu concordo com o documento dos 'Termos do Serviço'"
+msgstr "Concordo com o documento dos 'Termos do Serviço'"
 
 #: weblate/legal/middleware.py:57
 msgid ""
@@ -3501,7 +3504,7 @@ msgstr "Pode enviar ficheiros TMX ou JSON."
 
 #: weblate/memory/forms.py:38
 msgid "Confirm deleting all translation memory entries"
-msgstr "Confirme a eliminação de todas as entradas da memória de tradução"
+msgstr "Confirme apagar todas as entradas da memória de tradução"
 
 #: weblate/memory/models.py:106
 msgid "Unsupported file!"
@@ -3545,7 +3548,7 @@ msgstr "Ficheiro: {}"
 
 #: weblate/memory/views.py:83
 msgid "Entries deleted."
-msgstr "Entradas eliminadas."
+msgstr "Entradas apagadas."
 
 #: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
@@ -3577,7 +3580,7 @@ msgstr "Falha ao enviar a captura, por favor, corrija os erros abaixo."
 #: weblate/screenshots/views.py:153
 #, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "A captura %s foi eliminada."
+msgstr "A captura %s foi apagada."
 
 #: weblate/screenshots/views.py:173
 msgid "Source has been removed."
@@ -4207,7 +4210,7 @@ msgstr "Remoção"
 #: weblate/templates/accounts/profile.html:170
 #: weblate/templates/accounts/removal.html:17
 msgid "Account removal deletes all your private data."
-msgstr "A remoção da conta elimina todos os dados privados."
+msgstr "A remoção da conta apaga todos os dados privados."
 
 #: weblate/templates/accounts/profile.html:173
 msgid "Remove my account"
@@ -4391,7 +4394,7 @@ msgstr ""
 
 #: weblate/templates/accounts/removal.html:26
 msgid "Delete this account"
-msgstr "Eliminar esta conta"
+msgstr "Apagar esta conta"
 
 #: weblate/templates/accounts/reset.html:15
 msgid "Forgotten your password? You can now set new one."
@@ -4613,7 +4616,7 @@ msgstr "Utilização do idioma no caminho e no nome de ficheiro."
 
 #: weblate/templates/addons/discovery_help.html:62
 msgid "Android resource strings, split into several files."
-msgstr "Recursos Android, divididos em vários ficheiros."
+msgstr "Cadeias de recursos Android, divididos em vários ficheiros."
 
 #: weblate/templates/addons/discovery_help.html:67
 msgid ""
@@ -4650,7 +4653,7 @@ msgstr "Ficheiros correspondentes"
 
 #: weblate/templates/addons/discovery_preview.html:9
 msgid "Following components would be deleted"
-msgstr "Os componentes seguintes seriam eliminados"
+msgstr "Os componentes seguintes seriam apagados"
 
 #: weblate/templates/addons/discovery_preview.html:15
 msgid "Following components would be created"
@@ -4864,7 +4867,7 @@ msgstr "Editar"
 #: weblate/templates/billing-failure.html:10
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:69
 msgid "Check your billing status"
-msgstr "Verificar o estado da facturação"
+msgstr "Verificar o seu estado da facturação"
 
 #: weblate/templates/billing-failure.html:12
 msgid ""
@@ -5120,7 +5123,7 @@ msgstr "Transferir os ficheiros de tradução originais como ficheiro ZIP"
 
 #: weblate/templates/component-list.html:35
 msgid "Number of components"
-msgstr "Número de componentes"
+msgstr "Quantidade de componentes"
 
 #: weblate/templates/component-list.html:41
 #: weblate/trans/models/componentlist.py:106
@@ -5425,8 +5428,8 @@ msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
-"Você não tem permissão para visualizar relatórios para todos os "
-"utilizadores, apenas as suas contribuições serão listadas."
+"Não tem permissão para visualizar relatórios para todos os utilizadores, "
+"apenas as suas contribuições serão listadas."
 
 #: weblate/templates/component.html:317
 #: weblate/templates/dashboard/user.html:110 weblate/templates/project.html:185
@@ -5785,7 +5788,7 @@ msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
 msgstr[0] "Está a ser traduzida para o <strong>%(count)s idioma</strong>."
-msgstr[1] "Estão a ser traduzidas para os <strong>%(count)s idiomas</strong>."
+msgstr[1] "Está a ser traduzida para os <strong>%(count)s idiomas</strong>."
 
 #: weblate/templates/engage.html:48
 #, python-format
@@ -5866,7 +5869,7 @@ msgstr "Utilizado em grupos"
 #: weblate/templates/screenshots/screenshot_list.html:67
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Apagar"
 
 #: weblate/templates/fonts/font_list.html:15
 #: weblate/templates/fonts/fontgroup_detail.html:9
@@ -6013,7 +6016,7 @@ msgstr "Padrões curtos do teclado são fáceis de adivinhar."
 
 #: weblate/templates/i18n.html:28
 msgid "Use a longer keyboard pattern with more turns."
-msgstr "Use um padrão de teclado mais longo e com mais voltas."
+msgstr "Use um modelo de teclado mais longo e com mais voltas."
 
 #: weblate/templates/i18n.html:29
 msgid "Repeats like \"aaa\" are easy to guess."
@@ -6256,8 +6259,8 @@ msgstr "Reverter"
 #, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s caráter editado"
-msgstr[1] "%(count)s caráteres editados"
+msgstr[0] "%(count)s carácter editado"
+msgstr[1] "%(count)s carácteres editados"
 
 #: weblate/templates/last-changes-content.html:78
 msgid "No matching activity found."
@@ -7032,7 +7035,7 @@ msgstr "inativo"
 #: weblate/templates/memory/index.html:57
 #, python-format
 msgid "Number of entries for %(project)s"
-msgstr "Número de entradas para %(project)s"
+msgstr "Quantidade de entradas para %(project)s"
 
 #: weblate/templates/memory/index.html:59
 msgid "Number of uploaded shared entries"
@@ -7040,7 +7043,7 @@ msgstr "Quantidade de entradas compartilhadas enviadas"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
-msgstr "Número das suas entradas"
+msgstr "Quantidade das suas entradas"
 
 #: weblate/templates/memory/index.html:67
 #: weblate/templates/memory/index.html:100
@@ -7216,7 +7219,7 @@ msgstr "Instruções para tradutores"
 
 #: weblate/templates/project_stats.html:10 weblate/utils/views.py:97
 msgid "Number of words"
-msgstr "Número de palavras"
+msgstr "Quantidade de palavras"
 
 #: weblate/templates/project_stats.html:15
 msgid "Number of characters"
@@ -7224,15 +7227,15 @@ msgstr "Quantidade de carateres"
 
 #: weblate/templates/project_stats.html:22
 msgid "Number of languages"
-msgstr "Número de idiomas"
+msgstr "Quantidade de idiomas"
 
 #: weblate/templates/project_stats.html:27
 msgid "Number of source strings"
-msgstr "Número de cadeias fonte"
+msgstr "Quantidade de cadeias fonte"
 
 #: weblate/templates/project_stats.html:32
 msgid "Number of source words"
-msgstr "Número de palavras fonte"
+msgstr "Quantidade de palavras fonte"
 
 #: weblate/templates/project_stats.html:37
 msgid "Number of source characters"
@@ -7304,7 +7307,7 @@ msgstr "A carregar os resultados…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:66
 msgid "Please search below to find matching source strings."
-msgstr "Por favor, procure em baixo pelas cadeias fonte coincidentes."
+msgstr "Por favor, procure abaixo pelas cadeias fonte coincidentes."
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
 msgid "Automatically recognize"
@@ -8502,7 +8505,7 @@ msgstr[1] "Existem %(count)s variantes para esta cadeia."
 
 #: weblate/templates/translate.html:479
 msgid "Manage glossary"
-msgstr "Gerir o glossário"
+msgstr "Gerir glossário"
 
 #: weblate/templates/translate.html:498 weblate/templates/translate.html:508
 msgid "Add term to glossary"
