@@ -621,7 +621,7 @@ class WeblateLoginView(LoginView):
         # Redirect if there is only one backend
         auth_backends = get_auth_keys()
         if len(auth_backends) == 1 and "email" not in auth_backends:
-            return redirect_single(request, auth_backends.pop)
+            return redirect_single(request, auth_backends.pop())
 
         return super().dispatch(request, *args, **kwargs)
 

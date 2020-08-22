@@ -19,6 +19,7 @@
 
 """Test for user handling."""
 
+import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.core.signing import TimestampSigner
@@ -226,6 +227,22 @@ class ViewTest(TestCase):
         # Logout
         response = self.client.post(reverse("logout"))
         self.assertRedirects(response, reverse("home"))
+
+    def test_login_redirect(self):
+        try:
+            # psa creates copy of settings...
+            orig_backends = social_django.utils.BACKENDS
+            social_django.utils.BACKENDS = (
+                "social_core.backends.github.GithubOAuth2",
+                "weblate.accounts.auth.WeblateUserBackend",
+            )
+
+            response = self.client.get(reverse("login"))
+            self.assertContains(
+                response, "Redirecting you to the authentication provider."
+            )
+        finally:
+            social_django.utils.BACKENDS = orig_backends
 
     def test_login_email(self):
         user = self.get_user()
