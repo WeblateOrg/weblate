@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-19 08:59+0000\n"
-"PO-Revision-Date: 2020-08-10 22:05+0000\n"
+"PO-Revision-Date: 2020-08-23 08:42+0000\n"
 "Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -1275,10 +1275,8 @@ msgid "Translation threshold"
 msgstr "Próg tłumaczenia"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Threshold for included translations."
 msgid "Threshold for inclusion of translations."
-msgstr "Próg dla dołączonych tłumaczeń."
+msgstr "Próg uwzględniania tłumaczeń."
 
 #: weblate/addons/forms.py:401
 msgid "CSS selector"
@@ -2090,10 +2088,8 @@ msgid "Changes in last month"
 msgstr "Zmiany w ostatnim miesiącu"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of changes"
-msgstr "Liczba języków"
+msgstr "Liczba zmian"
 
 #: weblate/billing/models.py:241 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
@@ -7423,10 +7419,9 @@ msgstr ""
 "później."
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "Nie można aktualnie modyfikować tłumaczenia."
+msgstr ""
+"Tłumaczenie zostało automatycznie zablokowane z powodu następujących alertów:"
 
 #: weblate/templates/snippets/component/state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7828,12 +7823,12 @@ msgstr "Wyłącz powiadomienia dla %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
 msgid "Not watching"
-msgstr "Nie oglądane"
+msgstr "Nie obserwowane"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
 #, python-format
 msgid "Watch project %(project)s"
-msgstr "Obejrzyj projekt %(project)s"
+msgstr "Obserwuj projekt %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
 #, python-format
@@ -7864,16 +7859,12 @@ msgid "Error"
 msgstr "Błąd"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has exceeded its limits. You can still use the service, "
-#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
 msgstr ""
-"Twój abonament przekroczył swoje granice. Nadal można korzystać z usługi, "
-"ale zaleca się jej uaktualnienie."
+"Twój plan rozliczeniowy przekroczył swoje limity. Nadal można korzystać z "
+"usługi, ale zaleca się uaktualnienie planu rozliczeniowego."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
@@ -8580,10 +8571,9 @@ msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s, ciąg %(position)s"
 
 #: weblate/templates/translate.html:631
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "string %(position)s"
-msgstr "%(filename)s, ciąg %(position)s"
+msgstr "ciąg %(position)s"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
@@ -8647,10 +8637,8 @@ msgid "Other components"
 msgstr "Inne komponenty"
 
 #: weblate/templates/translation.html:189
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all components"
-msgstr "Przeglądaj wszystkie zmiany komponentu"
+msgstr "Przeglądaj wszystkie składniki"
 
 #: weblate/templates/translation.html:198
 msgid "Translation Information"
@@ -10555,16 +10543,12 @@ msgid "Language aliases"
 msgstr "Aliasy językowe"
 
 #: weblate/trans/models/project.py:168
-#, fuzzy
-#| msgid ""
-#| "Comma separated list of language code mappings, for example: en_GB:en,"
-#| "en_US:en"
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
 msgstr ""
-"Rozdzielona przecinkami lista mapowań kodu języka, na przykład: en_GB:en,"
-"en_US:en"
+"Rozdzielona przecinkami lista mapowań kodu języka, na przykład: "
+"en_GB:en,en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
