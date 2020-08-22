@@ -22,17 +22,15 @@ from ssl import CertificateError
 
 from django.conf import settings
 
+from weblate.accounts.avatar import download_avatar_image
 from weblate.utils.checks import weblate_check
 
 
 def check_avatars(app_configs, **kwargs):
-    from weblate.accounts.avatar import download_avatar_image
-    from weblate.auth.models import get_anonymous
-
     if not settings.ENABLE_AVATARS:
         return []
     try:
-        download_avatar_image(get_anonymous(), 32)
+        download_avatar_image("noreply@weblate.org", 32)
         return []
     except (IOError, CertificateError) as error:
         return [weblate_check("weblate.E018", f"Failed to download avatar: {error}")]

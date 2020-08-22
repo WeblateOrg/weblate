@@ -76,7 +76,7 @@ def get_avatar_image(user, size):
     image = cache.get(cache_key)
     if image is None:
         try:
-            image = download_avatar_image(user, size)
+            image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
         except (IOError, CertificateError):
             report_error(
@@ -87,9 +87,9 @@ def get_avatar_image(user, size):
     return image
 
 
-def download_avatar_image(user, size):
+def download_avatar_image(email, size):
     """Download avatar image from remote server."""
-    url = avatar_for_email(user.email, size)
+    url = avatar_for_email(email, size)
     response = request("get", url, timeout=1.0)
     return response.content
 
