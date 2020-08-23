@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-20 14:56+0200\n"
-"PO-Revision-Date: 2020-08-23 17:07+0000\n"
+"PO-Revision-Date: 2020-08-23 19:08+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -24735,7 +24735,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:8
 msgid "Starting with our codebase"
-msgstr ""
+msgstr "Перші кроки на основі нашого програмного коду"
 
 #: ../../contributing/start.rst:10
 msgid ""
@@ -24743,16 +24743,22 @@ msgid ""
 "look for ones labelled `good first issue <https://github.com/WeblateOrg/"
 "weblate/labels/good%20first%20issue>`_."
 msgstr ""
+"Якщо ви шукаєте якісь вади, які допоможуть ознайомитися із початковим кодом "
+"Weblate, зверніться до тих з них, які позначено міткою `good first issue "
+"<https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_."
 
 #: ../../contributing/start.rst:14
 msgid "Coding Weblate with PyCharm"
-msgstr ""
+msgstr "Програмування Weblate з використанням PyCharm"
 
 #: ../../contributing/start.rst:16
 msgid ""
 "PyCharm is a known IDE for Python, here's some guidelines to help you setup "
 "Weblate project in it."
 msgstr ""
+"PyCharm є відомим комплексним середовищем розробки для Python. У цьому "
+"розділі наведено декілька порад, які допоможуть вам налаштувати ваш проєкт "
+"Weblate."
 
 #: ../../contributing/start.rst:19
 msgid ""
@@ -24760,12 +24766,17 @@ msgid ""
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
 "to specify the interpreter you want:"
 msgstr ""
+"Припустімо, що ви вже створили клон сховища Github і відкрили теку, до якої "
+"було клоновано код, у PyCharm. Після відкриття вікна середовища розробки "
+"першим кроком є визначення потрібного вам інтерпретатора:"
 
 #: ../../contributing/start.rst:25
 msgid ""
 "You can either chose to let PyCharm create the virtualenv for you, or select "
 "an already existing one:"
 msgstr ""
+"Ви можете або дозволити PyCharm створити для вас віртуальне середовище, або "
+"вибрати наявне середовище:"
 
 #: ../../contributing/start.rst:30
 msgid ""
@@ -24774,6 +24785,10 @@ msgid ""
 "directly use your virtualenv by default), or through the interface when you "
 "get a warning about missing dependencies."
 msgstr ""
+"Не забудьте встановити залежності після встановлення інтерпретатора. Зробити "
+"це можна або за допомогою консолі (вбудована консоль типово безпосередньо "
+"використовуватиме ваше віртуальне середовище), або за допомогою графічного "
+"інтерфейсу, коли ви отримаєте попередження щодо невстановлених залежностей."
 
 #: ../../contributing/start.rst:35
 msgid ""
@@ -24782,6 +24797,10 @@ msgid ""
 "in the IDE. For that you need to specify the root path of Django and the "
 "path of one setting:"
 msgstr ""
+"Другим кроком є належне налаштовування для використання Django у PyCharm: "
+"основна проблема полягає в уможливленні негайного запуску тестів модулів у "
+"комплексному середовищі для розробки. Для цього вам слід вказати кореневий "
+"шлях до Django та шлях до його параметрів:"
 
 #: ../../contributing/start.rst:41
 msgid ""
@@ -24790,6 +24809,10 @@ msgid ""
 "`settings_test` from the repository, but you could create your own setting "
 "and set it there."
 msgstr ""
+"Будьте обережні, `корінь проєкту Django` є кореневою текою сховища, а не "
+"підкаталогом weblate. Щодо параметрів, особисто автор використовує "
+"`settings_test` зі сховища коду, але ви можете створити власні параметри і "
+"вказати їх у відповідному місці."
 
 #: ../../contributing/start.rst:45
 msgid ""
@@ -24797,6 +24820,9 @@ msgid ""
 "to be able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
 msgstr ""
+"Останнім кроком є уможливлення запуску сервера і розставляння точок зупинки "
+"у коді, щоб уможливити його діагностування. Це можна зробити створенням "
+"нових налаштувань `Django Server`:"
 
 #: ../../contributing/start.rst:51
 msgid ""
@@ -24804,10 +24830,14 @@ msgid ""
 "server live reload if you modify some files, but the debugger will be "
 "stopped on the breakpoint you set."
 msgstr ""
+"Слід бути обережним із належним позначенням пункту «Не перезавантажувати»: "
+"якщо ви внесете зміни до якихось файлів, інтерактивне перезавантаження "
+"сервера не відбуватиметься, але засіб діагностики буде зупинено на "
+"встановленій вами точці зупинки."
 
 #: ../../contributing/start.rst:57
 msgid "Running Weblate locally"
-msgstr ""
+msgstr "Локальний запуск Weblate"
 
 #: ../../contributing/start.rst:59
 msgid ""
@@ -24815,29 +24845,38 @@ msgid ""
 "follow :ref:`quick-source`. It will get you a virtual env with editable "
 "Weblate sources."
 msgstr ""
+"Найкомфортнішим способом розпочати розробку Weblate є виконання настанов "
+"розділу :ref:`quick-source`. Виконання цих настанов надасть вам змогу "
+"отримати віртуальне середовище із придатними до редагування початковими "
+"кодами Weblate."
 
 #: ../../contributing/start.rst:63
 msgid "To install all dependencies useful for development, do:"
 msgstr ""
+"Щоб встановити усі залежності, які будуть корисними для розробки, віддайте "
+"такі команди:"
 
 #: ../../contributing/start.rst:69
 msgid "To start a development server run:"
-msgstr ""
+msgstr "Щоб запустити сервер розробки, віддайте такі команди:"
 
 #: ../../contributing/start.rst:75
 msgid ""
 "Depending on your configuration you might also want to start Celery workers:"
 msgstr ""
+"Залежно від ваших налаштувань, вам може знадобитися запуск обробників Celery:"
 
 #: ../../contributing/start.rst:84
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "Запуск Weblate локально у Docker"
 
 #: ../../contributing/start.rst:86
 msgid ""
 "If you have Docker and docker-compose installed, you can spin up the "
 "development environment simply by running:"
 msgstr ""
+"Якщо у вас встановлено Docker і docker-compose, ви можете запустити "
+"середовище розробки простими командами:"
 
 #: ../../contributing/start.rst:93
 msgid ""
@@ -24846,12 +24885,18 @@ msgid ""
 "``admin`` password. The new installation is empty, so you might want to "
 "continue with :ref:`adding-projects`."
 msgstr ""
+"У результаті буде створено і запущено образ Docker для розробки. Weblate "
+"працюватиме за адресою <http://127.0.0.1:8080/>, і ви зможете увійти від "
+"імені користувача ``admin`` із паролем ``admin``. Новий встановлений "
+"екземпляр буде порожнім, тому ви можете продовжити з :ref:`adding-projects`."
 
 #: ../../contributing/start.rst:98
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in :file:`dev-docker` directory."
 msgstr ""
+"Файли :file:`Dockerfile` і :file:`docker-compose.yml` для цього екземпляра "
+"зберігатимуться у каталозі :file:`dev-docker`."
 
 #: ../../contributing/start.rst:101
 msgid ""
@@ -24859,6 +24904,9 @@ msgid ""
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example:"
 msgstr ""
+"Крім того, скрипт приймає декілька параметрів. Щоб виконати перевірки, "
+"запустіть його з параметром ``test``, а потім вкажіть будь-які параметри "
+":djadmin:`django:test`. Приклад:"
 
 #: ../../contributing/start.rst:108
 msgid ""
@@ -24869,12 +24917,16 @@ msgstr ""
 #: ../../contributing/start.rst:111
 msgid "To stop the background containers run:"
 msgstr ""
+"Щоб зупинити контейнери, які працюють у фоновому режимі, віддайте таку "
+"команду:"
 
 #: ../../contributing/start.rst:117
 msgid ""
 "Running the script without args will recreate Docker container and restart "
 "it."
 msgstr ""
+"Запуск скрипту без аргументів призведе до повторного створення контейнера "
+"Docker і його перезапуску."
 
 #: ../../contributing/start.rst:121
 msgid ""
@@ -24884,7 +24936,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:126
 msgid "Bootstraping your devel instance"
-msgstr ""
+msgstr "Самопобудова вашого екземпляра для розробки"
 
 #: ../../contributing/start.rst:128
 msgid ""
@@ -24894,7 +24946,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr ""
+msgstr "Комплекс тестування Weblate і неперервна інтеграція"
 
 #: ../../contributing/tests.rst:4
 msgid ""
@@ -24904,7 +24956,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr ""
+msgstr "Неперервна інтеграція"
 
 #: ../../contributing/tests.rst:12
 msgid ""
@@ -24923,11 +24975,11 @@ msgstr "Перевірка модулів"
 
 #: ../../contributing/tests.rst:19
 msgid "Documentation build and external links"
-msgstr ""
+msgstr "Збирання документації та зовнішні посилання"
 
 #: ../../contributing/tests.rst:20
 msgid "Migration testing from all supported releases"
-msgstr ""
+msgstr "Тестування перенесення для усіх підтримуваних випусків"
 
 #: ../../contributing/tests.rst:21
 msgid "Code linting"
@@ -24950,15 +25002,15 @@ msgstr ""
 
 #: ../../contributing/tests.rst:33
 msgid "The simple execution can look like:"
-msgstr ""
+msgstr "Просте виконання може виглядати так:"
 
 #: ../../contributing/tests.rst:44
 msgid "Local testing"
-msgstr ""
+msgstr "Локальне тестування"
 
 #: ../../contributing/tests.rst:46
 msgid "To run a testsuite locally, use:"
-msgstr ""
+msgstr "Щоб запустити комплекс тестів локально, скористайтеся такими командами:"
 
 #: ../../contributing/tests.rst:54
 msgid ""
@@ -24983,7 +25035,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:72
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "Ви також можете вказати окремі тести, які слід виконати:"
 
 #: ../../contributing/tests.rst:80
 msgid ""
