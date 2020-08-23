@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-20 14:56+0200\n"
-"PO-Revision-Date: 2020-08-23 08:42+0000\n"
+"PO-Revision-Date: 2020-08-23 17:07+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -23928,6 +23928,10 @@ msgid ""
 "collect info on any such issue and submit it to the `issue tracker <https://"
 "github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
+"Вади можуть проявлятися як аварійні завершення роботи програми або помилкова "
+"поведінка програми. Ми будемо раді, якщо ви зберете будь-які дані щодо вади "
+"і надасте їх у `нашій системі стеження за вадами <https://github.com/"
+"WeblateOrg/weblate/issues>`_."
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -23939,6 +23943,10 @@ msgid ""
 "useful to debug issues in the web interface, but not suitable for production "
 "environment as it has performance consequences and might leak private data."
 msgstr ""
+"Вмикання діагностичного режиму призведе до показу виключень у браузері. Це "
+"корисно для діагностування проблем у вебінтерфейсі, але є неприйнятним для "
+"промислового середовища, оскільки призводить до погіршення швидкодії та може "
+"призвести до витоку конфіденційних даних."
 
 #: ../../contributing/debugging.rst:20
 msgid "Weblate logs"
@@ -23962,6 +23970,9 @@ msgid ""
 "Docker containers log to their output (as usual in the Docker world), so you "
 "can look at the logs using ``docker-compose logs``."
 msgstr ""
+"Контейнери Docker записують виведені дані (це є звичною практикою у царині "
+"Docker), отже ви можете ознайомитися із журналом за допомогою команди "
+"``docker-compose logs``."
 
 #: ../../contributing/debugging.rst:32
 msgid ""
@@ -23980,6 +23991,11 @@ msgid ""
 "party services which can collect such info automatically. You can find info "
 "on how to set this up in :ref:`collecting-errors`."
 msgstr ""
+"Якщо програма завершує роботу в аварійному режимі, корисно зібрати якомога "
+"більше відомостей щодо аварії. Найпростішим способом досягти цього є "
+"використання сторонніх служб, які можуть зібрати потрібні дані в "
+"автоматичному режимі. Знайти дані щодо того, як налаштувати систему, можна у "
+"розділі :ref:`collecting-errors`."
 
 #: ../../contributing/debugging.rst:43
 msgid "Silent failures"
@@ -23992,6 +24008,10 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
+"Багато завдань покладаються на Celery для забезпечення фонової обробки. Дані "
+"аварійних завершень роботи таких завдань не буде показано в інтерфейсі "
+"користувача, а буде записано до журналу Celery. Налаштовування :ref:`"
+"збирання помилок<collecting-errors>` спростить діагностику таких помилок."
 
 #: ../../contributing/debugging.rst:51
 msgid "Performance issues"
@@ -24003,6 +24023,10 @@ msgid ""
 "relevant logs showing the issue, and anything that might help figuring out "
 "where the code might be improved."
 msgstr ""
+"Якщо Weblate працює неналежним чином у певних випадках, будь ласка, зберіть "
+"відповідні дані журналів, які демонструють помилку, і усі дані, які можуть "
+"допомогти у визначенні того, як може бути удосконалено код, що запобігти "
+"неналежній поведінці."
 
 #: ../../contributing/debugging.rst:57
 msgid ""
@@ -24011,6 +24035,10 @@ msgid ""
 "`collecting-errors` and get pinpointed and detailed tracebacks in the error "
 "collection tool."
 msgstr ""
+"Якщо певні запити виконуються надто довго без додаткової індикації, вам "
+"варто встановити `dogslow <https://pypi.org/project/dogslow/>` і :ref"
+":`collecting-errors` і отримати точні та докладні трасування за допомогою "
+"засобу збирання даних помилок."
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -24036,6 +24064,11 @@ msgid ""
 "correct locations in :file:`weblate/static/vendor`, where all third partly "
 "frontend code is located."
 msgstr ""
+"Для оновлення сторонніх бібліотек використовується програма для керування "
+"пакунками yarn. Налаштування цієї програми зберігаються :file:`scripts/yarn`"
+". Існує скрипт-обгортка :file:`scripts/yarn-update` для оновлення бібліотек, "
+"збирання їх і копіювання до належних каталогів у :file:`weblate/static/"
+"vendor`, де зберігається увесь код сторонніх бібліотек."
 
 #: ../../contributing/frontend.rst:16
 msgid "Coding style"
@@ -24046,6 +24079,8 @@ msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
 msgstr ""
+"Weblate використовує для форматування коду у файлах JavaScript і CSS "
+"`Prettier`_."
 
 #: ../../contributing/frontend.rst:20
 msgid "We also use `ESLint`_ to check the JavaScript code."
@@ -24061,6 +24096,9 @@ msgid ""
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
+"Якщо вам потрібен будь-який видимий користувачеві текст у коді бібліотеки, "
+"цей текст має бути локалізовано. У більшості випадків вам достатньо огорнути "
+"ваш текст у функцію ``gettext``, але доступними є і складніші можливості:"
 
 #: ../../contributing/frontend.rst:48
 msgid ""
@@ -24078,6 +24116,9 @@ msgid ""
 "Weblate currently uses material design icons, in case you are looking for "
 "new one, check <https://materialdesignicons.com/>."
 msgstr ""
+"Поточна версія Weblate використовує піктограми material design. Якщо вам "
+"потрібна якась нова піктограма, скористайтеся <https://materialdesignicons."
+"com/>."
 
 #: ../../contributing/frontend.rst:56
 msgid ""
@@ -24085,6 +24126,9 @@ msgid ""
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
 msgstr ""
+"Крім того, можна скористатися :file:`scripts/optimize-svg` для зменшення "
+"розміру SVG, оскільки більшість піктограм вбудовуються до HTML для "
+"уможливлення застосування стилю до контурів."
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
@@ -24095,6 +24139,9 @@ msgid ""
 "There are dozens of ways to contribute in Weblate. Any help is welcomed, be "
 "it coding, graphics design, documentation or sponsorship:"
 msgstr ""
+"Існує десятки варіантів взяти участь у розвитку Weblate. Будемо раді будь-"
+"якій допомозі — програмуванню, графічному дизайну, документації та "
+"безпосередній фінансовій підтримці:"
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
@@ -24122,6 +24169,9 @@ msgid ""
 "itself, feel free to take part in the effort of making Weblate available in "
 "as many human languages as possible."
 msgstr ""
+"Weblate `перекладається <https://hosted.weblate.org/>`_ за допомогою самого "
+"Weblate. Не вагайтеся і долучайтеся до зусиль з забезпечення доступності "
+"Weblate якомога більшою кількістю мов."
 
 #: ../../contributing/index.rst:27
 msgid "Funding Weblate development"
@@ -24134,6 +24184,12 @@ msgid ""
 "and further development of Weblate. Please check the `donate page` for "
 "details, such as funding goals and rewards you can get for being a funder."
 msgstr ""
+"Ви можете долучитися до фінансування подальшої розробки Weblate за допомогою "
+"`donate page`_. Зібрані кошти буде використано для фінансування "
+"безкоштовного обслуговування проєктів вільного програмного забезпечення і "
+"подальшої розробки Weblate. Будь ласка, ознайомтеся із `сторінкою пожертв`, "
+"щоб дізнатися більше, зокрема про цілі фінансування та відзнаки, які ви "
+"можете отримати як спонсор."
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
@@ -24180,6 +24236,8 @@ msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
 msgstr ""
+"Хочете потрапити до списку? Будь ласка, ознайомтеся із вмістом сторінки `"
+"Пожертви Weblate <https://weblate.org/donate/>`_."
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
@@ -24426,6 +24484,9 @@ msgid ""
 "there. If what you have found is a security issue in Weblate, please consult "
 "the \"Security issues\" section below."
 msgstr ""
+"Будемо раді звітам про будь-які вади або пропозиціям щодо поліпшень у "
+"Weblate. Якщо вами було виявлено проблему із захистом у Weblate, будь ласка, "
+"ознайомтеся із розділом «Негаразди з безпекою» нижче."
 
 #: ../../contributing/issues.rst:15
 msgid "Security issues"
@@ -24438,12 +24499,18 @@ msgid ""
 "security issues, and can be reported directly at `HackerOne <https://"
 "hackerone.com/weblate>`_."
 msgstr ""
+"Щоб надати спільноті час для усування вади і оновлення, наполегливо "
+"рекомендуємо вам повідомляти про вади захисту приватно. Для роботи із вадами "
+"захисту ми використовуємо HackerOne. Про них можна повідомляти безпосередньо "
+"на `HackerOne <https://hackerone.com/weblate>`_."
 
 #: ../../contributing/issues.rst:21
 msgid ""
 "Alternatively, report to security@weblate.org, which ends up on HackerOne as "
 "well."
 msgstr ""
+"Крім того, можете написати повідомлення на security@weblate.org. Це "
+"повідомлення буде продубльовано на HackerOne."
 
 #: ../../contributing/issues.rst:24
 msgid ""
@@ -24451,6 +24518,10 @@ msgid ""
 "report by e-mail to michal@cihar.com. You can choose to encrypt it using "
 "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`."
 msgstr ""
+"Якщо з якоїсь причини ви не хочете користуватися HackerOne, ви можете "
+"надіслати звіт електронною поштою до michal@cihar.com. Ви можете зашифрувати "
+"повідомлення за допомогою цього ключа PGP: `3CB 1DF1 EF12 CF2A C0EE  5A32 "
+"9C27 B313 42B7 511D`."
 
 #: ../../contributing/issues.rst:30
 msgid ""
@@ -24458,10 +24529,13 @@ msgid ""
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
 msgstr ""
+"Weblate залежить від сторонніх складників для виконання багатьох завдань. "
+"Якщо вами буде виявлено вразливість, яка стосується одного з цих складників "
+"загалом, будь ласка, повідомте про неї розробникам відповідного проєкту."
 
 #: ../../contributing/issues.rst:34
 msgid "Some of these are:"
-msgstr ""
+msgstr "Ось деякі з цих складників:"
 
 #: ../../contributing/issues.rst:36
 msgid ":doc:`Django <django:internals/security>`"
@@ -24572,26 +24646,33 @@ msgstr "Закрити етап на GitHub."
 #: ../../contributing/release.rst:18
 msgid "Once the Docker image is tested, add a tag and push it."
 msgstr ""
+"Щойно образ Docker буде перевірено, додати мітку і записати його до сховища."
 
 #: ../../contributing/release.rst:19
 msgid "Update Helm chart to new version."
-msgstr ""
+msgstr "Оновити до нової версії діаграму Helm."
 
 #: ../../contributing/release.rst:20
 msgid ""
 "Include new version in :file:`.github/workflows/migrations.yml` to cover it "
 "in migration testing."
 msgstr ""
+"Включити нову версію до :file:`.github/workflows/migrations.yml`, щоб її "
+"було оброблено засобами тестування перенесення."
 
 #: ../../contributing/release.rst:21
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
 msgstr ""
+"Збільшити номер версії у сховищі за допомогою команди :command:`./scripts/"
+"set-version`."
 
 #: ../../contributing/release.rst:23
 msgid ""
 "To create tags using the :command:`./scripts/create-release` script you will "
 "need following:"
 msgstr ""
+"Для створення міток за допомогою скрипту :command:`./scripts/create-release` "
+"вам знадобиться:"
 
 #: ../../contributing/release.rst:25
 msgid "GnuPG with private key used to sign the release"
@@ -24600,19 +24681,23 @@ msgstr ""
 
 #: ../../contributing/release.rst:26
 msgid "Push access to Weblate git repositories (it pushes tags)"
-msgstr ""
+msgstr "Доступ до запису змін до сховищ git Weblate (скрипт записує мітки)"
 
 #: ../../contributing/release.rst:27
 msgid ""
 "Configured :command:`hub` tool and access to create releases on the Weblate "
 "repo"
 msgstr ""
+"Налаштована програма :command:`hub` для доступу і створення випусків у "
+"сховищі Weblate"
 
 #: ../../contributing/release.rst:28
 msgid ""
 "SSH access to Weblate download server (the Website downloads are copied "
 "there)"
 msgstr ""
+"SSH-доступ до сервера отримання пакунків Weblate (туди буде скопійовано "
+"пакунки Website)"
 
 #: ../../contributing/schemas.rst:2
 msgid "Data schemas"
@@ -24623,6 +24708,8 @@ msgid ""
 "Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of "
 "external JSON files."
 msgstr ""
+"Weblate використовує `схему JSON <https://json-schema.org/>`_ для визначення "
+"компонування системи зовнішніх файлів JSON."
 
 #: ../../contributing/schemas.rst:12
 msgid ""
@@ -24636,13 +24723,15 @@ msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr ""
+msgstr "Перші кроки у програмуванні коду Weblate"
 
 #: ../../contributing/start.rst:4
 msgid ""
 "To understand Weblate source code, please first look into :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
 msgstr ""
+"Щоб краще зрозуміти початковий код Weblate, будь ласка, спочатку зверніться "
+"до розділів :doc:`code`, :doc:`frontend` та :doc:`internals`."
 
 #: ../../contributing/start.rst:8
 msgid "Starting with our codebase"
