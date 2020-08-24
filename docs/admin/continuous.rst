@@ -346,7 +346,7 @@ Lazy commits
 The behaviour of Weblate is to group commits from the same author into one
 commit if possible. This greatly reduces the number of commits, however you
 might need to explicitly tell it to do the commits in case you want to get the
-VCS repository in sync, e.g. for merge (this is by default allowed for the Managers
+VCS repository in sync, e.g. for merge (this is by default allowed for the :guilabel:`Managers`
 group, see :ref:`privileges`).
 
 The changes in this mode are committed once any of the following conditions are

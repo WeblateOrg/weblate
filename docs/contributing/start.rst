@@ -22,7 +22,7 @@ interpreter you want:
 
 .. image:: /images/pycharm-1.png
 
-You can either chose to let PyCharm create the virtualenv for you, or select an already
+You can either choose to let PyCharm create the virtualenv for you, or select an already
 existing one:
 
 .. image:: /images/pycharm-2.png

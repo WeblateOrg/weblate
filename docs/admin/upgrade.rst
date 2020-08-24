@@ -190,7 +190,7 @@ Migrating using Django JSON dumps
 
 The simplest approach for migration is to utilize Django JSON dumps. This works well for smaller installations. On bigger sites you might want to use pgloader instead, see :ref:`pgloader-migration`.
 
-1. Add PostgeSQL as additional database connection to the :file:`settings.py`:
+1. Add PostgreSQL as additional database connection to the :file:`settings.py`:
 
 .. code-block:: python
 
@@ -262,7 +262,7 @@ Migrating to PotsgreSQL using pgloader
 
 The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You can use it to migrate Weblate database.
 
-1. Adjust your :file:`settings.py` to use PostgeSQL as a database.
+1. Adjust your :file:`settings.py` to use PostgreSQL as a database.
 
 2. Migrate the schema in the PostgreSQL database:
 

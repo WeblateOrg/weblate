@@ -275,7 +275,7 @@ You can choose one of following modes:
 
 * Per author
 
-Original commit messages are kept, but authorship is lost unless "Per author" is selected, or
+Original commit messages are kept, but authorship is lost unless :guilabel:`Per author` is selected, or
 the commit message is customized to include it.
 
 .. versionadded:: 4.1

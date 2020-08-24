@@ -225,7 +225,7 @@ You should back up user uploaded files (e.g. :ref:`screenshots`).
 Command line for manual backup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using a cron task, you can set up a bash command to be executed on a daily basis, for instance:
+Using a cron job, you can set up a bash command to be executed on a daily basis, for instance:
 
 .. code-block:: console
 

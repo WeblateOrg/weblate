@@ -33,7 +33,7 @@ is also added to the interpreter search path.
 Better yet, turn your customization into a proper Python package:
 
 1. Create a folder for your package (we will use `weblate_customization`).
-2. within it, create a :file:`setup.py` file to describe the package:
+2. Within it, create a :file:`setup.py` file to describe the package:
 
     .. code-block:: python
 
