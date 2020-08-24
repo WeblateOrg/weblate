@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-20 14:56+0200\n"
-"PO-Revision-Date: 2020-08-23 08:42+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-08-24 12:24+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -7133,22 +7133,25 @@ msgid ""
 "need both Cairo and Pango, which in turn need Glib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
+"Weblate 使用 Pango 和 Cairo 来提供位图 widget（请见 :ref:`promotion` ）并提供检查（请见 "
+":ref:`fonts` ）。为了适当地安装 Python 绑定需要首先安装系统库的那些—— Cairo 和 Pango 都是需要的，由此需要 Glib "
+"。所有那些需要与开发文件和 GObject 内省数据一起安装。"
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
-msgstr ""
+msgstr "核实发布签名"
 
 #: ../../admin/install.rst:158
 msgid ""
 "Weblate release are cryptographically signed by the releasing developer. "
 "Currently this is Michal Čihař. Fingerprint of his PGP key is:"
-msgstr ""
+msgstr "Weblate 的发布由发布开发者通过密码签发。当前是 Michal Čihař 。他的 PGP 密钥指纹是："
 
 #: ../../admin/install.rst:165
 msgid ""
 "and you can get more identification information from <https://keybase.io/"
 "nijel>."
-msgstr ""
+msgstr "并且可以从 <https://keybase.io/nijel> 得到更多识别信息。"
 
 #: ../../admin/install.rst:167
 msgid ""
@@ -7156,41 +7159,43 @@ msgid ""
 "downloaded. This way you can be sure that you are using the same code that "
 "was released. You should also verify the date of the signature to make sure "
 "that you downloaded the latest version."
-msgstr ""
+msgstr "您应该核实签名与下载的压缩档案匹配。这种方式可以确保您使用发布的相同编码。您还应该核实签名的日期，确定下载了最新的版本。"
 
 #: ../../admin/install.rst:172
 msgid ""
 "Each archive is accompanied with ``.asc`` files which contains the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
-msgstr ""
+msgstr "每个压缩档案伴随 ``.asc`` 文件在一起，它包含了需要使用的 PGP 签名。一旦它们处于相同的文件夹内，就可以核实签名了："
 
 #: ../../admin/install.rst:183
 msgid ""
 "As you can see gpg complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
-msgstr ""
+msgstr "您可以看到 gpg 抱怨不知道公钥。在这点上您应该执行下面的步骤之一："
 
 #: ../../admin/install.rst:186
 msgid "Use wkd to download the key:"
-msgstr ""
+msgstr "使用 wkd 来下载密钥："
 
 #: ../../admin/install.rst:201
 msgid ""
 "Download the keyring from `Michal's server <https://cihar.com/.well-known/"
 "openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:"
 msgstr ""
+"从 `Michal's server <https://cihar.com/.well-known/openpgpkey/hu/"
+"wmxth3chu9jfxdxywj1skpmhsj311mzm>`_ 下载钥匙链，然后将其导入："
 
 #: ../../admin/install.rst:207
 msgid "Download and import the key from one of the key servers:"
-msgstr ""
+msgstr "从一个密钥服务器下载并导入密钥："
 
 #: ../../admin/install.rst:216
 msgid ""
 "This will improve the situation a bit - at this point you can verify that "
 "the signature from the given key is correct but you still can not trust the "
 "name used in the key:"
-msgstr ""
+msgstr "这会将情况改善一点——在这点上您可以核实给定密钥的签名是正确的，但仍然不能相信密钥中使用的名称："
 
 #: ../../admin/install.rst:234
 msgid ""
@@ -7202,20 +7207,24 @@ msgid ""
 "web of trust. This way you can trust the key transitively though signatures "
 "of others, who have met the developer in person."
 msgstr ""
+"这里的问题是任何人可以以这个名称发布密钥。您需要确定密钥实际由提到的人所有。GNU 隐私手册在 `Validating other keys on "
+"your public keyring`_ "
+"（‘在您的公共钥匙链上验证其它密钥’）章节涵盖了这个题目。最可靠的方法是与开发者的真人真实交流，并交换密钥指纹，然后还可以依赖于可信任的 Web "
+"。这种方式您可以信任通过其他签名的密钥，而其他人必须接触开发者真人。"
 
 #: ../../admin/install.rst:242
 msgid "Once the key is trusted, the warning will not occur:"
-msgstr ""
+msgstr "一旦信任了密钥，警告就不会发生："
 
 #: ../../admin/install.rst:256
 msgid ""
 "Should the signature be invalid (the archive has been changed), you would "
 "get a clear error regardless of the fact that the key is trusted or not:"
-msgstr ""
+msgstr "如果签名非法（压缩的档案被更改），那么您会得到清晰的错误，而无论密钥是否可信："
 
 #: ../../admin/install.rst:272
 msgid "Filesystem permissions"
-msgstr ""
+msgstr "文件系统权限"
 
 #: ../../admin/install.rst:274
 msgid ""
@@ -7223,54 +7232,58 @@ msgid ""
 "where it keeps data - :setting:`DATA_DIR`. All files within this directory "
 "should be owned and writable by the user running Weblate."
 msgstr ""
+"Weblate 过程需要能够读取并写入保存数据的文件夹—— :setting:`DATA_DIR` 。文件夹内的所有文件应该被用户运行的 Weblate "
+"所有并可写入。"
 
 #: ../../admin/install.rst:278
 msgid ""
 "The default configuration places them in the same tree as the Weblate "
 "sources, however you might prefer to move these to a better location such "
 "as: :file:`/var/lib/weblate`."
-msgstr ""
+msgstr "默认的配置放置在 Weblate 源的相同树下，然而您会想要将这些移动到更好的位置，如： :file:`/var/lib/weblate` 。"
 
 #: ../../admin/install.rst:282
 msgid ""
 "Weblate tries to create these directories automatically, but it will fail "
 "when it does not have permissions to do so."
-msgstr ""
+msgstr "Weblate 试图自动建立这些文件夹，但当没有权限去执行时会失败。"
 
 #: ../../admin/install.rst:285
 msgid ""
 "You should also take care when running :ref:`manage`, as they should be ran "
 "under the same user as Weblate itself is running, otherwise permissions on "
 "some files might be wrong."
-msgstr ""
+msgstr "当运行 :ref:`manage` 时应该小心，它们应该由 Weblate 自己运行的相同用户来运行，否则一些文件的权限会是错误的。"
 
 #: ../../admin/install.rst:291
 msgid ":ref:`static-files`"
-msgstr ""
+msgstr ":ref:`static-files`"
 
 #: ../../admin/install.rst:296
 msgid "Database setup for Weblate"
-msgstr ""
+msgstr "Weblate 的数据库设置"
 
 #: ../../admin/install.rst:298
 msgid "It is recommended to run Weblate with a PostgreSQL database server."
-msgstr ""
+msgstr "建议使用 PostgreSQL 数据库服务器与 Weblate 一起运行。"
 
 #: ../../admin/install.rst:302
 msgid ""
 ":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
 "migration`"
 msgstr ""
+":ref:`production-database`, :doc:`django:ref/databases`, :ref:`database-"
+"migration`"
 
 #: ../../admin/install.rst:309
 msgid "PostgreSQL"
-msgstr ""
+msgstr "PostgreSQL"
 
 #: ../../admin/install.rst:311
 msgid ""
 "PostgreSQL is usually the best choice for Django based sites. It's the "
 "reference database used for implementing Django database layer."
-msgstr ""
+msgstr "PostgreSQL 通常是基于 Django 的网站的最好选择。它是实现 Django 数据库层而使用的参考数据库。"
 
 #: ../../admin/install.rst:316
 msgid ""
