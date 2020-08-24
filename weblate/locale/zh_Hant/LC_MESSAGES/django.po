@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-19 08:59+0000\n"
-"PO-Revision-Date: 2020-08-10 22:05+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2020-08-24 12:24+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -1205,8 +1205,6 @@ msgid "Translation threshold"
 msgstr "最低翻譯數"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Threshold for included translations."
 msgid "Threshold for inclusion of translations."
 msgstr "包含翻譯的最低門檻。"
 
@@ -2005,10 +2003,8 @@ msgid "Changes in last month"
 msgstr "近一個月的更動"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of changes"
-msgstr "語言數"
+msgstr "變更數"
 
 #: weblate/billing/models.py:241 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
@@ -7088,10 +7084,8 @@ msgid ""
 msgstr "因維護而暫時關閉翻譯的貢獻功能，請晚點再回來看看。"
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "這個翻譯目前在更新而鎖定。"
+msgstr "翻譯因為以下警告而自動鎖定："
 
 #: weblate/templates/snippets/component/state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7518,14 +7512,10 @@ msgid "Error"
 msgstr "錯誤"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has exceeded its limits. You can still use the service, "
-#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
-msgstr "您已超出付費方案上限。您仍可以繼續使用本服務，但建議您升級方案。"
+msgstr "您已超出付費方案上限。您仍可以繼續使用本服務，但建議您升級付費方案。"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
@@ -8165,10 +8155,9 @@ msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s，字串 %(position)s"
 
 #: weblate/templates/translate.html:631
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "string %(position)s"
-msgstr "%(filename)s，字串 %(position)s"
+msgstr "字串 %(position)s"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
@@ -8228,10 +8217,8 @@ msgid "Other components"
 msgstr "其他組件"
 
 #: weblate/templates/translation.html:189
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all components"
-msgstr "瀏覽組件的所有更動"
+msgstr "瀏覽所有組件"
 
 #: weblate/templates/translation.html:198
 msgid "Translation Information"
@@ -10039,10 +10026,6 @@ msgid "Language aliases"
 msgstr "語言別名"
 
 #: weblate/trans/models/project.py:168
-#, fuzzy
-#| msgid ""
-#| "Comma separated list of language code mappings, for example: en_GB:en,"
-#| "en_US:en"
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
