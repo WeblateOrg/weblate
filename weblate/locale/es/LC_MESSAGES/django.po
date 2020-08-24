@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-19 08:59+0000\n"
-"PO-Revision-Date: 2020-08-12 07:28+0000\n"
+"PO-Revision-Date: 2020-08-24 12:24+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -946,7 +946,7 @@ msgstr "CDN de regionalización de JavaScript"
 
 #: weblate/addons/cdn.py:39
 msgid "Adds localization CDN for JavaScript or HTML localization."
-msgstr "Añade un CDN para la regionalización de JavaScript o HTML."
+msgstr "Añade una CDN para la regionalización de JavaScript o HTML."
 
 #: weblate/addons/cleanup.py:78
 msgid "Cleanup translation files"
@@ -977,7 +977,7 @@ msgstr ""
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
-msgstr "Descubrimiento de componentes"
+msgstr "Detección de componentes"
 
 #: weblate/addons/discovery.py:35
 msgid ""
@@ -1284,10 +1284,8 @@ msgid "Translation threshold"
 msgstr "Umbral de traducción"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Threshold for included translations."
 msgid "Threshold for inclusion of translations."
-msgstr "Umbral para las traducciones incluidas."
+msgstr "Umbral para la inclusión de traducciones."
 
 #: weblate/addons/forms.py:401
 msgid "CSS selector"
@@ -1410,7 +1408,7 @@ msgstr ""
 
 #: weblate/addons/properties.py:143
 msgid "Formats the Java properties file"
-msgstr "Formatos del archivo de propiedades Java"
+msgstr "Formatea el archivo de propiedades de Java"
 
 #: weblate/addons/properties.py:144
 msgid "Sorts the Java properties file."
@@ -2099,10 +2097,8 @@ msgid "Changes in last month"
 msgstr "Cambios en el último mes"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of changes"
-msgstr "Cantidad de idiomas"
+msgstr "Cantidad de cambios"
 
 #: weblate/billing/models.py:241 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
@@ -2148,8 +2144,7 @@ msgstr "Cadena de interpolación de AngularJS"
 
 #: weblate/checks/angularjs.py:46
 msgid "AngularJS interpolation strings do not match source"
-msgstr ""
-"La cadena de interpolación de AngularJS, no coincide con cadena original"
+msgstr "La cadena de interpolación de AngularJS no coincide con la de origen"
 
 #: weblate/checks/chars.py:46
 msgid "Starting newline"
@@ -2186,7 +2181,7 @@ msgstr "El original o la traducción no acaba con un espacio"
 
 #: weblate/checks/chars.py:146
 msgid "Double space"
-msgstr "Espacio doble"
+msgstr "Espacio duplicado"
 
 #: weblate/checks/chars.py:147
 msgid "Translation contains double space"
@@ -2322,7 +2317,7 @@ msgstr ""
 
 #: weblate/checks/consistency.py:96
 msgid "Has been translated"
-msgstr "Ha sido traducido"
+msgstr "Se había traducido"
 
 #: weblate/checks/consistency.py:97
 msgid "This string has been translated in the past"
@@ -2365,7 +2360,7 @@ msgstr "URL"
 
 #: weblate/checks/flags.py:50
 msgid "Automatically detect Java MessageFormat"
-msgstr "Automáticamente detecta Java MessageFormat"
+msgstr "Detectar automáticamente MessageFormat de Java"
 
 #: weblate/checks/flags.py:52 weblate/templates/progress.html:5
 #: weblate/templates/snippets/unit-readonly-badge.html:6
@@ -2500,12 +2495,11 @@ msgstr "La cadena en formato Java no coincide con la de origen"
 
 #: weblate/checks/format.py:472
 msgid "Java MessageFormat"
-msgstr "Formato de mensaje Java"
+msgstr "MessageFormat de Java"
 
 #: weblate/checks/format.py:473
 msgid "Java MessageFormat string does not match source"
-msgstr ""
-"La cadena en formato de mensaje Java, no coincide con la cadena original"
+msgstr "La cadena con MessageFormat de Java no coincide con la de origen"
 
 #: weblate/checks/format.py:503
 msgid "You need to pair up an apostrophe with another one."
@@ -2573,7 +2567,7 @@ msgstr "Marcado XML"
 #: weblate/checks/markup.py:164
 msgid "XML tags in translation do not match source"
 msgstr ""
-"Las etiquetas XML en la traducción no coincide con aquellas en el original"
+"Las etiquetas XML en la traducción no coinciden con aquellas en el original"
 
 #: weblate/checks/markup.py:226
 msgid "Markdown references"
@@ -3436,21 +3430,22 @@ msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
-"Se requieren cookies de autenticación para identificar al usuario conectado."
+"Se requieren «cookies» de autenticación para identificar al usuario "
+"conectado."
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
-"Las preferencias de cookies almacenan las preferencias del usuario en "
-"ciertas situaciones."
+"La «cookie» de las preferencias almacena la configuración del usuario en "
+"determinadas situaciones."
 
 #: weblate/legal/templates/legal/cookies.html:34
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not Track"
 "\" settings in your browser."
 msgstr ""
-"Este sitio utiliza Matomo para analizar el tráfico web. Matomo respeta los "
-"ajustes «Do Not Track» de tu navegador."
+"Este sitio utiliza Matomo para analizar el tráfico web. Matomo respeta la "
+"configuración de «No realizar seguimiento» de su navegador."
 
 #: weblate/legal/templates/legal/cookies.html:37
 msgid "This site uses Google Analytics to analyze website traffic."
@@ -3459,7 +3454,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
-msgstr "Resumen de los Términos legales"
+msgstr "Visión de conjunto de los términos legales"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:35
 msgid "Privacy"
@@ -4521,7 +4516,7 @@ msgstr "Cambios recientes"
 
 #: weblate/templates/accounts/user.html:101
 msgid "Browse all changes for user"
-msgstr "Ver todos los cambios para el usuario"
+msgstr "Explorar todos los cambios del usuario"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
 msgid "Daily activity"
@@ -4615,7 +4610,7 @@ msgstr "Instrucciones de integración"
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
 msgstr ""
-"Añada este fragmento de código para cargar la regionalización desde el CDN:"
+"Añada este fragmento de código para cargar la regionalización desde la CDN:"
 
 #: weblate/templates/addons/cdnjs.html:13
 msgid "The localizable elements have to match configured CSS selector."
@@ -5424,7 +5419,7 @@ msgstr "Aplicar"
 
 #: weblate/templates/component.html:228 weblate/templates/translate.html:314
 msgid "Browse all component changes"
-msgstr "Ver todos los cambios del componente"
+msgstr "Explorar todos los cambios del componente"
 
 #: weblate/templates/component.html:246
 msgid ""
@@ -6036,7 +6031,7 @@ msgstr "Importar"
 
 #: weblate/templates/glossary.html:121
 msgid "Browse all glossary changes"
-msgstr "Ver todos los cambios del glosario"
+msgstr "Explorar todos los cambios del glosario"
 
 #: weblate/templates/guide.html:28
 msgid ""
@@ -6279,7 +6274,7 @@ msgstr "Añadir idioma"
 #: weblate/templates/language-project.html:67
 #: weblate/templates/language.html:109
 msgid "Browse all language changes"
-msgstr "Ver todos los cambios de idioma"
+msgstr "Explorar todos los cambios del idioma"
 
 #: weblate/templates/language.html:71
 #, python-format
@@ -6577,8 +6572,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
 msgstr ""
-"Agregue el archivo de idioma a VCS, Weblate lo descubrirá automáticamente en "
-"la próxima actualización."
+"Añada el archivo de idioma al sistema de control de versiones. Weblate lo "
+"detectará automáticamente en la próxima actualización."
 
 #: weblate/templates/mail/new_language.html:21
 msgid ""
@@ -7226,7 +7221,7 @@ msgstr "Añadir etiqueta"
 
 #: weblate/templates/project.html:61 weblate/templates/project.html:67
 msgid "Browse all project changes"
-msgstr "Ver todos los cambios del proyecto"
+msgstr "Explorar todos los cambios del proyecto"
 
 #: weblate/templates/project.html:107
 msgid "You can change the state of all strings matching given type at once."
@@ -7440,7 +7435,7 @@ msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:14
 msgid "Get notified when this project is unlocked again"
-msgstr "Reciba una notificación cuando se desbloquee nuevamente este proyecto"
+msgstr "Enviarme una notificación cuando se desbloquee este proyecto"
 
 #: weblate/templates/snippets/component/lock.html:17
 msgid ""
@@ -7451,10 +7446,9 @@ msgstr ""
 "mantenimiento; vuelva más tarde."
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "Esta traducción tiene las actualizaciones bloqueadas."
+msgstr ""
+"Esta traducción se bloqueó automáticamente a causa de las alertas siguientes:"
 
 #: weblate/templates/snippets/component/state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7889,10 +7883,6 @@ msgid "Error"
 msgstr "Error"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has exceeded its limits. You can still use the service, "
-#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
@@ -8609,10 +8599,9 @@ msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s, cadena %(position)s"
 
 #: weblate/templates/translate.html:631
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "string %(position)s"
-msgstr "%(filename)s, cadena %(position)s"
+msgstr "cadena %(position)s"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
@@ -8673,10 +8662,8 @@ msgid "Other components"
 msgstr "Otros componentes"
 
 #: weblate/templates/translation.html:189
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all components"
-msgstr "Ver todos los cambios del componente"
+msgstr "Explorar todos los componentes"
 
 #: weblate/templates/translation.html:198
 msgid "Translation Information"
@@ -8689,7 +8676,7 @@ msgstr "Descargar"
 
 #: weblate/templates/translation.html:228
 msgid "Browse all translation changes"
-msgstr "Ver todos los cambios de traducción"
+msgstr "Explorar todos los cambios de traducción"
 
 #: weblate/templates/translation.html:243
 msgid ""
@@ -10604,16 +10591,12 @@ msgid "Language aliases"
 msgstr "Alias de idiomas"
 
 #: weblate/trans/models/project.py:168
-#, fuzzy
-#| msgid ""
-#| "Comma separated list of language code mappings, for example: en_GB:en,"
-#| "en_US:en"
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
 msgstr ""
-"Lista de vinculaciones de códigos de idioma separadas por comas; por "
-"ejemplo: es_ES:es,es_MX:es"
+"Lista de vinculaciones de códigos de idioma separadas por comas; por ejemplo:"
+" es_ES:es,es_MX:es"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
