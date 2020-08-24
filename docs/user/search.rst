@@ -7,7 +7,7 @@ Advanced queries using boolean operations, parentheses, or field specific lookup
 find the strings you want.
 
 When no field is defined, the lookup happens on :guilabel:`Source`,
-:guilabel:`Target` and :guilabel:`Context` fields.
+:guilabel:`Translate` and :guilabel:`Context` fields.
 
 .. image:: /images/search.png
 

@@ -3,7 +3,7 @@
 Translating HTML and JavaScript using Weblate CDN
 =================================================
 
-Starting with Weblate 4.2 it is posible to export localization to a CDN using
+Starting with Weblate 4.2 it is possible to export localization to a CDN using
 :ref:`addon-weblate.cdn.cdnjs` addon.
 
 .. note::

@@ -187,8 +187,8 @@ typing characters not usually found or otherwise hard to type.
 The shown symbols factor into three categories:
 
 * User configured characters defined in the :ref:`user-profile`
-* Per language characters provided by Weblate (e.g. quotes or RTL specific characters)
-* Chars configured using :setting:`SPECIAL_CHARS`
+* Per-language characters provided by Weblate (e.g. quotes or RTL specific characters)
+* Characters configured using :setting:`SPECIAL_CHARS`
 
 .. image:: /images/visual-keyboard.png
 

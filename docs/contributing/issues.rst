@@ -14,7 +14,7 @@ issues" section below.
 Security issues
 ---------------
 
-In order to give the community time to respond and upgrade your are strongly urged to
+In order to give the community time to respond and upgrade you are strongly urged to
 report all security issues privately. HackerOne is used to handle
 security issues, and can be reported directly at `HackerOne <https://hackerone.com/weblate>`_.
 
