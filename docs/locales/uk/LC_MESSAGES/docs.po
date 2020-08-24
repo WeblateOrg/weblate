@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-20 14:56+0200\n"
-"PO-Revision-Date: 2020-08-23 19:08+0000\n"
+"PO-Revision-Date: 2020-08-24 12:24+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -24913,6 +24913,8 @@ msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
 msgstr ""
+"Переконайтеся, що ваші контейнери Docker запущено, і вони працюють, перш ніж "
+"запускати тести. Зробити це можна за допомогою команди ``docker ps``."
 
 #: ../../contributing/start.rst:111
 msgid "To stop the background containers run:"
@@ -24933,6 +24935,8 @@ msgid ""
 "This is not suitable setup for production, it includes several hacks which "
 "are insecure, but make development easier."
 msgstr ""
+"Ця конфігурація є непридатною для промислових варіантів, до неї включено "
+"декілька модифікацій, які не є безпечними, але пришвидшують розробку."
 
 #: ../../contributing/start.rst:126
 msgid "Bootstraping your devel instance"
@@ -24943,6 +24947,9 @@ msgid ""
 "You might want to use :djadmin:`import_demo` to create demo translations "
 "and :djadmin:`createadmin` to create admin user."
 msgstr ""
+"Ймовірно, вам варто скористатися :djadmin:`import_demo` для створення "
+"демонстраційних перекладів і :djadmin:`createadmin`, щоб створити запис "
+"користувача-адміністратора."
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -24953,6 +24960,9 @@ msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
 msgstr ""
+"Комплекси тестування існують для більшої частини поточного коду. Збільште "
+"покриття додаванням тестувань для будь-яких нових функціональних можливостей "
+"і перевірте, чи працює тестування."
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
@@ -24964,10 +24974,14 @@ msgid ""
 "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
 "codecov.io/github/WeblateOrg/weblate>`_."
 msgstr ""
+"Із поточними результатами тестування можна ознайомитися на сторінці `GitHub "
+"Actions <https://github.com/WeblateOrg/weblate/actions>`_, а дані щодо "
+"покриття розміщено на `Codecov <https://codecov.io/github/WeblateOrg/"
+"weblate>`_."
 
 #: ../../contributing/tests.rst:16
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "Передбачено декілька завдань для перевірки різних аспектів:"
 
 #: ../../contributing/tests.rst:18
 msgid "Unit tests"
@@ -24983,13 +24997,15 @@ msgstr "Тестування перенесення для усіх підтри
 
 #: ../../contributing/tests.rst:21
 msgid "Code linting"
-msgstr ""
+msgstr "Аналіз коду"
 
 #: ../../contributing/tests.rst:22
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr ""
+"Перевірка конфігурації (забезпечує наявність у створених файлах усіх даних "
+"та можливість їх тестування)"
 
 #: ../../contributing/tests.rst:24
 msgid ""
@@ -24999,6 +25015,13 @@ msgid ""
 "mostly defining Django settings file to use and database connection. The "
 "example definition of that is in :file:`scripts/test-database`:"
 msgstr ""
+"Налаштування для системи неперервної інтеграції зберігаються у каталозі "
+":file:`.github/workflows`. Система неперервної інтеграції значною частиною "
+"використовує допоміжні скрипти, які зберігаються у каталозі :file:`ci`. Ці "
+"скрипти може бути виконано вручну, але для їхньої роботи потрібні декілька "
+"змінних середовища, які, здебільшого, визначають файл параметрів Django, "
+"яким слід скористатися, та параметр з'єднання із базою даних. Приклад "
+"визначення цих змінних можна знайти у файлі :file:`scripts/test-database`:"
 
 #: ../../contributing/tests.rst:33
 msgid "The simple execution can look like:"
@@ -25020,18 +25043,29 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"Для тестів вам знадобиться сервер бази даних (PostgreSQL). Типово, Django "
+"створює окрему базу даних для запуску тестів. У назві цієї бази даних "
+"міститься префікс ``test_``. Отже, якщо параметри налаштовано на "
+"використання ``weblate``, для тестування буде використано базу даних "
+"``test_weblate``. Див. :ref:`database-setup`, щоб дізнатися більше про "
+"налаштовування."
 
 #: ../../contributing/tests.rst:60
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+"Файл :file:`weblate/settings_test.py` також використовується у середовищі "
+"неперервної інтеграції (див. :ref:`ci-tests`). Його роботу можна скоригувати "
+"за допомогою змінних середовища:"
 
 #: ../../contributing/tests.rst:66
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
+"Перш ніж запускати тести, вам слід зібрати статичні файли, оскільки робота "
+"деяких тестів залежить від наявності цих файлів:"
 
 #: ../../contributing/tests.rst:72
 msgid "You can also specify individual tests to run:"
@@ -25042,16 +25076,20 @@ msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
 msgstr ""
+"Тести також можна запускати у межах контейнера docker розробника, див. :ref"
+":`dev-docker`."
 
 #: ../../contributing/tests.rst:84
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
 msgstr ""
+"Див. :doc:`django:topics/testing/index`, щоб дізнатися більше про запуск і "
+"написання тестів для Django."
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
-msgstr ""
+msgstr "Попередження щодо складників перекладу"
 
 #: ../../devel/alerts.rst:6
 msgid ""
@@ -25062,31 +25100,31 @@ msgstr ""
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
-msgstr ""
+msgstr "У поточній версії передбачено покриття таких проблем:"
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr ""
+msgstr "Дублювання початкових рядків у файлах перекладу"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr ""
+msgstr "Дублювання мов у перекладах"
 
 #: ../../devel/alerts.rst:13
 msgid "Merge or update failures in the source repository"
-msgstr ""
+msgstr "Помилки об'єднання або оновлення у сховищі початкового коду"
 
 #: ../../devel/alerts.rst:14
 msgid "Unused new base in component settings"
-msgstr ""
+msgstr "Невикористана нова база у параметрах складника"
 
 #: ../../devel/alerts.rst:15
 msgid "Parse errors in the translation files"
-msgstr ""
+msgstr "Помилки обробки у файлах перекладів"
 
 #: ../../devel/alerts.rst:16
 msgid "Duplicate filemask used for linked components"
-msgstr ""
+msgstr "Дублювання маски файлів, використаних для пов'язаних складників"
 
 #: ../../devel/alerts.rst:17
 msgid "Broken URLs"
