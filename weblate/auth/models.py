@@ -275,6 +275,7 @@ class GroupManyToManyField(models.ManyToManyField):
             # Monkey patch it to accept Django Group instances as well
             related_manager_cls.add = wrap_group(related_manager_cls.add)
             related_manager_cls.remove = wrap_group(related_manager_cls.remove)
+            related_manager_cls.set = wrap_group(related_manager_cls.set)
 
 
 class User(AbstractBaseUser):
