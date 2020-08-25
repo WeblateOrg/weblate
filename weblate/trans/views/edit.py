@@ -109,6 +109,7 @@ def get_other_units(unit):
             translation__component__project=translation.component.project,
             translation__language=translation.language,
         )
+        .exclude(source="")
         .filter(query)
     )
 
