@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-19 08:59+0000\n"
-"PO-Revision-Date: 2020-08-17 13:35+0000\n"
+"PO-Revision-Date: 2020-08-27 06:13+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -1251,10 +1251,8 @@ msgid "Translation threshold"
 msgstr "Prag prijevoda"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Threshold for included translations."
 msgid "Threshold for inclusion of translations."
-msgstr "Prag za uključene prijevode."
+msgstr "Prag za uključivanje prijevoda."
 
 #: weblate/addons/forms.py:401
 msgid "CSS selector"
@@ -2058,10 +2056,8 @@ msgid "Changes in last month"
 msgstr "Promjene u prošlom mjesecu"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of changes"
-msgstr "Broj jezika"
+msgstr "Broj promjena"
 
 #: weblate/billing/models.py:241 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
@@ -7794,16 +7790,12 @@ msgid "Error"
 msgstr "Greška"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has exceeded its limits. You can still use the service, "
-#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
 msgstr ""
 "Tvoj plan naplate je prekoračio svoja ograničenja. Uslugu možeš i dalje "
-"koristiti, ali preporučujemo da ga nadogradiš."
+"koristiti, ali preporučujemo da nadogradiš plan naplate."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
@@ -8511,10 +8503,9 @@ msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s, izraz %(position)s"
 
 #: weblate/templates/translate.html:631
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "string %(position)s"
-msgstr "%(filename)s, izraz %(position)s"
+msgstr "izraz %(position)s"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
