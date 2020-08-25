@@ -37,6 +37,7 @@ ALIASES = {
     "tchinese": "zh_Hant",
     "korean": "ko",
     "dutch_be": "nl_BE",
+    "flemish": "nl_BE",
     "english": "en",
     "english_uk": "en_GB",
     "portuguese_br": "pt_BR",

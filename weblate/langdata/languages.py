@@ -1693,7 +1693,7 @@ LANGUAGES = (
     (
         "nl_BE",
         # Translators: Language name, ISO code: nl_BE
-        _("Flemish"),
+        _("Dutch (Belgium)"),
         2,
         "n != 1",
     ),
