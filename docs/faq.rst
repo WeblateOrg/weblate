@@ -267,7 +267,7 @@ How do I review the translations of others?
 How do I provide feedback on a source string?
 ---------------------------------------------
 
-On context tabs below translation, you can use the :guilabel:`Source` tab to
+On context tabs below translation, you can use the :guilabel:`Comments` tab to
 provide feedback on a source string, or discuss it with other translators.
 
 How can I use existing translations while translating?
@@ -425,7 +425,7 @@ Does Weblate support other VCSes than Git and Mercurial?
 
 Weblate currently does not have native support for anything other than
 :ref:`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit`
-and :ref:`vcs-git-svn`) and ref:`vcs-mercurial`, but it is possible to write
+and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to write
 backends for other VCSes.
 
 You can also use :ref:`vcs-git-helpers` in Git to access other VCSes.

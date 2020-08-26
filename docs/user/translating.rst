@@ -36,8 +36,8 @@ Translation links
 
 Having navigated to a component, a set of links lead to actual translation.
 The translation is further divided into individual checks, like
-:guilabel:`Untranslated` or :guilabel:`Needing review`.  If the whole project
-is translated, without error, :guilabel:`All translations` is still available.
+:guilabel:`Not translated strings` or :guilabel:`Strings needing action`.  If the whole project
+is translated, without error, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
 .. image:: /images/strings-to-check.png
