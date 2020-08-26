@@ -241,17 +241,33 @@ def get_anonymous():
     )
 
 
+def convert_groups(objs):
+    """Convert Django Group objects to Weblate ones."""
+    objs = list(objs)
+    for idx, obj in enumerate(objs):
+        if isinstance(obj, DjangoGroup):
+            objs[idx] = Group.objects.get_or_create(name=obj.name)[0]
+    return objs
+
+
 def wrap_group(func):
     """Wrapper to replace Django Group instances by Weblate Group instances."""
 
     def group_wrapper(self, *objs, **kwargs):
-        objs = list(objs)
-        for idx, obj in enumerate(objs):
-            if isinstance(obj, DjangoGroup):
-                objs[idx] = Group.objects.get_or_create(name=obj.name)[0]
+        objs = convert_groups(objs)
         return func(self, *objs, **kwargs)
 
     return group_wrapper
+
+
+def wrap_group_list(func):
+    """Wrapper to replace Django Group instances by Weblate Group instances."""
+
+    def group_list_wrapper(self, objs, **kwargs):
+        objs = convert_groups(objs)
+        return func(self, objs, **kwargs)
+
+    return group_list_wrapper
 
 
 class GroupManyToManyField(models.ManyToManyField):
@@ -275,7 +291,7 @@ class GroupManyToManyField(models.ManyToManyField):
             # Monkey patch it to accept Django Group instances as well
             related_manager_cls.add = wrap_group(related_manager_cls.add)
             related_manager_cls.remove = wrap_group(related_manager_cls.remove)
-            related_manager_cls.set = wrap_group(related_manager_cls.set)
+            related_manager_cls.set = wrap_group_list(related_manager_cls.set)
 
 
 class User(AbstractBaseUser):
