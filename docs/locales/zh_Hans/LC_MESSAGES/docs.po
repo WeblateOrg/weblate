@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-20 14:56+0200\n"
-"PO-Revision-Date: 2020-08-24 12:24+0000\n"
+"PO-Revision-Date: 2020-08-27 06:13+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -1566,7 +1566,7 @@ msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:481
 msgid "Post update repository processing"
-msgstr "以往的更新仓库处理"
+msgstr "更新仓库后处理"
 
 #: ../../admin/addons.rst:483
 msgid ""
@@ -1929,8 +1929,8 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
-"Weblate在身份验证时提供的回调 URL 。在得到 URL 不匹配的错误时，可以根据需要来"
-"修改，请见 :ref:`production-site` 。"
+"Weblate 在身份验证时提供的回调 URL 。在得到 URL 不匹配的错误时，可以根据需要来修改，请见 :ref:`production-site` "
+"。"
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
@@ -7289,21 +7289,21 @@ msgstr "PostgreSQL 通常是基于 Django 的网站的最好选择。它是实�
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
-msgstr ""
+msgstr "Weblate 使用三字母的扩展名，在某些情况下需要单独安装。查找 ``postgresql-contrib`` 或类似命名的包。"
 
 #: ../../admin/install.rst:321
 msgid ":ref:`django:postgresql-notes`"
-msgstr ""
+msgstr ":ref:`django:postgresql-notes`"
 
 #: ../../admin/install.rst:326 ../../admin/upgrade.rst:173
 msgid "Creating a database in PostgreSQL"
-msgstr ""
+msgstr "建立 PostgreSQL数据库"
 
 #: ../../admin/install.rst:328 ../../admin/upgrade.rst:175
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
-msgstr ""
+msgstr "在另一个单独的数据库中运行 Weblate ，并将用户账户分开通常是个好方法："
 
 #: ../../admin/install.rst:343
 msgid ""
@@ -7311,18 +7311,20 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
+"如果不想 Weblate 在 PostgreSQL 中使用超级用户，可以省略掉。在模式中必须作为 PostgreSQL "
+"超级用户，来手动执行一些迁移步骤的情况下， Weblate 将使用："
 
 #: ../../admin/install.rst:352
 msgid "Configuring Weblate to use PostgreSQL"
-msgstr ""
+msgstr "配置 Weblate 来使用 PostgreSQL"
 
 #: ../../admin/install.rst:354
 msgid "The :file:`settings.py` snippet for PostgreSQL:"
-msgstr ""
+msgstr "PostgreSQL 的 :file:`settings.py` 片段："
 
 #: ../../admin/install.rst:376
 msgid "MySQL and MariaDB"
-msgstr ""
+msgstr "MySQL 和 MariaDB"
 
 #: ../../admin/install.rst:378
 msgid ""
@@ -7330,6 +7332,8 @@ msgid ""
 "mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with "
 "those."
 msgstr ""
+"Weblate 还可以使用 MySQL 或 MariaDB ，使用与两个数据库相关的 Django 而导致的警告，请见 :ref:`django"
+":mysql-notes` 和 :ref:`django:mariadb-notes` 。"
 
 #: ../../admin/install.rst:384
 msgid ""
@@ -7337,51 +7341,53 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
+"一些 Weblate 特性使用 :ref:`postgresql` 会执行得更好。这包括搜索与翻译记忆，它们都使用了数据库中的全文本特性，而 "
+"PostgreSQL 的实施更胜一筹。"
 
 #: ../../admin/install.rst:388
 msgid ""
 "Because of this it is recommended to use :ref:`postgresql` for new "
 "installations."
-msgstr ""
+msgstr "因此，建议新的安装使用 :ref:`postgresql` 。"
 
 #: ../../admin/install.rst:391
 msgid "Following configuration is recommended for Weblate:"
-msgstr ""
+msgstr "建议 Weblate 使用后面的设置："
 
 #: ../../admin/install.rst:393
 msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
-msgstr ""
+msgstr "使用 ``utf8mb4`` 字符集来允许表示更高的 Unicode 平面（例如 emojis 表情符号）。"
 
 #: ../../admin/install.rst:394
 msgid ""
 "Configure the server with ``Innodb_large_prefix`` to allow longer indices on "
 "text fields."
-msgstr ""
+msgstr "用 ``Innodb_large_prefix`` 配置服务器，来允许文本域上更长的标记体。"
 
 #: ../../admin/install.rst:395
 msgid "Set the isolation level to ``READ COMMITTED``."
-msgstr ""
+msgstr "设置隔离级别为 ``READ COMMITTED`` 。"
 
 #: ../../admin/install.rst:396
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
-msgstr ""
+msgstr "SQL 模式应该设置为 ``STRICT_TRANS_TABLES`` 。"
 
 #: ../../admin/install.rst:399
 msgid "Other configurations"
-msgstr ""
+msgstr "其他配置"
 
 #: ../../admin/install.rst:404
 msgid "Configuring outgoing e-mail"
-msgstr ""
+msgstr "配置电子邮件发件箱"
 
 #: ../../admin/install.rst:406
 msgid ""
 "Weblate sends out e-mails on various occasions - for account activation and "
 "on various notifications configured by users. For this it needs access to an "
 "SMTP server."
-msgstr ""
+msgstr "Weblate 在各种情况下会发出电子邮件——用于激活账户，以及用户配置的各种通知。对于这些需要访问 SMTP 服务器。"
 
 #: ../../admin/install.rst:410
 msgid ""
@@ -7390,6 +7396,9 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
+"使用这些设置： :setting:`django:EMAIL_HOST` 、 :setting:`django:EMAIL_HOST_PASSWORD` "
+"、 setting:`django:EMAIL_HOST_USER` 和 :setting:`django:EMAIL_PORT` "
+"来配置邮件服务器的设置。其名称都是自我解释的，也可以在 Django 文件中找到更多信息。"
 
 #: ../../admin/install.rst:418
 msgid ""
@@ -7397,22 +7406,26 @@ msgid ""
 "djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage` "
 "for instructions on how to invoke it in different environments)."
 msgstr ""
+"可以通过使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何引用它的指示说明请见 :ref"
+":`invoke-manage` ），来确认电子邮件发件箱是否正确工作。"
 
 #: ../../admin/install.rst:425
 msgid "Running behind reverse proxy"
-msgstr ""
+msgstr "在反向代理后面运行"
 
 #: ../../admin/install.rst:427
 msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
+"Weblate 的几个特性依赖于能够得到客户端 IP 地址。这包括 :ref:`rate-limit` 、 :ref:`spam-protection` "
+"或 :ref:`audit-log`。"
 
 #: ../../admin/install.rst:430
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
-msgstr ""
+msgstr "在默认设置中， Weblate 从 WSGI 句柄设置的 ``REMOTE_ADDR`` 中解析 IP 地址。"
 
 #: ../../admin/install.rst:433
 msgid ""
@@ -7424,6 +7437,9 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
+"在运行反向代理的情况下，这个域对可能包含其地址。您需要配置 Weblate 来信任附加的 HTTP 标头，并从中解析 IP "
+"地址。这不能默认允许，因为在不使用反向代理的安装时，这会允许 IP 地址欺骗。允许 :setting:`IP_BEHIND_REVERSE_PROXY` "
+"对多数常见设置就足够了，单您还必须调整 :setting:`IP_PROXY_HEADER` 和 :setting:`IP_PROXY_OFFSET` 。"
 
 #: ../../admin/install.rst:443
 msgid ""
@@ -7431,10 +7447,13 @@ msgid ""
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ""
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install.rst:452
 msgid "HTTP proxy"
-msgstr ""
+msgstr "HTTP 代理"
 
 #: ../../admin/install.rst:454
 msgid ""
@@ -7442,20 +7461,23 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
+"Weblate 不执行版本代理系统 VCS 命令，那些从环境中接受代理配置。建立的方法是在 :file:`settings.py` 中定义代理设置："
 
 #: ../../admin/install.rst:466
 msgid ""
 "`Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-"
 "proxies#proxy-environment-variables>`_"
 msgstr ""
+"`Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-proxies"
+"#proxy-environment-variables>`_"
 
 #: ../../admin/install.rst:471
 msgid "Adjusting configuration"
-msgstr ""
+msgstr "调整配置"
 
 #: ../../admin/install.rst:475
 msgid ":ref:`sample-configuration`"
-msgstr ""
+msgstr ":ref:`sample-configuration`"
 
 #: ../../admin/install.rst:477
 msgid ""
@@ -7463,44 +7485,48 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
+"将 :file:`weblate/settings_example.py` 复制到 :file:`weblate/settings.py` "
+"，并且调整它与您的设置匹配。您可能想要调整后面的选项："
 
 #: ../../admin/install.rst:483
 msgid "``ADMINS``"
-msgstr ""
+msgstr "``ADMINS``"
 
 #: ../../admin/install.rst:485
 msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
-msgstr ""
+msgstr "网站管理者的列表，当发生故障时它们接收通知，例如合并失败或 Django 错误的通知。"
 
 #: ../../admin/install.rst:490
 msgid ":setting:`django:ADMINS`"
-msgstr ""
+msgstr ":setting:`django:ADMINS`"
 
 #: ../../admin/install.rst:494
 msgid "``ALLOWED_HOSTS``"
-msgstr ""
+msgstr "``ALLOWED_HOSTS``"
 
 #: ../../admin/install.rst:496
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
-msgstr ""
+msgstr "您需要设置这个，来列出您的网站支持服务的主机。例如："
 
 #: ../../admin/install.rst:503
 msgid "Alternatively you can include wildcard:"
-msgstr ""
+msgstr "另外可以包括通配符："
 
 #: ../../admin/install.rst:511
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
+":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref"
+":`production-hosts`"
 
 #: ../../admin/install.rst:517
 msgid "``SESSION_ENGINE``"
-msgstr ""
+msgstr "``SESSION_ENGINE``"
 
 #: ../../admin/install.rst:519
 msgid ""
@@ -7508,36 +7534,40 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
+"配置如何存储会话。在保持默认的数据库后端引擎的情况下，您应该安排 :command:`weblate clearsessions` "
+"从数据库中删除旧的会话。"
 
 #: ../../admin/install.rst:524
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
-msgstr ""
+msgstr "如果使用 Redis 作为缓存（请见 :ref:`production-cache` ），建议也用它作为会话："
 
 #: ../../admin/install.rst:533
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
-msgstr ""
+msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
 #: ../../admin/install.rst:538
 msgid "``DATABASES``"
-msgstr ""
+msgstr "``DATABASES``"
 
 #: ../../admin/install.rst:540
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
-msgstr ""
+msgstr "到数据库服务器的连接性，细节请查看 Django 的文件。"
 
 #: ../../admin/install.rst:545
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
+"databases`"
 
 #: ../../admin/install.rst:551
 msgid "``DEBUG``"
-msgstr ""
+msgstr "``DEBUG``"
 
 #: ../../admin/install.rst:553
 msgid ""
@@ -7545,68 +7575,70 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
+"对于任何生产服务器禁止这项。允许 debug 模式时， Django 会在出错的情况下向用户显示回溯信息，当禁止时，错误会根据电子邮箱发送到 "
+"``ADMINS`` （请见上面）。"
 
 #: ../../admin/install.rst:557
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
-msgstr ""
+msgstr "Debug 模式还使 Weblate 变慢，因为在这种情况下 Django 内部存储了非常多的信息。"
 
 #: ../../admin/install.rst:562
 msgid ":setting:`django:DEBUG`"
-msgstr ""
+msgstr ":setting:`django:DEBUG`"
 
 #: ../../admin/install.rst:566
 msgid "``DEFAULT_FROM_EMAIL``"
-msgstr ""
+msgstr "``DEFAULT_FROM_EMAIL``"
 
 #: ../../admin/install.rst:568
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
-msgstr ""
+msgstr "用于发送电子邮件的电子邮件发件人地址，例如注册电子邮箱。"
 
 #: ../../admin/install.rst:572
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:576
 msgid "``SECRET_KEY``"
-msgstr ""
+msgstr "``SECRET_KEY``"
 
 #: ../../admin/install.rst:578
 msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
-msgstr ""
+msgstr "Django 使用的密钥，用于在 cookie 中登录一些信息，更多信息请见 :ref:`production-secret` 。"
 
 #: ../../admin/install.rst:583
 msgid ":setting:`django:SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`django:SECRET_KEY`"
 
 #: ../../admin/install.rst:587
 msgid "``SERVER_EMAIL``"
-msgstr ""
+msgstr "``SERVER_EMAIL``"
 
 #: ../../admin/install.rst:589
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
-msgstr ""
+msgstr "用作向管理员发送电子邮件的发送者地址的邮箱，例如通知失败的合并。"
 
 #: ../../admin/install.rst:594
 msgid ":setting:`django:SERVER_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:599
 msgid "Filling up the database"
-msgstr ""
+msgstr "填满数据库"
 
 #: ../../admin/install.rst:601
 msgid ""
 "After your configuration is ready, you can run :samp:`weblate migrate` to "
 "create the database structure. Now you should be able to create translation "
 "projects using the admin interface."
-msgstr ""
+msgstr "在配置准备好之后，可以运行 :samp:`weblate migrate` 来建立数据库结构。现在您将能够使用管理界面建立翻译项目。"
 
 #: ../../admin/install.rst:605
 msgid ""
@@ -7614,13 +7646,15 @@ msgid ""
 "`weblate migrate --noinput`, and then create an admin user using :djadmin:"
 "`createadmin` command."
 msgstr ""
+"在想要非交互式地运行安装的情况下，可以使用 :samp:`weblate migrate --noinput` ，然后使用 "
+":djadmin:`createadmin` 命令来建立管理用户。"
 
 #: ../../admin/install.rst:609
 msgid ""
 "Once you are done, you should also check the :guilabel:`Performance report` "
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
-msgstr ""
+msgstr "一旦完成，您将可以在管理界面检查 :guilabel:`Performance report` ，它会提示您网站上潜在的非最优的配置。"
 
 #: ../../admin/install.rst:615
 msgid ":ref:`config`, :ref:`privileges`"
@@ -7628,7 +7662,7 @@ msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:621
 msgid "Production setup"
-msgstr ""
+msgstr "生产设置"
 
 #: ../../admin/install.rst:623
 msgid ""
@@ -7636,50 +7670,50 @@ msgid ""
 "following sections. The most critical settings will trigger a warning, which "
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
-msgstr ""
+msgstr "对于生产设置，您可以进行后面的章节中描述的调整。最严格的设置将触发警告，如果超级用户登录的话，警告由顶部栏的感叹标记来指示："
 
 #: ../../admin/install.rst:629
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
-msgstr ""
+msgstr "还要建议对 Django 触发的检查进行查看（尽管您可能不需要修复所有的检查）："
 
 #: ../../admin/install.rst:638
 msgid ":doc:`django:howto/deployment/checklist`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/checklist`"
 
 #: ../../admin/install.rst:643
 msgid "Disable debug mode"
-msgstr ""
+msgstr "禁止 debug 模式"
 
 #: ../../admin/install.rst:645
 msgid "Disable Django's debug mode (:setting:`DEBUG`) by:"
-msgstr ""
+msgstr "禁止 Django 的 debug 模式（ :setting:`DEBUG` ）："
 
 #: ../../admin/install.rst:651
 msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
-msgstr ""
+msgstr "在 debug 模式打开时，Django 存储所有执行的查询，并将错误的回溯显示给用户，这在生产设置中是不需要的。"
 
 #: ../../admin/install.rst:656 ../../admin/install.rst:674
 msgid ":ref:`configuration`"
-msgstr ""
+msgstr ":ref:`configuration`"
 
 #: ../../admin/install.rst:661
 msgid "Properly configure admins"
-msgstr ""
+msgstr "是当地配置管理设置"
 
 #: ../../admin/install.rst:663
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to defining "
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
-msgstr ""
+msgstr "将正确的管理地址设置到 :setting:`ADMINS` 设置中，来确定服务器出现一些故障时谁接收电子邮件，例如："
 
 #: ../../admin/install.rst:679
 msgid "Set correct site domain"
-msgstr ""
+msgstr "设置正确的网站域名"
 
 #: ../../admin/install.rst:681
 msgid ""
@@ -7687,44 +7721,49 @@ msgid ""
 "or registration e-mails will not work. This is configured using :setting:"
 "`SITE_DOMAIN` which should contain site domain name."
 msgstr ""
+"在管理界面调整网站名称和域名，否则 RSS 中的链接或注册电子邮件地址将不工作。这使用 :setting:`SITE_DOMAIN` "
+"来配置，它应该包含网站域名。"
 
 #: ../../admin/install.rst:687
 msgid ""
 "Prior to the 4.2 release the Django sites framework was used instead, please "
 "see :doc:`django:ref/contrib/sites`."
-msgstr ""
+msgstr "在 4.2 版本之前，替代使用了 Django 网站框架，请见 :doc:`django:ref/contrib/sites` 。"
 
 #: ../../admin/install.rst:692
 msgid ""
 ":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
+":ref:`production-hosts`, :ref:`production-ssl` :setting:`SITE_DOMAIN`, "
+":envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 
 #: ../../admin/install.rst:701
 msgid "Correctly configure HTTPS"
-msgstr ""
+msgstr "正确配置 HTTPS"
 
 #: ../../admin/install.rst:703
 msgid ""
 "It is strongly recommended to run Weblate using the encrypted HTTPS "
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
-msgstr ""
+msgstr "强烈建议使用加密的 HTTPS 协议 运行 Weblate。将其允许后，可以在设置中设置 :setting:`ENABLE_HTTPS` ："
 
 #: ../../admin/install.rst:712
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
-msgstr ""
+msgstr "您还会想要设置 HSTS，更多细节请见 :ref:`django:security-recommendation-ssl` 。"
 
 #: ../../admin/install.rst:717
 msgid ""
 ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
+":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install.rst:723
 msgid "Set properly SECURE_HSTS_SECONDS"
-msgstr ""
+msgstr "适当设置 SECURE_HSTS_SECONDS"
 
 #: ../../admin/install.rst:725
 msgid ""
@@ -7732,6 +7771,9 @@ msgid ""
 "setting:`SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable HTTP "
 "Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
+"如果您的网站基于 SSL 上提供服务，那么必须考虑 :file:`settings.py` 中 "
+":setting:`SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport Security （ "
+"HTTP 脚本传输安全）。默认设置为 0 ，如下所示。"
 
 #: ../../admin/install.rst:733
 msgid ""
@@ -7739,42 +7781,48 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
+"如果设置为非 0 整数，那么在所有还不曾具有它的响应时， :class:`django:django.middleware.security."
+"SecurityMiddleware` 设置 :ref:`django:http-strict-transport-security` 标头。"
 
 #: ../../admin/install.rst:738
 msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
+"不正确地设置这项会导致您的网站不可逆地（有时）崩溃。请首先阅读 :ref:`django:http-strict-transport-security` "
+"文件。"
 
 #: ../../admin/install.rst:745
 msgid "Use a powerful database engine"
-msgstr ""
+msgstr "使用强力的数据库引擎"
 
 #: ../../admin/install.rst:747
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
-msgstr ""
+msgstr "请使用 PostgreSQL 作为生产环境，更多信息请见 :ref:`database-setup` 。"
 
 #: ../../admin/install.rst:752
 msgid ""
 ":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, :doc:"
 "`django:ref/databases`"
 msgstr ""
+":ref:`database-setup`, :ref:`database-migration`, :ref:`configuration`, "
+":doc:`django:ref/databases`"
 
 #: ../../admin/install.rst:760
 msgid "Enable caching"
-msgstr ""
+msgstr "允许缓存"
 
 #: ../../admin/install.rst:762
 msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
-msgstr ""
+msgstr "如果可能，通过调整 ``CACHES`` 配置变量来使用来自 Django 的 Redis ，例如："
 
 #: ../../admin/install.rst:783
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
-msgstr ""
+msgstr ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:789
 msgid "Avatar caching"
@@ -7784,17 +7832,19 @@ msgstr "头像缓存"
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
-msgstr ""
+msgstr "除了 Django 的缓存， Weblate 还执行头像缓存。建议使用单独的、文件后端缓存来用于这个目的："
 
 #: ../../admin/install.rst:817
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:826
 msgid "Configure e-mail sending"
-msgstr ""
+msgstr "配置电子邮件发送的设置"
 
 #: ../../admin/install.rst:828
 msgid ""
@@ -7803,28 +7853,34 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"Weblate 需要在几种情况下发送电子邮件，这些电子邮件应具有正确的发送者地址，请配置:setting:`SERVER_EMAIL` 和 "
+":setting:`DEFAULT_FROM_EMAIL`，与您的环境匹配，例如："
 
 #: ../../admin/install.rst:840
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
+"为了禁止 Weblate 发送电子邮件，将 :setting:`django:EMAIL_BACKEND` 设置为 ``django.core.mail."
+"backends.dummy.EmailBackend`` 。"
 
 #: ../../admin/install.rst:843
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
-msgstr ""
+msgstr "这将禁止 *所有* 电子邮件的投递，包括注册或密码重置电子邮件。"
 
 #: ../../admin/install.rst:848
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:858
 msgid "Allowed hosts setup"
-msgstr ""
+msgstr "允许主机设置"
 
 #: ../../admin/install.rst:860
 msgid ""
