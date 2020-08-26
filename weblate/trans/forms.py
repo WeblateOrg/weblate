@@ -768,7 +768,7 @@ class MergeForm(UnitForm):
                 translation__language=translation.language,
             )
             # Compare in Python to ensure case sensitiveness on MySQL
-            if unit.source != merge_unit.source:
+            if not translation.is_source and unit.source != merge_unit.source:
                 raise ValidationError(_("Could not find merged string."))
         except Unit.DoesNotExist:
             raise ValidationError(_("Could not find merged string."))
