@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-20 14:56+0200\n"
-"PO-Revision-Date: 2020-08-24 12:24+0000\n"
+"PO-Revision-Date: 2020-08-27 06:13+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1935,20 +1935,29 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"В установке по умолчанию Weblate использует python-social-auth, форму на "
+"сайте для обработки регистраций новых пользователей. После подтверждения "
+"своей электронной почты новый пользователь может вносить свой вклад в "
+"переводы или пройти аутентификацию, воспользовавшись одним из сторонних "
+"сервисов."
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Также вы можете отключить регистрацию новых пользователей с помощью "
+"установки параметра :setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
 msgstr ""
+"Попытки аутентификации учитываются при применении :ref:`ограничений на "
+"частоту запросов <rate-limit>`."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr ""
+msgstr "Способы аутентификации"
 
 #: ../../admin/auth.rst:20
 msgid ""
@@ -1956,17 +1965,26 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"Для аутентификации используется встроенное решение Django, включающее в себя "
+"для этого аутентификацию от различных социальных сетей. Использование этого "
+"решения означает, что вы сможете импортировать себе базу данных "
+"пользователей других проектов, написанных на Django (смотрите раздел :ref"
+":`pootle-migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
 msgstr ""
+"Кроме того, аутентификация в Django может быть настроена и с использованием "
+"других способов."
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+"В разделе :ref:`docker-auth` описано, как настроить аутентификацию в "
+"официальном образе Docker’а."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
@@ -1977,12 +1995,18 @@ msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
+"Благодаря пакету :doc:`Python Social Auth <psa:index>`, Weblate поддерживает "
+"аутентификацию с использованием множества сторонних сервисов, таких как "
+"GitLab, Ubuntu, Fedora и другие."
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
 msgstr ""
+"Для получения общих инструкций по конфигурации ознакомьтесь, пожалуйста, с "
+"их документацией в разделе :doc:`Фреймворк Django <psa:configuration/"
+"django>`."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -1991,6 +2015,11 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"По умолчанию Weblate полагается на сторонние сервисы аутентификации для "
+"предоставления подтверждённого адреса электронной почты. Если некоторые "
+"сервисы, которые вы хотите использовать, это не поддерживают, включите "
+"принудительную проверку адреса электронной почты на стороне Weblate, "
+"настроив их параметр FORCE_EMAIL_VALIDATION. Например:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -2005,6 +2034,13 @@ msgid ""
 "otherwise Weblate will not be able to properly credit contributions users "
 "make."
 msgstr ""
+"Включить отдельный способ довольно просто, это всего лишь вопрос добавления "
+"записи в параметр ``AUTHENTICATION_BACKENDS`` и, возможно, ключей, "
+"необходимых для заданного способа аутентификации. Пожалуйста, обратите "
+"внимание, что некоторые способы по умолчанию не предоставляют адрес "
+"электронной почты пользователя, в этом случае вы должны запросить её явно, "
+"иначе Weblate не сможет правильно указать авторство выполненных "
+"пользователями переводов."
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -2020,6 +2056,9 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
+"Для сервисов, основанных на OpenID, обычно это просто вопрос её включения. "
+"Следующий блок кода включает аутентификацию OpenID для OpenSUSE, Fedora и "
+"Ubuntu:"
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
@@ -2034,12 +2073,16 @@ msgid ""
 "You need to register an application on GitHub and then tell Weblate all its "
 "secrets:"
 msgstr ""
+"Вам нужно будет зарегистрировать приложение в GitHub’е, а затем рассказать "
+"Weblate’у все его секреты:"
 
 #: ../../admin/auth.rst:106
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
+"GitHub должен быть сконфигурирован так, чтобы URL-адрес обратного вызова "
+"указывал на ``https://example.com/accounts/complete/github/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -2047,6 +2090,10 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"Weblate предоставляет URL-адрес обратного вызова, вызываемый во время "
+"аутентификации, в который включён настроенный домен. В случае, если вы "
+"получаете ошибки о несовпадении URL, возможно, вы захотите это исправить, "
+"смотрите раздел :ref:`production-site`."
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
@@ -2061,6 +2108,8 @@ msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
+"Вам нужно будет зарегистрировать приложение в Bitbucket’е, а затем "
+"рассказать Weblate’у все его секреты:"
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
@@ -2068,19 +2117,23 @@ msgstr ":doc:`Bitbucket <psa:backends/bitbucket>`"
 
 #: ../../admin/auth.rst:145
 msgid "Google OAuth 2"
-msgstr ""
+msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:147
 msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
+"Для использования Google OAuth 2 необходимо зарегистрировать приложение на "
+"<https://console.developers.google.com/> и включить Google+ API."
 
 #: ../../admin/auth.rst:150
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
 msgstr ""
+"URL-адрес перенаправления — ``https://СЕРВЕР WEBLATE/accounts/complete/"
+"google-oauth2/``"
 
 #: ../../admin/auth.rst:169
 msgid ":doc:`psa:backends/google`"
@@ -2088,18 +2141,23 @@ msgstr ":doc:`Google <psa:backends/google>`"
 
 #: ../../admin/auth.rst:174
 msgid "Facebook OAuth 2"
-msgstr ""
+msgstr "Facebook OAuth 2"
 
 #: ../../admin/auth.rst:176
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"Как обычно с сервисами OAuth 2, вам необходимо зарегистрировать ваше "
+"приложение в Facebook. После этого вы сможете настроить Weblate на его "
+"использование:"
 
 #: ../../admin/auth.rst:179
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgstr ""
+"URL-адрес перенаправления — ``https://СЕРВЕР WEBLATE/accounts/complete/"
+"facebook/``"
 
 #: ../../admin/auth.rst:199
 msgid ":doc:`psa:backends/facebook`"
@@ -2107,19 +2165,23 @@ msgstr ":doc:`Facebook <psa:backends/facebook>`"
 
 #: ../../admin/auth.rst:205
 msgid "GitLab OAuth 2"
-msgstr ""
+msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:207
 msgid ""
 "For using GitLab OAuth 2, you need to register an application on <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
+"Для использования GitLab OAuth 2 необходимо зарегистрировать приложение на "
+"<https://gitlab.com/profile/applications>."
 
 #: ../../admin/auth.rst:210
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
+"URL-адрес перенаправления — ``https://СЕРВЕР WEBLATE/accounts/complete/"
+"gitlab/`` и убедитесь, что вы отметили область видимости `read_user`."
 
 #: ../../admin/auth.rst:234
 msgid ":doc:`psa:backends/gitlab`"
@@ -2127,13 +2189,15 @@ msgstr ":doc:`GitLab <psa:backends/gitlab>`"
 
 #: ../../admin/auth.rst:239
 msgid "Microsoft Azure Active Directory"
-msgstr ""
+msgstr "Microsoft Azure Active Directory"
 
 #: ../../admin/auth.rst:241
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
 msgstr ""
+"Weblate можно настроить на использование общих или конкретных арендаторов "
+"для аутентификации."
 
 #: ../../admin/auth.rst:243
 msgid ""
@@ -2141,6 +2205,9 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant-specific authentication."
 msgstr ""
+"URL-адрес перенаправления — ``https://СЕРВЕР WEBLATE/accounts/complete/"
+"azuread-oauth2/`` для общей и ``https://СЕРВЕР WEBLATE/accounts/complete/"
+"azuread-tenant-oauth2/`` для конкретной для арендатора аутентификации."
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
@@ -2155,11 +2222,15 @@ msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
+"Для использования Slack OAuth 2 необходимо зарегистрировать приложение на "
+"<https://api.slack.com/apps>."
 
 #: ../../admin/auth.rst:293
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgstr ""
+"URL-адрес перенаправления — ``https://СЕРВЕР WEBLATE/accounts/complete/slack/"
+"``."
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
@@ -2176,18 +2247,28 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"Аутентификацию по электронной почте и паролю можно отключить, удалив "
+"``social_core.backends.email.EmailAuth`` из параметра "
+":setting:`django:AUTHENTICATION_BACKENDS`. Никогда не удаляйте оттуда "
+"``weblate.accounts.auth.WeblateUserBackend``, он необходим для работы "
+"основных функций Weblate."
 
 #: ../../admin/auth.rst:325
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
 msgstr ""
+"Вы всё ещё можете использовать аутентификацию по паролю для интерфейса "
+"администратора и для пользователей, которых вы создаёте там вручную. Просто "
+"зайдите на ``/admin/``."
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
+"Например, аутентификация с использованием только провайдера openSUSE Open ID "
+"может быть достигнута при помощи следующего кода:"
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
@@ -2198,34 +2279,37 @@ msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"По умолчанию :file:`settings.py` поставляется с разумным набором проверок в "
+"параметре :setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:345
 msgid "Passwords can't be too similar to your other personal info."
-msgstr ""
+msgstr "Пароли не могут быть слишком похожи на другие ваши личные данные."
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr ""
+msgstr "Пароли должны содержать минимум 10 символов."
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
-msgstr ""
+msgstr "Пароли не могут быть широко распространёнными паролями."
 
 #: ../../admin/auth.rst:348
 msgid "Passwords can't be entirely numeric."
-msgstr ""
+msgstr "Пароли не могут быть полностью цифровыми."
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
-msgstr ""
+msgstr "Пароли не могут состоять из одного символа или только из пробелов."
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr ""
+msgstr "Пароли не могут совпадать с предыдущими вашими паролями."
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
 msgstr ""
+"Вы можете настроить этот параметр в соответствии с вашей политикой паролей."
 
 #: ../../admin/auth.rst:354
 msgid ""
@@ -2233,6 +2317,10 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"Дополнительно можно установить пакет `django-zxcvbn-password <https://pypi."
+"org/project/django-zxcvbn-password/>`_, который вычисляет вполне "
+"реалистичные оценки сложности пароля и позволяет отклонять пароли с оценкой "
+"ниже определённого порога."
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
@@ -2243,16 +2331,20 @@ msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
 msgstr ""
+"Пожалуйста, следуйте инструкциям по настройке Python Social Auth. Значимые "
+"отличия:"
 
 #: ../../admin/auth.rst:368
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate поддерживает один IDP, который в ``SOCIAL_AUTH_SAML_ENABLED_IDPS`` "
+"должен называться ``weblate``."
 
 #: ../../admin/auth.rst:370
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "URL-адрес XML с метаданными SAML — ``/accounts/metadata/saml/``."
 
 #: ../../admin/auth.rst:371
 msgid ""
@@ -2260,10 +2352,13 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"Следующие параметры заполняются автоматически: "
+"``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT`` и "
+"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:375
 msgid "Example configuration:"
-msgstr ""
+msgstr "Пример конфигурации:"
 
 #: ../../admin/auth.rst:402
 msgid ""
@@ -2281,12 +2376,17 @@ msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"Аутентификацию через LDAP лучше всего реализовать с помощью пакета `django-"
+"auth-ldap`. Установить его вы можете как обычно:"
 
 #: ../../admin/auth.rst:423
 msgid ""
 "With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work "
 "properly for newly created users."
 msgstr ""
+"При использовании django-auth-ldap версии старше 1.3.0, :ref:`автоматические "
+"прикрепления группы <autogroup>` для новых созданных пользователей будут "
+"работать неправильно."
 
 #: ../../admin/auth.rst:428
 msgid ""
@@ -2295,12 +2395,19 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"У Python’ьего модуля LDAP версии 3.1.0 есть некоторые несовместимости, "
+"которые могут помешать вам использовать эту версию. Если вы получили ошибку "
+"`AttributeError: 'module' object has no attribute '_trace_level' "
+"<https://github.com/python-ldap/python-ldap/issues/226>`_, то может помочь "
+"понижение версии python-ldap до 3.0.0."
 
 #: ../../admin/auth.rst:434
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
+"После установки пакета вы сможете подключить его к системе аутентификации "
+"Django:"
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -2312,16 +2419,27 @@ msgid ""
 "in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+"Вы должны удалить значение ``'social_core.backends.email.EmailAuth'`` из "
+"параметра ``AUTHENTICATION_BACKENDS``, в противном случае пользователи "
+"смогут установить в Weblate свой пароль и пройти аутентификацию, используя "
+"его. Оставление ``'weblate.accounts.auth.WeblateUserBackend'`` необходимо "
+"для того, чтобы работали разрешения и анонимные пользователи. Также он "
+"позволит вам войти в систему, используя учётную запись локального "
+"администратора, если вы его создали (например, с помощью команды "
+":djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
-msgstr ""
+msgstr "Использование пароля привязки"
 
 #: ../../admin/auth.rst:482
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Если вы не можете использовать для аутентификации прямую привязку, вам нужно "
+"будет использовать поиск, и предоставить для поиска привязываемого "
+"пользователя. Например:"
 
 #: ../../admin/auth.rst:496
 msgid "Active Directory integration"
@@ -2341,6 +2459,8 @@ msgstr "Аутентификация через CAS"
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
 msgstr ""
+"Аутентификация через CAS может быть выполнена с помощью такого пакета, как "
+"`django-cas-ng`."
 
 #: ../../admin/auth.rst:536
 msgid ""
@@ -2348,20 +2468,28 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"Первый шаг — раскрытие поля электронной почты пользователя через CAS. "
+"Раскрытие нужно настроить на самом сервере CAS, и оно требует, чтобы у вас "
+"был запущен CAS как минимум версии v2, поскольку CAS версии v1 вообще не "
+"поддерживает атрибуты."
 
 #: ../../admin/auth.rst:540
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
+"Второй шаг — обновление Weblate’а для использования вашего сервера CAS и "
+"атрибутов."
 
 #: ../../admin/auth.rst:542
 msgid "To install `django-cas-ng`:"
-msgstr ""
+msgstr "Для установки `django-cas-ng` выполните команду:"
 
 #: ../../admin/auth.rst:548
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
+"После установки пакета вы сможете подключить его к системе аутентификации "
+"Django, изменив файл :file:`settings.py`:"
 
 #: ../../admin/auth.rst:569
 msgid ""
@@ -2370,15 +2498,22 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"Наконец, для связывания поля электронной почты с объектом пользователя может "
+"быть использован сигнал. Для этого необходимо импортировать сигнал из пакета "
+"`django-cas-ng` и подключить к этому сигналу свой код. Выполнение этого "
+"действия в файле настроек может вызвать проблемы, поэтому его код "
+"предлагается поместить:"
 
 #: ../../admin/auth.rst:574
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
+"В метод :py:meth:`django:django.apps.AppConfig.ready` конфигурации вашего "
+"приложения"
 
 #: ../../admin/auth.rst:575
 msgid "In the project's :file:`urls.py` file (when no models exist)"
-msgstr ""
+msgstr "В проектовый файл :file:`urls.py` (если у вас нет моделей)"
 
 #: ../../admin/auth.rst:590
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
@@ -2394,6 +2529,9 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"Как правило, с Weblate должен заработать любой плагин аутентификации Django. "
+"Просто следуйте инструкциям для установки плагина и не забудьте оставить в "
+"способах аутентификации пользователя Weblate."
 
 #: ../../admin/auth.rst:601
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
@@ -2405,6 +2543,9 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Обычно установка состоит из добавления способа аутентификации в параметр "
+":setting:`django:AUTHENTICATION_BACKENDS` и установки приложения "
+"аутентификации (если оно есть) в параметр :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
@@ -2421,6 +2562,10 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface on the :guilabel:`Backups` tab."
 msgstr ""
+"В Weblate встроена поддержка создания сервисных резервных копий с помощью "
+"`BorgBackup`_. Borg создаёт компактные зашифрованные резервные копии, "
+"которые можно безопасно хранить в облаке. Управлять резервными копиями можно "
+"через интерфейс управления на вкладке :guilabel:`Резервные копии`."
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -2429,12 +2574,18 @@ msgid ""
 "migrate to PostgreSQL, see :ref:`database-setup` and :ref:`database-"
 "migration`."
 msgstr ""
+"В автоматизированные резервные копии включается только база данных "
+"PostgreSQL. Резервное копирование других движков баз данных необходимо "
+"выполнять вручную. Рекомендуется перейти на PostgreSQL, смотрите разделы :ref"
+":`database-setup` и :ref:`database-migration`."
 
 #: ../../admin/backup.rst:23
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
+"Резервные копии, которые делает Borg, являются инкрементальными, и Weblate "
+"настроен на сохранение следующих резервных копий:"
 
 #: ../../admin/backup.rst:25
 msgid "14 daily backups"
@@ -2458,31 +2609,44 @@ msgid ""
 "service at weblate.org <https://weblate.org/support/#backup>`_. The process "
 "of activating can be performed in few steps:"
 msgstr ""
+"Простейший подход к резервному копированию вашего экземпляра Weblate "
+"заключается в покупке `сервиса резервного копирования на weblate.org "
+"<https://weblate.org/support/#backup>`_. Процесс активации резервного "
+"копирования выполняется в несколько шагов:"
 
 #: ../../admin/backup.rst:40
 msgid "Purchase backup service on https://weblate.org/support/#backup."
 msgstr ""
+"Покупка услуги резервного копирования на https://weblate.org/support/#backup."
 
 #: ../../admin/backup.rst:41
 msgid ""
 "Enter obtained key in the management interface, see :ref:`activate-support`."
 msgstr ""
+"Ввод полученного ключа в интерфейсе управления, смотрите раздел :ref"
+":`activate-support`."
 
 #: ../../admin/backup.rst:42
 msgid ""
 "Weblate will connect to the cloud service and obtain access information for "
 "the backups."
 msgstr ""
+"Weblate подключится к облачному сервису и получит информацию для доступа к "
+"резервным копиям."
 
 #: ../../admin/backup.rst:43
 msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
 msgstr ""
+"Включение новой конфигурации резервного копирования на вкладке :guilabel:`"
+"Резервные копии`."
 
 #: ../../admin/backup.rst:44
 msgid ""
 "Backup Borg credentials in order to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
+"Резервное копирование учётных данных Borg, чтобы иметь возможность "
+"восстанавливать резервные копии, смотрите раздел :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:48
 msgid ""
@@ -2490,6 +2654,9 @@ msgid ""
 "no data is sent to the backup repository obtained through the registration "
 "process."
 msgstr ""
+"Шаг ручного включения предусмотрен для вашей безопасности. Без вашего "
+"согласия никакие данные в хранилище резервных копий, полученное в процессе "
+"регистрации, не отправляются."
 
 #: ../../admin/backup.rst:54
 msgid "Using custom backup storage"
@@ -2501,6 +2668,10 @@ msgid ""
 "backups on the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"Также вы можете использовать своё собственное хранилище для резервного "
+"копирования. Загрузка резервных копий на удаленный сервер может "
+"осуществляться через SSH, на целевом сервере должен быть установлен "
+"`BorgBackup`_."
 
 #: ../../admin/backup.rst:62
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -2516,12 +2687,19 @@ msgid ""
 "not be able to restore the backup. The passphrase is generated when adding "
 "new backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ создаёт зашифрованные резервные копии и без кодовой фразы "
+"восстановить резервную копию вы не сможете. Парольная фраза генерируется при "
+"добавлении новой службы резервного копирования, вы должны скопировать её и "
+"сохранить в безопасном месте."
 
 #: ../../admin/backup.rst:73
 msgid ""
 "In case you are using :ref:`cloudbackup`, please backup your private SSH key "
 "as well — it is used to access your backups."
 msgstr ""
+"В случае, если вы используете :ref:`хранилище резервных копий на Weblate.org "
+"<cloudbackup>`, пожалуйста, сделайте резервную копию вашего закрытого SSH-"
+"ключа — он используется для доступа к вашим резервным копиям."
 
 #: ../../admin/backup.rst:78
 msgid ":doc:`borg:usage/init`"
@@ -2565,12 +2743,17 @@ msgid ""
 "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
 "dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Скопируйте конфигурацию Weblate (:file:`backups/settings.py`, смотрите "
+"раздел :ref:`backup-dumps`) в нужное место, смотрите раздел "
+":ref:`configuration`."
 
 #: ../../admin/backup.rst:93
 msgid ""
 "Copy the whole restored data dir to location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Скопируйте весь восстановленный каталог данных в место, заданное параметром "
+":setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:95
 msgid "The Borg session might look like:"
@@ -2589,6 +2772,8 @@ msgid ""
 "Depending on what you want to save, back up the type data Weblate stores in "
 "each respective place."
 msgstr ""
+"В зависимости от того, что вы хотите сохранить, создайте резервную копию "
+"типов данных, которые Weblate сохраняет в соответствующих местах."
 
 #: ../../admin/backup.rst:121
 msgid ""
@@ -2597,6 +2782,11 @@ msgid ""
 "SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"Если вы выполняете резервное копирование вручную, вы можете подавить "
+"предупреждение Weblate об отсутствии резервного копирования, добавив "
+"проверку ``weblate.I028`` к параметру "
+":setting:`django:SILENCED_SYSTEM_CHECKS` в :file:`settings.py` или к "
+"переменной окружения :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` Docker’а."
 
 #: ../../admin/backup.rst:131
 msgid "Database"
@@ -2605,12 +2795,15 @@ msgstr "База данных"
 #: ../../admin/backup.rst:133
 msgid "The actual storage location depends on your database setup."
 msgstr ""
+"Фактическое расположение хранилища зависит от настроек вашей базы данных."
 
 #: ../../admin/backup.rst:135
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database, without it all your translation setup will be gone."
 msgstr ""
+"База данных является самым важным хранилищем. Настройте регулярное резервное "
+"копирование вашей базы данных, без неё все настройки переводов исчезнут."
 
 #: ../../admin/backup.rst:139
 msgid "Native database backup"
@@ -2623,6 +2816,10 @@ msgid ""
 "performs better than Django backup and restores complete tables with all "
 "data."
 msgstr ""
+"Рекомендуемый подход заключается в создании дампа базы данных с помощью "
+"родных для базы данных инструментов, таких как :program:`pg_dump` или "
+":program:`mysqldump`. Обычно он работает лучше, чем резервная копия Django, "
+"и восстанавливает полные таблицы со всеми данными."
 
 #: ../../admin/backup.rst:145
 msgid ""
@@ -2631,6 +2828,10 @@ msgid ""
 "consult :doc:`upgrade` on more detailed information how to perform upgrade "
 "between versions."
 msgstr ""
+"Эту резервную копию вы можете восстановить в новом выпуске Weblate, при "
+"запуске через :djadmin:`django:migrate` он выполнит все необходимые "
+"миграции. За более подробной информацией о том, как выполнить обновление "
+"между версиями обратитесь, пожалуйста, к разделу :doc:`upgrade`."
 
 #: ../../admin/backup.rst:151
 msgid "Django database backup"
@@ -2642,6 +2843,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change database backend."
 msgstr ""
+"В качестве альтернативы вы можете создать резервную копию базы данных при "
+"помощи Django’вской команды :djadmin:`django:dumpdata`. Резервное "
+"копирование этим способом не зависит от базы данных и может быть "
+"использовано в случае, если вы захотите сменить базу данных."
 
 #: ../../admin/backup.rst:157
 msgid ""
@@ -2651,6 +2856,12 @@ msgid ""
 "some way. After installing the same version, run all database migrations "
 "using :djadmin:`django:migrate`."
 msgstr ""
+"До восстановления вам следует убедиться, что у вас запущена ровно та же "
+"самая версия Weblate, которая использовалась при резервном копировании. Это "
+"необходимо, так как структура базы данных меняется между выпусками, и если "
+"вы не выполните это условие, то, в конечном итоге, повредите данные тем или "
+"иным образом. После установки такой же версии запустите все миграции базы "
+"данных с помощью команды :djadmin:`django:migrate`."
 
 #: ../../admin/backup.rst:163
 msgid ""
@@ -2659,6 +2870,9 @@ msgid ""
 "is to delete such entries manually using management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"После этого некоторые записи уже будут созданы в базе данных, и они также "
+"попадут в резервную копию базы данных. Такие записи рекомендуется удалять "
+"вручную в оболочке управления (смотрите раздел :ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:174
 msgid "Files"
@@ -2671,6 +2885,11 @@ msgid ""
 "The following sections describe in detail what you should back up and what "
 "you can skip."
 msgstr ""
+"Если у вас достаточно места для резервного копирования, просто создайте "
+"резервную копию всего каталога :setting:`DATA_DIR`. Это беспроигрышный "
+"вариант, даже если он включает в себя некоторые файлы, которые вам не нужны. "
+"В следующих разделах подробно описано, для каких файлов нужно создавать "
+"резервные копии, а какие можно и пропустить."
 
 #: ../../admin/backup.rst:184
 msgid "Dumped data for backups"
@@ -2686,22 +2905,32 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate сбрасывает сюда различные данные, и для создания более полных "
+"резервных копий вы можете включить эти файлы. Файлы обновляются ежедневно ("
+"требуется отдельный запущенный сервер Celery beat, смотрите раздел "
+":ref:`celery`). В настоящее время здесь хранятся:"
 
 #: ../../admin/backup.rst:192
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Настройки Weblate в виде файла :file:`settings.py` (также здесь под именем "
+":file:`settings-expanded.py` лежит обработанная версия этого файла)."
 
 #: ../../admin/backup.rst:193
 msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr ""
+"Резервная копия базы данных PostgreSQL в виде файла :file:`database.sql`."
 
 #: ../../admin/backup.rst:195
 msgid ""
 "The database backups are by default saved as plain text, but they can also "
 "be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Резервные копии базы данных по умолчанию сохраняются в виде простого текста, "
+"но их также можно сжать или полностью выключить, устанавливая параметр "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:199
 msgid "Version control repositories"
@@ -2719,6 +2948,13 @@ msgid ""
 "and you do not have to backup the repositories on the Weblate side. They can "
 "be cloned again from the upstream locations with no data loss."
 msgstr ""
+"Репозитории системы контроля версий содержат копии ваших вышестоящих "
+"репозиториев с изменениями из Weblate’а. Если вы включили для всех ваших "
+"компонентов перевода отправку изменений в вышестоящий репозиторий при "
+"коммите, в этот репозиторий включаются все изменения из Weblate’а, поэтому "
+"на стороне Weblate’а вам уже не нужно создавать резервные копии "
+"репозиториев. Они могут быть повторно склонированы из вышестоящих "
+"репозиториев без потери данных."
 
 #: ../../admin/backup.rst:210
 msgid "SSH and GPG keys"
@@ -2736,6 +2972,9 @@ msgid ""
 "these locations, otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Если вы используете сгенерированные Weblate ключи SSH или GPG, вы должны "
+"создать резервную копию этих каталогов, иначе вы потеряете закрытые ключи и "
+"вам придётся заново сгенерировать новые."
 
 #: ../../admin/backup.rst:219
 msgid "User uploaded files"
@@ -2748,6 +2987,8 @@ msgstr "Хранятся в :setting:`DATA_DIR` ``/media``."
 #: ../../admin/backup.rst:223
 msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
+"Вы должны сделать резервные копии загруженных пользователями файлов ("
+"например, :ref:`визуальных контекстов для строк <screenshots>`)."
 
 #: ../../admin/backup.rst:226
 msgid "Command line for manual backup"
@@ -2758,6 +2999,8 @@ msgid ""
 "Using a cron task, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
 msgstr ""
+"Используя задачу в cron’е, вы можете задать команду bash’а, которая будет "
+"выполняться каждый день, например:"
 
 #: ../../admin/backup.rst:234
 msgid ""
@@ -2765,12 +3008,18 @@ msgid ""
 "for instance the amount of memory used for compression; see https://linux."
 "die.net/man/1/xz"
 msgstr ""
+"Строка между кавычками после XZ_OPT позволяет вам выбрать параметры для "
+"запуска xz, например, объём памяти, используемый для сжатия; смотрите "
+"руководство на странице https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:236
 msgid ""
 "You can adjust the list of folders and files to your needs. For instance, to "
 "avoid saving the translation memory (in backups folder), you could use:"
 msgstr ""
+"Вы можете настроить список папок и файлов в соответствии со своими "
+"потребностями. Например, чтобы избежать сохранения памяти переводов (в папке "
+"резервных копий), вы можете использовать следующую команду:"
 
 #: ../../admin/backup.rst:244
 msgid "Celery tasks"
@@ -2784,6 +3033,12 @@ msgid ""
 "repository updates upon restoring anyhow, so there is no problem in losing "
 "these."
 msgstr ""
+"Очередь задач Celery может содержать некоторую информацию, но обычно её не "
+"требуется сохранять в резервной копии. В худшем случае вы потеряете "
+"обновления, которые ещё не были занесены в память переводов. Поскольку при "
+"восстановлении в любом случае рекомендуется выполнять обновления "
+"полнотекстового индекса или репозитория, нет ничего страшного в том, что они "
+"потеряются."
 
 #: ../../admin/backup.rst:253
 msgid ":ref:`celery`"
@@ -12746,13 +13001,15 @@ msgstr "Проекты перевода"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "Организация переводов"
 
 #: ../../admin/projects.rst:7
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
 msgstr ""
+"Weblate организует переводимое содержимое проектов/компонентов из системы "
+"контроля версий в древовидную структуру."
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -12760,6 +13017,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"Объектом нижнего уровня является :ref:`проект <project>`, который должен "
+"содержать все связанные переводы (например, перевод приложения различных "
+"версий и/или сопроводительную документацию)."
 
 #: ../../admin/projects.rst:13
 msgid ""
@@ -12767,6 +13027,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"На уровне выше располагается :ref:`компонент <component>`, который "
+"фактически и является компонентом для перевода, для которого вы определяете "
+"используемый репозиторий системы контроля версий и маску файлов для перевода."
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -12774,12 +13037,19 @@ msgid ""
 "automatically by Weblate as translation files (which match the mask defined "
 "in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Ещё выше :ref:`компонента <component>` находятся отдельные переводы, которые "
+"Weblate обрабатывает автоматически, как только файлы перевода ("
+"соответствующие маске файлов, определённой в :ref:`конфигурации компонента "
+"<component>`), появляются в репозитории системы контроля версий."
 
 #: ../../admin/projects.rst:20
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate поддерживает широкий набор форматов перевода (как двуязычных, так и "
+"одноязычных), поддерживаемых набором инструментов Translate Toolkit, "
+"смотрите раздел :ref:`formats`."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -12787,22 +13057,32 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Вы можете совместно использовать склонированные репозитории системы контроля "
+"версий, используя :ref:`внутренние URL-адреса Weblate <internal-urls>`. "
+"Использование этой возможности настоятельно рекомендуется при наличии "
+"множества компонентов, совместно использующих один и тот же репозиторий. Она "
+"повышает производительность и уменьшает необходимое дисковое пространство."
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
-msgstr ""
+msgstr "Добавление проектов и компонентов перевода"
 
 #: ../../admin/projects.rst:37
 msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
 msgstr ""
+"В Weblate’е появился интерфейс для добавления проектов и компонентов, так "
+"что вам больше не нужно использовать для этого :ref:`административный "
+"интерфейс Django <admin-interface>`."
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
 msgstr ""
+"Теперь процесс добавления компонентов состоит из нескольких шагов, с "
+"автоматическим обнаружением большинства параметров."
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -12812,6 +13092,12 @@ msgid ""
 "also create those based on your plans allowance from the user account that "
 "manages billing."
 msgstr ""
+"В зависимости от ваших разрешений вы можете создавать новые проекты и "
+"компоненты перевода. Для суперпользователей их создание всегда разрешено, а "
+"если ваш экземпляр использует тарифные планы (как, например, https://hosted."
+"weblate.org/, смотрите раздел :ref:`billing`), вы также можете создавать их "
+"на основе разрешений из вашего плана, установленных учётной записью "
+"пользователя, управляющего тарификацией."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
@@ -12824,6 +13110,9 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"Создание проекта можно инициировать оттуда или из меню на панели навигации; "
+"чтобы завершить добавление проекта перевода, заполните основную информацию о "
+"нём:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
@@ -13005,16 +13294,19 @@ msgstr "Инструкции для переводчиков"
 #: ../../admin/projects.rst:150
 msgid "URL to more site with more detailed instructions for translators."
 msgstr ""
+"URL-адрес на сайт, содержащий более подробные инструкции для переводчиков."
 
 #: ../../admin/projects.rst:155
 msgid "Set Language-Team header"
-msgstr ""
+msgstr "Задать заголовок «Language-Team»"
 
 #: ../../admin/projects.rst:157
 msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"Должен ли Weblate управлять заголовком ``Language-Team`` (сейчас это "
+"единственная особая возможность для :ref:`gettext`)."
 
 #: ../../admin/projects.rst:163
 msgid "Use shared translation memory"
@@ -13025,8 +13317,8 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
-"Использовать ли совместно используемую память переводов, см. подробнее :ref:"
-"`shared-tm`."
+"Использовать ли совместно используемую память переводов, подробнее смотрите "
+"в разделе :ref:`shared-tm`."
 
 #: ../../admin/projects.rst:170
 msgid "Contribute to shared translation memory"
@@ -13037,10 +13329,14 @@ msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
 msgstr ""
+"Помещать ли переводы в совместно используемую память переводов, подробнее "
+"смотрите в разделе :ref:`shared-tm`."
 
 #: ../../admin/projects.rst:179
 msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
+"Настройка контроля доступа для каждого проекта, подробнее смотрите в разделе "
+":ref:`acl`."
 
 #: ../../admin/projects.rst:181
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
@@ -13056,6 +13352,7 @@ msgstr "Включить рецензии"
 #: ../../admin/projects.rst:188
 msgid "Enable review workflow for translations, see :ref:`reviews`."
 msgstr ""
+"Включение процесса рецензирования переводов, смотрите раздел :ref:`reviews`."
 
 #: ../../admin/projects.rst:193
 msgid "Enable source reviews"
@@ -13064,6 +13361,8 @@ msgstr "Включить рецензии исходных строк"
 #: ../../admin/projects.rst:195
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
+"Включение процесса рецензирования исходных строк, смотрите раздел :ref"
+":`source-reviews`."
 
 #: ../../admin/projects.rst:200
 msgid "Enable hooks"
@@ -13073,6 +13372,8 @@ msgstr "Включить обработчики"
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
 msgstr ""
+"Должны ли для этого репозитория использоваться неаутентифицированные :ref:`"
+"обработчики уведомлений <hooks>`."
 
 #: ../../admin/projects.rst:207
 msgid "Source language"
@@ -13083,6 +13384,8 @@ msgid ""
 "Language used for source strings in all components. Change this if you are "
 "translating from something else than English."
 msgstr ""
+"Язык, используемый для исходных строк во всех компонентах. Изменяйте этот "
+"параметр, если вы переводите не с английского."
 
 #: ../../admin/projects.rst:214
 msgid ""
@@ -13091,12 +13394,19 @@ msgid ""
 "choose :guilabel:`English (Developer)` as a source language. To avoid "
 "conflict between name of the source language and existing translation."
 msgstr ""
+"В случае, если вы переводите двуязычные файлы с английского языка, но хотите "
+"иметь возможность делать исправления также и в английском переводе, вы "
+"можете выбрать в качестве исходного языка :guilabel:`Английский "
+"(разработчик)`, чтобы избежать конфликта между названием исходного языка и "
+"существующим переводом."
 
 #: ../../admin/projects.rst:219
 msgid ""
 "For monolingual translations, you can use intermediate translation in this "
 "case, see :ref:`component-intermediate`."
 msgstr ""
+"Для одноязычных переводов в данном случае можно использовать промежуточный "
+"перевод, смотрите раздел :ref:`component-intermediate`."
 
 #: ../../admin/projects.rst:224
 msgid ""
@@ -13116,16 +13426,22 @@ msgid ""
 "this when language codes are inconsistent in your repositories and you want "
 "to get a consistent view in Weblate."
 msgstr ""
+"Определяет отображение кодов языков при импорте переводов в Weblate. "
+"Используйте этот параметр, когда коды языков в ваших репозиториях не "
+"согласованы друг с другом, а вы хотите получить в Weblate согласованное "
+"представление."
 
 #: ../../admin/projects.rst:238
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
 msgstr ""
+"Типичным примером использования может быть отображение американского "
+"английского языка на английский: ``en_US:en``"
 
 #: ../../admin/projects.rst:240
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
-msgstr ""
+msgstr "Несколько отображений должны разделяться запятой: ``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:244
 msgid ""
@@ -13133,6 +13449,10 @@ msgid ""
 "matches are case sensitive, so make sure you use the source language codes "
 "in same form as used in the filenames."
 msgstr ""
+"Коды языков отображаются при успешном сопоставлении с именами файлов "
+"перевода, а оно чувствительно к регистру, поэтому убедитесь, что вы "
+"используете коды исходного языка в той же форме, в которой они используются "
+"в именах файлов."
 
 #: ../../admin/projects.rst:255 ../../devel/sphinx.rst:30
 msgid "Component configuration"
@@ -13145,11 +13465,16 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Компонент — это группировка каких-то сущностей для перевода. Вы вводите "
+"расположение репозитория системы контроля версий и маску файлов, "
+"определяющую, какие файлы вы хотите переводить, а Weblate автоматически "
+"извлекает код из этого репозитория и находит все соответствующие файлы для "
+"перевода."
 
 #: ../../admin/projects.rst:261
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
-msgstr ""
+msgstr "Примеры типичных конфигураций вы можете найти в разделе :ref:`formats`."
 
 #: ../../admin/projects.rst:265
 msgid ""
@@ -13157,6 +13482,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or addons, book chapters or websites)."
 msgstr ""
+"Рекомендуется держать размер компонентов перевода в разумных пределах — "
+"разбивайте перевод по любому критерию, который в вашем случае имеет смысл ("
+"по отдельным приложениям или дополнениям, по главам книг или по веб-сайтам)."
 
 #: ../../admin/projects.rst:269
 msgid ""
@@ -13164,6 +13492,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate легко справляется с переводами с 10000 строк, но с такими объёмами "
+"труднее разделять работу между несколькими переводчиками и координировать их "
+"действия."
 
 #: ../../admin/projects.rst:272
 msgid ""
@@ -13172,12 +13503,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Если определение языка для перевода отсутствует, создаётся пустое "
+"определение с именем вида «ru_RU (generated)». Вы должны скорректировать "
+"определение и сообщить об этом авторам Weblate, чтобы недостающие языки "
+"могли быть включены в следующий выпуск."
 
 #: ../../admin/projects.rst:277
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"Компонент содержит все важные параметры для работы с системой контроля "
+"версий, а также для получения из неё переводов:"
 
 #: ../../admin/projects.rst:283 ../../admin/projects.rst:749
 msgid "Component name"
@@ -13219,11 +13556,13 @@ msgstr "Репозиторий исходного кода"
 
 #: ../../admin/projects.rst:313
 msgid "VCS repository used to pull changes."
-msgstr ""
+msgstr "Репозиторий системы контроля версий, из которого извлекаются изменения."
 
 #: ../../admin/projects.rst:317
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
 msgstr ""
+"Для получения более подробной информации о том, как указывать URL-адреса, "
+"смотрите раздел :ref:`vcs-repos`."
 
 #: ../../admin/projects.rst:321
 msgid ""
@@ -13231,6 +13570,10 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
+"Это может быть либо реальный URL-адрес системы контроля версий, либо адрес "
+"вида ``weblate://проект/компонент``, указывающий на то, что репозиторий "
+"должен совместно использоваться с другим компонентом. Для получения более "
+"подробной информации обратитесь к разделу :ref:`internal-urls`."
 
 #: ../../admin/projects.rst:328
 msgid "Repository push URL"
@@ -13242,12 +13585,20 @@ msgid ""
 "git` and :ref:`vcs-mercurial` and push support is turned off for these when "
 "this is empty."
 msgstr ""
+"URL-адрес репозитория, используемый для отправки изменений. Этот параметр "
+"используется только для систем контроля версий :ref:`Git <vcs-git>` и :ref:`"
+"Mercurial <vcs-mercurial>` и если он пуст, поддержка отправки в них "
+"отключается."
 
 #: ../../admin/projects.rst:336
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgstr ""
+"Для получения более подробной информации о том, как указывать URL-адрес "
+"репозитория, смотрите раздел :ref:`vcs-repos`, а для получения более "
+"подробной информации об отправке изменений из Weblate’а обратитесь к разделу "
+":ref:`push-changes`."
 
 #: ../../admin/projects.rst:342
 msgid "Repository browser"
@@ -14688,7 +15039,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:164
 msgid "Migrating from other databases to PostgreSQL"
-msgstr ""
+msgstr "Переход с других баз данных на PostgreSQL"
 
 #: ../../admin/upgrade.rst:166
 msgid ""
@@ -14698,10 +15049,16 @@ msgid ""
 "between the databases. Please remember to stop both web and Celery servers "
 "prior to the migration, otherwise you might end up with inconsistent data."
 msgstr ""
+"Если вы используете Weblate базой данных, отличной от PostgreSQL, вам "
+"следует перейти на PostgreSQL, поскольку в версии 4.0 это будет единственная "
+"поддерживаемая база данных. Следующие шаги помогут вам осуществить перенос "
+"данных между базами данных. Пожалуйста, не забудьте перед переездом "
+"остановить веб-сервер и сервер Celery, в противном случае у вас могут "
+"появиться несогласованные данные."
 
 #: ../../admin/upgrade.rst:189
 msgid "Migrating using Django JSON dumps"
-msgstr ""
+msgstr "Переход с использованием JSON-дампов Django"
 
 #: ../../admin/upgrade.rst:191
 msgid ""
@@ -14709,47 +15066,59 @@ msgid ""
 "works well for smaller installations. On bigger sites you might want to use "
 "pgloader instead, see :ref:`pgloader-migration`."
 msgstr ""
+"Простейшим способом перехода является использование JSON-дампов Django. Они "
+"хорошо работают для небольших установок. На больших сайтах вы вместо него "
+"можете использовать утилиту pgloader, смотрите раздел :ref:`pgloader-"
+"migration`."
 
 #: ../../admin/upgrade.rst:193
 msgid ""
 "Add PostgeSQL as additional database connection to the :file:`settings.py`:"
 msgstr ""
+"Добавьте PostgeSQL в файл :file:`settings.py` в качестве дополнительного "
+"подключения к базе данных:"
 
 #: ../../admin/upgrade.rst:239
 msgid "Run migrations and drop any data inserted into the tables:"
-msgstr ""
+msgstr "Запустите миграции и удалите все данные, вставленные в таблицы:"
 
 #: ../../admin/upgrade.rst:246
 msgid "Dump legacy database and import to PostgreSQL"
-msgstr ""
+msgstr "Сделайте дамп прежней базы данных и импортируйте его в PostgreSQL"
 
 #: ../../admin/upgrade.rst:253
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
 msgstr ""
+"Подправьте параметр :setting:`django:DATABASES`, задав в нём использование "
+"по умолчанию только базы данных PostgreSQL и удалив старое соединение."
 
 #: ../../admin/upgrade.rst:256
 msgid "Weblate should be now ready to run from the PostgreSQL database."
-msgstr ""
+msgstr "Теперь Weblate должен быть готов к запуску из базы данных PostgreSQL."
 
 #: ../../admin/upgrade.rst:261
 msgid "Migrating to PotsgreSQL using pgloader"
-msgstr ""
+msgstr "Переход на PotsgreSQL с помощью pgloader"
 
 #: ../../admin/upgrade.rst:263
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
 msgstr ""
+"`pgloader`_ — это универсальный инструмент миграции для переноса данных на "
+"PostgreSQL. Вы можете использовать его для переноса базы данных Weblate."
 
 #: ../../admin/upgrade.rst:265
 msgid "Adjust your :file:`settings.py` to use PostgeSQL as a database."
 msgstr ""
+"Подправьте свой файл :file:`settings.py`, задав в нём использование базы "
+"данных PostgreSQL."
 
 #: ../../admin/upgrade.rst:267
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr ""
+msgstr "Перенесите схему в базу данных PostgreSQL:"
 
 #: ../../admin/upgrade.rst:274
 msgid ""
@@ -14757,10 +15126,14 @@ msgid ""
 "migrate the database, but you might want to learn more about `pgloader`_ to "
 "understand what it does and tweak it to match your setup:"
 msgstr ""
+"Запустите pgloader для переноса данных. Для переноса базы данных можно "
+"использовать следующий скрипт, но вы, возможно, захотите побольше узнать о "
+"`pgloader’е`_, чтобы понять, что он делает, и подстроить его для "
+"соответствия вашим настройкам:"
 
 #: ../../admin/upgrade.rst:293
 msgid "Migrating from Pootle"
-msgstr ""
+msgstr "Переход с Pootle"
 
 #: ../../admin/upgrade.rst:295
 msgid ""
@@ -14768,6 +15141,10 @@ msgid ""
 "supported to migrate user accounts from Pootle. You can dump the users from "
 "Pootle and import them using :djadmin:`importusers`."
 msgstr ""
+"Поскольку изначально Weblate был написан как замена для Pootle, он "
+"поддерживает перенос учётных записей пользователей из Pootle. Вы можете "
+"создать дамп пользователей Pootle, а затем импортировать его, используя "
+"команду Django :djadmin:`importusers`."
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
