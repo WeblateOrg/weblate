@@ -471,7 +471,7 @@ not using Weblate.
 
 .. _faq-codes:
 
-Why does Weblate use language codes such sr_Latn or zh_Hans?
+Why does Weblate use language codes such sr_Latn or zh_Hant?
 ------------------------------------------------------------
 
 These are language codes defined by :rfc:`4646` to better indicate that they
