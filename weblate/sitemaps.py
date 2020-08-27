@@ -85,7 +85,9 @@ class TranslationSitemap(WeblateSitemap):
     def items(self):
         return (
             Translation.objects.prefetch_related(
-                "component", "component__project", "language",
+                "component",
+                "component__project",
+                "language",
             )
             .filter(component__project__access_control__lt=Project.ACCESS_PRIVATE)
             .order_by("id")

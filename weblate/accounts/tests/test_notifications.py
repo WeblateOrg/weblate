@@ -111,12 +111,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_lock(self):
         Change.objects.create(
-            component=self.component, action=Change.ACTION_LOCK,
+            component=self.component,
+            action=Change.ACTION_LOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was locked")
         mail.outbox = []
         Change.objects.create(
-            component=self.component, action=Change.ACTION_UNLOCK,
+            component=self.component,
+            action=Change.ACTION_UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
 
@@ -130,12 +132,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             onetime=True,
         )
         Change.objects.create(
-            component=self.component, action=Change.ACTION_UNLOCK,
+            component=self.component,
+            action=Change.ACTION_UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
         mail.outbox = []
         Change.objects.create(
-            component=self.component, action=Change.ACTION_LOCK,
+            component=self.component,
+            action=Change.ACTION_LOCK,
         )
         self.validate_notifications(0)
         self.assertFalse(

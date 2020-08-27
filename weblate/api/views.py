@@ -314,9 +314,7 @@ class UserViewSet(viewsets.ModelViewSet):
         remove_user(instance, request)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(
-        detail=True, methods=["post"],
-    )
+    @action(detail=True, methods=["post"])
     def groups(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
@@ -325,7 +323,7 @@ class UserViewSet(viewsets.ModelViewSet):
             raise ParseError("Missing group_id parameter")
 
         try:
-            group = Group.objects.get(pk=int(request.data["group_id"]),)
+            group = Group.objects.get(pk=int(request.data["group_id"]))
         except (Group.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -436,9 +434,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
-    @action(
-        detail=True, methods=["post"],
-    )
+    @action(detail=True, methods=["post"])
     def roles(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
@@ -447,7 +443,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             raise ParseError("Missing role_id parameter")
 
         try:
-            role = Role.objects.get(pk=int(request.data["role_id"]),)
+            role = Role.objects.get(pk=int(request.data["role_id"]))
         except (Role.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -460,7 +456,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
-        detail=True, methods=["post"],
+        detail=True,
+        methods=["post"],
     )
     def languages(self, request, **kwargs):
         obj = self.get_object()
@@ -500,7 +497,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
-        detail=True, methods=["post"],
+        detail=True,
+        methods=["post"],
     )
     def projects(self, request, **kwargs):
         obj = self.get_object()
@@ -510,7 +508,9 @@ class GroupViewSet(viewsets.ModelViewSet):
             raise ParseError("Missing project_id parameter")
 
         try:
-            project = Project.objects.get(pk=int(request.data["project_id"]),)
+            project = Project.objects.get(
+                pk=int(request.data["project_id"]),
+            )
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -536,9 +536,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj.projects.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(
-        detail=True, methods=["post"],
-    )
+    @action(detail=True, methods=["post"])
     def componentlists(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
@@ -569,7 +567,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         self.perm_check(request)
         try:
-            component_list = ComponentList.objects.get(pk=int(component_list_id),)
+            component_list = ComponentList.objects.get(
+                pk=int(component_list_id),
+            )
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -579,7 +579,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
-        detail=True, methods=["post"],
+        detail=True,
+        methods=["post"],
     )
     def components(self, request, **kwargs):
         obj = self.get_object()
@@ -589,7 +590,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         try:
             component = Component.objects.filter_access(request.user).get(
-                pk=int(request.data["component_id"]),
+                pk=int(request.data["component_id"])
             )
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
@@ -609,7 +610,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         try:
-            component = Component.objects.get(pk=int(component_id),)
+            component = Component.objects.get(pk=int(component_id))
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -1010,7 +1011,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
             obj.new_unit(request, key, value)
             serializer = self.serializer_class(obj, context={"request": request})
-            return Response(serializer.data, status=HTTP_200_OK,)
+            return Response(serializer.data, status=HTTP_200_OK)
 
         queryset = obj.unit_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
@@ -1140,9 +1141,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
         return Response(data={"result": True})
 
-    @action(
-        detail=True, methods=["post"],
-    )
+    @action(detail=True, methods=["post"])
     def units(self, request, **kwargs):
         obj = self.get_object()
 
@@ -1165,7 +1164,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         obj.units.add(source_string)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
-        return Response(serializer.data, status=HTTP_200_OK,)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[^/.]+)")
     def delete_units(self, request, pk, unit_id):
@@ -1289,9 +1288,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
-    @action(
-        detail=True, methods=["post"],
-    )
+    @action(detail=True, methods=["post"])
     def components(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)

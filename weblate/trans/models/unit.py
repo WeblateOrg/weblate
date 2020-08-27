@@ -1022,7 +1022,8 @@ class Unit(models.Model, LoggerMixin):
                 translation__component=component,
                 translation__language__in=secondary_langs,
             ).exclude(
-                target="", translation__language=component.project.source_language,
+                target="",
+                translation__language=component.project.source_language,
             )
         )
 

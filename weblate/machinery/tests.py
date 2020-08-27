@@ -852,7 +852,7 @@ class BaiduTranslationTest(BaseMachineTranslationTest):
             self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
 
 
-@override_settings(MT_SAP_BASE_URL="http://sth.example.com/",)
+@override_settings(MT_SAP_BASE_URL="http://sth.example.com/")
 class SAPTranslationHubTest(BaseMachineTranslationTest):
     MACHINE_CLS = SAPTranslationHub
     EXPECTED_LEN = 1

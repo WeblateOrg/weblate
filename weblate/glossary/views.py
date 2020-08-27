@@ -372,7 +372,7 @@ def show_glossary(request, project, lang):
                 glossary=form.cleaned_data["glossary"],
             )
         return redirect_next(request.POST.get("next"), request.get_full_path())
-    form = TermForm(prj,)
+    form = TermForm(prj)
 
     uploadform = GlossaryUploadForm(prj)
 

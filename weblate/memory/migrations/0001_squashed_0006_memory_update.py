@@ -128,5 +128,9 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
-        migrations.RunPython(code=create_index, reverse_code=drop_index, atomic=False,),
+        migrations.RunPython(
+            code=create_index,
+            reverse_code=drop_index,
+            atomic=False,
+        ),
     ]

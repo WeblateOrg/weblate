@@ -89,7 +89,8 @@ class RedirectMiddleware:
             try:
                 project = (
                     Change.objects.filter(
-                        action=Change.ACTION_RENAME_PROJECT, target=slug,
+                        action=Change.ACTION_RENAME_PROJECT,
+                        target=slug,
                     )
                     .order()[0]
                     .project

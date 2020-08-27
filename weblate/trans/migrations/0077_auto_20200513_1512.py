@@ -10,7 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="announcement", name="message_html",),
+        migrations.RemoveField(
+            model_name="announcement",
+            name="message_html",
+        ),
         migrations.AlterField(
             model_name="announcement",
             name="message",

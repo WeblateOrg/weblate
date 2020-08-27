@@ -912,7 +912,10 @@ class Migration(migrations.Migration):
                         verbose_name="Translation flags",
                     ),
                 ),
-                ("timestamp", models.DateTimeField(auto_now_add=True),),
+                (
+                    "timestamp",
+                    models.DateTimeField(auto_now_add=True),
+                ),
                 (
                     "labels",
                     models.ManyToManyField(
@@ -966,7 +969,10 @@ class Migration(migrations.Migration):
                         to=settings.AUTH_USER_MODEL,
                     ),
                 ),
-                ("timestamp", models.DateTimeField(auto_now_add=True),),
+                (
+                    "timestamp",
+                    models.DateTimeField(auto_now_add=True),
+                ),
                 ("userdetails", weblate.utils.fields.JSONField(default={})),
             ],
         ),
@@ -1480,5 +1486,9 @@ class Migration(migrations.Migration):
             ],
             options={"index_together": {("timestamp", "translation")}},
         ),
-        migrations.RunPython(code=create_index, reverse_code=drop_index, atomic=False,),
+        migrations.RunPython(
+            code=create_index,
+            reverse_code=drop_index,
+            atomic=False,
+        ),
     ]

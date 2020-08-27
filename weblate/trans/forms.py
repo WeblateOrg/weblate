@@ -562,7 +562,10 @@ class DownloadForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.helper.layout = Layout(SearchField("q"), Field("format"),)
+        self.helper.layout = Layout(
+            SearchField("q"),
+            Field("format"),
+        )
 
 
 class SimpleUploadForm(forms.Form):
@@ -786,7 +789,8 @@ class RevertForm(UnitForm):
             return None
         try:
             self.cleaned_data["revert_change"] = Change.objects.get(
-                pk=self.cleaned_data["revert"], unit=self.unit,
+                pk=self.cleaned_data["revert"],
+                unit=self.unit,
             )
         except Change.DoesNotExist:
             raise ValidationError(_("Could not find reverted change."))
@@ -881,7 +885,10 @@ class CommentForm(forms.Form):
             "translation or generic for all of them?"
         ),
         choices=(
-            ("report", _("Report issue with the source string"),),
+            (
+                "report",
+                _("Report issue with the source string"),
+            ),
             (
                 "global",
                 _("Source string comment, suggestions for changes to this string"),
@@ -1463,7 +1470,8 @@ class ComponentZipCreateForm(ComponentProjectForm):
 
 class ComponentDocCreateForm(ComponentProjectForm):
     docfile = forms.FileField(
-        label=_("Document to translate"), validators=[validate_file_extension],
+        label=_("Document to translate"),
+        validators=[validate_file_extension],
     )
 
     field_order = ["docfile", "project", "name", "slug"]

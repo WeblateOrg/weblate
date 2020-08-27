@@ -233,11 +233,13 @@ class MemoryViewTest(FixtureTestCase):
         self.test_memory("Number of uploaded shared entries", False, prefix="manage-")
         # Download all entries
         response = self.client.get(
-            reverse("manage-memory-download"), {"format": "json", "kind": "all"},
+            reverse("manage-memory-download"),
+            {"format": "json", "kind": "all"},
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))
         # Download shared entries
         response = self.client.get(
-            reverse("manage-memory-download"), {"format": "json", "kind": "shared"},
+            reverse("manage-memory-download"),
+            {"format": "json", "kind": "shared"},
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))

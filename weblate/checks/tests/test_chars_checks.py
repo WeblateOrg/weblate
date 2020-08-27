@@ -275,7 +275,9 @@ class MaxLengthCheckTest(TestCase):
     def test_replace_check(self):
         self.assertFalse(
             self.check.check_target(
-                ["hi %s"], ["ahoj %s"], MockUnit(flags="max-length:10"),
+                ["hi %s"],
+                ["ahoj %s"],
+                MockUnit(flags="max-length:10"),
             )
         )
         self.assertTrue(

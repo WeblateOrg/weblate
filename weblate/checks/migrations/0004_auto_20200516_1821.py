@@ -11,6 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameField(
-            model_name="check", old_name="ignore", new_name="dismissed",
+            model_name="check",
+            old_name="ignore",
+            new_name="dismissed",
         ),
     ]
