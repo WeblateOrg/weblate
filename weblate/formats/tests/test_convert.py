@@ -85,8 +85,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
-            self.extract_document(newdata),
-            self.extract_document(testdata),
+            self.extract_document(newdata), self.extract_document(testdata),
         )
 
 
@@ -115,8 +114,7 @@ class IDMLFormatTest(ConvertFormatTest):
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
-            self.extract_document(newdata),
-            self.extract_document(testdata),
+            self.extract_document(newdata), self.extract_document(testdata),
         )
 
 

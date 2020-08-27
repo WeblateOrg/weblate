@@ -697,10 +697,7 @@ class ProjectLanguage:
         }
 
     def get_translate_url(self):
-        return reverse(
-            "translate",
-            kwargs=self.get_reverse_url_kwargs(),
-        )
+        return reverse("translate", kwargs=self.get_reverse_url_kwargs(),)
 
 
 class ProjectLanguageStats(LanguageStats):

@@ -254,13 +254,10 @@ class Term(models.Model):
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     source = models.CharField(
-        max_length=GLOSSARY_LENGTH,
-        db_index=True,
-        verbose_name=gettext_lazy("Source"),
+        max_length=GLOSSARY_LENGTH, db_index=True, verbose_name=gettext_lazy("Source"),
     )
     target = models.CharField(
-        max_length=GLOSSARY_LENGTH,
-        verbose_name=gettext_lazy("Translation"),
+        max_length=GLOSSARY_LENGTH, verbose_name=gettext_lazy("Translation"),
     )
 
     objects = TermManager.from_queryset(TermQuerySet)()

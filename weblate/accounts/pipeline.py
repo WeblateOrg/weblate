@@ -355,11 +355,7 @@ def notify_connect(
         else:
             action = "login"
         AuditLog.objects.create(
-            user,
-            strategy.request,
-            action,
-            method=backend.name,
-            name=social.uid,
+            user, strategy.request, action, method=backend.name, name=social.uid,
         )
     # Remove partial pipeline
     session = strategy.request.session

@@ -135,23 +135,7 @@ TERM = (FIELD + OPERATOR + (RANGE | STRING)) | STRING
 QUERY = Optional(
     infixNotation(
         TERM,
-        [
-            (
-                NOT,
-                1,
-                opAssoc.RIGHT,
-            ),
-            (
-                AND,
-                2,
-                opAssoc.LEFT,
-            ),
-            (
-                OR,
-                2,
-                opAssoc.LEFT,
-            ),
-        ],
+        [(NOT, 1, opAssoc.RIGHT,), (AND, 2, opAssoc.LEFT,), (OR, 2, opAssoc.LEFT,),],
     )
 )
 

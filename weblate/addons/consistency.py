@@ -49,6 +49,5 @@ class LangaugeConsistencyAddon(BaseAddon):
 
     def post_add(self, translation):
         language_consistency.delay(
-            translation.component.project_id,
-            [translation.language_id],
+            translation.component.project_id, [translation.language_id],
         )

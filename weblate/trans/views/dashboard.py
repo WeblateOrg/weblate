@@ -188,8 +188,7 @@ def home(request):
 def fetch_componentlists(user, user_translations):
     componentlists = list(
         ComponentList.objects.filter(
-            show_dashboard=True,
-            components__project_id__in=user.allowed_project_ids,
+            show_dashboard=True, components__project_id__in=user.allowed_project_ids,
         )
         .distinct()
         .order()

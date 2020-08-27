@@ -89,9 +89,7 @@ real_patterns = [
     ),
     # Engagement pages
     path(
-        "engage/<name:project>/",
-        weblate.trans.views.basic.show_engage,
-        name="engage",
+        "engage/<name:project>/", weblate.trans.views.basic.show_engage, name="engage",
     ),
     path(
         "engage/<name:project>/<name:lang>/",
@@ -254,9 +252,7 @@ real_patterns = [
         name="credits",
     ),
     path(
-        "counts/<name:project>/",
-        weblate.trans.views.reports.get_counts,
-        name="counts",
+        "counts/<name:project>/", weblate.trans.views.reports.get_counts, name="counts",
     ),
     path(
         "credits/<name:project>/<name:component>/",
@@ -364,9 +360,7 @@ real_patterns = [
         name="contributor-agreement",
     ),
     path(
-        "access/<name:project>/add/",
-        weblate.trans.views.acl.add_user,
-        name="add-user",
+        "access/<name:project>/add/", weblate.trans.views.acl.add_user, name="add-user",
     ),
     path(
         "access/<name:project>/invite/",
@@ -811,10 +805,7 @@ real_patterns = [
         name="webhook",
     ),
     # Compatibility URL with no trailing slash
-    path(
-        "hooks/<slug:service>",
-        weblate.trans.views.hooks.vcs_service_hook,
-    ),
+    path("hooks/<slug:service>", weblate.trans.views.hooks.vcs_service_hook,),
     # Stats exports
     path(
         "exports/stats/<name:project>/<name:component>/",
@@ -829,9 +820,7 @@ real_patterns = [
     # RSS exports
     path("exports/rss/", ChangesFeed(), name="rss"),
     path(
-        "exports/rss/language/<name:lang>/",
-        LanguageChangesFeed(),
-        name="rss-language",
+        "exports/rss/language/<name:lang>/", LanguageChangesFeed(), name="rss-language",
     ),
     path("exports/rss/<name:project>/", ProjectChangesFeed(), name="rss-project"),
     path(
@@ -867,9 +856,7 @@ real_patterns = [
         name="widget-image",
     ),
     path(
-        "widgets/<name:project>/",
-        weblate.trans.views.widgets.widgets,
-        name="widgets",
+        "widgets/<name:project>/", weblate.trans.views.widgets.widgets, name="widgets",
     ),
     path("widgets/", RedirectView.as_view(url="/projects/", permanent=True)),
     # Data exports pages
@@ -915,11 +902,7 @@ real_patterns = [
         weblate.trans.views.js.translate,
         name="js-translate",
     ),
-    path(
-        "js/memory/<int:unit_id>/",
-        weblate.trans.views.js.memory,
-        name="js-memory",
-    ),
+    path("js/memory/<int:unit_id>/", weblate.trans.views.js.memory, name="js-memory",),
     path(
         "js/translations/<int:unit_id>/",
         weblate.trans.views.js.get_unit_translations,

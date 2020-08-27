@@ -131,9 +131,7 @@ class Group(models.Model):
         "trans.Component", verbose_name=_("Components"), blank=True
     )
     componentlists = models.ManyToManyField(
-        "trans.ComponentList",
-        verbose_name=_("Component lists"),
-        blank=True,
+        "trans.ComponentList", verbose_name=_("Component lists"), blank=True,
     )
 
     language_selection = models.IntegerField(

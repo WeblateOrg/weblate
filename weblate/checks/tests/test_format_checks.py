@@ -145,9 +145,7 @@ class PythonFormatCheckTest(CheckTestCase):
 
     def test_description(self):
         unit = Unit(
-            source="%(count)d",
-            target="%(languages)d",
-            extra_flags="python-format",
+            source="%(count)d", target="%(languages)d", extra_flags="python-format",
         )
         check = Check(unit=unit)
         self.assertEqual(
@@ -899,11 +897,7 @@ class ESTemplateLiteralsCheckTest(CheckTestCase):
         )
 
     def test_description(self):
-        unit = Unit(
-            source="${foo}",
-            target="${bar}",
-            extra_flags="es-format",
-        )
+        unit = Unit(source="${foo}", target="${bar}", extra_flags="es-format",)
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),

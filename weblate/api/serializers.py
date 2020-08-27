@@ -177,10 +177,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class FullUserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
-        view_name="api:group-detail",
-        lookup_field="id",
-        many=True,
-        read_only=True,
+        view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
     )
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
@@ -275,22 +272,13 @@ class RoleSerializer(serializers.ModelSerializer):
 
 class GroupSerializer(serializers.ModelSerializer):
     roles = serializers.HyperlinkedIdentityField(
-        view_name="api:role-detail",
-        lookup_field="id",
-        many=True,
-        read_only=True,
+        view_name="api:role-detail", lookup_field="id", many=True, read_only=True,
     )
     languages = serializers.HyperlinkedIdentityField(
-        view_name="api:language-detail",
-        lookup_field="code",
-        many=True,
-        read_only=True,
+        view_name="api:language-detail", lookup_field="code", many=True, read_only=True,
     )
     projects = serializers.HyperlinkedIdentityField(
-        view_name="api:project-detail",
-        lookup_field="slug",
-        many=True,
-        read_only=True,
+        view_name="api:project-detail", lookup_field="slug", many=True, read_only=True,
     )
     componentlists = serializers.HyperlinkedRelatedField(
         view_name="api:componentlist-detail",

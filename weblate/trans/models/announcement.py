@@ -123,9 +123,7 @@ class Announcement(models.Model):
         ),
     )
     notify = models.BooleanField(
-        blank=True,
-        default=True,
-        verbose_name=gettext_lazy("Notify users"),
+        blank=True, default=True, verbose_name=gettext_lazy("Notify users"),
     )
 
     objects = AnnouncementManager()

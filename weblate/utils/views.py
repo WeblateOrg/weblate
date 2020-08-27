@@ -131,9 +131,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
 def get_component(request, project, component, skip_acl=False):
     """Return component matching parameters."""
     component = get_object_or_404(
-        Component.objects.prefetch(),
-        project__slug=project,
-        slug=component,
+        Component.objects.prefetch(), project__slug=project, slug=component,
     )
     if not skip_acl:
         request.user.check_access_component(component)

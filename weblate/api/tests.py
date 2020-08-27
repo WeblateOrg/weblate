@@ -146,9 +146,7 @@ class UserAPITest(APIBaseTest):
 
     def test_create(self):
         self.do_request(
-            "api:user-list",
-            method="post",
-            code=403,
+            "api:user-list", method="post", code=403,
         )
         self.do_request(
             "api:user-list",
@@ -321,9 +319,7 @@ class UserAPITest(APIBaseTest):
     def test_statistics(self):
         user = User.objects.filter(is_active=True).first()
         request = self.do_request(
-            "api:user-statistics",
-            kwargs={"username": user.username},
-            superuser=True,
+            "api:user-statistics", kwargs={"username": user.username}, superuser=True,
         )
         self.assertEqual(request.data["commented"], user.profile.commented)
 
@@ -387,9 +383,7 @@ class GroupAPITest(APIBaseTest):
 
     def test_create(self):
         self.do_request(
-            "api:group-list",
-            method="post",
-            code=403,
+            "api:group-list", method="post", code=403,
         )
         self.do_request(
             "api:group-list",
@@ -743,9 +737,7 @@ class RoleAPITest(APIBaseTest):
 
     def test_create(self):
         self.do_request(
-            "api:role-list",
-            method="post",
-            code=403,
+            "api:role-list", method="post", code=403,
         )
         self.do_request(
             "api:role-list",
@@ -1378,9 +1370,7 @@ class LanguageAPITest(APIBaseTest):
 
     def test_create(self):
         self.do_request(
-            "api:language-list",
-            method="post",
-            code=403,
+            "api:language-list", method="post", code=403,
         )
         # Ensure it throws error without plural data
         self.do_request(
@@ -1408,24 +1398,14 @@ class LanguageAPITest(APIBaseTest):
         self.assertEqual(response.data["code"], "new_lang")
         # Check that languages without translation are shown
         # only to super users
-        response = self.do_request(
-            "api:language-list",
-            method="get",
-            code=200,
-        )
+        response = self.do_request("api:language-list", method="get", code=200,)
         self.assertEqual(response.data["count"], 4)
         response = self.do_request(
-            "api:language-list",
-            method="get",
-            superuser=True,
-            code=200,
+            "api:language-list", method="get", superuser=True, code=200,
         )
         self.assertEqual(response.data["count"], len(LANGUAGES) + 1)
         self.do_request(
-            "api:language-detail",
-            kwargs={"code": "new_lang"},
-            method="get",
-            code=404,
+            "api:language-detail", kwargs={"code": "new_lang"}, method="get", code=404,
         )
         self.do_request(
             "api:language-detail",
@@ -1474,10 +1454,7 @@ class LanguageAPITest(APIBaseTest):
 
     def test_put(self):
         self.do_request(
-            "api:language-detail",
-            kwargs={"code": "cs"},
-            method="put",
-            code=403,
+            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403,
         )
         self.do_request(
             "api:language-detail",
@@ -1497,10 +1474,7 @@ class LanguageAPITest(APIBaseTest):
 
     def test_patch(self):
         self.do_request(
-            "api:language-detail",
-            kwargs={"code": "cs"},
-            method="put",
-            code=403,
+            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403,
         )
         self.do_request(
             "api:language-detail",
@@ -1749,8 +1723,7 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(
-            response,
-            "Automatic translation completed",
+            response, "Automatic translation completed",
         )
 
     def test_add_monolingual(self):
@@ -2119,9 +2092,7 @@ class ComponentListAPITest(APIBaseTest):
 
     def test_create(self):
         self.do_request(
-            "api:componentlist-list",
-            method="post",
-            code=403,
+            "api:componentlist-list", method="post", code=403,
         )
         self.do_request(
             "api:componentlist-list",

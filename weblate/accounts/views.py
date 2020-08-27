@@ -992,8 +992,7 @@ def social_disconnect(request, backend, association_id=None):
     )
     if not verified.exists():
         messages.error(
-            request,
-            _("Add another identity by confirming your e-mail address first."),
+            request, _("Add another identity by confirming your e-mail address first."),
         )
         return redirect_profile("#account")
 

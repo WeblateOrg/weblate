@@ -456,8 +456,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
-        detail=True,
-        methods=["post"],
+        detail=True, methods=["post"],
     )
     def languages(self, request, **kwargs):
         obj = self.get_object()
@@ -497,8 +496,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
-        detail=True,
-        methods=["post"],
+        detail=True, methods=["post"],
     )
     def projects(self, request, **kwargs):
         obj = self.get_object()
@@ -508,9 +506,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             raise ParseError("Missing project_id parameter")
 
         try:
-            project = Project.objects.get(
-                pk=int(request.data["project_id"]),
-            )
+            project = Project.objects.get(pk=int(request.data["project_id"]),)
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -567,9 +563,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         self.perm_check(request)
         try:
-            component_list = ComponentList.objects.get(
-                pk=int(component_list_id),
-            )
+            component_list = ComponentList.objects.get(pk=int(component_list_id),)
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -579,8 +573,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
-        detail=True,
-        methods=["post"],
+        detail=True, methods=["post"],
     )
     def components(self, request, **kwargs):
         obj = self.get_object()
