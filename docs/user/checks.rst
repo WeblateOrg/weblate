@@ -15,7 +15,7 @@ the user:
 Automatic fixups
 ----------------
 
-In addition to :ref:`checks`, Weblate can also fix some common
+In addition to :ref:`checks`, Weblate can fix some common
 errors in translated strings automatically. Use it with caution to not have
 it add errors.
 
@@ -437,7 +437,7 @@ translations of this string on the :guilabel:`Other occurrences` tab.
    not in another. It can be used as a quick way to manually handle strings
    which are not translated in some components just by clicking on the
    :guilabel:`Use this translation` button displayed on each line in the
-   :guilabel:`Other occurences` tab.
+   :guilabel:`Other occurrences` tab.
 
    You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to
    automate translating of newly added strings which are already translated in
@@ -528,7 +528,7 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 
 .. hint::
 
-   This checks looks at number of chars, what might not be the best metric when
+   This check looks at number of chars, what might not be the best metric when
    using proportional fonts to render the text. The :ref:`check-max-size` check
    does check actual rendering of the text.
 
