@@ -27,6 +27,7 @@ from rest_framework.test import APITestCase
 
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Role, User
+from weblate.glossary.models import Glossary
 from weblate.lang.models import Language
 from weblate.langdata.languages import LANGUAGES
 from weblate.screenshots.models import Screenshot
@@ -1215,6 +1216,301 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 2)
+
+
+class GlossaryAPITest(APIBaseTest):
+    def test_list_glossary(self):
+        response = self.client.get(reverse("api:glossary-list"))
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["name"], "Test")
+
+    def test_get_glossary(self):
+        response = self.client.get(
+            reverse("api:glossary-detail", kwargs={"id": Glossary.objects.all()[0].id})
+        )
+        self.assertEqual(response.data["name"], "Test")
+
+    def test_delete(self):
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Glossary.objects.count(), 0)
+
+    def test_put(self):
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="put",
+            code=403,
+        )
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"color": "gray", "name": "Test"},
+        )
+        self.assertEqual(Glossary.objects.all()[0].color, "gray")
+        # Edit source_language
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "source_language": {"code": "ru"},
+                "color": "gray",
+                "name": "Test",
+            },
+        )
+        self.assertEqual(Glossary.objects.all()[0].source_language.code, "ru")
+
+    def test_patch(self):
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="patch",
+            code=403,
+        )
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"color": "gray"},
+        )
+        self.assertEqual(Glossary.objects.all()[0].color, "gray")
+        # Edit source_language
+        self.do_request(
+            "api:glossary-detail",
+            kwargs={"id": Glossary.objects.all()[0].id},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"source_language": {"code": "ru"}},
+        )
+        self.assertEqual(Glossary.objects.all()[0].source_language.code, "ru")
+
+    def test_associated_projects(self):
+        self.authenticate(True)
+        project = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+            },
+        ).data
+        response = self.client.post(
+            reverse(
+                "api:glossary-projects",
+                kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            ),
+            {"project_slug": project["slug"]},
+        )
+        self.assertEqual(response.status_code, 201)
+        response = self.client.get(
+            reverse(
+                "api:glossary-projects",
+                kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            )
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["slug"], project["slug"])
+
+    def test_projects_delete(self):
+        self.authenticate(True)
+        project = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+            },
+        ).data
+        self.client.post(
+            reverse(
+                "api:glossary-projects",
+                kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            ),
+            {"project_slug": project["slug"]},
+        )
+        response = self.client.delete(
+            reverse(
+                "api:glossary-delete-projects",
+                kwargs={
+                    "id": Glossary.objects.order_by("id").all()[0].id,
+                    "project_slug": -1,
+                },
+            ),
+        )
+        self.assertEqual(response.status_code, 400)
+        response = self.client.delete(
+            reverse(
+                "api:glossary-delete-projects",
+                kwargs={
+                    "id": Glossary.objects.order_by("id").all()[0].id,
+                    "project_slug": project["slug"],
+                },
+            ),
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(Glossary.objects.order_by("id").all()[0].links.all()), 0)
+
+    def test_post_terms(self):
+        self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="post",
+            code=403,
+        )
+        self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={"language": {"code": "cs"}, "source": "test", "target": "test"},
+        )
+        self.assertEqual(Glossary.objects.order_by("id").all()[0].term_set.count(), 1)
+
+    def test_list_terms(self):
+        self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={"language": {"code": "cs"}, "source": "test", "target": "test"},
+        )
+        response = self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 1)
+
+    def test_get_terms(self):
+        term = self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={"language": {"code": "cs"}, "source": "test", "target": "test"},
+        ).data
+        self.do_request(
+            "api:glossary-terms-details",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id, "term_id": -1},
+            method="get",
+            code=400,
+        )
+        self.do_request(
+            "api:glossary-terms-details",
+            kwargs={
+                "id": Glossary.objects.order_by("id").all()[0].id,
+                "term_id": term["id"],
+            },
+            method="get",
+            code=200,
+        )
+
+    def test_put_terms(self):
+        term = self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={"language": {"code": "cs"}, "source": "test", "target": "test"},
+        ).data
+        response = self.do_request(
+            "api:glossary-terms-details",
+            kwargs={
+                "id": Glossary.objects.order_by("id").all()[0].id,
+                "term_id": term["id"],
+            },
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"language": {"code": "cs"}, "source": "test", "target": "test2"},
+        )
+        self.assertEqual(response.data["target"], "test2")
+
+    def test_patch_terms(self):
+        term = self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={"language": {"code": "cs"}, "source": "test", "target": "test"},
+        ).data
+        response = self.do_request(
+            "api:glossary-terms-details",
+            kwargs={
+                "id": Glossary.objects.order_by("id").all()[0].id,
+                "term_id": term["id"],
+            },
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"target": "test2"},
+        )
+        self.assertEqual(response.data["target"], "test2")
+
+    def test_delete_terms(self):
+        term = self.do_request(
+            "api:glossary-terms",
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={"language": {"code": "cs"}, "source": "test", "target": "test"},
+        ).data
+        self.do_request(
+            "api:glossary-terms-details",
+            kwargs={
+                "id": Glossary.objects.order_by("id").all()[0].id,
+                "term_id": term["id"],
+            },
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Glossary.objects.order_by("id").all()[0].term_set.count(), 0)
 
 
 class ComponentAPITest(APIBaseTest):

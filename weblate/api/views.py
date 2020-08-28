@@ -50,6 +50,7 @@ from weblate.api.serializers import (
     ComponentListSerializer,
     ComponentSerializer,
     FullUserSerializer,
+    GlossarySerializer,
     GroupSerializer,
     LanguageSerializer,
     LockRequestSerializer,
@@ -62,6 +63,7 @@ from weblate.api.serializers import (
     ScreenshotFileSerializer,
     ScreenshotSerializer,
     StatisticsSerializer,
+    TermSerializer,
     TranslationSerializer,
     UnitSerializer,
     UploadRequestSerializer,
@@ -70,6 +72,7 @@ from weblate.api.serializers import (
 from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
 from weblate.formats.models import EXPORTERS
+from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import AutoForm
@@ -710,6 +713,142 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
             self.permission_denied(request, "Can not delete project")
         project_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
+    """Translation projects API."""
+
+    queryset = Glossary.objects.none()
+    serializer_class = GlossarySerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        return (
+            Glossary.objects.filter_access(self.request.user)
+            .prefetch_related("source_language")
+            .order_by("id")
+        )
+
+    def perm_check(self, request):
+        obj = self.get_object()
+        if (
+            not request.user.has_perm("glossary.edit")
+            or obj.project_id not in request.user.allowed_project_ids
+            or not request.user.has_perm("project.edit")
+        ):
+            self.permission_denied(request, message="Can not manage glossary")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().destroy(request, *args, **kwargs)
+
+    @action(detail=True, methods=["get", "post"])
+    def projects(self, request, **kwargs):
+        obj = self.get_object()
+        if request.method == "POST":
+            self.perm_check(request)
+            if "project_slug" not in request.data:
+                raise ParseError("Missing 'project_slug' parameter")
+
+            project_slug = request.data["project_slug"]
+
+            try:
+                project = Project.objects.get(slug=project_slug)
+            except Project.DoesNotExist:
+                raise Http404("No project slug '%s' found!" % project_slug)
+
+            obj.links.add(project)
+            serializer = self.serializer_class(obj, context={"request": request})
+
+            return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
+
+        queryset = obj.links.order_by("id")
+        page = self.paginate_queryset(queryset)
+
+        serializer = ProjectSerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(
+        detail=True, methods=["delete"], url_path="projects/(?P<project_slug>[^/.]+)"
+    )
+    def delete_projects(self, request, id, project_slug):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        try:
+            project = Project.objects.get(slug=project_slug)
+        except (Project.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=HTTP_400_BAD_REQUEST,
+            )
+        obj.links.remove(project)
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=["get", "post"], serializer_class=TermSerializer)
+    def terms(self, request, **kwargs):
+        obj = self.get_object()
+        if request.method == "POST":
+            if not request.user.has_perm("glossary.add"):
+                self.permission_denied(request, message="Can not create terms")
+            with transaction.atomic():
+                serializer = TermSerializer(
+                    data=request.data, context={"request": request}
+                )
+                serializer.is_valid(raise_exception=True)
+                serializer.save(glossary=obj, user=request.user)
+                return Response(serializer.data, status=HTTP_201_CREATED)
+
+        queryset = obj.term_set.order_by("id")
+        page = self.paginate_queryset(queryset)
+
+        serializer = TermSerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=["get", "put", "patch", "delete"],
+        url_path="terms/(?P<term_id>[^/.]+)",
+        serializer_class=TermSerializer,
+    )
+    def terms_details(self, request, id, term_id):
+        obj = self.get_object()
+
+        try:
+            term = obj.term_set.get(id=term_id)
+        except (Term.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=HTTP_400_BAD_REQUEST,
+            )
+
+        if request.method == "DELETE":
+            if not request.user.has_perm("glossary.delete"):
+                self.permission_denied(request, message="Can not delete glossary terms")
+            term.delete()
+            return Response(status=HTTP_204_NO_CONTENT)
+
+        if request.method == "GET":
+            serializer = TermSerializer(term, context={"request": request})
+        else:
+            if not request.user.has_perm("glossary.edit"):
+                self.permission_denied(request, message="Can not manage glossary terms")
+            serializer = TermSerializer(
+                term,
+                data=request.data,
+                context={"request": request},
+                partial=request.method == "PATCH",
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+        return Response(serializer.data, status=HTTP_200_OK)
 
 
 class ComponentViewSet(

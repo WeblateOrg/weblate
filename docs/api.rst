@@ -2063,6 +2063,207 @@ Component lists
     :param component_slug: Component slug
     :type component_slug: string
 
+Glossary
++++++++++
+
+.. http:get:: /api/glossary/
+
+    Returns a list of all glossaries which are associated with a project that user has access to.
+
+    .. seealso::
+
+        Language object attributes are documented at :http:get:`/api/languages/(string:language)/`.
+
+.. http:get:: /api/glossary/(int:id)/
+
+    Returns information about a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :>json string name: Language code
+    :>json string color: Text direction
+    :>json object source_language: Object of language plural information
+    :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "name": "Hello",
+            "id": 1,
+            "color": "silver",
+            "source_language": {
+                "code": "en",
+                "name": "English",
+                "plural": {
+                    "id": 75,
+                    "source": 0,
+                    "number": 2,
+                    "formula": "n != 1",
+                    "type": 1
+                },
+                "aliases": [
+                    "english",
+                    "en_en",
+                    "base",
+                    "source",
+                    "eng"
+                ],
+                "direction": "ltr",
+                "web_url": "http://example.com/languages/en/",
+                "url": "http://example.com/api/languages/en/",
+                "statistics_url": "http://example.com/api/languages/en/statistics/"
+            },
+            "project": {
+                "name": "Hello",
+                "slug": "hello",
+                "id": 1,
+                "source_language": {
+                    "code": "en",
+                    "name": "English",
+                    "plural": {
+                        "id": 75,
+                        "source": 0,
+                        "number": 2,
+                        "formula": "n != 1",
+                        "type": 1
+                    },
+                    "aliases": [
+                        "english",
+                        "en_en",
+                        "base",
+                        "source",
+                        "eng"
+                    ],
+                    "direction": "ltr",
+                    "web_url": "http://example.com/languages/en/",
+                    "url": "http://example.com/api/languages/en/",
+                    "statistics_url": "http://example.com/api/languages/en/statistics/"
+                },
+                "web_url": "http://example.com/projects/demo1/",
+                "url": "http://example.com/api/projects/demo1/",
+                "components_list_url": "http://example.com/api/projects/demo1/components/",
+                "repository_url": "http://example.com/api/projects/demo1/repository/",
+                "statistics_url": "http://example.com/api/projects/demo1/statistics/",
+                "changes_list_url": "http://example.com/api/projects/demo1/changes/",
+                "languages_url": "http://example.com/api/projects/demo1/languages/"
+            },
+            "projects_url": "http://example.com/api/glossary/7/projects/",
+            "terms_url": "http://example.com/api/glossary/7/terms/",
+            "url": "http://example.com/api/glossary/7/"
+        }
+
+.. http:put:: /api/glossary/(int:id)/
+
+    Changes the glossary parameters.
+
+    :param id: Glossary id
+    :type id: int
+    :<json string name: Language name
+    :<json string color: Language direction
+    :<json object source_language: Language plural details
+
+.. http:patch:: /api/glossary/(int:id)/
+
+    Changes the glossary parameters.
+
+    :param id: Glossary id
+    :type id: int
+    :<json string name: Language name
+    :<json string color: Language direction
+    :<json object source_language: Language plural details
+
+.. http:delete:: /api/glossary/(int:id)/
+
+    Deletes the Glossary.
+
+    :param id: Glossary id
+    :type id: int
+
+.. http:get:: /api/glossary/(int:id)/projects/
+
+    Returns projects linked with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :>json array projects: associated projects; see :http:get:`/api/projects/(string:project)/`
+
+.. http:post:: /api/glossary/(int:id)/projects/
+
+    Associate project with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :form string project_slug: Project slug
+
+.. http:delete:: /api/glossary/(int:id)/projects/
+
+    Remove asoociate of a project with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :form string project_slug: Project slug
+
+.. http:get:: /api/glossary/(int:id)/terms/
+
+    List terms of a glossary.
+
+    :param id: Glossary id
+    :type id: int
+
+.. http:post:: /api/glossary/(int:id)/terms/
+
+    Associate terms with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :<json object language: Language of the term
+    :<json string source: Source string for the term
+    :<json string target: Target string for the term
+
+.. http:get:: /api/glossary/(int:id)/terms/(int:term_id)/
+
+    Get a term associated with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :param term_id: ID of term
+    :type term_id: int
+
+.. http:put:: /api/glossary/(int:id)/terms/(int:term_id)/
+
+    Edit a term associated with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :param term_id: ID of term
+    :type term_id: int
+    :<json object language: Language of the term
+    :<json string source: Source string for the term
+    :<json string target: Target string for the term
+
+.. http:patch:: /api/glossary/(int:id)/terms/(int:term_id)/
+
+    Edit a term associated with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :param term_id: ID of term
+    :type term_id: int
+    :<json object language: Language of the term
+    :<json string source: Source string for the term
+    :<json string target: Target string for the term
+
+.. http:delete:: /api/glossary/(int:id)/terms/(int:term_id)/
+
+    Delete a term associated with a glossary.
+
+    :param id: Glossary id
+    :type id: int
+    :param term_id: ID of term
+    :type term_id: int
+
 .. _hooks:
 
 Notification hooks

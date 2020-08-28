@@ -23,6 +23,7 @@ from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
@@ -177,10 +178,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class FullUserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
-        view_name="api:group-detail",
-        lookup_field="id",
-        many=True,
-        read_only=True,
+        view_name="api:group-detail", lookup_field="id", many=True, read_only=True
     )
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
@@ -500,6 +498,86 @@ class NotificationSerializer(serializers.ModelSerializer):
             "project",
             "component",
         )
+
+
+class TermSerializer(serializers.ModelSerializer):
+    language = LanguageSerializer(required=False)
+
+    class Meta:
+        model = Term
+        fields = (
+            "language",
+            "id",
+            "source",
+            "target",
+        )
+
+    def create(self, validated_data):
+        language_validated = validated_data.get("language")
+        if language_validated:
+            validated_data["language"] = Language.objects.get(
+                code=language_validated.get("code")
+            )
+        term = Term.objects.create(**validated_data)
+        return term
+
+    def update(self, instance, validated_data):
+        language_validated = validated_data.get("language", None)
+        if language_validated:
+            instance.language = Language.objects.get(
+                code=language_validated.get("code")
+            )
+        instance.source = validated_data.get("source", instance.source)
+        instance.target = validated_data.get("target", instance.target)
+        instance.save()
+        return instance
+
+
+class GlossarySerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+    source_language = LanguageSerializer(required=False)
+    projects_url = serializers.HyperlinkedIdentityField(
+        view_name="api:glossary-projects", lookup_field="id"
+    )
+    terms_url = serializers.HyperlinkedIdentityField(
+        view_name="api:glossary-terms", lookup_field="id"
+    )
+
+    class Meta:
+        model = Glossary
+        fields = (
+            "name",
+            "id",
+            "color",
+            "source_language",
+            "project",
+            "projects_url",
+            "terms_url",
+            "url",
+        )
+        extra_kwargs = {
+            "url": {"view_name": "api:glossary-detail", "lookup_field": "id"}
+        }
+
+    def create(self, validated_data):
+        source_language_validated = validated_data.get("source_language")
+        if source_language_validated:
+            validated_data["source_language"] = Language.objects.get(
+                code=source_language_validated.get("code")
+            )
+        glossary = Glossary.objects.create(**validated_data)
+        return glossary
+
+    def update(self, instance, validated_data):
+        source_language_validated = validated_data.get("source_language", None)
+        if source_language_validated:
+            instance.source_language = Language.objects.get(
+                code=source_language_validated.get("code")
+            )
+        instance.name = validated_data.get("name", instance.name)
+        instance.color = validated_data.get("color", instance.color)
+        instance.save()
+        return instance
 
 
 class TranslationSerializer(RemovableSerializer):
