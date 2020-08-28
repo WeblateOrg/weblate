@@ -19,7 +19,7 @@ permissions, and groups assign them to users and translations, see
 After installation a default set of groups is created, and you can use those
 to assign users roles for the whole instance (see :ref:`default-groups`). Additionally when
 :ref:`acl` is turned on, you can assign users to specific translation projects.
-More fine-grained configuration can be achieved using :ref:`custom-acl`
+More fine-grained configuration can be achieved using :ref:`custom-acl`.
 
 Common setups
 -----------------

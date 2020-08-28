@@ -238,7 +238,7 @@ Weblate can limit length of translation in several ways to ensure the
 translated string is not too long:
 
 * The default limitation for translation is ten times longer than source
-  string. This can be turned of by
+  string. This can be turned off by
   :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting
   this, it might be also caused by monolingual translation being configured as
   bilingual, making Weblate see translation key as source string instead of the
