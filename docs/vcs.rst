@@ -67,7 +67,7 @@ Weblate SSH key
 
 The Weblate public key is visible to all users browsing the :guilabel:`About` page.
 
-Admins can generate or display the public key currently used by Weblate in the
+Admins can generate or display the public key currently used by Weblate in the connection
 (from :guilabel:`SSH keys`) on the admin interface landing page.
 
 .. note::
@@ -158,7 +158,7 @@ For example the GitHub URL with authentication added might look like:
 
 .. note::
 
-    If you username or password contains special characters, those have to be
+    If your username or password contains special characters, those have to be
     URL encoded, for example
     ``https://user%40example.com:%24password%23@bitbucket.org/…``.
 
@@ -319,7 +319,7 @@ This just adds a thin layer atop :ref:`vcs-git` using the `lab`_ tool to allow
 pushing translation changes as merge requests instead of
 pushing directly to the repository.
 
-There is no need to use this access Git repositories, ordinary :ref:`vcs-git`
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
 works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-gitlab` creates merge request.
@@ -383,7 +383,7 @@ Gerrit
 
 Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
 pushing translation changes as Gerrit review requests, instead of
-pushing a directory to the repository.
+pushing them directly to the repository.
 
 The Gerrit documentation has the details on the configuration necessary to set up
 such repositories.
@@ -425,7 +425,7 @@ users to maintain a full clone of the internal repository and commit locally.
 
     Weblate tries to detect Subversion repository layout automatically - it
     supports both direct URLs for branch or repositories with standard layout
-    (branches/, tags/ and trunk/). More info about this is to be foud in the
+    (branches/, tags/ and trunk/). More info about this is to be found in the
     `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
     If your repository does not have a standard layout and you encounter errors,
     try including the branch name in the repository URL and leaving branch empty.
