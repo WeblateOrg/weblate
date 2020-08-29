@@ -46,7 +46,7 @@ cryptographic function):
 `OpenSSL <https://www.openssl.org/>`_
    Used by Python and cURL
 
-The strength of encryption keys depend on the configuration of Weblate and
+The strength of encryption keys depends on the configuration of Weblate and
 the third party components it interacts with, but in any decent setup it will
 include all export restricted cryptographic functions:
 

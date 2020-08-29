@@ -480,4 +480,4 @@ are really different languages instead previously wrongly used modifiers (for
 
 Weblate still understands legacy language codes and will map them to
 current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
-``zh@CN`` as ``sr_Hans``.
+``zh@CN`` as ``zh_Hans``.
