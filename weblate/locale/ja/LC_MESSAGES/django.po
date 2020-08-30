@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-19 08:59+0000\n"
-"PO-Revision-Date: 2020-08-06 12:59+0000\n"
+"PO-Revision-Date: 2020-08-30 10:08+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -1005,7 +1005,7 @@ msgstr ""
 
 #: weblate/addons/flags.py:75
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "未変更の翻訳に \"要編集\" フラグを付ける"
+msgstr "未翻訳の翻訳に \"要編集\" フラグを付ける"
 
 #: weblate/addons/flags.py:77
 msgid ""
@@ -1252,10 +1252,8 @@ msgid "Translation threshold"
 msgstr "翻訳のしきい値"
 
 #: weblate/addons/forms.py:398
-#, fuzzy
-#| msgid "Threshold for included translations."
 msgid "Threshold for inclusion of translations."
-msgstr "翻訳のしきい値。"
+msgstr "翻訳達成のしきい値。"
 
 #: weblate/addons/forms.py:401
 msgid "CSS selector"
@@ -1591,7 +1589,7 @@ msgstr "新しい文字列の追加"
 #. Translators: Permission name
 #: weblate/auth/data.py:92
 msgid "Ignore failing check"
-msgstr "整合性の無視"
+msgstr "整合性不合格の無視"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:94
@@ -2057,10 +2055,8 @@ msgid "Changes in last month"
 msgstr "先月の変更"
 
 #: weblate/billing/models.py:223
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of changes"
-msgstr "言語の数"
+msgstr "更新回数"
 
 #: weblate/billing/models.py:241 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
@@ -2607,7 +2603,7 @@ msgstr "Ruby 書式の文字列が原文と一致しません"
 
 #: weblate/checks/same.py:165
 msgid "Unchanged translation"
-msgstr "未変更の翻訳"
+msgstr "未翻訳の翻訳"
 
 #: weblate/checks/same.py:166
 msgid "Source and translation are identical"
@@ -7311,10 +7307,8 @@ msgstr ""
 "メンテナンスのため一時的に翻訳を停止していますので、後ほどお越しください。"
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "この翻訳は現在、更新ができないようにロックされています。"
+msgstr "翻訳は、次の警告により自動的にロックされました:"
 
 #: weblate/templates/snippets/component/state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7745,16 +7739,10 @@ msgid "Error"
 msgstr "エラー"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has exceeded its limits. You can still use the service, "
-#| "but are recommended to upgrade it."
 msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
-msgstr ""
-"ご利用の課金プランは期限切れの状態になっています。サービスはご利用いただけま"
-"すが、更新を行うことを推奨します。"
+msgstr "ご利用の課金プランは期限切れの状態になっています。サービスはご利用いただけますが、更新を行うことを推奨します。"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
@@ -8450,10 +8438,9 @@ msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s、%(position)s 番目の文字列"
 
 #: weblate/templates/translate.html:631
-#, fuzzy, python-format
-#| msgid "%(filename)s, string %(position)s"
+#, python-format
 msgid "string %(position)s"
-msgstr "%(filename)s、%(position)s 番目の文字列"
+msgstr "%(position)s 番目の文字列"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
@@ -8513,10 +8500,8 @@ msgid "Other components"
 msgstr "その他のコンポーネント"
 
 #: weblate/templates/translation.html:189
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all components"
-msgstr "コンポーネントの変更をすべて表示"
+msgstr "すべてのコンポーネントの表示"
 
 #: weblate/templates/translation.html:198
 msgid "Translation Information"
@@ -10390,14 +10375,10 @@ msgid "Language aliases"
 msgstr "言語の別名"
 
 #: weblate/trans/models/project.py:168
-#, fuzzy
-#| msgid ""
-#| "Comma separated list of language code mappings, for example: en_GB:en,"
-#| "en_US:en"
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
-msgstr "カンマで区切られた言語コード対応一覧、例: en_GB:en, en_US:en"
+msgstr "カンマで区切られた言語コード対応表、例: en_GB:en, en_US:en"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
