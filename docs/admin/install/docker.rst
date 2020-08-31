@@ -514,6 +514,14 @@ Generic settings
 
     Configures the default value for :ref:`component-allow_translation_propagation` for new components, see :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
 
+.. envvar:: WEBLATE_DEFAULT_COMMITER_EMAIL
+
+    Configures :setting:`DEFAULT_COMMITER_EMAIL`.
+
+.. envvar:: WEBLATE_DEFAULT_COMMITER_NAME
+
+    Configures :setting:`DEFAULT_COMMITER_NAME`.
+
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.
