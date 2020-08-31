@@ -223,7 +223,10 @@ turned on through the project page. The interface allows you to:
 * Invite new users to the project
 * Change permissions of the users
 * Revoke access to the users
-* Resend user email invitations, invalidating the any previously sent invitation
+
+.. versionadded:: 3.11
+
+* Resend user email invitations, invalidating any previously sent invitation
 
 The user management is available in the :guilabel:`Manage` menu of a project:
 
