@@ -469,8 +469,8 @@ Translation file format, see also :ref:`formats`.
 
 .. _component-report_source_bugs:
 
-Source string bug report address
-++++++++++++++++++++++++++++++++
+Source string bug reporting address
++++++++++++++++++++++++++++++++++++
 
 Email address used for reporting upstream bugs. This address will also receive
 notification about any source string comments made in Weblate.
