@@ -25,7 +25,7 @@ def migrate_json_units(apps, schema_editor):
             newid = calculate_hash(unit.source, unit.context)
         if newid != unit.id_hash:
             unit.id_hash = newid
-            unit.save(update_fields=["id_hash"],)
+            unit.save(update_fields=["id_hash"])
 
 
 class Migration(migrations.Migration):
