@@ -147,7 +147,7 @@ Pango and Cairo
 Weblate uses Pango and Cairo for rendering bitmap widgets (see
 :ref:`promotion`) and rendering checks (see :ref:`fonts`). To properly install
 Python bindings for those you need to install system libraries first - you need
-both Cairo and Pango, which in turn need Glib. All those should be installed
+both Cairo and Pango, which in turn need GLib. All those should be installed
 with development files and GObject introspection data.
 
 .. _verify:
@@ -169,7 +169,7 @@ This way you can be sure that you are using the same code that was released.
 You should also verify the date of the signature to make sure that you
 downloaded the latest version.
 
-Each archive is accompanied with ``.asc`` files which contains the PGP signature
+Each archive is accompanied with ``.asc`` files which contain the PGP signature
 for it. Once you have both of them in the same folder, you can verify the signature:
 
 .. code-block:: console
@@ -180,10 +180,10 @@ for it. Once you have both of them in the same folder, you can verify the signat
    gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
    gpg: Can't check signature: public key not found
 
-As you can see gpg complains that it does not know the public key. At this
+As you can see GPG complains that it does not know the public key. At this
 point you should do one of the following steps:
 
-* Use wkd to download the key:
+* Use `wkd` to download the key:
 
 .. code-block:: console
 

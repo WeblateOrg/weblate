@@ -52,7 +52,7 @@ source.
 * Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance
 * Execute :djadmin:`updategit` (with selection of project or `--all` to update all)
 
-Whenever Weblate updates the repository, the post update addons will be
+Whenever Weblate updates the repository, the post-update addons will be
 triggered, see :ref:`addons`.
 
 .. _avoid-merge-conflicts:
