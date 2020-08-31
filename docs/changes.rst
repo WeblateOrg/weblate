@@ -3,6 +3,8 @@ Weblate 4.2.2
 
 Not yet released.
 
+* Fixed matching of source strings for JSON formats.
+
 Weblate 4.2.1
 -------------
 
