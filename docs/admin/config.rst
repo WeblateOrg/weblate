@@ -1104,7 +1104,7 @@ Client key for the Microsoft Cognitive Services Translator API.
 MT_MICROSOFT_REGION
 -------------------
 
-Region prefix as defined in `"Multi service subscription" <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
+Region prefix as defined in the `"Authenticating with a Multi-service resource" <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_ section.
 
 .. setting:: MT_MICROSOFT_ENDPOINT_URL
 

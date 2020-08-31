@@ -20,7 +20,7 @@ This can be done using :guilabel:`Start new translation` in :ref:`component`.
     Project admins can always start translation within Weblate directly.
 
 Language files added manually to the VCS are added to the component when Weblate updates
-the repository. About repository update settings, see :ref:`update-vcs`).
+the repository. About repository update settings, see :ref:`update-vcs`.
 
 .. _variants:
 
