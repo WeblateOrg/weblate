@@ -6,6 +6,7 @@ Not yet released.
 * Fixed matching of source strings for JSON formats.
 * Fixed login redirect for some authentication configurations.
 * Fixed LDAP authentication with group sync.
+* Fixed crash in reporting automatic translation progress.
 
 Weblate 4.2.1
 -------------
