@@ -1423,7 +1423,7 @@ LICENSES = (
         False,
     ),
     ("MIT", "MIT License", "https://opensource.org/licenses/MIT", True),
-    ("MIT-0", "MIT No Attribution", "https://github.com/aws/mit-0", False),
+    ("MIT-0", "MIT No Attribution", "https://github.com/aws/mit-0", True),
     ("Motosoto", "Motosoto License", "https://opensource.org/licenses/Motosoto", True),
     (
         "MPL-1.0",
