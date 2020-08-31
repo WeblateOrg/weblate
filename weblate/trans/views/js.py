@@ -238,7 +238,7 @@ def git_status_translation(request, project, component, lang):
 
 @login_required
 def task_progress(request, task_id):
-    task = AsyncResult(task_id)
+    task = AsyncResult(str(task_id))
     result = task.result
     return JsonResponse(
         {
