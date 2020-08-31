@@ -69,7 +69,7 @@ class RegistrationTestMixin:
                 continue
             if live_url and line.startswith(live_url):
                 return line + "&confirm=1"
-            if line.startswith("http://example.com"):
+            if line.startswith("http://example.com/"):
                 return line[18:] + "&confirm=1"
 
         self.fail("Confirmation URL not found")
