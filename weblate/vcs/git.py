@@ -288,8 +288,8 @@ class GitRepository(Repository):
             # Disable fetching tags
             ('remote "origin"', "tagOpt", "--no-tags"),
             # Set branch to track
-            ('branch "{0}"'.format(branch), "remote", "origin"),
-            ('branch "{0}"'.format(branch), "merge", "refs/heads/{0}".format(branch)),
+            (f'branch "{branch}"', "remote", "origin"),
+            (f'branch "{branch}"', "merge", f"refs/heads/{branch}"),
         )
         self.branch = branch
 
