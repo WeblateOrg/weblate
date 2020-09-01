@@ -55,7 +55,7 @@ Synopsis
 
 .. code-block:: text
 
-    wlc [parameter] <command> [options]
+    wlc [arguments] <command> [options]
 
 Commands actually indicate which operation should be performed.
 
@@ -66,10 +66,11 @@ Weblate Client is a Python library and command-line utility to manage Weblate re
 using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and is
 built-in on :mod:`wlc`.
 
-Parameters
-----------
+Arguments
+---------
 
-The program accepts the following options for a whole instance, which must be entered before any subcommand.
+The program accepts the following arguments which define output format or which
+Weblate instance to use. These must be entered before any command.
 
 .. option:: --format {csv,json,text,html}
 
@@ -226,6 +227,11 @@ The following commands are available:
     .. option:: --input
 
         File from which content is read, if left unspecified it is read from stdin.
+
+.. hint::
+
+   You can get more detailed information on invoking individual commands by
+   passing ``--help``, for example: ``wlc ls --help``.
 
 .. _wlc-config:
 
