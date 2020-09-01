@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-09-01 05:08+0000\n"
+"PO-Revision-Date: 2020-09-01 18:40+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -3084,24 +3084,33 @@ msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"Также в дополнение к стандартным вы можете реализовать своё собственное "
+"автоматическое исправление и включить его в список :setting:`AUTOFIX_LIST`."
 
 #: ../../admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage;  be careful "
 "when writing one."
 msgstr ""
+"Автоматические исправления — это очень мощный инструмент, но они могут "
+"повредить перевод; будьте осторожны при их написании."
 
 #: ../../admin/checks.rst:15
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
+"Например, следующее автоматическое исправление заменит каждое появление "
+"строки ``foo`` в переводе на строку ``bar``:"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Для установки пользовательских проверок необходимо в списке "
+":setting:`AUTOFIX_LIST` указать полный путь к Python’ьему классу, смотрите "
+"раздел :ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior"
@@ -3114,6 +3123,11 @@ msgid ""
 "`component` (:ref:`component-check_flags`). Some file formats also allow to "
 "specify flags directly in the format (see :ref:`formats`)."
 msgstr ""
+"Вы можете тонко настроить поведение Weblate’а (в основном проверки) для "
+"каждой исходной строки (в рецензировании исходных строк, смотрите раздел "
+":ref:`additional`) или в :ref:`конфигурации компонента <component>` (:ref"
+":`component-check_flags`). Некоторые форматы файлов также позволяют "
+"указывать флаги непосредственно в формате (смотрите раздел :ref:`formats`)."
 
 #: ../../admin/checks.rst:34
 msgid ""
@@ -3121,6 +3135,9 @@ msgid ""
 "can use quotes to include whitespace or special chars in the string. For "
 "example:"
 msgstr ""
+"Флаги разделяются запятыми, параметры флагов разделяются двоеточием. Для "
+"включения в строку пробела или специальных символов вы можете использовать "
+"кавычки. Например:"
 
 #: ../../admin/checks.rst:41
 msgid "Here is a list of flags currently accepted:"
@@ -3133,6 +3150,8 @@ msgstr "``rst-text``"
 #: ../../admin/checks.rst:44
 msgid "Treat a text as an RST document, affects :ref:`check-same`."
 msgstr ""
+"Рассматривать текст как документ reStructuredText, влияет на проверку :ref"
+":`check-same`."
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
@@ -3140,7 +3159,7 @@ msgstr "``md-text``"
 
 #: ../../admin/checks.rst:46
 msgid "Treat text as a Markdown document."
-msgstr ""
+msgstr "Рассматривать текст как документ Markdown."
 
 #: ../../admin/checks.rst:47
 msgid "``dos-eol``"
@@ -3151,6 +3170,10 @@ msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
 "\\n``)."
 msgstr ""
+"Использовать маркеры конца строки DOS вместо маркеров Unix (комбинацию "
+"символов ``\\r\\n"
+"`` вместо символа ``\\n"
+"``)."
 
 #: ../../admin/checks.rst:49
 msgid "``url``"
@@ -3158,7 +3181,7 @@ msgstr "``url``"
 
 #: ../../admin/checks.rst:50
 msgid "The string should consist of only a URL."
-msgstr ""
+msgstr "Строка должна состоять только из URL-адреса."
 
 #: ../../admin/checks.rst:51
 msgid "``safe-html``"
@@ -3167,6 +3190,8 @@ msgstr "``safe-html``"
 #: ../../admin/checks.rst:52
 msgid "The string should be HTML safe, see :ref:`check-safe-html`."
 msgstr ""
+"Строка должна быть безопасной для HTML, смотрите проверку :ref:`check-safe-"
+"html`."
 
 #: ../../admin/checks.rst:53
 msgid "``read-only``"
@@ -3177,6 +3202,8 @@ msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
+"Строка доступна только для чтения и не должна редактироваться в Weblate, "
+"смотрите проверку :ref:`read-only-strings`."
 
 #: ../../admin/checks.rst:57
 msgid "``priority:N``"
@@ -3188,6 +3215,9 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"Приоритет строки. Строки с более высоким приоритетом предлагаются на перевод "
+"первыми. По умолчанию приоритет равен 100, чем выше приоритет строки, тем "
+"раньше она будет предложена для перевода."
 
 #: ../../admin/checks.rst:59
 msgid "``max-length:N``"
@@ -3198,6 +3228,8 @@ msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`"
 msgstr ""
+"Ограничивает максимальную длину строки N символами, смотрите проверку :ref"
+":`check-max-length`"
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -3208,6 +3240,8 @@ msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"Рассматривать текст как документ XML, влияет на проверки :ref:`check-xml-"
+"invalid` и :ref:`check-xml-tags`."
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
@@ -3216,6 +3250,8 @@ msgstr "``font-family:NAME``"
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Определяет семейство шрифтов для проверок отрисовки текста, смотрите раздел "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
@@ -3224,6 +3260,8 @@ msgstr "``font-weight:WEIGHT``"
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Определяет вес шрифта (свойство ``font-weight``) для проверок отрисовки "
+"текста, смотрите раздел :ref:`fonts`."
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
@@ -3232,6 +3270,8 @@ msgstr "``font-size:SIZE``"
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Определяет размер шрифта (свойство ``font-size``) для проверок отрисовки "
+"текста, смотрите раздел :ref:`fonts`."
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
@@ -3240,6 +3280,8 @@ msgstr "``font-spacing:SPACING``"
 #: ../../admin/checks.rst:70
 msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Определяет разрядку шрифта (свойство ``font-spacing``) для проверок "
+"отрисовки текста, смотрите раздел :ref:`fonts`."
 
 #: ../../admin/checks.rst:71
 msgid "``placeholders:NAME``"
@@ -3249,6 +3291,8 @@ msgstr "``placeholders:NAME``"
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
+"Ожидаемые в переводе строки-заполнители, смотрите проверку :ref:`check-"
+"placeholders`."
 
 #: ../../admin/checks.rst:76
 msgid "``replacements:FROM:TO:FROM2:TO2...```"
@@ -3261,6 +3305,11 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "names, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Замены, выполняемые при проверке параметров результирующего текста ("
+"например, в проверках :ref:`check-max-size` или :ref:`check-max-length`). "
+"Типичным их случаем использования является расширение заполнителей для "
+"обеспечения того, чтобы текст вписывался в отведённые ему границы даже при "
+"использовании длинных имён, например: ``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:78
 msgid "``regex:REGEX``"
@@ -3292,6 +3341,12 @@ msgid ""
 "format`, :ref:`check-javascript-format`, :ref:`check-c-sharp-format`, :ref:"
 "`check-java-format`, :ref:`check-java-messageformat`, :ref:`check-same`."
 msgstr ""
+"Рассматривает все строки как строки формата, влияет на проверки :ref:`check-"
+"python-format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-"
+"qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref"
+":`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-c"
+"-sharp-format`, :ref:`check-java-format`, :ref:`check-java-messageformat` и "
+":ref:`check-same`."
 
 #: ../../admin/checks.rst:87
 msgid "``strict-same``"
@@ -3302,6 +3357,8 @@ msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
 msgstr ""
+"Отключает использование проверкой «Перевод без изменения» встроенного "
+"чёрного списка слов, смотрите проверку :ref:`check-same`."
 
 #: ../../admin/checks.rst:89
 msgid "``ignore-bbcode``"
@@ -3309,7 +3366,7 @@ msgstr "``ignore-bbcode``"
 
 #: ../../admin/checks.rst:90
 msgid "Skip the \"BBcode markup\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «BBcode-разметка»."
 
 #: ../../admin/checks.rst:91
 msgid "``ignore-duplicate``"
@@ -3341,7 +3398,7 @@ msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:98
 msgid "Skip the \"C format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «C-формат»."
 
 #: ../../admin/checks.rst:99
 msgid "``ignore-c-sharp-format``"
@@ -3349,7 +3406,7 @@ msgstr "``ignore-c-sharp-format``"
 
 #: ../../admin/checks.rst:100
 msgid "Skip the \"C# format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «C#-формат»."
 
 #: ../../admin/checks.rst:101
 msgid "``ignore-es-format``"
@@ -3365,7 +3422,7 @@ msgstr "``ignore-i18next-interpolation``"
 
 #: ../../admin/checks.rst:104
 msgid "Skip the \"i18next interpolation\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Интерполяция i18next»."
 
 #: ../../admin/checks.rst:105
 msgid "``ignore-java-format``"
@@ -3373,7 +3430,7 @@ msgstr "``ignore-java-format``"
 
 #: ../../admin/checks.rst:106
 msgid "Skip the \"Java format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Java-формат»."
 
 #: ../../admin/checks.rst:107
 msgid "``ignore-java-messageformat``"
@@ -3381,7 +3438,7 @@ msgstr "``ignore-java-messageformat``"
 
 #: ../../admin/checks.rst:108
 msgid "Skip the \"Java MessageFormat\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Java MessageFormat»."
 
 #: ../../admin/checks.rst:109
 msgid "``ignore-javascript-format``"
@@ -3389,7 +3446,7 @@ msgstr "``ignore-javascript-format``"
 
 #: ../../admin/checks.rst:110
 msgid "Skip the \"JavaScript format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «JavaScript-формат»."
 
 #: ../../admin/checks.rst:111
 msgid "``ignore-percent-placeholders``"
@@ -3398,6 +3455,7 @@ msgstr "``ignore-percent-placeholders``"
 #: ../../admin/checks.rst:112
 msgid "Skip the \"Percent placeholders\" quality check."
 msgstr ""
+"Пропускает проверку качества «Символы-заполнители в процентной нотации»."
 
 #: ../../admin/checks.rst:113
 msgid "``ignore-perl-format``"
@@ -3405,7 +3463,7 @@ msgstr "``ignore-perl-format``"
 
 #: ../../admin/checks.rst:114
 msgid "Skip the \"Perl format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Perl-формат»."
 
 #: ../../admin/checks.rst:115
 msgid "``ignore-php-format``"
@@ -3413,7 +3471,7 @@ msgstr "``ignore-php-format``"
 
 #: ../../admin/checks.rst:116
 msgid "Skip the \"PHP format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «PHP-формат»."
 
 #: ../../admin/checks.rst:117
 msgid "``ignore-python-brace-format``"
@@ -3421,7 +3479,7 @@ msgstr "``ignore-python-brace-format``"
 
 #: ../../admin/checks.rst:118
 msgid "Skip the \"Python brace format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Python-формат: фигурные скобки»."
 
 #: ../../admin/checks.rst:119
 msgid "``ignore-python-format``"
@@ -3429,7 +3487,7 @@ msgstr "``ignore-python-format``"
 
 #: ../../admin/checks.rst:120
 msgid "Skip the \"Python format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Python-формат»."
 
 #: ../../admin/checks.rst:121
 msgid "``ignore-qt-format``"
@@ -3437,7 +3495,7 @@ msgstr "``ignore-qt-format``"
 
 #: ../../admin/checks.rst:122
 msgid "Skip the \"Qt format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Qt-формат»."
 
 #: ../../admin/checks.rst:123
 msgid "``ignore-qt-plural-format``"
@@ -3445,7 +3503,7 @@ msgstr "``ignore-qt-plural-format``"
 
 #: ../../admin/checks.rst:124
 msgid "Skip the \"Qt plural format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Формат множественного числа Qt»."
 
 #: ../../admin/checks.rst:125
 msgid "``ignore-ruby-format``"
@@ -3453,7 +3511,7 @@ msgstr "``ignore-ruby-format``"
 
 #: ../../admin/checks.rst:126
 msgid "Skip the \"Ruby format\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Ruby-формат»."
 
 #: ../../admin/checks.rst:127
 msgid "``ignore-translated``"
@@ -3581,7 +3639,7 @@ msgstr "``ignore-newline-count``"
 
 #: ../../admin/checks.rst:158
 msgid "Skip the \"Mismatching line breaks\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Несовпадающие переводы строк»."
 
 #: ../../admin/checks.rst:159
 msgid "``ignore-plurals``"
@@ -3597,7 +3655,7 @@ msgstr "``ignore-placeholders``"
 
 #: ../../admin/checks.rst:162
 msgid "Skip the \"Placeholders\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Символы-заполнители»."
 
 #: ../../admin/checks.rst:163
 msgid "``ignore-punctuation-spacing``"
@@ -3605,7 +3663,7 @@ msgstr "``ignore-punctuation-spacing``"
 
 #: ../../admin/checks.rst:164
 msgid "Skip the \"Punctuation spacing\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Пробелы и пунктуация»."
 
 #: ../../admin/checks.rst:165
 msgid "``ignore-regex``"
@@ -3613,7 +3671,7 @@ msgstr "``ignore-regex``"
 
 #: ../../admin/checks.rst:166
 msgid "Skip the \"Regular expression\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Регулярное выражение»."
 
 #: ../../admin/checks.rst:167
 msgid "``ignore-same-plurals``"
@@ -3629,7 +3687,7 @@ msgstr "``ignore-begin-newline``"
 
 #: ../../admin/checks.rst:170
 msgid "Skip the \"Starting newline\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Пустая строка в начале»."
 
 #: ../../admin/checks.rst:171
 msgid "``ignore-begin-space``"
@@ -3637,7 +3695,7 @@ msgstr "``ignore-begin-space``"
 
 #: ../../admin/checks.rst:172
 msgid "Skip the \"Starting spaces\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Пробелы в начале»."
 
 #: ../../admin/checks.rst:173
 msgid "``ignore-end-newline``"
@@ -3645,7 +3703,7 @@ msgstr "``ignore-end-newline``"
 
 #: ../../admin/checks.rst:174
 msgid "Skip the \"Trailing newline\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Пустая строка в конце»."
 
 #: ../../admin/checks.rst:175
 msgid "``ignore-end-space``"
@@ -3653,7 +3711,7 @@ msgstr "``ignore-end-space``"
 
 #: ../../admin/checks.rst:176
 msgid "Skip the \"Trailing space\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Пробелы в конце»."
 
 #: ../../admin/checks.rst:177
 msgid "``ignore-same``"
@@ -3661,7 +3719,7 @@ msgstr "``ignore-same``"
 
 #: ../../admin/checks.rst:178
 msgid "Skip the \"Unchanged translation\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Перевод без изменения»."
 
 #: ../../admin/checks.rst:179
 msgid "``ignore-safe-html``"
@@ -3669,7 +3727,7 @@ msgstr "``ignore-safe-html``"
 
 #: ../../admin/checks.rst:180
 msgid "Skip the \"Unsafe HTML\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Небезопасный HTML-код»."
 
 #: ../../admin/checks.rst:181
 msgid "``ignore-url``"
@@ -3677,7 +3735,7 @@ msgstr "``ignore-url``"
 
 #: ../../admin/checks.rst:182
 msgid "Skip the \"URL\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «URL-адреса»."
 
 #: ../../admin/checks.rst:183
 msgid "``ignore-xml-tags``"
@@ -3685,7 +3743,7 @@ msgstr "``ignore-xml-tags``"
 
 #: ../../admin/checks.rst:184
 msgid "Skip the \"XML markup\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «XML-разметка»."
 
 #: ../../admin/checks.rst:185
 msgid "``ignore-xml-invalid``"
@@ -3693,7 +3751,7 @@ msgstr "``ignore-xml-invalid``"
 
 #: ../../admin/checks.rst:186
 msgid "Skip the \"XML syntax\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Синтаксис XML»."
 
 #: ../../admin/checks.rst:187
 msgid "``ignore-zero-width-space``"
@@ -3701,7 +3759,7 @@ msgstr "``ignore-zero-width-space``"
 
 #: ../../admin/checks.rst:188
 msgid "Skip the \"Zero-width space\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Пробел нулевой ширины»."
 
 #: ../../admin/checks.rst:189
 msgid "``ignore-ellipsis``"
@@ -3709,7 +3767,7 @@ msgstr "``ignore-ellipsis``"
 
 #: ../../admin/checks.rst:190
 msgid "Skip the \"Ellipsis\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Многоточие»."
 
 #: ../../admin/checks.rst:191
 msgid "``ignore-long-untranslated``"
@@ -3717,7 +3775,7 @@ msgstr "``ignore-long-untranslated``"
 
 #: ../../admin/checks.rst:192
 msgid "Skip the \"Long untranslated\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Давно не переводилась»."
 
 #: ../../admin/checks.rst:193
 msgid "``ignore-multiple-failures``"
@@ -3725,7 +3783,7 @@ msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/checks.rst:194
 msgid "Skip the \"Multiple failing checks\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Множество неудачных проверок»."
 
 #: ../../admin/checks.rst:195
 msgid "``ignore-unnamed-format``"
@@ -3733,7 +3791,7 @@ msgstr "``ignore-unnamed-format``"
 
 #: ../../admin/checks.rst:196
 msgid "Skip the \"Multiple unnamed variables\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Несколько переменных без названий»."
 
 #: ../../admin/checks.rst:198
 msgid "``ignore-optional-plural``"
@@ -3741,13 +3799,16 @@ msgstr "``ignore-optional-plural``"
 
 #: ../../admin/checks.rst:198
 msgid "Skip the \"Unpluralised\" quality check."
-msgstr ""
+msgstr "Пропускает проверку качества «Формы единственного числа»."
 
 #: ../../admin/checks.rst:202
 msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
+"В общем случае правило называется ``ignore-*`` для любой проверки, где "
+"вместо звёздочки подставляется её идентификатор, так что вы можете "
+"использовать такое правило даже для своих собственных проверок."
 
 #: ../../admin/checks.rst:205
 msgid ""
@@ -3755,10 +3816,13 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"Эти флаги понимаются как в параметрах :ref:`компонента <component>`, так и в "
+"параметрах исходной строки или в самом файле перевода (например, в файле GNU "
+"gettext)."
 
 #: ../../admin/checks.rst:211
 msgid "Enforcing checks"
-msgstr ""
+msgstr "Принудительные проверки"
 
 #: ../../admin/checks.rst:215
 msgid ""
@@ -3767,6 +3831,12 @@ msgid ""
 "ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
+"Вы можете настроить список проверок, которые нельзя проигнорировать, задав в "
+":ref:`конфигурации компонента <component>` параметр :guilabel:`"
+"Принудительные проверки`. Все перечисленные проверки не смогут быть "
+"проигнорированы из пользовательского интерфейса, а любая строка, для которой "
+"такая проверка сработала, помечается флагом :guilabel:`На правку` (смотрите "
+"раздел :ref:`states`)."
 
 #: ../../admin/checks.rst:223
 msgid "Managing fonts"
@@ -14984,6 +15054,14 @@ msgid ""
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
+"По умолчанию кто угодно может добавлять предложения, которые могут быть "
+"приняты зарегистрированными пользователями. Если с предложением согласны не "
+"только зарегистрированные пользователи, для утверждения строки может "
+"использоваться голосование по предложениям, которое можно включить в :ref:`"
+"конфигурации компонента <component>` параметром :guilabel:`Голосование по "
+"предложению` и настроить порог голосов для принятия предложения в параметре "
+":guilabel:`Автоматическое принятие предложений` (считается также голос "
+"пользователя, сделавшего предложение)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -14992,12 +15070,18 @@ msgid ""
 "with the :guilabel:`Can override suggestion state` privilege (see :ref:"
 "`privileges`)."
 msgstr ""
+"После настройки автоматического принятия обычные пользователи теряют "
+"привилегию непосредственного сохранения переводов или принятия предложений. "
+"Это можно отменить с помощью привилегии :guilabel:`Может переопределять "
+"состояние предложения` (смотрите раздел :ref:`privileges`)."
 
 #: ../../admin/translating.rst:23
 msgid ""
 "You can combine these with :ref:`privileges` into one of the following "
 "setups:"
 msgstr ""
+"Вы можете скомбинировать этот параметр с :ref:`управлением доступом "
+"<privileges>` для получения одной из следующих установок:"
 
 #: ../../admin/translating.rst:25
 msgid ""
@@ -15005,6 +15089,9 @@ msgid ""
 "accepted. - Turn on voting. - Turn off automatic acceptance. - Don't let "
 "users save translations."
 msgstr ""
+"Пользователи предлагают и голосуют за предложения, а ограниченная группа "
+"контролирует то, что принимается. — Включите голосование. — Отключите "
+"автоматическое принятие. — Не позволяйте пользователям сохранять переводы."
 
 #: ../../admin/translating.rst:30
 msgid ""
@@ -15012,6 +15099,10 @@ msgid ""
 "defined number of them agree. - Turn on voting. - Set the desired number of "
 "votes for automatic acceptance."
 msgstr ""
+"Пользователи предлагают и голосуют за предложения с автоматическим принятием "
+"предложения, как только с ним согласится определённое количество "
+"пользователей. — Включите голосование. — Установите желаемое количество "
+"голосов для автоматического принятия предложения."
 
 #: ../../admin/translating.rst:34
 msgid ""
@@ -15019,6 +15110,9 @@ msgid ""
 "are unsure about a translation by making multiple suggestions.) - Only turn "
 "on voting."
 msgstr ""
+"Необязательное голосование по предложениям (по желанию может использоваться "
+"пользователями, когда они не уверены в переводе, и делают вместо него "
+"несколько предложений). — Включите только голосование."
 
 #: ../../admin/translating.rst:41
 msgid "Additional info on source strings"
@@ -15030,12 +15124,19 @@ msgid ""
 "files. This includes explanation, string priority, check flags, or providing "
 "visual context.  All these features can be set in the :ref:`source-review`:"
 msgstr ""
+"Усовершенствуйте процесс перевода с помощью информации, доступной в файлах "
+"перевода. Усовершенствование включает в себя объяснение, приоритеты строк, "
+"флаги проверок или предоставление визуального контекста.  Все эти "
+"возможности могут быть установлены в окне :ref:`source-review`:"
 
 #: ../../admin/translating.rst:49
 msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
 msgstr ""
+"Доступ к нему можно получить непосредственно из интерфейса перевода, нажав "
+"на иконку правки у разделов :guilabel:`Контекст — снимок экрана` или "
+":guilabel:`Флаги`."
 
 #: ../../admin/translating.rst:55
 msgid "Strings prioritization"
@@ -15046,10 +15147,12 @@ msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag"
 msgstr ""
+"Приоритет строк может быть изменён с помощью флага ``priority``, чтобы более "
+"приоритетные строки предлагались для перевода раньше"
 
 #: ../../admin/translating.rst:64
 msgid "This can be used to order the flow of translation in a logical manner."
-msgstr ""
+msgstr "Это можно использовать для перевода строк в логическом порядке."
 
 #: ../../admin/translating.rst:66 ../../admin/translating.rst:82
 msgid ":ref:`checks`"
@@ -15060,6 +15163,8 @@ msgid ""
 "Previously called :guilabel:`Quality checks flags`, it no longer configures "
 "only checks."
 msgstr ""
+"Ранее поле называлось :guilabel:`Отметки о проверке качества`, но теперь оно "
+"настраивает не только проверки."
 
 #: ../../admin/translating.rst:78
 msgid ""
@@ -15067,6 +15172,10 @@ msgid ""
 "`component` and the translation file. However, you might want to use it to "
 "customize this per source string."
 msgstr ""
+"Умолчательный набор флагов перевода определяется :ref:`переводимым "
+"компонентом <component>` и файлом перевода. Тем не менее, вы можете "
+"использовать данное поле для настройки этих флагов для каждой исходной "
+"строки."
 
 #: ../../admin/translating.rst:85
 msgid "Explanation"
@@ -15074,13 +15183,16 @@ msgstr "Объяснение"
 
 #: ../../admin/translating.rst:89
 msgid "In previous version this has been called extra context."
-msgstr ""
+msgstr "В предыдущей версии это поле называлось дополнительным контекстом."
 
 #: ../../admin/translating.rst:91
 msgid ""
 "Use the explanation to clarify scope or usage of the translation. You can "
 "use Markdown to include links and other markup."
 msgstr ""
+"Используйте объяснение для уточнения области действия или использования "
+"перевода. В поле работает разметка Markdown, так что вы можете включать сюда "
+"ссылки и выделять текст."
 
 #: ../../admin/translating.rst:97
 msgid "Visual context for strings"
@@ -15092,10 +15204,14 @@ msgid ""
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
 msgstr ""
+"Вы можете загрузить снимок экрана, показывающий данную исходную строку в "
+"действии в вашей программе. Это поможет переводчикам понять, где она "
+"используется и как её следует переводить."
 
 #: ../../admin/translating.rst:105
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
 msgstr ""
+"Загруженный снимок экрана отображается в боковой панели контекста перевода:"
 
 #: ../../admin/translating.rst:109
 msgid ""
@@ -15103,12 +15219,18 @@ msgid ""
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
+"В дополнение к окну :ref:`source-review`, снимки экрана имеют отдельный "
+"интерфейс управления, расположенный в меню :guilabel:`Инструменты`. "
+"Загружайте снимки экрана и вручную назначайте их исходным строкам, либо "
+"используйте для этого оптическое распознавание символов."
 
 #: ../../admin/translating.rst:114
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
 msgstr ""
+"После загрузки снимка экрана через этот интерфейс можно управлять снимком и "
+"задать его связь с исходной строкой:"
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -19530,47 +19652,47 @@ msgstr ""
 
 #: ../../changes.rst:468
 msgid "Improved rendering of alerts in changes."
-msgstr ""
+msgstr "Улучшено отображение предупреждений в изменениях."
 
 #: ../../changes.rst:469
 msgid "Added new horizontal stats widget."
-msgstr ""
+msgstr "Добавлен новый виджет горизонтальной статистики."
 
 #: ../../changes.rst:470
 msgid "Improved format strings check on plurals."
-msgstr ""
+msgstr "Улучшена проверка строк формата для форм множественного числа."
 
 #: ../../changes.rst:471
 msgid "Added font management tool."
-msgstr ""
+msgstr "Добавлен инструмент управления шрифтами."
 
 #: ../../changes.rst:472
 msgid "New check for rendered text dimensions."
-msgstr ""
+msgstr "Новая проверка размеров отрисовываемого текста."
 
 #: ../../changes.rst:473
 msgid "Added support for subtitle formats."
-msgstr ""
+msgstr "Добавлена поддержка форматов субтитров."
 
 #: ../../changes.rst:474
 msgid "Include overall completion stats for languages."
-msgstr ""
+msgstr "Включена общая статистика по языкам."
 
 #: ../../changes.rst:475
 msgid "Added reporting at project and global scope."
-msgstr ""
+msgstr "Добавлены отчёты на уровне проекта и на глобальном уровне."
 
 #: ../../changes.rst:476
 msgid "Improved user interface when showing translation status."
-msgstr ""
+msgstr "Улучшен пользовательский интерфейс при отображении статуса перевода."
 
 #: ../../changes.rst:477
 msgid "New Weblate logo and color scheme."
-msgstr ""
+msgstr "Новая цветовая схема и логотип Weblate’а."
 
 #: ../../changes.rst:478
 msgid "New look of bitmap badges."
-msgstr ""
+msgstr "Новый вид растровых значков."
 
 #: ../../changes.rst:481
 msgid "Weblate 3.6.1"
@@ -20860,7 +20982,7 @@ msgstr ""
 
 #: ../../changes.rst:908
 msgid "Improved rendering of inconsistent translations."
-msgstr ""
+msgstr "Улучшено отображение противоречивых переводов."
 
 #: ../../changes.rst:909
 msgid "Added support for opening source files in local editor."
@@ -23239,7 +23361,7 @@ msgstr "``checks``"
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
-msgstr ""
+msgstr "Модуль :ref:`checks` строки перевода."
 
 #: ../../contributing/internals.rst:56
 msgid "``fonts``"
@@ -23247,7 +23369,7 @@ msgstr "``fonts``"
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
-msgstr ""
+msgstr "Модуль проверки отрисовки шрифтов."
 
 #: ../../contributing/internals.rst:60
 msgid "``formats``"
@@ -23263,7 +23385,7 @@ msgstr "``gitexport``"
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
-msgstr ""
+msgstr "Дополнительный модуль :ref:`git-exporter`."
 
 #: ../../contributing/internals.rst:68
 msgid "``lang``"
@@ -23271,7 +23393,7 @@ msgstr "``lang``"
 
 #: ../../contributing/internals.rst:70
 msgid "Module defining language and plural models."
-msgstr ""
+msgstr "Модуль определения языка и моделей множественного числа."
 
 #: ../../contributing/internals.rst:72
 msgid "``langdata``"
@@ -23279,7 +23401,7 @@ msgstr "``langdata``"
 
 #: ../../contributing/internals.rst:74
 msgid "Language data definitions."
-msgstr ""
+msgstr "Определения данных языка."
 
 #: ../../contributing/internals.rst:76
 msgid "``legal``"
@@ -23287,7 +23409,7 @@ msgstr "``legal``"
 
 #: ../../contributing/internals.rst:78
 msgid "The optional :ref:`legal` module."
-msgstr ""
+msgstr "Дополнительный модуль :ref:`legal`."
 
 #: ../../contributing/internals.rst:80
 msgid "``machinery``"
@@ -23295,7 +23417,7 @@ msgstr "``machinery``"
 
 #: ../../contributing/internals.rst:82
 msgid "Integration of machine translation services."
-msgstr ""
+msgstr "Интеграция сервисов машинного перевода."
 
 #: ../../contributing/internals.rst:84
 msgid "``memory``"
@@ -23303,7 +23425,7 @@ msgstr "``memory``"
 
 #: ../../contributing/internals.rst:86
 msgid "Built in translation memory, see :ref:`translation-memory`."
-msgstr ""
+msgstr "Встроенная память переводов, смотрите раздел :ref:`translation-memory`."
 
 #: ../../contributing/internals.rst:88
 msgid "``screenshots``"
@@ -23311,7 +23433,7 @@ msgstr "``screenshots``"
 
 #: ../../contributing/internals.rst:90
 msgid "Screenshots management and OCR module."
-msgstr ""
+msgstr "Модуль управления снимками экрана и распознаванием текста."
 
 #: ../../contributing/internals.rst:92
 msgid "``trans``"
@@ -23319,7 +23441,7 @@ msgstr "``trans``"
 
 #: ../../contributing/internals.rst:94
 msgid "Main module handling translations."
-msgstr ""
+msgstr "Основной модуль обработки переводов."
 
 #: ../../contributing/internals.rst:96
 msgid "``utils``"
@@ -23327,7 +23449,7 @@ msgstr "``utils``"
 
 #: ../../contributing/internals.rst:98
 msgid "Various helper utilities."
-msgstr ""
+msgstr "Различные вспомогательные утилиты."
 
 #: ../../contributing/internals.rst:100
 msgid "``vcs``"
@@ -23335,7 +23457,7 @@ msgstr "``vcs``"
 
 #: ../../contributing/internals.rst:102
 msgid "Version control system abstraction."
-msgstr ""
+msgstr "Абстракция системы контроля версий."
 
 #: ../../contributing/internals.rst:104
 msgid "``wladmin``"
@@ -23343,17 +23465,19 @@ msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:106
 msgid "Django admin interface customization."
-msgstr ""
+msgstr "Настройка административного интерфейса Django."
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
-msgstr ""
+msgstr "Сообщение о проблемах в Weblate’е"
 
 #: ../../contributing/issues.rst:6
 msgid ""
 "Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub:"
 msgstr ""
+"Наша `система отслеживания проблем <https://github.com/WeblateOrg/weblate/"
+"issues>`_ размещена на GitHub’е:"
 
 #: ../../contributing/issues.rst:8
 msgid ""
@@ -29047,7 +29171,7 @@ msgstr ""
 
 #: ../../user/checks.rst:323
 msgid "Python brace format"
-msgstr "Python-формат: фиг. скобки"
+msgstr "Python-формат: фигурные скобки"
 
 #: ../../user/checks.rst:325
 msgid "*Python brace format string does not match source*"
@@ -29863,7 +29987,7 @@ msgstr ""
 
 #: ../../user/checks.rst:869
 msgid "URL"
-msgstr "URL-ы"
+msgstr "URL-адреса"
 
 #: ../../user/checks.rst:871
 msgid "*The translation does not contain an URL*"
