@@ -385,7 +385,7 @@ class KashidaCheck(TargetCheck):
         return [("[{}]".format("".join(KASHIDA_CHARS)), "", "gu")]
 
 
-class PuctuationSpacingCheck(TargetCheck):
+class PunctuationSpacingCheck(TargetCheck):
     check_id = "punctuation_spacing"
     name = _("Punctuation spacing")
     description = _("Missing non breakable space before double punctuation sign")

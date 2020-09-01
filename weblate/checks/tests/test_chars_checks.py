@@ -38,7 +38,7 @@ from weblate.checks.chars import (
     KashidaCheck,
     MaxLengthCheck,
     NewLineCountCheck,
-    PuctuationSpacingCheck,
+    PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
@@ -314,8 +314,8 @@ class KashidaCheckTest(CheckTestCase):
         self.test_failure_3 = ("string", "string\uFE7F", "")
 
 
-class PuctuationSpacingCheckTest(CheckTestCase):
-    check = PuctuationSpacingCheck()
+class PunctuationSpacingCheckTest(CheckTestCase):
+    check = PunctuationSpacingCheck()
     default_lang = "fr"
 
     def setUp(self):

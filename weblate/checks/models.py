@@ -63,7 +63,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.chars.EndSemicolonCheck",
         "weblate.checks.chars.MaxLengthCheck",
         "weblate.checks.chars.KashidaCheck",
-        "weblate.checks.chars.PuctuationSpacingCheck",
+        "weblate.checks.chars.PunctuationSpacingCheck",
         "weblate.checks.format.PythonFormatCheck",
         "weblate.checks.format.PythonBraceFormatCheck",
         "weblate.checks.format.PHPFormatCheck",
