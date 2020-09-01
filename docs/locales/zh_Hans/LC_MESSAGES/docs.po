@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-08-30 10:08+0000\n"
+"PO-Revision-Date: 2020-09-01 05:08+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -10208,7 +10208,7 @@ msgstr ":doc:`venv-redhat`"
 msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
-msgstr ""
+msgstr "使用 Git 来抓取最新的 Weblate 资源 （或下载 tarball 包并将其解压）："
 
 #: ../../admin/install/source.rst:19
 msgid ""
@@ -10216,15 +10216,16 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"另外，您可以发布档案。从可以从我们的网站 <https://weblate.org/> 来下载。下载是加密签名的，参见： :ref:`verify` 。"
 
 #: ../../admin/install/source.rst:23
 msgid "Install current Weblate code into the virtualenv:"
-msgstr ""
+msgstr "将当前的 Weblate 代码安装到 virtualenv 中："
 
 #: ../../admin/install/source.rst:30
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
-msgstr ""
+msgstr "将 :file:`weblate/settings_example.py` 复制为 :file:`weblate/settings.py` 。"
 
 #: ../../admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -10232,40 +10233,42 @@ msgid ""
 "can stick with shipped example for testing purposes, but you will want "
 "changes for production setup, see :ref:`configuration`."
 msgstr ""
+"将新的 :file:`settings.py` 文件中的值调整为您所需要的。您可以跟随附带的例子用于测试，但您还会希望更改来用于生产设置，参见： "
+":ref:`configuration` 。"
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
-msgstr ""
+msgstr "新建 Weblate 使用的数据库，参见 :ref:`database-setup` 。"
 
 #: ../../admin/install/source.rst:37
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
-msgstr ""
+msgstr "建立 Django 表、静态文件和初始数据（参见 :ref:`tables-setup` 和 :ref:`tables-setup` ）："
 
 #: ../../admin/install/source.rst:49
 msgid "This step should be repeated whenever you update the repository."
-msgstr ""
+msgstr "无论任何时候更新仓库时，都应该重复这一步骤。"
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
-msgstr ""
+msgstr "在 Debian 和 Ubantu 上安装"
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
-msgstr ""
+msgstr "系统要求"
 
 #: ../../admin/install/steps/install-system-devel.rst:7
 msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
-msgstr ""
+msgstr "安装所需的依赖包，来建立 Python 模块（参见 :ref:`requirements`）："
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`optional-deps`):"
-msgstr ""
+msgstr "根据您想要使用的特性来安装想要的可选依赖包（参见 :ref:`optional-deps` ）："
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -10273,14 +10276,16 @@ msgid ""
 "`server`, :ref:`database-setup`, :ref:`celery`. Depending on size of your "
 "installation you might want to run these components on dedicated servers."
 msgstr ""
+"可选地安装生产服务器运行所需要的软件，参见 :ref:`server` 、 :ref:`database-setup` 、 :ref:`celery` "
+"。根据于您的安装所占的空间，您会想要在特定的服务器上运行这些组件。"
 
 #: ../../admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
-msgstr ""
+msgstr "本地安装的使用说明："
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Python 模块"
 
 #: ../../admin/install/steps/install-python.rst:6
 msgid ""
@@ -10288,32 +10293,34 @@ msgid ""
 "your system. If you are not familiar with it, check virtualenv :doc:`venv:"
 "user_guide`."
 msgstr ""
+"我们使用 virtualenv 在与您的系统隔开的环境安装 Weblate。如果您不熟悉，查看 virtualenv "
+":doc:`venv:user_guide` 。"
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "为 Weblate 新建 virtualenv："
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "为 Weblate 激活 virtualevn ："
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all dependencies:"
-msgstr ""
+msgstr "安装 Weblate ，包括所有依赖包："
 
 #: ../../admin/install/steps/install-python.rst:28
 msgid "Install database driver:"
-msgstr ""
+msgstr "安装数据库驱动："
 
 #: ../../admin/install/steps/install-python.rst:34
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(some might require additional system libraries, check :ref:`optional-deps`):"
-msgstr ""
+msgstr "根据您想要使用的特性，来装所所需要的可选依赖包（一些会需要另外的系统库，查看 :ref:`optional-deps` ）："
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "配置 Weblate"
 
 #: ../../admin/install/steps/install-configure.rst:6
 msgid ""
@@ -10322,6 +10329,9 @@ msgid ""
 "will have to specify full path to :command:`weblate` command as ``~/weblate-"
 "env/bin/weblate``."
 msgstr ""
+"后面的步骤假定 Weblate 使用的 virtualevn 已经激活（可以通过 ``. ~/weblate-env/bin/activate`` "
+"来实现）。如果不是这种情况，您必须指定 到 :command:`weblate` 命令的完全路径为 ``~/weblate-env/bin/"
+"weblate`` 。"
 
 #: ../../admin/install/steps/install-configure.rst:11
 msgid ""
@@ -10329,74 +10339,79 @@ msgid ""
 "settings_example.py` to :file:`~/weblate-env/lib/python3.7/site-packages/"
 "weblate/settings.py`."
 msgstr ""
+"将文件 :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings_example"
+".py` 复制为 :file:`~/weblate-env/lib/python3.7/site-packages/weblate/settings."
+"py` 。"
 
 #: ../../admin/install/steps/install-configure.rst:17
 msgid ""
 "Create the database and its structure for Weblate (the example settings use "
 "PostgreSQL, check :ref:`database-setup` for production ready setup):"
 msgstr ""
+"为 Weblate 新建数据库及其结构（例子中的设置使用 PostgreSQL ，已经准备好的生产设置请查看 :ref:`database-setup` "
+"）："
 
 #: ../../admin/install/steps/install-configure.rst:24
 msgid ""
 "Create the administrator user account and copy the password it outputs to "
 "the clipboard, and also save it for later use:"
-msgstr ""
+msgstr "新建管理员用户账户，并将输出的密码复制到剪贴板，同时将它存储供以后使用："
 
 #: ../../admin/install/steps/install-configure.rst:31
 msgid ""
 "Collect static files for web server (see :ref:`server` and :ref:`static-"
 "files`):"
-msgstr ""
+msgstr "收集 Web 服务器用的静态文件 （请见 :ref:`server` 和 :ref:`static-files` ）："
 
 #: ../../admin/install/steps/install-configure.rst:37
 #: ../../admin/upgrade.rst:68
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
-msgstr ""
+msgstr "压缩 JavaScript 和 CSS 文件（可选步骤，请参见 :ref:`production-compress` ）："
 
 #: ../../admin/install/steps/install-configure.rst:43
 msgid ""
 "Start Celery workers. This is not necessary for development purposes, but "
 "strongly recommended otherwise. See :ref:`celery` for more info:"
-msgstr ""
+msgstr "启动 Celery workers 。当用于开发目的是不需要这步，但仍然强烈建议启动。更多信息请参见 :ref:`celery` ："
 
 #: ../../admin/install/steps/install-configure.rst:50
 msgid "Start the development server (see :ref:`server` for production setup):"
-msgstr ""
+msgstr "启动开发服务器（生产设置请参见 :ref:`server` ）："
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
-msgstr ""
+msgstr "安装后"
 
 #: ../../admin/install/steps/install-after.rst:4
 msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
-msgstr ""
+msgstr "配置，您的 Weblate 服务器现在运行了，您可以使用它来启动。"
 
 #: ../../admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr ""
+msgstr "您可以在 ``http://localhost:8000/`` 访问 Weblate 。"
 
 #: ../../admin/install/steps/install-after.rst:7
 msgid ""
 "Login with admin credentials obtained during installation or register with "
 "new users."
-msgstr ""
+msgstr "使用安装时得到的管理管理员证明来登录，或注册新用户。"
 
 #: ../../admin/install/steps/install-after.rst:8
 msgid ""
 "You can now run Weblate commands using :command:`weblate` command when "
 "Weblate virtualenv is active, see :ref:`manage`."
-msgstr ""
+msgstr "现在，您可以在 Weblate virtualenv 活动时使用 :command:`weblate` 命令来运行 Weblate 命令。"
 
 #: ../../admin/install/steps/install-after.rst:10
 msgid "You can stop the test server with Ctrl+C."
-msgstr ""
+msgstr "您可以使用 Ctrl+C 来停止测试的服务器。"
 
 #: ../../admin/install/steps/install-after.rst:13
 msgid "Adding translation"
-msgstr ""
+msgstr "添加翻译"
 
 #: ../../admin/install/steps/install-after.rst:15
 msgid ""
@@ -10404,17 +10419,19 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"打开管理界面（ ``http://localhost:8000/create/project/`` ），并新建您想要翻译的项目。更多细节请参见 "
+":ref:`project` 。"
 
 #: ../../admin/install/steps/install-after.rst:18
 msgid "All you need to specify here is the project name and its website."
-msgstr ""
+msgstr "这里所有需要您指定的只是项目名称及其网站。"
 
 #: ../../admin/install/steps/install-after.rst:20
 msgid ""
 "Create a component which is the real object for translation - it points to "
 "the VCS repository, and selects which files to translate. See :ref:"
 "`component` for more details."
-msgstr ""
+msgstr "新建部件，它是翻译的真实对象——它执行 VCS 仓库，并用于选择那个文件被翻译。更多细节请见 :ref:`component` 。"
 
 #: ../../admin/install/steps/install-after.rst:24
 msgid ""
@@ -10424,65 +10441,67 @@ msgid ""
 "properties, Java properties or Qt Linguist files, see :ref:`formats` for "
 "more details."
 msgstr ""
+"这里重要的域是：部件名称、VCS 仓库地址和找到的翻译文件的掩码。 Weblate 支持大范围的格式，包括 PO 文件、安卓资源字符串、 IOS "
+"字符串属性， Java 属性或 Qt Linguist 文件，更多细节请参看： :ref:`formats` 。"
 
 #: ../../admin/install/steps/install-after.rst:29
 msgid ""
 "Once the above is completed (it can be lengthy process depending on the size "
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
-msgstr ""
+msgstr "一旦完成上面的工作（更具您 VCS 仓库的大小，以及需要翻译的信息数量，这可能是个漫长的过程），您就可以开始翻译了。"
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
-msgstr ""
+msgstr "在 macOS 上安装"
 
 #: ../../admin/install/venv-macos.rst:13
 msgid ""
 "Make sure pip will be able to find the ``libffi`` version provided by "
 "homebrew — this will be needed during the installation build step."
-msgstr ""
+msgstr "确认 pip 能够找到 homebrew 提供的 ``libffi`` 版本——将在安装编译步骤中需要它。"
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr ""
+msgstr "在 Redhat 、 Fedora 和 CentOS 上安装"
 
 #: ../../admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
-msgstr ""
+msgstr "在 SUSE 和 openSUSE 上安装"
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:48
 msgid "Language definitions"
-msgstr ""
+msgstr "语言定义"
 
 #: ../../admin/languages.rst:6
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code is needed. Definitions for "
 "about 350 languages are included."
-msgstr ""
+msgstr "为了适当展现不同的翻译，需要关于语言名称、正文方向、复数定义和语言编码的信息。350 种语言的定义包括其中。"
 
 #: ../../admin/languages.rst:13
 msgid "Parsing language codes"
-msgstr ""
+msgstr "分析语言编码"
 
 #: ../../admin/languages.rst:15
 msgid ""
 "While parsing translations, Weblate attempts to map language code (usually "
 "the ISO 639-1 one) to any existing language object."
-msgstr ""
+msgstr "当分析翻译时， Weblate 试图将语言编码（通常为 ISO 639-1 ）映射到现有的任何语言对象。"
 
 #: ../../admin/languages.rst:18
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
-msgstr ""
+msgstr "您可以通过 :ref:`project-language_aliases` 在项目层次来进一步调整这种映射。"
 
 #: ../../admin/languages.rst:20
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language (e.g. ignoring the default country code for a given "
 "language—choosing ``cs`` instead of ``cs_CZ``)."
-msgstr ""
+msgstr "如果不能找到完全匹配，将尝试将其最好地适配到现有语言（例如对给定的语言忽略默认国家代码——选择 ``cs`` 而不是 ``cs_CZ`` ）。"
 
 #: ../../admin/languages.rst:24
 msgid ""
@@ -10492,33 +10511,36 @@ msgid ""
 "the admin interface later, (see :ref:`changing-languages`) and report it to "
 "the issue tracker (see :ref:`contributing`)."
 msgstr ""
+"如果仍然失败，那么需要使用默认定义（从左到右的正文方向、一个复数）和语言命名来新建新的语言定义，如 :guilabel:`xx_XX "
+"(generated)` 。"
 
 #: ../../admin/languages.rst:31
 msgid ""
 "In case you see something unwanted as a language, you might want to adjust :"
 "ref:`component-language_regex` to ignore such file when parsing translations."
 msgstr ""
+"在您看到有些不想要的内容作为语言的情况下，您会想要调整 :ref:`component-language_regex` ，当分析翻译时忽略这样的文件。"
 
 #: ../../admin/languages.rst:38
 msgid "Changing language definitions"
-msgstr ""
+msgstr "更改语言定义"
 
 #: ../../admin/languages.rst:40
 msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
-msgstr ""
+msgstr "您可以在语言界面来更改语言定义（ :file:`/languages/` URL ）。"
 
 #: ../../admin/languages.rst:43
 msgid ""
 "While editing, make sure all fields are correct (especially plurals and text "
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
-msgstr ""
+msgstr "当编辑时，确认所有的域都是正确的（特别是复数和正文方向），否则译者将不能正常编辑这些翻译。"
 
 #: ../../admin/languages.rst:50
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "每种语言都包括后面的域："
 
 #: ../../admin/languages.rst:55 ../../admin/projects.rst:745 ../../api.rst:651
 #: ../../api.rst:653 ../../api.rst:716
@@ -10534,10 +10556,14 @@ msgid ""
 "letter code. It can also support extended codes as defined by `BCP 47 "
 "<https://tools.ietf.org/html/bcp47>`_."
 msgstr ""
+"识别语言的代码。 Weblate 使用两个字母代码，如 `ISO 639-1 <https://en.wikipedia.org/wiki/"
+"ISO_639-1>`_ 所定义的，但对于没有两个字母代码的语言，使用会使用 `ISO 639-2 <https://en.wikipedia.org/"
+"wiki/ISO_639-2>`_ 或 `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ "
+"代码。它还支持 `BCP 47 <https://tools.ietf.org/html/bcp47>`_ 定义的扩展代码。"
 
 #: ../../admin/languages.rst:66 ../../admin/projects.rst:250
 msgid ":ref:`language-parsing-codes`"
-msgstr ""
+msgstr ":ref:`language-parsing-codes`"
 
 #: ../../admin/languages.rst:71 ../../admin/projects.rst:747 ../../api.rst:638
 #: ../../api.rst:640 ../../api.rst:691 ../../api.rst:701
@@ -10548,7 +10574,7 @@ msgstr "语言名称"
 msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
-msgstr ""
+msgstr "语言的可见名称。还要根据用户界面语言将 Weblate 中包括的语言名称进行本地化。"
 
 #: ../../admin/languages.rst:78 ../../api.rst:654
 msgid "Text direction"
@@ -10558,15 +10584,15 @@ msgstr "文字方向"
 msgid ""
 "Determines whether language is written right to left or left to right. This "
 "property is autodetected correctly for most of the languages."
-msgstr ""
+msgstr "确定语言是从右向左还是从左向右书写。对于多数语言这个属性都能够正确地自动监测。"
 
 #: ../../admin/languages.rst:86
 msgid "Plural number"
-msgstr ""
+msgstr "复数数量"
 
 #: ../../admin/languages.rst:88
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "语言中使用的复数的数量。"
 
 #: ../../admin/languages.rst:93
 msgid "Plural formula"
@@ -10576,7 +10602,7 @@ msgstr "复数式"
 msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
-msgstr ""
+msgstr "Gettxt 兼容的复数公式，用于确定根据给定的数量使用哪种复数形式。"
 
 #: ../../admin/languages.rst:99
 msgid ""
@@ -10584,40 +10610,43 @@ msgid ""
 "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
 "Rules by the Unicode Consortium`_"
 msgstr ""
+":ref:`plurals`, `GNU gettext utilities: Plural forms <https://www.gnu.org/"
+"software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
+"Rules by the Unicode Consortium`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "翻译许可"
 
 #: ../../admin/licensing.rst:3
 msgid ""
 "You can specify which license translations are contributed under. This is "
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
-msgstr ""
+msgstr "您可以指定翻译输入哪种授权方式。当翻译对公众公开时这特别重要，这样明确规定如何使用。"
 
 #: ../../admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
-msgstr ""
+msgstr "您应该指定 :ref:`component` 版权信息。您应该避免那些需要获得贡献者版权协议的情况，尽管这是可能的。"
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
-msgstr ""
+msgstr "版权信息"
 
 #: ../../admin/licensing.rst:13
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
-msgstr ""
+msgstr "在指定版权信息的时候（版权名称和 URL ），这个信息显示在各个 :ref:`component` 的翻译信息部分。"
 
 #: ../../admin/licensing.rst:16
 msgid ""
 "Usually this is best place to post licensing info if no explicit consent is "
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
-msgstr ""
+msgstr "如果不需要特别同意的话，这通常是放置许可信息的最佳位置。如果您的项目或翻译不是自由项目，那么您最可能需要事先同意。"
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:537
 msgid "Contributor agreement"
@@ -10628,23 +10657,23 @@ msgid ""
 "If you specify a contributor license agreement, only users who have agreed "
 "to it will be able to contribute. This is a clearly visible step when "
 "accessing the translation:"
-msgstr ""
+msgstr "如果您指定了贡献者版权协议，那么只有同意协议的用户能够做出贡献。当进入到翻译时，这是清晰可见的步骤："
 
 #: ../../admin/licensing.rst:27
 msgid ""
 "The entered text is formatted into paragraphs and external links can be "
 "included. HTML markup can not be used."
-msgstr ""
+msgstr "输入的文本被格式化为段落，并非且可以包括外部连接。不能使用 HTML 标记。"
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
-msgstr ""
+msgstr "用户版权"
 
 #: ../../admin/licensing.rst:33
 msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
-msgstr ""
+msgstr "任何用户可以在其简介的实例中看到所有公开项目的所有翻译版权："
 
 #: ../../admin/machine.rst:4 ../../user/translating.rst:282
 msgid "Machine translation"
@@ -10657,34 +10686,40 @@ msgid ""
 "subject to their terms of use, so ensure you are allowed to use them how you "
 "want."
 msgstr ""
+"内建了几种及其翻译服务的支持，并且每一个可以由管理员使用 :setting:`MT_SERVICES` "
+"来打开。它们受到自己的使用条款约束，因此请确认允许您以所需要的方式来使用它。"
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
-msgstr ""
+msgstr "源语言可以在 :ref:`project` 配置。"
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
-msgstr ""
+msgstr "amaGama"
 
 #: ../../admin/machine.rst:15
 msgid "Special installation of :ref:`tmserver` run by the authors of Virtaal."
-msgstr ""
+msgstr "由 Virtaal 作者运行的 :ref:`tmserver` 的特殊安装。"
 
 #: ../../admin/machine.rst:17
 msgid ""
 "Turn on this service by adding ``weblate.machinery.tmserver."
 "AmagamaTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"通过将 ``weblate.machinery.tmserver.AmagamaTranslation`` 添加到 "
+":setting:`MT_SERVICES` 来打开这个服务。"
 
 #: ../../admin/machine.rst:22
 msgid ""
 ":ref:`amagama:installation`, :doc:`virtaal:amagama`, `amaGama Translation "
 "Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
+":ref:`amagama:installation`, :doc:`virtaal:amagama`, `amaGama Translation "
+"Memory <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:29 ../../changes.rst:1468
 msgid "Apertium"
-msgstr ""
+msgstr "Apertium"
 
 #: ../../admin/machine.rst:31
 msgid ""
