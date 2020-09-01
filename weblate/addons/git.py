@@ -74,7 +74,7 @@ class GitSquashAddon(BaseAddon):
 
             commit_message = repository.execute(command)
 
-        if self.instance.configuration.get("append_trailers"):
+        if self.instance.configuration.get("append_trailers", True):
             command = [
                 "log",
                 "--format=%(trailers)%nCo-authored-by: %an <%ae>",
@@ -98,7 +98,7 @@ class GitSquashAddon(BaseAddon):
                     "\n".join(commit_message_lines_with_trailers_removed),
                     "\n".join(sorted(trailer_lines)),
                 ]
-            )
+            ).strip("\n")
 
         return commit_message
 
@@ -209,10 +209,11 @@ class GitSquashAddon(BaseAddon):
                 method="rebase"
             ):
                 return
-            squash = self.instance.configuration["squash"]
             if not repository.needs_push():
                 return
-            method = getattr(self, "squash_{}".format(squash))
+            method = getattr(
+                self, "squash_{}".format(self.instance.configuration["squash"])
+            )
             method(component, repository)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
