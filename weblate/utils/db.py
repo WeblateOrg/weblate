@@ -118,12 +118,13 @@ class FastCollector(Collector):
         return super().can_fast_delete(objs, from_field)
 
     def delete(self):
-        from weblate.trans.models import Suggestion, Vote
+        from weblate.trans.models import Change, Suggestion, Vote
 
         fast_deletes = []
         for item in self.fast_deletes:
             if item.model is Suggestion:
                 fast_deletes.append(Vote.objects.filter(suggestion__in=item))
+                fast_deletes.append(Change.objects.filter(suggestion__in=item))
             fast_deletes.append(item)
         self.fast_deletes = fast_deletes
         return super().delete()
