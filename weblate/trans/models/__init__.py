@@ -227,8 +227,9 @@ def post_delete_linked(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Comment)
 @receiver(post_save, sender=Suggestion)
+@receiver(post_delete, sender=Suggestion)
 @disable_for_loaddata
-def stats_invalidate(sender, instance, created, **kwargs):
+def stats_invalidate(sender, instance, **kwargs):
     """Invalidate stats on new comment or suggestion."""
     # Invalidate stats counts
     instance.unit.translation.invalidate_cache()

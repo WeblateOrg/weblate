@@ -7,6 +7,7 @@ Not yet released.
 * Fixed component ordering on paginated pages.
 * Define source language for a glossary.
 * Rewritten support for GitHub and GitLab pull requests.
+* Fixed stats counts after removing suggestion.
 
 Weblate 4.2.2
 -------------
