@@ -8,6 +8,7 @@ Not yet released.
 * Fixed LDAP authentication with group sync.
 * Fixed crash in reporting automatic translation progress.
 * Fixed Git commit squashing with trailers enabled.
+* Fixed creating local VCS components using API.
 
 Weblate 4.2.1
 -------------
