@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import fnmatch
 import os
 import re
@@ -109,6 +108,7 @@ from weblate.utils.validators import (
     validate_slug,
 )
 from weblate.vcs.base import RepositoryException
+from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
 
@@ -1109,6 +1109,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
     def configure_repo(self, validate=False, pull=True):
         """Ensure repository is correctly set up."""
         if self.is_repo_link:
+            return
+
+        if self.vcs == "local":
+            if not os.path.exists(os.path.join(self.full_path, ".git")):
+                LocalRepository.from_files(
+                    self.full_path,
+                    {self.template: self.file_format_cls.get_new_file_content()},
+                )
             return
 
         with self.repository.lock:

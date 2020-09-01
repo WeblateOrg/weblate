@@ -54,11 +54,6 @@ from weblate.vcs.models import VCS_REGISTRY
 def scratch_create_component(project, name, slug, file_format):
     format_cls = FILE_FORMATS[file_format]
     template = "{}.{}".format(project.source_language.code, format_cls.extension())
-    fake = Component(project=project, slug=slug, name=name)
-    # Create VCS with empty file
-    LocalRepository.from_files(
-        fake.full_path, {template: format_cls.get_new_file_content()}
-    )
     # Create component
     return Component.objects.create(
         file_format=file_format,

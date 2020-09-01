@@ -145,9 +145,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 1)
 
     def test_create(self):
-        self.do_request(
-            "api:user-list", method="post", code=403,
-        )
+        self.do_request("api:user-list", method="post", code=403)
         self.do_request(
             "api:user-list",
             method="post",
@@ -375,9 +373,7 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(response.data["name"], "Users")
 
     def test_create(self):
-        self.do_request(
-            "api:group-list", method="post", code=403,
-        )
+        self.do_request("api:group-list", method="post", code=403)
         self.do_request(
             "api:group-list",
             method="post",
@@ -729,9 +725,7 @@ class RoleAPITest(APIBaseTest):
         self.assertEqual(response.data["name"], "Add suggestion")
 
     def test_create(self):
-        self.do_request(
-            "api:role-list", method="post", code=403,
-        )
+        self.do_request("api:role-list", method="post", code=403)
         self.do_request(
             "api:role-list",
             method="post",
@@ -1170,6 +1164,28 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 1)
         self.assertIn("filemask", response.data)
 
+    def test_create_component_local(self):
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings-utf8",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+            },
+        )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(Component.objects.count(), 2)
+
 
 class ComponentAPITest(APIBaseTest):
     def setUp(self):
@@ -1362,9 +1378,7 @@ class LanguageAPITest(APIBaseTest):
         self.assertEqual(len(response.data["aliases"]), 2)
 
     def test_create(self):
-        self.do_request(
-            "api:language-list", method="post", code=403,
-        )
+        self.do_request("api:language-list", method="post", code=403)
         # Ensure it throws error without plural data
         self.do_request(
             "api:language-list",
@@ -1391,14 +1405,14 @@ class LanguageAPITest(APIBaseTest):
         self.assertEqual(response.data["code"], "new_lang")
         # Check that languages without translation are shown
         # only to super users
-        response = self.do_request("api:language-list", method="get", code=200,)
+        response = self.do_request("api:language-list", method="get", code=200)
         self.assertEqual(response.data["count"], 4)
         response = self.do_request(
-            "api:language-list", method="get", superuser=True, code=200,
+            "api:language-list", method="get", superuser=True, code=200
         )
         self.assertEqual(response.data["count"], len(LANGUAGES) + 1)
         self.do_request(
-            "api:language-detail", kwargs={"code": "new_lang"}, method="get", code=404,
+            "api:language-detail", kwargs={"code": "new_lang"}, method="get", code=404
         )
         self.do_request(
             "api:language-detail",
@@ -1447,7 +1461,7 @@ class LanguageAPITest(APIBaseTest):
 
     def test_put(self):
         self.do_request(
-            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403,
+            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403
         )
         self.do_request(
             "api:language-detail",
@@ -1467,7 +1481,7 @@ class LanguageAPITest(APIBaseTest):
 
     def test_patch(self):
         self.do_request(
-            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403,
+            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403
         )
         self.do_request(
             "api:language-detail",
@@ -1715,9 +1729,7 @@ class TranslationAPITest(APIBaseTest):
             },
             code=200,
         )
-        self.assertContains(
-            response, "Automatic translation completed",
-        )
+        self.assertContains(response, "Automatic translation completed")
 
     def test_add_monolingual(self):
         self.create_acl()
@@ -2084,9 +2096,7 @@ class ComponentListAPITest(APIBaseTest):
         self.assertIn("components", response.data)
 
     def test_create(self):
-        self.do_request(
-            "api:componentlist-list", method="post", code=403,
-        )
+        self.do_request("api:componentlist-list", method="post", code=403)
         self.do_request(
             "api:componentlist-list",
             method="post",
