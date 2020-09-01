@@ -197,13 +197,15 @@ TEMPLATES = [
 ]
 
 
-# GitHub username for sending pull requests.
+# GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
 GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME", None)
+GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN", None)
 
-# GitLab username for sending merge requests.
+# GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
 GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME", None)
+GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN", None)
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()

@@ -18,13 +18,17 @@
 #
 """Git based version control system abstraction for Weblate needs."""
 
+import json
 import os
 import os.path
+import random
+import urllib.parse
 from configparser import NoOptionError, NoSectionError
 from datetime import datetime
 from typing import List, Optional
 from zipfile import ZipFile
 
+import requests
 from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -580,11 +584,18 @@ class GitMergeRequestBase(GitForcePushRepository):
             ]
         )
 
+    def configure_fork_remote(self, push_url, remote_name):
+        """Configure fork remote repository."""
+        self.config_update(
+            # Push url
+            ('remote "{}"'.format(remote_name), "pushurl", push_url),
+        )
+
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
         remotes = self.execute(["remote"]).splitlines()
         if self.get_username() not in remotes:
-            self.execute(["fork"])
+            self.create_fork()
 
     def push(self, branch):
         """Fork repository on Github and push changes.
@@ -615,6 +626,9 @@ class GitMergeRequestBase(GitForcePushRepository):
                 return
             raise
 
+    def create_fork(self):
+        raise NotImplementedError()
+
     def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         raise NotImplementedError()
 
@@ -627,29 +641,33 @@ class GitMergeRequestBase(GitForcePushRepository):
 class GithubRepository(GitMergeRequestBase):
 
     name = "GitHub"
-    _cmd = "hub"
     _version = None
-    req_version = "2.7"
-
-    @classmethod
-    def _get_version(cls):
-        """Return VCS program version."""
-        return cls._popen(["--version"], merge_err=False).split()[-1]
 
     @staticmethod
     def get_username():
         return settings.GITHUB_USERNAME
 
-    @classmethod
-    def _getenv(cls):
-        """Generate environment for process execution."""
-        env = super()._getenv()
-        # Add path to config if it exists
-        userconfig = os.path.expanduser("~/.config/hub")
-        if os.path.exists(userconfig):
-            env["HUB_CONFIG"] = userconfig
+    def api_url(self):
+        slug = self.component.repo.split("/")[-1].replace(".git", "")
+        owner = self.component.repo.split("/")[-2]
+        return "https://api.github.com/repos/{0}/{1}".format(owner, slug)
 
-        return env
+    def create_fork(self):
+        fork_url = "{}/forks".format(self.api_url())
+
+        # GitHub API returns the entire data of the fork, in case the fork
+        # already exists. Hence this is perfectly handled, if the fork already
+        # exists in the remote side.
+        r = requests.post(
+            fork_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": "token {}".format(settings.GITHUB_TOKEN),
+            },
+            data={},
+        )
+        response = r.json()
+        self.configure_fork_remote(response["ssh_url"], self.get_username())
 
     def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         """Create pull request.
@@ -660,18 +678,47 @@ class GithubRepository(GitMergeRequestBase):
             head = fork_branch
         else:
             head = "{0}:{1}".format(fork_remote, fork_branch)
-        self.execute(
-            [
-                "pull-request",
-                "--force",
-                "--head",
-                head,
-                "--base",
-                origin_branch,
-                "--message",
-                self.get_merge_message(),
-            ]
+        pr_url = "{}/pulls".format(self.api_url())
+        r = requests.post(
+            pr_url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": "token {}".format(settings.GITHUB_TOKEN),
+            },
+            json={
+                "head": head,
+                "base": origin_branch,
+                "title": self.get_merge_message(),
+            },
         )
+        response = r.json()
+
+        # Check for an error. If the error has a message saying A pull request already
+        # exists, then we ignore that, else raise an error. Currently, since the API
+        # doesn't return any other separate indication for a pull request existing
+        # compared to other errors, checking message seems to be the only option
+        if "url" not in response:
+            # Sometimes GitHub returns the error messages in an errors list
+            # instead of the message. Sometimes, there is no errors list.
+            # Hence the different logics
+            if (
+                "errors" in response
+                and response["errors"][0]["message"].find(
+                    "A pull request already exists"
+                )
+                == -1
+            ):
+                error_message = "{}: {}".format(
+                    response["message"], response["errors"][0]["message"]
+                )
+            elif "message" in response:
+                error_message = response["message"]
+            else:
+                return
+            report_error(
+                cause="Pull request failed", extra_data={"errors": response["message"]}
+            )
+            raise RepositoryException(0, error_message)
 
 
 class LocalRepository(GitRepository):
@@ -759,58 +806,152 @@ class LocalRepository(GitRepository):
 class GitLabRepository(GitMergeRequestBase):
 
     name = "GitLab"
-    req_version = "0.16"
-
     _version = None
-
-    # docs: https://zaquestion.github.io/lab/
-    _cmd = "lab"
-
-    @classmethod
-    def _get_version(cls):
-        """Return VCS program version."""
-        try:
-            return cls._popen(["--version"], merge_err=False).split()[-1]
-        except RepositoryException as error:
-            # It asks for configuration even with --version, see
-            # https://github.com/zaquestion/lab/issues/374
-            if error.retcode == 1 and "EOF" in error.get_message():
-                return "0.16"
-            raise
 
     @staticmethod
     def get_username():
         return settings.GITLAB_USERNAME
 
-    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
-        """Create merge (a.k.a pull) request.
-
-        Used to merge branch in forked repository into branch of remote
-        repository.
-
-        :param origin_branch: Git branch in the project's repo to create pull
-            request against.
-        :param fork_branch: Git branch in the fork's repo which contains the
-            updates.
-        """
-        # Checkout the branch we want to use as the source for new MR.
-        self.execute(
-            ["checkout", "-B", fork_branch, "{}/{}".format(fork_remote, fork_branch)]
+    def api_url(self):
+        repo_name_index = self.component.repo.rfind(
+            "/", 0, self.component.repo.rfind("/")
         )
-        # Reset the branch to be up to date with our main branch
-        self.execute(["reset", "--hard", self.branch])
-        try:
-            # Create a new MR against origin/<origin_branch> from the fork.
-            self.execute(
-                [
-                    "mr",
-                    "create",
-                    "origin",
-                    origin_branch,
-                    "--message",
-                    self.get_merge_message(),
-                ]
+        api_url = "{}/api/v4/projects/{}".format(
+            self.component.repo[:repo_name_index],
+            urllib.parse.quote(
+                self.component.repo[(repo_name_index + 1) :].replace(".git", ""),
+                safe="",
+            ),
+        )
+        return api_url
+
+    def get_forked_url(self):
+        """Gitlab MR needs the API URL for the forked repository.
+
+        To send a MR to Gitlab via API, one needs to send request to
+        API URL of the forked repository along with the target project ID
+        unlike Github where the PR is sent to the target project's API URL.
+        """
+        target_path = self.api_url().split("/")[-1]
+        cmd = ["remote", "get-url", "--push", self.get_username()]
+        fork_remotes = self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
+        fork_path = urllib.parse.quote(
+            fork_remotes[0].split(":")[-1].replace(".git", ""), safe="",
+        )
+        return self.api_url().replace(target_path, fork_path)
+
+    def get_target_project_id(self):
+        r = requests.get(
+            self.api_url(),
+            headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+        )
+        return r.json()["id"]
+
+    def disable_fork_features(self, forked_url):
+        """Disable features in fork.
+
+        Gitlab initializes a lot of the features in the fork
+        that are not desirable, such as merge requests, issues, etc.
+        This function is intended to disable all such features by
+        editing the forked repo.
+        """
+        access_level_dict = {
+            "issues_access_level": "disabled",
+            "forking_access_level": "disabled",
+            "builds_access_level": "disabled",
+            "wiki_access_level": "disabled",
+            "snippets_access_level": "disabled",
+            "pages_access_level": "disabled",
+        }
+        r = requests.put(
+            forked_url,
+            headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+            json=access_level_dict,
+        )
+        if "web_url" not in r.json():
+            raise RepositoryException(0, r.json()["error"])
+
+    def create_fork(self):
+        get_fork_url = "{}/forks?owned=True".format(self.api_url())
+        fork_url = "{}/fork".format(self.api_url())
+        forked_repo_response = None
+
+        # Check if Fork already exists owned by current user. If the
+        # fork already exists, set that fork as remote.
+        # Else, create a new fork
+        r = requests.get(
+            get_fork_url,
+            headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+        )
+        for fork in r.json():
+            # Since owned=True returns forks from both the user's repo and the forks
+            # in all the groups owned by the user, hence we need the below logic
+            # to find the fork within the user repo and not the groups
+            if "owner" in fork and fork["owner"]["username"] == self.get_username():
+                forked_repo_response = fork
+
+        if not forked_repo_response:
+            r = requests.post(
+                fork_url,
+                headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+                data={},
             )
-        finally:
-            # Return to the previous checked out branch.
-            self.execute(["checkout", "-"])
+            # If a repo with the name of the fork already exist, append numeric
+            # as suffix to name and path to use that as repo name and path.
+            if (
+                "ssh_url_to_repo" not in r.json()
+                and "path" in r.json()["message"]
+                and "name" in r.json()["message"]
+                and r.json()["message"]["path"][0] == "has already been taken"
+            ):
+                fork_name = "{}-{}".format(
+                    self.api_url().split("%2F")[-1], random.randint(1000, 9999)
+                )
+                r = requests.post(
+                    fork_url,
+                    headers={
+                        "Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)
+                    },
+                    data={"name": fork_name, "path": fork_name},
+                )
+            forked_repo_response = r.json()
+
+        self.disable_fork_features(forked_repo_response["_links"]["self"])
+        self.configure_fork_remote(
+            forked_repo_response["ssh_url_to_repo"], self.get_username()
+        )
+
+    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
+        """Create pull request.
+
+        Use to merge branch in forked repository into branch of remote repository.
+        """
+        target_project_id = None
+        pr_url = "{}/merge_requests".format(self.api_url())
+        if fork_remote != "origin":
+            # Gitlab MR works a little different from Github. The MR needs
+            # to be sent with the fork's API URL along with a parameter mentioning
+            # the target project id
+            target_project_id = self.get_target_project_id()
+            pr_url = "{}/merge_requests".format(self.get_forked_url())
+
+        r = requests.post(
+            pr_url,
+            headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
+            json={
+                "source_branch": fork_branch,
+                "target_branch": origin_branch,
+                "title": self.get_merge_message(),
+                "target_project_id": target_project_id,
+            },
+        )
+        response = r.json()
+
+        if "web_url" not in response and (
+            type(response["message"]) is not list
+            or response["message"][0].find("open merge request already exists") == -1
+        ):
+            report_error(
+                cause="Pull request failed", extra_data={"errors": response["message"]}
+            )
+            raise RepositoryException(0, json.dumps(response["message"]))

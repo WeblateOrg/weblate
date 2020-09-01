@@ -22,13 +22,15 @@ import os.path
 import shutil
 import tempfile
 from unittest import SkipTest
+from unittest.mock import patch
 
+import responses
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.trans.models import Component, Project
-from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin, get_test_file
+from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import remove_readonly
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
@@ -46,13 +48,11 @@ from weblate.vcs.mercurial import HgRepository
 class GithubFakeRepository(GithubRepository):
     _is_supported = None
     _version = None
-    _cmd = get_test_file("hub")
 
 
 class GitLabFakeRepository(GitLabRepository):
     _is_supported = None
     _version = None
-    _cmd = get_test_file("lab")
 
 
 class GitTestRepository(GitRepository):
@@ -429,12 +429,7 @@ class VCSGitForcePushTest(VCSGitTest):
     _class = GitForcePushRepository
 
 
-@override_settings(GITHUB_USERNAME="test")
-class VCSGithubTest(VCSGitTest):
-    _class = GithubFakeRepository
-    _vcs = "git"
-    _sets_push = False
-
+class VCSGitUpstreamTest(VCSGitTest):
     def add_remote_commit(self, conflict=False, rename=False):
         # Use Git to create changed upstream repo
         backup = self._class
@@ -445,14 +440,323 @@ class VCSGithubTest(VCSGitTest):
             self._class = backup
 
 
+@override_settings(GITHUB_USERNAME="test")
+class VCSGithubTest(VCSGitUpstreamTest):
+    _class = GithubFakeRepository
+    _vcs = "git"
+    _sets_push = False
+
+    def mock_responses(self, pr_response, pr_status=200):
+        """Mock response helper function.
+
+        This function will mock request responses for both fork and PRs
+        """
+        responses.add(
+            responses.POST,
+            "https://api.github.com/repos/WeblateOrg/test/forks",
+            json={"ssh_url": "git@github.com:test/test.git"},
+        )
+        responses.add(
+            responses.POST,
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            json=pr_response,
+            status=pr_status,
+        )
+
+    def test_api_url(self):
+        self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+        )
+
+    @responses.activate
+    def test_push(self, branch=""):
+        self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        self.mock_responses(
+            pr_response={"url": "https://github.com/WeblateOrg/test/pull/1"}
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_error(self, branch=""):
+        self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock PR to return error
+        self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
+
+        with self.assertRaises(RepositoryException):
+            super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_exists(self, branch=""):
+        self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Check that it doesn't raise error when pull request already exists
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+
 @override_settings(GITLAB_USERNAME="test")
-class VCSGitLabTest(VCSGithubTest):
+class VCSGitLabTest(VCSGitUpstreamTest):
     _class = GitLabFakeRepository
     _vcs = "git"
     _sets_push = False
 
+    def mock_fork_responses(self, get_forks, duplicate_repo):
+        if duplicate_repo:
+            # Response to mock existing of repo with duplicate name
+            # In case repo name already taken, append number at the end
+            responses.add(
+                responses.POST,
+                "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
+                json={
+                    "message": {
+                        "name": ["has already been taken"],
+                        "path": ["has already been taken"],
+                    }
+                },
+                status=409,
+            )
+            responses.add(
+                responses.POST,
+                "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
+                json={
+                    "ssh_url_to_repo": "git@gitlab.com:test/test-6184.git",
+                    "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+                },
+            )
+        else:
+            responses.add(
+                responses.POST,
+                "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
+                json={
+                    "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                    "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+                },
+            )
+        # Mock GET responses to get forks for the repo
+        responses.add(
+            responses.GET,
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
+            json=[] if not get_forks else get_forks,
+        )
 
-class VCSGerritTest(VCSGithubTest):
+    def mock_pr_responses(self, pr_response, pr_status):
+        # PR response in case fork is create with a suffix due to duplicate
+        # repo name
+        responses.add(
+            responses.POST,
+            "https://gitlab.com/api/v4/projects/test%2Ftest-6184/merge_requests",
+            json=pr_response,
+            status=pr_status,
+        )
+
+        # In case the remote is origin, we send the PR to itself
+        responses.add(
+            responses.POST,
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/merge_requests",
+            json=pr_response,
+            status=pr_status,
+        )
+
+        # General PR response
+        responses.add(
+            responses.POST,
+            "https://gitlab.com/api/v4/projects/test%2Ftest/merge_requests",
+            json=pr_response,
+            status=pr_status,
+        )
+
+    def mock_disable_fork_features(self):
+        responses.add(
+            responses.PUT,
+            "https://gitlab.com/api/v4/projects/20227391",
+            json={"web_url": "https://gitlab.com/test/test"},
+        )
+
+    def mock_get_project_id(self):
+        responses.add(
+            responses.GET,
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
+            json={"id": 20227391},
+        )
+
+    def mock_responses(
+        self, pr_response, pr_status=200, get_forks=None, duplicate_repo=False
+    ):
+        """Mock response helper function.
+
+        This function will mock request responses for both fork and PRs,
+        GET request to get all forks and target project id, and PUT request
+        to disable fork features
+        """
+        self.mock_fork_responses(get_forks, duplicate_repo)
+        self.mock_pr_responses(pr_response, pr_status)
+        self.mock_disable_fork_features()
+        self.mock_get_project_id()
+
+    def test_api_url(self):
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
+        )
+
+    @responses.activate
+    def test_push(self, branch=""):
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock post, put and get requests for both the fork and PR requests sent.
+        self.mock_responses(
+            pr_response={
+                "web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"
+            }
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_push_with_existing_fork(self, branch=""):
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock post, put and get requests for both the fork and PR requests sent.
+        self.mock_responses(
+            pr_response={
+                "web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"
+            },
+            get_forks=[
+                {
+                    "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+                    "owner": {"username": "test"},
+                    "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+                }
+            ],
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+        # Test that the POST request to create a new fork was not called
+        call_count = len(
+            [1 for call in responses.calls if call.request.method == "POST"]
+        )
+        self.assertEqual(call_count, 1)
+
+    @responses.activate
+    def test_push_duplicate_repo_name(self, branch=""):
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock post, put and get requests for both the fork and PR requests sent.
+        self.mock_responses(
+            pr_response={
+                "web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"
+            },
+            duplicate_repo=True,
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+        # Test that the POST request to create a new fork was called again to
+        # create different repo name
+        call_count = len(
+            [1 for call in responses.calls if call.request.method == "POST"]
+        )
+        self.assertEqual(call_count, 3)
+
+    @responses.activate
+    def test_pull_request_error(self, branch=""):
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock post, put and get requests for both the fork and PR requests sent.
+        self.mock_responses(pr_status=422, pr_response={"message": "Some error"})
+        with self.assertRaises(RepositoryException):
+            super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_pull_request_exists(self, branch=""):
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Check that it doesn't raise error when pull request already exists
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"message": ["Another open merge request already exists"]},
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+
+class VCSGerritTest(VCSGitUpstreamTest):
     _class = GitWithGerritRepository
     _vcs = "git"
     _sets_push = True

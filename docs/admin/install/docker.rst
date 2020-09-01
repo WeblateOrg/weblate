@@ -467,8 +467,16 @@ Generic settings
 
     .. seealso::
 
-       :ref:`vcs-github`,
-       :ref:`hub-setup`
+       :ref:`vcs-github`
+
+.. envvar:: WEBLATE_GITHUB_TOKEN
+
+    Configures GitHub personal access token for GitHub pull-requests via API by changing
+    :setting:`GITHUB_TOKEN`.
+
+    .. seealso::
+
+       :ref:`vcs-github`
 
 .. envvar:: WEBLATE_GITLAB_USERNAME
 
@@ -478,7 +486,15 @@ Generic settings
     .. seealso::
 
        :ref:`vcs-gitlab`
-       :ref:`lab-setup`
+
+.. envvar:: WEBLATE_GITLAB_TOKEN
+
+    Configures GitLab personal access token for GitLab merge-requests via API by changing
+    :setting:`GITLAB_TOKEN`
+
+    .. seealso::
+
+       :ref:`vcs-gitlab`
 
 .. envvar:: WEBLATE_GITLAB_HOST
 
@@ -487,16 +503,6 @@ Generic settings
     .. seealso::
 
        :ref:`vcs-gitlab`
-       :ref:`lab-setup`
-
-.. envvar:: WEBLATE_GITLAB_TOKEN
-
-    Configures GitLab access token for GitLab merge-requests
-
-    .. seealso::
-
-       :ref:`vcs-gitlab`
-       :ref:`lab-setup`
 
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
@@ -1217,56 +1223,6 @@ using :ref:`docker-custom-config`.
 .. seealso::
 
    :doc:`../customize`
-
-Hub setup
----------
-
-In order to use the GitHub's pull-request feature, you must initialize your hub configuration by entering the Weblate container and executing an arbitrary Hub command. For example:
-
-.. code-block:: sh
-
-    docker-compose exec --user weblate weblate bash
-    cd
-    HOME=/app/data/home hub clone octocat/Spoon-Knife
-
-The username passed for credentials must be the same as :setting:`GITHUB_USERNAME`.
-
-.. seealso::
-
-    :ref:`vcs-github`,
-    :ref:`hub-setup`
-
-
-Lab setup
----------
-
-In order to use GitLab's merge-request feature, you must initialize the ``lab``
-configuration by entering the Weblate container and executing the ``lab``
-command. For example:
-
-.. code-block:: sh
-
-        docker-compose exec --user weblate weblate bash
-        cd
-        HOME=/app/data/home lab
-
-You can also use environment variables to configure ``lab`` on each container start.
-Just add ``WEBLATE_GITLAB_USERNAME``, ``WEBLATE_GITLAB_HOST``and ``WEBLATE_GITLAB_TOKEN`` to your env configuration.
-
-.. code-block:: yaml
-
-  weblate:
-    environment:
-      WEBLATE_GITLAB_USERNAME: translations_bot
-      WEBLATE_GITLAB_HOST: https://gitlab.example.com
-      WEBLATE_GITLAB_TOKEN: personal_access_token_of_translations_bot
-
-The ``access_token`` passed for lab configuration must be same as :setting:`GITLAB_USERNAME`.
-
-.. seealso::
-
-     :ref:`vcs-gitlab`
-     :ref:`lab-setup`
 
 
 Select your machine - local or cloud providers
