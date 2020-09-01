@@ -732,9 +732,8 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
     def perm_check(self, request):
         obj = self.get_object()
         if (
-            not request.user.has_perm("glossary.edit")
+            not request.user.has_perm("project.edit")
             or obj.project_id not in request.user.allowed_project_ids
-            or not request.user.has_perm("project.edit")
         ):
             self.permission_denied(request, message="Can not manage glossary")
 
