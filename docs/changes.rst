@@ -16,6 +16,7 @@ Not yet released.
 * Fixed login redirect for some authentication configurations.
 * Fixed LDAP authentication with group sync.
 * Fixed crash in reporting automatic translation progress.
+* Fixed Git commit squashing with trailers enabled.
 
 Weblate 4.2.1
 -------------

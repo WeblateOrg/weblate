@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-08-29 02:27+0000\n"
+"PO-Revision-Date: 2020-09-01 05:08+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -58,13 +58,6 @@ msgstr ""
 "`auth-model`."
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`"
 msgid ""
 "After installation a default set of groups is created, and you can use those "
 "to assign users roles for the whole instance (see :ref:`default-groups`). "
@@ -73,10 +66,10 @@ msgid ""
 "ref:`custom-acl`."
 msgstr ""
 "После установки создаётся стандартный набор групп; вы можете использовать "
-"их, чтобы назначить пользователям роли в рамках всего экземпляра приложения "
-"(смотрите раздел :ref:`default-groups`). Кроме того, если включён :ref:"
-"`acl`, вы можете назначать пользователей конкретным проектам перевода. Более "
-"мелкозернистую конфигурацию поможет обеспечить :ref:`custom-acl`"
+"их, чтобы назначить пользователям роли в рамках всего экземпляра приложения ("
+"смотрите раздел :ref:`default-groups`). Кроме того, если включён :ref:`acl`, "
+"вы можете назначать пользователей конкретным проектам перевода. Более "
+"мелкозернистую конфигурацию поможет обеспечить :ref:`custom-acl`."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -1482,17 +1475,13 @@ msgid "Per author"
 msgstr "По автору"
 
 #: ../../admin/addons.rst:278
-#, fuzzy
-#| msgid ""
-#| "Original commit messages are kept, but authorship is lost unless \"Per "
-#| "author\" is selected, or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 "Исходные сообщения коммита сохраняются, но авторство коммитов теряется, если "
-"только не выбран режим «По автору», или сообщение коммита не настроено на "
-"включение в него его авторов."
+"только не выбран режим :guilabel:`По автору`, или сообщение коммита не "
+"настроено на включение в него его авторов."
 
 #: ../../admin/addons.rst:283
 msgid ""
@@ -3005,15 +2994,11 @@ msgid "Command line for manual backup"
 msgstr "Командная строка для ручного резервного копирования"
 
 #: ../../admin/backup.rst:228
-#, fuzzy
-#| msgid ""
-#| "Using a cron task, you can set up a bash command to be executed on a "
-#| "daily basis, for instance:"
 msgid ""
 "Using a cron job, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
 msgstr ""
-"Используя задачу в cron’е, вы можете задать команду bash’а, которая будет "
+"Используя задание в cron’е, вы можете задать команду bash’а, которая будет "
 "выполняться каждый день, например:"
 
 #: ../../admin/backup.rst:234
@@ -5989,36 +5974,50 @@ msgid ""
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
 msgstr ""
+"Weblate строит такую инфраструктуру, чтобы ваш перевод непрерывно следовал "
+"за разработкой. Таким образом, переводчики могут работать над переводами всё "
+"время разработки, вместо того, чтобы работать с огромным количеством нового "
+"текста непосредственно перед выпуском."
 
 #: ../../admin/continuous.rst:10
 msgid "This is the process:"
-msgstr ""
+msgstr "Процесс следующий:"
 
 #: ../../admin/continuous.rst:12
 msgid "Developers make changes and push them to the VCS repository."
 msgstr ""
+"Разработчики вносят изменения и отправляют их в репозиторий системы контроля "
+"версий."
 
 #: ../../admin/continuous.rst:13
 msgid ""
 "Optionally the translation files are updated (this depends on the file "
 "format, see :ref:`translations-update`)."
 msgstr ""
+"По необходимости обновляются файлы перевода (это зависит от формата файла, "
+"смотрите вопрос :ref:`translations-update`)."
 
 #: ../../admin/continuous.rst:14
 msgid "Weblate pulls changes from the VCS repository, see :ref:`update-vcs`."
 msgstr ""
+"Weblate извлекает изменения из репозитория системы контроля версий, смотрите "
+"раздел :ref:`update-vcs`."
 
 #: ../../admin/continuous.rst:15
 msgid ""
 "Once Weblate detects changes in translations, translators are notified based "
 "on their subscription settings."
 msgstr ""
+"Как только Weblate обнаруживает изменения в переводах, он уведомляет об этом "
+"переводчиков в соответствии с настройками их подписок."
 
 #: ../../admin/continuous.rst:16
 msgid ""
 "Translators submit translations using the Weblate web interface, or upload "
 "offline changes."
 msgstr ""
+"Переводчики присылают переводы через веб-интерфейс Weblate, или загружают "
+"файлы, изменённые ими в автономном режиме."
 
 #: ../../admin/continuous.rst:17
 msgid ""
@@ -6026,6 +6025,9 @@ msgid ""
 "repository (see :ref:`lazy-commit`) and pushes them back if it has "
 "permissions to do so (see :ref:`push-changes`)."
 msgstr ""
+"После завершения работы переводчиков Weblate коммитит изменения в локальный "
+"репозиторий (смотрите раздел :ref:`lazy-commit`) и отправляет их обратно, "
+"если у него есть на это разрешение (смотрите раздел :ref:`push-changes`)."
 
 #: ../../admin/continuous.rst:45
 msgid "Updating repositories"
@@ -6036,38 +6038,50 @@ msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
 msgstr ""
+"Вы должны каким-то образом настроить обновления репозиториев из их "
+"источников."
 
 #: ../../admin/continuous.rst:50
 msgid "Use :ref:`hooks` to integrate with most of common code hosting services"
 msgstr ""
+"Для интеграции с большинством распространённых сервисов хостинга кода "
+"используйте :ref:`обработчики уведомлений <hooks>`"
 
 #: ../../admin/continuous.rst:51
 msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
 msgstr ""
+"Вручную запускайте обновление либо в разделе управления репозиторием, либо с "
+"помощью :ref:`api` или :ref:`клиента Weblate <wlc>`"
 
 #: ../../admin/continuous.rst:52
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
 msgstr ""
+"Включите параметр :setting:`AUTO_UPDATE` для автоматического обновления всех "
+"компонентов на вашем экземпляре Weblate’а"
 
 #: ../../admin/continuous.rst:53
 msgid ""
 "Execute :djadmin:`updategit` (with selection of project or `--all` to update "
 "all)"
 msgstr ""
+"Выполните команду :djadmin:`updategit` (с выбранным проектом проекта или с "
+"ключом `--all` для обновления всех проектов)"
 
 #: ../../admin/continuous.rst:55
 msgid ""
 "Whenever Weblate updates the repository, the post update addons will be "
 "triggered, see :ref:`addons`."
 msgstr ""
+"Всякий раз, когда Weblate обновляет репозиторий, будут срабатывать "
+"надстройки «после обновления», смотрите раздел :ref:`addons`."
 
 #: ../../admin/continuous.rst:61
 msgid "Avoiding merge conflicts"
-msgstr ""
+msgstr "Предотвращение конфликтов слияния"
 
 #: ../../admin/continuous.rst:63
 msgid ""
@@ -6076,6 +6090,11 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
+"Конфликты слияния из Weblate возникают, когда один и тот же файл изменяется "
+"как в Weblate’е, так и за его пределами. Существует два подхода к решению "
+"этой проблемы — избегать редактирования файлов вне Weblate’а или "
+"интегрировать Weblate в процесс обновления таким образом, чтобы он "
+"фиксировал сделанные изменения перед обновлением файлов вне Weblate’а."
 
 #: ../../admin/continuous.rst:68
 msgid ""
@@ -6089,6 +6108,17 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will make sure that all pending changes are included prior to this operation."
 msgstr ""
+"Первый подход прост с одноязычными файлами — вы можете добавлять новые "
+"строки, не выходя из Weblate’а, и возложить на него любое редактирование "
+"файлов. Для двуязычных файлов, как правило, существует некий процесс "
+"извлечения сообщений из исходного кода для генерации файлов перевода. В "
+"некоторых случаях он может быть разбит на две части — одна, извлекающая, "
+"часть генерирует шаблон (например, файл POT gettext’а генерируется с помощью "
+"программы :program:`xgettext`), а дальнейший процесс объединяет его с "
+"фактическими переводами (файлы PO gettext’а, обновляемые с помощью программы "
+":program:`msgmerge`). Второй шаг вы можете выполнить в Weblate’е, и он "
+"удостоверится, что до выполнения этой операции все отложенные изменения были "
+"зафиксированы."
 
 #: ../../admin/continuous.rst:78
 msgid ""
@@ -6096,16 +6126,21 @@ msgid ""
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
 msgstr ""
+"Второй подход может быть достигнут путём использования :ref:`api`, "
+"заставляющего Weblate отправить на все отложенные изменения и заблокировать "
+"перевод, пока вы на своей стороне проводите изменения."
 
 #: ../../admin/continuous.rst:82
 msgid "The script for doing updates can look like this:"
-msgstr ""
+msgstr "Скрипт для выполнения обновлений может выглядеть следующим образом:"
 
 #: ../../admin/continuous.rst:103
 msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
 msgstr ""
+"Если у вас есть несколько компонентов, совместно использующих один и тот же "
+"репозиторий, вам необходимо заблокировать их все по отдельности:"
 
 #: ../../admin/continuous.rst:114
 msgid ""
@@ -6113,6 +6148,10 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of wlc, e.g. curl, see :ref:`api`."
 msgstr ""
+"В примере используется :ref:`клиент Weblate <wlc>`, который, чтобы иметь "
+"возможность управлять Weblate’ом удалённо, нуждается в некоторой настройке ("
+"в ключах API). Также вы можете решить задачу при помощи любого HTTP-клиента "
+"вместо wlc, к примеру, curl, смотрите раздел :ref:`api`."
 
 #: ../../admin/continuous.rst:121
 msgid "Automatically receiving changes from GitHub"
@@ -6141,6 +6180,9 @@ msgid ""
 "Weblate Webhook in the repository settings (:guilabel:`Webhooks`) as shown "
 "on the image below:"
 msgstr ""
+"Для получения уведомлений о каждой отправке в репозиторий GitHub, добавьте в "
+"настройки репозитория (:guilabel:`Webhooks`) веб-обработчик Weblate, как "
+"показано на изображении ниже:"
 
 #: ../../admin/continuous.rst:136
 msgid ""
@@ -6148,12 +6190,18 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
+"Для заполнения адреса полезной нагрузки (поля :guilabel:`Payload URL`), "
+"добавьте к URL-адресу вашего Weblate’а суффикс ``/hooks/github/``, например, "
+"для сервиса Hosted Weblate, это этот адрес будет таким: ``https://hosted."
+"weblate.org/hooks/github/``."
 
 #: ../../admin/continuous.rst:139
 msgid ""
 "You can leave other values at default settings (Weblate can handle both "
 "content types and consumes just the `push` event)."
 msgstr ""
+"Остальные поля вы можете оставить с настройками по умолчанию (Weblate умеет "
+"обрабатывать оба типа содержимого и потребляет только событие `push`)."
 
 #: ../../admin/continuous.rst:144
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
@@ -6170,6 +6218,10 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
+"Weblate поддерживает веб-обработчики Bitbucket, добавьте веб-обработчик, "
+"который срабатывает при отправке изменений в репозиторий, указав в качестве "
+":guilabel:`URL` адрес вашей установки Weblate с суффиксом ``/hooks/bitbucket/"
+"`` (например, ``https://hosted.weblate.org/hooks/bitbucket/``)."
 
 #: ../../admin/continuous.rst:160
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -6185,6 +6237,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
+"Weblate поддерживает обработчики GitLab’а, добавьте веб-обработчик проекта с "
+"адресом назначения, равным адресу вашей установки Weblate с суффиксом ``/"
+"hooks/gitlab/`` (например, ``https://hosted.weblate.org/hooks/gitlab/``)."
 
 #: ../../admin/continuous.rst:173
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -6201,6 +6256,11 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate поддерживает обработчики Pagure, добавьте веб-обработчик проекта с "
+"адресом назначения, равным адресу вашей установки Weblate с суффиксом ``/"
+"hooks/pagure/`` (например, ``https://hosted.weblate.org/hooks/pagure/``). "
+"Добавлять этот адрес нужно в поле :guilabel:`Activate Web-hooks`, "
+"расположенное в блоке :guilabel:`Project options`:"
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -6218,6 +6278,12 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
+"Weblate поддерживает веб-обработчики Azure Repos, добавьте веб-обработчик "
+"для события :guilabel:`Code pushed` с адресом назначения, равным адресу "
+"вашей установки Weblate с суффиксом ``/hooks/azure/`` (например, "
+"``https://hosted.weblate.org/hooks/azure/``). Добавлять этот адрес нужно в "
+"поле :guilabel:`Service hooks`, расположенное в блоке :guilabel:`Project "
+"settings`."
 
 #: ../../admin/continuous.rst:209
 msgid ""
@@ -6225,6 +6291,9 @@ msgid ""
 "devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/azure/`, :ref:"
 "`hosted-push`"
 msgstr ""
+"`Веб-обработчики в руководстве по Azure DevOps <https://docs.microsoft.com/"
+"ru-ru/azure/devops/service-hooks/services/webhooks>`_, :http:post:`/hooks/"
+"azure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:215
 msgid "Automatically receiving changes from Gitea Repos"
@@ -6238,12 +6307,20 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
+"Weblate поддерживает веб-обработчики Gitea, добавьте веб-обработчик "
+":guilabel:`Gitea Webhook` для события :guilabel:`Push events` с адресом "
+"назначения, равным адресу вашей установки Weblate с суффиксом ``/hooks/gitea/"
+"`` (например, ``https://hosted.weblate.org/hooks/gitea/``). Добавлять этот "
+"адрес нужно в поле :guilabel:`Webhooks`, расположенное в блоке "
+":guilabel:`Settings`."
 
 #: ../../admin/continuous.rst:226
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_, :http:"
 "post:`/hooks/gitea/`, :ref:`hosted-push`"
 msgstr ""
+"`Веб-обработчики в руководстве по Gitea <https://docs.gitea.io/en-us/"
+"webhooks/>`_, :http:post:`/hooks/gitea/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:232
 msgid "Automatically receiving changes from Gitee Repos"
@@ -6257,12 +6334,20 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
+"Weblate поддерживает веб-обработчики Gitee, добавьте веб-обработчик "
+":guilabel:`WebHook` для события :guilabel:`Push` с адресом назначения, "
+"равным адресу вашей установки Weblate с суффиксом ``/hooks/gitee/`` ("
+"например, ``https://hosted.weblate.org/hooks/gitee/``). Добавлять этот адрес "
+"нужно в поле :guilabel:`WebHooks`, расположенное в блоке "
+":guilabel:`Management`."
 
 #: ../../admin/continuous.rst:243
 msgid ""
 "`Webhooks in Gitee manual <https://gitee.com/help/categories/40>`_, :http:"
 "post:`/hooks/gitee/`, :ref:`hosted-push`"
 msgstr ""
+"`Веб-обработчики в руководстве по Gitee <https://gitee.com/help/categories/"
+"40>`_, :http:post:`/hooks/gitee/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:247
 msgid "Automatically updating repositories nightly"
@@ -6274,6 +6359,10 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate по ночам автоматически извлекает изменения из удалённых репозиториев "
+"для повышения производительности при последующем слиянии изменений. По "
+"желанию вы можете превратить его и в ночное слияние, включив параметр "
+":setting:`AUTO_UPDATE`."
 
 #: ../../admin/continuous.rst:256
 msgid "Pushing changes from Weblate"
@@ -6288,12 +6377,22 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
+"Каждый компонент перевода может иметь настроенный URL-адрес для отправки ("
+"смотрите описание параметра :ref:`component-push`), в этом случае Weblate "
+"будет способен отсылать изменения в удалённый репозиторий. Также Weblate "
+"может быть настроен на автоматическую отсылку изменений при каждом коммите ("
+"это поведение по умолчанию, смотрите описание параметра :ref:`component-"
+"push_on_commit`). Если вы не хотите, чтобы изменения отправлялись "
+"автоматически, вы можете отправлять их вручную в разделе :guilabel:`"
+"Обслуживание репозитория` или через API командой :option:`wlc push`."
 
 #: ../../admin/continuous.rst:265
 msgid ""
 "The push options differ based on the :ref:`vcs` used, more details are found "
 "in that chapter."
 msgstr ""
+"Параметры отправки отличаются в зависимости от используемой :ref:`системы "
+"контроля версий <vcs>`, подробнее об этом читайте в указанной главе."
 
 #: ../../admin/continuous.rst:267
 msgid ""
@@ -6302,10 +6401,16 @@ msgid ""
 "you can activate these by choosing :guilabel:`GitHub`, :guilabel:`GitLab` "
 "or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"Если вам не нужна отправка изменений из Weblate напрямую, он поддерживает "
+"создание запросов на извлечение для :ref:`GitHub’а <vcs-github>`, "
+":ref:`GitLab’а <vcs-gitlab>` или рецензий :ref:`vcs-gerrit`, вы можете "
+"активировать их, выбрав в :ref:`конфигурации компонента <component>` в "
+"качестве :ref:`системы контроля версий <component-vcs>` :guilabel:`GitHub`, "
+":guilabel:`GitLab` или :guilabel:`Gerrit`."
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
-msgstr ""
+msgstr "В целом, для Git’а, GitHub’а и GitLab’а доступны следующие варианты:"
 
 #: ../../admin/continuous.rst:275
 msgid "Desired setup"
@@ -6417,10 +6522,15 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
+"Если вы используете Weblate на защищённой ветке, вы можете настроить его на "
+"использование запросов на извлечение и выполнение рецензирования переводов ("
+"что может быть проблематично для языков, которых вы не знаете). "
+"Альтернативный подход заключается в отмене этого ограничения для "
+"пользователя Weblate."
 
 #: ../../admin/continuous.rst:313
 msgid "For example on GitHub this can be done in the repository configuration:"
-msgstr ""
+msgstr "Например, на GitHub’е это можно сделать в настройках репозитория:"
 
 #: ../../admin/continuous.rst:320
 msgid "Merge or rebase"
@@ -6433,12 +6543,20 @@ msgid ""
 "In case you don't need this, you can enable rebasing of changes on upstream, "
 "which will produce a history with fewer merge commits."
 msgstr ""
+"По умолчанию Weblate вливает вышестоящий репозиторий в свой собственный. Это "
+"самый безопасный способ в случае, если вы помимо этого работаете с "
+"нижележащим репозиторием и другими способами. Если вам это не нужно, вы "
+"можете включить перебазирование изменений на голову вышестоящего "
+"репозитория, что позволит создавать историю с меньшим количеством коммитов "
+"слияния."
 
 #: ../../admin/continuous.rst:329
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
 msgstr ""
+"В случае сложных слияний перебазирование может доставить вам проблем, "
+"поэтому тщательно подумайте, хотите ли вы его включать или нет."
 
 #: ../../admin/continuous.rst:333
 msgid "Interacting with others"
@@ -6466,30 +6584,40 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
+"Поведение Weblate’а заключается в группировке коммитов одного и того же "
+"автора в один коммит (если это возможно). Такая группировка значительно "
+"сокращает количество коммитов, однако вам может понадобиться явно приказать "
+"ему сделать коммиты в случае, если вы хотите синхронизировать репозиторий, "
+"например, для выполнения слияния (по умолчанию это действие разрешено для "
+"группы :guilabel:`Управляющие`, смотрите раздел :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:352
 msgid ""
 "The changes in this mode are committed once any of the following conditions "
 "are fulfilled:"
 msgstr ""
+"Изменения в этом режиме коммитятся при выполнении любого из следующих "
+"условий:"
 
 #: ../../admin/continuous.rst:355
 msgid "Somebody else changes an already changed string."
-msgstr ""
+msgstr "Кто-то другой изменяет уже изменённую строку."
 
 #: ../../admin/continuous.rst:356
 msgid "A merge from upstream occurs."
-msgstr ""
+msgstr "Происходит слияние с вышестоящим репозиторием."
 
 #: ../../admin/continuous.rst:357
 msgid "An explicit commit is requested."
-msgstr ""
+msgstr "Запрошен явный коммит изменений."
 
 #: ../../admin/continuous.rst:358
 msgid ""
 "Change is older than period defined as :guilabel:`Age of changes to commit` "
 "on :ref:`component`."
 msgstr ""
+"Изменения старше периода, определённого параметром :guilabel:`Возраст "
+"изменений для коммита` в :ref:`конфигурации компонента <component>`."
 
 #: ../../admin/continuous.rst:362
 msgid ""
@@ -6497,12 +6625,17 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` addon in that case."
 msgstr ""
+"Коммиты создаются для каждого компонента. Так что в случае, если у вас много "
+"компонентов, у вас всё равно будет множество коммитов. В этом случае вы "
+"можете использовать надстройку :ref:`addon-weblate.git.squash`."
 
 #: ../../admin/continuous.rst:366
 msgid ""
 "If you want to commit changes more frequently and without checking of age, "
 "you can schedule a regular task to perform a commit:"
 msgstr ""
+"Если вы хотите коммитить изменения чаще и без проверки их возраста, вы "
+"можете запланировать для выполнения коммита обычное задание:"
 
 #: ../../admin/continuous.rst:375
 msgid "Processing repository with scripts"
@@ -6514,6 +6647,10 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through addons."
 msgstr ""
+"Настройка взаимодействия Weblate’а с репозиторием заключается в "
+"использовании :ref:`надстроек <addons>`. Для получения информации о том, как "
+"через надстройки выполнять внешние скрипты, обратитесь к разделу :ref:`addon-"
+"script`."
 
 #: ../../admin/continuous.rst:384
 msgid "Keeping translations same across components"
@@ -6565,6 +6702,9 @@ msgid ""
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
 msgstr ""
+"Проверка :ref:`check-inconsistent` срабатывает всякий раз, когда строки "
+"отличаются друг от друга. Вы можете использовать это, чтобы отрецензировать "
+"такие различия вручную и выбрать правильный перевод."
 
 #: ../../admin/continuous.rst:412
 msgid ""
@@ -6574,6 +6714,11 @@ msgid ""
 "repository update using addon (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
+"Автоматический перевод одних компонентов на основе переводов в других может "
+"быть способом синхронизации переводов между компонентами. Вы можете либо "
+"запустить его вручную (смотрите раздел :ref:`auto-translation`), либо "
+"заставить его автоматически запускаться при обновлении репозитория с помощью "
+"надстройки :ref:`addon-weblate.autotranslate.autotranslate`."
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
@@ -10278,10 +10423,6 @@ msgstr ""
 "Weblate:"
 
 #: ../../admin/install/docker.rst:1060
-#, fuzzy
-#| msgid ""
-#| "You are responsible for seting up serving of the files generated by "
-#| "Weblate, it only does stores the files in configured location."
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
@@ -10741,11 +10882,6 @@ msgstr ""
 "команде :command:`weblate`: ``~/weblate-env/bin/weblate``."
 
 #: ../../admin/install/steps/install-configure.rst:11
-#, fuzzy
-#| msgid ""
-#| "Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/"
-#| "settings_example.py` to :file:`~/weblate-env/lib/python3.7/site-packages/"
-#| "weblate/settings.py`"
 msgid ""
 "Copy the file :file:`~/weblate-env/lib/python3.7/site-packages/weblate/"
 "settings_example.py` to :file:`~/weblate-env/lib/python3.7/site-packages/"
@@ -11102,12 +11238,18 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"Вы можете указать, по каким лицензиям предоставляются переводы. Особенно оно "
+"важно, если переводы находятся в открытом доступе, так как оно помогает "
+"определить, для чего они могут быть использованы."
 
 #: ../../admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+"Вы должны указать информацию о лицензии :ref:`компонента <component>`. Вам "
+"следует избегать требования заключения лицензионного соглашения с "
+"участниками, хотя это вполне возможно."
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
@@ -11118,6 +11260,9 @@ msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"После указании информации о лицензии (имени лицензии и её URL-адреса) эта "
+"информация отображается в разделе «Инфо» соответствующего :ref:`компонента "
+"<component>`."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -11125,6 +11270,9 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"Обычно, если на перевод не требуется явного согласия, это лучшее место для "
+"размещения информации о лицензии. Если ваш проект или перевод не являются "
+"свободными, то, скорее всего, предварительное согласие вам необходимо."
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:537
 msgid "Contributor agreement"
@@ -11136,12 +11284,17 @@ msgid ""
 "to it will be able to contribute. This is a clearly visible step when "
 "accessing the translation:"
 msgstr ""
+"Если вы укажете лицензионное соглашение участника, то вносить свой вклад в "
+"перевод смогут только пользователи, с ним согласившиеся. Это хорошо заметный "
+"шаг, появляющийся при доступе к переводу:"
 
 #: ../../admin/licensing.rst:27
 msgid ""
 "The entered text is formatted into paragraphs and external links can be "
 "included. HTML markup can not be used."
 msgstr ""
+"Введённый текст разбивается на абзацы и может содержать внешние ссылки. "
+"Разметку HTML в нём использовать нельзя."
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
@@ -11152,6 +11305,8 @@ msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Любой пользователь может просмотреть из своего профиля все лицензии на "
+"перевод всех публичных проектов на экземпляре:"
 
 #: ../../admin/machine.rst:4 ../../user/translating.rst:282
 msgid "Machine translation"
@@ -14867,7 +15022,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:41
 msgid "Additional info on source strings"
-msgstr ""
+msgstr "Дополнительная информация об исходных строках"
 
 #: ../../admin/translating.rst:43
 msgid ""
@@ -14884,7 +15039,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:55
 msgid "Strings prioritization"
-msgstr ""
+msgstr "Приоритизация строк"
 
 #: ../../admin/translating.rst:59
 msgid ""
@@ -14929,7 +15084,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:97
 msgid "Visual context for strings"
-msgstr ""
+msgstr "Визуальный контекст для строк"
 
 #: ../../admin/translating.rst:101
 msgid ""
@@ -15311,14 +15466,10 @@ msgstr ""
 "migration`."
 
 #: ../../admin/upgrade.rst:194
-#, fuzzy
-#| msgid ""
-#| "Add PostgeSQL as additional database connection to the :file:`settings."
-#| "py`:"
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
 msgstr ""
-"Добавьте PostgeSQL в файл :file:`settings.py` в качестве дополнительного "
+"Добавьте PostgreSQL в файл :file:`settings.py` в качестве дополнительного "
 "подключения к базе данных:"
 
 #: ../../admin/upgrade.rst:240
@@ -15354,8 +15505,6 @@ msgstr ""
 "PostgreSQL. Вы можете использовать его для переноса базы данных Weblate."
 
 #: ../../admin/upgrade.rst:266
-#, fuzzy
-#| msgid "Adjust your :file:`settings.py` to use PostgeSQL as a database."
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgstr ""
 "Подправьте свой файл :file:`settings.py`, задав в нём использование базы "
@@ -15753,40 +15902,28 @@ msgid "The unique group ID"
 msgstr "Уникальный идентификатор группы"
 
 #: ../../api.rst:314
-#, fuzzy
-#| msgid "List subscriptions of a user."
 msgid "List statistics of a user."
-msgstr "Список подписок пользователя."
+msgstr "Список статистик пользователя."
 
 #: ../../api.rst:318
-#, fuzzy
-#| msgid "Name of translation unit"
 msgid "Number of translations by user"
-msgstr "Название единицы перевода"
+msgstr "Количество переводов пользователя"
 
 #: ../../api.rst:319
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of suggestions by user"
-msgstr "Количество исходных строк"
+msgstr "Количество предложений пользователя"
 
 #: ../../api.rst:320
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "Number of uploads by user"
-msgstr "Количество загруженных общих записей"
+msgstr "Количество загрузок пользователя"
 
 #: ../../api.rst:321
-#, fuzzy
-#| msgid "Number of comments"
 msgid "Number of comments by user"
-msgstr "Количество комментариев"
+msgstr "Количество комментариев пользователя"
 
 #: ../../api.rst:322
-#, fuzzy
-#| msgid "Number of plurals used in the language."
 msgid "Number of languages user can translate"
-msgstr "Количество используемых в языке форм множественного числа."
+msgstr "Количество языков, на которые пользователь может переводить"
 
 #: ../../api.rst:326
 msgid "List subscriptions of a user."
@@ -15817,10 +15954,8 @@ msgid "Get a subscription associated with a user."
 msgstr "Возвращает связанную с пользователем подписку."
 
 #: ../../api.rst:347 ../../api.rst:356 ../../api.rst:368
-#, fuzzy
-#| msgid "Name of notification registered"
 msgid "ID of notification registered"
-msgstr "Название зарегистрированного уведомления"
+msgstr "Идентификатор зарегистрированного уведомления"
 
 #: ../../api.rst:352 ../../api.rst:364
 msgid "Edit a subscription associated with a user."
@@ -17726,10 +17861,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.0.3"
 msgid "Weblate 4.3"
-msgstr "Weblate 4.0.3"
+msgstr "Weblate 4.3"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -17737,21 +17870,17 @@ msgstr "Ещё не выпущен."
 
 #: ../../changes.rst:6
 msgid "Include user stats in the API."
-msgstr ""
+msgstr "В API включена статистика пользователей."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed creating components using API in some cases."
 msgid "Fixed component ordering on paginated pages."
 msgstr ""
-"Исправлена возникавшая в некоторых случаях ошибка создания компонентов с "
-"помощью API."
+"Исправлена сортировка компонентов на страницах с постраничной разбивкой "
+"результатов."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Show source language for all translations."
 msgid "Define source language for a glossary."
-msgstr "Показ исходного языка для всех переводов."
+msgstr "Определение исходного языка для глоссария."
 
 #: ../../changes.rst:11
 msgid "Weblate 4.2.1"
@@ -22692,11 +22821,6 @@ msgstr ""
 "`black`."
 
 #: ../../contributing/code.rst:28
-#, fuzzy
-#| msgid ""
-#| "To check the code quality, you can use :program:`flake8`, the recommended "
-#| "plugins are listed in :file:`.pre-commit-config.yaml` and it's "
-#| "configuration is placed in :file:`setup.cfg`."
 msgid ""
 "To check the code quality, you can use :program:`flake8`, the recommended "
 "plugins are listed in :file:`.pre-commit-config.yaml` and its configuration "
@@ -24025,10 +24149,6 @@ msgid "Translating HTML and JavaScript using Weblate CDN"
 msgstr "Перевод HTML и JavaScript с помощью сети доставки содержимого Weblate"
 
 #: ../../devel/html.rst:6
-#, fuzzy
-#| msgid ""
-#| "Starting with Weblate 4.2 it is posible to export localization to a CDN "
-#| "using :ref:`addon-weblate.cdn.cdnjs` addon."
 msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` addon."
@@ -24309,7 +24429,7 @@ msgstr "John Doe <john@example.com> (5)"
 
 #: ../../devel/reporting.rst:43
 msgid "Dutch"
-msgstr "Dutch"
+msgstr "Нидерландский"
 
 #: ../../devel/reporting.rst:45
 msgid "Jae Doe <jane@example.com> (42)"
@@ -25671,18 +25791,13 @@ msgid "How do I provide feedback on a source string?"
 msgstr "Как мне предоставить обратную связь по исходной строке?"
 
 #: ../../faq.rst:270
-#, fuzzy
-#| msgid ""
-#| "On context tabs below translation, you can use the :guilabel:`Source` tab "
-#| "to provide feedback on a source string, or discuss it with other "
-#| "translators."
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
 "На контекстных вкладках, расположенных ниже перевода, вы можете использовать "
-"вкладку :guilabel:`Источник` для предоставления обратной связи по исходной "
-"строке или для её обсуждения с другими переводчиками."
+"вкладку :guilabel:`Комментарии` для предоставления обратной связи по "
+"исходной строке или для её обсуждения с другими переводчиками."
 
 #: ../../faq.rst:274
 msgid "How can I use existing translations while translating?"
@@ -25956,21 +26071,15 @@ msgstr ""
 "Mercurial?"
 
 #: ../../faq.rst:426
-#, fuzzy
-#| msgid ""
-#| "Weblate currently does not have native support for anything other than :"
-#| "ref:`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-"
-#| "gerrit` and :ref:`vcs-git-svn`) and ref:`vcs-mercurial`, but it is "
-#| "possible to write backends for other VCSes."
 msgid ""
 "Weblate currently does not have native support for anything other than :ref:"
 "`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit` "
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
-"В настоящее время Weblate не имеет родной поддержки ни для чего, кроме :ref:"
-"`vcs-git` (с расширенной поддержкой :ref:`vcs-github`, :ref:`vcs-gerrit` и :"
-"ref:`vcs-git-svn`) и ref:`vcs-mercurial`, но вполне возможно дописать "
+"В настоящее время Weblate не имеет родной поддержки ни для чего, кроме :ref"
+":`vcs-git` (с расширенной поддержкой :ref:`vcs-github`, :ref:`vcs-gerrit` и "
+":ref:`vcs-git-svn`) и :ref:`vcs-mercurial`, но вполне возможно дописать "
 "поддержку и других систем контроля версий."
 
 #: ../../faq.rst:431
@@ -26064,11 +26173,6 @@ msgstr ""
 "(для вариантов ``@latin``) или кодов стран (для китайского языка)."
 
 #: ../../faq.rst:481
-#, fuzzy
-#| msgid ""
-#| "Weblate still understands legacy language codes and will map them to "
-#| "current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or "
-#| "``zh@CN`` as ``sr_Hans``."
 msgid ""
 "Weblate still understands legacy language codes and will map them to current "
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
@@ -26076,7 +26180,7 @@ msgid ""
 msgstr ""
 "Weblate по-прежнему понимает старые коды языков и сопоставляет их с текущими "
 "— например, ``sr@latin`` будет обрабатываться как ``sr_Latn``, а ``zh@CN`` — "
-"как ``sr_Hans``."
+"как ``zh_Hans``."
 
 #: ../../formats.rst:4 ../../user/files.rst:39
 msgid "Supported file formats"
@@ -27307,7 +27411,7 @@ msgstr ""
 
 #: ../../formats.rst:851
 msgid "go-i18n JSON files"
-msgstr "JSON -файлы go-i18n"
+msgstr "JSON-файлы go-i18n"
 
 #: ../../formats.rst:858
 msgid ""
@@ -27318,16 +27422,13 @@ msgstr ""
 "файл со строками на (как это чаще всего бывает) английском языке."
 
 #: ../../formats.rst:863
-#, fuzzy
-#| msgid ""
-#| "Weblate supports the go-i18n JSON v2 format, it does not support flat "
-#| "JSON files supported in v1."
 msgid ""
 "Weblate supports the go-i18n JSON v1 format, for flat JSON formats please "
 "use :ref:`json`. The v2 format with hash is currently not supported."
 msgstr ""
-"Weblate поддерживает формат JSON-файла go-i18n версии v2, который не "
-"поддерживает плоские JSON-файлы, поддерживаемые версией v1."
+"Weblate поддерживает формат JSON-файла go-i18n версии v1, для плоских JSON-"
+"файлов используйте формат :ref:`json`. Формат v2 с хэшами в настоящее время "
+"не поддерживается."
 
 #: ../../formats.rst:875
 msgid "`go-i18n JSON file`"
@@ -28460,11 +28561,6 @@ msgid "Automatic fixups"
 msgstr "Автоматические исправления"
 
 #: ../../user/checks.rst:18
-#, fuzzy
-#| msgid ""
-#| "In addition to :ref:`checks`, Weblate can also fix some common errors in "
-#| "translated strings automatically. Use it with caution to not have it add "
-#| "errors."
 msgid ""
 "In addition to :ref:`checks`, Weblate can fix some common errors in "
 "translated strings automatically. Use it with caution to not have it add "
@@ -29137,13 +29233,6 @@ msgstr ""
 "guilabel:`Другие вхождения`."
 
 #: ../../user/checks.rst:436
-#, fuzzy
-#| msgid ""
-#| "This check also fires in case the string is translated in one component "
-#| "and not in another. It can be used as a quick way to manually handle "
-#| "strings which are not translated in some components just by clicking on "
-#| "the :guilabel:`Use this translation` button displayed on each line in "
-#| "the :guilabel:`Other occurences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
@@ -29154,8 +29243,8 @@ msgstr ""
 "Также эта проверка срабатывает в том случае, если строка в одном компоненте "
 "переведена, а в другом — нет. Она может использоваться, чтобы по-быстрому "
 "вручную обработать строки, не переведённые в некоторых компонентах; для "
-"этого надо просто на вкладке :guilabel:`Другие вхождения` нажать на кнопку :"
-"guilabel:`Использовать этот перевод`, отображаемую напротив каждой строки."
+"этого надо просто на вкладке :guilabel:`Другие вхождения` нажать на кнопку "
+":guilabel:`Использовать этот перевод`, отображаемую напротив каждой строки."
 
 #: ../../user/checks.rst:442
 msgid ""
@@ -29257,11 +29346,6 @@ msgstr ""
 "в виде пары ``ключ:значение``, например, ``max-length:100``."
 
 #: ../../user/checks.rst:531
-#, fuzzy
-#| msgid ""
-#| "This checks looks at number of chars, what might not be the best metric "
-#| "when using proportional fonts to render the text. The :ref:`check-max-"
-#| "size` check does check actual rendering of the text."
 msgid ""
 "This check looks at number of chars, what might not be the best metric when "
 "using proportional fonts to render the text. The :ref:`check-max-size` check "
@@ -30564,16 +30648,12 @@ msgstr ""
 "конкретным полям."
 
 #: ../../user/search.rst:9
-#, fuzzy
-#| msgid ""
-#| "When no field is defined, the lookup happens on :guilabel:`Source`, :"
-#| "guilabel:`Target` and :guilabel:`Context` fields."
 msgid ""
 "When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Translate` and :guilabel:`Context` fields."
 msgstr ""
-"Если поле не определено, поиск проводится по полям :guilabel:`Источник`, :"
-"guilabel:`Перевод` и :guilabel:`Контекст`."
+"Если поле не определено, поиск проводится по полям :guilabel:`Источник`, "
+":guilabel:`Перевод` и :guilabel:`Контекст`."
 
 #: ../../user/search.rst:15
 msgid "Simple search"
@@ -30964,14 +31044,6 @@ msgid "Translation links"
 msgstr "Ссылки на перевод"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated` or :guilabel:`Needing review`.  If the "
-#| "whole project is translated, without error, :guilabel:`All translations` "
-#| "is still available. Alternatively you can use the search field to find a "
-#| "specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to actual translation. "
 "The translation is further divided into individual checks, like :guilabel:"
@@ -30981,11 +31053,11 @@ msgid ""
 "string or term."
 msgstr ""
 "В компоненте находится набор ссылок, которые ведут к реальному переводу. "
-"Далее перевод подразделяется на отдельные проверки, такие как  :guilabel:"
-"`Непереведённые строки` или :guilabel:`Строки, требующие действий`. Если "
-"весь проект переведён без ошибок, у него всё равно доступна ссылка :guilabel:"
-"`Все строки`. В качестве альтернативы вы можете воспользоваться полем поиска "
-"для поиска определённой строки или термина."
+"Далее перевод подразделяется на отдельные проверки, такие как  :guilabel:`"
+"Непереведённые строки` или :guilabel:`Строки, требующие действий`. Если весь "
+"проект переведён без ошибок, у него всё равно доступна ссылка :guilabel:`Все "
+"строки`. В качестве альтернативы вы можете воспользоваться полем поиска для "
+"поиска определённой строки или термина."
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -31325,10 +31397,6 @@ msgstr ""
 "Пользовательские символы, определённые в его :ref:`профиле <user-profile>`"
 
 #: ../../user/translating.rst:190
-#, fuzzy
-#| msgid ""
-#| "Per language characters provided by Weblate (e.g. quotes or RTL specific "
-#| "characters)"
 msgid ""
 "Per-language characters provided by Weblate (e.g. quotes or RTL specific "
 "characters)"
@@ -31337,8 +31405,6 @@ msgstr ""
 "символы, специфичные для текста справа-налево)"
 
 #: ../../user/translating.rst:191
-#, fuzzy
-#| msgid "Chars configured using :setting:`SPECIAL_CHARS`"
 msgid "Characters configured using :setting:`SPECIAL_CHARS`"
 msgstr "Символы, настроенные через параметр :setting:`SPECIAL_CHARS`"
 
@@ -31475,14 +31541,6 @@ msgstr ""
 "гарантировать, что переведённая строка не будет слишком длинной:"
 
 #: ../../user/translating.rst:240
-#, fuzzy
-#| msgid ""
-#| "The default limitation for translation is ten times longer than source "
-#| "string. This can be turned of by :setting:"
-#| "`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting "
-#| "this, it might be also caused by monolingual translation being configured "
-#| "as bilingual, making Weblate see translation key as source string instead "
-#| "of the actual source string. See :ref:`bimono` for more info."
 msgid ""
 "The default limitation for translation is ten times longer than source "
 "string. This can be turned off by :setting:"
@@ -31492,8 +31550,8 @@ msgid ""
 "the actual source string. See :ref:`bimono` for more info."
 msgstr ""
 "Ограничение по умолчанию разрешает переводу быть в десять раз длиннее "
-"исходной строки. Это поведение можно включить с помощью параметра :setting:"
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Если вы упёрлись в это "
+"исходной строки. Его можно отключить с помощью параметра "
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Если вы упёрлись в это "
 "ограничение, оно может быть вызвано тем, что одноязычный перевод был "
 "сконфигурирован как двуязычный, что заставило Weblate думать, что исходной "
 "строкой вместо настоящей исходной строки является ключ перевода. "

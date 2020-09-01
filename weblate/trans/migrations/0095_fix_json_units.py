@@ -8,17 +8,21 @@ from weblate.utils.hash import calculate_hash
 def migrate_json_units(apps, schema_editor):
     Unit = apps.get_model("trans", "Unit")
     db_alias = schema_editor.connection.alias
-    units = Unit.objects.using(db_alias).filter(
-        translation__component__file_format__in=(
-            "json",
-            "arb",
-            "go-i18n-json",
-            "i18next",
-            "webextension",
-            "json-nested",
+    units = (
+        Unit.objects.using(db_alias)
+        .filter(
+            translation__component__file_format__in=(
+                "json",
+                "arb",
+                "go-i18n-json",
+                "i18next",
+                "webextension",
+                "json-nested",
+            )
         )
+        .prefetch_related("translation__component")
     )
-    for unit in units:
+    for unit in units.iterator():
         if unit.translation.component.template:
             newid = calculate_hash(unit.context)
         else:

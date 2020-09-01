@@ -197,13 +197,15 @@ TEMPLATES = [
 ]
 
 
-# GitHub username for sending pull requests.
+# GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
 GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME", None)
+GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN", None)
 
-# GitLab username for sending merge requests.
+# GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
 GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME", None)
+GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN", None)
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
@@ -1145,6 +1147,11 @@ DEFAULT_RESTRICTED_COMPONENT = get_env_bool(
 DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
     "WEBLATE_DEFAULT_TRANSLATION_PROPAGATION", True
 )
+
+DEFAULT_COMMITER_EMAIL = os.environ.get(
+    "WEBLATE_DEFAULT_COMMITER_EMAIL", "noreply@weblate.org"
+)
+DEFAULT_COMMITER_NAME = os.environ.get("WEBLATE_DEFAULT_COMMITER_NAME", "Weblate")
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)

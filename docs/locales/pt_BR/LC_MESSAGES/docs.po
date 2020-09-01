@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-08-21 22:24+0000\n"
+"PO-Revision-Date: 2020-09-01 05:08+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -55,13 +55,6 @@ msgstr ""
 "traduções, veja :ref:`auth-model` para mais detalhes."
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`"
 msgid ""
 "After installation a default set of groups is created, and you can use those "
 "to assign users roles for the whole instance (see :ref:`default-groups`). "
@@ -73,7 +66,7 @@ msgstr ""
 "para atribuir funções de usuários para toda a instância (ver :ref:`default-"
 "groups`). Além disso, quando :ref:`acl`está ativado, você pode atribuir "
 "usuários a projetos de tradução específicos. Configurações mais refinadas "
-"pode ser alcançadas usando :ref:`custom-acl`"
+"pode ser alcançadas usando :ref:`custom-acl`."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -1466,17 +1459,13 @@ msgid "Per author"
 msgstr "Por autor"
 
 #: ../../admin/addons.rst:278
-#, fuzzy
-#| msgid ""
-#| "Original commit messages are kept, but authorship is lost unless \"Per "
-#| "author\" is selected, or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 "As mensagens de compromisso originais são mantidas, mas a autoria é perdida "
-"a menos que \"Por autor\" seja selecionada ou a mensagem de compromisso seja "
-"personalizada para incluí-la."
+"a menos que :guilabel:`Por autor` seja selecionada ou a mensagem de "
+"compromisso seja personalizada para incluí-la."
 
 #: ../../admin/addons.rst:283
 msgid ""
@@ -3021,10 +3010,6 @@ msgid "Command line for manual backup"
 msgstr "Linha de comando para backup manual"
 
 #: ../../admin/backup.rst:228
-#, fuzzy
-#| msgid ""
-#| "Using a cron task, you can set up a bash command to be executed on a "
-#| "daily basis, for instance:"
 msgid ""
 "Using a cron job, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
@@ -6991,13 +6976,6 @@ msgid "Lazy commits"
 msgstr "Commits adiados"
 
 #: ../../admin/continuous.rst:346
-#, fuzzy
-#| msgid ""
-#| "The behaviour of Weblate is to group commits from the same author into "
-#| "one commit if possible. This greatly reduces the number of commits, "
-#| "however you might need to explicitly tell it to do the commits in case "
-#| "you want to get the VCS repository in sync, e.g. for merge (this is by "
-#| "default allowed for the Managers group, see :ref:`privileges`)."
 msgid ""
 "The behaviour of Weblate is to group commits from the same author into one "
 "commit if possible. This greatly reduces the number of commits, however you "
@@ -7009,8 +6987,8 @@ msgstr ""
 "se possível. Isso reduz consideravelmente o número de commits, no entanto, "
 "você pode precisar dizer explicitamente para ele fazer os commits no caso de "
 "você querer deixar o repositório VCS em sincronia, por exemplo, para "
-"mesclagem (isso é por padrão permitido para o grupo :guilabel:`Managers`, "
-"consulte :ref:`privileges`)."
+"mesclagem (isso é por padrão permitido para o grupo :guilabel:`Gerenciadores`"
+", consulte :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:352
 msgid ""
@@ -7206,8 +7184,6 @@ msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr "Crie uma pasta para o seu pacote (usaremos `weblate_customization`)."
 
 #: ../../admin/customize.rst:36
-#, fuzzy
-#| msgid "within it, create a :file:`setup.py` file to describe the package:"
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
 msgstr "Dentro dele, crie um arquivo :file:`setup.py` para descrever o pacote:"
 
@@ -7513,38 +7489,44 @@ msgid ""
 "Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
 "systems will most likely work too."
 msgstr ""
+"Weblate é conhecido por funcionar no Linux, FreeBSD e macOS. Outros sistemas "
+"como o Unix provavelmente funcionarão também."
 
 #: ../../admin/install.rst:48
 msgid ""
 "Weblate is not supported on Windows. But it may still work and patches are "
 "happily accepted."
 msgstr ""
+"O Weblate não é suportado no Windows. Mas ainda pode funcionar e patches são "
+"aceitos alegremente."
 
 #: ../../admin/install.rst:52
 msgid "Other services"
-msgstr ""
+msgstr "Outros serviços"
 
 #: ../../admin/install.rst:54
 msgid ""
 "Weblate is using other services for its operation. You will need at least "
 "following services running:"
 msgstr ""
+"Weblate está usando outros serviços para sua operação. Você precisará pelo "
+"menos seguir os serviços em execução:"
 
 #: ../../admin/install.rst:57
 msgid "PostgreSQL database server, see :ref:`database-setup`."
-msgstr ""
+msgstr "Servidor de banco de dados PostgreSQL, consulte :ref:`database-setup`."
 
 #: ../../admin/install.rst:58
 msgid "Redis server for cache and tasks queue, see :ref:`celery`."
-msgstr ""
+msgstr "Servidor Redis para cache e fila de tarefas, consulte :ref:`celery`."
 
 #: ../../admin/install.rst:59
 msgid "SMTP server for outgoing e-mail, see :ref:`out-mail`."
-msgstr ""
+msgstr "Servidor SMTP para e-mail de saída, consulte :ref:`out-mail`."
 
 #: ../../admin/install.rst:64
 msgid "Python dependencies"
-msgstr ""
+msgstr "Dependências Python"
 
 #: ../../admin/install.rst:66
 msgid ""
@@ -7552,195 +7534,205 @@ msgid ""
 "Python 3.6 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
+"Weblate é escrito em `Python <https://www.python.org/>`_ e tem suporte a "
+"Python 3.6 ou mais novo. Você pode instalar dependências usando pip ou de "
+"seus pacotes de distribuição, a lista completa está disponível em "
+":file:`requirements.txt`."
 
 #: ../../admin/install.rst:70
 msgid "Most notable dependencies:"
-msgstr ""
+msgstr "As dependências mais notáveis:"
 
 #: ../../admin/install.rst:72
 msgid "Django"
-msgstr ""
+msgstr "Django"
 
 #: ../../admin/install.rst:73
 msgid "https://www.djangoproject.com/"
-msgstr ""
+msgstr "https://www.djangoproject.com/"
 
 #: ../../admin/install.rst:74
 msgid "Celery"
-msgstr ""
+msgstr "Celery"
 
 #: ../../admin/install.rst:75
 msgid "https://docs.celeryproject.org/"
-msgstr ""
+msgstr "https://docs.celeryproject.org/"
 
 #: ../../admin/install.rst:76
 msgid "Translate Toolkit"
-msgstr ""
+msgstr "Translate Toolkit"
 
 #: ../../admin/install.rst:77
 msgid "https://toolkit.translatehouse.org/"
-msgstr ""
+msgstr "https://toolkit.translatehouse.org/"
 
 #: ../../admin/install.rst:78
 msgid "translation-finder"
-msgstr ""
+msgstr "translation-finder"
 
 #: ../../admin/install.rst:79
 msgid "https://github.com/WeblateOrg/translation-finder"
-msgstr ""
+msgstr "https://github.com/WeblateOrg/translation-finder"
 
 #: ../../admin/install.rst:80
 msgid "Python Social Auth"
-msgstr ""
+msgstr "Python Social Auth"
 
 #: ../../admin/install.rst:81
 msgid "https://python-social-auth.readthedocs.io/"
-msgstr ""
+msgstr "https://python-social-auth.readthedocs.io/"
 
 #: ../../admin/install.rst:83
 msgid "Django REST Framework"
-msgstr ""
+msgstr "Django REST Framework"
 
 #: ../../admin/install.rst:83
 msgid "https://www.django-rest-framework.org/"
-msgstr ""
+msgstr "https://www.django-rest-framework.org/"
 
 #: ../../admin/install.rst:88
 msgid "Optional dependencies"
-msgstr ""
+msgstr "Dependências opcionais"
 
 #: ../../admin/install.rst:90
 msgid ""
 "Following modules are necessary for some Weblate features. You can find all "
 "of them in :file:`requirements-optional.txt`."
 msgstr ""
+"Os seguintes módulos são necessários para alguns recursos do Weblate. Você "
+"pode encontrar todos eles em :file:`requirements-optional.txt`."
 
 #: ../../admin/install.rst:93
 msgid "``Mercurial`` (optional for Mercurial repositories support)"
-msgstr ""
+msgstr "``Mercurial`` (opcional para suporte a repositórios Mercurial)"
 
 #: ../../admin/install.rst:94
 msgid "https://www.mercurial-scm.org/"
-msgstr ""
+msgstr "https://www.mercurial-scm.org/"
 
 #: ../../admin/install.rst:95
 msgid "``phply`` (optional for PHP support)"
-msgstr ""
+msgstr "``phply`` (opcional para suporte a PHP)"
 
 #: ../../admin/install.rst:96
 msgid "https://github.com/viraptor/phply"
-msgstr ""
+msgstr "https://github.com/viraptor/phply"
 
 #: ../../admin/install.rst:97
 msgid "``tesserocr`` (optional for screenshots OCR)"
-msgstr ""
+msgstr "``tesserocr`` (opcional para OCR de capturas de tela)"
 
 #: ../../admin/install.rst:98
 msgid "https://github.com/sirfz/tesserocr"
-msgstr ""
+msgstr "https://github.com/sirfz/tesserocr"
 
 #: ../../admin/install.rst:99
 msgid "``akismet`` (optional for suggestion spam protection)"
-msgstr ""
+msgstr "``akismet`` (opcional para a sugestão de proteção de spam)"
 
 #: ../../admin/install.rst:100
 msgid "https://github.com/ubernostrum/akismet"
-msgstr ""
+msgstr "https://github.com/ubernostrum/akismet"
 
 #: ../../admin/install.rst:101
 msgid "``ruamel.yaml`` (optional for :ref:`yaml`)"
-msgstr ""
+msgstr "``ruamel.yaml`` (opcional para :ref:`yaml`)"
 
 #: ../../admin/install.rst:102
 msgid "https://pypi.org/project/ruamel.yaml/"
-msgstr ""
+msgstr "https://pypi.org/project/ruamel.yaml/"
 
 #: ../../admin/install.rst:103
 msgid "``Zeep`` (optional for :ref:`ms-terminology`)"
-msgstr ""
+msgstr "``Zeep`` (opcional para :ref:`ms-terminology`)"
 
 #: ../../admin/install.rst:104
 msgid "https://docs.python-zeep.org/"
-msgstr ""
+msgstr "https://docs.python-zeep.org/"
 
 #: ../../admin/install.rst:106
 msgid "``aeidon`` (optional for :ref:`subtitles`)"
-msgstr ""
+msgstr "``aeidon`` (opcional para :ref:`subtitles`)"
 
 #: ../../admin/install.rst:106
 msgid "https://pypi.org/project/aeidon/"
-msgstr ""
+msgstr "https://pypi.org/project/aeidon/"
 
 #: ../../admin/install.rst:109
 msgid "Database backend dependencies"
-msgstr ""
+msgstr "Dependências de backend de banco de dados"
 
 #: ../../admin/install.rst:111
 msgid ""
 "Weblate supports PostgreSQL, MySQL and MariaDB, see :ref:`database-setup` "
 "and backends documentation for more details."
 msgstr ""
+"O Weblate tem suporte a PostgreSQL, MySQL e MariaDB, consulte :ref:`database-"
+"setup` e a documentação dos backends para mais detalhes."
 
 #: ../../admin/install.rst:115
 msgid "Other system requirements"
-msgstr ""
+msgstr "Outros requisitos do sistema"
 
 #: ../../admin/install.rst:117
 msgid "The following dependencies have to be installed on the system:"
-msgstr ""
+msgstr "As seguintes dependências devem ser instaladas no sistema:"
 
 #: ../../admin/install.rst:119
 msgid "``Git``"
-msgstr ""
+msgstr "``Git``"
 
 #: ../../admin/install.rst:120
 msgid "https://git-scm.com/"
-msgstr ""
+msgstr "https://git-scm.com/"
 
 #: ../../admin/install.rst:121
 msgid "Pango, Cairo and related header files and gir introspection data"
 msgstr ""
+"Pango, Cairo e arquivos de cabeçalho relacionados e dados de introspecção gir"
 
 #: ../../admin/install.rst:122
 msgid ""
 "https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`"
 msgstr ""
+"https://cairographics.org/, https://pango.gnome.org/, veja :ref:`pangocairo`"
 
 #: ../../admin/install.rst:123
 msgid "``hub`` (optional for sending pull requests to GitHub)"
-msgstr ""
+msgstr "``hub`` (opcional para enviar pull requests para o GitHub)"
 
 #: ../../admin/install.rst:124
 msgid "https://hub.github.com/"
-msgstr ""
+msgstr "https://hub.github.com/"
 
 #: ../../admin/install.rst:125
 msgid "``git-review`` (optional for Gerrit support)"
-msgstr ""
+msgstr "``git-review`` (opcional para suporte a Gerrit)"
 
 #: ../../admin/install.rst:126
 msgid "https://pypi.org/project/git-review/"
-msgstr ""
+msgstr "https://pypi.org/project/git-review/"
 
 #: ../../admin/install.rst:127
 msgid "``git-svn`` (optional for Subversion support)"
-msgstr ""
+msgstr "``git-svn`` (opcional para suporte a Subversion)"
 
 #: ../../admin/install.rst:128
 msgid "https://git-scm.com/docs/git-svn"
-msgstr ""
+msgstr "https://git-scm.com/docs/git-svn"
 
 #: ../../admin/install.rst:130
 msgid "``tesseract`` and its data (optional for screenshots OCR)"
-msgstr ""
+msgstr "``tesseract`` e seus dados (opcional para OCR de capturas de tela)"
 
 #: ../../admin/install.rst:130
 msgid "https://github.com/tesseract-ocr/tesseract"
-msgstr ""
+msgstr "https://github.com/tesseract-ocr/tesseract"
 
 #: ../../admin/install.rst:133
 msgid "Compile time dependencies"
-msgstr ""
+msgstr "Dependências de tempo de compilação"
 
 #: ../../admin/install.rst:135
 msgid ""
@@ -7750,10 +7742,15 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
+"Para compilar alguns das :ref:`dependências Python <python-deps>`, você pode "
+"precisar instalar suas dependências. Isso depende de como você instalá-las, "
+"por isso consulte pacotes individuais para obter documentação. Você não "
+"precisará deles se usar ``Wheels`` précompilado durante a instalação usando "
+"``pip`` ou quando você usar pacotes de distribuição."
 
 #: ../../admin/install.rst:143
 msgid "Pango and Cairo"
-msgstr ""
+msgstr "Pango e Cairo"
 
 #: ../../admin/install.rst:147
 msgid ""
@@ -7763,22 +7760,33 @@ msgid ""
 "need both Cairo and Pango, which in turn need Glib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
+"O Weblate usa Pango e Cairo para renderizar widgets bitmap (ver "
+":ref:`promotion`) e verificações de renderização (ver :ref:`fonts`). Para "
+"instalar corretamente as ligações Python para aqueles que você precisa "
+"instalar bibliotecas de sistemas primeiro - você precisa tanto do Cairo "
+"quanto do Pango, que por sua vez precisam de GLib. Todos esses devem ser "
+"instalados com arquivos de desenvolvimento e dados de introspecção GObject."
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
-msgstr ""
+msgstr "Verificando assinaturas de lançamento"
 
 #: ../../admin/install.rst:158
 msgid ""
 "Weblate release are cryptographically signed by the releasing developer. "
 "Currently this is Michal Čihař. Fingerprint of his PGP key is:"
 msgstr ""
+"Os lançamentos do Weblate é criptograficamente assinados pelo desenvolvedor "
+"que o lançou. Atualmente este é Michal Čihař. A impressão digital da chave "
+"PGP é:"
 
 #: ../../admin/install.rst:165
 msgid ""
 "and you can get more identification information from <https://keybase.io/"
 "nijel>."
 msgstr ""
+"e você pode obter mais informações de identificação de <https://keybase.io/"
+"nijel>."
 
 #: ../../admin/install.rst:167
 msgid ""
@@ -7787,6 +7795,10 @@ msgid ""
 "was released. You should also verify the date of the signature to make sure "
 "that you downloaded the latest version."
 msgstr ""
+"Você deve verificar se a assinatura corresponde ao arquivo que você baixou. "
+"Desta forma, você pode ter certeza de que está usando o mesmo código que foi "
+"lançado. Você também deve verificar a data da assinatura para ter certeza de "
+"que você baixou a versão mais recente."
 
 #: ../../admin/install.rst:172
 msgid ""
@@ -7794,26 +7806,33 @@ msgid ""
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
 msgstr ""
+"Cada arquivo é acompanhado com arquivos ``.asc``, os quais contêm a "
+"assinatura PGP para ele. Uma vez que você tenha ambos na mesma pasta, você "
+"pode verificar a assinatura:"
 
 #: ../../admin/install.rst:183
 msgid ""
 "As you can see gpg complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
 msgstr ""
+"Como você pode ver, o GPG reclama que não conhece a chave pública. Neste "
+"ponto você deve fazer um dos seguintes passos:"
 
 #: ../../admin/install.rst:186
 msgid "Use wkd to download the key:"
-msgstr ""
+msgstr "Use wkd para baixar a chave:"
 
 #: ../../admin/install.rst:201
 msgid ""
 "Download the keyring from `Michal's server <https://cihar.com/.well-known/"
 "openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_, then import it with:"
 msgstr ""
+"Baixe o chaveiro do `servidor do Michal <https://cihar.com/.well-known/"
+"openpgpkey/hu/wmxth3chu9jfxdxywj1skpmhsj311mzm>`_ e importe-o com:"
 
 #: ../../admin/install.rst:207
 msgid "Download and import the key from one of the key servers:"
-msgstr ""
+msgstr "Baixe e importe a chave de um dos principais servidores:"
 
 #: ../../admin/install.rst:216
 msgid ""
@@ -7821,6 +7840,9 @@ msgid ""
 "the signature from the given key is correct but you still can not trust the "
 "name used in the key:"
 msgstr ""
+"Isso vai melhorar um pouco a situação - neste momento, você pode verificar "
+"que a assinatura da chave dada está correta, mas você ainda não pode confiar "
+"no nome usado na chave:"
 
 #: ../../admin/install.rst:234
 msgid ""
@@ -7832,16 +7854,26 @@ msgid ""
 "web of trust. This way you can trust the key transitively though signatures "
 "of others, who have met the developer in person."
 msgstr ""
+"O problema aqui é que qualquer um poderia emitir a chave com este nome.  "
+"Você precisa garantir que a chave é realmente propriedade da pessoa "
+"mencionada.  O Manual de Privacidade do GNU aborda este tópico no capítulo `"
+"Validating other keys on your public keyring`_. O método mais confiável é "
+"conhecer o desenvolvedor pessoalmente e trocar impressões digitais "
+"importantes, no entanto você também pode confiar na rede de confiança. Dessa "
+"forma, você pode confiar na chave transitivamente através de assinaturas de "
+"outros, que conheceram o desenvolvedor pessoalmente."
 
 #: ../../admin/install.rst:242
 msgid "Once the key is trusted, the warning will not occur:"
-msgstr ""
+msgstr "Uma vez que a chave seja confiável, o aviso não ocorrerá:"
 
 #: ../../admin/install.rst:256
 msgid ""
 "Should the signature be invalid (the archive has been changed), you would "
 "get a clear error regardless of the fact that the key is trusted or not:"
 msgstr ""
+"Se a assinatura for inválida (o arquivo foi alterado), você obteria um erro "
+"claro, independentemente do fato de que a chave é confiável ou não:"
 
 #: ../../admin/install.rst:272
 msgid "Filesystem permissions"
@@ -14924,34 +14956,24 @@ msgid "List statistics of a user."
 msgstr ""
 
 #: ../../api.rst:318
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Number of translations by user"
-msgstr "Número de textos traduzidos"
+msgstr "Número de traduções por usuário"
 
 #: ../../api.rst:319
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of suggestions by user"
-msgstr "Quantidade dos textos fonte"
+msgstr "Número de sugestões por usuário"
 
 #: ../../api.rst:320
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "Number of uploads by user"
-msgstr "Quantidade de entradas compartilhadas enviadas"
+msgstr "Número de envios por usuário"
 
 #: ../../api.rst:321
-#, fuzzy
-#| msgid "Number of comments"
 msgid "Number of comments by user"
-msgstr "Número de comentários"
+msgstr "Número de comentários por usuário"
 
 #: ../../api.rst:322
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of languages user can translate"
-msgstr "Quantidade de idiomas"
+msgstr "Número de idiomas que o usuário pode traduzir"
 
 #: ../../api.rst:326
 msgid "List subscriptions of a user."
@@ -14982,10 +15004,8 @@ msgid "Get a subscription associated with a user."
 msgstr ""
 
 #: ../../api.rst:347 ../../api.rst:356 ../../api.rst:368
-#, fuzzy
-#| msgid "Used in notifications e-mails."
 msgid "ID of notification registered"
-msgstr "Usado em e-mails de notificações."
+msgstr "ID da notificação registrada"
 
 #: ../../api.rst:352 ../../api.rst:364
 msgid "Edit a subscription associated with a user."
@@ -16721,16 +16741,12 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet released."
-msgstr "Não autenticado ainda"
+msgstr "Não lançado ainda."
 
 #: ../../changes.rst:6
 msgid "Include user stats in the API."
@@ -21522,17 +21538,12 @@ msgstr ""
 "usando o formatador de código :program:`black`."
 
 #: ../../contributing/code.rst:28
-#, fuzzy
-#| msgid ""
-#| "To check the code quality, you can use :program:`flake8`, the recommended "
-#| "plugins are listed in :file:`.pre-commit-config.yaml` and it's "
-#| "configuration is placed in :file:`setup.cfg`."
 msgid ""
 "To check the code quality, you can use :program:`flake8`, the recommended "
 "plugins are listed in :file:`.pre-commit-config.yaml` and its configuration "
 "is placed in :file:`setup.cfg`."
 msgstr ""
-"Para verificar a qualidade do código, você pode usar :programa:`flake8`, os "
+"Para verificar a qualidade do código, você pode usar :program:`flake8`, os "
 "plugins recomendados estão listados em :file:`.pre-commit-config.yaml` e sua "
 "configuração é colocada em :file:`setup.cfg`."
 
@@ -26277,17 +26288,12 @@ msgid "Used by Python and cURL"
 msgstr "Usado pelo Python e cURL"
 
 #: ../../legal.rst:49
-#, fuzzy
-#| msgid ""
-#| "The strength of encryption keys depend on the configuration of Weblate "
-#| "and the third party components it interacts with, but in any decent setup "
-#| "it will include all export restricted cryptographic functions:"
 msgid ""
 "The strength of encryption keys depends on the configuration of Weblate and "
 "the third party components it interacts with, but in any decent setup it "
 "will include all export restricted cryptographic functions:"
 msgstr ""
-"A força de chaves de criptografia dependem da configuração do Weblate e os "
+"A força de chaves de criptografia depende da configuração do Weblate e os "
 "componentes de terceiros que interage com ele, mas em qualquer decente "
 "instalação, ele irá incluir todas funções criptográficas com exportação "
 "restrita:"
@@ -26520,19 +26526,14 @@ msgid "Automatic fixups"
 msgstr "Correções automáticas"
 
 #: ../../user/checks.rst:18
-#, fuzzy
-#| msgid ""
-#| "In addition to :ref:`checks`, Weblate can also fix some common errors in "
-#| "translated strings automatically. Use it with caution to not have it add "
-#| "errors."
 msgid ""
 "In addition to :ref:`checks`, Weblate can fix some common errors in "
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
-"Além de :ref:`checks`, o Weblate também pode corrigir alguns erros comuns em "
-"textos traduzidos automaticamente. Use isso com cuidado para não causar "
-"erros por meio disto."
+"Além de :ref:`checks`, o Weblate pode corrigir alguns erros comuns em textos "
+"traduzidos automaticamente. Use isso com cuidado para não causar erros por "
+"meio disto."
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
@@ -27192,13 +27193,6 @@ msgstr ""
 "ocorrências`."
 
 #: ../../user/checks.rst:436
-#, fuzzy
-#| msgid ""
-#| "This check also fires in case the string is translated in one component "
-#| "and not in another. It can be used as a quick way to manually handle "
-#| "strings which are not translated in some components just by clicking on "
-#| "the :guilabel:`Use this translation` button displayed on each line in "
-#| "the :guilabel:`Other occurences` tab."
 msgid ""
 "This check also fires in case the string is translated in one component and "
 "not in another. It can be used as a quick way to manually handle strings "
@@ -28816,14 +28810,6 @@ msgid "Translation links"
 msgstr "Links de tradução"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated` or :guilabel:`Needing review`.  If the "
-#| "whole project is translated, without error, :guilabel:`All translations` "
-#| "is still available. Alternatively you can use the search field to find a "
-#| "specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to actual translation. "
 "The translation is further divided into individual checks, like :guilabel:"
@@ -28833,11 +28819,11 @@ msgid ""
 "string or term."
 msgstr ""
 "Tendo navegado para um componente, um conjunto de links leva à tradução "
-"real. A tradução é ainda dividida em verificações individuais, como :"
-"guilabel:`Não traduzidos` ou :guilabel:`Necessitam edição`.  Se todo o "
-"projeto for traduzido, sem erro, :guilabel:`Todas as traduções` ainda estão "
-"disponíveis. Alternativamente, você pode usar o campo de pesquisa para "
-"encontrar um texto ou termo específico."
+"real. A tradução é ainda dividida em verificações individuais, como "
+":guilabel:`Textos não traduzidos` ou :guilabel:`Textos que necessitam edição`"
+".  Se todo o projeto for traduzido, sem erro, :guilabel:`Todas os textos` "
+"ainda estão disponíveis. Alternativamente, você pode usar o campo de "
+"pesquisa para encontrar um texto ou termo específico."
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -29169,10 +29155,6 @@ msgid "User configured characters defined in the :ref:`user-profile`"
 msgstr "Caracteres configurados pelo usuário definidos em :ref:`user-profile`"
 
 #: ../../user/translating.rst:190
-#, fuzzy
-#| msgid ""
-#| "Per language characters provided by Weblate (e.g. quotes or RTL specific "
-#| "characters)"
 msgid ""
 "Per-language characters provided by Weblate (e.g. quotes or RTL specific "
 "characters)"
@@ -29181,8 +29163,6 @@ msgstr ""
 "caracteres específicos RTL)"
 
 #: ../../user/translating.rst:191
-#, fuzzy
-#| msgid "Chars configured using :setting:`SPECIAL_CHARS`"
 msgid "Characters configured using :setting:`SPECIAL_CHARS`"
 msgstr "Caracteres configurados usando :setting:`SPECIAL_CHARS`"
 
@@ -29315,14 +29295,6 @@ msgstr ""
 "garantir o texto traduzido não é muito longo:"
 
 #: ../../user/translating.rst:240
-#, fuzzy
-#| msgid ""
-#| "The default limitation for translation is ten times longer than source "
-#| "string. This can be turned of by :setting:"
-#| "`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. In case you are hitting "
-#| "this, it might be also caused by monolingual translation being configured "
-#| "as bilingual, making Weblate see translation key as source string instead "
-#| "of the actual source string. See :ref:`bimono` for more info."
 msgid ""
 "The default limitation for translation is ten times longer than source "
 "string. This can be turned off by :setting:"
@@ -29332,11 +29304,12 @@ msgid ""
 "the actual source string. See :ref:`bimono` for more info."
 msgstr ""
 "A limitação padrão para tradução é dez vezes maior do que o texto fonte. "
-"Isso pode ser transformado em :setting:"
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Caso você esteja acertando "
-"isso, ele também pode ser causado pela tradução monolíngue sendo configurada "
-"como bilíngue, fazendo com que o Weblate veja a chave de tradução como texto "
-"fonte em vez do texto fonte. Veja :ref:`bimono` para obter mais informações."
+"Isso pode ser desativado em "
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Caso você esteja "
+"acertando isso, ele também pode ser causado pela tradução monolíngue sendo "
+"configurada como bilíngue, fazendo com que o Weblate veja a chave de "
+"tradução como texto fonte em vez do texto fonte. Veja :ref:`bimono` para "
+"obter mais informações."
 
 #: ../../user/translating.rst:246
 msgid ""
