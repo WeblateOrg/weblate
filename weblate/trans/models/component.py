@@ -1620,7 +1620,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             for component in self.linked_childs:
                 component.delete_alert(alert)
 
-    def add_alert(self, alert, **details):
+    def add_alert(self, alert, noupdate: bool = False, **details):
         obj, created = self.alert_set.get_or_create(
             name=alert, defaults={"details": details}
         )
@@ -1629,12 +1629,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         if created and self.auto_lock_error and alert in LOCKING_ALERTS:
             self.do_lock(user=None, lock=True)
 
-        if not created:
+        # Update details with exception of component removal
+        if not created and not noupdate:
             obj.details = details
             obj.save()
+
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
-                component.add_alert(alert, **details)
+                component.add_alert(alert, noupdate=noupdate, **details)
 
     def update_import_alerts(self):
         self.log_info("checking triggered alerts")
@@ -2267,6 +2269,18 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 translation__component=self, variant=None, context=variant.key
             ).update(variant=variant)
 
+    def update_link_alerts(self, noupdate: bool = False):
+        base = self.linked_component if self.is_repo_link else self
+        masks = [base.filemask]
+        masks.extend(base.linked_childs.values_list("filemask", flat=True))
+        duplicates = [item for item, count in Counter(masks).items() if count > 1]
+        if duplicates:
+            self.add_alert(
+                "DuplicateFilemask", duplicates=duplicates, noupdate=noupdate
+            )
+        else:
+            self.delete_alert("DuplicateFilemask")
+
     def update_alerts(self):
         if (
             self.project.access_control == self.project.ACCESS_PUBLIC
@@ -2313,15 +2327,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         else:
             self.delete_alert("UnsupportedConfiguration")
 
-        base = self.linked_component if self.is_repo_link else self
-        masks = [base.filemask]
-        masks.extend(base.linked_childs.values_list("filemask", flat=True))
-        duplicates = [item for item, count in Counter(masks).items() if count > 1]
-        if duplicates:
-            self.add_alert("DuplicateFilemask", duplicates=duplicates)
-        else:
-            self.delete_alert("DuplicateFilemask")
-
         location_error = None
         location_link = None
         if self.repoweb:
@@ -2351,6 +2356,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             self.add_alert("UnusedScreenshot")
         else:
             self.delete_alert("UnusedScreenshot")
+
+        self.update_link_alerts()
 
     def needs_commit(self):
         """Check for uncommitted changes."""
