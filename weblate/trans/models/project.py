@@ -364,7 +364,10 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
 
         if billing:
             billing.projects.add(self)
-            self.access_control = Project.ACCESS_PRIVATE
+            if billing.plan.change_access_control:
+                self.access_control = Project.ACCESS_PRIVATE
+            else:
+                self.access_control = Project.ACCESS_PUBLIC
             self.save()
         if not user.is_superuser:
             self.add_user(user, "@Administration")
