@@ -121,6 +121,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     )
 
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
+    weblate_unsafe_delete = True
 
     class Meta:
         app_label = "trans"
@@ -208,6 +209,8 @@ class Vote(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
     value = models.SmallIntegerField(default=0)
+
+    weblate_unsafe_delete = True
 
     POSITIVE = 1
     NEGATIVE = -1

@@ -108,12 +108,25 @@ class FastCollector(Collector):
     create new checks for just removed units.
     """
 
+    @staticmethod
+    def is_weblate_unsafe(model):
+        return getattr(model, "weblate_unsafe_delete", False)
+
     def can_fast_delete(self, objs, from_field=None):
-        if hasattr(objs, "model") and getattr(
-            objs.model, "weblate_unsafe_delete", False
-        ):
+        if hasattr(objs, "model") and self.is_weblate_unsafe(objs.model):
             return True
         return super().can_fast_delete(objs, from_field)
+
+    def delete(self):
+        from weblate.trans.models import Suggestion, Vote
+
+        fast_deletes = []
+        for item in self.fast_deletes:
+            if item.model is Suggestion:
+                fast_deletes.append(Vote.objects.filter(suggestion__in=item))
+            fast_deletes.append(item)
+        self.fast_deletes = fast_deletes
+        return super().delete()
 
 
 class FastDeleteMixin:
