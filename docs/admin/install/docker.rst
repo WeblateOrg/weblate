@@ -714,7 +714,6 @@ LDAP
           WEBLATE_AUTH_LDAP_BIND_DN: CN=ldap,CN=Users,DC=example,DC=com
           WEBLATE_AUTH_LDAP_BIND_PASSWORD: password
           WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
-          WEBLATE_AUTH_LDAP_USER_SEARCH: CN=Users,DC=example,DC=com
           WEBLATE_AUTH_LDAP_USER_SEARCH_UNION: ou=users,dc=example,dc=com|ou=otherusers,dc=example,dc=com
 
 
