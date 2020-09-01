@@ -843,8 +843,7 @@ class GitLabRepository(GitMergeRequestBase):
         cmd = ["remote", "get-url", "--push", self.get_username()]
         fork_remotes = self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
         fork_path = urllib.parse.quote(
-            fork_remotes[0].split(":")[-1].replace(".git", ""),
-            safe="",
+            fork_remotes[0].split(":")[-1].replace(".git", ""), safe="",
         )
         return self.api_url().replace(target_path, fork_path)
 
