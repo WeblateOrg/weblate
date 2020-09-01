@@ -27,8 +27,8 @@ To use the commands below, you need to install :mod:`wlc`:
 Getting started
 +++++++++++++++
 
-The wlc configuration is stored in ``~/.config/weblate``, please create it to
-match your environment:
+The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-config`
+for other locations), please create it to match your environment:
 
 .. code-block:: ini
 
@@ -66,8 +66,8 @@ Weblate Client is a Python library and command-line utility to manage Weblate re
 using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and is
 built-in on :mod:`wlc`.
 
-Site wide options
------------------
+Parameters
+----------
 
 The program accepts the following options for a whole instance, which must be entered before any subcommand.
 
@@ -93,10 +93,10 @@ The program accepts the following options for a whole instance, which must be en
 
     Overrides configuration file section in use, see :ref:`wlc-config`.
 
-Subcommands
------------
+Commands
+--------
 
-The following subcommands are available:
+The following commands are available:
 
 .. option:: version
 
@@ -232,15 +232,24 @@ The following subcommands are available:
 Configuration files
 +++++++++++++++++++
 
-:file:`.weblate`
+:file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
+    .. versionchanged:: 1.6
+
+        The files with `.ini` extension are accepted as well.
+
     Per project configuration file
+:file:`C:\\Users\\NAME\\AppData\\weblate.ini`
+    .. versionadded:: 1.6
+
+    User configuration file on Windows.
 :file:`~/.config/weblate`
     User configuration file
 :file:`/etc/xdg/weblate`
     System wide configuration file
 
 The program follows the XDG specification, so you can adjust placement of config files
-by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``.
+by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``. On Windows
+``APPDATA`` directory is preferred locatin for the configuration file.
 
 Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):
