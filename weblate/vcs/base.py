@@ -102,8 +102,8 @@ class Repository:
             add_breadcrumb(category="vcs", message=message, data=data, level="info")
 
     @classmethod
-    def log(cls, message):
-        return LOGGER.debug("%s: %s", cls._cmd, message)
+    def log(cls, message, level: int = logging.DEBUG):
+        return LOGGER.log(level, "%s: %s", cls._cmd, message)
 
     def ensure_config_updated(self):
         """Ensures the configuration is periodically checked."""

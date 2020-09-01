@@ -18,7 +18,7 @@
 #
 """Git based version control system abstraction for Weblate needs."""
 
-import json
+import logging
 import os
 import os.path
 import random
@@ -693,31 +693,38 @@ class GithubRepository(GitMergeRequestBase):
         )
         response = r.json()
 
+        # Log all errors
+        if "message" in response:
+            self.log(response["message"], level=logging.INFO)
+        if "errors" in response:
+            for error in response["errors"]:
+                self.log(error["message"], level=logging.WARNING)
+
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
         # doesn't return any other separate indication for a pull request existing
         # compared to other errors, checking message seems to be the only option
         if "url" not in response:
-            # Sometimes GitHub returns the error messages in an errors list
-            # instead of the message. Sometimes, there is no errors list.
-            # Hence the different logics
+            # Gracefully handle pull request already exists case
             if (
                 "errors" in response
                 and response["errors"][0]["message"].find(
                     "A pull request already exists"
                 )
-                == -1
+                != -1
             ):
+                return
+
+            # Sometimes GitHub returns the error messages in an errors list
+            # instead of the message. Sometimes, there is no errors list.
+            # Hence the different logics
+            error_message = "Pull request failed"
+            if "errors" in response:
                 error_message = "{}: {}".format(
                     response["message"], response["errors"][0]["message"]
                 )
             elif "message" in response:
                 error_message = response["message"]
-            else:
-                return
-            report_error(
-                cause="Pull request failed", extra_data={"errors": response["message"]}
-            )
             raise RepositoryException(0, error_message)
 
 
@@ -836,7 +843,8 @@ class GitLabRepository(GitMergeRequestBase):
         cmd = ["remote", "get-url", "--push", self.get_username()]
         fork_remotes = self.execute(cmd, needs_lock=False, merge_err=False).splitlines()
         fork_path = urllib.parse.quote(
-            fork_remotes[0].split(":")[-1].replace(".git", ""), safe="",
+            fork_remotes[0].split(":")[-1].replace(".git", ""),
+            safe="",
         )
         return self.api_url().replace(target_path, fork_path)
 
@@ -947,11 +955,13 @@ class GitLabRepository(GitMergeRequestBase):
         )
         response = r.json()
 
+        # Log messages
+        if "message" in response and isinstance(response["message"], list):
+            for message in response["message"]:
+                self.log(message, level=logging.INFO)
+
         if "web_url" not in response and (
-            type(response["message"]) is not list
+            not isinstance(response["message"], list)
             or response["message"][0].find("open merge request already exists") == -1
         ):
-            report_error(
-                cause="Pull request failed", extra_data={"errors": response["message"]}
-            )
-            raise RepositoryException(0, json.dumps(response["message"]))
+            raise RepositoryException(-1, ", ".join(response["message"]))
