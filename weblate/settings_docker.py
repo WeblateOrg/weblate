@@ -1061,7 +1061,7 @@ if REQUIRE_LOGIN:
 # In such case you will want to include some of the exceptions
 LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
     "WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS",
-    (
+    [
         rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
         rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
         rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
@@ -1073,7 +1073,7 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
         rf"{URL_PREFIX}/contact/$",  # Optional for contact form
         rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
-    ),
+    ],
 )
 modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
 
