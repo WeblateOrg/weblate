@@ -283,7 +283,7 @@ def alerts(request):
     context = {
         "alerts": Alert.objects.order_by(
             "name", "component__project__name", "component__name"
-        ).prefetch_related("component", "component__project"),
+        ).select_related("component", "component__project"),
         "no_components": Project.objects.annotate(Count("component")).filter(
             component__count=0
         ),
