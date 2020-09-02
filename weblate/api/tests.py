@@ -1384,12 +1384,6 @@ class GlossaryAPITest(APIBaseTest):
             "api:glossary-terms",
             kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
             method="post",
-            code=403,
-        )
-        self.do_request(
-            "api:glossary-terms",
-            kwargs={"id": Glossary.objects.order_by("id").all()[0].id},
-            method="post",
             superuser=True,
             code=201,
             format="json",

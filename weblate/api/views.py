@@ -730,12 +730,17 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
         )
 
     def perm_check(self, request):
-        obj = self.get_object()
-        if (
-            not request.user.has_perm("project.edit")
-            or obj.project_id not in request.user.allowed_project_ids
-        ):
+        if not request.user.has_perm("project.edit"):
             self.permission_denied(request, message="Can not manage glossary")
+
+    def term_perm_check(self, request, permission):
+        obj = self.get_object()
+        project = obj.project
+        additional_projects = obj.links.all()
+        if not request.user.has_perm(permission, project) and not any(
+            request.user.has_perm(permission, proj) for proj in additional_projects
+        ):
+            self.permission_denied(request, message="Can not manage glossary terms")
 
     def update(self, request, *args, **kwargs):
         self.perm_check(request)
@@ -793,8 +798,7 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
     def terms(self, request, **kwargs):
         obj = self.get_object()
         if request.method == "POST":
-            if not request.user.has_perm("glossary.add"):
-                self.permission_denied(request, message="Can not create terms")
+            self.term_perm_check(request, "glossary.add")
             with transaction.atomic():
                 serializer = TermSerializer(
                     data=request.data, context={"request": request}
@@ -828,16 +832,14 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
             )
 
         if request.method == "DELETE":
-            if not request.user.has_perm("glossary.delete"):
-                self.permission_denied(request, message="Can not delete glossary terms")
+            self.term_perm_check(request, "glossary.delete")
             term.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
         if request.method == "GET":
             serializer = TermSerializer(term, context={"request": request})
         else:
-            if not request.user.has_perm("glossary.edit"):
-                self.permission_denied(request, message="Can not manage glossary terms")
+            self.term_perm_check(request, "glossary.edit")
             serializer = TermSerializer(
                 term,
                 data=request.data,
