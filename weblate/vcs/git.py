@@ -635,7 +635,9 @@ class GitMergeRequestBase(GitForcePushRepository):
     def get_merge_message(self):
         from weblate.utils.render import render_template
 
-        return render_template(settings.DEFAULT_PULL_MESSAGE, component=self.component)
+        return render_template(
+            settings.DEFAULT_PULL_MESSAGE, component=self.component
+        ).split("\n\n", 1)
 
 
 class GithubRepository(GitMergeRequestBase):
@@ -679,6 +681,7 @@ class GithubRepository(GitMergeRequestBase):
         else:
             head = "{0}:{1}".format(fork_remote, fork_branch)
         pr_url = "{}/pulls".format(self.api_url())
+        title, description = self.get_merge_message()
         r = requests.post(
             pr_url,
             headers={
@@ -688,7 +691,8 @@ class GithubRepository(GitMergeRequestBase):
             json={
                 "head": head,
                 "base": origin_branch,
-                "title": self.get_merge_message(),
+                "title": title,
+                "body": description,
             },
         )
         response = r.json()
@@ -943,13 +947,15 @@ class GitLabRepository(GitMergeRequestBase):
             target_project_id = self.get_target_project_id()
             pr_url = "{}/merge_requests".format(self.get_forked_url())
 
+        title, description = self.get_merge_message()
         r = requests.post(
             pr_url,
             headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
             json={
                 "source_branch": fork_branch,
                 "target_branch": origin_branch,
-                "title": self.get_merge_message(),
+                "title": title,
+                "description": description,
                 "target_project_id": target_project_id,
             },
         )
