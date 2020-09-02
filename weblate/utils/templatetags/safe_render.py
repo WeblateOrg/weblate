@@ -16,11 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-
 import os.path
 
 from django import template
+from django.template.defaulttags import do_for, do_if
 
 register = template.Library()
 
@@ -43,3 +42,7 @@ def stripext(value):
 @register.filter
 def parentdir(value):
     return value.split("/", 1)[-1]
+
+
+register.tag("if")(do_if)
+register.tag("for")(do_for)

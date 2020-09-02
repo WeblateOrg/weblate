@@ -135,6 +135,13 @@ Translate-URL: {{ url }}"""
 
 Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_name }}.
 
+{% if component.linked_childs %}
+It also includes following components:
+{% for linked in component.linked_child %}
+{{ component.project.name }}/{{ component.name }}
+{% endfor %}
+{% endif %}
+
 Current translation status:
 
 ![Weblate translation status]({{widget_url}})
