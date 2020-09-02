@@ -294,7 +294,7 @@ class MachineTranslation:
             if replacements:
                 self.uncleanup_results(replacements, result)
             if cache_key:
-                cache.set(cache_key, result, 7 * 86400)
+                cache.set(cache_key, result, 30 * 86400)
             return result
         except Exception as exc:
             if self.is_rate_limit_error(exc):
