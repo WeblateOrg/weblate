@@ -55,12 +55,14 @@ def bulk_perform(
                 translation__component=component
             ).select_for_update()
 
+            can_edit_source = user is None or user.has_perm("source.edit", component)
+
             for unit in component_units:
-                if user is not None and not user.has_perm("unit.edit", unit):
-                    continue
-                updated += 1
+                changed = False
+
                 if (
                     target_state != -1
+                    and (user is None or user.has_perm("unit.edit", unit))
                     and target_state != unit.state
                     and unit.state in EDITABLE_STATES
                 ):
@@ -68,22 +70,30 @@ def bulk_perform(
                     unit.generate_change(
                         user, user, Change.ACTION_BULK_EDIT, check_new=False
                     )
+                    changed = True
 
-                if add_flags or remove_flags:
-                    flags = Flags(unit.source_info.extra_flags)
-                    flags.merge(add_flags)
-                    flags.remove(remove_flags)
-                    unit.source_info.is_bulk_edit = True
-                    unit.source_info.extra_flags = flags.format()
-                    unit.source_info.save(update_fields=["extra_flags"])
+                if can_edit_source:
+                    if add_flags or remove_flags:
+                        flags = Flags(unit.source_info.extra_flags)
+                        flags.merge(add_flags)
+                        flags.remove(remove_flags)
+                        unit.source_info.is_bulk_edit = True
+                        unit.source_info.extra_flags = flags.format()
+                        unit.source_info.save(update_fields=["extra_flags"])
+                        changed = True
 
-                if add_labels:
-                    unit.source_info.is_bulk_edit = True
-                    unit.source_info.labels.add(*add_labels)
+                    if add_labels:
+                        unit.source_info.is_bulk_edit = True
+                        unit.source_info.labels.add(*add_labels)
+                        changed = True
 
-                if remove_labels:
-                    unit.source_info.is_bulk_edit = True
-                    unit.source_info.labels.remove(*remove_labels)
+                    if remove_labels:
+                        unit.source_info.is_bulk_edit = True
+                        unit.source_info.labels.remove(*remove_labels)
+                        changed = True
+
+                if changed:
+                    updated += 1
 
             if target_state != -1:
                 component_units.filter(state__in=EDITABLE_STATES).exclude(
