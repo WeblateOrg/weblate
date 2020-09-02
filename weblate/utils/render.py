@@ -17,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.utils.translation import override
 
@@ -86,6 +86,18 @@ def render_template(template, **kwargs):
         ] = component.repository.get_remote_branch_name()
         if "url" not in kwargs:
             kwargs["url"] = get_site_url(component.get_absolute_url())
+        kwargs["widget_url"] = get_site_url(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "project": component.project.slug,
+                    "component": component.slug,
+                    "widget": "horizontal",
+                    "color": "auto",
+                    "extension": "svg",
+                },
+            )
+        )
         project = component.project
         kwargs.pop("component", None)
 

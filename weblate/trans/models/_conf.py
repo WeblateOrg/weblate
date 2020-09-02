@@ -134,6 +134,10 @@ Translate-URL: {{ url }}"""
     DEFAULT_PULL_MESSAGE = """Translations update from Weblate
 
 Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_name }}.
+
+Current translation status:
+
+![Weblate translation status]({{widget_url}})
 """
 
     # Billing
