@@ -1182,6 +1182,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
 
             if not needs_merge and method != "rebase":
                 self.delete_alert("MergeFailure")
+                self.delete_alert("RepositoryOutdated")
                 return True
 
             # commit possible pending changes if needed
