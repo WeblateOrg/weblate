@@ -1,7 +1,7 @@
 Weblate 4.2.2
 -------------
 
-Not yet released.
+Released on September 2nd 2020.
 
 * Fixed matching of source strings for JSON formats.
 * Fixed login redirect for some authentication configurations.
