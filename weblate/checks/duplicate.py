@@ -63,6 +63,7 @@ IGNORES = {
     "fr": {"vous", "nous"},
     "hi": {"कर"},
     "tr": {"tek"},
+    "sq": {"të"},
 }
 
 
