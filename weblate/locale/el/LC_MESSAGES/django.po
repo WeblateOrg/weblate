@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-30 18:42+0000\n"
-"PO-Revision-Date: 2020-09-01 05:07+0000\n"
-"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
+"PO-Revision-Date: 2020-09-02 13:54+0000\n"
+"Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
 "Language: el\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1847,7 +1847,7 @@ msgstr "Άδεια"
 #: weblate/auth/models.py:78
 #, python-format
 msgid "%s (site wide permission)"
-msgstr "Φιλτραρισμένες αδειοδοτήσεις"
+msgstr "%s (Φιλτραρισμένες αδειοδοτήσεις)"
 
 #: weblate/auth/models.py:83 weblate/auth/models.py:108
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2368,7 +2368,7 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Μη έγκυρη σημαία ελέγχου: «%s»"
 
 #: weblate/checks/flags.py:232
-#, python-format
+#, fuzzy, python-format
 msgid "Translation flag has no parameters: \"%s\""
 msgstr "Αρχείο μετάφρασης"
 
@@ -3304,7 +3304,7 @@ msgid "Remove all translations using this language first."
 msgstr "Η μετάφραση δεν είναι έγκυρο XML"
 
 #: weblate/lang/views.py:78
-#, python-format
+#, fuzzy, python-format
 msgid "Language %s removed."
 msgstr "Κωδικός γλώσσας"
 
@@ -4201,7 +4201,7 @@ msgstr "Η εικόνα σας"
 #: weblate/templates/accounts/profile.html:196
 #, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Τα είδωλα παρέχονται με χρήση του libravatar."
+msgstr "Τα είδωλα παρέχονται με χρήση του %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:205
 #: weblate/templates/addons/discovery_help.html:10
@@ -4405,7 +4405,7 @@ msgstr[0] "%(count)s μετάφραση"
 msgstr[1] "%(count)s μεταφράσεις"
 
 #: weblate/templates/accounts/user.html:28
-#, python-format
+#, fuzzy, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
 msgstr[0] "Ενεργοποίηση προτάσεων"
@@ -4413,7 +4413,7 @@ msgstr[1] "Ενεργοποίηση προτάσεων"
 
 #: weblate/templates/accounts/user.html:35
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, python-format
+#, fuzzy, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
 msgstr[0] "Ενεργοποίηση προτάσεων"
@@ -5411,7 +5411,7 @@ msgid "Translations can only be done through suggestions."
 msgstr "Οι μεταφράσεις μπορούν να γίνουν άμεσα."
 
 #: weblate/templates/component_info.html:12
-#, python-format
+#, fuzzy, python-format
 msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
@@ -5688,7 +5688,7 @@ msgstr[1] "Γλώσσα"
 
 #: weblate/templates/engage.html:32
 #: weblate/trans/templatetags/translations.py:790 weblate/trans/widgets.py:100
-#, python-format
+#, fuzzy, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
 msgstr "Ποσοστό"
@@ -5705,15 +5705,15 @@ msgid_plural ""
 "strong>."
 msgstr[0] ""
 "Το μεταφραστικό έργο για το %(project)s στα Ελληνικά περιέχει προς το παρόν "
-"<strong>%(total)s κείμενα</strong> για μετάφραση και είναι "
+"<strong>%(count)s κείμενα</strong> για μετάφραση και είναι "
 "<strong>μεταφρασμένο κατά %(percent)s%%</strong>."
 msgstr[1] ""
 "Το μεταφραστικό έργο για το %(project)s στα Ελληνικά περιέχει προς το παρόν "
-"<strong>%(total)s κείμενα</strong> για μετάφραση και είναι "
+"<strong>%(count)s κείμενα</strong> για μετάφραση και είναι "
 "<strong>μεταφρασμένο κατά %(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:44
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -5730,7 +5730,7 @@ msgstr[1] ""
 "<strong>μεταφρασμένο κατά %(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:46
-#, python-format
+#, fuzzy, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
@@ -6177,7 +6177,7 @@ msgid "Browse all language changes"
 msgstr "Αναζήτηση όλων των αλλαγών γλώσσας"
 
 #: weblate/templates/language.html:71
-#, python-format
+#, fuzzy, python-format
 msgid "Plural: %(source_description)s"
 msgstr "Οι εγγραφές σας"
 
@@ -6359,18 +6359,18 @@ msgid "New translation in %(translation)s"
 msgstr "Νέα μετάφραση σto %(translation)s"
 
 #: weblate/templates/mail/component_license.html:7
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
 msgstr "Υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
 
 #: weblate/templates/mail/component_license_subject.txt:3
-#, python-format
+#, fuzzy, python-format
 msgid "%(component)s was re-licensed to %(target)s"
 msgstr "Υπήρξε νέα μετάφραση του %(translation)s στο %(site_title)s."
 
 #: weblate/templates/mail/component_lock_subject.txt:4
-#, python-format
+#, fuzzy, python-format
 msgid "Component %(component)s was locked"
 msgstr "Το περιεχόμενο ξεκλειδώθηκε"
 
