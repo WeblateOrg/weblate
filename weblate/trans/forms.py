@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import copy
 import json
 from datetime import date, datetime, timedelta
@@ -789,8 +788,7 @@ class RevertForm(UnitForm):
             return None
         try:
             self.cleaned_data["revert_change"] = Change.objects.get(
-                pk=self.cleaned_data["revert"],
-                unit=self.unit,
+                pk=self.cleaned_data["revert"], unit=self.unit
             )
         except Change.DoesNotExist:
             raise ValidationError(_("Could not find reverted change."))
@@ -1862,8 +1860,10 @@ class BulkEditForm(forms.Form):
     def __init__(self, user, obj, *args, **kwargs):
         project = kwargs.pop("project")
         super().__init__(*args, **kwargs)
-        self.fields["remove_labels"].queryset = project.label_set.all()
-        self.fields["add_labels"].queryset = project.label_set.all()
+        labels = project.label_set.all()
+        if labels:
+            self.fields["remove_labels"].queryset = labels
+            self.fields["add_labels"].queryset = labels
 
         excluded = {STATE_EMPTY, STATE_READONLY}
         if user is not None and not user.has_perm("unit.review", obj):
@@ -1877,13 +1877,11 @@ class BulkEditForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q"),
-            Field("state"),
-            Field("add_flags"),
-            Field("remove_flags"),
-            InlineCheckboxes("add_labels"),
-            InlineCheckboxes("remove_labels"),
+            SearchField("q"), Field("state"), Field("add_flags"), Field("remove_flags")
         )
+        if labels:
+            self.helper.layout.append(InlineCheckboxes("add_labels"))
+            self.helper.layout.append(InlineCheckboxes("remove_labels"))
 
 
 class ContributorAgreementForm(forms.Form):

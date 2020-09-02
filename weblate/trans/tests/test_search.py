@@ -302,6 +302,24 @@ class BulkStateTest(ViewTestCase):
         unit = self.get_unit()
         self.assertFalse("python-format" in unit.all_flags)
 
+    def test_bulk_read_only(self):
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "language:en", "state": -1, "add_flags": "read-only"},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
+        unit = self.get_unit()
+        self.assertTrue("read-only" in unit.all_flags)
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "language:en", "state": -1, "remove_flags": "read-only"},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
+        unit = self.get_unit()
+        self.assertFalse("read-only" in unit.all_flags)
+
     def test_bulk_labels(self):
         label = self.project.label_set.create(name="Test label", color="black")
         response = self.client.post(
