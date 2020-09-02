@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-09-01 05:08+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-09-02 13:21+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -10612,7 +10612,7 @@ msgid ""
 "Usually this is best place to post licensing info if no explicit consent is "
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
-msgstr "如果不需要特别同意的话，这通常是放置许可信息的最佳位置。如果您的项目或翻译不是自由项目，那么您最可能需要事先同意。"
+msgstr "如果不需要特别同意的话，这通常是放置许可信息的最佳位置。如果您的项目或翻译不是开源项目，那么您最可能需要事先同意。"
 
 #: ../../admin/licensing.rst:20 ../../admin/projects.rst:537
 msgid "Contributor agreement"
@@ -10691,12 +10691,12 @@ msgstr "Apertium"
 msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
-msgstr ""
+msgstr "开源原件机器翻译平台提供一组有限语言的翻译。"
 
 #: ../../admin/machine.rst:34
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
-msgstr ""
+msgstr "建议以运行您自己的 Apertium-APy 服务器的方式来使用 Apertium 。"
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -10704,36 +10704,42 @@ msgid ""
 "ApertiumAPYTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_APERTIUM_APY`."
 msgstr ""
+"通过将``weblate.machinery.apertium.ApertiumAPYTranslation`` 添加到 "
+":setting:`MT_SERVICES` 中，并设置 :setting:`MT_APERTIUM_APY` 来打开这项服务。"
 
 #: ../../admin/machine.rst:41
 msgid ""
 ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_, "
 "`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
+":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_, "
+"`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:47
 msgid "AWS"
-msgstr ""
+msgstr "AWS"
 
 #: ../../admin/machine.rst:51
 msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages."
-msgstr ""
+msgstr "Amazon Translate 是神经机器翻译服务，用于将英语与广泛支持的语种进行互译。"
 
 #: ../../admin/machine.rst:54
 msgid ""
 "1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` "
 "to :setting:`MT_SERVICES`."
 msgstr ""
+"1. 通过将 ``weblate.machinery.aws.AWSTranslation`` 添加到 :setting:`MT_SERVICES` "
+"来打开这项服务。"
 
 #: ../../admin/machine.rst:57
 msgid "Install the `boto3` module."
-msgstr ""
+msgstr "安装 `boto3` 模块。"
 
 #: ../../admin/machine.rst:58
 msgid "Configure Weblate."
-msgstr ""
+msgstr "配置 Weblate 。"
 
 #: ../../admin/machine.rst:62
 msgid ""
@@ -10741,20 +10747,23 @@ msgid ""
 "`MT_AWS_SECRET_ACCESS_KEY` `Amazon Translate Documentation <https://docs.aws."
 "amazon.com/translate/>`_"
 msgstr ""
+":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, "
+":setting:`MT_AWS_SECRET_ACCESS_KEY` `Amazon Translate Documentation "
+"<https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:68
 msgid "Baidu API machine translation"
-msgstr ""
+msgstr "Baidu API 机器翻译"
 
 #: ../../admin/machine.rst:72
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "由百度提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:74
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
-msgstr ""
+msgstr "这项服务使用 API ，并且您需要从百度获得 ID 和 API 密钥来使用它。"
 
 #: ../../admin/machine.rst:76
 msgid ""
@@ -10762,16 +10771,20 @@ msgid ""
 "to :setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and :setting:"
 "`MT_BAIDU_SECRET`."
 msgstr ""
+"通过将 ``weblate.machinery.baidu.BaiduTranslation`` 添加到 :setting:`MT_SERVICES` "
+"并设置 :setting:`MT_BAIDU_ID` 和 :setting:`MT_BAIDU_SECRET` 来打开这项服务。"
 
 #: ../../admin/machine.rst:82
 msgid ""
 ":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Baidu Translate API "
 "<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
+":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Baidu Translate API "
+"<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:89
 msgid "DeepL"
-msgstr ""
+msgstr "DeepL"
 
 #: ../../admin/machine.rst:93
 msgid ""
@@ -10779,12 +10792,16 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL 是付费服务，提供一些语言的良好机器翻译。您需要购买 :guilabel:`DeepL API` 订阅，或者您可以使用legacy "
+":guilabel:`DeepL Pro (classic)` 计划。"
 
 #: ../../admin/machine.rst:97
 msgid ""
 "Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_DEEPL_KEY`."
 msgstr ""
+"通过将 ``weblate.machinery.deepl.DeepLTranslation`` 添加到 :setting:`MT_SERVICES` ，"
+"并设置 :setting:`MT_DEEPL_KEY` 来打开这项服务。"
 
 #: ../../admin/machine.rst:102
 msgid ""
@@ -10793,6 +10810,8 @@ msgid ""
 "version in this case). You can toggle this by :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
+"在您已经订阅 CAT 工具的情况下，您可能会使用 Weblate 使用的 \"v1 API\" instead of default \"v2\" （"
+"在这种情况下不是真正的 API 版本）。您可以通过 :setting:`MT_DEEPL_API_VERSION` 来切换。"
 
 #: ../../admin/machine.rst:108
 msgid ""
@@ -10800,66 +10819,75 @@ msgid ""
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgstr ""
+":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_VERSION`, `DeepL website "
+"<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, `"
+"DeepL API documentation <https://www.deepl.com/api.html>`_"
 
 #: ../../admin/machine.rst:118
 msgid "Glosbe"
-msgstr ""
+msgstr "Glosbe"
 
 #: ../../admin/machine.rst:120
 msgid ""
 "Free dictionary and translation memory for almost every living language."
-msgstr ""
+msgstr "几乎每一种活语言的免费字典与翻译服务。"
 
 #: ../../admin/machine.rst:122
 msgid ""
 "The API is gratis to use, but subject to the used data source license. There "
 "is a limit of calls that may be done from one IP in a set period of time, to "
 "prevent abuse."
-msgstr ""
+msgstr "API 免费使用，但受到使用数据源许可的约束。一段时期有少量来自一个 IP 的呼叫，防止侵权。"
 
 #: ../../admin/machine.rst:126
 msgid ""
 "Turn on this service by adding ``weblate.machinery.glosbe."
 "GlosbeTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"通过将 ``weblate.machinery.glosbe.GlosbeTranslation`` 添加到 :setting:`MT_SERVICES`"
+" 来打开这项服务。"
 
 #: ../../admin/machine.rst:131
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Glosbe website <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:136
 msgid "Google Translate"
-msgstr ""
+msgstr "Google Translate"
 
 #: ../../admin/machine.rst:138
 msgid "Machine translation service provided by Google."
-msgstr ""
+msgstr "Google 提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:140
 msgid ""
 "This service uses the Google Translation API, and you need to obtain an API "
 "key and turn on billing in the Google API console."
-msgstr ""
+msgstr "这项服务使用了 Google Translation API ，您需要得到 API 密钥，并在 Google API 控制台打开记费。"
 
 #: ../../admin/machine.rst:143
 msgid ""
 "To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`."
 msgstr ""
+"将 ``weblate.machinery.google.GoogleTranslation`` 添加到 :setting:`MT_SERVICES` ，"
+"并设置 :setting:`MT_GOOGLE_KEY` 来打开这项服务。"
 
 #: ../../admin/machine.rst:148
 msgid ""
 ":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
 "google.com/translate/docs>`_"
 msgstr ""
+"To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` "
+"to :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`."
 
 #: ../../admin/machine.rst:154
 msgid "Google Translate API V3 (Advanced)"
-msgstr ""
+msgstr "Google Translate API V3 （高级版）"
 
 #: ../../admin/machine.rst:156
 msgid "Machine translation service provided by Google Cloud services."
-msgstr ""
+msgstr "Google 云服务提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -10867,20 +10895,22 @@ msgid ""
 "service, add ``weblate.machinery.googlev3.GoogleV3Translation`` to :setting:"
 "`MT_SERVICES` and set"
 msgstr ""
+"这项服务在如何进行身份验证方面不同于前面的服务。将 ``weblate.machinery.googlev3.GoogleV3Translation`` "
+"添加到 :setting:`MT_SERVICES` ，并通过后面的设置来允许服务"
 
 #: ../../admin/machine.rst:162
 msgid ":setting:`MT_GOOGLE_CREDENTIALS`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_CREDENTIALS`"
 
 #: ../../admin/machine.rst:163
 msgid ":setting:`MT_GOOGLE_PROJECT`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_PROJECT`"
 
 #: ../../admin/machine.rst:165
 msgid ""
 "If `location` fails, you may also need to specify :setting:"
 "`MT_GOOGLE_LOCATION`."
-msgstr ""
+msgstr "如果 `location` 失败，您还需要指定 :setting:`MT_GOOGLE_LOCATION` 。"
 
 #: ../../admin/machine.rst:169
 msgid ""
@@ -10888,20 +10918,23 @@ msgid ""
 "`MT_GOOGLE_LOCATION` `Google translate documentation <https://cloud.google."
 "com/translate/docs>`_"
 msgstr ""
+":setting:`MT_GOOGLE_CREDENTIALS`, :setting:`MT_GOOGLE_PROJECT`, "
+":setting:`MT_GOOGLE_LOCATION` `Google translate documentation <https://cloud."
+"google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:175
 msgid "Microsoft Cognitive Services Translator"
-msgstr ""
+msgstr "Microsoft Cognitive Services Translator"
 
 #: ../../admin/machine.rst:179
 msgid ""
 "Machine translation service provided by Microsoft in Azure portal as a one "
 "of Cognitive Services."
-msgstr ""
+msgstr "由 Microsoft 在 Azure 门户提供的机器翻译服务，作为 Cognitive Services 的一种。"
 
 #: ../../admin/machine.rst:182
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate 实施了 Translator API V3."
 
 #: ../../admin/machine.rst:184
 msgid ""
@@ -10909,18 +10942,20 @@ msgid ""
 "MicrosoftCognitiveTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`."
 msgstr ""
+"为了允许这项服务，将 ``weblate.machinery.microsoft.MicrosoftCognitiveTranslation`` 添加到 "
+":setting:`MT_SERVICES` ，并设置 :setting:`MT_MICROSOFT_COGNITIVE_KEY` 。"
 
 #: ../../admin/machine.rst:188
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "Translator Text API V2"
 
 #: ../../admin/machine.rst:189
 msgid "The key you use with Translator API V2 can be used with API 3."
-msgstr ""
+msgstr "您用于Translator API V2 的密钥可以用于 API 3 。"
 
 #: ../../admin/machine.rst:192
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "Translator Text API V3"
 
 #: ../../admin/machine.rst:193
 msgid ""
@@ -10928,6 +10963,8 @@ msgid ""
 "new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` to "
 "locale of your service."
 msgstr ""
+"您需要在 Azure 门户注册，并使用得到的密钥。关于新的 Azure 密钥，您还需要设置 :setting:`MT_MICROSOFT_REGION` "
+"为您的服务设置地区。"
 
 #: ../../admin/machine.rst:198
 msgid ""
@@ -10936,10 +10973,14 @@ msgid ""
 "services/cognitive-services/translator-text-api/>`_, `Microsoft Azure Portal "
 "<https://portal.azure.com/>`_"
 msgstr ""
+":setting:`MT_MICROSOFT_COGNITIVE_KEY`, :setting:`MT_MICROSOFT_REGION`, `"
+"Cognitive Services - Text Translation API <https://azure.microsoft.com/"
+"services/cognitive-services/translator-text-api/>`_, `Microsoft Azure Portal "
+"<https://portal.azure.com/>`_"
 
 #: ../../admin/machine.rst:205
 msgid "Microsoft Terminology Service"
-msgstr ""
+msgstr "Microsoft Terminology Service"
 
 #: ../../admin/machine.rst:209
 msgid ""
@@ -10947,22 +10988,28 @@ msgid ""
 "the terminology, definitions and user interface (UI) strings available in "
 "the Language Portal through a web service."
 msgstr ""
+"Microsoft Terminology Service API 允许您通过 Web 服务，可编程地访问 Langurage Portal "
+"上可用的术语、定义和用户界面（ UI ）字符串。"
 
 #: ../../admin/machine.rst:213
 msgid ""
 "Turn this service on by adding ``weblate.machinery.microsoftterminology."
 "MicrosoftTerminologyService`` to :setting:`MT_SERVICES`."
 msgstr ""
+"通过将 ``weblate.machinery.microsoftterminology.MicrosoftTerminologyService`` "
+"添加到 :setting:`MT_SERVICES` 来打开这项服务。"
 
 #: ../../admin/machine.rst:218
 msgid ""
 "`Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/"
 "Microsoft-Terminology-API>`_"
 msgstr ""
+"`Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/"
+"Microsoft-Terminology-API>`_"
 
 #: ../../admin/machine.rst:223
 msgid "ModernMT"
-msgstr ""
+msgstr "ModernMT"
 
 #: ../../admin/machine.rst:228
 msgid ""
@@ -10970,20 +11017,24 @@ msgid ""
 "ModernMTTranslation`` to :setting:`MT_SERVICES` and configure :setting:"
 "`MT_MODERNMT_KEY`."
 msgstr ""
+"通过将 ``weblate.machinery.modernmt.ModernMTTranslation`` 添加到 "
+":setting:`MT_SERVICES` ，并配置 :setting:`MT_MODERNMT_KEY` 来打开这项服务。"
 
 #: ../../admin/machine.rst:233
 msgid ""
 "`ModernMT API <https://www.modernmt.com/api/translate/>`_, :setting:"
 "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgstr ""
+"`ModernMT API <https://www.modernmt.com/api/translate/>`_, "
+":setting:`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/machine.rst:240 ../../changes.rst:1470
 msgid "MyMemory"
-msgstr ""
+msgstr "MyMemory"
 
 #: ../../admin/machine.rst:242
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "使用机器翻译的巨量翻译记忆库。"
 
 #: ../../admin/machine.rst:244
 msgid ""
@@ -10991,6 +11042,8 @@ msgid ""
 "requests/day when you provide a contact e-mail address in :setting:"
 "`MT_MYMEMORY_EMAIL`. You can also ask them for more."
 msgstr ""
+"自由匿名使用，当前限制为 100 个请求/天，或者在 :setting:`MT_MYMEMORY_EMAIL` 中提供电子邮箱联系地址时限制为 1000 "
+"个请求/天。您还可以向他们请求更多。"
 
 #: ../../admin/machine.rst:248
 msgid ""
@@ -10998,25 +11051,30 @@ msgid ""
 "MyMemoryTranslation`` to :setting:`MT_SERVICES` and  set :setting:"
 "`MT_MYMEMORY_EMAIL`."
 msgstr ""
+"通过将 ``weblate.machinery.mymemory.MyMemoryTranslation`` 添加到 "
+":setting:`MT_SERVICES` ，并设置 :setting:`MT_MYMEMORY_EMAIL` 来打开这项服务。"
 
 #: ../../admin/machine.rst:253
 msgid ""
 ":setting:`MT_MYMEMORY_EMAIL`, :setting:`MT_MYMEMORY_USER`, :setting:"
 "`MT_MYMEMORY_KEY`, `MyMemory website <https://mymemory.translated.net/>`_"
 msgstr ""
+":setting:`MT_MYMEMORY_EMAIL`, :setting:`MT_MYMEMORY_USER`, "
+":setting:`MT_MYMEMORY_KEY`, `MyMemory website <https://mymemory.translated."
+"net/>`_"
 
 #: ../../admin/machine.rst:261
 msgid "NetEase Sight API machine translation"
-msgstr ""
+msgstr "网易见外 API 机器翻译"
 
 #: ../../admin/machine.rst:265
 msgid "Machine translation service provided by Netease."
-msgstr ""
+msgstr "网易提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:267
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
-msgstr ""
+msgstr "这项服务使用 API ，兵器额您需要从网易得到密钥和密码。"
 
 #: ../../admin/machine.rst:269
 msgid ""
@@ -11024,16 +11082,21 @@ msgid ""
 "NeteaseSightTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_NETEASE_KEY` and :setting:`MT_NETEASE_SECRET`."
 msgstr ""
+"通过将 ``weblate.machinery.youdao.NeteaseSightTranslation`` 添加到 "
+":setting:`MT_SERVICES` 并设置 :setting:`MT_NETEASE_KEY` 和 "
+":setting:`MT_NETEASE_SECRET` 来打开这项服务。"
 
 #: ../../admin/machine.rst:275
 msgid ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
 "Translation Platform <https://sight.netease.com/>`_"
 msgstr ""
+":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
+"Translation Platform <https://sight.netease.com/>`_"
 
 #: ../../admin/machine.rst:282
 msgid "tmserver"
-msgstr ""
+msgstr "tmserver"
 
 #: ../../admin/machine.rst:284
 msgid ""
@@ -11041,24 +11104,28 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"您可以通过使用 Translate-toolkit绑定的一个服务器并与之对话，来运行您自己的翻译服务器。您还可以将它与 amaGama 服务器一起使用，"
+"它是 tmserver 的增强版本。"
 
 #: ../../admin/machine.rst:288
 msgid "First you will want to import some data to the translation memory:"
-msgstr ""
+msgstr "首先您会想要将一些数据导入翻译记忆库："
 
 #: ../../admin/machine.rst:290
 msgid ""
 "2. Turn on this service by adding ``weblate.machinery.tmserver."
 "TMServerTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"2. 通过将 ``weblate.machinery.tmserver.TMServerTranslation`` 添加到 "
+":setting:`MT_SERVICES` 来打开这项服务。"
 
 #: ../../admin/machine.rst:299
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "启动 tmserver 来收听您的请求："
 
 #: ../../admin/machine.rst:305
 msgid "Configure Weblate to talk to it:"
-msgstr ""
+msgstr "配置 Weblate 来与之对话："
 
 #: ../../admin/machine.rst:313
 msgid ""
@@ -11066,20 +11133,23 @@ msgid ""
 "installation`, :doc:`virtaal:amagama`, `Amagama Translation Memory <https://"
 "amagama.translatehouse.org/>`_"
 msgstr ""
+":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` "
+":ref:`amagama:installation`, :doc:`virtaal:amagama`, `Amagama Translation "
+"Memory <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:323
 msgid "Yandex Translate"
-msgstr ""
+msgstr "Yandex Translate"
 
 #: ../../admin/machine.rst:325
 msgid "Machine translation service provided by Yandex."
-msgstr ""
+msgstr "Yandex 提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:327
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex."
-msgstr ""
+msgstr "这项服务使用翻译 API ，您需要从 Yandex 得到 API 密钥。"
 
 #: ../../admin/machine.rst:329
 msgid ""
@@ -11087,26 +11157,30 @@ msgid ""
 "YandexTranslation`` to :setting:`MT_SERVICES`, and set :setting:"
 "`MT_YANDEX_KEY`."
 msgstr ""
+"通过将 ``weblate.machinery.yandex.YandexTranslation`` 添加到 :setting:`MT_SERVICES`"
+" ，并设置 :setting:`MT_YANDEX_KEY` 来打开这项服务。"
 
 #: ../../admin/machine.rst:334
 msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
+":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
+"translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:341
 msgid "Youdao Zhiyun API machine translation"
-msgstr ""
+msgstr "有道智云 API 机器翻译"
 
 #: ../../admin/machine.rst:345
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "有道提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:347
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
-msgstr ""
+msgstr "这项服务使用 API ，您需要从有道获得 ID 和 API 密钥。"
 
 #: ../../admin/machine.rst:349
 msgid ""
@@ -11114,58 +11188,66 @@ msgid ""
 "YoudaoTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_YOUDAO_ID` and :setting:`MT_YOUDAO_SECRET`."
 msgstr ""
+"通过将 ``weblate.machinery.youdao.YoudaoTranslation`` 添加到 :setting:`MT_SERVICES`"
+" ，并设置 :setting:`MT_YOUDAO_ID` 和 :setting:`MT_YOUDAO_SECRET` 来打开这项服务。"
 
 #: ../../admin/machine.rst:355
 msgid ""
 ":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
 "Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
 msgstr ""
+":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
+"Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
 
 #: ../../admin/machine.rst:360
 msgid "Weblate"
-msgstr ""
+msgstr "Weblate"
 
 #: ../../admin/machine.rst:362
 msgid ""
 "Weblate can be the source of machine translations as well. It is based on "
 "the Woosh fulltext engine, and provides both exact and inexact matches."
-msgstr ""
+msgstr "Weblate 也可以作为机器翻译的来源。它基于 Woosh 全文引擎，并提供精确和和不精确的匹配。"
 
 #: ../../admin/machine.rst:365
 msgid ""
 "Turn on these services by adding ``weblate.machinery.weblatetm."
 "WeblateTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"通过将 ``weblate.machinery.weblatetm.WeblateTranslation`` 添加到 "
+":setting:`MT_SERVICES` 来打开这项服务。"
 
 #: ../../admin/machine.rst:371
 msgid "Weblate Translation Memory"
-msgstr ""
+msgstr "Weblate 翻译记忆库"
 
 #: ../../admin/machine.rst:375
 msgid ""
 "The :ref:`translation-memory` can be used as a source for machine "
 "translation suggestions as well."
-msgstr ""
+msgstr ":ref:`translation-memory` 也可以用作机器翻译建议的来源。"
 
 #: ../../admin/machine.rst:378
 msgid ""
 "Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to "
 "the :setting:`MT_SERVICES`. This service is turned on by default."
 msgstr ""
+"通过将 ``weblate.memory.machine.WeblateMemory`` 添加到 :setting:`MT_SERVICES` "
+"，来打开这项服务。这项服务默认打开。"
 
 #: ../../admin/machine.rst:385
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:387
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "SAP 提供的机器翻一下服务。"
 
 #: ../../admin/machine.rst:389
 msgid ""
 "You need to have a SAP account (and enabled the SAP Translation Hub in the "
 "SAP Cloud Platform) to use this service."
-msgstr ""
+msgstr "您需要具有 SAP 账户（并在 SAP Cloud Platform 上允许 SAP Translation Hub ）来使用这项服务。"
 
 #: ../../admin/machine.rst:392
 msgid ""
@@ -11173,18 +11255,24 @@ msgid ""
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
 "to either sandbox or the productive API."
 msgstr ""
+"通过将 ``weblate.machinery.saptranslationhub.SAPTranslationHub`` 添加到 "
+":setting:`MT_SERVICES` ，并设置对沙箱或生产 API 的适当访问，来打开这项服务。"
 
 #: ../../admin/machine.rst:398
 msgid ""
 "To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL` and :"
 "setting:`MT_SAP_SANDBOX_APIKEY`."
 msgstr ""
+"为了访问 Sandbox API ，您需要设置 :setting:`MT_SAP_BASE_URL` 和 "
+":setting:`MT_SAP_SANDBOX_APIKEY` 。"
 
 #: ../../admin/machine.rst:401
 msgid ""
 "To access the productive API, you need to set :setting:`MT_SAP_BASE_URL`, :"
 "setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_PASSWORD`."
 msgstr ""
+"为了访问生产 API ，您需要设置 :setting:`MT_SAP_BASE_URL` 、 :setting:`MT_SAP_USERNAME` 和 "
+":setting:`MT_SAP_PASSWORD` 。"
 
 #: ../../admin/machine.rst:406
 msgid ""
@@ -11193,10 +11281,14 @@ msgid ""
 "Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_"
 msgstr ""
+":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, "
+":setting:`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, "
+":setting:`MT_SAP_USE_MT` `SAP Translation Hub API <https://api.sap.com/shell/"
+"discover/contentpackage/SAPTranslationHub/api/translationhub>`_"
 
 #: ../../admin/machine.rst:414
 msgid "Custom machine translation"
-msgstr ""
+msgstr "定制化的机器翻译"
 
 #: ../../admin/machine.rst:416
 msgid ""
@@ -11204,16 +11296,18 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
+"您还可以通过使用一些 Python 代码来实施您自己的机器翻译服务。这个例子使用 ``dictionary`` Python "
+"模块来实施一组固定语言的机器翻译："
 
 #: ../../admin/machine.rst:423
 msgid ""
 "You can list own class in :setting:`MT_SERVICES` and Weblate will start "
 "using that."
-msgstr ""
+msgstr "您可以在 :setting:`MT_SERVICES` 中列出自己的类，Weblate 就会开始使用它了。"
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "管理命令"
 
 #: ../../admin/management.rst:8
 msgid ""
@@ -11221,6 +11315,7 @@ msgid ""
 "webserver can result in files getting wrong permissions, please check :ref:"
 "`file-permissions` for more details."
 msgstr ""
+"不同用户下运行管理命令而不是一人运行您的 web 服务器，可以导致文件得到错误的权限，更多细节请查看 :ref:`file-permissions` 。"
 
 #: ../../admin/management.rst:12
 msgid ""
@@ -11228,20 +11323,24 @@ msgid ""
 "the Django sources, or as an extended set in a script called :command:"
 "`weblate` installable atop Weblate)."
 msgstr ""
+"您会找到基本的管理命令（作为 Django 源中的 :file:`./manage.py` 来获得它，或者作为可安装在Weblate 顶层的脚本调用 "
+":command:`weblate` 中的扩展组来获得它 ）。"
 
 #: ../../admin/management.rst:18
 msgid "Invoking management commands"
-msgstr ""
+msgstr "引用管理命令"
 
 #: ../../admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
-msgstr ""
+msgstr "如上面所提到的，以用依赖于您如何安装 Weblate 。"
 
 #: ../../admin/management.rst:22
 msgid ""
 "If using virtualenv for Weblate, you can either specify the full path to :"
 "command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgstr ""
+"如果使用 Virtualenv 来运行 Weblate ，那么您可以或者为 :command:`weblate` 指定全路径，或者在引用前激活 "
+"virtualenv ："
 
 #: ../../admin/management.rst:34
 msgid ""
@@ -11249,6 +11348,8 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"如果您直接使用源代码（来源于 tarball 或 Git checkout ），管理脚本可以在 Weblate 源文件的 :file:`./manage."
+"py` 中获得。要运行它："
 
 #: ../../admin/management.rst:42
 msgid ""
@@ -11256,107 +11357,112 @@ msgid ""
 "the :file:`./setup.py` script, the :command:`weblate` is installed to your "
 "path (or virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
+"如果您使用 pip 或 pip3 安装程序，或使用 :file:`./setup.py` 脚本来安装 Weblate ，那么 "
+":command:`weblate` 安装到您的路径下（或者 virtualenv 路径下），您可以从那里用它控制 Weblate ："
 
 #: ../../admin/management.rst:50
 msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
-msgstr ""
+msgstr "对于 Docker 映像，脚本向上面一样安装，您可以使用 :command:`docker exec` 来运行："
 
 #: ../../admin/management.rst:57
 msgid ""
 "For :program:`docker-compose` the process is similar, you just have to use :"
 "command:`docker-compose exec`:"
 msgstr ""
+"对于 :program:`docker-compose` ，过程是相似的，您只是必须使用 :command:`docker-compose exec` ："
 
 #: ../../admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
-msgstr ""
+msgstr "在您需要向它传递文件的情况下，您可以临时添加卷："
 
 #: ../../admin/management.rst:72
 msgid ""
 ":ref:`quick-docker`, :doc:`install/venv-debian`, :doc:`install/venv-suse`, :"
 "doc:`install/venv-redhat`"
 msgstr ""
+":ref:`quick-docker`, :doc:`install/venv-debian`, :doc:`install/venv-suse`, "
+":doc:`install/venv-redhat`"
 
 #: ../../admin/management.rst:81
 msgid "add_suggestions"
-msgstr ""
+msgstr "add_suggestions"
 
 #: ../../admin/management.rst:87
 msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
-msgstr ""
+msgstr "从文件导入翻译，来作为给定翻译的建议来使用。它跳过了复制翻译的步骤；只会添加不同的内容。"
 
 #: ../../admin/management.rst:92
 msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
-msgstr ""
+msgstr "建议的作者电子邮箱地址。这个用户必须在导入前存在（您可以根据需要在管理界面建立一个）。"
 
 #: ../../admin/management.rst:103
 msgid "auto_translate"
-msgstr ""
+msgstr "auto_translate"
 
 #: ../../admin/management.rst:109
 msgid "Performs automatic translation based on other component translations."
-msgstr ""
+msgstr "根据其他组件翻译进行自动翻译。"
 
 #: ../../admin/management.rst:113
 msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
-msgstr ""
+msgstr "指定组件，用作可获得翻译的来源。如果不指定，将使用项目中的所有组件。"
 
 #: ../../admin/management.rst:118
 msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
-msgstr ""
+msgstr "指定列出的用户名，作为翻译的作者。如果不指定那么使用“匿名用户”。"
 
 #: ../../admin/management.rst:123
 msgid "Whether to overwrite existing translations."
-msgstr ""
+msgstr "是否去覆盖现有的翻译。"
 
 #: ../../admin/management.rst:127
 msgid ""
 "Whether to overwrite existing translations that are inconsistent (see :ref:"
 "`check-inconsistent`)."
-msgstr ""
+msgstr "是否去覆盖现有的不一致的翻译（请参见 :ref:`check-inconsistent` ）。"
 
 #: ../../admin/management.rst:132
 msgid "Automatically add language if a given translation does not exist."
-msgstr ""
+msgstr "如果给定的翻译不存在，自动添加语言。"
 
 #: ../../admin/management.rst:136
 msgid ""
 "Use machine translation instead of other components as machine translations."
-msgstr ""
+msgstr "实用机器翻译而不是其他组件作为机器翻译。"
 
 #: ../../admin/management.rst:140
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr ""
+msgstr "用于机器翻译的相似性阈值，默认为 80 。"
 
 #: ../../admin/management.rst:150
 msgid ":ref:`auto-translation`"
-msgstr ""
+msgstr ":ref:`auto-translation`"
 
 #: ../../admin/management.rst:153
 msgid "celery_queues"
-msgstr ""
+msgstr "celery_queues"
 
 #: ../../admin/management.rst:159
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "显示 Celery 任务队列的长度。"
 
 #: ../../admin/management.rst:162
 msgid "checkgit"
-msgstr ""
+msgstr "checkgit"
 
 #: ../../admin/management.rst:166
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "打印后端 Git 仓库的当前状态。"
 
 #: ../../admin/management.rst:168 ../../admin/management.rst:178
 #: ../../admin/management.rst:188 ../../admin/management.rst:626
@@ -11367,138 +11473,139 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"您可以确定或者哪个项目或组件要更新（例如 ``weblate/application`` ），或者使用 ``--all`` 来更新所有现有组件。"
 
 #: ../../admin/management.rst:172
 msgid "commitgit"
-msgstr ""
+msgstr "commitgit"
 
 #: ../../admin/management.rst:176
 msgid "Commits any possible pending changes to the back-end Git repository."
-msgstr ""
+msgstr "对后端 Git 仓库的更改执行任何可能的挂起。"
 
 #: ../../admin/management.rst:182
 msgid "commit_pending"
-msgstr ""
+msgstr "commit_pending"
 
 #: ../../admin/management.rst:186
 msgid "Commits pending changes older than a given age."
-msgstr ""
+msgstr "对早于给定时间段的更改执行挂起。"
 
 #: ../../admin/management.rst:193
 msgid ""
 "Age in hours for committing. If not specified the value configured in :ref:"
 "`component` is used."
-msgstr ""
+msgstr "时间段以小时为单位。如果不指定，则使用在 :ref:`component` 中配置的值。"
 
 #: ../../admin/management.rst:198
 msgid ""
 "This is automatically performed in the background by Weblate, so there no "
 "real need to invoke this manually, besides forcing an earlier commit than "
 "specified by :ref:`component`."
-msgstr ""
+msgstr "这由 Weblate 在后台自动执行，所以实际不需要手动引用，除了要强制比 :ref:`component` 指定更早的执行。"
 
 #: ../../admin/management.rst:204
 msgid ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
-msgstr ""
+msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:208
 msgid "cleanuptrans"
-msgstr ""
+msgstr "cleanuptrans"
 
 #: ../../admin/management.rst:212
 msgid ""
 "Cleans up orphaned checks and translation suggestions. There is normally no "
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
-msgstr ""
+msgstr "清除无主的检查和翻译建议。这通常不需要手动运行，因为清楚在后台自动启动。"
 
 #: ../../admin/management.rst:217
 msgid ":ref:`production-cron`"
-msgstr ""
+msgstr ":ref:`production-cron`"
 
 #: ../../admin/management.rst:220
 msgid "createadmin"
-msgstr ""
+msgstr "createadmin"
 
 #: ../../admin/management.rst:224
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
-msgstr ""
+msgstr "除非指定，否则用随机密码建立 ``admin`` 账户。"
 
 #: ../../admin/management.rst:228
 msgid "Provides a password on the command-line, to not generate a random one."
-msgstr ""
+msgstr "在命令行提供密码，而不要生成随机的。"
 
 #: ../../admin/management.rst:232
 msgid "Do not set password, this can be useful with --update."
-msgstr ""
+msgstr "不要设置密码，这对于 --update 是有用的。"
 
 #: ../../admin/management.rst:236
 msgid "Use the given name instead of ``admin``."
-msgstr ""
+msgstr "使用给定的姓名而不是 ``admin`` 。"
 
 #: ../../admin/management.rst:240
 msgid "Specify the admin e-mail address."
-msgstr ""
+msgstr "指定 admin 的电子邮箱地址。"
 
 #: ../../admin/management.rst:244
 msgid "Specify the admin name (visible)."
-msgstr ""
+msgstr "指定 admin 的姓名（可见的）。"
 
 #: ../../admin/management.rst:248
 msgid "Update the existing user (you can use this to change passwords)."
-msgstr ""
+msgstr "更新现有的用户（您可以用这个来更改密码）。"
 
 #: ../../admin/management.rst:252
 msgid ""
 "Added parameters ``--username``, ``--email``, ``--name`` and ``--update``."
-msgstr ""
+msgstr "添加参数 ``--username`` 、 ``--email`` 、 ``--name`` 和 ``--update`` 。"
 
 #: ../../admin/management.rst:255
 msgid "dump_memory"
-msgstr ""
+msgstr "dump_memory"
 
 #: ../../admin/management.rst:261
 msgid "Export a JSON file containing Weblate Translation Memory content."
-msgstr ""
+msgstr "将包含 Weblate 翻译记忆内容的 JSON 文件导出。"
 
 #: ../../admin/management.rst:265 ../../admin/management.rst:356
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
-msgstr ""
+msgstr ":ref:`translation-memory`, :ref:`schema-memory`"
 
 #: ../../admin/management.rst:269
 msgid "dumpuserdata"
-msgstr ""
+msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:273
 msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`"
-msgstr ""
+msgstr "通过 :djadmin:`importuserdata` 将 userdata 转储到文件供以后使用"
 
 #: ../../admin/management.rst:277
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr ""
+msgstr "这在迁移或合并 Weblate 事例是会很方便。"
 
 #: ../../admin/management.rst:280
 msgid "import_demo"
-msgstr ""
+msgstr "import_demo"
 
 #: ../../admin/management.rst:286
 msgid ""
 "Creates a demo project with components based on <https://github.com/"
 "WeblateOrg/demo>."
-msgstr ""
+msgstr "根据 <https://github.com/WeblateOrg/demo> 使用组件新建示例项目。"
 
 #: ../../admin/management.rst:288
 msgid "This can be useful when developing Weblate."
-msgstr ""
+msgstr "这在开发 Weblate 时会有用。"
 
 #: ../../admin/management.rst:292
 msgid "import_json"
-msgstr ""
+msgstr "import_json"
 
 #: ../../admin/management.rst:298
 msgid "Batch import of components based on JSON data."
-msgstr ""
+msgstr "根据 JSON 数据批量导入组件。"
 
 #: ../../admin/management.rst:300
 msgid ""
@@ -11506,66 +11613,68 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
+"导入的 JSON 文件结构非常符合组件对象（请参见 :http:get:`/api/components/"
+"(string:project)/(string:component)/` ）。您必须包括 ``name`` 和 ``filemask`` 域。"
 
 #: ../../admin/management.rst:306
 msgid "Specifies where the components will be imported from."
-msgstr ""
+msgstr "指定从哪里导入组件。"
 
 #: ../../admin/management.rst:310
 msgid "Use the given VCS repository from this component for all of them."
-msgstr ""
+msgstr "对所有的使用这个组件的给定 VCS 仓库。"
 
 #: ../../admin/management.rst:314
 msgid "Skip (already) imported components."
-msgstr ""
+msgstr "跳过（已经）导入的组件。"
 
 #: ../../admin/management.rst:318
 msgid "Update (already) imported components."
-msgstr ""
+msgstr "更新（已经）导入的组件。"
 
 #: ../../admin/management.rst:322
 msgid ""
 "The parameters ``--ignore`` and ``--update`` are there to deal with already "
 "imported components."
-msgstr ""
+msgstr "那里的参数 ``--ignore`` 和 ``--update`` 用于处理已经导入的组件。"
 
 #: ../../admin/management.rst:325
 msgid "Example of JSON file:"
-msgstr ""
+msgstr "JSON 文件的例子："
 
 #: ../../admin/management.rst:332 ../../admin/memory.rst:101
 msgid ":djadmin:`import_memory`"
-msgstr ""
+msgstr ":djadmin:`import_memory`"
 
 #: ../../admin/management.rst:335
 msgid "import_memory"
-msgstr ""
+msgstr "import_memory"
 
 #: ../../admin/management.rst:341
 msgid "Imports a TMX or JSON file into the Weblate translation memory."
-msgstr ""
+msgstr "将 TMX 或 JSON 文件导入 Weblate 翻译记忆库。"
 
 #: ../../admin/management.rst:345
 msgid ""
 "Allows mapping languages in the TMX to the Weblate translation memory. The "
 "language codes are mapped after normalization usually done by Weblate."
-msgstr ""
+msgstr "允许将 TMX 的语言映射到 Weblate 翻译记忆库。语言编码通常在Weblate进行规范化之后映射。"
 
 #: ../../admin/management.rst:348
 msgid ""
 "``--language-map en_US:en`` will for example import all ``en_US`` strings as "
 "``en`` ones."
-msgstr ""
+msgstr "例如 ``--language-map en_US:en`` 将所有 ``en_US`` 字符串作为 ``en`` 字符串来导入。"
 
 #: ../../admin/management.rst:351
 msgid ""
 "This can be useful in case your TMX file locales happen not to match what "
 "you use in Weblate."
-msgstr ""
+msgstr "在您的 TMX 文件地区恰好与您在Weblate使用地区不同的情况下，这会有用。"
 
 #: ../../admin/management.rst:360
 msgid "import_project"
-msgstr ""
+msgstr "import_project"
 
 #: ../../admin/management.rst:366
 msgid ""
@@ -11573,6 +11682,8 @@ msgid ""
 "discovery` addon, leading to some changes in behavior and what parameters "
 "are accepted."
 msgstr ""
+"import_project 命令现在基于 :ref:`addon-weblate.discovery.discovery` "
+"插件，导致一些行为的更改，并接受一些参数。"
 
 #: ../../admin/management.rst:370
 msgid "Batch imports components into project based on filemask."
