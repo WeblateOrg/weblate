@@ -19,6 +19,7 @@
 
 import json
 import os
+import subprocess
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -46,7 +47,10 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Component, Project
 from weblate.trans.tasks import perform_update
+from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.errors import report_error
+from weblate.utils.licenses import LICENSE_URLS
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -192,6 +196,32 @@ class CreateComponent(BaseCreateView):
                     ),
                 )
 
+    def detect_license(self, form):
+        """Automatic license detection based on licensee."""
+        try:
+            raw_result = subprocess.run(
+                ["licensee", "detect", "--json", form.instance.full_path],
+                universal_newlines=True,
+                capture_output=True,
+                env=get_clean_env(),
+            ).stdout
+        except FileNotFoundError:
+            return
+        except (OSError, subprocess.CalledProcessError):
+            report_error(cause="Failed licensee invocation")
+        result = json.loads(raw_result)
+        for license_data in result["licenses"]:
+            spdx_id = license_data["spdx_id"]
+            for license in (f"{spdx_id}-or-later", f"{spdx_id}-only", spdx_id):
+                if license in LICENSE_URLS:
+                    self.initial["license"] = license
+                    messages.info(
+                        self.request,
+                        _("Detected license as %s, please check whether it is correct.")
+                        % license,
+                    )
+                    return
+
     def form_valid(self, form):
         if self.stage == "create":
             result = super().form_valid(form)
@@ -203,6 +233,7 @@ class CreateComponent(BaseCreateView):
             self.stage = "create"
             self.request.method = "GET"
             self.warn_outdated(form)
+            self.detect_license(form)
             return self.get(self, self.request)
         # Move to discover
         self.stage = "discover"

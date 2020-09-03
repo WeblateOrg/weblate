@@ -128,6 +128,8 @@ Pango, Cairo and related header files and gir introspection data
     https://git-scm.com/docs/git-svn
 ``tesseract`` and its data (optional for screenshots OCR)
     https://github.com/tesseract-ocr/tesseract
+``licensee`` (optional for detecting license when creating component)
+    https://github.com/licensee/licensee
 
 Compile time dependencies
 +++++++++++++++++++++++++
