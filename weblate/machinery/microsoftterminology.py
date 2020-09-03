@@ -47,8 +47,6 @@ class MicrosoftTerminologyService(MachineTranslation):
         return MicrosoftTerminologyService.SERVICE
 
     def soap_req(self, name, **kwargs):
-        self.request_url = name
-        self.request_params = kwargs
         return getattr(self.soap.service, name)(**kwargs)
 
     def download_languages(self):
