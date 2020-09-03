@@ -30,11 +30,7 @@
   </div>
   <div class="panel-footer">
     <p>{% blocktrans with price=19 %}Looking for commercial hosting? Our prices start at {{ price }} EUR per month.{% endblocktrans %}</p>
-{% if payment_enabled %}
-  <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
-{% else %}
-  <a class="btn btn-primary" href="{% url 'contact' %}?t=hosting">{% trans "Contact us for commercial hosting" %}</a>
-{% endif %}
+    <a class="btn btn-primary" href="{% url 'trial' %}">{% trans "Gratis trial" %}</a>
   </div>
 </div>
 
