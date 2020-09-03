@@ -91,6 +91,29 @@ def notify_expired():
 
 
 @app.task(trail=False)
+def trial_expired():
+    billings = Billing.objects.filter(
+        state=Billing.STATE_TRIAL, expiry__lte=timezone.now() + timedelta(days=7)
+    ).exclude(projects__isnull=True)
+    for bill in billings:
+        for user in bill.get_notify_users():
+            send_notification_email(
+                user.profile.language,
+                [user.email],
+                "billing_expired",
+                context={
+                    "billing": bill,
+                    "payment_enabled": getattr(settings, "PAYMENT_ENABLED", False),
+                    "unsubscribe_note": _(
+                        "You will stop receiving this notification once "
+                        "you change to regular subscription or the project is removed."
+                    ),
+                },
+                info=bill,
+            )
+
+
+@app.task(trail=False)
 def schedule_removal():
     removal = timezone.now() + timedelta(days=15)
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE, removal=None):
@@ -143,4 +166,9 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=2, minute=30, day_of_week="monday,thursday"),
         notify_expired.s(),
         name="notify-expired",
+    )
+    sender.add_periodic_task(
+        crontab(hour=2, minute=30, day_of_week="monday,thursday"),
+        trial_expired.s(),
+        name="trial-expired",
     )

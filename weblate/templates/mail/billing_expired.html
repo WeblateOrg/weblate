@@ -3,7 +3,18 @@
 {% load i18n %}{% load translations %}
 
 {% block content %}
-<p>{% trans "Your billing plan has expired, if you want to continue using the service, please renew it." %}</p>
+{% if billing.is_trial %}
+  <p>
+    {% trans "Your trial period is going to expire in less than week." %}
+    {% if billing.plan.price %}
+      {% trans "If you want to continue using the service, please purchase the subsription." %}
+    {% else %}
+      {% trans "If you want to continue using the service, please request approval of your libre plan." %}
+    {% endif %}
+  </p>
+{% else %}
+  <p>{% trans "Your billing plan has expired, if you want to continue using the service, please renew it." %}</p>
+{% endif %}
 
 <p>{% trans "This billing plan covers following projects:" %}</p>
 

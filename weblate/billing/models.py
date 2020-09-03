@@ -204,6 +204,10 @@ class Billing(models.Model):
     def all_projects(self):
         return prefetch_stats(self.projects.all())
 
+    @property
+    def is_trial(self):
+        return self.state == Billing.STATE_TRIAL
+
     @cached_property
     def can_be_paid(self):
         if self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL):

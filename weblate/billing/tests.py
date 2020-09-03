@@ -37,6 +37,7 @@ from weblate.billing.tasks import (
     notify_expired,
     perform_removal,
     schedule_removal,
+    trial_expired,
 )
 from weblate.trans.models import Project
 from weblate.trans.tests.utils import create_test_billing
@@ -280,6 +281,7 @@ class BillingTest(TestCase):
         # No expiry set
         billing_check()
         notify_expired()
+        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
@@ -288,10 +290,11 @@ class BillingTest(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         # Future expiry
-        self.billing.expiry = timezone.now() + timedelta(days=1)
+        self.billing.expiry = timezone.now() + timedelta(days=30)
         self.billing.save()
         billing_check()
         notify_expired()
+        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
@@ -299,11 +302,28 @@ class BillingTest(TestCase):
         self.assertIsNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 0)
 
+        # Close expiry
+        self.billing.expiry = timezone.now() + timedelta(days=1)
+        self.billing.save()
+        billing_check()
+        notify_expired()
+        trial_expired()
+        perform_removal()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
+        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertIsNone(self.billing.removal)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox.pop().subject, "Your trial period is about to expire"
+        )
+
         # Past expiry
         self.billing.expiry = timezone.now() - timedelta(days=1)
         self.billing.save()
         billing_check()
         notify_expired()
+        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_EXPIRED)
