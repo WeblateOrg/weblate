@@ -571,7 +571,7 @@ def trial(request):
         billing = Billing.objects.create(
             plan=Plan.objects.get(slug=plan),
             state=Billing.STATE_TRIAL,
-            expiry=timezone.now() + timedelta(days=30),
+            expiry=timezone.now() + timedelta(days=14),
         )
         billing.owners.add(request.user)
         AuditLog.objects.create(request.user, request, "trial")
