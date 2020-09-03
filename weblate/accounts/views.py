@@ -81,7 +81,6 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
-    HostingForm,
     LoginForm,
     NotificationForm,
     PasswordConfirmForm,
@@ -133,13 +132,8 @@ HOSTING_TEMPLATE = """
 
 Project:    %(project)s
 Website:    %(url)s
-Repository: %(repo)s
-Filemask:   %(mask)s
-Username:   %(username)s
 
-Additional message:
-
-%(message)s
+Please review at https://hosted.weblate.org/hosting/
 """
 
 TEMPLATE_FOOTER = """
@@ -236,7 +230,9 @@ def mail_admins_contact(request, subject, message, context, sender, to):
 
     mail.send(fail_silently=False)
 
-    messages.success(request, _("Message has been sent to administrator."))
+    messages.success(
+        request, _("Your request has been sent, you will shortly hear from us.")
+    )
 
 
 def redirect_profile(page=""):
@@ -503,26 +499,48 @@ def hosting(request):
     if not settings.OFFER_HOSTING:
         return redirect("home")
 
+    from weblate.billing.models import Billing, Plan
+
+    billings = Billing.objects.for_user(request.user).filter(state=Billing.STATE_TRIAL)
+
     if request.method == "POST":
-        form = HostingForm(request.POST)
-        if form.is_valid():
-            context = form.cleaned_data
-            context["username"] = request.user.username
-            mail_admins_contact(
-                request,
-                "Hosting request for %(project)s",
-                HOSTING_TEMPLATE,
-                context,
-                form.cleaned_data["email"],
-                settings.ADMINS_HOSTING,
-            )
-            return redirect("home")
-    else:
-        initial = get_initial_contact(request)
-        form = HostingForm(initial=initial)
+        if "approve" in request.POST and request.user.is_superuser:
+            billing = Billing.objects.get(pk=request.POST["approve"])
+            if billing.valid_libre:
+                billing.state = Billing.STATE_ACTIVE
+                billing.plan = Plan.objects.get(slug="libre")
+                billing.save()
+                return redirect("hosting")
+        if "request" in request.POST:
+            billing = billings.get(pk=request.POST["request"])
+            if billing.valid_libre:
+                project = billing.projects.get()
+                billing.payment["libre_request"] = True
+                billing.save()
+                mail_admins_contact(
+                    request,
+                    "Hosting request for %(billing)s",
+                    HOSTING_TEMPLATE,
+                    {
+                        "billing": billing,
+                        "name": request.user.full_name,
+                        "email": request.user.email,
+                        "project": project,
+                        "url": project.web,
+                    },
+                    request.user.email,
+                    settings.ADMINS_HOSTING,
+                )
+
+                return redirect("hosting")
 
     return render(
-        request, "accounts/hosting.html", {"form": form, "title": _("Hosting")}
+        request,
+        "accounts/hosting.html",
+        {
+            "title": _("Hosting"),
+            "billings": billings,
+        },
     )
 
 
@@ -534,8 +552,10 @@ def trial(request):
     if not settings.OFFER_HOSTING:
         return redirect("home")
 
+    plan = request.POST.get("plan", "enterprise")
+
     # Avoid frequent requests for a trial for same user
-    if request.user.auditlog_set.filter(activity="trial").exists():
+    if plan != "libre" and request.user.auditlog_set.filter(activity="trial").exists():
         messages.error(
             request,
             _(
@@ -549,7 +569,7 @@ def trial(request):
         from weblate.billing.models import Billing, Plan
 
         billing = Billing.objects.create(
-            plan=Plan.objects.get(slug="enterprise"),
+            plan=Plan.objects.get(slug=plan),
             state=Billing.STATE_TRIAL,
             expiry=timezone.now() + timedelta(days=30),
         )

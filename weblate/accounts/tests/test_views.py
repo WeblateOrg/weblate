@@ -23,7 +23,6 @@ import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.core.signing import TimestampSigner
-from django.test import TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils.encoding import force_str
@@ -35,6 +34,7 @@ from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_DEFAULT
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -46,7 +46,7 @@ CONTACT_DATA = {
 }
 
 
-class ViewTest(TestCase):
+class ViewTest(RepoTestCase):
     """Test for views."""
 
     def setUp(self):
@@ -55,7 +55,9 @@ class ViewTest(TestCase):
         reset_rate_limit("message", address="127.0.0.1")
 
     def get_user(self):
-        user = User.objects.create_user(username="testuser", password="testpassword")
+        user = User.objects.create_user(
+            username="testuser", password="testpassword", full_name="Test User"
+        )
         user.full_name = "First Second"
         user.email = "noreply@example.com"
         user.save()
@@ -126,37 +128,78 @@ class ViewTest(TestCase):
         self.assertRedirects(response, reverse("home"))
 
     @override_settings(
-        REGISTRATION_CAPTCHA=False,
         OFFER_HOSTING=True,
         ADMINS_HOSTING=["noreply@example.com"],
     )
     def test_hosting(self):
         """Test for hosting form with enabled hosting."""
-        self.get_user()
+        from weblate.billing.models import Plan
+
+        Plan.objects.create(price=0, slug="libre", name="Libre")
+        user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("hosting"))
-        self.assertContains(response, 'id="id_message"')
+        self.assertContains(response, "trial")
 
-        # Sending message
+        # Creating a trial
+        response = self.client.post(reverse("trial"), {"plan": "libre"}, follow=True)
+        self.assertContains(response, "Create project")
+        # Flush outbox
+        mail.outbox = []
+
+        # Add component to a trial
+        component = self.create_component()
+        billing = user.billing_set.get()
+        billing.projects.add(component.project)
+
+        # Not valid for libre
+        self.assertFalse(billing.valid_libre)
         response = self.client.post(
             reverse("hosting"),
-            {
-                "name": "Test",
-                "email": "noreply@weblate.org",
-                "project": "HOST",
-                "url": "http://example.net",
-                "repo": "https://github.com/WeblateOrg/weblate.git",
-                "mask": "po/*.po",
-                "message": "Hi\n\nI want to use it!",
-            },
+            {"request": billing.pk},
+            follow=True,
         )
-        self.assertRedirects(response, reverse("home"))
+        self.assertNotContains(response, "Pending approval")
+
+        # Add missing license info
+        component.license = "GPL-3.0-or-later"
+        component.save()
+        billing = user.billing_set.get()
+
+        # Valid for libre
+        self.assertTrue(billing.valid_libre)
+        response = self.client.post(
+            reverse("hosting"),
+            {"request": billing.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Pending approval")
 
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, "[Weblate] Hosting request for HOST")
+        self.assertEqual(
+            mail.outbox[0].subject, "[Weblate] Hosting request for Test (Libre)"
+        )
         self.assertIn("testuser", mail.outbox[0].body)
         self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
+
+        # Non-admin approval
+        response = self.client.post(
+            reverse("hosting"),
+            {"approve": billing.pk},
+            follow=True,
+        )
+        self.assertContains(response, "Pending approval")
+
+        # Admin approval
+        user.is_superuser = True
+        user.save()
+        response = self.client.post(
+            reverse("hosting"),
+            {"approve": billing.pk},
+            follow=True,
+        )
+        self.assertNotContains(response, "Pending approval")
 
     @override_settings(OFFER_HOSTING=False)
     def test_trial_disabled(self):

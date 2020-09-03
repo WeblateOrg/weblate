@@ -48,12 +48,7 @@ from weblate.accounts.utils import (
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.defines import (
-    EMAIL_LENGTH,
-    FULLNAME_LENGTH,
-    PROJECT_NAME_LENGTH,
-    USERNAME_LENGTH,
-)
+from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
 from weblate.utils.forms import SortedSelect, SortedSelectMultiple
@@ -541,49 +536,6 @@ class AdminLoginForm(LoginForm):
                 self.error_messages["inactive"], code="inactive"
             )
         return data
-
-
-class HostingForm(forms.Form):
-    """Form for asking for hosting."""
-
-    name = forms.CharField(
-        label=_("Your name"), required=True, max_length=FULLNAME_LENGTH
-    )
-    email = EmailField(label=_("Your e-mail"), required=True)
-    project = forms.CharField(
-        label=_("Project name"), required=True, max_length=PROJECT_NAME_LENGTH
-    )
-    url = forms.URLField(label=_("Project website"), required=True, max_length=200)
-    repo = forms.CharField(
-        label=_("Source code repository"),
-        help_text=_("URL of source code repository, for example Git or Mercurial."),
-        required=True,
-        max_length=200,
-    )
-    mask = forms.CharField(
-        label=_("Filemask"),
-        help_text=_(
-            "Path of files to translate, use * instead of language code, "
-            "for example: po/*.po or locale/*/LC_MESSAGES/django.po."
-        ),
-        required=True,
-        max_length=200,
-    )
-
-    message = forms.CharField(
-        label=_("Additional message"),
-        required=True,
-        widget=forms.Textarea,
-        max_length=1000,
-        help_text=_("Please describe the project and your relation to it."),
-    )
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise forms.ValidationError("Invalid value")
-        return ""
 
 
 class NotificationForm(forms.Form):

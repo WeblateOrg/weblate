@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'hosting' %}">{% trans "Hosting" %}</a></li>
@@ -11,41 +12,98 @@
 
 <div class="container">
 
-{% trans "Please check in advance whether your project is eligible for project hosting on this site." as msg %}
-{% show_message 'info' msg %}
+{% if billings %}
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Trial subscriptions" %}</h4></div>
+  <div class="list-group">
+  {% for billing in billings %}
+    <div class="list-group-item">
+      <h4 class="list-group-item-heading">
+        {% if billing.projects_display %}{{ billing.projects_display }},{% endif %}
+        {{ billing.plan }}
+        {% if billing.payment.libre_request %}
+          <span class="badge">{% trans "Pending approval" %}</span>
+        {% endif %}
+      </h4>
+      {% for check in billing.libre_checklist %}
+        <p>
+          {% if check %}
+          <span class="green">{% icon "check.svg" %}</span>
+          {% else %}
+          <span class="red">{% icon "alert.svg" %}</span>
+          {% endif %}
+          {{ check }}
+        </p>
+        {% endfor %}
+      {% if billing.valid_libre %}
+        {% if user.is_superuser %}
+          <p>{% trans "Additional things to check manually:" %}<p>
+          <ul>
+            <li>{% trans "Source code has to be publicly available in a supported version control system." %}</li>
+            <li>{% trans "Using Weblate has been approved by the upstream project." %}</li>
+            <li>{% trans "The project has active development for at least three months." %}</li>
+          </ul>
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="approve" value="{{ billing.pk }}" />
+            <input type="submit" class="btn btn-primary" value="{% trans "Approve as libre" %}" />
+          </form>
+        {% elif not billing.payment.libre_request %}
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="request" value="{{ billing.pk }}" />
+            <input type="submit" class="btn btn-primary" value="{% trans "Request approval" %}" />
+          </form>
+        {% endif %}
+      {% else %}
+        <p>{% trans "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}</p>
+      {% endif %}
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<form method="post" action="{% url 'trial' %}">
+  {% csrf_token %}
+  <input type="hidden" name="plan" value="libre" />
+  <div class="panel panel-default">
+    <div class="panel-heading"><h4 class="panel-title">{% trans "Translate your libre project" %}</h4></div>
+    <div class="panel-body">
+
+      <p>
+        {% trans "Please check in advance whether your project is eligible for project hosting on this site." %}
+      </p>
+
+      <ul>
+        <li>{% trans "Translated content has to be released under a license approved by OSI or recognized as libre by FSF." %}</li>
+        <li>{% trans "Source code has to be publicly available in a supported version control system." %}</li>
+        <li>{% trans "Using Weblate has been approved by the upstream project." %}</li>
+        <li>{% trans "The project has active development for at least three months." %}</li>
+        <li>{% trans "You will have 14 days to setup your project." %}</li>
+        <li>{% trans "Please request project approval once the setup is completed." %}</li>
+        <li>{% trans "Not approved projects will be removed." %}</li>
+        <li>{% trans "There is no guarantee for service availability, nor quality." %}</li>
+      </ul>
+
+    </div>
+    <div class="panel-footer">
+      <input type="submit" value="{% trans "Get started" %}" class="btn btn-primary" />
+    </div>
+  </div>
+</form>
 
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Conditions for gratis hosting" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Looking for commercial hosting?" %}</h4></div>
   <div class="panel-body">
-<p>{% trans "Please fill in this form if your project meets the conditions for free of charge hosting:" %}</p>
-
-
-<ul>
-<li>{% trans "Translated content has to be released under a license approved by OSI or recognized as libre by FSF." %}</li>
-<li>{% trans "Source code has to be publicly available in a supported version control system." %}</li>
-<li>{% trans "There is no guarantee for service availability, nor quality." %}</li>
-<li>{% trans "Hosting requests are usually processed once a month, please have patience after submitting one." %}</li>
-</ul>
-
+    <p>
+      {% blocktrans with price=19 %}Looking for commercial hosting? Our prices start at {{ price }} EUR per month.{% endblocktrans %}
+    </p>
   </div>
   <div class="panel-footer">
-    <p>{% blocktrans with price=19 %}Looking for commercial hosting? Our prices start at {{ price }} EUR per month.{% endblocktrans %}</p>
     <a class="btn btn-primary" href="{% url 'trial' %}">{% trans "Gratis trial" %}</a>
   </div>
 </div>
-
-<form method="post" action="{% url 'hosting' %}">
-{% csrf_token %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Ask for project hosting" %}</h4></div>
-  <div class="panel-body">
-{{ form|crispy }}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Send" %}" class="btn btn-primary" />
-</div>
-</div>
-</form>
 
 </div>
 

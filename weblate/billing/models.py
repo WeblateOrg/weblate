@@ -29,13 +29,28 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext
 
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 from weblate.utils.stats import prefetch_stats
+
+
+class LibreCheck:
+    def __init__(self, result, message):
+        self.result = result
+        self.message = message
+
+    def __bool__(self):
+        return self.result
+
+    def __str__(self):
+        return self.message
 
 
 class PlanQuerySet(models.QuerySet):
@@ -170,10 +185,10 @@ class Billing(models.Model):
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
     def __str__(self):
-        projects = self.all_projects
+        projects = self.projects_display
         owners = self.owners.order()
         if projects:
-            base = ", ".join(str(x) for x in projects)
+            base = projects
         elif owners:
             base = ", ".join(x.get_author_name(False) for x in owners)
         else:
@@ -203,6 +218,10 @@ class Billing(models.Model):
     @cached_property
     def all_projects(self):
         return prefetch_stats(self.projects.order())
+
+    @cached_property
+    def projects_display(self):
+        return ", ".join(str(x) for x in self.all_projects)
 
     @property
     def is_trial(self):
@@ -371,6 +390,56 @@ class Billing(models.Model):
         for project in self.projects.iterator():
             users |= User.objects.having_perm("billing.view", project)
         return users
+
+    def _get_libre_checklist(self):
+        yield LibreCheck(
+            self.count_projects == 1,
+            ngettext("Contains %d project", "Contains %d projects", self.count_projects)
+            % self.count_projects,
+        )
+        for project in self.all_projects:
+            yield LibreCheck(
+                bool(project.web),
+                mark_safe(
+                    '<a href="{0}">{1}</a>, <a href="{2}">{2}</a>'.format(
+                        escape(project.get_absolute_url()),
+                        escape(project),
+                        escape(project.web),
+                    )
+                ),
+            )
+        components = Component.objects.filter(project__in=self.all_projects)
+        yield LibreCheck(
+            len(components) > 0,
+            ngettext("Contains %d component", "Contains %d components", len(components))
+            % len(components),
+        )
+        for component in components:
+            yield LibreCheck(
+                component.libre_license,
+                mark_safe(
+                    """
+                    <a href="{0}">{1}</a>,
+                    <a href="{2}">{3}</a>,
+                    <a href="{4}">{4}</a>,
+                    {5}""".format(
+                        escape(component.get_absolute_url()),
+                        escape(component.name),
+                        escape(component.license_url or "#"),
+                        escape(component.get_license_display() or _("Missing license")),
+                        escape(component.repo),
+                        escape(component.get_file_format_display()),
+                    )
+                ),
+            )
+
+    @cached_property
+    def libre_checklist(self):
+        return list(self._get_libre_checklist())
+
+    @property
+    def valid_libre(self):
+        return all(self.libre_checklist)
 
 
 class InvoiceQuerySet(models.QuerySet):
