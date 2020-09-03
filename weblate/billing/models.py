@@ -170,7 +170,7 @@ class Billing(models.Model):
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
     def __str__(self):
-        projects = self.projects.order()
+        projects = self.all_projects
         owners = self.owners.order()
         if projects:
             base = ", ".join(str(x) for x in projects)
@@ -202,7 +202,7 @@ class Billing(models.Model):
 
     @cached_property
     def all_projects(self):
-        return prefetch_stats(self.projects.all())
+        return prefetch_stats(self.projects.order())
 
     @property
     def is_trial(self):
