@@ -1,0 +1,10 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>User {{ user }} has just created new trial of {{ billing.plan }} plan, it will expire on {{ billing.expiry }}.</p>
+
+<p>Review billing on: <a href="{{ billing.get_absolute_url }}">{{ billing.get_absolute_url }}</a></p>
+
+{% endblock %}
