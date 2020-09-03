@@ -1052,8 +1052,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
             if batch:
-                for key, value in batch.items():
-                    self.store.new_unit(key, value)
+                for batch_key, batch_value in batch.items():
+                    self.store.new_unit(batch_key, batch_value)
                     Change.objects.create(
                         translation=self,
                         action=Change.ACTION_NEW_UNIT,
