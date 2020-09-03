@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-09-03 07:36+0000\n"
+"PO-Revision-Date: 2020-09-03 08:30+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -11702,67 +11702,71 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"`<gitrepo>` 确定了要使用的 Git 仓库的 URL，而 `<branch>` 说明了 Git 分支。为了从现有的 Weblate "
+"组件导入另外的翻译组件，使用 `<gitrepo>` 的 `weblate://<project>/<component>` URL 。"
 
 #: ../../admin/management.rst:380
 msgid ""
 "The `<filemask>` defines file discovery for the repository. It can be either "
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
-msgstr ""
+msgstr "`<filemask>` 为仓库定义了文件发现。或者可以使用通配符来使它简单，或者可以使用正则表达式的全部功能。"
 
 #: ../../admin/management.rst:383
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
-msgstr ""
+msgstr "简单的匹配对组件名称使用 ``**`` ，对语言使用 ``*`` ，例如： ``**/*.po``"
 
 #: ../../admin/management.rst:386
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`. For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 msgstr ""
+"正则表达式必须包含组命名的 `component` 和 `language` 。例如： "
+"``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 
 #: ../../admin/management.rst:389
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
-msgstr ""
+msgstr "根据文件，导入与现有的组件匹配，并且添加不存在的那些。它不更改已经存在的那些。"
 
 #: ../../admin/management.rst:394
 msgid "Customize the name of a component using Django template syntax."
-msgstr ""
+msgstr "使用 Django 模板语法来定制组件的名称。"
 
 #: ../../admin/management.rst:396
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr ""
+msgstr "例如： ``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:400
 msgid "Customize the base file for monolingual translations."
-msgstr ""
+msgstr "为单一语种翻译定制基础文件。"
 
 #: ../../admin/management.rst:402
 msgid "For example: ``{{ component }}/res/values/string.xml``"
-msgstr ""
+msgstr "例如： ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:406
 msgid "Customize the base file for addition of new translations."
-msgstr ""
+msgstr "为另外新的翻译定制基础文件。"
 
 #: ../../admin/management.rst:408
 msgid "For example: ``{{ component }}/ts/en.ts``"
-msgstr ""
+msgstr "例如： ``{{ component }}/ts/en.ts``"
 
 #: ../../admin/management.rst:412
 msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
-msgstr ""
+msgstr "您还可以使用的文件格式（请参见： :ref:`formats` ），默认为自动检测。"
 
 #: ../../admin/management.rst:417
 msgid ""
 "You can specify language filtering (see :ref:`component`) with this "
 "parameter. It has to be a valid regular expression."
-msgstr ""
+msgstr "您可以使用这个参数指定语言过滤器（请参见： :ref:`component` ）。它必须是合法的正则表达式。"
 
 #: ../../admin/management.rst:422
 msgid ""
