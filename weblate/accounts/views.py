@@ -503,17 +503,15 @@ def hosting(request):
 
     billings = Billing.objects.for_user(request.user).filter(state=Billing.STATE_TRIAL)
 
-    if request.method == "POST":
-        if "approve" in request.POST and request.user.is_superuser:
-            billing = Billing.objects.get(pk=request.POST["approve"])
-            if billing.valid_libre:
+    if request.method == "POST" and "billing" in request.POST:
+        billing = billings.get(pk=request.POST["billing"])
+        if billing.valid_libre:
+            if "approve" in request.POST and request.user.is_superuser:
                 billing.state = Billing.STATE_ACTIVE
                 billing.plan = Plan.objects.get(slug="libre")
                 billing.save()
                 return redirect("hosting")
-        if "request" in request.POST:
-            billing = billings.get(pk=request.POST["request"])
-            if billing.valid_libre:
+            if "request" in request.POST:
                 project = billing.projects.get()
                 billing.payment["libre_request"] = True
                 billing.save()
