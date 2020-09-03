@@ -120,8 +120,6 @@ The following dependencies have to be installed on the system:
     https://git-scm.com/
 Pango, Cairo and related header files and gir introspection data
     https://cairographics.org/, https://pango.gnome.org/, see :ref:`pangocairo`
-``hub`` (optional for sending pull requests to GitHub)
-    https://hub.github.com/
 ``git-review`` (optional for Gerrit support)
     https://pypi.org/project/git-review/
 ``git-svn`` (optional for Subversion support)
