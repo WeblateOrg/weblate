@@ -31,8 +31,8 @@ import weblate.screenshots.views
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.wladmin.models import ConfigurationError
 
-URL_BASE = "https://weblate.org/?utm_source=weblate&utm_term=%s"
-URL_DONATE = "https://weblate.org/donate/?utm_source=weblate&utm_term=%s"
+WEBLATE_URL = "https://weblate.org/"
+DONATE_URL = "https://weblate.org/donate/"
 
 CONTEXT_SETTINGS = [
     "SITE_TITLE",
@@ -136,8 +136,6 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
-    weblate_url = URL_BASE % weblate.VERSION
-
     context = {
         "cache_param": "?v={}".format(weblate.GIT_VERSION)
         if not settings.COMPRESS_ENABLED
@@ -146,15 +144,15 @@ def weblate_context(request):
         "bread_image": get_bread_image(request.path),
         "description": description,
         "weblate_link": mark_safe(
-            '<a href="{}">weblate.org</a>'.format(escape(weblate_url))
+            '<a href="{}">weblate.org</a>'.format(escape(WEBLATE_URL))
         ),
         "weblate_name_link": mark_safe(
-            '<a href="{}">Weblate</a>'.format(escape(weblate_url))
+            '<a href="{}">Weblate</a>'.format(escape(WEBLATE_URL))
         ),
         "weblate_version_link": mark_safe(
-            '<a href="{}">Weblate {}</a>'.format(escape(weblate_url), weblate.VERSION)
+            '<a href="{}">Weblate {}</a>'.format(escape(WEBLATE_URL), weblate.VERSION)
         ),
-        "donate_url": URL_DONATE % weblate.VERSION,
+        "donate_url": DONATE_URL,
         "site_url": get_site_url(),
         "site_domain": get_site_domain(),
         "current_date": datetime.utcnow().strftime("%Y-%m-%d"),

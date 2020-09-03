@@ -48,7 +48,7 @@
 
 <p>
 {% for color in widget.colors %}
-<a href="{{ engage_url_track }}"><img src="{{ color.url }}" /></a>
+<a href="{{ engage_url }}"><img src="{{ color.url }}" /></a>
 {% endfor %}
 </p>
 
@@ -66,7 +66,7 @@
 <div class="tab-pane active" id="{{ widget.name }}-html-code">
 {% for color in widget.colors %}
 <textarea class="code-example form-control">
-&lt;a href="{{ engage_url_track }}"&gt;
+&lt;a href="{{ engage_url }}"&gt;
 &lt;img src="{{ color.url }}" alt="{% trans "Translation status" %}" /&gt;
 &lt;/a&gt;</textarea>
 {% endfor %}
@@ -75,14 +75,14 @@
 <div class="tab-pane" id="{{ widget.name }}-bb-code">
 {% for color in widget.colors %}
 <textarea class="code-example form-control">
-[url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ color.url }}[/img][/url]</textarea>
+[url={{ engage_url }}][img alt="{% trans "Translation status" %}"]{{ color.url }}[/img][/url]</textarea>
 {% endfor %}
 </div>
 
 <div class="tab-pane" id="{{ widget.name }}-mdk-code">
 {% for color in widget.colors %}
 <textarea class="code-example form-control">
-[![{% trans "Translation status" %}]({{ color.url }})]({{ engage_url_track }})</textarea>
+[![{% trans "Translation status" %}]({{ color.url }})]({{ engage_url }})</textarea>
 {% endfor %}
 </div>
 
@@ -91,14 +91,14 @@
 <textarea class="code-example form-control">
 .. image:: {{ color.url }}
     :alt: {% trans "Translation status" %}
-    :target: {{ engage_url_track }}</textarea>
+    :target: {{ engage_url }}</textarea>
 {% endfor %}
 </div>
 
 <div class="tab-pane" id="{{ widget.name }}-textile-code">
 {% for color in widget.colors %}
 <textarea class="code-example form-control">
-!{{ color.url }}!:{{ engage_url_track }}</textarea>
+!{{ color.url }}!:{{ engage_url }}</textarea>
 {% endfor %}
 </div>
 
