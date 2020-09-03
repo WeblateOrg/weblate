@@ -509,12 +509,13 @@ def hosting(request):
             if "approve" in request.POST and request.user.is_superuser:
                 billing.state = Billing.STATE_ACTIVE
                 billing.plan = Plan.objects.get(slug="libre")
-                billing.save()
+                billing.save(update_fields=["state", "plan"])
                 return redirect("hosting")
+
             if "request" in request.POST:
                 project = billing.projects.get()
                 billing.payment["libre_request"] = True
-                billing.save()
+                billing.save(update_fields=["payment"])
                 mail_admins_contact(
                     request,
                     "Hosting request for %(billing)s",
@@ -529,7 +530,11 @@ def hosting(request):
                     request.user.email,
                     settings.ADMINS_HOSTING,
                 )
+                return redirect("hosting")
 
+            if "extend" in request.POST and request.user.is_superuser:
+                billing.expiry = timezone.now() + timedelta(days=14)
+                billing.save(update_fields=["expiry"])
                 return redirect("hosting")
 
     return render(

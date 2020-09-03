@@ -21,6 +21,7 @@
       <h4 class="list-group-item-heading">
         {% if billing.projects_display %}{{ billing.projects_display }},{% endif %}
         {{ billing.plan }}
+        {% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %}
         {% if billing.payment.libre_request %}
           <span class="badge">{% trans "Pending approval" %}</span>
         {% endif %}
@@ -52,6 +53,9 @@
         {% endif %}
       {% else %}
         <p>{% trans "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}</p>
+      {% endif %}
+      {% if user.is_superuser %}
+        <input type="submit" class="btn btn-primary" name="extend" value="{% trans "Extend trial" %}" />
       {% endif %}
       </form>
     </div>

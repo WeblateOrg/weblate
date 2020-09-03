@@ -191,6 +191,16 @@ class ViewTest(RepoTestCase):
         )
         self.assertContains(response, "Pending approval")
 
+        # Admin extension
+        user.is_superuser = True
+        user.save()
+        response = self.client.post(
+            reverse("hosting"),
+            {"billing": billing.pk, "extend": "1"},
+            follow=True,
+        )
+        self.assertContains(response, "Pending approval")
+
         # Admin approval
         user.is_superuser = True
         user.save()
