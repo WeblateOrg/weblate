@@ -11,7 +11,7 @@
 
 <div class="container">
 
-  {% trans "Thank you for interest in trying Weblate." as msg %}
+  {% trans "Thank you for your interest in trying Weblate!" as msg %}
   {% show_message 'info' msg %}
 
   <form method="post" action="{% url 'trial' %}">
@@ -19,14 +19,20 @@
     <div class="panel panel-default">
       <div class="panel-heading"><h4 class="panel-title">{% trans "Your trial offer" %}</h4></div>
       <div class="panel-body">
+        <p><strong>{% trans "Your trial will" %}</strong></p>
         <ul>
-          <li>{% trans "Your trial will last 14 days." %}</li>
-          <li>{% trans "You will be granted the Enterprise plan." %}</li>
-          <li>{% trans "No credit card required." %}</li>
+          {% comment %}Translators: list item under "Your trial will"{% endcomment %}
+          <li>{% trans "last for 14 days." %}</li>
+          {% comment %}Translators: list item under "Your trial will"{% endcomment %}
+          <li>{% trans "run the Enterprise plan." %}</li>
+          {% comment %}Translators: list item under "Your trial will"{% endcomment %}
+          <li>{% trans "need no credit card, but you can set the payment method anytime." %}</li>
+          {% comment %}Translators: list item under "Your trial will"{% endcomment %}
+          <li>{% trans "keep the configuration once you start paying." %}</li>
         </ul>
       </div>
       <div class="panel-footer">
-        <input type="submit" value="{% trans "Proceed" %}" class="btn btn-primary" />
+        <input type="submit" value="{% trans "Start the trial!" %}" class="btn btn-primary" />
       </div>
     </div>
   </form>

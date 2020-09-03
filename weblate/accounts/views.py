@@ -559,8 +559,9 @@ def trial(request):
         messages.error(
             request,
             _(
-                "You've already recently requested a trial period. "
-                "Please contact us with your inquiry."
+                "Seems you've already requested a trial period recently. "
+                "Please contact us with your inquiry so we can find the "
+                "best solution for you."
             ),
         )
         return redirect(reverse("contact") + "?t=trial")
@@ -584,8 +585,8 @@ def trial(request):
         messages.info(
             request,
             _(
-                "Your trial period was set up, "
-                "you can now create your translation project."
+                "Your trial period is now up and running; "
+                "create your translation project and start Weblating!"
             ),
         )
         return redirect(reverse("create-project") + f"?billing={billing.pk}")
