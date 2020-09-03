@@ -8,4 +8,4 @@ For production-ready dockerfile see:
 https://github.com/WeblateOrg/docker
 
 Developer documentation:
-https://docs.weblate.org/en/latest/contributing.html#dev-docker
+https://docs.weblate.org/en/latest/contributing/start.html#running-weblate-locally-in-docker
