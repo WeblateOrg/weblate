@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-08-30 18:42+0000\n"
-"PO-Revision-Date: 2020-09-02 14:14+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2020-09-03 10:53+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1591,7 +1591,7 @@ msgstr "新しい文字列の追加"
 #. Translators: Permission name
 #: weblate/auth/data.py:92
 msgid "Ignore failing check"
-msgstr "整合性不合格の無視"
+msgstr "検査不合格の無視"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:94
@@ -2629,11 +2629,11 @@ msgstr "文字列では省略文字 (…) の代わりに 3 点ドット (...) �
 
 #: weblate/checks/source.py:64
 msgid "Multiple failing checks"
-msgstr "複数の整合性に問題"
+msgstr "複数の検査に不合格"
 
 #: weblate/checks/source.py:65
 msgid "The translations in several languages have failing checks"
-msgstr "いくつかの言語の翻訳で整合性に問題があります"
+msgstr "いくつかの言語の翻訳で検査に不合格があります"
 
 #: weblate/checks/source.py:79
 msgid "Long untranslated"
@@ -2650,7 +2650,7 @@ msgstr "長い間翻訳されていない文字列"
 #: weblate/templates/snippets/project-nav.html:89
 #: weblate/templates/translation.html:425
 msgid "Failing checks"
-msgstr "整合性に問題"
+msgstr "検査に不合格"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -3797,11 +3797,11 @@ msgstr "登録ユーザー数"
 
 #: weblate/templates/about/stats.html:124
 msgid "Failing checks found"
-msgstr "整合性の問題を検出"
+msgstr "検査に不合格"
 
 #: weblate/templates/about/stats.html:128
 msgid "Dismissed checks"
-msgstr "整合性の検査除外"
+msgstr "検査の除外"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -5043,8 +5043,7 @@ msgstr "情報"
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
-msgstr ""
-"品質チェックのカスタマイズにより、翻訳の質をさらに向上させることができます。"
+msgstr "検査のカスタマイズにより、翻訳の質をさらに向上できます。"
 
 #: weblate/templates/checks.html:45
 msgid ""
@@ -7275,9 +7274,8 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate は、バージョン管理サービスとの密接な統合が可能な Web ベースの翻訳ツー"
-"ルです。シンプルで明瞭なユーザーインターフェイス、コンポーネント間の翻訳の連"
-"携、品質チェック、ソースファイルへの自動リンクなどの機能を備えています。"
+"Weblate は、バージョン管理サービスとの密接な統合が可能な Web ベースの翻訳ツールです。シンプルで明瞭なユーザーインターフェイス、コンポーネント"
+"間の翻訳の連携、検査、ソースファイルへの自動リンクなどの機能を備えています。"
 
 #: weblate/templates/snippets/about.html:5
 #, python-format
@@ -7495,7 +7493,7 @@ msgstr "コメント文字列"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
-msgstr "場所文字列"
+msgstr "原文の参照場所"
 
 #: weblate/templates/snippets/query-builder.html:20
 msgid "String state"
@@ -7560,7 +7558,7 @@ msgstr "コメントがある文字列"
 #: weblate/templates/snippets/query-builder.html:85 weblate/trans/filter.py:49
 #: weblate/trans/filter.py:124
 msgid "Strings with any failing checks"
-msgstr "整合性が取れない文字列"
+msgstr "検査に不合格した文字列"
 
 #: weblate/templates/snippets/query-builder.html:90
 msgid "Strings with suggestions from others"
@@ -7626,7 +7624,7 @@ msgstr "提案される変更:"
 
 #: weblate/templates/snippets/suggestions.html:53
 msgid "Failing checks:"
-msgstr "整合性に問題:"
+msgstr "不合格になった検査:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 msgid "Source in review"
@@ -7674,7 +7672,7 @@ msgstr "検査失敗:"
 #: weblate/templates/snippets/unit-state.html:19
 msgctxt "String state"
 msgid "Dismissed checks"
-msgstr "整合性の検査除外"
+msgstr "検査の除外"
 
 #: weblate/templates/snippets/unit-state.html:24
 msgctxt "String state"
@@ -8434,7 +8432,7 @@ msgstr "原文の参照"
 
 #: weblate/templates/translate.html:618
 msgid "Source string age"
-msgstr "原文の保存経過期間"
+msgstr "原文の保存時期"
 
 #: weblate/templates/translate.html:625 weblate/templates/translation.html:203
 msgid "Translation file"
@@ -8692,7 +8690,7 @@ msgstr "VCS のリポジトリを更新"
 
 #: weblate/trans/admin.py:65
 msgid "Update quality checks"
-msgstr "品質検査の更新"
+msgstr "検査結果の更新"
 
 #: weblate/trans/admin.py:90
 msgid "Administrators"
@@ -8777,7 +8775,7 @@ msgstr "提案はなく、校正が必要な文字列"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
-msgstr "整合性が取れない文字列"
+msgstr "検査に不合格した翻訳"
 
 #: weblate/trans/filter.py:55 weblate/trans/filter.py:125
 msgid "Approved strings"
@@ -9900,9 +9898,7 @@ msgstr "翻訳フラグ"
 msgid ""
 "Additional comma-separated flags to influence quality checks. Possible "
 "values can be found in the documentation."
-msgstr ""
-"品質検査に影響する、カンマで区切られた追加のフラグ。使用可能な値については、"
-"ドキュメントを参照してください。"
+msgstr "翻訳検査に影響する、カンマで区切られた追加のフラグ。使用可能な値については、ドキュメントを参照してください。"
 
 #: weblate/trans/models/component.py:439
 msgid "Enforced checks"
@@ -10881,7 +10877,7 @@ msgstr "以下の修正が翻訳に適用されます: %s"
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "翻訳を保存しましたが、整合性に問題のある新しい項目があります: {0}"
+msgstr "翻訳の保存は完了、しかし新しく検査に不合格した項目: {0}"
 
 #: weblate/trans/views/edit.py:318
 msgid "Invalid merge request!"
@@ -11373,7 +11369,7 @@ msgstr "コメント数"
 
 #: weblate/utils/views.py:99
 msgid "Number of failing checks"
-msgstr "不合格検査数"
+msgstr "検査不合格数"
 
 #: weblate/utils/views.py:271
 #, python-format
