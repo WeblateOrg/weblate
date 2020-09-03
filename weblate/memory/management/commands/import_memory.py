@@ -45,12 +45,7 @@ class Command(BaseCommand):
         """Translation memory import."""
         langmap = None
         if options["language_map"]:
-            langmap = {
-                x: y
-                for (x, y) in (
-                    z.split(":", 1) for z in options["language_map"].split(",")
-                )
-            }
+            langmap = dict(z.split(":", 1) for z in options["language_map"].split(","))
 
         try:
             Memory.objects.import_file(None, options["file"], langmap)
