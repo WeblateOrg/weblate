@@ -202,7 +202,8 @@ class CreateComponent(BaseCreateView):
             raw_result = subprocess.run(
                 ["licensee", "detect", "--json", form.instance.full_path],
                 universal_newlines=True,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 env=get_clean_env(),
             ).stdout
         except FileNotFoundError:
