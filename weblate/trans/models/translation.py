@@ -1057,7 +1057,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                     Change.objects.create(
                         translation=self,
                         action=Change.ACTION_NEW_UNIT,
-                        target=value,
+                        target=batch_value,
                         user=user,
                         author=user,
                     )
