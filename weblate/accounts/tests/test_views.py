@@ -24,7 +24,7 @@ from django.conf import settings
 from django.core import mail
 from django.core.signing import TimestampSigner
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils.encoding import force_str
 from jsonschema import validate
@@ -157,6 +157,34 @@ class ViewTest(TestCase):
         self.assertEqual(mail.outbox[0].subject, "[Weblate] Hosting request for HOST")
         self.assertIn("testuser", mail.outbox[0].body)
         self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
+
+    @override_settings(OFFER_HOSTING=False)
+    def test_trial_disabled(self):
+        """Test for trial form with disabled hosting."""
+        self.get_user()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("trial"))
+        self.assertRedirects(response, reverse("home"))
+
+    @override_settings(OFFER_HOSTING=True)
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_trial(self):
+        """Test for trial form with disabled hosting."""
+        from weblate.billing.models import Plan
+
+        Plan.objects.create(price=1, slug="enterprise")
+        user = self.get_user()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("trial"))
+        self.assertContains(response, "Enterprise")
+        response = self.client.post(reverse("trial"), follow=True)
+        self.assertContains(response, "Create project")
+        billing = user.billing_set.get()
+        self.assertTrue(billing.is_trial)
+
+        # Repeated attempt should fail
+        response = self.client.get(reverse("trial"))
+        self.assertRedirects(response, reverse("contact") + "?t=trial")
 
     def test_contact_subject(self):
         # With set subject

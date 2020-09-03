@@ -989,6 +989,7 @@ real_patterns = [
     # Static pages
     path("contact/", weblate.accounts.views.contact, name="contact"),
     path("hosting/", weblate.accounts.views.hosting, name="hosting"),
+    path("trial/", weblate.accounts.views.trial, name="trial"),
     path("about/", weblate.trans.views.about.AboutView.as_view(), name="about"),
     path("keys/", weblate.trans.views.about.KeysView.as_view(), name="keys"),
     path("stats/", weblate.trans.views.about.StatsView.as_view(), name="stats"),

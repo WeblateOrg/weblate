@@ -20,6 +20,7 @@
 import os
 import re
 from collections import defaultdict
+from datetime import timedelta
 from importlib import import_module
 
 import social_django.utils
@@ -44,6 +45,7 @@ from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
@@ -151,6 +153,7 @@ CONTACT_SUBJECTS = {
     "reg": "Registration problems",
     "hosting": "Commercial hosting",
     "account": "Suspicious account activity",
+    "trial": "Trial request",
 }
 
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
@@ -520,6 +523,47 @@ def hosting(request):
     return render(
         request, "accounts/hosting.html", {"form": form, "title": _("Hosting")}
     )
+
+
+@login_required
+@session_ratelimit_post("trial")
+@never_cache
+def trial(request):
+    """Form for hosting request."""
+    if not settings.OFFER_HOSTING:
+        return redirect("home")
+
+    # Avoid frequent requests for a trial for same user
+    if request.user.auditlog_set.filter(activity="trial").exists():
+        messages.error(
+            request,
+            _(
+                "You've already recently requested a trial period. "
+                "Please contact us with your inquiry."
+            ),
+        )
+        return redirect(reverse("contact") + "?t=trial")
+
+    if request.method == "POST":
+        from weblate.billing.models import Billing, Plan
+
+        billing = Billing.objects.create(
+            plan=Plan.objects.get(slug="enterprise"),
+            state=Billing.STATE_TRIAL,
+            expiry=timezone.now() + timedelta(days=30),
+        )
+        billing.owners.add(request.user)
+        AuditLog.objects.create(request.user, request, "trial")
+        messages.info(
+            request,
+            _(
+                "Your trial period was set up, "
+                "you can now create your translation project."
+            ),
+        )
+        return redirect(reverse("create-project") + f"?billing={billing.pk}")
+
+    return render(request, "accounts/trial.html", {"title": _("Gratis trial")})
 
 
 def user_page(request, user):
