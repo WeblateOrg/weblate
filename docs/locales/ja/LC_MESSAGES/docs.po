@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-09-03 12:24+0000\n"
+"PO-Revision-Date: 2020-09-04 08:45+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1287,16 +1287,12 @@ msgid "Per author"
 msgstr "翻訳者別に"
 
 #: ../../admin/addons.rst:278
-#, fuzzy
-#| msgid ""
-#| "Original commit messages are kept, but authorship is lost unless \"Per "
-#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
-"元のコミット メッセージは保持されますが、「翻訳者別に」を選択するか、コミッ"
-"ト メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
+"元のコミット メッセージは保持されますが、 :guilabel:`Per author` を選択するか、コミット "
+"メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
 
 #: ../../admin/addons.rst:283
 msgid ""
@@ -2615,17 +2611,19 @@ msgstr "自動修正は強力ですが、翻訳を損なう場合があります
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
-msgstr ""
+msgstr "例えば、次の自動修正は、翻訳内のすべての文字列 ``foo`` を ``bar`` に置き換えます:"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"独自の自動修正を組み込むには、:setting:`AUTOFIX_LIST` 内で Python クラスへの完全修飾パスを指定します、参照 :ref"
+":`custom-check-modules`。"
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior"
-msgstr ""
+msgstr "動作のカスタマイズ"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -2634,73 +2632,79 @@ msgid ""
 "`component` (:ref:`component-check_flags`). Some file formats also allow to "
 "specify flags directly in the format (see :ref:`formats`)."
 msgstr ""
+"Weblate の動作（主に検査）は、原文（原文の査読、参照 :ref:`additional`）、または :ref:`component`（ :ref"
+":`component-check_flags`）で微調整できます。ファイル フォーマットの中には、フラグを直接フォーマットで指定できるものもあります（"
+"参照 :ref:`formats`）。"
 
 #: ../../admin/checks.rst:34
 msgid ""
 "The flags are comma-separated, the parameters are separated with colon. You "
 "can use quotes to include whitespace or special chars in the string. For "
 "example:"
-msgstr ""
+msgstr "フラグはコンマで、パラメーターはコロンで区切ります。引用符を使用して、文字列に空白または特殊文字を含めることができます。たとえば:"
 
 #: ../../admin/checks.rst:41
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "現在、使用可能なフラグの一覧:"
 
 #: ../../admin/checks.rst:43 ../../devel/sphinx.rst:41
 msgid "``rst-text``"
-msgstr ""
+msgstr "``rst-text``"
 
 #: ../../admin/checks.rst:44
 msgid "Treat a text as an RST document, affects :ref:`check-same`."
-msgstr ""
+msgstr "テキストを RST 文書として扱う、関連 :ref:`check-same`。"
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
-msgstr ""
+msgstr "``md-text``"
 
 #: ../../admin/checks.rst:46
 msgid "Treat text as a Markdown document."
-msgstr ""
+msgstr "テキストを Markdown 文書として扱う。"
 
 #: ../../admin/checks.rst:47
 msgid "``dos-eol``"
-msgstr ""
+msgstr "``dos-eol``"
 
 #: ../../admin/checks.rst:48
 msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
 "\\n``)."
 msgstr ""
+"UNIX の代わりに DOS の改行コードを使用します（``\\n"
+"`` の代わりに ``\\r\\n"
+"``）。"
 
 #: ../../admin/checks.rst:49
 msgid "``url``"
-msgstr ""
+msgstr "``url``"
 
 #: ../../admin/checks.rst:50
 msgid "The string should consist of only a URL."
-msgstr ""
+msgstr "文字列は URL のみでなければならない。"
 
 #: ../../admin/checks.rst:51
 msgid "``safe-html``"
-msgstr ""
+msgstr "``safe-html``"
 
 #: ../../admin/checks.rst:52
 msgid "The string should be HTML safe, see :ref:`check-safe-html`."
-msgstr ""
+msgstr "文字列は HTML セーフでなければならない、参照 :ref:`check-safe-html`。"
 
 #: ../../admin/checks.rst:53
 msgid "``read-only``"
-msgstr ""
+msgstr "``read-only``"
 
 #: ../../admin/checks.rst:54
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
-msgstr ""
+msgstr "文字列は読み取り専用なので Weblate で編集しないでください、参照 :ref:`read-only-strings`。"
 
 #: ../../admin/checks.rst:57
 msgid "``priority:N``"
-msgstr ""
+msgstr "``priority:N``"
 
 #: ../../admin/checks.rst:56
 msgid ""
@@ -2708,71 +2712,73 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"文字列の優先順位。優先順位の高い文字列が最初に翻訳されます。デフォルトの優先順位は 100、文字列の優先順位が高いほど、翻訳のために早く使用されます。"
 
 #: ../../admin/checks.rst:59
 msgid "``max-length:N``"
-msgstr ""
+msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:60
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`"
-msgstr ""
+msgstr "文字列の最大長を N 文字に制限する、参照 :ref:`check-max-length`"
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
-msgstr ""
+msgstr "``xml-text``"
 
 #: ../../admin/checks.rst:62
 msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"テキストを XML ドキュメントとして扱う、影響 :ref:`check-xml-invalid` および :ref:`check-xml-tags`。"
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
-msgstr ""
+msgstr "``font-family:NAME``"
 
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "表示テスト用にフォントを定義する、参照 :ref:`fonts`。"
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
-msgstr ""
+msgstr "``font-weight:WEIGHT``"
 
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "表示テスト用にフォントの太さを定義する、参照 :ref:`fonts`。"
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
-msgstr ""
+msgstr "``font-size:SIZE``"
 
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "表示テスト用にフォント サイズを定義する、参照 :ref:`fonts`。"
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
-msgstr ""
+msgstr "``font-spacing:SPACING``"
 
 #: ../../admin/checks.rst:70
 msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
-msgstr ""
+msgstr "表示テスト用にフォント間隔を定義する、参照 :ref:`fonts`。"
 
 #: ../../admin/checks.rst:71
 msgid "``placeholders:NAME``"
-msgstr ""
+msgstr "``placeholders:NAME``"
 
 #: ../../admin/checks.rst:72
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
-msgstr ""
+msgstr "翻訳にはプレースホルダ文字列が必要です、参照 :ref:`check-placeholders`。"
 
 #: ../../admin/checks.rst:76
 msgid "``replacements:FROM:TO:FROM2:TO2...```"
-msgstr ""
+msgstr "``replacements:FROM:TO:FROM2:TO2...```"
 
 #: ../../admin/checks.rst:74
 msgid ""
@@ -2781,10 +2787,13 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "names, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"結果のテキスト パラメータをチェックするときに実行する置換（例 :ref:`check-max-size` または :ref:`check-max-"
+"length`）。この一般的な使用例は、テキストが長い名前でも収まるように配置可能な場所を拡張することです、 例: ``replacements:%s:"
+"\"John Doe\"``。"
 
 #: ../../admin/checks.rst:78
 msgid "``regex:REGEX``"
-msgstr ""
+msgstr "``regex:REGEX``"
 
 #: ../../admin/checks.rst:79
 msgid "Regular expression to match translation, see :ref:`check-regex`."
@@ -2797,6 +2806,10 @@ msgid ""
 "messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
 "format``, ``ruby-format``"
 msgstr ""
+"``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
+"``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
+"messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
+"format``, ``ruby-format``"
 
 #: ../../admin/checks.rst:81
 msgid ""
@@ -2806,6 +2819,11 @@ msgid ""
 "format`, :ref:`check-javascript-format`, :ref:`check-c-sharp-format`, :ref:"
 "`check-java-format`, :ref:`check-java-messageformat`, :ref:`check-same`."
 msgstr ""
+"すべての文字列をフォーマット文字列のように扱う、影響 :ref:`check-python-format`, :ref:`check-c-format`"
+", :ref:`check-php-format`, :ref:`check-qt-format`, :ref:`check-qt-plural-"
+"format`, :ref:`check-ruby-format`, :ref:`check-python-brace-format`, :ref"
+":`check-javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-"
+"format`, :ref:`check-java-messageformat`, :ref:`check-same`."
 
 #: ../../admin/checks.rst:87
 msgid "``strict-same``"
@@ -3265,9 +3283,7 @@ msgstr "「複数形の不使用」の検査を省略する。"
 msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
-msgstr ""
-"一般的に、この規則は名前に ``ignore-*`` という識別子がすべてのチェックに対し"
-"て付いているため、カスタムチェックにも使用できます。"
+msgstr "一般的に、この規則は名前に ``ignore-*`` という識別子がすべてのチェックに対して付いているため、独自の検査にも使用できます。"
 
 #: ../../admin/checks.rst:205
 msgid ""
@@ -3275,10 +3291,11 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"このフラグは、:ref:`component` 、原文ごとの設定、および変換ファイル自体（例えば GNU gettext）の両方で認識されます。"
 
 #: ../../admin/checks.rst:211
 msgid "Enforcing checks"
-msgstr ""
+msgstr "検査の強制"
 
 #: ../../admin/checks.rst:215
 msgid ""
@@ -3287,10 +3304,13 @@ msgid ""
 "ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
+":ref:`component` に :guilabel:`Enforced checks` "
+"を設定することで、無視できない検査のリストを設定できます。リストされている各検査は、ユーザ インタフェースで除外できず、検査に不合格した文字列は "
+":guilabel:`Needs editing`（参照: :ref:`states`）とマークされます。"
 
 #: ../../admin/checks.rst:223
 msgid "Managing fonts"
-msgstr ""
+msgstr "フォントの管理"
 
 #: ../../admin/checks.rst:227
 msgid ""
@@ -3299,66 +3319,71 @@ msgid ""
 "management tool in :guilabel:`Fonts` under the :guilabel:`Manage` menu of "
 "your translation project."
 msgstr ""
+"表示したテキストの寸法を計算するために使用される :ref:`check-max-size` 検査は、フォント情報を設定しておく必要があります。これは "
+"Weblate フォント管理ツールで、翻訳プロジェクトの :guilabel:`Manage` メニューの下にある :guilabel:`Fonts` "
+"で設定できます。"
 
 #: ../../admin/checks.rst:231
 msgid ""
 "TrueType or OpenType fonts can be uploaded, set up font-groups and use those "
 "in the check."
-msgstr ""
+msgstr "TrueType または OpenType フォントをアップロードして、フォント グループを設定したあと選択して使用できます。"
 
 #: ../../admin/checks.rst:234
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
-msgstr ""
+msgstr "フォント グループを使用すると、言語ごとに異なるフォントを定義できます。通常、ラテン言語以外で必要です:"
 
 #: ../../admin/checks.rst:239
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
-msgstr ""
+msgstr "フォント グループは名前で識別し、名前には空白文字や特殊文字を含めることはできません。このため、設定で選択して簡単に使用できます:"
 
 #: ../../admin/checks.rst:244
 msgid "Font-family and style is automatically recognized after uploading them:"
-msgstr ""
+msgstr "フォント ファミリとスタイルは、アップロード後に自動的に認識されます。"
 
 #: ../../admin/checks.rst:248
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr ""
+msgstr "Weblate には複数のフォントを登録できます。"
 
 #: ../../admin/checks.rst:252
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"文字列の長さを確認するためにフォントを使用するには、適切なフラグ（参照 :ref:`custom-"
+"checks`）を渡します。次の設定が必要になるはずです:"
 
 #: ../../admin/checks.rst:255
 msgid "``max-size:500``"
-msgstr ""
+msgstr "``max-size:500``"
 
 #: ../../admin/checks.rst:256
 msgid "Defines maximal width."
-msgstr ""
+msgstr "最大幅の定義。"
 
 #: ../../admin/checks.rst:257
 msgid "``font-family:ubuntu``"
-msgstr ""
+msgstr "``font-family:ubuntu``"
 
 #: ../../admin/checks.rst:258
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
+msgstr "識別子を指定して使用するフォント グループを定義。"
 
 #: ../../admin/checks.rst:261
 msgid "``font-size:22``"
-msgstr ""
+msgstr "``font-size:22``"
 
 #: ../../admin/checks.rst:260
 msgid "Defines font size."
-msgstr ""
+msgstr "フォント サイズの定義。"
 
 #: ../../admin/checks.rst:266
 msgid "Writing own checks"
-msgstr ""
+msgstr "独自検査の記述"
 
 #: ../../admin/checks.rst:268
 msgid ""
@@ -3367,54 +3392,59 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"幅広い検査が組み込まれていますが（参照 "
+":ref:`checks`）、検査したい項目がすべて網羅しているとは限りません。実行する検査の内容は、:setting:`CHECK_LIST` "
+"を使用して設定できます。また、独自の検査も追加できます。"
 
 #: ../../admin/checks.rst:272
 msgid "Subclass the `weblate.checks.Check`"
-msgstr ""
+msgstr "`weblate.checks.Check` をサブクラス化する"
 
 #: ../../admin/checks.rst:273
 msgid "Set a few attributes."
-msgstr ""
+msgstr "複数の属性を設定する。"
 
 #: ../../admin/checks.rst:274
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
-msgstr ""
+msgstr "``check``（コードで複数形を扱う場合）または ``check_single`` メソッド（これはあなたに代わって実行）を実装する。"
 
 #: ../../admin/checks.rst:277
 msgid "Some examples:"
-msgstr ""
+msgstr "複数の例:"
 
 #: ../../admin/checks.rst:279
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"独自の検査を組み込むには、 :setting:`CHECK_LIST`に Python クラスへの完全修飾パスを指定します（参照 :ref"
+":`custom-check-modules`) 。"
 
 #: ../../admin/checks.rst:283
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "翻訳テキストに「foo」が含まれていないか確認"
 
 #: ../../admin/checks.rst:285
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
-msgstr ""
+msgstr "これは非常に単純な検査で、翻訳に文字列「foo」を含まないか検査するだけです。"
 
 #: ../../admin/checks.rst:292
 msgid "Checking that Czech translation text plurals differ"
-msgstr ""
+msgstr "チェコ語の翻訳文の複数形が異なっているか確認"
 
 #: ../../admin/checks.rst:294
 msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
-msgstr ""
+msgstr "言語情報を使用して、チェコ語の 2 つの複数形が同じでないことを検査します。"
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr ""
+msgstr "コンポーネントの複数のリスト"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
@@ -3422,6 +3452,8 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"ユーザーダッシュボードにオプションとして表示するコンポーネントのリストを複数指定し、ユーザーがデフォルト ビューとして 1 "
+"つを選択できるようにします。詳細については、:ref:`dashboard` を参照してください。"
 
 #: ../../admin/componentlists.rst:12
 msgid ""
@@ -13669,34 +13701,24 @@ msgid "List statistics of a user."
 msgstr ""
 
 #: ../../api.rst:318
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Number of translations by user"
-msgstr "翻訳済み文字列の数"
+msgstr "ユーザーごとの翻訳数"
 
 #: ../../api.rst:319
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of suggestions by user"
-msgstr "原文文字列の数"
+msgstr "ユーザーごとの翻訳数"
 
 #: ../../api.rst:320
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "Number of uploads by user"
-msgstr "アップロードされた共有エントリ数"
+msgstr "ユーザーごとのアップロード数"
 
 #: ../../api.rst:321
-#, fuzzy
-#| msgid "Number of comments"
 msgid "Number of comments by user"
-msgstr "コメント数"
+msgstr "ユーザーごとのコメント数"
 
 #: ../../api.rst:322
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of languages user can translate"
-msgstr "言語の数"
+msgstr "ユーザーが翻訳できる言語の数"
 
 #: ../../api.rst:326
 msgid "List subscriptions of a user."
@@ -14911,10 +14933,8 @@ msgid "translation unit flags"
 msgstr ""
 
 #: ../../api.rst:1832
-#, fuzzy
-#| msgid "Strings marked for review:"
 msgid "whether the unit is fuzzy or marked for review"
-msgstr "要査読とマークされた文字列:"
+msgstr "ユニットが曖昧か査読用にマークされているか"
 
 #: ../../api.rst:1833
 msgid "whether the unit is translated"
@@ -15125,7 +15145,7 @@ msgstr "スクリーンショットを削除します。"
 
 #: ../../api.rst:1998
 msgid "Component lists"
-msgstr "すべてのコンポーネント リスト"
+msgstr "コンポーネントの複数のリスト"
 
 #: ../../api.rst:2004
 msgid "Returns a list of component lists."
@@ -25144,7 +25164,7 @@ msgstr ""
 
 #: ../../user/checks.rst:48
 msgid "BBcode markup"
-msgstr "BB コード マークアップ"
+msgstr "BBcode マークアップ"
 
 #: ../../user/checks.rst:50
 msgid "*BBcode in translation does not match source*"
@@ -25470,7 +25490,7 @@ msgstr ""
 
 #: ../../user/checks.rst:272
 msgid "Percent placeholders"
-msgstr "％ のプレースホルダー（補完）"
+msgstr "パーセントのプレースホルダー"
 
 #: ../../user/checks.rst:274
 msgid "*The percent placeholders do not match source*"
@@ -25725,7 +25745,7 @@ msgstr ""
 
 #: ../../user/checks.rst:470
 msgid "Markdown links"
-msgstr "マークダウンのリンク"
+msgstr "Markdown のリンク"
 
 #: ../../user/checks.rst:472
 msgid "*Markdown links do not match source*"
@@ -25741,7 +25761,7 @@ msgstr ""
 
 #: ../../user/checks.rst:486
 msgid "Markdown references"
-msgstr "マークダウンの参照"
+msgstr "Markdown の参照"
 
 #: ../../user/checks.rst:488
 msgid "*Markdown link references do not match source*"
