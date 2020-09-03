@@ -49,7 +49,7 @@
           </ul>
           <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
         {% elif not billing.payment.libre_request %}
-          <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval" %}" />
+          <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for libre hosting" %}" />
         {% endif %}
       {% else %}
         <p>{% trans "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}</p>
