@@ -37,7 +37,11 @@
 
     {% if payment_enabled %}
         <div class="line buttons">
+          {% if billing.plan.price %}
             <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="button">{% trans "New payment" %}</a>
+          {% else %}
+            <a href="{% url 'hosting' %}">{% trans "Request approval for libre hosting" %}</a>
+          {% endif %}
         </div>
     {% endif %}
 
