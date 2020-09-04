@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-04 11:15+0000\n"
-"PO-Revision-Date: 2020-08-24 12:24+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2020-09-04 14:23+0000\n"
+"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -68,10 +68,8 @@ msgid "Full name"
 msgstr "Nom complet"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Correu electrònic"
+msgstr "Adreça electrònica pública"
 
 #: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -376,10 +374,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Convidat al Weblate per {username}."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Inicia una traducció nova"
+msgstr "S'ha iniciat el període de prova."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -547,30 +543,24 @@ msgstr ""
 "mostraran al tauler principal."
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "URL de la llicència"
+msgstr "URL del lloc web"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "nom d'usuari"
+msgstr "Nom d'usuari al GitHub"
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "Nom d'usuari de l'autor"
+msgstr "Nom d'usuari al Twitter"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "Nom del perfil al LinkedIn"
 
 #: weblate/accounts/models.py:430
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "El vostre nom del perfil al Linkedin, de linkedin.com/in/nomdelperfil"
 
 #: weblate/accounts/models.py:434
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -579,16 +569,12 @@ msgid "Location"
 msgstr "Ubicació"
 
 #: weblate/accounts/models.py:439
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "Component"
+msgstr "Empresa"
 
 #: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
 msgid "Public email"
-msgstr "Públic"
+msgstr "Adreça electrònica pública"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -805,7 +791,7 @@ msgstr "No s'ha pogut enviar el missatge a l'administrador."
 
 #: weblate/accounts/views.py:235
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "S'ha enviat la petició, ben aviat tindreu notícies nostres."
 
 #: weblate/accounts/views.py:348
 msgid "Your profile has been updated."
@@ -848,7 +834,7 @@ msgstr ""
 #: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Període gratuït de prova"
 
 #: weblate/accounts/views.py:690 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -2165,26 +2151,22 @@ msgid "In display limits"
 msgstr "Dintre dels límits de visualització"
 
 #: weblate/billing/models.py:397
-#, fuzzy, python-format
-#| msgid "Created project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "S'ha creat el projecte"
-msgstr[1] "S'ha creat el projecte"
+msgstr[0] "Conté %d projecte"
+msgstr[1] "Conté %d projectes"
 
 #: weblate/billing/models.py:414
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "S'ha canviat el nom del component"
-msgstr[1] "S'ha canviat el nom del component"
+msgstr[0] "Conté %d component"
+msgstr[1] "Conté %d components"
 
 #: weblate/billing/models.py:429
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "Canvi de llicència"
+msgstr "Hi manca la llicència"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -2195,16 +2177,12 @@ msgstr ""
 "suprimeixi el projecte."
 
 #: weblate/billing/tasks.py:108
-#, fuzzy
-#| msgid ""
-#| "You will stop receiving this notification once you pay the bills or the "
-#| "project is removed."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"Deixareu de rebre aquestes notificacions quan pagueu els rebuts o se "
-"suprimeixi el projecte."
+"Deixareu de rebre aquestes notificacions quan canvieu a una subscripció "
+"normal o se suprimeixi el projecte."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -4064,10 +4042,8 @@ msgid "Register"
 msgstr "Registra-m'hi"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "Subscripcions"
+msgstr "Subscripcions de període de prova"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -4076,10 +4052,8 @@ msgid ", expires %(expires)s"
 msgstr ", caduca el %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "Cadena pendent"
+msgstr "Pendent d'aprovació"
 
 #: weblate/templates/accounts/hosting.html:44
 msgid "Additional things to check manually:"
@@ -4096,10 +4070,8 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:47
 #: weblate/templates/accounts/hosting.html:81
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "S'ha eliminat l'usuari d'aquest projecte."
+msgstr "L'ús del Weblate ha estat aprovat pel projecte font."
 
 #: weblate/templates/accounts/hosting.html:48
 #: weblate/templates/accounts/hosting.html:82
@@ -4107,10 +4079,8 @@ msgid "The project has active development for at least three months."
 msgstr ""
 
 #: weblate/templates/accounts/hosting.html:50
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "Cadena aprovada"
+msgstr "Aprova com a lliure"
 
 #: weblate/templates/accounts/hosting.html:52
 #: weblate/templates/mail/billing_expired.html:43
@@ -4128,10 +4098,8 @@ msgid "Extend trial"
 msgstr ""
 
 #: weblate/templates/accounts/hosting.html:71
-#, fuzzy
-#| msgid "Translation project:"
 msgid "Translate your libre project"
-msgstr "Projecte de la traducció:"
+msgstr "Traduïu el vostre projecte lliure"
 
 #: weblate/templates/accounts/hosting.html:75
 msgid ""
@@ -4166,16 +4134,12 @@ msgid "There is no guarantee for service availability, nor quality."
 msgstr "No hi ha garanties de disponibilitat o qualitat del servei."
 
 #: weblate/templates/accounts/hosting.html:91
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "Obtén assistència"
+msgstr "Comença"
 
 #: weblate/templates/accounts/hosting.html:97
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Contacta per a allotjament comercial"
+msgstr "Cerqueu allotjament comercial?"
 
 #: weblate/templates/accounts/hosting.html:100
 #, python-format
@@ -4386,10 +4350,8 @@ msgid "Download user data"
 msgstr "Baixa les dades de l'usuari"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "El vostre perfil públic"
+msgstr "Perfil públic"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
@@ -4587,29 +4549,21 @@ msgid "Reset my password"
 msgstr "Restableix la contrasenya"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "Gràcies per utilitzar el Weblate."
+msgstr "Gràcies pel vostre interès per provar el Weblate!"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "El vostre perfil"
+msgstr "La vostra oferta de període de prova"
 
 #: weblate/templates/accounts/trial.html:22
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will"
-msgstr "Correu electrònic"
+msgstr "El vostre període de prova"
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:25
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "last for 14 days."
-msgstr "Darrers 30 dies"
+msgstr "durarà 14 dies."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:27
@@ -4627,10 +4581,8 @@ msgid "keep the configuration once you start paying."
 msgstr ""
 
 #: weblate/templates/accounts/trial.html:35
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "Inicia una traducció nova"
+msgstr "Comença la prova!"
 
 #: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -6595,27 +6547,17 @@ msgid "Your trial period is going to expire in less than week."
 msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please purchase the subsription."
-msgstr ""
-"El vostre pla de facturació ha caducat, si voleu continuar fent servir el "
-"servei, renoveu-lo."
+msgstr "Si voleu continuar fent servir el servei, compreu-ne una subscripció."
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please request approval of your "
 "libre plan."
 msgstr ""
-"El vostre pla de facturació ha caducat, si voleu continuar fent servir el "
-"servei, renoveu-lo."
+"Si voleu continuar fent servir el servei, sol·liciteu aprovació del vostre "
+"pla lliure."
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -8629,25 +8571,17 @@ msgstr ""
 "caldria canviar la cadena, afegiu-hi un suggeriment."
 
 #: weblate/templates/translate.html:183
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions and these are approved by "
-#| "voting."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
 "Aquesta traducció només accepta suggeriments, que s'aproven per votació."
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
 msgstr ""
-"Si voleu col·laborar en aquesta traducció, cal que accepteu un acord de "
+"Si col·laboreu en aquesta traducció, cal que accepteu el seu acord de "
 "col·laborador."
 
 #: weblate/templates/translate.html:189
@@ -8721,35 +8655,24 @@ msgid "List of recent changes done in Weblate"
 msgstr "Llista dels canvis recents fets al Weblate"
 
 #: weblate/templates/translate.html:280
-#, fuzzy
-#| msgid "Following string has same context and same source."
-#| msgid_plural "Following strings have same context and same source."
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
 msgstr[0] "La següent cadena té el mateix context i el mateix origen."
 msgstr[1] "Les següents cadenes tenen el mateix context i el mateix origen."
 
 #: weblate/templates/translate.html:288
-#, fuzzy
-#| msgid "Following string has different context but same source."
-#| msgid_plural "Following strings have different contexts but same source."
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "La següent cadena té un context diferent però el mateix origen."
-msgstr[1] ""
-"Les següents cadenes tenen un context diferent però el mateix origen."
+msgstr[0] "La següent cadena té un context diferent, però el mateix origen."
+msgstr[1] "Les següents cadenes tenen contextos diferents, però el mateix origen."
 
 #: weblate/templates/translate.html:296
-#, fuzzy
-#| msgid "Following string has different source but same context."
-#| msgid_plural "Following strings have different sources but same context."
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
-msgstr[0] "La següent cadena té un origen diferent però el mateix context."
-msgstr[1] ""
-"Les següents cadenes tenen un origen diferent però el mateix context."
+msgstr[0] "La següent cadena té un origen diferent, però el mateix context."
+msgstr[1] "Les següents cadenes tenen orígens diferents, però el mateix context."
 
 #: weblate/templates/translate.html:332
 msgid "Origin"
@@ -11966,10 +11889,8 @@ msgid "Extended self-hosted support"
 msgstr "Assistència ampliada per a allotjament propi"
 
 #: weblate/wladmin/models.py:128
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup repository URL"
-msgstr "Dipòsit de les còpies de seguretat"
+msgstr "URL del dipòsit de les còpies de seguretat"
 
 #: weblate/wladmin/models.py:130
 msgid ""
