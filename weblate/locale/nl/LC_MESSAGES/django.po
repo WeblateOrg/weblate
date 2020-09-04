@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-04 11:15+0000\n"
-"PO-Revision-Date: 2020-08-20 12:57+0000\n"
+"PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -68,10 +68,8 @@ msgid "Full name"
 msgstr "Volledige naam"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Uw e-mailadres"
+msgstr "Openbaar e-mailadres"
 
 #: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -371,10 +369,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Uitgenodigd voor Weblate door {username}."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Nieuwe vertaling starten"
+msgstr "De proefperiode is ingegaan."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -542,30 +538,24 @@ msgstr ""
 "getoond op het overzicht."
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "Licentie-URL"
+msgstr "Website-url"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "gebruikersnaam"
+msgstr "GitHub-gebruikersnaam"
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "Gebruikersnaam van auteur"
+msgstr "Twitter-gebruikersnaam"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "LinkedIn-profielnaam"
 
 #: weblate/accounts/models.py:430
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "Uw LinkedIn-profielnaam van linkedin.com/in/profielnaam"
 
 #: weblate/accounts/models.py:434
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -574,16 +564,12 @@ msgid "Location"
 msgstr "Locatie"
 
 #: weblate/accounts/models.py:439
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "Onderdeel"
+msgstr "Bedrijf"
 
 #: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
 msgid "Public email"
-msgstr "Publiek"
+msgstr "Openbaar e-mailadres"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -797,7 +783,7 @@ msgstr "Het bericht kan niet naar de administrator worden gestuurd."
 
 #: weblate/accounts/views.py:235
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "Uw verzoek is verstuurd; u krijgt spoedig antwoord."
 
 #: weblate/accounts/views.py:348
 msgid "Your profile has been updated."
@@ -830,17 +816,21 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Het lijkt er op dat u al een proefperiode hebt aangevraagd. Neem contact op "
+"met ons zodat we een oplossing kunnen vinden."
 
 #: weblate/accounts/views.py:594
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Uw proefperiode is ingegaan. Voeg een vertaalproject toe en begin met "
+"weblaten!"
 
 #: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Gratis proefperiode"
 
 #: weblate/accounts/views.py:690 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -2156,26 +2146,22 @@ msgid "In display limits"
 msgstr "Binnen weergavegrenzen"
 
 #: weblate/billing/models.py:397
-#, fuzzy, python-format
-#| msgid "Created project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Project aangemaakt"
-msgstr[1] "Project aangemaakt"
+msgstr[0] "Bevat %d project"
+msgstr[1] "Bevat %d projecten"
 
 #: weblate/billing/models.py:414
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Naam onderdeel gewijzigd"
-msgstr[1] "Naam onderdeel gewijzigd"
+msgstr[0] "Bevat %d onderdeel"
+msgstr[1] "Bevat %d onderdelen"
 
 #: weblate/billing/models.py:429
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "Gewijzigde licentie"
+msgstr "Licentie ontbreekt"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -2186,15 +2172,11 @@ msgstr ""
 "project verwijdert."
 
 #: weblate/billing/tasks.py:108
-#, fuzzy
-#| msgid ""
-#| "You will stop receiving this notification once you pay the bills or the "
-#| "project is removed."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"Deze melding verdwijnt zodra u de openstaande facturen betaalt of het "
+"Deze melding verdwijnt zodra u overstapt naar een regulier pakket of het "
 "project verwijdert."
 
 #: weblate/checks/angularjs.py:45
@@ -4045,10 +4027,8 @@ msgid "Register"
 msgstr "Registreren"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "Abonnementen"
+msgstr "Proefperiodepakketten"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -4057,14 +4037,12 @@ msgid ", expires %(expires)s"
 msgstr ", vervalt op %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "Te controleren tekenreeks"
+msgstr "Wachtend op goedkeuring"
 
 #: weblate/templates/accounts/hosting.html:44
 msgid "Additional things to check manually:"
-msgstr ""
+msgstr "Aanvullende dingen om na te lopen:"
 
 #: weblate/templates/accounts/hosting.html:46
 #: weblate/templates/accounts/hosting.html:80
@@ -4077,42 +4055,38 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:47
 #: weblate/templates/accounts/hosting.html:81
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "De gebruiker is verwijderd uit dit project."
+msgstr "Het gebruik van Weblate is goedgekeurd door het upstreamproject."
 
 #: weblate/templates/accounts/hosting.html:48
 #: weblate/templates/accounts/hosting.html:82
 msgid "The project has active development for at least three months."
-msgstr ""
+msgstr "Het project is al minimaal drie maanden actief."
 
 #: weblate/templates/accounts/hosting.html:50
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "Goedgekeurde tekenreeks"
+msgstr "Vrijesoftwaregoedkeuring"
 
 #: weblate/templates/accounts/hosting.html:52
 #: weblate/templates/mail/billing_expired.html:43
 msgid "Request approval for libre hosting"
-msgstr ""
+msgstr "Verzoek goedkeuring voor vrijesoftwarehosting"
 
 #: weblate/templates/accounts/hosting.html:55
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
 msgstr ""
+"Dit pakket is niet compatibel met het vrijesoftwarehostingpakket. Los "
+"bovenstaande fouten op of schaf een pakket aan."
 
 #: weblate/templates/accounts/hosting.html:58
 msgid "Extend trial"
-msgstr ""
+msgstr "Proefperiode verlengen"
 
 #: weblate/templates/accounts/hosting.html:71
-#, fuzzy
-#| msgid "Translation project:"
 msgid "Translate your libre project"
-msgstr "Vertaalproject:"
+msgstr "Vertaal uw vrijesoftwareproject"
 
 #: weblate/templates/accounts/hosting.html:75
 msgid ""
@@ -4132,31 +4106,27 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:83
 msgid "You will have 14 days to setup your project."
-msgstr ""
+msgstr "U heeft 14 dagen de tijd om uw project op te zetten."
 
 #: weblate/templates/accounts/hosting.html:84
 msgid "Please request project approval once the setup is completed."
-msgstr ""
+msgstr "Verzoek projectgoedkeuring zodra uw project is opgezet."
 
 #: weblate/templates/accounts/hosting.html:85
 msgid "Not approved projects will be removed."
-msgstr ""
+msgstr "Niet-goedgekeurde projecten worden verwijderd."
 
 #: weblate/templates/accounts/hosting.html:86
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "Er is geen garantie op beschikbaarheid of kwaliteit van de dienst."
 
 #: weblate/templates/accounts/hosting.html:91
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "Ondersteuning verkrijgen"
+msgstr "Aan de slag"
 
 #: weblate/templates/accounts/hosting.html:97
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Neem contact met ons op voor commerciële hosting"
+msgstr "Zoekt u commerciële hosting?"
 
 #: weblate/templates/accounts/hosting.html:100
 #, python-format
@@ -4367,10 +4337,8 @@ msgid "Download user data"
 msgstr "Gebruikersgegevens downloaden"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "Uw openbaar profiel"
+msgstr "Openbaar profiel"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
@@ -4378,6 +4346,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Alle velden op deze pagina zijn optioneel en kunnen op elk gewenst moment "
+"worden leeggemaakt. Door ze in te vullen geeft u ons toestemming om deze "
+"gegevens te delen op pagina's waar uw profiel wordt getoond."
 
 #: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
@@ -4571,50 +4542,42 @@ msgid "Reset my password"
 msgstr "Mijn wachtwoord herstellen"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "Bedankt om Weblate te gebruiken."
+msgstr "Bedankt voor uw interesse in Weblate!"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "Uw profiel"
+msgstr "Uw proefperiode-aanbod"
 
 #: weblate/templates/accounts/trial.html:22
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will"
-msgstr "Uw e-mailadres"
+msgstr "Uw proefperiode"
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:25
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "last for 14 days."
-msgstr "Afgelopen 30 dagen"
+msgstr "verloopt over 14 dagen."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:27
 msgid "run the Enterprise plan."
-msgstr ""
+msgstr "omvat het Enterprise-pakket."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:29
 msgid "need no credit card, but you can set the payment method anytime."
 msgstr ""
+"behoeft geen creditcard, maar u kunt ten alle tijde een betaalmethode "
+"instellen."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:31
 msgid "keep the configuration once you start paying."
-msgstr ""
+msgstr "behoudt de configuratie als u gaat betalen."
 
 #: weblate/templates/accounts/trial.html:35
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "Nieuwe vertaling starten"
+msgstr "Proefperiode starten!"
 
 #: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -6569,30 +6532,20 @@ msgstr "Aangemaakt op %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "Your trial period is going to expire in less than week."
-msgstr ""
+msgstr "Uw proefperiode verloopt over een aantal dagen."
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please purchase the subsription."
-msgstr ""
-"Uw facturatiepakket is verlopen. Als u de dienst wilt blijven gebruiken, "
-"vernieuw het dan."
+msgstr "Als u de dienst wilt blijven gebruiken, schaf dan een pakket aan."
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please request approval of your "
 "libre plan."
 msgstr ""
-"Uw facturatiepakket is verlopen. Als u de dienst wilt blijven gebruiken, "
-"vernieuw het dan."
+"Als u de dienst wilt blijven gebruiken, verzoek dan goedkeuring van uw "
+"vrijesoftwarepakket."
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -6634,7 +6587,7 @@ msgstr "Uw vertaalproject staat gepland voor verwijdering"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your trial period is about to expire"
-msgstr ""
+msgstr "Uw proefperiode dreigt te verlopen"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
@@ -7143,8 +7096,8 @@ msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
 msgstr ""
-"De wachtwoordzin wordt gebruikt om back-ups te versleutelen, en is vereist "
-"om ze te herstellen."
+"De wachtwoordzin wordt gebruikt om back-ups te versleutelen en is vereist om "
+"ze te herstellen."
 
 #: weblate/templates/manage/snippets/backup-credentials.html:15
 #: weblate/templates/manage/ssh.html:28
@@ -8598,27 +8551,19 @@ msgstr ""
 "suggestie toe als u vindt dat de tekenreeks gewijzigd moet worden."
 
 #: weblate/templates/translate.html:183
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions and these are approved by "
-#| "voting."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
-"Deze vertaling aanvaardt alleen suggesties en ze worden goedgekeurd door "
+"Deze vertaling aanvaardt alleen suggesties, welke worden goedgekeurd door "
 "stemmen."
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
 msgstr ""
-"Medewerking aan deze vertaling vereist dat u instemt met een overeenkomst "
-"voor medewerkers."
+"Medewerking aan deze vertaling vereist dat u instemt met de "
+"medewerkersovereenkomst."
 
 #: weblate/templates/translate.html:189
 msgid "Insufficient privileges for editing source strings."
@@ -8691,37 +8636,24 @@ msgid "List of recent changes done in Weblate"
 msgstr "Lijst met recente wijzigingen in Weblate"
 
 #: weblate/templates/translate.html:280
-#, fuzzy
-#| msgid "Following string has same context and same source."
-#| msgid_plural "Following strings have same context and same source."
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
 msgstr[0] "De volgende tekenreeks heeft dezelfde context en bron."
 msgstr[1] "De volgende tekenreeksen hebben dezelfde context en bron."
 
 #: weblate/templates/translate.html:288
-#, fuzzy
-#| msgid "Following string has different context but same source."
-#| msgid_plural "Following strings have different contexts but same source."
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] ""
-"De volgende tekenreeks heeft een andere context, maar dezelfde bron."
-msgstr[1] ""
-"De volgende tekenreeksen hebben een andere context, maar dezelfde bron."
+msgstr[0] "De volgende tekenreeks heeft een andere context, maar dezelfde bron."
+msgstr[1] "De volgende tekenreeksen hebben een andere context, maar dezelfde bron."
 
 #: weblate/templates/translate.html:296
-#, fuzzy
-#| msgid "Following string has different source but same context."
-#| msgid_plural "Following strings have different sources but same context."
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
-msgstr[0] ""
-"De volgende tekenreeks heeft een andere bron, maar dezelfde context."
-msgstr[1] ""
-"De volgende tekenreeksen hebben een andere bron, maar dezelfde context."
+msgstr[0] "De volgende tekenreeks heeft een andere bron, maar dezelfde context."
+msgstr[1] "De volgende tekenreeksen hebben een andere bron, maar dezelfde context."
 
 #: weblate/templates/translate.html:332
 msgid "Origin"
@@ -11269,7 +11201,7 @@ msgstr "{day}/{month}"
 #: weblate/trans/views/create.py:221
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
-msgstr ""
+msgstr "Gedetecteerde licentie: %s. Controleer of dit juist is."
 
 #: weblate/trans/views/create.py:326
 msgid "Failed to parse uploaded ZIP file."
@@ -11926,16 +11858,16 @@ msgid "Extended self-hosted support"
 msgstr "Uitgebreide zelfgehoste ondersteuning"
 
 #: weblate/wladmin/models.py:128
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup repository URL"
-msgstr "Back-upopslagruimte"
+msgstr "Back-upopslagruimte-url"
 
 #: weblate/wladmin/models.py:130
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
 msgstr ""
+"Voer /pad/naar/opslagruimte in voor lokale back-ups of user@host:/pad/naar/"
+"opslagruimte voor externe ssh-back-ups."
 
 #: weblate/wladmin/models.py:173
 msgid "Backup performed"
