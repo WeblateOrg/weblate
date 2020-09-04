@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-09-04 18:03+0000\n"
+"PO-Revision-Date: 2020-09-05 12:46+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -478,6 +478,8 @@ msgstr "Revogue acesso dos usuários"
 msgid ""
 "Resend user email invitations, invalidating any previously sent invitation"
 msgstr ""
+"Reenvie convites de e-mail do usuário, invalidando qualquer convite enviado "
+"anteriormente"
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -2586,10 +2588,8 @@ msgid "Backing up and moving Weblate"
 msgstr "Fazendo backup e movendo o Weblate"
 
 #: ../../admin/backup.rst:7
-#, fuzzy
-#| msgid "Automated backup"
 msgid "Automated backup using BorgBackup"
-msgstr "Backup automatizado"
+msgstr "Backup automatizado usando BorgBackup"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2662,10 +2662,8 @@ msgid ":doc:`borg:usage/init`"
 msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:50
-#, fuzzy
-#| msgid "Using Weblate provisioned backup storage"
 msgid "Weblate provisioned backup storage"
-msgstr "Usando armazenamento de backup provisionado do Weblate"
+msgstr "Armazenamento de backup provisionado do Weblate"
 
 #: ../../admin/backup.rst:52
 msgid ""
@@ -2738,7 +2736,7 @@ msgstr ":doc:`borg:usage/general` na documentação do Borg"
 
 #: ../../admin/backup.rst:82
 msgid "Local filesystem"
-msgstr ""
+msgstr "Sistema de arquivos local"
 
 #: ../../admin/backup.rst:84
 msgid ""
@@ -2747,6 +2745,10 @@ msgid ""
 "(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
 "attempt to create it, but it needs permissions to do so."
 msgstr ""
+"Recomenda-se especificar o caminho absoluto para o backup local, por exemplo "
+"`/caminho/para/backup`. O diretório deve poder ser escrito pelo usuário "
+"executando o Weblate (veja :ref:`file-permissions`). Caso não exista, o "
+"Weblate tentará criá-lo, mas precisa de permissões para fazê-lo."
 
 #: ../../admin/backup.rst:91
 msgid ""
@@ -2754,12 +2756,13 @@ msgid ""
 "exposed as a volume from the Weblate container. Otherwise the backups would "
 "be discarded by Docker on container restart."
 msgstr ""
+"Ao executar o Weblate no Docker, certifique-se de que o local de backup seja "
+"exposto como um volume do contêiner Weblate. Caso contrário, os backups "
+"seriam descartados pelo Docker na reinicialização do contêiner."
 
 #: ../../admin/backup.rst:96
-#, fuzzy
-#| msgid "6 monthly backups"
 msgid "Remote backups"
-msgstr "6 backups mensais"
+msgstr "Backups remotos"
 
 #: ../../admin/backup.rst:98
 msgid ""
@@ -2768,10 +2771,14 @@ msgid ""
 "please make sure the Weblate SSH key is accepted by the server (see :ref:"
 "`weblate-ssh-key`)."
 msgstr ""
+"Há suporte para backups remotos usando SSH. O servidor SSH precisa ter "
+"`BorgBackup`_ instalado. O Weblate se conecta ao servidor usando uma chave "
+"SSH, então certifique-se de que a chave SSH do Weblate seja aceita pelo "
+"servidor (veja :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:105
 msgid ":ref:`cloudbackup` provides you automated remote backups."
-msgstr ""
+msgstr ":ref:`cloudbackup` fornece backups remotos automatizados."
 
 #: ../../admin/backup.rst:108
 msgid "Restoring from BorgBackup"
@@ -3209,11 +3216,10 @@ msgid "``rst-text``"
 msgstr "``rst-text``"
 
 #: ../../admin/checks.rst:44
-#, fuzzy
-#| msgid "Treat a text as an RST document, affects :ref:`check-same`."
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
-msgstr "Trata um texto como um documento RST, afeta :ref:`check-same`."
+msgstr ""
+"Trata um texto como um documento reStructuredText, afeta :ref:`check-same`."
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
@@ -3282,16 +3288,12 @@ msgid "``max-length:N``"
 msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:60
-#, fuzzy
-#| msgid ""
-#| "Limit the maximal length for a string to N characters, see :ref:`check-"
-#| "max-length`"
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
 "Limita o comprimento máximo de um texto a caracteres N, veja :ref:`check-max-"
-"length`"
+"length`."
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -5006,25 +5008,23 @@ msgid ":ref:`vcs-gitlab`"
 msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/config.rst:591
-#, fuzzy
-#| msgid "GITLAB_USERNAME"
 msgid "GITLAB_TOKEN"
-msgstr "GITLAB_USERNAME"
+msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:593
-#, fuzzy
-#| msgid "GitLab username used to send merge requests for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
 msgstr ""
-"O nome de usuário GitLab usado para enviar merge requests para atualizações "
-"de tradução."
+"O token de acesso pessoal GitLab usado para fazer chamadas de API para "
+"atualizações de tradução."
 
 #: ../../admin/config.rst:597
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
+"ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:603
 msgid "GITHUB_USERNAME"
@@ -5043,26 +5043,24 @@ msgid ":ref:`vcs-github`"
 msgstr ":ref:`vcs-github`"
 
 #: ../../admin/config.rst:614
-#, fuzzy
-#| msgid "GITHUB_USERNAME"
 msgid "GITHUB_TOKEN"
-msgstr "GITHUB_USERNAME"
+msgstr "GITHUB_TOKEN"
 
 #: ../../admin/config.rst:616
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
 msgstr ""
-"O nome de usuário GitHub usado para enviar pull request para atualizações de "
-"tradução."
+"O token de acesso pessoal GitHub usado para fazer chamadas de API para "
+"enviar pull requests para atualizações de tradução."
 
 #: ../../admin/config.rst:621
 msgid ""
 ":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
 "com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 msgstr ""
+":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
+"com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:627
 msgid "GOOGLE_ANALYTICS_ID"
@@ -5682,21 +5680,16 @@ msgid "MT_MICROSOFT_REGION"
 msgstr "MT_MICROSOFT_REGION"
 
 #: ../../admin/config.rst:1130
-#, fuzzy
-#| msgid ""
-#| "Region prefix as defined in `\"Multi service subscription\" <https://docs."
-#| "microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_."
 msgid ""
 "Region prefix as defined in the `\"Authenticating with a Multi-service "
 "resource\" <https://docs.microsoft.com/en-us/azure/cognitive-services/"
 "translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
 "resource>`_ section."
 msgstr ""
-"Prefixo da região conforme definido em `\"Autenticando com um recurso de "
-"vários serviços\" <https://docs.microsoft.com/pt-br/azure/cognitive-services/"
-"translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
-"resource>`_."
+"Prefixo da região conforme definido na seção `\"Authenticating with a Multi-"
+"service resource\" <https://docs.microsoft.com/en-us/azure/"
+"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a"
+"-multi-service-resource>`."
 
 #: ../../admin/config.rst:1135
 msgid "MT_MICROSOFT_ENDPOINT_URL"
@@ -6590,10 +6583,6 @@ msgstr ""
 "atualizar tudo)"
 
 #: ../../admin/continuous.rst:55
-#, fuzzy
-#| msgid ""
-#| "Whenever Weblate updates the repository, the post update addons will be "
-#| "triggered, see :ref:`addons`."
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
@@ -7825,13 +7814,11 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 
 #: ../../admin/install.rst:130
 msgid "``licensee`` (optional for detecting license when creating component)"
-msgstr ""
+msgstr "``licensee`` (opcional para detectar a licença ao criar o componente)"
 
 #: ../../admin/install.rst:130
-#, fuzzy
-#| msgid "https://github.com/ubernostrum/akismet"
 msgid "https://github.com/licensee/licensee"
-msgstr "https://github.com/ubernostrum/akismet"
+msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:133
 msgid "Compile time dependencies"
@@ -7856,13 +7843,6 @@ msgid "Pango and Cairo"
 msgstr "Pango e Cairo"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid ""
-#| "Weblate uses Pango and Cairo for rendering bitmap widgets (see :ref:"
-#| "`promotion`) and rendering checks (see :ref:`fonts`). To properly install "
-#| "Python bindings for those you need to install system libraries first - "
-#| "you need both Cairo and Pango, which in turn need Glib. All those should "
-#| "be installed with development files and GObject introspection data."
 msgid ""
 "Weblate uses Pango and Cairo for rendering bitmap widgets (see :ref:"
 "`promotion`) and rendering checks (see :ref:`fonts`). To properly install "
@@ -7870,8 +7850,8 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"O Weblate usa Pango e Cairo para renderizar widgets bitmap (ver :ref:"
-"`promotion`) e verificações de renderização (ver :ref:`fonts`). Para "
+"O Weblate usa Pango e Cairo para renderizar widgets bitmap (ver "
+":ref:`promotion`) e verificações de renderização (ver :ref:`fonts`). Para "
 "instalar corretamente as ligações Python para aqueles que você precisa "
 "instalar bibliotecas de sistemas primeiro - você precisa tanto do Cairo "
 "quanto do Pango, que por sua vez precisam de GLib. Todos esses devem ser "
@@ -7911,11 +7891,6 @@ msgstr ""
 "que você baixou a versão mais recente."
 
 #: ../../admin/install.rst:172
-#, fuzzy
-#| msgid ""
-#| "Each archive is accompanied with ``.asc`` files which contains the PGP "
-#| "signature for it. Once you have both of them in the same folder, you can "
-#| "verify the signature:"
 msgid ""
 "Each archive is accompanied with ``.asc`` files which contain the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
@@ -7926,10 +7901,6 @@ msgstr ""
 "pode verificar a assinatura:"
 
 #: ../../admin/install.rst:183
-#, fuzzy
-#| msgid ""
-#| "As you can see gpg complains that it does not know the public key. At "
-#| "this point you should do one of the following steps:"
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
@@ -7938,10 +7909,8 @@ msgstr ""
 "ponto você deve fazer um dos seguintes passos:"
 
 #: ../../admin/install.rst:186
-#, fuzzy
-#| msgid "Use wkd to download the key:"
 msgid "Use `wkd` to download the key:"
-msgstr "Use wkd para baixar a chave:"
+msgstr "Use `wkd` para baixar a chave:"
 
 #: ../../admin/install.rst:201
 msgid ""
@@ -8065,10 +8034,6 @@ msgid "PostgreSQL"
 msgstr "PostgreSQL"
 
 #: ../../admin/install.rst:311
-#, fuzzy
-#| msgid ""
-#| "PostgreSQL is usually the best choice for Django based sites. It's the "
-#| "reference database used for implementing Django database layer."
 msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
@@ -28591,6 +28556,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Todos os campos desta página são opcionais e podem ser excluídos a qualquer "
+"momento e, ao preenchê-los, você está nos dando consentimento para "
+"compartilhar esses dados onde quer que seu perfil de usuário apareça."
 
 #: ../../user/profile.rst:116
 msgid ""
