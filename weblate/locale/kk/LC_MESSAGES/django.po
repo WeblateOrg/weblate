@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-02 14:14+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/"
@@ -65,7 +65,7 @@ msgstr "Bul paıdalanýshy aty áldeqashan qoıylǵan. Basqasyn tańdańyz."
 msgid "Full name"
 msgstr "Tolyq aty"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -641,12 +641,6 @@ msgstr "Jayǵasym"
 #| msgid "Component"
 msgid "Company"
 msgstr "Quramdas"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "Jarıa"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -11540,25 +11534,25 @@ msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Usynystardy avtomatty qabyldaý tek saılaý qosylǵanda ǵana jumys isteıdi."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Jańa tárjimelik faılyn ústeý múmkin emes."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Berilgen til osy til súzgisi arqyly súzilgen."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Tárjimelik faıl áldeqashan bar!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Mátinmán"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 #, fuzzy
 #| msgid "Keys"
 msgctxt "Translation key"
@@ -13048,6 +13042,11 @@ msgstr "Tirkelgińiz joıylǵan."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigýrasıa qatesin joıý sátsiz aıaqtaldy!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "Jarıa"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Qaınar kodynyń repozıtorınyń URL-y, mysaly, Git nemese Mercurial."

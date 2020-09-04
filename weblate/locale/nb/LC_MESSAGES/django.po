@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-02 17:58+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -69,7 +69,7 @@ msgstr "Brukernavnet er allerede tatt. Velg et annet."
 msgid "Full name"
 msgstr "Fullt navn"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -595,12 +595,6 @@ msgstr "Plassering"
 #| msgid "Component"
 msgid "Company"
 msgstr "Komponent"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "Offentlig"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -11014,25 +11008,25 @@ msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Automatisk godkjenning av forslag fungerer kun med stemmegivning påskrudd."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Kunne ikke legge til ny oversettelsesfil."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Gitt språk filtreres av språkfilteret."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Oversettelsesfil finnes allerede!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Kontekst"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 #, fuzzy
 #| msgid "Keys"
 msgctxt "Translation key"
@@ -12456,6 +12450,11 @@ msgstr "Sikkerhetskopieringsprosess utløst"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Klarte ikke å avvise oppsettfeil!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "Offentlig"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Nettadresse til kildekodearkiv, f.eks. Git eller Mercurial."

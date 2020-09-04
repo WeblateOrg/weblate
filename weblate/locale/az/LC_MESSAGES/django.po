@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-02 14:14+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -65,7 +65,7 @@ msgstr "Bu istifadəçi adı mövcuddur. Zəhmət olmasa başqasın seçin."
 msgid "Full name"
 msgstr "Tam adınız"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -596,12 +596,6 @@ msgstr "Fəaliyyət"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr ""
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public SSH key"
-msgid "Public email"
-msgstr "Açıq SSH açarı"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -12250,31 +12244,31 @@ msgstr ""
 "Təklifləri avtomatik olaraq qəbul etmə sadəcə səsvermə aktivdirsə işləyə "
 "bilər!"
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Could not add new translation file."
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "The given language is filtered by the language filter."
 msgstr "Tək dil əsaslı dil faylı"
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation file already exists!"
 msgstr "Tərcümə faylı"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "kontekst(məzmun)"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
@@ -13847,6 +13841,11 @@ msgstr "Hesabınız silindi."
 #| msgid "Configuration errors"
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfiqurasiya xətaları"
+
+#, fuzzy
+#~| msgid "Public SSH key"
+#~ msgid "Public email"
+#~ msgstr "Açıq SSH açarı"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Qaynaq kod deposunun URL-si, məsələn Git və ya Mercurial."

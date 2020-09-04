@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
@@ -77,7 +77,7 @@ msgstr "Ce nom d’utilisateur existe déjà. Veuillez en choisir un autre."
 msgid "Full name"
 msgstr "Votre nom complet"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "Adresse courriel publique"
 
@@ -584,10 +584,6 @@ msgstr "Emplacement"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr "Société"
-
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "Adresse courriel publique"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -6633,8 +6629,8 @@ msgid ""
 "If you want to continue using the service, please request approval of your "
 "libre plan."
 msgstr ""
-"Si vous souhaitez continuer à utiliser le service, veuillez demander l’"
-"approbation de votre offre libre."
+"Si vous souhaitez continuer à utiliser le service, veuillez demander "
+"l’approbation de votre offre libre."
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -10698,25 +10694,25 @@ msgstr ""
 "L’acceptation automatique des suggestions fonctionne uniquement si le vote "
 "est activé."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Impossible d’ajouter un nouveau fichier de traduction."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Le langage donné est filtré par le filtre de langage."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Le fichier de traduction existe déjà !"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Contexte"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Clé"
@@ -12110,6 +12106,9 @@ msgstr "La sauvegarde a été lancée"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Impossible d’ignorer l’erreur de configuration !"
+
+#~ msgid "Public email"
+#~ msgstr "Adresse courriel publique"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL du dépôt de code source, par exemple Git ou Mercurial."

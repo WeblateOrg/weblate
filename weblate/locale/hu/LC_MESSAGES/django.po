@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-08-04 08:32+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
@@ -72,7 +72,7 @@ msgstr "Ez a felhasználónév már használatban van. Válasszon egy másikat."
 msgid "Full name"
 msgstr "Teljes név"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -582,12 +582,6 @@ msgstr "Hely"
 #| msgid "Component"
 msgid "Company"
 msgstr "Összetevő"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "Nyilvános"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -10670,25 +10664,25 @@ msgstr ""
 "Javaslatok automatikus elfogadása csak akkor működik, szavazás be van "
 "kapcsolva."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Nem sikerült új fordítási fájlt hozzáadni."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Az adott nyelvet a nyelvi szűrő szűri."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "A fordítási fájl már létezik!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Környezet"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Kulcs"
@@ -12072,6 +12066,11 @@ msgstr "Biztonsági mentés folyamat aktiválva"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Nem sikerült eltüntetni a beállítási hibát!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "Nyilvános"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "A forráskódtároló URL-je, például Git vagy Mercurial."

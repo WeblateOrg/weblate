@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
@@ -82,7 +82,7 @@ msgstr "Это имя пользователя уже занято, выбери
 msgid "Full name"
 msgstr "Полное имя"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "Общедоступная электронная почта"
 
@@ -577,10 +577,6 @@ msgstr "Расположение"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr "Компания"
-
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "Общедоступная электронная почта"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -10576,25 +10572,25 @@ msgstr ""
 "Принятие предложений автоматически работает только при включенном "
 "голосовании."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Не удалось добавить новый файл перевода."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Указанный язык отфильтрован языковым фильтром."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Файл перевода уже существует!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Контекст"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Ключ"
@@ -11998,6 +11994,9 @@ msgstr "Запущен процесс создания резервной коп
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Не удалось обработать ошибку конфигурации!"
+
+#~ msgid "Public email"
+#~ msgstr "Общедоступная электронная почта"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL репозитория исходного кода, например, Git или Mercurial."

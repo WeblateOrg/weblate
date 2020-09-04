@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-08-20 05:45+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
@@ -64,7 +64,7 @@ msgstr "Användarnamnet är upptaget. Välj ett annat användarnamn."
 msgid "Full name"
 msgstr "Fullständigt namn"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -566,12 +566,6 @@ msgstr "Placering"
 #| msgid "Component"
 msgid "Company"
 msgstr "Komponent"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "Publik"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -10535,25 +10529,25 @@ msgstr ""
 "Automatiskt accepterande av förslag fungera endast då röstningen är "
 "aktiverad."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Det gick inte att lägga till en ny översättningsfil."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Det angivna språket filtreras av språkfiltret."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Översättningsfilen finns redan!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Sammanhang"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Nyckel"
@@ -11916,6 +11910,11 @@ msgstr "Säkerhetskopiering startad"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Kunde inte avfärda konfigurationsfelet!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "Publik"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Webbadress till källkodsarkiv som t.ex. Git eller Mercurial."

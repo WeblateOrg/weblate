@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-08-23 08:42+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
@@ -80,7 +80,7 @@ msgstr "Nome utente già in uso. Scegline un altro."
 msgid "Full name"
 msgstr "Nome e cognome"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -587,12 +587,6 @@ msgstr "Posizione"
 #| msgid "Component"
 msgid "Company"
 msgstr "Componente"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "Pubblica"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -10643,25 +10637,25 @@ msgstr ""
 "L'accettazione automatica dei suggerimenti funziona solo con la votazione "
 "attivata."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Impossibile aggiungere un nuovo file di traduzione."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Il file lingua fornito è filtrato dal filtro lingua."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Il file di traduzione esiste già!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Contesto"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Chiave"
@@ -12040,6 +12034,11 @@ msgstr "Il processo di backup è stato attivato"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Impossibile eliminare l'errore di configurazione!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "Pubblica"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL del repository del codice sorgente, ad esempio Git o Mercurial."

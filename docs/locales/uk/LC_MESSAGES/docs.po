@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 13:16+0200\n"
+"POT-Creation-Date: 2020-09-04 21:58+0200\n"
 "PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -2748,7 +2748,9 @@ msgid ":doc:`borg:usage/general` in the Borg documentation"
 msgstr ":doc:`borg:usage/general` у документації до Borg"
 
 #: ../../admin/backup.rst:82
-msgid "Local filesytem"
+#, fuzzy
+#| msgid "Local filesytem"
+msgid "Local filesystem"
 msgstr "Локальна файлова система"
 
 #: ../../admin/backup.rst:84
@@ -2760,9 +2762,9 @@ msgid ""
 msgstr ""
 "Рекомендуємо вказати абсолютний шлях до локальної резервної копії, наприклад "
 "`/шлях/до/резервної/копії`. Запис до каталогу має бути відкрито для "
-"користувача, від імені якого запущено Weblate (див. :ref:`file-permissions`)"
-". Якщо каталогу не існуватиме, Weblate спробує його створити, але програма "
-"повинна мати для цього відповідні права доступу."
+"користувача, від імені якого запущено Weblate (див. :ref:`file-"
+"permissions`). Якщо каталогу не існуватиме, Weblate спробує його створити, "
+"але програма повинна мати для цього відповідні права доступу."
 
 #: ../../admin/backup.rst:91
 msgid ""
@@ -3236,7 +3238,10 @@ msgid "``rst-text``"
 msgstr "``rst-text``"
 
 #: ../../admin/checks.rst:44
-msgid "Treat a text as an RST document, affects :ref:`check-same`."
+#, fuzzy
+#| msgid "Treat a text as an RST document, affects :ref:`check-same`."
+msgid ""
+"Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgstr "Вважати текст документом RST, впливає на :ref:`check-same`."
 
 #: ../../admin/checks.rst:45
@@ -3306,9 +3311,13 @@ msgid "``max-length:N``"
 msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:60
+#, fuzzy
+#| msgid ""
+#| "Limit the maximal length for a string to N characters, see :ref:`check-"
+#| "max-length`"
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
-"length`"
+"length`."
 msgstr ""
 "Обмежити максимальну довжину рядка N символами, див. :ref:`check-max-length`"
 
@@ -7897,13 +7906,12 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"Weblate використовує Pango і Cairo для обробки растрових віджетів (див. "
-":ref:`promotion`) і перевірки обробки перекладених рядків в інтерфейсі (див. "
-":ref:`fonts`). Для належного встановлення прив'язок Python для цих "
-"складників вам слід встановити спочатку загальносистемні бібліотеки — вам "
-"потрібні і Cairo, і Pango, які, очевидно, залежать від GLib. Усі ці пакунки "
-"слід встановити разом із пакунками для розробки та даними інтроспекції "
-"GObject."
+"Weblate використовує Pango і Cairo для обробки растрових віджетів (див. :ref:"
+"`promotion`) і перевірки обробки перекладених рядків в інтерфейсі (див. :ref:"
+"`fonts`). Для належного встановлення прив'язок Python для цих складників вам "
+"слід встановити спочатку загальносистемні бібліотеки — вам потрібні і Cairo, "
+"і Pango, які, очевидно, залежать від GLib. Усі ці пакунки слід встановити "
+"разом із пакунками для розробки та даними інтроспекції GObject."
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
@@ -8086,8 +8094,12 @@ msgid "PostgreSQL"
 msgstr "PostgreSQL"
 
 #: ../../admin/install.rst:311
+#, fuzzy
+#| msgid ""
+#| "PostgreSQL is usually the best choice for Django based sites. It's the "
+#| "reference database used for implementing Django database layer."
 msgid ""
-"PostgreSQL is usually the best choice for Django based sites. It's the "
+"PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
 "PostgreSQL, зазвичай є найкращим вибором для заснованих на Django сайтів. Це "
@@ -10338,8 +10350,8 @@ msgid ""
 "changing :setting:`GITHUB_TOKEN`."
 msgstr ""
 "Налаштовує особистий жетон доступу GitHub для запитів щодо об'єднання на "
-"GitHub з використанням програмного інтерфейсу шляхом зміни "
-":setting:`GITHUB_TOKEN`."
+"GitHub з використанням програмного інтерфейсу шляхом зміни :setting:"
+"`GITHUB_TOKEN`."
 
 #: ../../admin/install/docker.rst:483
 msgid ""
@@ -10355,8 +10367,8 @@ msgid ""
 "changing :setting:`GITLAB_TOKEN`"
 msgstr ""
 "Налаштовує особистий жетон доступу GitLab для запитів щодо об'єднання на "
-"GitLab з використанням програмного інтерфейсу шляхом зміни "
-":setting:`GITLAB_TOKEN`"
+"GitLab з використанням програмного інтерфейсу шляхом зміни :setting:"
+"`GITLAB_TOKEN`"
 
 #: ../../admin/install/docker.rst:501
 msgid "Configures GitLab Host for GitLab merge-requests"
@@ -12344,8 +12356,13 @@ msgstr ""
 "`MT_YANDEX_KEY`."
 
 #: ../../admin/machine.rst:334
+#, fuzzy
+#| msgid ""
+#| ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
+#| "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/"
+#| ">`_"
 msgid ""
-":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
+":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
 ":setting:`MT_YANDEX_KEY`, `Програмний інтерфейс перекладу Yandex <https://"
@@ -12778,7 +12795,9 @@ msgstr ""
 "Надає пароль у командному рядку, щоб не створювати його випадковим чином."
 
 #: ../../admin/management.rst:232
-msgid "Do not set password, this can be useful with --update."
+#, fuzzy
+#| msgid "Do not set password, this can be useful with --update."
+msgid "Do not set password, this can be useful with `--update`."
 msgstr "Не встановлювати пароль. Може бути корисним із поєднанням --update."
 
 #: ../../admin/management.rst:236
@@ -16136,10 +16155,15 @@ msgid "Upgrade from 2.x"
 msgstr "Оновлення з версії 2.x"
 
 #: ../../admin/upgrade.rst:98
+#, fuzzy
+#| msgid ""
+#| "If you are upgrading from 2.x release, always first upgrade to 3.0.1 and "
+#| "the continue upgrading in the 3.x series.  Upgrades skipping this step "
+#| "are not supported and will break."
 msgid ""
-"If you are upgrading from 2.x release, always first upgrade to 3.0.1 and the "
-"continue upgrading in the 3.x series.  Upgrades skipping this step are not "
-"supported and will break."
+"If you are upgrading from 2.x release, always first upgrade to 3.0.1 and "
+"then continue upgrading in the 3.x series. Upgrades skipping this step are "
+"not supported and will break."
 msgstr ""
 "Якщо ви оновлюєте систему з версії 2.x, завжди спочатку оновіться до версії "
 "3.0.1, а потім продовжіть оновлення у межах послідовності версій 3.x. "
@@ -16159,10 +16183,15 @@ msgid "Upgrade from 3.x"
 msgstr "Оновлення з версії 3.x"
 
 #: ../../admin/upgrade.rst:109
+#, fuzzy
+#| msgid ""
+#| "If you are upgrading from 3.x release, always first upgrade to 4.0.4 and "
+#| "the continue upgrading in the 4.x series.  Upgrades skipping this step "
+#| "are not supported and will break."
 msgid ""
-"If you are upgrading from 3.x release, always first upgrade to 4.0.4 and the "
-"continue upgrading in the 4.x series.  Upgrades skipping this step are not "
-"supported and will break."
+"If you are upgrading from 3.x release, always first upgrade to 4.0.4 or "
+"4.1.1 and then continue upgrading in the 4.x series. Upgrades skipping this "
+"step are not supported and will break."
 msgstr ""
 "Якщо ви оновлюєте систему з версії 3.x, завжди спочатку оновіться до версії "
 "4.0.4, а потім продовжіть оновлення у межах послідовності версій 4.x. "
@@ -30906,17 +30935,26 @@ msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 
 #: ../../user/checks.rst:579
-msgid "Mismatched \\n"
+#, fuzzy
+#| msgid "Mismatched \\n"
+msgid "Mismatched \\\\n"
 msgstr "Не збіглися \\n"
 
 #: ../../user/checks.rst:581
-msgid "*Number of \\n in translation does not match source*"
+#, fuzzy
+#| msgid "*Number of \\n in translation does not match source*"
+msgid "*Number of \\\\n in translation does not match source*"
 msgstr "*Число \\n у перекладі не відповідає джерелу*"
 
 #: ../../user/checks.rst:583
+#, fuzzy
+#| msgid ""
+#| "Usually escaped newlines are important for formatting program output. "
+#| "Check fails if the number of ``\\\\n`` literals in translation do not "
+#| "match the source."
 msgid ""
 "Usually escaped newlines are important for formatting program output. Check "
-"fails if the number of ``\\\\n`` literals in translation do not match the "
+"fails if the number of ``\\n`` literals in translation do not match the "
 "source."
 msgstr ""
 "Зазвичай, екрановані символи розриву рядка є важливими для форматування "
@@ -33543,8 +33581,8 @@ msgid ""
 "%23@bitbucket.org/…``."
 msgstr ""
 "Якщо ваше ім'я користувача і пароль містять спеціальні символи, їх слід "
-"записувати у URL-кодуванні, наприклад ``https://user%40example."
-"com:%24password%23@bitbucket.org/…``."
+"записувати у URL-кодуванні, наприклад ``https://user%40example.com:"
+"%24password%23@bitbucket.org/…``."
 
 #: ../../vcs.rst:166
 msgid "Using proxy"
@@ -33719,10 +33757,15 @@ msgid "Pushing changes to GitHub as pull requests"
 msgstr "Записування змін до GitHub у формі запитів щодо об'єднання"
 
 #: ../../vcs.rst:277
+#, fuzzy
+#| msgid ""
+#| "If not wanting to push translations to a GitHub repository, they can be "
+#| "sent as either one or many pull requests instead. You need to setup a :"
+#| "setting:`GITHUB_TOKEN` used to make API calls"
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
 "as either one or many pull requests instead. You need to setup a :setting:"
-"`GITHUB_TOKEN` used to make API calls"
+"`GITHUB_TOKEN` used to make API calls."
 msgstr ""
 "Якщо ви не хочете записувати переклади до сховища GitHub, їх може бути "
 "надіслано до одного або багатьох запитів щодо об'єднання. Вам слід "
@@ -33743,8 +33786,8 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Це просто додає тонкий шар над :ref:`vcs-git` з використанням інструмента `"
-"GitLab API`_, щоб уможливити запис змін у перекладах як запитів щодо "
+"Це просто додає тонкий шар над :ref:`vcs-git` з використанням інструмента "
+"`GitLab API`_, щоб уможливити запис змін у перекладах як запитів щодо "
 "об'єднання, замість безпосереднього запису до сховища."
 
 #: ../../vcs.rst:299
@@ -33775,8 +33818,8 @@ msgstr ""
 msgid ""
 "Set :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN` for this to work."
 msgstr ""
-"Щоб це спрацювало, встановіть :setting:`GITLAB_USERNAME` і "
-":setting:`GITLAB_TOKEN`."
+"Щоб це спрацювало, встановіть :setting:`GITLAB_USERNAME` і :setting:"
+"`GITLAB_TOKEN`."
 
 #: ../../vcs.rst:320
 msgid ""
@@ -33856,10 +33899,10 @@ msgstr ""
 "Weblate намагається виявити компонування сховища Subversion автоматично — "
 "передбачено підтримку як безпосередніх адрес для гілок, так і сховища зі "
 "стандартним компонуванням (branches/, tags/ і trunk/). Докладніше про це "
-"можна дізнатися з `документації до git-svn <https://git-scm.com/docs/git-svn#"
-"Documentation/git-svn.txt---stdlayout>`_. Якщо компонування вашого сховища "
-"не є стандартним і ви стикаєтеся з помилками, спробуйте включити назву гілки "
-"у адресу сховища і лишити гілку порожньою."
+"можна дізнатися з `документації до git-svn <https://git-scm.com/docs/git-"
+"svn#Documentation/git-svn.txt---stdlayout>`_. Якщо компонування вашого "
+"сховища не є стандартним і ви стикаєтеся з помилками, спробуйте включити "
+"назву гілки у адресу сховища і лишити гілку порожньою."
 
 #: ../../vcs.rst:382
 msgid "Before this, there was only support for standard layout repositories."
@@ -33941,8 +33984,8 @@ msgid ""
 "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
 "config` for other locations), please create it to match your environment:"
 msgstr ""
-"Налаштування wlc зберігаються у ``~/.config/weblate`` (інші місця див. у :ref"
-":`wlc-config`). Будь ласка, створіть його так, щоб усе відповідало вашому "
+"Налаштування wlc зберігаються у ``~/.config/weblate`` (інші місця див. у :"
+"ref:`wlc-config`). Будь ласка, створіть його так, щоб усе відповідало вашому "
 "середовищу:"
 
 #: ../../wlc.rst:42
@@ -34232,10 +34275,16 @@ msgid "System wide configuration file"
 msgstr "Загальносистемний файл налаштувань"
 
 #: ../../wlc.rst:256
+#, fuzzy
+#| msgid ""
+#| "The program follows the XDG specification, so you can adjust placement of "
+#| "config files by environment variables ``XDG_CONFIG_HOME`` or "
+#| "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred "
+#| "locatin for the configuration file."
 msgid ""
 "The program follows the XDG specification, so you can adjust placement of "
 "config files by environment variables ``XDG_CONFIG_HOME`` or "
-"``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred locatin "
+"``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred location "
 "for the configuration file."
 msgstr ""
 "У програмі реалізовано специфікацію XDG, тому ви можете скоригувати "

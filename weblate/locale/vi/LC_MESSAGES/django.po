@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -67,7 +67,7 @@ msgstr "Tài khoản này đã được sử dung, vui lòng chọn tài khoản
 msgid "Full name"
 msgstr "Tên của bạn"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -654,12 +654,6 @@ msgstr "Hành động"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr ""
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Your e-mail"
-msgid "Public email"
-msgstr "Email của bạn"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -11480,29 +11474,29 @@ msgstr ""
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Could not add new translation file."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "Translation file already exists!"
 msgstr "Tập tin dịch kiểu XLIFF"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr ""
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
@@ -12969,6 +12963,11 @@ msgstr "Hồ sơ của bạn đã được cập nhật."
 #| msgid "Notification on any translation"
 msgid "Could not dismiss the configuration error!"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+
+#, fuzzy
+#~| msgid "Your e-mail"
+#~ msgid "Public email"
+#~ msgstr "Email của bạn"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Đường dẫn chứa mã nguồn, ví dụ như Git hoặc Mercurial."

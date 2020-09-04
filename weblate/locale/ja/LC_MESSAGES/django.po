@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -73,7 +73,7 @@ msgstr "このユーザー名はすでに使用されています。別の名前
 msgid "Full name"
 msgstr "フルネーム"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "公開メールアドレス"
 
@@ -564,10 +564,6 @@ msgstr "場所"
 msgid "Company"
 msgstr "会社"
 
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "公開メールアドレス"
-
 #: weblate/accounts/models.py:488
 msgid ""
 "Please choose which component list you want to display on the dashboard."
@@ -809,13 +805,16 @@ msgstr "ホスティング"
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
-msgstr "先日、すでにお試し期間をご希望されているようです。ご希望の方は、お気軽にお問い合わせください。"
+msgstr ""
+"先日、すでにお試し期間をご希望されているようです。ご希望の方は、お気軽にお問"
+"い合わせください。"
 
 #: weblate/accounts/views.py:594
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
-msgstr "試用期間を開始しました;　翻訳プロジェクトを作成し、Weblate を開始します！"
+msgstr ""
+"試用期間を開始しました;　翻訳プロジェクトを作成し、Weblate を開始します！"
 
 #: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
 #: weblate/templates/accounts/trial.html:7
@@ -2136,7 +2135,9 @@ msgstr ""
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
-msgstr "この通知の配信を停止するには、通常のサブスクリプションに変更するか、プロジェクトを削除します。"
+msgstr ""
+"この通知の配信を停止するには、通常のサブスクリプションに変更するか、プロジェ"
+"クトを削除します。"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -4022,7 +4023,9 @@ msgstr "リブレ ホスティングの承認を依頼する"
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
-msgstr "このサブスクリプションはリブレプランの対象外です、上記のエラーを修正するか、サブスクリプションを購入してください。"
+msgstr ""
+"このサブスクリプションはリブレプランの対象外です、上記のエラーを修正するか、"
+"サブスクリプションを購入してください。"
 
 #: weblate/templates/accounts/hosting.html:58
 msgid "Extend trial"
@@ -4288,7 +4291,8 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
-"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力すると、ユーザー情報のページでデータの共有に同意したとみなされます。"
+"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力"
+"すると、ユーザー情報のページでデータの共有に同意したとみなされます。"
 
 #: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
@@ -6433,13 +6437,15 @@ msgstr "お試し期間は 1 週間以内に終了します。"
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
 "If you want to continue using the service, please purchase the subsription."
-msgstr "引き続きサービスをご利用になる場合はサブスクリプションを契約してください。"
+msgstr ""
+"引き続きサービスをご利用になる場合はサブスクリプションを契約してください。"
 
 #: weblate/templates/mail/billing_expired.html:12
 msgid ""
 "If you want to continue using the service, please request approval of your "
 "libre plan."
-msgstr "引き続きサービスをご利用になる場合は、リブレ プランを申し込んでください。"
+msgstr ""
+"引き続きサービスをご利用になる場合は、リブレ プランを申し込んでください。"
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -8414,7 +8420,8 @@ msgstr ""
 #: weblate/templates/translate.html:183
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
-msgstr "この翻訳は提案のみを受け付け、投票によって承認されるようになっています。"
+msgstr ""
+"この翻訳は提案のみを受け付け、投票によって承認されるようになっています。"
 
 #: weblate/templates/translate.html:185
 msgid ""
@@ -8501,7 +8508,8 @@ msgstr[0] "次の文字列のコンテキストと原文は同じです。"
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "次の文字列は同じ原文ですが、異なるコンテキストで用いられているものです。"
+msgstr[0] ""
+"次の文字列は同じ原文ですが、異なるコンテキストで用いられているものです。"
 
 #: weblate/templates/translate.html:296
 msgid "The following string has a different source, but the same context."
@@ -10377,25 +10385,25 @@ msgstr "正規表現が正しくないため、ファイルマッチを検証で
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "提案の自動採用は、投票機能が有効の場合のみ自動採用されます。"
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "新しい翻訳ファイルを追加できません。"
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "指定した言語は、言語フィルタで除外されました。"
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "翻訳ファイルはすでに存在しています！"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "コンテキスト"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "キー"
@@ -11638,8 +11646,8 @@ msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
 msgstr ""
-"ローカルのバックアップには /path/to/repo を、リモートの SSH バックアップには user@host:/path/to/repo "
-"を使用します。"
+"ローカルのバックアップには /path/to/repo を、リモートの SSH バックアップには "
+"user@host:/path/to/repo を使用します。"
 
 #: weblate/wladmin/models.py:173
 msgid "Backup performed"
@@ -11734,6 +11742,9 @@ msgstr "バックアップ処理をトリガーしました"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "設定エラーは無視できません！"
+
+#~ msgid "Public email"
+#~ msgstr "公開メールアドレス"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "ソースコード リポジトリの URL。例えば Git や Mercurial。"

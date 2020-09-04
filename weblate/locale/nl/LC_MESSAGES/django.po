@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -67,7 +67,7 @@ msgstr "Deze gebruikersnaam is niet beschikbaar. Kies een andere."
 msgid "Full name"
 msgstr "Volledige naam"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "Openbaar e-mailadres"
 
@@ -566,10 +566,6 @@ msgstr "Locatie"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr "Bedrijf"
-
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "Openbaar e-mailadres"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -8645,15 +8641,19 @@ msgstr[1] "De volgende tekenreeksen hebben dezelfde context en bron."
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "De volgende tekenreeks heeft een andere context, maar dezelfde bron."
-msgstr[1] "De volgende tekenreeksen hebben een andere context, maar dezelfde bron."
+msgstr[0] ""
+"De volgende tekenreeks heeft een andere context, maar dezelfde bron."
+msgstr[1] ""
+"De volgende tekenreeksen hebben een andere context, maar dezelfde bron."
 
 #: weblate/templates/translate.html:296
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
-msgstr[0] "De volgende tekenreeks heeft een andere bron, maar dezelfde context."
-msgstr[1] "De volgende tekenreeksen hebben een andere bron, maar dezelfde context."
+msgstr[0] ""
+"De volgende tekenreeks heeft een andere bron, maar dezelfde context."
+msgstr[1] ""
+"De volgende tekenreeksen hebben een andere bron, maar dezelfde context."
 
 #: weblate/templates/translate.html:332
 msgid "Origin"
@@ -10568,25 +10568,25 @@ msgstr ""
 "Automatisch aanvaarden van suggesties werkt enkel als stemmen ingeschakeld "
 "is."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Kon nieuw vertaalbestand niet toevoegen."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "De opgegeven taal wordt gefilterd door de taalfilter."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Het vertaalbestand bestaat al!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Context"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Sleutel"
@@ -11962,6 +11962,9 @@ msgstr "Back-upproces in uitvoering"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "De configuratiefout kan niet worden verworpen!"
+
+#~ msgid "Public email"
+#~ msgstr "Openbaar e-mailadres"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL van broncode-opslagruimte, bijvoorbeeld Git of Mercurial."

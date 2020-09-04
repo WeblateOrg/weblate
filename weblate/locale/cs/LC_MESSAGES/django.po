@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-04 19:57+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -62,7 +62,7 @@ msgstr "Toto uživatelské jméno je už obsazené. Prosím zvolte si jiné."
 msgid "Full name"
 msgstr "Celé jméno"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "Veřejný e-mail"
 
@@ -556,10 +556,6 @@ msgstr "Umístění"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr "Firma"
-
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "Veřejný e-mail"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -10498,25 +10494,25 @@ msgstr ""
 "Automatické přijímání návrhů může fungovat pouze spolu s hlasováním o "
 "návrzích."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Nepodařilo se přidat soubor překladu."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Daný jazyk neprošel filtrem jazyků."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Soubor s překladem už existuje!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Kontext"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Klíč"
@@ -11897,6 +11893,9 @@ msgstr "Záloha byla spuštěna"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Nepodařilo se pominout chybu v nastavení!"
+
+#~ msgid "Public email"
+#~ msgstr "Veřejný e-mail"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL adresa zdrojového repozitáře, například Git nebo Mercurial."

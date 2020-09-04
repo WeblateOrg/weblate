@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-02 13:54+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
@@ -67,7 +67,7 @@ msgstr "Το όνομα χρήστη υπάρχει ήδη. Επιλέξτε ά�
 msgid "Full name"
 msgstr "Πλήρες όνομα"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -629,12 +629,6 @@ msgstr "Ενέργειες"
 #| msgid "Component"
 msgid "Company"
 msgstr "Περιεχόμενο"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "Δημόσιο"
 
 #: weblate/accounts/models.py:488
 #, fuzzy
@@ -12178,29 +12172,29 @@ msgstr ""
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "Η αυτόματη αποδοχή προτάσεων λειτουργεί μόνο με ενεργές τις ψήφους!"
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Could not add new translation file."
 msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 #, fuzzy
 #| msgid "Monolingual base language file"
 msgid "The given language is filtered by the language filter."
 msgstr "Αρχείο γλώσσας μονόγλωσσης βάσης"
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Το αρχείο μετάφρασης υπάρχει ήδη!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Συνοδευτικά"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
@@ -13740,6 +13734,11 @@ msgstr "Ο λογαριασμός σας απομακρύνθηκε."
 #| msgid "Configuration errors"
 msgid "Could not dismiss the configuration error!"
 msgstr "Σφάλματα ρύθμισης"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "Δημόσιο"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr ""

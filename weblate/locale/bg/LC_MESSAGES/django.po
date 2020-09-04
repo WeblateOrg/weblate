@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-07-12 14:30+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -64,7 +64,7 @@ msgstr "Това потребителско име е заето. Моля, из
 msgid "Full name"
 msgstr "Пълно име"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -694,12 +694,6 @@ msgstr "Места"
 #| msgid "Component"
 msgid "Company"
 msgstr "Компонент"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "Публичен"
 
 #: weblate/accounts/models.py:488
 #, fuzzy
@@ -12238,29 +12232,29 @@ msgstr ""
 "Автоматичното приемане на предложенията може да работи, само ако е разрешено "
 "гласуването!"
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Could not add new translation file."
 msgstr "Неуспешен анализ на базовия файл за преводи: %s"
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 #, fuzzy
 #| msgid "Given language is filtered by the language filter!"
 msgid "The given language is filtered by the language filter."
 msgstr "Езикът е филтриран от езиковия филтър!"
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Вече съществува такъв файл за превод!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Контекст"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
@@ -13801,6 +13795,11 @@ msgstr "Акаунтът Ви беше премахнат."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Грешката в конфигурацията не може да бъде пренебрегната!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "Публичен"
 
 #, fuzzy
 #~| msgid "URL of source code repository for example Git or Mercurial."

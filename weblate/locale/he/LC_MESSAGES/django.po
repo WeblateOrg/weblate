@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-08-20 05:45+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -60,7 +60,7 @@ msgstr "שם משתמש זה כבר תפוס. נא לבחור באחד אחר."
 msgid "Full name"
 msgstr "שם מלא"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -553,12 +553,6 @@ msgstr "מיקום"
 #| msgid "Component"
 msgid "Company"
 msgstr "רכיב"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "ציבורי"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -10335,25 +10329,25 @@ msgstr "לא ניתן לאמת את התאמות הקבצים עקב ביטוי 
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "קבלת הצעות אוטומטית פועלת רק כשההצבעה פעילה."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "לא ניתן להוסיף קובץ תרגום חדש."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "השפה הנבחרת מסוננת על ידי מסנן השפות."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "קובץ התרגום כבר קיים!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "הקשר"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "מפתח"
@@ -11733,6 +11727,11 @@ msgstr "תהליך הגיבוי מתחיל"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "ציבורי"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "הכתובת של מאגר קוד המקור, למשל Git או Mercurial."

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-08-18 09:05+0000\n"
 "Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -69,7 +69,7 @@ msgstr "이미 존재하는 사용자 이름입니다. 다른 이름을 선택�
 msgid "Full name"
 msgstr "성명"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
@@ -563,12 +563,6 @@ msgstr "위치"
 #| msgid "Component"
 msgid "Company"
 msgstr "구성 요소"
-
-#: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
-msgid "Public email"
-msgstr "공개"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -10336,25 +10330,25 @@ msgstr "유효하지 않은 정규 표현식 때문에 파일 일치를 검사�
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "제안을 수락하면 투표 기능이 자동으로 작동합니다."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "새로운 번역 파일을 추가할 수 없습니다."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "주어진 언어는 언어 필터에 의해 걸려집니다."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "번역 파일이 이미 존재합니다!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "상황・문맥"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "키"
@@ -11684,6 +11678,11 @@ msgstr "백업 프로세스가 트리거됨"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "구성 오류를 해제할 수 없습니다!"
+
+#, fuzzy
+#~| msgid "Public"
+#~ msgid "Public email"
+#~ msgstr "공개"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "소스 코드 저장소의 URL(예: Git 또는 Mercurial)."

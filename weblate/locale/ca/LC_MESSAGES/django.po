@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-04 14:23+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
@@ -67,7 +67,7 @@ msgstr "Aquest nom d'usuari ja és en ús. Trieu-ne un altre."
 msgid "Full name"
 msgstr "Nom complet"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "Adreça electrònica pública"
 
@@ -571,10 +571,6 @@ msgstr "Ubicació"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr "Empresa"
-
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "Adreça electrònica pública"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -8665,14 +8661,16 @@ msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
 msgstr[0] "La següent cadena té un context diferent, però el mateix origen."
-msgstr[1] "Les següents cadenes tenen contextos diferents, però el mateix origen."
+msgstr[1] ""
+"Les següents cadenes tenen contextos diferents, però el mateix origen."
 
 #: weblate/templates/translate.html:296
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
 msgstr[0] "La següent cadena té un origen diferent, però el mateix context."
-msgstr[1] "Les següents cadenes tenen orígens diferents, però el mateix context."
+msgstr[1] ""
+"Les següents cadenes tenen orígens diferents, però el mateix context."
 
 #: weblate/templates/translate.html:332
 msgid "Origin"
@@ -10591,25 +10589,25 @@ msgstr ""
 "L'acceptació automàtica de suggeriments només funciona amb les votacions "
 "activades."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "No s'ha pogut afegir el fitxer de traducció nou."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "La llengua especificada és filtrada pel filtre de llengua."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "El fitxer de la traducció ja existeix!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Context"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Clau"
@@ -11991,6 +11989,9 @@ msgstr "S'ha activat el procés de còpia de seguretat"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "No s'ha pogut descartar l'error de configuració!"
+
+#~ msgid "Public email"
+#~ msgstr "Adreça electrònica pública"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL del dipòsit del codi font, com per exemple Git o Mercurial."

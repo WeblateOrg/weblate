@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-04 19:58+0000\n"
 "PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -71,7 +71,7 @@ msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 msgid "Full name"
 msgstr "Ad soyad"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "Herkese açık e-posta"
 
@@ -562,10 +562,6 @@ msgstr "Yer"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr "Şirket"
-
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "Herkese açık e-posta"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -8476,7 +8472,8 @@ msgstr ""
 #: weblate/templates/translate.html:183
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
-msgstr "Bu çeviri yalnızca önerileri kabul eder ve bunlar oylama ile onaylanır."
+msgstr ""
+"Bu çeviri yalnızca önerileri kabul eder ve bunlar oylama ile onaylanır."
 
 #: weblate/templates/translate.html:185
 msgid ""
@@ -10470,25 +10467,25 @@ msgstr "Geçersiz düzenli ifadeden dolayı dosya eşleşmeleri doğrulanamıyor
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "Önerileri otomatik olarak kabul etmek yalnızca oylama açıkken çalışır."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Yeni çeviri dosyası eklenemedi."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Verilen dil, dil süzgeci tarafından süzüldü."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Çeviri dosyası zaten var!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Bağlam"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Anahtar"
@@ -11854,6 +11851,9 @@ msgstr "Yedekleme işlemi tetiklendi"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Yapılandırma hatası yoksayılamadı!"
+
+#~ msgid "Public email"
+#~ msgstr "Herkese açık e-posta"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Kaynak kod deposunun URL'si, örneğin Git veya Mercurial."
