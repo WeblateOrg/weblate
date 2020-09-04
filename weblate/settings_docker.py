@@ -715,10 +715,10 @@ if "WEBLATE_MT_MICROSOFT_TERMINOLOGY_ENABLED" in os.environ:
     )
 
 # Google API key for Google Translate API
-MT_GOOGLE_KEY = os.environ.get("VENDASTA_APPLICATION_CREDENTIALS", None)
-
-if MT_GOOGLE_KEY:
-    MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
+with open(os.environ.get("VENDASTA_APPLICATION_CREDENTIALS", None), 'r') as f:
+    MT_GOOGLE_KEY = f.read()
+    if MT_GOOGLE_KEY:
+        MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
 
 # Baidu app key and secret
 MT_BAIDU_ID = None
