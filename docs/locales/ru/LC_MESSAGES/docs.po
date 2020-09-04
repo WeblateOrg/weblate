@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-09-04 18:03+0000\n"
+"PO-Revision-Date: 2020-09-05 12:46+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -494,6 +494,8 @@ msgstr "Отзывать доступы пользователей"
 msgid ""
 "Resend user email invitations, invalidating any previously sent invitation"
 msgstr ""
+"Повторно отправлять приглашения по электронной почте, аннулируя все ранее "
+"отправленные приглашения"
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -1801,6 +1803,10 @@ msgid ""
 "management/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
+"Интерфейс управления предлагает административные настройки по адресу :file:`/"
+"management/`. Он доступен для пользователей, вошедших в систему с правами "
+"администратора, доступ к нему осуществляется через иконку гаечного ключа "
+"справа вверху:"
 
 #: ../../admin/admin.rst:16
 msgid "The Django admin interface"
@@ -1811,12 +1817,16 @@ msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
 msgstr ""
+"В будущем будет удалён, поскольку его использование не рекомендуется — "
+"большинством возможностей можно управлять непосредственно из Weblate’а."
 
 #: ../../admin/admin.rst:23
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
 msgstr ""
+"Здесь вы можете управлять объектами, хранящимися в базе данных, такими как "
+"пользователи или переводы, а также другими настройками:"
 
 #: ../../admin/admin.rst:28
 msgid ""
@@ -1824,6 +1834,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+"В разделе :guilabel:`Отчёты` вы можете проверить статус вашего сайта, "
+"настроить его для :ref:`рабочей среды <production>`, или управлять ключами "
+"SSH, используемыми для :ref:`доступа к репозиториям <vcs-repos>`."
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -1831,12 +1844,18 @@ msgid ""
 "is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
+"Управление объектами базы данных под любым разделом. Самым интересным из них "
+"является, наверное, :guilabel:`Переводы Weblate’а`, в котором можно "
+"управлять переводимыми проектами, смотрите разделы :ref:`project` и "
+":ref:`component`."
 
 #: ../../admin/admin.rst:35
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
+"Раздел :guilabel:`Языки Weblate` содержит определения языков, более "
+"подробное объяснение смотрите в разделе :ref:`languages`."
 
 #: ../../admin/admin.rst:39
 msgid "Adding a project"
@@ -1848,6 +1867,9 @@ msgid ""
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
 msgstr ""
+"Добавление проекта служит контейнером для всех компонентов. Обычно вы "
+"создаёте один проект для одной части программного обеспечения или книги (для "
+"справки по параметрам смотрите раздел :ref:`project`):"
 
 #: ../../admin/admin.rst:49
 msgid ":ref:`project`"
@@ -1862,6 +1884,8 @@ msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"После добавления проекта в него можно добавить компоненты перевода (для "
+"справки по параметрам смотрите раздел :ref:`component`):"
 
 #: ../../admin/admin.rst:63 ../../admin/admin.rst:79
 msgid ":ref:`component`, :ref:`bimono`"
@@ -1877,6 +1901,10 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Для облегчения их перевода предоставьте шаблон файла, содержащий отображение "
+"идентификаторов сообщений на соответствующие строки на языке оригинала ("
+"обычно это английский) (для справки по параметрам смотрите раздел "
+":ref:`component`):"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -1884,81 +1912,90 @@ msgstr "Объявления"
 
 #: ../../admin/announcements.rst:6
 msgid "In prior releases this feature was called whiteboard messages."
-msgstr ""
+msgstr "В предыдущих выпусках эта функция называлась «доской сообщений»."
 
 #: ../../admin/announcements.rst:8
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
 msgstr ""
+"Предоставляет информацию вашим переводчикам путём размещения объявлений для "
+"всего сайта, проекта, компонента или языка."
 
 #: ../../admin/announcements.rst:10
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
-msgstr ""
+msgstr "Объявите цель, сроки, статус или укажите цели перевода."
 
 #: ../../admin/announcements.rst:12
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
 msgstr ""
+"Пользователи будут получать уведомления об объявлениях в отслеживаемых ими "
+"проектах (если только они не откажутся от получения таких уведомлений)."
 
 #: ../../admin/announcements.rst:15
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
 msgstr ""
+"Это может быть полезно для различных вещей, начиная от объявления намерений "
+"веб-сайта и заканчивая указанием целей для перевода."
 
 #: ../../admin/announcements.rst:18
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
+"Объявления могут быть размещены на каждом уровне через меню "
+":guilabel:`Управлять` при помощи его пункта :guilabel:`Опубликовать "
+"объявление`:"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "Также его можно добавить через интерфейс администратора:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr ""
+msgstr "Объявления показываются в соответствии с заданным для них контекстом:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "Контекст не указан"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Показываются в панели управления (на странице входа)."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "Указан проект"
 
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
-msgstr ""
+msgstr "Показываются внутри проекта, включая все его компоненты и переводы."
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "Указан компонент"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr ""
+msgstr "Показываются для данного компонента и всех его переводов."
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "Указан язык"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
-msgstr ""
+msgstr "Показываются в обзоре по языку и во всех переводах на этот язык."
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr ""
+msgstr "Вот как оно выглядит на странице обзора языка:"
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -2745,8 +2782,6 @@ msgid ":doc:`borg:usage/general` in the Borg documentation"
 msgstr "Раздел :doc:`Общие сведения <borg:usage/general>` в документации Borg"
 
 #: ../../admin/backup.rst:82
-#, fuzzy
-#| msgid "Local filesytem"
 msgid "Local filesystem"
 msgstr "Локальная файловая система"
 
@@ -2757,6 +2792,11 @@ msgid ""
 "(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
 "attempt to create it, but it needs permissions to do so."
 msgstr ""
+"Для локальной резервной копии рекомендуется указывать абсолютный путь, "
+"например `/путь/к/резервной_копии`. Каталог должен быть доступен на запись "
+"для пользователя, под которым запущен Weblate (смотрите раздел :ref:`file-"
+"permissions`). В случае, если каталог не существует, Weblate попытается его "
+"создать, но для этого ему понадобятся разрешения."
 
 #: ../../admin/backup.rst:91
 msgid ""
@@ -2764,6 +2804,9 @@ msgid ""
 "exposed as a volume from the Weblate container. Otherwise the backups would "
 "be discarded by Docker on container restart."
 msgstr ""
+"Если Weblate запущен в Docker’е, убедитесь, что местоположение резервных "
+"копий отображается на том из контейнера Weblate’а. В противном случае при "
+"перезагрузке контейнера Docker выбросит резервные копии."
 
 #: ../../admin/backup.rst:96
 msgid "Remote backups"
@@ -2776,10 +2819,16 @@ msgid ""
 "please make sure the Weblate SSH key is accepted by the server (see :ref:"
 "`weblate-ssh-key`)."
 msgstr ""
+"Поддерживается удалённое резервное копирование с помощью SSH. На SSH-сервере "
+"должен быть установлен `BorgBackup`_. Weblate подключается к серверу, "
+"используя ключ SSH, пожалуйста, убедитесь, что Weblate’овский ключ SSH "
+"принимается сервером (смотрите раздел :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:105
 msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgstr ""
+":ref:`cloudbackup` предоставляет вам автоматическое удалённое резервное "
+"копирование."
 
 #: ../../admin/backup.rst:108
 msgid "Restoring from BorgBackup"
@@ -3225,13 +3274,11 @@ msgid "``rst-text``"
 msgstr "``rst-text``"
 
 #: ../../admin/checks.rst:44
-#, fuzzy
-#| msgid "Treat a text as an RST document, affects :ref:`check-same`."
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgstr ""
-"Рассматривать текст как документ reStructuredText, влияет на проверку :ref:"
-"`check-same`."
+"Рассматривать текст как документ reStructuredText, влияет на проверку :ref"
+":`check-same`."
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
@@ -3302,16 +3349,12 @@ msgid "``max-length:N``"
 msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:60
-#, fuzzy
-#| msgid ""
-#| "Limit the maximal length for a string to N characters, see :ref:`check-"
-#| "max-length`"
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
-"Ограничивает максимальную длину строки N символами, смотрите проверку :ref:"
-"`check-max-length`"
+"Ограничивает максимальную длину строки N символами, смотрите проверку :ref"
+":`check-max-length`."
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -4206,6 +4249,9 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate может использовать Akismet для проверки входящих анонимных "
+"предложений на спам. Посетите `akismet.com <https://akismet.com/>`_, чтобы "
+"приобрести ключ API и связать его с сайтом."
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
@@ -4213,7 +4259,7 @@ msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "Имена пользователей, которые не входят в систему."
 
 #: ../../admin/config.rst:39 ../../admin/management.rst:730
 msgid ":ref:`privileges`"
@@ -4228,6 +4274,8 @@ msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
 msgstr ""
+"Сколько дней Weblate должен хранить журналы аудита, в которых содержится "
+"информация о деятельности учётной записи."
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
@@ -4242,10 +4290,12 @@ msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Максимальное количество неудачных попыток аутентификации до применения "
+"ограничения частоты запросов."
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "В настоящее время оно применяется в следующих местах:"
 
 #: ../../admin/config.rst:64
 msgid ""
@@ -7766,10 +7816,6 @@ msgid "PostgreSQL"
 msgstr "PostgreSQL"
 
 #: ../../admin/install.rst:311
-#, fuzzy
-#| msgid ""
-#| "PostgreSQL is usually the best choice for Django based sites. It's the "
-#| "reference database used for implementing Django database layer."
 msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
@@ -12073,11 +12119,6 @@ msgstr ""
 "`MT_YANDEX_KEY`."
 
 #: ../../admin/machine.rst:334
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
-#| "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/"
-#| ">`_"
 msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
@@ -12515,12 +12556,10 @@ msgstr ""
 "генерируется."
 
 #: ../../admin/management.rst:232
-#, fuzzy
-#| msgid "Do not set password, this can be useful with --update."
 msgid "Do not set password, this can be useful with `--update`."
 msgstr ""
-"Не устанавливать пароль, это может быть полезно при запуске с ключом ``--"
-"update``."
+"Не устанавливать пароль, это может быть полезно при запуске с ключом "
+"``--update``."
 
 #: ../../admin/management.rst:236
 msgid "Use the given name instead of ``admin``."
@@ -15763,18 +15802,13 @@ msgid "Upgrade from 2.x"
 msgstr "Обновление с ветки 2.x"
 
 #: ../../admin/upgrade.rst:98
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from 2.x release, always first upgrade to 3.0.1 and "
-#| "the continue upgrading in the 3.x series.  Upgrades skipping this step "
-#| "are not supported and will break."
 msgid ""
 "If you are upgrading from 2.x release, always first upgrade to 3.0.1 and "
 "then continue upgrading in the 3.x series. Upgrades skipping this step are "
 "not supported and will break."
 msgstr ""
 "При обновлении с выпусков ветки 2.x всегда сначала выполняйте обновление до "
-"версии 3.0.1, а затем продолжайте обновление в ветке 3.x.  Обновления, "
+"версии 3.0.1, а затем продолжайте обновление в ветке 3.x. Обновления, "
 "пропустившие этот этап, не поддерживаются и будут работать неправильно."
 
 #: ../../admin/upgrade.rst:104
@@ -15790,19 +15824,15 @@ msgid "Upgrade from 3.x"
 msgstr "Обновление с ветки 3.x"
 
 #: ../../admin/upgrade.rst:109
-#, fuzzy
-#| msgid ""
-#| "If you are upgrading from 3.x release, always first upgrade to 4.0.4 and "
-#| "the continue upgrading in the 4.x series.  Upgrades skipping this step "
-#| "are not supported and will break."
 msgid ""
 "If you are upgrading from 3.x release, always first upgrade to 4.0.4 or "
 "4.1.1 and then continue upgrading in the 4.x series. Upgrades skipping this "
 "step are not supported and will break."
 msgstr ""
 "При обновлении с выпусков ветки 3.x всегда сначала выполняйте обновление до "
-"версии 4.0.4, а затем продолжайте обновление в ветке 4.x. Обновления, "
-"пропустившие этот этап, не поддерживаются и будут работать неправильно."
+"версии 4.0.4 или 4.1.1, а затем продолжайте обновление в ветке 4.x. "
+"Обновления, пропустившие этот этап, не поддерживаются и будут работать "
+"неправильно."
 
 #: ../../admin/upgrade.rst:115
 msgid ""
@@ -30032,31 +30062,24 @@ msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 
 #: ../../user/checks.rst:579
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched \\\\n"
-msgstr "Несовпадающие \\n"
+msgstr "Несовпадающие \\\\n"
 
 #: ../../user/checks.rst:581
-#, fuzzy
-#| msgid "*Number of \\n in translation does not match source*"
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr "*Количество \\n в переводе не соответствует источнику*"
+msgstr ""
+"*Количество \\\\n"
+" в переводе не соответствует источнику*"
 
 #: ../../user/checks.rst:583
-#, fuzzy
-#| msgid ""
-#| "Usually escaped newlines are important for formatting program output. "
-#| "Check fails if the number of ``\\\\n`` literals in translation do not "
-#| "match the source."
 msgid ""
 "Usually escaped newlines are important for formatting program output. Check "
 "fails if the number of ``\\n`` literals in translation do not match the "
 "source."
 msgstr ""
 "Экранированные символы новой строки обычно важны при форматировании вывода "
-"программы. Проверка срабатывает, если количество символов ``\\\\n`` в "
-"переводе не совпадает с их количеством в исходной строке."
+"программы. Проверка срабатывает, если количество символов ``\\n"
+"`` в переводе не совпадает с их количеством в исходной строке."
 
 #: ../../user/checks.rst:589
 msgid "Mismatched colon"
@@ -32883,11 +32906,6 @@ msgid "Pushing changes to GitHub as pull requests"
 msgstr "Отправка изменений в GitHub в виде запросов на извлечение"
 
 #: ../../vcs.rst:277
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitHub repository, they can be "
-#| "sent as either one or many pull requests instead. You need to setup a :"
-#| "setting:`GITHUB_TOKEN` used to make API calls"
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
 "as either one or many pull requests instead. You need to setup a :setting:"
@@ -32895,7 +32913,7 @@ msgid ""
 msgstr ""
 "Если вы не хотите отправлять переводы непосредственно в репозиторий GitHub, "
 "их можно отправить в виде одного или нескольких запросов на извлечение. Вам "
-"необходимо задать токен :setting:`GITHUB_TOKEN`, используемый для вызова API"
+"необходимо задать токен :setting:`GITHUB_TOKEN`, используемый для вызова API."
 
 #: ../../vcs.rst:284
 msgid ""
@@ -33403,12 +33421,6 @@ msgid "System wide configuration file"
 msgstr "Системный файл конфигурации"
 
 #: ../../wlc.rst:256
-#, fuzzy
-#| msgid ""
-#| "The program follows the XDG specification, so you can adjust placement of "
-#| "config files by environment variables ``XDG_CONFIG_HOME`` or "
-#| "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred "
-#| "locatin for the configuration file."
 msgid ""
 "The program follows the XDG specification, so you can adjust placement of "
 "config files by environment variables ``XDG_CONFIG_HOME`` or "
