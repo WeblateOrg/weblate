@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
             model_name="profile",
             name="public_email",
             field=weblate.utils.fields.EmailField(
-                blank=True, max_length=190, verbose_name="Public email"
+                blank=True, max_length=190, verbose_name="Public e-mail"
             ),
         ),
         migrations.AddField(

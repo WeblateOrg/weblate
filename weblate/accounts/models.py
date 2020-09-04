@@ -441,7 +441,7 @@ class Profile(models.Model):
         blank=True,
     )
     public_email = EmailField(
-        verbose_name=_("Public email"),
+        verbose_name=_("Public e-mail"),
         blank=True,
         max_length=EMAIL_LENGTH,
     )
