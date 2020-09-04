@@ -9,6 +9,7 @@ Not yet released.
 * Rewritten support for GitHub and GitLab pull requests.
 * Fixed stats counts after removing suggestion.
 * Extended public user profile.
+* Fixed configuration of enforced checks.
 
 Weblate 4.2.2
 -------------

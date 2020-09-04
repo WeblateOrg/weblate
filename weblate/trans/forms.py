@@ -1151,7 +1151,15 @@ class SelectChecksWidget(SortedSelectMultiple):
         return value
 
     def format_value(self, value):
-        return json.dumps(super().format_value(value))
+        value = super().format_value(value)
+        if isinstance(value, str):
+            return value
+        return json.dumps(value)
+
+
+class SelectChecksField(forms.CharField):
+    def to_python(self, value):
+        return value
 
 
 class ComponentDocsMixin:
@@ -1210,7 +1218,8 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "restricted",
             "auto_lock_error",
         )
-        widgets = {"enforced_checks": SelectChecksWidget()}
+        widgets = {"enforced_checks": SelectChecksWidget}
+        field_classes = {"enforced_checks": SelectChecksField}
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)

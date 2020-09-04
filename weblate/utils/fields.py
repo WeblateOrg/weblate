@@ -38,7 +38,7 @@ class JSONField(models.TextField):
             return None
         try:
             return json.loads(value)
-        except ValueError:
+        except (ValueError, TypeError):
             return value
 
     def get_prep_value(self, value):

@@ -102,6 +102,9 @@ class SettingsTest(ViewTestCase):
         data = {}
         data.update(response.context["form"].initial)
         data["license"] = "MIT"
+        data["enforced_checks"] = ["same", "duplicate"]
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Settings saved")
-        self.assertEqual(Component.objects.get(pk=self.component.pk).license, "MIT")
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.license, "MIT")
+        self.assertEqual(component.enforced_checks, ["same", "duplicate"])
