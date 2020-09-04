@@ -575,13 +575,13 @@ pixels:
 
 .. _check-escaped-newline:
 
-Mismatched \n
-~~~~~~~~~~~~~
+Mismatched \\n
+~~~~~~~~~~~~~~
 
-*Number of \n in translation does not match source*
+*Number of \\n in translation does not match source*
 
 Usually escaped newlines are important for formatting program output.
-Check fails if the number of ``\\n`` literals in translation do not match the source.
+Check fails if the number of ``\n`` literals in translation do not match the source.
 
 .. _check-end-colon:
 

@@ -229,7 +229,7 @@ Creates an ``admin`` account with a random password, unless it is specified.
 
 .. django-admin-option:: --no-password
 
-    Do not set password, this can be useful with --update.
+    Do not set password, this can be useful with `--update`.
 
 .. django-admin-option:: --username USERNAME
 

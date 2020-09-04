@@ -78,8 +78,8 @@ installed.
 
    :doc:`borg:usage/general` in the Borg documentation
 
-Local filesytem
-~~~~~~~~~~~~~~~
+Local filesystem
+~~~~~~~~~~~~~~~~
 
 It is recommended to specify absolute path for the local backup, for example
 `/path/to/backup`. The directory has to be writable by user running Weblate

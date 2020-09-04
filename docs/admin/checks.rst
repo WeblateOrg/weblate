@@ -41,7 +41,7 @@ use quotes to include whitespace or special chars in the string. For example:
 Here is a list of flags currently accepted:
 
 ``rst-text``
-    Treat a text as an RST document, affects :ref:`check-same`.
+    Treat a text as an reStructuredText document, affects :ref:`check-same`.
 ``md-text``
     Treat text as a Markdown document.
 ``dos-eol``
@@ -57,7 +57,7 @@ Here is a list of flags currently accepted:
     The default priority is 100, the higher priority a string has, the earlier it is
     offered for translation.
 ``max-length:N``
-    Limit the maximal length for a string to N characters, see :ref:`check-max-length`
+    Limit the maximal length for a string to N characters, see :ref:`check-max-length`.
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
 ``font-family:NAME``

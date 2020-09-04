@@ -332,7 +332,7 @@ Turn on this service by adding ``weblate.machinery.yandex.YandexTranslation`` to
 .. seealso::
 
     :setting:`MT_YANDEX_KEY`,
-    `Yandex Translate API <https://tech.yandex.com/translate/>`_,
+    `Yandex Translate API <https://yandex.com/dev/translate/>`_,
     `Powered by Yandex.Translate <https://translate.yandex.com/>`_
 
 .. _youdao-translate:
