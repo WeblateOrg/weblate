@@ -10,6 +10,7 @@ Not yet released.
 * Fixed stats counts after removing suggestion.
 * Extended public user profile.
 * Fixed configuration of enforced checks.
+* Improve documentation about built-in backups.
 
 Weblate 4.2.2
 -------------

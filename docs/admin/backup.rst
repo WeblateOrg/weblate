@@ -3,8 +3,8 @@
 Backing up and moving Weblate
 =============================
 
-Automated backup
-----------------
+Automated backup using BorgBackup
+---------------------------------
 
 .. versionadded:: 3.9
 
@@ -28,10 +28,26 @@ The backups using Borg are incremental and Weblate is configured to keep followi
 
 .. image:: /images/backups.png
 
+.. _borg-keys:
+
+Borg encryption key
+~~~~~~~~~~~~~~~~~~~
+
+`BorgBackup`_ creates encrypted backups and without a passphrase you will not
+be able to restore the backup. The passphrase is generated when adding new
+backup service and you should copy it and keep it in a secure place.
+
+In case you are using :ref:`cloudbackup`, please backup your private SSH key as
+well — it is used to access your backups.
+
+.. seealso::
+
+   :doc:`borg:usage/init`
+
 .. _cloudbackup:
 
-Using Weblate provisioned backup storage
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Weblate provisioned backup storage
+----------------------------------
 
 The easiest approach to backup your Weblate instance is to purchase `backup
 service at weblate.org <https://weblate.org/support/#backup>`_. The process of
@@ -49,9 +65,10 @@ activating can be performed in few steps:
    no data is sent to the backup repository obtained through the registration
    process.
 
+.. _custombackup:
 
 Using custom backup storage
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 You can also use your own storage for the backups. SSH can be used to store backups
 on the remote destination, the target server needs to have `BorgBackup`_
@@ -61,24 +78,34 @@ installed.
 
    :doc:`borg:usage/general` in the Borg documentation
 
-.. _borg-keys:
+Local filesytem
+~~~~~~~~~~~~~~~
 
-Borg encryption key
-~~~~~~~~~~~~~~~~~~~
+It is recommended to specify absolute path for the local backup, for example
+`/path/to/backup`. The directory has to be writable by user running Weblate
+(see :ref:`file-permissions`). In case it doesn't exist, Weblate will attempt
+to create it, but it needs permissions to do so.
 
-`BorgBackup`_ creates encrypted backups and without a passphrase you will not
-be able to restore the backup. The passphrase is generated when adding new
-backup service and you should copy it and keep it in a secure place.
+.. hint::
 
-In case you are using :ref:`cloudbackup`, please backup your private SSH key as
-well — it is used to access your backups.
+    When running Weblate in Docker, please make sure that the backup location
+    is exposed as a volume from the Weblate container. Otherwise the backups
+    would be discarded by Docker on container restart.
 
-.. seealso::
+Remote backups
+~~~~~~~~~~~~~~
 
-   :doc:`borg:usage/init`
+Remote backups using SSH are supported. The SSH server needs to have
+`BorgBackup`_ installed. Weblate connects to the server using SSH key, please
+make sure the Weblate SSH key is accepted by the server (see
+:ref:`weblate-ssh-key`).
+
+.. hint::
+
+    :ref:`cloudbackup` provides you automated remote backups.
 
 Restoring from BorgBackup
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 1. Restore access to your backup repository and prepare your backup passphrase.
 
@@ -222,6 +249,18 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up user uploaded files (e.g. :ref:`screenshots`).
 
+Celery tasks
+++++++++++++
+
+The Celery tasks queue might contain some info, but is usually not needed
+for a backup. At most you will lose updates that have not yet been processed to translation
+memory. It is recommended to perform the fulltext or repository updates upon
+restoring anyhow, so there is no problem in losing these.
+
+.. seealso::
+
+   :ref:`celery`
+
 Command line for manual backup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -238,19 +277,6 @@ You can adjust the list of folders and files to your needs. For instance, to avo
 .. code-block:: console
 
      $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups/database.sql backups/settings.py vcs ssh home media fonts secret
-
-
-Celery tasks
-------------
-
-The Celery tasks queue might contain some info, but is usually not needed
-for a backup. At most you will lose updates that have not yet been processed to translation
-memory. It is recommended to perform the fulltext or repository updates upon
-restoring anyhow, so there is no problem in losing these.
-
-.. seealso::
-
-   :ref:`celery`
 
 Restoring manual backup
 -----------------------

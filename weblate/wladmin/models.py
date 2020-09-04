@@ -123,7 +123,13 @@ class SupportStatus(models.Model):
 
 class BackupService(models.Model):
     repository = models.CharField(
-        max_length=500, default="", verbose_name=gettext_lazy("Backup repository")
+        max_length=500,
+        default="",
+        verbose_name=gettext_lazy("Backup repository URL"),
+        help_text=gettext_lazy(
+            "Use /path/to/repo for local backups "
+            "or user@host:/path/to/repo for remote SSH backups."
+        ),
     )
     enabled = models.BooleanField(default=True)
     timestamp = models.DateTimeField(default=timezone.now)
