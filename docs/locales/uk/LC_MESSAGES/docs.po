@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 13:16+0200\n"
-"PO-Revision-Date: 2020-09-04 14:33+0000\n"
+"PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -2770,12 +2770,14 @@ msgid ""
 "exposed as a volume from the Weblate container. Otherwise the backups would "
 "be discarded by Docker on container restart."
 msgstr ""
+"Якщо ви працюєте з Weblate у Docker, будь ласка, переконайтеся, що місце "
+"зберігання резервних копій відкрито як том з контейнера Weblate. Якщо ви "
+"цього не зробите, резервні копії буде втрачено при перезапуску контейнера "
+"Docker."
 
 #: ../../admin/backup.rst:96
-#, fuzzy
-#| msgid "6 monthly backups"
 msgid "Remote backups"
-msgstr "резервних копій із 6-місячним періодом створення"
+msgstr "Віддалені резервні копії"
 
 #: ../../admin/backup.rst:98
 msgid ""
@@ -2784,10 +2786,16 @@ msgid ""
 "please make sure the Weblate SSH key is accepted by the server (see :ref:"
 "`weblate-ssh-key`)."
 msgstr ""
+"Передбачено підтримку резервних копій з використанням SSH. На сервері SSH "
+"має бути встановлено `BorgBackup`_. Weblate встановлює з'єднання з "
+"використанням ключа SSH. Будь ласка, переконайтеся, що ключ SSH Weblate буде "
+"прийнято сервером (див. :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:105
 msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgstr ""
+":ref:`cloudbackup` надає вам доступ до автоматичного створення резервних "
+"копій на віддалених серверах."
 
 #: ../../admin/backup.rst:108
 msgid "Restoring from BorgBackup"
@@ -5001,25 +5009,23 @@ msgid ":ref:`vcs-gitlab`"
 msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/config.rst:591
-#, fuzzy
-#| msgid "GITLAB_USERNAME"
 msgid "GITLAB_TOKEN"
-msgstr "GITLAB_USERNAME"
+msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:593
-#, fuzzy
-#| msgid "GitLab username used to send merge requests for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
 msgstr ""
-"Ім'я користувача GitLab, яке буде використано для надсилання запитів щодо "
-"об'єднання для оновлень перекладів."
+"Особистий жетон доступу GitLab, який використовується для створення викликів "
+"програмного інтерфейсу для оновлень перекладу."
 
 #: ../../admin/config.rst:597
 msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":ref:`vcs-gitlab`, `GitLab: особистий жетон доступу <https://docs.gitlab.com/"
+"ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:603
 msgid "GITHUB_USERNAME"
@@ -5038,26 +5044,25 @@ msgid ":ref:`vcs-github`"
 msgstr ":ref:`vcs-github`"
 
 #: ../../admin/config.rst:614
-#, fuzzy
-#| msgid "GITHUB_USERNAME"
 msgid "GITHUB_TOKEN"
-msgstr "GITHUB_USERNAME"
+msgstr "GITHUB_TOKEN"
 
 #: ../../admin/config.rst:616
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
 msgstr ""
-"Ім'я користувача GitHub, яке буде використано для надсилання запитів щодо "
-"об'єднання для оновлень перекладів."
+"Особистий жетон доступу GitHub, який використовується для створення викликів "
+"програмного інтерфейсу для надсилання запитів щодо об'єднання для оновлень "
+"перекладу."
 
 #: ../../admin/config.rst:621
 msgid ""
 ":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
 "com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 msgstr ""
+":ref:`vcs-github`, `Створення особистого жетона доступу <https://docs.github."
+"com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:627
 msgid "GOOGLE_ANALYTICS_ID"
@@ -5696,20 +5701,16 @@ msgid "MT_MICROSOFT_REGION"
 msgstr "MT_MICROSOFT_REGION"
 
 #: ../../admin/config.rst:1130
-#, fuzzy
-#| msgid ""
-#| "Region prefix as defined in `\"Multi service subscription\" <https://docs."
-#| "microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_."
 msgid ""
 "Region prefix as defined in the `\"Authenticating with a Multi-service "
 "resource\" <https://docs.microsoft.com/en-us/azure/cognitive-services/"
 "translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
 "resource>`_ section."
 msgstr ""
-"Префікс регіону, як його визначено у `«Multi service subscription» <https://"
-"docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
-"reference#authenticating-with-a-multi-service-resource>`_."
+"Префікс регіону, як його визначено у `«Authenticating with a Multi-service "
+"resource» <https://docs.microsoft.com/en-us/azure/cognitive-services/"
+"translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
+"resource>`_."
 
 #: ../../admin/config.rst:1135
 msgid "MT_MICROSOFT_ENDPOINT_URL"
@@ -6617,10 +6618,6 @@ msgstr ""
 "для оновлення усього)"
 
 #: ../../admin/continuous.rst:55
-#, fuzzy
-#| msgid ""
-#| "Whenever Weblate updates the repository, the post update addons will be "
-#| "triggered, see :ref:`addons`."
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
@@ -7863,12 +7860,12 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 #: ../../admin/install.rst:130
 msgid "``licensee`` (optional for detecting license when creating component)"
 msgstr ""
+"``licensee`` (необов'язкова, для виявлення умов ліцензування при створенні "
+"складників)"
 
 #: ../../admin/install.rst:130
-#, fuzzy
-#| msgid "https://github.com/ubernostrum/akismet"
 msgid "https://github.com/licensee/licensee"
-msgstr "https://github.com/ubernostrum/akismet"
+msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:133
 msgid "Compile time dependencies"
@@ -7893,13 +7890,6 @@ msgid "Pango and Cairo"
 msgstr "Pango і Cairo"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid ""
-#| "Weblate uses Pango and Cairo for rendering bitmap widgets (see :ref:"
-#| "`promotion`) and rendering checks (see :ref:`fonts`). To properly install "
-#| "Python bindings for those you need to install system libraries first - "
-#| "you need both Cairo and Pango, which in turn need Glib. All those should "
-#| "be installed with development files and GObject introspection data."
 msgid ""
 "Weblate uses Pango and Cairo for rendering bitmap widgets (see :ref:"
 "`promotion`) and rendering checks (see :ref:`fonts`). To properly install "
@@ -7907,12 +7897,13 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"Weblate використовує Pango і Cairo для обробки растрових віджетів (див. :ref:"
-"`promotion`) і перевірки обробки перекладених рядків в інтерфейсі (див. :ref:"
-"`fonts`). Для належного встановлення прив'язок Python для цих складників вам "
-"слід встановити спочатку загальносистемні бібліотеки — вам потрібні і Cairo, "
-"і Pango, які, очевидно, залежать від Glib. Усі ці пакунки слід встановити "
-"разом із пакунками для розробки та даними інтроспекції GObject."
+"Weblate використовує Pango і Cairo для обробки растрових віджетів (див. "
+":ref:`promotion`) і перевірки обробки перекладених рядків в інтерфейсі (див. "
+":ref:`fonts`). Для належного встановлення прив'язок Python для цих "
+"складників вам слід встановити спочатку загальносистемні бібліотеки — вам "
+"потрібні і Cairo, і Pango, які, очевидно, залежать від GLib. Усі ці пакунки "
+"слід встановити разом із пакунками для розробки та даними інтроспекції "
+"GObject."
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
@@ -7948,11 +7939,6 @@ msgstr ""
 "що отримано найсвіжішу версію."
 
 #: ../../admin/install.rst:172
-#, fuzzy
-#| msgid ""
-#| "Each archive is accompanied with ``.asc`` files which contains the PGP "
-#| "signature for it. Once you have both of them in the same folder, you can "
-#| "verify the signature:"
 msgid ""
 "Each archive is accompanied with ``.asc`` files which contain the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
@@ -7963,22 +7949,16 @@ msgstr ""
 "теки, ви зможете перевірити підпис:"
 
 #: ../../admin/install.rst:183
-#, fuzzy
-#| msgid ""
-#| "As you can see gpg complains that it does not know the public key. At "
-#| "this point you should do one of the following steps:"
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
 msgstr ""
-"Як можна бачити, gpg скаржиться на те, що відкритий ключ є невідомим "
+"Як можна бачити, GPG скаржиться на те, що відкритий ключ є невідомим "
 "програмі. На цьому етапі ви можете виконати один з таких кроків:"
 
 #: ../../admin/install.rst:186
-#, fuzzy
-#| msgid "Use wkd to download the key:"
 msgid "Use `wkd` to download the key:"
-msgstr "Скористайтеся wkd для отримання ключа:"
+msgstr "Скористайтеся `wkd` для отримання ключа:"
 
 #: ../../admin/install.rst:201
 msgid ""
@@ -10353,16 +10333,13 @@ msgstr ""
 "зміною :setting:`GITHUB_USERNAME`."
 
 #: ../../admin/install/docker.rst:474
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures GitHub personal access token for GitHub pull-requests via API by "
 "changing :setting:`GITHUB_TOKEN`."
 msgstr ""
-"Налаштовує ім'я користувача GitHub для запитів щодо об'єднання GitHub "
-"зміною :setting:`GITHUB_USERNAME`."
+"Налаштовує особистий жетон доступу GitHub для запитів щодо об'єднання на "
+"GitHub з використанням програмного інтерфейсу шляхом зміни "
+":setting:`GITHUB_TOKEN`."
 
 #: ../../admin/install/docker.rst:483
 msgid ""
@@ -10373,16 +10350,13 @@ msgstr ""
 "зміною :setting:`GITLAB_USERNAME`"
 
 #: ../../admin/install/docker.rst:492
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab username for GitLab merge-requests by changing :setting:"
-#| "`GITLAB_USERNAME`"
 msgid ""
 "Configures GitLab personal access token for GitLab merge-requests via API by "
 "changing :setting:`GITLAB_TOKEN`"
 msgstr ""
-"Налаштовує ім'я користувача GitLab для запитів щодо об'єднання GitLab "
-"зміною :setting:`GITLAB_USERNAME`"
+"Налаштовує особистий жетон доступу GitLab для запитів щодо об'єднання на "
+"GitLab з використанням програмного інтерфейсу шляхом зміни "
+":setting:`GITLAB_TOKEN`"
 
 #: ../../admin/install/docker.rst:501
 msgid "Configures GitLab Host for GitLab merge-requests"
@@ -10420,17 +10394,12 @@ msgstr ""
 "для нових складників, див. :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:525
-#, fuzzy
-#| msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
+msgstr "Налаштовує :setting:`DEFAULT_COMMITER_EMAIL`."
 
 #: ../../admin/install/docker.rst:529
-#, fuzzy
-#| msgid "Default value can be changed by :setting:`DEFAULT_COMMITER_NAME`."
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr ""
-"Типове значення можна змінити за допомогою :setting:`DEFAULT_COMMITER_NAME`."
+msgstr "Налаштовує :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../admin/install/docker.rst:533
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -16334,10 +16303,6 @@ msgstr ""
 "запуску Weblate."
 
 #: ../../admin/upgrade.rst:147
-#, fuzzy
-#| msgid ""
-#| "The username and email fields on user database now should be case "
-#| "insenstive unique. It was mistakenly not enforced with PostgreSQL."
 msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
@@ -16348,22 +16313,16 @@ msgstr ""
 "примусово для PostgreSQL."
 
 #: ../../admin/upgrade.rst:152
-#, fuzzy
-#| msgid "Upgrade from 4.1 to 4.2"
 msgid "Upgrade from 4.2 to 4.3"
-msgstr "Оновлення з 4.1 до 4.2"
+msgstr "Оновлення з 4.2 до 4.3"
 
 #: ../../admin/upgrade.rst:158
-#, fuzzy
-#| msgid ""
-#| "There are new quality checks, you might want to include them in case you "
-#| "modified the :setting:`CHECK_LIST`."
 msgid ""
 "There are some changes in quality checks, you might want to include them in "
 "case you modified the :setting:`CHECK_LIST`."
 msgstr ""
-"Передбачено нові перевірки якості. Можливо, вам варто включити їх до списку "
-"зміненого :setting:`CHECK_LIST`."
+"Передбачено певні зміни у перевірках якості. Можливо, вам варто включити їх "
+"до списку зміненого :setting:`CHECK_LIST`."
 
 #: ../../admin/upgrade.rst:165
 msgid "Upgrading from Python 2 to Python 3"
@@ -18812,80 +18771,64 @@ msgid "Define source language for a glossary."
 msgstr "Реалізовано визначення початкової мови для глосарія."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for GitLab merge requests."
 msgid "Rewritten support for GitHub and GitLab pull requests."
-msgstr "Додано підтримку запитів щодо об'єднання GitLab."
+msgstr "Переписано підтримку запитів щодо об'єднання для GitHub і GitLab."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed rendering of suggestions."
 msgid "Fixed stats counts after removing suggestion."
-msgstr "Виправлено показ пропозицій."
+msgstr "Виправлено обчислення статистичних даних після вилучення пропозиції."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added public user pages."
 msgid "Extended public user profile."
-msgstr "Додано загальнодоступні сторінки користувачів."
+msgstr "Розширено дані загальнодоступного профілю користувача."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Fixed option to ignore source checks."
 msgid "Fixed configuration of enforced checks."
-msgstr "Виправлено параметр для ігнорування перевірок початкових рядків."
+msgstr "Виправлено налаштування для примусових перевірок."
 
 #: ../../changes.rst:13
 msgid "Improve documentation about built-in backups."
 msgstr ""
+"Удосконалено документацію щодо вбудованих засобів резервного копіювання."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.2.2"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.2.2"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Released on February 22nd 2020."
 msgid "Released on September 2nd 2020."
-msgstr "Випущено 22 лютого 2020 року."
+msgstr "Випущено 2 вересня 2020 року."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed matching of source strings for JSON formats."
-msgstr "Жодного збігу серед рядків оригіналу не виявлено."
+msgstr ""
+"Виправлено встановлення відповідності початкових рядків для форматів JSON."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "LDAP authentication configuration."
 msgid "Fixed login redirect for some authentication configurations."
-msgstr "Налаштування розпізнавання за допомогою LDAP."
+msgstr ""
+"Виправлено переспрямовування для входу до системи для деяких варіантів "
+"розпізнавання."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "LDAP authentication configuration."
 msgid "Fixed LDAP authentication with group sync."
-msgstr "Налаштування розпізнавання за допомогою LDAP."
+msgstr "Виправлено розпізнавання за LDAP при синхронізації груп."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Fixed crash in reporting automatic translation progress."
-msgstr "Виправлено упорядкування пропозицій комп'ютерного перекладу."
+msgstr ""
+"Виправлено аварійне завершення роботи при звітуванні щодо поступу "
+"автоматичного перекладу."
 
 #: ../../changes.rst:24
 msgid "Fixed Git commit squashing with trailers enabled."
-msgstr ""
+msgstr "Виправлено об'єднання внесків Git, якщо увімкнено трейлери."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Fixed creating components using API in some cases."
 msgid "Fixed creating local VCS components using API."
 msgstr ""
-"Виправлено створення складників за допомогою програмного інтерфейсу у деяких "
-"випадках."
+"Виправлено створення локальних складників системи керування версіями за "
+"допомогою програмного інтерфейсу."
 
 #: ../../changes.rst:28
 msgid "Weblate 4.2.1"
@@ -26830,11 +26773,6 @@ msgstr ""
 "безпосередньо."
 
 #: ../../devel/translations.rst:22
-#, fuzzy
-#| msgid ""
-#| "Language files added manually to the VCS are added to the component when "
-#| "Weblate updates the repository. About repository update settings, see :"
-#| "ref:`update-vcs`)."
 msgid ""
 "Language files added manually to the VCS are added to the component when "
 "Weblate updates the repository. About repository update settings, see :ref:"
@@ -33417,10 +33355,6 @@ msgstr ""
 "сторінці :guilabel:`Про програму`."
 
 #: ../../vcs.rst:70
-#, fuzzy
-#| msgid ""
-#| "Admins can generate or display the public key currently used by Weblate "
-#| "in the (from :guilabel:`SSH keys`) on the admin interface landing page."
 msgid ""
 "Admins can generate or display the public key currently used by Weblate in "
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
@@ -33603,19 +33537,14 @@ msgstr ""
 "git``."
 
 #: ../../vcs.rst:161
-#, fuzzy
-#| msgid ""
-#| "If you username or password contains special characters, those have to be "
-#| "URL encoded, for example ``https://user%40example.com:%24password"
-#| "%23@bitbucket.org/…``."
 msgid ""
 "If your username or password contains special characters, those have to be "
 "URL encoded, for example ``https://user%40example.com:%24password"
 "%23@bitbucket.org/…``."
 msgstr ""
 "Якщо ваше ім'я користувача і пароль містять спеціальні символи, їх слід "
-"записувати у URL-кодуванні, наприклад ``https://user%40example.com:"
-"%24password%23@bitbucket.org/…``."
+"записувати у URL-кодуванні, наприклад ``https://user%40example."
+"com:%24password%23@bitbucket.org/…``."
 
 #: ../../vcs.rst:166
 msgid "Using proxy"
@@ -33762,19 +33691,14 @@ msgstr ""
 "пункт при записі змін до основної сховища."
 
 #: ../../vcs.rst:260
-#, fuzzy
-#| msgid ""
-#| "This adds a thin layer atop :ref:`vcs-git` using the `hub`_ tool to allow "
-#| "pushing translation changes as pull requests, instead of pushing directly "
-#| "to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `Github API`_ to allow "
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"Це додає тонкий шар над :ref:`vcs-git` з використанням інструмента `hub`_, "
-"щоб уможливити запис змін у перекладах як запитів щодо об'єднання, замість "
-"безпосереднього запису до сховища."
+"Це додає тонкий шар над :ref:`vcs-git` з використанням інструмента `Github "
+"API`_, щоб уможливити запис змін у перекладах як запитів щодо об'єднання, "
+"замість безпосереднього запису до сховища."
 
 #: ../../vcs.rst:263
 msgid ""
@@ -33795,51 +33719,35 @@ msgid "Pushing changes to GitHub as pull requests"
 msgstr "Записування змін до GitHub у формі запитів щодо об'єднання"
 
 #: ../../vcs.rst:277
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitHub repository, they can be "
-#| "sent as either one or many pull requests instead."
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
 "as either one or many pull requests instead. You need to setup a :setting:"
 "`GITHUB_TOKEN` used to make API calls"
 msgstr ""
 "Якщо ви не хочете записувати переклади до сховища GitHub, їх може бути "
-"надіслано до одного або багатьох запитів щодо об'єднання."
+"надіслано до одного або багатьох запитів щодо об'єднання. Вам слід "
+"налаштувати :setting:`GITHUB_TOKEN`, який буде використано для створення "
+"викликів програмного інтерфейсу."
 
 #: ../../vcs.rst:284
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration "
-#| "instructions"
 msgid ""
 ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN` for configuration "
 "instructions"
 msgstr ""
-":setting:`GITHUB_USERNAME`, :ref:`hub-setup` — настанови з налаштовування"
+":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN` — настанови щодо "
+"налаштовування"
 
 #: ../../vcs.rst:295
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `lab`_ tool to "
-#| "allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to "
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Це просто додає тонкий шар над :ref:`vcs-git` з використанням інструмента "
-"`lab`_, щоб уможливити запис змін у перекладах як запитів щодо об'єднання, "
-"замість безпосереднього запису до сховища."
+"Це просто додає тонкий шар над :ref:`vcs-git` з використанням інструмента `"
+"GitLab API`_, щоб уможливити запис змін у перекладах як запитів щодо "
+"об'єднання, замість безпосереднього запису до сховища."
 
 #: ../../vcs.rst:299
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this access Git repositories, ordinary :ref:`vcs-"
-#| "git` works the same, the only difference is how pushing to a repository "
-#| "is handled. With :ref:`vcs-git` changes are pushed directly to the "
-#| "repository, while :ref:`vcs-gitlab` creates merge request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -33867,28 +33775,22 @@ msgstr ""
 msgid ""
 "Set :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN` for this to work."
 msgstr ""
+"Щоб це спрацювало, встановіть :setting:`GITLAB_USERNAME` і "
+":setting:`GITLAB_TOKEN`."
 
 #: ../../vcs.rst:320
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_USERNAME`, :ref:`lab-setup` for configuration "
-#| "instructions"
 msgid ""
 ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN` for configuration "
 "instructions"
 msgstr ""
-":setting:`GITLAB_USERNAME`, :ref:`lab-setup` щодо настанов з налаштовування"
+":setting:`GITLAB_USERNAME`, :ref:`GITLAB_TOKEN` щодо настанов з "
+"налаштовування"
 
 #: ../../vcs.rst:327
 msgid "Gerrit"
 msgstr "Gerrit"
 
 #: ../../vcs.rst:331
-#, fuzzy
-#| msgid ""
-#| "Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to "
-#| "allow pushing translation changes as Gerrit review requests, instead of "
-#| "pushing a directory to the repository."
 msgid ""
 "Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow "
 "pushing translation changes as Gerrit review requests, instead of pushing "
@@ -33942,15 +33844,6 @@ msgstr ""
 "внутрішнього сховища і локальні внески."
 
 #: ../../vcs.rst:373
-#, fuzzy
-#| msgid ""
-#| "Weblate tries to detect Subversion repository layout automatically - it "
-#| "supports both direct URLs for branch or repositories with standard layout "
-#| "(branches/, tags/ and trunk/). More info about this is to be foud in the "
-#| "`git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/"
-#| "git-svn.txt---stdlayout>`_. If your repository does not have a standard "
-#| "layout and you encounter errors, try including the branch name in the "
-#| "repository URL and leaving branch empty."
 msgid ""
 "Weblate tries to detect Subversion repository layout automatically - it "
 "supports both direct URLs for branch or repositories with standard layout "
@@ -33963,10 +33856,10 @@ msgstr ""
 "Weblate намагається виявити компонування сховища Subversion автоматично — "
 "передбачено підтримку як безпосередніх адрес для гілок, так і сховища зі "
 "стандартним компонуванням (branches/, tags/ і trunk/). Докладніше про це "
-"можна дізнатися з `документації до git-svn <https://git-scm.com/docs/git-"
-"svn#Documentation/git-svn.txt---stdlayout>`_. Якщо компонування вашого "
-"сховища не є стандартним і ви стикаєтеся з помилками, спробуйте включити "
-"назву гілки у адресу сховища і лишити гілку порожньою."
+"можна дізнатися з `документації до git-svn <https://git-scm.com/docs/git-svn#"
+"Documentation/git-svn.txt---stdlayout>`_. Якщо компонування вашого сховища "
+"не є стандартним і ви стикаєтеся з помилками, спробуйте включити назву гілки "
+"у адресу сховища і лишити гілку порожньою."
 
 #: ../../vcs.rst:382
 msgid "Before this, there was only support for standard layout repositories."
@@ -34044,16 +33937,13 @@ msgid "Getting started"
 msgstr "Перші кроки"
 
 #: ../../wlc.rst:30
-#, fuzzy
-#| msgid ""
-#| "The wlc configuration is stored in ``~/.config/weblate``, please create "
-#| "it to match your environment:"
 msgid ""
 "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
 "config` for other locations), please create it to match your environment:"
 msgstr ""
-"Налаштування wlc зберігаються у ``~/.config/weblate``. Будь ласка, створіть "
-"його так, щоб усе відповідало вашому середовищу:"
+"Налаштування wlc зберігаються у ``~/.config/weblate`` (інші місця див. у :ref"
+":`wlc-config`). Будь ласка, створіть його так, щоб усе відповідало вашому "
+"середовищу:"
 
 #: ../../wlc.rst:42
 msgid "You can then invoke commands on the default server:"
@@ -34087,22 +33977,17 @@ msgstr ""
 "команди :command:`wlc`, його вбудовано до :mod:`wlc`."
 
 #: ../../wlc.rst:70
-#, fuzzy
-#| msgid "Announcements"
 msgid "Arguments"
-msgstr "Оголошення"
+msgstr "Аргументи"
 
 #: ../../wlc.rst:72
-#, fuzzy
-#| msgid ""
-#| "The program accepts the following options for a whole instance, which "
-#| "must be entered before any subcommand."
 msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
-"Програма приймає вказані нижче параметри для усього екземпляра Weblate. Ці "
-"параметри можна ввести перед будь-якою допоміжною командою."
+"Програма приймає вказані нижче аргументи, які визначають формат виведення "
+"даних або екземпляр Weblate, яким слід скористатися. Ці аргументи слід "
+"вводити перед будь-якою командою."
 
 #: ../../wlc.rst:77
 msgid "Specify the output format."
@@ -34140,16 +34025,12 @@ msgstr ""
 "config`."
 
 #: ../../wlc.rst:98
-#, fuzzy
-#| msgid "Command"
 msgid "Commands"
-msgstr "Команда"
+msgstr "Команди"
 
 #: ../../wlc.rst:100
-#, fuzzy
-#| msgid "The following subcommands are available:"
 msgid "The following commands are available:"
-msgstr "Можна скористатися такими допоміжними командами:"
+msgstr "Можна скористатися такими командами:"
 
 #: ../../wlc.rst:104
 msgid "Prints the current version."
@@ -34307,6 +34188,8 @@ msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
+"Докладніші відомості щодо виклику окремих команд можна отримати за допомогою "
+"параметра ``--help``. Приклад: ``wlc ls --help``."
 
 #: ../../wlc.rst:239
 msgid "Configuration files"
@@ -34314,11 +34197,11 @@ msgstr "Файли налаштувань"
 
 #: ../../wlc.rst:245
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
-msgstr ""
+msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:244
 msgid "The files with `.ini` extension are accepted as well."
-msgstr ""
+msgstr "Можна використовувати файли із суфіксами назв `.ini`."
 
 #: ../../wlc.rst:246
 msgid "Per project configuration file"
@@ -34326,13 +34209,11 @@ msgstr "Файл налаштувань окремого проєкту"
 
 #: ../../wlc.rst:249
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 
 #: ../../wlc.rst:250
-#, fuzzy
-#| msgid "User configuration file"
 msgid "User configuration file on Windows."
-msgstr "Файл налаштувань користувача"
+msgstr "Файл налаштувань користувача у Windows."
 
 #: ../../wlc.rst:251
 msgid ":file:`~/.config/weblate`"
@@ -34351,11 +34232,6 @@ msgid "System wide configuration file"
 msgstr "Загальносистемний файл налаштувань"
 
 #: ../../wlc.rst:256
-#, fuzzy
-#| msgid ""
-#| "The program follows the XDG specification, so you can adjust placement of "
-#| "config files by environment variables ``XDG_CONFIG_HOME`` or "
-#| "``XDG_CONFIG_DIRS``."
 msgid ""
 "The program follows the XDG specification, so you can adjust placement of "
 "config files by environment variables ``XDG_CONFIG_HOME`` or "
@@ -34364,7 +34240,8 @@ msgid ""
 msgstr ""
 "У програмі реалізовано специфікацію XDG, тому ви можете скоригувати "
 "розташування файлів налаштувань за допомогою змінних середовища "
-"``XDG_CONFIG_HOME`` і ``XDG_CONFIG_DIRS``."
+"``XDG_CONFIG_HOME`` і ``XDG_CONFIG_DIRS``. У Windows пріоритетним місцем "
+"зберігання файла налаштувань є каталог ``APPDATA``."
 
 #: ../../wlc.rst:260
 msgid ""
