@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-30 20:31+0200\n"
-"PO-Revision-Date: 2020-09-02 17:58+0000\n"
+"PO-Revision-Date: 2020-09-04 08:45+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1225,6 +1225,10 @@ msgid ""
 "`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
+"Она срабатывает при каждом обновлении репозитория системы контроля версий, а "
+"в остальном её работа аналогична команде управления :djadmin:`import_project`"
+". Таким образом, внутри одной системы контроля версий вы можете отслеживать "
+"несколько компонентов перевода."
 
 #: ../../admin/addons.rst:99
 msgid ""
@@ -1232,6 +1236,11 @@ msgid ""
 "others will employ :ref:`internal-urls` to it as a VCS configuration, and "
 "configure it to find all components in it."
 msgstr ""
+"Создайте один основной компонент, который в будущем исчезнет с наименьшей "
+"вероятностью; другие компоненты в своей настройке адресов репозитория "
+"системы контроля версий будут использовать ведущие на него :ref:`внутренние "
+"адреса Weblate’а <internal-urls>`; настройте надстройку так, чтобы она нашла "
+"все компоненты."
 
 #: ../../admin/addons.rst:103
 msgid ""
@@ -1239,6 +1248,9 @@ msgid ""
 "for complexity in configuration. Some examples for common use cases can be "
 "found in the addon help section."
 msgstr ""
+"Сопоставление осуществляется с помощью регулярных выражений, сложность "
+"конфигурации которых компенсируется их мощью. Для распространённых случаев в "
+"справочном разделе надстройки можно найти ряд примеров."
 
 #: ../../admin/addons.rst:107
 msgid ""
@@ -1246,6 +1258,9 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
+"Когда вы нажмёте :guilabel:`Сохранить`, надстройка предварительно покажет "
+"найденные компоненты, так что вы сможете проверить, действительно ли "
+"конфигурация соответствует вашим потребностям:"
 
 #: ../../admin/addons.rst:114 ../../admin/addons.rst:191
 msgid ":ref:`markup`"
@@ -1634,62 +1649,72 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
 msgstr ""
+"Надстройки также могут использоваться для выполнения внешних скриптов. "
+"Раньше выполнение было интегрировано в сам Weblate, но теперь вам нужно "
+"написать код для заворачивания вашего скрипта в надстройку."
 
 #: ../../admin/addons.rst:387
 msgid "For installation instructions see :ref:`custom-addon-modules`."
-msgstr ""
+msgstr "Инструкции по установке смотрите в разделе :ref:`custom-addon-modules`."
 
 #: ../../admin/addons.rst:389
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Скрипт выполняется с текущим каталогом, установленном в корневой каталог "
+"репозитория системы контроля версий заданного компонента."
 
 #: ../../admin/addons.rst:392
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "Кроме того, в скрипте доступны следующие переменные окружения:"
 
 #: ../../admin/addons.rst:396
 msgid "Version control system used."
-msgstr ""
+msgstr "Используемая система контроля версий."
 
 #: ../../admin/addons.rst:400
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "URL-адрес вышестоящего репозитория."
 
 #: ../../admin/addons.rst:404
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Абсолютный путь к репозиторию системы контроля версий."
 
 #: ../../admin/addons.rst:410
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "Ветка репозитория, настроенная для текущего компонента."
 
 #: ../../admin/addons.rst:414
 msgid "Filemask for current component."
-msgstr ""
+msgstr "Маска файлов для текущего компонента."
 
 #: ../../admin/addons.rst:418
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr ""
+msgstr "Имя файла шаблона для одноязычных переводов (может быть пустым)."
 
 #: ../../admin/addons.rst:424
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
+"Имя файла, используемого для создания новых переводов (может быть пустым)."
 
 #: ../../admin/addons.rst:429
 msgid "Fileformat used in current component."
-msgstr ""
+msgstr "Формат файла, используемый в текущем компоненте."
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
 msgstr ""
+"Язык обрабатываемого в настоящее время перевода (недоступен для обработчиков "
+"уровня компонента)."
 
 #: ../../admin/addons.rst:438
 msgid "Previous HEAD on update (available only when running post update hook)."
 msgstr ""
+"Предыдущий HEAD при обновлении (доступна только при запуске обработчика «"
+"после обновления»)."
 
 #: ../../admin/addons.rst:444
 msgid "Component slug used to construct URL."
@@ -1721,7 +1746,7 @@ msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:481
 msgid "Post update repository processing"
-msgstr ""
+msgstr "Обработка репозитория после обновления"
 
 #: ../../admin/addons.rst:483
 msgid ""
@@ -1730,26 +1755,35 @@ msgid ""
 "Weblate only sees files committed to the VCS, so you need to commit changes "
 "as a part of the script."
 msgstr ""
+"Обработка репозитория после обновления может быть использоваться для "
+"обновления файлов перевода при изменении исходных файлов в вышестоящем "
+"репозитории. При этом помните, что Weblate видит только те файлы, которые "
+"были закоммичены систему контроля версий, поэтому в скрипте вам необходимо "
+"закоммитить все изменения."
 
 #: ../../admin/addons.rst:488
 msgid "For example with Gulp you can do it using following code:"
-msgstr ""
+msgstr "Например, при использовании Gulp это можно сделать следующим кодом:"
 
 #: ../../admin/addons.rst:498
 msgid "Pre commit processing of translations"
-msgstr ""
+msgstr "Обработка переводов до коммита"
 
 #: ../../admin/addons.rst:500
 msgid ""
 "Use the commit script to automatically make changes to the translation "
 "before it is committed to the repository."
 msgstr ""
+"Используйте скрипт коммита для автоматического внесения изменений в перевод "
+"до их коммита в репозиторий."
 
 #: ../../admin/addons.rst:503
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
 msgstr ""
+"Перевод передается в виде единственного параметра, содержащего имя файла "
+"текущего перевода."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:93
 msgid "Management interface"
@@ -1764,7 +1798,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:16
 msgid "The Django admin interface"
-msgstr ""
+msgstr "Интерфейс администратора Django"
 
 #: ../../admin/admin.rst:20
 msgid ""
@@ -1800,7 +1834,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:39
 msgid "Adding a project"
-msgstr ""
+msgstr "Добавление проекта"
 
 #: ../../admin/admin.rst:41
 msgid ""
@@ -4087,24 +4121,32 @@ msgstr "Конфигурация"
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
+"Все настройки хранятся в файле :file:`settings.py` (как обычно для проектов "
+"Django)."
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
 msgstr ""
+"После изменения любого из этих параметров вам необходимо перезапустить "
+"Weblate — как процесс WSGI, так и процесс Celery."
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as mod_wsgi, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
+"В случае, если Weblate работает через mod_wsgi, для перезагрузки "
+"конфигурации вам нужно перезапустить Apache."
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Также, пожалуйста, ознакомьтесь с :doc:`документацией Django <django:ref/"
+"settings>` по настройке параметров самого Django."
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
@@ -4310,7 +4352,7 @@ msgstr ""
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "Доступные исправления:"
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
@@ -4319,6 +4361,8 @@ msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
 msgstr ""
+"Выравнивает количество начальных и конечных пробельных символов в переводе с "
+"исходной строкой."
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
@@ -4327,6 +4371,8 @@ msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 #: ../../admin/config.rst:170
 msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
 msgstr ""
+"Заменяет конечные точки (...) на многоточие (…), если оно есть в исходной "
+"строке."
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
@@ -4335,6 +4381,8 @@ msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Удаляет пробельные символы нулевой ширины, если исходная строка их не "
+"содержит."
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
@@ -4342,7 +4390,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Удаляет управляющие символы, если исходная строка их не содержит."
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -4353,10 +4401,12 @@ msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"Удаляет небезопасную HTML-разметку из строк, помеченных флагом ``safe-html`` "
+"(смотрите проверку :ref:`check-safe-html`)."
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Вы можете выбрать, какие исправления использовать:"
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
@@ -4371,6 +4421,8 @@ msgid ""
 "Base directory where Weblate sources are located. Used to derive several "
 "other paths by default:"
 msgstr ""
+"Базовый каталог, в котором находятся исходники Weblate’а. Используется для "
+"построения нескольких других умолчательных путей:"
 
 #: ../../admin/config.rst:199 ../../faq.rst:388 ../../vcs.rst:455
 msgid ":setting:`DATA_DIR`"
@@ -4378,12 +4430,13 @@ msgstr ":setting:`DATA_DIR`"
 
 #: ../../admin/config.rst:201
 msgid "Default value: Top level directory of Weblate sources."
-msgstr ""
+msgstr "Значение по умолчанию: каталог верхнего уровня исходников Weblate’а."
 
 #: ../../admin/config.rst:210
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 msgstr ""
+"CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:212
 msgid ""
@@ -4391,10 +4444,13 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, ...)."
 msgstr ""
+"Настраивает заголовок ``Content-Security-Policy`` для Weblate’а. Заголовок "
+"автоматически генерируется на основе включённых интеграций со сторонними "
+"сервисами (Matomo, Google Analytics, Sentry, ...)."
 
 #: ../../admin/config.rst:216
 msgid "All these default to empty list."
-msgstr ""
+msgstr "Все они по умолчанию установлены в пустой список."
 
 #: ../../admin/config.rst:218
 msgid "** Example:: **"
@@ -4405,6 +4461,8 @@ msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+":ref:`csp`, `Политика безопасности содержимого (Content Security Policy — "
+"CSP) <https://developer.mozilla.org/ru/docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:233
 msgid "CHECK_LIST"
@@ -4412,17 +4470,20 @@ msgstr "CHECK_LIST"
 
 #: ../../admin/config.rst:235
 msgid "List of quality checks to perform on a translation."
-msgstr ""
+msgstr "Список выполняемых для перевода проверок качества."
 
 #: ../../admin/config.rst:239
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
+"Предоставьте полный путь к Python’ьему классу, реализующему интерфейс "
+"проверки."
 
 #: ../../admin/config.rst:242
 msgid "Adjust the list of checks to include ones relevant to you."
 msgstr ""
+"Подправьте список проверок так, чтобы включить в него только нужные вам."
 
 #: ../../admin/config.rst:244
 msgid ""
@@ -4434,11 +4495,11 @@ msgstr ""
 
 #: ../../admin/config.rst:248
 msgid "You can turn off all checks:"
-msgstr ""
+msgstr "Вы можете отключить все проверки:"
 
 #: ../../admin/config.rst:254
 msgid "You can turn on only a few:"
-msgstr ""
+msgstr "Можете включить только некоторые:"
 
 #: ../../admin/config.rst:266
 msgid ""
@@ -5376,7 +5437,7 @@ msgstr "MT_MICROSOFT_COGNITIVE_KEY"
 
 #: ../../admin/config.rst:1095
 msgid "Client key for the Microsoft Cognitive Services Translator API."
-msgstr ""
+msgstr "Клиентский ключ для API переводчика Microsoft Cognitive Services."
 
 #: ../../admin/config.rst:1098
 msgid ""
@@ -11421,10 +11482,15 @@ msgid ""
 "subject to their terms of use, so ensure you are allowed to use them how you "
 "want."
 msgstr ""
+"В Weblate встроена поддержка нескольких сервисов машинного перевода, которая "
+"может быть включена администратором с помощью добавления соответствующих "
+"значений в список :setting:`MT_SERVICES`. Эти сервисы идут с собственными "
+"условиями своего использования, поэтому убедитесь, что вам разрешено "
+"использовать их так, как вы хотите."
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
-msgstr ""
+msgstr "Исходный язык можно настроить в :ref:`конфигурации проекта <project>`."
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
@@ -11432,19 +11498,24 @@ msgstr "amaGama"
 
 #: ../../admin/machine.rst:15
 msgid "Special installation of :ref:`tmserver` run by the authors of Virtaal."
-msgstr ""
+msgstr "Специальная установка :ref:`tmserver`, запущенная авторами Virtaal."
 
 #: ../../admin/machine.rst:17
 msgid ""
 "Turn on this service by adding ``weblate.machinery.tmserver."
 "AmagamaTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.tmserver.AmagamaTranslation``."
 
 #: ../../admin/machine.rst:22
 msgid ""
 ":ref:`amagama:installation`, :doc:`virtaal:amagama`, `amaGama Translation "
 "Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
+":ref:`Установка amaGama <amagama:installation>`, :doc:`Amagama "
+"<virtaal:amagama>`, `Память переводов amaGama <https://amagama.translatehouse"
+".org/>`_"
 
 #: ../../admin/machine.rst:29 ../../changes.rst:1468
 msgid "Apertium"
@@ -11455,11 +11526,15 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Свободная платформа ПО машинного перевода, обеспечивающая переводы на "
+"ограниченный набор языков."
 
 #: ../../admin/machine.rst:34
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"Рекомендуемый способ использования Apertium — запуск собственного сервера "
+"Apertium-APy."
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -11467,12 +11542,17 @@ msgid ""
 "ApertiumAPYTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_APERTIUM_APY`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.apertium.ApertiumAPYTranslation`` и заданием параметра "
+":setting:`MT_APERTIUM_APY`."
 
 #: ../../admin/machine.rst:41
 msgid ""
 ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_, "
 "`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
+":setting:`MT_APERTIUM_APY`, `Веб-сайт Apertium <https://www.apertium.org/>`"
+"_, `Документация Apertium APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:47
 msgid "AWS"
@@ -11483,20 +11563,25 @@ msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages."
 msgstr ""
+"Amazon Translate — это сервис машинного перевода при помощи нейронных сетей "
+"для перевода текста на английский язык и с английского языка на широкое "
+"множество поддерживаемых языков."
 
 #: ../../admin/machine.rst:54
 msgid ""
 "1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` "
 "to :setting:`MT_SERVICES`."
 msgstr ""
+"1. Этот сервис включается добавлением в список :setting:`MT_SERVICES` "
+"значения ``weblate.machinery.aws.AWSTranslation``."
 
 #: ../../admin/machine.rst:57
 msgid "Install the `boto3` module."
-msgstr ""
+msgstr "Установите модуль `boto3`."
 
 #: ../../admin/machine.rst:58
 msgid "Configure Weblate."
-msgstr ""
+msgstr "Настройте Weblate."
 
 #: ../../admin/machine.rst:62
 msgid ""
@@ -11504,6 +11589,9 @@ msgid ""
 "`MT_AWS_SECRET_ACCESS_KEY` `Amazon Translate Documentation <https://docs.aws."
 "amazon.com/translate/>`_"
 msgstr ""
+":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, "
+":setting:`MT_AWS_SECRET_ACCESS_KEY` `Документация по Amazon Translate "
+"<https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:68
 msgid "Baidu API machine translation"
@@ -11527,12 +11615,17 @@ msgid ""
 "to :setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and :setting:"
 "`MT_BAIDU_SECRET`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.baidu.BaiduTranslation`` и заданием параметров "
+":setting:`MT_BAIDU_ID` и :setting:`MT_BAIDU_SECRET`."
 
 #: ../../admin/machine.rst:82
 msgid ""
 ":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Baidu Translate API "
 "<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
+":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `API переводчика Baidu "
+"<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:89
 msgid "DeepL"
@@ -11544,12 +11637,18 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL — это платный сервис, предоставляющий хороший машинный перевод на "
+"несколько языков. Вам необходимо приобрести подписку на :guilabel:`DeepL API`"
+" или воспользоваться устаревшим планом :guilabel:`DeepL Pro (classic)`."
 
 #: ../../admin/machine.rst:97
 msgid ""
 "Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_DEEPL_KEY`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.deepl.DeepLTranslation`` и заданием параметра "
+":setting:`MT_DEEPL_KEY`."
 
 #: ../../admin/machine.rst:102
 msgid ""
@@ -11558,6 +11657,10 @@ msgid ""
 "version in this case). You can toggle this by :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
+"В случае, если у вас есть подписка на CAT-инструменты, вы должны "
+"использовать «API v1» вместо «v2», которую по умолчанию использует Weblate ("
+"в данном случае это не совсем версия API). Вы можете изменить его с помощью "
+"параметра :setting:`MT_DEEPL_API_VERSION`."
 
 #: ../../admin/machine.rst:108
 msgid ""
@@ -11565,6 +11668,9 @@ msgid ""
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgstr ""
+":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_VERSION`, `Веб-сайт DeepL "
+"<https://www.deepl.com/>`_, `Цены на DeepL <https://www.deepl.com/pro>`_, `"
+"Документация по API DeepL <https://www.deepl.com/api.html>`_"
 
 #: ../../admin/machine.rst:118
 msgid "Glosbe"
@@ -11573,7 +11679,7 @@ msgstr "Glosbe"
 #: ../../admin/machine.rst:120
 msgid ""
 "Free dictionary and translation memory for almost every living language."
-msgstr ""
+msgstr "Бесплатный словарь и память переводов для почти всех живых языков."
 
 #: ../../admin/machine.rst:122
 msgid ""
@@ -11581,12 +11687,18 @@ msgid ""
 "is a limit of calls that may be done from one IP in a set period of time, to "
 "prevent abuse."
 msgstr ""
+"API можно использовать бесплатно, но при условии наличия лицензии на "
+"используемый источник данных. Для борьбы со злоупотреблениями существует "
+"ограничение на количество вызовов API, которое можно выполнить с одного IP в "
+"течение установленного периода времени."
 
 #: ../../admin/machine.rst:126
 msgid ""
 "Turn on this service by adding ``weblate.machinery.glosbe."
 "GlosbeTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.glosbe.GlosbeTranslation``."
 
 #: ../../admin/machine.rst:131
 msgid "`Glosbe website <https://glosbe.com/>`_"
@@ -11598,25 +11710,32 @@ msgstr "Google Translate"
 
 #: ../../admin/machine.rst:138
 msgid "Machine translation service provided by Google."
-msgstr ""
+msgstr "Сервис машинного перевода, предоставляемый Google."
 
 #: ../../admin/machine.rst:140
 msgid ""
 "This service uses the Google Translation API, and you need to obtain an API "
 "key and turn on billing in the Google API console."
 msgstr ""
+"Этот сервис использует API Переводчика Google, поэтому вам нужно получить "
+"ключ API и включить тарифный план в консоли Google API."
 
 #: ../../admin/machine.rst:143
 msgid ""
 "To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.google.GoogleTranslation`` и заданием параметра "
+":setting:`MT_GOOGLE_KEY`."
 
 #: ../../admin/machine.rst:148
 msgid ""
 ":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
 "google.com/translate/docs>`_"
 msgstr ""
+":setting:`MT_GOOGLE_KEY`, `Документация по переводчику Google <https://cloud."
+"google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:154
 msgid "Google Translate API V3 (Advanced)"
@@ -11625,6 +11744,7 @@ msgstr "Google Translate API V3 (расширенный)"
 #: ../../admin/machine.rst:156
 msgid "Machine translation service provided by Google Cloud services."
 msgstr ""
+"Сервис машинного перевода, предоставляемый облачными сервисами Google Cloud."
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -11632,6 +11752,9 @@ msgid ""
 "service, add ``weblate.machinery.googlev3.GoogleV3Translation`` to :setting:"
 "`MT_SERVICES` and set"
 msgstr ""
+"Этот сервис отличается от предыдущего способом аутентификации. Для включения "
+"сервиса добавьте в список :setting:`MT_SERVICES` значение ``weblate.machinery"
+".googlev3.GoogleV3Translation`` и задайте параметры"
 
 #: ../../admin/machine.rst:162
 msgid ":setting:`MT_GOOGLE_CREDENTIALS`"
@@ -11646,6 +11769,8 @@ msgid ""
 "If `location` fails, you may also need to specify :setting:"
 "`MT_GOOGLE_LOCATION`."
 msgstr ""
+"Если без `location` у вас не заработает, вам также может потребоваться "
+"указать параметр :setting:`MT_GOOGLE_LOCATION`."
 
 #: ../../admin/machine.rst:169
 msgid ""
@@ -11653,20 +11778,25 @@ msgid ""
 "`MT_GOOGLE_LOCATION` `Google translate documentation <https://cloud.google."
 "com/translate/docs>`_"
 msgstr ""
+":setting:`MT_GOOGLE_CREDENTIALS`, :setting:`MT_GOOGLE_PROJECT`, "
+":setting:`MT_GOOGLE_LOCATION` `Документация по переводчику Google "
+"<https://cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:175
 msgid "Microsoft Cognitive Services Translator"
-msgstr ""
+msgstr "Переводчик Microsoft Cognitive Services"
 
 #: ../../admin/machine.rst:179
 msgid ""
 "Machine translation service provided by Microsoft in Azure portal as a one "
 "of Cognitive Services."
 msgstr ""
+"Сервис машинного перевода, предоставляемый Microsoft на портале Azure в "
+"качестве одного из сервисов Cognitive Services."
 
 #: ../../admin/machine.rst:182
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate реализует API переводчика версии V3."
 
 #: ../../admin/machine.rst:184
 msgid ""
@@ -11674,18 +11804,23 @@ msgid ""
 "MicrosoftCognitiveTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.microsoft.MicrosoftCognitiveTranslation`` и заданием "
+"параметра :setting:`MT_MICROSOFT_COGNITIVE_KEY`."
 
 #: ../../admin/machine.rst:188
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "API переводчика текста версии V2"
 
 #: ../../admin/machine.rst:189
 msgid "The key you use with Translator API V2 can be used with API 3."
 msgstr ""
+"Ключ, который вы используете для API переводчика версии V2, можно "
+"использовать с API версии 3."
 
 #: ../../admin/machine.rst:192
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "API переводчика текста версии V3"
 
 #: ../../admin/machine.rst:193
 msgid ""
@@ -11693,6 +11828,9 @@ msgid ""
 "new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` to "
 "locale of your service."
 msgstr ""
+"Вам необходимо зарегистрироваться на портале Azure и использовать полученный "
+"там ключ. При использовании новых ключей Azure вам также потребуется "
+"установить параметр :setting:`MT_MICROSOFT_REGION` в локаль вашего сервиса."
 
 #: ../../admin/machine.rst:198
 msgid ""
@@ -11701,6 +11839,10 @@ msgid ""
 "services/cognitive-services/translator-text-api/>`_, `Microsoft Azure Portal "
 "<https://portal.azure.com/>`_"
 msgstr ""
+":setting:`MT_MICROSOFT_COGNITIVE_KEY`, :setting:`MT_MICROSOFT_REGION`, `"
+"Cognitive Services — API переводчика текста <https://azure.microsoft.com/"
+"services/cognitive-services/translator-text-api/>`_, `Портал Microsoft Azure "
+"<https://portal.azure.com/>`_"
 
 #: ../../admin/machine.rst:205
 msgid "Microsoft Terminology Service"
@@ -11721,6 +11863,8 @@ msgid ""
 "Turn this service on by adding ``weblate.machinery.microsoftterminology."
 "MicrosoftTerminologyService`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.microsoftterminology.MicrosoftTerminologyService``."
 
 #: ../../admin/machine.rst:218
 msgid ""
@@ -11740,12 +11884,17 @@ msgid ""
 "ModernMTTranslation`` to :setting:`MT_SERVICES` and configure :setting:"
 "`MT_MODERNMT_KEY`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.modernmt.ModernMTTranslation`` и заданием параметра "
+":setting:`MT_MODERNMT_KEY`."
 
 #: ../../admin/machine.rst:233
 msgid ""
 "`ModernMT API <https://www.modernmt.com/api/translate/>`_, :setting:"
 "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgstr ""
+"`ModernMT API <https://www.modernmt.com/api/translate/>`_, "
+":setting:`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/machine.rst:240 ../../changes.rst:1470
 msgid "MyMemory"
@@ -11753,7 +11902,7 @@ msgstr "MyMemory"
 
 #: ../../admin/machine.rst:242
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "Огромная память переводов с машинным переводом."
 
 #: ../../admin/machine.rst:244
 msgid ""
@@ -11761,6 +11910,10 @@ msgid ""
 "requests/day when you provide a contact e-mail address in :setting:"
 "`MT_MYMEMORY_EMAIL`. You can also ask them for more."
 msgstr ""
+"Бесплатное анонимное использование в настоящее время ограничено 100 "
+"запросами в день, или 1000 запросами в день при указании контактного адреса "
+"электронной почты в параметре :setting:`MT_MYMEMORY_EMAIL`. Также вы можете "
+"запросить у них увеличение лимитов."
 
 #: ../../admin/machine.rst:248
 msgid ""
@@ -11768,25 +11921,33 @@ msgid ""
 "MyMemoryTranslation`` to :setting:`MT_SERVICES` and  set :setting:"
 "`MT_MYMEMORY_EMAIL`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.mymemory.MyMemoryTranslation`` и заданием параметра "
+":setting:`MT_MYMEMORY_EMAIL`."
 
 #: ../../admin/machine.rst:253
 msgid ""
 ":setting:`MT_MYMEMORY_EMAIL`, :setting:`MT_MYMEMORY_USER`, :setting:"
 "`MT_MYMEMORY_KEY`, `MyMemory website <https://mymemory.translated.net/>`_"
 msgstr ""
+":setting:`MT_MYMEMORY_EMAIL`, :setting:`MT_MYMEMORY_USER`, "
+":setting:`MT_MYMEMORY_KEY`, `Веб-сайт MyMemory <https://mymemory.translated."
+"net/ru/>`_"
 
 #: ../../admin/machine.rst:261
 msgid "NetEase Sight API machine translation"
-msgstr ""
+msgstr "API машинного перевода NetEase Sight"
 
 #: ../../admin/machine.rst:265
 msgid "Machine translation service provided by Netease."
-msgstr ""
+msgstr "Сервис машинного перевода, предоставляемый Netease."
 
 #: ../../admin/machine.rst:267
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Этот сервис использует API, поэтому вам необходимо получить от NetEase ключ "
+"и секрет."
 
 #: ../../admin/machine.rst:269
 msgid ""
@@ -11794,12 +11955,17 @@ msgid ""
 "NeteaseSightTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_NETEASE_KEY` and :setting:`MT_NETEASE_SECRET`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.youdao.NeteaseSightTranslation`` и заданием параметров "
+":setting:`MT_NETEASE_KEY` и :setting:`MT_NETEASE_SECRET`."
 
 #: ../../admin/machine.rst:275
 msgid ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
 "Translation Platform <https://sight.netease.com/>`_"
 msgstr ""
+":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Платформа перевода "
+"Netease Sight <https://sight.netease.com/>`_"
 
 #: ../../admin/machine.rst:282
 msgid "tmserver"
@@ -11811,24 +11977,30 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"Вы можете запустить свой собственный сервер памяти переводов, используя "
+"сервер, сходящий в поставку с Translate-toolkit, и настроив общение Weblate’"
+"а с ним. Также вы можете использовать его с сервером amaGama, который "
+"является расширенной версией tmserver’а."
 
 #: ../../admin/machine.rst:288
 msgid "First you will want to import some data to the translation memory:"
-msgstr ""
+msgstr "Сперва вам нужно импортировать в память переводов некоторые данные:"
 
 #: ../../admin/machine.rst:290
 msgid ""
 "2. Turn on this service by adding ``weblate.machinery.tmserver."
 "TMServerTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.tmserver.TMServerTranslation``."
 
 #: ../../admin/machine.rst:299
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "Запустите tmserver, чтобы он слушал ваши запросы:"
 
 #: ../../admin/machine.rst:305
 msgid "Configure Weblate to talk to it:"
-msgstr ""
+msgstr "Настройте Weblate для общения с ним:"
 
 #: ../../admin/machine.rst:313
 msgid ""
@@ -11836,20 +12008,25 @@ msgid ""
 "installation`, :doc:`virtaal:amagama`, `Amagama Translation Memory <https://"
 "amagama.translatehouse.org/>`_"
 msgstr ""
+":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` :ref:`Установка amaGama "
+"<amagama:installation>`, :doc:`Amagama <virtaal:amagama>`, `Память переводов "
+"Amagama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:323
 msgid "Yandex Translate"
-msgstr ""
+msgstr "Yandex Translate (Яндекс.Переводчик)"
 
 #: ../../admin/machine.rst:325
 msgid "Machine translation service provided by Yandex."
-msgstr ""
+msgstr "Сервис машинного перевода, предоставляемый Яндексом."
 
 #: ../../admin/machine.rst:327
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex."
 msgstr ""
+"Этот сервис использует API переводчика, поэтому вам необходимо получить от "
+"Яндекса ключ API."
 
 #: ../../admin/machine.rst:329
 msgid ""
@@ -11857,26 +12034,33 @@ msgid ""
 "YandexTranslation`` to :setting:`MT_SERVICES`, and set :setting:"
 "`MT_YANDEX_KEY`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.yandex.YandexTranslation`` и заданием параметра "
+":setting:`MT_YANDEX_KEY`."
 
 #: ../../admin/machine.rst:334
 msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
+":setting:`MT_YANDEX_KEY`, `API Яндекс.Переводчика <https://yandex.ru/dev/"
+"translate/>`_, `Яндекс.Переводчик <https://translate.yandex.ru/>`_"
 
 #: ../../admin/machine.rst:341
 msgid "Youdao Zhiyun API machine translation"
-msgstr ""
+msgstr "API машинного перевода Youdao Zhiyun"
 
 #: ../../admin/machine.rst:345
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "Сервис машинного перевода, предоставляемый Youdao."
 
 #: ../../admin/machine.rst:347
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
 msgstr ""
+"Этот сервис использует API, поэтому вам необходимо получить от Youdao "
+"идентификатор и ключ API."
 
 #: ../../admin/machine.rst:349
 msgid ""
@@ -11884,12 +12068,18 @@ msgid ""
 "YoudaoTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_YOUDAO_ID` and :setting:`MT_YOUDAO_SECRET`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.youdao.YoudaoTranslation`` и заданием параметров "
+":setting:`MT_YOUDAO_ID` и :setting:`MT_YOUDAO_SECRET`."
 
 #: ../../admin/machine.rst:355
 msgid ""
 ":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
 "Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
 msgstr ""
+":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET`, `Сервис переводов "
+"Youdao Zhiyun с естественных языков <https://ai.youdao.com/product-fanyi-text"
+".s>`_"
 
 #: ../../admin/machine.rst:360
 msgid "Weblate"
@@ -11900,42 +12090,53 @@ msgid ""
 "Weblate can be the source of machine translations as well. It is based on "
 "the Woosh fulltext engine, and provides both exact and inexact matches."
 msgstr ""
+"Weblate также сам может быть источником машинных переводов. Этот перевод "
+"основан на движке полнотекстового поиска Woosh и выдаёт как точные, так и "
+"приблизительные соответствия."
 
 #: ../../admin/machine.rst:365
 msgid ""
 "Turn on these services by adding ``weblate.machinery.weblatetm."
 "WeblateTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.weblatetm.WeblateTranslation``."
 
 #: ../../admin/machine.rst:371
 msgid "Weblate Translation Memory"
-msgstr ""
+msgstr "Память переводов Weblate’а"
 
 #: ../../admin/machine.rst:375
 msgid ""
 "The :ref:`translation-memory` can be used as a source for machine "
 "translation suggestions as well."
 msgstr ""
+":ref:`translation-memory` также может использоваться в качестве источника "
+"предложений машинного перевода."
 
 #: ../../admin/machine.rst:378
 msgid ""
 "Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to "
 "the :setting:`MT_SERVICES`. This service is turned on by default."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.machine.WeblateMemory``. Он включён по умолчанию."
 
 #: ../../admin/machine.rst:385
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:387
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "Сервис машинного перевода, предоставляемый SAP."
 
 #: ../../admin/machine.rst:389
 msgid ""
 "You need to have a SAP account (and enabled the SAP Translation Hub in the "
 "SAP Cloud Platform) to use this service."
 msgstr ""
+"Для использования этой службы вам необходимо иметь учётную запись SAP (и "
+"включить SAP Translation Hub в облачной платформе SAP)."
 
 #: ../../admin/machine.rst:392
 msgid ""
@@ -11943,18 +12144,26 @@ msgid ""
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
 "to either sandbox or the productive API."
 msgstr ""
+"Этот сервис включается добавлением в список :setting:`MT_SERVICES` значения "
+"``weblate.machinery.saptranslationhub.SAPTranslationHub`` и заданием доступа "
+"либо к песочнице, либо к рабочему API."
 
 #: ../../admin/machine.rst:398
 msgid ""
 "To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL` and :"
 "setting:`MT_SAP_SANDBOX_APIKEY`."
 msgstr ""
+"Для доступа к API песочницы необходимо задать параметры "
+":setting:`MT_SAP_BASE_URL` и :setting:`MT_SAP_SANDBOX_APIKEY`."
 
 #: ../../admin/machine.rst:401
 msgid ""
 "To access the productive API, you need to set :setting:`MT_SAP_BASE_URL`, :"
 "setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_PASSWORD`."
 msgstr ""
+"Для доступа к рабочему API необходимо задать параметры "
+":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_USERNAME` и "
+":setting:`MT_SAP_PASSWORD`."
 
 #: ../../admin/machine.rst:406
 msgid ""
@@ -11963,10 +12172,14 @@ msgid ""
 "Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_"
 msgstr ""
+":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, "
+":setting:`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, "
+":setting:`MT_SAP_USE_MT` `SAP Translation Hub API <https://api.sap.com/shell/"
+"discover/contentpackage/SAPTranslationHub/api/translationhub>`_"
 
 #: ../../admin/machine.rst:414
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Пользовательский машинный перевод"
 
 #: ../../admin/machine.rst:416
 msgid ""
@@ -11974,12 +12187,17 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
+"Также вы можете реализовать собственные сервисы машинного перевода, написав "
+"всего несколько строк Python’ьего кода. В этом примере реализован машинный "
+"перевод на фиксированный список языков через Python’ий модуль ``dictionary``:"
 
 #: ../../admin/machine.rst:423
 msgid ""
 "You can list own class in :setting:`MT_SERVICES` and Weblate will start "
 "using that."
 msgstr ""
+"Вы можете добавить свой класс в :setting:`MT_SERVICES` и Weblate начнёт его "
+"использовать."
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
@@ -12013,12 +12231,17 @@ msgstr "Вызов команд управления"
 #: ../../admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr ""
+"Как упоминалось ранее, вызов команд зависит от того, как вы установили "
+"Weblate."
 
 #: ../../admin/management.rst:22
 msgid ""
 "If using virtualenv for Weblate, you can either specify the full path to :"
 "command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgstr ""
+"При использовании для Weblate’а виртуального окружения вы можете либо "
+"указать полный путь к команде :command:`weblate`, либо перед вызовом "
+"активировать виртуальное окружение:"
 
 #: ../../admin/management.rst:34
 msgid ""
@@ -12026,6 +12249,9 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"Если вы напрямую используете исходный код (либо из tar-архива, либо из Git’а)"
+", то скрипт управления :file:`./manage.py` доступен из исходников Weblate’а. "
+"Для его запуска выполните следующую команду:"
 
 #: ../../admin/management.rst:42
 msgid ""
@@ -12033,22 +12259,32 @@ msgid ""
 "the :file:`./setup.py` script, the :command:`weblate` is installed to your "
 "path (or virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
+"Если вы установили Weblate с помощью программы установки pip или pip3 или "
+"скрипта :file:`./setup.py`, команда :command:`weblate` устанавливается в "
+"каталог, доступный через системную переменную окружения PATH (или через "
+"переменную PATH виртуального окружения), откуда вы можете использовать её "
+"для управления Weblate’ом:"
 
 #: ../../admin/management.rst:50
 msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
 msgstr ""
+"В случае использования образа Docker’а скрипт устанавливается так же, как и "
+"выше, и вы можете запустить его с помощью команды :command:`docker exec`:"
 
 #: ../../admin/management.rst:57
 msgid ""
 "For :program:`docker-compose` the process is similar, you just have to use :"
 "command:`docker-compose exec`:"
 msgstr ""
+"Для команды :program:`docker-compose` процесс аналогичен, достаточно "
+"использовать вызов :command:`docker-compose exec`:"
 
 #: ../../admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
 msgstr ""
+"В случае, если вам нужно передать ему файл, вы можете временно добавить том:"
 
 #: ../../admin/management.rst:72
 msgid ""
@@ -12067,12 +12303,18 @@ msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
 msgstr ""
+"Импортирует перевод из файла, чтобы использовать его как предложение для "
+"данного перевода. Команда пропускает дубликаты перевода; добавляются только "
+"отличающиеся."
 
 #: ../../admin/management.rst:92
 msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
 msgstr ""
+"Электронная почта автора предложений. До выполнения импорта следует "
+"убедится, что этот пользователь существует (при необходимости его можно "
+"создать через интерфейс администратора)."
 
 #: ../../admin/management.rst:103
 msgid "auto_translate"
@@ -12081,22 +12323,27 @@ msgstr "auto_translate"
 #: ../../admin/management.rst:109
 msgid "Performs automatic translation based on other component translations."
 msgstr ""
+"Выполняет автоматический перевод на основе переводов других компонентов."
 
 #: ../../admin/management.rst:113
 msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
 msgstr ""
+"Задаёт компонент, используемый в качестве доступных для перевода исходных "
+"строк. Если не задан, то используются все компоненты проекта."
 
 #: ../../admin/management.rst:118
 msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
 msgstr ""
+"Задаёт имя пользователя, указываемое в качестве автора переводов. Если не "
+"задан, используется «анонимный пользователь»."
 
 #: ../../admin/management.rst:123
 msgid "Whether to overwrite existing translations."
-msgstr ""
+msgstr "Перезаписывать ли существующие переводы."
 
 #: ../../admin/management.rst:127
 msgid ""
@@ -12755,60 +13002,79 @@ msgstr "Память переводов"
 msgid ""
 "Weblate comes with a built-in translation memory consisting of the following:"
 msgstr ""
+"Weblate поставляется со встроенной памятью переводов, состоящей из следующих "
+"частей:"
 
 #: ../../admin/memory.rst:10
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
 msgstr ""
+"Вручную импортированная память переводов (смотрите раздел :ref:`memory-"
+"user`)."
 
 #: ../../admin/memory.rst:11
 msgid ""
 "Automatically stored translations performed in Weblate (depending on :ref:"
 "`memory-scopes`)."
 msgstr ""
+"Автоматически сохранённые переводы, выполненные в Weblate’е (зависят от "
+":ref:`областей действия памяти переводов <memory-scopes>`)."
 
 #: ../../admin/memory.rst:12
 msgid "Automatically imported past translations."
-msgstr ""
+msgstr "Автоматически импортированные прошлые переводы."
 
 #: ../../admin/memory.rst:14
 msgid "Content in the translation memory can be applied one of two ways:"
 msgstr ""
+"Содержимое памяти переводов может быть применено одним из двух способов:"
 
 #: ../../admin/memory.rst:16
 msgid "Manually, :ref:`machine-translation` view while translating."
 msgstr ""
+"Вручную во время перевода, на вкладке :ref:`«Автоматизированный перевод» "
+"<machine-translation>`."
 
 #: ../../admin/memory.rst:17
 msgid ""
 "Automatically, by translating strings using :ref:`auto-translation`, or :ref:"
 "`addon-weblate.autotranslate.autotranslate` addon."
 msgstr ""
+"Автоматически, путём перевода строк с помощью инструмента :ref:`auto-"
+"translation` или надстройки :ref:`addon-weblate.autotranslate.autotranslate`."
 
 #: ../../admin/memory.rst:20
 msgid ""
 "For installation tips, see :ref:`weblate-translation-memory`, which is "
 "turned on by default."
 msgstr ""
+"Подсказки по установке смотрите в :ref:`памяти переводов Weblate’а <weblate-"
+"translation-memory>`, которая включена по умолчанию."
 
 #: ../../admin/memory.rst:27
 msgid "Translation memory scopes"
-msgstr ""
+msgstr "Области действия памяти переводов"
 
 #: ../../admin/memory.rst:31
 msgid ""
 "In earlier versions translation memory could be only loaded from a file "
 "corresponding to the current imported translation memory scope."
 msgstr ""
+"В более ранних версиях память переводов могла быть загружена только из "
+"файла, соответствующего области действия текущей импортированной памяти "
+"переводов."
 
 #: ../../admin/memory.rst:34
 msgid ""
 "The translation memory scopes are there to allow both privacy and sharing of "
 "translations, to suit the desired behavior."
 msgstr ""
+"Области действия памяти переводов позволяют обеспечить как "
+"конфиденциальность, так и совместное использование переводов в соответствии "
+"с желаемым поведением."
 
 #: ../../admin/memory.rst:38
 msgid "Imported translation memory"
-msgstr ""
+msgstr "Импортированная память переводов"
 
 #: ../../admin/memory.rst:40
 msgid ""
@@ -12816,26 +13082,33 @@ msgid ""
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
+"Импорт произвольных данных памяти переводов с помощью команды "
+":djadmin:`import_memory` делает содержимое памяти переводов доступным для "
+"всех пользователей и проектов."
 
 #: ../../admin/memory.rst:44
 msgid "Per user translation memory"
-msgstr ""
+msgstr "Память переводов пользователя"
 
 #: ../../admin/memory.rst:46
 msgid ""
 "Stores all user translations automatically in the personal translation "
 "memory of each respective user."
 msgstr ""
+"Автоматически сохраняет все переводы пользователя в персональной памяти "
+"переводов соответствующего пользователя."
 
 #: ../../admin/memory.rst:49
 msgid "Per project translation memory"
-msgstr ""
+msgstr "Память переводов проекта"
 
 #: ../../admin/memory.rst:51
 msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
 msgstr ""
+"Все переводы в рамках проекта автоматически сохраняются в памяти переводов "
+"проекта, доступной только для этого проекта."
 
 #: ../../admin/memory.rst:57
 msgid "Shared translation memory"
@@ -12846,28 +13119,33 @@ msgid ""
 "All translation within projects with shared translation memory turned on are "
 "stored in a shared translation memory available to all projects."
 msgstr ""
+"Все переводы в проектах с включённой совместной памятью переводов "
+"сохраняются в совместной памяти переводов, доступной для всех проектов."
 
 #: ../../admin/memory.rst:62
 msgid ""
 "Please consider carefully whether to turn this feature on for shared Weblate "
 "installations, as it can have severe implications:"
 msgstr ""
+"Пожалуйста, внимательно подумайте, следует ли включать эту функцию для "
+"совместно используемых установок Weblate, поскольку это может иметь "
+"серьёзные последствия:"
 
 #: ../../admin/memory.rst:65
 msgid "The translations can be used by anybody else."
-msgstr ""
+msgstr "Переводы могут быть использованы кем угодно."
 
 #: ../../admin/memory.rst:66
 msgid "This might lead to disclosing secret information."
-msgstr ""
+msgstr "Это может привести к разглашению секретной информации."
 
 #: ../../admin/memory.rst:69
 msgid "Managing translation memory"
-msgstr ""
+msgstr "Управление памятью переводов"
 
 #: ../../admin/memory.rst:74
 msgid "User interface"
-msgstr ""
+msgstr "Пользовательский интерфейс"
 
 #: ../../admin/memory.rst:78
 msgid ""
@@ -12875,12 +13153,17 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
+"В базовом пользовательском интерфейсе вы можете управлять памятью переводов "
+"пользователя и проекта. Через него вы можете загружать, стирать или "
+"импортировать память переводов."
 
 #: ../../admin/memory.rst:83
 msgid ""
 "Translation memory in JSON can be imported into Weblate, TMX is provided for "
 "interoperability with other tools."
 msgstr ""
+"В Weblate может быть импортирована память переводов в формате JSON, формат "
+"TMX предусмотрен для взаимодействия с другими инструментами."
 
 #: ../../admin/memory.rst:88
 msgid ":ref:`schema-memory`"
@@ -12902,11 +13185,11 @@ msgstr ":djadmin:`dump_memory`"
 
 #: ../../admin/memory.rst:100
 msgid "Exports the memory into JSON"
-msgstr ""
+msgstr "Экспортирует память переводов в виде JSON’а"
 
 #: ../../admin/memory.rst:102
 msgid "Imports TMX or JSON files into the translation memory"
-msgstr ""
+msgstr "Импортирует файлы TMX или JSON в память переводов"
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
@@ -14995,6 +15278,8 @@ msgid ""
 "The following example is shipped as :file:`weblate/settings_example.py` with "
 "Weblate:"
 msgstr ""
+"Следующий пример поставляется с Weblate’ом в виде файла :file:`weblate/"
+"settings_example.py`:"
 
 #: ../../admin/support.rst:2
 msgid "Getting support for Weblate"
@@ -21136,7 +21421,7 @@ msgstr ""
 
 #: ../../changes.rst:950
 msgid "Support for Microsoft Cognitive Services Translator API."
-msgstr ""
+msgstr "Поддержка API переводчика Microsoft Cognitive Services."
 
 #: ../../changes.rst:951
 msgid "Simplified project and component user interface."
