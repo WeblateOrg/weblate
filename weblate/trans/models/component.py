@@ -2328,7 +2328,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         else:
             self.delete_alert("UnsupportedConfiguration")
 
-        if not self.alert_set(dismissed=True, name="BrokenBrowserURL").exists():
+        if not self.alert_set.filter(dismissed=True, name="BrokenBrowserURL").exists():
             location_error = None
             location_link = None
             if self.repoweb:
@@ -2349,7 +2349,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 self.delete_alert("BrokenBrowserURL")
 
         if self.project.web:
-            if self.alert_set(dismissed=True, name="BrokenProjectURL").exists():
+            if self.alert_set.filter(dismissed=True, name="BrokenProjectURL").exists():
                 error = get_uri_error(self.project.web)
                 if error is not None:
                     self.add_alert("BrokenProjectURL", error=error)
