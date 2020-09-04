@@ -95,8 +95,8 @@ Version specific instructions
 Upgrade from 2.x
 ~~~~~~~~~~~~~~~~
 
-If you are upgrading from 2.x release, always first upgrade to 3.0.1 and the
-continue upgrading in the 3.x series.  Upgrades skipping this step are not
+If you are upgrading from 2.x release, always first upgrade to 3.0.1 and then
+continue upgrading in the 3.x series. Upgrades skipping this step are not
 supported and will break.
 
 .. seealso::
@@ -106,9 +106,9 @@ supported and will break.
 Upgrade from 3.x
 ~~~~~~~~~~~~~~~~
 
-If you are upgrading from 3.x release, always first upgrade to 4.0.4 and the
-continue upgrading in the 4.x series.  Upgrades skipping this step are not
-supported and will break.
+If you are upgrading from 3.x release, always first upgrade to 4.0.4 or 4.1.1
+and then continue upgrading in the 4.x series. Upgrades skipping this step are
+not supported and will break.
 
 .. seealso::
 
