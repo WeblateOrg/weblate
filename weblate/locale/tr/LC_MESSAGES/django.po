@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-04 11:15+0000\n"
-"PO-Revision-Date: 2020-09-04 08:45+0000\n"
+"PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -72,10 +72,8 @@ msgid "Full name"
 msgstr "Ad soyad"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "E-postanız"
+msgstr "Herkese açık e-posta"
 
 #: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -370,10 +368,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "{username} tarafından Weblate'e davet edildi."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Yeni çeviri başlat"
+msgstr "Deneme süresi başlatıldı."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -538,30 +534,24 @@ msgstr ""
 "panelde gösterilir."
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "Lisans URL'si"
+msgstr "Web Sitesi URL'si"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "kullanıcı adı"
+msgstr "GitHub kullanıcı adı"
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "Hazırlayanın kullanıcı adı"
+msgstr "Twitter kullanıcı adı"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "LinkedIn profil adı"
 
 #: weblate/accounts/models.py:430
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "Linkedin.com/in/profil adındaki LinkedIn profil adınız"
 
 #: weblate/accounts/models.py:434
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -570,16 +560,12 @@ msgid "Location"
 msgstr "Yer"
 
 #: weblate/accounts/models.py:439
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "Bileşen"
+msgstr "Şirket"
 
 #: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
 msgid "Public email"
-msgstr "Açık"
+msgstr "Herkese açık e-posta"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -790,7 +776,7 @@ msgstr "İleti yöneticiye gönderilemedi."
 
 #: weblate/accounts/views.py:235
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "İsteğiniz gönderildi, kısa süre içinde bizden haber alacaksınız."
 
 #: weblate/accounts/views.py:348
 msgid "Your profile has been updated."
@@ -823,17 +809,22 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Görünüşe göre yakın zamanda bir deneme süresi talep etmişsiniz. Sizin için "
+"en iyi çözümü bulabilmemiz için lütfen sorunuzla birlikte bizimle iletişime "
+"geçin."
 
 #: weblate/accounts/views.py:594
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Deneme süreniz şu an başladı ve işliyor; çeviri projenizi oluşturun ve "
+"Weblatlemeye başlayın!"
 
 #: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Bedava deneme"
 
 #: weblate/accounts/views.py:690 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -2135,26 +2126,22 @@ msgid "In display limits"
 msgstr "Görüntüleme sınırları içinde"
 
 #: weblate/billing/models.py:397
-#, fuzzy, python-format
-#| msgid "Contributed projects"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Katkıda bulunulan projeler"
-msgstr[1] "Katkıda bulunulan projeler"
+msgstr[0] "%d proje içeriyor"
+msgstr[1] "%d proje içeriyor"
 
 #: weblate/billing/models.py:414
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Bileşen yeniden adlandırıldı"
-msgstr[1] "Bileşen yeniden adlandırıldı"
+msgstr[0] "%d bileşen içeriyor"
+msgstr[1] "%d bileşen içeriyor"
 
 #: weblate/billing/models.py:429
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "Lisans değişti"
+msgstr "Eksik lisans"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -2165,16 +2152,12 @@ msgstr ""
 "durduracaksınız."
 
 #: weblate/billing/tasks.py:108
-#, fuzzy
-#| msgid ""
-#| "You will stop receiving this notification once you pay the bills or the "
-#| "project is removed."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"Faturaları ödedikten veya proje kaldırıldığında bu bildirimi almayı "
-"durduracaksınız."
+"Normal aboneliğe geçtiğinizde veya proje kaldırıldıktan sonra bu bildirimi "
+"almanız duracak."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -2334,7 +2317,7 @@ msgstr "Aynı çoğullar"
 
 #: weblate/checks/consistency.py:52
 msgid "Some plural forms are translated in the same way"
-msgstr "Bazı çoğul biçimler aynı yolla çevrilmiş"
+msgstr "Bazı çoğul biçimler aynı şekilde çevrilmiş"
 
 #: weblate/checks/consistency.py:71
 msgid "Inconsistent"
@@ -4014,10 +3997,8 @@ msgid "Register"
 msgstr "Kaydol"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "Abonelikler"
+msgstr "Deneme abonelikleri"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -4026,14 +4007,12 @@ msgid ", expires %(expires)s"
 msgstr ", %(expires)s sonunda bitiyor"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "Bekleyen dizgi"
+msgstr "Bekleyen onay"
 
 #: weblate/templates/accounts/hosting.html:44
 msgid "Additional things to check manually:"
-msgstr ""
+msgstr "El ile denetlenecek ek şeyler:"
 
 #: weblate/templates/accounts/hosting.html:46
 #: weblate/templates/accounts/hosting.html:80
@@ -4046,42 +4025,38 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:47
 #: weblate/templates/accounts/hosting.html:81
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Kullanıcı bu projeden kaldırıldı."
+msgstr "Weblate'i kullanmak, yukarı akış projesi tarafından onaylanmıştır."
 
 #: weblate/templates/accounts/hosting.html:48
 #: weblate/templates/accounts/hosting.html:82
 msgid "The project has active development for at least three months."
-msgstr ""
+msgstr "Proje en az üç ay etkin geliştirmeye sahip."
 
 #: weblate/templates/accounts/hosting.html:50
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "Dizgi onaylandı"
+msgstr "Özgürce onaylayın"
 
 #: weblate/templates/accounts/hosting.html:52
 #: weblate/templates/mail/billing_expired.html:43
 msgid "Request approval for libre hosting"
-msgstr ""
+msgstr "Özgür barındırma için onay isteyin"
 
 #: weblate/templates/accounts/hosting.html:55
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
 msgstr ""
+"Bu abonelik, özgür planına uygun değil, lütfen yukarıdaki hataları düzeltin "
+"veya bir abonelik satın alın."
 
 #: weblate/templates/accounts/hosting.html:58
 msgid "Extend trial"
-msgstr ""
+msgstr "Deneme süresini uzatın"
 
 #: weblate/templates/accounts/hosting.html:71
-#, fuzzy
-#| msgid "Translation project:"
 msgid "Translate your libre project"
-msgstr "Çeviri projesi:"
+msgstr "Özgür projenizi çevirin"
 
 #: weblate/templates/accounts/hosting.html:75
 msgid ""
@@ -4101,31 +4076,27 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:83
 msgid "You will have 14 days to setup your project."
-msgstr ""
+msgstr "Projenizi ayarlamak için 14 gününüz olacak."
 
 #: weblate/templates/accounts/hosting.html:84
 msgid "Please request project approval once the setup is completed."
-msgstr ""
+msgstr "Ayarlama tamamlandıktan sonra lütfen proje onayı isteyin."
 
 #: weblate/templates/accounts/hosting.html:85
 msgid "Not approved projects will be removed."
-msgstr ""
+msgstr "Onaylanmayan projeler kaldırılacaktır."
 
 #: weblate/templates/accounts/hosting.html:86
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "Hizmet kullanılabilirliği veya nitelik garantisi yoktur."
 
 #: weblate/templates/accounts/hosting.html:91
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "Destek al"
+msgstr "Başlayın"
 
 #: weblate/templates/accounts/hosting.html:97
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Ticari barındırma için bizimle iletişime geçiniz"
+msgstr "Ticari barındırma mı arıyorsunuz?"
 
 #: weblate/templates/accounts/hosting.html:100
 #, python-format
@@ -4331,10 +4302,8 @@ msgid "Download user data"
 msgstr "Kullanıcı verilerini indir"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "Açık profiliniz"
+msgstr "Herkese açık profil"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
@@ -4342,6 +4311,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Bu sayfadaki tüm alanlar isteğe bağlıdır ve istediğiniz zaman silinebilir ve "
+"bunları doldurarak, bu verileri kullanıcı profilinizin göründüğü her yerde "
+"paylaşmamıza izin vermiş olursunuz."
 
 #: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
@@ -4531,50 +4503,42 @@ msgid "Reset my password"
 msgstr "Parolamı sıfırla"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "Weblate'i kullandığınız için teşekkür ederiz."
+msgstr "Weblate'i denemeye gösterdiğiniz ilgi için teşekkür ederiz!"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "Profiliniz"
+msgstr "Deneme süresi teklifiniz"
 
 #: weblate/templates/accounts/trial.html:22
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will"
-msgstr "E-postanız"
+msgstr "Deneme süreniz"
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:25
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "last for 14 days."
-msgstr "Son 30 gün"
+msgstr "için son 14 gün."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:27
 msgid "run the Enterprise plan."
-msgstr ""
+msgstr "Kurumsal planı çalıştıracak."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:29
 msgid "need no credit card, but you can set the payment method anytime."
 msgstr ""
+"kredi kartına ihtiyacı olmayacak, ancak istediğiniz zaman ödeme yöntemini "
+"ayarlayabilirsiniz."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:31
 msgid "keep the configuration once you start paying."
-msgstr ""
+msgstr "ödemeye başladığınızda yapılandırmayı koruyacak."
 
 #: weblate/templates/accounts/trial.html:35
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "Yeni çeviri başlat"
+msgstr "Deneme süresini başlatın!"
 
 #: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -6513,30 +6477,22 @@ msgstr "%(timestamp)s tarihinde oluşturuldu."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "Your trial period is going to expire in less than week."
-msgstr ""
+msgstr "Deneme süreniz bir haftadan kısa bir süre içinde sona erecek."
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please purchase the subsription."
 msgstr ""
-"Faturalandırma planınızın süresi doldu, hizmeti kullanmaya devam etmek "
-"istiyorsanız, lütfen yenileyin."
+"Eğer hizmeti kullanmaya devam etmek istiyorsanız, lütfen aboneliği satın "
+"alın."
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please request approval of your "
 "libre plan."
 msgstr ""
-"Faturalandırma planınızın süresi doldu, hizmeti kullanmaya devam etmek "
-"istiyorsanız, lütfen yenileyin."
+"Eğer hizmeti kullanmaya devam etmek istiyorsanız, lütfen özgür planınızın "
+"onayını isteyin."
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -6577,7 +6533,7 @@ msgstr "Çeviri projenizin kaldırılması planlanıyor"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your trial period is about to expire"
-msgstr ""
+msgstr "Deneme süreniz sona ermek üzere"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
@@ -8518,25 +8474,17 @@ msgstr ""
 "değişmesi gerektiğini düşünüyorsanız lütfen bir öneri ekleyin."
 
 #: weblate/templates/translate.html:183
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions and these are approved by "
-#| "voting."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
-msgstr ""
-"Bu çeviri yalnızca önerileri kabul eder ve bunlar oylama ile onaylanır."
+msgstr "Bu çeviri yalnızca önerileri kabul eder ve bunlar oylama ile onaylanır."
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
 msgstr ""
-"Bu çeviriye katkı, bir katılımcı anlaşmasını kabul etmenizi gerektirir."
+"Bu çeviriye katkıda bulunmak, katkıda bulunan sözleşmesini kabul etmenizi "
+"gerektirir."
 
 #: weblate/templates/translate.html:189
 msgid "Insufficient privileges for editing source strings."
@@ -8609,33 +8557,24 @@ msgid "List of recent changes done in Weblate"
 msgstr "Weblate'te yapılmış en son değişikliklerin listesi"
 
 #: weblate/templates/translate.html:280
-#, fuzzy
-#| msgid "Following string has same context and same source."
-#| msgid_plural "Following strings have same context and same source."
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
-msgstr[0] "Şu dizgi aynı bağlama ve aynı kaynağa sahip."
-msgstr[1] "Şu dizgiler aynı bağlama ve aynı kaynağa sahip."
+msgstr[0] "Şu dizgi aynı bağlama ve kaynağa sahip."
+msgstr[1] "Şu dizgiler aynı bağlama ve kaynağa sahip."
 
 #: weblate/templates/translate.html:288
-#, fuzzy
-#| msgid "Following string has different context but same source."
-#| msgid_plural "Following strings have different contexts but same source."
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "Şu dizgi farklı bağlama ancak aynı kaynağa sahip."
-msgstr[1] "Şu dizgiler farklı bağlamlara ancak aynı kaynağa sahip."
+msgstr[0] "Şu dizgi farklı bağlama, ancak aynı kaynağa sahip."
+msgstr[1] "Şu dizgiler farklı bağlamlara, ancak aynı kaynağa sahip."
 
 #: weblate/templates/translate.html:296
-#, fuzzy
-#| msgid "Following string has different source but same context."
-#| msgid_plural "Following strings have different sources but same context."
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
-msgstr[0] "Şu dizgi farklı kaynağa ancak aynı bağlama sahip."
-msgstr[1] "Şu dizgiler farklı kaynaklara ancak aynı bağlama sahip."
+msgstr[0] "Şu dizgi farklı bir kaynağa, ancak aynı bağlama sahip."
+msgstr[1] "Şu dizgiler farklı kaynaklara, ancak aynı bağlama sahip."
 
 #: weblate/templates/translate.html:332
 msgid "Origin"
@@ -11162,7 +11101,7 @@ msgstr "{day}/{month}"
 #: weblate/trans/views/create.py:221
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
-msgstr ""
+msgstr "Lisans %s olarak algılandı, lütfen doğru olup olmadığını denetleyin."
 
 #: weblate/trans/views/create.py:326
 msgid "Failed to parse uploaded ZIP file."
@@ -11809,16 +11748,16 @@ msgid "Extended self-hosted support"
 msgstr "Genişletilmiş kendi kendine barındırılan desteği"
 
 #: weblate/wladmin/models.py:128
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup repository URL"
-msgstr "Yedek depo"
+msgstr "Yedekleme deposu URL'si"
 
 #: weblate/wladmin/models.py:130
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
 msgstr ""
+"Yerel yedeklemeler için /depoya/giden/yol şeklinde veya uzak SSH "
+"yedeklemeleri için kullanıcı@anamakine:/depoya/giden/yol şeklinde kullanın."
 
 #: weblate/wladmin/models.py:173
 msgid "Backup performed"
