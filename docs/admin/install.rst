@@ -308,7 +308,7 @@ It is recommended to run Weblate with a PostgreSQL database server.
 PostgreSQL
 ++++++++++
 
-PostgreSQL is usually the best choice for Django based sites. It's the reference
+PostgreSQL is usually the best choice for Django-based sites. It's the reference
 database used for implementing Django database layer.
 
 .. note::

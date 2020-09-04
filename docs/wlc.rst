@@ -255,7 +255,7 @@ Configuration files
 
 The program follows the XDG specification, so you can adjust placement of config files
 by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``. On Windows
-``APPDATA`` directory is preferred locatin for the configuration file.
+``APPDATA`` directory is preferred location for the configuration file.
 
 Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):
