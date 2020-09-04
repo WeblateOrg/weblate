@@ -293,7 +293,7 @@
     </tbody>
     {% endif %}
     {% if others.context %}
-    <tr><th colspan="3" class="warning">{% blocktrans count count=others.context|length %}The following string has a different source, but the same context.{% plural %}The following strings have different sources, but same context.{% endblocktrans %}</th></tr>
+    <tr><th colspan="3" class="warning">{% blocktrans count count=others.context|length %}The following string has a different source, but the same context.{% plural %}The following strings have different sources, but the same context.{% endblocktrans %}</th></tr>
     <tbody>
     {% for item in others.context %}
     {% include "trans/other-row.html" %}
