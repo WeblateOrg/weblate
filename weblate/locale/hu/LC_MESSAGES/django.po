@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-08-30 18:42+0000\n"
+"POT-Creation-Date: 2020-09-04 11:15+0000\n"
 "PO-Revision-Date: 2020-08-04 08:32+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
@@ -36,20 +36,20 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Nincs"
 
-#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:195
-#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:217
+#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
+#: weblate/templates/accounts/user.html:14 weblate/templates/base.html:217
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
 msgstr "Felhasználó profilképe"
 
-#: weblate/accounts/forms.py:84
+#: weblate/accounts/forms.py:79
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
 "Ez az e-mail cím már használatban van. Adjon meg egy másik e-mail címet."
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:305
+#: weblate/accounts/forms.py:116 weblate/auth/models.py:305
 #: weblate/utils/validators.py:173
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -58,50 +58,56 @@ msgstr ""
 "A felhasználónév csak betűket, számokat vagy az alábbi karaktereket "
 "tartalmazhatja: @ . + - _"
 
-#: weblate/accounts/forms.py:124 weblate/accounts/forms.py:765
+#: weblate/accounts/forms.py:119 weblate/accounts/forms.py:749
 #: weblate/auth/models.py:301 weblate/templates/manage-access.html:24
 msgid "Username"
 msgstr "Felhasználónév"
 
-#: weblate/accounts/forms.py:138
+#: weblate/accounts/forms.py:133
 msgid "This username is already taken. Please choose another."
 msgstr "Ez a felhasználónév már használatban van. Válasszon egy másikat."
 
-#: weblate/accounts/forms.py:149 weblate/accounts/forms.py:766
+#: weblate/accounts/forms.py:144 weblate/accounts/forms.py:750
 #: weblate/auth/models.py:312 weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "Teljes név"
 
-#: weblate/accounts/forms.py:248 weblate/accounts/forms.py:323
+#: weblate/accounts/forms.py:184
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Public e-mail"
+msgstr "E-mail címe"
+
+#: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
 #: weblate/templates/manage-access.html:26
 #: weblate/templates/manage/users_check.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "E-mail"
 
-#: weblate/accounts/forms.py:249
+#: weblate/accounts/forms.py:276
 msgid "You can add another e-mail address below."
 msgstr "Másik e-mail címet is hozzáadhat alul."
 
-#: weblate/accounts/forms.py:291
+#: weblate/accounts/forms.py:318
 msgid "Subject"
 msgstr "Tárgy"
 
-#: weblate/accounts/forms.py:293 weblate/accounts/forms.py:550
+#: weblate/accounts/forms.py:320
 msgid "Your name"
 msgstr "Az Ön neve"
 
-#: weblate/accounts/forms.py:295 weblate/accounts/forms.py:552
+#: weblate/accounts/forms.py:322
 msgid "Your e-mail"
 msgstr "E-mail címe"
 
-#: weblate/accounts/forms.py:297 weblate/templates/manage/performance.html:27
+#: weblate/accounts/forms.py:324 weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:78
 msgid "Message"
 msgstr "Üzenet"
 
-#: weblate/accounts/forms.py:300
+#: weblate/accounts/forms.py:327
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
@@ -109,27 +115,27 @@ msgstr ""
 "Angolul írjon nekünk, különben előfordulhat, hogy nem tudjuk feldolgozni a "
 "kérést."
 
-#: weblate/accounts/forms.py:324
+#: weblate/accounts/forms.py:351
 msgid "Activation e-mail will be sent here."
 msgstr "Az aktiváló e-mailt ide küldjük."
 
-#: weblate/accounts/forms.py:361
+#: weblate/accounts/forms.py:388
 msgid "Too many failed registration attempts from this location."
 msgstr "Túl sok sikertelen regisztrációs kísérlet erről a helyről."
 
-#: weblate/accounts/forms.py:368
+#: weblate/accounts/forms.py:395
 msgid "New password"
 msgstr "Új jelszó"
 
-#: weblate/accounts/forms.py:371
+#: weblate/accounts/forms.py:398
 msgid "New password confirmation"
 msgstr "Új jelszó megerősítése"
 
-#: weblate/accounts/forms.py:393
+#: weblate/accounts/forms.py:420
 msgid "Your password has been changed."
 msgstr "A jelszava megváltozott."
 
-#: weblate/accounts/forms.py:419
+#: weblate/accounts/forms.py:446
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
@@ -137,121 +143,80 @@ msgid "What is %s?"
 msgstr "Mennyi %s?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
-#: weblate/accounts/forms.py:431
+#: weblate/accounts/forms.py:458
 msgid "That was not correct, please try again."
 msgstr "Ez nem volt helyes, próbálja meg újra."
 
-#: weblate/accounts/forms.py:455
+#: weblate/accounts/forms.py:482
 msgid "Current password"
 msgstr "Jelenlegi jelszó"
 
-#: weblate/accounts/forms.py:456
+#: weblate/accounts/forms.py:483
 msgid "Leave empty if you have not yet set a password."
 msgstr "Hagyja üresen, ha még nem állított be jelszót."
 
-#: weblate/accounts/forms.py:468
+#: weblate/accounts/forms.py:495
 msgid "You have entered an invalid password."
 msgstr "Érvénytelen jelszót adott meg."
 
-#: weblate/accounts/forms.py:481
+#: weblate/accounts/forms.py:508
 msgid "Username or e-mail"
 msgstr "Felhasználónév vagy e-mail"
 
-#: weblate/accounts/forms.py:482 weblate/accounts/templatetags/authnames.py:41
+#: weblate/accounts/forms.py:509 weblate/accounts/templatetags/authnames.py:41
 msgid "Password"
 msgstr "Jelszó"
 
-#: weblate/accounts/forms.py:485
+#: weblate/accounts/forms.py:512
 msgid "Please enter the correct username and password."
 msgstr "Adja meg a helyes felhasználónevet és jelszót."
 
-#: weblate/accounts/forms.py:486
+#: weblate/accounts/forms.py:513
 msgid "This account is inactive."
 msgstr "Ez a fiók inaktív."
 
-#: weblate/accounts/forms.py:503
+#: weblate/accounts/forms.py:530
 msgid "Too many authentication attempts from this location."
 msgstr "Túl sok hitelesítési próbálkozás erről a helyről."
 
-#: weblate/accounts/forms.py:554 weblate/templates/addons/generate_help.html:26
-#: weblate/trans/models/project.py:78
-msgid "Project name"
-msgstr "Projekt neve"
-
-#: weblate/accounts/forms.py:556 weblate/templates/project_info.html:5
-#: weblate/trans/models/project.py:91
-msgid "Project website"
-msgstr "Projekt weboldala"
-
-#: weblate/accounts/forms.py:558 weblate/trans/forms.py:1504
-#: weblate/trans/models/component.py:271
-msgid "Source code repository"
-msgstr "Forráskód tárolója"
-
-#: weblate/accounts/forms.py:559
-msgid "URL of source code repository, for example Git or Mercurial."
-msgstr "A forráskódtároló URL-je, például Git vagy Mercurial."
-
-#: weblate/accounts/forms.py:564 weblate/templates/component_info.html:63
-#: weblate/templates/trans/discover-choice.html:5
-#: weblate/trans/models/component.py:336
-msgid "Filemask"
-msgstr "Fájlmaszk"
-
-#: weblate/accounts/forms.py:566
-msgid ""
-"Path of files to translate, use * instead of language code, for example: po/"
-"*.po or locale/*/LC_MESSAGES/django.po."
-msgstr ""
-"Fordítandó fájlok elérési útja. Használjon * karaktert nyelvi kód helyett, "
-"például po/*.po vagy locale/*/LC_MESSAGES/django.po."
-
-#: weblate/accounts/forms.py:574
-msgid "Additional message"
-msgstr "További üzenet"
-
-#: weblate/accounts/forms.py:578
-msgid "Please describe the project and your relation to it."
-msgstr "Adjon leírást a projektről és az ahhoz való kapcsolatáról."
-
-#: weblate/accounts/forms.py:630
+#: weblate/accounts/forms.py:614
 msgid "Component wide notifications"
 msgstr "Összetevőszintű értesítések"
 
-#: weblate/accounts/forms.py:635
+#: weblate/accounts/forms.py:619
 msgid "Translation notifications"
 msgstr "Fordítási értesítések"
 
-#: weblate/accounts/forms.py:654
+#: weblate/accounts/forms.py:638
 msgid "Use default setting"
 msgstr "Alapértelmezett beállítás használata"
 
-#: weblate/accounts/forms.py:680 weblate/accounts/models.py:405
-#: weblate/templates/accounts/profile.html:69
-#: weblate/templates/accounts/user.html:66
+#: weblate/accounts/forms.py:664 weblate/accounts/models.py:407
+#: weblate/templates/accounts/profile.html:67
+#: weblate/templates/accounts/user.html:106
 msgid "Watched projects"
 msgstr "Megfigyelt projektek"
 
-#: weblate/accounts/forms.py:682 weblate/templates/accounts/user.html:65
+#: weblate/accounts/forms.py:666 weblate/templates/accounts/user.html:105
 msgid "Managed projects"
 msgstr "Menedzselt projektek"
 
-#: weblate/accounts/forms.py:684
+#: weblate/accounts/forms.py:668
 msgid "Project: {}"
 msgstr "Projekt: {}"
 
-#: weblate/accounts/forms.py:685
+#: weblate/accounts/forms.py:669
 msgid "Component: {}"
 msgstr "Összetevő: {}"
 
-#: weblate/accounts/forms.py:691
+#: weblate/accounts/forms.py:675
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
 "Minden ilyen eseményről értesítést fog kapni a megfigyelt projektekben."
 
-#: weblate/accounts/forms.py:696
+#: weblate/accounts/forms.py:680
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
@@ -259,19 +224,19 @@ msgstr ""
 "Minden ilyen eseményről értesítést fog kapni azokban a projektekben, ahol "
 "adminisztrátori jogosultságokkal rendelkezik."
 
-#: weblate/accounts/forms.py:701
+#: weblate/accounts/forms.py:685
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr ""
 "Minden ilyen eseményről értesítést fog kapni a(z) %(project)s projektekben."
 
-#: weblate/accounts/forms.py:704
+#: weblate/accounts/forms.py:688
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
 "Minden ilyen eseményről értesítést fog kapni a(z) %(component)s összetevőben."
 
-#: weblate/accounts/forms.py:711
+#: weblate/accounts/forms.py:695
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -279,7 +244,7 @@ msgstr ""
 "Ezeket az értesítéseket csak a megfigyelt projektjeiben lefordított "
 "nyelvekre fogja megkapni."
 
-#: weblate/accounts/forms.py:716
+#: weblate/accounts/forms.py:700
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
@@ -287,7 +252,7 @@ msgstr ""
 "Ezeket az értesítéseket csak azokban a projektekben lévő lefordított "
 "nyelvekre fogja megkapni, ahol adminisztrátori jogosultságokkal rendelkezik."
 
-#: weblate/accounts/forms.py:721
+#: weblate/accounts/forms.py:705
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
@@ -296,7 +261,7 @@ msgstr ""
 "Ezeket az értesítéseket csak a(z) %(project)s projektben lévő lefordított "
 "nyelvekre fogja megkapni."
 
-#: weblate/accounts/forms.py:725
+#: weblate/accounts/forms.py:709
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
@@ -305,144 +270,150 @@ msgstr ""
 "Ezeket az értesítéseket csak a(z) %(component)s összetevőben lévő "
 "lefordított nyelvekre fogja megkapni."
 
-#: weblate/accounts/forms.py:767 weblate/auth/models.py:335
+#: weblate/accounts/forms.py:751 weblate/auth/models.py:335
 #: weblate/templates/manage/users_check.html:21
 msgid "Date joined"
 msgstr "Csatlakozás dátuma"
 
-#: weblate/accounts/forms.py:768 weblate/templates/about/stats.html:120
+#: weblate/accounts/forms.py:752 weblate/templates/about/stats.html:120
 msgid "Translations made"
 msgstr "Elvégzett fordítások"
 
-#: weblate/accounts/forms.py:769 weblate/templates/about/stats.html:116
+#: weblate/accounts/forms.py:753 weblate/templates/about/stats.html:116
 msgid "Suggestions made"
 msgstr "Megtett javaslatok"
 
-#: weblate/accounts/forms.py:770
+#: weblate/accounts/forms.py:754
 msgid "Comments made"
 msgstr "Megjegyzések hozzáadva"
 
-#: weblate/accounts/forms.py:771
+#: weblate/accounts/forms.py:755
 msgid "Screenshots uploaded"
 msgstr "Feltöltött képernyőképek"
 
-#: weblate/accounts/forms.py:794
+#: weblate/accounts/forms.py:778
 msgid "Invalid ordering"
 msgstr "Érvénytelen rendezés"
 
-#: weblate/accounts/models.py:82
+#: weblate/accounts/models.py:83
 msgid "Password changed."
 msgstr "Jelszó megváltoztatva."
 
-#: weblate/accounts/models.py:83
+#: weblate/accounts/models.py:84
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
 msgstr "Felhasználónév megváltoztatva: {old} → {new}."
 
-#: weblate/accounts/models.py:84
+#: weblate/accounts/models.py:85
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
 msgstr "E-mail megváltoztatva: {old} → {new}."
 
-#: weblate/accounts/models.py:85
+#: weblate/accounts/models.py:86
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
 msgstr "Teljes név megváltoztatva: {old} → {new}."
 
-#: weblate/accounts/models.py:86
+#: weblate/accounts/models.py:87
 msgid "Password reset requested."
 msgstr "Jelszó-visszaállítás lett kérve."
 
-#: weblate/accounts/models.py:87
+#: weblate/accounts/models.py:88
 msgid "Password reset confirmed, password turned off."
 msgstr "Jelszó-visszaállítás megerősítve, a jelszó kikapcsolva."
 
-#: weblate/accounts/models.py:88
+#: weblate/accounts/models.py:89
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
 msgstr "Bejelentkezés {method} használatával beállítva ({name})."
 
-#: weblate/accounts/models.py:89
+#: weblate/accounts/models.py:90
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
 msgstr "Bejelentkezés {method} használatával eltávolítva ({name})."
 
-#: weblate/accounts/models.py:90
+#: weblate/accounts/models.py:91
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "Bejelentkezett {method} használatával ({name})."
 
-#: weblate/accounts/models.py:91
+#: weblate/accounts/models.py:92
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Bejelentkezett {method} használatával ({name}) egy új eszközről."
 
-#: weblate/accounts/models.py:92
+#: weblate/accounts/models.py:93
 msgid "Somebody has attempted to register with your e-mail."
 msgstr "Valaki megpróbált az Ön e-mail címével regisztrálni."
 
-#: weblate/accounts/models.py:93
+#: weblate/accounts/models.py:94
 msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Valaki megpróbált az Ön e-mail címe használatával regisztrálni."
 
-#: weblate/accounts/models.py:94
+#: weblate/accounts/models.py:95
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "Nem sikerült bejelentkezni {method} használatával ({name})."
 
-#: weblate/accounts/models.py:95
+#: weblate/accounts/models.py:96
 msgid "Account locked due to many failed sign in attempts."
 msgstr "A fiók zárolva lett több sikertelen bejelentkezési kísérlet miatt."
 
-#: weblate/accounts/models.py:96
+#: weblate/accounts/models.py:97
 msgid "Account and all private data removed."
 msgstr "A fiók és az összes személyes adat eltávolítva."
 
-#: weblate/accounts/models.py:97
+#: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
 msgstr "Megállapodás az általános szerződési feltételekről {date}."
 
-#: weblate/accounts/models.py:98
+#: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "Invited to Weblate by {username}."
 msgstr "{username} meghívta a Weblate-re."
 
-#: weblate/accounts/models.py:103
+#: weblate/accounts/models.py:100
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Started trial period."
+msgstr "Új fordítás indítása"
+
+#: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
 msgstr "Jelszó beállítva a bejelentkezéshez."
 
-#: weblate/accounts/models.py:104
+#: weblate/accounts/models.py:106
 msgid "Signed in using password."
 msgstr "Bejelentkezett jelszó használatával."
 
-#: weblate/accounts/models.py:105
+#: weblate/accounts/models.py:107
 msgid "Signed in using password from a new device."
 msgstr "Bejelentkezett jelszó használatával egy új eszközről."
 
-#: weblate/accounts/models.py:106
+#: weblate/accounts/models.py:108
 msgid "Could not sign in using password."
 msgstr "Nem sikerült bejelentkezni a jelszó használatával."
 
-#: weblate/accounts/models.py:111
+#: weblate/accounts/models.py:113
 msgid "To restore access to your account, please reset your password."
 msgstr ""
 "A fiókjához való hozzáférés helyreállításához állítsa vissza a jelszavát."
 
-#: weblate/accounts/models.py:229 weblate/templates/accounts/profile.html:217
+#: weblate/accounts/models.py:231 weblate/templates/accounts/profile.html:227
 #: weblate/templates/manage/users_check.html:38
 msgid "Account activity"
 msgstr "Fióktevékenység"
 
-#: weblate/accounts/models.py:282
+#: weblate/accounts/models.py:284
 msgid "Interface Language"
 msgstr "Felhasználói felület nyelve"
 
-#: weblate/accounts/models.py:289
+#: weblate/accounts/models.py:291
 msgid "Translated languages"
 msgstr "Lefordított nyelvek"
 
-#: weblate/accounts/models.py:292
+#: weblate/accounts/models.py:294
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
@@ -451,11 +422,11 @@ msgstr ""
 "felajánlva Önnek a vezérlőpulton, hogy egyszerűbb hozzáférést nyújtson a "
 "kiválasztott fordításokhoz."
 
-#: weblate/accounts/models.py:299
+#: weblate/accounts/models.py:301
 msgid "Secondary languages"
 msgstr "Másodlagos nyelvek"
 
-#: weblate/accounts/models.py:301
+#: weblate/accounts/models.py:303
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -463,23 +434,23 @@ msgstr ""
 "Válassza ki azokat a nyelveket, amelyeket megért. Az ilyen nyelvű szövegek "
 "is meg fognak jelenni a forrásszöveg mellett."
 
-#: weblate/accounts/models.py:313
+#: weblate/accounts/models.py:315
 msgid "Hide completed translations on the dashboard"
 msgstr "Befejezett fordítások elrejtése a vezérlőpulton"
 
-#: weblate/accounts/models.py:316
+#: weblate/accounts/models.py:318
 msgid "Show secondary translations in the Zen mode"
 msgstr "Másodlagos fordítások megjelenítése a Zen módban"
 
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:321
 msgid "Hide source if a secondary translation exists"
 msgstr "Forrás elrejtése, ha másodlagos fordítás létezik"
 
-#: weblate/accounts/models.py:325
+#: weblate/accounts/models.py:327
 msgid "Editor link"
 msgstr "Szerkesztő hivatkozás"
 
-#: weblate/accounts/models.py:327
+#: weblate/accounts/models.py:329
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -489,35 +460,35 @@ msgstr ""
 "használva. Használhatja a {{branch}} helykitöltőt az ághoz, valamint a "
 "{{filename}} és {{line}} helykitöltőket a fájlnévhez és sorhoz."
 
-#: weblate/accounts/models.py:336
+#: weblate/accounts/models.py:338
 msgid "Translation editor mode"
 msgstr "Fordítási szerkesztő mód"
 
-#: weblate/accounts/models.py:337
+#: weblate/accounts/models.py:339
 msgid "Full editor"
 msgstr "Teljes szerkesztő"
 
-#: weblate/accounts/models.py:337
+#: weblate/accounts/models.py:339
 msgid "Zen mode"
 msgstr "Zen mód"
 
-#: weblate/accounts/models.py:343
+#: weblate/accounts/models.py:345
 msgid "Zen editor mode"
 msgstr "Zen szerkesztő mód"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:347
 msgid "Top to bottom"
 msgstr "Fentről lefelé"
 
-#: weblate/accounts/models.py:346
+#: weblate/accounts/models.py:348
 msgid "Side by side"
 msgstr "Egymás mellett"
 
-#: weblate/accounts/models.py:354
+#: weblate/accounts/models.py:356
 msgid "Special characters"
 msgstr "Különleges karakterek"
 
-#: weblate/accounts/models.py:356
+#: weblate/accounts/models.py:358
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
@@ -527,44 +498,44 @@ msgstr ""
 "fordítás közben jelennek meg. Ez olyan karaktereknél lehet hasznos, "
 "amelyeket gyakran használ, de nehezen gépelhetők be a billentyűzetéről."
 
-#: weblate/accounts/models.py:362
+#: weblate/accounts/models.py:364
 msgid "Number of nearby strings"
 msgstr "Szomszédos szövegek száma"
 
-#: weblate/accounts/models.py:366
+#: weblate/accounts/models.py:368
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
 "Mindkét irányban megjelenítendő szomszédos szövegek száma a teljes "
 "szerkesztőben."
 
-#: weblate/accounts/models.py:376 weblate/templates/dashboard/user.html:20
+#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
 msgstr "Megfigyelt fordítások"
 
-#: weblate/accounts/models.py:377 weblate/auth/models.py:135
+#: weblate/accounts/models.py:379 weblate/auth/models.py:135
 #: weblate/templates/dashboard/user.html:23
 #: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Összetevőlisták"
 
-#: weblate/accounts/models.py:378 weblate/templates/dashboard/user.html:64
+#: weblate/accounts/models.py:380 weblate/templates/dashboard/user.html:64
 #: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Összetevőlista"
 
-#: weblate/accounts/models.py:379 weblate/templates/dashboard/user.html:25
+#: weblate/accounts/models.py:381 weblate/templates/dashboard/user.html:25
 msgid "Suggested translations"
 msgstr "Javasolt fordítások"
 
-#: weblate/accounts/models.py:391
+#: weblate/accounts/models.py:393
 msgid "Default dashboard view"
 msgstr "Alapértelmezett vezérlőpult nézet"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:399
 msgid "Default component list"
 msgstr "Alapértelmezett összetevőlista"
 
-#: weblate/accounts/models.py:407
+#: weblate/accounts/models.py:409
 #: weblate/templates/snippets/watch-dropdown.html:28
 #: weblate/templates/snippets/watch-dropdown.html:30
 msgid ""
@@ -574,20 +545,64 @@ msgstr ""
 "Értesítéseket kaphat a megfigyelt projektekről, és azok alapértelmezetten "
 "megjelennek a vezérlőpulton."
 
-#: weblate/accounts/models.py:452
+#: weblate/accounts/models.py:417
+#, fuzzy
+#| msgid "License URL"
+msgid "Website URL"
+msgstr "Licenc URL"
+
+#: weblate/accounts/models.py:421
+#, fuzzy
+#| msgid "username"
+msgid "GitHub username"
+msgstr "Felhasználónév"
+
+#: weblate/accounts/models.py:425
+#, fuzzy
+#| msgid "Author username"
+msgid "Twitter username"
+msgstr "Szerző felhasználóneve"
+
+#: weblate/accounts/models.py:429
+msgid "LinkedIn profile name"
+msgstr ""
+
+#: weblate/accounts/models.py:430
+msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
+msgstr ""
+
+#: weblate/accounts/models.py:434
+#: weblate/templates/screenshots/screenshot_detail.html:29
+#: weblate/templates/screenshots/screenshot_detail.html:57
+msgid "Location"
+msgstr "Hely"
+
+#: weblate/accounts/models.py:439
+#, fuzzy
+#| msgid "Component"
+msgid "Company"
+msgstr "Összetevő"
+
+#: weblate/accounts/models.py:444
+#, fuzzy
+#| msgid "Public"
+msgid "Public email"
+msgstr "Nyilvános"
+
+#: weblate/accounts/models.py:488
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr ""
 "Válassza ki, hogy melyik összetevőlistát szeretné megjeleníteni a "
 "vezérlőpulton."
 
-#: weblate/accounts/models.py:463
+#: weblate/accounts/models.py:499
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
 "Az összetevőlista kiválasztásának nincs hatása, ha nem jelenik meg a "
 "vezérlőpulton."
 
-#: weblate/accounts/models.py:587
+#: weblate/accounts/models.py:623
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -669,7 +684,7 @@ msgstr "Megemlítve a megjegyezésben"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:577 weblate/templates/translate.html:356
-#: weblate/trans/forms.py:904
+#: weblate/trans/forms.py:902
 msgid "New comment"
 msgstr "Új megjegyzés"
 
@@ -769,55 +784,72 @@ msgstr ""
 "Az e-mail címe többé már nem tartozik ellenőrzött fiókhoz. Meg lett "
 "változtatva erre: {0}."
 
-#: weblate/accounts/views.py:178 weblate/accounts/views.py:794
-#: weblate/accounts/views.py:840 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:177 weblate/accounts/views.py:872
+#: weblate/accounts/views.py:918 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
 msgstr "Jelszó-visszaállítás"
 
-#: weblate/accounts/views.py:181
+#: weblate/accounts/views.py:180
 msgid "Remove account"
 msgstr "Fiók eltávolítása"
 
-#: weblate/accounts/views.py:184 weblate/accounts/views.py:690
+#: weblate/accounts/views.py:183 weblate/accounts/views.py:768
 msgid "User registration"
 msgstr "Felhasználó-regisztráció"
 
-#: weblate/accounts/views.py:215
+#: weblate/accounts/views.py:214
 msgid "Could not send message to administrator."
 msgstr "Nem sikerült üzenetet küldeni a rendszergazdának."
 
 #: weblate/accounts/views.py:235
-msgid "Message has been sent to administrator."
-msgstr "Az üzenet elküldésre került a rendszergazdának."
+msgid "Your request has been sent, you will shortly hear from us."
+msgstr ""
 
-#: weblate/accounts/views.py:346
+#: weblate/accounts/views.py:348
 msgid "Your profile has been updated."
 msgstr "A profilja frissítve lett."
 
-#: weblate/accounts/views.py:380
+#: weblate/accounts/views.py:383
 msgid "User profile"
 msgstr "Felhasználói profil"
 
-#: weblate/accounts/views.py:401
+#: weblate/accounts/views.py:404
 msgid "Your account has been removed."
 msgstr "A fiókja el lett távolítva."
 
-#: weblate/accounts/views.py:467
+#: weblate/accounts/views.py:470
 msgid "Too many messages sent, please try again later."
 msgstr "Túl sok üzenetet küldtek, próbálja meg később újra."
 
-#: weblate/accounts/views.py:490 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:493 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:247
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "Kapcsolat"
 
-#: weblate/accounts/views.py:521 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:547 weblate/templates/accounts/hosting.html:8
 msgid "Hosting"
 msgstr "Tárhelyszolgáltatás"
 
-#: weblate/accounts/views.py:612 weblate/templates/403.html:15
+#: weblate/accounts/views.py:568
+msgid ""
+"Seems you've already requested a trial period recently. Please contact us "
+"with your inquiry so we can find the best solution for you."
+msgstr ""
+
+#: weblate/accounts/views.py:594
+msgid ""
+"Your trial period is now up and running; create your translation project and "
+"start Weblating!"
+msgstr ""
+
+#: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
+#: weblate/templates/accounts/trial.html:7
+msgid "Gratis trial"
+msgstr ""
+
+#: weblate/accounts/views.py:690 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
@@ -825,40 +857,40 @@ msgstr "Tárhelyszolgáltatás"
 msgid "Sign in"
 msgstr "Bejelentkezés"
 
-#: weblate/accounts/views.py:639 weblate/wladmin/sites.py:186
+#: weblate/accounts/views.py:717 weblate/wladmin/sites.py:186
 msgid "Thank you for using Weblate."
 msgstr "Köszönjük, hogy a Weblate-et használja."
 
-#: weblate/accounts/views.py:724 weblate/templates/accounts/email.html:17
+#: weblate/accounts/views.py:802 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
 msgstr "E-mail cím regisztrálása"
 
-#: weblate/accounts/views.py:739 weblate/accounts/views.py:809
+#: weblate/accounts/views.py:817 weblate/accounts/views.py:887
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 "Nem lehet visszaállítani a jelszót, az e-mail hitelesítés ki van kapcsolva."
 
-#: weblate/accounts/views.py:770 weblate/templates/accounts/password.html:13
-#: weblate/templates/accounts/profile.html:135
+#: weblate/accounts/views.py:848 weblate/templates/accounts/password.html:13
+#: weblate/templates/accounts/profile.html:133
 #: weblate/wladmin/templates/admin/base.html:12
 msgid "Change password"
 msgstr "Jelszó megváltoztatása"
 
-#: weblate/accounts/views.py:780
+#: weblate/accounts/views.py:858
 msgid "Password reset has been already completed."
 msgstr "A jelszó visszaállítása már befejeződött."
 
-#: weblate/accounts/views.py:986
+#: weblate/accounts/views.py:1064
 msgid "Could not remove user identity"
 msgstr "Nem sikerült eltávolítani a felhasználói azonosítót"
 
-#: weblate/accounts/views.py:996
+#: weblate/accounts/views.py:1074
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Először adjon hozzá egy másik személyazonosságot az e-mail címe "
 "megerősítésével."
 
-#: weblate/accounts/views.py:1045
+#: weblate/accounts/views.py:1123
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
@@ -866,38 +898,38 @@ msgstr ""
 "Próbáljon meg újra regisztrálni a személyazonossága ellenőrzéséhez. Az "
 "ellenőrzési token valószínűleg lejárt."
 
-#: weblate/accounts/views.py:1052
+#: weblate/accounts/views.py:1130
 msgid "Could not authenticate due to invalid session state."
 msgstr "Nem sikerült hitelesíteni érvénytelen munkamenet-állapot miatt."
 
-#: weblate/accounts/views.py:1059
+#: weblate/accounts/views.py:1137
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Nem érkezett e-mail cím a harmadik fél hitelesítési szolgáltatásától."
 
-#: weblate/accounts/views.py:1061
+#: weblate/accounts/views.py:1139
 msgid "Please register using e-mail instead."
 msgstr "Regisztráljon inkább e-mail cím használatával."
 
-#: weblate/accounts/views.py:1068
+#: weblate/accounts/views.py:1146
 msgid "New registrations are turned off."
 msgstr "Az új regisztrációk ki vannak kapcsolva."
 
-#: weblate/accounts/views.py:1126
+#: weblate/accounts/views.py:1204
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "Nem sikerült hitelesíteni, valószínűleg lejárt token vagy kapcsolódási hiba "
 "miatt."
 
-#: weblate/accounts/views.py:1132
+#: weblate/accounts/views.py:1210
 msgid "Authentication cancelled."
 msgstr "Hitelesítés megszakítva."
 
-#: weblate/accounts/views.py:1135
+#: weblate/accounts/views.py:1213
 msgid "The server does not allow authentication."
 msgstr "A kiszolgáló nem engedélyezi a hitelesítést."
 
-#: weblate/accounts/views.py:1140
+#: weblate/accounts/views.py:1218
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
@@ -905,11 +937,11 @@ msgstr ""
 "Nem sikerült befejezni a regisztrációt. A megadott hitelesítés, e-mail cím "
 "vagy felhasználónév már használatban van egy másik fióknál."
 
-#: weblate/accounts/views.py:1165 weblate/accounts/views.py:1178
+#: weblate/accounts/views.py:1243 weblate/accounts/views.py:1256
 msgid "Notification settings adjusted."
 msgstr "Értesítési beállítások módosítva."
 
-#: weblate/accounts/views.py:1183
+#: weblate/accounts/views.py:1261
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -931,7 +963,7 @@ msgstr ""
 "Automatikusan lefordítja a szövegeket gépi fordítás vagy egyéb összetevők "
 "használatával."
 
-#: weblate/addons/base.py:301 weblate/trans/views/create.py:195
+#: weblate/addons/base.py:301 weblate/trans/views/create.py:194
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -1217,8 +1249,8 @@ msgstr "Reguláris kifejezés a fordítási fájlok illesztéséhez"
 
 #: weblate/addons/forms.py:235
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
-#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:554
-#: weblate/trans/forms.py:1445 weblate/trans/models/component.py:387
+#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:553
+#: weblate/trans/forms.py:1452 weblate/trans/models/component.py:387
 msgid "File format"
 msgstr "Fájlformátum"
 
@@ -1897,7 +1929,7 @@ msgstr "%s (egész oldalra kiterjedő jogosultság)"
 #: weblate/auth/models.py:83 weblate/auth/models.py:108
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
-#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1225
+#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1232
 msgid "Name"
 msgstr "Név"
 
@@ -1938,7 +1970,7 @@ msgid "From component list"
 msgstr "Összetevőlistából"
 
 #: weblate/auth/models.py:128 weblate/billing/admin.py:77
-#: weblate/billing/models.py:232 weblate/templates/about/stats.html:84
+#: weblate/billing/models.py:255 weblate/templates/about/stats.html:84
 #: weblate/templates/base.html:123 weblate/templates/billing/status.html:67
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:182 weblate/trans/views/basic.py:82
@@ -1950,8 +1982,8 @@ msgstr "Projektek"
 #: weblate/templates/language-project.html:16
 #: weblate/templates/mail/base.html:287
 #: weblate/templates/snippets/project-nav.html:14
-#: weblate/templates/snippets/project-nav.html:19 weblate/trans/forms.py:822
-#: weblate/trans/forms.py:1732 weblate/trans/models/component.py:619
+#: weblate/templates/snippets/project-nav.html:19 weblate/trans/forms.py:820
+#: weblate/trans/forms.py:1739 weblate/trans/models/component.py:619
 msgid "Components"
 msgstr "Összetevők"
 
@@ -1959,14 +1991,14 @@ msgstr "Összetevők"
 msgid "Language selection"
 msgstr "Nyelvválasztás"
 
-#: weblate/auth/models.py:143 weblate/trans/forms.py:919
+#: weblate/auth/models.py:143 weblate/trans/forms.py:917
 msgid "All languages"
 msgstr "Összes nyelv"
 
-#: weblate/auth/models.py:148 weblate/billing/models.py:263
+#: weblate/auth/models.py:148 weblate/billing/models.py:286
 #: weblate/lang/models.py:469 weblate/lang/views.py:56
 #: weblate/templates/accounts/profile.html:24
-#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:139
+#: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:7
@@ -1975,7 +2007,7 @@ msgstr "Összes nyelv"
 #: weblate/templates/snippets/project-nav.html:15
 #: weblate/templates/snippets/project-nav.html:20
 #: weblate/templates/trans/change_list.html:20 weblate/trans/admin.py:106
-#: weblate/trans/forms.py:938 weblate/trans/forms.py:1808
+#: weblate/trans/forms.py:936 weblate/trans/forms.py:1815
 msgid "Languages"
 msgstr "Nyelvek"
 
@@ -1995,7 +2027,7 @@ msgstr "Rendszergazda állapota"
 msgid "User has all possible permissions."
 msgstr "A felhasználó az összes lehetséges jogosultsággal rendelkezik."
 
-#: weblate/auth/models.py:331 weblate/billing/models.py:136
+#: weblate/auth/models.py:331 weblate/billing/models.py:151
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
 #: weblate/templates/check_project.html:23 weblate/templates/checks.html:21
 msgid "Active"
@@ -2042,99 +2074,133 @@ msgstr "Automatikus csoport-hozzárendelések"
 msgid "Owners"
 msgstr "Tulajdonosok"
 
-#: weblate/billing/models.py:128 weblate/templates/billing/detail.html:12
+#: weblate/billing/models.py:143 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
 msgstr "Számlázási csomag"
 
-#: weblate/billing/models.py:131
+#: weblate/billing/models.py:146
 msgid "Billed projects"
 msgstr "Számlázott projektek"
 
-#: weblate/billing/models.py:133
+#: weblate/billing/models.py:148
 msgid "Billing owners"
 msgstr "Számlázási tulajdonosok"
 
-#: weblate/billing/models.py:137
+#: weblate/billing/models.py:152
 msgid "Trial"
 msgstr "Próba"
 
-#: weblate/billing/models.py:138 weblate/templates/billing/detail.html:17
+#: weblate/billing/models.py:153 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:32
 msgid "Expired"
 msgstr "Lejárt"
 
-#: weblate/billing/models.py:139
+#: weblate/billing/models.py:154
 msgid "Terminated"
 msgstr "Véget ért"
 
-#: weblate/billing/models.py:142
+#: weblate/billing/models.py:157
 msgid "Billing state"
 msgstr "Számlázási állapot"
 
-#: weblate/billing/models.py:148
+#: weblate/billing/models.py:163
 msgid "Trial expiry date"
 msgstr "Próba lejárati dátuma"
 
-#: weblate/billing/models.py:155
+#: weblate/billing/models.py:170
 msgid "Scheduled removal"
 msgstr "Ütemezett eltávolítás"
 
-#: weblate/billing/models.py:158
+#: weblate/billing/models.py:173
 msgid "Paid"
 msgstr "Fizetett"
 
-#: weblate/billing/models.py:161
+#: weblate/billing/models.py:176
 msgid "In limits"
 msgstr "Korlátokban"
 
-#: weblate/billing/models.py:164
+#: weblate/billing/models.py:179
 msgid "Grace period for payments"
 msgstr "Türelmi idő a fizetésekhez"
 
-#: weblate/billing/models.py:217
+#: weblate/billing/models.py:240
 msgid "Changes in last month"
 msgstr "Változtatások a múlt hónapban"
 
-#: weblate/billing/models.py:223
+#: weblate/billing/models.py:246
 #, fuzzy
 #| msgid "Number of languages"
 msgid "Number of changes"
 msgstr "Nyelvek száma"
 
-#: weblate/billing/models.py:241 weblate/templates/about/stats.html:92
+#: weblate/billing/models.py:264 weblate/templates/about/stats.html:92
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Forrásszövegek"
 
-#: weblate/billing/models.py:250 weblate/templates/about/stats.html:96
+#: weblate/billing/models.py:273 weblate/templates/about/stats.html:96
 #: weblate/trans/admin.py:100
 msgid "Source words"
 msgstr "Forrásszavak"
 
-#: weblate/billing/models.py:293 weblate/templates/addons/generate_help.html:16
+#: weblate/billing/models.py:316 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:5
 msgid "Number of strings"
 msgstr "Szövegek száma"
 
-#: weblate/billing/models.py:300
+#: weblate/billing/models.py:323
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/billing/models.py:302 weblate/templates/billing/status.html:60
+#: weblate/billing/models.py:325 weblate/templates/billing/status.html:60
 msgid "Last invoice"
 msgstr "Utolsó számla"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:324
+#: weblate/billing/models.py:347
 msgid "In display limits"
 msgstr "Megjelenítési korlátokban"
+
+#: weblate/billing/models.py:397
+#, fuzzy, python-format
+#| msgid "Created project"
+msgid "Contains %d project"
+msgid_plural "Contains %d projects"
+msgstr[0] "Projekt létrehozva"
+msgstr[1] "Projekt létrehozva"
+
+#: weblate/billing/models.py:414
+#, fuzzy, python-format
+#| msgid "Renamed component"
+msgid "Contains %d component"
+msgid_plural "Contains %d components"
+msgstr[0] "Összetevő átnevezve"
+msgstr[1] "Összetevő átnevezve"
+
+#: weblate/billing/models.py:429
+#, fuzzy
+#| msgid "Changed license"
+msgid "Missing license"
+msgstr "Megváltoztatott licenc"
 
 #: weblate/billing/tasks.py:85
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
+msgstr ""
+"Akkor nem fogja tovább kapni ezeket az értesítéseket, ha kifizeti a "
+"számlákat, vagy ha a projekt eltávolításra kerül."
+
+#: weblate/billing/tasks.py:108
+#, fuzzy
+#| msgid ""
+#| "You will stop receiving this notification once you pay the bills or the "
+#| "project is removed."
+msgid ""
+"You will stop receiving this notification once you change to regular "
+"subscription or the project is removed."
 msgstr ""
 "Akkor nem fogja tovább kapni ezeket az értesítéseket, ha kifizeti a "
 "számlákat, vagy ha a projekt eltávolításra kerül."
@@ -2324,11 +2390,11 @@ msgstr "Ezt a szöveget a már régebben lefordították"
 msgid "Last translation was \"%s\"."
 msgstr "Az utolsó fordítás „%s” volt."
 
-#: weblate/checks/duplicate.py:73
+#: weblate/checks/duplicate.py:74
 msgid "Consecutive duplicated words"
 msgstr "Egymás utáni kettőzött szavak"
 
-#: weblate/checks/duplicate.py:74
+#: weblate/checks/duplicate.py:75
 msgid "Text contains the same word twice in a row:"
 msgstr "A szöveg ugyanazt a szót tartalmazza egymás után kétszer:"
 
@@ -2742,7 +2808,7 @@ msgstr "Betűkészlet"
 #: weblate/templates/project.html:53
 #: weblate/templates/trans/alert/duplicatelanguage.html:38
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/trans/forms.py:956 weblate/trans/forms.py:1962
+#: weblate/trans/forms.py:954 weblate/trans/forms.py:1969
 #: weblate/trans/models/announcement.py:97
 msgid "Language"
 msgstr "Nyelv"
@@ -2753,8 +2819,8 @@ msgid "Unsupported file format."
 msgstr "Nem támogatott fájlformátum."
 
 #: weblate/fonts/views.py:72 weblate/fonts/views.py:134
-#: weblate/fonts/views.py:146 weblate/trans/forms.py:1437
-#: weblate/trans/forms.py:1440
+#: weblate/fonts/views.py:146 weblate/trans/forms.py:1444
+#: weblate/trans/forms.py:1447
 msgid "Entry by the same name already exists."
 msgstr "Már létezik ugyanilyen nevű bejegyzés."
 
@@ -2828,7 +2894,7 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/exporters.py:389 weblate/trans/forms.py:1026
+#: weblate/formats/exporters.py:389 weblate/trans/forms.py:1024
 msgid "JSON"
 msgstr "JSON"
 
@@ -3009,7 +3075,7 @@ msgid "Search"
 msgstr "Keresés"
 
 #: weblate/glossary/forms.py:102 weblate/memory/forms.py:30
-#: weblate/trans/forms.py:574
+#: weblate/trans/forms.py:573
 msgid "File"
 msgstr "Fájl"
 
@@ -3087,7 +3153,7 @@ msgstr "Forrás"
 #: weblate/templates/mail/pending_suggestions.html:8
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/translate.html:81 weblate/templates/translate.html:270
-#: weblate/templates/translate.html:330 weblate/trans/forms.py:1231
+#: weblate/templates/translate.html:330 weblate/trans/forms.py:1238
 msgid "Translation"
 msgstr "Fordítás"
 
@@ -3749,9 +3815,7 @@ msgstr ""
 "Kereskedelmi tárhelyszolgáltatása is van lehetőség, az áraink havi 19 "
 "eurótól kezdődnek. További részletekért lépjen velünk kapcsolatba."
 
-#: weblate/templates/about/index.html:36
-#: weblate/templates/accounts/hosting.html:44
-#: weblate/templates/projects.html:15
+#: weblate/templates/about/index.html:36 weblate/templates/projects.html:15
 msgid "Ask for project hosting"
 msgstr "Projekt tárhelyszolgáltatásának kérése"
 
@@ -3760,8 +3824,7 @@ msgstr "Projekt tárhelyszolgáltatásának kérése"
 msgid "View hosting plans"
 msgstr "Tárhelyszolgáltatási csomagok megtekintése"
 
-#: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:206
+#: weblate/templates/about/index.html:39 weblate/templates/base.html:206
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3769,7 +3832,6 @@ msgid "Purchase new hosting plan"
 msgstr "Új tárhelyszolgáltatási csomag vásárlása"
 
 #: weblate/templates/about/index.html:41
-#: weblate/templates/accounts/hosting.html:36
 msgid "Contact us for commercial hosting"
 msgstr "Lépjen velünk kapcsolatba a kereskedelmi tárhelyszolgáltatásért"
 
@@ -3900,7 +3962,6 @@ msgstr ""
 "akkor nézze meg annak weboldalát itt: %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:29
-#: weblate/templates/accounts/hosting.html:49
 #: weblate/templates/manage/tools.html:26
 #: weblate/templates/manage/tools.html:54
 #: weblate/templates/manage/tools.html:69
@@ -3999,35 +4060,30 @@ msgstr ""
 msgid "Register"
 msgstr "Regisztráció"
 
-#: weblate/templates/accounts/hosting.html:14
-msgid ""
-"Please check in advance whether your project is eligible for project hosting "
-"on this site."
-msgstr ""
-"Előzetesen ellenőrizze, hogy a projektje megfelelő-e az ezen az oldalon lévő "
-"projekt-tárhelyszolgáltatásához."
-
-#: weblate/templates/accounts/hosting.html:18
-msgid "Conditions for gratis hosting"
-msgstr "Az ingyenes tárhelyszolgáltatás feltételei"
-
-#: weblate/templates/accounts/hosting.html:20
-msgid ""
-"Please fill in this form if your project meets the conditions for free of "
-"charge hosting:"
-msgstr ""
-"Töltse ki ezt az űrlapot, ha a projektje megfelel az ingyenes "
-"tárhelyszolgáltatás feltételeinek:"
+#: weblate/templates/accounts/hosting.html:17
+#, fuzzy
+#| msgid "Subscriptions"
+msgid "Trial subscriptions"
+msgstr "Feliratkozások"
 
 #: weblate/templates/accounts/hosting.html:24
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"A lefordított tartalmat az OSI által elfogadott vagy az FSF által szabadként "
-"azonosított licenc alatt kell kiadni."
+#: weblate/templates/billing/status.html:9
+#, python-format
+msgid ", expires %(expires)s"
+msgstr ", lejár %(expires)s"
 
-#: weblate/templates/accounts/hosting.html:25
+#: weblate/templates/accounts/hosting.html:26
+#, fuzzy
+#| msgid "Pending string"
+msgid "Pending approval"
+msgstr "Függőben lévő szöveg"
+
+#: weblate/templates/accounts/hosting.html:44
+msgid "Additional things to check manually:"
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:46
+#: weblate/templates/accounts/hosting.html:80
 msgid ""
 "Source code has to be publicly available in a supported version control "
 "system."
@@ -4035,19 +4091,90 @@ msgstr ""
 "A forráskódnak szabadon elérhetőnek kell lennie egy támogatott verziókövető "
 "rendszerben."
 
-#: weblate/templates/accounts/hosting.html:26
+#: weblate/templates/accounts/hosting.html:47
+#: weblate/templates/accounts/hosting.html:81
+#, fuzzy
+#| msgid "User has been removed from this project."
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "A felhasználó el lett távolítva ebből a projektből."
+
+#: weblate/templates/accounts/hosting.html:48
+#: weblate/templates/accounts/hosting.html:82
+msgid "The project has active development for at least three months."
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:50
+#, fuzzy
+#| msgid "Approved string"
+msgid "Approve as libre"
+msgstr "Jóváhagyott szöveg"
+
+#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/mail/billing_expired.html:43
+msgid "Request approval for libre hosting"
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:55
+msgid ""
+"This subscription is not eligible to the libre plan, please fix the errors "
+"above or purchase a subscription."
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:58
+msgid "Extend trial"
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:71
+#, fuzzy
+#| msgid "Translation project:"
+msgid "Translate your libre project"
+msgstr "Fordítási projekt:"
+
+#: weblate/templates/accounts/hosting.html:75
+msgid ""
+"Please check in advance whether your project is eligible for project hosting "
+"on this site."
+msgstr ""
+"Előzetesen ellenőrizze, hogy a projektje megfelelő-e az ezen az oldalon lévő "
+"projekt-tárhelyszolgáltatásához."
+
+#: weblate/templates/accounts/hosting.html:79
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"A lefordított tartalmat az OSI által elfogadott vagy az FSF által szabadként "
+"azonosított licenc alatt kell kiadni."
+
+#: weblate/templates/accounts/hosting.html:83
+msgid "You will have 14 days to setup your project."
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:84
+msgid "Please request project approval once the setup is completed."
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:85
+msgid "Not approved projects will be removed."
+msgstr ""
+
+#: weblate/templates/accounts/hosting.html:86
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "Nincs garancia se a rendelkezésre állásra, se a minőségre."
 
-#: weblate/templates/accounts/hosting.html:27
-msgid ""
-"Hosting requests are usually processed once a month, please have patience "
-"after submitting one."
-msgstr ""
-"A tárhelyszolgáltatási kéréseket általában havonta egyszer dolgozzák fel. "
-"Legyen türelmes a beküldés után."
+#: weblate/templates/accounts/hosting.html:91
+#, fuzzy
+#| msgid "Get support"
+msgid "Get started"
+msgstr "Támogatás kérése"
 
-#: weblate/templates/accounts/hosting.html:32
+#: weblate/templates/accounts/hosting.html:97
+#, fuzzy
+#| msgid "Contact us for commercial hosting"
+msgid "Looking for commercial hosting?"
+msgstr "Lépjen velünk kapcsolatba a kereskedelmi tárhelyszolgáltatásért"
+
+#: weblate/templates/accounts/hosting.html:100
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -4109,7 +4236,7 @@ msgid "Please fix errors in the form."
 msgstr "Javítsa az űrlapon lévő hibákat."
 
 #: weblate/templates/accounts/profile.html:25
-#: weblate/templates/accounts/profile.html:55
+#: weblate/templates/accounts/profile.html:53
 msgid "Preferences"
 msgstr "Beállítások"
 
@@ -4118,31 +4245,31 @@ msgid "Notifications"
 msgstr "Értesítések"
 
 #: weblate/templates/accounts/profile.html:27
-#: weblate/templates/accounts/profile.html:110
+#: weblate/templates/accounts/profile.html:108
 msgid "Account"
 msgstr "Fiók"
 
-#: weblate/templates/accounts/profile.html:29
-msgid "Avatar"
-msgstr "Profilkép"
+#: weblate/templates/accounts/profile.html:28 weblate/templates/base.html:227
+msgid "Profile"
+msgstr "Profil"
 
-#: weblate/templates/accounts/profile.html:31
-#: weblate/templates/accounts/profile.html:308
+#: weblate/templates/accounts/profile.html:29
+#: weblate/templates/accounts/profile.html:318
 msgid "Licenses"
 msgstr "Licencek"
 
-#: weblate/templates/accounts/profile.html:32
-#: weblate/templates/accounts/profile.html:212
+#: weblate/templates/accounts/profile.html:30
+#: weblate/templates/accounts/profile.html:222
 #: weblate/templates/manage/users_check.html:35
 msgid "Audit log"
 msgstr "Ellenőrzési napló"
 
-#: weblate/templates/accounts/profile.html:33
-#: weblate/templates/accounts/profile.html:244
+#: weblate/templates/accounts/profile.html:31
+#: weblate/templates/accounts/profile.html:254
 msgid "API access"
 msgstr "API-hozzáférés"
 
-#: weblate/templates/accounts/profile.html:44
+#: weblate/templates/accounts/profile.html:42
 msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
@@ -4150,11 +4277,12 @@ msgstr ""
 "Kérés küldése a projektnek, hogy fordítani szeretne egy hiányzó nyelv "
 "hozzáadásához."
 
-#: weblate/templates/accounts/profile.html:48
-#: weblate/templates/accounts/profile.html:61
-#: weblate/templates/accounts/profile.html:75
-#: weblate/templates/accounts/profile.html:103
-#: weblate/templates/accounts/profile.html:116
+#: weblate/templates/accounts/profile.html:46
+#: weblate/templates/accounts/profile.html:59
+#: weblate/templates/accounts/profile.html:73
+#: weblate/templates/accounts/profile.html:101
+#: weblate/templates/accounts/profile.html:114
+#: weblate/templates/accounts/profile.html:198
 #: weblate/templates/addons/addon_detail.html:34
 #: weblate/templates/component-settings.html:17
 #: weblate/templates/edit_glossary.html:27
@@ -4175,7 +4303,7 @@ msgstr ""
 msgid "Save"
 msgstr "Mentés"
 
-#: weblate/templates/accounts/profile.html:72
+#: weblate/templates/accounts/profile.html:70
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
@@ -4183,47 +4311,47 @@ msgstr ""
 "Adja hozzá az összes olyan projektet, amelyet fordítani szeretne, hogy "
 "megfigyelt projektekként lássa azokat a vezérlőpulton."
 
-#: weblate/templates/accounts/profile.html:80
+#: weblate/templates/accounts/profile.html:78
 #: weblate/templates/mail/base.html:309
 msgid "Notification settings"
 msgstr "Értesítési beállítások"
 
-#: weblate/templates/accounts/profile.html:113
+#: weblate/templates/accounts/profile.html:111
 msgid "Your name and e-mail will appear as commit authorship."
 msgstr "A neve és e-mail címe megjelenik a véglegesítés szerzőségeként."
 
-#: weblate/templates/accounts/profile.html:121
+#: weblate/templates/accounts/profile.html:119
 #: weblate/templates/manage/users_check.html:22
 msgid "Current user identities"
 msgstr "Jelenlegi felhasználói azonosítók"
 
-#: weblate/templates/accounts/profile.html:125
+#: weblate/templates/accounts/profile.html:123
 #: weblate/templates/manage/users_check.html:24
 msgid "Identity"
 msgstr "Személyazonosság"
 
-#: weblate/templates/accounts/profile.html:126
+#: weblate/templates/accounts/profile.html:124
 #: weblate/templates/manage/users_check.html:25
 msgid "User ID"
 msgstr "Felhasználó-azonosító"
 
-#: weblate/templates/accounts/profile.html:127 weblate/trans/forms.py:1964
+#: weblate/templates/accounts/profile.html:125 weblate/trans/forms.py:1971
 msgid "Action"
 msgstr "Művelet"
 
-#: weblate/templates/accounts/profile.html:135
+#: weblate/templates/accounts/profile.html:133
 msgid "Set password"
 msgstr "Jelszó beállítása"
 
-#: weblate/templates/accounts/profile.html:145
+#: weblate/templates/accounts/profile.html:143
 msgid "Disconnect"
 msgstr "Leválasztás"
 
-#: weblate/templates/accounts/profile.html:157
+#: weblate/templates/accounts/profile.html:155
 msgid "Add new association"
 msgstr "Új hozzárendelés hozzáadása"
 
-#: weblate/templates/accounts/profile.html:167
+#: weblate/templates/accounts/profile.html:165
 #: weblate/templates/component.html:109
 #: weblate/templates/snippets/project-nav.html:130
 #: weblate/templates/snippets/project-nav.html:133
@@ -4231,75 +4359,88 @@ msgstr "Új hozzárendelés hozzáadása"
 msgid "Removal"
 msgstr "Eltávolítás"
 
-#: weblate/templates/accounts/profile.html:170
+#: weblate/templates/accounts/profile.html:168
 #: weblate/templates/accounts/removal.html:17
 msgid "Account removal deletes all your private data."
 msgstr "A fiókeltávolítás törli az összes személyes adatát."
 
-#: weblate/templates/accounts/profile.html:173
+#: weblate/templates/accounts/profile.html:171
 msgid "Remove my account"
 msgstr "Saját fiók eltávolítása"
 
-#: weblate/templates/accounts/profile.html:178
+#: weblate/templates/accounts/profile.html:176
 msgid "User data"
 msgstr "Felhasználóadatok"
 
-#: weblate/templates/accounts/profile.html:181
+#: weblate/templates/accounts/profile.html:179
 msgid "You can download all your private data."
 msgstr "Letöltheti az összes személyes adatát."
 
-#: weblate/templates/accounts/profile.html:184
+#: weblate/templates/accounts/profile.html:182
 msgid "Download user data"
 msgstr "Felhasználóadatok letöltése"
 
-#: weblate/templates/accounts/profile.html:193
+#: weblate/templates/accounts/profile.html:190
+#, fuzzy
+#| msgid "Your public profile"
+msgid "Public profile"
+msgstr "Saját nyilvános profil"
+
+#: weblate/templates/accounts/profile.html:194
+msgid ""
+"All of the fields on this page are optional and can be deleted at any time, "
+"and by filling them out, you're giving us consent to share this data "
+"wherever your user profile appears."
+msgstr ""
+
+#: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
 msgstr "Saját profilkép"
 
-#: weblate/templates/accounts/profile.html:196
+#: weblate/templates/accounts/profile.html:206
 #, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
 msgstr ""
 "A profilképek a(z) %(avatar_url_prefix)s használatával vannak biztosítva."
 
-#: weblate/templates/accounts/profile.html:205
+#: weblate/templates/accounts/profile.html:215
 #: weblate/templates/addons/discovery_help.html:10
 msgid "Description"
 msgstr "Leírás"
 
-#: weblate/templates/accounts/profile.html:207
+#: weblate/templates/accounts/profile.html:217
 msgid "Contact us immediately if you see anything suspicious in the audit log."
 msgstr ""
 "Azonnal vegye fel velünk a kapcsolatot, ha bármi gyanúsat lát az ellenőrzési "
 "naplóban."
 
-#: weblate/templates/accounts/profile.html:216
+#: weblate/templates/accounts/profile.html:226
 #: weblate/templates/manage/users_check.html:37
 msgid "When"
 msgstr "Mikor"
 
-#: weblate/templates/accounts/profile.html:218
+#: weblate/templates/accounts/profile.html:228
 #: weblate/templates/mail/account_activity.html:22
 #: weblate/templates/manage/users_check.html:39
 msgid "IP address"
 msgstr "IP-cím"
 
-#: weblate/templates/accounts/profile.html:219
+#: weblate/templates/accounts/profile.html:229
 #: weblate/templates/mail/account_activity.html:26
 #: weblate/templates/manage/users_check.html:40
 msgid "User agent"
 msgstr "Felhasználóügynök"
 
-#: weblate/templates/accounts/profile.html:231
+#: weblate/templates/accounts/profile.html:241
 msgid "No recent activity found!"
 msgstr "Nem található legutóbbi tevékenység!"
 
-#: weblate/templates/accounts/profile.html:236
+#: weblate/templates/accounts/profile.html:246
 #: weblate/templates/mail/account_activity.html:36
 msgid "Report suspicious activity"
 msgstr "Gyanús tevékenység jelentése"
 
-#: weblate/templates/accounts/profile.html:247
+#: weblate/templates/accounts/profile.html:257
 msgid ""
 "You can control Weblate using the HTTP REST API and your API key is used to "
 "authenticate to it."
@@ -4307,11 +4448,11 @@ msgstr ""
 "Vezérelheti a Weblate programot a HTTP REST API használatával, és az API "
 "kulcsa lesz használva a hitelesítéshez."
 
-#: weblate/templates/accounts/profile.html:250
+#: weblate/templates/accounts/profile.html:260
 msgid "Your personal API key:"
 msgstr "Az személyes API-kulcsa:"
 
-#: weblate/templates/accounts/profile.html:253
+#: weblate/templates/accounts/profile.html:263
 #: weblate/templates/addons/cdnjs.html:9
 #: weblate/templates/manage/snippets/backup-credentials.html:7
 #: weblate/templates/manage/snippets/backup-credentials.html:11
@@ -4325,27 +4466,27 @@ msgstr "Az személyes API-kulcsa:"
 msgid "Copy to clipboard"
 msgstr "Másolás a vágólapra"
 
-#: weblate/templates/accounts/profile.html:258
+#: weblate/templates/accounts/profile.html:268
 msgid "Regenerate API key"
 msgstr "API-kulcs újra előállítása"
 
-#: weblate/templates/accounts/profile.html:262
+#: weblate/templates/accounts/profile.html:272
 msgid "API root URL:"
 msgstr "API gyökér URL:"
 
-#: weblate/templates/accounts/profile.html:266
+#: weblate/templates/accounts/profile.html:276
 msgid "API usage example:"
 msgstr "API használati példa:"
 
-#: weblate/templates/accounts/profile.html:278
+#: weblate/templates/accounts/profile.html:288
 msgid "CLI usage example:"
 msgstr "CLI használati példa:"
 
-#: weblate/templates/accounts/profile.html:295
+#: weblate/templates/accounts/profile.html:305
 msgid "Accessing Git repositories"
 msgstr "Git tárolók elérése"
 
-#: weblate/templates/accounts/profile.html:297
+#: weblate/templates/accounts/profile.html:307
 msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
@@ -4353,7 +4494,7 @@ msgstr ""
 "Az API-kulcs az automatikusan exportált Git tárolókhoz történő "
 "hitelesítéshez is használható."
 
-#: weblate/templates/accounts/profile.html:310
+#: weblate/templates/accounts/profile.html:320
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
@@ -4361,7 +4502,7 @@ msgstr ""
 "Figyeljen oda a licencinformációkra, mivel azok határozzák meg, hogy a "
 "fordítások hogyan használhatók."
 
-#: weblate/templates/accounts/profile.html:312
+#: weblate/templates/accounts/profile.html:322
 msgid ""
 "By registering you agree to use your name and e-mail in the commits, and "
 "provide your contribution under the license defined by each localization "
@@ -4371,11 +4512,11 @@ msgstr ""
 "a véglegesítésekben, és hogy munkájára az egyes honosításban érintett "
 "projektek licencfeltételei fognak vonatkozni."
 
-#: weblate/templates/accounts/profile.html:317
+#: weblate/templates/accounts/profile.html:327
 msgid "You have agreed to the following as a contributor:"
 msgstr "Közreműködőként elfogadta a következőket:"
 
-#: weblate/templates/accounts/profile.html:332
+#: weblate/templates/accounts/profile.html:342
 msgid "Licenses for individual translations"
 msgstr "Licencek az egyéni fordításokhoz"
 
@@ -4443,7 +4584,53 @@ msgstr "Saját jelszó beállítása"
 msgid "Reset my password"
 msgstr "Saját jelszó visszaállítása"
 
-#: weblate/templates/accounts/user.html:6 weblate/templates/component.html:99
+#: weblate/templates/accounts/trial.html:14
+#, fuzzy
+#| msgid "Thank you for using Weblate."
+msgid "Thank you for your interest in trying Weblate!"
+msgstr "Köszönjük, hogy a Weblate-et használja."
+
+#: weblate/templates/accounts/trial.html:20
+#, fuzzy
+#| msgid "Your profile"
+msgid "Your trial offer"
+msgstr "Saját profil"
+
+#: weblate/templates/accounts/trial.html:22
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Your trial will"
+msgstr "E-mail címe"
+
+#. Translators: list item under "Your trial will"
+#: weblate/templates/accounts/trial.html:25
+#, fuzzy
+#| msgid "Last 30 days"
+msgid "last for 14 days."
+msgstr "Az elmúlt 30 nap"
+
+#. Translators: list item under "Your trial will"
+#: weblate/templates/accounts/trial.html:27
+msgid "run the Enterprise plan."
+msgstr ""
+
+#. Translators: list item under "Your trial will"
+#: weblate/templates/accounts/trial.html:29
+msgid "need no credit card, but you can set the payment method anytime."
+msgstr ""
+
+#. Translators: list item under "Your trial will"
+#: weblate/templates/accounts/trial.html:31
+msgid "keep the configuration once you start paying."
+msgstr ""
+
+#: weblate/templates/accounts/trial.html:35
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Start the trial!"
+msgstr "Új fordítás indítása"
+
+#: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
 #: weblate/templates/manage/users.html:9
@@ -4454,26 +4641,26 @@ msgstr "Saját jelszó visszaállítása"
 msgid "Users"
 msgstr "Felhasználók"
 
-#: weblate/templates/accounts/user.html:17
+#: weblate/templates/accounts/user.html:18
 #, python-format
 msgid "Joined on %(date)s"
 msgstr "Csatlakozott ekkor: %(date)s"
 
-#: weblate/templates/accounts/user.html:23 weblate/templates/language.html:72
+#: weblate/templates/accounts/user.html:34 weblate/templates/language.html:72
 #, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
 msgstr[0] "%(count)s fordítás"
 msgstr[1] "%(count)s fordítás"
 
-#: weblate/templates/accounts/user.html:28
+#: weblate/templates/accounts/user.html:39
 #, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
 msgstr[0] "%(count)s javaslat"
 msgstr[1] "%(count)s javaslat"
 
-#: weblate/templates/accounts/user.html:35
+#: weblate/templates/accounts/user.html:46
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
 #, python-format
 msgid "%(count)s pending suggestion"
@@ -4481,25 +4668,25 @@ msgid_plural "%(count)s pending suggestions"
 msgstr[0] "%(count)s függőben lévő javaslat"
 msgstr[1] "%(count)s függőben lévő javaslat"
 
-#: weblate/templates/accounts/user.html:42
+#: weblate/templates/accounts/user.html:53
 #, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
 msgstr[0] "%(count)s képernyőkép"
 msgstr[1] "%(count)s képernyőkép"
 
-#: weblate/templates/accounts/user.html:47
+#: weblate/templates/accounts/user.html:58
 #, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
 msgstr[0] "%(count)s megjegyzés"
 msgstr[1] "%(count)s megjegyzés"
 
-#: weblate/templates/accounts/user.html:64
+#: weblate/templates/accounts/user.html:104
 msgid "Project contributions"
 msgstr "Projekt közreműködései"
 
-#: weblate/templates/accounts/user.html:67 weblate/templates/component.html:45
+#: weblate/templates/accounts/user.html:107 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:21
@@ -4509,11 +4696,11 @@ msgstr "Projekt közreműködései"
 msgid "Activity"
 msgstr "Tevékenység"
 
-#: weblate/templates/accounts/user.html:68
+#: weblate/templates/accounts/user.html:108
 msgid "Recent changes"
 msgstr "Legutóbbi változtatások"
 
-#: weblate/templates/accounts/user.html:101
+#: weblate/templates/accounts/user.html:141
 msgid "Browse all changes for user"
 msgstr "A felhasználó összes változtatásának böngészése"
 
@@ -4672,7 +4859,7 @@ msgstr "Összetevő fájlneve, az első betű nagybetűvel"
 #: weblate/templates/dashboard/user.html:80
 #: weblate/templates/language-project.html:51 weblate/templates/project.html:32
 #: weblate/templates/translate.html:270 weblate/templates/translation.html:187
-#: weblate/trans/forms.py:1365 weblate/trans/models/announcement.py:90
+#: weblate/trans/forms.py:1372 weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:618
 msgid "Component"
 msgstr "Összetevő"
@@ -4717,7 +4904,7 @@ msgstr "Lefordított szövegek száma"
 msgid "Translation filename"
 msgstr "Fordítási fájlnév"
 
-#: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1351
+#: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1358
 #: weblate/trans/models/component.py:243
 msgid "Component name"
 msgstr "Összetevő neve"
@@ -4725,6 +4912,11 @@ msgstr "Összetevő neve"
 #: weblate/templates/addons/generate_help.html:24
 msgid "Component URL slug"
 msgstr "Összetevő keresőbarát URL-e"
+
+#: weblate/templates/addons/generate_help.html:26
+#: weblate/trans/models/project.py:78
+msgid "Project name"
+msgstr "Projekt neve"
 
 #: weblate/templates/addons/generate_help.html:28
 msgid "Project URL slug"
@@ -4816,10 +5008,6 @@ msgstr "Új fordítási projekt hozzáadása"
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Új fordítási összetevő hozzáadása"
-
-#: weblate/templates/base.html:227
-msgid "Profile"
-msgstr "Profil"
 
 #: weblate/templates/base.html:229
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -4964,7 +5152,7 @@ msgid "No invoices found."
 msgstr "Nem találhatók számlák."
 
 #: weblate/templates/billing/overview.html:6
-#: weblate/templates/project_info.html:29 weblate/trans/forms.py:1770
+#: weblate/templates/project_info.html:29 weblate/trans/forms.py:1777
 msgid "Billing"
 msgstr "Számlázás"
 
@@ -4984,11 +5172,6 @@ msgstr ""
 msgid "Current plan"
 msgstr "Jelenlegi csomag"
 
-#: weblate/templates/billing/status.html:9
-#, python-format
-msgid ", expires %(expires)s"
-msgstr ", lejár %(expires)s"
-
 #: weblate/templates/billing/status.html:13
 msgid "Change plan"
 msgstr "Csomag megváltoztatása"
@@ -4999,7 +5182,7 @@ msgstr "Havidíj"
 
 #: weblate/templates/billing/status.html:30
 #: weblate/templates/billing/status.html:45
-#: weblate/templates/mail/billing_expired.html:29
+#: weblate/templates/mail/billing_expired.html:41
 msgid "New payment"
 msgstr "Új fizetés"
 
@@ -5068,7 +5251,7 @@ msgstr ""
 "visszavonhatja a hozzáférését ehhez a projekthez."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:67
-#: weblate/trans/forms.py:1661 weblate/trans/forms.py:1703
+#: weblate/trans/forms.py:1668 weblate/trans/forms.py:1710
 msgid "You do not have permission to change project access control."
 msgstr ""
 "Nincs jogosultsága a projekt hozzáférés-szabályozásának megváltoztatásához."
@@ -5076,8 +5259,8 @@ msgstr ""
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:44 weblate/templates/list-projects.html:5
-#: weblate/templates/snippets/list-objects.html:14 weblate/trans/forms.py:1419
-#: weblate/trans/forms.py:1492 weblate/trans/forms.py:1961
+#: weblate/templates/snippets/list-objects.html:14 weblate/trans/forms.py:1426
+#: weblate/trans/forms.py:1499 weblate/trans/forms.py:1968
 #: weblate/trans/models/announcement.py:83
 #: weblate/trans/models/component.py:255 weblate/trans/models/component.py:280
 #: weblate/trans/models/project.py:181
@@ -5137,7 +5320,7 @@ msgstr ""
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:55
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:61
-#: weblate/templates/translation.html:50 weblate/trans/forms.py:1284
+#: weblate/templates/translation.html:50 weblate/trans/forms.py:1291
 msgid "Files"
 msgstr "Fájlok"
 
@@ -5574,6 +5757,12 @@ msgstr "Közreműködői megállapodás"
 #: weblate/templates/translate.html:467
 msgid "View"
 msgstr "Megtekintés"
+
+#: weblate/templates/component_info.html:63
+#: weblate/templates/trans/discover-choice.html:5
+#: weblate/trans/models/component.py:336
+msgid "Filemask"
+msgstr "Fájlmaszk"
 
 #: weblate/templates/component_info.html:68
 #: weblate/trans/models/component.py:346
@@ -6397,7 +6586,34 @@ msgstr "Értesítés kikapcsolása"
 msgid "Generated on %(timestamp)s."
 msgstr "Előállítva ekkor: %(timestamp)s."
 
-#: weblate/templates/mail/billing_expired.html:6
+#: weblate/templates/mail/billing_expired.html:8
+msgid "Your trial period is going to expire in less than week."
+msgstr ""
+
+#: weblate/templates/mail/billing_expired.html:10
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has expired, if you want to continue using the service, "
+#| "please renew it."
+msgid ""
+"If you want to continue using the service, please purchase the subsription."
+msgstr ""
+"A számlázási csomagja lejárt. Ha továbbra is használni szeretné a "
+"szolgáltatást, akkor újítsa meg a csomagot."
+
+#: weblate/templates/mail/billing_expired.html:12
+#, fuzzy
+#| msgid ""
+#| "Your billing plan has expired, if you want to continue using the service, "
+#| "please renew it."
+msgid ""
+"If you want to continue using the service, please request approval of your "
+"libre plan."
+msgstr ""
+"A számlázási csomagja lejárt. Ha továbbra is használni szeretné a "
+"szolgáltatást, akkor újítsa meg a csomagot."
+
+#: weblate/templates/mail/billing_expired.html:16
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
@@ -6405,19 +6621,19 @@ msgstr ""
 "A számlázási csomagja lejárt. Ha továbbra is használni szeretné a "
 "szolgáltatást, akkor újítsa meg a csomagot."
 
-#: weblate/templates/mail/billing_expired.html:8
+#: weblate/templates/mail/billing_expired.html:19
 msgid "This billing plan covers following projects:"
 msgstr "Ez a számlázási csomag a következő projekteket tartalmazza:"
 
-#: weblate/templates/mail/billing_expired.html:15
+#: weblate/templates/mail/billing_expired.html:26
 msgid "Remove the project"
 msgstr "A projekt eltávolítása"
 
-#: weblate/templates/mail/billing_expired.html:21
+#: weblate/templates/mail/billing_expired.html:32
 msgid "All projects covered by this billing plan have been removed."
 msgstr "Ezen számlázási csomagban lévő összes projekt eltávolításra került."
 
-#: weblate/templates/mail/billing_expired.html:24
+#: weblate/templates/mail/billing_expired.html:35
 #, python-format
 msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
@@ -6435,6 +6651,10 @@ msgid "Your translation project is scheduled for removal"
 msgstr "A fordítási projektje ütemezve lett az eltávolításra"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
+msgid "Your trial period is about to expire"
+msgstr ""
+
+#: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
 msgstr "A számlázási csomagja lejárt"
 
@@ -6931,7 +7151,6 @@ msgid "Activate"
 msgstr "Aktiválás"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:5
-#: weblate/wladmin/models.py:126
 msgid "Backup repository"
 msgstr "Tároló biztonsági mentése"
 
@@ -7044,7 +7263,7 @@ msgstr "Egy próbaesemény előállítása a Sentry-integráció kipróbálásá
 msgid "Check user access"
 msgstr "Felhasználói hozzáférés ellenőrzése"
 
-#: weblate/templates/manage/users_check.html:56 weblate/trans/forms.py:157
+#: weblate/templates/manage/users_check.html:56 weblate/trans/forms.py:156
 msgid "No matching user found."
 msgstr "Nem található megfelelő felhasználó."
 
@@ -7183,7 +7402,7 @@ msgstr "Ugrás ide"
 msgid "/ %(total)s"
 msgstr "/ %(total)s"
 
-#: weblate/templates/progress.html:8 weblate/trans/forms.py:444
+#: weblate/templates/progress.html:8 weblate/trans/forms.py:443
 msgid "Approved"
 msgstr "Jóváhagyva"
 
@@ -7192,7 +7411,7 @@ msgid "Good"
 msgstr "Jó"
 
 #: weblate/templates/progress.html:17 weblate/templates/translation.html:417
-#: weblate/trans/forms.py:423 weblate/trans/forms.py:442
+#: weblate/trans/forms.py:422 weblate/trans/forms.py:441
 msgid "Needs editing"
 msgstr "Szerkesztést igényel"
 
@@ -7258,6 +7477,10 @@ msgstr ""
 "történő felvételhez, hogy megköszönje a fordítók munkáját, és visszajelzést "
 "adjon nekik."
 
+#: weblate/templates/project_info.html:5 weblate/trans/models/project.py:91
+msgid "Project website"
+msgstr "Projekt weboldala"
+
 #: weblate/templates/project_info.html:11
 msgid "Mailing list for translators"
 msgstr "Levelezőlista fordítóknak"
@@ -7320,11 +7543,6 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
 msgstr "Hozzárendelt forrásszövegek"
-
-#: weblate/templates/screenshots/screenshot_detail.html:29
-#: weblate/templates/screenshots/screenshot_detail.html:57
-msgid "Location"
-msgstr "Hely"
 
 #: weblate/templates/screenshots/screenshot_detail.html:30
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -7425,7 +7643,6 @@ msgid "View contributor agreement"
 msgstr "Közreműködői megállapodás megtekintése"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:8
-#: weblate/templates/translate.html:185
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
@@ -7463,8 +7680,8 @@ msgstr "Állapot"
 msgid "Repository"
 msgstr "Tároló"
 
-#: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1378
-#: weblate/trans/forms.py:1512 weblate/trans/models/component.py:320
+#: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1385
+#: weblate/trans/forms.py:1519 weblate/trans/models/component.py:320
 msgid "Repository branch"
 msgstr "Tároló ág"
 
@@ -7527,7 +7744,7 @@ msgstr "Lefordítatlan szavak"
 #: weblate/templates/snippets/list-objects.html:22
 #: weblate/templates/trans/suggestion_list.html:8
 #: weblate/templates/translate.html:222 weblate/templates/translate.html:388
-#: weblate/trans/forms.py:1233
+#: weblate/trans/forms.py:1240
 msgid "Suggestions"
 msgstr "Javaslatok"
 
@@ -7721,7 +7938,7 @@ msgstr "Egyéni keresés"
 
 #: weblate/templates/snippets/query-field.html:19
 #: weblate/templates/snippets/user-query-field.html:5
-#: weblate/trans/forms.py:165
+#: weblate/trans/forms.py:164
 msgid "Query"
 msgstr "Lekérdezés"
 
@@ -8072,7 +8289,7 @@ msgstr ""
 "automatizálásához."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
-#: weblate/trans/forms.py:1495 weblate/trans/models/component.py:259
+#: weblate/trans/forms.py:1502 weblate/trans/models/component.py:259
 msgid "Version control system"
 msgstr "Verziókövető rendszer"
 
@@ -8393,7 +8610,7 @@ msgstr "Magyarázat"
 msgid "Edit source string"
 msgstr "Forrásszöveg szerkesztése"
 
-#: weblate/templates/translate.html:162 weblate/trans/forms.py:890
+#: weblate/templates/translate.html:162 weblate/trans/forms.py:888
 msgid "Report issue with the source string"
 msgstr "Probléma jelentése a forrásszöveggel kapcsolatban"
 
@@ -8414,11 +8631,27 @@ msgstr ""
 "hozzá javaslatot, ha úgy gondolja, hogy a szöveget meg kell változtatni."
 
 #: weblate/templates/translate.html:183
+#, fuzzy
+#| msgid ""
+#| "This translation only accepts suggestions and these are approved by "
+#| "voting."
 msgid ""
-"This translation only accepts suggestions and these are approved by voting."
+"This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
 "Ez a fordítás csak javaslatokat fogad el, és azok szavazás alapján lesznek "
 "jóváhagyva."
+
+#: weblate/templates/translate.html:185
+#, fuzzy
+#| msgid ""
+#| "Contribution to this translation requires you to agree with a contributor "
+#| "agreement."
+msgid ""
+"Contributing to this translation requires you agree to its contributor "
+"agreement."
+msgstr ""
+"A fordításban történő közreműködéséhez a közreműködői megállapodás "
+"elfogadása szükséges."
 
 #: weblate/templates/translate.html:189
 msgid "Insufficient privileges for editing source strings."
@@ -8491,16 +8724,23 @@ msgid "List of recent changes done in Weblate"
 msgstr "Weblate-ben elvégzett legutóbbi változtatások listája"
 
 #: weblate/templates/translate.html:280
-msgid "Following string has same context and same source."
-msgid_plural "Following strings have same context and same source."
+#, fuzzy
+#| msgid "Following string has same context and same source."
+#| msgid_plural "Following strings have same context and same source."
+msgid "The following string has the same context and source."
+msgid_plural "The following strings have the same context and source."
 msgstr[0] ""
 "A következő szöveg ugyanazzal a környezettel és forrással rendelkezik."
 msgstr[1] ""
 "A következő szövegek ugyanazzal a környezettel és forrással rendelkeznek."
 
 #: weblate/templates/translate.html:288
-msgid "Following string has different context but same source."
-msgid_plural "Following strings have different contexts but same source."
+#, fuzzy
+#| msgid "Following string has different context but same source."
+#| msgid_plural "Following strings have different contexts but same source."
+msgid "The following string has different context, but the same source."
+msgid_plural ""
+"The following strings have different contexts, but the same source."
 msgstr[0] ""
 "A következő szöveg eltérő környezettel, de ugyanazzal a forrással "
 "rendelkezik."
@@ -8509,8 +8749,12 @@ msgstr[1] ""
 "rendelkeznek."
 
 #: weblate/templates/translate.html:296
-msgid "Following string has different source but same context."
-msgid_plural "Following strings have different sources but same context."
+#, fuzzy
+#| msgid "Following string has different source but same context."
+#| msgid_plural "Following strings have different sources but same context."
+msgid "The following string has a different source, but the same context."
+msgid_plural ""
+"The following strings have different sources, but the same context."
 msgstr[0] ""
 "A következő szöveg eltérő forrással, de ugyanazzal a környezettel "
 "rendelkezik."
@@ -8980,51 +9224,51 @@ msgstr "Sikertelen ellenőrzés: {}"
 msgid "Labeled: {}"
 msgstr "Címkézve: {}"
 
-#: weblate/trans/forms.py:147
+#: weblate/trans/forms.py:146
 msgid "Invalid checksum specified!"
 msgstr "Érvénytelen ellenőrzőösszeg lett megadva!"
 
-#: weblate/trans/forms.py:159
+#: weblate/trans/forms.py:158
 msgid "More users matched."
 msgstr "Több felhasználó is található."
 
-#: weblate/trans/forms.py:173
+#: weblate/trans/forms.py:172
 msgid "Missing query string."
 msgstr "Hiányzó lekérdezési szöveg."
 
-#: weblate/trans/forms.py:180
+#: weblate/trans/forms.py:179
 msgid "Failed to parse query string: {}"
 msgstr "Nem sikerült feldolgozni a lekérdezési szöveget: {}"
 
-#: weblate/trans/forms.py:218 weblate/trans/forms.py:226
+#: weblate/trans/forms.py:217 weblate/trans/forms.py:225
 msgid "Toggle text direction"
 msgstr "Szövegirány átváltása"
 
-#: weblate/trans/forms.py:253
+#: weblate/trans/forms.py:252
 msgid "Fill in with source string"
 msgstr "Kitöltés forrásszöveggel"
 
-#: weblate/trans/forms.py:255
+#: weblate/trans/forms.py:254
 msgid "Clone source"
 msgstr "Forrás klónozása"
 
-#: weblate/trans/forms.py:366
+#: weblate/trans/forms.py:365
 msgid "Missing translated string!"
 msgstr "Hiányzó lefordított szöveg!"
 
-#: weblate/trans/forms.py:372
+#: weblate/trans/forms.py:371
 msgid "Search filter"
 msgstr "Keresési szűrő"
 
-#: weblate/trans/forms.py:377
+#: weblate/trans/forms.py:376
 msgid "Please choose a valid filter type."
 msgstr "Válasszon egy érvényes szűrőtípust."
 
-#: weblate/trans/forms.py:409
+#: weblate/trans/forms.py:408
 msgid "The string you wanted to translate is no longer available."
 msgstr "A lefordítani kívánt szöveg többé nem érhető el."
 
-#: weblate/trans/forms.py:425
+#: weblate/trans/forms.py:424
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -9032,132 +9276,132 @@ msgstr ""
 "A szövegek általában „Szerkesztést igényel” jelzővel vannak megjelölve a "
 "forrásszöveg frissítése után, vagy ha a szöveget kézzel jelölték meg."
 
-#: weblate/trans/forms.py:440
+#: weblate/trans/forms.py:439
 msgid "Review state"
 msgstr "Felülvizsgálat állapota"
 
-#: weblate/trans/forms.py:443
+#: weblate/trans/forms.py:442
 msgid "Waiting for review"
 msgstr "Felülvizsgálatra vár"
 
-#: weblate/trans/forms.py:499
+#: weblate/trans/forms.py:498
 msgid "Source string has been changed meanwhile. Please check your changes."
 msgstr "A forrásszöveg időközben megváltozott. Ellenőrizze a változtatásait."
 
-#: weblate/trans/forms.py:507
+#: weblate/trans/forms.py:506
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
 msgstr ""
 "A szöveg fordítása időközben megváltozott. Ellenőrizze a változtatásait."
 
-#: weblate/trans/forms.py:515
+#: weblate/trans/forms.py:514
 msgid "Translation text too long!"
 msgstr "A fordítási szöveg túl hosszú!"
 
-#: weblate/trans/forms.py:576
+#: weblate/trans/forms.py:575
 msgid "File upload mode"
 msgstr "Fájlfeltöltés mód"
 
-#: weblate/trans/forms.py:578 weblate/trans/forms.py:807
+#: weblate/trans/forms.py:577 weblate/trans/forms.py:805
 msgid "Add as translation"
 msgstr "Hozzáadás fordításként"
 
-#: weblate/trans/forms.py:579
+#: weblate/trans/forms.py:578
 msgid "Add as approved translation"
 msgstr "Hozzáadás jóváhagyott fordításként"
 
-#: weblate/trans/forms.py:580 weblate/trans/forms.py:806
+#: weblate/trans/forms.py:579 weblate/trans/forms.py:804
 msgid "Add as suggestion"
 msgstr "Hozzáadás javaslatként"
 
-#: weblate/trans/forms.py:581
+#: weblate/trans/forms.py:580
 msgid "Add as translation needing edit"
 msgstr "Hozzáadás szerkesztést igénylő fordításként"
 
-#: weblate/trans/forms.py:582
+#: weblate/trans/forms.py:581
 msgid "Replace existing translation file"
 msgstr "Meglévő fordítási fájl cseréje"
 
-#: weblate/trans/forms.py:583
+#: weblate/trans/forms.py:582
 msgid "Update source strings"
 msgstr "Forrásszövegek frissítése"
 
-#: weblate/trans/forms.py:588
+#: weblate/trans/forms.py:587
 msgid "Processing of strings needing edit"
 msgstr "Szerkesztést igénylő szövegek feldolgozása"
 
-#: weblate/trans/forms.py:590
+#: weblate/trans/forms.py:589
 msgid "Do not import"
 msgstr "Ne importálja"
 
-#: weblate/trans/forms.py:591
+#: weblate/trans/forms.py:590
 msgid "Import as string needing edit"
 msgstr "Importálás szerkesztés igénylő szövegként"
 
-#: weblate/trans/forms.py:592
+#: weblate/trans/forms.py:591
 msgid "Import as translated"
 msgstr "Importálás lefordítottként"
 
-#: weblate/trans/forms.py:613
+#: weblate/trans/forms.py:612
 msgid "Conflict handling"
 msgstr "Ütközéskezelés"
 
-#: weblate/trans/forms.py:615
+#: weblate/trans/forms.py:614
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr "Felülírja-e a meglévő fordításokat, ha a szöveg már le van fordítva."
 
-#: weblate/trans/forms.py:619
+#: weblate/trans/forms.py:618
 msgid "Update only non translated strings"
 msgstr "Csak a nem lefordított szövegek frissítése"
 
-#: weblate/trans/forms.py:620
+#: weblate/trans/forms.py:619
 msgid "Update translated strings"
 msgstr "Lefordított szövegek frissítése"
 
-#: weblate/trans/forms.py:621
+#: weblate/trans/forms.py:620
 msgid "Update translated and approved strings"
 msgstr "Lefordított és jóváhagyott szövegek frissítése"
 
-#: weblate/trans/forms.py:631
+#: weblate/trans/forms.py:630
 msgid "Author name"
 msgstr "Szerző neve"
 
-#: weblate/trans/forms.py:632
+#: weblate/trans/forms.py:631
 msgid "Author e-mail"
 msgstr "Szerző e-mail címe"
 
-#: weblate/trans/forms.py:775 weblate/trans/forms.py:777
+#: weblate/trans/forms.py:774 weblate/trans/forms.py:776
 msgid "Could not find merged string."
 msgstr "Nem található beolvasztott szöveg."
 
-#: weblate/trans/forms.py:796
+#: weblate/trans/forms.py:794
 msgid "Could not find reverted change."
 msgstr "Nem található visszaállított változtatás."
 
-#: weblate/trans/forms.py:804
+#: weblate/trans/forms.py:802
 msgid "Automatic translation mode"
 msgstr "Automatikus fordítási mód"
 
-#: weblate/trans/forms.py:808
+#: weblate/trans/forms.py:806
 msgid "Add as needing edit"
 msgstr "Hozzáadás szerkesztést igénylőként"
 
-#: weblate/trans/forms.py:814
+#: weblate/trans/forms.py:812
 msgid "Automatic translation source"
 msgstr "Automatikus fordítási forrás"
 
-#: weblate/trans/forms.py:816
+#: weblate/trans/forms.py:814
 msgid "Other translation components"
 msgstr "Egyéb fordítási összetevők"
 
-#: weblate/trans/forms.py:817
+#: weblate/trans/forms.py:815
 msgid "Machine translation"
 msgstr "Gépi fordítás"
 
-#: weblate/trans/forms.py:825
+#: weblate/trans/forms.py:823
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
@@ -9165,202 +9409,206 @@ msgstr ""
 "A megosztott fordítási memórián történő közreműködés bekapcsolása a "
 "projektnél, hogy hozzáférést kapjon a további összetevőkhöz."
 
-#: weblate/trans/forms.py:831
+#: weblate/trans/forms.py:829
 msgid "Machine translation engines"
 msgstr "Gépi fordítómotorok"
 
-#: weblate/trans/forms.py:834
+#: weblate/trans/forms.py:832
 msgid "Score threshold"
 msgstr "Pontszámküszöb"
 
-#: weblate/trans/forms.py:854
+#: weblate/trans/forms.py:852
 msgid "All components in current project"
 msgstr "Az összes összetevő a jelenlegi projektben"
 
-#: weblate/trans/forms.py:882
+#: weblate/trans/forms.py:880
 msgid "Scope"
 msgstr "Hatókör"
 
-#: weblate/trans/forms.py:884
+#: weblate/trans/forms.py:882
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 "A megjegyzése csak erre a fordításra vonatkozik, vagy általánosságban az "
 "összes fordításra?"
 
-#: weblate/trans/forms.py:894
+#: weblate/trans/forms.py:892
 msgid "Source string comment, suggestions for changes to this string"
 msgstr "Forrásszöveg megjegyzés, javaslatok ezen szöveg változtatásaihoz"
 
-#: weblate/trans/forms.py:898
+#: weblate/trans/forms.py:896
 msgid "Translation comment, discussions with other translators"
 msgstr "Fordítási megjegyzés, beszélgetések más fordítókkal"
 
-#: weblate/trans/forms.py:905 weblate/trans/models/announcement.py:79
+#: weblate/trans/forms.py:903 weblate/trans/models/announcement.py:79
 #: weblate/trans/models/project.py:103
 msgid "You can use Markdown and mention users by @username."
 msgstr ""
 "Használhat Markdown formázást, és megemlítheti a felhasználókat a "
 "@felhasználónév használatával."
 
-#: weblate/trans/forms.py:920
+#: weblate/trans/forms.py:918
 msgid "All components"
 msgstr "Összes összetevő"
 
-#: weblate/trans/forms.py:960
+#: weblate/trans/forms.py:958
 msgid "Please choose"
 msgstr "Válasszon"
 
-#: weblate/trans/forms.py:1013
+#: weblate/trans/forms.py:1011
 msgid "User to add"
 msgstr "Hozzáadandó felhasználó"
 
-#: weblate/trans/forms.py:1015
+#: weblate/trans/forms.py:1013
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "Írjon be egy meglévő Weblate-fiók nevet vagy e-mail címet."
 
-#: weblate/trans/forms.py:1022
+#: weblate/trans/forms.py:1020
 msgid "Report format"
 msgstr "Jelentés formátuma"
 
-#: weblate/trans/forms.py:1023
+#: weblate/trans/forms.py:1021
 msgid "Choose file format for the report"
 msgstr "Válasszon fájlformátumot a jelentéshez"
 
-#: weblate/trans/forms.py:1025
+#: weblate/trans/forms.py:1023
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
-#: weblate/trans/forms.py:1027
+#: weblate/trans/forms.py:1025
 msgid "HTML"
 msgstr "HTML"
 
-#: weblate/trans/forms.py:1031
+#: weblate/trans/forms.py:1029
 msgid "Report period"
 msgstr "Jelentési időszak"
 
-#: weblate/trans/forms.py:1033
+#: weblate/trans/forms.py:1031
 msgid "Last 30 days"
 msgstr "Az elmúlt 30 nap"
 
-#: weblate/trans/forms.py:1034
+#: weblate/trans/forms.py:1032
 msgid "This month"
 msgstr "Ez a hónap"
 
-#: weblate/trans/forms.py:1035
+#: weblate/trans/forms.py:1033
 msgid "Last month"
 msgstr "Múlt hónap"
 
-#: weblate/trans/forms.py:1036
+#: weblate/trans/forms.py:1034
 msgid "This year"
 msgstr "Ez az év"
 
-#: weblate/trans/forms.py:1037
+#: weblate/trans/forms.py:1035
 msgid "Last year"
 msgstr "Múlt év"
 
-#: weblate/trans/forms.py:1038
+#: weblate/trans/forms.py:1036
 msgid "As specified"
 msgstr "Meghatározott"
 
-#: weblate/trans/forms.py:1043
+#: weblate/trans/forms.py:1041
 msgid "Starting date"
 msgstr "Kezdő dátum"
 
-#: weblate/trans/forms.py:1046
+#: weblate/trans/forms.py:1044
 msgid "Ending date"
 msgstr "Befejezési dátum"
 
-#: weblate/trans/forms.py:1093 weblate/trans/forms.py:1095
+#: weblate/trans/forms.py:1091 weblate/trans/forms.py:1093
 msgid "Missing date!"
 msgstr "Hiányzó dátum!"
 
-#: weblate/trans/forms.py:1107
+#: weblate/trans/forms.py:1105
 msgid "Starting date has to be before ending date!"
 msgstr "A kezdő dátumnak a befejezési dátum előtt kell lennie!"
 
-#: weblate/trans/forms.py:1125
+#: weblate/trans/forms.py:1123
 msgid "You do not have permission to access this component!"
 msgstr "Nincs jogosultsága hozzáférni ehhez az összetevőhöz!"
 
-#: weblate/trans/forms.py:1224 weblate/trans/forms.py:1709
+#: weblate/trans/forms.py:1231 weblate/trans/forms.py:1716
 msgid "Basic"
 msgstr "Alap"
 
-#: weblate/trans/forms.py:1226
+#: weblate/trans/forms.py:1233
 msgid "License"
 msgstr "Licenc"
 
-#: weblate/trans/forms.py:1227
+#: weblate/trans/forms.py:1234
 msgid "Upstream links"
 msgstr "Távoli tároló hivatkozásai"
 
-#: weblate/trans/forms.py:1239
+#: weblate/trans/forms.py:1246
 msgid "Translation settings"
 msgstr "Fordítási beállítások"
 
-#: weblate/trans/forms.py:1250
+#: weblate/trans/forms.py:1257
 msgid "Version control"
 msgstr "Verziókövetés"
 
-#: weblate/trans/forms.py:1252
+#: weblate/trans/forms.py:1259
 msgid "Locations"
 msgstr "Helyek"
 
-#: weblate/trans/forms.py:1262
+#: weblate/trans/forms.py:1269
 msgid "Version control settings"
 msgstr "Verziókövető beállításai"
 
-#: weblate/trans/forms.py:1271 weblate/trans/forms.py:1273
+#: weblate/trans/forms.py:1278 weblate/trans/forms.py:1280
 msgid "Commit messages"
 msgstr "Véglegesítésüzenetek"
 
-#: weblate/trans/forms.py:1286
+#: weblate/trans/forms.py:1293
 msgid "Translation files"
 msgstr "Fordítási fájlok"
 
-#: weblate/trans/forms.py:1292
+#: weblate/trans/forms.py:1299
 msgid "Monolingual translations"
 msgstr "Egynyelvű fordítások"
 
-#: weblate/trans/forms.py:1298
+#: weblate/trans/forms.py:1305
 msgid "Adding new languages"
 msgstr "Új nyelvek hozzáadása"
 
-#: weblate/trans/forms.py:1353 weblate/trans/models/component.py:245
+#: weblate/trans/forms.py:1360 weblate/trans/models/component.py:245
 #: weblate/trans/models/componentlist.py:44 weblate/trans/models/project.py:81
 msgid "Display name"
 msgstr "Megjelenített név"
 
-#: weblate/trans/forms.py:1356 weblate/trans/models/component.py:248
+#: weblate/trans/forms.py:1363 weblate/trans/models/component.py:248
 #: weblate/trans/models/componentlist.py:48 weblate/trans/models/project.py:84
 msgid "URL slug"
 msgstr "Keresőbarát URL"
 
-#: weblate/trans/forms.py:1358 weblate/trans/models/component.py:250
+#: weblate/trans/forms.py:1365 weblate/trans/models/component.py:250
 #: weblate/trans/models/componentlist.py:52 weblate/trans/models/project.py:87
 msgid "Name used in URLs and filenames."
 msgstr "Az URL-ekben és fájlnevekben használt név."
 
-#: weblate/trans/forms.py:1366
+#: weblate/trans/forms.py:1373
 msgid "Select existing component to copy configuration from."
 msgstr "Meglévő összetevő kiválasztása a beállítások átmásolásához."
 
-#: weblate/trans/forms.py:1459
+#: weblate/trans/forms.py:1466
 msgid "ZIP file containing translations"
 msgstr "Fordításokat tartalmazó ZIP-fájl"
 
-#: weblate/trans/forms.py:1473
+#: weblate/trans/forms.py:1480
 msgid "Document to translate"
 msgstr "Lefordítandó dokumentum"
 
-#: weblate/trans/forms.py:1497
+#: weblate/trans/forms.py:1504
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
 "A fordításokat tartalmazó tároló eléréséhez használt verziókövető rendszer."
 
-#: weblate/trans/forms.py:1507
+#: weblate/trans/forms.py:1511 weblate/trans/models/component.py:271
+msgid "Source code repository"
+msgstr "Forráskód tárolója"
+
+#: weblate/trans/forms.py:1514
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
@@ -9368,19 +9616,19 @@ msgstr ""
 "Egy tároló URL-e, használja a weblate://projekt/összetevő címet más "
 "összetevőkkel való megosztáshoz."
 
-#: weblate/trans/forms.py:1514 weblate/trans/models/component.py:322
+#: weblate/trans/forms.py:1521 weblate/trans/models/component.py:322
 msgid "Repository branch to translate"
 msgstr "Lefordítandó tárolóág"
 
-#: weblate/trans/forms.py:1546
+#: weblate/trans/forms.py:1553
 msgid "Choose translation files to import"
 msgstr "Válassza ki az importálandó fordítási fájlokat"
 
-#: weblate/trans/forms.py:1547
+#: weblate/trans/forms.py:1554
 msgid "Specify configuration manually"
 msgstr "Beállítások kézi megadása"
 
-#: weblate/trans/forms.py:1674
+#: weblate/trans/forms.py:1681
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -9389,34 +9637,34 @@ msgstr ""
 "Meg kell adnia egy licencet ezekhez az összetevőkhöz, hogy nyilvánosan "
 "hozzáférhetők legyenek: %s"
 
-#: weblate/trans/forms.py:1711
+#: weblate/trans/forms.py:1718
 msgid "Access"
 msgstr "Hozzáférés"
 
-#: weblate/trans/forms.py:1720
+#: weblate/trans/forms.py:1727
 msgid "Workflow"
 msgstr "Munkafolyamat"
 
-#: weblate/trans/forms.py:1746
+#: weblate/trans/forms.py:1753
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 "Felhasználja és hozzájárul a projektek közötti megosztott fordítások "
 "összevonásához."
 
-#: weblate/trans/forms.py:1784
+#: weblate/trans/forms.py:1791
 msgid "Search string"
 msgstr "Keresett szöveg"
 
-#: weblate/trans/forms.py:1787
+#: weblate/trans/forms.py:1794
 msgid "Replacement string"
 msgstr "Csere szöveg"
 
-#: weblate/trans/forms.py:1819
+#: weblate/trans/forms.py:1826
 msgid "Translation key"
 msgstr "Fordítási kulcs"
 
-#: weblate/trans/forms.py:1821
+#: weblate/trans/forms.py:1828
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -9424,65 +9672,65 @@ msgstr ""
 "A szöveg azonosításához használt kulcs a fordítási fájlban. A fájlformátumra "
 "jellemző szabályok is alkalmazhatók."
 
-#: weblate/trans/forms.py:1827
+#: weblate/trans/forms.py:1834
 msgid "Source language text"
 msgstr "Forrásnyelv szövege"
 
-#: weblate/trans/forms.py:1829
+#: weblate/trans/forms.py:1836
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr "Ezt szerkesztheti később, mint bármely más szöveget a forrásnyelvben."
 
-#: weblate/trans/forms.py:1845
+#: weblate/trans/forms.py:1852
 msgid "State to set"
 msgstr "Beállítandó állapot"
 
-#: weblate/trans/forms.py:1845
+#: weblate/trans/forms.py:1852
 msgid "Do not change"
 msgstr "Ne változtassa"
 
-#: weblate/trans/forms.py:1847
+#: weblate/trans/forms.py:1854
 msgid "Translation flags to add"
 msgstr "Hozzáadandó fordítási jelzők"
 
-#: weblate/trans/forms.py:1848
+#: weblate/trans/forms.py:1855
 msgid "Translation flags to remove"
 msgstr "Eltávolítandó fordítási jelzők"
 
-#: weblate/trans/forms.py:1851
+#: weblate/trans/forms.py:1858
 msgid "Labels to add"
 msgstr "Hozzáadandó címkék"
 
-#: weblate/trans/forms.py:1857
+#: weblate/trans/forms.py:1864
 msgid "Labels to remove"
 msgstr "Eltávolítandó címkék"
 
-#: weblate/trans/forms.py:1891
+#: weblate/trans/forms.py:1898
 msgid "I accept the contributor agreement"
 msgstr "Elfogadom a közreműködői megállapodást"
 
-#: weblate/trans/forms.py:1917
+#: weblate/trans/forms.py:1924
 msgid "The slug does not match the one marked for deletion!"
 msgstr "A keresőbarát URL nem egyezik a törlésre megjelölttel!"
 
-#: weblate/trans/forms.py:1923 weblate/trans/forms.py:1932
-#: weblate/trans/forms.py:1941
+#: weblate/trans/forms.py:1930 weblate/trans/forms.py:1939
+#: weblate/trans/forms.py:1948
 msgid "Removal confirmation"
 msgstr "Eltávolítás megerősítése"
 
-#: weblate/trans/forms.py:1924
+#: weblate/trans/forms.py:1931
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "Írja be a fordítás teljes keresőbarát URL-ét a megerősítéshez."
 
-#: weblate/trans/forms.py:1933
+#: weblate/trans/forms.py:1940
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Írja be az összetevő teljes keresőbarát URL-ét a megerősítéshez."
 
-#: weblate/trans/forms.py:1942
+#: weblate/trans/forms.py:1949
 msgid "Please type in the slug of the project to confirm."
 msgstr "Írja be a projekt keresőbarát URL-ét a megerősítéshez."
 
-#: weblate/trans/forms.py:1969
+#: weblate/trans/forms.py:1976
 msgid "Author username"
 msgstr "Szerző felhasználóneve"
 
@@ -10265,70 +10513,70 @@ msgstr ""
 msgid "Could not fetch the repository: %s"
 msgstr "Nem sikerült lekérni a tárolót: %s"
 
-#: weblate/trans/models/component.py:1264
+#: weblate/trans/models/component.py:1273
 #, python-format
 msgid "Could not push to remote branch on %s."
 msgstr "Nem sikerült felküldeni a távoli ágra ezen: %s."
 
-#: weblate/trans/models/component.py:1273
+#: weblate/trans/models/component.py:1282
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "A felküldés ki van kapcsolva ennél: %s."
 
-#: weblate/trans/models/component.py:1331
+#: weblate/trans/models/component.py:1340
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "Nem sikerült visszaállítani a távoli ágra ezen: %s."
 
-#: weblate/trans/models/component.py:1361
+#: weblate/trans/models/component.py:1370
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "Nem sikerült megtisztítani a tárolót ezen: %s."
 
-#: weblate/trans/models/component.py:1477
+#: weblate/trans/models/component.py:1486
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Nem sikerült újraalapozni a helyi ágat a(z) %s távoli ág alapján."
 
-#: weblate/trans/models/component.py:1483
+#: weblate/trans/models/component.py:1492
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Nem sikerült beolvasztani a távoli ágat ebbe: %s."
 
-#: weblate/trans/models/component.py:1887
+#: weblate/trans/models/component.py:1898
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Érvénytelen Weblate projekt hivatkozás, nem lehet hivatkozni kapcsolt "
 "tárolóra!"
 
-#: weblate/trans/models/component.py:1896
+#: weblate/trans/models/component.py:1907
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "Érvénytelen Weblate projekt hivatkozás, nem hivatkozhat önmagára!"
 
-#: weblate/trans/models/component.py:1905
+#: weblate/trans/models/component.py:1916
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Hibás Weblate projekt hivatkozás, a helyes forma weblate://projekt/összetevő."
 
-#: weblate/trans/models/component.py:1914
+#: weblate/trans/models/component.py:1925
 msgid "Option is not available for linked repositories."
 msgstr "Ez a lehetőség nem elérhető a kapcsolódó tárolókban."
 
-#: weblate/trans/models/component.py:1923
+#: weblate/trans/models/component.py:1934
 msgid "The filemask did not match any files."
 msgstr "A fájlmaszk egy fájlra sem illeszkedik."
 
-#: weblate/trans/models/component.py:1932
+#: weblate/trans/models/component.py:1943
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "Üres a nyelvi kódja \"%s\", kérem ellenőrizze a fájlmaszkot."
 
-#: weblate/trans/models/component.py:1939
+#: weblate/trans/models/component.py:1950
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "A nyelvi kód \"%s\" túl hosszú, kérem ellenőrizze a fájlmaszkot."
 
-#: weblate/trans/models/component.py:1946
+#: weblate/trans/models/component.py:1957
 #, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
@@ -10337,26 +10585,26 @@ msgstr ""
 "Több fájl is elérhető, ehhez a nyelvhez (%s). Kérem állítson a fájlmaszkon "
 "és használja az összetevőket a különböző fájlok fordításához."
 
-#: weblate/trans/models/component.py:1960
+#: weblate/trans/models/component.py:1971
 msgid "Could not find any matching language, please check the filemask."
 msgstr "Nem található egyetlen egyező nyelv sem, ellenőrizze a fájlmaszkot."
 
-#: weblate/trans/models/component.py:1979
+#: weblate/trans/models/component.py:1990
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "Nem sikerült feldolgozni %d egyező fájlt."
 msgstr[1] "Nem sikerült feldolgozni %d egyező fájlt."
 
-#: weblate/trans/models/component.py:2002
+#: weblate/trans/models/component.py:2013
 msgid "Unrecognized base file for new translations."
 msgstr "Ismeretlen alapfájl az új fordításokhoz."
 
-#: weblate/trans/models/component.py:2004
+#: weblate/trans/models/component.py:2015
 msgid "Base file for new translations not found."
 msgstr "Nem található alapfájl az új fordításokhoz."
 
-#: weblate/trans/models/component.py:2007
+#: weblate/trans/models/component.py:2018
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -10364,45 +10612,45 @@ msgstr ""
 "Úgy állította be a Weblate-t, hogy automatikusan hozzáadja az új fordítási "
 "fájlokat, de nem adott meg egy alapfájlt ehhez."
 
-#: weblate/trans/models/component.py:2020
+#: weblate/trans/models/component.py:2031
 msgid "You can not use a base file for bilingual translation."
 msgstr "Nem használhat egy alapfájlt többnyelvű fordításhoz."
 
-#: weblate/trans/models/component.py:2026
-#: weblate/trans/models/component.py:2032
+#: weblate/trans/models/component.py:2037
+#: weblate/trans/models/component.py:2043
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "Egy közbülső nyelvi fájlt nem lehet használni sablon szerkesztése nélkül."
 
-#: weblate/trans/models/component.py:2039
+#: weblate/trans/models/component.py:2050
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Egy .pot fájl használata alapfájlként nem támogatott."
 
-#: weblate/trans/models/component.py:2050
+#: weblate/trans/models/component.py:2061
 msgid "Could not find template file."
 msgstr "Nem található sablonfájl."
 
-#: weblate/trans/models/component.py:2056
+#: weblate/trans/models/component.py:2067
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Nem sikerült feldolgozni a fordítási alapfájlt: %s"
 
-#: weblate/trans/models/component.py:2064
+#: weblate/trans/models/component.py:2075
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr "A Sablonnyelv ({0}) nem egyezik a projektforrás nyelvével ({1})!"
 
-#: weblate/trans/models/component.py:2070
+#: weblate/trans/models/component.py:2081
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Egy alapfájl nélkül nem használható az egynyelvű fordítás."
 
-#: weblate/trans/models/component.py:2086
+#: weblate/trans/models/component.py:2097
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Nem sikerült frissíteni a tárolót: %s"
 
-#: weblate/trans/models/component.py:2096
+#: weblate/trans/models/component.py:2107
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -10410,37 +10658,37 @@ msgstr ""
 "Vagy töltse ki az utasítás URL-jét, vagy használjon más lehetőséget egy új "
 "nyelv hozzáadásához."
 
-#: weblate/trans/models/component.py:2140
+#: weblate/trans/models/component.py:2151
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Nem lehet ellenőrizni a fájlilleszkedéseket egy érvénytelen reguláris "
 "kifejezés miatt."
 
-#: weblate/trans/models/component.py:2150
+#: weblate/trans/models/component.py:2161
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Javaslatok automatikus elfogadása csak akkor működik, szavazás be van "
 "kapcsolva."
 
-#: weblate/trans/models/component.py:2458
+#: weblate/trans/models/component.py:2474
 msgid "Could not add new translation file."
 msgstr "Nem sikerült új fordítási fájlt hozzáadni."
 
-#: weblate/trans/models/component.py:2469
+#: weblate/trans/models/component.py:2485
 msgid "The given language is filtered by the language filter."
 msgstr "Az adott nyelvet a nyelvi szűrő szűri."
 
-#: weblate/trans/models/component.py:2491
+#: weblate/trans/models/component.py:2507
 msgid "Translation file already exists!"
 msgstr "A fordítási fájl már létezik!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2559
+#: weblate/trans/models/component.py:2575
 msgid "Context"
 msgstr "Környezet"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2561 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Kulcs"
@@ -10601,7 +10849,7 @@ msgstr ""
 "Nyelvkódok leképezésének vesszővel elválasztott listája, például: en_GB:en,"
 "en_US:en"
 
-#: weblate/trans/models/suggestion.py:138
+#: weblate/trans/models/suggestion.py:139
 msgid "Failed to accept suggestion!"
 msgstr "Nem sikerült elfogadni a javaslatot!"
 
@@ -11060,7 +11308,12 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{month}/{day}"
 
-#: weblate/trans/views/create.py:299
+#: weblate/trans/views/create.py:221
+#, python-format
+msgid "Detected license as %s, please check whether it is correct."
+msgstr ""
+
+#: weblate/trans/views/create.py:326
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Nem sikerült feldolgozni a feltöltött ZIP-fájlt."
 
@@ -11493,11 +11746,11 @@ msgstr "Ezüst"
 msgid "Undefined variable: \"%s\""
 msgstr "Meghatározatlan változó: „%s”"
 
-#: weblate/utils/render.py:110
+#: weblate/utils/render.py:122
 msgid "Failed to render template: {}"
 msgstr "Nem sikerült a sablon megjelenítése: {}"
 
-#: weblate/utils/render.py:153
+#: weblate/utils/render.py:165
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
@@ -11505,11 +11758,11 @@ msgstr ""
 "A formátumszövegek többé már nem támogatottak, használja a sablonnyelvet "
 "helyette."
 
-#: weblate/utils/render.py:171
+#: weblate/utils/render.py:183
 msgid "The editor link lacks URL scheme!"
 msgstr "A szerkesztő hivatkozásában nincs URL séma!"
 
-#: weblate/utils/render.py:177
+#: weblate/utils/render.py:189
 msgid "Forbidden URL scheme!"
 msgstr "Tiltott URL séma!"
 
@@ -11632,11 +11885,11 @@ msgstr "Sikertelen ellenőrzések száma"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Hiba a(z) %(field)s paraméterben: %(error)s"
 
-#: weblate/vcs/git.py:555
+#: weblate/vcs/git.py:560
 msgid "Git with force push"
 msgstr "Git kényszerített felküldéssel"
 
-#: weblate/vcs/git.py:680
+#: weblate/vcs/git.py:737
 msgid "No remote repository"
 msgstr "Nincs távoli tároló"
 
@@ -11713,19 +11966,31 @@ msgstr "Alapvető saját kiszolgálású támogatás"
 msgid "Extended self-hosted support"
 msgstr "Kiterjesztett saját kiszolgálású támogatás"
 
-#: weblate/wladmin/models.py:167
+#: weblate/wladmin/models.py:128
+#, fuzzy
+#| msgid "Backup repository"
+msgid "Backup repository URL"
+msgstr "Tároló biztonsági mentése"
+
+#: weblate/wladmin/models.py:130
+msgid ""
+"Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
+"SSH backups."
+msgstr ""
+
+#: weblate/wladmin/models.py:173
 msgid "Backup performed"
 msgstr "Biztonsági mentés végrehajtva"
 
-#: weblate/wladmin/models.py:168
+#: weblate/wladmin/models.py:174
 msgid "Backup failed"
 msgstr "Biztonsági mentés sikertelen"
 
-#: weblate/wladmin/models.py:169
+#: weblate/wladmin/models.py:175
 msgid "Deleted the oldest backups"
 msgstr "A legrégebbi biztonsági mentések törölve"
 
-#: weblate/wladmin/models.py:170
+#: weblate/wladmin/models.py:176
 msgid "Repository initialization"
 msgstr "Tároló előkészítése"
 
@@ -11807,6 +12072,45 @@ msgstr "Biztonsági mentés folyamat aktiválva"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Nem sikerült eltüntetni a beállítási hibát!"
+
+#~ msgid "URL of source code repository, for example Git or Mercurial."
+#~ msgstr "A forráskódtároló URL-je, például Git vagy Mercurial."
+
+#~ msgid ""
+#~ "Path of files to translate, use * instead of language code, for example: "
+#~ "po/*.po or locale/*/LC_MESSAGES/django.po."
+#~ msgstr ""
+#~ "Fordítandó fájlok elérési útja. Használjon * karaktert nyelvi kód "
+#~ "helyett, például po/*.po vagy locale/*/LC_MESSAGES/django.po."
+
+#~ msgid "Additional message"
+#~ msgstr "További üzenet"
+
+#~ msgid "Please describe the project and your relation to it."
+#~ msgstr "Adjon leírást a projektről és az ahhoz való kapcsolatáról."
+
+#~ msgid "Message has been sent to administrator."
+#~ msgstr "Az üzenet elküldésre került a rendszergazdának."
+
+#~ msgid "Conditions for gratis hosting"
+#~ msgstr "Az ingyenes tárhelyszolgáltatás feltételei"
+
+#~ msgid ""
+#~ "Please fill in this form if your project meets the conditions for free of "
+#~ "charge hosting:"
+#~ msgstr ""
+#~ "Töltse ki ezt az űrlapot, ha a projektje megfelel az ingyenes "
+#~ "tárhelyszolgáltatás feltételeinek:"
+
+#~ msgid ""
+#~ "Hosting requests are usually processed once a month, please have patience "
+#~ "after submitting one."
+#~ msgstr ""
+#~ "A tárhelyszolgáltatási kéréseket általában havonta egyszer dolgozzák fel. "
+#~ "Legyen türelmes a beküldés után."
+
+#~ msgid "Avatar"
+#~ msgstr "Profilkép"
 
 #~ msgid "Changes in last quarter"
 #~ msgstr "Változtatások a múlt negyedévben"
@@ -11893,9 +12197,6 @@ msgstr "Nem sikerült eltüntetni a beállítási hibát!"
 #~ msgid "Manage translation memory (on the entire platform)"
 #~ msgstr "Fordítási memória kezelése (a teljes platformon)"
 
-#~ msgid "username"
-#~ msgstr "Felhasználónév"
-
 #~ msgid "data exports"
 #~ msgstr "adat exportok"
 
@@ -11944,9 +12245,6 @@ msgstr "Nem sikerült eltüntetni a beállítási hibát!"
 #~ msgid "TermBase eXchange (TBX)"
 #~ msgstr "TermBase eXchange (TBX)"
 
-#~ msgid "Get support"
-#~ msgstr "Támogatás kérése"
-
 #~ msgid "Service"
 #~ msgstr "Szolgáltatás"
 
@@ -11956,16 +12254,8 @@ msgstr "Nem sikerült eltüntetni a beállítási hibát!"
 #~ msgid "Overwrite existing translations"
 #~ msgstr "Meglévő fordítások felülírása"
 
-#, fuzzy
-#~| msgid "Created project"
-#~ msgid "Contributed projects"
-#~ msgstr "Projekt létrehozva"
-
 #~ msgid "Your summary"
 #~ msgstr "Saját összegzés"
-
-#~ msgid "Your public profile"
-#~ msgstr "Saját nyilvános profil"
 
 #~ msgid "Your public appearance on this site."
 #~ msgstr "A saját nyilvános megjelenése ezen az oldalon."
@@ -12327,9 +12617,6 @@ msgstr "Nem sikerült eltüntetni a beállítási hibát!"
 
 #~ msgid "Optional short summary of license used for translations."
 #~ msgstr "A fordításoknál használt licenc elhagyható rövid összegzése."
-
-#~ msgid "License URL"
-#~ msgstr "Licenc URL"
 
 #~ msgid "Optional URL with license details."
 #~ msgstr "Elhagyható URL a licenc részleteivel."
@@ -12868,9 +13155,6 @@ msgstr "Nem sikerült eltüntetni a beállítási hibát!"
 #~ msgid "Message:"
 #~ msgstr "Üzenet:"
 
-#~ msgid "Translation project:"
-#~ msgstr "Fordítási projekt:"
-
 #~ msgid "Translation language:"
 #~ msgstr "Fordítás nyelve:"
 
@@ -13002,9 +13286,6 @@ msgstr "Nem sikerült eltüntetni a beállítási hibát!"
 
 #~ msgid "Notification on new language request"
 #~ msgstr "Értesítés új nyelv kéréséről"
-
-#~ msgid "Subscriptions"
-#~ msgstr "Feliratkozások"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "
