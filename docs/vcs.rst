@@ -276,7 +276,7 @@ Pushing changes to GitHub as pull requests
 
 If not wanting to push translations to a GitHub repository, they can be sent as either
 one or many pull requests instead. You need to setup a :setting:`GITHUB_TOKEN`
-used to make API calls
+used to make API calls.
 
 
 .. seealso::
