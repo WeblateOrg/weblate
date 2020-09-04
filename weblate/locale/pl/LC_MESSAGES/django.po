@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-04 11:15+0000\n"
-"PO-Revision-Date: 2020-08-23 08:42+0000\n"
+"PO-Revision-Date: 2020-09-04 18:03+0000\n"
 "Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -75,10 +75,8 @@ msgid "Full name"
 msgstr "Imię i nazwisko"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Twój e-mail"
+msgstr "Publiczny adres e-mail"
 
 #: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -377,10 +375,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Zaproszony do Weblate przez {username}."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Rozpocznij nowe tłumaczenie"
+msgstr "Rozpoczęto okres próbny."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -547,30 +543,24 @@ msgstr ""
 "domyślnie wyświetlane na pulpicie nawigacyjnym."
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "URL licencji"
+msgstr "Adres URL witryny"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "nazwa użytkownika"
+msgstr "Nazwa użytkownika GitHub"
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "Nazwa użytkownika autora"
+msgstr "Nazwa użytkownika na Twitterze"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "Nazwa profilu LinkedIn"
 
 #: weblate/accounts/models.py:430
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "Twoja nazwa profilu LinkedIn z linkedin.com/in/profilename"
 
 #: weblate/accounts/models.py:434
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -579,16 +569,12 @@ msgid "Location"
 msgstr "Położenie"
 
 #: weblate/accounts/models.py:439
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "Komponent"
+msgstr "Firma"
 
 #: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
 msgid "Public email"
-msgstr "Publiczne"
+msgstr "Publiczny adres email"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -803,7 +789,7 @@ msgstr "Nie można wysłać wiadomości do administratora."
 
 #: weblate/accounts/views.py:235
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "Twoje zapytanie zostało wysłane, wkrótce się z Tobą skontaktujemy."
 
 #: weblate/accounts/views.py:348
 msgid "Your profile has been updated."
@@ -836,17 +822,21 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Wygląda na to, że niedawno poprosiłeś o okres próbny. Prosimy o kontakt w "
+"sprawie zapytania, abyśmy mogli znaleźć najlepsze rozwiązanie dla Ciebie."
 
 #: weblate/accounts/views.py:594
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Twój okres próbny jest już uruchomiony; stwórz swój projekt tłumaczeniowy i "
+"zacznij Weblating!"
 
 #: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Bezpłatna wersja próbna"
 
 #: weblate/accounts/views.py:690 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -2172,10 +2162,8 @@ msgstr[1] "Zmieniono nazwę komponentu"
 msgstr[2] "Zmieniono nazwę komponentu"
 
 #: weblate/billing/models.py:429
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "Zmieniono licencję"
+msgstr "Brak licencji"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -2186,16 +2174,12 @@ msgstr ""
 "powiadomienie."
 
 #: weblate/billing/tasks.py:108
-#, fuzzy
-#| msgid ""
-#| "You will stop receiving this notification once you pay the bills or the "
-#| "project is removed."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"Po opłaceniu rachunków lub usunięciu projektu przestaniesz otrzymywać to "
-"powiadomienie."
+"Przestaniesz otrzymywać to powiadomienie po zmianie na zwykłą subskrypcję "
+"lub usunięciu projektu."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -4043,10 +4027,8 @@ msgid "Register"
 msgstr "Zarejestruj się"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "Subskrypcje"
+msgstr "Subskrypcje próbne"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -4055,14 +4037,12 @@ msgid ", expires %(expires)s"
 msgstr ", wygaśnięcie %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "Oczekujący ciąg"
+msgstr "Oczekuje na zatwierdzenie"
 
 #: weblate/templates/accounts/hosting.html:44
 msgid "Additional things to check manually:"
-msgstr ""
+msgstr "Dodatkowe rzeczy do sprawdzenia ręcznie:"
 
 #: weblate/templates/accounts/hosting.html:46
 #: weblate/templates/accounts/hosting.html:80
@@ -4075,26 +4055,22 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:47
 #: weblate/templates/accounts/hosting.html:81
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Użytkownik został usunięty z tego projektu."
+msgstr "Korzystanie z Weblate zostało zatwierdzone przez projekt nadrzędny."
 
 #: weblate/templates/accounts/hosting.html:48
 #: weblate/templates/accounts/hosting.html:82
 msgid "The project has active development for at least three months."
-msgstr ""
+msgstr "Projekt rozwija się aktywnie od co najmniej trzech miesięcy."
 
 #: weblate/templates/accounts/hosting.html:50
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "Ciągi zaakceptowane"
+msgstr "Zatwierdź jako wolne"
 
 #: weblate/templates/accounts/hosting.html:52
 #: weblate/templates/mail/billing_expired.html:43
 msgid "Request approval for libre hosting"
-msgstr ""
+msgstr "Poproś o zgodę na darmowy hosting"
 
 #: weblate/templates/accounts/hosting.html:55
 msgid ""
@@ -4104,13 +4080,11 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:58
 msgid "Extend trial"
-msgstr ""
+msgstr "Przedłuż okres próbny"
 
 #: weblate/templates/accounts/hosting.html:71
-#, fuzzy
-#| msgid "Translation project:"
 msgid "Translate your libre project"
-msgstr "Projekt tłumaczenia:"
+msgstr "Przetłumacz swój darmowy projekt"
 
 #: weblate/templates/accounts/hosting.html:75
 msgid ""
@@ -4130,31 +4104,27 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:83
 msgid "You will have 14 days to setup your project."
-msgstr ""
+msgstr "Będziesz mieć 14 dni na skonfigurowanie swojego projektu."
 
 #: weblate/templates/accounts/hosting.html:84
 msgid "Please request project approval once the setup is completed."
-msgstr ""
+msgstr "Poproś o zatwierdzenie projektu po zakończeniu konfiguracji."
 
 #: weblate/templates/accounts/hosting.html:85
 msgid "Not approved projects will be removed."
-msgstr ""
+msgstr "Niezatwierdzone projekty zostaną usunięte."
 
 #: weblate/templates/accounts/hosting.html:86
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "Nie ma gwarancji dostępności usługi ani jakości."
 
 #: weblate/templates/accounts/hosting.html:91
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "Uzyskaj wsparcie"
+msgstr "Rozpocznij"
 
 #: weblate/templates/accounts/hosting.html:97
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Skontaktuj się z nami w sprawie hostingu komercyjnego"
+msgstr "Szukasz komercyjnego hostingu?"
 
 #: weblate/templates/accounts/hosting.html:100
 #, python-format
@@ -4363,8 +4333,6 @@ msgid "Download user data"
 msgstr "Pobierz dane użytkownika"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
 msgstr "Profil publiczny"
 
@@ -4374,6 +4342,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Wszystkie pola na tej stronie są opcjonalne i można je usunąć w dowolnym "
+"momencie, a wypełniając je, wyrażasz zgodę na udostępnianie tych danych "
+"wszędzie tam, gdzie pojawia się Twój profil użytkownika."
 
 #: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
@@ -4566,50 +4537,42 @@ msgid "Reset my password"
 msgstr "Zresetuj moje hasło"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "Dziękujemy za korzystanie z Weblate."
+msgstr "Dziękujemy za zainteresowanie wypróbowaniem Weblate!"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "Twój profil"
+msgstr "Twoja oferta próbna"
 
 #: weblate/templates/accounts/trial.html:22
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will"
-msgstr "Twój e-mail"
+msgstr "Twoja wersja próbna"
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:25
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "last for 14 days."
-msgstr "Ostatnie 30 dni"
+msgstr "trwać 14 dni."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:27
 msgid "run the Enterprise plan."
-msgstr ""
+msgstr "uruchom plan Enterprise."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:29
 msgid "need no credit card, but you can set the payment method anytime."
 msgstr ""
+"nie potrzebujesz karty kredytowej, ale możesz ustawić metodę płatności w "
+"dowolnym momencie."
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:31
 msgid "keep the configuration once you start paying."
-msgstr ""
+msgstr "zachowaj konfigurację po rozpoczęciu płatności."
 
 #: weblate/templates/accounts/trial.html:35
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "Rozpocznij nowe tłumaczenie"
+msgstr "Rozpocznij okres próbny!"
 
 #: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -6570,30 +6533,20 @@ msgstr "Wygenerowano na %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "Your trial period is going to expire in less than week."
-msgstr ""
+msgstr "Twój okres próbny wygaśnie za mniej niż tydzień."
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please purchase the subsription."
-msgstr ""
-"Twój plan rozliczeniowy wygasł. Jeśli chcesz nadal korzystać z usługi, "
-"przedłuż ją."
+msgstr "Jeśli chcesz nadal korzystać z usługi, wykup abonament."
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please request approval of your "
 "libre plan."
 msgstr ""
-"Twój plan rozliczeniowy wygasł. Jeśli chcesz nadal korzystać z usługi, "
-"przedłuż ją."
+"Jeśli chcesz nadal korzystać z usługi, poproś o zatwierdzenie swojego "
+"darmowego planu."
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -6634,7 +6587,7 @@ msgstr "Twój projekt tłumaczenia został zaplanowany do usunięcia"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your trial period is about to expire"
-msgstr ""
+msgstr "Twój okres próbny wkrótce dobiegnie końca"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
@@ -8597,25 +8550,17 @@ msgstr ""
 "zostać zmieniony, proszę dodać propozycję."
 
 #: weblate/templates/translate.html:183
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions and these are approved by "
-#| "voting."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
-"Tłumaczenie to akceptuje tylko sugestie i są one zatwierdzane przez "
-"głosowanie."
+"To tłumaczenie akceptuje tylko sugestie, a te są zatwierdzane w drodze "
+"głosowania."
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
-msgstr "Udział w tym tłumaczeniu wymaga zgody na umowę o współtwórcę."
+msgstr "Udział w tym tłumaczeniu wymaga zgody na współpracę."
 
 #: weblate/templates/translate.html:189
 msgid "Insufficient privileges for editing source strings."
@@ -11275,7 +11220,7 @@ msgstr "{day}/{month}"
 #: weblate/trans/views/create.py:221
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
-msgstr ""
+msgstr "Wykryto licencję %s, sprawdź, czy jest poprawna."
 
 #: weblate/trans/views/create.py:326
 msgid "Failed to parse uploaded ZIP file."
@@ -11932,16 +11877,16 @@ msgid "Extended self-hosted support"
 msgstr "Rozszerzone wsparcie samodzielnego hostowania"
 
 #: weblate/wladmin/models.py:128
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup repository URL"
-msgstr "Repozytorium kopii zapasowych"
+msgstr "Adres URL repozytorium kopii zapasowych"
 
 #: weblate/wladmin/models.py:130
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
 msgstr ""
+"Użyj /path/to/repo do lokalnych kopii zapasowych lub user@host:/path/to/repo "
+"do zdalnych kopii zapasowych SSH."
 
 #: weblate/wladmin/models.py:173
 msgid "Backup performed"
