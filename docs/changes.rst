@@ -8,6 +8,7 @@ Not yet released.
 * Define source language for a glossary.
 * Rewritten support for GitHub and GitLab pull requests.
 * Fixed stats counts after removing suggestion.
+* Extended public user profile.
 
 Weblate 4.2.2
 -------------

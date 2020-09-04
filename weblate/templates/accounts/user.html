@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load humanize %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
@@ -15,6 +16,16 @@
     <p>
         <span class="middle-dot-divider">@{{ page_user.username }}</span>
         <span class="middle-dot-divider">{% blocktrans with date=page_user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktrans %}</span>
+        {% if page_profile.company %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "domain.svg" %}</span> {{ page_profile.company }}
+          </span>
+        {% endif %}
+        {% if page_profile.location %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "map-marker.svg" %}</span> {{ page_profile.location }}
+          </span>
+        {% endif %}
     </p>
     {% if page_profile.translated or page_profile.suggested or page_profile.uploaded %}
     <p>
@@ -48,6 +59,35 @@
             </span>
         {% endif %}
     </p>
+    {% endif %}
+    {% if page_profile.website or page_profile.public_email or page_profile.github or page_profile.twitter or page_profile.linkedin %}
+      <p>
+        {% if page_profile.website %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website }}</a>
+          </span>
+        {% endif %}
+        {% if page_profile.public_email %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}" rel="ugc">{{ page_profile.public_email }}</a>
+          </span>
+        {% endif %}
+        {% if page_profile.github %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "github.svg" %}</span> <a href="https://github.com/{{ page_profile.github }}" rel="ugc">{{ page_profile.github }}</a>
+          </span>
+        {% endif %}
+        {% if page_profile.twitter %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "twitter.svg" %}</span> <a href="https://twitter.com/{{ page_profile.twitter }}" rel="ugc">{{ page_profile.twitter }}</a>
+          </span>
+        {% endif %}
+        {% if page_profile.linkedin %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "linkedin.svg" %}</span> <a href="https://www.linkedin.com/in/{{ page_profile.linkedin }}/" rel="ugc">{{ page_profile.linkedin }}</a>
+          </span>
+        {% endif %}
+      </p>
     {% endif %}
     {% if user_languages %}
     <p>

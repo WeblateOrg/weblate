@@ -106,8 +106,12 @@ list`, you have to select which component list will be displayed from the
 
     :ref:`componentlists`
 
-Avatar
-++++++
+Public profile
+++++++++++++++
+
+All of the fields on this page are optional and can be deleted at any time, and
+by filling them out, you're giving us consent to share this data wherever your
+user profile appears.
 
 Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
 These images are obtained using https://gravatar.com/.

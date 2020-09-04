@@ -154,7 +154,7 @@ class ProfileBaseForm(forms.ModelForm):
         return cls(instance=request.user.profile)
 
 
-class ProfileForm(ProfileBaseForm):
+class LanguagesForm(ProfileBaseForm):
     """User profile editing."""
 
     class Meta:
@@ -172,6 +172,38 @@ class ProfileForm(ProfileBaseForm):
         qs = Language.objects.have_translation()
         self.fields["languages"].queryset = qs
         self.fields["secondary_languages"].queryset = qs
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+
+
+class ProfileForm(ProfileBaseForm):
+    """User profile editing."""
+
+    public_email = forms.ChoiceField(
+        label=_("Public e-mail"),
+        choices=(("", ""),),
+        required=False,
+    )
+
+    class Meta:
+        model = Profile
+        fields = (
+            "website",
+            "github",
+            "twitter",
+            "linkedin",
+            "location",
+            "company",
+            "public_email",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        emails = get_all_user_mails(self.instance.user)
+        emails.add("")
+
+        self.fields["public_email"].choices = [(x, x) for x in sorted(emails)]
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False

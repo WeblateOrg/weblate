@@ -81,6 +81,7 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
+    LanguagesForm,
     LoginForm,
     NotificationForm,
     PasswordConfirmForm,
@@ -325,10 +326,11 @@ def user_profile(request):
         profile.save(update_fields=["language"])
 
     form_classes = [
-        ProfileForm,
+        LanguagesForm,
         SubscriptionForm,
         UserSettingsForm,
         DashboardSettingsForm,
+        ProfileForm,
         UserForm,
     ]
     forms = [form.from_request(request) for form in form_classes]
@@ -373,8 +375,9 @@ def user_profile(request):
             "subscriptionform": forms[1],
             "usersettingsform": forms[2],
             "dashboardsettingsform": forms[3],
-            "userform": forms[4],
-            "notification_forms": forms[5:],
+            "profileform": forms[4],
+            "userform": forms[5],
+            "notification_forms": forms[6:],
             "all_forms": forms,
             "profile": profile,
             "title": _("User profile"),

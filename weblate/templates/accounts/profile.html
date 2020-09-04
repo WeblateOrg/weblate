@@ -25,9 +25,7 @@
 <li><a data-toggle="tab" href="#preferences">{% trans "Preferences" %}</a></li>
 <li><a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
-{% if enable_avatars %}
-<li><a data-toggle="tab" href="#avatar">{% trans "Avatar" %}</a></li>
-{% endif %}
+<li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
@@ -187,8 +185,20 @@
 
 </div>
 
+<div class="tab-pane" id="profile">
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'public-profile' right=True %}{% trans "Public profile" %}</h4></div>
+  <div class="panel-body">
+    {% crispy profileform %}
+    <p class="help-block">
+      {% blocktrans %}All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.{% endblocktrans %}
+    </p>
+  </div>
+  <div class="panel-footer">
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+  </div>
+</div>
 {% if enable_avatars %}
-<div class="tab-pane" id="avatar">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% trans "Your avatar" %}</h4></div>
   <div class="panel-body">
@@ -196,9 +206,9 @@
 <p><a href="{{ avatar_url_prefix }}">{% blocktrans %}Avatars are provided using {{ avatar_url_prefix }}.{% endblocktrans %}</a></p>
 </div>
 </div>
+{% endif %}
 
 </div>
-{% endif %}
 
 <div class="tab-pane" id="audit">
 <div class="panel panel-default">

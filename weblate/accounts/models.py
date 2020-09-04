@@ -44,9 +44,10 @@ from weblate.accounts.notifications import FREQ_CHOICES, NOTIFICATIONS, SCOPE_CH
 from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.trans.defines import EMAIL_LENGTH
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.fields import JSONField
+from weblate.utils.fields import EmailField, JSONField
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 
@@ -263,7 +264,7 @@ class VerifiedEmail(models.Model):
     """Storage for verified e-mails from auth backends."""
 
     social = models.ForeignKey(UserSocialAuth, on_delete=models.deletion.CASCADE)
-    email = models.EmailField(max_length=254)
+    email = models.EmailField(max_length=EMAIL_LENGTH)
 
     def __str__(self):
         return "{0} - {1}".format(self.social.user.username, self.email)
@@ -409,6 +410,40 @@ class Profile(models.Model):
             "they are shown on the dashboard by default."
         ),
         blank=True,
+    )
+
+    # Public profile fields
+    website = models.URLField(
+        verbose_name=_("Website URL"),
+        blank=True,
+    )
+    github = models.SlugField(
+        verbose_name=_("GitHub username"),
+        blank=True,
+    )
+    twitter = models.SlugField(
+        verbose_name=_("Twitter username"),
+        blank=True,
+    )
+    linkedin = models.SlugField(
+        verbose_name=_("LinkedIn profile name"),
+        help_text=_("Your LinkedIn profile name from linkedin.com/in/profilename"),
+        blank=True,
+    )
+    location = models.CharField(
+        verbose_name=_("Location"),
+        max_length=100,
+        blank=True,
+    )
+    company = models.CharField(
+        verbose_name=_("Company"),
+        max_length=100,
+        blank=True,
+    )
+    public_email = EmailField(
+        verbose_name=_("Public email"),
+        blank=True,
+        max_length=EMAIL_LENGTH,
     )
 
     def __str__(self):
