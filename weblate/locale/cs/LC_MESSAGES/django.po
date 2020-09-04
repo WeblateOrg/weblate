@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-04 11:15+0000\n"
-"PO-Revision-Date: 2020-08-20 05:45+0000\n"
+"PO-Revision-Date: 2020-09-04 19:57+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -63,10 +63,8 @@ msgid "Full name"
 msgstr "Celé jméno"
 
 #: weblate/accounts/forms.py:184
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Váš e-mail"
+msgstr "Veřejný e-mail"
 
 #: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -362,10 +360,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Pozvánka do Weblate od {username}."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Začít nový překlad"
+msgstr "Zahájeno zkušební období."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -532,30 +528,24 @@ msgstr ""
 "nástěnce."
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "URL licence"
+msgstr "URL webové stránky"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "uživatelské jméno"
+msgstr "Uživatelské jméno na GitHubu"
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "Uživatelské jméno autora"
+msgstr "Uživatelské jméno na Twitteru"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "Název profilu na LinkedIn"
 
 #: weblate/accounts/models.py:430
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "Název vašeho profilu na LinkedIn z URL linkedin.com/in/názevprofilu"
 
 #: weblate/accounts/models.py:434
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -564,16 +554,12 @@ msgid "Location"
 msgstr "Umístění"
 
 #: weblate/accounts/models.py:439
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "Součást"
+msgstr "Firma"
 
 #: weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Public"
 msgid "Public email"
-msgstr "Veřejný"
+msgstr "Veřejný e-mail"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -782,7 +768,7 @@ msgstr "Zpráva nemohla být odeslána správci serveru."
 
 #: weblate/accounts/views.py:235
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "Váš požadavek byl odeslán, brzy se vám ozveme."
 
 #: weblate/accounts/views.py:348
 msgid "Your profile has been updated."
@@ -815,17 +801,21 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Zdá se, že jste již v poslední době požádali o zkušební období. Kontaktujte "
+"nás s vaším dotazem, abychom pro vás mohli najít nejlepší řešení."
 
 #: weblate/accounts/views.py:594
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Vaše zkušební období je nyní aktivní; vytvořte si svůj překladatelský "
+"projekt a začněte weblatovat!"
 
 #: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Vyzkoušet zdarma"
 
 #: weblate/accounts/views.py:690 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -2128,28 +2118,24 @@ msgid "In display limits"
 msgstr "V zobrazovaném limitu"
 
 #: weblate/billing/models.py:397
-#, fuzzy, python-format
-#| msgid "Created project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Vytvořen projekt"
-msgstr[1] "Vytvořen projekt"
-msgstr[2] "Vytvořen projekt"
+msgstr[0] "Obsahuje %d projekt"
+msgstr[1] "Obsahuje %d projekty"
+msgstr[2] "Obsahuje %d projektů"
 
 #: weblate/billing/models.py:414
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Přejmenována součást"
-msgstr[1] "Přejmenována součást"
-msgstr[2] "Přejmenována součást"
+msgstr[0] "Obsahuje %d součást"
+msgstr[1] "Obsahuje %d součásti"
+msgstr[2] "Obsahuje %d součástí"
 
 #: weblate/billing/models.py:429
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "Změna licence"
+msgstr "Chybějící licence"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -4003,10 +3989,8 @@ msgid "Register"
 msgstr "Registrace"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "Upozornění"
+msgstr "Zkušební předplatné"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -4015,14 +3999,12 @@ msgid ", expires %(expires)s"
 msgstr ", platnost končí %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "Čekající řetězec"
+msgstr "Čeká na schválení"
 
 #: weblate/templates/accounts/hosting.html:44
 msgid "Additional things to check manually:"
-msgstr ""
+msgstr "Další věci ke kontrole ručně:"
 
 #: weblate/templates/accounts/hosting.html:46
 #: weblate/templates/accounts/hosting.html:80
@@ -4043,18 +4025,16 @@ msgstr "Uživatel byl odebrán z tohoto projektu."
 #: weblate/templates/accounts/hosting.html:48
 #: weblate/templates/accounts/hosting.html:82
 msgid "The project has active development for at least three months."
-msgstr ""
+msgstr "Projekt má aktivní vývoj po dobu nejméně tří měsíců."
 
 #: weblate/templates/accounts/hosting.html:50
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "Schválení řetězce"
+msgstr "Schválit jako svobodné"
 
 #: weblate/templates/accounts/hosting.html:52
 #: weblate/templates/mail/billing_expired.html:43
 msgid "Request approval for libre hosting"
-msgstr ""
+msgstr "Požádejte o schválení hostování zdarma"
 
 #: weblate/templates/accounts/hosting.html:55
 msgid ""
@@ -4064,7 +4044,7 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:58
 msgid "Extend trial"
-msgstr ""
+msgstr "Prodloužit zkušební dobu"
 
 #: weblate/templates/accounts/hosting.html:71
 #, fuzzy
@@ -4090,31 +4070,27 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:83
 msgid "You will have 14 days to setup your project."
-msgstr ""
+msgstr "Na nastavení projektu budete mít 14 dní."
 
 #: weblate/templates/accounts/hosting.html:84
 msgid "Please request project approval once the setup is completed."
-msgstr ""
+msgstr "Po dokončení instalace si, prosím, vyžádejte schválení projektu."
 
 #: weblate/templates/accounts/hosting.html:85
 msgid "Not approved projects will be removed."
-msgstr ""
+msgstr "Neschválené projekty budou odstraněny."
 
 #: weblate/templates/accounts/hosting.html:86
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "Není poskytována žádná záruka kvality nebo dostupnosti služby."
 
 #: weblate/templates/accounts/hosting.html:91
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "Získat podporu"
+msgstr "Začít"
 
 #: weblate/templates/accounts/hosting.html:97
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Napište nám ohledně komerčního hostování"
+msgstr "Hledáte komerčního hostování?"
 
 #: weblate/templates/accounts/hosting.html:100
 #, python-format
@@ -4319,10 +4295,8 @@ msgid "Download user data"
 msgstr "Stáhnout data uživatele"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "Váš veřejný profil"
+msgstr "Veřejný profil"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
