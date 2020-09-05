@@ -19,11 +19,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-04 11:15+0000\n"
+"POT-Creation-Date: 2020-09-05 12:46+0000\n"
 "PO-Revision-Date: 2020-09-04 21:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/applicat"
-"ion/uk/>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
+"application/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +74,7 @@ msgstr "Таке ім'я користувача вже використовує�
 msgid "Full name"
 msgstr "Повне ім’я"
 
-#: weblate/accounts/forms.py:184
+#: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
 msgid "Public e-mail"
 msgstr "Загальнодоступна ел. пошта"
 
@@ -571,10 +571,6 @@ msgstr "Розташування"
 #: weblate/accounts/models.py:439
 msgid "Company"
 msgstr "Компанія"
-
-#: weblate/accounts/models.py:444
-msgid "Public email"
-msgstr "Загальнодоступна ел. пошта"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -4550,33 +4546,32 @@ msgstr "Дякуємо за вашу зацікавленість у Weblate!"
 msgid "Your trial offer"
 msgstr "Ваша пропозиція щодо тестування"
 
-#: weblate/templates/accounts/trial.html:22
-msgid "Your trial will"
+#: weblate/templates/accounts/trial.html:23
+#, fuzzy
+#| msgid "Your trial will"
+msgid "Your trial will last 14 days."
 msgstr "Ваш тестовий період"
 
-#. Translators: list item under "Your trial will"
+#: weblate/templates/accounts/trial.html:24
+msgid ""
+"Your trial will run the Enterprise plan, but you can choose any plan later."
+msgstr ""
+
 #: weblate/templates/accounts/trial.html:25
-msgid "last for 14 days."
-msgstr "триватиме 14 днів."
-
-#. Translators: list item under "Your trial will"
-#: weblate/templates/accounts/trial.html:27
-msgid "run the Enterprise plan."
-msgstr "використовує план Enterprise."
-
-#. Translators: list item under "Your trial will"
-#: weblate/templates/accounts/trial.html:29
-msgid "need no credit card, but you can set the payment method anytime."
+#, fuzzy
+#| msgid "need no credit card, but you can set the payment method anytime."
+msgid "No credit card needed, but you can set the payment method anytime."
 msgstr ""
 "кредитна картка не потрібна, але ви можете будь-коли встановити спосіб "
 "сплати."
 
-#. Translators: list item under "Your trial will"
-#: weblate/templates/accounts/trial.html:31
-msgid "keep the configuration once you start paying."
+#: weblate/templates/accounts/trial.html:26
+#, fuzzy
+#| msgid "keep the configuration once you start paying."
+msgid "All configuration will stay once you start paying."
 msgstr "надаватиме вам можливість зберегти налаштування у платній версії."
 
-#: weblate/templates/accounts/trial.html:35
+#: weblate/templates/accounts/trial.html:30
 msgid "Start the trial!"
 msgstr "Розпочніть тестування!"
 
@@ -5651,17 +5646,17 @@ msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
 msgstr[0] ""
-"Пропозиції автоматично приймаються як переклади, лише якщо вони мають %"
-"(count)s голос."
+"Пропозиції автоматично приймаються як переклади, лише якщо вони мають "
+"%(count)s голос."
 msgstr[1] ""
-"Пропозиції автоматично приймаються як переклади, лише якщо вони мають %"
-"(count)s голоси."
+"Пропозиції автоматично приймаються як переклади, лише якщо вони мають "
+"%(count)s голоси."
 msgstr[2] ""
-"Пропозиції автоматично приймаються як переклади, лише якщо вони мають %"
-"(count)s голосів."
+"Пропозиції автоматично приймаються як переклади, лише якщо вони мають "
+"%(count)s голосів."
 msgstr[3] ""
-"Пропозиції автоматично приймаються як переклади, лише якщо вони мають %"
-"(count)s голос."
+"Пропозиції автоматично приймаються як переклади, лише якщо вони мають "
+"%(count)s голос."
 
 #: weblate/templates/component_info.html:14
 msgid "Translations can be made directly."
@@ -6555,8 +6550,12 @@ msgid "Your trial period is going to expire in less than week."
 msgstr "Ваш період тестування завершиться менше ніж за тиждень."
 
 #: weblate/templates/mail/billing_expired.html:10
+#, fuzzy
+#| msgid ""
+#| "If you want to continue using the service, please purchase the "
+#| "subsription."
 msgid ""
-"If you want to continue using the service, please purchase the subsription."
+"If you want to continue using the service, please purchase the subscription."
 msgstr ""
 "Якщо ви хочете продовжити користування нашою службою, будь ласка, придбайте "
 "передплату."
@@ -10588,25 +10587,25 @@ msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Автоматичне прийняття пропозицій працює тільки з дозволеним голосуванням."
 
-#: weblate/trans/models/component.py:2474
+#: weblate/trans/models/component.py:2481
 msgid "Could not add new translation file."
 msgstr "Не вдалося розібрати файли перекладу."
 
-#: weblate/trans/models/component.py:2485
+#: weblate/trans/models/component.py:2492
 msgid "The given language is filtered by the language filter."
 msgstr "Задана мова фільтрується мовним фільтром."
 
-#: weblate/trans/models/component.py:2507
+#: weblate/trans/models/component.py:2514
 msgid "Translation file already exists!"
 msgstr "Файл перекладу вже існує!"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2575
+#: weblate/trans/models/component.py:2582
 msgid "Context"
 msgstr "Контекст"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2577 weblate/utils/views.py:100
+#: weblate/trans/models/component.py:2584 weblate/utils/views.py:100
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Ключ"
@@ -12016,3 +12015,12 @@ msgstr "Процес резервного копіювання запустив�
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Не вдалося відхилити помилку конфігурації!"
+
+#~ msgid "Public email"
+#~ msgstr "Загальнодоступна ел. пошта"
+
+#~ msgid "last for 14 days."
+#~ msgstr "триватиме 14 днів."
+
+#~ msgid "run the Enterprise plan."
+#~ msgstr "використовує план Enterprise."
