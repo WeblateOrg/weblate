@@ -32,8 +32,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-04 19:58+0000\n"
-"PO-Revision-Date: 2020-08-20 05:45+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"PO-Revision-Date: 2020-09-05 12:46+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -82,10 +82,8 @@ msgid "Full name"
 msgstr "全名"
 
 #: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "您的邮箱"
+msgstr "公共电子邮件"
 
 #: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -368,10 +366,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "{username} 邀请至 Weblate。"
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "开始新翻译"
+msgstr "开始了试用期。"
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -530,22 +526,16 @@ msgid ""
 msgstr "您可以接收已关注项目的通知，并且它们将默认显示在控制面板中。"
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "许可证地址"
+msgstr "网站地址"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "用户名"
+msgstr "Github 用户名"
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "作者用户名"
+msgstr "Twitter 用户名"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
@@ -562,10 +552,8 @@ msgid "Location"
 msgstr "位置"
 
 #: weblate/accounts/models.py:439
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "组件"
+msgstr "公司"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -2079,24 +2067,20 @@ msgid "In display limits"
 msgstr "显示限制"
 
 #: weblate/billing/models.py:397
-#, fuzzy, python-format
-#| msgid "Created project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "创建的项目"
+msgstr[0] "包含 %d 个项目"
 
 #: weblate/billing/models.py:414
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "组件已重命名"
+msgstr[0] "包含 %d 个组件"
 
 #: weblate/billing/models.py:429
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "许可证更改"
+msgstr "缺少许可证"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -2105,14 +2089,10 @@ msgid ""
 msgstr "待您支付账单或是移除账单后，就会停止接收此通知。"
 
 #: weblate/billing/tasks.py:108
-#, fuzzy
-#| msgid ""
-#| "You will stop receiving this notification once you pay the bills or the "
-#| "project is removed."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
-msgstr "待您支付账单或是移除账单后，就会停止接收此通知。"
+msgstr "一旦您更改为常规订阅或项目被删除，您将不再收到此通知。"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -3904,10 +3884,8 @@ msgid "Register"
 msgstr "注册"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "订阅"
+msgstr "试用订阅"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -3916,10 +3894,8 @@ msgid ", expires %(expires)s"
 msgstr "，期限为 %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "待处理的字符串"
+msgstr "待批准"
 
 #: weblate/templates/accounts/hosting.html:44
 msgid "Additional things to check manually:"
@@ -3934,10 +3910,8 @@ msgstr "源代码必须在受支持的版本控制系统中公开可用。"
 
 #: weblate/templates/accounts/hosting.html:47
 #: weblate/templates/accounts/hosting.html:81
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "用户已被此项目中移除。"
+msgstr "使用 Weblate 已获上游项目批准。"
 
 #: weblate/templates/accounts/hosting.html:48
 #: weblate/templates/accounts/hosting.html:82
@@ -3945,10 +3919,8 @@ msgid "The project has active development for at least three months."
 msgstr ""
 
 #: weblate/templates/accounts/hosting.html:50
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "复核批准的字符串"
+msgstr "请求批准为自由软件托管"
 
 #: weblate/templates/accounts/hosting.html:52
 #: weblate/templates/mail/billing_expired.html:43
@@ -3966,10 +3938,8 @@ msgid "Extend trial"
 msgstr ""
 
 #: weblate/templates/accounts/hosting.html:71
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translate your libre project"
-msgstr "翻译进程"
+msgstr "翻译你的自由软件项目"
 
 #: weblate/templates/accounts/hosting.html:75
 msgid ""
@@ -4001,16 +3971,12 @@ msgid "There is no guarantee for service availability, nor quality."
 msgstr "我们不担保服务的可用性和质量。"
 
 #: weblate/templates/accounts/hosting.html:91
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "获得支持"
+msgstr "开始"
 
 #: weblate/templates/accounts/hosting.html:97
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "关于收费托管，请联系我们"
+msgstr "寻找商业托管?"
 
 #: weblate/templates/accounts/hosting.html:100
 #, python-format
@@ -4207,10 +4173,8 @@ msgid "Download user data"
 msgstr "下载用户数据"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "您的公开资料"
+msgstr "公开资料"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
@@ -4397,29 +4361,21 @@ msgid "Reset my password"
 msgstr "重设我的密码"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "感谢您使用 Weblate。"
+msgstr "感谢您对尝试Weblate感兴趣！"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "您的个人资料"
+msgstr "你的试用Offer"
 
 #: weblate/templates/accounts/trial.html:22
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will"
-msgstr "您的邮箱"
+msgstr "您的使用将"
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:25
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "last for 14 days."
-msgstr "最近 30 天的活动"
+msgstr "持续 14天"
 
 #. Translators: list item under "Your trial will"
 #: weblate/templates/accounts/trial.html:27
@@ -4437,10 +4393,8 @@ msgid "keep the configuration once you start paying."
 msgstr ""
 
 #: weblate/templates/accounts/trial.html:35
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "开始新翻译"
+msgstr "开始试用 ！"
 
 #: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -6297,23 +6251,15 @@ msgid "Your trial period is going to expire in less than week."
 msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please purchase the subsription."
-msgstr "您的付费套餐已过期，如果您想要继续使用该服务，请续费."
+msgstr "如果您想继续使用本服务，请购买订阅套餐。"
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you want to continue using the service, please request approval of your "
 "libre plan."
-msgstr "您的付费套餐已过期，如果您想要继续使用该服务，请续费."
+msgstr "如果您想继续使用本服务，请申请批准您的自由软件套餐。"
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -8183,23 +8129,15 @@ msgstr ""
 "仅复查者可以更改已批准字符串，如果您认为该字符串应该修改的话请添加建议。"
 
 #: weblate/templates/translate.html:183
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions and these are approved by "
-#| "voting."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
-msgstr "这个翻译只接受建议并最终由投票决定。"
+msgstr "这个翻译只接受建议，且由投票决定是否批准建议。"
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
-msgstr "贡献翻译需要您同意贡献者协议。"
+msgstr "参与此翻译项目需要您同意其贡献者协议。"
 
 #: weblate/templates/translate.html:189
 msgid "Insufficient privileges for editing source strings."
@@ -8272,30 +8210,21 @@ msgid "List of recent changes done in Weblate"
 msgstr "在 Weblate 中最近所做的修改"
 
 #: weblate/templates/translate.html:280
-#, fuzzy
-#| msgid "Following string has same context and same source."
-#| msgid_plural "Following strings have same context and same source."
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
-msgstr[0] "下列字符串有相同的上下文和相同的来源。"
+msgstr[0] "下列字符串有相同的上下文和来源。"
 
 #: weblate/templates/translate.html:288
-#, fuzzy
-#| msgid "Following string has different context but same source."
-#| msgid_plural "Following strings have different contexts but same source."
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "下列字符串有相同的源字符串但上下文不同。"
+msgstr[0] "下列字符串上下文不同，但来源相同。"
 
 #: weblate/templates/translate.html:296
-#, fuzzy
-#| msgid "Following string has different source but same context."
-#| msgid_plural "Following strings have different sources but same context."
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
-msgstr[0] "下列字符串有不同的来源，但具有相同的上下文。"
+msgstr[0] "下列字符串来源不同，但上下文相同。"
 
 #: weblate/templates/translate.html:332
 msgid "Origin"
@@ -11339,10 +11268,8 @@ msgid "Extended self-hosted support"
 msgstr "自行架设的拓展支持"
 
 #: weblate/wladmin/models.py:128
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup repository URL"
-msgstr "备份代码库"
+msgstr "备份存储库 URL"
 
 #: weblate/wladmin/models.py:130
 msgid ""
