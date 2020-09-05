@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-09-03 08:30+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"PO-Revision-Date: 2020-09-05 12:46+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2351,10 +2351,8 @@ msgid "Backing up and moving Weblate"
 msgstr "备份和移动 Weblate"
 
 #: ../../admin/backup.rst:7
-#, fuzzy
-#| msgid "Automated backup"
 msgid "Automated backup using BorgBackup"
-msgstr "自动备份"
+msgstr "使用 BorgBackup 进行的自动化备份"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2421,10 +2419,8 @@ msgid ":doc:`borg:usage/init`"
 msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:50
-#, fuzzy
-#| msgid "Using Weblate provisioned backup storage"
 msgid "Weblate provisioned backup storage"
-msgstr "使用 Weblate 配置的备份存储"
+msgstr "Weblate 提供的备份存储"
 
 #: ../../admin/backup.rst:52
 msgid ""
@@ -2506,10 +2502,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:96
-#, fuzzy
-#| msgid "6 monthly backups"
 msgid "Remote backups"
-msgstr "6个 每月备份"
+msgstr "远程备份"
 
 #: ../../admin/backup.rst:98
 msgid ""
@@ -2913,11 +2907,9 @@ msgid "``rst-text``"
 msgstr "``rst-text``"
 
 #: ../../admin/checks.rst:44
-#, fuzzy
-#| msgid "Treat a text as an RST document, affects :ref:`check-same`."
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
-msgstr "将文本看作 RST 文件，影响 :ref:`check-same` 。"
+msgstr "将文本视为 reStructuredText 文档，影响 :ref:`check-same` 。"
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
@@ -2983,14 +2975,10 @@ msgid "``max-length:N``"
 msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:60
-#, fuzzy
-#| msgid ""
-#| "Limit the maximal length for a string to N characters, see :ref:`check-"
-#| "max-length`"
 msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
-msgstr "将字符串的最大长度限制为 N 个字符，请见 :ref:`check-max-length`"
+msgstr "将字符串的最大长度限制为 N 个字符，请见 :ref:`check-max-length`。"
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -4587,17 +4575,13 @@ msgid ":ref:`vcs-gitlab`"
 msgstr ":ref:`vcs-gitlab`"
 
 #: ../../admin/config.rst:591
-#, fuzzy
-#| msgid "GITLAB_USERNAME"
 msgid "GITLAB_TOKEN"
-msgstr "GITLAB_USERNAME"
+msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:593
-#, fuzzy
-#| msgid "GitLab username used to send merge requests for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
-msgstr "GitLab 用户名，用于发送翻译更新的和并请求。"
+msgstr "使用GitLab个人访问令牌进行更新翻译的API调用。"
 
 #: ../../admin/config.rst:597
 msgid ""
@@ -4620,18 +4604,14 @@ msgid ":ref:`vcs-github`"
 msgstr ":ref:`vcs-github`"
 
 #: ../../admin/config.rst:614
-#, fuzzy
-#| msgid "GITHUB_USERNAME"
 msgid "GITHUB_TOKEN"
-msgstr "GITHUB_USERNAME"
+msgstr "GITHUB_TOKEN"
 
 #: ../../admin/config.rst:616
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
-msgstr "GitHub 用户名，用于发送翻译更新的 Pull Request 。"
+msgstr "GitHub个人访问令牌，用于进行API调用，发送翻译更新的pull请求。"
 
 #: ../../admin/config.rst:621
 msgid ""
@@ -5223,20 +5203,15 @@ msgid "MT_MICROSOFT_REGION"
 msgstr "MT_MICROSOFT_REGION"
 
 #: ../../admin/config.rst:1130
-#, fuzzy
-#| msgid ""
-#| "Region prefix as defined in `\"Multi service subscription\" <https://docs."
-#| "microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
-#| "reference#authenticating-with-a-multi-service-resource>`_."
 msgid ""
 "Region prefix as defined in the `\"Authenticating with a Multi-service "
 "resource\" <https://docs.microsoft.com/en-us/azure/cognitive-services/"
 "translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
 "resource>`_ section."
 msgstr ""
-"在 `\"Multi service subscription\" <https://docs.microsoft.com/en-us/azure/"
-"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-"
-"multi-service-resource>`_ 中定义的区域前缀。"
+"`“通过一个多服务资源进行验证” <https://docs.microsoft.com/en-us/azure/cognitive-services/"
+"translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
+"resource>`_ 部分中定义的地区前缀。"
 
 #: ../../admin/config.rst:1135
 msgid "MT_MICROSOFT_ENDPOINT_URL"
@@ -6048,15 +6023,10 @@ msgid ""
 msgstr "执行 :djadmin:`updategit` （选择项目，或 `--all` 来更新全部）"
 
 #: ../../admin/continuous.rst:55
-#, fuzzy
-#| msgid ""
-#| "Whenever Weblate updates the repository, the post update addons will be "
-#| "triggered, see :ref:`addons`."
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
-msgstr ""
-"无论何时 Weblate 更新仓库，都将出发以前更新插件，请见： :ref:`addons` 。"
+msgstr "每当Weblate更新存储库时，更新后插件都将被触发，请见： :ref:`addons` 。"
 
 #: ../../admin/continuous.rst:61
 msgid "Avoiding merge conflicts"
@@ -7205,10 +7175,8 @@ msgid "``licensee`` (optional for detecting license when creating component)"
 msgstr ""
 
 #: ../../admin/install.rst:130
-#, fuzzy
-#| msgid "https://github.com/ubernostrum/akismet"
 msgid "https://github.com/licensee/licensee"
-msgstr "https://github.com/ubernostrum/akismet"
+msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:133
 msgid "Compile time dependencies"
@@ -7231,13 +7199,6 @@ msgid "Pango and Cairo"
 msgstr "Pango 和 Cairo"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid ""
-#| "Weblate uses Pango and Cairo for rendering bitmap widgets (see :ref:"
-#| "`promotion`) and rendering checks (see :ref:`fonts`). To properly install "
-#| "Python bindings for those you need to install system libraries first - "
-#| "you need both Cairo and Pango, which in turn need Glib. All those should "
-#| "be installed with development files and GObject introspection data."
 msgid ""
 "Weblate uses Pango and Cairo for rendering bitmap widgets (see :ref:"
 "`promotion`) and rendering checks (see :ref:`fonts`). To properly install "
@@ -7245,10 +7206,9 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"Weblate 使用 Pango 和 Cairo 来提供位图 widget（请见 :ref:`promotion` ）并提供"
-"检查（请见 :ref:`fonts` ）。为了适当地安装 Python 绑定需要首先安装系统库的那"
-"些—— Cairo 和 Pango 都是需要的，由此需要 Glib 。所有那些需要与开发文件和 "
-"GObject 内省数据一起安装。"
+"Weblate 使用 Pango 和 Cairo 来提供位图 widget（请见 :ref:`promotion` ）并提供检查（请见 "
+":ref:`fonts` ）。为了适当地安装 Python 绑定需要首先安装系统库的那些—— Cairo 和 Pango 都是需要的，由此需要 Glib "
+"。所有那些需要与开发文件和 GObject 内省数据一起安装。"
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
@@ -7279,34 +7239,21 @@ msgstr ""
 "还应该核实签名的日期，确定下载了最新的版本。"
 
 #: ../../admin/install.rst:172
-#, fuzzy
-#| msgid ""
-#| "Each archive is accompanied with ``.asc`` files which contains the PGP "
-#| "signature for it. Once you have both of them in the same folder, you can "
-#| "verify the signature:"
 msgid ""
 "Each archive is accompanied with ``.asc`` files which contain the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
-msgstr ""
-"每个压缩档案伴随 ``.asc`` 文件在一起，它包含了需要使用的 PGP 签名。一旦它们处"
-"于相同的文件夹内，就可以核实签名了："
+msgstr "每个压缩档案伴随 ``.asc`` 文件在一起，它包含了需要使用的 PGP 签名。一旦它们处于相同的文件夹内，就可以核实签名了："
 
 #: ../../admin/install.rst:183
-#, fuzzy
-#| msgid ""
-#| "As you can see gpg complains that it does not know the public key. At "
-#| "this point you should do one of the following steps:"
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
-msgstr "您可以看到 gpg 抱怨不知道公钥。在这点上您应该执行下面的步骤之一："
+msgstr "正如您所看到的，GPG抱怨它不知道公钥。此时，您应该执行以下步骤之一："
 
 #: ../../admin/install.rst:186
-#, fuzzy
-#| msgid "Use wkd to download the key:"
 msgid "Use `wkd` to download the key:"
-msgstr "使用 wkd 来下载密钥："
+msgstr "使用 `wkd` 来下载密钥："
 
 #: ../../admin/install.rst:201
 msgid ""
@@ -7419,16 +7366,10 @@ msgid "PostgreSQL"
 msgstr "PostgreSQL"
 
 #: ../../admin/install.rst:311
-#, fuzzy
-#| msgid ""
-#| "PostgreSQL is usually the best choice for Django based sites. It's the "
-#| "reference database used for implementing Django database layer."
 msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
-msgstr ""
-"PostgreSQL 通常是基于 Django 的网站的最好选择。它是实现 Django 数据库层而使用"
-"的参考数据库。"
+msgstr "PostgreSQL 通常是基于 Django 的网站的最好选择。它是实现 Django 数据库层而使用的参考数据库。"
 
 #: ../../admin/install.rst:316
 msgid ""
@@ -9457,16 +9398,10 @@ msgstr ""
 "名。"
 
 #: ../../admin/install/docker.rst:474
-#, fuzzy
-#| msgid ""
-#| "Configures GitHub username for GitHub pull-requests by changing :setting:"
-#| "`GITHUB_USERNAME`."
 msgid ""
 "Configures GitHub personal access token for GitHub pull-requests via API by "
 "changing :setting:`GITHUB_TOKEN`."
-msgstr ""
-"通过更改 :setting:`GITHUB_USERNAME` 来配置用于 GitHub 拉取请求的 GitHub 用户"
-"名。"
+msgstr "更改  :setting:`GITHUB_TOKEN`通过API 配置用于Github pull 请求的GitHub个人访问令牌。"
 
 #: ../../admin/install/docker.rst:483
 msgid ""
@@ -9477,16 +9412,10 @@ msgstr ""
 "名"
 
 #: ../../admin/install/docker.rst:492
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab username for GitLab merge-requests by changing :setting:"
-#| "`GITLAB_USERNAME`"
 msgid ""
 "Configures GitLab personal access token for GitLab merge-requests via API by "
 "changing :setting:`GITLAB_TOKEN`"
-msgstr ""
-"通过更改 :setting:`GITLAB_USERNAME` 来配置用于 GitLab 合并请求的 GitLab 用户"
-"名"
+msgstr "更改 :setting:`GITLAB_TOKEN` 通过 API 配置用于 GitLab 合并请求的 GitLab 个人访问令牌"
 
 #: ../../admin/install/docker.rst:501
 msgid "Configures GitLab Host for GitLab merge-requests"
@@ -9524,16 +9453,12 @@ msgstr ""
 "setting:`DEFAULT_TRANSLATION_PROPAGATION` 。"
 
 #: ../../admin/install/docker.rst:525
-#, fuzzy
-#| msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
+msgstr "配置  :setting:`DEFAULT_COMMITER_EMAIL`。"
 
 #: ../../admin/install/docker.rst:529
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_NAME"
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr "DEFAULT_COMMITER_NAME"
+msgstr "配置  :setting:`DEFAULT_COMMITER_NAME`。"
 
 #: ../../admin/install/docker.rst:533
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -11319,17 +11244,12 @@ msgstr ""
 "`MT_SERVICES` ，并设置 :setting:`MT_YANDEX_KEY` 来打开这项服务。"
 
 #: ../../admin/machine.rst:334
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
-#| "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/"
-#| ">`_"
 msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
-":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://tech.yandex.com/"
-"translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
+":setting:`MT_YANDEX_KEY`, `Yandex 翻译 API <https://tech.yandex.com/translate/"
+">`_, `由 Yandex 翻译驱动 <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:341
 msgid "Youdao Zhiyun API machine translation"
@@ -11719,10 +11639,8 @@ msgid "Provides a password on the command-line, to not generate a random one."
 msgstr "在命令行提供密码，而不要生成随机的。"
 
 #: ../../admin/management.rst:232
-#, fuzzy
-#| msgid "Do not set password, this can be useful with --update."
 msgid "Do not set password, this can be useful with `--update`."
-msgstr "不要设置密码，这对于 --update 是有用的。"
+msgstr "不要设置密码，这对`--update`可能有用。"
 
 #: ../../admin/management.rst:236
 msgid "Use the given name instead of ``admin``."
@@ -16889,67 +16807,48 @@ msgid "Define source language for a glossary."
 msgstr ""
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for GitLab merge requests."
 msgid "Rewritten support for GitHub and GitLab pull requests."
-msgstr "增加了对 GitLab Merge Request 的支持。"
+msgstr "重写了对 GitHub 和 GitLab pull 请求的支持。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "%(count)s pending suggestion"
-#| msgid_plural "%(count)s pending suggestions"
 msgid "Fixed stats counts after removing suggestion."
-msgstr "%(count)s 个待处理的建议"
+msgstr "修复了移除建议后的统计计数。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Extended public user profile."
-msgstr "您的公开资料"
+msgstr "扩展了公共的用户配置文件。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Sample configuration for Apache"
 msgid "Fixed configuration of enforced checks."
-msgstr "Apache 的配置例子"
+msgstr "修复了强制检查的配置。"
 
 #: ../../changes.rst:13
 msgid "Improve documentation about built-in backups."
 msgstr ""
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.2.2"
-msgstr "Weblate 密钥"
+msgstr "Weblate 4.2.2"
 
 #: ../../changes.rst:18
 msgid "Released on September 2nd 2020."
 msgstr ""
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed matching of source strings for JSON formats."
-msgstr "未找到匹配的源字符串。"
+msgstr "修复了 JSON 格式源字符串的匹配。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "LDAP authentication configuration."
 msgid "Fixed login redirect for some authentication configurations."
-msgstr "LDAP 身份验证配置。"
+msgstr "修复了一些验证配置的登录重定向。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "LDAP authentication configuration."
 msgid "Fixed LDAP authentication with group sync."
-msgstr "LDAP 身份验证配置。"
+msgstr "修复了使用组同步的LDAP身份验证。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Fixed crash in reporting automatic translation progress."
-msgstr "正在自动翻译"
+msgstr "修复了与报告自动翻译进度相关的崩溃。"
 
 #: ../../changes.rst:24
 msgid "Fixed Git commit squashing with trailers enabled."
@@ -27394,16 +27293,14 @@ msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgstr ""
 
 #: ../../user/checks.rst:579
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched \\\\n"
-msgstr "\\n 数量"
+msgstr "不匹配 \\\\n"
 
 #: ../../user/checks.rst:581
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr "译文中的 \\n 数量和原文不一致"
+msgstr ""
+"*译文中的 \\n"
+" 数量和原文不一致*"
 
 #: ../../user/checks.rst:583
 msgid ""
@@ -28254,10 +28151,8 @@ msgid ":ref:`componentlists`"
 msgstr ""
 
 #: ../../user/profile.rst:110
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "您的公开资料"
+msgstr "公开资料"
 
 #: ../../user/profile.rst:112
 msgid ""
@@ -29379,17 +29274,11 @@ msgid ""
 msgstr "Weblate 公钥对浏览 :guilabel:`About` 页面的所有用户可见。"
 
 #: ../../vcs.rst:70
-#, fuzzy
-#| msgid ""
-#| "Admins can generate or display the public key currently used by Weblate "
-#| "in the (from :guilabel:`SSH keys`) on the admin interface landing page."
 msgid ""
 "Admins can generate or display the public key currently used by Weblate in "
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
 "page."
-msgstr ""
-"管理员可以在管理界面登录页面的（通过 :guilabel:`SSH keys`）生成或显示 "
-"Weblate 当前使用的公共密钥。"
+msgstr "管理员可以在管理界面登录页面的连接部分（从 :guilabel:`SSH keys`）生成或显示 Weblate 当前使用的公共密钥。"
 
 #: ../../vcs.rst:75
 msgid ""
@@ -29825,14 +29714,10 @@ msgid "Getting started"
 msgstr "入门"
 
 #: ../../wlc.rst:30
-#, fuzzy
-#| msgid ""
-#| "The wlc configuration is stored in ``~/.config/weblate``, please create "
-#| "it to match your environment:"
 msgid ""
 "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
 "config` for other locations), please create it to match your environment:"
-msgstr "wlc 配置存储在 ``~/.config/weblate`` 中，请创建它以匹配您的环境："
+msgstr "wlc 配置存储在 ``~/.config/weblate`` 中（其他位置参见 ref:`wlc-config`）,请创建它以匹配您的环境："
 
 #: ../../wlc.rst:42
 msgid "You can then invoke commands on the default server:"
@@ -29865,20 +29750,14 @@ msgstr ""
 "上。"
 
 #: ../../wlc.rst:70
-#, fuzzy
-#| msgid "Announcements"
 msgid "Arguments"
-msgstr "公告"
+msgstr "参数"
 
 #: ../../wlc.rst:72
-#, fuzzy
-#| msgid ""
-#| "The program accepts the following options for a whole instance, which "
-#| "must be entered before any subcommand."
 msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
-msgstr "程序为整个实例接受以下选项，必须在任何子命令之前输入这些选项。"
+msgstr "程序接受以下参数来定义输出格式或使用哪个Weblate实例。这些参数必须位于任何命令之前。"
 
 #: ../../wlc.rst:77
 msgid "Specify the output format."
@@ -29911,16 +29790,12 @@ msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr "覆盖正在使用的配置文件部分，请参阅 :ref:`wlc-config`。"
 
 #: ../../wlc.rst:98
-#, fuzzy
-#| msgid "Command"
 msgid "Commands"
 msgstr "命令"
 
 #: ../../wlc.rst:100
-#, fuzzy
-#| msgid "The following subcommands are available:"
 msgid "The following commands are available:"
-msgstr "以下子命令可用："
+msgstr "以下命令可用："
 
 #: ../../wlc.rst:104
 msgid "Prints the current version."
@@ -30082,10 +29957,8 @@ msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 msgstr ""
 
 #: ../../wlc.rst:250
-#, fuzzy
-#| msgid "User configuration file"
 msgid "User configuration file on Windows."
-msgstr "用户配置文件"
+msgstr "在 Windows 上使用配置文件。"
 
 #: ../../wlc.rst:251
 msgid ":file:`~/.config/weblate`"
@@ -30104,19 +29977,14 @@ msgid "System wide configuration file"
 msgstr "系统范围的配置文件"
 
 #: ../../wlc.rst:256
-#, fuzzy
-#| msgid ""
-#| "The program follows the XDG specification, so you can adjust placement of "
-#| "config files by environment variables ``XDG_CONFIG_HOME`` or "
-#| "``XDG_CONFIG_DIRS``."
 msgid ""
 "The program follows the XDG specification, so you can adjust placement of "
 "config files by environment variables ``XDG_CONFIG_HOME`` or "
 "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred location "
 "for the configuration file."
 msgstr ""
-"该程序遵循 XDG 规范，因此您可以通过环境变量 ``XDG_CONFIG_HOME`` 或 "
-"``XDG_CONFIG_DIRS`` 来调整配置文件的位置。"
+"该程序遵循 XDG 规范，因此您可以通过环境变量 ``XDG_CONFIG_HOME`` 或 ``XDG_CONFIG_DIRS`` "
+"来调整配置文件的位置。在 Windows 系统上 `APPDATA``目录是配置文件的首选位置。"
 
 #: ../../wlc.rst:260
 msgid ""
