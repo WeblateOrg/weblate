@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-05 12:46+0000\n"
-"PO-Revision-Date: 2020-09-05 18:33+0000\n"
+"PO-Revision-Date: 2020-09-06 17:52+0000\n"
 "Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
@@ -206,14 +206,12 @@ msgid ""
 msgstr "Saad jälgitavates projektides teatise iga sellise sündmuse kohta."
 
 #: weblate/accounts/forms.py:680
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr "Saate teatise iga sellise sündmuse kohta jälgitavates projektides."
+msgstr ""
+"Saad teatise iga sellise sündmuse kohta jälgitavates projektides, kus sul on "
+"peakasutaja õigused."
 
 #: weblate/accounts/forms.py:685
 #, python-format
@@ -384,10 +382,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Kutsutud Weblate kasutajaks {username} poolt."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Alusta uut tõlget"
+msgstr "Alustasime prooviperioodi."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -407,7 +403,7 @@ msgstr "Ei õnnestunud salasõna alusel sisse logida."
 
 #: weblate/accounts/models.py:113
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "Oma kontole juurdepääsu taastamiseks palun lähtesta oma salasõna."
 
 #: weblate/accounts/models.py:231 weblate/templates/accounts/profile.html:227
 #: weblate/templates/manage/users_check.html:38
@@ -427,6 +423,8 @@ msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
+"Vali keeled, millesse sa oskad tõlkida. Lihtsamaks ligipääsuks tõlkitavatele "
+"keeltele kuvatakse nad tarvikulaual."
 
 #: weblate/accounts/models.py:301
 msgid "Secondary languages"
@@ -1306,11 +1304,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:276
 msgid "Remove components for inexistant files"
-msgstr ""
+msgstr "Eemalda osised, kus puuduvad vajalikud failid"
 
 #: weblate/addons/forms.py:279
 msgid "I confirm the above matches look correct"
-msgstr ""
+msgstr "Kinnitan, et eespool kuvatud otsingutulemused tunduvad olema õiged"
 
 #: weblate/addons/forms.py:337
 msgid "Please review and confirm the matched components."
@@ -2121,19 +2119,19 @@ msgstr ""
 
 #: weblate/auth/models.py:621
 msgid "Automatic group assignment"
-msgstr ""
+msgstr "Automaatne lisamine gruppidesse"
 
 #: weblate/auth/models.py:622
 msgid "Automatic group assignments"
-msgstr ""
+msgstr "Automaatsed lisamised gruppidesse"
 
 #: weblate/billing/admin.py:82
 msgid "Owners"
-msgstr ""
+msgstr "Omanikud"
 
 #: weblate/billing/models.py:143 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
-msgstr ""
+msgstr "Arvelduskava"
 
 #: weblate/billing/models.py:146
 #, fuzzy
@@ -2143,16 +2141,16 @@ msgstr "Jälgitavad projektid"
 
 #: weblate/billing/models.py:148
 msgid "Billing owners"
-msgstr ""
+msgstr "Omanikud, kes saavad arved"
 
 #: weblate/billing/models.py:152
 msgid "Trial"
-msgstr ""
+msgstr "Prooviperiood"
 
 #: weblate/billing/models.py:153 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:32
 msgid "Expired"
-msgstr ""
+msgstr "Aegunud"
 
 #: weblate/billing/models.py:154
 #, fuzzy
@@ -2162,19 +2160,19 @@ msgstr "Tõlgitud"
 
 #: weblate/billing/models.py:157
 msgid "Billing state"
-msgstr ""
+msgstr "Arvelduse olek"
 
 #: weblate/billing/models.py:163
 msgid "Trial expiry date"
-msgstr ""
+msgstr "Prooviperioodi aegumise kuupäev"
 
 #: weblate/billing/models.py:170
 msgid "Scheduled removal"
-msgstr ""
+msgstr "Plaanitud eemaldamine"
 
 #: weblate/billing/models.py:173
 msgid "Paid"
-msgstr ""
+msgstr "Tasutud"
 
 #: weblate/billing/models.py:176
 msgid "In limits"
@@ -2225,20 +2223,18 @@ msgid "In display limits"
 msgstr ""
 
 #: weblate/billing/models.py:397
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Jälgitavad projektid"
-msgstr[1] "Jälgitavad projektid"
+msgstr[0] "Koosneb ühest projektist"
+msgstr[1] "Sisaldab %d projekti"
 
 #: weblate/billing/models.py:414
-#, fuzzy, python-format
-#| msgid "Default component list"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Vaikimisi komponentide nimekiri"
-msgstr[1] "Vaikimisi komponentide nimekiri"
+msgstr[0] "Koosneb ühest osisest"
+msgstr[1] "Sisaldab %d osist"
 
 #: weblate/billing/models.py:429
 #, fuzzy
@@ -2712,27 +2708,27 @@ msgstr ""
 
 #: weblate/checks/markup.py:226
 msgid "Markdown references"
-msgstr ""
+msgstr "Markdown-vorminduse viited"
 
 #: weblate/checks/markup.py:227
 msgid "Markdown link references do not match source"
-msgstr ""
+msgstr "Markdown-vorminduse viited ei vasta lähtelausenditele"
 
 #: weblate/checks/markup.py:243
 msgid "Markdown links"
-msgstr ""
+msgstr "Markdown-vorminduse viited"
 
 #: weblate/checks/markup.py:244
 msgid "Markdown links do not match source"
-msgstr ""
+msgstr "Markdown-vorminduse viited ei vasta lähtelausenditele"
 
 #: weblate/checks/markup.py:267
 msgid "Markdown syntax"
-msgstr ""
+msgstr "Markdown-vorminduse süntaks"
 
 #: weblate/checks/markup.py:268
 msgid "Markdown syntax does not match source"
-msgstr ""
+msgstr "Markdown-vorminduse süntaks ei vasta lähtelausenditele"
 
 #: weblate/checks/markup.py:303
 #, fuzzy
@@ -2742,7 +2738,7 @@ msgstr "Tõlgitud"
 
 #: weblate/checks/markup.py:322 weblate/trans/autofixes/html.py:32
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "Ebaturvaline HTML"
 
 #: weblate/checks/markup.py:323
 #, fuzzy
@@ -2752,16 +2748,16 @@ msgstr "Tõlgitud"
 
 #: weblate/checks/placeholders.py:38
 msgid "Placeholders"
-msgstr ""
+msgstr "Kohatäited"
 
 #: weblate/checks/placeholders.py:39
 msgid "Translation is missing some placeholders:"
-msgstr ""
+msgstr "Tõlkel puuduvad mõned kohatäited:"
 
 #: weblate/checks/placeholders.py:77
 #: weblate/templates/addons/discovery_help.html:8
 msgid "Regular expression"
-msgstr ""
+msgstr "Regulaaravaldis"
 
 #: weblate/checks/placeholders.py:78
 msgid "Translation does not match regular expression:"
@@ -2769,19 +2765,19 @@ msgstr "Tõlge ei klapi regulaaravaldisega:"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
-msgstr ""
+msgstr "Qt-vorming"
 
 #: weblate/checks/qt.py:50
 msgid "Qt format string does not match source"
-msgstr ""
+msgstr "Qt-vormingu lausend ei vasta lähtelausendile"
 
 #: weblate/checks/qt.py:62
 msgid "Qt plural format"
-msgstr ""
+msgstr "Mitmus Qt-vormingus"
 
 #: weblate/checks/qt.py:63
 msgid "Qt plural format string does not match source"
-msgstr ""
+msgstr "Mitmus Qt-vormingus ei vasta lähtelausendile"
 
 #: weblate/checks/render.py:45
 #, fuzzy
@@ -3975,19 +3971,19 @@ msgstr ""
 #: weblate/templates/translation.html:45 weblate/templates/translation.html:390
 #: weblate/trans/views/about.py:34
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: weblate/templates/about/stats.html:15
 msgid "Most active translators"
-msgstr ""
+msgstr "Kõige toimekamad tõlkijad"
 
 #: weblate/templates/about/stats.html:32
 msgid "Most active suggesters"
-msgstr ""
+msgstr "Kõige toimekamad ettepanekute tegijad"
 
 #: weblate/templates/about/stats.html:48
 msgid "Most active screenshot uploaders"
-msgstr ""
+msgstr "Kõige toimekamad ekraanitõmmiste üleslaadijad"
 
 #: weblate/templates/about/stats.html:64
 #, fuzzy
@@ -4009,11 +4005,11 @@ msgstr "Tõlgitud"
 
 #: weblate/templates/about/stats.html:108
 msgid "Used languages"
-msgstr ""
+msgstr "Kasutatud keeled"
 
 #: weblate/templates/about/stats.html:112
 msgid "Registered users"
-msgstr ""
+msgstr "Registreeritud kasutajad"
 
 #: weblate/templates/about/stats.html:124
 msgid "Failing checks found"
@@ -4652,15 +4648,15 @@ msgid "Your trial offer"
 msgstr ""
 
 #: weblate/templates/accounts/trial.html:23
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will last 14 days."
-msgstr "Sinu e-kiri"
+msgstr "Sinu prooviperiood kestab 14 päeva."
 
 #: weblate/templates/accounts/trial.html:24
 msgid ""
 "Your trial will run the Enterprise plan, but you can choose any plan later."
 msgstr ""
+"Sinu prooviperioodis sisaldub Enterprise-taseme arvelduskava, aga sa võid "
+"hiljem selle muuta ükspuha missuguseks arvelduskavaks."
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card needed, but you can set the payment method anytime."
@@ -4671,10 +4667,8 @@ msgid "All configuration will stay once you start paying."
 msgstr ""
 
 #: weblate/templates/accounts/trial.html:30
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "Alusta uut tõlget"
+msgstr "Alusta uut prooviperioodi!"
 
 #: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -5312,7 +5306,7 @@ msgstr "Projekt"
 #: weblate/templates/check_project.html:21 weblate/templates/checks.html:19
 #: weblate/templates/translation.html:403
 msgid "Total"
-msgstr ""
+msgstr "Kokku"
 
 #: weblate/templates/check.html:21 weblate/templates/check_component.html:23
 #: weblate/templates/check_project.html:22 weblate/templates/checks.html:20
@@ -6443,7 +6437,7 @@ msgstr "Lähtesta kõik muudatused kohalikus varamu"
 
 #: weblate/templates/js/git-status.html:148
 msgid "Cleanup"
-msgstr ""
+msgstr "Korrastamine"
 
 #: weblate/templates/js/git-status.html:152
 msgid "Cleanup all untracked files in the local repository"
@@ -6452,23 +6446,23 @@ msgstr ""
 #: weblate/templates/js/git-status.html:164
 #: weblate/templates/snippets/component/lock.html:11
 msgid "Unlock"
-msgstr ""
+msgstr "Eemalda lukustus"
 
 #: weblate/templates/js/git-status.html:168
 msgid "Allow changes to the local repository"
-msgstr ""
+msgstr "Luba muutused kohalikus varamus"
 
 #: weblate/templates/js/git-status.html:176
 msgid "Lock"
-msgstr ""
+msgstr "Lukusta"
 
 #: weblate/templates/js/git-status.html:180
 msgid "Prevent any changes in the local repository"
-msgstr ""
+msgstr "Keela kõik muutused kohalikus varamus"
 
 #: weblate/templates/js/translations.html:8
 msgid "Status"
-msgstr ""
+msgstr "Olek"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
 #, fuzzy
@@ -6484,15 +6478,15 @@ msgstr ""
 #: weblate/templates/language.html:71
 #, python-format
 msgid "Plural: %(source_description)s"
-msgstr ""
+msgstr "Mitmus: %(source_description)s"
 
 #: weblate/templates/language.html:84
 msgid "Plurals"
-msgstr ""
+msgstr "Mitmused"
 
 #: weblate/templates/language.html:124
 msgid "There are no glossaries defined for this language."
-msgstr ""
+msgstr "Selle keele jaoks pole sõnastikke kirjeldatud."
 
 #: weblate/templates/last-changes-content.html:32
 #: weblate/templates/snippets/suggestions.html:23
@@ -6509,7 +6503,7 @@ msgstr "Tõlgitud"
 
 #: weblate/templates/last-changes-content.html:37
 msgid "Revert"
-msgstr ""
+msgstr "Muuda tagasi"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:51
@@ -10694,7 +10688,7 @@ msgstr ""
 
 #: weblate/trans/models/componentlist.py:55
 msgid "Show on dashboard"
-msgstr ""
+msgstr "Näita tarvikulaual"
 
 #: weblate/trans/models/componentlist.py:59
 msgid ""
