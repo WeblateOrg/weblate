@@ -6,7 +6,7 @@ python -m celery -A weblate.utils multi $1 \
     notify celery backup translate \
     --pidfile=$PWD/weblate-%n.pid \
     --logfile=$PWD/weblate-%n%I.log --loglevel=DEBUG \
-    --beat:celery --concurrency:celery=4 --queues:celery=celery --prefetch-multiplier:celery=4 \
-    --concurrency:notify=4 --queues:notify=notify --prefetch-multiplier:notify=10 \
-    --concurrency:translate=4 --queues:translate=translate --prefetch-multiplier:translate=4 \
+    --beat:celery --queues:celery=celery --prefetch-multiplier:celery=4 \
+    --queues:notify=notify --prefetch-multiplier:notify=10 \
+    --queues:translate=translate --prefetch-multiplier:translate=4 \
     --concurrency:backup=1 --queues:backup=backup  --prefetch-multiplier:backup=2
