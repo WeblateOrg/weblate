@@ -409,21 +409,23 @@ VCS
 Site wide privileges
     Use management interface
 
+    Add new projects
+
     Add language definitions
 
     Manage language definitions
 
-    Add groups
-
     Manage groups
 
-    Add users
-
     Manage users
+
+    Manage roles
 
     Manage announcements
 
     Manage translation memory
+
+    Manage component lists
 
 .. note::
 
