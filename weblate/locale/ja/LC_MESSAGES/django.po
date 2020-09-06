@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-05 12:46+0000\n"
-"PO-Revision-Date: 2020-09-05 12:46+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2020-09-06 17:52+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -2181,7 +2181,7 @@ msgstr "原文と翻訳で一致しない末尾のスペース"
 
 #: weblate/checks/chars.py:146
 msgid "Double space"
-msgstr "スペースが連続"
+msgstr "連続スペース"
 
 #: weblate/checks/chars.py:147
 msgid "Translation contains double space"
@@ -2189,7 +2189,7 @@ msgstr "翻訳でスペースが連続している"
 
 #: weblate/checks/chars.py:168
 msgid "Mismatched full stop"
-msgstr "終止符が一致していません"
+msgstr "終止符の不一致"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
@@ -2197,7 +2197,7 @@ msgstr "原文と翻訳で一致しない文末の終止符"
 
 #: weblate/checks/chars.py:207
 msgid "Mismatched colon"
-msgstr "コロンが一致していません"
+msgstr "コロンの不一致"
 
 #: weblate/checks/chars.py:208
 msgid "Source and translation do not both end with a colon"
@@ -2205,7 +2205,7 @@ msgstr "原文と翻訳で一致しない文末のコロン"
 
 #: weblate/checks/chars.py:238
 msgid "Mismatched question mark"
-msgstr "疑問符が一致していません"
+msgstr "疑問符の不一致"
 
 #: weblate/checks/chars.py:239
 msgid "Source and translation do not both end with a question mark"
@@ -2213,7 +2213,7 @@ msgstr "原文と翻訳で一致しない文末の疑問符"
 
 #: weblate/checks/chars.py:271
 msgid "Mismatched exclamation mark"
-msgstr "感嘆符が一致していません"
+msgstr "感嘆符の不一致"
 
 #: weblate/checks/chars.py:272
 msgid "Source and translation do not both end with an exclamation mark"
@@ -2221,7 +2221,7 @@ msgstr "原文と翻訳で一致しない文末の感嘆符"
 
 #: weblate/checks/chars.py:295
 msgid "Mismatched ellipsis"
-msgstr "省略記号が一致していません"
+msgstr "省略記号の不一致"
 
 #: weblate/checks/chars.py:296
 msgid "Source and translation do not both end with an ellipsis"
@@ -2261,7 +2261,7 @@ msgstr "指定された長さを超えている翻訳"
 
 #: weblate/checks/chars.py:366
 msgid "Mismatched semicolon"
-msgstr "セミコロンが一致していません"
+msgstr "セミコロンの不一致"
 
 #: weblate/checks/chars.py:367
 msgid "Source and translation do not both end with a semicolon"
@@ -2277,7 +2277,7 @@ msgstr "装飾的なカシーダが使用されている翻訳"
 
 #: weblate/checks/chars.py:390
 msgid "Punctuation spacing"
-msgstr "句読点の間隔"
+msgstr "句読点のスペース"
 
 #: weblate/checks/chars.py:391
 msgid "Missing non breakable space before double punctuation sign"
@@ -2285,7 +2285,7 @@ msgstr "二重句読点の前に、改行できないスペースがありませ
 
 #: weblate/checks/consistency.py:29
 msgid "Missing plurals"
-msgstr "複数形の欠如"
+msgstr "複数形の不足"
 
 #: weblate/checks/consistency.py:30
 msgid "Some plural forms are not translated"
@@ -2326,7 +2326,7 @@ msgstr "最後の翻訳は \"%s\" です。"
 
 #: weblate/checks/duplicate.py:74
 msgid "Consecutive duplicated words"
-msgstr "連続した重複重複単語"
+msgstr "連続した重複単語"
 
 #: weblate/checks/duplicate.py:75
 msgid "Text contains the same word twice in a row:"
@@ -2577,11 +2577,11 @@ msgstr "原文と Markdown のリンクが一致していないもの"
 
 #: weblate/checks/markup.py:267
 msgid "Markdown syntax"
-msgstr "マークダウンのシンタックス"
+msgstr "マークダウン構文"
 
 #: weblate/checks/markup.py:268
 msgid "Markdown syntax does not match source"
-msgstr "原文とマークダウンのシンタックスが合致していないもの"
+msgstr "マークダウン構文が原文と一致しません"
 
 #: weblate/checks/markup.py:303
 msgid "The translation does not contain an URL"
@@ -2654,7 +2654,7 @@ msgstr "原文と翻訳が同一"
 
 #: weblate/checks/source.py:38
 msgid "Unpluralised"
-msgstr "複数形でない"
+msgstr "複数形の除外"
 
 #: weblate/checks/source.py:39
 msgid "The string is used as plural, but not using plural forms"
@@ -2662,7 +2662,7 @@ msgstr "文字列は複数形ですが、複数形として区別しません"
 
 #: weblate/checks/source.py:51
 msgid "Ellipsis"
-msgstr "省略"
+msgstr "省略記号"
 
 #: weblate/checks/source.py:53
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
@@ -4486,25 +4486,19 @@ msgid "Your trial offer"
 msgstr "ご試用の申し込み"
 
 #: weblate/templates/accounts/trial.html:23
-#, fuzzy
-#| msgid "Your trial will"
 msgid "Your trial will last 14 days."
-msgstr "ご試用は"
+msgstr "試用期間は残り 14 日間です。"
 
 #: weblate/templates/accounts/trial.html:24
 msgid ""
 "Your trial will run the Enterprise plan, but you can choose any plan later."
-msgstr ""
+msgstr "試用版ではエンタープライズ プランとなっていますが、後でご希望のプランに変更できます。"
 
 #: weblate/templates/accounts/trial.html:25
-#, fuzzy
-#| msgid "need no credit card, but you can set the payment method anytime."
 msgid "No credit card needed, but you can set the payment method anytime."
 msgstr "クレジットカードは不要ですが、お支払い方法はいつでも設定できます。"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy
-#| msgid "keep the configuration once you start paying."
 msgid "All configuration will stay once you start paying."
 msgstr "支払いをすれば、設定は保存されます。"
 
@@ -6434,14 +6428,9 @@ msgid "Your trial period is going to expire in less than week."
 msgstr "試用期間は 1 週間以内に終了します。"
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "If you want to continue using the service, please purchase the "
-#| "subsription."
 msgid ""
 "If you want to continue using the service, please purchase the subscription."
-msgstr ""
-"引き続きサービスをご利用になる場合はサブスクリプションを契約してください。"
+msgstr "引き続きサービスをご利用になる場合はサブスクリプションを購入ください。"
 
 #: weblate/templates/mail/billing_expired.html:12
 msgid ""
