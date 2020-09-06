@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-09-06 06:05+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2020-09-06 17:52+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -3363,10 +3363,9 @@ msgid ""
 "ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-":ref:`component` に :guilabel:`Enforced checks` を設定することで、無視できな"
-"い検査のリストを設定できます。リストされている各検査は、ユーザ インタフェース"
-"で除外できず、検査に不合格した文字列は :guilabel:`Needs editing`（参照: :ref:"
-"`states`）とマークされます。"
+":ref:`component` に :guilabel:`Enforced checks` "
+"を設定することで、無視できない検査のリストを設定できます。リストされている検査項目は、ユーザ インタフェースで除外できず、検査に不合格した文字列は "
+":guilabel:`Needs editing` （参照 :ref:`states`）とマークされます。"
 
 #: ../../admin/checks.rst:223
 msgid "Managing fonts"
@@ -16317,7 +16316,7 @@ msgstr ""
 
 #: ../../changes.rst:233
 msgid "Reduced false negatives for unchanged translation check."
-msgstr "未翻訳の翻訳チェックの誤検知を減らしました。"
+msgstr "未翻訳の翻訳検査の誤検知を減らしました。"
 
 #: ../../changes.rst:234
 msgid "Raised bleach dependency to address CVE-2020-6802."
@@ -17093,7 +17092,7 @@ msgstr ""
 
 #: ../../changes.rst:475
 msgid "Improved handling of abbreviations in unchanged translation check."
-msgstr "未翻訳の翻訳チェックでの省略形の処理を改善しました。"
+msgstr "未翻訳の翻訳検査での省略形の処理を改善しました。"
 
 #: ../../changes.rst:476
 msgid "Refreshed landing page for new contributors."
@@ -20962,7 +20961,7 @@ msgstr "ライセンス"
 
 #: ../../contributing/license.rst:4
 msgid "Copyright (C) 2012 - 2020 Michal Čihař <michal@cihar.com>"
-msgstr ""
+msgstr "Copyright (C) 2012 - 2020 Michal Čihař <michal@cihar.com>"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -20971,6 +20970,9 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"このプログラムはフリーソフトウェアです:　あなたは、FreeSoftware Foundation によって発行された GNU General "
+"Public License のバージョン 3 "
+"または（あなたの選択で）それ以降のバージョンのいずれかの条件のもとで、プログラムを再配布および/または変更できます。"
 
 #: ../../contributing/license.rst:11 ../../../README.rst:69
 msgid ""
@@ -20979,135 +20981,145 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
 "more details."
 msgstr ""
+"このプログラムは有用であることを願って配布していますが、いかなる保証もありません。商品性や特定目的への適合性の暗黙の保証もありません。詳細は GNU "
+"General Public License を参照してください。"
 
 #: ../../contributing/license.rst:15
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
+"あなたは、このプログラムと共に、GNU General Public License "
+"のコピーを受け取っているはずです。そうでない場合は、<https://www.gnu.org/licenses/>を参照してください。"
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
-msgstr ""
+msgstr "Weblate のリリース"
 
 #: ../../contributing/release.rst:4
 msgid "Things to check prior to release:"
-msgstr ""
+msgstr "リリース前に確認する事項:"
 
 #: ../../contributing/release.rst:6
 msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages`."
-msgstr ""
+msgstr ":command:`./scripts/list-translated-languages` で新たに翻訳された言語を確認。"
 
 #: ../../contributing/release.rst:7
 msgid "Set final version by :command:`./scripts/prepare-release`."
-msgstr ""
+msgstr ":command:`./scripts/prepare-release` で最終バージョンの設定。"
 
 #: ../../contributing/release.rst:8
 msgid ""
 "Make sure screenshots are up to date :command:`make -C docs update-"
 "screenshots`"
-msgstr ""
+msgstr "スクリーンショットが最新のものであることを確認 :command:`make -C docs update-screenshots`"
 
 #: ../../contributing/release.rst:10
 msgid "Perform the release:"
-msgstr ""
+msgstr "リリースの実行:"
 
 #: ../../contributing/release.rst:12
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)"
-msgstr ""
+msgstr "リリースの作成 :command:`./scripts/create-release --tag` （必要条件は下記を参照）"
 
 #: ../../contributing/release.rst:14
 msgid "Post release manual steps:"
-msgstr ""
+msgstr "リリース後の手動手順:"
 
 #: ../../contributing/release.rst:16
 msgid "Update Docker image."
-msgstr ""
+msgstr "Docker イメージの更新。"
 
 #: ../../contributing/release.rst:17
 msgid "Close GitHub milestone."
-msgstr ""
+msgstr "GitHub のマイルストーンを閉じる。"
 
 #: ../../contributing/release.rst:18
 msgid "Once the Docker image is tested, add a tag and push it."
-msgstr ""
+msgstr "Docker イメージをテストしたら、タグを追加してプッシュする。"
 
 #: ../../contributing/release.rst:19
 msgid "Update Helm chart to new version."
-msgstr ""
+msgstr "Helm チャートを新バージョンに更新。"
 
 #: ../../contributing/release.rst:20
 msgid ""
 "Include new version in :file:`.github/workflows/migrations.yml` to cover it "
 "in migration testing."
 msgstr ""
+":file:`.github/workflows/migrations.yml` に新しいバージョンをインクルードして、移行テストでカバーする。"
 
 #: ../../contributing/release.rst:21
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
-msgstr ""
+msgstr "リポジトリのバージョンを :command:`./scripts/set-version` で上げる。"
 
 #: ../../contributing/release.rst:23
 msgid ""
 "To create tags using the :command:`./scripts/create-release` script you will "
 "need following:"
-msgstr ""
+msgstr ":command:`./scripts/create-release` スクリプトを使用してタグを作成するには、次のものが必要です。"
 
 #: ../../contributing/release.rst:25
 msgid "GnuPG with private key used to sign the release"
-msgstr ""
+msgstr "リリースの署名に使用する秘密鍵を持つ GnuPG"
 
 #: ../../contributing/release.rst:26
 msgid "Push access to Weblate git repositories (it pushes tags)"
-msgstr ""
+msgstr "Weblate git リポジトリへの push 接続（タグを push）"
 
 #: ../../contributing/release.rst:27
 msgid ""
 "Configured :command:`hub` tool and access to create releases on the Weblate "
 "repo"
-msgstr ""
+msgstr ":command:`hub` ツールを設定し、Weblate リポジトリに接続してリリースの作成"
 
 #: ../../contributing/release.rst:28
 msgid ""
 "SSH access to Weblate download server (the Website downloads are copied "
 "there)"
-msgstr ""
+msgstr "Weblate ダウンロード サーバーへ SSH 接続（Web サイトのダウンロードは、そこにコピーされます）"
 
 #: ../../contributing/schemas.rst:2
 msgid "Data schemas"
-msgstr ""
+msgstr "データ スキーマ"
 
 #: ../../contributing/schemas.rst:4
 msgid ""
 "Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of "
 "external JSON files."
 msgstr ""
+"Weblateは `JSON Schema <https://json-schema.org/>`_ to を使用して外部 JSON "
+"ファイルのレイアウトを定義します。"
 
 #: ../../contributing/schemas.rst:12
 msgid ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 msgstr ""
+":ref:`translation-memory`、 :djadmin:`dump_memory`、 :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:22
 msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
-msgstr ""
+msgstr ":ref:`user-profile`、 :djadmin:`dumpuserdata`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr ""
+msgstr "Weblate へのコードの提供開始"
 
 #: ../../contributing/start.rst:4
 msgid ""
 "To understand Weblate source code, please first look into :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
 msgstr ""
+"Weblate のソース コードを理解するには、まず :doc:`code`、 :doc:`frontend`、 :doc:`internals` "
+"を調べてください。"
 
 #: ../../contributing/start.rst:8
 msgid "Starting with our codebase"
-msgstr ""
+msgstr "コードベースから始める"
 
 #: ../../contributing/start.rst:10
 msgid ""
@@ -21115,16 +21127,20 @@ msgid ""
 "look for ones labelled `good first issue <https://github.com/WeblateOrg/"
 "weblate/labels/good%20first%20issue>`_."
 msgstr ""
+"Weblate コードベースに慣れるためにバグを探しているなら、`good first issue <https://github.com/"
+"WeblateOrg/weblate/labels/good%20first%20issue>`_ というラベルのついたものを探してください。"
 
 #: ../../contributing/start.rst:14
 msgid "Coding Weblate with PyCharm"
-msgstr ""
+msgstr "PyCharm による Weblate のコーディング"
 
 #: ../../contributing/start.rst:16
 msgid ""
 "PyCharm is a known IDE for Python, here's some guidelines to help you setup "
 "Weblate project in it."
 msgstr ""
+"PyCharm は Python の IDE として知られていますが、ここには Weblate "
+"プロジェクトをセットアップするためのガイドラインがあります。"
 
 #: ../../contributing/start.rst:19
 msgid ""
@@ -21132,12 +21148,14 @@ msgid ""
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
 "to specify the interpreter you want:"
 msgstr ""
+"Github リポジトリをクローンした直後であることを考慮して、PyCharm でクローンしたフォルダを開くだけです。IDE "
+"を開いたら、最初に必要なインタプリタを指定します。"
 
 #: ../../contributing/start.rst:25
 msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
-msgstr ""
+msgstr "PyCharm で virtualenv を作成するか、または既存の仮想環境を選択できます。"
 
 #: ../../contributing/start.rst:30
 msgid ""
@@ -21146,6 +21164,8 @@ msgid ""
 "directly use your virtualenv by default), or through the interface when you "
 "get a warning about missing dependencies."
 msgstr ""
+"インタープリターが設定されたら、依存関係をインストールすることを忘れないでください:　依存関係をインストールするには、コンソール（デフォルトでは、IDE "
+"のコンソールが virtualenv を直接使用します）を使用します、また依存関係が存在しないという警告が表示されたときはインターフェースを使用します。"
 
 #: ../../contributing/start.rst:35
 msgid ""
@@ -21154,6 +21174,8 @@ msgid ""
 "in the IDE. For that you need to specify the root path of Django and the "
 "path of one setting:"
 msgstr ""
+"2 番目のステップは、PyCharm 内でネイティブで Django を使用するために適切な情報を設定することです:　このアイデアは、IDE "
+"でユニットテストを即座に起動できるようにすることです。そのためには、Django のルート パスと 1 つの設定のパスを指定する必要があります。"
 
 #: ../../contributing/start.rst:41
 msgid ""
@@ -21162,6 +21184,8 @@ msgid ""
 "`settings_test` from the repository, but you could create your own setting "
 "and set it there."
 msgstr ""
+"「Djangoプロジェクトのルート」 はリポジトリのルートであり、weblate サブディレクトリではないことに注意してください。設定に関しては、"
+"個人的にはリポジトリの `settings_test` を使用していますが、独自の設定を作成してそこで設定することもできます。"
 
 #: ../../contributing/start.rst:45
 msgid ""
@@ -21169,6 +21193,8 @@ msgid ""
 "to be able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
 msgstr ""
+"最後のステップは、サーバーを実行し、デバッグできるようにコードにブレークポイントを設定することです。これを行うには、新しい  `Django "
+"Server` 構成を作成します:"
 
 #: ../../contributing/start.rst:51
 msgid ""
@@ -21176,10 +21202,12 @@ msgid ""
 "server live reload if you modify some files, but the debugger will be "
 "stopped on the breakpoint you set."
 msgstr ""
+"「再ロードなし」を適切に有効にするように注意してください:　ファイルを変更すると、サーバのライブ "
+"リロードは行われなくなりますが、デバッガは設定したブレークポイントで停止します。"
 
 #: ../../contributing/start.rst:57
 msgid "Running Weblate locally"
-msgstr ""
+msgstr "Weblate をローカルで実行"
 
 #: ../../contributing/start.rst:59
 msgid ""
@@ -21187,29 +21215,31 @@ msgid ""
 "follow :ref:`quick-source`. It will get you a virtual env with editable "
 "Weblate sources."
 msgstr ""
+"Weblate 開発を始めるための最も快適な方法は、:ref:`quick-source` に従うことです。編集可能な Weblate "
+"ソースを付属した仮想環境を取得します。"
 
 #: ../../contributing/start.rst:63
 msgid "To install all dependencies useful for development, do:"
-msgstr ""
+msgstr "開発に役立つ依存関係をすべてインストールするには、次のようにします:"
 
 #: ../../contributing/start.rst:69
 msgid "To start a development server run:"
-msgstr ""
+msgstr "開発サーバーを起動するには、次のコマンドを実行します:"
 
 #: ../../contributing/start.rst:75
 msgid ""
 "Depending on your configuration you might also want to start Celery workers:"
-msgstr ""
+msgstr "構成によっては、Celery Worker を起動できます:"
 
 #: ../../contributing/start.rst:84
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "Docker上でローカルに Weblate の実行"
 
 #: ../../contributing/start.rst:86
 msgid ""
 "If you have Docker and docker-compose installed, you can spin up the "
 "development environment simply by running:"
-msgstr ""
+msgstr "Docker と docker-compose がインストールされている場合は、以下を実行するだけで開発環境を起動できます。"
 
 #: ../../contributing/start.rst:93
 msgid ""
@@ -21218,12 +21248,17 @@ msgid ""
 "``admin`` password. The new installation is empty, so you might want to "
 "continue with :ref:`adding-projects`."
 msgstr ""
+"開発用Dockerイメージを作成して起動します。Weblate は <http://127.0.0.1:8080/> で動作しており、``admin`` "
+"ユーザと ``admin`` パスワードでサインインできます。新しいインストールは空なので、:ref:`adding-projects` "
+"に進んでください。"
 
 #: ../../contributing/start.rst:98
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in :file:`dev-docker` directory."
 msgstr ""
+":file:`Dockerfile` と :file:`docker-compose.yml` は、:file:`dev-docker` "
+"ディレクトリにあります。"
 
 #: ../../contributing/start.rst:101
 msgid ""
@@ -21231,38 +21266,43 @@ msgid ""
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example:"
 msgstr ""
+"スクリプトは、複数のパラメータを受け取り、テストを実行するために ``test`` パラメータを指定して実行し、次に "
+":djadmin:`django:test` パラメータを指定します、たとえば:"
 
 #: ../../contributing/start.rst:108
 msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
 msgstr ""
+"テストを実行する前に、Docker コンテナが稼働していることに注意してください。これは ``docker ps`` コマンドを実行して確認できます。"
 
 #: ../../contributing/start.rst:111
 msgid "To stop the background containers run:"
-msgstr ""
+msgstr "バックグラウンド・コンテナの実行を停止するには、次のステップを実行します:"
 
 #: ../../contributing/start.rst:117
 msgid ""
 "Running the script without args will recreate Docker container and restart "
 "it."
-msgstr ""
+msgstr "引数を指定せずにスクリプトを実行すると、Docker コンテナが再作成され、再起動します。"
 
 #: ../../contributing/start.rst:121
 msgid ""
 "This is not suitable setup for production, it includes several hacks which "
 "are insecure, but make development easier."
-msgstr ""
+msgstr "これは本番環境には適していません。安全ではないが開発を容易にするハックがいくつか含まれています。"
 
 #: ../../contributing/start.rst:126
 msgid "Bootstraping your devel instance"
-msgstr ""
+msgstr "開発者のインスタンスをブートストラップ"
 
 #: ../../contributing/start.rst:128
 msgid ""
 "You might want to use :djadmin:`import_demo` to create demo translations "
 "and :djadmin:`createadmin` to create admin user."
 msgstr ""
+":djadmin:`import_demo` を使用してデモ翻訳を作成し、:djadmin:`createadmin` "
+"を使用して管理者ユーザーを作成できます。"
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -25253,7 +25293,7 @@ msgstr "検査は、一般的な翻訳ミスの発見し、翻訳が良好な状
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
-msgstr "保存した翻訳が検査に不合格の場合、直ちにユーザーに表示されます。"
+msgstr "保存した翻訳が検査に不合格の場合、ただちにユーザーに表示されます。"
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
@@ -25315,57 +25355,59 @@ msgstr "BBCode は、メッセージの重要な部分をボールド フォン�
 
 #: ../../user/checks.rst:55
 msgid "This check ensures they are also found in translation."
-msgstr ""
+msgstr "この検査は、それらが翻訳にも含まれていることを確認します。"
 
 #: ../../user/checks.rst:59
 msgid ""
 "The method for detecting BBcode is currently quite simple so this check "
 "might produce false positives."
-msgstr ""
+msgstr "BBcode を検出する方法は現在非常に単純な方法なので、この検査では誤検知が発生することがあります。"
 
 #: ../../user/checks.rst:65
 msgid "Consecutive duplicated words"
-msgstr "連続した重複重複単語"
+msgstr "連続した重複単語"
 
 #: ../../user/checks.rst:67
 msgid "*Text contains the same word twice in a row:*"
-msgstr ""
+msgstr "\\*テキストには同じ単語が 2 回連続したものが含まれています:\\*"
 
 #: ../../user/checks.rst:71
 msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
-msgstr ""
+msgstr "翻訳に連続して重複する単語がないかどうかを検査します。通常は、翻訳の誤りを意味します。"
 
 #: ../../user/checks.rst:76
 msgid ""
 "This check includes language specific rules to avoid false positives. In "
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
 msgstr ""
+"この検査には、誤検出を避けるための言語固有の規則が含まれています。お客様のケースで誤作動した場合はお知らせください。参照 :ref:`report-"
+"issue`。"
 
 #: ../../user/checks.rst:83
 msgid "Double space"
-msgstr "スペースが連続"
+msgstr "連続スペース"
 
 #: ../../user/checks.rst:85
 msgid "*Translation contains double space*"
-msgstr ""
+msgstr "\\*翻訳に 2 回連続したスペースが含まれています\\*"
 
 #: ../../user/checks.rst:87
 msgid ""
 "Checks that double space is present in translation to avoid false positives "
 "on other space-related checks."
-msgstr ""
+msgstr "翻訳にスペースが 2 回連続したものが存在するか検査し、ほかのスペース関連の検査での誤検出を防ぎます。"
 
 #: ../../user/checks.rst:89
 msgid ""
 "Check is false when double space is found in source meaning double space is "
 "intentional."
-msgstr ""
+msgstr "原文に 2 回連続したスペースがあれば、検査は失敗です。これは 2 回連続したスペースが意図的なものであることを意味します。"
 
 #: ../../user/checks.rst:110
 msgid "Formatted strings"
-msgstr ""
+msgstr "フォーマットした文字列"
 
 #: ../../user/checks.rst:112
 msgid ""
@@ -25373,6 +25415,8 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
+"文字列の書式が原文と翻訳の両方で複製されているかどうかを検査します。翻訳でフォーマット文字列を省略すると、通常は深刻な問題が発生するので、文字列のフォーマ"
+"ットは通常原文と一致していなければなりません。"
 
 #: ../../user/checks.rst:116
 msgid ""
@@ -25382,6 +25426,10 @@ msgid ""
 "probably have to add it manually for other file formats or if your PO files "
 "are not generated by :program:`xgettext`."
 msgstr ""
+"Weblate "
+"では、複数の言語でのフォーマット文字列の検査に対応しています。検査は、文字列に適切なフラグが設定されている場合にのみ自動的に有効になります（例: C "
+"形式の 'c-format'）。Gettext はこれを自動的に追加しますが、他のファイル形式や PO ファイルが :program:`xgettext`"
+" で生成されていない場合は、手動で追加する必要があります。"
 
 #: ../../user/checks.rst:122
 msgid ""
@@ -25390,18 +25438,21 @@ msgid ""
 "in case the string is not interpreted as a formatting string, but format "
 "string syntax happens to be used."
 msgstr ""
+"これは、ユニットごとに行うこともできますし（参照 :ref:`additional`）、:ref:`component` で行うこともできます。コンポーネ"
+"ントごとに定義する方が簡単ですが、文字列がフォーマット文字列として解釈されず、フォーマット文字列構文がすでに使用されている場合は、誤検出が発生することがあ"
+"ります。"
 
 #: ../../user/checks.rst:129
 msgid ""
 "In case specific format check is not available in Weblate, you can use "
 "generic :ref:`check-placeholders`."
-msgstr ""
+msgstr "Weblate で指定したフォーマットの検査できない場合は、汎用の :ref:`check-placeholders` を使用できます。"
 
 #: ../../user/checks.rst:132
 msgid ""
 "Besides checking, this will also highlight the formatting strings to easily "
 "insert them into translated strings:"
-msgstr ""
+msgstr "クリックして挿入、フォーマットした文字列をハイライトで表示し、翻訳した文字列に簡単に挿入します:"
 
 #: ../../user/checks.rst:138
 msgid "AngularJS interpolation string"
@@ -25409,16 +25460,16 @@ msgstr "AngularJS 補間文字列"
 
 #: ../../user/checks.rst:140
 msgid "*AngularJS interpolation strings do not match source*"
-msgstr ""
+msgstr "\\*AngularJS 補間文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:143 ../../user/checks.rst:330
 #: ../../user/checks.rst:348 ../../user/checks.rst:398
 msgid "Named format string"
-msgstr ""
+msgstr "名前付きフォーマット文字列"
 
 #: ../../user/checks.rst:143
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr ""
+msgstr "``Your balance is {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:145 ../../user/checks.rst:162
 #: ../../user/checks.rst:178 ../../user/checks.rst:193
@@ -25429,17 +25480,19 @@ msgstr ""
 #: ../../user/checks.rst:350 ../../user/checks.rst:366
 #: ../../user/checks.rst:381 ../../user/checks.rst:402
 msgid "Flag to enable"
-msgstr ""
+msgstr "有効にするフラグ"
 
 #: ../../user/checks.rst:145
 msgid "`angularjs-format`"
-msgstr ""
+msgstr "`angularjs-format`"
 
 #: ../../user/checks.rst:150
 msgid ""
 "`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
 "$interpolate>`_"
 msgstr ""
+"`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
+"$interpolate>`_"
 
 #: ../../user/checks.rst:153
 msgid "C format"
@@ -25447,7 +25500,7 @@ msgstr "C 言語書式"
 
 #: ../../user/checks.rst:155
 msgid "*C format string does not match source*"
-msgstr ""
+msgstr "\\*C フォーマット文字列がソースと一致しません\\*"
 
 #: ../../user/checks.rst:158 ../../user/checks.rst:226
 #: ../../user/checks.rst:262 ../../user/checks.rst:279
@@ -25455,30 +25508,30 @@ msgstr ""
 #: ../../user/checks.rst:328 ../../user/checks.rst:346
 #: ../../user/checks.rst:394
 msgid "Simple format string"
-msgstr ""
+msgstr "単純なフォーマット文字列"
 
 #: ../../user/checks.rst:158 ../../user/checks.rst:226
 #: ../../user/checks.rst:262 ../../user/checks.rst:291
 #: ../../user/checks.rst:309 ../../user/checks.rst:346
 #: ../../user/checks.rst:394
 msgid "``There are %d apples``"
-msgstr ""
+msgstr "``There are %d apples``"
 
 #: ../../user/checks.rst:160 ../../user/checks.rst:176
 #: ../../user/checks.rst:228 ../../user/checks.rst:244
 #: ../../user/checks.rst:293 ../../user/checks.rst:311
 #: ../../user/checks.rst:364 ../../user/checks.rst:396
 msgid "Position format string"
-msgstr ""
+msgstr "位置フォーマット文字列"
 
 #: ../../user/checks.rst:160 ../../user/checks.rst:228
 #: ../../user/checks.rst:293 ../../user/checks.rst:311
 msgid "``Your balance is %1$d %2$s``"
-msgstr ""
+msgstr "``Your balance is %1$d %2$s``"
 
 #: ../../user/checks.rst:162
 msgid "`c-format`"
-msgstr ""
+msgstr "`c-format`"
 
 #: ../../user/checks.rst:167
 msgid ""
@@ -25486,6 +25539,9 @@ msgid ""
 "c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
 "Printf_format_string>`_"
 msgstr ""
+"`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"c_002dformat.html>`_, `C printf format <https://en.wikipedia.org/wiki/"
+"Printf_format_string>`_"
 
 #: ../../user/checks.rst:171
 msgid "C# format"
@@ -25493,21 +25549,23 @@ msgstr "C# 言語書式"
 
 #: ../../user/checks.rst:173
 msgid "*C# format string does not match source*"
-msgstr ""
+msgstr "\\*C# 形式の文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:176 ../../user/checks.rst:244
 msgid "``There are {0} apples``"
-msgstr ""
+msgstr "``There are {0} apples``"
 
 #: ../../user/checks.rst:178
 msgid "`c-sharp-format`"
-msgstr ""
+msgstr "`c-sharp-format`"
 
 #: ../../user/checks.rst:183
 msgid ""
 "`C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string."
 "format?view=netframework-4.7.2>`_"
 msgstr ""
+"`C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string."
+"format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:186
 msgid "ECMAScript template literals"
@@ -25515,15 +25573,15 @@ msgstr "ECMAScript テンプレート リテラル"
 
 #: ../../user/checks.rst:188
 msgid "*ECMAScript template literals do not match source*"
-msgstr "*ECMAScript テンプレート リテラルが原文と一致しません*"
+msgstr "\\*ECMAScript テンプレート リテラルが原文と一致しません\\*"
 
 #: ../../user/checks.rst:191 ../../user/checks.rst:208
 msgid "Interpolation"
-msgstr ""
+msgstr "代入"
 
 #: ../../user/checks.rst:191
 msgid "``There are ${number} apples``"
-msgstr ""
+msgstr "``There are ${number} apples``"
 
 #: ../../user/checks.rst:193
 msgid "`es-format`"
@@ -25534,6 +25592,8 @@ msgid ""
 "`Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/"
 "Reference/Template_literals>`_"
 msgstr ""
+"`Template literals <https://developer.mozilla.org/ja/docs/Web/JavaScript/"
+"Reference/Template_literals>`_"
 
 #: ../../user/checks.rst:201
 msgid "i18next interpolation"
@@ -25541,29 +25601,31 @@ msgstr "i18next 補間"
 
 #: ../../user/checks.rst:203
 msgid "*The i18next interpolation does not match source*"
-msgstr ""
+msgstr "\\*i18next 補間が原文と一致しません\\*"
 
 #: ../../user/checks.rst:208
 msgid "``There are {{number}} apples``"
-msgstr ""
+msgstr "``There are {{number}} apples``"
 
 #: ../../user/checks.rst:210
 msgid "Nesting"
-msgstr ""
+msgstr "ネスティング"
 
 #: ../../user/checks.rst:210
 msgid "``There are $t(number) apples``"
-msgstr ""
+msgstr "``There are $t(number) apples``"
 
 #: ../../user/checks.rst:212
 msgid "`i18next-interpolation`"
-msgstr ""
+msgstr "`i18next-interpolation`"
 
 #: ../../user/checks.rst:217
 msgid ""
 "`i18next interpolation <https://www.i18next.com/translation-function/"
 "interpolation>`_"
 msgstr ""
+"`i18next interpolation <https://www.i18next.com/translation-function/"
+"interpolation>`_"
 
 #: ../../user/checks.rst:221
 msgid "Java format"
@@ -25571,17 +25633,19 @@ msgstr "Java 形式"
 
 #: ../../user/checks.rst:223
 msgid "*Java format string does not match source*"
-msgstr ""
+msgstr "\\*Java フォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:230
 msgid "`java-format`"
-msgstr ""
+msgstr "`java-format`"
 
 #: ../../user/checks.rst:235
 msgid ""
 "`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
 "Formatter.html>`_"
 msgstr ""
+"`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
+"Formatter.html>`_"
 
 #: ../../user/checks.rst:239
 msgid "Java MessageFormat"
@@ -25589,23 +25653,25 @@ msgstr "Java MessageFormat"
 
 #: ../../user/checks.rst:241
 msgid "*Java MessageFormat string does not match source*"
-msgstr ""
+msgstr "\\*Java メッセージフォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:246
 msgid "`java-messageformat` enables the check unconditionally"
-msgstr ""
+msgstr "`java-messageformat` は無条件に検査を有効にします"
 
 #: ../../user/checks.rst:248
 msgid ""
 "`auto-java-messageformat` enables check only if there is a format string in "
 "the source"
-msgstr ""
+msgstr "`auto-java-messageformat` 原文にフォーマット文字列がある場合のみ検査を有効にします"
 
 #: ../../user/checks.rst:254
 msgid ""
 "`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
 "MessageFormat.html>`_"
 msgstr ""
+"`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
+"MessageFormat.html>`_"
 
 #: ../../user/checks.rst:257
 msgid "JavaScript format"
@@ -25613,17 +25679,19 @@ msgstr "JavaScript 形式"
 
 #: ../../user/checks.rst:259
 msgid "*JavaScript format string does not match source*"
-msgstr ""
+msgstr "\\*JavaScript フォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:264
 msgid "`javascript-format`"
-msgstr ""
+msgstr "`javascript-format`"
 
 #: ../../user/checks.rst:269
 msgid ""
 "`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/javascript_002dformat.html>`_"
 msgstr ""
+"`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
+"html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:272
 msgid "Percent placeholders"
@@ -25631,15 +25699,15 @@ msgstr "パーセントのプレースホルダー"
 
 #: ../../user/checks.rst:274
 msgid "*The percent placeholders do not match source*"
-msgstr ""
+msgstr "\\*パーセントのプレースホルダが原文と一致しません\\*"
 
 #: ../../user/checks.rst:279
 msgid "``There are %number% apples``"
-msgstr ""
+msgstr "``There are %number% apples``"
 
 #: ../../user/checks.rst:281
 msgid "`percent-placeholders`"
-msgstr ""
+msgstr "`percent-placeholders`"
 
 #: ../../user/checks.rst:286
 msgid "Perl format"
@@ -25647,11 +25715,11 @@ msgstr "Perl 書式"
 
 #: ../../user/checks.rst:288
 msgid "*Perl format string does not match source*"
-msgstr ""
+msgstr "\\*Perl フォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:295
 msgid "`perl-format`"
-msgstr ""
+msgstr "`perl-format`"
 
 #: ../../user/checks.rst:300
 msgid ""
@@ -25659,6 +25727,9 @@ msgid ""
 "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "perl_002dformat.html>`_"
 msgstr ""
+"`Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_, `Perl "
+"Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:304
 msgid "PHP format"
@@ -25666,11 +25737,11 @@ msgstr "PHP 書式"
 
 #: ../../user/checks.rst:306
 msgid "*PHP format string does not match source*"
-msgstr ""
+msgstr "\\*PHP フォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:313
 msgid "`php-format`"
-msgstr ""
+msgstr "`php-format`"
 
 #: ../../user/checks.rst:318
 msgid ""
@@ -25678,6 +25749,9 @@ msgid ""
 "php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/php_002dformat.html>`_"
 msgstr ""
+"`PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf."
+"php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/manual/"
+"html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:323
 msgid "Python brace format"
@@ -25685,19 +25759,19 @@ msgstr "Python のブレース書式"
 
 #: ../../user/checks.rst:325
 msgid "*Python brace format string does not match source*"
-msgstr ""
+msgstr "\\*Python ブレース形式文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:328
 msgid "``There are {} apples``"
-msgstr ""
+msgstr "``There are {} apples``"
 
 #: ../../user/checks.rst:330
 msgid "``Your balance is {amount} {currency}``"
-msgstr ""
+msgstr "``Your balance is {amount} {currency}``"
 
 #: ../../user/checks.rst:332
 msgid "`python-brace-format`"
-msgstr ""
+msgstr "`python-brace-format`"
 
 #: ../../user/checks.rst:337
 msgid ""
@@ -25705,6 +25779,9 @@ msgid ""
 "<https://www.gnu.org/software/gettext/manual/html_node/python_002dformat."
 "html>`_"
 msgstr ""
+":ref:`Python brace format <python:formatstrings>`, `Python Format Strings "
+"<https://www.gnu.org/software/gettext/manual/html_node/python_002dformat."
+"html>`_"
 
 #: ../../user/checks.rst:341
 msgid "Python format"
@@ -25712,15 +25789,15 @@ msgstr "Python 書式"
 
 #: ../../user/checks.rst:343
 msgid "*Python format string does not match source*"
-msgstr ""
+msgstr "\\* Python形式の文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:348
 msgid "``Your balance is %(amount) %(currency)``"
-msgstr ""
+msgstr "``Your balance is %(amount) %(currency)``"
 
 #: ../../user/checks.rst:350
 msgid "`python-format`"
-msgstr ""
+msgstr "`python-format`"
 
 #: ../../user/checks.rst:355
 msgid ""
@@ -25728,6 +25805,9 @@ msgid ""
 "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "python_002dformat.html>`_"
 msgstr ""
+":ref:`Python string formatting <python:old-string-formatting>`, `Python "
+"Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
+"python_002dformat.html>`_"
 
 #: ../../user/checks.rst:359
 msgid "Qt format"
@@ -25735,19 +25815,19 @@ msgstr "Qt フォーマット"
 
 #: ../../user/checks.rst:361
 msgid "*Qt format string does not match source*"
-msgstr ""
+msgstr "\\*Qt フォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:364
 msgid "``There are %1 apples``"
-msgstr ""
+msgstr "``There are %1 apples``"
 
 #: ../../user/checks.rst:366
 msgid "`qt-format`"
-msgstr ""
+msgstr "`qt-format`"
 
 #: ../../user/checks.rst:371
 msgid "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
-msgstr ""
+msgstr "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
 
 #: ../../user/checks.rst:374
 msgid "Qt plural format"
@@ -25755,25 +25835,27 @@ msgstr "Qt 複数形式"
 
 #: ../../user/checks.rst:376
 msgid "*Qt plural format string does not match source*"
-msgstr ""
+msgstr "\\*Qt 複数フォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:379
 msgid "Plural format string"
-msgstr ""
+msgstr "複数形のフォーマット文字列"
 
 #: ../../user/checks.rst:379
 msgid "``There are %Ln apple(s)``"
-msgstr ""
+msgstr "``There are %Ln apple(s)``"
 
 #: ../../user/checks.rst:381
 msgid "`qt-plural-format`"
-msgstr ""
+msgstr "`qt-plural-format`"
 
 #: ../../user/checks.rst:386
 msgid ""
 "`Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-"
 "plurals>`_"
 msgstr ""
+"`Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-"
+"plurals>`_"
 
 #: ../../user/checks.rst:389
 msgid "Ruby format"
@@ -25781,33 +25863,35 @@ msgstr "Ruby 書式"
 
 #: ../../user/checks.rst:391
 msgid "*Ruby format string does not match source*"
-msgstr ""
+msgstr "\\*Ruby フォーマット文字列が原文と一致しません\\*"
 
 #: ../../user/checks.rst:396
 msgid "``Your balance is %1$f %2$s``"
-msgstr ""
+msgstr "``Your balance is %1$f %2$s``"
 
 #: ../../user/checks.rst:398
 msgid "``Your balance is %+.2<amount>f %<currency>s``"
-msgstr ""
+msgstr "``Your balance is %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:400
 msgid "Named template string"
-msgstr ""
+msgstr "名前付きテンプレート文字列"
 
 #: ../../user/checks.rst:400
 msgid "``Your balance is %{amount} %{currency}``"
-msgstr ""
+msgstr "``Your balance is %{amount} %{currency}``"
 
 #: ../../user/checks.rst:402
 msgid "`ruby-format`"
-msgstr ""
+msgstr "`ruby-format`"
 
 #: ../../user/checks.rst:407
 msgid ""
 "`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-"
 "sprintf>`_"
 msgstr ""
+"`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
+"html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:412
 msgid "Has been translated"
@@ -25815,13 +25899,13 @@ msgstr "翻訳済み"
 
 #: ../../user/checks.rst:414
 msgid "*This string has been translated in the past*"
-msgstr ""
+msgstr "\\*この文字列は過去に翻訳されています\\*"
 
 #: ../../user/checks.rst:416
 msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
-msgstr ""
+msgstr "文字列がすでに翻訳されていることを意味します。これは、VCS で翻訳が復元された場合、または VCS 以外で翻訳が失われた場合に発生します。"
 
 #: ../../user/checks.rst:422
 msgid "Inconsistent"
@@ -25831,13 +25915,13 @@ msgstr "不一致"
 msgid ""
 "*This string has more than one translation in this project or is not "
 "translated in some components.*"
-msgstr ""
+msgstr "\\*この文字列は、このプロジェクト内で複数の翻訳が行われているか、一部のコンポーネントでは翻訳されていません。\\*"
 
 #: ../../user/checks.rst:427
 msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
-msgstr ""
+msgstr "Weblateは、プロジェクト内のすべての翻訳で同じ文字列の翻訳を検査し、一貫性のある翻訳を維持します。"
 
 #: ../../user/checks.rst:430
 msgid ""
@@ -25845,6 +25929,8 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
+"プロジェクト内の 1 つの文字列の翻訳が異なる場合、検査は失敗します。これにより、表示される検索に矛盾が生じることもあります。この文字列の他の翻訳は "
+":guilabel:`Other occurrences` タブにあります。"
 
 #: ../../user/checks.rst:436
 msgid ""
@@ -25854,6 +25940,9 @@ msgid ""
 "guilabel:`Use this translation` button displayed on each line in the :"
 "guilabel:`Other occurrences` tab."
 msgstr ""
+"この検査は、文字列があるコンポーネントでは翻訳されていて、別のコンポーネントでは翻訳されていない場合にも発生します。これは、:guilabel:`"
+"Other occurrences` タブの各行に表示される :guilabel:`Use this translation` "
+"ボタンをクリックするだけで、一部のコンポーネントで翻訳されていない文字列を手動で処理する簡単な方法として使用できます。"
 
 #: ../../user/checks.rst:442
 msgid ""
@@ -25861,6 +25950,8 @@ msgid ""
 "automate translating of newly added strings which are already translated in "
 "another component."
 msgstr ""
+":ref:`addon-weblate.autotranslate.autotranslate` "
+"アドオンを使用して、別のコンポーネントですでに翻訳されている、新しく追加された文字列の翻訳を自動化できます。"
 
 #: ../../user/checks.rst:454
 msgid "Kashida letter used"
@@ -25868,17 +25959,17 @@ msgstr "Kashida 文字の使用"
 
 #: ../../user/checks.rst:456
 msgid "*The decorative kashida letters should not be used*"
-msgstr ""
+msgstr "\\*Kashida の装飾文字は使用しないでください\\*"
 
 #: ../../user/checks.rst:460
 msgid ""
 "The decorative Kashida letters should not be used in translation. These are "
 "also known as Tatweel."
-msgstr ""
+msgstr "Kashida の装飾文字は翻訳に使用しないでください。これは Tatweel とも呼ばれます。"
 
 #: ../../user/checks.rst:465
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
-msgstr ""
+msgstr "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
 
 #: ../../user/checks.rst:470
 msgid "Markdown links"
@@ -25886,15 +25977,15 @@ msgstr "Markdown のリンク"
 
 #: ../../user/checks.rst:472
 msgid "*Markdown links do not match source*"
-msgstr ""
+msgstr "\\*マークダウン リンクは原文と一致しません\\*"
 
 #: ../../user/checks.rst:476
 msgid "Markdown links do not match source."
-msgstr ""
+msgstr "マークダウン リンクが原文と一致しません。"
 
 #: ../../user/checks.rst:480 ../../user/checks.rst:496
 msgid "`Markdown links`_"
-msgstr ""
+msgstr "`Markdown links`_"
 
 #: ../../user/checks.rst:486
 msgid "Markdown references"
@@ -25902,27 +25993,27 @@ msgstr "Markdown の参照"
 
 #: ../../user/checks.rst:488
 msgid "*Markdown link references do not match source*"
-msgstr ""
+msgstr "\\*マークダウン リンクの参照が原文と一致しません\\*"
 
 #: ../../user/checks.rst:492
 msgid "Markdown link references do not match source."
-msgstr ""
+msgstr "マークダウン リンクの参照が原文と一致しません。"
 
 #: ../../user/checks.rst:501
 msgid "Markdown syntax"
-msgstr "マークダウンのシンタックス"
+msgstr "マークダウン構文"
 
 #: ../../user/checks.rst:503
 msgid "*Markdown syntax does not match source*"
-msgstr ""
+msgstr "\\*マークダウンの構文が原文と一致しません\\*"
 
 #: ../../user/checks.rst:507
 msgid "Markdown syntax does not match source"
-msgstr "原文とマークダウンのシンタックスが合致していないもの"
+msgstr "マークダウン構文が原文と一致しません"
 
 #: ../../user/checks.rst:511
 msgid "`Markdown span elements`_"
-msgstr ""
+msgstr "`Markdown span elements`_"
 
 #: ../../user/checks.rst:519
 msgid "Maximum length of translation"
@@ -25930,19 +26021,19 @@ msgstr "翻訳の最大長"
 
 #: ../../user/checks.rst:521
 msgid "*Translation should not exceed given length*"
-msgstr ""
+msgstr "\\*翻訳は、指定された長さを超えてはなりません\\*"
 
 #: ../../user/checks.rst:523
 msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks for the length of translation characters."
-msgstr ""
+msgstr "翻訳が使用可能なスペースに合わせて許容できる長さであるかどうかをチェックします。これは、翻訳文字の長さのみをチェックします。"
 
 #: ../../user/checks.rst:526
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-length:100``."
-msgstr ""
+msgstr "他の検査とは違い、フラグは ``max-length:100`` のような ``key:value`` ペアとして設定する必要があります。"
 
 #: ../../user/checks.rst:531
 msgid ""
@@ -25950,12 +26041,14 @@ msgid ""
 "using proportional fonts to render the text. The :ref:`check-max-size` check "
 "does check actual rendering of the text."
 msgstr ""
+"この検査では、プロポーショナル フォントを使用してテキストを表示する場合に最適でない文字数を調べます。:ref:`check-max-size` "
+"検査は、テキストの実際の表示変換を検査します。"
 
 #: ../../user/checks.rst:535 ../../user/checks.rst:569
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
 "checking the string."
-msgstr ""
+msgstr "``replacements:`` フラグは、文字列を検査する前にプレースホルダを展開する場合にも便利です。"
 
 #: ../../user/checks.rst:541
 msgid "Maximum size of translation"
@@ -25963,20 +26056,21 @@ msgstr "翻訳の最大長"
 
 #: ../../user/checks.rst:543
 msgid "*Translation rendered text should not exceed given size*"
-msgstr ""
+msgstr "\\*翻訳が表示変換されたテキストは、指定されたサイズを超えてはなりません\\*"
 
 #: ../../user/checks.rst:547
 msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "with line wrapping and checks if it fits into given boundaries."
 msgstr ""
+"表示変換されたテキストは、指定されたサイズを超えないようにしてください。行折り返しでテキストを表示変換し、指定した境界に収まるかどうかを確認します。"
 
 #: ../../user/checks.rst:550
 msgid ""
 "This check needs one or two parameters - maximal width and maximal number of "
 "lines. In case the number of lines is not provided, one line text is "
 "considered."
-msgstr ""
+msgstr "この検査には、最大幅と最大行数の 1 つまたは 2 つのパラメータが必要です。行数を指定しない場合は、1 行のテキストが考慮されます。"
 
 #: ../../user/checks.rst:554
 msgid ""
@@ -25984,6 +26078,8 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
+"使用するフォントは ``font-*`` ディレクティブ（参照 :ref:`custom-checks`）で設定できます。たとえば次の設定の翻訳フラグは、"
+"ubuntu のフォント サイズ 22 を使ったテキストは 2 行 500 ピクセルに収めるという意味です。"
 
 #: ../../user/checks.rst:565
 msgid ""
@@ -25991,22 +26087,24 @@ msgid ""
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
+":ref:`component` 内の ``font-*`` ディレクティブを設定して、コンポーネント内のすべての文字列に同じフォントを設定できます。文字"
+"列ごとにカスタマイズする必要がある場合に備えて、文字列ごとにこれらの値を上書きできます。"
 
 #: ../../user/checks.rst:574
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
-msgstr ""
+msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 
 #: ../../user/checks.rst:579
 msgid "Mismatched \\\\n"
 msgstr ""
 "\\\\n"
-" が合っていないもの"
+" の不一致"
 
 #: ../../user/checks.rst:581
 msgid "*Number of \\\\n in translation does not match source*"
 msgstr ""
-"*改行 (\\\\n"
-") の数が原文と一致しないもの*"
+"\\*\\\\n"
+" の数が原文と一致しないもの\\*"
 
 #: ../../user/checks.rst:583
 msgid ""
@@ -26014,14 +26112,16 @@ msgid ""
 "fails if the number of ``\\n`` literals in translation do not match the "
 "source."
 msgstr ""
+"通常、エスケープされた改行はプログラムの出力をフォーマットする際に重要です。変換中の ``\\n"
+"`` リテラルの数が原文と一致しない場合、検査は失敗します。"
 
 #: ../../user/checks.rst:589
 msgid "Mismatched colon"
-msgstr "コロンが一致していません"
+msgstr "コロンの不一致"
 
 #: ../../user/checks.rst:591
 msgid "*Source and translation do not both end with a colon*"
-msgstr ""
+msgstr "\\*原文と翻訳の両方の末尾がコロンではありません\\*"
 
 #: ../../user/checks.rst:593
 msgid ""
@@ -26029,19 +26129,21 @@ msgid ""
 "presence of colons is also checked for various languages where they do not "
 "belong (Chinese or Japanese)."
 msgstr ""
+"原文と翻訳の間でコロンが複製されているかどうかを検査します。コロンの有無は、それが属していないさまざまな言語についても検査されます（中国語または日本語）。"
 
 #: ../../user/checks.rst:599
 msgid ""
 "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 msgstr ""
+"`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 
 #: ../../user/checks.rst:604
 msgid "Mismatched ellipsis"
-msgstr "省略記号が一致していません"
+msgstr "省略記号の不一致"
 
 #: ../../user/checks.rst:606
 msgid "*Source and translation do not both end with an ellipsis*"
-msgstr ""
+msgstr "\\*原文と翻訳の両方が省略記号で終わっていません\\*"
 
 #: ../../user/checks.rst:608
 msgid ""
@@ -26049,24 +26151,26 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
+"原文と翻訳の間で末尾の省略記号が複製されているかどうかを検査します。これは、3 つのドットs (``…``) ではなく、実際の省略記号 (``...``)"
+" のみを検査します。"
 
 #: ../../user/checks.rst:611
 msgid ""
 "An ellipsis is usually rendered nicer than three dots in print, and sounds "
 "better with text-to-speech."
-msgstr ""
+msgstr "省略記号は、通常、印刷物の 3 つのドットよりも綺麗に表示変換され、テキスト読み上げの方が良く聞こえます。"
 
 #: ../../user/checks.rst:615 ../../user/checks.rst:941
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
-msgstr ""
+msgstr "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 
 #: ../../user/checks.rst:621
 msgid "Mismatched exclamation mark"
-msgstr "感嘆符が一致していません"
+msgstr "感嘆符の不一致"
 
 #: ../../user/checks.rst:623
 msgid "*Source and translation do not both end with an exclamation mark*"
-msgstr ""
+msgstr "\\*原文と翻訳の両方が感嘆符で終わっていない\\*"
 
 #: ../../user/checks.rst:625
 msgid ""
@@ -26075,20 +26179,24 @@ msgid ""
 "where they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, "
 "Myanmar or Nko)."
 msgstr ""
+"原文と変換の間で感嘆符が複製されていることを検査します。感嘆符の有無は、その言語が属していないさまざまな言語についても検査されます（中国語、日本語、韓国語"
+"、アルメニア語、リンブ語、ミャンマー語、またはンコ語）。"
 
 #: ../../user/checks.rst:632
 msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
 msgstr ""
+"`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
+"Exclamation_mark>`_"
 
 #: ../../user/checks.rst:637
 msgid "Mismatched full stop"
-msgstr "終止符が一致していません"
+msgstr "終止符の不一致"
 
 #: ../../user/checks.rst:639
 msgid "*Source and translation do not both end with a full stop*"
-msgstr ""
+msgstr "\\*原文と翻訳は両方とも終止符ではありません\\*"
 
 #: ../../user/checks.rst:641
 msgid ""
@@ -26096,18 +26204,20 @@ msgid ""
 "The presence of full stops is checked for various languages where they do "
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
 msgstr ""
+"原文と変換の間で終止符止が複製されているかどうかを検査します。終止符の有無は、その終止符が属していない複数の言語（中国語、日本語、デーヴァナーガリー文字ま"
+"たはウルドゥー語）について検査します。"
 
 #: ../../user/checks.rst:647
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
-msgstr ""
+msgstr "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
 
 #: ../../user/checks.rst:652
 msgid "Mismatched question mark"
-msgstr "疑問符が一致していません"
+msgstr "疑問符の不一致"
 
 #: ../../user/checks.rst:654
 msgid "*Source and translation do not both end with a question mark*"
-msgstr "*原文と翻訳の両方が疑問符で終わっていません*"
+msgstr "\\*原文と翻訳の両方が疑問符で終わっていません\\*"
 
 #: ../../user/checks.rst:656
 msgid ""
@@ -26116,30 +26226,33 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
+"疑問符が原文と翻訳の両方の間で複製していることを検査します。疑問符の有無は、その疑問符が属していない複数の言語（アルメニア語、アラビア語、中国語、韓国語、"
+"日本語、エチオピア語、ヴァイ語またはコプト語）についても検査します。"
 
 #: ../../user/checks.rst:663
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
 msgstr ""
+"`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
 
 #: ../../user/checks.rst:668
 msgid "Mismatched semicolon"
-msgstr "セミコロンが一致していません"
+msgstr "セミコロンの不一致"
 
 #: ../../user/checks.rst:670
 msgid "*Source and translation do not both end with a semicolon*"
-msgstr ""
+msgstr "\\*原文と翻訳の両方がセミコロンで終わってない\\*"
 
 #: ../../user/checks.rst:672
 msgid ""
 "Checks that semicolons at the end of sentences are replicated between both "
 "source and translation. This can be useful to keep formatting of entries "
 "such as desktop files."
-msgstr ""
+msgstr "原文と翻訳の間で文の末尾のセミコロンが複製しているか検査します。これは、デスクトップ ファイルなどのエントリの書式を維持する場合に便利です。"
 
 #: ../../user/checks.rst:677
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
-msgstr ""
+msgstr "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 
 #: ../../user/checks.rst:682
 msgid "Mismatching line breaks"
@@ -26147,34 +26260,36 @@ msgstr "改行数の不一致"
 
 #: ../../user/checks.rst:684
 msgid "*Number of new lines in translation does not match source*"
-msgstr ""
+msgstr "\\*翻訳の改行数が原文と一致しない\\*"
 
 #: ../../user/checks.rst:686
 msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of ``\\n`` literals in translation do not match the source."
 msgstr ""
+"通常、改行はプログラムの出力をフォーマットするために重要です。変換中の ``\\n"
+"`` リテラルの数が原文と一致しない場合、検査は失敗します。"
 
 #: ../../user/checks.rst:693
 msgid "Missing plurals"
-msgstr "複数形の欠如"
+msgstr "複数形の不足"
 
 #: ../../user/checks.rst:695
 msgid "*Some plural forms are not translated*"
-msgstr ""
+msgstr "\\*一部の複数形は翻訳されていない\\*"
 
 #: ../../user/checks.rst:697
 msgid ""
 "Checks that all plural forms of a source string have been translated. "
 "Specifics on how each plural form is used can be found in the string "
 "definition."
-msgstr ""
+msgstr "原文のすべての複数形が翻訳されているか検査します。各複数形の使用方法の詳細については、文字列の定義で確認できます。"
 
 #: ../../user/checks.rst:700
 msgid ""
 "Failing to fill in plural forms will in some cases lead to displaying "
 "nothing when the plural form is in use."
-msgstr ""
+msgstr "複数形を記入しないと、複数形が使用されているときに何も表示されない場合があります。"
 
 #: ../../user/checks.rst:706
 msgid "Placeholders"
@@ -26182,7 +26297,7 @@ msgstr "プレースホルダー"
 
 #: ../../user/checks.rst:708
 msgid "*Translation is missing some placeholders:*"
-msgstr ""
+msgstr "\\*翻訳にはいくつかのプレースホルダがありません\\*"
 
 #: ../../user/checks.rst:712
 msgid ""
@@ -26190,18 +26305,20 @@ msgid ""
 "the translation file or defined manually using ``placeholders`` flag, more "
 "can be separated with colon, strings with space can be quoted:"
 msgstr ""
+"一部のプレースホルダが翻訳に欠けています。これらは変換ファイルから抽出されるか、``placeholders`` "
+"フラグを使用して手動で定義します。フラグはコロンで区切り、スペースを含む文字列は引用符で囲んで使用します。"
 
 #: ../../user/checks.rst:722
 msgid ":ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`custom-checks`"
 
 #: ../../user/checks.rst:727
 msgid "Punctuation spacing"
-msgstr "句読点の間隔"
+msgstr "句読点のスペース"
 
 #: ../../user/checks.rst:729
 msgid "*Missing non breakable space before double punctuation sign*"
-msgstr ""
+msgstr "\\*句読点記号の前に区切れないスペースがない\\*"
 
 #: ../../user/checks.rst:733
 msgid ""
@@ -26210,22 +26327,26 @@ msgid ""
 "only in a few selected languages like French or Breton, where space before "
 "double punctuation sign is a typographic rule."
 msgstr ""
+"句読点記号（感嘆符、疑問符、セミコロン、コロン）の前に改行できないスペースがあるか検査します。このルールは、フランス語やブルトン語などの、句読点記号の前の"
+"スペースはタイポグラフィの規則に準じる一部の言語でのみ使用されます。"
 
 #: ../../user/checks.rst:740
 msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
+"`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
+"History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:748
 msgid "*Translation does not match regular expression:*"
-msgstr ""
+msgstr "\\*翻訳は正規表現に一致しない\\*"
 
 #: ../../user/checks.rst:752
 msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
-msgstr ""
+msgstr "翻訳は正規表現に一致しません。式は、翻訳ファイルから抽出するか、``regex`` フラグを使用して手動で定義します。"
 
 #: ../../user/checks.rst:764
 msgid "Same plurals"
@@ -26233,13 +26354,13 @@ msgstr "同じ複数形"
 
 #: ../../user/checks.rst:766
 msgid "*Some plural forms are translated in the same way*"
-msgstr ""
+msgstr "\\*一部の複数形は同じ方法で翻訳する\\*"
 
 #: ../../user/checks.rst:768
 msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
-msgstr ""
+msgstr "翻訳の中で複数形が重複している場合は、不合格になるか検査します。ほとんどの言語では、複数形は異なっている必要があります。"
 
 #: ../../user/checks.rst:774
 msgid "Starting newline"
@@ -26247,18 +26368,18 @@ msgstr "文頭の改行"
 
 #: ../../user/checks.rst:776
 msgid "*Source and translation do not both start with a newline*"
-msgstr ""
+msgstr "\\*原文も翻訳も改行で開始していない\\*"
 
 #: ../../user/checks.rst:778 ../../user/checks.rst:802
 msgid ""
 "Newlines usually appear in source strings for good reason, omissions or "
 "additions can lead to formatting problems when the translated text is put to "
 "use."
-msgstr ""
+msgstr "改行は通常、適切な理由で原文内に表示されます。翻訳されたテキストを使用する場合は、省略や追加によってフォーマットが崩れることがあります。"
 
 #: ../../user/checks.rst:783
 msgid ":ref:`check-end-newline`"
-msgstr ""
+msgstr ":ref:`check-end-newline`"
 
 #: ../../user/checks.rst:788
 msgid "Starting spaces"
@@ -26266,13 +26387,13 @@ msgstr "先頭の空白"
 
 #: ../../user/checks.rst:790
 msgid "*Source and translation do not both start with same number of spaces*"
-msgstr ""
+msgstr "\\*原文と翻訳の先頭のスペースの数が同じでない\\*"
 
 #: ../../user/checks.rst:792
 msgid ""
 "A space in the beginning of a string is usually used for indentation in the "
 "interface and thus important to keep."
-msgstr ""
+msgstr "文字列の先頭にあるスペースは、通常、インターフェイスのインデントに使用されるため、維持することが重要です。"
 
 #: ../../user/checks.rst:798
 msgid "Trailing newline"
@@ -26280,11 +26401,11 @@ msgstr "文末の改行"
 
 #: ../../user/checks.rst:800
 msgid "*Source and translation do not both end with a newline*"
-msgstr ""
+msgstr "\\*原文と翻訳の文末の改行が一致しない\\*"
 
 #: ../../user/checks.rst:807
 msgid ":ref:`check-begin-newline`"
-msgstr ""
+msgstr ":ref:`check-begin-newline`"
 
 #: ../../user/checks.rst:812
 msgid "Trailing space"
@@ -26292,19 +26413,19 @@ msgstr "文末の空白"
 
 #: ../../user/checks.rst:814
 msgid "*Source and translation do not both end with a space*"
-msgstr ""
+msgstr "\\*原文と翻訳の文末のスペースが一致しない\\*"
 
 #: ../../user/checks.rst:816
 msgid ""
 "Checks that trailing spaces are replicated between both source and "
 "translation."
-msgstr ""
+msgstr "末尾のスペースが原文と変換の間で複製されているか検査します。"
 
 #: ../../user/checks.rst:818
 msgid ""
 "Trailing space is usually utilized to space out neighbouring elements, so "
 "removing it might break layout."
-msgstr ""
+msgstr "末尾のスペースは、通常、隣接する要素をスペースに入れるため、削除するとレイアウトが壊れることがあります。"
 
 #: ../../user/checks.rst:824
 msgid "Unchanged translation"
@@ -26312,7 +26433,7 @@ msgstr "未翻訳の翻訳"
 
 #: ../../user/checks.rst:826
 msgid "*Source and translation are identical*"
-msgstr ""
+msgstr "\\*原文と翻訳は同一です\\*"
 
 #: ../../user/checks.rst:828
 msgid ""
@@ -26321,10 +26442,12 @@ msgid ""
 "all languages are ignored, and various markup is stripped. This reduces the "
 "number of false positives."
 msgstr ""
+"原文と対応する翻訳文字列が、複数の形式の少なくとも 1 "
+"つまで同一である場合に発生します。すべての言語に共通する一部の文字列は無視され、さまざまなマークアップが除去されます。これにより、誤検出の数が減ります。"
 
 #: ../../user/checks.rst:833
 msgid "This check can help find strings mistakenly untranslated."
-msgstr ""
+msgstr "この検査は、誤って翻訳されていない文字列を見つけるのに便利です。"
 
 #: ../../user/checks.rst:835
 msgid ""
@@ -26335,10 +26458,13 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
+"この検査のデフォルトの動作では、組み込みのブラックリストから単語を検査対象から除外します。これは頻繁に翻訳されない単語だ。これは、複数の言語で同じ単一の単"
+"語だけで構成される短い文字列での誤検出を避けるために便利です。このブラックリストを無効にするには、文字列またはコンポーネントに ``strict-"
+"same`` フラグを追加します。"
 
 #: ../../user/checks.rst:843
 msgid ":ref:`component`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:849
 msgid "Unsafe HTML"
@@ -26346,7 +26472,7 @@ msgstr "安全でない HTML"
 
 #: ../../user/checks.rst:851
 msgid "*The translation uses unsafe HTML markup*"
-msgstr ""
+msgstr "\\*翻訳には安全でない HTML マークアップが含まれている\\*"
 
 #: ../../user/checks.rst:855
 msgid ""
@@ -26354,12 +26480,16 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
+"翻訳には、安全でない HTML マークアップが含まれています。この検査は ``safe-html`` フラグ（参照 :ref:`custom-"
+"checks`）を使用して有効にしなければなりません。マークアップを自動的にサニタイズできる autofixer も付属しています。"
 
 #: ../../user/checks.rst:861
 msgid ""
 "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
 ">`_ library developed by Mozilla."
 msgstr ""
+"HTML の検査は、Mozilla が開発した `Bleach <https://bleach.readthedocs.io/>`_ library "
+"によって行われます。"
 
 #: ../../user/checks.rst:869
 msgid "URL"
@@ -26367,7 +26497,7 @@ msgstr "URL"
 
 #: ../../user/checks.rst:871
 msgid "*The translation does not contain an URL*"
-msgstr ""
+msgstr "\\*翻訳に URL が含まれていない\\*"
 
 #: ../../user/checks.rst:875
 msgid ""
@@ -26375,6 +26505,8 @@ msgid ""
 "unit is marked as containing URL. In that case the translation has to be a "
 "valid URL."
 msgstr ""
+"翻訳に URL が含まれていません。これは、ユニットが URL を含むとマークされている場合にのみトリガーされます。その場合、翻訳は有効な URL "
+"である必要があります。"
 
 #: ../../user/checks.rst:882
 msgid "XML markup"
@@ -26382,7 +26514,7 @@ msgstr "XML マークアップ"
 
 #: ../../user/checks.rst:884
 msgid "*XML tags in translation do not match source*"
-msgstr ""
+msgstr "\\*翻訳内の XML が原文と一致しない\\*"
 
 #: ../../user/checks.rst:886
 msgid ""
@@ -26390,11 +26522,12 @@ msgid ""
 "this is not a desired result from changing the translation, but occasionally "
 "it is."
 msgstr ""
+"これは通常、出力結果が異なることを意味します。ほとんどの場合、これは翻訳の変更による望ましい結果ではありませんが、場合によっては変更されることもあります。"
 
 #: ../../user/checks.rst:889
 msgid ""
 "Checks that XML tags are replicated between both source and translation."
-msgstr ""
+msgstr "XML タグが原文と翻訳の両方の間で複製されているか検査します。"
 
 #: ../../user/checks.rst:896
 msgid "XML syntax"
@@ -26402,11 +26535,11 @@ msgstr "XML 構文"
 
 #: ../../user/checks.rst:898
 msgid "*The translation is not valid XML*"
-msgstr ""
+msgstr "\\*翻訳は有効な XML ではない\\*"
 
 #: ../../user/checks.rst:902
 msgid "The XML markup is not valid."
-msgstr ""
+msgstr "XML マークアップは無効です。"
 
 #: ../../user/checks.rst:907
 msgid "Zero-width space"
@@ -26414,13 +26547,13 @@ msgstr "ゼロ幅スペース"
 
 #: ../../user/checks.rst:909
 msgid "*Translation contains extra zero-width space character*"
-msgstr ""
+msgstr "\\*翻訳には余分なゼロ幅のスペース文字が含まれている\\*"
 
 #: ../../user/checks.rst:911
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
-msgstr ""
+msgstr "単語内でのメッセージの改行（ワードラッピング）には、半角スペース（<U+200B>）文字を使用します。"
 
 #: ../../user/checks.rst:913
 msgid ""
@@ -26428,41 +26561,44 @@ msgid ""
 "are present in translation. Some programs might have problems when this "
 "character is used."
 msgstr ""
+"通常は誤って挿入するため、この検査は翻訳中に発見され次第トリガーされます。この文字を使用すると、一部のプログラムで問題が発生することがあります。"
 
 #: ../../user/checks.rst:918
 msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
+"`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
+"width_space>`_"
 
 #: ../../user/checks.rst:923
 msgid "Source checks"
-msgstr ""
+msgstr "原文検査"
 
 #: ../../user/checks.rst:925
 msgid ""
 "Source checks can help developers improve the quality of source strings."
-msgstr ""
+msgstr "原文検査は、開発者が原文の品質を向上させるために便利です。"
 
 #: ../../user/checks.rst:930
 msgid "Ellipsis"
-msgstr "省略"
+msgstr "省略記号"
 
 #: ../../user/checks.rst:932
 msgid "*The string uses three dots (...) instead of an ellipsis character (…)*"
-msgstr ""
+msgstr "\\*文字列には、省略記号文字 (...) の代わりに 3 つのドット (…) が使用されている\\*"
 
 #: ../../user/checks.rst:934
 msgid ""
 "This fails when the string uses three dots (``...``) when it should use an "
 "ellipsis character (``…``)."
-msgstr ""
+msgstr "これは、文字列が省略記号 (``...``) を使用する必要があるときに3つのドット (``…``) を使用すると失敗します。"
 
 #: ../../user/checks.rst:936
 msgid ""
 "Using the Unicode character is in most cases the better approach and looks "
 "better rendered, and may sound better with text-to-speech."
-msgstr ""
+msgstr "ほとんどの場合、Unicode 文字を使用する方が適切で表示変換の見栄えがよく、音声合成を使用した方が適切に聞こえるかもしれません。"
 
 #: ../../user/checks.rst:947
 msgid "Long untranslated"
@@ -26470,13 +26606,13 @@ msgstr "長期間未翻訳"
 
 #: ../../user/checks.rst:949
 msgid "*The string has not been translated for a long time*"
-msgstr ""
+msgstr "\\*長期間、未翻訳のまま放置されていた文字列\\*"
 
 #: ../../user/checks.rst:953
 msgid ""
 "When the string has not been translated for a long time, it is can indicate "
 "problem in a source string making it hard to translate."
-msgstr ""
+msgstr "文字列が長期間未翻訳のまま放置されていた場合は、原文に問題があり、翻訳が困難になっていることがあります。"
 
 #: ../../user/checks.rst:960
 msgid "Multiple failing checks"
@@ -26484,14 +26620,14 @@ msgstr "複数の検査に不合格"
 
 #: ../../user/checks.rst:962
 msgid "*The translations in several languages have failing checks*"
-msgstr ""
+msgstr "\\*複数の言語の翻訳は、検査に不合格している\\*"
 
 #: ../../user/checks.rst:964
 msgid ""
 "Numerous translations of this string have failing quality checks. This is "
 "usually an indication that something could be done to improve the source "
 "string."
-msgstr ""
+msgstr "この文字列の変換の多くは、検査に失敗しています。これは通常、原文を改善するために何か方法があるという意味です。"
 
 #: ../../user/checks.rst:968
 msgid ""
@@ -26499,6 +26635,8 @@ msgid ""
 "end of a sentence, or similar minor issues which translators tend to fix in "
 "translation, while it would be better to fix it in the source string."
 msgstr ""
+"この検査の不合格は、文字列の末端の終止符の欠落、または翻訳者が翻訳で修正する傾向がある同様のささいな問題によって引き起こされることが多いが、原文で修正する"
+"ことをお勧めします。"
 
 #: ../../user/checks.rst:975
 msgid "Multiple unnamed variables"
@@ -26508,26 +26646,26 @@ msgstr "複数の無名変数"
 msgid ""
 "*There are multiple unnamed variables in the string, making it impossible "
 "for translators to reorder them*"
-msgstr ""
+msgstr "\\*文字列には複数の無名の変数があり、翻訳者がそれらを並べ替えることはできない\\*"
 
 #: ../../user/checks.rst:982
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
-msgstr ""
+msgstr "文字列内に複数の名前のない変数があるため、翻訳者がそれらを並べ替えることはできません。"
 
 #: ../../user/checks.rst:985
 msgid ""
 "Consider using named variables instead to allow translators to reorder them."
-msgstr ""
+msgstr "代わりに名前付き変数を使用して、翻訳者が変数の順序を変更できるように検討してください。"
 
 #: ../../user/checks.rst:990
 msgid "Unpluralised"
-msgstr "複数形でない"
+msgstr "複数形の除外"
 
 #: ../../user/checks.rst:992
 msgid "*The string is used as plural, but not using plural forms*"
-msgstr ""
+msgstr "\\*文字列を複数形として解釈するが、複数形のつづりは使用しない\\*"
 
 #: ../../user/checks.rst:994
 msgid ""
@@ -26535,10 +26673,11 @@ msgid ""
 "translation system supports this, you should use the plural aware variant of "
 "it."
 msgstr ""
+"文字列を複数形として解釈するが、複数形のつづりは使用しない。翻訳システムがこれをサポートしている場合は、複数形を認識するつづりを使用する必要があります。"
 
 #: ../../user/checks.rst:998
 msgid "For example with Gettext in Python it could be:"
-msgstr ""
+msgstr "たとえば、Python の Gettext を使用すると次のようになります。"
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -27278,7 +27417,7 @@ msgstr ""
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
-msgstr ""
+msgstr "Weblate を使用した翻訳"
 
 #: ../../user/translating.rst:4
 msgid ""
