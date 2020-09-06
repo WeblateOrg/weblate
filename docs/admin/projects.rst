@@ -42,11 +42,11 @@ Adding translation projects and components
    The process of adding components is now multi staged,
    with automated discovery of most parameters.
 
-Based on your permissions, new translation projects
-and components can be created. It is always permitted for superusers, and if your
-instance uses billing (e.g. like https://hosted.weblate.org/ see
-:ref:`billing`), you can also create those based on your plans allowance from
-the user account that manages billing.
+Based on your permissions, new translation projects and components can be
+created. It is always permitted for users with the :guilabel:`Add new projects`
+permission, and if your instance uses billing (e.g. like
+https://hosted.weblate.org/ see :ref:`billing`), you can also create those
+based on your plans allowance from the user account that manages billing.
 
 You can view your current billing plan on a separate page:
 
