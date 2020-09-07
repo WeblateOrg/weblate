@@ -199,19 +199,20 @@ class CreateComponent(BaseCreateView):
     def detect_license(self, form):
         """Automatic license detection based on licensee."""
         try:
-            raw_result = subprocess.run(
+            process_result = subprocess.run(
                 ["licensee", "detect", "--json", form.instance.full_path],
                 universal_newlines=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 env=get_clean_env(),
-            ).stdout
+                check=True,
+            )
         except FileNotFoundError:
             return
         except (OSError, subprocess.CalledProcessError):
             report_error(cause="Failed licensee invocation")
             return
-        result = json.loads(raw_result)
+        result = json.loads(process_result.stdout)
         for license_data in result["licenses"]:
             spdx_id = license_data["spdx_id"]
             for license in (f"{spdx_id}-or-later", f"{spdx_id}-only", spdx_id):
