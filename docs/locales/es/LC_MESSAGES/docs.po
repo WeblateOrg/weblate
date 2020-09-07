@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-08-30 10:08+0000\n"
+"PO-Revision-Date: 2020-09-07 10:51+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -1282,17 +1282,13 @@ msgid "Per author"
 msgstr "Por autor"
 
 #: ../../admin/addons.rst:278
-#, fuzzy
-#| msgid ""
-#| "Original commit messages are kept, but authorship is lost unless \"Per "
-#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 "Se conservarán los mensajes de consigna originales pero la autoría se "
-"perderá, a menos que seleccione «Por autor» o personalice el mensaje de "
-"consigna para incluirla."
+"perderá, a menos que seleccione :guilabel:`Por autor` o personalice el "
+"mensaje de consigna para incluirla."
 
 #: ../../admin/addons.rst:283
 msgid ""
@@ -2347,7 +2343,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:71
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "Utilizar un almacenamiento personalizado para los respaldos"
 
 #: ../../admin/backup.rst:73
 msgid ""
@@ -2358,13 +2354,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:79
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` en la documentación de Borg"
 
 #: ../../admin/backup.rst:82
-#, fuzzy
-#| msgid "Local files"
 msgid "Local filesystem"
-msgstr "Archivos locales"
+msgstr "Sistema de archivos local"
 
 #: ../../admin/backup.rst:84
 msgid ""
@@ -2373,6 +2367,11 @@ msgid ""
 "(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
 "attempt to create it, but it needs permissions to do so."
 msgstr ""
+"Es recomendable especificar una ruta absoluta para la copia de respaldo "
+"local, como `/ruta/al/respaldo`. El directorio debe ser escribible por la "
+"cuenta de usuario que ejecute Weblate (vea :ref:`file-permissions`). Si no "
+"existe la ubicación, Weblate intentará crearla, pero necesita permiso para "
+"hacerlo."
 
 #: ../../admin/backup.rst:91
 msgid ""
@@ -2380,12 +2379,14 @@ msgid ""
 "exposed as a volume from the Weblate container. Otherwise the backups would "
 "be discarded by Docker on container restart."
 msgstr ""
+"Siempre que se ejecute Weblate en Docker, hay que asegurarse de que la "
+"ubicación de las copias de respaldo esté expuesta como volumen desde el "
+"contenedor de Weblate. De otro modo, Docker descartará las copias de "
+"respaldo al momento de reiniciar el contenedor."
 
 #: ../../admin/backup.rst:96
-#, fuzzy
-#| msgid "Automated backup"
 msgid "Remote backups"
-msgstr "Copia de respaldo automatizada"
+msgstr "Copias de respaldo remotas"
 
 #: ../../admin/backup.rst:98
 msgid ""
@@ -2394,14 +2395,18 @@ msgid ""
 "please make sure the Weblate SSH key is accepted by the server (see :ref:"
 "`weblate-ssh-key`)."
 msgstr ""
+"Se permite realizar copias de respaldo remotas a través de SSH. El servidor "
+"SSH debe tener instalado `BorgBackup`_. Weblate se conecta con el servidor "
+"mediante la clave SSH, de modo que debe cerciorarse de que el servidor "
+"acepte la clave SSH de Weblate (vea :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:105
 msgid ":ref:`cloudbackup` provides you automated remote backups."
-msgstr ""
+msgstr ":ref:`cloudbackup` le ofrece copias de respaldo automatizadas."
 
 #: ../../admin/backup.rst:108
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Restaurar a partir de BorgBackup"
 
 #: ../../admin/backup.rst:110
 msgid ""
@@ -2634,10 +2639,6 @@ msgid "Command line for manual backup"
 msgstr ""
 
 #: ../../admin/backup.rst:267
-#, fuzzy
-#| msgid ""
-#| "Using a cron task, you can set up a bash command to be executed on a "
-#| "daily basis, for instance:"
 msgid ""
 "Using a cron job, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
@@ -4630,6 +4631,7 @@ msgstr ""
 #: ../../admin/config.rst:840
 msgid "This allows you to password protect a whole installation using:"
 msgstr ""
+"Esto le permite proteger con contraseña una instalación completa a través de:"
 
 #: ../../admin/config.rst:853
 msgid ""
@@ -4649,11 +4651,11 @@ msgstr ""
 
 #: ../../admin/config.rst:863
 msgid "Some of exceptions you might want to include:"
-msgstr ""
+msgstr "Algunas de las excepciones que quizá quiera incluir:"
 
 #: ../../admin/config.rst:881
 msgid "MATOMO_SITE_ID"
-msgstr ""
+msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:883
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
@@ -4667,11 +4669,11 @@ msgstr "Esta integración no admite el gestor de etiquetas de Matomo."
 
 #: ../../admin/config.rst:891
 msgid ":setting:`MATOMO_URL`"
-msgstr ""
+msgstr ":setting:`MATOMO_URL`"
 
 #: ../../admin/config.rst:897
 msgid "MATOMO_URL"
-msgstr ""
+msgstr "MATOMO_URL"
 
 #: ../../admin/config.rst:899
 msgid ""
@@ -4679,14 +4681,17 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"URL completo (incluida la barra al final) de una instalación de Matomo ("
+"antes Piwik) que quiera utilizar para hacer seguimiento del uso de Weblate. "
+"Visite <https://matomo.org/> para obtener más información."
 
 #: ../../admin/config.rst:915
 msgid ":setting:`MATOMO_SITE_ID`"
-msgstr ""
+msgstr ":setting:`MATOMO_SITE_ID`"
 
 #: ../../admin/config.rst:922
 msgid "MT_SERVICES"
-msgstr ""
+msgstr "MT_SERVICES"
 
 #: ../../admin/config.rst:926
 msgid ""
@@ -4716,6 +4721,7 @@ msgstr ""
 msgid ""
 "URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy"
 msgstr ""
+"URL del servidor Apertium-APy, https://wiki.apertium.org/wiki/Apertium-apy"
 
 #: ../../admin/config.rst:968
 msgid ""
@@ -6780,11 +6786,6 @@ msgstr ""
 "descargado la versión más reciente."
 
 #: ../../admin/install.rst:172
-#, fuzzy
-#| msgid ""
-#| "Each archive is accompanied with ``.asc`` files which contains the PGP "
-#| "signature for it. Once you have both of them in the same folder, you can "
-#| "verify the signature:"
 msgid ""
 "Each archive is accompanied with ``.asc`` files which contain the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
@@ -6795,10 +6796,6 @@ msgstr ""
 "carpeta para verificarlos:"
 
 #: ../../admin/install.rst:183
-#, fuzzy
-#| msgid ""
-#| "As you can see gpg complains that it does not know the public key. At "
-#| "this point you should do one of the following steps:"
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
@@ -6807,10 +6804,8 @@ msgstr ""
 "Efectúe uno de los procedimientos siguientes:"
 
 #: ../../admin/install.rst:186
-#, fuzzy
-#| msgid "Use wkd to download the key:"
 msgid "Use `wkd` to download the key:"
-msgstr "Utilice wkd para descargar la clave:"
+msgstr "Utilice `wkd` para descargar la clave:"
 
 #: ../../admin/install.rst:201
 msgid ""
@@ -8689,22 +8684,22 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:525
-#, fuzzy
-#| msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
+msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
 
 #: ../../admin/install/docker.rst:529
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr ""
+msgstr "Configura :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../admin/install/docker.rst:533
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
-msgstr ""
+msgstr "Configura la clave de API de Akismet; vea :setting:`AKISMET_API_KEY`."
 
 #: ../../admin/install/docker.rst:537
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
+"Configura la firma con GPG de las consignas; vea "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:545
 msgid ""
@@ -8729,80 +8724,90 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:570
 msgid "Machine translation settings"
-msgstr ""
+msgstr "Configuración de traducción automática"
 
 #: ../../admin/install/docker.rst:576
 msgid "Configures :ref:`aws` machine translation."
-msgstr ""
+msgstr "Configura la traducción automática de :ref:`aws`."
 
 #: ../../admin/install/docker.rst:587
 msgid ""
 "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
 msgstr ""
+"Activa la traducción automática de :ref:`deepl` y establece "
+":setting:`MT_DEEPL_KEY`"
 
 #: ../../admin/install/docker.rst:591
 msgid ""
 "Configures :ref:`deepl` API version to use, see :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
+"Configura la versión de la API de :ref:`deepl` que debe utilizarse; vea "
+":setting:`MT_DEEPL_API_VERSION`."
 
 #: ../../admin/install/docker.rst:595
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
-msgstr ""
+msgstr "Activa :ref:`google-translate` y establece :setting:`MT_GOOGLE_KEY`"
 
 #: ../../admin/install/docker.rst:599
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`"
 msgstr ""
+"Activa :ref:`ms-cognitive-translate` y establece "
+":setting:`MT_MICROSOFT_COGNITIVE_KEY`"
 
 #: ../../admin/install/docker.rst:603
 msgid ""
 "Sets :setting:`MT_MICROSOFT_ENDPOINT_URL`, please note this is supposed to "
 "contain domain name only."
 msgstr ""
+"Establece :setting:`MT_MICROSOFT_ENDPOINT_URL`; observe que debe contener "
+"solo el nombre de dominio."
 
 #: ../../admin/install/docker.rst:607
 msgid "Sets :setting:`MT_MICROSOFT_REGION`"
-msgstr ""
+msgstr "Establece :setting:`MT_MICROSOFT_REGION`"
 
 #: ../../admin/install/docker.rst:611
 msgid "Sets :setting:`MT_MICROSOFT_BASE_URL`"
-msgstr ""
+msgstr "Establece :setting:`MT_MICROSOFT_BASE_URL`"
 
 #: ../../admin/install/docker.rst:615
 msgid "Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`."
-msgstr ""
+msgstr "Activa :ref:`modernmt` y establece :setting:`MT_MODERNMT_KEY`."
 
 #: ../../admin/install/docker.rst:619
 msgid ""
 "Enables :ref:`mymemory` machine translation and sets :setting:"
 "`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"Activa la traducción automática de :ref:`mymemory` y establece "
+":setting:`MT_MYMEMORY_EMAIL` a :envvar:`WEBLATE_ADMIN_EMAIL`."
 
 #: ../../admin/install/docker.rst:631
 msgid "Enables :ref:`glosbe` machine translation."
-msgstr ""
+msgstr "Activa la traducción automática de :ref:`glosbe`."
 
 #: ../../admin/install/docker.rst:640
 msgid "Enables :ref:`ms-terminology` machine translation."
-msgstr ""
+msgstr "Activa la traducción automática de :ref:`ms-terminology`."
 
 #: ../../admin/install/docker.rst:653
 msgid "Configures :ref:`saptranslationhub` machine translation."
-msgstr ""
+msgstr "Configura la traducción automática de :ref:`saptranslationhub`."
 
 #: ../../admin/install/docker.rst:667
 msgid "Authentication settings"
-msgstr ""
+msgstr "Configuración de autenticación"
 
 #: ../../admin/install/docker.rst:670
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:683
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "Configuración de la autenticación con LDAP."
 
 #: ../../admin/install/docker.rst:685
 msgid "**Example for direct bind:**"
@@ -8822,7 +8827,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:735
 msgid ":ref:`ldap-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:738 ../../vcs.rst:256
 msgid "GitHub"
@@ -8830,7 +8835,7 @@ msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:743
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr "Activa la :ref:`github_auth`."
 
 #: ../../admin/install/docker.rst:746
 msgid "Bitbucket"
@@ -8838,7 +8843,7 @@ msgstr "Bitbucket"
 
 #: ../../admin/install/docker.rst:751
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr "Activa la :ref:`bitbucket_auth`."
 
 #: ../../admin/install/docker.rst:754
 msgid "Facebook"
@@ -8846,7 +8851,7 @@ msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:759
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr "Activa la :ref:`facebook_auth`."
 
 #: ../../admin/install/docker.rst:762
 msgid "Google"
@@ -8854,7 +8859,7 @@ msgstr "Google"
 
 #: ../../admin/install/docker.rst:769
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr "Activa la :ref:`google_auth`."
 
 #: ../../admin/install/docker.rst:772 ../../vcs.rst:291
 msgid "GitLab"
@@ -8862,7 +8867,7 @@ msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:778
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr "Activa la :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:781
 msgid "Azure Active Directory"
@@ -11323,7 +11328,7 @@ msgstr "Módulos opcionales de Weblate"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
-msgstr ""
+msgstr "Hay varios módulos opcionales disponibles para que los configure."
 
 #: ../../admin/optionals.rst:9
 msgid "Git exporter"
@@ -11346,7 +11351,7 @@ msgstr ""
 #: ../../admin/optionals.rst:33 ../../admin/optionals.rst:82
 #: ../../admin/optionals.rst:161 ../../faq.rst:257
 msgid "Usage"
-msgstr ""
+msgstr "Uso"
 
 #: ../../admin/optionals.rst:35
 msgid ""
@@ -12443,7 +12448,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:523
 msgid "Enforced checks"
-msgstr "Comprobaciones forzosas"
+msgstr "Comprobaciones obligatorias"
 
 #: ../../admin/projects.rst:525
 msgid "List of checks which can not be ignored, see :ref:`enforcing-checks`."
@@ -14017,7 +14022,7 @@ msgstr ""
 
 #: ../../api.rst:337 ../../api.rst:358 ../../api.rst:370 ../../api.rst:380
 msgid "Name of notification registered"
-msgstr ""
+msgstr "Nombre de notificación registrada"
 
 #: ../../api.rst:338 ../../api.rst:359 ../../api.rst:371
 msgid "Scope of notification from the available choices"
@@ -14032,10 +14037,8 @@ msgid "Get a subscription associated with a user."
 msgstr ""
 
 #: ../../api.rst:347 ../../api.rst:356 ../../api.rst:368
-#, fuzzy
-#| msgid "Improved look of notification e-mails."
 msgid "ID of notification registered"
-msgstr "Se mejoró la apariencia de los mensajes de notificación por correo."
+msgstr "Identificador de notificación registrada"
 
 #: ../../api.rst:352 ../../api.rst:364
 msgid "Edit a subscription associated with a user."
@@ -15807,10 +15810,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2"
 msgid "Weblate 4.3"
-msgstr "Weblate 4.2"
+msgstr "Weblate 4.3"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -15818,60 +15819,45 @@ msgstr "No publicado aún."
 
 #: ../../changes.rst:6
 msgid "Include user stats in the API."
-msgstr ""
+msgstr "La API incluye las estadísticas de cada usuario."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed creating new languages."
 msgid "Fixed component ordering on paginated pages."
-msgstr "Se arregló la creación de idiomas nuevos."
+msgstr "Se perfeccionó la ordenación de componentes en páginas paginadas."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Show source language for all translations."
 msgid "Define source language for a glossary."
-msgstr "Se muestra el idioma de origen para todas las traducciones."
+msgstr "Puede definirse el idioma de origen de cada glosario."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Pushing changes to GitHub as pull requests"
 msgid "Rewritten support for GitHub and GitLab pull requests."
-msgstr "Enviar cambios a GitHub como solicitudes de incorporación"
+msgstr ""
+"Se reescribió la funcionalidad de creación de solicitudes de incorporación "
+"de GitHub y GitLab."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed rendering of suggestions."
 msgid "Fixed stats counts after removing suggestion."
-msgstr "Se corrigió la representación gráfica de las sugerencias."
+msgstr "Se corrigieron los recuentos estadísticos tras eliminar sugerencias."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Extended public user profile."
-msgstr "Su perfil público"
+msgstr "Se amplió el perfil público de usuario."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Fixed option to ignore source checks."
 msgid "Fixed configuration of enforced checks."
-msgstr ""
-"Se reparó la opción para ignorar las comprobaciones en las cadenas de origen."
+msgstr "Se corrigió la configuración de las comprobaciones obligatorias."
 
 #: ../../changes.rst:13
 msgid "Improve documentation about built-in backups."
-msgstr ""
+msgstr "Se mejoró la documentación sobre las copias de respaldo incorporadas."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.2.2"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.2.2"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Released on February 22nd 2020."
 msgid "Released on September 2nd 2020."
-msgstr "Publicada el 22 de febrero de 2020."
+msgstr "Publicada el 2 de septiembre de 2020."
 
 #: ../../changes.rst:20
 #, fuzzy
@@ -15882,27 +15868,30 @@ msgstr "No se encontró ninguna cadena original que coincidiera."
 #: ../../changes.rst:21
 msgid "Fixed login redirect for some authentication configurations."
 msgstr ""
+"Se arregló la redirección al acceder a la cuenta en determinadas "
+"configuraciones de autenticación."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Fixed authentication using some third party providers."
 msgid "Fixed LDAP authentication with group sync."
-msgstr ""
-"Se reparó la autenticación a través de determinados proveedores de terceros."
+msgstr "Se corrigió la autenticación LDAP con sincronización de grupo."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Fixed crash in reporting automatic translation progress."
-msgstr "Traducción automática en curso"
+msgstr ""
+"Se solventó un cierre inesperado al informar del progreso automático de la "
+"traducción."
 
 #: ../../changes.rst:24
 msgid "Fixed Git commit squashing with trailers enabled."
 msgstr ""
+"Se arregló la concentración de consignas de Git con renglones finales "
+"activados."
 
 #: ../../changes.rst:25
 msgid "Fixed creating local VCS components using API."
 msgstr ""
+"Se reparó la creación de componentes de sistema de control de versiones "
+"mediante la API."
 
 #: ../../changes.rst:28
 msgid "Weblate 4.2.1"
@@ -25282,7 +25271,7 @@ msgstr ""
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
-msgstr ""
+msgstr "Instálelo o utilice el servicio alojado en `weblate.org`_."
 
 #: ../../../README.rst:34
 msgid "Support"
@@ -26397,10 +26386,10 @@ msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgstr ""
 
 #: ../../user/checks.rst:579
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched \\\\n"
-msgstr "\\n desiguales"
+msgstr ""
+"\\\\n"
+" desiguales"
 
 #: ../../user/checks.rst:581
 #, fuzzy
@@ -26411,19 +26400,15 @@ msgstr ""
 "original"
 
 #: ../../user/checks.rst:583
-#, fuzzy
-#| msgid ""
-#| "Usually newlines are important for formatting program output. Check fails "
-#| "if the number of ``\\n`` literals in translation do not match the source."
 msgid ""
 "Usually escaped newlines are important for formatting program output. Check "
 "fails if the number of ``\\n`` literals in translation do not match the "
 "source."
 msgstr ""
-"Por lo general, los saltos de renglón son importantes para dar formato a la "
-"salida de un programa. La comprobación emite un error si la cantidad de "
-"literales ``\\n`` en la traducción difiere de la cantidad en la cadena de "
-"origen."
+"Por lo general, los saltos de renglón codificados con escape son importantes "
+"para dar formato a la salida de un programa. La comprobación emite un error "
+"si la cantidad de literales ``\\n"
+"`` en la traducción difiere de la cantidad en la cadena de origen."
 
 #: ../../user/checks.rst:589
 msgid "Mismatched colon"
@@ -27274,6 +27259,9 @@ msgid ""
 "the main page of watched projects, so that you have easier access to these "
 "all translations in each of those languages."
 msgstr ""
+"Elija los idiomas en los que prefiera traducir y se le ofrecerán en la "
+"página principal de los proyectos supervisados, de tal modo que se le "
+"facilite el acceso a las traducciones en esos idiomas."
 
 #: ../../user/profile.rst:89
 msgid "Secondary languages"
@@ -27285,6 +27273,9 @@ msgid ""
 "translating. An example can be seen in the following image, where the Hebrew "
 "language is shown as secondarily:"
 msgstr ""
+"Puede definir qué idiomas secundarios mostrar para que le sirvan de guía al "
+"traducir. La siguiente imagen muestra un ejemplo, en el cual la lengua "
+"hebrea se muestra como secundaria:"
 
 #: ../../user/profile.rst:98
 msgid "Default dashboard view"
@@ -27300,13 +27291,11 @@ msgstr ""
 
 #: ../../user/profile.rst:107
 msgid ":ref:`componentlists`"
-msgstr ""
+msgstr ":ref:`componentlists`"
 
 #: ../../user/profile.rst:110
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "Su perfil público"
+msgstr "Perfil público"
 
 #: ../../user/profile.rst:112
 msgid ""
@@ -27314,6 +27303,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Todos los campos de esta página son opcionales, en cualquier momento puede "
+"eliminarlos, y si los rellena, consiente que compartamos esta información "
+"allá donde aparezca su perfil de usuario."
 
 #: ../../user/profile.rst:116
 msgid ""
@@ -28729,10 +28721,6 @@ msgid "Pushing changes to GitHub as pull requests"
 msgstr "Enviar cambios a GitHub como solicitudes de incorporación"
 
 #: ../../vcs.rst:277
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitHub repository, they can be "
-#| "sent as either one or many pull requests instead."
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
 "as either one or many pull requests instead. You need to setup a :setting:"
@@ -28740,7 +28728,8 @@ msgid ""
 msgstr ""
 "Si no se desea enviar las traducciones directamente a un repositorio en "
 "GitHub, estas pueden enviarse como una o múltiples solicitudes de "
-"incorporación."
+"incorporación. Habrá de configurar una :setting:`GITHUB_TOKEN`, la cual se "
+"utilizará para efectuar llamadas a la API."
 
 #: ../../vcs.rst:284
 msgid ""
@@ -28937,10 +28926,8 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:70
-#, fuzzy
-#| msgid "Announcements"
 msgid "Arguments"
-msgstr "Anuncios"
+msgstr "Argumentos"
 
 #: ../../wlc.rst:72
 #, fuzzy
@@ -28981,16 +28968,12 @@ msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
 
 #: ../../wlc.rst:98
-#, fuzzy
-#| msgid "Command"
 msgid "Commands"
-msgstr "Orden"
+msgstr "Órdenes"
 
 #: ../../wlc.rst:100
-#, fuzzy
-#| msgid "The following subcommands are available:"
 msgid "The following commands are available:"
-msgstr "Las siguientes subórdenes están disponibles:"
+msgstr "Las siguientes órdenes están disponibles:"
 
 #: ../../wlc.rst:104
 msgid "Prints the current version."
@@ -29142,6 +29125,8 @@ msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
+"Puede obtener más información al invocar cada orden si añade ``--help``; por "
+"ejemplo: ``wlc ls --help``."
 
 #: ../../wlc.rst:239
 msgid "Configuration files"
@@ -29149,11 +29134,11 @@ msgstr "Archivos de configuración"
 
 #: ../../wlc.rst:245
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
-msgstr ""
+msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:244
 msgid "The files with `.ini` extension are accepted as well."
-msgstr ""
+msgstr "También se aceptan los archivos con la extensión `.ini`."
 
 #: ../../wlc.rst:246
 msgid "Per project configuration file"
@@ -29161,17 +29146,15 @@ msgstr "Archivo de configuración por proyecto"
 
 #: ../../wlc.rst:249
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NOMBRE\\\\AppData\\\\weblate.ini`"
 
 #: ../../wlc.rst:250
-#, fuzzy
-#| msgid "User configuration file"
 msgid "User configuration file on Windows."
-msgstr "Archivo de configuración de usuario"
+msgstr "Archivo de configuración de usuario en Windows."
 
 #: ../../wlc.rst:251
 msgid ":file:`~/.config/weblate`"
-msgstr ""
+msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:252
 msgid "User configuration file"
@@ -29179,18 +29162,13 @@ msgstr "Archivo de configuración de usuario"
 
 #: ../../wlc.rst:254
 msgid ":file:`/etc/xdg/weblate`"
-msgstr ""
+msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:254
 msgid "System wide configuration file"
 msgstr "Archivo de configuración para todo el sistema"
 
 #: ../../wlc.rst:256
-#, fuzzy
-#| msgid ""
-#| "The program follows the XDG specification, so you can adjust placement of "
-#| "config files by environment variables ``XDG_CONFIG_HOME`` or "
-#| "``XDG_CONFIG_DIRS``."
 msgid ""
 "The program follows the XDG specification, so you can adjust placement of "
 "config files by environment variables ``XDG_CONFIG_HOME`` or "
@@ -29199,7 +29177,8 @@ msgid ""
 msgstr ""
 "El programa sigue la especificación XDG, de modo que puede ajustar la "
 "colocación de los archivos de configuración mediante las variables de "
-"entorno ``XDG_CONFIG_HOME`` o ``XDG_CONFIG_DIRS``."
+"entorno ``XDG_CONFIG_HOME`` o ``XDG_CONFIG_DIRS``. En Windows, se prefiere "
+"el directorio ``APPDATA`` para ubicar el archivo de configuración."
 
 #: ../../wlc.rst:260
 msgid ""
