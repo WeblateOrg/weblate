@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-05 12:46+0000\n"
-"PO-Revision-Date: 2020-08-27 06:13+0000\n"
+"PO-Revision-Date: 2020-09-07 19:31+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -64,10 +64,8 @@ msgid "Full name"
 msgstr "Ime i prezime"
 
 #: weblate/accounts/forms.py:184 weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Tvoja e-adresa"
+msgstr "Javna e-adresa"
 
 #: weblate/accounts/forms.py:275 weblate/accounts/forms.py:350
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -362,10 +360,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Poziv na Weblate od {username}."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Započni novi prijevod"
+msgstr "Probno razdoblje je započeto."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -815,7 +811,7 @@ msgstr ""
 #: weblate/accounts/views.py:600 weblate/templates/accounts/hosting.html:104
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Besplatna proba"
 
 #: weblate/accounts/views.py:690 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -2028,7 +2024,7 @@ msgstr "Vlasnici"
 
 #: weblate/billing/models.py:143 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
-msgstr "Plan naplate"
+msgstr "Tarifa"
 
 #: weblate/billing/models.py:146
 msgid "Billed projects"
@@ -2114,22 +2110,20 @@ msgid "In display limits"
 msgstr "Unutar prikazanih ograničenja"
 
 #: weblate/billing/models.py:397
-#, fuzzy, python-format
-#| msgid "Contributed projects"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Doprinosi projektima"
-msgstr[1] "Doprinosi projektima"
-msgstr[2] "Doprinosi projektima"
+msgstr[0] "Sadrži %d projekt"
+msgstr[1] "Sadrži %d projekta"
+msgstr[2] "Sadrži %d projekata"
 
 #: weblate/billing/models.py:414
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Preimenovana komponenta"
-msgstr[1] "Preimenovana komponenta"
-msgstr[2] "Preimenovana komponenta"
+msgstr[0] "Sadrži %d komponentu"
+msgstr[1] "Sadrži %d komponente"
+msgstr[2] "Sadrži %d komponenata"
 
 #: weblate/billing/models.py:429
 #, fuzzy
@@ -4099,10 +4093,8 @@ msgid "Get started"
 msgstr "Nabavi podršku"
 
 #: weblate/templates/accounts/hosting.html:97
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Kontaktiraj nas za komercijalni hosting"
+msgstr "Trebaš komercijalni hosting?"
 
 #: weblate/templates/accounts/hosting.html:100
 #, python-format
@@ -5034,7 +5026,7 @@ msgstr "Za prekid naplate najprije moraš ukloniti sve projekte."
 
 #: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
-msgstr "Prekini plan naplate"
+msgstr "Prekini tarifu"
 
 #: weblate/templates/billing/detail.html:52
 msgid "Invoices"
@@ -6524,12 +6516,11 @@ msgstr ""
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
-msgstr ""
-"Tvoj plan naplate je istekao. Ako i dalje želiš koristiti uslugu, obnovi ga."
+msgstr "Tvoja tarifa je istekla. Ako i dalje želiš koristiti uslugu, obnovi je."
 
 #: weblate/templates/mail/billing_expired.html:19
 msgid "This billing plan covers following projects:"
-msgstr "Plan naplate pokriva sljedeće projekte:"
+msgstr "Ova tarifa pokriva sljedeće projekte:"
 
 #: weblate/templates/mail/billing_expired.html:26
 msgid "Remove the project"
@@ -6537,15 +6528,14 @@ msgstr "Ukloni projekt"
 
 #: weblate/templates/mail/billing_expired.html:32
 msgid "All projects covered by this billing plan have been removed."
-msgstr "Svi projekti koji su pokriveni ovim planom naplate su uklonjeni."
+msgstr "Svi projekti koji su pokriveni ovom tarifom su uklonjeni."
 
 #: weblate/templates/mail/billing_expired.html:35
 #, python-format
 msgid ""
 "If you don't perform the payment, all projects within this billing plan will "
 "be removed on %(date)s."
-msgstr ""
-"Ako ne platiš, svi projekti unutar ovog plana naplate uklonit će se %(date)s."
+msgstr "Ako ne platiš, svi projekti unutar ove tarife uklonit će se %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -6561,7 +6551,7 @@ msgstr ""
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
-msgstr "Tvoj plan naplate je istekao"
+msgstr "Tvoja tarifa je istekla"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -7999,8 +7989,8 @@ msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
 msgstr ""
-"Tvoj plan naplate je prekoračio svoja ograničenja. Uslugu možeš i dalje "
-"koristiti, ali preporučujemo da nadogradiš plan naplate."
+"Tvoja tarifa je prekoračila ograničenja. Uslugu možeš i dalje koristiti, ali "
+"preporučujemo da nadogradiš tarifu."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
@@ -9639,7 +9629,7 @@ msgstr "Nije bilo moguće obraditi prevodilačke datoteke."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:215
 msgid "Your billing plan has exceeded its limits."
-msgstr "Tvoj plan naplate je prekoračio svoja ograničenja."
+msgstr "Tvoja tarifa je prekoračila ograničenja."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:221
