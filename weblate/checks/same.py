@@ -213,7 +213,7 @@ class SameCheck(TargetCheck):
         if unit.readonly or super().should_skip(unit):
             return True
 
-        source_language = unit.translation.component.project.source_language.base_code
+        source_language = unit.translation.component.source_language.base_code
 
         # Ignore the check for source language,
         # English variants will have most things not translated

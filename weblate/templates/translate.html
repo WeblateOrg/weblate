@@ -104,7 +104,7 @@
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_translation unit.source unit.translation.component.project.source_language diff=unit.previous_source num_plurals=unit.translation.plural.number %}
+    {% format_translation unit.source unit.translation.component.source_language diff=unit.previous_source num_plurals=unit.translation.plural.number %}
     </div>
     {% endif %}
 
@@ -113,14 +113,14 @@
             <!-- editing template -->
             <div class="form-group">
             <label>{{ unit.translation.component.context_label }}</label>
-            {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
+            {% format_translation unit.context unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
             </div>
         {% endif %}
         {% if unit.translation.component.intermediate %}
             <!-- editing template -->
             <div class="form-group">
             <label>{% trans "Intermediate language" %}</label>
-            {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+            {% format_translation unit.source unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
             </div>
         {% endif %}
     {% endif %}
@@ -128,7 +128,7 @@
         <!-- note -->
         <div class="form-group help-block">
         <label>{% trans "Source string comment" %}</label>
-        {% format_translation unit.note unit.translation.component.project.source_language %}
+        {% format_translation unit.note unit.translation.component.source_language %}
         </div>
     {% endif %}
 
@@ -156,12 +156,12 @@
                 {{ unit.context }}
                 </div>
             {% endif %}
-            <label>{{ unit.translation.component.project.source_language }}</label>
+            <label>{{ unit.translation.component.source_language }}</label>
             <a title="{% trans "Edit source string" %}" href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
             {% if unit.translation.component.project.source_review %}
             <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
             {% endif %}
-            {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+            {% format_translation unit.source unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
             </div>
         {% endif %}
     {% endif %}
@@ -483,7 +483,7 @@
     <table class="table table-condensed table-simple">
         <thead>
         <tr>
-        <th>{{ unit.translation.component.project.source_language }}</th>
+        <th>{{ unit.translation.component.source_language }}</th>
         <th>{{ unit.translation.language }}</th>
         <th></th>
         </tr>
@@ -559,7 +559,7 @@
     <h5>
         {{ unit.translation.component.context_label }}
     </h5>
-    {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}
+    {% format_translation unit.context unit.translation.component.source_language search_match=search_query simple=True %}
     </div>
     {% endif %}
     {% if unit.note %}
@@ -567,7 +567,7 @@
     <h5>
     {% trans "Source string comment" %}
     </h5>
-    {% format_translation unit.note unit.translation.component.project.source_language search_match=search_query simple=True %}
+    {% format_translation unit.note unit.translation.component.source_language search_match=search_query simple=True %}
     </div>
     {% endif %}
     {% if unit.labels or user_can_edit_source %}

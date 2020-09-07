@@ -126,7 +126,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         codes = set(
             component.translation_set.exclude(
-                language=component.project.source_language
+                language=component.source_language
             ).values_list("language_code", flat=True)
         )
 
@@ -184,9 +184,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
     def sync_linguas(self, component, paths):
         added = False
         codes = " ".join(
-            component.translation_set.exclude(
-                language=component.project.source_language
-            )
+            component.translation_set.exclude(language=component.source_language)
             .values_list("language_code", flat=True)
             .order_by("language_code")
         )

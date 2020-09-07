@@ -38,6 +38,7 @@ from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.defines import GLOSSARY_LENGTH, PROJECT_NAME_LENGTH
+from weblate.trans.models.component import Component
 from weblate.trans.models.project import Project
 from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.db import re_escape
@@ -165,17 +166,16 @@ class TermManager(models.Manager):
 class TermQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
-    def for_project(self, project, source_language):
-        return self.filter(
-            glossary__in=Glossary.objects.for_project(project).filter(
-                source_language=source_language
-            )
-        )
+    def for_project(self, project, source_language=None):
+        glossaries = Glossary.objects.for_project(project)
+        if source_language is not None:
+            glossaries = glossaries.filter(source_language=source_language)
+        return self.filter(glossary__in=glossaries)
 
     def get_terms(self, unit):
         """Return list of term pairs for an unit."""
         words = set()
-        source_language = unit.translation.component.project.source_language
+        source_language = unit.translation.component.source_language
 
         # Filters stop words for a language
         try:
@@ -304,14 +304,27 @@ class Term(models.Model):
         )
 
 
-@receiver(post_save, sender=Project)
+@receiver(post_save, sender=Component)
 @disable_for_loaddata
 def create_glossary(sender, instance, created, **kwargs):
     """Creates glossary on project creation."""
-    if created:
-        Glossary.objects.create(
-            name=instance.name,
-            color="silver",
-            project=instance,
-            source_language=instance.source_language,
-        )
+    glossaries = {
+        glossary.source_language_id: glossary
+        for glossary in instance.project.glossary_set.iterator()
+    }
+
+    # Does the glossary for source language exist?
+    if instance.source_language_id in glossaries:
+        return
+
+    if glossaries:
+        name = "{}: {}".format(instance.project, instance.source_language.name)
+    else:
+        name = instance.project
+
+    Glossary.objects.create(
+        name=name,
+        color="silver",
+        project=instance.project,
+        source_language=instance.source_language,
+    )

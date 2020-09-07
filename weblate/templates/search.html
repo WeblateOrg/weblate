@@ -31,8 +31,8 @@
                         {{ unit.translation }}
                     </h4>
                     <p class="list-group-item-text">
-                        {{ unit.translation.component.project.source_language }}
-                        {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query %}
+                        {{ unit.translation.component.source_language }}
+                        {% format_translation unit.source unit.translation.component.source_language search_match=search_query %}
                         {{ unit.translation.language }}
                         {% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}
                     </p>

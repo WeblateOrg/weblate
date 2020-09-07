@@ -130,7 +130,7 @@ class LanguageSerializer(serializers.ModelSerializer):
     @property
     def is_source_language(self):
         return (
-            isinstance(self.parent, ProjectSerializer)
+            isinstance(self.parent, ComponentSerializer)
             and self.field_name == "source_language"
         )
 
@@ -323,7 +323,6 @@ class GroupSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    source_language = LanguageSerializer(required=False)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
     )
@@ -347,7 +346,6 @@ class ProjectSerializer(serializers.ModelSerializer):
             "slug",
             "id",
             "web",
-            "source_language",
             "web_url",
             "url",
             "components_list_url",
@@ -359,15 +357,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
-
-    def create(self, validated_data):
-        source_language_validated = validated_data.get("source_language")
-        if source_language_validated:
-            validated_data["source_language"] = Language.objects.get(
-                code=source_language_validated.get("code")
-            )
-        project = Project.objects.create(**validated_data)
-        return project
 
 
 class RepoField(serializers.CharField):
@@ -399,6 +388,7 @@ class ComponentSerializer(RemovableSerializer):
         view_name="api:component-changes", lookup_field=("project__slug", "slug")
     )
     license_url = serializers.CharField(read_only=True)
+    source_language = LanguageSerializer(required=False)
 
     repo = RepoField(max_length=REPO_LENGTH)
 
@@ -412,6 +402,7 @@ class ComponentSerializer(RemovableSerializer):
             "name",
             "slug",
             "id",
+            "source_language",
             "project",
             "vcs",
             "repo",
@@ -482,6 +473,10 @@ class ComponentSerializer(RemovableSerializer):
         result = super().to_internal_value(data)
         if "project" in self._context:
             result["project"] = self._context["project"]
+        if "source_language" in result:
+            result["source_language"] = Language.objects.get(
+                code=result["source_language"].get("code")
+            )
         return result
 
     def validate(self, attrs):

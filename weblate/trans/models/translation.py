@@ -95,7 +95,7 @@ class TranslationQuerySet(models.QuerySet):
             "component",
             "component__project",
             "language",
-            "component__project__source_language",
+            "component__source_language",
             "component__linked_component",
             "component__linked_component__project",
             "language__plural_set",
@@ -183,7 +183,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
 
         This means that translations should be propagated as sources to others.
         """
-        return self.language_id == self.component.project.source_language_id
+        return self.language_id == self.component.source_language_id
 
     @cached_property
     def all_flags(self):
@@ -861,7 +861,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             try:
                 # Update translation files
                 for translation in component.translation_set.exclude(
-                    language=component.project.source_language
+                    language=component.source_language
                 ):
                     filename = translation.get_filename()
                     component.file_format_cls.update_bilingual(filename, temp.name)

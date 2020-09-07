@@ -157,7 +157,7 @@ class DuplicateLanguage(MultiAlert):
 
     def get_analysis(self):
         result = {}
-        source = self.instance.component.project.source_language
+        source = self.instance.component.source_language
         for occurrence in self.occurrences:
             if occurrence["language"] == source:
                 result["source_language"] = True

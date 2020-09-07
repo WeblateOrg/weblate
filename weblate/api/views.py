@@ -661,9 +661,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
     lookup_field = "slug"
 
     def get_queryset(self):
-        return self.request.user.allowed_projects.prefetch_related(
-            "source_language"
-        ).order_by("id")
+        return self.request.user.allowed_projects.order_by("id")
 
     @action(detail=True, methods=["get", "post"], serializer_class=ComponentSerializer)
     def components(self, request, **kwargs):
@@ -765,7 +763,7 @@ class ComponentViewSet(
         return (
             Component.objects.prefetch()
             .filter_access(self.request.user)
-            .prefetch_related("project__source_language")
+            .prefetch_related("source_language")
             .order_by("id")
         )
 
@@ -900,7 +898,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         return (
             Translation.objects.prefetch()
             .filter_access(self.request.user)
-            .prefetch_related("component__project__source_language")
+            .prefetch_related("component__source_language")
             .order_by("id")
         )
 

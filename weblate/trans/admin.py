@@ -116,13 +116,6 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(component__project__in=queryset)
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """Wrapper to sort languages by localized names."""
-        result = super().formfield_for_foreignkey(db_field, request, **kwargs)
-        if db_field.name == "source_language":
-            result.choices = sort_choices(result.choices)
-        return result
-
 
 class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = ["name", "slug", "project", "repo", "branch", "vcs", "file_format"]
@@ -137,6 +130,13 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
 
     def get_qs_translations(self, queryset):
         return Translation.objects.filter(component__in=queryset)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Wrapper to sort languages by localized names."""
+        result = super().formfield_for_foreignkey(db_field, request, **kwargs)
+        if db_field.name == "source_language":
+            result.choices = sort_choices(result.choices)
+        return result
 
 
 class TranslationAdmin(WeblateModelAdmin):

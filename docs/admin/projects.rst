@@ -201,24 +201,6 @@ Enable hooks
 
 Whether unauthenticated :ref:`hooks` are to be used for this repository.
 
-.. _project-source_language:
-
-Source language
-+++++++++++++++
-
-Language used for source strings in all components. Change this if you are
-translating from something else than English.
-
-.. hint::
-
-   In case you are translating bilingual files from English, but want to be
-   able to do fixes in the English translation as well, you might want to
-   choose :guilabel:`English (Developer)` as a source language. To avoid
-   conflict between name of the source language and existing translation.
-
-   For monolingual translations, you can use intermediate translation in this
-   case, see :ref:`component-intermediate`.
-
 .. seealso::
 
    :ref:`component-intermediate`,
@@ -651,6 +633,25 @@ resolved manually.
 
 The component will be automatically unlocked once there are no repository
 errors left.
+
+.. _component-source_language:
+
+Source language
++++++++++++++++
+
+Language used for source strings. Change this if you are translating from
+something else than English.
+
+.. hint::
+
+   In case you are translating bilingual files from English, but want to be
+   able to do fixes in the English translation as well, you might want to
+   choose :guilabel:`English (Developer)` as a source language. To avoid
+   conflict between name of the source language and existing translation.
+
+   For monolingual translations, you can use intermediate translation in this
+   case, see :ref:`component-intermediate`.
+
 
 .. _component-language_regex:
 

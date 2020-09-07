@@ -56,7 +56,10 @@ class PoExporterTest(BaseTestCase):
             if created:
                 Plural.objects.create(language=lang)
         return self._class(
-            language=lang, project=Project(slug="test", name="TEST"), **kwargs
+            language=lang,
+            source_language=Language.objects.get(code="en"),
+            project=Project(slug="test", name="TEST"),
+            **kwargs
         )
 
     def check_export(self, exporter):
@@ -89,9 +92,13 @@ class PoExporterTest(BaseTestCase):
             formula = "0"
         lang = Language.objects.create(code="zz")
         plural = Plural.objects.create(language=lang, number=nplurals, formula=formula)
-        project = Project(slug="test", source_language=Language.objects.get(code="en"))
+        project = Project(slug="test")
         component = Component(
-            slug="comp", project=project, file_format="xliff", template=template
+            slug="comp",
+            project=project,
+            file_format="xliff",
+            template=template,
+            source_language=Language.objects.get(code="en"),
         )
         translation = Translation(language=lang, component=component, plural=plural)
         # Fake file format to avoid need for actual files

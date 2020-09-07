@@ -48,7 +48,7 @@ from redis_lock import Lock, NotAcquired
 
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
-from weblate.lang.models import Language
+from weblate.lang.models import Language, get_english_lang
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import (
     COMPONENT_NAME_LENGTH,
@@ -226,7 +226,7 @@ class ComponentQuerySet(models.QuerySet):
         for component in self:
             lookup[component.id] = component
             filters |= Q(component_id=component.id) & Q(
-                language_id=component.project.source_language.id
+                language_id=component.source_language.id
             )
 
         if lookup:
@@ -569,6 +569,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         ),
     )
 
+    source_language = models.ForeignKey(
+        Language,
+        verbose_name=gettext_lazy("Source language"),
+        help_text=gettext_lazy("Language used for source strings in all components"),
+        default=get_english_lang,
+        on_delete=models.deletion.CASCADE,
+    )
     language_regex = RegexField(
         verbose_name=gettext_lazy("Language filter"),
         max_length=500,
@@ -651,6 +658,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             )
             changed_setup = (
                 (old.file_format != self.file_format)
+                or (old.source_language != self.source_language)
                 or (old.edit_template != self.edit_template)
                 or changed_template
             )
@@ -857,7 +865,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         if "source_translation" in self.__dict__:
             return self.__dict__["source_translation"]
         try:
-            result = self.translation_set.get(language=self.project.source_language)
+            result = self.translation_set.get(language=self.source_language)
             self.__dict__["source_translation"] = result
             return result
         except ObjectDoesNotExist:
@@ -865,7 +873,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
 
     @cached_property
     def source_translation(self):
-        language = self.project.source_language
+        language = self.source_language
         return self.translation_set.get_or_create(
             language=language,
             defaults={
@@ -1701,7 +1709,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         was_change = False
         translations = {}
         languages = {}
-        project = self.project
 
         if self.has_template():
             # Avoid parsing if template is invalid
@@ -1717,7 +1724,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             translation = self.source_translation
 
             # Always include source language to avoid parsing matching files
-            languages[project.source_language.code] = project.source_language.code
+            languages[self.source_language.code] = self.source_language.code
             translations[translation.id] = translation
 
             # Delete old source units after change from monolingual to bilingual
@@ -1812,7 +1819,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
 
-            transaction.on_commit(lambda: cleanup_project.delay(self.project.pk))
+            transaction.on_commit(lambda: cleanup_project.delay(self.project_id))
 
         # Send notifications on new string
         for translation in translations.values():
@@ -1838,13 +1845,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         """Parse language code from path."""
         # Directly return source language code unless validating
         if not validate and path == self.template:
-            return self.project.source_language.code
+            return self.source_language.code
         # Parse filename
         matches = self.filemask_re.match(path)
 
         if not matches or not matches.lastindex:
             if path == self.template:
-                return self.project.source_language.code
+                return self.source_language.code
             return ""
 
         # Use longest matched code
@@ -1858,7 +1865,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         if "." in code and (".utf" in code.lower() or ".iso" in code.lower()):
             return code.split(".")[0]
         if code in ("source", "src", "default"):
-            return self.project.source_language.code
+            return self.source_language.code
         return code
 
     def sync_git_repo(self, validate=False, skip_push=None):
@@ -2070,11 +2077,11 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             code = self.get_lang_code(self.template, validate=True)
             if code:
                 lang = Language.objects.auto_get_or_create(code=code).base_code
-                if lang != self.project.source_language.base_code:
+                if lang != self.source_language.base_code:
                     msg = _(
                         "Template language ({0}) does not "
                         "match project source language ({1})!"
-                    ).format(code, self.project.source_language.code)
+                    ).format(code, self.source_language.code)
                     raise ValidationError({"template": msg})
 
         elif self.file_format_cls.monolingual:
@@ -2190,7 +2197,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         ):
             return
         self.file_format_cls.add_language(
-            fullname, self.project.source_language, self.get_new_base_filename()
+            fullname, self.source_language, self.get_new_base_filename()
         )
 
         with self.repository.lock:
@@ -2200,8 +2207,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 extra_context={
                     "translation": Translation(
                         filename=self.template,
-                        language_code=self.project.source_language.code,
-                        language=self.project.source_language,
+                        language_code=self.source_language.code,
+                        language=self.source_language,
                         component=self,
                     )
                 },
@@ -2295,7 +2302,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         # Pick random translation with translated strings except source one
         translation = (
             self.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
-            .exclude(language=self.project.source_language)
+            .exclude(language=self.source_language)
             .first()
         )
         if translation:

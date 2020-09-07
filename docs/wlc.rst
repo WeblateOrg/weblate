@@ -309,7 +309,6 @@ List all projects:
     $ wlc list-projects
     name: Hello
     slug: hello
-    source_language: en
     url: http://example.com/api/projects/hello/
     web: https://weblate.org/
     web_url: http://example.com/projects/hello/
@@ -326,6 +325,7 @@ You can also designate what project wlc should work on:
     $ wlc show
     branch: master
     file_format: po
+    source_language: en
     filemask: weblate/locale/*/LC_MESSAGES/django.po
     git_export: https://hosted.weblate.org/git/weblate/master/
     license: GPL-3.0+

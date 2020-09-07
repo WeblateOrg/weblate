@@ -68,6 +68,7 @@ class AutoTranslate:
             "translation__language": self.translation.language,
             "state__gte": STATE_TRANSLATED,
         }
+        source_language = self.translation.component.source_language
         exclude = {}
         if source:
             component = Component.objects.get(id=source)
@@ -75,12 +76,13 @@ class AutoTranslate:
             if (
                 not component.project.contribute_shared_tm
                 and not component.project != self.translation.component.project
-            ):
+            ) or component.source_language != source_language:
                 raise PermissionDenied()
             kwargs["translation__component"] = component
         else:
             project = self.translation.component.project
             kwargs["translation__component__project"] = project
+            kwargs["translation__component__source_language"] = source_language
             exclude["translation"] = self.translation
         sources = Unit.objects.filter(**kwargs)
         if exclude:

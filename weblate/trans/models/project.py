@@ -28,7 +28,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
-from weblate.lang.models import Language, get_english_lang
+from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
@@ -152,13 +152,6 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
             "Whether to allow updating this repository by remote hooks."
         ),
     )
-    source_language = models.ForeignKey(
-        Language,
-        verbose_name=gettext_lazy("Source language"),
-        help_text=gettext_lazy("Language used for source strings in all components"),
-        default=get_english_lang,
-        on_delete=models.deletion.CASCADE,
-    )
     language_aliases = models.CharField(
         max_length=200,
         verbose_name=gettext_lazy("Language aliases"),
@@ -185,7 +178,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         return self.name
 
     def save(self, *args, **kwargs):
-        from weblate.trans.tasks import component_alerts, perform_load
+        from weblate.trans.tasks import component_alerts
 
         update_tm = self.contribute_shared_tm
 
@@ -207,16 +200,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
 
         self.create_path()
 
-        if old is not None and old.source_language != self.source_language:
-            for component in old.component_set.iterator():
-                component.commit_pending("language change", None)
-
         super().save(*args, **kwargs)
-
-        # Reload components after source language change
-        if old is not None and old.source_language != self.source_language:
-            for component in self.component_set.iterator():
-                perform_load.delay(component.pk, force=True, changed_template=True)
 
         # Update alerts if needed
         if old is not None and old.web != self.web:

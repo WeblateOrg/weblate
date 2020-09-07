@@ -99,7 +99,7 @@ class UnitQuerySet(models.QuerySet):
             "translation__plural",
             "translation__component",
             "translation__component__project",
-            "translation__component__project__source_language",
+            "translation__component__source_language",
             "check_set",
             models.Prefetch(
                 "suggestion_set",
@@ -129,11 +129,13 @@ class UnitQuerySet(models.QuerySet):
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
-        project = unit.translation.component.project
+        translation = unit.translation
+        component = translation.component
         result = self.filter(
             content_hash=unit.content_hash,
-            translation__component__project=project,
-            translation__language=unit.translation.language,
+            translation__component__project=component.project,
+            translation__language=translation.language,
+            translation__component__source_language=component.source_language,
         )
         if exclude:
             result = result.exclude(pk=unit.id)
@@ -1023,7 +1025,7 @@ class Unit(models.Model, LoggerMixin):
                 translation__language__in=secondary_langs,
             ).exclude(
                 target="",
-                translation__language=component.project.source_language,
+                translation__language=component.source_language,
             )
         )
 

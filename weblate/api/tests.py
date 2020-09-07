@@ -960,23 +960,28 @@ class ProjectAPITest(APIBaseTest):
 
     def test_create_with_source_language(self):
         self.do_request(
-            "api:project-list",
+            "api:project-components",
+            self.project_kwargs,
             method="post",
             code=403,
             format="json",
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "web": "https://weblate.org/",
                 "source_language": {
                     "code": "ru",
                     "name": "Russian",
                     "direction": "ltr",
                 },
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
             },
         )
         response = self.do_request(
-            "api:project-list",
+            "api:project-components",
+            self.project_kwargs,
             method="post",
             code=201,
             superuser=True,
@@ -984,16 +989,20 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project",
                 "slug": "api-project",
-                "web": "https://weblate.org/",
                 "source_language": {
                     "code": "ru",
                     "name": "Russian",
                     "direction": "ltr",
                 },
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
             },
         )
         error_response = self.do_request(
-            "api:project-list",
+            "api:project-components",
+            self.project_kwargs,
             method="post",
             code=400,
             superuser=True,
@@ -1001,7 +1010,10 @@ class ProjectAPITest(APIBaseTest):
             request={
                 "name": "API project 2",
                 "slug": "api-project-2",
-                "web": "https://weblate.org/",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
                 "source_language": {
                     "code": "invalid",
                     "name": "Invalid",
@@ -1009,10 +1021,11 @@ class ProjectAPITest(APIBaseTest):
                 },
             },
         )
-        self.assertEqual(Project.objects.count(), 2)
+        self.assertEqual(Project.objects.count(), 1)
+        self.assertEqual(Component.objects.count(), 2)
         self.assertEqual(response.data["source_language"]["code"], "ru")
         self.assertEqual(
-            Project.objects.get(slug="api-project").source_language.code, "ru"
+            Component.objects.get(slug="api-project").source_language.code, "ru"
         )
         self.assertEqual(
             error_response.data["source_language"]["code"][0],
@@ -1023,12 +1036,16 @@ class ProjectAPITest(APIBaseTest):
         payload = {
             "name": "API project",
             "slug": "api-project",
-            "web": "https://weblate.org/",
             "source_language": '{"code": "ru"}',
+            "repo": self.format_local_path(self.git_repo_path),
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "new_lang": "none",
         }
         # Request with wrong payload format should fail
         self.do_request(
-            "api:project-list",
+            "api:project-components",
+            self.project_kwargs,
             method="post",
             code=400,
             superuser=True,
@@ -1038,17 +1055,19 @@ class ProjectAPITest(APIBaseTest):
         # Correct payload
         payload["source_language"] = "ru"
         response = self.do_request(
-            "api:project-list",
+            "api:project-components",
+            self.project_kwargs,
             method="post",
             code=201,
             superuser=True,
             format=format,
             request=payload,
         )
-        self.assertEqual(Project.objects.count(), 2)
+        self.assertEqual(Project.objects.count(), 1)
+        self.assertEqual(Component.objects.count(), 2)
         self.assertEqual(response.data["source_language"]["code"], "ru")
         self.assertEqual(
-            Project.objects.get(slug="api-project").source_language.code, "ru"
+            Component.objects.get(slug="api-project").source_language.code, "ru"
         )
 
     def test_create_with_source_language_string_multipart(self):

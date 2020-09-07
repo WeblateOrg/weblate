@@ -43,8 +43,8 @@
             {% if details %}
                 {{ details }}
             {% elif change.can_revert %}
-                <label>{{ change.unit.translation.component.project.source_language }}</label>
-                {% format_translation change.unit.source change.unit.translation.component.project.source_language %}
+                <label>{{ change.unit.translation.component.source_language }}</label>
+                {% format_translation change.unit.source change.unit.translation.component.source_language %}
                 <label>
                     {{ change.unit.translation.language }}
                     {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
@@ -52,14 +52,14 @@
                 </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
             {% elif change.show_content and change.unit %}
-                <label>{{ change.unit.translation.component.project.source_language }}</label>
-                {% format_translation change.unit.source change.unit.translation.component.project.source_language %}
+                <label>{{ change.unit.translation.component.source_language }}</label>
+                {% format_translation change.unit.source change.unit.translation.component.source_language %}
                 <label>{{ change.unit.translation.language }}</label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural %}
             {% elif change.show_content and change.glossary_term %}
                 {% format_translation change.target change.glossary_term.language  %}
             {% elif change.show_source %}
-                {% format_translation change.target change.component.project.source_language diff=change.old %}
+                {% format_translation change.target change.component.source_language diff=change.old %}
             {% elif change.target %}
                 <pre>{{ change.target }}</pre>
             {% else %}

@@ -119,6 +119,11 @@ class Command(BaseCommand):
                 " VCS repository"
             ),
         )
+        parser.add_argument(
+            "--source-language",
+            default="en",
+            help="Source language code",
+        )
         parser.add_argument("project", help="Existing project slug")
         parser.add_argument("repo", help="VCS repository URL")
         parser.add_argument("branch", help="VCS repository branch")
@@ -172,6 +177,7 @@ class Command(BaseCommand):
         self.language_regex = options["language_regex"]
         self.main_component = options["main_component"]
         self.name_template = options["name_template"]
+        self.source_language = Language.objects.get(code=options["source_language"])
         if "%s" in self.name_template:
             self.name_template = self.name_template.replace("%s", "{{ component }}")
         self.license = options["license"]
@@ -346,6 +352,7 @@ class Command(BaseCommand):
                 None,
                 match,
                 project=project,
+                source_language=self.source_language,
                 repo=repo,
                 branch=branch,
                 vcs=self.vcs,

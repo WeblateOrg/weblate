@@ -15,7 +15,7 @@
 <td>{{ occurrence.language }}</td>
 <td>
 {% if occurrence.unit  %}
-<a href="{{ occurrence.unit.get_absolute_url }}">{% format_translation occurrence.unit.source occurrence.unit.translation.component.project.source_language %}</a>
+<a href="{{ occurrence.unit.get_absolute_url }}">{% format_translation occurrence.unit.source occurrence.unit.translation.component.source_language %}</a>
 {% else %}
 {{ occurrence.source }}
 {% endif %}

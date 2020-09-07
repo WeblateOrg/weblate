@@ -306,28 +306,19 @@ class ComponentTest(RepoTestCase):
 
     def test_create_xliff_dph(self):
         component = self.create_xliff(
-            "DPH",
-            project=self.create_project(
-                source_language=Language.objects.get(code="cs")
-            ),
+            "DPH", source_language=Language.objects.get(code="cs")
         )
         self.verify_component(component, 2, "en", 9, "DPH")
 
     def test_create_xliff_empty(self):
         component = self.create_xliff(
-            "EMPTY",
-            project=self.create_project(
-                source_language=Language.objects.get(code="cs")
-            ),
+            "EMPTY", source_language=Language.objects.get(code="cs")
         )
         self.verify_component(component, 2, "en", 6, "DPH")
 
     def test_create_xliff_resname(self):
         component = self.create_xliff(
-            "Resname",
-            project=self.create_project(
-                source_language=Language.objects.get(code="cs")
-            ),
+            "Resname", source_language=Language.objects.get(code="cs")
         )
         self.verify_component(component, 2, "en", 2, "Hi")
 
