@@ -58,7 +58,7 @@ class DiffTest(TestCase):
         self.assertEqual(
             format_translation(
                 unit.source,
-                unit.translation.component.project.source_language,
+                unit.translation.component.source_language,
                 diff="Hello world!",
             )["items"][0]["content"],
             "Hello wor<del>l</del>d!",
@@ -69,7 +69,7 @@ class DiffTest(TestCase):
         self.assertEqual(
             format_translation(
                 unit.source,
-                unit.translation.component.project.source_language,
+                unit.translation.component.source_language,
                 diff="Hello world! ",
             )["items"][0]["content"],
             'Hello world!<del><span class="space-space">'
@@ -81,7 +81,7 @@ class DiffTest(TestCase):
         self.assertEqual(
             format_translation(
                 unit.source,
-                unit.translation.component.project.source_language,
+                unit.translation.component.source_language,
                 diff='"word"',
             )["items"][0]["content"],
             "<del>&quot;</del><ins>&#x27;</ins>word<del>&quot;</del><ins>&#x27;</ins>",

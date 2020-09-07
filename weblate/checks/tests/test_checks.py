@@ -43,7 +43,6 @@ class MockProject:
 
     def __init__(self):
         self.id = 1
-        self.source_language = MockLanguage("en")
         self.use_shared_tm = True
         self.name = "MockProject"
 
@@ -53,6 +52,7 @@ class MockComponent:
 
     def __init__(self):
         self.id = 1
+        self.source_language = MockLanguage("en")
         self.project = MockProject()
         self.name = "MockComponent"
 

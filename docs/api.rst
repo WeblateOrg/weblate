@@ -755,8 +755,6 @@ Projects
     :type slug: string
     :param web: Project website
     :type web: string
-    :param source_language: Project source language code (optional)
-    :type source_language: string
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -766,7 +764,6 @@ Projects
     :type project: string
     :>json string name: project name
     :>json string slug: project slug
-    :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string web: project website
     :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
@@ -779,13 +776,6 @@ Projects
         {
             "name": "Hello",
             "slug": "hello",
-            "source_language": {
-                "code": "en",
-                "direction": "ltr",
-                "name": "English",
-                "url": "http://example.com/api/languages/en/",
-                "web_url": "http://example.com/languages/en/"
-            },
             "url": "http://example.com/api/projects/hello/",
             "web": "https://weblate.org/",
             "web_url": "http://example.com/projects/hello/"
@@ -1061,6 +1051,7 @@ Components
     :>json string agreement: :ref:`component-agreement`
     :>json string new_lang: :ref:`component-new_lang`
     :>json string language_code_style: :ref:`component-language_code_style`
+    :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string push: :ref:`component-push`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
@@ -1115,6 +1106,13 @@ Components
                 "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
+            "source_language": {
+                "code": "en",
+                "direction": "ltr",
+                "name": "English",
+                "url": "http://example.com/api/languages/en/",
+                "web_url": "http://example.com/languages/en/"
+            },
             "repo": "file:///home/nijel/work/weblate-hello",
             "template": "",
             "new_base": "",
@@ -1131,6 +1129,8 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :param source_language: Project source language code (optional)
+    :type source_language: string
     :<json string name: name of component
     :<json string slug: slug of component
     :<json string repo: VCS repository URL

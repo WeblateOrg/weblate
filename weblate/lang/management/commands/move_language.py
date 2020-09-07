@@ -49,7 +49,7 @@ class Command(BaseCommand):
             profile.secondary_languages.remove(source)
             profile.secondary_languages.add(target)
 
-        source.project_set.update(source_language=target)
+        source.component_set.update(source_language=target)
         for group in source.group_set.iterator():
             group.languages.remove(source)
             group.languages.add(target)

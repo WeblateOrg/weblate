@@ -55,9 +55,9 @@ from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 
 
-def scratch_create_component(project, name, slug, file_format):
+def scratch_create_component(project, name, slug, source_language, file_format):
     format_cls = FILE_FORMATS[file_format]
-    template = "{}.{}".format(project.source_language.code, format_cls.extension())
+    template = "{}.{}".format(source_language.code, format_cls.extension())
     # Create component
     return Component.objects.create(
         file_format=file_format,
@@ -66,6 +66,7 @@ def scratch_create_component(project, name, slug, file_format):
         vcs="local",
         repo="local:",
         project=project,
+        source_language=source_language,
         name=name,
         slug=slug,
     )
@@ -254,6 +255,12 @@ class CreateComponent(BaseCreateView):
             project_field.empty_label = None
             if self.selected_project:
                 project_field.initial = self.selected_project
+                try:
+                    form.fields["source_language"].initial = Component.objects.filter(
+                        project=self.selected_project
+                    )[0].source_language_id
+                except IndexError:
+                    pass
         self.empty_form = False
         return form
 
@@ -357,7 +364,7 @@ class CreateFromDoc(CreateComponent):
         ext = os.path.splitext(os.path.basename(uploaded.name))[1]
         filename = "{}/{}{}".format(
             form.cleaned_data["slug"],
-            form.cleaned_data["project"].source_language.code,
+            form.cleaned_data["source_language"].code,
             ext,
         )
         LocalRepository.from_files(fake.full_path, {filename: uploaded.read()})
@@ -466,6 +473,7 @@ class CreateComponentSelection(CreateComponent):
                 name=form.cleaned_data["name"],
                 slug=form.cleaned_data["slug"],
                 vcs=component.vcs,
+                source_language=component.source_language,
             )
         if self.origin == "branch":
             form.instance.save()

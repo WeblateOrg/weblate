@@ -31,7 +31,7 @@
 <td></td>
 <td colspan="2" class="translatetext">
     <label>{% trans "Source string comment" %}</label>
-    {% format_translation item.unit.note item.unit.translation.component.project.source_language %}
+    {% format_translation item.unit.note item.unit.translation.component.source_language %}
 </td>
 </tr>
 {% endif %}
@@ -81,18 +81,18 @@
 {% if item.unit.previous_source and item.unit.fuzzy %}
 <div class="form-group">
 <label>{% trans "Source change" %}</label>
-{% format_translation item.unit.source item.unit.translation.component.project.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
+{% format_translation item.unit.source item.unit.translation.component.source_language diff=item.unit.previous_source num_plurals=item.unit.translation.plural.number %}
 </div>
 {% endif %}
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
 <div class="form-group">
 <label>
-    {{ item.unit.translation.component.project.source_language }}
+    {{ item.unit.translation.component.source_language }}
     {% perm 'unit.edit' item.unit.source_info as user_can_edit_template %}
     <a title="{% trans "Edit source string" %}"href="{{ item.unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
 </label>
-{% format_translation item.unit.source item.unit.translation.component.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
+{% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 </div>
 {% endif %}
 

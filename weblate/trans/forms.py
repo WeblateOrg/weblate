@@ -835,9 +835,11 @@ class AutoForm(forms.Form):
     def __init__(self, obj, *args, **kwargs):
         """Generate choices for other component in same project."""
         # Add components from other projects with enabled shared TM
-        components = obj.project.component_set.exclude(
-            id=obj.id
-        ) | Component.objects.filter(project__contribute_shared_tm=True).exclude(
+        components = obj.project.component_set.filter(
+            source_language=obj.source_language
+        ).exclude(id=obj.id) | Component.objects.filter(
+            source_language=obj.source_language, project__contribute_shared_tm=True
+        ).exclude(
             project=obj.project
         )
 
@@ -937,9 +939,7 @@ class NewLanguageOwnerForm(forms.Form):
     )
 
     def get_lang_filter(self):
-        return Q(translation__component=self.component) | Q(
-            project=self.component.project
-        )
+        return Q(translation__component=self.component) | Q(component=self.component)
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1209,6 +1209,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "edit_template",
             "new_lang",
             "language_code_style",
+            "source_language",
             "new_base",
             "filemask",
             "template",
@@ -1218,7 +1219,10 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "restricted",
             "auto_lock_error",
         )
-        widgets = {"enforced_checks": SelectChecksWidget}
+        widgets = {
+            "enforced_checks": SelectChecksWidget,
+            "source_language": SortedSelect,
+        }
         field_classes = {"enforced_checks": SelectChecksField}
 
     def __init__(self, request, *args, **kwargs):
@@ -1294,6 +1298,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "file_format",
                         "filemask",
                         "language_regex",
+                        "source_language",
                     ),
                     Fieldset(
                         _("Monolingual translations"),
@@ -1350,7 +1355,9 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
             "new_lang",
             "language_code_style",
             "language_regex",
+            "source_language",
         ]
+        widgets = {"source_language": SortedSelect}
 
 
 class ComponentNameForm(forms.Form, ComponentDocsMixin):
@@ -1403,6 +1410,8 @@ class ComponentBranchForm(ComponentSelectForm):
         if not component or any(field not in data for field in form_fields):
             return
         kwargs = model_to_dict(component, exclude=["id"])
+        # We need a object, not integer here
+        kwargs["source_language"] = component.source_language
         kwargs["project"] = component.project
         for field in form_fields:
             kwargs[field] = data[field]
@@ -1425,11 +1434,19 @@ class ComponentProjectForm(ComponentNameForm):
     project = forms.ModelChoiceField(
         queryset=Project.objects.none(), label=_("Project")
     )
+    source_language = forms.ModelChoiceField(
+        widget=SortedSelect,
+        label=_("Source language"),
+        help_text=_("Language used for source strings in all components"),
+        queryset=Language.objects.all(),
+    )
 
     def __init__(self, request, *args, **kwargs):
         if "instance" in kwargs:
             kwargs.pop("instance")
         super().__init__(*args, **kwargs)
+        # It might be overriden based on preset project
+        self.fields["source_language"].initial = Language.objects.english
         self.request = request
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -1635,7 +1652,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             "use_shared_tm",
             "contribute_shared_tm",
             "enable_hooks",
-            "source_language",
             "language_aliases",
             "access_control",
             "translation_review",
@@ -1643,7 +1659,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
         )
         widgets = {
             "access_control": forms.RadioSelect(),
-            "source_language": SortedSelect,
             "instructions": forms.Textarea(attrs={"class": "codemirror-markdown"}),
         }
 
@@ -1729,7 +1744,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     "use_shared_tm",
                     "contribute_shared_tm",
                     "enable_hooks",
-                    "source_language",
                     "language_aliases",
                     "translation_review",
                     "source_review",
@@ -1782,8 +1796,7 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "mail", "instructions", "source_language")
-        widgets = {"source_language": SortedSelect}
+        fields = ("name", "slug", "web", "mail", "instructions")
 
 
 class ReplaceForm(forms.Form):

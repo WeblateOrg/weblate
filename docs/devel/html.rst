@@ -24,7 +24,7 @@ see :ref:`adding-projects` for generic instructions on that.
 
 In case you have existing repository to start with (for example the one
 containing HTML files), create an empty JSON file in the repository for the
-source language (see :ref:`project-source_language`), for example
+source language (see :ref:`component-source_language`), for example
 :file:`locales/en.json`. The content should be ``{}`` to indicate an empty
 object. Once you have that, the repository can be imported into Weblate and you
 can start with an addon configuration.

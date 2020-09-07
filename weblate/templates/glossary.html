@@ -64,7 +64,7 @@
 <tbody>
 {% for word in page_obj.object_list %}
 <tr>
-<td>{% format_translation word.source project.source_language simple=True %}</td>
+<td>{% format_translation word.source word.glossary.source_language simple=True %}</td>
 <td>{% format_translation word.target language simple=True %}</td>
 <td>{% include "snippets/glossary-badge.html" with glossary=word.glossary %}</td>
 <td>

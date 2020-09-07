@@ -35,6 +35,7 @@ from filelock import Timeout
 
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
+from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -354,6 +355,7 @@ def auto_translate(
 @app.task(trail=False)
 def create_component(addons_from=None, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
+    kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
     component = Component.objects.create(**kwargs)
     Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
     if addons_from:

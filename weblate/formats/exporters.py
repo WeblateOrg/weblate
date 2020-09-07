@@ -52,16 +52,24 @@ class BaseExporter:
     set_id = False
 
     def __init__(
-        self, project=None, language=None, url=None, translation=None, fieldnames=None
+        self,
+        project=None,
+        source_language=None,
+        language=None,
+        url=None,
+        translation=None,
+        fieldnames=None,
     ):
         if translation is not None:
             self.plural = translation.plural
             self.project = translation.component.project
+            self.source_language = translation.component.source_language
             self.language = translation.language
             self.url = get_site_url(translation.get_absolute_url())
         else:
             self.project = project
             self.language = language
+            self.source_language = source_language
             self.plural = language.plural
             self.url = url
         self.fieldnames = fieldnames
@@ -73,7 +81,7 @@ class BaseExporter:
     @cached_property
     def storage(self):
         storage = self.get_storage()
-        storage.setsourcelanguage(self.project.source_language.code)
+        storage.setsourcelanguage(self.source_language.code)
         storage.settargetlanguage(self.language.code)
         return storage
 
@@ -286,9 +294,22 @@ class MoExporter(PoExporter):
     storage_class = mofile
 
     def __init__(
-        self, project=None, language=None, url=None, translation=None, fieldnames=None
+        self,
+        project=None,
+        source_language=None,
+        language=None,
+        url=None,
+        translation=None,
+        fieldnames=None,
     ):
-        super().__init__(project, language, url, translation, fieldnames)
+        super().__init__(
+            project=project,
+            source_language=source_language,
+            language=language,
+            url=url,
+            translation=translation,
+            fieldnames=fieldnames,
+        )
         # Detect storage properties
         self.monolingual = False
         self.use_context = False

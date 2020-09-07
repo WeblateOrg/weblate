@@ -4,7 +4,7 @@
 <tbody{% if last %} id="last-section"{% endif %}>
 <tr>
 <td>
-{% format_translation item.0.source item.0.translation.component.project.source_language num_plurals=item.0.translation.plural.number unit=item.0 %}
+{% format_translation item.0.source item.0.translation.component.source_language num_plurals=item.0.translation.plural.number unit=item.0 %}
 </td>
 {% for unit in item.1 %}
 <td>

@@ -3,15 +3,15 @@
 {% if unit.context %}
 <h2>{{ unit.translation.component.context_label }}</h2>
 
-{% format_translation unit.context unit.translation.component.project.source_language %}
+{% format_translation unit.context unit.translation.component.source_language %}
 {% endif %}
 
 <h2>{% trans "Source string" %}</h2>
 
-{% format_translation unit.source unit.translation.component.project.source_language %}
+{% format_translation unit.source unit.translation.component.source_language %}
 
 {% if unit.comment %}
 <h2>{% trans "Source string comment" %}</h2>
 
-{% format_translation unit.comment unit.translation.component.project.source_language %}
+{% format_translation unit.comment unit.translation.component.source_language %}
 {% endif %}

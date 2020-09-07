@@ -84,7 +84,8 @@ class LocationLinksTest(TestCase):
         self.unit = Unit(
             translation=Translation(
                 component=Component(
-                    project=Project(source_language=Language(), slug="p", name="p"),
+                    project=Project(slug="p", name="p"),
+                    source_language=Language(),
                     slug="c",
                     name="c",
                 ),

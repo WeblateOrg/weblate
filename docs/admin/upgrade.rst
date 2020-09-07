@@ -156,6 +156,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are some changes in quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
+* The source language attribute was moved from project to a component what is exposed in the API. You will need to update :ref:`wlc` in case you are using it.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

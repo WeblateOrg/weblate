@@ -244,9 +244,7 @@ class MachineTranslation:
         # tweaking the language codes
         if source is None:
             language = self.convert_language(unit.translation.language)
-            source = self.convert_language(
-                unit.translation.component.project.source_language
-            )
+            source = self.convert_language(unit.translation.component.source_language)
 
         if search:
             replacements = {}

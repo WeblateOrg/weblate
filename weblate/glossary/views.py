@@ -40,7 +40,7 @@ from weblate.glossary.forms import (
     TermForm,
 )
 from weblate.glossary.models import Glossary, Term
-from weblate.lang.models import Language
+from weblate.lang.models import Language, get_english_lang
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import redirect_next, render, sort_objects
 from weblate.utils import messages
@@ -117,9 +117,11 @@ class LanguageGlossary:
 def show_glossaries(request, project):
     obj = get_project(request, project)
     language_glossaries = LanguageGlossary(obj, request.POST, request.user)
-    new_form = GlossaryForm(
-        request.user, obj, initial={"source_language": obj.source_language}
-    )
+    try:
+        initial = {"source_language": obj.component_set.all()[0].source_language}
+    except IndexError:
+        initial = {}
+    new_form = GlossaryForm(request.user, obj, initial=initial)
     if request.method == "POST" and request.user.has_perm("project.edit", obj):
         if "delete_glossary" in request.POST:
             try:
@@ -283,22 +285,23 @@ def download_glossary(request, project, lang):
         export_format = "csv"
 
     # Grab all terms
-    terms = (
-        Term.objects.for_project(prj, prj.source_language).filter(language=lang).order()
-    )
+    terms = Term.objects.for_project(prj).filter(language=lang).order()
 
     # Translate toolkit based export
     exporter = EXPORTERS[export_format](
-        prj,
-        lang,
-        get_site_url(
+        project=prj,
+        language=lang,
+        source_language=terms[0].glossary.source_language
+        if terms
+        else get_english_lang(),
+        url=get_site_url(
             reverse("show_glossary", kwargs={"project": prj.slug, "lang": lang.code})
         ),
         fieldnames=("source", "target"),
     )
 
     # Add terms
-    for term in terms.iterator():
+    for term in terms:
         exporter.add_glossary_term(term)
 
     # Save to response
@@ -312,7 +315,8 @@ def add_glossary_term(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     request.user.check_access_component(unit.translation.component)
 
-    prj = unit.translation.component.project
+    component = unit.translation.component
+    prj = component.project
     lang = unit.translation.language
 
     code = 403
@@ -337,7 +341,7 @@ def add_glossary_term(request, unit_id):
                 {
                     "glossary": (
                         Term.objects.get_terms(unit).order()
-                        | Term.objects.for_project(prj, prj.source_language)
+                        | Term.objects.for_project(prj, component.source_language)
                         .filter(pk__in=terms)
                         .order()
                     ),
@@ -376,9 +380,7 @@ def show_glossary(request, project, lang):
 
     uploadform = GlossaryUploadForm(prj)
 
-    terms = (
-        Term.objects.for_project(prj, prj.source_language).filter(language=lang).order()
-    )
+    terms = Term.objects.for_project(prj).filter(language=lang).order()
 
     letterform = LetterForm(request.GET)
 

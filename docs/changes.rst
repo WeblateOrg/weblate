@@ -11,6 +11,7 @@ Not yet released.
 * Extended public user profile.
 * Fixed configuration of enforced checks.
 * Improve documentation about built-in backups.
+* Moved source language attribute from project to a component.
 
 Weblate 4.2.2
 -------------

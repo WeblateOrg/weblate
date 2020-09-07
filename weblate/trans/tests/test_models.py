@@ -184,8 +184,8 @@ class ProjectTest(RepoTestCase):
 
     def test_change_source_language(self):
         component = self.create_component()
-        component.project.source_language = Language.objects.get(code="cs")
-        component.project.save()
+        component.source_language = Language.objects.get(code="cs")
+        component.save()
 
 
 class TranslationTest(RepoTestCase):
