@@ -162,7 +162,7 @@ class LanguageSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Language with this Language code already exists."
             )
-        language = Language.objects.create(**validated_data)
+        language = super().create(validated_data)
         plural = Plural(language=language, **plural_validated)
         plural.save()
         return language
