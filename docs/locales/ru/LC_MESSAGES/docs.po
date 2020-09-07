@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-09-07 05:55+0000\n"
+"PO-Revision-Date: 2020-09-07 10:51+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -5181,23 +5181,27 @@ msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:655
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Указывает, работает ли Weblate за обратным прокси."
 
 #: ../../admin/config.rst:657
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
+"Если установлен в ``True`, то Weblate получает IP адрес из заголовка, "
+"определённого параметром :setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/config.rst:662
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"Убедитесь, что вы и в самом деле используете обратный прокси и что он "
+"устанавливает этот заголовок, иначе пользователи смогут подделать IP адрес."
 
 #: ../../admin/config.rst:667
 msgid "This is not on by default."
-msgstr ""
+msgstr "По умолчанию этот параметр не включён."
 
 #: ../../admin/config.rst:671
 msgid ""
@@ -5216,6 +5220,8 @@ msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
+"Указывает, из какого заголовка Weblate должен получить IP-адрес при "
+"включении параметра :setting:`IP_BEHIND_REVERSE_PROXY`."
 
 #: ../../admin/config.rst:686
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
@@ -5240,6 +5246,8 @@ msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
+"Указывает, какая часть параметра :setting:`IP_PROXY_HEADER` используется в "
+"качестве IP-адреса клиента."
 
 #: ../../admin/config.rst:706
 msgid ""
@@ -5247,12 +5255,19 @@ msgid ""
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
+"В зависимости от вашей установки, этот заголовок может состоять из "
+"нескольких IP адресов (например, ``X-Forwarded-For: a, b, client-ip``), и "
+"здесь вы можете настроить, какой адрес из заголовка используется в качестве "
+"IP адреса клиента."
 
 #: ../../admin/config.rst:712
 msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
 msgstr ""
+"Задание этого параметра влияет на безопасность вашей установки, вы должны "
+"настроить его на использование только доверенных прокси для определения IP "
+"адреса."
 
 #: ../../admin/config.rst:715
 msgid "Defaults to 0."
@@ -5275,12 +5290,17 @@ msgstr "LEGAL_URL"
 #: ../../admin/config.rst:732
 msgid "URL where your Weblate instance shows its legal documents."
 msgstr ""
+"URL-адрес, по которому ваш экземпляр Weblate показывает свои юридические "
+"документы."
 
 #: ../../admin/config.rst:736
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Полезен, если вы размещаете свои юридические документы за пределами Weblate’"
+"а для дальнейшего их встраивания в Weblate, для получения подробной "
+"информации обратитесь к разделу :ref:`legal`."
 
 #: ../../admin/config.rst:748
 msgid "LICENSE_EXTRA"
@@ -5288,13 +5308,15 @@ msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:750
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "Дополнительные лицензии для включения в список вариантов лицензий."
 
 #: ../../admin/config.rst:754
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
+"Описание каждой лицензии должно быть кортежем, состоящим из её краткого "
+"наименования, длинного наименования и URL-адреса."
 
 #: ../../admin/config.rst:756 ../../admin/config.rst:779
 #: ../../admin/config.rst:906 ../../formats.rst:304
@@ -5307,11 +5329,11 @@ msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:773
 msgid "Optional addition of licenses to show."
-msgstr ""
+msgstr "Необязательные дополнительные показываемые лицензии."
 
 #: ../../admin/config.rst:777
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "Этот фильтр использует краткие наименования лицензий."
 
 #: ../../admin/config.rst:788
 msgid "LICENSE_REQUIRED"
@@ -5320,10 +5342,12 @@ msgstr "LICENSE_REQUIRED"
 #: ../../admin/config.rst:790
 msgid "Defines whether the license attribute in :ref:`component` is required."
 msgstr ""
+"Определяет, требуется ли атрибут лицензии в :ref:`конфигурации компонента "
+"<component>`."
 
 #: ../../admin/config.rst:794
 msgid "This is off by default."
-msgstr ""
+msgstr "По умолчанию этот параметр выключен."
 
 #: ../../admin/config.rst:799
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
@@ -5334,12 +5358,16 @@ msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string * 10 characters."
 msgstr ""
+"Должна ли длина данного перевода быть огранична. Ограничением является "
+"количество символов исходной строки, увеличенное в 10 раз."
 
 #: ../../admin/config.rst:806
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
 msgstr ""
+"Установите его значение в ``False`` для разрешения более длинных переводов ("
+"до 10 000 символов) независимо от длины исходной строки."
 
 #: ../../admin/config.rst:810
 msgid "Defaults to ``True``."
@@ -5347,7 +5375,7 @@ msgstr "По умолчанию установлен в ``True``."
 
 #: ../../admin/config.rst:816
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL и LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:818
 msgid ""
@@ -5356,10 +5384,17 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"Эти параметры конфигурируют надстройку :ref:`addon-weblate.cdn.cdnjs`. "
+"Параметр :setting:`LOCALIZE_CDN_URL` определяет корневой URL-адрес, по "
+"которому доступен CDN локализации, а параметр :setting:`LOCALIZE_CDN_PATH` "
+"определяет путь, по которому Weblate должен сохранять сгенерированные файлы, "
+"которые затем будут раздаваться с :setting:`LOCALIZE_CDN_URL`."
 
 #: ../../admin/config.rst:825
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgstr ""
+"На Hosted Weblate для этого параметра используется значение ``https"
+"://weblate-cdn.com/``."
 
 #: ../../admin/config.rst:829
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -5374,16 +5409,19 @@ msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
+"Список URL-адресов, для посещения которых требуется выполнить вход в Weblate "
+"(помимо встроенных в Weblate стандартных правил)."
 
 #: ../../admin/config.rst:840
 msgid "This allows you to password protect a whole installation using:"
-msgstr ""
+msgstr "Он позволяет вам защитить паролем всю установку:"
 
 #: ../../admin/config.rst:853
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr ""
+"Также желательно заблокировать доступ к API, как показано в примере выше."
 
 #: ../../admin/config.rst:858
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
@@ -5394,10 +5432,12 @@ msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the login page."
 msgstr ""
+"Список исключений для :setting:`LOGIN_REQUIRED_URLS`. Если не указан, "
+"пользователям будет разрешён доступ к странице входа."
 
 #: ../../admin/config.rst:863
 msgid "Some of exceptions you might want to include:"
-msgstr ""
+msgstr "Некоторые исключения, которые вы, возможно, захотите включить:"
 
 #: ../../admin/config.rst:881
 msgid "MATOMO_SITE_ID"
@@ -5406,10 +5446,11 @@ msgstr "MATOMO_SITE_ID"
 #: ../../admin/config.rst:883
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
 msgstr ""
+"Идентификатор сайта в Matomo (бывший Piwik), который вы хотите отслеживать."
 
 #: ../../admin/config.rst:887 ../../admin/config.rst:904
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr ""
+msgstr "Эта интеграция не поддерживает Matomo Tag Manager."
 
 #: ../../admin/config.rst:891
 msgid ":setting:`MATOMO_URL`"
@@ -5425,6 +5466,10 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"Полный URL-адрес (включая завершающую косую черту) установки Matomo (бывшего "
+"Piwik), которую вы хотите использовать для отслеживания использования "
+"Weblate. Для получения более подробной информации обратитесь к "
+"<https://matomo.org/>."
 
 #: ../../admin/config.rst:915
 msgid ":setting:`MATOMO_SITE_ID`"
@@ -5439,16 +5484,22 @@ msgid ""
 "The setting was renamed from ``MACHINE_TRANSLATION_SERVICES`` to "
 "``MT_SERVICES`` to be consistent with other machine translation settings."
 msgstr ""
+"Параметр был переименован с ``MACHINE_TRANSLATION_SERVICES`` на "
+"`MT_SERVICES`` для соответствия названиям других параметров машинного "
+"перевода."
 
 #: ../../admin/config.rst:929
 msgid "List of enabled machine translation services to use."
-msgstr ""
+msgstr "Список включённых сервисов машинного перевода."
 
 #: ../../admin/config.rst:933
 msgid ""
 "Many of the services need additional configuration like API keys, please "
 "check their documentation ref: `machine` for more details."
 msgstr ""
+"Многим сервисам нужна дополнительная настройка, например, задание ключей "
+"API, для получения более подробной информации обратитесь к их документации в "
+"разделе :ref:`machine`."
 
 #: ../../admin/config.rst:956 ../../faq.rst:288
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
@@ -5462,6 +5513,7 @@ msgstr "MT_APERTIUM_APY"
 msgid ""
 "URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy"
 msgstr ""
+"URL-адрес сервера Apertium-APy, https://wiki.apertium.org/wiki/Apertium-apy"
 
 #: ../../admin/config.rst:968
 msgid ""
@@ -5475,7 +5527,7 @@ msgstr "MT_AWS_ACCESS_KEY_ID"
 
 #: ../../admin/config.rst:975
 msgid "Access key ID for Amazon Translate."
-msgstr ""
+msgstr "Идентификатор ключа доступа к Amazon Translate."
 
 #: ../../admin/config.rst:979 ../../admin/config.rst:990
 #: ../../admin/config.rst:1001
@@ -5490,7 +5542,7 @@ msgstr "MT_AWS_SECRET_ACCESS_KEY"
 
 #: ../../admin/config.rst:986
 msgid "API secret key for Amazon Translate."
-msgstr ""
+msgstr "Секретный ключ API к Amazon Translate."
 
 #: ../../admin/config.rst:995
 msgid "MT_AWS_REGION"
@@ -5498,7 +5550,7 @@ msgstr "MT_AWS_REGION"
 
 #: ../../admin/config.rst:997
 msgid "Region name to use for Amazon Translate."
-msgstr ""
+msgstr "Название используемого региона для Amazon Translate."
 
 #: ../../admin/config.rst:1006
 msgid "MT_BAIDU_ID"
@@ -5509,6 +5561,8 @@ msgid ""
 "Client ID for the Baidu Zhiyun API, you can register at https://api.fanyi."
 "baidu.com/api/trans/product/index"
 msgstr ""
+"Идентификатор клиента для API Baidu Zhiyun, вы можете зарегистрироваться по "
+"адресу https://api.fanyi.baidu.com/api/trans/product/index"
 
 #: ../../admin/config.rst:1012 ../../admin/config.rst:1023
 msgid ""
@@ -5527,6 +5581,8 @@ msgid ""
 "Client secret for the Baidu Zhiyun API, you can register at https://api."
 "fanyi.baidu.com/api/trans/product/index"
 msgstr ""
+"Секрет клиента для API Baidu Zhiyun, вы можете зарегистрироваться по адресу "
+"https://api.fanyi.baidu.com/api/trans/product/index"
 
 #: ../../admin/config.rst:1028
 msgid "MT_DEEPL_API_VERSION"
@@ -5536,6 +5592,8 @@ msgstr "MT_DEEPL_API_VERSION"
 msgid ""
 "API version to use with DeepL service. The version limits scope of usage:"
 msgstr ""
+"Версия API, используемая для сервиса DeepL. Версия ограничивает область "
+"использования:"
 
 #: ../../admin/config.rst:1034
 msgid "v1"
@@ -5544,6 +5602,8 @@ msgstr "v1"
 #: ../../admin/config.rst:1035
 msgid "Is meant for CAT tools and is usable with user-based subscription."
 msgstr ""
+"Предназначена для CAT-инструментов и может быть использована с "
+"пользовательской подпиской."
 
 #: ../../admin/config.rst:1037
 msgid "v2"
@@ -5552,6 +5612,8 @@ msgstr "v2"
 #: ../../admin/config.rst:1037
 msgid "Is meant for API usage and the subscription is usage based."
 msgstr ""
+"Предназначена для использования через API, а подписка основана на "
+"использовании."
 
 #: ../../admin/config.rst:1039
 msgid ""
@@ -5560,6 +5622,11 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"Ранее Weblate классифицировался DeepL как CAT-инструмент, поэтому "
+"предполагалось использовать API версии v1, но теперь предполагается "
+"использовать API версии v2. Поэтому по умолчанию параметр имеет значение v2, "
+"но вы можете изменить его на v1 в случае, если у вас есть существующая CAT-"
+"подписка и вы хотите, чтобы Weblate использовал её."
 
 #: ../../admin/config.rst:1046 ../../admin/config.rst:1057
 msgid ""
@@ -5575,6 +5642,8 @@ msgstr "MT_DEEPL_KEY"
 msgid ""
 "API key for the DeepL API, you can register at https://www.deepl.com/pro.html"
 msgstr ""
+"Ключ API для API DeepL, вы можете зарегистрироваться по адресу https://www."
+"deepl.com/pro.html"
 
 #: ../../admin/config.rst:1062
 msgid "MT_GOOGLE_KEY"
@@ -5585,6 +5654,8 @@ msgid ""
 "API key for Google Translate API v2, you can register at https://cloud."
 "google.com/translate/docs"
 msgstr ""
+"Ключ API для API переводчика Google версии v2, вы можете зарегистрироваться "
+"по адресу https://cloud.google.com/translate/docs"
 
 #: ../../admin/config.rst:1068
 msgid ""
@@ -5605,6 +5676,11 @@ msgid ""
 "certain project. Please check https://cloud.google.com/docs/authentication/"
 "getting-started for more details."
 msgstr ""
+"JSON-файл учётных данных API версии v3, полученный в консоли облака Google. "
+"Пожалуйста, укажите полный путь в формате пути операционной системы. Учётные "
+"данные привязаны к сервису-учётной записи, связанной с определённым "
+"проектом. Для получения более подробной информации обратитесь по адресу "
+"https://cloud.google.com/docs/authentication/getting-started."
 
 #: ../../admin/config.rst:1082
 msgid "MT_GOOGLE_PROJECT"
