@@ -5,11 +5,11 @@
 {% block content %}
 {% if billing.is_trial %}
   <p>
-    {% trans "Your trial period is going to expire in less than week." %}
+    {% trans "Your trial period is going to expire in less than a week." %}
     {% if billing.plan.price %}
-      {% trans "If you want to continue using the service, please purchase the subscription." %}
+      {% trans "If you like Weblate and you want to continue using it, please purchase the subscription. If not, tell us what you are missing." %}
     {% else %}
-      {% trans "If you want to continue using the service, please request approval of your libre plan." %}
+      {% trans "If you like Weblate and you want to continue using it, just request an approval of your libre plan." %}
     {% endif %}
   </p>
 {% else %}
