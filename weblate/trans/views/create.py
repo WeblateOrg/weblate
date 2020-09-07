@@ -210,6 +210,7 @@ class CreateComponent(BaseCreateView):
             return
         except (OSError, subprocess.CalledProcessError):
             report_error(cause="Failed licensee invocation")
+            return
         result = json.loads(raw_result)
         for license_data in result["licenses"]:
             spdx_id = license_data["spdx_id"]
