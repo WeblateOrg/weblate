@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-09-05 12:46+0000\n"
+"PO-Revision-Date: 2020-09-07 05:55+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -4302,12 +4302,16 @@ msgid ""
 "Logins. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
+"Страница входа. Удаляет пароль учётной записи, не позволяя пользователю "
+"войти в систему без запроса нового пароля."
 
 #: ../../admin/config.rst:66
 msgid ""
 "Password resets. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
 msgstr ""
+"Страница сброса пароля. Предотвращает отправку новых писем, избегая рассылки "
+"спама пользователям со слишком большим количеством попыток сброса пароля."
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
@@ -4326,26 +4330,32 @@ msgid ""
 "The original on/off option was changed to differentiate which strings are "
 "accepted."
 msgstr ""
+"Первоначальные возможные значения параметра включено/выключено были изменены "
+"для дифференциации принимаемых строк."
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Обновление всех репозиториев на ежедневной основе."
 
 #: ../../admin/config.rst:90
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
 msgstr ""
+"Полезно, если вы не используете :ref:`обработчики <hooks>` для "
+"автоматического обновления Weblate’овских репозиториев."
 
 #: ../../admin/config.rst:94
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
 msgstr ""
+"Варианты включено/выключено в дополнение к строкам существуют для обратной "
+"совместимости."
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr ""
+msgstr "Варианты:"
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:353
 msgid "``\"none\"``"
@@ -4353,7 +4363,7 @@ msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:99
 msgid "No daily updates."
-msgstr ""
+msgstr "Никаких ежедневных обновлений."
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
@@ -4361,7 +4371,7 @@ msgstr "``\"remote\"`` или ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr ""
+msgstr "Только вытягиваются изменения из удалённых репозиториев."
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
@@ -4370,12 +4380,16 @@ msgstr "``\"full\"`` или ``True``"
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
 msgstr ""
+"Вытягиваются изменения из удалённых репозиториев и сливаются с рабочей "
+"копией."
 
 #: ../../admin/config.rst:107
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
 msgstr ""
+"Для включения этого параметра необходима работа :ref:`фоновых задач Celery "
+"<celery>`, также он вступит в силу после их перезапуска."
 
 #: ../../admin/config.rst:112
 msgid "AVATAR_URL_PREFIX"
@@ -4386,10 +4400,13 @@ msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"Префикс для генерирования URL-адресов аватаров в выражении "
+"``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``. Сервисы аватаров "
+"работают следующим образом:"
 
 #: ../../admin/config.rst:118
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar (по умолчанию), согласно https://gravatar.com/"
 
 #: ../../admin/config.rst:119
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
@@ -4397,7 +4414,7 @@ msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:121
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar, согласно https://www.libravatar.org/"
 
 #: ../../admin/config.rst:121
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
@@ -4419,6 +4436,9 @@ msgid ""
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
 msgstr ""
+"Сколько времени действует токен аутентификации и временный пароль из писем "
+"сброса пароля. Установливается в количество секунд, по умолчанию равен "
+"172800 (2 дня)."
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
@@ -4426,13 +4446,15 @@ msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
-msgstr ""
+msgstr "Сколько дней должно быть разрешено использовать один и тот же пароль."
 
 #: ../../admin/config.rst:149
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
+"Смена паролей, сделанная в версиях Weblate до версии 2.15, в этой политике "
+"учтена не будет."
 
 #: ../../admin/config.rst:156
 msgid "AUTOFIX_LIST"
@@ -4440,13 +4462,15 @@ msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "Список автоматических исправлений, применяемых при сохранении строки."
 
 #: ../../admin/config.rst:162
 msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
 msgstr ""
+"Предоставьте полный путь к Python’ьему классу, реализующему интерфейс "
+"автоматического исправления."
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
@@ -4590,6 +4614,11 @@ msgid ""
 "configuration` so that default values are used. New checks then carried out "
 "for each new Weblate version."
 msgstr ""
+"По умолчанию включены все встроенные :ref:`проверки <checks>`, оттуда вы "
+"можете изменить эти настройки. В :ref:`примере конфигурации <sample-"
+"configuration>` они по умолчанию закомментированы, так что используются "
+"значения по умолчанию. В каждой новой версии Weblate’а туда добавляются "
+"новые проверки, если таковые появляются."
 
 #: ../../admin/config.rst:248
 msgid "You can turn off all checks:"
@@ -4605,6 +4634,10 @@ msgid ""
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :djadmin:`updatechecks`."
 msgstr ""
+"Изменение этого параметра влияет только на недавно изменённые переводы, "
+"результаты существующих проверок будут по-прежнему сохранены в базе данных. "
+"Чтобы также применить изменения к сохранённым переводам, запустите команду "
+":djadmin:`updatechecks`."
 
 #: ../../admin/config.rst:272
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -4619,6 +4652,8 @@ msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
+"Удаление комментариев через заданное количество дней. По умолчанию ``None``, "
+"что означает, что комментарии не удаляются."
 
 #: ../../admin/config.rst:287
 msgid "COMMIT_PENDING_HOURS"
@@ -4648,10 +4683,13 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"Каталог, в котором Weblate хранит все свои данные. Он содержит ссылки на "
+"репозитории систем контроля версий, индекс для полнотекстового поиска и "
+"различные конфигурационные файлы для внешних инструментов."
 
 #: ../../admin/config.rst:308
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "Обычно существуют следующие подкаталоги:"
 
 #: ../../admin/config.rst:310
 msgid ":file:`home`"
@@ -4659,7 +4697,7 @@ msgstr ":file:`home`"
 
 #: ../../admin/config.rst:311
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "Домашний каталог, используемый при вызове скриптов."
 
 #: ../../admin/config.rst:312
 msgid ":file:`ssh`"
@@ -4667,7 +4705,7 @@ msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:313
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "Ключи и конфигурация SSH."
 
 #: ../../admin/config.rst:314
 msgid ":file:`static`"
@@ -4676,6 +4714,8 @@ msgstr ":file:`static`"
 #: ../../admin/config.rst:315
 msgid "Default location for static Django files, specified by ``STATIC_ROOT``."
 msgstr ""
+"Умолчательное расположение статических файлов Django, определяемых "
+"переменной ``STATIC_ROOT``."
 
 #: ../../admin/config.rst:316
 msgid ":file:`media`"
@@ -4684,6 +4724,8 @@ msgstr ":file:`media`"
 #: ../../admin/config.rst:317
 msgid "Default location for Django media files, specified by ``MEDIA_ROOT``."
 msgstr ""
+"Умолчательное расположение медиа-файлов Django, определяемых переменной "
+"``MEDIA_ROOT``."
 
 #: ../../admin/config.rst:318
 msgid ":file:`vcs`"
@@ -4691,7 +4733,7 @@ msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:319
 msgid "Version control repositories."
-msgstr ""
+msgstr "Репозитории систем контроля версий."
 
 #: ../../admin/config.rst:321
 msgid ":file:`backups`"
@@ -4700,18 +4742,24 @@ msgstr ":file:`backups`"
 #: ../../admin/config.rst:321
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgstr ""
+"Данные ежедневных резервных копий, для получения подробной информации "
+"обратитесь к разделу :ref:`backup-dumps`."
 
 #: ../../admin/config.rst:325
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Этот каталог должен быть доступен Weblate’у для записи. Запуск его в "
+"качестве приложения uWSGI означает, что пользователь ``www-data`` должен "
+"иметь к нему доступ с правами на запись."
 
 #: ../../admin/config.rst:328
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
+"Простейший способ этого достичь — сделать пользователя владельцем каталога:"
 
 #: ../../admin/config.rst:334
 msgid "Defaults to ``$BASE_DIR/data``."
@@ -4730,6 +4778,8 @@ msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Должны ли резервные копии базы данных храниться в виде простого текста, "
+"сжатого файла или не храниться вовсе. Допустимые значения:"
 
 #: ../../admin/config.rst:351
 msgid "``\"plain\"``"
@@ -4750,6 +4800,7 @@ msgstr "DEFAULT_ACCESS_CONTROL"
 #: ../../admin/config.rst:366
 msgid "The default access control setting for new projects:"
 msgstr ""
+"Умолчательное значение параметра управления доступом для новых проектов:"
 
 #: ../../admin/config.rst:368
 msgid "``0``"
@@ -4788,6 +4839,9 @@ msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
+"Используйте :guilabel:`Настраиваемый`, если списками контроля доступа вы "
+"управляете вручную, что означает, что вы не полагаетесь на внутреннее "
+"Weblate’овское управление ими."
 
 #: ../../admin/config.rst:382
 msgid ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
@@ -4799,7 +4853,7 @@ msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:393
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "Значение по умолчанию для ограничения компонента."
 
 #: ../../admin/config.rst:397
 msgid ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
@@ -4818,6 +4872,8 @@ msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
 msgstr ""
+"Умолчательные сообщения коммита для различных операций, для получения "
+"подробной информации обратитесь к разделу :ref:`component`."
 
 #: ../../admin/config.rst:415
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
@@ -4829,11 +4885,11 @@ msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:425
 msgid "Default addons to install on every created component."
-msgstr ""
+msgstr "Умолчательные надстройки, устанавливаемые в каждый созданный компонент."
 
 #: ../../admin/config.rst:429
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "Этот параметр влияет только на новые создаваемые компоненты."
 
 #: ../../admin/config.rst:431 ../../admin/config.rst:739
 #: ../../admin/config.rst:1393 ../../admin/config.rst:1578
@@ -4855,6 +4911,8 @@ msgid ""
 "Committer e-mail address for created translation components defaulting to "
 "``noreply@weblate.org``."
 msgstr ""
+"Адрес электронной почты коммиттера для созданных компонентов перевода, по "
+"умолчанию равен ``noreply@weblate.org``."
 
 #: ../../admin/config.rst:465
 msgid ""
@@ -4872,6 +4930,8 @@ msgstr "DEFAULT_COMMITER_NAME"
 msgid ""
 "Committer name for created translation components defaulting to ``Weblate``."
 msgstr ""
+"Имя коммиттера для создаваемых компонентов перевода, по умолчанию равен "
+"``Weblate``."
 
 #: ../../admin/config.rst:480
 msgid ""
@@ -4887,11 +4947,11 @@ msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:491
 msgid "Merge style for any new components."
-msgstr ""
+msgstr "Стиль слияния для любых новых компонентов."
 
 #: ../../admin/config.rst:493
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` — по умолчанию"
 
 #: ../../admin/config.rst:494
 msgid "`merge`"
@@ -4909,7 +4969,7 @@ msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
 "Значение по умолчанию для настройки распространения перевода, по умолчанию "
-"установлена в ``True``."
+"установлен в ``True``."
 
 #: ../../admin/config.rst:512
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
@@ -4922,6 +4982,8 @@ msgstr "DEFAULT_PULL_MESSAGE"
 #: ../../admin/config.rst:520
 msgid "Title for new pull requests, defaulting to ``'Update from Weblate'``."
 msgstr ""
+"Заголовок для новых запросов на извлечение, по умолчанию равен ``'Update "
+"from Weblate'``."
 
 #: ../../admin/config.rst:526
 msgid "ENABLE_AVATARS"
@@ -4931,12 +4993,15 @@ msgstr "ENABLE_AVATARS"
 msgid ""
 "Whether to turn on Gravatar-based avatars for users. By default this is on."
 msgstr ""
+"Включить ли для пользователей Gravatar-аватары. По умолчанию они включены."
 
 #: ../../admin/config.rst:530
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
+"Аватары извлекаются и кэшируются на сервере, что снижает риск утечки "
+"персональной информации и ускоряет взаимодействие с пользователем."
 
 #: ../../admin/config.rst:535
 msgid ""
@@ -4950,7 +5015,7 @@ msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:544
 msgid "Whether to enable anonymous remote hooks."
-msgstr ""
+msgstr "Включить ли анонимные удалённые обработчики."
 
 #: ../../admin/config.rst:548
 msgid ":ref:`hooks`"
@@ -4965,12 +5030,17 @@ msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Отправлять ли ссылки на Weblate по протоколу HTTPS или HTTP. Этот параметр "
+"влияет на отправленные сообщения электронной почты и сгенерированные "
+"абсолютные URL-адреса."
 
 #: ../../admin/config.rst:560
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS."
 msgstr ""
+"В конфигурации по умолчанию он также используется для нескольких связанных с "
+"HTTPS параметров Django."
 
 #: ../../admin/config.rst:565
 msgid ""
@@ -4991,6 +5061,8 @@ msgid ""
 "Turn on/off the :guilabel:`Share` menu so users can share translation "
 "progress on social networks."
 msgstr ""
+"Включает/выключает меню :guilabel:`Поделиться`, с помощью которого "
+"пользователи могут делиться прогрессом перевода в социальных сетях."
 
 #: ../../admin/config.rst:580
 msgid "GITLAB_USERNAME"
@@ -4999,6 +5071,8 @@ msgstr "GITLAB_USERNAME"
 #: ../../admin/config.rst:582
 msgid "GitLab username used to send merge requests for translation updates."
 msgstr ""
+"Имя пользователя GitLab, используемое для отправки запросов на слияние для "
+"обновления перевода."
 
 #: ../../admin/config.rst:586 ../../admin/continuous.rst:287
 #: ../../admin/continuous.rst:289 ../../admin/install/docker.rst:488
@@ -5014,7 +5088,7 @@ msgstr "GITLAB_TOKEN"
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
 msgstr ""
-"GitLab’овский токен персонального доступа, используемый для вызовов API, "
+"GitLab’овский персональный токен доступа, используемый для вызовов API, "
 "необходимых для обновления перевода."
 
 #: ../../admin/config.rst:597
@@ -5022,6 +5096,8 @@ msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":ref:`vcs-gitlab`, `GitLab: Персональный токен доступа <https://docs.gitlab."
+"com/ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:603
 msgid "GITHUB_USERNAME"
@@ -5030,6 +5106,8 @@ msgstr "GITHUB_USERNAME"
 #: ../../admin/config.rst:605
 msgid "GitHub username used to send pull requests for translation updates."
 msgstr ""
+"Имя пользователя GitHub, используемое для отправки запросов на извлечение "
+"для обновления перевода."
 
 #: ../../admin/config.rst:609 ../../admin/continuous.rst:283
 #: ../../admin/continuous.rst:285 ../../admin/install/docker.rst:470
@@ -5046,12 +5124,17 @@ msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
 msgstr ""
+"GitHub’овский персональный токен доступа, используемый для вызовов API, "
+"необходимых для отправки запросов на извлечение для обновления перевода."
 
 #: ../../admin/config.rst:621
 msgid ""
 ":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
 "com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 msgstr ""
+":ref:`vcs-github`, `Создание персонального токена доступа <https://docs."
+"github.com/en/github/authenticating-to-github/creating-a-personal-access-"
+"token>`_"
 
 #: ../../admin/config.rst:627
 msgid "GOOGLE_ANALYTICS_ID"
@@ -5061,6 +5144,8 @@ msgstr "GOOGLE_ANALYTICS_ID"
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
+"Идентификатор аналитики Google для включения мониторинга Weblate’а с помощью "
+"Google Analytics."
 
 #: ../../admin/config.rst:634
 msgid "HIDE_REPO_CREDENTIALS"
@@ -5072,6 +5157,9 @@ msgid ""
 "have repository URL with user and password, Weblate will hide it when "
 "related info is shown to users."
 msgstr ""
+"Скрыть учётные данные репозитория от появления в веб-интерфейсе. В случае, "
+"если в URL репозитория содержится пользователь и пароль, Weblate спрячет их, "
+"когда соответствующая информация будет показываться пользователям."
 
 #: ../../admin/config.rst:640
 msgid ""
@@ -5079,10 +5167,13 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"Например, вместо ``https://user:password@git.example.com/repo.git`` будет "
+"показано просто ``https://git.example.com/repo.git``. Аналогичным образом он "
+"пытается очистить и сообщения об ошибках системы контроля версий."
 
 #: ../../admin/config.rst:646
 msgid "This is turned on by default."
-msgstr ""
+msgstr "По умолчанию этот параметр включён."
 
 #: ../../admin/config.rst:651
 msgid "IP_BEHIND_REVERSE_PROXY"
