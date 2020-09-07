@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-04 21:58+0200\n"
-"PO-Revision-Date: 2020-09-05 12:46+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-09-07 05:55+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -58,9 +58,8 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`."
 msgstr ""
-"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :"
-"ref:`default-groups` ）。此外，启用 :ref:`acl` 后，您可以将用户分配给特定的翻"
-"译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置"
+"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :ref:`default-groups` ）。此外，启用 "
+":ref:`acl` 后，您可以将用户分配给特定的翻译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -434,7 +433,7 @@ msgstr "取消用户的权限"
 #: ../../admin/access.rst:229
 msgid ""
 "Resend user email invitations, invalidating any previously sent invitation"
-msgstr ""
+msgstr "重新发送用户电子邮件邀请，使任何之前发送的要求无效"
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -2484,7 +2483,7 @@ msgstr ":doc:`borg:usage/general` 在 Borg 文件中"
 
 #: ../../admin/backup.rst:82
 msgid "Local filesystem"
-msgstr ""
+msgstr "本地文件系统"
 
 #: ../../admin/backup.rst:84
 msgid ""
@@ -2493,13 +2492,15 @@ msgid ""
 "(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
 "attempt to create it, but it needs permissions to do so."
 msgstr ""
+"建议指定本地备份的绝对路径，例如 `/path/to/backup`。运行 Weblate 的用户必须可写入备份目录（请参见 :ref:`file-"
+"permissions`）。在目录不存在的情况下，Weblate 会尝试新建，但需要权限来执行。"
 
 #: ../../admin/backup.rst:91
 msgid ""
 "When running Weblate in Docker, please make sure that the backup location is "
 "exposed as a volume from the Weblate container. Otherwise the backups would "
 "be discarded by Docker on container restart."
-msgstr ""
+msgstr "当在 Docker 中运行 Weblate 时，请确认备份位置显露为 Weblate 容器的卷。"
 
 #: ../../admin/backup.rst:96
 msgid "Remote backups"
@@ -2512,10 +2513,12 @@ msgid ""
 "please make sure the Weblate SSH key is accepted by the server (see :ref:"
 "`weblate-ssh-key`)."
 msgstr ""
+"支持使用 SSH 的远程备份。SSH 服务器需要安装 `BorgBackup`_。Weblate 使用 SSH 密钥连接服务器，请确保 Weblate "
+"SSH 密钥被服务器接受（请参见 :ref:`weblate-ssh-key`）。"
 
 #: ../../admin/backup.rst:105
 msgid ":ref:`cloudbackup` provides you automated remote backups."
-msgstr ""
+msgstr ":ref:`cloudbackup` 为您提供自动远程备份。"
 
 #: ../../admin/backup.rst:108
 msgid "Restoring from BorgBackup"
@@ -4588,6 +4591,8 @@ msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
+"ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:603
 msgid "GITHUB_USERNAME"
@@ -4618,6 +4623,8 @@ msgid ""
 ":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
 "com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 msgstr ""
+":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
+"com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:627
 msgid "GOOGLE_ANALYTICS_ID"
@@ -7172,7 +7179,7 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 
 #: ../../admin/install.rst:130
 msgid "``licensee`` (optional for detecting license when creating component)"
-msgstr ""
+msgstr "``licensee`` （当新建组件时可选用与删除许可）"
 
 #: ../../admin/install.rst:130
 msgid "https://github.com/licensee/licensee"
@@ -9401,7 +9408,7 @@ msgstr ""
 msgid ""
 "Configures GitHub personal access token for GitHub pull-requests via API by "
 "changing :setting:`GITHUB_TOKEN`."
-msgstr "更改  :setting:`GITHUB_TOKEN`通过API 配置用于Github pull 请求的GitHub个人访问令牌。"
+msgstr "更改 :setting:`GITHUB_TOKEN`通过API 配置用于Github pull 请求的GitHub个人访问令牌。"
 
 #: ../../admin/install/docker.rst:483
 msgid ""
@@ -9454,11 +9461,11 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:525
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr "配置  :setting:`DEFAULT_COMMITER_EMAIL`。"
+msgstr "配置 :setting:`DEFAULT_COMMITER_EMAIL`。"
 
 #: ../../admin/install/docker.rst:529
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr "配置  :setting:`DEFAULT_COMMITER_NAME`。"
+msgstr "配置 :setting:`DEFAULT_COMMITER_NAME`。"
 
 #: ../../admin/install/docker.rst:533
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -10958,8 +10965,8 @@ msgid ""
 ":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
 "google.com/translate/docs>`_"
 msgstr ""
-"To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` "
-"to :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`."
+":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
+"google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:154
 msgid "Google Translate API V3 (Advanced)"
@@ -11888,38 +11895,38 @@ msgstr ""
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
-msgstr ""
+msgstr "您可以指定选择哪个组件作为主要的一个——即真正包含 VCS 仓库的那个。"
 
 #: ../../admin/management.rst:427
 msgid "Specify the overall, project or component translation license."
-msgstr ""
+msgstr "指定整体、项目或组件翻译的许可。"
 
 #: ../../admin/management.rst:431
 msgid "Specify the URL where the translation license is to be found."
-msgstr ""
+msgstr "指定翻译许可所在的 URL 。"
 
 #: ../../admin/management.rst:435
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
-msgstr ""
+msgstr "在需要指定使用哪个版本的轻质系统的情况下，您可以在这里进行。默认版本控制是 Git。"
 
 #: ../../admin/management.rst:438
 msgid "To give you some examples, let's try importing two projects."
-msgstr ""
+msgstr "为了给出一些例子，让我们导入两个项目。"
 
 #: ../../admin/management.rst:440
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
-msgstr ""
+msgstr "第一个是 Debian 手册翻译，那里的每种语言都有各自的文件夹，里面有 每个章节的翻译："
 
 #: ../../admin/management.rst:451
 msgid ""
 "Then the Tanaguru tool, where the file format needs be specified, along with "
 "the base file template, and how all components and translations are located "
 "in single folder:"
-msgstr ""
+msgstr "然后 Tangaguru 工具，那里需要指定文件格式和译文模板文件，并且指定所有组件和翻译如何位于单一一个文件夹中："
 
 #: ../../admin/management.rst:465
 msgid ""
@@ -11927,46 +11934,48 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
+"更复杂的例子是关于解析文件名而从文件名中得到正确的组件和语言，像 ``src/security/Numerous_security_holes_in_0."
+"10.1.de.po``："
 
 #: ../../admin/management.rst:476
 msgid "Filtering only translations in a chosen language:"
-msgstr ""
+msgstr "筛选出指定的语言的翻译："
 
 #: ../../admin/management.rst:486
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr ""
+msgstr "导入 Sphinx 文档，分成多个文件："
 
 #: ../../admin/management.rst:495
 msgid "Importing Sphinx documentation split to multiple files and directories:"
-msgstr ""
+msgstr "导入 Sphinx 文档，分成多个文件和文件夹："
 
 #: ../../admin/management.rst:510
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :djadmin:`import_json`."
-msgstr ""
+msgstr "更多具体的例子可以在 :ref:`starting` 章节找到，另外您会想要使用 :djadmin:`import_json`。"
 
 #: ../../admin/management.rst:514
 msgid "importuserdata"
-msgstr ""
+msgstr "导入用户数据"
 
 #: ../../admin/management.rst:518
 msgid "Imports user data from a file created by :djadmin:`dumpuserdata`"
-msgstr ""
+msgstr "从 :djadmin:`dumpuserdata` 建立的文件中导入用户数据"
 
 #: ../../admin/management.rst:521
 msgid "importusers"
-msgstr ""
+msgstr "导入用户数据"
 
 #: ../../admin/management.rst:525
 msgid "Imports users from JSON dump of the Django auth_users database."
-msgstr ""
+msgstr "从 Django auth_users 数据库的 JSON 转储中导入用户。"
 
 #: ../../admin/management.rst:530
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
-msgstr ""
+msgstr "使用这个选项可以检查给定文件是否可以被导入，并且报告用户名或电子邮箱地址可能导致的冲突。"
 
 #: ../../admin/management.rst:533
 msgid "You can dump users from the existing Django installation using:"
@@ -14651,7 +14660,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:277
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
-msgstr "调整 `settings.py`文件来将 PostgreSQL 用作一个数据库"
+msgstr "调整 `settings.py` 文件而将 PostgreSQL 用作数据库。"
 
 #: ../../admin/upgrade.rst:279
 msgid "Migrate the schema in the PostgreSQL database:"
@@ -16445,7 +16454,7 @@ msgstr "编辑截屏的完整信息。"
 
 #: ../../api.rst:1991
 msgid "Delete screenshot."
-msgstr "删除截图"
+msgstr "删除截图。"
 
 #: ../../api.rst:1998
 msgid "Component lists"
@@ -16792,7 +16801,7 @@ msgstr "Weblate 4.3"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
-msgstr "尚未发布"
+msgstr "尚未发布。"
 
 #: ../../changes.rst:6
 msgid "Include user stats in the API."
@@ -16897,7 +16906,7 @@ msgstr ""
 
 #: ../../changes.rst:43
 msgid "Added exports into several monolingual formats."
-msgstr "添加了几种单语言格式的导出"
+msgstr "添加了几种单语言格式的导出。"
 
 #: ../../changes.rst:44
 msgid "Improved activity charts."
@@ -16975,7 +16984,7 @@ msgstr "删除了翻译记忆库单独的 Celery 队列。"
 
 #: ../../changes.rst:62
 msgid "Allow translating all components a language at once."
-msgstr "允许使用同一种语言同时翻译所有组件"
+msgstr "允许使用同一种语言同时翻译所有组件。"
 
 #: ../../changes.rst:63
 msgid "Allow to configure ``Content-Security-Policy`` HTTP headers."
@@ -16999,7 +17008,7 @@ msgstr ""
 
 #: ../../changes.rst:67
 msgid "Add support for searching by component and project."
-msgstr "增加对按组件和项目进行搜索的支持"
+msgstr "增加了对按照组件和项目进行搜索的支持。"
 
 #: ../../changes.rst:70
 msgid "Weblate 4.1.1"
