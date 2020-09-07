@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from copy import copy
 from datetime import timedelta
 
 from django.core.files import File
@@ -40,9 +41,10 @@ from weblate.trans.models import (
 from weblate.trans.tests.test_models import fixup_languages_seq
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 TEST_PO = get_test_file("cs.po")
+TEST_POT = get_test_file("hello-charset.pot")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
@@ -87,7 +89,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             "po-mono", "po-mono/*.po", "po-mono/en.po", project=project
         )
 
-    def authenticate(self, superuser=False):
+    def authenticate(self, superuser: bool = False):
         if self.user.is_superuser != superuser:
             self.user.is_superuser = superuser
             self.user.save()
@@ -99,7 +101,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         kwargs=None,
         data=None,
         code=200,
-        superuser=False,
+        superuser: bool = False,
         method="get",
         request=None,
         skip=(),
@@ -1579,6 +1581,39 @@ class TranslationAPITest(APIBaseTest):
         unit = translation.unit_set.get(source="Hello, world!\n")
         self.assertEqual(unit.target, "Ahoj světe!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
+
+        self.assertEqual(self.component.project.stats.suggestions, 0)
+
+    def test_upload_source(self):
+        self.authenticate(True)
+        with open(TEST_POT, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle, "method": "source"},
+            )
+        self.assertEqual(response.status_code, 400)
+        with open(TEST_POT, "rb") as handle:
+            source_kwargs = copy(self.translation_kwargs)
+            source_kwargs["language__code"] = "en"
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=source_kwargs),
+                {"file": handle, "method": "source"},
+            )
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 3,
+                "count": 3,
+                "not_found": 0,
+                "result": True,
+                "skipped": 0,
+                "total": 3,
+            },
+        )
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.target, "")
+        self.assertEqual(unit.state, STATE_EMPTY)
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
 

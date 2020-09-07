@@ -661,6 +661,11 @@ class UploadRequestSerializer(ReadOnlySerializer):
         ):
             raise PermissionDenied()
 
+        if data["method"] == "source" and not obj.is_source:
+            raise serializers.ValidationError(
+                "Source upload is supported only on source language."
+            )
+
         if not check_upload_method_permissions(user, obj, data["method"]):
             raise PermissionDenied()
 
