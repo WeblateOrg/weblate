@@ -921,6 +921,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
 
                 # Create source unit
                 source = source_units.create(id_hash=id_hash, **create)
+                source.source_updated = True
                 Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
                 self.updated_sources[id_hash] = source
 
