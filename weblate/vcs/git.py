@@ -711,10 +711,7 @@ class GithubRepository(GitMergeRequestBase):
             # Gracefully handle pull request already exists case
             if (
                 "errors" in response
-                and response["errors"][0]["message"].find(
-                    "A pull request already exists"
-                )
-                != -1
+                and "A pull request already exists" in response["errors"][0]["message"]
             ):
                 return
 
