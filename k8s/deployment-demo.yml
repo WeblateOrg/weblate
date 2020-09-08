@@ -172,6 +172,12 @@ spec:
             secretKeyRef:
               name: weblate-social-auth-secret
               key: weblate-social-auth-secret
+        # GOOGLE CLOUD AUTH
+        - name: WEBLATE_GOOGLE_CLOUD_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: weblate-google-cloud-api-key
+              key: key
         # OTHER
         - name: WEBLATE_SITE_TITLE
           value: "Vendasta Weblate | Web Translate"
@@ -287,4 +293,7 @@ spec:
       - name: weblate-admin-api-token
         secret:
           secretName: weblate-admin-api-token
+      - name: weblate-google-cloud-api-key
+        secret:
+          secretName: weblate-google-cloud-api-key
 status: {}
