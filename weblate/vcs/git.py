@@ -564,6 +564,7 @@ class GitForcePushRepository(GitRepository):
 class GitMergeRequestBase(GitForcePushRepository):
     needs_push_url = False
     identifier = None
+    API_TEMPLATE = ""
 
     @staticmethod
     def get_username():
@@ -630,20 +631,37 @@ class GitMergeRequestBase(GitForcePushRepository):
             settings.DEFAULT_PULL_MESSAGE, component=self.component
         ).split("\n\n", 1)
 
+    def format_api_host(self, host):
+        return host
+
+    def api_url(self):
+        repo = self.component.repo
+        host = urllib.parse.urlparse(repo).hostname
+        if not host:
+            # Assume SSH URL
+            host = repo.split(":")[0].split("@")[-1]
+        parts = repo.split(":")[-1].split("/")
+        slug = parts[-1].replace(".git", "")
+        owner = parts[-2]
+        return self.API_TEMPLATE.format(
+            host=self.format_api_host(host), owner=owner, slug=slug
+        )
+
 
 class GithubRepository(GitMergeRequestBase):
 
     name = "GitHub"
     _version = None
+    API_TEMPLATE = "https://{host}/repos/{owner}/{slug}"
 
     @staticmethod
     def get_username():
         return settings.GITHUB_USERNAME
 
-    def api_url(self):
-        slug = self.component.repo.split("/")[-1].replace(".git", "")
-        owner = self.component.repo.split("/")[-2]
-        return "https://api.github.com/repos/{0}/{1}".format(owner, slug)
+    def format_api_host(self, host):
+        if host == "github.com":
+            return "api.github.com"
+        return host
 
     def create_fork(self):
         fork_url = "{}/forks".format(self.api_url())
@@ -806,23 +824,11 @@ class GitLabRepository(GitMergeRequestBase):
 
     name = "GitLab"
     _version = None
+    API_TEMPLATE = "https://{host}/api/v4/projects/{owner}%2F{slug}"
 
     @staticmethod
     def get_username():
         return settings.GITLAB_USERNAME
-
-    def api_url(self):
-        repo_name_index = self.component.repo.rfind(
-            "/", 0, self.component.repo.rfind("/")
-        )
-        api_url = "{}/api/v4/projects/{}".format(
-            self.component.repo[:repo_name_index],
-            urllib.parse.quote(
-                self.component.repo[(repo_name_index + 1) :].replace(".git", ""),
-                safe="",
-            ),
-        )
-        return api_url
 
     def get_forked_url(self):
         """Gitlab MR needs the API URL for the forked repository.

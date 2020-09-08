@@ -441,7 +441,7 @@ class VCSGitUpstreamTest(VCSGitTest):
 
 
 @override_settings(GITHUB_USERNAME="test")
-class VCSGithubTest(VCSGitUpstreamTest):
+class VCSGitHubTest(VCSGitUpstreamTest):
     _class = GithubFakeRepository
     _vcs = "git"
     _sets_push = False
@@ -465,6 +465,14 @@ class VCSGithubTest(VCSGitUpstreamTest):
 
     def test_api_url(self):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "git@github.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "github.com:WeblateOrg/test.git"
         self.assertEqual(
             self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
@@ -631,6 +639,24 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
         self.assertEqual(
             self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
+        )
+        self.repo.component.repo = "https://user:pass@gitlab.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
+        )
+        self.repo.component.repo = "git@gitlab.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
+        )
+        self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(),
+            "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
+        )
+        self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.api_url(),
+            "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
         )
 
     @responses.activate
