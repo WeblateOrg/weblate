@@ -504,7 +504,11 @@ def hosting(request):
 
     from weblate.billing.models import Billing, Plan
 
-    billings = Billing.objects.for_user(request.user).filter(state=Billing.STATE_TRIAL)
+    billings = (
+        Billing.objects.for_user(request.user)
+        .filter(state=Billing.STATE_TRIAL)
+        .order_by("-payment")
+    )
 
     if request.method == "POST" and "billing" in request.POST:
         billing = billings.get(pk=request.POST["billing"])
