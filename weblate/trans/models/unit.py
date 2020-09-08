@@ -451,8 +451,8 @@ class Unit(models.Model, LoggerMixin):
                 },
             )
             if (
-                not component.has_template()
-                and not source_info.source_updated
+                not source_info.source_updated
+                and not component.has_template()
                 and (
                     pos != source_info.position
                     or location != source_info.location
