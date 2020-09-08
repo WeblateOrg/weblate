@@ -673,20 +673,20 @@ class GithubRepository(GitMergeRequestBase):
             head = "{0}:{1}".format(fork_remote, fork_branch)
         pr_url = "{}/pulls".format(self.api_url())
         title, description = self.get_merge_message()
-        r = requests.post(
+        request = {
+            "head": head,
+            "base": origin_branch,
+            "title": title,
+            "body": description,
+        }
+        response = requests.post(
             pr_url,
             headers={
                 "Accept": "application/vnd.github.v3+json",
                 "Authorization": "token {}".format(settings.GITHUB_TOKEN),
             },
-            json={
-                "head": head,
-                "base": origin_branch,
-                "title": title,
-                "body": description,
-            },
-        )
-        response = r.json()
+            json=request,
+        ).json()
 
         # Log all errors
         if "message" in response:
@@ -936,18 +936,18 @@ class GitLabRepository(GitMergeRequestBase):
             pr_url = "{}/merge_requests".format(self.get_forked_url())
 
         title, description = self.get_merge_message()
-        r = requests.post(
+        request = {
+            "source_branch": fork_branch,
+            "target_branch": origin_branch,
+            "title": title,
+            "description": description,
+            "target_project_id": target_project_id,
+        }
+        response = requests.post(
             pr_url,
             headers={"Authorization": "Bearer {}".format(settings.GITLAB_TOKEN)},
-            json={
-                "source_branch": fork_branch,
-                "target_branch": origin_branch,
-                "title": title,
-                "description": description,
-                "target_project_id": target_project_id,
-            },
-        )
-        response = r.json()
+            json=request,
+        ).json()
 
         # Log messages
         if "message" in response and isinstance(response["message"], list):
