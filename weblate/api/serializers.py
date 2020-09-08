@@ -512,25 +512,13 @@ class TermSerializer(serializers.ModelSerializer):
             "target",
         )
 
-    def create(self, validated_data):
-        language_validated = validated_data.get("language")
-        if language_validated:
-            validated_data["language"] = Language.objects.get(
-                code=language_validated.get("code")
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
+        if "language" in result:
+            result["language"] = Language.objects.get(
+                code=result["language"].get("code")
             )
-        term = Term.objects.create(**validated_data)
-        return term
-
-    def update(self, instance, validated_data):
-        language_validated = validated_data.get("language", None)
-        if language_validated:
-            instance.language = Language.objects.get(
-                code=language_validated.get("code")
-            )
-        instance.source = validated_data.get("source", instance.source)
-        instance.target = validated_data.get("target", instance.target)
-        instance.save()
-        return instance
+        return result
 
 
 class GlossarySerializer(serializers.ModelSerializer):
@@ -559,25 +547,13 @@ class GlossarySerializer(serializers.ModelSerializer):
             "url": {"view_name": "api:glossary-detail", "lookup_field": "id"}
         }
 
-    def create(self, validated_data):
-        source_language_validated = validated_data.get("source_language")
-        if source_language_validated:
-            validated_data["source_language"] = Language.objects.get(
-                code=source_language_validated.get("code")
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
+        if "source_language" in result:
+            result["source_language"] = Language.objects.get(
+                code=result["source_language"].get("code")
             )
-        glossary = Glossary.objects.create(**validated_data)
-        return glossary
-
-    def update(self, instance, validated_data):
-        source_language_validated = validated_data.get("source_language", None)
-        if source_language_validated:
-            instance.source_language = Language.objects.get(
-                code=source_language_validated.get("code")
-            )
-        instance.name = validated_data.get("name", instance.name)
-        instance.color = validated_data.get("color", instance.color)
-        instance.save()
-        return instance
+        return result
 
 
 class TranslationSerializer(RemovableSerializer):
