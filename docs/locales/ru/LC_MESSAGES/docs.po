@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 21:58+0200\n"
+"POT-Creation-Date: 2020-09-08 10:39+0200\n"
 "PO-Revision-Date: 2020-09-07 19:31+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
@@ -919,7 +919,7 @@ msgstr ""
 "Обновление внутреннего репозитория [`Администрирование`, `Управление "
 "репозиторием`]"
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:428
 msgid "Site wide privileges"
 msgstr "Привилегии для всего сайта"
 
@@ -928,28 +928,28 @@ msgid "Use management interface"
 msgstr "Использование интерфейса управления"
 
 #: ../../admin/access.rst:412
+msgid "Add new projects"
+msgstr "Добавление новых проектов"
+
+#: ../../admin/access.rst:414
 msgid "Add language definitions"
 msgstr "Добавление определений языка"
 
-#: ../../admin/access.rst:414
+#: ../../admin/access.rst:416
 msgid "Manage language definitions"
 msgstr "Управление определениями языка"
-
-#: ../../admin/access.rst:416
-msgid "Add groups"
-msgstr "Добавление групп"
 
 #: ../../admin/access.rst:418
 msgid "Manage groups"
 msgstr "Управление группами"
 
 #: ../../admin/access.rst:420
-msgid "Add users"
-msgstr "Добавление пользователей"
-
-#: ../../admin/access.rst:422
 msgid "Manage users"
 msgstr "Управление пользователями"
+
+#: ../../admin/access.rst:422
+msgid "Manage roles"
+msgstr "Управление ролями"
 
 #: ../../admin/access.rst:424
 msgid "Manage announcements"
@@ -959,7 +959,11 @@ msgstr "Управление объявлениями"
 msgid "Manage translation memory"
 msgstr "Управление памятью переводов"
 
-#: ../../admin/access.rst:430
+#: ../../admin/access.rst:428
+msgid "Manage component lists"
+msgstr "Управление списками компонентов"
+
+#: ../../admin/access.rst:432
 msgid ""
 "The site wide privileges are not granted to any default role. These are "
 "powerful and quite close to the superuser status—most of them affect all the "
@@ -969,11 +973,11 @@ msgstr ""
 "Они мощны и достаточно близки к статусу суперпользователя — большинство из "
 "них влияют на все проекты вашей установки Weblate."
 
-#: ../../admin/access.rst:435
+#: ../../admin/access.rst:437
 msgid "List of groups"
 msgstr "Список групп"
 
-#: ../../admin/access.rst:437
+#: ../../admin/access.rst:439
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
@@ -981,15 +985,15 @@ msgstr ""
 "Следующие группы создаются после установки (или после выполнения команды :"
 "djadmin:`setupgroups`):"
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "`Guests`"
 msgstr "`Гости`"
 
-#: ../../admin/access.rst:441
+#: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
 msgstr "Определяет разрешения для неавторизованных пользователей."
 
-#: ../../admin/access.rst:443
+#: ../../admin/access.rst:445
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
@@ -997,7 +1001,7 @@ msgstr ""
 "Эта группа содержит только анонимных пользователей (смотрите настройку :"
 "setting:`ANONYMOUS_USER_NAME`)."
 
-#: ../../admin/access.rst:445
+#: ../../admin/access.rst:447
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
@@ -1005,15 +1009,15 @@ msgstr ""
 "Вы можете удалить роли из этой группы, чтобы ограничить разрешения для "
 "неавторизованных пользователей."
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr "Роли по умолчанию: `Добавление предложений`, `Доступ к репозиторию`"
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "`Viewers`"
 msgstr "`Просматривающие`"
 
-#: ../../admin/access.rst:451
+#: ../../admin/access.rst:453
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
@@ -1021,60 +1025,60 @@ msgstr ""
 "Эта роль обеспечивает видимость публичных проектов для всех пользователей. "
 "По умолчанию членами этой группы являются все пользователи."
 
-#: ../../admin/access.rst:454
+#: ../../admin/access.rst:456
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr ""
 "По умолчанию все пользователи являются членами этой группы, используя :ref:"
 "`autogroup`."
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "Default roles: none"
 msgstr "Роли по умолчанию: нет"
 
-#: ../../admin/access.rst:463 ../../workflows.rst:67 ../../workflows.rst:98
+#: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
 msgstr "`Пользователи`"
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:461
 msgid "Default group for all users."
 msgstr "Стандартная группа для всех пользователей."
 
-#: ../../admin/access.rst:461
+#: ../../admin/access.rst:463
 msgid "By default all users are members of this group using :ref:`autogroup`."
 msgstr ""
 "По умолчанию все пользователи являются членами этой группы, используя :ref:"
 "`autogroup`."
 
-#: ../../admin/access.rst:463
+#: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
 msgstr "Роли по умолчанию: `Опытный пользователь`"
 
-#: ../../admin/access.rst:468 ../../workflows.rst:137
+#: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
 msgstr "`Рецензенты`"
 
-#: ../../admin/access.rst:466
+#: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr "Группа для рецензентов (смотрите раздел :ref:`workflows`)."
 
-#: ../../admin/access.rst:468
+#: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
 msgstr "Роли по умолчанию: `Рецензирование строк`"
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "`Managers`"
 msgstr "`Управляющие`"
 
-#: ../../admin/access.rst:471
+#: ../../admin/access.rst:473
 msgid "Group for administrators."
 msgstr "Группа для администраторов."
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
 msgstr "Роли по умолчанию: `Администрирование`"
 
-#: ../../admin/access.rst:477
+#: ../../admin/access.rst:479
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
@@ -1846,8 +1850,8 @@ msgid ""
 msgstr ""
 "Управление объектами базы данных под любым разделом. Самым интересным из них "
 "является, наверное, :guilabel:`Переводы Weblate’а`, в котором можно "
-"управлять переводимыми проектами, смотрите разделы :ref:`project` и "
-":ref:`component`."
+"управлять переводимыми проектами, смотрите разделы :ref:`project` и :ref:"
+"`component`."
 
 #: ../../admin/admin.rst:35
 msgid ""
@@ -1902,9 +1906,9 @@ msgid ""
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
 "Для облегчения их перевода предоставьте шаблон файла, содержащий отображение "
-"идентификаторов сообщений на соответствующие строки на языке оригинала ("
-"обычно это английский) (для справки по параметрам смотрите раздел "
-":ref:`component`):"
+"идентификаторов сообщений на соответствующие строки на языке оригинала "
+"(обычно это английский) (для справки по параметрам смотрите раздел :ref:"
+"`component`):"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -1948,9 +1952,8 @@ msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
-"Объявления могут быть размещены на каждом уровне через меню "
-":guilabel:`Управлять` при помощи его пункта :guilabel:`Опубликовать "
-"объявление`:"
+"Объявления могут быть размещены на каждом уровне через меню :guilabel:"
+"`Управлять` при помощи его пункта :guilabel:`Опубликовать объявление`:"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -3277,8 +3280,8 @@ msgstr "``rst-text``"
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgstr ""
-"Рассматривать текст как документ reStructuredText, влияет на проверку :ref"
-":`check-same`."
+"Рассматривать текст как документ reStructuredText, влияет на проверку :ref:"
+"`check-same`."
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
@@ -3353,8 +3356,8 @@ msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
-"Ограничивает максимальную длину строки N символами, смотрите проверку :ref"
-":`check-max-length`."
+"Ограничивает максимальную длину строки N символами, смотрите проверку :ref:"
+"`check-max-length`."
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -4400,8 +4403,8 @@ msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
-"Префикс для генерирования URL-адресов аватаров в выражении "
-"``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``. Сервисы аватаров "
+"Префикс для генерирования URL-адресов аватаров в выражении ``"
+"${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``. Сервисы аватаров "
 "работают следующим образом:"
 
 #: ../../admin/config.rst:118
@@ -4636,8 +4639,8 @@ msgid ""
 msgstr ""
 "Изменение этого параметра влияет только на недавно изменённые переводы, "
 "результаты существующих проверок будут по-прежнему сохранены в базе данных. "
-"Чтобы также применить изменения к сохранённым переводам, запустите команду "
-":djadmin:`updatechecks`."
+"Чтобы также применить изменения к сохранённым переводам, запустите команду :"
+"djadmin:`updatechecks`."
 
 #: ../../admin/config.rst:272
 msgid ":ref:`checks`, :ref:`custom-checks`"
@@ -4885,7 +4888,8 @@ msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:425
 msgid "Default addons to install on every created component."
-msgstr "Умолчательные надстройки, устанавливаемые в каждый созданный компонент."
+msgstr ""
+"Умолчательные надстройки, устанавливаемые в каждый созданный компонент."
 
 #: ../../admin/config.rst:429
 msgid "This setting affects only newly created components."
@@ -5298,8 +5302,8 @@ msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
-"Полезен, если вы размещаете свои юридические документы за пределами Weblate’"
-"а для дальнейшего их встраивания в Weblate, для получения подробной "
+"Полезен, если вы размещаете свои юридические документы за пределами "
+"Weblate’а для дальнейшего их встраивания в Weblate, для получения подробной "
 "информации обратитесь к разделу :ref:`legal`."
 
 #: ../../admin/config.rst:748
@@ -5366,8 +5370,8 @@ msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
 msgstr ""
-"Установите его значение в ``False`` для разрешения более длинных переводов ("
-"до 10 000 символов) независимо от длины исходной строки."
+"Установите его значение в ``False`` для разрешения более длинных переводов "
+"(до 10 000 символов) независимо от длины исходной строки."
 
 #: ../../admin/config.rst:810
 msgid "Defaults to ``True``."
@@ -5393,8 +5397,8 @@ msgstr ""
 #: ../../admin/config.rst:825
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgstr ""
-"На Hosted Weblate для этого параметра используется значение ``https"
-"://weblate-cdn.com/``."
+"На Hosted Weblate для этого параметра используется значение ``https://"
+"weblate-cdn.com/``."
 
 #: ../../admin/config.rst:829
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -5468,8 +5472,8 @@ msgid ""
 msgstr ""
 "Полный URL-адрес (включая завершающую косую черту) установки Matomo (бывшего "
 "Piwik), которую вы хотите использовать для отслеживания использования "
-"Weblate. Для получения более подробной информации обратитесь к "
-"<https://matomo.org/>."
+"Weblate. Для получения более подробной информации обратитесь к <https://"
+"matomo.org/>."
 
 #: ../../admin/config.rst:915
 msgid ":setting:`MATOMO_SITE_ID`"
@@ -5761,10 +5765,10 @@ msgid ""
 "azure.microsoft.com/services/cognitive-services/translator-text-api/>`_, "
 "`Microsoft Azure Portal <https://portal.azure.com/>`_"
 msgstr ""
-":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref"
-":`machine-translation`, `Cognitive Services — API перевода текста "
-"<https://azure.microsoft.com/services/cognitive-services/translator-text-api/"
-">`_, `Портал Microsoft Azure <https://portal.azure.com/>`_"
+":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:"
+"`machine-translation`, `Cognitive Services — API перевода текста <https://"
+"azure.microsoft.com/services/cognitive-services/translator-text-api/>`_, "
+"`Портал Microsoft Azure <https://portal.azure.com/>`_"
 
 #: ../../admin/config.rst:1128
 msgid "MT_MICROSOFT_REGION"
@@ -5779,8 +5783,8 @@ msgid ""
 msgstr ""
 "Префикс региона, как определено в разделе `«Проверка подлинности с помощью "
 "ресурса с несколькими службами» <https://docs.microsoft.com/ru-ru/azure/"
-"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a"
-"-multi-service-resource>`_."
+"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-"
+"multi-service-resource>`_."
 
 #: ../../admin/config.rst:1135
 msgid "MT_MICROSOFT_ENDPOINT_URL"
@@ -5853,9 +5857,9 @@ msgid ""
 "translation`, `MyMemory: API technical specifications <https://mymemory."
 "translated.net/doc/spec.php>`_"
 msgstr ""
-":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
-", `MyMemory: технические спецификации API <https://mymemory.translated.net/"
-"doc/spec.php>`_"
+":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-"
+"translation`, `MyMemory: технические спецификации API <https://mymemory."
+"translated.net/doc/spec.php>`_"
 
 #: ../../admin/config.rst:1186
 msgid "MT_MYMEMORY_KEY"
@@ -5875,9 +5879,9 @@ msgid ""
 "translation`, `MyMemory: API key generator <https://mymemory.translated.net/"
 "doc/keygen.php>`_"
 msgstr ""
-":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
-", `MyMemory: генератор ключа API <https://mymemory.translated.net/doc/keygen."
-"php>`_"
+":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-"
+"translation`, `MyMemory: генератор ключа API <https://mymemory.translated."
+"net/doc/keygen.php>`_"
 
 #: ../../admin/config.rst:1198
 msgid "MT_MYMEMORY_USER"
@@ -6223,9 +6227,9 @@ msgid ""
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
 "Этот параметр влияет на встроенную аутентификацию по адресу электронной "
-"почты или через Python Social Auth (при помощи параметра "
-":setting:`REGISTRATION_ALLOW_BACKENDS` вы можете занести определённые "
-"бэкэнды в белый список)."
+"почты или через Python Social Auth (при помощи параметра :setting:"
+"`REGISTRATION_ALLOW_BACKENDS` вы можете занести определённые бэкэнды в белый "
+"список)."
 
 #: ../../admin/config.rst:1454
 msgid ""
@@ -6233,8 +6237,8 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
-"При использовании сторонних методов аутентификации, вроде :ref:`"
-"аутентификации через LDAP <ldap-auth>`, этот параметр просто скрывает форму "
+"При использовании сторонних методов аутентификации, вроде :ref:"
+"`аутентификации через LDAP <ldap-auth>`, этот параметр просто скрывает форму "
 "регистрации, но новые пользователи всё равно смогут входить в систему и "
 "создавать учётные записи."
 
@@ -6314,7 +6318,8 @@ msgstr ""
 #: ../../admin/config.rst:1510
 msgid ""
 "In case Weblate is running on non-standard port, include it here as well."
-msgstr "Если Weblate работает на нестандартном порту, добавьте его и сюда тоже."
+msgstr ""
+"Если Weblate работает на нестандартном порту, добавьте его и сюда тоже."
 
 #: ../../admin/config.rst:1512
 msgid "**Examples:**"
@@ -6326,18 +6331,17 @@ msgid ""
 "(enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing "
 "URL, use :setting:`URL_PREFIX`."
 msgstr ""
-"Этот параметр должен содержать только доменное имя. Для настройки протокола ("
-"включения и принудительного включения HTTPS) используйте параметр "
-":setting:`ENABLE_HTTPS`, а для изменения URL-адреса — параметр "
-":setting:`URL_PREFIX`."
+"Этот параметр должен содержать только доменное имя. Для настройки протокола "
+"(включения и принудительного включения HTTPS) используйте параметр :setting:"
+"`ENABLE_HTTPS`, а для изменения URL-адреса — параметр :setting:`URL_PREFIX`."
 
 #: ../../admin/config.rst:1530
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
-"На контейнере Docker’а домен сайта настраивается через переменную окружения "
-":envvar:`WEBLATE_ALLOWED_HOSTS`."
+"На контейнере Docker’а домен сайта настраивается через переменную окружения :"
+"envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/config.rst:1535
 msgid ""
@@ -6508,9 +6512,10 @@ msgid ""
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
-"В случае, если вы при отправке коммитов из Weblate’а получили ошибку ``fatal:"
-" protocol error: expected old/new/ref, got 'shallow <commit hash>'``, "
-"полностью отключите поверхностные клоны, установив соответствующий параметр:"
+"В случае, если вы при отправке коммитов из Weblate’а получили ошибку "
+"``fatal: protocol error: expected old/new/ref, got 'shallow <commit "
+"hash>'``, полностью отключите поверхностные клоны, установив соответствующий "
+"параметр:"
 
 #: ../../admin/config.rst:1682
 msgid "WEBLATE_ADDONS"
@@ -6577,8 +6582,8 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
-"В GPG’шной связке ключей Weblate ищет соответствующий ключ (файл :file:`home/"
-".gnupg` в каталоге :setting:`DATA_DIR`). Если ключ не найден, он "
+"В GPG’шной связке ключей Weblate ищет соответствующий ключ (файл :file:"
+"`home/.gnupg` в каталоге :setting:`DATA_DIR`). Если ключ не найден, он "
 "генерируется, подробнее смотрите в разделе :ref:`gpg-sign`."
 
 #: ../../admin/config.rst:1776 ../../admin/install/docker.rst:541
@@ -12881,8 +12886,8 @@ msgstr ""
 #: ../../admin/management.rst:232
 msgid "Do not set password, this can be useful with `--update`."
 msgstr ""
-"Не устанавливать пароль, это может быть полезно при запуске с ключом "
-"``--update``."
+"Не устанавливать пароль, это может быть полезно при запуске с ключом ``--"
+"update``."
 
 #: ../../admin/management.rst:236
 msgid "Use the given name instead of ``admin``."
@@ -14134,12 +14139,19 @@ msgstr ""
 "автоматическим обнаружением большинства параметров."
 
 #: ../../admin/projects.rst:45
+#, fuzzy
+#| msgid ""
+#| "Based on your permissions, new translation projects and components can be "
+#| "created. It is always permitted for superusers, and if your instance uses "
+#| "billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you "
+#| "can also create those based on your plans allowance from the user account "
+#| "that manages billing."
 msgid ""
 "Based on your permissions, new translation projects and components can be "
-"created. It is always permitted for superusers, and if your instance uses "
-"billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you can "
-"also create those based on your plans allowance from the user account that "
-"manages billing."
+"created. It is always permitted for users with the :guilabel:`Add new "
+"projects` permission, and if your instance uses billing (e.g. like https://"
+"hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
+"your plans allowance from the user account that manages billing."
 msgstr ""
 "В зависимости от ваших разрешений вы можете создавать новые проекты и "
 "компоненты перевода. Для суперпользователей их создание всегда разрешено, а "
@@ -30390,9 +30402,7 @@ msgstr "Несовпадающие \\\\n"
 
 #: ../../user/checks.rst:581
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr ""
-"*Количество \\\\n"
-" в переводе не соответствует источнику*"
+msgstr "*Количество \\\\n в переводе не соответствует источнику*"
 
 #: ../../user/checks.rst:583
 msgid ""
@@ -30401,8 +30411,8 @@ msgid ""
 "source."
 msgstr ""
 "Экранированные символы новой строки обычно важны при форматировании вывода "
-"программы. Проверка срабатывает, если количество символов ``\\n"
-"`` в переводе не совпадает с их количеством в исходной строке."
+"программы. Проверка срабатывает, если количество символов ``\\n`` в переводе "
+"не совпадает с их количеством в исходной строке."
 
 #: ../../user/checks.rst:589
 msgid "Mismatched colon"
@@ -34181,6 +34191,12 @@ msgstr ""
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "Add groups"
+#~ msgstr "Добавление групп"
+
+#~ msgid "Add users"
+#~ msgstr "Добавление пользователей"
 
 #~ msgid "Automated backup"
 #~ msgstr "Автоматическое резервное копирование"

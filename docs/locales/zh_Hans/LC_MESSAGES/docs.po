@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 21:58+0200\n"
+"POT-Creation-Date: 2020-09-08 10:39+0200\n"
 "PO-Revision-Date: 2020-09-07 10:51+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -58,8 +58,9 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`."
 msgstr ""
-"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :ref:`default-groups` ）。此外，启用 "
-":ref:`acl` 后，您可以将用户分配给特定的翻译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置。"
+"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :"
+"ref:`default-groups` ）。此外，启用 :ref:`acl` 后，您可以将用户分配给特定的翻"
+"译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -807,7 +808,7 @@ msgstr ""
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr "更新内部代码库[`Administration`, `Manage repository`]"
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:428
 msgid "Site wide privileges"
 msgstr "全网站范围的特权"
 
@@ -816,28 +817,28 @@ msgid "Use management interface"
 msgstr "使用管理界面"
 
 #: ../../admin/access.rst:412
+msgid "Add new projects"
+msgstr "添加新项目"
+
+#: ../../admin/access.rst:414
 msgid "Add language definitions"
 msgstr "添加语言定义"
 
-#: ../../admin/access.rst:414
+#: ../../admin/access.rst:416
 msgid "Manage language definitions"
 msgstr "管理语言定义"
-
-#: ../../admin/access.rst:416
-msgid "Add groups"
-msgstr "添加群组"
 
 #: ../../admin/access.rst:418
 msgid "Manage groups"
 msgstr "管理群组"
 
 #: ../../admin/access.rst:420
-msgid "Add users"
-msgstr "添加用户"
-
-#: ../../admin/access.rst:422
 msgid "Manage users"
 msgstr "管理用户"
+
+#: ../../admin/access.rst:422
+msgid "Manage roles"
+msgstr "管理角色"
 
 #: ../../admin/access.rst:424
 msgid "Manage announcements"
@@ -847,7 +848,11 @@ msgstr "管理公告"
 msgid "Manage translation memory"
 msgstr "管理翻译记忆库"
 
-#: ../../admin/access.rst:430
+#: ../../admin/access.rst:428
+msgid "Manage component lists"
+msgstr "管理组件列表"
+
+#: ../../admin/access.rst:432
 msgid ""
 "The site wide privileges are not granted to any default role. These are "
 "powerful and quite close to the superuser status—most of them affect all the "
@@ -856,100 +861,100 @@ msgstr ""
 "全网站特权不会授予任何默认角色。这些特权特别强大，非常接近超级用户状态——多数"
 "特权会影响 Weblate 安装的所有项目。"
 
-#: ../../admin/access.rst:435
+#: ../../admin/access.rst:437
 msgid "List of groups"
 msgstr "群组列表"
 
-#: ../../admin/access.rst:437
+#: ../../admin/access.rst:439
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
 msgstr "下面的群组在安装时建立（或在执行后 :djadmin:`setupgroups` ）："
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "`Guests`"
 msgstr "`访客`"
 
-#: ../../admin/access.rst:441
+#: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
 msgstr "对非授权用户确定权限。"
 
-#: ../../admin/access.rst:443
+#: ../../admin/access.rst:445
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr "这个群组只包括匿名用户（请见 :setting:`ANONYMOUS_USER_NAME` ）。"
 
-#: ../../admin/access.rst:445
+#: ../../admin/access.rst:447
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
 msgstr "可以从群组中去掉角色，来限制非授权用户的权限。"
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr "默认角色: `Add suggestion`, `Access repository`"
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "`Viewers`"
 msgstr "`Viewers`"
 
-#: ../../admin/access.rst:451
+#: ../../admin/access.rst:453
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
 msgstr "这一角色确保公开项目对所有用户可见。所有用户默认是这个群组的成员。"
 
-#: ../../admin/access.rst:454
+#: ../../admin/access.rst:456
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr "所有用户默认为这个群组的成员，使用 :ref:`autogroup` 。"
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "Default roles: none"
 msgstr "默认角色：无"
 
-#: ../../admin/access.rst:463 ../../workflows.rst:67 ../../workflows.rst:98
+#: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
 msgstr "`用户`"
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:461
 msgid "Default group for all users."
 msgstr "所有用户的默认群组。"
 
-#: ../../admin/access.rst:461
+#: ../../admin/access.rst:463
 msgid "By default all users are members of this group using :ref:`autogroup`."
 msgstr "所有用户默认为这个群组的成员，使用 :ref:`autogroup` 。"
 
-#: ../../admin/access.rst:463
+#: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
 msgstr "默认角色: `Power user`"
 
-#: ../../admin/access.rst:468 ../../workflows.rst:137
+#: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
 msgstr "`校对`"
 
-#: ../../admin/access.rst:466
+#: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr "复核员的群组（参见 :ref:`workflows` ）。"
 
-#: ../../admin/access.rst:468
+#: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
 msgstr "默认角色: `Review strings`"
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "`Managers`"
 msgstr "`管理人员`"
 
-#: ../../admin/access.rst:471
+#: ../../admin/access.rst:473
 msgid "Group for administrators."
 msgstr "管理员的群组。"
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
 msgstr "默认角色: `Administration`"
 
-#: ../../admin/access.rst:477
+#: ../../admin/access.rst:479
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
@@ -2492,8 +2497,9 @@ msgid ""
 "(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
 "attempt to create it, but it needs permissions to do so."
 msgstr ""
-"建议指定本地备份的绝对路径，例如 `/path/to/backup`。运行 Weblate 的用户必须可写入备份目录（请参见 :ref:`file-"
-"permissions`）。在目录不存在的情况下，Weblate 会尝试新建，但需要权限来执行。"
+"建议指定本地备份的绝对路径，例如 `/path/to/backup`。运行 Weblate 的用户必须可"
+"写入备份目录（请参见 :ref:`file-permissions`）。在目录不存在的情况下，"
+"Weblate 会尝试新建，但需要权限来执行。"
 
 #: ../../admin/backup.rst:91
 msgid ""
@@ -2513,8 +2519,9 @@ msgid ""
 "please make sure the Weblate SSH key is accepted by the server (see :ref:"
 "`weblate-ssh-key`)."
 msgstr ""
-"支持使用 SSH 的远程备份。SSH 服务器需要安装 `BorgBackup`_。Weblate 使用 SSH 密钥连接服务器，请确保 Weblate "
-"SSH 密钥被服务器接受（请参见 :ref:`weblate-ssh-key`）。"
+"支持使用 SSH 的远程备份。SSH 服务器需要安装 `BorgBackup`_。Weblate 使用 SSH "
+"密钥连接服务器，请确保 Weblate SSH 密钥被服务器接受（请参见 :ref:`weblate-"
+"ssh-key`）。"
 
 #: ../../admin/backup.rst:105
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -5216,9 +5223,9 @@ msgid ""
 "translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
 "resource>`_ section."
 msgstr ""
-"`“通过一个多服务资源进行验证” <https://docs.microsoft.com/en-us/azure/cognitive-services/"
-"translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
-"resource>`_ 部分中定义的地区前缀。"
+"`“通过一个多服务资源进行验证” <https://docs.microsoft.com/en-us/azure/"
+"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-"
+"multi-service-resource>`_ 部分中定义的地区前缀。"
 
 #: ../../admin/config.rst:1135
 msgid "MT_MICROSOFT_ENDPOINT_URL"
@@ -7213,9 +7220,10 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"Weblate 使用 Pango 和 Cairo 来提供位图 widget（请见 :ref:`promotion` ）并提供检查（请见 "
-":ref:`fonts` ）。为了适当地安装 Python 绑定需要首先安装系统库的那些—— Cairo 和 Pango 都是需要的，由此需要 Glib "
-"。所有那些需要与开发文件和 GObject 内省数据一起安装。"
+"Weblate 使用 Pango 和 Cairo 来提供位图 widget（请见 :ref:`promotion` ）并提供"
+"检查（请见 :ref:`fonts` ）。为了适当地安装 Python 绑定需要首先安装系统库的那"
+"些—— Cairo 和 Pango 都是需要的，由此需要 Glib 。所有那些需要与开发文件和 "
+"GObject 内省数据一起安装。"
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
@@ -7250,7 +7258,9 @@ msgid ""
 "Each archive is accompanied with ``.asc`` files which contain the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
-msgstr "每个压缩档案伴随 ``.asc`` 文件在一起，它包含了需要使用的 PGP 签名。一旦它们处于相同的文件夹内，就可以核实签名了："
+msgstr ""
+"每个压缩档案伴随 ``.asc`` 文件在一起，它包含了需要使用的 PGP 签名。一旦它们处"
+"于相同的文件夹内，就可以核实签名了："
 
 #: ../../admin/install.rst:183
 msgid ""
@@ -7376,7 +7386,9 @@ msgstr "PostgreSQL"
 msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
-msgstr "PostgreSQL 通常是基于 Django 的网站的最好选择。它是实现 Django 数据库层而使用的参考数据库。"
+msgstr ""
+"PostgreSQL 通常是基于 Django 的网站的最好选择。它是实现 Django 数据库层而使用"
+"的参考数据库。"
 
 #: ../../admin/install.rst:316
 msgid ""
@@ -9408,7 +9420,9 @@ msgstr ""
 msgid ""
 "Configures GitHub personal access token for GitHub pull-requests via API by "
 "changing :setting:`GITHUB_TOKEN`."
-msgstr "更改 :setting:`GITHUB_TOKEN`通过API 配置用于Github pull 请求的GitHub个人访问令牌。"
+msgstr ""
+"更改 :setting:`GITHUB_TOKEN`通过API 配置用于Github pull 请求的GitHub个人访问"
+"令牌。"
 
 #: ../../admin/install/docker.rst:483
 msgid ""
@@ -9422,7 +9436,9 @@ msgstr ""
 msgid ""
 "Configures GitLab personal access token for GitLab merge-requests via API by "
 "changing :setting:`GITLAB_TOKEN`"
-msgstr "更改 :setting:`GITLAB_TOKEN` 通过 API 配置用于 GitLab 合并请求的 GitLab 个人访问令牌"
+msgstr ""
+"更改 :setting:`GITLAB_TOKEN` 通过 API 配置用于 GitLab 合并请求的 GitLab 个人"
+"访问令牌"
 
 #: ../../admin/install/docker.rst:501
 msgid "Configures GitLab Host for GitLab merge-requests"
@@ -11255,8 +11271,8 @@ msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
-":setting:`MT_YANDEX_KEY`, `Yandex 翻译 API <https://tech.yandex.com/translate/"
-">`_, `由 Yandex 翻译驱动 <https://translate.yandex.com/>`_"
+":setting:`MT_YANDEX_KEY`, `Yandex 翻译 API <https://tech.yandex.com/"
+"translate/>`_, `由 Yandex 翻译驱动 <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:341
 msgid "Youdao Zhiyun API machine translation"
@@ -11909,7 +11925,9 @@ msgstr "指定翻译许可所在的 URL 。"
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
-msgstr "在需要指定使用哪个版本的轻质系统的情况下，您可以在这里进行。默认版本控制是 Git。"
+msgstr ""
+"在需要指定使用哪个版本的轻质系统的情况下，您可以在这里进行。默认版本控制是 "
+"Git。"
 
 #: ../../admin/management.rst:438
 msgid "To give you some examples, let's try importing two projects."
@@ -11919,14 +11937,18 @@ msgstr "为了给出一些例子，让我们导入两个项目。"
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
-msgstr "第一个是 Debian 手册翻译，那里的每种语言都有各自的文件夹，里面有 每个章节的翻译："
+msgstr ""
+"第一个是 Debian 手册翻译，那里的每种语言都有各自的文件夹，里面有 每个章节的翻"
+"译："
 
 #: ../../admin/management.rst:451
 msgid ""
 "Then the Tanaguru tool, where the file format needs be specified, along with "
 "the base file template, and how all components and translations are located "
 "in single folder:"
-msgstr "然后 Tangaguru 工具，那里需要指定文件格式和译文模板文件，并且指定所有组件和翻译如何位于单一一个文件夹中："
+msgstr ""
+"然后 Tangaguru 工具，那里需要指定文件格式和译文模板文件，并且指定所有组件和翻"
+"译如何位于单一一个文件夹中："
 
 #: ../../admin/management.rst:465
 msgid ""
@@ -11934,8 +11956,8 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
-"更复杂的例子是关于解析文件名而从文件名中得到正确的组件和语言，像 ``src/security/Numerous_security_holes_in_0."
-"10.1.de.po``："
+"更复杂的例子是关于解析文件名而从文件名中得到正确的组件和语言，像 ``src/"
+"security/Numerous_security_holes_in_0.10.1.de.po``："
 
 #: ../../admin/management.rst:476
 msgid "Filtering only translations in a chosen language:"
@@ -11953,7 +11975,9 @@ msgstr "导入 Sphinx 文档，分成多个文件和文件夹："
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :djadmin:`import_json`."
-msgstr "更多具体的例子可以在 :ref:`starting` 章节找到，另外您会想要使用 :djadmin:`import_json`。"
+msgstr ""
+"更多具体的例子可以在 :ref:`starting` 章节找到，另外您会想要使用 :djadmin:"
+"`import_json`。"
 
 #: ../../admin/management.rst:514
 msgid "importuserdata"
@@ -11975,7 +11999,9 @@ msgstr "从 Django auth_users 数据库的 JSON 转储中导入用户。"
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
-msgstr "使用这个选项可以检查给定文件是否可以被导入，并且报告用户名或电子邮箱地址可能导致的冲突。"
+msgstr ""
+"使用这个选项可以检查给定文件是否可以被导入，并且报告用户名或电子邮箱地址可能"
+"导致的冲突。"
 
 #: ../../admin/management.rst:533
 msgid "You can dump users from the existing Django installation using:"
@@ -12008,7 +12034,8 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
-"可以或者定义将插件安装到哪个项目或组件中（例如 ``weblate/application``），或者使用 ``--all`` 来包括所有现有的组件。"
+"可以或者定义将插件安装到哪个项目或组件中（例如 ``weblate/application``），或"
+"者使用 ``--all`` 来包括所有现有的组件。"
 
 #: ../../admin/management.rst:563
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
@@ -12046,7 +12073,8 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
-"可以或者定义使用哪个项目或组件（例如 ``weblate/application``），或者使用 ``--all`` 从所有现存的组件中列出翻译者。"
+"可以或者定义使用哪个项目或组件（例如 ``weblate/application``），或者使用 ``--"
+"all`` 从所有现存的组件中列出翻译者。"
 
 #: ../../admin/management.rst:604
 msgid "list_versions"
@@ -12081,8 +12109,8 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
-"极少引用这个，Weblate 将对每一次 VCS 更新自动装入更改的文件。在您手动更改下层 Weblate VCS "
-"仓库的情况下，或在更新后的一些特殊情况下才需要这个。"
+"极少引用这个，Weblate 将对每一次 VCS 更新自动装入更改的文件。在您手动更改下"
+"层 Weblate VCS 仓库的情况下，或在更新后的一些特殊情况下才需要这个。"
 
 #: ../../admin/management.rst:636
 msgid "lock_translation"
@@ -12112,15 +12140,18 @@ msgid ""
 "been created with the `(generated)` suffix. It moves all content from the "
 "`source` language to the `target` one."
 msgstr ""
-"允许您合并语言内容。当更新到新版本，这个新版本对使用 `(generated)` 前缀建立的之前未知的语言包含别名时，这会有用。它将所有内容从 "
-"`source` 语言移动到 `target` 语言。"
+"允许您合并语言内容。当更新到新版本，这个新版本对使用 `(generated)` 前缀建立的"
+"之前未知的语言包含别名时，这会有用。它将所有内容从 `source` 语言移动到 "
+"`target` 语言。"
 
 #: ../../admin/management.rst:671
 msgid ""
 "After moving the content, you should check whether there is anything left "
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the `(generated)` language."
-msgstr "移动内容后，您应该检查是否有什么落下了（这是因为有人在同时更新仓库而导致的竞争情况），并且要删除 `(generated)` 语言。"
+msgstr ""
+"移动内容后，您应该检查是否有什么落下了（这是因为有人在同时更新仓库而导致的竞"
+"争情况），并且要删除 `(generated)` 语言。"
 
 #: ../../admin/management.rst:676
 msgid "pushgit"
@@ -12139,7 +12170,8 @@ msgid ""
 "Weblate pushes changes automatically if :guilabel:`Push on commit` in :ref:"
 "`component` is turned on, which is the default."
 msgstr ""
-"如果 :ref:`component` 中的 :guilabel:`Push on commit` 打开，那么Weblate 自动推送更改，这是默认的。"
+"如果 :ref:`component` 中的 :guilabel:`Push on commit` 打开，那么Weblate 自动"
+"推送更改，这是默认的。"
 
 #: ../../admin/management.rst:695
 msgid "unlock_translation"
@@ -12171,7 +12203,9 @@ msgstr "关闭对现有组的自动更新（只添加新的）。"
 msgid ""
 "Prevents automatic updates of groups for existing projects. This allows "
 "adding newly added groups to existing projects, see :ref:`acl`."
-msgstr "防止对现有项目的组的自动更新。这允许将新添加的组加入到现有项目中，请参见 :ref:`acl`。"
+msgstr ""
+"防止对现有项目的组的自动更新。这允许将新添加的组加入到现有项目中，请参见 :"
+"ref:`acl`。"
 
 #: ../../admin/management.rst:733
 msgid "setuplang"
@@ -12209,7 +12243,9 @@ msgstr "取回远程仓库并更新内部缓存。"
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular polling by :djadmin:`updategit`."
-msgstr "通常最好在仓库中配置 hooks，来触发 :ref:`hooks`，而不是常规的通过 :djadmin:`updategit` 来投票。"
+msgstr ""
+"通常最好在仓库中配置 hooks，来触发 :ref:`hooks`，而不是常规的通过 :djadmin:"
+"`updategit` 来投票。"
 
 #: ../../admin/memory.rst:4
 msgid "Translation Memory"
@@ -12254,7 +12290,8 @@ msgstr ""
 msgid ""
 "For installation tips, see :ref:`weblate-translation-memory`, which is "
 "turned on by default."
-msgstr "对于安装提示，请参见 :ref:`weblate-translation-memory`，它默认是打开的。"
+msgstr ""
+"对于安装提示，请参见 :ref:`weblate-translation-memory`，它默认是打开的。"
 
 #: ../../admin/memory.rst:27
 msgid "Translation memory scopes"
@@ -12264,7 +12301,8 @@ msgstr "翻译记忆库的范围"
 msgid ""
 "In earlier versions translation memory could be only loaded from a file "
 "corresponding to the current imported translation memory scope."
-msgstr "在较早的版本中，翻译记忆库只能从文件装入，对用于当前导入的翻译记忆库的范围。"
+msgstr ""
+"在较早的版本中，翻译记忆库只能从文件装入，对用于当前导入的翻译记忆库的范围。"
 
 #: ../../admin/memory.rst:34
 msgid ""
@@ -12281,7 +12319,9 @@ msgid ""
 "Importing arbitrary translation memory data using the :djadmin:"
 "`import_memory` command makes memory content available to all users and "
 "projects."
-msgstr "使用 :djadmin:`import_memory` 命令导入任意翻译记忆库数据，使记忆的内容可用于所有的用户和项目。"
+msgstr ""
+"使用 :djadmin:`import_memory` 命令导入任意翻译记忆库数据，使记忆的内容可用于"
+"所有的用户和项目。"
 
 #: ../../admin/memory.rst:44
 msgid "Per user translation memory"
@@ -12301,7 +12341,8 @@ msgstr "基于项目的翻译记忆库"
 msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
-msgstr "项目内的所有翻译都自动存储在项目翻译记忆库中，这个翻译记忆库只在项目内可用。"
+msgstr ""
+"项目内的所有翻译都自动存储在项目翻译记忆库中，这个翻译记忆库只在项目内可用。"
 
 #: ../../admin/memory.rst:57
 msgid "Shared translation memory"
@@ -12311,13 +12352,16 @@ msgstr "共享翻译记忆库"
 msgid ""
 "All translation within projects with shared translation memory turned on are "
 "stored in a shared translation memory available to all projects."
-msgstr "翻译记忆库分享打开的项目的所有翻译，都存储在分享的翻译记忆库中，可用于所有项目。"
+msgstr ""
+"翻译记忆库分享打开的项目的所有翻译，都存储在分享的翻译记忆库中，可用于所有项"
+"目。"
 
 #: ../../admin/memory.rst:62
 msgid ""
 "Please consider carefully whether to turn this feature on for shared Weblate "
 "installations, as it can have severe implications:"
-msgstr "对于分享的 Weblate 安装，请仔细考虑是否打开这个特性，因为可能导致严重的影响："
+msgstr ""
+"对于分享的 Weblate 安装，请仔细考虑是否打开这个特性，因为可能导致严重的影响："
 
 #: ../../admin/memory.rst:65
 msgid "The translations can be used by anybody else."
@@ -12340,7 +12384,9 @@ msgid ""
 "In the basic user interface you can manage per user and per project "
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
-msgstr "基本上可以基于用户，并基于项目翻译记忆库来管理用户接口。它可以用于下载、消除或导入翻译记忆库。"
+msgstr ""
+"基本上可以基于用户，并基于项目翻译记忆库来管理用户接口。它可以用于下载、消除"
+"或导入翻译记忆库。"
 
 #: ../../admin/memory.rst:83
 msgid ""
@@ -12357,7 +12403,9 @@ msgid ""
 "There are several management commands to manipulate the translation memory "
 "content. These operate on the translation memory as whole, unfiltered by "
 "scopes (unless requested by parameters):"
-msgstr "有几个管理命令来操作翻译记忆库的内容。它们整体操作翻译记忆库，不会被范围来筛选（除非被参数请求）："
+msgstr ""
+"有几个管理命令来操作翻译记忆库的内容。它们整体操作翻译记忆库，不会被范围来筛"
+"选（除非被参数请求）："
 
 #: ../../admin/memory.rst:99
 msgid ":djadmin:`dump_memory`"
@@ -12829,12 +12877,19 @@ msgid ""
 msgstr "现在，添加组件的过程是多阶段的，可以自动发现大多数参数。"
 
 #: ../../admin/projects.rst:45
+#, fuzzy
+#| msgid ""
+#| "Based on your permissions, new translation projects and components can be "
+#| "created. It is always permitted for superusers, and if your instance uses "
+#| "billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you "
+#| "can also create those based on your plans allowance from the user account "
+#| "that manages billing."
 msgid ""
 "Based on your permissions, new translation projects and components can be "
-"created. It is always permitted for superusers, and if your instance uses "
-"billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you can "
-"also create those based on your plans allowance from the user account that "
-"manages billing."
+"created. It is always permitted for users with the :guilabel:`Add new "
+"projects` permission, and if your instance uses billing (e.g. like https://"
+"hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
+"your plans allowance from the user account that manages billing."
 msgstr ""
 "根据您的许可，可以创建新的翻译项目和组件。超级用户始终允许使用此功能，并且如"
 "果您的实例使用计费方式（例如 https://hosted.weblate.org/ 参见 :ref:"
@@ -27316,9 +27371,7 @@ msgstr "不匹配 \\\\n"
 
 #: ../../user/checks.rst:581
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr ""
-"*译文中的 \\n"
-" 数量和原文不一致*"
+msgstr "*译文中的 \\n 数量和原文不一致*"
 
 #: ../../user/checks.rst:583
 msgid ""
@@ -29296,7 +29349,9 @@ msgid ""
 "Admins can generate or display the public key currently used by Weblate in "
 "the connection (from :guilabel:`SSH keys`) on the admin interface landing "
 "page."
-msgstr "管理员可以在管理界面登录页面的连接部分（从 :guilabel:`SSH keys`）生成或显示 Weblate 当前使用的公共密钥。"
+msgstr ""
+"管理员可以在管理界面登录页面的连接部分（从 :guilabel:`SSH keys`）生成或显示 "
+"Weblate 当前使用的公共密钥。"
 
 #: ../../vcs.rst:75
 msgid ""
@@ -29735,7 +29790,9 @@ msgstr "入门"
 msgid ""
 "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
 "config` for other locations), please create it to match your environment:"
-msgstr "wlc 配置存储在 ``~/.config/weblate`` 中（其他位置参见 ref:`wlc-config`）,请创建它以匹配您的环境："
+msgstr ""
+"wlc 配置存储在 ``~/.config/weblate`` 中（其他位置参见 ref:`wlc-config`）,请创"
+"建它以匹配您的环境："
 
 #: ../../wlc.rst:42
 msgid "You can then invoke commands on the default server:"
@@ -29775,7 +29832,9 @@ msgstr "参数"
 msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
-msgstr "程序接受以下参数来定义输出格式或使用哪个Weblate实例。这些参数必须位于任何命令之前。"
+msgstr ""
+"程序接受以下参数来定义输出格式或使用哪个Weblate实例。这些参数必须位于任何命令"
+"之前。"
 
 #: ../../wlc.rst:77
 msgid "Specify the output format."
@@ -30001,8 +30060,9 @@ msgid ""
 "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred location "
 "for the configuration file."
 msgstr ""
-"该程序遵循 XDG 规范，因此您可以通过环境变量 ``XDG_CONFIG_HOME`` 或 ``XDG_CONFIG_DIRS`` "
-"来调整配置文件的位置。在 Windows 系统上 `APPDATA``目录是配置文件的首选位置。"
+"该程序遵循 XDG 规范，因此您可以通过环境变量 ``XDG_CONFIG_HOME`` 或 "
+"``XDG_CONFIG_DIRS`` 来调整配置文件的位置。在 Windows 系统上 `APPDATA``目录是"
+"配置文件的首选位置。"
 
 #: ../../wlc.rst:260
 msgid ""
@@ -30377,6 +30437,12 @@ msgstr ""
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "Add groups"
+#~ msgstr "添加群组"
+
+#~ msgid "Add users"
+#~ msgstr "添加用户"
 
 #~ msgid ":ref:`vcs-gitlab`, :ref:`lab-setup`"
 #~ msgstr ":ref:`vcs-gitlab`, :ref:`lab-setup`"

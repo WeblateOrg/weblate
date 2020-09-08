@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 21:58+0200\n"
+"POT-Creation-Date: 2020-09-08 10:39+0200\n"
 "PO-Revision-Date: 2020-09-04 11:15+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
@@ -756,7 +756,7 @@ msgstr ""
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr ""
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:428
 msgid "Site wide privileges"
 msgstr ""
 
@@ -765,28 +765,28 @@ msgid "Use management interface"
 msgstr "Nota stjórnviðmót"
 
 #: ../../admin/access.rst:412
+msgid "Add new projects"
+msgstr "Bæta við nýjum verkefnum"
+
+#: ../../admin/access.rst:414
 msgid "Add language definitions"
 msgstr "Bæta við skilgreiningum tungumáls"
 
-#: ../../admin/access.rst:414
+#: ../../admin/access.rst:416
 msgid "Manage language definitions"
 msgstr "Sýsla með skilgreiningar tungumáls"
-
-#: ../../admin/access.rst:416
-msgid "Add groups"
-msgstr "Bæta við hópum"
 
 #: ../../admin/access.rst:418
 msgid "Manage groups"
 msgstr "Sýsla með hópa"
 
 #: ../../admin/access.rst:420
-msgid "Add users"
-msgstr "Bæta við notendum"
-
-#: ../../admin/access.rst:422
 msgid "Manage users"
 msgstr "Sýsla með notendur"
+
+#: ../../admin/access.rst:422
+msgid "Manage roles"
+msgstr "Sýsla með hlutverk"
 
 #: ../../admin/access.rst:424
 msgid "Manage announcements"
@@ -796,107 +796,111 @@ msgstr "Sýsla með tilkynningar"
 msgid "Manage translation memory"
 msgstr "Sýsla með þýðingaminni"
 
-#: ../../admin/access.rst:430
+#: ../../admin/access.rst:428
+msgid "Manage component lists"
+msgstr "Sýsla með einingalista"
+
+#: ../../admin/access.rst:432
 msgid ""
 "The site wide privileges are not granted to any default role. These are "
 "powerful and quite close to the superuser status—most of them affect all the "
 "projects of your Weblate installation."
 msgstr ""
 
-#: ../../admin/access.rst:435
+#: ../../admin/access.rst:437
 msgid "List of groups"
 msgstr ""
 
-#: ../../admin/access.rst:437
+#: ../../admin/access.rst:439
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
 msgstr ""
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "`Guests`"
 msgstr "`Gestir`"
 
-#: ../../admin/access.rst:441
+#: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
 msgstr ""
 
-#: ../../admin/access.rst:443
+#: ../../admin/access.rst:445
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
 
-#: ../../admin/access.rst:445
+#: ../../admin/access.rst:447
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
 msgstr ""
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr ""
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "`Viewers`"
 msgstr "`Skoðarar`"
 
-#: ../../admin/access.rst:451
+#: ../../admin/access.rst:453
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
 msgstr ""
 
-#: ../../admin/access.rst:454
+#: ../../admin/access.rst:456
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr ""
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "Default roles: none"
 msgstr ""
 
-#: ../../admin/access.rst:463 ../../workflows.rst:67 ../../workflows.rst:98
+#: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
 msgstr "`Notendur`"
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:461
 msgid "Default group for all users."
 msgstr ""
 
-#: ../../admin/access.rst:461
+#: ../../admin/access.rst:463
 msgid "By default all users are members of this group using :ref:`autogroup`."
 msgstr ""
 
-#: ../../admin/access.rst:463
+#: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
 msgstr ""
 
-#: ../../admin/access.rst:468 ../../workflows.rst:137
+#: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
 msgstr ""
 
-#: ../../admin/access.rst:466
+#: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr ""
 
-#: ../../admin/access.rst:468
+#: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
 msgstr ""
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "`Managers`"
 msgstr ""
 
-#: ../../admin/access.rst:471
+#: ../../admin/access.rst:473
 msgid "Group for administrators."
 msgstr ""
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
 msgstr ""
 
-#: ../../admin/access.rst:477
+#: ../../admin/access.rst:479
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
@@ -11488,10 +11492,10 @@ msgstr ""
 #: ../../admin/projects.rst:45
 msgid ""
 "Based on your permissions, new translation projects and components can be "
-"created. It is always permitted for superusers, and if your instance uses "
-"billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you can "
-"also create those based on your plans allowance from the user account that "
-"manages billing."
+"created. It is always permitted for users with the :guilabel:`Add new "
+"projects` permission, and if your instance uses billing (e.g. like https://"
+"hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
+"your plans allowance from the user account that manages billing."
 msgstr ""
 
 #: ../../admin/projects.rst:51
@@ -28888,6 +28892,12 @@ msgstr ""
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ""
+
+#~ msgid "Add groups"
+#~ msgstr "Bæta við hópum"
+
+#~ msgid "Add users"
+#~ msgstr "Bæta við notendum"
 
 #~ msgid "Avatar"
 #~ msgstr "Auðkennismynd"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 21:58+0200\n"
+"POT-Creation-Date: 2020-09-08 10:39+0200\n"
 "PO-Revision-Date: 2020-09-05 12:46+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -888,7 +888,7 @@ msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr ""
 "Atualizar o repositório interno [`Administração`, `Gerenciar repositório`]"
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:428
 msgid "Site wide privileges"
 msgstr "Privilégios para todo o site"
 
@@ -897,28 +897,28 @@ msgid "Use management interface"
 msgstr "Usar interface de gerenciamento"
 
 #: ../../admin/access.rst:412
+msgid "Add new projects"
+msgstr "adicionar novos projetos"
+
+#: ../../admin/access.rst:414
 msgid "Add language definitions"
 msgstr "Adicionar definições de idioma"
 
-#: ../../admin/access.rst:414
+#: ../../admin/access.rst:416
 msgid "Manage language definitions"
 msgstr "Gerenciar definições de idiomas"
-
-#: ../../admin/access.rst:416
-msgid "Add groups"
-msgstr "Adicionar grupos"
 
 #: ../../admin/access.rst:418
 msgid "Manage groups"
 msgstr "Gerenciar grupos"
 
 #: ../../admin/access.rst:420
-msgid "Add users"
-msgstr "Adicionar usuários"
-
-#: ../../admin/access.rst:422
 msgid "Manage users"
 msgstr "Gerenciar usuários"
+
+#: ../../admin/access.rst:422
+msgid "Manage roles"
+msgstr "Gerenciar funções"
 
 #: ../../admin/access.rst:424
 msgid "Manage announcements"
@@ -928,7 +928,11 @@ msgstr "Gerenciar anúncios"
 msgid "Manage translation memory"
 msgstr "Gerenciar memória de tradução"
 
-#: ../../admin/access.rst:430
+#: ../../admin/access.rst:428
+msgid "Manage component lists"
+msgstr "Gerenciar listas de componentes"
+
+#: ../../admin/access.rst:432
 msgid ""
 "The site wide privileges are not granted to any default role. These are "
 "powerful and quite close to the superuser status—most of them affect all the "
@@ -938,11 +942,11 @@ msgstr ""
 "Eles são poderosos e muito próximos do status de superusuário — a maioria "
 "deles afetam todos os projetos de sua instalação do Weblate."
 
-#: ../../admin/access.rst:435
+#: ../../admin/access.rst:437
 msgid "List of groups"
 msgstr "Lista de grupos"
 
-#: ../../admin/access.rst:437
+#: ../../admin/access.rst:439
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
@@ -950,15 +954,15 @@ msgstr ""
 "Os seguintes grupos são criados após a instalação (ou após a execução de :"
 "djadmin:`setupgroups`):"
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "`Guests`"
 msgstr "`Convidados`"
 
-#: ../../admin/access.rst:441
+#: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
 msgstr "Define permissões para usuários não autenticados."
 
-#: ../../admin/access.rst:443
+#: ../../admin/access.rst:445
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
@@ -966,7 +970,7 @@ msgstr ""
 "Este grupo contém apenas usuários anônimos (consulte :setting:"
 "`ANONYMOUS_USER_NAME`)."
 
-#: ../../admin/access.rst:445
+#: ../../admin/access.rst:447
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
@@ -974,15 +978,15 @@ msgstr ""
 "Você pode remover funções deste grupo para limitar as permissões para "
 "usuários não autenticados."
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr "Funções padrão: `Adicionar sugestão`, `Acessar repositório`"
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "`Viewers`"
 msgstr "`Visualizadores`"
 
-#: ../../admin/access.rst:451
+#: ../../admin/access.rst:453
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
@@ -990,60 +994,60 @@ msgstr ""
 "Essa função garante a visibilidade de projetos públicos para todos os "
 "usuários. Por padrão, todos os usuários são membros deste grupo."
 
-#: ../../admin/access.rst:454
+#: ../../admin/access.rst:456
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr ""
 "Por padrão, todos os usuários são membros deste grupo, usando :ref:"
 "`autogroup`."
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "Default roles: none"
 msgstr "Funções padrão: nenhuma"
 
-#: ../../admin/access.rst:463 ../../workflows.rst:67 ../../workflows.rst:98
+#: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
 msgstr "`Usuários`"
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:461
 msgid "Default group for all users."
 msgstr "Grupo padrão para todos os usuários."
 
-#: ../../admin/access.rst:461
+#: ../../admin/access.rst:463
 msgid "By default all users are members of this group using :ref:`autogroup`."
 msgstr ""
 "Por padrão, todos os usuários são membros deste grupo usando :ref:"
 "`autogroup`."
 
-#: ../../admin/access.rst:463
+#: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
 msgstr "Funções padrão: `Usuário avançado`"
 
-#: ../../admin/access.rst:468 ../../workflows.rst:137
+#: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
 msgstr "`Revisores`"
 
-#: ../../admin/access.rst:466
+#: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr "Grupo para revisores (consulte :ref:`workflows`)."
 
-#: ../../admin/access.rst:468
+#: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
 msgstr "Funções padrão: `Revisar textos`"
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "`Managers`"
 msgstr "`Gerenciadores`"
 
-#: ../../admin/access.rst:471
+#: ../../admin/access.rst:473
 msgid "Group for administrators."
 msgstr "Grupo pra administradores."
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
 msgstr "Funções padrão: `Administração`"
 
-#: ../../admin/access.rst:477
+#: ../../admin/access.rst:479
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
@@ -5687,9 +5691,9 @@ msgid ""
 "resource>`_ section."
 msgstr ""
 "Prefixo da região conforme definido na seção `\"Authenticating with a Multi-"
-"service resource\" <https://docs.microsoft.com/en-us/azure/"
-"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a"
-"-multi-service-resource>`."
+"service resource\" <https://docs.microsoft.com/en-us/azure/cognitive-"
+"services/translator/reference/v3-0-reference#authenticating-with-a-multi-"
+"service-resource>`."
 
 #: ../../admin/config.rst:1135
 msgid "MT_MICROSOFT_ENDPOINT_URL"
@@ -7850,8 +7854,8 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
-"O Weblate usa Pango e Cairo para renderizar widgets bitmap (ver "
-":ref:`promotion`) e verificações de renderização (ver :ref:`fonts`). Para "
+"O Weblate usa Pango e Cairo para renderizar widgets bitmap (ver :ref:"
+"`promotion`) e verificações de renderização (ver :ref:`fonts`). Para "
 "instalar corretamente as ligações Python para aqueles que você precisa "
 "instalar bibliotecas de sistemas primeiro - você precisa tanto do Cairo "
 "quanto do Pango, que por sua vez precisam de GLib. Todos esses devem ser "
@@ -12948,10 +12952,10 @@ msgstr ""
 #: ../../admin/projects.rst:45
 msgid ""
 "Based on your permissions, new translation projects and components can be "
-"created. It is always permitted for superusers, and if your instance uses "
-"billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you can "
-"also create those based on your plans allowance from the user account that "
-"manages billing."
+"created. It is always permitted for users with the :guilabel:`Add new "
+"projects` permission, and if your instance uses billing (e.g. like https://"
+"hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
+"your plans allowance from the user account that manages billing."
 msgstr ""
 
 #: ../../admin/projects.rst:51
@@ -31027,6 +31031,12 @@ msgstr ""
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "Add groups"
+#~ msgstr "Adicionar grupos"
+
+#~ msgid "Add users"
+#~ msgstr "Adicionar usuários"
 
 #~ msgid ":ref:`vcs-gitlab`, :ref:`lab-setup`"
 #~ msgstr ":ref:`vcs-gitlab`, :ref:`lab-setup`"

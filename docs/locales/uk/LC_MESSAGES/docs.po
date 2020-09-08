@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 21:58+0200\n"
+"POT-Creation-Date: 2020-09-08 10:39+0200\n"
 "PO-Revision-Date: 2020-09-07 23:00+0000\n"
 "Last-Translator: ihor_ck <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -895,7 +895,7 @@ msgstr ""
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr "Оновити внутрішнє сховище [`Administration`, `Manage repository`]"
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:428
 msgid "Site wide privileges"
 msgstr "Привілеї на рівні сайта"
 
@@ -904,28 +904,28 @@ msgid "Use management interface"
 msgstr "Використовувати інтерфейс керування"
 
 #: ../../admin/access.rst:412
+msgid "Add new projects"
+msgstr "Додавати нові проєкти"
+
+#: ../../admin/access.rst:414
 msgid "Add language definitions"
 msgstr "Додати визначення мов"
 
-#: ../../admin/access.rst:414
+#: ../../admin/access.rst:416
 msgid "Manage language definitions"
 msgstr "Керувати визначеннями мов"
-
-#: ../../admin/access.rst:416
-msgid "Add groups"
-msgstr "Додавати групи"
 
 #: ../../admin/access.rst:418
 msgid "Manage groups"
 msgstr "Керувати групами"
 
 #: ../../admin/access.rst:420
-msgid "Add users"
-msgstr "Додавати користувачів"
-
-#: ../../admin/access.rst:422
 msgid "Manage users"
 msgstr "Управління користувачами"
+
+#: ../../admin/access.rst:422
+msgid "Manage roles"
+msgstr "Керувати ролями"
 
 #: ../../admin/access.rst:424
 msgid "Manage announcements"
@@ -935,7 +935,11 @@ msgstr "Керувати оголошеннями"
 msgid "Manage translation memory"
 msgstr "Керувати пам'яттю перекладів"
 
-#: ../../admin/access.rst:430
+#: ../../admin/access.rst:428
+msgid "Manage component lists"
+msgstr "Керувати списками складників"
+
+#: ../../admin/access.rst:432
 msgid ""
 "The site wide privileges are not granted to any default role. These are "
 "powerful and quite close to the superuser status—most of them affect all the "
@@ -945,11 +949,11 @@ msgstr ""
 "доволі широкими і дуже близькими до стану суперкористувача — більшість з них "
 "стосуються усіх проєктів у встановленому вами Weblate."
 
-#: ../../admin/access.rst:435
+#: ../../admin/access.rst:437
 msgid "List of groups"
 msgstr "Список груп"
 
-#: ../../admin/access.rst:437
+#: ../../admin/access.rst:439
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
@@ -957,15 +961,15 @@ msgstr ""
 "Під час встановлення (або після виконання :djadmin:`setupgroups`) буде "
 "створено такі групи:"
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "`Guests`"
 msgstr "`Guests`"
 
-#: ../../admin/access.rst:441
+#: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
 msgstr "Визначає права доступу для користувачів, які не пройшли розпізнавання."
 
-#: ../../admin/access.rst:443
+#: ../../admin/access.rst:445
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
@@ -973,7 +977,7 @@ msgstr ""
 "У цій групі містяться записи лише анонімних користувачів (див. :setting:"
 "`ANONYMOUS_USER_NAME`)."
 
-#: ../../admin/access.rst:445
+#: ../../admin/access.rst:447
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
@@ -981,15 +985,15 @@ msgstr ""
 "Ви можете вилучати ролі з цієї групи для обмеження прав доступу "
 "користувачів, які не пройшли розпізнавання."
 
-#: ../../admin/access.rst:448
+#: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr "Типові ролі: `Add suggestion`, `Access repository`"
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "`Viewers`"
 msgstr "`Переглядачі`"
 
-#: ../../admin/access.rst:451
+#: ../../admin/access.rst:453
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
@@ -997,60 +1001,60 @@ msgstr ""
 "Ця роль забезпечує видимість відкритих проєктів для усіх користувачів. "
 "Типово, учасниками цієї групи є усі користувачі."
 
-#: ../../admin/access.rst:454
+#: ../../admin/access.rst:456
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr ""
 "Типово, учасниками цієї групи є усі користувачі, використовується :ref:"
 "`autogroup`."
 
-#: ../../admin/access.rst:456
+#: ../../admin/access.rst:458
 msgid "Default roles: none"
 msgstr "Типові ролі: немає"
 
-#: ../../admin/access.rst:463 ../../workflows.rst:67 ../../workflows.rst:98
+#: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
 msgstr "`Users`"
 
-#: ../../admin/access.rst:459
+#: ../../admin/access.rst:461
 msgid "Default group for all users."
 msgstr "Типова група для усіх користувачів."
 
-#: ../../admin/access.rst:461
+#: ../../admin/access.rst:463
 msgid "By default all users are members of this group using :ref:`autogroup`."
 msgstr ""
 "Типово, учасниками цієї групи є усі користувачі, використовується :ref:"
 "`autogroup`."
 
-#: ../../admin/access.rst:463
+#: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
 msgstr "Типові ролі: `Power user`"
 
-#: ../../admin/access.rst:468 ../../workflows.rst:137
+#: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
 msgstr "`Рецензенти`"
 
-#: ../../admin/access.rst:466
+#: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr "Група для рецензентів (див. :ref:`workflows`)."
 
-#: ../../admin/access.rst:468
+#: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
 msgstr "Типові ролі: `Review strings`"
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "`Managers`"
 msgstr "`Керівники`"
 
-#: ../../admin/access.rst:471
+#: ../../admin/access.rst:473
 msgid "Group for administrators."
 msgstr "Група для адміністраторів."
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
 msgstr "Типові ролі: `Administration`"
 
-#: ../../admin/access.rst:477
+#: ../../admin/access.rst:479
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
@@ -12349,9 +12353,9 @@ msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
-":setting:`MT_YANDEX_KEY`, `Програмний інтерфейс перекладу Yandex "
-"<https://yandex.com/dev/translate/>`_, `Yandex.Translate <https://translate."
-"yandex.com/>`_"
+":setting:`MT_YANDEX_KEY`, `Програмний інтерфейс перекладу Yandex <https://"
+"yandex.com/dev/translate/>`_, `Yandex.Translate <https://translate.yandex."
+"com/>`_"
 
 #: ../../admin/machine.rst:341
 msgid "Youdao Zhiyun API machine translation"
@@ -14166,12 +14170,19 @@ msgstr ""
 "і реалізовано автоматичне визначення значень більшості параметрів."
 
 #: ../../admin/projects.rst:45
+#, fuzzy
+#| msgid ""
+#| "Based on your permissions, new translation projects and components can be "
+#| "created. It is always permitted for superusers, and if your instance uses "
+#| "billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you "
+#| "can also create those based on your plans allowance from the user account "
+#| "that manages billing."
 msgid ""
 "Based on your permissions, new translation projects and components can be "
-"created. It is always permitted for superusers, and if your instance uses "
-"billing (e.g. like https://hosted.weblate.org/ see :ref:`billing`), you can "
-"also create those based on your plans allowance from the user account that "
-"manages billing."
+"created. It is always permitted for users with the :guilabel:`Add new "
+"projects` permission, and if your instance uses billing (e.g. like https://"
+"hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
+"your plans allowance from the user account that manages billing."
 msgstr ""
 "На основі даних щодо ваших прав доступу, можна створювати нові проєкти та "
 "складники. Ці дії завжди доступні для суперкористувачів і, якщо у вашому "
@@ -16166,9 +16177,9 @@ msgid ""
 "step are not supported and will break."
 msgstr ""
 "Якщо ви оновлюєте систему з версії 3.x, завжди спочатку оновіться до версії "
-"4.0.4 або 4.1.1, а потім продовжіть оновлення у межах послідовності версій "
-"4.x. Оновлення, у яких пропущено цей крок, вважаються непідтримуваними — "
-"вони не працюватимуть як слід."
+"4.0.4 або 4.1.1, а потім продовжіть оновлення у межах послідовності версій 4."
+"x. Оновлення, у яких пропущено цей крок, вважаються непідтримуваними — вони "
+"не працюватимуть як слід."
 
 #: ../../admin/upgrade.rst:115
 msgid ""
@@ -30912,9 +30923,7 @@ msgstr "Не збіглися \\\\n"
 
 #: ../../user/checks.rst:581
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr ""
-"*Число \\\\n"
-" у перекладі не відповідає джерелу*"
+msgstr "*Число \\\\n у перекладі не відповідає джерелу*"
 
 #: ../../user/checks.rst:583
 msgid ""
@@ -30924,8 +30933,7 @@ msgid ""
 msgstr ""
 "Зазвичай, екрановані символи розриву рядка є важливими для форматування "
 "виведених програмою даних. Перевірка вважається не пройденою, якщо кількість "
-"записів ``\\n"
-"`` у перекладі не збігається із кількістю у початковому рядку."
+"записів ``\\n`` у перекладі не збігається із кількістю у початковому рядку."
 
 #: ../../user/checks.rst:589
 msgid "Mismatched colon"
@@ -34677,6 +34685,12 @@ msgstr ""
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "Add groups"
+#~ msgstr "Додавати групи"
+
+#~ msgid "Add users"
+#~ msgstr "Додавати користувачів"
 
 #~ msgid "Automated backup"
 #~ msgstr "Автоматичне резервне копіювання"
