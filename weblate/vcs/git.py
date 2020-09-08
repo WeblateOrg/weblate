@@ -34,7 +34,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
-from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
@@ -618,14 +617,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             else:
                 fork_branch = "weblate-{0}".format(self.branch)
             self.push_to_fork(self.branch, fork_branch)
-        try:
-            self.create_pull_request(self.branch, fork_remote, fork_branch)
-        except RepositoryException as error:
-            report_error(cause="Failed pull request")
-            if error.retcode == 1:
-                # Pull request already exists.
-                return
-            raise
+        self.create_pull_request(self.branch, fork_remote, fork_branch)
 
     def create_fork(self):
         raise NotImplementedError()
