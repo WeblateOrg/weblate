@@ -1249,31 +1249,30 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
     @perform_on_link
     def push_repo(self, request, retry=True):
         """Push repository changes upstream."""
-        try:
-            self.log_info("pushing to remote repo")
-            with self.repository.lock:
+        with self.repository.lock:
+            try:
+                self.log_info("pushing to remote repo")
                 self.repository.push(self.push_branch)
-            self.delete_alert("RepositoryChanges")
-            self.delete_alert("PushFailure")
-            return True
-        except RepositoryException as error:
-            report_error(cause="Could not push the repo")
-            error_text = self.error_text(error)
-            Change.objects.create(
-                action=Change.ACTION_FAILED_PUSH,
-                component=self,
-                target=error_text,
-                user=request.user if request else None,
-            )
-            if retry:
-                if "Host key verification failed" in error_text:
-                    self.add_ssh_host_key()
-                    return self.push_repo(request, retry=False)
-                if (
-                    "shallow update not allowed" in error_text
-                    or "expected old/new/ref, got 'shallow" in error_text
-                ):
-                    with self.repository.lock:
+                self.delete_alert("RepositoryChanges")
+                self.delete_alert("PushFailure")
+                return True
+            except RepositoryException as error:
+                report_error(cause="Could not push the repo")
+                error_text = self.error_text(error)
+                Change.objects.create(
+                    action=Change.ACTION_FAILED_PUSH,
+                    component=self,
+                    target=error_text,
+                    user=request.user if request else None,
+                )
+                if retry:
+                    if "Host key verification failed" in error_text:
+                        self.add_ssh_host_key()
+                        return self.push_repo(request, retry=False)
+                    if (
+                        "shallow update not allowed" in error_text
+                        or "expected old/new/ref, got 'shallow" in error_text
+                    ):
                         try:
                             self.repository.unshallow()
                             return self.push_repo(request, retry=False)
