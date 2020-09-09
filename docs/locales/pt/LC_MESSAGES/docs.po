@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-08 10:39+0200\n"
-"PO-Revision-Date: 2020-09-09 01:06+0000\n"
+"PO-Revision-Date: 2020-09-10 06:45+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -487,6 +487,8 @@ msgstr "Revogar acesso dos utilizadores"
 msgid ""
 "Resend user email invitations, invalidating any previously sent invitation"
 msgstr ""
+"Reenvie convites de e-mail do utilizador, a invalidar todos "
+"convitesanteriormente enviados"
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -2758,7 +2760,7 @@ msgstr ":doc:`borg:usage/general` na documentação do Borg"
 
 #: ../../admin/backup.rst:82
 msgid "Local filesystem"
-msgstr ""
+msgstr "Sistema de ficheiros local"
 
 #: ../../admin/backup.rst:84
 msgid ""
@@ -2767,6 +2769,10 @@ msgid ""
 "(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
 "attempt to create it, but it needs permissions to do so."
 msgstr ""
+"Recomenda-se especificar o caminho absoluto para o backup local, por exemplo "
+"`/caminho/para/backup`. O diretório deve ser gravável pelo utilizador a "
+"executar o Weblate (veja :ref:`file-permissions`). Caso não exista, o "
+"Weblate tentará criá-lo, mas precisa de permissões para fazê-lo."
 
 #: ../../admin/backup.rst:91
 msgid ""
@@ -2774,6 +2780,9 @@ msgid ""
 "exposed as a volume from the Weblate container. Otherwise the backups would "
 "be discarded by Docker on container restart."
 msgstr ""
+"Ao executar o Weblate no Docker, certifique-se de que o local de backup seja "
+"exposto como um volume do contentor Weblate. Caso contrário, os backups "
+"seriam descartados pelo Docker na reinicialização do contentor."
 
 #: ../../admin/backup.rst:96
 #, fuzzy
@@ -2788,10 +2797,14 @@ msgid ""
 "please make sure the Weblate SSH key is accepted by the server (see :ref:"
 "`weblate-ssh-key`)."
 msgstr ""
+"Há suporte para backups remotos a usar o SSH. O servidor SSH precisa ter "
+"`BorgBackup`_ instalado. O Weblate conecta-se ao servidor a usar uma chave "
+"SSH, então certifique-se de que a chave SSH do Weblate seja aceita pelo "
+"servidor (veja :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:105
 msgid ":ref:`cloudbackup` provides you automated remote backups."
-msgstr ""
+msgstr ":ref:`cloudbackup` fornece backups remotos automatizados."
 
 #: ../../admin/backup.rst:108
 msgid "Restoring from BorgBackup"
@@ -5086,6 +5099,8 @@ msgid ""
 ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
 "ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
+":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
+"ee/user/profile/personal_access_tokens.html>`_"
 
 #: ../../admin/config.rst:603
 msgid "GITHUB_USERNAME"
@@ -5124,6 +5139,8 @@ msgid ""
 ":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
 "com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 msgstr ""
+":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
+"com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:627
 msgid "GOOGLE_ANALYTICS_ID"
@@ -7673,12 +7690,16 @@ msgid ""
 "Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
 "systems will most likely work too."
 msgstr ""
+"Weblate é conhecido por funcionar no Linux, FreeBSD e macOS. Outros sistemas "
+"como o Unix provavelmente funcionarão também."
 
 #: ../../admin/install.rst:48
 msgid ""
 "Weblate is not supported on Windows. But it may still work and patches are "
 "happily accepted."
 msgstr ""
+"O Weblate não é suportado no Windows. Mas ainda pode funcionar e patches são "
+"aceitos alegremente."
 
 #: ../../admin/install.rst:52
 msgid "Other services"
@@ -7773,7 +7794,7 @@ msgstr "https://www.django-rest-framework.org/"
 
 #: ../../admin/install.rst:88
 msgid "Optional dependencies"
-msgstr ""
+msgstr "Dependências opcionais"
 
 #: ../../admin/install.rst:90
 msgid ""
@@ -7905,7 +7926,7 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 
 #: ../../admin/install.rst:130
 msgid "``licensee`` (optional for detecting license when creating component)"
-msgstr ""
+msgstr "``licensee`` (opcional para detetar a licença ao criar o componente)"
 
 #: ../../admin/install.rst:130
 #, fuzzy
@@ -7943,6 +7964,12 @@ msgid ""
 "need both Cairo and Pango, which in turn need GLib. All those should be "
 "installed with development files and GObject introspection data."
 msgstr ""
+"O Weblate usa Pango e Cairo para renderizar widgets de bitmap (ver "
+":ref:`promotion`) e verificações de renderização (ver :ref:`fonts`). Para "
+"instalar as ligações Python corretamente para esses, precisa de instalar "
+"bibliotecas de sistemas primeiro - precisa tanto do Cairo quanto do Pango, "
+"que por sua vez precisam de GLib. Todos esses devem ser instalados com "
+"ficheiros de desenvolvimento e dados de introspecção GObject."
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
@@ -7981,16 +8008,21 @@ msgid ""
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
 msgstr ""
+"Cada arquivo é acompanhado de ficheiros ``.asc``, os quais contêm a "
+"assinatura PGP para ele. Uma vez que tenha ambos na mesma pasta, pode "
+"verificar a assinatura:"
 
 #: ../../admin/install.rst:183
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
 msgstr ""
+"Como pode ver, o GPG reclama que não conhece a chave pública. Neste ponto "
+"deve fazer um dos seguintes passos:"
 
 #: ../../admin/install.rst:186
 msgid "Use `wkd` to download the key:"
-msgstr ""
+msgstr "Use `wkd` para descarregar a chave:"
 
 #: ../../admin/install.rst:201
 msgid ""
@@ -8119,12 +8151,18 @@ msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
+"PostgreSQL é geralmente a melhor escolha para sites baseados em Django. É o "
+"banco de dados de referência usado para implementar a camada de banco de "
+"dados Django."
 
 #: ../../admin/install.rst:316
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
 msgstr ""
+"O Weblate usa a extensão trigram que deve ser instalada separadamente em "
+"alguns casos. Procure por ``postgresql-contrib`` ou um pacote com nome "
+"similar."
 
 #: ../../admin/install.rst:321
 msgid ":ref:`django:postgresql-notes`"
@@ -8148,6 +8186,10 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
+"Se não quiser fazer do utilizador do Weblate um superutilizador no "
+"PostgreSQL, pode omitir-lo. Nesse caso, terá que executar manualmente  "
+"algumas das etapas de migração como um superutilizador PostgreSQL no esquema "
+"Weblate usará:"
 
 #: ../../admin/install.rst:352
 msgid "Configuring Weblate to use PostgreSQL"
@@ -8177,12 +8219,16 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
+"Alguns recursos do Weblate terão melhor desempenho com :ref:`postgresql`. "
+"Isso inclui a memória de pesquisa e tradução, que ambos utilizam recursos de "
+"texto completo no banco de dados e a implementação do PostgreSQL é superior."
 
 #: ../../admin/install.rst:388
 msgid ""
 "Because of this it is recommended to use :ref:`postgresql` for new "
 "installations."
 msgstr ""
+"Por causa disso, recomenda-se usar :ref:`postgresql` para novas instalações."
 
 #: ../../admin/install.rst:391
 msgid "Following configuration is recommended for Weblate:"
@@ -8193,6 +8239,8 @@ msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
 msgstr ""
+"Use o conjunto de caracteres ``utf8mb4`` para permitir a representação de "
+"planos Unicode mais altos (por exemplo, emojis)."
 
 #: ../../admin/install.rst:394
 msgid ""
@@ -8204,7 +8252,7 @@ msgstr ""
 
 #: ../../admin/install.rst:395
 msgid "Set the isolation level to ``READ COMMITTED``."
-msgstr ""
+msgstr "Defina o nível de isolamento para ``READ COMMITTED``."
 
 #: ../../admin/install.rst:396
 msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
@@ -8235,6 +8283,11 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
+"A configuração do servidor de e-mail é configurada a usar essas "
+"configurações: :setting:`django:EMAIL_HOST`, "
+":setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_HOST_USER` e "
+":setting:`django:EMAIL_PORT`. Os nomes deles são bastante autoexplicativos, "
+"mas pode encontrar mais informações na documentação do Django."
 
 #: ../../admin/install.rst:418
 msgid ""
@@ -8242,22 +8295,30 @@ msgid ""
 "djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage` "
 "for instructions on how to invoke it in different environments)."
 msgstr ""
+"Pode verificar se o e-mail de saída está a funcionar corretamente pelo "
+"comando de gestão :djadmin:`django:sendtestemail` (veja :ref:`invoke-manage` "
+"para instruções sobre como invocá-lo em ambientes diferentes)."
 
 #: ../../admin/install.rst:425
 msgid "Running behind reverse proxy"
-msgstr ""
+msgstr "Executar por trás de um proxy reverso"
 
 #: ../../admin/install.rst:427
 msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
+"Vários recursos no Weblate dependem de ser capaz de obter o endereço IP do "
+"cliente. Isso inclui :ref:`rate-limit`, :ref:`spam-protection` ou :ref"
+":`audit-log`."
 
 #: ../../admin/install.rst:430
 msgid ""
 "In default configuration Weblate parses IP address from ``REMOTE_ADDR`` "
 "which is set by the WSGI handler."
 msgstr ""
+"Na configuração predefinida, o Weblate analisa o endereço IP de "
+"``REMOTE_ADDR`` que é definido pelo manipulador WSGI."
 
 #: ../../admin/install.rst:433
 msgid ""
@@ -8269,6 +8330,14 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
+"Se estiver a usar um proxy reverso, este campo provavelmente conterá o seu "
+"endereço. Precisa configurar o Weblate para confiar em cabeçalhos HTTP "
+"adicionais e analisar o endereço IP destes. Isso não pode ser ativado por "
+"predefinição, porque permitiria a falsificação de endereços IP para "
+"instalações que não usam um proxy reverso. Ativar "
+":setting:`IP_BEHIND_REVERSE_PROXY` pode ser suficiente para as configurações "
+"mais usuais, mas podia precisar de ajustar :setting:`IP_PROXY_HEADER` e "
+":setting:`IP_PROXY_OFFSET` também."
 
 #: ../../admin/install.rst:443
 msgid ""
@@ -8276,10 +8345,13 @@ msgid ""
 "`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, :setting:"
 "`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ""
+":ref:`spam-protection`, :ref:`rate-limit`, :ref:`audit-log`, "
+":setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, "
+":setting:`IP_PROXY_OFFSET`, :setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install.rst:452
 msgid "HTTP proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: ../../admin/install.rst:454
 msgid ""
@@ -8287,20 +8359,25 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
+"O Weblate executa comandos VCS e esses que aceitam a configuração proxy do "
+"ambiente. A abordagem recomendada é definir configurações de proxy em "
+":file:`settings.py`:"
 
 #: ../../admin/install.rst:466
 msgid ""
 "`Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-"
 "proxies#proxy-environment-variables>`_"
 msgstr ""
+"`Variáveis de Ambiente de Proxy <https://ec.haxx.se/usingcurl/usingcurl-"
+"proxies#proxy-environment-variables>`_"
 
 #: ../../admin/install.rst:471
 msgid "Adjusting configuration"
-msgstr ""
+msgstr "Ajustar a configuração"
 
 #: ../../admin/install.rst:475
 msgid ":ref:`sample-configuration`"
-msgstr ""
+msgstr ":ref:`sample-configuration`"
 
 #: ../../admin/install.rst:477
 msgid ""
@@ -8308,44 +8385,54 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
+"Copie :file:`weblate/settings_example.py` para :file:`weblate/settings.py` e "
+"ajuste-o para corresponder à configuração. Provavelmente irá ajustar as "
+"opções a seguir:"
 
 #: ../../admin/install.rst:483
 msgid "``ADMINS``"
-msgstr ""
+msgstr "``ADMINS``"
 
 #: ../../admin/install.rst:485
 msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr ""
+"Lista de administradores de sites para receber notificações quando algo dá "
+"errado, por exemplo, notificações em mesclagens fracassadas ou erros de "
+"Django."
 
 #: ../../admin/install.rst:490
 msgid ":setting:`django:ADMINS`"
-msgstr ""
+msgstr ":setting:`django:ADMINS`"
 
 #: ../../admin/install.rst:494
 msgid "``ALLOWED_HOSTS``"
-msgstr ""
+msgstr "``ALLOWED_HOSTS``"
 
 #: ../../admin/install.rst:496
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
 msgstr ""
+"Precisa definir isso para listar os hosts que o seu site deve servir. Por "
+"exemplo:"
 
 #: ../../admin/install.rst:503
 msgid "Alternatively you can include wildcard:"
-msgstr ""
+msgstr "Alternativamente, pode incluir curinga:"
 
 #: ../../admin/install.rst:511
 msgid ""
 ":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:"
 "`production-hosts`"
 msgstr ""
+":setting:`django:ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref"
+":`production-hosts`"
 
 #: ../../admin/install.rst:517
 msgid "``SESSION_ENGINE``"
-msgstr ""
+msgstr "``SESSION_ENGINE``"
 
 #: ../../admin/install.rst:519
 msgid ""
@@ -8353,36 +8440,45 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
+"Configure como as suas sessões serão armazenadas. Caso mantenha o mecanismo "
+"de backend do banco de dados predefinido, deve agendar: :command:`weblate "
+"clearsessions` para remover dados de sessão obsoletos do banco de dados."
 
 #: ../../admin/install.rst:524
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
 msgstr ""
+"Se estiver a usar o Redis como cache (veja :ref:`production-cache`) é "
+"recomendado também usá-lo para sessões:"
 
 #: ../../admin/install.rst:533
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
-msgstr ""
+msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
 #: ../../admin/install.rst:538
 msgid "``DATABASES``"
-msgstr ""
+msgstr "``DATABASES``"
 
 #: ../../admin/install.rst:540
 msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
+"Conetividade ao servidor de banco de dados, verifique a documentação do "
+"Django para obter mais detalhes."
 
 #: ../../admin/install.rst:545
 msgid ""
 ":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
 "databases`"
 msgstr ""
+":ref:`database-setup`, :setting:`django:DATABASES`, :doc:`django:ref/"
+"databases`"
 
 #: ../../admin/install.rst:551
 msgid "``DEBUG``"
-msgstr ""
+msgstr "``DEBUG``"
 
 #: ../../admin/install.rst:553
 msgid ""
@@ -8390,57 +8486,69 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
+"Desative isto para qualquer servidor de produção. Com o modo de depuração "
+"ativado, o Django mostrará backtraces em caso de erro aos utilizadores, "
+"quando desabilitá-lo, erros serão enviados por e-mail para ``ADMINS`` (veja "
+"acima)."
 
 #: ../../admin/install.rst:557
 msgid ""
 "Debug mode also slows down Weblate, as Django stores much more info "
 "internally in this case."
 msgstr ""
+"O modo de depuração também desacelera o Weblate, já que o Django armazena "
+"muito mais informações internamente neste caso."
 
 #: ../../admin/install.rst:562
 msgid ":setting:`django:DEBUG`"
-msgstr ""
+msgstr ":setting:`django:DEBUG`"
 
 #: ../../admin/install.rst:566
 msgid "``DEFAULT_FROM_EMAIL``"
-msgstr ""
+msgstr "``DEFAULT_FROM_EMAIL``"
 
 #: ../../admin/install.rst:568
 msgid ""
 "E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
+"Endereço de remetente de e-mail para e-mail de saída, por exemplo, e-mails "
+"de registo."
 
 #: ../../admin/install.rst:572
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:576
 msgid "``SECRET_KEY``"
-msgstr ""
+msgstr "``SECRET_KEY``"
 
 #: ../../admin/install.rst:578
 msgid ""
 "Key used by Django to sign some info in cookies, see :ref:`production-"
 "secret` for more info."
 msgstr ""
+"Chave usada por Django para assinar informações em cookies, consulte :ref"
+":`production-secret` para obter mais informações."
 
 #: ../../admin/install.rst:583
 msgid ":setting:`django:SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`django:SECRET_KEY`"
 
 #: ../../admin/install.rst:587
 msgid "``SERVER_EMAIL``"
-msgstr ""
+msgstr "``SERVER_EMAIL``"
 
 #: ../../admin/install.rst:589
 msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
+"E-mail usado como endereço de remetente para envio de e-mails ao "
+"administrador, por exemplo, notificações em mesclagens falhadas."
 
 #: ../../admin/install.rst:594
 msgid ":setting:`django:SERVER_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:599
 msgid "Filling up the database"
@@ -28777,6 +28885,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Todos os campos desta página são opcionais e podem ser apagados a qualquer "
+"momento e, ao preenchê-los, está a dar-nos consentimento para compartilhar "
+"esses dados onde quer que o seu perfil de utilizador apareça."
 
 #: ../../user/profile.rst:116
 msgid ""
