@@ -326,7 +326,7 @@ class UserViewSet(viewsets.ModelViewSet):
             group = Group.objects.get(pk=int(request.data["group_id"]))
         except (Group.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
 
@@ -371,7 +371,7 @@ class UserViewSet(viewsets.ModelViewSet):
             subscription = obj.subscription_set.get(id=subscription_id)
         except (Subscription.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
 
@@ -446,7 +446,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             role = Role.objects.get(pk=int(request.data["role_id"]))
         except (Role.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
 
@@ -470,7 +470,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             language = Language.objects.get(code=request.data["language_code"])
         except (Language.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
 
@@ -490,7 +490,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             language = Language.objects.get(code=language_code)
         except (Language.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.languages.remove(language)
@@ -513,7 +513,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             )
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.projects.add(project)
@@ -530,7 +530,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             project = Project.objects.get(pk=int(project_id))
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.projects.remove(project)
@@ -550,7 +550,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             )
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.componentlists.add(component_list)
@@ -572,7 +572,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             )
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.componentlists.remove(component_list)
@@ -594,7 +594,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             )
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.components.add(component)
@@ -613,7 +613,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             component = Component.objects.get(pk=int(component_id))
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.components.remove(component)
@@ -827,9 +827,7 @@ class ComponentViewSet(
 
             if not obj.can_add_new_language(request.user):
                 return Response(
-                    data={
-                        "detail": "Could not add new translation file.",
-                    },
+                    data={"detail": "Could not add new translation file."},
                     status=HTTP_400_BAD_REQUEST,
                 )
 
@@ -973,7 +971,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         except Exception as error:
             report_error(cause="Upload error", print_tb=True)
             return Response(
-                data={"result": False, "detail": force_str(error)}, status=400
+                data={"detail": force_str(error)},
+                status=HTTP_400_BAD_REQUEST,
             )
 
     @action(detail=True, methods=["get"])
@@ -1011,10 +1010,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
             if obj.unit_set.filter(context=key).exists():
                 return Response(
-                    data={
-                        "result": "Unsuccessful",
-                        "detail": "Translation with this key seem to already exist!",
-                    },
+                    data={"detail": "Translation with this key seem to already exist!"},
                     status=HTTP_400_BAD_REQUEST,
                 )
 
@@ -1037,10 +1033,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         autoform = AutoForm(translation.component, request.data)
         if translation.component.locked or not autoform.is_valid():
             return Response(
-                data={
-                    "result": "Unsuccessful",
-                    "detail": "Failed to process autotranslation data!",
-                },
+                data={"detail": "Failed to process autotranslation data!"},
                 status=HTTP_400_BAD_REQUEST,
             )
         args = (
@@ -1054,7 +1047,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             autoform.cleaned_data["threshold"],
         )
         return Response(
-            data={"result": "Success", "details": auto_translate(*args)},
+            data={"details": auto_translate(*args)},
             status=HTTP_200_OK,
         )
 
@@ -1166,7 +1159,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             )
         except (Unit.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
 
@@ -1187,7 +1180,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             )
         except (Unit.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.units.remove(source_string)
@@ -1208,7 +1201,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             )
         except (Project.DoesNotExist, Component.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
 
@@ -1311,7 +1304,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             )
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
 
@@ -1333,7 +1326,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             component = Component.objects.get(slug=component_slug)
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
+                data={"detail": force_str(error)},
                 status=HTTP_400_BAD_REQUEST,
             )
         obj.components.remove(component)

@@ -1958,10 +1958,7 @@ class ScreenshotAPITest(APIBaseTest):
                 method="post",
                 code=400,
                 superuser=True,
-                data={
-                    "result": "Unsuccessful",
-                    "detail": "Project matching query does not exist.",
-                },
+                data={"detail": "Project matching query does not exist."},
                 request={
                     "name": "Test create screenshot",
                     "project_slug": "aaa",
@@ -1974,10 +1971,7 @@ class ScreenshotAPITest(APIBaseTest):
                 method="post",
                 code=400,
                 superuser=True,
-                data={
-                    "result": "Unsuccessful",
-                    "detail": "Component matching query does not exist.",
-                },
+                data={"detail": "Component matching query does not exist."},
                 request={
                     "name": "Test create screenshot",
                     "project_slug": "test",
