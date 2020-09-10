@@ -820,7 +820,10 @@ class ComponentViewSet(
             try:
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
-                raise Http404("No language code '%s' found!" % language_code)
+                return Response(
+                    data={"detail": f"No language code '{language_code}' found!"},
+                    status=HTTP_400_BAD_REQUEST,
+                )
 
             if not obj.can_add_new_language(request.user):
                 return Response(

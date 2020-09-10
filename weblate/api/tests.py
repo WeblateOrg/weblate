@@ -1389,7 +1389,7 @@ class ComponentAPITest(APIBaseTest):
             "api:component-translations",
             self.component_kwargs,
             method="post",
-            code=404,
+            code=400,
             request={"language_code": "invalid"},
         )
 
