@@ -73,7 +73,7 @@
     <a title="{% trans "Edit string" %}"href="{{ unit.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
     {% endif %}
 </label>
-{% format_translation unit.target unit.translation.language unit.translation.plural %}
+{% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}
 </div>
 {% endfor %}
 {% endif %}
