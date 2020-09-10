@@ -2473,10 +2473,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         is valid new base.
         """
         # The user is None in case of consistency or cli invocation
+        # The component.edit permission is intentional here as it allows overriding
+        # of new_lang configuration for admins and add languages even if adding
+        # for users is not configured.
         if (
             self.new_lang != "add"
             and user is not None
-            and not user.has_perm("translation.add", self)
+            and not user.has_perm("component.edit", self)
         ):
             return False
 
