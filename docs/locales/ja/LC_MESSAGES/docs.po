@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-08 10:39+0200\n"
-"PO-Revision-Date: 2020-09-10 12:35+0000\n"
+"PO-Revision-Date: 2020-09-11 06:28+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -11428,7 +11428,7 @@ msgstr "名前"
 
 #: ../../admin/optionals.rst:248
 msgid "Scope"
-msgstr "スコープ"
+msgstr "範囲"
 
 #: ../../admin/optionals.rst:248
 msgid "Allowed attempts"
@@ -25292,6 +25292,10 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"Weblate では、翻訳はプロジェクトとコンポーネントに編成されます。各プロジェクトには複数のコンポーネントを含めることができ、それぞれの言語への翻訳を"
+"含めることができます。コンポーネントは、翻訳可能な 1 つのファイル（例えば :ref:`gettext` や "
+":ref:`aresource`）に対応します。プロジェクトは、コンポーネントを論理セット（たとえば、1 "
+"つのアプリケーション内で使用するすべての翻訳をグループ化する）に編成するのに便利です。"
 
 #: ../../user/basic.rst:14
 msgid ""
@@ -25301,6 +25305,9 @@ msgid ""
 "`component`, still producing errors for seemingly inconsistent resulting "
 "translations."
 msgstr ""
+"内部では、各プロジェクトごとに、デフォルトで内部の他のコンポーネントに伝播する共通文字列へ変換します。  "
+"これにより、反復や複数言語への翻訳の負担を軽減します。:ref:`component` "
+"の設定に従って無効にしても、変換結果に一貫性がないように見える場合はエラーが発生します。"
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -27502,51 +27509,53 @@ msgid ""
 "set up for direct translation, or by way of accepting suggestions made by "
 "users without accounts."
 msgstr ""
+"Weblate を使用する翻訳に関心をお寄せいただきありがとうございます。プロジェクトは、直接翻訳するように設定することも、アカウントを持たないユーザーか"
+"らの提案を受け入れるように設定することもできます。"
 
 #: ../../user/translating.rst:8
 msgid "Overall, there are two modes of translation:"
-msgstr ""
+msgstr "全体として、2 つの翻訳モードがあります。"
 
 #: ../../user/translating.rst:10
 msgid "The project accepts direct translations"
-msgstr ""
+msgstr "直接翻訳を受け入れるプロジェクト"
 
 #: ../../user/translating.rst:11
 msgid ""
 "The project accepts only suggestions, which are automatically validated once "
 "a defined number of votes is reached"
-msgstr ""
+msgstr "提案のみを受け入れるプロジェクト、提案は、指定した投票数に達すると自動的に検証される"
 
 #: ../../user/translating.rst:13
 msgid ""
 "Please see :ref:`workflows` for more information on translation workflow."
-msgstr ""
+msgstr "翻訳のワークフローの詳細については、:ref:`workflows` をご覧ください。"
 
 #: ../../user/translating.rst:15
 msgid "Options for translation project visibility:"
-msgstr ""
+msgstr "翻訳プロジェクトの表示オプション:"
 
 #: ../../user/translating.rst:17
 msgid "Publicly visible and anybody can contribute"
-msgstr ""
+msgstr "一般に公開し、誰でも貢献可能"
 
 #: ../../user/translating.rst:18
 msgid "Visible only to a certain group of translators"
-msgstr ""
+msgstr "特定のグループの翻訳者のみ閲覧可能"
 
 #: ../../user/translating.rst:22
 msgid ":ref:`privileges`, :ref:`workflows`"
-msgstr ""
+msgstr ":ref:`privileges`、 :ref:`workflows`"
 
 #: ../../user/translating.rst:28
 msgid ""
 "Translation projects hold related components, related to the same software, "
 "book, or project."
-msgstr ""
+msgstr "翻訳プロジェクトには、同じソフトウェア、書籍、またはプロジェクトに関連する関連コンポーネントが含まれます。"
 
 #: ../../user/translating.rst:35
 msgid "Translation links"
-msgstr ""
+msgstr "翻訳のリンク"
 
 #: ../../user/translating.rst:37
 msgid ""
@@ -27557,10 +27566,14 @@ msgid ""
 "available. Alternatively you can use the search field to find a specific "
 "string or term."
 msgstr ""
+"コンポーネントには、実際の翻訳画面に移動するリンクのセットがあります。さらに翻訳は、次のようなそれぞれの検査に分かれています、例えば "
+":guilabel:`Not translated strings` または :guilabel:`Strings needing "
+"action`。プロジェクト全体が不合格せずに翻訳できた場合でも、:guilabel:`All strings` "
+"を使用できます。または、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
-msgstr ""
+msgstr "実際の権限は、Weblate の構成によって異なります。"
 
 #: ../../user/translating.rst:52
 msgid ""
@@ -27568,12 +27581,14 @@ msgid ""
 "still available to signed in users, in cases where uncertainty about the "
 "translation arises, which will prompt another translator to review it."
 msgstr ""
+"匿名のユーザーは、（許可した場合）候補の提案しかできません。サインインしているユーザーは、 "
+"翻訳が適当でない場合、他の翻訳者に翻訳を確認してもらうために提案できます。"
 
 #: ../../user/translating.rst:56
 msgid ""
 "The suggestions are scanned on a daily basis to remove duplicate ones or "
 "suggestions that match the current translation."
-msgstr ""
+msgstr "提案は、現在の翻訳と一致する重複や提案を削除するために、毎日スキャンされます。"
 
 #: ../../user/translating.rst:62
 msgid ""
@@ -27582,12 +27597,14 @@ msgid ""
 "string comments are good for providing feedback on the original string, for "
 "example that it should be rephrased or it is confusing."
 msgstr ""
+"コメントは、原文または翻訳文の 2 つの範囲に対して投稿できます。議論のテーマに合わせて選んでください。原文のコメントは、元の文字列に対するフィードバック"
+"の提供に適しています。例えば、言い換えなければならないとか、紛らわしいなどです。"
 
 #: ../../user/translating.rst:67
 msgid ""
 "You can use Markdown syntax in the comments and mention other users using "
 "``@mention``."
-msgstr ""
+msgstr "コメントの中では、 Markdown 構文を用い ``@mention`` を使用して他のユーザーを指定できます。"
 
 #: ../../user/translating.rst:71
 msgid "Variants"
@@ -27598,10 +27615,12 @@ msgid ""
 "Variants are used to group variants of the string in different lengths. The "
 "frontend can use different strings depending on the screen or window size."
 msgstr ""
+"バリアントは、文字列のバリアントを異なる長さでグループ化するために使用します。フロントエンドは、画面またはウィンドウのサイズに応じて異なる文字列を使用でき"
+"ます。"
 
 #: ../../user/translating.rst:78
 msgid ":ref:`variants`"
-msgstr ""
+msgstr ":ref:`variants`"
 
 #: ../../user/translating.rst:81
 msgid "Labels"
@@ -27613,10 +27632,12 @@ msgid ""
 "further customize the localization workflow, for example to define "
 "categories of strings."
 msgstr ""
+"ラベルは、プロジェクト内の文字列を分類するために使用します。これは、現地語化のワークフローをさらにカスタマイズするために使用できます、例えば、文字列のカテ"
+"ゴリを定義するなど。"
 
 #: ../../user/translating.rst:89
 msgid ":ref:`labels`"
-msgstr ""
+msgstr ":ref:`labels`"
 
 #: ../../user/translating.rst:94
 msgid ""
@@ -27624,6 +27645,8 @@ msgid ""
 "are shown. Should the translation be plural, multiple source strings and "
 "edit areas are shown, each described and labeled in plural form."
 msgstr ""
+"翻訳ページでは、翻訳元の文字列と翻訳対象の編集フィールドが表示されます。翻訳が複数形である場合、複数形の原文および編集フィールドが表示され、それぞれ複数形"
+"で記述されてラベルが付けられます。"
 
 #: ../../user/translating.rst:98
 msgid ""
@@ -27631,6 +27654,8 @@ msgid ""
 "grey symbols. More than one subsequent space is also underlined in red to "
 "alert the translator to a potential formatting issue."
 msgstr ""
+"すべての特殊な空白文字には、赤い下線が引かれ、灰色の記号で示されます。後続の複数のスペースにも赤い下線が引かれ、翻訳者にフォーマット上の問題が発生すること"
+"が警告されます。"
 
 #: ../../user/translating.rst:102
 msgid ""
@@ -27640,12 +27665,14 @@ msgid ""
 "preferences, translation to these languages will be shown (see :ref:"
 "`secondary-languages`) above the source string."
 msgstr ""
+"このページには、さまざまな追加情報が表示されます、そのほとんどはプロジェクトの原文からのものです（コンテキスト、コメント、メッセージを使用している場所など"
+"）。設定で第 2 言語を選択すると、これらの言語への翻訳が原文の上側に表示されます（参照 :ref:`secondary-languages`）。"
 
 #: ../../user/translating.rst:106
 msgid ""
 "Below the translation, any suggestion made by others will be shown, which "
 "you can in turn accept, accept with changes, or delete."
-msgstr ""
+msgstr "翻訳の下側には、他のユーザの提案が表示され、提案は、採用、採用して編集、削除したりできます。"
 
 #: ../../user/translating.rst:112
 msgid "Plurals"
@@ -27661,6 +27688,9 @@ msgid ""
 "Languages like for example Czech or Arabic have more plurals and also their "
 "rules for plurals are different."
 msgstr ""
+"数字の指定に応じて形式が変わる単語は、複数形と呼ばれています。各言語には、それぞれ複数の定義があります。例えば、英語は 1 "
+"つの複数形をサポートします。例えば「自動車」の単数定義では暗黙のうちに 1 台の自動車が参照され、複数定義の「自動車」では複数台の自動車が参照されるか、名"
+"詞としての自動車の概念が使用されます。チェコ語やアラビア語などの言語では、複数形の数が多く、複数形の規則も異なります。"
 
 #: ../../user/translating.rst:122
 msgid ""
@@ -27671,116 +27701,119 @@ msgid ""
 "detailed description in the `Language Plural Rules`_ by the Unicode "
 "Consortium."
 msgstr ""
+"Weblate は、それぞれの言語で複数を別々に翻訳することにより、これらの各形式を完全にサポートしています。フィールドの数と、翻訳したアプリケーションで"
+"どのように使用するのかは、定義した複数形によって異なります。Weblate は基本的な情報を表示していますが、詳細な説明は Unicode "
+"コンソーシアムの `Language Plural Rules`_ にあります。"
 
 #: ../../user/translating.rst:132
 msgid ":ref:`plural-formula`"
-msgstr ""
+msgstr ":ref:`plural-formula`"
 
 #: ../../user/translating.rst:137
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "キーボード ショートカット"
 
 #: ../../user/translating.rst:141
 msgid ""
 "The keyboard shortcuts have been revamped in 2.18 to less likely collide "
 "with browser or system defaults."
-msgstr ""
+msgstr "キーボード ショートカットは 2.18 で刷新し、ブラウザやシステムのデフォルトと衝突する可能性が低くなりました。"
 
 #: ../../user/translating.rst:144
 msgid "The following keyboard shortcuts can be utilized during translation:"
-msgstr ""
+msgstr "翻訳中に利用できるキーボード ショートカット:"
 
 #: ../../user/translating.rst:146
 msgid ":kbd:`Alt+Home`"
-msgstr ""
+msgstr ":kbd:`Alt+Home`"
 
 #: ../../user/translating.rst:147
 msgid "Navigate to first translation in current search."
-msgstr "現在の検索の最初の翻訳に移動します。"
+msgstr "現在の検索の最初の翻訳に移動する。"
 
 #: ../../user/translating.rst:148
 msgid ":kbd:`Alt+End`"
-msgstr ""
+msgstr ":kbd:`Alt+End`"
 
 #: ../../user/translating.rst:149
 msgid "Navigate to last translation in current search."
-msgstr "現在の検索で最後の翻訳に移動します。"
+msgstr "現在の検索で最後の翻訳に移動する。"
 
 #: ../../user/translating.rst:150
 msgid ":kbd:`Alt+PageUp`"
-msgstr ""
+msgstr ":kbd:`Alt+PageUp`"
 
 #: ../../user/translating.rst:151
 msgid "Navigate to previous translation in current search."
-msgstr "現在の検索で前の翻訳に移動します。"
+msgstr "現在の検索で前の翻訳に移動する。"
 
 #: ../../user/translating.rst:152
 msgid ":kbd:`Alt+PageDown`"
-msgstr ""
+msgstr ":kbd:`Alt+PageDown`"
 
 #: ../../user/translating.rst:153
 msgid "Navigate to next translation in current search."
-msgstr "現在の検索で次の翻訳に移動します。"
+msgstr "現在の検索で次の翻訳に移動する。"
 
 #: ../../user/translating.rst:154
 msgid ":kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`"
-msgstr ""
+msgstr ":kbd:`Alt+Enter`、 :kbd:`Ctrl+Enter`、 または :kbd:`Cmd+Enter`"
 
 #: ../../user/translating.rst:155
 msgid "Save current translation."
-msgstr "現在の翻訳を保存します。"
+msgstr "現在の翻訳を保存する。"
 
 #: ../../user/translating.rst:156
 msgid ":kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`"
-msgstr ""
+msgstr ":kbd:`Ctrl+Shift+Enter` または :kbd:`Cmd+Shift+Enter`"
 
 #: ../../user/translating.rst:157
 msgid "Unmarks translation as fuzzy and submits it."
-msgstr ""
+msgstr "翻訳のあいまいのマークを解除して送信する。"
 
 #: ../../user/translating.rst:158
 msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
-msgstr ""
+msgstr ":kbd:`Ctrl+E` または :kbd:`Cmd+E`"
 
 #: ../../user/translating.rst:159
 msgid "Focus translation editor."
-msgstr ""
+msgstr "翻訳フォームにフォーカスを移動する。"
 
 #: ../../user/translating.rst:160
 msgid ":kbd:`Ctrl+U` or :kbd:`Cmd+U`"
-msgstr ""
+msgstr ":kbd:`Ctrl+U` または :kbd:`Cmd+U`"
 
 #: ../../user/translating.rst:161
 msgid "Focus comment editor."
-msgstr ""
+msgstr "コメント フィールドにフォーカスを移動する。"
 
 #: ../../user/translating.rst:162
 msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
-msgstr ""
+msgstr ":kbd:`Ctrl+M` または :kbd:`Cmd+M`"
 
 #: ../../user/translating.rst:163
 msgid "Shows machine translation tab."
-msgstr ""
+msgstr "機械翻訳タブを表示する。"
 
 #: ../../user/translating.rst:164
 msgid ":kbd:`Ctrl+<NUMBER>` or :kbd:`Cmd+<NUMBER>`"
-msgstr ""
+msgstr ":kbd:`Ctrl+<NUMBER>` または :kbd:`Cmd+<NUMBER>`"
 
 #: ../../user/translating.rst:165
 msgid "Copies placeable of given number from source string."
-msgstr ""
+msgstr "原文の指定した番号のプレースホルダを、翻訳にコピーする。"
 
 #: ../../user/translating.rst:166
 msgid ":kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`"
-msgstr ""
+msgstr ":kbd:`Ctrl+M <NUMBER>` または :kbd:`Cmd+M <NUMBER>`"
 
 #: ../../user/translating.rst:167
 msgid "Copy the machine translation of given number to current translation."
-msgstr ""
+msgstr "指定した番号の機械翻訳を、現在の翻訳にコピーする。"
 
 #: ../../user/translating.rst:168
 msgid ":kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`"
-msgstr ""
+msgstr ":kbd:`Ctrl+I <NUMBER>` または :kbd:`Cmd+I <NUMBER>`"
 
 #: ../../user/translating.rst:169
 msgid "Ignore one item in the list of failing checks."
@@ -27788,88 +27821,91 @@ msgstr "検査で不合格となった一覧の、1 つの項目を無視しま�
 
 #: ../../user/translating.rst:170
 msgid ":kbd:`Ctrl+J` or :kbd:`Cmd+J`"
-msgstr ""
+msgstr ":kbd:`Ctrl+J` または :kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:171
 msgid "Shows the :guilabel:`Nearby strings` tab."
-msgstr ":guilabel:`前後の文字列` タブの表示。"
+msgstr ":guilabel:`Nearby strings` タブの表示。"
 
 #: ../../user/translating.rst:172
 msgid ":kbd:`Ctrl+S` or :kbd:`Cmd+S`"
-msgstr ""
+msgstr ":kbd:`Ctrl+S` または :kbd:`Cmd+S`"
 
 #: ../../user/translating.rst:173
 msgid "Shows search tab."
-msgstr ""
+msgstr "検索タブの表示。"
 
 #: ../../user/translating.rst:174
 msgid ":kbd:`Ctrl+O` or :kbd:`Cmd+O`"
-msgstr ""
+msgstr ":kbd:`Ctrl+O` または :kbd:`Cmd+O`"
 
 #: ../../user/translating.rst:175
 msgid "Copies source string."
-msgstr ""
+msgstr "原文を、翻訳に複製する。"
 
 #: ../../user/translating.rst:177
 msgid ":kbd:`Ctrl+Y` or :kbd:`Cmd+Y`"
-msgstr ""
+msgstr ":kbd:`Ctrl+Y` または :kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:177
 msgid "Toggles the :guilabel:`Needs editing` flag."
-msgstr ""
+msgstr ":guilabel:`Needs editing` フラグを入れる。"
 
 #: ../../user/translating.rst:182
 msgid "Visual keyboard"
-msgstr ""
+msgstr "ビジュアル キーボード"
 
 #: ../../user/translating.rst:184
 msgid ""
 "A small visual keyboard is shown just above the translation field. This can "
 "be useful for typing characters not usually found or otherwise hard to type."
 msgstr ""
+"小さなビジュアル キーボードを翻訳フィールドのすぐ上に表示しています。これは、通常は場所が分からない文字や、入力が困難な文字を入力する場合に便利です。"
 
 #: ../../user/translating.rst:187
 msgid "The shown symbols factor into three categories:"
-msgstr ""
+msgstr "表示している記号は、3 つのカテゴリに分かれています。"
 
 #: ../../user/translating.rst:189
 msgid "User configured characters defined in the :ref:`user-profile`"
-msgstr ""
+msgstr ":ref:`user-profile` で定義したユーザー設定文字"
 
 #: ../../user/translating.rst:190
 msgid ""
 "Per-language characters provided by Weblate (e.g. quotes or RTL specific "
 "characters)"
-msgstr ""
+msgstr "Weblate が提供する言語ごとの文字（引用符や RTL 固有の文字など）"
 
 #: ../../user/translating.rst:191
 msgid "Characters configured using :setting:`SPECIAL_CHARS`"
-msgstr ""
+msgstr ":setting:`SPECIAL_CHARS` で設定した文字"
 
 #: ../../user/translating.rst:198
 msgid "Translation context"
-msgstr ""
+msgstr "翻訳コンテキスト"
 
 #: ../../user/translating.rst:200
 msgid ""
 "This contextual description provides related information about the current "
 "string."
-msgstr ""
+msgstr "このコンテキストの説明は、現在の文字列に関する関連情報を提供します。"
 
 #: ../../user/translating.rst:202
 msgid "String attributes"
-msgstr ""
+msgstr "文字列属性"
 
 #: ../../user/translating.rst:203
 msgid ""
 "Things like message ID, context (``msgctxt``) or location in source code."
-msgstr ""
+msgstr "メッセージ ID、コンテキスト（``msgctxt``）、原文の参照など。"
 
 #: ../../user/translating.rst:205
 msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
 msgstr ""
+"スクリーンショットを Weblate にアップロードして、文字列がどこでどのように使用されているかを翻訳者に伝えることができます、参照 "
+":ref:`screenshots`。"
 
 #: ../../user/translating.rst:208
 msgid "Nearby strings"
@@ -27880,7 +27916,7 @@ msgid ""
 "Displays neighbouring messages from the translation file. These are usually "
 "also used in a similar context and prove useful in keeping the translation "
 "consistent."
-msgstr ""
+msgstr "翻訳ファイルの前後の文字列を表示します。これらは通常、同様のコンテキストで使用されるので、翻訳の一貫性の維持に便利です。"
 
 #: ../../user/translating.rst:212
 msgid "Other occurrences"
@@ -27892,6 +27928,8 @@ msgid ""
 "this tab shows all of them if they are found to be inconsistent (see :ref:"
 "`check-inconsistent`). You can choose which one to use."
 msgstr ""
+"メッセージが複数の場所で表示される場合（複数のコンポーネントなど）、一貫性がないと判断されると（参照 :ref:`check-"
+"inconsistent`）、このタブにすべてのメッセージを表示します。どれを使用するかは選択できます。"
 
 #: ../../user/translating.rst:214
 msgid "Translation memory"
@@ -27899,11 +27937,11 @@ msgstr "翻訳メモリ"
 
 #: ../../user/translating.rst:215
 msgid "Look at similar strings translated in past, see :ref:`memory`."
-msgstr ""
+msgstr "過去に翻訳した同様の文字列を確認します、参照 :ref:`memory`。"
 
 #: ../../user/translating.rst:217
 msgid "Displays terms from the project glossary used in the current message."
-msgstr ""
+msgstr "現在のメッセージで使用しているプロジェクトの用語集の用語を表示します。"
 
 #: ../../user/translating.rst:218
 msgid "Recent changes"
@@ -27911,7 +27949,7 @@ msgstr "最近の更新"
 
 #: ../../user/translating.rst:219
 msgid "List of people whom have changed this message recently using Weblate."
-msgstr ""
+msgstr "Weblate を使用して最近このメッセージを変更したユーザーの一覧です。"
 
 #: ../../user/translating.rst:222
 msgid "Project"
@@ -27921,17 +27959,17 @@ msgstr "プロジェクト"
 msgid ""
 "Project information like instructions for translators, or information about "
 "its version control system repository."
-msgstr ""
+msgstr "翻訳者への指示などのプロジェクト情報、またはそのバージョン管理システム リポジトリに関する情報。"
 
 #: ../../user/translating.rst:224
 msgid ""
 "If the translation format supports it, you can also follow supplied links to "
 "respective source code containing each source string."
-msgstr ""
+msgstr "翻訳形式が対応している場合は、それぞれの原文を含む原文へのリンクをたどることもできます。"
 
 #: ../../user/translating.rst:228
 msgid "Translation history"
-msgstr ""
+msgstr "翻訳履歴"
 
 #: ../../user/translating.rst:230
 msgid ""
@@ -27939,16 +27977,18 @@ msgid ""
 "in the database, and can be reverted. Optionally one can still also revert "
 "anything in the underlying version control system."
 msgstr ""
+"すべての変更はデフォルトで（コンポーネントの設定で無効にしていない限り）データベースに保存され、元に戻すことができます。必要に応じて、基になるバージョン管"
+"理システムの任意の項目を元に戻すこともできます。"
 
 #: ../../user/translating.rst:235
 msgid "Translated string length"
-msgstr ""
+msgstr "翻訳した文字列の長さ"
 
 #: ../../user/translating.rst:237
 msgid ""
 "Weblate can limit length of translation in several ways to ensure the "
 "translated string is not too long:"
-msgstr ""
+msgstr "Weblate では、翻訳した文字列が長すぎないように、複数の方法で翻訳の長さを制限できます。"
 
 #: ../../user/translating.rst:240
 msgid ""
@@ -27959,17 +27999,21 @@ msgid ""
 "bilingual, making Weblate see translation key as source string instead of "
 "the actual source string. See :ref:`bimono` for more info."
 msgstr ""
+"デフォルトの翻訳文の長さの制限は、原文の 10 "
+"倍です。:setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` "
+"で、無効にできます。これに該当した場合、単一言語翻訳がバイリンガルに設定されているために、Weblate "
+"が翻訳キーを実際の原文ではなくソース文字列として認識することが原因の場合があります。詳細は :ref:`bimono` をご覧ください。"
 
 #: ../../user/translating.rst:246
 msgid ""
 "Maximal length in characters defined by translation file or flag, see :ref:"
 "`check-max-length`."
-msgstr ""
+msgstr "翻訳ファイルまたはフラグによって定義した文字の最大長、参照 :ref:`check-max-length`。"
 
 #: ../../user/translating.rst:248
 msgid ""
 "Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`."
-msgstr ""
+msgstr "フラグで定義してピクセル単位の最大表示変換サイズ、参照 :ref:`check-max-size`。"
 
 #: ../../user/translating.rst:255
 msgid ""
@@ -27978,16 +28022,18 @@ msgid ""
 "Terms from the currently translated string can be displayed in the bottom "
 "tabs."
 msgstr ""
+"各プロジェクトには、用語を保存するための略語として、任意の言語に割り当てられた用語集を用意できます。この方法の方が整合性を維持しやすくなります。現在翻訳し"
+"た文字列の用語は、下部のタブに表示されます。"
 
 #: ../../user/translating.rst:260
 msgid "Managing glossaries"
-msgstr ""
+msgstr "用語集の管理"
 
 #: ../../user/translating.rst:262
 msgid ""
 "On the :guilabel:`Glossaries` tab of each project page, you can edit "
 "existing glossaries."
-msgstr ""
+msgstr "各プロジェクト ページの :guilabel:`Glossaries` タブで、既存の用語集を編集できます。"
 
 #: ../../user/translating.rst:267
 msgid ""
@@ -27996,6 +28042,8 @@ msgid ""
 "and you can also choose to share them with another projects. You can do this "
 "only for projects you can administer."
 msgstr ""
+"プロジェクトの作成時に、特定のプロジェクトの空の用語集が自動的に作成されます。用語集は同じプロジェクトのすべてのコンポーネントで共有され、別のプロジェクト"
+"と共有することもできます。これは、管理できるプロジェクトに対してのみ実行できます。"
 
 #: ../../user/translating.rst:272
 msgid ""
@@ -28004,6 +28052,8 @@ msgid ""
 "lead you to a page which can be used to edit, import or export the selected "
 "glossary, or view the edit history:"
 msgstr ""
+"このリストでは、管理する用語集を選択できます（現在のプロジェクトで使用しているすべての言語が表示されます）。言語リンクをクリックすると、選択した用語集の編"
+"集、インポート、エクスポート、または編集履歴の表示に使用できるページが表示されます。"
 
 #: ../../user/translating.rst:284
 msgid ""
@@ -28011,11 +28061,12 @@ msgid ""
 "suggestions from several machine translation tools. All machine translations "
 "are available in a single tab of each translation page."
 msgstr ""
+"設定と翻訳された言語に基づいて、Weblate は複数の機械翻訳ツールからの提案を提供します。すべての機械翻訳は、各翻訳ページの単一タブで利用できます。"
 
 #: ../../user/translating.rst:290
 msgid ""
 "You can find the list of supported tools in :ref:`machine-translation-setup`."
-msgstr ""
+msgstr "対応するツールの一覧の検索、参照 :ref:`machine-translation-setup`。"
 
 #: ../../user/translating.rst:297
 msgid ""
@@ -28024,30 +28075,32 @@ msgid ""
 "the :guilabel:`Tools` menu, once you have selected a component and a "
 "language:"
 msgstr ""
+"自動変換を使用して、外部ソースに基づいたブートストラップ変換を行うことができます。このツールの名前は :guilabel:`Automatic "
+"translation` と呼ばれ、コンポーネントと言語を選択して :guilabel:`Tools` メニューから操作できます。"
 
 #: ../../user/translating.rst:302
 msgid "Two modes of operation are possible:"
-msgstr ""
+msgstr "2 つの操作モードが可能:"
 
 #: ../../user/translating.rst:304
 msgid "Using other Weblate components as a source for translations."
-msgstr ""
+msgstr "他の Weblate コンポーネントを翻訳のソースとして使用する。"
 
 #: ../../user/translating.rst:305
 msgid ""
 "Using selected machine translation services with translations above a "
 "certain quality threshold."
-msgstr ""
+msgstr "特定の品質しきい値を超える翻訳で、選択した機械翻訳サービスを使用する。"
 
 #: ../../user/translating.rst:308
 msgid "You can also choose which strings are to be auto-translated."
-msgstr ""
+msgstr "自動翻訳する文字列の選択もできます。"
 
 #: ../../user/translating.rst:312
 msgid ""
 "Be mindful that this will overwrite existing translations if employed with "
 "wide filters such as :guilabel:`All strings`."
-msgstr ""
+msgstr ":guilabel:`All strings` などの幅広いフィルターを使用すると、既存の翻訳が上書きされてしまうことに注意してください。"
 
 #: ../../user/translating.rst:315
 msgid ""
@@ -28056,6 +28109,8 @@ msgid ""
 "bootstrapping translation for a new component using existing translations "
 "(translation memory)."
 msgstr ""
+"異なるコンポーネント間の変換を統合する場合（例えば WEB "
+"サイトやアプリケーション）や、既存の変換を使用して新しいコンポーネントの変換をブートストラップする場合（翻訳メモリ）などの状況で役立ちます。"
 
 #: ../../user/translating.rst:329
 msgid ""
@@ -28064,12 +28119,14 @@ msgid ""
 "are hit by this, you are blocked for a certain period until you can perform "
 "the operation again."
 msgstr ""
+"インターフェイスの悪用を避けるために、検索、連絡先フォームの送信、翻訳などの複数の操作に適用されるレート制限があります。この問題に遭遇した場合、操作を再度"
+"実行できるまで、一定期間ブロックされます。"
 
 #: ../../user/translating.rst:334
 msgid ""
 "The default limits are described in the administrative manual in :ref:`rate-"
 "limit`, but can be tweaked by configuration."
-msgstr ""
+msgstr "デフォルトの制限値については、管理マニュアルの :ref:`rate-limit` に説明があるますが、設定によって微調整できます。"
 
 #: ../../user/translating.rst:342
 msgid ""
@@ -28077,33 +28134,37 @@ msgid ""
 "search strings and operation to perform and all matching strings are "
 "updated. Following operations are supported:"
 msgstr ""
+"一括編集では、多くの文字列に対して操作を実行できます。検索文字列と実行する操作を定義すると、一致するすべての文字列が更新されます。次の操作に対応しています"
+"。"
 
 #: ../../user/translating.rst:346
 msgid ""
 "Changing string state (for example to approve all strings waiting for review)"
-msgstr ""
+msgstr "文字列の状態の変更（例、査読待ちのすべての文字列の承認）"
 
 #: ../../user/translating.rst:347
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
-msgstr ""
+msgstr "翻訳フラグの調整（参照 :ref:`custom-checks`）"
 
 #: ../../user/translating.rst:348
 msgid "Adjust string labels (see :ref:`labels`)"
-msgstr ""
+msgstr "文字列のラベル調整（参照 :ref:`labels`）"
 
 #: ../../user/translating.rst:352
 msgid ""
 "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
 "`Tools` menu for each project, component or translation."
 msgstr ""
+"このツールは :guilabel:`Bulk edit` と呼ばれ、プロジェクト、コンポーネント、翻訳ごとに :guilabel:`Tools` "
+"メニューから操作できます。"
 
 #: ../../user/translating.rst:359
 msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
-msgstr ""
+msgstr ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
-msgstr "統合したバージョン管理"
+msgstr "バージョン管理の統合"
 
 #: ../../vcs.rst:6
 msgid ""
