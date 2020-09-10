@@ -2476,7 +2476,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         if (
             self.new_lang != "add"
             and user is not None
-            and not user.has_perm("component.edit", self)
+            and not user.has_perm("translation.add", self)
         ):
             return False
 

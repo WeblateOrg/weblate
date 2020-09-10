@@ -822,6 +822,14 @@ class ComponentViewSet(
             except Language.DoesNotExist:
                 raise Http404("No language code '%s' found!" % language_code)
 
+            if not obj.can_add_new_language(request.user):
+                return Response(
+                    data={
+                        "detail": "Could not add new translation file.",
+                    },
+                    status=HTTP_400_BAD_REQUEST,
+                )
+
             translation = obj.add_new_language(language, request)
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)

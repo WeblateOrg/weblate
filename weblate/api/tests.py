@@ -1373,6 +1373,9 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 0)
 
     def test_create_translation(self):
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
         self.do_request(
             "api:component-translations",
             self.component_kwargs,
@@ -1388,6 +1391,15 @@ class ComponentAPITest(APIBaseTest):
             method="post",
             code=404,
             request={"language_code": "invalid"},
+        )
+
+    def test_create_translation_prohibited(self):
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"language_code": "cs"},
         )
 
 
