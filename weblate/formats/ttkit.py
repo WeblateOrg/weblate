@@ -1297,7 +1297,13 @@ class DTDFormat(TTKitFormat):
     @property
     def all_store_units(self):
         """Wrapper for all store unit filtering out null."""
-        return (unit for unit in self.store.units if not unit.isnull())
+        # The getattr is needed for translate-toolkit 3.0 and 3.1,
+        # once support for 3.0 is dropped, isblank can be used
+        return (
+            unit
+            for unit in self.store.units
+            if not getattr(unit, "isnull", unit.isblank)()
+        )
 
 
 class SubtitleUnit(MonolingualIDUnit):
