@@ -658,7 +658,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             )
             changed_setup = (
                 (old.file_format != self.file_format)
-                or (old.source_language != self.source_language)
                 or (old.edit_template != self.edit_template)
                 or changed_template
             )
@@ -2082,7 +2081,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                         "Template language ({0}) does not "
                         "match project source language ({1})!"
                     ).format(code, self.source_language.code)
-                    raise ValidationError({"template": msg})
+                    raise ValidationError({"template": msg, "source_language": msg})
 
         elif self.file_format_cls.monolingual:
             msg = _("You can not use a monolingual translation without a base file.")
@@ -2133,6 +2132,20 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
             )
+            if old.source_language != self.source_language:
+                # Might be implemented in future, but needs to handle:
+                # - properly toggle read-only flag for source translation
+                # - remap screenshots to different units
+                # - remap source string comments
+                # - possibly adjust other metadata
+                raise ValidationError(
+                    {
+                        "source_language": _(
+                            "Source language can not be changed, "
+                            "please recreate the component instead."
+                        )
+                    }
+                )
 
         # Check repo if config was changes
         if changed_git:

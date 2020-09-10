@@ -832,6 +832,11 @@ class ComponentErrorTest(RepoTestCase):
         with self.assertRaises(ValidationError):
             self.component.clean()
 
+    def test_change_source_language(self):
+        self.component.source_language = Language.objects.get(code="cs")
+        with self.assertRaises(ValidationError):
+            self.component.clean()
+
 
 class LinkedEditTest(ViewTestCase):
     def create_component(self):
