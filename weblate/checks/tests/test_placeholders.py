@@ -23,7 +23,7 @@
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
-from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.trans.models import Unit
 
 
@@ -81,4 +81,20 @@ class RegexTest(CheckTestCase):
         self.assertEqual(
             self.check.get_description(check),
             "Translation does not match regular expression: <code>URL</code>",
+        )
+
+    def test_check_highlight_groups(self):
+        unit = MockUnit(
+            None,
+            r'regex:"((?:@:\\(|\\{)[^\\)\\}]+(?:\\)|\\}))"',
+            self.default_lang,
+            "@:(foo.bar.baz) | @:(hello.world) | {foo32}",
+        )
+        self.assertEqual(
+            self.check.check_highlight(unit.source, unit),
+            [
+                (0, 15, "@:(foo.bar.baz)"),
+                (18, 33, "@:(hello.world)"),
+                (36, 43, "{foo32}"),
+            ],
         )
