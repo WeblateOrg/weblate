@@ -59,6 +59,8 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(
             flags.format(), r'''placeholders:"bar: \"value\"":"baz 'value'"'''
         )
+        flags = Flags(r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
+        self.assertEqual(flags.format(), r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
 
     def test_validate_value(self):
         with self.assertRaises(ValidationError):

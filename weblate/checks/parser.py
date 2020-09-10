@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
 
 
@@ -44,13 +46,20 @@ def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
     return parse_values
 
 
+class FlagQuotedString(QuotedString):
+    def __init__(self, quoteChar, escChar="\\"):  # noqa: N803
+        super().__init__(quoteChar, escChar=escChar, convertWhitespaceEscapes=False)
+        # unlike the QuotedString this replaces only escaped quotes and not all chars
+        self.escCharReplacePattern = (
+            re.escape(escChar) + "(" + re.escape(quoteChar) + ")"
+        )
+
+
 SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 
 FlagName = Regex(r"""[^,:"'\\]+""")
 
-FlagParam = Optional(
-    FlagName | QuotedString("'", escChar="\\") | QuotedString('"', escChar="\\")
-)
+FlagParam = Optional(FlagName | FlagQuotedString("'") | FlagQuotedString('"'))
 
 Flag = FlagName + ZeroOrMore(":" + FlagParam)
 

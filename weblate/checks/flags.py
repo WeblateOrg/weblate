@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-import json
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
@@ -203,7 +202,7 @@ class Flags:
     @staticmethod
     def format_value(value):
         if any(c in value for c in SYNTAXCHARS):
-            return json.dumps(value, ensure_ascii=False)
+            return '"{}"'.format(value.replace('"', r"\""))
         return value
 
     @classmethod

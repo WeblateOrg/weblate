@@ -86,7 +86,7 @@ class RegexTest(CheckTestCase):
     def test_check_highlight_groups(self):
         unit = MockUnit(
             None,
-            r'regex:"((?:@:\\(|\\{)[^\\)\\}]+(?:\\)|\\}))"',
+            r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"',
             self.default_lang,
             "@:(foo.bar.baz) | @:(hello.world) | {foo32}",
         )
