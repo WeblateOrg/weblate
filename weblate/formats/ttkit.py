@@ -711,16 +711,18 @@ class ARBJSONUnit(JSONUnit):
 class CSVUnit(MonolingualSimpleUnit):
     @staticmethod
     def unescape_csv(string):
-        """
+        r"""
         Removes Excel specific escaping from CSV.
 
         See weblate.formats.exporters.CSVExporter.string_filter
+
+        Note: | is replaced by \ in the condition as it is escaped
         """
         if (
             len(string) > 2
             and string[0] == "'"
             and string[-1] == "'"
-            and string[1] in ("=", "+", "-", "@", "|", "%")
+            and string[1] in ("=", "+", "-", "@", "\\", "%")
         ):
             return string[1:-1].replace("\\|", "|")
         return string

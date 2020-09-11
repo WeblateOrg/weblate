@@ -371,6 +371,8 @@ class CSVExporter(CVSBaseExporter):
         displaying additional ' in all other tools, but this seems to be what most
         people have gotten used to. Hopefully these characters are not widely used at
         first position of translatable strings, so that harm is reduced.
+
+        Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
         """
         if text and text[0] in ("=", "+", "-", "@", "|", "%"):
             return "'{0}'".format(text.replace("|", "\\|"))
