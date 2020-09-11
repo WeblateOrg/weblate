@@ -750,7 +750,7 @@ JavaScript.
 
 Weblate currently supports several variants of JSON translations:
 
-* Simple key / value files.
+* Simple key / value files, used for example by `vue-i18n` or `react-intl`.
 * Files with nested keys.
 * :ref:`js-i18next`
 * :ref:`go-i18n-json`
