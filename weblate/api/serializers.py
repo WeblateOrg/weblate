@@ -519,7 +519,7 @@ class TermSerializer(serializers.ModelSerializer):
         result = super().to_internal_value(data)
         if "language" in result:
             result["language"] = Language.objects.get(
-                code=result["language"].get("code")
+                code=result["language"]["code"]
             )
         return result
 
@@ -554,7 +554,7 @@ class GlossarySerializer(serializers.ModelSerializer):
         result = super().to_internal_value(data)
         if "source_language" in result:
             result["source_language"] = Language.objects.get(
-                code=result["source_language"].get("code")
+                code=result["source_language"]["code"]
             )
         return result
 

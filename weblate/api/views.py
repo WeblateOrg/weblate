@@ -725,7 +725,7 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
     def get_queryset(self):
         return (
             Glossary.objects.filter_access(self.request.user)
-            .prefetch_related("source_language")
+            .prefetch_related("source_language", "project")
             .order_by("id")
         )
 
@@ -787,10 +787,7 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
         try:
             project = Project.objects.get(slug=project_slug)
         except (Project.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error))
         obj.links.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -826,10 +823,7 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
         try:
             term = obj.term_set.get(id=term_id)
         except (Term.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error))
 
         if request.method == "DELETE":
             self.term_perm_check(request, "glossary.delete")
