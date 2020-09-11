@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-08 10:39+0200\n"
-"PO-Revision-Date: 2020-09-11 06:28+0000\n"
+"PO-Revision-Date: 2020-09-11 20:27+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -2376,8 +2376,8 @@ msgid ""
 "migrate to PostgreSQL, see :ref:`database-setup` and :ref:`database-"
 "migration`."
 msgstr ""
-"自动备份仅包含 PostgreSQL 数据库。其他数据库引擎必须手动备份。建议您迁移到 "
-"PostgreSQL，请见 :ref:`database-setup` 和 :ref:`database-migration` 。"
+"自动备份仅包含 PostgreSQL 数据库。其他数据库引擎必须手动备份。推荐您迁移到 PostgreSQL，请见 :ref:`database-"
+"setup` 和 :ref:`database-migration` 。"
 
 #: ../../admin/backup.rst:23
 msgid ""
@@ -2497,9 +2497,8 @@ msgid ""
 "(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
 "attempt to create it, but it needs permissions to do so."
 msgstr ""
-"建议指定本地备份的绝对路径，例如 `/path/to/backup`。运行 Weblate 的用户必须可"
-"写入备份目录（请参见 :ref:`file-permissions`）。在目录不存在的情况下，"
-"Weblate 会尝试新建，但需要权限来执行。"
+"推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。运行 Weblate 的用户必须可写入备份目录（请参见 :ref:`file-"
+"permissions`）。在目录不存在的情况下，Weblate 会尝试新建，但需要权限来执行。"
 
 #: ../../admin/backup.rst:91
 msgid ""
@@ -2623,9 +2622,8 @@ msgid ""
 "performs better than Django backup and restores complete tables with all "
 "data."
 msgstr ""
-"建议的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:"
-"`mysqldump` 来备份数据库。这通常比Django备份执行得好，并且恢复所有数据的完整"
-"表格。"
+"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:`mysqldump` "
+"来备份数据库。这通常比Django备份执行得好，并且恢复所有数据的完整表格。"
 
 #: ../../admin/backup.rst:172
 msgid ""
@@ -2670,8 +2668,8 @@ msgid ""
 "is to delete such entries manually using management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
-"一旦完成，数据库中就已经建立了一些入口，并且同样建立在数据库备份中。建议的方"
-"法是使用管理 shell （请见 :ref:`invoke-manage` ）手动删除这样的入口："
+"一旦完成，数据库中就已经建立了一些入口，并且同样建立在数据库备份中。推荐的方法是使用管理 shell （请见 :ref:`invoke-manage` "
+"）手动删除这样的入口："
 
 #: ../../admin/backup.rst:201
 msgid "Files"
@@ -2787,8 +2785,8 @@ msgid ""
 "repository updates upon restoring anyhow, so there is no problem in losing "
 "these."
 msgstr ""
-"Celery 任务队列会包含一些信息，但备份通常不需要它。最多就是丢失了翻译内存还没"
-"有处理的更新。建议恢复时随便执行全文或仓库更新，这样不会有丢失的问题。"
+"Celery "
+"任务队列会包含一些信息，但备份通常不需要它。最多就是丢失了翻译内存还没有处理的更新。推荐在恢复时随便执行全文或仓库更新，这样不会有丢失的问题。"
 
 #: ../../admin/backup.rst:262
 msgid ":ref:`celery`"
@@ -6119,9 +6117,8 @@ msgid ""
 "correct setup without having to set much up. It can also be used for pushing "
 "changes back."
 msgstr ""
-"如果使用 Hosted Weblate ，建议的方法是安装 `Weblate app <https://github.com/"
-"apps/weblate>`_，该方法能够得到正确的设置，而不必设置很多东西。它还可以用于将"
-"更改推送回来。"
+"如果使用 Hosted Weblate ，推荐的方法是安装 `Weblate app <https://github.com/apps/"
+"weblate>`_，该方法能够得到正确的设置，而不必设置很多东西。它还可以用于将更改推送回来。"
 
 #: ../../admin/continuous.rst:130
 msgid ""
@@ -6913,11 +6910,11 @@ msgstr "根据您的设置和经验，为您选择适当的安装方法："
 
 #: ../../admin/install.rst:24
 msgid ":ref:`quick-docker`, recommended for production setups."
-msgstr ":ref:`quick-docker` ， 建议用于产品设置。"
+msgstr ":ref:`quick-docker` ， 推荐用于产品设置。"
 
 #: ../../admin/install.rst:26
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr "Virtualenv 安装，建议用于产品设置："
+msgstr "Virtualenv 安装，推荐用于产品设置："
 
 #: ../../admin/install.rst:28
 msgid ":doc:`install/venv-debian`"
@@ -6937,7 +6934,7 @@ msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:33 ../../admin/management.rst:77
 msgid ":ref:`quick-source`, recommended for development."
-msgstr ":ref:`quick-source` ，建议用于开发。"
+msgstr ":ref:`quick-source` ，推荐用于开发。"
 
 #: ../../admin/install.rst:35
 msgid ":ref:`quick-openshift`."
@@ -7368,7 +7365,7 @@ msgstr "Weblate 的数据库设置"
 
 #: ../../admin/install.rst:298
 msgid "It is recommended to run Weblate with a PostgreSQL database server."
-msgstr "建议使用 PostgreSQL 数据库服务器与 Weblate 一起运行。"
+msgstr "推荐使用 PostgreSQL 数据库服务器来运行 Weblate。"
 
 #: ../../admin/install.rst:302
 msgid ""
@@ -7455,11 +7452,11 @@ msgstr ""
 msgid ""
 "Because of this it is recommended to use :ref:`postgresql` for new "
 "installations."
-msgstr "因此，建议新的安装使用 :ref:`postgresql` 。"
+msgstr "因此，在新的安装时推荐使用 :ref:`postgresql` 。"
 
 #: ../../admin/install.rst:391
 msgid "Following configuration is recommended for Weblate:"
-msgstr "建议 Weblate 使用后面的设置："
+msgstr "推荐 Weblate 使用后面的设置："
 
 #: ../../admin/install.rst:393
 msgid ""
@@ -7577,8 +7574,7 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
-"Weblate 不执行版本代理系统 VCS 命令，那些从环境中接受代理配置。建立的方法是"
-"在 :file:`settings.py` 中定义代理设置："
+"Weblate 不执行版本代理系统 VCS 命令，那些从环境中接受代理配置。推荐的方法是在 :file:`settings.py` 中定义代理设置："
 
 #: ../../admin/install.rst:466
 msgid ""
@@ -7660,9 +7656,7 @@ msgstr ""
 msgid ""
 "If you are using Redis as cache (see :ref:`production-cache`) it is "
 "recommended to use it for sessions as well:"
-msgstr ""
-"如果使用 Redis 作为缓存（请见 :ref:`production-cache` ），建议也用它作为会"
-"话："
+msgstr "如果使用 Redis 作为缓存（请见 :ref:`production-cache` ），推荐也使用它作为会话："
 
 #: ../../admin/install.rst:533
 msgid ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
@@ -7805,8 +7799,7 @@ msgstr ""
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
-msgstr ""
-"还要建议对 Django 触发的检查进行查看（尽管您可能不需要修复所有的检查）："
+msgstr "同样也推荐查看由 Django 触发的检查（尽管您可能不需要修复所有的检查）："
 
 #: ../../admin/install.rst:638
 msgid ":doc:`django:howto/deployment/checklist`"
@@ -7881,17 +7874,13 @@ msgid ""
 "It is strongly recommended to run Weblate using the encrypted HTTPS "
 "protocol. After enabling it, you should set :setting:`ENABLE_HTTPS` in the "
 "settings:"
-msgstr ""
-"强烈建议使用加密的 HTTPS 协议 运行 Weblate。将其允许后，可以在设置中设置 :"
-"setting:`ENABLE_HTTPS` ："
+msgstr "强烈推荐使用加密的 HTTPS 协议 运行 Weblate。将其允许后，可以在设置中设置 :setting:`ENABLE_HTTPS` ："
 
 #: ../../admin/install.rst:712
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
-msgstr ""
-"您还会想要设置 HSTS，更多细节请见 :ref:`django:security-recommendation-"
-"ssl` 。"
+msgstr "您还会想要设置 HSTS，更多细节请参见 :ref:`django:security-recommendation-ssl` 。"
 
 #: ../../admin/install.rst:717
 msgid ""
@@ -7972,9 +7961,7 @@ msgstr "头像缓存"
 msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
-msgstr ""
-"除了 Django 的缓存， Weblate 还执行头像缓存。建议使用单独的、文件后端缓存来用"
-"于这个目的："
+msgstr "除了 Django 的缓存， Weblate 还执行头像缓存。推荐使用单独的、文件后端缓存来用于这个目的："
 
 #: ../../admin/install.rst:817
 msgid ""
@@ -8136,8 +8123,8 @@ msgid ""
 "request. You can configure it using the following snippet (the ``loaders`` "
 "setting is important here):"
 msgstr ""
-"建议为 Django 使用缓存的模板装入器。它将已分析的模板装入，并避免对每个单独的"
-"请求多进行分析。您可以使用后面的模板来配置它（这里 ``loaders`` 设置很重要）："
+"对于 Django 推荐使用缓存模板的装入器。它将已分析的模板装入，并避免对每个单独的请求多进行分析。您可以使用后面的模板来配置它（这里 "
+"``loaders`` 设置很重要）："
 
 #: ../../admin/install.rst:964
 msgid ":py:class:`django:django.template.loaders.cached.Loader`"
@@ -8277,10 +8264,8 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
-"Weblate 带有一组 JavaScript 和 CSS 文件。由于性能的原因，在将其发送到客户端前"
-"最好进行压缩。在默认配置中，这通过耗费一点经常资源而在运行中完成。在大型安装"
-"中，建议允许离线压缩模式。这需要在配置中完成，并且必须在每次 weblate 升级时触"
-"发压缩。"
+"Weblate 带有一组 JavaScript 和 CSS 文件。由于性能的原因，在将其发送到客户端前最好进行压缩。在默认配置中，这通过耗费一点经常资源而"
+"在运行中完成。在大型安装中，推荐允许离线压缩模式。这需要在配置中完成，并且必须在每次 weblate 升级时触发压缩。"
 
 #: ../../admin/install.rst:1045
 msgid ""
@@ -8313,7 +8298,7 @@ msgstr "运行服务器"
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
-msgstr "需要几个服务来运行Weblate，建议的设置包括："
+msgstr "需要几个服务来运行Weblate，推荐的设置包括："
 
 #: ../../admin/install.rst:1076
 msgid "Database server (see :ref:`database-setup`)"
@@ -8420,8 +8405,7 @@ msgstr ""
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
-msgstr ""
-"建议直接从您的 web 服务器为静态文件提供服务，您应该为后面的路径使用它："
+msgstr "推荐直接从您的 web 服务器为静态文件提供服务，您应该为后面的路径使用它："
 
 #: ../../admin/install.rst:1137
 msgid ":file:`/static/`"
@@ -8692,8 +8676,8 @@ msgid ""
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
-"Celery 错误默认之存储在 Celery 日志中，并且用户不可见。在您想要了解故障概况的"
-"情况下，建议配置 :ref:`collecting-errors` 。"
+"Celery 错误默认之存储在 Celery 日志中，并且用户不可见。在您想要了解故障概况的情况下，推荐配置 :ref:`collecting-"
+"errors` 。"
 
 #: ../../admin/install.rst:1336
 msgid ""
@@ -8729,9 +8713,8 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
-"与其他任何软件一样，Weblate 可能会失败。为了收集有用的故障状态，我们建议使用"
-"第三方服务来收集此类信息。这在 Celery 任务失败的情况下尤其有用，否则将只会向"
-"日志报告错误，而您不会收到有关它们的通知。Weblate 支持以下服务："
+"与其他任何软件一样，Weblate 可能会失败。为了收集有用的故障状态，我们推荐使用第三方服务来收集此类信息。这在 Celery "
+"任务失败的情况下尤其有用，否则将只会向日志报告错误，而您不会收到有关它们的通知。Weblate 支持以下服务："
 
 #: ../../admin/install.rst:1361
 msgid "Sentry"
@@ -8881,9 +8864,7 @@ msgstr "内存越多越好 —— 用于所有级别的缓存（文件系统，�
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
-msgstr ""
-"许多并发用户会增加所需的 CPU 内核数量。对于数百个翻译组件，建议至少有 4 GB 的"
-"内存。"
+msgstr "许多并发用户会增加所需的 CPU 内核数量。对于数百个翻译组件，推荐至少有 4 GB 的内存。"
 
 #: ../../admin/install/steps/hw.rst:21
 msgid ""
@@ -9794,9 +9775,7 @@ msgstr "缓存服务器设置"
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
-msgstr ""
-"Weblate 强烈建议使用 Redis ，在 Docker 中运行 Weblate 时您必须提供 Redis 事"
-"例。"
+msgstr "Weblate 强烈推荐使用 Redis ，在 Docker 中运行 Weblate 时您必须提供 Redis 事例。"
 
 #: ../../admin/install/docker.rst:904 ../../admin/projects.rst:842
 msgid ":ref:`production-cache`"
@@ -9938,7 +9917,7 @@ msgstr "错误报告"
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
-msgstr "建议系统地从安装中收集错误，请参阅 :ref:`collecting-errors`。"
+msgstr "推荐从安装中系统地收集错误，请参见 :ref:`collecting-errors`。"
 
 #: ../../admin/install/docker.rst:1030
 msgid "To enable support for Rollbar, set the following:"
@@ -10395,9 +10374,7 @@ msgstr ""
 msgid ""
 "Start Celery workers. This is not necessary for development purposes, but "
 "strongly recommended otherwise. See :ref:`celery` for more info:"
-msgstr ""
-"启动 Celery workers 。当用于开发目的是不需要这步，但仍然强烈建议启动。更多信"
-"息请参见 :ref:`celery` ："
+msgstr "启动 Celery workers 。当用于开发目的是不需要这步，但仍然强烈推荐。更多信息请参见 :ref:`celery` ："
 
 #: ../../admin/install/steps/install-configure.rst:50
 msgid "Start the development server (see :ref:`server` for production setup):"
@@ -10787,7 +10764,7 @@ msgstr "开源原件机器翻译平台提供一组有限语言的翻译。"
 #: ../../admin/machine.rst:34
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
-msgstr "建议以运行您自己的 Apertium-APy 服务器的方式来使用 Apertium 。"
+msgstr "使用 Apertium的推荐方式是运行您自己的 Apertium-APy 服务器 。"
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -12856,7 +12833,7 @@ msgid ""
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
 "您可以使用 :ref:`internal-urls` 共享克隆的 VCS 仓库。当您有许多共享同一 VCS "
-"的组件时，强烈建议使用此功能。它提高了性能并减少了所需的磁盘空间。"
+"的组件时，强烈推荐使用此功能。它提高了性能并减少了所需的磁盘空间。"
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
@@ -25771,9 +25748,8 @@ msgid ""
 "results. This is especially true for CSV files with newlines in the values. "
 "As a workaround it is recommended to omit quoting characters."
 msgstr ""
-"CSV 格式当前会自动检测 CSV 文件的方言。在某些情况下，自动检测可能会失败，并且"
-"您会得到不同的结果。对于值中包含换行符的 CSV 文件尤其如此。作为一种解决方法，"
-"建议省略引号字符。"
+"CSV 格式当前会自动检测 CSV 文件的方言。在某些情况下，自动检测可能会失败，并且您会得到不同的结果。对于值中包含换行符的 CSV "
+"文件尤其如此。作为一种解决方法，推荐省略引用的字符。"
 
 #: ../../formats.rst:1026
 msgid "``locale/*.csv``"
