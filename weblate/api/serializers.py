@@ -475,7 +475,7 @@ class ComponentSerializer(RemovableSerializer):
             result["project"] = self._context["project"]
         if "source_language" in result:
             result["source_language"] = Language.objects.get(
-                code=result["source_language"].get("code")
+                code=result["source_language"]["code"]
             )
         return result
 
