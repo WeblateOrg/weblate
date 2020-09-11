@@ -30,9 +30,9 @@ from weblate.checks.parser import multi_value_flag, single_value_flag
 
 
 def parse_regex(val):
-    if isinstance(val, re.Pattern):
-        return val
-    return re.compile(val)
+    if isinstance(val, str):
+        return re.compile(val)
+    return val
 
 
 class PlaceholderCheck(TargetCheckParametrized):
@@ -48,7 +48,7 @@ class PlaceholderCheck(TargetCheckParametrized):
     def get_value(self, unit):
         return re.compile(
             "|".join(
-                param.pattern if isinstance(param, re.Pattern) else re.escape(param)
+                re.escape(param) if isinstance(param, str) else param.pattern
                 for param in super().get_value(unit)
             )
         )
