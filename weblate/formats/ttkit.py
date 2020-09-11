@@ -709,6 +709,22 @@ class ARBJSONUnit(JSONUnit):
 
 
 class CSVUnit(MonolingualSimpleUnit):
+    @staticmethod
+    def unescape_csv(string):
+        """
+        Removes Excel specific escaping from CSV.
+
+        See weblate.formats.exporters.CSVExporter.string_filter
+        """
+        if (
+            len(string) > 2
+            and string[0] == "'"
+            and string[-1] == "'"
+            and string[1] in ("=", "+", "-", "@", "|", "%")
+        ):
+            return string[1:-1].replace("\\|", "|")
+        return string
+
     @cached_property
     def context(self):
         # Needed to avoid Translate Toolkit construct ID
@@ -719,15 +735,19 @@ class CSVUnit(MonolingualSimpleUnit):
             if self.template.context:
                 return self.template.context
             return self.template.getid()
-        return self.mainunit.getcontext()
+        return self.unescape_csv(self.mainunit.getcontext())
 
     @cached_property
     def source(self):
         # Needed to avoid Translate Toolkit construct ID
         # as context\04source
         if self.template is None:
-            return get_string(self.mainunit.source)
-        return super().source
+            return self.unescape_csv(get_string(self.mainunit.source))
+        return self.unescape_csv(super().source)
+
+    @cached_property
+    def target(self):
+        return self.unescape_csv(super().target)
 
 
 class RESXUnit(TTKitUnit):
