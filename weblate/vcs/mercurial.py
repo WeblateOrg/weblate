@@ -256,11 +256,18 @@ class HgRepository(Repository):
         if timestamp is not None:
             cmd.extend(["--date", timestamp.ctime()])
 
-        # Add files
-        files = self.filter_existing_files(files)
+        # Add files one by one, this has to deal with
+        # removed, untracked and non existing files
         if files is not None:
-            self.execute(["add", "--"] + files)
-            cmd.extend(files)
+            for name in files:
+                try:
+                    self.execute(["add", "--", name])
+                except RepositoryException:
+                    try:
+                        self.execute(["remove", "--", name])
+                    except RepositoryException:
+                        continue
+                cmd.append(name)
 
         # Execute it
         self.execute(cmd)

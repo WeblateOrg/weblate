@@ -364,6 +364,28 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock, self.assertRaises(RepositoryException):
             self.repo.commit("test commit", committer_email)
 
+    def test_delete(self, committer="Foo Bar"):
+        self.test_commit(committer)
+        committer_email = "{} <foo@example.com>".format(committer)
+
+        # Delete the file created before
+        oldrev = self.repo.last_revision
+        os.unlink(os.path.join(self.tempdir, "testfile"))
+
+        # Commit it
+        with self.repo.lock:
+            self.repo.commit(
+                "Test remove commit",
+                committer_email,
+                timezone.now(),
+                ["testfile"],
+            )
+
+        # Check we have new revision
+        self.assertNotEqual(oldrev, self.repo.last_revision)
+        info = self.repo.get_revision_info(self.repo.last_revision)
+        self.assertEqual(info["author"], committer_email)
+
     def test_commit_unicode(self):
         self.test_commit("Zkouška Sirén")
 

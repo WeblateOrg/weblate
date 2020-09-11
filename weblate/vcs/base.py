@@ -368,24 +368,6 @@ class Repository:
         """Configure commiter name."""
         raise NotImplementedError()
 
-    def filter_existing_files(self, files: Optional[List]):
-        """Filter only existing files."""
-        if not files:
-            return None
-        result = [
-            name
-            for name in (
-                filename
-                if os.path.isabs(filename)
-                else os.path.join(self.path, filename)
-                for filename in files
-            )
-            if os.path.exists(name)
-        ]
-        if not result:
-            raise ValueError("No matching files found")
-        return result
-
     def commit(
         self,
         message: str,

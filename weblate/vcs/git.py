@@ -252,10 +252,14 @@ class GitRepository(Repository):
         files: Optional[List[str]] = None,
     ):
         """Create new revision."""
-        # Add files (some of them might not be in the index)
-        files = self.filter_existing_files(files)
+        # Add files one by one, this has to deal with
+        # removed, untracked and non existing files
         if files:
-            self.execute(["add", "--force", "--"] + files)
+            for name in files:
+                try:
+                    self.execute(["add", "--force", "--", name])
+                except RepositoryException:
+                    continue
         else:
             self.execute(["add", self.path])
 
