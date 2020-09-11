@@ -125,7 +125,7 @@ class CheckTestCase(SimpleTestCase):
         if not data or self.check is None:
             return
         result = self.check.check_single(
-            data[0], data[1], MockUnit(None, data[2], lang)
+            data[0], data[1], MockUnit(None, data[2], lang, source=data[0])
         )
         if expected:
             self.assertTrue(
@@ -164,7 +164,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_flag[0]],
                 [self.test_good_flag[1]],
-                MockUnit(None, self.test_good_flag[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_good_flag[2],
+                    self.default_lang,
+                    source=self.test_good_flag[0],
+                ),
             )
         )
 
@@ -175,7 +180,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(None, self.test_good_matching[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_good_matching[2],
+                    self.default_lang,
+                    source=self.test_good_matching[0],
+                ),
             )
         )
 
@@ -186,7 +196,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_none[0]],
                 [self.test_good_none[1]],
-                MockUnit(None, self.test_good_none[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_good_none[2],
+                    self.default_lang,
+                    source=self.test_good_none[0],
+                ),
             )
         )
 
@@ -197,7 +212,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_ignore[0]],
                 [self.test_good_ignore[1]],
-                MockUnit(None, self.test_good_ignore[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_good_ignore[2],
+                    self.default_lang,
+                    source=self.test_good_ignore[0],
+                ),
             )
         )
 
@@ -208,7 +228,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]] * 2,
                 [self.test_good_matching[1]] * 3,
-                MockUnit(None, self.test_good_matching[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_good_matching[2],
+                    self.default_lang,
+                    source=self.test_good_matching[0],
+                ),
             )
         )
 
@@ -219,7 +244,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_1[0]],
                 [self.test_failure_1[1]],
-                MockUnit(None, self.test_failure_1[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_failure_1[2],
+                    self.default_lang,
+                    source=self.test_failure_1[0],
+                ),
             )
         )
 
@@ -230,7 +260,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
-                MockUnit(None, self.test_failure_1[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_failure_1[2],
+                    self.default_lang,
+                    source=self.test_failure_1[0],
+                ),
             )
         )
 
@@ -241,7 +276,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_2[0]],
                 [self.test_failure_2[1]],
-                MockUnit(None, self.test_failure_2[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_failure_2[2],
+                    self.default_lang,
+                    source=self.test_failure_2[0],
+                ),
             )
         )
 
@@ -252,7 +292,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_3[0]],
                 [self.test_failure_3[1]],
-                MockUnit(None, self.test_failure_3[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_failure_3[2],
+                    self.default_lang,
+                    source=self.test_failure_3[0],
+                ),
             )
         )
 
@@ -263,7 +308,12 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_ignore_check[0]] * 2,
                 [self.test_ignore_check[1]] * 3,
-                MockUnit(None, self.test_ignore_check[2], self.default_lang),
+                MockUnit(
+                    None,
+                    self.test_ignore_check[2],
+                    self.default_lang,
+                    source=self.test_ignore_check[0],
+                ),
             )
         )
 

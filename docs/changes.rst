@@ -13,6 +13,7 @@ Not yet released.
 * Improve documentation about built-in backups.
 * Moved source language attribute from project to a component.
 * Add Vue I18n formatting check.
+* Generic placeholders check now supports regular expressions.
 
 Weblate 4.2.2
 -------------

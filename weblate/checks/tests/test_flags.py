@@ -96,6 +96,21 @@ class FlagTest(SimpleTestCase):
         flags = Flags("regex:.*")
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, ".*")
+        flags = Flags('regex:r".*"')
+        regex = flags.get_value("regex")
+        self.assertEqual(regex.pattern, ".*")
+
+    def test_regex_value(self):
+        flags = Flags("placeholders:r")
+        self.assertEqual(flags.get_value("placeholders"), ["r"])
+        flags = Flags("placeholders:r:r")
+        self.assertEqual(flags.get_value("placeholders"), ["r", "r"])
+        flags = Flags("placeholders:r,r")
+        self.assertEqual(flags.get_value("placeholders"), ["r"])
+        flags = Flags('placeholders:r".*"')
+        values = flags.get_value("placeholders")
+        self.assertEqual(len(values), 1)
+        self.assertEqual(values[0].pattern, ".*")
 
     def test_whitespace(self):
         self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})

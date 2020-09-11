@@ -727,6 +727,10 @@ Placeholders
 
 .. versionadded:: 3.9
 
+.. versionchanged:: 4.3
+
+   You can use regular expression as placeholder.
+
 Translation is missing some placeholders. These are either extracted from the
 translation file or defined manually using ``placeholders`` flag, more can be
 separated with colon, strings with space can be quoted:
@@ -734,6 +738,12 @@ separated with colon, strings with space can be quoted:
 .. code-block:: text
 
    placeholders:$URL$:$TARGET$:"some long text"
+
+In case you have some syntax for placeholders, you can use an regular expression:
+
+.. code-block:: text
+
+    placeholders:r"%[^% ]%"
 
 .. seealso::
 

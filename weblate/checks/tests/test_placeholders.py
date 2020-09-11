@@ -54,7 +54,17 @@ class PlaceholdersTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Translation is missing some placeholders: $URL$",
+            "Following format strings are missing: $URL$",
+        )
+
+    def test_regexp(self):
+        unit = Unit(source="string $URL$", target="string $FOO$")
+        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\$[^$]*\$" """)
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Following format strings are missing: $URL$"
+            "<br />Following format strings are extra: $FOO$",
         )
 
 

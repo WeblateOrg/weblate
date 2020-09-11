@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
@@ -113,7 +115,8 @@ class Flags:
         state = 0
         name = None
         value = []
-        for token in FlagsParser.parseString(flags, parseAll=True):
+        tokens = list(FlagsParser.parseString(flags, parseAll=True))
+        for pos, token in enumerate(tokens):
             token = token.strip()
             if state == 0 and token == ",":
                 pass
@@ -138,8 +141,20 @@ class Flags:
                 # Empty param
                 value.append("")
             elif state == 2:
-                # Value
-                value.append(token)
+                if (
+                    token == "r"
+                    and pos + 1 < len(tokens)
+                    and tokens[pos + 1] not in (",", ":")
+                ):
+                    # Regex prefix, value follows
+                    state = 4
+                else:
+                    # Value
+                    value.append(token)
+                    state = 3
+            elif state == 4:
+                # Regex value
+                value.append(re.compile(token))
                 state = 3
             elif state == 3 and token == ",":
                 # Last value

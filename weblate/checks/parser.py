@@ -59,7 +59,11 @@ SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 
 FlagName = Regex(r"""[^,:"'\\]+""")
 
-FlagParam = Optional(FlagName | RawQuotedString("'") | RawQuotedString('"'))
+RegexString = "r" + RawQuotedString('"')
+
+FlagParam = Optional(
+    RegexString | FlagName | RawQuotedString("'") | RawQuotedString('"')
+)
 
 Flag = FlagName + ZeroOrMore(":" + FlagParam)
 
