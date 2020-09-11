@@ -77,10 +77,10 @@ Here is a list of flags currently accepted:
     with long names, for example: ``replacements:%s:"John Doe"``.
 ``regex:REGEX``
     Regular expression to match translation, see :ref:`check-regex`.
-``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``
+``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``, ``vue-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
-    :ref:`check-qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`,
+    :ref:`check-qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:`check-vue-format`,
     :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
     :ref:`check-c-sharp-format`, :ref:`check-java-format`,
     :ref:`check-java-messageformat`, :ref:`check-same`.
@@ -124,6 +124,8 @@ Here is a list of flags currently accepted:
     Skip the "Qt plural format" quality check.
 ``ignore-ruby-format``
     Skip the "Ruby format" quality check.
+``ignore-vue-format``
+    Skip the "Vue I18n formatting" quality check.
 ``ignore-translated``
     Skip the "Has been translated" quality check.
 ``ignore-inconsistent``

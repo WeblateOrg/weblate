@@ -35,6 +35,7 @@ from weblate.checks.format import (
     PHPFormatCheck,
     PythonBraceFormatCheck,
     PythonFormatCheck,
+    VueFormattingCheck,
 )
 from weblate.checks.models import Check
 from weblate.checks.qt import QtFormatCheck, QtPluralCheck
@@ -934,6 +935,37 @@ class PercentPlaceholdersCheckTest(CheckTestCase):
 
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format("%foo% string", "%bar% string", False))
+
+
+class VueFormattingCheckTest(CheckTestCase):
+    check = VueFormattingCheck()
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            "vue-format",
+            "{foo} string %{bar}",
+            [(0, 5, "{foo}"), (13, 19, "%{bar}")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("strins", "string", False))
+
+    def test_format(self):
+        self.assertFalse(
+            self.check.check_format("%{foo} string", "%{foo} string", False)
+        )
+        self.assertFalse(self.check.check_format("{foo} string", "{foo} string", False))
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format("%{foo} string", "string", False))
+        self.assertTrue(self.check.check_format("{foo} string", "string", False))
+
+    def test_wrong_format(self):
+        self.assertTrue(
+            self.check.check_format("%{foo} string", "%{bar} string", False)
+        )
+        self.assertTrue(self.check.check_format("{foo} string", "{bar} string", False))
 
 
 class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):

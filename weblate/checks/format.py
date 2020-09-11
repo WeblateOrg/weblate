@@ -187,6 +187,8 @@ ES_TEMPLATE_MATCH = re.compile(
 
 PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 
+VUE_MATCH = re.compile(r"(%?{([^}]+)})")
+
 WHITESPACE = re.compile(r"\s+")
 
 
@@ -534,6 +536,13 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
     name = _("Percent placeholders")
     description = _("The percent placeholders do not match source")
     regexp = PERCENT_MATCH
+
+
+class VueFormattingCheck(BaseFormatCheck):
+    check_id = "vue_format"
+    name = _("Vue I18n formatting")
+    description = _("The Vue I18n formatting does not match source")
+    regexp = VUE_MATCH
 
 
 class MultipleUnnamedFormatsCheck(SourceCheck):

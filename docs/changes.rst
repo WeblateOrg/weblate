@@ -12,6 +12,7 @@ Not yet released.
 * Fixed configuration of enforced checks.
 * Improve documentation about built-in backups.
 * Moved source language attribute from project to a component.
+* Add Vue I18n formatting check.
 
 Weblate 4.2.2
 -------------

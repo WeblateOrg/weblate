@@ -105,6 +105,7 @@ Check is false when double space is found in source meaning double space is inte
 .. _check-qt-format:
 .. _check-qt-plural-format:
 .. _check-ruby-format:
+.. _check-vue-format:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -405,6 +406,23 @@ Ruby format
 .. seealso::
 
     `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
+
+Vue I18n formatting
+*******************
+
+*The Vue I18n formatting does not match source*
+
++------------------------+------------------------------------------------------------+
+| Named formatting       | ``There are {count} apples``                               |
++------------------------+------------------------------------------------------------+
+| Rails i18n formatting  | ``There are %{count} apples``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `vue-format`                                               |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_
 
 .. _check-translated:
 
