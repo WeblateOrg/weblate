@@ -431,6 +431,13 @@ LANGUAGES = (
         "n != 1",
     ),
     (
+        "chk",
+        # Translators: Language name, ISO code: chk
+        _("Chuukese"),
+        2,
+        "n != 1",
+    ),
+    (
         "chm",
         # Translators: Language name, ISO code: chm
         _("Mari"),
@@ -1817,6 +1824,13 @@ LANGUAGES = (
         "n != 1",
     ),
     (
+        "pau",
+        # Translators: Language name, ISO code: pau
+        _("Palauan"),
+        2,
+        "n != 1",
+    ),
+    (
         "pi",
         # Translators: Language name, ISO code: pi
         _("Pali"),
@@ -1834,6 +1848,13 @@ LANGUAGES = (
         "pms",
         # Translators: Language name, ISO code: pms
         _("Piemontese"),
+        2,
+        "n != 1",
+    ),
+    (
+        "pon",
+        # Translators: Language name, ISO code: pon
+        _("Pohnpeian"),
         2,
         "n != 1",
     ),
@@ -2527,6 +2548,13 @@ LANGUAGES = (
         "xog",
         # Translators: Language name, ISO code: xog
         _("Soga"),
+        2,
+        "n != 1",
+    ),
+    (
+        "yap",
+        # Translators: Language name, ISO code: yap
+        _("Yapese"),
         2,
         "n != 1",
     ),
