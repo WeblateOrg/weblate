@@ -370,9 +370,9 @@ class Repository:
 
     def filter_existing_files(self, files: Optional[List]):
         """Filter only existing files."""
-        if files is None:
+        if not files:
             return None
-        return [
+        result = [
             name
             for name in (
                 filename
@@ -382,6 +382,9 @@ class Repository:
             )
             if os.path.exists(name)
         ]
+        if not result:
+            raise ValueError("No matching files found")
+        return result
 
     def commit(
         self,
