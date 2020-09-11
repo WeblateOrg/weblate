@@ -956,10 +956,38 @@ class VueFormattingCheckTest(CheckTestCase):
             self.check.check_format("%{foo} string", "%{foo} string", False)
         )
         self.assertFalse(self.check.check_format("{foo} string", "{foo} string", False))
+        self.assertFalse(
+            self.check.check_format(
+                "@.lower:message.homeAddress string",
+                "@.lower:message.homeAddress string",
+                False,
+            )
+        )
+        self.assertFalse(
+            self.check.check_format(
+                "@:message.the_world string", "@:message.the_world string", False
+            )
+        )
+        self.assertFalse(
+            self.check.check_format(
+                "@:(message.dio) string", "@:(message.dio) string", False
+            )
+        )
 
     def test_missing_format(self):
         self.assertTrue(self.check.check_format("%{foo} string", "string", False))
         self.assertTrue(self.check.check_format("{foo} string", "string", False))
+        self.assertTrue(
+            self.check.check_format(
+                "@.lower:message.homeAddress string", "string", False
+            )
+        )
+        self.assertTrue(
+            self.check.check_format("@:message.the_world string", "string", False)
+        )
+        self.assertTrue(
+            self.check.check_format("@:(message.dio) string", "string", False)
+        )
 
     def test_wrong_format(self):
         self.assertTrue(

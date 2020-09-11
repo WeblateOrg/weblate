@@ -187,7 +187,9 @@ ES_TEMPLATE_MATCH = re.compile(
 
 PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 
-VUE_MATCH = re.compile(r"(%?{([^}]+)})")
+VUE_MATCH = re.compile(
+    r"(%?{([^}]+)}|@(?:\.[a-z]+)?:(?:\([^)]+\)|[a-z_.]+))", re.IGNORECASE
+)
 
 WHITESPACE = re.compile(r"\s+")
 

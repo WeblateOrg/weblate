@@ -417,12 +417,15 @@ Vue I18n formatting
 +------------------------+------------------------------------------------------------+
 | Rails i18n formatting  | ``There are %{count} apples``                              |
 +------------------------+------------------------------------------------------------+
+| Linked locale messages | ``@:message.dio @:message.the_world!``                     |
++------------------------+------------------------------------------------------------+
 | Flag to enable         | `vue-format`                                               |
 +------------------------+------------------------------------------------------------+
 
 .. seealso::
 
-    `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_
+    `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_,
+    `Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_
 
 .. _check-translated:
 
