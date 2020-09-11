@@ -92,6 +92,20 @@ to create it, but it needs permissions to do so.
     is exposed as a volume from the Weblate container. Otherwise the backups
     would be discarded by Docker on container restart.
 
+    One option is to place backups in existing volume. For example choose
+    :file:`/app/data/borgbackup`. This is existing volume in the container.
+
+    You can also add new container for the backups in the Docker compose file
+    and use for example :file:`/borgbackup`:
+
+    .. code-block:: yaml
+
+        services:
+          weblate:
+            volumes:
+              - /home/weblate/data:/app/data
+              - /home/weblate/borgbackup:/borgbackup
+
 Remote backups
 ~~~~~~~~~~~~~~
 
