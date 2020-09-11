@@ -1398,7 +1398,7 @@ class ComponentAPITest(APIBaseTest):
             "api:component-translations",
             self.component_kwargs,
             method="post",
-            code=400,
+            code=403,
             request={"language_code": "cs"},
         )
 
@@ -1958,7 +1958,11 @@ class ScreenshotAPITest(APIBaseTest):
                 method="post",
                 code=400,
                 superuser=True,
-                data={"detail": "Project matching query does not exist."},
+                data={
+                    "detail": ErrorDetail(
+                        string="Project matching query does not exist.", code="invalid"
+                    )
+                },
                 request={
                     "name": "Test create screenshot",
                     "project_slug": "aaa",
@@ -1971,7 +1975,12 @@ class ScreenshotAPITest(APIBaseTest):
                 method="post",
                 code=400,
                 superuser=True,
-                data={"detail": "Component matching query does not exist."},
+                data={
+                    "detail": ErrorDetail(
+                        string="Component matching query does not exist.",
+                        code="invalid",
+                    )
+                },
                 request={
                     "name": "Test create screenshot",
                     "project_slug": "test",

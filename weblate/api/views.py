@@ -27,23 +27,18 @@ from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.encoding import force_str, smart_str
+from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.settings import api_settings
-from rest_framework.status import (
-    HTTP_200_OK,
-    HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT,
-    HTTP_400_BAD_REQUEST,
-)
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
@@ -298,7 +293,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def perm_check(self, request):
         if not request.user.has_perm("user.edit"):
-            self.permission_denied(request, message="Can not manage Users")
+            self.permission_denied(request, "Can not manage Users")
 
     def update(self, request, *args, **kwargs):
         self.perm_check(request)
@@ -325,10 +320,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             group = Group.objects.get(pk=int(request.data["group_id"]))
         except (Group.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
         obj.groups.add(group)
         serializer = self.get_serializer_class()(obj, context={"request": request})
@@ -370,10 +362,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             subscription = obj.subscription_set.get(id=subscription_id)
         except (Subscription.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
         if request.method == "DELETE":
             self.perm_check(request)
@@ -420,7 +409,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def perm_check(self, request):
         if not request.user.has_perm("group.edit"):
-            self.permission_denied(request, message="Can not manage groups")
+            self.permission_denied(request, "Can not manage groups")
 
     def update(self, request, *args, **kwargs):
         self.perm_check(request)
@@ -445,10 +434,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             role = Role.objects.get(pk=int(request.data["role_id"]))
         except (Role.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
         obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -469,10 +455,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             language = Language.objects.get(code=request.data["language_code"])
         except (Language.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
         obj.languages.add(language)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -489,10 +472,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             language = Language.objects.get(code=language_code)
         except (Language.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.languages.remove(language)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -512,10 +492,7 @@ class GroupViewSet(viewsets.ModelViewSet):
                 pk=int(request.data["project_id"]),
             )
         except (Project.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -529,10 +506,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             project = Project.objects.get(pk=int(project_id))
         except (Project.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.projects.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -549,10 +523,7 @@ class GroupViewSet(viewsets.ModelViewSet):
                 pk=int(request.data["component_list_id"]),
             )
         except (ComponentList.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -571,10 +542,7 @@ class GroupViewSet(viewsets.ModelViewSet):
                 pk=int(component_list_id),
             )
         except (ComponentList.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.componentlists.remove(component_list)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -593,10 +561,7 @@ class GroupViewSet(viewsets.ModelViewSet):
                 pk=int(request.data["component_id"])
             )
         except (Component.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -612,10 +577,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             component = Component.objects.get(pk=int(component_id))
         except (Component.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -638,7 +600,7 @@ class RoleViewSet(viewsets.ModelViewSet):
 
     def perm_check(self, request):
         if not request.user.has_perm("role.edit"):
-            self.permission_denied(request, message="Can not manage roles")
+            self.permission_denied(request, "Can not manage roles")
 
     def update(self, request, *args, **kwargs):
         self.perm_check(request)
@@ -668,7 +630,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
         obj = self.get_object()
         if request.method == "POST":
             if not request.user.has_perm("project.edit", obj):
-                self.permission_denied(request, message="Can not create components")
+                self.permission_denied(request, "Can not create components")
             with transaction.atomic():
                 serializer = ComponentSerializer(
                     data=request.data, context={"request": request, "project": obj}
@@ -721,7 +683,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
 
     def create(self, request, *args, **kwargs):
         if not request.user.has_perm("project.add"):
-            self.permission_denied(request, message="Can not create projects")
+            self.permission_denied(request, "Can not create projects")
         self.request = request
         return super().create(request, *args, **kwargs)
 
@@ -745,7 +707,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
-            self.permission_denied(request, message="Can not delete project")
+            self.permission_denied(request, "Can not delete project")
         project_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -810,7 +772,7 @@ class ComponentViewSet(
 
         if request.method == "POST":
             if not request.user.has_perm("translation.add", obj):
-                self.permission_denied(request, message="Can not create translation")
+                self.permission_denied(request, "Can not create translation")
 
             if "language_code" not in request.data:
                 raise ParseError("Missing 'language_code' parameter")
@@ -820,15 +782,13 @@ class ComponentViewSet(
             try:
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
-                return Response(
-                    data={"detail": f"No language code '{language_code}' found!"},
-                    status=HTTP_400_BAD_REQUEST,
+                raise ParseError(
+                    f"No language code '{language_code}' found!", "invalid"
                 )
 
             if not obj.can_add_new_language(request.user):
-                return Response(
-                    data={"detail": "Could not add new translation file."},
-                    status=HTTP_400_BAD_REQUEST,
+                self.permission_denied(
+                    request, message="Could not add new translation file."
                 )
 
             translation = obj.add_new_language(language, request)
@@ -884,13 +844,13 @@ class ComponentViewSet(
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
-            self.permission_denied(request, message="Can not edit component")
+            self.permission_denied(request, "Can not edit component")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
-            self.permission_denied(request, message="Can not delete component")
+            self.permission_denied(request, "Can not delete component")
         component_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -970,10 +930,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             )
         except Exception as error:
             report_error(cause="Upload error", print_tb=True)
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):
@@ -1001,7 +958,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
         if request.method == "POST":
             if not request.user.has_perm("unit.add", obj):
-                self.permission_denied(request, message="Can not add unit")
+                self.permission_denied(request, "Can not add unit")
             serializer = MonolingualUnitSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
 
@@ -1009,9 +966,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             value = serializer.validated_data["value"]
 
             if obj.unit_set.filter(context=key).exists():
-                return Response(
-                    data={"detail": "Translation with this key seem to already exist!"},
-                    status=HTTP_400_BAD_REQUEST,
+                raise ValidationError(
+                    "Translation with this key seem to already exist!"
                 )
 
             obj.new_unit(request, key, value)
@@ -1029,13 +985,10 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def autotranslate(self, request, **kwargs):
         translation = self.get_object()
         if not request.user.has_perm("translation.auto", translation):
-            self.permission_denied(request, message="Can not auto translate")
+            self.permission_denied(request, "Can not auto translate")
         autoform = AutoForm(translation.component, request.data)
         if translation.component.locked or not autoform.is_valid():
-            return Response(
-                data={"detail": "Failed to process autotranslation data!"},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError("Failed to process autotranslation data!", "invalid")
         args = (
             request.user.id,
             translation.id,
@@ -1054,7 +1007,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("translation.delete", instance):
-            self.permission_denied(request, message="Can not delete translation")
+            self.permission_denied(request, "Can not delete translation")
         instance.remove(request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -1073,7 +1026,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
 
     def perm_check(self, request):
         if not request.user.has_perm("language.edit"):
-            self.permission_denied(request, message="Can not manage languages")
+            self.permission_denied(request, "Can not manage languages")
 
     def update(self, request, *args, **kwargs):
         self.perm_check(request)
@@ -1158,10 +1111,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 pk=int(request.data["unit_id"])
             )
         except (Unit.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
         obj.units.add(source_string)
         serializer = ScreenshotSerializer(obj, context={"request": request})
@@ -1179,10 +1129,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 pk=int(unit_id)
             )
         except (Unit.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.units.remove(source_string)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -1200,13 +1147,10 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 slug=request.data["component_slug"]
             )
         except (Project.DoesNotExist, Component.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
         if not request.user.has_perm("screenshot.add", component):
-            self.permission_denied(request, message="Can not add screenshot.")
+            self.permission_denied(request, "Can not add screenshot.")
 
         with transaction.atomic():
             serializer = ScreenshotSerializer(
@@ -1221,13 +1165,13 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("screenshot.edit", instance.component):
-            self.permission_denied(request, message="Can not edit screenshot.")
+            self.permission_denied(request, "Can not edit screenshot.")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("screenshot.delete", instance.component):
-            self.permission_denied(request, message="Can not delete screenshot.")
+            self.permission_denied(request, "Can not delete screenshot.")
         return super().destroy(request, *args, **kwargs)
 
 
@@ -1276,7 +1220,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
 
     def perm_check(self, request):
         if not request.user.has_perm("componentlist.edit"):
-            self.permission_denied(request, message="Can not manage component lists")
+            self.permission_denied(request, "Can not manage component lists")
 
     def update(self, request, *args, **kwargs):
         self.perm_check(request)
@@ -1303,10 +1247,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
                 pk=int(request.data["component_id"]),
             )
         except (Component.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
 
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -1325,10 +1266,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         try:
             component = Component.objects.get(slug=component_slug)
         except (Component.DoesNotExist, ValueError) as error:
-            return Response(
-                data={"detail": force_str(error)},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            raise ParseError(str(error), "invalid")
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
