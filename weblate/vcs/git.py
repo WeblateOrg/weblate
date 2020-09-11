@@ -253,6 +253,7 @@ class GitRepository(Repository):
     ):
         """Create new revision."""
         # Add files (some of them might not be in the index)
+        files = self.filter_existing_files(files)
         if files:
             self.execute(["add", "--force", "--"] + files)
         else:

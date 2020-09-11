@@ -257,6 +257,7 @@ class HgRepository(Repository):
             cmd.extend(["--date", timestamp.ctime()])
 
         # Add files
+        files = self.filter_existing_files(files)
         if files is not None:
             self.execute(["add", "--"] + files)
             cmd.extend(files)

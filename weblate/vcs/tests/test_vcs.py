@@ -344,7 +344,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         # Commit it
         with self.repo.lock:
             self.repo.commit(
-                "Test commit", committer_email, timezone.now(), ["testfile"]
+                "Test commit",
+                committer_email,
+                timezone.now(),
+                ["testfile", "nonexistingfile"],
             )
         # Check we have new revision
         self.assertNotEqual(oldrev, self.repo.last_revision)
