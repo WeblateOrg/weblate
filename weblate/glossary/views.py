@@ -40,7 +40,7 @@ from weblate.glossary.forms import (
     TermForm,
 )
 from weblate.glossary.models import Glossary, Term
-from weblate.lang.models import Language, get_english_lang
+from weblate.lang.models import Language
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import redirect_next, render, sort_objects
 from weblate.utils import messages
@@ -285,7 +285,12 @@ def download_glossary(request, project, lang):
         export_format = "csv"
 
     # Grab all terms
-    terms = Term.objects.for_project(prj).filter(language=lang).order()
+    terms = (
+        Term.objects.for_project(prj)
+        .filter(language=lang)
+        .prefetch_related("glossary")
+        .order()
+    )
 
     # Translate toolkit based export
     exporter = EXPORTERS[export_format](
@@ -293,7 +298,7 @@ def download_glossary(request, project, lang):
         language=lang,
         source_language=terms[0].glossary.source_language
         if terms
-        else get_english_lang(),
+        else Language.objects.english,
         url=get_site_url(
             reverse("show_glossary", kwargs={"project": prj.slug, "lang": lang.code})
         ),
