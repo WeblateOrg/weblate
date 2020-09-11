@@ -30,7 +30,6 @@ from jellyfish import damerau_levenshtein_distance
 from pyparsing import (
     CaselessKeyword,
     Optional,
-    QuotedString,
     Regex,
     Word,
     infixNotation,
@@ -38,6 +37,7 @@ from pyparsing import (
     opAssoc,
 )
 
+from weblate.checks.parser import RawQuotedString
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -120,13 +120,8 @@ DATE = Word("0123456789:.-T")
 RANGE = "[" + DATE + "to" + DATE + "]"
 
 # Match value
-REGEX_STRING = "r" + QuotedString('"', escChar="\\")
-STRING = (
-    REGEX_STRING
-    | QuotedString("'", escChar="\\")
-    | QuotedString('"', escChar="\\")
-    | WORD
-)
+REGEX_STRING = "r" + RawQuotedString('"')
+STRING = REGEX_STRING | RawQuotedString("'") | RawQuotedString('"') | WORD
 
 # Single term, either field specific or not
 TERM = (FIELD + OPERATOR + (RANGE | STRING)) | STRING

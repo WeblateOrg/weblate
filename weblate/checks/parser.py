@@ -46,7 +46,7 @@ def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
     return parse_values
 
 
-class FlagQuotedString(QuotedString):
+class RawQuotedString(QuotedString):
     def __init__(self, quoteChar, escChar="\\"):  # noqa: N803
         super().__init__(quoteChar, escChar=escChar, convertWhitespaceEscapes=False)
         # unlike the QuotedString this replaces only escaped quotes and not all chars
@@ -59,7 +59,7 @@ SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 
 FlagName = Regex(r"""[^,:"'\\]+""")
 
-FlagParam = Optional(FlagName | FlagQuotedString("'") | FlagQuotedString('"'))
+FlagParam = Optional(FlagName | RawQuotedString("'") | RawQuotedString('"'))
 
 Flag = FlagName + ZeroOrMore(":" + FlagParam)
 
