@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-12 17:59+0000\n"
-"PO-Revision-Date: 2020-09-12 17:58+0000\n"
+"PO-Revision-Date: 2020-09-13 05:52+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -5668,7 +5668,7 @@ msgstr "Licença da tradução"
 #: weblate/templates/contributor-agreement.html:9
 #: weblate/trans/models/component.py:454
 msgid "Contributor agreement"
-msgstr "Acordo de colaborador"
+msgstr "Acordo de contribuidor"
 
 #: weblate/templates/component_info.html:56 weblate/templates/data.html:71
 #: weblate/templates/last-changes-content.html:73
@@ -5696,11 +5696,11 @@ msgstr "Ficheiro de idioma base monolingue"
 
 #: weblate/templates/contributor-agreement.html:16
 msgid "Please review the contributor agreement"
-msgstr "Por favor, reveja o acordo de colaborador"
+msgstr "Por favor, reveja o acordo de contribuidor"
 
 #: weblate/templates/contributor-agreement.html:18
 msgid "Please read following contributor agreement:"
-msgstr "Por favor, leia o seguinte acordo de colaborador:"
+msgstr "Por favor, leia o seguinte acordo de contribuidor:"
 
 #: weblate/templates/contributor-agreement.html:29
 msgid "You have already agreed to this agreement."
@@ -6597,34 +6597,25 @@ msgstr ""
 "%(target)s."
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "Componente %(component)s foi bloqueado"
+msgstr "O acordo de contribuidor para o componente %(component)s foi alterado."
 
 #: weblate/templates/mail/component_license.html:15
-#, fuzzy
-#| msgid "Placement"
 msgid "Old agreement:"
-msgstr "Colocação"
+msgstr "Acordo anterior:"
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "Ver acordo de colaborador"
+msgstr "Antes não havia nenhum acordo de contribuidor."
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New payment"
 msgid "New agreement:"
-msgstr "Novo pagamento"
+msgstr "Novo acordo:"
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "Acordo de colaborador"
+msgstr "O acordo de contribuidor foi removido."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -6632,10 +6623,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s foi licenciado novamente para %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "Componente %(component)s foi bloqueado"
+msgstr "O acordo de contribuidor para %(component)s foi alterado"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -7582,7 +7572,7 @@ msgstr ""
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
-msgstr "Ver acordo de colaborador"
+msgstr "Ver acordo de contribuidor"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:8
 msgid ""
@@ -7590,7 +7580,7 @@ msgid ""
 "agreement."
 msgstr ""
 "A contribuição para esta tradução requer que concorde com um acordo de "
-"colaborador."
+"contribuidor."
 
 #: weblate/templates/snippets/component/lock.html:14
 msgid "Get notified when this project is unlocked again"
@@ -8108,16 +8098,12 @@ msgid "Please consider the following:"
 msgstr "Por favor, considere o seguinte:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr ""
 "Caso a tradução para o idioma de origem seja desejada, por favor, altere o "
-"idioma de origem nas definições do projeto."
+"idioma de origem nas definições do componente."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8581,7 +8567,7 @@ msgid ""
 "agreement."
 msgstr ""
 "Contribuir para esta tradução requer que concorde com o acordo de "
-"colaborador dela."
+"contribuidor dela."
 
 #: weblate/templates/translate.html:189
 msgid "Insufficient privileges for editing source strings."
@@ -8638,10 +8624,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "Sugestões da tradução automática"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "Aceitar sugestões automaticamente"
+msgstr "Sugestões automáticas"
 
 #: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
@@ -9624,7 +9608,7 @@ msgstr "Etiquetas a remover"
 
 #: weblate/trans/forms.py:1913
 msgid "I accept the contributor agreement"
-msgstr "Aceito o acordo de colaborador"
+msgstr "Aceito o acordo de contribuidor"
 
 #: weblate/trans/forms.py:1939
 msgid "The slug does not match the one marked for deletion!"
@@ -10031,10 +10015,8 @@ msgstr "Licença alterada"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "Acordo de colaborador"
+msgstr "Acordo de contribuidor"
 
 #: weblate/trans/models/change.py:476
 #, python-format
@@ -10599,18 +10581,16 @@ msgstr ""
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
+"O idioma de origem não pode ser alterado, por favor, recrie o componente em "
+"vez disso."
 
 #: weblate/trans/models/component.py:2166
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this URL slug already exists in the project."
-msgstr "Já existe uma tradução semelhante no projeto ({0})!"
+msgstr "Um componente com este URL já existe no projeto."
 
 #: weblate/trans/models/component.py:2171
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already exists in the project."
-msgstr "Já existe uma tradução semelhante no projeto ({0})!"
+msgstr "Um componente com este URL já existe no projeto."
 
 #: weblate/trans/models/component.py:2196
 msgid "Can not validate file matches due to invalid regular expression."
