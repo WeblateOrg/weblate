@@ -3,11 +3,11 @@
 {% for item in data %}
 <tr {% if last %} id="last-section"{% endif %}>
 <td>
-<a href="{{ item.0.get_absolute_url }}">{% format_translation item.0.source item.0.translation.component.source_language num_plurals=item.0.translation.plural.number unit=item.0 %}</a>
+<a href="{{ item.0.get_absolute_url }}">{% format_translation item.0.source item.0.translation.component.source_language num_plurals=item.0.translation.plural.number unit=item.0 simple=True %}</a>
 </td>
 {% for unit in item.1 %}
 <td>
-<a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}</a>
+<a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural unit=unit simple=True %}</a>
 </td>
 {% endfor %}
 </tr>
