@@ -446,7 +446,7 @@ class LockNotification(Notification):
 
 @register_notification
 class LicenseNotification(Notification):
-    actions = (Change.ACTION_LICENSE_CHANGE,)
+    actions = (Change.ACTION_LICENSE_CHANGE, Change.ACTION_AGREEMENT_CHANGE)
     # Translators: Notification name
     verbose = _("Changed license")
     template_name = "component_license"

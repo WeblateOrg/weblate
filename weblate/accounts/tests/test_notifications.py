@@ -151,6 +151,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.component.save()
         self.validate_notifications(1, "[Weblate] Test/Test was re-licensed to WTFPL")
 
+    def test_notify_agreement(self):
+        self.component.agreement = "You have to agree."
+        self.component.save()
+        self.validate_notifications(
+            1, "[Weblate] Contributor agreement for Test/Test was changed"
+        )
+
     def test_notify_merge_failure(self):
         change = Change.objects.create(
             component=self.component,

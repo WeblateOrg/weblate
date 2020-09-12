@@ -223,6 +223,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_HOOK = 53
     ACTION_REPLACE_UPLOAD = 54
     ACTION_LICENSE_CHANGE = 55
+    ACTION_AGREEMENT_CHANGE = 56
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -337,6 +338,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
         # Translators: Name of event in the history
         (ACTION_LICENSE_CHANGE, gettext_lazy("License changed")),
+        # Translators: Name of event in the history
+        (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
 

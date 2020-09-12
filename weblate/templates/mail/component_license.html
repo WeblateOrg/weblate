@@ -2,7 +2,27 @@
 
 {% load i18n %}
 
-
 {% block content %}
-<p>{% blocktrans %}License for component {{ component }} was changed from {{ old }} to {{ target }}.{% endblocktrans %}
+{% if change.action == 55 %}
+  <p>
+    {% blocktrans %}License for component {{ component }} was changed from {{ old }} to {{ target }}.{% endblocktrans %}
+  </p>
+{% else %}
+  <p>
+    {% blocktrans %}Contributor agreemnt for component {{ component }} was changed.{% endblocktrans %}
+  </p>
+  {% if old %}
+    <p>{% trans "Old agreement:" %}</p>
+    <p>{{ old }}</p>
+  {% else %}
+    <p>{% trans "There was no contributor agreement before." %}</p>
+  {% endif %}
+  {% if target %}
+    <p>{% trans "New agreement:" %}</p>
+    <p>{{ target }}</p>
+  {% else %}
+    <p>{% trans "Contributor agreement was removed." %}</p>
+  {% endif %}
+{% endif %}
+
 {% endblock %}

@@ -671,6 +671,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                     target=self.license,
                     component=self,
                 )
+            if old.agreement != self.agreement:
+                Change.objects.create(
+                    action=Change.ACTION_AGREEMENT_CHANGE,
+                    old=old.agreement,
+                    target=self.agreement,
+                    component=self,
+                )
             # Detect slug changes and rename Git repo
             self.check_rename(old)
             # Rename linked repos
