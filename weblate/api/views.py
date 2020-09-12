@@ -730,11 +730,15 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
         )
 
     def perm_check(self, request):
-        if not request.user.has_perm("project.edit"):
+        obj = self.get_object()
+        project = obj.project
+        additional_projects = obj.links.all()
+        if not request.user.has_perm("project.edit", project) and not any(
+            request.user.has_perm("project.edit", proj) for proj in additional_projects
+        ):
             self.permission_denied(request, message="Can not manage glossary")
 
-    def term_perm_check(self, request, permission):
-        obj = self.get_object()
+    def term_perm_check(self, request, permission, obj):
         project = obj.project
         additional_projects = obj.links.all()
         if not request.user.has_perm(permission, project) and not any(
@@ -795,7 +799,7 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
     def terms(self, request, **kwargs):
         obj = self.get_object()
         if request.method == "POST":
-            self.term_perm_check(request, "glossary.add")
+            self.term_perm_check(request, "glossary.add", obj)
             with transaction.atomic():
                 serializer = TermSerializer(
                     data=request.data, context={"request": request}
@@ -826,14 +830,14 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
             raise ParseError(str(error))
 
         if request.method == "DELETE":
-            self.term_perm_check(request, "glossary.delete")
+            self.term_perm_check(request, "glossary.delete", obj)
             term.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
         if request.method == "GET":
             serializer = TermSerializer(term, context={"request": request})
         else:
-            self.term_perm_check(request, "glossary.edit")
+            self.term_perm_check(request, "glossary.edit", obj)
             serializer = TermSerializer(
                 term,
                 data=request.data,
