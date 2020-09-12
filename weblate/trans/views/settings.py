@@ -185,7 +185,9 @@ def perform_rename(form_cls, request, obj, perm, **kwargs):
     form = form_cls(request, request.POST, instance=obj)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#delete")
+        # Reload the object from db to revert possible rejected change
+        obj.refresh_from_db()
+        return redirect_param(obj, "#rename")
 
     # Invalidate old stats
     obj.stats.invalidate()
