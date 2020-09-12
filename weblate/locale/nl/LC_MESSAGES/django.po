@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-12 12:12+0000\n"
-"PO-Revision-Date: 2020-09-09 01:06+0000\n"
+"PO-Revision-Date: 2020-09-12 17:58+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -470,7 +470,7 @@ msgstr "Zen-bewerker"
 
 #: weblate/accounts/models.py:347
 msgid "Top to bottom"
-msgstr "Boven naar beneden"
+msgstr "Van boven naar beneden"
 
 #: weblate/accounts/models.py:348
 msgid "Side by side"
@@ -583,7 +583,7 @@ msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
-"U kunt geen vertalingen indienen omdat u geen e-mailadres toegewezen hebt."
+"U kunt geen vertalingen indienen omdat u geen e-mailadres hebt opgegeven."
 
 #: weblate/accounts/notifications.py:54
 msgid "Do not notify"
@@ -730,9 +730,7 @@ msgstr "Kan vorig wachtwoord niet opnieuw gebruiken."
 
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
-msgstr ""
-"Uw wachtwoord mag niet overeenkomen met een wachtwoord dat u in het verleden "
-"gebruikt hebt."
+msgstr "Uw wachtwoord mag niet overeenkomen met een eerder gebruikt wachtwoord."
 
 #: weblate/accounts/pipeline.py:294
 msgid "You can not complete password reset while signed in."
@@ -740,7 +738,7 @@ msgstr "U kunt wachtwoordherstel niet afronden terwijl u ingelogd bent."
 
 #: weblate/accounts/pipeline.py:297 weblate/accounts/pipeline.py:320
 msgid "The registration link has been invalidated."
-msgstr "Registratie-koppeling is ongeldig gemaakt."
+msgstr "De registratielink is ongeldig gemaakt."
 
 #: weblate/accounts/pipeline.py:312
 msgid "You can not complete registration while signed in."
@@ -756,8 +754,8 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Uw e-mailadres behoort niet langer tot de geverifieerde account, het is "
-"gewijzigd naar {0}."
+"Uw e-mailadres behoort niet meer tot het geverifieerde account. Het is "
+"gewijzigd in {0}."
 
 #: weblate/accounts/views.py:177 weblate/accounts/views.py:876
 #: weblate/accounts/views.py:922 weblate/templates/accounts/reset.html:7
@@ -838,7 +836,7 @@ msgstr "Inloggen"
 
 #: weblate/accounts/views.py:721 weblate/wladmin/sites.py:186
 msgid "Thank you for using Weblate."
-msgstr "Bedankt om Weblate te gebruiken."
+msgstr "We stellen het op prijs dat u Weblate gebruikt."
 
 #: weblate/accounts/views.py:806 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
@@ -846,7 +844,7 @@ msgstr "E-mailadres registreren"
 
 #: weblate/accounts/views.py:821 weblate/accounts/views.py:891
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr "Kan wachtwoord niet herstellen, e-mailverificatie is uitgeschakeld."
+msgstr "Kan wachtwoord niet herstellen: e-mailverificatie is uitgeschakeld."
 
 #: weblate/accounts/views.py:852 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:133
@@ -860,32 +858,31 @@ msgstr "Het wachtwoord is al hersteld."
 
 #: weblate/accounts/views.py:1068
 msgid "Could not remove user identity"
-msgstr "Kon de gebruikersidentiteit niet verwijderen"
+msgstr "Kan de gebruikersidentiteit niet verwijderen"
 
 #: weblate/accounts/views.py:1078
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
-"Voeg een andere identiteit toe door eerst uw e-mailadres te bevestigen."
+msgstr "Voeg een andere identiteit toe door uw e-mailadres te bevestigen."
 
 #: weblate/accounts/views.py:1127
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
-"Waarschijnlijk is de verificatiesleutel verlopen. Probeer u opnieuw te "
+"Waarschijnlijk is de verificatiesleutel verlopen. Probeer opnieuw te "
 "registreren."
 
 #: weblate/accounts/views.py:1134
 msgid "Could not authenticate due to invalid session state."
-msgstr "Verificatie mislukt vanwege een ongeldige status van uw sessie."
+msgstr "De verificatie is mislukt wegens een ongeldige sessiestatus."
 
 #: weblate/accounts/views.py:1141
 msgid "Got no e-mail address from third party authentication service."
-msgstr "Geen e-mailadres gekregen van verificatieservice van derde partij."
+msgstr "Geen e-mailadres verkregen van de externe verificatiedienst."
 
 #: weblate/accounts/views.py:1143
 msgid "Please register using e-mail instead."
-msgstr "Registreer u alstublieft in plaats daarvan via e-mail."
+msgstr "Registreer met uw e-mailadres."
 
 #: weblate/accounts/views.py:1150
 msgid "New registrations are turned off."
@@ -895,12 +892,12 @@ msgstr "Nieuwe registraties zijn uitgeschakeld."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Verificatie is mislukt, waarschijnlijk wegens een verlopen token of een "
-"verbindingsfout."
+"De verificatie is mislukt. Waarschijnlijk is de toegangssleutel verouderd of "
+"is er een verbindingsfout."
 
 #: weblate/accounts/views.py:1214
 msgid "Authentication cancelled."
-msgstr "Verificatie geannuleerd."
+msgstr "Verificatie afgebroken."
 
 #: weblate/accounts/views.py:1217
 msgid "The server does not allow authentication."
@@ -916,7 +913,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:1247 weblate/accounts/views.py:1260
 msgid "Notification settings adjusted."
-msgstr "Meldingsinstellingen bijgewerkt."
+msgstr "De meldingsinstellingen zijn bijgewerkt."
 
 #: weblate/accounts/views.py:1265
 msgid ""
@@ -945,8 +942,8 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
-"De opslagruimte is verouderd, het is mogelijk dat je niet de verwachte "
-"resultaten krijgt, totdat je het bijwerkt."
+"De opslagruimte is verouderd. Mogelijk krijgt u niet de verwachte resultaten "
+"totdat u deze bijwerkt."
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
@@ -966,10 +963,10 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Alle vertaalbestanden bijwerken om overeen te komen met het enkeltalige "
-"basisbestand. Voor de meeste bestandsformaten houdt dit in dat ongebruikte "
-"vertaalsleutels die niet meer in het basisbestand aanwezig zijn, verwijderd "
-"zullen worden."
+"Werk alle vertaalbestanden bij om overeen te komen met het enkeltalige "
+"basisbestand. Bij de meeste bestandsformaten houdt dit in dat ongebruikte "
+"vertaalsleutels die niet meer in het basisbestand aanwezig zijn verwijderd "
+"worden."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -985,19 +982,19 @@ msgstr ""
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
-msgstr "Onderdeel-ontdekking"
+msgstr "Onderdeelopsporing"
 
 #: weblate/addons/discovery.py:35
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Voegt onderdelen automatisch toe of verwijdert ze uit het project, gebaseerd "
-"op bestandswijzigingen in het versiecontrolesysteem."
+"Voegt onderdelen automatisch toe aan of verwijdert ze uit het project, op "
+"basis van bestandswijzigingen in het versiecontrolesysteem."
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
-msgstr "Voorbeeld-uitbreiding"
+msgstr "Voorbeelduitbreiding"
 
 #: weblate/addons/example.py:38
 msgid "This addon does nothing it is just an example."
@@ -1013,7 +1010,7 @@ msgstr "Deze uitbreiding voert een script uit."
 
 #: weblate/addons/flags.py:47
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Nieuwe brontekenreeksen markeren als 'aanpassing nodig'"
+msgstr "Nieuwe brontekenreeksen aanmerken met 'Aanpassing nodig'"
 
 #: weblate/addons/flags.py:49
 msgid ""
@@ -1021,14 +1018,14 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Als een nieuwe brontekenreeks geïmporteerd wordt uit het "
-"versiecontrolesysteem, wordt deze door Weblate gemarkeerd als 'aanpassing "
-"nodig'. Op deze manier kunt u eenvoudig de brontekenreeksen geschreven door "
-"ontwikkelaars filteren en bewerken."
+"Bij het importeren van een nieuwe brontekenreeks geïmporteerd uit het "
+"versiecontrolesysteem, wordt deze gemarkeerd als 'Aanpassing nodig'. Op deze "
+"manier kunt u eenvoudig de door de ontwikkelaars geschreven brontekenreeksen "
+"geschreven filteren en bewerken."
 
 #: weblate/addons/flags.py:61
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Nieuwe vertalingen markeren als 'aanpassing nodig'"
+msgstr "Nieuwe vertalingen aanmerken met 'Aanpassing nodig'"
 
 #: weblate/addons/flags.py:63
 msgid ""
@@ -1037,13 +1034,13 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Als er een nieuwe vertaalbare tekenreeks geïmporteerd wordt uit het "
-"versiecontrolesysteem, wordt deze door Weblate gemarkeerd als 'aanpassing "
+"versiecontrolesysteem, wordt deze door Weblate gemarkeerd als 'Aanpassing "
 "nodig'. Op deze manier kunt u eenvoudig vertalingen gemaakt door "
 "ontwikkelaars filteren en bewerken."
 
 #: weblate/addons/flags.py:75
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Ongewijzigde vertalingen markeren als 'aanpassing nodig'"
+msgstr "Ongewijzigde vertalingen markeren als 'Aanpassing nodig'"
 
 #: weblate/addons/flags.py:77
 msgid ""
@@ -1054,7 +1051,7 @@ msgid ""
 msgstr ""
 "Als een nieuwe vertaalbare tekenreeks geïmporteerd wordt uit het "
 "versiecontrolesysteem en ze overeenkomt met brontekenreeksen, wordt deze "
-"door Weblate gemarkeerd als 'te behandelen'. Dit is vooral handig voor "
+"door Weblate gemarkeerd als 'Aanpassing nodig'. Dit is vooral handig voor "
 "bestandsformaten die alle tekenreeksen bevatten, zelfs als ze niet vertaald "
 "zijn."
 
@@ -1072,43 +1069,43 @@ msgstr "Pas meerdere vlaggen, labels of statussen tegelijk aan."
 
 #: weblate/addons/forms.py:52
 msgid "Path of generated MO file"
-msgstr "Pad van gegenereerd MO-bestand"
+msgstr "Pad van gegenereerd mo-bestand"
 
 #: weblate/addons/forms.py:55
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Indien niet opgegeven wordt de locatie van het PO-bestand gebruikt."
+msgstr "Laat leeg om de locatie van het po-bestand te gebruiken."
 
 #: weblate/addons/forms.py:75
 msgid "Name of generated file"
-msgstr "Naam van gegenereerde bestand"
+msgstr "Naam van gegenereerd bestand"
 
 #: weblate/addons/forms.py:77
 msgid "Content of generated file"
-msgstr "Inhoud van gegenereerde bestand"
+msgstr "Inhoud van gegenereerd bestand"
 
 #: weblate/addons/forms.py:104 weblate/addons/forms.py:190
 msgid "Long lines wrapping"
-msgstr "Terugloop bij lange regels"
+msgstr "Lange regels afbreken"
 
 #: weblate/addons/forms.py:106
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr "Regels teruglopen bij 77 tekens en bij nieuwe regels"
+msgstr "Regels afbreken bij 77 tekens en nieuwe regels"
 
 #: weblate/addons/forms.py:107
 msgid "Only wrap lines at newlines"
-msgstr "Regel-terugloop enkel bij nieuwe regels"
+msgstr "Enkel afbreken op nieuwe regels"
 
 #: weblate/addons/forms.py:108 weblate/addons/forms.py:196
 msgid "No line wrapping"
-msgstr "Geen regel-terugloop"
+msgstr "Geen regelafbreking"
 
 #: weblate/addons/forms.py:113
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"Gettext laat regels standaard teruglopen bij 77 tekens en nieuwe regels. Met "
-"de parameter --no-wrap loopt tekst alleen terug bij nieuwe regels."
+"Gettext breekt regels standaard af bij 77 tekens en nieuwe regels. Met de "
+"opdrachtregeloptie --no-wrap wordt tekst enkel afgebroken op nieuwe regels."
 
 #: weblate/addons/forms.py:121
 msgid "Keep previous msgids of translated strings"
@@ -1120,7 +1117,7 @@ msgstr "Locaties van vertaalde tekenreeksen verwijderen"
 
 #: weblate/addons/forms.py:131
 msgid "Use fuzzy matching"
-msgstr "Fuzzy overeenkomsten gebruiken"
+msgstr "Vage overeenkomsten gebruiken"
 
 #: weblate/addons/forms.py:137
 msgid "Commit squashing"
@@ -1178,19 +1175,19 @@ msgstr "YAML inspringing"
 
 #: weblate/addons/forms.py:192
 msgid "Wrap lines at 80 chars"
-msgstr "Tekst gaat naar een nieuwe regel na 80 tekens"
+msgstr "Regels afbreken bij 80 tekens"
 
 #: weblate/addons/forms.py:193
 msgid "Wrap lines at 100 chars"
-msgstr "Tekst gaat naar een nieuwe regel na 100 tekens"
+msgstr "Regels afbreken bij 100 tekens"
 
 #: weblate/addons/forms.py:194
 msgid "Wrap lines at 120 chars"
-msgstr "Tekst gaat naar een nieuwe regel na 120 tekens"
+msgstr "Regels afbreken bij 120 tekens"
 
 #: weblate/addons/forms.py:195
 msgid "Wrap lines at 180 chars"
-msgstr "Tekst gaat naar een nieuwe regel na 180 tekens"
+msgstr "Regels afbreken bij 180 tekens"
 
 #: weblate/addons/forms.py:202
 msgid "Line breaks"
@@ -1224,7 +1221,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:232
 msgid "Regular expression to match translation files against"
-msgstr "Reguliere expressie om vertaalbestanden mee te vergelijken"
+msgstr "Reguliere uitdrukking om vertaalbestanden mee te vergelijken"
 
 #: weblate/addons/forms.py:235
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
@@ -1265,7 +1262,7 @@ msgstr "Taalfilter"
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
-"Regelmatige expressie om vertaling tegen te filteren bij het scannen naar "
+"Reguliere uitdrukking om vertaling tegen te filteren bij het scannen naar "
 "een bestandsmasker."
 
 #: weblate/addons/forms.py:271
@@ -1278,7 +1275,7 @@ msgstr "Onderdelen voor niet-bestaande bestanden verwijderen"
 
 #: weblate/addons/forms.py:279
 msgid "I confirm the above matches look correct"
-msgstr "Ik bevestig dat de bovenstaande overeenkomsten correct lijken"
+msgstr "Ik bevestig dat bovenstaande overeenkomsten juist lijken"
 
 #: weblate/addons/forms.py:337
 msgid "Please review and confirm the matched components."
@@ -1382,8 +1379,7 @@ msgstr "Gettext-uitvoer aanpassen"
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Staat aanpassing toe van uitvoergedrag van gettext, bijvoorbeeld "
-"regelterugloop."
+"Staat aanpassing toe van uitvoergedrag van gettext, zoals regelafbreking."
 
 #: weblate/addons/gettext.py:303
 msgid "Contributors in comment"
@@ -1542,10 +1538,8 @@ msgstr "Begrippenlijstitems uploaden"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Use automatic suggestions"
-msgstr "Suggesties automatisch aanvaarden"
+msgstr "Automatische suggesties gebruiken"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -2032,7 +2026,7 @@ msgstr ""
 
 #: weblate/auth/models.py:611
 msgid "E-mail regular expression"
-msgstr "Reguliere expressie (regex) voor e-mailadres"
+msgstr "Reguliere uitdrukking van e-mailadres"
 
 #: weblate/auth/models.py:614
 msgid "Regular expression used to match user e-mail."
@@ -2564,16 +2558,12 @@ msgid "The percent placeholders do not match source"
 msgstr "De procentplaatshouders komen niet overeen met de bron"
 
 #: weblate/checks/format.py:545
-#, fuzzy
-#| msgid "Information"
 msgid "Vue I18n formatting"
-msgstr "Informatie"
+msgstr "Vue i18n-opmaak"
 
 #: weblate/checks/format.py:546
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "The Vue I18n formatting does not match source"
-msgstr "Het C-patroon komt niet overeen met de bron"
+msgstr "De Vue i18n-opmaak komt niet overeen met de bron"
 
 #: weblate/checks/format.py:552
 msgid "Multiple unnamed variables"
@@ -2652,19 +2642,17 @@ msgid "Placeholders"
 msgstr "Plaatshouders"
 
 #: weblate/checks/placeholders.py:42
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "De vertaling mist een aantal plaatshouders:"
+msgstr "De vertaling mist een aantal plaatshouders"
 
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
 msgid "Regular expression"
-msgstr "Reguliere expressie"
+msgstr "Reguliere uitdrukking"
 
 #: weblate/checks/placeholders.py:109
 msgid "Translation does not match regular expression:"
-msgstr "Vertaling komt niet overeen met reguliere expressie:"
+msgstr "De vertaling komt niet overeen met de reguliere uitdrukking:"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3830,14 +3818,13 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"Weblate gebruikt SSH-sleutel om toegang te krijgen tot externe "
-"opslagruimtes. De overeenkomstige publieke sleutel kan hieronder "
-"teruggevonden worden. U kunt hem gebruiken om Weblate toegang te geven tot "
-"een opslagruimte."
+"Weblate gebruikt een ssh-sleutel om toegang te krijgen tot externe "
+"opslagruimtes. De overeenkomstige publieke sleutel staat hieronder. U kunt "
+"deze gebruiken om Weblate toegang te geven tot een opslagruimte."
 
 #: weblate/templates/about/keys.html:27
 msgid "SSH key not available."
-msgstr "SSH-sleutel niet beschikbaar."
+msgstr "Geen ssh-sleutel beschikbaar."
 
 #: weblate/templates/about/keys.html:36
 msgid "Commit signing"
@@ -3849,9 +3836,8 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Alle commits gemaakt door Weblate worden getekend met de GPG-sleutel "
-"%(gpg_key_id)s waarvoor de overeenkomstige publieke sleutel hieronder "
-"gevonden kan worden."
+"Alle door Weblate gemaakte commits worden ondertekend met de gpg-sleutel "
+"%(gpg_key_id)s, waarvoor de overeenkomstige publieke sleutel hieronder staat."
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
@@ -4763,8 +4749,8 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
-"De reguliere expressie om vertaalbestanden te vinden heeft twee genaamde "
-"groepen nodig voor onderdeel en taal, enkele voorbeelden:"
+"De reguliere uitdrukking om vertaalbestanden te vinden heeft twee genaamde "
+"groepen nodig voor onderdeel en taal. Enkele voorbeelden:"
 
 #: weblate/templates/addons/discovery_help.html:9
 msgid "Example matched files"
@@ -5539,7 +5525,7 @@ msgstr "Vervangen"
 #: weblate/templates/component.html:215 weblate/templates/translation.html:280
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
-"U kunt de toestand van alle tekenreeksen overeenkomstig met een bepaald type "
+"U kunt de status van alle tekenreeksen overeenkomstig met een bepaald type "
 "tegelijk wijzigen."
 
 #: weblate/templates/component.html:219 weblate/templates/project.html:109
@@ -5696,7 +5682,7 @@ msgstr "Licentie van de vertaling"
 #: weblate/templates/contributor-agreement.html:9
 #: weblate/trans/models/component.py:454
 msgid "Contributor agreement"
-msgstr "Overeenkomst voor medewerkers"
+msgstr "Medewerkersovereenkomst"
 
 #: weblate/templates/component_info.html:56 weblate/templates/data.html:71
 #: weblate/templates/last-changes-content.html:73
@@ -5724,11 +5710,11 @@ msgstr "Enkeltalig basistaalbestand"
 
 #: weblate/templates/contributor-agreement.html:16
 msgid "Please review the contributor agreement"
-msgstr "Kijk de overeenkomst voor medewerkers na"
+msgstr "Neem de medewerkersovereenkomst door"
 
 #: weblate/templates/contributor-agreement.html:18
 msgid "Please read following contributor agreement:"
-msgstr "Lees het volgende document met overeenkomst voor medewerkers:"
+msgstr "Neem de medewerkersovereenkomst door:"
 
 #: weblate/templates/contributor-agreement.html:29
 msgid "You have already agreed to this agreement."
@@ -6633,34 +6619,25 @@ msgstr ""
 "naar %(target)s."
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreemnt for component %(component)s was changed."
-msgstr "Het onderdeel \"%(component)s\" is vergrendeld"
+msgstr "De medewerkersovereenkomst van \"%(component)s\" is gewijzigd."
 
 #: weblate/templates/mail/component_license.html:15
-#, fuzzy
-#| msgid "Placement"
 msgid "Old agreement:"
-msgstr "Plaatsing"
+msgstr "Vorige overeekomst:"
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "Overeenkomst voor medewerkers tonen"
+msgstr "Er was voorheen geen overeenkomst."
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New payment"
 msgid "New agreement:"
-msgstr "Nieuwe betaling"
+msgstr "Nieuwe overeenkomst:"
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "Overeenkomst voor medewerkers"
+msgstr "De medewerkersovereenkomst is afgeschaft."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -6668,10 +6645,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s is opnieuw uitgebracht onder de %(target)s-licentie"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "Het onderdeel \"%(component)s\" is vergrendeld"
+msgstr "De medewerkersovereenkomst van \"%(component)s\" is gewijzigd"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -7162,23 +7138,23 @@ msgstr "SSH-sleutels"
 
 #: weblate/templates/manage/ssh.html:18
 msgid "Public SSH key"
-msgstr "Publieke SSH-sleutel"
+msgstr "Publieke ssh-sleutel"
 
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
-msgstr "Weblate gebruikt momenteel deze SSH-sleutel:"
+msgstr "Weblate gebruikt momenteel deze ssh-sleutel:"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
-msgstr "Genereer een SSH-sleutel"
+msgstr "SSH-sleutel genereren"
 
 #: weblate/templates/manage/ssh.html:43
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate one for you."
 msgstr ""
-"U lijkt geen bestaande SSH-sleutel te hebben. Klik op onderstaande knop om "
-"Weblate er een te laten genereren."
+"U lijkt nog niet te beschikken over een ssh-sleutel. Klik op onderstaande "
+"knop om Weblate er een te laten genereren."
 
 #: weblate/templates/manage/ssh.html:60
 msgid "Known host keys"
@@ -7205,8 +7181,8 @@ msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
-"Voor toegang tot SSH-servers moet hun sleutel worden geverifieerd. U kan de "
-"hostsleutel instellen door een domeinnaam of IP adres in te geven in "
+"Voor toegang tot ssh-servers moet hun sleutel worden geverifieerd. U kunt de "
+"hostsleutel instellen door een domeinnaam of ip-adres op te geven op "
 "onderstaand formulier."
 
 #: weblate/templates/manage/tools.html:35
@@ -7421,7 +7397,7 @@ msgstr "Alle projectaanpassingen tonen"
 #: weblate/templates/project.html:105
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
-"U kunt de toestand van alle tekenreeksen overeenkomstig met een bepaald type "
+"U kunt de status van alle tekenreeksen overeenkomstig met een bepaald type "
 "tegelijk wijzigen."
 
 #: weblate/templates/project.html:128
@@ -7616,15 +7592,15 @@ msgstr ""
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
-msgstr "Overeenkomst voor medewerkers tonen"
+msgstr "Medewerkersovereenkomst tonen"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:8
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
 msgstr ""
-"Medewerking aan deze vertaling vereist dat u instemt met een overeenkomst "
-"voor medewerkers."
+"Als u wilt meewerken aan deze vertaling, dient u in te stemmen met een "
+"medewerkersovereenkomst."
 
 #: weblate/templates/snippets/component/lock.html:14
 msgid "Get notified when this project is unlocked again"
@@ -8140,16 +8116,12 @@ msgid "Please consider the following:"
 msgstr "Overweeg het volgende:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr ""
 "Als vertaling van de brontaal gewenst is, wijzig dan de brontaal in de "
-"projectinstellingen."
+"onderdeelinstellingen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8612,7 +8584,7 @@ msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
 msgstr ""
-"Medewerking aan deze vertaling vereist dat u instemt met de "
+"Als u wilt meewerken aan deze vertaling, dient u in te stemmen met de "
 "medewerkersovereenkomst."
 
 #: weblate/templates/translate.html:189
@@ -8670,10 +8642,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "Suggesties door machinevertaling"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "Suggesties automatisch aanvaarden"
+msgstr "Automatische suggesties"
 
 #: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
@@ -9639,7 +9609,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1867
 msgid "State to set"
-msgstr "In te stellen toestand"
+msgstr "In te stellen status"
 
 #: weblate/trans/forms.py:1867
 msgid "Do not change"
@@ -9663,7 +9633,7 @@ msgstr "Te verwijderen labels"
 
 #: weblate/trans/forms.py:1913
 msgid "I accept the contributor agreement"
-msgstr "Ik ga akkoord met de overeenkomst voor medewerkers"
+msgstr "Ik stem in met de medewerkersovereenkomst"
 
 #: weblate/trans/forms.py:1939
 msgid "The slug does not match the one marked for deletion!"
@@ -10070,10 +10040,8 @@ msgstr "Licentie gewijzigd"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "Overeenkomst voor medewerkers"
+msgstr "Gewijzigde medewerkersovereenkomst"
 
 #: weblate/trans/models/change.py:476
 #, python-format
@@ -10626,23 +10594,21 @@ msgstr ""
 #: weblate/trans/models/component.py:2158
 msgid ""
 "Source language can not be changed, please recreate the component instead."
-msgstr ""
+msgstr "De brontaal kan niet worden gewijzigd - maak het onderdeel opnieuw aan."
 
 #: weblate/trans/models/component.py:2166
 msgid "Component with this URL slug already existing in the project."
-msgstr ""
+msgstr "Er is al een onderdeel met deze url."
 
 #: weblate/trans/models/component.py:2171
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already existing in the project."
-msgstr "Een gelijkaardige vertaling bestaat al in het project ({0})!"
+msgstr "Er is al een onderdeel met deze naam."
 
 #: weblate/trans/models/component.py:2196
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Controleren van overeenkomstige bestandsnamen is niet mogelijk omdat de "
-"reguliere expressie ongeldig is."
+"reguliere uitdrukking ongeldig is."
 
 #: weblate/trans/models/component.py:2206
 msgid "Accepting suggestions automatically only works with voting turned on."
@@ -10689,22 +10655,22 @@ msgstr ""
 
 #: weblate/trans/models/componentlist.py:88
 msgid "Project regular expression"
-msgstr "Reguliere expressie (regex) voor een project"
+msgstr "Reguliere uitdrukking van een project"
 
 #: weblate/trans/models/componentlist.py:91
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Reguliere expressie (regex) die wordt gebruikt voor het verifieren van het "
-"project pad."
+"Reguliere uitdrukking die wordt gebruikt voor het verifiëren van het "
+"projectpad."
 
 #: weblate/trans/models/componentlist.py:94
 msgid "Component regular expression"
-msgstr "Reguliere expressie (regex) voor onderdelen"
+msgstr "Reguliere uitdrukking van onderdelen"
 
 #: weblate/trans/models/componentlist.py:97
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Reguliere expressie (regex) die wordt gebruikt voor het controleren van een "
+"Reguliere uitdrukking die wordt gebruikt voor het controleren van een "
 "onderdeelslug."
 
 #: weblate/trans/models/componentlist.py:101
@@ -11743,7 +11709,7 @@ msgstr "Ongeldig tijdstempel: {}"
 
 #: weblate/utils/search.py:384
 msgid "Invalid regular expression: {}"
-msgstr "Ongeldige reguliere expressie: {}"
+msgstr "Ongeldige reguliere uitdrukking: {}"
 
 #: weblate/utils/state.py:30
 msgctxt "String state"
@@ -11766,7 +11732,7 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
-"Reguliere expressie mist genaamde groep “{0}”, de eenvoudigste manier om "
+"Reguliere uitdrukking mist genaamde groep “{0}”. De eenvoudigste manier om "
 "deze te definiëren is {1}."
 
 #: weblate/utils/validators.py:117
@@ -11867,7 +11833,7 @@ msgstr "[hostnaam gehashed]"
 
 #: weblate/vcs/ssh.py:126
 msgid "Created new SSH key."
-msgstr "Nieuwe SSH-sleutel aangemaakt."
+msgstr "Nieuwe ssh-sleutel aangemaakt."
 
 #: weblate/vcs/ssh.py:129
 #, python-format
