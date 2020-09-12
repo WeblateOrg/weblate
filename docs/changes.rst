@@ -14,6 +14,7 @@ Not yet released.
 * Moved source language attribute from project to a component.
 * Add Vue I18n formatting check.
 * Generic placeholders check now supports regular expressions.
+* Improved look of matrix mode.
 
 Weblate 4.2.2
 -------------
