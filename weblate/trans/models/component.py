@@ -2163,12 +2163,12 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
 
         self.clean_unique_together(
             "slug",
-            _("Component with this URL slug already existing in the project."),
+            _("Component with this URL slug already exists in the project."),
             self.slug,
         )
         self.clean_unique_together(
             "name",
-            _("Component with this name already existing in the project."),
+            _("Component with this name already exists in the project."),
             self.name,
         )
 
