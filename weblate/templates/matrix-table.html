@@ -4,11 +4,11 @@
 <tbody{% if last %} id="last-section"{% endif %}>
 <tr>
 <td>
-{% format_translation item.0.source item.0.translation.component.source_language num_plurals=item.0.translation.plural.number unit=item.0 %}
+<a href="{{ item.0.get_absolute_url }}">{% format_translation item.0.source item.0.translation.component.source_language num_plurals=item.0.translation.plural.number unit=item.0 %}</a>
 </td>
 {% for unit in item.1 %}
 <td>
-<a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural %}</a>
+<a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}</a>
 </td>
 {% endfor %}
 </tr>

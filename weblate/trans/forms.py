@@ -1830,7 +1830,9 @@ class MatrixLanguageForm(forms.Form):
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        languages = Language.objects.filter(translation__component=component)
+        languages = Language.objects.filter(translation__component=component).exclude(
+            pk=component.source_language_id
+        )
         self.fields["lang"].choices = languages.as_choices()
 
 

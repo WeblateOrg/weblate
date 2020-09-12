@@ -15,7 +15,7 @@
 <table class="table matrix">
 <thead>
 <tr>
-<th><a href="{% url 'translation' project=object.project.slug component=object.slug lang=object.source_language.code %}">{% trans "Source" %}</a></th>
+<th><a href="{% url 'translation' project=object.project.slug component=object.slug lang=object.source_language.code %}">{{ object.source_language }}</a></th>
 {% for language in languages %}
 <th><a href="{% url 'translation' project=object.project.slug component=object.slug lang=language.code %}">{{ language }}</a></th>
 {% endfor %}
