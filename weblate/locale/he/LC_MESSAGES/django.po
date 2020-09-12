@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-12 17:59+0000\n"
-"PO-Revision-Date: 2020-09-12 17:58+0000\n"
+"PO-Revision-Date: 2020-09-13 05:53+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -6466,8 +6466,7 @@ msgid ""
 msgstr "הרישון לרכיב %(component)s הוחלף מהרישיון %(old)s לרישיון %(target)s."
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Contributor agreemnt for component %(component)s was changed."
+#, python-format
 msgid "Contributor agreement for component %(component)s was changed."
 msgstr "הסכם התרומה לרכיב %(component)s הוחלף."
 
@@ -6493,10 +6492,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "לרכיב %(component)s הוחלף הרישיון לכדי %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "הרכיב %(component)s ננעל"
+msgstr "הסכם התרומה של %(component)s הוחלף"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -7931,14 +7929,10 @@ msgid "Please consider the following:"
 msgstr "נא לשקול את הבאים:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
-msgstr "במקרה שיש צורך בתרגום לשפת המקור, יש לשנות את שפת המקור בהגדרות המיזם."
+msgstr "במקרה שיש צורך בתרגום לשפת המקור, יש לשנות את שפת המקור בהגדרות הרכיב."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8415,10 +8409,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "הצעות תרגום בסיוע מחשב"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "קבלת הצעות אוטומטית"
+msgstr "הצעות אוטומטיות"
 
 #: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
@@ -9792,10 +9784,8 @@ msgstr "הרישיון הוחלף"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "הסכם תרומה"
+msgstr "הסכם תרומה התחלף"
 
 #: weblate/trans/models/change.py:476
 #, python-format
@@ -10310,19 +10300,15 @@ msgstr "נא למלא את כתובת ההנחיות או להשתמש באפש�
 #: weblate/trans/models/component.py:2158
 msgid ""
 "Source language can not be changed, please recreate the component instead."
-msgstr ""
+msgstr "לא ניתן להחליף את שפת המקור, במקום זאת יש ליצור את הרכיב מחדש."
 
 #: weblate/trans/models/component.py:2166
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this URL slug already exists in the project."
-msgstr "כבר קיים תרגום דומה במיזם ({0})!"
+msgstr "כבר קיים רכיב עם הכתובת הייצוגית הזאת במיזם."
 
 #: weblate/trans/models/component.py:2171
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already exists in the project."
-msgstr "כבר קיים תרגום דומה במיזם ({0})!"
+msgstr "כבר קיים רכיב בשם הזה במיזם."
 
 #: weblate/trans/models/component.py:2196
 msgid "Can not validate file matches due to invalid regular expression."
