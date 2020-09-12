@@ -148,6 +148,26 @@ class RenameTest(ViewTestCase):
         response = self.client.get(reverse("project", kwargs=self.kw_project))
         self.assertRedirects(response, project.get_absolute_url(), status_code=301)
 
+    def test_rename_project_conflict(self):
+        # Test rename conflict
+        self.make_manager()
+        Project.objects.create(name="Other project", slug="other")
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_project), {"slug": "other"}, follow=True
+        )
+        self.assertContains(response, "Project with this URL slug already exists.")
+
+    def test_rename_component_conflict(self):
+        # Test rename conflict
+        self.make_manager()
+        self.create_link_existing()
+        response = self.client.post(
+            reverse("rename", kwargs=self.kw_component), {"slug": "test2"}, follow=True
+        )
+        self.assertContains(
+            response, "Component with this URL slug already existing in the project."
+        )
+
 
 class AnnouncementTest(ViewTestCase):
     data = {"message": "Announcement testing", "category": "warning"}

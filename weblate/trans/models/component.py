@@ -2110,6 +2110,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             msg = _("Could not update repository: %s") % self.error_text(exc)
             raise ValidationError({"repo": msg})
 
+    def clean_unique_together(self, field: str, msg: str, lookup: str):
+        matching = Component.objects.filter(project=self.project, **{field: lookup})
+        if self.id:
+            matching = matching.exclude(pk=self.id)
+        if matching.exists():
+            raise ValidationError({field: msg})
+
     def clean(self):
         """Validator fetches repository.
 
@@ -2153,6 +2160,17 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                         )
                     }
                 )
+
+        self.clean_unique_together(
+            "slug",
+            _("Component with this URL slug already existing in the project."),
+            self.slug,
+        )
+        self.clean_unique_together(
+            "name",
+            _("Component with this name already existing in the project."),
+            self.name,
+        )
 
         # Check repo if config was changes
         if changed_git:
