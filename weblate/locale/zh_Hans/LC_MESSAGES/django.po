@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-12 12:12+0000\n"
-"PO-Revision-Date: 2020-09-09 08:17+0000\n"
+"PO-Revision-Date: 2020-09-12 17:58+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -539,11 +539,11 @@ msgstr "Twitter 用户名"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "领英档案名"
 
 #: weblate/accounts/models.py:430
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "来自 linkedin.com/in/profilename 的领英档案名"
 
 #: weblate/accounts/models.py:434
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -1471,10 +1471,8 @@ msgstr "上传词汇表条目"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Use automatic suggestions"
-msgstr "自动接受建议"
+msgstr "使用自动建议"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -2481,16 +2479,12 @@ msgid "The percent placeholders do not match source"
 msgstr "提供的百分比占位符与原文不一致"
 
 #: weblate/checks/format.py:545
-#, fuzzy
-#| msgid "Information"
 msgid "Vue I18n formatting"
-msgstr "信息"
+msgstr "Vue I18n 格式"
 
 #: weblate/checks/format.py:546
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "The Vue I18n formatting does not match source"
-msgstr "C 格式的字符串与源文不匹配"
+msgstr "Vue I18n 格式和源不匹配"
 
 #: weblate/checks/format.py:552
 msgid "Multiple unnamed variables"
@@ -2567,10 +2561,8 @@ msgid "Placeholders"
 msgstr "占位符"
 
 #: weblate/checks/placeholders.py:42
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "翻译缺少一些占位符："
+msgstr "翻译缺少一些占位符"
 
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
@@ -6342,34 +6334,25 @@ msgid ""
 msgstr "%(component)s组件的许可证从%(old)s变为%(target)s."
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreemnt for component %(component)s was changed."
-msgstr "%(component)s组件被锁定"
+msgstr "%(component)s 组件的贡献者协议被更改。"
 
 #: weblate/templates/mail/component_license.html:15
-#, fuzzy
-#| msgid "Placement"
 msgid "Old agreement:"
-msgstr "放置"
+msgstr "旧协议："
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "查看贡献者协议"
+msgstr "之前没有贡献者协议。"
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New payment"
 msgid "New agreement:"
-msgstr "新付款"
+msgstr "新协议："
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "贡献者协议"
+msgstr "贡献者协议被删除。"
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -6377,10 +6360,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s被重新许可为%(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "%(component)s组件被锁定"
+msgstr "%(component)s 的贡献者协议被更改"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -7773,14 +7755,10 @@ msgid "Please consider the following:"
 msgstr "请考虑以下操作："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
-msgstr "如果需要翻译成源语言，请在项目设置中更改源语言。"
+msgstr "如果源语言的翻译合意，请在组件设置中更改源语言。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8246,10 +8224,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "计算机辅助的翻译建议"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "自动接受建议"
+msgstr "自动建议"
 
 #: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
@@ -9591,10 +9567,8 @@ msgstr "许可证更改"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "贡献者协议"
+msgstr "贡献者协议已更改"
 
 #: weblate/trans/models/change.py:476
 #, python-format
@@ -10102,10 +10076,8 @@ msgid "Component with this URL slug already existing in the project."
 msgstr ""
 
 #: weblate/trans/models/component.py:2171
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already existing in the project."
-msgstr "类似的翻译已经在 {0} 项目中存在！"
+msgstr "项目中已存在此名称的组件。"
 
 #: weblate/trans/models/component.py:2196
 msgid "Can not validate file matches due to invalid regular expression."
