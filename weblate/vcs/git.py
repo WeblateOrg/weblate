@@ -645,7 +645,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         if not host:
             # Assume SSH URL
             host = repo.split(":")[0].split("@")[-1]
-        parts = repo.split(":")[-1].split("/")
+        parts = repo.split(":")[-1].rstrip("/").split("/")
         slug = parts[-1].replace(".git", "")
         owner = parts[-2]
         return self.API_TEMPLATE.format(

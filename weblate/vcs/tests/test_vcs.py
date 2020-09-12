@@ -493,6 +493,14 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
+        self.repo.component.repo = "https://github.com/WeblateOrg/test"
+        self.assertEqual(
+            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "https://github.com/WeblateOrg/test/"
+        self.assertEqual(
+            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+        )
         self.repo.component.repo = "git@github.com:WeblateOrg/test.git"
         self.assertEqual(
             self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
