@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 14:13+0200\n"
-"PO-Revision-Date: 2020-09-12 14:43+0000\n"
+"PO-Revision-Date: 2020-09-12 17:58+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -3613,10 +3613,8 @@ msgid "``ignore-vue-format``"
 msgstr "``ignore-vue-format``"
 
 #: ../../admin/checks.rst:128
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the \"Vue I18n formatting\" quality check."
-msgstr "Пропустити перевірку якості «Форматування C»."
+msgstr "Пропустити перевірку якості «Форматування I18n Vue»."
 
 #: ../../admin/checks.rst:129
 msgid "``ignore-translated``"
@@ -3930,12 +3928,6 @@ msgid "Enforcing checks"
 msgstr "Примусові перевірки"
 
 #: ../../admin/checks.rst:217
-#, fuzzy
-#| msgid ""
-#| "You can configure a list of checks which can not be ignored by setting :"
-#| "guilabel:`Enforced checks` in :ref:`component`. Each listed check can not "
-#| "be ignored in the user interface and any string failing this check is "
-#| "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgid ""
 "You can configure a list of checks which can not be ignored by setting :ref:"
 "`component-enforced_checks` in :ref:`component`. Each listed check can not "
@@ -3943,10 +3935,10 @@ msgid ""
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
 "Ви можете налаштувати список перевірок, які не можна ігнорувати, "
-"встановленням значення :guilabel:`Примусові перевірки` у :ref:`component`. "
+"встановленням значення :ref:`component-enforced_checks` у :ref:`component`. "
 "Усі перевірки зі списку не може бути проігноровано у інтерфейсі користувача, "
-"а будь-який рядок, який не пройде перевірку, буде позначено міткою :guilabel:"
-"`Потребує редагування` (див. :ref:`states`)."
+"а будь-який рядок, який не пройде перевірку, буде позначено міткою "
+":guilabel:`Потребує редагування` (див. :ref:`states`)."
 
 #: ../../admin/checks.rst:225
 msgid "Managing fonts"
@@ -15237,16 +15229,12 @@ msgid "Source language"
 msgstr "Джерельна мова"
 
 #: ../../admin/projects.rst:642
-#, fuzzy
-#| msgid ""
-#| "Language used for source strings in all components. Change this if you "
-#| "are translating from something else than English."
 msgid ""
 "Language used for source strings. Change this if you are translating from "
 "something else than English."
 msgstr ""
-"Мова, яку буде використано для початкових рядків в усіх складниках. Змініть "
-"цю мову, якщо ви перекладаєте з якоїсь мови, відмінної від англійської."
+"Мова, яку буде використано для початкових рядків. Змініть цю мову, якщо ви "
+"перекладаєте з якоїсь мови, відмінної від англійської."
 
 #: ../../admin/projects.rst:647
 msgid ""
@@ -16374,6 +16362,9 @@ msgid ""
 "exposed in the API. You will need to update :ref:`wlc` in case you are using "
 "it."
 msgstr ""
+"Атрибут початкової мови було перенесено з проєкту до складника, який "
+"доступний у програмному інтерфейсі. Вам слід оновити :ref:`wlc`, якщо ви ним "
+"користуєтеся."
 
 #: ../../admin/upgrade.rst:166
 msgid "Upgrading from Python 2 to Python 3"
@@ -18843,32 +18834,26 @@ msgstr ""
 "Удосконалено документацію щодо вбудованих засобів резервного копіювання."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Include source language in project creation form."
 msgid "Moved source language attribute from project to a component."
-msgstr "До форми створення проєкту включено початкову мову."
+msgstr "Атрибут початкової мови пересунуто з проєкту до складника."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Information"
 msgid "Add Vue I18n formatting check."
-msgstr "Відомості"
+msgstr "Додано перевірку форматування I18n Vue."
 
 #: ../../changes.rst:16
 msgid "Generic placeholders check now supports regular expressions."
 msgstr ""
+"У перевірці типових замінників у новій версії реалізовано використання "
+"формальних виразів."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improved look of plaintext e-mails."
 msgid "Improved look of matrix mode."
-msgstr "Удосконалено вигляд простих текстових повідомлень електронної пошти."
+msgstr "Удосконалено вигляд режиму матриці."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Machinery is now called automated suggestions."
-msgstr "Автоматичне прийняття пропозиції"
+msgstr "Пункт «Автоматизація» перейменовано на «Автоматичні пропозиції»."
 
 #: ../../changes.rst:21
 msgid "Weblate 4.2.2"
@@ -25722,14 +25707,6 @@ msgstr ""
 "цього."
 
 #: ../../devel/html.rst:25
-#, fuzzy
-#| msgid ""
-#| "In case you have existing repository to start with (for example the one "
-#| "containing HTML files), create an empty JSON file in the repository for "
-#| "the source language (see :ref:`project-source_language`), for example :"
-#| "file:`locales/en.json`. The content should be ``{}`` to indicate an empty "
-#| "object. Once you have that, the repository can be imported into Weblate "
-#| "and you can start with an addon configuration."
 msgid ""
 "In case you have existing repository to start with (for example the one "
 "containing HTML files), create an empty JSON file in the repository for the "
@@ -25739,8 +25716,8 @@ msgid ""
 "start with an addon configuration."
 msgstr ""
 "Якщо у вас на початку вже є сховище коду (наприклад, сховище, яке містить "
-"усі файли HTML), створіть у сховищі порожній файл JSON для початкової мови "
-"(див. :ref:`project-source_language`), наприклад :file:`locales/en.json`. "
+"усі файли HTML), створіть у сховищі порожній файл JSON для початкової мови ("
+"див. :ref:`component-source_language`), наприклад :file:`locales/en.json`. "
 "Вмістом цього файла має бути пара дужок ``{}``, яка позначає порожній "
 "об'єкт. Щойно файл буде створено, сховище можна буде імпортувати до Weblate, "
 "після чого ви зможете розпочати налаштовування додатка."
@@ -27596,16 +27573,12 @@ msgstr ""
 "початкової мови. Додатковий файл початковою мовою не обробляється."
 
 #: ../../faq.rst:414
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the :ref:`project-source_language` in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
 msgstr ""
-"Якщо переклад початковою мовою є бажаним, будь ласка, змініть :ref:"
-"`початкову мову<project-source_language>`у налаштуваннях проєкту."
+"Якщо переклад початковою мовою є бажаним, будь ласка, змініть :ref:`"
+"початкову мову <component-source_language>`у налаштуваннях складника."
 
 #: ../../faq.rst:415
 msgid ""
@@ -28838,6 +28811,8 @@ msgstr ""
 msgid ""
 "Simple key / value files, used for example by `vue-i18n` or `react-intl`."
 msgstr ""
+"Прості файли ключ-значення, які використовують, наприклад, у `vue-i18n` або "
+"`react-intl`."
 
 #: ../../formats.rst:754
 msgid "Files with nested keys."
@@ -30771,50 +30746,36 @@ msgid "Vue I18n formatting"
 msgstr "Форматування I18n Vue"
 
 #: ../../user/checks.rst:413
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*The Vue I18n formatting does not match source*"
-msgstr "Рядок, формату C, не відповідає джерелу"
+msgstr "*Форматування i18n Vue не збігається із початковим рядком*"
 
 #: ../../user/checks.rst:416
-#, fuzzy
-#| msgid "Named format string"
 msgid "Named formatting"
-msgstr "Іменований рядок форматування"
+msgstr "Іменоване форматування"
 
 #: ../../user/checks.rst:416
-#, fuzzy
-#| msgid "``There are {} apples``"
 msgid "``There are {count} apples``"
-msgstr "``There are {} apples``"
+msgstr "``There are {count} apples``"
 
 #: ../../user/checks.rst:418
-#, fuzzy
-#| msgid "Information"
 msgid "Rails i18n formatting"
-msgstr "Відомості"
+msgstr "Форматування i18n Rails"
 
 #: ../../user/checks.rst:418
-#, fuzzy
-#| msgid "``There are {} apples``"
 msgid "``There are %{count} apples``"
-msgstr "``There are {} apples``"
+msgstr "``There are %{count} apples``"
 
 #: ../../user/checks.rst:420
-#, fuzzy
-#| msgid "LinkedIn profile name"
 msgid "Linked locale messages"
-msgstr "Назва профілю LinkedIn"
+msgstr "Пов'язані повідомлення локалі"
 
 #: ../../user/checks.rst:420
 msgid "``@:message.dio @:message.the_world!``"
-msgstr ""
+msgstr "``@:message.dio @:message.the_world!``"
 
 #: ../../user/checks.rst:422
-#, fuzzy
-#| msgid "`es-format`"
 msgid "`vue-format`"
-msgstr "`es-format`"
+msgstr "`vue-format`"
 
 #: ../../user/checks.rst:427
 msgid ""
@@ -30822,6 +30783,9 @@ msgid ""
 "html>`_, `Vue I18n Linked locale messages <https://kazupon.github.io/vue-"
 "i18n/guide/messages.html#linked-locale-messages>`_"
 msgstr ""
+"`Форматування I18n Vue <https://kazupon.github.io/vue-i18n/guide/formatting."
+"html>`_, `пов'язані повідомлення локалі i18n Vue <https://kazupon.github.io/"
+"vue-i18n/guide/messages.html#linked-locale-messages>`_"
 
 #: ../../user/checks.rst:433
 msgid "Has been translated"
@@ -31277,10 +31241,8 @@ msgid "*Translation is missing some placeholders:*"
 msgstr "*У перекладі відсутні деякі замінники:*"
 
 #: ../../user/checks.rst:735
-#, fuzzy
-#| msgid "Variants regular expression"
 msgid "You can use regular expression as placeholder."
-msgstr "Формальний вираз варіантів"
+msgstr "Ви можете використовувати формальний вираз як замінник."
 
 #: ../../user/checks.rst:737
 msgid ""
@@ -31298,6 +31260,8 @@ msgid ""
 "In case you have some syntax for placeholders, you can use an regular "
 "expression:"
 msgstr ""
+"Якщо ви знаєте певну синтаксичну конструкцію для замінників, ви можете "
+"скористатися формальним виразом:"
 
 #: ../../user/checks.rst:753
 msgid ":ref:`custom-checks`"
