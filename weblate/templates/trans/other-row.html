@@ -10,7 +10,7 @@
 <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
 </td>
 <td>
-{% format_translation item.target item.translation.language item.translation.plural %}
+{% format_translation item.target item.translation.language item.translation.plural simple=True %}
 </td>
 <td{% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %}  rowspan="2"{% endif %}>
 {% if user_can_translate and item.translated %}
@@ -22,7 +22,7 @@
 <tr>
 <td>
 <p class="help-block">{% trans "Change compared to this translation:" %}</p>
-{% format_translation item.target item.translation.language item.translation.plural unit.target %}
+{% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
 </td>
 </tr>
 {% endif %}

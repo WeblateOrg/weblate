@@ -15,11 +15,11 @@
 <tbody>
 {% for unit in units %}
 <tr {% if current_unit.id == unit.id %}class="current_translation"{% endif %}>
-<td>{% if unit.context %}<a href="{{ unit.get_absolute_url }}">{% format_translation unit.context unit.translation.component.source_language %}</a>{% endif %}</td>
+<td>{% if unit.context %}<a href="{{ unit.get_absolute_url }}">{% format_translation unit.context unit.translation.component.source_language simple=True %}</a>{% endif %}</td>
 {% if not unit.translation.is_source %}
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.component.source_language %}</a></td>
+<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.component.source_language simple=True %}</a></td>
 {% endif %}
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural %}</a></td>
+<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural simple=True %}</a></td>
 <td>{% get_state_flags unit True %}</td>
 </tr>
 {% endfor %}
