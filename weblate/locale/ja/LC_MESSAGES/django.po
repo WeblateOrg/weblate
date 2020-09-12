@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-12 12:12+0000\n"
-"PO-Revision-Date: 2020-09-12 14:49+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2020-09-12 17:58+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1481,12 +1481,12 @@ msgstr "コンポーネントのロック、翻訳の禁止"
 #. Translators: Permission name
 #: weblate/auth/data.py:42
 msgid "Post comment"
-msgstr "コメントを投稿する"
+msgstr "コメントの投稿"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:44
 msgid "Delete comment"
-msgstr "コメントを削除する"
+msgstr "コメントの削除"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:46
@@ -1510,8 +1510,6 @@ msgstr "用語集の項目のアップロード"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Use automatic suggestions"
 msgstr "提案の自動採用"
 
@@ -2528,16 +2526,12 @@ msgid "The percent placeholders do not match source"
 msgstr "%（記号）プレースホルダー（補完）が原文と不一致"
 
 #: weblate/checks/format.py:545
-#, fuzzy
-#| msgid "Information"
 msgid "Vue I18n formatting"
-msgstr "情報"
+msgstr "Vue I18n 書式"
 
 #: weblate/checks/format.py:546
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "The Vue I18n formatting does not match source"
-msgstr "原文と C 言語の書式文字列が合致していないもの"
+msgstr "The Vue I18n フォーマットが原文と一致しません"
 
 #: weblate/checks/format.py:552
 msgid "Multiple unnamed variables"
@@ -2614,10 +2608,8 @@ msgid "Placeholders"
 msgstr "プレースホルダー"
 
 #: weblate/checks/placeholders.py:42
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "一部のプレースホルダが翻訳にありません:"
+msgstr "一部のプレースホルダが翻訳にありません"
 
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
@@ -4595,12 +4587,12 @@ msgstr "ユーザーが行った変更をすべて表示"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
 msgid "Daily activity"
-msgstr "日々の行動履歴"
+msgstr "毎日の作業履歴"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
 msgid "Weekly activity"
-msgstr "毎週の行動履歴"
+msgstr "毎週の作業履歴"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -6536,34 +6528,25 @@ msgstr ""
 "れました。"
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreemnt for component %(component)s was changed."
-msgstr "コンポーネント %(component)s はロックされました"
+msgstr "コンポーネント %(component)s の貢献者の同意条項が変更されました。"
 
 #: weblate/templates/mail/component_license.html:15
-#, fuzzy
-#| msgid "Placement"
 msgid "Old agreement:"
-msgstr "配置"
+msgstr "古い同意条項:"
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "貢献者同意条項の表示"
+msgstr "以前は貢献者同意条項はありませんでした。"
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New payment"
 msgid "New agreement:"
-msgstr "新規支払い"
+msgstr "新しい同意条項:"
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "貢献者同意条項"
+msgstr "貢献者同意条項は削除されました。"
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -6571,10 +6554,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s のライセンスは %(target)s のライセンスに変更されました"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "コンポーネント %(component)s はロックされました"
+msgstr "%(component)s の貢献者同意条項は変更されました"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -8018,16 +8000,10 @@ msgid "Please consider the following:"
 msgstr "考慮すべき事項:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
-msgstr ""
-"翻訳元言語への翻訳が必要であれば、プロジェクトの設定で翻訳元言語を変更してく"
-"ださい。"
+msgstr "原文の言語への翻訳が必要であれば、コンポーネントの設定で原文の言語を変更してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8538,10 +8514,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "機械翻訳による提案"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "提案の自動採用"
+msgstr "自動提案"
 
 #: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
@@ -9906,10 +9880,8 @@ msgstr "ライセンスの変更"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "貢献者同意条項"
+msgstr "貢献者同意条項の変更"
 
 #: weblate/trans/models/change.py:476
 #, python-format
@@ -10446,17 +10418,15 @@ msgstr ""
 #: weblate/trans/models/component.py:2158
 msgid ""
 "Source language can not be changed, please recreate the component instead."
-msgstr ""
+msgstr "原文の言語を変更できません。代わりにコンポーネントを再作成してください。"
 
 #: weblate/trans/models/component.py:2166
 msgid "Component with this URL slug already existing in the project."
-msgstr ""
+msgstr "この URL スラグを持つコンポーネントは既にプロジェクトに存在します。"
 
 #: weblate/trans/models/component.py:2171
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already existing in the project."
-msgstr "類似の翻訳がプロジェクト ({0}) 内にすでに存在しています！"
+msgstr "この名前のコンポーネントは既にプロジェクトに存在します。"
 
 #: weblate/trans/models/component.py:2196
 msgid "Can not validate file matches due to invalid regular expression."
