@@ -51,7 +51,7 @@ PERMISSIONS = (
     # Translators: Permission name
     ("glossary.upload", _("Upload glossary entries")),
     # Translators: Permission name
-    ("machinery.view", _("Use machinery")),
+    ("machinery.view", _("Use automatic suggestions")),
     # Translators: Permission name
     ("memory.edit", _("Edit translation memory")),
     # Translators: Permission name

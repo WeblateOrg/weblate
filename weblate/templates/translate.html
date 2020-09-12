@@ -228,7 +228,7 @@
 <li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if unit.all_comments %} <span class="badge">{{ unit.all_comments|length }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_machinery %}
-<li><a href="#machinery" data-toggle="tab" id="toggle-machinery" data-load="machinery" title="{% trans "Computer-aided translation suggestions" %}">{% trans "Machinery" %}</a></li>
+<li><a href="#machinery" data-toggle="tab" id="toggle-machinery" data-load="machinery" title="{% trans "Computer-aided translation suggestions" %}">{% trans "Automatic suggestions" %}</a></li>
 {% endif %}
 <li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
 <li><a href="#history" data-toggle="tab" id="toggle-history" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>

@@ -334,8 +334,8 @@ Glossary
 
     Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
-Machinery
-    Use machinery [`Administration`, `Power user`]
+Automatic suggestions
+    Use automatic suggestions [`Administration`, `Power user`]
 
 Projects
     Edit project settings [`Administration`]

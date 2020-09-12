@@ -15,6 +15,7 @@ Not yet released.
 * Add Vue I18n formatting check.
 * Generic placeholders check now supports regular expressions.
 * Improved look of matrix mode.
+* Machinery is now called automated suggestions.
 
 Weblate 4.2.2
 -------------
