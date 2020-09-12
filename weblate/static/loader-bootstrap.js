@@ -312,7 +312,7 @@ function load_matrix() {
 
   $.get($loader.attr("href") + "&offset=" + offset, function (data) {
     $loadingNext.hide();
-    $(".matrix tfoot").before(data);
+    $(".matrix tbody").append(data);
   });
 }
 

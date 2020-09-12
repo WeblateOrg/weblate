@@ -1,8 +1,7 @@
 {% load translations %}
 {% load i18n %}
 {% for item in data %}
-<tbody{% if last %} id="last-section"{% endif %}>
-<tr>
+<tr {% if last %} id="last-section"{% endif %}>
 <td>
 <a href="{{ item.0.get_absolute_url }}">{% format_translation item.0.source item.0.translation.component.source_language num_plurals=item.0.translation.plural.number unit=item.0 %}</a>
 </td>
@@ -13,4 +12,3 @@
 {% endfor %}
 </tr>
 {% endfor %}
-</tbody>
