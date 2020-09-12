@@ -2249,7 +2249,7 @@ Weblate provides various exports to allow you to further process the data.
                 "failing_percent": 0.0,
                 "fuzzy": 0,
                 "fuzzy_percent": 0.0,
-                "last_author": "Michal \u010ciha\u0159",
+                "last_author": "Michal Čihař",
                 "last_change": "2012-03-28T15:07:38+00:00",
                 "name": "Czech",
                 "total": 436,
@@ -2293,7 +2293,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/el/",
                 "url_translate": "http://hosted.weblate.org/projects/weblate/master/el/"
-            },
+            }
         ]
 
 .. _rss:
