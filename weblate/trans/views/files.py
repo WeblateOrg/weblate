@@ -87,8 +87,9 @@ def download_component(request, project, component):
 def download_project(request, project):
     obj = get_project(request, project)
     obj.commit_pending("download", None)
+    components = obj.component_set.filter_access(request.user)
     return download_multi(
-        Translation.objects.filter(component__project=obj), request.GET.get("format")
+        Translation.objects.filter(component__in=components), request.GET.get("format")
     )
 
 
@@ -96,8 +97,9 @@ def download_lang_project(request, lang, project):
     obj = get_project(request, project)
     obj.commit_pending("download", None)
     langobj = get_object_or_404(Language, code=lang)
+    components = obj.component_set.filter_access(request.user)
     return download_multi(
-        Translation.objects.filter(component__project=obj, language=langobj),
+        Translation.objects.filter(component__in=components, language=langobj),
         request.GET.get("format"),
     )
 
