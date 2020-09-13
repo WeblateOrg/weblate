@@ -27,9 +27,7 @@ from django.contrib.messages import add_message, constants
 
 def get_request(request):
     """Return Django request object even for DRF requests."""
-    if hasattr(request, "_request"):
-        return request._request
-    return request
+    return getattr(request, "_request", request)
 
 
 def debug(request, message, extra_tags=""):
