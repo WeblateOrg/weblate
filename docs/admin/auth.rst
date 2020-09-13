@@ -545,7 +545,7 @@ To install `django-cas-ng`:
 
     pip install django-cas-ng
 
-Once you have the package installed you can hook it is up to the Django
+Once you have the package installed you can hook it up to the Django
 authentication system by modifying the :file:`settings.py` file:
 
 .. code-block:: python
