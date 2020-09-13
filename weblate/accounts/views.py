@@ -1339,10 +1339,13 @@ class UserList(ListView):
             self.sort_query = "-date_joined"
 
     def get_context_data(self, **kwargs):
+        search = self.form.cleaned_data.get("q", "").strip()
+        
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
         context["form"] = self.form
         context["sort_query"] = self.sort_query
         context["sort_name"] = self.form.sort_choices[self.sort_query.strip("-")]
         context["sort_choices"] = self.form.sort_choices
+        context["query_string"] = urlencode({"q": search, "sort_by": self.sort_query})
         return context
