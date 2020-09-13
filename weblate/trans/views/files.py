@@ -86,11 +86,8 @@ def download_component(request, project, component):
 
 def download_project(request, project):
     obj = get_project(request, project)
+    obj.commit_pending("download", None)
     components = obj.component_set.filter_access(request.user)
-    if not components:
-        raise PermissionDenied()
-    for component in components:
-        component.commit_pending("download", None)
     return download_multi(
         Translation.objects.filter(component__in=components), request.GET.get("format")
     )
@@ -98,12 +95,9 @@ def download_project(request, project):
 
 def download_lang_project(request, lang, project):
     obj = get_project(request, project)
-    components = obj.component_set.filter_access(request.user)
-    if not components:
-        raise PermissionDenied()
-    for component in components:
-        component.commit_pending("download", None)
+    obj.commit_pending("download", None)
     langobj = get_object_or_404(Language, code=lang)
+    components = obj.component_set.filter_access(request.user)
     return download_multi(
         Translation.objects.filter(component__in=components, language=langobj),
         request.GET.get("format"),
