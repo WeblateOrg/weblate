@@ -28,6 +28,10 @@ LANGMAP = {
     "uk": "uk",
     "ru": "ru",
     "es": "es",
+    "pt": "pt",
+    "nb": "no",
+    "ja": "ja",
+    "fr": "fr",
 }
 
 
