@@ -1340,7 +1340,7 @@ class UserList(ListView):
 
     def get_context_data(self, **kwargs):
         search = self.form.cleaned_data.get("q", "").strip()
-        
+
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
         context["form"] = self.form
