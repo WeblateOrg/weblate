@@ -274,14 +274,16 @@ The latter is not needed for merely accessing Git repositories.
 Pushing changes to GitHub as pull requests
 ++++++++++++++++++++++++++++++++++++++++++
 
-If not wanting to push translations to a GitHub repository, they can be sent as either
-one or many pull requests instead. You need to setup a :setting:`GITHUB_TOKEN`
-used to make API calls.
+If not wanting to push translations to a GitHub repository, they can be sent as
+either one or many pull requests instead.
 
+You need to configure API credentials to make this work.
 
 .. seealso::
 
-   :setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN` for configuration instructions
+   :setting:`GITHUB_USERNAME`,
+   :setting:`GITHUB_TOKEN`,
+   :setting:`GITHUB_CREDENTIALS`
 
 .. _Github API: https://docs.github.com/en/rest
 
@@ -313,11 +315,13 @@ Pushing changes to GitLab as merge requests
 If not wanting to push translations to a GitLab repository, they can be sent as either
 one or many merge requests instead.
 
-Set :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN` for this to work.
+You need to configure API credentials to make this work.
 
 .. seealso::
 
-   :setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN` for configuration instructions
+   :setting:`GITLAB_USERNAME`,
+   :setting:`GITLAB_TOKEN`,
+   :setting:`GITLAB_CREDENTIALS`
 
 .. _GitLab API: https://docs.gitlab.com/ee/api/
 

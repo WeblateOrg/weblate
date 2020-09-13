@@ -16,6 +16,7 @@ Not yet released.
 * Generic placeholders check now supports regular expressions.
 * Improved look of matrix mode.
 * Machinery is now called automatic suggestions.
+* Added support for interacting with multiple GitLab or GitHub instances.
 
 Weblate 4.2.2
 -------------

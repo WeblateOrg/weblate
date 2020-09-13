@@ -465,7 +465,7 @@ class VCSGitUpstreamTest(VCSGitTest):
             self._class = backup
 
 
-@override_settings(GITHUB_USERNAME="test")
+@override_settings(GITHUB_USERNAME="test", GITHUB_TOKEN="token")
 class VCSGitHubTest(VCSGitUpstreamTest):
     _class = GithubFakeRepository
     _vcs = "git"
@@ -491,23 +491,23 @@ class VCSGitHubTest(VCSGitUpstreamTest):
     def test_api_url(self):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
         self.repo.component.repo = "https://github.com/WeblateOrg/test"
         self.assertEqual(
-            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
         self.repo.component.repo = "https://github.com/WeblateOrg/test/"
         self.assertEqual(
-            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
         self.repo.component.repo = "git@github.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
         self.repo.component.repo = "github.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(), "https://api.github.com/repos/WeblateOrg/test"
+            self.repo.get_api_url(), "https://api.github.com/repos/WeblateOrg/test"
         )
 
     @responses.activate
@@ -569,7 +569,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         mock_push_to_fork.stop()
 
 
-@override_settings(GITLAB_USERNAME="test")
+@override_settings(GITLAB_USERNAME="test", GITLAB_TOKEN="token")
 class VCSGitLabTest(VCSGitUpstreamTest):
     _class = GitLabFakeRepository
     _vcs = "git"
@@ -671,24 +671,27 @@ class VCSGitLabTest(VCSGitUpstreamTest):
     def test_api_url(self):
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
+            self.repo.get_api_url(),
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "https://user:pass@gitlab.com/WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
+            self.repo.get_api_url(),
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "git@gitlab.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(), "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest"
+            self.repo.get_api_url(),
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(),
+            self.repo.get_api_url(),
             "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
         )
         self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.api_url(),
+            self.repo.get_api_url(),
             "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
         )
 

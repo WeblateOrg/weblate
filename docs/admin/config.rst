@@ -574,6 +574,32 @@ ENABLE_SHARING
 
 Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
 
+.. setting:: GITLAB_CREDENTIALS
+
+GITLAB_CREDENTIALS
+------------------
+
+List for credentials for GitLab servers.
+
+.. hint::
+
+    Use this in case you want Weblate to interact with more of them, for single
+    GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
+
+.. code-block:: python
+
+    GITLAB_CREDENTIALS = {
+        "gitlab.com": {
+            "username": "weblate",
+            "token": "your-api-token",
+        },
+        "gitlab.example.com": {
+            "username": "weblate",
+            "token": "another-api-token",
+        },
+    }
+
+
 .. setting:: GITLAB_USERNAME
 
 GITLAB_USERNAME
@@ -583,6 +609,7 @@ GitLab username used to send merge requests for translation updates.
 
 .. seealso::
 
+   :setting:`GITLAB_CREDENTIALS`,
    :ref:`vcs-gitlab`
 
 .. setting:: GITLAB_TOKEN
@@ -594,8 +621,34 @@ GitLab personal access token used to make API calls for translation updates.
 
 .. seealso::
 
+   :setting:`GITLAB_CREDENTIALS`,
    :ref:`vcs-gitlab`,
    `GitLab: Personal access token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_
+
+.. setting:: GITHUB_CREDENTIALS
+
+GITHUB_CREDENTIALS
+------------------
+
+List for credentials for GitHub servers.
+
+.. hint::
+
+    Use this in case you want Weblate to interact with more of them, for single
+    GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`.
+
+.. code-block:: python
+
+    GITHUB_CREDENTIALS = {
+        "api.github.com": {
+            "username": "weblate",
+            "token": "your-api-token",
+        },
+        "github.example.com": {
+            "username": "weblate",
+            "token": "another-api-token",
+        },
+    }
 
 .. setting:: GITHUB_USERNAME
 
@@ -606,6 +659,7 @@ GitHub username used to send pull requests for translation updates.
 
 .. seealso::
 
+   :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`
 
 .. setting:: GITHUB_TOKEN
@@ -618,6 +672,7 @@ translation updates.
 
 .. seealso::
 
+   :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`,
    `Creating a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_
 

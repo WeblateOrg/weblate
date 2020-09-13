@@ -39,10 +39,12 @@ class VCSConf(AppConf):
     # GitHub username for sending pull requests
     GITHUB_USERNAME = None
     GITHUB_TOKEN = None
+    GITHUB_CREDENTIALS = {}
 
     # GitLab username for sending merge requests
     GITLAB_USERNAME = None
     GITLAB_TOKEN = None
+    GITLAB_CREDENTIALS = {}
 
     class Meta:
         prefix = ""
