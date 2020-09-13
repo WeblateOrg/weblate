@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-12 19:59+0200\n"
+"POT-Creation-Date: 2020-09-13 13:53+0200\n"
 "PO-Revision-Date: 2020-07-24 18:39+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Central Khmer <https://hosted.weblate.org/projects/weblate/"
@@ -2122,7 +2122,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:548
 msgid ""
-"Once you have the package installed you can hook it is up to the Django "
+"Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
 
@@ -3814,7 +3814,7 @@ msgid ""
 "other paths by default:"
 msgstr ""
 
-#: ../../admin/config.rst:199 ../../faq.rst:388 ../../vcs.rst:402
+#: ../../admin/config.rst:199 ../../faq.rst:388 ../../vcs.rst:406
 msgid ":setting:`DATA_DIR`"
 msgstr ""
 
@@ -4114,9 +4114,9 @@ msgstr ""
 msgid "This setting affects only newly created components."
 msgstr ""
 
-#: ../../admin/config.rst:431 ../../admin/config.rst:739
-#: ../../admin/config.rst:1393 ../../admin/config.rst:1578
-#: ../../admin/config.rst:1618 ../../admin/management.rst:95
+#: ../../admin/config.rst:431 ../../admin/config.rst:794
+#: ../../admin/config.rst:1448 ../../admin/config.rst:1633
+#: ../../admin/config.rst:1673 ../../admin/management.rst:95
 #: ../../admin/management.rst:142 ../../admin/management.rst:665
 msgid "Example:"
 msgstr ""
@@ -4262,262 +4262,289 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:580
-msgid "GITLAB_USERNAME"
+msgid "GITLAB_CREDENTIALS"
 msgstr ""
 
 #: ../../admin/config.rst:582
+msgid "List for credentials for GitLab servers."
+msgstr ""
+
+#: ../../admin/config.rst:586
+msgid ""
+"Use this in case you want Weblate to interact with more of them, for single "
+"GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
+"`GITLAB_TOKEN`."
+msgstr ""
+
+#: ../../admin/config.rst:606
+msgid "GITLAB_USERNAME"
+msgstr ""
+
+#: ../../admin/config.rst:608
 msgid "GitLab username used to send merge requests for translation updates."
 msgstr ""
 
-#: ../../admin/config.rst:586 ../../admin/continuous.rst:287
-#: ../../admin/continuous.rst:289 ../../admin/install/docker.rst:488
-#: ../../admin/install/docker.rst:497 ../../admin/install/docker.rst:505
-msgid ":ref:`vcs-gitlab`"
+#: ../../admin/config.rst:612
+msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
 msgstr ""
 
-#: ../../admin/config.rst:591
+#: ../../admin/config.rst:618
 msgid "GITLAB_TOKEN"
 msgstr ""
 
-#: ../../admin/config.rst:593
+#: ../../admin/config.rst:620
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
 msgstr ""
 
-#: ../../admin/config.rst:597
+#: ../../admin/config.rst:624
 msgid ""
-":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
-"ee/user/profile/personal_access_tokens.html>`_"
+":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal access "
+"token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
 
-#: ../../admin/config.rst:603
+#: ../../admin/config.rst:631
+msgid "GITHUB_CREDENTIALS"
+msgstr ""
+
+#: ../../admin/config.rst:633
+msgid "List for credentials for GitHub servers."
+msgstr ""
+
+#: ../../admin/config.rst:637
+msgid ""
+"Use this in case you want Weblate to interact with more of them, for single "
+"GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:"
+"`GITHUB_TOKEN`."
+msgstr ""
+
+#: ../../admin/config.rst:656
 msgid "GITHUB_USERNAME"
 msgstr ""
 
-#: ../../admin/config.rst:605
+#: ../../admin/config.rst:658
 msgid "GitHub username used to send pull requests for translation updates."
 msgstr ""
 
-#: ../../admin/config.rst:609 ../../admin/continuous.rst:283
-#: ../../admin/continuous.rst:285 ../../admin/install/docker.rst:470
-#: ../../admin/install/docker.rst:479
-msgid ":ref:`vcs-github`"
+#: ../../admin/config.rst:662
+msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgstr ""
 
-#: ../../admin/config.rst:614
+#: ../../admin/config.rst:668
 msgid "GITHUB_TOKEN"
 msgstr ""
 
-#: ../../admin/config.rst:616
+#: ../../admin/config.rst:670
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
 msgstr ""
 
-#: ../../admin/config.rst:621
+#: ../../admin/config.rst:675
 msgid ""
-":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
-"com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
+":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
+"access token <https://docs.github.com/en/github/authenticating-to-github/"
+"creating-a-personal-access-token>`_"
 msgstr ""
 
-#: ../../admin/config.rst:627
+#: ../../admin/config.rst:682
 msgid "GOOGLE_ANALYTICS_ID"
 msgstr ""
 
-#: ../../admin/config.rst:629
+#: ../../admin/config.rst:684
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
 
-#: ../../admin/config.rst:634
+#: ../../admin/config.rst:689
 msgid "HIDE_REPO_CREDENTIALS"
 msgstr ""
 
-#: ../../admin/config.rst:636
+#: ../../admin/config.rst:691
 msgid ""
 "Hide repository credentials from appearing in the web interface. In case you "
 "have repository URL with user and password, Weblate will hide it when "
 "related info is shown to users."
 msgstr ""
 
-#: ../../admin/config.rst:640
+#: ../../admin/config.rst:695
 msgid ""
 "For example instead of ``https://user:password@git.example.com/repo.git`` it "
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
 
-#: ../../admin/config.rst:646
+#: ../../admin/config.rst:701
 msgid "This is turned on by default."
 msgstr ""
 
-#: ../../admin/config.rst:651
+#: ../../admin/config.rst:706
 msgid "IP_BEHIND_REVERSE_PROXY"
 msgstr ""
 
-#: ../../admin/config.rst:655
+#: ../../admin/config.rst:710
 msgid "Indicates whether Weblate is running behind a reverse proxy."
 msgstr ""
 
-#: ../../admin/config.rst:657
+#: ../../admin/config.rst:712
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
 
-#: ../../admin/config.rst:662
+#: ../../admin/config.rst:717
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
 
-#: ../../admin/config.rst:667
+#: ../../admin/config.rst:722
 msgid "This is not on by default."
 msgstr ""
 
-#: ../../admin/config.rst:671
+#: ../../admin/config.rst:726
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
 
-#: ../../admin/config.rst:679
+#: ../../admin/config.rst:734
 msgid "IP_PROXY_HEADER"
 msgstr ""
 
-#: ../../admin/config.rst:683
+#: ../../admin/config.rst:738
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
 
-#: ../../admin/config.rst:686
+#: ../../admin/config.rst:741
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
 
-#: ../../admin/config.rst:690
+#: ../../admin/config.rst:745
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
 
-#: ../../admin/config.rst:699
+#: ../../admin/config.rst:754
 msgid "IP_PROXY_OFFSET"
 msgstr ""
 
-#: ../../admin/config.rst:703
+#: ../../admin/config.rst:758
 msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
 
-#: ../../admin/config.rst:706
+#: ../../admin/config.rst:761
 msgid ""
 "Depending on your setup, this header might consist of several IP addresses, "
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
 
-#: ../../admin/config.rst:712
+#: ../../admin/config.rst:767
 msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
 msgstr ""
 
-#: ../../admin/config.rst:715
+#: ../../admin/config.rst:770
 msgid "Defaults to 0."
 msgstr ""
 
-#: ../../admin/config.rst:719
+#: ../../admin/config.rst:774
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
 
-#: ../../admin/config.rst:728
+#: ../../admin/config.rst:783
 msgid "LEGAL_URL"
 msgstr ""
 
-#: ../../admin/config.rst:732
+#: ../../admin/config.rst:787
 msgid "URL where your Weblate instance shows its legal documents."
 msgstr ""
 
-#: ../../admin/config.rst:736
+#: ../../admin/config.rst:791
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
 
-#: ../../admin/config.rst:748
+#: ../../admin/config.rst:803
 msgid "LICENSE_EXTRA"
 msgstr ""
 
-#: ../../admin/config.rst:750
+#: ../../admin/config.rst:805
 msgid "Additional licenses to include in the license choices."
 msgstr ""
 
-#: ../../admin/config.rst:754
+#: ../../admin/config.rst:809
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
 
-#: ../../admin/config.rst:756 ../../admin/config.rst:779
-#: ../../admin/config.rst:906 ../../formats.rst:304
+#: ../../admin/config.rst:811 ../../admin/config.rst:834
+#: ../../admin/config.rst:961 ../../formats.rst:304
 msgid "For example:"
 msgstr ""
 
-#: ../../admin/config.rst:771
+#: ../../admin/config.rst:826
 msgid "LICENSE_FILTER"
 msgstr ""
 
-#: ../../admin/config.rst:773
+#: ../../admin/config.rst:828
 msgid "Optional addition of licenses to show."
 msgstr ""
 
-#: ../../admin/config.rst:777
+#: ../../admin/config.rst:832
 msgid "This filter uses the short license names."
 msgstr ""
 
-#: ../../admin/config.rst:788
+#: ../../admin/config.rst:843
 msgid "LICENSE_REQUIRED"
 msgstr ""
 
-#: ../../admin/config.rst:790
+#: ../../admin/config.rst:845
 msgid "Defines whether the license attribute in :ref:`component` is required."
 msgstr ""
 
-#: ../../admin/config.rst:794
+#: ../../admin/config.rst:849
 msgid "This is off by default."
 msgstr ""
 
-#: ../../admin/config.rst:799
+#: ../../admin/config.rst:854
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 msgstr ""
 
-#: ../../admin/config.rst:801
+#: ../../admin/config.rst:856
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string * 10 characters."
 msgstr ""
 
-#: ../../admin/config.rst:806
+#: ../../admin/config.rst:861
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
 msgstr ""
 
-#: ../../admin/config.rst:810
+#: ../../admin/config.rst:865
 msgid "Defaults to ``True``."
 msgstr ""
 
-#: ../../admin/config.rst:816
+#: ../../admin/config.rst:871
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr ""
 
-#: ../../admin/config.rst:818
+#: ../../admin/config.rst:873
 msgid ""
 "These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon. :setting:"
 "`LOCALIZE_CDN_URL` defines root URL where the localization CDN is available "
@@ -4525,199 +4552,199 @@ msgid ""
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
 
-#: ../../admin/config.rst:825
+#: ../../admin/config.rst:880
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgstr ""
 
-#: ../../admin/config.rst:829
+#: ../../admin/config.rst:884
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
 msgstr ""
 
-#: ../../admin/config.rst:834
+#: ../../admin/config.rst:889
 msgid "LOGIN_REQUIRED_URLS"
 msgstr ""
 
-#: ../../admin/config.rst:836
+#: ../../admin/config.rst:891
 msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
 
-#: ../../admin/config.rst:840
+#: ../../admin/config.rst:895
 msgid "This allows you to password protect a whole installation using:"
 msgstr ""
 
-#: ../../admin/config.rst:853
+#: ../../admin/config.rst:908
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr ""
 
-#: ../../admin/config.rst:858
+#: ../../admin/config.rst:913
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr ""
 
-#: ../../admin/config.rst:860
+#: ../../admin/config.rst:915
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the login page."
 msgstr ""
 
-#: ../../admin/config.rst:863
+#: ../../admin/config.rst:918
 msgid "Some of exceptions you might want to include:"
 msgstr ""
 
-#: ../../admin/config.rst:881
+#: ../../admin/config.rst:936
 msgid "MATOMO_SITE_ID"
 msgstr ""
 
-#: ../../admin/config.rst:883
+#: ../../admin/config.rst:938
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
 msgstr ""
 
-#: ../../admin/config.rst:887 ../../admin/config.rst:904
+#: ../../admin/config.rst:942 ../../admin/config.rst:959
 msgid "This integration does not support the Matomo Tag Manager."
 msgstr ""
 
-#: ../../admin/config.rst:891
+#: ../../admin/config.rst:946
 msgid ":setting:`MATOMO_URL`"
 msgstr ""
 
-#: ../../admin/config.rst:897
+#: ../../admin/config.rst:952
 msgid "MATOMO_URL"
 msgstr ""
 
-#: ../../admin/config.rst:899
+#: ../../admin/config.rst:954
 msgid ""
 "Full URL (including trailing slash) of a Matomo (formerly Piwik) "
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
 
-#: ../../admin/config.rst:915
+#: ../../admin/config.rst:970
 msgid ":setting:`MATOMO_SITE_ID`"
 msgstr ""
 
-#: ../../admin/config.rst:922
+#: ../../admin/config.rst:977
 msgid "MT_SERVICES"
 msgstr ""
 
-#: ../../admin/config.rst:926
+#: ../../admin/config.rst:981
 msgid ""
 "The setting was renamed from ``MACHINE_TRANSLATION_SERVICES`` to "
 "``MT_SERVICES`` to be consistent with other machine translation settings."
 msgstr ""
 
-#: ../../admin/config.rst:929
+#: ../../admin/config.rst:984
 msgid "List of enabled machine translation services to use."
 msgstr ""
 
-#: ../../admin/config.rst:933
+#: ../../admin/config.rst:988
 msgid ""
 "Many of the services need additional configuration like API keys, please "
-"check their documentation ref: `machine` for more details."
+"check their documentation :ref:`machine-translation-setup` for more details."
 msgstr ""
 
-#: ../../admin/config.rst:956 ../../faq.rst:288
+#: ../../admin/config.rst:1011 ../../faq.rst:288
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:962
+#: ../../admin/config.rst:1017
 msgid "MT_APERTIUM_APY"
 msgstr ""
 
-#: ../../admin/config.rst:964
+#: ../../admin/config.rst:1019
 msgid ""
 "URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy"
 msgstr ""
 
-#: ../../admin/config.rst:968
+#: ../../admin/config.rst:1023
 msgid ""
 ":ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:973
+#: ../../admin/config.rst:1028
 msgid "MT_AWS_ACCESS_KEY_ID"
 msgstr ""
 
-#: ../../admin/config.rst:975
+#: ../../admin/config.rst:1030
 msgid "Access key ID for Amazon Translate."
 msgstr ""
 
-#: ../../admin/config.rst:979 ../../admin/config.rst:990
-#: ../../admin/config.rst:1001
+#: ../../admin/config.rst:1034 ../../admin/config.rst:1045
+#: ../../admin/config.rst:1056
 msgid ""
 ":ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:984
+#: ../../admin/config.rst:1039
 msgid "MT_AWS_SECRET_ACCESS_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:986
+#: ../../admin/config.rst:1041
 msgid "API secret key for Amazon Translate."
 msgstr ""
 
-#: ../../admin/config.rst:995
+#: ../../admin/config.rst:1050
 msgid "MT_AWS_REGION"
 msgstr ""
 
-#: ../../admin/config.rst:997
+#: ../../admin/config.rst:1052
 msgid "Region name to use for Amazon Translate."
 msgstr ""
 
-#: ../../admin/config.rst:1006
+#: ../../admin/config.rst:1061
 msgid "MT_BAIDU_ID"
 msgstr ""
 
-#: ../../admin/config.rst:1008
+#: ../../admin/config.rst:1063
 msgid ""
 "Client ID for the Baidu Zhiyun API, you can register at https://api.fanyi."
 "baidu.com/api/trans/product/index"
 msgstr ""
 
-#: ../../admin/config.rst:1012 ../../admin/config.rst:1023
+#: ../../admin/config.rst:1067 ../../admin/config.rst:1078
 msgid ""
 ":ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1017
+#: ../../admin/config.rst:1072
 msgid "MT_BAIDU_SECRET"
 msgstr ""
 
-#: ../../admin/config.rst:1019
+#: ../../admin/config.rst:1074
 msgid ""
 "Client secret for the Baidu Zhiyun API, you can register at https://api."
 "fanyi.baidu.com/api/trans/product/index"
 msgstr ""
 
-#: ../../admin/config.rst:1028
+#: ../../admin/config.rst:1083
 msgid "MT_DEEPL_API_VERSION"
 msgstr ""
 
-#: ../../admin/config.rst:1032
+#: ../../admin/config.rst:1087
 msgid ""
 "API version to use with DeepL service. The version limits scope of usage:"
 msgstr ""
 
-#: ../../admin/config.rst:1034
+#: ../../admin/config.rst:1089
 msgid "v1"
 msgstr ""
 
-#: ../../admin/config.rst:1035
+#: ../../admin/config.rst:1090
 msgid "Is meant for CAT tools and is usable with user-based subscription."
 msgstr ""
 
-#: ../../admin/config.rst:1037
+#: ../../admin/config.rst:1092
 msgid "v2"
 msgstr ""
 
-#: ../../admin/config.rst:1037
+#: ../../admin/config.rst:1092
 msgid "Is meant for API usage and the subscription is usage based."
 msgstr ""
 
-#: ../../admin/config.rst:1039
+#: ../../admin/config.rst:1094
 msgid ""
 "Previously Weblate was classified as a CAT tool by DeepL, so it was supposed "
 "to use the v1 API, but now is supposed to use the v2 API. Therefore it "
@@ -4725,41 +4752,41 @@ msgid ""
 "subscription and want Weblate to use that."
 msgstr ""
 
-#: ../../admin/config.rst:1046 ../../admin/config.rst:1057
+#: ../../admin/config.rst:1101 ../../admin/config.rst:1112
 msgid ""
 ":ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1051
+#: ../../admin/config.rst:1106
 msgid "MT_DEEPL_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1053
+#: ../../admin/config.rst:1108
 msgid ""
 "API key for the DeepL API, you can register at https://www.deepl.com/pro.html"
 msgstr ""
 
-#: ../../admin/config.rst:1062
+#: ../../admin/config.rst:1117
 msgid "MT_GOOGLE_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1064
+#: ../../admin/config.rst:1119
 msgid ""
 "API key for Google Translate API v2, you can register at https://cloud."
 "google.com/translate/docs"
 msgstr ""
 
-#: ../../admin/config.rst:1068
+#: ../../admin/config.rst:1123
 msgid ""
 ":ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1073
+#: ../../admin/config.rst:1128
 msgid "MT_GOOGLE_CREDENTIALS"
 msgstr ""
 
-#: ../../admin/config.rst:1075
+#: ../../admin/config.rst:1130
 msgid ""
 "API v3 JSON credentials file obtained in the Google cloud console. Please "
 "provide a full OS path. Credentials are per service-account affiliated with "
@@ -4767,65 +4794,65 @@ msgid ""
 "getting-started for more details."
 msgstr ""
 
-#: ../../admin/config.rst:1082
+#: ../../admin/config.rst:1137
 msgid "MT_GOOGLE_PROJECT"
 msgstr ""
 
-#: ../../admin/config.rst:1084
+#: ../../admin/config.rst:1139
 msgid ""
-"API v3 Google cloud `project id` with activated translation service and "
+"Google Cloud API v3 project id with activated translation service and "
 "billing activated. Please check https://cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project for more details"
 msgstr ""
 
-#: ../../admin/config.rst:1090
+#: ../../admin/config.rst:1145
 msgid "MT_GOOGLE_LOCATION"
 msgstr ""
 
-#: ../../admin/config.rst:1092
+#: ../../admin/config.rst:1147
 msgid ""
-"API v3 Google Cloud Application Engine may be specific to a location. Change "
+"API v3 Google Cloud App Engine may be specific to a location. Change "
 "accordingly if the default ``global`` fallback does not work for you."
 msgstr ""
 
-#: ../../admin/config.rst:1095
+#: ../../admin/config.rst:1150
 msgid ""
 "Please check https://cloud.google.com/appengine/docs/locations for more "
 "details"
 msgstr ""
 
-#: ../../admin/config.rst:1099
+#: ../../admin/config.rst:1154
 msgid ":ref:`google-translate-api3`"
 msgstr ""
 
-#: ../../admin/config.rst:1104
+#: ../../admin/config.rst:1159
 msgid "MT_MICROSOFT_BASE_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1106
+#: ../../admin/config.rst:1161
 msgid ""
 "Region base URL domain as defined in the `\"Base URLs\" section <https://"
 "docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
 "reference#base-urls>`_."
 msgstr ""
 
-#: ../../admin/config.rst:1109
+#: ../../admin/config.rst:1164
 msgid "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgstr ""
 
-#: ../../admin/config.rst:1111
+#: ../../admin/config.rst:1166
 msgid "For Azure China, please use ``api.translator.azure.cn``."
 msgstr ""
 
-#: ../../admin/config.rst:1116
+#: ../../admin/config.rst:1171
 msgid "MT_MICROSOFT_COGNITIVE_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1118
+#: ../../admin/config.rst:1173
 msgid "Client key for the Microsoft Cognitive Services Translator API."
 msgstr ""
 
-#: ../../admin/config.rst:1121
+#: ../../admin/config.rst:1176
 msgid ""
 ":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:"
 "`machine-translation`, `Cognitive Services - Text Translation API <https://"
@@ -4833,11 +4860,11 @@ msgid ""
 "`Microsoft Azure Portal <https://portal.azure.com/>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1128
+#: ../../admin/config.rst:1183
 msgid "MT_MICROSOFT_REGION"
 msgstr ""
 
-#: ../../admin/config.rst:1130
+#: ../../admin/config.rst:1185
 msgid ""
 "Region prefix as defined in the `\"Authenticating with a Multi-service "
 "resource\" <https://docs.microsoft.com/en-us/azure/cognitive-services/"
@@ -4845,11 +4872,11 @@ msgid ""
 "resource>`_ section."
 msgstr ""
 
-#: ../../admin/config.rst:1135
+#: ../../admin/config.rst:1190
 msgid "MT_MICROSOFT_ENDPOINT_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1137
+#: ../../admin/config.rst:1192
 msgid ""
 "Region endpoint URL domain for access token as defined in the `"
 "\"Authenticating with an access token\" section <https://docs.microsoft.com/"
@@ -4857,408 +4884,408 @@ msgid ""
 "reference#authenticating-with-an-access-token>`_."
 msgstr ""
 
-#: ../../admin/config.rst:1140
+#: ../../admin/config.rst:1195
 msgid "Defaults to ``api.cognitive.microsoft.com`` for Azure Global."
 msgstr ""
 
-#: ../../admin/config.rst:1142
+#: ../../admin/config.rst:1197
 msgid "For Azure China, please use your endpoint from the Azure Portal."
 msgstr ""
 
-#: ../../admin/config.rst:1148
+#: ../../admin/config.rst:1203
 msgid "MT_MODERNMT_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1150
+#: ../../admin/config.rst:1205
 #, fuzzy
 #| msgid "Translate"
 msgid "API key for the ModernMT machine translation engine."
 msgstr "បកប្រែ"
 
-#: ../../admin/config.rst:1154
+#: ../../admin/config.rst:1209
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
 msgstr ""
 
-#: ../../admin/config.rst:1160
+#: ../../admin/config.rst:1215
 msgid "MT_MODERNMT_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1162
+#: ../../admin/config.rst:1217
 msgid ""
 "URL of ModernMT. It defaults to ``https://api.modernmt.com/`` for the cloud "
 "service."
 msgstr ""
 
-#: ../../admin/config.rst:1167
+#: ../../admin/config.rst:1222
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_KEY`"
 msgstr ""
 
-#: ../../admin/config.rst:1174
+#: ../../admin/config.rst:1229
 msgid "MT_MYMEMORY_EMAIL"
 msgstr ""
 
-#: ../../admin/config.rst:1176
+#: ../../admin/config.rst:1231
 msgid ""
 "MyMemory identification e-mail address. It permits 1000 requests per day."
 msgstr ""
 
-#: ../../admin/config.rst:1180
+#: ../../admin/config.rst:1235
 msgid ""
 ":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`, `MyMemory: API technical specifications <https://mymemory."
 "translated.net/doc/spec.php>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1186
+#: ../../admin/config.rst:1241
 msgid "MT_MYMEMORY_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1188
+#: ../../admin/config.rst:1243
 msgid ""
 "MyMemory access key for private translation memory, use it with :setting:"
 "`MT_MYMEMORY_USER`."
 msgstr ""
 
-#: ../../admin/config.rst:1192 ../../admin/config.rst:1204
+#: ../../admin/config.rst:1247 ../../admin/config.rst:1259
 msgid ""
 ":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`, `MyMemory: API key generator <https://mymemory.translated.net/"
 "doc/keygen.php>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1198
+#: ../../admin/config.rst:1253
 msgid "MT_MYMEMORY_USER"
 msgstr ""
 
-#: ../../admin/config.rst:1200
+#: ../../admin/config.rst:1255
 msgid ""
 "MyMemory user ID for private translation memory, use it with :setting:"
 "`MT_MYMEMORY_KEY`."
 msgstr ""
 
-#: ../../admin/config.rst:1210
+#: ../../admin/config.rst:1265
 msgid "MT_NETEASE_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1212
+#: ../../admin/config.rst:1267
 msgid ""
 "App key for NetEase Sight API, you can register at https://sight.netease.com/"
 msgstr ""
 
-#: ../../admin/config.rst:1216 ../../admin/config.rst:1227
+#: ../../admin/config.rst:1271 ../../admin/config.rst:1282
 msgid ""
 ":ref:`netease-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1221
+#: ../../admin/config.rst:1276
 msgid "MT_NETEASE_SECRET"
 msgstr ""
 
-#: ../../admin/config.rst:1223
+#: ../../admin/config.rst:1278
 msgid ""
 "App secret for the NetEase Sight API, you can register at https://sight."
 "netease.com/"
 msgstr ""
 
-#: ../../admin/config.rst:1232
+#: ../../admin/config.rst:1287
 msgid "MT_TMSERVER"
 msgstr ""
 
-#: ../../admin/config.rst:1234
+#: ../../admin/config.rst:1289
 msgid "URL where tmserver is running."
 msgstr ""
 
-#: ../../admin/config.rst:1238
+#: ../../admin/config.rst:1293
 msgid ""
 ":ref:`tmserver`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`, :doc:`tt:commands/tmserver`"
 msgstr ""
 
-#: ../../admin/config.rst:1244
+#: ../../admin/config.rst:1299
 msgid "MT_YANDEX_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1246
+#: ../../admin/config.rst:1301
 msgid ""
-"API key for the Yandex Translate API, you can register at https://tech."
-"yandex.com/translate/"
+"API key for the Yandex Translate API, you can register at https://yandex.com/"
+"dev/translate/"
 msgstr ""
 
-#: ../../admin/config.rst:1250
+#: ../../admin/config.rst:1305
 msgid ""
 ":ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1255
+#: ../../admin/config.rst:1310
 msgid "MT_YOUDAO_ID"
 msgstr ""
 
-#: ../../admin/config.rst:1257
+#: ../../admin/config.rst:1312
 msgid ""
 "Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao."
 "com/product-fanyi-text.s."
 msgstr ""
 
-#: ../../admin/config.rst:1261 ../../admin/config.rst:1272
+#: ../../admin/config.rst:1316 ../../admin/config.rst:1327
 msgid ""
 ":ref:`youdao-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1266
+#: ../../admin/config.rst:1321
 msgid "MT_YOUDAO_SECRET"
 msgstr ""
 
-#: ../../admin/config.rst:1268
+#: ../../admin/config.rst:1323
 msgid ""
 "Client secret for the Youdao Zhiyun API, you can register at https://ai."
 "youdao.com/product-fanyi-text.s."
 msgstr ""
 
-#: ../../admin/config.rst:1277
+#: ../../admin/config.rst:1332
 msgid "MT_SAP_BASE_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1279
+#: ../../admin/config.rst:1334
 msgid "API URL to the SAP Translation Hub service."
 msgstr ""
 
-#: ../../admin/config.rst:1282 ../../admin/config.rst:1292
-#: ../../admin/config.rst:1302 ../../admin/config.rst:1312
-#: ../../admin/config.rst:1323
+#: ../../admin/config.rst:1337 ../../admin/config.rst:1347
+#: ../../admin/config.rst:1357 ../../admin/config.rst:1367
+#: ../../admin/config.rst:1378
 msgid ""
 ":ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1287
+#: ../../admin/config.rst:1342
 msgid "MT_SAP_SANDBOX_APIKEY"
 msgstr ""
 
-#: ../../admin/config.rst:1289
+#: ../../admin/config.rst:1344
 msgid "API key for sandbox API usage"
 msgstr ""
 
-#: ../../admin/config.rst:1297
+#: ../../admin/config.rst:1352
 msgid "MT_SAP_USERNAME"
 msgstr ""
 
-#: ../../admin/config.rst:1299
+#: ../../admin/config.rst:1354
 msgid "Your SAP username"
 msgstr ""
 
-#: ../../admin/config.rst:1307
+#: ../../admin/config.rst:1362
 msgid "MT_SAP_PASSWORD"
 msgstr ""
 
-#: ../../admin/config.rst:1309
+#: ../../admin/config.rst:1364
 msgid "Your SAP password"
 msgstr ""
 
-#: ../../admin/config.rst:1317
+#: ../../admin/config.rst:1372
 msgid "MT_SAP_USE_MT"
 msgstr ""
 
-#: ../../admin/config.rst:1319
+#: ../../admin/config.rst:1374
 msgid ""
 "Whether to also use machine translation services, in addition to the term "
 "database. Possible values: ``True`` or ``False``"
 msgstr ""
 
-#: ../../admin/config.rst:1328
+#: ../../admin/config.rst:1383
 msgid "NEARBY_MESSAGES"
 msgstr ""
 
-#: ../../admin/config.rst:1330
+#: ../../admin/config.rst:1385
 msgid ""
 "How many strings to show around the currently translated string. This is "
 "just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
 
-#: ../../admin/config.rst:1335
+#: ../../admin/config.rst:1390
 msgid "RATELIMIT_ATTEMPTS"
 msgstr ""
 
-#: ../../admin/config.rst:1339
+#: ../../admin/config.rst:1394
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
 
-#: ../../admin/config.rst:1341
+#: ../../admin/config.rst:1396
 msgid "Defaults to 5."
 msgstr ""
 
-#: ../../admin/config.rst:1345
+#: ../../admin/config.rst:1400
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
 
-#: ../../admin/config.rst:1352
+#: ../../admin/config.rst:1407
 msgid "RATELIMIT_WINDOW"
 msgstr ""
 
-#: ../../admin/config.rst:1356
+#: ../../admin/config.rst:1411
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr ""
 
-#: ../../admin/config.rst:1358
+#: ../../admin/config.rst:1413
 msgid "An amount of seconds defaulting to 300 (5 minutes)."
 msgstr ""
 
-#: ../../admin/config.rst:1362
+#: ../../admin/config.rst:1417
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
 msgstr ""
 
-#: ../../admin/config.rst:1369
+#: ../../admin/config.rst:1424
 msgid "RATELIMIT_LOCKOUT"
 msgstr ""
 
-#: ../../admin/config.rst:1373
+#: ../../admin/config.rst:1428
 msgid "How long authentication is locked after rate limiting applies."
 msgstr ""
 
-#: ../../admin/config.rst:1375
+#: ../../admin/config.rst:1430
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
 msgstr ""
 
-#: ../../admin/config.rst:1379
+#: ../../admin/config.rst:1434
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 msgstr ""
 
-#: ../../admin/config.rst:1386
+#: ../../admin/config.rst:1441
 msgid "REGISTRATION_ALLOW_BACKENDS"
 msgstr ""
 
-#: ../../admin/config.rst:1390
+#: ../../admin/config.rst:1445
 msgid ""
 "List of authentication backends to allow registration from in case it is "
 "otherwise disabled by :setting:`REGISTRATION_OPEN`."
 msgstr ""
 
-#: ../../admin/config.rst:1401
+#: ../../admin/config.rst:1456
 msgid "The backend names match names used in URL for authentication."
 msgstr ""
 
-#: ../../admin/config.rst:1405
+#: ../../admin/config.rst:1460
 msgid ":setting:`REGISTRATION_OPEN`"
 msgstr ""
 
-#: ../../admin/config.rst:1410
+#: ../../admin/config.rst:1465
 msgid "REGISTRATION_CAPTCHA"
 msgstr ""
 
-#: ../../admin/config.rst:1412
+#: ../../admin/config.rst:1467
 msgid ""
 "A value of either ``True`` or ``False`` indicating whether registration of "
 "new accounts is protected by CAPTCHA. This setting is optional, and a "
 "default of ``True`` will be assumed if it is not supplied."
 msgstr ""
 
-#: ../../admin/config.rst:1416
+#: ../../admin/config.rst:1471
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
 
-#: ../../admin/config.rst:1418
+#: ../../admin/config.rst:1473
 msgid "New account registration."
 msgstr ""
 
-#: ../../admin/config.rst:1419
+#: ../../admin/config.rst:1474
 msgid "Password recovery."
 msgstr ""
 
-#: ../../admin/config.rst:1420
+#: ../../admin/config.rst:1475
 msgid "Adding e-mail to an account."
 msgstr ""
 
-#: ../../admin/config.rst:1421
+#: ../../admin/config.rst:1476
 msgid "Contact form for users that are not signed in."
 msgstr ""
 
-#: ../../admin/config.rst:1426
+#: ../../admin/config.rst:1481
 msgid "REGISTRATION_EMAIL_MATCH"
 msgstr ""
 
-#: ../../admin/config.rst:1430
+#: ../../admin/config.rst:1485
 msgid "Allows you to filter which e-mail addresses can register."
 msgstr ""
 
-#: ../../admin/config.rst:1432
+#: ../../admin/config.rst:1487
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
 
-#: ../../admin/config.rst:1434
+#: ../../admin/config.rst:1489
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
 
-#: ../../admin/config.rst:1443
+#: ../../admin/config.rst:1498
 msgid "REGISTRATION_OPEN"
 msgstr ""
 
-#: ../../admin/config.rst:1445
+#: ../../admin/config.rst:1500
 msgid ""
 "Whether registration of new accounts is currently permitted. This optional "
 "setting can remain the default ``True``, or changed to ``False``."
 msgstr ""
 
-#: ../../admin/config.rst:1448
+#: ../../admin/config.rst:1503
 msgid ""
 "This setting affects built-in authentication by e-mail address or through "
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
 
-#: ../../admin/config.rst:1454
+#: ../../admin/config.rst:1509
 msgid ""
 "If using third-party authentication methods such as :ref:`ldap-auth`, it "
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
 
-#: ../../admin/config.rst:1460
+#: ../../admin/config.rst:1515
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
 msgstr ""
 
-#: ../../admin/config.rst:1466
+#: ../../admin/config.rst:1521
 msgid "REPOSITORY_ALERT_THRESHOLD"
 msgstr ""
 
-#: ../../admin/config.rst:1470
+#: ../../admin/config.rst:1525
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
 
-#: ../../admin/config.rst:1475
+#: ../../admin/config.rst:1530
 msgid ":ref:`alerts`"
 msgstr ""
 
-#: ../../admin/config.rst:1480
+#: ../../admin/config.rst:1535
 msgid "SENTRY_DSN"
 msgstr ""
 
-#: ../../admin/config.rst:1484
+#: ../../admin/config.rst:1539
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr ""
 
-#: ../../admin/config.rst:1488
+#: ../../admin/config.rst:1543
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "django/>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1493
+#: ../../admin/config.rst:1548
 msgid "SIMPLIFY_LANGUAGES"
 msgstr ""
 
-#: ../../admin/config.rst:1495
+#: ../../admin/config.rst:1550
 msgid ""
 "Use simple language codes for default language/country combinations. For "
 "example an ``fr_FR`` translation will use the ``fr`` language code. This is "
@@ -5266,75 +5293,75 @@ msgid ""
 "default combinations."
 msgstr ""
 
-#: ../../admin/config.rst:1500
+#: ../../admin/config.rst:1555
 msgid "Turn this off if you want to different translations for each variant."
 msgstr ""
 
-#: ../../admin/config.rst:1505
+#: ../../admin/config.rst:1560
 msgid "SITE_DOMAIN"
 msgstr ""
 
-#: ../../admin/config.rst:1507
+#: ../../admin/config.rst:1562
 msgid ""
 "Configures site domain. This is necessary to produce correct absolute links "
 "in many scopes (for example activation e-mails, notifications or RSS feeds)."
 msgstr ""
 
-#: ../../admin/config.rst:1510
+#: ../../admin/config.rst:1565
 msgid ""
 "In case Weblate is running on non-standard port, include it here as well."
 msgstr ""
 
-#: ../../admin/config.rst:1512
+#: ../../admin/config.rst:1567
 msgid "**Examples:**"
 msgstr ""
 
-#: ../../admin/config.rst:1524
+#: ../../admin/config.rst:1579
 msgid ""
 "This setting should only contain the domain name. For configuring protocol, "
 "(enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing "
 "URL, use :setting:`URL_PREFIX`."
 msgstr ""
 
-#: ../../admin/config.rst:1530
+#: ../../admin/config.rst:1585
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
 
-#: ../../admin/config.rst:1535
+#: ../../admin/config.rst:1590
 msgid ""
 ":ref:`production-site`, :ref:`production-hosts`, :ref:`production-ssl` :"
 "envvar:`WEBLATE_SITE_DOMAIN`, :setting:`ENABLE_HTTPS`"
 msgstr ""
 
-#: ../../admin/config.rst:1544
+#: ../../admin/config.rst:1599
 msgid "SITE_TITLE"
 msgstr ""
 
-#: ../../admin/config.rst:1546
+#: ../../admin/config.rst:1601
 msgid "Site title to be used for the website and sent e-mails."
 msgstr ""
 
-#: ../../admin/config.rst:1551
+#: ../../admin/config.rst:1606
 msgid "SPECIAL_CHARS"
 msgstr ""
 
-#: ../../admin/config.rst:1553
+#: ../../admin/config.rst:1608
 msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
 msgstr ""
 
-#: ../../admin/config.rst:1555
+#: ../../admin/config.rst:1610
 msgid "The default value is:"
 msgstr ""
 
-#: ../../admin/config.rst:1564
+#: ../../admin/config.rst:1619
 msgid "SINGLE_PROJECT"
 msgstr ""
 
-#: ../../admin/config.rst:1568
+#: ../../admin/config.rst:1623
 msgid ""
 "Redirects users directly to a project or component instead of showing the "
 "dashboard. You can either set it to ``True`` and in this case it only works "
@@ -5342,86 +5369,86 @@ msgid ""
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
 
-#: ../../admin/config.rst:1575
+#: ../../admin/config.rst:1630
 msgid ""
 "The setting now also accepts a project slug, to force displaying that single "
 "project."
 msgstr ""
 
-#: ../../admin/config.rst:1587
+#: ../../admin/config.rst:1642
 msgid "STATUS_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1589
+#: ../../admin/config.rst:1644
 msgid "The URL where your Weblate instance reports its status."
 msgstr ""
 
-#: ../../admin/config.rst:1594
+#: ../../admin/config.rst:1649
 msgid "SUGGESTION_CLEANUP_DAYS"
 msgstr ""
 
-#: ../../admin/config.rst:1598
+#: ../../admin/config.rst:1653
 msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr ""
 
-#: ../../admin/config.rst:1604
+#: ../../admin/config.rst:1659
 msgid "URL_PREFIX"
 msgstr ""
 
-#: ../../admin/config.rst:1606
+#: ../../admin/config.rst:1661
 msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
 msgstr ""
 
-#: ../../admin/config.rst:1611
+#: ../../admin/config.rst:1666
 msgid ""
 "To use this setting, you also need to configure your server to strip this "
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
 
-#: ../../admin/config.rst:1616
+#: ../../admin/config.rst:1671
 msgid "The prefix should start with a ``/``."
 msgstr ""
 
-#: ../../admin/config.rst:1626
+#: ../../admin/config.rst:1681
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
 msgstr ""
 
-#: ../../admin/config.rst:1632
+#: ../../admin/config.rst:1687
 msgid "VCS_BACKENDS"
 msgstr ""
 
-#: ../../admin/config.rst:1634
+#: ../../admin/config.rst:1689
 msgid "Configuration of available VCS backends."
 msgstr ""
 
-#: ../../admin/config.rst:1638
+#: ../../admin/config.rst:1693
 msgid "Weblate tries to use all supported back-ends you have the tools for."
 msgstr ""
 
-#: ../../admin/config.rst:1642
+#: ../../admin/config.rst:1697
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
 
-#: ../../admin/config.rst:1652 ../../faq.rst:441
+#: ../../admin/config.rst:1707 ../../faq.rst:441
 msgid ":ref:`vcs`"
 msgstr ""
 
-#: ../../admin/config.rst:1657
+#: ../../admin/config.rst:1712
 msgid "VCS_CLONE_DEPTH"
 msgstr ""
 
-#: ../../admin/config.rst:1661
+#: ../../admin/config.rst:1716
 msgid "Configures how deep cloning of repositories Weblate should do."
 msgstr ""
 
-#: ../../admin/config.rst:1665
+#: ../../admin/config.rst:1720
 msgid ""
 "Currently this is only supported in :ref:`vcs-git`. By default Weblate does "
 "shallow clones of the repositories to make cloning faster and save disk "
@@ -5430,18 +5457,18 @@ msgid ""
 "completely by setting this to 0."
 msgstr ""
 
-#: ../../admin/config.rst:1672
+#: ../../admin/config.rst:1727
 msgid ""
 "In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow "
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
 
-#: ../../admin/config.rst:1682
+#: ../../admin/config.rst:1737
 msgid "WEBLATE_ADDONS"
 msgstr ""
 
-#: ../../admin/config.rst:1684
+#: ../../admin/config.rst:1739
 msgid ""
 "List of addons available for use. To use them, they have to be enabled for a "
 "given translation component. By default this includes all built-in addons, "
@@ -5449,53 +5476,53 @@ msgid ""
 "enabled, for example:"
 msgstr ""
 
-#: ../../admin/config.rst:1724 ../../admin/management.rst:571
+#: ../../admin/config.rst:1779 ../../admin/management.rst:571
 msgid ":ref:`addons`"
 msgstr ""
 
-#: ../../admin/config.rst:1729
+#: ../../admin/config.rst:1784
 msgid "WEBLATE_EXPORTERS"
 msgstr ""
 
-#: ../../admin/config.rst:1733
+#: ../../admin/config.rst:1788
 msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
 msgstr ""
 
-#: ../../admin/config.rst:1738 ../../admin/config.rst:1755
+#: ../../admin/config.rst:1793 ../../admin/config.rst:1810
 #: ../../user/files.rst:47
 msgid ":ref:`formats`"
 msgstr ""
 
-#: ../../admin/config.rst:1743
+#: ../../admin/config.rst:1798
 msgid "WEBLATE_FORMATS"
 msgstr ""
 
-#: ../../admin/config.rst:1747
+#: ../../admin/config.rst:1802
 msgid "List of file formats available for use."
 msgstr ""
 
-#: ../../admin/config.rst:1751
+#: ../../admin/config.rst:1806
 msgid "The default list already has the common formats."
 msgstr ""
 
-#: ../../admin/config.rst:1760
+#: ../../admin/config.rst:1815
 msgid "WEBLATE_GPG_IDENTITY"
 msgstr ""
 
-#: ../../admin/config.rst:1764
+#: ../../admin/config.rst:1819
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
 
-#: ../../admin/config.rst:1770
+#: ../../admin/config.rst:1825
 msgid ""
 "The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` "
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
 
-#: ../../admin/config.rst:1776 ../../admin/install/docker.rst:541
+#: ../../admin/config.rst:1831 ../../admin/install/docker.rst:541
 msgid ":ref:`gpg-sign`"
 msgstr ""
 
@@ -5873,6 +5900,11 @@ msgstr ""
 msgid "GitHub pull request from fork"
 msgstr ""
 
+#: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
+#: ../../admin/install/docker.rst:470 ../../admin/install/docker.rst:479
+msgid ":ref:`vcs-github`"
+msgstr ""
+
 #: ../../admin/continuous.rst:285
 msgid "GitHub pull request from branch"
 msgstr ""
@@ -5883,6 +5915,12 @@ msgstr ""
 
 #: ../../admin/continuous.rst:287
 msgid "GitLab merge request from fork"
+msgstr ""
+
+#: ../../admin/continuous.rst:287 ../../admin/continuous.rst:289
+#: ../../admin/install/docker.rst:488 ../../admin/install/docker.rst:497
+#: ../../admin/install/docker.rst:505
+msgid ":ref:`vcs-gitlab`"
 msgstr ""
 
 #: ../../admin/continuous.rst:289
@@ -8685,7 +8723,7 @@ msgstr ""
 msgid "Enables :ref:`google_auth`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:772 ../../vcs.rst:291
+#: ../../admin/install/docker.rst:772 ../../vcs.rst:293
 msgid "GitLab"
 msgstr ""
 
@@ -9678,7 +9716,7 @@ msgid ""
 "Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
 
-#: ../../admin/machine.rst:29 ../../changes.rst:1490
+#: ../../admin/machine.rst:29 ../../changes.rst:1491
 msgid "Apertium"
 msgstr ""
 
@@ -9972,7 +10010,7 @@ msgid ""
 "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgstr ""
 
-#: ../../admin/machine.rst:240 ../../changes.rst:1492
+#: ../../admin/machine.rst:240 ../../changes.rst:1493
 msgid "MyMemory"
 msgstr ""
 
@@ -12981,8 +13019,8 @@ msgstr ""
 msgid ""
 "Once automatic acceptance is set up, normal users lose the privilege to "
 "directly save translations or accept suggestions. This can be overridden "
-"with the :guilabel:`Can override suggestion state` privilege (see :ref:"
-"`privileges`)."
+"with the :guilabel:`Edit string when suggestions are enforced` privilege "
+"(see :ref:`privileges`)."
 msgstr ""
 
 #: ../../admin/translating.rst:23
@@ -15668,4723 +15706,4727 @@ msgstr ""
 msgid "Machinery is now called automatic suggestions."
 msgstr ""
 
-#: ../../changes.rst:21
+#: ../../changes.rst:19
+msgid "Added support for interacting with multiple GitLab or GitHub instances."
+msgstr ""
+
+#: ../../changes.rst:22
 #, fuzzy
 #| msgid "Translation status"
 msgid "Weblate 4.2.2"
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
-#: ../../changes.rst:23
+#: ../../changes.rst:24
 msgid "Released on September 2nd 2020."
 msgstr ""
 
-#: ../../changes.rst:25
+#: ../../changes.rst:26
 #, fuzzy
 #| msgid "No matching checks found!"
 msgid "Fixed matching of source strings for JSON formats."
 msgstr "ការ​ពិនិត្យ​ដែលផ្គូផ្គងរកមិនឃេីញ!"
 
-#: ../../changes.rst:26
+#: ../../changes.rst:27
 msgid "Fixed login redirect for some authentication configurations."
 msgstr ""
 
-#: ../../changes.rst:27
+#: ../../changes.rst:28
 msgid "Fixed LDAP authentication with group sync."
 msgstr ""
 
-#: ../../changes.rst:28
+#: ../../changes.rst:29
 #, fuzzy
 #| msgid "Translate"
 msgid "Fixed crash in reporting automatic translation progress."
 msgstr "បកប្រែ"
 
-#: ../../changes.rst:29
+#: ../../changes.rst:30
 msgid "Fixed Git commit squashing with trailers enabled."
 msgstr ""
 
-#: ../../changes.rst:30
+#: ../../changes.rst:31
 msgid "Fixed creating local VCS components using API."
 msgstr ""
 
-#: ../../changes.rst:33
+#: ../../changes.rst:34
 msgid "Weblate 4.2.1"
 msgstr ""
 
-#: ../../changes.rst:35
+#: ../../changes.rst:36
 msgid "Released on August 21st 2020."
 msgstr ""
 
-#: ../../changes.rst:37
+#: ../../changes.rst:38
 msgid "Fixed saving plurals for some locales in Android resources."
 msgstr ""
 
-#: ../../changes.rst:38
+#: ../../changes.rst:39
 msgid "Fixed crash in the cleanup addon for some XLIFF files."
 msgstr ""
 
-#: ../../changes.rst:39
+#: ../../changes.rst:40
 msgid "Allow to configure localization CDN in Docker image."
 msgstr ""
 
-#: ../../changes.rst:42
+#: ../../changes.rst:43
 msgid "Weblate 4.2"
 msgstr ""
 
-#: ../../changes.rst:44
+#: ../../changes.rst:45
 msgid "Released on August 18th 2020."
 msgstr ""
 
-#: ../../changes.rst:46
+#: ../../changes.rst:47
 msgid "Improved user pages and added listing of users."
 msgstr ""
 
-#: ../../changes.rst:47
+#: ../../changes.rst:48
 msgid ""
 "Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0."
 msgstr ""
 
-#: ../../changes.rst:48
+#: ../../changes.rst:49
 msgid "Added exports into several monolingual formats."
 msgstr ""
 
-#: ../../changes.rst:49
+#: ../../changes.rst:50
 msgid "Improved activity charts."
 msgstr ""
 
-#: ../../changes.rst:50
+#: ../../changes.rst:51
 msgid "Number of displayed nearby strings can be configured."
 msgstr ""
 
-#: ../../changes.rst:51
+#: ../../changes.rst:52
 msgid "Added support for locking components experiencing repository errors."
 msgstr ""
 
-#: ../../changes.rst:52
+#: ../../changes.rst:53
 msgid "Simplified main navigation (replaced buttons with icons)."
 msgstr ""
 
-#: ../../changes.rst:53
+#: ../../changes.rst:54
 msgid "Improved language code handling in Google Translate integration."
 msgstr ""
 
-#: ../../changes.rst:54
+#: ../../changes.rst:55
 msgid "The Git squash addon can generate ``Co-authored-by:`` trailers."
 msgstr ""
 
-#: ../../changes.rst:55
+#: ../../changes.rst:56
 msgid "Improved query search parser."
 msgstr ""
 
-#: ../../changes.rst:56
+#: ../../changes.rst:57
 msgid "Improved user feedback from format strings checks."
 msgstr ""
 
-#: ../../changes.rst:57
+#: ../../changes.rst:58
 msgid "Improved performance of bulk state changes."
 msgstr ""
 
-#: ../../changes.rst:58
+#: ../../changes.rst:59
 msgid "Added compatibility redirects after project or component renaming."
 msgstr ""
 
-#: ../../changes.rst:59
+#: ../../changes.rst:60
 msgid ""
 "Added notifications for strings approval, component locking and license "
 "change."
 msgstr ""
 
-#: ../../changes.rst:60
+#: ../../changes.rst:61
 msgid "Added support for ModernMT."
 msgstr ""
 
-#: ../../changes.rst:61
+#: ../../changes.rst:62
 msgid "Allow to avoid overwriting approved translations on file upload."
 msgstr ""
 
-#: ../../changes.rst:62
+#: ../../changes.rst:63
 msgid "Dropped support for some compatibility URL redirects."
 msgstr ""
 
-#: ../../changes.rst:63
+#: ../../changes.rst:64
 #, fuzzy
 #| msgid "Translation status"
 msgid "Added check for ECMAScript template literals."
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
-#: ../../changes.rst:64
+#: ../../changes.rst:65
 #, fuzzy
 #| msgid "Translate"
 msgid "Added option to watch a component."
 msgstr "បកប្រែ"
 
-#: ../../changes.rst:65
+#: ../../changes.rst:66
 msgid "Removed leading dot from JSON unit keys."
 msgstr ""
 
-#: ../../changes.rst:66
+#: ../../changes.rst:67
 #, fuzzy
 #| msgid "Translation status"
 msgid "Removed separate Celery queue for translation memory."
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
-#: ../../changes.rst:67
+#: ../../changes.rst:68
 #, fuzzy
 #| msgid "Translate"
 msgid "Allow translating all components a language at once."
 msgstr "បកប្រែ"
 
-#: ../../changes.rst:68
+#: ../../changes.rst:69
 msgid "Allow to configure ``Content-Security-Policy`` HTTP headers."
 msgstr ""
 
-#: ../../changes.rst:69
+#: ../../changes.rst:70
 msgid "Added support for aliasing languages at project level."
 msgstr ""
 
-#: ../../changes.rst:70
+#: ../../changes.rst:71
 msgid ""
 "New addon to help with HTML or JavaScript localization, see :ref:`addon-"
 "weblate.cdn.cdnjs`."
 msgstr ""
 
-#: ../../changes.rst:71
+#: ../../changes.rst:72
 msgid ""
 "The Weblate domain is now configured in the settings, see :setting:"
 "`SITE_DOMAIN`."
 msgstr ""
 
-#: ../../changes.rst:72
+#: ../../changes.rst:73
 msgid "Add support for searching by component and project."
 msgstr ""
 
-#: ../../changes.rst:75
+#: ../../changes.rst:76
 msgid "Weblate 4.1.1"
 msgstr ""
 
-#: ../../changes.rst:77
+#: ../../changes.rst:78
 msgid "Released on June 19th 2020."
 msgstr ""
 
-#: ../../changes.rst:79
+#: ../../changes.rst:80
 msgid "Fixed changing autofix or addons configuration in Docker."
 msgstr ""
 
-#: ../../changes.rst:80
+#: ../../changes.rst:81
 msgid "Fixed possible crash in \"About\" page."
 msgstr ""
 
-#: ../../changes.rst:81
+#: ../../changes.rst:82
 msgid "Improved installation of byte-compiled locale files."
 msgstr ""
 
-#: ../../changes.rst:82
+#: ../../changes.rst:83
 msgid "Fixed adding words to glossary."
 msgstr ""
 
-#: ../../changes.rst:83
+#: ../../changes.rst:84
 msgid "Fixed keyboard shortcuts for machinery."
 msgstr ""
 
-#: ../../changes.rst:84
+#: ../../changes.rst:85
 msgid "Removed debugging output causing discarding log events in some setups."
 msgstr ""
 
-#: ../../changes.rst:85
+#: ../../changes.rst:86
 msgid "Fixed lock indication on project listing."
 msgstr ""
 
-#: ../../changes.rst:86
+#: ../../changes.rst:87
 msgid "Fixed listing GPG keys in some setups."
 msgstr ""
 
-#: ../../changes.rst:87
+#: ../../changes.rst:88
 msgid "Added option for which DeepL API version to use."
 msgstr ""
 
-#: ../../changes.rst:88
+#: ../../changes.rst:89
 msgid ""
 "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
 msgstr ""
 
-#: ../../changes.rst:91
+#: ../../changes.rst:92
 msgid "Weblate 4.1"
 msgstr ""
 
-#: ../../changes.rst:93
+#: ../../changes.rst:94
 msgid "Released on June 15th 2020."
 msgstr ""
 
-#: ../../changes.rst:95
+#: ../../changes.rst:96
 msgid "Added support for creating new translations with included country code."
 msgstr ""
 
-#: ../../changes.rst:96
+#: ../../changes.rst:97
 msgid "Added support for searching source strings with screenshot."
 msgstr ""
 
-#: ../../changes.rst:97
+#: ../../changes.rst:98
 msgid "Extended info available in the stats insights."
 msgstr ""
 
-#: ../../changes.rst:98
+#: ../../changes.rst:99
 msgid "Improved search editing on \"Translate\" pages."
 msgstr ""
 
-#: ../../changes.rst:99
+#: ../../changes.rst:100
 msgid "Improve handling of concurrent repository updates."
 msgstr ""
 
-#: ../../changes.rst:100
+#: ../../changes.rst:101
 msgid "Include source language in project creation form."
 msgstr ""
 
-#: ../../changes.rst:101
+#: ../../changes.rst:102
 msgid "Include changes count in credits."
 msgstr ""
 
-#: ../../changes.rst:102
+#: ../../changes.rst:103
 msgid "Fixed UI language selection in some cases."
 msgstr ""
 
-#: ../../changes.rst:103
+#: ../../changes.rst:104
 msgid "Allow to whitelist registration methods with registrations closed."
 msgstr ""
 
-#: ../../changes.rst:104
+#: ../../changes.rst:105
 msgid "Improved lookup of related terms in glossary."
 msgstr ""
 
-#: ../../changes.rst:105
+#: ../../changes.rst:106
 msgid "Improved translation memory matches."
 msgstr ""
 
-#: ../../changes.rst:106
+#: ../../changes.rst:107
 msgid "Group same machinery results."
 msgstr ""
 
-#: ../../changes.rst:107
+#: ../../changes.rst:108
 msgid "Add direct link to edit screenshot from translate page."
 msgstr ""
 
-#: ../../changes.rst:108
+#: ../../changes.rst:109
 msgid "Improved removal confirmation dialog."
 msgstr ""
 
-#: ../../changes.rst:109
+#: ../../changes.rst:110
 msgid "Include templates in ZIP download."
 msgstr ""
 
-#: ../../changes.rst:110
+#: ../../changes.rst:111
 msgid ""
 "Add support for Markdown and notification configuration in announcements."
 msgstr ""
 
-#: ../../changes.rst:111
+#: ../../changes.rst:112
 msgid "Extended details in check listings."
 msgstr ""
 
-#: ../../changes.rst:112
+#: ../../changes.rst:113
 msgid ""
 "Added support for new file formats: :ref:`laravel-php`, :ref:`html`, :ref:"
 "`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:"
 "`go-i18n-json`, :ref:`arb`."
 msgstr ""
 
-#: ../../changes.rst:113
+#: ../../changes.rst:114
 msgid "Consistently use dismissed as state of dismissed checks."
 msgstr ""
 
-#: ../../changes.rst:114
+#: ../../changes.rst:115
 msgid "Add support for configuring default addons to enable."
 msgstr ""
 
-#: ../../changes.rst:115
+#: ../../changes.rst:116
 msgid "Fixed editor keyboard shortcut to dismiss checks."
 msgstr ""
 
-#: ../../changes.rst:116
+#: ../../changes.rst:117
 msgid "Improved machine translation of strings with placeholders."
 msgstr ""
 
-#: ../../changes.rst:117
+#: ../../changes.rst:118
 msgid "Show ghost translation for user languages to ease starting them."
 msgstr ""
 
-#: ../../changes.rst:118
+#: ../../changes.rst:119
 msgid "Improved language code parsing."
 msgstr ""
 
-#: ../../changes.rst:119
+#: ../../changes.rst:120
 msgid "Show translations in user language first in the list."
 msgstr ""
 
-#: ../../changes.rst:120
+#: ../../changes.rst:121
 msgid "Renamed shapings to more generic name variants."
 msgstr ""
 
-#: ../../changes.rst:121
+#: ../../changes.rst:122
 msgid ""
 "Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-"
 "untranslated`, :ref:`check-duplicate`."
 msgstr ""
 
-#: ../../changes.rst:122
+#: ../../changes.rst:123
 msgid "Reintroduced support for wiping translation memory."
 msgstr ""
 
-#: ../../changes.rst:123
+#: ../../changes.rst:124
 msgid "Fixed option to ignore source checks."
 msgstr ""
 
-#: ../../changes.rst:124
+#: ../../changes.rst:125
 msgid "Added support for configuring different branch for pushing changes."
 msgstr ""
 
-#: ../../changes.rst:125
+#: ../../changes.rst:126
 msgid "API now reports rate limiting status in the HTTP headers."
 msgstr ""
 
-#: ../../changes.rst:126
+#: ../../changes.rst:127
 msgid "Added support for Google Translate V3 API (Advanced)."
 msgstr ""
 
-#: ../../changes.rst:127
+#: ../../changes.rst:128
 msgid "Added ability to restrict access on component level."
 msgstr ""
 
-#: ../../changes.rst:128
+#: ../../changes.rst:129
 msgid ""
 "Added support for whitespace and other special chars in translation flags, "
 "see :ref:`custom-checks`."
 msgstr ""
 
-#: ../../changes.rst:129
+#: ../../changes.rst:130
 msgid "Always show rendered text check if enabled."
 msgstr ""
 
-#: ../../changes.rst:130
+#: ../../changes.rst:131
 msgid "API now supports filtering of changes."
 msgstr ""
 
-#: ../../changes.rst:131
+#: ../../changes.rst:132
 msgid "Added support for sharing glossaries between projects."
 msgstr ""
 
-#: ../../changes.rst:134
+#: ../../changes.rst:135
 msgid "Weblate 4.0.4"
 msgstr ""
 
-#: ../../changes.rst:136
+#: ../../changes.rst:137
 msgid "Released on May 07th 2020."
 msgstr ""
 
-#: ../../changes.rst:138
+#: ../../changes.rst:139
 msgid "Fixed testsuite execution on some Python 3.8 environments."
 msgstr ""
 
-#: ../../changes.rst:139
+#: ../../changes.rst:140
 msgid "Typo fixes in the documentation."
 msgstr ""
 
-#: ../../changes.rst:140
+#: ../../changes.rst:141
 msgid "Fixed creating components using API in some cases."
 msgstr ""
 
-#: ../../changes.rst:141
+#: ../../changes.rst:142
 msgid "Fixed JavaScript errors breaking mobile navigation."
 msgstr ""
 
-#: ../../changes.rst:142
+#: ../../changes.rst:143
 msgid "Fixed crash on displaying some checks."
 msgstr ""
 
-#: ../../changes.rst:143
+#: ../../changes.rst:144
 msgid "Fixed screenshots listing."
 msgstr ""
 
-#: ../../changes.rst:144
+#: ../../changes.rst:145
 msgid "Fixed monthly digest notifications."
 msgstr ""
 
-#: ../../changes.rst:145
+#: ../../changes.rst:146
 msgid ""
 "Fixed intermediate translation behavior with units non existing in "
 "translation."
 msgstr ""
 
-#: ../../changes.rst:148
+#: ../../changes.rst:149
 msgid "Weblate 4.0.3"
 msgstr ""
 
-#: ../../changes.rst:150
+#: ../../changes.rst:151
 msgid "Released on May 02nd 2020."
 msgstr ""
 
-#: ../../changes.rst:152
+#: ../../changes.rst:153
 msgid "Fixed possible crash in reports."
 msgstr ""
 
-#: ../../changes.rst:153
+#: ../../changes.rst:154
 msgid "User mentions in comments are now case insensitive."
 msgstr ""
 
-#: ../../changes.rst:154
+#: ../../changes.rst:155
 msgid "Fixed PostgreSQL migration for non superusers."
 msgstr ""
 
-#: ../../changes.rst:155
+#: ../../changes.rst:156
 msgid "Fixed changing the repository URL while creating component."
 msgstr ""
 
-#: ../../changes.rst:156
+#: ../../changes.rst:157
 msgid "Fixed crash when upstream repository is gone."
 msgstr ""
 
-#: ../../changes.rst:159
+#: ../../changes.rst:160
 msgid "Weblate 4.0.2"
 msgstr ""
 
-#: ../../changes.rst:161
+#: ../../changes.rst:162
 msgid "Released on April 27th 2020."
 msgstr ""
 
-#: ../../changes.rst:163
+#: ../../changes.rst:164
 msgid "Improved performance of translation stats."
 msgstr ""
 
-#: ../../changes.rst:164
+#: ../../changes.rst:165
 msgid "Improved performance of changing labels."
 msgstr ""
 
-#: ../../changes.rst:165
+#: ../../changes.rst:166
 msgid "Improved bulk edit performance."
 msgstr ""
 
-#: ../../changes.rst:166
+#: ../../changes.rst:167
 msgid "Improved translation memory performance."
 msgstr ""
 
-#: ../../changes.rst:167
+#: ../../changes.rst:168
 msgid "Fixed possible crash on component deletion."
 msgstr ""
 
-#: ../../changes.rst:168
+#: ../../changes.rst:169
 msgid "Fixed displaying of translation changes in some corner cases."
 msgstr ""
 
-#: ../../changes.rst:169
+#: ../../changes.rst:170
 msgid "Improved warning about too long celery queue."
 msgstr ""
 
-#: ../../changes.rst:170
+#: ../../changes.rst:171
 msgid "Fixed possible false positives in the consistency check."
 msgstr ""
 
-#: ../../changes.rst:171
+#: ../../changes.rst:172
 msgid "Fixed deadlock when changing linked component repository."
 msgstr ""
 
-#: ../../changes.rst:172
+#: ../../changes.rst:173
 msgid "Included edit distance in changes listing and CSV and reports."
 msgstr ""
 
-#: ../../changes.rst:173
+#: ../../changes.rst:174
 msgid "Avoid false positives of punctuation spacing check for Canadian French."
 msgstr ""
 
-#: ../../changes.rst:174
+#: ../../changes.rst:175
 msgid "Fixed XLIFF export with placeholders."
 msgstr ""
 
-#: ../../changes.rst:175
+#: ../../changes.rst:176
 msgid "Fixed false positive with zero width check."
 msgstr ""
 
-#: ../../changes.rst:176
+#: ../../changes.rst:177
 msgid "Improved reporting of configuration errors."
 msgstr ""
 
-#: ../../changes.rst:177
+#: ../../changes.rst:178
 msgid "Fixed bilingual source upload."
 msgstr ""
 
-#: ../../changes.rst:178
+#: ../../changes.rst:179
 msgid "Automatically detect supported languages for DeepL machine translation."
 msgstr ""
 
-#: ../../changes.rst:179
+#: ../../changes.rst:180
 msgid "Fixed progress bar display in some corner cases."
 msgstr ""
 
-#: ../../changes.rst:180
+#: ../../changes.rst:181
 msgid "Fixed some checks triggering on non translated strings."
 msgstr ""
 
-#: ../../changes.rst:183
+#: ../../changes.rst:184
 msgid "Weblate 4.0.1"
 msgstr ""
 
-#: ../../changes.rst:185 ../../changes.rst:192
+#: ../../changes.rst:186 ../../changes.rst:193
 msgid "Released on April 16th 2020."
 msgstr ""
 
-#: ../../changes.rst:187
+#: ../../changes.rst:188
 msgid "Fixed package installation from PyPI."
 msgstr ""
 
-#: ../../changes.rst:190
+#: ../../changes.rst:191
 msgid "Weblate 4.0"
 msgstr ""
 
-#: ../../changes.rst:194
+#: ../../changes.rst:195
 msgid "Weblate now requires Python 3.6 or newer."
 msgstr ""
 
-#: ../../changes.rst:195
+#: ../../changes.rst:196
 msgid "Added management overview of component alerts."
 msgstr ""
 
-#: ../../changes.rst:196
+#: ../../changes.rst:197
 msgid "Added component alert for broken repository browser URLs."
 msgstr ""
 
-#: ../../changes.rst:197
+#: ../../changes.rst:198
 msgid "Improved sign in and registration pages."
 msgstr ""
 
-#: ../../changes.rst:198
+#: ../../changes.rst:199
 msgid ""
 "Project access control and workflow configuration integrated to project "
 "settings."
 msgstr ""
 
-#: ../../changes.rst:199
+#: ../../changes.rst:200
 msgid "Added check and highlighter for i18next interpolation and nesting."
 msgstr ""
 
-#: ../../changes.rst:200
+#: ../../changes.rst:201
 msgid "Added check and highlighter for percent placeholders."
 msgstr ""
 
-#: ../../changes.rst:201
+#: ../../changes.rst:202
 #, fuzzy
 #| msgid "Translate"
 msgid "Display suggestions failing checks."
 msgstr "បកប្រែ"
 
-#: ../../changes.rst:202
+#: ../../changes.rst:203
 msgid "Record source string changes in history."
 msgstr ""
 
-#: ../../changes.rst:203
+#: ../../changes.rst:204
 msgid "Upgraded Microsoft Translator to version 3 API."
 msgstr ""
 
-#: ../../changes.rst:204
+#: ../../changes.rst:205
 msgid "Reimplemented translation memory backend."
 msgstr ""
 
-#: ../../changes.rst:205
+#: ../../changes.rst:206
 msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
 msgstr ""
 
-#: ../../changes.rst:206
+#: ../../changes.rst:207
 msgid "Allow to make :ref:`check-same` avoid internal blacklist."
 msgstr ""
 
-#: ../../changes.rst:207
+#: ../../changes.rst:208
 msgid "Improved comments extraction from monolingual po files."
 msgstr ""
 
-#: ../../changes.rst:208
+#: ../../changes.rst:209
 msgid "Renamed whiteboard messages to announcements."
 msgstr ""
 
-#: ../../changes.rst:209
+#: ../../changes.rst:210
 msgid "Fixed occasional problems with registration mails."
 msgstr ""
 
-#: ../../changes.rst:210
+#: ../../changes.rst:211
 msgid "Improved LINGUAS update addon to handle more syntax variants."
 msgstr ""
 
-#: ../../changes.rst:211
+#: ../../changes.rst:212
 msgid "Fixed editing monolingual XLIFF source file."
 msgstr ""
 
-#: ../../changes.rst:212
+#: ../../changes.rst:213
 msgid "Added support for exact matching in :doc:`user/search`."
 msgstr ""
 
-#: ../../changes.rst:213
+#: ../../changes.rst:214
 msgid ""
 "Extended API to cover screenshots, users, groups, componentlists and "
 "extended creating projects."
 msgstr ""
 
-#: ../../changes.rst:214
+#: ../../changes.rst:215
 msgid "Add support for source upload on bilingual translations."
 msgstr ""
 
-#: ../../changes.rst:215
+#: ../../changes.rst:216
 msgid "Added support for intermediate language from developers."
 msgstr ""
 
-#: ../../changes.rst:216
+#: ../../changes.rst:217
 msgid "Added support for source strings review."
 msgstr ""
 
-#: ../../changes.rst:217
+#: ../../changes.rst:218
 msgid "Extended download options for platform wide translation memory."
 msgstr ""
 
-#: ../../changes.rst:220
+#: ../../changes.rst:221
 msgid "Weblate 3.x series"
 msgstr ""
 
-#: ../../changes.rst:223
+#: ../../changes.rst:224
 msgid "Weblate 3.11.3"
 msgstr ""
 
-#: ../../changes.rst:225
+#: ../../changes.rst:226
 msgid "Released on March 11th 2020."
 msgstr ""
 
-#: ../../changes.rst:227
+#: ../../changes.rst:228
 msgid "Fixed searching for fields with certain priority."
 msgstr ""
 
-#: ../../changes.rst:228
+#: ../../changes.rst:229
 msgid "Fixed predefined query for recently added strings."
 msgstr ""
 
-#: ../../changes.rst:229
+#: ../../changes.rst:230
 msgid "Fixed searching returning duplicate matches."
 msgstr ""
 
-#: ../../changes.rst:230
+#: ../../changes.rst:231
 msgid "Fixed notifications rendering in Gmail."
 msgstr ""
 
-#: ../../changes.rst:231
+#: ../../changes.rst:232
 msgid "Fixed reverting changes from the history."
 msgstr ""
 
-#: ../../changes.rst:232
+#: ../../changes.rst:233
 msgid "Added links to events in digest notifications."
 msgstr ""
 
-#: ../../changes.rst:233
+#: ../../changes.rst:234
 msgid "Fixed email for account removal confirmation."
 msgstr ""
 
-#: ../../changes.rst:234
+#: ../../changes.rst:235
 msgid "Added support for Slack authentication in Docker container."
 msgstr ""
 
-#: ../../changes.rst:235
+#: ../../changes.rst:236
 msgid "Avoid sending notifications for not subscribed languages."
 msgstr ""
 
-#: ../../changes.rst:236
+#: ../../changes.rst:237
 msgid "Include Celery queues in performance overview."
 msgstr ""
 
-#: ../../changes.rst:237
+#: ../../changes.rst:238
 msgid "Fixed documentation links for addons."
 msgstr ""
 
-#: ../../changes.rst:238
+#: ../../changes.rst:239
 msgid "Reduced false negatives for unchanged translation check."
 msgstr ""
 
-#: ../../changes.rst:239
+#: ../../changes.rst:240
 msgid "Raised bleach dependency to address CVE-2020-6802."
 msgstr ""
 
-#: ../../changes.rst:240
+#: ../../changes.rst:241
 msgid "Fixed listing project level changes in history."
 msgstr ""
 
-#: ../../changes.rst:241
+#: ../../changes.rst:242
 msgid "Fixed stats invalidation in some corner cases."
 msgstr ""
 
-#: ../../changes.rst:242
+#: ../../changes.rst:243
 msgid "Fixed searching for certain string states."
 msgstr ""
 
-#: ../../changes.rst:243
+#: ../../changes.rst:244
 msgid "Improved format string checks behavior on missing percent."
 msgstr ""
 
-#: ../../changes.rst:244
+#: ../../changes.rst:245
 msgid "Fixed authentication using some third party providers."
 msgstr ""
 
-#: ../../changes.rst:247
+#: ../../changes.rst:248
 msgid "Weblate 3.11.2"
 msgstr ""
 
-#: ../../changes.rst:249
+#: ../../changes.rst:250
 msgid "Released on February 22nd 2020."
 msgstr ""
 
-#: ../../changes.rst:251
+#: ../../changes.rst:252
 msgid "Fixed rendering of suggestions."
 msgstr ""
 
-#: ../../changes.rst:252
+#: ../../changes.rst:253
 msgid "Fixed some strings wrongly reported as having no words."
 msgstr ""
 
-#: ../../changes.rst:255
+#: ../../changes.rst:256
 msgid "Weblate 3.11.1"
 msgstr ""
 
-#: ../../changes.rst:257
+#: ../../changes.rst:258
 msgid "Released on February 20th 2020."
 msgstr ""
 
-#: ../../changes.rst:259
+#: ../../changes.rst:260
 msgid "Documented Celery setup changes."
 msgstr ""
 
-#: ../../changes.rst:260
+#: ../../changes.rst:261
 msgid "Improved filename validation on component creation."
 msgstr ""
 
-#: ../../changes.rst:261
+#: ../../changes.rst:262
 msgid "Fixed minimal versions of some dependencies."
 msgstr ""
 
-#: ../../changes.rst:262
+#: ../../changes.rst:263
 msgid "Fixed adding groups with certain Django versions."
 msgstr ""
 
-#: ../../changes.rst:263
+#: ../../changes.rst:264
 msgid "Fixed manual pushing to upstream repository."
 msgstr ""
 
-#: ../../changes.rst:264
+#: ../../changes.rst:265
 msgid "Improved glossary matching."
 msgstr ""
 
-#: ../../changes.rst:267
+#: ../../changes.rst:268
 msgid "Weblate 3.11"
 msgstr ""
 
-#: ../../changes.rst:269
+#: ../../changes.rst:270
 msgid "Released on February 17th 2020."
 msgstr ""
 
-#: ../../changes.rst:271
+#: ../../changes.rst:272
 msgid "Allow using VCS push URL during component creation via API."
 msgstr ""
 
-#: ../../changes.rst:272
+#: ../../changes.rst:273
 msgid "Rendered width check now shows image with the render."
 msgstr ""
 
-#: ../../changes.rst:273
+#: ../../changes.rst:274
 msgid "Fixed links in notifications e-mails."
 msgstr ""
 
-#: ../../changes.rst:274
+#: ../../changes.rst:275
 msgid "Improved look of plaintext e-mails."
 msgstr ""
 
-#: ../../changes.rst:275
+#: ../../changes.rst:276
 msgid "Display ignored checks and allow to make them active again."
 msgstr ""
 
-#: ../../changes.rst:276
+#: ../../changes.rst:277
 msgid "Display nearby keys on monolingual translations."
 msgstr ""
 
-#: ../../changes.rst:277
+#: ../../changes.rst:278
 msgid "Added support for grouping string shapings."
 msgstr ""
 
-#: ../../changes.rst:278
+#: ../../changes.rst:279
 msgid "Recommend upgrade to new Weblate versions in the system checks."
 msgstr ""
 
-#: ../../changes.rst:279
+#: ../../changes.rst:280
 msgid "Provide more detailed analysis for duplicate language alert."
 msgstr ""
 
-#: ../../changes.rst:280
+#: ../../changes.rst:281
 msgid "Include more detailed license info on the project pages."
 msgstr ""
 
-#: ../../changes.rst:281
+#: ../../changes.rst:282
 msgid "Automatically unshallow local copies if needed."
 msgstr ""
 
-#: ../../changes.rst:282
+#: ../../changes.rst:283
 msgid "Fixed download of strings needing action."
 msgstr ""
 
-#: ../../changes.rst:283
+#: ../../changes.rst:284
 msgid "New alert to warn about using the same filemask twice."
 msgstr ""
 
-#: ../../changes.rst:284
+#: ../../changes.rst:285
 msgid "Improve XML placeables extraction."
 msgstr ""
 
-#: ../../changes.rst:285
+#: ../../changes.rst:286
 msgid ""
 "The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project."
 msgstr ""
 
-#: ../../changes.rst:286
+#: ../../changes.rst:287
 msgid "Added option to resolve comments."
 msgstr ""
 
-#: ../../changes.rst:287
+#: ../../changes.rst:288
 msgid "Added bulk editing of flags."
 msgstr ""
 
-#: ../../changes.rst:288
+#: ../../changes.rst:289
 msgid "Added support for :ref:`labels`."
 msgstr ""
 
-#: ../../changes.rst:289
+#: ../../changes.rst:290
 msgid "Added bulk edit addon."
 msgstr ""
 
-#: ../../changes.rst:290
+#: ../../changes.rst:291
 msgid "Added option for :ref:`enforcing-checks`."
 msgstr ""
 
-#: ../../changes.rst:291
+#: ../../changes.rst:292
 msgid "Increased default validity of confirmation links."
 msgstr ""
 
-#: ../../changes.rst:292
+#: ../../changes.rst:293
 msgid "Improved Matomo integration."
 msgstr ""
 
-#: ../../changes.rst:293
+#: ../../changes.rst:294
 msgid "Fixed :ref:`check-translated` to correctly handle source string change."
 msgstr ""
 
-#: ../../changes.rst:294
+#: ../../changes.rst:295
 msgid "Extended automatic updates configuration by :setting:`AUTO_UPDATE`."
 msgstr ""
 
-#: ../../changes.rst:295
+#: ../../changes.rst:296
 msgid "LINGUAS addons now do full sync of translations in Weblate."
 msgstr ""
 
-#: ../../changes.rst:298
+#: ../../changes.rst:299
 msgid "Weblate 3.10.3"
 msgstr ""
 
-#: ../../changes.rst:300 ../../changes.rst:307
+#: ../../changes.rst:301 ../../changes.rst:308
 msgid "Released on January 18th 2020."
 msgstr ""
 
-#: ../../changes.rst:302
+#: ../../changes.rst:303
 msgid "Support for translate-toolkit 2.5.0."
 msgstr ""
 
-#: ../../changes.rst:305
+#: ../../changes.rst:306
 msgid "Weblate 3.10.2"
 msgstr ""
 
-#: ../../changes.rst:309
+#: ../../changes.rst:310
 msgid "Add lock indication to projects."
 msgstr ""
 
-#: ../../changes.rst:310
+#: ../../changes.rst:311
 msgid "Fixed CSS bug causing flickering in some web browsers."
 msgstr ""
 
-#: ../../changes.rst:311
+#: ../../changes.rst:312
 msgid "Fixed searching on systems with non-English locales."
 msgstr ""
 
-#: ../../changes.rst:312
+#: ../../changes.rst:313
 msgid "Improved repository matching for GitHub and Bitbucket hooks."
 msgstr ""
 
-#: ../../changes.rst:313
+#: ../../changes.rst:314
 msgid "Fixed data migration on some Python 2.7 installations."
 msgstr ""
 
-#: ../../changes.rst:314
+#: ../../changes.rst:315
 msgid "Allow configuration of Git shallow cloning."
 msgstr ""
 
-#: ../../changes.rst:315
+#: ../../changes.rst:316
 msgid "Improved background notification processing."
 msgstr ""
 
-#: ../../changes.rst:316
+#: ../../changes.rst:317
 msgid "Fixed broken form submission when navigating back in web browser."
 msgstr ""
 
-#: ../../changes.rst:317
+#: ../../changes.rst:318
 msgid "New addon to configure YAML formatting."
 msgstr ""
 
-#: ../../changes.rst:318
+#: ../../changes.rst:319
 msgid "Fixed same plurals check to not fire on single plural form languages."
 msgstr ""
 
-#: ../../changes.rst:319
+#: ../../changes.rst:320
 msgid "Fixed regex search on some fields."
 msgstr ""
 
-#: ../../changes.rst:322
+#: ../../changes.rst:323
 msgid "Weblate 3.10.1"
 msgstr ""
 
-#: ../../changes.rst:324
+#: ../../changes.rst:325
 msgid "Released on January 9th 2020."
 msgstr ""
 
-#: ../../changes.rst:326
+#: ../../changes.rst:327
 msgid "Extended API with translation creation."
 msgstr ""
 
-#: ../../changes.rst:327
+#: ../../changes.rst:328
 msgid "Fixed several corner cases in data migrations."
 msgstr ""
 
-#: ../../changes.rst:328
+#: ../../changes.rst:329
 msgid "Compatibility with Django 3.0."
 msgstr ""
 
-#: ../../changes.rst:329
+#: ../../changes.rst:330
 msgid "Improved data cleanup performance."
 msgstr ""
 
-#: ../../changes.rst:330
+#: ../../changes.rst:331
 msgid "Added support for customizable security.txt."
 msgstr ""
 
-#: ../../changes.rst:331
+#: ../../changes.rst:332
 msgid "Improved breadcrumbs in changelog."
 msgstr ""
 
-#: ../../changes.rst:332
+#: ../../changes.rst:333
 msgid "Improved translations listing on dashboard."
 msgstr ""
 
-#: ../../changes.rst:333
+#: ../../changes.rst:334
 msgid "Improved HTTP responses for webhooks."
 msgstr ""
 
-#: ../../changes.rst:334
+#: ../../changes.rst:335
 msgid "Added support for GitLab merge requests in Docker container."
 msgstr ""
 
-#: ../../changes.rst:337
+#: ../../changes.rst:338
 msgid "Weblate 3.10"
 msgstr ""
 
-#: ../../changes.rst:339
+#: ../../changes.rst:340
 msgid "Released on December 20th 2019."
 msgstr ""
 
-#: ../../changes.rst:341
+#: ../../changes.rst:342
 msgid "Improved application user interface."
 msgstr ""
 
-#: ../../changes.rst:342
+#: ../../changes.rst:343
 msgid "Added doublespace check."
 msgstr ""
 
-#: ../../changes.rst:343
+#: ../../changes.rst:344
 msgid "Fixed creating new languages."
 msgstr ""
 
-#: ../../changes.rst:344
+#: ../../changes.rst:345
 msgid "Avoid sending auditlog notifications to deleted e-mails."
 msgstr ""
 
-#: ../../changes.rst:345
+#: ../../changes.rst:346
 msgid "Added support for read only strings."
 msgstr ""
 
-#: ../../changes.rst:346
+#: ../../changes.rst:347
 msgid "Added support for Markdown in comments."
 msgstr ""
 
-#: ../../changes.rst:347
+#: ../../changes.rst:348
 msgid "Allow placing translation instruction text in project info."
 msgstr ""
 
-#: ../../changes.rst:348
+#: ../../changes.rst:349
 msgid "Add copy to clipboard for secondary languages."
 msgstr ""
 
-#: ../../changes.rst:349
+#: ../../changes.rst:350
 msgid "Improved support for Mercurial."
 msgstr ""
 
-#: ../../changes.rst:350
+#: ../../changes.rst:351
 msgid "Improved Git repository fetching performance."
 msgstr ""
 
-#: ../../changes.rst:351
+#: ../../changes.rst:352
 msgid "Add search lookup for age of string."
 msgstr ""
 
-#: ../../changes.rst:352
+#: ../../changes.rst:353
 msgid "Show source language for all translations."
 msgstr ""
 
-#: ../../changes.rst:353
+#: ../../changes.rst:354
 msgid "Show context for nearby strings."
 msgstr ""
 
-#: ../../changes.rst:354
+#: ../../changes.rst:355
 msgid "Added support for notifications on repository operations."
 msgstr ""
 
-#: ../../changes.rst:355
+#: ../../changes.rst:356
 msgid "Improved translation listings."
 msgstr ""
 
-#: ../../changes.rst:356 ../../changes.rst:817
+#: ../../changes.rst:357 ../../changes.rst:818
 msgid "Extended search capabilities."
 msgstr ""
 
-#: ../../changes.rst:357
+#: ../../changes.rst:358
 msgid "Added support for automatic translation strings marked for editing."
 msgstr ""
 
-#: ../../changes.rst:358
+#: ../../changes.rst:359
 msgid "Avoid sending duplicate notifications for linked component alerts."
 msgstr ""
 
-#: ../../changes.rst:359
+#: ../../changes.rst:360
 msgid "Improve default merge request message."
 msgstr ""
 
-#: ../../changes.rst:360
+#: ../../changes.rst:361
 msgid "Better indicate string state in Zen mode."
 msgstr ""
 
-#: ../../changes.rst:361
+#: ../../changes.rst:362
 msgid "Added support for more languages in Yandex Translate."
 msgstr ""
 
-#: ../../changes.rst:362 ../../changes.rst:429
+#: ../../changes.rst:363 ../../changes.rst:430
 msgid "Improved look of notification e-mails."
 msgstr ""
 
-#: ../../changes.rst:363
+#: ../../changes.rst:364
 msgid "Provide choice for translation license."
 msgstr ""
 
-#: ../../changes.rst:366
+#: ../../changes.rst:367
 msgid "Weblate 3.9.1"
 msgstr ""
 
-#: ../../changes.rst:368
+#: ../../changes.rst:369
 msgid "Released on October 28th 2019."
 msgstr ""
 
-#: ../../changes.rst:370
+#: ../../changes.rst:371
 msgid "Remove some unneeded files from backups."
 msgstr ""
 
-#: ../../changes.rst:371
+#: ../../changes.rst:372
 msgid "Fixed potential crash in reports."
 msgstr ""
 
-#: ../../changes.rst:372
+#: ../../changes.rst:373
 msgid "Fixed cross database migration failure."
 msgstr ""
 
-#: ../../changes.rst:373
+#: ../../changes.rst:374
 msgid "Added support for force pushing Git repositories."
 msgstr ""
 
-#: ../../changes.rst:374
+#: ../../changes.rst:375
 msgid "Reduced risk of registration token invalidation."
 msgstr ""
 
-#: ../../changes.rst:375
+#: ../../changes.rst:376
 msgid "Fixed account removal hitting rate limiter."
 msgstr ""
 
-#: ../../changes.rst:376
+#: ../../changes.rst:377
 msgid "Added search based on priority."
 msgstr ""
 
-#: ../../changes.rst:377
+#: ../../changes.rst:378
 msgid "Fixed possible crash on adding strings to JSON file."
 msgstr ""
 
-#: ../../changes.rst:378
+#: ../../changes.rst:379
 msgid "Safe HTML check and fixup now honor source string markup."
 msgstr ""
 
-#: ../../changes.rst:379
+#: ../../changes.rst:380
 msgid "Avoid sending notifications to invited and deleted users."
 msgstr ""
 
-#: ../../changes.rst:380
+#: ../../changes.rst:381
 msgid "Fix SSL connection to redis in Celery in Docker container."
 msgstr ""
 
-#: ../../changes.rst:383
+#: ../../changes.rst:384
 msgid "Weblate 3.9"
 msgstr ""
 
-#: ../../changes.rst:385
+#: ../../changes.rst:386
 msgid "Released on October 15th 2019."
 msgstr ""
 
-#: ../../changes.rst:387
+#: ../../changes.rst:388
 msgid "Include Weblate metadata in downloaded files."
 msgstr ""
 
-#: ../../changes.rst:388
+#: ../../changes.rst:389
 msgid "Improved UI for failing checks."
 msgstr ""
 
-#: ../../changes.rst:389
+#: ../../changes.rst:390
 msgid "Indicate missing strings in format checks."
 msgstr ""
 
-#: ../../changes.rst:390
+#: ../../changes.rst:391
 msgid "Separate check for French punctuation spacing."
 msgstr ""
 
-#: ../../changes.rst:391
+#: ../../changes.rst:392
 msgid "Add support for fixing some of quality checks errors."
 msgstr ""
 
-#: ../../changes.rst:392
+#: ../../changes.rst:393
 msgid "Add separate permission to create new projects."
 msgstr ""
 
-#: ../../changes.rst:393
+#: ../../changes.rst:394
 msgid "Extend stats for char counts."
 msgstr ""
 
-#: ../../changes.rst:394
+#: ../../changes.rst:395
 msgid "Improve support for Java style language codes."
 msgstr ""
 
-#: ../../changes.rst:395
+#: ../../changes.rst:396
 msgid "Added new generic check for placeholders."
 msgstr ""
 
-#: ../../changes.rst:396
+#: ../../changes.rst:397
 msgid "Added support for WebExtension JSON placeholders."
 msgstr ""
 
-#: ../../changes.rst:397
+#: ../../changes.rst:398
 msgid "Added support for flat XML format."
 msgstr ""
 
-#: ../../changes.rst:398
+#: ../../changes.rst:399
 msgid ""
 "Extended API with project, component and translation removal and creation."
 msgstr ""
 
-#: ../../changes.rst:399
+#: ../../changes.rst:400
 msgid "Added support for Gitea and Gitee webhooks."
 msgstr ""
 
-#: ../../changes.rst:400
+#: ../../changes.rst:401
 msgid "Added new custom regex based check."
 msgstr ""
 
-#: ../../changes.rst:401
+#: ../../changes.rst:402
 msgid "Allow to configure contributing to shared translation memory."
 msgstr ""
 
-#: ../../changes.rst:402
+#: ../../changes.rst:403
 msgid "Added ZIP download for more translation files."
 msgstr ""
 
-#: ../../changes.rst:403
+#: ../../changes.rst:404
 msgid "Make XLIFF standard compliant parsing of maxwidth and font."
 msgstr ""
 
-#: ../../changes.rst:404
+#: ../../changes.rst:405
 msgid ""
 "Added new check and fixer for safe HTML markup for translating web "
 "applications."
 msgstr ""
 
-#: ../../changes.rst:405
+#: ../../changes.rst:406
 msgid "Add component alert on unsupported configuration."
 msgstr ""
 
-#: ../../changes.rst:406
+#: ../../changes.rst:407
 msgid "Added automatic translation addon to bootstrap translations."
 msgstr ""
 
-#: ../../changes.rst:407
+#: ../../changes.rst:408
 msgid "Extend automatic translation to add suggestions."
 msgstr ""
 
-#: ../../changes.rst:408
+#: ../../changes.rst:409
 msgid "Display addon parameters on overview."
 msgstr ""
 
-#: ../../changes.rst:409
+#: ../../changes.rst:410
 msgid "Sentry is now supported through modern Sentry SDK instead of Raven."
 msgstr ""
 
-#: ../../changes.rst:410
+#: ../../changes.rst:411
 msgid "Changed example settings to be better fit for production environment."
 msgstr ""
 
-#: ../../changes.rst:411
+#: ../../changes.rst:412
 msgid "Added automated backups using BorgBackup."
 msgstr ""
 
-#: ../../changes.rst:412
+#: ../../changes.rst:413
 msgid "Split cleanup addon for RESX to avoid unwanted file updates."
 msgstr ""
 
-#: ../../changes.rst:413
+#: ../../changes.rst:414
 msgid "Added advanced search capabilities."
 msgstr ""
 
-#: ../../changes.rst:414
+#: ../../changes.rst:415
 msgid "Allow users to download their own reports."
 msgstr ""
 
-#: ../../changes.rst:415
+#: ../../changes.rst:416
 msgid "Added localization guide to help configuring components."
 msgstr ""
 
-#: ../../changes.rst:416
+#: ../../changes.rst:417
 msgid "Added support for GitLab merge requests."
 msgstr ""
 
-#: ../../changes.rst:417
+#: ../../changes.rst:418
 msgid "Improved display of repository status."
 msgstr ""
 
-#: ../../changes.rst:418
+#: ../../changes.rst:419
 msgid "Perform automated translation in the background."
 msgstr ""
 
-#: ../../changes.rst:421
+#: ../../changes.rst:422
 msgid "Weblate 3.8"
 msgstr ""
 
-#: ../../changes.rst:423
+#: ../../changes.rst:424
 msgid "Released on August 15th 2019."
 msgstr ""
 
-#: ../../changes.rst:425
+#: ../../changes.rst:426
 msgid "Added support for simplified creating of similar components."
 msgstr ""
 
-#: ../../changes.rst:426
+#: ../../changes.rst:427
 msgid ""
 "Added support for parsing translation flags from the XML based file formats."
 msgstr ""
 
-#: ../../changes.rst:427
+#: ../../changes.rst:428
 msgid "Log exceptions into Celery log."
 msgstr ""
 
-#: ../../changes.rst:428
+#: ../../changes.rst:429
 msgid "Improve performance of repository scoped addons."
 msgstr ""
 
-#: ../../changes.rst:430
+#: ../../changes.rst:431
 msgid "Fixed password reset behavior."
 msgstr ""
 
-#: ../../changes.rst:431
+#: ../../changes.rst:432
 msgid "Improved performance on most of translation pages."
 msgstr ""
 
-#: ../../changes.rst:432
+#: ../../changes.rst:433
 msgid "Fixed listing of languages not known to Weblate."
 msgstr ""
 
-#: ../../changes.rst:433
+#: ../../changes.rst:434
 msgid "Add support for cloning addons to discovered components."
 msgstr ""
 
-#: ../../changes.rst:434
+#: ../../changes.rst:435
 msgid "Add support for replacing file content with uploaded."
 msgstr ""
 
-#: ../../changes.rst:435
+#: ../../changes.rst:436
 msgid "Add support for translating non VCS based content."
 msgstr ""
 
-#: ../../changes.rst:436
+#: ../../changes.rst:437
 msgid "Added OpenGraph widget image to use on social networks."
 msgstr ""
 
-#: ../../changes.rst:437
+#: ../../changes.rst:438
 msgid "Added support for animated screenshots."
 msgstr ""
 
-#: ../../changes.rst:438 ../../changes.rst:507
+#: ../../changes.rst:439 ../../changes.rst:508
 msgid "Improved handling of monolingual XLIFF files."
 msgstr ""
 
-#: ../../changes.rst:439
+#: ../../changes.rst:440
 msgid "Avoid sending multiple notifications for single event."
 msgstr ""
 
-#: ../../changes.rst:440
+#: ../../changes.rst:441
 msgid "Add support for filtering changes."
 msgstr ""
 
-#: ../../changes.rst:441
+#: ../../changes.rst:442
 msgid "Extended predefined periods for reporting."
 msgstr ""
 
-#: ../../changes.rst:442
+#: ../../changes.rst:443
 msgid "Added webhook support for Azure Repos."
 msgstr ""
 
-#: ../../changes.rst:443
+#: ../../changes.rst:444
 msgid ""
 "New opt-in notifications on pending suggestions or untranslated strings."
 msgstr ""
 
-#: ../../changes.rst:444
+#: ../../changes.rst:445
 msgid "Add one click unsubscribe link to notification e-mails."
 msgstr ""
 
-#: ../../changes.rst:445
+#: ../../changes.rst:446
 msgid "Fixed false positives with Has been translated check."
 msgstr ""
 
-#: ../../changes.rst:446
+#: ../../changes.rst:447
 msgid "New management interface for admins."
 msgstr ""
 
-#: ../../changes.rst:447
+#: ../../changes.rst:448
 msgid "String priority can now be specified using flags."
 msgstr ""
 
-#: ../../changes.rst:448
+#: ../../changes.rst:449
 msgid "Added language management views."
 msgstr ""
 
-#: ../../changes.rst:449
+#: ../../changes.rst:450
 msgid "Add checks for Qt library and Ruby format strings."
 msgstr ""
 
-#: ../../changes.rst:450
+#: ../../changes.rst:451
 msgid "Added configuration to better fit single project installations."
 msgstr ""
 
-#: ../../changes.rst:451
+#: ../../changes.rst:452
 msgid ""
 "Notify about new string on source string change on monolingual translations."
 msgstr ""
 
-#: ../../changes.rst:452
+#: ../../changes.rst:453
 msgid "Added separate view for translation memory with search capability."
 msgstr ""
 
-#: ../../changes.rst:455
+#: ../../changes.rst:456
 msgid "Weblate 3.7.1"
 msgstr ""
 
-#: ../../changes.rst:457
+#: ../../changes.rst:458
 msgid "Released on June 28th 2019."
 msgstr ""
 
-#: ../../changes.rst:459 ../../changes.rst:1427
+#: ../../changes.rst:460 ../../changes.rst:1428
 msgid "Documentation updates."
 msgstr ""
 
-#: ../../changes.rst:460
+#: ../../changes.rst:461
 msgid "Fixed some requirements constraints."
 msgstr ""
 
-#: ../../changes.rst:461
+#: ../../changes.rst:462
 msgid "Updated language database."
 msgstr ""
 
-#: ../../changes.rst:462 ../../changes.rst:553 ../../changes.rst:700
+#: ../../changes.rst:463 ../../changes.rst:554 ../../changes.rst:701
 msgid "Localization updates."
 msgstr ""
 
-#: ../../changes.rst:463
+#: ../../changes.rst:464
 msgid "Various user interface tweaks."
 msgstr ""
 
-#: ../../changes.rst:464
+#: ../../changes.rst:465
 msgid "Improved handling of unsupported but discovered translation files."
 msgstr ""
 
-#: ../../changes.rst:465
+#: ../../changes.rst:466
 msgid "More verbosely report missing file format requirements."
 msgstr ""
 
-#: ../../changes.rst:468
+#: ../../changes.rst:469
 msgid "Weblate 3.7"
 msgstr ""
 
-#: ../../changes.rst:470
+#: ../../changes.rst:471
 msgid "Released on June 21st 2019."
 msgstr ""
 
-#: ../../changes.rst:472
+#: ../../changes.rst:473
 msgid "Added separate Celery queue for notifications."
 msgstr ""
 
-#: ../../changes.rst:473
+#: ../../changes.rst:474
 msgid "Use consistent look with application for API browsing."
 msgstr ""
 
-#: ../../changes.rst:474
+#: ../../changes.rst:475
 msgid "Include approved stats in the reports."
 msgstr ""
 
-#: ../../changes.rst:475
+#: ../../changes.rst:476
 msgid "Report progress when updating translation component."
 msgstr ""
 
-#: ../../changes.rst:476
+#: ../../changes.rst:477
 msgid "Allow to abort running background component update."
 msgstr ""
 
-#: ../../changes.rst:477
+#: ../../changes.rst:478
 msgid "Extend template language for filename manipulations."
 msgstr ""
 
-#: ../../changes.rst:478
+#: ../../changes.rst:479
 msgid "Use templates for editor link and repository browser URL."
 msgstr ""
 
-#: ../../changes.rst:479
+#: ../../changes.rst:480
 msgid ""
 "Indicate max length and current characters count when editing translation."
 msgstr ""
 
-#: ../../changes.rst:480
+#: ../../changes.rst:481
 msgid "Improved handling of abbreviations in unchanged translation check."
 msgstr ""
 
-#: ../../changes.rst:481
+#: ../../changes.rst:482
 msgid "Refreshed landing page for new contributors."
 msgstr ""
 
-#: ../../changes.rst:482
+#: ../../changes.rst:483
 msgid "Add support for configuring msgmerge addon."
 msgstr ""
 
-#: ../../changes.rst:483
+#: ../../changes.rst:484
 msgid "Delay opening SMTP connection when sending notifications."
 msgstr ""
 
-#: ../../changes.rst:484
+#: ../../changes.rst:485
 msgid "Improved error logging."
 msgstr ""
 
-#: ../../changes.rst:485
+#: ../../changes.rst:486
 msgid "Allow custom location in MO generating addon."
 msgstr ""
 
-#: ../../changes.rst:486
+#: ../../changes.rst:487
 msgid "Added addons to cleanup old suggestions or comments."
 msgstr ""
 
-#: ../../changes.rst:487
+#: ../../changes.rst:488
 msgid "Added option to enable horizontal mode in the Zen editor."
 msgstr ""
 
-#: ../../changes.rst:488
+#: ../../changes.rst:489
 msgid "Improved import performance with many linked components."
 msgstr ""
 
-#: ../../changes.rst:489
+#: ../../changes.rst:490
 msgid "Fixed examples installation in some cases."
 msgstr ""
 
-#: ../../changes.rst:490
+#: ../../changes.rst:491
 msgid "Improved rendering of alerts in changes."
 msgstr ""
 
-#: ../../changes.rst:491
+#: ../../changes.rst:492
 msgid "Added new horizontal stats widget."
 msgstr ""
 
-#: ../../changes.rst:492
+#: ../../changes.rst:493
 msgid "Improved format strings check on plurals."
 msgstr ""
 
-#: ../../changes.rst:493
+#: ../../changes.rst:494
 msgid "Added font management tool."
 msgstr ""
 
-#: ../../changes.rst:494
+#: ../../changes.rst:495
 msgid "New check for rendered text dimensions."
 msgstr ""
 
-#: ../../changes.rst:495
+#: ../../changes.rst:496
 msgid "Added support for subtitle formats."
 msgstr ""
 
-#: ../../changes.rst:496
+#: ../../changes.rst:497
 msgid "Include overall completion stats for languages."
 msgstr ""
 
-#: ../../changes.rst:497
+#: ../../changes.rst:498
 msgid "Added reporting at project and global scope."
 msgstr ""
 
-#: ../../changes.rst:498
+#: ../../changes.rst:499
 msgid "Improved user interface when showing translation status."
 msgstr ""
 
-#: ../../changes.rst:499
+#: ../../changes.rst:500
 msgid "New Weblate logo and color scheme."
 msgstr ""
 
-#: ../../changes.rst:500
+#: ../../changes.rst:501
 msgid "New look of bitmap badges."
 msgstr ""
 
-#: ../../changes.rst:503
+#: ../../changes.rst:504
 msgid "Weblate 3.6.1"
 msgstr ""
 
-#: ../../changes.rst:505
+#: ../../changes.rst:506
 msgid "Released on April 26th 2019."
 msgstr ""
 
-#: ../../changes.rst:508
+#: ../../changes.rst:509
 msgid "Fixed digest notifications in some corner cases."
 msgstr ""
 
-#: ../../changes.rst:509
+#: ../../changes.rst:510
 msgid "Fixed addon script error alert."
 msgstr ""
 
-#: ../../changes.rst:510 ../../changes.rst:532
+#: ../../changes.rst:511 ../../changes.rst:533
 msgid "Fixed generating MO file for monolingual PO files."
 msgstr ""
 
-#: ../../changes.rst:511
+#: ../../changes.rst:512
 msgid "Fixed display of uninstalled checks."
 msgstr ""
 
-#: ../../changes.rst:512
+#: ../../changes.rst:513
 msgid "Indicate administered projects on project listing."
 msgstr ""
 
-#: ../../changes.rst:513
+#: ../../changes.rst:514
 msgid "Allow update to recover from missing VCS repository."
 msgstr ""
 
-#: ../../changes.rst:516
+#: ../../changes.rst:517
 msgid "Weblate 3.6"
 msgstr ""
 
-#: ../../changes.rst:518
+#: ../../changes.rst:519
 msgid "Released on April 20th 2019."
 msgstr ""
 
-#: ../../changes.rst:520
+#: ../../changes.rst:521
 msgid "Add support for downloading user data."
 msgstr ""
 
-#: ../../changes.rst:521
+#: ../../changes.rst:522
 msgid "Addons are now automatically triggered upon installation."
 msgstr ""
 
-#: ../../changes.rst:522
+#: ../../changes.rst:523
 msgid "Improved instructions for resolving merge conflicts."
 msgstr ""
 
-#: ../../changes.rst:523
+#: ../../changes.rst:524
 msgid "Cleanup addon is now compatible with app store metadata translations."
 msgstr ""
 
-#: ../../changes.rst:524
+#: ../../changes.rst:525
 msgid "Configurable language code syntax when adding new translations."
 msgstr ""
 
-#: ../../changes.rst:525
+#: ../../changes.rst:526
 msgid ""
 "Warn about using Python 2 with planned termination of support in April 2020."
 msgstr ""
 
-#: ../../changes.rst:526
+#: ../../changes.rst:527
 msgid "Extract special characters from the source string for visual keyboard."
 msgstr ""
 
-#: ../../changes.rst:527
+#: ../../changes.rst:528
 msgid "Extended contributor stats to reflect both source and target counts."
 msgstr ""
 
-#: ../../changes.rst:528
+#: ../../changes.rst:529
 msgid ""
 "Admins and consistency addons can now add translations even if disabled for "
 "users."
 msgstr ""
 
-#: ../../changes.rst:529
+#: ../../changes.rst:530
 msgid ""
 "Fixed description of toggle disabling ``Language-Team`` header manipulation."
 msgstr ""
 
-#: ../../changes.rst:530
+#: ../../changes.rst:531
 msgid "Notify users mentioned in comments."
 msgstr ""
 
-#: ../../changes.rst:531
+#: ../../changes.rst:532
 msgid "Removed file format autodetection from component setup."
 msgstr ""
 
-#: ../../changes.rst:533
+#: ../../changes.rst:534
 msgid "Added digest notifications."
 msgstr ""
 
-#: ../../changes.rst:534
+#: ../../changes.rst:535
 msgid "Added support for muting component notifications."
 msgstr ""
 
-#: ../../changes.rst:535
+#: ../../changes.rst:536
 msgid "Added notifications for new alerts, whiteboard messages or components."
 msgstr ""
 
-#: ../../changes.rst:536
+#: ../../changes.rst:537
 msgid "Notifications for administered projects can now be configured."
 msgstr ""
 
-#: ../../changes.rst:537
+#: ../../changes.rst:538
 msgid "Improved handling of three letter language codes."
 msgstr ""
 
-#: ../../changes.rst:540
+#: ../../changes.rst:541
 msgid "Weblate 3.5.1"
 msgstr ""
 
-#: ../../changes.rst:542
+#: ../../changes.rst:543
 msgid "Released on March 10th 2019."
 msgstr ""
 
-#: ../../changes.rst:544
+#: ../../changes.rst:545
 msgid "Fixed Celery systemd unit example."
 msgstr ""
 
-#: ../../changes.rst:545
+#: ../../changes.rst:546
 msgid "Fixed notifications from HTTP repositories with login."
 msgstr ""
 
-#: ../../changes.rst:546
+#: ../../changes.rst:547
 msgid ""
 "Fixed race condition in editing source string for monolingual translations."
 msgstr ""
 
-#: ../../changes.rst:547
+#: ../../changes.rst:548
 msgid "Include output of failed addon execution in the logs."
 msgstr ""
 
-#: ../../changes.rst:548
+#: ../../changes.rst:549
 msgid "Improved validation of choices for adding new language."
 msgstr ""
 
-#: ../../changes.rst:549
+#: ../../changes.rst:550
 msgid "Allow to edit file format in component settings."
 msgstr ""
 
-#: ../../changes.rst:550
+#: ../../changes.rst:551
 msgid "Update installation instructions to prefer Python 3."
 msgstr ""
 
-#: ../../changes.rst:551
+#: ../../changes.rst:552
 msgid "Performance and consistency improvements for loading translations."
 msgstr ""
 
-#: ../../changes.rst:552
+#: ../../changes.rst:553
 msgid ""
 "Make Microsoft Terminology service compatible with current Zeep releases."
 msgstr ""
 
-#: ../../changes.rst:556
+#: ../../changes.rst:557
 msgid "Weblate 3.5"
 msgstr ""
 
-#: ../../changes.rst:558
+#: ../../changes.rst:559
 msgid "Released on March 3rd 2019."
 msgstr ""
 
-#: ../../changes.rst:560
+#: ../../changes.rst:561
 msgid "Improved performance of built-in translation memory."
 msgstr ""
 
-#: ../../changes.rst:561
+#: ../../changes.rst:562
 msgid "Added interface to manage global translation memory."
 msgstr ""
 
-#: ../../changes.rst:562
+#: ../../changes.rst:563
 msgid "Improved alerting on bad component state."
 msgstr ""
 
-#: ../../changes.rst:563
+#: ../../changes.rst:564
 msgid "Added user interface to manage whiteboard messages."
 msgstr ""
 
-#: ../../changes.rst:564
+#: ../../changes.rst:565
 msgid "Addon commit message now can be configured."
 msgstr ""
 
-#: ../../changes.rst:565
+#: ../../changes.rst:566
 msgid "Reduce number of commits when updating upstream repository."
 msgstr ""
 
-#: ../../changes.rst:566
+#: ../../changes.rst:567
 msgid "Fixed possible metadata loss when moving component between projects."
 msgstr ""
 
-#: ../../changes.rst:567
+#: ../../changes.rst:568
 msgid "Improved navigation in the Zen mode."
 msgstr ""
 
-#: ../../changes.rst:568
+#: ../../changes.rst:569
 msgid "Added several new quality checks (Markdown related and URL)."
 msgstr ""
 
-#: ../../changes.rst:569
+#: ../../changes.rst:570
 msgid "Added support for app store metadata files."
 msgstr ""
 
-#: ../../changes.rst:570
+#: ../../changes.rst:571
 msgid "Added support for toggling GitHub or Gerrit integration."
 msgstr ""
 
-#: ../../changes.rst:571
+#: ../../changes.rst:572
 msgid "Added check for Kashida letters."
 msgstr ""
 
-#: ../../changes.rst:572
+#: ../../changes.rst:573
 msgid "Added option to squash commits based on authors."
 msgstr ""
 
-#: ../../changes.rst:573
+#: ../../changes.rst:574
 msgid "Improved support for XLSX file format."
 msgstr ""
 
-#: ../../changes.rst:574
+#: ../../changes.rst:575
 msgid "Compatibility with Tesseract 4.0."
 msgstr ""
 
-#: ../../changes.rst:575
+#: ../../changes.rst:576
 msgid "Billing addon now removes projects for unpaid billings after 45 days."
 msgstr ""
 
-#: ../../changes.rst:578
+#: ../../changes.rst:579
 msgid "Weblate 3.4"
 msgstr ""
 
-#: ../../changes.rst:580
+#: ../../changes.rst:581
 msgid "Released on January 22nd 2019."
 msgstr ""
 
-#: ../../changes.rst:582
+#: ../../changes.rst:583
 msgid "Added support for XLIFF placeholders."
 msgstr ""
 
-#: ../../changes.rst:583
+#: ../../changes.rst:584
 msgid "Celery can now utilize multiple task queues."
 msgstr ""
 
-#: ../../changes.rst:584
+#: ../../changes.rst:585
 msgid "Added support for renaming and moving projects and components."
 msgstr ""
 
-#: ../../changes.rst:585
+#: ../../changes.rst:586
 msgid "Include characters counts in reports."
 msgstr ""
 
-#: ../../changes.rst:586
+#: ../../changes.rst:587
 msgid ""
 "Added guided adding of translation components with automatic detection of "
 "translation files."
 msgstr ""
 
-#: ../../changes.rst:587
+#: ../../changes.rst:588
 msgid "Customizable merge commit messages for Git."
 msgstr ""
 
-#: ../../changes.rst:588
+#: ../../changes.rst:589
 msgid "Added visual indication of component alerts in navigation."
 msgstr ""
 
-#: ../../changes.rst:589
+#: ../../changes.rst:590
 msgid "Improved performance of loading translation files."
 msgstr ""
 
-#: ../../changes.rst:590
+#: ../../changes.rst:591
 msgid "New addon to squash commits prior to push."
 msgstr ""
 
-#: ../../changes.rst:591
+#: ../../changes.rst:592
 msgid "Improved displaying of translation changes."
 msgstr ""
 
-#: ../../changes.rst:592
+#: ../../changes.rst:593
 msgid "Changed default merge style to rebase and made that configurable."
 msgstr ""
 
-#: ../../changes.rst:593
+#: ../../changes.rst:594
 msgid "Better handle private use subtags in language code."
 msgstr ""
 
-#: ../../changes.rst:594
+#: ../../changes.rst:595
 msgid "Improved performance of fulltext index updates."
 msgstr ""
 
-#: ../../changes.rst:595
+#: ../../changes.rst:596
 msgid "Extended file upload API to support more parameters."
 msgstr ""
 
-#: ../../changes.rst:598
+#: ../../changes.rst:599
 msgid "Weblate 3.3"
 msgstr ""
 
-#: ../../changes.rst:600
+#: ../../changes.rst:601
 msgid "Released on November 30th 2018."
 msgstr ""
 
-#: ../../changes.rst:602
+#: ../../changes.rst:603
 msgid "Added support for component and project removal."
 msgstr ""
 
-#: ../../changes.rst:603
+#: ../../changes.rst:604
 msgid "Improved performance for some monolingual translations."
 msgstr ""
 
-#: ../../changes.rst:604
+#: ../../changes.rst:605
 msgid ""
 "Added translation component alerts to highlight problems with a translation."
 msgstr ""
 
-#: ../../changes.rst:605
+#: ../../changes.rst:606
 msgid "Expose XLIFF string resname as context when available."
 msgstr ""
 
-#: ../../changes.rst:606
+#: ../../changes.rst:607
 msgid "Added support for XLIFF states."
 msgstr ""
 
-#: ../../changes.rst:607
+#: ../../changes.rst:608
 msgid "Added check for non writable files in DATA_DIR."
 msgstr ""
 
-#: ../../changes.rst:608
+#: ../../changes.rst:609
 msgid "Improved CSV export for changes."
 msgstr ""
 
-#: ../../changes.rst:611
+#: ../../changes.rst:612
 msgid "Weblate 3.2.2"
 msgstr ""
 
-#: ../../changes.rst:613
+#: ../../changes.rst:614
 msgid "Released on October 20th 2018."
 msgstr ""
 
-#: ../../changes.rst:615
+#: ../../changes.rst:616
 msgid "Remove no longer needed Babel dependency."
 msgstr ""
 
-#: ../../changes.rst:616
+#: ../../changes.rst:617
 msgid "Updated language definitions."
 msgstr ""
 
-#: ../../changes.rst:617
+#: ../../changes.rst:618
 msgid "Improve documentation for addons, LDAP and Celery."
 msgstr ""
 
-#: ../../changes.rst:618
+#: ../../changes.rst:619
 msgid "Fixed enabling new dos-eol and auto-java-messageformat flags."
 msgstr ""
 
-#: ../../changes.rst:619
+#: ../../changes.rst:620
 msgid "Fixed running setup.py test from PyPI package."
 msgstr ""
 
-#: ../../changes.rst:620
+#: ../../changes.rst:621
 msgid "Improved plurals handling."
 msgstr ""
 
-#: ../../changes.rst:621
+#: ../../changes.rst:622
 msgid "Fixed translation upload API failure in some corner cases."
 msgstr ""
 
-#: ../../changes.rst:622
+#: ../../changes.rst:623
 msgid "Fixed updating Git configuration in case it was changed manually."
 msgstr ""
 
-#: ../../changes.rst:625
+#: ../../changes.rst:626
 msgid "Weblate 3.2.1"
 msgstr ""
 
-#: ../../changes.rst:627
+#: ../../changes.rst:628
 msgid "Released on October 10th 2018."
 msgstr ""
 
-#: ../../changes.rst:629
+#: ../../changes.rst:630
 msgid "Document dependency on backports.csv on Python 2.7."
 msgstr ""
 
-#: ../../changes.rst:630
+#: ../../changes.rst:631
 msgid "Fix running tests under root."
 msgstr ""
 
-#: ../../changes.rst:631
+#: ../../changes.rst:632
 msgid "Improved error handling in gitexport module."
 msgstr ""
 
-#: ../../changes.rst:632
+#: ../../changes.rst:633
 msgid "Fixed progress reporting for newly added languages."
 msgstr ""
 
-#: ../../changes.rst:633
+#: ../../changes.rst:634
 msgid "Correctly report Celery worker errors to Sentry."
 msgstr ""
 
-#: ../../changes.rst:634
+#: ../../changes.rst:635
 msgid "Fixed creating new translations with Qt Linguist."
 msgstr ""
 
-#: ../../changes.rst:635
+#: ../../changes.rst:636
 msgid "Fixed occasional fulltext index update failures."
 msgstr ""
 
-#: ../../changes.rst:636
+#: ../../changes.rst:637
 msgid "Improved validation when creating new components."
 msgstr ""
 
-#: ../../changes.rst:637
+#: ../../changes.rst:638
 msgid "Added support for cleanup of old suggestions."
 msgstr ""
 
-#: ../../changes.rst:640
+#: ../../changes.rst:641
 msgid "Weblate 3.2"
 msgstr ""
 
-#: ../../changes.rst:642
+#: ../../changes.rst:643
 msgid "Released on October 6th 2018."
 msgstr ""
 
-#: ../../changes.rst:644
+#: ../../changes.rst:645
 msgid "Add install_addon management command for automated addon installation."
 msgstr ""
 
-#: ../../changes.rst:645
+#: ../../changes.rst:646
 msgid "Allow more fine grained ratelimit settings."
 msgstr ""
 
-#: ../../changes.rst:646
+#: ../../changes.rst:647
 msgid "Added support for export and import of Excel files."
 msgstr ""
 
-#: ../../changes.rst:647
+#: ../../changes.rst:648
 msgid ""
 "Improve component cleanup in case of multiple component discovery addons."
 msgstr ""
 
-#: ../../changes.rst:648
+#: ../../changes.rst:649
 msgid "Rewritten Microsoft Terminology machine translation backend."
 msgstr ""
 
-#: ../../changes.rst:649
+#: ../../changes.rst:650
 msgid "Weblate now uses Celery to offload some processing."
 msgstr ""
 
-#: ../../changes.rst:650
+#: ../../changes.rst:651
 msgid "Improved search capabilities and added regular expression search."
 msgstr ""
 
-#: ../../changes.rst:651
+#: ../../changes.rst:652
 msgid "Added support for Youdao Zhiyun API machine translation."
 msgstr ""
 
-#: ../../changes.rst:652
+#: ../../changes.rst:653
 msgid "Added support for Baidu API machine translation."
 msgstr ""
 
-#: ../../changes.rst:653
+#: ../../changes.rst:654
 msgid "Integrated maintenance and cleanup tasks using Celery."
 msgstr ""
 
-#: ../../changes.rst:654
+#: ../../changes.rst:655
 msgid "Improved performance of loading translations by almost 25%."
 msgstr ""
 
-#: ../../changes.rst:655
+#: ../../changes.rst:656
 msgid "Removed support for merging headers on upload."
 msgstr ""
 
-#: ../../changes.rst:656
+#: ../../changes.rst:657
 msgid "Removed support for custom commit messages."
 msgstr ""
 
-#: ../../changes.rst:657
+#: ../../changes.rst:658
 msgid "Configurable editing mode (zen/full)."
 msgstr ""
 
-#: ../../changes.rst:658
+#: ../../changes.rst:659
 msgid "Added support for error reporting to Sentry."
 msgstr ""
 
-#: ../../changes.rst:659
+#: ../../changes.rst:660
 msgid "Added support for automated daily update of repositories."
 msgstr ""
 
-#: ../../changes.rst:660
+#: ../../changes.rst:661
 msgid "Added support for creating projects and components by users."
 msgstr ""
 
-#: ../../changes.rst:661
+#: ../../changes.rst:662
 msgid "Built in translation memory now automatically stores translations done."
 msgstr ""
 
-#: ../../changes.rst:662
+#: ../../changes.rst:663
 msgid "Users and projects can import their existing translation memories."
 msgstr ""
 
-#: ../../changes.rst:663
+#: ../../changes.rst:664
 msgid "Better management of related strings for screenshots."
 msgstr ""
 
-#: ../../changes.rst:664
+#: ../../changes.rst:665
 msgid "Added support for checking Java MessageFormat."
 msgstr ""
 
-#: ../../changes.rst:666
+#: ../../changes.rst:667
 msgid ""
 "See `3.2 milestone on GitHub <https://github.com/WeblateOrg/weblate/"
 "milestone/36?closed=1>`_ for detailed list of addressed issues."
 msgstr ""
 
-#: ../../changes.rst:670
+#: ../../changes.rst:671
 msgid "Weblate 3.1.1"
 msgstr ""
 
-#: ../../changes.rst:672 ../../changes.rst:679
+#: ../../changes.rst:673 ../../changes.rst:680
 msgid "Released on July 27th 2018."
 msgstr ""
 
-#: ../../changes.rst:674
+#: ../../changes.rst:675
 msgid "Fix testsuite failure on some setups."
 msgstr ""
 
-#: ../../changes.rst:677
+#: ../../changes.rst:678
 msgid "Weblate 3.1"
 msgstr ""
 
-#: ../../changes.rst:681
+#: ../../changes.rst:682
 msgid "Upgrades from older version than 3.0.1 are not supported."
 msgstr ""
 
-#: ../../changes.rst:682
+#: ../../changes.rst:683
 msgid "Allow to override default commit messages from settings."
 msgstr ""
 
-#: ../../changes.rst:683
+#: ../../changes.rst:684
 msgid "Improve webhooks compatibility with self hosted environments."
 msgstr ""
 
-#: ../../changes.rst:684
+#: ../../changes.rst:685
 msgid "Added support for Amazon Translate."
 msgstr ""
 
-#: ../../changes.rst:685
+#: ../../changes.rst:686
 msgid "Compatibility with Django 2.1."
 msgstr ""
 
-#: ../../changes.rst:686
+#: ../../changes.rst:687
 msgid ""
 "Django system checks are now used to diagnose problems with installation."
 msgstr ""
 
-#: ../../changes.rst:687
+#: ../../changes.rst:688
 msgid "Removed support for soon shutdown libravatar service."
 msgstr ""
 
-#: ../../changes.rst:688
+#: ../../changes.rst:689
 msgid "New addon to mark unchanged translations as needing edit."
 msgstr ""
 
-#: ../../changes.rst:689
+#: ../../changes.rst:690
 msgid "Add support for jumping to specific location while translating."
 msgstr ""
 
-#: ../../changes.rst:690
+#: ../../changes.rst:691
 msgid "Downloaded translations can now be customized."
 msgstr ""
 
-#: ../../changes.rst:691
+#: ../../changes.rst:692
 msgid ""
 "Improved calculation of string similarity in translation memory matches."
 msgstr ""
 
-#: ../../changes.rst:692
+#: ../../changes.rst:693
 msgid "Added support by signing Git commits by GnuPG."
 msgstr ""
 
-#: ../../changes.rst:695
+#: ../../changes.rst:696
 msgid "Weblate 3.0.1"
 msgstr ""
 
-#: ../../changes.rst:697
+#: ../../changes.rst:698
 msgid "Released on June 10th 2018."
 msgstr ""
 
-#: ../../changes.rst:699
+#: ../../changes.rst:700
 msgid "Fixed possible migration issue from 2.20."
 msgstr ""
 
-#: ../../changes.rst:701
+#: ../../changes.rst:702
 msgid "Removed obsolete hook examples."
 msgstr ""
 
-#: ../../changes.rst:702
+#: ../../changes.rst:703
 msgid "Improved caching documentation."
 msgstr ""
 
-#: ../../changes.rst:703
+#: ../../changes.rst:704
 msgid "Fixed displaying of admin documentation."
 msgstr ""
 
-#: ../../changes.rst:704
+#: ../../changes.rst:705
 msgid "Improved handling of long language names."
 msgstr ""
 
-#: ../../changes.rst:707
+#: ../../changes.rst:708
 msgid "Weblate 3.0"
 msgstr ""
 
-#: ../../changes.rst:709
+#: ../../changes.rst:710
 msgid "Released on June 1st 2018."
 msgstr ""
 
-#: ../../changes.rst:711
+#: ../../changes.rst:712
 msgid "Rewritten access control."
 msgstr ""
 
-#: ../../changes.rst:712
+#: ../../changes.rst:713
 msgid "Several code cleanups that lead to moved and renamed modules."
 msgstr ""
 
-#: ../../changes.rst:713
+#: ../../changes.rst:714
 msgid "New addon for automatic component discovery."
 msgstr ""
 
-#: ../../changes.rst:714
+#: ../../changes.rst:715
 msgid ""
 "The import_project management command has now slightly different parameters."
 msgstr ""
 
-#: ../../changes.rst:715
+#: ../../changes.rst:716
 msgid "Added basic support for Windows RC files."
 msgstr ""
 
-#: ../../changes.rst:716
+#: ../../changes.rst:717
 msgid "New addon to store contributor names in PO file headers."
 msgstr ""
 
-#: ../../changes.rst:717
+#: ../../changes.rst:718
 msgid "The per component hook scripts are removed, use addons instead."
 msgstr ""
 
-#: ../../changes.rst:718
+#: ../../changes.rst:719
 msgid "Add support for collecting contributor agreements."
 msgstr ""
 
-#: ../../changes.rst:719
+#: ../../changes.rst:720
 msgid "Access control changes are now tracked in history."
 msgstr ""
 
-#: ../../changes.rst:720
+#: ../../changes.rst:721
 msgid "New addon to ensure all components in a project have same translations."
 msgstr ""
 
-#: ../../changes.rst:721
+#: ../../changes.rst:722
 msgid "Support for more variables in commit message templates."
 msgstr ""
 
-#: ../../changes.rst:722
+#: ../../changes.rst:723
 msgid "Add support for providing additional textual context."
 msgstr ""
 
-#: ../../changes.rst:725
+#: ../../changes.rst:726
 msgid "Weblate 2.x series"
 msgstr ""
 
-#: ../../changes.rst:728
+#: ../../changes.rst:729
 msgid "Weblate 2.20"
 msgstr ""
 
-#: ../../changes.rst:730
+#: ../../changes.rst:731
 msgid "Released on April 4th 2018."
 msgstr ""
 
-#: ../../changes.rst:732
+#: ../../changes.rst:733
 msgid "Improved speed of cloning subversion repositories."
 msgstr ""
 
-#: ../../changes.rst:733
+#: ../../changes.rst:734
 msgid "Changed repository locking to use third party library."
 msgstr ""
 
-#: ../../changes.rst:734
+#: ../../changes.rst:735
 msgid "Added support for downloading only strings needing action."
 msgstr ""
 
-#: ../../changes.rst:735
+#: ../../changes.rst:736
 msgid "Added support for searching in several languages at once."
 msgstr ""
 
-#: ../../changes.rst:736
+#: ../../changes.rst:737
 msgid "New addon to configure gettext output wrapping."
 msgstr ""
 
-#: ../../changes.rst:737
+#: ../../changes.rst:738
 msgid "New addon to configure JSON formatting."
 msgstr ""
 
-#: ../../changes.rst:738
+#: ../../changes.rst:739
 msgid ""
 "Added support for authentication in API using RFC 6750 compatible Bearer "
 "authentication."
 msgstr ""
 
-#: ../../changes.rst:739
+#: ../../changes.rst:740
 msgid ""
 "Added support for automatic translation using machine translation services."
 msgstr ""
 
-#: ../../changes.rst:740
+#: ../../changes.rst:741
 msgid "Added support for HTML markup in whiteboard messages."
 msgstr ""
 
-#: ../../changes.rst:741
+#: ../../changes.rst:742
 msgid "Added support for mass changing state of strings."
 msgstr ""
 
-#: ../../changes.rst:742
+#: ../../changes.rst:743
 msgid ""
 "Translate-toolkit at least 2.3.0 is now required, older versions are no "
 "longer supported."
 msgstr ""
 
-#: ../../changes.rst:743
+#: ../../changes.rst:744
 msgid "Added built in translation memory."
 msgstr ""
 
-#: ../../changes.rst:744
+#: ../../changes.rst:745
 msgid ""
 "Added componentlists overview to dashboard and per component list overview "
 "pages."
 msgstr ""
 
-#: ../../changes.rst:745
+#: ../../changes.rst:746
 msgid "Added support for DeepL machine translation service."
 msgstr ""
 
-#: ../../changes.rst:746
+#: ../../changes.rst:747
 msgid "Machine translation results are now cached inside Weblate."
 msgstr ""
 
-#: ../../changes.rst:747
+#: ../../changes.rst:748
 msgid "Added support for reordering committed changes."
 msgstr ""
 
-#: ../../changes.rst:750
+#: ../../changes.rst:751
 msgid "Weblate 2.19.1"
 msgstr ""
 
-#: ../../changes.rst:752
+#: ../../changes.rst:753
 msgid "Released on February 20th 2018."
 msgstr ""
 
-#: ../../changes.rst:754
+#: ../../changes.rst:755
 msgid "Fixed migration issue on upgrade from 2.18."
 msgstr ""
 
-#: ../../changes.rst:755
+#: ../../changes.rst:756
 msgid "Improved file upload API validation."
 msgstr ""
 
-#: ../../changes.rst:758
+#: ../../changes.rst:759
 msgid "Weblate 2.19"
 msgstr ""
 
-#: ../../changes.rst:760
+#: ../../changes.rst:761
 msgid "Released on February 15th 2018."
 msgstr ""
 
-#: ../../changes.rst:762
+#: ../../changes.rst:763
 msgid "Fixed imports across some file formats."
 msgstr ""
 
-#: ../../changes.rst:763
+#: ../../changes.rst:764
 msgid "Display human friendly browser information in audit log."
 msgstr ""
 
-#: ../../changes.rst:764
+#: ../../changes.rst:765
 msgid "Added TMX exporter for files."
 msgstr ""
 
-#: ../../changes.rst:765
+#: ../../changes.rst:766
 msgid "Various performance improvements for loading translation files."
 msgstr ""
 
-#: ../../changes.rst:766
+#: ../../changes.rst:767
 msgid ""
 "Added option to disable access management in Weblate in favor of Django one."
 msgstr ""
 
-#: ../../changes.rst:767
+#: ../../changes.rst:768
 msgid "Improved glossary lookup speed for large strings."
 msgstr ""
 
-#: ../../changes.rst:768
+#: ../../changes.rst:769
 msgid "Compatibility with django_auth_ldap 1.3.0."
 msgstr ""
 
-#: ../../changes.rst:769
+#: ../../changes.rst:770
 msgid "Configuration errors are now stored and reported persistently."
 msgstr ""
 
-#: ../../changes.rst:770
+#: ../../changes.rst:771
 msgid "Honor ignore flags in whitespace autofixer."
 msgstr ""
 
-#: ../../changes.rst:771
+#: ../../changes.rst:772
 msgid "Improved compatibility with some Subversion setups."
 msgstr ""
 
-#: ../../changes.rst:772
+#: ../../changes.rst:773
 msgid "Improved built in machine translation service."
 msgstr ""
 
-#: ../../changes.rst:773
+#: ../../changes.rst:774
 msgid "Added support for SAP Translation Hub service."
 msgstr ""
 
-#: ../../changes.rst:774
+#: ../../changes.rst:775
 msgid "Added support for Microsoft Terminology service."
 msgstr ""
 
-#: ../../changes.rst:775
+#: ../../changes.rst:776
 msgid "Removed support for advertisement in notification e-mails."
 msgstr ""
 
-#: ../../changes.rst:776
+#: ../../changes.rst:777
 msgid "Improved translation progress reporting at language level."
 msgstr ""
 
-#: ../../changes.rst:777
+#: ../../changes.rst:778
 msgid "Improved support for different plural formulas."
 msgstr ""
 
-#: ../../changes.rst:778
+#: ../../changes.rst:779
 msgid "Added support for Subversion repositories not using stdlayout."
 msgstr ""
 
-#: ../../changes.rst:779
+#: ../../changes.rst:780
 msgid "Added addons to customize translation workflows."
 msgstr ""
 
-#: ../../changes.rst:782
+#: ../../changes.rst:783
 msgid "Weblate 2.18"
 msgstr ""
 
-#: ../../changes.rst:784
+#: ../../changes.rst:785
 msgid "Released on December 15th 2017."
 msgstr ""
 
-#: ../../changes.rst:786
+#: ../../changes.rst:787
 msgid "Extended contributor stats."
 msgstr ""
 
-#: ../../changes.rst:787
+#: ../../changes.rst:788
 msgid "Improved configuration of special characters virtual keyboard."
 msgstr ""
 
-#: ../../changes.rst:788
+#: ../../changes.rst:789
 msgid "Added support for DTD file format."
 msgstr ""
 
-#: ../../changes.rst:789
+#: ../../changes.rst:790
 msgid ""
 "Changed keyboard shortcuts to less likely collide with browser/system ones."
 msgstr ""
 
-#: ../../changes.rst:790
+#: ../../changes.rst:791
 msgid "Improved support for approved flag in XLIFF files."
 msgstr ""
 
-#: ../../changes.rst:791
+#: ../../changes.rst:792
 msgid "Added support for not wrapping long strings in gettext PO files."
 msgstr ""
 
-#: ../../changes.rst:792
+#: ../../changes.rst:793
 msgid "Added button to copy permalink for current translation."
 msgstr ""
 
-#: ../../changes.rst:793
+#: ../../changes.rst:794
 msgid "Dropped support for Django 1.10 and added support for Django 2.0."
 msgstr ""
 
-#: ../../changes.rst:794
+#: ../../changes.rst:795
 msgid "Removed locking of translations while translating."
 msgstr ""
 
-#: ../../changes.rst:795
+#: ../../changes.rst:796
 msgid "Added support for adding new strings to monolingual translations."
 msgstr ""
 
-#: ../../changes.rst:796
+#: ../../changes.rst:797
 msgid "Added support for translation workflows with dedicated reviewers."
 msgstr ""
 
-#: ../../changes.rst:799
+#: ../../changes.rst:800
 msgid "Weblate 2.17.1"
 msgstr ""
 
-#: ../../changes.rst:801 ../../changes.rst:809
+#: ../../changes.rst:802 ../../changes.rst:810
 msgid "Released on October 13th 2017."
 msgstr ""
 
-#: ../../changes.rst:803
+#: ../../changes.rst:804
 msgid "Fixed running testsuite in some specific situations."
 msgstr ""
 
-#: ../../changes.rst:804
+#: ../../changes.rst:805
 msgid "Locales updates."
 msgstr ""
 
-#: ../../changes.rst:807
+#: ../../changes.rst:808
 msgid "Weblate 2.17"
 msgstr ""
 
-#: ../../changes.rst:811
+#: ../../changes.rst:812
 msgid "Weblate by default does shallow Git clones now."
 msgstr ""
 
-#: ../../changes.rst:812
+#: ../../changes.rst:813
 msgid "Improved performance when updating large translation files."
 msgstr ""
 
-#: ../../changes.rst:813
+#: ../../changes.rst:814
 msgid "Added support for blocking certain e-mails from registration."
 msgstr ""
 
-#: ../../changes.rst:814
+#: ../../changes.rst:815
 msgid "Users can now delete their own comments."
 msgstr ""
 
-#: ../../changes.rst:815
+#: ../../changes.rst:816
 msgid "Added preview step to search and replace feature."
 msgstr ""
 
-#: ../../changes.rst:816
+#: ../../changes.rst:817
 msgid "Client side persistence of settings in search and upload forms."
 msgstr ""
 
-#: ../../changes.rst:818
+#: ../../changes.rst:819
 msgid "More fine grained per project ACL configuration."
 msgstr ""
 
-#: ../../changes.rst:819
+#: ../../changes.rst:820
 msgid "Default value of BASE_DIR has been changed."
 msgstr ""
 
-#: ../../changes.rst:820
+#: ../../changes.rst:821
 msgid "Added two step account removal to prevent accidental removal."
 msgstr ""
 
-#: ../../changes.rst:821
+#: ../../changes.rst:822
 msgid "Project access control settings is now editable."
 msgstr ""
 
-#: ../../changes.rst:822
+#: ../../changes.rst:823
 msgid "Added optional spam protection for suggestions using Akismet."
 msgstr ""
 
-#: ../../changes.rst:825
+#: ../../changes.rst:826
 msgid "Weblate 2.16"
 msgstr ""
 
-#: ../../changes.rst:827
+#: ../../changes.rst:828
 msgid "Released on August 11th 2017."
 msgstr ""
 
-#: ../../changes.rst:829 ../../changes.rst:955 ../../changes.rst:1307
+#: ../../changes.rst:830 ../../changes.rst:956 ../../changes.rst:1308
 msgid "Various performance improvements."
 msgstr ""
 
-#: ../../changes.rst:830
+#: ../../changes.rst:831
 msgid "Added support for nested JSON format."
 msgstr ""
 
-#: ../../changes.rst:831
+#: ../../changes.rst:832
 msgid "Added support for WebExtension JSON format."
 msgstr ""
 
-#: ../../changes.rst:832
+#: ../../changes.rst:833
 msgid "Fixed git exporter authentication."
 msgstr ""
 
-#: ../../changes.rst:833
+#: ../../changes.rst:834
 msgid "Improved CSV import in certain situations."
 msgstr ""
 
-#: ../../changes.rst:834
+#: ../../changes.rst:835
 msgid "Improved look of Other translations widget."
 msgstr ""
 
-#: ../../changes.rst:835
+#: ../../changes.rst:836
 msgid "The max-length checks is now enforcing length of text in form."
 msgstr ""
 
-#: ../../changes.rst:836
+#: ../../changes.rst:837
 msgid "Make the commit_pending age configurable per component."
 msgstr ""
 
-#: ../../changes.rst:837
+#: ../../changes.rst:838
 msgid "Various user interface cleanups."
 msgstr ""
 
-#: ../../changes.rst:838
+#: ../../changes.rst:839
 msgid "Fixed component/project/site wide search for translations."
 msgstr ""
 
-#: ../../changes.rst:841
+#: ../../changes.rst:842
 msgid "Weblate 2.15"
 msgstr ""
 
-#: ../../changes.rst:843
+#: ../../changes.rst:844
 msgid "Released on June 30th 2017."
 msgstr ""
 
-#: ../../changes.rst:845
+#: ../../changes.rst:846
 msgid "Show more related translations in other translations."
 msgstr ""
 
-#: ../../changes.rst:846
+#: ../../changes.rst:847
 msgid "Add option to see translations of current string to other languages."
 msgstr ""
 
-#: ../../changes.rst:847
+#: ../../changes.rst:848
 msgid "Use 4 plural forms for Lithuanian by default."
 msgstr ""
 
-#: ../../changes.rst:848
+#: ../../changes.rst:849
 msgid "Fixed upload for monolingual files of different format."
 msgstr ""
 
-#: ../../changes.rst:849
+#: ../../changes.rst:850
 msgid "Improved error messages on failed authentication."
 msgstr ""
 
-#: ../../changes.rst:850
+#: ../../changes.rst:851
 msgid "Keep page state when removing word from glossary."
 msgstr ""
 
-#: ../../changes.rst:851
+#: ../../changes.rst:852
 msgid "Added direct link to edit secondary language translation."
 msgstr ""
 
-#: ../../changes.rst:852
+#: ../../changes.rst:853
 msgid "Added Perl format quality check."
 msgstr ""
 
-#: ../../changes.rst:853
+#: ../../changes.rst:854
 msgid "Added support for rejecting reused passwords."
 msgstr ""
 
-#: ../../changes.rst:854
+#: ../../changes.rst:855
 msgid "Extended toolbar for editing RTL languages."
 msgstr ""
 
-#: ../../changes.rst:857
+#: ../../changes.rst:858
 msgid "Weblate 2.14.1"
 msgstr ""
 
-#: ../../changes.rst:859
+#: ../../changes.rst:860
 msgid "Released on May 24th 2017."
 msgstr ""
 
-#: ../../changes.rst:861
+#: ../../changes.rst:862
 msgid "Fixed possible error when paginating search results."
 msgstr ""
 
-#: ../../changes.rst:862
+#: ../../changes.rst:863
 msgid "Fixed migrations from older versions in some corner cases."
 msgstr ""
 
-#: ../../changes.rst:863
+#: ../../changes.rst:864
 msgid "Fixed possible CSRF on project watch and unwatch."
 msgstr ""
 
-#: ../../changes.rst:864
+#: ../../changes.rst:865
 msgid "The password reset no longer authenticates user."
 msgstr ""
 
-#: ../../changes.rst:865
+#: ../../changes.rst:866
 msgid "Fixed possible CAPTCHA bypass on forgotten password."
 msgstr ""
 
-#: ../../changes.rst:868
+#: ../../changes.rst:869
 msgid "Weblate 2.14"
 msgstr ""
 
-#: ../../changes.rst:870
+#: ../../changes.rst:871
 msgid "Released on May 17th 2017."
 msgstr ""
 
-#: ../../changes.rst:872
+#: ../../changes.rst:873
 msgid "Add glossary entries using AJAX."
 msgstr ""
 
-#: ../../changes.rst:873
+#: ../../changes.rst:874
 msgid "The logout now uses POST to avoid CSRF."
 msgstr ""
 
-#: ../../changes.rst:874
+#: ../../changes.rst:875
 msgid "The API key token reset now uses POST to avoid CSRF."
 msgstr ""
 
-#: ../../changes.rst:875
+#: ../../changes.rst:876
 msgid "Weblate sets Content-Security-Policy by default."
 msgstr ""
 
-#: ../../changes.rst:876
+#: ../../changes.rst:877
 msgid "The local editor URL is validated to avoid self-XSS."
 msgstr ""
 
-#: ../../changes.rst:877
+#: ../../changes.rst:878
 msgid "The password is now validated against common flaws by default."
 msgstr ""
 
-#: ../../changes.rst:878
+#: ../../changes.rst:879
 msgid ""
 "Notify users about important activity with their account such as password "
 "change."
 msgstr ""
 
-#: ../../changes.rst:879
+#: ../../changes.rst:880
 msgid "The CSV exports now escape potential formulas."
 msgstr ""
 
-#: ../../changes.rst:880
+#: ../../changes.rst:881
 msgid "Various minor improvements in security."
 msgstr ""
 
-#: ../../changes.rst:881
+#: ../../changes.rst:882
 msgid "The authentication attempts are now rate limited."
 msgstr ""
 
-#: ../../changes.rst:882
+#: ../../changes.rst:883
 msgid "Suggestion content is stored in the history."
 msgstr ""
 
-#: ../../changes.rst:883
+#: ../../changes.rst:884
 msgid "Store important account activity in audit log."
 msgstr ""
 
-#: ../../changes.rst:884
+#: ../../changes.rst:885
 msgid ""
 "Ask for password confirmation when removing account or adding new "
 "associations."
 msgstr ""
 
-#: ../../changes.rst:885
+#: ../../changes.rst:886
 msgid "Show time when suggestion has been made."
 msgstr ""
 
-#: ../../changes.rst:886
+#: ../../changes.rst:887
 msgid "There is new quality check for trailing semicolon."
 msgstr ""
 
-#: ../../changes.rst:887
+#: ../../changes.rst:888
 msgid "Ensure that search links can be shared."
 msgstr ""
 
-#: ../../changes.rst:888
+#: ../../changes.rst:889
 msgid "Included source string information and screenshots in the API."
 msgstr ""
 
-#: ../../changes.rst:889
+#: ../../changes.rst:890
 msgid "Allow to overwrite translations through API upload."
 msgstr ""
 
-#: ../../changes.rst:892
+#: ../../changes.rst:893
 msgid "Weblate 2.13.1"
 msgstr ""
 
-#: ../../changes.rst:894 ../../changes.rst:904
+#: ../../changes.rst:895 ../../changes.rst:905
 msgid "Released on Apr 12th 2017."
 msgstr ""
 
-#: ../../changes.rst:896
+#: ../../changes.rst:897
 msgid "Fixed listing of managed projects in profile."
 msgstr ""
 
-#: ../../changes.rst:897
+#: ../../changes.rst:898
 msgid "Fixed migration issue where some permissions were missing."
 msgstr ""
 
-#: ../../changes.rst:898
+#: ../../changes.rst:899
 msgid "Fixed listing of current file format in translation download."
 msgstr ""
 
-#: ../../changes.rst:899
+#: ../../changes.rst:900
 msgid ""
 "Return HTTP 404 when trying to access project where user lacks privileges."
 msgstr ""
 
-#: ../../changes.rst:902
+#: ../../changes.rst:903
 msgid "Weblate 2.13"
 msgstr ""
 
-#: ../../changes.rst:906
+#: ../../changes.rst:907
 msgid "Fixed quality checks on translation templates."
 msgstr ""
 
-#: ../../changes.rst:907
+#: ../../changes.rst:908
 msgid "Added quality check to trigger on losing translation."
 msgstr ""
 
-#: ../../changes.rst:908
+#: ../../changes.rst:909
 msgid "Add option to view pending suggestions from user."
 msgstr ""
 
-#: ../../changes.rst:909
+#: ../../changes.rst:910
 msgid "Add option to automatically build component lists."
 msgstr ""
 
-#: ../../changes.rst:910
+#: ../../changes.rst:911
 msgid "Default dashboard for unauthenticated users can be configured."
 msgstr ""
 
-#: ../../changes.rst:911
+#: ../../changes.rst:912
 msgid "Add option to browse 25 random strings for review."
 msgstr ""
 
-#: ../../changes.rst:912
+#: ../../changes.rst:913
 msgid "History now indicates string change."
 msgstr ""
 
-#: ../../changes.rst:913
+#: ../../changes.rst:914
 msgid "Better error reporting when adding new translation."
 msgstr ""
 
-#: ../../changes.rst:914
+#: ../../changes.rst:915
 msgid "Added per language search within project."
 msgstr ""
 
-#: ../../changes.rst:915
+#: ../../changes.rst:916
 msgid "Group ACLs can now be limited to certain permissions."
 msgstr ""
 
-#: ../../changes.rst:916
+#: ../../changes.rst:917
 msgid "The per project ALCs are now implemented using Group ACL."
 msgstr ""
 
-#: ../../changes.rst:917
+#: ../../changes.rst:918
 msgid "Added more fine grained privileges control."
 msgstr ""
 
-#: ../../changes.rst:918
+#: ../../changes.rst:919
 msgid "Various minor UI improvements."
 msgstr ""
 
-#: ../../changes.rst:921
+#: ../../changes.rst:922
 msgid "Weblate 2.12"
 msgstr ""
 
-#: ../../changes.rst:923
+#: ../../changes.rst:924
 msgid "Released on Mar 3rd 2017."
 msgstr ""
 
-#: ../../changes.rst:925
+#: ../../changes.rst:926
 msgid "Improved admin interface for groups."
 msgstr ""
 
-#: ../../changes.rst:926
+#: ../../changes.rst:927
 msgid "Added support for Yandex Translate API."
 msgstr ""
 
-#: ../../changes.rst:927
+#: ../../changes.rst:928
 msgid "Improved speed of site wide search."
 msgstr ""
 
-#: ../../changes.rst:928
+#: ../../changes.rst:929
 msgid "Added project and component wide search."
 msgstr ""
 
-#: ../../changes.rst:929
+#: ../../changes.rst:930
 msgid "Added project and component wide search and replace."
 msgstr ""
 
-#: ../../changes.rst:930
+#: ../../changes.rst:931
 msgid "Improved rendering of inconsistent translations."
 msgstr ""
 
-#: ../../changes.rst:931
+#: ../../changes.rst:932
 msgid "Added support for opening source files in local editor."
 msgstr ""
 
-#: ../../changes.rst:932
+#: ../../changes.rst:933
 msgid "Added support for configuring visual keyboard with special characters."
 msgstr ""
 
-#: ../../changes.rst:933
+#: ../../changes.rst:934
 msgid ""
 "Improved screenshot management with OCR support for matching source strings."
 msgstr ""
 
-#: ../../changes.rst:934
+#: ../../changes.rst:935
 msgid "Default commit message now includes translation information and URL."
 msgstr ""
 
-#: ../../changes.rst:935
+#: ../../changes.rst:936
 msgid "Added support for Joomla translation format."
 msgstr ""
 
-#: ../../changes.rst:936
+#: ../../changes.rst:937
 msgid "Improved reliability of import across file formats."
 msgstr ""
 
-#: ../../changes.rst:939
+#: ../../changes.rst:940
 msgid "Weblate 2.11"
 msgstr ""
 
-#: ../../changes.rst:941
+#: ../../changes.rst:942
 msgid "Released on Jan 31st 2017."
 msgstr ""
 
-#: ../../changes.rst:943
+#: ../../changes.rst:944
 msgid "Include language detailed information on language page."
 msgstr ""
 
-#: ../../changes.rst:944
+#: ../../changes.rst:945
 msgid "Mercurial backend improvements."
 msgstr ""
 
-#: ../../changes.rst:945
+#: ../../changes.rst:946
 msgid "Added option to specify translation component priority."
 msgstr ""
 
-#: ../../changes.rst:946
+#: ../../changes.rst:947
 msgid "More consistent usage of Group ACL even with less used permissions."
 msgstr ""
 
-#: ../../changes.rst:947
+#: ../../changes.rst:948
 msgid "Added WL_BRANCH variable to hook scripts."
 msgstr ""
 
-#: ../../changes.rst:948
+#: ../../changes.rst:949
 msgid "Improved developer documentation."
 msgstr ""
 
-#: ../../changes.rst:949
+#: ../../changes.rst:950
 msgid "Better compatibility with various Git versions in Git exporter addon."
 msgstr ""
 
-#: ../../changes.rst:950
-msgid "Included per project and component stats."
-msgstr ""
-
 #: ../../changes.rst:951
-msgid ""
-"Added language code mapping for better support of Microsoft Translate API."
+msgid "Included per project and component stats."
 msgstr ""
 
 #: ../../changes.rst:952
 msgid ""
-"Moved fulltext cleanup to background job to make translation removal faster."
+"Added language code mapping for better support of Microsoft Translate API."
 msgstr ""
 
 #: ../../changes.rst:953
 msgid ""
-"Fixed displaying of plural source for languages with single plural form."
+"Moved fulltext cleanup to background job to make translation removal faster."
 msgstr ""
 
 #: ../../changes.rst:954
+msgid ""
+"Fixed displaying of plural source for languages with single plural form."
+msgstr ""
+
+#: ../../changes.rst:955
 msgid "Improved error handling in import_project."
 msgstr ""
 
-#: ../../changes.rst:958
+#: ../../changes.rst:959
 msgid "Weblate 2.10.1"
 msgstr ""
 
-#: ../../changes.rst:960
+#: ../../changes.rst:961
 msgid "Released on Jan 20th 2017."
 msgstr ""
 
-#: ../../changes.rst:962
+#: ../../changes.rst:963
 msgid "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgstr ""
 
-#: ../../changes.rst:965
+#: ../../changes.rst:966
 msgid "Weblate 2.10"
 msgstr ""
 
-#: ../../changes.rst:967
+#: ../../changes.rst:968
 msgid "Released on Dec 15th 2016."
 msgstr ""
 
-#: ../../changes.rst:969
+#: ../../changes.rst:970
 msgid ""
 "Added quality check to check whether plurals are translated differently."
 msgstr ""
 
-#: ../../changes.rst:970
+#: ../../changes.rst:971
 msgid "Fixed GitHub hooks for repositories with authentication."
 msgstr ""
 
-#: ../../changes.rst:971
+#: ../../changes.rst:972
 msgid "Added optional Git exporter module."
 msgstr ""
 
-#: ../../changes.rst:972
+#: ../../changes.rst:973
 msgid "Support for Microsoft Cognitive Services Translator API."
 msgstr ""
 
-#: ../../changes.rst:973
+#: ../../changes.rst:974
 msgid "Simplified project and component user interface."
 msgstr ""
 
-#: ../../changes.rst:974
+#: ../../changes.rst:975
 msgid "Added automatic fix to remove control characters."
 msgstr ""
 
-#: ../../changes.rst:975
+#: ../../changes.rst:976
 msgid "Added per language overview to project."
 msgstr ""
 
-#: ../../changes.rst:976
+#: ../../changes.rst:977
 msgid "Added support for CSV export."
 msgstr ""
 
-#: ../../changes.rst:977
+#: ../../changes.rst:978
 msgid "Added CSV download for stats."
 msgstr ""
 
-#: ../../changes.rst:978
+#: ../../changes.rst:979
 msgid "Added matrix view for quick overview of all translations"
 msgstr ""
 
-#: ../../changes.rst:979
+#: ../../changes.rst:980
 msgid "Added basic API for changes and strings."
 msgstr ""
 
-#: ../../changes.rst:980
+#: ../../changes.rst:981
 msgid "Added support for Apertium APy server for machine translations."
 msgstr ""
 
-#: ../../changes.rst:983
+#: ../../changes.rst:984
 msgid "Weblate 2.9"
 msgstr ""
 
-#: ../../changes.rst:985
+#: ../../changes.rst:986
 msgid "Released on Nov 4th 2016."
 msgstr ""
 
-#: ../../changes.rst:987
+#: ../../changes.rst:988
 msgid "Extended parameters for createadmin management command."
 msgstr ""
 
-#: ../../changes.rst:988
+#: ../../changes.rst:989
 msgid "Extended import_json to be able to handle with existing components."
 msgstr ""
 
-#: ../../changes.rst:989
+#: ../../changes.rst:990
 msgid "Added support for YAML files."
 msgstr ""
 
-#: ../../changes.rst:990
+#: ../../changes.rst:991
 msgid ""
 "Project owners can now configure translation component and project details."
 msgstr ""
 
-#: ../../changes.rst:991
+#: ../../changes.rst:992
 msgid "Use \"Watched\" instead of \"Subscribed\" projects."
 msgstr ""
 
-#: ../../changes.rst:992
+#: ../../changes.rst:993
 msgid "Projects can be watched directly from project page."
 msgstr ""
 
-#: ../../changes.rst:993
+#: ../../changes.rst:994
 msgid "Added multi language status widget."
 msgstr ""
 
-#: ../../changes.rst:994
+#: ../../changes.rst:995
 msgid "Highlight secondary language if not showing source."
 msgstr ""
 
-#: ../../changes.rst:995
+#: ../../changes.rst:996
 msgid "Record suggestion deletion in history."
 msgstr ""
 
-#: ../../changes.rst:996
+#: ../../changes.rst:997
 msgid "Improved UX of languages selection in profile."
 msgstr ""
 
-#: ../../changes.rst:997
+#: ../../changes.rst:998
 msgid "Fixed showing whiteboard messages for component."
 msgstr ""
 
-#: ../../changes.rst:998
+#: ../../changes.rst:999
 msgid "Keep preferences tab selected after saving."
 msgstr ""
 
-#: ../../changes.rst:999
+#: ../../changes.rst:1000
 msgid "Show source string comment more prominently."
 msgstr ""
 
-#: ../../changes.rst:1000
+#: ../../changes.rst:1001
 msgid "Automatically install Gettext PO merge driver for Git repositories."
 msgstr ""
 
-#: ../../changes.rst:1001
+#: ../../changes.rst:1002
 msgid "Added search and replace feature."
 msgstr ""
 
-#: ../../changes.rst:1002
+#: ../../changes.rst:1003
 msgid ""
 "Added support for uploading visual context (screenshots) for translations."
 msgstr ""
 
-#: ../../changes.rst:1005
+#: ../../changes.rst:1006
 msgid "Weblate 2.8"
 msgstr ""
 
-#: ../../changes.rst:1007
+#: ../../changes.rst:1008
 msgid "Released on Aug 31st 2016."
 msgstr ""
 
-#: ../../changes.rst:1009 ../../changes.rst:1063 ../../changes.rst:1096
-#: ../../changes.rst:1183 ../../changes.rst:1199 ../../changes.rst:1245
-#: ../../changes.rst:1392 ../../changes.rst:1430
+#: ../../changes.rst:1010 ../../changes.rst:1064 ../../changes.rst:1097
+#: ../../changes.rst:1184 ../../changes.rst:1200 ../../changes.rst:1246
+#: ../../changes.rst:1393 ../../changes.rst:1431
 msgid "Documentation improvements."
 msgstr ""
 
-#: ../../changes.rst:1010
+#: ../../changes.rst:1011
 msgid "Translations."
 msgstr ""
 
-#: ../../changes.rst:1011
+#: ../../changes.rst:1012
 msgid "Updated bundled javascript libraries."
 msgstr ""
 
-#: ../../changes.rst:1012
+#: ../../changes.rst:1013
 msgid "Added list_translators management command."
 msgstr ""
 
-#: ../../changes.rst:1013
+#: ../../changes.rst:1014
 msgid "Django 1.8 is no longer supported."
 msgstr ""
 
-#: ../../changes.rst:1014
+#: ../../changes.rst:1015
 msgid "Fixed compatibility with Django 1.10."
 msgstr ""
 
-#: ../../changes.rst:1015
+#: ../../changes.rst:1016
 msgid "Added Subversion support."
 msgstr ""
 
-#: ../../changes.rst:1016
+#: ../../changes.rst:1017
 msgid "Separated XML validity check from XML mismatched tags."
 msgstr ""
 
-#: ../../changes.rst:1017
+#: ../../changes.rst:1018
 msgid "Fixed API to honor HIDE_REPO_CREDENTIALS settings."
 msgstr ""
 
-#: ../../changes.rst:1018
+#: ../../changes.rst:1019
 msgid "Show source change in Zen mode."
 msgstr ""
 
-#: ../../changes.rst:1019
+#: ../../changes.rst:1020
 msgid "Alt+PageUp/PageDown/Home/End now works in Zen mode as well."
 msgstr ""
 
-#: ../../changes.rst:1020
+#: ../../changes.rst:1021
 msgid "Add tooltip showing exact time of changes."
 msgstr ""
 
-#: ../../changes.rst:1021
+#: ../../changes.rst:1022
 msgid "Add option to select filters and search from translation page."
 msgstr ""
 
-#: ../../changes.rst:1022
+#: ../../changes.rst:1023
 msgid "Added UI for translation removal."
 msgstr ""
 
-#: ../../changes.rst:1023
+#: ../../changes.rst:1024
 msgid "Improved behavior when inserting placeables."
 msgstr ""
 
-#: ../../changes.rst:1024
+#: ../../changes.rst:1025
 msgid "Fixed auto locking issues in Zen mode."
 msgstr ""
 
-#: ../../changes.rst:1027
+#: ../../changes.rst:1028
 msgid "Weblate 2.7"
 msgstr ""
 
-#: ../../changes.rst:1029
+#: ../../changes.rst:1030
 msgid "Released on Jul 10th 2016."
 msgstr ""
 
-#: ../../changes.rst:1031
+#: ../../changes.rst:1032
 msgid "Removed Google web translate machine translation."
 msgstr ""
 
-#: ../../changes.rst:1032
+#: ../../changes.rst:1033
 msgid "Improved commit message when adding translation."
 msgstr ""
 
-#: ../../changes.rst:1033
+#: ../../changes.rst:1034
 msgid "Fixed Google Translate API for Hebrew language."
 msgstr ""
 
-#: ../../changes.rst:1034
+#: ../../changes.rst:1035
 msgid "Compatibility with Mercurial 3.8."
 msgstr ""
 
-#: ../../changes.rst:1035
+#: ../../changes.rst:1036
 msgid "Added import_json management command."
 msgstr ""
 
-#: ../../changes.rst:1036
+#: ../../changes.rst:1037
 msgid "Correct ordering of listed translations."
 msgstr ""
 
-#: ../../changes.rst:1037
+#: ../../changes.rst:1038
 msgid "Show full suggestion text, not only a diff."
 msgstr ""
 
-#: ../../changes.rst:1038
+#: ../../changes.rst:1039
 msgid "Extend API (detailed repository status, statistics, …)."
 msgstr ""
 
-#: ../../changes.rst:1039
+#: ../../changes.rst:1040
 msgid "Testsuite no longer requires network access to test repositories."
 msgstr ""
 
-#: ../../changes.rst:1042
+#: ../../changes.rst:1043
 msgid "Weblate 2.6"
 msgstr ""
 
-#: ../../changes.rst:1044
+#: ../../changes.rst:1045
 msgid "Released on Apr 28th 2016."
 msgstr ""
 
-#: ../../changes.rst:1046
+#: ../../changes.rst:1047
 msgid "Fixed validation of components with language filter."
 msgstr ""
 
-#: ../../changes.rst:1047 ../../changes.rst:1074
+#: ../../changes.rst:1048 ../../changes.rst:1075
 msgid "Improved support for XLIFF files."
 msgstr ""
 
-#: ../../changes.rst:1048
+#: ../../changes.rst:1049
 msgid "Fixed machine translation for non English sources."
 msgstr ""
 
-#: ../../changes.rst:1049
+#: ../../changes.rst:1050
 msgid "Added REST API."
 msgstr ""
 
-#: ../../changes.rst:1050
+#: ../../changes.rst:1051
 msgid "Django 1.10 compatibility."
 msgstr ""
 
-#: ../../changes.rst:1051
+#: ../../changes.rst:1052
 msgid "Added categories to whiteboard messages."
 msgstr ""
 
-#: ../../changes.rst:1054
+#: ../../changes.rst:1055
 msgid "Weblate 2.5"
 msgstr ""
 
-#: ../../changes.rst:1056
+#: ../../changes.rst:1057
 msgid "Released on Mar 10th 2016."
 msgstr ""
 
-#: ../../changes.rst:1058
+#: ../../changes.rst:1059
 msgid "Fixed automatic translation for project owners."
 msgstr ""
 
-#: ../../changes.rst:1059
+#: ../../changes.rst:1060
 msgid "Improved performance of commit and push operations."
 msgstr ""
 
-#: ../../changes.rst:1060
+#: ../../changes.rst:1061
 msgid "New management command to add suggestions from command line."
 msgstr ""
 
-#: ../../changes.rst:1061
+#: ../../changes.rst:1062
 msgid "Added support for merging comments on file upload."
 msgstr ""
 
-#: ../../changes.rst:1062
+#: ../../changes.rst:1063
 msgid "Added support for some GNU extensions to C printf format."
 msgstr ""
 
-#: ../../changes.rst:1064
+#: ../../changes.rst:1065
 msgid "Added support for generating translator credits."
 msgstr ""
 
-#: ../../changes.rst:1065
+#: ../../changes.rst:1066
 msgid "Added support for generating contributor stats."
 msgstr ""
 
-#: ../../changes.rst:1066
+#: ../../changes.rst:1067
 msgid "Site wide search can search only in one language."
 msgstr ""
 
-#: ../../changes.rst:1067
+#: ../../changes.rst:1068
 msgid "Improve quality checks for Armenian."
 msgstr ""
 
-#: ../../changes.rst:1068
+#: ../../changes.rst:1069
 msgid ""
 "Support for starting translation components without existing translations."
 msgstr ""
 
-#: ../../changes.rst:1069
+#: ../../changes.rst:1070
 msgid "Support for adding new translations in Qt TS."
 msgstr ""
 
-#: ../../changes.rst:1070
+#: ../../changes.rst:1071
 msgid "Improved support for translating PHP files."
 msgstr ""
 
-#: ../../changes.rst:1071
+#: ../../changes.rst:1072
 msgid "Performance improvements for quality checks."
 msgstr ""
 
-#: ../../changes.rst:1072
+#: ../../changes.rst:1073
 msgid "Fixed site wide search for failing checks."
 msgstr ""
 
-#: ../../changes.rst:1073
+#: ../../changes.rst:1074
 msgid "Added option to specify source language."
 msgstr ""
 
-#: ../../changes.rst:1075
+#: ../../changes.rst:1076
 msgid "Extended list of options for import_project."
 msgstr ""
 
-#: ../../changes.rst:1076
+#: ../../changes.rst:1077
 msgid "Improved targeting for whiteboard messages."
 msgstr ""
 
-#: ../../changes.rst:1077
+#: ../../changes.rst:1078
 msgid "Support for automatic translation across projects."
 msgstr ""
 
-#: ../../changes.rst:1078
+#: ../../changes.rst:1079
 msgid "Optimized fulltext search index."
 msgstr ""
 
-#: ../../changes.rst:1079
+#: ../../changes.rst:1080
 msgid "Added management command for auto translation."
 msgstr ""
 
-#: ../../changes.rst:1080
+#: ../../changes.rst:1081
 msgid "Added placeables highlighting."
 msgstr ""
 
-#: ../../changes.rst:1081
+#: ../../changes.rst:1082
 msgid ""
 "Added keyboard shortcuts for placeables, checks and machine translations."
 msgstr ""
 
-#: ../../changes.rst:1082
+#: ../../changes.rst:1083
 msgid "Improved translation locking."
 msgstr ""
 
-#: ../../changes.rst:1083
+#: ../../changes.rst:1084
 msgid "Added quality check for AngularJS interpolation."
 msgstr ""
 
-#: ../../changes.rst:1084
+#: ../../changes.rst:1085
 msgid "Added extensive group based ACLs."
 msgstr ""
 
-#: ../../changes.rst:1085
+#: ../../changes.rst:1086
 msgid "Clarified terminology on strings needing review (formerly fuzzy)."
 msgstr ""
 
-#: ../../changes.rst:1086
+#: ../../changes.rst:1087
 msgid ""
 "Clarified terminology on strings needing action and not translated strings."
 msgstr ""
 
-#: ../../changes.rst:1087
+#: ../../changes.rst:1088
 msgid "Support for Python 3."
 msgstr ""
 
-#: ../../changes.rst:1088
+#: ../../changes.rst:1089
 msgid "Dropped support for Django 1.7."
 msgstr ""
 
-#: ../../changes.rst:1089
+#: ../../changes.rst:1090
 msgid "Dropped dependency on msginit for creating new gettext PO files."
 msgstr ""
 
-#: ../../changes.rst:1090
+#: ../../changes.rst:1091
 msgid "Added configurable dashboard views."
 msgstr ""
 
-#: ../../changes.rst:1091
+#: ../../changes.rst:1092
 msgid "Improved notifications on parse errors."
 msgstr ""
 
-#: ../../changes.rst:1092
+#: ../../changes.rst:1093
 msgid ""
 "Added option to import components with duplicate name to import_project."
 msgstr ""
 
-#: ../../changes.rst:1093
+#: ../../changes.rst:1094
 msgid "Improved support for translating PHP files"
 msgstr ""
 
-#: ../../changes.rst:1094
+#: ../../changes.rst:1095
 msgid "Added XLIFF export for dictionary."
 msgstr ""
 
-#: ../../changes.rst:1095
+#: ../../changes.rst:1096
 msgid "Added XLIFF and gettext PO export for all translations."
 msgstr ""
 
-#: ../../changes.rst:1097
+#: ../../changes.rst:1098
 msgid "Added support for configurable automatic group assignments."
 msgstr ""
 
-#: ../../changes.rst:1098
+#: ../../changes.rst:1099
 msgid "Improved adding of new translations."
 msgstr ""
 
-#: ../../changes.rst:1101
+#: ../../changes.rst:1102
 msgid "Weblate 2.4"
 msgstr ""
 
-#: ../../changes.rst:1103
+#: ../../changes.rst:1104
 msgid "Released on Sep 20th 2015."
 msgstr ""
 
-#: ../../changes.rst:1105
+#: ../../changes.rst:1106
 msgid "Improved support for PHP files."
 msgstr ""
 
-#: ../../changes.rst:1106
+#: ../../changes.rst:1107
 msgid "Ability to add ACL to anonymous user."
 msgstr ""
 
-#: ../../changes.rst:1107
+#: ../../changes.rst:1108
 msgid "Improved configurability of import_project command."
 msgstr ""
 
-#: ../../changes.rst:1108
+#: ../../changes.rst:1109
 msgid "Added CSV dump of history."
 msgstr ""
 
-#: ../../changes.rst:1109
+#: ../../changes.rst:1110
 msgid "Avoid copy/paste errors with whitespace characters."
 msgstr ""
 
-#: ../../changes.rst:1110
+#: ../../changes.rst:1111
 msgid "Added support for Bitbucket webhooks."
 msgstr ""
 
-#: ../../changes.rst:1111
+#: ../../changes.rst:1112
 msgid "Tighter control on fuzzy strings on translation upload."
 msgstr ""
 
-#: ../../changes.rst:1112
+#: ../../changes.rst:1113
 msgid "Several URLs have changed, you might have to update your bookmarks."
 msgstr ""
 
-#: ../../changes.rst:1113
+#: ../../changes.rst:1114
 msgid "Hook scripts are executed with VCS root as current directory."
 msgstr ""
 
-#: ../../changes.rst:1114
+#: ../../changes.rst:1115
 msgid ""
 "Hook scripts are executed with environment variables describing current "
 "component."
 msgstr ""
 
-#: ../../changes.rst:1115
+#: ../../changes.rst:1116
 msgid "Add management command to optimize fulltext index."
 msgstr ""
 
-#: ../../changes.rst:1116
+#: ../../changes.rst:1117
 msgid "Added support for error reporting to Rollbar."
 msgstr ""
 
-#: ../../changes.rst:1117
+#: ../../changes.rst:1118
 msgid "Projects now can have multiple owners."
 msgstr ""
 
-#: ../../changes.rst:1118
+#: ../../changes.rst:1119
 msgid "Project owners can manage themselves."
 msgstr ""
 
-#: ../../changes.rst:1119
+#: ../../changes.rst:1120
 msgid "Added support for ``javascript-format`` used in gettext PO."
 msgstr ""
 
-#: ../../changes.rst:1120
+#: ../../changes.rst:1121
 msgid "Support for adding new translations in XLIFF."
 msgstr ""
 
-#: ../../changes.rst:1121
+#: ../../changes.rst:1122
 msgid "Improved file format autodetection."
 msgstr ""
 
-#: ../../changes.rst:1122
+#: ../../changes.rst:1123
 msgid "Extended keyboard shortcuts."
 msgstr ""
 
-#: ../../changes.rst:1123
+#: ../../changes.rst:1124
 msgid "Improved dictionary matching for several languages."
 msgstr ""
 
-#: ../../changes.rst:1124
+#: ../../changes.rst:1125
 msgid "Improved layout of most of pages."
 msgstr ""
 
-#: ../../changes.rst:1125
+#: ../../changes.rst:1126
 msgid "Support for adding words to dictionary while translating."
 msgstr ""
 
-#: ../../changes.rst:1126
+#: ../../changes.rst:1127
 msgid "Added support for filtering languages to be managed by Weblate."
 msgstr ""
 
-#: ../../changes.rst:1127
+#: ../../changes.rst:1128
 msgid "Added support for translating and importing CSV files."
 msgstr ""
 
-#: ../../changes.rst:1128
+#: ../../changes.rst:1129
 msgid "Rewritten handling of static files."
 msgstr ""
 
-#: ../../changes.rst:1129
+#: ../../changes.rst:1130
 msgid ""
 "Direct login/registration links to third-party service if that's the only "
 "one."
 msgstr ""
 
-#: ../../changes.rst:1130
+#: ../../changes.rst:1131
 msgid "Commit pending changes on account removal."
 msgstr ""
 
-#: ../../changes.rst:1131
+#: ../../changes.rst:1132
 msgid "Add management command to change site name."
 msgstr ""
 
-#: ../../changes.rst:1132
+#: ../../changes.rst:1133
 msgid "Add option to configure default committer."
 msgstr ""
 
-#: ../../changes.rst:1133
+#: ../../changes.rst:1134
 msgid "Add hook after adding new translation."
 msgstr ""
 
-#: ../../changes.rst:1134
+#: ../../changes.rst:1135
 msgid "Add option to specify multiple files to add to commit."
 msgstr ""
 
-#: ../../changes.rst:1137
+#: ../../changes.rst:1138
 msgid "Weblate 2.3"
 msgstr ""
 
-#: ../../changes.rst:1139
+#: ../../changes.rst:1140
 msgid "Released on May 22nd 2015."
 msgstr ""
 
-#: ../../changes.rst:1141
+#: ../../changes.rst:1142
 msgid "Dropped support for Django 1.6 and South migrations."
 msgstr ""
 
-#: ../../changes.rst:1142
+#: ../../changes.rst:1143
 msgid "Support for adding new translations when using Java Property files"
 msgstr ""
 
-#: ../../changes.rst:1143
+#: ../../changes.rst:1144
 msgid "Allow to accept suggestion without editing."
 msgstr ""
 
-#: ../../changes.rst:1144
+#: ../../changes.rst:1145
 msgid "Improved support for Google OAuth 2.0"
 msgstr ""
 
-#: ../../changes.rst:1145
+#: ../../changes.rst:1146
 msgid "Added support for Microsoft .resx files."
 msgstr ""
 
-#: ../../changes.rst:1146
+#: ../../changes.rst:1147
 msgid "Tuned default robots.txt to disallow big crawling of translations."
 msgstr ""
 
-#: ../../changes.rst:1147
+#: ../../changes.rst:1148
 msgid "Simplified workflow for accepting suggestions."
 msgstr ""
 
-#: ../../changes.rst:1148
+#: ../../changes.rst:1149
 msgid "Added project owners who always receive important notifications."
 msgstr ""
 
-#: ../../changes.rst:1149
+#: ../../changes.rst:1150
 msgid "Allow to disable editing of monolingual template."
 msgstr ""
 
-#: ../../changes.rst:1150
+#: ../../changes.rst:1151
 msgid "More detailed repository status view."
 msgstr ""
 
-#: ../../changes.rst:1151
+#: ../../changes.rst:1152
 msgid "Direct link for editing template when changing translation."
 msgstr ""
 
-#: ../../changes.rst:1152
+#: ../../changes.rst:1153
 msgid "Allow to add more permissions to project owners."
 msgstr ""
 
-#: ../../changes.rst:1153
+#: ../../changes.rst:1154
 msgid "Allow to show secondary language in Zen mode."
 msgstr ""
 
-#: ../../changes.rst:1154
+#: ../../changes.rst:1155
 msgid "Support for hiding source string in favor of secondary language."
 msgstr ""
 
-#: ../../changes.rst:1157
+#: ../../changes.rst:1158
 msgid "Weblate 2.2"
 msgstr ""
 
-#: ../../changes.rst:1159
+#: ../../changes.rst:1160
 msgid "Released on Feb 19th 2015."
 msgstr ""
 
-#: ../../changes.rst:1161
+#: ../../changes.rst:1162
 msgid "Performance improvements."
 msgstr ""
 
-#: ../../changes.rst:1162
+#: ../../changes.rst:1163
 msgid "Fulltext search on location and comments fields."
 msgstr ""
 
-#: ../../changes.rst:1163
+#: ../../changes.rst:1164
 msgid "New SVG/javascript based activity charts."
 msgstr ""
 
-#: ../../changes.rst:1164
+#: ../../changes.rst:1165
 msgid "Support for Django 1.8."
 msgstr ""
 
-#: ../../changes.rst:1165
+#: ../../changes.rst:1166
 msgid "Support for deleting comments."
 msgstr ""
 
-#: ../../changes.rst:1166
+#: ../../changes.rst:1167
 msgid "Added own SVG badge."
 msgstr ""
 
-#: ../../changes.rst:1167
+#: ../../changes.rst:1168
 msgid "Added support for Google Analytics."
 msgstr ""
 
-#: ../../changes.rst:1168
+#: ../../changes.rst:1169
 msgid "Improved handling of translation filenames."
 msgstr ""
 
-#: ../../changes.rst:1169
+#: ../../changes.rst:1170
 msgid "Added support for monolingual JSON translations."
 msgstr ""
 
-#: ../../changes.rst:1170
+#: ../../changes.rst:1171
 msgid "Record component locking in a history."
 msgstr ""
 
-#: ../../changes.rst:1171
+#: ../../changes.rst:1172
 msgid ""
 "Support for editing source (template) language for monolingual translations."
 msgstr ""
 
-#: ../../changes.rst:1172
+#: ../../changes.rst:1173
 msgid "Added basic support for Gerrit."
 msgstr ""
 
-#: ../../changes.rst:1175
+#: ../../changes.rst:1176
 msgid "Weblate 2.1"
 msgstr ""
 
-#: ../../changes.rst:1177
+#: ../../changes.rst:1178
 msgid "Released on Dec 5th 2014."
 msgstr ""
 
-#: ../../changes.rst:1179
+#: ../../changes.rst:1180
 msgid "Added support for Mercurial repositories."
 msgstr ""
 
-#: ../../changes.rst:1180
+#: ../../changes.rst:1181
 msgid "Replaced Glyphicon font by Awesome."
 msgstr ""
 
-#: ../../changes.rst:1181
+#: ../../changes.rst:1182
 msgid "Added icons for social authentication services."
 msgstr ""
 
-#: ../../changes.rst:1182
+#: ../../changes.rst:1183
 msgid "Better consistency of button colors and icons."
 msgstr ""
 
-#: ../../changes.rst:1184
+#: ../../changes.rst:1185
 msgid "Various bugfixes."
 msgstr ""
 
-#: ../../changes.rst:1185
+#: ../../changes.rst:1186
 msgid "Automatic hiding of columns in translation listing for small screens."
 msgstr ""
 
-#: ../../changes.rst:1186
+#: ../../changes.rst:1187
 msgid "Changed configuration of filesystem paths."
 msgstr ""
 
-#: ../../changes.rst:1187
+#: ../../changes.rst:1188
 msgid "Improved SSH keys handling and storage."
 msgstr ""
 
-#: ../../changes.rst:1188
+#: ../../changes.rst:1189
 msgid "Improved repository locking."
 msgstr ""
 
-#: ../../changes.rst:1189
+#: ../../changes.rst:1190
 msgid "Customizable quality checks per source string."
 msgstr ""
 
-#: ../../changes.rst:1190
+#: ../../changes.rst:1191
 msgid "Allow to hide completed translations from dashboard."
 msgstr ""
 
-#: ../../changes.rst:1193
+#: ../../changes.rst:1194
 msgid "Weblate 2.0"
 msgstr ""
 
-#: ../../changes.rst:1195
+#: ../../changes.rst:1196
 msgid "Released on Nov 6th 2014."
 msgstr ""
 
-#: ../../changes.rst:1197
+#: ../../changes.rst:1198
 msgid "New responsive UI using Bootstrap."
 msgstr ""
 
-#: ../../changes.rst:1198
+#: ../../changes.rst:1199
 msgid "Rewritten VCS backend."
 msgstr ""
 
-#: ../../changes.rst:1200
+#: ../../changes.rst:1201
 msgid "Added whiteboard for site wide messages."
 msgstr ""
 
-#: ../../changes.rst:1201
+#: ../../changes.rst:1202
 msgid "Configurable strings priority."
 msgstr ""
 
-#: ../../changes.rst:1202
+#: ../../changes.rst:1203
 msgid "Added support for JSON file format."
 msgstr ""
 
-#: ../../changes.rst:1203
+#: ../../changes.rst:1204
 msgid "Fixed generating mo files in certain cases."
 msgstr ""
 
-#: ../../changes.rst:1204
+#: ../../changes.rst:1205
 msgid "Added support for GitLab notifications."
 msgstr ""
 
-#: ../../changes.rst:1205
+#: ../../changes.rst:1206
 msgid "Added support for disabling translation suggestions."
 msgstr ""
 
-#: ../../changes.rst:1206
+#: ../../changes.rst:1207
 msgid "Django 1.7 support."
 msgstr ""
 
-#: ../../changes.rst:1207
+#: ../../changes.rst:1208
 msgid "ACL projects now have user management."
 msgstr ""
 
-#: ../../changes.rst:1208
+#: ../../changes.rst:1209
 msgid "Extended search possibilities."
 msgstr ""
 
-#: ../../changes.rst:1209
+#: ../../changes.rst:1210
 msgid "Give more hints to translators about plurals."
 msgstr ""
 
-#: ../../changes.rst:1210
+#: ../../changes.rst:1211
 msgid "Fixed Git repository locking."
 msgstr ""
 
-#: ../../changes.rst:1211
+#: ../../changes.rst:1212
 msgid "Compatibility with older Git versions."
 msgstr ""
 
-#: ../../changes.rst:1212
+#: ../../changes.rst:1213
 msgid "Improved ACL support."
 msgstr ""
 
-#: ../../changes.rst:1213
+#: ../../changes.rst:1214
 msgid "Added buttons for per language quotes and other special characters."
 msgstr ""
 
-#: ../../changes.rst:1214
+#: ../../changes.rst:1215
 msgid "Support for exporting stats as JSONP."
 msgstr ""
 
-#: ../../changes.rst:1217
+#: ../../changes.rst:1218
 msgid "Weblate 1.x series"
 msgstr ""
 
-#: ../../changes.rst:1220
+#: ../../changes.rst:1221
 msgid "Weblate 1.9"
 msgstr ""
 
-#: ../../changes.rst:1222
+#: ../../changes.rst:1223
 msgid "Released on May 6th 2014."
 msgstr ""
 
-#: ../../changes.rst:1224
+#: ../../changes.rst:1225
 msgid "Django 1.6 compatibility."
 msgstr ""
 
-#: ../../changes.rst:1225
+#: ../../changes.rst:1226
 msgid "No longer maintained compatibility with Django 1.4."
 msgstr ""
 
-#: ../../changes.rst:1226
+#: ../../changes.rst:1227
 msgid "Management commands for locking/unlocking translations."
 msgstr ""
 
-#: ../../changes.rst:1227
+#: ../../changes.rst:1228
 msgid "Improved support for Qt TS files."
 msgstr ""
 
-#: ../../changes.rst:1228
+#: ../../changes.rst:1229
 msgid "Users can now delete their account."
 msgstr ""
 
-#: ../../changes.rst:1229
+#: ../../changes.rst:1230
 msgid "Avatars can be disabled."
 msgstr ""
 
-#: ../../changes.rst:1230
+#: ../../changes.rst:1231
 msgid "Merged first and last name attributes."
 msgstr ""
 
-#: ../../changes.rst:1231
+#: ../../changes.rst:1232
 msgid "Avatars are now fetched and cached server side."
 msgstr ""
 
-#: ../../changes.rst:1232
+#: ../../changes.rst:1233
 msgid "Added support for shields.io badge."
 msgstr ""
 
-#: ../../changes.rst:1235
+#: ../../changes.rst:1236
 msgid "Weblate 1.8"
 msgstr ""
 
-#: ../../changes.rst:1237
+#: ../../changes.rst:1238
 msgid "Released on November 7th 2013."
 msgstr ""
 
-#: ../../changes.rst:1239 ../../changes.rst:1256 ../../changes.rst:1297
+#: ../../changes.rst:1240 ../../changes.rst:1257 ../../changes.rst:1298
 msgid "Please check manual for upgrade instructions."
 msgstr ""
 
-#: ../../changes.rst:1240
+#: ../../changes.rst:1241
 msgid "Nicer listing of project summary."
 msgstr ""
 
-#: ../../changes.rst:1241
+#: ../../changes.rst:1242
 msgid "Better visible options for sharing."
 msgstr ""
 
-#: ../../changes.rst:1242
+#: ../../changes.rst:1243
 msgid "More control over anonymous users privileges."
 msgstr ""
 
-#: ../../changes.rst:1243
+#: ../../changes.rst:1244
 msgid ""
 "Supports login using third party services, check manual for more details."
 msgstr ""
 
-#: ../../changes.rst:1244
+#: ../../changes.rst:1245
 msgid "Users can login by e-mail instead of username."
 msgstr ""
 
-#: ../../changes.rst:1246
+#: ../../changes.rst:1247
 msgid "Improved source strings review."
 msgstr ""
 
-#: ../../changes.rst:1247
+#: ../../changes.rst:1248
 msgid "Searching across all strings."
 msgstr ""
 
-#: ../../changes.rst:1248
+#: ../../changes.rst:1249
 msgid "Better tracking of source strings."
 msgstr ""
 
-#: ../../changes.rst:1249
+#: ../../changes.rst:1250
 msgid "Captcha protection for registration."
 msgstr ""
 
-#: ../../changes.rst:1252
+#: ../../changes.rst:1253
 msgid "Weblate 1.7"
 msgstr ""
 
-#: ../../changes.rst:1254
+#: ../../changes.rst:1255
 msgid "Released on October 7th 2013."
 msgstr ""
 
-#: ../../changes.rst:1257
+#: ../../changes.rst:1258
 msgid "Support for checking Python brace format string."
 msgstr ""
 
-#: ../../changes.rst:1258
+#: ../../changes.rst:1259
 msgid "Per component customization of quality checks."
 msgstr ""
 
-#: ../../changes.rst:1259
+#: ../../changes.rst:1260
 msgid "Detailed per translation stats."
 msgstr ""
 
-#: ../../changes.rst:1260
+#: ../../changes.rst:1261
 msgid "Changed way of linking suggestions, checks and comments to strings."
 msgstr ""
 
-#: ../../changes.rst:1261
+#: ../../changes.rst:1262
 msgid "Users can now add text to commit message."
 msgstr ""
 
-#: ../../changes.rst:1262
+#: ../../changes.rst:1263
 msgid "Support for subscribing on new language requests."
 msgstr ""
 
-#: ../../changes.rst:1263
+#: ../../changes.rst:1264
 msgid "Support for adding new translations."
 msgstr ""
 
-#: ../../changes.rst:1264
+#: ../../changes.rst:1265
 msgid ""
 "Widgets and charts are now rendered using Pillow instead of Pango + Cairo."
 msgstr ""
 
-#: ../../changes.rst:1265
+#: ../../changes.rst:1266
 msgid "Add status badge widget."
 msgstr ""
 
-#: ../../changes.rst:1266
+#: ../../changes.rst:1267
 msgid "Dropped invalid text direction check."
 msgstr ""
 
-#: ../../changes.rst:1267
+#: ../../changes.rst:1268
 msgid "Changes in dictionary are now logged in history."
 msgstr ""
 
-#: ../../changes.rst:1268
+#: ../../changes.rst:1269
 msgid "Performance improvements for translating view."
 msgstr ""
 
-#: ../../changes.rst:1271
+#: ../../changes.rst:1272
 msgid "Weblate 1.6"
 msgstr ""
 
-#: ../../changes.rst:1273
+#: ../../changes.rst:1274
 msgid "Released on July 25th 2013."
 msgstr ""
 
-#: ../../changes.rst:1275
+#: ../../changes.rst:1276
 msgid "Nicer error handling on registration."
 msgstr ""
 
-#: ../../changes.rst:1276
+#: ../../changes.rst:1277
 msgid "Browsing of changes."
 msgstr ""
 
-#: ../../changes.rst:1277
+#: ../../changes.rst:1278
 msgid "Fixed sorting of machine translation suggestions."
 msgstr ""
 
-#: ../../changes.rst:1278
+#: ../../changes.rst:1279
 msgid "Improved support for MyMemory machine translation."
 msgstr ""
 
-#: ../../changes.rst:1279
+#: ../../changes.rst:1280
 msgid "Added support for Amagama machine translation."
 msgstr ""
 
-#: ../../changes.rst:1280
+#: ../../changes.rst:1281
 msgid "Various optimizations on frequently used pages."
 msgstr ""
 
-#: ../../changes.rst:1281
+#: ../../changes.rst:1282
 msgid "Highlights searched phrase in search results."
 msgstr ""
 
-#: ../../changes.rst:1282
+#: ../../changes.rst:1283
 msgid "Support for automatic fixups while saving the message."
 msgstr ""
 
-#: ../../changes.rst:1283
+#: ../../changes.rst:1284
 msgid "Tracking of translation history and option to revert it."
 msgstr ""
 
-#: ../../changes.rst:1284
+#: ../../changes.rst:1285
 msgid "Added support for Google Translate API."
 msgstr ""
 
-#: ../../changes.rst:1285
+#: ../../changes.rst:1286
 msgid "Added support for managing SSH host keys."
 msgstr ""
 
-#: ../../changes.rst:1286
+#: ../../changes.rst:1287
 msgid "Various form validation improvements."
 msgstr ""
 
-#: ../../changes.rst:1287 ../../changes.rst:1338
+#: ../../changes.rst:1288 ../../changes.rst:1339
 msgid "Various quality checks improvements."
 msgstr ""
 
-#: ../../changes.rst:1288
+#: ../../changes.rst:1289
 msgid "Performance improvements for import."
 msgstr ""
 
-#: ../../changes.rst:1289
+#: ../../changes.rst:1290
 msgid "Added support for voting on suggestions."
 msgstr ""
 
-#: ../../changes.rst:1290
+#: ../../changes.rst:1291
 msgid "Cleanup of admin interface."
 msgstr ""
 
-#: ../../changes.rst:1293
+#: ../../changes.rst:1294
 msgid "Weblate 1.5"
 msgstr ""
 
-#: ../../changes.rst:1295
+#: ../../changes.rst:1296
 msgid "Released on April 16th 2013."
 msgstr ""
 
-#: ../../changes.rst:1298
+#: ../../changes.rst:1299
 msgid "Added public user pages."
 msgstr ""
 
-#: ../../changes.rst:1299
+#: ../../changes.rst:1300
 msgid "Better naming of plural forms."
 msgstr ""
 
-#: ../../changes.rst:1300
+#: ../../changes.rst:1301
 msgid "Added support for TBX export of glossary."
 msgstr ""
 
-#: ../../changes.rst:1301
+#: ../../changes.rst:1302
 msgid "Added support for Bitbucket notifications."
 msgstr ""
 
-#: ../../changes.rst:1302
+#: ../../changes.rst:1303
 msgid ""
 "Activity charts are now available for each translation, language or user."
 msgstr ""
 
-#: ../../changes.rst:1303
+#: ../../changes.rst:1304
 msgid "Extended options of import_project admin command."
 msgstr ""
 
-#: ../../changes.rst:1304
+#: ../../changes.rst:1305
 msgid "Compatible with Django 1.5."
 msgstr ""
 
-#: ../../changes.rst:1305
+#: ../../changes.rst:1306
 msgid "Avatars are now shown using libravatar."
 msgstr ""
 
-#: ../../changes.rst:1306
+#: ../../changes.rst:1307
 msgid "Added possibility to pretty print JSON export."
 msgstr ""
 
-#: ../../changes.rst:1308
+#: ../../changes.rst:1309
 msgid ""
 "Indicate failing checks or fuzzy strings in progress bars for projects or "
 "languages as well."
 msgstr ""
 
-#: ../../changes.rst:1309
+#: ../../changes.rst:1310
 msgid ""
 "Added support for custom pre-commit hooks and committing additional files."
 msgstr ""
 
-#: ../../changes.rst:1310
+#: ../../changes.rst:1311
 msgid "Rewritten search for better performance and user experience."
 msgstr ""
 
-#: ../../changes.rst:1311
+#: ../../changes.rst:1312
 msgid "New interface for machine translations."
 msgstr ""
 
-#: ../../changes.rst:1312
+#: ../../changes.rst:1313
 msgid "Added support for monolingual po files."
 msgstr ""
 
-#: ../../changes.rst:1313
+#: ../../changes.rst:1314
 msgid "Extend amount of cached metadata to improve speed of various searches."
 msgstr ""
 
-#: ../../changes.rst:1314
+#: ../../changes.rst:1315
 msgid "Now shows word counts as well."
 msgstr ""
 
-#: ../../changes.rst:1317
+#: ../../changes.rst:1318
 msgid "Weblate 1.4"
 msgstr ""
 
-#: ../../changes.rst:1319
+#: ../../changes.rst:1320
 msgid "Released on January 23rd 2013."
 msgstr ""
 
-#: ../../changes.rst:1321
+#: ../../changes.rst:1322
 msgid "Fixed deleting of checks/comments on string deletion."
 msgstr ""
 
-#: ../../changes.rst:1322
+#: ../../changes.rst:1323
 msgid "Added option to disable automatic propagation of translations."
 msgstr ""
 
-#: ../../changes.rst:1323
+#: ../../changes.rst:1324
 msgid "Added option to subscribe for merge failures."
 msgstr ""
 
-#: ../../changes.rst:1324
+#: ../../changes.rst:1325
 msgid "Correctly import on projects which needs custom ttkit loader."
 msgstr ""
 
-#: ../../changes.rst:1325
+#: ../../changes.rst:1326
 msgid "Added sitemaps to allow easier access by crawlers."
 msgstr ""
 
-#: ../../changes.rst:1326
+#: ../../changes.rst:1327
 msgid "Provide direct links to string in notification e-mails or feeds."
 msgstr ""
 
-#: ../../changes.rst:1327
+#: ../../changes.rst:1328
 msgid "Various improvements to admin interface."
 msgstr ""
 
-#: ../../changes.rst:1328
+#: ../../changes.rst:1329
 msgid "Provide hints for production setup in admin interface."
 msgstr ""
 
-#: ../../changes.rst:1329
+#: ../../changes.rst:1330
 msgid "Added per language widgets and engage page."
 msgstr ""
 
-#: ../../changes.rst:1330
+#: ../../changes.rst:1331
 msgid "Improved translation locking handling."
 msgstr ""
 
-#: ../../changes.rst:1331
+#: ../../changes.rst:1332
 msgid "Show code snippets for widgets in more variants."
 msgstr ""
 
-#: ../../changes.rst:1332
+#: ../../changes.rst:1333
 msgid "Indicate failing checks or fuzzy strings in progress bars."
 msgstr ""
 
-#: ../../changes.rst:1333
+#: ../../changes.rst:1334
 msgid "More options for formatting commit message."
 msgstr ""
 
-#: ../../changes.rst:1334
+#: ../../changes.rst:1335
 msgid "Fixed error handling with machine translation services."
 msgstr ""
 
-#: ../../changes.rst:1335
+#: ../../changes.rst:1336
 msgid "Improved automatic translation locking behaviour."
 msgstr ""
 
-#: ../../changes.rst:1336
+#: ../../changes.rst:1337
 msgid "Support for showing changes from previous source string."
 msgstr ""
 
-#: ../../changes.rst:1337
+#: ../../changes.rst:1338
 msgid "Added support for substring search."
 msgstr ""
 
-#: ../../changes.rst:1339
+#: ../../changes.rst:1340
 msgid "Support for per project ACL."
 msgstr ""
 
-#: ../../changes.rst:1340
+#: ../../changes.rst:1341
 msgid "Basic string tests coverage."
 msgstr ""
 
-#: ../../changes.rst:1343
+#: ../../changes.rst:1344
 msgid "Weblate 1.3"
 msgstr ""
 
-#: ../../changes.rst:1345
+#: ../../changes.rst:1346
 msgid "Released on November 16th 2012."
 msgstr ""
 
-#: ../../changes.rst:1347
+#: ../../changes.rst:1348
 msgid "Compatibility with PostgreSQL database backend."
 msgstr ""
 
-#: ../../changes.rst:1348
+#: ../../changes.rst:1349
 msgid "Removes languages removed in upstream git repository."
 msgstr ""
 
-#: ../../changes.rst:1349
+#: ../../changes.rst:1350
 msgid "Improved quality checks processing."
 msgstr ""
 
-#: ../../changes.rst:1350
+#: ../../changes.rst:1351
 msgid "Added new checks (BB code, XML markup and newlines)."
 msgstr ""
 
-#: ../../changes.rst:1351
+#: ../../changes.rst:1352
 msgid "Support for optional rebasing instead of merge."
 msgstr ""
 
-#: ../../changes.rst:1352
+#: ../../changes.rst:1353
 msgid ""
 "Possibility to relocate Weblate (for example to run it under /weblate path)."
 msgstr ""
 
-#: ../../changes.rst:1353
+#: ../../changes.rst:1354
 msgid "Support for manually choosing file type in case autodetection fails."
 msgstr ""
 
-#: ../../changes.rst:1354
+#: ../../changes.rst:1355
 msgid "Better support for Android resources."
 msgstr ""
 
-#: ../../changes.rst:1355
+#: ../../changes.rst:1356
 msgid "Support for generating SSH key from web interface."
 msgstr ""
 
-#: ../../changes.rst:1356
+#: ../../changes.rst:1357
 msgid "More visible data exports."
 msgstr ""
 
-#: ../../changes.rst:1357
+#: ../../changes.rst:1358
 msgid "New buttons to enter some special characters."
 msgstr ""
 
-#: ../../changes.rst:1358
+#: ../../changes.rst:1359
 msgid "Support for exporting dictionary."
 msgstr ""
 
-#: ../../changes.rst:1359
+#: ../../changes.rst:1360
 msgid "Support for locking down whole Weblate installation."
 msgstr ""
 
-#: ../../changes.rst:1360
+#: ../../changes.rst:1361
 msgid "Checks for source strings and support for source strings review."
 msgstr ""
 
-#: ../../changes.rst:1361
+#: ../../changes.rst:1362
 msgid "Support for user comments for both translations and source strings."
 msgstr ""
 
-#: ../../changes.rst:1362
+#: ../../changes.rst:1363
 msgid "Better changes log tracking."
 msgstr ""
 
-#: ../../changes.rst:1363
+#: ../../changes.rst:1364
 msgid "Changes can now be monitored using RSS."
 msgstr ""
 
-#: ../../changes.rst:1364
+#: ../../changes.rst:1365
 msgid "Improved support for RTL languages."
 msgstr ""
 
-#: ../../changes.rst:1367
+#: ../../changes.rst:1368
 msgid "Weblate 1.2"
 msgstr ""
 
-#: ../../changes.rst:1369
+#: ../../changes.rst:1370
 msgid "Released on August 14th 2012."
 msgstr ""
 
-#: ../../changes.rst:1371
+#: ../../changes.rst:1372
 msgid ""
 "Weblate now uses South for database migration, please check upgrade "
 "instructions if you are upgrading."
 msgstr ""
 
-#: ../../changes.rst:1372
+#: ../../changes.rst:1373
 msgid "Fixed minor issues with linked git repos."
 msgstr ""
 
-#: ../../changes.rst:1373
+#: ../../changes.rst:1374
 msgid ""
 "New introduction page for engaging people with translating using Weblate."
 msgstr ""
 
-#: ../../changes.rst:1374
+#: ../../changes.rst:1375
 msgid "Added widgets which can be used for promoting translation projects."
 msgstr ""
 
-#: ../../changes.rst:1375
+#: ../../changes.rst:1376
 msgid "Added option to reset repository to origin (for privileged users)."
 msgstr ""
 
-#: ../../changes.rst:1376
+#: ../../changes.rst:1377
 msgid "Project or component can now be locked for translations."
 msgstr ""
 
-#: ../../changes.rst:1377
+#: ../../changes.rst:1378
 msgid "Possibility to disable some translations."
 msgstr ""
 
-#: ../../changes.rst:1378
+#: ../../changes.rst:1379
 msgid "Configurable options for adding new translations."
 msgstr ""
 
-#: ../../changes.rst:1379
+#: ../../changes.rst:1380
 msgid "Configuration of git commits per project."
 msgstr ""
 
-#: ../../changes.rst:1380
+#: ../../changes.rst:1381
 msgid "Simple antispam protection."
 msgstr ""
 
-#: ../../changes.rst:1381
+#: ../../changes.rst:1382
 msgid "Better layout of main page."
 msgstr ""
 
-#: ../../changes.rst:1382
+#: ../../changes.rst:1383
 msgid "Support for automatically pushing changes on every commit."
 msgstr ""
 
-#: ../../changes.rst:1383
+#: ../../changes.rst:1384
 msgid "Support for e-mail notifications of translators."
 msgstr ""
 
-#: ../../changes.rst:1384
+#: ../../changes.rst:1385
 msgid "List only used languages in preferences."
 msgstr ""
 
-#: ../../changes.rst:1385
+#: ../../changes.rst:1386
 msgid "Improved handling of not known languages when importing project."
 msgstr ""
 
-#: ../../changes.rst:1386
+#: ../../changes.rst:1387
 msgid "Support for locking translation by translator."
 msgstr ""
 
-#: ../../changes.rst:1387
+#: ../../changes.rst:1388
 msgid "Optionally maintain ``Language-Team`` header in po file."
 msgstr ""
 
-#: ../../changes.rst:1388
+#: ../../changes.rst:1389
 msgid "Include some statistics in about page."
 msgstr ""
 
-#: ../../changes.rst:1389
+#: ../../changes.rst:1390
 msgid "Supports (and requires) django-registration 0.8."
 msgstr ""
 
-#: ../../changes.rst:1390
+#: ../../changes.rst:1391
 msgid "Caching of counted strings with failing checks."
 msgstr ""
 
-#: ../../changes.rst:1391
+#: ../../changes.rst:1392
 msgid "Checking of requirements during setup."
 msgstr ""
 
-#: ../../changes.rst:1395
+#: ../../changes.rst:1396
 msgid "Weblate 1.1"
 msgstr ""
 
-#: ../../changes.rst:1397
+#: ../../changes.rst:1398
 msgid "Released on July 4th 2012."
 msgstr ""
 
-#: ../../changes.rst:1399
+#: ../../changes.rst:1400
 msgid "Improved several translations."
 msgstr ""
 
-#: ../../changes.rst:1400 ../../changes.rst:1435
+#: ../../changes.rst:1401 ../../changes.rst:1436
 msgid "Better validation while creating component."
 msgstr ""
 
-#: ../../changes.rst:1401
+#: ../../changes.rst:1402
 msgid "Added support for shared git repositories across components."
 msgstr ""
 
-#: ../../changes.rst:1402
+#: ../../changes.rst:1403
 msgid "Do not necessary commit on every attempt to pull remote repo."
 msgstr ""
 
-#: ../../changes.rst:1403
+#: ../../changes.rst:1404
 msgid "Added support for offloading indexing."
 msgstr ""
 
-#: ../../changes.rst:1406
+#: ../../changes.rst:1407
 msgid "Weblate 1.0"
 msgstr ""
 
-#: ../../changes.rst:1408
+#: ../../changes.rst:1409
 msgid "Released on May 10th 2012."
 msgstr ""
 
-#: ../../changes.rst:1410
+#: ../../changes.rst:1411
 msgid "Improved validation while adding/saving component."
 msgstr ""
 
-#: ../../changes.rst:1411
+#: ../../changes.rst:1412
 msgid "Experimental support for Android component files (needs patched ttkit)."
 msgstr ""
 
-#: ../../changes.rst:1412
+#: ../../changes.rst:1413
 msgid "Updates from hooks are run in background."
 msgstr ""
 
-#: ../../changes.rst:1413
+#: ../../changes.rst:1414
 msgid "Improved installation instructions."
 msgstr ""
 
-#: ../../changes.rst:1414
+#: ../../changes.rst:1415
 msgid "Improved navigation in dictionary."
 msgstr ""
 
-#: ../../changes.rst:1417
+#: ../../changes.rst:1418
 msgid "Weblate 0.x series"
 msgstr ""
 
-#: ../../changes.rst:1420
+#: ../../changes.rst:1421
 msgid "Weblate 0.9"
 msgstr ""
 
-#: ../../changes.rst:1422
+#: ../../changes.rst:1423
 msgid "Released on April 18th 2012."
 msgstr ""
 
-#: ../../changes.rst:1424
+#: ../../changes.rst:1425
 msgid "Fixed import of unknown languages."
 msgstr ""
 
-#: ../../changes.rst:1425
+#: ../../changes.rst:1426
 msgid "Improved listing of nearby messages."
 msgstr ""
 
-#: ../../changes.rst:1426
+#: ../../changes.rst:1427
 msgid "Improved several checks."
 msgstr ""
 
-#: ../../changes.rst:1428
+#: ../../changes.rst:1429
 msgid "Added definition for several more languages."
 msgstr ""
 
-#: ../../changes.rst:1429
+#: ../../changes.rst:1430
 msgid "Various code cleanups."
 msgstr ""
 
-#: ../../changes.rst:1431
+#: ../../changes.rst:1432
 msgid "Changed file layout."
 msgstr ""
 
-#: ../../changes.rst:1432
+#: ../../changes.rst:1433
 msgid "Update helper scripts to Django 1.4."
 msgstr ""
 
-#: ../../changes.rst:1433
+#: ../../changes.rst:1434
 msgid "Improved navigation while translating."
 msgstr ""
 
-#: ../../changes.rst:1434
+#: ../../changes.rst:1435
 msgid "Better handling of po file renames."
 msgstr ""
 
-#: ../../changes.rst:1436
+#: ../../changes.rst:1437
 msgid "Integrated full setup into syncdb."
 msgstr ""
 
-#: ../../changes.rst:1437
+#: ../../changes.rst:1438
 msgid "Added list of recent changes to all translation pages."
 msgstr ""
 
-#: ../../changes.rst:1438
+#: ../../changes.rst:1439
 msgid "Check for not translated strings ignores format string only messages."
 msgstr ""
 
-#: ../../changes.rst:1441
+#: ../../changes.rst:1442
 msgid "Weblate 0.8"
 msgstr ""
 
-#: ../../changes.rst:1443
+#: ../../changes.rst:1444
 msgid "Released on April 3rd 2012."
 msgstr ""
 
-#: ../../changes.rst:1445
+#: ../../changes.rst:1446
 msgid "Replaced own full text search with Whoosh."
 msgstr ""
 
-#: ../../changes.rst:1446
+#: ../../changes.rst:1447
 msgid "Various fixes and improvements to checks."
 msgstr ""
 
-#: ../../changes.rst:1447
+#: ../../changes.rst:1448
 msgid "New command updatechecks."
 msgstr ""
 
-#: ../../changes.rst:1448
+#: ../../changes.rst:1449
 msgid "Lot of translation updates."
 msgstr ""
 
-#: ../../changes.rst:1449
+#: ../../changes.rst:1450
 msgid "Added dictionary for storing most frequently used terms."
 msgstr ""
 
-#: ../../changes.rst:1450
+#: ../../changes.rst:1451
 msgid "Added /admin/report/ for overview of repositories status."
 msgstr ""
 
-#: ../../changes.rst:1451
+#: ../../changes.rst:1452
 msgid "Machine translation services no longer block page loading."
 msgstr ""
 
-#: ../../changes.rst:1452
+#: ../../changes.rst:1453
 msgid "Management interface now contains also useful actions to update data."
 msgstr ""
 
-#: ../../changes.rst:1453
+#: ../../changes.rst:1454
 msgid "Records log of changes made by users."
 msgstr ""
 
-#: ../../changes.rst:1454
+#: ../../changes.rst:1455
 msgid ""
 "Ability to postpone commit to Git to generate less commits from single user."
 msgstr ""
 
-#: ../../changes.rst:1455
+#: ../../changes.rst:1456
 msgid "Possibility to browse failing checks."
 msgstr ""
 
-#: ../../changes.rst:1456
+#: ../../changes.rst:1457
 msgid "Automatic translation using already translated strings."
 msgstr ""
 
-#: ../../changes.rst:1457
+#: ../../changes.rst:1458
 msgid "New about page showing used versions."
 msgstr ""
 
-#: ../../changes.rst:1458
+#: ../../changes.rst:1459
 msgid "Django 1.4 compatibility."
 msgstr ""
 
-#: ../../changes.rst:1459
+#: ../../changes.rst:1460
 msgid "Ability to push changes to remote repo from web interface."
 msgstr ""
 
-#: ../../changes.rst:1460
+#: ../../changes.rst:1461
 msgid "Added review of translations done by others."
 msgstr ""
 
-#: ../../changes.rst:1463
+#: ../../changes.rst:1464
 msgid "Weblate 0.7"
 msgstr ""
 
-#: ../../changes.rst:1465
+#: ../../changes.rst:1466
 msgid "Released on February 16th 2012."
 msgstr ""
 
-#: ../../changes.rst:1467
+#: ../../changes.rst:1468
 msgid "Direct support for GitHub notifications."
 msgstr ""
 
-#: ../../changes.rst:1468
+#: ../../changes.rst:1469
 msgid "Added support for cleaning up orphaned checks and translations."
 msgstr ""
 
-#: ../../changes.rst:1469
+#: ../../changes.rst:1470
 msgid "Displays nearby strings while translating."
 msgstr ""
 
-#: ../../changes.rst:1470
+#: ../../changes.rst:1471
 msgid "Displays similar strings while translating."
 msgstr ""
 
-#: ../../changes.rst:1471
+#: ../../changes.rst:1472
 msgid "Improved searching for string."
 msgstr ""
 
-#: ../../changes.rst:1474
+#: ../../changes.rst:1475
 msgid "Weblate 0.6"
 msgstr ""
 
-#: ../../changes.rst:1476
+#: ../../changes.rst:1477
 msgid "Released on February 14th 2012."
 msgstr ""
 
-#: ../../changes.rst:1478
+#: ../../changes.rst:1479
 msgid "Added various checks for translated messages."
 msgstr ""
 
-#: ../../changes.rst:1479
+#: ../../changes.rst:1480
 msgid "Tunable access control."
 msgstr ""
 
-#: ../../changes.rst:1480
+#: ../../changes.rst:1481
 msgid "Improved handling of translations with new lines."
 msgstr ""
 
-#: ../../changes.rst:1481
+#: ../../changes.rst:1482
 msgid "Added client side sorting of tables."
 msgstr ""
 
-#: ../../changes.rst:1482
+#: ../../changes.rst:1483
 msgid "Please check upgrading instructions in case you are upgrading."
 msgstr ""
 
-#: ../../changes.rst:1485
+#: ../../changes.rst:1486
 msgid "Weblate 0.5"
 msgstr ""
 
-#: ../../changes.rst:1487
+#: ../../changes.rst:1488
 msgid "Released on February 12th 2012."
 msgstr ""
 
-#: ../../changes.rst:1491
+#: ../../changes.rst:1492
 msgid "Support for machine translation using following online services:"
 msgstr ""
 
-#: ../../changes.rst:1491
+#: ../../changes.rst:1492
 msgid "Microsoft Translator"
 msgstr ""
 
-#: ../../changes.rst:1493
+#: ../../changes.rst:1494
 msgid "Several new translations."
 msgstr ""
 
-#: ../../changes.rst:1494
+#: ../../changes.rst:1495
 msgid "Improved merging of upstream changes."
 msgstr ""
 
-#: ../../changes.rst:1495
+#: ../../changes.rst:1496
 msgid "Better handle concurrent git pull and translation."
 msgstr ""
 
-#: ../../changes.rst:1496
+#: ../../changes.rst:1497
 msgid "Propagating works for fuzzy changes as well."
 msgstr ""
 
-#: ../../changes.rst:1497
+#: ../../changes.rst:1498
 msgid "Propagating works also for file upload."
 msgstr ""
 
-#: ../../changes.rst:1498
+#: ../../changes.rst:1499
 msgid "Fixed file downloads while using FastCGI (and possibly others)."
 msgstr ""
 
-#: ../../changes.rst:1501
+#: ../../changes.rst:1502
 msgid "Weblate 0.4"
 msgstr ""
 
-#: ../../changes.rst:1503 ../../changes.rst:1511
+#: ../../changes.rst:1504 ../../changes.rst:1512
 msgid "Released on February 8th 2012."
 msgstr ""
 
-#: ../../changes.rst:1505
+#: ../../changes.rst:1506
 msgid "Added usage guide to documentation."
 msgstr ""
 
-#: ../../changes.rst:1506
+#: ../../changes.rst:1507
 msgid "Fixed API hooks not to require CSRF protection."
 msgstr ""
 
-#: ../../changes.rst:1509
+#: ../../changes.rst:1510
 msgid "Weblate 0.3"
 msgstr ""
 
-#: ../../changes.rst:1513
+#: ../../changes.rst:1514
 msgid "Better display of source for plural translations."
 msgstr ""
 
-#: ../../changes.rst:1514
+#: ../../changes.rst:1515
 msgid "New documentation in Sphinx format."
 msgstr ""
 
-#: ../../changes.rst:1515
+#: ../../changes.rst:1516
 msgid "Displays secondary languages while translating."
 msgstr ""
 
-#: ../../changes.rst:1516
+#: ../../changes.rst:1517
 msgid "Improved error page to give list of existing projects."
 msgstr ""
 
-#: ../../changes.rst:1517
+#: ../../changes.rst:1518
 msgid "New per language stats."
 msgstr ""
 
-#: ../../changes.rst:1520
+#: ../../changes.rst:1521
 msgid "Weblate 0.2"
 msgstr ""
 
-#: ../../changes.rst:1522
+#: ../../changes.rst:1523
 msgid "Released on February 7th 2012."
 msgstr ""
 
-#: ../../changes.rst:1524
+#: ../../changes.rst:1525
 msgid "Improved validation of several forms."
 msgstr ""
 
-#: ../../changes.rst:1525
+#: ../../changes.rst:1526
 msgid "Warn users on profile upgrade."
 msgstr ""
 
-#: ../../changes.rst:1526
+#: ../../changes.rst:1527
 msgid "Remember URL for login."
 msgstr ""
 
-#: ../../changes.rst:1527
+#: ../../changes.rst:1528
 msgid "Naming of text areas while entering plural forms."
 msgstr ""
 
-#: ../../changes.rst:1528
+#: ../../changes.rst:1529
 msgid "Automatic expanding of translation area."
 msgstr ""
 
-#: ../../changes.rst:1531
+#: ../../changes.rst:1532
 msgid "Weblate 0.1"
 msgstr ""
 
-#: ../../changes.rst:1533
+#: ../../changes.rst:1534
 msgid "Released on February 6th 2012."
 msgstr ""
 
-#: ../../changes.rst:1535
+#: ../../changes.rst:1536
 msgid "Initial release."
 msgstr ""
 
@@ -21516,9 +21558,9 @@ msgstr ""
 
 #: ../../devel/community.rst:9
 msgid ""
-"The :guilabel:`Community localization checklist` which can be found in the :"
-"guilabel:`Menu` menu of each component can give you guidance to make your "
-"localization process easy for community translators."
+"The :guilabel:`Community localization checklist` which can be found in the "
+"menu of each component can give you guidance to make your localization "
+"process easy for community translators."
 msgstr ""
 
 #: ../../devel/gettext.rst:2
@@ -27796,7 +27838,7 @@ msgid ":kbd:`Ctrl+S` or :kbd:`Cmd+S`"
 msgstr ""
 
 #: ../../user/translating.rst:173
-msgid "Shows search tab."
+msgid "Focuses search field."
 msgstr ""
 
 #: ../../user/translating.rst:174
@@ -28369,7 +28411,7 @@ msgstr ""
 msgid "Git"
 msgstr ""
 
-#: ../../vcs.rst:198 ../../vcs.rst:357
+#: ../../vcs.rst:198 ../../vcs.rst:361
 msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
@@ -28456,7 +28498,7 @@ msgid ""
 "Git repositories."
 msgstr ""
 
-#: ../../vcs.rst:269 ../../vcs.rst:306
+#: ../../vcs.rst:269 ../../vcs.rst:308
 msgid ":ref:`push-changes`"
 msgstr ""
 
@@ -28467,24 +28509,27 @@ msgstr ""
 #: ../../vcs.rst:277
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
-"as either one or many pull requests instead. You need to setup a :setting:"
-"`GITHUB_TOKEN` used to make API calls."
+"as either one or many pull requests instead."
+msgstr ""
+
+#: ../../vcs.rst:280 ../../vcs.rst:318
+msgid "You need to configure API credentials to make this work."
 msgstr ""
 
 #: ../../vcs.rst:284
 msgid ""
-":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN` for configuration "
-"instructions"
+":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
+"`GITHUB_CREDENTIALS`"
 msgstr ""
 
-#: ../../vcs.rst:295
+#: ../../vcs.rst:297
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to "
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
 
-#: ../../vcs.rst:299
+#: ../../vcs.rst:301
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -28492,71 +28537,66 @@ msgid ""
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
 
-#: ../../vcs.rst:311
+#: ../../vcs.rst:313
 msgid "Pushing changes to GitLab as merge requests"
 msgstr ""
 
-#: ../../vcs.rst:313
+#: ../../vcs.rst:315
 msgid ""
 "If not wanting to push translations to a GitLab repository, they can be sent "
 "as either one or many merge requests instead."
 msgstr ""
 
-#: ../../vcs.rst:316
+#: ../../vcs.rst:322
 msgid ""
-"Set :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN` for this to work."
-msgstr ""
-
-#: ../../vcs.rst:320
-msgid ""
-":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN` for configuration "
-"instructions"
-msgstr ""
-
-#: ../../vcs.rst:327
-msgid "Gerrit"
+":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
+"`GITLAB_CREDENTIALS`"
 msgstr ""
 
 #: ../../vcs.rst:331
+msgid "Gerrit"
+msgstr ""
+
+#: ../../vcs.rst:335
 msgid ""
 "Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow "
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
 
-#: ../../vcs.rst:335
+#: ../../vcs.rst:339
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories."
 msgstr ""
 
-#: ../../vcs.rst:343
+#: ../../vcs.rst:347
 msgid "Mercurial"
 msgstr ""
 
-#: ../../vcs.rst:347
+#: ../../vcs.rst:351
 msgid "Mercurial is another VCS you can use directly in Weblate."
 msgstr ""
 
-#: ../../vcs.rst:351
+#: ../../vcs.rst:355
 msgid ""
 "It should work with any Mercurial version, but there are sometimes "
 "incompatible changes to the command-line interface which breaks Weblate "
 "integration."
 msgstr ""
 
-#: ../../vcs.rst:363
+#: ../../vcs.rst:367
 msgid "Subversion"
 msgstr ""
 
-#: ../../vcs.rst:367
+#: ../../vcs.rst:371
 msgid ""
 "Weblate uses `git-svn`_ to interact with `subversion`_ repositories. It is a "
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
 
-#: ../../vcs.rst:373
+#: ../../vcs.rst:377
 msgid ""
 "Weblate tries to detect Subversion repository layout automatically - it "
 "supports both direct URLs for branch or repositories with standard layout "
@@ -28567,15 +28607,15 @@ msgid ""
 "URL and leaving branch empty."
 msgstr ""
 
-#: ../../vcs.rst:382
+#: ../../vcs.rst:386
 msgid "Before this, there was only support for standard layout repositories."
 msgstr ""
 
-#: ../../vcs.rst:389
+#: ../../vcs.rst:393
 msgid "Subversion credentials"
 msgstr ""
 
-#: ../../vcs.rst:391
+#: ../../vcs.rst:395
 msgid ""
 "Weblate expects you to have accepted the certificate up-front and if needed, "
 "your credentials. It will look to insert them into the DATA_DIR directory. "
@@ -28583,11 +28623,11 @@ msgid ""
 "variable set to the DATA_DIR:"
 msgstr ""
 
-#: ../../vcs.rst:408
+#: ../../vcs.rst:412
 msgid "Local files"
 msgstr ""
 
-#: ../../vcs.rst:412
+#: ../../vcs.rst:416
 msgid ""
 "Weblate can also operate without a remote VCS. The initial translations are "
 "imported by uploading them. Later you can replace individual files by file "
@@ -28595,7 +28635,7 @@ msgid ""
 "available only for monolingual translations)."
 msgstr ""
 
-#: ../../vcs.rst:417
+#: ../../vcs.rst:421
 msgid ""
 "In the background Weblate creates a Git repository for you and all changes "
 "are tracked in. In case you later decide to use a VCS to store the "
