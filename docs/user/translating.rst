@@ -170,7 +170,7 @@ The following keyboard shortcuts can be utilized during translation:
 :kbd:`Ctrl+J` or :kbd:`Cmd+J`
     Shows the :guilabel:`Nearby strings` tab.
 :kbd:`Ctrl+S` or :kbd:`Cmd+S`
-    Shows search tab.
+    Focuses search field.
 :kbd:`Ctrl+O` or :kbd:`Cmd+O`
     Copies source string.
 :kbd:`Ctrl+Y` or :kbd:`Cmd+Y`

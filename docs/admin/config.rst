@@ -931,7 +931,7 @@ List of enabled machine translation services to use.
 .. note::
 
     Many of the services need additional configuration like API keys, please check
-    their documentation ref: `machine` for more details.
+    their documentation :ref:`machine-translation-setup` for more details.
 
 .. code-block:: python
 
@@ -1081,7 +1081,7 @@ Please check https://cloud.google.com/docs/authentication/getting-started for mo
 MT_GOOGLE_PROJECT
 -----------------
 
-API v3 Google cloud `project id` with activated translation service and billing activated.
+Google Cloud API v3 project id with activated translation service and billing activated.
 Please check https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project for more details
 
 .. setting:: MT_GOOGLE_LOCATION
@@ -1089,7 +1089,7 @@ Please check https://cloud.google.com/appengine/docs/standard/nodejs/building-ap
 MT_GOOGLE_LOCATION
 ------------------
 
-API v3 Google Cloud Application Engine may be specific to a location.
+API v3 Google Cloud App Engine may be specific to a location.
 Change accordingly if the default ``global`` fallback does not work for you.
 
 Please check https://cloud.google.com/appengine/docs/locations for more details
@@ -1243,7 +1243,7 @@ URL where tmserver is running.
 MT_YANDEX_KEY
 -------------
 
-API key for the Yandex Translate API, you can register at https://tech.yandex.com/translate/
+API key for the Yandex Translate API, you can register at https://yandex.com/dev/translate/
 
 .. seealso::
 
