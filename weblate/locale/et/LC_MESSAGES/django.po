@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-13 11:55+0000\n"
-"PO-Revision-Date: 2020-09-14 06:58+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-09-14 11:08+0000\n"
+"Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
 "Language: et\n"
@@ -446,7 +446,7 @@ msgstr "Peida töölaualt lõpetatud tõlked"
 
 #: weblate/accounts/models.py:318
 msgid "Show secondary translations in the Zen mode"
-msgstr ""
+msgstr "Zen-olekus näita teiseseid tõlkeid"
 
 #: weblate/accounts/models.py:321
 msgid "Hide source if a secondary translation exists"
@@ -454,7 +454,7 @@ msgstr "Kui teisene tõlge on olemas, siis peida lähtekood"
 
 #: weblate/accounts/models.py:327
 msgid "Editor link"
-msgstr ""
+msgstr "Muutmisvaate link"
 
 #: weblate/accounts/models.py:329
 msgid ""
@@ -462,6 +462,9 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
+"Sisesta kohandatud URL, mis viitab lähtekoodile. Sa võid kasutada {{branch}} "
+"haru märgistamiseks ning {{filename}} ja {{line}} failinime ja rea "
+"kohatäitjana."
 
 #: weblate/accounts/models.py:338
 #, fuzzy
@@ -477,7 +480,7 @@ msgstr "Täisnimi"
 
 #: weblate/accounts/models.py:339
 msgid "Zen mode"
-msgstr ""
+msgstr "Zen-olek"
 
 #: weblate/accounts/models.py:345
 #, fuzzy
@@ -487,11 +490,11 @@ msgstr "Tõlke võti"
 
 #: weblate/accounts/models.py:347
 msgid "Top to bottom"
-msgstr ""
+msgstr "Ülevalt alla"
 
 #: weblate/accounts/models.py:348
 msgid "Side by side"
-msgstr ""
+msgstr "Kõrvuti"
 
 #: weblate/accounts/models.py:356
 msgid "Special characters"
@@ -6715,20 +6718,17 @@ msgstr ""
 "%(target)s."
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "%(component)s osis lukustati"
+msgstr "%(component)s osise kaastöötaja leping muutus."
 
 #: weblate/templates/mail/component_license.html:15
 msgid "Old agreement:"
 msgstr ""
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "Please review the contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "Palume tutvuda toetaja leppega"
+msgstr "Varem kaastöötaja leping puudus."
 
 #: weblate/templates/mail/component_license.html:21
 #, fuzzy
@@ -6737,10 +6737,8 @@ msgid "New agreement:"
 msgstr "Komponentide nimekiri"
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "Toetaja nõusolek"
+msgstr "Kaastöötaja leping on eemaldatud."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
