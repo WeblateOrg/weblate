@@ -1116,6 +1116,15 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
                 query_string=True,
             ),
         ),
+        # Redirect when cloning on component URL
+        path(
+            "projects/<name:project>/<name:component>/info/refs",
+            RedirectView.as_view(
+                url="/git/%(project)s/%(component)s/%(path)s",
+                permanent=True,
+                query_string=True,
+            ),
+        ),
         path(
             "git/<name:project>/<name:component>/<optionalpath:path>",
             weblate.gitexport.views.git_export,
