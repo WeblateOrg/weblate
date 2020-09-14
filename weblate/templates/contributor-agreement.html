@@ -17,7 +17,7 @@
   <div class="panel-body">
   <p>{% trans "Please read following contributor agreement:" %}</p>
   <div class="list-group-item pre-scrollable">
-{{ object.agreement|linebreaks|urlize }}
+{{ object.agreement|markdown }}
   </div>
 
 {% csrf_token %}

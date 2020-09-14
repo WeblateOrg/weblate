@@ -549,7 +549,7 @@ class Change(models.Model, UserDisplayMixin):
     def get_details_display(self):  # noqa: C901
         from weblate.utils.markdown import render_markdown
 
-        if self.action == self.ACTION_ANNOUNCEMENT:
+        if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
 
         # Following rendering relies on details present
