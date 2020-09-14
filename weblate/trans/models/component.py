@@ -1645,6 +1645,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             and self.auto_lock_error
             and alert in LOCKING_ALERTS
             and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
+            and self.change_set.filter(action=Change.ACTION_LOCK)
+            .order_by("-id")[0]
+            .auto_status
         ):
             self.do_lock(user=None, lock=False, auto=True)
 
