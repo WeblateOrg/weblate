@@ -722,13 +722,21 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         self.acting_user = None
 
     def generate_changes(self, old):
+        def getvalue(base, attribute):
+            result = getattr(base, attribute)
+            # Use slug for Project instances
+            return getattr(result, "slug", result)
+
         tracked = (
             ("license", Change.ACTION_LICENSE_CHANGE),
             ("agreement", Change.ACTION_AGREEMENT_CHANGE),
+            ("slug", Change.ACTION_RENAME_COMPONENT),
+            ("project", Change.ACTION_MOVE_COMPONENT),
         )
         for attribute, action in tracked:
-            old_value = getattr(old, attribute)
-            current_value = getattr(self, attribute)
+            old_value = getvalue(old, attribute)
+            current_value = getvalue(self, attribute)
+
             if old_value != current_value:
                 Change.objects.create(
                     action=action,

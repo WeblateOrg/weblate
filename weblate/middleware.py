@@ -90,7 +90,7 @@ class RedirectMiddleware:
                 project = (
                     Change.objects.filter(
                         action=Change.ACTION_RENAME_PROJECT,
-                        target=slug,
+                        old=slug,
                     )
                     .order()[0]
                     .project
@@ -108,7 +108,7 @@ class RedirectMiddleware:
             try:
                 component = (
                     Change.objects.filter(
-                        action=Change.ACTION_RENAME_COMPONENT, target=slug
+                        action=Change.ACTION_RENAME_COMPONENT, old=slug
                     )
                     .order()[0]
                     .component

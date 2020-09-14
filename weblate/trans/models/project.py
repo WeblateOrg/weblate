@@ -186,6 +186,8 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         old = None
         if self.id:
             old = Project.objects.get(pk=self.id)
+            # Generate change entries for changes
+            self.generate_changes(old)
             # Detect slug changes and rename directory
             self.check_rename(old)
             # Rename linked repos
@@ -217,6 +219,22 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
         self.acting_user = None
+
+    def generate_changes(self, old):
+        from weblate.trans.models.change import Change
+
+        tracked = (("slug", Change.ACTION_RENAME_PROJECT),)
+        for attribute, action in tracked:
+            old_value = getattr(old, attribute)
+            current_value = getattr(self, attribute)
+            if old_value != current_value:
+                Change.objects.create(
+                    action=action,
+                    old=old_value,
+                    target=current_value,
+                    project=self,
+                    user=self.acting_user,
+                )
 
     @cached_property
     def language_aliases_dict(self):

@@ -178,7 +178,7 @@ def remove_project(request, project):
     return redirect("home")
 
 
-def perform_rename(form_cls, request, obj, perm, **kwargs):
+def perform_rename(form_cls, request, obj, perm: str):
     if not request.user.has_perm(perm, obj):
         raise PermissionDenied()
 
@@ -196,8 +196,6 @@ def perform_rename(form_cls, request, obj, perm, **kwargs):
     # Invalidate new stats
     obj.stats.invalidate()
 
-    Change.objects.create(user=request.user, author=request.user, **kwargs)
-
     return redirect(obj)
 
 
@@ -205,45 +203,21 @@ def perform_rename(form_cls, request, obj, perm, **kwargs):
 @require_POST
 def rename_component(request, project, component):
     obj = get_component(request, project, component)
-    return perform_rename(
-        ComponentRenameForm,
-        request,
-        obj,
-        "component.edit",
-        component=obj,
-        target=obj.slug,
-        action=Change.ACTION_RENAME_COMPONENT,
-    )
+    return perform_rename(ComponentRenameForm, request, obj, "component.edit")
 
 
 @login_required
 @require_POST
 def move_component(request, project, component):
     obj = get_component(request, project, component)
-    return perform_rename(
-        ComponentMoveForm,
-        request,
-        obj,
-        "project.edit",
-        component=obj,
-        target=obj.project.slug,
-        action=Change.ACTION_MOVE_COMPONENT,
-    )
+    return perform_rename(ComponentMoveForm, request, obj, "project.edit")
 
 
 @login_required
 @require_POST
 def rename_project(request, project):
     obj = get_project(request, project)
-    return perform_rename(
-        ProjectRenameForm,
-        request,
-        obj,
-        "project.edit",
-        project=obj,
-        target=obj.slug,
-        action=Change.ACTION_RENAME_PROJECT,
-    )
+    return perform_rename(ProjectRenameForm, request, obj, "project.edit")
 
 
 @login_required
