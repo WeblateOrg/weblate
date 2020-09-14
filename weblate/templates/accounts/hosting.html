@@ -26,12 +26,25 @@
           <span class="badge">{% trans "Pending approval" %}</span>
         {% endif %}
       </h4>
-      <p>
-        {% for owner in billing.owners.all %}
-          <a href="{{ owner.get_absolute_url }}"><span class="profile-icon">{% icon "account.svg" %}</span></a>
-          <a href="mailto:{{ owner.email }}">{{ owner }}</a>
-        {% endfor %}
-      </p>
+      {% for owner in billing.owners.all %}
+        <p>
+          <span class="profile-icon">{% icon "account.svg" %}</span>
+          <span class="middle-dot-divider">
+            {{ owner }}
+          </span>
+          <span class="middle-dot-divider">
+            <a href="{{ owner.get_absolute_url }}">@{{ owner.username }}</a>
+          </span>
+          <span class="middle-dot-divider">
+            <a href="mailto:{{ owner.email }}">{{ owner.email }}</a>
+          </span>
+          {% if user.is_superuser %}
+          <span class="middle-dot-divider">
+            <a href="{% url "manage-users-check" %}?email={{ owner.email }}">{% trans "Check user access" %}</a>
+          </span>
+          {% endif %}
+        </p>
+      {% endfor %}
       {% for check in billing.libre_checklist %}
         <p>
           {% if check %}
