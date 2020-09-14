@@ -670,6 +670,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                     old=old.license,
                     target=self.license,
                     component=self,
+                    user=self.acting_user,
                 )
             if old.agreement != self.agreement:
                 Change.objects.create(
@@ -677,6 +678,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                     old=old.agreement,
                     target=self.agreement,
                     component=self,
+                    user=self.acting_user,
                 )
             # Detect slug changes and rename Git repo
             self.check_rename(old)
@@ -731,6 +733,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         self.logs = []
         self.translations_count = None
         self.translations_progress = 0
+        self.acting_user = None
 
     def install_autoaddon(self):
         """Installs automatically enabled addons from file format."""
@@ -928,7 +931,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 # Create source unit
                 source = source_units.create(id_hash=id_hash, **create)
                 source.source_updated = True
-                Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
+                Change.objects.create(
+                    action=Change.ACTION_NEW_SOURCE, unit=source, user=self.acting_user
+                )
                 self.updated_sources[id_hash] = source
 
             self._sources[id_hash] = source
@@ -1269,7 +1274,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                     action=Change.ACTION_FAILED_PUSH,
                     component=self,
                     target=error_text,
-                    user=request.user if request else None,
+                    user=request.user if request else self.acting_user,
                 )
                 if retry:
                     if "Host key verification failed" in error_text:
@@ -1327,7 +1332,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         Change.objects.create(
             action=Change.ACTION_PUSH,
             component=self,
-            user=request.user if request else None,
+            user=request.user if request else self.acting_user,
         )
 
         vcs_post_push.send(sender=self.__class__, component=self)
@@ -1358,7 +1363,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             Change.objects.create(
                 action=Change.ACTION_RESET,
                 component=self,
-                user=request.user if request else None,
+                user=request.user if request else self.acting_user,
             )
             self.delete_alert("MergeFailure")
             self.delete_alert("RepositoryOutdated")
@@ -1481,6 +1486,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 component=self,
                 action=Change.ACTION_PARSE_ERROR,
                 details={"error_message": error_message, "filename": filename},
+                user=self.acting_user,
             )
         raise FileParseError(error_message)
 
@@ -1533,7 +1539,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                         component=self,
                         action=action_failed,
                         target=error,
-                        user=request.user if request else None,
+                        user=request.user if request else self.acting_user,
                         details={"error": error, "status": status},
                     )
                     self.add_alert("MergeFailure", error=error)
@@ -1550,7 +1556,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 Change.objects.create(
                     component=self,
                     action=action,
-                    user=request.user if request else None,
+                    user=request.user if request else self.acting_user,
                 )
 
                 # Run post update hook, this should be done with repo lock held
@@ -1762,7 +1768,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                     self.log_warning("duplicate language found: %s", detail)
                     Change.objects.create(
                         component=self,
-                        user=request.user if request else None,
+                        user=request.user if request else self.acting_user,
                         target=detail,
                         action=Change.ACTION_DUPLICATE_LANGUAGE,
                     )

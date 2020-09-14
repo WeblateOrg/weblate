@@ -855,12 +855,14 @@ class ComponentViewSet(
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not edit component")
+        instance.acting_user = request.user
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
+        instance.acting_user = request.user
         component_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 

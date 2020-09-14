@@ -137,6 +137,7 @@ def get_component(request, project, component, skip_acl=False):
     )
     if not skip_acl:
         request.user.check_access_component(component)
+    component.acting_user = request.user
     return component
 
 
@@ -145,6 +146,7 @@ def get_project(request, project, skip_acl=False):
     project = get_object_or_404(Project, slug=project)
     if not skip_acl:
         request.user.check_access(project)
+    project.acting_user = request.user
     return project
 
 

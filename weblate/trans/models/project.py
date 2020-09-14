@@ -216,6 +216,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin)
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
+        self.acting_user = None
 
     @cached_property
     def language_aliases_dict(self):
