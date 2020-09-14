@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-13 11:55+0000\n"
-"PO-Revision-Date: 2020-09-08 10:59+0000\n"
+"PO-Revision-Date: 2020-09-14 06:58+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -1518,10 +1518,8 @@ msgstr "Nahrát položky do glosáře"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Use automatic suggestions"
-msgstr "Automaticky přijímat návrhy"
+msgstr "Používat automatické návrhy"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -2536,16 +2534,12 @@ msgid "The percent placeholders do not match source"
 msgstr "Procentuální zástupné symboly neodpovídají zdroji"
 
 #: weblate/checks/format.py:545
-#, fuzzy
-#| msgid "Information"
 msgid "Vue I18n formatting"
-msgstr "Informace"
+msgstr "Formátování Vue I18n"
 
 #: weblate/checks/format.py:546
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "The Vue I18n formatting does not match source"
-msgstr "Formátovací řetězec C v překladu neodpovídá zdroji"
+msgstr "Formátovací řetězec Vue I18n v překladu neodpovídá zdroji"
 
 #: weblate/checks/format.py:552
 msgid "Multiple unnamed variables"
@@ -2624,10 +2618,8 @@ msgid "Placeholders"
 msgstr "Zástupné symboly"
 
 #: weblate/checks/placeholders.py:42
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "V překladu chybí některé zástupné symboly:"
+msgstr "V překladu chybí některé zástupné symboly"
 
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
@@ -6578,34 +6570,25 @@ msgstr ""
 "Licence pro součást %(component)s byla změněna z %(old)s na %(target)s."
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "Součást %(component)s byla zamčena"
+msgstr "Dohoda s přispěvatelem pro součást %(component)s byla změnena."
 
 #: weblate/templates/mail/component_license.html:15
-#, fuzzy
-#| msgid "Placement"
 msgid "Old agreement:"
-msgstr "Umístění"
+msgstr "Původní dohoda:"
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "Zobrazit dohodu s přispěvatelem"
+msgstr "Předtím nebyla žádná dohoda s přispěvatelem."
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New payment"
 msgid "New agreement:"
-msgstr "Nová platba"
+msgstr "Nová dohoda:"
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "Dohoda s přispěvatelem"
+msgstr "Dohoda s přispěvatelem byla odstraněna."
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -6613,10 +6596,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s přelicencováno na %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "Součást %(component)s byla zamčena"
+msgstr "Dohoda s přispěvatelem pro %(component)s byla změněna"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -8078,16 +8060,12 @@ msgid "Please consider the following:"
 msgstr "Zvažte, prosím, následující:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr ""
 "Pokud je překlad do zdrojového jazyka chtěný, změňte zdrojový jazyk v "
-"nastavení projektu."
+"nastavení součásti."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8586,10 +8564,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "Počítačem podporované návrhy překladu"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "Automaticky přijímat návrhy"
+msgstr "Automatické návrhy"
 
 #: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
@@ -9975,10 +9951,8 @@ msgstr "Změna licence"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "Dohoda s přispěvatelem"
+msgstr "Změněna dohoda s přispěvatelem"
 
 #: weblate/trans/models/change.py:476
 #, python-format
@@ -10517,18 +10491,15 @@ msgstr ""
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
+"Zdrojový jazyk nemůže být změněn. Místo toho, prosím, založte součást znovu."
 
 #: weblate/trans/models/component.py:2166
-#, fuzzy
-#| msgid "Imported word is already existing in the glossary"
 msgid "Component with this URL slug already exists in the project."
-msgstr "Nahrávané slovo je již obsaženo v glosáři"
+msgstr "Součást s tímto popisem adresy URL již v projektu existuje."
 
 #: weblate/trans/models/component.py:2171
-#, fuzzy
-#| msgid "Imported word is already existing in the glossary"
 msgid "Component with this name already exists in the project."
-msgstr "Nahrávané slovo je již obsaženo v glosáři"
+msgstr "Součást s tímto jménem již v projektu existuje."
 
 #: weblate/trans/models/component.py:2196
 msgid "Can not validate file matches due to invalid regular expression."
