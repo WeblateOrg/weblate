@@ -173,9 +173,11 @@ class GitRepository(Repository):
         if self.has_branch(name):
             self.execute(["branch", "-D", name])
 
-    def needs_commit(self, *filenames):
+    def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
-        cmd = ("status", "--porcelain", "--") + filenames
+        cmd = ["status", "--porcelain", "--"]
+        if filenames:
+            cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
         return status != ""

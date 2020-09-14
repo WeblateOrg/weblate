@@ -543,7 +543,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         return self.store.get_filenames()
 
     def repo_needs_commit(self):
-        return self.component.repository.needs_commit(*self.filenames)
+        return self.component.repository.needs_commit(self.filenames)
 
     def git_commit(
         self,

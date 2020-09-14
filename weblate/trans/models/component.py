@@ -1442,7 +1442,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
     ):
         """Commits files to the repository."""
         # Is there something to commit?
-        if not self.repository.needs_commit(*files or []):
+        if not self.repository.needs_commit(files):
             return False
 
         # Handle context
