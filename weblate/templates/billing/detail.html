@@ -27,6 +27,9 @@
   <div class="panel-footer">
   <form method="post" action="{% url 'billing' %}">
   {% csrf_token %}
+  {% if offer_hosting and billing.is_trial and billing.plan.price == 0 %}
+    <a href="{% url 'hosting' %}" class="btn btn-primary">{% trans "Request approval for libre hosting" %}</a>
+  {% endif %}
   {% if payment_enabled and billing.can_be_paid %}
     <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary">
     {% trans "Change plan or payment method" %}
