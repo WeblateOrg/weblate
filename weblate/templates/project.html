@@ -38,7 +38,7 @@
   {% if offer_hosting %}
     {% for billing in object.billing_set.all %}
       {% if billing.is_trial and billing.plan.price == 0 %}
-        <a href="{% url 'hosting' %}" class="btn btn-primary">{% trans "Request approval for libre hosting" %}</a>
+        <a href="{% url 'hosting' %}#billing-{{ billing.pk }}" class="btn btn-primary">{% trans "Request approval for libre hosting" %}</a>
       {% endif %}
     {% endfor %}
   {% endif %}

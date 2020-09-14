@@ -81,6 +81,7 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
+    HostingForm,
     LanguagesForm,
     LoginForm,
     NotificationForm,
@@ -134,7 +135,11 @@ HOSTING_TEMPLATE = """
 Project:    %(project)s
 Website:    %(url)s
 
-Please review at https://hosted.weblate.org/hosting/
+Message:
+
+%(message)s
+
+Please review at https://hosted.weblate.org/hosting/#billing-%(billing_id)s
 """
 
 TEMPLATE_FOOTER = """
@@ -509,6 +514,7 @@ def hosting(request):
         .filter(state=Billing.STATE_TRIAL)
         .order_by("-payment")
     )
+    form = HostingForm()
 
     if request.method == "POST" and "billing" in request.POST:
         billing = billings.get(pk=request.POST["billing"])
@@ -520,24 +526,28 @@ def hosting(request):
                 return redirect("hosting")
 
             if "request" in request.POST:
-                project = billing.projects.get()
-                billing.payment["libre_request"] = True
-                billing.save(update_fields=["payment"])
-                mail_admins_contact(
-                    request,
-                    "Hosting request for %(billing)s",
-                    HOSTING_TEMPLATE,
-                    {
-                        "billing": billing,
-                        "name": request.user.full_name,
-                        "email": request.user.email,
-                        "project": project,
-                        "url": project.web,
-                    },
-                    request.user.email,
-                    settings.ADMINS_HOSTING,
-                )
-                return redirect("hosting")
+                form = HostingForm(request.POST)
+                if form.is_valid():
+                    project = billing.projects.get()
+                    billing.payment["libre_request"] = True
+                    billing.save(update_fields=["payment"])
+                    mail_admins_contact(
+                        request,
+                        "Hosting request for %(billing)s",
+                        HOSTING_TEMPLATE,
+                        {
+                            "billing": billing,
+                            "name": request.user.full_name,
+                            "email": request.user.email,
+                            "project": project,
+                            "url": project.web,
+                            "message": form.cleaned_data["message"],
+                            "billing_id": billing.pk,
+                        },
+                        request.user.email,
+                        settings.ADMINS_HOSTING,
+                    )
+                    return redirect("hosting")
 
             if "extend" in request.POST and request.user.is_superuser:
                 billing.expiry = timezone.now() + timedelta(days=14)
@@ -550,6 +560,7 @@ def hosting(request):
         {
             "title": _("Hosting"),
             "billings": billings,
+            "hosting_form": form,
         },
     )
 

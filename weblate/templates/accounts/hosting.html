@@ -18,7 +18,7 @@
   <div class="list-group">
   {% for billing in billings %}
     <div class="list-group-item">
-      <h4 class="list-group-item-heading">
+      <h4 class="list-group-item-heading" id="billing-{{ billing.pk }}">
         {% if billing.projects_display %}{{ billing.projects_display }},{% endif %}
         {{ billing.plan }}
         {% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %}
@@ -69,6 +69,7 @@
           {% if user.is_superuser %}
             <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
           {% else %}
+            {{ hosting_form|crispy }}
             <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for libre hosting" %}" />
           {% endif %}
         {% endif %}
