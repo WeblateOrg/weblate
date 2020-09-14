@@ -17,8 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-import os.path
 from collections import defaultdict
 
 from django.utils.translation import gettext_lazy as _
@@ -102,11 +100,6 @@ class GitSquashAddon(BaseAddon):
 
         return commit_message
 
-    def commit_existing(self, repository, message, files):
-        files = [name for name in files if os.path.exists(name)]
-        if files:
-            repository.commit(message, files=files)
-
     def squash_language(self, component, repository):
         remote = repository.get_remote_branch_name()
         languages = self.get_filenames(component)
@@ -124,7 +117,7 @@ class GitSquashAddon(BaseAddon):
         for code, message in messages.items():
             if not message:
                 continue
-            self.commit_existing(repository, message, languages[code])
+            repository.commit(message, files=languages[code])
 
     def squash_file(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -142,7 +135,7 @@ class GitSquashAddon(BaseAddon):
         for filename, message in messages.items():
             if not message:
                 continue
-            self.commit_existing(repository, message, [filename])
+            repository.commit(message, files=[filename])
 
     def squash_author(self, component, repository):
         remote = repository.get_remote_branch_name()
