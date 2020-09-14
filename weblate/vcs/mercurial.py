@@ -271,6 +271,11 @@ class HgRepository(Repository):
                         continue
                 cmd.append(name)
 
+        # Bail out if there is nothing to commit.
+        # This can easily happen with squashing and reverting changes.
+        if not self.needs_commit(files):
+            return
+
         # Execute it
         self.execute(cmd)
         # Clean cache

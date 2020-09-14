@@ -360,9 +360,11 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             "fafd745150eb1f20fc3719778942a96e2106d25b",
         )
 
-        # Check invalid commit
-        with self.repo.lock, self.assertRaises(RepositoryException):
+        # Check no-op commit
+        oldrev = self.repo.last_revision
+        with self.repo.lock:
             self.repo.commit("test commit", committer_email)
+        self.assertEqual(oldrev, self.repo.last_revision)
 
     def test_delete(self, committer="Foo Bar"):
         self.test_commit(committer)
