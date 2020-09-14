@@ -37,12 +37,7 @@ class WidgetExtensionConverter(StringConverter):
     regex = "(png|svg)"
 
 
-class OptionalPathConverter(StringConverter):
-    regex = ".*"
-
-
 register_converter(WeblateSlugConverter, "name")
 register_converter(GitPathConverter, "gitpath")
 register_converter(WordConverter, "word")
 register_converter(WidgetExtensionConverter, "extension")
-register_converter(OptionalPathConverter, "optionalpath")
