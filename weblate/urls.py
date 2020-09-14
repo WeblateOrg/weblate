@@ -1109,7 +1109,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
         ),
         # Redirect clone in case user adds .git to the path
         path(
-            "git/<name:project>/<name:component>.git/<gitpath:path>",
+            "git/<name:project>/<name:component>.git/<optionalpath:path>",
             RedirectView.as_view(
                 url="/git/%(project)s/%(component)s/%(path)s",
                 permanent=True,
@@ -1126,7 +1126,7 @@ if "weblate.gitexport" in settings.INSTALLED_APPS:
             ),
         ),
         path(
-            "git/<name:project>/<name:component>/<gitpath:path>",
+            "git/<name:project>/<name:component>/<optionalpath:path>",
             weblate.gitexport.views.git_export,
             name="git-export",
         ),
