@@ -265,6 +265,11 @@ class GitRepository(Repository):
         else:
             self.execute(["add", self.path])
 
+        # Bail out if there is nothing to commit.
+        # This can easily happen with squashing and reverting changes.
+        if not self.needs_commit(files):
+            return
+
         # Build the commit command
         cmd = ["commit", "--message", message]
         if author:
