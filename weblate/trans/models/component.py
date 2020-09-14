@@ -664,22 +664,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             if changed_setup:
                 old.commit_pending("changed setup", None)
             changed_variant = old.variant_regex != self.variant_regex
-            if old.license != self.license:
-                Change.objects.create(
-                    action=Change.ACTION_LICENSE_CHANGE,
-                    old=old.license,
-                    target=self.license,
-                    component=self,
-                    user=self.acting_user,
-                )
-            if old.agreement != self.agreement:
-                Change.objects.create(
-                    action=Change.ACTION_AGREEMENT_CHANGE,
-                    old=old.agreement,
-                    target=self.agreement,
-                    component=self,
-                    user=self.acting_user,
-                )
+            # Generate change entries for changes
+            self.generate_changes(old)
             # Detect slug changes and rename Git repo
             self.check_rename(old)
             # Rename linked repos
@@ -734,6 +720,23 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         self.translations_count = None
         self.translations_progress = 0
         self.acting_user = None
+
+    def generate_changes(self, old):
+        tracked = (
+            ("license", Change.ACTION_LICENSE_CHANGE),
+            ("agreement", Change.ACTION_AGREEMENT_CHANGE),
+        )
+        for attribute, action in tracked:
+            old_value = getattr(old, attribute)
+            current_value = getattr(self, attribute)
+            if old_value != current_value:
+                Change.objects.create(
+                    action=action,
+                    old=old_value,
+                    target=current_value,
+                    component=self,
+                    user=self.acting_user,
+                )
 
     def install_autoaddon(self):
         """Installs automatically enabled addons from file format."""
