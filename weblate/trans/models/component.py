@@ -1646,7 +1646,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             and alert in LOCKING_ALERTS
             and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
         ):
-            self.do_lock(user=None, lock=False)
+            self.do_lock(user=None, lock=False, auto=True)
 
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
@@ -1659,7 +1659,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
 
         # Automatically lock on error
         if created and self.auto_lock_error and alert in LOCKING_ALERTS:
-            self.do_lock(user=None, lock=True)
+            self.do_lock(user=None, lock=True, auto=True)
 
         # Update details with exception of component removal
         if not created and not noupdate:
@@ -2607,7 +2607,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
             translation.notify_new(request)
             return translation
 
-    def do_lock(self, user, lock: bool = True):
+    def do_lock(self, user, lock: bool = True, auto: bool = False):
         """Lock or unlock component."""
         if self.locked != lock:
             self.locked = lock
@@ -2617,6 +2617,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
                 component=self,
                 user=user,
                 action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
+                details={"auto": auto},
             )
 
     @cached_property

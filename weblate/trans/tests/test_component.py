@@ -28,7 +28,7 @@ from django.test.utils import override_settings
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Component, Project, Unit
+from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -585,6 +585,10 @@ class ComponentChangeTest(RepoTestCase):
         self.assertTrue(component.locked)
         # Locked event, alert added
         self.assertEqual(component.change_set.count() - start, 2)
+
+        change = component.change_set.get(action=Change.ACTION_LOCK)
+        self.assertEqual(change.details, {"auto": True})
+        self.assertEqual(change.get_action_display(), "Component automatically locked")
 
         component.add_alert("UpdateFailure")
         self.assertTrue(component.locked)

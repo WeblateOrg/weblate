@@ -420,6 +420,12 @@ class Change(models.Model, UserDisplayMixin):
             "New string to translate", "New strings to translate"
         ),
     }
+    AUTO_ACTIONS = {
+        # Translators: Name of event in the history
+        ACTION_LOCK: gettext_lazy("Component automatically locked"),
+        # Translators: Name of event in the history
+        ACTION_UNLOCK: gettext_lazy("Component automatically unlocked"),
+    }
 
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(
@@ -520,9 +526,15 @@ class Change(models.Model, UserDisplayMixin):
     def plural_count(self):
         return self.details.get("count", 1)
 
+    @property
+    def auto_status(self):
+        return self.details.get("auto", False)
+
     def get_action_display(self):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
+        if self.action in self.AUTO_ACTIONS and self.auto_status:
+            return force_str(self.AUTO_ACTIONS[self.action])
         return force_str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def is_merge_failure(self):
