@@ -78,18 +78,18 @@ class GitExportTest(ViewTestCase):
         )
 
     def get_git_url(self, path, component=None):
-        kwargs = {"path": path}
+        kwargs = {"path": ""}
         if component is None:
             component = self.kw_component
         kwargs.update(component)
-        return reverse("git-export", kwargs=kwargs)
+        return reverse("git-export", kwargs=kwargs) + path
 
     def test_git_root(self):
         response = self.client.get(self.get_git_url(""))
         self.assertEqual(302, response.status_code)
 
     def test_git_info(self):
-        response = self.client.get(self.get_git_url("info"))
+        response = self.client.get(self.get_git_url("info"), follow=True)
         self.assertEqual(404, response.status_code)
 
     def git_receive(self, **kwargs):
