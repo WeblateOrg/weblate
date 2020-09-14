@@ -1,3 +1,5 @@
+<!-- This file is maintained in https://github.com/WeblateOrg/meta/ -->
+
 ## Weblate Security
 
 We take security very seriously at Weblate. We welcome any peer review of our
@@ -6,5 +8,5 @@ We take security very seriously at Weblate. We welcome any peer review of our
 You can find more information on reporting security issues in
 [our documentation][1] and on [our page at HackerOne][2].
 
-[1]: https://docs.weblate.org/en/latest/contributing.html#security
+[1]: https://docs.weblate.org/en/latest/contributing/issues.html#security
 [2]: https://hackerone.com/weblate
