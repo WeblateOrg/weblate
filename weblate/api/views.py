@@ -183,6 +183,8 @@ class WeblateViewSet(DownloadViewSet):
         if not request.user.has_perm(permission, project):
             raise PermissionDenied()
 
+        obj.acting_user = request.user
+
         if takes_request:
             args = args + (request,)
         else:
