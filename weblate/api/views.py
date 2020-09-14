@@ -615,7 +615,9 @@ class RoleViewSet(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
+class ProjectViewSet(
+    WeblateViewSet, UpdateModelMixin, CreateModelMixin, DestroyModelMixin
+):
     """Translation projects API."""
 
     queryset = Project.objects.none()
@@ -704,10 +706,18 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
                 billing = None
             serializer.instance.post_create(self.request.user, billing)
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not request.user.has_perm("project.edit", instance):
+            self.permission_denied(request, "Can not edit project")
+        instance.acting_user = request.user
+        return super().update(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
+        instance.acting_user = request.user
         project_removal.delay(instance.pk, request.user.pk)
         return Response(status=HTTP_204_NO_CONTENT)
 

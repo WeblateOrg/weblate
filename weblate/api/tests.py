@@ -1216,6 +1216,21 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 2)
 
+    def test_patch(self):
+        self.do_request(
+            "api:project-detail", self.project_kwargs, method="patch", code=403
+        )
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"slug": "new-slug"},
+        )
+        self.assertEqual(response.data["slug"], "new-slug")
+
 
 class ComponentAPITest(APIBaseTest):
     def setUp(self):

@@ -781,6 +781,26 @@ Projects
             "web_url": "http://example.com/projects/hello/"
         }
 
+.. http:patch:: /api/projects/(string:project)/
+
+    .. versionadded:: 4.3
+
+    Edit a project by a patch request.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
+.. http:put:: /api/projects/(string:project)/
+
+    .. versionadded:: 4.3
+
+    Edit a project by a put request.
+
+    :param project: Project URL slug
+    :type project: string
+
 .. http:delete:: /api/projects/(string:project)/
 
     .. versionadded:: 3.9
