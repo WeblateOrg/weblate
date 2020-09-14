@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-13 13:53+0200\n"
-"PO-Revision-Date: 2020-09-12 12:12+0000\n"
+"PO-Revision-Date: 2020-09-14 06:58+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -690,11 +690,9 @@ msgid "Automatic suggestions"
 msgstr "Автоматическое принятие предложений"
 
 #: ../../admin/access.rst:338
-#, fuzzy
-#| msgid "Use machinery [`Administration`, `Power user`]"
 msgid "Use automatic suggestions [`Administration`, `Power user`]"
 msgstr ""
-"Использование автоматизированного перевода [`Администрирование`, `Опытный "
+"Использование автоматических предложений [`Администрирование`, `Опытный "
 "пользователь`]"
 
 #: ../../admin/access.rst:343 ../../api.rst:736
@@ -2567,10 +2565,6 @@ msgid "To install `django-cas-ng`:"
 msgstr "Для установки `django-cas-ng` выполните команду:"
 
 #: ../../admin/auth.rst:548
-#, fuzzy
-#| msgid ""
-#| "Once you have the package installed you can hook it up to the Django "
-#| "authentication system by modifying the :file:`settings.py` file:"
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
@@ -3470,12 +3464,6 @@ msgstr ""
 "`check-regex`."
 
 #: ../../admin/checks.rst:85
-#, fuzzy
-#| msgid ""
-#| "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
-#| "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-#| "messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-#| "format``, ``ruby-format``"
 msgid ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
@@ -3485,17 +3473,9 @@ msgstr ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
 "messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-"format``, ``ruby-format``"
+"format``, ``ruby-format``, ``vue-format``"
 
 #: ../../admin/checks.rst:81
-#, fuzzy
-#| msgid ""
-#| "Treats all strings like format strings, affects :ref:`check-python-"
-#| "format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-#| "format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-#| "`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-"
-#| "c-sharp-format`, :ref:`check-java-format`, :ref:`check-java-"
-#| "messageformat`, :ref:`check-same`."
 msgid ""
 "Treats all strings like format strings, affects :ref:`check-python-format`, :"
 "ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-format`, :ref:"
@@ -3506,10 +3486,10 @@ msgid ""
 msgstr ""
 "Рассматривает все строки как строки формата, влияет на проверки :ref:`check-"
 "python-format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-"
-"qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-"`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-c-"
-"sharp-format`, :ref:`check-java-format`, :ref:`check-java-messageformat` и :"
-"ref:`check-same`."
+"qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref"
+":`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-"
+"javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-format`, "
+":ref:`check-java-messageformat` и :ref:`check-same`."
 
 #: ../../admin/checks.rst:87
 msgid "``strict-same``"
@@ -3677,16 +3657,12 @@ msgid "Skip the \"Ruby format\" quality check."
 msgstr "Пропускает проверку качества «Ruby-формат»."
 
 #: ../../admin/checks.rst:127
-#, fuzzy
-#| msgid "``ignore-es-format``"
 msgid "``ignore-vue-format``"
-msgstr "``ignore-es-format``"
+msgstr "``ignore-vue-format``"
 
 #: ../../admin/checks.rst:128
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the \"Vue I18n formatting\" quality check."
-msgstr "Пропускает проверку качества «C-формат»."
+msgstr "Пропускает проверку качества «Форматирование Vue I18n»."
 
 #: ../../admin/checks.rst:129
 msgid "``ignore-translated``"
@@ -4000,24 +3976,18 @@ msgid "Enforcing checks"
 msgstr "Принудительные проверки"
 
 #: ../../admin/checks.rst:217
-#, fuzzy
-#| msgid ""
-#| "You can configure a list of checks which can not be ignored by setting :"
-#| "guilabel:`Enforced checks` in :ref:`component`. Each listed check can not "
-#| "be ignored in the user interface and any string failing this check is "
-#| "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgid ""
 "You can configure a list of checks which can not be ignored by setting :ref:"
 "`component-enforced_checks` in :ref:`component`. Each listed check can not "
 "be ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-"Вы можете настроить список проверок, которые нельзя проигнорировать, задав "
-"в :ref:`конфигурации компонента <component>` параметр :guilabel:"
-"`Принудительные проверки`. Все перечисленные проверки не смогут быть "
-"проигнорированы из пользовательского интерфейса, а любая строка, для которой "
-"такая проверка сработала, помечается флагом :guilabel:`На правку` (смотрите "
-"раздел :ref:`states`)."
+"Вы можете настроить список проверок, которые нельзя проигнорировать, задав в "
+":ref:`конфигурации компонента <component>` параметр :ref:`component-"
+"enforced_checks`. Все перечисленные проверки не смогут быть проигнорированы "
+"из пользовательского интерфейса, а любая строка, для которой такая проверка "
+"сработала, помечается флагом :guilabel:`На правку` (смотрите раздел "
+":ref:`states`)."
 
 #: ../../admin/checks.rst:225
 msgid "Managing fonts"
@@ -5122,10 +5092,8 @@ msgstr ""
 "пользователи могут делиться прогрессом перевода в социальных сетях."
 
 #: ../../admin/config.rst:580
-#, fuzzy
-#| msgid "MT_GOOGLE_CREDENTIALS"
 msgid "GITLAB_CREDENTIALS"
-msgstr "MT_GOOGLE_CREDENTIALS"
+msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:582
 msgid "List for credentials for GitLab servers."
@@ -5149,10 +5117,8 @@ msgstr ""
 "обновления перевода."
 
 #: ../../admin/config.rst:612
-#, fuzzy
-#| msgid ":setting:`MT_GOOGLE_CREDENTIALS`"
 msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
-msgstr ":setting:`MT_GOOGLE_CREDENTIALS`"
+msgstr ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
 
 #: ../../admin/config.rst:618
 msgid "GITLAB_TOKEN"
@@ -5166,22 +5132,17 @@ msgstr ""
 "необходимых для обновления перевода."
 
 #: ../../admin/config.rst:624
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab."
-#| "com/ee/user/profile/personal_access_tokens.html>`_"
 msgid ""
 ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal access "
 "token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
-":ref:`vcs-gitlab`, `GitLab: Персональный токен доступа <https://docs.gitlab."
-"com/ee/user/profile/personal_access_tokens.html>`_"
+":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Персональный "
+"токен доступа <https://docs.gitlab.com/ee/user/profile/personal_access_tokens"
+".html>`_"
 
 #: ../../admin/config.rst:631
-#, fuzzy
-#| msgid "HIDE_REPO_CREDENTIALS"
 msgid "GITHUB_CREDENTIALS"
-msgstr "HIDE_REPO_CREDENTIALS"
+msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:633
 msgid "List for credentials for GitHub servers."
@@ -5205,10 +5166,8 @@ msgstr ""
 "для обновления перевода."
 
 #: ../../admin/config.rst:662
-#, fuzzy
-#| msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
 msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
-msgstr ":setting:`CHECK_LIST`, :ref:`custom-checks`"
+msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 
 #: ../../admin/config.rst:668
 msgid "GITHUB_TOKEN"
@@ -5223,18 +5182,14 @@ msgstr ""
 "необходимых для отправки запросов на извлечение для обновления перевода."
 
 #: ../../admin/config.rst:675
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
-#| "com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 msgid ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
 "access token <https://docs.github.com/en/github/authenticating-to-github/"
 "creating-a-personal-access-token>`_"
 msgstr ""
-":ref:`vcs-github`, `Создание персонального токена доступа <https://docs."
-"github.com/en/github/authenticating-to-github/creating-a-personal-access-"
-"token>`_"
+":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Создание персонального "
+"токена доступа <https://docs.github.com/en/github/authenticating-to-github/"
+"creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:682
 msgid "GOOGLE_ANALYTICS_ID"
@@ -5593,17 +5548,13 @@ msgid "List of enabled machine translation services to use."
 msgstr "Список включённых сервисов машинного перевода."
 
 #: ../../admin/config.rst:988
-#, fuzzy
-#| msgid ""
-#| "Many of the services need additional configuration like API keys, please "
-#| "check their documentation ref: `machine` for more details."
 msgid ""
 "Many of the services need additional configuration like API keys, please "
 "check their documentation :ref:`machine-translation-setup` for more details."
 msgstr ""
 "Многим сервисам нужна дополнительная настройка, например, задание ключей "
 "API, для получения более подробной информации обратитесь к их документации в "
-"разделе :ref:`machine`."
+"разделе :ref:`machine-translation-setup`."
 
 #: ../../admin/config.rst:1011 ../../faq.rst:288
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
@@ -5791,38 +5742,28 @@ msgid "MT_GOOGLE_PROJECT"
 msgstr "MT_GOOGLE_PROJECT"
 
 #: ../../admin/config.rst:1139
-#, fuzzy
-#| msgid ""
-#| "API v3 Google cloud `project id` with activated translation service and "
-#| "billing activated. Please check https://cloud.google.com/appengine/docs/"
-#| "standard/nodejs/building-app/creating-project for more details"
 msgid ""
 "Google Cloud API v3 project id with activated translation service and "
 "billing activated. Please check https://cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project for more details"
 msgstr ""
-"`Идентификатор проекта` API версии v3 облака Google с активированным "
-"тарифным планом и сервисом перевода. Для получения более подробной "
-"информации обратитесь по адресу https://cloud.google.com/appengine/docs/"
-"standard/nodejs/building-app/creating-project"
+"Идентификатор проекта API версии v3 облака Google с активированным тарифным "
+"планом и сервисом перевода. Для получения более подробной информации "
+"обратитесь по адресу https://cloud.google.com/appengine/docs/standard/nodejs/"
+"building-app/creating-project"
 
 #: ../../admin/config.rst:1145
 msgid "MT_GOOGLE_LOCATION"
 msgstr "MT_GOOGLE_LOCATION"
 
 #: ../../admin/config.rst:1147
-#, fuzzy
-#| msgid ""
-#| "API v3 Google Cloud Application Engine may be specific to a location. "
-#| "Change accordingly if the default ``global`` fallback does not work for "
-#| "you."
 msgid ""
 "API v3 Google Cloud App Engine may be specific to a location. Change "
 "accordingly if the default ``global`` fallback does not work for you."
 msgstr ""
-"API версии v3 Application Engine облака Google может зависеть от "
-"местоположения. Измените его соответствующим образом, если значение по "
-"умолчанию ``global`` для вас не подходит."
+"API версии v3 App Engine облака Google может зависеть от местоположения. "
+"Измените его соответствующим образом, если значение по умолчанию ``global`` "
+"для вас не подходит."
 
 #: ../../admin/config.rst:1150
 msgid ""
@@ -6057,10 +5998,6 @@ msgid "MT_YANDEX_KEY"
 msgstr "MT_YANDEX_KEY"
 
 #: ../../admin/config.rst:1301
-#, fuzzy
-#| msgid ""
-#| "API key for the Yandex Translate API, you can register at https://tech."
-#| "yandex.com/translate/"
 msgid ""
 "API key for the Yandex Translate API, you can register at https://yandex.com/"
 "dev/translate/"
@@ -15324,16 +15261,12 @@ msgid "Source language"
 msgstr "Исходный язык"
 
 #: ../../admin/projects.rst:642
-#, fuzzy
-#| msgid ""
-#| "Language used for source strings in all components. Change this if you "
-#| "are translating from something else than English."
 msgid ""
 "Language used for source strings. Change this if you are translating from "
 "something else than English."
 msgstr ""
-"Язык, используемый для исходных строк во всех компонентах. Изменяйте этот "
-"параметр, если вы переводите не с английского."
+"Язык, используемый для исходных строк. Изменяйте этот параметр, если вы "
+"переводите не с английского."
 
 #: ../../admin/projects.rst:647
 msgid ""
@@ -15964,12 +15897,6 @@ msgstr ""
 "пользователя, сделавшего предложение)."
 
 #: ../../admin/translating.rst:18
-#, fuzzy
-#| msgid ""
-#| "Once automatic acceptance is set up, normal users lose the privilege to "
-#| "directly save translations or accept suggestions. This can be overridden "
-#| "with the :guilabel:`Can override suggestion state` privilege (see :ref:"
-#| "`privileges`)."
 msgid ""
 "Once automatic acceptance is set up, normal users lose the privilege to "
 "directly save translations or accept suggestions. This can be overridden "
@@ -15978,8 +15905,8 @@ msgid ""
 msgstr ""
 "После настройки автоматического принятия обычные пользователи теряют "
 "привилегию непосредственного сохранения переводов или принятия предложений. "
-"Это можно отменить с помощью привилегии :guilabel:`Может переопределять "
-"состояние предложения` (смотрите раздел :ref:`privileges`)."
+"Это можно отменить с помощью привилегии :guilabel:`Правка строк, когда "
+"предложения являются обязательными` (смотрите раздел :ref:`privileges`)."
 
 #: ../../admin/translating.rst:23
 msgid ""
@@ -18952,41 +18879,35 @@ msgstr "Исправлена конфигурация принудительны
 
 #: ../../changes.rst:13
 msgid "Improve documentation about built-in backups."
-msgstr ""
+msgstr "Улучшена документация по встроенному резервному копированию."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Include source language in project creation form."
 msgid "Moved source language attribute from project to a component."
-msgstr "В форму создания проекта включён исходный язык."
+msgstr "Атрибут исходного языка перемещён из проекта в компонент."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Information"
 msgid "Add Vue I18n formatting check."
-msgstr "Информация"
+msgstr "Добавлена проверка форматирования локализации Vue."
 
 #: ../../changes.rst:16
 msgid "Generic placeholders check now supports regular expressions."
-msgstr ""
+msgstr "Обычная проверка заполнителей теперь поддерживает регулярные выражения."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improved look of plaintext e-mails."
 msgid "Improved look of matrix mode."
-msgstr "Улучшен внешний вид простых текстовых электронных писем."
+msgstr "Улучшен внешний вид матричного режима."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Machinery is now called automatic suggestions."
-msgstr "Автоматическое принятие предложений"
+msgstr ""
+"«Автоматизированный перевод» теперь называется «автоматическими "
+"предложениями»."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for generating contributor stats."
 msgid "Added support for interacting with multiple GitLab or GitHub instances."
-msgstr "Добавлена поддержка генерации статистики участников."
+msgstr ""
+"Добавлена поддержка взаимодействия с несколькими экземплярами GitLab’а или "
+"GitHub’а."
 
 #: ../../changes.rst:22
 msgid "Weblate 4.2.2"
@@ -19016,6 +18937,7 @@ msgstr "Исправлено падение при сообщении о про�
 #: ../../changes.rst:30
 msgid "Fixed Git commit squashing with trailers enabled."
 msgstr ""
+"Исправлена склейка коммитов Git’а при включённом добавлении завершителей."
 
 #: ../../changes.rst:31
 msgid "Fixed creating local VCS components using API."
@@ -20629,46 +20551,52 @@ msgstr ""
 msgid ""
 "Indicate max length and current characters count when editing translation."
 msgstr ""
+"Показ максимальной длины и текущего количества символов при редактировании "
+"перевода."
 
 #: ../../changes.rst:481
 msgid "Improved handling of abbreviations in unchanged translation check."
-msgstr ""
+msgstr "В проверке «Перевод без изменения» улучшена обработка аббревиатур."
 
 #: ../../changes.rst:482
 msgid "Refreshed landing page for new contributors."
-msgstr ""
+msgstr "Обновлена страница входа новых участников."
 
 #: ../../changes.rst:483
 msgid "Add support for configuring msgmerge addon."
-msgstr ""
+msgstr "Добавлена поддержка настройки надстройки msgmerge."
 
 #: ../../changes.rst:484
 msgid "Delay opening SMTP connection when sending notifications."
-msgstr ""
+msgstr "При отправке уведомлений добавлена задержка открытия SMTP-соединения."
 
 #: ../../changes.rst:485
 msgid "Improved error logging."
-msgstr ""
+msgstr "Улучшено журналирование ошибок."
 
 #: ../../changes.rst:486
 msgid "Allow custom location in MO generating addon."
 msgstr ""
+"В надстройке генерирования файлов MO разрешено использование "
+"пользовательских расположений."
 
 #: ../../changes.rst:487
 msgid "Added addons to cleanup old suggestions or comments."
-msgstr ""
+msgstr "Добавлены надстройки для очистки старых предложений или комментариев."
 
 #: ../../changes.rst:488
 msgid "Added option to enable horizontal mode in the Zen editor."
 msgstr ""
+"Добавлен параметр для включения горизонтального режима в Дзен-редакторе."
 
 #: ../../changes.rst:489
 msgid "Improved import performance with many linked components."
 msgstr ""
+"Повышена производительность импорта множества взаимосвязанных компонентов."
 
 #: ../../changes.rst:490
 msgid "Fixed examples installation in some cases."
-msgstr ""
+msgstr "Исправлены примеры установки, бывшие в некоторых случаях неправильными."
 
 #: ../../changes.rst:491
 msgid "Improved rendering of alerts in changes."
@@ -20728,23 +20656,25 @@ msgstr "Исправлены выдержки с уведомлениями в �
 
 #: ../../changes.rst:510
 msgid "Fixed addon script error alert."
-msgstr ""
+msgstr "Исправлено предупреждение об ошибке скрипта надстройки."
 
 #: ../../changes.rst:511 ../../changes.rst:533
 msgid "Fixed generating MO file for monolingual PO files."
-msgstr ""
+msgstr "Исправлено создание файлов MO для одноязычных файлов PO."
 
 #: ../../changes.rst:512
 msgid "Fixed display of uninstalled checks."
-msgstr ""
+msgstr "Исправлено отображение не установленных проверок."
 
 #: ../../changes.rst:513
 msgid "Indicate administered projects on project listing."
-msgstr ""
+msgstr "Обозначение управляемых проектов в списке проектов."
 
 #: ../../changes.rst:514
 msgid "Allow update to recover from missing VCS repository."
 msgstr ""
+"Разрешено обновление для восстановления из отсутствующего репозитория "
+"системы контроля версий."
 
 #: ../../changes.rst:517
 msgid "Weblate 3.6"
@@ -20756,28 +20686,30 @@ msgstr "Выпущен 20 апреля 2019 года."
 
 #: ../../changes.rst:521
 msgid "Add support for downloading user data."
-msgstr ""
+msgstr "Добавлена поддержка скачивания данных пользователя."
 
 #: ../../changes.rst:522
 msgid "Addons are now automatically triggered upon installation."
-msgstr ""
+msgstr "Теперь надстройки автоматически запускаются при установке."
 
 #: ../../changes.rst:523
 msgid "Improved instructions for resolving merge conflicts."
-msgstr ""
+msgstr "Улучшены инструкции по разрешению конфликтов слияния."
 
 #: ../../changes.rst:524
 msgid "Cleanup addon is now compatible with app store metadata translations."
-msgstr ""
+msgstr "Надстройка очистки теперь совместима с переводами метаданных App store."
 
 #: ../../changes.rst:525
 msgid "Configurable language code syntax when adding new translations."
-msgstr ""
+msgstr "Настраиваемый синтаксис кода языка при добавлении новых переводов."
 
 #: ../../changes.rst:526
 msgid ""
 "Warn about using Python 2 with planned termination of support in April 2020."
 msgstr ""
+"Предупреждение об использовании Python’а 2 в связи с запланированным "
+"прекращением его поддержки в апреле 2020 года."
 
 #: ../../changes.rst:527
 msgid "Extract special characters from the source string for visual keyboard."
@@ -25057,20 +24989,14 @@ msgid "Community localization checklist"
 msgstr "Контрольный список локализации сообщества"
 
 #: ../../devel/community.rst:9
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Community localization checklist` which can be found in "
-#| "the :guilabel:`Menu` menu of each component can give you guidance to make "
-#| "your localization process easy for community translators."
 msgid ""
 "The :guilabel:`Community localization checklist` which can be found in the "
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
 ":guilabel:`Контрольный список локализации сообщества`, который можно найти в "
-"меню :guilabel:`Меню` каждого компонента, может дать вам рекомендации, "
-"выполнив которые, вы упростите сообществу переводчиков процесс локализации "
-"вашей программы."
+"меню каждого компонента, может дать вам рекомендации, выполнив которые, вы "
+"упростите сообществу переводчиков процесс локализации вашей программы."
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU Gettext"
@@ -25521,11 +25447,6 @@ msgid "Application developer guide"
 msgstr "Руководство разработчика приложений"
 
 #: ../../devel/index.rst:4
-#, fuzzy
-#| msgid ""
-#| "Using Weblate is a process that brings your users closer to you, by "
-#| "bringing you closer to your translators. It up to you to decide how many "
-#| "of its features you want to make use of."
 msgid ""
 "Using Weblate is a process that brings your users closer to you, by bringing "
 "you closer to your translators. It is up to you to decide how many of its "
@@ -27201,16 +27122,12 @@ msgstr ""
 "Дополнительный файл для того же самого языка не обрабатывается."
 
 #: ../../faq.rst:414
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the :ref:`project-source_language` in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
 msgstr ""
-"В случае необходимости перевода на исходный язык в настройках проекта "
-"необходимо изменить параметр :ref:`project-source_language`."
+"В случае необходимости перевода на исходный язык в настройках компонента "
+"необходимо изменить параметр :ref:`component-source_language`."
 
 #: ../../faq.rst:415
 msgid ""
@@ -30364,50 +30281,36 @@ msgid "Vue I18n formatting"
 msgstr "Информация"
 
 #: ../../user/checks.rst:413
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*The Vue I18n formatting does not match source*"
-msgstr "Строка в формате C не соответствует источнику"
+msgstr "*Форматирование Vue I18n не соответствует источнику*"
 
 #: ../../user/checks.rst:416
-#, fuzzy
-#| msgid "Named format string"
 msgid "Named formatting"
 msgstr "Именованная строка формата"
 
 #: ../../user/checks.rst:416
-#, fuzzy
-#| msgid "``There are {} apples``"
 msgid "``There are {count} apples``"
-msgstr "``There are {} apples``"
+msgstr "``There are {count} apples``"
 
 #: ../../user/checks.rst:418
-#, fuzzy
-#| msgid "Information"
 msgid "Rails i18n formatting"
-msgstr "Информация"
+msgstr "Форматирование локализации Rails"
 
 #: ../../user/checks.rst:418
-#, fuzzy
-#| msgid "``There are {} apples``"
 msgid "``There are %{count} apples``"
-msgstr "``There are {} apples``"
+msgstr "``There are %{count} apples``"
 
 #: ../../user/checks.rst:420
-#, fuzzy
-#| msgid "Whiteboard messages"
 msgid "Linked locale messages"
-msgstr "Сообщения на совместной доске"
+msgstr "Связанные сообщения локали"
 
 #: ../../user/checks.rst:420
 msgid "``@:message.dio @:message.the_world!``"
 msgstr ""
 
 #: ../../user/checks.rst:422
-#, fuzzy
-#| msgid "`es-format`"
 msgid "`vue-format`"
-msgstr "`es-format`"
+msgstr "`vue-format`"
 
 #: ../../user/checks.rst:427
 msgid ""
@@ -30874,10 +30777,8 @@ msgid "*Translation is missing some placeholders:*"
 msgstr "*В переводе пропущены некоторые символы-заполнители:*"
 
 #: ../../user/checks.rst:735
-#, fuzzy
-#| msgid "Variants regular expression"
 msgid "You can use regular expression as placeholder."
-msgstr "Регулярное выражение вариантов"
+msgstr "В качестве заполнителя вы можете использовать регулярное выражение."
 
 #: ../../user/checks.rst:737
 msgid ""
@@ -31813,7 +31714,7 @@ msgid ""
 msgstr ""
 "На вкладке :guilabel:`Уведомления` можно подписаться на различные "
 "уведомления. Уведомления по выбранным событиям для отслеживаемых или "
-"администрируемых проектов будут высылаться вам по электронной почте."
+"управляемых проектов будут высылаться вам по электронной почте."
 
 #: ../../user/profile.rst:146
 msgid ""
@@ -33502,32 +33403,24 @@ msgid "Pushing changes to GitHub as pull requests"
 msgstr "Отправка изменений в GitHub в виде запросов на извлечение"
 
 #: ../../vcs.rst:277
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitLab repository, they can be "
-#| "sent as either one or many merge requests instead."
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
 "as either one or many pull requests instead."
 msgstr ""
-"Если вы не хотите отправлять переводы непосредственно в репозиторий GitLab, "
-"их можно отправить в виде одного или нескольких запросов на слияние."
+"Если вы не хотите отправлять переводы непосредственно в репозиторий GitHub’"
+"а, их можно отправить в виде одного или нескольких запросов на извлечение."
 
 #: ../../vcs.rst:280 ../../vcs.rst:318
 msgid "You need to configure API credentials to make this work."
 msgstr ""
 
 #: ../../vcs.rst:284
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN` for configuration "
-#| "instructions"
 msgid ""
 ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
 "`GITHUB_CREDENTIALS`"
 msgstr ""
-":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN` для инструкций по "
-"настройке"
+":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, "
+":setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:297
 msgid ""
@@ -33565,16 +33458,12 @@ msgstr ""
 "их можно отправить в виде одного или нескольких запросов на слияние."
 
 #: ../../vcs.rst:322
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN` for configuration "
-#| "instructions"
 msgid ""
 ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
 "`GITLAB_CREDENTIALS`"
 msgstr ""
-":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN` для инструкций по "
-"настройке"
+":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, "
+":setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:331
 msgid "Gerrit"
