@@ -1442,8 +1442,13 @@ REGISTRATION_ALLOW_BACKENDS
 
 .. versionadded:: 4.1
 
-List of authentication backends to allow registration from in case it is otherwise disabled by
-:setting:`REGISTRATION_OPEN`.
+List of authentication backends to allow registration from. This only limits
+new registrations, users can still authenticate and add authentication using
+all configured authentication backends.
+
+It is recommeded to keep :setting:`REGISTRATION_OPEN` enabled while limiting
+registration backends, otherwise users will be able to register, but Weblate
+will not show links to register in the user interface.
 
 Example:
 
@@ -1457,7 +1462,8 @@ Example:
 
 .. seealso::
 
-    :setting:`REGISTRATION_OPEN`
+    :setting:`REGISTRATION_OPEN`,
+    :doc:`auth`
 
 .. setting:: REGISTRATION_CAPTCHA
 
@@ -1513,7 +1519,8 @@ Python Social Auth (you can whitelist certain back-ends using
 .. seealso::
 
     :setting:`REGISTRATION_ALLOW_BACKENDS`,
-    :setting:`REGISTRATION_EMAIL_MATCH`
+    :setting:`REGISTRATION_EMAIL_MATCH`,
+    :doc:`auth`
 
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 

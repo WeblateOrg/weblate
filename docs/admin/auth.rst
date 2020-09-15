@@ -52,7 +52,7 @@ in :doc:`psa:configuration/django`.
     .. seealso:: :doc:`psa:pipeline`
 
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
-the ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for a given
+the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly adding keys needed for a given
 authentication method. Please note that some backends do not provide user e-mail by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit contributions users make.
@@ -469,7 +469,7 @@ Once you have the package installed, you can hook it into the Django authenticat
 .. note::
 
     You should remove ``'social_core.backends.email.EmailAuth'`` from the
-    ``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set
+    :setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be able to set
     their password in Weblate, and authenticate using that. Keeping
     ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
     make permissions and facilitate anonymous users. It will also allow you

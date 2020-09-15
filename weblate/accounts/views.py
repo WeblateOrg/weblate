@@ -769,6 +769,10 @@ def register(request):
             captcha = CaptchaForm(request)
 
     backends = get_auth_keys()
+    if settings.REGISTRATION_ALLOW_BACKENDS:
+        backends = backends & set(settings.REGISTRATION_ALLOW_BACKENDS)
+    elif not settings.REGISTRATION_OPEN:
+        backends = set()
 
     # Redirect if there is only one backend
     if len(backends) == 1 and "email" not in backends:

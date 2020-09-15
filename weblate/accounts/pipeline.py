@@ -189,9 +189,9 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
     # Check whether registration is open
     if (
         not user
-        and not settings.REGISTRATION_OPEN
-        and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
         and weblate_action not in ("reset", "remove", "invite")
+        and (not settings.REGISTRATION_OPEN or settings.REGISTRATION_ALLOW_BACKENDS)
+        and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
     ):
         raise AuthMissingParameter(backend, "disabled")
 

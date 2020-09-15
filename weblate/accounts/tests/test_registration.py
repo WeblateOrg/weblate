@@ -23,6 +23,7 @@ from urllib.parse import parse_qs, urlparse
 
 import responses
 import social_django.utils
+from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
 from django.test.utils import override_settings
@@ -725,3 +726,113 @@ class NoCookieRegistrationTest(CookieRegistrationTest):
 class NoCookieCleanupRegistrationTest(CookieRegistrationTest):
     clear_cookie = True
     social_cleanup = True
+
+
+@override_settings(
+    AUTHENTICATION_BACKENDS=[
+        "social_core.backends.email.EmailAuth",
+        "social_core.backends.username.UsernameAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    ],
+    SOCIAL_AUTH_USERNAME_FORM_URL="/accounts/login/",
+)
+class RegistrationLimitTest(TestCase):
+    """
+    Registration limiting tests.
+
+    This uses social_core.backends.username.UsernameAuth which does not validation
+    at all.
+    """
+
+    EMAIL = "username@example.com"
+    USERNAME = "user-name"
+
+    def do_register(self, success: bool):
+        # Check that login page contains username login
+        response = self.client.get(reverse("register"))
+        if success:
+            self.assertContains(response, "/accounts/login/username/")
+        else:
+            self.assertNotContains(response, "/accounts/login/username/")
+
+        # Begin authentication
+        response = self.client.post(reverse("social:begin", args=("username",)))
+        self.assertRedirects(response, settings.SOCIAL_AUTH_USERNAME_FORM_URL)
+
+        # Complete authentication
+        response = self.client.post(
+            reverse("social:complete", args=("username",)),
+            {"username": self.USERNAME, "email": self.EMAIL},
+            follow=True,
+        )
+        if success:
+            user = User.objects.get(username=self.USERNAME)
+            self.assertTrue(user.is_active)
+            self.assertEqual(user.email, self.EMAIL)
+        else:
+            self.assertContains(response, "New registrations are turned off.")
+            self.assertFalse(User.objects.filter(username=self.USERNAME).exists())
+
+    def setUp(self):
+        super().setUp()
+        self.orig_backends = social_django.utils.BACKENDS
+        social_django.utils.BACKENDS = settings.AUTHENTICATION_BACKENDS
+
+    def tearDown(self):
+        super().tearDown()
+        social_django.utils.BACKENDS = self.orig_backends
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_open(self):
+        """Registration fully open."""
+        self.do_register(True)
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_closed(self):
+        """Registration fully closed."""
+        self.do_register(False)
+
+    @override_settings(
+        REGISTRATION_OPEN=False,
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_ALLOW_BACKENDS=["username"],
+    )
+    def test_open_partial(self):
+        """Registration open for certain backend with auto redirect."""
+        self.do_register(True)
+
+    @override_settings(
+        REGISTRATION_OPEN=False,
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_ALLOW_BACKENDS=["username", "email"],
+    )
+    def test_open_partial_two(self):
+        """Registration open for certain backend with registration form."""
+        self.do_register(True)
+
+    @override_settings(
+        REGISTRATION_OPEN=False,
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_ALLOW_BACKENDS=["email"],
+    )
+    def test_closed_partial(self):
+        """Registration closed for certain backend with registration form."""
+        self.do_register(False)
+
+    @override_settings(
+        REGISTRATION_OPEN=True,
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_ALLOW_BACKENDS=["username"],
+    )
+    def test_open_partial_open(self):
+        """Registration open for certain backend."""
+        self.do_register(True)
+
+    @override_settings(
+        REGISTRATION_OPEN=True,
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_ALLOW_BACKENDS=["email"],
+    )
+    def test_closed_partial_open(self):
+        """Registration closed for certain backend."""
+        self.do_register(False)
