@@ -661,17 +661,18 @@ and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; transl
 
 Apple iOS strings are usually used as bilingual translations.
 
-+---------------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                          |
-+================================+==========================================+
-| Filemask                       |``Resources/*.lproj/Localizable.strings`` |
-+--------------------------------+------------------------------------------+
-| Monolingual base language file |``Resources/en.lproj/Localizable.strings``|
-+--------------------------------+------------------------------------------+
-| Template for new translations  | `Empty`                                  |
-+--------------------------------+------------------------------------------+
-| File format                    | `iOS Strings (UTF-8)`                    |
-+--------------------------------+------------------------------------------+
++-------------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                              |
++================================+==============================================+
+| Filemask                       |``Resources/*.lproj/Localizable.strings``     |
++--------------------------------+----------------------------------------------+
+| Monolingual base language file |``Resources/en.lproj/Localizable.strings`` or |
+|                                |``Resources/Base.lproj/Localizable.strings``  |
++--------------------------------+----------------------------------------------+
+| Template for new translations  | `Empty`                                      |
++--------------------------------+----------------------------------------------+
+| File format                    | `iOS Strings (UTF-8)`                        |
++--------------------------------+----------------------------------------------+
 
 .. seealso::
 
