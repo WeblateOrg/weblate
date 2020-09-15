@@ -111,16 +111,19 @@ class UsernameField(forms.CharField):
     default_validators = [validate_username]
 
     def __init__(self, *args, **kwargs):
-        kwargs["max_length"] = USERNAME_LENGTH
-        kwargs["help_text"] = _(
-            "Username may only contain letters, "
-            "numbers or the following characters: @ . + - _"
-        )
-        kwargs["label"] = _("Username")
-        kwargs["required"] = True
+        params = {
+            "max_length": USERNAME_LENGTH,
+            "help_text": _(
+                "Username may only contain letters, "
+                "numbers or the following characters: @ . + - _"
+            ),
+            "label": _("Username"),
+            "required": True,
+        }
+        params.update(kwargs)
         self.valid = None
 
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **params)
 
     def clean(self, value):
         """Username validation, requires a unique name."""

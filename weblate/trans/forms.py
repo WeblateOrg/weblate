@@ -43,6 +43,7 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
+from weblate.accounts.forms import UsernameField
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
@@ -1988,7 +1989,7 @@ class ChangesForm(forms.Form):
         widget=SortedSelectMultiple,
         choices=Change.ACTION_CHOICES,
     )
-    user = forms.SlugField(label=_("Author username"), required=False)
+    user = UsernameField(label=_("Author username"), required=False, help_text=None)
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
