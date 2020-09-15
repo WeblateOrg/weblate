@@ -147,7 +147,7 @@ def cleanup_session(session):
 def search(base, unit_set, request, form_class=SearchForm):
     """Perform search or returns cached search results."""
     # Possible new search
-    form = form_class(request.user, request.GET, show_builder=False)
+    form = form_class(request.user, data=request.GET, show_builder=False)
 
     # Process form
     form_valid = form.is_valid()

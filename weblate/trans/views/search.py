@@ -148,7 +148,7 @@ def search_replace(request, project, component=None, lang=None):
 def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
-    search_form = SearchForm(request.user, request.GET)
+    search_form = SearchForm(request.user, data=request.GET)
     sort = get_sort_name(request)
     context = {"search_form": search_form}
     if component:
@@ -180,7 +180,7 @@ def search(request, project=None, component=None, lang=None):
 
     if not is_ratelimited and request.GET and search_form.is_valid():
         # This is ugly way to hide query builder when showing results
-        search_form = SearchForm(request.user, request.GET, show_builder=False)
+        search_form = SearchForm(request.user, data=request.GET, show_builder=False)
         search_form.is_valid()
         # Filter results by ACL
         if component:
