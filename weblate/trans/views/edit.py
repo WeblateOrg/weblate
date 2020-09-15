@@ -151,14 +151,24 @@ def search(base, unit_set, request, form_class=SearchForm):
 
     # Process form
     form_valid = form.is_valid()
-    if not form_valid:
+    if form_valid:
+        cleaned_data = form.cleaned_data
+        search_url = form.urlencode()
+        search_query = form.get_search_query()
+        name = form.get_name()
+        search_items = form.items()
+    else:
+        cleaned_data = {}
         show_form_errors(request, form)
+        search_url = ""
+        search_query = ""
+        name = ""
+        search_items = ()
 
     search_result = {
         "form": form,
-        "offset": form.cleaned_data.get("offset", 1),
+        "offset": cleaned_data.get("offset", 1),
     }
-    search_url = form.urlencode()
     session_key = "search_{0}_{1}".format(base.cache_key, search_url)
 
     if (
@@ -169,14 +179,11 @@ def search(base, unit_set, request, form_class=SearchForm):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = unit_set.search(form.cleaned_data.get("q", "")).distinct()
-
-    search_query = form.get_search_query() if form_valid else ""
-    name = form.get_name()
+    allunits = unit_set.search(cleaned_data.get("q", "")).distinct()
 
     # Grab unit IDs
     unit_ids = list(
-        allunits.order_by_request(form.cleaned_data).values_list("id", flat=True)
+        allunits.order_by_request(cleaned_data).values_list("id", flat=True)
     )
 
     # Check empty search results
@@ -190,7 +197,7 @@ def search(base, unit_set, request, form_class=SearchForm):
     store_result = {
         "query": search_query,
         "url": search_url,
-        "items": form.items(),
+        "items": search_items,
         "key": session_key,
         "name": force_str(name),
         "ids": unit_ids,
