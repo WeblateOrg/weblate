@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-13 13:53+0200\n"
-"PO-Revision-Date: 2020-09-12 17:58+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2020-09-15 14:12+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -57,13 +57,6 @@ msgstr ""
 "détails."
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`"
 msgid ""
 "After installation a default set of groups is created, and you can use those "
 "to assign users roles for the whole instance (see :ref:`default-groups`). "
@@ -72,11 +65,11 @@ msgid ""
 "ref:`custom-acl`."
 msgstr ""
 "Après l’installation, un ensemble de groupes par défaut est créé, et vous "
-"pouvez les utiliser pour attribuer des rôles aux utilisateurs pour "
-"l’ensemble de l’instance (consultez :ref:`default-groups`). De plus, "
-"lorsque :ref:`acl` est activé, vous pouvez assigner des utilisateurs à des "
-"projets de traduction spécifiques. Une configuration plus fine peut être "
-"réalisée en utilisant :ref:`custom-acl`."
+"pouvez les utiliser pour attribuer des rôles aux utilisateurs pour l’"
+"ensemble de l’instance (consultez :ref:`default-groups`). De plus, lorsque "
+":ref:`acl` est activé, vous pouvez assigner des utilisateurs à des projets "
+"de traduction spécifiques. Une configuration plus fine peut être réalisée en "
+"utilisant :ref:`custom-acl`."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -498,6 +491,8 @@ msgstr "Révoquer l’accès aux utilisateurs"
 msgid ""
 "Resend user email invitations, invalidating any previously sent invitation"
 msgstr ""
+"Renvoyer des invitations par courriel aux utilisateurs, invalidant toute "
+"invitation envoyée précédemment"
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -693,11 +688,9 @@ msgid "Automatic suggestions"
 msgstr "Suggestions automatiques"
 
 #: ../../admin/access.rst:338
-#, fuzzy
-#| msgid "Use machinery [`Administration`, `Power user`]"
 msgid "Use automatic suggestions [`Administration`, `Power user`]"
 msgstr ""
-"Utiliser la traduction automatique [`Administration`,`Utilisateur "
+"Utiliser les suggestions automatiques [`Administration`,`Utilisateur "
 "expérimenté`]"
 
 #: ../../admin/access.rst:343 ../../api.rst:736
@@ -1525,16 +1518,12 @@ msgid "Per author"
 msgstr "Par auteur"
 
 #: ../../admin/addons.rst:278
-#, fuzzy
-#| msgid ""
-#| "Original commit messages are kept, but authorship is lost unless \"Per "
-#| "author\" is selected, or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 "Les messages d’archivage originaux sont préservés mais perdront la paternité "
-"de l’archivage, sauf si vous sélectionnez « Par auteur » ou si vous "
+"de l’archivage, sauf si vous sélectionnez :guilabel:`Par auteur` ou si vous "
 "personnalisez le message d’archivage pour l’inclure."
 
 #: ../../admin/addons.rst:283
@@ -1686,94 +1675,107 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
 msgstr ""
+"Les greffons peuvent également être utilisés pour exécuter des scripts "
+"externes. Avant, cette fonction était intégrée dans Weblate, mais maintenant "
+"vous devez écrire du code pour envelopper votre script avec un greffon."
 
 #: ../../admin/addons.rst:387
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
+"Pour les instructions d'installation, consultez :ref:`custom-addon-modules`."
 
 #: ../../admin/addons.rst:389
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Le script est exécuté avec le répertoire courant placé à la racine du dépôt "
+"de système de contrôle des versions pour un composant donné."
 
 #: ../../admin/addons.rst:392
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "En outre, les variables d’environnement suivantes sont disponibles :"
 
 #: ../../admin/addons.rst:396
 msgid "Version control system used."
-msgstr ""
+msgstr "Système de contrôle de version utilisé."
 
 #: ../../admin/addons.rst:400
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "URL du dépôt en amont."
 
 #: ../../admin/addons.rst:404
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Chemin absolu vers le dépôt du système de contrôle des versions."
 
 #: ../../admin/addons.rst:410
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "Branche du dépôt configurée dans le composant actuel."
 
 #: ../../admin/addons.rst:414
 msgid "Filemask for current component."
-msgstr ""
+msgstr "Masque de fichier pour le composant actuel."
 
 #: ../../admin/addons.rst:418
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr ""
+"Nom de fichier du modèle pour les traductions monolingues (peut être vide)."
 
 #: ../../admin/addons.rst:424
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
+"Nom de fichier du fichier utilisé pour créer de nouvelles traductions (peut "
+"être vide)."
 
 #: ../../admin/addons.rst:429
 msgid "Fileformat used in current component."
-msgstr ""
+msgstr "Format de fichier utilisé dans le composant actuel."
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
 msgstr ""
+"Langue de la traduction actuellement traitée (non disponible pour les "
+"crochets de niveau composant)."
 
 #: ../../admin/addons.rst:438
 msgid "Previous HEAD on update (available only when running post update hook)."
 msgstr ""
+"HEAD précédent lors de la mise à jour (disponible uniquement lors de l’"
+"exécution du crochet post update)."
 
 #: ../../admin/addons.rst:444
 msgid "Component slug used to construct URL."
-msgstr ""
+msgstr "Identifiant du composant utilisé pour construire l’URL."
 
 #: ../../admin/addons.rst:450
 msgid "Project slug used to construct URL."
-msgstr ""
+msgstr "Identifiant du projet utilisé pour construire l’URL."
 
 #: ../../admin/addons.rst:456
 msgid "Component name."
-msgstr ""
+msgstr "Nom du composant."
 
 #: ../../admin/addons.rst:462
 msgid "Project name."
-msgstr ""
+msgstr "Nom du projet."
 
 #: ../../admin/addons.rst:468
 msgid "Component URL."
-msgstr ""
+msgstr "URL du composant."
 
 #: ../../admin/addons.rst:474
 msgid "Project engage URL."
-msgstr ""
+msgstr "URL d’engagement du projet."
 
 #: ../../admin/addons.rst:478 ../../faq.rst:254
 msgid ":ref:`component`"
-msgstr ""
+msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:481
 msgid "Post update repository processing"
-msgstr ""
+msgstr "Traitement du dépôt après mise à jour"
 
 #: ../../admin/addons.rst:483
 msgid ""
@@ -1782,30 +1784,41 @@ msgid ""
 "Weblate only sees files committed to the VCS, so you need to commit changes "
 "as a part of the script."
 msgstr ""
+"Le traitement du dépôt après mise à jour peut être utilisé pour mettre à "
+"jour les fichiers de traduction lorsque la source en amont du système de "
+"contrôle des versions change. Pour ce faire, n’oubliez pas que Weblate ne "
+"voit que les fichiers archivés dans le système de contrôle des versions, "
+"vous devez donc archiver les modifications dans le cadre du script."
 
 #: ../../admin/addons.rst:488
 msgid "For example with Gulp you can do it using following code:"
 msgstr ""
+"Par exemple, avec Gulp, vous pouvez le faire en utilisant le code suivant :"
 
 #: ../../admin/addons.rst:498
 msgid "Pre commit processing of translations"
-msgstr ""
+msgstr "Traitement des traductions avant archivage"
 
 #: ../../admin/addons.rst:500
 msgid ""
 "Use the commit script to automatically make changes to the translation "
 "before it is committed to the repository."
 msgstr ""
+"Utilisez le script d’archivage pour apporter automatiquement des "
+"modifications à la traduction avant qu’elle ne soient archivées dans le "
+"dépôt."
 
 #: ../../admin/addons.rst:503
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
 msgstr ""
+"Il est transmis en tant que paramètre unique composé du nom de fichier d’une "
+"traduction en cours."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:93
 msgid "Management interface"
-msgstr ""
+msgstr "Interface de gestion"
 
 #: ../../admin/admin.rst:6
 msgid ""
@@ -1813,10 +1826,14 @@ msgid ""
 "management/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
+"L’interface de gestion offre des paramètres d’administration sous l’URL "
+":file:`/management/`. Elle est disponible pour les utilisateurs connectés "
+"avec des privilèges d’administrateur, et est accessible en utilisant l’icône "
+"en forme de clé située en haut à droite :"
 
 #: ../../admin/admin.rst:16
 msgid "The Django admin interface"
-msgstr ""
+msgstr "L’interface d’administration Django"
 
 #: ../../admin/admin.rst:20
 msgid ""
@@ -2607,10 +2624,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:110
-#, fuzzy
-#| msgid "Run backup"
 msgid "Remote backups"
-msgstr "Lancer la sauvegarder"
+msgstr "Sauvegardes à distance"
 
 #: ../../admin/backup.rst:112
 msgid ""
@@ -3286,16 +3301,12 @@ msgid "Skip the \"Ruby format\" quality check."
 msgstr ""
 
 #: ../../admin/checks.rst:127
-#, fuzzy
-#| msgid "`es-format`"
 msgid "``ignore-vue-format``"
-msgstr "`es-format`"
+msgstr "``ignore-vue-format``"
 
 #: ../../admin/checks.rst:128
-#, fuzzy
-#| msgid "Skip the \"Mismatched colon\" quality check."
 msgid "Skip the \"Vue I18n formatting\" quality check."
-msgstr "Ignorer le contrôle de qualité « Incohérence de double point »."
+msgstr "Ignorer le contrôle de qualité « Formatage Vue I18n »."
 
 #: ../../admin/checks.rst:129
 msgid "``ignore-translated``"
@@ -4568,11 +4579,11 @@ msgid "GITLAB_TOKEN"
 msgstr ""
 
 #: ../../admin/config.rst:620
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
-msgstr "La traduction est maintenant ouverte aux mises à jour."
+msgstr ""
+"Jeton d’accès personnel GitLab utilisé pour effectuer des appels API pour "
+"les mises à jour de traduction."
 
 #: ../../admin/config.rst:624
 msgid ""
@@ -14050,34 +14061,24 @@ msgid "List statistics of a user."
 msgstr ""
 
 #: ../../api.rst:318
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Number of translations by user"
-msgstr "Nombre de chaînes traduites"
+msgstr "Nombre de traductions par utilisateur"
 
 #: ../../api.rst:319
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of suggestions by user"
-msgstr "Nombre de chaînes sources"
+msgstr "Nombre de suggestions par utilisateur"
 
 #: ../../api.rst:320
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "Number of uploads by user"
-msgstr "Nombre d’entrées partagées téléversées"
+msgstr "Nombre de téléversements par utilisateur"
 
 #: ../../api.rst:321
-#, fuzzy
-#| msgid "Number of comments"
 msgid "Number of comments by user"
-msgstr "Nombre de commentaires"
+msgstr "Nombre de commentaires par utilisateur"
 
 #: ../../api.rst:322
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of languages user can translate"
-msgstr "Nombre de langues"
+msgstr "Nombre de langues que l’utilisateur peut traduire"
 
 #: ../../api.rst:326
 msgid "List subscriptions of a user."
@@ -14108,10 +14109,8 @@ msgid "Get a subscription associated with a user."
 msgstr ""
 
 #: ../../api.rst:347 ../../api.rst:356 ../../api.rst:368
-#, fuzzy
-#| msgid "Notification settings adjusted."
 msgid "ID of notification registered"
-msgstr "Paramètres de notification mis à jour."
+msgstr "ID de notification enregistré"
 
 #: ../../api.rst:352 ../../api.rst:364
 msgid "Edit a subscription associated with a user."
@@ -15844,16 +15843,12 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet released."
-msgstr "Pas encore connecté"
+msgstr "Pas encore publié."
 
 #: ../../changes.rst:6
 msgid "Include user stats in the API."
@@ -15872,17 +15867,12 @@ msgid "Rewritten support for GitHub and GitLab pull requests."
 msgstr ""
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "%(count)s pending suggestion"
-#| msgid_plural "%(count)s pending suggestions"
 msgid "Fixed stats counts after removing suggestion."
-msgstr "%(count)s suggestion en attente"
+msgstr "Statistiques corrigées après suppression des suggestions."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Extended public user profile."
-msgstr "Votre profil public"
+msgstr "Profil d’utilisateur public étendu."
 
 #: ../../changes.rst:12
 msgid "Fixed configuration of enforced checks."
@@ -15897,10 +15887,8 @@ msgid "Moved source language attribute from project to a component."
 msgstr ""
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Information"
 msgid "Add Vue I18n formatting check."
-msgstr "Informations"
+msgstr "Ajout du contrôle du formatage Vue I18n."
 
 #: ../../changes.rst:16
 msgid "Generic placeholders check now supports regular expressions."
@@ -15911,30 +15899,26 @@ msgid "Improved look of matrix mode."
 msgstr ""
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Machinery is now called automatic suggestions."
-msgstr "Accepter automatiquement les suggestions"
+msgstr ""
+"Traduction par ordinateur est maintenant appelé suggestions automatiques."
 
 #: ../../changes.rst:19
 msgid "Added support for interacting with multiple GitLab or GitHub instances."
 msgstr ""
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.2.2"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.2.2"
 
 #: ../../changes.rst:24
 msgid "Released on September 2nd 2020."
-msgstr ""
+msgstr "Version publiée le 2 septembre 2020."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed matching of source strings for JSON formats."
-msgstr "Aucun chaîne source correspondante n’a été trouvée."
+msgstr ""
+"Correction de la correspondance des chaînes source pour les formats JSON."
 
 #: ../../changes.rst:27
 msgid "Fixed login redirect for some authentication configurations."
@@ -15945,10 +15929,10 @@ msgid "Fixed LDAP authentication with group sync."
 msgstr ""
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Fixed crash in reporting automatic translation progress."
-msgstr "Traduction automatique en cours"
+msgstr ""
+"Correction d’un dysfonctionnement dans la notification d’avancement des "
+"traductions automatiques."
 
 #: ../../changes.rst:30
 msgid "Fixed Git commit squashing with trailers enabled."
@@ -15964,7 +15948,7 @@ msgstr "Weblate 4.2.1"
 
 #: ../../changes.rst:36
 msgid "Released on August 21st 2020."
-msgstr ""
+msgstr "Version publiée le 21 août 2020."
 
 #: ../../changes.rst:38
 msgid "Fixed saving plurals for some locales in Android resources."
@@ -15980,11 +15964,11 @@ msgstr ""
 
 #: ../../changes.rst:43
 msgid "Weblate 4.2"
-msgstr ""
+msgstr "Weblate 4.2"
 
 #: ../../changes.rst:45
 msgid "Released on August 18th 2020."
-msgstr ""
+msgstr "Version publiée le 18 août 2020."
 
 #: ../../changes.rst:47
 msgid "Improved user pages and added listing of users."
@@ -16107,11 +16091,11 @@ msgstr "Prise en charge de la recherche par composant et par projet."
 
 #: ../../changes.rst:76
 msgid "Weblate 4.1.1"
-msgstr ""
+msgstr "Weblate 4.1.1"
 
 #: ../../changes.rst:78
 msgid "Released on June 19th 2020."
-msgstr ""
+msgstr "Version publiée le 19 juin 2020."
 
 #: ../../changes.rst:80
 msgid "Fixed changing autofix or addons configuration in Docker."
@@ -16156,11 +16140,11 @@ msgstr ""
 
 #: ../../changes.rst:92
 msgid "Weblate 4.1"
-msgstr ""
+msgstr "Weblate 4.1"
 
 #: ../../changes.rst:94
 msgid "Released on June 15th 2020."
-msgstr ""
+msgstr "Version publiée le 15 juin 2020."
 
 #: ../../changes.rst:96
 msgid "Added support for creating new translations with included country code."
@@ -16320,11 +16304,11 @@ msgstr ""
 
 #: ../../changes.rst:135
 msgid "Weblate 4.0.4"
-msgstr ""
+msgstr "Weblate 4.0.4"
 
 #: ../../changes.rst:137
 msgid "Released on May 07th 2020."
-msgstr ""
+msgstr "Version publiée le 7 mai 2020."
 
 #: ../../changes.rst:139
 msgid "Fixed testsuite execution on some Python 3.8 environments."
@@ -16362,11 +16346,11 @@ msgstr ""
 
 #: ../../changes.rst:149
 msgid "Weblate 4.0.3"
-msgstr ""
+msgstr "Weblate 4.0.3"
 
 #: ../../changes.rst:151
 msgid "Released on May 02nd 2020."
-msgstr ""
+msgstr "Version publiée le 2 mai 2020."
 
 #: ../../changes.rst:153
 msgid "Fixed possible crash in reports."
@@ -16390,11 +16374,11 @@ msgstr ""
 
 #: ../../changes.rst:160
 msgid "Weblate 4.0.2"
-msgstr ""
+msgstr "Weblate 4.0.2"
 
 #: ../../changes.rst:162
 msgid "Released on April 27th 2020."
-msgstr ""
+msgstr "Version publiée le 27 avril 2020."
 
 #: ../../changes.rst:164
 msgid "Improved performance of translation stats."
@@ -16470,11 +16454,11 @@ msgstr ""
 
 #: ../../changes.rst:184
 msgid "Weblate 4.0.1"
-msgstr ""
+msgstr "Weblate 4.0.1"
 
 #: ../../changes.rst:186 ../../changes.rst:193
 msgid "Released on April 16th 2020."
-msgstr ""
+msgstr "Version publiée le 16 avril 2020."
 
 #: ../../changes.rst:188
 msgid "Fixed package installation from PyPI."
@@ -16482,7 +16466,7 @@ msgstr ""
 
 #: ../../changes.rst:191
 msgid "Weblate 4.0"
-msgstr ""
+msgstr "Weblate 4.0"
 
 #: ../../changes.rst:195
 msgid "Weblate now requires Python 3.6 or newer."
@@ -16586,15 +16570,15 @@ msgstr ""
 
 #: ../../changes.rst:221
 msgid "Weblate 3.x series"
-msgstr ""
+msgstr "Weblate 3.x"
 
 #: ../../changes.rst:224
 msgid "Weblate 3.11.3"
-msgstr ""
+msgstr "Weblate 3.11.3"
 
 #: ../../changes.rst:226
 msgid "Released on March 11th 2020."
-msgstr ""
+msgstr "Version publiée le 11 mars 2020."
 
 #: ../../changes.rst:228
 msgid "Fixed searching for fields with certain priority."
@@ -16670,11 +16654,11 @@ msgstr ""
 
 #: ../../changes.rst:248
 msgid "Weblate 3.11.2"
-msgstr ""
+msgstr "Weblate 3.11.2"
 
 #: ../../changes.rst:250
 msgid "Released on February 22nd 2020."
-msgstr ""
+msgstr "Version publiée le 22 février 2020."
 
 #: ../../changes.rst:252
 msgid "Fixed rendering of suggestions."
@@ -16686,11 +16670,11 @@ msgstr ""
 
 #: ../../changes.rst:256
 msgid "Weblate 3.11.1"
-msgstr ""
+msgstr "Weblate 3.11.1"
 
 #: ../../changes.rst:258
 msgid "Released on February 20th 2020."
-msgstr ""
+msgstr "Version publiée le 20 février 2020."
 
 #: ../../changes.rst:260
 msgid "Documented Celery setup changes."
@@ -16718,11 +16702,11 @@ msgstr ""
 
 #: ../../changes.rst:268
 msgid "Weblate 3.11"
-msgstr ""
+msgstr "Weblate 3.11"
 
 #: ../../changes.rst:270
 msgid "Released on February 17th 2020."
-msgstr ""
+msgstr "Version publiée le 17 février 2020."
 
 #: ../../changes.rst:272
 msgid "Allow using VCS push URL during component creation via API."
@@ -16827,11 +16811,11 @@ msgstr ""
 
 #: ../../changes.rst:299
 msgid "Weblate 3.10.3"
-msgstr ""
+msgstr "Weblate 3.10.3"
 
 #: ../../changes.rst:301 ../../changes.rst:308
 msgid "Released on January 18th 2020."
-msgstr ""
+msgstr "Version publiée le 18 janvier 2020."
 
 #: ../../changes.rst:303
 msgid "Support for translate-toolkit 2.5.0."
@@ -16839,7 +16823,7 @@ msgstr ""
 
 #: ../../changes.rst:306
 msgid "Weblate 3.10.2"
-msgstr ""
+msgstr "Weblate 3.10.2"
 
 #: ../../changes.rst:310
 msgid "Add lock indication to projects."
@@ -16887,11 +16871,11 @@ msgstr ""
 
 #: ../../changes.rst:323
 msgid "Weblate 3.10.1"
-msgstr ""
+msgstr "Weblate 3.10.1"
 
 #: ../../changes.rst:325
 msgid "Released on January 9th 2020."
-msgstr ""
+msgstr "Version publiée le 9 janvier 2020."
 
 #: ../../changes.rst:327
 msgid "Extended API with translation creation."
@@ -16931,11 +16915,11 @@ msgstr ""
 
 #: ../../changes.rst:338
 msgid "Weblate 3.10"
-msgstr ""
+msgstr "Weblate 3.10"
 
 #: ../../changes.rst:340
 msgid "Released on December 20th 2019."
-msgstr ""
+msgstr "Version publiée le 20 décembre 2019."
 
 #: ../../changes.rst:342
 msgid "Improved application user interface."
@@ -17031,11 +17015,11 @@ msgstr ""
 
 #: ../../changes.rst:367
 msgid "Weblate 3.9.1"
-msgstr ""
+msgstr "Weblate 3.9.1"
 
 #: ../../changes.rst:369
 msgid "Released on October 28th 2019."
-msgstr ""
+msgstr "Version publiée le 28 octobre 2019."
 
 #: ../../changes.rst:371
 msgid "Remove some unneeded files from backups."
@@ -17083,11 +17067,11 @@ msgstr ""
 
 #: ../../changes.rst:384
 msgid "Weblate 3.9"
-msgstr ""
+msgstr "Weblate 3.9"
 
 #: ../../changes.rst:386
 msgid "Released on October 15th 2019."
-msgstr ""
+msgstr "Version publiée le 15 octobre 2019."
 
 #: ../../changes.rst:388
 msgid "Include Weblate metadata in downloaded files."
@@ -17222,11 +17206,11 @@ msgstr ""
 
 #: ../../changes.rst:422
 msgid "Weblate 3.8"
-msgstr ""
+msgstr "Weblate 3.8"
 
 #: ../../changes.rst:424
 msgid "Released on August 15th 2019."
-msgstr ""
+msgstr "Version publiée le 15 août 2019."
 
 #: ../../changes.rst:426
 msgid "Added support for simplified creating of similar components."
@@ -17341,11 +17325,11 @@ msgstr ""
 
 #: ../../changes.rst:456
 msgid "Weblate 3.7.1"
-msgstr ""
+msgstr "Weblate 3.7.1"
 
 #: ../../changes.rst:458
 msgid "Released on June 28th 2019."
-msgstr ""
+msgstr "Version publiée le 28 juin 2019."
 
 #: ../../changes.rst:460 ../../changes.rst:1428
 msgid "Documentation updates."
@@ -17377,11 +17361,11 @@ msgstr ""
 
 #: ../../changes.rst:469
 msgid "Weblate 3.7"
-msgstr ""
+msgstr "Weblate 3.7"
 
 #: ../../changes.rst:471
 msgid "Released on June 21st 2019."
-msgstr ""
+msgstr "Version publiée le 21 juin 2019."
 
 #: ../../changes.rst:473
 msgid "Added separate Celery queue for notifications."
@@ -17502,11 +17486,11 @@ msgstr ""
 
 #: ../../changes.rst:504
 msgid "Weblate 3.6.1"
-msgstr ""
+msgstr "Weblate 3.6.1"
 
 #: ../../changes.rst:506
 msgid "Released on April 26th 2019."
-msgstr ""
+msgstr "Version publiée le 26 avril 2019."
 
 #: ../../changes.rst:509
 msgid "Fixed digest notifications in some corner cases."
@@ -17534,11 +17518,11 @@ msgstr ""
 
 #: ../../changes.rst:517
 msgid "Weblate 3.6"
-msgstr ""
+msgstr "Weblate 3.6"
 
 #: ../../changes.rst:519
 msgid "Released on April 20th 2019."
-msgstr ""
+msgstr "Version publiée le 20 avril 2019."
 
 #: ../../changes.rst:521
 msgid "Add support for downloading user data."
@@ -17614,11 +17598,11 @@ msgstr ""
 
 #: ../../changes.rst:541
 msgid "Weblate 3.5.1"
-msgstr ""
+msgstr "Weblate 3.5.1"
 
 #: ../../changes.rst:543
 msgid "Released on March 10th 2019."
-msgstr ""
+msgstr "Version publiée le 10 mars 2019."
 
 #: ../../changes.rst:545
 msgid "Fixed Celery systemd unit example."
@@ -17660,11 +17644,11 @@ msgstr ""
 
 #: ../../changes.rst:557
 msgid "Weblate 3.5"
-msgstr ""
+msgstr "Weblate 3.5"
 
 #: ../../changes.rst:559
 msgid "Released on March 3rd 2019."
-msgstr ""
+msgstr "Version publiée le 3 mars 2019."
 
 #: ../../changes.rst:561
 msgid "Improved performance of built-in translation memory."
@@ -17732,11 +17716,11 @@ msgstr ""
 
 #: ../../changes.rst:579
 msgid "Weblate 3.4"
-msgstr ""
+msgstr "Weblate 3.4"
 
 #: ../../changes.rst:581
 msgid "Released on January 22nd 2019."
-msgstr ""
+msgstr "Version publiée le 22 janvier 2019."
 
 #: ../../changes.rst:583
 msgid "Added support for XLIFF placeholders."
@@ -17798,11 +17782,11 @@ msgstr ""
 
 #: ../../changes.rst:599
 msgid "Weblate 3.3"
-msgstr ""
+msgstr "Weblate 3.3"
 
 #: ../../changes.rst:601
 msgid "Released on November 30th 2018."
-msgstr ""
+msgstr "Version publiée le 30 novembre 2018."
 
 #: ../../changes.rst:603
 msgid "Added support for component and project removal."
@@ -17835,11 +17819,11 @@ msgstr ""
 
 #: ../../changes.rst:612
 msgid "Weblate 3.2.2"
-msgstr ""
+msgstr "Weblate 3.2.2"
 
 #: ../../changes.rst:614
 msgid "Released on October 20th 2018."
-msgstr ""
+msgstr "Version publiée le 20 octobre 2018."
 
 #: ../../changes.rst:616
 msgid "Remove no longer needed Babel dependency."
@@ -17875,11 +17859,11 @@ msgstr ""
 
 #: ../../changes.rst:626
 msgid "Weblate 3.2.1"
-msgstr ""
+msgstr "Weblate 3.2.1"
 
 #: ../../changes.rst:628
 msgid "Released on October 10th 2018."
-msgstr ""
+msgstr "Version publiée le 10 octobre 2018."
 
 #: ../../changes.rst:630
 msgid "Document dependency on backports.csv on Python 2.7."
@@ -17919,11 +17903,11 @@ msgstr ""
 
 #: ../../changes.rst:641
 msgid "Weblate 3.2"
-msgstr ""
+msgstr "Weblate 3.2"
 
 #: ../../changes.rst:643
 msgid "Released on October 6th 2018."
-msgstr ""
+msgstr "Version publiée le 6 octobre 2018."
 
 #: ../../changes.rst:645
 msgid "Add install_addon management command for automated addon installation."
@@ -18018,11 +18002,11 @@ msgstr ""
 
 #: ../../changes.rst:671
 msgid "Weblate 3.1.1"
-msgstr ""
+msgstr "Weblate 3.1.1"
 
 #: ../../changes.rst:673 ../../changes.rst:680
 msgid "Released on July 27th 2018."
-msgstr ""
+msgstr "Version publiée le 27 juillet 2018."
 
 #: ../../changes.rst:675
 msgid "Fix testsuite failure on some setups."
@@ -18030,7 +18014,7 @@ msgstr ""
 
 #: ../../changes.rst:678
 msgid "Weblate 3.1"
-msgstr ""
+msgstr "Weblate 3.1"
 
 #: ../../changes.rst:682
 msgid "Upgrades from older version than 3.0.1 are not supported."
@@ -18084,11 +18068,11 @@ msgstr ""
 
 #: ../../changes.rst:696
 msgid "Weblate 3.0.1"
-msgstr ""
+msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:698
 msgid "Released on June 10th 2018."
-msgstr ""
+msgstr "Version publiée le 10 juin 2018."
 
 #: ../../changes.rst:700
 msgid "Fixed possible migration issue from 2.20."
@@ -18112,11 +18096,11 @@ msgstr ""
 
 #: ../../changes.rst:708
 msgid "Weblate 3.0"
-msgstr ""
+msgstr "Weblate 3.0"
 
 #: ../../changes.rst:710
 msgid "Released on June 1st 2018."
-msgstr ""
+msgstr "Version publiée le 1:sup:`er` juin 2018."
 
 #: ../../changes.rst:712
 msgid "Rewritten access control."
@@ -18169,15 +18153,15 @@ msgstr ""
 
 #: ../../changes.rst:726
 msgid "Weblate 2.x series"
-msgstr ""
+msgstr "Weblate 2.x"
 
 #: ../../changes.rst:729
 msgid "Weblate 2.20"
-msgstr ""
+msgstr "Weblate 2.20"
 
 #: ../../changes.rst:731
 msgid "Released on April 4th 2018."
-msgstr ""
+msgstr "Version publiée le 4 avril 2018."
 
 #: ../../changes.rst:733
 msgid "Improved speed of cloning subversion repositories."
@@ -18252,11 +18236,11 @@ msgstr "Prise en charge de la réorganisation des modifications archivées."
 
 #: ../../changes.rst:751
 msgid "Weblate 2.19.1"
-msgstr ""
+msgstr "Weblate 2.19.1"
 
 #: ../../changes.rst:753
 msgid "Released on February 20th 2018."
-msgstr ""
+msgstr "Version publiée le 20 février 2018."
 
 #: ../../changes.rst:755
 msgid "Fixed migration issue on upgrade from 2.18."
@@ -18268,11 +18252,11 @@ msgstr ""
 
 #: ../../changes.rst:759
 msgid "Weblate 2.19"
-msgstr ""
+msgstr "Weblate 2.19"
 
 #: ../../changes.rst:761
 msgid "Released on February 15th 2018."
-msgstr ""
+msgstr "Version publiée le 15 février 2018."
 
 #: ../../changes.rst:763
 msgid "Fixed imports across some file formats."
@@ -18349,11 +18333,11 @@ msgstr ""
 
 #: ../../changes.rst:783
 msgid "Weblate 2.18"
-msgstr ""
+msgstr "Weblate 2.18"
 
 #: ../../changes.rst:785
 msgid "Released on December 15th 2017."
-msgstr ""
+msgstr "Version publiée le 15 décembre 2017."
 
 #: ../../changes.rst:787
 msgid "Extended contributor stats."
@@ -18402,11 +18386,11 @@ msgstr ""
 
 #: ../../changes.rst:800
 msgid "Weblate 2.17.1"
-msgstr ""
+msgstr "Weblate 2.17.1"
 
 #: ../../changes.rst:802 ../../changes.rst:810
 msgid "Released on October 13th 2017."
-msgstr ""
+msgstr "Version publiée le 13 octobre 2017."
 
 #: ../../changes.rst:804
 msgid "Fixed running testsuite in some specific situations."
@@ -18418,7 +18402,7 @@ msgstr ""
 
 #: ../../changes.rst:808
 msgid "Weblate 2.17"
-msgstr ""
+msgstr "Weblate 2.17"
 
 #: ../../changes.rst:812
 msgid "Weblate by default does shallow Git clones now."
@@ -18466,11 +18450,11 @@ msgstr ""
 
 #: ../../changes.rst:826
 msgid "Weblate 2.16"
-msgstr ""
+msgstr "Weblate 2.16"
 
 #: ../../changes.rst:828
 msgid "Released on August 11th 2017."
-msgstr ""
+msgstr "Version publiée le 11 août 2017."
 
 #: ../../changes.rst:830 ../../changes.rst:956 ../../changes.rst:1308
 msgid "Various performance improvements."
@@ -18514,11 +18498,11 @@ msgstr ""
 
 #: ../../changes.rst:842
 msgid "Weblate 2.15"
-msgstr ""
+msgstr "Weblate 2.15"
 
 #: ../../changes.rst:844
 msgid "Released on June 30th 2017."
-msgstr ""
+msgstr "Version publiée le 30 juin 2017."
 
 #: ../../changes.rst:846
 msgid "Show more related translations in other translations."
@@ -18562,11 +18546,11 @@ msgstr ""
 
 #: ../../changes.rst:858
 msgid "Weblate 2.14.1"
-msgstr ""
+msgstr "Weblate 2.14.1"
 
 #: ../../changes.rst:860
 msgid "Released on May 24th 2017."
-msgstr ""
+msgstr "Version publiée le 24 mai 2017."
 
 #: ../../changes.rst:862
 msgid "Fixed possible error when paginating search results."
@@ -18590,11 +18574,11 @@ msgstr ""
 
 #: ../../changes.rst:869
 msgid "Weblate 2.14"
-msgstr ""
+msgstr "Weblate 2.14"
 
 #: ../../changes.rst:871
 msgid "Released on May 17th 2017."
-msgstr ""
+msgstr "Version publiée le 17 mai 2017."
 
 #: ../../changes.rst:873
 msgid "Add glossary entries using AJAX."
@@ -18674,11 +18658,11 @@ msgstr ""
 
 #: ../../changes.rst:893
 msgid "Weblate 2.13.1"
-msgstr ""
+msgstr "Weblate 2.13.1"
 
 #: ../../changes.rst:895 ../../changes.rst:905
 msgid "Released on Apr 12th 2017."
-msgstr ""
+msgstr "Version publiée le 12 avril 2017."
 
 #: ../../changes.rst:897
 msgid "Fixed listing of managed projects in profile."
@@ -18699,7 +18683,7 @@ msgstr ""
 
 #: ../../changes.rst:903
 msgid "Weblate 2.13"
-msgstr ""
+msgstr "Weblate 2.13"
 
 #: ../../changes.rst:907
 msgid "Fixed quality checks on translation templates."
@@ -18755,11 +18739,11 @@ msgstr ""
 
 #: ../../changes.rst:922
 msgid "Weblate 2.12"
-msgstr ""
+msgstr "Weblate 2.12"
 
 #: ../../changes.rst:924
 msgid "Released on Mar 3rd 2017."
-msgstr ""
+msgstr "Version publiée le 3 mai 2017."
 
 #: ../../changes.rst:926
 msgid "Improved admin interface for groups."
@@ -18812,11 +18796,11 @@ msgstr ""
 
 #: ../../changes.rst:940
 msgid "Weblate 2.11"
-msgstr ""
+msgstr "Weblate 2.11"
 
 #: ../../changes.rst:942
 msgid "Released on Jan 31st 2017."
-msgstr ""
+msgstr "Version publiée le 31 janvier 2017."
 
 #: ../../changes.rst:944
 msgid "Include language detailed information on language page."
@@ -18871,11 +18855,11 @@ msgstr ""
 
 #: ../../changes.rst:959
 msgid "Weblate 2.10.1"
-msgstr ""
+msgstr "Weblate 2.10.1"
 
 #: ../../changes.rst:961
 msgid "Released on Jan 20th 2017."
-msgstr ""
+msgstr "Version publiée le 20 janvier 2017."
 
 #: ../../changes.rst:963
 msgid "Do not leak account existence on password reset form (CVE-2017-5537)."
@@ -18883,11 +18867,11 @@ msgstr ""
 
 #: ../../changes.rst:966
 msgid "Weblate 2.10"
-msgstr ""
+msgstr "Weblate 2.10"
 
 #: ../../changes.rst:968
 msgid "Released on Dec 15th 2016."
-msgstr ""
+msgstr "Version publiée le 15 décembre 2016."
 
 #: ../../changes.rst:970
 msgid ""
@@ -18940,11 +18924,11 @@ msgstr ""
 
 #: ../../changes.rst:984
 msgid "Weblate 2.9"
-msgstr ""
+msgstr "Weblate 2.9"
 
 #: ../../changes.rst:986
 msgid "Released on Nov 4th 2016."
-msgstr ""
+msgstr "Version publiée le 4 novembre 2016."
 
 #: ../../changes.rst:988
 msgid "Extended parameters for createadmin management command."
@@ -19014,11 +18998,11 @@ msgstr ""
 
 #: ../../changes.rst:1006
 msgid "Weblate 2.8"
-msgstr ""
+msgstr "Weblate 2.8"
 
 #: ../../changes.rst:1008
 msgid "Released on Aug 31st 2016."
-msgstr ""
+msgstr "Version publiée le 31 août 2016."
 
 #: ../../changes.rst:1010 ../../changes.rst:1064 ../../changes.rst:1097
 #: ../../changes.rst:1184 ../../changes.rst:1200 ../../changes.rst:1246
@@ -19088,11 +19072,11 @@ msgstr ""
 
 #: ../../changes.rst:1028
 msgid "Weblate 2.7"
-msgstr ""
+msgstr "Weblate 2.7"
 
 #: ../../changes.rst:1030
 msgid "Released on Jul 10th 2016."
-msgstr ""
+msgstr "Version publiée le 10 juillet 2016."
 
 #: ../../changes.rst:1032
 msgid "Removed Google web translate machine translation."
@@ -19132,11 +19116,11 @@ msgstr ""
 
 #: ../../changes.rst:1043
 msgid "Weblate 2.6"
-msgstr ""
+msgstr "Weblate 2.6"
 
 #: ../../changes.rst:1045
 msgid "Released on Apr 28th 2016."
-msgstr ""
+msgstr "Version publiée le 28 avril 2016."
 
 #: ../../changes.rst:1047
 msgid "Fixed validation of components with language filter."
@@ -19164,11 +19148,11 @@ msgstr ""
 
 #: ../../changes.rst:1055
 msgid "Weblate 2.5"
-msgstr ""
+msgstr "Weblate 2.5"
 
 #: ../../changes.rst:1057
 msgid "Released on Mar 10th 2016."
-msgstr ""
+msgstr "Version publiée le 10 mars 2016."
 
 #: ../../changes.rst:1059
 msgid "Fixed automatic translation for project owners."
@@ -19330,11 +19314,11 @@ msgstr ""
 
 #: ../../changes.rst:1102
 msgid "Weblate 2.4"
-msgstr ""
+msgstr "Weblate 2.4"
 
 #: ../../changes.rst:1104
 msgid "Released on Sep 20th 2015."
-msgstr ""
+msgstr "Version publiée le 20 septembre 2015."
 
 #: ../../changes.rst:1106
 msgid "Improved support for PHP files."
@@ -19462,11 +19446,11 @@ msgstr ""
 
 #: ../../changes.rst:1138
 msgid "Weblate 2.3"
-msgstr ""
+msgstr "Weblate 2.3"
 
 #: ../../changes.rst:1140
 msgid "Released on May 22nd 2015."
-msgstr ""
+msgstr "Version publiée le 22 mai 2015."
 
 #: ../../changes.rst:1142
 msgid "Dropped support for Django 1.6 and South migrations."
@@ -19526,11 +19510,11 @@ msgstr ""
 
 #: ../../changes.rst:1158
 msgid "Weblate 2.2"
-msgstr ""
+msgstr "Weblate 2.2"
 
 #: ../../changes.rst:1160
 msgid "Released on Feb 19th 2015."
-msgstr ""
+msgstr "Version publiée le 19 février 2015."
 
 #: ../../changes.rst:1162
 msgid "Performance improvements."
@@ -19583,11 +19567,11 @@ msgstr ""
 
 #: ../../changes.rst:1176
 msgid "Weblate 2.1"
-msgstr ""
+msgstr "Weblate 2.1"
 
 #: ../../changes.rst:1178
 msgid "Released on Dec 5th 2014."
-msgstr ""
+msgstr "Version publiée le 5 décembre 2014."
 
 #: ../../changes.rst:1180
 msgid "Added support for Mercurial repositories."
@@ -19635,11 +19619,11 @@ msgstr ""
 
 #: ../../changes.rst:1194
 msgid "Weblate 2.0"
-msgstr ""
+msgstr "Weblate 2.0"
 
 #: ../../changes.rst:1196
 msgid "Released on Nov 6th 2014."
-msgstr ""
+msgstr "Version publiée le 6 novembre 2014."
 
 #: ../../changes.rst:1198
 msgid "New responsive UI using Bootstrap."
@@ -19711,15 +19695,15 @@ msgstr ""
 
 #: ../../changes.rst:1218
 msgid "Weblate 1.x series"
-msgstr ""
+msgstr "Weblate 1.x"
 
 #: ../../changes.rst:1221
 msgid "Weblate 1.9"
-msgstr ""
+msgstr "Weblate 1.9"
 
 #: ../../changes.rst:1223
 msgid "Released on May 6th 2014."
-msgstr ""
+msgstr "Version publiée le 6 mai 2014."
 
 #: ../../changes.rst:1225
 msgid "Django 1.6 compatibility."
@@ -19759,11 +19743,11 @@ msgstr ""
 
 #: ../../changes.rst:1236
 msgid "Weblate 1.8"
-msgstr ""
+msgstr "Weblate 1.8"
 
 #: ../../changes.rst:1238
 msgid "Released on November 7th 2013."
-msgstr ""
+msgstr "Version publiée le 7 novembre 2013."
 
 #: ../../changes.rst:1240 ../../changes.rst:1257 ../../changes.rst:1298
 msgid "Please check manual for upgrade instructions."
@@ -19808,11 +19792,11 @@ msgstr ""
 
 #: ../../changes.rst:1253
 msgid "Weblate 1.7"
-msgstr ""
+msgstr "Weblate 1.7"
 
 #: ../../changes.rst:1255
 msgid "Released on October 7th 2013."
-msgstr ""
+msgstr "Version publiée le 7 octobre 2013."
 
 #: ../../changes.rst:1258
 msgid "Support for checking Python brace format string."
@@ -19865,11 +19849,11 @@ msgstr ""
 
 #: ../../changes.rst:1272
 msgid "Weblate 1.6"
-msgstr ""
+msgstr "Weblate 1.6"
 
 #: ../../changes.rst:1274
 msgid "Released on July 25th 2013."
-msgstr ""
+msgstr "Version publiée le 25 juillet 2013."
 
 #: ../../changes.rst:1276
 msgid "Nicer error handling on registration."
@@ -19937,11 +19921,11 @@ msgstr ""
 
 #: ../../changes.rst:1294
 msgid "Weblate 1.5"
-msgstr ""
+msgstr "Weblate 1.5"
 
 #: ../../changes.rst:1296
 msgid "Released on April 16th 2013."
-msgstr ""
+msgstr "Version publiée le 16 avril 2013."
 
 #: ../../changes.rst:1299
 msgid "Added public user pages."
@@ -20013,11 +19997,11 @@ msgstr ""
 
 #: ../../changes.rst:1318
 msgid "Weblate 1.4"
-msgstr ""
+msgstr "Weblate 1.4"
 
 #: ../../changes.rst:1320
 msgid "Released on January 23rd 2013."
-msgstr ""
+msgstr "Version publiée le 23 janvier 2013."
 
 #: ../../changes.rst:1322
 msgid "Fixed deleting of checks/comments on string deletion."
@@ -20097,11 +20081,11 @@ msgstr ""
 
 #: ../../changes.rst:1344
 msgid "Weblate 1.3"
-msgstr ""
+msgstr "Weblate 1.3"
 
 #: ../../changes.rst:1346
 msgid "Released on November 16th 2012."
-msgstr ""
+msgstr "Version publiée le 16 novembre 2012."
 
 #: ../../changes.rst:1348
 msgid "Compatibility with PostgreSQL database backend."
@@ -20178,11 +20162,11 @@ msgstr ""
 
 #: ../../changes.rst:1368
 msgid "Weblate 1.2"
-msgstr ""
+msgstr "Weblate 1.2"
 
 #: ../../changes.rst:1370
 msgid "Released on August 14th 2012."
-msgstr ""
+msgstr "Version publiée le 14 août 2012."
 
 #: ../../changes.rst:1372
 msgid ""
@@ -20273,11 +20257,11 @@ msgstr ""
 
 #: ../../changes.rst:1396
 msgid "Weblate 1.1"
-msgstr ""
+msgstr "Weblate 1.1"
 
 #: ../../changes.rst:1398
 msgid "Released on July 4th 2012."
-msgstr ""
+msgstr "Version publiée le 4 juillet 2012."
 
 #: ../../changes.rst:1400
 msgid "Improved several translations."
@@ -20301,11 +20285,11 @@ msgstr ""
 
 #: ../../changes.rst:1407
 msgid "Weblate 1.0"
-msgstr ""
+msgstr "Weblate 1.0"
 
 #: ../../changes.rst:1409
 msgid "Released on May 10th 2012."
-msgstr ""
+msgstr "Version publiée le 10 mai 2012."
 
 #: ../../changes.rst:1411
 msgid "Improved validation while adding/saving component."
@@ -20329,15 +20313,15 @@ msgstr ""
 
 #: ../../changes.rst:1418
 msgid "Weblate 0.x series"
-msgstr ""
+msgstr "Weblate 0.x"
 
 #: ../../changes.rst:1421
 msgid "Weblate 0.9"
-msgstr ""
+msgstr "Weblate 0.9"
 
 #: ../../changes.rst:1423
 msgid "Released on April 18th 2012."
-msgstr ""
+msgstr "Version publiée le 18 avril 2012."
 
 #: ../../changes.rst:1425
 msgid "Fixed import of unknown languages."
@@ -20389,11 +20373,11 @@ msgstr ""
 
 #: ../../changes.rst:1442
 msgid "Weblate 0.8"
-msgstr ""
+msgstr "Weblate 0.8"
 
 #: ../../changes.rst:1444
 msgid "Released on April 3rd 2012."
-msgstr ""
+msgstr "Version publiée le 3 avril 2012."
 
 #: ../../changes.rst:1446
 msgid "Replaced own full text search with Whoosh."
@@ -20462,11 +20446,11 @@ msgstr ""
 
 #: ../../changes.rst:1464
 msgid "Weblate 0.7"
-msgstr ""
+msgstr "Weblate 0.7"
 
 #: ../../changes.rst:1466
 msgid "Released on February 16th 2012."
-msgstr ""
+msgstr "Version publiée le 16 février 2012."
 
 #: ../../changes.rst:1468
 msgid "Direct support for GitHub notifications."
@@ -20490,11 +20474,11 @@ msgstr ""
 
 #: ../../changes.rst:1475
 msgid "Weblate 0.6"
-msgstr ""
+msgstr "Weblate 0.6"
 
 #: ../../changes.rst:1477
 msgid "Released on February 14th 2012."
-msgstr ""
+msgstr "Version publiée le 14 février 2012."
 
 #: ../../changes.rst:1479
 msgid "Added various checks for translated messages."
@@ -20518,11 +20502,11 @@ msgstr ""
 
 #: ../../changes.rst:1486
 msgid "Weblate 0.5"
-msgstr ""
+msgstr "Weblate 0.5"
 
 #: ../../changes.rst:1488
 msgid "Released on February 12th 2012."
-msgstr ""
+msgstr "Version publiée le 12 février 2012."
 
 #: ../../changes.rst:1492
 msgid "Support for machine translation using following online services:"
@@ -20558,11 +20542,11 @@ msgstr ""
 
 #: ../../changes.rst:1502
 msgid "Weblate 0.4"
-msgstr ""
+msgstr "Weblate 0.4"
 
 #: ../../changes.rst:1504 ../../changes.rst:1512
 msgid "Released on February 8th 2012."
-msgstr ""
+msgstr "Version publiée le 8 février 2012."
 
 #: ../../changes.rst:1506
 msgid "Added usage guide to documentation."
@@ -20574,7 +20558,7 @@ msgstr ""
 
 #: ../../changes.rst:1510
 msgid "Weblate 0.3"
-msgstr ""
+msgstr "Weblate 0.3"
 
 #: ../../changes.rst:1514
 msgid "Better display of source for plural translations."
@@ -20598,11 +20582,11 @@ msgstr ""
 
 #: ../../changes.rst:1521
 msgid "Weblate 0.2"
-msgstr ""
+msgstr "Weblate 0.2"
 
 #: ../../changes.rst:1523
 msgid "Released on February 7th 2012."
-msgstr ""
+msgstr "Version publiée le 7 février 2012."
 
 #: ../../changes.rst:1525
 msgid "Improved validation of several forms."
@@ -20626,11 +20610,11 @@ msgstr ""
 
 #: ../../changes.rst:1532
 msgid "Weblate 0.1"
-msgstr ""
+msgstr "Weblate 0.1"
 
 #: ../../changes.rst:1534
 msgid "Released on February 6th 2012."
-msgstr ""
+msgstr "Version publiée le 6 février 2012."
 
 #: ../../changes.rst:1536
 msgid "Initial release."
@@ -23464,16 +23448,12 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:414
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
 msgstr ""
-"Si la traduction vers la langue source est souhaitée, veuillez modifier la "
-"langue source dans les paramètres du projet."
+"Si la traduction vers la langue source est souhaitée, veuillez modifier le "
+":ref:`component-source_language` dans les paramètres du composant."
 
 #: ../../faq.rst:415
 msgid ""
@@ -25205,19 +25185,19 @@ msgstr ""
 
 #: ../../toc-user.rst:1 ../../latexindex.rst:7
 msgid "User docs"
-msgstr ""
+msgstr "Documentation pour l’utilisateur"
 
 #: ../../toc-admin.rst:1 ../../latexindex.rst:12
 msgid "Administrator docs"
-msgstr ""
+msgstr "Documentation pour l’administrateur"
 
 #: ../../toc-contrib.rst:1 ../../latexindex.rst:17
 msgid "Contributor docs"
-msgstr ""
+msgstr "Documentation pour le contributeur"
 
 #: ../../toc-changes.rst:1
 msgid "Change history"
-msgstr ""
+msgstr "Historique des modifications"
 
 #: ../../../README.rst:6
 msgid ""
@@ -25225,14 +25205,19 @@ msgid ""
 "system, used by over 1150 libre projects and companies in more than 115 "
 "countries.**"
 msgstr ""
+"**Weblate est un système de traduction en continu libre basé sur le Web, "
+"utilisé par plus de 1 150 projets libres et entreprises dans plus de 115 "
+"pays.**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
 msgstr ""
+"Installez-le ou utilisez le service Weblate hébergé disponible à "
+"l’adresse`weblate.org`_."
 
 #: ../../../README.rst:34
 msgid "Support"
-msgstr "Support"
+msgstr "Assistance"
 
 #: ../../../README.rst:36
 msgid ""
@@ -25240,6 +25225,9 @@ msgid ""
 "hosting offerings. Check out https://weblate.org/hosting/ for more "
 "information."
 msgstr ""
+"Weblate est un logiciel libre avec une assistance professionnelle "
+"optionnelle et des offres d’hébergement Cloud. Consultez https://weblate.org/"
+"hosting/ pour plus d’informations."
 
 #: ../../../README.rst:40
 msgid "Documentation"
@@ -25250,60 +25238,66 @@ msgid ""
 "To be found in the ``docs`` directory of the source code, or viewed online "
 "on https://docs.weblate.org/"
 msgstr ""
+"Disponible dans le répertoire ``docs`` du code source, ou à consulter en "
+"ligne sur https://docs.weblate.org/"
 
 #: ../../../README.rst:48
 msgid "Setup instructions:"
-msgstr ""
+msgstr "Instructions d’installation :"
 
 #: ../../../README.rst:50
 msgid "https://docs.weblate.org/en/latest/admin/install.html"
-msgstr ""
+msgstr "https://docs.weblate.org/fr/latest/admin/install.html"
 
 #: ../../../README.rst:53
 msgid "Bugs"
-msgstr ""
+msgstr "Anomalies"
 
 #: ../../../README.rst:55
 msgid "Please report feature requests and problems to:"
 msgstr ""
+"Veuillez signaler les demandes de fonctionnalités et les problèmes sur :"
 
 #: ../../../README.rst:57
 msgid "https://github.com/WeblateOrg/weblate/issues"
-msgstr ""
+msgstr "https://github.com/WeblateOrg/weblate/issues"
 
 #: ../../../README.rst:62
 msgid "Copyright © 2012–2020 Michal Čihař michal@cihar.com"
-msgstr ""
+msgstr "Copyright © 2012–2020 Michal Čihař michal@cihar.com"
 
 #: ../../../README.rst:73
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see https://www.gnu.org/licenses/."
 msgstr ""
+"Vous devriez avoir reçu une copie de la licence publique générale GNU avec "
+"ce programme. Si cela n’est pas le cas, consultez https://www.gnu.org/"
+"licenses/."
 
 #: ../../index.rst:12
 msgid "Indices and tables"
-msgstr ""
+msgstr "Index et tables des matières"
 
 #: ../../index.rst:14
 msgid ":ref:`genindex`"
-msgstr ""
+msgstr ":ref:`genindex`"
 
 #: ../../index.rst:15
 msgid ":ref:`search`"
-msgstr ""
+msgstr ":ref:`search`"
 
 #: ../../latexindex.rst:4
 msgid "The Weblate Manual"
-msgstr ""
+msgstr "Le manuel Weblate"
 
 #: ../../latexindex.rst:22
 msgid "Change History"
-msgstr ""
+msgstr "Historique des modifications"
 
 #: ../../legal.rst:2
 msgid "Legal documents"
-msgstr ""
+msgstr "Documents juridiques"
 
 #: ../../legal.rst:6
 msgid ""
@@ -25561,11 +25555,11 @@ msgstr ""
 
 #: ../../user/basic.rst:2
 msgid "Weblate basics"
-msgstr ""
+msgstr "Bases de Weblate"
 
 #: ../../user/basic.rst:5
 msgid "Project structure"
-msgstr ""
+msgstr "Structure du projet"
 
 #: ../../user/basic.rst:7
 msgid ""
@@ -25576,6 +25570,13 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"Dans Weblate, les traductions sont organisées en projets et composants. "
+"Chaque projet peut contenir un certain nombre de composants et ceux-ci "
+"contiennent des traductions dans des langues individuelles. Le composant "
+"correspond à un fichier traduisible (par exemple :ref:`gettext` ou "
+":ref:`aresource`). Les projets sont là pour vous aider à organiser les "
+"composants en ensembles logiques (par exemple pour regrouper toutes les "
+"traductions utilisées dans une application)."
 
 #: ../../user/basic.rst:14
 msgid ""
@@ -25585,6 +25586,11 @@ msgid ""
 "`component`, still producing errors for seemingly inconsistent resulting "
 "translations."
 msgstr ""
+"En interne, chaque projet dispose par défaut de traductions de chaînes "
+"communes qui se propagent à travers les autres composants du projet. Cela "
+"allège le fardeau de la traduction répétitive et multiversion. Désactivez le "
+"par :ref:`component`, ce qui produit toujours des erreurs pour les "
+"traductions apparemment incohérentes qui en résultent."
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -26156,46 +26162,36 @@ msgid "Vue I18n formatting"
 msgstr "Formatage Vue I18n"
 
 #: ../../user/checks.rst:413
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*The Vue I18n formatting does not match source*"
-msgstr "La chaîne de format C ne correspond pas à celle de la source"
+msgstr "*Le formatage Vue I18n ne correspond pas à la source*"
 
 #: ../../user/checks.rst:416
-#, fuzzy
-#| msgid "Information"
 msgid "Named formatting"
-msgstr "Informations"
+msgstr "Formatage nommé"
 
 #: ../../user/checks.rst:416
 msgid "``There are {count} apples``"
 msgstr ""
 
 #: ../../user/checks.rst:418
-#, fuzzy
-#| msgid "Information"
 msgid "Rails i18n formatting"
-msgstr "Informations"
+msgstr "Formatage Rails I18n"
 
 #: ../../user/checks.rst:418
 msgid "``There are %{count} apples``"
 msgstr ""
 
 #: ../../user/checks.rst:420
-#, fuzzy
-#| msgid "Whiteboard messages"
 msgid "Linked locale messages"
-msgstr "Messages du tableau"
+msgstr "Messages de paramètres régionaux liés"
 
 #: ../../user/checks.rst:420
 msgid "``@:message.dio @:message.the_world!``"
 msgstr ""
 
 #: ../../user/checks.rst:422
-#, fuzzy
-#| msgid "`es-format`"
 msgid "`vue-format`"
-msgstr "`es-format`"
+msgstr "`vue-format`"
 
 #: ../../user/checks.rst:427
 msgid ""
@@ -26392,16 +26388,14 @@ msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgstr ""
 
 #: ../../user/checks.rst:600
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched \\\\n"
-msgstr "Pas de correspondance \\n"
+msgstr "Pas de correspondance \\\\n"
 
 #: ../../user/checks.rst:602
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr "Le nombre de \\n dans la traduction ne correspond pas à la source"
+msgstr ""
+"*Le nombre de \\\\n"
+" dans la traduction ne correspond pas à la source*"
 
 #: ../../user/checks.rst:604
 msgid ""
@@ -26582,10 +26576,8 @@ msgid "*Translation is missing some placeholders:*"
 msgstr ""
 
 #: ../../user/checks.rst:735
-#, fuzzy
-#| msgid "Variants regular expression"
 msgid "You can use regular expression as placeholder."
-msgstr "Expression rationnelle des variantes"
+msgstr "Vous pouvez utiliser des expressions rationnelles comme substitut."
 
 #: ../../user/checks.rst:737
 msgid ""
@@ -27872,21 +27864,25 @@ msgstr ""
 
 #: ../../user/translating.rst:137
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "Raccourcis clavier"
 
 #: ../../user/translating.rst:141
 msgid ""
 "The keyboard shortcuts have been revamped in 2.18 to less likely collide "
 "with browser or system defaults."
 msgstr ""
+"Les raccourcis clavier ont été réorganisés dans la version 2.18 pour éviter "
+"toute collision avec les paramètres par défaut du navigateur ou du système "
+"d’exploitation."
 
 #: ../../user/translating.rst:144
 msgid "The following keyboard shortcuts can be utilized during translation:"
 msgstr ""
+"Les raccourcis clavier suivants peuvent être utilisés lors de la traduction :"
 
 #: ../../user/translating.rst:146
 msgid ":kbd:`Alt+Home`"
-msgstr ""
+msgstr ":kbd:`Alt + Début`"
 
 #: ../../user/translating.rst:147
 msgid "Navigate to first translation in current search."
@@ -27894,7 +27890,7 @@ msgstr "Naviguer vers la première traduction dans la recherche en cours."
 
 #: ../../user/translating.rst:148
 msgid ":kbd:`Alt+End`"
-msgstr ""
+msgstr ":kbd:`Alt + Fin`"
 
 #: ../../user/translating.rst:149
 msgid "Navigate to last translation in current search."
@@ -27902,7 +27898,7 @@ msgstr "Naviguer jusqu’à la dernière traduction dans la recherche en cours."
 
 #: ../../user/translating.rst:150
 msgid ":kbd:`Alt+PageUp`"
-msgstr ""
+msgstr ":kbd:`Alt + Pg. Suiv`"
 
 #: ../../user/translating.rst:151
 msgid "Navigate to previous translation in current search."
@@ -27910,7 +27906,7 @@ msgstr "Naviguer vers la traduction précédente dans la recherche en cours."
 
 #: ../../user/translating.rst:152
 msgid ":kbd:`Alt+PageDown`"
-msgstr ""
+msgstr ":kbd:`Alt + Pg. Préc`"
 
 #: ../../user/translating.rst:153
 msgid "Navigate to next translation in current search."
@@ -27918,7 +27914,7 @@ msgstr "Naviguer vers la traduction suivante dans la recherche en cours."
 
 #: ../../user/translating.rst:154
 msgid ":kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`"
-msgstr ""
+msgstr ":kbd:`Alt + Entrée`, :kbd:`Ctrl + Entrée` ou :kbd:`Cmd + Entrée`"
 
 #: ../../user/translating.rst:155
 msgid "Save current translation."
@@ -27926,63 +27922,64 @@ msgstr "Enregistrer la traduction actuelle."
 
 #: ../../user/translating.rst:156
 msgid ":kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`"
-msgstr ""
+msgstr ":kbd:`Ctrl + Maj + Entrée` ou :kbd:`Cmd + Maj + Entrée`"
 
 #: ../../user/translating.rst:157
 msgid "Unmarks translation as fuzzy and submits it."
-msgstr ""
+msgstr "Supprime la traduction comme À vérifier et l’envoie."
 
 #: ../../user/translating.rst:158
 msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
-msgstr ""
+msgstr ":kbd:`Ctrl + E` ou :kbd:`Cmd + E`"
 
 #: ../../user/translating.rst:159
 msgid "Focus translation editor."
-msgstr ""
+msgstr "Placer le focus dans l’éditeur de traduction."
 
 #: ../../user/translating.rst:160
 msgid ":kbd:`Ctrl+U` or :kbd:`Cmd+U`"
-msgstr ""
+msgstr ":kbd:`Ctrl + U` ou :kbd:`Cmd + U`"
 
 #: ../../user/translating.rst:161
 msgid "Focus comment editor."
-msgstr ""
+msgstr "Placer le focus dans l’éditeur de commentaire."
 
 #: ../../user/translating.rst:162
 msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
-msgstr ""
+msgstr ":kbd:`Ctrl + M` ou :kbd:`Cmd + M`"
 
 #: ../../user/translating.rst:163
 msgid "Shows machine translation tab."
-msgstr ""
+msgstr "Affiche l’onglet Suggestions automatiques."
 
 #: ../../user/translating.rst:164
 msgid ":kbd:`Ctrl+<NUMBER>` or :kbd:`Cmd+<NUMBER>`"
-msgstr ""
+msgstr ":kbd:`Ctrl + <NUMÉRO>` ou :kbd:`Cmd + <NUMÉRO>`"
 
 #: ../../user/translating.rst:165
 msgid "Copies placeable of given number from source string."
-msgstr ""
+msgstr "Copie l’élément numéroté depuis la chaîne source."
 
 #: ../../user/translating.rst:166
 msgid ":kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`"
-msgstr ""
+msgstr ":kbd:`Ctrl + M <NUMÉRO>` ou :kbd:`Cmd + M <NUMÉRO>`"
 
 #: ../../user/translating.rst:167
 msgid "Copy the machine translation of given number to current translation."
 msgstr ""
+"Copie la traduction automatique du numéro donné dans la traduction actuelle."
 
 #: ../../user/translating.rst:168
 msgid ":kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`"
-msgstr ""
+msgstr ":kbd:`Ctrl + I <NUMÉRO>` ou :kbd:`Cmd + I <NUMÉRO>`"
 
 #: ../../user/translating.rst:169
 msgid "Ignore one item in the list of failing checks."
-msgstr "Ignorer un élément de la liste des contrôles défaillants."
+msgstr "Ignorer un élément de la liste des contrôles de qualité défaillants."
 
 #: ../../user/translating.rst:170
 msgid ":kbd:`Ctrl+J` or :kbd:`Cmd+J`"
-msgstr ""
+msgstr ":kbd:`Ctrl + J` ou :kbd:`Cmd + J`"
 
 #: ../../user/translating.rst:171
 msgid "Shows the :guilabel:`Nearby strings` tab."
@@ -27990,80 +27987,94 @@ msgstr "Affiche l’onglet :guilabel:`Chaînes à proximité`."
 
 #: ../../user/translating.rst:172
 msgid ":kbd:`Ctrl+S` or :kbd:`Cmd+S`"
-msgstr ""
+msgstr ":kbd:`Ctrl + S` ou :kbd:`Cmd + S`"
 
 #: ../../user/translating.rst:173
 msgid "Focuses search field."
-msgstr ""
+msgstr "Place le focus sur le champ de recherche."
 
 #: ../../user/translating.rst:174
 msgid ":kbd:`Ctrl+O` or :kbd:`Cmd+O`"
-msgstr ""
+msgstr ":kbd:`Ctrl + O` ou :kbd:`Cmd + O`"
 
 #: ../../user/translating.rst:175
 msgid "Copies source string."
-msgstr ""
+msgstr "Copie la chaîne source."
 
 #: ../../user/translating.rst:177
 msgid ":kbd:`Ctrl+Y` or :kbd:`Cmd+Y`"
-msgstr ""
+msgstr ":kbd:`Ctrl + Y` ou :kbd:`Cmd + Y`"
 
 #: ../../user/translating.rst:177
 msgid "Toggles the :guilabel:`Needs editing` flag."
-msgstr ""
+msgstr "Active/désactive le drapeau :guilabel:`À vérifier`."
 
 #: ../../user/translating.rst:182
 msgid "Visual keyboard"
-msgstr ""
+msgstr "Clavier visuel"
 
 #: ../../user/translating.rst:184
 msgid ""
 "A small visual keyboard is shown just above the translation field. This can "
 "be useful for typing characters not usually found or otherwise hard to type."
 msgstr ""
+"Un petit clavier visuel est affiché juste au-dessus du champ de traduction. "
+"Il peut être utile pour entrer des caractères que l’on ne trouve pas "
+"habituellement sur le clavier ou qui sont difficiles à entrer."
 
 #: ../../user/translating.rst:187
 msgid "The shown symbols factor into three categories:"
-msgstr ""
+msgstr "Les symboles affichés se répartissent en trois catégories :"
 
 #: ../../user/translating.rst:189
 msgid "User configured characters defined in the :ref:`user-profile`"
 msgstr ""
+"Les caractères configurés par l’utilisateur définis dans le fichier :ref"
+":`user-profile`"
 
 #: ../../user/translating.rst:190
 msgid ""
 "Per-language characters provided by Weblate (e.g. quotes or RTL specific "
 "characters)"
 msgstr ""
+"Les caractères par langue fournis par Weblate (par exemple, les guillemets "
+"ou les caractères spécifiques à RTL)"
 
 #: ../../user/translating.rst:191
 msgid "Characters configured using :setting:`SPECIAL_CHARS`"
-msgstr ""
+msgstr "Les caractères configurés en utilisant :setting:`SPECIAL_CHARS`"
 
 #: ../../user/translating.rst:198
 msgid "Translation context"
-msgstr ""
+msgstr "Contexte de traduction"
 
 #: ../../user/translating.rst:200
 msgid ""
 "This contextual description provides related information about the current "
 "string."
 msgstr ""
+"Cette description contextuelle fournit des informations connexes sur la "
+"chaîne actuelle."
 
 #: ../../user/translating.rst:202
 msgid "String attributes"
-msgstr ""
+msgstr "Attributs de la chaîne"
 
 #: ../../user/translating.rst:203
 msgid ""
 "Things like message ID, context (``msgctxt``) or location in source code."
 msgstr ""
+"Des éléments comme l’ID de message, le contexte (``msgctxt``) ou l’"
+"emplacement dans le code source."
 
 #: ../../user/translating.rst:205
 msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
 msgstr ""
+"Des captures d’écran peuvent être téléversées sur Weblate pour mieux "
+"informer les traducteurs sur l’endroit et de la manière dont la chaîne est "
+"utilisée, voir :ref:`screenshots`."
 
 #: ../../user/translating.rst:208
 msgid "Nearby strings"
@@ -28848,10 +28859,8 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:70
-#, fuzzy
-#| msgid "Announcements"
 msgid "Arguments"
-msgstr "Annonces"
+msgstr "Arguments"
 
 #: ../../wlc.rst:72
 msgid ""
@@ -28886,10 +28895,8 @@ msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
 
 #: ../../wlc.rst:98
-#, fuzzy
-#| msgid "Command"
 msgid "Commands"
-msgstr "Commande"
+msgstr "Commandes"
 
 #: ../../wlc.rst:100
 msgid "The following commands are available:"
