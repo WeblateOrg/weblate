@@ -250,10 +250,17 @@ class QueryParserTest(TestCase):
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:variant", Q(variant__isnull=False))
-        self.assert_query("has:label", Q(labels__isnull=False))
+        self.assert_query(
+            "has:label", Q(labels__isnull=False) | Q(source_unit__labels__isnull=False)
+        )
         self.assert_query("has:context", ~Q(context=""))
-        self.assert_query("has:screenshot", Q(screenshots__isnull=False))
-        self.assert_query("has:flags", ~Q(extra_flags=""))
+        self.assert_query(
+            "has:screenshot",
+            Q(screenshots__isnull=False) | Q(source_unit__screenshots__isnull=False),
+        )
+        self.assert_query(
+            "has:flags", ~Q(extra_flags="") | ~Q(source_unit__extra_flags="")
+        )
 
     def test_is(self):
         self.assert_query("is:pending", Q(pending=True))
@@ -287,7 +294,11 @@ class QueryParserTest(TestCase):
         )
 
     def test_labels(self):
-        self.assert_query("label:'test label'", Q(labels__name__iexact="test label"))
+        self.assert_query(
+            "label:'test label'",
+            Q(labels__name__iexact="test label")
+            | Q(source_unit__labels__name__iexact="test label"),
+        )
 
     def test_priority(self):
         self.assert_query("priority:10", Q(priority=10))

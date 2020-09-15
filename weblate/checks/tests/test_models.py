@@ -46,8 +46,8 @@ class CheckModelTestCase(FixtureTestCase):
 
     def test_check_render(self):
         unit = self.get_unit()
-        unit.source_info.extra_flags = "max-size:1:1"
-        unit.source_info.save()
+        unit.source_unit_object.extra_flags = "max-size:1:1"
+        unit.source_unit_object.save()
         check = self.create_check("max-size")
         url = reverse(
             "render-check", kwargs={"check_id": check.check, "unit_id": unit.id}

@@ -93,9 +93,9 @@ class CleanupTest(ViewTestCase):
     def test_cleanup_old_comments(self, expected=2):
         request = self.get_request()
         unit = self.get_unit()
-        Comment.objects.add(unit.source_info, request, "Zkouška")
+        Comment.objects.add(unit.source_unit, request, "Zkouška")
         Comment.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
-        Comment.objects.add(unit.source_info, request, "Zkouška 2")
+        Comment.objects.add(unit.source_unit, request, "Zkouška 2")
         cleanup_old_comments()
         self.assertEqual(Comment.objects.count(), expected)
 

@@ -99,13 +99,6 @@ def update_source(sender, instance, **kwargs):
     units = Unit.objects.filter(
         translation__component=instance.translation.component, id_hash=instance.id_hash
     )
-    # Propagate attributes
-    units.exclude(explanation=instance.explanation).update(
-        explanation=instance.explanation
-    )
-    units.exclude(extra_flags=instance.extra_flags).update(
-        extra_flags=instance.extra_flags
-    )
     # Run checks, update state and priority if flags changed
     if (
         instance.old_unit.extra_flags != instance.extra_flags
@@ -131,26 +124,6 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         or not instance.translation.is_source
     ):
         return
-    if action in ("post_remove", "post_clear"):
-        related = Unit.labels.through.objects.filter(
-            unit__translation__component=instance.translation.component,
-            unit__id_hash=instance.id_hash,
-        )
-        if action == "post_remove":
-            related.filter(label_id__in=pk_set).delete()
-        else:
-            related.delete()
-    else:
-        related = []
-        units = Unit.objects.filter(
-            translation__component=instance.translation.component,
-            id_hash=instance.id_hash,
-        ).exclude(pk=instance.pk)
-        for unit_id in units.values_list("id", flat=True):
-            for label_id in pk_set:
-                related.append(Unit.labels.through(label_id=label_id, unit_id=unit_id))
-        Unit.labels.through.objects.bulk_create(related, ignore_conflicts=True)
-
     if not instance.is_bulk_edit:
         instance.translation.component.invalidate_stats_deep()
 

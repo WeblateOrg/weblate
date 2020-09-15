@@ -132,14 +132,14 @@
         </div>
     {% endif %}
 
-    {% if unit.explanation %}
+    {% if unit.source_unit_object.explanation %}
         <!-- source string context  -->
         <div class="form-group help-block">
         <label>{% trans "Explanation" %}</label>
         <div class="list-group">
             <div class="list-group-item">
                 <div class="list-group-item-text">
-                    {{ unit.explanation|markdown }}
+                    {{ unit.source_unit_object.explanation|markdown }}
                 </div>
             </div>
         </div>
@@ -157,7 +157,7 @@
                 </div>
             {% endif %}
             <label>{{ unit.translation.component.source_language }}</label>
-            <a title="{% trans "Edit source string" %}" href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
+            <a title="{% trans "Edit source string" %}" href="{{ unit.source_unit_object.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
             {% if unit.translation.component.project.source_review %}
             <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
             {% endif %}
@@ -527,7 +527,7 @@
   </h4>
   </div>
   <div class="list-group">
-    {% with unit.source_info.screenshots.order as screenshots %}
+    {% with unit.source_unit_object.screenshots.order as screenshots %}
     {% if screenshots or user_can_add_screenshot %}
     <div class="list-group-item">
     <h5>{% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}">{% icon "pencil.svg" %}</a>{% endif %}
@@ -541,14 +541,14 @@
     </div>
     {% endif %}
     {% endwith %}
-    {% if unit.explanation or user_can_edit_source %}
+    {% if unit.source_unit_object.explanation or user_can_edit_source %}
     <div class="list-group-item">
     <h5>
     {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-focus="#id_explanation" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Explanation" %}
     </h5>
-    {% if unit.explanation %}
-    <p>{{ unit.explanation|markdown }}</p>
+    {% if unit.source_unit_object.explanation %}
+    <p>{{ unit.source_unit_object.explanation|markdown }}</p>
     {% else %}
     <em>{% trans "No explanation currently provided." %}</em>
     {% endif %}
@@ -570,13 +570,13 @@
     {% format_translation unit.note unit.translation.component.source_language search_match=search_query simple=True %}
     </div>
     {% endif %}
-    {% if unit.labels or user_can_edit_source %}
+    {% if unit.all_labels or user_can_edit_source %}
     <div class="list-group-item">
     <h5>
     {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-focus="#id_labels" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Labels" %}
     </h5>
-    {% for label in unit.labels.all %}
+    {% for label in unit.all_labels %}
     {{ label }}
     {% empty %}
     <em>{% trans "No labels currently set." %}</em>
@@ -641,7 +641,7 @@
 
 <a href="{% url 'js-translate' unit_id=unit.id service="__service__" %}" class="hidden" id="js-translate" data-services="{{ machinery_services }}"></a>
 
-<form method="post" action="{% url 'edit_context' pk=unit.source_info.pk %}">
+<form method="post" action="{% url 'edit_context' pk=unit.source_unit_object.pk %}">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}" />
 <div class="modal fade" tabindex="-1" role="dialog" id="context-edit-form">

@@ -495,7 +495,7 @@ class ComponentDeleteTest(RepoTestCase):
         component = self.create_component()
         # Introduce missing source string check. This can happen when adding new check
         # on upgrade or similar situation.
-        unit = Unit.objects.filter(check__isnull=False).first().source_info
+        unit = Unit.objects.filter(check__isnull=False).first().source_unit_object
         unit.source = "Test..."
         unit.save(update_fields=["source"])
         unit.check_set.filter(check="ellipisis").delete()

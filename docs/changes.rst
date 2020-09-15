@@ -19,6 +19,7 @@ Not yet released.
 * Added support for interacting with multiple GitLab or GitHub instances.
 * Extended API to cover project updates.
 * Support markdown in contributor agreement.
+* Improved source strings tracking.
 
 Weblate 4.2.2
 -------------

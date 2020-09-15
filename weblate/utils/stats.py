@@ -383,9 +383,15 @@ class TranslationStats(BaseStats):
             approved=conditional_sum(1, state=STATE_APPROVED),
             approved_words=conditional_sum("num_words", state=STATE_APPROVED),
             approved_chars=conditional_sum(Length("source"), state=STATE_APPROVED),
-            unlabeled=conditional_sum(1, labels__isnull=True),
-            unlabeled_words=conditional_sum("num_words", labels__isnull=True),
-            unlabeled_chars=conditional_sum(Length("source"), labels__isnull=True),
+            unlabeled=conditional_sum(
+                1, labels__isnull=True, source_unit__labels__isnull=True
+            ),
+            unlabeled_words=conditional_sum(
+                "num_words", labels__isnull=True, source_unit__labels__isnull=True
+            ),
+            unlabeled_chars=conditional_sum(
+                Length("source"), labels__isnull=True, source_unit__labels__isnull=True
+            ),
         )
         check_stats = Unit.objects.filter(
             id__in=set(base.filter(check__dismissed=False).values_list("id", flat=True))
@@ -541,11 +547,15 @@ class TranslationStats(BaseStats):
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
         )
-        stats = self._object.unit_set.values("labels__name").annotate(
+        if self._object.is_source:
+            field = "labels__name"
+        else:
+            field = "source_unit__labels__name"
+        stats = self._object.unit_set.values(field).annotate(
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
         for stat in stats:
-            label_name = stat["labels__name"]
+            label_name = stat[field]
             # Filtering here is way more effective than in SQL
             if label_name is None:
                 continue

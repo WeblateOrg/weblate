@@ -302,14 +302,16 @@ class ModelTestCase(RepoTestCase):
 class SourceUnitTest(ModelTestCase):
     """Source Unit objects testing."""
 
-    def test_source_info(self):
+    def test_source_unit(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
-        self.assertIsNotNone(unit.source_info)
+        self.assertIsNotNone(unit.source_unit)
+        unit = Unit.objects.filter(translation__language_code="en")[0]
+        self.assertIsNone(unit.source_unit)
 
     def test_priority(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertEqual(unit.priority, 100)
-        source = unit.source_info
+        source = unit.source_unit
         source.extra_flags = "priority:200"
         source.save()
         unit2 = Unit.objects.get(pk=unit.pk)
@@ -321,7 +323,7 @@ class SourceUnitTest(ModelTestCase):
         check = Check.objects.all()[0]
         unit = check.unit
         self.assertEqual(self.component.stats.allchecks, 3)
-        source = unit.source_info
+        source = unit.source_unit
         source.extra_flags = "ignore-{0}".format(check.check)
         source.save()
         self.assertEqual(Check.objects.count(), 0)
@@ -349,7 +351,7 @@ class UnitTest(ModelTestCase):
 
     def test_order_by_request(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
-        source = unit.source_info
+        source = unit.source_unit
         source.extra_flags = "priority:200"
         source.save()
 
