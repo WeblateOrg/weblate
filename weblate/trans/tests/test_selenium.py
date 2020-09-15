@@ -467,7 +467,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         source = Unit.objects.get(
             source=text, translation__language=language
-        ).source_info
+        ).source_unit
         source.explanation = "Help text for automatic translation tool"
         source.save()
         glossary = Glossary.objects.get()

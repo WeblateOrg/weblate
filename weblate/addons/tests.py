@@ -929,7 +929,7 @@ class BulkEditAddonTest(FixtureTestCase):
             },
         )
         addon.component_update(self.component)
-        self.assertEqual(label.unit_set.count(), 4)
+        self.assertEqual(label.unit_set.count(), 1)
 
     def test_create(self):
         self.user.is_superuser = True

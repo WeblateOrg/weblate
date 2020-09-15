@@ -739,7 +739,7 @@ class SourceStringsTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        source = self.get_unit().source_info
+        source = self.get_unit().source_unit
         response = self.client.post(
             reverse("edit_context", kwargs={"pk": source.pk}),
             {"extra_flags": "priority:60"},
@@ -756,7 +756,7 @@ class SourceStringsTest(ViewTestCase):
 
         unit = self.get_unit()
         old_state = unit.state
-        source = unit.source_info
+        source = unit.source_unit
         response = self.client.post(
             reverse("edit_context", kwargs={"pk": source.pk}),
             {"extra_flags": "read-only"},
@@ -781,14 +781,14 @@ class SourceStringsTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        source = self.get_unit().source_info
+        source = self.get_unit().source_unit
         response = self.client.post(
             reverse("edit_context", kwargs={"pk": source.pk}),
             {"explanation": "Extra context"},
         )
         self.assertRedirects(response, source.get_absolute_url())
 
-        unit = self.get_unit()
+        unit = self.get_unit().source_unit
         self.assertEqual(unit.context, "")
         self.assertEqual(unit.explanation, "Extra context")
 
@@ -797,14 +797,14 @@ class SourceStringsTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        source = self.get_unit().source_info
+        source = self.get_unit().source_unit
         response = self.client.post(
             reverse("edit_context", kwargs={"pk": source.pk}),
             {"extra_flags": "ignore-same"},
         )
         self.assertRedirects(response, source.get_absolute_url())
 
-        unit = self.get_unit()
+        unit = self.get_unit().source_unit
         self.assertEqual(unit.extra_flags, "ignore-same")
 
     def test_view_source(self):

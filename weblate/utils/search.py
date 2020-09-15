@@ -228,17 +228,19 @@ class TermExpr:
         if text in ("variant", "shaping"):
             return Q(variant__isnull=False)
         if text == "label":
-            return Q(labels__isnull=False)
+            return Q(labels__isnull=False) | Q(source_unit__labels__isnull=False)
         if text == "context":
             return ~Q(context="")
         if text == "screenshot":
-            return Q(screenshots__isnull=False)
+            return Q(screenshots__isnull=False) | Q(
+                source_unit__screenshots__isnull=False
+            )
         if text == "flags":
-            return ~Q(extra_flags="")
+            return ~Q(extra_flags="") | ~Q(source_unit__extra_flags="")
 
         raise ValueError("Unsupported has lookup: {}".format(text))
 
-    def field_extra(self, field, query):
+    def field_extra(self, field, query, match):
         from weblate.trans.models import Change
 
         if field in {"changed", "changed_by"}:
@@ -247,6 +249,12 @@ class TermExpr:
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
+
+        # Handle source unit linked content
+        name = self.field_name(field)
+        if name.split("__")[0] in {"labels"}:
+            query |= Q(**{f"source_unit__{name}": match})
+
         return query
 
     def convert_state(self, text):
@@ -403,7 +411,7 @@ class TermExpr:
             # Generic query
             query = Q(**{self.field_name(field): match})
 
-        return self.field_extra(field, query)
+        return self.field_extra(field, query, match)
 
 
 TERM.addParseAction(TermExpr)

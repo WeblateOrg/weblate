@@ -326,14 +326,14 @@ class BulkStateTest(ViewTestCase):
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
-        self.assertTrue(label in unit.labels.all())
+        self.assertTrue(label in unit.all_labels)
         self.assertEqual(
             getattr(unit.translation.stats, "label:{}".format(label.name)), 1
         )
         # Clear local outdated cache
-        unit.source_info.translation.stats.clear()
+        unit.source_unit.translation.stats.clear()
         self.assertEqual(
-            getattr(unit.source_info.translation.stats, "label:{}".format(label.name)),
+            getattr(unit.source_unit.translation.stats, "label:{}".format(label.name)),
             1,
         )
         response = self.client.post(
@@ -348,8 +348,8 @@ class BulkStateTest(ViewTestCase):
             getattr(unit.translation.stats, "label:{}".format(label.name)), 0
         )
         # Clear local outdated cache
-        unit.source_info.translation.stats.clear()
+        unit.source_unit.translation.stats.clear()
         self.assertEqual(
-            getattr(unit.source_info.translation.stats, "label:{}".format(label.name)),
+            getattr(unit.source_unit.translation.stats, "label:{}".format(label.name)),
             0,
         )

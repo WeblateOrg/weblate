@@ -36,6 +36,7 @@ from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
+from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
     get_distinct_translations,
@@ -90,8 +91,6 @@ class UnitQuerySet(models.QuerySet):
         raise ValueError("Unknown filter: {}".format(rqtype))
 
     def prefetch(self):
-        from weblate.trans.models import Suggestion
-
         return self.prefetch_related(
             "labels",
             "translation",
@@ -100,11 +99,20 @@ class UnitQuerySet(models.QuerySet):
             "translation__component",
             "translation__component__project",
             "translation__component__source_language",
+            "source_unit",
+            "source_unit__translation",
+            "source_unit__translation__component",
+            "source_unit__translation__component__project",
             "check_set",
             models.Prefetch(
                 "suggestion_set",
                 queryset=Suggestion.objects.order(),
                 to_attr="suggestions",
+            ),
+            models.Prefetch(
+                "comment_set",
+                queryset=Comment.objects.filter(resolved=False),
+                to_attr="unresolved_comments",
             ),
         )
 
@@ -282,6 +290,10 @@ class Unit(models.Model, LoggerMixin):
         "Label", verbose_name=gettext_lazy("Labels"), blank=True
     )
 
+    source_unit = models.ForeignKey(
+        "Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
+    )
+
     objects = UnitQuerySet.as_manager()
 
     class Meta:
@@ -363,10 +375,9 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def has_comment(self):
-        return any(
-            not comment.resolved and comment.unit_id == self.id
-            for comment in self.all_comments
-        )
+        # Use bool here as unresolved_comments might be list
+        # or a queryset (from prefetch)
+        return bool(self.unresolved_comments)
 
     @property
     def has_suggestion(self):
@@ -390,8 +401,8 @@ class Unit(models.Model, LoggerMixin):
             or (flags is not None and "read-only" in self.get_all_flags(flags))
             or (
                 flags is not None
-                and self.source_info != self
-                and self.source_info.state < STATE_TRANSLATED
+                and self.source_unit
+                and self.source_unit.state < STATE_TRANSLATED
             )
         ):
             return STATE_READONLY
@@ -438,7 +449,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Ensure we track source string for bilingual
         if not self.translation.is_source:
-            source_info = component.get_source(
+            source_unit = component.get_source(
                 self.id_hash,
                 create={
                     "source": source,
@@ -452,28 +463,26 @@ class Unit(models.Model, LoggerMixin):
                 },
             )
             if (
-                not source_info.source_updated
+                not source_unit.source_updated
                 and not component.has_template()
                 and (
-                    pos != source_info.position
-                    or location != source_info.location
-                    or flags != source_info.flags
-                    or note != source_info.note
+                    pos != source_unit.position
+                    or location != source_unit.location
+                    or flags != source_unit.flags
+                    or note != source_unit.note
                 )
             ):
-                source_info.position = pos
-                source_info.source_updated = True
-                source_info.location = location
-                source_info.flags = flags
-                source_info.note = note
-                source_info.save(
+                source_unit.position = pos
+                source_unit.source_updated = True
+                source_unit.location = location
+                source_unit.flags = flags
+                source_unit.note = note
+                source_unit.save(
                     update_fields=["position", "location", "flags", "note"],
                     same_content=True,
                     same_state=True,
                 )
-            self.explanation = source_info.explanation
-            self.extra_flags = source_info.extra_flags
-            self.__dict__["source_info"] = source_info
+            self.source_unit = source_unit
 
         # Calculate state
         state = self.get_unit_state(unit, flags)
@@ -553,9 +562,6 @@ class Unit(models.Model, LoggerMixin):
         # Track updated sources for source checks
         if self.translation.is_template:
             component.updated_sources[self.id_hash] = self
-        # Update unit labels
-        if not self.translation.is_source:
-            self.labels.set(self.source_info.labels.all())
         # Indicate source string change
         if not same_source and previous_source:
             Change.objects.create(
@@ -574,9 +580,9 @@ class Unit(models.Model, LoggerMixin):
         * Flagged with 'read-only'
         * Where source string is not translated
         """
-        source_info = self.source_info
+        source_unit = self.source_unit
         if "read-only" in self.all_flags or (
-            source_info != self and source_info.state < STATE_TRANSLATED
+            source_unit is not None and source_unit.state < STATE_TRANSLATED
         ):
             if not self.readonly:
                 self.state = STATE_READONLY
@@ -838,11 +844,22 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_comments(self):
         """Return list of target comments."""
-        return (
-            Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info))
-            .prefetch_related("unit")
-            .order()
-        )
+        query = Q(unit=self)
+        if self.source_unit:
+            # Add source string comments for translation unit
+            query |= Q(unit=self.source_unit)
+        else:
+            # Add all comments on translation on source string comment
+            query |= Q(unit__source_unit=self)
+        return Comment.objects.filter(query).prefetch_related("unit").order()
+
+    @cached_property
+    def unresolved_comments(self):
+        return [
+            comment
+            for comment in self.all_comments
+            if not comment.resolved and comment.unit_id == self.id
+        ]
 
     def run_checks(self):
         """Update checks for this unit."""
@@ -894,9 +911,9 @@ class Unit(models.Model, LoggerMixin):
                         # not all are yet updated and this spans across them.
                         continue
             # Trigger source checks on target check update (multiple failing checks)
-            if not self.translation.is_source:
-                self.source_info.is_batch_update = self.is_batch_update
-                self.source_info.run_checks()
+            if self.source_unit:
+                self.source_unit.is_batch_update = self.is_batch_update
+                self.source_unit.run_checks()
 
         # Delete no longer failing checks
         if old_checks:
@@ -1008,19 +1025,14 @@ class Unit(models.Model, LoggerMixin):
     def get_all_flags(self, override=None):
         """Return union of own and component flags."""
         return Flags(
-            self.translation.all_flags, self.extra_flags, override or self.flags
+            self.translation.all_flags,
+            self.source_unit.extra_flags if self.source_unit else self.extra_flags,
+            override or self.flags,
         )
 
     @cached_property
     def all_flags(self):
         return self.get_all_flags()
-
-    @cached_property
-    def source_info(self):
-        """Return related source string object."""
-        if self.translation.is_source:
-            return self
-        return self.translation.component.get_source(self.id_hash)
 
     def get_secondary_units(self, user):
         """Return list of secondary units."""
@@ -1034,9 +1046,19 @@ class Unit(models.Model, LoggerMixin):
                 state__gte=STATE_TRANSLATED,
                 translation__component=component,
                 translation__language__in=secondary_langs,
-            ).exclude(
+            )
+            .exclude(
                 target="",
                 translation__language_id=component.source_language_id,
+            )
+            .select_related(
+                "source_unit",
+                "translation__language",
+                "translation__plural",
+            )
+            .prefetch_related(
+                "translation__component",
+                "translation__component__project",
             )
         )
 
@@ -1108,3 +1130,15 @@ class Unit(models.Model, LoggerMixin):
                 filename = location_parts[0]
                 line = 0
             yield location, filename, line
+
+    @cached_property
+    def source_unit_object(self):
+        if self.source_unit:
+            return self.source_unit
+        return self
+
+    @cached_property
+    def all_labels(self):
+        if self.source_unit:
+            return self.source_unit.all_labels
+        return self.labels.all()

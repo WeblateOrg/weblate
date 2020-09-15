@@ -59,6 +59,7 @@ def bulk_perform(
 
             for unit in component_units:
                 changed = False
+                source_unit = unit.source_unit_object
 
                 if (
                     target_state != -1
@@ -74,22 +75,24 @@ def bulk_perform(
 
                 if can_edit_source:
                     if add_flags or remove_flags:
-                        flags = Flags(unit.source_info.extra_flags)
+                        flags = Flags(source_unit.extra_flags)
                         flags.merge(add_flags)
                         flags.remove(remove_flags)
-                        unit.source_info.is_bulk_edit = True
-                        unit.source_info.extra_flags = flags.format()
-                        unit.source_info.save(update_fields=["extra_flags"])
-                        changed = True
+                        new_flags = flags.format()
+                        if source_unit.extra_flags != new_flags:
+                            source_unit.is_bulk_edit = True
+                            source_unit.extra_flags = new_flags
+                            source_unit.save(update_fields=["extra_flags"])
+                            changed = True
 
                     if add_labels:
-                        unit.source_info.is_bulk_edit = True
-                        unit.source_info.labels.add(*add_labels)
+                        source_unit.is_bulk_edit = True
+                        source_unit.labels.add(*add_labels)
                         changed = True
 
                     if remove_labels:
-                        unit.source_info.is_bulk_edit = True
-                        unit.source_info.labels.remove(*remove_labels)
+                        source_unit.is_bulk_edit = True
+                        source_unit.labels.remove(*remove_labels)
                         changed = True
 
                 if changed:
