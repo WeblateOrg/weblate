@@ -10,7 +10,7 @@
     {% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}
   </a>
   <a id="position-input-editable" title="{% trans "Go to position" %}" >
-    <form action="{{ unit.translation.get_translate_url }}" method="GET">
+    <form method="GET">
       {% for key, value in search_items %}
         <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
       {% endfor %}

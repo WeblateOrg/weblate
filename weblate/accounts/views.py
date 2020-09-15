@@ -1360,10 +1360,9 @@ class UserList(ListView):
         context["sort_query"] = self.sort_query
         context["sort_name"] = self.form.sort_choices[self.sort_query.strip("-")]
         context["sort_choices"] = self.form.sort_choices
-        context["query_string"] = urlencode(
-            {
-                "q": self.form.cleaned_data.get("q", "").strip(),
-                "sort_by": self.sort_query,
-            }
+        context["search_items"] = (
+            ("q", self.form.cleaned_data.get("q", "").strip()),
+            ("sort_by", self.sort_query),
         )
+        context["query_string"] = urlencode(context["search_items"])
         return context
