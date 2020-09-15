@@ -665,9 +665,10 @@ class SearchForm(forms.Form):
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
     offset_kwargs = {}
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, user, language=None, *args, **kwargs):
         """Generate choices for other component in same project."""
         self.user = user
+        self.language = language
         show_builder = kwargs.pop("show_builder", True)
         super().__init__(*args, **kwargs)
 
@@ -688,6 +689,7 @@ class SearchForm(forms.Form):
                     "user": self.user,
                     "month_ago": timezone.now() - timedelta(days=31),
                     "show_builder": show_builder,
+                    "language": self.language,
                 },
             ),
             Field("checksum"),

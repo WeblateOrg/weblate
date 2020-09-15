@@ -292,7 +292,7 @@ def show_translation(request, project, component, lang):
     # Get form
     form = get_upload_form(user, obj)
 
-    search_form = SearchForm(request.user)
+    search_form = SearchForm(request.user, language=obj.language)
 
     # Translations to same language from other components in this project
     other_translations = prefetch_stats(

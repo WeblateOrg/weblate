@@ -134,7 +134,7 @@ def show_project(request, lang, project):
             "last_changes_url": urlencode({"lang": obj.code, "project": pobj.slug}),
             "translations": translation_list,
             "title": "{0} - {1}".format(pobj, obj),
-            "search_form": SearchForm(request.user),
+            "search_form": SearchForm(request.user, language=obj),
             "licenses": pobj.component_set.exclude(license="").order_by("license"),
             "language_stats": pobj.stats.get_single_language_stats(obj),
         },
