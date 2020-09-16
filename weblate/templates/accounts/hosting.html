@@ -54,7 +54,21 @@
           {% endif %}
           {{ check }}
         </p>
-        {% endfor %}
+        {% if check.component %}
+          <p>
+            {% icon "comment.svg" %}
+            <a href="{% url "guide" project=check.component.project.slug component=check.component.slug %}">{% trans "Not passed guidelines from the community localization checklist:" %}</a>
+
+            <ul>
+              {% for guide in check.component.guidelines %}
+                {% if guide.is_relevant and not guide.group and not guide.passed %}
+                  <li>{{ guide.description }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          <p>
+        {% endif %}
+      {% endfor %}
       <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="billing" value="{{ billing.pk }}" />

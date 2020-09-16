@@ -42,9 +42,10 @@ from weblate.utils.stats import prefetch_stats
 
 
 class LibreCheck:
-    def __init__(self, result, message):
+    def __init__(self, result, message, component=None):
         self.result = result
         self.message = message
+        self.component = component
 
     def __bool__(self):
         return self.result
@@ -431,6 +432,7 @@ class Billing(models.Model):
                         escape(component.get_file_format_display()),
                     )
                 ),
+                component=component,
             )
 
     @cached_property
