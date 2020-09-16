@@ -694,9 +694,8 @@ class ComponentValidationTest(RepoTestCase):
         project.full_clean()
         # Not existing file
         project.template = "not-existing"
-        self.assertRaisesMessage(
-            ValidationError, "Could not find template file.", project.full_clean
-        )
+        with self.assertRaisesMessage(ValidationError, "File does not exist."):
+            project.full_clean()
 
     def test_validation_language_re(self):
         self.component.language_regex = "[-"
