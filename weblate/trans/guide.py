@@ -17,17 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.cache import never_cache
 
 from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Change
-from weblate.trans.util import render
 from weblate.utils.docs import get_doc_url
-from weblate.utils.views import get_component
 
 GUIDELINES = []
 
@@ -284,18 +280,3 @@ class LinguasGuideline(AddonGuideline):
 @register
 class ConfigureGuideline(AddonGuideline):
     addon = "weblate.gettext.configure"
-
-
-@never_cache
-def guide(request, project, component):
-    obj = get_component(request, project, component)
-
-    return render(
-        request,
-        "guide.html",
-        {
-            "object": obj,
-            "project": obj.project,
-            "guidelines": [guide(obj) for guide in GUIDELINES],
-        },
-    )

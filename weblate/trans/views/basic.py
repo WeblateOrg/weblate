@@ -441,3 +441,18 @@ def show_component_list(request, name):
         "component-list.html",
         {"object": obj, "components": obj.components.filter_access(request.user)},
     )
+
+
+@never_cache
+def guide(request, project, component):
+    obj = get_component(request, project, component)
+
+    return render(
+        request,
+        "guide.html",
+        {
+            "object": obj,
+            "project": obj.project,
+            "guidelines": obj.guidelines,
+        },
+    )

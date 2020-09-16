@@ -2651,3 +2651,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return _("Context")
         # Translators: Translation key for monolingual translations
         return pgettext("Translation key", "Key")
+
+    @cached_property
+    def guidelines(self):
+        from weblate.trans.guide import GUIDELINES
+
+        return [guide(self) for guide in GUIDELINES]

@@ -48,7 +48,6 @@ import weblate.trans.views.edit
 import weblate.trans.views.error
 import weblate.trans.views.files
 import weblate.trans.views.git
-import weblate.trans.views.guide
 import weblate.trans.views.hooks
 import weblate.trans.views.js
 import weblate.trans.views.labels
@@ -137,7 +136,7 @@ real_patterns = [
     ),
     path(
         "guide/<name:project>/<name:component>/",
-        weblate.trans.views.guide.guide,
+        weblate.trans.views.basic.guide,
         name="guide",
     ),
     path(
