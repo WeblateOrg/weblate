@@ -1,7 +1,7 @@
 # Simple way to configure test database from environment
 
 # Database backend to use postgresql / mysql / mariadb
-export CI_DATABASE=postgresql
+export CI_DATABASE=${1:-postgresql}
 
 # Database server configuration
 export CI_DB_USER=weblate
