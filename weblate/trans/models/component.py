@@ -2092,8 +2092,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.create_template_if_missing()
             full_path = os.path.join(self.full_path, self.template)
             if not os.path.exists(full_path):
-                msg = _("Could not find template file.")
-                raise ValidationError({"template": msg})
+                raise ValidationError({"template": _("File does not exist.")})
 
             try:
                 self.template_store.check_valid()
@@ -2214,7 +2213,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.clean_files(matches)
         except re.error:
             raise ValidationError(
-                _("Can not validate file matches due to invalid " "regular expression.")
+                _("Can not validate file matches due to invalid regular expression.")
             )
 
         # Suggestions
