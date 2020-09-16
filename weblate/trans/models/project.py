@@ -33,13 +33,13 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.utils.data import data_dir
-from weblate.utils.db import FastDeleteMixin
+from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
 from weblate.utils.validators import validate_language_aliases, validate_slug
 
 
-class ProjectQuerySet(models.QuerySet):
+class ProjectQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
     def order(self):
         return self.order_by("name")
 
@@ -61,7 +61,7 @@ def prefetch_project_flags(projects):
     return projects
 
 
-class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin):
+class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
