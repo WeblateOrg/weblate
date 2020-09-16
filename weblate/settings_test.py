@@ -38,8 +38,7 @@ if CI_DATABASE in ("mysql", "mariadb"):
             "SET NAMES utf8, "
             "wait_timeout=28800, "
             "default_storage_engine=INNODB, "
-            'sql_mode="STRICT_TRANS_TABLES", '
-            'transaction_isolation="READ COMMITTED"'
+            'sql_mode="STRICT_TRANS_TABLES"'
         ),
         "charset": "utf8",
         "isolation_level": "read committed",
