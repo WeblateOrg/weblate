@@ -263,8 +263,10 @@ class RepoTestMixin:
     def create_po_link(self):
         return self._create_component("po", "po-link/*.po")
 
-    def create_po_mono(self):
-        return self._create_component("po-mono", "po-mono/*.po", "po-mono/en.po")
+    def create_po_mono(self, **kwargs):
+        return self._create_component(
+            "po-mono", "po-mono/*.po", "po-mono/en.po", **kwargs
+        )
 
     def create_srt(self):
         return self._create_component("srt", "srt/*.srt", "srt/en.srt")

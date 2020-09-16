@@ -99,13 +99,14 @@ class MonolingualAlertTest(ViewTestCase):
         return self.create_po_mono()
 
     def test_monolingual(self):
-        def has_monolingual_alert(component):
-            return component.alert_set.filter(name="MonolingualTranslation").exists()
+        self.assertFalse(
+            self.component.alert_set.filter(name="MonolingualTranslation").exists()
+        )
 
-        component = self.component
-        component.update_alerts()
-        self.assertFalse(has_monolingual_alert(component))
-
-        self.component.template = ""
-        self.component.save()
-        self.assertTrue(has_monolingual_alert(component))
+    def test_false_bilingual(self):
+        component = self._create_component(
+            "po-mono", "po-mono/*.po", project=self.project, name="bimono"
+        )
+        self.assertTrue(
+            component.alert_set.filter(name="MonolingualTranslation").exists()
+        )
