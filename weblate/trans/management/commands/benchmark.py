@@ -67,7 +67,7 @@ class Command(BaseCommand):
             file_format=options["format"],
             project=project,
         )
-        profiler.runcall(component.after_save, True, True, True, True, True)
+        profiler.runcall(component.after_save, True, False, False, False, True)
         stats = pstats.Stats(profiler, stream=self.stdout)
         stats.sort_stats(options["profile_sort"])
         stats.print_stats(options["profile_filter"], options["profile_count"])
