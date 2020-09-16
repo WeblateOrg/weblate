@@ -21,6 +21,7 @@ from copy import copy
 from datetime import timedelta
 
 from django.core.files import File
+from django.db import transaction
 from django.urls import reverse
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
@@ -1321,10 +1322,11 @@ class ComponentAPITest(APIBaseTest):
         )
 
     def test_monolingual(self):
-        self.component.file_format = "po-mono"
-        self.component.filemask = "po-mono/*.po"
-        self.component.template = "po-mono/en.po"
-        self.component.save()
+        with transaction.atomic():
+            self.component.file_format = "po-mono"
+            self.component.filemask = "po-mono/*.po"
+            self.component.template = "po-mono/en.po"
+            self.component.save()
         self.do_request("api:component-monolingual-base", self.component_kwargs)
 
     def test_translations(self):
