@@ -584,7 +584,7 @@ List for credentials for GitLab servers.
 .. hint::
 
     Use this in case you want Weblate to interact with more of them, for single
-    GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
+    GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:`GITLAB_TOKEN`.
 
 .. code-block:: python
 
