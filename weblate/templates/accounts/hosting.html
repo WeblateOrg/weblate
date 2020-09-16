@@ -40,7 +40,7 @@
           </span>
           {% if user.is_superuser %}
           <span class="middle-dot-divider">
-            <a href="{% url "manage-users-check" %}?email={{ owner.email }}">{% trans "Check user access" %}</a>
+            <a href="{% url "manage-users-check" %}?email={{ owner.email|urlencode }}">{% trans "Check user access" %}</a>
           </span>
           {% endif %}
         </p>
