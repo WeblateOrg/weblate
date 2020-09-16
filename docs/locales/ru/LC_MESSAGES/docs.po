@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-13 13:53+0200\n"
-"PO-Revision-Date: 2020-09-16 08:48+0000\n"
+"PO-Revision-Date: 2020-09-16 19:00+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -7449,6 +7449,9 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
+"Если вы не знакомы с Python’ом, возможно, вы захотите посмотреть статью `"
+"Python для начинающих <https://www.python.org/about/gettingstarted/>`_, в "
+"которой объясняются основы и указаны дальнейшие учебные пособия."
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -7457,58 +7460,69 @@ msgid ""
 "python3.7/site-packages/`) or in the Weblate directory, which is also added "
 "to the interpreter search path."
 msgstr ""
+"При написании собственного Python’ьего кода (называемого модулем) его "
+"необходимо разместить в каталоге, находящемся либо где-то в системном пути ("
+"обычно это путь вида :file:`/usr/lib/python3.7/site-packages/`), либо в "
+"каталоге Weblate’а, который также добавляется к путям поиска интерпретатора."
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr ""
+msgstr "А ещё лучше превратить вашу настройку в правильный Python’ий пакет:"
 
 #: ../../admin/customize.rst:35
 msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr ""
-"Создайте папку для вашей сборки (мы будем использовать "
+"Создайте каталог для вашего пакета (мы будем использовать "
 "`weblate_customization`)."
 
 #: ../../admin/customize.rst:36
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
-msgstr ""
+msgstr "В нём создайте описывающий пакет файл :file:`setup.py`:"
 
 #: ../../admin/customize.rst:53
 msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
+"Создайте каталог для Python’ьего модуля (также назовём его "
+"``weblate_customization``), в котором будет содержаться наш код."
 
 #: ../../admin/customize.rst:55
 msgid ""
 "Within it, create a :file:`__init__.py` file to make sure Python can import "
 "the module."
 msgstr ""
-"В соответствии с этим создайте :file:`__init__.py` файл, чтобы убедиться в "
-"том, что Python может импортировать модуль."
+"В нём создайте файл :file:`__init__.py`, который гарантирует, что Python "
+"сможет импортировать модуль."
 
 #: ../../admin/customize.rst:56
 msgid ""
 "This package can now be installed using :command:`pip install -e`. More info "
 "to be found in :ref:`pip:editable-installs`."
 msgstr ""
-"Эта сборка может быть установлена сейчас, используя :command:`pip install -"
-"e`. Больше информации можно найти в :ref:`pip:editable-installs`."
+"Теперь этот пакет можно установить командой :command:`pip install -e`. Более "
+"подробную информацию можно найти в документе :ref:`«Редактируемые» установки "
+"<pip:editable-installs>`."
 
 #: ../../admin/customize.rst:57
 msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
+"После установки модуль можно использовать в конфигурации Weblate’а ("
+"например, ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:60
 msgid "Your module structure should look like this:"
-msgstr "Ваша структура модуля должна выглядеть примерно так:"
+msgstr "Структура вашего модуля должна выглядеть примерно так:"
 
 #: ../../admin/customize.rst:71
 msgid ""
 "You can find an example of customizing Weblate at <https://github.com/"
 "WeblateOrg/customize-example>, it covers all the topics described below."
 msgstr ""
+"Пример настройки Weblate’а можно найти по адресу <https://github.com/"
+"WeblateOrg/customize-example>, он охватывает все описанные ниже темы."
 
 #: ../../admin/customize.rst:76
 msgid "Changing the logo"
@@ -7519,6 +7533,8 @@ msgid ""
 "1. Create a simple Django app containing the static files you want to "
 "overwrite (see :ref:`custom-module`)."
 msgstr ""
+"1. Создайте простое приложение Django, содержащее статические файлы, которые "
+"вы хотите перезаписать (смотрите раздел :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:81
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
@@ -7526,7 +7542,7 @@ msgstr "Добавьте его в :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/customize.rst:92
 msgid "Branding appears in the following files:"
-msgstr ""
+msgstr "Брендинг присутствует в следующих файлах:"
 
 #: ../../admin/customize.rst:94
 msgid ":file:`icons/weblate.svg`"
@@ -7534,7 +7550,7 @@ msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:95
 msgid "Logo shown in the navigation bar."
-msgstr "Лого, показываемое в навигационной панели."
+msgstr "Логотип, показываемый в навигационной панели."
 
 #: ../../admin/customize.rst:96
 msgid ":file:`logo-*.png`"
@@ -7542,7 +7558,7 @@ msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:97
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr ""
+msgstr "Веб-иконки для разных разрешений экрана и веб-браузеров."
 
 #: ../../admin/customize.rst:98
 msgid ":file:`favicon.ico`"
@@ -7550,7 +7566,7 @@ msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:99
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "Веб-иконка, используемая устаревшими браузерами."
 
 #: ../../admin/customize.rst:100
 msgid ":file:`weblate-*.png`"
@@ -7561,6 +7577,8 @@ msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
+"Аватары ботов или анонимных пользователей. Некоторые веб-браузеры используют "
+"их в качестве значков ярлыков."
 
 #: ../../admin/customize.rst:103
 msgid ":file:`email-logo.png`"
@@ -7568,13 +7586,15 @@ msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:103
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "Используется в уведомлениях по электронной почте."
 
 #: ../../admin/customize.rst:105
 msgid ""
 "Run :samp:`weblate collectstatic --noinput`, to collect static files served "
 "to clients."
 msgstr ""
+"Запустите :samp:`weblate collectstatic --noinput`, чтобы собрать статические "
+"файлы для раздачи их клиентам."
 
 #: ../../admin/customize.rst:110
 msgid ":doc:`django:howto/static-files/index`, :ref:`static-files`"
@@ -7592,18 +7612,26 @@ msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` and in Weblate:"
 msgstr ""
+"Для установки в Weblate собственного кода для :ref:`автоматических "
+"исправлений <custom-autofix>`, :ref:`проверок <own-checks>` или :ref:`"
+"надстроек <own-addon>`:"
 
 #: ../../admin/customize.rst:122
 msgid ""
 "Place the files in your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
+"Разместите файлы в Python’ьем модуле, содержащем настройку Weblate’а ("
+"смотрите раздел :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:124
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
+"Добавьте полное имя его Python’ьего класса в список соответствующего "
+"параметра (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` или "
+":setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:146
 msgid ""
@@ -8007,6 +8035,8 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 #: ../../admin/install.rst:130
 msgid "``licensee`` (optional for detecting license when creating component)"
 msgstr ""
+"``licensee`` (необязательная зависимость для определения лицензии при "
+"создании компонента)"
 
 #: ../../admin/install.rst:130
 msgid "https://github.com/licensee/licensee"
@@ -13136,16 +13166,21 @@ msgid ""
 "discovery` addon, leading to some changes in behavior and what parameters "
 "are accepted."
 msgstr ""
+"Команда import_project теперь основана на надстройке :ref:`addon-weblate."
+"discovery.discovery`, что привело к некоторым изменениям в поведении и "
+"принимаемых параметрах."
 
 #: ../../admin/management.rst:370
 msgid "Batch imports components into project based on filemask."
-msgstr ""
+msgstr "Пакетный импорт компонентов в проект на основе маски файлов."
 
 #: ../../admin/management.rst:372
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
+"Параметр `<project>` определяет имя существующего проекта, в который будут "
+"импортированы компоненты."
 
 #: ../../admin/management.rst:375
 msgid ""
@@ -13154,6 +13189,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"Параметр `<gitrepo>` определяет URL-адрес используемого Git-репозитория, а "
+"`<branch>` — его ветку. Для импорта дополнительные компонентов перевода из "
+"существующего компонента Weblate’а используйте для параметра `<gitrepo>` "
+"адрес вида `weblate://<проект>/<компонент>`."
 
 #: ../../admin/management.rst:380
 msgid ""
@@ -13161,28 +13200,38 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"Параметр `<filemask>` определяет маску искомых файлов в репозитории. Он "
+"может быть либо простой строкой с подстановочными знаками, либо использовать "
+"всю мощь регулярных выражений."
 
 #: ../../admin/management.rst:383
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"Простое сопоставление использует ``**`` для имени компонента и ``*`` для "
+"языка, например: ``**/*.po``"
 
 #: ../../admin/management.rst:386
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`. For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 msgstr ""
+"Регулярное выражение должно содержать группы с именами `component` и "
+"`language`. Например: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 
 #: ../../admin/management.rst:389
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
+"Импорт находит сопоставление с существующими компонентами на основе файлов, "
+"и добавляет не найденные компоненты. Уже существующие компоненты он не "
+"меняет."
 
 #: ../../admin/management.rst:394
 msgid "Customize the name of a component using Django template syntax."
-msgstr ""
+msgstr "Настраивает имя компонента, используя синтаксис шаблонов Django."
 
 #: ../../admin/management.rst:396
 msgid "For example: ``Documentation: {{ component }}``"
@@ -13209,42 +13258,55 @@ msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
 msgstr ""
+"Также вы можете указать формат файла (смотрите раздел :ref:`formats`), по "
+"умолчанию используется автоматическое определение."
 
 #: ../../admin/management.rst:417
 msgid ""
 "You can specify language filtering (see :ref:`component`) with this "
 "parameter. It has to be a valid regular expression."
 msgstr ""
+"С помощью этого параметра можно указать языковой фильтр (смотрите раздел "
+":ref:`component`). Должен быть правильным регулярным выражением."
 
 #: ../../admin/management.rst:422
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
 msgstr ""
+"Вы можете указать, какой компонент будет выбран в качестве основного — тот, "
+"который фактически содержит репозиторий системы контроля версий."
 
 #: ../../admin/management.rst:427
 msgid "Specify the overall, project or component translation license."
-msgstr ""
+msgstr "Указывает общую лицензию, лицензию проекта или компонента перевода."
 
 #: ../../admin/management.rst:431
 msgid "Specify the URL where the translation license is to be found."
-msgstr "Укажите URL, где может быть найдена лицензия перевода."
+msgstr "Указывает URL-адрес, по которому может быть найдена лицензия перевода."
 
 #: ../../admin/management.rst:435
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
 msgstr ""
+"В случае, если вам необходимо указать, какую использовать систему контроля "
+"версий, вы можете сделать это здесь. Умолчательная система контроля версий — "
+"Git."
 
 #: ../../admin/management.rst:438
 msgid "To give you some examples, let's try importing two projects."
-msgstr "Чтобы дать вам примеры, давайте попробуем импортировать два проекта."
+msgstr ""
+"Чтобы привести вам несколько примеров, давайте попробуем импортировать два "
+"проекта."
 
 #: ../../admin/management.rst:440
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
 msgstr ""
+"Первый — перевод Руководства Debian, в котором для каждого языка имеется "
+"отдельный каталог с переводами каждой главы:"
 
 #: ../../admin/management.rst:451
 msgid ""
@@ -13252,6 +13314,9 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
+"Далее инструмент Tanaguru, для которого необходимо указать формат файла, "
+"шаблон базового файла, а также то, что все компоненты и переводы расположены "
+"в одном каталоге:"
 
 #: ../../admin/management.rst:465
 msgid ""
@@ -13259,24 +13324,29 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
+"Более сложный пример разбора имён файлов для получения правильного "
+"компонента и языка из имени файла вида ``src/security/"
+"Numerous_security_holes_in_0.10.1.de.po``:"
 
 #: ../../admin/management.rst:476
 msgid "Filtering only translations in a chosen language:"
-msgstr ""
+msgstr "Отфильтровывание переводов только на выбранные языки:"
 
 #: ../../admin/management.rst:486
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr ""
+msgstr "Импорт Sphinx-документации, разбитой на несколько файлов:"
 
 #: ../../admin/management.rst:495
 msgid "Importing Sphinx documentation split to multiple files and directories:"
-msgstr ""
+msgstr "Импорт Sphinx-документации, разбитой на несколько файлов и каталогов:"
 
 #: ../../admin/management.rst:510
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :djadmin:`import_json`."
 msgstr ""
+"Более подробные примеры можно найти в главе :ref:`starting`, в качестве "
+"альтернативы вы можете использовать команду :djadmin:`import_json`."
 
 #: ../../admin/management.rst:514
 msgid "importuserdata"
@@ -14253,9 +14323,9 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
-"Создание проекта можно инициировать оттуда или из меню на панели навигации; "
-"чтобы завершить добавление проекта перевода, заполните основную информацию о "
-"нём:"
+"Создание проекта можно инициировать оттуда или из меню на навигационной "
+"панели; чтобы завершить добавление проекта перевода, заполните основную "
+"информацию о нём:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
