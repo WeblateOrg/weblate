@@ -57,13 +57,16 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     NotificationSerializer,
     ProjectSerializer,
+    ReadonlySourceUnitWriteSerializer,
     RepoRequestSerializer,
     RoleSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
+    SourceUnitWriteSerializer,
     StatisticsSerializer,
     TranslationSerializer,
     UnitSerializer,
+    UnitWriteSerializer,
     UploadRequestSerializer,
     UserStatisticsSerializer,
 )
@@ -87,6 +90,12 @@ from weblate.trans.tasks import auto_translate, component_removal, project_remov
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.wladmin.models import ConfigurationError
@@ -1063,14 +1072,84 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class UnitViewSet(viewsets.ReadOnlyModelViewSet):
+class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin):
     """Units API."""
 
     queryset = Unit.objects.none()
-    serializer_class = UnitSerializer
+
+    def get_serializer(self, instance, *args, **kwargs):
+        # Get correct serializer based on action and instance
+        if self.action in ("list", "retrieve"):
+            serializer_class = UnitSerializer
+        elif isinstance(instance, Unit) and instance.translation.is_source:
+            if instance.readonly:
+                serializer_class = ReadonlySourceUnitWriteSerializer
+            else:
+                serializer_class = SourceUnitWriteSerializer
+        else:
+            serializer_class = UnitWriteSerializer
+        kwargs["context"] = self.get_serializer_context()
+        return serializer_class(instance, *args, **kwargs)
 
     def get_queryset(self):
         return Unit.objects.filter_access(self.request.user).order_by("id")
+
+    def perform_update(self, serializer):
+        data = serializer.validated_data
+        do_translate = "target" in data or "state" in data
+        do_source = "extra_flags" in data or "explanation" in data
+        unit = serializer.instance
+        translation = unit.translation
+        user = self.request.user
+
+        new_target = data.get("target", [])
+        new_state = data.get("state", None)
+
+        # Sanity and permission checks
+        if do_source and not user.has_perm("source.edit", translation):
+            raise PermissionDenied()
+
+        if do_translate:
+            if not new_target or new_state is None:
+                raise ParseError(
+                    "Please provide both state and target for a partial update"
+                )
+
+            if new_state not in (
+                STATE_APPROVED,
+                STATE_TRANSLATED,
+                STATE_FUZZY,
+                STATE_EMPTY,
+            ):
+                raise ParseError("Invalid state")
+
+            if new_state == STATE_EMPTY and any(new_target):
+                raise ParseError("Can not use empty state with non empty target")
+
+            if new_state != STATE_EMPTY and not any(new_target):
+                raise ParseError("Can not use non empty state with empty target")
+
+            if not user.has_perm("unit.edit", unit):
+                raise PermissionDenied()
+
+            if new_state == STATE_APPROVED and not user.has_perm(
+                "unit.review", translation
+            ):
+                raise PermissionDenied()
+
+        # Update attributes
+        if do_source:
+            fields = ["extra_flags", "explanation"]
+            for name in fields:
+                try:
+                    setattr(unit, name, data[name])
+                except KeyError:
+                    continue
+            unit.save(update_fields=fields)
+
+        # Handle translate
+        if do_translate:
+            unit.translate(user, new_target, new_state)
 
 
 class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):

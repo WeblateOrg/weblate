@@ -1835,20 +1835,26 @@ Units
 
 .. http:get:: /api/units/(int:id)/
 
+    .. versionchanged:: 4.3
+
+       The ``target`` and ``source`` are now arrays to properly handle plural
+       strings.
+
     Returns information about translation unit.
 
     :param id: Unit ID
     :type id: int
     :>json string translation: URL of a related translation object
-    :>json string source: source string
+    :>json array source: source string
     :>json string previous_source: previous source string used for fuzzy matching
-    :>json string target: target string
+    :>json array target: target string
     :>json string id_hash: unique identifier of the unit
     :>json string content_hash: unique identifier of the source string
     :>json string location: location of the unit in source code
     :>json string context: translation unit context
     :>json string note: translation unit note
     :>json string flags: translation unit flags
+    :>json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
     :>json boolean fuzzy: whether the unit is fuzzy or marked for review
     :>json boolean translated: whether the unit is translated
     :>json boolean approved: whether the translation is approved
@@ -1863,6 +1869,32 @@ Units
     :>json string extra_flags: Additiona string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
     :>json string souce_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+
+.. http:patch::  /api/units/(int:id)/
+
+    .. versionadded:: 4.3
+
+    Performs partial update on translation unit.
+
+    :param id: Unit ID
+    :type id: int
+    :<json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
+    :<json array target: target string
+    :<json string explanation: String explanation, available on source units, see :ref:`additional`
+    :<json string extra_flags: Additiona string flags, available on source units, see :ref:`custom-checks`
+
+.. http:put::  /api/units/(int:id)/
+
+    .. versionadded:: 4.3
+
+    Performs full update on translation unit.
+
+    :param id: Unit ID
+    :type id: int
+    :<json int state: unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - approved, 100 - read only
+    :<json array target: target string
+    :<json string explanation: String explanation, available on source units, see :ref:`additional`
+    :<json string extra_flags: Additiona string flags, available on source units, see :ref:`custom-checks`
 
 Changes
 +++++++
