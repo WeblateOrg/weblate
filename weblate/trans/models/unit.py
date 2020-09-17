@@ -978,17 +978,17 @@ class Unit(models.Model, LoggerMixin):
         # Fetch current copy from database and lock it for update
         self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
 
+        # Handle simple string units
+        if isinstance(new_target, str):
+            new_target = [new_target]
+
         # Apply autofixes
         if not self.translation.is_template:
             new_target, self.fixups = fix_target(new_target, self)
 
         # Update unit and save it
-        if isinstance(new_target, str):
-            self.target = new_target
-            not_empty = bool(new_target)
-        else:
-            self.target = join_plural(new_target)
-            not_empty = bool(max(new_target))
+        self.target = join_plural(new_target)
+        not_empty = bool(max(new_target))
 
         # Newlines fixup
         if "dos-eol" in self.all_flags:
