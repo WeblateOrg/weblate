@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from copy import copy
 
 from django.conf import settings
@@ -28,6 +27,7 @@ from django.utils.translation import gettext as _
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
+from weblate.trans.util import split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
@@ -141,14 +141,16 @@ class Suggestion(models.Model, UserDisplayMixin):
 
         # Skip if there is no change
         if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
-            self.unit.target = self.target
-            self.unit.state = STATE_TRANSLATED
             if self.user and not self.user.is_anonymous:
                 author = self.user
             else:
                 author = request.user
-            self.unit.save_backend(
-                request.user, author=author, change_action=Change.ACTION_ACCEPT
+            self.unit.translate(
+                request.user,
+                split_plural(self.target),
+                STATE_TRANSLATED,
+                author=author,
+                change_action=Change.ACTION_ACCEPT,
             )
 
         # Delete the suggestion

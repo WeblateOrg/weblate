@@ -949,7 +949,13 @@ class Unit(models.Model, LoggerMixin):
 
     @transaction.atomic
     def translate(
-        self, user, new_target, new_state, change_action=None, propagate=True
+        self,
+        user,
+        new_target,
+        new_state,
+        change_action=None,
+        propagate=True,
+        author=None,
     ):
         """Store new translation of a unit."""
         # Fetch current copy from database and lock it for update
@@ -977,7 +983,7 @@ class Unit(models.Model, LoggerMixin):
             self.state = STATE_EMPTY
         self.original_state = self.state
         saved = self.save_backend(
-            user, change_action=change_action, propagate=propagate
+            user, change_action=change_action, propagate=propagate, author=author
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)
