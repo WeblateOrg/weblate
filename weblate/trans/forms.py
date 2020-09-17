@@ -719,6 +719,9 @@ class SearchForm(forms.Form):
                 # Only store true values
                 if value:
                     items.append((param, "1"))
+            elif param == "checksum":
+                print(param, repr(value))
+                items.append((param, hash_to_checksum(value)))
             elif isinstance(value, int):
                 # Avoid storing 0 values
                 if value > 0:
