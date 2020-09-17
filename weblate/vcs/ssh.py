@@ -108,6 +108,8 @@ def generate_ssh_key(request):
             [
                 "ssh-keygen",
                 "-q",
+                "-b",
+                "4096",
                 "-N",
                 "",
                 "-C",
