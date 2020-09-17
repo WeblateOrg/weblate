@@ -716,7 +716,7 @@ class UserStatisticsSerializer(ReadOnlySerializer):
         return result
 
 
-class UnitSerializer(RemovableSerializer):
+class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
