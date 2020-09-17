@@ -716,6 +716,11 @@ class UserStatisticsSerializer(ReadOnlySerializer):
         return result
 
 
+class PluralField(serializers.ListField):
+    def get_attribute(self, instance):
+        return getattr(instance, f"get_{self.field_name}_plurals")()
+
+
 class UnitSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -730,6 +735,8 @@ class UnitSerializer(serializers.ModelSerializer):
     source_unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
     )
+    source = PluralField()
+    target = PluralField()
 
     class Meta:
         model = Unit
@@ -744,6 +751,7 @@ class UnitSerializer(serializers.ModelSerializer):
             "context",
             "note",
             "flags",
+            "state",
             "fuzzy",
             "translated",
             "approved",
@@ -761,6 +769,45 @@ class UnitSerializer(serializers.ModelSerializer):
             "extra_flags",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
+
+
+class ReadonlySourceUnitWriteSerializer(serializers.ModelSerializer):
+    """Serializer for updating readonly source unit."""
+
+    class Meta:
+        model = Unit
+        fields = (
+            "explanation",
+            "extra_flags",
+        )
+
+
+class SourceUnitWriteSerializer(serializers.ModelSerializer):
+    """Serializer for updating source unit."""
+
+    target = PluralField()
+
+    class Meta:
+        model = Unit
+        fields = (
+            "target",
+            "state",
+            "explanation",
+            "extra_flags",
+        )
+
+
+class UnitWriteSerializer(serializers.ModelSerializer):
+    """Serializer for updating target unit."""
+
+    target = PluralField()
+
+    class Meta:
+        model = Unit
+        fields = (
+            "target",
+            "state",
+        )
 
 
 class ScreenshotSerializer(RemovableSerializer):

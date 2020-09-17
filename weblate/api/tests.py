@@ -1887,9 +1887,164 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 16)
 
     def test_get_unit(self):
-        unit = Unit.objects.filter(translation__language_code="cs")[0]
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
         response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
         self.assertIn("translation", response.data)
+        self.assertEqual(response.data["source"], ["Hello, world!\n"])
+
+    def test_get_plural_unit(self):
+        unit = Unit.objects.get(
+            translation__language_code="cs", source__startswith="Orangutan has "
+        )
+        response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
+        self.assertIn("translation", response.data)
+        self.assertEqual(
+            response.data["source"],
+            ["Orangutan has %d banana.\n", "Orangutan has %d bananas.\n"],
+        )
+
+    def test_translate_unit(self):
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # Changing state only
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20"},
+        )
+        # Changing target only
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"target": "Test translation"},
+        )
+        # Performing update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            request={"state": "20", "target": "Test translation"},
+        )
+        # Invalid state changes
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "100", "target": "Test read only translation"},
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "0", "target": "Test read only translation"},
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": ""},
+        )
+        unit = Unit.objects.get(pk=unit.pk)
+        # The auto fixer adds the trailing newline
+        self.assertEqual(unit.target, "Test translation\n")
+
+    def test_unit_review(self):
+        self.component.project.translation_review = True
+        self.component.project.save()
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        # Changing to approved is not allowed without perms
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            request={"state": "30", "target": "Test translation"},
+        )
+        self.assertFalse(Unit.objects.get(pk=unit.pk).approved)
+
+        # Changing state to approved
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"state": "30", "target": "Test translation"},
+        )
+        self.assertTrue(Unit.objects.get(pk=unit.pk).approved)
+
+        # Changing approved unit is not allowed
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            request={"state": "20", "target": "Test translation"},
+        )
+        self.assertTrue(Unit.objects.get(pk=unit.pk).approved)
+
+    def test_translate_source_unit(self):
+        unit = Unit.objects.get(
+            translation__language_code="en", source="Hello, world!\n"
+        )
+        # The params are silently ignored here
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            request={"state": "20", "target": "Test translation"},
+        )
+        unit = Unit.objects.get(pk=unit.pk)
+        self.assertEqual(unit.target, "Hello, world!\n")
+        # Actual update
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"explanation": "This is good explanation"},
+        )
+        # No permissions
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            request={"explanation": "This is wrong explanation"},
+        )
+        unit = Unit.objects.get(pk=unit.pk)
+        self.assertEqual(unit.explanation, "This is good explanation")
+
+    def test_translate_plural_unit(self):
+        unit = Unit.objects.get(
+            translation__language_code="cs", source__startswith="Orangutan has "
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            format="json",
+            request={"state": 20, "target": ["singular", "many", "other"]},
+        )
+        unit = Unit.objects.get(pk=unit.pk)
+        # The auto fixer adds the trailing newline
+        self.assertEqual(unit.get_target_plurals(), ["singular\n", "many\n", "other\n"])
 
 
 class ScreenshotAPITest(APIBaseTest):
