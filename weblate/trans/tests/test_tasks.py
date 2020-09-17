@@ -40,10 +40,10 @@ class CleanupTest(ViewTestCase):
         unit = self.get_unit()
 
         # Add two suggestions
-        Suggestion.objects.add(unit, "Zkouška", request)
-        Suggestion.objects.add(unit, "zkouška", request)
+        Suggestion.objects.add(unit, "Zkouška\n", request)
+        Suggestion.objects.add(unit, "zkouška\n", request)
         # This should be ignored
-        Suggestion.objects.add(unit, "zkouška", request)
+        Suggestion.objects.add(unit, "zkouška\n", request)
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Perform cleanup, no suggestions should be deleted
@@ -51,7 +51,7 @@ class CleanupTest(ViewTestCase):
         self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Translate string to one of suggestions
-        unit.translate(self.user, "zkouška", STATE_TRANSLATED)
+        unit.translate(self.user, "zkouška\n", STATE_TRANSLATED)
 
         # The cleanup should remove one
         cleanup_suggestions()

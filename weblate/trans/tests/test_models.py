@@ -334,15 +334,15 @@ class UnitTest(ModelTestCase):
     def test_newlines(self):
         user = create_test_user()
         unit = Unit.objects.filter(translation__language_code="cs")[0]
-        unit.translate(user, "new\nstring", STATE_TRANSLATED)
-        self.assertEqual(unit.target, "new\nstring")
+        unit.translate(user, "new\nstring\n", STATE_TRANSLATED)
+        self.assertEqual(unit.target, "new\nstring\n")
         # New object to clear all_flags cache
         unit = Unit.objects.get(pk=unit.pk)
         unit.flags = "dos-eol"
         unit.translate(user, "new\nstring", STATE_TRANSLATED)
-        self.assertEqual(unit.target, "new\r\nstring")
+        self.assertEqual(unit.target, "new\r\nstring\r\n")
         unit.translate(user, "other\r\nstring", STATE_TRANSLATED)
-        self.assertEqual(unit.target, "other\r\nstring")
+        self.assertEqual(unit.target, "other\r\nstring\r\n")
 
     def test_flags(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
