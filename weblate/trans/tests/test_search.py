@@ -166,16 +166,13 @@ class SearchViewTest(ViewTestCase):
         unit = self.translation.unit_set.get(
             source="Try Weblate at <https://demo.weblate.org/>!\n"
         )
-        response = self.do_search({"checksum": unit.checksum}, "3 / 4")
-        # Extract search ID
-        params = self.extract_params(response)
-        # Navigation
-        params["offset"] = 1
-        response = self.do_search(params, "1 / 4")
-        params["offset"] = 4
-        response = self.do_search(params, "4 / 4")
-        params["offset"] = 5
-        response = self.do_search(params, None)
+        self.do_search({"checksum": unit.checksum}, "3 / 4")
+
+    def test_search_offset(self):
+        """Test offset navigation."""
+        self.do_search({"offset": 1}, "1 / 4")
+        self.do_search({"offset": 4}, "4 / 4")
+        self.do_search({"offset": 5}, None)
 
     def test_search_type(self):
         self.do_search({"q": "state:<translated"}, "Strings needing action")
