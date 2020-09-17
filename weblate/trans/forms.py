@@ -709,7 +709,7 @@ class SearchForm(forms.Form):
     def items(self):
         items = []
         # Skip checksum and offset as these change
-        ignored = {"offset"}
+        ignored = {"offset", "checksum"}
         for param in sorted(self.cleaned_data):
             value = self.cleaned_data[param]
             # We don't care about empty values or ignored
@@ -719,8 +719,6 @@ class SearchForm(forms.Form):
                 # Only store true values
                 if value:
                     items.append((param, "1"))
-            elif param == "checksum":
-                items.append((param, hash_to_checksum(value)))
             elif isinstance(value, int):
                 # Avoid storing 0 values
                 if value > 0:
@@ -746,6 +744,7 @@ class SearchForm(forms.Form):
         """Reset offset to avoid using form as default for new search."""
         data = copy.copy(self.data)
         data["offset"] = "1"
+        data["checksum"] = ""
         self.data = data
         return self
 
