@@ -43,7 +43,6 @@ from weblate.glossary.forms import TermForm
 from weblate.glossary.models import Term
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
@@ -243,15 +242,10 @@ def perform_translation(unit, form, request):
     # Remember old checks
     oldchecks = unit.all_checks_names
 
-    # Run AutoFixes on user input
-    if not unit.translation.is_template:
-        new_target, fixups = fix_target(form.cleaned_data["target"], unit)
-    else:
-        new_target = form.cleaned_data["target"]
-        fixups = []
-
     # Save
-    saved = unit.translate(request.user, new_target, form.cleaned_data["state"])
+    saved = unit.translate(
+        request.user, form.cleaned_data["target"], form.cleaned_data["state"]
+    )
 
     # Should we skip to next entry
     if not saved:
@@ -259,11 +253,11 @@ def perform_translation(unit, form, request):
         return True
 
     # Warn about applied fixups
-    if fixups:
+    if unit.fixups:
         messages.info(
             request,
             _("Following fixups were applied to translation: %s")
-            % ", ".join(force_str(f) for f in fixups),
+            % ", ".join(force_str(f) for f in unit.fixups),
         )
 
     # Get new set of checks

@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
 from copy import copy
 
@@ -33,6 +32,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import update_memory
+from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
@@ -339,6 +339,7 @@ class Unit(models.Model, LoggerMixin):
         self.is_bulk_edit = False
         self.source_updated = False
         self.check_cache = {}
+        self.fixups = []
 
     @property
     def approved(self):
@@ -953,6 +954,10 @@ class Unit(models.Model, LoggerMixin):
         """Store new translation of a unit."""
         # Fetch current copy from database and lock it for update
         self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+
+        # Apply autofixes
+        if not self.translation.is_template:
+            new_target, self.fixups = fix_target(new_target, self)
 
         # Update unit and save it
         if isinstance(new_target, str):
