@@ -665,12 +665,11 @@ class SearchForm(forms.Form):
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
     offset_kwargs = {}
 
-    def __init__(self, user, language=None, *args, **kwargs):
+    def __init__(self, user, language=None, show_builder=True, **kwargs):
         """Generate choices for other component in same project."""
         self.user = user
         self.language = language
-        show_builder = kwargs.pop("show_builder", True)
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
