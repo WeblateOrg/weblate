@@ -333,7 +333,9 @@ class SourceUnitTest(ModelTestCase):
 class UnitTest(ModelTestCase):
     def test_newlines(self):
         user = create_test_user()
-        unit = Unit.objects.filter(translation__language_code="cs")[0]
+        unit = Unit.objects.filter(
+            translation__language_code="cs", source="Hello, world!\n"
+        )[0]
         unit.translate(user, "new\nstring\n", STATE_TRANSLATED)
         self.assertEqual(unit.target, "new\nstring\n")
         # New object to clear all_flags cache
