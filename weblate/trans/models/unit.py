@@ -133,9 +133,9 @@ class UnitQuerySet(models.QuerySet):
         component = translation.component
         result = self.filter(
             content_hash=unit.content_hash,
-            translation__component__project=component.project,
-            translation__language=translation.language,
-            translation__component__source_language=component.source_language,
+            translation__component__project_id=component.project_id,
+            translation__language_id=translation.language_id,
+            translation__component__source_language_id=component.source_language_id,
         )
         if exclude:
             result = result.exclude(pk=unit.id)
@@ -1025,7 +1025,7 @@ class Unit(models.Model, LoggerMixin):
                 translation__language__in=secondary_langs,
             ).exclude(
                 target="",
-                translation__language=component.source_language,
+                translation__language_id=component.source_language_id,
             )
         )
 

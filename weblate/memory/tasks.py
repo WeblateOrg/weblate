@@ -41,7 +41,9 @@ def import_memory(project_id, component_id=None):
                 translation__component=component, state__gte=STATE_TRANSLATED
             )
             if not component.intermediate:
-                units = units.exclude(translation__language=component.source_language)
+                units = units.exclude(
+                    translation__language_id=component.source_language_id
+                )
             for unit in units.prefetch_related("translation", "translation__language"):
                 update_memory(None, unit, component, project)
 

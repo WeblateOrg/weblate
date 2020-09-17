@@ -226,7 +226,7 @@ class ComponentQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         for component in self:
             lookup[component.id] = component
             filters |= Q(component_id=component.id) & Q(
-                language_id=component.source_language.id
+                language_id=component.source_language_id
             )
 
         if lookup:
@@ -885,7 +885,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if "source_translation" in self.__dict__:
             return self.__dict__["source_translation"]
         try:
-            result = self.translation_set.get(language=self.source_language)
+            result = self.translation_set.get(language_id=self.source_language_id)
             self.__dict__["source_translation"] = result
             return result
         except ObjectDoesNotExist:
@@ -893,16 +893,17 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     @cached_property
     def source_translation(self):
-        language = self.source_language
-        return self.translation_set.get_or_create(
-            language=language,
-            defaults={
-                "check_flags": "read-only",
-                "filename": self.template,
-                "plural": language.plural,
-                "language_code": language.code,
-            },
-        )[0]
+        try:
+            return self.translation_set.get(language_id=self.source_language_id)
+        except ObjectDoesNotExist:
+            language = self.source_language
+            return self.translation_set.create(
+                language=language,
+                check_flags="read-only",
+                filename=self.template,
+                plural_id=language.plural_id,
+                language_code=language.code,
+            )
 
     def preload_sources(self):
         """Preload source objects to improve performance on load."""
@@ -2360,7 +2361,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Pick random translation with translated strings except source one
         translation = (
             self.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
-            .exclude(language=self.source_language)
+            .exclude(language_id=self.source_language_id)
             .first()
         )
         if translation:
