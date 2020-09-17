@@ -22,7 +22,7 @@ import django.views.i18n
 import django.views.static
 from django.conf import settings
 from django.urls import include, path, re_path
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
 
@@ -1053,18 +1053,24 @@ real_patterns = [
     ),
     path(
         "robots.txt",
-        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+        cache_control(max_age=86400)(
+            TemplateView.as_view(template_name="robots.txt", content_type="text/plain")
+        ),
     ),
     path(
         "browserconfig.xml",
-        TemplateView.as_view(
-            template_name="browserconfig.xml", content_type="application/xml"
+        cache_control(max_age=86400)(
+            TemplateView.as_view(
+                template_name="browserconfig.xml", content_type="application/xml"
+            )
         ),
     ),
     path(
         "site.webmanifest",
-        TemplateView.as_view(
-            template_name="site.webmanifest", content_type="application/json"
+        cache_control(max_age=86400)(
+            TemplateView.as_view(
+                template_name="site.webmanifest", content_type="application/json"
+            )
         ),
     ),
 ]
