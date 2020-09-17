@@ -1859,8 +1859,10 @@ Units
     :>json int num_words: number of source words
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
+    :>json string explanation: String explanation, available on source units, see :ref:`additional`
+    :>json string extra_flags: Additiona string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
-    :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:id)/`
+    :>json string souce_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
 
 Changes
 +++++++

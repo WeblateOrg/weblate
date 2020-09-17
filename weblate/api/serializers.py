@@ -727,6 +727,9 @@ class UnitSerializer(RemovableSerializer):
         ),
         strip_parts=1,
     )
+    source_unit = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:unit-detail"
+    )
 
     class Meta:
         model = Unit
@@ -749,10 +752,13 @@ class UnitSerializer(RemovableSerializer):
             "has_comment",
             "has_failing_check",
             "num_words",
+            "source_unit",
             "priority",
             "id",
             "web_url",
             "url",
+            "explanation",
+            "extra_flags",
         )
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
