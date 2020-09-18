@@ -789,9 +789,9 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
         self.perm_check(request)
 
         try:
-            project = Project.objects.get(slug=project_slug)
-        except (Project.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error))
+            project = obj.links.get(slug=project_slug)
+        except Project.DoesNotExist:
+            raise Http404("Project not found")
         obj.links.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -818,7 +818,7 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
     @action(
         detail=True,
         methods=["get", "put", "patch", "delete"],
-        url_path="terms/(?P<term_id>[^/.]+)",
+        url_path="terms/(?P<term_id>[0-9]+)",
         serializer_class=TermSerializer,
     )
     def terms_details(self, request, id, term_id):
