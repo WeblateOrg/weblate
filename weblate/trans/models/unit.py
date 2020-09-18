@@ -1049,7 +1049,7 @@ class Unit(models.Model, LoggerMixin):
             )
             .exclude(
                 target="",
-                translation__language_id=component.source_language_id,
+                pk=self.pk,
             )
             .select_related(
                 "source_unit",
