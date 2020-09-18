@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-13 13:53+0200\n"
-"PO-Revision-Date: 2020-09-16 06:50+0000\n"
+"PO-Revision-Date: 2020-09-18 23:36+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -23563,7 +23563,7 @@ msgstr ""
 
 #: ../../formats.rst:4 ../../user/files.rst:39
 msgid "Supported file formats"
-msgstr ""
+msgstr "Formats de fichiers pris en charge"
 
 #: ../../formats.rst:6
 msgid ""
@@ -23571,10 +23571,13 @@ msgid ""
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
 msgstr ""
+"Weblate prend en charge la plupart des formats de traduction compris par "
+"translate-toolkit, cependant chaque format étant légèrement différent, "
+"certains problèmes peuvent survenir avec des formats peu testés."
 
 #: ../../formats.rst:12 ../../formats.rst:1329
 msgid ":doc:`tt:formats/index`"
-msgstr ""
+msgstr ":doc:`tt:formats/index`"
 
 #: ../../formats.rst:16
 msgid ""
@@ -23583,10 +23586,15 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"Lorsque vous choisissez un format de fichier pour votre demande, il est "
+"préférable de conserver un format bien établi dans la boîte à outils/"
+"plateforme que vous utilisez. De cette façon, vos traducteurs pourront "
+"utiliser les outils auxquels ils sont habitués et contribueront plus "
+"probablement à votre projet."
 
 #: ../../formats.rst:25
 msgid "Bilingual and monolingual formats"
-msgstr ""
+msgstr "Formats monolingues et bilingues"
 
 #: ../../formats.rst:27
 msgid ""
@@ -23599,6 +23607,15 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
+"Les formats :index:`monolingues <pair: traduction; monolingues>` et :index:`"
+"bilingues <pair: traduction; bilingues>` sont prises en charge. Les formats "
+"bilingues stockent deux langues dans un seul fichier — source et traduction ("
+"exemples typiques : :ref:`gettext`, :ref:`xliff` ou :ref:`apple`). D’autre "
+"part, les formats monolingues identifient la chaîne par un identifiant, et "
+"chaque fichier de langue ne contient que la correspondance de ces derniers "
+"avec une langue donnée (exemple typique : :ref:`aresource`). Certains "
+"formats de fichiers sont utilisés dans les deux variantes, veuillez "
+"consulter la description détaillée figurant ci-dessous."
 
 #: ../../formats.rst:35
 msgid ""
@@ -23607,6 +23624,10 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"Pour une utilisation correcte des fichiers monolingues, Weblate nécessite l’"
+"accès à un fichier contenant la liste complète des chaînes de caractères à "
+"traduire avec leur source — ce fichier est appelé :ref:`component-template` "
+"dans Weblate, bien que le nom puisse varier selon votre paradigme."
 
 #: ../../formats.rst:40
 msgid ""
@@ -23614,6 +23635,9 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"De plus, ce flux de travail peut être étendu en utilisant un :ref:`component-"
+"intermediate` pour inclure des chaînes fournies par les développeurs, mais "
+"qui ne doivent pas être utilisées telles quelles dans les chaînes finales."
 
 #: ../../formats.rst:45
 msgid "Automatic detection"
@@ -23625,50 +23649,54 @@ msgid ""
 "detection can harm your performance and will limit features specific to "
 "given file format (for example automatic addition of new translations)."
 msgstr ""
+"Weblate peut détecter automatiquement plusieurs formats de fichiers "
+"répandus, mais cette détection peut nuire aux performances et limitera les "
+"fonctionnalités spécifiques à un format de fichier donné (par exemple l’"
+"ajout automatique de nouvelles traductions)."
 
 #: ../../formats.rst:54
 msgid "Translation types capabilities"
-msgstr ""
+msgstr "Fonctionnalités des types de traduction"
 
 #: ../../formats.rst:56
 msgid "Capabilities of all supported formats:"
-msgstr ""
+msgstr "Fonctionnalités de chacun des formats pris en charge :"
 
 #: ../../formats.rst:59
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: ../../formats.rst:59
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "Type [#m]_"
 
 #: ../../formats.rst:59
 msgid "Plurals [#p]_"
-msgstr ""
+msgstr "Pluriels [#p]_"
 
 #: ../../formats.rst:59
 msgid "Comments [#n]_"
-msgstr ""
+msgstr "Commentaires [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
-msgstr ""
+msgstr "Contexte [#c]_"
 
 #: ../../formats.rst:59
 msgid "Location [#l]_"
-msgstr ""
+msgstr "Emplacement [#l]_"
 
 #: ../../formats.rst:59
 msgid "Flags [#f]_"
-msgstr ""
+msgstr "Drapeaux [#f]_"
 
 #: ../../formats.rst:59
 msgid "Additional states [#a]_"
-msgstr ""
+msgstr "États supplémentaires [#a]_"
 
 #: ../../formats.rst:61 ../../formats.rst:77
 msgid "bilingual"
-msgstr ""
+msgstr "bilingue"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:65
 #: ../../formats.rst:67 ../../formats.rst:69 ../../formats.rst:71
@@ -23678,20 +23706,20 @@ msgstr ""
 #: ../../formats.rst:93 ../../formats.rst:95 ../../formats.rst:97
 #: ../../formats.rst:103 ../../formats.rst:105 ../../formats.rst:109
 msgid "yes"
-msgstr ""
+msgstr "oui"
 
 #: ../../formats.rst:61 ../../formats.rst:63
 msgid "yes [#po]_"
-msgstr ""
+msgstr "oui [#po]_"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:73
 #: ../../formats.rst:93 ../../formats.rst:105
 msgid "needs editing"
-msgstr ""
+msgstr "à vérifier"
 
 #: ../../formats.rst:63
 msgid ":ref:`mono_gettext`"
-msgstr ""
+msgstr ":ref:`mono_gettext`"
 
 #: ../../formats.rst:63 ../../formats.rst:69 ../../formats.rst:71
 #: ../../formats.rst:75 ../../formats.rst:79 ../../formats.rst:81
@@ -23703,28 +23731,28 @@ msgstr ""
 #: ../../formats.rst:113 ../../formats.rst:115 ../../formats.rst:117
 #: ../../formats.rst:119
 msgid "mono"
-msgstr ""
+msgstr "monolingue"
 
 #: ../../formats.rst:65
 msgid ":ref:`xliff`"
-msgstr ""
+msgstr ":ref:`xliff`"
 
 #: ../../formats.rst:65 ../../formats.rst:67 ../../formats.rst:73
 msgid "both"
-msgstr ""
+msgstr "les deux"
 
 #: ../../formats.rst:65 ../../formats.rst:73 ../../formats.rst:75
 #: ../../formats.rst:91 ../../formats.rst:101
 msgid "yes [#xl]_"
-msgstr ""
+msgstr "oui [#xl]_"
 
 #: ../../formats.rst:65
 msgid "needs editing, approved"
-msgstr ""
+msgstr "à vérifier, approuver"
 
 #: ../../formats.rst:67
 msgid ":ref:`javaprop`"
-msgstr ""
+msgstr ":ref:`javaprop`"
 
 #: ../../formats.rst:67 ../../formats.rst:69 ../../formats.rst:71
 #: ../../formats.rst:73 ../../formats.rst:75 ../../formats.rst:77
@@ -23736,108 +23764,112 @@ msgstr ""
 #: ../../formats.rst:109 ../../formats.rst:111 ../../formats.rst:113
 #: ../../formats.rst:115 ../../formats.rst:117 ../../formats.rst:119
 msgid "no"
-msgstr ""
+msgstr "non"
 
 #: ../../formats.rst:69
 msgid ":ref:`gwt`"
-msgstr ""
+msgstr ":ref:`gwt`"
 
 #: ../../formats.rst:71
 msgid ":ref:`joomla`"
-msgstr ""
+msgstr ":ref:`joomla`"
 
 #: ../../formats.rst:75
 msgid "yes [#x]_"
-msgstr ""
+msgstr "oui [#x]_"
 
 #: ../../formats.rst:79
 msgid ":ref:`php`"
-msgstr ""
+msgstr ":ref:`php`"
 
 #: ../../formats.rst:79
 msgid "no [#lp]_"
-msgstr ""
+msgstr "non [#lp]_"
 
 #: ../../formats.rst:81
 msgid ":ref:`json`"
-msgstr ""
+msgstr ":ref:`json`"
 
 #: ../../formats.rst:83 ../../formats.rst:755
 msgid ":ref:`js-i18next`"
-msgstr ""
+msgstr ":ref:`js-i18next`"
 
 #: ../../formats.rst:85 ../../formats.rst:756
 msgid ":ref:`go-i18n-json`"
-msgstr ""
+msgstr ":ref:`go-i18n-json`"
 
 #: ../../formats.rst:87 ../../formats.rst:758
 msgid ":ref:`arb`"
-msgstr ""
+msgstr ":ref:`arb`"
 
 #: ../../formats.rst:93
 msgid ":ref:`csv`"
-msgstr ""
+msgstr ":ref:`csv`"
 
 #: ../../formats.rst:95
 msgid ":ref:`yaml`"
-msgstr ""
+msgstr ":ref:`yaml`"
 
 #: ../../formats.rst:99
 msgid ":ref:`dtd`"
-msgstr ""
+msgstr ":ref:`dtd`"
 
 #: ../../formats.rst:101
 msgid ":ref:`flatxml`"
-msgstr ""
+msgstr ":ref:`flatxml`"
 
 #: ../../formats.rst:103
 msgid ":ref:`winrc`"
-msgstr ""
+msgstr ":ref:`winrc`"
 
 #: ../../formats.rst:105
 msgid ":ref:`xlsx`"
-msgstr ""
+msgstr ":ref:`xlsx`"
 
 #: ../../formats.rst:107
 msgid ":ref:`appstore`"
-msgstr ""
+msgstr ":ref:`appstore`"
 
 #: ../../formats.rst:109
 msgid ":ref:`subtitles`"
-msgstr ""
+msgstr ":ref:`subtitles`"
 
 #: ../../formats.rst:111
 msgid ":ref:`html`"
-msgstr ""
+msgstr ":ref:`html`"
 
 #: ../../formats.rst:113
 msgid ":ref:`odf`"
-msgstr ""
+msgstr ":ref:`odf`"
 
 #: ../../formats.rst:115
 msgid ":ref:`idml`"
-msgstr ""
+msgstr ":ref:`idml`"
 
 #: ../../formats.rst:117
 msgid ":ref:`ini`"
-msgstr ""
+msgstr ":ref:`ini`"
 
 #: ../../formats.rst:119
 msgid ":ref:`islu`"
-msgstr ""
+msgstr ":ref:`islu`"
 
 #: ../../formats.rst:122
 msgid "See :ref:`bimono`"
-msgstr ""
+msgstr "Voir :ref:`bimono`"
 
 #: ../../formats.rst:123
 msgid "Plurals are necessary to properly localize strings with variable count."
 msgstr ""
+"Les pluriels sont nécessaires pour traduire correctement les chaînes de "
+"caractères à nombre variable."
 
 #: ../../formats.rst:124
 msgid ""
 "Comments can be used to pass additional info about the string to translate."
 msgstr ""
+"Les commentaires peuvent être utilisés pour transmettre des informations "
+"supplémentaires sur la chaîne à traduire."
 
 #: ../../formats.rst:125
 msgid ""
@@ -23845,32 +23877,41 @@ msgid ""
 "(for example `Sun` can be used as an abbreviated name of the day \"Sunday\" "
 "or as the name of our closest star)."
 msgstr ""
+"Le contexte est utilisé pour différencier des chaînes identiques utilisées "
+"dans des endroits différents (par exemple `Mer` peut être utilisé comme "
+"abrégé de « mercredi » ou comme nom pour une étendue d’eau)."
 
 #: ../../formats.rst:126
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
 msgstr ""
+"L’emplacement d’une chaîne dans le code source peut aider les traducteurs "
+"compétents à comprendre comment la chaîne est utilisée."
 
 #: ../../formats.rst:127
 msgid ""
 "Additional states supported by the file format in addition to \"Not "
 "translated\" and \"Translated\"."
 msgstr ""
+"États supplémentaires pris en charge par le format de fichier en plus de « "
+"Non traduit » et « Traduit »."
 
 #: ../../formats.rst:128
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a developer "
 "comment."
 msgstr ""
+"Commentaire XML placé avant l’élément ``<string>``, analysé comme un "
+"commentaire du développeur."
 
 #: ../../formats.rst:129
 msgid "See :ref:`custom-checks`"
-msgstr ""
+msgstr "Voir :ref:`custom-checks`"
 
 #: ../../formats.rst:130
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "Les commentaires de type gettext sont utilisés comme des drapeaux."
 
 #: ../../formats.rst:131
 msgid ""
@@ -23880,32 +23921,46 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
+"Les drapeaux sont extraits de l'attribut non standard ``weblate-flags`` pour "
+"tous les formats basés sur XML. En outre, l'attribut ``max-length:N`` est "
+"pris en charge à travers l'attribut ``maxwidth`` `attribute <http://docs."
+"oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ tel que défini dans "
+"la norme XLIFF, voir :ref:`xliff-flags`."
 
 #: ../../formats.rst:132
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
+"Les pluriels ne sont supportés que pour Laravel qui les utilise dans la "
+"syntaxe des chaînes de caractères pour les définir, voir `Localization in "
+"Laravel`_."
 
 #: ../../formats.rst:137
 msgid "GNU gettext"
-msgstr ""
+msgstr "GNU gettext"
 
 #: ../../formats.rst:143
 msgid ""
 "Most widely used format for translating libre software. This was first "
 "format supported by Weblate and still has the best support."
 msgstr ""
+"Format le plus utilisé pour la traduction de logiciels libres. Ce format a "
+"été le premier à être pris en charge par Weblate et reste le mieux pris en "
+"charge."
 
 #: ../../formats.rst:146
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"Les informations contextuelles stockées dans le fichier sont prises en "
+"charge en ajustant ses en-têtes ou en établissant des liens avec les "
+"fichiers sources correspondants."
 
 #: ../../formats.rst:149
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Un fichier PO gettext bilingue ressemble généralement à ceci :"
 
 #: ../../formats.rst:167 ../../formats.rst:233 ../../formats.rst:392
 #: ../../formats.rst:423 ../../formats.rst:456 ../../formats.rst:493
@@ -23916,7 +23971,7 @@ msgstr ""
 #: ../../formats.rst:1089 ../../formats.rst:1118 ../../formats.rst:1147
 #: ../../formats.rst:1182 ../../formats.rst:1213 ../../formats.rst:1239
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr ":ref:`component` typique de Weblate"
 
 #: ../../formats.rst:169 ../../formats.rst:235 ../../formats.rst:341
 #: ../../formats.rst:394 ../../formats.rst:425 ../../formats.rst:458
@@ -23938,15 +23993,15 @@ msgstr "Motif de fichier"
 #: ../../formats.rst:980 ../../formats.rst:1028 ../../formats.rst:1062
 #: ../../formats.rst:1095 ../../formats.rst:1124 ../../formats.rst:1153
 msgid "`Empty`"
-msgstr ""
+msgstr "`Vide`"
 
 #: ../../formats.rst:173 ../../formats.rst:239
 msgid "``po/messages.pot``"
-msgstr ""
+msgstr "``po/messages.pot``"
 
 #: ../../formats.rst:175
 msgid "`Gettext PO file`"
-msgstr ""
+msgstr "`Fichier gettext PO`"
 
 #: ../../formats.rst:180
 msgid ""
@@ -23956,10 +24011,15 @@ msgid ""
 "weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
 "weblate.gettext.msgmerge`"
 msgstr ""
+":doc:`devel/gettext`, :doc:`devel/sphinx`, `Gettext on Wikipedia <https://en."
+"wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-weblate."
+"gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref:`addon-"
+"weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
+"weblate.gettext.msgmerge`"
 
 #: ../../formats.rst:193
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "Gettext monolingue"
 
 #: ../../formats.rst:195
 msgid ""
@@ -23968,22 +24028,27 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"Certains projets décident d’utiliser gettext comme format monolingue — ils "
+"codifient uniquement les identifiants dans leur code source et la chaîne "
+"doit ensuite être traduite dans toutes les langues, y compris en anglais. "
+"Cela est pris en charge, mais il est nécessaire d’explicitement choisir ce "
+"format de fichier lors de l’importation du composant dans Weblate."
 
 #: ../../formats.rst:200
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Un fichier gettext PO monolingue ressemble généralement à ceci :"
 
 #: ../../formats.rst:216
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "Tandis que le fichier de langue de base ressemblera à ceci :"
 
 #: ../../formats.rst:237
 msgid "``po/en.po``"
-msgstr ""
+msgstr "``po/en.po``"
 
 #: ../../formats.rst:241
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`Fichier gettext PO (monolingue)`"
 
 #: ../../formats.rst:247
 msgid "XLIFF"
@@ -23994,24 +24059,32 @@ msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
 msgstr ""
+"Format basé sur XML créé pour normaliser les fichiers de traduction, mais en "
+"fin de compte, ce n’est qu’une des trop `nombreuses normes <https://xkcd.com/"
+"927/>`_ du domaine."
 
 #: ../../formats.rst:255
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
+"`XML Localization Interchange File Format (XLIFF)` est généralement utilisé "
+"comme fichier bilingue, mais Weblate prend également en charge la version "
+"monolingue."
 
 #: ../../formats.rst:259
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
 msgstr ""
+"Spécification du format de fichier `XML Localization Interchange File Format "
+"(XLIFF)`"
 
 #: ../../formats.rst:265 ../../workflows.rst:24
 msgid "Translation states"
-msgstr ""
+msgstr "États de traduction"
 
 #: ../../formats.rst:269
 msgid "Weblate ignored the state attribute prior to the 3.3 release."
-msgstr ""
+msgstr "Weblate ignorait l’attribut d’état avant la version 3.3."
 
 #: ../../formats.rst:271
 msgid ""
@@ -27102,7 +27175,7 @@ msgstr ""
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
-msgstr ""
+msgstr "Inscription et profil utilisateur"
 
 #: ../../user/profile.rst:7
 msgid ""
@@ -27110,22 +27183,32 @@ msgid ""
 "default. Only registered users are allowed to actually save changes, and are "
 "credited for every translation made."
 msgstr ""
+"Tout le monde peut parcourir les projets, voir les traductions ou suggérer "
+"des traductions par défaut. Seuls les utilisateurs enregistrés sont "
+"autorisés à enregistrer les modifications et sont crédités pour chaque "
+"traduction effectuée."
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr ""
+msgstr "Vous pouvez vous inscrire en suivant les étapes suivantes :"
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
 msgstr ""
+"Remplissez le formulaire d’inscription avec vos informations "
+"d’identification."
 
 #: ../../user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
 msgstr ""
+"Activez l’inscription en suivant le lien figurant dans le courriel que vous "
+"recevez."
 
 #: ../../user/profile.rst:15
 msgid "Optionally adjust your profile to choose which languages you know."
 msgstr ""
+"Ajustez éventuellement votre profil pour choisir les langues que vous "
+"connaissez."
 
 #: ../../user/profile.rst:20
 msgid "Dashboard"
@@ -27136,26 +27219,35 @@ msgid ""
 "When you sign in, you will see an overview of projects and components, as "
 "well as their respective translation progression."
 msgstr ""
+"Lorsque vous vous connectez, vous verrez un aperçu des projets et des "
+"composants, ainsi que leur progression respective en matière de traduction."
 
 #: ../../user/profile.rst:27
 msgid ""
 "Components of projects you are watching are shown by default, and cross-"
 "referenced with your preferred languages."
 msgstr ""
+"Les composants des projets que vous regardez sont affichés par défaut et "
+"référencés avec vos langues préférées."
 
 #: ../../user/profile.rst:32
 msgid "You can switch to different views using the navigation tabs."
 msgstr ""
+"Vous pouvez passer d’une vue à l’autre en utilisant les onglets de "
+"navigation."
 
 #: ../../user/profile.rst:36
 msgid "The menu has these options:"
-msgstr ""
+msgstr "Le menu comporte les options suivantes :"
 
 #: ../../user/profile.rst:38
 msgid ""
 ":guilabel:`Projects` > :guilabel:`Browse all projects` in the main menu "
 "showing translation status for each project on the Weblate instance."
 msgstr ""
+":guilabel:`Projets` > :guilabel:`Parcourir tous les projets` dans le menu "
+"principal affichant l’état de la traduction pour chaque projet de l’instance "
+"Weblate."
 
 #: ../../user/profile.rst:40
 msgid ""
@@ -27163,6 +27255,9 @@ msgid ""
 "translation status of all projects, filtered by one of your primary "
 "languages."
 msgstr ""
+"En sélectionnant une langue dans le menu principal :guilabel:`Langues`, vous "
+"verrez l’état de la traduction de tous les projets, filtrés par une de vos "
+"langues principales."
 
 #: ../../user/profile.rst:42
 msgid ""
@@ -27170,6 +27265,9 @@ msgid ""
 "status of only those projects you are watching, filtered by your primary "
 "languages."
 msgstr ""
+":guilabel:`Traductions surveillées` dans le tableau de bord affichera l’état "
+"de la traduction des projets que vous surveillez, filtré par vos langues "
+"principales."
 
 #: ../../user/profile.rst:45
 msgid ""
@@ -27177,12 +27275,17 @@ msgid ""
 "sets of project components preconfigured by the Weblate administrator, see :"
 "ref:`componentlists`."
 msgstr ""
+"En outre, la liste déroulante peut également afficher un nombre quelconque "
+"de *liste de composants*, ensembles de composants de projet préconfigurés "
+"par l’administrateur Weblate, voir :ref:`componentlists`."
 
 #: ../../user/profile.rst:49
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
 msgstr ""
+"Vous pouvez configurer votre tableau de bord personnel dans la section "
+":guilabel:`Préférences` des paramètres de votre profil d’utilisateur."
 
 #: ../../user/profile.rst:54
 msgid ""
@@ -27191,6 +27294,10 @@ msgid ""
 "dashboard will not be shown, as the user will be redirected to a single "
 "project or component instead."
 msgstr ""
+"Lorsque Weblate est configuré pour un seul projet en utilisant "
+":setting:`SINGLE_PROJECT` dans le fichier :file:`settings.py` (voir "
+":ref:`config`), le tableau de bord ne sera pas affiché, car l’utilisateur "
+"sera redirigé vers l’unique projet ou composant à la place."
 
 #: ../../user/profile.rst:61
 msgid "User profile"
@@ -27201,22 +27308,31 @@ msgid ""
 "The user profile is accessible by clicking your user icon in the top-right "
 "of the top menu, then the :guilabel:`Settings` menu."
 msgstr ""
+"Le profil utilisateur est accessible en cliquant sur l’icône d’utilisateur "
+"en haut à droite du menu supérieur, puis sur le menu :guilabel:`Paramètres`."
 
 #: ../../user/profile.rst:65
 msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
+"Le profil utilisateur contient vos préférences. Le nom et l’adresse courriel "
+"utilisés dans les archivages du système de contrôle des versions, alors "
+"conservez ces informations exactes."
 
 #: ../../user/profile.rst:70
 msgid "All language selections only offer currently translated languages."
 msgstr ""
+"Toutes les sélections de langue ne proposent que les langues actuellement "
+"traduites."
 
 #: ../../user/profile.rst:74
 msgid ""
 "Request or add other languages you want to translate by clicking the button "
 "to make them available too."
 msgstr ""
+"Demandez ou ajoutez d’autres langues que vous souhaitez traduire en cliquant "
+"sur le bouton pour les rendre également disponibles."
 
 #: ../../user/profile.rst:78
 msgid "Translated languages"
@@ -27228,6 +27344,9 @@ msgid ""
 "the main page of watched projects, so that you have easier access to these "
 "all translations in each of those languages."
 msgstr ""
+"Choisissez les langues que vous préférez traduire, et elles seront proposées "
+"sur la page principale des projets surveillés, afin que vous puissiez "
+"accéder plus facilement à toutes ces traductions dans chacune de ces langues."
 
 #: ../../user/profile.rst:89
 msgid "Secondary languages"
@@ -27239,6 +27358,9 @@ msgid ""
 "translating. An example can be seen in the following image, where the Hebrew "
 "language is shown as secondarily:"
 msgstr ""
+"Vous pouvez définir les langues secondaires qui vous sont présentées à titre "
+"indicatif lors de la traduction. L’image suivante montre un exemple où l’"
+"hébreu est affiché comme langue secondaire :"
 
 #: ../../user/profile.rst:98
 msgid "Default dashboard view"
@@ -27251,10 +27373,15 @@ msgid ""
 "list`, you have to select which component list will be displayed from the :"
 "guilabel:`Default component list` drop-down."
 msgstr ""
+"Dans l’onglet :guilabel:`Préférences`, vous pouvez choisir laquelle des vues "
+"du tableau de bord disponibles doit être présentée par défaut. Si vous "
+"choisissez :guilabel:`Liste de composants`, vous devez sélectionner la liste "
+"des composants qui sera affichée dans la liste déroulante :guilabel:`Liste "
+"de composants par défaut`."
 
 #: ../../user/profile.rst:107
 msgid ":ref:`componentlists`"
-msgstr ""
+msgstr ":ref:`componentlists`"
 
 #: ../../user/profile.rst:110
 msgid "Public profile"
@@ -27275,34 +27402,47 @@ msgid ""
 "Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`). "
 "These images are obtained using https://gravatar.com/."
 msgstr ""
+"L’avatar peut être affiché pour chaque utilisateur (en fonction du paramètre "
+":setting:`ENABLE_AVATARS`). Les images sont obtenues en utilisant "
+"https://gravatar.com/."
 
 #: ../../user/profile.rst:120
 msgid "Editor link"
-msgstr "Lien de l’éditeur"
+msgstr "Lien vers l’éditeur"
 
 #: ../../user/profile.rst:122
 msgid ""
 "A source code link is shown in the web-browser configured in the :ref:"
 "`component` by default."
 msgstr ""
+"Un lien vers le code source est affiché dans le navigateur web configuré "
+"dans la :ref:`component` par défaut."
 
 #: ../../user/profile.rst:127
 msgid ""
 "By setting the :guilabel:`Editor link`, you use your local editor to open "
 "the VCS source code file of translated strings. You can use :ref:`markup`."
 msgstr ""
+"En définissant :guilabel:`Lien vers l’éditeur`, vous utilisez votre éditeur "
+"local pour ouvrir le fichier de code source des chaînes traduites du système "
+"de contrôle des versions. Vous pouvez utiliser :ref:`markup`."
 
 #: ../../user/profile.rst:130
 msgid ""
 "Usually something like ``editor://open/?file={{filename}}&line={{line}}`` is "
 "a good option."
 msgstr ""
+"En général, quelque chose comme ``editor://open/"
+"?file={{filename}}&line={{line}}`` est une bonne option."
 
 #: ../../user/profile.rst:134
 msgid ""
 "You can find more info on registering custom URL protocols for the editor in "
 "the `Nette documentation <https://tracy.nette.org/en/open-files-in-ide>`_."
 msgstr ""
+"Vous pouvez trouver plus d’informations sur l’enregistrement de protocoles "
+"URL personnalisés pour l’éditeur dans la documentation de `Nette "
+"documentation <https://tracy.nette.org/en/open-files-in-ide>`_."
 
 #: ../../user/profile.rst:140
 msgid "Notifications"
@@ -27314,6 +27454,10 @@ msgid ""
 "Notifications for selected events on watched or administered projects will "
 "be sent to you per e-mail."
 msgstr ""
+"Abonnez-vous aux différentes notifications de l’onglet "
+":guilabel:`Notifications`. Les notifications pour les évènements "
+"sélectionnés sur les projets surveillés ou administrés vous seront envoyées "
+"par courriel."
 
 #: ../../user/profile.rst:146
 msgid ""
@@ -27322,6 +27466,11 @@ msgid ""
 "level (for example merge errors). These two groups of notifications are "
 "visually separated in the settings."
 msgstr ""
+"Certaines notifications ne sont envoyées que pour des évènements dans vos "
+"langues (par exemple au sujet de nouvelles chaînes à traduire), tandis que d’"
+"autres se déclenchent au niveau des composants (par exemple des erreurs de "
+"fusion). Ces deux groupes de notifications sont visuellement séparés dans "
+"les paramètres."
 
 #: ../../user/profile.rst:151
 msgid ""
@@ -27330,10 +27479,15 @@ msgid ""
 "the component page and select appropriate choice from the :guilabel:"
 "`Watching` menu."
 msgstr ""
+"Vous pouvez basculer les notifications pour les projets surveillés et les "
+"projets administrés et il est possible de les modifier (ou de les mettre en "
+"sourdine) pour chaque projet et chaque composant. Visitez la page du "
+"composant et sélectionnez le choix approprié dans le menu "
+":guilabel:`Surveillé`."
 
 #: ../../user/profile.rst:157
 msgid "You will not receive notifications for your own actions."
-msgstr ""
+msgstr "Vous ne recevrez pas de notifications pour vos propres actions."
 
 #: ../../user/profile.rst:162
 msgid "Account"
@@ -27345,6 +27499,10 @@ msgid ""
 "various services you can use to sign in into Weblate, completely remove your "
 "account, or download your user data (see :ref:`schema-userdata`)."
 msgstr ""
+"L'onglet :guilabel:`Compte` vous permet de configurer les détails de base du "
+"compte, de connecter divers services que vous pouvez utiliser pour vous "
+"connecter à Weblate, de supprimer complètement votre compte ou de "
+"télécharger vos données utilisateur (voir :ref:`schema-userdata`)."
 
 #: ../../user/profile.rst:170
 msgid ""
@@ -27352,6 +27510,9 @@ msgid ""
 "to include popular sites such as GitLab, GitHub, Google, Facebook, or "
 "Bitbucket or other OAuth 2.0 providers."
 msgstr ""
+"La liste des services dépend de la configuration de votre Weblate, mais elle "
+"peut inclure des sites populaires tels que GitLab, GitHub, Google, Facebook, "
+"Bitbucket, ainsi que d’autres fournisseurs OAuth 2.0."
 
 #: ../../user/profile.rst:179
 msgid "Audit log"
@@ -27363,14 +27524,18 @@ msgid ""
 "address and browser for every important action with your account. The "
 "critical actions also trigger a notification to a primary e-mail address."
 msgstr ""
+"Le journal d’audit permet de suivre les actions effectuées avec votre "
+"compte. Il enregistre l’adresse IP et le navigateur pour chaque action "
+"importante effectuée avec votre compte. Les actions critiques déclenchent "
+"également une notification à l’adresse courriel principale."
 
 #: ../../user/profile.rst:187
 msgid ":ref:`reverse-proxy`"
-msgstr ""
+msgstr ":ref:`reverse-proxy`"
 
 #: ../../user/search.rst:2
 msgid "Searching"
-msgstr ""
+msgstr "Recherche"
 
 #: ../../user/search.rst:6
 msgid ""
