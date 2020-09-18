@@ -98,6 +98,15 @@ def change_component(request, project, component):
     else:
         form = ComponentSettingsForm(request, instance=obj)
 
+    if obj.repo_needs_merge():
+        messages.warning(
+            request,
+            _(
+                "The repository is outdated, you might not get "
+                "expected results until you update it."
+            ),
+        )
+
     return render(
         request,
         "component-settings.html",
