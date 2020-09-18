@@ -355,7 +355,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["get", "put", "patch", "delete"],
-        url_path="notifications/(?P<subscription_id>[^/.]+)",
+        url_path="notifications/(?P<subscription_id>[0-9]+)",
         serializer_class=NotificationSerializer,
     )
     def notifications_details(self, request, username, subscription_id):
@@ -500,7 +500,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[^/.]+)")
+    @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
     def delete_projects(self, request, id, project_id):
         obj = self.get_object()
         self.perm_check(request)
@@ -534,7 +534,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["delete"],
-        url_path="componentlists/(?P<component_list_id>[^/.]+)",
+        url_path="componentlists/(?P<component_list_id>[0-9]+)",
     )
     def delete_componentlists(self, request, id, component_list_id):
         obj = self.get_object()
@@ -570,7 +570,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
-        detail=True, methods=["delete"], url_path="components/(?P<component_id>[^/.]+)"
+        detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
     def delete_components(self, request, id, component_id):
         obj = self.get_object()
@@ -1132,7 +1132,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTP_200_OK)
 
-    @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[^/.]+)")
+    @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[0-9]+)")
     def delete_units(self, request, pk, unit_id):
         obj = self.get_object()
         if not request.user.has_perm("screenshot.edit", obj.component):
