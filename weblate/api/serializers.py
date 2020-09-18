@@ -606,11 +606,6 @@ class TranslationSerializer(RemovableSerializer):
         }
 
 
-class MonolingualUnitSerializer(serializers.Serializer):
-    key = serializers.CharField()
-    value = serializers.CharField()
-
-
 class ReadOnlySerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         return None
@@ -808,6 +803,11 @@ class UnitWriteSerializer(serializers.ModelSerializer):
             "target",
             "state",
         )
+
+
+class MonolingualUnitSerializer(serializers.Serializer):
+    key = serializers.CharField()
+    value = PluralField()
 
 
 class ScreenshotSerializer(RemovableSerializer):

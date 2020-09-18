@@ -21,7 +21,7 @@ import codecs
 import os
 import tempfile
 from datetime import datetime
-from typing import BinaryIO, Dict, Optional
+from typing import BinaryIO, Dict, List, Optional, Union
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -1041,8 +1041,8 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
         self,
         request,
         key: Optional[str],
-        value: Optional[str],
-        batch: Optional[Dict[str, str]] = None,
+        value: Optional[Union[str, List[str]]],
+        batch: Optional[Dict[str, Union[str, List[str]]]] = None,
     ):
         from weblate.auth.models import get_anonymous
 

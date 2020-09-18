@@ -1868,6 +1868,19 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "key", "value": "Source Language"},
             code=400,
         )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            format="json",
+            request={"key": "plural", "value": ["Source Language", "Source Lanugages"]},
+            code=200,
+        )
 
     def test_delete(self):
         self.assertEqual(Translation.objects.count(), 4)

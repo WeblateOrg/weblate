@@ -22,7 +22,7 @@ import os
 from collections import OrderedDict
 from glob import glob
 from itertools import chain
-from typing import Tuple
+from typing import List, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -188,7 +188,7 @@ class AppStoreFormat(TranslationFormat):
     def load(cls, storefile):
         return AppStoreParser(storefile)
 
-    def create_unit(self, key, source):
+    def create_unit(self, key: str, source: Union[str, List[str]]):
         raise ValueError("Create not supported")
 
     @classmethod

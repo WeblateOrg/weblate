@@ -24,7 +24,7 @@ import inspect
 import os
 import re
 import subprocess
-from typing import Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -319,13 +319,20 @@ class TTKitFormat(TranslationFormat):
 
         return True
 
-    def construct_unit(self, source):
+    def construct_unit(self, source: str):
         return self.store.UnitClass(source)
 
-    def create_unit(self, key, source):
-        unit = self.construct_unit(source)
+    def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
+        return key
+
+    def create_unit(self, key: str, source: Union[str, List[str]]):
+        if isinstance(source, list):
+            unit = self.construct_unit(source[0])
+            source = multistring(source)
+        else:
+            unit = self.construct_unit(source)
         unit.setid(key)
-        unit.source = key
+        unit.source = self.create_unit_key(key, source)
         unit.target = source
         return unit
 
@@ -930,6 +937,11 @@ class PoMonoFormat(BasePoFormat):
     )
     unit_class = PoMonoUnit
 
+    def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
+        if isinstance(source, list):
+            return multistring([key, f"{key}_plural"])
+        return key
+
 
 class TSFormat(TTKitFormat):
     name = _("Qt Linguist translation file")
@@ -955,7 +967,7 @@ class XliffFormat(TTKitFormat):
     unit_class = XliffUnit
     language_format = "bcp"
 
-    def create_unit(self, key, source):
+    def create_unit(self, key: str, source: Union[str, List[str]]):
         unit = super().create_unit(key, source)
         unit.marktranslated()
         unit.markapproved(False)
@@ -988,7 +1000,7 @@ class PropertiesBaseFormat(TTKitFormat):
         # Properties files do not expose mimetype
         return "text/plain"
 
-    def construct_unit(self, source):
+    def construct_unit(self, source: str):
         return self.store.UnitClass(source, personality=self.store.personality.name)
 
 
@@ -1418,7 +1430,7 @@ class INIFormat(TTKitFormat):
             unit.rich_target = unit.rich_source
         return store
 
-    def create_unit(self, key, source):
+    def create_unit(self, key: str, source: Union[str, List[str]]):
         unit = super().create_unit(key, source)
         unit.location = key
         return unit

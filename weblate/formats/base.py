@@ -22,7 +22,7 @@
 import os
 import tempfile
 from copy import deepcopy
-from typing import Dict, Optional, Tuple, Type, Union
+from typing import Dict, List, Optional, Tuple, Type, Union
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -455,10 +455,10 @@ class TranslationFormat:
 
             yield set_fuzzy, unit
 
-    def create_unit(self, key, source):
+    def create_unit(self, key: str, source: Union[str, List[str]]):
         raise NotImplementedError()
 
-    def new_unit(self, key, source):
+    def new_unit(self, key: str, source: Union[str, List[str]]):
         """Add new unit to monolingual store."""
         unit = self.create_unit(key, source)
         self.add_unit(unit)

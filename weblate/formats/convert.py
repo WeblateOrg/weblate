@@ -21,6 +21,7 @@
 import codecs
 import shutil
 from io import BytesIO
+from typing import List, Union
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -135,7 +136,7 @@ class ConvertFormat(TranslationFormat):
     def get_class(cls):
         return None
 
-    def create_unit(self, key, source):
+    def create_unit(self, key: str, source: Union[str, List[str]]):
         raise ValueError("Not supported")
 
 
