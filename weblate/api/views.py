@@ -372,8 +372,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
         try:
             subscription = obj.subscription_set.get(id=subscription_id)
-        except (Subscription.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+        except Subscription.DoesNotExist as error:
+            raise Http404(str(error))
 
         if request.method == "DELETE":
             self.perm_check(request)
@@ -481,9 +481,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         try:
-            language = Language.objects.get(code=language_code)
-        except (Language.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            language = obj.languages.get(code=language_code)
+        except Language.DoesNotExist as error:
+            raise Http404(str(error))
         obj.languages.remove(language)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -515,9 +515,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         try:
-            project = Project.objects.get(pk=int(project_id))
-        except (Project.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            project = obj.projects.get(pk=project_id)
+        except Project.DoesNotExist as error:
+            raise Http404(str(error))
         obj.projects.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -549,11 +549,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         self.perm_check(request)
         try:
-            component_list = ComponentList.objects.get(
-                pk=int(component_list_id),
-            )
-        except (ComponentList.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            component_list = obj.componentlists.get(pk=component_list_id)
+        except ComponentList.DoesNotExist as error:
+            raise Http404(str(error))
         obj.componentlists.remove(component_list)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -586,9 +584,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         try:
-            component = Component.objects.get(pk=int(component_id))
-        except (Component.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            component = obj.components.get(pk=component_id)
+        except Component.DoesNotExist as error:
+            raise Http404(str(error))
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -1218,11 +1216,9 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             raise PermissionDenied()
 
         try:
-            source_string = obj.component.source_translation.unit_set.get(
-                pk=int(unit_id)
-            )
-        except (Unit.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            source_string = obj.component.source_translation.unit_set.get(pk=unit_id)
+        except Unit.DoesNotExist as error:
+            raise Http404(str(error))
         obj.units.remove(source_string)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -1357,9 +1353,9 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         try:
-            component = Component.objects.get(slug=component_slug)
-        except (Component.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            component = obj.components.get(slug=component_slug)
+        except Component.DoesNotExist as error:
+            raise Http404(str(error))
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 

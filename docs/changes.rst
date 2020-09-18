@@ -19,6 +19,7 @@ Not yet released.
 * Added support for interacting with multiple GitLab or GitHub instances.
 * Extended API to cover project updates, unit updates.
 * Unit API now properly handles plural strings.
+* Consolidated API respons status codes.
 * Support markdown in contributor agreement.
 * Improved source strings tracking.
 

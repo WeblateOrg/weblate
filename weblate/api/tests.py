@@ -246,9 +246,9 @@ class UserAPITest(APIBaseTest):
         user = User.objects.filter(is_active=True).first()
         self.do_request(
             "api:user-notifications-details",
-            kwargs={"username": user.username, "subscription_id": -1},
+            kwargs={"username": user.username, "subscription_id": 1000},
             method="get",
-            code=400,
+            code=404,
         )
         self.do_request(
             "api:user-notifications-details",
@@ -466,10 +466,10 @@ class GroupAPITest(APIBaseTest):
         )
         self.do_request(
             "api:group-delete-components",
-            kwargs={"id": Group.objects.get(name="Users").id, "component_id": -1},
+            kwargs={"id": Group.objects.get(name="Users").id, "component_id": 1000},
             method="delete",
             superuser=True,
-            code=400,
+            code=404,
         )
         self.do_request(
             "api:group-delete-components",
@@ -528,10 +528,10 @@ class GroupAPITest(APIBaseTest):
         )
         self.do_request(
             "api:group-delete-projects",
-            kwargs={"id": Group.objects.get(name="Users").id, "project_id": -1},
+            kwargs={"id": Group.objects.get(name="Users").id, "project_id": 100000},
             method="delete",
             superuser=True,
-            code=400,
+            code=404,
         )
         self.do_request(
             "api:group-delete-projects",
@@ -593,7 +593,7 @@ class GroupAPITest(APIBaseTest):
             },
             method="delete",
             superuser=True,
-            code=400,
+            code=404,
         )
         self.do_request(
             "api:group-delete-languages",
@@ -652,10 +652,13 @@ class GroupAPITest(APIBaseTest):
         )
         self.do_request(
             "api:group-delete-componentlists",
-            kwargs={"id": Group.objects.get(name="Users").id, "component_list_id": -1},
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "component_list_id": 100000,
+            },
             method="delete",
             superuser=True,
-            code=400,
+            code=404,
         )
         self.do_request(
             "api:group-delete-componentlists",
@@ -2265,10 +2268,10 @@ class ScreenshotAPITest(APIBaseTest):
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
-                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": -1},
+                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": 100000},
             ),
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
@@ -2415,12 +2418,14 @@ class ComponentListAPITest(APIBaseTest):
             },
             method="delete",
             superuser=True,
-            code=400,
+            code=404,
         )
+        clist = ComponentList.objects.get()
+        clist.components.add(self.component)
         self.do_request(
             "api:componentlist-delete-components",
             kwargs={
-                "slug": ComponentList.objects.get().slug,
+                "slug": clist.slug,
                 "component_slug": self.component.slug,
             },
             method="delete",
