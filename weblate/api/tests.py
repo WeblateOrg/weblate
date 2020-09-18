@@ -1366,7 +1366,7 @@ class GlossaryAPITest(APIBaseTest):
                 },
             ),
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
         response = self.client.delete(
             reverse(
                 "api:glossary-delete-projects",
