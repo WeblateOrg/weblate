@@ -1422,9 +1422,9 @@ class GlossaryAPITest(APIBaseTest):
         ).data
         self.do_request(
             "api:glossary-terms-details",
-            kwargs={"id": Glossary.objects.order_by("id").all()[0].id, "term_id": -1},
+            kwargs={"id": Glossary.objects.order_by("id").all()[0].id, "term_id": 1000},
             method="get",
-            code=400,
+            code=404,
         )
         self.do_request(
             "api:glossary-terms-details",

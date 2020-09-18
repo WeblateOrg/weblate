@@ -826,8 +826,8 @@ class GlossaryViewSet(WeblateViewSet, UpdateModelMixin, DestroyModelMixin):
 
         try:
             term = obj.term_set.get(id=term_id)
-        except (Term.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error))
+        except Term.DoesNotExist:
+            raise Http404("Term not found")
 
         if request.method == "DELETE":
             self.term_perm_check(request, "glossary.delete", obj)
