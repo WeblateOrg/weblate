@@ -163,10 +163,11 @@ class RepoTestMixin:
             if key in self.__dict__:
                 del self.__dict__[key]
 
-        # Remove possibly existing project directory
-        test_repo_path = os.path.join(settings.DATA_DIR, "vcs", "test")
+        # Remove possibly existing project directories
+        test_repo_path = os.path.join(settings.DATA_DIR, "vcs")
         if os.path.exists(test_repo_path):
             shutil.rmtree(test_repo_path, onerror=remove_readonly)
+        os.makedirs(test_repo_path)
 
     def create_project(self, **kwargs):
         """Create test project."""
