@@ -925,10 +925,9 @@ class Unit(models.Model, LoggerMixin):
     def nearby(self, count):
         """Return list of nearby messages based on location."""
         return (
-            Unit.objects.prefetch()
+            self.translation.unit_set.prefetch()
             .order_by("position")
             .filter(
-                translation=self.translation,
                 position__gte=self.position - count,
                 position__lte=self.position + count,
             )
@@ -942,15 +941,15 @@ class Unit(models.Model, LoggerMixin):
         key_list = cache.get(key)
         if key_list is None or self.pk not in key_list or True:
             key_list = list(
-                Unit.objects.filter(translation=self.translation)
-                .order_by("context")
-                .values_list("id", flat=True)
+                self.translation.unit_set.order_by("context").values_list(
+                    "id", flat=True
+                )
             )
             cache.set(key, key_list)
         offset = key_list.index(self.pk)
         nearby = key_list[max(offset - count, 0) : offset + count]
         return (
-            Unit.objects.filter(translation=self.translation, id__in=nearby)
+            self.translation.unit_set.filter(id__in=nearby)
             .prefetch()
             .order_by("context")
         )
