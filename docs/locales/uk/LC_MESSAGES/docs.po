@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
 "PO-Revision-Date: 2020-09-20 18:44+0000\n"
-"Last-Translator: ihor_ck <igor_ck@outlook.com>\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -2460,15 +2460,6 @@ msgstr ""
 "Django:"
 
 #: ../../admin/auth.rst:471
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the "
-#| "``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set "
-#| "their password in Weblate, and authenticate using that. Keeping "
-#| "``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order "
-#| "to make permissions and facilitate anonymous users. It will also allow "
-#| "you to sign in using a local admin account, if you have created it (e.g. "
-#| "by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -2479,13 +2470,13 @@ msgid ""
 "djadmin:`createadmin`)."
 msgstr ""
 "Вам слід вилучити ``'social_core.backends.email.EmailAuth'`` з параметра "
-"``AUTHENTICATION_BACKENDS``, інакше користувачі зможу встановлювати пароль у "
-"Weblate і проходити розпізнавання за допомогою пароля. Збереження ``'weblate."
-"accounts.auth.WeblateUserBackend'`` все одно потрібен для того, щоб "
-"встановити права доступу і полегшити роботу із анонімними користувачами. Цей "
-"параметр також надає вам змогу входити до системи за допомогою локального "
-"адміністративного облікового запису, якщо ви його створили (наприклад, за "
-"допомогою :djadmin:`createadmin`)."
+":setting:`django:`AUTHENTICATION_BACKENDS`, інакше користувачі зможу "
+"встановлювати пароль у Weblate і проходити розпізнавання за допомогою "
+"пароля. Збереження ``'weblate.accounts.auth.WeblateUserBackend'`` все одно "
+"потрібен для того, щоб встановити права доступу і полегшити роботу із "
+"анонімними користувачами. Цей параметр також надає вам змогу входити до "
+"системи за допомогою локального адміністративного облікового запису, якщо ви "
+"його створили (наприклад, за допомогою :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
@@ -5043,19 +5034,14 @@ msgid "List for credentials for GitLab servers."
 msgstr "Список реєстраційних даних для серверів GitLab."
 
 #: ../../admin/config.rst:586
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
-#| "`GITLAB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
 "`GITLAB_TOKEN`."
 msgstr ""
 "Скористайтеся цією змінною, якщо Weblate має взаємодіяти з декількома "
-"серверами. Для одинарної кінцевої точки GitHub скористайтеся :setting:"
-"`GITLAB_USERNAME` і :setting:`GITLAB_TOKEN`."
+"серверами. Для одинарної кінцевої точки GitLab скористайтеся "
+":setting:`GITLAB_USERNAME` і :setting:`GITLAB_TOKEN`."
 
 #: ../../admin/config.rst:606
 msgid "GITLAB_USERNAME"
@@ -6145,6 +6131,9 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"Список модулів розпізнавання, з яких уможливлено реєстрацію. Обмежує лише "
+"нові реєстрації. Користувачі зможуть проходити розпізнавання та додавати "
+"розпізнавання за допомогою усіх налаштованих модулів розпізнавання."
 
 #: ../../admin/config.rst:1449
 msgid ""
@@ -6152,6 +6141,10 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
+"Рекомендуємо не вимикати :setting:`REGISTRATION_OPEN`, а обмежити роботу "
+"модулів реєстрації. Якщо ви цього не зробите, користувачі зможуть "
+"реєструватися, але Weblate не показуватиме посилань на реєстрацію у "
+"інтерфейсі користувача."
 
 #: ../../admin/config.rst:1461
 msgid "The backend names match names used in URL for authentication."
@@ -6159,10 +6152,8 @@ msgstr ""
 "Назви модулів відповідають назвам, використаним у адресі для розпізнавання."
 
 #: ../../admin/config.rst:1465
-#, fuzzy
-#| msgid ":setting:`REGISTRATION_OPEN`"
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
-msgstr ":setting:`REGISTRATION_OPEN`"
+msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
 #: ../../admin/config.rst:1471
 msgid "REGISTRATION_CAPTCHA"
@@ -6259,15 +6250,12 @@ msgstr ""
 "користувачі попри це зможуть входити до системи і створювати облікові записи."
 
 #: ../../admin/config.rst:1521
-#, fuzzy
-#| msgid ""
-#| ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
-#| "`REGISTRATION_EMAIL_MATCH`"
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
-":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1528
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -16445,6 +16433,8 @@ msgid ""
 "The database migration to 4.3 might take long depending on number of strings "
 "you are translating."
 msgstr ""
+"Перенесення бази даних з версії 4.3 може бути тривалим. Тривалість залежить "
+"від кількості рядків, переклад яких виконується."
 
 #: ../../admin/upgrade.rst:167
 msgid "Upgrading from Python 2 to Python 3"
@@ -17407,10 +17397,8 @@ msgstr ""
 "адреса списку змін, див. :http:get:`/api/projects/(string:project)/changes/`"
 
 #: ../../api.rst:788
-#, fuzzy
-#| msgid "Edit a component by a patch request."
 msgid "Edit a project by a patch request."
-msgstr "Редагувати складник розміщенням запиту щодо латання."
+msgstr "Редагувати проєкт розміщенням запиту щодо латання."
 
 #: ../../api.rst:792 ../../api.rst:1054 ../../api.rst:1150 ../../api.rst:1233
 #: ../../api.rst:1253 ../../api.rst:1263 ../../api.rst:1273 ../../api.rst:1284
@@ -17423,10 +17411,8 @@ msgid "Component URL slug"
 msgstr "Ідентифікатор адрес складника"
 
 #: ../../api.rst:799
-#, fuzzy
-#| msgid "Edit a component by a put request."
 msgid "Edit a project by a put request."
-msgstr "Редагувати складник розміщенням запиту щодо розташування."
+msgstr "Редагувати проєкт розміщенням запиту щодо розташування."
 
 #: ../../api.rst:808
 msgid "Deletes a project."
@@ -18241,6 +18227,8 @@ msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
 msgstr ""
+"У нових версіях ``target`` і ``source`` є масивами для належного зберігання "
+"форм множини."
 
 #: ../../api.rst:1843
 msgid "Returns information about translation unit."
@@ -18297,6 +18285,8 @@ msgid ""
 "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
+"стан модуля, 0 — не перекладено, 10 — потребує редагування, 20 — "
+"перекладено, 30 — затверджено, 100 — лише читання"
 
 #: ../../api.rst:1858
 msgid "whether the unit is fuzzy or marked for review"
@@ -18341,36 +18331,31 @@ msgstr "ідентифікатор модуля"
 #: ../../api.rst:1868 ../../api.rst:1883 ../../api.rst:1896
 msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
+"Пояснення щодо рядка, доступне у початкових модулях, див. :ref:`additional`"
 
 #: ../../api.rst:1869 ../../api.rst:1884 ../../api.rst:1897
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid ""
 "Additiona string flags, available on source units, see :ref:`custom-checks`"
-msgstr "Коригування прапорців перекладу (див. :ref:`custom-checks`)"
+msgstr ""
+"Додаткові прапорці рядків, доступні у початкових модулях, див. :ref:`custom-"
+"checks`"
 
 #: ../../api.rst:1870
 msgid "URL where the unit can be edited"
 msgstr "адреса, за якою можна редагувати модуль"
 
 #: ../../api.rst:1871
-#, fuzzy
-#| msgid "Source string information link; see :http:get:`/api/units/(int:id)/`"
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
-"Посилання на дані початкового рядка; див. :http:get:`/api/units/(int:id)/`"
+"Посилання на модуль початкового коду; див. :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1877
-#, fuzzy
-#| msgid "Returns information about translation unit."
 msgid "Performs partial update on translation unit."
-msgstr "Повертає відомості щодо модуля перекладу."
+msgstr "Виконує часткове оновлення модуля перекладу."
 
 #: ../../api.rst:1890
-#, fuzzy
-#| msgid "Returns list of translation units."
 msgid "Performs full update on translation unit."
-msgstr "Повертає список модулів перекладу."
+msgstr "Виконує повне оновлення модуля перекладу."
 
 #: ../../api.rst:1908
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -18993,26 +18978,26 @@ msgstr ""
 #: ../../changes.rst:20
 msgid "Extended API to cover project updates, unit updates."
 msgstr ""
+"Розширений програмний інтерфейс — враховано оновлення проєктів та оновлення "
+"модулів."
 
 #: ../../changes.rst:21
 msgid "Unit API now properly handles plural strings."
 msgstr ""
+"У програмному інтерфейсі модулів належним чином реалізовано обробку рядків "
+"із формами множини."
 
 #: ../../changes.rst:22
 msgid "Consolidated API respons status codes."
-msgstr ""
+msgstr "Консолідовано коди стану відповідей у програмному інтерфейсі."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Add support for collecting contributor agreements."
 msgid "Support markdown in contributor agreement."
-msgstr "Додано підтримку для збирання угод із учасниками перекладу."
+msgstr "Реалізовано підтримку Markdown в угоді із учасниками перекладу."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved source strings review."
 msgid "Improved source strings tracking."
-msgstr "Удосконалено рецензування початкових рядків."
+msgstr "Удосконалено стеження за початковими рядками."
 
 #: ../../changes.rst:27
 msgid "Weblate 4.2.2"
@@ -24935,11 +24920,6 @@ msgstr ""
 "повідомлення буде продубльовано на HackerOne."
 
 #: ../../contributing/issues.rst:24
-#, fuzzy
-#| msgid ""
-#| "If you don't want to use HackerOne, for whatever reason, you can send the "
-#| "report by e-mail to michal@cihar.com. You can choose to encrypt it using "
-#| "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`."
 msgid ""
 "If you don't want to use HackerOne, for whatever reason, you can send the "
 "report by e-mail to michal@cihar.com. You can choose to encrypt it using "
@@ -24949,7 +24929,8 @@ msgstr ""
 "Якщо з якоїсь причини ви не хочете користуватися HackerOne, ви можете "
 "надіслати звіт електронною поштою до michal@cihar.com. Ви можете зашифрувати "
 "повідомлення за допомогою цього ключа PGP: `3CB 1DF1 EF12 CF2A C0EE  5A32 "
-"9C27 B313 42B7 511D`."
+"9C27 B313 42B7 511D`. Ви також можете отримати ключ PGP з `Keybase "
+"<https://keybase.io/nijel>`_."
 
 #: ../../contributing/issues.rst:31
 msgid ""
@@ -25140,74 +25121,60 @@ msgstr ""
 "компонування системи зовнішніх файлів JSON."
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Weblate Translation Memory"
 msgid "Weblate Translation Memory Schema"
-msgstr "Пам'ять перекладів Weblate"
+msgstr "Схема пам'яті перекладів Weblate"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Key type"
 msgid "type"
-msgstr "Тип ключа"
+msgstr "тип"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
-msgstr ""
+msgstr "*array*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "items"
-msgstr ""
+msgstr "записи"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Translation Memory"
 msgid "*The Translation Memory Item*"
-msgstr "Пам'ять перекладів"
+msgstr "*Запис пам'яті перекладів*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Project"
 msgid "*object*"
-msgstr "Проєкт"
+msgstr "*object*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "GWT properties"
 msgid "properties"
-msgstr "Властивості GWT"
+msgstr "властивості"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Category"
 msgid "**category**"
-msgstr "Категорія"
+msgstr "**category**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String state"
 msgid "*The String Category*"
-msgstr "Стан рядків"
+msgstr "*Категорія рядків*"
 
 #: ../../contributing/schemas.rst:9
 msgid ""
 "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user "
 "specific"
 msgstr ""
+"1 — загальний, 2 — спільний, 10000000+ — специфічний для проєкту, 20000000+ —"
+" специфічний для користувача"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*integer*"
-msgstr ""
+msgstr "*integer*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Examples"
 msgid "examples"
-msgstr "Приклади"
+msgstr "приклади"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../workflows.rst:95
@@ -25216,7 +25183,7 @@ msgstr "1"
 
 #: ../../contributing/schemas.rst:9
 msgid "minimum"
-msgstr ""
+msgstr "мінімум"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
@@ -25225,136 +25192,108 @@ msgid "0"
 msgstr "0"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default font"
 msgid "default"
-msgstr "Усталений шрифт"
+msgstr "типове значення"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Origin"
 msgid "**origin**"
-msgstr "Походження"
+msgstr "**origin**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
-msgstr ""
+msgstr "*Походження рядка*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "name of component"
 msgid "Filename or component name"
-msgstr "назва складника"
+msgstr "Назва файл або назва складника"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Strings"
 msgid "*string*"
-msgstr "Рядки"
+msgstr "*string*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test"
-msgstr ""
+msgstr "test"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "pattern"
-msgstr ""
+msgstr "взірець"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.\\*)$"
-msgstr ""
+msgstr "^(.\\*)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**source**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source string"
 msgid "*The Source String*"
-msgstr "Джерельні рядки"
+msgstr "*Початковий рядок*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Yellow"
 msgid "Hello"
-msgstr "Жовтий"
+msgstr "Hello"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.+)$"
-msgstr ""
+msgstr "^(.+)$"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "**source\\_language**"
-msgstr "Джерельна мова"
+msgstr "**source\\_language**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "*The Source Language*"
-msgstr "Джерельна мова"
+msgstr "*Початкова мова*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
-msgstr ""
+msgstr "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Zen"
 msgid "en"
-msgstr "Дзен"
+msgstr "en"
 
 #: ../../contributing/schemas.rst:9
 msgid "^([^ ]+)$"
-msgstr ""
+msgstr "^([^ ]+)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr ""
+msgstr "**target**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Target strings"
 msgid "*The Target String*"
-msgstr "Цільові рядки"
+msgstr "*Рядок перекладу*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
-msgstr ""
+msgstr "Ahoj"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "**target\\_language**"
-msgstr "Рядок цільової мови"
+msgstr "**target\\_language**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "*The Target Language*"
-msgstr "Рядок цільової мови"
+msgstr "*Мова перекладу*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
-msgstr ""
+msgstr "cs"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Additional projects"
 msgid "additionalProperties"
-msgstr "Додаткові проєкти"
+msgstr "additionalProperties"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
-msgstr ""
+msgstr "False"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language definitions"
 msgid "definitions"
-msgstr "Визначення мов"
+msgstr "визначення"
 
 #: ../../contributing/schemas.rst:12
 msgid ""
@@ -25363,147 +25302,104 @@ msgstr ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "More visible data exports."
 msgid "Weblate user data export"
-msgstr "Більше видимих засобів експортування даних."
+msgstr "Експорт даних користувача Weblate"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "https://docs.weblate.org/en/latest/admin/install.html"
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
-msgstr "https://docs.weblate.org/en/latest/admin/install.html"
+msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr ""
+msgstr "**basic**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Basic"
 msgid "*Basic*"
-msgstr "Основне"
+msgstr "*Основа*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "**username**"
-msgstr "Ім'я користувача"
+msgstr "**username**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "*Username*"
-msgstr "Ім'я користувача"
+msgstr "*Ім'я користувача*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "createadmin"
 msgid "admin"
-msgstr "createadmin"
+msgstr "admin"
 
 #: ../../contributing/schemas.rst:19
 msgid "^.\\*$"
-msgstr ""
+msgstr "^.\\*$"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "**full\\_name**"
-msgstr "Повне ім’я"
+msgstr "**full\\_name**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "*Full name*"
-msgstr "Повне ім’я"
+msgstr "*Повне ім'я*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "Weblate Admin"
-msgstr "Клієнт Weblate"
+msgstr "Адміністратор Weblate"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
-msgstr ""
+msgstr "**email**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "*E-mail*"
-msgstr "Електронна пошта"
+msgstr "*Електронна пошта*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "allan@example.com"
 msgid "noreply@example.com"
-msgstr "allan@example.com"
+msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "**date\\_joined**"
-msgstr "Дата приєднання"
+msgstr "**date\\_joined**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "*Date joined*"
-msgstr "Дата приєднання"
+msgstr "*Дата приєднання*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
-msgstr ""
+msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "**profile**"
-msgstr "Профіль"
+msgstr "**profile**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "*Profile*"
-msgstr "Профіль"
+msgstr "*Профіль*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Per language"
 msgid "**language**"
-msgstr "Для мови"
+msgstr "**language**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language"
 msgid "*Language*"
-msgstr "Мова"
+msgstr "*Мова*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Suggested"
 msgid "**suggested**"
-msgstr "Запропоновано"
+msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "*Number of sugested strings*"
-msgstr "Число рядків джерела"
+msgstr "*Кількість рядків-пропозицій*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "translated"
 msgid "**translated**"
-msgstr "перекладено"
+msgstr "**translated**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "*Number of translated strings*"
-msgstr "Число перекладених рядків"
+msgstr "*Кількість перекладених рядків*"
 
 #: ../../contributing/schemas.rst:19 ../../devel/reporting-example.rst:4
 #: ../../devel/reporting-example.rst:5
@@ -25511,276 +25407,205 @@ msgid "24"
 msgstr "24"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "**uploaded**"
-msgstr "Вивантажено"
+msgstr "**uploaded**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "*Number of uploaded screenshots*"
-msgstr "Кількість вивантажених спільних записів"
+msgstr "*Кількість вивантажених знімків вікон*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
-msgstr ""
+msgstr "**hide\\_completed**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "*Hide completed translations on the dashboard*"
-msgstr "Приховати завершені переклади у домівці"
+msgstr "*Приховати завершені переклади у домівці*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
-msgstr ""
+msgstr "*boolean*"
 
 #: ../../contributing/schemas.rst:19
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
-msgstr ""
+msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Show secondary translations in the Zen mode"
 msgid "*Show secondary translations in the Zen mode*"
-msgstr "Показувати переклади на інших мовах у режимі Дзен"
+msgstr "*Показувати переклади на інших мовах у режимі Дзен*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
-msgstr ""
+msgstr "**hide\\_source\\_secondary**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide source if a secondary translation exists"
 msgid "*Hide source if a secondary translation exists*"
 msgstr ""
-"Приховати джерельний текст, коли є переклад на будь-яку другорядну мову"
+"*Приховати джерельний текст, коли є переклад на будь-яку другорядну мову*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "**editor\\_link**"
-msgstr "Посилання на редактор"
+msgstr "**editor\\_link**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "*Editor link*"
-msgstr "Посилання на редактор"
+msgstr "*Посилання на редактор*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Untranslated"
 msgid "**translate\\_mode**"
-msgstr "Не перекладено"
+msgstr "**translate\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translation editor mode"
 msgid "*Translation editor mode*"
-msgstr "Режим редактора перекладу"
+msgstr "*Режим редактора перекладу*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
-msgstr ""
+msgstr "**zen\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Zen editor mode"
 msgid "*Zen editor mode*"
-msgstr "Режим Zen-редактора"
+msgstr "*Режим Дзен-редактора*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "**special\\_chars**"
-msgstr "Спеціальні символи"
+msgstr "**special\\_chars**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "*Special characters*"
-msgstr "Спеціальні символи"
+msgstr "*Спеціальні символи*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "**dashboard\\_view**"
-msgstr "Усталений вигляд домівки"
+msgstr "**dashboard\\_view**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "*Default dashboard view*"
-msgstr "Усталений вигляд домівки"
+msgstr "*Усталений вигляд домівки*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_component\\_list**"
-msgstr ""
+msgstr "**dashboard\\_component\\_list**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default component list"
 msgid "*Default component list*"
-msgstr "Усталений список складників"
+msgstr "*Усталений список складників*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "Немає"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
-msgstr ""
+msgstr "anyOf"
 
 #: ../../contributing/schemas.rst:19
 msgid "*null*"
-msgstr ""
+msgstr "*null*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Languages"
 msgid "**languages**"
-msgstr "Мови"
+msgstr "**languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translated languages"
 msgid "*Translated languages*"
-msgstr "Перекладено мовами"
+msgstr "*Перекладено мовами*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language code"
 msgid "*Language code*"
-msgstr "Код мови"
+msgstr "*Код мови*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "**secondary\\_languages**"
-msgstr "Другорядні мови"
+msgstr "**secondary\\_languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "*Secondary languages*"
-msgstr "Другорядні мови"
+msgstr "*Другорядні мови*"
 
 #: ../../contributing/schemas.rst:19
 msgid "sk"
-msgstr ""
+msgstr "sk"
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
-msgstr ""
+msgstr "**watched**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Watched projects"
 msgid "*Watched projects*"
-msgstr "Відстежувані проєкти"
+msgstr "*Відстежувані проєкти*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Project slug"
 msgid "*Project slug*"
-msgstr "Ідентифікатор проєкту"
+msgstr "*Ідентифікатор проєкту*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate"
 msgid "weblate"
-msgstr "Weblate"
+msgstr "weblate"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "**auditlog**"
-msgstr "Часопис перевірок"
+msgstr "**auditlog**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "*Audit log*"
-msgstr "Часопис перевірок"
+msgstr "*Часопис перевірок*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
-msgstr ""
+msgstr "*Items*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "**address**"
-msgstr "ІР адреса"
+msgstr "**address**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "*IP address*"
-msgstr "ІР адреса"
+msgstr "*IP-адреса*"
 
 #: ../../contributing/schemas.rst:19
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "**user\\_agent**"
-msgstr "Браузер"
+msgstr "**user\\_agent**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "*User agent*"
-msgstr "Браузер"
+msgstr "*Агент користувача*"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
-msgstr ""
+msgstr "PC / Linux / Firefox 70.0"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "event timestamp"
 msgid "**timestamp**"
-msgstr "часова позначка події"
+msgstr "**timestamp**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "event timestamp"
 msgid "*Timestamp*"
-msgstr "часова позначка події"
+msgstr "*Часова позначка*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:58:30.845Z"
-msgstr ""
+msgstr "2019-11-18T18:58:30.845Z"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "**activity**"
-msgstr "Діяльність"
+msgstr "**activity**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "*Activity*"
-msgstr "Діяльність"
+msgstr "*Дієпис*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Last login"
 msgid "login"
-msgstr "Останній вхід"
+msgstr "login"
 
 #: ../../contributing/schemas.rst:22
 msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
@@ -29508,12 +29333,12 @@ msgid "``Resources/*.lproj/Localizable.strings``"
 msgstr "``Resources/*.lproj/Localizable.strings``"
 
 #: ../../formats.rst:669
-#, fuzzy
-#| msgid "``Resources/en.lproj/Localizable.strings``"
 msgid ""
 "``Resources/en.lproj/Localizable.strings`` or ``Resources/Base.lproj/"
 "Localizable.strings``"
-msgstr "``Resources/en.lproj/Localizable.strings``"
+msgstr ""
+"``Resources/en.lproj/Localizable.strings`` або ``Resources/Base.lproj/"
+"Localizable.strings``"
 
 #: ../../formats.rst:674
 msgid "`iOS Strings (UTF-8)`"
