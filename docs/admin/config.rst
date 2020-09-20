@@ -1446,7 +1446,7 @@ List of authentication backends to allow registration from. This only limits
 new registrations, users can still authenticate and add authentication using
 all configured authentication backends.
 
-It is recommeded to keep :setting:`REGISTRATION_OPEN` enabled while limiting
+It is recommended to keep :setting:`REGISTRATION_OPEN` enabled while limiting
 registration backends, otherwise users will be able to register, but Weblate
 will not show links to register in the user interface.
 
