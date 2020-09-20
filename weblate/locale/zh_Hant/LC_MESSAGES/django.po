@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-20 07:31+0000\n"
-"PO-Revision-Date: 2020-08-24 12:24+0000\n"
+"PO-Revision-Date: 2020-09-21 07:24+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -66,10 +66,8 @@ msgid "Full name"
 msgstr "全名"
 
 #: weblate/accounts/forms.py:187 weblate/accounts/models.py:444
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "您的電子郵件"
+msgstr "公開電子郵件"
 
 #: weblate/accounts/forms.py:278 weblate/accounts/forms.py:353
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -360,10 +358,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "由 {username} 邀請至 Weblate。"
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "開展新翻譯"
+msgstr "已開始試用期。"
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -520,30 +516,24 @@ msgid ""
 msgstr "您可以接收關注專案的通知，預設情況下通知會顯示在控制面板中。"
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "授權條款 URL"
+msgstr "網站 URL"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "使用者名稱"
+msgstr "GitHub 使用者名稱"
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "作者使用者名稱"
+msgstr "Twitter 使用者名稱"
 
 #: weblate/accounts/models.py:429
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "LinkedIn 個人檔案名稱"
 
 #: weblate/accounts/models.py:430
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "從 linkedin.com/in/&lt;個人資料名稱&gt; 而來的 LinkedIn 個人檔案名稱"
 
 #: weblate/accounts/models.py:434
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -552,10 +542,8 @@ msgid "Location"
 msgstr "位置"
 
 #: weblate/accounts/models.py:439
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "組件"
+msgstr "公司"
 
 #: weblate/accounts/models.py:488
 msgid ""
@@ -762,7 +750,7 @@ msgstr "不能向管理員傳送訊息。"
 
 #: weblate/accounts/views.py:240
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "已傳送您的請求，您不久後就會收到我們的回覆。"
 
 #: weblate/accounts/views.py:353
 msgid "Your profile has been updated."
@@ -794,18 +782,18 @@ msgstr "託管服務"
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
-msgstr ""
+msgstr "您最近似乎已經申請試用期。請聯絡我們並附上您的問題，以便我們尋找最適合您的解決方案。"
 
 #: weblate/accounts/views.py:609
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
-msgstr ""
+msgstr "您的試用期已經開始且運作中；建立您的翻譯專案，並開始使用 Weblate 吧！"
 
 #: weblate/accounts/views.py:615 weblate/templates/accounts/hosting.html:140
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "免費試用"
 
 #: weblate/accounts/views.py:705 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -1476,10 +1464,8 @@ msgstr "上傳詞彙表條目"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Use automatic suggestions"
-msgstr "自動接受建議"
+msgstr "使用自動建議"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -2074,24 +2060,20 @@ msgid "In display limits"
 msgstr "顯示畫面限制"
 
 #: weblate/billing/models.py:398
-#, fuzzy, python-format
-#| msgid "Created project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "建立了專案"
+msgstr[0] "有 %d 個專案"
 
 #: weblate/billing/models.py:415
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "重新命名了組件"
+msgstr[0] "有 %d 個組件"
 
 #: weblate/billing/models.py:430
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "授權變更"
+msgstr "缺少授權條款"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -2107,7 +2089,7 @@ msgstr "待您付清帳單或是移除專案後，就會停止收到此通知。
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
-msgstr "待您付清帳單或是移除專案後，就會停止收到此通知。"
+msgstr "待您更改為規律性訂閱或是移除專案後，就會停止收到此通知。"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -2494,16 +2476,12 @@ msgid "The percent placeholders do not match source"
 msgstr "百分比佔位符與來源不符"
 
 #: weblate/checks/format.py:545
-#, fuzzy
-#| msgid "Information"
 msgid "Vue I18n formatting"
-msgstr "資訊"
+msgstr "Vue I18n 格式"
 
 #: weblate/checks/format.py:546
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "The Vue I18n formatting does not match source"
-msgstr "C 格式字串與來源不符"
+msgstr "Vue I18n 格式與來源不符"
 
 #: weblate/checks/format.py:552
 msgid "Multiple unnamed variables"
@@ -2580,10 +2558,8 @@ msgid "Placeholders"
 msgstr "佔位符"
 
 #: weblate/checks/placeholders.py:42
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "翻譯缺少一些佔位符："
+msgstr "翻譯缺少一些佔位符"
 
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
@@ -3925,10 +3901,8 @@ msgid "Register"
 msgstr "註冊"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "訂閱項目"
+msgstr "試用訂閱"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -3937,10 +3911,8 @@ msgid ", expires %(expires)s"
 msgstr "，期限為 %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "未決的字串"
+msgstr "待核可"
 
 #: weblate/templates/accounts/hosting.html:43
 #: weblate/templates/manage/users.html:43
@@ -3949,16 +3921,12 @@ msgid "Check user access"
 msgstr "檢查使用者存取"
 
 #: weblate/templates/accounts/hosting.html:60
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Not passed guidelines from the community localization checklist:"
-msgstr "社群在地化查核列表"
+msgstr "社群在地化查核列表中未通過的指導方針："
 
 #: weblate/templates/accounts/hosting.html:77
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please check that following conditions are met:"
-msgstr "請閱讀下方的貢獻者協議書："
+msgstr "請檢查以下條件是否成立："
 
 #: weblate/templates/accounts/hosting.html:79
 #: weblate/templates/accounts/hosting.html:116
@@ -3969,21 +3937,17 @@ msgstr "程式源始碼必須以支援的版本控制系統公開發布。"
 
 #: weblate/templates/accounts/hosting.html:80
 #: weblate/templates/accounts/hosting.html:117
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "使用者已從這個專案中移除。"
+msgstr "上游專案已核准 Weblate 的使用。"
 
 #: weblate/templates/accounts/hosting.html:81
 #: weblate/templates/accounts/hosting.html:118
 msgid "The project has active development for at least three months."
-msgstr ""
+msgstr "專案開發已活躍至少三個月。"
 
 #: weblate/templates/accounts/hosting.html:84
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "已核可字串"
+msgstr ""
 
 #: weblate/templates/accounts/hosting.html:87
 #: weblate/templates/billing/detail.html:31
@@ -4000,13 +3964,11 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:94
 msgid "Extend trial"
-msgstr ""
+msgstr "延長試用期"
 
 #: weblate/templates/accounts/hosting.html:107
-#, fuzzy
-#| msgid "Translation project:"
 msgid "Translate your libre project"
-msgstr "翻譯專案："
+msgstr "翻譯您的自由軟體專案"
 
 #: weblate/templates/accounts/hosting.html:111
 msgid ""
@@ -4022,31 +3984,27 @@ msgstr "翻譯內容必須依據 OSI 核可，或是 FSF 承認為自由的授�
 
 #: weblate/templates/accounts/hosting.html:119
 msgid "You will have 14 days to setup your project."
-msgstr ""
+msgstr "您有 14 天可設定您的專案。"
 
 #: weblate/templates/accounts/hosting.html:120
 msgid "Please request project approval once the setup is completed."
-msgstr ""
+msgstr "設定完成後，請提出專案核可。"
 
 #: weblate/templates/accounts/hosting.html:121
 msgid "Not approved projects will be removed."
-msgstr ""
+msgstr "不核可的專案會被移除。"
 
 #: weblate/templates/accounts/hosting.html:122
 msgid "There is no guarantee for service availability, nor quality."
 msgstr "對於服務的可用性與品質無法給予任何保證。"
 
 #: weblate/templates/accounts/hosting.html:127
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "獲得支援"
+msgstr "開始使用"
 
 #: weblate/templates/accounts/hosting.html:133
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "請與我們聯繫瞭解商用託管事宜"
+msgstr "在找商業代管服務嗎？"
 
 #: weblate/templates/accounts/hosting.html:136
 #, python-format
@@ -4244,17 +4202,15 @@ msgid "Download user data"
 msgstr "下載使用者資料"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "您的公開個人檔案"
+msgstr "公開個人檔案"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
 "All of the fields on this page are optional and can be deleted at any time, "
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
-msgstr ""
+msgstr "此頁面上的所有欄位皆為選填，且可隨時刪除。填入這些資訊，即允許我們在個人檔案出現的地方分享這些資料。"
 
 #: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
@@ -4436,41 +4392,34 @@ msgid "Reset my password"
 msgstr "重設我的密碼"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "感謝您使用 Weblate。"
+msgstr "感謝您有興趣嘗試 Weblate！"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "您的個人檔案"
+msgstr "您的試用提供"
 
 #: weblate/templates/accounts/trial.html:23
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will last 14 days."
-msgstr "您的電子郵件"
+msgstr "試用會持續 14 天。"
 
 #: weblate/templates/accounts/trial.html:24
 msgid ""
 "Your trial will run the Enterprise plan, but you can choose any plan later."
-msgstr ""
+msgstr "您所試用的是「企業」方案，但稍後您可選擇其他方案。"
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
-msgstr ""
+msgstr "無須信用卡，但隨時可設定付款方式。"
 
 #: weblate/templates/accounts/trial.html:26
+#, fuzzy
 msgid "All configuration will stay once you start paying."
-msgstr ""
+msgstr "所有設定會在您開始付款時保留。"
 
 #: weblate/templates/accounts/trial.html:30
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "開展新翻譯"
+msgstr "開始試用！"
 
 #: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -6329,17 +6278,13 @@ msgstr "生成時間 %(timestamp)s。"
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "Your trial period is going to expire in less than a week."
-msgstr ""
+msgstr "您的試用期會在一周內到期。"
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you like Weblate and you want to continue using it, please purchase the "
 "subscription. If not, tell us what you are missing."
-msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請續約。"
+msgstr "如果您喜歡 Weblate 且願繼續使用，請購買訂閱方案。如不喜歡，請告訴我們還缺少什麼。"
 
 #: weblate/templates/mail/billing_expired.html:12
 #, fuzzy
@@ -6349,7 +6294,7 @@ msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請
 msgid ""
 "If you like Weblate and you want to continue using it, just request an "
 "approval of your libre plan."
-msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請續約。"
+msgstr "如果您喜歡 Weblate 且願繼續使用，就請求核可您的自由軟體計畫。"
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid ""
@@ -6386,7 +6331,7 @@ msgstr "您的翻譯專案已安排移除"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your trial period is about to expire"
-msgstr ""
+msgstr "您的試用即將到期"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
@@ -6420,34 +6365,25 @@ msgid ""
 msgstr "%(component)s 組件的授權條款已從 %(old)s 變更為 %(target)s。"
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "已鎖定 %(component)s 組件"
+msgstr "已變更 %(component)s 組件的貢獻者協議書。"
 
 #: weblate/templates/mail/component_license.html:15
-#, fuzzy
-#| msgid "Placement"
 msgid "Old agreement:"
-msgstr "位置"
+msgstr "舊協議書："
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "檢視貢獻者協議書"
+msgstr "在此之前沒有貢獻者協議書。"
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New payment"
 msgid "New agreement:"
-msgstr "新付款"
+msgstr "新協議書："
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "貢獻者協議書"
+msgstr "已經移除貢獻者協議書。"
 
 #: weblate/templates/mail/component_license_subject.txt:4
 #, python-format
@@ -6455,10 +6391,9 @@ msgid "%(component)s was re-licensed to %(target)s"
 msgstr "%(component)s 已經重新以 %(target)s 授權"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "已鎖定 %(component)s 組件"
+msgstr "已變更 %(component)s 的貢獻者協議書"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -7235,8 +7170,6 @@ msgid ""
 msgstr "因您最近執行過多動作，因此拒絕您的請求。"
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please sign in and try again later."
 msgid "You have been signed out, please sign in and try again later."
 msgstr "您已登出，請登入並稍後重試。"
 
@@ -7622,10 +7555,8 @@ msgid "All untranslated strings added the past month"
 msgstr "近一個月加入的所有未翻譯字串"
 
 #: weblate/templates/snippets/query-builder.html:105
-#, fuzzy
-#| msgid "Translated strings with any failing checks"
 msgid "Translated strings in a certain language"
-msgstr "任何未通過查核的已翻譯字串"
+msgstr "部分語言的已翻譯字串"
 
 #: weblate/templates/snippets/query-field.html:9
 msgid "Custom Search"
@@ -7856,14 +7787,10 @@ msgid "Please consider the following:"
 msgstr "請嘗試下述步驟："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
-msgstr "如果是想要翻譯成來源語言，請在專案設定中變更來源語言。"
+msgstr "如果是想要翻譯成來源語言，請在組件設定中變更來源語言。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8263,23 +8190,15 @@ msgstr ""
 "僅校閱者可以變更核可後的字串。如果您認為字串應該要修改，請加入翻譯建議。"
 
 #: weblate/templates/translate.html:183
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions and these are approved by "
-#| "voting."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr "此翻譯僅只接受建議，這些建議需要經過投票核可。"
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
-msgstr "若要成為此翻譯的貢獻者，您必須同意貢獻者協議書。"
+msgstr "若要貢獻此翻譯，您必須同意貢獻者協議書。"
 
 #: weblate/templates/translate.html:189
 msgid "Insufficient privileges for editing source strings."
@@ -8336,10 +8255,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "電腦輔助翻譯建議"
 
 #: weblate/templates/translate.html:231
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "自動接受建議"
+msgstr "自動建議"
 
 #: weblate/templates/translate.html:233
 msgid "Translations of this string in the other languages"
@@ -8354,30 +8271,21 @@ msgid "List of recent changes done in Weblate"
 msgstr "最近 Weblate 中所做的更動列表"
 
 #: weblate/templates/translate.html:280
-#, fuzzy
-#| msgid "Following string has same context and same source."
-#| msgid_plural "Following strings have same context and same source."
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
-msgstr[0] "下列字串的情境與來源都相同。"
+msgstr[0] "以下字串有相同的情境及來源。"
 
 #: weblate/templates/translate.html:288
-#, fuzzy
-#| msgid "Following string has different context but same source."
-#| msgid_plural "Following strings have different contexts but same source."
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "下列字串的情境不同，但來源相同。"
+msgstr[0] "以下字串的情境雖不同，但來源相同。"
 
 #: weblate/templates/translate.html:296
-#, fuzzy
-#| msgid "Following string has different source but same context."
-#| msgid_plural "Following strings have different sources but same context."
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
-msgstr[0] "下列字串的來源不同，但情境相同。"
+msgstr[0] "以下字串的來源雖不同，但情境相同。"
 
 #: weblate/templates/translate.html:332
 msgid "Origin"
@@ -9737,24 +9645,18 @@ msgstr "已變更授權"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "貢獻者協議書"
+msgstr "已變更貢獻者協議書"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:425
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component automatically locked"
-msgstr "解除了組件鎖定"
+msgstr "已自動鎖定組件"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:427
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component automatically unlocked"
-msgstr "解除了組件鎖定"
+msgstr "已自動解鎖組件"
 
 #: weblate/trans/models/change.py:482
 #, python-format
@@ -10221,10 +10123,8 @@ msgid "Using a .pot file as base file is unsupported."
 msgstr "不支援使用 .pot 檔作為基底檔。"
 
 #: weblate/trans/models/component.py:2096
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "File does not exist."
-msgstr "此翻譯已不存在。"
+msgstr "檔案不存在。"
 
 #: weblate/trans/models/component.py:2101
 #, python-format
@@ -10254,19 +10154,15 @@ msgstr "請填寫新增翻譯的步驟指示 URL 或使用其他方法。"
 #: weblate/trans/models/component.py:2179
 msgid ""
 "Source language can not be changed, please recreate the component instead."
-msgstr ""
+msgstr "無法變更來源語言，請改為重建組件。"
 
 #: weblate/trans/models/component.py:2187
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this URL slug already exists in the project."
-msgstr "專案 ({0}) 中已經存在類似的翻譯！"
+msgstr "此專案中已有同 URL slug 的組件。"
 
 #: weblate/trans/models/component.py:2192
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already exists in the project."
-msgstr "專案 ({0}) 中已經存在類似的翻譯！"
+msgstr "此專案已有同名組件。"
 
 #: weblate/trans/models/component.py:2217
 msgid "Can not validate file matches due to invalid regular expression."
@@ -10872,7 +10768,7 @@ msgstr "{month}/{day}"
 #: weblate/trans/views/create.py:224
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
-msgstr ""
+msgstr "偵測到的授權條款為 %s，請檢查是否正確。"
 
 #: weblate/trans/views/create.py:335
 msgid "Failed to parse uploaded ZIP file."
@@ -11455,16 +11351,14 @@ msgid "Extended self-hosted support"
 msgstr "自行架設的延伸支援"
 
 #: weblate/wladmin/models.py:128
-#, fuzzy
-#| msgid "Backup repository"
 msgid "Backup repository URL"
-msgstr "備份儲存庫"
+msgstr "備份儲存庫 URL"
 
 #: weblate/wladmin/models.py:130
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
-msgstr ""
+msgstr "本機備份使用 /path/to/repo，遠端 SSH 備份則使用 user@host:/path/to/repo。"
 
 #: weblate/wladmin/models.py:173
 msgid "Backup performed"
