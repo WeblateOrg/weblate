@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
-"PO-Revision-Date: 2020-09-15 14:12+0000\n"
+"PO-Revision-Date: 2020-09-21 07:24+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -2070,14 +2070,6 @@ msgid ":doc:`psa:pipeline`"
 msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
-#, fuzzy
-#| msgid ""
-#| "Enabling individual backends is quite easy, it's just a matter of adding "
-#| "an entry to the ``AUTHENTICATION_BACKENDS`` setting and possibly adding "
-#| "keys needed for a given authentication method. Please note that some "
-#| "backends do not provide user e-mail by default, you have to request it "
-#| "explicitly, otherwise Weblate will not be able to properly credit "
-#| "contributions users make."
 msgid ""
 "Enabling individual backends is quite easy, it's just a matter of adding an "
 "entry to the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly "
@@ -2087,12 +2079,12 @@ msgid ""
 "contributions users make."
 msgstr ""
 "Permitir backends individuais é bastante fácil, é apenas uma questão de "
-"adicionar uma entrada à configuração ``AUTHENTICATION_BACKENDS`` e "
-"possivelmente adicionar chaves necessárias para um determinado método de "
-"autenticação. Por favor, note que alguns backends não fornecem e-mails do "
-"usuário por padrão, você tem que solicitá-lo explicitamente, caso contrário "
-"o Weblate não será capaz de pagar corretamente as contribuições que os "
-"usuários fazem."
+"adicionar uma entrada à configuração "
+":setting:`django:AUTHENTICATION_BACKENDS` e possivelmente adicionar chaves "
+"necessárias para um determinado método de autenticação. Por favor, note que "
+"alguns backends não fornecem e-mails do usuário por padrão, você tem que "
+"solicitá-lo explicitamente, caso contrário o Weblate não será capaz de pagar "
+"corretamente as contribuições que os usuários fazem."
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -2463,15 +2455,6 @@ msgstr ""
 "autenticação do Django:"
 
 #: ../../admin/auth.rst:471
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the "
-#| "``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set "
-#| "their password in Weblate, and authenticate using that. Keeping "
-#| "``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order "
-#| "to make permissions and facilitate anonymous users. It will also allow "
-#| "you to sign in using a local admin account, if you have created it (e.g. "
-#| "by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -2482,12 +2465,12 @@ msgid ""
 "djadmin:`createadmin`)."
 msgstr ""
 "Você deve remover ``'social_core.backends.email.EmailAuth'`` da configuração "
-"``AUTHENTICATION_BACKENDS``; caso contrário, os usuários poderão definir sua "
-"senha no Weblate e autenticar usando isso. Manter ``'weblate.accounts.auth."
-"WeblateUserBackend'`` ainda é necessário para fazer permissões e facilitar "
-"usuários anônimos. Ele também permitirá que você faça login usando uma conta "
-"administrativa local, se você a criou (por exemplo, usando :djadmin:"
-"`createadmin`)."
+":setting:`django:AUTHENTICATION_BACKENDS`; caso contrário, os usuários "
+"poderão definir sua senha no Weblate e autenticar usando isso. Manter "
+"``'weblate.accounts.auth.WeblateUserBackend'`` ainda é necessário para fazer "
+"permissões e facilitar usuários anônimos. Ele também permitirá que você faça "
+"login usando uma conta administrativa local, se você a criou (por exemplo, "
+"usando :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
@@ -5046,19 +5029,14 @@ msgid "List for credentials for GitLab servers."
 msgstr "Lista para credenciais para servidores GitLab."
 
 #: ../../admin/config.rst:586
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
-#| "`GITLAB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
 "`GITLAB_TOKEN`."
 msgstr ""
 "Use isso no caso de você querer que o Weblate interaja com mais deles, para "
-"um único ponto final do GitHub com :setting:`GITLAB_USERNAME` e :setting:"
-"`GITLAB_TOKEN`."
+"um único ponto final do GitLab com :setting:`GITLAB_USERNAME` e "
+":setting:`GITLAB_TOKEN`."
 
 #: ../../admin/config.rst:606
 msgid "GITLAB_USERNAME"
@@ -6137,10 +6115,8 @@ msgstr ""
 "Os nomes de backend correspondem aos nomes usados na URL para autenticação."
 
 #: ../../admin/config.rst:1465
-#, fuzzy
-#| msgid ":setting:`REGISTRATION_OPEN`"
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
-msgstr ":setting:`REGISTRATION_OPEN`"
+msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
 #: ../../admin/config.rst:1471
 msgid "REGISTRATION_CAPTCHA"
@@ -6233,15 +6209,12 @@ msgstr ""
 "conseguem se autenticar e criar contas."
 
 #: ../../admin/config.rst:1521
-#, fuzzy
-#| msgid ""
-#| ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
-#| "`REGISTRATION_EMAIL_MATCH`"
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
-":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1528
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -16606,11 +16579,11 @@ msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
 
 #: ../../api.rst:1869 ../../api.rst:1884 ../../api.rst:1897
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid ""
 "Additiona string flags, available on source units, see :ref:`custom-checks`"
-msgstr "Ajustar os sinalizadores de tradução (veja :ref:`custom-checks`)"
+msgstr ""
+"Sinalizadores de textos adicionais, disponível nas unidades fonte, veja :ref"
+":`custom-checks`"
 
 #: ../../api.rst:1870
 msgid "URL where the unit can be edited"
@@ -16621,16 +16594,12 @@ msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:1877
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs partial update on translation unit."
-msgstr "Executar tradução automática"
+msgstr "Executa atualização parcial na unidade de tradução."
 
 #: ../../api.rst:1890
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs full update on translation unit."
-msgstr "Executar tradução automática"
+msgstr "Executa atualização completa na unidade de tradução."
 
 #: ../../api.rst:1908
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -17211,16 +17180,12 @@ msgid "Consolidated API respons status codes."
 msgstr ""
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "Support markdown in contributor agreement."
-msgstr "Visualizar o acordo de colaborador"
+msgstr "Suporte a markdown no acordo de colaborador."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Improved source strings tracking."
-msgstr "Revisar texto fonte em %s"
+msgstr "Melhorado o rastreamento de textos fontes."
 
 #: ../../changes.rst:27
 msgid "Weblate 4.2.2"
@@ -22755,20 +22720,16 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Weblate Translation Memory Schema"
-msgstr "Excluir memória de tradução"
+msgstr "Esquema de memória de tradução do Weblate"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Key type"
 msgid "type"
-msgstr "Tipo de chave"
+msgstr "tipo"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
@@ -22779,22 +22740,16 @@ msgid "items"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Translation Memory"
 msgid "*The Translation Memory Item*"
-msgstr "Memória de Tradução"
+msgstr "*O item da memória de tradução*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Object"
 msgid "*object*"
-msgstr "Objeto"
+msgstr "*objeto*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "properties"
-msgstr "Propriedades GWT"
+msgstr "propriedades"
 
 #: ../../contributing/schemas.rst:9
 #, fuzzy
