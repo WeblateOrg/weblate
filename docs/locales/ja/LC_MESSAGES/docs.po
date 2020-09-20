@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
-"PO-Revision-Date: 2020-09-20 13:38+0000\n"
+"PO-Revision-Date: 2020-09-21 00:21+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -94,9 +94,8 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
-"インスタンス全体のアクセス権の管理するには、`Users`（デフォルトでは :ref:"
-"`autogroup` を使用）、`Reviewers` および `Managers` グループにユーザーを追加"
-"します。すべてのプロジェクトを `Public` に設定する（参照 :ref:`acl`）。"
+"インスタンス全体のアクセス権の管理するには、`Users` （デフォルトでは :ref:`autogroup` を使用）、`Reviewers` および "
+"`Managers` グループにユーザーを追加します。すべてのプロジェクトを `Public` に設定する（参照 :ref:`acl`）。"
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
@@ -208,6 +207,8 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
+"このプロジェクトへのアクセスを許可するには、Django 管理インターフェースで特定のユーザーまたはユーザー グループに直接権限を追加するか、"
+"プロジェクト ページでユーザー管理から権限を追加する必要があります、解説は :ref:`manage-acl`。"
 
 #: ../../admin/access.rst:97
 msgid ""
@@ -251,9 +252,8 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
-"`ユーザー` グループと `閲覧` グループの自動グループ割り当ては、移行時に常に "
-"Weblate によって作成されます。無効する場合は、正規表現を ``^$`` に設定するだ"
-"けで、一致しなくなります。"
+"`Users` グループと `Viewers` グループの自動グループ割り当ては、移行時に常に Weblate によって作成されます。無効する場合は、"
+"正規表現を ``^$`` に設定するだけで、一致しなくなります。"
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
@@ -265,7 +265,7 @@ msgstr "認証モデルを構成している複数のオブジェクト:"
 
 #: ../../admin/access.rst:127
 msgid "`Permission`"
-msgstr "`権限`"
+msgstr "`Permission`"
 
 #: ../../admin/access.rst:127
 msgid ""
@@ -277,7 +277,7 @@ msgstr ""
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
-msgstr "`役割`"
+msgstr "`Role`"
 
 #: ../../admin/access.rst:130
 msgid ""
@@ -289,7 +289,7 @@ msgstr ""
 
 #: ../../admin/access.rst:132
 msgid "`User`"
-msgstr "`ユーザー`"
+msgstr "`User`"
 
 #: ../../admin/access.rst:133
 msgid "Users can be members of several groups."
@@ -297,7 +297,7 @@ msgstr "ユーザーは複数のグループのメンバーに参加できます
 
 #: ../../admin/access.rst:136
 msgid "`Group`"
-msgstr "`グループ`"
+msgstr "`Group`"
 
 #: ../../admin/access.rst:135
 msgid ""
@@ -350,27 +350,33 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
+"最初の規則のみ適用されます。したがって、:guilabel:`Component "
+"list`、:guilabel:`Components`、:guilabel:`Project` をすべて設定すると、:guilabel:`"
+"Component list` のみが適用されます。"
 
 #: ../../admin/access.rst:175
 msgid ""
 "An additional step is performed if checking permission for the translation:"
-msgstr ""
+msgstr "翻訳の許可を確認する場合は、さらに次の手順を実行します:"
 
 #: ../../admin/access.rst:178
 msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
 msgstr ""
+"4. :guilabel:`Languages` を設定している場合は、翻訳中の言語の中から合わせます。設定していない場合は、どの言語にも一致しません。"
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
+":guilabel:`Language selection` または :guilabel:`Project selection` "
+"を使用して、すべての言語またはプロジェクトを自動的に登録できます。"
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
-msgstr ""
+msgstr "プロジェクトへのアクセスの確認"
 
 #: ../../admin/access.rst:189
 msgid ""
@@ -379,10 +385,12 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクしてるグループに登録している必要があります。登録していれば十分で、プロジェクトに参加す"
+"るための特定な権限は必要ありません（これはデフォルトの `Viewers` グループで使用します、参照 :ref:`default-groups`）。"
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
-msgstr ""
+msgstr "コンポーネントへのアクセスの確認"
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -391,24 +399,26 @@ msgid ""
 "the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
+"ユーザーは、参加しているプロジェクトにアクセスできれば、コンポーネントへ無制限にアクセスできます。:ref:`component-restricted` "
+"を有効にすると、コンポーネントへのアクセスには、コンポーネント（またはコンポーネント リストを含む）へのアクセス権の設定が必要となります。"
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr ""
+msgstr "ユーザーとグループの管理"
 
 #: ../../admin/access.rst:206
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
-msgstr ""
+msgstr "すべてのユーザーおよびグループは、Django 管理画面から管理できます、:file:`/admin/` URL から利用可能。"
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
-msgstr ""
+msgstr "プロジェクトごとのアクセス制御の管理"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
-msgstr ""
+msgstr "この機能は ACL 制御のプロジェクトでのみ動作します、参照 :ref:`acl`。"
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -416,89 +426,92 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+":guilabel:`Can manage ACL rules for a project` 権限（参照 "
+":ref:`privileges`）を持つユーザーは、プロジェクト "
+"ページでアクセス制御が有効になっているプロジェクト内のユーザーも管理できます。このインタフェースでは、次のことができます:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "既存のユーザーをプロジェクトに追加"
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "新しいユーザーをプロジェクトに招待"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "ユーザーのアクセス権の変更"
 
 #: ../../admin/access.rst:225
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "ユーザーへのアクセスの取り消し"
 
 #: ../../admin/access.rst:229
 msgid ""
 "Resend user email invitations, invalidating any previously sent invitation"
-msgstr ""
+msgstr "ユーザーにメールの招待状を再送信して、以前に送信した招待状を無効にする"
 
 #: ../../admin/access.rst:231
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
-msgstr ""
+msgstr "ユーザー管理は、プロジェクトの :guilabel:`Manage` から設定:"
 
 #: ../../admin/access.rst:237
 msgid ":ref:`acl`"
-msgstr ""
+msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:242
 msgid "Predefined groups"
-msgstr ""
+msgstr "定義済みのグループ"
 
 #: ../../admin/access.rst:244
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
-msgstr ""
+msgstr "Weblate には、事前に複数のグループがプロジェクトに定義されているので、そこからユーザーを割り当てることができます。"
 
 #: ../../admin/access.rst:249
 msgid "Has all permissions available in the project."
-msgstr ""
+msgstr "プロジェクトで有効なすべてのアクセス権がある。"
 
 #: ../../admin/access.rst:253
 msgid "Can manage glossary (add or remove entries, or upload)."
-msgstr ""
+msgstr "用語集を管理できる（エントリの追加または削除、またはアップロード）。"
 
 #: ../../admin/access.rst:257
 msgid "Can manage translated languages - add or remove translations."
-msgstr ""
+msgstr "翻訳言語を管理できる - 翻訳の追加または削除。"
 
 #: ../../admin/access.rst:261
 msgid ""
 "Can manage screenshots - add or remove them, and associate them to source "
 "strings."
-msgstr ""
+msgstr "スクリーンショットを管理できる - 追加または削除し、原文に関連付ける。"
 
 #: ../../admin/access.rst:266
 msgid ""
 "Can edit translation templates in :ref:`monolingual` and source string info."
-msgstr ""
+msgstr ":ref:`monolingual` の変換テンプレートと原文情報を編集できる。"
 
 #: ../../admin/access.rst:271
 msgid "Can translate the project, and upload translations made offline."
-msgstr ""
+msgstr "プロジェクトを翻訳し、オフラインで作成した翻訳をアップロードできる。"
 
 #: ../../admin/access.rst:275
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "VCS を管理し、エクスポートしたリポジトリにアクセスできる。"
 
 #: ../../admin/access.rst:279
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "査読中に翻訳を承認できる。"
 
 #: ../../admin/access.rst:283
 msgid "Can access billing info (see :ref:`billing`)."
-msgstr ""
+msgstr "請求情報にアクセスできる（参照 :ref:`billing`）。"
 
 #: ../../admin/access.rst:289
 msgid "Custom access control"
-msgstr ""
+msgstr "カスタム アクセス制御"
 
 #: ../../admin/access.rst:291
 msgid ""
@@ -913,7 +926,7 @@ msgstr ""
 
 #: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "査読者用のグループ（参照 :ref:`workflows`）。"
 
 #: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
@@ -15172,11 +15185,9 @@ msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
 
 #: ../../api.rst:1869 ../../api.rst:1884 ../../api.rst:1897
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid ""
 "Additiona string flags, available on source units, see :ref:`custom-checks`"
-msgstr "翻訳フラグの調整（参照 :ref:`custom-checks`）"
+msgstr "原文ユニットで使用可能な追加の文字列フラグ、参照 :ref:`custom-checks`"
 
 #: ../../api.rst:1870
 msgid "URL where the unit can be edited"
@@ -21299,221 +21310,177 @@ msgstr ""
 "ファイルのレイアウトを定義します。"
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Weblate Translation Memory Schema"
-msgstr "翻訳メモリの削除"
+msgstr "Weblate 翻訳メモリ概要"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Key type"
 msgid "type"
-msgstr "鍵のタイプ"
+msgstr "型"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
-msgstr ""
+msgstr "*配列*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "items"
-msgstr ""
+msgstr "項目"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Translation Memory"
 msgid "*The Translation Memory Item*"
-msgstr "翻訳メモリ"
+msgstr "*翻訳メモリの項目*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Object"
 msgid "*object*"
-msgstr "オブジェクト"
+msgstr "*オブジェクト*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "properties"
-msgstr "GWT プロパティ"
+msgstr "プロパティ"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Category"
 msgid "**category**"
-msgstr "分類"
+msgstr "**category**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String state"
 msgid "*The String Category*"
-msgstr "文字列の状態"
+msgstr "*文字列のカテゴリー*"
 
 #: ../../contributing/schemas.rst:9
 msgid ""
 "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user "
 "specific"
-msgstr ""
+msgstr "1 = グローバル、2 = 共有、10000000 以上 = プロジェクト固有、20000000 以上 = ユーザ固有"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*integer*"
-msgstr ""
+msgstr "*整数*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Some examples:"
 msgid "examples"
-msgstr "複数の例:"
+msgstr "例"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../workflows.rst:95
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../../contributing/schemas.rst:9
 msgid "minimum"
-msgstr ""
+msgstr "最小"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
 #: ../../workflows.rst:65 ../../workflows.rst:132
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default font"
 msgid "default"
-msgstr "デフォルト フォント"
+msgstr "デフォルト"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Origin"
 msgid "**origin**"
-msgstr "オリジナル"
+msgstr "**origin**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
-msgstr ""
+msgstr "*文字列のオリジナル*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Rename component"
 msgid "Filename or component name"
-msgstr "コンポーネントの名前を変更"
+msgstr "ファイル名またはコンポーネント名"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Strings"
 msgid "*string*"
-msgstr "文字列"
+msgstr "*文字列*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test"
-msgstr ""
+msgstr "test"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "pattern"
-msgstr ""
+msgstr "パターン"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.\\*)$"
-msgstr ""
+msgstr "^(.\\*)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**source**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source string"
 msgid "*The Source String*"
-msgstr "原文"
+msgstr "*原文*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Yellow"
 msgid "Hello"
-msgstr "黄色"
+msgstr "Hello"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.+)$"
-msgstr ""
+msgstr "^(.+)$"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "**source\\_language**"
-msgstr "原文の言語"
+msgstr "**source\\_language**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "*The Source Language*"
-msgstr "原文の言語"
+msgstr "*原文の言語*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
-msgstr ""
+msgstr "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Zen"
 msgid "en"
-msgstr "Zen"
+msgstr "en"
 
 #: ../../contributing/schemas.rst:9
 msgid "^([^ ]+)$"
-msgstr ""
+msgstr "^([^ ]+)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr ""
+msgstr "**target**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Target strings"
 msgid "*The Target String*"
-msgstr "翻訳文"
+msgstr "*翻訳対象の文字列*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
-msgstr ""
+msgstr "Ahoj"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "**target\\_language**"
-msgstr "翻訳対象の言語"
+msgstr "**target\\_language**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "*The Target Language*"
-msgstr "翻訳対象の言語"
+msgstr "*翻訳対象の言語*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
-msgstr ""
+msgstr "cs"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Additional projects"
 msgid "additionalProperties"
-msgstr "追加のプロジェクト"
+msgstr "追加のプロパティ"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
-msgstr ""
+msgstr "False"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "definitions"
-msgstr "言語定義の追加"
+msgstr "定義"
 
 #: ../../contributing/schemas.rst:12
 msgid ""
@@ -21522,38 +21489,28 @@ msgstr ""
 ":ref:`translation-memory`、 :djadmin:`dump_memory`、 :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "data exports"
 msgid "Weblate user data export"
-msgstr "データのエクスポート"
+msgstr "Weblate ユーザー データのエクスポート"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "https://docs.weblate.org/en/latest/admin/install.html"
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
-msgstr "https://docs.weblate.org/ja/latest/admin/install.html"
+msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr ""
+msgstr "**basic**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Basic"
 msgid "*Basic*"
-msgstr "基本"
+msgstr "*基本*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "**username**"
-msgstr "ユーザー名"
+msgstr "**username**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "*Username*"
-msgstr "ユーザー名"
+msgstr "*Username*"
 
 #: ../../contributing/schemas.rst:19
 msgid "admin"
@@ -21561,374 +21518,278 @@ msgstr "管理者"
 
 #: ../../contributing/schemas.rst:19
 msgid "^.\\*$"
-msgstr ""
+msgstr "^.\\*$"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "**full\\_name**"
-msgstr "フルネーム"
+msgstr "**full\\_name**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "*Full name*"
-msgstr "フルネーム"
+msgstr "*フル ネーム*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate Admin"
-msgstr "Weblate の管理"
+msgstr "Weblate 管理者"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
-msgstr ""
+msgstr "**email**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "*E-mail*"
-msgstr "メールアドレス"
+msgstr "*メールアドレス*"
 
 #: ../../contributing/schemas.rst:19
 msgid "noreply@example.com"
-msgstr ""
+msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "**date\\_joined**"
-msgstr "参加日"
+msgstr "**date\\_joined**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "*Date joined*"
-msgstr "参加日"
+msgstr "*登録日*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
-msgstr ""
+msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "**profile**"
-msgstr "プロフィール"
+msgstr "**profile**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "*Profile*"
-msgstr "プロフィール"
+msgstr "*プロフィール*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Per language"
 msgid "**language**"
-msgstr "言語別に"
+msgstr "**language**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language"
 msgid "*Language*"
-msgstr "言語"
+msgstr "*言語*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Suggested"
 msgid "**suggested**"
-msgstr "提案"
+msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "*Number of sugested strings*"
-msgstr "原文文字列の数"
+msgstr "*提案された文字列の数*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "translated"
 msgid "**translated**"
-msgstr "翻訳済"
+msgstr "**translated**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "*Number of translated strings*"
-msgstr "翻訳済み文字列の数"
+msgstr "*翻訳済み文字列の数*"
 
 #: ../../contributing/schemas.rst:19 ../../devel/reporting-example.rst:4
 #: ../../devel/reporting-example.rst:5
 msgid "24"
-msgstr ""
+msgstr "24"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "**uploaded**"
-msgstr "アップロード者"
+msgstr "**uploaded**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "*Number of uploaded screenshots*"
-msgstr "アップロードされた共有エントリ数"
+msgstr "*アップロードされたスクリーンショットの数*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "*Hide completed translations on the dashboard*"
-msgstr "ダッシュボードに翻訳済みを表示しない"
+msgstr "*完了した翻訳をダッシュボードで非表示にする*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
-msgstr ""
+msgstr "*boolean*"
 
 #: ../../contributing/schemas.rst:19
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
-msgstr ""
+msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Show secondary translations in the Zen mode"
 msgid "*Show secondary translations in the Zen mode*"
-msgstr "Zen モードで参考言語を表示する"
+msgstr "*Zen モードで参考言語を表示する*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
-msgstr ""
+msgstr "**hide\\_source\\_secondary**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide source if a secondary translation exists"
 msgid "*Hide source if a secondary translation exists*"
-msgstr "参考言語の翻訳がある場合は原文を表示しない"
+msgstr "*参考言語の翻訳がある場合は原文を表示しない*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "**editor\\_link**"
-msgstr "エディタ リンク"
+msgstr "**editor\\_link**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "*Editor link*"
-msgstr "エディタ リンク"
+msgstr "*エディタ リンク*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Untranslated"
 msgid "**translate\\_mode**"
-msgstr "未翻訳"
+msgstr "**translate\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translation editor mode"
 msgid "*Translation editor mode*"
-msgstr "翻訳エディタ モード"
+msgstr "*翻訳エディタ モード*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
-msgstr ""
+msgstr "**zen\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Zen editor mode"
 msgid "*Zen editor mode*"
-msgstr "Zen 編集モード"
+msgstr "*Zen 編集モード*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "**special\\_chars**"
-msgstr "特殊記号"
+msgstr "**special\\_chars**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "*Special characters*"
-msgstr "特殊記号"
+msgstr "*特殊文字*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "**dashboard\\_view**"
-msgstr "デフォルトのダッシュボード画面"
+msgstr "**dashboard\\_view**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "*Default dashboard view*"
-msgstr "デフォルトのダッシュボード画面"
+msgstr "*デフォルトのダッシュボード画面*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_component\\_list**"
-msgstr ""
+msgstr "**dashboard\\_component\\_list**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default component list"
 msgid "*Default component list*"
-msgstr "デフォルトのコンポーネント リスト"
+msgstr "*デフォルトのコンポーネント リスト*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "なし"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
-msgstr ""
+msgstr "どちらか"
 
 #: ../../contributing/schemas.rst:19
 msgid "*null*"
-msgstr ""
+msgstr "*null*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Languages"
 msgid "**languages**"
-msgstr "言語"
+msgstr "**languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translated languages"
 msgid "*Translated languages*"
-msgstr "翻訳言語"
+msgstr "*翻訳言語*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language code"
 msgid "*Language code*"
-msgstr "言語コード"
+msgstr "*言語コード*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "**secondary\\_languages**"
-msgstr "参考言語"
+msgstr "**secondary\\_languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "*Secondary languages*"
-msgstr "参考言語"
+msgstr "*参考言語*"
 
 #: ../../contributing/schemas.rst:19
 msgid "sk"
-msgstr ""
+msgstr "sk"
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
-msgstr "**監視**"
+msgstr "**watched**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Watched projects"
 msgid "*Watched projects*"
-msgstr "監視中のプロジェクト"
+msgstr "*監視中のプロジェクト*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Project URL slug"
 msgid "*Project slug*"
-msgstr "プロジェクト URL スラッグ"
+msgstr "*プロジェクトのスラッグ*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate 4.3"
 msgid "weblate"
-msgstr "Weblate 4.3"
+msgstr "weblate"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "**auditlog**"
-msgstr "監査ログ"
+msgstr "**auditlog**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "*Audit log*"
-msgstr "監査ログ"
+msgstr "*監査ログ*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
-msgstr ""
+msgstr "*項目*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "**address**"
-msgstr "IP アドレス"
+msgstr "**address**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "*IP address*"
-msgstr "IP アドレス"
+msgstr "*IP アドレス*"
 
 #: ../../contributing/schemas.rst:19
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "**user\\_agent**"
-msgstr "ユーザーエージェント"
+msgstr "**user\\_agent**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "*User agent*"
-msgstr "ユーザーエージェント"
+msgstr "*ユーザー エージェント*"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
-msgstr ""
+msgstr "PC / Linux / Firefox 70.0"
 
 #: ../../contributing/schemas.rst:19
 msgid "**timestamp**"
-msgstr ""
+msgstr "**timestamp**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Timestamp*"
-msgstr ""
+msgstr "*タイムスタンプ*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:58:30.845Z"
-msgstr ""
+msgstr "2019-11-18T18:58:30.845Z"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "**activity**"
-msgstr "作業履歴"
+msgstr "**activity**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "*Activity*"
-msgstr "作業履歴"
+msgstr "*作業履歴*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Login"
 msgid "login"
 msgstr "ログイン"
 
@@ -23564,7 +23425,7 @@ msgstr ""
 msgid ""
 "Set up your Git repository to tell Weblate when there is any change, see :"
 "ref:`hooks` for info on how to do it."
-msgstr ""
+msgstr "変更があれば Weblate に通知するように Git リポジトリを設定します、方法は :ref:`hooks` を参照してください。"
 
 #: ../../faq.rst:18
 msgid ""
@@ -25473,7 +25334,7 @@ msgstr ""
 
 #: ../../formats.rst:1199
 msgid "App store metadata files"
-msgstr "アプリストア メタデータファイル"
+msgstr "アプリ ストア メタデータ ファイル"
 
 #: ../../formats.rst:1203
 msgid ""
@@ -28024,9 +27885,8 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
-"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力"
-"すると、あなたのユーザープロフィールが表示されるすべての場所で、そのデータが"
-"共有されることに同意したとみなされます。"
+"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力すると、あなたのユーザー "
+"プロフィールが表示されるすべての場所で、そのデータが共有されることに同意したとみなされます。"
 
 #: ../../user/profile.rst:116
 msgid ""
@@ -28445,9 +28305,8 @@ msgid ""
 "set up for direct translation, or by way of accepting suggestions made by "
 "users without accounts."
 msgstr ""
-"Weblate を使用する翻訳に関心をお寄せいただきありがとうございます。プロジェク"
-"トは、直接翻訳するように設定することも、アカウントを持たないユーザーからの提"
-"案を受け入れるように設定することもできます。"
+"Weblate を使用した翻訳に関心をお寄せいただきありがとうございます。プロジェクトは、直接翻訳するように設定することも、アカウントを持たないユーザーか"
+"らの提案を受け入れるように設定することもできます。"
 
 #: ../../user/translating.rst:8
 msgid "Overall, there are two modes of translation:"
@@ -30226,27 +30085,27 @@ msgstr ""
 
 #: ../../workflows.rst:47
 msgid "Direct translation"
-msgstr ""
+msgstr "直接翻訳"
 
 #: ../../workflows.rst:48
 msgid ""
 "This is most usual setup for smaller teams, anybody can directly translate. "
 "This is also the default setup in Weblate."
-msgstr ""
+msgstr "これは、小規模なチームのための最も一般的な設定でり、誰でも直接翻訳できます。これは Weblate のデフォルトの設定です。"
 
 #: ../../workflows.rst:51
 msgid "*Any user* can edit translations."
-msgstr ""
+msgstr "*誰でも* 翻訳を編集できる。"
 
 #: ../../workflows.rst:52
 msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
-msgstr ""
+msgstr "提案とは、翻訳者が変更を迷っている場合に、変更を提案する選択方法です。"
 
 #: ../../workflows.rst:56 ../../workflows.rst:87 ../../workflows.rst:123
 msgid "Setting"
-msgstr ""
+msgstr "設定"
 
 #: ../../workflows.rst:56 ../../workflows.rst:87 ../../workflows.rst:123
 msgid "Note"
@@ -30255,31 +30114,31 @@ msgstr "メモ"
 #: ../../workflows.rst:58 ../../workflows.rst:63 ../../workflows.rst:89
 #: ../../workflows.rst:93 ../../workflows.rst:127 ../../workflows.rst:130
 msgid "off"
-msgstr "無効"
+msgstr "off"
 
 #: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
 msgid "Configured at project level."
-msgstr ""
+msgstr "プロジェクト レベルで設定済み。"
 
 #: ../../workflows.rst:60 ../../workflows.rst:91 ../../workflows.rst:125
 msgid "on"
-msgstr "有効"
+msgstr "on"
 
 #: ../../workflows.rst:60 ../../workflows.rst:127
 msgid "It is useful for users to be able to suggest when they are not sure."
-msgstr ""
+msgstr "ユーザーが迷っている場合に提案できると便利です。"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Translators group"
-msgstr ""
+msgstr "翻訳者グループ"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Or `Translate` with :ref:`privileges`."
-msgstr ""
+msgstr "または :ref:`privileges` で `Translate` 。"
 
 #: ../../workflows.rst:70 ../../workflows.rst:101 ../../workflows.rst:137
 msgid "Reviewers group"
-msgstr ""
+msgstr "査読者グループ"
 
 #: ../../workflows.rst:70 ../../workflows.rst:101
 msgid "N/A"
@@ -30287,7 +30146,7 @@ msgstr "該当なし"
 
 #: ../../workflows.rst:70
 msgid "Not used."
-msgstr ""
+msgstr "未使用。"
 
 #: ../../workflows.rst:77
 msgid "Peer review"
