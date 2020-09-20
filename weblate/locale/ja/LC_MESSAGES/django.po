@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-20 07:31+0000\n"
-"PO-Revision-Date: 2020-09-20 07:31+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2020-09-20 14:33+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1618,7 +1618,7 @@ msgstr "新しい文字列の追加"
 #. Translators: Permission name
 #: weblate/auth/data.py:92
 msgid "Ignore failing check"
-msgstr "検査不合格の無視"
+msgstr "検査不合格の除外"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:94
@@ -3982,9 +3982,8 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"登録を行なうことで、コミット内に名前とメールアドレスが書き込まれるようになる"
-"ほか、翻訳結果を各翻訳プロジェクトで規定されているライセンスで提供することに"
-"なります。"
+"登録をすると、バージョン管理システムにあなたの名前とメールアドレスでコミットし、翻訳した各プロジェクトが規定したライセンスに基づいて提供することに同意した"
+"とみなされます。"
 
 #: weblate/templates/accounts/email.html:30
 #: weblate/templates/accounts/register.html:46 weblate/templates/base.html:192
@@ -4013,16 +4012,12 @@ msgid "Check user access"
 msgstr "ユーザー アクセスの確認"
 
 #: weblate/templates/accounts/hosting.html:60
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Not passed guidelines from the community localization checklist:"
-msgstr "現地化コミュニティのチェックリスト"
+msgstr "現地化コミュニティのガイドラインに不合格の検査項目:"
 
 #: weblate/templates/accounts/hosting.html:77
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please check that following conditions are met:"
-msgstr "以下にある貢献者同意条項をお読みください:"
+msgstr "以下の条件を満たしていることを確認してください:"
 
 #: weblate/templates/accounts/hosting.html:79
 #: weblate/templates/accounts/hosting.html:116
@@ -4040,7 +4035,7 @@ msgstr "Weblateの使用は、上流のプロジェクトで承認されてい�
 #: weblate/templates/accounts/hosting.html:81
 #: weblate/templates/accounts/hosting.html:118
 msgid "The project has active development for at least three months."
-msgstr "そのプロジェクトは少なくとも 3 カ月間は活発に開発しています。"
+msgstr "プロジェクトには少なくとも 3 か月間は活動している開発があります。"
 
 #: weblate/templates/accounts/hosting.html:84
 msgid "Approve as libre"
@@ -7392,15 +7387,12 @@ msgid ""
 msgstr "最近実行した操作が多すぎるため、要求は拒否されました。"
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please sign in and try again later."
 msgid "You have been signed out, please sign in and try again later."
-msgstr ""
-"ログアウトしました。しばらくしてからサインインしてもう一度試してください。"
+msgstr "サインアウトしました。サインインして、後でもう一度やり直してください。"
 
 #: weblate/templates/ratelimit.html:9
 msgid "Please try again later."
-msgstr "しばらくしてから再度お試しください。"
+msgstr "後でもう一度やり直してください。"
 
 #: weblate/templates/replace.html:19
 msgid "Please review and confirm the search and replace results."
@@ -7641,9 +7633,8 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"登録を行なうことで、 VCS のコミット内に名前とメールアドレスが書き込まれるよう"
-"になるほか、翻訳結果を各翻訳プロジェクトで規定されているライセンスで提供する"
-"ことになります。"
+"登録をすると、バージョン管理システムにあなたの名前とメールアドレスでコミットし、翻訳した各プロジェクトが規定したライセンスに基づいて提供することに同意した"
+"とみなされます。"
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -7794,10 +7785,8 @@ msgid "All untranslated strings added the past month"
 msgstr "過去 1 か月に追加された未翻訳の全文字列"
 
 #: weblate/templates/snippets/query-builder.html:105
-#, fuzzy
-#| msgid "Translated strings with any failing checks"
 msgid "Translated strings in a certain language"
-msgstr "検査不合格の翻訳"
+msgstr "特定の言語で翻訳した文字列"
 
 #: weblate/templates/snippets/query-field.html:9
 msgid "Custom Search"
@@ -8298,9 +8287,7 @@ msgstr ""
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
-msgstr ""
-"操作は元に戻せません。%(object)s の翻訳と関連するすべてのコンテンツを完全に削"
-"除します。"
+msgstr "操作は元に戻せません。%(object)s コンポーネントと関連するすべての内容を完全に削除します。"
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
@@ -9968,17 +9955,13 @@ msgstr "貢献者同意条項の変更"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:425
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component automatically locked"
-msgstr "コンポーネントのアンロック"
+msgstr "コンポーネントの自動ロック"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:427
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component automatically unlocked"
-msgstr "コンポーネントのアンロック"
+msgstr "コンポーネントの自動ロック解除"
 
 #: weblate/trans/models/change.py:482
 #, python-format
@@ -10214,7 +10197,7 @@ msgstr "強制的に検査"
 
 #: weblate/trans/models/component.py:440
 msgid "List of checks which can not be ignored."
-msgstr "無視できない検査項目。"
+msgstr "除外できない検査項目。"
 
 #: weblate/trans/models/component.py:458
 msgid ""
@@ -10481,10 +10464,8 @@ msgid "Using a .pot file as base file is unsupported."
 msgstr ".pot ファイルを基本ファイルにすることは未対応です。"
 
 #: weblate/trans/models/component.py:2096
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "File does not exist."
-msgstr "この翻訳はまだありません。"
+msgstr "ファイルが存在しません。"
 
 #: weblate/trans/models/component.py:2101
 #, python-format
@@ -11555,11 +11536,11 @@ msgstr "無し"
 #: weblate/utils/validators.py:66
 #, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "コンパイルに失敗しました: {0}"
+msgstr "コンパイルに失敗: {0}"
 
 #: weblate/utils/validators.py:69
 msgid "The regular expression can not match an empty string."
-msgstr "この正規表現は空白文字列と一致してはいけません。"
+msgstr "正規表現は空白文字列と一致しません。"
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
