@@ -70,12 +70,12 @@
 <div class="col-sm-9">
 
 <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
-<div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_source %}panel-warning{% else %}panel-default{% endif %}">
+<div class="panel {% if unit.approved %}panel-success{% elif unit.is_source %}panel-warning{% else %}panel-default{% endif %}">
 
   <div class="panel-heading">
   <a class="btn btn-link btn-xs pull-right flip" href="{{ site_url }}{{ unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
   <h4 class="panel-title">
-    {% if unit.translation.is_source %}
+    {% if unit.is_source %}
         {% trans "Source string" %}
     {% else %}
         {% trans "Translation" %}
@@ -108,7 +108,7 @@
     </div>
     {% endif %}
 
-    {% if unit.translation.is_source %}
+    {% if unit.is_source %}
         {% if unit.context %}
             <!-- editing template -->
             <div class="form-group">
@@ -146,7 +146,7 @@
         </div>
     {% endif %}
 
-    {% if not unit.translation.is_source %}
+    {% if not unit.is_source %}
         {% if not user.profile.hide_source_secondary or not secondary %}
             <!-- source -->
             <div class="form-group">

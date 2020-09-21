@@ -103,7 +103,7 @@ def bulk_perform(
                     state=target_state
                 ).update(pending=True, state=target_state)
                 for unit in component_units:
-                    if unit.translation.is_source:
+                    if unit.is_source:
                         unit.is_bulk_edit = True
                         update_source(Unit, unit)
 

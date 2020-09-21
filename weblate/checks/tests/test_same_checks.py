@@ -39,6 +39,7 @@ class SameCheckTest(CheckTestCase):
         # Is template
         unit.translation.is_template = True
         unit.translation.is_source = True
+        unit.is_source = True
         self.assertTrue(self.check.should_skip(unit))
         # Is same as source
         unit.translation.template = False

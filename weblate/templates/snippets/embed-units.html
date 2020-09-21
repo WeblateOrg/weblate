@@ -5,7 +5,7 @@
 <thead>
 <tr>
     <th>{{ unit.translation.component.context_label }}</th>
-    {% if not unit.translation.is_source %}
+    {% if not unit.is_source %}
     <th>{{ unit.translation.component.source_language }}</th>
     {% endif %}
     <th>{{ unit.translation.language }}</th>
@@ -16,7 +16,7 @@
 {% for unit in units %}
 <tr {% if current_unit.id == unit.id %}class="current_translation"{% endif %}>
 <td>{% if unit.context %}<a href="{{ unit.get_absolute_url }}">{% format_translation unit.context unit.translation.component.source_language simple=True %}</a>{% endif %}</td>
-{% if not unit.translation.is_source %}
+{% if not unit.is_source %}
 <td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.component.source_language simple=True %}</a></td>
 {% endif %}
 <td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural simple=True %}</a></td>
