@@ -1214,7 +1214,7 @@ class CSVFormat(TTKitFormat):
 
         # Parse file
         store = storeclass()
-        store.parse(content)
+        store.parse(content, sample_length=None)
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
             return store
@@ -1238,7 +1238,7 @@ class CSVFormat(TTKitFormat):
     def parse_simple_csv(cls, content, storefile):
         storeclass = cls.get_class()
         result = storeclass(fieldnames=["source", "target"], encoding=cls.encoding)
-        result.parse(content)
+        result.parse(content, sample_length=None)
         result.fileobj = storefile
         filename = getattr(storefile, "name", getattr(storefile, "filename", None))
         if filename:
