@@ -48,16 +48,12 @@ from weblate.accounts.utils import (
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
+from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
-from weblate.utils.forms import SortedSelect, SortedSelectMultiple
+from weblate.utils.forms import SortedSelect, SortedSelectMultiple, UsernameField
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
-from weblate.utils.validators import (
-    validate_email,
-    validate_fullname,
-    validate_username,
-)
+from weblate.utils.validators import validate_email, validate_fullname
 
 
 class UniqueEmailMixin:
@@ -107,24 +103,7 @@ class EmailField(forms.CharField):
         super().__init__(*args, **kwargs)
 
 
-class UsernameField(forms.CharField):
-    default_validators = [validate_username]
-
-    def __init__(self, *args, **kwargs):
-        params = {
-            "max_length": USERNAME_LENGTH,
-            "help_text": _(
-                "Username may only contain letters, "
-                "numbers or the following characters: @ . + - _"
-            ),
-            "label": _("Username"),
-            "required": True,
-        }
-        params.update(kwargs)
-        self.valid = None
-
-        super().__init__(*args, **params)
-
+class UniqueUsernameField(UsernameField):
     def clean(self, value):
         """Username validation, requires a unique name."""
         if value is None:
@@ -273,7 +252,7 @@ class DashboardSettingsForm(ProfileBaseForm):
 class UserForm(forms.ModelForm):
     """User information form."""
 
-    username = UsernameField()
+    username = UniqueUsernameField()
     email = forms.ChoiceField(
         label=_("E-mail"),
         help_text=_("You can add another e-mail address below."),
@@ -368,7 +347,7 @@ class RegistrationForm(EmailForm):
     required_css_class = "required"
     error_css_class = "error"
 
-    username = UsernameField()
+    username = UniqueUsernameField()
     # This has to be without underscore for social-auth
     fullname = FullNameField()
     content = forms.CharField(required=False)

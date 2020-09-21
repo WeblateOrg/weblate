@@ -23,7 +23,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UsernameField
+from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import AutoGroup, Group, User
 from weblate.wladmin.models import WeblateModelAdmin
@@ -63,7 +63,7 @@ class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = "__all__"
-        field_classes = {"username": UsernameField, "full_name": FullNameField}
+        field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -77,7 +77,7 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
     class Meta:
         model = User
         fields = ("username", "email", "full_name")
-        field_classes = {"username": UsernameField, "full_name": FullNameField}
+        field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

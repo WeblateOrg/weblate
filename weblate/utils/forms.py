@@ -17,15 +17,36 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.template.loader import render_to_string
 from django.utils.encoding import force_str
+from django.utils.translation import gettext_lazy as _
 
+from weblate.trans.defines import USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
+from weblate.utils.validators import validate_username
+
+
+class UsernameField(forms.CharField):
+    default_validators = [validate_username]
+
+    def __init__(self, *args, **kwargs):
+        params = {
+            "max_length": USERNAME_LENGTH,
+            "help_text": _(
+                "Username may only contain letters, "
+                "numbers or the following characters: @ . + - _"
+            ),
+            "label": _("Username"),
+            "required": True,
+        }
+        params.update(kwargs)
+        self.valid = None
+
+        super().__init__(*args, **params)
 
 
 class SortedSelectMixin:
@@ -99,4 +120,4 @@ class FilterForm(forms.Form):
     project = forms.SlugField(required=False)
     component = forms.SlugField(required=False)
     lang = forms.SlugField(required=False)
-    user = forms.SlugField(required=False)
+    user = UsernameField(required=False)

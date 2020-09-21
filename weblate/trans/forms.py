@@ -43,7 +43,6 @@ from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
-from weblate.accounts.forms import UsernameField
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
@@ -62,6 +61,7 @@ from weblate.utils.forms import (
     SearchField,
     SortedSelect,
     SortedSelectMultiple,
+    UsernameField,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.search import parse_query
