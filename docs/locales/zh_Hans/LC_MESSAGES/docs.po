@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
-"PO-Revision-Date: 2020-09-21 08:32+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"PO-Revision-Date: 2020-09-22 09:48+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1880,14 +1880,6 @@ msgid ":doc:`psa:pipeline`"
 msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
-#, fuzzy
-#| msgid ""
-#| "Enabling individual backends is quite easy, it's just a matter of adding "
-#| "an entry to the ``AUTHENTICATION_BACKENDS`` setting and possibly adding "
-#| "keys needed for a given authentication method. Please note that some "
-#| "backends do not provide user e-mail by default, you have to request it "
-#| "explicitly, otherwise Weblate will not be able to properly credit "
-#| "contributions users make."
 msgid ""
 "Enabling individual backends is quite easy, it's just a matter of adding an "
 "entry to the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly "
@@ -1896,9 +1888,8 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
-"允许各自的后端非常容易，只是添加 ``AUTHENTICATION_BACKENDS`` 入口设置，并且可"
-"能为给定的身份验证方法添加所需的密钥。请注意，一些后端不默认提供用户邮箱，必"
-"须另外请求，否则 Weblate 不能确认用户做出的贡献。"
+"启用单独的后端非常简单，只需添加一个条目至设置 :setting:`django:AUTHENTICATION_BACKENDS`即可 "
+"(可能还需为一个给定的验证方式添加密钥) 请注意，一些后端默认不提供用户电子邮件，你必须明确地请求，否则Weblate无法将功劳归于作出贡献的用户。"
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -2237,15 +2228,6 @@ msgid ""
 msgstr "一旦安装了软件包，就可以钩入 Django 身份验证了："
 
 #: ../../admin/auth.rst:471
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the "
-#| "``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set "
-#| "their password in Weblate, and authenticate using that. Keeping "
-#| "``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order "
-#| "to make permissions and facilitate anonymous users. It will also allow "
-#| "you to sign in using a local admin account, if you have created it (e.g. "
-#| "by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -2255,11 +2237,11 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
-"应该从 ``AUTHENTICATION_BACKENDS`` 设置中删除 ``'social_core.backends.email."
-"EmailAuth'`` ，否则用户将能够在 Weblate 中设置自己的密码，并且用来进行身份验"
-"证。仍然需要保留 ``'weblate.accounts.auth.WeblateUserBackend'`` 来生成权限，"
-"并实现匿名用户。这也会让你使用本地管理账户来登录，如果有的话（例如通过使用 :"
-"djadmin:`createadmin` ）。"
+"你应当从设置的:setting:`django:AUTHENTICATION_BACKENDS`部分移除``'social_core.backends."
+"email."
+"EmailAuth'``，否则用户不能够在Weblate中设置他们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留``'weblate."
+"accounts.auth.WeblateUserBackend'``。它还允许你使用一个本地管理帐户登录，如果你已经创建了它 "
+"（如，通过使用:djadmin:`createadmin`）。"
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
@@ -4621,18 +4603,13 @@ msgid "List for credentials for GitLab servers."
 msgstr "用于 GitLab 服务器的证明列表。"
 
 #: ../../admin/config.rst:586
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
-#| "`GITLAB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
 "`GITLAB_TOKEN`."
 msgstr ""
-"在您想要 Weblate 与他们中的更多交互的情况下，使用这个，对于单一的 GitHub 终"
-"点，紧跟 :setting:`GITLAB_USERNAME` 和 :setting:`GITLAB_TOKEN`。"
+"如果你想要Weblate与它们中的更多进行交互，请使用此功能，对于单一的 GitLab 端点，继续使用 "
+":setting:`GITLAB_USERNAME` 和 :setting:`GITLAB_TOKEN`。"
 
 #: ../../admin/config.rst:606
 msgid "GITLAB_USERNAME"
@@ -5646,10 +5623,8 @@ msgid "The backend names match names used in URL for authentication."
 msgstr "与身份验证 URL 中使用的名称匹配的后端名称。"
 
 #: ../../admin/config.rst:1465
-#, fuzzy
-#| msgid ":setting:`REGISTRATION_OPEN`"
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
-msgstr ":setting:`REGISTRATION_OPEN`"
+msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
 #: ../../admin/config.rst:1471
 msgid "REGISTRATION_CAPTCHA"
@@ -5733,15 +5708,12 @@ msgstr ""
 "仍然能够登录并建立账户。"
 
 #: ../../admin/config.rst:1521
-#, fuzzy
-#| msgid ""
-#| ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
-#| "`REGISTRATION_EMAIL_MATCH`"
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
-":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1528
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -16633,16 +16605,12 @@ msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:1877
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs partial update on translation unit."
-msgstr "执行自动翻译"
+msgstr "对翻译单元执行部分更新。"
 
 #: ../../api.rst:1890
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs full update on translation unit."
-msgstr "执行自动翻译"
+msgstr "对翻译单元执行完整翻译。"
 
 #: ../../api.rst:1908
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -17223,16 +17191,12 @@ msgid "Consolidated API respons status codes."
 msgstr ""
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "Support markdown in contributor agreement."
-msgstr "查看贡献者协议"
+msgstr "在贡献者协议中支持markdown。"
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Improved source strings tracking."
-msgstr "复查 %s 的源字符串"
+msgstr "改进了源字符串追踪。"
 
 #: ../../changes.rst:27
 msgid "Weblate 4.2.2"
@@ -22717,20 +22681,16 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Weblate Translation Memory"
 msgid "Weblate Translation Memory Schema"
-msgstr "Weblate 翻译记忆库"
+msgstr "Weblate 翻译记忆库概要"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Key type"
 msgid "type"
-msgstr "密钥类型"
+msgstr "类型"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
@@ -22741,34 +22701,24 @@ msgid "items"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Translation Memory"
 msgid "*The Translation Memory Item*"
-msgstr "翻译记忆库"
+msgstr "*翻译记忆项*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Object"
 msgid "*object*"
-msgstr "对象"
+msgstr "*对象*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "properties"
-msgstr "GWT 属性"
+msgstr "属性"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Category"
 msgid "**category**"
-msgstr "分类"
+msgstr "**类别**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String state"
 msgid "*The String Category*"
-msgstr "字符串状态"
+msgstr "*字符串类别*"
 
 #: ../../contributing/schemas.rst:9
 msgid ""
@@ -22781,8 +22731,6 @@ msgid "*integer*"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Examples"
 msgid "examples"
 msgstr "例子"
 
@@ -22802,32 +22750,24 @@ msgid "0"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default font"
 msgid "default"
-msgstr "默认字体"
+msgstr "默认"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Origin"
 msgid "**origin**"
-msgstr "来源"
+msgstr "**来源**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Rename component"
 msgid "Filename or component name"
-msgstr "重命名组件"
+msgstr "文件名或组件名"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Strings"
 msgid "*string*"
-msgstr "字符串"
+msgstr "*字符串*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test"
@@ -22846,42 +22786,32 @@ msgid "**source**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source string"
 msgid "*The Source String*"
-msgstr "源字符串"
+msgstr "*源字符串*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Yellow"
 msgid "Hello"
-msgstr "黄色"
+msgstr "你好"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.+)$"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "**source\\_language**"
-msgstr "源语言"
+msgstr "**源\\_语言**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "*The Source Language*"
-msgstr "源语言"
+msgstr "*源语言*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Zen"
 msgid "en"
-msgstr "禅模式"
+msgstr "英语"
 
 #: ../../contributing/schemas.rst:9
 msgid "^([^ ]+)$"
@@ -22892,46 +22822,36 @@ msgid "**target**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Target strings"
 msgid "*The Target String*"
-msgstr "目标字符串"
+msgstr "*目标字符串*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "**target\\_language**"
-msgstr "字符串目标语言"
+msgstr "**目标\\_语言**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "*The Target Language*"
-msgstr "字符串目标语言"
+msgstr "*目标语言*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Additional projects"
 msgid "additionalProperties"
-msgstr "其他项目"
+msgstr "额外属性"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language definitions"
 msgid "definitions"
-msgstr "语言定义"
+msgstr "定义"
 
 #: ../../contributing/schemas.rst:12
 msgid ""
@@ -22939,145 +22859,104 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Weblate currently supports:"
 msgid "Weblate user data export"
-msgstr "当前的 Weblate 支持："
+msgstr "Weblate 用户数据导出"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "https://docs.weblate.org/en/latest/admin/install.html"
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
-msgstr "https://docs.weblate.org/en/latest/admin/install.html"
+msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Basic"
 msgid "*Basic*"
-msgstr "基本"
+msgstr "*基础*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "**username**"
-msgstr "用户名"
+msgstr "**用户名**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "*Username*"
-msgstr "用户名"
+msgstr "*用户名*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "createadmin"
 msgid "admin"
-msgstr "createadmin"
+msgstr "管理员"
 
 #: ../../contributing/schemas.rst:19
 msgid "^.\\*$"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "**full\\_name**"
-msgstr "全名"
+msgstr "**完整\\_名称**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "*Full name*"
-msgstr "全名"
+msgstr "*完整名称*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "Weblate Admin"
-msgstr "Weblate 客户端"
+msgstr "Weblate 管理员"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "*E-mail*"
-msgstr "电子邮箱"
+msgstr "*电子邮件*"
 
 #: ../../contributing/schemas.rst:19
 msgid "noreply@example.com"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "**date\\_joined**"
-msgstr "加入时间"
+msgstr "**加入\\_日期**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "*Date joined*"
-msgstr "加入时间"
+msgstr "*加入日期*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "**profile**"
-msgstr "个人资料"
+msgstr "**个人资料**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "*Profile*"
-msgstr "个人资料"
+msgstr "*个人资料*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Per language"
 msgid "**language**"
-msgstr "每种语言"
+msgstr "**语言**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language"
 msgid "*Language*"
-msgstr "语言"
+msgstr "*语言*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Suggested"
 msgid "**suggested**"
-msgstr "已建议"
+msgstr "**已建议**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "*Number of sugested strings*"
-msgstr "源字符串数量"
+msgstr "*建议的字符串数量*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "translated"
 msgid "**translated**"
-msgstr "已翻译"
+msgstr "**已翻译**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "*Number of translated strings*"
-msgstr "已翻译字符串数量"
+msgstr "*已翻译字符串数量*"
 
 #: ../../contributing/schemas.rst:19 ../../devel/reporting-example.rst:4
 #: ../../devel/reporting-example.rst:5
@@ -23085,26 +22964,20 @@ msgid "24"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "**uploaded**"
-msgstr "上传者"
+msgstr "**已上传**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "*Number of uploaded screenshots*"
-msgstr "上传的共享条目数"
+msgstr "*已上传的截屏数*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "*Hide completed translations on the dashboard*"
-msgstr "在控制面板上隐藏已完成的翻译"
+msgstr "*在控制面板上隐藏已完成的翻译*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
@@ -23119,93 +22992,66 @@ msgid "**secondary\\_in\\_zen**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Show secondary translations in the Zen mode"
 msgid "*Show secondary translations in the Zen mode*"
-msgstr "在禅模式下显示第二语言翻译"
+msgstr "*在禅模式下显示第二翻译*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide source if a secondary translation exists"
 msgid "*Hide source if a secondary translation exists*"
-msgstr "如果有第二翻译则隐藏原文"
+msgstr "*如果有第二翻译则隐藏原文*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "**editor\\_link**"
-msgstr "编辑者链接"
+msgstr "**编辑者\\_链接**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "*Editor link*"
-msgstr "编辑者链接"
+msgstr "*编辑者链接*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Untranslated"
 msgid "**translate\\_mode**"
-msgstr "未翻译"
+msgstr "**翻译\\_模式**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translation editor mode"
 msgid "*Translation editor mode*"
-msgstr "翻译编辑器模式"
+msgstr "*翻译编辑器模式*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Zen editor mode"
 msgid "*Zen editor mode*"
-msgstr "禅编辑模式"
+msgstr "*禅编辑器模式*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "**special\\_chars**"
-msgstr "特殊字符"
+msgstr "**特殊\\_字符**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "*Special characters*"
-msgstr "特殊字符"
+msgstr "*特殊字符*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "**dashboard\\_view**"
-msgstr "控制面板默认界面"
+msgstr "**控制面板\\_视图**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "*Default dashboard view*"
-msgstr "控制面板默认界面"
+msgstr "*控制面板默认视图*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_component\\_list**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default component list"
 msgid "*Default component list*"
-msgstr "默认组件列表"
+msgstr "*默认组件列表*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "无"
 
@@ -23218,106 +23064,76 @@ msgid "*null*"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Languages"
 msgid "**languages**"
-msgstr "语言"
+msgstr "**语言**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translated languages"
 msgid "*Translated languages*"
-msgstr "已翻译的语言"
+msgstr "*已翻译的语言*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language code"
 msgid "*Language code*"
-msgstr "语言代码"
+msgstr "*语言代码*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "**secondary\\_languages**"
-msgstr "第二语言"
+msgstr "**第二\\_语言**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "*Secondary languages*"
-msgstr "第二语言"
+msgstr "*第二语言*"
 
 #: ../../contributing/schemas.rst:19
 msgid "sk"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Watched"
 msgid "**watched**"
-msgstr "已关注"
+msgstr "**已关注**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Watched projects"
 msgid "*Watched projects*"
-msgstr "已关注项目"
+msgstr "*已关注项目*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Project slug"
 msgid "*Project slug*"
-msgstr "项目标识串"
+msgstr "*项目标识串*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate"
 msgid "weblate"
-msgstr "Weblate"
+msgstr "weblate"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "**auditlog**"
-msgstr "审计日志"
+msgstr "**审计日志**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "*Audit log*"
-msgstr "审计日志"
+msgstr "*审计日志*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "**address**"
-msgstr "IP 地址"
+msgstr "**地址**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "*IP address*"
-msgstr "IP 地址"
+msgstr "*IP 地址*"
 
 #: ../../contributing/schemas.rst:19
 msgid "127.0.0.1"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "**user\\_agent**"
-msgstr "用户代理"
+msgstr "*用户\\_代理*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "*User agent*"
-msgstr "用户代理"
+msgstr "*用户代理*"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
@@ -23336,20 +23152,14 @@ msgid "2019-11-18T18:58:30.845Z"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "**activity**"
-msgstr "动态"
+msgstr "**活动**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "*Activity*"
-msgstr "动态"
+msgstr "*活动*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Login"
 msgid "login"
 msgstr "登录"
 
