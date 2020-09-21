@@ -746,6 +746,11 @@ JSON files
     Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested
     structure JSON files are supported as well.
 
+.. versionchanged:: 4.3
+
+    The structure of JSON file is properly preserved even for complex
+    situations which were broken in prior releases.
+
 JSON format is used mostly for translating applications implemented in
 JavaScript.
 
@@ -771,13 +776,12 @@ Nested files are supported as well (see above for requirements), such a file can
 .. literalinclude:: ../weblate/trans/tests/data/cs-nested.json
     :language: json
 
-.. warning::
+.. hint::
 
-   Weblate currently handles nested JSON by flattening the keys. This leads to
-   serializing issues when special chars such as ``.`` or ``[]`` are used in
-   the actual keys, because Weblate thinks it is indication of nesting.
-
-   See <https://github.com/WeblateOrg/weblate/issues/2149>
+   The :guilabel:`JSON file` and :guilabel:`JSON nested structure file` can
+   both handle same type of files. The only difference between them is when
+   adding new strings. The nested variant tries to parse the key and insert the
+   new string into the matching structure.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
