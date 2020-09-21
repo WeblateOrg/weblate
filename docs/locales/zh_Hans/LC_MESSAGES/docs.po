@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
 "PO-Revision-Date: 2020-09-22 09:48+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -5609,7 +5609,7 @@ msgid ""
 "List of authentication backends to allow registration from. This only limits "
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
-msgstr ""
+msgstr "身份验证后端的列表，允许从中注册。这只限制新的注册，用户可以使用配置的身份验证后端，来进行身份验证和添加身份验证。"
 
 #: ../../admin/config.rst:1449
 msgid ""
@@ -5617,6 +5617,8 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
+"当限制注册后端时，推荐保持 :setting:`REGISTRATION_OPEN` 允许，否则用户将能够注册，但Weblate并不在用户 "
+"界面显示注册的链接。"
 
 #: ../../admin/config.rst:1461
 msgid "The backend names match names used in URL for authentication."
@@ -8155,8 +8157,7 @@ msgid ""
 "You can generate a new key using :file:`weblate/examples/generate-secret-"
 "key` shipped with Weblate."
 msgstr ""
-"您可以使用 Weblate 运送的 :file:`weblate/examples/generate-secret-key` 来产生"
-"新的密钥。"
+"您可以使用与 Weblate 一起运送的 :file:`weblate/examples/generate-secret-key`， 来产生新的密钥。"
 
 #: ../../admin/install.rst:890
 msgid ":setting:`SECRET_KEY`"
@@ -8343,9 +8344,8 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
-"对于 Python 代码，您需要配置请求，来使用系统 CA bundle 而不是系统传输的那个。"
-"这可以通过将后面的模板放到 :file:`settings.py` 来实现（路径是 Debian 特有"
-"的）："
+"对于 Python 代码，您需要配置请求，来使用系统 CA bundle，而不是与它一起运送的那个。这可以通过将后面的模板放到 "
+":file:`settings.py` 来实现（路径是 Debian 特有的）："
 
 #: ../../admin/install.rst:1036
 msgid "Compressing client assets"
@@ -8706,9 +8706,8 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
-"您更可能想要运行 Celery 作为守护进程，这由 :doc:`celery:userguide/"
-"daemonizing` 来涵盖。对于使用 systemd 的最通常的 Linux 设置，您可以使用下面列"
-"出的 :file:`examples` 文件夹中带有的例子文件。"
+"您更可能想要运行 Celery 作为守护进程，这由 :doc:`celery:userguide/daemonizing` 来涵盖。对于使用 "
+"systemd 的最通常的 Linux 设置，您可以使用下面列出的 :file:`examples` 文件夹中运送的例子文件。"
 
 #: ../../admin/install.rst:1290
 msgid ""
@@ -10332,8 +10331,8 @@ msgid ""
 "can stick with shipped example for testing purposes, but you will want "
 "changes for production setup, see :ref:`configuration`."
 msgstr ""
-"将新的 :file:`settings.py` 文件中的值调整为您所需要的。您可以跟随附带的例子用"
-"于测试，但您还会希望更改来用于生产设置，参见： :ref:`configuration` 。"
+"将新的 :file:`settings.py` 文件中的值调整为您所需要的。您可以跟随运行的例子，来用于测试，但您还会希望更改来用于生产设置，参见： "
+":ref:`configuration` 。"
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
@@ -14062,22 +14061,22 @@ msgid ""
 "Enable this in case you want to grant access to this component explicitly - "
 "the project level permissions will not apply and you will have to specify "
 "component or component list level permission in order to grant access."
-msgstr ""
+msgstr "在您想要明确地授权访问这个组件的情况下来允许——项目层次的权限将不会应用，并且您必须指定组件或组件列表级别的权限，来授权访问。"
 
 #: ../../admin/projects.rst:719
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
-msgstr ""
+msgstr "默认只可以由 :setting:`DEFAULT_RESTRICTED_COMPONENT` 更改。"
 
 #: ../../admin/projects.rst:723
 msgid ""
 "This applies to project managers as well - please make sure you will not "
 "loose access to the component after toggling the status."
-msgstr ""
+msgstr "这也应用于项目管理——请确认切换状态后，您不会丢失对部件的访问。"
 
 #: ../../admin/projects.rst:729
 msgid "Template markup"
-msgstr ""
+msgstr "模板标记"
 
 #: ../../admin/projects.rst:731
 msgid ""
@@ -14085,70 +14084,72 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
+"Weblate 在需要提供文本的几个地方使用简单的标记语言。它基于 :doc:`django:ref/templates/"
+"language`，因此能够非常强大。"
 
 #: ../../admin/projects.rst:735
 msgid "Currently it is used in:"
-msgstr ""
+msgstr "当前它用在："
 
 #: ../../admin/projects.rst:737
 msgid "Commit message formatting, see :ref:`component`"
-msgstr ""
+msgstr "提交消息格式，请参见 :ref:`component`"
 
 #: ../../admin/projects.rst:741
 msgid "Several addons"
-msgstr ""
+msgstr "几个插件"
 
 #: ../../admin/projects.rst:739
 msgid ":ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/projects.rst:740
 msgid ":ref:`addon-weblate.generate.generate`"
-msgstr ""
+msgstr ":ref:`addon-weblate.generate.generate`"
 
 #: ../../admin/projects.rst:741
 msgid ":ref:`addon-script`"
-msgstr ""
+msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:743
 msgid "There following variables are available in the component templates:"
-msgstr ""
+msgstr "可以在组件模板中得到后面的变量："
 
 #: ../../admin/projects.rst:745
 msgid "``{{ language_code }}``"
-msgstr ""
+msgstr "``{{ language_code }}``"
 
 #: ../../admin/projects.rst:747
 msgid "``{{ language_name }}``"
-msgstr ""
+msgstr "``{{ language_name }}``"
 
 #: ../../admin/projects.rst:749
 msgid "``{{ component_name }}``"
-msgstr ""
+msgstr "``{{ component_name }}``"
 
 #: ../../admin/projects.rst:751
 msgid "``{{ component_slug }}``"
-msgstr ""
+msgstr "``{{ component_slug }}``"
 
 #: ../../admin/projects.rst:753
 msgid "``{{ project_name }}``"
-msgstr ""
+msgstr "``{{ project_name }}``"
 
 #: ../../admin/projects.rst:755
 msgid "``{{ project_slug }}``"
-msgstr ""
+msgstr "``{{ project_slug }}``"
 
 #: ../../admin/projects.rst:757
 msgid "``{{ url }}``"
-msgstr ""
+msgstr "``{{ url }}``"
 
 #: ../../admin/projects.rst:758
 msgid "Translation URL"
-msgstr ""
+msgstr "翻译 URL"
 
 #: ../../admin/projects.rst:759
 msgid "``{{ filename }}``"
-msgstr ""
+msgstr "``{{ filename }}``"
 
 #: ../../admin/projects.rst:760
 msgid "Translation filename"
@@ -14156,154 +14157,154 @@ msgstr "翻译文件名"
 
 #: ../../admin/projects.rst:761
 msgid "``{{ stats }}``"
-msgstr ""
+msgstr "``{{ stats }}``"
 
 #: ../../admin/projects.rst:762
 msgid "Translation stats, this has further attributes, examples below."
-msgstr ""
+msgstr "翻译统计，这具有进一步的属性，例如如下。"
 
 #: ../../admin/projects.rst:763
 msgid "``{{ stats.all }}``"
-msgstr ""
+msgstr "``{{ stats.all }}``"
 
 #: ../../admin/projects.rst:764
 msgid "Total strings count"
-msgstr ""
+msgstr "字符串总量计数"
 
 #: ../../admin/projects.rst:765
 msgid "``{{ stats.fuzzy }}``"
-msgstr ""
+msgstr "``{{ stats.fuzzy }}``"
 
 #: ../../admin/projects.rst:766
 msgid "Count of strings needing review"
-msgstr ""
+msgstr "需要复查的字符串计数"
 
 #: ../../admin/projects.rst:767
 msgid "``{{ stats.fuzzy_percent }}``"
-msgstr ""
+msgstr "``{{ stats.fuzzy_percent }}``"
 
 #: ../../admin/projects.rst:768
 msgid "Percent of strings needing review"
-msgstr ""
+msgstr "需要复查的字符串百分比"
 
 #: ../../admin/projects.rst:769
 msgid "``{{ stats.translated }}``"
-msgstr ""
+msgstr "``{{ stats.translated }}``"
 
 #: ../../admin/projects.rst:770
 msgid "Translated strings count"
-msgstr ""
+msgstr "翻译的字符串计数"
 
 #: ../../admin/projects.rst:771
 msgid "``{{ stats.translated_percent }}``"
-msgstr ""
+msgstr "``{{ stats.translated_percent }}``"
 
 #: ../../admin/projects.rst:772
 msgid "Translated strings percent"
-msgstr ""
+msgstr "翻译的字符串百分比"
 
 #: ../../admin/projects.rst:773
 msgid "``{{ stats.allchecks }}``"
-msgstr ""
+msgstr "``{{ stats.allchecks }}``"
 
 #: ../../admin/projects.rst:774
 msgid "Number of strings with failing checks"
-msgstr ""
+msgstr "检查失败的字符串数量"
 
 #: ../../admin/projects.rst:775
 msgid "``{{ stats.allchecks_percent }}``"
-msgstr ""
+msgstr "``{{ stats.allchecks_percent }}``"
 
 #: ../../admin/projects.rst:776
 msgid "Percent of strings with failing checks"
-msgstr ""
+msgstr "检查失败的字符串百分比"
 
 #: ../../admin/projects.rst:777
 msgid "``{{ author }}``"
-msgstr ""
+msgstr "``{{ author }}``"
 
 #: ../../admin/projects.rst:778
 msgid "Author of current commit, available only in the commit scope."
-msgstr ""
+msgstr "当前提交的作者，只在提交范围可用。"
 
 #: ../../admin/projects.rst:780
 msgid "``{{ addon_name }}``"
-msgstr ""
+msgstr "``{{ addon_name }}``"
 
 #: ../../admin/projects.rst:780
 msgid ""
 "Name of currently executed addon, available only in the addon commit message."
-msgstr ""
+msgstr "当前执行的插件名称，旨在插件提交信息中可用。"
 
 #: ../../admin/projects.rst:782
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
-msgstr ""
+msgstr "后面的变量在仓库浏览器或编辑器模板中可用："
 
 #: ../../admin/projects.rst:784
 msgid "``{{branch}}``"
-msgstr ""
+msgstr "``{{branch}}``"
 
 #: ../../admin/projects.rst:785
 msgid "current branch"
-msgstr ""
+msgstr "当前的分支"
 
 #: ../../admin/projects.rst:786
 msgid "``{{line}}``"
-msgstr ""
+msgstr "``{{line}}``"
 
 #: ../../admin/projects.rst:787
 msgid "line in file"
-msgstr ""
+msgstr "文件的行数"
 
 #: ../../admin/projects.rst:789
 msgid "``{{filename}}``"
-msgstr ""
+msgstr "``{{filename}}``"
 
 #: ../../admin/projects.rst:789
 msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
-msgstr ""
+msgstr "文件名，您也可以使用 ``parentdir`` 过滤器，例如 ``{{filename|parentdir}}``，来剥除前导部分"
 
 #: ../../admin/projects.rst:791
 msgid "You can combine them with filters:"
-msgstr ""
+msgstr "您可以将它们与过滤器结合："
 
 #: ../../admin/projects.rst:797
 msgid "You can use conditions:"
-msgstr ""
+msgstr "您可以使用条件："
 
 #: ../../admin/projects.rst:803
 msgid "There is additional tag available for replacing characters:"
-msgstr ""
+msgstr "有另外的标签用于替换字符："
 
 #: ../../admin/projects.rst:809
 msgid "You can combine it with filters:"
-msgstr ""
+msgstr "您可以将它与过滤器结合："
 
 #: ../../admin/projects.rst:815
 msgid "There are also additional filter to manipulate with filenames:"
-msgstr ""
+msgstr "还有另外的过滤器来操作文件名："
 
 #: ../../admin/projects.rst:824
 msgid "...and other Django template features."
-msgstr ""
+msgstr "……以及其他 Django 模板特性。"
 
 #: ../../admin/projects.rst:829
 msgid "Importing speed"
-msgstr ""
+msgstr "导入速度"
 
 #: ../../admin/projects.rst:831
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
-msgstr ""
+msgstr "取回版本控制系统（VCS）仓库，并将翻译导入 Weblate，依赖于您的翻译的大小，这会是漫长的过程。这里是一些提示："
 
 #: ../../admin/projects.rst:835
 msgid "Optimize configuration"
-msgstr ""
+msgstr "优化配置"
 
 #: ../../admin/projects.rst:837
 msgid ""
@@ -14312,61 +14313,63 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
+"对于测试并调试 Weblate，默认的配置是有用的，当用于生产设置时，您应该进行一些调整。它们中的很多都对形成具有巨大的冲击。特别是，更多细节请查看 "
+":ref:`production` ："
 
 #: ../../admin/projects.rst:842
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
-msgstr ""
+msgstr "配置 Celery 来执行后台任务（请参见 :ref:`celery`）"
 
 #: ../../admin/projects.rst:844
 msgid ":ref:`production-database`"
-msgstr ""
+msgstr ":ref:`production-database`"
 
 #: ../../admin/projects.rst:845 ../../contributing/debugging.rst:17
 msgid ":ref:`production-debug`"
-msgstr ""
+msgstr ":ref:`production-debug`"
 
 #: ../../admin/projects.rst:848
 msgid "Check resource limits"
-msgstr ""
+msgstr "检查资源的限制"
 
 #: ../../admin/projects.rst:850
 msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
-msgstr ""
+msgstr "如果导入巨大的翻译或仓库，您会遭到服务器资源限制的打击。"
 
 #: ../../admin/projects.rst:853
 msgid ""
 "Check the amount of free memory, having translation files cached by the "
 "operating system will greatly improve performance."
-msgstr ""
+msgstr "检查空闲内存的量，通过操作系统来缓存翻译，将极大地提高性能。"
 
 #: ../../admin/projects.rst:854
 msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
-msgstr ""
+msgstr "如果有很多字符串需要处理的话，磁盘操作会是瓶颈——磁盘被 Weblate 和数据库施加压力。"
 
 #: ../../admin/projects.rst:855
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
-msgstr ""
+msgstr "另外的 CPU 核心会帮助提高后台任务的性能（请参见 :ref:`celery`）。"
 
 #: ../../admin/projects.rst:858
 msgid "Disable unneeded checks"
-msgstr ""
+msgstr "禁止不必要的检查"
 
 #: ../../admin/projects.rst:860
 msgid ""
 "Some quality checks can be quite expensive, and if not needed, can save you "
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
-msgstr ""
+msgstr "一些质量检查可以使非常昂贵的，而如果不需要，在导入时省略可以节省一些时间。配置的信息请参见 :setting:`CHECK_LIST`。"
 
 #: ../../admin/projects.rst:867
 msgid "Automatic creation of components"
-msgstr ""
+msgstr "自动新建组件"
 
 #: ../../admin/projects.rst:869
 msgid ""
@@ -14376,13 +14379,16 @@ msgid ""
 "djadmin:`import_project` or :djadmin:`import_json`, or by installing the :"
 "ref:`addon-weblate.discovery.discovery` addon."
 msgstr ""
+"在您的项目有十多个翻译文件的情况下（例如不同的 gettext 域，或安卓 App的几），您会想要将它们自动导入。可以通过使用 "
+":djadmin:`import_project` 或 :djadmin:`import_json`，或者通过安装 :ref:`addon-weblate"
+".discovery.discovery` 插件，通过命令行来实现。"
 
 #: ../../admin/projects.rst:875
 msgid ""
 "To use the addon, you first need to create a component for one translation "
 "file (choose the one that is the least likely to be renamed or removed in "
 "future), and install the addon on this component."
-msgstr ""
+msgstr "为了使用插件，首先您需要为一个翻译文件（选择未来最不可能改名或删除的那个）新建组件，并且在这个组件上安装插件。"
 
 #: ../../admin/projects.rst:879
 msgid ""
@@ -14390,24 +14396,26 @@ msgid ""
 "all components and then run :djadmin:`import_project` or :djadmin:"
 "`import_json`."
 msgstr ""
+"对于管理命令，您需要新建包含所有组件的项目，然后运行 :djadmin:`import_project` 或 "
+":djadmin:`import_json`。"
 
 #: ../../admin/projects.rst:885
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
-msgstr ""
+msgstr "配置的例子"
 
 #: ../../admin/sample.rst:6
 msgid ""
 "The following example is shipped as :file:`weblate/settings_example.py` with "
 "Weblate:"
-msgstr ""
+msgstr "后面的例子作为 :file:`weblate/settings_example.py` 与Weblate一起运送："
 
 #: ../../admin/support.rst:2
 msgid "Getting support for Weblate"
-msgstr ""
+msgstr "从 Weblate 获得支持"
 
 #: ../../admin/support.rst:5
 msgid ""
@@ -14416,10 +14424,12 @@ msgid ""
 "available for everyone. You can find more info about current support "
 "offerings at <https://weblate.org/support/>."
 msgstr ""
+"Weblate 拥有非盈利版权的开源软件，由社区支持。订购者接受优先支持而无需额外的费用。预付方式可以使软件包被每个人获得。您可以在 "
+"<https://weblate.org/support/>，找到关于当前提供的支持的更多信息"
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
-msgstr ""
+msgstr "集成支持"
 
 #: ../../admin/support.rst:18
 msgid ""
@@ -14428,54 +14438,56 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
+"购买的支持包可以可选地集成在您的 Weblate的`subscription management <https://weblate.org/user/"
+">`_界面中，您可以在那里找到它的链接。关于您的安装的基本事例的细节，也会以这种方式反馈给 Weblate。"
 
 #: ../../admin/support.rst:25
 msgid "Data submitted to the Weblate"
-msgstr ""
+msgstr "提交给 Weblate 的数据"
 
 #: ../../admin/support.rst:27
 msgid "URL where your Weblate instance is configured"
-msgstr ""
+msgstr "配置 Weblate 事件的 URL"
 
 #: ../../admin/support.rst:28
 msgid "Your site title"
-msgstr ""
+msgstr "您的网站标题"
 
 #: ../../admin/support.rst:29
 msgid "The Weblate version you are running"
-msgstr ""
+msgstr "您运行的 Weblate 版本"
 
 #: ../../admin/support.rst:30
 msgid ""
 "Tallies of some objects in your Weblate database (projects, components, "
 "languages, source strings and users)"
-msgstr ""
+msgstr "您 Weblate 数据库中一些对象的记录（项目、组件、语言、源字符串和用户）"
 
 #: ../../admin/support.rst:31
 msgid "The public SSH key of your instance"
-msgstr ""
+msgstr "您事件的 SSH 公钥"
 
 #: ../../admin/support.rst:33
 msgid "No other data is submitted."
-msgstr ""
+msgstr "没有提交其它数据。"
 
 #: ../../admin/support.rst:36
 msgid "Integration services"
-msgstr ""
+msgstr "集成服务"
 
 #: ../../admin/support.rst:38
 msgid "See if your support package is still valid"
-msgstr ""
+msgstr "查看您的支持包是否合法"
 
 #: ../../admin/support.rst:39
 msgid ":ref:`cloudbackup`"
-msgstr ""
+msgstr ":ref:`cloudbackup`"
 
 #: ../../admin/support.rst:43
 msgid ""
 "Purchased support packages are already activated upon purchase, and can be "
 "used without integrating them."
-msgstr ""
+msgstr "购买的支持包在购买时已经激活，并且不必集成它们就可以使用。"
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -30603,9 +30615,7 @@ msgstr ""
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :mod:`wlc`:"
-msgstr ""
-"Weblate 客户端是单独提供的，包括 Python 模块。要使用下面的命令，您需要安装 :"
-"mod:`wlc`："
+msgstr "Weblate 客户端是分开来运送的，包括 Python 模块。要使用下面的命令，您需要安装 :mod:`wlc`："
 
 #: ../../wlc.rst:28
 msgid "Getting started"
