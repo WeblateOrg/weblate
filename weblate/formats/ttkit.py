@@ -816,16 +816,6 @@ class INIUnit(TTKitUnit):
 class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     loader = pofile
 
-    def is_valid(self):
-        result = super().is_valid()
-        if not result:
-            return False
-
-        # Avoid empty files with possibly syntax errors
-        # This can be removed once https://github.com/translate/translate/pull/3912
-        # is merged and relased in the Translate Toolkit
-        return bool(self.store.units)
-
     def get_plural(self, language):
         """Return matching plural object."""
         from weblate.lang.models import Plural
@@ -1331,13 +1321,7 @@ class DTDFormat(TTKitFormat):
     @property
     def all_store_units(self):
         """Wrapper for all store unit filtering out null."""
-        # The getattr is needed for translate-toolkit 3.0 and 3.1,
-        # once support for 3.0 is dropped, isblank can be used
-        return (
-            unit
-            for unit in self.store.units
-            if not getattr(unit, "isnull", unit.isblank)()
-        )
+        return (unit for unit in self.store.units if not unit.isblank())
 
 
 class SubtitleUnit(MonolingualIDUnit):

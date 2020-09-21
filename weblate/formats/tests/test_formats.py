@@ -23,7 +23,6 @@ import shutil
 from io import BytesIO
 from unittest import SkipTest, TestCase
 
-import translate.__version__
 from django.utils.encoding import force_str
 from lxml import etree
 from translate.storage.po import pofile
@@ -469,11 +468,6 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     FIND = "hello"
     NEW_UNIT_MATCH = b'\n    "key": {\n        "message": "Source string"\n    }\n'
     EXPECTED_FLAGS = "placeholders:$URL$"
-
-    def test_new_unit(self):
-        if translate.__version__.ver <= (2, 2, 5):
-            raise SkipTest("Broken WebExtension support in translate-toolkit")
-        super().test_new_unit()
 
 
 class PhpFormatTest(AutoFormatTest):
