@@ -278,12 +278,13 @@ glossary, or view the edit history:
 
 .. _machine-translation:
 
-Machine translation
--------------------
+Automatic suggestions
+---------------------
 
 Based on configuration and your translated language, Weblate provides you
-suggestions from several machine translation tools. All machine translations
-are available in a single tab of each translation page.
+suggestions from several machine translation tools and
+:ref:`translation-memory`. All machine translations are available in a single
+tab of each translation page.
 
 .. seealso::
 
