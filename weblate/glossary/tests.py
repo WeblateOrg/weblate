@@ -170,7 +170,7 @@ class GlossaryTest(FixtureTestCase):
         response = self.client.get(self.get_url("show_glossary"))
 
         # Check number of imported objects
-        self.assertEqual(Term.objects.count(), 164)
+        self.assertEqual(Term.objects.count(), 163)
 
     def test_import_csv_header(self):
         # Import file
@@ -180,7 +180,7 @@ class GlossaryTest(FixtureTestCase):
         self.assertRedirects(response, self.get_url("show_glossary"))
 
         # Check number of imported objects
-        self.assertEqual(Term.objects.count(), 164)
+        self.assertEqual(Term.objects.count(), 163)
 
     def test_import_po(self):
         # Import file
