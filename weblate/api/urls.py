@@ -25,6 +25,7 @@ from weblate.api.views import (
     ChangeViewSet,
     ComponentListViewSet,
     ComponentViewSet,
+    GlossaryViewSet,
     GroupViewSet,
     LanguageViewSet,
     Metrics,
@@ -49,6 +50,7 @@ router.register("component-lists", ComponentListViewSet)
 router.register("changes", ChangeViewSet)
 router.register("units", UnitViewSet)
 router.register("screenshots", ScreenshotViewSet)
+router.register("glossary", GlossaryViewSet)
 
 
 # Wire up our API using automatic URL routing.

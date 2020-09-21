@@ -52,6 +52,11 @@ class GlossaryQuerySet(models.QuerySet):
     def for_project(self, project):
         return self.filter(Q(project=project) | Q(links=project))
 
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+        return self.filter(project_id__in=user.allowed_project_ids)
+
 
 class Glossary(models.Model):
     project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
