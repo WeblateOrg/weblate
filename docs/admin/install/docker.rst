@@ -569,6 +569,10 @@ Generic settings
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. envvar:: WEBLATE_MT_APERTIUM_APY
+
+    Enables :ref:`apertium` machine translation and sets :setting:`MT_APERTIUM_APY`
+
 .. envvar:: WEBLATE_MT_AWS_REGION
 .. envvar:: WEBLATE_MT_AWS_ACCESS_KEY_ID
 .. envvar:: WEBLATE_MT_AWS_SECRET_ACCESS_KEY

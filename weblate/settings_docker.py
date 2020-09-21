@@ -692,7 +692,9 @@ MT_SERVICES = (
 # Machine translation API keys
 
 # URL of the Apertium APy server
-MT_APERTIUM_APY = None
+MT_APERTIUM_APY = os.environ.get("WEBLATE_MT_APERTIUM_APY", None)
+if MT_APERTIUM_APY:
+    MT_SERVICES += ("weblate.machinery.apertium.ApertiumAPYTranslation",)
 
 # AWS
 MT_AWS_REGION = os.environ.get("WEBLATE_MT_AWS_REGION", None)
