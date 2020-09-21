@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import os
+from zipfile import BadZipfile
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
@@ -23,6 +25,7 @@ from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.formats.models import FILE_FORMATS
 from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
@@ -39,6 +42,7 @@ from weblate.trans.models import (
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
+from weblate.vcs.git import LocalRepository
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -397,6 +401,9 @@ class ComponentSerializer(RemovableSerializer):
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
+    zipfile = serializers.FileField(required=False)
+    docfile = serializers.FileField(required=False)
+
     class Meta:
         model = Component
         fields = (
@@ -450,6 +457,8 @@ class ComponentSerializer(RemovableSerializer):
             "auto_lock_error",
             "language_regex",
             "variant_regex",
+            "zipfile",
+            "docfile",
         )
         extra_kwargs = {
             "url": {
@@ -478,6 +487,52 @@ class ComponentSerializer(RemovableSerializer):
             result["source_language"] = Language.objects.get(
                 code=result["source_language"]["code"]
             )
+        if "docfile" in result:
+            # Create fake component (needed to calculate path)
+            fake = Component(
+                project=result["project"],
+                slug=result["slug"],
+                name=result["name"],
+            )
+
+            # Create repository
+            uploaded = result["docfile"]
+            ext = os.path.splitext(os.path.basename(uploaded.name))[1]
+            format_cls = FILE_FORMATS[result["file_format"]]
+            filename = "{}/{}{}".format(
+                result["slug"],
+                result["source_language"]["code"]
+                if "source_language" in result
+                else "en",
+                ext,
+            )
+            LocalRepository.from_files(
+                fake.full_path,
+                {
+                    filename: uploaded.read(),
+                    result["template"]: format_cls.get_new_file_content(),
+                },
+            )
+            result.pop("docfile")
+        if "zipfile" in result:
+            # Create fake component (needed to calculate path)
+            fake = Component(
+                project=result["project"],
+                slug=result["slug"],
+                name=result["name"],
+            )
+            format_cls = FILE_FORMATS[result["file_format"]]
+
+            # Create repository
+            try:
+                LocalRepository.from_zip(fake.full_path, result["zipfile"])
+                LocalRepository.from_files(
+                    fake.full_path,
+                    {result["template"]: format_cls.get_new_file_content()},
+                )
+            except BadZipfile:
+                raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
+            result.pop("zipfile")
         return result
 
     def validate(self, attrs):

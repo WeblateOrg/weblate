@@ -46,6 +46,8 @@ from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
+TEST_DOC = get_test_file("short_description.txt")
+TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
@@ -1234,6 +1236,54 @@ class ProjectAPITest(APIBaseTest):
             request={"slug": "new-slug"},
         )
         self.assertEqual(response.data["slug"], "new-slug")
+
+    def test_create_component_docfile(self):
+        with open(TEST_DOC, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "repo": "local:",
+                    "vcs": "local",
+                    "filemask": "*.strings",
+                    "template": "en.strings",
+                    "file_format": "strings-utf8",
+                    "push": "https://username:password@github.com/example/push.git",
+                    "new_lang": "none",
+                },
+            )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(Component.objects.count(), 2)
+
+    def test_create_component_zipfile(self):
+        with open(TEST_ZIP, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "zipfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "repo": "local:",
+                    "vcs": "local",
+                    "filemask": "*.strings",
+                    "template": "en.strings",
+                    "file_format": "strings-utf8",
+                    "push": "https://username:password@github.com/example/push.git",
+                    "new_lang": "none",
+                },
+            )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(Component.objects.count(), 2)
 
 
 class GlossaryAPITest(APIBaseTest):
