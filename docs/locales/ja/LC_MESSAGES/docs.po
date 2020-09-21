@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
-"PO-Revision-Date: 2020-09-21 07:24+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2020-09-22 00:39+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -303,9 +303,7 @@ msgstr "`Group`"
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
-msgstr ""
-"グループは、役割、ユーザー、認証オブジェクト（プロジェクト、言語、コンポーネ"
-"ント リスト）を関連付けます。"
+msgstr "グループは、役割、ユーザー、認証オブジェクト（プロジェクト、言語、コンポーネント リストのセット）を関連付けます。"
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
@@ -842,7 +840,7 @@ msgstr "翻訳メモリの管理"
 
 #: ../../admin/access.rst:428
 msgid "Manage component lists"
-msgstr "コンポーネント リストの管理"
+msgstr "コンポーネント リストのセットの管理"
 
 #: ../../admin/access.rst:432
 msgid ""
@@ -3554,7 +3552,7 @@ msgstr ""
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr "コンポーネントの複数のリスト"
+msgstr "コンポーネント リストのセット"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
@@ -3562,15 +3560,14 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
-"ユーザーダッシュボードにオプションとして表示するコンポーネントのリストを複数"
-"指定し、ユーザーがデフォルト ビューとして 1 つを選択できるようにします。詳細"
-"については、:ref:`dashboard` を参照してください。"
+"ユーザー ダッシュボードにオプションとして表示するコンポーネント リストのセットを複数指定し、ユーザーがデフォルト ビューとして 1 "
+"つを選択できるようにします。詳細については、:ref:`dashboard` を参照してください。"
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr ""
+msgstr "ダッシュボードに表示される各コンポーネントリストごとの状況を表示します。"
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -3579,22 +3576,26 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"コンポーネント リストのセットの名前と内容は、管理インターフェイスの :guilabel:`Component lists` セクションで指定できます。"
+"各コンポーネント リストには、ユーザーに表示される名前と、URL に表示するスラグが必要です。"
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
-msgstr ""
+msgstr "管理者インターフェイスから匿名ユーザーのダッシュボード設定を変更し、認証されていないユーザーに表示するダッシュボードを変更します。"
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
-msgstr ""
+msgstr "コンポーネント リストのセットの自動割り当て"
 
 #: ../../admin/componentlists.rst:30
 msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
+":guilabel:`Automatic component list assignment` "
+"ルールを作成して、スラグに基づいてコンポーネントをリストに自動的に追加します。"
 
 #: ../../admin/componentlists.rst:33
 msgid ""
@@ -3602,50 +3603,54 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
+"大規模なインストールでコンポーネント リストのセットを管理する場合や、Weblate のインストールで必要なすべてのコンポーネントを 1 "
+"つのコンポーネント リストにする場合に便利です。"
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
-msgstr ""
+msgstr "Weblate インストールのすべてのコンポーネントを含むコンポーネント リストを作成します。"
 
 #: ../../admin/componentlists.rst:40
 msgid ""
 "1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` as "
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
-msgstr ""
+msgstr "1. 次の画像に示すように、プロジェクトとコンポーネントの両方のフィールドに正規表現で ``^.*$`` を定義する:"
 
 #: ../../admin/config.rst:4 ../../faq.rst:5
 msgid "Configuration"
-msgstr ""
+msgstr "設定"
 
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
-msgstr ""
+msgstr "すべての設定は :file:`settings.py` に保存されます（Django の通常の方法）。"
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
-msgstr ""
+msgstr "これらの設定の変更後、Weblate（WSGI プロセスと Celery プロセスの両方）の再起動が必要です。"
 
 #: ../../admin/config.rst:13
 msgid ""
 "In case it is run as mod_wsgi, you need to restart Apache to reload the "
 "configuration."
-msgstr ""
+msgstr "mod_wsgi として実行する場合は、Apache を再起動して設定のリロードが必要です。"
 
 #: ../../admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
+"Django 本体の設定パラメーターについては、 :doc:`Django's documentation <django:ref/settings>` "
+"も確認してください。"
 
 #: ../../admin/config.rst:24
 msgid "AKISMET_API_KEY"
-msgstr ""
+msgstr "AKISMET_API_KEY"
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -3653,52 +3658,54 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
+"Weblate は Akismet を使用して、匿名の提案がスパムであるか検査できます。API キーを購入してサイトに関連付けるには、`"
+"akismet.com <https://akismet.com/>`_ にアクセスしてください。"
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
-msgstr ""
+msgstr "ANONYMOUS_USER_NAME"
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "サインインしていないユーザーのユーザー名。"
 
 #: ../../admin/config.rst:39 ../../admin/management.rst:730
 msgid ":ref:`privileges`"
-msgstr ""
+msgstr ":ref:`privileges`"
 
 #: ../../admin/config.rst:44
 msgid "AUDITLOG_EXPIRY"
-msgstr ""
+msgstr "AUDITLOG_EXPIRY"
 
 #: ../../admin/config.rst:48
 msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
-msgstr ""
+msgstr "アカウントの作業履歴に関する情報を含む監査履歴を Weblate が保持する日数。"
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "デフォルトは 180 日です。"
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
-msgstr ""
+msgstr "AUTH_LOCK_ATTEMPTS"
 
 #: ../../admin/config.rst:60
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
-msgstr ""
+msgstr "レート制限を適用する前に失敗した認証試行の最大回数。"
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr ""
+msgstr "現在、以下の場所に適用しています:"
 
 #: ../../admin/config.rst:64
 msgid ""
 "Logins. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
-msgstr ""
+msgstr "ログイン。アカウント パスワードを削除し、ユーザーが新しいパスワードを要求しなければサインインできないようにしています。"
 
 #: ../../admin/config.rst:66
 msgid ""
@@ -14025,6 +14032,7 @@ msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/(str:"
 "slug)/`"
 msgstr ""
+"コンポーネント リストのセットの関連するリンク; 参照 :http:get:`/api/component-lists/(str:slug)/`"
 
 #: ../../api.rst:452 ../../api.rst:462
 msgid "Changes the group parameters."
@@ -14084,7 +14092,7 @@ msgstr ""
 
 #: ../../api.rst:538
 msgid "Associate componentlists with a group."
-msgstr ""
+msgstr "コンポーネント リストのセットをグループに関連付ける。"
 
 #: ../../api.rst:542 ../../api.rst:550
 msgid "The unique componentlist ID"
@@ -15370,17 +15378,19 @@ msgstr "スクリーンショットを削除します。"
 
 #: ../../api.rst:2052
 msgid "Component lists"
-msgstr "コンポーネントの複数のリスト"
+msgstr "コンポーネント リストのセット"
 
 #: ../../api.rst:2058
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "コンポーネント リストのセットの一覧を返す。"
 
 #: ../../api.rst:2062
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
+"コンポーネント リストのセットのオブジェクト属性は、:http:get:`/api/component-lists/(str:slug)/` "
+"に記載されています。"
 
 #: ../../api.rst:2066
 msgid "Returns information about component list."
@@ -16429,7 +16439,7 @@ msgstr ""
 msgid ""
 "Extended API to cover screenshots, users, groups, componentlists and "
 "extended creating projects."
-msgstr ""
+msgstr "スクリーンショット、ユーザー、グループ、コンポーネント リストのセット、および拡張した作成プロジェクトをカバーする拡張 API。"
 
 #: ../../changes.rst:220
 msgid "Add support for source upload on bilingual translations."
@@ -18099,7 +18109,7 @@ msgstr ""
 msgid ""
 "Added componentlists overview to dashboard and per component list overview "
 "pages."
-msgstr ""
+msgstr "ダッシュボードおよびコンポーネント リストのセットの概要ページにコンポーネント リストの概要を追加した。"
 
 #: ../../changes.rst:751
 msgid "Added support for DeepL machine translation service."
@@ -18578,7 +18588,7 @@ msgstr ""
 
 #: ../../changes.rst:915
 msgid "Add option to automatically build component lists."
-msgstr ""
+msgstr "コンポーネント リストのセットを自動的に構築するオプションを追加した。"
 
 #: ../../changes.rst:916
 msgid "Default dashboard for unauthenticated users can be configured."
@@ -21739,7 +21749,7 @@ msgstr "**auditlog**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Audit log*"
-msgstr "*監査ログ*"
+msgstr "*監査履歴*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
@@ -25353,6 +25363,8 @@ msgid ""
 "`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
 "your-app-metadata>`_"
 msgstr ""
+"`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
+"your-app-metadata>`_"
 
 #: ../../formats.rst:1208
 msgid ""
@@ -27729,22 +27741,23 @@ msgid ""
 "default. Only registered users are allowed to actually save changes, and are "
 "credited for every translation made."
 msgstr ""
+"デフォルトでは、誰もがプロジェクトの閲覧、翻訳の表示、翻訳を提案できます。実際に変更を保存できるのは、登録ユーザのみであり、翻訳のたびに信認されます。"
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr ""
+msgstr "いくつかの簡単な手順に従って登録できます:"
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
-msgstr ""
+msgstr "登録フォームに資格情報を入力する。"
 
 #: ../../user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
-msgstr ""
+msgstr "受信したメールのリンクをクリックして、登録を有効にする。"
 
 #: ../../user/profile.rst:15
 msgid "Optionally adjust your profile to choose which languages you know."
-msgstr ""
+msgstr "必要に応じて、プロファイルを設定し、理解している言語を選択する。"
 
 #: ../../user/profile.rst:20
 msgid "Dashboard"
@@ -27754,27 +27767,29 @@ msgstr "ダッシュボード"
 msgid ""
 "When you sign in, you will see an overview of projects and components, as "
 "well as their respective translation progression."
-msgstr ""
+msgstr "サインインすると、プロジェクトとコンポーネントの概要、および各翻訳の進行状況が表示されます。"
 
 #: ../../user/profile.rst:27
 msgid ""
 "Components of projects you are watching are shown by default, and cross-"
 "referenced with your preferred languages."
-msgstr ""
+msgstr "監視しているプロジェクトのコンポーネントは、デフォルトで表示され、優先言語とセットで表示されます。"
 
 #: ../../user/profile.rst:32
 msgid "You can switch to different views using the navigation tabs."
-msgstr ""
+msgstr "ナビゲーション タブから、別のタブを表示できます。"
 
 #: ../../user/profile.rst:36
 msgid "The menu has these options:"
-msgstr ""
+msgstr "メニューにあるオプション:"
 
 #: ../../user/profile.rst:38
 msgid ""
 ":guilabel:`Projects` > :guilabel:`Browse all projects` in the main menu "
 "showing translation status for each project on the Weblate instance."
 msgstr ""
+"メイン メニューの :guilabel:`Projects` > :guilabel:`Browse all projects` に、Weblate "
+"インスタンスの各プロジェクトの翻訳状況が表示されます。"
 
 #: ../../user/profile.rst:40
 msgid ""
@@ -27782,6 +27797,8 @@ msgid ""
 "translation status of all projects, filtered by one of your primary "
 "languages."
 msgstr ""
+"メイン メニューの :guilabel:`Languages` "
+"で言語を選択すると、すべてのプロジェクトの翻訳状況には、設定した翻訳言語の状況が表示されます。"
 
 #: ../../user/profile.rst:42
 msgid ""
@@ -27789,6 +27806,8 @@ msgid ""
 "status of only those projects you are watching, filtered by your primary "
 "languages."
 msgstr ""
+"ダッシュボードの :guilabel:`Watched translations` "
+"には、設定した翻訳言語のみが監視中のプロジェクトの翻訳状況に表示されます。"
 
 #: ../../user/profile.rst:45
 msgid ""
@@ -27796,6 +27815,8 @@ msgid ""
 "sets of project components preconfigured by the Weblate administrator, see :"
 "ref:`componentlists`."
 msgstr ""
+"また、このドロップダウンには、Weblate 管理者が事前設定したプロジェクトのコンポーネントのセットである *コンポーネント リストのセット* "
+"を複数表示できます、参照 :ref:`componentlists`。"
 
 #: ../../user/profile.rst:49
 msgid ""
@@ -27873,7 +27894,7 @@ msgstr ""
 
 #: ../../user/profile.rst:107
 msgid ":ref:`componentlists`"
-msgstr ""
+msgstr ":ref:`componentlists`"
 
 #: ../../user/profile.rst:110
 msgid "Public profile"
@@ -27973,7 +27994,7 @@ msgstr ""
 
 #: ../../user/profile.rst:179
 msgid "Audit log"
-msgstr "監査ログ"
+msgstr "監査履歴"
 
 #: ../../user/profile.rst:181
 msgid ""
@@ -29666,45 +29687,51 @@ msgstr ""
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
-msgstr ""
+msgstr "Weblate クライアント"
 
 #: ../../wlc.rst:14
 msgid ""
 "There has been full wlc utility support ever since Weblate 2.7. If you are "
 "using an older version some incompatibilities with the API might occur."
 msgstr ""
+"Weblate 2.7 以降、wlc ユーティリティにすべて対応しています。古いバージョンを使用している場合は、API "
+"との互換性に問題が発生することがあります。"
 
 #: ../../wlc.rst:20
 msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :mod:`wlc`:"
 msgstr ""
+"Weblate クライアントは個別に提供され、Python モジュールを含んでいます。以下のコマンドを使用するには、:mod:`wlc` "
+"をインストールする必要があります。"
 
 #: ../../wlc.rst:28
 msgid "Getting started"
-msgstr ""
+msgstr "はじめに"
 
 #: ../../wlc.rst:30
 msgid ""
 "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
 "config` for other locations), please create it to match your environment:"
 msgstr ""
+"wlc 設定は ``~/.config/weblate`` に保存されます（他の場所については :ref:`wlc-config` for other "
+"locations を参照）。環境に合わせて作成してください:"
 
 #: ../../wlc.rst:42
 msgid "You can then invoke commands on the default server:"
-msgstr ""
+msgstr "そのあと、デフォルト サーバーでコマンドを呼び出せます。"
 
 #: ../../wlc.rst:51
 msgid ":ref:`wlc-config`"
-msgstr ""
+msgstr ":ref:`wlc-config`"
 
 #: ../../wlc.rst:54
 msgid "Synopsis"
-msgstr ""
+msgstr "概要"
 
 #: ../../wlc.rst:60
 msgid "Commands actually indicate which operation should be performed."
-msgstr ""
+msgstr "コマンドは、実際に実行が必要な操作を示しています。"
 
 #: ../../wlc.rst:63
 msgid "Description"
@@ -29716,6 +29743,9 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
+"Weblate クライアントは Python ライブラリであり、:ref:`api` を使用して Weblate "
+"をリモートで管理するためのコマンドライン ユーティリティです。コマンドライン ユーティリティは、:command:`wlc` "
+"として呼び出すことができ、:mod:`wlc` に組み込まれています。"
 
 #: ../../wlc.rst:70
 msgid "Arguments"
@@ -29726,10 +29756,11 @@ msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
+"プログラムは、出力形式を定義する以下の引数、または使用する Weblate インスタンスを受け入れます。これらは、コマンドの前に入力が必要です。"
 
 #: ../../wlc.rst:77
 msgid "Specify the output format."
-msgstr ""
+msgstr "出力形式を指定する。"
 
 #: ../../wlc.rst:81
 msgid ""
@@ -29737,6 +29768,8 @@ msgid ""
 "see :ref:`wlc-config`. The URL should end with ``/api/``, for example "
 "``https://hosted.weblate.org/api/``."
 msgstr ""
+"API の URL を指定します。設定ファイル内の値を上書きします、参照 :ref:`wlc-config`。URL の末尾は ``/api/`` "
+"にします（例 ``https://hosted.weblate.org/api/``。"
 
 #: ../../wlc.rst:86
 msgid ""
@@ -29744,14 +29777,16 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
+"使用する API ユーザー キーを指定します。設定ファイルの値を上書きします、参照 :ref:`wlc-config`。キーは Weblate "
+"のプロファイルで確認できます。"
 
 #: ../../wlc.rst:91
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
-msgstr ""
+msgstr "設定ファイルのパスを上書きします、。参照 :ref:`wlc-config`。"
 
 #: ../../wlc.rst:95
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
-msgstr ""
+msgstr "使用中の設定ファイル セクションを上書きします、参照 :ref:`wlc-config`。"
 
 #: ../../wlc.rst:98
 msgid "Commands"
@@ -29759,183 +29794,183 @@ msgstr "コマンド"
 
 #: ../../wlc.rst:100
 msgid "The following commands are available:"
-msgstr ""
+msgstr "次のコマンドを使用できます:"
 
 #: ../../wlc.rst:104
 msgid "Prints the current version."
-msgstr ""
+msgstr "現在のバージョンを印刷する。"
 
 #: ../../wlc.rst:108
 msgid "Lists used languages in Weblate."
-msgstr ""
+msgstr "Weblate で使用している言語を一覧表示する。"
 
 #: ../../wlc.rst:112
 msgid "Lists projects in Weblate."
-msgstr ""
+msgstr "Weblate のプロジェクトを一覧表示する。"
 
 #: ../../wlc.rst:116
 msgid "Lists components in Weblate."
-msgstr ""
+msgstr "Weblate のコンポーネントを一覧表示する。"
 
 #: ../../wlc.rst:120
 msgid "Lists translations in Weblate."
-msgstr ""
+msgstr "Weblate の翻訳を一覧表示する。"
 
 #: ../../wlc.rst:124
 msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Weblate オブジェクトを表示する（変換、コンポーネントまたはプロジェクト）。"
 
 #: ../../wlc.rst:128
 msgid "Lists Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Weblate のオブジェクト（翻訳、コンポーネントまたはプロジェクト）を一覧表示する。"
 
 #: ../../wlc.rst:132
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
-msgstr ""
+msgstr "Weblate オブジェクト（翻訳、コンポーネントまたはプロジェクト）で行われた変更をコミットする)。"
 
 #: ../../wlc.rst:136
 msgid ""
 "Pulls remote repository changes into Weblate object (translation, component "
 "or project)."
-msgstr ""
+msgstr "リモートリポジトリの変更を Weblate オブジェクト（翻訳、コンポーネント、またはプロジェクト）にプルする。"
 
 #: ../../wlc.rst:140
 msgid ""
 "Pushes Weblate object changes into remote repository (translation, component "
 "or project)."
-msgstr ""
+msgstr "Weblate オブジェクトの変更をリモート リポジトリ（翻訳、コンポーネント、またはプロジェクト）にプッシュする。"
 
 #: ../../wlc.rst:146 ../../wlc.rst:202
 msgid "Supported since wlc 0.7."
-msgstr ""
+msgstr "wlc 0.7 から対応。"
 
 #: ../../wlc.rst:148
 msgid ""
 "Resets changes in Weblate object to match remote repository (translation, "
 "component or project)."
-msgstr ""
+msgstr "Weblate オブジェクトの変更をリセットして、リモート リポジトリ（翻訳、コンポーネント、またはプロジェクト）に一致させる。"
 
 #: ../../wlc.rst:154 ../../wlc.rst:219
 msgid "Supported since wlc 0.9."
-msgstr ""
+msgstr "wlc 0.9 から対応。"
 
 #: ../../wlc.rst:156
 msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
-msgstr ""
+msgstr "リモート リポジトリ（翻訳、コンポーネントまたはプロジェクト）に一致する Weblate オブジェクト内の追跡されていない変更を削除する。"
 
 #: ../../wlc.rst:160
 msgid ""
 "Displays repository status for a given Weblate object (translation, "
 "component or project)."
-msgstr ""
+msgstr "指定した Weblate オブジェクト（翻訳、コンポーネントまたはプロジェクト）のリポジトリ状況を表示する。"
 
 #: ../../wlc.rst:164
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
-msgstr ""
+msgstr "指定した Weblate オブジェクト（翻訳、コンポーネント、またはプロジェクト）の詳細な統計情報を表示する。"
 
 #: ../../wlc.rst:170 ../../wlc.rst:178 ../../wlc.rst:186
 msgid "Supported since wlc 0.5."
-msgstr ""
+msgstr "wlc 0.5 から対応。"
 
 #: ../../wlc.rst:172
 msgid "Displays lock status."
-msgstr ""
+msgstr "ロックの状況を表示する。"
 
 #: ../../wlc.rst:180
 msgid "Locks component from further translation in Weblate."
-msgstr ""
+msgstr "Weblate での今後の翻訳からコンポーネントをロックする。"
 
 #: ../../wlc.rst:188
 msgid "Unlocks translation of Weblate component."
-msgstr ""
+msgstr "Weblate コンポーネントの翻訳のロックを解除する。"
 
 #: ../../wlc.rst:194
 msgid "Supported since wlc 0.7 and Weblate 2.10."
-msgstr ""
+msgstr "wlc 0.7 および Weblate 2.10 以降から対応。"
 
 #: ../../wlc.rst:196
 msgid "Displays changes for a given object."
-msgstr ""
+msgstr "指定したオブジェクトの変更を表示する。"
 
 #: ../../wlc.rst:204
 msgid "Downloads a translation file."
-msgstr ""
+msgstr "翻訳ファイルをダウンロードする。"
 
 #: ../../wlc.rst:208
 msgid ""
 "Converts file format, if unspecified no conversion happens on the server and "
 "the file is downloaded as is to the repository."
-msgstr ""
+msgstr "ファイル形式を変換する、ファイル形式を指定しない場合はサーバー上で変換は行われず、ファイルはそのままリポジトリにダウンロードされる。"
 
 #: ../../wlc.rst:213
 msgid ""
 "Specifies file to save output in, if left unspecified it is printed to "
 "stdout."
-msgstr ""
+msgstr "出力を保存するファイルを指定する。指定しない場合は、標準出力に出力される。"
 
 #: ../../wlc.rst:221
 msgid "Uploads a translation file."
-msgstr ""
+msgstr "翻訳ファイルをアップロードする。"
 
 #: ../../wlc.rst:225
 msgid "Overwrite existing translations upon uploading."
-msgstr ""
+msgstr "アップロード時に既存の翻訳を上書きする。"
 
 #: ../../wlc.rst:229
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
-msgstr ""
+msgstr "内容を読み込むファイル。指定しない場合は、stdin から読み込まれる。"
 
 #: ../../wlc.rst:233
 msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
-msgstr ""
+msgstr "``--help`` を付加すると、個々のコマンドの呼び出しに関するより詳細な情報を取得できる、例 ``wlc ls --help``。"
 
 #: ../../wlc.rst:239
 msgid "Configuration files"
-msgstr ""
+msgstr "設定ファイル"
 
 #: ../../wlc.rst:245
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
-msgstr ""
+msgstr ":file:`.weblate`、 :file:`.weblate.ini`、 :file:`weblate.ini`"
 
 #: ../../wlc.rst:244
 msgid "The files with `.ini` extension are accepted as well."
-msgstr ""
+msgstr "拡張子が `.ini` のファイルも対応する。"
 
 #: ../../wlc.rst:246
 msgid "Per project configuration file"
-msgstr ""
+msgstr "プロジェクト別の構成ファイル"
 
 #: ../../wlc.rst:249
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 
 #: ../../wlc.rst:250
 msgid "User configuration file on Windows."
-msgstr ""
+msgstr "Windows のユーザー設定ファイル。"
 
 #: ../../wlc.rst:251
 msgid ":file:`~/.config/weblate`"
-msgstr ""
+msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:252
 msgid "User configuration file"
-msgstr ""
+msgstr "ユーザー設定ファイル"
 
 #: ../../wlc.rst:254
 msgid ":file:`/etc/xdg/weblate`"
-msgstr ""
+msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:254
 msgid "System wide configuration file"
-msgstr ""
+msgstr "システム全体の設定ファイル"
 
 #: ../../wlc.rst:256
 msgid ""
@@ -29944,32 +29979,35 @@ msgid ""
 "``XDG_CONFIG_DIRS``. On Windows ``APPDATA`` directory is preferred location "
 "for the configuration file."
 msgstr ""
+"このプログラムは XDG の仕様に準拠しているので、環境変数 ``XDG_CONFIG_HOME`` や ``XDG_CONFIG_DIRS`` "
+"を使って設定ファイルの配置を調整できます。Windows では、設定ファイルは ``APPDATA`` ディレクトリに保存することをお勧めします。"
 
 #: ../../wlc.rst:260
 msgid ""
 "Following settings can be configured in the ``[weblate]`` section (you can "
 "customize this by :option:`--config-section`):"
 msgstr ""
+"以下の設定は ``[weblate]`` セクションで設定できます（ :option:`--config-section` でカスタマイズできます）:"
 
 #: ../../wlc.rst:265
 msgid "API KEY to access Weblate."
-msgstr ""
+msgstr "Weblate に接続するための API キー。"
 
 #: ../../wlc.rst:269
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
-msgstr ""
+msgstr "API サーバの URL、デフォルトは ``http://127.0.0.1:8000/api/``。"
 
 #: ../../wlc.rst:273
 msgid "Path to the default translation - component or project."
-msgstr ""
+msgstr "デフォルトの翻訳へのパス - コンポーネントまたはプロジェクト。"
 
 #: ../../wlc.rst:275
 msgid "The configuration file is an INI file, for example:"
-msgstr ""
+msgstr "設定ファイルは INI ファイルです、例:"
 
 #: ../../wlc.rst:284
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
-msgstr ""
+msgstr "さらに、API キーは ``[keys]`` セクションに保存できる。"
 
 #: ../../wlc.rst:291
 msgid ""
@@ -29977,35 +30015,37 @@ msgid ""
 "file:`.weblate` configuration in the VCS repository so that wlc knows which "
 "server it should talk to."
 msgstr ""
+"これにより、VCS リポジトリー内の :file:`.weblate` 設定を使用して、wlc "
+"がどのサーバーと通信すべきかを認識しながら、個人設定に鍵を保管することができます。"
 
 #: ../../wlc.rst:296
 msgid "Examples"
-msgstr ""
+msgstr "例"
 
 #: ../../wlc.rst:298
 msgid "Print current program version:"
-msgstr ""
+msgstr "現在のプログラムのバージョンを印刷する:"
 
 #: ../../wlc.rst:305
 msgid "List all projects:"
-msgstr ""
+msgstr "すべてのプロジェクトを一覧表示する:"
 
 #: ../../wlc.rst:316
 msgid "You can also designate what project wlc should work on:"
-msgstr ""
+msgstr "また、wlc で作業するプロジェクトを指定できる:"
 
 #: ../../wlc.rst:344
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
-msgstr ""
+msgstr "この設定により、現在のプロジェクトの保留中の変更を簡単にコミットできる:"
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
-msgstr ""
+msgstr "翻訳ワークフロー"
 
 #: ../../workflows.rst:6
 msgid "Several translation workflows are supported."
-msgstr ""
+msgstr "複数の翻訳ワークフローをサポートしています。"
 
 #: ../../workflows.rst:8
 msgid ""
