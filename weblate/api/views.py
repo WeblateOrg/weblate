@@ -1217,7 +1217,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin):
         # Get correct serializer based on action and instance
         if self.action in ("list", "retrieve"):
             serializer_class = UnitSerializer
-        elif isinstance(instance, Unit) and instance.translation.is_source:
+        elif isinstance(instance, Unit) and instance.is_source:
             if instance.readonly:
                 serializer_class = ReadonlySourceUnitWriteSerializer
             else:

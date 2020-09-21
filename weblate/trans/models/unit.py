@@ -335,7 +335,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
         # Set source_unit for source units
-        if self.translation.is_source and not self.source_unit:
+        if self.is_source and not self.source_unit:
             self.source_unit = self
             self.save(same_content=True, same_state=True, update_fields=["source_unit"])
 
@@ -406,7 +406,7 @@ class Unit(models.Model, LoggerMixin):
             or (flags is not None and "read-only" in self.get_all_flags(flags))
             or (
                 flags is not None
-                and not self.translation.is_source
+                and not self.is_source
                 and self.source_unit.state < STATE_TRANSLATED
             )
         ):
@@ -452,7 +452,9 @@ class Unit(models.Model, LoggerMixin):
             report_error(cause="Unit update error")
             self.translation.component.handle_parse_error(error, self.translation)
 
-        # Ensure we track source string for bilingual
+        # Ensure we track source string for bilingual, this can not use
+        # Unit.is_source as that depends on source_unit attribute, which
+        # we set here
         if not self.translation.is_source:
             source_unit = component.get_source(
                 self.id_hash,
@@ -586,7 +588,7 @@ class Unit(models.Model, LoggerMixin):
         * Where source string is not translated
         """
         if "read-only" in self.all_flags or (
-            not self.translation.is_source and self.source_unit.state < STATE_TRANSLATED
+            not self.is_source and self.source_unit.state < STATE_TRANSLATED
         ):
             if not self.readonly:
                 self.state = STATE_READONLY
@@ -610,6 +612,10 @@ class Unit(models.Model, LoggerMixin):
     def is_plural(self):
         """Check whether message is plural."""
         return is_plural(self.source) or is_plural(self.target)
+
+    @property
+    def is_source(self):
+        return self.source_unit_id is None or self.source_unit_id == self.id
 
     def get_source_plurals(self):
         """Return source plurals in array."""
@@ -695,7 +701,7 @@ class Unit(models.Model, LoggerMixin):
         if self.old_unit.state == self.state and self.old_unit.target == self.target:
             return False
 
-        if self.translation.is_source and not self.translation.component.intermediate:
+        if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
 
@@ -846,19 +852,13 @@ class Unit(models.Model, LoggerMixin):
     def all_comments(self):
         """Return list of target comments."""
         query = Q(unit=self)
-        if self.translation.is_source:
+        if self.is_source:
             # Add all comments on translation on source string comment
             query |= Q(unit__source_unit=self)
         else:
             # Add source string comments for translation unit
             query |= Q(unit=self.source_unit)
-        return (
-            Comment.objects.filter(query)
-            .prefetch_related(
-                "unit", "unit__translation", "unit__translation__component", "user"
-            )
-            .order()
-        )
+        return Comment.objects.filter(query).prefetch_related("unit", "user").order()
 
     @cached_property
     def unresolved_comments(self):
@@ -883,7 +883,7 @@ class Unit(models.Model, LoggerMixin):
         old_checks = self.all_checks_names
         create = []
 
-        if self.translation.is_source:
+        if self.is_source:
             checks = CHECKS.source
             meth = "check_source"
             args = src, self
@@ -918,7 +918,7 @@ class Unit(models.Model, LoggerMixin):
                         # not all are yet updated and this spans across them.
                         continue
             # Trigger source checks on target check update (multiple failing checks)
-            if not self.translation.is_source:
+            if not self.is_source:
                 self.source_unit.is_batch_update = self.is_batch_update
                 self.source_unit.run_checks()
 
@@ -1137,6 +1137,6 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_labels(self):
-        if self.translation.is_source:
+        if self.is_source:
             return self.labels.all()
         return self.source_unit.all_labels

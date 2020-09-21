@@ -92,7 +92,7 @@ def component_post_delete(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
-    if not instance.translation.is_source:
+    if not instance.is_source:
         return
     # Run checks, update state and priority if flags changed
     if (
@@ -101,8 +101,6 @@ def update_source(sender, instance, **kwargs):
     ):
         # We can not exclude current unit here as we need to trigger the updates below
         for unit in instance.unit_set.select_related("translation"):
-            # Optimize for recursive signal invocation
-            unit.translation.__dict__["is_source"] = unit.pk == instance.pk
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
@@ -117,7 +115,7 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
     if (
         action not in ("post_add", "post_remove", "post_clear")
         or (action != "post_clear" and not pk_set)
-        or not instance.translation.is_source
+        or not instance.is_source
     ):
         return
     if not instance.is_bulk_edit:

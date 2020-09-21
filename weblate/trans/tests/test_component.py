@@ -851,7 +851,7 @@ class LinkedEditTest(ViewTestCase):
 
         # Translate all units
         for unit in Unit.objects.iterator():
-            if not unit.translation.is_source:
+            if not unit.is_source:
                 unit.translate(self.user, "test", STATE_TRANSLATED)
 
         # No commit now

@@ -11,7 +11,7 @@
         <p class="text-muted">
         {% if comment.resolved %}
         {% trans "Resolved comment" %}
-        {% elif comment.unit.translation.is_source %}
+        {% elif comment.unit.is_source %}
         {% trans "Source string comment" %}
         {% else %}
         {% trans "Translation comment" %}
@@ -39,7 +39,7 @@
             </form>
         </div>
         {% endif %}
-        <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.translation.is_source %} comment-source{% endif %}">
+        <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}">
             {{ comment.comment|markdown }}
             <span class="pull-right flip text-muted">{{ comment.timestamp|naturaltime }}</span>
             <div class="clearfix"></div>

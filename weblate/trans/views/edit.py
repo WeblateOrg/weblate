@@ -548,9 +548,7 @@ def translate(request, project, component, lang):
             "antispam": antispam,
             "comment_form": CommentForm(
                 project,
-                initial={
-                    "scope": "global" if unit.translation.is_source else "translation"
-                },
+                initial={"scope": "global" if unit.is_source else "translation"},
             ),
             "context_form": ContextForm(instance=unit.source_unit, user=request.user),
             "search_form": search_result["form"].reset_offset(),

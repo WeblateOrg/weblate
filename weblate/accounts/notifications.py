@@ -580,18 +580,14 @@ class NewCommentNotificaton(Notification):
     required_attr = "comment"
 
     def need_language_filter(self, change):
-        return not change.comment.unit.translation.is_source
+        return not change.comment.unit.is_source
 
     def notify_immediate(self, change):
         super().notify_immediate(change)
 
         # Notify upstream
         report_source_bugs = change.component.report_source_bugs
-        if (
-            change.comment
-            and change.comment.unit.translation.is_source
-            and report_source_bugs
-        ):
+        if change.comment and change.comment.unit.is_source and report_source_bugs:
             self.send_immediate("en", report_source_bugs, change)
 
 
