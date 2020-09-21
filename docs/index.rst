@@ -1,3 +1,5 @@
+.. title:: Weblate Documentation
+
 .. include:: ../README.rst
 
 .. include:: toc-user.rst
@@ -12,4 +14,5 @@ Indices and tables
 ------------------
 
 * :ref:`genindex`
-* :ref:`search`
+* :ref:`http-routingtable`
+* :ref:`py-modindex`

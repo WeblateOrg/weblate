@@ -61,6 +61,7 @@ extensions = [
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",
+    "sphinx_rtd_theme",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -217,3 +218,7 @@ nitpick_ignore = [
 linkcheck_retries = 10
 linkcheck_timeout = 10
 linkcheck_ignore = ["http://127.0.0.1:8080/"]
+
+# HTTP docs
+http_index_ignore_prefixes = ["/api/"]
+http_strict_mode = True
