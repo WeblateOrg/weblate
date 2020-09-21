@@ -622,7 +622,7 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
                 store.add_unit(pounit.unit)
 
             # Store translations
-            if unit.is_plural():
+            if unit.is_plural:
                 pounit.set_target(unit.get_target_plurals())
             else:
                 pounit.set_target(unit.target)

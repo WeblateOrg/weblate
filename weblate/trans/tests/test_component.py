@@ -100,14 +100,14 @@ class ComponentTest(RepoTestCase):
         unit = Unit.objects.get(
             source__startswith="Orangutan", translation__language_code="cs"
         )
-        self.assertTrue(unit.is_plural())
+        self.assertTrue(unit.is_plural)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
 
         unit = Unit.objects.get(
             source__startswith="Hello", translation__language_code="cs"
         )
-        self.assertFalse(unit.is_plural())
+        self.assertFalse(unit.is_plural)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, "Hello, world!\n")
@@ -115,7 +115,7 @@ class ComponentTest(RepoTestCase):
         unit = Unit.objects.get(
             source__startswith="Thank ", translation__language_code="cs"
         )
-        self.assertFalse(unit.is_plural())
+        self.assertFalse(unit.is_plural)
         self.assertFalse(unit.translated)
         self.assertTrue(unit.fuzzy)
         self.assertEqual(unit.target, "Thanks")

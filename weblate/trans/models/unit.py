@@ -554,7 +554,7 @@ class Unit(models.Model, LoggerMixin):
         self.update_priority(save=False)
 
         # Sanitize number of plurals
-        if self.is_plural():
+        if self.is_plural:
             self.target = join_plural(self.get_target_plurals())
 
         if created:
@@ -609,11 +609,12 @@ class Unit(models.Model, LoggerMixin):
                     same_content=True, same_state=True, update_fields=["priority"]
                 )
 
+    @cached_property
     def is_plural(self):
         """Check whether message is plural."""
         return is_plural(self.source) or is_plural(self.target)
 
-    @property
+    @cached_property
     def is_source(self):
         return self.source_unit_id is None or self.source_unit_id == self.id
 
@@ -638,7 +639,7 @@ class Unit(models.Model, LoggerMixin):
     def get_target_plurals(self):
         """Return target plurals in array."""
         # Is this plural?
-        if not self.is_plural():
+        if not self.is_plural:
             return [self.target]
 
         # Split plurals
