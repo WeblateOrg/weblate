@@ -22,6 +22,7 @@ Not yet released.
 * Consolidated API response status codes.
 * Support markdown in contributor agreement.
 * Improved source strings tracking.
+* Improved JSON, YAML and CSV formats compatibility.
 
 Weblate 4.2.2
 -------------
