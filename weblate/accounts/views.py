@@ -549,10 +549,10 @@ def hosting(request):
                     )
                     return redirect("hosting")
 
-            if "extend" in request.POST and request.user.is_superuser:
-                billing.expiry = timezone.now() + timedelta(days=14)
-                billing.save(update_fields=["expiry"])
-                return redirect("hosting")
+        if "extend" in request.POST and request.user.is_superuser:
+            billing.expiry = timezone.now() + timedelta(days=14)
+            billing.save(update_fields=["expiry"])
+            return redirect("hosting")
 
     return render(
         request,
