@@ -334,6 +334,11 @@ class Unit(models.Model, LoggerMixin):
             update_fields=update_fields,
         )
 
+        # Set source_unit for source units
+        if self.translation.is_source and not self.source_unit:
+            self.source_unit = self
+            self.save(same_content=True, same_state=True, update_fields=["source_unit"])
+
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
             self.run_checks()
@@ -401,7 +406,7 @@ class Unit(models.Model, LoggerMixin):
             or (flags is not None and "read-only" in self.get_all_flags(flags))
             or (
                 flags is not None
-                and self.source_unit
+                and not self.translation.is_source
                 and self.source_unit.state < STATE_TRANSLATED
             )
         ):
@@ -580,9 +585,8 @@ class Unit(models.Model, LoggerMixin):
         * Flagged with 'read-only'
         * Where source string is not translated
         """
-        source_unit = self.source_unit
         if "read-only" in self.all_flags or (
-            source_unit is not None and source_unit.state < STATE_TRANSLATED
+            not self.translation.is_source and self.source_unit.state < STATE_TRANSLATED
         ):
             if not self.readonly:
                 self.state = STATE_READONLY
@@ -734,10 +738,7 @@ class Unit(models.Model, LoggerMixin):
         This is needed when editing template translation for monolingual formats.
         """
         # Find relevant units
-        same_source = Unit.objects.filter(
-            translation__component=self.translation.component, id_hash=self.id_hash
-        ).exclude(id=self.id)
-        for unit in same_source.prefetch():
+        for unit in self.unit_set.exclude(id=self.id).prefetch():
             # Update source, number of words and content_hash
             unit.source = self.target
             unit.num_words = self.num_words
@@ -917,7 +918,7 @@ class Unit(models.Model, LoggerMixin):
                         # not all are yet updated and this spans across them.
                         continue
             # Trigger source checks on target check update (multiple failing checks)
-            if self.source_unit:
+            if not self.translation.is_source:
                 self.source_unit.is_batch_update = self.is_batch_update
                 self.source_unit.run_checks()
 
@@ -1031,6 +1032,7 @@ class Unit(models.Model, LoggerMixin):
         """Return union of own and component flags."""
         return Flags(
             self.translation.all_flags,
+            # The source_unit is None before saving the object for the first time
             self.source_unit.extra_flags if self.source_unit else self.extra_flags,
             override or self.flags,
         )
@@ -1044,12 +1046,9 @@ class Unit(models.Model, LoggerMixin):
         secondary_langs = user.profile.secondary_languages.exclude(
             id=self.translation.language.id
         )
-        component = self.translation.component
         return get_distinct_translations(
-            Unit.objects.filter(
-                id_hash=self.id_hash,
+            self.source_unit.unit_set.filter(
                 state__gte=STATE_TRANSLATED,
-                translation__component=component,
                 translation__language__in=secondary_langs,
             )
             .exclude(
@@ -1137,13 +1136,7 @@ class Unit(models.Model, LoggerMixin):
             yield location, filename, line
 
     @cached_property
-    def source_unit_object(self):
-        if self.source_unit:
-            return self.source_unit
-        return self
-
-    @cached_property
     def all_labels(self):
-        if self.source_unit:
-            return self.source_unit.all_labels
-        return self.labels.all()
+        if self.translation.is_source:
+            return self.labels.all()
+        return self.source_unit.all_labels

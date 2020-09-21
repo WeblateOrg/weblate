@@ -89,7 +89,7 @@ EXACT_FIELD_MAP = {
     "changed_by": "change__author__username",
     "suggestion_author": "suggestion__user__username",
     "comment_author": "comment__user__username",
-    "label": "labels__name",
+    "label": "source_unit__labels__name",
 }
 OPERATOR_MAP = {
     ":": "substring",
@@ -228,7 +228,7 @@ class TermExpr:
         if text in ("variant", "shaping"):
             return Q(variant__isnull=False)
         if text == "label":
-            return Q(labels__isnull=False) | Q(source_unit__labels__isnull=False)
+            return Q(source_unit__labels__isnull=False)
         if text == "context":
             return ~Q(context="")
         if text == "screenshot":
@@ -236,7 +236,7 @@ class TermExpr:
                 source_unit__screenshots__isnull=False
             )
         if text == "flags":
-            return ~Q(extra_flags="") | ~Q(source_unit__extra_flags="")
+            return ~Q(source_unit__extra_flags="")
 
         raise ValueError("Unsupported has lookup: {}".format(text))
 
@@ -249,11 +249,6 @@ class TermExpr:
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
-
-        # Handle source unit linked content
-        name = self.field_name(field)
-        if name.split("__")[0] in {"labels"}:
-            query |= Q(**{f"source_unit__{name}": match})
 
         return query
 

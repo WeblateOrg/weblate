@@ -552,9 +552,7 @@ def translate(request, project, component, lang):
                     "scope": "global" if unit.translation.is_source else "translation"
                 },
             ),
-            "context_form": ContextForm(
-                instance=unit.source_unit_object, user=request.user
-            ),
+            "context_form": ContextForm(instance=unit.source_unit, user=request.user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": locked,
@@ -621,7 +619,7 @@ def comment(request, pk):
     if form.is_valid():
         # Is this source or target comment?
         if form.cleaned_data["scope"] in ("global", "report"):
-            scope = unit.source_unit_object
+            scope = unit.source_unit
         # Create comment object
         Comment.objects.add(scope, request, form.cleaned_data["comment"])
         # Add review label/flag

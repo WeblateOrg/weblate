@@ -67,10 +67,7 @@ class MultipleFailingCheck(SourceCheck):
     def check_source_unit(self, source, unit):
         from weblate.checks.models import Check
 
-        related = Check.objects.filter(
-            unit__id_hash=unit.id_hash,
-            unit__translation__component=unit.translation.component,
-        ).exclude(unit_id=unit.id)
+        related = Check.objects.filter(unit__in=unit.unit_set.exclude(pk=unit.id))
         return related.count() >= 2
 
 
@@ -80,15 +77,9 @@ class LongUntranslatedCheck(SourceCheck):
     description = _("The string has not been translated for a long time")
 
     def check_source_unit(self, source, unit):
-        from weblate.trans.models import Unit
-
         if unit.timestamp > timezone.now() - timedelta(days=90):
             return False
-        states = list(
-            Unit.objects.filter(
-                translation__component=unit.translation.component, id_hash=unit.id_hash
-            ).values_list("state", flat=True)
-        )
+        states = list(unit.unit_set.values_list("state", flat=True))
         total = len(states)
         not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
         translated_percent = 100 * (total - not_translated) / total

@@ -59,7 +59,7 @@ def bulk_perform(
 
             for unit in component_units:
                 changed = False
-                source_unit = unit.source_unit_object
+                source_unit = unit.source_unit
 
                 if (
                     target_state != -1

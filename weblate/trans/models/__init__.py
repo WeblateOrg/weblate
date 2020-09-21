@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
 import shutil
 
@@ -95,18 +94,15 @@ def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
     if not instance.translation.is_source:
         return
-    # We can not exclude current unit here as we need to trigger the updates below
-    units = Unit.objects.filter(
-        translation__component=instance.translation.component, id_hash=instance.id_hash
-    )
     # Run checks, update state and priority if flags changed
     if (
         instance.old_unit.extra_flags != instance.extra_flags
         or instance.state != instance.old_unit.state
     ):
-        for unit in units:
+        # We can not exclude current unit here as we need to trigger the updates below
+        for unit in instance.unit_set.select_related("translation"):
             # Optimize for recursive signal invocation
-            unit.translation.__dict__["is_source"] = False
+            unit.translation.__dict__["is_source"] = unit.pk == instance.pk
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
