@@ -306,7 +306,7 @@ class SourceUnitTest(ModelTestCase):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertIsNotNone(unit.source_unit)
         unit = Unit.objects.filter(translation__language_code="en")[0]
-        self.assertIsNone(unit.source_unit)
+        self.assertEqual(unit.source_unit, unit)
 
     def test_priority(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]

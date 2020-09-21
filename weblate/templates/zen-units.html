@@ -37,7 +37,7 @@
 {% endif %}
 
 
-{% if item.unit.get_explanation %}
+{% if item.unit.source_unit.explanation %}
 <tr id="row-explanation-{{ item.unit.checksum }}">
 <td></td>
 <td colspan="2" class="translatetext">
@@ -45,7 +45,7 @@
     <div class="list-group">
         <div class="list-group-item">
             <div class="list-group-item-text">
-                {{ item.unit.get_explanation|markdown }}
+                {{ item.unit.source_unit.explanation|markdown }}
             </div>
         </div>
     </div>
