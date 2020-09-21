@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
-"PO-Revision-Date: 2020-09-16 19:00+0000\n"
-"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
+"PO-Revision-Date: 2020-09-22 09:48+0000\n"
+"Last-Translator: Константин Талалов <eleferen@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -3271,9 +3271,9 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"Для установки пользовательских проверок необходимо в списке :setting:"
-"`AUTOFIX_LIST` указать полный путь к Python’ьему классу, смотрите раздел :"
-"ref:`custom-check-modules`."
+"Для установки пользовательских проверок необходимо в списке "
+":setting:`AUTOFIX_LIST` указать полный путь к классу Python, смотрите раздел "
+":ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior"
@@ -4135,9 +4135,9 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"Для установки пользовательских проверок необходимо в списке :setting:"
-"`CHECK_LIST` указать полный путь к Python’ьему классу, смотрите раздел :ref:"
-"`custom-check-modules`."
+"Для установки пользовательских проверок необходимо в списке "
+":setting:`CHECK_LIST` указать полный путь к классу Python, смотрите раздел "
+":ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:285
 msgid "Checking translation text does not contain \"foo\""
@@ -4515,7 +4515,7 @@ msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
 msgstr ""
-"Предоставьте полный путь к Python’ьему классу, реализующему интерфейс "
+"Предоставьте полный путь к классу Python, реализующему интерфейс "
 "автоматического исправления."
 
 #: ../../admin/config.rst:165
@@ -4645,8 +4645,7 @@ msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
-"Предоставьте полный путь к Python’ьему классу, реализующему интерфейс "
-"проверки."
+"Предоставьте полный путь к классу Python, реализующему интерфейс проверки."
 
 #: ../../admin/config.rst:242
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -7476,7 +7475,7 @@ msgstr ":ref:`contributing`"
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr "Создание Python’ьего модуля"
+msgstr "Создание модуля Python"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -7495,14 +7494,14 @@ msgid ""
 "python3.7/site-packages/`) or in the Weblate directory, which is also added "
 "to the interpreter search path."
 msgstr ""
-"При написании собственного Python’ьего кода (называемого модулем) его "
-"необходимо разместить в каталоге, находящемся либо где-то в системном пути "
-"(обычно это путь вида :file:`/usr/lib/python3.7/site-packages/`), либо в "
+"При написании собственного кода на Python (называемого модулем) его "
+"необходимо разместить в каталоге, находящемся либо где-то в системном пути ("
+"обычно это путь вида :file:`/usr/lib/python3.7/site-packages/`), либо в "
 "каталоге Weblate’а, который также добавляется к путям поиска интерпретатора."
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr "А ещё лучше превратить вашу настройку в правильный Python’ий пакет:"
+msgstr "А ещё лучше превратить вашу настройку в правильный пакет Python:"
 
 #: ../../admin/customize.rst:35
 msgid "Create a folder for your package (we will use `weblate_customization`)."
@@ -7519,7 +7518,7 @@ msgid ""
 "Create a folder for the Python module (also called "
 "``weblate_customization``) for the customization code."
 msgstr ""
-"Создайте каталог для Python’ьего модуля (также назовём его "
+"Создайте каталог для модуля Python (также назовём его "
 "``weblate_customization``), в котором будет содержаться наш код."
 
 #: ../../admin/customize.rst:55
@@ -7656,17 +7655,17 @@ msgid ""
 "Place the files in your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
-"Разместите файлы в Python’ьем модуле, содержащем настройку Weblate’а "
-"(смотрите раздел :ref:`custom-module`)."
+"Разместите файлы в модуле Python, содержащем настройку Weblate’а (смотрите "
+"раздел :ref:`custom-module`)."
 
 #: ../../admin/customize.rst:124
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
-"Добавьте полное имя его Python’ьего класса в список соответствующего "
-"параметра (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` или :setting:"
-"`AUTOFIX_LIST`):"
+"Добавьте полное имя его класса Python в список соответствующего параметра "
+"(:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` или "
+":setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:146
 msgid ""
@@ -7857,7 +7856,7 @@ msgstr "SMTP-сервер для исходящей почты, смотрите
 
 #: ../../admin/install.rst:64
 msgid "Python dependencies"
-msgstr "Зависимости Python’а"
+msgstr "Зависимости Python"
 
 #: ../../admin/install.rst:66
 msgid ""
@@ -8089,7 +8088,7 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
-"Для компиляции некоторых :ref:`Python’ьих зависимостей <python-deps>` может "
+"Для компиляции некоторых :ref:`зависимостей Python <python-deps>` может "
 "потребоваться установка их зависимостей. Это зависит от того, как вы их "
 "устанавливаете, так что для получения помощи по установке обратитесь к "
 "документации соответствующих пакетов. Зависимости зависимостей вам не "
@@ -8110,8 +8109,8 @@ msgid ""
 "installed with development files and GObject introspection data."
 msgstr ""
 "Weblate использует Pango и Cairo для отрисовки растровых виджетов (смотрите "
-"раздел :ref:`promotion`) и проверки отрисовки текста (смотрите раздел :ref:"
-"`fonts`). Для правильной установки их Python’ьих привязок сначала нужно "
+"раздел :ref:`promotion`) и проверки отрисовки текста (смотрите раздел "
+":ref:`fonts`). Для правильной установки привязок Python сначала нужно "
 "установить системные библиотеки — вам нужны и Cairo, и Pango, которым, в "
 "свою очередь, нужна GLib. Все они должны быть установлены с файлами для "
 "разработки и данными интроспекции GObject."
@@ -9272,7 +9271,7 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
-"Для Python’ьего кода вам будет необходимо настроить запросы на использование "
+"Для кода Python вам будет необходимо настроить запросы на использование "
 "системной цепочки сертификатов вместо использование цепочки, поставляемой с "
 "Python’ом. Этого можно добиться, поместив в :file:`settings.py` следующий "
 "фрагмент кода (путь указан для Debian):"
@@ -11379,7 +11378,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1222
 msgid "Adding own Python modules"
-msgstr "Добавление собственных Python’ьих модулей"
+msgstr "Добавление собственных модулей Python"
 
 #: ../../admin/install/docker.rst:1226
 msgid ""
@@ -11387,10 +11386,10 @@ msgid ""
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
 "using :ref:`docker-custom-config`."
 msgstr ""
-"Собственные Python’ьи модули вы можете разместить в каталоге :file:`/app/"
-"data/python/` (смотрите раздел :ref:`docker-volume`) — Weblate их затем "
-"загрузит, скорее всего, через :ref:`пользовательские файлы конфигурации "
-"<docker-custom-config>`."
+"Собственные модули Python вы можете разместить в каталоге :file:`/app/data/"
+"python/` (смотрите раздел :ref:`docker-volume`) — Weblate их затем загрузит, "
+"скорее всего, через :ref:`пользовательские файлы конфигурации <docker-custom-"
+"config>`."
 
 #: ../../admin/install/docker.rst:1232
 msgid ":doc:`../customize`"
@@ -11522,7 +11521,7 @@ msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
 msgstr ""
-"Установите зависимости, необходимые для сборки Python’ьих модулей (смотрите "
+"Установите зависимости, необходимые для сборки модулей Python (смотрите "
 "раздел :ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
@@ -11550,7 +11549,7 @@ msgstr "Инструкции по установке на местах:"
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr "Python’ьи модули"
+msgstr "Модули Python"
 
 #: ../../admin/install/steps/install-python.rst:6
 msgid ""
@@ -12746,8 +12745,8 @@ msgid ""
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
 "Также вы можете реализовать собственные сервисы машинного перевода, написав "
-"всего несколько строк Python’ьего кода. В этом примере реализован машинный "
-"перевод на фиксированный список языков через Python’ий модуль ``dictionary``:"
+"всего несколько строк кода на Python. В этом примере реализован машинный "
+"перевод на фиксированный список языков через модуль Python ``dictionary``:"
 
 #: ../../admin/machine.rst:423
 msgid ""
@@ -14060,7 +14059,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:192
 msgid "Install the `akismet` Python module"
-msgstr "Установите Python’ий модуль `akismet`"
+msgstr "Установите модуль Python `akismet`"
 
 #: ../../admin/optionals.rst:193
 msgid "Configure the Akismet API key."
@@ -22656,7 +22655,7 @@ msgstr ""
 
 #: ../../changes.rst:1093
 msgid "Support for Python 3."
-msgstr ""
+msgstr "Поддержка Python 3."
 
 #: ../../changes.rst:1094
 msgid "Dropped support for Django 1.7."
@@ -25073,10 +25072,8 @@ msgstr ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Weblate currently supports:"
 msgid "Weblate user data export"
-msgstr "В настоящее время Weblate поддерживает:"
+msgstr "Экспорт пользовательских данных Weblate"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -26910,8 +26907,8 @@ msgid ""
 "The `Odorik`_ python module documentation is built using Sphinx, Read the "
 "Docs and translated using Weblate."
 msgstr ""
-"Документация по python’ьему модулю `Odorik`_ собрана при помощи Sphinx и "
-"Read the Docs и переведена с помощью Weblate."
+"Документация по модулю Python `Odorik`_ собрана при помощи Sphinx и Read the "
+"Docs и переведена с помощью Weblate."
 
 #: ../../devel/starting.rst:4
 msgid "Starting with internationalization"
@@ -31007,8 +31004,8 @@ msgid ""
 "<https://www.gnu.org/software/gettext/manual/html_node/python_002dformat."
 "html>`_"
 msgstr ""
-":ref:`Формат фигурных скобок в Python’е <python:formatstrings>`, `Python’ьи "
-"строки формата <https://www.gnu.org/software/gettext/manual/html_node/"
+":ref:`Формат фигурных скобок в Python’е <python:formatstrings>`, `строки "
+"формата Python <https://www.gnu.org/software/gettext/manual/html_node/"
 "python_002dformat.html>`_"
 
 #: ../../user/checks.rst:342
@@ -34456,7 +34453,7 @@ msgid ""
 "The Weblate Client is shipped separately and includes the Python module. To "
 "use the commands below, you need to install :mod:`wlc`:"
 msgstr ""
-"Клиент Weblate поставляется отдельно и включает в себя Python’ий модуль. Для "
+"Клиент Weblate поставляется отдельно и включает в себя модуль Python. Для "
 "использования нижеприведённых команд необходимо установить модуль :mod:`wlc`:"
 
 #: ../../wlc.rst:28
@@ -34500,7 +34497,7 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
-"Weblate Client — это Python’ья библиотека и инструмент командной строки для "
+"Weblate Client — это библиотека Python и инструмент командной строки для "
 "удалённого управления Weblate с помощью его :ref:`api`. Инструмент командной "
 "строки может быть вызван как команда :command:`wlc`, которая построена на "
 "основе модуля :mod:`wlc`."
