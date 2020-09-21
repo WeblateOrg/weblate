@@ -37,7 +37,7 @@ from weblate.trans.forms import (
     ProjectSettingsForm,
     TranslationDeleteForm,
 )
-from weblate.trans.models import Announcement, Change
+from weblate.trans.models import Announcement, Change, Component
 from weblate.trans.tasks import component_removal, project_removal
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
@@ -95,6 +95,9 @@ def change_component(request, project, component):
             messages.error(
                 request, _("Invalid settings, please check the form for errors!")
             )
+            # Get a fresh copy of object, otherwise it will use unsaved changes
+            # from the failed form
+            obj = Component.objects.get(pk=obj.pk)
     else:
         form = ComponentSettingsForm(request, instance=obj)
 
