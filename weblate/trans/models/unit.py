@@ -845,13 +845,19 @@ class Unit(models.Model, LoggerMixin):
     def all_comments(self):
         """Return list of target comments."""
         query = Q(unit=self)
-        if self.source_unit:
-            # Add source string comments for translation unit
-            query |= Q(unit=self.source_unit)
-        else:
+        if self.translation.is_source:
             # Add all comments on translation on source string comment
             query |= Q(unit__source_unit=self)
-        return Comment.objects.filter(query).prefetch_related("unit").order()
+        else:
+            # Add source string comments for translation unit
+            query |= Q(unit=self.source_unit)
+        return (
+            Comment.objects.filter(query)
+            .prefetch_related(
+                "unit", "unit__translation", "unit__translation__component", "user"
+            )
+            .order()
+        )
 
     @cached_property
     def unresolved_comments(self):
