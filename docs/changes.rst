@@ -23,6 +23,7 @@ Not yet released.
 * Support markdown in contributor agreement.
 * Improved source strings tracking.
 * Improved JSON, YAML and CSV formats compatibility.
+* Added support for removing strings.
 
 Weblate 4.2.2
 -------------

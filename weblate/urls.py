@@ -206,6 +206,11 @@ real_patterns = [
         name="upload_translation",
     ),
     path(
+        "unit/<int:unit_id>/delete/",
+        weblate.trans.views.edit.delete_unit,
+        name="delete-unit",
+    ),
+    path(
         "new-unit/<name:project>/<name:component>/<name:lang>/",
         weblate.trans.views.edit.new_unit,
         name="new-unit",

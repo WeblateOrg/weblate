@@ -19,12 +19,11 @@
 
 """Test for translation views."""
 
-
 import time
 
 from django.urls import reverse
 
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
@@ -316,6 +315,31 @@ class EditPoMonoTest(EditTest):
         self.assertContains(response, "Translation with this key seem to already exist")
         response = add("")
         self.assertContains(response, "Error in parameter key")
+
+    def test_remove_unit(self):
+        self.assertEqual(self.component.stats.all, 16)
+        unit = self.get_unit()
+        # Deleting translation unit
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+        self.assertEqual(response.status_code, 403)
+        # Lack of permissions
+        response = self.client.post(
+            reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+        # Deleting translation unit
+        response = self.client.post(reverse("delete-unit", kwargs={"unit_id": unit.pk}))
+        self.assertEqual(response.status_code, 403)
+        # Actual removal
+        response = self.client.post(
+            reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk})
+        )
+        self.assertEqual(response.status_code, 302)
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.stats.all, 12)
 
 
 class EditIphoneTest(EditTest):
