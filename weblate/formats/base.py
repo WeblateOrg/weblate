@@ -473,6 +473,28 @@ class TranslationFormat:
         if getattr(settings, "SENTRY_DSN", None):
             add_breadcrumb(category="storage", message=message, data=data, level="info")
 
+    def delete_unit(self, ttkit_unit) -> Optional[str]:
+        raise NotImplementedError()
+
+    def cleanup(self) -> List[str]:
+        """Removes unused strings, returning list of additional changed files."""
+        existing = {unit.context for unit in self.template_store.mono_units}
+        changed = False
+
+        result = []
+
+        for ttkit_unit in self.all_store_units:
+            if self.unit_class(self, ttkit_unit, ttkit_unit).context not in existing:
+                item = self.delete_unit(ttkit_unit)
+                if item is not None:
+                    result.append(item)
+                else:
+                    changed = True
+
+        if changed:
+            self.save()
+        return result
+
 
 class EmptyFormat(TranslationFormat):
     """For testing purposes."""
