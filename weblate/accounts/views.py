@@ -632,7 +632,7 @@ def user_page(request, user):
     )
     user_projects = Project.objects.filter(
         id__in=user_projects_ids & allowed_project_ids
-    )
+    ).order()
 
     return render(
         request,
@@ -644,10 +644,14 @@ def user_page(request, user):
             "last_changes_url": urlencode({"user": user.username}),
             "user_projects": prefetch_project_flags(prefetch_stats(user_projects)),
             "owned_projects": prefetch_project_flags(
-                prefetch_stats(user.owned_projects.filter(id__in=allowed_project_ids))
+                prefetch_stats(
+                    user.owned_projects.filter(id__in=allowed_project_ids).order()
+                )
             ),
             "watched_projects": prefetch_project_flags(
-                prefetch_stats(user.watched_projects.filter(id__in=allowed_project_ids))
+                prefetch_stats(
+                    user.watched_projects.filter(id__in=allowed_project_ids).order()
+                )
             ),
             "user_languages": user.profile.languages.all()[:7],
         },
