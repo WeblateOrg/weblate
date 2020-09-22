@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
-"PO-Revision-Date: 2020-09-21 07:24+0000\n"
+"PO-Revision-Date: 2020-09-22 16:39+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -6101,6 +6101,9 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"A lista de backends de autenticação de onde permite o registro. Isso só "
+"limita novos registros, os usuários ainda podem autenticar e adicionar "
+"autenticação usando todos os backends de autenticação configurados."
 
 #: ../../admin/config.rst:1449
 msgid ""
@@ -6108,6 +6111,10 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
+"É recomendado para manter :setting:`REGISTRATION_OPEN` habilitado enquanto "
+"limita os backends de registro, caso contrário, os usuários poderão se "
+"registrar, mas o Weblate não mostrará links para se registrar na interface "
+"do usuário."
 
 #: ../../admin/config.rst:1461
 msgid "The backend names match names used in URL for authentication."
@@ -8762,16 +8769,20 @@ msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
+"Além do cache de Django, Weblate realiza cache de avatares. Recomenda-se "
+"usar um cache separado, baseado em arquivos para este fim:"
 
 #: ../../admin/install.rst:817
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:826
 msgid "Configure e-mail sending"
-msgstr ""
+msgstr "Configurar envio de e-mail"
 
 #: ../../admin/install.rst:828
 msgid ""
@@ -8780,34 +8791,48 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"O Weblate precisa enviar e-mails em várias ocasiões, e esses e-mails devem "
+"ter um endereço de remetente correto, por favor, configure "
+":configuração:`SERVER_EMAIL` e :setting:`DEFAULT_FROM_EMAIL` para combinar "
+"com o seu ambiente, por exemplo:"
 
 #: ../../admin/install.rst:840
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
+"Para desabilitar o envio de e-mails pelo Weblate, defina "
+":setting:`django:EMAIL_BACKEND` para ``django.core.mail.backends.dummy."
+"EmailBackend``."
 
 #: ../../admin/install.rst:843
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
+"Isso desabilitará *toda* entrega de e-mail, incluindo e-mails de registro ou "
+"redefinição de senha."
 
 #: ../../admin/install.rst:848
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:858
 msgid "Allowed hosts setup"
-msgstr ""
+msgstr "Configuração de hosts permitidos"
 
 #: ../../admin/install.rst:860
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django requer :setting:`ALLOWED_HOSTS` para manter uma lista de nomes de "
+"domínio que seu site pode servir, deixando-o vazio bloqueará quaisquer "
+"solicitações."
 
 #: ../../admin/install.rst:863
 msgid ""
@@ -8815,21 +8840,28 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
+"Caso isso não esteja configurado para corresponder ao seu servidor HTTP, "
+"você terá erros como :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may "
+"need to add '1.1.1.1' to ALLOWED_HOSTS.`"
 
 #: ../../admin/install.rst:869
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"No contêiner Docker, isso está disponível como "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/install.rst:873
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
+"site`"
 
 #: ../../admin/install.rst:880
 msgid "Django secret key"
-msgstr ""
+msgstr "Chave secreta do Django"
 
 #: ../../admin/install.rst:882
 msgid ""
@@ -8837,16 +8869,21 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
+"A configuração :setting:`SECRET_KEY` é usada pelo Django para assinar "
+"cookies, e você deve realmente gerar seu próprio valor em vez de usar o da "
+"configuração do exemplo."
 
 #: ../../admin/install.rst:885
 msgid ""
 "You can generate a new key using :file:`weblate/examples/generate-secret-"
 "key` shipped with Weblate."
 msgstr ""
+"Você pode gerar uma nova chave usando :file:`weblate/examples/generate-"
+"secret-key`, que vem com o Weblate."
 
 #: ../../admin/install.rst:890
 msgid ":setting:`SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`SECRET_KEY`"
 
 #: ../../admin/install.rst:895
 msgid "Home directory"
@@ -8857,6 +8894,8 @@ msgid ""
 "This is no longer required, Weblate now stores all its data in :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Isso não é mais necessário, o Weblate agora armazena todos os seus dados em "
+":setting:`DATA_DIR`."
 
 #: ../../admin/install.rst:901
 msgid ""
@@ -8865,12 +8904,19 @@ msgid ""
 "private repositories, but Git might need to access this directory as well "
 "(depending on the Git version you use)."
 msgstr ""
+"O diretório home do usuário que executa o Weblate deve existir e ser escrito "
+"por este usuário. Isso é especialmente necessário se você quiser usar o SSH "
+"para acessar repositórios privados, mas o Git pode precisar acessar este "
+"diretório também (dependendo da versão git que você usa)."
 
 #: ../../admin/install.rst:906
 msgid ""
 "You can change the directory used by Weblate in :file:`settings.py`, for "
 "example to set it to ``configuration`` directory under the Weblate tree:"
 msgstr ""
+"Você pode alterar o diretório usado pelo Weblate em :file:`settings.py`, por "
+"exemplo, para defini-lo como diretório ``configuration`` na árvore do "
+"Weblate:"
 
 #: ../../admin/install.rst:915
 msgid ""
@@ -8880,14 +8926,20 @@ msgid ""
 "data`` or ``wwwrun``), so you either have to run Weblate under a different "
 "user, or change this setting."
 msgstr ""
+"No Linux e em outros sistemas como UNIX, o caminho para o diretório home do "
+"usuário é definido em :file:`/etc/passwd`. Muitas distribuições usam como "
+"padrão um diretório sem permissão de escrita para usuários usados para "
+"servir conteúdo web (como ``apache``, ``www-data`` ou ``wwwrun``), então "
+"você tem que executar o Weblate sob um usuário diferente ou alterar essa "
+"configuração."
 
 #: ../../admin/install.rst:923
 msgid ":ref:`vcs-repos`"
-msgstr ""
+msgstr ":ref:`vcs-repos`"
 
 #: ../../admin/install.rst:928
 msgid "Template loading"
-msgstr ""
+msgstr "Carregamento de modelos"
 
 #: ../../admin/install.rst:930
 msgid ""
@@ -8896,14 +8948,18 @@ msgid ""
 "request. You can configure it using the following snippet (the ``loaders`` "
 "setting is important here):"
 msgstr ""
+"Recomenda-se usar um carregador de modelo em cache para Django. Ele armazena "
+"modelos analisados e evita a necessidade de fazer análise a cada "
+"solicitação. Você pode configurá-lo usando o trecho a seguir (a configuração "
+"``loaders`` é importante aqui):"
 
 #: ../../admin/install.rst:964
 msgid ":py:class:`django:django.template.loaders.cached.Loader`"
-msgstr ""
+msgstr ":py:class:`django:django.template.loaders.cached.Loader`"
 
 #: ../../admin/install.rst:969
 msgid "Running maintenance tasks"
-msgstr ""
+msgstr "Executando tarefas de manutenção"
 
 #: ../../admin/install.rst:971
 msgid ""
@@ -8911,40 +8967,53 @@ msgid ""
 "the background. This is now automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
+"Para um desempenho ideal, é uma boa ideia executar algumas tarefas de "
+"manutenção em segundo plano. Isso agora é feito automaticamente por "
+":ref:`celery` e cobre as seguintes tarefas:"
 
 #: ../../admin/install.rst:974
 msgid "Configuration health check (hourly)."
-msgstr ""
+msgstr "Verificação de saúde da configuração (de hora em hora)."
 
 #: ../../admin/install.rst:975
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
 "`commit_pending`."
 msgstr ""
+"Realização de commits de alterações pendentes (de hora em hora), consulte "
+":ref:`lazy-commit` e :djadmin:`commit_pending`."
 
 #: ../../admin/install.rst:976
 msgid "Updating component alerts (daily)."
-msgstr ""
+msgstr "Atualização de alertas de componentes (diariamente)."
 
 #: ../../admin/install.rst:977
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr ""
+"Atualização dos ramos remotos (*nightly*), consulte :setting:`AUTO_UPDATE`."
 
 #: ../../admin/install.rst:978
 msgid "Translation memory backup to JSON (daily), see :djadmin:`dump_memory`."
 msgstr ""
+"Backup de memória de tradução para JSON (diariamente), consulte "
+":djadmin:`dump_memory`."
 
 #: ../../admin/install.rst:979
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "djadmin:`cleanuptrans`."
 msgstr ""
+"Tarefas de manutenção de texto completo e banco de dados (tarefas diárias e "
+"semanais), consulte :djadmin:`cleanuptrans`."
 
 #: ../../admin/install.rst:983
 msgid ""
 "Since version 3.2, the default way of executing these tasks is using Celery "
 "and Weblate already comes with proper configuration, see :ref:`celery`."
 msgstr ""
+"Desde a versão 3.2, a maneira padrão de executar essas tarefas é usar o "
+"Celery e o Weblate já vem com a configuração adequada, consulte "
+":ref:`celery`."
 
 #: ../../admin/install.rst:989
 msgid "System locales and encoding"
