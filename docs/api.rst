@@ -1896,6 +1896,15 @@ Units
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
     :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
 
+.. http:delete::  /api/units/(int:id)/
+
+    .. versionadded:: 4.3
+
+    Deletes a translation unit.
+
+    :param id: Unit ID
+    :type id: int
+
 Changes
 +++++++
 

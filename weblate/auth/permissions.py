@@ -187,6 +187,15 @@ def check_edit_approved(user, permission, obj):
     return check_can_edit(user, permission, obj)
 
 
+@register_perm("unit.delete")
+def check_unit_delete(user, permission, obj):
+    if isinstance(obj, Unit):
+        obj = obj.translation
+    if not obj.is_source or obj.is_readonly:
+        return False
+    return check_can_edit(user, permission, obj)
+
+
 @register_perm("unit.add")
 def check_unit_add(user, permission, translation):
     if not translation.is_source or translation.is_readonly:

@@ -2352,6 +2352,56 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.get_target_plurals(), ["singular\n", "many\n", "other\n"])
 
+    def test_delete_unit(self):
+        component = self._create_component(
+            "po-mono",
+            "po-mono/*.po",
+            "po-mono/en.po",
+            project=self.component.project,
+            name="mono",
+        )
+        revision = component.repository.last_revision
+        self.assertEqual(component.stats.all, 16)
+        unit = Unit.objects.get(
+            translation__component=component,
+            translation__language_code="cs",
+            source="Hello, world!\n",
+        )
+        # Lack of permissions
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="delete",
+            code=403,
+        )
+        # Deleting of non source unit
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="delete",
+            code=403,
+            superuser=True,
+        )
+        # Lack of permissions
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="delete",
+            code=403,
+        )
+        # Deleting of source unit
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="delete",
+            code=204,
+            superuser=True,
+        )
+        # Verify units were actually removed
+        component = Component.objects.get(pk=component.pk)
+        self.assertNotEqual(revision, component.repository.last_revision)
+        self.assertEqual(component.stats.all, 12)
+
 
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self):

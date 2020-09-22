@@ -495,6 +495,22 @@ class TranslationFormat:
             self.save()
         return result
 
+    def remove_unit(self, ttkit_unit) -> List[str]:
+        """High level wrapper for unit removal."""
+        changed = False
+
+        result = []
+
+        item = self.delete_unit(ttkit_unit)
+        if item is not None:
+            result.append(item)
+        else:
+            changed = True
+
+        if changed:
+            self.save()
+        return result
+
 
 class EmptyFormat(TranslationFormat):
     """For testing purposes."""
