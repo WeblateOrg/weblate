@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
 "PO-Revision-Date: 2020-09-22 16:39+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -520,6 +520,11 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+":guilabel:`Access control` として :guilabel:`Custom` を選択すると、Weblate "
+"は特定のプロジェクトのアクセス管理を停止し、すべてのユーザーとグループを Django "
+"管理インターフェースを使って管理できます。これを使用すると、より複雑なアクセス制御を定義したり、単一の Weblate "
+"インスタンス内のすべてのプロジェクトに対して共有アクセス ポリシーを設定できます。デフォルトですべてのプロジェクトに対してこのオプションを有効にする場合は"
+"、:setting:`DEFAULT_ACCESS_CONTROL` を設定してください。"
 
 #: ../../admin/access.rst:300
 msgid ""
@@ -527,22 +532,24 @@ msgid ""
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
 msgstr ""
+"これを有効にすると、Weblate はこのプロジェクト用に作成したすべての :ref:`acl` "
+"を削除します。この操作をインスタンスからの管理者権限なしで実行すると、プロジェクトを管理するためのアクセス権を即座に失います。"
 
 #: ../../admin/access.rst:307
 msgid "Default groups and roles"
-msgstr ""
+msgstr "デフォルトのグループとロール"
 
 #: ../../admin/access.rst:310
 msgid "List of privileges"
-msgstr ""
+msgstr "特権の一覧"
 
 #: ../../admin/access.rst:313
 msgid "Billing (see :ref:`billing`)"
-msgstr ""
+msgstr "請求（参照 :ref:`billing`）"
 
 #: ../../admin/access.rst:313
 msgid "View billing info [`Administration`, `Billing`]"
-msgstr ""
+msgstr "請求情報の表示 [`Administration`, `Billing`]"
 
 #: ../../admin/access.rst:316 ../../api.rst:1900
 msgid "Changes"
@@ -550,7 +557,7 @@ msgstr "変更"
 
 #: ../../admin/access.rst:316
 msgid "Download changes [`Administration`]"
-msgstr ""
+msgstr "変更のダウンロード [`Administration`]"
 
 #: ../../admin/access.rst:321 ../../user/translating.rst:60
 msgid "Comments"
@@ -561,6 +568,8 @@ msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"コメントの投稿 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:321
 msgid "Delete comment [`Administration`]"
@@ -585,21 +594,21 @@ msgstr "用語集"
 
 #: ../../admin/access.rst:329
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "用語集へ用語の追加 [`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:331
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "用語集の用語の編集 [`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:333
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "用語集の用語の削除 [管理'、用語集の管理'、'パワーユーザー']"
 
 #: ../../admin/access.rst:335
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "用語集へ用語のアップロード [`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:338
 msgid "Automatic suggestions"
@@ -627,7 +636,7 @@ msgstr "レポート"
 
 #: ../../admin/access.rst:346
 msgid "Download reports [`Administration`]"
-msgstr ""
+msgstr "レポートのダウンロード [`Administration`]"
 
 #: ../../admin/access.rst:353 ../../api.rst:1940 ../../user/translating.rst:205
 msgid "Screenshots"
@@ -635,15 +644,15 @@ msgstr "スクリーンショット"
 
 #: ../../admin/access.rst:349
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "スクリーンショットの追加 [`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:351
 msgid "Edit screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "スクリーンショットの編集 [`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:353
 msgid "Delete screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "スクリーンショットの削除 [`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:356
 msgid "Source strings"
@@ -651,7 +660,7 @@ msgstr "原文"
 
 #: ../../admin/access.rst:356
 msgid "Edit source string info [`Administration`, `Edit source`]"
-msgstr ""
+msgstr "原文情報の編集 [`Administration`, `Edit source`]"
 
 #: ../../admin/access.rst:369
 msgid "Strings"
@@ -666,27 +675,30 @@ msgid ""
 "Ignore failing checks [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"不合格となった検査の除外 [`Administration`, `Edit source`, `Power user`, `Review strings`"
+", `Translate`]"
 
 #: ../../admin/access.rst:363
 msgid ""
 "Edit strings [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"文字列の編集 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:365
 msgid "Review strings [`Administration`, `Review strings`]"
-msgstr ""
+msgstr "文字列の査読 [`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:367
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
-msgstr ""
-"提案が施行されている場合の文字列の編集 [`Administration`, `Review strings`]"
+msgstr "提案が適用された文字列の編集 [`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:369
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
-msgstr ""
+msgstr "原文の編集 [`Administration`, `Edit source`, `Power user`]"
 
 #: ../../admin/access.rst:378 ../../user/translating.rst:46
 #: ../../workflows.rst:44
@@ -698,12 +710,16 @@ msgid ""
 "Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"提案の適用 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:374
 msgid ""
 "Add suggestions [`Add suggestion`, `Administration`, `Edit source`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
+"提案の追加 [`Add suggestion`, `Administration`, `Edit source`, `Power user`, `"
+"Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:376
 msgid "Delete suggestions [`Administration`]"
@@ -714,6 +730,8 @@ msgid ""
 "Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"提案に投票 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:387 ../../api.rst:1534
 msgid "Translations"
@@ -726,11 +744,11 @@ msgstr "新しい翻訳の開始 [`Administration`, `Manage languages`, `Power u
 
 #: ../../admin/access.rst:383
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
-msgstr ""
+msgstr "自動翻訳の実行 [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:385
 msgid "Delete existing translations [`Administration`, `Manage languages`]"
-msgstr ""
+msgstr "翻訳済み文字列の削除 [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:387
 msgid ""
@@ -739,7 +757,7 @@ msgstr "新しい言語での翻訳の開始 [`Administration`, `Manage language
 
 #: ../../admin/access.rst:394
 msgid "Uploads"
-msgstr ""
+msgstr "アップロード"
 
 #: ../../admin/access.rst:390
 msgid "Define author of translation upload [`Administration`]"
@@ -750,12 +768,16 @@ msgid ""
 "Overwrite existing strings with an upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
+"既存の文字列をアップロードして上書き [`Administration`, `Edit source`, `Power user`, `Review "
+"strings`, `Translate`]"
 
 #: ../../admin/access.rst:394
 msgid ""
 "Upload translation strings [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"翻訳のアップロード [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:407
 msgid "VCS"
@@ -766,6 +788,8 @@ msgid ""
 "Access the internal repository [`Access repository`, `Administration`, "
 "`Manage repository`, `Power user`]"
 msgstr ""
+"内部リポジトリへのアクセス [`Access repository`, `Administration`, `Manage repository`, `"
+"Power user`]"
 
 #: ../../admin/access.rst:399
 msgid ""
@@ -793,6 +817,8 @@ msgid ""
 "View upstream repository location [`Access repository`, `Administration`, "
 "`Manage repository`, `Power user`]"
 msgstr ""
+"upstream リポジトリの場所の表示 [`Access repository`, `Administration`, `Manage "
+"repository`, `Power user`]"
 
 #: ../../admin/access.rst:407
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
@@ -800,7 +826,7 @@ msgstr "内部リポジトリの更新 [`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:428
 msgid "Site wide privileges"
-msgstr ""
+msgstr "サイト全体の特権"
 
 #: ../../admin/access.rst:410
 msgid "Use management interface"
@@ -848,79 +874,81 @@ msgid ""
 "powerful and quite close to the superuser status—most of them affect all the "
 "projects of your Weblate installation."
 msgstr ""
+"サイト全体の特権は、デフォルトのロールには与えられません。これらは強力で、スーパー ユーザーの状態に非常に近く、ほとんどの場合、インストール済みの "
+"Weblate のすべてのプロジェクトに影響します。"
 
 #: ../../admin/access.rst:437
 msgid "List of groups"
-msgstr ""
+msgstr "グループ一覧"
 
 #: ../../admin/access.rst:439
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
-msgstr ""
+msgstr "インストール時（または :djadmin:`setupgroups` の実行後 ）に、以下のグループが作成されます。"
 
 #: ../../admin/access.rst:450
 msgid "`Guests`"
-msgstr ""
+msgstr "`Guests`"
 
 #: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
-msgstr ""
+msgstr "非認証ユーザーのアクセス権を定義する。"
 
 #: ../../admin/access.rst:445
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
-msgstr ""
+msgstr "このグループには匿名ユーザーのみ含む（参照 :setting:`ANONYMOUS_USER_NAME`）。"
 
 #: ../../admin/access.rst:447
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
-msgstr ""
+msgstr "このグループからロールを削除して、非認証ユーザーの権限を制限できる。"
 
 #: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "デフォルト roles: `Add suggestion`、 `Access repository`"
 
 #: ../../admin/access.rst:458
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Viewers`"
 
 #: ../../admin/access.rst:453
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
-msgstr ""
+msgstr "このロールにより、すべてのユーザーが公開プロジェクトを参照できる。デフォルトでは、すべてのユーザーがこのグループのメンバーである。"
 
 #: ../../admin/access.rst:456
 msgid "By default all users are members of this group, using :ref:`autogroup`."
-msgstr ""
+msgstr "デフォルトでは、すべてのユーザーがこのグループのメンバーである、:ref:`autogroup` を使用する。"
 
 #: ../../admin/access.rst:458
 msgid "Default roles: none"
-msgstr ""
+msgstr "デフォルト roles: none"
 
 #: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
-msgstr ""
+msgstr "`Users`"
 
 #: ../../admin/access.rst:461
 msgid "Default group for all users."
-msgstr ""
+msgstr "すべてのユーザーのデフォルトのグループ。"
 
 #: ../../admin/access.rst:463
 msgid "By default all users are members of this group using :ref:`autogroup`."
-msgstr ""
+msgstr "デフォルトでは、すべてのユーザーがこのグループのメンバーである、:ref:`autogroup`を使用する。"
 
 #: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
-msgstr ""
+msgstr "デフォルト roles: `Power user`"
 
 #: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Reviewers`"
 
 #: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
@@ -928,19 +956,19 @@ msgstr "査読者用のグループ（参照 :ref:`workflows`）。"
 
 #: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
-msgstr ""
+msgstr "デフォルト roles: `Review strings`"
 
 #: ../../admin/access.rst:475
 msgid "`Managers`"
-msgstr ""
+msgstr "`Managers`"
 
 #: ../../admin/access.rst:473
 msgid "Group for administrators."
-msgstr ""
+msgstr "管理者用のグループ。"
 
 #: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
-msgstr ""
+msgstr "デフォルト roles: `Administration`"
 
 #: ../../admin/access.rst:479
 msgid ""
@@ -948,6 +976,8 @@ msgid ""
 "unexpected problems. If you do not want to use these features, just remove "
 "all privileges from them."
 msgstr ""
+"定義済みの Weblate グループとユーザーを削除しないでください。削除すると、予期しない問題が発生することがあります。これらの機能を使用しない場合は、"
+"すべての権限を削除してください。"
 
 #: ../../admin/addons.rst:4
 msgid "Addons"
@@ -26259,7 +26289,7 @@ msgstr ""
 
 #: ../../user/checks.rst:154
 msgid "C format"
-msgstr "C 言語書式"
+msgstr "C 言語形式"
 
 #: ../../user/checks.rst:156
 msgid "*C format string does not match source*"
@@ -26308,7 +26338,7 @@ msgstr ""
 
 #: ../../user/checks.rst:172
 msgid "C# format"
-msgstr "C# 言語書式"
+msgstr "C# 言語形式"
 
 #: ../../user/checks.rst:174
 msgid "*C# format string does not match source*"
@@ -26476,7 +26506,7 @@ msgstr "`percent-placeholders`"
 
 #: ../../user/checks.rst:287
 msgid "Perl format"
-msgstr "Perl 書式"
+msgstr "Perl 形式"
 
 #: ../../user/checks.rst:289
 msgid "*Perl format string does not match source*"
@@ -26498,7 +26528,7 @@ msgstr ""
 
 #: ../../user/checks.rst:305
 msgid "PHP format"
-msgstr "PHP 書式"
+msgstr "PHP 形式"
 
 #: ../../user/checks.rst:307
 msgid "*PHP format string does not match source*"
@@ -26550,7 +26580,7 @@ msgstr ""
 
 #: ../../user/checks.rst:342
 msgid "Python format"
-msgstr "Python 書式"
+msgstr "Python 形式"
 
 #: ../../user/checks.rst:344
 msgid "*Python format string does not match source*"
@@ -26624,7 +26654,7 @@ msgstr ""
 
 #: ../../user/checks.rst:390
 msgid "Ruby format"
-msgstr "Ruby 書式"
+msgstr "Ruby 形式"
 
 #: ../../user/checks.rst:392
 msgid "*Ruby format string does not match source*"
@@ -30023,7 +30053,7 @@ msgstr "例"
 
 #: ../../wlc.rst:298
 msgid "Print current program version:"
-msgstr "現在のプログラムのバージョンを印刷する:"
+msgstr "現在のプログラムのバージョンを表示する:"
 
 #: ../../wlc.rst:305
 msgid "List all projects:"
