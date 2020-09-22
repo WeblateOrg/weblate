@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-20 07:31+0000\n"
-"PO-Revision-Date: 2020-09-22 00:51+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2020-09-22 09:47+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1315,7 +1315,7 @@ msgstr ""
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
-msgstr "統計の生成"
+msgstr "統計データの生成"
 
 #: weblate/addons/generate.py:33
 msgid "Generates a file containing detailed info about the translation."
@@ -2240,7 +2240,9 @@ msgstr "原文と翻訳で一致しない文末の省略記号"
 
 #: weblate/checks/chars.py:314
 msgid "Mismatched \\n"
-msgstr "\\n が合っていないもの"
+msgstr ""
+"\\n"
+" 数の不一致"
 
 #: weblate/checks/chars.py:315
 msgid "Number of \\n in translation does not match source"
@@ -2304,7 +2306,7 @@ msgstr "翻訳されていない複数形が存在するもの"
 
 #: weblate/checks/consistency.py:51
 msgid "Same plurals"
-msgstr "同じ複数形"
+msgstr "同一の複数形"
 
 #: weblate/checks/consistency.py:52
 msgid "Some plural forms are translated in the same way"
@@ -3817,7 +3819,7 @@ msgstr "コミットへの署名は設定されていません。"
 #: weblate/templates/translation.html:45 weblate/templates/translation.html:390
 #: weblate/trans/views/about.py:34
 msgid "Statistics"
-msgstr "統計情報"
+msgstr "統計データ"
 
 #: weblate/templates/about/stats.html:15
 msgid "Most active translators"
@@ -4597,7 +4599,7 @@ msgstr "プロジェクトへの貢献"
 #: weblate/templates/snippets/project-nav.html:50
 #: weblate/templates/translation.html:44
 msgid "Activity"
-msgstr "作業履歴"
+msgstr "進捗状況"
 
 #: weblate/templates/accounts/user.html:108
 msgid "Recent changes"
@@ -4609,12 +4611,12 @@ msgstr "ユーザーが行った変更をすべて表示"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
 msgid "Daily activity"
-msgstr "毎日の作業履歴"
+msgstr "毎日の翻訳作業"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
 msgid "Weekly activity"
-msgstr "毎週の作業履歴"
+msgstr "毎週の翻訳作業"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -4859,12 +4861,12 @@ msgstr "すべての言語を閲覧"
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:21
 msgid "Checks"
-msgstr "検査"
+msgstr "検査結果"
 
 #: weblate/templates/base.html:161
 #, python-format
 msgid "Failed checks in %(project)s"
-msgstr "%(project)s プロジェクトの検査で不合格"
+msgstr "%(project)s プロジェクト検査の不合格内容"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -5195,7 +5197,7 @@ msgstr "検査の詳細"
 
 #: weblate/templates/checks.html:18
 msgid "Check"
-msgstr "検査"
+msgstr "検査項目"
 
 #: weblate/templates/checks.html:42 weblate/templates/component-list.html:14
 #: weblate/templates/language.html:19
@@ -5206,7 +5208,7 @@ msgstr "情報"
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
-msgstr "検査内容のカスタマイズにより、翻訳の質をさらに向上できます。"
+msgstr "検査内容をカスタマイズすると、翻訳の品質をさらに向上できます。"
 
 #: weblate/templates/checks.html:45
 msgid ""
@@ -5297,19 +5299,19 @@ msgstr "詳細"
 #: weblate/templates/snippets/project-nav.html:46
 #: weblate/templates/translate.html:234 weblate/templates/translation.html:43
 msgid "History"
-msgstr "履歴"
+msgstr "翻訳作業履歴"
 
 #: weblate/templates/component.html:46
 #: weblate/templates/snippets/project-nav.html:40
 #: weblate/templates/snippets/project-nav.html:51
 msgid "Download statistics (CSV)"
-msgstr "統計情報のダウンロード (CSV)"
+msgstr "統計データのダウンロード (CSV)"
 
 #: weblate/templates/component.html:47
 #: weblate/templates/snippets/project-nav.html:41
 #: weblate/templates/snippets/project-nav.html:52
 msgid "Download statistics (JSON)"
-msgstr "統計情報のダウンロード (JSON)"
+msgstr "統計データのダウンロード (JSON)"
 
 #: weblate/templates/component.html:49 weblate/templates/dashboard/user.html:39
 #: weblate/templates/snippets/project-nav.html:43
@@ -5763,17 +5765,13 @@ msgstr ""
 msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
-msgstr ""
-"JSON 形式の各コンポーネントの翻訳統計を使用すると、他の Web サイトやツールで"
-"データを使用できます。"
+msgstr "JSON 形式の各コンポーネントの翻訳統計データを使用すると、他の Web サイトやツールでデータを使用できます。"
 
 #: weblate/templates/data.html:79
 msgid ""
 "As an example, fetching stats for all translations in one component can be "
 "done thusly:"
-msgstr ""
-"たとえば 1 つのコンポーネント内でのすべての翻訳に関する統計情報を取得するに"
-"は、以下のように実行します:"
+msgstr "たとえば 1 つのコンポーネント内でのすべての翻訳に関する統計データを取得するには、以下のように実行します:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
@@ -7876,13 +7874,13 @@ msgstr "未翻訳"
 #: weblate/templates/snippets/unit-state.html:12
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "検査失敗:"
+msgstr "検査不合格:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
 msgctxt "String state"
 msgid "Failed checks"
-msgstr "検査失敗:"
+msgstr "検査不合格"
 
 #: weblate/templates/snippets/unit-state.html:19
 msgctxt "String state"
@@ -11024,7 +11022,7 @@ msgstr "暗号鍵"
 
 #: weblate/trans/views/about.py:69
 msgid "Weblate statistics"
-msgstr "Weblate 統計情報"
+msgstr "Weblate 統計データ"
 
 #: weblate/trans/views/acl.py:77
 msgid "Invalid parameters!"
