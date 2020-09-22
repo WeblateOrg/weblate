@@ -290,6 +290,7 @@ def component_removal(pk, uid):
     user = User.objects.get(pk=uid)
     try:
         obj = Component.objects.get(pk=pk)
+        obj.acting_user = user
         Change.objects.create(
             project=obj.project,
             action=Change.ACTION_REMOVE_COMPONENT,
