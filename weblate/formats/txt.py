@@ -22,7 +22,7 @@ import os
 from collections import OrderedDict
 from glob import glob
 from itertools import chain
-from typing import List, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -228,3 +228,8 @@ class AppStoreFormat(TranslationFormat):
         except Exception:
             report_error(cause="File parse error")
             return False
+
+    def delete_unit(self, ttkit_unit) -> Optional[str]:
+        filename = self.store.get_filename(ttkit_unit.filename)
+        os.unlink(filename)
+        return filename

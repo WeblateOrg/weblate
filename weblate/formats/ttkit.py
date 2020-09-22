@@ -392,6 +392,9 @@ class TTKitFormat(TranslationFormat):
         """Wrapper for all store unit filtering out obsolete."""
         return (unit for unit in self.store.units if not unit.isobsolete())
 
+    def delete_unit(self, ttkit_unit) -> Optional[str]:
+        self.store.removeunit(ttkit_unit)
+
 
 class PropertiesUnit(KeyValueUnit):
     """Wrapper for properties based units."""
