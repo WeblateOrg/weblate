@@ -28,6 +28,7 @@ from django.urls import reverse
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
+from weblate.utils.site import get_site_url
 
 CSP_TEMPLATE = (
     "default-src 'self'; style-src {0}; img-src {1}; script-src {2}; "
@@ -50,6 +51,11 @@ class ProxyMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        # Fake HttpRequest attribute to inject configured
+        # site name into build_absolute_uri
+        request._current_scheme_host = get_site_url()
+
+        # Actual proxy handling
         proxy = None
         if settings.IP_BEHIND_REVERSE_PROXY:
             proxy = request.META.get(settings.IP_PROXY_HEADER)
