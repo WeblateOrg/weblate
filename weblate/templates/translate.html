@@ -40,6 +40,7 @@
 {% include "snippets/component/state.html" with object=unit.translation.component %}
 
 {% perm 'unit.edit' unit as user_can_translate %}
+{% perm 'unit.delete' unit as user_can_delete %}
 {% perm 'suggestion.add' unit as user_can_suggest %}
 {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
@@ -170,6 +171,9 @@
     {% crispy form %}
   </div>
   <div class="panel-footer">
+    {% if user_can_delete %}
+      <a href="{% url "delete-unit" unit_id=unit.pk %}" class="pull-right flip btn btn-danger link-post">{% trans "Remove" %}</a>
+    {% endif %}
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
     {% if locked or not user_can_translate %}
         disabled="disabled"

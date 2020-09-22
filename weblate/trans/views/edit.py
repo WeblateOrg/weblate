@@ -840,3 +840,16 @@ def new_unit(request, project, component, lang):
             messages.success(request, _("New string has been added."))
 
     return redirect(translation)
+
+
+@login_required
+@require_POST
+def delete_unit(request, unit_id):
+    """Delete unit."""
+    unit = get_object_or_404(Unit, pk=unit_id)
+
+    if not request.user.has_perm("unit.delete", unit):
+        raise PermissionDenied()
+
+    unit.translation.delete_unit(request, unit)
+    return redirect(unit.translation)
