@@ -17,7 +17,7 @@ Not yet released.
 * Improved look of matrix mode.
 * Machinery is now called automatic suggestions.
 * Added support for interacting with multiple GitLab or GitHub instances.
-* Extended API to cover project updates, unit updates, glossary.
+* Extended API to cover project updates, unit updates and removals and glossaries.
 * Unit API now properly handles plural strings.
 * Consolidated API response status codes.
 * Support markdown in contributor agreement.

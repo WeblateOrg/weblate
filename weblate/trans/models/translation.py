@@ -1071,6 +1071,24 @@ class Translation(models.Model, URLMixin, LoggerMixin, CacheKeyMixin):
             self.component.create_translations(request=request)
             self.git_commit(user, user.get_author_name())
 
+    def delete_unit(self, request, unit):
+        from weblate.auth.models import get_anonymous
+
+        component = self.component
+        user = request.user if request else get_anonymous()
+        with component.repository.lock:
+            component.commit_pending("delete unit", user)
+            try:
+                pounit, add = self.store.find_unit(unit.context, unit.source)
+            except UnitNotFound:
+                return
+            if add:
+                return
+            extra_files = self.store.remove_unit(pounit.unit)
+            self.addon_commit_files.extend(extra_files)
+            self.git_commit(user, user.get_author_name())
+        component.create_translations(request=request, force=True)
+
 
 class GhostTranslation:
     """Ghost translation object used to show missing translations."""

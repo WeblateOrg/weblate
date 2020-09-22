@@ -1208,7 +1208,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin):
+class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     """Units API."""
 
     queryset = Unit.objects.none()
@@ -1286,6 +1286,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin):
         # Handle translate
         if do_translate:
             unit.translate(user, new_target, new_state)
+
+    def destroy(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if not request.user.has_perm("unit.delete", obj):
+            self.permission_denied(request, "Can not remove string")
+        obj.translation.delete_unit(request, obj)
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
