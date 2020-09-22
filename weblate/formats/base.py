@@ -22,7 +22,7 @@
 import os
 import tempfile
 from copy import deepcopy
-from typing import Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -246,14 +246,14 @@ class TranslationFormat:
         """ID based index for units."""
         return {unit.context: unit for unit in self.mono_units}
 
-    def find_unit_mono(self, context):
+    def find_unit_mono(self, context: str) -> Optional[Any]:
         try:
             # The mono units always have only template set
             return self._context_index[context].template
         except KeyError:
             return None
 
-    def _find_unit_template(self, context):
+    def _find_unit_template(self, context: str) -> Tuple[Any, bool]:
         # Need to create new unit based on template
         template_ttkit_unit = self.template_store.find_unit_mono(context)
         if template_ttkit_unit is None:
@@ -276,13 +276,13 @@ class TranslationFormat:
         """Context and source based index for units."""
         return {(unit.context, unit.source): unit for unit in self.all_units}
 
-    def _find_unit_bilingual(self, context, source):
+    def _find_unit_bilingual(self, context: str, source: str) -> Tuple[Any, bool]:
         try:
             return (self._source_index[context, source], False)
         except KeyError:
             raise UnitNotFound(context, source)
 
-    def find_unit(self, context, source=None):
+    def find_unit(self, context: str, source: Optional[str] = None) -> Tuple[Any, bool]:
         """Find unit by context and source.
 
         Returns tuple (ttkit_unit, created) indicating whether returned unit is new one.
