@@ -434,16 +434,21 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
-        component = self.translation.component
+        translation = self.translation
+        component = translation.component
         self.is_batch_update = True
         # Get unit attributes
         try:
             location = unit.locations
             flags = unit.flags
-            target = unit.target
-            self.check_valid(split_plural(target))
             source = unit.source
             self.check_valid(split_plural(source))
+            if not translation.is_template and translation.is_source:
+                # Load target from source string for bilingual source translations
+                target = source
+            else:
+                target = unit.target
+                self.check_valid(split_plural(target))
             context = unit.context
             self.check_valid([context])
             note = unit.notes
@@ -451,12 +456,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             content_hash = unit.content_hash
         except Exception as error:
             report_error(cause="Unit update error")
-            self.translation.component.handle_parse_error(error, self.translation)
+            translation.component.handle_parse_error(error, translation)
 
         # Ensure we track source string for bilingual, this can not use
         # Unit.is_source as that depends on source_unit attribute, which
         # we set here
-        if not self.translation.is_source:
+        if not translation.is_source:
             source_unit = component.get_source(
                 self.id_hash,
                 create={
@@ -568,7 +573,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             same_state=same_state,
         )
         # Track updated sources for source checks
-        if self.translation.is_template:
+        if translation.is_template:
             component.updated_sources[self.id_hash] = self
         # Indicate source string change
         if not same_source and previous_source:

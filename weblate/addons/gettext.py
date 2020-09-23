@@ -267,7 +267,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             pass
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
-            if not filename or not os.path.exists(filename):
+            if translation.is_source or not filename or not os.path.exists(filename):
                 continue
             try:
                 component.file_format_cls.update_bilingual(

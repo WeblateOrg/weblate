@@ -31,7 +31,7 @@ from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 
 
 class ComponentTest(RepoTestCase):
@@ -82,6 +82,15 @@ class ComponentTest(RepoTestCase):
         component = self.create_component()
         self.verify_component(component, 4, "cs", 4)
         self.assertTrue(os.path.exists(component.full_path))
+        unit = Unit.objects.get(
+            source="Hello, world!\n", translation__language__code="en"
+        )
+        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.target, "Hello, world!\n")
+        unit = Unit.objects.get(
+            source="Hello, world!\n", translation__language__code="cs"
+        )
+        self.assertEqual(unit.state, STATE_EMPTY)
 
     def test_create_dot(self):
         component = self._create_component("po", "./po/*.po")
@@ -133,14 +142,19 @@ class ComponentTest(RepoTestCase):
     def test_create_po_pot(self):
         component = self._create_component("po", "po/*.po", new_base="po/project.pot")
         self.verify_component(component, 4, "cs", 4)
+        unit = Unit.objects.get(
+            source="Hello, world!\n", translation__language__code="en"
+        )
+        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.target, "Hello, world!\n")
+        unit = Unit.objects.get(
+            source="Hello, world!\n", translation__language__code="cs"
+        )
+        self.assertEqual(unit.state, STATE_EMPTY)
 
     def test_create_filtered(self):
         component = self._create_component("po", "po/*.po", language_regex="^cs$")
         self.verify_component(component, 2, "cs", 4)
-
-    def test_create_auto_pot(self):
-        component = self._create_component("po", "po/*.po", new_base="po/project.pot")
-        self.verify_component(component, 4, "cs", 4)
 
     def test_create_po(self):
         component = self.create_po()
@@ -172,7 +186,10 @@ class ComponentTest(RepoTestCase):
 
     def test_create_po_empty(self):
         component = self.create_po_empty()
-        self.verify_component(component, 1, "en", 0)
+        self.verify_component(component, 1, "en", 4)
+        unit = Unit.objects.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.target, "Hello, world!\n")
 
     def test_create_po_link(self):
         component = self.create_po_link()

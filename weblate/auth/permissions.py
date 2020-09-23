@@ -246,7 +246,7 @@ def check_suggestion_add(user, permission, obj):
 @register_perm("upload.perform")
 def check_contribute(user, permission, translation):
     # Bilingual source translations
-    if not translation.filename:
+    if translation.is_source and not translation.is_template:
         return (
             translation.is_source
             and not translation.component.template
