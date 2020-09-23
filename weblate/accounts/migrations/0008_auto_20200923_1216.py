@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name="codesite",
             field=models.URLField(
                 blank=True,
-                help_text="Link to your code profile with services like Codeberg or GitLab.",
+                help_text="Link to your code profile for services like Codeberg or GitLab.",
                 verbose_name="Code site URL",
             ),
         ),
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             name="fediverse",
             field=models.URLField(
                 blank=True,
-                help_text="Link to your fediverse profile with services like Mastodon or diaspora*.",
+                help_text="Link to your Fediverse profile for federated services like Mastodon or diaspora*.",
                 verbose_name="Fediverse URL",
             ),
         ),
