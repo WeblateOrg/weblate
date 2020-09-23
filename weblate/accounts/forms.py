@@ -135,6 +135,17 @@ class ProfileBaseForm(forms.ModelForm):
             return cls(request.POST, instance=request.user.profile)
         return cls(instance=request.user.profile)
 
+    def add_error(self, field, error):
+        if field is None and hasattr(error, "error_dict"):
+            # Skip errors from model clean method on unknown fields as
+            # this is partial form. This is really bound to how Profile.clean
+            # behaves.
+            ignored_fields = ("dashboard_component_list", "dashboard_view")
+            for field, _error_list in error.error_dict.items():
+                if field in ignored_fields and not hasattr(self, field):
+                    return
+        super().add_error(field, error)
+
 
 class LanguagesForm(ProfileBaseForm):
     """User profile editing."""

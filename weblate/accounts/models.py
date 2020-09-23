@@ -496,10 +496,8 @@ class Profile(models.Model):
 
     def clean(self):
         """Check if component list is chosen when required."""
-        # This is used for form validation as well, but those
-        # will not contain all fields
-        if not hasattr(self, "dashboard_component_list"):
-            return
+        # There is matching logic in ProfileBaseForm.add_error to ignore this
+        # validation on partial forms
         if (
             self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
             and self.dashboard_component_list is None

@@ -451,6 +451,25 @@ class ProfileTest(FixtureTestCase):
         )
         self.assertRedirects(response, reverse("profile"))
 
+    def test_profile_dasbhoard(self):
+        # Save profile with invalid settings
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "language": "en",
+                "languages": Language.objects.get(code="cs").id,
+                "secondary_languages": Language.objects.get(code="cs").id,
+                "full_name": "First Last",
+                "email": "weblate@example.org",
+                "username": "testik",
+                "dashboard_view": Profile.DASHBOARD_COMPONENT_LIST,
+                "translate_mode": Profile.TRANSLATE_FULL,
+                "zen_mode": Profile.ZEN_VERTICAL,
+                "nearby_strings": 10,
+            },
+        )
+        self.assertRedirects(response, reverse("profile"))
+
     def test_userdata(self):
         response = self.client.post(reverse("userdata"))
         self.assertContains(response, "basic")
