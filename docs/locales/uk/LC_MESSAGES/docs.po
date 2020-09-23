@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-23 15:15+0200\n"
-"PO-Revision-Date: 2020-09-21 07:24+0000\n"
-"Last-Translator: ihor_ck <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2020-09-23 15:06+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -6136,11 +6136,6 @@ msgstr ""
 "розпізнавання за допомогою всіх налаштованих модулів розпізнавання."
 
 #: ../../admin/config.rst:1449
-#, fuzzy
-#| msgid ""
-#| "It is recommeded to keep :setting:`REGISTRATION_OPEN` enabled while "
-#| "limiting registration backends, otherwise users will be able to register, "
-#| "but Weblate will not show links to register in the user interface."
 msgid ""
 "It is recommended to keep :setting:`REGISTRATION_OPEN` enabled while "
 "limiting registration backends, otherwise users will be able to register, "
@@ -10543,15 +10538,12 @@ msgid "Machine translation settings"
 msgstr "Параметри комп’ютерного перекладу"
 
 #: ../../admin/install/docker.rst:574
-#, fuzzy
-#| msgid ""
-#| "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
 msgid ""
 "Enables :ref:`apertium` machine translation and sets :setting:"
 "`MT_APERTIUM_APY`"
 msgstr ""
-"Вмикає комп'ютерний переклад :ref:`deepl` і встановлює :setting:"
-"`MT_DEEPL_KEY`"
+"Вмикає комп'ютерний переклад :ref:`apertium` і встановлює "
+":setting:`MT_APERTIUM_APY`"
 
 #: ../../admin/install/docker.rst:580
 msgid "Configures :ref:`aws` machine translation."
@@ -13321,12 +13313,12 @@ msgstr ""
 "англійською та локалізовані назви мов."
 
 #: ../../admin/management.rst:581
-#, fuzzy
-#| msgid "This is used to generate <https://wiki.l10n.cz/Jazyky>."
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
 "%C3%A1zvy_jazyk%C5%AF>."
-msgstr "Використовується для створення <https://wiki.l10n.cz/Jazyky>."
+msgstr ""
+"Використовується для створення <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
+"%C3%A1zvy_jazyk%C5%AF>."
 
 #: ../../admin/management.rst:584
 msgid "list_translators"
@@ -16451,17 +16443,14 @@ msgstr ""
 "користуєтеся."
 
 #: ../../admin/upgrade.rst:160
-#, fuzzy
-#| msgid ""
-#| "The database migration to 4.3 might take long depending on number of "
-#| "strings you are translating."
 msgid ""
 "The database migration to 4.3 might take long depending on number of strings "
 "you are translating (expect around one hour of migration time per 100,000 "
 "source strings)."
 msgstr ""
 "Перенесення бази даних з версії 4.3 може бути тривалим. Тривалість залежить "
-"від кількості рядків, переклад яких виконується."
+"від кількості рядків, переклад яких виконується (очікуваний час для "
+"перенесення 100000 початкових рядків складає близько однієї години)."
 
 #: ../../admin/upgrade.rst:167
 msgid "Upgrading from Python 2 to Python 3"
@@ -18363,10 +18352,6 @@ msgstr ""
 "Пояснення щодо рядка, доступне у початкових модулях, див. :ref:`additional`"
 
 #: ../../api.rst:1869 ../../api.rst:1884 ../../api.rst:1897
-#, fuzzy
-#| msgid ""
-#| "Additiona string flags, available on source units, see :ref:`custom-"
-#| "checks`"
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
 msgstr ""
@@ -18391,10 +18376,8 @@ msgid "Performs full update on translation unit."
 msgstr "Виконує повне оновлення модуля перекладу."
 
 #: ../../api.rst:1903
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Deletes a translation unit."
-msgstr "Вилучає переклад."
+msgstr "Вилучає модуль перекладу."
 
 #: ../../api.rst:1917
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -18631,111 +18614,79 @@ msgid ""
 "Returns a list of all glossaries which are associated with a project that "
 "user has access to."
 msgstr ""
+"Повертає список усіх пов'язаних із проєктом глосаріїв, доступ до яких має "
+"користувач."
 
 #: ../../api.rst:2142
-#, fuzzy
-#| msgid "Returns information about a role."
 msgid "Returns information about a glossary."
-msgstr "Повертає відомості щодо ролі."
+msgstr "Повертає відомості щодо глосарія."
 
 #: ../../api.rst:2144 ../../api.rst:2224 ../../api.rst:2234 ../../api.rst:2244
 #: ../../api.rst:2251 ../../api.rst:2259 ../../api.rst:2267 ../../api.rst:2275
 #: ../../api.rst:2282 ../../api.rst:2292 ../../api.rst:2301 ../../api.rst:2313
 #: ../../api.rst:2325
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary id"
-msgstr "Глосарій"
+msgstr "Ідентифікатор глосарія"
 
 #: ../../api.rst:2222 ../../api.rst:2232
-#, fuzzy
-#| msgid "Changes the user parameters."
 msgid "Changes the glossary parameters."
-msgstr "Змінює параметри користувача."
+msgstr "Змінює параметри глосарія."
 
 #: ../../api.rst:2242
-#, fuzzy
-#| msgid "Deletes the role."
 msgid "Deletes the Glossary."
-msgstr "Вилучає роль."
+msgstr "Вилучає глосарій."
 
 #: ../../api.rst:2249
 msgid "Returns projects linked with a glossary."
-msgstr ""
+msgstr "Повертає проєкт, який пов'язано із глосарієм."
 
 #: ../../api.rst:2253
-#, fuzzy
-#| msgid ""
-#| "link to associated projects; see :http:get:`/api/projects/(string:"
-#| "project)/`"
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
-"посилання на пов'язані проєкти; див. :http:get:`/api/projects/(string:"
-"project)/`"
+msgstr "пов'язані проєкти; див. :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:2257
-#, fuzzy
-#| msgid "Associate projects with a group."
 msgid "Associate project with a glossary."
-msgstr "Пов'язати проєкти з групою."
+msgstr "Пов'язати проєкт із глосарієм."
 
 #: ../../api.rst:2265
-#, fuzzy
-#| msgid "Associate projects with a group."
 msgid "Remove asoociate of a project with a glossary."
-msgstr "Пов'язати проєкти з групою."
+msgstr "Вилучити прив'язку проєкту до глосарія."
 
 #: ../../api.rst:2273
-#, fuzzy
-#| msgid "Add term to glossary"
 msgid "List terms of a glossary."
-msgstr "Додати термін до глосарія"
+msgstr "Вивести список термінів глосарія."
 
 #: ../../api.rst:2280
-#, fuzzy
-#| msgid "Associate roles with a group."
 msgid "Associate terms with a glossary."
-msgstr "Пов'язати ролі з групою."
+msgstr "Пов'язати терміни із глосарієм."
 
 #: ../../api.rst:2284 ../../api.rst:2305 ../../api.rst:2317
-#, fuzzy
-#| msgid "Language filter"
 msgid "Language of the term"
-msgstr "Фільтр мов"
+msgstr "Мова терміна"
 
 #: ../../api.rst:2285 ../../api.rst:2306 ../../api.rst:2318
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string for the term"
-msgstr "Коментар до початкового рядка"
+msgstr "Початковий рядок терміна"
 
 #: ../../api.rst:2286 ../../api.rst:2307 ../../api.rst:2319
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string for the term"
-msgstr "Цільові рядки"
+msgstr "Рядок перекладу терміна"
 
 #: ../../api.rst:2290
-#, fuzzy
-#| msgid "Get a subscription associated with a user."
 msgid "Get a term associated with a glossary."
-msgstr "Отримати передплату, яку пов'язано із користувачем."
+msgstr "Отримати термін, пов'язаний із глосарієм."
 
 #: ../../api.rst:2294 ../../api.rst:2303 ../../api.rst:2315 ../../api.rst:2327
 msgid "ID of term"
-msgstr ""
+msgstr "Ідентифікатор терміна"
 
 #: ../../api.rst:2299 ../../api.rst:2311
-#, fuzzy
-#| msgid "Edit a subscription associated with a user."
 msgid "Edit a term associated with a glossary."
-msgstr "Редагувати передплату, яку пов'язано із користувачем."
+msgstr "Редагувати термін, який пов'язано із глосарієм."
 
 #: ../../api.rst:2323
-#, fuzzy
-#| msgid "Delete a subscription associated with a user."
 msgid "Delete a term associated with a glossary."
-msgstr "Вилучити передплату, яку пов'язано із користувачем."
+msgstr "Вилучити термін, який пов'язано із глосарієм."
 
 #: ../../api.rst:2333
 msgid "Notification hooks"
@@ -19126,12 +19077,12 @@ msgstr ""
 "Додано підтримку взаємодії із декількома екземплярами GitLab або GitHub."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Extended API to cover project updates, unit updates."
 msgid ""
 "Extended API to cover project updates, unit updates and removals and "
 "glossaries."
-msgstr "Розширено API — враховано оновлення проєктів та оновлення модулів."
+msgstr ""
+"Розширено API — враховано оновлення і вилучення проєктів та модулів, а також "
+"глосарії."
 
 #: ../../changes.rst:21
 msgid "Unit API now properly handles plural strings."
@@ -19139,8 +19090,6 @@ msgstr ""
 "У API модулів належним чином реалізовано обробку рядків із формами множини."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Consolidated API respons status codes."
 msgid "Consolidated API response status codes."
 msgstr "Консолідовано коди стану відповідей API ."
 
@@ -19154,13 +19103,11 @@ msgstr "Вдосконалено відстеження початкових р�
 
 #: ../../changes.rst:25
 msgid "Improved JSON, YAML and CSV formats compatibility."
-msgstr ""
+msgstr "Удосконалено сумісність із форматами JSON, YAML і CSV."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added support for read only strings."
 msgid "Added support for removing strings."
-msgstr "Додано підтримку придатних лише для читання рядків."
+msgstr "Додано підтримку вилучення рядків."
 
 #: ../../changes.rst:29
 msgid "Weblate 4.2.2"
@@ -25553,8 +25500,6 @@ msgid "**suggested**"
 msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "*Number of sugested strings*"
 msgid "*Number of suggested strings*"
 msgstr "*Кількість рядків-пропозицій*"
 
@@ -29579,6 +29524,8 @@ msgid ""
 "The structure of JSON file is properly preserved even for complex situations "
 "which were broken in prior releases."
 msgstr ""
+"Програма належним чином зберігає структуру файла JSON, навіть для складних "
+"випадків, які було важко обробити у попередніх випусках."
 
 #: ../../formats.rst:754
 msgid ""
@@ -29628,6 +29575,10 @@ msgid ""
 "adding new strings. The nested variant tries to parse the key and insert the "
 "new string into the matching structure."
 msgstr ""
+"Варіанти :guilabel:`файл JSON` та :guilabel:`файл JSON із вкладеною "
+"структурою` призначено для файлів одного типу. Єдиною відмінністю є обробка "
+"додавання нових рядків. У варіанті із вкладеністю програма робить спробу "
+"обробити ключ і вставити новий рядок у відповідну структуру."
 
 #: ../../formats.rst:789
 msgid "``langs/translation-*.json``"
@@ -30512,16 +30463,12 @@ msgid ":ref:`genindex`"
 msgstr ":ref:`genindex`"
 
 #: ../../index.rst:17
-#, fuzzy
-#| msgid ":ref:`production-database`"
 msgid ":ref:`http-routingtable`"
-msgstr ":ref:`production-database`"
+msgstr ":ref:`http-routingtable`"
 
 #: ../../index.rst:18
-#, fuzzy
-#| msgid ":ref:`genindex`"
 msgid ":ref:`py-modindex`"
-msgstr ":ref:`genindex`"
+msgstr ":ref:`py-modindex`"
 
 #: ../../latexindex.rst:4
 msgid "The Weblate Manual"
@@ -34016,11 +33963,6 @@ msgstr ""
 "експортувати вибраний глосарій або переглядати журнал редагувань:"
 
 #: ../../user/translating.rst:284
-#, fuzzy
-#| msgid ""
-#| "Based on configuration and your translated language, Weblate provides you "
-#| "suggestions from several machine translation tools. All machine "
-#| "translations are available in a single tab of each translation page."
 msgid ""
 "Based on configuration and your translated language, Weblate provides you "
 "suggestions from several machine translation tools and :ref:`translation-"
@@ -34028,8 +33970,9 @@ msgid ""
 "translation page."
 msgstr ""
 "На основі налаштувань і мови перекладу Weblate запропонує вам вибрати один "
-"із декількох інструментів комп'ютерного перекладу. Усі комп'ютерні переклади "
-"доступні на окремій вкладці кожної сторінки перекладів."
+"із декількох інструментів комп'ютерного перекладу і :ref:`translation-memory`"
+". Усі комп'ютерні переклади доступні на окремій вкладці кожної сторінки "
+"перекладів."
 
 #: ../../user/translating.rst:291
 msgid ""
