@@ -57,7 +57,7 @@
         {% if check.component %}
           <p>
             {% icon "comment.svg" %}
-            <a href="{% url "guide" project=check.component.project.slug component=check.component.slug %}">{% trans "Not passed guidelines from the community localization checklist:" %}</a>
+            <a href="{% url "guide" project=check.component.project.slug component=check.component.slug %}">{% trans "Unmet guidelines from the community localization checklist:" %}</a>
 
             <ul>
               {% for guide in check.component.guidelines %}
@@ -76,9 +76,9 @@
         {% if user.is_superuser or not billing.payment.libre_request %}
           <p>{% trans "Please check that following conditions are met:" %}<p>
           <ul>
-            <li>{% trans "Source code has to be publicly available in a supported version control system." %}</li>
+            <li>{% trans "All the source code has to be publicly available in a supported version control system." %}</li>
             <li>{% trans "Using Weblate has been approved by the upstream project." %}</li>
-            <li>{% trans "The project has active development for at least three months." %}</li>
+            <li>{% trans "The project has had active development for at least three months." %}</li>
           </ul>
           {% if user.is_superuser %}
             <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
@@ -108,18 +108,18 @@
     <div class="panel-body">
 
       <p>
-        {% trans "Please check in advance whether your project is eligible for project hosting on this site." %}
+        {% trans "Please check in advance whether your project is eligible for gratis project hosting on this site." %}
       </p>
 
       <ul>
         <li>{% trans "Translated content has to be released under a license approved by OSI or recognized as libre by FSF." %}</li>
-        <li>{% trans "Source code has to be publicly available in a supported version control system." %}</li>
+        <li>{% trans "All the source code has to be publicly available in a supported version control system." %}</li>
         <li>{% trans "Using Weblate has been approved by the upstream project." %}</li>
-        <li>{% trans "The project has active development for at least three months." %}</li>
-        <li>{% trans "You will have 14 days to setup your project." %}</li>
-        <li>{% trans "Please request project approval once the setup is completed." %}</li>
-        <li>{% trans "Not approved projects will be removed." %}</li>
-        <li>{% trans "There is no guarantee for service availability, nor quality." %}</li>
+        <li>{% trans "The project has had active development for at least three months." %}</li>
+        <li>{% trans "You will have 14 days to set up your project." %}</li>
+        <li>{% trans "Please request project approval once project setup is completed." %}</li>
+        <li>{% trans "Unapproved projects will be removed." %}</li>
+        <li>{% trans "There is no guarantee of service availability, nor quality." %}</li>
       </ul>
 
     </div>
