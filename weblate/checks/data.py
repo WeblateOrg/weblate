@@ -235,6 +235,7 @@ SAME_BLACKLIST = {
     "farm",
     "fauna",
     "fax",
+    "fediverse",
     "fedora",
     "feeds",
     "feet",
