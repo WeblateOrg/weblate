@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-09-20 07:31+0000\n"
+"POT-Creation-Date: 2020-09-23 13:14+0000\n"
 "PO-Revision-Date: 2020-09-02 14:14+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
@@ -36,78 +36,64 @@ msgid "None"
 msgstr "Tuntematon käyttäjä"
 
 #: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
-#: weblate/templates/accounts/user.html:14 weblate/templates/base.html:217
+#: weblate/templates/accounts/user.html:15 weblate/templates/base.html:217
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
 msgstr "Käyttäjän kuva"
 
-#: weblate/accounts/forms.py:79
+#: weblate/accounts/forms.py:75
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
 "Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
 
-#: weblate/accounts/forms.py:117 weblate/auth/models.py:305
-#: weblate/utils/validators.py:173
-msgid ""
-"Username may only contain letters, numbers or the following characters: @ . "
-"+ - _"
-msgstr ""
-"Käyttäjänimi voi sisältää vain kirjaimia, numeroita ja seuraavia merkkejä: "
-"@. + - _"
-
-#: weblate/accounts/forms.py:120 weblate/accounts/forms.py:764
-#: weblate/auth/models.py:301 weblate/templates/manage-access.html:24
-msgid "Username"
-msgstr "Käyttäjänimi"
-
-#: weblate/accounts/forms.py:136
+#: weblate/accounts/forms.py:115
 msgid "This username is already taken. Please choose another."
 msgstr ""
 "Tämä käyttäjänimi on jo käytössä. Ole hyvä ja valitse toinen käyttäjänimi."
 
-#: weblate/accounts/forms.py:147 weblate/accounts/forms.py:765
+#: weblate/accounts/forms.py:126 weblate/accounts/forms.py:747
 #: weblate/auth/models.py:312 weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "Koko nimi"
 
-#: weblate/accounts/forms.py:187 weblate/accounts/models.py:444
+#: weblate/accounts/forms.py:166 weblate/accounts/models.py:464
 #, fuzzy
 #| msgid "Your e-mail"
 msgid "Public e-mail"
 msgstr "Sähköpostiosoitteesi"
 
-#: weblate/accounts/forms.py:278 weblate/accounts/forms.py:353
+#: weblate/accounts/forms.py:260 weblate/accounts/forms.py:335
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
 #: weblate/templates/manage-access.html:26
 #: weblate/templates/manage/users_check.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "Sähköposti"
 
-#: weblate/accounts/forms.py:279
+#: weblate/accounts/forms.py:261
 msgid "You can add another e-mail address below."
 msgstr "Voit lisätä toisen sähköpostiosoitteen alla."
 
-#: weblate/accounts/forms.py:321
+#: weblate/accounts/forms.py:303
 msgid "Subject"
 msgstr "Aihe"
 
-#: weblate/accounts/forms.py:323
+#: weblate/accounts/forms.py:305
 msgid "Your name"
 msgstr "Nimesi"
 
-#: weblate/accounts/forms.py:325
+#: weblate/accounts/forms.py:307
 msgid "Your e-mail"
 msgstr "Sähköpostiosoitteesi"
 
-#: weblate/accounts/forms.py:327 weblate/templates/manage/performance.html:27
+#: weblate/accounts/forms.py:309 weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:78
 msgid "Message"
 msgstr "Viesti"
 
-#: weblate/accounts/forms.py:330
+#: weblate/accounts/forms.py:312
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
@@ -115,29 +101,29 @@ msgstr ""
 "Ole hyvä ja ota meihin yhteyttä englanniksi, muutoin emme ehkä voi käsitellä "
 "pyyntöäsi."
 
-#: weblate/accounts/forms.py:354
+#: weblate/accounts/forms.py:336
 msgid "Activation e-mail will be sent here."
 msgstr "Aktivointisähköposti lähetetään tähän osoitteeseen."
 
-#: weblate/accounts/forms.py:391
+#: weblate/accounts/forms.py:373
 #, fuzzy
 #| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
 msgstr "Liian monta rekisteröitymisyritystä tästä sijainnista!"
 
-#: weblate/accounts/forms.py:398
+#: weblate/accounts/forms.py:380
 msgid "New password"
 msgstr "Uusi salasana"
 
-#: weblate/accounts/forms.py:401
+#: weblate/accounts/forms.py:383
 msgid "New password confirmation"
 msgstr "Uuden salasanan varmistus"
 
-#: weblate/accounts/forms.py:423
+#: weblate/accounts/forms.py:405
 msgid "Your password has been changed."
 msgstr "Salasanasi on vaihdettu."
 
-#: weblate/accounts/forms.py:449
+#: weblate/accounts/forms.py:431
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
@@ -145,83 +131,83 @@ msgid "What is %s?"
 msgstr "Mitä on %s?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
-#: weblate/accounts/forms.py:461
+#: weblate/accounts/forms.py:443
 msgid "That was not correct, please try again."
 msgstr "Väärin, yritä uudelleen."
 
-#: weblate/accounts/forms.py:485
+#: weblate/accounts/forms.py:467
 msgid "Current password"
 msgstr "Nykyinen salasana"
 
-#: weblate/accounts/forms.py:486
+#: weblate/accounts/forms.py:468
 msgid "Leave empty if you have not yet set a password."
 msgstr "Jätä kenttä tyhjäksi jos et ole vielä asettanut salasanaa."
 
-#: weblate/accounts/forms.py:498
+#: weblate/accounts/forms.py:480
 msgid "You have entered an invalid password."
 msgstr "Syöttämäsi salasana ei kelpaa."
 
-#: weblate/accounts/forms.py:511
+#: weblate/accounts/forms.py:493
 msgid "Username or e-mail"
 msgstr "Käyttäjänimi tai sähköpostiosoite"
 
-#: weblate/accounts/forms.py:512 weblate/accounts/templatetags/authnames.py:41
+#: weblate/accounts/forms.py:494 weblate/accounts/templatetags/authnames.py:41
 msgid "Password"
 msgstr "Salasana"
 
-#: weblate/accounts/forms.py:515
+#: weblate/accounts/forms.py:497
 msgid "Please enter the correct username and password."
 msgstr "Syötä oikea käyttäjänimi ja salasana."
 
-#: weblate/accounts/forms.py:516
+#: weblate/accounts/forms.py:498
 msgid "This account is inactive."
 msgstr "Tämä tili ei ole aktiivinen."
 
-#: weblate/accounts/forms.py:533
+#: weblate/accounts/forms.py:515
 #, fuzzy
 #| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
 msgstr "Liian monta tunnistautumisyritystä tästä sijainnista!"
 
-#: weblate/accounts/forms.py:580
+#: weblate/accounts/forms.py:562
 msgid "Additional message"
 msgstr "Ylimääräinen viesti"
 
-#: weblate/accounts/forms.py:584
+#: weblate/accounts/forms.py:566
 msgid "Please describe the project and your relation to it."
 msgstr "Kuvaile projektia sekä suhdettasi siihen."
 
-#: weblate/accounts/forms.py:629
+#: weblate/accounts/forms.py:611
 msgid "Component wide notifications"
 msgstr "Komponenttikohtaiset ilmoitukset"
 
-#: weblate/accounts/forms.py:634
+#: weblate/accounts/forms.py:616
 msgid "Translation notifications"
 msgstr "Käännöskohtaiset ilmoitukset"
 
-#: weblate/accounts/forms.py:653
+#: weblate/accounts/forms.py:635
 msgid "Use default setting"
 msgstr "Käytä oletusasetusta"
 
-#: weblate/accounts/forms.py:679 weblate/accounts/models.py:407
+#: weblate/accounts/forms.py:661 weblate/accounts/models.py:407
 #: weblate/templates/accounts/profile.html:67
-#: weblate/templates/accounts/user.html:106
+#: weblate/templates/accounts/user.html:122
 msgid "Watched projects"
 msgstr "Seuraamani projektit"
 
-#: weblate/accounts/forms.py:681 weblate/templates/accounts/user.html:105
+#: weblate/accounts/forms.py:663 weblate/templates/accounts/user.html:121
 msgid "Managed projects"
 msgstr "Hallinnoimasi projektit"
 
-#: weblate/accounts/forms.py:683
+#: weblate/accounts/forms.py:665
 msgid "Project: {}"
 msgstr "Projekti: {}"
 
-#: weblate/accounts/forms.py:684
+#: weblate/accounts/forms.py:666
 msgid "Component: {}"
 msgstr "Komponentti: {}"
 
-#: weblate/accounts/forms.py:690
+#: weblate/accounts/forms.py:672
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
@@ -229,7 +215,7 @@ msgstr ""
 "Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat seuraamiani "
 "projekteja."
 
-#: weblate/accounts/forms.py:695
+#: weblate/accounts/forms.py:677
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
@@ -237,28 +223,28 @@ msgstr ""
 "Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat joissa sinulla on "
 "järjestelmänvalvojan oikeudet."
 
-#: weblate/accounts/forms.py:700
+#: weblate/accounts/forms.py:682
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr ""
 "Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat projektia "
 "%(project)s."
 
-#: weblate/accounts/forms.py:703
+#: weblate/accounts/forms.py:685
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
 "Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat komponenttia "
 "%(component)s."
 
-#: weblate/accounts/forms.py:710
+#: weblate/accounts/forms.py:692
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
 "Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
 
-#: weblate/accounts/forms.py:715
+#: weblate/accounts/forms.py:697
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
@@ -266,7 +252,7 @@ msgstr ""
 "Saat ilmoituksia vain kääntämistäsi kielistä projekteista joissa sinulla on "
 "järjestelmänvalvojan oikeudet."
 
-#: weblate/accounts/forms.py:720
+#: weblate/accounts/forms.py:702
 #, fuzzy, python-format
 #| msgid ""
 #| "You will only receive these notifications for your translated languages "
@@ -277,7 +263,7 @@ msgid ""
 msgstr ""
 "Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
 
-#: weblate/accounts/forms.py:724
+#: weblate/accounts/forms.py:706
 #, fuzzy, python-format
 #| msgid ""
 #| "You will only receive these notifications for your translated languages "
@@ -288,28 +274,33 @@ msgid ""
 msgstr ""
 "Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
 
-#: weblate/accounts/forms.py:766 weblate/auth/models.py:335
+#: weblate/accounts/forms.py:746 weblate/auth/models.py:301
+#: weblate/templates/manage-access.html:24 weblate/utils/forms.py:43
+msgid "Username"
+msgstr "Käyttäjänimi"
+
+#: weblate/accounts/forms.py:748 weblate/auth/models.py:335
 #: weblate/templates/manage/users_check.html:21
 msgid "Date joined"
 msgstr "Liittymispäivämäärä"
 
-#: weblate/accounts/forms.py:767 weblate/templates/about/stats.html:120
+#: weblate/accounts/forms.py:749 weblate/templates/about/stats.html:120
 msgid "Translations made"
 msgstr "Tehdyt käännökset"
 
-#: weblate/accounts/forms.py:768 weblate/templates/about/stats.html:116
+#: weblate/accounts/forms.py:750 weblate/templates/about/stats.html:116
 msgid "Suggestions made"
 msgstr "Tehdyt ehdotukset"
 
-#: weblate/accounts/forms.py:769
+#: weblate/accounts/forms.py:751
 msgid "Comments made"
 msgstr "Kommentteja lisätty"
 
-#: weblate/accounts/forms.py:770
+#: weblate/accounts/forms.py:752
 msgid "Screenshots uploaded"
 msgstr "Ruudunkaappauskuvia ladattu"
 
-#: weblate/accounts/forms.py:793
+#: weblate/accounts/forms.py:775
 #, fuzzy
 #| msgid "Invalid search string!"
 msgid "Invalid ordering"
@@ -575,48 +566,79 @@ msgstr "Lisenssin URL-osoite"
 
 #: weblate/accounts/models.py:421
 #, fuzzy
+#| msgid "Author username"
+msgid "Liberapay username"
+msgstr "Tekijän käyttäjänimi"
+
+#: weblate/accounts/models.py:424
+msgid ""
+"Liberapay is a platform to donate money to teams, organizations and "
+"individuals."
+msgstr ""
+
+#: weblate/accounts/models.py:429
+msgid "Fediverse URL"
+msgstr ""
+
+#: weblate/accounts/models.py:432
+msgid ""
+"Link to your fediverse profile with services like Mastodon or diaspora*."
+msgstr ""
+
+#: weblate/accounts/models.py:436
+#, fuzzy
+#| msgid "License URL"
+msgid "Code site URL"
+msgstr "Lisenssin URL-osoite"
+
+#: weblate/accounts/models.py:438
+msgid "Link to your code profile with services like Codeberg or GitLab."
+msgstr ""
+
+#: weblate/accounts/models.py:441
+#, fuzzy
 #| msgid "username"
 msgid "GitHub username"
 msgstr "käyttäjänimi"
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:445
 #, fuzzy
 #| msgid "Author username"
 msgid "Twitter username"
 msgstr "Tekijän käyttäjänimi"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:449
 msgid "LinkedIn profile name"
 msgstr ""
 
-#: weblate/accounts/models.py:430
+#: weblate/accounts/models.py:450
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr ""
 
-#: weblate/accounts/models.py:434
+#: weblate/accounts/models.py:454
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_detail.html:57
 msgid "Location"
 msgstr "Sijainti"
 
-#: weblate/accounts/models.py:439
+#: weblate/accounts/models.py:459
 #, fuzzy
 #| msgid "Component"
 msgid "Company"
 msgstr "Komponentti"
 
-#: weblate/accounts/models.py:488
+#: weblate/accounts/models.py:508
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr "Valitse minkä komponenttilistan haluat näyttää kojelaudalla."
 
-#: weblate/accounts/models.py:499
+#: weblate/accounts/models.py:519
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
 "Komponenttilistan valitsemisella ei ole vaikutusta silloin, kun sitä ei "
 "näytetä kojelaudalla."
 
-#: weblate/accounts/models.py:623
+#: weblate/accounts/models.py:643
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -698,55 +720,55 @@ msgid "Mentioned in comment"
 msgstr "Mainittu kommentissa"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:577 weblate/templates/translate.html:356
+#: weblate/accounts/notifications.py:577 weblate/templates/translate.html:360
 #: weblate/trans/forms.py:909
 msgid "New comment"
 msgstr "Uusi kommentti"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:602
+#: weblate/accounts/notifications.py:598
 msgid "Changed string"
 msgstr "Muutettu teksti"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:611
+#: weblate/accounts/notifications.py:607
 msgid "Translated string"
 msgstr "Käännetty teksti"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:620
+#: weblate/accounts/notifications.py:616
 msgid "Approved string"
 msgstr "Hyväksytty teksti"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:629
+#: weblate/accounts/notifications.py:625
 msgid "New language"
 msgstr "Uusi kieli"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:646
+#: weblate/accounts/notifications.py:642
 msgid "New translation component"
 msgstr "Uusi käännöskomponentti"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:654 weblate/trans/models/change.py:322
+#: weblate/accounts/notifications.py:650 weblate/trans/models/change.py:322
 msgid "New announcement"
 msgstr "Uusi tiedotus"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:666 weblate/trans/models/change.py:324
+#: weblate/accounts/notifications.py:662 weblate/trans/models/change.py:324
 msgid "New alert"
 msgstr "Uusi hälytys"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:736
+#: weblate/accounts/notifications.py:732
 msgid "Pending suggestions"
 msgstr "Odottavat ehdotukset"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:747
+#: weblate/accounts/notifications.py:743
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:118
 msgid "Strings needing action"
@@ -800,8 +822,8 @@ msgstr ""
 "Sähköpostiosoitteesi ei enää ole liitetty varmistettuun tiliin, "
 "sähköpostiosoitteeksi on muutettu {0}."
 
-#: weblate/accounts/views.py:182 weblate/accounts/views.py:891
-#: weblate/accounts/views.py:937 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:182 weblate/accounts/views.py:895
+#: weblate/accounts/views.py:941 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
 msgstr "Salasanan palauttaminen"
@@ -810,7 +832,7 @@ msgstr "Salasanan palauttaminen"
 msgid "Remove account"
 msgstr "Poista käyttäjätili"
 
-#: weblate/accounts/views.py:188 weblate/accounts/views.py:787
+#: weblate/accounts/views.py:188 weblate/accounts/views.py:791
 msgid "User registration"
 msgstr "Käyttäjän rekisteröinti"
 
@@ -865,7 +887,7 @@ msgstr ""
 msgid "Gratis trial"
 msgstr ""
 
-#: weblate/accounts/views.py:705 weblate/templates/403.html:15
+#: weblate/accounts/views.py:709 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
@@ -873,38 +895,38 @@ msgstr ""
 msgid "Sign in"
 msgstr "Kirjaudu"
 
-#: weblate/accounts/views.py:732 weblate/wladmin/sites.py:186
+#: weblate/accounts/views.py:736 weblate/wladmin/sites.py:186
 msgid "Thank you for using Weblate."
 msgstr "Kiitoksia Weblaten käyttämisestä."
 
-#: weblate/accounts/views.py:821 weblate/templates/accounts/email.html:17
+#: weblate/accounts/views.py:825 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
 msgstr "Rekisteröi sähköposti"
 
-#: weblate/accounts/views.py:836 weblate/accounts/views.py:906
+#: weblate/accounts/views.py:840 weblate/accounts/views.py:910
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 "Salasanaa ei voi palauttaa, sähköpostitunnistautuminen ei ole käytössä."
 
-#: weblate/accounts/views.py:867 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:871 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:133
 #: weblate/wladmin/templates/admin/base.html:12
 msgid "Change password"
 msgstr "Vaihda salasana"
 
-#: weblate/accounts/views.py:877
+#: weblate/accounts/views.py:881
 msgid "Password reset has been already completed."
 msgstr "Salasanan palautus on jo tehty."
 
-#: weblate/accounts/views.py:1083
+#: weblate/accounts/views.py:1087
 msgid "Could not remove user identity"
 msgstr "Käyttäjän henkilöllisyyttä ei voitu poistaa"
 
-#: weblate/accounts/views.py:1093
+#: weblate/accounts/views.py:1097
 msgid "Add another identity by confirming your e-mail address first."
 msgstr "Lisää uusi henkilöllisyys vahvistamalla ensin sähköpostiosoitteesi."
 
-#: weblate/accounts/views.py:1142
+#: weblate/accounts/views.py:1146
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
@@ -912,39 +934,39 @@ msgstr ""
 "Ole hyvä ja yritä rekisteröitymistä uudelleen, vahvistusvarmiste on "
 "todennäköisesti vanhentunut."
 
-#: weblate/accounts/views.py:1149
+#: weblate/accounts/views.py:1153
 msgid "Could not authenticate due to invalid session state."
 msgstr "Tunnistautuminen ei onnistunut koska istunnon tila on virheellinen."
 
-#: weblate/accounts/views.py:1156
+#: weblate/accounts/views.py:1160
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Kolmannen osapuolen tunnistautumispalvelusta ei saatu sähköpostiosoitetta."
 
-#: weblate/accounts/views.py:1158
+#: weblate/accounts/views.py:1162
 msgid "Please register using e-mail instead."
 msgstr "Rekisteröidy sen sijaan sähköpostilla."
 
-#: weblate/accounts/views.py:1165
+#: weblate/accounts/views.py:1169
 msgid "New registrations are turned off."
 msgstr "Uudet rekisteröitymiset ovat poissa käytöstä."
 
-#: weblate/accounts/views.py:1223
+#: weblate/accounts/views.py:1227
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "Tunnistautuminen ei onnistu. Mahdollinen syy voi olla joko vanhentunut "
 "istunto tai yhteysvirhe."
 
-#: weblate/accounts/views.py:1229
+#: weblate/accounts/views.py:1233
 msgid "Authentication cancelled."
 msgstr "Tunnistautuminen peruttu."
 
-#: weblate/accounts/views.py:1232
+#: weblate/accounts/views.py:1236
 msgid "The server does not allow authentication."
 msgstr "Palvelin ei salli tunnistautumista."
 
-#: weblate/accounts/views.py:1237
+#: weblate/accounts/views.py:1241
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
@@ -952,11 +974,11 @@ msgstr ""
 "Rekisteröityminen epäonnistui. Antamasi tunnistautuminen, sähköpostiosoite "
 "tai käyttäjänimi on jo käytössä toisella käyttäjätilillä."
 
-#: weblate/accounts/views.py:1262 weblate/accounts/views.py:1275
+#: weblate/accounts/views.py:1266 weblate/accounts/views.py:1279
 msgid "Notification settings adjusted."
 msgstr "Ilmoitusasetuksia muutettu."
 
-#: weblate/accounts/views.py:1280
+#: weblate/accounts/views.py:1284
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -979,7 +1001,7 @@ msgstr ""
 "käyttäen."
 
 #: weblate/addons/base.py:301 weblate/trans/views/create.py:195
-#: weblate/trans/views/settings.py:105
+#: weblate/trans/views/settings.py:108
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -997,11 +1019,11 @@ msgstr "JavaScript-muoto"
 msgid "Adds localization CDN for JavaScript or HTML localization."
 msgstr ""
 
-#: weblate/addons/cleanup.py:78
+#: weblate/addons/cleanup.py:73
 msgid "Cleanup translation files"
 msgstr "Siivoa käännöstiedostot"
 
-#: weblate/addons/cleanup.py:80
+#: weblate/addons/cleanup.py:75
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -1646,7 +1668,7 @@ msgid "Delete screenshot"
 msgstr "Poista ruudunkaappauskuva"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:653
+#: weblate/auth/data.py:72 weblate/templates/translate.html:657
 msgid "Edit additional string info"
 msgstr "Muokkaa tekstin lisätietoja"
 
@@ -1697,260 +1719,267 @@ msgstr "Lisää uusi teksti"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:92
+#, fuzzy
+#| msgid "Review strings"
+msgid "Remove a string"
+msgstr "Tarkista tekstejä"
+
+#. Translators: Permission name
+#: weblate/auth/data.py:94
 msgid "Ignore failing check"
 msgstr "Ohita virheentarkistus"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:94
+#: weblate/auth/data.py:96
 msgid "Edit strings"
 msgstr "Muokkaa tekstejä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:96
+#: weblate/auth/data.py:98
 msgid "Review strings"
 msgstr "Tarkista tekstejä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:98
+#: weblate/auth/data.py:100
 msgid "Edit string when suggestions are enforced"
 msgstr "Muokkaa tekstiä kun käännösehdotuksia otetaan käyttöön"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:100
+#: weblate/auth/data.py:102
 msgid "Edit source strings"
 msgstr "Muokkaa lähdetekstejä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:102
+#: weblate/auth/data.py:104
 msgid "Define author of uploaded translation"
 msgstr "Määrittele Weblateen ladatun käännöksen kääntäjä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:104
+#: weblate/auth/data.py:106
 msgid "Overwrite existing strings with upload"
 msgstr "Salli latauksen ylikirjoittaa olemassa olevat tekstit"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:106
+#: weblate/auth/data.py:108
 msgid "Upload translations"
 msgstr "Lähetä käännökset"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:108
+#: weblate/auth/data.py:110
 msgid "Access the internal repository"
 msgstr "Käytä sisäistä arkistoa"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:110
+#: weblate/auth/data.py:112
 msgid "Commit changes to the internal repository"
 msgstr "Commitoi muutokset sisäiseen arkistoon"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:112
+#: weblate/auth/data.py:114
 msgid "Push change from the internal repository"
 msgstr "Pushaa muutokset sisäiseen arkistoon"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:114
+#: weblate/auth/data.py:116
 msgid "Reset changes in the internal repository"
 msgstr "Nollaa muutokset sisäisessä arkistossa"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:116
+#: weblate/auth/data.py:118
 msgid "View upstream repository location"
 msgstr "Näytä versionhallintapalvelimen sijainti"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:118
+#: weblate/auth/data.py:120
 msgid "Update the internal repository"
 msgstr "Päivitä sisäinen arkisto"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:124
+#: weblate/auth/data.py:126
 msgid "Use management interface"
 msgstr "Käytä hallintakäyttöliittymää"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:126
+#: weblate/auth/data.py:128
 msgid "Add new projects"
 msgstr "Lisää uusia projekteja"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:128
+#: weblate/auth/data.py:130
 msgid "Add language definitions"
 msgstr "Lisää kielimäärittelyjä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:130
+#: weblate/auth/data.py:132
 msgid "Manage language definitions"
 msgstr "Hallinnoi kielimäärittelyjä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:132
+#: weblate/auth/data.py:134
 msgid "Manage groups"
 msgstr "Hallinnoi ryhmiä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:134 weblate/templates/manage-access.html:10
+#: weblate/auth/data.py:136 weblate/templates/manage-access.html:10
 msgid "Manage users"
 msgstr "Hallinnoi käyttäjiä"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:136
+#: weblate/auth/data.py:138
 msgid "Manage roles"
 msgstr "Hallinnoi rooleja"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:138
+#: weblate/auth/data.py:140
 msgid "Manage announcements"
 msgstr "Hallinnoi tiedotuksia"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:140
+#: weblate/auth/data.py:142
 msgid "Manage translation memory"
 msgstr "Hallinnoi käännösmuistia"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:142
+#: weblate/auth/data.py:144
 msgid "Manage component lists"
 msgstr "Hallinnoi komponenttilistoja"
 
-#: weblate/auth/data.py:168
+#: weblate/auth/data.py:170
 msgctxt "Access control role"
 msgid "Add suggestion"
 msgstr "Lisää ehdotus"
 
-#: weblate/auth/data.py:169
+#: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Access repository"
 msgstr "Käytä arkistoa"
 
-#: weblate/auth/data.py:171
+#: weblate/auth/data.py:173
 msgctxt "Access control role"
 msgid "Power user"
 msgstr "Tehokäyttäjä"
 
-#: weblate/auth/data.py:182
+#: weblate/auth/data.py:184
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Käännä"
 
-#: weblate/auth/data.py:184
+#: weblate/auth/data.py:186
 msgctxt "Access control role"
 msgid "Edit source"
 msgstr "Muokkaa lähdetekstiä"
 
-#: weblate/auth/data.py:187
+#: weblate/auth/data.py:189
 msgctxt "Access control role"
 msgid "Manage languages"
 msgstr "Hallinnoi kieliä"
 
-#: weblate/auth/data.py:188
+#: weblate/auth/data.py:190
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Hallinnoi sanastoa"
 
-#: weblate/auth/data.py:190
+#: weblate/auth/data.py:192
 msgctxt "Access control role"
 msgid "Manage translation memory"
 msgstr "Hallinnoi käännösmuistia"
 
-#: weblate/auth/data.py:194
+#: weblate/auth/data.py:196
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Hallinnoi ruudunkaappauskuvia"
 
-#: weblate/auth/data.py:198
+#: weblate/auth/data.py:200
 msgctxt "Access control role"
 msgid "Review strings"
 msgstr "Tekstien tarkistaminen"
 
-#: weblate/auth/data.py:201
+#: weblate/auth/data.py:203
 msgctxt "Access control role"
 msgid "Manage repository"
 msgstr "Hallinnoi arkistoa"
 
-#: weblate/auth/data.py:202
+#: weblate/auth/data.py:204
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Hallinta"
 
-#: weblate/auth/data.py:203
+#: weblate/auth/data.py:205
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "Laskutus"
 
-#: weblate/auth/data.py:209
+#: weblate/auth/data.py:211
 msgctxt "Access control group"
 msgid "Guests"
 msgstr "Vierailijat"
 
-#: weblate/auth/data.py:213
+#: weblate/auth/data.py:215
 msgctxt "Access control group"
 msgid "Viewers"
 msgstr "Katselijat"
 
-#: weblate/auth/data.py:214
+#: weblate/auth/data.py:216
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: weblate/auth/data.py:215
+#: weblate/auth/data.py:217
 msgctxt "Access control group"
 msgid "Reviewers"
 msgstr "Tarkistajat"
 
-#: weblate/auth/data.py:216
+#: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Managers"
 msgstr "Hallinnoijat"
 
-#: weblate/auth/data.py:221
+#: weblate/auth/data.py:223
 msgctxt "Per project access control group"
 msgid "Translate"
 msgstr "Käännä"
 
-#: weblate/auth/data.py:222
+#: weblate/auth/data.py:224
 msgctxt "Per project access control group"
 msgid "Template"
 msgstr "Malli"
 
-#: weblate/auth/data.py:223
+#: weblate/auth/data.py:225
 msgctxt "Per project access control group"
 msgid "Languages"
 msgstr "Kielet"
 
-#: weblate/auth/data.py:224
+#: weblate/auth/data.py:226
 msgctxt "Per project access control group"
 msgid "Glossary"
 msgstr "Sanasto"
 
-#: weblate/auth/data.py:225
+#: weblate/auth/data.py:227
 msgctxt "Per project access control group"
 msgid "Memory"
 msgstr "Muisti"
 
-#: weblate/auth/data.py:226
+#: weblate/auth/data.py:228
 msgctxt "Per project access control group"
 msgid "Screenshots"
 msgstr "Ruudunkaappauskuvat"
 
-#: weblate/auth/data.py:227
+#: weblate/auth/data.py:229
 msgctxt "Per project access control group"
 msgid "Review"
 msgstr "Tarkista"
 
-#: weblate/auth/data.py:228
+#: weblate/auth/data.py:230
 msgctxt "Per project access control group"
 msgid "VCS"
 msgstr "Versionhallintajärjestelmä"
 
-#: weblate/auth/data.py:229
+#: weblate/auth/data.py:231
 msgctxt "Per project access control group"
 msgid "Administration"
 msgstr "Hallinta"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:232
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "Laskutus"
@@ -2054,6 +2083,15 @@ msgstr "Kielet"
 msgid "Weblate internal group"
 msgstr "Weblaten sisäinen ryhmä"
 
+#: weblate/auth/models.py:305 weblate/utils/forms.py:40
+#: weblate/utils/validators.py:173
+msgid ""
+"Username may only contain letters, numbers or the following characters: @ . "
+"+ - _"
+msgstr ""
+"Käyttäjänimi voi sisältää vain kirjaimia, numeroita ja seuraavia merkkejä: "
+"@. + - _"
+
 #: weblate/auth/models.py:309
 msgid "A user with that username already exists."
 msgstr "Käyttäjänimi on jo toisen käyttäjän käytössä."
@@ -2121,12 +2159,12 @@ msgstr "Laskutetut projektit"
 msgid "Billing owners"
 msgstr "Laskutettavat omistajat"
 
-#: weblate/billing/models.py:153
+#: weblate/billing/models.py:153 weblate/templates/project_info.html:36
 msgid "Trial"
 msgstr "Kokeilu"
 
 #: weblate/billing/models.py:154 weblate/templates/billing/detail.html:17
-#: weblate/templates/project_info.html:32
+#: weblate/templates/project_info.html:39
 msgid "Expired"
 msgstr "Rauennut"
 
@@ -2462,7 +2500,7 @@ msgstr "Tunnista automaattisesti Java MessageFormat"
 
 #: weblate/checks/flags.py:53 weblate/templates/progress.html:5
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#: weblate/templates/translate.html:187 weblate/templates/translate.html:204
+#: weblate/templates/translate.html:191 weblate/templates/translate.html:208
 msgid "Read only"
 msgstr "Vain luku"
 
@@ -2808,11 +2846,11 @@ msgstr "Useita epäonnistuneita tarkistuksia"
 msgid "The translations in several languages have failing checks"
 msgstr "Monilla eri kielisillä käännöksillä on epäonnistuneita tarkistuksia"
 
-#: weblate/checks/source.py:79
+#: weblate/checks/source.py:76
 msgid "Long untranslated"
 msgstr "Pitkään kääntämättä"
 
-#: weblate/checks/source.py:80
+#: weblate/checks/source.py:77
 msgid "The string has not been translated for a long time"
 msgstr "Tätä tekstiä ei ole käännetty pitkään aikaan"
 
@@ -2959,145 +2997,145 @@ msgstr "Excel Open XML"
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:420 weblate/formats/ttkit.py:1115
+#: weblate/formats/exporters.py:420 weblate/formats/ttkit.py:1108
 msgid "Android String Resource"
 msgstr "Android-tekstiresurssi"
 
-#: weblate/formats/exporters.py:436 weblate/formats/ttkit.py:1008
+#: weblate/formats/exporters.py:436 weblate/formats/ttkit.py:1001
 msgid "iOS strings"
 msgstr "iOS-tekstit"
 
-#: weblate/formats/ttkit.py:914
+#: weblate/formats/ttkit.py:907
 msgid "gettext PO file"
 msgstr "gettext PO -tiedosto"
 
-#: weblate/formats/ttkit.py:927
+#: weblate/formats/ttkit.py:920
 msgid "gettext PO file (monolingual)"
 msgstr "gettext PO -tiedosto (yksikielinen)"
 
-#: weblate/formats/ttkit.py:947
+#: weblate/formats/ttkit.py:940
 msgid "Qt Linguist translation file"
 msgstr "Qt Linguist -käännöstiedosto"
 
-#: weblate/formats/ttkit.py:963
+#: weblate/formats/ttkit.py:956
 msgid "XLIFF translation file"
 msgstr "XLIFF-käännöstiedosto"
 
-#: weblate/formats/ttkit.py:978
+#: weblate/formats/ttkit.py:971
 msgid "XLIFF translation file with PO extensions"
 msgstr "XLIFF-käännöstiedosto PO-laajennuksilla"
 
-#: weblate/formats/ttkit.py:1017
+#: weblate/formats/ttkit.py:1010
 msgid "iOS strings (UTF-8)"
 msgstr "iOS-tekstit (UTF-8)"
 
-#: weblate/formats/ttkit.py:1024
+#: weblate/formats/ttkit.py:1017
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: weblate/formats/ttkit.py:1032
+#: weblate/formats/ttkit.py:1025
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/formats/ttkit.py:1047
+#: weblate/formats/ttkit.py:1040
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1064
+#: weblate/formats/ttkit.py:1057
 msgid "Joomla Language File"
 msgstr "Joomla-kielitiedosto"
 
-#: weblate/formats/ttkit.py:1073
+#: weblate/formats/ttkit.py:1066
 msgid "GWT Properties"
 msgstr "GWT-ominaisuudet"
 
-#: weblate/formats/ttkit.py:1080
+#: weblate/formats/ttkit.py:1073
 msgid "PHP strings"
 msgstr "PHP-tekstit"
 
-#: weblate/formats/ttkit.py:1099
+#: weblate/formats/ttkit.py:1092
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Laravel PHP strings"
 msgstr "PHP-tekstit"
 
-#: weblate/formats/ttkit.py:1105
+#: weblate/formats/ttkit.py:1098
 msgid ".NET resource file"
 msgstr ".NET-resurssitiedosto"
 
-#: weblate/formats/ttkit.py:1126
+#: weblate/formats/ttkit.py:1119
 msgid "JSON file"
 msgstr "JSON-tiedosto"
 
-#: weblate/formats/ttkit.py:1145
+#: weblate/formats/ttkit.py:1138
 msgid "JSON nested structure file"
 msgstr "JSON-tiedosto (sisäkkäinen rakenne)"
 
-#: weblate/formats/ttkit.py:1152
+#: weblate/formats/ttkit.py:1145
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON-tiedosto"
 
-#: weblate/formats/ttkit.py:1161
+#: weblate/formats/ttkit.py:1154
 msgid "i18next JSON file"
 msgstr "i18next JSON-tiedosto"
 
-#: weblate/formats/ttkit.py:1169
+#: weblate/formats/ttkit.py:1162
 msgid "go-i18n JSON file"
 msgstr "go-i18n JSON-tiedosto"
 
-#: weblate/formats/ttkit.py:1176
+#: weblate/formats/ttkit.py:1169
 msgid "ARB file"
 msgstr "ARB-tiedosto"
 
-#: weblate/formats/ttkit.py:1184
+#: weblate/formats/ttkit.py:1177
 msgid "CSV file"
 msgstr "CSV-tiedosto"
 
-#: weblate/formats/ttkit.py:1260
+#: weblate/formats/ttkit.py:1253
 msgid "Simple CSV file"
 msgstr "Yksinkertainen CSV-tiedosto"
 
-#: weblate/formats/ttkit.py:1281
+#: weblate/formats/ttkit.py:1274
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Yksinkertainen CSV-tiedosto (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1288
+#: weblate/formats/ttkit.py:1281
 msgid "YAML file"
 msgstr "YAML-tiedosto"
 
-#: weblate/formats/ttkit.py:1307
+#: weblate/formats/ttkit.py:1300
 msgid "Ruby YAML file"
 msgstr "Ruby YAML-tiedosto"
 
-#: weblate/formats/ttkit.py:1314
+#: weblate/formats/ttkit.py:1307
 msgid "DTD file"
 msgstr "DTD-tiedosto"
 
-#: weblate/formats/ttkit.py:1361
+#: weblate/formats/ttkit.py:1348
 msgid "SubRip subtitle file"
 msgstr "SubRip-tekstitystiedosto"
 
-#: weblate/formats/ttkit.py:1375
+#: weblate/formats/ttkit.py:1362
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD-tekstitystiedosto"
 
-#: weblate/formats/ttkit.py:1382
+#: weblate/formats/ttkit.py:1369
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced SubStation Alpha -tekstitystiedosto"
 
-#: weblate/formats/ttkit.py:1389
+#: weblate/formats/ttkit.py:1376
 msgid "SubStation Alpha subtitle file"
 msgstr "SubStation Alpha -tekstitystiedosto"
 
-#: weblate/formats/ttkit.py:1396
+#: weblate/formats/ttkit.py:1383
 msgid "Flat XML file"
 msgstr "Flat XML-tiedosto"
 
-#: weblate/formats/ttkit.py:1405
+#: weblate/formats/ttkit.py:1392
 msgid "INI file"
 msgstr "INI-tiedosto"
 
-#: weblate/formats/ttkit.py:1440
+#: weblate/formats/ttkit.py:1427
 msgid "Inno Setup INI file"
 msgstr "Inno Setup INI -tiedosto"
 
@@ -3131,7 +3169,7 @@ msgstr "Virheellinen kokonaislukulista!"
 #: weblate/templates/snippets/user-query-field.html:4
 #: weblate/templates/trans/change_list.html:55
 #: weblate/templates/trans/change_list.html:60
-#: weblate/templates/translate.html:325 weblate/templates/translation.html:36
+#: weblate/templates/translate.html:329 weblate/templates/translation.html:36
 msgid "Search"
 msgstr "Etsi"
 
@@ -3165,10 +3203,10 @@ msgstr "Korvaa olemassa oleva"
 msgid "Add as other translation"
 msgstr "Lisää muuna käännöksenä"
 
-#: weblate/glossary/forms.py:119 weblate/glossary/models.py:253
+#: weblate/glossary/forms.py:119 weblate/glossary/models.py:258
 #: weblate/templates/glossary.html:10 weblate/templates/glossary.html:60
 #: weblate/templates/language-project.html:19
-#: weblate/templates/translate.html:481 weblate/templates/translation.html:37
+#: weblate/templates/translate.html:485 weblate/templates/translation.html:37
 msgid "Glossary"
 msgstr "Sanasto"
 
@@ -3181,41 +3219,41 @@ msgstr "Mikä tahansa"
 msgid "Starting letter"
 msgstr "Aloituskirjain"
 
-#: weblate/glossary/models.py:60
+#: weblate/glossary/models.py:65
 msgid "Additional projects"
 msgstr "Lisäprojektit"
 
-#: weblate/glossary/models.py:64
+#: weblate/glossary/models.py:69
 msgid "Choose additional projects where this glossary can be used."
 msgstr "Valitse muut projektit, joissa tätä sanastoa voi käyttää."
 
-#: weblate/glossary/models.py:68
+#: weblate/glossary/models.py:73
 msgid "Glossary name"
 msgstr "Sanaston nimi"
 
-#: weblate/glossary/models.py:73 weblate/templates/project-labels.html:18
+#: weblate/glossary/models.py:78 weblate/templates/project-labels.html:18
 #: weblate/trans/models/label.py:33
 msgid "Color"
 msgstr "Väri"
 
-#: weblate/glossary/models.py:81 weblate/trans/forms.py:1444
+#: weblate/glossary/models.py:86 weblate/trans/forms.py:1444
 #: weblate/trans/models/component.py:574
 msgid "Source language"
 msgstr "Lähdetekstin kieli"
 
-#: weblate/glossary/models.py:259 weblate/templates/glossary.html:58
+#: weblate/glossary/models.py:264 weblate/templates/glossary.html:58
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/templates/translate.html:331
+#: weblate/templates/translate.html:335
 msgid "Source"
 msgstr "Lähde"
 
-#: weblate/glossary/models.py:263 weblate/templates/check_component.html:21
+#: weblate/glossary/models.py:268 weblate/templates/check_component.html:21
 #: weblate/templates/glossary.html:59 weblate/templates/js/translations.html:9
 #: weblate/templates/mail/changed_translation.html:9
 #: weblate/templates/mail/pending_suggestions.html:8
 #: weblate/templates/mail/todo_strings.html:8
-#: weblate/templates/translate.html:81 weblate/templates/translate.html:270
-#: weblate/templates/translate.html:330 weblate/trans/forms.py:1247
+#: weblate/templates/translate.html:82 weblate/templates/translate.html:274
+#: weblate/templates/translate.html:334 weblate/trans/forms.py:1247
 msgid "Translation"
 msgstr "Käännös"
 
@@ -3246,7 +3284,7 @@ msgstr[1] "Tuotu %d sanaa lähetetystä tiedostosta."
 msgid "File upload has failed: %s"
 msgstr "Tiedoston lähetys epäonnistui: %s"
 
-#: weblate/glossary/views.py:270 weblate/trans/views/edit.py:582
+#: weblate/glossary/views.py:270 weblate/trans/views/edit.py:578
 #: weblate/trans/views/search.py:86 weblate/trans/views/search.py:233
 msgid "Failed to process form!"
 msgstr "Lomakkeen käsittely epäonnistui!"
@@ -4369,8 +4407,8 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_detail.html:106
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
-#: weblate/templates/translate.html:194 weblate/templates/translate.html:362
-#: weblate/templates/translate.html:514 weblate/templates/translate.html:659
+#: weblate/templates/translate.html:198 weblate/templates/translate.html:366
+#: weblate/templates/translate.html:518 weblate/templates/translate.html:663
 msgid "Save"
 msgstr "Tallenna"
 
@@ -4693,7 +4731,7 @@ msgstr ""
 msgid "Start the trial!"
 msgstr "Aloita uusi käännös"
 
-#: weblate/templates/accounts/user.html:7 weblate/templates/component.html:99
+#: weblate/templates/accounts/user.html:8 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
 #: weblate/templates/manage/users.html:9
@@ -4704,26 +4742,26 @@ msgstr "Aloita uusi käännös"
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: weblate/templates/accounts/user.html:18
+#: weblate/templates/accounts/user.html:19
 #, python-format
 msgid "Joined on %(date)s"
 msgstr "Liittynyt %(date)s"
 
-#: weblate/templates/accounts/user.html:34 weblate/templates/language.html:72
+#: weblate/templates/accounts/user.html:35 weblate/templates/language.html:72
 #, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
 msgstr[0] "%(count)s käännös"
 msgstr[1] "%(count)s käännöstä"
 
-#: weblate/templates/accounts/user.html:39
+#: weblate/templates/accounts/user.html:40
 #, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
 msgstr[0] "Yksi ehdotus"
 msgstr[1] "%(count)s ehdotusta"
 
-#: weblate/templates/accounts/user.html:46
+#: weblate/templates/accounts/user.html:47
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
 #, python-format
 msgid "%(count)s pending suggestion"
@@ -4731,7 +4769,7 @@ msgid_plural "%(count)s pending suggestions"
 msgstr[0] "Yksi odottava ehdotus"
 msgstr[1] "%(count)s odottavaa ehdotusta"
 
-#: weblate/templates/accounts/user.html:53
+#: weblate/templates/accounts/user.html:54
 #, fuzzy, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
@@ -4740,18 +4778,18 @@ msgid_plural "%(count)s screenshots"
 msgstr[0] "%(count)s annettu ääni"
 msgstr[1] "%(count)s annettua ääntä"
 
-#: weblate/templates/accounts/user.html:58
+#: weblate/templates/accounts/user.html:59
 #, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
 msgstr[0] "yksi kommentti"
 msgstr[1] "%(count)s kommenttia"
 
-#: weblate/templates/accounts/user.html:104
+#: weblate/templates/accounts/user.html:120
 msgid "Project contributions"
 msgstr "Osallistuminen projekteihin"
 
-#: weblate/templates/accounts/user.html:107 weblate/templates/component.html:45
+#: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
 #: weblate/templates/language-project.html:26
 #: weblate/templates/language.html:21
@@ -4761,11 +4799,11 @@ msgstr "Osallistuminen projekteihin"
 msgid "Activity"
 msgstr "Aktiivisuus"
 
-#: weblate/templates/accounts/user.html:108
+#: weblate/templates/accounts/user.html:124
 msgid "Recent changes"
 msgstr "Tuoreet muutokset"
 
-#: weblate/templates/accounts/user.html:141
+#: weblate/templates/accounts/user.html:157
 msgid "Browse all changes for user"
 msgstr "Selaa kaikkia käyttäjän muutoksia"
 
@@ -4919,7 +4957,7 @@ msgstr "Komponentin tiedostonimessä iso ensimmäinen kirjain"
 #: weblate/templates/dashboard/user.html:71
 #: weblate/templates/dashboard/user.html:80
 #: weblate/templates/language-project.html:51 weblate/templates/project.html:32
-#: weblate/templates/translate.html:270 weblate/templates/translation.html:187
+#: weblate/templates/translate.html:274 weblate/templates/translation.html:187
 #: weblate/trans/forms.py:1384 weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:625
 msgid "Component"
@@ -5081,7 +5119,7 @@ msgstr "Laskutuksen yhteenveto"
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
 #: weblate/templates/snippets/project-nav.html:110
-#: weblate/templates/translate.html:322
+#: weblate/templates/translate.html:326
 #: weblate/wladmin/templates/admin/weblate-index.html:43
 #: weblate/wladmin/views.py:61
 msgid "Translation memory"
@@ -5131,8 +5169,8 @@ msgstr "Osallistu Weblaten kehittämiseen"
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
-#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:507
-#: weblate/templates/translate.html:652
+#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:511
+#: weblate/templates/translate.html:656
 msgid "Close"
 msgstr "Sulje"
 
@@ -5215,7 +5253,7 @@ msgid "No invoices found."
 msgstr "Yhtään laskua ei löytynyt."
 
 #: weblate/templates/billing/overview.html:6
-#: weblate/templates/project_info.html:29 weblate/trans/forms.py:1796
+#: weblate/templates/project_info.html:31 weblate/trans/forms.py:1796
 msgid "Billing"
 msgstr "Laskutus"
 
@@ -5455,7 +5493,7 @@ msgstr "Tilastoja"
 #: weblate/templates/language.html:20
 #: weblate/templates/snippets/project-nav.html:35
 #: weblate/templates/snippets/project-nav.html:46
-#: weblate/templates/translate.html:234 weblate/templates/translation.html:43
+#: weblate/templates/translate.html:238 weblate/templates/translation.html:43
 msgid "History"
 msgstr "Historia"
 
@@ -5620,7 +5658,7 @@ msgstr "Ilmestyi %(first)s, viimeksi nähty %(last)s"
 
 #: weblate/templates/component.html:160
 #: weblate/templates/manage/performance.html:42
-#: weblate/templates/translate.html:420
+#: weblate/templates/translate.html:424
 msgid "Dismiss"
 msgstr "Sivuuta"
 
@@ -5653,7 +5691,7 @@ msgstr ""
 msgid "Apply"
 msgstr "Käytä"
 
-#: weblate/templates/component.html:228 weblate/templates/translate.html:314
+#: weblate/templates/component.html:228 weblate/templates/translate.html:318
 msgid "Browse all component changes"
 msgstr "Selaa kaikkia komponentin muutoksia"
 
@@ -5694,7 +5732,7 @@ msgid "Move"
 msgstr "Siirrä"
 
 #: weblate/templates/component.html:300 weblate/templates/project.html:174
-#: weblate/templates/translate.html:308 weblate/templates/translation.html:374
+#: weblate/templates/translate.html:312 weblate/templates/translation.html:374
 msgid "Loading…"
 msgstr "Ladataan…"
 
@@ -5809,8 +5847,8 @@ msgstr "Osallistujasopimus"
 #: weblate/templates/mail/pending_suggestions.html:15
 #: weblate/templates/mail/todo_strings.html:15
 #: weblate/templates/screenshots/screenshot_sources_body.html:14
-#: weblate/templates/translate.html:392 weblate/templates/translate.html:453
-#: weblate/templates/translate.html:467
+#: weblate/templates/translate.html:396 weblate/templates/translate.html:457
+#: weblate/templates/translate.html:471
 msgid "View"
 msgstr "Näytä"
 
@@ -6215,6 +6253,7 @@ msgstr "kielen korvaaminen"
 #: weblate/templates/fonts/fontgroup_detail.html:29
 #: weblate/templates/manage-access.html:45
 #: weblate/templates/screenshots/screenshot_sources_body.html:21
+#: weblate/templates/translate.html:175
 msgid "Remove"
 msgstr "Poista"
 
@@ -6483,7 +6522,7 @@ msgid "Rebase local changes onto the remote repository"
 msgstr "Suorita paikallisen arkiston rebase"
 
 #: weblate/templates/js/git-status.html:136
-#: weblate/templates/translate.html:425
+#: weblate/templates/translate.html:429
 msgid "Reset"
 msgstr "Palauta"
 
@@ -6573,7 +6612,7 @@ msgstr "Ratkaistu kommentti"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
-#: weblate/templates/translate.html:130 weblate/templates/translate.html:569
+#: weblate/templates/translate.html:131 weblate/templates/translate.html:573
 #: weblate/templates/zen-units.html:33
 msgid "Source string comment"
 msgstr "Lähdetekstin kommentti"
@@ -7034,12 +7073,12 @@ msgstr "Vahvista rekisteröityminen"
 #: weblate/templates/mail/snippets/source-string.html:9
 #: weblate/templates/screenshots/screenshot_detail.html:27
 #: weblate/templates/screenshots/screenshot_detail.html:55
-#: weblate/templates/translate.html:79
+#: weblate/templates/translate.html:80
 msgid "Source string"
 msgstr "Lähdeteksti"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
-#: weblate/templates/translate.html:535
+#: weblate/templates/translate.html:539
 msgid "Screenshot context"
 msgstr "Ruudunkaappauskuvan konteksti"
 
@@ -7521,7 +7560,7 @@ msgstr "Vaatii muokkaamista"
 #: weblate/templates/project-label-edit.html:9
 #: weblate/templates/project-labels.html:9
 #: weblate/templates/snippets/project-nav.html:123
-#: weblate/templates/translate.html:578 weblate/trans/models/unit.py:290
+#: weblate/templates/translate.html:582 weblate/trans/models/unit.py:290
 #: weblate/utils/views.py:95
 #, fuzzy
 msgid "Labels"
@@ -7577,15 +7616,15 @@ msgstr ""
 "kääntämiseen annettuna ajanjaksona. Hyvä sisällyttää dokumentaatioon tai "
 "sovellukseen itseensä, jotta kääntäjät saavat kiitosta ja palautetta."
 
-#: weblate/templates/project_info.html:5 weblate/trans/models/project.py:91
+#: weblate/templates/project_info.html:7 weblate/trans/models/project.py:91
 msgid "Project website"
 msgstr "Projektin verkkosivusto"
 
-#: weblate/templates/project_info.html:11
+#: weblate/templates/project_info.html:13
 msgid "Mailing list for translators"
 msgstr "Sähköpostilista kääntäjille"
 
-#: weblate/templates/project_info.html:18
+#: weblate/templates/project_info.html:20
 msgid "Instructions for translators"
 msgstr "Käännösohjeet"
 
@@ -7770,6 +7809,13 @@ msgstr "Käännös lukittiin automaattisesti seuraavien varoitusten takia:"
 msgid "Pay the bills to unlock this project."
 msgstr "Maksa laskut avataksesi tämän projektin."
 
+#: weblate/templates/snippets/component/state.html:18
+msgid ""
+"This project is in the trial period, so be cautious before you contribute. "
+"Things like license or repository can still change before being approved as "
+"a libre project."
+msgstr ""
+
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
 msgstr "Tila"
@@ -7841,14 +7887,14 @@ msgstr "Kääntämättömiä sanoja"
 
 #: weblate/templates/snippets/list-objects.html:22
 #: weblate/templates/trans/suggestion_list.html:8
-#: weblate/templates/translate.html:222 weblate/templates/translate.html:388
+#: weblate/templates/translate.html:226 weblate/templates/translate.html:392
 #: weblate/trans/forms.py:1249
 msgid "Suggestions"
 msgstr "Ehdotukset"
 
 #: weblate/templates/snippets/list-objects.html:23
-#: weblate/templates/translate.html:228 weblate/templates/translate.html:449
-#: weblate/templates/translate.html:611
+#: weblate/templates/translate.html:232 weblate/templates/translate.html:453
+#: weblate/templates/translate.html:615
 msgid "Comments"
 msgstr "Kommentit"
 
@@ -8683,58 +8729,58 @@ msgstr ""
 "vain jos arkisto on siirretty uuteen osoitteeseen. Jos uuden arkiston "
 "sisältö on eri, on suositeltavaa luoda uusi käännöskomponentti."
 
-#: weblate/templates/translate.html:55
+#: weblate/templates/translate.html:56
 msgid "Edit in Zen mode"
 msgstr "Muokkaa Zen-tilassa"
 
-#: weblate/templates/translate.html:55 weblate/templates/zen.html:26
+#: weblate/templates/translate.html:56 weblate/templates/zen.html:26
 msgid "Zen"
 msgstr "Zen"
 
-#: weblate/templates/translate.html:58 weblate/templates/zen.html:48
+#: weblate/templates/translate.html:59 weblate/templates/zen.html:48
 msgid "Configure editor"
 msgstr "Muuta muokkaimen asetuksia"
 
-#: weblate/templates/translate.html:76
+#: weblate/templates/translate.html:77
 msgid "Copy permalink"
 msgstr "Kopioi ikilinkki"
 
-#: weblate/templates/translate.html:96 weblate/templates/zen-units.html:73
+#: weblate/templates/translate.html:97 weblate/templates/zen-units.html:73
 msgid "Edit string"
 msgstr "Muokkaa tekstiä"
 
-#: weblate/templates/translate.html:106 weblate/templates/zen-units.html:83
+#: weblate/templates/translate.html:107 weblate/templates/zen-units.html:83
 msgid "Source change"
 msgstr "Lähteen muutos"
 
-#: weblate/templates/translate.html:122
+#: weblate/templates/translate.html:123
 #, fuzzy
 #| msgid "Interface Language"
 msgid "Intermediate language"
 msgstr "Käyttöliittymän kieli"
 
-#: weblate/templates/translate.html:138 weblate/templates/translate.html:549
+#: weblate/templates/translate.html:139 weblate/templates/translate.html:553
 #: weblate/templates/zen-units.html:44 weblate/trans/models/unit.py:275
 msgid "Explanation"
 msgstr "Selitys"
 
-#: weblate/templates/translate.html:160 weblate/templates/zen-units.html:93
+#: weblate/templates/translate.html:161 weblate/templates/zen-units.html:93
 msgid "Edit source string"
 msgstr "Muokkaa lähdetekstiä"
 
-#: weblate/templates/translate.html:162 weblate/trans/forms.py:895
+#: weblate/templates/translate.html:163 weblate/trans/forms.py:895
 msgid "Report issue with the source string"
 msgstr "Ilmoita lähdetekstin ongelmasta"
 
-#: weblate/templates/translate.html:177 weblate/templates/translate.html:202
+#: weblate/templates/translate.html:181 weblate/templates/translate.html:206
 msgid "This translation is currently locked."
 msgstr "Tämä käännös on parhaillaan lukittu."
 
-#: weblate/templates/translate.html:179
+#: weblate/templates/translate.html:183
 msgid "Please sign in to save translations."
 msgstr "Kirjaudu sisään tallentaaksesi käännöksiä."
 
-#: weblate/templates/translate.html:181
+#: weblate/templates/translate.html:185
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
@@ -8742,7 +8788,7 @@ msgstr ""
 "Vain tarkistajat voivat muuttaa hyväksyttyjä tekstejä. Voit kuitenkin lisätä "
 "käännösehdotuksen jos tekstiä pitää mielestäsi muuttaa."
 
-#: weblate/templates/translate.html:183
+#: weblate/templates/translate.html:187
 #, fuzzy
 #| msgid ""
 #| "This translation only accepts suggestions and these are approved by "
@@ -8753,7 +8799,7 @@ msgstr ""
 "Tähän käännökseen voi tehdä vain ehdotuksia ja ehdotukset hyväksytään "
 "äänestyksellä."
 
-#: weblate/templates/translate.html:185
+#: weblate/templates/translate.html:189
 #, fuzzy
 #| msgid ""
 #| "Contribution to this translation requires you to agree with a contributor "
@@ -8764,87 +8810,87 @@ msgid ""
 msgstr ""
 "Osallistuaksesi tähän käännökseen sinun pitää hyväksyä osallistujasopimus."
 
-#: weblate/templates/translate.html:189
+#: weblate/templates/translate.html:193
 msgid "Insufficient privileges for editing source strings."
 msgstr "Käyttöoikeutesi eivät riitä lähdetekstien muokkaamiseen."
 
-#: weblate/templates/translate.html:191 weblate/trans/views/edit.py:305
+#: weblate/templates/translate.html:195 weblate/trans/views/edit.py:305
 #: weblate/trans/views/edit.py:325 weblate/trans/views/edit.py:343
-#: weblate/trans/views/edit.py:797
+#: weblate/trans/views/edit.py:793
 msgid "Insufficient privileges for saving translations."
 msgstr "Käyttöoikeutesi eivät riitä käännösten tallentamiseen."
 
-#: weblate/templates/translate.html:200
+#: weblate/templates/translate.html:204
 msgid "Insufficient privileges for adding suggestions."
 msgstr "Käyttöoikeutesi eivät riitä lisäämään käännösehdotuksia."
 
-#: weblate/templates/translate.html:206
+#: weblate/templates/translate.html:210
 msgid "Suggest"
 msgstr "Ehdota"
 
-#: weblate/templates/translate.html:208
+#: weblate/templates/translate.html:212
 msgid "Skip"
 msgstr "Ohita"
 
-#: weblate/templates/translate.html:214
+#: weblate/templates/translate.html:218
 msgid "Messages placed around this one"
 msgstr "Tekstit, jotka ovat tämän tekstin ympärillä"
 
-#: weblate/templates/translate.html:214
+#: weblate/templates/translate.html:218
 msgid "Nearby strings"
 msgstr "Lähellä olevat tekstit"
 
-#: weblate/templates/translate.html:216
+#: weblate/templates/translate.html:220
 #, fuzzy
 msgid "Strings with similar keys"
 msgstr "Tekstit joilla on samat avainsanat"
 
-#: weblate/templates/translate.html:216
+#: weblate/templates/translate.html:220
 #, fuzzy
 msgid "Nearby keys"
 msgstr "Viereiset avainsanat"
 
-#: weblate/templates/translate.html:219
+#: weblate/templates/translate.html:223
 #, fuzzy
 #| msgid "Shapings of the string"
 msgid "Variants of the string"
 msgstr "Muotoilut merkkijonot"
 
-#: weblate/templates/translate.html:219 weblate/templates/translate.html:463
+#: weblate/templates/translate.html:223 weblate/templates/translate.html:467
 #, fuzzy
 #| msgid "Bavarian"
 msgid "Variants"
 msgstr "Bavarian"
 
-#: weblate/templates/translate.html:225
+#: weblate/templates/translate.html:229
 msgid "Other occurrences"
 msgstr "Muut esiintymät"
 
-#: weblate/templates/translate.html:231
+#: weblate/templates/translate.html:235
 #, fuzzy
 #| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
 msgstr "Koneen kääntämät ehdotukset"
 
-#: weblate/templates/translate.html:231
+#: weblate/templates/translate.html:235
 #, fuzzy
 #| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
 msgstr "Hyväksy ehdotukset automaattisesti"
 
-#: weblate/templates/translate.html:233
+#: weblate/templates/translate.html:237
 msgid "Translations of this string in the other languages"
 msgstr "Tämän tekstin käännökset muille kielille"
 
-#: weblate/templates/translate.html:233
+#: weblate/templates/translate.html:237
 msgid "Other languages"
 msgstr "Muut kielet"
 
-#: weblate/templates/translate.html:234
+#: weblate/templates/translate.html:238
 msgid "List of recent changes done in Weblate"
 msgstr "Luettelo tuoreista muutoksista Weblatessa"
 
-#: weblate/templates/translate.html:280
+#: weblate/templates/translate.html:284
 #, fuzzy
 #| msgid "Following string has same context and same source."
 #| msgid_plural "Following strings have same context and same source."
@@ -8853,7 +8899,7 @@ msgid_plural "The following strings have the same context and source."
 msgstr[0] "Seuraavalla tekstillä on sama asiayhteys ja sama lähdeteksti."
 msgstr[1] "Seuraavilla teksteillä on sama asiayhteys ja sama lähdeteksti."
 
-#: weblate/templates/translate.html:288
+#: weblate/templates/translate.html:292
 #, fuzzy
 #| msgid "Following string has different context but same source."
 #| msgid_plural "Following strings have different contexts but same source."
@@ -8863,7 +8909,7 @@ msgid_plural ""
 msgstr[0] "Seuraavalla tekstillä on eri asiayhteys, mutta sama lähdeteksti."
 msgstr[1] "Seuraavilla teksteillä on eri asiayhteydet, mutta sama lähdeteksti."
 
-#: weblate/templates/translate.html:296
+#: weblate/templates/translate.html:300
 #, fuzzy
 #| msgid "Following string has different source but same context."
 #| msgid_plural "Following strings have different sources but same context."
@@ -8873,45 +8919,45 @@ msgid_plural ""
 msgstr[0] "Seuraavalla tekstillä on eri lähdeteksti mutta sama asiayhteys."
 msgstr[1] "Seuraavilla teksteillä on eri lähdetekstit mutta sama asiayhteys."
 
-#: weblate/templates/translate.html:332
+#: weblate/templates/translate.html:336
 msgid "Origin"
 msgstr "Alkuperä"
 
-#: weblate/templates/translate.html:333
+#: weblate/templates/translate.html:337
 msgid "Similarity"
 msgstr "Samankaltaisuus"
 
-#: weblate/templates/translate.html:358
+#: weblate/templates/translate.html:362
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr "Kommentti tähän tekstiin muiden kääntäjien ja kehittäjien luettavaksi."
 
-#: weblate/templates/translate.html:380
+#: weblate/templates/translate.html:384
 msgid "Things to check"
 msgstr "Tarkistettavat asiat"
 
-#: weblate/templates/translate.html:390
+#: weblate/templates/translate.html:394
 #, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
 msgstr[0] "Tekstille on %(count)s ehdotus."
 msgstr[1] "Tekstille on %(count)s ehdotusta."
 
-#: weblate/templates/translate.html:413
+#: weblate/templates/translate.html:417
 msgid "Fix string"
 msgstr "Korjaa teksti"
 
-#: weblate/templates/translate.html:422
+#: weblate/templates/translate.html:426
 msgid "Dismiss for all languages"
 msgstr "Sivuuta kaikissa kielissä"
 
-#: weblate/templates/translate.html:451
+#: weblate/templates/translate.html:455
 #, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
 msgstr[0] "Tekstille on %(count)s kommentti."
 msgstr[1] "Tekstille on %(count)s kommenttia."
 
-#: weblate/templates/translate.html:465
+#: weblate/templates/translate.html:469
 #, fuzzy, python-format
 #| msgid "There is %(count)s shaping for this string."
 #| msgid_plural "There are %(count)s shapings for this string."
@@ -8920,62 +8966,62 @@ msgid_plural "There are %(count)s variants for this string."
 msgstr[0] "Tälle merkkijonolle on %(count)s muotoilu ehdotus."
 msgstr[1] "Tälle merkkijonolle on %(count)s muotoilu ehdotusta."
 
-#: weblate/templates/translate.html:479
+#: weblate/templates/translate.html:483
 msgid "Manage glossary"
 msgstr "Hallinnoi sanastoa"
 
-#: weblate/templates/translate.html:498 weblate/templates/translate.html:508
+#: weblate/templates/translate.html:502 weblate/templates/translate.html:512
 msgid "Add term to glossary"
 msgstr "Lisää termi sanastoon"
 
-#: weblate/templates/translate.html:527
+#: weblate/templates/translate.html:531
 msgid "Source information"
 msgstr "Tietoa lähdetekstistä"
 
-#: weblate/templates/translate.html:540
+#: weblate/templates/translate.html:544
 #, fuzzy
 #| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
 msgstr "Yhtään ruudunkaappauskuvaa ei ole liitetty!"
 
-#: weblate/templates/translate.html:554
+#: weblate/templates/translate.html:558
 msgid "No explanation currently provided."
 msgstr "Selitystä ei ole tällä erää tarjolla."
 
-#: weblate/templates/translate.html:583
+#: weblate/templates/translate.html:587
 #, fuzzy
 #| msgid "No labels currently set!"
 msgid "No labels currently set."
 msgstr "Ei merkintöjä tällä hetkellä!"
 
-#: weblate/templates/translate.html:591
+#: weblate/templates/translate.html:595
 msgid "Flags"
 msgstr "Automaattitarkistukset"
 
-#: weblate/templates/translate.html:596
+#: weblate/templates/translate.html:600
 #, fuzzy
 #| msgid "No flags currently set!"
 msgid "No flags currently set."
 msgstr "Automaattitarkistuksia ei ole asetettu!"
 
-#: weblate/templates/translate.html:603
+#: weblate/templates/translate.html:607
 msgid "Source string location"
 msgstr "Lähdetekstin sijainti"
 
-#: weblate/templates/translate.html:618
+#: weblate/templates/translate.html:622
 msgid "Source string age"
 msgstr "Lähdetekstin ikä"
 
-#: weblate/templates/translate.html:625 weblate/templates/translation.html:203
+#: weblate/templates/translate.html:629 weblate/templates/translation.html:203
 msgid "Translation file"
 msgstr "Käännöstiedosto"
 
-#: weblate/templates/translate.html:629
+#: weblate/templates/translate.html:633
 #, python-format
 msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s, teksti %(position)s"
 
-#: weblate/templates/translate.html:631
+#: weblate/templates/translate.html:635
 #, python-format
 msgid "string %(position)s"
 msgstr "teksti %(position)s"
@@ -11160,11 +11206,11 @@ msgstr "Pitkä ajatusviiva (M-ajatusviiva)"
 msgid "User configured character: {}"
 msgstr "Käyttäjän määrittelemä merkki: {}"
 
-#: weblate/trans/tasks.py:343
+#: weblate/trans/tasks.py:344
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Automaattinen kääntäminen suoritettu. Yhtään tekstimuutosta ei tehty."
 
-#: weblate/trans/tasks.py:347
+#: weblate/trans/tasks.py:348
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -11623,37 +11669,37 @@ msgstr "Virheellinen ehdotus!"
 msgid "Invalid search string!"
 msgstr "Virheellinen hakulause!"
 
-#: weblate/trans/views/edit.py:602
+#: weblate/trans/views/edit.py:598
 msgid "Automatic translation in progress"
 msgstr "Automaattinen kääntäminen on kesken"
 
-#: weblate/trans/views/edit.py:639
+#: weblate/trans/views/edit.py:635
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Source needs review"
 msgstr "Lähdetekstien yhteenveto"
 
-#: weblate/trans/views/edit.py:642
+#: weblate/trans/views/edit.py:638
 msgid "Posted new comment"
 msgstr "Lähetetty uusi kommentti"
 
-#: weblate/trans/views/edit.py:644
+#: weblate/trans/views/edit.py:640
 msgid "Failed to add comment!"
 msgstr "Kommentin lisääminen epäonnistui!"
 
-#: weblate/trans/views/edit.py:665
+#: weblate/trans/views/edit.py:661
 msgid "Translation comment has been deleted."
 msgstr "Käännöksen kommentti on poistettu."
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:681
 msgid "Translation comment has been resolved."
 msgstr "Käännöskommentti on ratkaistu."
 
-#: weblate/trans/views/edit.py:840
+#: weblate/trans/views/edit.py:836
 msgid "Translation with this key seem to already exist!"
 msgstr "Käännös tällä tunnisteella näyttää olevan jo olemassa!"
 
-#: weblate/trans/views/edit.py:844
+#: weblate/trans/views/edit.py:840
 msgid "New string has been added."
 msgstr "Uusi teksti on lisätty."
 
@@ -11778,15 +11824,15 @@ msgstr "Asetukset tallennettu"
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Asetukset eivät kelpaa, tarkista lomake virheiden varalta!"
 
-#: weblate/trans/views/settings.py:148
+#: weblate/trans/views/settings.py:151
 msgid "Translation has been removed."
 msgstr "Käännös on poistettu."
 
-#: weblate/trans/views/settings.py:167
+#: weblate/trans/views/settings.py:170
 msgid "Translation component was scheduled for removal."
 msgstr "Käännöskomponentti oli ajastettu poistettavaksi."
 
-#: weblate/trans/views/settings.py:186
+#: weblate/trans/views/settings.py:189
 msgid "Project was scheduled for removal."
 msgstr "Projekti oli ajastettu poistettavaksi."
 
@@ -11940,15 +11986,15 @@ msgstr ""
 msgid "Forbidden URL scheme!"
 msgstr "Kielletty osoitteen tyyppi (URL scheme)!"
 
-#: weblate/utils/search.py:268
+#: weblate/utils/search.py:263
 msgid "Unsupported state: {}"
 msgstr "Tilaa ei tueta: {}"
 
-#: weblate/utils/search.py:333
+#: weblate/utils/search.py:328
 msgid "Invalid timestamp: {}"
 msgstr "Virheellinen aikaleima: {}"
 
-#: weblate/utils/search.py:392
+#: weblate/utils/search.py:387
 msgid "Invalid regular expression: {}"
 msgstr "Epäkelpo säännöllinen lauseke: {}"
 
