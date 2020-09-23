@@ -429,7 +429,7 @@ class Profile(models.Model):
         verbose_name=_("Fediverse URL"),
         blank=True,
         help_text=_(
-            "Link to your fediverse profile with services like Mastodon or diaspora*."
+            "Link to your Fediverse profile for federated services like Mastodon or diaspora*."
         ),
     )
     codesite = models.URLField(
