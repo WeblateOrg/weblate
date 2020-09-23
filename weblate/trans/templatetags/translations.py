@@ -521,6 +521,10 @@ def get_location_links(profile, unit):
     """Generate links to source files where translation was used."""
     ret = []
 
+    # Fallback to source unit if it has more information
+    if not unit.location and unit.source_unit.location:
+        unit = unit.source_unit
+
     # Do we have any locations?
     if not unit.location:
         return ""
