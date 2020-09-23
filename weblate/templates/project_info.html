@@ -1,9 +1,11 @@
 {% load i18n %}
 {% load permissions %}
 {% load translations %}
+{% load urlformat %}
+
 <tr>
 <th>{% trans "Project website" %}</th>
-<td colspan="2"><a href="{{ object.web }}">{{ object.web }}</a></td>
+<td colspan="2"><a href="{{ object.web }}">{{ object.web | urlformat }}</a></td>
 </tr>
 
 {% if object.mail %}

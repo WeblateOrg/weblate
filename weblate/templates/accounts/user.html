@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load humanize %}
 {% load icons %}
+{% load urlformat %}
 
 {% block breadcrumbs %}
 <li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
@@ -64,7 +65,7 @@
       <p>
         {% if page_profile.website %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website }}</a>
+            <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website | urlformat }}</a>
           </span>
         {% endif %}
         {% if page_profile.public_email %}
@@ -79,7 +80,7 @@
         {% endif %}
         {% if page_profile.fediverse %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc">{{ page_profile.fediverse }}</a>
+            <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc">{{ page_profile.fediverse | urlformat }}</a>
           </span>
         {% endif %}
         {% if page_profile.github %}
@@ -89,7 +90,7 @@
         {% endif %}
         {% if page_profile.codesite %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "source.svg" %}</span> <a href="{{ page_profile.codesite }}" rel="ugc">{{ page_profile.codesite }}</a>
+            <span class="profile-icon">{% icon "source.svg" %}</span> <a href="{{ page_profile.codesite }}" rel="ugc">{{ page_profile.codesite | urlformat }}</a>
           </span>
         {% endif %}
         {% if page_profile.twitter %}
