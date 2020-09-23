@@ -1633,13 +1633,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return []
         return [alert for alert in self.all_alerts if alert.name in LOCKING_ALERTS]
 
-    def trigger_alert(self, name, **kwargs):
+    def trigger_alert(self, name: str, **kwargs):
         if name in self.alerts_trigger:
             self.alerts_trigger[name].append(kwargs)
         else:
             self.alerts_trigger[name] = [kwargs]
 
-    def delete_alert(self, alert):
+    def delete_alert(self, alert: str):
         deleted = self.alert_set.filter(name=alert).delete()[0]
         if (
             deleted
@@ -1657,7 +1657,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for component in self.linked_childs:
                 component.delete_alert(alert)
 
-    def add_alert(self, alert, noupdate: bool = False, **details):
+    def add_alert(self, alert: str, noupdate: bool = False, **details):
         obj, created = self.alert_set.get_or_create(
             name=alert, defaults={"details": details}
         )
