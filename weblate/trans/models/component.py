@@ -2045,14 +2045,14 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             filename = self.get_new_base_filename()
             if filename:
                 if os.path.exists(filename):
-                    message = _("Unrecognized base file for new translations.")
-                else:
-                    message = _("Base file for new translations not found.")
-            else:
-                message = _(
-                    "You have set up Weblate to add new translation "
-                    "files, but did not provide a base file to do that."
-                )
+                    raise ValidationError(
+                        {"new_base": _("Unrecognized base file for new translations.")}
+                    )
+                raise ValidationError({"new_base": _("File does not exist.")})
+            message = _(
+                "You have set up Weblate to add new translation "
+                "files, but did not provide a base file to do that."
+            )
             raise ValidationError({"new_base": message, "new_lang": message})
 
     def clean_template(self):
