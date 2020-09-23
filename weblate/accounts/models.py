@@ -429,13 +429,14 @@ class Profile(models.Model):
         verbose_name=_("Fediverse URL"),
         blank=True,
         help_text=_(
-            "Link to your fediverse profile with services like Mastodon or diaspora*."
+            "Link to your Fediverse profile for federated services "
+            "like Mastodon or diaspora*."
         ),
     )
     codesite = models.URLField(
         verbose_name=_("Code site URL"),
         blank=True,
-        help_text=_("Link to your code profile with services like Codeberg or GitLab."),
+        help_text=_("Link to your code profile for services like Codeberg or GitLab."),
     )
     github = models.SlugField(
         verbose_name=_("GitHub username"),
