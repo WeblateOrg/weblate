@@ -933,9 +933,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # Fetch one by one for case getting for single unit, if not prefetch
                 # was done, this will raise an exception in case of error
                 source = source_units.get(id_hash=id_hash)
-            elif not create or self.template:
-                # Avoid creating for template based translations and if args
-                # are missing
+            elif not create:
+                # We are not supposed to create new one
                 raise Unit.DoesNotExist("Could not find source unit")
             else:
                 # Create in case of parsing tranlations
