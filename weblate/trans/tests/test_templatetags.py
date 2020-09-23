@@ -92,6 +92,7 @@ class LocationLinksTest(TestCase):
                 language=Language(),
             )
         )
+        self.unit.source_unit = self.unit
         self.profile = Profile()
 
     def test_empty(self):
