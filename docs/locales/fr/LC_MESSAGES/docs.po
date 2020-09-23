@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-20 09:32+0200\n"
-"PO-Revision-Date: 2020-09-21 07:24+0000\n"
+"PO-Revision-Date: 2020-09-23 10:56+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -24466,9 +24466,9 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
-"Les drapeaux sont extraits de l'attribut non standard ``weblate-flags`` pour "
-"tous les formats basés sur XML. En outre, l'attribut ``max-length:N`` est "
-"pris en charge à travers l'attribut ``maxwidth`` `attribute <http://docs."
+"Les drapeaux sont extraits de l’attribut non standard ``weblate-flags`` pour "
+"tous les formats basés sur XML. En outre, l’attribut ``max-length:N`` est "
+"pris en charge à travers l’attribut ``maxwidth`` `attribute <http://docs."
 "oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ tel que défini dans "
 "la norme XLIFF, voir :ref:`xliff-flags`."
 
@@ -24477,7 +24477,7 @@ msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
-"Les pluriels ne sont supportés que pour Laravel qui les utilise dans la "
+"Les pluriels ne sont pris en charge que pour Laravel qui les utilise dans la "
 "syntaxe des chaînes de caractères pour les définir, voir `Localization in "
 "Laravel`_."
 
@@ -28043,7 +28043,7 @@ msgid ""
 "various services you can use to sign in into Weblate, completely remove your "
 "account, or download your user data (see :ref:`schema-userdata`)."
 msgstr ""
-"L'onglet :guilabel:`Compte` vous permet de configurer les détails de base du "
+"L’onglet :guilabel:`Compte` vous permet de configurer les détails de base du "
 "compte, de connecter divers services que vous pouvez utiliser pour vous "
 "connecter à Weblate, de supprimer complètement votre compte ou de "
 "télécharger vos données utilisateur (voir :ref:`schema-userdata`)."
@@ -28086,16 +28086,21 @@ msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
 msgstr ""
+"Des requêtes avancées utilisant des opérations booléennes, des parenthèses "
+"ou une recherche par champ spécifique peuvent être utilisées pour trouver "
+"les chaînes de caractères que vous souhaitez."
 
 #: ../../user/search.rst:9
 msgid ""
 "When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Translate` and :guilabel:`Context` fields."
 msgstr ""
+"Lorsqu’aucun champ n’est défini, la recherche se fait sur les champs "
+":guilabel:`Source`, :guilabel:`Traduction` et :guilabel:`Contexte`."
 
 #: ../../user/search.rst:15
 msgid "Simple search"
-msgstr ""
+msgstr "Recherche simple"
 
 #: ../../user/search.rst:17
 msgid ""
@@ -28104,96 +28109,104 @@ msgid ""
 "into quotes (both single (') and double (\") quotes will work): ``\"this is "
 "a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
+"Toute phrase entrée dans la boîte de recherche est divisée en mots. Les "
+"chaînes de caractères contenant l’un d’eux sont affichées. Pour rechercher "
+"une phrase exacte, mettez la \"phrase recherchée\" entre guillemets (les "
+"guillemets simples (') et doubles (\") fonctionneront) : ``\"ceci est une "
+"chaîne entre guillemets\"`` ou ``'une autre chaîne entre guillemets'``."
 
 #: ../../user/search.rst:23
 msgid "Fields"
-msgstr ""
+msgstr "Champs"
 
 #: ../../user/search.rst:25
 msgid "``source:TEXT``"
-msgstr ""
+msgstr "``source:TEXTE``"
 
 #: ../../user/search.rst:26
 msgid "Source string case insensitive search."
-msgstr ""
+msgstr "Recherche insensible à la casse dans les chaînes de caractères sources."
 
 #: ../../user/search.rst:27
 msgid "``target:TEXT``"
-msgstr ""
+msgstr "``target:TEXTE``"
 
 #: ../../user/search.rst:28
 msgid "Target string case insensitive search."
-msgstr ""
+msgstr "Recherche insensible à la casse dans les chaînes de caractères cible."
 
 #: ../../user/search.rst:29
 msgid "``context:TEXT``"
-msgstr ""
+msgstr "``context:TEXTE``"
 
 #: ../../user/search.rst:30
 msgid "Context string case insensitive search."
-msgstr ""
+msgstr "Recherche insensible à la casse dans le contexte."
 
 #: ../../user/search.rst:31
 msgid "``key:TEXT``"
-msgstr ""
+msgstr "``key:TEXTE``"
 
 #: ../../user/search.rst:32
 msgid "Key string case insensitive search."
-msgstr ""
+msgstr "Recherche insensible à la casse dans les clés."
 
 #: ../../user/search.rst:33
 msgid "``note:TEXT``"
-msgstr ""
+msgstr "``note:TEXTE``"
 
 #: ../../user/search.rst:34
 msgid "Comment string case insensitive search."
-msgstr ""
+msgstr "Recherche insensible à la casse dans les commentaires."
 
 #: ../../user/search.rst:35
 msgid "``location:TEXT``"
-msgstr ""
+msgstr "``location:TEXTE``"
 
 #: ../../user/search.rst:36
 msgid "Location string case insensitive search."
-msgstr ""
+msgstr "Recherche insensible à la casse dans les emplacements."
 
 #: ../../user/search.rst:37
 msgid "``priority:NUMBER``"
-msgstr ""
+msgstr "``priority:NUMÉRO``"
 
 #: ../../user/search.rst:38
 msgid "String priority."
-msgstr ""
+msgstr "Priorité de chaîne de caractères."
 
 #: ../../user/search.rst:39
 msgid "``added:DATETIME``"
-msgstr ""
+msgstr "``added:DATEHEURE``"
 
 #: ../../user/search.rst:40
 msgid "Timestamp for when the string was added to Weblate."
-msgstr ""
+msgstr "Horodatage de la date à laquelle la chaîne a été ajoutée dans Weblate."
 
 #: ../../user/search.rst:41
 msgid "``state:TEXT``"
-msgstr ""
+msgstr "``state:TEXTE``"
 
 #: ../../user/search.rst:42
 msgid ""
 "State search (``approved``, ``translated``, ``needs-editing``, ``empty``, "
 "``read-only``), supports :ref:`search-operators`."
 msgstr ""
+"Recherche par état (``approved`` (approuvé), ``translated`` (traduit), "
+"``needs-editing`` (à vérifier), ``empty`` (vide), ``read-only``(lecture "
+"seule)), prend en charge :ref:`search-operators`."
 
 #: ../../user/search.rst:43
 msgid "``pending:BOOLEAN``"
-msgstr ""
+msgstr "``pending:BOOLÉEN``"
 
 #: ../../user/search.rst:44
 msgid "String pending for flushing to VCS."
-msgstr ""
+msgstr "Chaîne en attente d’archivage dans le système de contrôle des versions."
 
 #: ../../user/search.rst:45
 msgid "``has:TEXT``"
-msgstr ""
+msgstr "``has:TEXTE``"
 
 #: ../../user/search.rst:46
 msgid ""
@@ -28201,107 +28214,116 @@ msgid ""
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot`` (works only on source strings)."
 msgstr ""
+"Recherche de chaînes ayant un attribut — ``plural`` (pluriel), ``context`` "
+"(contexte), ``suggestion`` (suggestion), ``comment`` (commentaire), ``check``"
+" (vérification), ``dismissed-check`` (vérification ignorée), ``translation`` "
+"(traduction), ``variant`` (variante), ``screenshot`` (capture d’écran) (ne "
+"fonctionne que sur les chaînes sources)."
 
 #: ../../user/search.rst:47
 msgid "``is:TEXT``"
-msgstr ""
+msgstr "``is:TEXTE``"
 
 #: ../../user/search.rst:48
 msgid ""
 "Search for string states (``pending``, ``translated``, ``untranslated``)."
 msgstr ""
+"Recherche d’états de chaînes (``pending`` (en attente), ``translated`` "
+"(traduite), ``untranslated`` (non traduite))."
 
 #: ../../user/search.rst:49
 msgid "``language:TEXT``"
-msgstr ""
+msgstr "``language:TEXTE``"
 
 #: ../../user/search.rst:50
 msgid "String target language."
-msgstr ""
+msgstr "Langue cible de la chaîne de caractères."
 
 #: ../../user/search.rst:51
 msgid "``component:TEXT``"
-msgstr ""
+msgstr "``component:TEXTE``"
 
 #: ../../user/search.rst:52
 msgid "Component slug, see :ref:`component-slug`."
-msgstr ""
+msgstr "Identifiant du composant, voir :ref:`component-slug`."
 
 #: ../../user/search.rst:53
 msgid "``project:TEXT``"
-msgstr ""
+msgstr "``project:TEXTE``"
 
 #: ../../user/search.rst:54
 msgid "Project slug, see :ref:`project-slug`."
-msgstr ""
+msgstr "Identifiant du projet, voir :ref:`project-slug`."
 
 #: ../../user/search.rst:55
 msgid "``changed_by:TEXT``"
-msgstr ""
+msgstr "``changed_by:TEXTE``"
 
 #: ../../user/search.rst:56
 msgid "String was changed by author with given username."
-msgstr ""
+msgstr "La chaîne a été modifiée par l’auteur avec le nom d’utilisateur fourni."
 
 #: ../../user/search.rst:57
 msgid "``changed:DATETIME``"
-msgstr ""
+msgstr "``changed:DATEHEURE``"
 
 #: ../../user/search.rst:58
 msgid "String was changed on date, supports :ref:`search-operators`."
 msgstr ""
+"La chaîne a été modifiée à la date fournie, prend en charge :ref:`search-"
+"operators`."
 
 #: ../../user/search.rst:59
 msgid "``check:TEXT``"
-msgstr ""
+msgstr "``check:TEXTE``"
 
 #: ../../user/search.rst:60
 msgid "String has failing check."
-msgstr ""
+msgstr "La chaîne échoue à une vérification."
 
 #: ../../user/search.rst:61
 msgid "``dismissed_check:TEXT``"
-msgstr ""
+msgstr "``dismissed_check:TEXTE``"
 
 #: ../../user/search.rst:62
 msgid "String has dismissed check."
-msgstr ""
+msgstr "La chaîne a une vérification ignorée."
 
 #: ../../user/search.rst:63
 msgid "``comment:TEXT``"
-msgstr ""
+msgstr "``comment:TEXTE``"
 
 #: ../../user/search.rst:64
 msgid "Search in user comments."
-msgstr ""
+msgstr "Recherche dans les commentaires des utilisateurs."
 
 #: ../../user/search.rst:65
 msgid "``comment_author:TEXT``"
-msgstr ""
+msgstr "``comment_author:TEXTE``"
 
 #: ../../user/search.rst:66
 msgid "Filter by comment author."
-msgstr ""
+msgstr "Filtrer par auteur de commentaire."
 
 #: ../../user/search.rst:67
 msgid "``suggestion:TEXT``"
-msgstr ""
+msgstr "``suggestion:TEXTE``"
 
 #: ../../user/search.rst:68
 msgid "Search in suggestions."
-msgstr ""
+msgstr "Recherche dans les suggestions."
 
 #: ../../user/search.rst:70
 msgid "``suggestion_author:TEXT``"
-msgstr ""
+msgstr "``suggestion_author:TEXTE``"
 
 #: ../../user/search.rst:70
 msgid "Filter by suggestion author."
-msgstr ""
+msgstr "Filtrer par auteur de suggestion."
 
 #: ../../user/search.rst:73
 msgid "Boolean operators"
-msgstr ""
+msgstr "Opérateurs booléens"
 
 #: ../../user/search.rst:75
 msgid ""
@@ -28309,44 +28331,49 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
+"Vous pouvez combiner des recherches en utilisant ``AND``, ``OR``, ``NOT`` et "
+"des parenthèses pour former des requêtes complexes. Par exemple : ``state:"
+"translated AND (source:hello OR source:bar)``"
 
 #: ../../user/search.rst:81
 msgid "Field operators"
-msgstr ""
+msgstr "Opérateurs de champs"
 
 #: ../../user/search.rst:83
 msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
 msgstr ""
+"Vous pouvez spécifier des opérateurs, des plages ou des recherches "
+"partielles pour les recherches de date ou numériques :"
 
 #: ../../user/search.rst:85
 msgid "``state:>=translated``"
-msgstr ""
+msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:86
 msgid "State is ``translated`` or better (``approved``)."
-msgstr ""
+msgstr "L’état est ``translated`` (traduit) ou mieux (``approved`` (approuvé))."
 
 #: ../../user/search.rst:87
 msgid "``changed:2019``"
-msgstr ""
+msgstr "``changed:2019``"
 
 #: ../../user/search.rst:88
 msgid "Changed in year 2019."
-msgstr ""
+msgstr "Modifié durant l’année 2019."
 
 #: ../../user/search.rst:90
 msgid "``changed:[2019-03-01 to 2019-04-01]``"
-msgstr ""
+msgstr "``changed:[2019-03-01 to 2019-04-01]``"
 
 #: ../../user/search.rst:90
 msgid "Changed between two given dates."
-msgstr ""
+msgstr "Modifié entre les deux dates fournies."
 
 #: ../../user/search.rst:93
 msgid "Exact operators"
-msgstr ""
+msgstr "Opérateurs exacts"
 
 #: ../../user/search.rst:95
 msgid ""
@@ -28356,10 +28383,17 @@ msgid ""
 "expressions, you can skip quotes. For example, to search for all source "
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
+"Vous pouvez effectuer une recherche de correspondance exacte sur différents "
+"champs de chaîne de caractères en utilisant l’opérateur ``=``. Par exemple, "
+"pour rechercher toutes les chaînes de caractères source correspondant "
+"exactement à ``hello world``, utilisez ``source:=\"hello world\"``. Pour la "
+"recherche d’expressions d’un seul mot, vous pouvez sauter les guillemets. "
+"Par exemple, pour rechercher toutes les chaînes de caractères source "
+"correspondants à ``hello``, vous pouvez utiliser ``source:=hello``."
 
 #: ../../user/search.rst:102
 msgid "Regular expressions"
-msgstr ""
+msgstr "Expressions rationnelles"
 
 #: ../../user/search.rst:104
 msgid ""
@@ -28367,24 +28401,33 @@ msgid ""
 "\"regexp\"``. For instance, to search for all source strings which contain "
 "any digit between 2 and 5, use: ``source:r\"[2-5]\"``"
 msgstr ""
+"Partout où le texte est accepté, vous pouvez également spécifier une "
+"expression rationnelle sous la forme ``r\"regexp\"``. Par exemple, pour "
+"rechercher toutes les chaînes de caractères source qui contiennent un "
+"chiffre compris entre 2 et 5, utilisez ``source:r\"[2-5]\"``."
 
 #: ../../user/search.rst:108
 msgid "Predefined queries"
-msgstr ""
+msgstr "Requêtes prédéfinies"
 
 #: ../../user/search.rst:110
 msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
 msgstr ""
+"Vous pouvez choisir parmi un certain nombre de requêtes prédéfinies sur la "
+"page de recherche, ce qui vous permet d’accéder rapidement aux recherches "
+"les plus fréquentes :"
 
 #: ../../user/search.rst:115
 msgid "Ordering the results"
-msgstr ""
+msgstr "Ordre des résultats"
 
 #: ../../user/search.rst:117
 msgid "There are many options to order the strings according to your needs:"
 msgstr ""
+"Il existe de nombreuses options pour ordonner les chaînes en fonction de vos "
+"besoins :"
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -28877,7 +28920,7 @@ msgid ""
 "`check-inconsistent`). You can choose which one to use."
 msgstr ""
 "Dans le cas où un message apparaît à plusieurs endroits (par exemple, "
-"plusieurs composants), cet onglet les affiche tous s'ils sont jugés "
+"plusieurs composants), cet onglet les affiche tous s’ils sont jugés "
 "incohérents (voir :ref:`check-inconsistent`). Vous pouvez choisir lequel "
 "utiliser."
 
@@ -28951,6 +28994,8 @@ msgid ""
 "Weblate can limit length of translation in several ways to ensure the "
 "translated string is not too long:"
 msgstr ""
+"Weblate peut limiter la longueur de la traduction de plusieurs façons pour s’"
+"assurer que la chaîne traduite n’est pas trop longue :"
 
 #: ../../user/translating.rst:240
 msgid ""
@@ -28961,17 +29006,28 @@ msgid ""
 "bilingual, making Weblate see translation key as source string instead of "
 "the actual source string. See :ref:`bimono` for more info."
 msgstr ""
+"La limite par défaut pour la traduction est dix fois plus longue que la "
+"chaîne source. Elle peut être désactivée à l’aide de "
+":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Dans le cas où vous "
+"atteignez cette limite, cela peut également être dû au fait que la "
+"traduction monolingue est configurée comme bilingue, ce qui fait que Weblate "
+"voit la clé de traduction comme chaîne source au lieu de la chaîne source "
+"réelle. Consultez :ref:`bimono` pour plus d’informations."
 
 #: ../../user/translating.rst:246
 msgid ""
 "Maximal length in characters defined by translation file or flag, see :ref:"
 "`check-max-length`."
 msgstr ""
+"Longueur maximale en caractères définie par le fichier de traduction ou le "
+"drapeau, voir :ref:`check-max-length`."
 
 #: ../../user/translating.rst:248
 msgid ""
 "Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`."
 msgstr ""
+"Taille maximale du rendu en pixels définie par des drapeaux, voir :ref"
+":`check-max-size`."
 
 #: ../../user/translating.rst:255
 msgid ""
@@ -28980,16 +29036,22 @@ msgid ""
 "Terms from the currently translated string can be displayed in the bottom "
 "tabs."
 msgstr ""
+"Chaque projet peut avoir un glossaire attribué pour n’importe quelle langue "
+"comme raccourci pour stocker la terminologie. La cohérence est plus "
+"facilement maintenue de cette manière. Les termes de la chaîne actuellement "
+"traduite peuvent être affichés dans les onglets inférieurs."
 
 #: ../../user/translating.rst:260
 msgid "Managing glossaries"
-msgstr ""
+msgstr "Gestion des glossaires"
 
 #: ../../user/translating.rst:262
 msgid ""
 "On the :guilabel:`Glossaries` tab of each project page, you can edit "
 "existing glossaries."
 msgstr ""
+"Vous pouvez éditer les glossaires existants dans l’onglet "
+":guilabel:`Glossaires` de chaque page de projet."
 
 #: ../../user/translating.rst:267
 msgid ""
@@ -28998,6 +29060,11 @@ msgid ""
 "and you can also choose to share them with another projects. You can do this "
 "only for projects you can administer."
 msgstr ""
+"Un glossaire vide pour un projet donné est automatiquement créé lors de la "
+"création du projet. Les glossaires sont partagés entre toutes les "
+"composantes d’un même projet et vous pouvez également choisir de les "
+"partager avec d’autres projets. Vous ne pouvez le faire que pour les projets "
+"que vous administrez."
 
 #: ../../user/translating.rst:272
 msgid ""
@@ -29006,6 +29073,11 @@ msgid ""
 "lead you to a page which can be used to edit, import or export the selected "
 "glossary, or view the edit history:"
 msgstr ""
+"Dans cette liste, vous pouvez choisir le glossaire à gérer (toutes les "
+"langues utilisées dans le projet en cours sont indiquées). En suivant un des "
+"liens de langue, vous serez dirigé vers une page qui peut être utilisée pour "
+"éditer, importer ou exporter le glossaire sélectionné, ou pour consulter l’"
+"historique des modifications :"
 
 #: ../../user/translating.rst:284
 msgid ""
@@ -29013,11 +29085,17 @@ msgid ""
 "suggestions from several machine translation tools. All machine translations "
 "are available in a single tab of each translation page."
 msgstr ""
+"En fonction de la configuration et de la langue que vous traduisez, Weblate "
+"vous fournit des suggestions provenant de plusieurs outils de traduction "
+"automatique. Toutes les traductions automatiques sont disponibles dans un "
+"seul onglet pour chaque page de traduction."
 
 #: ../../user/translating.rst:290
 msgid ""
 "You can find the list of supported tools in :ref:`machine-translation-setup`."
 msgstr ""
+"Vous pouvez trouver la liste des outils pris en charge dans :ref:`machine-"
+"translation-setup`."
 
 #: ../../user/translating.rst:297
 msgid ""
@@ -29026,30 +29104,40 @@ msgid ""
 "the :guilabel:`Tools` menu, once you have selected a component and a "
 "language:"
 msgstr ""
+"Vous pouvez utiliser la traduction automatique pour amorcer une traduction "
+"basée sur des sources externes. Cet outil s’appelle :guilabel:`Traduction "
+"automatique` accessible dans le menu :guilabel:`Outils`, une fois que vous "
+"avez sélectionné un composant et une langue."
 
 #: ../../user/translating.rst:302
 msgid "Two modes of operation are possible:"
-msgstr ""
+msgstr "Deux modes de fonctionnement sont possibles :"
 
 #: ../../user/translating.rst:304
 msgid "Using other Weblate components as a source for translations."
-msgstr ""
+msgstr "Utilisation d’autres composants Weblate comme source de traduction."
 
 #: ../../user/translating.rst:305
 msgid ""
 "Using selected machine translation services with translations above a "
 "certain quality threshold."
 msgstr ""
+"Utilisation de services de traduction automatique sélectionnés avec des "
+"traductions atteignant un certain seuil de qualité."
 
 #: ../../user/translating.rst:308
 msgid "You can also choose which strings are to be auto-translated."
 msgstr ""
+"Vous pouvez également choisir les chaînes de caractères qui doivent être "
+"traduites automatiquement."
 
 #: ../../user/translating.rst:312
 msgid ""
 "Be mindful that this will overwrite existing translations if employed with "
 "wide filters such as :guilabel:`All strings`."
 msgstr ""
+"Soyez conscient que cela remplacera les traductions existantes si elles sont "
+"utilisées avec des filtres larges tels que :guilabel:`Toutes les chaînes`."
 
 #: ../../user/translating.rst:315
 msgid ""
@@ -29058,6 +29146,10 @@ msgid ""
 "bootstrapping translation for a new component using existing translations "
 "(translation memory)."
 msgstr ""
+"Cela peut s’avérer utile dans plusieurs situations, notamment lors de la "
+"consolidation de la traduction entre différents composants (par exemple, "
+"site web et application) ou de l’amorçage d’une traduction pour un nouveau "
+"composant en utilisant des traductions existantes (mémoire de traduction)."
 
 #: ../../user/translating.rst:329
 msgid ""
@@ -29066,12 +29158,18 @@ msgid ""
 "are hit by this, you are blocked for a certain period until you can perform "
 "the operation again."
 msgstr ""
+"Pour éviter les abus de l’interface, il y a une limitation appliquée à "
+"plusieurs opérations comme la recherche, l’envoi du formulaire de contact ou "
+"la traduction. Si vous êtes touché par cela, vous êtes bloqué pendant un "
+"certain temps jusqu’à ce que vous puissiez recommencer l’opération."
 
 #: ../../user/translating.rst:334
 msgid ""
 "The default limits are described in the administrative manual in :ref:`rate-"
 "limit`, but can be tweaked by configuration."
 msgstr ""
+"Les limites par défaut sont décrites dans le manuel d’administration dans "
+":ref:`rate-limit`, mais elles peuvent être configurées."
 
 #: ../../user/translating.rst:342
 msgid ""
@@ -29079,29 +29177,37 @@ msgid ""
 "search strings and operation to perform and all matching strings are "
 "updated. Following operations are supported:"
 msgstr ""
+"La modification en masse vous permet d’effectuer des opérations sur un "
+"certain nombre de chaînes de caractères. Vous définissez les chaînes de "
+"recherche et l’opération à effectuer et toutes les chaînes correspondantes "
+"sont mises à jour. Les opérations suivantes sont prises en charge :"
 
 #: ../../user/translating.rst:346
 msgid ""
 "Changing string state (for example to approve all strings waiting for review)"
 msgstr ""
+"Changement de l’état des chaînes (par exemple pour approuver toutes les "
+"chaînes en attente de révision)"
 
 #: ../../user/translating.rst:347
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
-msgstr ""
+msgstr "Ajustement des drapeaux de traduction (voir :ref:`custom-checks`)"
 
 #: ../../user/translating.rst:348
 msgid "Adjust string labels (see :ref:`labels`)"
-msgstr ""
+msgstr "Ajustement des libellés de chaînes de caractères (voir :ref:`labels`)"
 
 #: ../../user/translating.rst:352
 msgid ""
 "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
 "`Tools` menu for each project, component or translation."
 msgstr ""
+"Cet outil est appelé :guilabel:`Modification en masse` accessible dans le "
+"menu :guilabel:`Outils` pour chaque projet, composant et traduction."
 
 #: ../../user/translating.rst:359
 msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
-msgstr ""
+msgstr ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
