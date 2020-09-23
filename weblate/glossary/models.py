@@ -313,9 +313,10 @@ class Term(models.Model):
 @disable_for_loaddata
 def create_glossary(sender, instance, created, **kwargs):
     """Creates glossary on project creation."""
+    project = instance.project
     glossaries = {
         glossary.source_language_id: glossary
-        for glossary in instance.project.glossary_set.iterator()
+        for glossary in project.glossary_set.iterator()
     }
 
     # Does the glossary for source language exist?
@@ -323,13 +324,12 @@ def create_glossary(sender, instance, created, **kwargs):
         return
 
     if glossaries:
-        name = "{}: {}".format(instance.project, instance.source_language.name)
+        name = "{}: {}".format(project, instance.source_language.name)
     else:
-        name = instance.project
+        name = project.name
 
-    Glossary.objects.create(
+    project.glossary_set.get_or_create(
         name=name,
         color="silver",
-        project=instance.project,
         source_language=instance.source_language,
     )
