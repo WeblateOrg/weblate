@@ -210,8 +210,9 @@ class CreateComponent(BaseCreateView):
             )
         except FileNotFoundError:
             return
-        except (OSError, subprocess.CalledProcessError):
-            report_error(cause="Failed licensee invocation")
+        except (OSError, subprocess.CalledProcessError) as error:
+            if getattr(error, "returncode", 0) != 1:
+                report_error(cause="Failed licensee invocation")
             return
         result = json.loads(process_result.stdout)
         for license_data in result["licenses"]:
