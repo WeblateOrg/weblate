@@ -430,6 +430,10 @@ class Translation(
         # Invalidate keys cache
         transaction.on_commit(self.invalidate_keys)
 
+        # Use up to date list as prefetch for source
+        if self.is_source:
+            self.component.preload_sources(updated)
+
     def do_update(self, request=None, method=None):
         return self.component.do_update(request, method=method)
 

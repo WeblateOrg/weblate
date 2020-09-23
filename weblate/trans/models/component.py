@@ -906,11 +906,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 language_code=language.code,
             )
 
-    def preload_sources(self):
+    def preload_sources(self, sources=None):
         """Preload source objects to improve performance on load."""
-        self._sources = {
-            source.id_hash: source for source in self.source_translation.unit_set.all()
-        }
+        if sources is not None:
+            self._sources = sources
+        else:
+            self._sources = {
+                source.id_hash: source
+                for source in self.source_translation.unit_set.all()
+            }
         self._sources_prefetched = True
 
     def get_source(self, id_hash, create=None):
