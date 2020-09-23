@@ -417,6 +417,26 @@ class Profile(models.Model):
         verbose_name=_("Website URL"),
         blank=True,
     )
+    liberapay = models.SlugField(
+        verbose_name=_("Liberapay username"),
+        blank=True,
+        help_text=_(
+            "Liberapay is a platform to donate money to teams, "
+            "organizations and individuals."
+        ),
+    )
+    fediverse = models.URLField(
+        verbose_name=_("Fediverse URL"),
+        blank=True,
+        help_text=_(
+            "Link to your fediverse profile with services like Mastodon or diaspora*."
+        ),
+    )
+    codesite = models.URLField(
+        verbose_name=_("Code site URL"),
+        blank=True,
+        help_text=_("Link to your code profile with services like Codeberg or GitLab."),
+    )
     github = models.SlugField(
         verbose_name=_("GitHub username"),
         blank=True,

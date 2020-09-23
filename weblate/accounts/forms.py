@@ -172,12 +172,15 @@ class ProfileForm(ProfileBaseForm):
         model = Profile
         fields = (
             "website",
+            "public_email",
+            "liberapay",
+            "codesite",
             "github",
+            "fediverse",
             "twitter",
             "linkedin",
             "location",
             "company",
-            "public_email",
         )
 
     def __init__(self, *args, **kwargs):
