@@ -436,7 +436,7 @@ class Profile(models.Model):
     codesite = models.URLField(
         verbose_name=_("Code site URL"),
         blank=True,
-        help_text=_("Link to your code profile with services like Codeberg or GitLab."),
+        help_text=_("Link to your code profile for services like Codeberg or GitLab."),
     )
     github = models.SlugField(
         verbose_name=_("GitHub username"),
