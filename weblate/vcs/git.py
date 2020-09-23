@@ -985,13 +985,17 @@ class GitLabRepository(GitMergeRequestBase):
             json=request,
         ).json()
 
-        # Log messages
-        if "message" in response and isinstance(response["message"], list):
-            for message in response["message"]:
-                self.log(message, level=logging.INFO)
+        # Extract messages
+        messages = response.get("message", [])
+        if not isinstance(messages, list):
+            messages = [messages]
 
-        if "web_url" not in response and (
-            not isinstance(response["message"], list)
-            or response["message"][0].find("open merge request already exists") == -1
+        # Log messages
+        for message in messages:
+            self.log(message, level=logging.INFO)
+
+        if (
+            "web_url" not in response
+            and "open merge request already exists" not in messages[0]
         ):
-            raise RepositoryException(-1, ", ".join(response["message"]))
+            raise RepositoryException(-1, ", ".join(messages))
