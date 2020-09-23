@@ -11,3 +11,12 @@
 {% trans "Pay the bills to unlock this project." as msg %}
 {% show_message "warning" msg %}
 {% endif %}
+
+{% if offer_hosting %}
+  {% for billing in object.project.billing_set.all %}
+    {% if billing.is_trial and billing.plan.price == 0 %}
+      {% trans "This project is in the trial period, so be cautious before you contribute. Things like license or repository can still change before being approved as a libre project." as msg %}
+      {% show_message "warning" msg %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
