@@ -397,7 +397,7 @@ class Profile(models.Model):
     dashboard_component_list = models.ForeignKey(
         "trans.ComponentList",
         verbose_name=_("Default component list"),
-        on_delete=models.deletion.CASCADE,
+        on_delete=models.deletion.SET_NULL,
         blank=True,
         null=True,
     )
