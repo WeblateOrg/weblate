@@ -659,6 +659,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             changed_setup = (
                 (old.file_format != self.file_format)
                 or (old.edit_template != self.edit_template)
+                or (old.new_base != self.new_base)
                 or changed_template
             )
             if changed_setup:
@@ -1737,6 +1738,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         was_change = False
         translations = {}
         languages = {}
+        matches = self.get_mask_matches()
+
+        source_file = self.template
 
         if self.has_template():
             # Avoid parsing if template is invalid
@@ -1749,27 +1753,35 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.update_import_alerts()
                 raise
         else:
+            # This creates the translation when necessary
             translation = self.source_translation
 
-            # Always include source language to avoid parsing matching files
-            languages[self.source_language.code] = self.source_language.code
-            translations[translation.id] = translation
+            if self.file_format == "po" and self.new_base.endswith(".pot"):
+                # Process pot file as source to include additiona metadata
+                matches = [self.new_base] + matches
+                source_file = self.new_base
+            else:
+                # Always include source language to avoid parsing matching files
+                languages[self.source_language.code] = self.source_language.code
+                translations[translation.id] = translation
 
             # Delete old source units after change from monolingual to bilingual
             if changed_template:
                 translation.unit_set.all().delete()
 
-        matches = self.get_mask_matches()
         if self.translations_count != -1:
             self.translations_progress = 0
             self.translations_count = len(matches) + sum(
                 (c.translation_set.count() for c in self.linked_childs)
             )
         for pos, path in enumerate(matches):
-            if not self._sources_prefetched and path != self.template:
+            if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
-                code = self.get_lang_code(path)
+                if path == source_file:
+                    code = self.source_language.code
+                else:
+                    code = self.get_lang_code(path)
                 if langs is not None and code not in langs:
                     self.log_info("skipping %s", path)
                     continue
