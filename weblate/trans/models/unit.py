@@ -437,6 +437,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         translation = self.translation
         component = translation.component
         self.is_batch_update = True
+        self.source_updated = True
         # Get unit attributes
         try:
             location = unit.locations
