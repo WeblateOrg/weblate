@@ -1160,7 +1160,7 @@ Container settings
 In case you have lot of CPU cores and hit out of memory issues, try reducing
 number of workers:
 
-.. code-block:: yaml:
+.. code-block:: yaml
 
     environment:
       UWSGI_WORKERS: 4
