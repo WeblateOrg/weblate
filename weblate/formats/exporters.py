@@ -110,7 +110,7 @@ class BaseExporter:
         self.storage.addunit(unit)
 
     def add_units(self, units):
-        for unit in units.iterator():
+        for unit in units:
             self.add_unit(unit)
 
     def build_unit(self, unit):
@@ -141,11 +141,11 @@ class BaseExporter:
         if note:
             output.addnote(note, origin="developer")
         # In Weblate explanation
-        note = self.string_filter(unit.explanation)
+        note = self.string_filter(unit.source_unit.explanation)
         if note:
             output.addnote(note, origin="developer")
         # Comments
-        for comment in unit.all_comments:
+        for comment in unit.unresolved_comments:
             output.addnote(comment.comment, origin="translator")
         # Suggestions
         for suggestion in unit.suggestions:
