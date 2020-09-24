@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-23 15:15+0200\n"
-"PO-Revision-Date: 2020-09-22 09:48+0000\n"
-"Last-Translator: Константин Талалов <eleferen@gmail.com>\n"
+"PO-Revision-Date: 2020-09-24 14:26+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -2106,14 +2106,6 @@ msgid ":doc:`psa:pipeline`"
 msgstr ":doc:`Конвейер <psa:pipeline>`"
 
 #: ../../admin/auth.rst:54
-#, fuzzy
-#| msgid ""
-#| "Enabling individual backends is quite easy, it's just a matter of adding "
-#| "an entry to the ``AUTHENTICATION_BACKENDS`` setting and possibly adding "
-#| "keys needed for a given authentication method. Please note that some "
-#| "backends do not provide user e-mail by default, you have to request it "
-#| "explicitly, otherwise Weblate will not be able to properly credit "
-#| "contributions users make."
 msgid ""
 "Enabling individual backends is quite easy, it's just a matter of adding an "
 "entry to the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly "
@@ -2123,9 +2115,9 @@ msgid ""
 "contributions users make."
 msgstr ""
 "Включить отдельный способ довольно просто, это всего лишь вопрос добавления "
-"записи в параметр ``AUTHENTICATION_BACKENDS`` и, возможно, ключей, "
-"необходимых для заданного способа аутентификации. Пожалуйста, обратите "
-"внимание, что некоторые способы по умолчанию не предоставляют адрес "
+"записи в параметр :setting:`django:AUTHENTICATION_BACKENDS` и, возможно, "
+"ключей, необходимых для заданного способа аутентификации. Пожалуйста, "
+"обратите внимание, что некоторые способы по умолчанию не предоставляют адрес "
 "электронной почты пользователя, в этом случае вы должны запросить её явно, "
 "иначе Weblate не сможет правильно указать авторство выполненных "
 "пользователями переводов."
@@ -2497,15 +2489,6 @@ msgstr ""
 "Django:"
 
 #: ../../admin/auth.rst:471
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the "
-#| "``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set "
-#| "their password in Weblate, and authenticate using that. Keeping "
-#| "``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order "
-#| "to make permissions and facilitate anonymous users. It will also allow "
-#| "you to sign in using a local admin account, if you have created it (e.g. "
-#| "by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -2516,13 +2499,13 @@ msgid ""
 "djadmin:`createadmin`)."
 msgstr ""
 "Вы должны удалить значение ``'social_core.backends.email.EmailAuth'`` из "
-"параметра ``AUTHENTICATION_BACKENDS``, в противном случае пользователи "
-"смогут установить в Weblate свой пароль и пройти аутентификацию, используя "
-"его. Оставление ``'weblate.accounts.auth.WeblateUserBackend'`` необходимо "
-"для того, чтобы работали разрешения и анонимные пользователи. Также он "
-"позволит вам войти в систему, используя учётную запись локального "
-"администратора, если вы его создали (например, с помощью команды :djadmin:"
-"`createadmin`)."
+"параметра :setting:`django:AUTHENTICATION_BACKENDS`, в противном случае "
+"пользователи смогут установить в Weblate свой пароль и пройти "
+"аутентификацию, используя его. Оставление ``'weblate.accounts.auth."
+"WeblateUserBackend'`` необходимо для того, чтобы работали разрешения и "
+"анонимные пользователи. Также он позволит вам войти в систему, используя "
+"учётную запись локального администратора, если вы его создали (например, с "
+"помощью команды :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
@@ -5119,19 +5102,14 @@ msgid "List for credentials for GitLab servers."
 msgstr "Список учётных данных для серверов GitLab’а."
 
 #: ../../admin/config.rst:586
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
-#| "`GITLAB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
 "`GITLAB_TOKEN`."
 msgstr ""
 "Используйте его в случае, если вы хотите, чтобы для одной конечной точки "
-"GitLab’а, определяемой параметрами :setting:`GITLAB_USERNAME` и :setting:"
-"`GITLAB_TOKEN`, Weblate взаимодействовал с несколькими серверами."
+"GitLab’а, определяемой параметрами :setting:`GITLAB_USERNAME` и "
+":setting:`GITLAB_TOKEN`, Weblate взаимодействовал с несколькими серверами."
 
 #: ../../admin/config.rst:606
 msgid "GITLAB_USERNAME"
@@ -6230,10 +6208,8 @@ msgstr ""
 "аутентификации."
 
 #: ../../admin/config.rst:1465
-#, fuzzy
-#| msgid ":setting:`REGISTRATION_OPEN`"
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
-msgstr ":setting:`REGISTRATION_OPEN`"
+msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
 #: ../../admin/config.rst:1471
 msgid "REGISTRATION_CAPTCHA"
@@ -6332,15 +6308,12 @@ msgstr ""
 "создавать учётные записи."
 
 #: ../../admin/config.rst:1521
-#, fuzzy
-#| msgid ""
-#| ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
-#| "`REGISTRATION_EMAIL_MATCH`"
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
-":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1528
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -10686,15 +10659,12 @@ msgid "Machine translation settings"
 msgstr "Параметры машинного перевода"
 
 #: ../../admin/install/docker.rst:574
-#, fuzzy
-#| msgid ""
-#| "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
 msgid ""
 "Enables :ref:`apertium` machine translation and sets :setting:"
 "`MT_APERTIUM_APY`"
 msgstr ""
-"Включает машинный перевод от :ref:`deepl` и устанавливает параметр :setting:"
-"`MT_DEEPL_KEY`"
+"Включает машинный перевод от :ref:`apertium` и устанавливает параметр "
+":setting:`MT_APERTIUM_APY`"
 
 #: ../../admin/install/docker.rst:580
 msgid "Configures :ref:`aws` machine translation."
@@ -13400,6 +13370,8 @@ msgstr "importuserdata"
 #: ../../admin/management.rst:518
 msgid "Imports user data from a file created by :djadmin:`dumpuserdata`"
 msgstr ""
+"Импортирует данные пользователя из файла, созданного командой "
+":djadmin:`dumpuserdata`"
 
 #: ../../admin/management.rst:521
 msgid "importusers"
@@ -13407,17 +13379,22 @@ msgstr "importusers"
 
 #: ../../admin/management.rst:525
 msgid "Imports users from JSON dump of the Django auth_users database."
-msgstr ""
+msgstr "Импортирует пользователей из JSON-дампа Django базы данных auth_users."
 
 #: ../../admin/management.rst:530
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
 msgstr ""
+"С этим параметром она просто проверит, можно ли импортировать данный файл и "
+"сообщит о возможных конфликтах, связанных с именами пользователей или их "
+"адресами электронной почты."
 
 #: ../../admin/management.rst:533
 msgid "You can dump users from the existing Django installation using:"
 msgstr ""
+"Выгрузить пользователей из существующей установки Django вы можете при "
+"помощи команды:"
 
 #: ../../admin/management.rst:540
 msgid "install_addon"
@@ -13440,7 +13417,7 @@ msgstr ""
 
 #: ../../admin/management.rst:558
 msgid "Update the existing addon configuration."
-msgstr "Обновить существующую конфигурацию дополнения."
+msgstr "Обновляет существующую конфигурацию надстройки."
 
 #: ../../admin/management.rst:560
 msgid ""
@@ -13452,7 +13429,8 @@ msgstr ""
 #: ../../admin/management.rst:563
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
 msgstr ""
-"Установить :ref:`addon-weblate.gettext.customize` для всех компонентов:"
+"Для установки надстройки :ref:`addon-weblate.gettext.customize` для всех "
+"компонентов:"
 
 #: ../../admin/management.rst:574
 msgid "list_languages"
@@ -13463,14 +13441,16 @@ msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
 msgstr ""
+"Перечисляет поддерживаемые языки в разметке MediaWiki — коды языков, "
+"английские названия и локализованные названия."
 
 #: ../../admin/management.rst:581
-#, fuzzy
-#| msgid "This is used to generate <https://wiki.l10n.cz/Jazyky>."
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
 "%C3%A1zvy_jazyk%C5%AF>."
-msgstr "Это используется, чтобы сгенерировать <https://wiki.l10n.cz/Jazyky>."
+msgstr ""
+"Используется для генерации `словаря с названиями языков <https://wiki.l10n."
+"cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>`__."
 
 #: ../../admin/management.rst:584
 msgid "list_translators"
@@ -17501,10 +17481,8 @@ msgstr ""
 "(string:project)/changes/`"
 
 #: ../../api.rst:788
-#, fuzzy
-#| msgid "Edit a component by a patch request."
 msgid "Edit a project by a patch request."
-msgstr "Редактирует компонент запросом на исправление."
+msgstr "Редактирует проект запросом на исправление."
 
 #: ../../api.rst:792 ../../api.rst:1054 ../../api.rst:1150 ../../api.rst:1233
 #: ../../api.rst:1253 ../../api.rst:1263 ../../api.rst:1273 ../../api.rst:1284
@@ -17517,10 +17495,8 @@ msgid "Component URL slug"
 msgstr "URL-плашка компонента"
 
 #: ../../api.rst:799
-#, fuzzy
-#| msgid "Edit a component by a put request."
 msgid "Edit a project by a put request."
-msgstr "Редактирует компонент запросом на замену."
+msgstr "Редактирует проект запросом на замену."
 
 #: ../../api.rst:808
 msgid "Deletes a project."
@@ -18451,43 +18427,37 @@ msgstr "идентификатор единицы перевода"
 #: ../../api.rst:1868 ../../api.rst:1883 ../../api.rst:1896
 msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
+"Объяснение строки, доступно на исходных единицах перевода, смотрите раздел "
+":ref:`additional`"
 
 #: ../../api.rst:1869 ../../api.rst:1884 ../../api.rst:1897
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
-msgstr "Корректировка флагов перевода (смотрите раздел :ref:`custom-checks`)"
+msgstr ""
+"Дополнительные флаги строки, доступны на исходных единицах перевода, "
+"смотрите раздел :ref:`custom-checks`"
 
 #: ../../api.rst:1870
 msgid "URL where the unit can be edited"
 msgstr "URL-адрес, по которому можно отредактировать единицу перевода"
 
 #: ../../api.rst:1871
-#, fuzzy
-#| msgid "Source string information link; see :http:get:`/api/units/(int:id)/`"
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
-"Ссылка на информацию по исходной строке; смотрите описание :http:get:`/api/"
-"units/(int:id)/`"
+"Ссылка на исходную единицу перевода; смотрите описание :http:get:`/api/units/"
+"(int:id)/`"
 
 #: ../../api.rst:1877
-#, fuzzy
-#| msgid "Returns information about translation unit."
 msgid "Performs partial update on translation unit."
-msgstr "Возвращает информацию о единице перевода."
+msgstr "Выполняет частичное обновление единицы перевода."
 
 #: ../../api.rst:1890
-#, fuzzy
-#| msgid "Returns list of translation units."
 msgid "Performs full update on translation unit."
-msgstr "Возвращает список единиц перевода."
+msgstr "Выполняет полное обновление единицы перевода."
 
 #: ../../api.rst:1903
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Deletes a translation unit."
-msgstr "Удаляет перевод."
+msgstr "Удаляет единицу перевода."
 
 #: ../../api.rst:1917
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -18727,111 +18697,81 @@ msgid ""
 "Returns a list of all glossaries which are associated with a project that "
 "user has access to."
 msgstr ""
+"Возвращает список всех связанных с проектом глоссариев, к которым у "
+"пользователя есть доступ."
 
 #: ../../api.rst:2142
-#, fuzzy
-#| msgid "Returns information about a role."
 msgid "Returns information about a glossary."
-msgstr "Возвращает информацию о роли."
+msgstr "Возвращает информацию о глоссарии."
 
 #: ../../api.rst:2144 ../../api.rst:2224 ../../api.rst:2234 ../../api.rst:2244
 #: ../../api.rst:2251 ../../api.rst:2259 ../../api.rst:2267 ../../api.rst:2275
 #: ../../api.rst:2282 ../../api.rst:2292 ../../api.rst:2301 ../../api.rst:2313
 #: ../../api.rst:2325
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary id"
-msgstr "Глоссарий"
+msgstr "Идентификатор глоссария"
 
 #: ../../api.rst:2222 ../../api.rst:2232
-#, fuzzy
-#| msgid "Changes the user parameters."
 msgid "Changes the glossary parameters."
-msgstr "Изменяет параметры пользователя."
+msgstr "Изменяет параметры глоссария."
 
 #: ../../api.rst:2242
-#, fuzzy
-#| msgid "Deletes the role."
 msgid "Deletes the Glossary."
-msgstr "Удаляет роль."
+msgstr "Удаляет глоссарий."
 
 #: ../../api.rst:2249
 msgid "Returns projects linked with a glossary."
-msgstr ""
+msgstr "Возвращает проекты, связанные с глоссарием."
 
 #: ../../api.rst:2253
-#, fuzzy
-#| msgid ""
-#| "link to associated projects; see :http:get:`/api/projects/(string:"
-#| "project)/`"
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
-"ссылка на связанные проекты; смотрите описание :http:get:`/api/projects/"
+"связанные проекты; смотрите описание :http:get:`/api/projects/"
 "(string:project)/`"
 
 #: ../../api.rst:2257
-#, fuzzy
-#| msgid "Associate projects with a group."
 msgid "Associate project with a glossary."
-msgstr "Связывает проекты с группой."
+msgstr "Связывает проект с глоссарием."
 
 #: ../../api.rst:2265
-#, fuzzy
-#| msgid "Associate projects with a group."
 msgid "Remove asoociate of a project with a glossary."
-msgstr "Связывает проекты с группой."
+msgstr "Удаляет связь проекта с глоссарием."
 
 #: ../../api.rst:2273
-#, fuzzy
-#| msgid "Add term to glossary"
 msgid "List terms of a glossary."
-msgstr "Добавить термин в глоссарий"
+msgstr "Перечисляет термины в глоссарии."
 
 #: ../../api.rst:2280
-#, fuzzy
-#| msgid "Associate roles with a group."
 msgid "Associate terms with a glossary."
-msgstr "Связывает роли с группой."
+msgstr "Связывает термины с глоссарием."
 
 #: ../../api.rst:2284 ../../api.rst:2305 ../../api.rst:2317
-#, fuzzy
-#| msgid "Language filter"
 msgid "Language of the term"
-msgstr "Языковой фильтр"
+msgstr "Язык термина"
 
 #: ../../api.rst:2285 ../../api.rst:2306 ../../api.rst:2318
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string for the term"
-msgstr "Комментарий к исходной строке"
+msgstr "Исходная строка термина"
 
 #: ../../api.rst:2286 ../../api.rst:2307 ../../api.rst:2319
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string for the term"
-msgstr "Целевые строки"
+msgstr "Целевая строка термина"
 
 #: ../../api.rst:2290
-#, fuzzy
-#| msgid "Get a subscription associated with a user."
 msgid "Get a term associated with a glossary."
-msgstr "Возвращает связанную с пользователем подписку."
+msgstr "Возвращает связанный с глоссарием термин."
 
 #: ../../api.rst:2294 ../../api.rst:2303 ../../api.rst:2315 ../../api.rst:2327
 msgid "ID of term"
-msgstr ""
+msgstr "Идентификатор термина"
 
 #: ../../api.rst:2299 ../../api.rst:2311
-#, fuzzy
-#| msgid "Edit a subscription associated with a user."
 msgid "Edit a term associated with a glossary."
-msgstr "Редактирует связанную с пользователем подписку."
+msgstr "Редактирует связанный с глоссарием термин."
 
 #: ../../api.rst:2323
-#, fuzzy
-#| msgid "Delete a subscription associated with a user."
 msgid "Delete a term associated with a glossary."
-msgstr "Удаляет связанную с пользователем подписку."
+msgstr "Удаляет связанный с глоссарием термин."
 
 #: ../../api.rst:2333
 msgid "Notification hooks"
@@ -19228,44 +19168,38 @@ msgstr ""
 "GitHub’а."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ""
-#| "Extended API with project, component and translation removal and creation."
 msgid ""
 "Extended API to cover project updates, unit updates and removals and "
 "glossaries."
 msgstr ""
-"API расширен методами удаления и создания проекта, компонента и перевода."
+"API расширен для покрытия обновления проектов, обновления и удаления единиц "
+"перевода и глоссариев."
 
 #: ../../changes.rst:21
 msgid "Unit API now properly handles plural strings."
 msgstr ""
+"API единицы перевода теперь правильно обрабатывает строки с формами "
+"множественного числа."
 
 #: ../../changes.rst:22
 msgid "Consolidated API response status codes."
-msgstr ""
+msgstr "Единообразие в кодах состояний ответа API."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "Support markdown in contributor agreement."
-msgstr "Cмотреть соглашение участников"
+msgstr "Поддержка разметки markdown в соглашении участника."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved searching for string."
 msgid "Improved source strings tracking."
-msgstr "Улучшен поиск строк."
+msgstr "Улучшено отслеживание исходных строк."
 
 #: ../../changes.rst:25
 msgid "Improved JSON, YAML and CSV formats compatibility."
-msgstr ""
+msgstr "Улучшена совместимость с форматами JSON, YAML и CSV."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added support for read only strings."
 msgid "Added support for removing strings."
-msgstr "Добавлена поддержка строк только для чтения."
+msgstr "Добавлена поддержка удаления строк."
 
 #: ../../changes.rst:29
 msgid "Weblate 4.2.2"
@@ -24992,83 +24926,71 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:2
 msgid "Data schemas"
-msgstr ""
+msgstr "Схемы данных"
 
 #: ../../contributing/schemas.rst:4
 msgid ""
 "Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of "
 "external JSON files."
 msgstr ""
+"Для определения структуры внешних JSON-файлов Weblate использует `JSON-схему "
+"<https://json-schema.org/>`_."
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Weblate Translation Memory"
 msgid "Weblate Translation Memory Schema"
-msgstr "Память переводов Weblate’а"
+msgstr "Схема памяти переводов Weblate’а"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Key type"
 msgid "type"
-msgstr "Тип ключа"
+msgstr "тип"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
-msgstr ""
+msgstr "*массив*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "items"
-msgstr ""
+msgstr "элементы"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Translation Memory"
 msgid "*The Translation Memory Item*"
-msgstr "Память переводов"
+msgstr "*Элемент памяти переводов*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Object"
 msgid "*object*"
-msgstr "Объект"
+msgstr "*объект*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "GWT properties"
 msgid "properties"
-msgstr "Файлы свойств GWT"
+msgstr "свойства"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Category"
 msgid "**category**"
-msgstr "Категория"
+msgstr "**category**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String state"
 msgid "*The String Category*"
-msgstr "Состояние строки"
+msgstr "*Категория строки*"
 
 #: ../../contributing/schemas.rst:9
 msgid ""
 "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user "
 "specific"
 msgstr ""
+"1 — глобальная, 2 — общая, 10000000+ — специфичная для проекта, 20000000+ — "
+"специфичная для пользователя"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*integer*"
-msgstr ""
+msgstr "*целое число*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Examples"
 msgid "examples"
-msgstr "Примеры"
+msgstr "примеры"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../workflows.rst:95
@@ -25077,7 +24999,7 @@ msgstr "1"
 
 #: ../../contributing/schemas.rst:9
 msgid "minimum"
-msgstr ""
+msgstr "минимум"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
@@ -25086,136 +25008,108 @@ msgid "0"
 msgstr "0"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default font"
 msgid "default"
-msgstr "Шрифт по умолчанию"
+msgstr "значение по умолчанию"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Origin"
 msgid "**origin**"
-msgstr "Происхождение"
+msgstr "**origin**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
-msgstr ""
+msgstr "*Происхождение строки*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "name of component"
 msgid "Filename or component name"
-msgstr "название компонента"
+msgstr "Имя файла или название компонента"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Strings"
 msgid "*string*"
-msgstr "Строки"
+msgstr "*строка*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test"
-msgstr ""
+msgstr "test"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "pattern"
-msgstr ""
+msgstr "шаблон"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.\\*)$"
-msgstr ""
+msgstr "^(.\\*)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**source**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source string"
 msgid "*The Source String*"
-msgstr "Исходная строка"
+msgstr "*Исходная строка*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Yellow"
 msgid "Hello"
-msgstr "Жёлтый"
+msgstr "Hello"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.+)$"
-msgstr ""
+msgstr "^(.+)$"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "**source\\_language**"
-msgstr "Исходный язык"
+msgstr "**source\\_language**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Source language"
 msgid "*The Source Language*"
-msgstr "Исходный язык"
+msgstr "*Исходный язык*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
-msgstr ""
+msgstr "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Zen"
 msgid "en"
-msgstr "Дзен"
+msgstr "en"
 
 #: ../../contributing/schemas.rst:9
 msgid "^([^ ]+)$"
-msgstr ""
+msgstr "^([^ ]+)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr ""
+msgstr "**target**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Target strings"
 msgid "*The Target String*"
-msgstr "Целевые строки"
+msgstr "*Целевая строка*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
-msgstr ""
+msgstr "Привет"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "**target\\_language**"
-msgstr "Целевой язык строки"
+msgstr "**target\\_language**"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "String target language"
 msgid "*The Target Language*"
-msgstr "Целевой язык строки"
+msgstr "*Целевой язык*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
-msgstr ""
+msgstr "ru"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Additional projects"
 msgid "additionalProperties"
-msgstr "Дополнительные проекты"
+msgstr "дополнительные свойства"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
-msgstr ""
+msgstr "False"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language definitions"
 msgid "definitions"
-msgstr "Определения языка"
+msgstr "определения"
 
 #: ../../contributing/schemas.rst:12
 msgid ""
@@ -25225,142 +25119,103 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:None
 msgid "Weblate user data export"
-msgstr "Экспорт пользовательских данных Weblate"
+msgstr "Файл экспорта данных пользователя Weblate’а"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "https://docs.weblate.org/en/latest/admin/install.html"
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
-msgstr "https://docs.weblate.org/ru/latest/admin/install.html"
+msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr ""
+msgstr "**basic**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Basic"
 msgid "*Basic*"
-msgstr "Базовый"
+msgstr "*Основные данные*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "**username**"
-msgstr "Имя пользователя"
+msgstr "**username**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "*Username*"
-msgstr "Имя пользователя"
+msgstr "*Имя пользователя*"
 
 #: ../../contributing/schemas.rst:19
 msgid "admin"
-msgstr "админ"
+msgstr "admin"
 
 #: ../../contributing/schemas.rst:19
 msgid "^.\\*$"
-msgstr ""
+msgstr "^.\\*$"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "**full\\_name**"
-msgstr "Полное имя"
+msgstr "**full\\_name**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "*Full name*"
-msgstr "Полное имя"
+msgstr "*Полное имя*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "Weblate Admin"
-msgstr "Клиент Weblate"
+msgstr "Администратор Weblate"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
-msgstr ""
+msgstr "**email**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "*E-mail*"
-msgstr "Электронная почта"
+msgstr "*Адрес электронной почты*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "allan@example.com"
 msgid "noreply@example.com"
-msgstr "allan@example.com"
+msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "**date\\_joined**"
-msgstr "Дата присоединения"
+msgstr "**date\\_joined**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "*Date joined*"
-msgstr "Дата присоединения"
+msgstr "*Дата присоединения*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
-msgstr ""
+msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "**profile**"
-msgstr "Профиль"
+msgstr "**profile**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "*Profile*"
-msgstr "Профиль"
+msgstr "*Профиль*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Per language"
 msgid "**language**"
-msgstr "По языку"
+msgstr "**language**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language"
 msgid "*Language*"
-msgstr "Язык"
+msgstr "*Язык*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Suggested"
 msgid "**suggested**"
-msgstr "Предложено"
+msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "*Number of suggested strings*"
-msgstr "Количество исходных строк"
+msgstr "*Количество предложенных строк*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "translated"
 msgid "**translated**"
-msgstr "переведено"
+msgstr "**translated**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "*Number of translated strings*"
-msgstr "Количество переведённых строк"
+msgstr "*Количество переведённых строк*"
 
 #: ../../contributing/schemas.rst:19 ../../devel/reporting-example.rst:4
 #: ../../devel/reporting-example.rst:5
@@ -25368,34 +25223,28 @@ msgid "24"
 msgstr "24"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "**uploaded**"
-msgstr "Загружено"
+msgstr "**uploaded**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "*Number of uploaded screenshots*"
-msgstr "Количество загруженных общих записей"
+msgstr "*Количество загруженных снимков экрана*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
-msgstr ""
+msgstr "**hide\\_completed**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "*Hide completed translations on the dashboard*"
-msgstr "Скрывать завершённые переводы с панели управления"
+msgstr "*Скрывать завершённые переводы с панели управления*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
-msgstr ""
+msgstr "*логический*"
 
 #: ../../contributing/schemas.rst:19
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
