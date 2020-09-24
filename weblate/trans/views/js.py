@@ -148,7 +148,7 @@ def ignore_check_source(request, check_id):
     if ignore not in flags:
         flags.merge(ignore)
         unit.extra_flags = flags.format()
-        unit.save()
+        unit.save(same_content=True)
 
     # response for AJAX
     return HttpResponse("ok")

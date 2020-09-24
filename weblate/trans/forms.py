@@ -1010,6 +1010,13 @@ class ContextForm(forms.ModelForm):
             Field("extra_flags"),
         )
 
+    def save(self, commit=True):
+        if commit:
+            self.instance.save(same_content=True)
+            self._save_m2m()
+            return self.instance
+        return super().save(commit)
+
 
 class UserManageForm(forms.Form):
     user = UserField(
