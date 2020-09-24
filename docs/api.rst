@@ -2262,7 +2262,7 @@ Glossary
 
 .. http:delete:: /api/glossary/(int:id)/projects/
 
-    Remove asoociate of a project with a glossary.
+    Remove association of a project with a glossary.
 
     :param id: Glossary id
     :type id: int
