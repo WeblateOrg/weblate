@@ -324,11 +324,18 @@ def create_glossary(sender, instance, created, **kwargs):
         return
 
     if glossaries:
-        name = "{}: {}".format(project, instance.source_language.name)
+        base_name = "{}: {}".format(project, instance.source_language.name)
     else:
-        name = project.name
+        base_name = project.name
 
-    project.glossary_set.get_or_create(
+    # Find unused name
+    name = base_name
+    suffix = 0
+    while Glossary.objects.filter(name=name).exists():
+        suffix += 1
+        name = f"{name} ({suffix})"
+
+    project.glossary_set.create(
         name=name,
         color="silver",
         source_language=instance.source_language,

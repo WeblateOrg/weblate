@@ -17,13 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
 import os.path
 
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Count
+from django.db.models import Count, Value
+from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -204,11 +204,18 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
         super().save(*args, **kwargs)
 
-        # Update alerts if needed
-        if old is not None and old.web != self.web:
-            component_alerts.delay(
-                list(self.component_set.values_list("id", flat=True))
-            )
+        if old is not None:
+            # Update alerts if needed
+            if old.web != self.web:
+                component_alerts.delay(
+                    list(self.component_set.values_list("id", flat=True))
+                )
+
+            # Update glossaries if needed
+            if old.name != self.name:
+                self.glossary_set.filter(name__contains=old.name).update(
+                    name=Replace("name", Value(old.name), Value(self.name))
+                )
 
         # Update translation memory on enabled sharing
         if update_tm:

@@ -119,6 +119,7 @@ class ProjectTest(RepoTestCase):
                 component.translation_set.get(language_code="cs").get_filename()
             )
         )
+        project.name = "Changed"
         project.slug = "changed"
         project.save()
         new_path = project.full_path
@@ -134,6 +135,10 @@ class ProjectTest(RepoTestCase):
             os.path.exists(
                 component.translation_set.get(language_code="cs").get_filename()
             )
+        )
+        # Check that glossaries were renamed
+        self.assertEqual(
+            ["Changed"], list(project.glossary_set.values_list("name", flat=True))
         )
 
     def test_delete(self):
