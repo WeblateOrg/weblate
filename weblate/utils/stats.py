@@ -626,6 +626,26 @@ class ComponentStats(LanguageStats):
             or self._object.project.translation_review
         )
 
+    @cached_property
+    def lazy_translated_percent_key(self):
+        return f"{self.cache_key}:lazy_translated"
+
+    @cached_property
+    def lazy_translated_percent(self):
+        """Translation percent that is not invalidated."""
+        result = cache.get(self.lazy_translated_percent_key)
+        if result is not None:
+            return result
+        self.save_lazy_translated_percent()
+        return self.translated_percent
+
+    def save_lazy_translated_percent(self):
+        cache.set(self.lazy_translated_percent_key, self.translated_percent, 30 * 86400)
+
+    def save(self):
+        super().save()
+        self.save_lazy_translated_percent()
+
     def calculate_source(self, stats_obj, stats):
         return
 
