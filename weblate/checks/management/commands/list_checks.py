@@ -49,7 +49,7 @@ class Command(BaseCommand):
             is_format = isinstance(check, BaseFormatCheck)
             if not is_format and lines:
                 self.flush_lines(lines)
-            # Output immediatelly
+            # Output immediately
             self.stdout.write(".. _{}:\n".format(check.doc_id))
             if not lines:
                 lines.append("\n")
