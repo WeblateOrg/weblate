@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-23 15:15+0200\n"
+"POT-Creation-Date: 2020-09-24 16:32+0200\n"
 "PO-Revision-Date: 2020-09-24 14:26+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
@@ -5108,8 +5108,8 @@ msgid ""
 "`GITLAB_TOKEN`."
 msgstr ""
 "Используйте его в случае, если вы хотите, чтобы для одной конечной точки "
-"GitLab’а, определяемой параметрами :setting:`GITLAB_USERNAME` и "
-":setting:`GITLAB_TOKEN`, Weblate взаимодействовал с несколькими серверами."
+"GitLab’а, определяемой параметрами :setting:`GITLAB_USERNAME` и :setting:"
+"`GITLAB_TOKEN`, Weblate взаимодействовал с несколькими серверами."
 
 #: ../../admin/config.rst:606
 msgid "GITLAB_USERNAME"
@@ -6312,8 +6312,8 @@ msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
-":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
-":doc:`auth`"
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
+"`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 
 #: ../../admin/config.rst:1528
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -10267,7 +10267,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:385 ../../admin/install/docker.rst:415
 #: ../../admin/install/docker.rst:429 ../../admin/install/docker.rst:444
 #: ../../admin/install/docker.rst:626 ../../admin/install/docker.rst:1104
-#: ../../admin/install/docker.rst:1136 ../../admin/install/docker.rst:1154
+#: ../../admin/install/docker.rst:1135 ../../admin/install/docker.rst:1153
 msgid "**Example:**"
 msgstr "**Пример:**"
 
@@ -10663,8 +10663,8 @@ msgid ""
 "Enables :ref:`apertium` machine translation and sets :setting:"
 "`MT_APERTIUM_APY`"
 msgstr ""
-"Включает машинный перевод от :ref:`apertium` и устанавливает параметр "
-":setting:`MT_APERTIUM_APY`"
+"Включает машинный перевод от :ref:`apertium` и устанавливает параметр :"
+"setting:`MT_APERTIUM_APY`"
 
 #: ../../admin/install/docker.rst:580
 msgid "Configures :ref:`aws` machine translation."
@@ -11220,7 +11220,7 @@ msgstr ""
 msgid "Container settings"
 msgstr "Параметры контейнера"
 
-#: ../../admin/install/docker.rst:1129
+#: ../../admin/install/docker.rst:1128
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
@@ -11230,7 +11230,7 @@ msgstr ""
 "полезно подправить степень параллелизма (``--concurrency 16``) или включить "
 "использование другой реализации пула (``--pool=gevent``)."
 
-#: ../../admin/install/docker.rst:1133
+#: ../../admin/install/docker.rst:1132
 msgid ""
 "By default, the number of concurrent workers matches the number of "
 "processors (except the backup worker, which is supposed to run only once)."
@@ -11239,7 +11239,7 @@ msgstr ""
 "процессоров (за исключением рабочего создания резервных копий, который "
 "должен быть запущен в единственном экземпляре)."
 
-#: ../../admin/install/docker.rst:1145
+#: ../../admin/install/docker.rst:1144
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
@@ -11247,19 +11247,25 @@ msgstr ""
 ":doc:`Параметры рабочих Celery <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 
-#: ../../admin/install/docker.rst:1150
+#: ../../admin/install/docker.rst:1149
 msgid "Configure how many uWSGI workers should be executed."
 msgstr "Настраивает количество выполняемых рабочих процессов uWSGI."
 
-#: ../../admin/install/docker.rst:1152
+#: ../../admin/install/docker.rst:1151
 msgid "It defaults to number of processors + 1."
 msgstr "По умолчанию установлена в количество процессоров + 1."
 
-#: ../../admin/install/docker.rst:1164
+#: ../../admin/install/docker.rst:1160
+msgid ""
+"In case you have lot of CPU cores and hit out of memory issues, try reducing "
+"number of workers:"
+msgstr ""
+
+#: ../../admin/install/docker.rst:1175
 msgid "Docker container volumes"
 msgstr "Тома контейнеров Docker’а"
 
-#: ../../admin/install/docker.rst:1166
+#: ../../admin/install/docker.rst:1177
 msgid ""
 "There is single data volume exported by the Weblate container. The other "
 "service containers (PostgreSQL or Redis) have their data volumes as well, "
@@ -11269,7 +11275,7 @@ msgstr ""
 "сервисов (PostgreSQL или Redis) имеют свои собственные тома данных, которые "
 "в настоящем документе не рассматриваются."
 
-#: ../../admin/install/docker.rst:1170
+#: ../../admin/install/docker.rst:1181
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
@@ -11277,7 +11283,7 @@ msgstr ""
 "Том данных используется для хранения таких постоянных данных Weblate, как "
 "склонированные репозитории, или для настройки установки Weblate."
 
-#: ../../admin/install/docker.rst:1173
+#: ../../admin/install/docker.rst:1184
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -11289,17 +11295,17 @@ msgstr ""
 "docker_weblate-data/_data/`. В контейнере он монтируется под именем :file:`/"
 "app/data`."
 
-#: ../../admin/install/docker.rst:1180
+#: ../../admin/install/docker.rst:1191
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgstr ""
 "`Документация по томам Docker’а <https://docs.docker.com/storage/volumes/>`_"
 
-#: ../../admin/install/docker.rst:1183
+#: ../../admin/install/docker.rst:1194
 msgid "Further configuration customization"
 msgstr "Дальнейшая настройка конфигурации"
 
-#: ../../admin/install/docker.rst:1185
+#: ../../admin/install/docker.rst:1196
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
@@ -11307,11 +11313,11 @@ msgstr ""
 "Вы можете и дальше настраивать установку Weblate в томе данных, смотрите "
 "раздел :ref:`docker-volume`."
 
-#: ../../admin/install/docker.rst:1191
+#: ../../admin/install/docker.rst:1202
 msgid "Custom configuration files"
 msgstr "Пользовательские файлы конфигурации"
 
-#: ../../admin/install/docker.rst:1193
+#: ../../admin/install/docker.rst:1204
 msgid ""
 "You can additionally override the configuration in :file:`/app/data/settings-"
 "override.py` (see :ref:`docker-volume`). This is executed after all "
@@ -11323,11 +11329,11 @@ msgstr ""
 "выполняется после загрузки всех настроек окружения, так что оно полностью "
 "готово к работе и может быть использовано для настройки чего угодно."
 
-#: ../../admin/install/docker.rst:1199
+#: ../../admin/install/docker.rst:1210
 msgid "Replacing logo and other static files"
 msgstr "Замена логотипа и других статических файлов"
 
-#: ../../admin/install/docker.rst:1203
+#: ../../admin/install/docker.rst:1214
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -11339,7 +11345,7 @@ msgstr ""
 "`docker-volume`). Например, создав файл :file:`/app/data/python/customize/"
 "static/favicon.ico`, вы замените им иконку сайта."
 
-#: ../../admin/install/docker.rst:1210
+#: ../../admin/install/docker.rst:1221
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
@@ -11347,7 +11353,7 @@ msgstr ""
 "При запуске контейнера файлы копируются в соответствующее место, поэтому "
 "после изменения содержимого тома Weblate требуется перезапустить."
 
-#: ../../admin/install/docker.rst:1213
+#: ../../admin/install/docker.rst:1224
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
@@ -11356,11 +11362,11 @@ msgstr ""
 "(смотрите раздел :doc:`../customize`) и добавить его в контейнер Docker’а "
 "отдельным томом, например:"
 
-#: ../../admin/install/docker.rst:1226
+#: ../../admin/install/docker.rst:1237
 msgid "Adding own Python modules"
 msgstr "Добавление собственных модулей Python"
 
-#: ../../admin/install/docker.rst:1230
+#: ../../admin/install/docker.rst:1241
 msgid ""
 "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
@@ -11371,15 +11377,15 @@ msgstr ""
 "скорее всего, через :ref:`пользовательские файлы конфигурации <docker-custom-"
 "config>`."
 
-#: ../../admin/install/docker.rst:1236
+#: ../../admin/install/docker.rst:1247
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1240
+#: ../../admin/install/docker.rst:1251
 msgid "Select your machine - local or cloud providers"
 msgstr "Выбор вашей машины — локальные или облачные провайдеры"
 
-#: ../../admin/install/docker.rst:1242
+#: ../../admin/install/docker.rst:1253
 msgid ""
 "With Docker Machine you can create your Weblate deployment either on your "
 "local machine, or on any large number of cloud-based deployments on e.g. "
@@ -13370,8 +13376,8 @@ msgstr "importuserdata"
 #: ../../admin/management.rst:518
 msgid "Imports user data from a file created by :djadmin:`dumpuserdata`"
 msgstr ""
-"Импортирует данные пользователя из файла, созданного командой "
-":djadmin:`dumpuserdata`"
+"Импортирует данные пользователя из файла, созданного командой :djadmin:"
+"`dumpuserdata`"
 
 #: ../../admin/management.rst:521
 msgid "importusers"
@@ -18427,8 +18433,8 @@ msgstr "идентификатор единицы перевода"
 #: ../../api.rst:1868 ../../api.rst:1883 ../../api.rst:1896
 msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
-"Объяснение строки, доступно на исходных единицах перевода, смотрите раздел "
-":ref:`additional`"
+"Объяснение строки, доступно на исходных единицах перевода, смотрите раздел :"
+"ref:`additional`"
 
 #: ../../api.rst:1869 ../../api.rst:1884 ../../api.rst:1897
 msgid ""
@@ -18726,15 +18732,17 @@ msgstr "Возвращает проекты, связанные с глосса�
 #: ../../api.rst:2253
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
-"связанные проекты; смотрите описание :http:get:`/api/projects/"
-"(string:project)/`"
+"связанные проекты; смотрите описание :http:get:`/api/projects/(string:"
+"project)/`"
 
 #: ../../api.rst:2257
 msgid "Associate project with a glossary."
 msgstr "Связывает проект с глоссарием."
 
 #: ../../api.rst:2265
-msgid "Remove asoociate of a project with a glossary."
+#, fuzzy
+#| msgid "Remove asoociate of a project with a glossary."
+msgid "Remove association of a project with a glossary."
 msgstr "Удаляет связь проекта с глоссарием."
 
 #: ../../api.rst:2273
