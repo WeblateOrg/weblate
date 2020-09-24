@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-23 15:15+0200\n"
-"PO-Revision-Date: 2020-09-23 15:06+0000\n"
+"PO-Revision-Date: 2020-09-24 06:16+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1227,7 +1227,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:166
 msgid "Statistics generator"
-msgstr "進捗状況の生成"
+msgstr "統計データの生成"
 
 #: ../../admin/addons.rst:168
 msgid "Generates a file containing detailed info about the translation."
@@ -3756,8 +3756,7 @@ msgstr "AUDITLOG_EXPIRY"
 msgid ""
 "How many days Weblate should keep audit logs, which contain info about "
 "account activity."
-msgstr ""
-"アカウントの作業履歴に関する情報を含む監査履歴を Weblate が保持する日数。"
+msgstr "アカウントの作業履歴に関する情報を含む監査ログを Weblate が保持する日数。"
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
@@ -11390,7 +11389,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:56
 msgid "Billing"
-msgstr "課金"
+msgstr "請求"
 
 #: ../../admin/optionals.rst:60
 msgid ""
@@ -15541,7 +15540,7 @@ msgstr ""
 
 #: ../../api.rst:2142
 msgid "Returns information about a glossary."
-msgstr "用語集に関する情報を返します。"
+msgstr "用語集の情報を返します。"
 
 #: ../../api.rst:2144 ../../api.rst:2224 ../../api.rst:2234 ../../api.rst:2244
 #: ../../api.rst:2251 ../../api.rst:2259 ../../api.rst:2267 ../../api.rst:2275
@@ -15555,80 +15554,56 @@ msgid "Changes the glossary parameters."
 msgstr "用語集のパラメーターを変更します。"
 
 #: ../../api.rst:2242
-#, fuzzy
-#| msgid "Delete glossary entry"
 msgid "Deletes the Glossary."
-msgstr "用語集の項目の削除"
+msgstr "用語集を削除します。"
 
 #: ../../api.rst:2249
 msgid "Returns projects linked with a glossary."
 msgstr ""
 
 #: ../../api.rst:2253
-#, fuzzy
-#| msgid ""
-#| "link to associated componentlist; see :http:get:`/api/component-lists/"
-#| "(str:slug)/`"
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
-"コンポーネント リストのセットの関連するリンク; 参照 :http:get:`/api/"
-"component-lists/(str:slug)/`"
+msgstr "関連するプロジェクト; 参照 :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:2257
-#, fuzzy
-#| msgid "Associate componentlists with a group."
 msgid "Associate project with a glossary."
-msgstr "コンポーネント リストのセットをグループに関連付ける。"
+msgstr "プロジェクトを用語集に関連付けます。"
 
 #: ../../api.rst:2265
 msgid "Remove asoociate of a project with a glossary."
 msgstr ""
 
 #: ../../api.rst:2273
-#, fuzzy
-#| msgid "Add term to glossary"
 msgid "List terms of a glossary."
-msgstr "用語集に用語を追加"
+msgstr "用語集の用語を一覧表示します。"
 
 #: ../../api.rst:2280
-#, fuzzy
-#| msgid "Associate componentlists with a group."
 msgid "Associate terms with a glossary."
-msgstr "コンポーネント リストのセットをグループに関連付ける。"
+msgstr "用語を用語集に関連付けます。"
 
 #: ../../api.rst:2284 ../../api.rst:2305 ../../api.rst:2317
-#, fuzzy
-#| msgid "Language filter"
 msgid "Language of the term"
-msgstr "言語フィルタ"
+msgstr "用語の言語"
 
 #: ../../api.rst:2285 ../../api.rst:2306 ../../api.rst:2318
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string for the term"
-msgstr "原文についてのコメント"
+msgstr "用語の原文"
 
 #: ../../api.rst:2286 ../../api.rst:2307 ../../api.rst:2319
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string for the term"
-msgstr "翻訳文"
+msgstr "用語のターゲット文字列"
 
 #: ../../api.rst:2290
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Get a term associated with a glossary."
-msgstr "あなた自身に関係のある西暦／和暦年も避けておくことをお勧めします。"
+msgstr "用語集に関連付けられた用語を取得します。"
 
 #: ../../api.rst:2294 ../../api.rst:2303 ../../api.rst:2315 ../../api.rst:2327
 msgid "ID of term"
 msgstr ""
 
 #: ../../api.rst:2299 ../../api.rst:2311
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Edit a term associated with a glossary."
-msgstr "あなた自身に関係のある西暦／和暦年も避けておくことをお勧めします。"
+msgstr "用語集に関連付けられた用語を編集します。"
 
 #: ../../api.rst:2323
 msgid "Delete a term associated with a glossary."
@@ -15998,17 +15973,15 @@ msgstr "貢献者同意条項の markdown のサポート。"
 
 #: ../../changes.rst:24
 msgid "Improved source strings tracking."
-msgstr "原文の追跡を改善しました。"
+msgstr "原文の記録を改善した。"
 
 #: ../../changes.rst:25
 msgid "Improved JSON, YAML and CSV formats compatibility."
 msgstr ""
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Added support for removing strings."
-msgstr "文字列整形のグループ化のサポートを追加しました。"
+msgstr "文字列の削除に対応。"
 
 #: ../../changes.rst:29
 msgid "Weblate 4.2.2"
@@ -21804,8 +21777,6 @@ msgid "**suggested**"
 msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "*Number of sugested strings*"
 msgid "*Number of suggested strings*"
 msgstr "*提案された文字列の数*"
 
@@ -21968,7 +21939,7 @@ msgstr "**auditlog**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Audit log*"
-msgstr "*監査履歴*"
+msgstr "*監査ログ*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
@@ -28058,6 +28029,7 @@ msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
 msgstr ""
+"個人用のデフォルトのダッシュボード画面は、ユーザー アイコンの設定の :guilabel:`Preferences` セクションで設定できます。"
 
 #: ../../user/profile.rst:54
 msgid ""
@@ -28066,6 +28038,9 @@ msgid ""
 "dashboard will not be shown, as the user will be redirected to a single "
 "project or component instead."
 msgstr ""
+":file:`settings.py` ファイル（参照 :ref:`config`）で :setting:`SINGLE_PROJECT` を使用して "
+"Weblate を単一のプロジェクト用に設定している場合、ダッシュボードは表示されません。これは、ユーザーが単一のプロジェクトまたはコンポーネントにリダイ"
+"レクトされるためです。"
 
 #: ../../user/profile.rst:61
 msgid "User profile"
@@ -28076,22 +28051,25 @@ msgid ""
 "The user profile is accessible by clicking your user icon in the top-right "
 "of the top menu, then the :guilabel:`Settings` menu."
 msgstr ""
+"ユーザー情報にアクセスするには、トップメニューの右上にあるユーザー アイコンをクリックし、 :guilabel:`Settings` "
+"メニューをクリックします。"
 
 #: ../../user/profile.rst:65
 msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
+"ユーザー情報には、ユーザーの環境設定が含まれています。VCS コミットでは名前とメールアドレスを使用するため、この情報は正確に登録してください。"
 
 #: ../../user/profile.rst:70
 msgid "All language selections only offer currently translated languages."
-msgstr ""
+msgstr "すべての言語選択では、現在翻訳されている言語のみを提供します。"
 
 #: ../../user/profile.rst:74
 msgid ""
 "Request or add other languages you want to translate by clicking the button "
 "to make them available too."
-msgstr ""
+msgstr "ボタンをクリックして、翻訳する他の言語をリクエストまたは追加し、使用可能にします。"
 
 #: ../../user/profile.rst:78
 msgid "Translated languages"
@@ -28102,7 +28080,7 @@ msgid ""
 "Choose which languages you prefer to translate, and they will be offered on "
 "the main page of watched projects, so that you have easier access to these "
 "all translations in each of those languages."
-msgstr ""
+msgstr "翻訳したい言語を選択すると、監視中のプロジェクトのメイン ページに表示され、そこから選択した言語のすべての翻訳に簡単にアクセスできます。"
 
 #: ../../user/profile.rst:89
 msgid "Secondary languages"
@@ -28113,7 +28091,7 @@ msgid ""
 "You can define which secondary languages are shown to you as a guide while "
 "translating. An example can be seen in the following image, where the Hebrew "
 "language is shown as secondarily:"
-msgstr ""
+msgstr "翻訳時に参考として表示する参考言語を設定できます。次の図では、ヘブライ語が参考として表示されています。"
 
 #: ../../user/profile.rst:98
 msgid "Default dashboard view"
@@ -28126,6 +28104,9 @@ msgid ""
 "list`, you have to select which component list will be displayed from the :"
 "guilabel:`Default component list` drop-down."
 msgstr ""
+":guilabel:`Preferences` タブで、デフォルトで表示するダッシュボード画面を選択できます。:guilabel:`Component "
+"list` を選択した場合、:guilabel:`Default component list` ドロップダウンから表示するコンポーネント "
+"リストの選択が必要です。"
 
 #: ../../user/profile.rst:107
 msgid ":ref:`componentlists`"
@@ -28133,7 +28114,7 @@ msgstr ":ref:`componentlists`"
 
 #: ../../user/profile.rst:110
 msgid "Public profile"
-msgstr "公開プロフィール"
+msgstr "公開するユーザー情報"
 
 #: ../../user/profile.rst:112
 msgid ""
@@ -28141,15 +28122,16 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
-"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力"
-"すると、あなたのユーザー プロフィールが表示されるすべての場所で、そのデータが"
-"共有されることに同意したとみなされます。"
+"このページのすべてのフィールドはオプションであり、いつでも削除できます。入力すると、あなたのユーザー情報が表示されるすべての場所で、そのデータが共有される"
+"ことに同意したとみなされます。"
 
 #: ../../user/profile.rst:116
 msgid ""
 "Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`). "
 "These images are obtained using https://gravatar.com/."
 msgstr ""
+"アバターはユーザーごとに表示できます（:setting:`ENABLE_AVATARS` の使用）。イメージは、https://gravatar.com/"
+" を使用して取得します。"
 
 #: ../../user/profile.rst:120
 msgid "Editor link"
@@ -28159,25 +28141,29 @@ msgstr "エディタ リンク"
 msgid ""
 "A source code link is shown in the web-browser configured in the :ref:"
 "`component` by default."
-msgstr ""
+msgstr "ソース コードのリンクは、デフォルトでは :ref:`component` で設定した Web ブラウザに表示します。"
 
 #: ../../user/profile.rst:127
 msgid ""
 "By setting the :guilabel:`Editor link`, you use your local editor to open "
 "the VCS source code file of translated strings. You can use :ref:`markup`."
 msgstr ""
+":guilabel:`Editor link を設定すると、ローカル エディターを使用して、翻訳した文字列の VCS ソース "
+"コードのファイルを表示します。:ref:`markup` を使用できます。"
 
 #: ../../user/profile.rst:130
 msgid ""
 "Usually something like ``editor://open/?file={{filename}}&line={{line}}`` is "
 "a good option."
-msgstr ""
+msgstr "一般的には ``editor://open/?file={{filename}}&line={{line}}`` が良い選択です。"
 
 #: ../../user/profile.rst:134
 msgid ""
 "You can find more info on registering custom URL protocols for the editor in "
 "the `Nette documentation <https://tracy.nette.org/en/open-files-in-ide>`_."
 msgstr ""
+"エディタの独自 URL プロトコルの登録の詳細は、`Nette documentation <https://tracy.nette.org/en/"
+"open-files-in-ide>`_ を参照してください。"
 
 #: ../../user/profile.rst:140
 msgid "Notifications"
@@ -28189,6 +28175,8 @@ msgid ""
 "Notifications for selected events on watched or administered projects will "
 "be sent to you per e-mail."
 msgstr ""
+":guilabel:`Notifications` "
+"タブから複数の通知を受け取れます。監視または管理しているプロジェクトで選択したイベントの通知は、メールで送信されます。"
 
 #: ../../user/profile.rst:146
 msgid ""
@@ -28197,6 +28185,8 @@ msgid ""
 "level (for example merge errors). These two groups of notifications are "
 "visually separated in the settings."
 msgstr ""
+"通知の中には、ユーザーの言語のイベントに対してのみ送信されるもの（たとえば新しく翻訳した文字列）と、コンポーネントから発生するイベント（マージ "
+"エラーなど）があります。この 2 つの通知グループは、設定では見やすく分かれています。"
 
 #: ../../user/profile.rst:151
 msgid ""
@@ -28205,10 +28195,12 @@ msgid ""
 "the component page and select appropriate choice from the :guilabel:"
 "`Watching` menu."
 msgstr ""
+"監視中のプロジェクトと管理中のプロジェクトの通知を切り替えたり、プロジェクトやコンポーネントごとに詳細に設定（非通知など）にできます。コンポーネント "
+"ページにアクセスし、:guilabel:`Watching` メニューから適切な項目を選択します。"
 
 #: ../../user/profile.rst:157
 msgid "You will not receive notifications for your own actions."
-msgstr ""
+msgstr "自分自身の操作についての通知はされません。"
 
 #: ../../user/profile.rst:162
 msgid "Account"
@@ -28220,6 +28212,9 @@ msgid ""
 "various services you can use to sign in into Weblate, completely remove your "
 "account, or download your user data (see :ref:`schema-userdata`)."
 msgstr ""
+":guilabel:`Account` タブでは、基本的なアカウントの詳細を設定したり、Weblate "
+"へのサインインに使用できる複数の外部サービスに接続したり、アカウントを完全に削除したり、個人情報（参照 :ref:`schema-"
+"userdata`）をダウンロードできます。"
 
 #: ../../user/profile.rst:170
 msgid ""
@@ -28227,6 +28222,8 @@ msgid ""
 "to include popular sites such as GitLab, GitHub, Google, Facebook, or "
 "Bitbucket or other OAuth 2.0 providers."
 msgstr ""
+"外部サービスの一覧は Weblate の設定によって異なりますが、 GitLab や GitHub、Google、Facebook、Bitbucket "
+"といった人気サイトや、その他の OAuth 2.0 プロバイダでも利用可能に設定できます。"
 
 #: ../../user/profile.rst:179
 msgid "Audit log"
@@ -28238,10 +28235,12 @@ msgid ""
 "address and browser for every important action with your account. The "
 "critical actions also trigger a notification to a primary e-mail address."
 msgstr ""
+"監査ログは、アカウントで実行された作業を記録します。重要な作業ごとに、IP "
+"アドレスとブラウザをアカウントに記録します。重要な作業では、デフォルトのメールアドレスへの通知も行います。"
 
 #: ../../user/profile.rst:187
 msgid ":ref:`reverse-proxy`"
-msgstr ""
+msgstr ":ref:`reverse-proxy`"
 
 #: ../../user/search.rst:2
 msgid "Searching"
@@ -28251,17 +28250,19 @@ msgstr "検索"
 msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
-msgstr ""
+msgstr "ブール演算、かっこ、またはフィールド固有のルックアップを使用した高度なクエリを使用して、必要な文字列を検索できます。"
 
 #: ../../user/search.rst:9
 msgid ""
 "When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Translate` and :guilabel:`Context` fields."
 msgstr ""
+"フィールドが定義されていない場合は、:guilabel:`Source`、:guilabel:`Translate` および "
+":guilabel:`Context` フィールドで検索されます。"
 
 #: ../../user/search.rst:15
 msgid "Simple search"
-msgstr ""
+msgstr "単純な検索"
 
 #: ../../user/search.rst:17
 msgid ""
@@ -28270,14 +28271,17 @@ msgid ""
 "into quotes (both single (') and double (\") quotes will work): ``\"this is "
 "a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
+"検索ボックスに入力した語句はすべて単語に分割されます。分割した単語のいずれかを含む文字列が表示されます。正確な語句を探すには、引用符（一重引用符 (') "
+"と二重引用符 (\") の両方を使用できる）に「検索語句」を入れます: ``\"this is a quoted string\"`` または ``"
+"'another quoted string'``。"
 
 #: ../../user/search.rst:23
 msgid "Fields"
-msgstr "フィールド"
+msgstr "検索方法"
 
 #: ../../user/search.rst:25
 msgid "``source:TEXT``"
-msgstr ""
+msgstr "``source:TEXT``"
 
 #: ../../user/search.rst:26
 msgid "Source string case insensitive search."
@@ -28285,7 +28289,7 @@ msgstr "原文の大文字と小文字を区別しない検索。"
 
 #: ../../user/search.rst:27
 msgid "``target:TEXT``"
-msgstr ""
+msgstr "``target:TEXT``"
 
 #: ../../user/search.rst:28
 msgid "Target string case insensitive search."
@@ -28293,7 +28297,7 @@ msgstr "対象文字列の大文字と小文字を区別しない検索。"
 
 #: ../../user/search.rst:29
 msgid "``context:TEXT``"
-msgstr ""
+msgstr "``context:TEXT``"
 
 #: ../../user/search.rst:30
 msgid "Context string case insensitive search."
@@ -28301,7 +28305,7 @@ msgstr "コンテキスト文字列の大文字と小文字を区別しない検
 
 #: ../../user/search.rst:31
 msgid "``key:TEXT``"
-msgstr ""
+msgstr "``key:TEXT``"
 
 #: ../../user/search.rst:32
 msgid "Key string case insensitive search."
@@ -28309,7 +28313,7 @@ msgstr "キー文字列の大文字と小文字を区別しない検索。"
 
 #: ../../user/search.rst:33
 msgid "``note:TEXT``"
-msgstr ""
+msgstr "``note:TEXT``"
 
 #: ../../user/search.rst:34
 msgid "Comment string case insensitive search."
@@ -28317,7 +28321,7 @@ msgstr "コメント文字列の大文字と小文字を区別しない検索。
 
 #: ../../user/search.rst:35
 msgid "``location:TEXT``"
-msgstr ""
+msgstr "``location:TEXT``"
 
 #: ../../user/search.rst:36
 msgid "Location string case insensitive search."
@@ -28325,41 +28329,43 @@ msgstr "ロケーション文字列の大文字と小文字を区別しない検
 
 #: ../../user/search.rst:37
 msgid "``priority:NUMBER``"
-msgstr ""
+msgstr "``priority:NUMBER``"
 
 #: ../../user/search.rst:38
 msgid "String priority."
-msgstr ""
+msgstr "文字列の優先順位。"
 
 #: ../../user/search.rst:39
 msgid "``added:DATETIME``"
-msgstr ""
+msgstr "``added:DATETIME``"
 
 #: ../../user/search.rst:40
 msgid "Timestamp for when the string was added to Weblate."
-msgstr ""
+msgstr "文字列が Weblate に追加されたときのタイムスタンプ。"
 
 #: ../../user/search.rst:41
 msgid "``state:TEXT``"
-msgstr ""
+msgstr "``state:TEXT``"
 
 #: ../../user/search.rst:42
 msgid ""
 "State search (``approved``, ``translated``, ``needs-editing``, ``empty``, "
 "``read-only``), supports :ref:`search-operators`."
 msgstr ""
+"状態検索（``approved``、``translated``、``needs-editing``、``empty``、``read-only``）、"
+"rts :ref:`search-operators` 対応。"
 
 #: ../../user/search.rst:43
 msgid "``pending:BOOLEAN``"
-msgstr ""
+msgstr "``pending:BOOLEAN``"
 
 #: ../../user/search.rst:44
 msgid "String pending for flushing to VCS."
-msgstr ""
+msgstr "VCS へのフラッシュのために保留中の文字列。"
 
 #: ../../user/search.rst:45
 msgid "``has:TEXT``"
-msgstr ""
+msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:46
 msgid ""
@@ -28367,107 +28373,109 @@ msgid ""
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot`` (works only on source strings)."
 msgstr ""
+"属性を持つ文字列の検索 - ``plural``、``context``、``suggestion``、``comment``、``check"
+"``、``dismissed-check``、``translation``、``variant``、``screenshot``（原文でのみ有効）。"
 
 #: ../../user/search.rst:47
 msgid "``is:TEXT``"
-msgstr ""
+msgstr "``is:TEXT``"
 
 #: ../../user/search.rst:48
 msgid ""
 "Search for string states (``pending``, ``translated``, ``untranslated``)."
-msgstr ""
+msgstr "文字列の状態の検索（``pending``、``translated``、``untranslated``）。"
 
 #: ../../user/search.rst:49
 msgid "``language:TEXT``"
-msgstr ""
+msgstr "``language:TEXT``"
 
 #: ../../user/search.rst:50
 msgid "String target language."
-msgstr ""
+msgstr "翻訳対象の言語。"
 
 #: ../../user/search.rst:51
 msgid "``component:TEXT``"
-msgstr ""
+msgstr "``component:TEXT``"
 
 #: ../../user/search.rst:52
 msgid "Component slug, see :ref:`component-slug`."
-msgstr ""
+msgstr "コンポーネントのスラッグ、参照 :ref:`component-slug`。"
 
 #: ../../user/search.rst:53
 msgid "``project:TEXT``"
-msgstr ""
+msgstr "``project:TEXT``"
 
 #: ../../user/search.rst:54
 msgid "Project slug, see :ref:`project-slug`."
-msgstr ""
+msgstr "プロジェクトのスラッグ、参照 :ref:`project-slug`。"
 
 #: ../../user/search.rst:55
 msgid "``changed_by:TEXT``"
-msgstr ""
+msgstr "``changed_by:TEXT``"
 
 #: ../../user/search.rst:56
 msgid "String was changed by author with given username."
-msgstr ""
+msgstr "文字列は、指定されたユーザー名で作成者によって変更されました。"
 
 #: ../../user/search.rst:57
 msgid "``changed:DATETIME``"
-msgstr ""
+msgstr "``changed:DATETIME``"
 
 #: ../../user/search.rst:58
 msgid "String was changed on date, supports :ref:`search-operators`."
-msgstr ""
+msgstr "文字列が変更された日付、:ref:`search-operators` に対応。"
 
 #: ../../user/search.rst:59
 msgid "``check:TEXT``"
-msgstr ""
+msgstr "``check:TEXT``"
 
 #: ../../user/search.rst:60
 msgid "String has failing check."
-msgstr ""
+msgstr "検査に不合格となった文字列。"
 
 #: ../../user/search.rst:61
 msgid "``dismissed_check:TEXT``"
-msgstr ""
+msgstr "``dismissed_check:TEXT``"
 
 #: ../../user/search.rst:62
 msgid "String has dismissed check."
-msgstr ""
+msgstr "検査を除外した文字列。"
 
 #: ../../user/search.rst:63
 msgid "``comment:TEXT``"
-msgstr ""
+msgstr "``comment:TEXT``"
 
 #: ../../user/search.rst:64
 msgid "Search in user comments."
-msgstr ""
+msgstr "ユーザー コメントの検索。"
 
 #: ../../user/search.rst:65
 msgid "``comment_author:TEXT``"
-msgstr ""
+msgstr "``comment_author:TEXT``"
 
 #: ../../user/search.rst:66
 msgid "Filter by comment author."
-msgstr ""
+msgstr "コメントの作成者でフィルターをかける。"
 
 #: ../../user/search.rst:67
 msgid "``suggestion:TEXT``"
-msgstr ""
+msgstr "``suggestion:TEXT``"
 
 #: ../../user/search.rst:68
 msgid "Search in suggestions."
-msgstr ""
+msgstr "提案の検索。"
 
 #: ../../user/search.rst:70
 msgid "``suggestion_author:TEXT``"
-msgstr ""
+msgstr "``suggestion_author:TEXT``"
 
 #: ../../user/search.rst:70
 msgid "Filter by suggestion author."
-msgstr ""
+msgstr "提案の作成者でフィルターをかける。"
 
 #: ../../user/search.rst:73
 msgid "Boolean operators"
-msgstr ""
+msgstr "ブール演算子"
 
 #: ../../user/search.rst:75
 msgid ""
@@ -28475,44 +28483,46 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
+"「AND」、「OR」、「NOT」、および括弧を使用して検索を組み合わせると、複雑なクエリを作成できます。たとえば: ``state:translated "
+"AND (source:hello OR source:bar)``"
 
 #: ../../user/search.rst:81
 msgid "Field operators"
-msgstr ""
+msgstr "フィールド演算子"
 
 #: ../../user/search.rst:83
 msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
-msgstr ""
+msgstr "日付または数値検索の演算子、範囲または部分参照を指定できる:"
 
 #: ../../user/search.rst:85
 msgid "``state:>=translated``"
-msgstr ""
+msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:86
 msgid "State is ``translated`` or better (``approved``)."
-msgstr ""
+msgstr "状態は ``translated`` か、それ以上の（``approved``）。"
 
 #: ../../user/search.rst:87
 msgid "``changed:2019``"
-msgstr ""
+msgstr "``changed:2019``"
 
 #: ../../user/search.rst:88
 msgid "Changed in year 2019."
-msgstr ""
+msgstr "2019 年に変更。"
 
 #: ../../user/search.rst:90
 msgid "``changed:[2019-03-01 to 2019-04-01]``"
-msgstr ""
+msgstr "``changed:[2019-03-01 to 2019-04-01]``"
 
 #: ../../user/search.rst:90
 msgid "Changed between two given dates."
-msgstr ""
+msgstr "開始日と終了日の期間内の変更。"
 
 #: ../../user/search.rst:93
 msgid "Exact operators"
-msgstr ""
+msgstr "正確な演算子"
 
 #: ../../user/search.rst:95
 msgid ""
@@ -28522,10 +28532,14 @@ msgid ""
 "expressions, you can skip quotes. For example, to search for all source "
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
+"``=`` 演算子を使用すると、異なる文字列フィールドに対して完全一致クエリを実行できます。たとえば、``hello world`` "
+"に完全に一致するすべての原文を検索するには、``source:=\"hello world\"`` "
+"を使用します。単一の単語式を検索する場合は、引用符を省略できます。たとえば、``hello`` "
+"に一致するすべての原文を検索するには、``source:=hello`` と入力します。"
 
 #: ../../user/search.rst:102
 msgid "Regular expressions"
-msgstr ""
+msgstr "正規表現"
 
 #: ../../user/search.rst:104
 msgid ""
@@ -28533,24 +28547,26 @@ msgid ""
 "\"regexp\"``. For instance, to search for all source strings which contain "
 "any digit between 2 and 5, use: ``source:r\"[2-5]\"``"
 msgstr ""
+"テキストを入力できる場合は、``r\"regexp\"`` として正規表現を指定できます。たとえば、2 ~ 5 "
+"の数字を含むすべての原文を検索するには、``source:r\"[2-5]\"`` と記述"
 
 #: ../../user/search.rst:108
 msgid "Predefined queries"
-msgstr ""
+msgstr "定義済みのクエリ"
 
 #: ../../user/search.rst:110
 msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
-msgstr ""
+msgstr "検索ページで事前に定義されたクエリーから選択すると、最も頻繁に実行する検索にすばやくアクセスできます。"
 
 #: ../../user/search.rst:115
 msgid "Ordering the results"
-msgstr ""
+msgstr "結果の並び替え"
 
 #: ../../user/search.rst:117
 msgid "There are many options to order the strings according to your needs:"
-msgstr ""
+msgstr "必要に応じて文字列を並べ替えるには、多くの選択肢があります。"
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -29160,19 +29176,14 @@ msgstr ""
 "されます。"
 
 #: ../../user/translating.rst:284
-#, fuzzy
-#| msgid ""
-#| "Based on configuration and your translated language, Weblate provides you "
-#| "suggestions from several machine translation tools. All machine "
-#| "translations are available in a single tab of each translation page."
 msgid ""
 "Based on configuration and your translated language, Weblate provides you "
 "suggestions from several machine translation tools and :ref:`translation-"
 "memory`. All machine translations are available in a single tab of each "
 "translation page."
 msgstr ""
-"設定と翻訳された言語に基づいて、Weblate は複数の機械翻訳ツールからの提案を提"
-"供します。すべての機械翻訳は、各翻訳ページの単一タブで利用できます。"
+"設定と翻訳された言語に基づいて、Weblate は複数の機械翻訳ツールと :ref:`translation-memory` "
+"からの提案を提供します。すべての機械翻訳は、各翻訳ページの単一タブで利用できます。"
 
 #: ../../user/translating.rst:291
 msgid ""
@@ -29602,9 +29613,8 @@ msgid ""
 "documentation <https://curl.haxx.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
-"これは環境変数（`cURL documentation <https://curl.haxx.se/docs/>`_ に記載の通"
-"り）の ``http_proxy``、 ``https_proxy``、および ``all_proxy`` を使用するか、"
-"VCS 設定で次のように実行します。"
+"これは環境変数（`cURL documentation <https://curl.haxx.se/docs/>`_ に記載の通り）の "
+"``http_proxy``、 ``https_proxy``、および ``all_proxy`` を使用するか、VCS 設定で次のように実行する:"
 
 #: ../../vcs.rst:181
 msgid ""
@@ -29926,9 +29936,8 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"Weblate はバックグラウンドで Git リポジトリを作成し、すべての変更を追跡しま"
-"す。後で VCS を使用して翻訳を保存する場合は、すでに Weblate 内に統合のベース"
-"となるリポジトリがあります。"
+"Weblate はバックグラウンドで Git リポジトリを作成し、すべての変更を記録します。後で VCS を使用して翻訳を保存する場合は、すでに "
+"Weblate 内に統合のベースとなるリポジトリがあります。"
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
@@ -30119,9 +30128,7 @@ msgstr "wlc 0.9 から対応。"
 msgid ""
 "Removes any untracked changes in a Weblate object to match the remote "
 "repository (translation, component or project)."
-msgstr ""
-"リモート リポジトリ（翻訳、コンポーネントまたはプロジェクト）に一致する "
-"Weblate オブジェクト内の追跡されていない変更を削除する。"
+msgstr "リモート リポジトリ（翻訳、コンポーネントまたはプロジェクト）に一致する Weblate オブジェクト内の記録されていない変更を削除する。"
 
 #: ../../wlc.rst:160
 msgid ""
@@ -30213,7 +30220,7 @@ msgstr ":file:`.weblate`、 :file:`.weblate.ini`、 :file:`weblate.ini`"
 
 #: ../../wlc.rst:244
 msgid "The files with `.ini` extension are accepted as well."
-msgstr "拡張子が `.ini` のファイルも対応する。"
+msgstr "拡張子が `.ini` のファイルにも対応する。"
 
 #: ../../wlc.rst:246
 msgid "Per project configuration file"
@@ -30276,7 +30283,7 @@ msgstr "デフォルトの翻訳へのパス - コンポーネントまたはプ
 
 #: ../../wlc.rst:275
 msgid "The configuration file is an INI file, for example:"
-msgstr "設定ファイルは INI ファイルです、例:"
+msgstr "設定ファイルは INI ファイルです、たとえば:"
 
 #: ../../wlc.rst:284
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
