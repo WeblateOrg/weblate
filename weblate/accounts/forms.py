@@ -141,8 +141,8 @@ class ProfileBaseForm(forms.ModelForm):
             # this is partial form. This is really bound to how Profile.clean
             # behaves.
             ignored_fields = ("dashboard_component_list", "dashboard_view")
-            for field, _error_list in error.error_dict.items():
-                if field in ignored_fields and not hasattr(self, field):
+            for field_name, _error_list in error.error_dict.items():
+                if field_name in ignored_fields and not hasattr(self, field_name):
                     return
         super().add_error(field, error)
 
