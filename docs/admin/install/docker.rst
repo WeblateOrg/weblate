@@ -1122,7 +1122,6 @@ Container settings
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
 .. envvar:: CELERY_TRANSLATE_OPTIONS
-.. envvar:: CELERY_MEMORY_OPTIONS
 .. envvar:: CELERY_BACKUP_OPTIONS
 .. envvar:: CELERY_BEAT_OPTIONS
 
@@ -1157,6 +1156,18 @@ Container settings
 
         environment:
           UWSGI_WORKERS: 32
+
+In case you have lot of CPU cores and hit out of memory issues, try reducing
+number of workers:
+
+.. code-block:: yaml:
+
+    environment:
+      UWSGI_WORKERS: 4
+      CELERY_MAIN_OPTIONS: --concurrency 2
+      CELERY_NOTIFY_OPTIONS: --concurrency 1
+      CELERY_TRANSLATE_OPTIONS: --concurrency 1
+
 
 .. _docker-volume:
 
