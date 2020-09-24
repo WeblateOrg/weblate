@@ -1000,10 +1000,10 @@ class Translation(
             if orig_user:
                 request.user = orig_user
 
-    def invalidate_cache(self, recurse: bool = True):
+    def invalidate_cache(self):
         """Invalidate any cached stats."""
         # Invalidate summary stats
-        transaction.on_commit(lambda: self.stats.invalidate(recurse=recurse))
+        transaction.on_commit(lambda: self.stats.invalidate())
 
     @property
     def keys_cache_key(self):

@@ -1879,10 +1879,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     def invalidate_stats_deep(self):
         self.log_info("updating stats caches")
-        for translation in self.translation_set.select_related("language"):
-            # This calls on_commit in the background
-            translation.invalidate_cache(recurse=False)
-        transaction.on_commit(self.stats.invalidate)
+        transaction.on_commit(lambda: self.stats.invalidate(childs=True))
 
     def get_lang_code(self, path, validate=False):
         """Parse language code from path."""
