@@ -167,7 +167,11 @@ def vcs_service_hook(request, service):
     full_name = service_data["full_name"]
 
     # Generate filter
-    spfilter = Q(repo__in=repos) | Q(repo__iendswith=full_name)
+    spfilter = (
+        Q(repo__in=repos)
+        | Q(repo__iendswith=full_name)
+        | Q(repo__iendswith=f"{full_name}.git")
+    )
 
     for repo in repos:
         # We need to match also URLs which include username and password
@@ -190,9 +194,10 @@ def vcs_service_hook(request, service):
     components = all_components.filter(project__enable_hooks=True)
 
     LOGGER.info(
-        "received %s notification on repository %s, branch %s, "
+        "received %s notification on repository %s, URL %s, branch %s, "
         "%d matching components, %d to process, %d linked",
         service_long_name,
+        full_name,
         repo_url,
         branch,
         all_components.count(),
