@@ -745,7 +745,7 @@ class GithubRepository(GitMergeRequestBase):
             self.log(response["message"], level=logging.INFO)
         if "errors" in response:
             for error in response["errors"]:
-                self.log(error["message"], level=logging.WARNING)
+                self.log(error.get("message", str(error)), level=logging.WARNING)
 
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
