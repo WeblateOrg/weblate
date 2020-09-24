@@ -229,10 +229,15 @@ class BaseStats:
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
 
-    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
+    def get_invalidate_keys(
+        self, language: Optional[Language] = None, childs: bool = False
+    ):
+        return {self.cache_key, GlobalStats().cache_key}
+
+    def invalidate(self, language: Optional[Language] = None, childs: bool = False):
         """Invalidate local and cache data."""
         self.clear()
-        cache.delete(self.cache_key)
+        cache.delete_many(self.get_invalidate_keys(language, childs))
 
     def clear(self):
         """Clear local cache."""
@@ -341,11 +346,17 @@ class DummyTranslationStats(BaseStats):
 class TranslationStats(BaseStats):
     """Per translation stats."""
 
-    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
-        super().invalidate()
-        if recurse:
-            self._object.component.stats.invalidate(language=self._object.language)
-        self._object.language.stats.invalidate()
+    def get_invalidate_keys(
+        self, language: Optional[Language] = None, childs: bool = False
+    ):
+        result = super().get_invalidate_keys(language, childs)
+        result.update(self._object.language.stats.get_invalidate_keys())
+        result.update(
+            self._object.component.stats.get_invalidate_keys(
+                language=self._object.language
+            )
+        )
+        return result
 
     @property
     def language(self):
@@ -661,11 +672,17 @@ class ComponentStats(LanguageStats):
             self.store("source_words", stats_obj.all_words)
             self.store("source_strings", stats_obj.all)
 
-    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
-        super().invalidate()
-        self._object.project.stats.invalidate(language=language)
+    def get_invalidate_keys(
+        self, language: Optional[Language] = None, childs: bool = False
+    ):
+        result = super().get_invalidate_keys(language, childs)
+        result.update(self._object.project.stats.get_invalidate_keys(language))
         for clist in self._object.componentlist_set.iterator():
-            clist.stats.invalidate()
+            result.update(clist.stats.get_invalidate_keys())
+        if childs:
+            for translation in self.translation_set:
+                result.update(translation.stats.get_invalidate_keys())
+        return result
 
     def get_language_stats(self):
         yield from (
@@ -781,14 +798,20 @@ class ProjectStats(BaseStats):
     def has_review(self):
         return self._object.source_review or self._object.translation_review
 
-    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
-        super().invalidate()
+    def get_invalidate_keys(
+        self, language: Optional[Language] = None, childs: bool = False
+    ):
+        result = super().get_invalidate_keys(language, childs)
         if language:
-            self.get_single_language_stats(language).invalidate()
+            result.update(
+                self.get_single_language_stats(language).get_invalidate_keys()
+            )
         else:
             for lang in self._object.languages:
-                self.get_single_language_stats(lang).invalidate()
-        GlobalStats().invalidate()
+                result.update(
+                    self.get_single_language_stats(lang).get_invalidate_keys()
+                )
+        return result
 
     @cached_property
     def component_set(self):
