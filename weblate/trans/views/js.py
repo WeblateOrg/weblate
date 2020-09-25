@@ -116,10 +116,8 @@ def get_unit_translations(request, unit_id):
 @require_POST
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
-    project = obj.unit.translation.component.project
-    request.user.check_access(project)
 
-    if not request.user.has_perm("unit.check", project) or obj.is_enforced():
+    if not request.user.has_perm("unit.check", obj):
         raise PermissionDenied()
 
     # Mark check for ignoring
@@ -132,13 +130,9 @@ def ignore_check(request, check_id):
 def ignore_check_source(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     unit = obj.unit.source_unit
-    project = unit.translation.component.project
-    request.user.check_access(project)
 
-    if (
-        not request.user.has_perm("unit.check", project)
-        or obj.is_enforced()
-        or not request.user.has_perm("source.edit", unit.translation.component)
+    if not request.user.has_perm("unit.check", obj) or not request.user.has_perm(
+        "source.edit", unit.translation.component
     ):
         raise PermissionDenied()
 
