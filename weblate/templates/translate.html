@@ -47,8 +47,8 @@
 {% perm 'machinery.view' unit.translation as user_can_use_machinery %}
 {% perm 'source.edit' unit.translation as user_can_edit_source %}
 {% perm 'unit.check' unit.translation as user_can_ignore_check %}
-{% perm 'screenshot.add' project as user_can_add_screenshot %}
-{% perm 'comment.add' project as user_can_add_comment %}
+{% perm 'screenshot.add' object.component as user_can_add_screenshot %}
+{% perm 'comment.add' unit.translation as user_can_add_comment %}
 {% perm 'glossary.add' project as user_can_add_glossary %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
