@@ -473,7 +473,7 @@ class PoMonoUnit(PoUnit):
             context = self.template.getcontext()
             if context:
                 result.append(context)
-        return "\n".join(notes)
+        return "\n".join(result)
 
 
 class XliffUnit(TTKitUnit):
