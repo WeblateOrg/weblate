@@ -93,6 +93,13 @@ def check_delete_own(user, permission, obj):
     return check_permission(user, permission, obj.unit.translation)
 
 
+@register_perm("unit.check")
+def check_ignore_check(user, permission, check):
+    if check.is_enforced():
+        return False
+    return check_permission(user, permission, check.unit.translation)
+
+
 def check_can_edit(user, permission, obj, is_vote=False):
     translation = component = None
 

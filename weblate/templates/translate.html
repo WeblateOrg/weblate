@@ -46,7 +46,6 @@
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
 {% perm 'machinery.view' unit.translation as user_can_use_machinery %}
 {% perm 'source.edit' unit.translation as user_can_edit_source %}
-{% perm 'unit.check' unit.translation as user_can_ignore_check %}
 {% perm 'screenshot.add' object.component as user_can_add_screenshot %}
 {% perm 'comment.add' unit.translation as user_can_add_comment %}
 {% perm 'glossary.add' project as user_can_add_glossary %}
@@ -420,6 +419,7 @@
         {% endwith %}
         {% if not check.is_enforced %}
         <p class="list-group-item-text list-buttons">
+            {% perm 'unit.check' check as user_can_ignore_check %}
             {% if user_can_ignore_check %}
             <a href="{% url 'js-ignore-check' check_id=check.id %}" class="btn btn-warning check-dismiss check-dismiss-single">{% trans "Dismiss" %}</a>
             {% if user_can_edit_source %}
