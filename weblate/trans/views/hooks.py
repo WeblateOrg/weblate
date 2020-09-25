@@ -74,9 +74,16 @@ PAGURE_REPOS = (
 HOOK_HANDLERS = {}
 
 
-def hook_response(response="Update triggered", message="success", status=200):
+def hook_response(
+    response: str = "Update triggered",
+    message: str = "success",
+    status: int = 200,
+    **kwargs,
+):
     """Generic okay hook response."""
-    return JsonResponse(data={"status": message, "message": response}, status=status)
+    data = {"status": message, "message": response}
+    data.update(kwargs)
+    return JsonResponse(data=data, status=status)
 
 
 def register_hook(handler):
@@ -186,12 +193,12 @@ def vcs_service_hook(request, service):
         # Include URLs with trailing slash
         spfilter |= Q(repo=repo + "/")
 
-    all_components = Component.objects.filter(spfilter)
+    all_components = repo_components = Component.objects.filter(spfilter)
 
     if branch is not None:
-        all_components = all_components.filter(branch=branch)
+        all_components = repo_components.filter(branch=branch)
 
-    components = all_components.filter(project__enable_hooks=True)
+    enabled_components = all_components.filter(project__enable_hooks=True)
 
     LOGGER.info(
         "received %s notification on repository %s, URL %s, branch %s, "
@@ -201,13 +208,13 @@ def vcs_service_hook(request, service):
         repo_url,
         branch,
         all_components.count(),
-        components.count(),
-        Component.objects.filter(linked_component__in=components).count(),
+        enabled_components.count(),
+        Component.objects.filter(linked_component__in=enabled_components).count(),
     )
 
     # Trigger updates
     updates = 0
-    for obj in components:
+    for obj in enabled_components:
         updates += 1
         LOGGER.info("%s notification will update %s", service_long_name, obj)
         Change.objects.create(
@@ -215,11 +222,26 @@ def vcs_service_hook(request, service):
         )
         perform_update.delay("Component", obj.pk)
 
+    match_status = {
+        "repository_matches": repo_components.count(),
+        "branch_matches": all_components.count(),
+        "enabled_hook_matches": len(enabled_components),
+    }
+
     if updates == 0:
-        return hook_response("No matching repositories found!", "failure", status=202)
+        return hook_response(
+            "No matching repositories found!",
+            "failure",
+            status=202,
+            match_status=match_status,
+        )
+
+    updated_components = [obj.full_slug for obj in enabled_components]
 
     return hook_response(
-        "Update triggered: {}".format(", ".join(obj.full_slug for obj in components))
+        "Update triggered: {}".format(", ".join(updated_components)),
+        match_status=match_status,
+        updated_components=updated_components,
     )
 
 
