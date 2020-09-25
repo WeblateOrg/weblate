@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 16:32+0200\n"
-"PO-Revision-Date: 2020-09-25 05:32+0000\n"
+"PO-Revision-Date: 2020-09-25 20:25+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -39,9 +39,7 @@ msgstr ""
 msgid ""
 "Weblate comes with a fine grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
-msgstr ""
-"Weblate には、インスタンス全体または限定された範囲のユーザー権限を割り当てる"
-"ための詳細な権限システムが付属しています。"
+msgstr "Weblate には、インスタンス全体または限定された範囲のユーザーに、アクセス権を割り当てるための詳細な権限システムを搭載しています。"
 
 #: ../../admin/access.rst:15
 msgid ""
@@ -49,9 +47,8 @@ msgid ""
 "permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"グループと権限に基づくアクセス権のシステム。権限が一連のアクセス権を定義し、"
-"グループがユーザーと翻訳に割り当てる。詳細については、参照 :ref:`auth-model` "
-"を参照してください。"
+"グループとロールに基づくアクセス許可のシステム。ロールにアクセス権のセットを設定し、グループとユーザーと翻訳に割り当てます。詳細については、:ref"
+":`auth-model` を参照してください。"
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -61,10 +58,9 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`."
 msgstr ""
-"インストール後にデフォルトのグループが作成され、それを使用しインスタンス全体"
-"にユーザーの権限が割り当てられます（参照 :ref:`default-groups`）。さらに、:"
-"ref:`acl` を有効にすると、特定の翻訳プロジェクトにユーザーが割り当てられま"
-"す。詳細設定は :ref:`custom-acl` を使用して実現できます。"
+"インストール後にデフォルトのグループが作成され、それを使用しインスタンス全体にユーザーの権限が割り当てられます（参照 :ref:`default-"
+"groups`）。また、:ref:`acl` を有効にすると、特定の翻訳プロジェクトにユーザーが割り当てられます。さらに詳細な設定は :ref"
+":`custom-acl` から設定します。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -94,9 +90,8 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
-"インスタンス全体のアクセス権の管理するには、`Users` （デフォルトでは :ref:"
-"`autogroup` を使用）、`Reviewers` および `Managers` グループにユーザーを追加"
-"します。すべてのプロジェクトを `Public` に設定する（参照 :ref:`acl`）。"
+"インスタンス全体のアクセス権の管理するには、`ユーザー` （デフォルトでは :ref:`autogroup` を使用）、`査読者` および `管理者` "
+"グループにユーザーを追加します。すべてのプロジェクトを `公開` に設定する（参照 :ref:`acl`）。"
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
@@ -106,9 +101,7 @@ msgstr "プロジェクト単位のアクセス権"
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
-msgstr ""
-"プロジェクトを `Protected` または `Private` に設定し、Weblate インターフェイ"
-"スでプロジェクトごとにユーザーを管理します。"
+msgstr "プロジェクトを `保護` または `プライベート` に設定し、Weblate インターフェイスでプロジェクトごとにユーザーを管理します。"
 
 #: ../../admin/access.rst:48
 msgid "Adding permissions to languages, components or projects"
@@ -121,10 +114,8 @@ msgid ""
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
-"さらに、プロジェクト、コンポーネント、言語セットに基づいて、任意のユーザーに"
-"権限を付与することができます。これを実現するには、新しいグループ（例：`Czech "
-"translators`）を作成し、与えられたリソースに対して設定します。割り当てられた"
-"アクセス権は、選択したリソースのグループのメンバーに付与されます。"
+"さらに、プロジェクト、コンポーネント、言語セットに基づいて、どのユーザーにもアクセス権を追加で設定できます。設定方法は、新しいグループ（例：`Czech "
+"translators`）を作成し、特定のリソースに対して設定します。割り当てたアクセス権は、選択したリソースのグループのメンバーに設定されます。"
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -150,9 +141,7 @@ msgstr "プロジェクト単位のアクセス制御"
 msgid ""
 "By enabling ACL, all users are prohibited from accessing anything within a "
 "given project, unless you add the permissions for them to do just that."
-msgstr ""
-"ACL を有効にすると、すべてのユーザーは、アクセス許可を追加しない限り、該当の"
-"プロジェクト内へのすべてのアクセスが禁止されます。"
+msgstr "ACL を有効にすると、すべてのユーザーは、アクセス権を追加しない限り、該当のプロジェクト内へのすべてのアクセスが禁止されます。"
 
 #: ../../admin/access.rst:74
 msgid ""
@@ -161,13 +150,12 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
-"個々のプロジェクトへのユーザーのアクセスを制限できます。この機能は、各プロ"
-"ジェクトの設定で :guilabel:`Access control` をオンにすることで有効になりま"
-"す。このプロジェクトに対しては、複数のグループが自動的に作成されます。"
+"個々のプロジェクトへのユーザーのアクセスを制限できます。この機能を有効にするには、各プロジェクトの設定で :guilabel:`アクセス制御` "
+"を有効にします。これにより、このプロジェクトに複数のグループが自動的に作成されます、参照 :ref:`groups`。"
 
 #: ../../admin/access.rst:78
 msgid "The following choices exist for :guilabel:`Access control`:"
-msgstr ":guilabel:`Access control` には次の選択肢があります:"
+msgstr ":guilabel:`アクセス制御` には次の選択肢があります:"
 
 #: ../../admin/access.rst:80
 msgid "Public"
@@ -195,7 +183,7 @@ msgstr "選択したユーザーのみ表示および翻訳可能"
 
 #: ../../admin/access.rst:87
 msgid "Custom"
-msgstr "独自設定"
+msgstr "カスタム"
 
 #: ../../admin/access.rst:87
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
@@ -208,9 +196,8 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
-"このプロジェクトへのアクセスを許可するには、Django 管理インターフェースで特定"
-"のユーザーまたはユーザー グループに直接権限を追加するか、プロジェクト ページ"
-"でユーザー管理から権限を追加する必要があります、解説は :ref:`manage-acl`。"
+"このプロジェクトへのアクセスを許可するには、Django 管理画面で、特定のユーザーまたはユーザー グループに権限を直接追加するか、プロジェクト "
+"ページのユーザー管理で権限の追加が必要です、解説は :ref:`manage-acl`。"
 
 #: ../../admin/access.rst:97
 msgid ""
@@ -244,9 +231,7 @@ msgstr ""
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
-msgstr ""
-"これは、各グループの Django 管理インターフェイスで設定できます（ :guilabel:"
-"`Authentication` セクション内）。"
+msgstr "これは、各グループの Django 管理インターフェイスで設定できます（ :guilabel:`認証` セクション）。"
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -254,13 +239,12 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
-"`Users` グループと `Viewers` グループの自動グループ割り当ては、移行時に常に "
-"Weblate によって作成されます。無効する場合は、正規表現を ``^$`` に設定するだ"
-"けで、一致しなくなります。"
+"`ユーザー` グループと `閲覧者` グループの自動グループ割り当ては、移行時に常に Weblate によって作成されます。無効する場合は、正規表現を "
+"``^$`` に設定するだけで、一致しなくなります。"
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
-msgstr "ユーザー、役割、グループ、および権限"
+msgstr "ユーザー、ロール、グループ、およびアクセス権"
 
 #: ../../admin/access.rst:124
 msgid "The authentication models consist of several objects:"
@@ -268,31 +252,27 @@ msgstr "認証モデルを構成している複数のオブジェクト:"
 
 #: ../../admin/access.rst:127
 msgid "`Permission`"
-msgstr "`Permission`"
+msgstr "`アクセス権`"
 
 #: ../../admin/access.rst:127
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
-msgstr ""
-"Weblate によって定義された個別のアクセス権限。個々の権限を割り当てることはで"
-"きません。これは、役割の割り当てを通じてのみ実行できます。"
+msgstr "Weblate が定義済みの個別のアクセス権。個別にアクセス権の割り当てはできません。これは、ロールの割り当てを通じてのみ設定できます。"
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
-msgstr "`Role`"
+msgstr "`ロール`"
 
 #: ../../admin/access.rst:130
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
-msgstr ""
-"役割は、一連のアクセス権限を定義します。これにより、このセットを複数の場所で"
-"再利用でき、管理が容易になります。"
+msgstr "ロールには、アクセス権のセットを定義します。これにより、このセットを複数の場所で再利用でき、管理が容易になります。"
 
 #: ../../admin/access.rst:132
 msgid "`User`"
-msgstr "`User`"
+msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:133
 msgid "Users can be members of several groups."
@@ -300,7 +280,7 @@ msgstr "ユーザーは複数のグループのメンバーに参加できます
 
 #: ../../admin/access.rst:136
 msgid "`Group`"
-msgstr "`Group`"
+msgstr "`グループ`"
 
 #: ../../admin/access.rst:135
 msgid ""
@@ -319,9 +299,7 @@ msgid ""
 "Whenever a permission is checked to decide whether one is able to perform a "
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
-msgstr ""
-"特定の操作を実行できるかどうかを判断するための許可の確認が行われるたびに、次"
-"のような順番でスコープに応じて確認が行われます。"
+msgstr "指定した操作が実行できるかどうか、毎回アクセス権を範囲に応じて検査します、確認の順番は次のとおりです:"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` is matched against component or project."
@@ -353,30 +331,27 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
-"最初の規則のみ適用されます。したがって、:guilabel:`Component list`、:"
-"guilabel:`Components`、:guilabel:`Project` をすべて設定すると、:guilabel:"
-"`Component list` のみが適用されます。"
+"最初の規則のみ適用されます。したがって、:guilabel:`コンポーネント "
+"リスト`、:guilabel:`コンポーネント`、:guilabel:`プロジェクト` をすべて設定すると、:guilabel:`Component "
+"list` のみが適用されます。"
 
 #: ../../admin/access.rst:175
 msgid ""
 "An additional step is performed if checking permission for the translation:"
-msgstr "翻訳の許可を確認する場合は、さらに次の手順を実行します:"
+msgstr "翻訳のアクセス権を確認する場合は、さらに次の手順を実行します:"
 
 #: ../../admin/access.rst:178
 msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
-msgstr ""
-"4. :guilabel:`Languages` を設定している場合は、翻訳中の言語の中から合わせま"
-"す。設定していない場合は、どの言語にも一致しません。"
+msgstr "4. :guilabel:`言語` を設定している場合は、翻訳中の言語の中から合わせます。設定していない場合は、どの言語にも一致しません。"
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
-":guilabel:`Language selection` または :guilabel:`Project selection` を使用し"
-"て、すべての言語またはプロジェクトを自動的に登録できます。"
+":guilabel:`言語の選択` または :guilabel:`プロジェクトの選択` を使用して、すべての言語またはプロジェクトを自動的に登録できます。"
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
@@ -389,10 +364,8 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
-"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクしてるグ"
-"ループに登録している必要があります。登録していれば十分で、プロジェクトに参加"
-"するための特定な権限は必要ありません（これはデフォルトの `Viewers` グループで"
-"使用します、参照 :ref:`default-groups`）。"
+"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクされたグループの登録者であることが必要です。登録者であるだけで十分で、プロジェクトに参"
+"加するための特定なアクセル権は必要ありません（これはデフォルトの `閲覧者` グループで使用します、参照 :ref:`default-groups`）。"
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
@@ -436,9 +409,8 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
-":guilabel:`Can manage ACL rules for a project` 権限（参照 :ref:`privileges`）"
-"を持つユーザーは、プロジェクト ページでアクセス制御が有効になっているプロジェ"
-"クト内のユーザーも管理できます。このインタフェースでは、次のことができます:"
+":guilabel:`プロジェクトの ACL 規則を管理できる` 権限（参照 :ref:`privileges`）を持つユーザーは、プロジェクト "
+"ページでアクセス制御が有効になっているプロジェクト内のユーザーも管理できます。このインタフェースでは、次のことができます:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
@@ -464,7 +436,7 @@ msgstr "ユーザーにメールの招待状を再送信して、以前に送信
 #: ../../admin/access.rst:231
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
-msgstr "ユーザー管理は、プロジェクトの :guilabel:`Manage` から設定:"
+msgstr "ユーザー管理は、プロジェクトの :guilabel:`管理` から設定:"
 
 #: ../../admin/access.rst:237
 msgid ":ref:`acl`"
@@ -534,13 +506,10 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-":guilabel:`Access control` として :guilabel:`Custom` を選択すると、Weblate は"
-"特定のプロジェクトのアクセス管理を停止し、すべてのユーザーとグループを "
-"Django 管理インターフェースを使って管理できます。これを使用すると、より複雑な"
-"アクセス制御を定義したり、単一の Weblate インスタンス内のすべてのプロジェクト"
-"に対して共有アクセス ポリシーを設定できます。デフォルトですべてのプロジェクト"
-"に対してこのオプションを有効にする場合は、:setting:`DEFAULT_ACCESS_CONTROL` "
-"を設定してください。"
+":guilabel:`アクセス制御` として :guilabel:`カスタム` を選択すると、Weblate は特定のプロジェクトのアクセス管理を停止し、"
+"すべてのユーザーとグループを Django 管理インターフェースを使って管理できます。これを使用すると、より複雑なアクセス制御を定義したり、単一の "
+"Weblate インスタンス内のすべてのプロジェクトに対して共有アクセス ポリシーを設定できます。デフォルトですべてのプロジェクトに対してこのオプションを"
+"有効にする場合は、:setting:`DEFAULT_ACCESS_CONTROL` を設定してください。"
 
 #: ../../admin/access.rst:300
 msgid ""
@@ -620,7 +589,7 @@ msgstr "用語集の用語の編集 [`Administration`, `Manage glossary`, `Power
 #: ../../admin/access.rst:333
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr "用語集の用語の削除 [管理'、用語集の管理'、'パワーユーザー']"
+msgstr "用語集の用語の削除 [`Administration`, `Manage glossary`, `Power user`]"
 
 #: ../../admin/access.rst:335
 msgid ""
@@ -873,7 +842,7 @@ msgstr "ユーザーの管理"
 
 #: ../../admin/access.rst:422
 msgid "Manage roles"
-msgstr "役割の管理"
+msgstr "ロールの管理"
 
 #: ../../admin/access.rst:424
 msgid "Manage announcements"
@@ -911,7 +880,7 @@ msgstr ""
 
 #: ../../admin/access.rst:450
 msgid "`Guests`"
-msgstr "`Guests`"
+msgstr "`ゲスト`"
 
 #: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
@@ -932,11 +901,11 @@ msgstr "このグループからロールを削除して、非認証ユーザー
 
 #: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr "デフォルト roles: `Add suggestion`、 `Access repository`"
+msgstr "デフォルトのロール: `Add suggestion`、 `Access repository`"
 
 #: ../../admin/access.rst:458
 msgid "`Viewers`"
-msgstr "`Viewers`"
+msgstr "`閲覧者`"
 
 #: ../../admin/access.rst:453
 msgid ""
@@ -954,12 +923,12 @@ msgstr ""
 
 #: ../../admin/access.rst:458
 msgid "Default roles: none"
-msgstr "デフォルト roles: none"
+msgstr "デフォルトのロール: none"
 
 #: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
-msgstr "`Users`"
+msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:461
 msgid "Default group for all users."
@@ -973,11 +942,11 @@ msgstr ""
 
 #: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
-msgstr "デフォルト roles: `Power user`"
+msgstr "デフォルトのロール: `Power user`"
 
 #: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
-msgstr "`Reviewers`"
+msgstr "`査読者`"
 
 #: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
@@ -985,11 +954,11 @@ msgstr "査読者用のグループ（参照 :ref:`workflows`）。"
 
 #: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
-msgstr "デフォルト roles: `Review strings`"
+msgstr "デフォルトのロール: `Review strings`"
 
 #: ../../admin/access.rst:475
 msgid "`Managers`"
-msgstr "`Managers`"
+msgstr "`管理者`"
 
 #: ../../admin/access.rst:473
 msgid "Group for administrators."
@@ -997,7 +966,7 @@ msgstr "管理者用のグループ。"
 
 #: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
-msgstr "デフォルト roles: `Administration`"
+msgstr "デフォルトのロール: `Administration`"
 
 #: ../../admin/access.rst:479
 msgid ""
@@ -4205,7 +4174,7 @@ msgstr ""
 
 #: ../../admin/config.rst:362
 msgid "DEFAULT_ACCESS_CONTROL"
-msgstr ""
+msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:366
 msgid "The default access control setting for new projects:"
@@ -11602,11 +11571,11 @@ msgstr ""
 #: ../../admin/optionals.rst:235 ../../api.rst:147
 #: ../../user/translating.rst:328
 msgid "Rate limiting"
-msgstr ""
+msgstr "レート制限"
 
 #: ../../admin/optionals.rst:239
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr ""
+msgstr "レート制限では、さらに詳細な設定が可能になりました。"
 
 #: ../../admin/optionals.rst:241
 msgid ""
@@ -11620,7 +11589,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:245
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "次の操作は、レート制限の対象となります。"
 
 #: ../../admin/optionals.rst:248 ../../devel/reporting-example.rst:2
 msgid "Name"
@@ -13474,7 +13443,7 @@ msgstr ""
 msgid ""
 "There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting "
 "of rate limiting in the API."
-msgstr ""
+msgstr "``DEFAULT_THROTTLE_CLASSES`` の設定を変更し、API でレート制限のレポート作成を可能とした。"
 
 #: ../../admin/upgrade.rst:128 ../../admin/upgrade.rst:142
 msgid "There are some new and updated requirements."
@@ -15068,9 +15037,7 @@ msgstr "自動翻訳元"
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
-msgstr ""
-"プロジェクトの共有翻訳メモリへの貢献を有効にして、追加コンポーネントにアクセ"
-"スします。"
+msgstr "プロジェクトの共有翻訳メモリに協力を有効にして、追加コンポーネントにアクセスします。"
 
 #: ../../api.rst:1716
 msgid "Machine translation engines"
@@ -19059,7 +19026,7 @@ msgstr ""
 
 #: ../../changes.rst:1006
 msgid "Keep preferences tab selected after saving."
-msgstr ""
+msgstr "保存後も環境設定タブを選択したままにする。"
 
 #: ../../changes.rst:1007
 msgid "Show source string comment more prominently."
@@ -20305,7 +20272,7 @@ msgstr ""
 
 #: ../../changes.rst:1392
 msgid "List only used languages in preferences."
-msgstr ""
+msgstr "使用している言語のみを環境設定に一覧表示します。"
 
 #: ../../changes.rst:1393
 msgid "Improved handling of not known languages when importing project."
@@ -20977,7 +20944,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
-msgstr "Weblate への貢献"
+msgstr "Weblate に貢献"
 
 #: ../../contributing/index.rst:7
 msgid ""
@@ -21016,7 +20983,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:27
 msgid "Funding Weblate development"
-msgstr "Weblate 開発への資金提供"
+msgstr "Weblate 開発に資金提供"
 
 #: ../../contributing/index.rst:29
 msgid ""
@@ -21028,7 +20995,7 @@ msgstr ""
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
-msgstr "Weblate に資金提供した後援者"
+msgstr "Weblate に資金提供した支援者"
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
@@ -21060,118 +21027,120 @@ msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
-msgstr ""
+msgstr "https://freedombox.org/"
 
 #: ../../../BACKERS.rst:13
 msgid "GNU Solidario (GNU Health)"
-msgstr ""
+msgstr "GNU Solidario (GNU Health)"
 
 #: ../../../BACKERS.rst:15
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
 msgstr ""
-"支援者名簿に掲載しませんか？`Donate to Weblate <https://weblate.org/donate/>`_ "
-"の選択から選んでください。"
+"支援者名簿に掲載しませんか？`Weblate に寄付をする <https://weblate.org/donate/>`_ の選択から選んでください。"
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
-msgstr ""
+msgstr "Weblate の内部"
 
 #: ../../contributing/internals.rst:8
 msgid "This chapter will give you basic overview of Weblate internals."
-msgstr ""
+msgstr "この章では、Weblate 内部の基本的な概要を説明します。"
 
 #: ../../contributing/internals.rst:10
 msgid ""
 "Weblate derives most of its code structure from, and is based on `Django`_."
-msgstr ""
+msgstr "Weblate はそのコード構造の大部分は `Django`_ をベースに作成しています。"
 
 #: ../../contributing/internals.rst:13
 msgid "Directory structure"
-msgstr ""
+msgstr "ディレクトリ構造"
 
 #: ../../contributing/internals.rst:15
 msgid "Quick overview of directory structure of Weblate main repository:"
-msgstr ""
+msgstr "Weblate メイン リポジトリのディレクトリ構造の概要:"
 
 #: ../../contributing/internals.rst:17
 msgid "``docs``"
-msgstr ""
+msgstr "``docs``"
 
 #: ../../contributing/internals.rst:18
 msgid ""
 "Source code for this documentation, built using `Sphinx <https://www.sphinx-"
 "doc.org/>`_."
-msgstr ""
+msgstr "このドキュメントのソース コードは、`Sphinx <https://www.sphinx-doc.org/>`_ を使用して構築しています。"
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
-msgstr ""
+msgstr "``dev-docker``"
 
 #: ../../contributing/internals.rst:20
 msgid "Docker code to run development server, see :ref:`dev-docker`."
-msgstr ""
+msgstr "開発サーバを実行する Docker コード、参照 :ref:`dev-docker`。"
 
 #: ../../contributing/internals.rst:21
 msgid "``weblate``"
-msgstr ""
+msgstr "``weblate``"
 
 #: ../../contributing/internals.rst:22
 msgid ""
 "Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ "
 "application, see :ref:`internals`."
 msgstr ""
+"`Django<https://www.djangoproject.com/>`_ アプリケーションとしての Weblate のソース コード、参照 "
+":ref:`internals`。"
 
 #: ../../contributing/internals.rst:24
 msgid "``weblate/static``"
-msgstr ""
+msgstr "``weblate/static``"
 
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
-msgstr ""
+msgstr "クライアント ファイル（CSS、Javascript および画像）、参照 :doc:`frontend`。"
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
-msgstr ""
+msgstr "モジュール"
 
 #: ../../contributing/internals.rst:29
 msgid ""
 "Weblate consists of several Django applications (some optional, see :doc:`/"
 "admin/optionals`):"
 msgstr ""
+"Weblate は、複数の Django アプリケーションで構成されています（複数のオプション、参照 :doc:`/admin/optionals`）。"
 
 #: ../../contributing/internals.rst:32
 msgid "``accounts``"
-msgstr ""
+msgstr "``accounts``"
 
 #: ../../contributing/internals.rst:34
 msgid "User account, profiles and notifications."
-msgstr ""
+msgstr "ユーザー アカウント、プロファイル、および通知。"
 
 #: ../../contributing/internals.rst:36
 msgid "``addons``"
-msgstr ""
+msgstr "``addons``"
 
 #: ../../contributing/internals.rst:38
 msgid "Addons to tweak Weblate behavior, see :ref:`addons`."
-msgstr ""
+msgstr "Weblate の動作の詳細設定用のアドオン、参照 :ref:`addons`。"
 
 #: ../../contributing/internals.rst:40
 msgid "``api``"
-msgstr ""
+msgstr "``api``"
 
 #: ../../contributing/internals.rst:42
 msgid "API based on `Django REST framework`_."
-msgstr ""
+msgstr "`Django REST framework`_ をベースにした API。"
 
 #: ../../contributing/internals.rst:44
 msgid "``auth``"
-msgstr ""
+msgstr "``auth``"
 
 #: ../../contributing/internals.rst:46
 msgid "Authentication and permissions."
-msgstr ""
+msgstr "認証とアクセス権。"
 
 #: ../../contributing/internals.rst:48
 msgid "``billing``"
@@ -21183,115 +21152,115 @@ msgstr "オプションの :ref:`billing` モジュール。"
 
 #: ../../contributing/internals.rst:52
 msgid "``checks``"
-msgstr ""
+msgstr "``checks``"
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
-msgstr ""
+msgstr "翻訳文字列の :ref:`checks` モジュール。"
 
 #: ../../contributing/internals.rst:56
 msgid "``fonts``"
-msgstr ""
+msgstr "``fonts``"
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
-msgstr ""
+msgstr "フォント レンダリング検査モジュール。"
 
 #: ../../contributing/internals.rst:60
 msgid "``formats``"
-msgstr ""
+msgstr "``formats``"
 
 #: ../../contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
-msgstr ""
+msgstr "translate-toolkit をベースにしたファイル形式抽象化レイヤー。"
 
 #: ../../contributing/internals.rst:64
 msgid "``gitexport``"
-msgstr ""
+msgstr "``gitexport``"
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
-msgstr ""
+msgstr "オプションの :ref:`git-exporter` モジュール。"
 
 #: ../../contributing/internals.rst:68
 msgid "``lang``"
-msgstr ""
+msgstr "``lang``"
 
 #: ../../contributing/internals.rst:70
 msgid "Module defining language and plural models."
-msgstr ""
+msgstr "言語と複数形のモデルを定義するモジュール。"
 
 #: ../../contributing/internals.rst:72
 msgid "``langdata``"
-msgstr ""
+msgstr "``langdata``"
 
 #: ../../contributing/internals.rst:74
 msgid "Language data definitions."
-msgstr ""
+msgstr "言語データの定義。"
 
 #: ../../contributing/internals.rst:76
 msgid "``legal``"
-msgstr ""
+msgstr "``legal``"
 
 #: ../../contributing/internals.rst:78
 msgid "The optional :ref:`legal` module."
-msgstr ""
+msgstr "オプションの :ref:`legal` モジュール。"
 
 #: ../../contributing/internals.rst:80
 msgid "``machinery``"
-msgstr ""
+msgstr "``machinery``"
 
 #: ../../contributing/internals.rst:82
 msgid "Integration of machine translation services."
-msgstr ""
+msgstr "機械翻訳サービスの統合。"
 
 #: ../../contributing/internals.rst:84
 msgid "``memory``"
-msgstr ""
+msgstr "``memory``"
 
 #: ../../contributing/internals.rst:86
 msgid "Built in translation memory, see :ref:`translation-memory`."
-msgstr ""
+msgstr "内蔵の翻訳メモリ、参照 :ref:`translation-memory`。"
 
 #: ../../contributing/internals.rst:88
 msgid "``screenshots``"
-msgstr ""
+msgstr "``screenshots``"
 
 #: ../../contributing/internals.rst:90
 msgid "Screenshots management and OCR module."
-msgstr ""
+msgstr "スクリーンショット管理と OCR モジュール。"
 
 #: ../../contributing/internals.rst:92
 msgid "``trans``"
-msgstr ""
+msgstr "``trans``"
 
 #: ../../contributing/internals.rst:94
 msgid "Main module handling translations."
-msgstr ""
+msgstr "翻訳を処理するメイン モジュール。"
 
 #: ../../contributing/internals.rst:96
 msgid "``utils``"
-msgstr ""
+msgstr "``utils``"
 
 #: ../../contributing/internals.rst:98
 msgid "Various helper utilities."
-msgstr ""
+msgstr "複数のヘルパー ユーティリティ。"
 
 #: ../../contributing/internals.rst:100
 msgid "``vcs``"
-msgstr ""
+msgstr "``vcs``"
 
 #: ../../contributing/internals.rst:102
 msgid "Version control system abstraction."
-msgstr ""
+msgstr "バージョン管理システムの抽象化。"
 
 #: ../../contributing/internals.rst:104
 msgid "``wladmin``"
-msgstr ""
+msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:106
 msgid "Django admin interface customization."
-msgstr ""
+msgstr "カスタマイズした Django の管理画面。"
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -22011,7 +21980,7 @@ msgstr ":ref:`user-profile`、 :djadmin:`dumpuserdata`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr "Weblate へのコード提供の始め方"
+msgstr "Weblate にコードの提供開始"
 
 #: ../../contributing/start.rst:4
 msgid ""
@@ -25829,15 +25798,15 @@ msgstr ""
 
 #: ../../toc-user.rst:1 ../../latexindex.rst:7
 msgid "User docs"
-msgstr ""
+msgstr "ユーザー ドキュメント"
 
 #: ../../toc-admin.rst:1 ../../latexindex.rst:12
 msgid "Administrator docs"
-msgstr ""
+msgstr "管理者ドキュメント"
 
 #: ../../toc-contrib.rst:1 ../../latexindex.rst:17
 msgid "Contributor docs"
-msgstr ""
+msgstr "貢献者ドキュメント"
 
 #: ../../toc-changes.rst:1
 msgid "Change history"
@@ -26959,9 +26928,8 @@ msgid ""
 "This can also lead to inconsistencies in displayed checks. You can find "
 "other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
-"プロジェクト内の 1 つの文字列の翻訳が異なる場合、検査で不合格となります。これ"
-"により、表示される検索に矛盾が生じることもあります。この文字列の他の翻訳は :"
-"guilabel:`Other occurrences` タブにあります。"
+"プロジェクト内の 1 つの文字列の翻訳が異なる場合、検査で不合格となります。これにより、表示される検索に矛盾が生じることもあります。"
+"この文字列の他の翻訳は :guilabel:`その他の出現箇所` タブにあります。"
 
 #: ../../user/checks.rst:457
 msgid ""
@@ -26971,11 +26939,9 @@ msgid ""
 "guilabel:`Use this translation` button displayed on each line in the :"
 "guilabel:`Other occurrences` tab."
 msgstr ""
-"この検査は、文字列があるコンポーネントでは翻訳されていて、別のコンポーネント"
-"では翻訳されていない場合にも発生します。これは、:guilabel:`Other "
-"occurrences` タブの各行に表示される :guilabel:`Use this translation` ボタンを"
-"クリックするだけで、一部のコンポーネントで翻訳されていない文字列を手動で処理"
-"する簡単な方法として使用できます。"
+"この検査は、文字列があるコンポーネントでは翻訳されていて、別のコンポーネントでは翻訳されていない場合にも発生します。これは、:guilabel:`その他の"
+"出現箇所` タブの各行に表示される :guilabel:`この翻訳を使う` "
+"ボタンをクリックするだけで、一部のコンポーネントで翻訳されていない文字列を手動で処理する簡単な方法として使用できます。"
 
 #: ../../user/checks.rst:463
 msgid ""
@@ -27813,10 +27779,9 @@ msgid ""
 "guilabel:`Files` menu, producing a copy of the original file as it is stored "
 "in the upstream Version Control System."
 msgstr ""
-"プロジェクトまたはコンポーネントのダッシュボードを表示し、翻訳可能なファイル"
-"を :guilabel:`Files` メニューの :guilabel:`Download original translation "
-"file` からダウンロードします。オリジナルのファイルのコピーは、ファイルを "
-"upstream バージョン管理システムに保存するときに作成されます。"
+"プロジェクトまたはコンポーネントのダッシュボードを表示し、翻訳可能なファイルを :guilabel:`ファイル` メニューの "
+":guilabel:`オリジナルの翻訳ファイルのダウンロード` からダウンロードします。オリジナルのファイルのコピーは、ファイルを upstream "
+"バージョン管理システムに保存するときに作成されます。"
 
 #: ../../user/files.rst:20
 msgid ""
@@ -27834,9 +27799,8 @@ msgid ""
 "choice of application (for example ``.mo`` files for GNU Gettext) using the :"
 "guilabel:`Files` menu."
 msgstr ""
-":guilabel:`Files` メニューを使用して選択したアプリケーション（例 GNU Gettext "
-"の ``.mo`` ファイル）で使用するコンパイル済みファイルなど、複数のファイル形式"
-"を使用できます。"
+":guilabel:`ファイル` メニューを使用して選択したアプリケーション（例 GNU Gettext の ``.mo`` "
+"ファイル）で使用するコンパイル済みファイルなど、複数のファイル形式を使用できます。"
 
 #: ../../user/files.rst:29
 msgid "Uploading translations"
@@ -27846,9 +27810,7 @@ msgstr "翻訳のアップロード"
 msgid ""
 "When you have made your changes, use :guilabel:`Upload translation` in the :"
 "guilabel:`Files` menu."
-msgstr ""
-"ファイルに変更を加えたら、:guilabel:`Files` メニューの :guilabel:`Upload "
-"translation` を実行します。"
+msgstr "ファイルに変更を加えたら、:guilabel:`ファイル` メニューの :guilabel:`翻訳のアップロード` を実行します。"
 
 #: ../../user/files.rst:41
 msgid ""
@@ -28045,26 +28007,22 @@ msgid ""
 ":guilabel:`Projects` > :guilabel:`Browse all projects` in the main menu "
 "showing translation status for each project on the Weblate instance."
 msgstr ""
-"メイン メニューの :guilabel:`Projects` > :guilabel:`Browse all projects` に、"
-"Weblate インスタンスの各プロジェクトの翻訳状況が表示されます。"
+"メイン メニューの :guilabel:`プロジェクト` > :guilabel:`すべてのプロジェクトを閲覧` に、Weblate "
+"インスタンスの各プロジェクトの翻訳状況を表示します。"
 
 #: ../../user/profile.rst:40
 msgid ""
 "Selecting a language in the main menu :guilabel:`Languages` will show "
 "translation status of all projects, filtered by one of your primary "
 "languages."
-msgstr ""
-"メイン メニューの :guilabel:`Languages` で言語を選択すると、すべてのプロジェ"
-"クトの翻訳状況には、設定した翻訳言語の状況が表示されます。"
+msgstr "メイン メニューの :guilabel:`言語` で言語を選択すると、すべてのプロジェクトの翻訳状況には、設定した翻訳言語の状況を表示します。"
 
 #: ../../user/profile.rst:42
 msgid ""
 ":guilabel:`Watched translations` in the Dashboard will show translation "
 "status of only those projects you are watching, filtered by your primary "
 "languages."
-msgstr ""
-"ダッシュボードの :guilabel:`Watched translations` には、設定した翻訳言語のみ"
-"が監視中のプロジェクトの翻訳状況に表示されます。"
+msgstr "ダッシュボードの :guilabel:`監視中の翻訳` には、設定した翻訳言語のみが監視中のプロジェクトの翻訳状況に表示します。"
 
 #: ../../user/profile.rst:45
 msgid ""
@@ -28080,9 +28038,7 @@ msgstr ""
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
-msgstr ""
-"個人用のデフォルトのダッシュボード画面は、ユーザー アイコンの設定の :"
-"guilabel:`Preferences` セクションで設定できます。"
+msgstr "個人用のデフォルトのダッシュボード画面は、ユーザー情報の :guilabel:`環境設定` タブで設定できます。"
 
 #: ../../user/profile.rst:54
 msgid ""
@@ -28105,8 +28061,7 @@ msgid ""
 "The user profile is accessible by clicking your user icon in the top-right "
 "of the top menu, then the :guilabel:`Settings` menu."
 msgstr ""
-"ユーザー情報にアクセスするには、トップメニューの右上にあるユーザー アイコンを"
-"クリックし、 :guilabel:`Settings` メニューをクリックします。"
+"ユーザー情報にアクセスするには、トップメニューの右上にあるユーザー アイコンをクリックし、 :guilabel:`設定` メニューをクリックします。"
 
 #: ../../user/profile.rst:65
 msgid ""
@@ -28165,10 +28120,8 @@ msgid ""
 "list`, you have to select which component list will be displayed from the :"
 "guilabel:`Default component list` drop-down."
 msgstr ""
-":guilabel:`Preferences` タブで、デフォルトで表示するダッシュボード画面を選択"
-"できます。:guilabel:`Component list` を選択した場合、:guilabel:`Default "
-"component list` ドロップダウンから表示するコンポーネント リストの選択が必要で"
-"す。"
+":guilabel:`環境設定` タブで、デフォルトで表示するダッシュボード画面を選択できます。:guilabel:`コンポーネント リスト` "
+"を選択した場合、:guilabel:`デフォルトのコンポーネント リスト` ドロップダウンから表示するコンポーネント リストの選択が必要です。"
 
 #: ../../user/profile.rst:107
 msgid ":ref:`componentlists`"
@@ -28213,9 +28166,8 @@ msgid ""
 "By setting the :guilabel:`Editor link`, you use your local editor to open "
 "the VCS source code file of translated strings. You can use :ref:`markup`."
 msgstr ""
-":guilabel:`Editor link を設定すると、ローカル エディターを使用して、翻訳した"
-"文字列の VCS ソース コードのファイルを表示します。:ref:`markup` を使用できま"
-"す。"
+":guilabel:`エディタ リンク` を設定すると、ローカル エディターを使用して、翻訳した文字列の VCS ソース "
+"コードのファイルを表示します。:ref:`markup` を使用できます。"
 
 #: ../../user/profile.rst:130
 msgid ""
@@ -28243,8 +28195,7 @@ msgid ""
 "Notifications for selected events on watched or administered projects will "
 "be sent to you per e-mail."
 msgstr ""
-":guilabel:`Notifications` タブから複数の通知を受け取れます。監視または管理し"
-"ているプロジェクトで選択したイベントの通知は、メールで送信されます。"
+":guilabel:`通知` タブから複数の通知を受け取れます。監視中または管理中のプロジェクトで選択したイベントの通知は、メールで送信されます。"
 
 #: ../../user/profile.rst:146
 msgid ""
@@ -28264,9 +28215,8 @@ msgid ""
 "the component page and select appropriate choice from the :guilabel:"
 "`Watching` menu."
 msgstr ""
-"監視中のプロジェクトと管理中のプロジェクトの通知を切り替えたり、プロジェクト"
-"やコンポーネントごとに詳細に設定（非通知など）にできます。コンポーネント ペー"
-"ジにアクセスし、:guilabel:`Watching` メニューから適切な項目を選択します。"
+"監視中のプロジェクトと管理中のプロジェクトの通知を切り替えたり、プロジェクトやコンポーネントごとに詳細に設定（非通知など）にできます。コンポーネント "
+"ページにアクセスし、:guilabel:`監視中` メニューから適切な項目を選択します。"
 
 #: ../../user/profile.rst:157
 msgid "You will not receive notifications for your own actions."
@@ -28282,9 +28232,9 @@ msgid ""
 "various services you can use to sign in into Weblate, completely remove your "
 "account, or download your user data (see :ref:`schema-userdata`)."
 msgstr ""
-":guilabel:`Account` タブでは、基本的なアカウントの詳細を設定したり、Weblate "
-"へのサインインに使用できる複数の外部サービスに接続したり、アカウントを完全に"
-"削除したり、個人情報（参照 :ref:`schema-userdata`）をダウンロードできます。"
+":guilabel:`アカウント` タブでは、基本的なアカウントの詳細を設定したり、Weblate "
+"へのサインインに使用できる複数の外部サービスに接続したり、アカウントを完全に削除したり、個人情報（参照 :ref:`schema-"
+"userdata`）をダウンロードできます。"
 
 #: ../../user/profile.rst:170
 msgid ""
@@ -28331,8 +28281,8 @@ msgid ""
 "When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Translate` and :guilabel:`Context` fields."
 msgstr ""
-"フィールドが定義されていない場合は、:guilabel:`Source`、:guilabel:"
-"`Translate` および :guilabel:`Context` フィールドで検索されます。"
+"フィールドが定義されていない場合は、:guilabel:`原文`、:guilabel:`翻訳文` および :guilabel:`コンテキスト` "
+"フィールドで検索されます。"
 
 #: ../../user/search.rst:15
 msgid "Simple search"
@@ -28721,11 +28671,10 @@ msgid ""
 "available. Alternatively you can use the search field to find a specific "
 "string or term."
 msgstr ""
-"コンポーネントには、実際の翻訳画面に移動するリンクのセットがあります。さらに"
-"翻訳は、次のようなそれぞれの検査に分かれています、例えば :guilabel:`Not "
-"translated strings` または :guilabel:`Strings needing action`。プロジェクト全"
-"体が不合格せずに翻訳できた場合でも、:guilabel:`All strings` を使用できます。"
-"または、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
+"コンポーネントには、実際の翻訳画面に移動するリンクのセットがあります。さらに翻訳は、次のような個別の検査に分かれています、例えば "
+":guilabel:`未翻訳の文字列` または "
+":guilabel:`作業が必要な文字列`。プロジェクト全体を不合格とならずに翻訳できた場合でも、:guilabel:`すべての文字列` "
+"を使用できます。また、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -28832,10 +28781,8 @@ msgid ""
 "preferences, translation to these languages will be shown (see :ref:"
 "`secondary-languages`) above the source string."
 msgstr ""
-"このページには、さまざまな追加情報が表示されます、そのほとんどはプロジェクト"
-"の原文からのものです（コンテキスト、コメント、メッセージを使用している場所な"
-"ど）。設定で第 2 言語を選択すると、これらの言語への翻訳が原文の上側に表示され"
-"ます（参照 :ref:`secondary-languages`）。"
+"このページには、さまざまな追加情報が表示されます、そのほとんどはプロジェクトの原文からのものです（コンテキスト、コメント、メッセージを使用している場所など"
+"）。環境設定で第 2 言語を選択すると、これらの言語への翻訳が原文の上側に表示されます（参照 :ref:`secondary-languages`）。"
 
 #: ../../user/translating.rst:106
 msgid ""
@@ -29003,7 +28950,7 @@ msgstr ":kbd:`Ctrl+J` または :kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:171
 msgid "Shows the :guilabel:`Nearby strings` tab."
-msgstr ":guilabel:`Nearby strings` タブの表示。"
+msgstr ":guilabel:`前後の文字列` タブの表示。"
 
 #: ../../user/translating.rst:172
 msgid ":kbd:`Ctrl+S` or :kbd:`Cmd+S`"
@@ -29027,7 +28974,7 @@ msgstr ":kbd:`Ctrl+Y` または :kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:177
 msgid "Toggles the :guilabel:`Needs editing` flag."
-msgstr ":guilabel:`Needs editing` フラグを入れる。"
+msgstr ":guilabel:`要編集` フラグを付ける。"
 
 #: ../../user/translating.rst:182
 msgid "Visual keyboard"
@@ -29228,9 +29175,7 @@ msgstr "用語集の管理"
 msgid ""
 "On the :guilabel:`Glossaries` tab of each project page, you can edit "
 "existing glossaries."
-msgstr ""
-"各プロジェクト ページの :guilabel:`Glossaries` タブで、既存の用語集を編集でき"
-"ます。"
+msgstr "各プロジェクト ページの :guilabel:`用語集` タブで、既存の用語集を編集できます。"
 
 #: ../../user/translating.rst:267
 msgid ""
@@ -29279,9 +29224,8 @@ msgid ""
 "the :guilabel:`Tools` menu, once you have selected a component and a "
 "language:"
 msgstr ""
-"自動変換を使用して、外部ソースに基づいたブートストラップ変換を行うことができ"
-"ます。このツールの名前は :guilabel:`Automatic translation` と呼ばれ、コンポー"
-"ネントと言語を選択して :guilabel:`Tools` メニューから操作できます。"
+"自動変換を使用して、外部ソースに基づいたブートストラップ変換を行うことができます。このツールの名前は :guilabel:`自動翻訳` と呼ばれ、"
+"コンポーネントと言語を選択して :guilabel:`ツール` メニューから操作できます。"
 
 #: ../../user/translating.rst:303
 msgid "Two modes of operation are possible:"
@@ -29305,9 +29249,7 @@ msgstr "自動翻訳する文字列の選択もできます。"
 msgid ""
 "Be mindful that this will overwrite existing translations if employed with "
 "wide filters such as :guilabel:`All strings`."
-msgstr ""
-":guilabel:`All strings` などの幅広いフィルターを使用すると、既存の翻訳が上書"
-"きされてしまうことに注意してください。"
+msgstr ":guilabel:`すべての文字列` などの幅広いフィルターを使用すると、既存の翻訳が上書きされてしまうことに注意してください。"
 
 #: ../../user/translating.rst:316
 msgid ""
@@ -29335,9 +29277,7 @@ msgstr ""
 msgid ""
 "The default limits are described in the administrative manual in :ref:`rate-"
 "limit`, but can be tweaked by configuration."
-msgstr ""
-"デフォルトの制限値については、管理マニュアルの :ref:`rate-limit` に説明がある"
-"ますが、設定によって微調整できます。"
+msgstr "デフォルトの制限値については、管理者ドキュメントの :ref:`rate-limit` に説明がありますが、設定によって微調整できます。"
 
 #: ../../user/translating.rst:343
 msgid ""
@@ -29367,8 +29307,8 @@ msgid ""
 "This tool is called :guilabel:`Bulk edit` accessible in the :guilabel:"
 "`Tools` menu for each project, component or translation."
 msgstr ""
-"このツールは :guilabel:`Bulk edit` と呼ばれ、プロジェクト、コンポーネント、翻"
-"訳ごとに :guilabel:`Tools` メニューから操作できます。"
+"このツールは :guilabel:`一括編集` と呼ばれ、プロジェクト、コンポーネント、翻訳ごとに :guilabel:`ツール` "
+"メニューから操作できます。"
 
 #: ../../user/translating.rst:360
 msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
