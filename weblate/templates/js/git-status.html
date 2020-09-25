@@ -89,7 +89,7 @@
 {% if user_can_update_translation %}
 <tr>
 <td>
-<form method="POST" action="{{ object.get_update_url }}">
+<form method="POST" action="{{ object.get_update_url }}?method=merge">
 {% csrf_token %}
 <input type="submit" class="btn btn-primary" value="{% trans "Pull" %}" />
 </form>
