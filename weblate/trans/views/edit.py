@@ -607,7 +607,6 @@ def comment(request, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)
     component = unit.translation.component
-    request.user.check_access_component(component)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied()
@@ -647,8 +646,6 @@ def comment(request, pk):
 def delete_comment(request, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
-    project = comment_obj.unit.translation.component.project
-    request.user.check_access(project)
 
     if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
@@ -668,8 +665,6 @@ def delete_comment(request, pk):
 def resolve_comment(request, pk):
     """Resolve comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
-    project = comment_obj.unit.translation.component.project
-    request.user.check_access(project)
 
     if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
