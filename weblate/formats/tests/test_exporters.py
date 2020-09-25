@@ -115,6 +115,7 @@ class PoExporterTest(BaseTestCase):
             ]
         else:
             unit.__dict__["all_comments"] = []
+        unit.source_unit = unit
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)
