@@ -39,7 +39,6 @@ from weblate.utils.views import get_component, get_project, get_translation
 
 
 def handle_machinery(request, service, unit, search=None):
-    request.user.check_access_component(unit.translation.component)
     if not request.user.has_perm("machinery.view", unit.translation):
         raise PermissionDenied()
 
