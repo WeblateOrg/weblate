@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-24 14:32+0000\n"
-"PO-Revision-Date: 2020-09-25 20:25+0000\n"
+"PO-Revision-Date: 2020-09-27 20:41+0000\n"
 "Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -6717,7 +6717,7 @@ msgstr "%(component)s został ponownie licencjonowany na %(target)s"
 #, fuzzy, python-format
 #| msgid "Component %(component)s was locked"
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "Komponent %(component)s został zablokowany"
+msgstr "Umowa z dostawcą na %(component)s została zmieniona"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -7543,8 +7543,6 @@ msgstr ""
 "operacji."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please sign in and try again later."
 msgid "You have been signed out, please sign in and try again later."
 msgstr "Zostałeś wylogowany, zaloguj się i spróbuj ponownie później."
 
@@ -7698,6 +7696,9 @@ msgid ""
 "Things like license or repository can still change before being approved as "
 "a libre project."
 msgstr ""
+"Ten projekt jest w okresie próbnym, więc zachowaj ostrożność, zanim go "
+"wesprzesz. Takie rzeczy, jak licencja lub repozytorium, mogą ulec zmianie, "
+"zanim zostaną zatwierdzone jako wolny projekt."
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7960,10 +7961,8 @@ msgid "All untranslated strings added the past month"
 msgstr "Wszystkie nieprzetłumaczone ciągi dodane w ciągu ostatniego miesiąca"
 
 #: weblate/templates/snippets/query-builder.html:105
-#, fuzzy
-#| msgid "Translated strings with any failing checks"
 msgid "Translated strings in a certain language"
-msgstr "Przetłumaczone ciągi z wszelkimi nieudanymi kontrolami"
+msgstr "Przetłumaczone ciągi w określonym języku"
 
 #: weblate/templates/snippets/query-field.html:9
 msgid "Custom Search"
@@ -8202,16 +8201,12 @@ msgid "Please consider the following:"
 msgstr "Proszę wziąć pod uwagę następujące kwestie:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:11
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr ""
-"Jeśli wymagane jest tłumaczenie na język źródłowy, zmień język źródłowy w "
-"ustawieniach projektu."
+"W przypadku, gdy wymagane jest tłumaczenie na język źródłowy, zmień język "
+"źródłowy w ustawieniach komponentu."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
 msgid ""
@@ -8723,10 +8718,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "Propozycje tłumaczeń wspomaganych komputerowo"
 
 #: weblate/templates/translate.html:235
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "Automatycznie akceptuj sugestie"
+msgstr "Automatyczne sugestie"
 
 #: weblate/templates/translate.html:237
 msgid "Translations of this string in the other languages"
@@ -10171,24 +10164,18 @@ msgstr "Zmiana licencji"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:342
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
-msgstr "Zgoda współpracownika"
+msgstr "Zmiana umowy uczestników"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:425
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component automatically locked"
-msgstr "Odblokowano komponent"
+msgstr "Komponent automatycznie zablokowany"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:427
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component automatically unlocked"
-msgstr "Odblokowano komponent"
+msgstr "Komponent automatycznie odblokowany"
 
 #: weblate/trans/models/change.py:482
 #, python-format
@@ -10682,10 +10669,8 @@ msgstr "Nierozpoznany plik podstawowy dla nowych tłumaczeń."
 
 #: weblate/trans/models/component.py:2063
 #: weblate/trans/models/component.py:2108
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "File does not exist."
-msgstr "To tłumaczenie jeszcze nie istnieje."
+msgstr "Plik nie istnieje."
 
 #: weblate/trans/models/component.py:2065
 msgid ""
@@ -10739,18 +10724,15 @@ msgstr "Wpisz adres URL instrukcji lub użyj innej opcji, aby dodać nowy język
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
+"Nie można zmienić języka źródłowego. Zamiast tego utwórz ponownie komponent."
 
 #: weblate/trans/models/component.py:2199
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this URL slug already exists in the project."
-msgstr "Podobne tłumaczenie już istnieje w tym projekcie {0}!"
+msgstr "Komponent z tą informacją URL już istnieje w projekcie."
 
 #: weblate/trans/models/component.py:2204
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already exists in the project."
-msgstr "Podobne tłumaczenie już istnieje w tym projekcie {0}!"
+msgstr "Komponent o tej nazwie już istnieje w projekcie."
 
 #: weblate/trans/models/component.py:2229
 msgid "Can not validate file matches due to invalid regular expression."
