@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 16:32+0200\n"
-"PO-Revision-Date: 2020-09-24 14:26+0000\n"
+"PO-Revision-Date: 2020-09-27 20:41+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -31,12 +31,17 @@ msgid ""
 "consult the documentation for that version, the information here will not "
 "apply."
 msgstr ""
+"Weblate 3.0'dan önce, yetki sistemi Django'ya dayanıyordu, ancak şimdi "
+"özellikle Weblate için oluşturuldu. Daha eski bir sürüm kullanıyorsanız, "
+"lütfen o sürümün belgelerine bakın, buradaki bilgiler geçerli olmayacaktır."
 
 #: ../../admin/access.rst:12
 msgid ""
 "Weblate comes with a fine grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
+"Weblate, tüm örnek için veya sınırlı bir kapsamda kullanıcı izinlerini "
+"atamak için ayrıntılı bir yetki sistemiyle birlikte gelmektedir."
 
 #: ../../admin/access.rst:15
 msgid ""
@@ -44,6 +49,9 @@ msgid ""
 "permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
+"İzin siztemi gruplara ve rollere dayanmaktadır, roller bir dizi izin "
+"tanımlamakta ve gruplar bunları kullanıcılara ve çevirilere atamaktadır, "
+"daha fazla ayrıntı için :ref:`auth-model` bölümüne bakın."
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -53,6 +61,11 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`."
 msgstr ""
+"Kurulumdan sonra varsayılan bir grup kümesi oluşturulur, bunları tüm örnek "
+"için kullanıcı rolleri atamak için kullanabilirsiniz (bkz: :ref:`default-"
+"groups`). Ayrıca :ref:`acl` açıksa, kullanıcıları belirli çeviri projelerine "
+"atayabilirsiniz. :ref:`custom-acl` kullanılarak daha ayrıntılı bir "
+"yapılandırma yapılabilir."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -68,6 +81,9 @@ msgid ""
 "`LOGIN_REQUIRED_URLS` to force users to sign in and :setting:"
 "`REGISTRATION_OPEN` to prevent new registrations."
 msgstr ""
+"Weblate kurulumunuzu tamamen kilitlemek istiyorsanız, kullanıcıları oturum "
+"açmaya zorlamak için :setting:`LOGIN_REQUIRED_URLS` ve yeni kayıtları "
+"önlemek için :setting:`REGISTRATION_OPEN` ayarlarını kullanabilirsiniz."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -15357,10 +15373,8 @@ msgid "Associate project with a glossary."
 msgstr ""
 
 #: ../../api.rst:2265
-#, fuzzy
-#| msgid "Get a term associated with a glossary."
 msgid "Remove association of a project with a glossary."
-msgstr "Bir sözlükle ilişkili bir terimi alın."
+msgstr "Bir projenin bir sözlükle ilişkisini kaldırın."
 
 #: ../../api.rst:2273
 msgid "List terms of a glossary."
@@ -21288,7 +21302,7 @@ msgstr "özellikler"
 
 #: ../../contributing/schemas.rst:9
 msgid "**category**"
-msgstr "**kategori**"
+msgstr "**category**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Category*"
@@ -21328,10 +21342,8 @@ msgid "default"
 msgstr "öntanımlı"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Origin"
 msgid "**origin**"
-msgstr "Menşei"
+msgstr "**origin**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
@@ -21359,7 +21371,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**source**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Source String*"
@@ -21395,7 +21407,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr ""
+msgstr "**target**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target String*"
@@ -21418,20 +21430,16 @@ msgid "cs"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Additional projects"
 msgid "additionalProperties"
-msgstr "Ek projeler"
+msgstr "additionalProperties"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "definitions"
-msgstr "Dil tanımları ekle"
+msgstr "tanımlar"
 
 #: ../../contributing/schemas.rst:12
 msgid ""
@@ -21439,10 +21447,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "data exports"
 msgid "Weblate user data export"
-msgstr "dışa veri aktarmaları"
+msgstr "Weblate kullanıcı verilerini dışa aktarma"
 
 #: ../../contributing/schemas.rst:19
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
@@ -21450,25 +21456,19 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr ""
+msgstr "**basic**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Basic"
 msgid "*Basic*"
-msgstr "Temel"
+msgstr "*Temel*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "**username**"
-msgstr "Kullanıcı adı"
+msgstr "**username**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "*Username*"
-msgstr "Kullanıcı adı"
+msgstr "*Kullanıcı adı*"
 
 #: ../../contributing/schemas.rst:19
 msgid "admin"
@@ -21479,101 +21479,72 @@ msgid "^.\\*$"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "**full\\_name**"
-msgstr "Ad soyad"
+msgstr "**full\\_name**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "*Full name*"
-msgstr "Ad soyad"
+msgstr "*Ad soyad*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate Admin"
-msgstr "Weblate yönetimi"
+msgstr "Weblate Yöneticisi"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
-msgstr ""
+msgstr "**email**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "*E-mail*"
-msgstr "E-posta"
+msgstr "*E-posta*"
 
 #: ../../contributing/schemas.rst:19
 msgid "noreply@example.com"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "**date\\_joined**"
-msgstr "Katıldığı tarih"
+msgstr "**date\\_joined**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "*Date joined*"
-msgstr "Katıldığı tarih"
+msgstr "*Katıldığı tarih*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "**profile**"
-msgstr "Profil"
+msgstr "**profile**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "*Profile*"
-msgstr "Profil"
+msgstr "*Profil*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Per language"
 msgid "**language**"
-msgstr "Dil başına"
+msgstr "**language**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language"
 msgid "*Language*"
-msgstr "Dil"
+msgstr "*Dil*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Suggested"
 msgid "**suggested**"
-msgstr "Önerilen"
+msgstr "**suggested**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "*Number of suggested strings*"
-msgstr "Kaynak dizgi sayısı"
+msgstr "*Önerilen dizgi sayısı*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "translated"
 msgid "**translated**"
-msgstr "çevrilen"
+msgstr "**translated**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "*Number of translated strings*"
-msgstr "Çevrilen dizgi sayısı"
+msgstr "*Çevrilen dizgi sayısı*"
 
 #: ../../contributing/schemas.rst:19 ../../devel/reporting-example.rst:4
 #: ../../devel/reporting-example.rst:5
@@ -21581,26 +21552,20 @@ msgid "24"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Uploaded by"
 msgid "**uploaded**"
-msgstr "Yükleyen"
+msgstr "**uploaded**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "*Number of uploaded screenshots*"
-msgstr "Yüklenen paylaşılmış giriş sayısı"
+msgstr "*Yüklenen ekran görüntüsü sayısı*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
-msgstr ""
+msgstr "**hide\\_completed**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "*Hide completed translations on the dashboard*"
-msgstr "Tamamlanan çevirileri panelde gizle"
+msgstr "*Tamamlanan çevirileri panelde gizle*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
@@ -21612,96 +21577,69 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
-msgstr ""
+msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Show secondary translations in the Zen mode"
 msgid "*Show secondary translations in the Zen mode*"
-msgstr "İkincil çevirileri Zen kipinde göster"
+msgstr "*İkincil çevirileri Zen kipinde göster*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
-msgstr ""
+msgstr "**hide\\_source\\_secondary**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Hide source if a secondary translation exists"
 msgid "*Hide source if a secondary translation exists*"
-msgstr "İkincil çeviri varsa kaynağı gizle"
+msgstr "*İkincil çeviri varsa kaynağı gizle*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "**editor\\_link**"
-msgstr "Düzenleyici bağlantısı"
+msgstr "**editor\\_link**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Editor link"
 msgid "*Editor link*"
-msgstr "Düzenleyici bağlantısı"
+msgstr "*Düzenleyici bağlantısı*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Untranslated"
 msgid "**translate\\_mode**"
-msgstr "Çevrilmemiş"
+msgstr "**translate\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translation editor mode"
 msgid "*Translation editor mode*"
-msgstr "Çeviri düzenleyici kipi"
+msgstr "*Çeviri düzenleyici kipi*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
-msgstr ""
+msgstr "**zen\\_mode**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Zen editor mode"
 msgid "*Zen editor mode*"
-msgstr "Zen düzenleyici kipi"
+msgstr "*Zen düzenleyici kipi*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "**special\\_chars**"
-msgstr "Özel karakterler"
+msgstr "**special\\_chars**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Special characters"
 msgid "*Special characters*"
-msgstr "Özel karakterler"
+msgstr "*Özel karakterler*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "**dashboard\\_view**"
-msgstr "Varsayılan panel görünümü"
+msgstr "**dashboard\\_view**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default dashboard view"
 msgid "*Default dashboard view*"
-msgstr "Varsayılan panel görünümü"
+msgstr "*Varsayılan panel görünümü*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_component\\_list**"
-msgstr ""
+msgstr "**dashboard\\_component\\_list**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Default component list"
 msgid "*Default component list*"
-msgstr "Varsayılan bileşen listesi"
+msgstr "*Varsayılan bileşen listesi*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgid "None"
 msgstr "Yok"
 
@@ -21714,106 +21652,76 @@ msgid "*null*"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Languages"
 msgid "**languages**"
-msgstr "Diller"
+msgstr "**languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Translated languages"
 msgid "*Translated languages*"
-msgstr "Çevrilen diller"
+msgstr "*Çevrilen diller*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language code"
 msgid "*Language code*"
-msgstr "Dil kodu"
+msgstr "*Dil kodu*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "**secondary\\_languages**"
-msgstr "İkincil diller"
+msgstr "**secondary\\_languages**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "*Secondary languages*"
-msgstr "İkincil diller"
+msgstr "*İkincil diller*"
 
 #: ../../contributing/schemas.rst:19
 msgid "sk"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Watched"
 msgid "**watched**"
-msgstr "İzlenen"
+msgstr "**watched**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Watched projects"
 msgid "*Watched projects*"
-msgstr "İzlenen projeler"
+msgstr "*İzlenen projeler*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Project URL slug"
 msgid "*Project slug*"
-msgstr "Proje URL'si kısaltması"
+msgstr "*Proje kısaltması*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "weblate"
-msgstr "Weblate anahtarları"
+msgstr "weblate"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "**auditlog**"
-msgstr "Denetim günlüğü"
+msgstr "**auditlog**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Audit log"
 msgid "*Audit log*"
-msgstr "Denetim günlüğü"
+msgstr "*Denetim günlüğü*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "**address**"
-msgstr "IP adresi"
+msgstr "**address**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "IP address"
 msgid "*IP address*"
-msgstr "IP adresi"
+msgstr "*IP adresi*"
 
 #: ../../contributing/schemas.rst:19
 msgid "127.0.0.1"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "**user\\_agent**"
-msgstr "Kullanıcı tanıtıcı"
+msgstr "**user\\_agent**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "User agent"
 msgid "*User agent*"
-msgstr "Kullanıcı tanıtıcı"
+msgstr "*Kullanıcı tanıtıcı*"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
@@ -21821,7 +21729,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:19
 msgid "**timestamp**"
-msgstr ""
+msgstr "**timestamp**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Timestamp*"
@@ -21832,22 +21740,16 @@ msgid "2019-11-18T18:58:30.845Z"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "**activity**"
-msgstr "Etkinlik"
+msgstr "**activity**"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Activity"
 msgid "*Activity*"
-msgstr "Etkinlik"
+msgstr "*Etkinlik*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Login"
 msgid "login"
-msgstr "Oturum aç"
+msgstr "oturum aç"
 
 #: ../../contributing/schemas.rst:22
 msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
@@ -22400,10 +22302,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:20
-#, fuzzy
-#| msgid "Create component"
 msgid "Creating component"
-msgstr "Bileşen oluştur"
+msgstr "Bileşen oluşturma"
 
 #: ../../devel/html.rst:22
 msgid ""
@@ -22436,10 +22336,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:45
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configuring Weblate CDN addon"
-msgstr "Eklentiyi yapılandır"
+msgstr "Weblate CDN eklentisini yapılandırma"
 
 #: ../../devel/html.rst:47
 msgid ""
@@ -22487,10 +22385,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:65
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "String extraction for Weblate CDN"
-msgstr "Eylem gerektiren dizgiler"
+msgstr "Weblate CDN için dizgi çıkarma"
 
 #: ../../devel/html.rst:67
 msgid ""
@@ -22521,10 +22417,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:101
-#, fuzzy
-#| msgid "Localization"
 msgid "HTML localization using Weblate CDN"
-msgstr "Yerelleştirme"
+msgstr "Weblate CDN kullanarak HTML yerelleştirme"
 
 #: ../../devel/html.rst:103
 msgid ""
@@ -22552,10 +22446,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:120
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization"
-msgstr "JavaScript biçimi"
+msgstr "JavaScript yerelleştirme"
 
 #: ../../devel/html.rst:122
 msgid ""
@@ -23019,10 +22911,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/sphinx.rst:33
-#, fuzzy
-#| msgid "Documentation"
 msgid "``Documentation``"
-msgstr "Belgeler"
+msgstr "``Belgeler``"
 
 #: ../../devel/sphinx.rst:35
 msgid "``docs/locales/*/LC_MESSAGES/index.po``"
@@ -23033,16 +22923,12 @@ msgid "``docs/locales/index.pot``"
 msgstr ""
 
 #: ../../devel/sphinx.rst:39
-#, fuzzy
-#| msgid "gettext PO file"
 msgid "`gettext PO file`"
-msgstr "gettext PO dosyası"
+msgstr "`gettext PO dosyası`"
 
 #: ../../devel/sphinx.rst:43
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Component discovery configuration"
-msgstr "Bileşen keşfi"
+msgstr "Bileşen keşif yapılandırması"
 
 #: ../../devel/sphinx.rst:45
 msgid "Regular expression to match translation files against"
@@ -23896,16 +23782,12 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:414
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
 msgstr ""
-"Kaynak dile çevirinin istenmesi durumunda, lütfen proje ayarlarındaki kaynak "
-"dili değiştirin."
+"Kaynak dile çevirinin istenmesi durumunda, lütfen proje ayarlarındaki :ref"
+":`component-source_language` seçeneğini değiştirin."
 
 #: ../../faq.rst:415
 msgid ""
@@ -23916,18 +23798,14 @@ msgstr ""
 "kaldırın."
 
 #: ../../faq.rst:416
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but shoud "
-#| "be ignored by Weblate, please adjust the language filter to exclude it."
 msgid ""
 "In case the translation file for the source language is needed, but should "
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
 "Kaynak dilin çeviri dosyasına ihtiyaç duyulduğu, ancak Weblate tarafından "
-"yoksayılmasının gerektiği durumda, lütfen dil süzgecini hariç tutmak için "
-"ayarlayın."
+"yok sayılmasının gerektiği durumda, lütfen hariç tutmak için :ref:`component-"
+"language_regex` seçeneğini ayarlayın."
 
 #: ../../faq.rst:419
 msgid "Features"
@@ -24683,23 +24561,18 @@ msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`islu`"
 msgstr ""
 
 #: ../../formats.rst:476
-#, fuzzy
-#| msgid "InnoSetup INI file"
 msgid "Inno Setup INI translations"
-msgstr "InnoSetup INI dosyası"
+msgstr "Inno Setup INI çevirileri"
 
 #: ../../formats.rst:483
-#, fuzzy
-#| msgid "Unrecognized base file for new translations."
 msgid "Inno Setup INI file format for translations."
-msgstr "Yeni çeviriler için tanınmayan temel dosya."
+msgstr "Çeviriler için Inno Setup INI dosya biçimi."
 
 #: ../../formats.rst:485
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid ""
 "Inno Setup INI translations are usually used as monolingual translations."
-msgstr "Çeviri tek dilli dosyaları kullanır."
+msgstr ""
+"Inno Setup INI çevirileri genellikle tek dilli çeviriler olarak kullanılır."
 
 #: ../../formats.rst:489
 msgid ""
@@ -24716,10 +24589,8 @@ msgid "``language/en.islu``"
 msgstr ""
 
 #: ../../formats.rst:501
-#, fuzzy
-#| msgid "InnoSetup INI file"
 msgid "`Inno Setup INI File`"
-msgstr "InnoSetup INI dosyası"
+msgstr "`Inno Setup INI Dosyası`"
 
 #: ../../formats.rst:506
 msgid ""
@@ -25179,10 +25050,8 @@ msgid "``Resources/Language.resx``"
 msgstr ""
 
 #: ../../formats.rst:987
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "`.NET resource file`"
-msgstr ".NET kaynak dosyası"
+msgstr "`.NET kaynak dosyası`"
 
 #: ../../formats.rst:992
 msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
@@ -25672,10 +25541,13 @@ msgid ""
 "system, used by over 1150 libre projects and companies in more than 115 "
 "countries.**"
 msgstr ""
+"**Weblate, 115'ten fazla ülkede 1150'nin üzerinde özgür proje ve şirket "
+"tarafından kullanılan, copyleft özgür yazılım olan web tabanlı bir sürekli "
+"yerelleştirme sistemidir.**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
-msgstr ""
+msgstr "Kurun, veya `weblate.org`adresinde Hosted Weblate hizmetini kullanın_."
 
 #: ../../../README.rst:34
 msgid "Support"
@@ -25687,6 +25559,9 @@ msgid ""
 "hosting offerings. Check out https://weblate.org/hosting/ for more "
 "information."
 msgstr ""
+"Weblate, isteğe bağlı profesyonel destek ve bulut barındırma seçeneklerine "
+"sahip özgür bir yazılımdır. Daha fazla bilgi için https://weblate.org/"
+"hosting/ adresini ziyaret edin."
 
 #: ../../../README.rst:40
 msgid "Documentation"
@@ -25697,10 +25572,12 @@ msgid ""
 "To be found in the ``docs`` directory of the source code, or viewed online "
 "on https://docs.weblate.org/"
 msgstr ""
+"Kaynak kodlarındaki ``docs`` dizininde bulunabilir veya https://docs.weblate."
+"org/ adresinde çevrim içi olarak görüntülenebilir"
 
 #: ../../../README.rst:48
 msgid "Setup instructions:"
-msgstr ""
+msgstr "Kurulum talimatları:"
 
 #: ../../../README.rst:50
 msgid "https://docs.weblate.org/en/latest/admin/install.html"
@@ -25708,25 +25585,28 @@ msgstr ""
 
 #: ../../../README.rst:53
 msgid "Bugs"
-msgstr ""
+msgstr "Hatalar"
 
 #: ../../../README.rst:55
 msgid "Please report feature requests and problems to:"
-msgstr ""
+msgstr "Lütfen özellik isteklerini ve sorunlarını şu adrese bildirin:"
 
 #: ../../../README.rst:57
 msgid "https://github.com/WeblateOrg/weblate/issues"
-msgstr ""
+msgstr "https://github.com/WeblateOrg/weblate/issues"
 
 #: ../../../README.rst:62
 msgid "Copyright © 2012–2020 Michal Čihař michal@cihar.com"
-msgstr ""
+msgstr "Telif Hakkı © 2012–2020 Michal Čihař michal@cihar.com"
 
 #: ../../../README.rst:73
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see https://www.gnu.org/licenses/."
 msgstr ""
+"Bu programla birlikte GNU Genel Kamu Lisansının bir kopyasını almış "
+"olmalısınız. Almadıysanız, https://www.gnu.org/licenses/licenses.tr.html "
+"adresine bakın."
 
 #: ../../index.rst:14
 msgid "Indices and tables"
@@ -26306,10 +26186,8 @@ msgid "ECMAScript template literals"
 msgstr "ECMAScript şablon değişmezleri"
 
 #: ../../user/checks.rst:189
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "*ECMAScript template literals do not match source*"
-msgstr "JavaScript biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "*ECMAScript şablon değişmezleri kaynakla eşleşmiyor*"
 
 #: ../../user/checks.rst:192 ../../user/checks.rst:209
 msgid "Interpolation"
@@ -26320,10 +26198,8 @@ msgid "``There are ${number} apples``"
 msgstr ""
 
 #: ../../user/checks.rst:194
-#, fuzzy
-#| msgid "File format"
 msgid "`es-format`"
-msgstr "Dosya biçimi"
+msgstr "`es-format`"
 
 #: ../../user/checks.rst:199
 msgid ""
@@ -26610,46 +26486,36 @@ msgid "Vue I18n formatting"
 msgstr "Vue I18n biçimlendirmesi"
 
 #: ../../user/checks.rst:413
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*The Vue I18n formatting does not match source*"
-msgstr "C biçimindeki dizgi kaynakla eşleşmiyor"
+msgstr "*Vue I18n biçimlendirmesi kaynakla eşleşmiyor*"
 
 #: ../../user/checks.rst:416
-#, fuzzy
-#| msgid "Information"
 msgid "Named formatting"
-msgstr "Bilgiler"
+msgstr "Adlandırılmış biçimlendirme"
 
 #: ../../user/checks.rst:416
 msgid "``There are {count} apples``"
 msgstr ""
 
 #: ../../user/checks.rst:418
-#, fuzzy
-#| msgid "Information"
 msgid "Rails i18n formatting"
-msgstr "Bilgiler"
+msgstr "Rails i18n biçimlendirmesi"
 
 #: ../../user/checks.rst:418
 msgid "``There are %{count} apples``"
 msgstr ""
 
 #: ../../user/checks.rst:420
-#, fuzzy
-#| msgid "Whiteboard messages"
 msgid "Linked locale messages"
-msgstr "Beyaz tahta iletileri"
+msgstr "Bağlantılı yerel iletiler"
 
 #: ../../user/checks.rst:420
 msgid "``@:message.dio @:message.the_world!``"
 msgstr ""
 
 #: ../../user/checks.rst:422
-#, fuzzy
-#| msgid "File format"
 msgid "`vue-format`"
-msgstr "Dosya biçimi"
+msgstr "`vue-format`"
 
 #: ../../user/checks.rst:427
 msgid ""
@@ -26846,16 +26712,16 @@ msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgstr ""
 
 #: ../../user/checks.rst:600
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched \\\\n"
-msgstr "\\n uyuşmadı"
+msgstr ""
+"\\\\n"
+" uyuşmadı"
 
 #: ../../user/checks.rst:602
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr "Çevirideki \\n sayısı kaynakla eşleşmiyor"
+msgstr ""
+"*Çevirideki \\\\n"
+" sayısı kaynakla eşleşmiyor*"
 
 #: ../../user/checks.rst:604
 msgid ""
@@ -26955,10 +26821,8 @@ msgid "Mismatched question mark"
 msgstr "Soru işareti uyuşmadı"
 
 #: ../../user/checks.rst:675
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "*Source and translation do not both end with a question mark*"
-msgstr "Kaynak ve çeviri bir soru işareti ile bitmiyor"
+msgstr "*Kaynak ve çeviri bir soru işareti ile bitmiyor*"
 
 #: ../../user/checks.rst:677
 msgid ""
@@ -27474,10 +27338,8 @@ msgid "These are the choices presented when uploading translation files:"
 msgstr ""
 
 #: ../../user/files.rst:60
-#, fuzzy
-#| msgid "Add a translation message"
 msgid "Add as translation (``translate``)"
-msgstr "Çeviri iletisi ekle"
+msgstr "Çeviri olarak ekle (``translate``)"
 
 #: ../../user/files.rst:60
 msgid ""
@@ -27486,10 +27348,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:63
-#, fuzzy
-#| msgid "Add as suggestion"
 msgid "Add as suggestion (``suggest``)"
-msgstr "Öneri olarak ekle"
+msgstr "Öneri olarak ekle (``suggest``)"
 
 #: ../../user/files.rst:63
 msgid ""
@@ -27498,10 +27358,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:66
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing edit (``fuzzy``)"
-msgstr "Düzenlenmesi gereken çeviri olarak ekle"
+msgstr "Düzenlenmesi gereken çeviri olarak ekle (``fuzzy``)"
 
 #: ../../user/files.rst:66
 msgid ""
@@ -27510,10 +27368,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:69
-#, fuzzy
-#| msgid "Replace existing translation file"
 msgid "Replace existing translation file (``replace``)"
-msgstr "Mevcut çeviri dosyasını değiştir"
+msgstr "Mevcut çeviri dosyasını değiştir (``replace``)"
 
 #: ../../user/files.rst:69
 msgid ""
@@ -27522,10 +27378,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:73
-#, fuzzy
-#| msgid "Update source strings"
 msgid "Update source strings (``source``)"
-msgstr "Kaynak dizgileri güncelle"
+msgstr "Kaynak dizgileri güncelle (``source``)"
 
 #: ../../user/files.rst:72
 msgid ""
@@ -28351,40 +28205,32 @@ msgid ":kbd:`Alt+Home`"
 msgstr ""
 
 #: ../../user/translating.rst:147
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to first translation in current search."
-msgstr "Bu çeviri şu anda kilitli."
+msgstr "Geçerli aramadaki ilk çeviriye git."
 
 #: ../../user/translating.rst:148
 msgid ":kbd:`Alt+End`"
 msgstr ""
 
 #: ../../user/translating.rst:149
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to last translation in current search."
-msgstr "Bu çeviri şu anda kilitli."
+msgstr "Geçerli aramadaki son çeviriye git."
 
 #: ../../user/translating.rst:150
 msgid ":kbd:`Alt+PageUp`"
 msgstr ""
 
 #: ../../user/translating.rst:151
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to previous translation in current search."
-msgstr "Bu çeviri şu anda kilitli."
+msgstr "Geçerli aramadaki önceki çeviriye git."
 
 #: ../../user/translating.rst:152
 msgid ":kbd:`Alt+PageDown`"
 msgstr ""
 
 #: ../../user/translating.rst:153
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "Navigate to next translation in current search."
-msgstr "Bu çeviri şu anda kilitli."
+msgstr "Geçerli aramadaki sonraki çeviriye git."
 
 #: ../../user/translating.rst:154
 msgid ":kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`"
@@ -29319,10 +29165,8 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:70
-#, fuzzy
-#| msgid "Announcements"
 msgid "Arguments"
-msgstr "Duyurular"
+msgstr "Argümanlar"
 
 #: ../../wlc.rst:72
 msgid ""
@@ -29357,10 +29201,8 @@ msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
 
 #: ../../wlc.rst:98
-#, fuzzy
-#| msgid "Command"
 msgid "Commands"
-msgstr "Komut"
+msgstr "Komutlar"
 
 #: ../../wlc.rst:100
 msgid "The following commands are available:"
@@ -29802,10 +29644,8 @@ msgid "*Any user* can edit unapproved translations."
 msgstr ""
 
 #: ../../workflows.rst:118
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve source strings."
 msgid "*Reviewer* can approve / unapprove strings."
-msgstr "Kaynak dizgileri onaylamak için adanmış gözden geçirenler gerekir."
+msgstr "*Gözden geçiren* dizgileri onaylayabilir/onaylamayabilir."
 
 #: ../../workflows.rst:119
 msgid "*Reviewer* can edit all translations (including approved ones)."
