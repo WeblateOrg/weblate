@@ -24,6 +24,37 @@ To use the commands below, you need to install :mod:`wlc`:
 
     pip3 install wlc
 
+.. _docker-wlc:
+
+Docker usage
+++++++++++++
+
+The Weblate Client is also available as a Docker image.
+
+The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc
+
+Installing:
+
+.. code-block:: sh
+
+    docker pull weblate/wlc
+
+The Docker container uses Weblate's default settings and connects to the API
+deployed in localhost. The API URL and API_KEY can be configured through the
+arguments accepted by Weblate.
+
+The command to launch the container uses the following syntax:
+
+.. code-block:: sh
+
+    docker run --rm weblate/wlc [WLC_ARGS]
+
+Example:
+
+.. code-block:: sh
+
+    docker run --rm weblate/wlc --url https://hosted.weblate.org/api/ list-projects
+
 Getting started
 +++++++++++++++
 
