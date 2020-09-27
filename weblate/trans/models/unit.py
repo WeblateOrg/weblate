@@ -462,6 +462,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Ensure we track source string for bilingual, this can not use
         # Unit.is_source as that depends on source_unit attribute, which
         # we set here
+        old_source_unit = self.source_unit
         if not translation.is_source:
             source_unit = component.get_source(
                 self.id_hash,
@@ -535,15 +536,18 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Check if we actually need to change anything
         # pylint: disable=too-many-boolean-expressions
         if (
-            location == self.location
-            and flags == self.flags
+            not created
             and same_source
             and same_target
             and same_state
+            and location == self.location
+            and flags == self.flags
             and note == self.note
             and pos == self.position
             and content_hash == self.content_hash
             and previous_source == self.previous_source
+            and self.source_unit == old_source_unit
+            and old_source_unit is not None
         ):
             return
 
