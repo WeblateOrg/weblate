@@ -147,7 +147,7 @@ class TranslationAdmin(WeblateModelAdmin):
 
 class UnitAdmin(WeblateModelAdmin):
     list_display = ["source", "target", "position", "state"]
-    search_fields = ["source", "target", "id_hash"]
+    search_fields = ["source", "target"]
     list_filter = ["translation__component", "translation__language", "state"]
 
 
