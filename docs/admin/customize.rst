@@ -143,4 +143,4 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
 
 .. seealso::
 
-    :ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`
+    :ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`
