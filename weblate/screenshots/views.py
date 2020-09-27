@@ -177,7 +177,7 @@ def search_results(code, obj, units=None):
     if units is None:
         units = []
     else:
-        units = units.exclude(id_hash__in=obj.units.values_list("id_hash", flat=True))
+        units = units.exclude(id__in=obj.units.values_list("id", flat=True))
 
     results = [
         {
