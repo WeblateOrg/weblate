@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-24 14:32+0000\n"
-"PO-Revision-Date: 2020-09-25 20:25+0000\n"
+"PO-Revision-Date: 2020-09-27 20:41+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -4891,7 +4891,7 @@ msgstr "すべての言語を閲覧"
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:21
 msgid "Checks"
-msgstr "検査"
+msgstr "検査結果"
 
 #: weblate/templates/base.html:161
 #, python-format
@@ -5840,7 +5840,7 @@ msgstr "ホスティングサイト"
 
 #: weblate/templates/data.html:139
 msgid "Note"
-msgstr "メモ"
+msgstr "備考"
 
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
@@ -7016,15 +7016,13 @@ msgstr "直近の発生日時"
 
 #: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
-msgstr "恒久的に無視する"
+msgstr "永久に無視する"
 
 #: weblate/templates/manage/performance.html:55
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
-msgstr ""
-"使用しない機能のエラーは、安全かつ恒久的に無視できます。これは通常、依存関係"
-"が誤っていたり、古い依存関係が原因で発生します。"
+msgstr "使用する予定のない機能のエラーは、永久に無視しても安全です。これは通常、依存関係が誤っていたり、古い依存関係が原因で発生します。"
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -8080,9 +8078,7 @@ msgstr ""
 msgid ""
 "In case the translation file for the source language is needed, but should "
 "be ignored by Weblate, please adjust the language filter to exclude it."
-msgstr ""
-"翻訳元言語用の翻訳ファイルが必要だが、Weblateで無視する必要がある場合は、言語"
-"フィルタを調整して除外してください。"
+msgstr "翻訳元言語用の翻訳ファイルが必要だが、Weblate で無効にする場合は、言語フィルタを調整して除外にしてください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:21
 msgid ""
@@ -9123,13 +9119,13 @@ msgstr "査読待ち"
 
 #: weblate/trans/forms.py:499
 msgid "Source string has been changed meanwhile. Please check your changes."
-msgstr "作業中に原文が変更されました。変更点をご確認ください。"
+msgstr "処理中に原文が変更されました。翻訳した変更内容を確認してください。"
 
 #: weblate/trans/forms.py:507
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
-msgstr "作業中に翻訳文が変更されました。変更点をご確認ください。"
+msgstr "処理中に翻訳文が変更されました。翻訳した変更内容を確認してください。"
 
 #: weblate/trans/forms.py:515
 msgid "Translation text too long!"
@@ -9676,7 +9672,7 @@ msgstr "アドオンを実行できません。"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:259
 msgid "Misconfigured monolingual translation."
-msgstr "単一言語の翻訳は間違って設定されています。"
+msgstr "単一言語の翻訳の設定が間違っています。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:265
@@ -10233,7 +10229,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:439
 msgid "Enforced checks"
-msgstr "強制的に検査"
+msgstr "検査の強制"
 
 #: weblate/trans/models/component.py:440
 msgid "List of checks which can not be ignored."
