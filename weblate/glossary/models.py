@@ -243,9 +243,11 @@ class TermQuerySet(models.QuerySet):
                 ),
             )
 
-        return results.for_project(
-            unit.translation.component.project, source_language
-        ).filter(language=unit.translation.language)
+        return (
+            results.for_project(unit.translation.component.project, source_language)
+            .filter(language=unit.translation.language)
+            .order()
+        )
 
     def order(self):
         return self.order_by(Lower("source"))
