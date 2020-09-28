@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-import os
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -42,6 +41,7 @@ from weblate.trans.models import (
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
+from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.git import LocalRepository
 
 
@@ -488,44 +488,17 @@ class ComponentSerializer(RemovableSerializer):
                 code=result["source_language"]["code"]
             )
         if "docfile" in result:
-            # Create fake component (needed to calculate path)
-            fake = Component(
-                project=result["project"],
-                slug=result["slug"],
-                name=result["name"],
-            )
-
-            # Create repository
-            uploaded = result["docfile"]
-            ext = os.path.splitext(os.path.basename(uploaded.name))[1]
+            fake = create_component_from_doc(result)
             format_cls = FILE_FORMATS[result["file_format"]]
-            filename = "{}/{}{}".format(
-                result["slug"],
-                result["source_language"]["code"]
-                if "source_language" in result
-                else "en",
-                ext,
-            )
             LocalRepository.from_files(
                 fake.full_path,
-                {
-                    filename: uploaded.read(),
-                    result["template"]: format_cls.get_new_file_content(),
-                },
+                {result["template"]: format_cls.get_new_file_content()},
             )
             result.pop("docfile")
         if "zipfile" in result:
-            # Create fake component (needed to calculate path)
-            fake = Component(
-                project=result["project"],
-                slug=result["slug"],
-                name=result["name"],
-            )
-            format_cls = FILE_FORMATS[result["file_format"]]
-
-            # Create repository
             try:
-                LocalRepository.from_zip(fake.full_path, result["zipfile"])
+                fake = create_component_from_zip(result)
+                format_cls = FILE_FORMATS[result["file_format"]]
                 LocalRepository.from_files(
                     fake.full_path,
                     {result["template"]: format_cls.get_new_file_content()},

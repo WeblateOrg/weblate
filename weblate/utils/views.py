@@ -34,6 +34,7 @@ from django.views.generic.edit import FormView
 from weblate.formats.models import EXPORTERS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
+from weblate.vcs.git import LocalRepository
 
 
 def get_percent_color(percent):
@@ -169,6 +170,39 @@ def get_project_translation(request, project=None, component=None, lang=None):
 
     # Return tuple
     return project or None, component or None, translation or None
+
+
+def create_component_from_doc(data):
+    # Create fake component (needed to calculate path)
+    fake = Component(
+        project=data["project"],
+        slug=data["slug"],
+        name=data["name"],
+    )
+
+    # Create repository
+    uploaded = data["docfile"]
+    ext = os.path.splitext(os.path.basename(uploaded.name))[1]
+    filename = "{}/{}{}".format(
+        data["slug"],
+        data["source_language"].code if "source_language" in data else "en",
+        ext,
+    )
+    LocalRepository.from_files(fake.full_path, {filename: uploaded.read()})
+    return fake
+
+
+def create_component_from_zip(data):
+    # Create fake component (needed to calculate path)
+    fake = Component(
+        project=data["project"],
+        slug=data["slug"],
+        name=data["name"],
+    )
+
+    # Create repository
+    LocalRepository.from_zip(fake.full_path, data["zipfile"])
+    return fake
 
 
 def try_set_language(lang):
