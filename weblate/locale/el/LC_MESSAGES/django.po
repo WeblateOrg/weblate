@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-24 14:32+0000\n"
-"PO-Revision-Date: 2020-09-02 13:54+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2020-09-29 08:35+0000\n"
+"Last-Translator: THANOS SIOURDAKIS <siourdakisthanos@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
 "Language: el\n"
@@ -33,10 +33,8 @@ msgstr "Κανένας"
 #: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:217
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User agent"
 msgid "User avatar"
-msgstr "Πράκτορας χρήστη"
+msgstr "Άβαταρ χρήστη"
 
 #: weblate/accounts/forms.py:75
 msgid ""
@@ -54,10 +52,8 @@ msgid "Full name"
 msgstr "Πλήρες όνομα"
 
 #: weblate/accounts/forms.py:177 weblate/accounts/models.py:465
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Η ηλεκτρονική σας διευθυνση"
+msgstr "Δημόσιο ηλεκτρονικό ταχυδρομείο"
 
 #: weblate/accounts/forms.py:271 weblate/accounts/forms.py:346
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -102,10 +98,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "Η ηλεκτρονική επιστολή ενεργοποίησης θα σταλεί εδώ."
 
 #: weblate/accounts/forms.py:384
-#, fuzzy
-#| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "Πάρα πολλές αποτυχημένες προσπάθειες εγγραφής από αυτήν την τοποθεσία!"
+msgstr "Πάρα πολλές αποτυχημένες προσπάθειες εγγραφής από αυτήν την τοποθεσία."
 
 #: weblate/accounts/forms.py:391
 msgid "New password"
@@ -162,10 +156,8 @@ msgid "This account is inactive."
 msgstr "Αυτός ο λογαριασμός είναι απενεργοποιημένος."
 
 #: weblate/accounts/forms.py:526
-#, fuzzy
-#| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
-msgstr "Πάρα πολλές προσπάθειες επιβεβαίωσης από αυτήν την τοποθεσία!"
+msgstr "Πάρα πολλές προσπάθειες επιβεβαίωσης από αυτήν την τοποθεσία."
 
 #: weblate/accounts/forms.py:573
 msgid "Additional message"
@@ -282,10 +274,8 @@ msgid "Suggestions made"
 msgstr "Προτάσεις που έγιναν"
 
 #: weblate/accounts/forms.py:762
-#, fuzzy
-#| msgid "Comment added"
 msgid "Comments made"
-msgstr "Προστέθηκε σχόλιο"
+msgstr "Δημιουργήθηκαν σχόλια"
 
 #: weblate/accounts/forms.py:763
 #, fuzzy
@@ -329,10 +319,9 @@ msgstr ""
 "έχει απενεργοποιηθεί."
 
 #: weblate/accounts/models.py:89
-#, fuzzy, python-brace-format
-#| msgid "Authenticated ({method}:{name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Επιτυχής πιστοποίηση ({method}:{name})."
+msgstr "Ρυθμισμένη σύνδεση με χρήση του {method} ({name})."
 
 #: weblate/accounts/models.py:90
 #, fuzzy, python-brace-format
@@ -988,7 +977,7 @@ msgstr ""
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:194
 msgid "Sign in"
-msgstr ""
+msgstr "Σύνδεση"
 
 #: weblate/accounts/views.py:736 weblate/wladmin/sites.py:186
 #, fuzzy
@@ -2834,10 +2823,9 @@ msgid "This string has been translated in the past"
 msgstr "Αυτό το κείμενο έχει μεταφραστεί στο παρελθόν"
 
 #: weblate/checks/consistency.py:105
-#, fuzzy, python-format
-#| msgid "Invalid check flag: \"%s\""
+#, python-format
 msgid "Last translation was \"%s\"."
-msgstr "Μη έγκυρη σημαία ελέγχου: «%s»"
+msgstr "Η τελευταία μετάφραση ήταν  \"%s\"."
 
 #: weblate/checks/duplicate.py:74
 #, fuzzy
@@ -6213,7 +6201,7 @@ msgstr "Μεταφράσεις"
 #: weblate/templates/snippets/project-nav.html:21
 #: weblate/templates/translation.html:35
 msgid "Info"
-msgstr ""
+msgstr "Πληροφορίες"
 
 #: weblate/templates/component.html:35 weblate/wladmin/views.py:64
 msgid "Alerts"
@@ -7304,8 +7292,6 @@ msgstr "Υπήρξε ένα σφάλμα ένωσης στο αποθετήρι�
 
 #: weblate/templates/js/git-status.html:26
 #: weblate/templates/trans/merge_instructions.html:33
-#, fuzzy
-#| msgid "Check the FAQ for information on how to resolve this."
 msgid "Check the FAQ for info on how to resolve this."
 msgstr "Δείτε τις ΣΕ για πληροφορίες σχετικά με την επίλυσή του."
 
@@ -7528,16 +7514,12 @@ msgid "Approved translation in %(translation)s"
 msgstr "Νέα μετάφραση σto %(translation)s"
 
 #: weblate/templates/mail/base.html:258
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation Info"
-msgstr "Ειδοποιήσεις μετάφρασης"
+msgstr "Πληροφορίες μετάφρασης"
 
 #: weblate/templates/mail/base.html:268
-#, fuzzy
-#| msgid "Project Information"
 msgid "Component Information"
-msgstr "Πληροφορίες Έργου"
+msgstr "Πληροφορίες στοιχείου"
 
 #: weblate/templates/mail/base.html:283
 msgid "Project Information"
