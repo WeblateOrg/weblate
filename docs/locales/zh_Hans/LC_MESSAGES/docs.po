@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 16:32+0200\n"
-"PO-Revision-Date: 2020-09-25 05:32+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-09-29 08:36+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -31,8 +31,8 @@ msgid ""
 "consult the documentation for that version, the information here will not "
 "apply."
 msgstr ""
-"在 Weblate 3.0 之前，特权系统基于 Django，但现在是专门为 Weblate 构建的。如果"
-"您使用的是旧版本，请查阅该版本的文档，此处的信息将不适用。"
+"在 Weblate 3.0 之前，特权系统基于 Django，但现在是专门为 Weblate "
+"构建的。如果使用的是旧版本，请查阅该版本的文档，此处的信息将不适用。"
 
 #: ../../admin/access.rst:12
 msgid ""
@@ -58,9 +58,8 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`."
 msgstr ""
-"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :"
-"ref:`default-groups` ）。此外，启用 :ref:`acl` 后，您可以将用户分配给特定的翻"
-"译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置。"
+"安装后，将创建一组默认的组，可以使用这些组为整个实例分配用户角色（请参阅 :ref:`default-groups` ）。此外，启用 :ref:`acl`"
+" 后，可以将用户分配给特定的翻译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -127,9 +126,8 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
-"如果根据项目权限使用的话，无需另外设置即可正常工作。对于整个事例的权限，您可"
-"能还想从 `Users` 群组中去掉这些权限，或者更改将所有用户自动指定给哪个群组 "
-"（请参考 :ref:`autogroup` ）。"
+"如果根据项目权限使用的话，无需另外设置即可正常工作。对于整个事例的权限，你可能还想从 `Users` 群组中去掉这些权限，"
+"或者更改将所有用户自动指定给哪个群组 （请参考 :ref:`autogroup` ）。"
 
 #: ../../admin/access.rst:62
 msgid ":ref:`perm-check`"
@@ -229,17 +227,13 @@ msgid ""
 "You can set up Weblate to automatically add users to groups based on their e-"
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
-msgstr ""
-"可以设置 Weblate 根据用户的邮件地址自动将用户添加到用户组中。只有在建立账户时"
-"这一自动指定才进行。"
+msgstr "可以新建 Weblate 根据用户的邮件地址自动将用户添加到用户组中。只有在建立账户时这一自动指定才进行。"
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
-msgstr ""
-"可以对每个用户组在 Django 管理界面中设置（在 :guilabel:`Authentication` 部"
-"分）。"
+msgstr "可以对每个用户组在 Django 管理界面中新建（在 :guilabel:`Authentication` 部分）。"
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -412,8 +406,8 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
-"具有 :guilabel:`Can manage ACL rules for a project` 特权的用户（请参见 :ref:"
-"`privileges` ）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许您："
+"具有 :guilabel:`Can manage ACL rules for a project` 特权的用户（请参见 :ref:`privileges`"
+" ）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许你："
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
@@ -453,7 +447,7 @@ msgstr "预定义的群组"
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
-msgstr "Weblate 的项目带有预定义的群组，您可以为之指定用户。"
+msgstr "Weblate 的项目带有预定义的群组，可以为之指定用户。"
 
 #: ../../admin/access.rst:249
 msgid "Has all permissions available in the project."
@@ -507,11 +501,9 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"通过选择 :guilabel:`Custom` 作为 :guilabel:`Access control` ， Weblate 会对停"
-"止管理给定项目的访问权限，使用 Django 管理界面可以管理所有用户和群组。这可以"
-"用于确定更富在的访问控制，或在单一的 Weblate 界面中对所有项目设置可分享的访问"
-"策略。如果想要对所有项目默认打开这个功能，请配置 :setting:"
-"`DEFAULT_ACCESS_CONTROL` 。"
+"通过选择 :guilabel:`Custom` 作为 :guilabel:`Access control` ， Weblate "
+"会对停止管理给定项目的访问权限，使用 Django 管理界面可以管理所有用户和群组。这可以用于确定更富在的访问控制，或在单一的 Weblate "
+"界面中对所有项目新建可分享的访问策略。如果想要对所有项目默认打开这个功能，请配置 :setting:`DEFAULT_ACCESS_CONTROL` 。"
 
 #: ../../admin/access.rst:300
 msgid ""
@@ -1023,9 +1015,7 @@ msgid ""
 "Upon installation the addon generates unique URL for your component which "
 "you can include in the HTML documents to get them localized. See :ref:"
 "`weblate-cdn` for more details."
-msgstr ""
-"在安装时，插件为您的组件产生唯一的 URL ，您可以将其包括在 HTML 文件中，使它们"
-"本地化。细节请参见 `weblate-cdn` 。"
+msgstr "在安装时，插件为你的组件产生唯一的 URL ，可以将其包括在 HTML 文件中，使它们本地化。细节请参见 `weblate-cdn` 。"
 
 #: ../../admin/addons.rst:52
 msgid ""
@@ -1177,8 +1167,7 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"每当一个新的源字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记"
-"为需要编辑。这样您就可以简单地筛选并编辑开发者编写的源字符串。"
+"每当一个新的源字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记为需要编辑。这样就可以简单地筛选并编辑开发者编写的源字符串。"
 
 #: ../../admin/addons.rst:157
 msgid "Flag new translations as \"Needs editing\""
@@ -1190,8 +1179,7 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"每当一个新的可翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被"
-"标记为需要编辑。这样您就可以简单地筛选并编辑开发者创建的翻译。"
+"每当一个新的可翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记为需要编辑。这样就可以简单地筛选并编辑开发者创建的翻译。"
 
 #: ../../admin/addons.rst:166
 msgid "Statistics generator"
@@ -1839,7 +1827,7 @@ msgstr ""
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
-msgstr "也可以另外设置 Django，相对于其他方式进行身份验证。"
+msgstr "也可以另外新建 Django，相对于其他方式进行身份验证。"
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -1991,9 +1979,7 @@ msgstr "Facebook OAuth 2"
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
-msgstr ""
-"通常根据 OAuth2 服务，需要注册 Facebook 应用。一旦完成，就可以设置 Weblate 来"
-"使用了："
+msgstr "通常根据 OAuth2 服务，需要注册 Facebook 应用。一旦完成，就可以新建 Weblate 来使用了："
 
 #: ../../admin/auth.rst:179
 msgid ""
@@ -2135,7 +2121,7 @@ msgstr "密码不能包括单个字符或只有空格。"
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr "密码与您过去使用的密码不匹配。"
+msgstr "密码与你过去使用的密码不匹配。"
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
@@ -2281,8 +2267,7 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
-"第一步通过 CAS 揭示了用户的电子邮箱域。这必须在 CAS 服务器自身来配置，并需要"
-"至少运行 CAS v2 ，因为 CAS v1 不支持属性。"
+"第一步通过 CAS 揭示了用户电子邮箱的栏目。这必须在 CAS 服务器自身来配置，并需要至少运行 CAS v2 ，因为 CAS v1 不支持属性。"
 
 #: ../../admin/auth.rst:540
 msgid "Step two is updating Weblate to use your CAS server and attributes."
@@ -2307,9 +2292,8 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
-"最后，可以使用信号将电子邮箱域投射到用户对象上。为了生效，必须将信号从 "
-"`django-cas-ng` 软件包导入，并将你的代码与这个信号连接。在设置文件中这样做可"
-"能产生问题，这样建议将它放进去："
+"最后，可以使用信号将电子邮箱栏目投射到用户对象上。为了生效，必须将信号从 `django-cas-ng` "
+"软件包导入，并将你的代码与这个信号连接。在设置文件中这样做可能产生问题，这样建议将它放进去："
 
 #: ../../admin/auth.rst:574
 msgid ""
@@ -2377,8 +2361,8 @@ msgid ""
 "migrate to PostgreSQL, see :ref:`database-setup` and :ref:`database-"
 "migration`."
 msgstr ""
-"自动备份仅包含 PostgreSQL 数据库。其他数据库引擎必须手动备份。推荐您迁移到 "
-"PostgreSQL，请参见 :ref:`database-setup` 和 :ref:`database-migration` 。"
+"自动备份仅包含 PostgreSQL 数据库。其他数据库引擎必须手动备份。推荐你迁移到 PostgreSQL，请参见 :ref:`database-"
+"setup` 和 :ref:`database-migration` 。"
 
 #: ../../admin/backup.rst:23
 msgid ""
@@ -2521,9 +2505,7 @@ msgstr ""
 msgid ""
 "You can also add new container for the backups in the Docker compose file "
 "and use for example :file:`/borgbackup`:"
-msgstr ""
-"您也可以在 Docker 的编写文件中为备份添加新的容器并使用例如 :file:`/"
-"borgbackup`:"
+msgstr "也可以在 Docker 的编写文件中为备份添加新的容器并使用例如 :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:110
 msgid "Remote backups"
@@ -2542,7 +2524,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
-msgstr ":ref:`cloudbackup` 为您提供自动远程备份。"
+msgstr ":ref:`cloudbackup` 为你提供自动远程备份。"
 
 #: ../../admin/backup.rst:122
 msgid "Restoring from BorgBackup"
@@ -2601,7 +2583,7 @@ msgstr "手动备份"
 msgid ""
 "Depending on what you want to save, back up the type data Weblate stores in "
 "each respective place."
-msgstr "依赖于您想存储什么， Weblate 存储的类型数据备份在各自的位置。"
+msgstr "依赖于你想存储什么， Weblate 存储的类型数据备份在各自的位置。"
 
 #: ../../admin/backup.rst:162
 msgid ""
@@ -2626,8 +2608,7 @@ msgstr "实际存储位置依赖于数据库的设置。"
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database, without it all your translation setup will be gone."
-msgstr ""
-"数据库是最重要的存储。要设置数据库的常规备份，没有的话翻译设置就丢失了。"
+msgstr "数据库是最重要的存储。要新建数据库的常规备份，没有的话翻译设置就丢失了。"
 
 #: ../../admin/backup.rst:180
 msgid "Native database backup"
@@ -2776,9 +2757,7 @@ msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
 "these locations, otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
-msgstr ""
-"如果您正在使用 Weblate 生成的 SSH 或 GPG 密钥，您应该备份这些位置，否则您将丢"
-"失私有密钥，并且您将不得不重新生成新的密钥。"
+msgstr "如果正在使用 Weblate 生成的 SSH 或 GPG 密钥，你应该备份这些位置，否则将丢失私有密钥，并且你将不得不重新生成新的密钥。"
 
 #: ../../admin/backup.rst:260
 msgid "User uploaded files"
@@ -2819,7 +2798,7 @@ msgstr "手动备份的命令行"
 msgid ""
 "Using a cron job, you can set up a bash command to be executed on a daily "
 "basis, for instance:"
-msgstr "使用 crom 任务，可以设置批处理命令，以每天为单位来执行，例如："
+msgstr "使用 crom 任务，可以新建批处理命令，以每天为单位来执行，例如："
 
 #: ../../admin/backup.rst:287
 msgid ""
@@ -2827,8 +2806,7 @@ msgid ""
 "for instance the amount of memory used for compression; see https://linux."
 "die.net/man/1/xz"
 msgstr ""
-"XZ_OPT 后面引号之间的字符串允许您选择自己的 xz 选项，例如用于压缩的内存量；请"
-"参见 https://linux.die.net/man/1/xz"
+"XZ_OPT 后面引号之间的字符串允许选择自己的 xz 选项，例如用于压缩的内存量；请参见 https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:289
 msgid ""
@@ -3621,7 +3599,7 @@ msgstr ""
 msgid ""
 "TrueType or OpenType fonts can be uploaded, set up font-groups and use those "
 "in the check."
-msgstr "可以上传 TrueType 或 OpenType 字型，设置字型组，并检查中使用。"
+msgstr "可以上传 TrueType 或 OpenType 字型，新建字型组，并检查中使用。"
 
 #: ../../admin/checks.rst:236
 msgid ""
@@ -3704,9 +3682,7 @@ msgstr "设置一些属性。"
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
-msgstr ""
-"应用 ``check`` （如果想要处理代码中的复数的话）或 ``check_single`` 方法（它将"
-"为您完成）。"
+msgstr "应用 ``check`` （如果想要处理代码中的复数的话）或 ``check_single`` 方法（它将为你完成）。"
 
 #: ../../admin/checks.rst:279
 msgid "Some examples:"
@@ -3738,7 +3714,7 @@ msgstr "检查捷克语翻译文本的复数差异"
 msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
-msgstr "使用语言信息来检查，确定捷克语中的两种复数形式不同。"
+msgstr "使用语言信息来检查，验证捷克语中的两种复数形式不同。"
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
@@ -3809,8 +3785,8 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
-"1. 在项目和组件域用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic "
-"component list assignment` ，如这张图所示："
+"1. 在项目和组件栏目用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic component list "
+"assignment` ，如这张图所示："
 
 #: ../../admin/config.rst:4 ../../faq.rst:5
 msgid "Configuration"
@@ -4173,7 +4149,7 @@ msgstr "为实施检查界面的 Python 类提供完全合规的路径。"
 
 #: ../../admin/config.rst:242
 msgid "Adjust the list of checks to include ones relevant to you."
-msgstr "调整检查列表，来包括与您相关的那些检查。"
+msgstr "调整检查列表，来包括与你相关的那些检查。"
 
 #: ../../admin/config.rst:244
 msgid ""
@@ -4657,8 +4633,8 @@ msgid ""
 "GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:"
 "`GITHUB_TOKEN`."
 msgstr ""
-"在您想要 Weblate 与他们中的更多交互的情况下，使用这个，对于单一的 GitHub 终"
-"点，紧跟 :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`。"
+"在想要 Weblate 与它们中的更多进行交互的情况下，使用这个，对于单一的 GitHub 终点，紧跟 "
+":setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`。"
 
 #: ../../admin/config.rst:656
 msgid "GITHUB_USERNAME"
@@ -4804,15 +4780,14 @@ msgid ""
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
-"依赖于您的设置，这个标头会包括几个 IP 地址，（例如 ``X-Forwarded-For: a, b, "
-"client-ip`` ），并且可以配置标头的哪个地址在这里用作客户端 IP 地址。"
+"依赖于你的设置，这个标头会包括几个 IP 地址，（例如 ``X-Forwarded-For: a, b, client-ip`` ），"
+"并且可以配置标头的哪个地址在这里用作客户端 IP 地址。"
 
 #: ../../admin/config.rst:767
 msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
-msgstr ""
-"设置这个会影响您安装的安全性，您应该只配置它来使用信任的代理来确定 IP 地址。"
+msgstr "设置这个会影响你安装的安全性，应该只配置它来使用信任的代理来确定 IP 地址。"
 
 #: ../../admin/config.rst:770
 msgid "Defaults to 0."
@@ -4834,15 +4809,13 @@ msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:787
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr "您的 Weblate 事例显示其法律文件的 URL 。"
+msgstr "你的 Weblate 事例显示其法律文件的 URL 。"
 
 #: ../../admin/config.rst:791
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
-msgstr ""
-"在您将您的法律文件保存在 Weblate 之外，而将其嵌入 Weblate 的情况下有用。细节"
-"请查看 :ref:`legal` 。"
+msgstr "在将你的法律文件保存在 Weblate 之外，而将其嵌入 Weblate 的情况下有用。细节请查看 :ref:`legal` 。"
 
 #: ../../admin/config.rst:803
 msgid "LICENSE_EXTRA"
@@ -4939,7 +4912,7 @@ msgstr "LOGIN_REQUIRED_URLS"
 msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
-msgstr "您希望需要登录的 URL 列表。（除了 Weblate 内建立的标准规则）。"
+msgstr "你希望需要登录的 URL 列表。（除了 Weblate 内建立的标准规则）。"
 
 #: ../../admin/config.rst:895
 msgid "This allows you to password protect a whole installation using:"
@@ -4965,7 +4938,7 @@ msgstr ""
 
 #: ../../admin/config.rst:918
 msgid "Some of exceptions you might want to include:"
-msgstr "您可能想要包括的一些例外："
+msgstr "你可能想要包括的一些例外："
 
 #: ../../admin/config.rst:936
 msgid "MATOMO_SITE_ID"
@@ -4973,7 +4946,7 @@ msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:938
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
-msgstr "您想要跟踪的 Matomo （以前的 Piwik ）中的网站 ID。"
+msgstr "你想要跟踪的 Matomo （以前的 Piwik ）中的网站 ID。"
 
 #: ../../admin/config.rst:942 ../../admin/config.rst:959
 msgid "This integration does not support the Matomo Tag Manager."
@@ -4993,8 +4966,7 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
-"您想要跟踪的 Matomo （以前的 Piwik ）安装的全 URL （包括反斜杠）。更多细节请"
-"查阅 <https://matomo.org/> 。"
+"你想要跟踪的 Matomo （以前的 Piwik ）安装的全 URL （包括反斜杠）。更多细节请查阅 <https://matomo.org/> 。"
 
 #: ../../admin/config.rst:970
 msgid ":setting:`MATOMO_SITE_ID`"
@@ -5139,9 +5111,8 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
-"此前 Weblate 被 DeepL 分类为计算机辅助翻译工具，因此应该使用 v1 API ，但现在"
-"应该使用 v2 API 。这样默认为 v2 ，您可以在现有计算机辅助翻译工具订阅，并想要 "
-"Weblate 使用它的情况下，将其更改为 v1 。"
+"此前 Weblate 被 DeepL 分类为计算机辅助翻译工具，因此应该使用 v1 API ，但现在应该使用 v2 API 。这样默认为 v2 "
+"，在你有现有的计算机辅助翻译工具订阅，并想要 Weblate 使用它的情况下，可以将其更改为 v1 。"
 
 #: ../../admin/config.rst:1101 ../../admin/config.rst:1112
 msgid ""
@@ -5156,8 +5127,7 @@ msgstr "MT_DEEPL_KEY"
 #: ../../admin/config.rst:1108
 msgid ""
 "API key for the DeepL API, you can register at https://www.deepl.com/pro.html"
-msgstr ""
-"DeepL API 的 API 密钥，您可以在 https://www.deepl.com/pro.html 注册使用"
+msgstr "DeepL API 的 API 密钥，可以在 https://www.deepl.com/pro.html 注册使用"
 
 #: ../../admin/config.rst:1117
 msgid "MT_GOOGLE_KEY"
@@ -5167,9 +5137,7 @@ msgstr "MT_GOOGLE_KEY"
 msgid ""
 "API key for Google Translate API v2, you can register at https://cloud."
 "google.com/translate/docs"
-msgstr ""
-"谷歌翻译 API v2 的 API 密钥，您可以在 https://cloud.google.com/translate/"
-"docs 上注册使用"
+msgstr "谷歌翻译 API v2 的 API 密钥，可以在 https://cloud.google.com/translate/docs 上注册使用"
 
 #: ../../admin/config.rst:1123
 msgid ""
@@ -5309,7 +5277,7 @@ msgstr "Azure Global 的默认值为 ``api.cognitive.microsoft.com``。"
 
 #: ../../admin/config.rst:1197
 msgid "For Azure China, please use your endpoint from the Azure Portal."
-msgstr "对于 Azure 中国，请使用您的 Azure Portal 的端点。"
+msgstr "对于 Azure 中国，请使用你的 Azure Portal 的端点。"
 
 #: ../../admin/config.rst:1203
 msgid "MT_MODERNMT_KEY"
@@ -5396,7 +5364,7 @@ msgstr "MT_NETEASE_KEY"
 #: ../../admin/config.rst:1267
 msgid ""
 "App key for NetEase Sight API, you can register at https://sight.netease.com/"
-msgstr "NetEase Sight API 密匙 ，您可以在 https://sight.netease.com/ 注册使用"
+msgstr "NetEase Sight API 密匙 ，可以在 https://sight.netease.com/ 注册使用"
 
 #: ../../admin/config.rst:1271 ../../admin/config.rst:1282
 msgid ""
@@ -5414,7 +5382,7 @@ msgstr "MT_NETEASE_SECRET"
 msgid ""
 "App secret for the NetEase Sight API, you can register at https://sight."
 "netease.com/"
-msgstr "NetEase Sight API 的密码，您可以在 https://sight.netease.com/ 上注册"
+msgstr "NetEase Sight API 的密码，可以在 https://sight.netease.com/ 上注册"
 
 #: ../../admin/config.rst:1287
 msgid "MT_TMSERVER"
@@ -5440,9 +5408,7 @@ msgstr "MT_YANDEX_KEY"
 msgid ""
 "API key for the Yandex Translate API, you can register at https://yandex.com/"
 "dev/translate/"
-msgstr ""
-"Yandex 翻译 API 的 API 密钥，您可以在 https://yandex.com/dev/translate/进行 "
-"注册"
+msgstr "Yandex 翻译 API 的 API 密钥，可以在 https://yandex.com/dev/translate/进行 注册"
 
 #: ../../admin/config.rst:1305
 msgid ""
@@ -5460,8 +5426,7 @@ msgstr "MT_YOUDAO_ID"
 msgid ""
 "Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao."
 "com/product-fanyi-text.s."
-msgstr ""
-"有道志云 API ID，您可以注册在 https://ai.youdao.com/product-fanyi-text.s 。"
+msgstr "有道志云 API ID，可以注册在 https://ai.youdao.com/product-fanyi-text.s 。"
 
 #: ../../admin/config.rst:1316 ../../admin/config.rst:1327
 msgid ""
@@ -5479,8 +5444,7 @@ msgstr "MT_YOUDAO_SECRET"
 msgid ""
 "Client secret for the Youdao Zhiyun API, you can register at https://ai."
 "youdao.com/product-fanyi-text.s."
-msgstr ""
-"有道智云 API 密匙，您可以在 https://ai.youdao.com/product-fanyi-text.s 注册。"
+msgstr "有道智云 API 密匙，可以在 https://ai.youdao.com/product-fanyi-text.s 注册。"
 
 #: ../../admin/config.rst:1332
 msgid "MT_SAP_BASE_URL"
@@ -5522,7 +5486,7 @@ msgstr "MT_SAP_PASSWORD"
 
 #: ../../admin/config.rst:1364
 msgid "Your SAP password"
-msgstr "您的 SAP 密码"
+msgstr "你的 SAP 密码"
 
 #: ../../admin/config.rst:1372
 msgid "MT_SAP_USE_MT"
@@ -5674,7 +5638,7 @@ msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1491
 msgid "Allows you to filter which e-mail addresses can register."
-msgstr "允许您筛选哪个电子邮箱地址可以注册。"
+msgstr "允许你筛选哪个电子邮箱地址可以注册。"
 
 #: ../../admin/config.rst:1493
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
@@ -5682,7 +5646,7 @@ msgstr "默认为 ``.*`` ，允许使用任何电子邮箱地址注册。"
 
 #: ../../admin/config.rst:1495
 msgid "You can use it to restrict registration to a single e-mail domain:"
-msgstr "您可以用它限制注册到单一的电子邮箱域名："
+msgstr "可以用它限制注册到单一的电子邮箱域名："
 
 #: ../../admin/config.rst:1504
 msgid "REGISTRATION_OPEN"
@@ -5702,8 +5666,8 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
-"这个设置影响了内建的通过电子邮箱地址或通过 Python Social Auth 的身份验证（ 您"
-"可以使用 :setting:`REGISTRATION_ALLOW_BACKENDS` 为适当的后端建立白名单）。"
+"这个设置影响了内建的通过电子邮箱地址或通过 Python Social Auth 的身份验证（ 可以使用 "
+":setting:`REGISTRATION_ALLOW_BACKENDS` 为适当的后端建立白名单）。"
 
 #: ../../admin/config.rst:1515
 msgid ""
@@ -5848,9 +5812,8 @@ msgid ""
 "in case there is actually only single project in Weblate. Alternatively set "
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
-"将用户直接重定向到项目或组件，而不是显示控制面板。您可以将其设置为 "
-"``True`` ，在这种情况下，只在 Weblate 实际只有单一的项目时有用。另外可以设置"
-"项目标识串，将无条件地重定向到这个项目。"
+"将用户直接重定向到项目或组件，而不是显示控制面板。可以将其设置为 ``True`` ，在这种情况下，只在 Weblate "
+"实际只有单一的项目时有用。另外可以设置项目标识串，将无条件地重定向到这个项目。"
 
 #: ../../admin/config.rst:1637
 msgid ""
@@ -5919,7 +5882,7 @@ msgstr "可用的版本控制系统（ VCS ）后端的配置。"
 
 #: ../../admin/config.rst:1700
 msgid "Weblate tries to use all supported back-ends you have the tools for."
-msgstr "Weblate 尝试使用您所有工具支持的后端。"
+msgstr "Weblate 尝试使用你所有工具支持的后端。"
 
 #: ../../admin/config.rst:1704
 msgid "You can limit choices or add custom VCS back-ends by using this."
@@ -5945,9 +5908,8 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
-"当前这只在 :ref:`vcs-git` 中支持。默认 Weblate 进行仓库的浅克隆，使克隆更快并"
-"节省磁盘空间。根据应用（例如当使用定制的 :ref:`addons` 时），您可能想要增加深"
-"度，或通过设置为 0 来完全关闭浅克隆。"
+"当前这只在 :ref:`vcs-git` 中支持。默认 Weblate 进行仓库的浅克隆，使克隆更快并节省磁盘空间。根据应用（例如当使用定制的 "
+":ref:`addons` 时），你可能想要增加深度，或通过设置为 0 来完全关闭浅克隆。"
 
 #: ../../admin/config.rst:1734
 msgid ""
@@ -6033,9 +5995,7 @@ msgid ""
 "There is infrastructure in place so that your translation closely follows "
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
-msgstr ""
-"有适当的基础结构，因此您的翻译紧随开发。这样，翻译人员可以一直进行翻译，而不"
-"必在发布之前处理大量的新文本。"
+msgstr "有适当的基础结构，因此你的翻译紧随开发。这样，翻译人员可以一直进行翻译，而不必在发布之前处理大量的新文本。"
 
 #: ../../admin/continuous.rst:10
 msgid "This is the process:"
@@ -6086,7 +6046,7 @@ msgstr "更新仓库"
 msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
-msgstr "应该设置一些方式来从他们的源更新后端仓库。"
+msgstr "应该新建一些从他们的源来更新后端仓库的方式。"
 
 #: ../../admin/continuous.rst:50
 msgid "Use :ref:`hooks` to integrate with most of common code hosting services"
@@ -6102,7 +6062,7 @@ msgstr "在仓库管理中或使用 :ref:`api` 或 :ref:`wlc` 来手动触发更
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
-msgstr "允许 :setting:`AUTO_UPDATE` 在您的Weblate事例上自动更新所有组件"
+msgstr "允许 :setting:`AUTO_UPDATE` 在你的Weblate事例上自动更新所有组件"
 
 #: ../../admin/continuous.rst:53
 msgid ""
@@ -6128,9 +6088,8 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
-"当相同的文件在 Weblate 之内与之外都更改时导致 Weblate 的合并冲突。有两种方法"
-"来处理——避免在 Weblate 之外编辑，或者将 Weblate 集成到您的更新过程中，从而在"
-"更新 weblate 之外的文件之前刷新更改。"
+"当相同的文件在 Weblate 之内与之外都更改时导致 Weblate 的合并冲突。有两种方法来处理——避免在 Weblate 之外编辑，或者将 "
+"Weblate 集成到你的更新过程中，从而在更新 weblate 之外的文件之前刷新更改。"
 
 #: ../../admin/continuous.rst:68
 msgid ""
@@ -6156,9 +6115,7 @@ msgid ""
 "The second approach can be achieved by using :ref:`api` to force Weblate to "
 "push all pending changes and lock the translation while you are doing "
 "changes on your side."
-msgstr ""
-"第二种方法可以这样实现，使用 :ref:`api` ，当您在自己一侧进行更改时，强制 "
-"Weblate 推送所有挂起的更改，并锁定翻译。"
+msgstr "第二种方法可以这样实现，使用 :ref:`api` ，当你在自己一侧进行更改时，强制 Weblate 推送所有挂起的更改，并锁定翻译。"
 
 #: ../../admin/continuous.rst:82
 msgid "The script for doing updates can look like this:"
@@ -6168,7 +6125,7 @@ msgstr "进行更新的脚本看起来像这样："
 msgid ""
 "If you have multiple components sharing same repository, you need to lock "
 "them all separately:"
-msgstr "如果多个组件分享相同的仓库，您需要分别将他们全部锁定："
+msgstr "如果多个组件分享相同的仓库，需要分别将他们全部锁定："
 
 #: ../../admin/continuous.rst:114
 msgid ""
@@ -6213,8 +6170,8 @@ msgid ""
 "example for the Hosted Weblate service, this is ``https://hosted.weblate.org/"
 "hooks/github/``."
 msgstr ""
-"对于负载 URL，将 ``/hooks/github/`` 增补到您的 Weblate URL中，例如对于 "
-"Hosted Weblate 服务，这是 ``https://hosted.weblate.org/hooks/github/`` 。"
+"对于负载 URL，将 ``/hooks/github/`` 增补到你的 Weblate URL中，例如对于 Hosted Weblate 服务，这是 "
+"``https://hosted.weblate.org/hooks/github/`` 。"
 
 #: ../../admin/continuous.rst:139
 msgid ""
@@ -6239,9 +6196,8 @@ msgid ""
 "Weblate installation (for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``)."
 msgstr ""
-"Weblate 已经支持 Bitbucket webhooks ，添加仓库推送时触发的 webhook ，目的地为"
-"您 Weblate 安装上的 ``/hooks/bitbucket/`` （例如 ``https://hosted.weblate."
-"org/hooks/bitbucket/`` ）。"
+"Weblate 已经支持 Bitbucket webhooks ，添加仓库推送时触发的 webhook ，目的地为你的 Weblate 安装上的 ``/"
+"hooks/bitbucket/`` （例如 ``https://hosted.weblate.org/hooks/bitbucket/`` ）。"
 
 #: ../../admin/continuous.rst:160
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
@@ -6257,9 +6213,8 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation (for example "
 "``https://hosted.weblate.org/hooks/gitlab/``)."
 msgstr ""
-"Weblate 已经支持 GitLab hooks ，添加项目的 webhook ，目的地为您 Weblate 安装"
-"上的 ``/hooks/gitlab/`` （例如 ``https://hosted.weblate.org/hooks/gitlab/"
-"`` ）。"
+"Weblate 已经支持 GitLab hooks ，添加项目的 webhook ，目的地为你的 Weblate 安装上的 ``/hooks/"
+"gitlab/`` （例如 ``https://hosted.weblate.org/hooks/gitlab/`` ）。"
 
 #: ../../admin/continuous.rst:173
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
@@ -6276,10 +6231,9 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
-"Weblate 已经支持 Pagure hooks ，添加项目的 webhook ，目的地为您 Weblate 安装"
-"上的 ``/hooks/pagure/`` （例如 ``https://hosted.weblate.org/hooks/pagure/"
-"`` ）。这可以在 :guilabel:`Project options` 之下的 :guilabel:`Activate Web-"
-"hooks` 中完成："
+"Weblate 已经支持 Pagure hooks ，添加项目的 webhook ，目的地为你的 Weblate 安装上的 ``/hooks/"
+"pagure/`` （例如 ``https://hosted.weblate.org/hooks/pagure/`` ）。这可以在 :guilabel:`"
+"Project options` 之下的 :guilabel:`Activate Web-hooks` 中完成："
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -6297,10 +6251,10 @@ msgid ""
 "``). This can be done in :guilabel:`Service hooks` under :guilabel:`Project "
 "settings`."
 msgstr ""
-"Weblate 已经支持 Azure Repos web hooks ，为 :guilabel:`Code pushed` 事件添加 "
-"webhook ，目的地为您 Weblate 安装上的 ``/hooks/azure/`` URL （例如 ``https://"
-"hosted.weblate.org/hooks/azure/`` ）。这可以在 :guilabel:`Project settings` "
-"之下的 :guilabel:`Service hooks` 中完成。"
+"Weblate 已经支持 Azure Repos web hooks ，为 :guilabel:`Code pushed` 事件添加 webhook ，"
+"目的地为你的 Weblate 安装上的 ``/hooks/azure/`` URL （例如 ``https://hosted.weblate.org/"
+"hooks/azure/`` ）。这可以在 :guilabel:`Project settings` 之下的 :guilabel:`Service "
+"hooks` 中完成。"
 
 #: ../../admin/continuous.rst:209
 msgid ""
@@ -6324,10 +6278,10 @@ msgid ""
 "gitea/``). This can be done in :guilabel:`Webhooks` under repository :"
 "guilabel:`Settings`."
 msgstr ""
-"Weblate 已经支持 Gitea webhooks ，为 :guilabel:`Push events` 事件添加 :"
-"guilabel:`Gitea Webhook` ，目的地为您 Weblate 安装上的 ``/hooks/gitea/`` URL "
-"（例如 ``https://hosted.weblate.org/hooks/gitea/`` ）。这可以在 :guilabel:"
-"`Settings` 之下的 :guilabel:`Webhooks` 中完成。"
+"Weblate 已经支持 Gitea webhooks ，为 :guilabel:`Push events` 事件添加 :guilabel:`Gitea "
+"Webhook` ，目的地为你的 Weblate 安装上的 ``/hooks/gitea/`` URL （例如 ``https://hosted."
+"weblate.org/hooks/gitea/`` ）。这可以在 :guilabel:`Settings` 之下的 "
+":guilabel:`Webhooks` 中完成。"
 
 #: ../../admin/continuous.rst:226
 msgid ""
@@ -6349,10 +6303,9 @@ msgid ""
 "``). This can be done in :guilabel:`WebHooks` under repository :guilabel:"
 "`Management`."
 msgstr ""
-"Weblate 已经支持 Gitee webhooks ，为 :guilabel:`Push` 事件添加 :guilabel:"
-"`Webhook` ，目的地为您 Weblate 安装上的 ``/hooks/gitee/`` URL （例如 "
-"``https://hosted.weblate.org/hooks/gitee/`` ）。这可以在 :guilabel:"
-"`Management` 之下的 :guilabel:`Webhooks` 中完成。"
+"Weblate 已经支持 Gitee webhooks ，为 :guilabel:`Push` 事件添加 :guilabel:`Webhook` ，"
+"目的地为你的 Weblate 安装上的 ``/hooks/gitee/`` URL （例如 ``https://hosted.weblate.org/"
+"hooks/gitee/`` ）。这可以在 :guilabel:`Management` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: ../../admin/continuous.rst:243
 msgid ""
@@ -6372,8 +6325,8 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
-"Weblate 在后面合并更改时，每晚自动获取远程仓库来提高性能。您可以选择将其同样"
-"转换为进行每晚合并，通过允许 :setting:`AUTO_UPDATE` 。"
+"Weblate 在后面合并更改时，每晚自动获取远程仓库来提高性能。可以选择将其同样转换为进行每晚合并，通过允许 "
+":setting:`AUTO_UPDATE` 。"
 
 #: ../../admin/continuous.rst:256
 msgid "Pushing changes from Weblate"
@@ -6388,11 +6341,10 @@ msgid ""
 "you do not want changes to be pushed automatically, you can do that manually "
 "under :guilabel:`Repository maintenance` or using API via :option:`wlc push`."
 msgstr ""
-"每个翻译组件可以具有一个 URL 设置（请参见 :ref:`component-push` ），在那种情"
-"况下 Weblate 能够将更改推送到远程仓库。 Weblate 还可以配置在每次提交时自动推"
-"送更改（这是默认的，请参见 :ref:`component-push_on_commit` ）。如果不想更改自"
-"动给推送，可以在 :guilabel:`Repository maintenance` 之下手动进行，或通过 :"
-"option:`wlc push` 使用 API。"
+"每个翻译组件可以新建推送 URL（请参见 :ref:`component-push` ），在那种情况下 Weblate 能够将更改推送到远程仓库。 "
+"Weblate 还可以配置在每次提交时自动推送更改（这是默认的，请参见 :ref:`component-push_on_commit` "
+"）。如果不想更改自动给推送，可以在 :guilabel:`Repository maintenance` 之下手动进行，或通过 :option:`wlc "
+"push` 使用 API。"
 
 #: ../../admin/continuous.rst:265
 msgid ""
@@ -6525,9 +6477,8 @@ msgid ""
 "problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
-"如果在受保护的分支上使用 Weblate ，可以配置使用拉取请求，并执行翻译的实际复查"
-"（对您不知道的语言可能有问题）。另一个方法是去掉对 Weblate 推送用户的这个限"
-"制。"
+"如果在受保护的分支上使用 Weblate ，可以配置使用拉取请求，并执行翻译的实际复查（对你不知道的语言可能有问题）。另一个方法是去掉对 Weblate "
+"推送用户的这个限制。"
 
 #: ../../admin/continuous.rst:313
 msgid "For example on GitHub this can be done in the repository configuration:"
@@ -6544,15 +6495,14 @@ msgid ""
 "In case you don't need this, you can enable rebasing of changes on upstream, "
 "which will produce a history with fewer merge commits."
 msgstr ""
-"Weblate 默认将 上游仓库结合到自身。在您还通过其他方式访问下层仓库的情况下，这"
-"是最安全的方式。在不需要这个的情况下，可以允许上游更改的变基，这会产生较少的"
-"融合提交的历史。"
+"Weblate 默认将 "
+"上游仓库结合到自身。在你还通过其他方式访问下层仓库的情况下，这是最安全的方式。在不需要这个的情况下，可以允许上游更改的变基，这会产生较少的融合提交的历史。"
 
 #: ../../admin/continuous.rst:329
 msgid ""
 "Rebasing can cause you trouble in case of complicated merges, so carefully "
 "consider whether or not you want to enable them."
-msgstr "在复杂融合的情况下，变基可能是您产生麻烦，因此请仔细考虑是否允许它们。"
+msgstr "在复杂融合的情况下，变基可能使你产生麻烦，因此请仔细考虑是否允许它们。"
 
 #: ../../admin/continuous.rst:333
 msgid "Interacting with others"
@@ -6614,8 +6564,8 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` addon in that case."
 msgstr ""
-"每个组件都建立提交。所以在具有很多组件的情况下，仍然会看到很多提交。在这种情"
-"况下您会使用 :ref:`addon-weblate.git.squash` 插件。"
+"每个组件都建立提交。所以在具有很多组件的情况下，仍然会看到很多提交。在这种情况下你会使用 :ref:`addon-weblate.git.squash` "
+"插件。"
 
 #: ../../admin/continuous.rst:366
 msgid ""
@@ -6646,9 +6596,7 @@ msgid ""
 "Once you have multiple translation components, you might want to ensure that "
 "the same strings have same translation. This can be achieved at several "
 "levels."
-msgstr ""
-"一旦具有多个翻译组件，您会想要确保相同的字符串具有相同的翻译。这可以在几个层"
-"次实现。"
+msgstr "一旦具有多个翻译组件，你会想要确保相同的字符串具有相同的翻译。这可以在几个层次实现。"
 
 #: ../../admin/continuous.rst:390
 msgid "Translation propagation"
@@ -6707,17 +6655,15 @@ msgid ""
 "code in Weblate is taken care of when changing internal interfaces or "
 "refactoring the code."
 msgstr ""
-"使用 Django 和 Python 扩展与定制。将您的更改贡献给上游使每人都能够受益。这降"
-"低了您的维护成本； Weblate 中的代码对更改内部界面或重构编码时的情况。"
+"使用 Django 和 Python 扩展与定制。将你的更改贡献给上游，使每人都能够受益。这降低了你的维护成本； Weblate "
+"中的代码对更改内部界面或重构编码时的情况。"
 
 #: ../../admin/customize.rst:11
 msgid ""
 "Neither internal interfaces nor templates are considered a stable API. "
 "Please review your own customizations for every upgrade, the interfaces or "
 "their semantics might change without notice."
-msgstr ""
-"内部界面与模板都不被认为是稳定的 API 。请您对每次升级都复查自己的定制，接口或"
-"其语义可能未经通知就进行更改。"
+msgstr "内部界面与模板都不被认为是稳定的 API 。请对每次升级都复查自己的定制，接口或其语义可能未经通知就进行更改。"
 
 #: ../../admin/customize.rst:17
 msgid ":ref:`contributing`"
@@ -6733,8 +6679,8 @@ msgid ""
 "Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the "
 "basics and pointing to further tutorials."
 msgstr ""
-"如果您不熟悉 Python ，您可以查看 `Python For Beginners <https://www.python."
-"org/about/gettingstarted/>`_ ，它解释了其基本内容并指向了高级教程。"
+"如果不熟悉 Python ，你可以查看 `Python For Beginners <https://www.python.org/about/"
+"gettingstarted/>`_ ，它解释了其基本内容并指向了高级教程。"
 
 #: ../../admin/customize.rst:28
 msgid ""
@@ -6749,11 +6695,11 @@ msgstr ""
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
-msgstr "更好地是，将您的定制化转变为适当的 Python 包："
+msgstr "更好地是，将你的定制化转变为适当的 Python 包："
 
 #: ../../admin/customize.rst:35
 msgid "Create a folder for your package (we will use `weblate_customization`)."
-msgstr "为您的包建立文件夹（我们会使用 `weblate_customization` ）。"
+msgstr "为你的包建立文件夹（我们会使用 `weblate_customization` ）。"
 
 #: ../../admin/customize.rst:36
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
@@ -6790,7 +6736,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:60
 msgid "Your module structure should look like this:"
-msgstr "您的模块结构应该看起来像这样："
+msgstr "你的模块结构应该看起来像这样："
 
 #: ../../admin/customize.rst:71
 msgid ""
@@ -6826,7 +6772,7 @@ msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:95
 msgid "Logo shown in the navigation bar."
-msgstr "导航栏中显示的 Logo 。"
+msgstr "导航条中显示的 Logo 。"
 
 #: ../../admin/customize.rst:96
 msgid ":file:`logo-*.png`"
@@ -6882,16 +6828,14 @@ msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
 "`own-addon` and in Weblate:"
 msgstr ""
-"为了 :ref:`custom-autofix` 、 :ref:`own-checks` 或 :ref:`own-addon` 并在 "
-"Weblate 中安装您的代码："
+"为了 :ref:`custom-autofix` 、 :ref:`own-checks` 或 :ref:`own-addon` 并在 Weblate "
+"中安装你的代码："
 
 #: ../../admin/customize.rst:122
 msgid ""
 "Place the files in your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
-msgstr ""
-"将文件放在您的包含 Weblate 定制的 Python 模块中（请参见 :ref:`custom-"
-"module` ）。"
+msgstr "将文件放在你的包含 Weblate 定制的 Python 模块中（请参见 :ref:`custom-module` ）。"
 
 #: ../../admin/customize.rst:124
 msgid ""
@@ -6917,7 +6861,7 @@ msgstr "Weblate 部署"
 msgid ""
 "Weblate can be easily installed in your cloud. Please find detailed guide "
 "for your platform:"
-msgstr "Weblate 可以容易地安装到您的云中。请针对您的平台找到具体的指南："
+msgstr "Weblate 可以容易地安装到你的云中。请针对你的平台找到具体的指南："
 
 #: ../../admin/deployments.rst:8
 msgid ":ref:`quick-docker`"
@@ -6965,15 +6909,14 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
-"自托管项目 `YunoHost <https://yunohost.org/>`_ 为 Weblate提供了包。一旦安装"
-"了 YunoHost ，就可以同其它应用一样安装 Weblate 。它还为你提供带有备份和恢复的"
-"完全工作栈，但您必须为特定应用编辑设置文件。"
+"自托管项目 `YunoHost <https://yunohost.org/>`_ 为 Weblate提供了包。一旦安装了 YunoHost ，"
+"就可以同其它应用一样安装 Weblate 。它还为你提供带有备份和恢复的完全工作栈，但你必须为特定应用编辑设置文件。"
 
 #: ../../admin/deployments.rst:34
 msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
-msgstr "您可以使用管理界面，或这个按钮（它将带您到您的服务器）："
+msgstr "可以使用管理界面，或这个按钮（它将带你到你的服务器）："
 
 #: ../../admin/deployments.rst:40
 msgid "It also is possible to use the commandline interface:"
@@ -6995,7 +6938,7 @@ msgstr "安装 Weblate"
 msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
-msgstr "根据您的设置和经验，为您选择适当的安装方法："
+msgstr "根据你的设置和经验，为你选择适当的安装方法："
 
 #: ../../admin/install.rst:24
 msgid ":ref:`quick-docker`, recommended for production setups."
@@ -7083,9 +7026,8 @@ msgid ""
 "Python 3.6 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"Weblate 用 `Python <https://www.python.org/>`_ 编写，并且支持 Python 3.6 或更"
-"新版本。您可以使用 pip 或您的发布包来安装依赖性，完全列表可在 :file:"
-"`requirements.txt` 中找到。"
+"Weblate 用 `Python <https://www.python.org/>`_ 编写，并且支持 Python 3.6 或更新版本。可以使用 "
+"pip 或你的发布包来安装依赖性，完全列表可在 :file:`requirements.txt` 中找到。"
 
 #: ../../admin/install.rst:70
 msgid "Most notable dependencies:"
@@ -7313,7 +7255,7 @@ msgstr ""
 
 #: ../../admin/install.rst:156
 msgid "Verifying release signatures"
-msgstr "核实发布签名"
+msgstr "验证发布签名"
 
 #: ../../admin/install.rst:158
 msgid ""
@@ -7335,24 +7277,20 @@ msgid ""
 "downloaded. This way you can be sure that you are using the same code that "
 "was released. You should also verify the date of the signature to make sure "
 "that you downloaded the latest version."
-msgstr ""
-"您应该核实签名与下载的压缩档案匹配。这种方式可以确保您使用发布的相同编码。您"
-"还应该核实签名的日期，确定下载了最新的版本。"
+msgstr "应该验证签名与下载的压缩档案匹配。这种方式可以确保你使用发布的相同编码。还应该核实签名的日期，确定下载了最新的版本。"
 
 #: ../../admin/install.rst:172
 msgid ""
 "Each archive is accompanied with ``.asc`` files which contain the PGP "
 "signature for it. Once you have both of them in the same folder, you can "
 "verify the signature:"
-msgstr ""
-"每个压缩档案伴随 ``.asc`` 文件在一起，它包含了需要使用的 PGP 签名。一旦它们处"
-"于相同的文件夹内，就可以核实签名了："
+msgstr "每个压缩档案伴随 ``.asc`` 文件在一起，它包含了需要使用的 PGP 签名。一旦它们处于相同的文件夹内，就可以验证签名了："
 
 #: ../../admin/install.rst:183
 msgid ""
 "As you can see GPG complains that it does not know the public key. At this "
 "point you should do one of the following steps:"
-msgstr "正如您所看到的，GPG抱怨它不知道公钥。此时，您应该执行以下步骤之一："
+msgstr "正如你所看到的，GPG抱怨它不知道公钥。此时应该执行以下步骤之一："
 
 #: ../../admin/install.rst:186
 msgid "Use `wkd` to download the key:"
@@ -7375,9 +7313,7 @@ msgid ""
 "This will improve the situation a bit - at this point you can verify that "
 "the signature from the given key is correct but you still can not trust the "
 "name used in the key:"
-msgstr ""
-"这会将情况改善一点——在这点上您可以核实给定密钥的签名是正确的，但仍然不能相信"
-"密钥中使用的名称："
+msgstr "这会将情况改善一点——在这点上可以验证给定密钥的签名是正确的，但仍然不能相信密钥中使用的名称："
 
 #: ../../admin/install.rst:234
 msgid ""
@@ -7389,11 +7325,10 @@ msgid ""
 "web of trust. This way you can trust the key transitively though signatures "
 "of others, who have met the developer in person."
 msgstr ""
-"这里的问题是任何人可以以这个名称发布密钥。您需要确定密钥实际由提到的人所有。"
-"GNU 隐私手册在 `Validating other keys on your public keyring`_ （‘在您的公共"
-"钥匙链上验证其它密钥’）章节涵盖了这个题目。最可靠的方法是与开发者的真人真实交"
-"流，并交换密钥指纹，然后还可以依赖于可信任的 Web 。这种方式您可以信任通过其他"
-"签名的密钥，而其他人必须接触开发者真人。"
+"这里的问题是任何人可以以这个名称发布密钥。需要确定密钥实际由提到的人所有。GNU 隐私手册在 `Validating other keys on "
+"your public keyring`_ "
+"（‘在你的公共钥匙链上验证其它密钥’）章节涵盖了这个题目。最可靠的方法是与开发者的真人真实交流，并交换密钥指纹，然后还可以依赖于可信任的 Web "
+"。这种方式你可以信任通过其他签名的密钥，而其他人必须接触开发者真人。"
 
 #: ../../admin/install.rst:242
 msgid "Once the key is trusted, the warning will not occur:"
@@ -7403,9 +7338,7 @@ msgstr "一旦信任了密钥，警告就不会发生："
 msgid ""
 "Should the signature be invalid (the archive has been changed), you would "
 "get a clear error regardless of the fact that the key is trusted or not:"
-msgstr ""
-"如果签名非法（压缩的档案被更改），那么您会得到清晰的错误，而无论密钥是否可"
-"信："
+msgstr "如果签名非法（压缩的档案被更改），那么会得到清晰的错误，而无论密钥是否可信："
 
 #: ../../admin/install.rst:272
 msgid "Filesystem permissions"
@@ -7425,9 +7358,7 @@ msgid ""
 "The default configuration places them in the same tree as the Weblate "
 "sources, however you might prefer to move these to a better location such "
 "as: :file:`/var/lib/weblate`."
-msgstr ""
-"默认的配置放置在 Weblate 源的相同树下，然而您会想要将这些移动到更好的位置，"
-"如： :file:`/var/lib/weblate` 。"
+msgstr "默认的配置放置在 Weblate 源的相同树下，然而你会想要将这些移动到更好的位置，如： :file:`/var/lib/weblate` 。"
 
 #: ../../admin/install.rst:282
 msgid ""
@@ -7559,7 +7490,7 @@ msgstr ""
 msgid ""
 "Configure the server with ``Innodb_large_prefix`` to allow longer indices on "
 "text fields."
-msgstr "用 ``Innodb_large_prefix`` 配置服务器，来允许文本域上更长的标记体。"
+msgstr "用 ``Innodb_large_prefix`` 配置服务器，来允许文本栏目上更长的标记体。"
 
 #: ../../admin/install.rst:395
 msgid "Set the isolation level to ``READ COMMITTED``."
@@ -7604,9 +7535,8 @@ msgid ""
 "djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage` "
 "for instructions on how to invoke it in different environments)."
 msgstr ""
-"可以通过使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何调"
-"用它的指示说明请参见 :ref:`invoke-manage` ），来确认电子邮件发件箱是否正确工"
-"作。"
+"可以通过使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何调用它的指示说明请参见 :ref"
+":`invoke-manage` ），来验证电子邮件发件箱是否正确工作。"
 
 #: ../../admin/install.rst:425
 msgid "Running behind reverse proxy"
@@ -7637,11 +7567,9 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
-"在运行反向代理的情况下，这个域对可能包含其地址。您需要配置 Weblate 来信任附加"
-"的 HTTP 标头，并从中解析 IP 地址。这不能默认允许，因为在不使用反向代理的安装"
-"时，这会允许 IP 地址欺骗。允许 :setting:`IP_BEHIND_REVERSE_PROXY` 对多数常见"
-"设置就足够了，单您还必须调整 :setting:`IP_PROXY_HEADER` 和 :setting:"
-"`IP_PROXY_OFFSET` 。"
+"在运行反向代理的情况下，这个栏目很可能包含其地址。需要配置 Weblate 来信任附加的 HTTP 标头，并从中解析 IP "
+"地址。这不能默认允许，因为在不使用反向代理的安装时，这会允许 IP 地址欺骗。允许 :setting:`IP_BEHIND_REVERSE_PROXY` "
+"对多数常见设置就足够了，但你还必须调整 :setting:`IP_PROXY_HEADER` 和 :setting:`IP_PROXY_OFFSET` 。"
 
 #: ../../admin/install.rst:443
 msgid ""
@@ -7688,8 +7616,8 @@ msgid ""
 "adjust it to match your setup. You will probably want to adjust the "
 "following options:"
 msgstr ""
-"将 :file:`weblate/settings_example.py` 复制到 :file:`weblate/settings.py` ，"
-"并且调整它与您的设置匹配。您可能想要调整后面的选项："
+"将 :file:`weblate/settings_example.py` 复制到 :file:`weblate/settings.py` "
+"，并且调整它与你的设置匹配。你可能想要调整后面的选项："
 
 #: ../../admin/install.rst:483
 msgid "``ADMINS``"
@@ -7715,7 +7643,7 @@ msgstr "``ALLOWED_HOSTS``"
 msgid ""
 "You need to set this to list the hosts your site is supposed to serve. For "
 "example:"
-msgstr "您需要设置这个，来列出您的网站支持服务的主机。例如："
+msgstr "需要设置这个，来列出你的网站支持服务的主机。例如："
 
 #: ../../admin/install.rst:503
 msgid "Alternatively you can include wildcard:"
@@ -7739,8 +7667,7 @@ msgid ""
 "database backend engine, you should schedule: :command:`weblate "
 "clearsessions` to remove stale session data from the database."
 msgstr ""
-"配置如何存储会话。在保持默认的数据库后端引擎的情况下，您应该安排 :command:"
-"`weblate clearsessions` 从数据库中删除旧的会话。"
+"配置如何存储会话。在保持默认的数据库后端引擎的情况下，应该安排 :command:`weblate clearsessions` 从数据库中删除旧的会话。"
 
 #: ../../admin/install.rst:524
 msgid ""
@@ -7848,9 +7775,7 @@ msgid ""
 "After your configuration is ready, you can run :samp:`weblate migrate` to "
 "create the database structure. Now you should be able to create translation "
 "projects using the admin interface."
-msgstr ""
-"在配置准备好之后，可以运行 :samp:`weblate migrate` 来建立数据库结构。现在您将"
-"能够使用管理界面建立翻译项目。"
+msgstr "在配置准备好之后，可以运行 :samp:`weblate migrate` 来建立数据库结构。现在你将能够使用管理界面建立翻译项目。"
 
 #: ../../admin/install.rst:605
 msgid ""
@@ -7866,9 +7791,7 @@ msgid ""
 "Once you are done, you should also check the :guilabel:`Performance report` "
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
-msgstr ""
-"一旦完成，您将可以在管理界面检查 :guilabel:`Performance report` ，它会提示您"
-"网站上潜在的非最优的配置。"
+msgstr "一旦完成，你将可以在管理界面检查 :guilabel:`Performance report` ，它会提示你网站上潜在的非最优的配置。"
 
 #: ../../admin/install.rst:615
 msgid ":ref:`config`, :ref:`privileges`"
@@ -7884,15 +7807,13 @@ msgid ""
 "following sections. The most critical settings will trigger a warning, which "
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
-msgstr ""
-"对于生产设置，您可以进行后面的章节中描述的调整。最严格的设置将触发警告，如果"
-"超级用户登录的话，警告由顶部栏的感叹标记来指示："
+msgstr "对于生产设置，可以进行后面的章节中描述的调整。最严格的设置将触发警告，如果超级用户登录的话，警告由顶部条的感叹标记来指示："
 
 #: ../../admin/install.rst:629
 msgid ""
 "It is also recommended to inspect checks triggered by Django (though you "
 "might not need to fix all of them):"
-msgstr "同样也推荐查看由 Django 触发的检查（尽管您可能不需要修复所有的检查）："
+msgstr "同样也推荐查看由 Django 触发的检查（尽管可能不需要修复所有的检查）："
 
 #: ../../admin/install.rst:638
 msgid ":doc:`django:howto/deployment/checklist`"
@@ -7977,9 +7898,7 @@ msgstr ""
 msgid ""
 "You might want to set up HSTS as well, see :ref:`django:security-"
 "recommendation-ssl` for more details."
-msgstr ""
-"您还会想要设置 HSTS，更多细节请参见 :ref:`django:security-recommendation-"
-"ssl` 。"
+msgstr "你还会想要新建 HSTS，更多细节请参见 :ref:`django:security-recommendation-ssl` 。"
 
 #: ../../admin/install.rst:717
 msgid ""
@@ -7997,9 +7916,9 @@ msgid ""
 "setting:`SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable HTTP "
 "Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
-"如果您的网站基于 SSL 上提供服务，那么必须考虑 :file:`settings.py` 中 :"
-"setting:`SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport "
-"Security （ HTTP 脚本传输安全）。默认设置为 0 ，如下所示。"
+"如果你的网站基于 SSL 上提供服务，那么必须考虑 :file:`settings.py` 中 "
+":setting:`SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport Security （ "
+"HTTP 脚本传输安全）。默认设置为 0 ，如下所示。"
 
 #: ../../admin/install.rst:733
 msgid ""
@@ -8016,8 +7935,8 @@ msgid ""
 "Setting this incorrectly can irreversibly (for some time) break your site. "
 "Read the :ref:`django:http-strict-transport-security` documentation first."
 msgstr ""
-"不正确地设置这项会导致您的网站不可逆地（有时）崩溃。请首先阅读 :ref:`django:"
-"http-strict-transport-security` 文件。"
+"不正确地设置这项会导致你的网站不可逆地（有时）崩溃。请首先阅读 :ref:`django:http-strict-transport-security` "
+"文件。"
 
 #: ../../admin/install.rst:745
 msgid "Use a powerful database engine"
@@ -8084,9 +8003,8 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
-"Weblate 需要在几种情况下发送电子邮件，这些电子邮件应具有正确的发送者地址，请"
-"配置:setting:`SERVER_EMAIL` 和 :setting:`DEFAULT_FROM_EMAIL`，与您的环境匹"
-"配，例如："
+"Weblate 需要在几种情况下发送电子邮件，这些电子邮件应具有正确的发送者地址，请配置:setting:`SERVER_EMAIL` 和 "
+":setting:`DEFAULT_FROM_EMAIL`，与你的环境匹配，例如："
 
 #: ../../admin/install.rst:840
 msgid ""
@@ -8118,9 +8036,7 @@ msgstr "允许主机设置"
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
-msgstr ""
-"Django 需要 :setting:`ALLOWED_HOSTS` 保存您的网站允许服务的域名列表，将其保持"
-"空置会屏蔽任何请求。"
+msgstr "Django 需要 :setting:`ALLOWED_HOSTS` 保存你的网站允许服务的域名列表，将其保持空置会屏蔽任何请求。"
 
 #: ../../admin/install.rst:863
 msgid ""
@@ -8128,8 +8044,8 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
-"在没有配置来匹配 HTTP 服务器的情况下，您会得到错误信息，如 :samp:`Invalid "
-"HTTP_HOST header: '1.1.1.1'. You may need to add '1.1.1.1' to ALLOWED_HOSTS.`"
+"在没有配置来匹配 HTTP 服务器的情况下，会得到错误信息，如 :samp:`Invalid HTTP_HOST header: '1.1.1.1'. "
+"You may need to add '1.1.1.1' to ALLOWED_HOSTS.`"
 
 #: ../../admin/install.rst:869
 msgid ""
@@ -8154,16 +8070,14 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
-":setting:`SECRET_KEY` 设置由 Django 使用来进行 cookies 签名，您应该真正产生自"
-"己的值，而不是使用来自举例的设置的值。"
+":setting:`SECRET_KEY` 设置由 Django 使用来进行 cookies 签名，应该真正产生自己的值，而不是使用来自举例的设置的值。"
 
 #: ../../admin/install.rst:885
 msgid ""
 "You can generate a new key using :file:`weblate/examples/generate-secret-"
 "key` shipped with Weblate."
 msgstr ""
-"您可以使用与 Weblate 一起上市的 :file:`weblate/examples/generate-secret-"
-"key`， 来产生新的密钥。"
+"可以使用与 Weblate 一起上市的 :file:`weblate/examples/generate-secret-key`， 来产生新的密钥。"
 
 #: ../../admin/install.rst:890
 msgid ":setting:`SECRET_KEY`"
@@ -8186,17 +8100,16 @@ msgid ""
 "private repositories, but Git might need to access this directory as well "
 "(depending on the Git version you use)."
 msgstr ""
-"给用户运行 Weblate 的家目录应该存在，并且可以被这个用户写入。如果您想要使用 "
-"SSH 来访问私有仓库，这是特别重要的，但 Git 也会需要访问这个目录（依赖于您使用"
-"的 Git 版本）。"
+"给用户运行 Weblate 的家目录应该存在，并且可以被这个用户写入。如果想要使用 SSH 来访问私有仓库，这是特别重要的，但 Git "
+"也会需要访问这个目录（依赖于你使用的 Git 版本）。"
 
 #: ../../admin/install.rst:906
 msgid ""
 "You can change the directory used by Weblate in :file:`settings.py`, for "
 "example to set it to ``configuration`` directory under the Weblate tree:"
 msgstr ""
-"您可以在 :file:`settings.py` 中更改 Weblate 使用的目录，例如，将其设置到 "
-"Weblate 树下面的 ``configuration`` 目录中："
+"可以在 :file:`settings.py` 中更改 Weblate 使用的目录，例如，将其设置到 Weblate 树下面的 "
+"``configuration`` 目录中："
 
 #: ../../admin/install.rst:915
 msgid ""
@@ -8225,9 +8138,8 @@ msgid ""
 "request. You can configure it using the following snippet (the ``loaders`` "
 "setting is important here):"
 msgstr ""
-"对于 Django 推荐使用缓存模板的加载程序。它将已分析的模板装入，并避免对每个单"
-"独的请求多进行分析。您可以使用后面的模板来配置它（这里 ``loaders`` 设置很重"
-"要）："
+"对于 Django 推荐使用缓存模板的加载程序。它将已分析的模板装入，并避免对每个单独的请求多进行分析。可以使用后面的模板来配置它（这里 "
+"``loaders`` 设置很重要）："
 
 #: ../../admin/install.rst:964
 msgid ":py:class:`django:django.template.loaders.cached.Loader`"
@@ -8295,8 +8207,7 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
-"系统的地区应该设置为兼容 UTF-8 的。在多数 Linux 发布中这是默认的设置。在您的"
-"系统不能兼容的情况下，请将地区更改为 UTF-8 变体。"
+"系统的地区应该设置为兼容 UTF-8 的。在多数 Linux 发布中这是默认的设置。在你的系统不能兼容的情况下，请将地区更改为 UTF-8 变体。"
 
 #: ../../admin/install.rst:995
 msgid ""
@@ -8311,8 +8222,8 @@ msgid ""
 "locales. For example when using Apache you might want to set it in :file:`/"
 "etc/apache2/envvars`:"
 msgstr ""
-"在一些情况下，各个服务对不同的地区具有不同的设置。例如当使用 Apache 时，您会"
-"想要在 :file:`/etc/apache2/envvars` 中设置它："
+"在一些情况下，各个服务对不同的地区具有不同的设置。例如当使用 Apache 时，你会想要在 :file:`/etc/apache2/envvars` "
+"中设置它："
 
 #: ../../admin/install.rst:1009
 msgid "Using custom certificate authority"
@@ -8324,8 +8235,8 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
-"Weblate 在 HTTP 请求时确认 SSL 证书。在您使用 定制的证书授权的情况下，这样定"
-"制的证书授权在默认 bundles 的中不被信任，您必须将其证书添加为可信任。"
+"Weblate 在 HTTP 请求时验证 SSL 证书。在使用 定制的证书授权的情况下，这样定制的证书授权在默认 bundles "
+"的中不被信任，你必须将其证书添加为可信任。"
 
 #: ../../admin/install.rst:1015
 msgid ""
@@ -8334,9 +8245,8 @@ msgid ""
 "done by placing the CA certificate into :file:`/usr/local/share/ca-"
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
-"倾向使用的方法是在系统层次进行，细节请您查看您的发布的文件（例如在 debian "
-"中，这可以通过将 CA 证书放置在 :file:`/usr/local/share/ca-certificates/` ，并"
-"运行 :command:`update-ca-certificates` 来完成）。"
+"倾向使用的方法是在系统层次进行，更多细节请查看你的发布的文件（例如在 debian 中，这可以通过将 CA 证书放置在 :file:`/usr/"
+"local/share/ca-certificates/` ，并运行 :command:`update-ca-certificates` 来完成）。"
 
 #: ../../admin/install.rst:1020
 msgid ""
@@ -8350,9 +8260,8 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
-"对于 Python 代码，您需要配置请求，来使用系统 CA bundle，而不是与它一起上市的"
-"那个。这可以通过将后面的模板放到 :file:`settings.py` 来实现（路径是 Debian 特"
-"有的）："
+"对于 Python 代码，需要配置请求来使用系统 CA bundle，而不是与它一起上市的那个。这可以通过将后面的模板放到 :file:`settings"
+".py` 来实现（路径是 Debian 特有的）："
 
 #: ../../admin/install.rst:1036
 msgid "Compressing client assets"
@@ -8511,8 +8420,7 @@ msgstr ""
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
-msgstr ""
-"推荐直接从您的 web 服务器为静态文件提供服务，您应该为后面的路径使用它："
+msgstr "推荐直接从你的 web 服务器为静态文件提供服务，对于后面的路径应该使用它："
 
 #: ../../admin/install.rst:1137
 msgid ":file:`/static/`"
@@ -8561,10 +8469,9 @@ msgid ""
 "default set up to work with Weblate and its configuration, but this might "
 "need customization for your environment."
 msgstr ""
-"默认的 Weblate 配置允许 ``weblate.middleware.SecurityMiddleware`` 中间件，它"
-"设置与 HTTP 标头相关的安全，如 ``Content-Security-Policy`` 或 ``X-XSS-"
-"Protection`` 。这些默认设置为与 Weblate 及其配置一起工作，但这对您的环境需要"
-"定制化。"
+"默认的 Weblate 配置允许 ``weblate.middleware.SecurityMiddleware`` 中间件，它设置与 HTTP "
+"标头相关的安全，如 ``Content-Security-Policy`` 或 ``X-XSS-Protection`` 。这些被默认新建，与 "
+"Weblate 及其配置一起工作，但这对你的环境需要定制化。"
 
 #: ../../admin/install.rst:1162
 msgid ""
@@ -8936,8 +8843,8 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
-"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate 实"
-"例。Weblate 的所有依赖项已包含在内。PostgreSQL 被设置为默认数据库。"
+"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate 实例。Weblate 的所有依赖项已包含在内。"
+"PostgreSQL 被新建为默认数据库。"
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -10154,7 +10061,7 @@ msgstr "默认为处理器的数量 + 1 。"
 msgid ""
 "In case you have lot of CPU cores and hit out of memory issues, try reducing "
 "number of workers:"
-msgstr ""
+msgstr "在你有很多 CPU 核并且碰到内存用尽问题情况下，尝试减少 worker 的数量："
 
 #: ../../admin/install/docker.rst:1175
 msgid "Docker container volumes"
@@ -10214,9 +10121,8 @@ msgid ""
 "environment settings are loaded, so it gets completely set up, and can be "
 "used to customize anything."
 msgstr ""
-"您还可以在 :file:`/app/data/settings-override.py` 中覆盖配置（请参阅 :ref:"
-"`docker-volume`）。加载所有环境设置后将执行此操作，因此将完全设置它，并可用于"
-"自定义任何内容。"
+"您还可以在 :file:`/app/data/settings-override.py` 中覆盖配置（请参阅 :ref:`docker-"
+"volume`）。加载所有环境设置后将执行此操作，因此完全新建它，并可用于自定义任何内容。"
 
 #: ../../admin/install/docker.rst:1210
 msgid "Replacing logo and other static files"
@@ -10576,9 +10482,8 @@ msgid ""
 "properties, Java properties or Qt Linguist files, see :ref:`formats` for "
 "more details."
 msgstr ""
-"这里重要的域是：部件名称、版本控制系统（VCS ）仓库地址和找到的翻译文件的掩"
-"码。 Weblate 支持大范围的格式，包括 PO 文件、安卓资源字符串、 IOS 字符串属"
-"性， Java 属性或 Qt Linguist 文件，更多细节请参看： :ref:`formats` 。"
+"这里重要的栏目是：部件名称、版本控制系统（VCS ）仓库地址和找到的翻译文件的掩码。 Weblate 支持大范围的格式，包括 PO 文件、安卓资源字符串、"
+" IOS 字符串属性， Java 属性或 Qt Linguist 文件，更多细节请参看： :ref:`formats` 。"
 
 #: ../../admin/install/steps/install-after.rst:29
 msgid ""
@@ -10683,13 +10588,11 @@ msgid ""
 "While editing, make sure all fields are correct (especially plurals and text "
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
-msgstr ""
-"当编辑时，确认所有的域都是正确的（特别是复数和正文方向），否则译者将不能正常"
-"编辑这些翻译。"
+msgstr "当编辑时，确认所有的栏目都是正确的（特别是复数和正文方向），否则译者将不能正常编辑这些翻译。"
 
 #: ../../admin/languages.rst:50
 msgid "Each language consists of following fields:"
-msgstr "每种语言都包括后面的域："
+msgstr "每种语言都包括后面的栏目："
 
 #: ../../admin/languages.rst:55 ../../admin/projects.rst:746 ../../api.rst:651
 #: ../../api.rst:653 ../../api.rst:716 ../../api.rst:2146
@@ -10993,8 +10896,8 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
-"DeepL 是付费服务，提供一些语言的良好机器翻译。您需要购买 :guilabel:`DeepL "
-"API` 订阅，或者您可以使用legacy :guilabel:`DeepL Pro (classic)` 计划。"
+"DeepL 是付费服务，提供一些语言的良好机器翻译。您需要购买 :guilabel:`DeepL API` 订阅，或者您可以使用传统的 "
+":guilabel:`DeepL Pro (classic)` 计划。"
 
 #: ../../admin/machine.rst:97
 msgid ""
@@ -11843,8 +11746,7 @@ msgid ""
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
 "导入的 JSON 文件结构非常符合组件对象（请参见 :http:get:`/api/components/"
-"(string:project)/(string:component)/` ）。您必须包括 ``name`` 和 "
-"``filemask`` 域。"
+"(string:project)/(string:component)/` ）。您必须包括 ``name`` 和 ``filemask`` 栏目。"
 
 #: ../../admin/management.rst:306
 msgid "Specifies where the components will be imported from."
@@ -12936,7 +12838,7 @@ msgstr "30"
 
 #: ../../admin/optionals.rst:260
 msgid "Adding to glossary"
-msgstr "添加术语"
+msgstr "添加到词汇表"
 
 #: ../../admin/optionals.rst:260
 msgid "``GLOSSARY``"
@@ -13053,9 +12955,7 @@ msgid ""
 "The project creation can be initiated from there, or using the menu in the "
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
-msgstr ""
-"您可以从此处开始创建项目，也可以使用导航栏中的菜单来填写翻译项目的基本信息以"
-"完成添加："
+msgstr "您可以从此处开始创建项目，也可以使用导航条中的菜单来填写翻译项目的基本信息以完成添加："
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
@@ -13173,7 +13073,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:115
 msgid "These basic attributes set up and inform translators of a project:"
-msgstr "这些基本属性设置并通知翻译人员项目："
+msgstr "这些基本属性被新建并通知翻译人员项目："
 
 #: ../../admin/projects.rst:120 ../../admin/projects.rst:754 ../../api.rst:752
 #: ../../contributing/about.rst:11
@@ -14556,9 +14456,8 @@ msgid ""
 "with the :guilabel:`Edit string when suggestions are enforced` privilege "
 "(see :ref:`privileges`)."
 msgstr ""
-"一旦设置了自动接受，那么普通用户会失去直接存储翻译或接受建议的特权。这可以"
-"由 :guilabel:`Edit string when suggestions are enforced` 特权来否决（请参见 :"
-"ref:`privileges`）。"
+"一旦新建了自动接受，那么普通用户会失去直接存储翻译或接受建议的特权。这可以由 :guilabel:`Edit string when "
+"suggestions are enforced` 特权来否决（请参见 :ref:`privileges`）。"
 
 #: ../../admin/translating.rst:23
 msgid ""
@@ -14571,25 +14470,25 @@ msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted. - Turn on voting. - Turn off automatic acceptance. - Don't let "
 "users save translations."
-msgstr ""
+msgstr "用户建议并对建议进行投票，并且有限的组控制接受什么。——打开投票。——关闭自动接受。——不要让用户存储翻译。"
 
 #: ../../admin/translating.rst:30
 msgid ""
 "Users suggest and vote for suggestions with automatic acceptance once the "
 "defined number of them agree. - Turn on voting. - Set the desired number of "
 "votes for automatic acceptance."
-msgstr ""
+msgstr "用户建议并对建议进行投票，一旦他们之中确定的数量同意则自动接受。——打开投票。——设置自动接受所需要的投票数量。"
 
 #: ../../admin/translating.rst:34
 msgid ""
 "Optional voting for suggestions. (Can optionally be used by users when they "
 "are unsure about a translation by making multiple suggestions.) - Only turn "
 "on voting."
-msgstr ""
+msgstr "对建议的可选投票。（当用户对做出的多个建议不确定时，可以由用户可选地使用。）——只打开投票。"
 
 #: ../../admin/translating.rst:41
 msgid "Additional info on source strings"
-msgstr ""
+msgstr "源字符串另外的信息"
 
 #: ../../admin/translating.rst:43
 msgid ""
@@ -14597,43 +14496,47 @@ msgid ""
 "files. This includes explanation, string priority, check flags, or providing "
 "visual context.  All these features can be set in the :ref:`source-review`:"
 msgstr ""
+"通过翻译文件中可用的信息来增强翻译过程。这包括解释，字符串优先，检查标记或提供可见的文本。所有这些特性可以在 :ref:`source-review` "
+"中设置："
 
 #: ../../admin/translating.rst:49
 msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
 msgstr ""
+"可以通过点击紧邻 :guilabel:`Screenshot context` 或 :guilabel:`Flags` 的 \"Edit\" "
+"标签而从翻译界面直接访问。"
 
 #: ../../admin/translating.rst:55
 msgid "Strings prioritization"
-msgstr ""
+msgstr "字符串优先级"
 
 #: ../../admin/translating.rst:59
 msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag"
-msgstr ""
+msgstr "字符串优先级可以更改，通过使用 ``priority`` 标签，来提供更高优先级的字符串被更早地翻译"
 
 #: ../../admin/translating.rst:64
 msgid "This can be used to order the flow of translation in a logical manner."
-msgstr ""
+msgstr "这可以用于以逻辑的方式将翻译流程排序。"
 
 #: ../../admin/translating.rst:66 ../../admin/translating.rst:82
 msgid ":ref:`checks`"
-msgstr ""
+msgstr ":ref:`checks`"
 
 #: ../../admin/translating.rst:75
 msgid ""
 "Previously called :guilabel:`Quality checks flags`, it no longer configures "
 "only checks."
-msgstr ""
+msgstr "之前被称为 :guilabel:`Quality checks flags`，它不再只配置检查了。"
 
 #: ../../admin/translating.rst:78
 msgid ""
 "The default set of translation flags is determined by the translation :ref:"
 "`component` and the translation file. However, you might want to use it to "
 "customize this per source string."
-msgstr ""
+msgstr "翻译标记的默认设置由翻译 :ref:`component` 和翻译文件来决定。然而，你会想要用它根据源字符串来定制这个。"
 
 #: ../../admin/translating.rst:85
 msgid "Explanation"
@@ -14641,28 +14544,28 @@ msgstr "解释"
 
 #: ../../admin/translating.rst:89
 msgid "In previous version this has been called extra context."
-msgstr ""
+msgstr "在以前的版本中这被称为附加文本。"
 
 #: ../../admin/translating.rst:91
 msgid ""
 "Use the explanation to clarify scope or usage of the translation. You can "
 "use Markdown to include links and other markup."
-msgstr ""
+msgstr "使用解释来明确翻译的范围或翻译的 使用。你可以使用 Markdown 来包括连接和其他标志。"
 
 #: ../../admin/translating.rst:97
 msgid "Visual context for strings"
-msgstr ""
+msgstr "字符串的可见文本"
 
 #: ../../admin/translating.rst:101
 msgid ""
 "You can upload a screenshot showing a given source string in use within your "
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
-msgstr ""
+msgstr "你可以将显示你程序中使用的给定源字符串的截屏上传。这帮助译者理解它用在哪里，并且应该如何翻译。"
 
 #: ../../admin/translating.rst:105
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
-msgstr ""
+msgstr "上传的截屏在翻译文本的侧边条中显示："
 
 #: ../../admin/translating.rst:109
 msgid ""
@@ -14670,30 +14573,32 @@ msgid ""
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
+"除了 :ref:`source-review`，截屏在 :guilabel:`Tools` "
+"菜单下有个分离的管理界面。上传截屏，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行。"
 
 #: ../../admin/translating.rst:114
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
-msgstr ""
+msgstr "一旦上传了截屏，那么这个界面处理管理以及源字符串的联系："
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
-msgstr ""
+msgstr "升级 Weblate"
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr ""
+msgstr "Docker 映像升级"
 
 #: ../../admin/upgrade.rst:7
 msgid ""
 "The official Docker image (see :ref:`quick-docker`) has all upgrade steps "
 "integrated. There are no manual step besides pulling latest version."
-msgstr ""
+msgstr "官方 Docker 映像（请参见 :ref:`quick-docker`）已经将所有升级步骤集成了。除了拉取最新的版本外没有手动步骤。"
 
 #: ../../admin/upgrade.rst:13
 msgid "Generic upgrade instructions"
-msgstr ""
+msgstr "一般的升级指示"
 
 #: ../../admin/upgrade.rst:15
 msgid ""
@@ -14702,6 +14607,8 @@ msgid ""
 "your :file:`settings.py` to match changes in the configuration (consult :"
 "file:`settings_example.py` for correct values)."
 msgstr ""
+"在升级前，请检查当前的 :ref:`requirements`，因为他们可能被更改。一旦所有的要求被安装或升级，请调整你的 :file:`settings"
+".py`，来匹配配置中的更改（正确的值请咨询 :file:`settings_example.py`）。"
 
 #: ../../admin/upgrade.rst:20
 msgid ""
@@ -14711,147 +14618,155 @@ msgid ""
 "intermediate version to ensure a smooth migration. Upgrading across multiple "
 "releases should work, but is not as well tested as single version upgrades."
 msgstr ""
+"在升级前总是查看 :ref:`version-specific-instructions`。在你跳过一些版本的情况下，请遵从在升级中您跳过的所有版本的指示"
+"。有时最好升级到一些中间版本，来确保平滑迁移。跨过多个发行版本的升级应该可以工作，但还没有像单一版本升级一样测试过。"
 
 #: ../../admin/upgrade.rst:28
 msgid ""
 "It is recommended to perform a full database backup prior to upgrade so that "
 "you can roll back the database in case upgrade fails, see :doc:`backup`."
-msgstr ""
+msgstr "推荐在升级前执行全数据库备份，使你可以在升级失败的情况下回滚数据库，请参见 :doc:`backup`。"
 
 #: ../../admin/upgrade.rst:31
 msgid ""
 "Stop wsgi and Celery processes. The upgrade can perform incompatible changes "
 "in the database, so it is always safer to avoid old processes running while "
 "upgrading."
-msgstr ""
+msgstr "停止 WSGI 和 Celery 进程。升级可能执行数据库的不兼容更改，因此在升级中避免旧的进程运行总是安全的。"
 
 #: ../../admin/upgrade.rst:34
 msgid "Upgrade Weblate code."
-msgstr ""
+msgstr "升级 Weblate 代码。"
 
 #: ../../admin/upgrade.rst:36
 msgid "For pip installs it can be achieved by:"
-msgstr ""
+msgstr "对于 pip 安装，可以通过后面的来实现："
 
 #: ../../admin/upgrade.rst:42
 msgid ""
 "With Git checkout you need to fetch new source code and update your "
 "installation:"
-msgstr ""
+msgstr "通过 Git 核实，你需要取回新的源代码并升级你的安装："
 
 #: ../../admin/upgrade.rst:53
 msgid ""
 "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
 "`version-specific-instructions` for needed steps."
 msgstr ""
+"升级配置文件，所需的步骤请参考 :file:`settings_example.py` 或 :ref:`version-specific-"
+"instructions`。"
 
 #: ../../admin/upgrade.rst:56
 msgid "Upgrade database structure:"
-msgstr ""
+msgstr "升级数据库架构："
 
 #: ../../admin/upgrade.rst:62
 msgid ""
 "Collect updated static files (see :ref:`server` and :ref:`static-files`):"
-msgstr ""
+msgstr "收集升级的静态文件（请参见 :ref:`server` 和 :ref:`static-files`）："
 
 #: ../../admin/upgrade.rst:74
 msgid ""
 "If you are running version from Git, you should also regenerate locale files "
 "every time you are upgrading. You can do this by invoking:"
-msgstr ""
+msgstr "如果你运行来自 Git 的版本，每次升级时还应该重新生成 locale 文件。可以通过调用后面的来进行："
 
 #: ../../admin/upgrade.rst:81
 msgid "Verify that your setup is sane (see also :ref:`production`):"
-msgstr ""
+msgstr "验证您的设置合理（还请参见 :ref:`production`）："
 
 #: ../../admin/upgrade.rst:87
 msgid "Restart celery worker (see :ref:`celery`)."
-msgstr ""
+msgstr "重新启动 celery worker （请参见 :ref:`celery`）。"
 
 #: ../../admin/upgrade.rst:93
 msgid "Version specific instructions"
-msgstr ""
+msgstr "与特定版本相关的指示"
 
 #: ../../admin/upgrade.rst:96
 msgid "Upgrade from 2.x"
-msgstr ""
+msgstr "从 2.x 升级"
 
 #: ../../admin/upgrade.rst:98
 msgid ""
 "If you are upgrading from 2.x release, always first upgrade to 3.0.1 and "
 "then continue upgrading in the 3.x series. Upgrades skipping this step are "
 "not supported and will break."
-msgstr ""
+msgstr "如果从 2.x 发布版本升级，首先总是升级到 3.0.1，然后继续在 3.x 系列中升级。跳过这步的升级不被支持，并且会中断。"
 
 #: ../../admin/upgrade.rst:104
 msgid ""
 "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate."
 "org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 msgstr ""
+"`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate."
+"org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 
 #: ../../admin/upgrade.rst:107
 msgid "Upgrade from 3.x"
-msgstr ""
+msgstr "从 3.x 升级"
 
 #: ../../admin/upgrade.rst:109
 msgid ""
 "If you are upgrading from 3.x release, always first upgrade to 4.0.4 or "
 "4.1.1 and then continue upgrading in the 4.x series. Upgrades skipping this "
 "step are not supported and will break."
-msgstr ""
+msgstr "如果从 3.x 发布版本升级，首先总是升级到 4.0.4 或 4.1.1，然后继续在 4.x 系列中升级。跳过这步的升级不被支持，并且会中断。"
 
 #: ../../admin/upgrade.rst:115
 msgid ""
 "`Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate."
 "org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 msgstr ""
+"`Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate."
+"org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 
 #: ../../admin/upgrade.rst:118
 msgid "Upgrade from 4.0 to 4.1"
-msgstr ""
+msgstr "从 4.0 升级到 4.1"
 
 #: ../../admin/upgrade.rst:120 ../../admin/upgrade.rst:137
 #: ../../admin/upgrade.rst:154
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
-msgstr ""
+msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: ../../admin/upgrade.rst:122 ../../admin/upgrade.rst:139
 #: ../../admin/upgrade.rst:156
 msgid "Notable configuration or dependencies changes:"
-msgstr ""
+msgstr "显著的配置与依赖性更改："
 
 #: ../../admin/upgrade.rst:124
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable "
 "middleware changes, please adjust your settings accordingly."
-msgstr ""
+msgstr "在 :file:`settings_example.py` 中有几项更改，最显著的是中间件的更改，请由此调整你的设置。"
 
 #: ../../admin/upgrade.rst:125
 msgid ""
 "There are new file formats, you might want to include them in case you "
 "modified the :setting:`WEBLATE_FORMATS`."
-msgstr ""
+msgstr "有几个新的文件格式，在修改 :setting:`WEBLATE_FORMATS` 的情况下，你会想要将他们包括进来。"
 
 #: ../../admin/upgrade.rst:126
 msgid ""
 "There are new quality checks, you might want to include them in case you "
 "modified the :setting:`CHECK_LIST`."
-msgstr ""
+msgstr "有几个新的质量检查，在修改 :setting:`CHECK_LIST` 的情况下，你会想要将他们包括进来。"
 
 #: ../../admin/upgrade.rst:127
 msgid ""
 "There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting "
 "of rate limiting in the API."
-msgstr ""
+msgstr "在 ``DEFAULT_THROTTLE_CLASSES`` 设置中有几项更改，来允许在 API 中报告速率限制。"
 
 #: ../../admin/upgrade.rst:128 ../../admin/upgrade.rst:142
 msgid "There are some new and updated requirements."
-msgstr ""
+msgstr "有几个新的且更新的要求。"
 
 #: ../../admin/upgrade.rst:129
 msgid "There is a change in :setting:`django:INSTALLED_APPS`."
-msgstr ""
+msgstr "在 :setting:`django:INSTALLED_APPS` 中有一些更改。"
 
 #: ../../admin/upgrade.rst:130
 msgid ""
@@ -14859,40 +14774,42 @@ msgid ""
 "to adjust :setting:`MT_DEEPL_API_VERSION` in case your current DeepL "
 "subscription does not support that."
 msgstr ""
+":ref:`deepl` 机器翻译现在默认为 v2 API，在你当前的 DeepL 订购不支持的情况下，会需要调整 "
+":setting:`MT_DEEPL_API_VERSION`。"
 
 #: ../../admin/upgrade.rst:132 ../../admin/upgrade.rst:149
 #: ../../admin/upgrade.rst:162
 msgid ":ref:`generic-upgrade-instructions`"
-msgstr ""
+msgstr ":ref:`generic-upgrade-instructions`"
 
 #: ../../admin/upgrade.rst:135
 msgid "Upgrade from 4.1 to 4.2"
-msgstr ""
+msgstr "从 4.1 升级到 4.2"
 
 #: ../../admin/upgrade.rst:141
 msgid ""
 "Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or "
 "4.1 first."
-msgstr ""
+msgstr "从 3.x 发布版本升级不再支持，请首先升级到 4.0 或 4.1。"
 
 #: ../../admin/upgrade.rst:143
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable new "
 "middleware and changed application ordering."
-msgstr ""
+msgstr "在 :file:`settings_example.py` 中有几项更改，最显著的是新中间件和更改的应用订购。"
 
 #: ../../admin/upgrade.rst:144
 msgid ""
 "The keys for JSON based formats no longer include leading dot. The strings "
 "are adjusted during the database migration, but external components might "
 "need adjustment in case you rely on keys in exports or API."
-msgstr ""
+msgstr "基于 JSON 格式的密钥是不再包括前导的点。在数据库迁移过程中调整字符串，但在你依赖于导出或 API 中的密钥时，外部组件会需要调整。"
 
 #: ../../admin/upgrade.rst:145
 msgid ""
 "The Celery configuration was changed to no longer use ``memory`` queue. "
 "Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting."
-msgstr ""
+msgstr "Celery 配置更改，不再使用 ``memory`` 队列。请调整你的启动脚本和 ``CELERY_TASK_ROUTES`` 设置。"
 
 #: ../../admin/upgrade.rst:146
 msgid ""
@@ -14900,40 +14817,42 @@ msgid ""
 "`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure "
 "it before running Weblate."
 msgstr ""
+"现在在设置中配置 Weblate 域，请参见 :setting:`SITE_DOMAIN`（或 "
+":envvar:`WEBLATE_SITE_DOMAIN`）。在运行 Weblate 前你将不得不配置它。"
 
 #: ../../admin/upgrade.rst:147
 msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
-msgstr ""
+msgstr "用户数据库上的用户名和电子邮件栏目现在应该不因为大小写敏感而不同。它之前错误地没有被 PostgreSQL 强制。"
 
 #: ../../admin/upgrade.rst:152
 msgid "Upgrade from 4.2 to 4.3"
-msgstr ""
+msgstr "从 4.2 升级到 4.3"
 
 #: ../../admin/upgrade.rst:158
 msgid ""
 "There are some changes in quality checks, you might want to include them in "
 "case you modified the :setting:`CHECK_LIST`."
-msgstr ""
+msgstr "在质量检查中有一些更改，在你调整 :setting:`CHECK_LIST` 的情况下会想将他们包括进来。"
 
 #: ../../admin/upgrade.rst:159
 msgid ""
 "The source language attribute was moved from project to a component what is "
 "exposed in the API. You will need to update :ref:`wlc` in case you are using "
 "it."
-msgstr ""
+msgstr "源语言属性从项目移动到 API 中暴露的组件。在使用时你会需要更新 :ref:`wlc`。"
 
 #: ../../admin/upgrade.rst:160
 msgid ""
 "The database migration to 4.3 might take long depending on number of strings "
 "you are translating (expect around one hour of migration time per 100,000 "
 "source strings)."
-msgstr ""
+msgstr "根据翻译的字符串数量，数据库迁移到 4.3 会花费很长时间（期望每 10 万个字符串的迁移时间大约为 1 小时）。"
 
 #: ../../admin/upgrade.rst:167
 msgid "Upgrading from Python 2 to Python 3"
-msgstr ""
+msgstr "从 Python 2 升级到 Python 3"
 
 #: ../../admin/upgrade.rst:169
 msgid ""
@@ -14943,10 +14862,14 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
+"Weblate 不再支持早于 3.5 版本的 Python。在仍然运行在较早版本的情况下，请首先在现有版本上执行到 Python 3 "
+"的迁移，并在后面进行升级。请参见 `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 "
+"documentation <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html"
+"#upgrading-from-python-2-to-python-3>`_。"
 
 #: ../../admin/upgrade.rst:178
 msgid "Migrating from other databases to PostgreSQL"
-msgstr ""
+msgstr "从其它数据库迁移到 PostgreSQL"
 
 #: ../../admin/upgrade.rst:180
 msgid ""
@@ -14956,10 +14879,12 @@ msgid ""
 "between the databases. Please remember to stop both web and Celery servers "
 "prior to the migration, otherwise you might end up with inconsistent data."
 msgstr ""
+"如果在 PostgreSQL 以外的数据库上运行 Weblate，你应该迁移到 PostgreSQL，因为它是 4.0 "
+"发布版本唯一支持的数据库后端。后面的步骤将引导你在数据库之间迁移数据。请记住迁移前要停止 web 和 Celery 服务器，否则会导致不一致的数据。"
 
 #: ../../admin/upgrade.rst:203
 msgid "Migrating using Django JSON dumps"
-msgstr ""
+msgstr "使用 Django JSON 转储来迁移"
 
 #: ../../admin/upgrade.rst:205
 msgid ""
@@ -14967,29 +14892,31 @@ msgid ""
 "works well for smaller installations. On bigger sites you might want to use "
 "pgloader instead, see :ref:`pgloader-migration`."
 msgstr ""
+"最简单的迁移方法是使用 Django JSON 转储。这对于较小的安装工作得很好。在更大的网站，你会想要使用 pgloader 代替，请参见 :ref"
+":`pgloader-migration`。"
 
 #: ../../admin/upgrade.rst:207
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
-msgstr ""
+msgstr "添加 PostgreSQL 作为到 :file:`settings.py`的另外的数据库连接："
 
 #: ../../admin/upgrade.rst:253
 msgid "Run migrations and drop any data inserted into the tables:"
-msgstr ""
+msgstr "运行迁移，并将任何插入到表格中的数据 drop 掉："
 
 #: ../../admin/upgrade.rst:260
 msgid "Dump legacy database and import to PostgreSQL"
-msgstr ""
+msgstr "将遗留数据库进行转储，并导入 PostgreSQL"
 
 #: ../../admin/upgrade.rst:267
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
-msgstr ""
+msgstr "调整 :setting:`django:DATABASES` 而只使用 PostgreSQL 数据库作为默认，将遗留连接删除掉。"
 
 #: ../../admin/upgrade.rst:270
 msgid "Weblate should be now ready to run from the PostgreSQL database."
-msgstr ""
+msgstr "现在 Weblate 应该准备好从 PostgreSQL 数据库运行了。"
 
 #: ../../admin/upgrade.rst:275
 msgid "Migrating to PotsgreSQL using pgloader"
@@ -16910,7 +16837,7 @@ msgstr ""
 
 #: ../../api.rst:2142
 msgid "Returns information about a glossary."
-msgstr "返回关于一条术语的信息。"
+msgstr "返回关于一条词汇表的信息。"
 
 #: ../../api.rst:2144 ../../api.rst:2224 ../../api.rst:2234 ../../api.rst:2244
 #: ../../api.rst:2251 ../../api.rst:2259 ../../api.rst:2267 ../../api.rst:2275
@@ -16945,7 +16872,7 @@ msgstr "删除项目与词汇表的关联性。"
 
 #: ../../api.rst:2273
 msgid "List terms of a glossary."
-msgstr "列出词汇表的项"
+msgstr "列出词汇表的项。"
 
 #: ../../api.rst:2280
 msgid "Associate terms with a glossary."
@@ -24915,9 +24842,7 @@ msgstr ""
 msgid ""
 "Set up your Git repository to tell Weblate when there is any change, see :"
 "ref:`hooks` for info on how to do it."
-msgstr ""
-"设置您的 Git 仓库以告知 Weblate 何时有任何更改，请参阅 :ref:`hooks` 以获取有"
-"关如何执行此操作的信息。"
+msgstr "新建您的 Git 仓库，来告知 Weblate 何时有任何更改，请参阅 :ref:`hooks` 以获取有关如何执行此操作的信息。"
 
 #: ../../faq.rst:18
 msgid ""
