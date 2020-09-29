@@ -20,8 +20,7 @@
 
 
 from django.utils.translation import pgettext_lazy
-
-from weblate.langdata import languages
+from weblate_language_data import languages
 
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 

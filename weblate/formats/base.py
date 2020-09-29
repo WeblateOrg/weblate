@@ -28,8 +28,8 @@ from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from sentry_sdk import add_breadcrumb
+from weblate_language_data.countries import DEFAULT_LANGS
 
-from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.utils.hash import calculate_hash
 
 EXPAND_LANGS = {

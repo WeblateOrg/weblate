@@ -34,12 +34,12 @@ from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, pgettext_lazy
+from weblate_language_data.aliases import ALIASES
+from weblate_language_data.countries import DEFAULT_LANGS
+from weblate_language_data.languages import LANGUAGES
+from weblate_language_data.plurals import EXTRAPLURALS
 
 from weblate.lang import data
-from weblate.langdata.aliases import ALIASES
-from weblate.langdata.countries import DEFAULT_LANGS
-from weblate.langdata.languages import LANGUAGES
-from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin

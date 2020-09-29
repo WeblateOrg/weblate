@@ -28,11 +28,11 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.translation import activate
+from weblate_language_data.languages import LANGUAGES
+from weblate_language_data.plurals import EXTRAPLURALS
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
-from weblate.langdata.languages import LANGUAGES
-from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 

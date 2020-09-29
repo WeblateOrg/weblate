@@ -24,8 +24,8 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from weblate_language_data.countries import DEFAULT_LANGS
 
-from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.utils.fields import JSONField
 
 ALERTS = {}

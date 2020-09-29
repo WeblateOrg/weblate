@@ -551,7 +551,7 @@ INSTALLED_APPS = [
     "weblate.machinery",
     "weblate.trans",
     "weblate.lang",
-    "weblate.langdata",
+    "weblate_language_data",
     "weblate.memory",
     "weblate.screenshots",
     "weblate.fonts",

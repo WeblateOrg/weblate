@@ -69,10 +69,6 @@ Weblate consists of several Django applications (some optional, see
 
     Module defining language and plural models.
 
-``langdata``
-
-    Language data definitions.
-
 ``legal``
 
     The optional :ref:`legal` module.

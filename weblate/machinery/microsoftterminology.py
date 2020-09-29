@@ -19,9 +19,9 @@
 
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
+from weblate_language_data.countries import DEFAULT_LANGS
 from zeep import Client
 
-from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.machinery.base import MachineTranslation
 
 MST_API_URL = "http://api.terminology.microsoft.com/Terminology.svc"

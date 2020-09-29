@@ -24,12 +24,12 @@ from django.core.files import File
 from django.urls import reverse
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
+from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Role, User
 from weblate.glossary.models import Glossary
 from weblate.lang.models import Language
-from weblate.langdata.languages import LANGUAGES
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
     Change,

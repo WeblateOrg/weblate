@@ -31,7 +31,6 @@ from translate.tools.pocompile import convertmo
 
 LOCALE_MASKS = [
     "weblate/locale/*/LC_MESSAGES/*.po",
-    "weblate/langdata/locale/*/LC_MESSAGES/*.po",
 ]
 
 # allow setup.py to be run from any path

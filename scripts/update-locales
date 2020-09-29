@@ -13,7 +13,6 @@ version=`python -c 'import weblate; print(weblate.VERSION_BASE)'`
 # Lock Weblate
 wlc lock weblate/application
 wlc lock weblate/javascript
-wlc lock weblate/languages
 wlc lock weblate/documentation
 
 # Push changes from Weblate to GitHub
@@ -34,19 +33,7 @@ sed \
     -i \
     -e 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' \
     -e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '$version'\\n"/' \
-    weblate/locale/*/*/*.po weblate/locale/*.pot \
-    weblate/langdata/locale/*/*/*.po weblate/langdata/locale/*.pot
-
-# Include language names from CLDR and iso-codes
-for locale in weblate/langdata/locale/*/LC_MESSAGES/django.po ; do
-    code=${locale#weblate/langdata/locale/}
-    code=${code%/LC_MESSAGES/django.po}
-    for file in scripts/iso-codes/iso_639-2/$code.po scripts/iso-codes/iso_639-2/$code.po scripts/language-data/languages-po/$code.po ; do
-        if [ -f $file ] ; then
-            msgmerge --previous -C $file -U $locale weblate/langdata/locale/django.pot
-        fi
-    done
-done
+    weblate/locale/*/*/*.po weblate/locale/*.pot
 
 # Include translations from Django
 for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
@@ -64,8 +51,6 @@ make -C docs update-po
 # Commit changes
 git add weblate/locale/*/*/*.po
 git add weblate/locale/*.pot
-git add weblate/langdata/locale/*/*/*.po
-git add weblate/langdata/locale/*.pot
 git add $(find docs/locales/ -name '*.po' -o -name '*.pot')
 
 git commit -m "i18n: Update PO files"
@@ -76,5 +61,4 @@ git push
 # Unlock Weblate
 wlc unlock weblate/application
 wlc unlock weblate/javascript
-wlc unlock weblate/languages
 wlc unlock weblate/documentation
