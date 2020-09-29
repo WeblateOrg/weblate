@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 16:32+0200\n"
-"PO-Revision-Date: 2020-09-20 07:31+0000\n"
+"PO-Revision-Date: 2020-09-29 15:03+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
@@ -6203,6 +6203,9 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"A lista de backends de autenticação de onde permite o registo. Isso só "
+"limita novos registos, os utilizadores ainda se podem autenticar e adicionar "
+"autenticação por todos os backends de autenticação configurados."
 
 #: ../../admin/config.rst:1449
 msgid ""
@@ -6210,6 +6213,10 @@ msgid ""
 "limiting registration backends, otherwise users will be able to register, "
 "but Weblate will not show links to register in the user interface."
 msgstr ""
+"É recomendado para manter :setting:`REGISTRATION_OPEN` ativado enquanto "
+"limita os backends de registo, caso contrário, os utilizadores poderão se "
+"registar, mas o Weblate não mostrará ligações para se registar na interface "
+"do utilizador."
 
 #: ../../admin/config.rst:1461
 msgid "The backend names match names used in URL for authentication."
@@ -8876,16 +8883,20 @@ msgid ""
 "In addition to caching of Django, Weblate performs caching of avatars. It is "
 "recommended to use a separate, file-backed cache for this purpose:"
 msgstr ""
+"Além do cache de Django, Weblate realiza cache de avatares. Recomenda-se "
+"usar um cache separado, baseado em ficheiros para este fim:"
 
 #: ../../admin/install.rst:817
 msgid ""
 ":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :"
 "ref:`production-cache`, :doc:`django:topics/cache`"
 msgstr ""
+":setting:`ENABLE_AVATARS`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`, :ref"
+":`production-cache`, :doc:`django:topics/cache`"
 
 #: ../../admin/install.rst:826
 msgid "Configure e-mail sending"
-msgstr ""
+msgstr "Configurar envio de e-mail"
 
 #: ../../admin/install.rst:828
 msgid ""
@@ -8894,34 +8905,48 @@ msgid ""
 "`SERVER_EMAIL` and :setting:`DEFAULT_FROM_EMAIL` to match your environment, "
 "for example:"
 msgstr ""
+"O Weblate precisa enviar e-mails em várias ocasiões e esses e-mails devem "
+"ter um endereço de remetente correto, por favor, configure "
+":configuração:`SERVER_EMAIL` e :setting:`DEFAULT_FROM_EMAIL` para combinar "
+"com o seu ambiente, por exemplo:"
 
 #: ../../admin/install.rst:840
 msgid ""
 "To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND` to "
 "``django.core.mail.backends.dummy.EmailBackend``."
 msgstr ""
+"Para desativar o envio de e-mails pelo Weblate, defina "
+":setting:`django:EMAIL_BACKEND` a ``django.core.mail.backends.dummy."
+"EmailBackend``."
 
 #: ../../admin/install.rst:843
 msgid ""
 "This will disable *all* e-mail delivery including registration or password "
 "reset e-mails."
 msgstr ""
+"Isso desativará *toda* a entrega de e-mail, incluindo e-mails de registo ou "
+"redefinição de palavra-passe."
 
 #: ../../admin/install.rst:848
 msgid ""
 ":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, :"
 "std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 msgstr ""
+":ref:`configuration`, :ref:`out-mail`, :std:setting:`django:EMAIL_BACKEND`, "
+":std:setting:`django:DEFAULT_FROM_EMAIL`, :std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:858
 msgid "Allowed hosts setup"
-msgstr ""
+msgstr "Configuração de hosts permitidos"
 
 #: ../../admin/install.rst:860
 msgid ""
 "Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names your "
 "site is allowed to serve, leaving it empty will block any requests."
 msgstr ""
+"Django requer :setting:`ALLOWED_HOSTS` para manter uma lista de nomes de "
+"domínio que o seu site pode servir, deixá-lo vazio bloqueará todas "
+"solicitações."
 
 #: ../../admin/install.rst:863
 msgid ""
@@ -8929,21 +8954,28 @@ msgid ""
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
+"Caso isso não esteja configurado para corresponder ao seu servidor HTTP, "
+"terá erros como :samp:`Invalid HTTP_HOST header: '1.1.1.1'. Pode ter que "
+"adicionar '1.1.1.1' ao ALLOWED_HOSTS.`"
 
 #: ../../admin/install.rst:869
 msgid ""
 "On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`."
 msgstr ""
+"No contentor Docker, isso está disponível como "
+":envvar:`WEBLATE_ALLOWED_HOSTS`."
 
 #: ../../admin/install.rst:873
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
 "site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :envvar:`WEBLATE_ALLOWED_HOSTS`, :ref:`production-"
+"site`"
 
 #: ../../admin/install.rst:880
 msgid "Django secret key"
-msgstr ""
+msgstr "Chave secreta do Django"
 
 #: ../../admin/install.rst:882
 msgid ""
@@ -8951,16 +8983,21 @@ msgid ""
 "should really generate your own value rather than using the one from the "
 "example setup."
 msgstr ""
+"A configuração :setting:`SECRET_KEY` é usada pelo Django para assinar "
+"cookies e você deve realmente gerar o seu próprio valor em vez de usar o da "
+"configuração do exemplo."
 
 #: ../../admin/install.rst:885
 msgid ""
 "You can generate a new key using :file:`weblate/examples/generate-secret-"
 "key` shipped with Weblate."
 msgstr ""
+"Pode gerar uma nova chave por :file:`weblate/examples/generate-secret-key`, "
+"que vem com o Weblate."
 
 #: ../../admin/install.rst:890
 msgid ":setting:`SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`SECRET_KEY`"
 
 #: ../../admin/install.rst:895
 msgid "Home directory"
@@ -8971,6 +9008,8 @@ msgid ""
 "This is no longer required, Weblate now stores all its data in :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Isso não é mais necessário, agora o Weblate armazena todos os seus dados em "
+":setting:`DATA_DIR`."
 
 #: ../../admin/install.rst:901
 msgid ""
@@ -8979,12 +9018,19 @@ msgid ""
 "private repositories, but Git might need to access this directory as well "
 "(depending on the Git version you use)."
 msgstr ""
+"O diretório home do utilizador que executa o Weblate deve existir e ser "
+"gravável por este utilizador. Isso é especialmente necessário se quiser usar "
+"o SSH para acessar repositórios privados, mas o Git pode precisar acessar "
+"este diretório também (dependendo da versão git que usa)."
 
 #: ../../admin/install.rst:906
 msgid ""
 "You can change the directory used by Weblate in :file:`settings.py`, for "
 "example to set it to ``configuration`` directory under the Weblate tree:"
 msgstr ""
+"Pode alterar o diretório usado pelo Weblate em :file:`settings.py`, por "
+"exemplo, para defini-lo como diretório ``configuration`` na árvore do "
+"Weblate:"
 
 #: ../../admin/install.rst:915
 msgid ""
@@ -8994,14 +9040,20 @@ msgid ""
 "data`` or ``wwwrun``), so you either have to run Weblate under a different "
 "user, or change this setting."
 msgstr ""
+"No Linux e em outros sistemas como UNIX, o caminho ao diretório home do "
+"utilizador é definido em :file:`/etc/passwd`. Muitas distribuições usam um "
+"diretório sem permissão de escrita como predefinição para utilizadores para "
+"servir conteúdo web (como ``apache``, ``www-data`` ou ``wwwrun``), então tem "
+"que executar o Weblate sob um utilizador diferente ou alterar essa "
+"configuração."
 
 #: ../../admin/install.rst:923
 msgid ":ref:`vcs-repos`"
-msgstr ""
+msgstr ":ref:`vcs-repos`"
 
 #: ../../admin/install.rst:928
 msgid "Template loading"
-msgstr ""
+msgstr "Carregar modelos"
 
 #: ../../admin/install.rst:930
 msgid ""
@@ -9010,14 +9062,18 @@ msgid ""
 "request. You can configure it using the following snippet (the ``loaders`` "
 "setting is important here):"
 msgstr ""
+"Recomenda-se usar um carregador de modelo em cache para Django. Armazena "
+"modelos analisados e evita a necessidade de analizar cada solicitação. Pode "
+"configurá-lo a usar o trecho a seguir (a configuração ``loaders`` é "
+"importante aqui):"
 
 #: ../../admin/install.rst:964
 msgid ":py:class:`django:django.template.loaders.cached.Loader`"
-msgstr ""
+msgstr ":py:class:`django:django.template.loaders.cached.Loader`"
 
 #: ../../admin/install.rst:969
 msgid "Running maintenance tasks"
-msgstr ""
+msgstr "Executar tarefas de manutenção"
 
 #: ../../admin/install.rst:971
 msgid ""
@@ -9025,44 +9081,57 @@ msgid ""
 "the background. This is now automatically done by :ref:`celery` and covers "
 "following tasks:"
 msgstr ""
+"Para um desempenho ideal, é uma boa ideia executar algumas tarefas de "
+"manutenção em segundo plano. Isso agora é feito automaticamente por "
+":ref:`celery` e abrange as seguintes tarefas:"
 
 #: ../../admin/install.rst:974
 msgid "Configuration health check (hourly)."
-msgstr ""
+msgstr "Verificação de saúde da configuração (de hora em hora)."
 
 #: ../../admin/install.rst:975
 msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
 "`commit_pending`."
 msgstr ""
+"Realização de commits de alterações pendentes (de hora em hora), consulte "
+":ref:`lazy-commit` e :djadmin:`commit_pending`."
 
 #: ../../admin/install.rst:976
 msgid "Updating component alerts (daily)."
-msgstr ""
+msgstr "Atualização de alertas de componentes (dialy)."
 
 #: ../../admin/install.rst:977
 msgid "Update remote branches (nightly), see :setting:`AUTO_UPDATE`."
 msgstr ""
+"Atualização dos ramos remotos (nightly), consulte :setting:`AUTO_UPDATE`."
 
 #: ../../admin/install.rst:978
 msgid "Translation memory backup to JSON (daily), see :djadmin:`dump_memory`."
 msgstr ""
+"Backup de memória de tradução para JSON (diariamente), consulte "
+":djadmin:`dump_memory`."
 
 #: ../../admin/install.rst:979
 msgid ""
 "Fulltext and database maintenance tasks (daily and weekly tasks), see :"
 "djadmin:`cleanuptrans`."
 msgstr ""
+"Tarefas de manutenção de texto completo e banco de dados (tarefas diárias e "
+"semanais), consulte :djadmin:`cleanuptrans`."
 
 #: ../../admin/install.rst:983
 msgid ""
 "Since version 3.2, the default way of executing these tasks is using Celery "
 "and Weblate already comes with proper configuration, see :ref:`celery`."
 msgstr ""
+"Desde a versão 3.2, a maneira predefinida de executar essas tarefas é usar o "
+"Celery e o Weblate já vem com a configuração adequada, consulte "
+":ref:`celery`."
 
 #: ../../admin/install.rst:989
 msgid "System locales and encoding"
-msgstr ""
+msgstr "Codificação e localidades do sistema"
 
 #: ../../admin/install.rst:991
 msgid ""
@@ -9070,12 +9139,17 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
+"As localidades do sistema devem ser configuradas para UTF-8. Na maioria das "
+"distribuições Linux, esta é a configuração predefinida. Se não é o caso no "
+"seu sistema, altere as localidades para a variante UTF-8."
 
 #: ../../admin/install.rst:995
 msgid ""
 "For example by editing :file:`/etc/default/locale` and setting there ``LANG="
 "\"C.UTF-8\"``."
 msgstr ""
+"Por exemplo, a editar :file:`/etc/default/locale` e a definir lá ``LANG=\"C."
+"UTF-8\"``."
 
 #: ../../admin/install.rst:998
 msgid ""
@@ -9083,10 +9157,13 @@ msgid ""
 "locales. For example when using Apache you might want to set it in :file:`/"
 "etc/apache2/envvars`:"
 msgstr ""
+"Em alguns casos, os serviços individuais têm uma configuração separada para "
+"locais. Por exemplo, ao usar o Apache, pode defini-lo em :file:`/etc/apache2/"
+"envvars`:"
 
 #: ../../admin/install.rst:1009
 msgid "Using custom certificate authority"
-msgstr ""
+msgstr "Usar uma autoridade certificadora personalizada"
 
 #: ../../admin/install.rst:1011
 msgid ""
@@ -9094,6 +9171,10 @@ msgid ""
 "using custom certificate authority which is not trusted in default bundles, "
 "you will have to add its certificate as trusted."
 msgstr ""
+"O Weblate verifica os certificados SSL durante as solicitações HTTP. Caso "
+"esteja a usar uma autoridade de certificação personalizada que não seja "
+"confiável em maços predefinidos, terá que adicionar o seu certificado como "
+"confiável."
 
 #: ../../admin/install.rst:1015
 msgid ""
@@ -9102,12 +9183,18 @@ msgid ""
 "done by placing the CA certificate into :file:`/usr/local/share/ca-"
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
+"A abordagem preferida é fazer isso no nível do sistema. Consulte a "
+"documentação da sua distro para mais detalhes (por exemplo, no Debian isso "
+"pode ser feito a por o certificado da AC em :file:`/usr/local/share/"
+"ca-certificates/` e executando :command:`update-ca-certificates`)."
 
 #: ../../admin/install.rst:1020
 msgid ""
 "Once this is done, system tools will trust the certificate and this includes "
 "Git."
 msgstr ""
+"Uma vez feito isso, as ferramentas do sistema confiarão no certificado e "
+"isso inclui o Git."
 
 #: ../../admin/install.rst:1023
 msgid ""
@@ -9115,10 +9202,13 @@ msgid ""
 "instead of the one shipped with it. This can be achieved by placing "
 "following snippet to :file:`settings.py` (the path is Debian specific):"
 msgstr ""
+"Para código em Python, precisará configurar solicitações para usar o pacote "
+"de AC do sistema em vez do fornecido . Isso pode ser conseguido pondo os "
+"seguintes trechos em :file:`settings.py` (o caminho é específico do Debian):"
 
 #: ../../admin/install.rst:1036
 msgid "Compressing client assets"
-msgstr ""
+msgstr "Comprimir os ativos do cliente"
 
 #: ../../admin/install.rst:1038
 msgid ""
@@ -9129,6 +9219,12 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
+"O Weblate vem com um monte de ficheiros JavaScript e CSS. Por razões de "
+"desempenho, é bom comprimi-los antes de enviar para um cliente. Na "
+"configuração predefinida isso é feito rapidamente ao custo de pouca "
+"sobrecarga. Em grandes instalações, recomenda-se ativar o modo de compressão "
+"offline. Isso precisa ser feito na configuração e a compressão tem que ser "
+"acionada em cada atualização do Weblate."
 
 #: ../../admin/install.rst:1045
 msgid ""
@@ -9137,56 +9233,69 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
+"A mudança da configuração é simples ao ativar :attr:`compressor:django.conf."
+"settings.COMPRESS_OFFLINE` e configuração :attr:`compressor:django.conf."
+"settings.COMPRESS_OFFLINE_CONTEXT` (este último já está incluído na "
+"configuração do exemplo):"
 
 #: ../../admin/install.rst:1054
 msgid "On each deploy you need to compress the files to match current version:"
 msgstr ""
+"Em cada implantação precisa compactar os ficheiros para corresponder à "
+"versão atual:"
 
 #: ../../admin/install.rst:1062
 msgid "The official Docker image has this feature already enabled."
-msgstr ""
+msgstr "A imagem oficial do Docker já tem este recurso ativado."
 
 #: ../../admin/install.rst:1066
 msgid ":ref:`compressor:scenarios`, :ref:`static-files`"
-msgstr ""
+msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
 #: ../../admin/install.rst:1072
 msgid "Running server"
-msgstr ""
+msgstr "Executar o servidor"
 
 #: ../../admin/install.rst:1074
 msgid ""
 "You will need several services to run Weblate, the recommended setup "
 "consists of:"
 msgstr ""
+"Precisará de vários serviços para executar o Weblate, a configuração "
+"recomendada consiste em:"
 
 #: ../../admin/install.rst:1076
 msgid "Database server (see :ref:`database-setup`)"
-msgstr ""
+msgstr "Servidor de banco de dados (consulte :ref:`database-setup`)"
 
 #: ../../admin/install.rst:1077
 msgid "Cache server (see :ref:`production-cache`)"
-msgstr ""
+msgstr "Servidor de cache (consulte :ref:`production-cache`)"
 
 #: ../../admin/install.rst:1078
 msgid ""
 "Frontend web server for static files and SSL termination (see :ref:`static-"
 "files`)"
 msgstr ""
+"Servidor web frontend para ficheiros estáticos e terminação SSL (consulte "
+":ref:`static-files`)"
 
 #: ../../admin/install.rst:1079
 msgid "Wsgi server for dynamic content (see :ref:`uwsgi`)"
-msgstr ""
+msgstr "Servidor Wsgi para conteúdo dinâmico (consulte :ref:`uwsgi`)"
 
 #: ../../admin/install.rst:1080
 msgid "Celery for executing background tasks (see :ref:`celery`)"
-msgstr ""
+msgstr "Celery para executar tarefas em segundo plano (consulte :ref:`celery`)"
 
 #: ../../admin/install.rst:1084
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
 msgstr ""
+"Existem algumas dependências entre os serviços, por exemplo, o cache e o "
+"banco de dados devem estar em execução ao iniciar os processos de Celery ou "
+"uwsgi."
 
 #: ../../admin/install.rst:1087
 msgid ""
@@ -9195,10 +9304,14 @@ msgid ""
 "only limitation on this is that Celery and Wsgi servers need access to :"
 "setting:`DATA_DIR`."
 msgstr ""
+"Na maioria dos casos, executará todos os serviços num único servidor "
+"(virtual), mas se a sua instalação estar muito carregada, pode dividir os "
+"serviços. A única limitação disso é que os servidores Celery e Wsgi precisam "
+"acessar :setting:`DATA_DIR`."
 
 #: ../../admin/install.rst:1093
 msgid "Running web server"
-msgstr ""
+msgstr "Executar um servidor web"
 
 #: ../../admin/install.rst:1095
 msgid ""
@@ -9206,10 +9319,13 @@ msgid ""
 "program. Django is usually executed as uWSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
+"Executar o Weblate não é diferente de executar qualquer outro programa "
+"baseado em Django. Django é geralmente executado como uWSGI ou fcgi ("
+"consulte exemplos para diferentes servidores web abaixo)."
 
 #: ../../admin/install.rst:1099
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr ""
+msgstr "Para fins de teste, pode usar o servidor web incorporado no Django:"
 
 #: ../../admin/install.rst:1107
 msgid ""
@@ -9217,6 +9333,9 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
+"NÃO USE ESTE SERVIDOR NUMA CONFIGURAÇÃO DE PRODUÇÃO. Não passou por "
+"auditorias de segurança ou testes de desempenho. Veja também a documentação "
+"de Django no :djadmin:`django:runserver`."
 
 #: ../../admin/install.rst:1113
 msgid ""
@@ -9225,16 +9344,22 @@ msgid ""
 "see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
+"O servidor embutido do Django serve apenas ficheiros estáticos com "
+":setting:`DEBUG` ativado, pois é destinado apenas ao desenvolvimento. Para "
+"uso em produção, consulte as configurações de wsgi em :ref:`uwsgi`, "
+":ref:`apache`, :ref:`apache-gunicorn` e :ref:`static-files`."
 
 #: ../../admin/install.rst:1121
 msgid "Serving static files"
-msgstr ""
+msgstr "Servir ficheiros estáticos"
 
 #: ../../admin/install.rst:1125
 msgid ""
 "Prior to version 2.4, Weblate didn't properly use the Django static files "
 "framework and the setup was more complex."
 msgstr ""
+"Antes da versão 2.4, o Weblate não usava a estrutura de ficheiros estáticos "
+"do Django corretamente e a configuração era mais complexa."
 
 #: ../../admin/install.rst:1128
 msgid ""
@@ -9243,49 +9368,63 @@ msgid ""
 "files into a directory specified by the :setting:`django:STATIC_ROOT` "
 "setting (this defaults to a ``static`` directory inside :setting:`DATA_DIR`)."
 msgstr ""
+"Django precisa coletar os ficheiros estáticos dele num único diretório. Para "
+"isso, execute :samp:`weblate collectstatic --noinput`. Isso copiará os "
+"ficheiros estáticos num diretório especificado pela configuração "
+":setting:`django:STATIC_ROOT` (isso é a predefinição para um diretório "
+"``static`` dentro de :setting:`DATA_DIR`)."
 
 #: ../../admin/install.rst:1133
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
 msgstr ""
+"Recomenda-se servir ficheiros estáticos diretamente do seu servidor web. "
+"Deve usá-los para os seguintes caminhos:"
 
 #: ../../admin/install.rst:1137
 msgid ":file:`/static/`"
-msgstr ""
+msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1137
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by "
 "``STATIC_ROOT``)."
 msgstr ""
+"Serve ficheiros estáticos para Weblate e a interface de administração ("
+"definida por ``STATIC_ROOT``)."
 
 #: ../../admin/install.rst:1139
 msgid ":file:`/media/`"
-msgstr ""
+msgstr ":file:`/media/`"
 
 #: ../../admin/install.rst:1140
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr ""
+"Usado para o envio de mídia pelo utilizador (por exemplo, capturas de ecrã)."
 
 #: ../../admin/install.rst:1142
 msgid ":file:`/favicon.ico`"
-msgstr ""
+msgstr ":file:`/favicon.ico`"
 
 #: ../../admin/install.rst:1142
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
 msgstr ""
+"Deve ser reescrito para reescrever uma regra para servir :file:`/static/"
+"favicon.ico`."
 
 #: ../../admin/install.rst:1146
 msgid ""
 ":ref:`production-compress`, :doc:`django:howto/deployment/index`, :doc:"
 "`django:howto/static-files/deployment`"
 msgstr ""
+":ref:`production-compress`, :doc:`django:howto/deployment/index`, "
+":doc:`django:howto/static-files/deployment`"
 
 #: ../../admin/install.rst:1153
 msgid "Content security policy"
-msgstr ""
+msgstr "Política de segurança de conteúdo"
 
 #: ../../admin/install.rst:1155
 msgid ""
@@ -9295,16 +9434,23 @@ msgid ""
 "default set up to work with Weblate and its configuration, but this might "
 "need customization for your environment."
 msgstr ""
+"A configuração predefinida do Weblate ativa o middleware ``weblate.middleware"
+".SecurityMiddleware`` que define cabeçalhos HTTP relacionados à segurança "
+"como ``Content-Security-Policy`` ou ``X-XSS-Protection``. São configurados "
+"por predefinição para funcionar com o Weblate e a configuração dele, mas "
+"isso pode precisar de personalização no seu ambiente."
 
 #: ../../admin/install.rst:1162
 msgid ""
 ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 msgstr ""
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`"
+", :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
 #: ../../admin/install.rst:1171
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr ""
+msgstr "Configuração de amostra para NGINX e uWSGI"
 
 #: ../../admin/install.rst:1174
 msgid ""
@@ -9314,27 +9460,38 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
+"Para executar o servidor web de produção, use o wrapper wsgi instalado com "
+"Weblate (no caso de ambiente virtual é instalado como :file:`~/weblate-env/"
+"lib/python3.7/site-packages/weblate/wsgi.py`). Também não se esqueça de "
+"definir o caminho de pesquisa Python para o seu virtualenv (por exemplo, "
+"usando `virtualenv = /home/user/weblate-env`` no uWSGI)."
 
 #: ../../admin/install.rst:1180
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
+"A configuração a seguir executa o Weblate como uWSGI sob o servidor web "
+"NGINX."
 
 #: ../../admin/install.rst:1182
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
+"A configuração para NGINX (também disponível como :file:`weblate/examples/"
+"weblate.nginx.conf`):"
 
 #: ../../admin/install.rst:1187
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
+"Configuração para uWSGI (também disponível como :file:`weblate/examples/"
+"weblate.uwsgi.ini`):"
 
 #: ../../admin/install.rst:1194
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1199
 msgid "Sample configuration for Apache"
