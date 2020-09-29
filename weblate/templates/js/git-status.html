@@ -3,11 +3,11 @@
 {% load permissions %}
 {% with object.needs_commit as needs_commit %}
 
-{% perm 'vcs.commit' project as user_can_commit_translation %}
-{% perm 'vcs.update' project as user_can_update_translation %}
-{% perm 'vcs.push' project as user_can_push_translation %}
-{% perm 'vcs.reset' project as user_can_reset_translation %}
-{% perm 'component.lock' project as user_can_lock_component %}
+{% perm 'vcs.commit' object as user_can_commit_translation %}
+{% perm 'vcs.update' object as user_can_update_translation %}
+{% perm 'vcs.push' object as user_can_push_translation %}
+{% perm 'vcs.reset' object as user_can_reset_translation %}
+{% perm 'component.lock' object as user_can_lock_component %}
 
 
 <div class="row">
