@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-29 15:04+0000\n"
-"PO-Revision-Date: 2020-09-27 20:41+0000\n"
+"PO-Revision-Date: 2020-09-30 06:27+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -6302,22 +6302,16 @@ msgid "Repository status"
 msgstr "Stanje repozitorija"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Spremi promjene na čekanju u lokalni repozitorij"
+msgstr "Nespremljene promjene na čekanju u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Spremi promjene na čekanju u lokalni repozitorij"
+msgstr "Spremi promjene na čekanju u Weblate repozitorij"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "U lokalnom repozitoriju postoje neke nove izmjene."
+msgstr "Izlazne izmjene u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6328,20 +6322,16 @@ msgid "Push"
 msgstr "Prenesi"
 
 #: weblate/templates/js/git-status.html:51
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Missing commits in the Weblate repository"
-msgstr "U lokalnom repozitoriju postoje neke nove izmjene."
+msgstr "Nedostajuće izmjene u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "Preuzmi promjene iz udaljenog repozitorija"
+msgstr "Aktualiziraj s promjenama iz udaljenog repozitorija"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
-msgstr ""
+msgstr "Aktualiziranje"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull changes from the remote repository"
@@ -6352,10 +6342,8 @@ msgid "Pull"
 msgstr "Preuzmi"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Presloži lokalne promjene u udaljeni repozitorij"
+msgstr "Presloži Weblate promjene u udaljeni repozitorij"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:143
@@ -6363,20 +6351,16 @@ msgid "Rebase"
 msgstr "Presloži"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "Poništi sve promjene u lokalnom repozitoriju"
+msgstr "Poništi sve promjene u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:70 weblate/templates/translate.html:429
 msgid "Reset"
 msgstr "Poništi"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Počisti sve nepraćene datoteke u lokalnom repozitoriju"
+msgstr "Počisti sve nepraćene datoteke u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Cleanup"
@@ -6384,13 +6368,11 @@ msgstr "Počisti"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
-msgstr ""
+msgstr "Zaključavanje sprečava prevodioce da izrade promjene"
 
 #: weblate/templates/js/git-status.html:94
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Dozvoli promjene u lokalnom repozitoriju"
+msgstr "Dozvoli promjene u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6398,20 +6380,17 @@ msgid "Unlock"
 msgstr "Otključaj"
 
 #: weblate/templates/js/git-status.html:96
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Spriječi sve promjene u lokalnom repozitoriju"
+msgstr "Spriječi sve promjene u Weblate repozitoriju"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
 msgstr "Zaključaj"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Greška repozitorija u %(component)s"
+msgstr "Repozitorij za %(component)s"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Repository details"
@@ -7676,10 +7655,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "Autor: %(author)s, %(date)s"
 
 #: weblate/templates/snippets/git-info.html:43
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "Presloženi repozitorij"
+msgstr "Weblate repozitorij"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
