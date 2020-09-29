@@ -163,7 +163,6 @@ def git_status_project(request, project):
         "js/git-status.html",
         {
             "object": obj,
-            "project": obj,
             "changes": Change.objects.filter(
                 project=obj, action__in=Change.ACTIONS_REPOSITORY
             ).order()[:10],
@@ -188,7 +187,6 @@ def git_status_component(request, project, component):
         "js/git-status.html",
         {
             "object": obj,
-            "project": obj.project,
             "changes": Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY, component=target
             ).order()[:10],
@@ -214,7 +212,6 @@ def git_status_translation(request, project, component, lang):
         {
             "object": obj,
             "translation": obj,
-            "project": obj.component.project,
             "changes": Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY, component=target
             ).order()[:10],
