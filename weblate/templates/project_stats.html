@@ -3,38 +3,38 @@
 
 <tr>
 <th>{% trans "Number of strings" %}</th>
-<td colspan="2">{{ stats.all|intcomma }}</td>
+<td colspan="2" class="full-cell">{{ stats.all|intcomma }}</td>
 </tr>
 
 <tr>
 <th>{% trans "Number of words" %}</th>
-<td colspan="2">{{ stats.all_words|intcomma }}</td>
+<td colspan="2" class="full-cell">{{ stats.all_words|intcomma }}</td>
 </tr>
 
 <tr>
 <th>{% trans "Number of characters" %}</th>
-<td colspan="2">{{ stats.all_chars|intcomma }}</td>
+<td colspan="2" class="full-cell">{{ stats.all_chars|intcomma }}</td>
 </tr>
 
 {% if stats.source_strings %}
 
 <tr>
 <th>{% trans "Number of languages" %}</th>
-<td colspan="2">{{ stats.languages|intcomma }}</td>
+<td colspan="2" class="full-cell">{{ stats.languages|intcomma }}</td>
 </tr>
 
 <tr>
 <th>{% trans "Number of source strings" %}</th>
-<td colspan="2">{{ stats.source_strings|intcomma }}</td>
+<td colspan="2" class="full-cell">{{ stats.source_strings|intcomma }}</td>
 </tr>
 
 <tr>
 <th>{% trans "Number of source words" %}</th>
-<td colspan="2">{{ stats.source_words|intcomma }}</td>
+<td colspan="2" class="full-cell">{{ stats.source_words|intcomma }}</td>
 </tr>
 
 <tr>
 <th>{% trans "Number of source characters" %}</th>
-<td colspan="2">{{ stats.source_chars|intcomma }}</td>
+<td colspan="2" class="full-cell">{{ stats.source_chars|intcomma }}</td>
 </tr>
 {% endif %}

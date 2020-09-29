@@ -5,7 +5,7 @@
 
 <tr>
 <th>{% trans "Translation process" %}</th>
-<td colspan="2">
+<td colspan="2" class="full-cell">
 <ul>
 {% if object.suggestion_voting and object.suggestion_autoaccept %}
 <li>{% trans "Translations can only be done through suggestions." %}</li>
@@ -40,7 +40,7 @@
 {% if object.license %}
 <tr>
 <th>{% trans "Translation license" %}</th>
-<td colspan="2">
+<td colspan="2" class="full-cell">
 {% if object.license_url %}
 <a href="{{ object.license_url }}">{{ object.get_license_display }}</a>
 {% else %}
