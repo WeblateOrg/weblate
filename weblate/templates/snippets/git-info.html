@@ -8,7 +8,7 @@
 {% if user_can_see_git_repository %}
 <tr>
 <th>{% trans "Repository" %}</th>
-<td colspan="2" class="full-cell">
+<td class="full-cell">
     <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
@@ -16,7 +16,7 @@
 
 <tr>
 <th>{% trans "Repository branch" %}</th>
-<td colspan="2" class="full-cell">
+<td class="full-cell">
 {{ object.get_repo_branch }}
 </td>
 </tr>
@@ -25,7 +25,7 @@
 {% if commit %}
 <tr>
 <th>{% trans "Last remote commit" %}</th>
-<td colspan="2" class="full-cell">
+<td class="full-cell">
     {{ commit.summary }}
     <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
@@ -41,7 +41,7 @@
 {% if export_url %}
 <tr>
 <th>{% trans "Repository containing Weblate translations" %}</th>
-<td colspan="2" class="full-cell">
+<td class="full-cell">
     <code class="git-repo ui-corner-all">{{ export_url }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>

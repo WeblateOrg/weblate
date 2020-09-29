@@ -5,7 +5,7 @@
 
 <tr>
 <th>{% trans "Translation process" %}</th>
-<td colspan="2" class="full-cell">
+<td class="full-cell">
 <ul>
 {% if object.suggestion_voting and object.suggestion_autoaccept %}
 <li>{% trans "Translations can only be done through suggestions." %}</li>
@@ -40,7 +40,7 @@
 {% if object.license %}
 <tr>
 <th>{% trans "Translation license" %}</th>
-<td colspan="2" class="full-cell">
+<td class="full-cell">
 {% if object.license_url %}
 <a href="{{ object.license_url }}">{{ object.get_license_display }}</a>
 {% else %}
@@ -60,11 +60,13 @@
 {% include "snippets/git-info.html" %}
 
 <tr>
-<th>{% trans "Filemask" %}</th><td><code>{{ object.filemask }}</code></td>
+<th>{% trans "Filemask" %}</th>
+<td><code>{{ object.filemask }}</code></td>
 </tr>
 
 {% if object.template %}
 <tr>
-<th>{% trans "Monolingual base language file" %}</th><td><code>{{ object.template }}</code></td>
+<th>{% trans "Monolingual base language file" %}</th>
+<td><code>{{ object.template }}</code></td>
 </tr>
 {% endif %}

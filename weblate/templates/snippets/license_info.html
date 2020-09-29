@@ -4,7 +4,7 @@
 {% regroup licenses by license as license_list %}
 <tr>
 <th>{% trans "Translation license" %}</th>
-<td colspan="2">
+<td class="full-cell">
 {% for dummy, items in license_list %}
     <span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.license_badge }}</span>
     {% for component in items %}

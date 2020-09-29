@@ -5,20 +5,20 @@
 
 <tr>
 <th>{% trans "Project website" %}</th>
-<td colspan="2" class="full-cell"><a href="{{ object.web }}">{{ object.web | urlformat }}</a></td>
+<td class="full-cell"><a href="{{ object.web }}">{{ object.web | urlformat }}</a></td>
 </tr>
 
 {% if object.mail %}
 <tr>
 <th>{% trans "Mailing list for translators" %}</th>
-<td colspan="2" class="full-cell"><a href="mailto:{{ object.mail }}">{{ object.mail }}</a></td>
+<td class="full-cell"><a href="mailto:{{ object.mail }}">{{ object.mail }}</a></td>
 </tr>
 {% endif %}
 
 {% if object.instructions %}
 <tr>
 <th>{% trans "Instructions for translators" %}</th>
-<td colspan="2" class="full-cell">{{ object.instructions|markdown }}</td>
+<td class="full-cell">{{ object.instructions|markdown }}</td>
 </tr>
 {% endif %}
 
@@ -29,7 +29,7 @@
 {% if billings %}
 <tr>
 <th>{% trans "Billing" %}</th>
-<td colspan="2" class="full-cell">
+<td class="full-cell">
 {% for billing in billings %}
   <a href="{{ billing.get_absolute_url }}">{{ billing.plan }}
     {% if billing.is_trial %}
