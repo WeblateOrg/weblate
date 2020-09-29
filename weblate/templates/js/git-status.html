@@ -89,6 +89,20 @@
 {% if user_can_update_translation %}
 <tr>
 <td>
+<form method="POST" action="{{ object.get_update_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-primary" value="{% trans "Update" %}" />
+</form>
+</td>
+<td>
+<p class="help-block">{% trans "Update with changes from the remote repository" %}</p>
+</td>
+</tr>
+{% endif %}
+
+{% if user_can_update_translation %}
+<tr>
+<td>
 <form method="POST" action="{{ object.get_update_url }}?method=merge">
 {% csrf_token %}
 <input type="submit" class="btn btn-primary" value="{% trans "Pull" %}" />
