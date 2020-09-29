@@ -146,69 +146,61 @@ def ignore_check_source(request, check_id):
     return HttpResponse("ok")
 
 
-def git_status_project(request, project):
-    obj = get_project(request, project)
-
+def git_status_shared(request, obj, changes, repositories):
     if not request.user.has_perm("meta:vcs.status", obj):
         raise PermissionDenied()
 
     return render(
         request,
         "js/git-status.html",
-        {
-            "object": obj,
-            "changes": Change.objects.filter(
-                project=obj, action__in=Change.ACTIONS_REPOSITORY
-            ).order()[:10],
-            "repositories": obj.all_repo_components(),
-        },
+        {"object": obj, "changes": changes, "repositories": repositories},
+    )
+
+
+def git_status_project(request, project):
+    obj = get_project(request, project)
+
+    return git_status_shared(
+        request,
+        obj,
+        Change.objects.filter(
+            project=obj, action__in=Change.ACTIONS_REPOSITORY
+        ).order()[:10],
+        obj.all_repo_components(),
     )
 
 
 def git_status_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not request.user.has_perm("meta:vcs.status", obj):
-        raise PermissionDenied()
-
     target = obj
     if target.is_repo_link:
         target = target.linked_component
 
-    return render(
+    return git_status_shared(
         request,
-        "js/git-status.html",
-        {
-            "object": obj,
-            "changes": Change.objects.filter(
-                action__in=Change.ACTIONS_REPOSITORY, component=target
-            ).order()[:10],
-            "repositories": [obj],
-        },
+        obj,
+        Change.objects.filter(
+            action__in=Change.ACTIONS_REPOSITORY, component=target
+        ).order()[:10],
+        [obj],
     )
 
 
 def git_status_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
-    if not request.user.has_perm("meta:vcs.status", obj):
-        raise PermissionDenied()
-
     target = obj.component
     if target.is_repo_link:
         target = target.linked_component
 
-    return render(
+    return git_status_shared(
         request,
-        "js/git-status.html",
-        {
-            "object": obj,
-            "translation": obj,
-            "changes": Change.objects.filter(
-                action__in=Change.ACTIONS_REPOSITORY, component=target
-            ).order()[:10],
-            "repositories": [obj.component],
-        },
+        obj,
+        Change.objects.filter(
+            action__in=Change.ACTIONS_REPOSITORY, component=target
+        ).order()[:10],
+        [obj.component],
     )
 
 
