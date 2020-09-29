@@ -166,7 +166,7 @@ def git_status_project(request, project):
         Change.objects.filter(
             project=obj, action__in=Change.ACTIONS_REPOSITORY
         ).order()[:10],
-        obj.all_repo_components(),
+        obj.all_repo_components,
     )
 
 

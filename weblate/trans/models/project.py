@@ -316,7 +316,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     def on_repo_components(self, default, call, *args, **kwargs):
         """Wrapper for operations on repository."""
         ret = default
-        for component in self.all_repo_components():
+        for component in self.all_repo_components:
             res = getattr(component, call)(*args, **kwargs)
             if default:
                 ret = ret & res
@@ -354,6 +354,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         """Check whether any suprojects can push."""
         return self.on_repo_components(False, "can_push")
 
+    @cached_property
     def all_repo_components(self):
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
