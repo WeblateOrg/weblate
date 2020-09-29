@@ -1,6 +1,9 @@
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
+{% load humanize %}
+{% load icons %}
+
 {% with object.needs_commit as needs_commit %}
 
 {% perm 'vcs.commit' object as user_can_commit_translation %}
@@ -10,33 +13,93 @@
 {% perm 'component.lock' object as user_can_lock_component %}
 
 
-<div class="row">
-<div class="col-md-8">
-
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository status" %}</h4></div>
-<div class="panel-body">
-{% if needs_commit %}
-<div class="alert alert-info" role="alert">{% trans "There are some uncommitted changes!" %}</div>
-{% endif %}
-{% if changes.0.is_merge_failure %}
-<div class="alert alert-danger" role="alert">
-<p>{% trans "There has been a merge failure in the repository" %}</p>
-<pre>{{ changes.0.target }}</pre>
-<p><a href="{% documentation "faq" "merge" %}">{% trans "Check the FAQ for info on how to resolve this." %}</a></p>
-</div>
-{% else %}
-{% if object.repo_needs_merge %}
-<div class="alert alert-warning" role="alert">{% trans "The remote repository needs to be merged!" %}</div>
-{% endif %}
-{% if object.repo_needs_push %}
-<div class="alert alert-warning" role="alert">{% trans "There are some new commits in the local repository." %}</div>
-{% endif %}
-{% if not needs_commit and not object.repo_needs_merge and not object.repo_needs_push %}
-<div class="alert alert-success" role="alert">{% trans "The local repository is up to date." %}</div>
-{% endif %}
-{% endif %}
-</div>
+<table class="table table-autowidth">
+  <tr>
+    <th class="number">
+      {{ pending_units|intcomma }}
+    </th>
+    <td class="full-cell">
+      {% trans "Pending changes" %}
+    </td>
+    <td class="number">
+      {% if user_can_commit_translation %}
+
+        <a href="{{ object.get_commit_url }}" class="link-post btn btn-primary" {% if not pending_units %}disabled="disabled"{% endif %} title="{% trans "Commit pending changes to the local repository" %}">{% trans "Commit" %}</a>
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <th class="number">
+      {{ outgoing_commits|intcomma }}
+    </th>
+    <td class="full-cell">
+      {% trans "Outgoing commits" %}
+    </td>
+    <td class="number">
+      {% if user_can_push_translation %}
+        <a href="{{ object.get_push_url }}" class="link-post btn btn-primary" {% if not object.can_push %}disabled="disabled"{% endif %} title="{% trans "Push changes to the remote repository" %}">{% trans "Push" %}</a>
+      {% endif %}
+    </td>
+  </tr>
+  <tr>
+    <th class="number">
+      {{ missing_commits|intcomma }}
+    </th>
+    <td class="full-cell">
+      {% trans "Missing commits" %}
+    </td>
+    <td class="number">
+      {% if user_can_update_translation %}
+        <div class="btn-group">
+          <a href="{{ object.get_update_url }}" class="link-post btn btn-primary" title="{% trans "Update with changes from the remote repository" %}">{% trans "Update" %}</a>
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ object.get_update_url }}?method=merge" class="link-post" title="{% trans "Pull changes from the remote repository" %}">{% trans "Pull" %}</a>
+            </li>
+            <li>
+              <a href="{{ object.get_update_url }}?method=rebase" class="link-post" title="{% trans "Rebase local changes onto the remote repository" %}">{% trans "Rebase" %}</a>
+            </li>
+            {% if user_can_reset_translation %}
+            <li>
+              <a href="{{ object.get_reset_url }}" class="link-post" title="{% trans "Reset all changes in the local repository" %}">{% trans "Reset" %}</a>
+            </li>
+            <li>
+              <a href="{{ object.get_cleanup_url }}" class="link-post" title="{% trans "Cleanup all untracked files in the local repository" %}">{% trans "Cleanup" %}</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+    </td>
+  </tr>
+  {% if object.is_lockable %}
+  <tr>
+    <th class="number">
+      {% if object.locked %}
+        {% icon "lock.svg" %}
+      {% endif %}
+    </th>
+    <td>
+      {% trans "Locking prevents translators from doing changes" %}
+    </td>
+    <td class="number">
+      {% if user_can_lock_component %}
+        {% if object.locked %}
+          <a href="{{ object.get_unlock_url }}" class="link-post btn btn-primary" title="{% trans "Allow changes to the local repository" %}">{% trans "Unlock" %}</a>
+        {% else %}
+          <a href="{{ object.get_lock_url }}" class="link-post btn btn-primary" title="{% trans "Prevent any changes in the local repository" %}">{% trans "Lock" %}</a>
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+  {% endif %}
+</table>
 </div>
 
 {% for component in repositories %}
@@ -46,11 +109,11 @@
         {% blocktrans %}Repository for {{ component }}{% endblocktrans %}
       </h4>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped table-autowidth">
       {% include "snippets/git-info.html" with object=component %}
       <tr>
         <th>{% trans "Repository details" %}</th>
-        <td><pre>{{ component.repository.status }}</pre></td>
+        <td class="full-cell"><pre>{{ component.repository.status }}</pre></td>
       </tr>
     </table>
   </div>
@@ -63,141 +126,4 @@
 </div>
 </div>
 
-</div>
-
-<div class="col-md-4">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Repository tools" %}</h4></div>
-
-<table class="table table-condensed">
-
-{% if user_can_commit_translation %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_commit_url }}">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary" {% if not needs_commit %}disabled="disabled"{% endif %} value="{% trans "Commit" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Commit pending changes to the local repository" %}</p>
-</td>
-</tr>
-{% endif %}
-
-{% if user_can_update_translation %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_update_url }}">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary" value="{% trans "Update" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Update with changes from the remote repository" %}</p>
-</td>
-</tr>
-{% endif %}
-
-{% if user_can_update_translation %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_update_url }}?method=merge">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary" value="{% trans "Pull" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Pull changes from the remote repository" %}</p>
-</td>
-</tr>
-{% endif %}
-
-{% if user_can_push_translation %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_push_url }}">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary" {% if not object.can_push %}disabled="disabled"{% endif %} value="{% trans "Push" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Push changes to the remote repository" %}</p>
-</td>
-</tr>
-{% endif %}
-
-{% if user_can_update_translation %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_update_url }}?method=rebase">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary" value="{% trans "Rebase" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Rebase local changes onto the remote repository" %}</p>
-</td>
-</tr>
-{% endif %}
-
-{% if user_can_reset_translation %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_reset_url }}">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary confirm-reset" value="{% trans "Reset" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Reset all changes in the local repository" %}</p>
-</td>
-</tr>
-
-<tr>
-<td>
-<form method="POST" action="{{ object.get_cleanup_url }}">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary confirm-reset" value="{% trans "Cleanup" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Cleanup all untracked files in the local repository" %}</p>
-</td>
-</tr>
-{% endif %}
-
-
-{% if user_can_lock_component and object.is_lockable %}
-{% if object.locked %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_unlock_url }}">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary" value="{% trans "Unlock" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Allow changes to the local repository" %}</p>
-</td>
-</tr>
-{% else %}
-<tr>
-<td>
-<form method="POST" action="{{ object.get_lock_url }}">
-{% csrf_token %}
-<input type="submit" class="btn btn-primary" value="{% trans "Lock" %}" />
-</form>
-</td>
-<td>
-<p class="help-block">{% trans "Prevent any changes in the local repository" %}</p>
-</td>
-</tr>
-{% endif %}
-{% endif %}
-
-</table>
-
-</div>
-</div>
 {% endwith %}

@@ -25,6 +25,7 @@ Not yet released.
 * Improved JSON, YAML and CSV formats compatibility.
 * Added support for removing strings.
 * Improved performance of file downloads.
+* Improved repository management view.
 
 Weblate 4.2.2
 -------------

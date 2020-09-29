@@ -591,7 +591,7 @@ $(function () {
       e.stopPropagation();
     });
 
-  $(".link-post").click(function () {
+  $document.on("click", ".link-post", function () {
     var $form = $("#link-post");
     var $this = $(this);
 

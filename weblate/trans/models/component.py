@@ -2452,31 +2452,42 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         return Unit.objects.filter(translation__component=self, pending=True).count()
 
+    @property
+    def count_repo_missing(self):
+        try:
+            return self.repository.count_missing()
+        except RepositoryException as error:
+            report_error(cause="Could check merge needed")
+            self.add_alert("MergeFailure", error=self.error_text(error))
+            return 0
+
+    def _get_count_repo_outgoing(self, retry: bool = True):
+        try:
+            return self.repository.count_outgoing()
+        except RepositoryException as error:
+            error_text = self.error_text(error)
+            if retry and "Host key verification failed" in error_text:
+                self.add_ssh_host_key()
+                return self._get_count_repo_outgoing(retry=False)
+            report_error(cause="Could check push needed")
+            self.add_alert("PushFailure", error=error_text)
+            return 0
+
+    @property
+    def count_repo_outgoing(self):
+        return self._get_count_repo_outgoing()
+
     def needs_commit(self):
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
     def repo_needs_merge(self):
         """Check for unmerged commits from remote repository."""
-        try:
-            return self.repository.needs_merge()
-        except RepositoryException as error:
-            report_error(cause="Could check merge needed")
-            self.add_alert("MergeFailure", error=self.error_text(error))
-            return False
+        return self.count_repo_missing > 0
 
     def repo_needs_push(self, retry: bool = True):
         """Check for something to push to remote repository."""
-        try:
-            return self.repository.needs_push()
-        except RepositoryException as error:
-            error_text = self.error_text(error)
-            if retry and "Host key verification failed" in error_text:
-                self.add_ssh_host_key()
-                return self.repo_needs_push(retry=False)
-            report_error(cause="Could check push needed")
-            self.add_alert("PushFailure", error=error_text)
-            return False
+        return self.count_repo_outgoing > 0
 
     @property
     def file_format_name(self):
