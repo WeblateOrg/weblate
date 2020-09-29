@@ -22,7 +22,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
@@ -153,11 +152,6 @@ def git_status_project(request, project):
     if not request.user.has_perm("meta:vcs.status", obj):
         raise PermissionDenied()
 
-    statuses = [
-        (force_str(component), component.repository.status)
-        for component in obj.all_repo_components()
-    ]
-
     return render(
         request,
         "js/git-status.html",
@@ -166,8 +160,7 @@ def git_status_project(request, project):
             "changes": Change.objects.filter(
                 project=obj, action__in=Change.ACTIONS_REPOSITORY
             ).order()[:10],
-            "statuses": statuses,
-            "component": None,
+            "repositories": obj.all_repo_components(),
         },
     )
 
@@ -190,8 +183,7 @@ def git_status_component(request, project, component):
             "changes": Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY, component=target
             ).order()[:10],
-            "statuses": [(None, obj.repository.status)],
-            "component": obj,
+            "repositories": [obj],
         },
     )
 
@@ -215,8 +207,7 @@ def git_status_translation(request, project, component, lang):
             "changes": Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY, component=target
             ).order()[:10],
-            "statuses": [(None, obj.component.repository.status)],
-            "component": obj.component,
+            "repositories": [obj.component],
         },
     )
 

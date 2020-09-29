@@ -37,25 +37,24 @@
 {% endif %}
 {% endif %}
 </div>
-
-{% if component %}
-<table class="table table-striped">
-{% include "snippets/git-info.html" with object=component %}
-</table>
-{% endif %}
 </div>
 
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Repository details" %}</h4></div>
-      <div class="panel-body">
-        {% for status in statuses %}
-        {% if status.0 %}
-        <h4>{{ status.0 }}</h4>
-        {% endif %}
-        <pre>{{ status.1 }}</pre>
-        {% endfor %}
-      </div>
-</div>
+{% for component in repositories %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% blocktrans %}Repository for {{ component }}{% endblocktrans %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      {% include "snippets/git-info.html" with object=component %}
+      <tr>
+        <th>{% trans "Repository details" %}</th>
+        <td><pre>{{ component.repository.status }}</pre></td>
+      </tr>
+    </table>
+  </div>
+{% endfor %}
 
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository changes" %}</h4></div>
