@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-29 15:04+0000\n"
-"PO-Revision-Date: 2020-09-25 05:32+0000\n"
+"PO-Revision-Date: 2020-09-30 06:27+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -6303,22 +6303,16 @@ msgid "Repository status"
 msgstr "Depo durumu"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Bekleyen değişiklikleri yerel depoya işle"
+msgstr "Henüz Weblate deposuna işlenmemiş bekleyen değişiklikler"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Bekleyen değişiklikleri yerel depoya işle"
+msgstr "Bekleyen değişiklikleri Weblate deposuna işle"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "Yerel depoda bazı yeni işlemeler var."
+msgstr "Weblate deposunda giden işlemeler"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6329,20 +6323,16 @@ msgid "Push"
 msgstr "Yolla"
 
 #: weblate/templates/js/git-status.html:51
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Missing commits in the Weblate repository"
-msgstr "Yerel depoda bazı yeni işlemeler var."
+msgstr "Weblate deposunda eksik işlemeler"
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "Uzak depodan değişiklikleri çek"
+msgstr "Uzak depodan değişikliklerle güncelle"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
-msgstr ""
+msgstr "Güncelle"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull changes from the remote repository"
@@ -6353,10 +6343,8 @@ msgid "Pull"
 msgstr "Çek"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Yerel değişiklikleri, uzak depo üstüne yeniden konumla"
+msgstr "Weblate değişikliklerini, uzak depo üstüne yeniden konumla"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:143
@@ -6364,20 +6352,16 @@ msgid "Rebase"
 msgstr "Yeniden konumla"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "Yerel depodaki tüm değişiklikleri sıfırla"
+msgstr "Weblate deposundaki tüm değişiklikleri sıfırla"
 
 #: weblate/templates/js/git-status.html:70 weblate/templates/translate.html:429
 msgid "Reset"
 msgstr "Sıfırla"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Yerel depodaki tüm izlenemeyen dosyaları temizle"
+msgstr "Weblate deposundaki tüm izlenemeyen dosyaları temizle"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Cleanup"
@@ -6385,13 +6369,11 @@ msgstr "Temizle"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
-msgstr ""
+msgstr "Kilitleme, çevirmenlerin değişiklikler yapmasını önler"
 
 #: weblate/templates/js/git-status.html:94
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Yerel depoda değişiklikler yapılmasına izin ver"
+msgstr "Weblate deposunda değişikliklere izin ver"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6399,20 +6381,17 @@ msgid "Unlock"
 msgstr "Kilidi aç"
 
 #: weblate/templates/js/git-status.html:96
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Yerel depodaki her değişikliği önle"
+msgstr "Weblate deposundaki herhangi bir değişikliği önle"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
 msgstr "Kilitle"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "%(component)s içinde depo hatası"
+msgstr "%(component)s için depo"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Repository details"
@@ -7679,10 +7658,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "%(author)s, %(date)s yazdı"
 
 #: weblate/templates/snippets/git-info.html:43
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "Depo yeniden konumlandı"
+msgstr "Weblate deposu"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
