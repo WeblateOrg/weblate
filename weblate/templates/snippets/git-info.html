@@ -7,7 +7,7 @@
 
 {% if user_can_see_git_repository %}
 <tr>
-<th>{% trans "Repository" %}</th>
+<th>{% trans "Source code repository" %}</th>
 <td class="full-cell">
     <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
@@ -40,7 +40,7 @@
 {% with object.get_export_url as export_url %}
 {% if export_url %}
 <tr>
-<th>{% trans "Repository containing Weblate translations" %}</th>
+<th>{% trans "Weblate repository" %}</th>
 <td class="full-cell">
     <code class="git-repo ui-corner-all">{{ export_url }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>

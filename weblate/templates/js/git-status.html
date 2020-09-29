@@ -21,12 +21,12 @@
       {{ pending_units|intcomma }}
     </th>
     <td class="full-cell">
-      {% trans "Pending changes" %}
+      {% trans "Pending changes not yet committed to the Weblate repository" %}
     </td>
     <td class="number">
       {% if user_can_commit_translation %}
 
-        <a href="{{ object.get_commit_url }}" class="link-post btn btn-primary" {% if not pending_units %}disabled="disabled"{% endif %} title="{% trans "Commit pending changes to the local repository" %}">{% trans "Commit" %}</a>
+        <a href="{{ object.get_commit_url }}" class="link-post btn btn-primary" {% if not pending_units %}disabled="disabled"{% endif %} title="{% trans "Commit pending changes to the Weblate repository" %}">{% trans "Commit" %}</a>
       {% endif %}
     </td>
   </tr>
@@ -35,7 +35,7 @@
       {{ outgoing_commits|intcomma }}
     </th>
     <td class="full-cell">
-      {% trans "Outgoing commits" %}
+      {% trans "Outgoing commits in the Weblate repository" %}
     </td>
     <td class="number">
       {% if user_can_push_translation %}
@@ -48,7 +48,7 @@
       {{ missing_commits|intcomma }}
     </th>
     <td class="full-cell">
-      {% trans "Missing commits" %}
+      {% trans "Missing commits in the Weblate repository" %}
     </td>
     <td class="number">
       {% if user_can_update_translation %}
@@ -63,14 +63,14 @@
               <a href="{{ object.get_update_url }}?method=merge" class="link-post" title="{% trans "Pull changes from the remote repository" %}">{% trans "Pull" %}</a>
             </li>
             <li>
-              <a href="{{ object.get_update_url }}?method=rebase" class="link-post" title="{% trans "Rebase local changes onto the remote repository" %}">{% trans "Rebase" %}</a>
+              <a href="{{ object.get_update_url }}?method=rebase" class="link-post" title="{% trans "Rebase Weblate changes onto the remote repository" %}">{% trans "Rebase" %}</a>
             </li>
             {% if user_can_reset_translation %}
             <li>
-              <a href="{{ object.get_reset_url }}" class="link-post" title="{% trans "Reset all changes in the local repository" %}">{% trans "Reset" %}</a>
+              <a href="{{ object.get_reset_url }}" class="link-post" title="{% trans "Reset all changes in the Weblate repository" %}">{% trans "Reset" %}</a>
             </li>
             <li>
-              <a href="{{ object.get_cleanup_url }}" class="link-post" title="{% trans "Cleanup all untracked files in the local repository" %}">{% trans "Cleanup" %}</a>
+              <a href="{{ object.get_cleanup_url }}" class="link-post" title="{% trans "Cleanup all untracked files in the Weblate repository" %}">{% trans "Cleanup" %}</a>
             </li>
             {% endif %}
           </ul>
@@ -91,9 +91,9 @@
     <td class="number">
       {% if user_can_lock_component %}
         {% if object.locked %}
-          <a href="{{ object.get_unlock_url }}" class="link-post btn btn-primary" title="{% trans "Allow changes to the local repository" %}">{% trans "Unlock" %}</a>
+          <a href="{{ object.get_unlock_url }}" class="link-post btn btn-primary" title="{% trans "Allow changes to the Weblate repository" %}">{% trans "Unlock" %}</a>
         {% else %}
-          <a href="{{ object.get_lock_url }}" class="link-post btn btn-primary" title="{% trans "Prevent any changes in the local repository" %}">{% trans "Lock" %}</a>
+          <a href="{{ object.get_lock_url }}" class="link-post btn btn-primary" title="{% trans "Prevent any changes in the Weblate repository" %}">{% trans "Lock" %}</a>
         {% endif %}
       {% endif %}
     </td>
