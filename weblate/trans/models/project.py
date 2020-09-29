@@ -300,11 +300,18 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             .order()
         )
 
-    def needs_commit(self):
+    @property
+    def count_pending_units(self):
         """Check whether there are any uncommitted changes."""
-        return any(
-            component.needs_commit() for component in self.component_set.iterator()
-        )
+        from weblate.trans.models import Unit
+
+        return Unit.objects.filter(
+            translation__component__project=self, pending=True
+        ).count()
+
+    def needs_commit(self):
+        """Check whether there are some not committed changes."""
+        return self.count_pending_units > 0
 
     def on_repo_components(self, default, call, *args, **kwargs):
         """Wrapper for operations on repository."""

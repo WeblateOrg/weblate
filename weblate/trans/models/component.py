@@ -2445,11 +2445,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         self.update_link_alerts()
 
-    def needs_commit(self):
+    @property
+    def count_pending_units(self):
         """Check for uncommitted changes."""
         from weblate.trans.models import Unit
 
-        return Unit.objects.filter(translation__component=self, pending=True).exists()
+        return Unit.objects.filter(translation__component=self, pending=True).count()
+
+    def needs_commit(self):
+        """Check whether there are some not committed changes."""
+        return self.count_pending_units > 0
 
     def repo_needs_merge(self):
         """Check for unmerged commits from remote repository."""
