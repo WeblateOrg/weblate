@@ -153,7 +153,7 @@ def git_status_shared(request, obj, changes, repositories):
     return render(
         request,
         "js/git-status.html",
-        {"object": obj, "changes": changes, "repositories": repositories},
+        {"object": obj, "changes": changes.prefetch(), "repositories": repositories},
     )
 
 
