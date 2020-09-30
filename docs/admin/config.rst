@@ -1536,6 +1536,21 @@ contain too many changes. Defaults to 25.
 
    :ref:`alerts`
 
+.. setting:: REQUIRE_LOGIN
+
+REQUIRE_LOGIN
+-------------
+
+.. versionadded:: 4.1
+
+This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to
+require login for all API endpoints.
+
+.. note::
+
+    This is in implemented in the :ref:`sample-configuration`. For Docker, use
+    :envvar:`WEBLATE_REQUIRE_LOGIN`.
+
 .. setting:: SENTRY_DSN
 
 SENTRY_DSN
