@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-29 15:04+0000\n"
-"PO-Revision-Date: 2020-09-25 05:32+0000\n"
+"PO-Revision-Date: 2020-09-30 06:27+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -6442,22 +6442,18 @@ msgid "Repository status"
 msgstr "État du dépôt"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Archiver dans le dépôt local les modifications en attente"
+msgstr ""
+"Modifications en attente qui ne sont pas encore archivées dans le dépôt "
+"Weblate"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Archiver dans le dépôt local les modifications en attente"
+msgstr "Archiver les modifications en attente dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "De nouveaux archivages se trouvent dans le dépôt local."
+msgstr "Archivages sortants du dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6468,20 +6464,16 @@ msgid "Push"
 msgstr "Pousser"
 
 #: weblate/templates/js/git-status.html:51
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Missing commits in the Weblate repository"
-msgstr "De nouveaux archivages se trouvent dans le dépôt local."
+msgstr "Archivages manquants dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "Récupérer les modifications du dépôt distant"
+msgstr "Intégrer les modifications du dépôt distant"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
-msgstr ""
+msgstr "Mettre à jour"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull changes from the remote repository"
@@ -6492,10 +6484,8 @@ msgid "Pull"
 msgstr "Récupérer"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Refonder les modifications sur le dépôt distant"
+msgstr "Refonder les modifications Weblate sur le dépôt distant"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:143
@@ -6503,20 +6493,16 @@ msgid "Rebase"
 msgstr "Refonder"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "Réinitialiser toutes les modifications dans le dépôt local"
+msgstr "Réinitialiser toutes les modifications dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:70 weblate/templates/translate.html:429
 msgid "Reset"
 msgstr "Réinitialiser"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Nettoyer tous les fichiers non suivis dans le dépôt local"
+msgstr "Nettoyer tous les fichiers non suivis dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Cleanup"
@@ -6524,13 +6510,11 @@ msgstr "Nettoyage"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
-msgstr ""
+msgstr "Le verrouillage interdit aux traducteurs d'effectuer des modifications"
 
 #: weblate/templates/js/git-status.html:94
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Permettre les modifications dans le dépôt local"
+msgstr "Permettre les modifications dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6538,20 +6522,17 @@ msgid "Unlock"
 msgstr "Déverrouiller"
 
 #: weblate/templates/js/git-status.html:96
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Interdire les modifications dans le dépôt local"
+msgstr "Interdire toute modification dans le dépôt Weblate"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
 msgstr "Verrouiller"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Échec de dépôt dans %(component)s"
+msgstr "Dépôt pour %(component)s"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Repository details"
@@ -7839,10 +7820,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "%(author)s a écrit %(date)s"
 
 #: weblate/templates/snippets/git-info.html:43
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "Dépôt refondé"
+msgstr "Dépôt Weblate"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
