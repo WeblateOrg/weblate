@@ -161,7 +161,7 @@
 {% trans "Strings status" %}
 </h4>
 </div>
-<table class="table table-autowidth">
+<table class="table table-autowidth table-listing">
 {% for query, name, count, color, words in object.list_translation_checks %}
 <tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
 <th class="number">{{ count|intcomma }}</th>
