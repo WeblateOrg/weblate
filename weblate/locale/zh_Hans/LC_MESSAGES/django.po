@@ -32,8 +32,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-29 15:04+0000\n"
-"PO-Revision-Date: 2020-09-29 08:35+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"PO-Revision-Date: 2020-09-30 06:27+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -6078,22 +6078,16 @@ msgid "Repository status"
 msgstr "代码库状态"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "提交待定更改到本地代码库"
+msgstr "待定更改尚未提交到Weblate 仓库"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "提交待定更改到本地代码库"
+msgstr "提交待定更改到Weblate 仓库"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "本地代码库中有一些新的提交。"
+msgstr "Weblate存储库中的传出提交"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6104,20 +6098,16 @@ msgid "Push"
 msgstr "推送"
 
 #: weblate/templates/js/git-status.html:51
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Missing commits in the Weblate repository"
-msgstr "本地代码库中有一些新的提交。"
+msgstr "Weblate存储库中丢失的提交"
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "从远程代码库拉取变更"
+msgstr "使用远程存储库中的更改进行更新"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull changes from the remote repository"
@@ -6128,10 +6118,8 @@ msgid "Pull"
 msgstr "拉取"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "将本地变更变基至远程代码库"
+msgstr "将Weblate更改变基到远程存储库"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:143
@@ -6139,20 +6127,16 @@ msgid "Rebase"
 msgstr "变基"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "重置本地代码库中的所有变更"
+msgstr "重置Weblate存储库中的所有更改"
 
 #: weblate/templates/js/git-status.html:70 weblate/templates/translate.html:429
 msgid "Reset"
 msgstr "重设"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "清理本地代码库中未跟踪的文件"
+msgstr "清理Weblate存储库中所有无路径的文件"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Cleanup"
@@ -6160,13 +6144,11 @@ msgstr "清理"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
-msgstr ""
+msgstr "锁定防止译员进行更改"
 
 #: weblate/templates/js/git-status.html:94
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "允许本地代码库中的变更"
+msgstr "允许更改Weblate存储库"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6174,20 +6156,17 @@ msgid "Unlock"
 msgstr "解锁"
 
 #: weblate/templates/js/git-status.html:96
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "阻止本地代码库中的任何变更"
+msgstr "防止Weblate存储库中的任何更改"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
 msgstr "锁定"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "%(component)s 中有仓库失败"
+msgstr "%(component)s 的存储库"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Repository details"
@@ -7385,10 +7364,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "由 %(author)s 著于 %(date)s"
 
 #: weblate/templates/snippets/git-info.html:43
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "已变基代码库"
+msgstr "Weblate 存储库"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
