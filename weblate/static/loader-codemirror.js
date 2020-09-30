@@ -61,6 +61,7 @@
       mode: "text/x-markdown",
       theme: "weblate",
       lineNumbers: false,
+      lineWrapping: true,
     });
 
     codemirror.on("change", function (cm, event) {
