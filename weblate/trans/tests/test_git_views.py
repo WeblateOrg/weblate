@@ -28,7 +28,6 @@ from weblate.trans.tests.test_views import ViewTestCase
 class GitNoChangeProjectTest(ViewTestCase):
     """Testing of git manipulations with no change in repo."""
 
-    STATUS_CHECK = "Push changes to the remote repository"
     TEST_TYPE = "project"
 
     def setUp(self):
@@ -68,7 +67,7 @@ class GitNoChangeProjectTest(ViewTestCase):
 
     def test_status(self):
         response = self.client.get(self.get_test_url("git_status"))
-        self.assertContains(response, self.STATUS_CHECK)
+        self.assertContains(response, "Repository status")
 
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):
@@ -85,8 +84,6 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 
 class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
-
-    STATUS_CHECK = "There are some uncommitted changes!"
 
     def setUp(self):
         super().setUp()
@@ -107,8 +104,6 @@ class GitChangeTranslationTest(GitChangeProjectTest):
 
 class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with committed change in repo."""
-
-    STATUS_CHECK = "There are some new commits in the local repository."
 
     def setUp(self):
         super().setUp()
