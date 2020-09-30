@@ -825,12 +825,6 @@ th.number {
   white-space: normal;
 }
 
-.table-border {
-  border: 1px solid #bfc3c7;
-  border-radius: 3px;
-  border-collapse: separate;
-}
-
 .buttons-cell {
   vertical-align: middle !important;
   text-align: right;
@@ -945,6 +939,18 @@ thead th {
   border-bottom: 1px solid #bfc3c7;
 }
 
+.table-listing {
+  border: none;
+}
+.table-listing > thead > tr > th {
+  border: none;
+}
+.table-listing > tbody > tr > .actions {
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+
 .btn:hover {
   transition: all 300ms linear;
   -webkit-transition: all 300ms linear;
@@ -968,6 +974,10 @@ thead th {
 
 .btn-info {
   border: 1px solid #2eccaa;
+}
+
+.btn-link {
+  padding: 6px;
 }
 
 .btn-link.btn-xs {
