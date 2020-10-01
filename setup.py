@@ -81,7 +81,7 @@ class BuildMo(Command):
             if not newer(name, output):
                 continue
             print(f"compiling {name} -> {output}")
-            with open(name) as pofile, open(output, "wb") as mofile:
+            with open(name, "rb") as pofile, open(output, "wb") as mofile:
                 convertmo(pofile, mofile, None)
 
 
