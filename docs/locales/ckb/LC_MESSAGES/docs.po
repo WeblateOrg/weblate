@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 17:04+0200\n"
-"PO-Revision-Date: 2020-07-24 18:38+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-10-03 10:41+0000\n"
+"Last-Translator: Kurd As <kurd68587@gmail.com>\n"
 "Language-Team: Central Kurdish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ckb/>\n"
 "Language: ckb\n"
@@ -17,14 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
-#, fuzzy
-#| msgid "Version control"
 msgid "Access control"
-msgstr "سەرپەرشتیکردنی وەشان"
+msgstr "کۆنترۆڵی چوونەژورەوە"
 
 #: ../../admin/access.rst:8
 msgid ""
@@ -33,12 +31,17 @@ msgid ""
 "consult the documentation for that version, the information here will not "
 "apply."
 msgstr ""
+"پێش وێبلایت 3.0، سیستەمی مافپەروەری لەسەر بنەمای Django بوو، بەڵام ئێستا بە "
+"دیاریکراوی بۆ وێبلایت دروستکراوە. ئەگەر وەشانێکی کۆنتر بەکاردەهێنیت، تکایە "
+"ڕاوێژ بە دۆکیومێنتەکان بکە بۆ ئەو وەشانە، زانیاریەکانی ئێرە کارناکەن."
 
 #: ../../admin/access.rst:12
 msgid ""
 "Weblate comes with a fine grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
+"وێبلایت لەگەڵ سیستەمێکی باشی مافی دانەوێڵە دێت بۆ تەرخانکردنی مۆڵەتی "
+"بەکارهێنەر بۆ هەموو نموونەکە، یان لە مەودایەکی سنووردار."
 
 #: ../../admin/access.rst:15
 msgid ""
@@ -46,6 +49,9 @@ msgid ""
 "permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
+"سیستەمی مۆڵەت لەسەر بنەمای گرووپ و ڕۆڵەکان، کە ڕۆڵەکان کۆمەڵە مۆڵەتێک پێناسە "
+"دەکەن، و گرووپەکان بە بەکارهێنەران و وەرگێڕانەکان دیارییان دەکەن، بڕوانە :ref"
+":'auth-model' بۆ وردەکاری زیاتر."
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -55,14 +61,19 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`."
 msgstr ""
+"پاش دامەزراندنی کۆمەڵەیەکی گریمانەیی گرووپ دروست کرا، و دەتوانیت ئەوانە "
+"بەکاربهێنیت بۆ دانانی ڕۆڵی بەکارهێنەران بۆ هەموو نمونەکە (بڕوانە :ref"
+":'default-groups'). لەگەڵ ئەوەش کاتێک :ref:'acl' هەڵکراوە، دەتوانی "
+"بەکارهێنەران بسپێریت بە پرۆژەی وەرگێڕانی دیاریکراو. شێوەبەندی زیاتری باش "
+"کراو دەتوانرێت بەدەست بهێنرێت بە بەکارهێنانی :ref:'custom-acl'."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
-msgstr ""
+msgstr "ڕێکخستنە گشتیەکان"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
-msgstr ""
+msgstr "داخستنی وێبلایت"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -70,10 +81,13 @@ msgid ""
 "`LOGIN_REQUIRED_URLS` to force users to sign in and :setting:"
 "`REGISTRATION_OPEN` to prevent new registrations."
 msgstr ""
+"بۆ داخستنی تەواوەتی دامەزراندنی وێبلایت، دەتوانیت :setting:"
+"'LOGIN_REQUIRED_URLS' بەکاربێنیت بۆ ناچارکردنی بەکارهێنەران بۆ چوونە ژوورەوە "
+"و:setting:'REGISTRATION_OPEN' بۆ ڕێگرتن لە تۆمارە نوێکان."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
-msgstr ""
+msgstr "مۆڵەتە فراوانەکانی سایت"
 
 #: ../../admin/access.rst:37
 msgid ""
@@ -81,20 +95,26 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"بۆ بەڕێوەبردنی مۆڵەتەکان بۆ هەموو نمونەیەک، تەنها بەکارهێنەرەکان زیاد بکە بۆ "
+"'بەکارهێنەرەکان' (ئەمە بە شێوەیەکی گریمانەیی ئەنجام درا بە بەکارهێنانی "
+":ref:'autogroup'), 'Reviewers' و 'Managers' groups. هێشتنەوەی هەموو پڕۆژەکان "
+"بە شێوەێک وەک 'گشتی' (بڕوانە :ref:'acl')."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr ""
+msgstr "هەر مۆڵەتێکی پرۆژە"
 
 #: ../../admin/access.rst:44
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
 msgstr ""
+"دانانی پڕۆژەکانت بۆ 'پارێزراو' یان 'تایبەت', و بەڕێوەبردنی بەکارهێنەران بۆ "
+"هەر پرۆژەیەک لە ڕووکاری وێبسایت."
 
 #: ../../admin/access.rst:48
 msgid "Adding permissions to languages, components or projects"
-msgstr ""
+msgstr "زیادکردنی مۆڵەتەکان بۆ زمانەکان، پێکهاتەکان یان پرۆژەکان"
 
 #: ../../admin/access.rst:50
 msgid ""
@@ -103,6 +123,11 @@ msgid ""
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
+"دەتوانیت لە کاتی زیادکردنی مۆڵەتەکان بۆ هەر بەکارهێنەرێک کە لەسەر بنەمای "
+"پڕۆژە، پێکهاتە یان سێتی زمان دامەزرابێت. بۆ بەدەستهێنانی ئەمە، گروپێکی نوێ "
+"دروست بکە (بۆ نموونە 'وەرگێڕە چیکیەکان') و شێوەپێدانی بۆ سەرچاوەی دیاریکراو. "
+"هەر مۆڵەتێکی دیاریکراو بۆ ئەندامانی ئەو گروپە بۆ سەرچاوە دیاریکراوەکان "
+"دەبەخشرێت."
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -111,20 +136,27 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
+"ئەمە بەباشی کار دەکات بەبێ دانانی زیادە، ئەگەر بەکارهێنانی هەر مۆڵەتێکی "
+"پرۆژە. بۆ مۆڵەتەکان لە هەموو نمونەکە, لەوانەیە هەروەها دەتەوێت ئەم مۆڵەتانە "
+"لابدەیت لە 'بەکارهێنەرەکان' گرووپ, یان گۆڕینی خۆکار ئەرک بۆ هەموو "
+"بەکارهێنەرەکان بۆ ئەو گرووپە (بڕوانە :ref:'autogroup')."
 
 #: ../../admin/access.rst:62
 msgid ":ref:`perm-check`"
-msgstr ""
+msgstr ":ref:'perm-check'"
 
 #: ../../admin/access.rst:67
 msgid "Per project access control"
-msgstr ""
+msgstr "بۆ هەر کۆنترۆڵێکی چوونە ژورەوەی پرۆژە"
 
 #: ../../admin/access.rst:71
 msgid ""
 "By enabling ACL, all users are prohibited from accessing anything within a "
 "given project, unless you add the permissions for them to do just that."
 msgstr ""
+"بە تواناکردنی ACL، هەموو بەکارهێنەرەکان قەدەغەن لە چوونە ژوورەوە بۆ هەر شتێک "
+"لە ناو پڕۆژەیەکی دیاریکراودا، مەگەر تۆ مۆڵەتیان بۆ زیاد بکەیت بۆ ئەوەی تەنها "
+"ئەوە بکەن."
 
 #: ../../admin/access.rst:74
 msgid ""
@@ -133,42 +165,46 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
+"دەتوانیت دەستگەیشتنی بەکارهێنەر سنوردار بکەیت بۆ پرۆژەی تاک. ئەم "
+"تایبەتمەندیە هەڵکراوە لەلایەن :guilabel:'Access Control لە ڕێکخستنی هەر "
+"پڕۆژەیەکی بەها. ئەمە بە شێوەیەکی خۆکار چەندین گروپ دروست دەکات بۆ ئەم "
+"پڕۆژەیە، بڕوانە :ref:'groups'."
 
 #: ../../admin/access.rst:78
 msgid "The following choices exist for :guilabel:`Access control`:"
-msgstr ""
+msgstr "ئەم هەڵبژاردنانەی خوارەوە هەن بۆ :guilabel:'Access control':"
 
 #: ../../admin/access.rst:80
 msgid "Public"
-msgstr ""
+msgstr "گشتی"
 
 #: ../../admin/access.rst:81
 msgid "Publicly visible and translatable"
-msgstr ""
+msgstr "بە ئاشکرا بینراو و تەوراتکراوە"
 
 #: ../../admin/access.rst:82
 msgid "Protected"
-msgstr ""
+msgstr "پارێزراوە"
 
 #: ../../admin/access.rst:83
 msgid "Publicly visible, but translatable only for selected users"
-msgstr ""
+msgstr "بە ئاشکرا بینراوە، بەڵام تەنها بۆ بەکارهێنەرە دیاریکراوەکان دەجوڵێتەوە"
 
 #: ../../admin/access.rst:84
 msgid "Private"
-msgstr ""
+msgstr "تایبەت"
 
 #: ../../admin/access.rst:85
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "بینراو و تەونکراو تەنها بۆ بەکارهێنەرە دیاریکراوەکان"
 
 #: ../../admin/access.rst:87
 msgid "Custom"
-msgstr ""
+msgstr "ئاسایی"
 
 #: ../../admin/access.rst:87
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
-msgstr ""
+msgstr "وێبسایت بەکارهێنەران بەڕێوە نابەیت، بڕوانە :ref:'custom-acl'."
 
 #: ../../admin/access.rst:91
 msgid ""
@@ -177,21 +213,27 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
+"بۆ ڕێگەدان بە گەیشتن بەم پڕۆژەیە، پێویستە مافی ڕاستەوخۆ زیاد بکەیت بۆ "
+"بەکارهێنەرە دراوەکە، یان گرووپی بەکارهێنەران لە ڕووکاری بەڕێوەبەری Django، "
+"یان بە بەکارهێنانی بەڕێوەبردنی بەکارهێنەر لە لاپەڕەی پرۆژەکە، وەک لە :ref"
+":'manage-acl'دا باسکراوە."
 
 #: ../../admin/access.rst:97
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
 msgstr ""
+"تەنانەت لەگەڵ هەڵکردنی ACL، هەندێک زانیاری پوختە بەردەست دەبێت دەربارەی "
+"پرۆژەکەت:"
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
-msgstr ""
+msgstr "ئاماری هەموو نموونەکە، بە ژماردنی هەموو پرۆژەکان."
 
 #: ../../admin/access.rst:100
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
-msgstr ""
+msgstr "پوختەی زمان بۆ هەموو نموونەکە، بە ژماردنی هەموو پرۆژەکان."
 
 #: ../../admin/access.rst:105
 msgid "Automatic group assignments"
@@ -203,12 +245,17 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"دەتوانی وێبسایت ئامادە بکەیت بۆ زیادکردنی بەکارهێنەران بە ئۆتۆماتیکی بۆ "
+"گرووپەکان لەسەر بنەمای ناونیشانی ئیمەیڵەکانیان. ئەم ئەرکە ئۆتۆماتیکییە تەنها "
+"لە کاتی دروستکردنی ئەژمێردا ڕوودەدات."
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
 msgstr ""
+"ئەمە دەتوانرێت لە ڕووکاری بەڕێوەبەری Django بۆ هەر گروپێک دا (لە بەشی "
+":guilabel:'Authentication) دا دانرێت."
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -216,56 +263,65 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
+"ئەرکی گرووپی خۆکار بۆ گرووپەکانی 'بەکارهێنەرەکان' و 'بینەران' هەمیشە لەلایەن "
+"وێبسایتەوە دروست دەکرێن لەسەر کۆچەکان، لە حاڵەتی کوژاندنەوەیدا، بە سادەیی "
+"دەربڕینی ئاسایی بۆ ''^$'، کە هەرگیز ناگونجێت."
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
-msgstr ""
+msgstr "بەکارهێنەران، ڕۆڵەکان، گرووپەکان و مۆڵەتەکان"
 
 #: ../../admin/access.rst:124
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "مۆدێلەکانی ڕەسەنایەتی سەلماندن پێکدێت لە چەند ئامانجێک:"
 
 #: ../../admin/access.rst:127
 msgid "`Permission`"
-msgstr ""
+msgstr "'مۆڵەت'"
 
 #: ../../admin/access.rst:127
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
 msgstr ""
+"مۆڵەتە تاکەکان پێناسەکراوە لەلایەن وێبلایت. ناتوانیت مۆڵەتە تاکەکان دیاری "
+"بکەیت، ئەمە تەنها لە ڕێگەی ئەرک دانان لە ڕۆڵەکان دەکرێت."
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
-msgstr ""
+msgstr "'ڕۆڵ'"
 
 #: ../../admin/access.rst:130
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
+"ڕۆڵ کۆمەڵە مۆڵەتەکان پێناسە دەکات. ئەمەش ڕێگە بە دووبارە بەکارکردنەوەی ئەم "
+"سێتانە دەدات لە چەند شوێنێک ، و ئیدارەکە ئاسانتر دەکات."
 
 #: ../../admin/access.rst:132
 msgid "`User`"
-msgstr ""
+msgstr "'بەکارهێنەر'"
 
 #: ../../admin/access.rst:133
 msgid "Users can be members of several groups."
-msgstr ""
+msgstr "بەکارهێنەران دەتوانن ئەندام بن لە چەند گرووپێکدا."
 
 #: ../../admin/access.rst:136
 msgid "`Group`"
-msgstr ""
+msgstr "'گرووپ'"
 
 #: ../../admin/access.rst:135
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
+"گرووپەکان ڕۆڵەکان، بەکارهێنەران و ئۆبجێکتەکانی ڕەسەنایەتی (پرۆژەکان، "
+"زمانەکان و لیستەکانی پێکهاتە) گرێدەدات."
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
-msgstr ""
+msgstr "پشکنینی مۆڵەت"
 
 #: ../../admin/access.rst:156
 msgid ""
@@ -273,24 +329,29 @@ msgid ""
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
 msgstr ""
+"هەر کاتێک مۆڵەتێک پشکنرا بۆ بڕیاردان لەسەر ئەوەی ئایا کەسێک توانای "
+"ئەنجامدانی کاری پێدراوە، پشکنینەکە بەپێی مەودا ئەنجام دەدرێت، و ئەم "
+"پشکنینانەی خوارەوە بە ڕێکخستن دەکرێت:"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` is matched against component or project."
-msgstr ""
+msgstr "لەیبڵی نیشان: 'لیستی پێکهاتە' هاوتایە لەگەڵ پێکهاتە یان پرۆژە."
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
-msgstr ""
+msgstr "لەیبڵی نیشان: 'پێکهاتەکان' هاوتان لەگەڵ پێکهاتە یان پرۆژە."
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
-msgstr ""
+msgstr "لەیبڵی نیشان: 'پرۆژەکان' گونجاون لەگەڵ پرۆژەکە."
 
 #: ../../admin/access.rst:166
 msgid ""
 "As you can see, granting access to a component automatically grants user "
 "access to a containing project as well."
 msgstr ""
+"وەک دەبینن، پێدانی چوونە ژورەوە بۆ پێکهاتەکە بە شێوەیەکی ئۆتۆماتیکی چوونە "
+"ژورەوەی بەکارهێنەر دەبەخشێت بۆ پڕۆژەیەکی لەخۆوە."
 
 #: ../../admin/access.rst:171
 msgid ""
@@ -298,27 +359,34 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
+"تەنها یاسای یەکەم بەکاردەهێنرێت. کەواتە ئەگەر تۆ هەموو :لەیبڵی نیشان:'لیستی "
+"پێکهاتە', :لەیبڵی نیشان:'پێکهاتەکان' و :لەیبڵی نیشان:'پرۆژەکان', تەنها :"
+"لەیبڵی نیشان 'لیستی پێکهاتە' کاری پێدەکرێت."
 
 #: ../../admin/access.rst:175
 msgid ""
 "An additional step is performed if checking permission for the translation:"
-msgstr ""
+msgstr "هەنگاوێکی زیادە ئەنجام دەدرێت ئەگەر مۆڵەت بپشکنیت بۆ وەرگێڕانەکە:"
 
 #: ../../admin/access.rst:178
 msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
 msgstr ""
+"٤. :لەیبڵی نیشان:'زمانەکان' هاوتایە لەگەڵ مەودای وەرگێڕانەکان ئەگەر سێتی کرد،"
+" ئەگەر دانرا، ئەمە لەگەڵ هیچ زمانێک یەک ناگرێتەوە."
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
+"دەتوانیت :لەیبڵی نیشان: 'هەڵبژاردنی زمان' یان :لەیبڵی نیشان: 'هەڵبژاردنی "
+"پرۆژە' بەکاربهێنیت بۆ خۆکار گرتنەخۆی هەموو زمانەکان یان پرۆژەکان."
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
-msgstr ""
+msgstr "پشکنینی چوونە ژورەوە بۆ پرۆژەیەک"
 
 #: ../../admin/access.rst:189
 msgid ""
@@ -327,10 +395,14 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"بەکارهێنەر دەبێت ئەندامی گروپێک بێت کە بەستراوەتەوە بە پرۆژەکە یان هەر "
+"پێکهاتەیەک لە ناویدا. تەنها ئەندامێتی بەسە، هیچ مۆڵەتێکی دیاریکراو پێویست "
+"نییە بۆ چوونە ژورەوەی پرۆژەیەک (ئەمە لە گرووپی گریمانەیی 'بینەران' بەکار "
+"هاتووە، بڕوانە :رێف:'سەرەکی-گرووپەکان')."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
-msgstr ""
+msgstr "پشکنینی چوونە ژورەوە بۆ پێکهاتەیەک"
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -339,24 +411,32 @@ msgid ""
 "the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
+"بەکارهێنەر دەتوانێت بچێتە ناو پێکهاتەی بێ کۆتوبەند کاتێک ئەتوانێت بچێتە ناو "
+"پڕۆژەی لەخۆوە. لەگەڵ بەتواناکردنی :رێف: 'سنووردارکراوە' چوونە ژوورەوە بۆ "
+"پێکهاتەکە پێویستی بە مۆڵەتی ڕاشکاوانە هەیە بۆ پێکهاتەکە (یان لیستی پێکهاتە "
+"لەخۆبگرێت)."
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr ""
+msgstr "بەڕێوەبردنی بەکارهێنەران و گرووپەکان"
 
 #: ../../admin/access.rst:206
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
 msgstr ""
+"هەموو بەکارهێنەران و گرووپەکان دەتوانن بەڕێوە ببەن بە بەکارهێنانی ڕووکاری "
+"سەرپەرشتیاری Django, بەردەستە لەژێر :فایل:'/بەڕێوەبەر/' URL."
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
-msgstr ""
+msgstr "بەڕێوەبردنی هەر کۆنترۆڵێکی چوونە ژورەوەی پرۆژە"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgstr ""
+"ئەم تایبەتمەندیە تەنها کاردەکات بۆ پڕۆژە کۆنترۆڵکراوەکانی ACL, بڕوانە "
+":رێف:'acl'."
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -364,6 +444,10 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+"بەکارهێنەران بە :guilabel:'Can manage ACL rules for aproject' privilege (see "
+":ref:'privileges') هەروەها دەتوانێت بەکارهێنەران بەڕێوە ببە لە پرۆژەکان کە "
+"کۆنترۆڵی چوونە ژورەوەیان هەیە هەڵکراوە لە ڕێگەی لاپەڕەی پرۆژەکەوە. ڕووکار "
+"ڕێگەت پێ دەدات بۆ:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
@@ -11260,7 +11344,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:56
 msgid "Billing"
-msgstr ""
+msgstr "بیڵین"
 
 #: ../../admin/optionals.rst:60
 msgid ""
@@ -20937,7 +21021,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:27
 msgid "Localization"
-msgstr ""
+msgstr "خۆماڵیکردن"
 
 #: ../../contributing/frontend.rst:29
 msgid ""
@@ -24137,7 +24221,7 @@ msgstr ""
 
 #: ../../faq.rst:419
 msgid "Features"
-msgstr ""
+msgstr "تایبەتمەندییەکان"
 
 #: ../../faq.rst:424
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
