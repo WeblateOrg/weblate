@@ -24,7 +24,6 @@ from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.formats.models import FILE_FORMATS
 from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
@@ -42,7 +41,6 @@ from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
-from weblate.vcs.git import LocalRepository
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -488,11 +486,11 @@ class ComponentSerializer(RemovableSerializer):
                 code=result["source_language"]["code"]
             )
         if "docfile" in result:
-            fake = create_component_from_doc(result)
+            create_component_from_doc(result)
             result.pop("docfile")
         if "zipfile" in result:
             try:
-                fake = create_component_from_zip(result)
+                create_component_from_zip(result)
             except BadZipfile:
                 raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
             result.pop("zipfile")
