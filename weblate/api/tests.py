@@ -46,7 +46,7 @@ from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
-TEST_DOC = get_test_file("short_description.txt")
+TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
@@ -1251,11 +1251,11 @@ class ProjectAPITest(APIBaseTest):
                     "slug": "local-project",
                     "repo": "local:",
                     "vcs": "local",
-                    "filemask": "*.strings",
-                    "template": "en.strings",
-                    "file_format": "strings-utf8",
+                    "filemask": "*.html",
+                    "template": "en.html",
+                    "file_format": "html",
                     "push": "https://username:password@github.com/example/push.git",
-                    "new_lang": "none",
+                    "new_lang": "add",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
@@ -1275,9 +1275,9 @@ class ProjectAPITest(APIBaseTest):
                     "slug": "local-project",
                     "repo": "local:",
                     "vcs": "local",
-                    "filemask": "*.strings",
-                    "template": "en.strings",
-                    "file_format": "strings-utf8",
+                    "filemask": "*.po",
+                    "new_base": "project.pot",
+                    "file_format": "po",
                     "push": "https://username:password@github.com/example/push.git",
                     "new_lang": "none",
                 },
