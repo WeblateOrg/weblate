@@ -597,7 +597,10 @@ $(function () {
 
     $form.attr("action", $this.attr("href"));
     $.each($this.data("params"), function (name, value) {
-      var elm = $("<input>").attr("name", name).attr("value", value);
+      var elm = $("<input>")
+        .attr("type", "hidden")
+        .attr("name", name)
+        .attr("value", value);
       $form.append(elm);
     });
     $form.submit();
