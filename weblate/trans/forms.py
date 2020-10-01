@@ -583,6 +583,7 @@ class SimpleUploadForm(forms.Form):
             ("source", _("Update source strings")),
         ),
         widget=forms.RadioSelect,
+        required=True,
     )
     fuzzy = forms.ChoiceField(
         label=_("Processing of strings needing edit"),

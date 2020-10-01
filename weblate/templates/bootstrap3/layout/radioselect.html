@@ -13,7 +13,7 @@
       {% else %}
       {% if not inline_class %}<div class="radio">{% endif %}
         <label for="id_{{ field.id_for_label }}_{{ forloop.counter }}" class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">
-            <input type="radio"{% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked="checked"{% endif %} name="{{ field.html_name }}" id="id_{{ field.id_for_label }}_{{ forloop.counter }}" value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }}>{{ choice.1|unlocalize }}
+            <input type="radio"{% if choice.0|stringformat:"s" == field.value|default_if_none:""|stringformat:"s" %} checked="checked"{% endif %} name="{{ field.html_name }}" id="id_{{ field.id_for_label }}_{{ forloop.counter }}" value="{{ choice.0|unlocalize }}" {{ field.field.widget.attrs|flatatt }} {% if field.field.required %}required="required"{% endif %}>{{ choice.1|unlocalize }}
         </label>
       {% if not inline_class %}</div>{% endif %}
       {% endif %}
