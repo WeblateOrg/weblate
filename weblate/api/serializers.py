@@ -489,20 +489,10 @@ class ComponentSerializer(RemovableSerializer):
             )
         if "docfile" in result:
             fake = create_component_from_doc(result)
-            format_cls = FILE_FORMATS[result["file_format"]]
-            LocalRepository.from_files(
-                fake.full_path,
-                {result["template"]: format_cls.get_new_file_content()},
-            )
             result.pop("docfile")
         if "zipfile" in result:
             try:
                 fake = create_component_from_zip(result)
-                format_cls = FILE_FORMATS[result["file_format"]]
-                LocalRepository.from_files(
-                    fake.full_path,
-                    {result["template"]: format_cls.get_new_file_content()},
-                )
             except BadZipfile:
                 raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
             result.pop("zipfile")
