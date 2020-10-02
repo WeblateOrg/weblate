@@ -173,21 +173,22 @@ def get_project_translation(request, project=None, component=None, lang=None):
 
 
 def create_component_from_doc(data):
+    # Calculate filename
+    uploaded = data["docfile"]
+    ext = os.path.splitext(os.path.basename(uploaded.name))[1]
+    filemask = "{}/{}{}".format(data["slug"], "*", ext)
+    filename = filemask.replace(
+        "*", data["source_language"].code if "source_language" in data else "en"
+    )
     # Create fake component (needed to calculate path)
     fake = Component(
         project=data["project"],
         slug=data["slug"],
         name=data["name"],
+        template=filename,
+        filemask=filemask,
     )
-
     # Create repository
-    uploaded = data["docfile"]
-    ext = os.path.splitext(os.path.basename(uploaded.name))[1]
-    filename = "{}/{}{}".format(
-        data["slug"],
-        data["source_language"].code if "source_language" in data else "en",
-        ext,
-    )
     LocalRepository.from_files(fake.full_path, {filename: uploaded.read()})
     return fake
 

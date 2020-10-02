@@ -477,23 +477,42 @@ class ComponentSerializer(RemovableSerializer):
             result["push"] = None
         return result
 
-    def to_internal_value(self, data):
-        result = super().to_internal_value(data)
-        if "project" in self._context:
-            result["project"] = self._context["project"]
-        if "source_language" in result:
-            result["source_language"] = Language.objects.get(
-                code=result["source_language"]["code"]
+    def fixup_request_payload(self, data):
+        if "source_language" in data:
+            language = data["source_language"]
+            data["source_language"] = Language.objects.get(
+                code=language if isinstance(language, str) else language["code"]
             )
-        if "docfile" in result:
-            create_component_from_doc(result)
-            result.pop("docfile")
-        if "zipfile" in result:
+        if "project" in self._context:
+            data["project"] = self._context["project"]
+
+    def to_internal_value(self, data):
+        # Preprocess to inject params based on content
+        if "docfile" in data:
+            fake_data = data.copy()
+            self.fixup_request_payload(fake_data)
+            fake = create_component_from_doc(fake_data)
+            data["project"] = self._context["project"]
+            data["template"] = fake.template
+            data["new_base"] = fake.template
+            data["filemask"] = fake.filemask
+            data["repo"] = "local:"
+            data["vcs"] = "local"
+            data.pop("docfile")
+        if "zipfile" in data:
+            fake_data = data.copy()
+            self.fixup_request_payload(fake_data)
             try:
-                create_component_from_zip(result)
+                create_component_from_zip(fake_data)
             except BadZipfile:
                 raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
-            result.pop("zipfile")
+            data["repo"] = "local:"
+            data["vcs"] = "local"
+            data.pop("zipfile")
+        # DRF processing
+        result = super().to_internal_value(data)
+        # Postprocess to inject values
+        self.fixup_request_payload(result)
         return result
 
     def validate(self, attrs):

@@ -906,6 +906,8 @@ Projects
 
     :param project: Project URL slug
     :type project: string
+    :<json file zipfile: ZIP file to upload into Weblate for translations initilization
+    :<json file docfile: Document to translate
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
     **CURL example:**

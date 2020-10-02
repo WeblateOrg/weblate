@@ -1249,16 +1249,32 @@ class ProjectAPITest(APIBaseTest):
                     "docfile": handle,
                     "name": "Local project",
                     "slug": "local-project",
-                    "repo": "local:",
-                    "vcs": "local",
-                    "filemask": "*.html",
-                    "template": "en.html",
                     "file_format": "html",
-                    "push": "https://username:password@github.com/example/push.git",
                     "new_lang": "add",
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(Component.objects.count(), 2)
+
+    def test_create_component_docfile_language(self):
+        with open(TEST_DOC, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "source_language": "cs",
+                    "file_format": "html",
+                    "new_lang": "add",
+                },
+            )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["template"], "local-project/cs.html")
         self.assertEqual(Component.objects.count(), 2)
 
     def test_create_component_zipfile(self):
@@ -1273,8 +1289,6 @@ class ProjectAPITest(APIBaseTest):
                     "zipfile": handle,
                     "name": "Local project",
                     "slug": "local-project",
-                    "repo": "local:",
-                    "vcs": "local",
                     "filemask": "*.po",
                     "new_base": "project.pot",
                     "file_format": "po",
@@ -1284,6 +1298,41 @@ class ProjectAPITest(APIBaseTest):
             )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 2)
+
+    def test_create_component_zipfile_bad_params(self):
+        with open(TEST_ZIP, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "zipfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "filemask": "missing/*.po",
+                    "new_base": "missing-project.pot",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+            )
+        with open(TEST_ZIP, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "zipfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "filemask": "missing/*.po",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+            )
 
 
 class GlossaryAPITest(APIBaseTest):
