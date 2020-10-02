@@ -212,6 +212,7 @@ nitpick_ignore = [
     ("http:obj", "object"),
     ("http:obj", "string"),
     ("http:obj", "timestamp"),
+    ("http:obj", "file"),
 ]
 
 # Number of retries and timeout for linkcheck
