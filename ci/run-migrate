@@ -23,9 +23,7 @@ fi
 check
 git checkout $TAG
 check
-pip install -r requirements-optional.txt -r docs/requirements.txt
-check
-if [ -f requirements-test.txt ] ; then pip install -r requirements-test.txt ; fi
+pip install --use-feature=2020-resolver -r requirements-test.txt -r docs/requirements.txt
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check
