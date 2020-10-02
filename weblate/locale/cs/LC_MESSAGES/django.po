@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-09-29 15:04+0000\n"
-"PO-Revision-Date: 2020-09-25 20:25+0000\n"
+"PO-Revision-Date: 2020-10-03 10:41+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -6303,22 +6303,16 @@ msgid "Repository status"
 msgstr "Stav repozitáře"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Zapsat všechny změny do lokálního repozitáře"
+msgstr "Čekající změny ještě nezapsané do repozitáře Weblate"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Zapsat všechny změny do lokálního repozitáře"
+msgstr "Zapsat všechny změny do Weblate repozitáře"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "V lokálním repozitáři jsou nové zápisy."
+msgstr "Nové zípisy ve Weblate repozitáři"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6329,20 +6323,16 @@ msgid "Push"
 msgstr "Odeslat"
 
 #: weblate/templates/js/git-status.html:51
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Missing commits in the Weblate repository"
-msgstr "V lokálním repozitáři jsou nové zápisy."
+msgstr "Chybějící zápisy ve Weblate repozitáři"
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "Vyzvednout změny ze vzdáleného repozitáře"
+msgstr "Aktualizovat na změny ze vzdáleného repozitáře"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovat"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull changes from the remote repository"
@@ -6353,10 +6343,8 @@ msgid "Pull"
 msgstr "Vyzvednout"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Přeskládat změny na vzdálený repozitář"
+msgstr "Přeskládat změny ve Weblate nad vzdálený repozitář"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:143
@@ -6364,20 +6352,16 @@ msgid "Rebase"
 msgstr "Přeskládat"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "Vrátit všechny změny v místním repozitáři"
+msgstr "Vrátit všechny změny v Weblate repozitáři"
 
 #: weblate/templates/js/git-status.html:70 weblate/templates/translate.html:429
 msgid "Reset"
 msgstr "Obnovit"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Vyčistit všechny nesledované soubory v místním repozitáři"
+msgstr "Vyčistit všechny nesledované soubory v Weblate repozitáři"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Cleanup"
@@ -6385,13 +6369,11 @@ msgstr "Úklid"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
-msgstr ""
+msgstr "Zamknutí zabrání překladatelům provádět změny"
 
 #: weblate/templates/js/git-status.html:94
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Povolí změny v lokálním repozitáři"
+msgstr "Povolit změny ve Weblate repozitáři"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6399,20 +6381,17 @@ msgid "Unlock"
 msgstr "Odemknout"
 
 #: weblate/templates/js/git-status.html:96
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Zakáže změny v lokálním repozitáři"
+msgstr "Zakázat změny ve Weblate repozitáři"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
 msgstr "Zamknout"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Chyba v repozitáři na %(component)s"
+msgstr "Repozitář pro %(component)s"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Repository details"
@@ -7680,10 +7659,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "%(author)s vytvořil %(date)s"
 
 #: weblate/templates/snippets/git-info.html:43
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "Přeskládán repozitář"
+msgstr "Weblate repozitář"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
