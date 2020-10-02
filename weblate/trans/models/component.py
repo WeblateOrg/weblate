@@ -2118,8 +2118,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 lang = Language.objects.auto_get_or_create(code=code).base_code
                 if lang != self.source_language.base_code:
                     msg = _(
-                        "Template language ({0}) does not "
-                        "match project source language ({1})!"
+                        "Template language ({0}) does not match source language ({1})!"
                     ).format(code, self.source_language.code)
                     raise ValidationError({"template": msg, "source_language": msg})
 
