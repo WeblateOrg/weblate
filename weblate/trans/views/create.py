@@ -18,7 +18,6 @@
 #
 
 import json
-import os
 import subprocess
 from zipfile import BadZipfile
 
@@ -51,7 +50,7 @@ from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.licenses import LICENSE_URLS
-from weblate.vcs.git import LocalRepository
+from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.models import VCS_REGISTRY
 
 
@@ -322,16 +321,8 @@ class CreateFromZip(CreateComponent):
         if self.stage != "init":
             return super().form_valid(form)
 
-        # Create fake component (needed to calculate path)
-        fake = Component(
-            project=form.cleaned_data["project"],
-            slug=form.cleaned_data["slug"],
-            name=form.cleaned_data["name"],
-        )
-
-        # Create repository
         try:
-            LocalRepository.from_zip(fake.full_path, form.cleaned_data["zipfile"])
+            create_component_from_zip(form.cleaned_data)
         except BadZipfile:
             form.add_error("zipfile", _("Failed to parse uploaded ZIP file."))
             return self.form_invalid(form)
@@ -353,22 +344,7 @@ class CreateFromDoc(CreateComponent):
         if self.stage != "init":
             return super().form_valid(form)
 
-        # Create fake component (needed to calculate path)
-        fake = Component(
-            project=form.cleaned_data["project"],
-            slug=form.cleaned_data["slug"],
-            name=form.cleaned_data["name"],
-        )
-
-        # Create repository
-        uploaded = form.cleaned_data["docfile"]
-        ext = os.path.splitext(os.path.basename(uploaded.name))[1]
-        filename = "{}/{}{}".format(
-            form.cleaned_data["slug"],
-            form.cleaned_data["source_language"].code,
-            ext,
-        )
-        LocalRepository.from_files(fake.full_path, {filename: uploaded.read()})
+        create_component_from_doc(form.cleaned_data)
 
         # Move to discover phase
         self.stage = "discover"

@@ -639,7 +639,17 @@ class ProjectViewSet(
     def get_queryset(self):
         return self.request.user.allowed_projects.order_by("id")
 
-    @action(detail=True, methods=["get", "post"], serializer_class=ComponentSerializer)
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        parser_classes=(
+            parsers.JSONParser,
+            parsers.MultiPartParser,
+            parsers.FormParser,
+            parsers.FileUploadParser,
+        ),
+        serializer_class=ComponentSerializer,
+    )
     def components(self, request, **kwargs):
         obj = self.get_object()
         if request.method == "POST":

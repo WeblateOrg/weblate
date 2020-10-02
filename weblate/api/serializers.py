@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from zipfile import BadZipfile
 
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
@@ -39,6 +40,7 @@ from weblate.trans.models import (
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
+from weblate.utils.views import create_component_from_doc, create_component_from_zip
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -397,6 +399,9 @@ class ComponentSerializer(RemovableSerializer):
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
+    zipfile = serializers.FileField(required=False)
+    docfile = serializers.FileField(required=False)
+
     class Meta:
         model = Component
         fields = (
@@ -450,6 +455,8 @@ class ComponentSerializer(RemovableSerializer):
             "auto_lock_error",
             "language_regex",
             "variant_regex",
+            "zipfile",
+            "docfile",
         )
         extra_kwargs = {
             "url": {
@@ -478,6 +485,15 @@ class ComponentSerializer(RemovableSerializer):
             result["source_language"] = Language.objects.get(
                 code=result["source_language"]["code"]
             )
+        if "docfile" in result:
+            create_component_from_doc(result)
+            result.pop("docfile")
+        if "zipfile" in result:
+            try:
+                create_component_from_zip(result)
+            except BadZipfile:
+                raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
+            result.pop("zipfile")
         return result
 
     def validate(self, attrs):
