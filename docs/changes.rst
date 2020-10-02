@@ -28,6 +28,7 @@ Not yet released.
 * Improved performance of file downloads.
 * Improved repository management view.
 * Automatically enable java-format for Android.
+* Added support for localized screenshots.
 
 Weblate 4.2.2
 -------------

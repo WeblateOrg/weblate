@@ -6,16 +6,16 @@
 {% load icons %}
 
 {% block breadcrumbs %}
-<li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
-<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
-<li><a href="{% url 'screenshots' project=object.component.project.slug component=object.component.slug %}">{% trans "Screenshots" %}</a></li>
+<li><a href="{{ object.translation.component.project.get_absolute_url }}">{{ object.translation.component.project }}</a></li>
+<li><a href="{{ object.translation.component.get_absolute_url }}">{{ object.translation.component.name }}</a></li>
+<li><a href="{% url 'screenshots' project=object.translation.component.project.slug component=object.translation.component.slug %}">{% trans "Screenshots" %}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block content %}
 
-{% perm 'screenshot.delete' object.component as user_can_delete_screenshot %}
-{% perm 'screenshot.edit' object.component as user_can_change_screenshot %}
+{% perm 'screenshot.delete' object.translation.component as user_can_delete_screenshot %}
+{% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
 
 
 <div class="panel panel-default">
@@ -25,7 +25,7 @@
 <thead>
 <tr>
     <th>{% trans "Source string" %}</th>
-    <th>{{ object.component.context_label }}</th>
+    <th>{{ object.translation.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
     <th>{% trans "Assigned screenshots" %}</th>
     <th colspan="2">{% trans "Actions" %}</th>
@@ -53,7 +53,7 @@
     <thead>
     <tr>
     <th>{% trans "Source string" %}</th>
-    <th>{{ object.component.context_label }}</th>
+    <th>{{ object.translation.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
     <th>{% trans "Assigned screenshots" %}</th>
     <th>{% trans "Actions" %}</th>

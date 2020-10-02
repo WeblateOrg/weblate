@@ -2007,7 +2007,7 @@ Screenshots
     :type id: int
     :form string unit_id: Unit ID
     :>json string name: name of a screenshot
-    :>json string component: URL of a related component object
+    :>json string translation: URL of a related translation object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
@@ -2026,8 +2026,9 @@ Screenshots
 
     :form file image: Uploaded file
     :form string name: Screenshot name
-    :form string project_slug: Project Slug
-    :form string component_slug: Component Slug
+    :form string project_slug: Project slug
+    :form string component_slug: Component slug
+    :form string language_code: Language code
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`

@@ -28,7 +28,7 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
-from weblate.trans.models import Component, Unit
+from weblate.trans.models import Translation, Unit
 from weblate.trans.tasks import component_alerts
 from weblate.utils.decorators import disable_for_loaddata
 
@@ -41,10 +41,10 @@ class ScreenshotQuerySet(models.QuerySet):
         if user.is_superuser:
             return self
         return self.filter(
-            Q(component__project_id__in=user.allowed_project_ids)
+            Q(translation__component__project_id__in=user.allowed_project_ids)
             & (
-                Q(component__restricted=False)
-                | Q(component_id__in=user.component_permissions)
+                Q(translation__component__restricted=False)
+                | Q(translation__component_id__in=user.component_permissions)
             )
         )
 
@@ -56,7 +56,7 @@ class Screenshot(models.Model, UserDisplayMixin):
         help_text=_("Upload JPEG or PNG images up to 2000x2000 pixels."),
         upload_to="screenshots/",
     )
-    component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
+    translation = models.ForeignKey(Translation, on_delete=models.deletion.CASCADE)
     units = models.ManyToManyField(Unit, blank=True, related_name="screenshots")
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
@@ -79,5 +79,7 @@ class Screenshot(models.Model, UserDisplayMixin):
 @disable_for_loaddata
 def change_screenshot_assignment(sender, instance, action, **kwargs):
     # Update alerts in case there is change in string assignment
-    if instance.component.alert_set.filter(name="UnusedScreenshot").exists():
+    if instance.translation.component.alert_set.filter(
+        name="UnusedScreenshot"
+    ).exists():
         component_alerts.delay([instance.pk])

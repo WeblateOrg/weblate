@@ -2,7 +2,7 @@
 {% load permissions %}
 {% load translations %}
 
-{% perm 'screenshot.edit' object.component as user_can_change_screenshot %}
+{% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
 
 {% for unit in object.units.all %}
 <tr>

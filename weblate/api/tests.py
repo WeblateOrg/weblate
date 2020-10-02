@@ -1627,7 +1627,9 @@ class GlossaryAPITest(APIBaseTest):
 class ComponentAPITest(APIBaseTest):
     def setUp(self):
         super().setUp()
-        shot = Screenshot.objects.create(name="Obrazek", component=self.component)
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
 
@@ -2505,7 +2507,9 @@ class UnitAPITest(APIBaseTest):
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self):
         super().setUp()
-        shot = Screenshot.objects.create(name="Obrazek", component=self.component)
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
 
@@ -2559,9 +2563,11 @@ class ScreenshotAPITest(APIBaseTest):
                     "name": "Test create screenshot",
                     "project_slug": "test",
                     "component_slug": "test",
+                    "language_code": "en",
                     "image": File(handle),
                 },
             )
+        with open(TEST_SCREENSHOT, "rb") as handle:
             self.do_request(
                 "api:screenshot-list",
                 method="post",
@@ -2569,7 +2575,7 @@ class ScreenshotAPITest(APIBaseTest):
                 superuser=True,
                 data={
                     "detail": ErrorDetail(
-                        string="Missing name parameter", code="parse_error"
+                        string="Missing language_code parameter", code="parse_error"
                     )
                 },
                 request={
@@ -2578,6 +2584,7 @@ class ScreenshotAPITest(APIBaseTest):
                     "image": File(handle),
                 },
             )
+        with open(TEST_SCREENSHOT, "rb") as handle:
             self.do_request(
                 "api:screenshot-list",
                 method="post",
@@ -2585,34 +2592,38 @@ class ScreenshotAPITest(APIBaseTest):
                 superuser=True,
                 data={
                     "detail": ErrorDetail(
-                        string="Project matching query does not exist.", code="invalid"
+                        string="Translation matching query does not exist.",
+                        code="invalid",
                     )
                 },
                 request={
                     "name": "Test create screenshot",
                     "project_slug": "aaa",
                     "component_slug": "test",
+                    "language_code": "en",
                     "image": File(handle),
                 },
             )
-            self.do_request(
-                "api:screenshot-list",
-                method="post",
-                code=400,
-                superuser=True,
-                data={
-                    "detail": ErrorDetail(
-                        string="Component matching query does not exist.",
-                        code="invalid",
-                    )
-                },
-                request={
-                    "name": "Test create screenshot",
-                    "project_slug": "test",
-                    "component_slug": "bbb",
-                    "image": File(handle),
-                },
-            )
+        self.do_request(
+            "api:screenshot-list",
+            method="post",
+            code=400,
+            data={
+                "name": [
+                    ErrorDetail(string="This field is required.", code="required")
+                ],
+                "image": [
+                    ErrorDetail(string="No file was submitted.", code="required")
+                ],
+            },
+            superuser=True,
+            request={
+                "project_slug": "test",
+                "component_slug": "test",
+                "language_code": "en",
+            },
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
             self.do_request(
                 "api:screenshot-list",
                 method="post",
@@ -2622,6 +2633,7 @@ class ScreenshotAPITest(APIBaseTest):
                     "name": "Test create screenshot",
                     "project_slug": "test",
                     "component_slug": "test",
+                    "language_code": "en",
                     "image": File(handle),
                 },
             )
