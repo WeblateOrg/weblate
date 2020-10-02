@@ -19,6 +19,7 @@ Not yet released.
 * Added support for interacting with multiple GitLab or GitHub instances.
 * Extended API to cover project updates, unit updates and removals and glossaries.
 * Unit API now properly handles plural strings.
+* Component creation can now handle ZIP file or document upload.
 * Consolidated API response status codes.
 * Support markdown in contributor agreement.
 * Improved source strings tracking.
