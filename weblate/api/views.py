@@ -61,6 +61,7 @@ from weblate.api.serializers import (
     ReadonlySourceUnitWriteSerializer,
     RepoRequestSerializer,
     RoleSerializer,
+    ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
     SourceUnitWriteSerializer,
@@ -1001,7 +1002,7 @@ class ComponentViewSet(
     def screenshots(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Screenshot.objects.filter(component=obj).order_by("id")
+        queryset = Screenshot.objects.filter(translation__component=obj).order_by("id")
         page = self.paginate_queryset(queryset)
 
         serializer = ScreenshotSerializer(page, many=True, context={"request": request})
@@ -1330,7 +1331,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         if request.method == "GET":
             return self.download_file(obj.image.path, "application/binary")
 
-        if not request.user.has_perm("screenshot.edit", obj.component):
+        if not request.user.has_perm("screenshot.edit", obj.translation):
             raise PermissionDenied()
 
         serializer = ScreenshotFileSerializer(data=request.data)
@@ -1346,20 +1347,18 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     def units(self, request, **kwargs):
         obj = self.get_object()
 
-        if not request.user.has_perm("screenshot.edit", obj.component):
+        if not request.user.has_perm("screenshot.edit", obj.translation):
             raise PermissionDenied()
 
         if "unit_id" not in request.data:
             raise ParseError("Missing unit_id parameter")
 
         try:
-            source_string = obj.component.source_translation.unit_set.get(
-                pk=int(request.data["unit_id"])
-            )
+            unit = obj.translation.unit_set.get(pk=int(request.data["unit_id"]))
         except (Unit.DoesNotExist, ValueError) as error:
             raise ParseError(str(error), "invalid")
 
-        obj.units.add(source_string)
+        obj.units.add(unit)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -1367,54 +1366,51 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[0-9]+)")
     def delete_units(self, request, pk, unit_id):
         obj = self.get_object()
-        if not request.user.has_perm("screenshot.edit", obj.component):
+        if not request.user.has_perm("screenshot.edit", obj.translation):
             raise PermissionDenied()
 
         try:
-            source_string = obj.component.source_translation.unit_set.get(pk=unit_id)
+            unit = obj.translation.unit_set.get(pk=unit_id)
         except Unit.DoesNotExist as error:
             raise Http404(str(error))
-        obj.units.remove(source_string)
+        obj.units.remove(unit)
         return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request, *args, **kwargs):
-        required_params = ["name", "image", "project_slug", "component_slug"]
+        required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
                 raise ParseError("Missing {param} parameter".format(param=param))
 
         try:
-            project = request.user.allowed_projects.get(
-                slug=request.data["project_slug"]
+            translation = Translation.objects.get(
+                component__project__slug=request.data["project_slug"],
+                component__slug=request.data["component_slug"],
+                language__code=request.data["language_code"],
             )
-            component = Component.objects.filter(project=project).get(
-                slug=request.data["component_slug"]
-            )
-        except (Project.DoesNotExist, Component.DoesNotExist, ValueError) as error:
+        except Translation.DoesNotExist as error:
             raise ParseError(str(error), "invalid")
 
-        if not request.user.has_perm("screenshot.add", component):
+        if not request.user.has_perm("screenshot.add", translation):
             self.permission_denied(request, "Can not add screenshot.")
 
         with transaction.atomic():
-            serializer = ScreenshotSerializer(
+            serializer = ScreenshotCreateSerializer(
                 data=request.data, context={"request": request}
             )
             serializer.is_valid(raise_exception=True)
-            serializer.save(
-                component=component, user=request.user, image=request.data["image"]
-            )
+            serializer.save(translation=translation, user=request.user)
             return Response(serializer.data, status=HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        if not request.user.has_perm("screenshot.edit", instance.component):
+        if not request.user.has_perm("screenshot.edit", instance.translation):
             self.permission_denied(request, "Can not edit screenshot.")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        if not request.user.has_perm("screenshot.delete", instance.component):
+        if not request.user.has_perm("screenshot.delete", instance.translation):
             self.permission_denied(request, "Can not delete screenshot.")
         return super().destroy(request, *args, **kwargs)
 

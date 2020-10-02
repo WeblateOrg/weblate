@@ -901,9 +901,13 @@ class MonolingualUnitSerializer(serializers.Serializer):
 
 
 class ScreenshotSerializer(RemovableSerializer):
-    component = MultiFieldHyperlinkedIdentityField(
-        view_name="api:component-detail",
-        lookup_field=("component__project__slug", "component__slug"),
+    translation = MultiFieldHyperlinkedIdentityField(
+        view_name="api:translation-detail",
+        lookup_field=(
+            "translation__component__project__slug",
+            "translation__component__slug",
+            "translation__language__code",
+        ),
         strip_parts=1,
     )
     file_url = serializers.HyperlinkedRelatedField(
@@ -915,7 +919,14 @@ class ScreenshotSerializer(RemovableSerializer):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "component", "file_url", "units", "url")
+        fields = ("name", "translation", "file_url", "units", "url")
+        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
+
+
+class ScreenshotCreateSerializer(ScreenshotSerializer):
+    class Meta:
+        model = Screenshot
+        fields = ("name", "translation", "file_url", "units", "url", "image")
         extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
 
 

@@ -2437,7 +2437,14 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("BrokenProjectURL")
 
-        if self.screenshot_set.annotate(Count("units")).filter(units__count=0).exists():
+        from weblate.screenshots.models import Screenshot
+
+        if (
+            Screenshot.objects.filter(translation__component=self)
+            .annotate(Count("units"))
+            .filter(units__count=0)
+            .exists()
+        ):
             self.add_alert("UnusedScreenshot")
         else:
             self.delete_alert("UnusedScreenshot")

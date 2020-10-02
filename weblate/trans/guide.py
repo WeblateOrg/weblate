@@ -176,7 +176,9 @@ class ScreenshotGuideline(Guideline):
     url = "screenshots"
 
     def is_passing(self):
-        return self.component.screenshot_set.exists()
+        from weblate.screenshots.models import Screenshot
+
+        return Screenshot.objects.filter(translation__component=self.component).exists()
 
     def get_docs_url(self):
         return get_doc_url("admin/translating", "screenshots")
