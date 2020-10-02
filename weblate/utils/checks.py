@@ -207,11 +207,15 @@ def check_celery(app_configs, **kwargs):
             current = ping()
             # Check for outdated Celery running different version of configuration
             if current != pong:
-                differing = [
-                    key
-                    for key, value in current.items()
-                    if key not in pong or value != pong[key]
-                ]
+                if pong is None:
+                    # Celery runs Weblate 4.0 or older
+                    differing = ["version"]
+                else:
+                    differing = [
+                        key
+                        for key, value in current.items()
+                        if key not in pong or value != pong[key]
+                    ]
                 errors.append(
                     weblate_check(
                         "weblate.E034",
