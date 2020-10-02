@@ -26,6 +26,7 @@ Not yet released.
 * Added support for removing strings.
 * Improved performance of file downloads.
 * Improved repository management view.
+* Automatically enable java-format for Android.
 
 Weblate 4.2.2
 -------------

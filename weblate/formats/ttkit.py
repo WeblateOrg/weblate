@@ -1113,6 +1113,7 @@ class AndroidFormat(TTKitFormat):
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     autoload = ("strings*.xml", "values*.xml")
     language_format = "android"
+    check_flags = ("java-format",)
 
 
 class JSONFormat(TTKitFormat):
