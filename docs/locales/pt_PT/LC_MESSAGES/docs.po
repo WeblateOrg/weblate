@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 17:04+0200\n"
-"PO-Revision-Date: 2020-09-29 15:03+0000\n"
+"PO-Revision-Date: 2020-10-04 11:40+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
@@ -2062,14 +2062,6 @@ msgid ":doc:`psa:pipeline`"
 msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
-#, fuzzy
-#| msgid ""
-#| "Enabling individual backends is quite easy, it's just a matter of adding "
-#| "an entry to the ``AUTHENTICATION_BACKENDS`` setting and possibly adding "
-#| "keys needed for a given authentication method. Please note that some "
-#| "backends do not provide user e-mail by default, you have to request it "
-#| "explicitly, otherwise Weblate will not be able to properly credit "
-#| "contributions users make."
 msgid ""
 "Enabling individual backends is quite easy, it's just a matter of adding an "
 "entry to the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly "
@@ -2079,12 +2071,12 @@ msgid ""
 "contributions users make."
 msgstr ""
 "Permitir backends individuais é bastante fácil, é apenas uma questão de "
-"adicionar uma entrada à configuração ``AUTHENTICATION_BACKENDS`` e "
-"possivelmente adicionar chaves necessárias para um determinado método de "
-"autenticação. Por favor, note que alguns backends não fornecem e-mails do "
-"utilizador por predefinição, tem que solicitá-lo explicitamente, caso "
-"contrário o Weblate não será capaz de corretamente dar mérito às "
-"contribuições que os utilizadores fazem."
+"adicionar uma entrada à configuração "
+":setting:`django:AUTHENTICATION_BACKENDS` e possivelmente adicionar chaves "
+"necessárias para um determinado método de autenticação. Por favor, note que "
+"alguns backends não fornecem e-mails do utilizador por predefinição, tem que "
+"solicitá-lo explicitamente, caso contrário o Weblate não será capaz de "
+"corretamente dar mérito às contribuições que os utilizadores fazem."
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -2457,15 +2449,6 @@ msgstr ""
 "Uma vez que tenha o pacote instalado, pode ligá-lo à autenticação do Django:"
 
 #: ../../admin/auth.rst:471
-#, fuzzy
-#| msgid ""
-#| "You should remove ``'social_core.backends.email.EmailAuth'`` from the "
-#| "``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set "
-#| "their password in Weblate, and authenticate using that. Keeping "
-#| "``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order "
-#| "to make permissions and facilitate anonymous users. It will also allow "
-#| "you to sign in using a local admin account, if you have created it (e.g. "
-#| "by using :djadmin:`createadmin`)."
 msgid ""
 "You should remove ``'social_core.backends.email.EmailAuth'`` from the :"
 "setting:`django:AUTHENTICATION_BACKENDS` setting, otherwise users will be "
@@ -2476,12 +2459,12 @@ msgid ""
 "djadmin:`createadmin`)."
 msgstr ""
 "Deve remover ``'social_core.backends.email.EmailAuth'`` da configuração "
-"``AUTHENTICATION_BACKENDS``; caso contrário, os utilizadores poderão definir "
-"sua palavra-passe no Weblate e autenticar a usar-a. Manter ``'weblate."
-"accounts.auth.WeblateUserBackend'`` ainda é necessário para fazer permissões "
-"e facilitar utilizadores anônimos. Também permitirá que faça login a usar "
-"uma conta administrativa local, se a criou (por exemplo, a usar :djadmin:"
-"`createadmin`)."
+":setting:`django:AUTHENTICATION_BACKENDS`, caso contrário, os utilizadores "
+"poderão definir a palavra-passe deles no Weblate e autenticar a usar-a. "
+"Manter ``'weblate.accounts.auth.WeblateUserBackend'`` ainda é necessário "
+"para fazer permissões e facilitar utilizadores anónimos. Também permitirá "
+"que faça login a usar uma conta administrativa local, se a criou (por "
+"exemplo, a usar :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
@@ -3610,10 +3593,8 @@ msgid "``ignore-vue-format``"
 msgstr "``ignore-vue-format``"
 
 #: ../../admin/checks.rst:128
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the \"Vue I18n formatting\" quality check."
-msgstr "Pular a verificação de qualidade \"Formato C\"."
+msgstr "Pular a verificação de qualidade \"Formatação Vue I18n\"."
 
 #: ../../admin/checks.rst:129
 msgid "``ignore-translated``"
@@ -3934,23 +3915,17 @@ msgid "Enforcing checks"
 msgstr "Forçar verificações"
 
 #: ../../admin/checks.rst:217
-#, fuzzy
-#| msgid ""
-#| "You can configure a list of checks which can not be ignored by setting :"
-#| "guilabel:`Enforced checks` in :ref:`component`. Each listed check can not "
-#| "be ignored in the user interface and any string failing this check is "
-#| "marked as :guilabel:`Needs editing` (see :ref:`states`)."
 msgid ""
 "You can configure a list of checks which can not be ignored by setting :ref:"
 "`component-enforced_checks` in :ref:`component`. Each listed check can not "
 "be ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-"Pode configurar uma lista de verificações que não podem ser ignoradas "
-"definindo :guilabel:`Verificações forçadas` em :ref:`component`. Cada "
+"Pode configurar uma lista de verificações que não podem ser ignoradas a "
+"definir :ref:`component-enforced_checks` em :ref:`component`. Cada "
 "verificação listada não pode ser ignorada na interface do utilizador e "
-"qualquer cadeia com falha nesta verificação é marcada como :guilabel:"
-"`Precisa de edição` (veja :ref:`states`)."
+"qualquer cadeia com falha nesta verificação é marcada como :guilabel:`"
+"Precisa de edição` (veja :ref:`states`)."
 
 #: ../../admin/checks.rst:225
 msgid "Managing fonts"
@@ -4061,10 +4036,6 @@ msgid "Set a few attributes."
 msgstr "Define alguns atributos."
 
 #: ../../admin/checks.rst:276
-#, fuzzy
-#| msgid ""
-#| "Implement either the ``check`` (if you want to deal with plurals in your "
-#| "code) or the ``check_single`` method, (which does it for you)."
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
@@ -4163,16 +4134,14 @@ msgstr ""
 "regras :guilabel:`Automatic component list assignment`."
 
 #: ../../admin/componentlists.rst:33
-#, fuzzy
-#| msgid ""
-#| "Useful for maintaining component lists for large installations or in case"
 msgid ""
 "Useful for maintaining component lists for large installations, or in case "
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
-"Útil para a manutenção de listas de componentes para instalações de grandes "
-"dimensões ou em caso"
+"Útil para atualizar listas de componentes para grandes instalações, ou no "
+"caso de querer ter uma lista de componentes com todos os componentes na sua "
+"instalação do Weblate."
 
 #: ../../admin/componentlists.rst:38
 msgid ""
@@ -4417,11 +4386,6 @@ msgid "AUTH_TOKEN_VALID"
 msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:136
-#, fuzzy
-#| msgid ""
-#| "How long the the authentication token and temporary password from "
-#| "password reset e-mails is valid for. Set in number of seconds, defaulting "
-#| "to 172800 (2 days)."
 msgid ""
 "How long the authentication token and temporary password from password reset "
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
@@ -4821,15 +4785,11 @@ msgid ":guilabel:`Custom`"
 msgstr ":guilabel:`Personalizado`"
 
 #: ../../admin/config.rst:377
-#, fuzzy
-#| msgid ""
-#| "Use :guilabel:`Custom` if you managing ACL manually, which means not "
-#| "relying on the internal Weblate management."
 msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
-"Use :guilabel:`Personalizado` se está gerindo a ACL manualmente, o que "
+"Use :guilabel:`Personalizado` se está a gerir a ACL manualmente, o que "
 "significa não confiar na gestão interna do Weblate."
 
 #: ../../admin/config.rst:382
@@ -4980,10 +4940,6 @@ msgid "ENABLE_AVATARS"
 msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:528
-#, fuzzy
-#| msgid ""
-#| "Whether to turn on Gravatar based avatars for users. By default this is "
-#| "on."
 msgid ""
 "Whether to turn on Gravatar-based avatars for users. By default this is on."
 msgstr ""
@@ -5051,41 +5007,30 @@ msgid "ENABLE_SHARING"
 msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:575
-#, fuzzy
-#| msgid ""
-#| "Turn on/off the \"Share\" menu so users can share translation progress on "
-#| "social networks."
 msgid ""
 "Turn on/off the :guilabel:`Share` menu so users can share translation "
 "progress on social networks."
 msgstr ""
-"Ativa/desativa o menu \"Compartilhar\" para que os utilizadores possam "
-"compartilhar o progresso da tradução nas redes sociais."
+"Ativa/desativa o menu :guilabel:`Compartilhar` para que os utilizadores "
+"possam compartilhar o progresso da tradução nas redes sociais."
 
 #: ../../admin/config.rst:580
-#, fuzzy
-#| msgid "MT_GOOGLE_CREDENTIALS"
 msgid "GITLAB_CREDENTIALS"
-msgstr "MT_GOOGLE_CREDENTIALS"
+msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:582
 msgid "List for credentials for GitLab servers."
 msgstr "Lista para credenciais para servidores de GitLab."
 
 #: ../../admin/config.rst:586
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
-#| "`GITLAB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
 "`GITLAB_TOKEN`."
 msgstr ""
-"Use isso no caso de querer que o Weblate interaja com mais deles, para um "
-"único ponto final do GitHub com :setting:`GITLAB_USERNAME` e :setting:"
-"`GITLAB_TOKEN`."
+"Use isto no caso de querer que o Weblate interaja com mais deles, para um "
+"único ponto final do GitLab com :setting:`GITLAB_USERNAME` e "
+":setting:`GITLAB_TOKEN`."
 
 #: ../../admin/config.rst:606
 msgid "GITLAB_USERNAME"
@@ -5106,31 +5051,24 @@ msgid "GITLAB_TOKEN"
 msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:620
-#, fuzzy
-#| msgid "GitLab username used to send merge requests for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
 msgstr ""
-"O nome de utilizador GitLab para enviar merge requests para atualizações de "
-"tradução."
+"Token de acesso pessoal do GitLab usado para fazer chamadas API para "
+"atualizações de tradução."
 
 #: ../../admin/config.rst:624
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab."
-#| "com/ee/user/profile/personal_access_tokens.html>`_"
 msgid ""
 ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`, `GitLab: Personal access "
 "token <https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html>`_"
 msgstr ""
-":ref:`vcs-gitlab`, `GitLab: Personal access token <https://docs.gitlab.com/"
-"ee/user/profile/personal_access_tokens.html>`_"
+":setting:`GITLAB_CREDENTIALS`,:ref:`vcs-gitlab`, `GitLab: Ficha de acesso "
+"pessoal <https://docs.gitlab.com/ee/user/profile/personal_access_tokens."
+"html>`_"
 
 #: ../../admin/config.rst:631
-#, fuzzy
-#| msgid "HIDE_REPO_CREDENTIALS"
 msgid "GITHUB_CREDENTIALS"
-msgstr "HIDE_REPO_CREDENTIALS"
+msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:633
 msgid "List for credentials for GitHub servers."
@@ -5157,37 +5095,30 @@ msgstr ""
 "tradução."
 
 #: ../../admin/config.rst:662
-#, fuzzy
-#| msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
 msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
-msgstr ":setting:`CHECK_LIST`, :ref:`custom-checks`"
+msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 
 #: ../../admin/config.rst:668
 msgid "GITHUB_TOKEN"
 msgstr "GITHUB_TOKEN"
 
 #: ../../admin/config.rst:670
-#, fuzzy
-#| msgid "GitHub username used to send pull requests for translation updates."
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
 msgstr ""
-"O nome de utilizador GitHub para enviar pull request para atualizações de "
-"tradução."
+"Token de acesso pessoal GitHub usado para fazer chamadas API para enviar "
+"pull requests de tradução."
 
 #: ../../admin/config.rst:675
-#, fuzzy
-#| msgid ""
-#| ":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
-#| "com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
 msgid ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
 "access token <https://docs.github.com/en/github/authenticating-to-github/"
 "creating-a-personal-access-token>`_"
 msgstr ""
-":ref:`vcs-github`, `Creating a personal access token <https://docs.github."
-"com/en/github/authenticating-to-github/creating-a-personal-access-token>`_"
+":setting:`GITHUB_CREDENTIALS`,:ref:`vcs-github`, `Criar um token de acesso "
+"pessoal <https://docs.github.com/en/github/authenticating-to-github/"
+"creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:682
 msgid "GOOGLE_ANALYTICS_ID"
@@ -5237,15 +5168,11 @@ msgid "Indicates whether Weblate is running behind a reverse proxy."
 msgstr "Indica se o Weblate está a ser usado através de um proxy reverso."
 
 #: ../../admin/config.rst:712
-#, fuzzy
-#| msgid ""
-#| "If set to \"True\", Weblate gets IP address from a header defined by :"
-#| "setting:`IP_PROXY_HEADER`."
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
-"Se for definido como \"True\", o Weblate obtém o endereço IP de um cabeçalho "
+"Se for definido como ``True``, o Weblate obtém o endereço IP de um cabeçalho "
 "definido por :setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/config.rst:717
@@ -5511,18 +5438,13 @@ msgid "MATOMO_URL"
 msgstr "MATOMO_URL"
 
 #: ../../admin/config.rst:954
-#, fuzzy
-#| msgid ""
-#| "Full URL (including trailing slash) of a Matomo (formerly Piwik) "
-#| "installation you want to use to track Weblate use. Please check <https://"
-#| "matomo.org/> for more deails."
 msgid ""
 "Full URL (including trailing slash) of a Matomo (formerly Piwik) "
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
-"URL completa (incluindo barra ao final) de uma instalação Matomo "
-"(anteriormente Piwik) que deseja usar para rastrear o uso do Weblate. Por "
+"URL completa (incluindo barra ao final) de uma instalação Matomo ("
+"anteriormente Piwik) que deseja usar para rastrear o uso do Weblate. Por "
 "favor, consulte <https://matomo.org/> para mais detalhes."
 
 #: ../../admin/config.rst:970
@@ -5547,16 +5469,13 @@ msgid "List of enabled machine translation services to use."
 msgstr "Lista de serviços de tradução de máquina ativados para uso."
 
 #: ../../admin/config.rst:988
-#, fuzzy
-#| msgid ""
-#| "Many of the services need additional configuration like API keys, please "
-#| "check their documentation ref: `machine` for more details."
 msgid ""
 "Many of the services need additional configuration like API keys, please "
 "check their documentation :ref:`machine-translation-setup` for more details."
 msgstr ""
 "Muitos dos serviços precisam de configuração adicional, como chaves de API, "
-"consulte sua documentação ref:`machine` para mais detalhes."
+"consulte a sua documentação :ref:`machine-translation-setup` para mais "
+"detalhes."
 
 #: ../../admin/config.rst:1011 ../../faq.rst:288
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
@@ -5656,8 +5575,6 @@ msgid "v1"
 msgstr "v1"
 
 #: ../../admin/config.rst:1090
-#, fuzzy
-#| msgid "Is meant for CAT tools and is usable with user based subscription."
 msgid "Is meant for CAT tools and is usable with user-based subscription."
 msgstr ""
 "Destina-se a ferramentas CAT e é utilizável com assinatura baseada no "
@@ -5761,17 +5678,13 @@ msgid "MT_GOOGLE_LOCATION"
 msgstr "MT_GOOGLE_LOCATION"
 
 #: ../../admin/config.rst:1147
-#, fuzzy
-#| msgid ""
-#| "API v3 Google Cloud Application Engine may be specific to a location. "
-#| "Change accordingly if the default ``global`` fallback does not work for "
-#| "you."
 msgid ""
 "API v3 Google Cloud App Engine may be specific to a location. Change "
 "accordingly if the default ``global`` fallback does not work for you."
 msgstr ""
-"A API v3 do Application Engine do Google Cloud pode ser específica para um "
-"local. Altere conforme o caso, se a predefinição``global`` não lhe servir."
+"A API v3 do App Engine do Google Cloud pode ser específica para uma "
+"localidade. Altere conforme o caso, se a predefinição``global`` não lhe "
+"servir."
 
 #: ../../admin/config.rst:1150
 msgid ""
@@ -6009,16 +5922,12 @@ msgid "MT_YANDEX_KEY"
 msgstr "MT_YANDEX_KEY"
 
 #: ../../admin/config.rst:1301
-#, fuzzy
-#| msgid ""
-#| "API key for the Yandex Translate API, you can register at https://tech."
-#| "yandex.com/translate/"
 msgid ""
 "API key for the Yandex Translate API, you can register at https://yandex.com/"
 "dev/translate/"
 msgstr ""
-"Chave de API para a API do Yandex Translate, pode registar-se em https://"
-"tech.yandex.com/translate/"
+"Chave de API para a API do Yandex Translate, pode registar-se em "
+"https://yandex.com/dev/translate/"
 
 #: ../../admin/config.rst:1305
 msgid ""
@@ -6107,16 +6016,12 @@ msgid "MT_SAP_USE_MT"
 msgstr "MT_SAP_USE_MT"
 
 #: ../../admin/config.rst:1374
-#, fuzzy
-#| msgid ""
-#| "Whether to also use machine translation services, in addition to the term "
-#| "database. Possible values: True / False"
 msgid ""
 "Whether to also use machine translation services, in addition to the term "
 "database. Possible values: ``True`` or ``False``"
 msgstr ""
 "Se se deve também usar serviços de tradução de máquina, além do banco de "
-"dados de termos. Valores possíveis: True / False"
+"dados de termos. Valores possíveis: ``True`` ou ``False``"
 
 #: ../../admin/config.rst:1383
 msgid "NEARBY_MESSAGES"
@@ -6225,10 +6130,8 @@ msgstr ""
 "Os nomes de backend correspondem aos nomes usados na URL para autenticação."
 
 #: ../../admin/config.rst:1465
-#, fuzzy
-#| msgid ":setting:`REGISTRATION_OPEN`"
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
-msgstr ":setting:`REGISTRATION_OPEN`"
+msgstr ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
 
 #: ../../admin/config.rst:1471
 msgid "REGISTRATION_CAPTCHA"
@@ -6319,15 +6222,12 @@ msgstr ""
 "ainda conseguem se autenticar e criar contas."
 
 #: ../../admin/config.rst:1521
-#, fuzzy
-#| msgid ""
-#| ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
-#| "`REGISTRATION_EMAIL_MATCH`"
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:"
 "`REGISTRATION_EMAIL_MATCH`, :doc:`auth`"
 msgstr ""
-":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
+":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`, "
+":doc:`auth`"
 
 #: ../../admin/config.rst:1528
 msgid "REPOSITORY_ALERT_THRESHOLD"
@@ -6766,10 +6666,6 @@ msgstr ""
 "atualizar tudo)"
 
 #: ../../admin/continuous.rst:55
-#, fuzzy
-#| msgid ""
-#| "Whenever Weblate updates the repository, the post update addons will be "
-#| "triggered, see :ref:`addons`."
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
@@ -7262,13 +7158,6 @@ msgid "Lazy commits"
 msgstr "Commits adiados"
 
 #: ../../admin/continuous.rst:346
-#, fuzzy
-#| msgid ""
-#| "The behaviour of Weblate is to group commits from the same author into "
-#| "one commit if possible. This greatly reduces the number of commits, "
-#| "however you might need to explicitly tell it to do the commits in case "
-#| "you want to get the VCS repository in sync, e.g. for merge (this is by "
-#| "default allowed for the Managers group, see :ref:`privileges`)."
 msgid ""
 "The behaviour of Weblate is to group commits from the same author into one "
 "commit if possible. This greatly reduces the number of commits, however you "
@@ -7280,8 +7169,8 @@ msgstr ""
 "commit, se for possível. Isso reduz a quantidade de commits "
 "consideravelmente, no entanto, pode precisar de dizer explicitamente para "
 "fazer os commits no caso de querer deixar o repositório VCS em sincronia, "
-"por exemplo, para mesclagem (isso é por predefinição permitido para o grupo :"
-"guilabel:`Managers`, consulte :ref:`privileges`)."
+"por exemplo, para mesclarem (isso é por predefinição permitido para o grupo "
+":guilabel:`Managers`, consulte :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:352
 msgid ""
@@ -7476,11 +7365,8 @@ msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr "Crie uma pasta para o seu pacote (usaremos `weblate_customization`)."
 
 #: ../../admin/customize.rst:36
-#, fuzzy
-#| msgid "within it, create a :file:`setup.py` file to describe the package:"
 msgid "Within it, create a :file:`setup.py` file to describe the package:"
-msgstr ""
-"dentro dele, crie um ficheiro :file:`setup.py` para descrever o pacote:"
+msgstr "Dentro dele, crie um ficheiro :file:`setup.py` para descrever o pacote:"
 
 #: ../../admin/customize.rst:53
 msgid ""
@@ -7634,15 +7520,11 @@ msgstr ""
 "ou :setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:146
-#, fuzzy
-#| msgid ""
-#| ":ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
-#| "script`"
 msgid ""
 ":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
 msgstr ""
-":ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
+":ref:`custom-autofix`, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-"
 "script`"
 
 #: ../../admin/deployments.rst:4
@@ -8027,10 +7909,8 @@ msgid "``licensee`` (optional for detecting license when creating component)"
 msgstr "``licensee`` (opcional para detetar a licença ao criar o componente)"
 
 #: ../../admin/install.rst:130
-#, fuzzy
-#| msgid "https://github.com/ubernostrum/akismet"
 msgid "https://github.com/licensee/licensee"
-msgstr "https://github.com/ubernostrum/akismet"
+msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:133
 msgid "Compile time dependencies"
@@ -10053,10 +9933,8 @@ msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
 
 #: ../../admin/install/docker.rst:250
-#, fuzzy
-#| msgid "Configured password to sign in."
 msgid "Configures the site domain."
-msgstr "Palavra-passe configurada para a autenticação."
+msgstr "Configura o domínio do site."
 
 #: ../../admin/install/docker.rst:254
 msgid ""
@@ -10298,16 +10176,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:525
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_EMAIL"
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
-msgstr "DEFAULT_COMMITER_EMAIL"
+msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
 
 #: ../../admin/install/docker.rst:529
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_NAME"
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
-msgstr "DEFAULT_COMMITER_NAME"
+msgstr "Configura :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../admin/install/docker.rst:533
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -10380,16 +10254,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:611
-#, fuzzy
-#| msgid "MT_MICROSOFT_REGION"
 msgid "Sets :setting:`MT_MICROSOFT_REGION`"
-msgstr "MT_MICROSOFT_REGION"
+msgstr "Defina :setting:`MT_MICROSOFT_REGION`"
 
 #: ../../admin/install/docker.rst:615
-#, fuzzy
-#| msgid "MT_MICROSOFT_BASE_URL"
 msgid "Sets :setting:`MT_MICROSOFT_BASE_URL`"
-msgstr "MT_MICROSOFT_BASE_URL"
+msgstr "Defina :setting:`MT_MICROSOFT_BASE_URL`"
 
 #: ../../admin/install/docker.rst:619
 msgid "Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`."
@@ -10685,7 +10555,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:982
 msgid "E-mail authentication user."
-msgstr "Autenticação social"
+msgstr "Utilizador da autenticação por e-mail."
 
 #: ../../admin/install/docker.rst:984
 msgid ":setting:`django:EMAIL_HOST_USER`"
@@ -10693,7 +10563,7 @@ msgstr ":setting:`django:EMAIL_HOST_USER`"
 
 #: ../../admin/install/docker.rst:988
 msgid "E-mail authentication password."
-msgstr "Autenticação social"
+msgstr "Palavra-passe da autenticação por e-mail."
 
 #: ../../admin/install/docker.rst:990
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
@@ -10771,14 +10641,12 @@ msgid "Your Sentry Environment (optional)."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1055
-#, fuzzy
-#| msgid "Localization"
 msgid "Localization CDN"
-msgstr "Tradução"
+msgstr "CDN de localização"
 
 #: ../../admin/install/docker.rst:1062
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
-msgstr ":ref:`addon-weblate.cdn.cdnjs`"
+msgstr "Configuração para :ref:`addon-weblate.cdn.cdnjs`."
 
 #: ../../admin/install/docker.rst:1064
 msgid ""
@@ -10797,14 +10665,10 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1082
-#, fuzzy
-#| msgid ""
-#| ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:"
-#| "`RATELIMIT_LOCKOUT`"
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
-":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
+":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
 #: ../../admin/install/docker.rst:1088
 msgid "Changing enabled apps, checks, addons or autofixes"
@@ -16161,10 +16025,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1057 ../../devel/sphinx.rst:32
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid ":ref:`component-name`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component-name`"
 
 #: ../../api.rst:1058
 msgid ":ref:`component-slug`"
@@ -16183,10 +16045,8 @@ msgid ":ref:`component-branch`"
 msgstr ":ref:`component-branch`"
 
 #: ../../api.rst:1064 ../../devel/sphinx.rst:34
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-filemask`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-filemask`"
 
 #: ../../api.rst:1065
 msgid ":ref:`component-template`"
@@ -16201,16 +16061,12 @@ msgid ":ref:`component-intermediate`"
 msgstr ":ref:`component-intermediate`"
 
 #: ../../api.rst:1068 ../../devel/sphinx.rst:36
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-new_base`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-new_base`"
 
 #: ../../api.rst:1069 ../../devel/sphinx.rst:38
-#, fuzzy
-#| msgid ":ref:`componentlists`"
 msgid ":ref:`component-file_format`"
-msgstr ":ref:`componentlists`"
+msgstr ":ref:`component-file_format`"
 
 #: ../../api.rst:1070
 msgid ":ref:`component-license`"
@@ -16234,10 +16090,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1076 ../../devel/sphinx.rst:40
-#, fuzzy
-#| msgid ":ref:`component-vcs`"
 msgid ":ref:`component-check_flags`"
-msgstr ":ref:`component-vcs`"
+msgstr ":ref:`component-check_flags`"
 
 #: ../../api.rst:1077
 msgid ":ref:`component-priority`"
@@ -16898,11 +16752,11 @@ msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
 
 #: ../../api.rst:1869 ../../api.rst:1884 ../../api.rst:1897
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
-msgstr "Ajustar os sinalizadores de tradução (veja :ref:`custom-checks`)"
+msgstr ""
+"Sinalizadores de cadeias adicionais, disponíveis nas unidades de fonte, veja "
+":ref:`custom-checks`"
 
 #: ../../api.rst:1870
 msgid "URL where the unit can be edited"
@@ -16913,22 +16767,16 @@ msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
 
 #: ../../api.rst:1877
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs partial update on translation unit."
-msgstr "Realizar tradução automática"
+msgstr "Realiza uma atualização parcial na unidade de tradução."
 
 #: ../../api.rst:1890
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Performs full update on translation unit."
-msgstr "Realizar tradução automática"
+msgstr "Realiza a atualização completa da unidade de tradução."
 
 #: ../../api.rst:1903
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Deletes a translation unit."
-msgstr "Apagar memória de tradução"
+msgstr "Apaga a unidade de tradução."
 
 #: ../../api.rst:1917
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -17062,10 +16910,8 @@ msgid "Remove source string association with screenshot."
 msgstr "Remove a associação de texto fonte com captura de ecrã."
 
 #: ../../api.rst:2014
-#, fuzzy
-#| msgid "Source string"
 msgid "Source string unit ID"
-msgstr "Cadeia fonte"
+msgstr "ID da unidade do texto fonte"
 
 #: ../../api.rst:2019
 msgid "Creates a new screenshot."
@@ -17161,31 +17007,23 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2142
-#, fuzzy
-#| msgid "Edit full information about screenshot."
 msgid "Returns information about a glossary."
-msgstr "Edita informações completas sobre captura de ecrã."
+msgstr "Retorna informações sobre um glossário."
 
 #: ../../api.rst:2144 ../../api.rst:2224 ../../api.rst:2234 ../../api.rst:2244
 #: ../../api.rst:2251 ../../api.rst:2259 ../../api.rst:2267 ../../api.rst:2275
 #: ../../api.rst:2282 ../../api.rst:2292 ../../api.rst:2301 ../../api.rst:2313
 #: ../../api.rst:2325
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary id"
-msgstr "Glossário"
+msgstr "Id do glossário"
 
 #: ../../api.rst:2222 ../../api.rst:2232
-#, fuzzy
-#| msgid "Delete glossary entry"
 msgid "Changes the glossary parameters."
-msgstr "Apagar entrada de glossário"
+msgstr "Altera os parâmetros do glossário."
 
 #: ../../api.rst:2242
-#, fuzzy
-#| msgid "Delete glossary entry"
 msgid "Deletes the Glossary."
-msgstr "Apagar entrada de glossário"
+msgstr "Apaga o glossário."
 
 #: ../../api.rst:2249
 msgid "Returns projects linked with a glossary."
@@ -17200,56 +17038,40 @@ msgid "Associate project with a glossary."
 msgstr ""
 
 #: ../../api.rst:2265
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Remove association of a project with a glossary."
-msgstr "Evite anos associados a si."
+msgstr "Apaga a associação de um projeto com um glossário."
 
 #: ../../api.rst:2273
-#, fuzzy
-#| msgid "Add term to glossary"
 msgid "List terms of a glossary."
-msgstr "Adicionar termo ao glossário"
+msgstr "Liste os termos de um glossário."
 
 #: ../../api.rst:2280
-#, fuzzy
-#| msgid "Add term to glossary"
 msgid "Associate terms with a glossary."
-msgstr "Adicionar termo ao glossário"
+msgstr "Associar termos com um glossário."
 
 #: ../../api.rst:2284 ../../api.rst:2305 ../../api.rst:2317
-#, fuzzy
-#| msgid "Language filter"
 msgid "Language of the term"
-msgstr "Filtro de idioma"
+msgstr "Idioma do termo"
 
 #: ../../api.rst:2285 ../../api.rst:2306 ../../api.rst:2318
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string for the term"
-msgstr "Comentário da cadeia original"
+msgstr "Cadeia de fonte para o termo"
 
 #: ../../api.rst:2286 ../../api.rst:2307 ../../api.rst:2319
-#, fuzzy
-#| msgid "Target strings"
 msgid "Target string for the term"
-msgstr "Cadeias de destino"
+msgstr "Cadeia de destino para o termo"
 
 #: ../../api.rst:2290
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Get a term associated with a glossary."
-msgstr "Evite anos associados a si."
+msgstr "Obtenha um termo associado a um glossário."
 
 #: ../../api.rst:2294 ../../api.rst:2303 ../../api.rst:2315 ../../api.rst:2327
 msgid "ID of term"
 msgstr ""
 
 #: ../../api.rst:2299 ../../api.rst:2311
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Edit a term associated with a glossary."
-msgstr "Evite anos associados a si."
+msgstr "Edite um termo associado a um glossário."
 
 #: ../../api.rst:2323
 msgid "Delete a term associated with a glossary."
@@ -17561,11 +17383,11 @@ msgstr ""
 
 #: ../../changes.rst:10
 msgid "Fixed stats counts after removing suggestion."
-msgstr "%(count)s sugestão pendente"
+msgstr "Contagens de estatísticas corrigidas após a remoção da sugestão."
 
 #: ../../changes.rst:11
 msgid "Extended public user profile."
-msgstr "O seu perfil público"
+msgstr "Perfil do utilizador público estendido."
 
 #: ../../changes.rst:12
 msgid "Fixed configuration of enforced checks."
@@ -17581,7 +17403,7 @@ msgstr ""
 
 #: ../../changes.rst:15
 msgid "Add Vue I18n formatting check."
-msgstr "Informação"
+msgstr "Adicionar a verificação de formatação Vue I18n."
 
 #: ../../changes.rst:16
 msgid "Generic placeholders check now supports regular expressions."
@@ -17593,7 +17415,7 @@ msgstr ""
 
 #: ../../changes.rst:18
 msgid "Machinery is now called automatic suggestions."
-msgstr "Aceitar sugestões automaticamente"
+msgstr "A maquinaria é agora chamada sugestões automáticas."
 
 #: ../../changes.rst:19
 msgid "Added support for interacting with multiple GitLab or GitHub instances."
@@ -17614,16 +17436,12 @@ msgid "Consolidated API response status codes."
 msgstr ""
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "Support markdown in contributor agreement."
-msgstr "Ver o acordo de contribuidor"
+msgstr "Suportar markdown no acordo do contribuinte."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Improved source strings tracking."
-msgstr "Quantidade de cadeias fonte"
+msgstr "Rastreamento de cadeias de origem melhorado."
 
 #: ../../changes.rst:25
 msgid "Improved JSON, YAML and CSV formats compatibility."
@@ -17663,13 +17481,11 @@ msgstr ""
 
 #: ../../changes.rst:37
 msgid "Fixed LDAP authentication with group sync."
-msgstr "Autenticação por LDAP"
+msgstr "Autenticação LDAP corrigida com sincronização de grupo."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Fixed crash in reporting automatic translation progress."
-msgstr "Fonte da tradução automática em progresso"
+msgstr "Falha na comunicação do progresso da tradução automática corrigida."
 
 #: ../../changes.rst:39
 msgid "Fixed Git commit squashing with trailers enabled."
@@ -17799,10 +17615,8 @@ msgid "Removed separate Celery queue for translation memory."
 msgstr "Fila separada de Celery para memória de tradução foi removida."
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Allow translating all components a language at once."
-msgstr "Permitir propagação da tradução"
+msgstr "Permitir a tradução de todos os componentes de uma só vez."
 
 #: ../../changes.rst:78
 msgid "Allow to configure ``Content-Security-Policy`` HTTP headers."
@@ -17825,10 +17639,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:82
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Add support for searching by component and project."
-msgstr "Não especifique ambos, componente e projeto!"
+msgstr "Adicionar suporte para a pesquisa por componente e projeto."
 
 #: ../../changes.rst:85
 msgid "Weblate 4.1.1"
@@ -29229,10 +29041,8 @@ msgid "*Translation is missing some placeholders:*"
 msgstr ""
 
 #: ../../user/checks.rst:735
-#, fuzzy
-#| msgid "Variants regular expression"
 msgid "You can use regular expression as placeholder."
-msgstr "Expressão regular das variantes"
+msgstr "Pode usar expressões regulares como espaço reservado."
 
 #: ../../user/checks.rst:737
 msgid ""
@@ -30299,10 +30109,8 @@ msgid "``component:TEXT``"
 msgstr ":ref:`component`"
 
 #: ../../user/search.rst:52
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid "Component slug, see :ref:`component-slug`."
-msgstr ":ref:`component`, :ref:`component-merge_style`"
+msgstr "Slug de componente, veja: ref: `componente-slug`."
 
 #: ../../user/search.rst:53
 #, fuzzy
@@ -31791,10 +31599,8 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:36
-#, fuzzy
-#| msgid "Installation"
 msgid "Installing:"
-msgstr "Instalação"
+msgstr "Instalar:"
 
 #: ../../wlc.rst:42
 msgid ""
@@ -32443,10 +32249,8 @@ msgstr ""
 "aprovadas."
 
 #: ../../workflows.rst:137
-#, fuzzy
-#| msgid ":ref:`privileges`"
 msgid "Or `Review` with :ref:`privileges`."
-msgstr ":ref:`privileges`"
+msgstr "Ou 'Revisão' com :ref:'privileges'."
 
 #: ../../workflows.rst:142
 msgid "Turning on reviews"
