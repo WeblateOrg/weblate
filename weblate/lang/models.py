@@ -407,8 +407,13 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             lang = languages[code]
 
             for plural in plurals[code][Plural.SOURCE_GETTEXT]:
-                if plural.same_plural(nplurals, plural_formula):
-                    break
+                try:
+                    if plural.same_plural(nplurals, plural_formula):
+                        break
+                except ValueError:
+                    # Fall back to string compare if parsing failed
+                    if plural.number == nplurals and plural.formula == plural_formula:
+                        break
             else:
                 plural = lang.plural_set.create(
                     source=Plural.SOURCE_GETTEXT,
