@@ -60,7 +60,7 @@ git reset --hard
 check
 git checkout $HEAD_COMMIT
 check
-pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
+pip install --use-feature=2020-resolver -r requirements-test.txt -r docs/requirements.txt
 check
 run_coverage ./manage.py migrate
 check
