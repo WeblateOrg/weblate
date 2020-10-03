@@ -361,9 +361,6 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 languages[code] = lang = self.create(code=code, name=name)
                 logger("Created language {}".format(code))
 
-            # Get plural type
-            plural_type = get_plural_type(lang.base_code, plural_formula)
-
             # Should we update existing?
             if update and lang.name != name:
                 lang.name = name
@@ -371,14 +368,13 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 lang.save()
 
             plural_data = {
-                "type": plural_type,
                 "number": nplurals,
                 "formula": plural_formula,
             }
 
             # Fetch existing plurals
             plurals[code] = defaultdict(list)
-            for plural in lang.plural_set.all():
+            for plural in lang.plural_set.iterator():
                 plurals[code][plural.source].append(plural)
 
             if Plural.SOURCE_DEFAULT in plurals[code]:
@@ -410,30 +406,17 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         for code, _unused, nplurals, plural_formula in EXTRAPLURALS:
             lang = languages[code]
 
-            # Get plural type
-            plural_type = get_plural_type(lang.base_code, plural_formula)
-            plural_data = {"type": plural_type}
-
             for plural in plurals[code][Plural.SOURCE_GETTEXT]:
-                if plural.number == nplurals and plural.formula == plural_formula:
+                if plural.same_plural(nplurals, plural_formula):
                     break
             else:
                 plural = lang.plural_set.create(
                     source=Plural.SOURCE_GETTEXT,
                     number=nplurals,
                     formula=plural_formula,
-                    **plural_data,
+                    type=get_plural_type(lang.base_code, plural_formula),
                 )
                 logger("Created plural {} for language {}".format(plural_formula, code))
-
-            modified = False
-            for item in plural_data:
-                if getattr(plural, item) != plural_data[item]:
-                    modified = True
-                    setattr(plural, item, plural_data[item])
-            if modified:
-                logger("Updated plural {} for language {}".format(plural_formula, code))
-                plural.save()
 
 
 def setup_lang(sender, **kwargs):
