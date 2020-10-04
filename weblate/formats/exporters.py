@@ -18,6 +18,8 @@
 #
 """Exporter using translate-toolkit."""
 
+import re
+
 from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -42,6 +44,8 @@ from weblate.utils.site import get_site_url
 
 # Map to remove control characters except newlines and tabs
 _CHARMAP = dict.fromkeys(x for x in range(32) if x not in (9, 10, 13))
+
+DASHES = re.compile("--+")
 
 
 class BaseExporter:
@@ -118,6 +122,9 @@ class BaseExporter:
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
 
+    def add_note(self, output, note: str, origin: str):
+        output.addnote(note, origin=origin)
+
     def add_unit(self, unit):
         output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
@@ -139,17 +146,18 @@ class BaseExporter:
         # Store note
         note = self.string_filter(unit.note)
         if note:
-            output.addnote(note, origin="developer")
+            self.add_note(output, note, origin="developer")
         # In Weblate explanation
         note = self.string_filter(unit.source_unit.explanation)
         if note:
-            output.addnote(note, origin="developer")
+            self.add_note(output, note, origin="developer")
         # Comments
         for comment in unit.unresolved_comments:
-            output.addnote(comment.comment, origin="translator")
+            self.add_note(output, comment.comment, origin="translator")
         # Suggestions
         for suggestion in unit.suggestions:
-            output.addnote(
+            self.add_note(
+                output,
                 "Suggested in Weblate: {}".format(
                     ", ".join(split_plural(suggestion.target))
                 ),
@@ -426,6 +434,14 @@ class AndroidResourceExporter(MonolingualExporter):
 
     def string_filter(self, text):
         return text.translate(_CHARMAP)
+
+    def add_note(self, output, note: str, origin: str):
+        # Remove -- from the comment or - at the end as that is not
+        # allowed inside XML comment
+        note = DASHES.sub("-", note)
+        if note.endswith("-"):
+            note += " "
+        super().add_note(output, note, origin)
 
 
 class StringsExporter(MonolingualExporter):

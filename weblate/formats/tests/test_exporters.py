@@ -107,14 +107,15 @@ class PoExporterTest(BaseTestCase):
         if source_info:
             for key, value in source_info.items():
                 setattr(unit, key, value)
-            unit.__dict__["all_comments"] = [
-                Comment(comment="Weblate translator comment")
+            # The dashes need special handling in XML based formats
+            unit.__dict__["unresolved_comments"] = [
+                Comment(comment="Weblate translator comment ---- ")
             ]
             unit.__dict__["suggestions"] = [
                 Suggestion(target="Weblate translator suggestion")
             ]
         else:
-            unit.__dict__["all_comments"] = []
+            unit.__dict__["unresolved_comments"] = []
         unit.source_unit = unit
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
@@ -164,7 +165,8 @@ class PoExporterTest(BaseTestCase):
             state=STATE_TRANSLATED,
             source_info={
                 "extra_flags": "max-length:200",
-                "explanation": "Context in Weblate",
+                # The dashes need special handling in XML based formats
+                "explanation": "Context in Weblate\n------------------\n",
             },
         )
         if self._has_context:
