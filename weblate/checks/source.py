@@ -85,6 +85,6 @@ class LongUntranslatedCheck(SourceCheck):
         translated_percent = 100 * (total - not_translated) / total
         return (
             total
-            and translated_percent
+            and 2 * translated_percent
             < unit.translation.component.stats.lazy_translated_percent
         )
