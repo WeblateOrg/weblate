@@ -559,7 +559,7 @@ class LoginForm(forms.Form):
 class AdminLoginForm(LoginForm):
     def clean(self):
         data = super().clean()
-        if not self.user_cache.is_superuser:
+        if self.user_cache and not self.user_cache.is_superuser:
             raise forms.ValidationError(
                 self.error_messages["inactive"], code="inactive"
             )
