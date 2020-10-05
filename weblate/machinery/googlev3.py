@@ -35,33 +35,35 @@ class GoogleV3Translation(GoogleBaseTranslation):
     def __init__(self):
         """Check configuration."""
         super().__init__()
-        if settings.MT_GOOGLE_CREDENTIALS is None or settings.MT_GOOGLE_PROJECT is None:
+        credentials = settings.MT_GOOGLE_CREDENTIALS
+        project = settings.MT_GOOGLE_PROJECT
+        location = settings.MT_GOOGLE_LOCATION
+
+        if credentials is None or project is None:
             raise MissingConfiguration("Google Translate requires API key and project")
 
-        credentials = service_account.Credentials.from_service_account_file(
-            settings.MT_GOOGLE_CREDENTIALS
-        )
+        credentials = service_account.Credentials.from_service_account_file(credentials)
 
         self.client = TranslationServiceClient(credentials=credentials)
-        self.parent = self.client.location_path(
-            settings.MT_GOOGLE_PROJECT, settings.MT_GOOGLE_LOCATION
-        )
+        self.parent = f"projects/{project}/locations/{location}"
 
     def download_languages(self):
         """List of supported languages."""
-        return [
-            language.language_code
-            for language in self.client.get_supported_languages(self.parent).languages
-        ]
+        response = self.client.get_supported_languages(request={"parent": self.parent})
+        return [language.language_code for language in response.languages]
 
     def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
-        trans = self.client.translate_text(
-            [text], language, self.parent, source_language_code=source
-        )
+        request = {
+            "parent": self.parent,
+            "contents": [text],
+            "target_language_code": language,
+            "source_language_code": source,
+        }
+        response = self.client.translate_text(request)
 
         yield {
-            "text": trans.translations[0].translated_text,
+            "text": response.translations[0].translated_text,
             "quality": self.max_score,
             "service": self.name,
             "source": text,
