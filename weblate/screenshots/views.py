@@ -64,9 +64,11 @@ class ScreenshotList(ListView, ComponentViewMixin):
 
     def get_queryset(self):
         self.kwargs["component"] = self.get_component()
-        return Screenshot.objects.filter(
-            translation__component=self.kwargs["component"]
-        ).order()
+        return (
+            Screenshot.objects.filter(translation__component=self.kwargs["component"])
+            .prefetch_related("translation__language")
+            .order()
+        )
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)

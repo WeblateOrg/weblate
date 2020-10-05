@@ -531,7 +531,6 @@
   </h4>
   </div>
   <div class="list-group">
-    {% with unit.source_unit.screenshots.order as screenshots %}
     {% if screenshots or user_can_add_screenshot %}
     <div class="list-group-item">
     <h5>{% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}">{% icon "pencil.svg" %}</a>{% endif %}
@@ -544,7 +543,6 @@
     {% endfor %}
     </div>
     {% endif %}
-    {% endwith %}
     {% if unit.source_unit.explanation or user_can_edit_source %}
     <div class="list-group-item">
     <h5>

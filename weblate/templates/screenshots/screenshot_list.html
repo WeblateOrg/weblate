@@ -41,7 +41,7 @@
 <tbody>
 {% for screenshot in object_list %}
 <tr>
-<th><a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a></th>
+<th><a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a> <span class="badge">{{ screenshot.translation.language }}</span></th>
 <td>
 <div class="shot-list">
 {% include "screenshots/screenshot_show.html" %}

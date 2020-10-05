@@ -53,7 +53,9 @@ class ScreenshotForm(forms.ModelForm):
     def __init__(self, component, data=None, files=None, instance=None):
         self.component = component
         super().__init__(data=data, files=files, instance=instance)
-        self.fields["translation"].queryset = component.translation_set.all()
+        self.fields[
+            "translation"
+        ].queryset = component.translation_set.prefetch_related("language")
         self.fields["translation"].initial = component.source_translation
 
 

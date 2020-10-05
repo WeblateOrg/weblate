@@ -115,6 +115,7 @@
 <table class="table table-condensed table-striped">
 <tr><th>{% trans "Created" %}</th><td>{{ object.timestamp|naturaltime }}</td></tr>
 <tr><th>{% trans "Uploaded by" %}</th><td>{{ object.get_user_display }}</td></tr>
+<tr><th>{% trans "Language" %}</th><td>{{ object.translation.language }}</td></tr>
 </table>
 
 </div>

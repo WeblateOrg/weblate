@@ -557,6 +557,9 @@ def translate(request, project, component, lang):
             "glossary": Term.objects.get_terms(unit),
             "addterm_form": TermForm(project),
             "last_changes": unit.change_set.prefetch().order()[:10],
+            "screenshots": (
+                unit.source_unit.screenshots.all() | unit.screenshots.all()
+            ).order,
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
             "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
