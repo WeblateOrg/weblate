@@ -58,7 +58,7 @@ from weblate.wladmin.tasks import backup_service, configuration_health_check
 MENU = (
     ("index", "manage", gettext_lazy("Weblate status")),
     ("backups", "manage-backups", gettext_lazy("Backups")),
-    ("memory", "memory", gettext_lazy("Translation memory")),
+    ("memory", "manage-memory", gettext_lazy("Translation memory")),
     ("performance", "manage-performance", gettext_lazy("Performance report")),
     ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
     ("alerts", "manage-alerts", gettext_lazy("Alerts")),
