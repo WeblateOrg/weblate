@@ -50,7 +50,7 @@ The following examples assume you have a working Docker environment, with
         a random password shown on first startup.
 
         The provided example makes Weblate listen on port 80, edit the port
-        mapping in the :file:`docker-compose-override.yml` file to change it.
+        mapping in the :file:`docker-compose.override.yml` file to change it.
 
 3. Start Weblate containers:
 
