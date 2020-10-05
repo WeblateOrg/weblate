@@ -1999,6 +1999,38 @@ class TranslationAPITest(APIBaseTest):
             )
         self.assertEqual(response.status_code, 404)
 
+    def test_get_units_no_filter(self):
+        self.authenticate()
+        response = self.do_request(
+            "api:translation-units",
+            kwargs={
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            code=200,
+        )
+        response_json = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_json["count"], 4)
+
+    def test_get_units_q_filter(self):
+        self.authenticate()
+        response = self.do_request(
+            "api:translation-units",
+            kwargs={
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            request={"q": 'source:r".*world.*"'},
+            code=200,
+        )
+        response_json = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_json["count"], 1)
+        self.assertEqual(response_json["results"][0]["source"], ["Hello, world!\n"])
+
     def test_upload(self):
         self.authenticate()
         with open(TEST_PO, "rb") as handle:

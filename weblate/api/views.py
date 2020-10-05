@@ -1144,7 +1144,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             serializer = self.serializer_class(obj, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 
-        queryset = obj.unit_set.all().order_by("id")
+        queryset = obj.unit_set.search(request.GET.get("q", "")).order_by("id")
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})

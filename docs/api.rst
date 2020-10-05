@@ -1690,6 +1690,8 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+    :param q: Search query string :ref:`Searching` (optional)
+    :type q: string
     :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/units/
