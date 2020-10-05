@@ -27,6 +27,11 @@ from botocore.stub import ANY, Stubber
 from django.conf import settings
 from django.test import TestCase
 from django.test.utils import override_settings
+from google.cloud.translate_v3 import (
+    SupportedLanguages,
+    TranslateTextResponse,
+    TranslationServiceClient,
+)
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -664,28 +669,33 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         raise SkipTest("Not tested")
 
     def mock_response(self):
-        # TODO: Patch methods instead of our own ones:
-        # google.cloud.translate_v3.gapic.translation_service_client
-        # .TranslationServiceClient.{translate_text,get_supported_languages}
+        # Mock get supported languages
         patcher = patch.object(
-            GoogleV3Translation,
-            "download_languages",
-            Mock(return_value=["cs", "en", "es"]),
+            TranslationServiceClient,
+            "get_supported_languages",
+            Mock(
+                return_value=SupportedLanguages(
+                    {
+                        "languages": [
+                            {"language_code": "cs"},
+                            {"language_code": "en"},
+                            {"language_code": "es"},
+                        ]
+                    }
+                )
+            ),
         )
         patcher.start()
         self.addCleanup(patcher.stop)
+
+        # Mock translate
         patcher = patch.object(
-            GoogleV3Translation,
-            "download_translations",
+            TranslationServiceClient,
+            "translate_text",
             Mock(
-                return_value=[
-                    {
-                        "text": "Ahoj",
-                        "quality": 90,
-                        "service": "Google Translate API v3",
-                        "source": "Hello",
-                    }
-                ]
+                return_value=TranslateTextResponse(
+                    {"translations": [{"translated_text": "Ahoj"}]}
+                ),
             ),
         )
         patcher.start()
