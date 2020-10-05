@@ -62,6 +62,7 @@
       theme: "weblate",
       lineNumbers: false,
       lineWrapping: true,
+      viewportMargin: Infinity,
     });
 
     codemirror.on("change", function (cm, event) {
