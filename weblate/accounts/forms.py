@@ -571,10 +571,10 @@ class HostingForm(forms.Form):
 
     message = forms.CharField(
         label=_("Additional message"),
-        required=False,
+        required=True,
         widget=forms.Textarea,
         max_length=1000,
-        help_text=_("Please describe the project and your relation to it."),
+        help_text=_("Please describe the project and your relation to it in English."),
     )
 
 
