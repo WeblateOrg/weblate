@@ -128,7 +128,7 @@ class Translation(
     revision = models.CharField(max_length=200, default="", blank=True)
     filename = models.CharField(max_length=FILENAME_LENGTH)
 
-    language_code = models.CharField(max_length=20, default="", blank=True)
+    language_code = models.CharField(max_length=50, default="", blank=True)
 
     check_flags = models.TextField(
         verbose_name="Translation flags",
