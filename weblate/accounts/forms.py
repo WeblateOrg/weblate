@@ -574,7 +574,10 @@ class HostingForm(forms.Form):
         required=True,
         widget=forms.Textarea,
         max_length=1000,
-        help_text=_("Please describe the project and your relation to it in English."),
+        help_text=_(
+            "Please describe the project and your relation to it, "
+            "preferably in English."
+        ),
     )
 
 
