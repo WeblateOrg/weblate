@@ -19,6 +19,7 @@
 
 import hashlib
 import os
+import stat
 import subprocess
 from base64 import b64decode, b64encode
 from distutils.spawn import find_executable
@@ -102,6 +103,8 @@ def get_key_data():
 
 def generate_ssh_key(request):
     """Generate SSH key."""
+    keyfile = ssh_file(RSA_KEY)
+    pubkeyfile = ssh_file(RSA_KEY_PUB)
     try:
         # Actually generate the key
         subprocess.run(
@@ -117,7 +120,7 @@ def generate_ssh_key(request):
                 "-t",
                 "rsa",
                 "-f",
-                ssh_file(RSA_KEY),
+                keyfile,
             ],
             universal_newlines=True,
             check=True,
@@ -125,11 +128,17 @@ def generate_ssh_key(request):
             stderr=subprocess.PIPE,
             env=get_clean_env(),
         )
-        messages.success(request, _("Created new SSH key."))
     except (subprocess.CalledProcessError, OSError) as exc:
         messages.error(
             request, _("Failed to generate key: %s") % getattr(exc, "output", str(exc))
         )
+        return
+
+    # Fix key permissions
+    os.chmod(keyfile, stat.S_IWUSR | stat.S_IRUSR)
+    os.chmod(pubkeyfile, stat.S_IWUSR | stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+
+    messages.success(request, _("Created new SSH key."))
 
 
 def add_host_key(request, host, port=""):
