@@ -16,10 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 import os
 import re
-import shutil
 import tempfile
 
 from django.conf import settings
@@ -31,6 +29,7 @@ from weblate.logger import LOGGER
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.models import Component, Project
 from weblate.trans.util import is_repo_link
+from weblate.utils.files import remove_tree
 from weblate.utils.management.base import BaseCommand
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
@@ -340,7 +339,7 @@ class Command(BaseCommand):
                 "as a main component",
                 match["slug"],
             )
-            shutil.rmtree(workdir)
+            remove_tree(workdir)
         except Component.DoesNotExist:
             self.logger.info("Creating component %s as main one", match["slug"])
 

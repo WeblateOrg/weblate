@@ -16,9 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 import os
-import shutil
 
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -39,7 +37,7 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.files import remove_readonly
+from weblate.utils.files import remove_tree
 
 __all__ = [
     "Project",
@@ -64,7 +62,7 @@ def delete_object_dir(instance):
     """Remove path if it exists."""
     project_path = instance.full_path
     if os.path.exists(project_path):
-        shutil.rmtree(project_path, onerror=remove_readonly)
+        remove_tree(project_path)
 
 
 @receiver(post_delete, sender=Project)

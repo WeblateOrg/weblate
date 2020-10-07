@@ -16,11 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 """Test for management views."""
-
 import os.path
-import shutil
 
 from django.core import mail
 from django.urls import reverse
@@ -28,6 +25,7 @@ from django.urls import reverse
 from weblate.trans.models import Announcement, Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
+from weblate.utils.files import remove_tree
 
 
 class RemovalTest(ViewTestCase):
@@ -128,7 +126,7 @@ class RenameTest(ViewTestCase):
         # Remove stale dir from previous tests
         target = os.path.join(data_dir("vcs"), "xxxx")
         if os.path.exists(target):
-            shutil.rmtree(target)
+            remove_tree(target)
         self.make_manager()
         self.assertContains(
             self.client.get(reverse("project", kwargs=self.kw_project)), "#rename"

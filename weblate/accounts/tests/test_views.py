@@ -156,7 +156,7 @@ class ViewTest(RepoTestCase):
         self.assertFalse(billing.valid_libre)
         response = self.client.post(
             reverse("hosting"),
-            {"billing": billing.pk, "request": "1"},
+            {"billing": billing.pk, "request": "1", "message": "msg"},
             follow=True,
         )
         self.assertNotContains(response, "Pending approval")
@@ -170,7 +170,7 @@ class ViewTest(RepoTestCase):
         self.assertTrue(billing.valid_libre)
         response = self.client.post(
             reverse("hosting"),
-            {"billing": billing.pk, "request": "1"},
+            {"billing": billing.pk, "request": "1", "message": "msg"},
             follow=True,
         )
         self.assertContains(response, "Pending approval")

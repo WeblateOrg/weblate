@@ -44,6 +44,7 @@ from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Translation, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.util import join_plural
 
 
 class PythonFormatCheckTest(CheckTestCase):
@@ -712,108 +713,142 @@ class RubyFormatCheckTest(CheckTestCase):
 class PluralTest(FixtureTestCase):
     check = PythonFormatCheck()
 
+    def do_check(self, sources, targets, translation):
+        return self.check.check_target_unit(
+            sources,
+            targets,
+            Unit(
+                translation=translation,
+                source=join_plural(sources),
+                target=join_plural(targets),
+            ),
+        )
+
     def test_arabic(self):
         arabic = Language.objects.get(code="ar")
         translation = Translation(language=arabic, plural=arabic.plural)
-        unit = Unit(translation=translation)
         # Singular, correct format string
-        self.assertFalse(self.check.check_target_unit(["hello %s"], ["hell %s"], unit))
+        self.assertFalse(self.do_check(["hello %s"], ["hell %s"], translation))
         # Singular, missing format string
-        self.assertTrue(self.check.check_target_unit(["hello %s"], ["hell"], unit))
+        self.assertTrue(self.do_check(["hello %s"], ["hell"], translation))
         # Plural, correct format string
-        self.assertFalse(
-            self.check.check_target_unit(["hello %s"] * 2, ["hell %s"] * 6, unit)
-        )
+        self.assertFalse(self.do_check(["hello %s"] * 2, ["hell %s"] * 6, translation))
         # Plural, missing format string
-        self.assertTrue(
-            self.check.check_target_unit(["hello %s"] * 2, ["hell"] * 6, unit)
-        )
+        self.assertTrue(self.do_check(["hello %s"] * 2, ["hell"] * 6, translation))
         # Plural, correct format string (missing on single value plurals)
         self.assertFalse(
-            self.check.check_target_unit(
-                ["hello %s"] * 2, ["hell"] * 3 + ["hello %s"] * 3, unit
+            self.do_check(
+                ["hello %s"] * 2, ["hell"] * 3 + ["hello %s"] * 3, translation
             )
         )
         # Plural, missing format string on multi value plural
         self.assertTrue(
-            self.check.check_target_unit(
-                ["hello %s"] * 2, ["hell"] * 4 + ["hello %s"] * 2, unit
+            self.do_check(
+                ["hello %s"] * 2, ["hell"] * 4 + ["hello %s"] * 2, translation
             )
         )
 
     def test_non_format_singular(self):
         czech = Language.objects.get(code="cs")
         translation = Translation(language=czech, plural=czech.plural)
-        unit = Unit(translation=translation)
         self.assertFalse(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%d apples"],
                 ["%d jablko", "%d jablka", "%d jablek"],
-                unit,
+                translation,
             )
         )
         self.assertFalse(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%d apples"],
                 ["Jedno jablko", "%d jablka", "%d jablek"],
-                unit,
+                translation,
             )
         )
         self.assertTrue(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%d apples"],
                 ["Jedno jablko", "jablka", "%d jablek"],
-                unit,
+                translation,
             )
         )
 
     def test_non_format_singular_named(self):
         language = Language.objects.get(code="cs")
         translation = Translation(language=language, plural=language.plural)
-        unit = Unit(translation=translation)
         self.assertFalse(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%(count)s apples"],
                 ["%(count)s jablko", "%(count)s jablka", "%(count)s jablek"],
-                unit,
+                translation,
             )
         )
         self.assertFalse(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%(count)s apples"],
                 ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
-                unit,
+                translation,
             )
         )
         self.assertTrue(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%(count)s apples"],
                 ["Jedno jablko", "jablka", "%(count)s jablek"],
-                unit,
+                translation,
             )
         )
 
     def test_non_format_singular_named_be(self):
         language = Language.objects.get(code="be")
         translation = Translation(language=language, plural=language.plural)
-        unit = Unit(translation=translation)
         self.assertTrue(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%(count)s apples"],
                 ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
-                unit,
+                translation,
             )
         )
 
     def test_non_format_singular_named_kab(self):
         language = Language.objects.get(code="kab")
         translation = Translation(language=language, plural=language.plural)
-        unit = Unit(translation=translation)
         self.assertFalse(
-            self.check.check_target_unit(
+            self.do_check(
                 ["One apple", "%(count)s apples"],
                 ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
-                unit,
+                translation,
+            )
+        )
+
+    def test_french_singular(self):
+        language = Language.objects.get(code="fr")
+        translation = Translation(language=language, plural=language.plural)
+        self.assertFalse(
+            self.do_check(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablek"],
+                translation,
+            )
+        )
+        self.assertFalse(
+            self.do_check(
+                ["%(count)s apple", "%(count)s apples"],
+                ["%(count)s jablko", "%(count)s jablek"],
+                translation,
+            )
+        )
+        self.assertFalse(
+            self.do_check(
+                ["One apple", "%(count)s apples"],
+                ["%(count)s jablko", "%(count)s jablek"],
+                translation,
+            )
+        )
+        self.assertFalse(
+            self.do_check(
+                ["%(count)s apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablek"],
+                translation,
             )
         )
 

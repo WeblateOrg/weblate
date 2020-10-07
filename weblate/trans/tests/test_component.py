@@ -16,11 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 """Test for translation models."""
-
 import os
-import shutil
 
 from django.core.exceptions import ValidationError
 from django.test.utils import override_settings
@@ -31,6 +28,7 @@ from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 
 
@@ -812,7 +810,7 @@ class ComponentErrorTest(RepoTestCase):
 
     def test_failed_reset(self):
         # Corrupt Git database so that reset fails
-        shutil.rmtree(os.path.join(self.component.full_path, ".git", "objects", "pack"))
+        remove_tree(os.path.join(self.component.full_path, ".git", "objects", "pack"))
         self.assertFalse(self.component.do_reset(None))
 
     def test_invalid_templatename(self):

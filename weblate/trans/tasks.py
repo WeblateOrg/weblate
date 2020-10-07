@@ -16,11 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 import os
 from datetime import date, timedelta
 from glob import glob
-from shutil import rmtree
 from time import time
 from typing import List, Optional
 
@@ -50,7 +48,7 @@ from weblate.trans.models import (
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import remove_readonly
+from weblate.utils.files import remove_tree
 from weblate.vcs.base import RepositoryException
 
 
@@ -228,7 +226,7 @@ def cleanup_stale_repos():
 
         # Remove stale dirs
         if not objects.exists():
-            rmtree(path, onerror=remove_readonly)
+            remove_tree(path)
 
 
 @app.task(trail=False)

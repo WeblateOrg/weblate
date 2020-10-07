@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import shutil
 import subprocess
 import tempfile
 from base64 import b64encode
@@ -31,6 +30,7 @@ from weblate.trans.models import Project
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.utils.files import remove_tree
 
 
 class GitExportTest(ViewTestCase):
@@ -195,7 +195,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
             output = process.communicate()[0]
             retcode = process.poll()
         finally:
-            shutil.rmtree(testdir)
+            remove_tree(testdir)
 
         check = self.assertEqual if self.acl else self.assertNotEqual
         check(retcode, 0, "Failed: {0}".format(output))

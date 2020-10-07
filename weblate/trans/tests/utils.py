@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 import os.path
 import shutil
 import sys
@@ -36,7 +35,7 @@ from django.utils.functional import cached_property
 from weblate.auth.models import User
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Component, Project
-from weblate.utils.files import remove_readonly
+from weblate.utils.files import remove_tree
 from weblate.vcs.models import VCS_REGISTRY
 
 # Directory holding test data
@@ -95,7 +94,7 @@ class RepoTestMixin:
 
             # Remove directory if outdated
             if os.path.exists(output):
-                shutil.rmtree(output, onerror=remove_readonly)
+                remove_tree(output)
 
             # Extract new content
             tar = TarFile(tarname)
@@ -155,7 +154,7 @@ class RepoTestMixin:
         for name in dirs:
             path = self.get_repo_path(name)
             if os.path.exists(path):
-                shutil.rmtree(path, onerror=remove_readonly)
+                remove_tree(path)
 
         # Remove cached paths
         keys = ["git_repo_path", "mercurial_repo_path", "subversion_repo_path"]
@@ -166,7 +165,7 @@ class RepoTestMixin:
         # Remove possibly existing project directories
         test_repo_path = os.path.join(settings.DATA_DIR, "vcs")
         if os.path.exists(test_repo_path):
-            shutil.rmtree(test_repo_path, onerror=remove_readonly)
+            remove_tree(test_repo_path)
         os.makedirs(test_repo_path)
 
     def create_project(self, **kwargs):
@@ -174,7 +173,7 @@ class RepoTestMixin:
         project = Project.objects.create(
             name="Test", slug="test", web="https://nonexisting.weblate.org/", **kwargs
         )
-        self.addCleanup(shutil.rmtree, project.full_path, True)
+        self.addCleanup(remove_tree, project.full_path, True)
         return project
 
     def format_local_path(self, path):
@@ -414,7 +413,7 @@ class TempDirMixin:
 
     def remove_temp(self):
         if self.tempdir:
-            shutil.rmtree(self.tempdir, onerror=remove_readonly)
+            remove_tree(self.tempdir)
             self.tempdir = None
 
 

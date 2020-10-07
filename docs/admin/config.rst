@@ -1562,7 +1562,7 @@ Sentry DSN to use for :ref:`collecting-errors`.
 
 .. seealso::
 
-   `Django integration for Sentry <https://docs.sentry.io/platforms/python/django/>`_
+   `Django integration for Sentry <https://docs.sentry.io/platforms/python/guides/django/>`_
 
 .. setting:: SIMPLIFY_LANGUAGES
 

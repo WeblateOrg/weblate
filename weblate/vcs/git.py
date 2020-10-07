@@ -747,29 +747,32 @@ class GithubRepository(GitMergeRequestBase):
             for error in response["errors"]:
                 self.log(error.get("message", str(error)), level=logging.WARNING)
 
+        # Grab possible error message. Sometimes GitHub returns the error
+        # messages in an errors list instead of the message. Sometimes, there
+        # is no errors list. Hence the different logics
+        error_message = ""
+        if "message" in response:
+            error_message = response["message"]
+        if "errors" in response:
+            if error_message:
+                error_message += ": "
+            error_message += ", ".join(error["message"] for error in response["errors"])
+        elif "message" in response:
+            error_message = response["message"]
+
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
         # doesn't return any other separate indication for a pull request existing
         # compared to other errors, checking message seems to be the only option
         if "url" not in response:
-            # Gracefully handle pull request already exists case
+            # Gracefully handle pull request already exists or nothing to merge cases
             if (
-                "errors" in response
-                and "A pull request already exists" in response["errors"][0]["message"]
+                "A pull request already exists" in error_message
+                or "No commits between " in error_message
             ):
                 return
 
-            # Sometimes GitHub returns the error messages in an errors list
-            # instead of the message. Sometimes, there is no errors list.
-            # Hence the different logics
-            error_message = "Pull request failed"
-            if "errors" in response:
-                error_message = "{}: {}".format(
-                    response["message"], response["errors"][0]["message"]
-                )
-            elif "message" in response:
-                error_message = response["message"]
-            raise RepositoryException(0, error_message)
+            raise RepositoryException(0, error_message or "Pull request failed")
 
 
 class LocalRepository(GitRepository):
