@@ -17,6 +17,14 @@ var getCookie = (name) => {
   if (parts.length == 2) return parts.pop().split(";").shift();
 };
 
+var translateDocument = (data) => {
+  document.querySelectorAll(weblate_selector).forEach((element) => {
+    if (element.children.length === 0 && element.textContent in data) {
+      element.textContent = data[element.textContent];
+    }
+  });
+};
+
 ready(() => {
   var languages = [getCookie(weblate_cookie_name)];
   languages = languages.concat(navigator.languages);
@@ -33,14 +41,22 @@ ready(() => {
   }
 
   if (language) {
-    fetch(weblate_url + "/" + language + ".json")
-      .then((response) => response.json())
-      .then((data) => {
-        document.querySelectorAll(weblate_selector).forEach((element) => {
-          if (element.children.length === 0 && element.textContent in data) {
-            element.textContent = data[element.textContent];
-          }
+    let stored = sessionStorage.getItem("WLCDN");
+    if (stored !== null) {
+      stored = JSON.parse(stored);
+    }
+    if (stored !== null && stored.language == language) {
+      translateDocument(stored.data);
+    } else {
+      fetch(weblate_url + "/" + language + ".json")
+        .then((response) => response.json())
+        .then((data) => {
+          sessionStorage.setItem(
+            "WLCDN",
+            JSON.stringify({ language: language, data: data })
+          );
+          translateDocument(data);
         });
-      });
+    }
   }
 });
