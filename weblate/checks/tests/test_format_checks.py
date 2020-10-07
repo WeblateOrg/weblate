@@ -820,6 +820,24 @@ class PluralTest(FixtureTestCase):
             )
         )
 
+    def test_french_singular(self):
+        language = Language.objects.get(code="fr")
+        translation = Translation(language=language, plural=language.plural)
+        self.assertFalse(
+            self.do_check(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablek"],
+                translation,
+            )
+        )
+        self.assertFalse(
+            self.do_check(
+                ["%(count)s apple", "%(count)s apples"],
+                ["%(count)s jablko", "%(count)s jablek"],
+                translation,
+            )
+        )
+
 
 class I18NextInterpolationCheckTest(CheckTestCase):
     check = I18NextInterpolationCheck()
