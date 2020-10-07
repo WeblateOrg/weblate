@@ -119,6 +119,8 @@ class ChangesView(ListView):
 
         context["form"] = ChangesForm(self.request, data=self.request.GET)
 
+        context["search_items"] = url
+
         return context
 
     def _get_queryset_project(self, form):
