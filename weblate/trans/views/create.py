@@ -155,7 +155,7 @@ class CreateComponent(BaseCreateView):
     projects = None
     stage = None
     selected_project = ""
-    basic_fields = ("repo", "name", "slug", "vcs")
+    basic_fields = ("repo", "name", "slug", "vcs", "source_language")
     empty_form = False
     form_class = ComponentInitCreateForm
 
@@ -450,7 +450,7 @@ class CreateComponentSelection(CreateComponent):
                 name=form.cleaned_data["name"],
                 slug=form.cleaned_data["slug"],
                 vcs=component.vcs,
-                source_language=component.source_language,
+                source_language=component.source_language.pk,
             )
         if self.origin == "branch":
             form.instance.save()
