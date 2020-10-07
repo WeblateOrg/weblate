@@ -18,33 +18,14 @@
 #
 
 import re
-import sys
-import unicodedata
 
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
+from weblate.checks.data import NON_WORD_CHARS
 
-# Unicode categories to consider non word chars
-CATEGORIES = {"Po", "Zs"}
-# Excluded chars
-EXCLUDES = {
-    # Removed to avoid breaking regexp syntax
-    "]",
-    # We intentionally skip following
-    "-",
-    # Used in Catalan ŀ
-    "·",
-    "•",
-}
-# Set of non word characters
-NON_WORD_CHARS = {
-    char
-    for char in map(chr, range(sys.maxunicode + 1))
-    if char not in EXCLUDES and unicodedata.category(char) in CATEGORIES
-}
 # Regexp for non word chars
 NON_WORD = "[{}\\]]".format("".join(NON_WORD_CHARS))
 # Look for non-digit word sequences
