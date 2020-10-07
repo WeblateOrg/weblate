@@ -837,6 +837,20 @@ class PluralTest(FixtureTestCase):
                 translation,
             )
         )
+        self.assertFalse(
+            self.do_check(
+                ["One apple", "%(count)s apples"],
+                ["%(count)s jablko", "%(count)s jablek"],
+                translation,
+            )
+        )
+        self.assertFalse(
+            self.do_check(
+                ["%(count)s apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablek"],
+                translation,
+            )
+        )
 
 
 class I18NextInterpolationCheckTest(CheckTestCase):
