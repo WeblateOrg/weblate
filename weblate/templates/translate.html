@@ -616,9 +616,15 @@
     {% endif %}
     <div class="list-group-item">
     <h5>
-    {% trans "Source string age" %}
+    {% trans "String age" %}
     </h5>
     {{ unit.timestamp|naturaltime }}
+    </div>
+    <div class="list-group-item">
+    <h5>
+    {% trans "Source string age" %}
+    </h5>
+    {{ unit.source_unit.timestamp|naturaltime }}
     </div>
     {% if unit.position %}
     <div class="list-group-item">
