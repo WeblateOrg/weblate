@@ -713,9 +713,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if self.old_unit.state == self.state and self.old_unit.target == self.target:
             return False
 
+        update_fields = ["target", "state", "original_state", "pending"]
         if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
+            update_fields.extend(["source", "content_hash"])
 
         # Unit is pending for write
         self.pending = True
@@ -728,7 +730,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.original_state = self.state
 
         # Save updated unit to database
-        self.save()
+        self.save(update_fields=update_fields)
 
         # Generate Change object for this change
         self.generate_change(user or author, author, change_action)
