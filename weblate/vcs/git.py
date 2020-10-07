@@ -751,10 +751,12 @@ class GithubRepository(GitMergeRequestBase):
         # messages in an errors list instead of the message. Sometimes, there
         # is no errors list. Hence the different logics
         error_message = ""
+        if "message" in response:
+            error_message = response["message"]
         if "errors" in response:
-            error_message = "{}: {}".format(
-                response["message"], response["errors"][0]["message"]
-            )
+            if error_message:
+                error_message += ": "
+            error_message += ", ".join(error["message"] for error in response["errors"])
         elif "message" in response:
             error_message = response["message"]
 
