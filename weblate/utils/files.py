@@ -18,6 +18,7 @@
 #
 
 import os
+import shutil
 import stat
 
 from django.conf import settings
@@ -37,6 +38,10 @@ def remove_readonly(func, path, excinfo):
         return
     os.chmod(path, stat.S_IWRITE)
     func(path)
+
+
+def remove_tree(path: str, ignore_errors: bool = False):
+    shutil.rmtree(path, ignore_errors=ignore_errors, onerror=remove_readonly)
 
 
 def should_skip(location):

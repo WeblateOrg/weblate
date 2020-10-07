@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os.path
 import shutil
 import tempfile
@@ -31,7 +30,7 @@ from django.utils import timezone
 
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
-from weblate.utils.files import remove_readonly
+from weblate.utils.files import remove_tree
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import (
     GitForcePushRepository,
@@ -170,7 +169,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 # Push it
                 repo.push("")
         finally:
-            shutil.rmtree(tempdir, onerror=remove_readonly)
+            remove_tree(tempdir)
 
     def test_clone(self):
         # Verify that VCS directory exists

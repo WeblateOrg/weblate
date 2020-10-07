@@ -16,13 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-import shutil
 import tempfile
 
 from django.test.utils import override_settings
 
-from weblate.utils.files import remove_readonly
+from weblate.utils.files import remove_tree
 
 
 # Lowercase name to be consistent with Django
@@ -42,5 +40,5 @@ class tempdir_setting(override_settings):  # noqa
     def disable(self):
         super().disable()
         if self._tempdir is not None:
-            shutil.rmtree(self._tempdir, onerror=remove_readonly)
+            remove_tree(self._tempdir)
             self._tempdir = None

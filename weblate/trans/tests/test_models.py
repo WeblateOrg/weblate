@@ -16,11 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 """Test for translation models."""
-
 import os
-import shutil
 
 from django.core.management.color import no_style
 from django.db import connection
@@ -43,6 +40,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -123,7 +121,7 @@ class ProjectTest(RepoTestCase):
         project.slug = "changed"
         project.save()
         new_path = project.full_path
-        self.addCleanup(shutil.rmtree, new_path, True)
+        self.addCleanup(remove_tree, new_path, True)
         self.assertFalse(os.path.exists(old_path))
         self.assertTrue(os.path.exists(new_path))
         self.assertTrue(

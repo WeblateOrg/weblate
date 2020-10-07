@@ -17,9 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Test for changes done in remote repository."""
-
 import os
-import shutil
 from unittest import SkipTest
 
 from django.db import transaction
@@ -27,6 +25,7 @@ from django.db import transaction
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
+from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -145,11 +144,11 @@ class MultiRepoTest(ViewTestCase):
     def test_failed_update(self):
         """Test failed remote update."""
         if os.path.exists(self.git_repo_path):
-            shutil.rmtree(self.git_repo_path)
+            remove_tree(self.git_repo_path)
         if os.path.exists(self.mercurial_repo_path):
-            shutil.rmtree(self.mercurial_repo_path)
+            remove_tree(self.mercurial_repo_path)
         if os.path.exists(self.subversion_repo_path):
-            shutil.rmtree(self.subversion_repo_path)
+            remove_tree(self.subversion_repo_path)
         translation = self.component.translation_set.get(language_code="cs")
         self.assertFalse(translation.do_update(self.request))
 
