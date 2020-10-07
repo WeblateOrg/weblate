@@ -267,6 +267,9 @@ def bitbucket_extract_branch(data):
             return changes[-1]["old"]["name"]
         if "ref" in last:
             return last["ref"]["displayId"]
+    # Pullrequest merged action
+    if "pullrequest" in data:
+        return data["pullrequest"]["destination"]["branch"]["name"]
     return None
 
 
@@ -299,6 +302,7 @@ def bitbucket_hook_helper(data, request):
     if request and request.META.get("HTTP_X_EVENT_KEY") not in (
         "repo:push",
         "repo:refs_changed",
+        "pullrequest:fulfilled",
     ):
         return None
 

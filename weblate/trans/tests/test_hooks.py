@@ -341,6 +341,78 @@ BITBUCKET_PAYLOAD_WEBHOOK = r"""
 }
 """
 
+BITBUCKET_PAYLOAD_MERGED = r"""
+{
+  "actor": {
+    "username": "emmap1",
+    "display_name": "Emma",
+    "uuid": "{a54f16da-24e9-4d7f-a3a7-b1ba2cd98aa3}",
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/api/2.0/users/emmap1"
+      },
+      "html": {
+        "href": "https://api.bitbucket.org/emmap1"
+      },
+      "avatar": {
+        "href": "https://bitbucket-api-assetroot/emmap1-avatar_avatar.png"
+      }
+    }
+  },
+  "repository": {
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/api/2.0/repositories/bitbucket/bit"
+      },
+      "html": {
+        "href": "https://api.bitbucket.org/bitbucket/bitbucket"
+      },
+      "avatar": {
+        "href": "https://api-staging-assetroot/2629490769-3_avatar.png"
+      }
+    },
+    "uuid": "{673a6070-3421-46c9-9d48-90745f7bfe8e}",
+    "full_name": "team_name/repo_name",
+    "name": "repo_name"
+  },
+  "pullrequest": {
+   "id" :  1 ,
+   "title" :  "Title of pull request" ,
+   "description" :  "Description of pull request" ,
+   "state" :  "OPEN|MERGED|DECLINED" ,
+   "author" : {},
+   "source" : {
+     "branch" : {  "name" :  "branch2" },
+     "commit" : {  "hash" :  "d3022fc0ca3d" },
+     "repository" : {}
+   },
+   "destination" : {
+     "branch" : {  "name" :  "target" },
+     "commit" : {  "hash" :  "ce5965ddd289" },
+     "repository" : {}
+   },
+   "merge_commit" : {  "hash" :  "764413d85e29" },
+   "participants" : [{}],
+   "reviewers" : [{}],
+   "close_source_branch" :  true ,
+   "closed_by" : {},
+   "reason" :  "reason for declining the PR (if applicable)" ,
+   "created_on" :  "2015-04-06T15:23:38.179678+00:00" ,
+   "updated_on" :  "2015-04-06T15:23:38.205705+00:00",
+
+  "links": {
+    "self": {
+      "href": "https://api.bitbucket.org/api/2.0/pullrequests/pullrequest_id"
+    },
+    "html": {
+      "href": "https://api.bitbucket.org/pullrequest_id"
+    }
+  }
+  }
+}
+"""
+
+
 BITBUCKET_PAYLOAD_HOSTED = r"""
 {
   "actor":{
@@ -1190,6 +1262,7 @@ class HookBackendTestCase(SimpleTestCase):
             result["repos"] = sorted(result["repos"])
         if expected:
             expected["repos"] = sorted(expected["repos"])
+        self.maxDiff = None
         self.assertEqual(expected, result)
 
 
@@ -1312,6 +1385,39 @@ class BitbucketBackendTest(HookBackendTestCase):
                     "hg::https://example.com/~DSNOECK/weblate-training",
                 ],
                 "service_long_name": "Bitbucket",
+            },
+        )
+
+    def test_merge(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_MERGED,
+            {
+                "service_long_name": "Bitbucket",
+                "repo_url": "https://api.bitbucket.org/bitbucket/bitbucket",
+                "repos": [
+                    "git@api.bitbucket.org:team_name/repo_name",
+                    "git@api.bitbucket.org:team_name/repo_name.git",
+                    "git@bitbucket.org:team_name/repo_name",
+                    "git@bitbucket.org:team_name/repo_name.git",
+                    "hg::https://api.bitbucket.org/team_name/repo_name",
+                    "hg::https://bitbucket.org/team_name/repo_name",
+                    "hg::ssh://hg@api.bitbucket.org/team_name/repo_name",
+                    "hg::ssh://hg@bitbucket.org/team_name/repo_name",
+                    "https://api.bitbucket.org/team_name/repo_name",
+                    "https://api.bitbucket.org/team_name/repo_name",
+                    "https://api.bitbucket.org/team_name/repo_name.git",
+                    "https://bitbucket.org/team_name/repo_name",
+                    "https://bitbucket.org/team_name/repo_name",
+                    "https://bitbucket.org/team_name/repo_name.git",
+                    "ssh://git@api.bitbucket.org/team_name/repo_name",
+                    "ssh://git@api.bitbucket.org/team_name/repo_name.git",
+                    "ssh://git@bitbucket.org/team_name/repo_name",
+                    "ssh://git@bitbucket.org/team_name/repo_name.git",
+                    "ssh://hg@api.bitbucket.org/team_name/repo_name",
+                    "ssh://hg@bitbucket.org/team_name/repo_name",
+                ],
+                "branch": "target",
+                "full_name": "team_name/repo_name.git",
             },
         )
 
