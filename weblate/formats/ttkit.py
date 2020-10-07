@@ -998,7 +998,7 @@ class PropertiesBaseFormat(TTKitFormat):
 
 
 class StringsFormat(PropertiesBaseFormat):
-    name = _("iOS strings")
+    name = _("iOS strings (UTF-16)")
     format_id = "strings"
     loader = ("properties", "stringsfile")
     new_translation: Optional[Union[str, bytes]] = "\n".encode("utf-16")
