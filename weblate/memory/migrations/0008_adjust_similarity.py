@@ -15,7 +15,7 @@ def update_index(apps, schema_editor):
 
     schema_editor.execute(
         "ALTER ROLE {} SET pg_trgm.similarity_threshold = 0.5".format(
-            schema_editor.connection.settings_dict["USER"]
+            schema_editor.quote_name(schema_editor.connection.settings_dict["USER"])
         )
     )
 
