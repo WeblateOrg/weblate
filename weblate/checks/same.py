@@ -151,7 +151,8 @@ def strip_placeholders(msg, unit):
 
     return re.sub(
         "|".join(
-            re.escape(param) for param in unit.all_flags.get_value("placeholders")
+            re.escape(param) if isinstance(param, str) else param.pattern
+            for param in unit.all_flags.get_value("placeholders")
         ),
         "",
         msg,
