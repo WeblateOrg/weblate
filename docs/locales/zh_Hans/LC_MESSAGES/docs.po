@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-06 20:46+0200\n"
-"PO-Revision-Date: 2020-10-07 06:11+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-10-13 14:17+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -471,7 +471,7 @@ msgstr "可以管理翻译语言——添加或删除翻译。"
 msgid ""
 "Can manage screenshots - add or remove them, and associate them to source "
 "strings."
-msgstr "可以管理截屏——添加或删除截屏，并将其与源字符串联系起来。"
+msgstr "可以管理截屏——添加或删除截屏，并将其与源字符串关联。"
 
 #: ../../admin/access.rst:266
 msgid ""
@@ -3852,8 +3852,8 @@ msgid ""
 "Visit `akismet.com <https://akismet.com/>`_ to purchase an API key and "
 "associate it with a site."
 msgstr ""
-"Weblate 可以使用 Akismet 检查到来的对垃圾邮件的匿名建议。请访问 `akismet.com "
-"<https://akismet.com/>`_ 来购买 API 密钥，并将它与网站相联系。"
+"Weblate 可以使用 Akismet 检查到来的对垃圾邮件的匿名建议。请访问 `akismet.com <https://akismet.com/>`"
+"_ 来购买 API 密钥，并将它与网站关联。"
 
 #: ../../admin/config.rst:33
 msgid "ANONYMOUS_USER_NAME"
@@ -5737,19 +5737,21 @@ msgstr ":ref:`alerts`"
 
 #: ../../admin/config.rst:1542
 msgid "REQUIRE_LOGIN"
-msgstr ""
+msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1546
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require login for all API endpoints."
-msgstr ""
+msgstr "这启动了 :setting:`LOGIN_REQUIRED_URLS` 并配置 REST 框架，对所有 API 端点需要登录。"
 
 #: ../../admin/config.rst:1551
 msgid ""
 "This is in implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"这应用于 :ref:`sample-configuration`。对于 Docker，使用 "
+":envvar:`WEBLATE_REQUIRE_LOGIN`。"
 
 #: ../../admin/config.rst:1557
 msgid "SENTRY_DSN"
@@ -15158,12 +15160,14 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
+"公共项目 API 不需要身份验证就可用，尽管没有身份验证的请求导致严重的瓶颈（默认每天 100 "
+"个请求），所以推荐使用身份验证。身份验证使用令牌，这可以在你的简介中得到。在 ``Authorization`` 标头中使用它："
 
 #: ../../api.rst:30
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
-msgstr ""
+msgstr "对于 API的普通请求行为，标头、状态编码和参数在这里也应用于所有端点。"
 
 #: ../../api.rst:0
 msgid "Query Parameters"
@@ -15175,106 +15179,108 @@ msgid ""
 "on REST framework setup, by default ``json`` and ``api`` are supported. The "
 "latter provides web browser interface for API."
 msgstr ""
+"响应格式（否决了 :http:header:`Accept`）。可能的值依赖于 REST 框架设置，默认支持 ``json`` 和 ``api``。"
+"后者为 API 提供了 web 浏览器接口。"
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "请求标头"
 
 #: ../../api.rst:37
 msgid "the response content type depends on :http:header:`Accept` header"
-msgstr ""
+msgstr "相应内容的类型依赖于 :http:header:`Accept` 标头"
 
 #: ../../api.rst:39
 msgid "optional token to authenticate"
-msgstr ""
+msgstr "进行身份验证的可选令牌"
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "响应标头"
 
 #: ../../api.rst:40
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr ""
+msgstr "这依赖于请求的标头 :http:header:`Accept`"
 
 #: ../../api.rst:42
 msgid "list of allowed HTTP methods on object"
-msgstr ""
+msgstr "对象允许的 HTTP 方法的列表"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr ""
+msgstr "响应 JSON 对象"
 
 #: ../../api.rst:43
 msgid ""
 "verbose description of failure (for HTTP status codes other than :http:"
 "statuscode:`200`)"
-msgstr ""
+msgstr "失败的详细描述（对于 :http:statuscode:`200` 以外的 HTTP 状态编码）"
 
 #: ../../api.rst:44
 msgid "total item count for object lists"
-msgstr ""
+msgstr "对象列表的总项目计数"
 
 #: ../../api.rst:45
 msgid "next page URL for object lists"
-msgstr ""
+msgstr "对象列表的下一页 URL"
 
 #: ../../api.rst:46
 msgid "previous page URL for object lists"
-msgstr ""
+msgstr "对象列表的上一页 URL"
 
 #: ../../api.rst:47
 msgid "results for object lists"
-msgstr ""
+msgstr "对象列表的结果"
 
 #: ../../api.rst:48
 msgid "URL to access this resource using API"
-msgstr ""
+msgstr "使用 API 访问这个资源的 URL"
 
 #: ../../api.rst:49
 msgid "URL to access this resource using web browser"
-msgstr ""
+msgstr "使用浏览器访问这个资源的 URL"
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr ""
+msgstr "状态编码"
 
 #: ../../api.rst:50
 msgid "when request was correctly handled"
-msgstr ""
+msgstr "当请求被正确地处理时"
 
 #: ../../api.rst:51
 msgid "when form parameters are missing"
-msgstr ""
+msgstr "当缺少表格参数时"
 
 #: ../../api.rst:52
 msgid "when access is denied"
-msgstr ""
+msgstr "当访问被拒绝时"
 
 #: ../../api.rst:53
 msgid "when throttling is in place"
-msgstr ""
+msgstr "当出现瓶颈时"
 
 #: ../../api.rst:56
 msgid "Authentication examples"
-msgstr ""
+msgstr "身份验证的例子"
 
 #: ../../api.rst:58 ../../api.rst:179
 msgid "**Example request:**"
-msgstr ""
+msgstr "**示例请求：**"
 
 #: ../../api.rst:67 ../../api.rst:188
 msgid "**Example response:**"
-msgstr ""
+msgstr "**示例响应：**"
 
 #: ../../api.rst:87 ../../api.rst:127 ../../api.rst:855 ../../api.rst:917
 #: ../../api.rst:1164 ../../api.rst:1315 ../../api.rst:1382 ../../api.rst:1458
 #: ../../api.rst:1764 ../../api.rst:1993
 msgid "**CURL example:**"
-msgstr ""
+msgstr "**CURL 示例：**"
 
 #: ../../api.rst:96
 msgid "Passing Parameters Examples"
-msgstr ""
+msgstr "传递参数的示例"
 
 #: ../../api.rst:98
 msgid ""
@@ -15282,26 +15288,28 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
+"对于 :http:method:`POST` 方法，参数可以指定为表格提交（:mimetype:`application/x-www-form-"
+"urlencoded`）或 JSON （:mimetype:`application/json`）。"
 
 #: ../../api.rst:102
 msgid "**Form request example:**"
-msgstr ""
+msgstr "**表格请求示例：**"
 
 #: ../../api.rst:114 ../../api.rst:864 ../../api.rst:940 ../../api.rst:1174
 #: ../../api.rst:1324 ../../api.rst:1391 ../../api.rst:1467
 msgid "**JSON request example:**"
-msgstr ""
+msgstr "**JSON 请求的示例：**"
 
 #: ../../api.rst:136
 msgid "**CURL JSON example:**"
-msgstr ""
+msgstr "**CURL JSON 示例：**"
 
 #: ../../api.rst:149
 msgid ""
 "The API requests are rate limited; the default configuration limits it to "
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
-msgstr ""
+msgstr "这个 API 请求限制了速率；对于匿名用户默认配置限制为每天 100 个请求，对于身份验证的用户限制为每小时 5000 个请求。"
 
 #: ../../api.rst:153
 msgid ""
@@ -15309,46 +15317,49 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"速率限制可以在 :file:`settings.py` 中调整；如何配置它的更多细节请参见 `Throttling in Django REST "
+"framework documentation <https://www.django-rest-framework.org/api-guide/"
+"throttling/>`_ 。"
 
 #: ../../api.rst:157
 msgid "The status of rate limiting is reported in following headers:"
-msgstr ""
+msgstr "速率限制在后面的标头中报告："
 
 #: ../../api.rst:160
 msgid "``X-RateLimit-Limit``"
-msgstr ""
+msgstr "``X-RateLimit-Limit``"
 
 #: ../../api.rst:160
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "要执行的对速率限制进行限制的请求"
 
 #: ../../api.rst:162
 msgid "``X-RateLimit-Remaining``"
-msgstr ""
+msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:162
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "保持限制的请求"
 
 #: ../../api.rst:164
 msgid "``X-RateLimit-Reset``"
-msgstr ""
+msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:164
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "直到速率限制窗口重置时的秒数"
 
 #: ../../api.rst:169
 msgid "Added ratelimiting status headers."
-msgstr ""
+msgstr "添加速率限制状态的标头。"
 
 #: ../../api.rst:173
 msgid "API Entry Point"
-msgstr ""
+msgstr "API 入口点"
 
 #: ../../api.rst:177
 msgid "The API root entry point."
-msgstr ""
+msgstr "API 根入口点。"
 
 #: ../../api.rst:210
 msgid "Users"
@@ -15358,21 +15369,21 @@ msgstr "用户"
 msgid ""
 "Returns a list of users if you have permissions to see manage users. If not, "
 "then you get to see only your own details."
-msgstr ""
+msgstr "返回用户列表，如果有权限查看管理用户的话。如果没有，那么会只看到自己的具体信息。"
 
 #: ../../api.rst:221
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
-msgstr ""
+msgstr "用户对象属性被归档在 :http:get:`/api/users/(str:username)/`。"
 
 #: ../../api.rst:225
 msgid "Creates a new user."
-msgstr ""
+msgstr "创建新用户。"
 
 #: ../../api.rst:0 ../../python.rst:0
 msgid "Parameters"
-msgstr ""
+msgstr "参数"
 
 #: ../../api.rst:227
 msgid "Username"
@@ -15380,87 +15391,87 @@ msgstr "用户名"
 
 #: ../../api.rst:229
 msgid "User full name"
-msgstr ""
+msgstr "用户全名"
 
 #: ../../api.rst:231
 msgid "User email"
-msgstr ""
+msgstr "用户电子邮箱"
 
 #: ../../api.rst:233
 msgid "Is user superuser? (optional)"
-msgstr ""
+msgstr "用户是超级用户吗？（可选的）"
 
 #: ../../api.rst:235
 msgid "Is user active? (optional)"
-msgstr ""
+msgstr "用户是活动用户吗？（可选的）"
 
 #: ../../api.rst:240
 msgid "Returns information about users."
-msgstr ""
+msgstr "返回用户的信息。"
 
 #: ../../api.rst:242 ../../api.rst:275 ../../api.rst:288 ../../api.rst:301
 #: ../../api.rst:308 ../../api.rst:316 ../../api.rst:328 ../../api.rst:335
 #: ../../api.rst:345 ../../api.rst:354 ../../api.rst:366 ../../api.rst:378
 msgid "User's username"
-msgstr ""
+msgstr "用户的用户名"
 
 #: ../../api.rst:244 ../../api.rst:277 ../../api.rst:290
 msgid "username of a user"
-msgstr ""
+msgstr "用户的用户名"
 
 #: ../../api.rst:245 ../../api.rst:278 ../../api.rst:291
 msgid "full name of a user"
-msgstr ""
+msgstr "用户的全名"
 
 #: ../../api.rst:246 ../../api.rst:279 ../../api.rst:292
 msgid "email of a user"
-msgstr ""
+msgstr "用户的电子邮箱"
 
 #: ../../api.rst:247 ../../api.rst:280 ../../api.rst:293
 msgid "whether the user is a super user"
-msgstr ""
+msgstr "用户是否是超级用户"
 
 #: ../../api.rst:248 ../../api.rst:281 ../../api.rst:294
 msgid "whether the user is active"
-msgstr ""
+msgstr "用户是否是活动用户"
 
 #: ../../api.rst:249 ../../api.rst:282 ../../api.rst:295
 msgid "date the user is created"
-msgstr ""
+msgstr "创建用户的日期"
 
 #: ../../api.rst:250
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
-msgstr ""
+msgstr "连接到关联的组；请参见 :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:252 ../../api.rst:423 ../../api.rst:584 ../../api.rst:658
 #: ../../api.rst:772 ../../api.rst:834 ../../api.rst:1108 ../../api.rst:1294
 #: ../../api.rst:1588 ../../api.rst:2158
 msgid "**Example JSON data:**"
-msgstr ""
+msgstr "**示例 JSON 数据：**"
 
 #: ../../api.rst:273 ../../api.rst:286
 msgid "Changes the user parameters."
-msgstr ""
+msgstr "更改用户参数。"
 
 #: ../../api.rst:299
 msgid "Deletes all user information and marks the user inactive."
-msgstr ""
+msgstr "删除所有的用户信息并将用户标记为不活动用户。"
 
 #: ../../api.rst:306
 msgid "Associate groups with a user."
-msgstr ""
+msgstr "将群组与用户关联。"
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "表格参数"
 
 #: ../../api.rst:310
 msgid "The unique group ID"
-msgstr ""
+msgstr "唯一的群组 ID"
 
 #: ../../api.rst:314
 msgid "List statistics of a user."
-msgstr ""
+msgstr "用户的统计列表。"
 
 #: ../../api.rst:318
 msgid "Number of translations by user"
@@ -15484,31 +15495,31 @@ msgstr "用户能够翻译的语言数量"
 
 #: ../../api.rst:326
 msgid "List subscriptions of a user."
-msgstr ""
+msgstr "用户的订阅列表。"
 
 #: ../../api.rst:333
 msgid "Associate subscriptions with a user."
-msgstr ""
+msgstr "将订阅与用户关联。"
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr ""
+msgstr "请求 JSON 对象"
 
 #: ../../api.rst:337 ../../api.rst:358 ../../api.rst:370 ../../api.rst:380
 msgid "Name of notification registered"
-msgstr ""
+msgstr "注册通知的名称"
 
 #: ../../api.rst:338 ../../api.rst:359 ../../api.rst:371
 msgid "Scope of notification from the available choices"
-msgstr ""
+msgstr "来自可用选择的通知范围"
 
 #: ../../api.rst:339 ../../api.rst:360 ../../api.rst:372
 msgid "Frequency choices for notifications"
-msgstr ""
+msgstr "通知的频率选择"
 
 #: ../../api.rst:343
 msgid "Get a subscription associated with a user."
-msgstr ""
+msgstr "获得与用户关联的订阅。"
 
 #: ../../api.rst:347 ../../api.rst:356 ../../api.rst:368
 msgid "ID of notification registered"
@@ -15516,15 +15527,15 @@ msgstr "已注册通知ID"
 
 #: ../../api.rst:352 ../../api.rst:364
 msgid "Edit a subscription associated with a user."
-msgstr ""
+msgstr "编辑与用户关联的订阅。"
 
 #: ../../api.rst:376
 msgid "Delete a subscription associated with a user."
-msgstr ""
+msgstr "删除与用户关联的订阅。"
 
 #: ../../api.rst:381
 msgid "int"
-msgstr ""
+msgstr "int"
 
 #: ../../api.rst:385
 msgid "Groups"
@@ -15534,16 +15545,16 @@ msgstr "群组"
 msgid ""
 "Returns a list of groups if you have permissions to see manage groups. If "
 "not, then you get to see only the groups the user is a part of."
-msgstr ""
+msgstr "返回群组列表，如果有权限看到管理群组的话，如果没有，那么会只看到用户所在的群组。"
 
 #: ../../api.rst:396
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
-msgstr ""
+msgstr "群组对象属性归档在 :http:get:`/api/groups/(int:id)/`。"
 
 #: ../../api.rst:400
 msgid "Creates a new group."
-msgstr ""
+msgstr "创建新的群组。"
 
 #: ../../api.rst:402
 msgid "Group name"
@@ -15551,123 +15562,124 @@ msgstr "组名"
 
 #: ../../api.rst:404
 msgid "Group of project selection from given options"
-msgstr ""
+msgstr "给定选项的项目选择的群组"
 
 #: ../../api.rst:406
 msgid "Group of languages selected from given options"
-msgstr ""
+msgstr "给定选项的语言选择的群组"
 
 #: ../../api.rst:411
 msgid "Returns information about group."
-msgstr ""
+msgstr "返回群组的信息。"
 
 #: ../../api.rst:413 ../../api.rst:454 ../../api.rst:464 ../../api.rst:474
 #: ../../api.rst:481 ../../api.rst:489 ../../api.rst:497 ../../api.rst:506
 #: ../../api.rst:514 ../../api.rst:523 ../../api.rst:531 ../../api.rst:540
 #: ../../api.rst:548
 msgid "Group's ID"
-msgstr ""
+msgstr "群组的 ID"
 
 #: ../../api.rst:415 ../../api.rst:456 ../../api.rst:466
 msgid "name of a group"
-msgstr ""
+msgstr "群组的名称"
 
 #: ../../api.rst:416 ../../api.rst:457 ../../api.rst:467
 msgid "integer corresponding to group of projects"
-msgstr ""
+msgstr "相应于对象群组的整数"
 
 #: ../../api.rst:417 ../../api.rst:468
 msgid "integer corresponding to group of languages"
-msgstr ""
+msgstr "相应于语言群组的整数"
 
 #: ../../api.rst:418
 msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
-msgstr ""
+msgstr "相关联角色的连接；请参见 :http:get:`/api/roles/(int:id)/`"
 
 #: ../../api.rst:419 ../../api.rst:2156
 msgid ""
 "link to associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "相关联项目的连接；请参见 :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:420 ../../api.rst:2089
 msgid ""
 "link to associated components; see :http:get:`/api/components/(string:"
 "project)/(string:component)/`"
 msgstr ""
+"相关联组件的连接；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:421
 msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/(str:"
 "slug)/`"
-msgstr ""
+msgstr "相关联组件列表的连接；请参见 :http:get:`/api/component-lists/(str:slug)/`"
 
 #: ../../api.rst:452 ../../api.rst:462
 msgid "Changes the group parameters."
-msgstr ""
+msgstr "更改群组参数。"
 
 #: ../../api.rst:458
 msgid "integer corresponding to group of Languages"
-msgstr ""
+msgstr "相应于语言群组的整数"
 
 #: ../../api.rst:472
 msgid "Deletes the group."
-msgstr ""
+msgstr "删除群组。"
 
 #: ../../api.rst:479
 msgid "Associate roles with a group."
-msgstr ""
+msgstr "将角色与群组关联。"
 
 #: ../../api.rst:483
 msgid "The unique role ID"
-msgstr ""
+msgstr "唯一的角色 ID"
 
 #: ../../api.rst:487
 msgid "Associate components with a group."
-msgstr ""
+msgstr "将组件与群组关联。"
 
 #: ../../api.rst:491 ../../api.rst:499
 msgid "The unique component ID"
-msgstr ""
+msgstr "唯一的组件 ID"
 
 #: ../../api.rst:495
 msgid "Delete component from a group."
-msgstr ""
+msgstr "从群组删除组件。"
 
 #: ../../api.rst:504
 msgid "Associate projects with a group."
-msgstr ""
+msgstr "将项目与群组关联。"
 
 #: ../../api.rst:508 ../../api.rst:516
 msgid "The unique project ID"
-msgstr ""
+msgstr "唯一的项目 ID"
 
 #: ../../api.rst:512
 msgid "Delete project from a group."
-msgstr ""
+msgstr "从群组删除项目。"
 
 #: ../../api.rst:521
 msgid "Associate languages with a group."
-msgstr ""
+msgstr "将语言与群组关联。"
 
 #: ../../api.rst:525 ../../api.rst:533
 msgid "The unique language code"
-msgstr ""
+msgstr "唯一的语言编码"
 
 #: ../../api.rst:529
 msgid "Delete language from a group."
-msgstr ""
+msgstr "从群组删除语言。"
 
 #: ../../api.rst:538
 msgid "Associate componentlists with a group."
-msgstr ""
+msgstr "将组件列表与群组关联。"
 
 #: ../../api.rst:542 ../../api.rst:550
 msgid "The unique componentlist ID"
-msgstr ""
+msgstr "唯一的组件列表 ID"
 
 #: ../../api.rst:546
 msgid "Delete componentlist from a group."
-msgstr ""
+msgstr "从群组删除组件列表。"
 
 #: ../../api.rst:555
 msgid "Roles"
@@ -15677,48 +15689,48 @@ msgstr "角色"
 msgid ""
 "Returns a list of all roles associated with user. If user is superuser, then "
 "list of all existing roles is returned."
-msgstr ""
+msgstr "返回与用户关联的所有角色列表。如果用户是超级用户，那么返回所有现有角色的列表。"
 
 #: ../../api.rst:564
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
-msgstr ""
+msgstr "角色对象属性归档在 :http:get:`/api/roles/(int:id)/`。"
 
 #: ../../api.rst:568
 msgid "Creates a new role."
-msgstr ""
+msgstr "创建新角色。"
 
 #: ../../api.rst:570 ../../api.rst:581 ../../api.rst:603 ../../api.rst:612
 msgid "Role name"
-msgstr ""
+msgstr "角色名称"
 
 #: ../../api.rst:572
 msgid "List of codenames of permissions"
-msgstr ""
+msgstr "权限编码名称的列表"
 
 #: ../../api.rst:577
 msgid "Returns information about a role."
-msgstr ""
+msgstr "返回角色的信息。"
 
 #: ../../api.rst:579
 msgid "Role ID"
-msgstr ""
+msgstr "角色 ID"
 
 #: ../../api.rst:582 ../../api.rst:604 ../../api.rst:613
 msgid "list of codenames of permissions"
-msgstr ""
+msgstr "权限编码名称的列表"
 
 #: ../../api.rst:599 ../../api.rst:608
 msgid "Changes the role parameters."
-msgstr ""
+msgstr "更改角色参数。"
 
 #: ../../api.rst:601 ../../api.rst:610 ../../api.rst:619
 msgid "Role's ID"
-msgstr ""
+msgstr "角色的ID"
 
 #: ../../api.rst:617
 msgid "Deletes the role."
-msgstr ""
+msgstr "删除角色。"
 
 #: ../../api.rst:624
 msgid "Languages"
@@ -15726,141 +15738,141 @@ msgstr "语言"
 
 #: ../../api.rst:628
 msgid "Returns a list of all languages."
-msgstr ""
+msgstr "返回所有语言的列表。"
 
 #: ../../api.rst:632 ../../api.rst:2145
 msgid ""
 "Language object attributes are documented at :http:get:`/api/languages/"
 "(string:language)/`."
-msgstr ""
+msgstr "语言对象属性存档在 :http:get:`/api/languages/(string:language)/`。"
 
 #: ../../api.rst:636
 msgid "Creates a new language."
-msgstr ""
+msgstr "创建新的语言。"
 
 #: ../../api.rst:642 ../../api.rst:692 ../../api.rst:702 ../../api.rst:2234
 #: ../../api.rst:2244
 msgid "Language direction"
-msgstr ""
+msgstr "语言方向"
 
 #: ../../api.rst:644
 msgid "Language plural formula and number"
-msgstr ""
+msgstr "语言复数形式与数字"
 
 #: ../../api.rst:649
 msgid "Returns information about a language."
-msgstr ""
+msgstr "返回语言的信息。"
 
 #: ../../api.rst:655 ../../api.rst:2155
 msgid "Object of language plural information"
-msgstr ""
+msgstr "语言复数信息的对象"
 
 #: ../../api.rst:656
 msgid "Array of aliases for language"
-msgstr ""
+msgstr "语言别名的数组"
 
 #: ../../api.rst:687 ../../api.rst:697
 msgid "Changes the language parameters."
-msgstr ""
+msgstr "更改语言参数。"
 
 #: ../../api.rst:689 ../../api.rst:699 ../../api.rst:709
 msgid "Language's code"
-msgstr ""
+msgstr "语言的编码"
 
 #: ../../api.rst:693 ../../api.rst:703 ../../api.rst:2235 ../../api.rst:2245
 msgid "Language plural details"
-msgstr ""
+msgstr "语言复数的细节"
 
 #: ../../api.rst:707
 msgid "Deletes the Language."
-msgstr ""
+msgstr "删除语言。"
 
 #: ../../api.rst:714
 msgid "Returns statistics for a language."
-msgstr ""
+msgstr "返回语言的统计。"
 
 #: ../../api.rst:718 ../../api.rst:1021 ../../api.rst:1036 ../../api.rst:1577
 #: ../../api.rst:1823
 msgid "total number of strings"
-msgstr ""
+msgstr "字符串的总数"
 
 #: ../../api.rst:719 ../../api.rst:1024 ../../api.rst:1039 ../../api.rst:1578
 #: ../../api.rst:1818
 msgid "total number of words"
-msgstr ""
+msgstr "词的总数"
 
 #: ../../api.rst:720
 msgid "last changes in the language"
-msgstr ""
+msgstr "语言的上一次更改"
 
 #: ../../api.rst:721
 msgid "total number of changes"
-msgstr ""
+msgstr "更改的总数"
 
 #: ../../api.rst:722 ../../api.rst:1022 ../../api.rst:1037 ../../api.rst:1580
 #: ../../api.rst:1824
 msgid "number of translated strings"
-msgstr ""
+msgstr "已翻译的字符串数量"
 
 #: ../../api.rst:723 ../../api.rst:1023 ../../api.rst:1038 ../../api.rst:1581
 #: ../../api.rst:1825
 msgid "percentage of translated strings"
-msgstr ""
+msgstr "已翻译字符串的百分比"
 
 #: ../../api.rst:724 ../../api.rst:1025 ../../api.rst:1040 ../../api.rst:1582
 #: ../../api.rst:1819
 msgid "number of translated words"
-msgstr ""
+msgstr "已翻译词的数量"
 
 #: ../../api.rst:725 ../../api.rst:1026 ../../api.rst:1041
 msgid "percentage of translated words"
-msgstr ""
+msgstr "已翻译词的百分比"
 
 #: ../../api.rst:726
 msgid "number of translated characters"
-msgstr ""
+msgstr "已翻译字符的数量"
 
 #: ../../api.rst:727
 msgid "percentage of translated characters"
-msgstr ""
+msgstr "已翻译字符的百分比"
 
 #: ../../api.rst:728
 msgid "number of total characters"
-msgstr ""
+msgstr "总字符的数量"
 
 #: ../../api.rst:729
 msgid "number of fuzzy strings"
-msgstr ""
+msgstr "模糊字符串的数量"
 
 #: ../../api.rst:730
 msgid "percentage of fuzzy strings"
-msgstr ""
+msgstr "模糊字符串的百分比"
 
 #: ../../api.rst:731
 msgid "number of failing strings"
-msgstr ""
+msgstr "失败字符串的数量"
 
 #: ../../api.rst:732
 msgid "percentage of failing strings"
-msgstr ""
+msgstr "失败字符串的百分比"
 
 #: ../../api.rst:740
 msgid "Returns a list of all projects."
-msgstr ""
+msgstr "返回所有项目的列表。"
 
 #: ../../api.rst:744
 msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/(string:"
 "project)/`."
-msgstr ""
+msgstr "项目对象的属性存档在 :http:get:`/api/projects/(string:project)/`。"
 
 #: ../../api.rst:750
 msgid "Creates a new project."
-msgstr ""
+msgstr "创建新项目。"
 
 #: ../../api.rst:761
 msgid "Returns information about a project."
-msgstr ""
+msgstr "返回项目的信息。"
 
 #: ../../api.rst:763 ../../api.rst:790 ../../api.rst:801 ../../api.rst:810
 #: ../../api.rst:818 ../../api.rst:828 ../../api.rst:850 ../../api.rst:897
@@ -15877,36 +15889,36 @@ msgstr "项目 URL 标识串"
 
 #: ../../api.rst:765
 msgid "project name"
-msgstr ""
+msgstr "项目名称"
 
 #: ../../api.rst:766
 msgid "project slug"
-msgstr ""
+msgstr "项目标识串"
 
 #: ../../api.rst:767
 msgid "project website"
-msgstr ""
+msgstr "项目网站"
 
 #: ../../api.rst:768
 msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
-msgstr ""
+msgstr "部件列表的 URL；请参见 :http:get:`/api/projects/(string:project)/components/`"
 
 #: ../../api.rst:769
 msgid ""
 "URL to repository status; see :http:get:`/api/projects/(string:project)/"
 "repository/`"
-msgstr ""
+msgstr "仓库状态的 URL；请参见 :http:get:`/api/projects/(string:project)/repository/`"
 
 #: ../../api.rst:770
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
-msgstr ""
+msgstr "更改列表的 URL；请参见 :http:get:`/api/projects/(string:project)/repository/`"
 
 #: ../../api.rst:788
 msgid "Edit a project by a patch request."
-msgstr ""
+msgstr "通过补丁请求来编辑项目。"
 
 #: ../../api.rst:792 ../../api.rst:1060 ../../api.rst:1156 ../../api.rst:1239
 #: ../../api.rst:1259 ../../api.rst:1269 ../../api.rst:1279 ../../api.rst:1290
@@ -15920,21 +15932,21 @@ msgstr "组件 URL 标识串"
 
 #: ../../api.rst:799
 msgid "Edit a project by a put request."
-msgstr ""
+msgstr "通过推送请求来编辑项目。"
 
 #: ../../api.rst:808
 msgid "Deletes a project."
-msgstr ""
+msgstr "删除项目。"
 
 #: ../../api.rst:815
 msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
-msgstr ""
+msgstr "返回项目更改的列表。这本质上是仔细检查的项目 :http:get:`/api/changes/` 接收相同的参数。"
 
 #: ../../api.rst:820 ../../api.rst:1271 ../../api.rst:1680
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
-msgstr ""
+msgstr "组件对象的矩阵；请参见 :http:get:`/api/changes/(int:id)/`"
 
 #: ../../api.rst:824
 msgid ""
@@ -15943,53 +15955,57 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
+"返回版本控制系统（VCS）仓库状态的信息。这个端点只包含项目所有仓库的整体概况。为了得到更多细节，请使用 :http:get:`/api/"
+"components/(string:project)/(string:component)/repository/`。"
 
 #: ../../api.rst:830 ../../api.rst:1362
 msgid "whether there are any pending changes to commit"
-msgstr ""
+msgstr "是否有挂起的更改要提交"
 
 #: ../../api.rst:831 ../../api.rst:1363
 msgid "whether there are any upstream changes to merge"
-msgstr ""
+msgstr "是否有上游更改要合并"
 
 #: ../../api.rst:832 ../../api.rst:1364
 msgid "whether there are any local changes to push"
-msgstr ""
+msgstr "是否有本地更改要推送"
 
 #: ../../api.rst:847 ../../api.rst:1788
 msgid "Performs given operation on the VCS repository."
-msgstr ""
+msgstr "在版本控制系统（VCS）仓库上执行给定的操作。"
 
 #: ../../api.rst:852 ../../api.rst:1379 ../../api.rst:1798
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
-msgstr ""
+msgstr "执行的操作： ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``之一"
 
 #: ../../api.rst:853 ../../api.rst:1380 ../../api.rst:1799
 msgid "result of the operation"
-msgstr ""
+msgstr "操作的结果"
 
 #: ../../api.rst:877 ../../api.rst:966 ../../api.rst:1189 ../../api.rst:1337
 #: ../../api.rst:1404 ../../api.rst:1480
 msgid "**JSON response example:**"
-msgstr ""
+msgstr "**JSON 响应的示例：**"
 
 #: ../../api.rst:895
 msgid "Returns a list of translation components in the given project."
-msgstr ""
+msgstr "返回给定项目的翻译组件列表。"
 
 #: ../../api.rst:899
 msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"组件对象的矩阵；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:907
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS less "
 "components, see :ref:`vcs-local`."
 msgstr ""
+"现在对于没有版本控制系统（VCS）的组件接受参数 ``zipfile`` 和 ``docfile``，请参见 :ref:`vcs-local`。"
 
 #: ../../api.rst:909
 msgid "Creates translation components in the given project."
@@ -17075,7 +17091,7 @@ msgstr "术语的目标字符串"
 
 #: ../../api.rst:2297
 msgid "Get a term associated with a glossary."
-msgstr "获取与词汇表关联的术语。"
+msgstr "获取与词汇表相关联的术语。"
 
 #: ../../api.rst:2301 ../../api.rst:2310 ../../api.rst:2322 ../../api.rst:2334
 msgid "ID of term"
