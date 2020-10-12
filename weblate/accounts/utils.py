@@ -17,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
 
+from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from social_django.models import Code
 
@@ -94,3 +94,8 @@ def cycle_session_keys(request, user):
         user.set_unusable_password()
     # Cycle session key
     update_session_auth_hash(request, user)
+
+
+def adjust_session_expiry(request):
+    """Set longer expiry for authenticated users."""
+    request.session.set_expiry(settings.SESSION_COOKIE_AGE_AUTHENTICATED)

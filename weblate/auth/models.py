@@ -784,6 +784,7 @@ class WeblateAuthConf(AppConf):
 
     # Anonymous user name
     ANONYMOUS_USER_NAME = "anonymous"
+    SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
 
     class Meta:
         prefix = ""

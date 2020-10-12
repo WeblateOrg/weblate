@@ -599,7 +599,8 @@ SECURE_REFERRER_POLICY = "same-origin"
 # SSL redirect URL exemption list
 SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 # Session cookie age (in seconds)
-SESSION_COOKIE_AGE = 1209600
+SESSION_COOKIE_AGE = 2200
+SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 

@@ -1564,6 +1564,20 @@ Sentry DSN to use for :ref:`collecting-errors`.
 
    `Django integration for Sentry <https://docs.sentry.io/platforms/python/guides/django/>`_
 
+.. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
+
+SESSION_COOKIE_AGE_AUTHENTICATED
+--------------------------------
+
+.. versionadded:: 4.3
+
+Set session expiry for authenticated users. This complements
+:setting:`django:SESSION_COOKIE_AGE` which is used for unauthenticated users.
+
+.. seealso::
+
+    :setting:`django:SESSION_COOKIE_AGE`
+
 .. setting:: SIMPLIFY_LANGUAGES
 
 SIMPLIFY_LANGUAGES

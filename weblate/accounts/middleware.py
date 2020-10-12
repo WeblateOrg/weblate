@@ -39,11 +39,6 @@ def get_user(request):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
             user = get_anonymous()
-            # Set short expiry for anonymous sessions, unless already changed. We do
-            # set shorter session expiry for password reset sessions and this should
-            # be preserved here.
-            if "_session_expiry" not in request.session:
-                request.session.set_expiry(2200)
 
         request._cached_user = user
     return request._cached_user

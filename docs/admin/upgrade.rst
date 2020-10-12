@@ -159,6 +159,7 @@ Notable configuration or dependencies changes:
 * The source language attribute was moved from project to a component what is exposed in the API. You will need to update :ref:`wlc` in case you are using it.
 * The database migration to 4.3 might take long depending on number of strings you are translating (expect around one hour of migration time per 100,000 source strings).
 * There is a change in :setting:`django:INSTALLED_APPS`.
+* There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which complements :setting:`django:SESSION_COOKIE_AGE`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

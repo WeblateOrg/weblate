@@ -41,6 +41,7 @@ from weblate.accounts.notifications import (
     SCOPE_PROJECT,
 )
 from weblate.accounts.utils import (
+    adjust_session_expiry,
     cycle_session_keys,
     get_all_user_mails,
     invalidate_reset_codes,
@@ -549,6 +550,7 @@ class LoginForm(forms.Form):
             AuditLog.objects.create(
                 self.user_cache, self.request, "login", method="password", name=username
             )
+            adjust_session_expiry(self.request)
             reset_rate_limit("login", self.request)
         return self.cleaned_data
 

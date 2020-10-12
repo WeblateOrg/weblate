@@ -34,7 +34,11 @@ from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
-from weblate.accounts.utils import cycle_session_keys, invalidate_reset_codes
+from weblate.accounts.utils import (
+    adjust_session_expiry,
+    cycle_session_keys,
+    invalidate_reset_codes,
+)
 from weblate.auth.models import User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
@@ -354,6 +358,7 @@ def notify_connect(
             action = "auth-connect"
         else:
             action = "login"
+            adjust_session_expiry(strategy.request)
         AuditLog.objects.create(
             user,
             strategy.request,
