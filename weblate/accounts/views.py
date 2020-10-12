@@ -1180,7 +1180,7 @@ def social_complete(request, backend):
       confirmations by bots
     - Restores session from authid for some backends (see social_auth)
     """
-    if "authid" in request.GET and not request.session.session_key:
+    if "authid" in request.GET:
         try:
             session_key, ip_address = loads(
                 request.GET["authid"], max_age=600, salt="weblate.authid"
