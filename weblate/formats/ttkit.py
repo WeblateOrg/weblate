@@ -512,7 +512,8 @@ class XliffUnit(TTKitUnit):
         self._invalidate_target()
         try:
             converted = xliff_string_to_rich(target)
-        except XMLSyntaxError:
+        except (XMLSyntaxError, KeyError):
+            # KeyError happens on missing attribute
             converted = [target]
         if self.template is not None:
             if self.parent.is_template:
