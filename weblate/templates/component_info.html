@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load permissions %}
+{% load translations %}
 
 {% include "project_info.html" with object=object.project %}
 
@@ -53,7 +54,10 @@
 {% if object.agreement %}
 <tr>
 <th>{% trans "Contributor agreement" %}</th>
-<td><a class="btn btn-primary" href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}">{% trans "View" %}</a></td>
+<td>
+  <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' project=object.project.slug component=object.slug %}">{% trans "View" %}</a>
+  {{ object.agreement|markdown }}
+</td>
 </tr>
 {% endif %}
 
