@@ -953,6 +953,11 @@ class GitLabRepository(GitMergeRequestBase):
                 )
             forked_repo_response = r.json()
 
+        if "message" in forked_repo_response:
+            self.log(forked_repo_response["message"], level=logging.INFO)
+            if "_links" not in forked_repo_response:
+                raise RepositoryException(0, forked_repo_response["message"])
+
         self.disable_fork_features(credentials, forked_repo_response["_links"]["self"])
         self.configure_fork_remote(
             forked_repo_response["ssh_url_to_repo"], credentials["username"]
