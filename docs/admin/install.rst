@@ -286,6 +286,9 @@ You should also take care when running :ref:`manage`, as they should be ran
 under the same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
+In the Docker container, all files in the :file:`/app/data` volume have to be
+owned by weblate user inside the container (UID 1000).
+
 .. seealso::
 
    :ref:`static-files`

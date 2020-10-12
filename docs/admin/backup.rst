@@ -106,6 +106,9 @@ to create it, but it needs permissions to do so.
               - /home/weblate/data:/app/data
               - /home/weblate/borgbackup:/borgbackup
 
+    The directory where backups will be stored have to be owned by UID 1000,
+    otherwise Weblate will not be able to write the backups there.
+
 Remote backups
 ~~~~~~~~~~~~~~
 
