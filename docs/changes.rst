@@ -29,6 +29,7 @@ Not yet released.
 * Improved repository management view.
 * Automatically enable java-format for Android.
 * Added support for localized screenshots.
+* Added support for Python 3.9.
 
 Weblate 4.2.2
 -------------
