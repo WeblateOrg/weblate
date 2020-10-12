@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-06 20:46+0200\n"
-"PO-Revision-Date: 2020-09-22 16:39+0000\n"
-"Last-Translator: Franco <francobenedetti.59+github1@gmail.com>\n"
+"PO-Revision-Date: 2020-10-13 14:17+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -70,7 +70,7 @@ msgstr ""
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
-msgstr "Ajustes comunes"
+msgstr "Configuraciones comunes"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
@@ -93,10 +93,10 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
-"Para administrar los permisos de toda una instancia, solo añade usuarios a "
-"los grupos `Users` (esto se hace por defecto usando el :ref:`autogroup`), "
-"`Reviewers` y `Managers`. Mantén todos los proyectos configurados como "
-"`Public` (see :ref:`acl`)."
+"Para gestionar los permisos de toda una instalación, basta con añadir los "
+"usuarios a los grupos `Usuarios` (esto se hace de manera predeterminada a "
+"través del :ref:`autogroup`), `Revisores` y `Supervisores`. Mantenga todos "
+"los proyectos configurados como `Público` (vea :ref:`acl`)."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
@@ -236,6 +236,10 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
+"Weblate siempre creará la asignación de grupo automática para los grupos "
+"`Usuarios` y `Lectores` al momento de efectuar migraciones; en caso de que "
+"quiera desactivar este comportamiento, establezca la expresión regular a "
+"``^$``, de modo que nunca se produzcan coincidencias."
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
@@ -349,6 +353,10 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"Cada usuario debe pertenecer a un grupo enlazado ya sea al proyecto o a "
+"cualquier componente con que cuente. Basta con ser miembro; no hace falta "
+"ningún permiso concreto para acceder a un proyecto (esto se usa en el grupo "
+"predeterminado `Lectores`; vea :ref:`default-groups`)."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
@@ -865,7 +873,7 @@ msgstr ""
 
 #: ../../admin/access.rst:458
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Lectores`"
 
 #: ../../admin/access.rst:453
 msgid ""
@@ -900,7 +908,7 @@ msgstr ""
 
 #: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Revisores`"
 
 #: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
@@ -912,11 +920,11 @@ msgstr ""
 
 #: ../../admin/access.rst:475
 msgid "`Managers`"
-msgstr ""
+msgstr "`Supervisores`"
 
 #: ../../admin/access.rst:473
 msgid "Group for administrators."
-msgstr ""
+msgstr "Grupo para administradores."
 
 #: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
@@ -1681,8 +1689,8 @@ msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
 msgstr ""
-"Los usuarios recibirán una notificación por cada anuncio en los proyectos a "
-"los que se han suscrito (salvo que decidan no recibirlas)."
+"Los usuarios recibirán una notificación por cada anuncio en los proyectos "
+"que monitorizan (salvo que decidan no recibirlas)."
 
 #: ../../admin/announcements.rst:15
 msgid ""
@@ -16172,21 +16180,21 @@ msgstr ""
 
 #: ../../changes.rst:15
 msgid "Add Vue I18n formatting check."
-msgstr "Añade el control de formato «Vue I18n»."
+msgstr "Añade la comprobación «Formato de Vue I18n»."
 
 #: ../../changes.rst:16
 msgid "Generic placeholders check now supports regular expressions."
 msgstr ""
+"La comprobación de sustitutorios genéricos ahora admite expresiones "
+"regulares."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improved look of plaintext e-mails."
 msgid "Improved look of matrix mode."
-msgstr "Se mejoró el aspecto de los mensajes de correo de texto sencillo."
+msgstr "Se mejoró el aspecto de la vista matricial."
 
 #: ../../changes.rst:18
 msgid "Machinery is now called automatic suggestions."
-msgstr "La maquinaria ahora se llama sugerencias automáticas."
+msgstr "«Automatización» ahora se llama «Sugerencias automáticas»."
 
 #: ../../changes.rst:19
 #, fuzzy
@@ -18992,6 +19000,8 @@ msgstr ""
 #: ../../changes.rst:876
 msgid "Fixed possible CSRF on project watch and unwatch."
 msgstr ""
+"Se solucionó un potencial ataque CSRF al efectuar operaciones de "
+"monitorización de proyectos."
 
 #: ../../changes.rst:877
 msgid "The password reset no longer authenticates user."
@@ -19375,20 +19385,23 @@ msgstr ""
 
 #: ../../changes.rst:1002
 msgid "Added support for YAML files."
-msgstr ""
+msgstr "Se admiten los archivos YAML."
 
 #: ../../changes.rst:1003
 msgid ""
 "Project owners can now configure translation component and project details."
 msgstr ""
+"Los propietarios de los proyectos ahora pueden configurar los componentes de "
+"traducción y los detalles del proyecto."
 
 #: ../../changes.rst:1004
 msgid "Use \"Watched\" instead of \"Subscribed\" projects."
-msgstr ""
+msgstr "Ahora se habla de «monitorizar» proyectos, no de «suscribirse» a estos."
 
 #: ../../changes.rst:1005
 msgid "Projects can be watched directly from project page."
 msgstr ""
+"Es posible monitorizar proyectos directamente desde la página del proyecto."
 
 #: ../../changes.rst:1006
 msgid "Added multi language status widget."
@@ -19400,7 +19413,7 @@ msgstr ""
 
 #: ../../changes.rst:1008
 msgid "Record suggestion deletion in history."
-msgstr ""
+msgstr "Se registra la eliminación de sugerencias en el historial."
 
 #: ../../changes.rst:1009
 msgid "Improved UX of languages selection in profile."
@@ -22365,11 +22378,11 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
-msgstr "**supervisado**"
+msgstr "**monitorizado**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Watched projects*"
-msgstr "*Proyectos supervisados*"
+msgstr "*Proyectos monitorizados*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Project slug*"
@@ -22417,11 +22430,11 @@ msgstr "PC / Linux / Firefox 70.0"
 
 #: ../../contributing/schemas.rst:19
 msgid "**timestamp**"
-msgstr "**marca de tiempo**"
+msgstr "**cronomarcador**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Timestamp*"
-msgstr "*Marca de tiempo*"
+msgstr "*Cronomarcador*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:58:30.845Z"
@@ -22437,7 +22450,7 @@ msgstr "*Actividad*"
 
 #: ../../contributing/schemas.rst:19
 msgid "login"
-msgstr "iniciar sesión"
+msgstr "acceso"
 
 #: ../../contributing/schemas.rst:22
 msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
@@ -22455,7 +22468,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:8
 msgid "Starting with our codebase"
-msgstr ""
+msgstr "Primeros pasos en el código"
 
 #: ../../contributing/start.rst:10
 msgid ""
@@ -22466,7 +22479,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:14
 msgid "Coding Weblate with PyCharm"
-msgstr ""
+msgstr "Trabajar en Weblate con PyCharm"
 
 #: ../../contributing/start.rst:16
 msgid ""
@@ -27666,7 +27679,7 @@ msgstr ""
 
 #: ../../user/checks.rst:735
 msgid "You can use regular expression as placeholder."
-msgstr "Puede utilizar expresiones regulares como marcador de posición."
+msgstr "Puede utilizar expresiones regulares como sustitutorio."
 
 #: ../../user/checks.rst:737
 msgid ""
@@ -28245,6 +28258,9 @@ msgid ""
 "Components of projects you are watching are shown by default, and cross-"
 "referenced with your preferred languages."
 msgstr ""
+"De manera predeterminada se muestran los componentes de los proyectos que "
+"monitoriza, así como enlaces directos en las lenguas preferidas que haya "
+"establecido."
 
 #: ../../user/profile.rst:32
 msgid "You can switch to different views using the navigation tabs."
@@ -28304,6 +28320,9 @@ msgid ""
 "The user profile is accessible by clicking your user icon in the top-right "
 "of the top menu, then the :guilabel:`Settings` menu."
 msgstr ""
+"Para acceder a su perfil de usuario, pulse en el icono de su cuenta en el "
+"extremo derecho del menú superior y, en el menú, elija "
+":guilabel:`Configuración`."
 
 #: ../../user/profile.rst:65
 msgid ""
@@ -29963,15 +29982,12 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:30
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Power user"
 msgid "Docker usage"
-msgstr "Usuario avanzado"
+msgstr "Uso de Docker"
 
 #: ../../wlc.rst:32
 msgid "The Weblate Client is also available as a Docker image."
-msgstr ""
+msgstr "El cliente de Weblate está disponible también como imagen para Docker."
 
 #: ../../wlc.rst:34
 msgid ""
@@ -29979,10 +29995,8 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:36
-#, fuzzy
-#| msgid "Installation"
 msgid "Installing:"
-msgstr "Instalación"
+msgstr "Instalación:"
 
 #: ../../wlc.rst:42
 msgid ""
