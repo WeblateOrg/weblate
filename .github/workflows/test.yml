@@ -12,68 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
-        requirements: [latest, minimal, edge]
-        database: [postgresql, mysql, mariadb]
-        exclude:
-          # Reduce testing for mysql
-          - python-version: 3.6
+        python-version: [3.6, 3.7, 3.8, 3.9]
+        requirements: [latest]
+        database: [postgresql]
+        include:
+          # Reduced testing for mysql
+          - python-version: 3.7
             requirements: minimal
             database: mysql
-          - python-version: 3.8
-            requirements: minimal
-            database: mysql
-          - python-version: 3.6
+          - python-version: 3.9
             requirements: latest
             database: mysql
-          - python-version: 3.8
-            requirements: latest
-            database: mysql
-          # Reduce testing for mariadb
-          - python-version: 3.6
+          # Reduced testing for mariadb
+          - python-version: 3.7
             requirements: minimal
             database: mariadb
-          - python-version: 3.8
-            requirements: minimal
-            database: mariadb
-          - python-version: 3.6
+          - python-version: 3.9
             requirements: latest
             database: mariadb
-          - python-version: 3.8
-            requirements: latest
-            database: mariadb
-          # Reduce testing for postgresql
-          - python-version: 3.6
+          # Reduced testing for minimal deps
+          - python-version: 3.7
             requirements: minimal
             database: postgresql
-          # No working combination of psycopg2 and Django 2.2 on Python 3.8
-          # otherwise we should test 3.8 and skip 3.7
-          - python-version: 3.8
-            requirements: minimal
-            database: postgresql
-          # Reduce amount of testing for edge
-          - python-version: 3.6
-            requirements: edge
-            database: mariadb
-          - python-version: 3.7
-            requirements: edge
-            database: mariadb
-          - python-version: 3.8
-            requirements: edge
-            database: mariadb
-          - python-version: 3.6
-            requirements: edge
-            database: mysql
-          - python-version: 3.7
-            requirements: edge
-            database: mysql
-          - python-version: 3.8
-            requirements: edge
-            database: mysql
+          # Reduced testing for edge deps
           - python-version: 3.6
             requirements: edge
             database: postgresql
-          - python-version: 3.7
+          - python-version: 3.9
             requirements: edge
             database: postgresql
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
