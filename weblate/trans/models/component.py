@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import fnmatch
 import os
 import re
 import time
@@ -957,7 +956,29 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     @property
     def filemask_re(self):
-        return re.compile(fnmatch.translate(self.filemask).replace(".*", "([^/]*)"))
+        # We used to rely on fnmask.translate here, but since Python 3.9
+        # it became super optimized beast producing regexp with possibly
+        # several groups making it hard to modify later for our needs.
+        result = []
+        raw = []
+
+        def append(text: Optional[str]):
+            if raw:
+                result.append(re.escape("".join(raw)))
+                raw.clear()
+            if text is not None:
+                result.append(text)
+
+        for char in self.filemask:
+            if char == ".":
+                append(r"\.")
+            elif char == "*":
+                append("([^/]*)")
+            else:
+                append(char)
+        append(None)
+        regex = "".join(result)
+        return re.compile(f"^{regex}$")
 
     @cached_property
     def full_slug(self):
