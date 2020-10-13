@@ -874,12 +874,33 @@ class GitLabRepository(GitMergeRequestBase):
         )
         return credentials["url"].replace(target_path, fork_path)
 
-    def get_target_project_id(self, credentials: Dict):
-        r = requests.get(
-            credentials["url"],
+    def request(
+        self, method: str, credentials: Dict, url: str, json: Optional[Dict] = None
+    ):
+        response = requests.request(
+            method,
+            url,
             headers={"Authorization": "Bearer {}".format(credentials["token"])},
+            json=json,
         )
-        return r.json()["id"]
+        data = response.json()
+        error_message = ""
+        if "error" in data:
+            error_message = str(data["error"])
+            self.log(error_message, level=logging.INFO)
+        if "message" in data:
+            if error_message:
+                error_message += ": "
+            message = str(data["message"])
+            error_message += message
+            self.log(message, level=logging.INFO)
+        return data, error_message
+
+    def get_target_project_id(self, credentials: Dict):
+        response, error = self.request("get", credentials, credentials["url"])
+        if "id" not in response:
+            raise RepositoryException(0, error or "Failed to get project")
+        return response["id"]
 
     def disable_fork_features(self, credentials: Dict, forked_url: str):
         """Disable features in fork.
@@ -897,65 +918,49 @@ class GitLabRepository(GitMergeRequestBase):
             "snippets_access_level": "disabled",
             "pages_access_level": "disabled",
         }
-        r = requests.put(
-            forked_url,
-            headers={"Authorization": "Bearer {}".format(credentials["token"])},
-            json=access_level_dict,
+        response, error = self.request(
+            "put", credentials, forked_url, access_level_dict
         )
-        if "web_url" not in r.json():
-            raise RepositoryException(0, r.json()["error"])
+        if "web_url" not in response:
+            raise RepositoryException(0, error or "Failed to modify fork")
 
     def create_fork(self, credentials: Dict):
         get_fork_url = "{}/forks?owned=True".format(credentials["url"])
         fork_url = "{}/fork".format(credentials["url"])
-        forked_repo_response = None
+        forked_repo = None
 
         # Check if Fork already exists owned by current user. If the
         # fork already exists, set that fork as remote.
         # Else, create a new fork
-        r = requests.get(
-            get_fork_url,
-            headers={"Authorization": "Bearer {}".format(credentials["token"])},
-        )
-        for fork in r.json():
+        response, error = self.request("get", credentials, get_fork_url)
+        for fork in response:
             # Since owned=True returns forks from both the user's repo and the forks
             # in all the groups owned by the user, hence we need the below logic
             # to find the fork within the user repo and not the groups
             if "owner" in fork and fork["owner"]["username"] == credentials["username"]:
-                forked_repo_response = fork
+                forked_repo = fork
 
-        if not forked_repo_response:
-            r = requests.post(
-                fork_url,
-                headers={"Authorization": "Bearer {}".format(credentials["token"])},
-                data={},
-            )
+        if forked_repo is None:
+            forked_repo, error = self.request("post", credentials, fork_url)
             # If a repo with the name of the fork already exist, append numeric
             # as suffix to name and path to use that as repo name and path.
-            if (
-                "ssh_url_to_repo" not in r.json()
-                and "path" in r.json()["message"]
-                and "name" in r.json()["message"]
-                and r.json()["message"]["path"][0] == "has already been taken"
-            ):
+            if "ssh_url_to_repo" not in response and "has already been taken" in error:
                 fork_name = "{}-{}".format(
                     credentials["url"].split("%2F")[-1], random.randint(1000, 9999)
                 )
-                r = requests.post(
+                forked_repo, error = self.request(
+                    "post",
+                    credentials,
                     fork_url,
-                    headers={"Authorization": "Bearer {}".format(credentials["token"])},
-                    data={"name": fork_name, "path": fork_name},
+                    {"name": fork_name, "path": fork_name},
                 )
-            forked_repo_response = r.json()
 
-        if "message" in forked_repo_response:
-            self.log(forked_repo_response["message"], level=logging.INFO)
-            if "_links" not in forked_repo_response:
-                raise RepositoryException(0, forked_repo_response["message"])
+            if "ssh_url_to_repo" not in forked_repo:
+                raise RepositoryException(0, error or "Failed to create fork")
 
-        self.disable_fork_features(credentials, forked_repo_response["_links"]["self"])
+        self.disable_fork_features(credentials, forked_repo["_links"]["self"])
         self.configure_fork_remote(
-            forked_repo_response["ssh_url_to_repo"], credentials["username"]
+            forked_repo["ssh_url_to_repo"], credentials["username"]
         )
 
     def create_pull_request(
@@ -982,23 +987,10 @@ class GitLabRepository(GitMergeRequestBase):
             "description": description,
             "target_project_id": target_project_id,
         }
-        response = requests.post(
-            pr_url,
-            headers={"Authorization": "Bearer {}".format(credentials["token"])},
-            json=request,
-        ).json()
-
-        # Extract messages
-        messages = response.get("message", [])
-        if not isinstance(messages, list):
-            messages = [messages]
-
-        # Log messages
-        for message in messages:
-            self.log(message, level=logging.INFO)
+        response, error = self.request("post", credentials, pr_url, request)
 
         if (
             "web_url" not in response
-            and "open merge request already exists" not in messages[0]
+            and "open merge request already exists" not in error
         ):
-            raise RepositoryException(-1, ", ".join(messages))
+            raise RepositoryException(-1, error or "Failed to create pull request")
