@@ -1596,6 +1596,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     user=request.user if request else self.acting_user,
                 )
 
+                # The files have been updated and the signal receivers (addons)
+                # might need to access the template
+                self.drop_template_store_cache()
+
                 # Run post update hook, this should be done with repo lock held
                 # to avoid posssible race with another update
                 vcs_post_update.send(
