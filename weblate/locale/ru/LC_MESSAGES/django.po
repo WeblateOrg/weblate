@@ -28,13 +28,14 @@
 # Alexey Napalkov <flynbit@gmail.com>, 2020.
 # Irina <irinaabissinian@gmail.com>, 2020.
 # Nikita Epifanov <nikgreens@protonmail.com>, 2020.
+# koffevar <egor.kafisov@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-06 18:45+0000\n"
-"PO-Revision-Date: 2020-10-06 12:18+0000\n"
-"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"PO-Revision-Date: 2020-10-13 14:17+0000\n"
+"Last-Translator: koffevar <egor.kafisov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -179,11 +180,9 @@ msgid "Additional message"
 msgstr "Дополнительное сообщение"
 
 #: weblate/accounts/forms.py:578
-#, fuzzy
-#| msgid "Please describe the project and your relation to it."
 msgid ""
 "Please describe the project and your relation to it, preferably in English."
-msgstr "Опишите проект и ваше к нему отношение."
+msgstr "Опишите проект и ваше к нему отношение, предпочтительно на английском."
 
 #: weblate/accounts/forms.py:625
 msgid "Component wide notifications"
@@ -6383,10 +6382,8 @@ msgid "Pending changes not yet committed to the Weblate repository"
 msgstr "Коммит ожидающих изменений в локальный репозиторий"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Коммит ожидающих изменений в локальный репозиторий"
+msgstr "Коммит ожидающих изменений в репозиторий Weblate"
 
 #: weblate/templates/js/git-status.html:38
 #, fuzzy
@@ -6409,10 +6406,8 @@ msgid "Missing commits in the Weblate repository"
 msgstr "В локальном репозитории есть новые коммиты."
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "Извлечь изменения из дистанционного репозитория"
+msgstr "Получить изменения из дистанционного репозитория"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
@@ -6427,10 +6422,8 @@ msgid "Pull"
 msgstr "Извлечь"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Сменить базу локальных изменений на дистанционный репозиторий"
+msgstr "Сменить базу изменений Weblate на дистанционный репозиторий"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:143
@@ -6438,20 +6431,16 @@ msgid "Rebase"
 msgstr "Сменить базу"
 
 #: weblate/templates/js/git-status.html:70
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "Сбросить все изменения в локальном репозитории"
+msgstr "Сбросить все изменения в репозитории Weblate"
 
 #: weblate/templates/js/git-status.html:70 weblate/templates/translate.html:429
 msgid "Reset"
 msgstr "Сброс"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Очистка всех неотслеживаемых файлов в локальном репозитории"
+msgstr "Очистка всех неотслеживаемых файлов в репозитории Weblate"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Cleanup"
@@ -6462,10 +6451,8 @@ msgid "Locking prevents translators from doing changes"
 msgstr "Блокировка не позволяет переводчикам вносить изменения"
 
 #: weblate/templates/js/git-status.html:94
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Разрешить изменения в локальном репозитории"
+msgstr "Разрешить изменения в репозитории Weblate"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6473,20 +6460,17 @@ msgid "Unlock"
 msgstr "Разблокировать"
 
 #: weblate/templates/js/git-status.html:96
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Запретить любые изменения в локальном репозитории"
+msgstr "Запретить любые изменения в репозитории Weblate"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
 msgstr "Заблокировать"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Ошибка репозитория в %(component)s"
+msgstr "Репозиторий для %(component)s"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Repository details"
@@ -10746,11 +10730,9 @@ msgid "Could not parse translation base file: %s"
 msgstr "Не удалось разобрать базовый файл перевода: %s"
 
 #: weblate/trans/models/component.py:2121
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Template language ({0}) does not match project source language ({1})!"
+#, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
-msgstr "Язык шаблона ({0}) не соответствует исходному языку проекта ({1})!"
+msgstr "Язык шаблона ({0}) не соответствует исходному языку ({1})!"
 
 #: weblate/trans/models/component.py:2126
 msgid "You can not use a monolingual translation without a base file."
