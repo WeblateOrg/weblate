@@ -41,9 +41,10 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args, **options):
         try:
-            addon = ADDONS[options["addon"]]()
+            addon_class = ADDONS[options["addon"]]
         except KeyError:
             raise CommandError("Addon not found: {}".format(options["addon"]))
+        addon = addon_class()
         try:
             configuration = json.loads(options["configuration"])
         except ValueError as error:
