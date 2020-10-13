@@ -1011,6 +1011,7 @@ $(function () {
     }
   );
 
+  /* Alert when creating a component */
   $("#form-create-component-branch,#form-create-component-vcs").submit(
     function () {
       addAlert(
