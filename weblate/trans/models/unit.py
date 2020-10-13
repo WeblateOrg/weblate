@@ -314,7 +314,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def save(
         self,
         same_content=False,
-        same_state=False,
+        run_checks=True,
         force_insert=False,
         force_update=False,
         using=None,
@@ -338,10 +338,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Set source_unit for source units
         if self.is_source and not self.source_unit:
             self.source_unit = self
-            self.save(same_content=True, same_state=True, update_fields=["source_unit"])
+            self.save(
+                same_content=True, run_checks=False, update_fields=["source_unit"]
+            )
 
         # Update checks if content or fuzzy flag has changed
-        if not same_content or not same_state:
+        if run_checks:
             self.run_checks()
 
     def get_absolute_url(self):
@@ -495,7 +497,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 source_unit.save(
                     update_fields=["position", "location", "flags", "note"],
                     same_content=True,
-                    same_state=True,
+                    run_checks=False,
                 )
             self.source_unit = source_unit
 
@@ -575,7 +577,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.save(
             force_insert=created,
             same_content=same_source and same_target,
-            same_state=same_state,
+            run_checks=not same_source and not same_target and not same_state,
         )
         # Track updated sources for source checks
         if translation.is_template:
@@ -603,10 +605,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         ):
             if not self.readonly:
                 self.state = STATE_READONLY
-                self.save(same_content=True, same_state=True, update_fields=["state"])
+                self.save(same_content=True, run_checks=False, update_fields=["state"])
         elif self.readonly:
             self.state = self.original_state
-            self.save(same_content=True, same_state=True, update_fields=["state"])
+            self.save(same_content=True, run_checks=False, update_fields=["state"])
 
     def update_priority(self, save=True):
         if self.all_flags.has_value("priority"):
@@ -617,7 +619,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.priority = priority
             if save:
                 self.save(
-                    same_content=True, same_state=True, update_fields=["priority"]
+                    same_content=True, run_checks=False, update_fields=["priority"]
                 )
 
     @cached_property
@@ -1030,7 +1032,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and self.all_checks_names & set(self.translation.component.enforced_checks)
         ):
             self.state = self.original_state = STATE_FUZZY
-            self.save(same_state=True, same_content=True, update_fields=["state"])
+            self.save(run_checks=False, same_content=True, update_fields=["state"])
 
         if (
             propagate
