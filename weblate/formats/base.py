@@ -470,7 +470,7 @@ class TranslationFormat:
 
     @classmethod
     def add_breadcrumb(cls, message, **data):
-        if getattr(settings, "SENTRY_DSN", None):
+        if settings.SENTRY_DSN:
             add_breadcrumb(category="storage", message=message, data=data, level="info")
 
     def delete_unit(self, ttkit_unit) -> Optional[str]:

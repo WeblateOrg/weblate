@@ -2388,7 +2388,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if (
             self.project.access_control == self.project.ACCESS_PUBLIC
             and not self.license
-            and not getattr(settings, "LOGIN_REQUIRED_URLS", None)
+            and not settings.LOGIN_REQUIRED_URLS
         ):
             self.add_alert("MissingLicense")
         else:
