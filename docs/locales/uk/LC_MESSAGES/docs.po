@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-13 16:18+0200\n"
-"PO-Revision-Date: 2020-10-07 06:11+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2020-10-14 07:10+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -2802,6 +2802,8 @@ msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate will not be able to write the backups there."
 msgstr ""
+"Каталог, де зберігатимуться резервні копії, повинен належати UID 1000, "
+"інакше Weblate не зможе записати їх туди."
 
 #: ../../admin/backup.rst:113
 msgid "Remote backups"
@@ -5331,12 +5333,16 @@ msgstr "LICENSE_FILTER"
 #: ../../admin/config.rst:838
 msgid "Setting this to blank value now disables license alert."
 msgstr ""
+"Відтепер, якщо спорожнити це значення, попередження про ліцензію буде "
+"вимкнено."
 
 #: ../../admin/config.rst:840
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
 msgstr ""
+"Фільтрувати перелік ліцензій для показу. Це також вимкне оповіщення про "
+"ліцензію, якщо спорожнити значення."
 
 #: ../../admin/config.rst:845
 msgid "This filter uses the short license names."
@@ -5344,7 +5350,7 @@ msgstr "У цьому фільтрі використовуються скоро
 
 #: ../../admin/config.rst:853
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "Це вимкне попередження про ліцензію:"
 
 #: ../../admin/config.rst:861 ../../admin/config.rst:1560
 msgid ":ref:`alerts`"
@@ -6319,32 +6325,29 @@ msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr "Sentry DSN, яким слід скористатися для :ref:`collecting-errors`."
 
 #: ../../admin/config.rst:1588
-#, fuzzy
-#| msgid ""
-#| "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
-#| "django/>`_"
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "guides/django/>`_"
 msgstr ""
-"`Інтеграція Django із Sentry <https://docs.sentry.io/platforms/python/django/"
-">`_"
+"`Інтеграція Django із Sentry <https://docs.sentry.io/platforms/python/guides/"
+"django/>`_"
 
 #: ../../admin/config.rst:1593
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
 #: ../../admin/config.rst:1597
 msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
+"Встановити термін дії сеансу для автентифікованих користувачів. Це доповнює: "
+"параметр: `django:SESSION_COOKIE_AGE`, який застосовується для "
+"неавтентифікованих користувачів."
 
 #: ../../admin/config.rst:1602
-#, fuzzy
-#| msgid ":setting:`django:SECRET_KEY`"
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
-msgstr ":setting:`django:SECRET_KEY`"
+msgstr ":setting:`django:SESSION_COOKIE_AGE`"
 
 #: ../../admin/config.rst:1607
 msgid "SIMPLIFY_LANGUAGES"
@@ -8213,6 +8216,8 @@ msgid ""
 "In the Docker container, all files in the :file:`/app/data` volume have to "
 "be owned by weblate user inside the container (UID 1000)."
 msgstr ""
+"У контейнері Docker усі файли в томі :file:`/app/data` мають належати "
+"користувачеві вебсервера всередині контейнера (UID 1000)."
 
 #: ../../admin/install.rst:294
 msgid ":ref:`static-files`"
@@ -10592,10 +10597,8 @@ msgstr ""
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
 #: ../../admin/install/docker.rst:565
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgid "Configures :setting:`LICENSE_FILTER`."
-msgstr "Налаштовує :setting:`DEFAULT_COMMITER_NAME`."
+msgstr "Налаштовує :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:568
 msgid "Machine translation settings"
@@ -14893,15 +14896,11 @@ msgstr ""
 "використовувати :ref:`component-branch`."
 
 #: ../../admin/projects.rst:362
-#, fuzzy
-#| msgid ""
-#| "This is currently only supported for Git and GitHub, it is ignored for "
-#| "other VCS integrations."
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
 msgstr ""
-"У поточній версії передбачено підтримку лише для Git і GitHub. Буде "
+"У поточній версії передбачено підтримку лише для Git, GitLab і GitHub. Буде "
 "проігноровано для усіх інших інтеграцій із системами керування версіями."
 
 #: ../../admin/projects.rst:368 ../../devel/gettext.rst:196
@@ -16534,6 +16533,8 @@ msgid ""
 "There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which "
 "complements :setting:`django:SESSION_COOKIE_AGE`."
 msgstr ""
+"Нове налаштування :setting:`SESSION_COOKIE_AGE_AUTHENTICATED`, яке доповнює "
+":setting:`django:SESSION_COOKIE_AGE`."
 
 #: ../../admin/upgrade.rst:169
 msgid "Upgrading from Python 2 to Python 3"
@@ -17600,8 +17601,6 @@ msgid "Creates translation components in the given project."
 msgstr "Створює складники перекладу у вказаному проєкті."
 
 #: ../../api.rst:913
-#, fuzzy
-#| msgid "ZIP file to upload into Weblate for translations initilization"
 msgid "ZIP file to upload into Weblate for translations initialization"
 msgstr "Фай ZIP, який слід вивантажити до Weblate для ініціалізації перекладів"
 
@@ -18169,7 +18168,7 @@ msgstr "Повертає список модулів перекладу."
 
 #: ../../api.rst:1693
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr ""
+msgstr "Рядок пошукового запиту :ref:`Searching` (необов'язково)"
 
 #: ../../api.rst:1695
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -19229,10 +19228,8 @@ msgid "Added support for localized screenshots."
 msgstr "Додано підтримку локалізованих знімків вікон."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Support for Python 3."
 msgid "Added support for Python 3.9."
-msgstr "Реалізовано підтримку Python 3."
+msgstr "Додаано підтримку Python 3.9."
 
 #: ../../changes.rst:35
 msgid "Weblate 4.2.2"
@@ -26251,8 +26248,6 @@ msgid "Broken URLs"
 msgstr "Некоректні адреси"
 
 #: ../../devel/alerts.rst:18
-#, fuzzy
-#| msgid "Missing license"
 msgid "Missing licenses"
 msgstr "Не вказано ліцензування"
 
