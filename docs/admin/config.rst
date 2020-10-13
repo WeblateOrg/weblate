@@ -579,6 +579,8 @@ Turn on/off the :guilabel:`Share` menu so users can share translation progress o
 GITLAB_CREDENTIALS
 ------------------
 
+.. versionadded:: 4.3
+
 List for credentials for GitLab servers.
 
 .. hint::
@@ -615,7 +617,9 @@ GitLab username used to send merge requests for translation updates.
 .. setting:: GITLAB_TOKEN
 
 GITLAB_TOKEN
----------------
+------------
+
+.. versionadded:: 4.3
 
 GitLab personal access token used to make API calls for translation updates.
 
@@ -629,6 +633,8 @@ GitLab personal access token used to make API calls for translation updates.
 
 GITHUB_CREDENTIALS
 ------------------
+
+.. versionadded:: 4.3
 
 List for credentials for GitHub servers.
 
@@ -665,7 +671,9 @@ GitHub username used to send pull requests for translation updates.
 .. setting:: GITHUB_TOKEN
 
 GITHUB_TOKEN
----------------
+------------
+
+.. versionadded:: 4.3
 
 GitHub personal access token used to make API calls to send pull requests for
 translation updates.

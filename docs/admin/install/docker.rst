@@ -471,6 +471,8 @@ Generic settings
 
 .. envvar:: WEBLATE_GITHUB_TOKEN
 
+    .. versionadded:: 4.3
+
     Configures GitHub personal access token for GitHub pull-requests via API by changing
     :setting:`GITHUB_TOKEN`.
 
