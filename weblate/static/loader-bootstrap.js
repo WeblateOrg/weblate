@@ -781,7 +781,7 @@ $(function () {
     var $form = $slug.closest("form");
     $form
       .find('input[name="name"]')
-      .on("change keypress keydown paste", function () {
+      .on("change keypress keydown keyup paste", function () {
         $slug.val(
           slugify($(this).val(), { remove: /[^\w\s-]+/g }).toLowerCase()
         );
