@@ -684,11 +684,20 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 continue
             unit.target = self.target
             unit.state = self.state
-            unit.save_backend(user, False, change_action=change_action, author=None)
+            unit.save_backend(
+                user, False, change_action=change_action, author=None, run_checks=False
+            )
             result = True
         return result
 
-    def save_backend(self, user, propagate=True, change_action=None, author=None):
+    def save_backend(
+        self,
+        user,
+        propagate: bool = True,
+        change_action=None,
+        author=None,
+        run_checks: bool = True,
+    ):
         """Stores unit to backend.
 
         Optional user parameters defines authorship of a change.
@@ -708,7 +717,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
         if propagate:
-            self.propagate(user, change_action, author=author)
+            propagate = self.propagate(user, change_action, author=author)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -733,7 +742,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.original_state = self.state
 
         # Save updated unit to database
-        self.save(update_fields=update_fields)
+        self.save(update_fields=update_fields, run_checks=run_checks and not propagate)
 
         # Generate Change object for this change
         self.generate_change(user or author, author, change_action)
@@ -752,6 +761,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit.target != self.target:
             self.update_source_units(self.old_unit.target, user or author, author)
+
+        # Propagate checks, this is is skipped during propagation
+        if propagate:
+            self.run_checks(True)
 
         return True
 
@@ -885,9 +898,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self):
+    def run_checks(self, propagate: bool = False):
         """Update checks for this unit."""
-        run_propagate = False
+        run_propagate = propagate
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()

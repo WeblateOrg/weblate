@@ -122,7 +122,8 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 1)
 
-        new_text = "Other text\n"
+        # The text is intentionally duplicated to trigger check
+        new_text = "Other text text\n"
 
         # Propagate edit
         unit = self.get_unit()
@@ -138,8 +139,12 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(other_unit.target, new_text)
 
         # There should be no checks on both
-        self.assertEqual(list(unit.check_set.values_list("check", flat=True)), [])
-        self.assertEqual(list(other_unit.check_set.values_list("check", flat=True)), [])
+        self.assertEqual(
+            list(unit.check_set.values_list("check", flat=True)), ["duplicate"]
+        )
+        self.assertEqual(
+            list(other_unit.check_set.values_list("check", flat=True)), ["duplicate"]
+        )
 
     def test_failed_update(self):
         """Test failed remote update."""
