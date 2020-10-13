@@ -496,14 +496,6 @@ Generic settings
 
        :ref:`vcs-gitlab`
 
-.. envvar:: WEBLATE_GITLAB_HOST
-
-    Configures GitLab Host for GitLab merge-requests
-
-    .. seealso::
-
-       :ref:`vcs-gitlab`
-
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
