@@ -33,6 +33,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import get_percent_color
@@ -422,7 +423,8 @@ class MultiLanguageWidget(SVGWidget):
         offset = 20
         color = self.COLOR_MAP[self.color]
         language_width = 190
-        for stats in self.obj.stats.get_language_stats():
+        languages = self.obj.stats.get_language_stats()
+        for stats in sort_unicode(languages, lambda x: str(x.language)):
             # Skip empty translations
             if stats.translated == 0:
                 continue
