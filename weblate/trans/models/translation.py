@@ -653,7 +653,6 @@ class Translation(
                 unit.save(
                     update_fields=["state", "flags", "pending"],
                     same_content=True,
-                    run_checks=True,
                 )
 
         # Did we do any updates?

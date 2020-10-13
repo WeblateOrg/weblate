@@ -578,7 +578,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.save(
             force_insert=created,
             same_content=same_source and same_target,
-            run_checks=not same_source and not same_target and not same_state,
+            run_checks=not same_source or not same_target or not same_state,
         )
         # Track updated sources for source checks
         if translation.is_template:
