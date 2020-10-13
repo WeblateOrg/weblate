@@ -69,7 +69,7 @@
           <p>
           {% if check.component.agreement %}
           <p>
-            {% icon "comment.svg" %}
+            {% icon "suggest.svg" %}
             <a href="{% url "component" project=check.component.project.slug component=check.component.slug %}#information">{% trans "Contributor agreement" %}</a>
             {{ check.component.agreement|markdown }}
           </p>
