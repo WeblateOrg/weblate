@@ -359,8 +359,8 @@ Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
 .. note::
 
-   This is currently only supported for Git and GitHub, it is ignored for other
-   VCS integrations.
+   This is currently only supported for Git, GitLab and GitHub, it is ignored
+   for other VCS integrations.
 
 .. _component-filemask:
 
