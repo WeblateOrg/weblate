@@ -117,9 +117,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
 
+        # Force Chrome in English
+        options.add_argument("--lang=en")
+        # Accept English as primary language, this does not seem to work
+        options.add_experimental_option("prefs", {"intl.accept_languages": "en,en_US"})
+
         # Need to revert fontconfig custom config for starting chrome
-        backup = os.environ["FONTCONFIG_FILE"]
+        backup_fc = os.environ["FONTCONFIG_FILE"]
         del os.environ["FONTCONFIG_FILE"]
+
+        # Force English locales, the --lang and accept_language settings does not
+        # work in some cases
+        backup_lang = os.environ["LANG"]
+        os.environ["LANG"] = "en_US.UTF-8"
 
         try:
             cls.driver = webdriver.Chrome(options=options)
@@ -129,7 +139,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 raise
 
         # Restore custom fontconfig settings
-        os.environ["FONTCONFIG_FILE"] = backup
+        os.environ["FONTCONFIG_FILE"] = backup_fc
+        os.environ["LANG"] = backup_lang
 
         if cls.driver is not None:
             cls.driver.implicitly_wait(5)
