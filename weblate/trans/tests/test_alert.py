@@ -81,6 +81,16 @@ class AlertTest(ViewTestCase):
             component.update_alerts()
             self.assertFalse(has_license_alert(component))
 
+        # Filtered licenses
+        with override_settings(LICENSE_FILTER=set()):
+            component.update_alerts()
+            self.assertFalse(has_license_alert(component))
+
+        # Filtered licenses
+        with override_settings(LICENSE_FILTER={"proprietary"}):
+            component.update_alerts()
+            self.assertTrue(has_license_alert(component))
+
         # Set license
         component.license = "license"
         component.update_alerts()

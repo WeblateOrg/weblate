@@ -861,6 +861,11 @@ EMAIL_SUBJECT_PREFIX = "[{0}] ".format(SITE_TITLE)
 # Enable remote hooks
 ENABLE_HOOKS = True
 
+# Licensing filter
+if "WEBLATE_LICENSE_FILTER" in os.environ:
+    LICENSE_FILTER = set(get_env_list("WEBLATE_LICENSE_FILTER"))
+    LICENSE_FILTER.discard("")
+
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
 # translations (up to 10.000 characters)

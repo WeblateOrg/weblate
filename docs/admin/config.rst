@@ -833,7 +833,12 @@ For example:
 LICENSE_FILTER
 --------------
 
-Optional addition of licenses to show.
+.. versionchanged:: 4.3
+
+    Setting this to blank value now disables license alert.
+
+Filter list of licenses to show. This also disables the license alert when set
+to empty.
 
 .. note::
 
@@ -844,6 +849,16 @@ For example:
 .. code-block:: python
 
     LICENSE_FILTER = {"AGPL-3.0", "GPL-3.0-or-later"}
+
+Following disables the license alert:
+
+.. code-block:: python
+
+    LICENSE_FILTER = set()
+
+.. seealso::
+
+    :ref:`alerts`
 
 .. setting:: LICENSE_REQUIRED
 

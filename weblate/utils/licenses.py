@@ -59,7 +59,7 @@ def get_license_url(license):
 
 def get_license_choices():
     license_filter = settings.LICENSE_FILTER
-    if not license_filter or "proprietary" in license_filter:
+    if license_filter is None or "proprietary" in license_filter:
         result = [("proprietary", "Proprietary")]
     else:
         result = []

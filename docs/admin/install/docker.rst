@@ -560,6 +560,10 @@ Generic settings
         :setting:`CSP_STYLE_SRC`,
         :setting:`CSP_FONT_SRC`
 
+.. envvar:: WEBLATE_LICENSE_FILTER
+
+    Configures :setting:`LICENSE_FILTER`.
+
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -15,6 +15,7 @@ Currently the following is covered:
 * Parse errors in the translation files
 * Duplicate filemask used for linked components
 * Broken URLs
+* Missing licenses
 
 Alerts are listed on each respective component page as :guilabel:`Alerts`.
 If it is missing, the component clears all current checks. Alerts can not be ignored,
