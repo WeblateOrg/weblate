@@ -98,7 +98,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @contextmanager
     def wait_for_page_load(self, timeout=30):
-        old_page = self.driver.find_element_by_tag_name("html")
+        old_page = self.driver.find_element(By.TAG_NAME, "html")
         yield
         WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
 
@@ -205,9 +205,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def click(self, element="", htmlid=None):
         """Wrapper to scroll into element for click."""
         if htmlid:
-            element = self.driver.find_element_by_id(htmlid)
+            element = self.driver.find_element(By.ID, htmlid)
         if isinstance(element, str):
-            element = self.driver.find_element_by_link_text(element)
+            element = self.driver.find_element(By.LINK_TEXT, element)
 
         try:
             element.click()
@@ -240,13 +240,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             user = None
 
         # Login
-        username_input = self.driver.find_element_by_id("id_username")
+        username_input = self.driver.find_element(By.ID, "id_username")
         username_input.send_keys("weblate@example.org")
-        password_input = self.driver.find_element_by_id("id_password")
+        password_input = self.driver.find_element(By.ID, "id_password")
         password_input.send_keys("testpassword")
 
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_xpath('//input[@value="Sign in"]'))
+            self.click(self.driver.find_element(By.XPATH, '//input[@value="Sign in"]'))
         return user
 
     def open_manage(self, login=True):
@@ -273,7 +273,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.do_login(create=False)
 
         # We should end up on login page as user was invalid
-        self.driver.find_element_by_id("id_username")
+        self.driver.find_element(By.ID, "id_username")
 
     def test_login(self):
         # Do proper login with new user
@@ -285,7 +285,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(htmlid="settings-button")
 
         # Wait for profile to load
-        self.driver.find_element_by_id("notifications")
+        self.driver.find_element(By.ID, "notifications")
 
         # Load translation memory
         self.click(htmlid="user-dropdown")
@@ -300,7 +300,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(htmlid="logout-button")
 
         # We should be back on home page
-        self.driver.find_element_by_id("browse-projects")
+        self.driver.find_element(By.ID, "browse-projects")
 
     def register_user(self):
         # registration page
@@ -308,11 +308,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(htmlid="register-button")
 
         # Fill in registration form
-        self.driver.find_element_by_id("id_email").send_keys("weblate@example.org")
-        self.driver.find_element_by_id("id_username").send_keys("test-example")
-        self.driver.find_element_by_id("id_fullname").send_keys("Test Example")
+        self.driver.find_element(By.ID, "id_email").send_keys("weblate@example.org")
+        self.driver.find_element(By.ID, "id_username").send_keys("test-example")
+        self.driver.find_element(By.ID, "id_fullname").send_keys("Test Example")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_xpath('//input[@value="Register"]'))
+            self.click(self.driver.find_element(By.XPATH, '//input[@value="Register"]'))
 
         # Wait for registration email
         loops = 0
@@ -343,13 +343,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Check we got message
         self.assertTrue(
-            "You have activated" in self.driver.find_element_by_tag_name("body").text
+            "You have activated" in self.driver.find_element(By.TAG_NAME, "body").text
         )
 
         # Check we're signed in
         self.click(htmlid="user-dropdown")
         self.assertTrue(
-            "Test Example" in self.driver.find_element_by_id("profile-name").text
+            "Test Example" in self.driver.find_element(By.ID, "profile-name").text
         )
 
     def test_register_nocookie(self):
@@ -359,9 +359,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     @override_settings(WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>")
     def test_gpg(self):
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_partial_link_text("About Weblate"))
+            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "About Weblate"))
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_partial_link_text("Keys"))
+            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Keys"))
         self.screenshot("about-gpg.png")
 
     def test_ssh(self):
@@ -381,7 +381,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 self.click(htmlid="generate-ssh-button")
 
         # Add SSH host key
-        self.driver.find_element_by_id("id_host").send_keys("github.com")
+        self.driver.find_element(By.ID, "id_host").send_keys("github.com")
         with self.wait_for_page_load():
             self.click(htmlid="ssh-add-button")
 
@@ -519,8 +519,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Screenshots")
 
         # Upload screenshot
-        self.driver.find_element_by_id("id_name").send_keys("Automatic translation")
-        element = self.driver.find_element_by_id("id_image")
+        self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
+        element = self.driver.find_element(By.ID, "id_image")
         element.send_keys(
             element._upload(get_test_file("screenshot.png"))  # noqa: SLF001
         )
@@ -535,10 +535,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element_by_id("search-input").send_keys("'{}'".format(text))
+        self.driver.find_element(By.ID, "search-input").send_keys("'{}'".format(text))
         self.click(htmlid="screenshots-search")
         wait_search()
-        self.click(self.driver.find_element_by_class_name("add-string"))
+        self.click(self.driver.find_element(By.CLASS_NAME, "add-string"))
 
         # Unit should have screenshot assigned now
         capture_unit("screenshot-context.png", "toggle-machinery")
@@ -555,15 +555,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Component lists")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("addlink"))
-        element = self.driver.find_element_by_id("id_name")
+            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
+        element = self.driver.find_element(By.ID, "id_name")
         element.send_keys("All components")
         self.click("Add another Automatic component list assignment")
         self.clear_field(
-            self.driver.find_element_by_id("id_autocomponentlist_set-0-project_match")
+            self.driver.find_element(By.ID, "id_autocomponentlist_set-0-project_match")
         ).send_keys("^.*$")
         self.clear_field(
-            self.driver.find_element_by_id("id_autocomponentlist_set-0-component_match")
+            self.driver.find_element(
+                By.ID, "id_autocomponentlist_set-0-component_match"
+            )
         ).send_keys("^.*$")
         self.screenshot("componentlist-add.png")
         with self.wait_for_page_load():
@@ -579,21 +581,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Announcements")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("addlink"))
-        Select(self.driver.find_element_by_id("id_project")).select_by_visible_text(
+            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
+        Select(self.driver.find_element(By.ID, "id_project")).select_by_visible_text(
             "WeblateOrg"
         )
-        element = self.driver.find_element_by_id("id_message")
+        element = self.driver.find_element(By.ID, "id_message")
         element.send_keys("Translations will be used only if they reach 60%.")
         self.screenshot("announcement.png")
         with self.wait_for_page_load():
             element.submit()
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("addlink"))
-        Select(self.driver.find_element_by_id("id_language")).select_by_visible_text(
+            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
+        Select(self.driver.find_element(By.ID, "id_language")).select_by_visible_text(
             "Czech"
         )
-        element = self.driver.find_element_by_id("id_message")
+        element = self.driver.find_element(By.ID, "id_message")
         element.send_keys("Czech translators rock!")
         with self.wait_for_page_load():
             element.submit()
@@ -626,17 +628,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Projects")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("addlink"))
-        self.driver.find_element_by_id("id_name").send_keys("WeblateOrg")
-        Select(self.driver.find_element_by_id("id_access_control")).select_by_value("1")
-        self.driver.find_element_by_id("id_web").send_keys("https://weblate.org/")
-        self.driver.find_element_by_id("id_mail").send_keys("weblate@lists.cihar.com")
-        self.driver.find_element_by_id("id_instructions").send_keys(
+            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
+        self.driver.find_element(By.ID, "id_name").send_keys("WeblateOrg")
+        Select(self.driver.find_element(By.ID, "id_access_control")).select_by_value(
+            "1"
+        )
+        self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
+        self.driver.find_element(By.ID, "id_mail").send_keys("weblate@lists.cihar.com")
+        self.driver.find_element(By.ID, "id_instructions").send_keys(
             "https://weblate.org/contribute/"
         )
         self.screenshot("add-project.png")
         with self.wait_for_page_load():
-            self.driver.find_element_by_id("id_name").submit()
+            self.driver.find_element(By.ID, "id_name").submit()
 
         # Add bilingual component
         with self.wait_for_page_load():
@@ -644,36 +648,36 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Components")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("addlink"))
+            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
 
-        self.driver.find_element_by_id("id_name").send_keys("Language names")
-        Select(self.driver.find_element_by_id("id_project")).select_by_visible_text(
+        self.driver.find_element(By.ID, "id_name").send_keys("Language names")
+        Select(self.driver.find_element(By.ID, "id_project")).select_by_visible_text(
             "WeblateOrg"
         )
-        self.driver.find_element_by_id("id_repo").send_keys(
+        self.driver.find_element(By.ID, "id_repo").send_keys(
             "https://github.com/WeblateOrg/demo.git"
         )
-        self.driver.find_element_by_id("id_repoweb").send_keys(
+        self.driver.find_element(By.ID, "id_repoweb").send_keys(
             "https://github.com/WeblateOrg/demo/blob/"
             "{{branch}}/{{filename}}#L{{line}}"
         )
-        self.driver.find_element_by_id("id_filemask").send_keys(
+        self.driver.find_element(By.ID, "id_filemask").send_keys(
             "weblate/langdata/locale/*/LC_MESSAGES/django.po"
         )
-        self.driver.find_element_by_id("id_new_base").send_keys(
+        self.driver.find_element(By.ID, "id_new_base").send_keys(
             "weblate/langdata/locale/django.pot"
         )
-        Select(self.driver.find_element_by_id("id_file_format")).select_by_value("po")
-        Select(self.driver.find_element_by_id("id_license")).select_by_value(
+        Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
+        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
             "GPL-3.0-or-later"
         )
-        self.clear_field(self.driver.find_element_by_id("id_language_regex")).send_keys(
-            language_regex
-        )
+        self.clear_field(
+            self.driver.find_element(By.ID, "id_language_regex")
+        ).send_keys(language_regex)
         self.screenshot("add-component.png")
         # This takes long
         with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element_by_id("id_name").submit()
+            self.driver.find_element(By.ID, "id_name").submit()
         with self.wait_for_page_load():
             self.click("Language names")
 
@@ -681,28 +685,28 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Components")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("addlink"))
-        self.driver.find_element_by_id("id_name").send_keys("Android")
-        Select(self.driver.find_element_by_id("id_project")).select_by_visible_text(
+            self.click(self.driver.find_element(By.CLASS_NAME, "addlink"))
+        self.driver.find_element(By.ID, "id_name").send_keys("Android")
+        Select(self.driver.find_element(By.ID, "id_project")).select_by_visible_text(
             "WeblateOrg"
         )
-        self.driver.find_element_by_id("id_repo").send_keys(
+        self.driver.find_element(By.ID, "id_repo").send_keys(
             "weblate://weblateorg/language-names"
         )
-        self.driver.find_element_by_id("id_filemask").send_keys(
+        self.driver.find_element(By.ID, "id_filemask").send_keys(
             "app/src/main/res/values-*/strings.xml"
         )
-        self.driver.find_element_by_id("id_template").send_keys(
+        self.driver.find_element(By.ID, "id_template").send_keys(
             "app/src/main/res/values/strings.xml"
         )
-        Select(self.driver.find_element_by_id("id_file_format")).select_by_value(
+        Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value(
             "aresource"
         )
-        Select(self.driver.find_element_by_id("id_license")).select_by_value("MIT")
+        Select(self.driver.find_element(By.ID, "id_license")).select_by_value("MIT")
         self.screenshot("add-component-mono.png")
         # This takes long
         with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element_by_id("id_name").submit()
+            self.driver.find_element(By.ID, "id_name").submit()
         with self.wait_for_page_load():
             self.click("Android")
 
@@ -720,7 +724,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Manage")
         with self.wait_for_page_load():
             self.click("Users")
-        element = self.driver.find_element_by_id("id_user")
+        element = self.driver.find_element(By.ID, "id_user")
         element.send_keys("testuser")
         with self.wait_for_page_load():
             element.submit()
@@ -758,10 +762,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Glossaries")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_partial_link_text("Czech"))
+            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Czech"))
         self.click("Add new word")
-        self.driver.find_element_by_id("id_source").send_keys("language")
-        element = self.driver.find_element_by_id("id_target")
+        self.driver.find_element(By.ID, "id_source").send_keys("language")
+        element = self.driver.find_element(By.ID, "id_target")
         element.send_keys("jazyk")
         with self.wait_for_page_load():
             element.submit()
@@ -785,29 +789,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("addons.png")
         with self.wait_for_page_load():
             self.click(
-                self.driver.find_element_by_xpath(
-                    '//button[@data-addon="weblate.discovery.discovery"]'
+                self.driver.find_element(
+                    By.XPATH, '//button[@data-addon="weblate.discovery.discovery"]'
                 )
             )
-        element = self.driver.find_element_by_id("id_match")
+        element = self.driver.find_element(By.ID, "id_match")
         element.send_keys(
             "weblate/locale/(?P<language>[^/]*)/LC_MESSAGES/"
             "(?P<component>[^/]*)\\.po"
         )
-        self.clear_field(self.driver.find_element_by_id("id_language_regex")).send_keys(
-            language_regex
-        )
-        self.driver.find_element_by_id("id_new_base_template").send_keys(
+        self.clear_field(
+            self.driver.find_element(By.ID, "id_language_regex")
+        ).send_keys(language_regex)
+        self.driver.find_element(By.ID, "id_new_base_template").send_keys(
             "weblate/locale/{{ component }}.pot"
         )
-        self.clear_field(self.driver.find_element_by_id("id_name_template")).send_keys(
+        self.clear_field(self.driver.find_element(By.ID, "id_name_template")).send_keys(
             "{{ component|title }}"
         )
-        Select(self.driver.find_element_by_id("id_file_format")).select_by_value("po")
+        Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
         with self.wait_for_page_load():
             element.submit()
         self.screenshot("addon-discovery.png")
-        element = self.driver.find_element_by_id("id_confirm")
+        element = self.driver.find_element(By.ID, "id_confirm")
         self.click(element)
         # This takes long
         with self.wait_for_page_load(timeout=1200):
@@ -825,7 +829,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Manage")
         with self.wait_for_page_load():
             self.click("Settings")
-        element = self.driver.find_element_by_id("id_agreement")
+        element = self.driver.find_element(By.ID, "id_agreement")
         element.send_keys("This is an agreement.")
         with self.wait_for_page_load():
             element.submit()
@@ -834,7 +838,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("contributor-agreement.png")
         with self.wait_for_page_load():
             self.click("View contributor agreement")
-        element = self.driver.find_element_by_id("id_confirm")
+        element = self.driver.find_element(By.ID, "id_confirm")
         self.click(element)
         with self.wait_for_page_load():
             element.submit()
@@ -855,7 +859,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Tools")
         self.screenshot("automatic-translation.png")
         self.click("Search")
-        element = self.driver.find_element_by_id("id_q")
+        element = self.driver.find_element(By.ID, "id_q")
         element.send_keys("'%(count)s word'")
         with self.wait_for_page_load():
             element.submit()
@@ -865,18 +869,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("plurals.png")
 
         # Test search dropdown
-        dropdown = self.driver.find_element_by_id("query-dropdown")
+        dropdown = self.driver.find_element(By.ID, "query-dropdown")
         dropdown.click()
         time.sleep(0.5)
         self.screenshot("query-dropdown.png")
         with self.wait_for_page_load():
             self.click(
-                self.driver.find_element_by_partial_link_text("Not translated strings")
+                self.driver.find_element(By.PARTIAL_LINK_TEXT, "Not translated strings")
             )
-        self.driver.find_element_by_id("id_34a4642999e44a2b_0")
+        self.driver.find_element(By.ID, "id_34a4642999e44a2b_0")
 
         # Test sort dropdown
-        sort = self.driver.find_element_by_id("query-sort-dropdown")
+        sort = self.driver.find_element(By.ID, "query-sort-dropdown")
         sort.click()
         time.sleep(0.5)
         self.screenshot("query-sort.png")
@@ -884,15 +888,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Position")
 
         # Return to original unit
-        element = self.driver.find_element_by_id("id_q")
+        element = self.driver.find_element(By.ID, "id_q")
         self.clear_field(element)
         element.send_keys("'%(count)s word'")
         with self.wait_for_page_load():
             element.submit()
 
         # Trigger check
-        self.clear_field(self.driver.find_element_by_id("id_a2a808c8ccbece08_0"))
-        element = self.driver.find_element_by_id("id_a2a808c8ccbece08_1")
+        self.clear_field(self.driver.find_element(By.ID, "id_a2a808c8ccbece08_0"))
+        element = self.driver.find_element(By.ID, "id_a2a808c8ccbece08_1")
         self.clear_field(element)
         element.send_keys("několik slov")
         with self.wait_for_page_load():
@@ -904,7 +908,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Czech")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_partial_link_text("All strings"))
+            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "All strings"))
         self.click("Other languages")
         self.screenshot("secondary-language.png")
 
@@ -914,7 +918,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Hebrew")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_partial_link_text("All strings"))
+            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "All strings"))
         self.screenshot("visual-keyboard.png")
 
         # Profile
@@ -947,55 +951,55 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Click on add project
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("billing-add-project"))
+            self.click(self.driver.find_element(By.CLASS_NAME, "billing-add-project"))
 
         # Add project
-        self.driver.find_element_by_id("id_name").send_keys("WeblateOrg")
-        self.driver.find_element_by_id("id_web").send_keys("https://weblate.org/")
-        self.driver.find_element_by_id("id_mail").send_keys("weblate@lists.cihar.com")
-        self.driver.find_element_by_id("id_instructions").send_keys(
+        self.driver.find_element(By.ID, "id_name").send_keys("WeblateOrg")
+        self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
+        self.driver.find_element(By.ID, "id_mail").send_keys("weblate@lists.cihar.com")
+        self.driver.find_element(By.ID, "id_instructions").send_keys(
             "https://weblate.org/contribute/"
         )
         self.screenshot("user-add-project.png")
         with self.wait_for_page_load():
-            self.driver.find_element_by_id("id_name").submit()
+            self.driver.find_element(By.ID, "id_name").submit()
         self.screenshot("user-add-project-done.png")
 
         # Click on add component
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_class_name("project-add-component"))
+            self.click(self.driver.find_element(By.CLASS_NAME, "project-add-component"))
 
         # Add component
-        self.driver.find_element_by_id("id_name").send_keys("Language names")
-        self.driver.find_element_by_id("id_repo").send_keys(
+        self.driver.find_element(By.ID, "id_name").send_keys("Language names")
+        self.driver.find_element(By.ID, "id_repo").send_keys(
             "https://github.com/WeblateOrg/demo.git"
         )
         self.screenshot("user-add-component-init.png")
         with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element_by_id("id_name").submit()
+            self.driver.find_element(By.ID, "id_name").submit()
 
         self.screenshot("user-add-component-discovery.png")
-        self.driver.find_element_by_id("id_id_discovery_0_1").click()
+        self.driver.find_element(By.ID, "id_id_discovery_0_1").click()
         with self.wait_for_page_load(timeout=1200):
-            self.driver.find_element_by_id("id_name").submit()
+            self.driver.find_element(By.ID, "id_name").submit()
 
-        self.driver.find_element_by_id("id_repoweb").send_keys(
+        self.driver.find_element(By.ID, "id_repoweb").send_keys(
             "https://github.com/WeblateOrg/demo/blob/"
             "{{branch}}/{{filename}}#L{{line}}"
         )
-        self.driver.find_element_by_id("id_filemask").send_keys(
+        self.driver.find_element(By.ID, "id_filemask").send_keys(
             "weblate/langdata/locale/*/LC_MESSAGES/django.po"
         )
-        self.driver.find_element_by_id("id_new_base").send_keys(
+        self.driver.find_element(By.ID, "id_new_base").send_keys(
             "weblate/langdata/locale/django.pot"
         )
-        Select(self.driver.find_element_by_id("id_file_format")).select_by_value("po")
-        Select(self.driver.find_element_by_id("id_license")).select_by_value(
+        Select(self.driver.find_element(By.ID, "id_file_format")).select_by_value("po")
+        Select(self.driver.find_element(By.ID, "id_license")).select_by_value(
             "GPL-3.0-or-later"
         )
-        self.clear_field(self.driver.find_element_by_id("id_language_regex")).send_keys(
-            "^(cs|he|hu)$"
-        )
+        self.clear_field(
+            self.driver.find_element(By.ID, "id_language_regex")
+        ).send_keys("^(cs|he|hu)$")
         self.screenshot("user-add-component.png")
 
     def test_alerts(self):
@@ -1040,7 +1044,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click(htmlid="tab_fonts")
 
         # Upload font
-        element = self.driver.find_element_by_id("id_font")
+        element = self.driver.find_element(By.ID, "id_font")
         element.send_keys(element._upload(FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
@@ -1051,7 +1055,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Fonts")
 
         # Upload second font
-        element = self.driver.find_element_by_id("id_font")
+        element = self.driver.find_element(By.ID, "id_font")
         element.send_keys(element._upload(SOURCE_FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
@@ -1064,25 +1068,25 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click(htmlid="tab_groups")
 
         # Create group
-        Select(self.driver.find_element_by_id("id_group_font")).select_by_visible_text(
+        Select(self.driver.find_element(By.ID, "id_group_font")).select_by_visible_text(
             "Source Sans Pro Bold"
         )
-        element = self.driver.find_element_by_id("id_group_name")
+        element = self.driver.find_element(By.ID, "id_group_name")
         element.send_keys("default-font")
         with self.wait_for_page_load():
             element.submit()
 
-        Select(self.driver.find_element_by_id("id_font")).select_by_visible_text(
+        Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
             "Droid Sans Fallback Regular"
         )
-        element = self.driver.find_element_by_id("id_language")
+        element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Japanese")
         with self.wait_for_page_load():
             element.submit()
-        Select(self.driver.find_element_by_id("id_font")).select_by_visible_text(
+        Select(self.driver.find_element(By.ID, "id_font")).select_by_visible_text(
             "Droid Sans Fallback Regular"
         )
-        element = self.driver.find_element_by_id("id_language")
+        element = self.driver.find_element(By.ID, "id_language")
         Select(element).select_by_visible_text("Korean")
         with self.wait_for_page_load():
             element.submit()
@@ -1101,13 +1105,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("support.png")
             with self.wait_for_page_load():
                 self.click("Backups")
-            element = self.driver.find_element_by_id("id_repository")
+            element = self.driver.find_element(By.ID, "id_repository")
             element.send_keys(self.tempdir)
             with self.wait_for_page_load():
                 element.submit()
             with self.wait_for_page_load():
-                self.click(self.driver.find_element_by_class_name("runbackup"))
-            self.click(self.driver.find_element_by_class_name("createdbackup"))
+                self.click(self.driver.find_element(By.CLASS_NAME, "runbackup"))
+            self.click(self.driver.find_element(By.CLASS_NAME, "createdbackup"))
             time.sleep(0.5)
             self.screenshot("backups.png")
         finally:
@@ -1134,14 +1138,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Manage")
         with self.wait_for_page_load():
             self.click("Labels")
-        element = self.driver.find_element_by_id("id_name")
+        element = self.driver.find_element(By.ID, "id_name")
         element.send_keys("Current sprint")
-        self.click(self.driver.find_element_by_class_name("label-green"))
+        self.click(self.driver.find_element(By.CLASS_NAME, "label-green"))
         with self.wait_for_page_load():
             element.submit()
-        element = self.driver.find_element_by_id("id_name")
+        element = self.driver.find_element(By.ID, "id_name")
         element.send_keys("Next sprint")
-        self.click(self.driver.find_element_by_class_name("label-aqua"))
+        self.click(self.driver.find_element(By.CLASS_NAME, "label-aqua"))
         with self.wait_for_page_load():
             element.submit()
         self.screenshot("labels.png")
@@ -1157,7 +1161,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Settings")
         self.click("Translation")
-        element = self.driver.find_element_by_id("id_variant_regex")
+        element = self.driver.find_element(By.ID, "id_variant_regex")
         element.send_keys("_(short|min)$")
         self.screenshot("variants-settings.png")
         with self.wait_for_page_load():
@@ -1172,7 +1176,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Find string with variants
         self.click("Search")
-        element = self.driver.find_element_by_id("id_q")
+        element = self.driver.find_element(By.ID, "id_q")
         element.send_keys("Monday")
         with self.wait_for_page_load():
             element.submit()
@@ -1188,5 +1192,5 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png", scroll=False)
 
         # Close modal dialog
-        self.driver.find_element_by_id("id_extra_flags").send_keys(Keys.ESCAPE)
+        self.driver.find_element(By.ID, "id_extra_flags").send_keys(Keys.ESCAPE)
         time.sleep(0.5)
