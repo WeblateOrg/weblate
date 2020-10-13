@@ -45,7 +45,7 @@
 
 {% if projects %}
 <div class="tab-pane active" id="vcs">
-<form action="{% url 'create-component-vcs' %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'create-component-vcs' %}" method="post" enctype="multipart/form-data" id="form-create-component-vcs">
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p>{% trans "Create a new translation component from remote version control system repository." %}</p>
@@ -70,7 +70,7 @@
 
 {% if branch_form.fields.component.queryset %}
 <div class="tab-pane" id="branch">
-<form method="post" class="branch-loader" data-branches="{{ branch_data }}">
+<form method="post" class="branch-loader" data-branches="{{ branch_data }}" id="form-create-component-branch">
 {% csrf_token %}
 <input type="hidden" name="origin" value="branch" />
 <input type="hidden" name="project" value="{{ selected_project }}" />
