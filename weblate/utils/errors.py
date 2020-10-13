@@ -17,7 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import logging
 import sys
+from typing import Dict, Optional
 
 import sentry_sdk
 from django.conf import settings
@@ -28,7 +30,9 @@ from sentry_sdk.integrations.logging import ignore_logger
 from sentry_sdk.integrations.redis import RedisIntegration
 
 import weblate
-from weblate.logger import LOGGER
+
+ERROR_LOGGER = "weblate.errors"
+LOGGER = logging.getLogger(ERROR_LOGGER)
 
 try:
     import rollbar
@@ -39,20 +43,17 @@ except ImportError:
 
 
 def report_error(
-    extra_data=None,
-    level="warning",
-    cause="Handled exception",
-    skip_sentry=False,
-    print_tb=False,
-    logger=None,
+    extra_data: Optional[Dict] = None,
+    level: str = "warning",
+    cause: str = "Handled exception",
+    skip_sentry: bool = False,
+    print_tb: bool = False,
 ):
     """Wrapper for error reporting.
 
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.
     """
-    if logger is None:
-        logger = LOGGER
     if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.report_exc_info(extra_data=extra_data, level=level)
 
@@ -65,7 +66,7 @@ def report_error(
             scope.level = level
             sentry_sdk.capture_exception()
 
-    log = getattr(logger, level)
+    log = getattr(LOGGER, level)
 
     error = sys.exc_info()[1]
 
@@ -73,7 +74,7 @@ def report_error(
     if extra_data:
         log("%s: %s: %s", cause, error.__class__.__name__, force_str(extra_data))
     if print_tb:
-        logger.exception(cause)
+        LOGGER.exception(cause)
 
 
 def celery_base_data_hook(request, data):
@@ -90,9 +91,8 @@ def init_error_collection(celery=False):
             environment=settings.SENTRY_ENVIRONMENT,
             **settings.SENTRY_EXTRA_ARGS,
         )
-        # Ignore Weblate logging, those should be reported as proper errors
-        ignore_logger("weblate")
-        ignore_logger("weblate.celery")
+        # Ignore Weblate logging, those are reported using capture_exception
+        ignore_logger(ERROR_LOGGER)
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)

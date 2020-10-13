@@ -19,15 +19,11 @@
 
 """Celery integration helper tools."""
 
-
-import logging
 import os
 
 from celery import Celery
 from celery.signals import task_failure
 from django.conf import settings
-
-LOGGER = logging.getLogger("weblate.celery")
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
@@ -53,7 +49,6 @@ def handle_task_failure(exception=None, **kwargs):
         cause="Failure while executing task",
         skip_sentry=True,
         print_tb=True,
-        logger=LOGGER,
         level="error",
     )
 
