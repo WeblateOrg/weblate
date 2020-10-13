@@ -65,7 +65,7 @@ class Command(WeblateComponentCommand):
                             )
                     raise CommandError("Invalid addon configuration!")
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
-            if addons.exists():
+            if addons:
                 if options["update"]:
                     addon_component = addon.__class__(addons[0])
                     addon_component.configure(configuration)
