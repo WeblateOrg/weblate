@@ -19,6 +19,7 @@
 
 import re
 from copy import copy
+from typing import List, Optional
 
 from django.conf import settings
 from django.core.cache import cache
@@ -313,12 +314,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def save(
         self,
-        same_content=False,
-        run_checks=True,
-        force_insert=False,
-        force_update=False,
+        same_content: bool = False,
+        run_checks: bool = True,
+        force_insert: bool = False,
+        force_update: bool = False,
         using=None,
-        update_fields=None,
+        update_fields: Optional[List[str]] = None,
     ):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
