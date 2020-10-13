@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-13 14:17+0000\n"
-"PO-Revision-Date: 2020-10-13 14:17+0000\n"
-"Last-Translator: Atrate <Atrate@protonmail.com>\n"
+"PO-Revision-Date: 2020-10-14 07:10+0000\n"
+"Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -2954,10 +2954,8 @@ msgid "XLIFF translation file with PO extensions"
 msgstr "Plik tłumaczenia XLIFF z rozszerzeniami PO"
 
 #: weblate/formats/ttkit.py:1002
-#, fuzzy
-#| msgid "iOS strings (UTF-8)"
 msgid "iOS strings (UTF-16)"
-msgstr "Teksty iOS (UTF-8)"
+msgstr "Ciągi iOS (UTF-16)"
 
 #: weblate/formats/ttkit.py:1011
 msgid "iOS strings (UTF-8)"
@@ -4708,10 +4706,8 @@ msgstr[1] "%(count)s komentarze"
 msgstr[2] "%(count)s komentarzy"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Project contributions"
 msgid "Projects contributions"
-msgstr "Wkład w projekt"
+msgstr "Wkład w projekty"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4989,10 +4985,9 @@ msgid "Failed checks in %(project)s"
 msgstr "Testy nie powiodły się w %(project)s projektach"
 
 #: weblate/templates/base.html:167
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failed checks in %(project)s — %(language)s"
-msgstr "Testy nie powiodły się w %(project)s projektach"
+msgstr "Testy nie powiodły się w %(project)s — %(language)s"
 
 #: weblate/templates/base.html:172
 msgid "Checks overview"
@@ -6377,16 +6372,14 @@ msgid "Repository status"
 msgstr "Stan repozytorium"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Wyślij oczekujące zmiany do lokalnego repozytorium"
+msgstr ""
+"Oczekujące zmiany, które nie zostały jeszcze zatwierdzone w repozytorium "
+"Weblate"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Wyślij oczekujące zmiany do lokalnego repozytorium"
+msgstr "Zatwierdź oczekujące zmiany w repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:38
 #, fuzzy
@@ -6403,10 +6396,8 @@ msgid "Push"
 msgstr "Push"
 
 #: weblate/templates/js/git-status.html:51
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Missing commits in the Weblate repository"
-msgstr "W lokalnym repozytorium znajdują się nowe zmiany."
+msgstr "Brak zatwierdzeń w repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:56
 #, fuzzy
@@ -6427,10 +6418,8 @@ msgid "Pull"
 msgstr "Pull"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Wykonaj rebase zmian lokalnych do zdalnego repozytorium"
+msgstr "Przeprowadź ponownie zmiany Weblate w zdalnym repozytorium"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:142
@@ -8877,10 +8866,8 @@ msgid "Source string location"
 msgstr "Położenie tekstu źródłowego"
 
 #: weblate/templates/translate.html:620
-#, fuzzy
-#| msgid "String state"
 msgid "String age"
-msgstr "Stan łańcucha"
+msgstr "Wiek łańcucha"
 
 #: weblate/templates/translate.html:626
 msgid "Source string age"
@@ -10736,12 +10723,9 @@ msgid "Could not parse translation base file: %s"
 msgstr "Nie można przeanalizować podstawowego pliku tłumaczenia: %s"
 
 #: weblate/trans/models/component.py:2146
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Template language ({0}) does not match project source language ({1})!"
+#, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
-msgstr ""
-"Język szablonów ({0}) nie odpowiada językowi źródłowemu projektu ({1})!"
+msgstr "Język szablonu ({0}) nie jest zgodny z językiem źródłowym ({1})!"
 
 #: weblate/trans/models/component.py:2151
 msgid "You can not use a monolingual translation without a base file."
