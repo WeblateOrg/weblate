@@ -135,17 +135,16 @@ var _rollbarConfig = {
             <li><a href="{% url 'projects' %}">{% trans "Browse all projects" %}</a></li>
           </ul>
         </li>
+        {% with languages=user.profile.languages.order_translated %}
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="languages-menu">{% trans "Languages" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
-          {% with languages=user.profile.languages.order_translated %}
           {% if languages %}
             {% for language in languages %}
             <li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
             {% endfor %}
             <li role="separator" class="divider"></li>
           {% endif %}
-          {% endwith %}
           {% if user.is_authenticated %}
             <li><a href="{% url 'profile' %}#languages">{% trans "Manage translated languages" %}</a></li>
             <li role="separator" class="divider"></li>
@@ -162,9 +161,18 @@ var _rollbarConfig = {
             {% endfor %}
             <li role="separator" class="divider"></li>
             {% endif %}
+            {% if languages %}
+              {% for project in watched_projects %}
+                {% for language in languages %}
+                  <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failed checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
+                {% endfor %}
+                <li role="separator" class="divider"></li>
+              {% endfor %}
+            {% endif %}
             <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
           </ul>
         </li>
+        {% endwith %}
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
 
