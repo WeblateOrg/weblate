@@ -695,21 +695,43 @@ class GithubRepository(GitMergeRequestBase):
             return "api.github.com"
         return host
 
+    def request(self, method: str, credentials: Dict, url: str, json: Dict):
+        response = requests.request(
+            method,
+            url,
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": "token {}".format(credentials["token"]),
+            },
+            json=json,
+        )
+        data = response.json()
+
+        # Log and parase all errors. Sometimes GitHub returns the error
+        # messages in an errors list instead of the message. Sometimes, there
+        # is no errors list. Hence the different logics
+        error_message = ""
+        if "message" in data:
+            error_message = data["message"]
+            self.log(data["message"], level=logging.INFO)
+        if "errors" in data:
+            for error in data["errors"]:
+                self.log(error.get("message", str(error)), level=logging.WARNING)
+            if error_message:
+                error_message += ": "
+            error_message += ", ".join(error["message"] for error in data["errors"])
+
+        return data, error_message
+
     def create_fork(self, credentials: Dict):
         fork_url = "{}/forks".format(credentials["url"])
 
         # GitHub API returns the entire data of the fork, in case the fork
         # already exists. Hence this is perfectly handled, if the fork already
         # exists in the remote side.
-        r = requests.post(
-            fork_url,
-            headers={
-                "Accept": "application/vnd.github.v3+json",
-                "Authorization": "token {}".format(credentials["token"]),
-            },
-            data={},
-        )
-        response = r.json()
+        response, error = self.request("post", credentials, fork_url, {})
+        if "ssh_url" not in response:
+            raise RepositoryException(0, error or "Fork creation failed")
         self.configure_fork_remote(response["ssh_url"], credentials["username"])
 
     def create_pull_request(
@@ -731,34 +753,7 @@ class GithubRepository(GitMergeRequestBase):
             "title": title,
             "body": description,
         }
-        response = requests.post(
-            pr_url,
-            headers={
-                "Accept": "application/vnd.github.v3+json",
-                "Authorization": "token {}".format(credentials["token"]),
-            },
-            json=request,
-        ).json()
-
-        # Log all errors
-        if "message" in response:
-            self.log(response["message"], level=logging.INFO)
-        if "errors" in response:
-            for error in response["errors"]:
-                self.log(error.get("message", str(error)), level=logging.WARNING)
-
-        # Grab possible error message. Sometimes GitHub returns the error
-        # messages in an errors list instead of the message. Sometimes, there
-        # is no errors list. Hence the different logics
-        error_message = ""
-        if "message" in response:
-            error_message = response["message"]
-        if "errors" in response:
-            if error_message:
-                error_message += ": "
-            error_message += ", ".join(error["message"] for error in response["errors"])
-        elif "message" in response:
-            error_message = response["message"]
+        response, error_message = self.request("post", credentials, pr_url, request)
 
         # Check for an error. If the error has a message saying A pull request already
         # exists, then we ignore that, else raise an error. Currently, since the API
