@@ -39,6 +39,15 @@ class Command(WeblateComponentCommand):
             "--update", action="store_true", help="Update existing addons configuration"
         )
 
+    def validate_form(self, form):
+        if not form.is_valid():
+            for error in form.non_field_errors():
+                self.stderr.write(error)
+            for field in form:
+                for error in field.errors:
+                    self.stderr.write("Error in {}: {}".format(field.name, error))
+            raise CommandError("Invalid addon configuration!")
+
     def handle(self, *args, **options):
         try:
             addon_class = ADDONS[options["addon"]]
@@ -56,15 +65,7 @@ class Command(WeblateComponentCommand):
         for component in self.get_components(*args, **options):
             if addon.has_settings:
                 form = addon.get_add_form(component, data=configuration)
-                if not form.is_valid():
-                    for error in form.non_field_errors():
-                        self.stderr.write(error)
-                    for field in form:
-                        for error in field.errors:
-                            self.stderr.write(
-                                "Error in {}: {}".format(field.name, error)
-                            )
-                    raise CommandError("Invalid addon configuration!")
+                self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons.exists():
                 if options["update"]:
