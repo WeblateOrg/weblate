@@ -102,6 +102,7 @@ class SupportStatus(models.Model):
             "components": Component.objects.count(),
             "languages": stats.languages,
             "source_strings": stats.source_strings,
+            "strings": stats.all,
         }
         ssh_key = get_key_data()
         if not ssh_key:
