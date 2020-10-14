@@ -234,7 +234,7 @@ class TTKitFormat(TranslationFormat):
         return
 
     @classmethod
-    def load(cls, storefile):
+    def load(cls, storefile, template_store):
         """Load file using defined loader."""
         # Add missing mode attribute to Django file wrapper
         if isinstance(storefile, TranslationStore):
@@ -1411,8 +1411,8 @@ class INIFormat(TTKitFormat):
         return "ini"
 
     @classmethod
-    def load(cls, storefile):
-        store = super().load(storefile)
+    def load(cls, storefile, template_store):
+        store = super().load(storefile, template_store)
         # Adjust store to have translations
         for unit in store.units:
             unit.target = unit.source

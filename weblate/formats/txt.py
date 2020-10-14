@@ -185,7 +185,7 @@ class AppStoreFormat(TranslationFormat):
     simple_filename = False
 
     @classmethod
-    def load(cls, storefile):
+    def load(cls, storefile, template_store):
         return AppStoreParser(storefile)
 
     def create_unit(self, key: str, source: Union[str, List[str]]):

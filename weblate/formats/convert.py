@@ -80,6 +80,7 @@ class ConvertFormat(TranslationFormat):
 
     monolingual = True
     can_add_unit = False
+    needs_target_sync = True
     unit_class = ConvertUnit
     autoaddon = {"weblate.flags.same_edit": {}}
 
@@ -92,21 +93,23 @@ class ConvertFormat(TranslationFormat):
         self.save_atomic(self.storefile, self.save_content)
 
     @staticmethod
-    def convertfile(storefile):
+    def convertfile(storefile, template_store):
         raise NotImplementedError()
 
     @classmethod
-    def load(cls, storefile):
+    def load(cls, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             storefile = open(storefile, "rb")
         # Adjust store to have translations
-        store = cls.convertfile(storefile)
+        store = cls.convertfile(storefile, template_store)
         for unit in store.units:
             if unit.isheader():
                 continue
-            unit.target = unit.source
-            unit.rich_target = unit.rich_source
+            # HTML does this properly on loading, others need it
+            if cls.needs_target_sync:
+                unit.target = unit.source
+                unit.rich_target = unit.rich_source
         return store
 
     @classmethod
@@ -123,7 +126,7 @@ class ConvertFormat(TranslationFormat):
         if not base:
             return False
         try:
-            cls.load(base)
+            cls.load(base, None)
             return True
         except Exception:
             report_error(cause="File parse error")
@@ -145,16 +148,29 @@ class HTMLFormat(ConvertFormat):
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
+    needs_target_sync = False
 
     @staticmethod
-    def convertfile(storefile):
+    def convertfile(storefile, template_store):
         store = pofile()
         # Fake input file with a blank filename
         htmlparser = htmlfile(
             includeuntaggeddata=False, inputfile=BytesIOMode("", storefile.read())
         )
         for htmlunit in htmlparser.units:
-            thepo = store.addsourceunit(htmlunit.source)
+            locations = htmlunit.getlocations()
+            if template_store:
+                # Transalation
+                template = template_store.find_unit_mono("".join(locations))
+                if template is None:
+                    # Skip locations not present in the source HTML file
+                    continue
+                # Create unit with matching source
+                thepo = store.addsourceunit(template.source)
+                thepo.target = htmlunit.source
+            else:
+                # Source file
+                thepo = store.addsourceunit(htmlunit.source)
             thepo.addlocations(htmlunit.getlocations())
             thepo.addnote(htmlunit.getnotes(), "developer")
         store.removeduplicates("msgctxt")
@@ -209,7 +225,7 @@ class OpenDocumentFormat(ConvertFormat):
     unit_class = XliffUnit
 
     @staticmethod
-    def convertfile(storefile):
+    def convertfile(storefile, template_store):
         store = xlifffile()
         store.setfilename(store.getfilenode("NoName"), "odf")
         contents = open_odf(storefile)
@@ -250,7 +266,7 @@ class IDMLFormat(ConvertFormat):
     check_flags = ("strict-same",)
 
     @staticmethod
-    def convertfile(storefile):
+    def convertfile(storefile, template_store):
         store = pofile()
 
         contents = open_idml(storefile)
@@ -314,7 +330,7 @@ class WindowsRCFormat(ConvertFormat):
         return "rc"
 
     @staticmethod
-    def convertfile(storefile):
+    def convertfile(storefile, template_store):
 
         input_store = rcfile(storefile)
         convertor = rc2po()

@@ -30,6 +30,7 @@ Not yet released.
 * Automatically enable java-format for Android.
 * Added support for localized screenshots.
 * Added support for Python 3.9.
+* Fixed translating HTML files under certain conditions.
 
 Weblate 4.2.2
 -------------

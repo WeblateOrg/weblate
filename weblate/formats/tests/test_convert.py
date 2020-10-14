@@ -80,7 +80,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
     @staticmethod
     def extract_document(content):
         return bytes(
-            OpenDocumentFormat.convertfile(BytesIOMode("test.odt", content))
+            OpenDocumentFormat.convertfile(BytesIOMode("test.odt", content), None)
         ).decode()
 
     def assert_same(self, newdata, testdata):
@@ -111,7 +111,9 @@ class IDMLFormatTest(ConvertFormatTest):
 
     @staticmethod
     def extract_document(content):
-        return bytes(IDMLFormat.convertfile(BytesIOMode("test.idml", content))).decode()
+        return bytes(
+            IDMLFormat.convertfile(BytesIOMode("test.idml", content), None)
+        ).decode()
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
