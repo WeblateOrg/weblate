@@ -171,6 +171,7 @@ class HTMLFormat(ConvertFormat):
             else:
                 # Source file
                 thepo = store.addsourceunit(htmlunit.source)
+                thepo.target = htmlunit.source
             thepo.addlocations(htmlunit.getlocations())
             thepo.addnote(htmlunit.getnotes(), "developer")
         store.removeduplicates("msgctxt")
