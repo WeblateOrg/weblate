@@ -67,8 +67,8 @@ class Command(WeblateComponentCommand):
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons:
                 if options["update"]:
-                    addon_component = addon.__class__(addons[0])
-                    addon_component.configure(configuration)
+                    for addon_component in addons:
+                        addon_component.configure(configuration)
                     self.stdout.write("Successfully updated on {}".format(component))
                 else:
                     self.stderr.write("Already installed on {}".format(component))
