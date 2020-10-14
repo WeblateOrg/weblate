@@ -517,7 +517,7 @@ class PropertiesAddonTest(ViewTestCase):
 class CommandTest(ViewTestCase):
     """Test for management commands."""
 
-    def test_list_languages(self):
+    def test_list_addons(self):
         output = StringIO()
         call_command("list_addons", stdout=output)
         self.assertIn("msgmerge", output.getvalue())
