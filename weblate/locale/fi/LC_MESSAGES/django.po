@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-13 14:17+0000\n"
-"PO-Revision-Date: 2020-09-02 14:14+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2020-10-14 12:39+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -59,10 +59,8 @@ msgid "Full name"
 msgstr "Koko nimi"
 
 #: weblate/accounts/forms.py:178 weblate/accounts/models.py:465
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Sähköpostiosoitteesi"
+msgstr "Julkinen sähköposti"
 
 #: weblate/accounts/forms.py:272 weblate/accounts/forms.py:347
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -174,11 +172,9 @@ msgid "Additional message"
 msgstr "Ylimääräinen viesti"
 
 #: weblate/accounts/forms.py:580
-#, fuzzy
-#| msgid "Please describe the project and your relation to it."
 msgid ""
 "Please describe the project and your relation to it, preferably in English."
-msgstr "Kuvaile projektia sekä suhdettasi siihen."
+msgstr "Kuvaile projektia sekä suhdettasi siihen, mieluiten englanniksi."
 
 #: weblate/accounts/forms.py:627
 msgid "Component wide notifications"
@@ -392,10 +388,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Weblateen kutsunut {username}."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "Aloita uusi käännös"
+msgstr "Kokeilujakso aloitettu."
 
 #: weblate/accounts/models.py:105
 #, fuzzy
@@ -562,16 +556,12 @@ msgstr ""
 "seuraamasi projektit näkyvät oletuksena myös kojelaudalla."
 
 #: weblate/accounts/models.py:417
-#, fuzzy
-#| msgid "License URL"
 msgid "Website URL"
-msgstr "Lisenssin URL-osoite"
+msgstr "Sivuston URL-osoite"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "Author username"
 msgid "Liberapay username"
-msgstr "Tekijän käyttäjänimi"
+msgstr "Liberapay-käyttäjänimi"
 
 #: weblate/accounts/models.py:424
 msgid ""
@@ -581,7 +571,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:429
 msgid "Fediverse URL"
-msgstr ""
+msgstr "Fediversumin URL-osoite"
 
 #: weblate/accounts/models.py:432
 msgid ""
@@ -590,30 +580,24 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/models.py:437
-#, fuzzy
-#| msgid "License URL"
 msgid "Code site URL"
-msgstr "Lisenssin URL-osoite"
+msgstr "Koodisivuston URL-osoite"
 
 #: weblate/accounts/models.py:439
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
 
 #: weblate/accounts/models.py:442
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "käyttäjänimi"
+msgstr "GitHub-käyttäjänimi"
 
 #: weblate/accounts/models.py:446
-#, fuzzy
-#| msgid "Author username"
 msgid "Twitter username"
-msgstr "Tekijän käyttäjänimi"
+msgstr "Twitter-käyttäjänimi"
 
 #: weblate/accounts/models.py:450
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "LinkedIn-profiilinimi"
 
 #: weblate/accounts/models.py:451
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
@@ -626,10 +610,8 @@ msgid "Location"
 msgstr "Sijainti"
 
 #: weblate/accounts/models.py:460
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "Komponentti"
+msgstr "Yritys"
 
 #: weblate/accounts/models.py:507
 msgid ""
@@ -889,7 +871,7 @@ msgstr ""
 #: weblate/accounts/views.py:615 weblate/templates/accounts/hosting.html:147
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Ilmainen kokeilu"
 
 #: weblate/accounts/views.py:709 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -1517,8 +1499,6 @@ msgid "Stale suggestion removal"
 msgstr "Vanhojen ehdotusten poistetaminen"
 
 #: weblate/addons/removal.py:66
-#, fuzzy
-#| msgid "Set timeframe for removal of suggestions."
 msgid "Set a timeframe for removal of suggestions."
 msgstr "Aseta aikaväli ehdotusten poistamiselle."
 
@@ -2239,26 +2219,22 @@ msgid "In display limits"
 msgstr "Rajojen sisällä"
 
 #: weblate/billing/models.py:398
-#, fuzzy, python-format
-#| msgid "Created project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Luotu projekti"
-msgstr[1] "Luotu projekti"
+msgstr[0] "Sisältää yhden projektin"
+msgstr[1] "Sisältää %d projektia"
 
 #: weblate/billing/models.py:415
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Uudelleennimetty käännöskomponentti"
-msgstr[1] "Uudelleennimetty käännöskomponentti"
+msgstr[0] "Sisältää yhden komponentin"
+msgstr[1] "Sisältää %d komponenttia"
 
 #: weblate/billing/models.py:430
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "Lisenssi muuttunut"
+msgstr "Lisenssi puuttuu"
 
 #: weblate/billing/tasks.py:85
 msgid ""
@@ -3031,10 +3007,8 @@ msgid "XLIFF translation file with PO extensions"
 msgstr "XLIFF-käännöstiedosto PO-laajennuksilla"
 
 #: weblate/formats/ttkit.py:1002
-#, fuzzy
-#| msgid "iOS strings (UTF-8)"
 msgid "iOS strings (UTF-16)"
-msgstr "iOS-tekstit (UTF-8)"
+msgstr "iOS-tekstit (UTF-16)"
 
 #: weblate/formats/ttkit.py:1011
 msgid "iOS strings (UTF-8)"
@@ -3282,13 +3256,11 @@ msgid "No terms to import found in file."
 msgstr "Tiedostosta ei löytynyt tuotavia termejä."
 
 #: weblate/glossary/views.py:261
-#, fuzzy, python-format
-#| msgid "Imported %d word from the uploaded file."
-#| msgid_plural "Imported %d words from the uploaded file."
+#, python-format
 msgid "Imported %d term from the uploaded file."
 msgid_plural "Imported %d terms from the uploaded file."
-msgstr[0] "Tuotu %d sana lähetetystä tiedostosta."
-msgstr[1] "Tuotu %d sanaa lähetetystä tiedostosta."
+msgstr[0] "Tuotu yksi termi lähetetystä tiedostosta."
+msgstr[1] "Tuotu %d termiä lähetetystä tiedostosta."
 
 #: weblate/glossary/views.py:268 weblate/trans/views/files.py:191
 #, python-format
@@ -4165,10 +4137,8 @@ msgid "Register"
 msgstr "Rekisteröidy"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "Tilaukset"
+msgstr "Kokeilutilaukset"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -4177,10 +4147,8 @@ msgid ", expires %(expires)s"
 msgstr ", päättyy %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:26
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "Odottava teksti"
+msgstr "Odottaa hyväksyntää"
 
 #: weblate/templates/accounts/hosting.html:43
 #: weblate/templates/manage/users.html:43
@@ -4202,41 +4170,31 @@ msgid "Contributor agreement"
 msgstr "Osallistujasopimus"
 
 #: weblate/templates/accounts/hosting.html:84
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please check that following conditions are met:"
-msgstr "Ole hyvä ja lue seuraava osallistujasopimus:"
+msgstr "Tarkista, että seuraavat ehdot täyttyvät:"
 
 #: weblate/templates/accounts/hosting.html:86
 #: weblate/templates/accounts/hosting.html:123
-#, fuzzy
-#| msgid ""
-#| "Source code has to be publicly available in a supported version control "
-#| "system."
 msgid ""
 "All the source code has to be publicly available in a supported version "
 "control system."
 msgstr ""
-"Lähdekoodin tulee olla julkisesti saatavilla tuetussa "
+"Kaiken lähdekoodin tulee olla julkisesti saatavilla tuetussa "
 "versionhallintajärjestelmässä."
 
 #: weblate/templates/accounts/hosting.html:87
 #: weblate/templates/accounts/hosting.html:124
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Käyttäjä on poistettu tästä projektista."
+msgstr "Yläjuoksun projekti hyväksyy Weblaten käyttämisen."
 
 #: weblate/templates/accounts/hosting.html:88
 #: weblate/templates/accounts/hosting.html:125
 msgid "The project has had active development for at least three months."
-msgstr ""
+msgstr "Projektia on kehitetty aktiivisesti vähintään kolme kuukautta."
 
 #: weblate/templates/accounts/hosting.html:91
-#, fuzzy
-#| msgid "Approved string"
 msgid "Approve as libre"
-msgstr "Hyväksytty teksti"
+msgstr "Hyväksy vapaaksi"
 
 #: weblate/templates/accounts/hosting.html:94
 #: weblate/templates/billing/detail.html:31
@@ -4256,10 +4214,8 @@ msgid "Extend trial"
 msgstr ""
 
 #: weblate/templates/accounts/hosting.html:114
-#, fuzzy
-#| msgid "Translation project:"
 msgid "Translate your libre project"
-msgstr "Käännösprojekti:"
+msgstr "Käännä vapaa projektisi"
 
 #: weblate/templates/accounts/hosting.html:118
 #, fuzzy
@@ -4294,16 +4250,12 @@ msgid "Unapproved projects will be removed."
 msgstr ""
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "There is no guarantee for service availability, nor quality."
 msgid "There is no guarantee of service availability, nor quality."
 msgstr "Ei takuuta palvelun saatavuudelle tai laadulle."
 
 #: weblate/templates/accounts/hosting.html:134
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "Hanki tukea"
+msgstr "Aloita"
 
 #: weblate/templates/accounts/hosting.html:140
 #, fuzzy
@@ -4520,10 +4472,8 @@ msgid "Download user data"
 msgstr "Lataa käyttäjätiedot"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "Julkinen profiilisi"
+msgstr "Julkinen profiili"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
@@ -4723,10 +4673,8 @@ msgid "Reset my password"
 msgstr "Palauta salasanani"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "Kiitoksia Weblaten käyttämisestä."
+msgstr "Kiitoksia Weblaten kokeilemisesta!"
 
 #: weblate/templates/accounts/trial.html:20
 #, fuzzy
@@ -4754,10 +4702,8 @@ msgid "All configuration will stay once you start paying."
 msgstr ""
 
 #: weblate/templates/accounts/trial.html:30
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "Aloita uusi käännös"
+msgstr "Aloita kokeilu!"
 
 #: weblate/templates/accounts/user.html:8 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -4814,8 +4760,6 @@ msgstr[0] "yksi kommentti"
 msgstr[1] "%(count)s kommenttia"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Project contributions"
 msgid "Projects contributions"
 msgstr "Osallistuminen projekteihin"
 
@@ -6568,7 +6512,7 @@ msgstr "Siivous"
 
 #: weblate/templates/js/git-status.html:89
 msgid "Locking prevents translators from doing changes"
-msgstr ""
+msgstr "Lukitseminen estää kääntäjiä tekemästä muutoksia"
 
 #: weblate/templates/js/git-status.html:94
 #, fuzzy
@@ -6742,7 +6686,7 @@ msgstr "Luotu %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "Your trial period is going to expire in less than a week."
-msgstr ""
+msgstr "Kokeilujaksosi päättyy alle viikon kuluessa."
 
 #: weblate/templates/mail/billing_expired.html:10
 #, fuzzy
@@ -6807,7 +6751,7 @@ msgstr "Käännösprojektisi on ajastettu poistettavaksi"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your trial period is about to expire"
-msgstr ""
+msgstr "Kokeilujaksosi on päättymässä"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
@@ -6843,50 +6787,35 @@ msgstr ""
 "%(target)s."
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "Komponentti %(component)s lukittiin"
+msgstr "Komponentin %(component)s osallistujasopimusta muutettiin."
 
 #: weblate/templates/mail/component_license.html:15
-#, fuzzy
-#| msgid "Placement"
 msgid "Old agreement:"
-msgstr "Sijoittelu"
+msgstr "Vanha sopimus:"
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "View contributor agreement"
 msgid "There was no contributor agreement before."
-msgstr "Näytä osallistujasopimus"
+msgstr "Osallistujasopimusta ei ollut aiemmin."
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "New payment"
 msgid "New agreement:"
-msgstr "Uusi maksu"
+msgstr "Uusi sopimus:"
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Contributor agreement"
 msgid "Contributor agreement was removed."
-msgstr "Osallistujasopimus"
+msgstr "Osallistujasopimus poistettiin."
 
 #: weblate/templates/mail/component_license_subject.txt:4
-#, fuzzy, python-format
-#| msgid ""
-#| "New component %(component)s has been added to %(project)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "%(component)s was re-licensed to %(target)s"
-msgstr ""
-"Projektiin %(project)s sivustolla %(site_title)s on lisätty uusi "
-"käännöskomponentti %(component)s."
+msgstr "Komponentin %(component)s lisenssiksi vaihdettiin %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "Komponentti %(component)s lukittiin"
+msgstr "Komponentin %(component)s osallistujasopimusta muutettiin"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -8857,15 +8786,12 @@ msgstr ""
 "äänestyksellä."
 
 #: weblate/templates/translate.html:188
-#, fuzzy
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires you agree to its contributor "
 "agreement."
 msgstr ""
-"Osallistuaksesi tähän käännökseen sinun pitää hyväksyä osallistujasopimus."
+"Osallistuaksesi tähän käännökseen sinun pitää hyväksyä sen "
+"osallistujasopimus."
 
 #: weblate/templates/translate.html:192
 msgid "Insufficient privileges for editing source strings."
@@ -9066,10 +8992,8 @@ msgid "Source string location"
 msgstr "Lähdetekstin sijainti"
 
 #: weblate/templates/translate.html:620
-#, fuzzy
-#| msgid "String state"
 msgid "String age"
-msgstr "Tekstin tila"
+msgstr "Tekstin ikä"
 
 #: weblate/templates/translate.html:626
 msgid "Source string age"
