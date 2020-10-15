@@ -160,6 +160,7 @@ Notable configuration or dependencies changes:
 * The database migration to 4.3 might take long depending on number of strings you are translating (expect around one hour of migration time per 100,000 source strings).
 * There is a change in :setting:`django:INSTALLED_APPS`.
 * There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which complements :setting:`django:SESSION_COOKIE_AGE`.
+* In case you were using :command:`hub` or :command:`lab` to integrate with GitHub or GitLab, you will need to reconfigure this, see :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
