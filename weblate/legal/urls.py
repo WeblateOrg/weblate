@@ -20,6 +20,7 @@
 from django.urls import path
 
 from weblate.legal.views import (
+    ContractsView,
     CookiesView,
     LegalView,
     PrivacyView,
@@ -34,5 +35,6 @@ urlpatterns = [
     path("cookies/", CookiesView.as_view(), name="cookies"),
     path("security/", SecurityView.as_view(), name="security"),
     path("privacy/", PrivacyView.as_view(), name="privacy"),
+    path("contracts/", ContractsView.as_view(), name="contracts"),
     path("confirm/", tos_confirm, name="confirm"),
 ]

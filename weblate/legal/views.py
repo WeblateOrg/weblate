@@ -33,6 +33,7 @@ MENU = (
     ("cookies", "legal:cookies", _("Cookies")),
     ("security", "legal:security", _("Security")),
     ("privacy", "legal:privacy", _("Privacy")),
+    ("contracts", "legal:contracts", _("Subcontractors")),
 )
 
 
@@ -65,6 +66,10 @@ class SecurityView(LegalView):
 
 class PrivacyView(LegalView):
     page = "privacy"
+
+
+class ContractsView(LegalView):
+    page = "contracts"
 
 
 @never_cache

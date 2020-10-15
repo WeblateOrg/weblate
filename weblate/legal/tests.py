@@ -46,6 +46,10 @@ class LegalTest(TestCase, RegistrationTestMixin):
         response = self.client.get(reverse("legal:security"))
         self.assertContains(response, "Security Policy")
 
+    def test_contracts(self):
+        response = self.client.get(reverse("legal:contracts"))
+        self.assertContains(response, "Subcontractors")
+
     @modify_settings(
         SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"}
     )
