@@ -1,7 +1,7 @@
 Weblate 4.3
 -----------
 
-Not yet released.
+Released on October 15th 2020.
 
 * Include user stats in the API.
 * Fixed component ordering on paginated pages.
