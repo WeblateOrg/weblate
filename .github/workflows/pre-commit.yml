@@ -21,7 +21,7 @@ jobs:
             ~/.cache/pre-commit
           key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
       - name: Setup Python
-        uses: actions/setup-python@v2.1.3
+        uses: actions/setup-python@v2.1.4
         with:
           python-version: 3.8
       - name: Install dependencies
