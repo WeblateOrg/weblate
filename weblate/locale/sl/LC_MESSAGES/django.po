@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-13 14:17+0000\n"
-"PO-Revision-Date: 2020-08-03 17:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-10-15 22:11+0000\n"
+"Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "application/sl/>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -4692,10 +4692,8 @@ msgid "Get started"
 msgstr "Stanje storitve"
 
 #: weblate/templates/accounts/hosting.html:140
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Za poslovno gostovanje stopite v stik z nami"
+msgstr "Potrebujete tržno storitev gostovanja?"
 
 #: weblate/templates/accounts/hosting.html:143
 #, python-format
@@ -5962,10 +5960,8 @@ msgid "Progress"
 msgstr ""
 
 #: weblate/templates/component-progress.html:17
-#, fuzzy
-#| msgid "Component list name"
 msgid "Component is being updated…"
-msgstr "Ime seznama komponent"
+msgstr "Komponenta se posodablja…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:57
 #, fuzzy
@@ -6698,17 +6694,17 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s niz</"
+"strong> za prevajanje in je <strong>%(percent)s-%% končan</strong>."
 msgstr[1] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s niza</"
+"strong> za prevajanje in je <strong>%(percent)s-%% končan</strong>."
 msgstr[2] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s nize</"
+"strong> za prevajanje in je <strong>%(percent)s-%% končan</strong>."
 msgstr[3] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s nizov</"
+"strong> za prevajanje in je <strong>%(percent)s-%% končan</strong>."
 
 #: weblate/templates/engage.html:44
 #, fuzzy, python-format
@@ -6723,34 +6719,33 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
 msgstr[0] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s niz</"
+"strong> za prevajanje."
 msgstr[1] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s niza</"
+"strong> za prevajanje."
 msgstr[2] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s nize</"
+"strong> za prevajanje."
 msgstr[3] ""
-"<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
-"trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
+"Prevajalski projekt za %(project)s trenutno vsebuje <strong>%(total)s nizov</"
+"strong> za prevajanje."
 
 #: weblate/templates/engage.html:46
-#, fuzzy, python-format
-#| msgid "Get involved in <strong>%(project)s</strong>"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "Sodelujte pri <strong>%(project)s</strong>"
-msgstr[1] "Sodelujte pri <strong>%(project)s</strong>"
-msgstr[2] "Sodelujte pri <strong>%(project)s</strong>"
-msgstr[3] "Sodelujte pri <strong>%(project)s</strong>"
+msgstr[0] "Prevaja se v <strong>%(count)s jezik</strong>."
+msgstr[1] "Prevaja se v <strong>%(count)s jezika</strong>."
+msgstr[2] "Prevaja se v <strong>%(count)s jezike</strong>."
+msgstr[3] "Prevaja se v <strong>%(count)s jezikov</strong>."
 
 #: weblate/templates/engage.html:48
 #, python-format
 msgid ""
 "Overall, these translations are <strong>%(percent)s%% complete</strong>."
-msgstr ""
+msgstr "Skupno so ti prevodi <strong>%(percent)s%% končani</strong>."
 
 #: weblate/templates/engage.html:51
 #, python-format
@@ -8874,10 +8869,8 @@ msgid "String changed by"
 msgstr "Izvirni niz je spremenjen"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "Iskanje %s"
+msgstr "Išči…"
 
 #: weblate/templates/snippets/query-builder.html:27
 #, fuzzy
