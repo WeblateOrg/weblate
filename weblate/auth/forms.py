@@ -69,3 +69,9 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
             username=request.user.username,
         )
         send_invitation(request, project.name if project else settings.SITE_TITLE, user)
+
+
+class AdminInviteUserForm(InviteUserForm):
+    class Meta:
+        model = User
+        fields = ["email", "username", "full_name", "is_superuser"]

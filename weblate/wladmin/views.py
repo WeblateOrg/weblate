@@ -28,7 +28,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
-from weblate.auth.forms import InviteUserForm
+from weblate.auth.forms import AdminInviteUserForm
 from weblate.auth.models import User
 from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
@@ -296,11 +296,11 @@ def alerts(request):
 
 @management_access
 def users(request):
-    invite_form = InviteUserForm()
+    invite_form = AdminInviteUserForm()
 
     if request.method == "POST":
         if "email" in request.POST:
-            invite_form = InviteUserForm(request.POST)
+            invite_form = AdminInviteUserForm(request.POST)
             if invite_form.is_valid():
                 invite_form.save(request)
                 messages.success(request, _("User has been invited to this project."))
