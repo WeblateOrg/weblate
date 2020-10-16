@@ -118,7 +118,6 @@ class ChangeQuerySet(models.QuerySet):
             "unit__translation__component",
             "unit__translation__component__project",
             "component__project",
-            "project",
         )
 
     def last_changes(self, user):
