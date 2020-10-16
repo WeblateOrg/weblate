@@ -371,11 +371,10 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     @cached_property
     def paid(self):
-        return (
-            "weblate.billing" not in settings.INSTALLED_APPS
-            or not self.billing_set.exists()
-            or self.billing_set.filter(paid=True).exists()
-        )
+        if "weblate.billing" not in settings.INSTALLED_APPS:
+            return False
+        billings = self.billing_set.all()
+        return not billings or any(billing.paid for billing in billings)
 
     def post_create(self, user, billing=None):
         from weblate.trans.models import Change
