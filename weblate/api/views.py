@@ -1525,7 +1525,7 @@ class Metrics(APIView):
                 "units": stats.all,
                 "units_translated": stats.translated,
                 "users": User.objects.count(),
-                "changes": Change.objects.count(),
+                "changes": stats.total_changes,
                 "projects": Project.objects.count(),
                 "components": Component.objects.count(),
                 "translations": Translation.objects.count(),
