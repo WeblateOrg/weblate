@@ -40,7 +40,7 @@ class AutoTranslate:
         units = self.translation.unit_set.all()
         if self.mode == "suggest":
             units = units.filter(suggestion__isnull=True)
-        return units.filter_type(self.filter_type).prefetch()
+        return units.filter_type(self.filter_type)
 
     def set_progress(self, current):
         if current_task and current_task.request.id and self.total:
@@ -97,7 +97,7 @@ class AutoTranslate:
         self.total = len(units)
 
         for pos, unit in enumerate(
-            Unit.objects.filter(id__in=units).select_for_update()
+            Unit.objects.filter(id__in=units).prefetch().select_for_update()
         ):
             # Get first matching entry
             update = sources.filter(source=unit.source).first()
@@ -116,7 +116,7 @@ class AutoTranslate:
         """Get the translations."""
         translations = {}
 
-        for pos, unit in enumerate(self.get_units()):
+        for pos, unit in enumerate(self.get_units().prefetch()):
             # a list to store all found translations
             max_quality = threshold - 1
             translation = None
@@ -164,7 +164,7 @@ class AutoTranslate:
         with transaction.atomic():
             # Perform the translation
             for pos, unit in enumerate(
-                Unit.objects.filter(id__in=units).select_for_update()
+                Unit.objects.filter(id__in=units).prefetch().select_for_update()
             ):
                 # Copy translation
                 try:

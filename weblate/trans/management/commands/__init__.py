@@ -69,11 +69,7 @@ class WeblateComponentCommand(BaseCommand):
         while current < last:
             self.stdout.write("Processing {0:.1f}%".format(done * 100.0 / count))
             with transaction.atomic():
-                step_units = units.filter(pk__gt=current)[:step].prefetch_related(
-                    "translation__language",
-                    "translation__component",
-                    "translation__component__project",
-                )
+                step_units = units.filter(pk__gt=current)[:step].prefetch()
                 for unit in step_units:
                     current = unit.pk
                     done += 1

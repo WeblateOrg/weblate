@@ -94,13 +94,17 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 
     def prefetch(self):
         return self.prefetch_related(
-            "labels",
             "translation",
             "translation__language",
             "translation__plural",
             "translation__component",
             "translation__component__project",
             "translation__component__source_language",
+        )
+
+    def prefetch_full(self):
+        return self.prefetch().prefetch_related(
+            "labels",
             "source_unit",
             "source_unit__translation",
             "source_unit__translation__component",
@@ -135,7 +139,7 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 
     def search(self, query):
         """High level wrapper for searching."""
-        return self.prefetch().filter(parse_query(query))
+        return self.prefetch_full().filter(parse_query(query))
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
@@ -774,7 +778,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         This is needed when editing template translation for monolingual formats.
         """
         # Find relevant units
-        for unit in self.unit_set.exclude(id=self.id).prefetch():
+        for unit in self.unit_set.exclude(id=self.id).prefetch_full():
             # Update source, number of words and content_hash
             unit.source = self.target
             unit.num_words = self.num_words
@@ -962,7 +966,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def nearby(self, count):
         """Return list of nearby messages based on location."""
         return (
-            self.translation.unit_set.prefetch()
+            self.translation.unit_set.prefetch_full()
             .order_by("position")
             .filter(
                 position__gte=self.position - count,
@@ -987,7 +991,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         nearby = key_list[max(offset - count, 0) : offset + count]
         return (
             self.translation.unit_set.filter(id__in=nearby)
-            .prefetch()
+            .prefetch_full()
             .order_by("context")
         )
 
@@ -996,7 +1000,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return []
         return (
             self.variant.unit_set.filter(translation=self.translation)
-            .prefetch()
+            .prefetch_full()
             .order_by("context")
         )
 
@@ -1108,7 +1112,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def same_source_units(self):
         return (
             Unit.objects.same(self)
-            .prefetch()
+            .prefetch_full()
             .filter(translation__component__allow_translation_propagation=True)
         )
 

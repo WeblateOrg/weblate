@@ -3,6 +3,8 @@ Weblate 4.3.1
 
 Not yet released.
 
+* Improved automatic translation performance.
+
 Weblate 4.3
 -----------
 

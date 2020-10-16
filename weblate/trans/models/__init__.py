@@ -98,7 +98,7 @@ def update_source(sender, instance, **kwargs):
         or instance.state != instance.old_unit.state
     ):
         # We can not exclude current unit here as we need to trigger the updates below
-        for unit in instance.unit_set.prefetch():
+        for unit in instance.unit_set.prefetch_full():
             unit.update_state()
             unit.update_priority()
             unit.run_checks()

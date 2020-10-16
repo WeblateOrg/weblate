@@ -44,7 +44,7 @@ class GenerateMoAddon(GettextBaseAddon):
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
-        exporter.add_units(translation.unit_set.prefetch())
+        exporter.add_units(translation.unit_set.prefetch_full())
 
         template = self.instance.configuration.get("path")
         if not template:
