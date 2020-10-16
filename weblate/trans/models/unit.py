@@ -1080,7 +1080,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         secondary_langs = user.profile.secondary_languages.exclude(
             id=self.translation.language.id
         )
-        return get_distinct_translations(
+        result = get_distinct_translations(
             self.source_unit.unit_set.filter(
                 state__gte=STATE_TRANSLATED,
                 translation__language__in=secondary_langs,
@@ -1094,11 +1094,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 "translation__language",
                 "translation__plural",
             )
-            .prefetch_related(
-                "translation__component",
-                "translation__component__project",
-            )
         )
+        for unit in result:
+            unit.translation.component = self.translation.component
+        return result
 
     @property
     def checksum(self):
