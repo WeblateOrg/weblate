@@ -115,7 +115,11 @@ def download_translation(request, project, component, lang):
             show_form_errors(request, form)
             return redirect(obj)
 
-        kwargs["units"] = obj.unit_set.search(form.cleaned_data.get("q", "")).distinct()
+        kwargs["units"] = (
+            obj.unit_set.search(form.cleaned_data.get("q", ""))
+            .distinct()
+            .prefetch_full()
+        )
         kwargs["fmt"] = form.cleaned_data["format"]
 
     return download_translation_file(obj, **kwargs)

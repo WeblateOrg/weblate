@@ -185,12 +185,13 @@ def search(request, project=None, component=None, lang=None):
         )
         search_form.is_valid()
         # Filter results by ACL
+        units = Unit.objects.prefetch_full()
         if component:
-            units = Unit.objects.filter(translation__component=obj)
+            units = units.filter(translation__component=obj)
         elif project:
-            units = Unit.objects.filter(translation__component__project=obj)
+            units = units.filter(translation__component__project=obj)
         else:
-            units = Unit.objects.filter_access(request.user)
+            units = units.filter_access(request.user)
         units = units.search(search_form.cleaned_data.get("q", "")).distinct()
         if lang:
             units = units.filter(translation__language=context["language"])

@@ -37,7 +37,7 @@ def bulk_perform(
     add_labels,
     remove_labels,
 ):
-    matching = unit_set.search(query)
+    matching = unit_set.search(query).prefetch()
     components = Component.objects.filter(
         id__in=matching.values_list("translation__component_id", flat=True)
     )
