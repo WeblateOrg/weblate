@@ -36,7 +36,7 @@
   <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
 
   {% if offer_hosting %}
-    {% for billing in object.billing_set.all %}
+    {% for billing in object.billings %}
       {% if billing.is_trial and billing.plan.price == 0 %}
         <a href="{% url 'hosting' %}#billing-{{ billing.pk }}" class="btn btn-primary">{% trans "Request approval for libre hosting" %}</a>
       {% endif %}

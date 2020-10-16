@@ -25,12 +25,11 @@
 {% perm 'billing.view' object as user_can_view_billing %}
 
 {% if user_can_view_billing %}
-{% with object.billing_set.all as billings %}
-{% if billings %}
+{% if object.billings %}
 <tr>
 <th>{% trans "Billing" %}</th>
 <td class="full-cell">
-{% for billing in billings %}
+{% for billing in object.billings %}
   <a href="{{ billing.get_absolute_url }}">{{ billing.plan }}
     {% if billing.is_trial %}
       <span class="badge">{% trans "Trial" %}</span>
@@ -43,5 +42,4 @@
 </td>
 </tr>
 {% endif %}
-{% endwith %}
 {% endif %}

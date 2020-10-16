@@ -17,11 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.trans.models import Comment
+from weblate.trans.models import Comment, Project
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.tests.utils import create_test_billing
 
 
 class PermissionsTest(FixtureTestCase):
@@ -113,3 +114,48 @@ class PermissionsTest(FixtureTestCase):
         self.assertTrue(self.superuser.has_perm("unit.edit", self.component))
         self.assertFalse(self.admin.has_perm("unit.edit", self.component))
         self.assertFalse(self.user.has_perm("unit.edit", self.component))
+
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_permission_billing(self):
+        # Permissions should apply without billing
+        with modify_settings(INSTALLED_APPS={"remove": "weblate.billing"}):
+            self.assertTrue(
+                self.superuser.has_perm("billing:project.permissions", self.project)
+            )
+            self.assertTrue(
+                self.admin.has_perm("billing:project.permissions", self.project)
+            )
+            self.assertFalse(
+                self.user.has_perm("billing:project.permissions", self.project)
+            )
+
+        # With billing enabled and no plan it should be disabled
+        self.assertFalse(
+            self.superuser.has_perm("billing:project.permissions", self.project)
+        )
+        self.assertFalse(
+            self.admin.has_perm("billing:project.permissions", self.project)
+        )
+        self.assertFalse(
+            self.user.has_perm("billing:project.permissions", self.project)
+        )
+
+        project = Project.objects.get(pk=self.project.pk)
+        billing = create_test_billing(self.admin)
+        billing.projects.add(project)
+
+        # The default plan allows
+        self.assertTrue(self.superuser.has_perm("billing:project.permissions", project))
+        self.assertTrue(self.admin.has_perm("billing:project.permissions", project))
+        self.assertFalse(self.user.has_perm("billing:project.permissions", project))
+
+        billing.plan.change_access_control = False
+        billing.plan.save()
+        project = Project.objects.get(pk=self.project.pk)
+
+        # It should be restricted now
+        self.assertFalse(
+            self.superuser.has_perm("billing:project.permissions", project)
+        )
+        self.assertFalse(self.admin.has_perm("billing:project.permissions", project))
+        self.assertFalse(self.user.has_perm("billing:project.permissions", project))
