@@ -185,7 +185,7 @@ def search(request, project=None, component=None, lang=None):
         )
         search_form.is_valid()
         # Filter results by ACL
-        units = Unit.objects.prefetch_full()
+        units = Unit.objects.prefetch_full().prefetch()
         if component:
             units = units.filter(translation__component=obj)
         elif project:
