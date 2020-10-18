@@ -115,8 +115,10 @@ class AutoTranslate:
     def fetch_mt(self, engines, threshold):
         """Get the translations."""
         translations = {}
+        units = self.get_units().prefetch()
+        self.total = len(units)
 
-        for pos, unit in enumerate(self.get_units().prefetch()):
+        for pos, unit in enumerate(units):
             # a list to store all found translations
             max_quality = threshold - 1
             translation = None
@@ -157,21 +159,17 @@ class AutoTranslate:
 
     def process_mt(self, engines, threshold):
         """Perform automatic translation based on machine translation."""
-        units = set(self.get_units().values_list("id", flat=True))
-        self.total = len(units)
         translations = self.fetch_mt(engines, int(threshold))
 
         with transaction.atomic():
             # Perform the translation
             for pos, unit in enumerate(
-                Unit.objects.filter(id__in=units).prefetch().select_for_update()
+                Unit.objects.filter(id__in=translations.keys())
+                .prefetch()
+                .select_for_update()
             ):
                 # Copy translation
-                try:
-                    self.update(unit, self.target_state, translations[unit.pk])
-                except KeyError:
-                    # Probably new unit, ignore it for now
-                    continue
+                self.update(unit, self.target_state, translations[unit.pk])
                 self.set_progress((self.total / 2) + (pos / 2))
 
             self.post_process()
