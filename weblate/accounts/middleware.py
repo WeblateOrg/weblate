@@ -26,6 +26,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.utils.translation import activate, get_language, get_language_from_request
 
 from weblate.accounts.models import set_lang
+from weblate.accounts.utils import adjust_session_expiry
 from weblate.auth.models import get_anonymous
 
 
@@ -60,6 +61,10 @@ class AuthenticationMiddleware:
             language = user.profile.language
         else:
             language = get_language_from_request(request)
+
+        # Extend session expiry for authenticated users
+        if user.is_authenticated:
+            adjust_session_expiry(request)
 
         # Based on django.middleware.locale.LocaleMiddleware
         activate(language)
