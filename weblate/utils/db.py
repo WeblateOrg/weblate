@@ -33,6 +33,7 @@ def conditional_sum(value=1, **cond):
 
 class PostgreSQLSearchLookup(PatternLookup):
     lookup_name = "search"
+    param_pattern = "%s"
 
     def as_sql(self, qn, connection):
         lhs, lhs_params = self.process_lhs(qn, connection)
