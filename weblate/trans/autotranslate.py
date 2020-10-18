@@ -36,9 +36,9 @@ class AutoTranslate:
         self.total = 0
         self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
 
-    def get_units(self):
+    def get_units(self, filter_mode=True):
         units = self.translation.unit_set.all()
-        if self.mode == "suggest":
+        if self.mode == "suggest" and filter_mode:
             units = units.filter(suggestion__isnull=True)
         return units.filter_type(self.filter_type)
 
@@ -88,27 +88,34 @@ class AutoTranslate:
         if exclude:
             sources = sources.exclude(**exclude)
 
-        # Filter by strings
-        units = set(
-            self.get_units()
-            .filter(source__in=sources.values("source"))
-            .values_list("id", flat=True)
+        # Fetch translations
+        translations = {
+            source: (state, target)
+            for source, state, target in sources.filter(
+                source__in=self.get_units().values("source")
+            ).values_list("source", "state", "target")
+        }
+
+        # We need to skip mode (suggestions) filtering here as SELECT FOR UPDATE
+        # cannot be used with JOIN
+        units = (
+            self.get_units(False)
+            .filter(source__in=translations.keys())
+            .prefetch()
+            .select_for_update()
         )
         self.total = len(units)
 
-        for pos, unit in enumerate(
-            Unit.objects.filter(id__in=units).prefetch().select_for_update()
-        ):
-            # Get first matching entry
-            update = sources.filter(source=unit.source).first()
+        for pos, unit in enumerate(units):
+            # Get update
+            state, target = translations[unit.source]
+
             # No save if translation is same or unit does not exist
-            if update is None or (
-                unit.state == update.state and unit.target == update.target
-            ):
+            if unit.state == state and unit.target == target:
                 continue
             # Copy translation
-            self.update(unit, update.state, update.target)
-            self.set_progress(pos / 2)
+            self.update(unit, state, target)
+            self.set_progress(pos)
 
         self.post_process()
 

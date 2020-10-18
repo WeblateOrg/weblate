@@ -93,7 +93,7 @@ class AutoTranslationTest(ViewTestCase):
         """Test for automatic translation with different content."""
         self.perform_auto()
 
-    def test_sugggest(self):
+    def test_suggest(self):
         """Test for automatic suggestion."""
         self.perform_auto(mode="suggest")
         self.perform_auto(0, 1, mode="suggest")
