@@ -30,7 +30,7 @@ from django.db import models, transaction
 from django.db.models import F, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils import timezone, translation
+from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
@@ -587,7 +587,7 @@ class Profile(models.Model):
         return project.id in self.watched_project_ids
 
 
-def set_lang(response, profile):
+def set_lang_cookie(response, profile):
     """Set session language based on user preferences."""
     if profile.language:
         response.set_cookie(
@@ -600,7 +600,6 @@ def set_lang(response, profile):
             httponly=settings.LANGUAGE_COOKIE_HTTPONLY,
             samesite=settings.LANGUAGE_COOKIE_SAMESITE,
         )
-        translation.activate(profile.language)
 
 
 @receiver(user_logged_in)

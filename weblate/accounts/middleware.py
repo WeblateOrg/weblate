@@ -25,7 +25,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils.translation import activate, get_language, get_language_from_request
 
-from weblate.accounts.models import set_lang
+from weblate.accounts.models import set_lang_cookie
 from weblate.accounts.utils import adjust_session_expiry
 from weblate.auth.models import get_anonymous
 
@@ -77,7 +77,7 @@ class AuthenticationMiddleware:
         if user.is_authenticated and user.profile.language != request.COOKIES.get(
             settings.LANGUAGE_COOKIE_NAME
         ):
-            set_lang(response, user.profile)
+            set_lang_cookie(response, user.profile)
 
         return response
 
