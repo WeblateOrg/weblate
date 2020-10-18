@@ -371,6 +371,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     @cached_property
     def billings(self):
+        if "weblate.billing" not in settings.INSTALLED_APPS:
+            return []
         return self.billing_set.all()
 
     @cached_property
