@@ -9,13 +9,14 @@
 # Henrik Dankvardt <dankvardt@gmail.com>, 2019, 2020.
 # Alexander Danilov <git@modos189.ru>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
+# DraxGaming <simonholmelund@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-13 14:17+0000\n"
-"PO-Revision-Date: 2020-10-07 10:52+0000\n"
-"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
+"PO-Revision-Date: 2020-10-18 09:30+0000\n"
+"Last-Translator: DraxGaming <simonholmelund@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
 "Language: da\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -550,6 +551,8 @@ msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr ""
+"Liberapay er en platform til at doner penge til teams, organisationer og til "
+"enkelte personer."
 
 #: weblate/accounts/models.py:429
 msgid "Fediverse URL"
@@ -2240,20 +2243,18 @@ msgid "In display limits"
 msgstr "I skærmgrænser"
 
 #: weblate/billing/models.py:398
-#, fuzzy, python-format
-#| msgid "Create project"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
-msgstr[0] "Opret projekt"
-msgstr[1] "Opret projekt"
+msgstr[0] "Indeholder %d projekt"
+msgstr[1] "Indeholder %d projekter"
 
 #: weblate/billing/models.py:415
-#, fuzzy, python-format
-#| msgid "Renamed component"
+#, python-format
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
-msgstr[0] "Omdøbt komponent"
-msgstr[1] "Omdøbt komponent"
+msgstr[0] "Indeholder %d komponent"
+msgstr[1] "Indeholder %d komponenter"
 
 #: weblate/billing/models.py:430
 #, fuzzy
@@ -2330,10 +2331,8 @@ msgid "Double space"
 msgstr "Dobbelt mellemrum"
 
 #: weblate/checks/chars.py:147
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translation contains double space"
-msgstr "Kommentar til oversættelsen er blevet slettet."
+msgstr "Oversættelsen indeholder dobbelt mellemrum"
 
 #: weblate/checks/chars.py:168
 #, fuzzy
@@ -2490,10 +2489,9 @@ msgid "This string has been translated in the past"
 msgstr "Strengen er blevet oversat tidligere"
 
 #: weblate/checks/consistency.py:105
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Last translation was \"%s\"."
-msgstr "Ugyldigt oversættelsesflag: \"%s\""
+msgstr "Den sidste oversættelse var \"%s\"."
 
 #: weblate/checks/duplicate.py:55
 #, fuzzy
@@ -2578,10 +2576,9 @@ msgid "Invalid translation flag: \"%s\""
 msgstr "Ugyldigt oversættelsesflag: \"%s\""
 
 #: weblate/checks/flags.py:246
-#, fuzzy, python-format
-#| msgid "Translation flags"
+#, python-format
 msgid "Translation flag has no parameters: \"%s\""
-msgstr "Oversættelsesflag"
+msgstr "Oversættelsesflaget har ingen parametre: \"%s\""
 
 #: weblate/checks/flags.py:252
 #, fuzzy, python-format
@@ -2800,20 +2797,16 @@ msgid "Unsafe HTML"
 msgstr "Usikker HTML"
 
 #: weblate/checks/markup.py:323
-#, fuzzy
-#| msgid "The translation is using bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "Oversættelsen bruger tosprogede filer."
+msgstr "Oversættelsen bruger en usikker HTML-markering"
 
 #: weblate/checks/placeholders.py:41
 msgid "Placeholders"
 msgstr "Pladsholdere"
 
 #: weblate/checks/placeholders.py:42
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "Oversættelsen mangler nogle pladsholdere:"
+msgstr "Oversættelsen mangler nogle pladsholdere"
 
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
@@ -2821,10 +2814,8 @@ msgid "Regular expression"
 msgstr "Regulært udtryk"
 
 #: weblate/checks/placeholders.py:109
-#, fuzzy
-#| msgid "The translation name does not match the one to delete!"
 msgid "Translation does not match regular expression:"
-msgstr "Oversættelsesnavnet er ikke magen til det der er ved at blive slettet!"
+msgstr "Oversættelsen matcher ikke det almindelig udtryk:"
 
 #: weblate/checks/qt.py:49
 msgid "Qt format"
@@ -3381,10 +3372,8 @@ msgid "%(language)s glossary for %(project)s"
 msgstr "%(language)s-ordbog for %(project)s"
 
 #: weblate/glossary/views.py:134 weblate/glossary/views.py:149
-#, fuzzy
-#| msgid "Reverted change not found!"
 msgid "Glossary was not found."
-msgstr "Tilbageført ændring blev ikke fundet!"
+msgstr "Ordlisten blev ikke fundet."
 
 #: weblate/glossary/views.py:259
 #, fuzzy
@@ -3646,10 +3635,9 @@ msgid "Remove all translations using this language first."
 msgstr "Oversættelsen bruger tosprogede filer."
 
 #: weblate/lang/views.py:78
-#, fuzzy, python-format
-#| msgid "Language codes"
+#, python-format
 msgid "Language %s removed."
-msgstr "Sprogkoder"
+msgstr "Sproget %s blev fjernet."
 
 #: weblate/legal/forms.py:27
 msgid "I agree with the Terms of Service document"
@@ -4707,6 +4695,7 @@ msgstr "Beskrivelse"
 #: weblate/templates/accounts/profile.html:217
 msgid "Contact us immediately if you see anything suspicious in the audit log."
 msgstr ""
+"Kontakt os øjeblikkeligt hvis du ser noget mistænksomt i revisionsloggen."
 
 #: weblate/templates/accounts/profile.html:226
 #: weblate/templates/manage/users_check.html:37
@@ -4897,10 +4886,8 @@ msgid "Reset my password"
 msgstr "Nulstil min adgangskode"
 
 #: weblate/templates/accounts/trial.html:14
-#, fuzzy
-#| msgid "Thank you for using Weblate."
 msgid "Thank you for your interest in trying Weblate!"
-msgstr "Tak fordi du bruger Weblate."
+msgstr "Tak fordi du er interesserede i at prøve Weblate!"
 
 #: weblate/templates/accounts/trial.html:20
 #, fuzzy
@@ -4909,10 +4896,8 @@ msgid "Your trial offer"
 msgstr "Din profil"
 
 #: weblate/templates/accounts/trial.html:23
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will last 14 days."
-msgstr "Din e-mail"
+msgstr "Din prøveperiode varer 14 dage."
 
 #: weblate/templates/accounts/trial.html:24
 msgid ""
@@ -4928,10 +4913,8 @@ msgid "All configuration will stay once you start paying."
 msgstr ""
 
 #: weblate/templates/accounts/trial.html:30
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Start the trial!"
-msgstr "Start ny oversættelse"
+msgstr "Start prøveperioden!"
 
 #: weblate/templates/accounts/user.html:8 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -4947,7 +4930,7 @@ msgstr "Brugere"
 #: weblate/templates/accounts/user.html:19
 #, python-format
 msgid "Joined on %(date)s"
-msgstr ""
+msgstr "Tilsluttet den %(date)s"
 
 #: weblate/templates/accounts/user.html:35 weblate/templates/language.html:72
 #, python-format
@@ -4957,12 +4940,11 @@ msgstr[0] "%(count)s oversættelse"
 msgstr[1] "%(count)s oversættelser"
 
 #: weblate/templates/accounts/user.html:40
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "Afventende forslag"
-msgstr[1] "Afventende forslag"
+msgstr[0] "%(count)s forslag"
+msgstr[1] "%(count)s forslag"
 
 #: weblate/templates/accounts/user.html:47
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
@@ -4992,10 +4974,8 @@ msgstr[0] "%(count)s stemme"
 msgstr[1] "%(count)s stemmer"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Project Information"
 msgid "Projects contributions"
-msgstr "Information om projektet"
+msgstr "Projekt bidrag"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -5016,17 +4996,13 @@ msgid "Browse all changes for user"
 msgstr "Gennemse alle ændringer for brugeren"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
-#, fuzzy
-#| msgid "Last activity"
 msgid "Daily activity"
-msgstr "Seneste aktivitet"
+msgstr "Daglig aktivitet"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
-#, fuzzy
-#| msgid "Last activity"
 msgid "Weekly activity"
-msgstr "Seneste aktivitet"
+msgstr "Ugentlig aktivitet"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -6905,13 +6881,11 @@ msgstr "Tilbagefør"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:51
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "%(count)s redigerede tegn"
+msgstr[1] "%(count)s redigerede tegn"
 
 #: weblate/templates/last-changes-content.html:78
 msgid "No matching activity found."
@@ -10697,10 +10671,8 @@ msgstr "Oversættelsen blev uploadet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:250
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Added to glossary"
-msgstr "Føj ord til ordbog"
+msgstr "Tilføjet til ordlisten"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:252
