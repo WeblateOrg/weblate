@@ -146,7 +146,8 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         translation = unit.translation
         component = translation.component
         result = self.filter(
-            content_hash=unit.content_hash,
+            source=unit.source,
+            context=unit.context,
             translation__component__project_id=component.project_id,
             translation__language_id=translation.language_id,
             translation__component__source_language_id=component.source_language_id,
