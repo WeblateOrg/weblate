@@ -4,6 +4,7 @@ Weblate 4.3.1
 Not yet released.
 
 * Improved automatic translation performance.
+* Fixed session expiry for authenticated users.
 
 Weblate 4.3
 -----------
