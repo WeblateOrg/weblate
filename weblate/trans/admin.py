@@ -153,12 +153,12 @@ class UnitAdmin(WeblateModelAdmin):
 
 class SuggestionAdmin(WeblateModelAdmin):
     list_display = ["target", "unit", "user"]
-    search_fields = ["unit__content_hash", "target"]
+    search_fields = ["unit__source", "target"]
 
 
 class CommentAdmin(WeblateModelAdmin):
     list_display = ["comment", "unit", "user"]
-    search_fields = ["unit__content_hash", "comment"]
+    search_fields = ["unit__source", "comment"]
 
 
 class ChangeAdmin(WeblateModelAdmin):
