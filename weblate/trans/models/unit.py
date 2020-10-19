@@ -246,7 +246,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     translation = models.ForeignKey("Translation", on_delete=models.deletion.CASCADE)
     id_hash = models.BigIntegerField()
-    content_hash = models.BigIntegerField(db_index=True)
     location = models.TextField(default="", blank=True)
     context = models.TextField(default="", blank=True)
     note = models.TextField(default="", blank=True)
@@ -449,7 +448,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 "source": source,
                 "target": source,
                 "context": context,
-                "content_hash": calculate_hash(source, context),
                 "position": pos,
                 "note": note,
                 "location": location,
@@ -500,7 +498,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.check_valid([context])
             note = unit.notes
             previous_source = unit.previous_source
-            content_hash = unit.content_hash
         except Exception as error:
             report_error(cause="Unit update error")
             translation.component.handle_parse_error(error, translation)
@@ -559,7 +556,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and flags == self.flags
             and note == self.note
             and pos == self.position
-            and content_hash == self.content_hash
             and previous_source == self.previous_source
             and self.source_unit == old_source_unit
             and old_source_unit is not None
@@ -575,7 +571,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.state = state
         self.context = context
         self.note = note
-        self.content_hash = content_hash
         self.previous_source = previous_source
         self.update_priority(save=False)
 
@@ -734,7 +729,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 self.translation.commit_pending("pending unit", user, force=True)
 
         # Propagate to other projects
-        # This has to be done before changing source/content_hash for template
+        # This has to be done before changing source for template
         if propagate:
             propagate = self.propagate(user, change_action, author=author)
 
@@ -747,8 +742,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         update_fields = ["target", "state", "original_state", "pending"]
         if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
-            self.content_hash = calculate_hash(self.source, self.context)
-            update_fields.extend(["source", "content_hash"])
+            update_fields.extend(["source"])
 
         # Unit is pending for write
         self.pending = True
@@ -794,10 +788,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         """
         # Find relevant units
         for unit in self.unit_set.exclude(id=self.id).prefetch_full():
-            # Update source, number of words and content_hash
+            # Update source and number of words
             unit.source = self.target
             unit.num_words = self.num_words
-            unit.content_hash = self.content_hash
             # Find reverted units
             if unit.state == STATE_FUZZY and unit.previous_source == self.target:
                 # Unset fuzzy on reverted
@@ -1143,6 +1136,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def get_target_hash(self):
         return calculate_hash(self.target)
+
+    @cached_property
+    def content_hash(self):
+        if self.translation.component.template:
+            return calculate_hash(self.source, self.context)
+        return self.id_hash
 
     @cached_property
     def recent_content_changes(self):

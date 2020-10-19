@@ -121,13 +121,6 @@ class TranslationUnit:
             return calculate_hash(self.source, self.context)
         return calculate_hash(self.context)
 
-    @cached_property
-    def content_hash(self):
-        """Return hash of source string and context, used for quick lookup."""
-        if self.template is None:
-            return self.id_hash
-        return calculate_hash(self.source, self.context)
-
     def is_translated(self):
         """Check whether unit is translated."""
         return bool(self.target)

@@ -155,7 +155,7 @@ class EditValidationTest(ViewTestCase):
         """Merging across languages."""
         unit = self.get_unit()
         trans = self.component.translation_set.exclude(language_code="cs")[0]
-        other = trans.unit_set.get(content_hash=unit.content_hash)
+        other = trans.unit_set.get(source=unit.source, context=unit.context)
         response = self.client.get(
             unit.translation.get_translate_url(),
             {"checksum": unit.checksum, "merge": other.pk},
