@@ -19,7 +19,6 @@
 
 from django.db import transaction
 
-from weblate.auth.models import User
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
 from weblate.utils.celery import app
@@ -47,6 +46,7 @@ def import_memory(project_id):
 
 @app.task(trail=False)
 def import_memory_unit(unit_id, user_id=None):
+    from weblate.auth.models import User
     from weblate.trans.models import Unit
 
     user = None if user_id is None else User.objects.get(pk=user_id)
