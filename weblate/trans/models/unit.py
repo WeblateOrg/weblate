@@ -32,7 +32,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
-from weblate.memory.tasks import update_memory
+from weblate.memory.tasks import import_memory_unit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
@@ -1059,7 +1059,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and self.target != self.old_unit.target
             and self.state >= STATE_TRANSLATED
         ):
-            update_memory(user, self)
+            transaction.on_commit(lambda: import_memory_unit.delay(self.id, user.id))
 
         return saved
 
