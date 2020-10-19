@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-13 16:18+0200\n"
-"PO-Revision-Date: 2020-10-14 10:46+0000\n"
+"PO-Revision-Date: 2020-10-19 16:26+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -213,7 +213,7 @@ msgstr "即使打开 ACL ，也可以看到项目的一些概要信息："
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
-msgstr "整个事例的统计，包括所有项目计数。"
+msgstr "整个事例的统计数据，包括所有项目计数。"
 
 #: ../../admin/access.rst:100
 msgid ""
@@ -2528,7 +2528,7 @@ msgstr ""
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate will not be able to write the backups there."
-msgstr ""
+msgstr "备份所存储的目录由 UID 1000 所有，否则 Weblate 会不能将备份写入那里。"
 
 #: ../../admin/backup.rst:113
 msgid "Remote backups"
@@ -4875,13 +4875,13 @@ msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:838
 msgid "Setting this to blank value now disables license alert."
-msgstr ""
+msgstr "将其设置为空值现在关闭了许可提醒。"
 
 #: ../../admin/config.rst:840
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
-msgstr ""
+msgstr "要显示的被筛选的许可列表。在设置为空时还关闭了许可提醒。"
 
 #: ../../admin/config.rst:845
 msgid "This filter uses the short license names."
@@ -4889,7 +4889,7 @@ msgstr "这个过滤器使用了短许可名称。"
 
 #: ../../admin/config.rst:853
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "后面关闭了许可提醒："
 
 #: ../../admin/config.rst:861 ../../admin/config.rst:1560
 msgid ":ref:`alerts`"
@@ -5788,13 +5788,13 @@ msgstr ""
 
 #: ../../admin/config.rst:1593
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
 #: ../../admin/config.rst:1597
 msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
-msgstr ""
+msgstr "对身份验证的用户设置会话过期。这补充了用于没有身份验证用户的 :setting:`django:SESSION_COOKIE_AGE` 。"
 
 #: ../../admin/config.rst:1602
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
@@ -7494,7 +7494,7 @@ msgstr ""
 msgid ""
 "In the Docker container, all files in the :file:`/app/data` volume have to "
 "be owned by weblate user inside the container (UID 1000)."
-msgstr ""
+msgstr "在 Docker 容器中， :file:`/app/data` 卷中的所有文件必须由容器内的 Weblate 用户（UID 1000）所有。"
 
 #: ../../admin/install.rst:294
 msgid ":ref:`static-files`"
@@ -10635,9 +10635,7 @@ msgid ""
 "Once the above is completed (it can be lengthy process depending on the size "
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
-msgstr ""
-"一旦完成上面的工作（根据您的版本控制系统（VCS ）仓库的大小，以及需要翻译的信"
-"息数量，这可能是个漫长的过程），您就可以开始翻译了。"
+msgstr "一旦完成上面的工作（根据您的版本控制系统 VCS 仓库的大小，以及需要翻译的信息数量，这可能是个漫长的过程），您就可以开始翻译了。"
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
@@ -15056,6 +15054,8 @@ msgid ""
 "There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which "
 "complements :setting:`django:SESSION_COOKIE_AGE`."
 msgstr ""
+"有个新的设置 :setting:`SESSION_COOKIE_AGE_AUTHENTICATED`，补充了 "
+":setting:`django:SESSION_COOKIE_AGE`。"
 
 #: ../../admin/upgrade.rst:169
 msgid "Upgrading from Python 2 to Python 3"
@@ -15517,7 +15517,7 @@ msgstr "唯一的群组 ID"
 
 #: ../../api.rst:314
 msgid "List statistics of a user."
-msgstr "用户的统计列表。"
+msgstr "用户的统计数据列表。"
 
 #: ../../api.rst:318
 msgid "Number of translations by user"
@@ -15841,7 +15841,7 @@ msgstr "删除语言。"
 
 #: ../../api.rst:714
 msgid "Returns statistics for a language."
-msgstr "返回语言的统计。"
+msgstr "返回语言的统计数据。"
 
 #: ../../api.rst:718 ../../api.rst:1021 ../../api.rst:1036 ../../api.rst:1577
 #: ../../api.rst:1825
@@ -15987,7 +15987,7 @@ msgstr "组件 URL 标识串"
 
 #: ../../api.rst:799
 msgid "Edit a project by a put request."
-msgstr "通过推送请求来编辑项目。"
+msgstr "通过 put 请求来编辑项目。"
 
 #: ../../api.rst:808
 msgid "Deletes a project."
@@ -16070,11 +16070,11 @@ msgstr ""
 
 #: ../../api.rst:909
 msgid "Creates translation components in the given project."
-msgstr ""
+msgstr "在给定的项目中新建翻译组件。"
 
 #: ../../api.rst:913
 msgid "ZIP file to upload into Weblate for translations initialization"
-msgstr ""
+msgstr "上传到 Weblate 用于翻译初始化的 ZIP 文件"
 
 #: ../../api.rst:914
 msgid "Document to translate"
@@ -16085,26 +16085,27 @@ msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"新建组件对象；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:1012
 msgid "Returns paginated statistics for all languages within a project."
-msgstr ""
+msgstr "对项目内的所有语言返回编页的统计数据。"
 
 #: ../../api.rst:1018
 msgid "array of translation statistics objects"
-msgstr ""
+msgstr "翻译统计数据对象的矩阵"
 
 #: ../../api.rst:1019 ../../api.rst:1824
 msgid "language name"
-msgstr ""
+msgstr "语言名称"
 
 #: ../../api.rst:1020 ../../api.rst:1815
 msgid "language code"
-msgstr ""
+msgstr "语言编码"
 
 #: ../../api.rst:1030
 msgid "Returns statistics for a project."
-msgstr ""
+msgstr "返回项目的统计数据。"
 
 #: ../../api.rst:1044
 msgid "Components"
@@ -16112,22 +16113,23 @@ msgstr "组件"
 
 #: ../../api.rst:1048
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "返回翻译组件的列表。"
 
 #: ../../api.rst:1052
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
+"组件对象属性存档在 :http:get:`/api/components/(string:project)/(string:component)/`。"
 
 #: ../../api.rst:1056
 msgid "Returns information about translation component."
-msgstr ""
+msgstr "返回翻译组件的信息。"
 
 #: ../../api.rst:1062
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "翻译项目；请参见 :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1063 ../../devel/sphinx.rst:32
 msgid ":ref:`component-name`"
@@ -16192,7 +16194,7 @@ msgstr ":ref:`component-language_code_style`"
 #: ../../api.rst:1080 ../../api.rst:1571
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
-msgstr ""
+msgstr "源语言对象；请参见 :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1082 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
@@ -16283,212 +16285,229 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
+"仓库状态的 URL；请参见 :http:get:`/api/components/(string:project)/(string:component)/"
+"repository/`"
 
 #: ../../api.rst:1104
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
+"翻译列表的 URL；请参见 :http:get:`/api/components/(string:project)/(string:component)/"
+"translations/`"
 
 #: ../../api.rst:1105
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`"
 msgstr ""
+"锁定状态的 URL；请参见 :http:get:`/api/components/(string:project)/(string:component)/"
+"lock/`"
 
 #: ../../api.rst:1106
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/(string:"
 "component)/changes/`"
 msgstr ""
+"更改的列表的 URL；请参见 :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1152
 msgid "Edit a component by a patch request."
-msgstr ""
+msgstr "通过补丁请求编辑组件。"
 
 #: ../../api.rst:1158
 msgid "Project source language code (optional)"
-msgstr ""
+msgstr "项目源语言编码（可选）"
 
 #: ../../api.rst:1160 ../../api.rst:1244
 msgid "name of component"
-msgstr ""
+msgstr "组件名称"
 
 #: ../../api.rst:1161 ../../api.rst:1245
 msgid "slug of component"
-msgstr ""
+msgstr "组件的标识串"
 
 #: ../../api.rst:1162 ../../api.rst:1246
 msgid "VCS repository URL"
-msgstr ""
+msgstr "版本控制系统（VCS）仓库的URL"
 
 #: ../../api.rst:1235
 msgid "Edit a component by a put request."
-msgstr ""
+msgstr "通过 put 请求来编辑组件。"
 
 #: ../../api.rst:1241
 msgid "VCS repository branch"
-msgstr ""
+msgstr "版本控制系统（VCS）仓库分支"
 
 #: ../../api.rst:1242
 msgid "file format of translations"
-msgstr ""
+msgstr "翻译的文件格式"
 
 #: ../../api.rst:1243
 msgid "mask of translation files in the repository"
-msgstr ""
+msgstr "仓库中翻译的文件掩码"
 
 #: ../../api.rst:1247
 msgid "base file for monolingual translations"
-msgstr ""
+msgstr "但语言翻译的译文模板文件"
 
 #: ../../api.rst:1248
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "用于添加新翻译的译文模板文件"
 
 #: ../../api.rst:1249
 msgid "version control system"
-msgstr ""
+msgstr "版本控制系统"
 
 #: ../../api.rst:1255
 msgid "Deletes a component."
-msgstr ""
+msgstr "删除组件"
 
 #: ../../api.rst:1264
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
-msgstr ""
+msgstr "返回组件更改的列表。这本质上是仔细检查的组件 :http:get:`/api/changes/`接相同参数。"
 
 #: ../../api.rst:1275
 msgid "Returns a list of component screenshots."
-msgstr ""
+msgstr "返回组件屏幕截图的列表。"
 
 #: ../../api.rst:1281
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
-msgstr ""
+msgstr "组件屏幕截图的矩阵；请参见 :http:get:`/api/screenshots/(int:id)/`"
 
 #: ../../api.rst:1286
 msgid "Returns component lock status."
-msgstr ""
+msgstr "返回组件锁定状态。"
 
 #: ../../api.rst:1292
 msgid "whether component is locked for updates"
-msgstr ""
+msgstr "组件是否因更新而锁定"
 
 #: ../../api.rst:1305
 msgid "Sets component lock status."
-msgstr ""
+msgstr "设置组件锁定状态。"
 
 #: ../../api.rst:1307
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`."
 msgstr ""
+"响应时间与 :http:get:`/api/components/(string:project)/(string:component)/lock/"
+"`相同。"
 
 #: ../../api.rst:1313
 msgid "Boolean whether to lock or not."
-msgstr ""
+msgstr "是否锁定的布尔值。"
 
 #: ../../api.rst:1354 ../../api.rst:1777
 msgid "Returns information about VCS repository status."
-msgstr ""
+msgstr "返回版本管理系统（VCS）仓库状态的信息。"
 
 #: ../../api.rst:1356
 msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
-msgstr ""
+msgstr "响应与 :http:get:`/api/projects/(string:project)/repository/` 的相同。"
 
 #: ../../api.rst:1365
 msgid "Remote commit information"
-msgstr ""
+msgstr "远程提交信息"
 
 #: ../../api.rst:1366
 msgid "VCS repository status as reported by VCS"
-msgstr ""
+msgstr "由版本控制系统（VCS）报告的 VCS 状态"
 
 #: ../../api.rst:1367
 msgid "Text describing merge failure or null if there is none"
-msgstr ""
+msgstr "描述合并失败的文本，没有的话为空"
 
 #: ../../api.rst:1371
 msgid "Performs the given operation on a VCS repository."
-msgstr ""
+msgstr "在版本控制系统（VCS）仓库执行给定的操作。"
 
 #: ../../api.rst:1373 ../../api.rst:1792
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
-msgstr ""
+msgstr "文档请参见 :http:post:`/api/projects/(string:project)/repository/`。"
 
 #: ../../api.rst:1421
 msgid "Downloads base file for monolingual translations."
-msgstr ""
+msgstr "为单语言翻译下载译文模板文件。"
 
 #: ../../api.rst:1430
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "为新的翻译下载模板文件。"
 
 #: ../../api.rst:1439
 msgid "Returns a list of translation objects in the given component."
-msgstr ""
+msgstr "返回给定组件中翻译对象的列表。"
 
 #: ../../api.rst:1445
 msgid ""
 "array of translation objects; see :http:get:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/`"
 msgstr ""
+"翻译对象的矩阵；请参见 :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1449
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "在给定组件中新建新的翻译。"
 
 #: ../../api.rst:1455
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
-msgstr ""
+msgstr "翻译语言编码；请参见 :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1456
 msgid "new translation object created"
-msgstr ""
+msgstr "新建的新翻译对象"
 
 #: ../../api.rst:1529
 msgid "Returns paginated statistics for all translations within component."
-msgstr ""
+msgstr "对组件内所有的翻译返回分页的统计数据。"
 
 #: ../../api.rst:1537
 msgid ""
 "array of translation statistics objects; see :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/statistics/`"
 msgstr ""
+"翻译统计数据对象的矩阵；请参见 :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/`"
 
 #: ../../api.rst:1544
 msgid "Returns a list of translations."
-msgstr ""
+msgstr "返回翻译的列表。"
 
 #: ../../api.rst:1548
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"翻译对象属性存档在 :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`。"
 
 #: ../../api.rst:1552
 msgid "Returns information about a translation."
-msgstr ""
+msgstr "返回翻译的信息。"
 
 #: ../../api.rst:1558 ../../api.rst:1666 ../../api.rst:1678 ../../api.rst:1691
 #: ../../api.rst:1705 ../../api.rst:1718 ../../api.rst:1746 ../../api.rst:1757
 #: ../../api.rst:1785 ../../api.rst:1798 ../../api.rst:1813
 msgid "Translation language code"
-msgstr ""
+msgstr "翻译语言编码"
 
 #: ../../api.rst:1560
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
+"组件对象；请参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:1561
 msgid "number of strings failing checks"
@@ -16504,27 +16523,27 @@ msgstr "未通过检查的单词数目"
 
 #: ../../api.rst:1564
 msgid "translation filename"
-msgstr ""
+msgstr "翻译文件名"
 
 #: ../../api.rst:1565
 msgid "number of strings marked for review"
-msgstr ""
+msgstr "标记为复查的祖父穿数量"
 
 #: ../../api.rst:1566
 msgid "percentage of strings marked for review"
-msgstr ""
+msgstr "标记为复查的字符串的百分比"
 
 #: ../../api.rst:1567
 msgid "number of words marked for review"
-msgstr ""
+msgstr "标记为复查的词的数量"
 
 #: ../../api.rst:1568
 msgid "number of strings with comment"
-msgstr ""
+msgstr "带有注释的字符串数量"
 
 #: ../../api.rst:1569
 msgid "number of strings with suggestion"
-msgstr ""
+msgstr "带有建议的字符串数量"
 
 #: ../../api.rst:1570
 msgid "whether the translation has a monolingual base"
@@ -16534,89 +16553,97 @@ msgstr "译文是否有单语基础"
 msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
-msgstr ""
+msgstr "仓库中使用的语言编码；这可以不同于语言对象中的语言编码"
 
 #: ../../api.rst:1573 ../../api.rst:1822
 msgid "name of last author"
-msgstr ""
+msgstr "最后一位作者的姓名"
 
 #: ../../api.rst:1574
 msgid "last change timestamp"
-msgstr ""
+msgstr "最后更改的时间标签"
 
 #: ../../api.rst:1575
 msgid "revision hash for the file"
-msgstr ""
+msgstr "文件的修订哈希值"
 
 #: ../../api.rst:1576
 msgid "URL for sharing leading to engagement page"
-msgstr ""
+msgstr "用于分享导向约定页面的 URL"
 
 #: ../../api.rst:1579
 msgid "URL for translating"
-msgstr ""
+msgstr "翻译的 URL"
 
 #: ../../api.rst:1583
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"仓库状态的 URL；请参见 :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1584
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"文件对象的 URL；请参见 :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1585
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"更改的列表的 URL；请参见 :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1586
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"字符串列表的 URL；请参见 :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:1660
 msgid "Deletes a translation."
-msgstr ""
+msgstr "删除翻译。"
 
 #: ../../api.rst:1671
 msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
-msgstr ""
+msgstr "返回翻译更改的列表。这本质上是仔细检查的翻译 :http:get:`/api/changes/`接受相同参数。"
 
 #: ../../api.rst:1685
 msgid "Returns a list of translation units."
-msgstr ""
+msgstr "返回翻译单元的列表。"
 
 #: ../../api.rst:1693
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr ""
+msgstr "搜索查询字符串 :ref:`Searching`（可选）"
 
 #: ../../api.rst:1695
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "组件对象的矩阵；请参见 :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1699
 msgid "Add new monolingual unit."
-msgstr ""
+msgstr "添加新的单语言单元。"
 
 #: ../../api.rst:1707
 msgid "Name of translation unit"
-msgstr ""
+msgstr "翻译单元的名称"
 
 #: ../../api.rst:1708
 msgid "The translation unit value"
-msgstr ""
+msgstr "翻译单元值"
 
 #: ../../api.rst:1712
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "触发自动翻译。"
 
 #: ../../api.rst:1720
 msgid "Automatic translation mode"
@@ -16624,7 +16651,7 @@ msgstr "自动翻译模式"
 
 #: ../../api.rst:1721
 msgid "Automatic translation filter type"
-msgstr ""
+msgstr "自动翻译筛选类型"
 
 #: ../../api.rst:1722
 msgid "Automatic translation source"
@@ -16650,6 +16677,8 @@ msgid ""
 "parameter) or as converted to a standard format (currently supported: "
 "Gettext PO, MO, XLIFF and TBX)."
 msgstr ""
+"下载当前翻译文件存储在版本控制系统（VCS）中（没有 ``format`` 参数），或转换为标准搁置（当前支持：Gettext PO、MO、XLIFF "
+"和 TBX）。"
 
 #: ../../api.rst:1735
 msgid ""
@@ -16658,6 +16687,8 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
+"这个 API 端点使用了不同于API其余的逻辑来输出，它在整个文件而不是在数据上操作。接受的``format``参数组不同，没有这个参数会将翻译文件存储在"
+"版本控制系统（VCS）中。"
 
 #: ../../api.rst:1740
 msgid ""
@@ -16665,20 +16696,22 @@ msgid ""
 "file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, "
 "``xlsx``, ``json``, ``aresource``, ``strings``"
 msgstr ""
+"使用的文件格式；如果不指定，则不会进行格式转换；支持的文件格式有：``po``, ``mo``, ``xliff``, ``xliff11``, "
+"``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
 
 #: ../../api.rst:1751
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "上传带有翻译的新文件。"
 
 #: ../../api.rst:1759
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``)"
-msgstr ""
+msgstr "如何处理冲突（``ignore``, ``replace-translated`` or ``replace-approved``）"
 
 #: ../../api.rst:1760 ../../api.rst:1993 ../../api.rst:2029
 msgid "Uploaded file"
-msgstr ""
+msgstr "上传文件"
 
 #: ../../api.rst:1761
 msgid "Author e-mail"
@@ -16693,122 +16726,126 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``), see :ref:`upload-method`"
 msgstr ""
+"上传方法（``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, "
+"``source``），请参见 :ref:`upload-method`"
 
 #: ../../api.rst:1764
 msgid "Fuzzy strings processing (*empty*, ``process``, ``approve``)"
-msgstr ""
+msgstr "字符串的模糊处理（*empty*, ``process``, ``approve``）"
 
 #: ../../api.rst:1779
 msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"响应与 :http:get:`/api/components/(string:project)/(string:component)/"
+"repository/`的相同。"
 
 #: ../../api.rst:1805
 msgid "Returns detailed translation statistics."
-msgstr ""
+msgstr "返回具体的翻译统计数据。"
 
 #: ../../api.rst:1816
 msgid "number of failing checks"
-msgstr ""
+msgstr "检查失败的数量"
 
 #: ../../api.rst:1817
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "检查失败的百分比"
 
 #: ../../api.rst:1818
 msgid "number of strings needing review"
-msgstr ""
+msgstr "需要复查的字符串数量"
 
 #: ../../api.rst:1819
 msgid "percentage of strings needing review"
-msgstr ""
+msgstr "需要复查的字符串百分比"
 
 #: ../../api.rst:1823
 msgid "date of last change"
-msgstr ""
+msgstr "上次更改的日期"
 
 #: ../../api.rst:1828
 msgid "URL to access the translation (engagement URL)"
-msgstr ""
+msgstr "访问翻译的 URL （约定的 URL）"
 
 #: ../../api.rst:1829
 msgid "URL to access the translation (real translation URL)"
-msgstr ""
+msgstr "访问翻译的 URL （真实翻译的 URL）"
 
 #: ../../api.rst:1832
 msgid "Units"
-msgstr ""
+msgstr "单元"
 
 #: ../../api.rst:1838
 msgid "Returns list of translation units."
-msgstr ""
+msgstr "返回翻译单元的列表。"
 
 #: ../../api.rst:1842
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
-msgstr ""
+msgstr "单元对象属性存档在 :http:get:`/api/units/(int:id)/`。"
 
 #: ../../api.rst:1848
 msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
-msgstr ""
+msgstr "``target`` 和 ``source`` 现在是矩阵，来适当的处理多个字符串。"
 
 #: ../../api.rst:1851
 msgid "Returns information about translation unit."
-msgstr ""
+msgstr "返回翻译单元的信息。"
 
 #: ../../api.rst:1853 ../../api.rst:1887 ../../api.rst:1900 ../../api.rst:1913
 #: ../../api.rst:2010
 msgid "Unit ID"
-msgstr ""
+msgstr "单元 ID"
 
 #: ../../api.rst:1855 ../../api.rst:1945 ../../api.rst:2012
 msgid "URL of a related translation object"
-msgstr ""
+msgstr "相关翻译对象的 URL"
 
 #: ../../api.rst:1856
 msgid "source string"
-msgstr ""
+msgstr "源字符串"
 
 #: ../../api.rst:1857
 msgid "previous source string used for fuzzy matching"
-msgstr ""
+msgstr "用于模糊匹配的之前的源字符串"
 
 #: ../../api.rst:1858 ../../api.rst:1890 ../../api.rst:1903
 msgid "target string"
-msgstr ""
+msgstr "目标字符串"
 
 #: ../../api.rst:1859
 msgid "unique identifier of the unit"
-msgstr ""
+msgstr "单元的唯一识别文字"
 
 #: ../../api.rst:1860
 msgid "unique identifier of the source string"
-msgstr ""
+msgstr "源字符串的唯一识别文字"
 
 #: ../../api.rst:1861
 msgid "location of the unit in source code"
-msgstr ""
+msgstr "源代码中单元的位置"
 
 #: ../../api.rst:1862
 msgid "translation unit context"
-msgstr ""
+msgstr "翻译单元的上下文"
 
 #: ../../api.rst:1863
 msgid "translation unit note"
-msgstr ""
+msgstr "翻译单元的注解"
 
 #: ../../api.rst:1864
 msgid "translation unit flags"
-msgstr ""
+msgstr "翻译单元的标志"
 
 #: ../../api.rst:1865 ../../api.rst:1889 ../../api.rst:1902
 msgid ""
 "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
-msgstr ""
+msgstr "单元状态，0——未翻译，10——需要编辑，20——已翻译，30——以通过，100——只读"
 
 #: ../../api.rst:1866
 msgid "whether the unit is fuzzy or marked for review"
@@ -16824,7 +16861,7 @@ msgstr "翻译是否被核准"
 
 #: ../../api.rst:1869
 msgid "unit position in translation file"
-msgstr ""
+msgstr "翻译文件中的单元位置"
 
 #: ../../api.rst:1870
 msgid "whether the unit has suggestions"
@@ -16840,32 +16877,32 @@ msgstr "单元是否有未通过检查的翻译"
 
 #: ../../api.rst:1873
 msgid "number of source words"
-msgstr ""
+msgstr "源词汇的数量"
 
 #: ../../api.rst:1874
 msgid "translation priority; 100 is default"
-msgstr ""
+msgstr "翻译优先级；100为默认值"
 
 #: ../../api.rst:1875
 msgid "unit identifier"
-msgstr ""
+msgstr "单元识别问题"
 
 #: ../../api.rst:1876 ../../api.rst:1891 ../../api.rst:1904
 msgid "String explanation, available on source units, see :ref:`additional`"
-msgstr ""
+msgstr "字符串的解释，可在源单元获得，请参见 :ref:`additional`"
 
 #: ../../api.rst:1877 ../../api.rst:1892 ../../api.rst:1905
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
-msgstr ""
+msgstr "另外的字符串标志，可在源单元获得，请参见 :ref:`custom-checks`"
 
 #: ../../api.rst:1878
 msgid "URL where the unit can be edited"
-msgstr ""
+msgstr "单元可以被编辑的 URL"
 
 #: ../../api.rst:1879
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "源单元链接；请参见 :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1885
 msgid "Performs partial update on translation unit."
@@ -16881,130 +16918,130 @@ msgstr "删除一个翻译单元。"
 
 #: ../../api.rst:1925
 msgid "Filtering of changes was introduced in the 4.1 release."
-msgstr ""
+msgstr "更改的筛选在 4.1 版本引入。"
 
 #: ../../api.rst:1927
 msgid "Returns a list of translation changes."
-msgstr ""
+msgstr "返回翻译更改的列表。"
 
 #: ../../api.rst:1931
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
-msgstr ""
+msgstr "更改对象的属性存档在 :http:get:`/api/changes/(int:id)/`。"
 
 #: ../../api.rst:1933
 msgid "Username of user to filters"
-msgstr ""
+msgstr "筛选用户的用户名"
 
 #: ../../api.rst:1934
 msgid "Action to filter, can be used several times"
-msgstr ""
+msgstr "筛选的动作，可以多次使用"
 
 #: ../../api.rst:1935
 msgid "ISO 8601 formatted timestamp to list changes after"
-msgstr ""
+msgstr "ISO 8601 格式的时间标签，列出此时间之后的更改"
 
 #: ../../api.rst:1936
 msgid "ISO 8601 formatted timestamp to list changes before"
-msgstr ""
+msgstr "ISO 8601 格式的时间标签，列出此时间之前的更改"
 
 #: ../../api.rst:1940
 msgid "Returns information about translation change."
-msgstr ""
+msgstr "返回有关翻译更改的信息"
 
 #: ../../api.rst:1942
 msgid "Change ID"
-msgstr ""
+msgstr "更改的ID"
 
 #: ../../api.rst:1944
 msgid "URL of a related unit object"
-msgstr ""
+msgstr "相关单元对象的 URL"
 
 #: ../../api.rst:1946 ../../api.rst:1976 ../../api.rst:2035 ../../api.rst:2046
 #: ../../api.rst:2057
 msgid "URL of a related component object"
-msgstr ""
+msgstr "相关组件对象的 URL"
 
 #: ../../api.rst:1947
 msgid "URL of a related glossary term object"
-msgstr ""
+msgstr "相关术语表对象的 URL"
 
 #: ../../api.rst:1948
 msgid "URL of a related user object"
-msgstr ""
+msgstr "相关用户对象的 URL"
 
 #: ../../api.rst:1949
 msgid "URL of a related author object"
-msgstr ""
+msgstr "相关作者对象的 URL"
 
 #: ../../api.rst:1950
 msgid "event timestamp"
-msgstr ""
+msgstr "时间的时间标签"
 
 #: ../../api.rst:1951
 msgid "numeric identification of action"
-msgstr ""
+msgstr "动作的几种识别"
 
 #: ../../api.rst:1952
 msgid "text description of action"
-msgstr ""
+msgstr "动作的文本描述"
 
 #: ../../api.rst:1953
 msgid "event changed text or detail"
-msgstr ""
+msgstr "更改的事件的文本或细节"
 
 #: ../../api.rst:1954
 msgid "change identifier"
-msgstr ""
+msgstr "更改的识别文字"
 
 #: ../../api.rst:1963
 msgid "Returns a list of screenshot string information."
-msgstr ""
+msgstr "返回屏幕截图字符串信息的列表"
 
 #: ../../api.rst:1967
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
-msgstr ""
+msgstr "屏幕截图对象的属性存档在 :http:get:`/api/screenshots/(int:id)/`。"
 
 #: ../../api.rst:1971
 msgid "Returns information about screenshot information."
-msgstr ""
+msgstr "返回与屏幕截图信息有关的信息。"
 
 #: ../../api.rst:1973 ../../api.rst:1984 ../../api.rst:1991 ../../api.rst:2008
 #: ../../api.rst:2020 ../../api.rst:2043 ../../api.rst:2054 ../../api.rst:2065
 msgid "Screenshot ID"
-msgstr ""
+msgstr "屏幕截图的 ID"
 
 #: ../../api.rst:1975 ../../api.rst:2011 ../../api.rst:2034 ../../api.rst:2045
 #: ../../api.rst:2056
 msgid "name of a screenshot"
-msgstr ""
+msgstr "屏幕截图的名称"
 
 #: ../../api.rst:1977 ../../api.rst:2013 ../../api.rst:2036 ../../api.rst:2047
 #: ../../api.rst:2058
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
-msgstr ""
+msgstr "下载文件的 URL；请参见 :http:get:`/api/screenshots/(int:id)/file/`"
 
 #: ../../api.rst:1978 ../../api.rst:2014 ../../api.rst:2037 ../../api.rst:2048
 #: ../../api.rst:2059
 msgid ""
 "link to associated source string information; see :http:get:`/api/units/(int:"
 "id)/`"
-msgstr ""
+msgstr "与源字符串信息相关的链接；请参见 :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1982
 msgid "Download the screenshot image."
-msgstr ""
+msgstr "下载屏幕截图的图片"
 
 #: ../../api.rst:1989
 msgid "Replace screenshot image."
-msgstr ""
+msgstr "更改屏幕截图。"
 
 #: ../../api.rst:2006
 msgid "Associate source string with screenshot."
-msgstr ""
+msgstr "与屏幕截图相关的源字符串。"
 
 #: ../../api.rst:2018
 msgid "Remove source string association with screenshot."
@@ -17016,7 +17053,7 @@ msgstr "源字符串单元 ID"
 
 #: ../../api.rst:2027
 msgid "Creates a new screenshot."
-msgstr ""
+msgstr "新建新的屏幕截图"
 
 #: ../../api.rst:2030
 msgid "Screenshot name"
@@ -17040,64 +17077,64 @@ msgstr "组件列表"
 
 #: ../../api.rst:2076
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "返回组件列表的列表。"
 
 #: ../../api.rst:2080
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
-msgstr ""
+msgstr "组件列表对象属性存档在 :http:get:`/api/component-lists/(str:slug)/`。"
 
 #: ../../api.rst:2084
 msgid "Returns information about component list."
-msgstr ""
+msgstr "返回组件列表的信息。"
 
 #: ../../api.rst:2086 ../../api.rst:2098 ../../api.rst:2108 ../../api.rst:2118
 #: ../../api.rst:2125 ../../api.rst:2133
 msgid "Component list slug"
-msgstr ""
+msgstr "组件列表的标识串"
 
 #: ../../api.rst:2088 ../../api.rst:2100 ../../api.rst:2110
 msgid "name of a component list"
-msgstr ""
+msgstr "组件列表的名称"
 
 #: ../../api.rst:2089 ../../api.rst:2101 ../../api.rst:2111
 msgid "slug of a component list"
-msgstr ""
+msgstr "组件列表的表示串"
 
 #: ../../api.rst:2090 ../../api.rst:2102 ../../api.rst:2112
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "是否在控制台上显示"
 
 #: ../../api.rst:2092
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "自动分配规则"
 
 #: ../../api.rst:2096 ../../api.rst:2106
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "更改组件列表参数。"
 
 #: ../../api.rst:2116
 msgid "Deletes the component list."
-msgstr ""
+msgstr "删除组件列表。"
 
 #: ../../api.rst:2123
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "使组件与组件列表相关。"
 
 #: ../../api.rst:2127
 msgid "Component ID"
-msgstr ""
+msgstr "组件 ID"
 
 #: ../../api.rst:2131
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "将组件与组件列表接触相关性。"
 
 #: ../../api.rst:2143
 msgid ""
 "Returns a list of all glossaries which are associated with a project that "
 "user has access to."
-msgstr ""
+msgstr "将与用户访问的项目相关的所有词汇表的列表返回。"
 
 #: ../../api.rst:2151
 msgid "Returns information about a glossary."
@@ -17120,15 +17157,15 @@ msgstr "删除词汇表。"
 
 #: ../../api.rst:2258
 msgid "Returns projects linked with a glossary."
-msgstr ""
+msgstr "返回与词汇表连接的项目。"
 
 #: ../../api.rst:2262
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "相关的项目，请参见 :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:2266
 msgid "Associate project with a glossary."
-msgstr ""
+msgstr "将项目与词汇表相关。"
 
 #: ../../api.rst:2274
 msgid "Remove association of a project with a glossary."
@@ -17160,7 +17197,7 @@ msgstr "获取与词汇表相关联的术语。"
 
 #: ../../api.rst:2303 ../../api.rst:2312 ../../api.rst:2324 ../../api.rst:2336
 msgid "ID of term"
-msgstr ""
+msgstr "术语的 ID"
 
 #: ../../api.rst:2308 ../../api.rst:2320
 msgid "Edit a term associated with a glossary."
@@ -17168,7 +17205,7 @@ msgstr "编辑与词汇表关联的术语。"
 
 #: ../../api.rst:2332
 msgid "Delete a term associated with a glossary."
-msgstr ""
+msgstr "删除与词汇表相关的术语。"
 
 #: ../../api.rst:2342
 msgid "Notification hooks"
@@ -17193,24 +17230,28 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"请使用 :http:post:`/api/components/(string:project)/(string:component)/"
+"repository/` 来替代，它使用 ACL 限制的身份验证而工作正常。"
 
 #: ../../api.rst:2358
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
-msgstr ""
+msgstr "触发组件的更新（从版本管理系统 VCS 拉取并扫描翻译的更改）。"
 
 #: ../../api.rst:2365
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+"请使用 :http:post:`/api/projects/(string:project)/repository/` 来替代，它使用 ACL "
+"限制的身份验证而工作正常。"
 
 #: ../../api.rst:2368
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
-msgstr ""
+msgstr "触发项目中所有组件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）"
 
 #: ../../api.rst:2373
 msgid ""
@@ -17227,7 +17268,7 @@ msgstr ""
 
 #: ../../api.rst:2384
 msgid ":ref:`github-setup`"
-msgstr ""
+msgstr ":ref:`github-setup`"
 
 #: ../../api.rst:2385
 msgid "For instruction on setting up GitHub integration"
@@ -17235,16 +17276,16 @@ msgstr ""
 
 #: ../../api.rst:2386
 msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
-msgstr ""
+msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2387
 msgid "Generic information about GitHub Webhooks"
-msgstr ""
+msgstr "GitHub Webhooks 真正的信息"
 
 #: ../../api.rst:2388 ../../api.rst:2402 ../../api.rst:2416 ../../api.rst:2432
 #: ../../api.rst:2448 ../../api.rst:2464 ../../api.rst:2480
 msgid ":setting:`ENABLE_HOOKS`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS`"
 
 #: ../../api.rst:2389 ../../api.rst:2403 ../../api.rst:2417 ../../api.rst:2433
 #: ../../api.rst:2449 ../../api.rst:2465 ../../api.rst:2481
@@ -31177,7 +31218,7 @@ msgstr "显示给定 Weblate 对象（翻译，组件或项目）的仓库状态
 msgid ""
 "Displays detailed statistics for a given Weblate object (translation, "
 "component or project)."
-msgstr "显示给定 Weblate 对象（翻译，组件或项目）的详细统计信息。"
+msgstr "显示给定 Weblate 对象（翻译，组件或项目）的详细统计数据。"
 
 #: ../../wlc.rst:201 ../../wlc.rst:209 ../../wlc.rst:217
 msgid "Supported since wlc 0.5."
