@@ -866,6 +866,9 @@ EMAIL_SUBJECT_PREFIX = "[{0}] ".format(SITE_TITLE)
 # Enable remote hooks
 ENABLE_HOOKS = True
 
+# Version hiding
+HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION", False)
+
 # Licensing filter
 if "WEBLATE_LICENSE_FILTER" in os.environ:
     LICENSE_FILTER = set(get_env_list("WEBLATE_LICENSE_FILTER"))

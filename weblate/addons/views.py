@@ -88,7 +88,7 @@ class AddonList(AddonViewMixin, ListView):
             addon.create(component)
             return self.redirect_list()
         if "form" in request.POST:
-            form = addon.get_add_form(component, data=request.POST)
+            form = addon.get_add_form(request.user, component, data=request.POST)
             if form.is_valid():
                 instance = form.save()
                 if addon.stay_on_create:
@@ -99,7 +99,7 @@ class AddonList(AddonViewMixin, ListView):
                     return redirect(instance)
                 return self.redirect_list()
         else:
-            form = addon.get_add_form(component)
+            form = addon.get_add_form(request.user, component)
         addon.pre_install(component, request)
         return self.response_class(
             request=self.request,
@@ -117,7 +117,9 @@ class AddonDetail(AddonViewMixin, UpdateView):
     template_name_suffix = "_detail"
 
     def get_form(self, form_class=None):
-        return self.object.addon.get_settings_form(**self.get_form_kwargs())
+        return self.object.addon.get_settings_form(
+            self.request.user, **self.get_form_kwargs()
+        )
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)

@@ -109,23 +109,23 @@ class BaseAddon:
         return result
 
     @classmethod
-    def get_add_form(cls, component, **kwargs):
+    def get_add_form(cls, user, component, **kwargs):
         """Return configuration form for adding new addon."""
         if cls.settings_form is None:
             return None
         storage = cls.create_object(component)
         instance = cls(storage)
         # pylint: disable=not-callable
-        return cls.settings_form(instance, **kwargs)
+        return cls.settings_form(user, instance, **kwargs)
 
-    def get_settings_form(self, **kwargs):
+    def get_settings_form(self, user, **kwargs):
         """Return configuration for for this addon."""
         if self.settings_form is None:
             return None
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration
         # pylint: disable=not-callable
-        return self.settings_form(self, **kwargs)
+        return self.settings_form(user, self, **kwargs)
 
     def configure(self, settings):
         """Save configuration."""

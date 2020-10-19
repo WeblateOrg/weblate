@@ -129,10 +129,12 @@ def get_view_description(view, html=False):
 
     if hasattr(getattr(view, "serializer_class", "None"), "Meta"):
         doc_url = get_doc_url(
-            "api", "{0}s".format(view.serializer_class.Meta.model.__name__.lower())
+            "api",
+            "{0}s".format(view.serializer_class.Meta.model.__name__.lower()),
+            user=view.request.user,
         )
     else:
-        doc_url = get_doc_url("api")
+        doc_url = get_doc_url("api", user=view.request.user)
 
     if html:
         return formatting.markup_description(description) + mark_safe(

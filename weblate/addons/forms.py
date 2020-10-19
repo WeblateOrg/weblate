@@ -18,7 +18,7 @@
 #
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, Layout
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
@@ -42,8 +42,9 @@ class AddonFormMixin:
 
 
 class BaseAddonForm(forms.Form, AddonFormMixin):
-    def __init__(self, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, *args, **kwargs):
         self._addon = addon
+        self.user = user
         super().__init__(*args, **kwargs)
 
 
@@ -59,7 +60,10 @@ class GenerateMoForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field("path"), Div(template="addons/generatemo_help.html")
+            Field("path"),
+            ContextDiv(
+                template="addons/generatemo_help.html", context={"user": self.user}
+            ),
         )
 
     def test_render(self, value):
@@ -83,7 +87,9 @@ class GenerateForm(BaseAddonForm):
         self.helper.layout = Layout(
             Field("filename"),
             Field("template"),
-            Div(template="addons/generate_help.html"),
+            ContextDiv(
+                template="addons/generate_help.html", context={"user": self.user}
+            ),
         )
 
     def test_render(self, value):
@@ -171,7 +177,7 @@ class GitSquashForm(BaseAddonForm):
             Field("squash"),
             Field("append_trailers"),
             Field("commit_message"),
-            Div(template="addons/squash_help.html"),
+            ContextDiv(template="addons/squash_help.html", context={"user": self.user}),
         )
 
 
@@ -293,7 +299,9 @@ class DiscoveryForm(BaseAddonForm):
             Field("language_regex"),
             Field("copy_addons"),
             Field("remove"),
-            Div(template="addons/discovery_help.html"),
+            ContextDiv(
+                template="addons/discovery_help.html", context={"user": self.user}
+            ),
         )
         if self.is_bound:
             # Perform form validation
@@ -313,6 +321,7 @@ class DiscoveryForm(BaseAddonForm):
                             "matches_created": created,
                             "matches_matched": matched,
                             "matches_deleted": deleted,
+                            "user": self.user,
                         },
                     ),
                 )
@@ -365,13 +374,15 @@ class DiscoveryForm(BaseAddonForm):
 
 
 class AutoAddonForm(AutoForm, AddonFormMixin):
-    def __init__(self, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, *args, **kwargs):
+        self.user = user
         self._addon = addon
         super().__init__(obj=addon.instance.component, *args, **kwargs)
 
 
 class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
-    def __init__(self, addon, instance=None, *args, **kwargs):
+    def __init__(self, user, addon, instance=None, *args, **kwargs):
+        self.user = user
         self._addon = addon
         component = addon.instance.component
         super().__init__(
@@ -433,6 +444,6 @@ class CDNJSForm(BaseAddonForm):
                 0,
                 ContextDiv(
                     template="addons/cdnjs.html",
-                    context={"url": self._addon.cdn_js_url},
+                    context={"url": self._addon.cdn_js_url, "user": self.user},
                 ),
             )

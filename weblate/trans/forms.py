@@ -329,7 +329,10 @@ class PluralTextarea(forms.Textarea):
         # Show plural formula for more strings
         if len(values) > 1:
             ret.append(
-                render_to_string("snippets/plural-formula.html", {"plural": plural})
+                render_to_string(
+                    "snippets/plural-formula.html",
+                    {"plural": plural, "user": self.profile.user},
+                )
             )
 
         # Join output
@@ -594,6 +597,11 @@ class SimpleUploadForm(forms.Form):
         ),
         required=False,
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
 
     @staticmethod
     def get_field_doc(field):
@@ -1295,7 +1303,10 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                     _("Commit messages"),
                     Fieldset(
                         _("Commit messages"),
-                        Div(template="trans/messages_help.html"),
+                        ContextDiv(
+                            template="trans/messages_help.html",
+                            context={"user": request.user},
+                        ),
                         "commit_message",
                         "add_message",
                         "delete_message",
@@ -1384,6 +1395,11 @@ class ComponentNameForm(forms.Form, ComponentDocsMixin):
         max_length=COMPONENT_NAME_LENGTH,
         help_text=_("Name used in URLs and filenames."),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
 
 
 class ComponentSelectForm(ComponentNameForm):

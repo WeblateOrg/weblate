@@ -564,6 +564,10 @@ Generic settings
 
     Configures :setting:`LICENSE_FILTER`.
 
+.. envvar:: WEBLATE_HIDE_VERSION
+
+    Configures :setting:`HIDE_VERSION`.
+
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
