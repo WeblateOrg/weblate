@@ -1119,6 +1119,7 @@ Container settings
 
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
+.. envvar:: CELERY_MEMORY_OPTIONS
 .. envvar:: CELERY_TRANSLATE_OPTIONS
 .. envvar:: CELERY_BACKUP_OPTIONS
 .. envvar:: CELERY_BEAT_OPTIONS
