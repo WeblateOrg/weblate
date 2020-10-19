@@ -27,16 +27,12 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task(trail=False)
-def import_memory(project_id, component_id=None):
+def import_memory(project_id):
     from weblate.trans.models import Project, Unit
 
     project = Project.objects.get(pk=project_id)
 
-    components = project.component_set.all()
-    if component_id:
-        components = components.filter(id=component_id)
-
-    for component in components.iterator():
+    for component in project.component_set.iterator():
         with transaction.atomic():
             units = Unit.objects.filter(
                 translation__component=component, state__gte=STATE_TRANSLATED
