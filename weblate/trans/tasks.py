@@ -197,8 +197,8 @@ def update_remotes():
     if settings.AUTO_UPDATE not in ("full", "remote", True, False):
         return
 
-    for component in non_linked.iterator():
-        perform_update.delay("Component", component.pk, auto=True)
+    for component_id in non_linked.values_list("id", flat=True):
+        perform_update.delay("Component", component_id, auto=True)
 
 
 @app.task(trail=False)
