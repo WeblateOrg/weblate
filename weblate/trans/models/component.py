@@ -763,7 +763,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 continue
 
             if addon.has_settings:
-                form = addon.get_add_form(self, data=configuration)
+                form = addon.get_add_form(None, self, data=configuration)
                 if not form.is_valid():
                     self.log_warning(
                         "could not enable addon %s, invalid settings", name

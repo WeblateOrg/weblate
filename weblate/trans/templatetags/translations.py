@@ -266,21 +266,27 @@ def check_description(check):
         return escape(check)
 
 
-@register.simple_tag
-def documentation(page, anchor=""):
+@register.simple_tag(takes_context=True)
+def documentation(context, page, anchor=""):
     """Return link to Weblate documentation."""
-    return get_doc_url(page, anchor)
+    # Use object method get_doc_url if present
+    if hasattr(page, "get_doc_url"):
+        return page.get_doc_url(user=context["user"])
+    return get_doc_url(page, anchor, user=context["user"])
 
 
-@register.inclusion_tag("documentation-icon.html")
-def documentation_icon(page, anchor="", right=False):
-    return {"right": right, "doc_url": get_doc_url(page, anchor)}
+@register.inclusion_tag("documentation-icon.html", takes_context=True)
+def documentation_icon(context, page, anchor="", right=False):
+    return {"right": right, "doc_url": documentation(context, page, anchor)}
 
 
-@register.inclusion_tag("documentation-icon.html")
-def form_field_doc_link(form, field):
+@register.inclusion_tag("documentation-icon.html", takes_context=True)
+def form_field_doc_link(context, form, field):
     if hasattr(form, "get_field_doc"):
-        return {"right": False, "doc_url": get_doc_url(*form.get_field_doc(field))}
+        return {
+            "right": False,
+            "doc_url": get_doc_url(*form.get_field_doc(field), user=context["user"]),
+        }
     return {}
 
 

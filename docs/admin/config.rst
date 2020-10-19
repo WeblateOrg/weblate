@@ -708,6 +708,24 @@ error messages too in a similar manner.
 
     This is turned on by default.
 
+.. setting:: HIDE_VERSION
+
+HIDE_VERSION
+------------
+
+.. versionadded:: 4.3.1
+
+Hides version information from unauthenticated users. This also makes all
+documentation links point to latest version instead of the documentation
+matching currently installed version.
+
+Hiding version is recommended security practice in some corporations, but it
+doesn't prevent attacker to figure out version by probing the behavior.
+
+.. note::
+
+    This is turned off by default.
+
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
 IP_BEHIND_REVERSE_PROXY

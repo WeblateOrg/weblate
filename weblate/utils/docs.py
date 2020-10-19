@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.utils.translation import get_language
 
 import weblate
@@ -35,10 +36,12 @@ LANGMAP = {
 }
 
 
-def get_doc_url(page, anchor=""):
+def get_doc_url(page, anchor="", user=None):
     """Return URL to documentation."""
     # Should we use tagged release or latest version
-    if "-dev" in weblate.VERSION:
+    if "-dev" in weblate.VERSION or (
+        (user is None or not user.is_authenticated) and settings.HIDE_VERSION
+    ):
         version = "latest"
     else:
         version = "weblate-{0}".format(weblate.VERSION)

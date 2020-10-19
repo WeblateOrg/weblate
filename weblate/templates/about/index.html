@@ -49,9 +49,11 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Weblate is built on libre software" %}</h4></div>
 <div class="panel-body formats">
 {% for ver in versions %}
-<a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
-<span>{{ ver.2 }}</span>
-</a>
+  <a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
+  {% if not hide_version or user.is_authenticated %}
+    <span>{{ ver.2 }}</span>
+  {% endif %}
+  </a>
 {% endfor %}
 </div>
 </div>

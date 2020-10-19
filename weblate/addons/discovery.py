@@ -46,12 +46,12 @@ class DiscoveryAddon(BaseAddon):
             remove=self.instance.configuration["remove"], background=True
         )
 
-    def get_settings_form(self, **kwargs):
+    def get_settings_form(self, user, **kwargs):
         """Return configuration for for this addon."""
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration
             kwargs["data"]["confirm"] = False
-        return super().get_settings_form(**kwargs)
+        return super().get_settings_form(user, **kwargs)
 
     @cached_property
     def discovery(self):

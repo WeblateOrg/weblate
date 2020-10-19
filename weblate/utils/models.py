@@ -61,6 +61,8 @@ class WeblateConf(AppConf):
 
     DATABASE_BACKUP = "plain"
 
+    HIDE_VERSION = False
+
     CSP_SCRIPT_SRC = []
     CSP_IMG_SRC = []
     CSP_CONNECT_SRC = []

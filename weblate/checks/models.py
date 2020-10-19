@@ -170,9 +170,9 @@ class Check(models.Model):
             return self.check_obj.name
         return self.check
 
-    def get_doc_url(self):
+    def get_doc_url(self, user=None):
         if self.check_obj:
-            return self.check_obj.get_doc_url()
+            return self.check_obj.get_doc_url(user=user)
         return ""
 
     def set_dismiss(self, state=True):

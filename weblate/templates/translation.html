@@ -332,7 +332,7 @@
 <p>{% trans "The uploaded file will be merged with the current translation." %}</p>
 {% endif %}
 {% csrf_token %}
-{{ form|crispy }}
+{% crispy form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Upload" %}" class="btn btn-primary" />

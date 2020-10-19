@@ -105,7 +105,9 @@ def session_ratelimit_post(scope):
                     logout(request)
                 messages.error(
                     request,
-                    render_to_string("ratelimit.html", {"do_logout": do_logout}),
+                    render_to_string(
+                        "ratelimit.html", {"do_logout": do_logout, "user": request.user}
+                    ),
                 )
                 return redirect("login")
             return function(request, *args, **kwargs)

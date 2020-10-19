@@ -48,6 +48,7 @@ CONTEXT_SETTINGS = [
     "LEGAL_URL",
     "FONTS_CDN_URL",
     "AVATAR_URL_PREFIX",
+    "HIDE_VERSION",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]
@@ -150,7 +151,9 @@ def weblate_context(request):
             '<a href="{}">Weblate</a>'.format(escape(WEBLATE_URL))
         ),
         "weblate_version_link": mark_safe(
-            '<a href="{}">Weblate {}</a>'.format(escape(WEBLATE_URL), weblate.VERSION)
+            '<a href="{}">Weblate {}</a>'.format(
+                escape(WEBLATE_URL), "" if settings.HIDE_VERSION else weblate.VERSION
+            )
         ),
         "donate_url": DONATE_URL,
         "site_url": get_site_url(),

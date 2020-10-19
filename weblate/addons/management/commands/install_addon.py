@@ -64,7 +64,7 @@ class Command(WeblateComponentCommand):
             user = get_anonymous()
         for component in self.get_components(*args, **options):
             if addon.has_settings:
-                form = addon.get_add_form(component, data=configuration)
+                form = addon.get_add_form(None, component, data=configuration)
                 self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons:

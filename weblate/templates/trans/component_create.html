@@ -49,7 +49,7 @@
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p>{% trans "Create a new translation component from remote version control system repository." %}</p>
-{{ full_form | crispy }}
+{% crispy full_form %}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
 </div>
@@ -62,7 +62,7 @@
 <input type="hidden" name="origin" value="existing" />
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p>{% trans "Create a new translation component from a repository already cloned in Weblate." %}</p>
-{{ existing_form | crispy }}
+{% crispy existing_form %}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-existing">
 </form>
 </div>
@@ -75,7 +75,7 @@
 <input type="hidden" name="origin" value="branch" />
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p>{% trans "Create a new translation component for an additional branch of the existing translation component." %}</p>
-{{ branch_form | crispy }}
+{% crispy branch_form %}
 <p class="help-block">{% trans "The new component will be created for the selected branch with the exact same configuration as the existing one." %}</p>
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-branch">
 </form>
@@ -88,7 +88,7 @@
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p>{% trans "Create a new translation component from an uploaded ZIP file containing strings for translation." %}</p>
-{{ zip_form | crispy }}
+{% crispy zip_form %}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
 </div>
@@ -100,7 +100,7 @@
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p>{% trans "Create a new translation component from an uploaded document for translation." %}</p>
-{{ doc_form | crispy }}
+{% crispy doc_form %}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
 </div>
@@ -116,7 +116,7 @@
 {% trans "Create a new empty translation component to start from scratch." %}
 {% blocktrans with link_start='<a href="#zip" data-toggle="tab">' link_end='</a>' %}Create a ZIP file containing any existing translation files you have, and {{ link_start }}upload it{{ link_end }}.{% endblocktrans %}
 </p>
-{{ scratch_form | crispy }}
+{% crispy scratch_form %}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
 </div>
