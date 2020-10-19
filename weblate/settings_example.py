@@ -876,6 +876,7 @@ CELERY_TASK_ROUTES = {
     "weblate.utils.tasks.database_backup": {"queue": "backup"},
     "weblate.wladmin.tasks.backup": {"queue": "backup"},
     "weblate.wladmin.tasks.backup_service": {"queue": "backup"},
+    "weblate.memory.tasks.*": {"queue": "memory"},
 }
 
 # Enable plain database backups
