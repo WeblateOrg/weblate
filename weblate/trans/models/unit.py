@@ -603,6 +603,13 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 old=previous_source,
                 target=self.source,
             )
+        # Update translation memory if needed
+        if (
+            self.state >= STATE_TRANSLATED
+            and (not translation.is_source or component.intermediate)
+            and (created or not same_source or not same_target)
+        ):
+            transaction.on_commit(lambda: import_memory_unit.delay(self.id))
 
     def update_state(self):
         """
