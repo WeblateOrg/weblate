@@ -378,7 +378,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     @cached_property
     def paid(self):
         if "weblate.billing" not in settings.INSTALLED_APPS:
-            return False
+            return True
         return not self.billings or any(billing.paid for billing in self.billings)
 
     def post_create(self, user, billing=None):
