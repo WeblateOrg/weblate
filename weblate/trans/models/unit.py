@@ -440,6 +440,44 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if any(char in text for char in CONTROLCHARS):
                 raise ValueError("String contains control char: {!r}".format(text))
 
+    def update_source_unit(
+        self, component, source, context, pos, note, location, flags
+    ):
+        source_unit = component.get_source(
+            self.id_hash,
+            create={
+                "source": source,
+                "target": source,
+                "context": context,
+                "content_hash": calculate_hash(source, context),
+                "position": pos,
+                "note": note,
+                "location": location,
+                "flags": flags,
+            },
+        )
+        if (
+            not source_unit.source_updated
+            and not component.has_template()
+            and (
+                pos != source_unit.position
+                or location != source_unit.location
+                or flags != source_unit.flags
+                or note != source_unit.note
+            )
+        ):
+            source_unit.position = pos
+            source_unit.source_updated = True
+            source_unit.location = location
+            source_unit.flags = flags
+            source_unit.note = note
+            source_unit.save(
+                update_fields=["position", "location", "flags", "note"],
+                same_content=True,
+                run_checks=False,
+            )
+        self.source_unit = source_unit
+
     def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
         translation = self.translation
@@ -472,40 +510,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # we set here
         old_source_unit = self.source_unit
         if not translation.is_source:
-            source_unit = component.get_source(
-                self.id_hash,
-                create={
-                    "source": source,
-                    "target": source,
-                    "context": context,
-                    "content_hash": calculate_hash(source, context),
-                    "position": pos,
-                    "note": note,
-                    "location": location,
-                    "flags": flags,
-                },
+            self.update_source_unit(
+                component, source, context, pos, note, location, flags
             )
-            if (
-                not source_unit.source_updated
-                and not component.has_template()
-                and (
-                    pos != source_unit.position
-                    or location != source_unit.location
-                    or flags != source_unit.flags
-                    or note != source_unit.note
-                )
-            ):
-                source_unit.position = pos
-                source_unit.source_updated = True
-                source_unit.location = location
-                source_unit.flags = flags
-                source_unit.note = note
-                source_unit.save(
-                    update_fields=["position", "location", "flags", "note"],
-                    same_content=True,
-                    run_checks=False,
-                )
-            self.source_unit = source_unit
 
         # Calculate state
         state = self.get_unit_state(unit, flags)
