@@ -42,6 +42,9 @@ DATABASES = {
         "NAME": "weblate",
         # Database user.
         "USER": "weblate",
+        # Name of role to alter to set parameters in PostgreSQL,
+        # use in case role name is different than user used for authentication.
+        # "ALTER_ROLE": "weblate",
         # Database password.
         "PASSWORD": "",
         # Set to empty string for localhost.

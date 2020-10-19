@@ -13,9 +13,11 @@ def update_index(apps, schema_editor):
     # See https://www.postgresql.org/message-id/6376.1533675236%40sss.pgh.pa.us
     schema_editor.execute("SELECT show_limit()")
 
+    settings = schema_editor.connection.settings_dict
+
     schema_editor.execute(
         "ALTER ROLE {} SET pg_trgm.similarity_threshold = 0.5".format(
-            schema_editor.quote_name(schema_editor.connection.settings_dict["USER"])
+            schema_editor.quote_name(settings.get("ALTER_ROLE", settings["USER"]))
         )
     )
 
