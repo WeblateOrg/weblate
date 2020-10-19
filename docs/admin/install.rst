@@ -351,6 +351,8 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
         CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA weblate;
 
+.. _config-postgresql:
+
 Configuring Weblate to use PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

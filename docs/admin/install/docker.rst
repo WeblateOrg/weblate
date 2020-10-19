@@ -885,6 +885,10 @@ both Weblate and PostgreSQL containers.
    Configure how PostgreSQL handles SSL in connection to the server, for possible choices see
    `SSL Mode Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_
 
+.. envvar:: POSTGRES_ALTER_ROLE
+
+    Configures name of role to alter during migrations, see :ref:`config-postgresql`.
+
 
 Database backup settings
 ~~~~~~~~~~~~~~~~~~~~~~~~

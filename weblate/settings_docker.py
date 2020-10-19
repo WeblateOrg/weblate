@@ -50,6 +50,11 @@ DATABASES = {
         "NAME": os.environ["POSTGRES_DATABASE"],
         # Database user.
         "USER": os.environ["POSTGRES_USER"],
+        # Name of role to alter to set parameters in PostgreSQL,
+        # use in case role name is different than user used for authentication.
+        "ALTER_ROLE": os.environ.get(
+            "POSTGRES_ALTER_ROLE", os.environ["POSTGRES_USER"]
+        ),
         # Database password.
         "PASSWORD": os.environ["POSTGRES_PASSWORD"],
         # Set to empty string for localhost.
