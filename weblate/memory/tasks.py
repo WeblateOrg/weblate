@@ -19,6 +19,7 @@
 
 from django.db import transaction
 
+from weblate.auth.models import User
 from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
 from weblate.utils.celery import app
@@ -46,6 +47,15 @@ def import_memory(project_id, component_id=None):
                 )
             for unit in units.prefetch_related("translation", "translation__language"):
                 update_memory(None, unit, component, project)
+
+
+@app.task(trail=False)
+def import_memory_unit(unit_id, user_id=None):
+    from weblate.trans.models import Unit
+
+    user = None if user_id is None else User.objects.get(pk=user_id)
+    unit = Unit.objects.get(pk=unit_id)
+    update_memory(user, unit)
 
 
 def update_memory(user, unit, component=None, project=None):
