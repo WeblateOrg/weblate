@@ -9,6 +9,7 @@ Not yet released.
 * Improve hooks compatibility with Bitbucket Server.
 * Improved translation memory updates performance.
 * Reduced memory usage.
+* Improved performance of matrix view.
 
 Weblate 4.3
 -----------

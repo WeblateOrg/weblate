@@ -107,12 +107,27 @@ def matrix_load(request, project, component):
 
     data = []
 
-    for unit in translations[0].unit_set.all()[offset : offset + 20]:
+    source_units = obj.source_translation.unit_set.order()[offset : offset + 20]
+    source_ids = [unit.pk for unit in source_units]
+
+    translated_units = [
+        {
+            unit.source_unit_id: unit
+            for unit in translation.unit_set.order().filter(source_unit__in=source_ids)
+        }
+        for translation in translations
+    ]
+
+    for unit in source_units:
         units = []
-        for translation in translations:
-            try:
-                units.append(translation.unit_set.get(id_hash=unit.id_hash))
-            except Unit.DoesNotExist:
+        # Avoid need to fetch source unit again
+        unit.source_unit = unit
+        for translation in translated_units:
+            if unit.pk in translation:
+                # Avoid need to fetch source unit again
+                translation[unit.pk].source_unit = unit
+                units.append(translation[unit.pk])
+            else:
                 units.append(None)
 
         data.append((unit, units))
