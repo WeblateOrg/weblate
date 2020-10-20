@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-20 14:59+0200\n"
-"PO-Revision-Date: 2020-10-14 07:10+0000\n"
+"PO-Revision-Date: 2020-10-20 19:28+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -95,6 +95,10 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"Tüm bir örneğin izinlerini yönetmek için, `Kullanıcılar` (bu varsayılan "
+"olarak :ref:`autogroup` kullanılarak yapılır), `Gözden geçirenler` ve "
+"`Yöneticiler` gruplarına kullanıcıları eklemeniz yeterlidir. Tüm projeleri "
+"`Açık` şeklinde yapılandırılmış olarak tutun (bkz: :ref:`acl`)."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
@@ -105,10 +109,12 @@ msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
 msgstr ""
+"Projelerinizi `Korumalı` veya `Özel` olarak ayarlayın ve Weblate arayüzünde "
+"her proje için kullanıcıları yönetin."
 
 #: ../../admin/access.rst:48
 msgid "Adding permissions to languages, components or projects"
-msgstr ""
+msgstr "Dillere, bileşenlere veya projelere izinler ekleme"
 
 #: ../../admin/access.rst:50
 msgid ""
@@ -117,6 +123,10 @@ msgid ""
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
+"Ek olarak herhangi bir kullanıcıya proje, bileşen veya dil kümesine göre "
+"izinler verebilirsiniz. Bunu yapmak için yeni bir grup oluşturun (örn. `"
+"Çekçe çevirmenler`) ve belirli bir kaynak için yapılandırın. Atanan tüm "
+"izinler, seçilen kaynaklar için o grubun üyelerine verilecektir."
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -125,20 +135,27 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
+"Proje başına izinler kullanılıyorsa, bu ek kurulum olmadan gayet iyi "
+"çalışacaktır. Tüm örnekle ilgili izinler için muhtemelen bu izinleri "
+"`Kullanıcılar` grubundan kaldırmak veya tüm kullanıcıların otomatik olarak "
+"bu gruba atamasını değiştirmek isteyeceksiniz (bkz: :ref:`autogroup`)."
 
 #: ../../admin/access.rst:62
 msgid ":ref:`perm-check`"
-msgstr ""
+msgstr ":ref:`perm-check`"
 
 #: ../../admin/access.rst:67
 msgid "Per project access control"
-msgstr ""
+msgstr "Proje başına erişim denetimi"
 
 #: ../../admin/access.rst:71
 msgid ""
 "By enabling ACL, all users are prohibited from accessing anything within a "
 "given project, unless you add the permissions for them to do just that."
 msgstr ""
+"ACL'yi etkinleştirerek, siz onlara tam da bunu yapmaları için izinler "
+"eklemediğiniz sürece tüm kullanıcıların belirli bir proje içindeki herhangi "
+"bir şeye erişmesi engellenir."
 
 #: ../../admin/access.rst:74
 msgid ""
@@ -147,10 +164,14 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
+"Kullanıcının bireysel projelere erişimini sınırlayabilirsiniz. Bu özellik, "
+"ilgili her bir projenin yapılandırmasındaki :guilabel:`Erişim denetimi` "
+"seçeneği tarafından etkinleştirilir. Bu, proje için otomatik olarak birkaç "
+"grup oluşturur, bkz: :ref:`groups`."
 
 #: ../../admin/access.rst:78
 msgid "The following choices exist for :guilabel:`Access control`:"
-msgstr ""
+msgstr ":guilabel:`Erişim denetimi` için aşağıdaki seçenekler mevcuttur:"
 
 #: ../../admin/access.rst:80
 msgid "Public"
@@ -166,7 +187,7 @@ msgstr "Korumalı"
 
 #: ../../admin/access.rst:83
 msgid "Publicly visible, but translatable only for selected users"
-msgstr ""
+msgstr "Herkes görebilir, ancak yalnızca seçili kullanıcılar çevirebilir"
 
 #: ../../admin/access.rst:84
 msgid "Private"
@@ -174,15 +195,16 @@ msgstr "Özel"
 
 #: ../../admin/access.rst:85
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Yalnızca seçili kullanıcılar görebilir ve çevirebilir"
 
 #: ../../admin/access.rst:87
+#, fuzzy
 msgid "Custom"
 msgstr "Özel"
 
 #: ../../admin/access.rst:87
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
-msgstr ""
+msgstr "Weblate kullanıcıları yönetmez, bkz: :ref:`custom-acl`."
 
 #: ../../admin/access.rst:91
 msgid ""
@@ -501,7 +523,7 @@ msgstr "Değişiklikler"
 
 #: ../../admin/access.rst:316
 msgid "Download changes [`Administration`]"
-msgstr ""
+msgstr "Değişiklikleri indir [`Yönetim`]"
 
 #: ../../admin/access.rst:321 ../../user/translating.rst:60
 msgid "Comments"
@@ -512,6 +534,8 @@ msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Yorum gönder [`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`, `Dizgileri "
+"gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:321
 msgid "Delete comment [`Administration`]"
@@ -536,21 +560,22 @@ msgstr "Sözlük"
 
 #: ../../admin/access.rst:329
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "Sözlük girişi ekle [`Yönetim`, `Sözlüğü yönet`, `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:331
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "Sözlük girişi düzenle [`Yönetim`, `Sözlüğü yönet`, `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:333
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
-msgstr ""
+msgstr "Sözlük girişi sil [`Yönetim`, `Sözlüğü yönet`, `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:335
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Sözlük girişlerini yükle [`Yönetim`, `Sözlüğü yönet`, `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:338 ../../user/translating.rst:282
 msgid "Automatic suggestions"
@@ -578,7 +603,7 @@ msgstr "Raporlar"
 
 #: ../../admin/access.rst:346
 msgid "Download reports [`Administration`]"
-msgstr ""
+msgstr "Raporları indir [`Yönetim`]"
 
 #: ../../admin/access.rst:353 ../../api.rst:1957 ../../user/translating.rst:205
 msgid "Screenshots"
@@ -586,15 +611,15 @@ msgstr "Ekran görüntüleri"
 
 #: ../../admin/access.rst:349
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "Ekran görüntüsü ekle [`Yönetim`, `Ekran görüntülerini yönet`]"
 
 #: ../../admin/access.rst:351
 msgid "Edit screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "Ekran görüntüsü düzenle [`Yönetim`, `Ekran görüntülerini yönet`]"
 
 #: ../../admin/access.rst:353
 msgid "Delete screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "Ekran görüntüsü sil [`Yönetim`, `Ekran görüntülerini yönet`]"
 
 #: ../../admin/access.rst:356
 msgid "Source strings"
@@ -602,7 +627,7 @@ msgstr "Kaynak dizgiler"
 
 #: ../../admin/access.rst:356
 msgid "Edit source string info [`Administration`, `Edit source`]"
-msgstr ""
+msgstr "Kaynak dizgi bilgilerini düzenle [`Yönetim`, `Kaynağı düzenle`]"
 
 #: ../../admin/access.rst:369
 msgid "Strings"
@@ -617,28 +642,33 @@ msgid ""
 "Ignore failing checks [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"Kusur denetimlerini yok say [`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`"
+", `Dizgileri gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:363
 msgid ""
 "Edit strings [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Dizgileri düzenle [`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`, `"
+"Dizgileri gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:365
 msgid "Review strings [`Administration`, `Review strings`]"
-msgstr ""
+msgstr "Dizgileri gözden geçir [`Yönetim`, `Dizgileri gözden geçir`]"
 
 #: ../../admin/access.rst:367
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
 msgstr ""
-"Önerileriler zorunlu kılındığında dizgiyi düzenle [`Yönetim`, `Dizgileri "
-"gözden geçir`]"
+"Öneriler zorunlu kılındığında dizgiyi düzenle [`Yönetim`, `Dizgileri gözden "
+"geçir`]"
 
 #: ../../admin/access.rst:369
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgstr ""
+"Kaynak dizgileri düzenle [`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:378 ../../user/translating.rst:46
 #: ../../workflows.rst:44
@@ -650,12 +680,16 @@ msgid ""
 "Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Önerileri kabul et [`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`, `"
+"Dizgileri gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:374
 msgid ""
 "Add suggestions [`Add suggestion`, `Administration`, `Edit source`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
+"Öneriler ekle [`Öneri ekle`, `Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`"
+", `Dizgileri gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:376
 msgid "Delete suggestions [`Administration`]"
@@ -666,6 +700,8 @@ msgid ""
 "Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Önerilere oy ver [`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`, `"
+"Dizgileri gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:387 ../../api.rst:1540
 msgid "Translations"
@@ -678,11 +714,11 @@ msgstr "Yeni çeviri başlat [`Yönetim`, `Dilleri yönet`, `Uzman kullanıcı`]
 
 #: ../../admin/access.rst:383
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
-msgstr ""
+msgstr "Otomatik çeviri gerçekleştir [`Yönetim`, `Dilleri yönet`]"
 
 #: ../../admin/access.rst:385
 msgid "Delete existing translations [`Administration`, `Manage languages`]"
-msgstr ""
+msgstr "Mevcut çevirileri sil [`Yönetim`, `Dilleri yönet`]"
 
 #: ../../admin/access.rst:387
 msgid ""
@@ -691,7 +727,7 @@ msgstr "Yeni bir dile çeviri başlat [`Yönetim`, `Dilleri yönet`]"
 
 #: ../../admin/access.rst:394
 msgid "Uploads"
-msgstr ""
+msgstr "Yüklemeler"
 
 #: ../../admin/access.rst:390
 msgid "Define author of translation upload [`Administration`]"
@@ -702,12 +738,16 @@ msgid ""
 "Overwrite existing strings with an upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
+"Yükleme ile varolan dizgilerin üzerine yaz [`Yönetim`, `Kaynağı düzenle`, `"
+"Uzman kullanıcı`, `Dizgileri gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:394
 msgid ""
 "Upload translation strings [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
+"Çeviri dizgileri yükle [`Yönetim`, `Kaynağı düzenle`, `Uzman kullanıcı`, `"
+"Dizgileri gözden geçir`, `Çevir`]"
 
 #: ../../admin/access.rst:407
 msgid "VCS"
@@ -718,6 +758,7 @@ msgid ""
 "Access the internal repository [`Access repository`, `Administration`, "
 "`Manage repository`, `Power user`]"
 msgstr ""
+"İç depoya eriş [`Depoya eriş`, `Yönetim`, `Depoyu yönet`, `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:399
 msgid ""
@@ -742,6 +783,8 @@ msgid ""
 "View upstream repository location [`Access repository`, `Administration`, "
 "`Manage repository`, `Power user`]"
 msgstr ""
+"Yukarı akış depo konumunu görüntüle [`Depoya eriş`, `Yönetim`, `Depoyu yönet`"
+", `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:407
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
@@ -749,7 +792,7 @@ msgstr "İç depoyu güncelle [`Yönetim`, `Depoyu yönet`]"
 
 #: ../../admin/access.rst:428
 msgid "Site wide privileges"
-msgstr ""
+msgstr "Site çapında yetkiler"
 
 #: ../../admin/access.rst:410
 msgid "Use management interface"
@@ -797,99 +840,114 @@ msgid ""
 "powerful and quite close to the superuser status—most of them affect all the "
 "projects of your Weblate installation."
 msgstr ""
+"Site çapında yetkiler herhangi bir varsayılan role verilmez. Bunlar güçlüdür "
+"ve yetkili kullanıcı (superuser) durumuna oldukça yakındır — çoğu Weblate "
+"kurulumunuzun tüm projelerini etkiler."
 
 #: ../../admin/access.rst:437
 msgid "List of groups"
-msgstr ""
+msgstr "Grup listesi"
 
 #: ../../admin/access.rst:439
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
 msgstr ""
+"Aşağıdaki gruplar kurulumun ardından (veya :djadmin:`setupgroups` "
+"çalıştırıldıktan sonra) oluşturulur:"
 
 #: ../../admin/access.rst:450
 msgid "`Guests`"
-msgstr ""
+msgstr "`Konuklar`"
 
 #: ../../admin/access.rst:443
 msgid "Defines permissions for non authenticated users."
-msgstr ""
+msgstr "Kimliği doğrulanmamış kullanıcılar için izinleri tanımlar."
 
 #: ../../admin/access.rst:445
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Bu grup yalnızca anonim kullanıcıları içerir (bkz: "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:447
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
 msgstr ""
+"Kimliği doğrulanmamış kullanıcıların izinlerini sınırlamak için bu gruptaki "
+"rolleri kaldırabilirsiniz."
 
 #: ../../admin/access.rst:450
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "Varsayılan roller: `Öneri ekle`, `Depoya eriş`"
 
 #: ../../admin/access.rst:458
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Görüntüleyiciler`"
 
 #: ../../admin/access.rst:453
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
 msgstr ""
+"Bu rol, ortak projelerin tüm kullanıcılar için görünür olduğundan emin "
+"olunmasını sağlar. Varsayılan olarak tüm kullanıcılar bu grubun üyesidir."
 
 #: ../../admin/access.rst:456
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr ""
+"Varsayılan olarak, tüm kullanıcılar :ref:`autogroup` kullanarak bu grubun "
+"üyeleridir."
 
 #: ../../admin/access.rst:458
 msgid "Default roles: none"
-msgstr ""
+msgstr "Varsayılan roller: yok"
 
 #: ../../admin/access.rst:465 ../../workflows.rst:67 ../../workflows.rst:98
 #: ../../workflows.rst:134
 msgid "`Users`"
-msgstr ""
+msgstr "`Kullanıcılar`"
 
 #: ../../admin/access.rst:461
 msgid "Default group for all users."
-msgstr ""
+msgstr "Tüm kullanıcılar için varsayılan grup."
 
 #: ../../admin/access.rst:463
 msgid "By default all users are members of this group using :ref:`autogroup`."
 msgstr ""
+"Varsayılan olarak, tüm kullanıcılar :ref:`autogroup` kullanarak bu grubun "
+"üyeleridir."
 
 #: ../../admin/access.rst:465
 msgid "Default roles: `Power user`"
-msgstr ""
+msgstr "Varsayılan roller: `Uzman kullanıcı`"
 
 #: ../../admin/access.rst:470 ../../workflows.rst:137
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Gözden geçirenler`"
 
 #: ../../admin/access.rst:468
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "Gözden geçirenler için grup (bkz: :ref:`workflows`)."
 
 #: ../../admin/access.rst:470
 msgid "Default roles: `Review strings`"
-msgstr ""
+msgstr "Varsayılan roller: `Dizgileri gözden geçir`"
 
 #: ../../admin/access.rst:475
 msgid "`Managers`"
-msgstr ""
+msgstr "`Yöneticiler`"
 
 #: ../../admin/access.rst:473
 msgid "Group for administrators."
-msgstr ""
+msgstr "Yöneticiler için grup."
 
 #: ../../admin/access.rst:475
 msgid "Default roles: `Administration`"
-msgstr ""
+msgstr "Varsayılan roller: `Yönetim`"
 
 #: ../../admin/access.rst:479
 msgid ""
@@ -897,6 +955,9 @@ msgid ""
 "unexpected problems. If you do not want to use these features, just remove "
 "all privileges from them."
 msgstr ""
+"Önceden tanımlanmış Weblate gruplarını ve kullanıcılarını asla kaldırmayın, "
+"bu beklenmedik sorunlara yol açabilir. Bu özellikleri kullanmak "
+"istemiyorsanız, onlardan tüm yetkileri kaldırmanız yeterlidir."
 
 #: ../../admin/addons.rst:4
 msgid "Addons"
@@ -4387,10 +4448,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:727
-#, fuzzy
-#| msgid "Push is turned off for %s."
 msgid "This is turned off by default."
-msgstr "%s için yollama kapalı."
+msgstr "Bu, varsayılan olarak kapalıdır."
 
 #: ../../admin/config.rst:732
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -15790,83 +15849,71 @@ msgstr "RSS bildirimleri"
 
 #: ../../api.rst:2577
 msgid "Changes in translations are exported in RSS feeds."
-msgstr ""
+msgstr "Çevirilerdeki değişiklikler RSS bildirimlerinde dışa aktarılır."
 
 #: ../../api.rst:2581
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr ""
+msgstr "Bir çeviri için son değişiklikleri içeren RSS bildirimini alır."
 
 #: ../../api.rst:2585
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr ""
+msgstr "Bir bileşen için son değişiklikleri içeren RSS bildirimini alır."
 
 #: ../../api.rst:2589
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr ""
+msgstr "Bir proje için son değişiklikleri içeren RSS bildirimini alır."
 
 #: ../../api.rst:2593
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr ""
+msgstr "Bir dil için son değişiklikleri içeren RSS bildirimini alır."
 
 #: ../../api.rst:2597
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
-msgstr ""
+msgstr "Weblate örneği için son değişiklikleri içeren RSS bildirimini alır."
 
 #: ../../api.rst:2601
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`Wikipedia'da RSS <https://tr.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3.1"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3.1"
 
 #: ../../changes.rst:4
 msgid "Released on October 21st 2020."
-msgstr ""
+msgstr "21 Ekim 2020 tarihinde yayınlandı."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Improved automatic translation performance."
-msgstr "Otomatik çeviri kaynağı"
+msgstr "Otomatik çeviri performansı iyileştirildi."
 
 #: ../../changes.rst:7
 msgid "Fixed session expiry for authenticated users."
-msgstr ""
+msgstr "Kimliği doğrulanmış kullanıcılar için oturum sona ermesi düzeltildi."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Add support for hiding version information."
-msgstr "Dizgi şekillerini gruplama desteği eklendi."
+msgstr "Sürüm bilgilerini gizleme desteği eklendi."
 
 #: ../../changes.rst:9
 msgid "Improve hooks compatibility with Bitbucket Server."
-msgstr ""
+msgstr "Bitbucket Sunucusu ile kanca uyumluluğunu iyileştirildi."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Import translation memory"
 msgid "Improved translation memory updates performance."
-msgstr "Çeviri belleğini içe aktar"
+msgstr "Çeviri belleğini güncelleme performansı iyileştirildi."
 
 #: ../../changes.rst:11
 msgid "Reduced memory usage."
-msgstr ""
+msgstr "Bellek kullanımı azaltıldı."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved performance of matrix view."
-msgstr "Performansa genel bakış"
+msgstr "Matris görünümünün performansı iyileştirildi."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Added confirmation before removing user from a project."
-msgstr "Kullanıcı bu projeden kaldırıldı."
+msgstr "Kullanıcıyı bir projeden kaldırmadan önce onay eklendi."
 
 #: ../../changes.rst:16
 msgid "Weblate 4.3"
@@ -15874,23 +15921,23 @@ msgstr "Weblate 4.3"
 
 #: ../../changes.rst:18
 msgid "Released on October 15th 2020."
-msgstr ""
+msgstr "15 Ekim 2020 tarihinde yayınlandı."
 
 #: ../../changes.rst:20
 msgid "Include user stats in the API."
-msgstr ""
+msgstr "Kullanıcı istatistikleri API'ye dahil edildi."
 
 #: ../../changes.rst:21
 msgid "Fixed component ordering on paginated pages."
-msgstr ""
+msgstr "Sayfalandırılmış sayfalardaki bileşen sıralaması düzeltildi."
 
 #: ../../changes.rst:22
 msgid "Define source language for a glossary."
-msgstr ""
+msgstr "Bir sözlük için kaynak dili tanımlama."
 
 #: ../../changes.rst:23
 msgid "Rewritten support for GitHub and GitLab pull requests."
-msgstr ""
+msgstr "GitHub ve GitLab çekme istekleri desteği yeniden yazıldı."
 
 #: ../../changes.rst:24
 msgid "Fixed stats counts after removing suggestion."
@@ -15902,15 +15949,15 @@ msgstr "Açık kullanıcı profili genişletildi."
 
 #: ../../changes.rst:26
 msgid "Fixed configuration of enforced checks."
-msgstr ""
+msgstr "Zorunlu denetimlerin yapılandırması düzeltildi."
 
 #: ../../changes.rst:27
 msgid "Improve documentation about built-in backups."
-msgstr ""
+msgstr "Yerleşik yedeklemelerle ilgili belgeler iyileştirildi."
 
 #: ../../changes.rst:28
 msgid "Moved source language attribute from project to a component."
-msgstr ""
+msgstr "Kaynak dil özniteliği projeden bileşene taşındı."
 
 #: ../../changes.rst:29
 msgid "Add Vue I18n formatting check."
@@ -15918,11 +15965,11 @@ msgstr "Vue I18n biçimlendirmesi denetimi eklendi."
 
 #: ../../changes.rst:30
 msgid "Generic placeholders check now supports regular expressions."
-msgstr ""
+msgstr "Genel yer tutucu denetimi artık düzenli ifadeleri destekliyor."
 
 #: ../../changes.rst:31
 msgid "Improved look of matrix mode."
-msgstr ""
+msgstr "Matris kipinin görünümü iyileştirildi."
 
 #: ../../changes.rst:32
 msgid "Machinery is now called automatic suggestions."
@@ -15930,25 +15977,27 @@ msgstr "Makine çevirisi artık otomatik öneriler olarak adlandırılıyor."
 
 #: ../../changes.rst:33
 msgid "Added support for interacting with multiple GitLab or GitHub instances."
-msgstr ""
+msgstr "Birden çok GitLab veya GitHub örneğiyle etkileşim için destek eklendi."
 
 #: ../../changes.rst:34
 msgid ""
 "Extended API to cover project updates, unit updates and removals and "
 "glossaries."
 msgstr ""
+"Proje güncellemelerini, birim güncellemeleri ve kaldırmalarını ve sözlükleri "
+"kapsayacak şekilde API genişletildi."
 
 #: ../../changes.rst:35
 msgid "Unit API now properly handles plural strings."
-msgstr ""
+msgstr "Birim API'si artık çoğul dizgileri düzgün şekilde işliyor."
 
 #: ../../changes.rst:36
 msgid "Component creation can now handle ZIP file or document upload."
-msgstr ""
+msgstr "Bileşen oluşturma artık ZIP dosyası veya belge yüklemesini işleyebilir."
 
 #: ../../changes.rst:37
 msgid "Consolidated API response status codes."
-msgstr ""
+msgstr "API yanıt durum kodları birleştirildi."
 
 #: ../../changes.rst:38
 msgid "Support markdown in contributor agreement."
@@ -15960,7 +16009,7 @@ msgstr "Kaynak dizgi izleme iyileştirildi."
 
 #: ../../changes.rst:40
 msgid "Improved JSON, YAML and CSV formats compatibility."
-msgstr ""
+msgstr "JSON, YAML ve CSV biçimleri uyumluluğu iyileştirildi."
 
 #: ../../changes.rst:41
 msgid "Added support for removing strings."
@@ -15968,15 +16017,15 @@ msgstr "Dizgileri kaldırma desteği eklendi."
 
 #: ../../changes.rst:42
 msgid "Improved performance of file downloads."
-msgstr ""
+msgstr "Dosya indirmelerinin performansı iyileştirildi."
 
 #: ../../changes.rst:43
 msgid "Improved repository management view."
-msgstr ""
+msgstr "Depo yönetimi görünümü iyileştirildi."
 
 #: ../../changes.rst:44
 msgid "Automatically enable java-format for Android."
-msgstr ""
+msgstr "Android için java biçimini otomatik olarak etkinleştirme."
 
 #: ../../changes.rst:45
 msgid "Added support for localized screenshots."
@@ -15988,7 +16037,7 @@ msgstr "Python 3.9 desteği eklendi."
 
 #: ../../changes.rst:47
 msgid "Fixed translating HTML files under certain conditions."
-msgstr ""
+msgstr "Belirli koşullar altında HTML dosyalarının çevrilmesi düzeltildi."
 
 #: ../../changes.rst:50
 msgid "Weblate 4.2.2"
@@ -15996,7 +16045,7 @@ msgstr "Weblate 4.2.2"
 
 #: ../../changes.rst:52
 msgid "Released on September 2nd 2020."
-msgstr ""
+msgstr "2 Eylül 2020 tarihinde yayınlandı."
 
 #: ../../changes.rst:54
 msgid "Fixed matching of source strings for JSON formats."
@@ -16005,10 +16054,12 @@ msgstr "JSON biçimleri için kaynak dizgilerinin eşleşmesi düzeltildi."
 #: ../../changes.rst:55
 msgid "Fixed login redirect for some authentication configurations."
 msgstr ""
+"Bazı kimlik doğrulama yapılandırmaları için oturum açma yeniden "
+"yönlendirmesi düzeltildi."
 
 #: ../../changes.rst:56
 msgid "Fixed LDAP authentication with group sync."
-msgstr ""
+msgstr "Grup eşitleme ile LDAP kimlik doğrulaması düzeltildi."
 
 #: ../../changes.rst:57
 msgid "Fixed crash in reporting automatic translation progress."
@@ -16016,11 +16067,11 @@ msgstr "Otomatik çeviri ilerlemesini bildirirken çökme düzeltildi."
 
 #: ../../changes.rst:58
 msgid "Fixed Git commit squashing with trailers enabled."
-msgstr ""
+msgstr "Artbilgiler etkinken Git işleme toparlaması düzeltildi."
 
 #: ../../changes.rst:59
 msgid "Fixed creating local VCS components using API."
-msgstr ""
+msgstr "API kullanarak yerel VCS bileşenleri oluşturma düzeltildi."
 
 #: ../../changes.rst:62
 msgid "Weblate 4.2.1"
@@ -16028,7 +16079,7 @@ msgstr "Weblate 4.2.1"
 
 #: ../../changes.rst:64
 msgid "Released on August 21st 2020."
-msgstr ""
+msgstr "21 Ağustos 2020 tarihinde yayınlandı."
 
 #: ../../changes.rst:66
 msgid "Fixed saving plurals for some locales in Android resources."
