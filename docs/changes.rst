@@ -1,7 +1,7 @@
 Weblate 4.3.1
 -------------
 
-Not yet released.
+Released on October 21st 2020.
 
 * Improved automatic translation performance.
 * Fixed session expiry for authenticated users.
