@@ -149,7 +149,7 @@
 {% for alert in alerts %}
 <div class="panel panel-default">
 <div class="panel-heading">{{ alert }}</div>
-<div class="panel-body">{{ alert.render }}</div>
+<div class="panel-body">{% render_alert alert %}</div>
 <form action="{% url "dismiss-alert" project=object.project.slug component=object.slug %}" method="post">
 <div class="panel-footer">
   {% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}

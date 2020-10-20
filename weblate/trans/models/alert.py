@@ -73,8 +73,8 @@ class Alert(models.Model):
     def obj(self):
         return ALERTS[self.name](self, **self.details)
 
-    def render(self):
-        return self.obj.render()
+    def render(self, user):
+        return self.obj.render(user)
 
 
 class BaseAlert:
@@ -89,21 +89,22 @@ class BaseAlert:
     def get_analysis(self):
         return {}
 
-    def get_context(self):
+    def get_context(self, user):
         result = {
             "alert": self.instance,
             "component": self.instance.component,
             "timestamp": self.instance.timestamp,
             "details": self.instance.details,
             "analysis": self.get_analysis(),
+            "user": user,
         }
         result.update(self.instance.details)
         return result
 
-    def render(self):
+    def render(self, user):
         return render_to_string(
             "trans/alert/{}.html".format(self.__class__.__name__.lower()),
-            self.get_context(),
+            self.get_context(user),
         )
 
 
@@ -118,8 +119,8 @@ class MultiAlert(BaseAlert):
         super().__init__(instance)
         self.occurrences = self.process_occurrences(occurrences)
 
-    def get_context(self):
-        result = super().get_context()
+    def get_context(self, user):
+        result = super().get_context(user)
         result["occurrences"] = self.occurrences
         return result
 

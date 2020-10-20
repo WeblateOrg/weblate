@@ -811,3 +811,8 @@ def hash_text(name):
 @register.simple_tag
 def sort_choices():
     return SORT_CHOICES.items()
+
+
+@register.simple_tag(takes_context=True)
+def render_alert(context, alert):
+    return alert.render(user=context["user"])

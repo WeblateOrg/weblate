@@ -6,7 +6,7 @@
 
 <h2>{{ alert }}</h2>
 
-{{ alert.render }}
+{% render_alert alert.render %}
 
 <div class="line buttons">
     <a class="button" href="{{ component.get_absolute_url }}#alerts">{% trans "View all alerts" %}</a>
