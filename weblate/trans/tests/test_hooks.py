@@ -412,6 +412,77 @@ BITBUCKET_PAYLOAD_MERGED = r"""
 }
 """
 
+BITBUCKET_PAYLOAD_SERVER_MERGED = r"""
+{
+    "date":"2020-10-20T14:07:35+0100",
+    "pullRequest":{
+        "closedDate":1603199255087,
+        "title":"APP-26387: Adds strings",
+        "updatedDate":1603199255087,
+        "state":"MERGED",
+        "version":2,
+        "closed":true,
+        "createdDate":1603196195463,
+        "fromRef":{
+            "displayId":"feature/APP-26387",
+            "latestCommit":"4a257ccb3c27f468b4ff02b42d6eee7ce6149e5d",
+            "id":"refs/heads/feature/APP-26387",
+            "repository":{
+                "scmId":"git",
+                "slug":"locre",
+                "forkable":true,
+                "name":"locre",
+                "links":{
+                    "clone": [
+                        {
+                            "href": "https://examle.com/scm/wlt/locre.git",
+                            "name": "http"
+                        },
+                        {
+                            "href": "ssh://git@example.com:7999/wlt/locre.git",
+                            "name": "ssh"
+                        }
+                    ],
+                    "self": [
+                        {"href": "https://example.com/projects/WLT/repos/locre/browse"}
+                    ]
+                },
+                "id":1796,
+                "project":{
+                    "name":"EXAMPLE",
+                    "links":{"self": [{"href": "https://example.com/projects/WLT"}]},
+                    "id":"790",
+                    "key":"WLT",
+                    "type":"NORMAL",
+                    "public":"False",
+                    "description":"Shared resources"
+                },
+                "state":"AVAILABLE",
+                "public":false,
+                "statusMessage":"Available"
+            }
+        },
+        "open":false,
+        "id":788
+    },
+    "eventKey":"pr:merged",
+    "actor":{
+        "displayName":"Bill",
+        "name":"bill",
+        "links":{
+            "self":[
+                {"href":"https://example.com/users/bill"}
+            ]
+        },
+        "slug":"bill",
+        "emailAddress":"bill@example.com",
+        "active":true,
+        "type":"NORMAL",
+        "id":1350586
+    }
+}
+"""
+
 
 BITBUCKET_PAYLOAD_HOSTED = r"""
 {
@@ -1418,6 +1489,21 @@ class BitbucketBackendTest(HookBackendTestCase):
                 ],
                 "branch": "target",
                 "full_name": "team_name/repo_name.git",
+            },
+        )
+
+    def test_merge_server(self):
+        self.assert_hook(
+            BITBUCKET_PAYLOAD_SERVER_MERGED,
+            {
+                "service_long_name": "Bitbucket",
+                "repo_url": "https://example.com/projects/WLT/repos/locre/browse",
+                "repos": [
+                    "https://examle.com/scm/wlt/locre.git",
+                    "ssh://git@example.com:7999/wlt/locre.git",
+                ],
+                "branch": None,
+                "full_name": "WLT/locre.git",
             },
         )
 
