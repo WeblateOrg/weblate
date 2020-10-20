@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-20 14:59+0200\n"
-"PO-Revision-Date: 2020-10-14 07:10+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2020-10-20 21:06+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -5182,10 +5182,8 @@ msgid "This is turned on by default."
 msgstr "Типово увімкнено."
 
 #: ../../admin/config.rst:714
-#, fuzzy
-#| msgid "MT_DEEPL_API_VERSION"
 msgid "HIDE_VERSION"
-msgstr "MT_DEEPL_API_VERSION"
+msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:718
 msgid ""
@@ -5193,18 +5191,23 @@ msgid ""
 "documentation links point to latest version instead of the documentation "
 "matching currently installed version."
 msgstr ""
+"Ховає відомості щодо версії від користувачів, які не пройшли розпізнавання. "
+"Це також призведе до того, що усі посилання на документацію вказуватимуть на "
+"документацію із найсвіжішої версії, замість документації відповідної "
+"встановленої версії."
 
 #: ../../admin/config.rst:722
 msgid ""
 "Hiding version is recommended security practice in some corporations, but it "
 "doesn't prevent attacker to figure out version by probing the behavior."
 msgstr ""
+"Приховування версії є рекомендованим для посилення захисту у деяких "
+"корпораціях, але воно не захистить вас від спроб нападника визначити версію "
+"за зондуванням її поведінки."
 
 #: ../../admin/config.rst:727
-#, fuzzy
-#| msgid "This is turned on by default."
 msgid "This is turned off by default."
-msgstr "Типово увімкнено."
+msgstr "Типово вимкнено."
 
 #: ../../admin/config.rst:732
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -8331,6 +8334,12 @@ msgid ""
 "migration (``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" does "
 "not exist``)."
 msgstr ""
+"У коді перенесення даних зроблено припущення, що назва ролі збігається із "
+"іменем користувача, яке було вказано під час розпізнавання. Якщо це не так, "
+"будь ласка, встановіть ``ALTER_ROLE``. Якщо цього не буде зроблено, ви "
+"отримаєте повідомлення про помилку від PostgreSQL щодо того, що ролі не "
+"існує, під час перенесення бази даних (``psycopg2.errors.UndefinedObject: "
+"role \"weblate@hostname\" does not exist``)."
 
 #: ../../admin/install.rst:389
 msgid "MySQL and MariaDB"
@@ -10635,10 +10644,8 @@ msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "Налаштовує :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:569
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr "Налаштовує :setting:`LICENSE_FILTER`."
+msgstr "Налаштовує :setting:`HIDE_VERSION`."
 
 #: ../../admin/install/docker.rst:572
 msgid "Machine translation settings"
@@ -10932,6 +10939,8 @@ msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
 msgstr ""
+"Налаштовує назву ролі для зміни під час перенесення даних, див. :ref:`config-"
+"postgresql`."
 
 #: ../../admin/install/docker.rst:898
 msgid "Database backup settings"
@@ -16588,17 +16597,16 @@ msgid ""
 "GitHub or GitLab, you will need to reconfigure this, see :setting:"
 "`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"Якщо ви користувалися :command:`hub` або :command:`lab` для інтеграції із "
+"GitHub або GitLab, вам слід переналаштувати параметри, див. "
+":setting:`GITHUB_CREDENTIALS` і :setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/upgrade.rst:164
-#, fuzzy
-#| msgid ""
-#| "The Celery configuration was changed to no longer use ``memory`` queue. "
-#| "Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting."
 msgid ""
 "**Changed in 4.3.1:** The Celery configuration was changed to add ``memory`` "
 "queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting."
 msgstr ""
-"Налаштування Celery змінено так, що у них більше не використовується черга "
+"**Змінено у 4.3.1:** налаштування Celery змінено так, щоб додавалася черга "
 "``memory``. Будь ласка, скоригуйте ваші скрипти запуску та значення "
 "параметра ``CELERY_TASK_ROUTES``."
 
@@ -19171,74 +19179,53 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3.1"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on October 28th 2019."
 msgid "Released on October 21st 2020."
-msgstr "Випущено 28 жовтня 2019 року."
+msgstr "Випущено 21 жовтня 2020 року."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Improved translation memory performance."
 msgid "Improved automatic translation performance."
-msgstr "Удосконалено швидкодію пам'яті перекладів."
+msgstr "Удосконалено швидкодію автоматизованого перекладу."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Fixed session expiry for authenticated users."
-msgstr "Визначає права доступу для користувачів, які не пройшли розпізнавання."
+msgstr ""
+"Виправлено застарівання сеансів для користувачів, які пройшли розпізнавання."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added support for Joomla translation format."
 msgid "Add support for hiding version information."
-msgstr "Додано підтримку формату перекладів Joomla."
+msgstr "Додано підтримку приховування даних щодо версії."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Improve webhooks compatibility with self hosted environments."
 msgid "Improve hooks compatibility with Bitbucket Server."
-msgstr ""
-"Удосконалено сумісність скриптів спостереження із власними встановленими "
-"середовищами."
+msgstr "Удосконалено сумісність скриптів спостереження із сервером Bitbucket."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved translation memory performance."
 msgid "Improved translation memory updates performance."
-msgstr "Удосконалено швидкодію пам'яті перекладів."
+msgstr "Удосконалено швидкодію оновлення пам'яті перекладів."
 
 #: ../../changes.rst:11
 msgid "Reduced memory usage."
-msgstr ""
+msgstr "Зменшено споживання пам'яті."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of changing labels."
 msgid "Improved performance of matrix view."
-msgstr "Удосконалено швидкодію при зміні міток."
+msgstr "Удосконалено швидкодію при перегляду матриці."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Added confirmation before removing user from a project."
-msgstr "Користувача видалено з поточного проєкту."
+msgstr "Додано підтвердження перед вилученням користувача з проєкту."
 
 #: ../../changes.rst:16
 msgid "Weblate 4.3"
 msgstr "Weblate 4.3"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Released on October 15th 2019."
 msgid "Released on October 15th 2020."
-msgstr "Випущено 15 жовтня 2019 року."
+msgstr "Випущено 15 жовтня 2020 року."
 
 #: ../../changes.rst:20
 msgid "Include user stats in the API."
@@ -19360,10 +19347,8 @@ msgid "Added support for Python 3.9."
 msgstr "Додаано підтримку Python 3.9."
 
 #: ../../changes.rst:47
-#, fuzzy
-#| msgid "Fixed generating mo files in certain cases."
 msgid "Fixed translating HTML files under certain conditions."
-msgstr "Виправлено створення файлів mo у деяких випадках."
+msgstr "Виправлено переклад файлів HTML за певних умов."
 
 #: ../../changes.rst:50
 msgid "Weblate 4.2.2"
