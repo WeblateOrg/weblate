@@ -6,21 +6,27 @@ labels: question
 
 <!--
 
-Looking for paid priority support? Please check https://weblate.org/support/
-
+Want your answer quickly and guaranteed? Follow https://weblate.org/support/ to reach our dedicated support team. As a subscriber, you will always have priority and help Weblate growing.
 -->
 
 **Describe the issue**
 
-A clear and concise description of problem you are facing.
+A clear and concise description of the problem you are facing.
+
+**I already tried**
+
+Describe the steps you tried to solve the problem yourself.
+
+- [ ] I've read and searched [the docs](https://docs.weblate.org/) and did not find the answer there.
+If you didn’t try already, try to search there what you wrote above.
 
 **To Reproduce**
 
 Steps to reproduce the behavior:
 
 1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+2. Scroll down to '....'
+3. Click on '....'
 4. See error
 
 **Expected behavior**
