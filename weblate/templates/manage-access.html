@@ -54,7 +54,7 @@
         <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
       </div>
       <div class="modal-body">
-        {% blocktrans with name=user.username %} This will permanently remove {{ name }} from this project. {% endblocktrans %}
+        {% blocktrans with user=user.username %}This will permanently remove {{ user }} from this project.{% endblocktrans %}
       </div>
       <div class="modal-footer">
         <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
