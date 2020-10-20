@@ -10,6 +10,7 @@ Released on October 21st 2020.
 * Improved translation memory updates performance.
 * Reduced memory usage.
 * Improved performance of matrix view.
+* Added confirmation before removing user from a project.
 
 Weblate 4.3
 -----------
