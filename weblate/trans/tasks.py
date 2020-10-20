@@ -25,7 +25,7 @@ from typing import List, Optional
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
-from django.db.models import F
+from django.db.models import Count, F
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
@@ -43,7 +43,6 @@ from weblate.trans.models import (
     Project,
     Suggestion,
     Translation,
-    Unit,
 )
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
@@ -135,17 +134,15 @@ def commit_pending(hours=None, pks=None, logger=None):
 def cleanup_sources(project):
     """Remove stale source Unit objects."""
     for component in project.component_set.filter(template="").iterator():
+        translation = component.source_translation
+        # Skip translations with a filename (eg. when POT file is present)
+        if translation.filename:
+            continue
         with transaction.atomic():
-            translation = component.source_translation
-
-            source_ids = (
-                Unit.objects.filter(translation__component=component)
-                .exclude(translation=translation)
-                .values_list("id_hash", flat=True)
-                .distinct()
-            )
-
-            translation.unit_set.exclude(id_hash__in=source_ids).delete()
+            # Remove all units where there is just one referenced unit (self)
+            translation.unit_set.annotate(Count("unit")).filter(
+                unit__count__lte=1
+            ).delete()
 
 
 @app.task(trail=False)
