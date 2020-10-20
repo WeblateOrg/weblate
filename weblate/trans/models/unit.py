@@ -589,7 +589,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         )
         # Track updated sources for source checks
         if translation.is_template:
-            component.updated_sources[self.id_hash] = self
+            component.updated_sources[self.id] = self
         # Indicate source string change
         if not same_source and previous_source:
             Change.objects.create(

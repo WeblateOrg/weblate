@@ -211,7 +211,7 @@ def remove_complimentary_checks(sender, instance, **kwargs):
         unit = instance.unit
         source_unit = unit.source_unit
         if unit.is_batch_update:
-            unit.translation.component.updated_sources[unit.id_hash] = source_unit
+            unit.translation.component.updated_sources[source_unit.id] = source_unit
         else:
             try:
                 source_unit.run_checks()

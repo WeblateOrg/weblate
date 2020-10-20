@@ -948,7 +948,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 Change.objects.create(
                     action=Change.ACTION_NEW_SOURCE, unit=source, user=self.acting_user
                 )
-                self.updated_sources[id_hash] = source
+                self.updated_sources[source.id] = source
 
             self._sources[id_hash] = source
             return source
