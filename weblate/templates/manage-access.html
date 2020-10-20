@@ -41,7 +41,7 @@
   <td>
 
 <a href="#" data-toggle="modal" data-target="#delete_user" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
-    {% icon 'delete.svg' %}
+  {% icon 'delete.svg' %}
 </a>
 <form action="{% url "delete-user" project=object.slug %}" method="post" class="inlineform">
 {% csrf_token %}
