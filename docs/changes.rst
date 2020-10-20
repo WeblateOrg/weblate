@@ -7,6 +7,8 @@ Not yet released.
 * Fixed session expiry for authenticated users.
 * Add support for hiding version information.
 * Improve hooks compatibility with Bitbucket Server.
+* Improved translation memory updates performance.
+* Reduced memory usage.
 
 Weblate 4.3
 -----------
