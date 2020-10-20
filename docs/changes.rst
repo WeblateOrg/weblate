@@ -6,6 +6,7 @@ Not yet released.
 * Improved automatic translation performance.
 * Fixed session expiry for authenticated users.
 * Add support for hiding version information.
+* Improve hooks compatibility with Bitbucket Server.
 
 Weblate 4.3
 -----------

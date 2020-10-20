@@ -303,6 +303,7 @@ def bitbucket_hook_helper(data, request):
         "repo:push",
         "repo:refs_changed",
         "pullrequest:fulfilled",
+        "pr:merged",
     ):
         return None
 
