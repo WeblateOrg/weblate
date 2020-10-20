@@ -219,7 +219,7 @@ def performance(request):
     if request.method == "POST":
         return handle_dismiss(request)
     checks = run_checks(include_deployment_checks=True)
-    configuration_health_check(checks)
+    configuration_health_check.delay()
 
     context = {
         "checks": [check for check in checks if not check.is_silenced()],
