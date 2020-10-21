@@ -1,6 +1,6 @@
 <!-- This file is maintained in https://github.com/WeblateOrg/meta/ -->
 
-## Weblate Security
+# Weblate Security
 
 We take security very seriously at Weblate. We welcome any peer review of our
 100% open source code to ensure nobody's Weblate is ever compromised or hacked.

@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue has been added to the backlog. It is not scheduled on our roadmap, but it eventually might be implemented. In case you desperately need this feature, please consider helping or [funding the development](https://weblate.org/support/).
+            This issue has been added to the backlog. It is not scheduled on the Weblate roadmap, but it eventually might be implemented. In case you need this feature soon, please consider helping or push it by [funding the development](https://weblate.org/support/).
       - name: Add undecided comment
         uses: peter-evans/create-or-update-comment@v1
         if: github.event.label.name == 'undecided'
@@ -24,7 +24,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue has been put aside. Currently, it is unclear whether it will ever be implemented as it seems to cover too narrow of a use case or doesn't seem to fit into Weblate. Please try to clarify the use case or consider proposing something more generic to make it useful to more users.
+            This issue has been put aside. It is currently unclear if it will ever be implemented as it seems to cover too narrow of a use case or doesn't seem to fit into Weblate. Please try to clarify the use case or consider proposing something more generic to make it useful to more users.
       - name: Add question comment
         uses: peter-evans/create-or-update-comment@v1
         if: github.event.label.name == 'question'
@@ -32,7 +32,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue looks like a support question. We try to answer these reasonably fast, but in case you are looking for faster resolution, please consider [purchasing support subscription](https://weblate.org/support/) and make Weblate stronger.
+            This issue looks more like a support question than an issue. We strive to answer these reasonably fast, but [purchasing the support subscription](https://weblate.org/support/) is not only more responsible and faster for your business but also makes Weblate stronger. In case your question is already answered, [making a donation](https://weblate.org/donate/) is the right way to say thank you!
       - name: Add translate-toolkit comment
         uses: peter-evans/create-or-update-comment@v1
         if: github.event.label.name == 'translate-toolkit'
@@ -40,4 +40,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            The issue you've reported needs to be addressed in the [translate-toolkit](https://github.com/translate/translate/). Please file the issue there and do not forget to include links to any relevant specifications about the formats (if applicable).
+            The issue you've reported needs to be addressed in the [translate-toolkit](https://github.com/translate/translate/). Please file the issue there, and include links to any relevant specifications about the formats (if applicable).
