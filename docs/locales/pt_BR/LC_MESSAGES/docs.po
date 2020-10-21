@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-20 14:59+0200\n"
-"PO-Revision-Date: 2020-10-17 09:26+0000\n"
+"PO-Revision-Date: 2020-10-22 05:59+0000\n"
 "Last-Translator: Marvin SIlc <marvinsilc@protonmail.ch>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.1-dev\n"
+"X-Generator: Weblate 4.3.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -5174,10 +5174,8 @@ msgid "This is turned on by default."
 msgstr "Isso está ativado por padrão."
 
 #: ../../admin/config.rst:714
-#, fuzzy
-#| msgid "MT_DEEPL_API_VERSION"
 msgid "HIDE_VERSION"
-msgstr "MT_DEEPL_API_VERSION"
+msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:718
 msgid ""
@@ -5185,18 +5183,21 @@ msgid ""
 "documentation links point to latest version instead of the documentation "
 "matching currently installed version."
 msgstr ""
+"Esconde informação de versão de usuários não autenticados. Isso também faz "
+"todos os links de documentação apontar para a última versão, ao invéz da "
+"versão de combinação da documentação instalada atualmente."
 
 #: ../../admin/config.rst:722
 msgid ""
 "Hiding version is recommended security practice in some corporations, but it "
 "doesn't prevent attacker to figure out version by probing the behavior."
 msgstr ""
+"Ocultar versão é uma prática de segurança recomendada em algumas empresas, "
+"mas não prevê invasores de descobri a versão sondando o comportamento."
 
 #: ../../admin/config.rst:727
-#, fuzzy
-#| msgid "This is turned on by default."
 msgid "This is turned off by default."
-msgstr "Isso está ativado por padrão."
+msgstr "Isso está desligado por padrão."
 
 #: ../../admin/config.rst:732
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -8186,6 +8187,8 @@ msgid ""
 "In the Docker container, all files in the :file:`/app/data` volume have to "
 "be owned by weblate user inside the container (UID 1000)."
 msgstr ""
+"No contâiner Docker, todos os arquivos no volume :arquivo:`/app/data` tem de "
+"ser possuídos pelo usuário do Weblate dentro do contâiner (UID 1000)."
 
 #: ../../admin/install.rst:294
 msgid ":ref:`static-files`"
@@ -8273,6 +8276,11 @@ msgid ""
 "migration (``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" does "
 "not exist``)."
 msgstr ""
+"O código de migração assume que o nome da função combina nome de usuário "
+"enquanto autentica, caso não seja, por favor configurar ``ALTER_ROLE``. Caso "
+"o contrário, você recebe erro do PostrgreSQL sobre função não existente "
+"durante a migração do banco de dados ``psycopg2.errors.UndefinedObject: "
+"função \"weblate@nomedominio\" não existe``)."
 
 #: ../../admin/install.rst:389
 msgid "MySQL and MariaDB"
@@ -9480,13 +9488,16 @@ msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1212
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Configuração Amostra para Apache"
 
 #: ../../admin/install.rst:1214
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "mod_wsgi (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"A configuração seguinte executa Weblate como WSGI, você precisa ter "
+"habilitado mod_wsgi (disponível como :arquivo:`weblate/examples/apache."
+"conf`):"
 
 #: ../../admin/install.rst:1222
 msgid ""
@@ -9494,46 +9505,55 @@ msgid ""
 "variant of the modwsgi. Usually it is available as a separate package, for "
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate precisa do Python 3, então, por favor se certifique que você está "
+"executando a variante do Python 3 do modwsgi. Usualmente, está disponível "
+"como um pacote separado, por exemplo ``libapache2-mod-wsgi-py3``."
 
 #: ../../admin/install.rst:1228
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 msgstr ""
+":ref: `production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
 
 #: ../../admin/install.rst:1234
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Configuração Amostra para Apache and Gunicorn"
 
 #: ../../admin/install.rst:1236
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"A configuração seguinte roda Weblate em Gunicorn and Apache 2.4 (disponível "
+"como :arquivo:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1244
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
+msgstr ":doc:`django:tutorial/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1248
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "Rodando Weblate sob o caminho"
 
 #: ../../admin/install.rst:1252
 msgid "This is supported since Weblate 1.3."
-msgstr ""
+msgstr "Isto é suportado desde Weblate 1.3."
 
 #: ../../admin/install.rst:1254
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using mod_wsgi (also available as :file:`weblate/examples/apache-path.conf`):"
 msgstr ""
+"Uma configuração Apache de amostra para servir Weblate sob ``/weblate``. "
+"Novamente usando mod_wsgi (também disponível como :arquivo:weblate/examples/"
+"apache-path.conf`):"
 
 #: ../../admin/install.rst:1260
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "Adicionalmente, você irá ter de ajustar :arquivo:`weblate/settings.py`:"
 
 #: ../../admin/install.rst:1269
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Tarefas de fundo usando Celery"
 
 #: ../../admin/install.rst:1273
 msgid ""
@@ -10314,10 +10334,8 @@ msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "Configura :configuração:`FILTRO_LICENÇA`."
 
 #: ../../admin/install/docker.rst:569
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr "Configura :configuração:`FILTRO_LICENÇA`."
+msgstr "Configura :configuração:`ESCONDER_VERSÃO`."
 
 #: ../../admin/install/docker.rst:572
 msgid "Machine translation settings"
@@ -17502,58 +17520,44 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3.1"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3.1"
 
 #: ../../changes.rst:4
 msgid "Released on October 21st 2020."
 msgstr ""
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Improved automatic translation performance."
-msgstr "Fonte da tradução automática"
+msgstr "Aprimorada a performance de tradução automática."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Fixed session expiry for authenticated users."
-msgstr "Define permissões para usuários não autenticados."
+msgstr "Expiração de sessão fixa para usuários autenticados."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Add support for hiding version information."
-msgstr "Adicionado suporte para agrupar formas de textos."
+msgstr "Adicionar suporte para ocultar informação de versão."
 
 #: ../../changes.rst:9
 msgid "Improve hooks compatibility with Bitbucket Server."
 msgstr ""
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Import translation memory"
 msgid "Improved translation memory updates performance."
-msgstr "Importar a memória de tradução"
+msgstr "Aprimorada a performance de atualizações de memória de tradução."
 
 #: ../../changes.rst:11
 msgid "Reduced memory usage."
 msgstr ""
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved performance of matrix view."
-msgstr "Resumo de performance"
+msgstr "Performance aprimorada da visão da matrix."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Added confirmation before removing user from a project."
-msgstr "Usuário foi removido desse projeto."
+msgstr "Confirmação adicionada antes de remover usuário de um projeto."
 
 #: ../../changes.rst:16
 msgid "Weblate 4.3"
