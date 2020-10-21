@@ -11,13 +11,14 @@
 # Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2020.
 # Michal Čihař <michal@cihar.com>, 2020.
 # José Elias Júnior <jose.elias.0703@gmail.com>, 2020.
+# Marvin SIlc <marvinsilc@protonmail.ch>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-21 11:14+0000\n"
-"PO-Revision-Date: 2020-10-14 07:10+0000\n"
-"Last-Translator: José Elias Júnior <jose.elias.0703@gmail.com>\n"
+"PO-Revision-Date: 2020-10-22 05:59+0000\n"
+"Last-Translator: Marvin SIlc <marvinsilc@protonmail.ch>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3474,10 +3475,8 @@ msgid "Privacy"
 msgstr "Privacidade"
 
 #: weblate/legal/templates/legal/contracts.html:15 weblate/legal/views.py:36
-#, fuzzy
-#| msgid "contact"
 msgid "Subcontractors"
-msgstr "contato"
+msgstr "Subcontratantes"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
@@ -4691,10 +4690,8 @@ msgstr[0] "%(count)s comentário"
 msgstr[1] "%(count)s comentários"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Project contributions"
 msgid "Projects contributions"
-msgstr "Contribuições em projetos"
+msgstr "Contribuições do projeto"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -6409,10 +6406,8 @@ msgid "Reset"
 msgstr "Redefinir"
 
 #: weblate/templates/js/git-status.html:73
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Limpar todos os arquivos não rastreados no repositório local"
+msgstr "Limpar todos os arquivos não rastreados no repositório Weblate"
 
 #: weblate/templates/js/git-status.html:73
 msgid "Cleanup"
@@ -6423,10 +6418,8 @@ msgid "Locking prevents translators from doing changes"
 msgstr "O bloqueio impede que os tradutores façam alterações"
 
 #: weblate/templates/js/git-status.html:94
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Permitir alterações no repositório local"
+msgstr "Permitir alterações no repositório Weblate"
 
 #: weblate/templates/js/git-status.html:94
 #: weblate/templates/snippets/component/lock.html:11
@@ -6434,20 +6427,17 @@ msgid "Unlock"
 msgstr "Desbloquear"
 
 #: weblate/templates/js/git-status.html:96
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Evitar qualquer alteração no repositório local"
+msgstr "Evitar qualquer alteração no repositório Weblate"
 
 #: weblate/templates/js/git-status.html:96
 msgid "Lock"
 msgstr "Bloquear"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Falha de repositório em %(component)s"
+msgstr "Repositório para %(component)s"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Repository details"
@@ -6988,12 +6978,9 @@ msgid "Not yet signed in"
 msgstr "Não autenticado ainda"
 
 #: weblate/templates/manage-access.html:57
-#, fuzzy, python-format
-#| msgid "This will permanently delete %(count)s entry from the glossary."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the glossary."
+#, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
-msgstr "Isso vai excluir permanentemente %(count)s entrada do glossário."
+msgstr "Isto removerá <b>%(user)s</b> acesso a este projeto."
 
 #: weblate/templates/manage-access.html:71
 msgid "Resend invitation"
@@ -7728,10 +7715,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "Criado por %(author)s %(date)s"
 
 #: weblate/templates/snippets/git-info.html:43
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "Rebase do repositório efetuado"
+msgstr "Repositório Weblate"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -8853,10 +8838,8 @@ msgid "Source string location"
 msgstr "Localização do texto fonte"
 
 #: weblate/templates/translate.html:620
-#, fuzzy
-#| msgid "String state"
 msgid "String age"
-msgstr "Estado do texto"
+msgstr "Idade do Texto"
 
 #: weblate/templates/translate.html:626
 msgid "Source string age"
@@ -10720,13 +10703,9 @@ msgid "Could not parse translation base file: %s"
 msgstr "Não foi possível analisar os arquivos base de tradução: %s"
 
 #: weblate/trans/models/component.py:2143
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Template language ({0}) does not match project source language ({1})!"
+#, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
-msgstr ""
-"O idioma do modelo ({0}) não corresponde ao idioma de origem do projeto "
-"({1})!"
+msgstr "O idioma do modelo ({0}) não corresponde ao idioma de origem ({1})!"
 
 #: weblate/trans/models/component.py:2148
 msgid "You can not use a monolingual translation without a base file."
