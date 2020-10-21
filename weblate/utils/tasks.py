@@ -79,6 +79,8 @@ def settings_backup():
 
 @app.task(trail=False)
 def database_backup():
+    if settings.DATABASE_BACKUP == "none":
+        return
     ensure_backup_dir()
     database = settings.DATABASES["default"]
     if database["ENGINE"] != "django.db.backends.postgresql":
@@ -116,8 +118,7 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
     )
-    if settings.DATABASE_BACKUP != "none":
-        sender.add_periodic_task(
-            crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
-        )
+    sender.add_periodic_task(
+        crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
+    )
     sender.add_periodic_task(60, heartbeat.s(), name="heartbeat")

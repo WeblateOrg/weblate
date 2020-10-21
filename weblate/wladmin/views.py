@@ -35,6 +35,7 @@ from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
+from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
     RSA_KEY,
@@ -186,6 +187,8 @@ def backups(request):
             service.save()
             return redirect("manage-backups")
         elif "trigger" in request.POST:
+            settings_backup.delay()
+            database_backup.delay()
             backup_service.delay(pk=request.POST["service"])
             messages.success(request, _("Backup process triggered"))
             return redirect("manage-backups")
