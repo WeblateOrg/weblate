@@ -31,7 +31,7 @@
 <td></td>
 <td colspan="2" class="translatetext">
     <label>{% trans "Source string comment" %}</label>
-    {% format_translation item.unit.note item.unit.translation.component.source_language %}
+    {{ unit.note|markdown }}
 </td>
 </tr>
 {% endif %}

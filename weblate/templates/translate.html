@@ -128,7 +128,7 @@
         <!-- note -->
         <div class="form-group help-block">
         <label>{% trans "Source string comment" %}</label>
-        {% format_translation unit.note unit.translation.component.source_language %}
+        {{ unit.note|markdown }}
         </div>
     {% endif %}
 
@@ -569,7 +569,7 @@
     <h5>
     {% trans "Source string comment" %}
     </h5>
-    {% format_translation unit.note unit.translation.component.source_language search_match=search_query simple=True %}
+    {{ unit.note|markdown }}
     </div>
     {% endif %}
     {% if unit.all_labels or user_can_edit_source %}
