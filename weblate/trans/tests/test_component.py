@@ -237,6 +237,10 @@ class ComponentTest(RepoTestCase):
             translation.unit_set.get(context="thanks").source,
             "Thank you for using Weblate.",
         )
+        # Verify source units
+        unit = component.source_translation.unit_set.get(context="hello")
+        self.assertEqual(unit.source, "Hello world!\n")
+        self.assertEqual(unit.target, "Hello, world!\n")
 
     def test_switch_json_intermediate(self):
         component = self._create_component(
