@@ -941,6 +941,9 @@ class GhostStats(BaseStats):
         if self.base is not None:
             for key in "all", "all_words", "all_chars":
                 stats[key] = getattr(self.base, key)
+            stats["todo"] = stats["all"]
+            stats["todo_words"] = stats["all_words"]
+            stats["todo_chars"] = stats["all_chars"]
         for key, value in stats.items():
             self.store(key, value)
         self.calculate_basic_percents()
