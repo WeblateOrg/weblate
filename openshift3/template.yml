@@ -24,10 +24,6 @@ parameters:
     value: weblate-site
     from: "[a-zA-Z0-9]"
     required: true
-  - name: WEBLATE_REPOSITORY_URL
-    description: The URL of the Weblate Git repository.
-    value: https://github.com/WeblateOrg/weblate
-    required: true
   - name: WEBLATE_VERSION
     description: "Weblate docker image version (see: https://hub.docker.com/r/weblate/weblate/tags)"
     value: latest
@@ -83,10 +79,6 @@ parameters:
   - name: POSTGRESQL_VERSION
     description: The version of the PostgreSQL database.
     value: "9.5"
-    required: true
-  - name: PYTHON_VERSION
-    description: The version of the Python builder.
-    value: "3.5"
     required: true
   - name: REDIS_VERSION
     description: The version of the Redis cache.
