@@ -1,17 +1,22 @@
 ---
 kind: Template
 apiVersion: v1
+labels:
+  app: "weblate"
+  part-of: "weblate-on-premise"
+  template: "weblate-on-premise"
 metadata:
-  name: weblate-persistent-postgresql
+  name: weblate
   annotations:
     openshift.io/display-name: Weblate (Persistent / PostgreSQL)
+    openshift.io/documentation-url: https://github.com/WeblateOrg/weblate
     description:
       Creates a Weblate installation with separate PostgreSQL database
       instance. Requires that two persistent volumes be available. If a ReadWriteMany
       persistent volume type is available and used, Weblate can be scaled to multiple
       replicas and the deployment strategy switched to Rolling to permit rolling deployments
       on restarts.
-    tags: quickstart,python,weblate
+    tags: quickstart,python,weblate,localization,translation
     iconClass: icon-python
 parameters:
   - name: APPLICATION_NAME
