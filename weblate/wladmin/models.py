@@ -103,6 +103,7 @@ class SupportStatus(models.Model):
             "languages": stats.languages,
             "source_strings": stats.source_strings,
             "strings": stats.all,
+            "words": stats.all_words,
         }
         ssh_key = get_key_data()
         if not ssh_key:
