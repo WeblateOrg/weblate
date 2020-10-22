@@ -4,6 +4,7 @@ Weblate 4.3.2
 Not yet released.
 
 * Fixed crash on certain component filemasks.
+* Improved accurancy of the consecutive duplicated words check.
 
 Weblate 4.3.1
 -------------

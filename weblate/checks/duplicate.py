@@ -27,17 +27,7 @@ from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
 
 # Regexp for non word chars
-NON_WORD = "[{}\\]]".format("".join(NON_WORD_CHARS))
-# Look for non-digit word sequences
-CHECK_RE = re.compile(
-    rf"""
-    (?:{NON_WORD}|^)    # Word boundary
-    ([^\d\W]{{2,}})       # Word to match
-    (?:{NON_WORD}+\1)   # Space + repeated word
-    (?={NON_WORD}|$)    # Word boundary
-    """,
-    re.VERBOSE,
-)
+NON_WORD = re.compile("[{}\\]]+".format("".join(NON_WORD_CHARS)))
 
 # Per language ignore list
 IGNORES = {
@@ -55,19 +45,49 @@ class DuplicateCheck(TargetCheck):
     name = _("Consecutive duplicated words")
     description = _("Text contains the same word twice in a row:")
 
+    def extract_groups(self, text: str, language_code: str):
+        previous = None
+        group = 1
+        groups = []
+        words = []
+        if language_code in IGNORES:
+            ignored = IGNORES[language_code]
+        else:
+            ignored = {}
+        for word in NON_WORD.split(text):
+            if not word or word in ignored or len(word) < 2:
+                continue
+            if previous == word:
+                group += 1
+            elif group > 1:
+                groups.append(group)
+                words.append(previous)
+                group = 1
+            previous = word
+        if group > 1:
+            groups.append(group)
+            words.append(previous)
+        return groups, words
+
     def check_single(self, source, target, unit):
+        source_code = unit.translation.component.source_language.base_code
         lang_code = unit.translation.language.base_code
-        source_matches = set(CHECK_RE.findall(source))
-        target_matches = set(CHECK_RE.findall(target))
-        diff = target_matches - source_matches
-        if lang_code in IGNORES:
-            diff = diff - IGNORES[lang_code]
-        return bool(diff)
+
+        source_groups, source_words = self.extract_groups(source, source_code)
+        target_groups, target_words = self.extract_groups(target, lang_code)
+
+        # The same groups in source and target
+        if source_groups == target_groups:
+            return {}
+
+        return set(target_words) - set(source_words)
 
     def get_description(self, check_obj):
         duplicate = set()
-        for target in check_obj.unit.get_target_plurals():
-            duplicate.update(CHECK_RE.findall(target))
+        unit = check_obj.unit
+        source = unit.source_string
+        for target in unit.get_target_plurals():
+            duplicate.update(self.check_single(source, target, unit))
         return mark_safe(
             "{} {}".format(
                 escape(self.description), escape(", ".join(sorted(duplicate)))
