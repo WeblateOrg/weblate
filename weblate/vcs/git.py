@@ -25,7 +25,7 @@ import random
 import urllib.parse
 from configparser import NoOptionError, NoSectionError
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from zipfile import ZipFile
 
 import requests
@@ -578,14 +578,14 @@ class GitMergeRequestBase(GitForcePushRepository):
     identifier = None
     API_TEMPLATE = ""
 
-    def get_api_url(self) -> str:
+    def get_api_url(self) -> Tuple[str, str, str]:
         repo = self.component.repo
         parsed = urllib.parse.urlparse(repo)
         host = parsed.hostname
         if not host:
             # Assume SSH URL
             host, path = repo.split(":")
-            host = host[0].split("@")[-1]
+            host = host.split("@")[-1]
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
