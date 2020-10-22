@@ -599,9 +599,8 @@ Android string resources
 
 Android specific file format for translating applications.
 
-Android string resources are monolingual, the
-:guilabel:`Monolingual base language file` file is stored in a different
-location from the others :file:`res/values/strings.xml`.
+Android string resources are monolingual, the :ref:`component-template` file is
+stored in a different location from the others :file:`res/values/strings.xml`.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1356,11 +1355,11 @@ When you specify :ref:`component-new_base` in :ref:`component`, Weblate will
 use this file to start new translations. Any exiting translations will be
 removed from the file when doing so.
 
-When :guilabel:`Template for new translations` is empty and the file format
+When :ref:`component-new_base` is empty and the file format
 supports it, an empty file is created where new strings will be added once they are
 translated.
 
-The :guilabel:`Language code style` allows you to customize language code used
+The :ref:`component-language_code_style` allows you to customize language code used
 in generated filenames:
 
 Default based on the file format
