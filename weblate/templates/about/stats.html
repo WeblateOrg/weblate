@@ -81,33 +81,14 @@
 
 <table class="table">
 <tr>
-<th>{% trans "Projects" %}</th>
+<th>{% trans "Projects" context "Number of projects" %}</th>
 <td class="number">{{ total_projects|intcomma }}</td>
 </tr>
 <tr>
-<th>{% trans "Components" %}</th>
+<th>{% trans "Components" context "Number of components" %}</th>
 <td class="number">{{ total_components|intcomma }}</td>
 </tr>
-<tr>
-<th>{% trans "Source strings" %}</th>
-<td class="number">{{ source_strings|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Source words" %}</th>
-<td class="number">{{ source_words|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Translatable strings" %}</th>
-<td class="number">{{ total_units|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Translatable words" %}</th>
-<td class="number">{{ total_words|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Used languages" %}</th>
-<td class="number">{{ total_languages|intcomma }}</td>
-</tr>
+{% include "snippets/stats.html" %}
 <tr>
 <th>{% trans "Registered users" %}</th>
 <td class="number">{{ total_users|intcomma }}</td>

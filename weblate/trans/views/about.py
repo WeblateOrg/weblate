@@ -77,11 +77,7 @@ class StatsView(AboutView):
         context["total_translations"] = totals["translated__sum"]
         context["total_suggestions"] = totals["suggested__sum"]
         context["total_users"] = totals["id__count"]
-        context["source_strings"] = stats.source_strings
-        context["source_words"] = stats.source_words
-        context["total_units"] = stats.all
-        context["total_words"] = stats.all_words
-        context["total_languages"] = stats.languages
+        context["stats"] = stats
         context["total_checks"] = Check.objects.count()
         context["total_projects"] = Project.objects.count()
         context["total_components"] = Component.objects.count()

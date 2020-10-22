@@ -35,7 +35,7 @@
 <th>{% trans "Number of components" %}</th>
 <td colspan="2">{{ object.components.all|length }}</td>
 </tr>
-{% include "project_stats.html" with stats=object.stats %}
+{% include "snippets/stats.html" with stats=object.stats %}
 {% for auto in object.autocomponentlist_set.all %}
 <tr>
 <th>{%if forloop.first%}{% trans "Automatic component list assignment" %}{% endif %}</th>
