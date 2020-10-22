@@ -1366,19 +1366,19 @@ Default based on the file format
    Dependent on file format, for most of them POSIX is used.
 POSIX style using underscore as a separator
    Typically used by gettext and related tools, produces language codes like
-   `pt_BR`.
+   ``pt_BR``.
 POSIX style using underscore as a separator, including country code
    POSIX style language code including the country code even when not necessary
-   (for example 'cs_CZ').
+   (for example ``cs_CZ``).
 BCP style using hyphen as a separator
    Typically used on web platforms, produces language codes like
-   `pt-BR`.
+   ``pt-BR``.
 BCP style using hyphen as a separator, including country code
    BCP style language code including the country code even when not necessary
-   (for example 'cs-CZ').
+   (for example ``cs-CZ``).
 Android style
    Only used in Android apps, produces language codes like
-   `pt-rBR`.
+   ``pt-rBR``.
 Java style
    Used by Java—mostly BCP with legacy codes for Chinese.
 
