@@ -212,6 +212,11 @@ GITHUB_TOKEN = os.environ.get("WEBLATE_GITHUB_TOKEN", None)
 GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME", None)
 GITLAB_TOKEN = os.environ.get("WEBLATE_GITLAB_TOKEN", None)
 
+# Pagure username and token for sending merge requests.
+# Please see the documentation for more details.
+PAGURE_USERNAME = os.environ.get("WEBLATE_PAGURE_USERNAME", None)
+PAGURE_TOKEN = os.environ.get("WEBLATE_PAGURE_TOKEN", None)
+
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
 

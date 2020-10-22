@@ -498,6 +498,24 @@ Generic settings
 
        :ref:`vcs-gitlab`
 
+.. envvar:: WEBLATE_PAGURE_USERNAME
+
+    Configures Pagure username for Pagure merge-requests by changing
+    :setting:`PAGURE_USERNAME`
+
+    .. seealso::
+
+       :ref:`vcs-pagure`
+
+.. envvar:: WEBLATE_PAGURE_TOKEN
+
+    Configures Pagure personal access token for Pagure merge-requests via API by changing
+    :setting:`PAGURE_TOKEN`
+
+    .. seealso::
+
+       :ref:`vcs-pagure`
+
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.

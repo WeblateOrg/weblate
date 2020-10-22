@@ -580,19 +580,27 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_api_url(self) -> str:
         repo = self.component.repo
-        host = urllib.parse.urlparse(repo).hostname
+        parsed = urllib.parse.urlparse(repo)
+        host = parsed.hostname
         if not host:
             # Assume SSH URL
-            host = repo.split(":")[0].split("@")[-1]
-        parts = repo.split(":")[-1].rstrip("/").split("/")
+            host, path = repo.split(":")
+            host = host[0].split("@")[-1]
+        else:
+            path = parsed.path
+        parts = path.split(":")[-1].rstrip("/").split("/")
         slug = parts[-1].replace(".git", "")
         owner = parts[-2]
-        return self.API_TEMPLATE.format(
-            host=self.format_api_host(host), owner=owner, slug=slug
+        return (
+            self.API_TEMPLATE.format(
+                host=self.format_api_host(host), owner=owner, slug=slug
+            ),
+            owner,
+            slug,
         )
 
     def get_credentials(self) -> Dict:
-        url = self.get_api_url()
+        url, owner, slug = self.get_api_url()
         hostname = urllib.parse.urlparse(url).hostname.lower()
 
         credentials = getattr(settings, f"{self.name}_CREDENTIALS".upper())
@@ -609,6 +617,8 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return {
             "url": url,
+            "owner": owner,
+            "slug": slug,
             "hostname": hostname,
             "username": username,
             "token": token,
@@ -994,3 +1004,93 @@ class GitLabRepository(GitMergeRequestBase):
             and "open merge request already exists" not in error
         ):
             raise RepositoryException(-1, error or "Failed to create pull request")
+
+
+class PagureRepository(GitMergeRequestBase):
+
+    name = "Pagure"
+    _version = None
+    API_TEMPLATE = "https://{host}/api/0"
+
+    def request(self, method: str, credentials: Dict, url: str, data: Dict):
+        response = requests.request(
+            method,
+            url,
+            headers={
+                "Accept": "application/json",
+                "Authorization": "token {}".format(credentials["token"]),
+            },
+            data=data,
+        )
+        data = response.json()
+
+        # Log and parase all errors. Sometimes GitHub returns the error
+        # messages in an errors list instead of the message. Sometimes, there
+        # is no errors list. Hence the different logics
+        error_message = ""
+        if "message" in data:
+            error_message = data["message"]
+        if "error" in data:
+            if error_message:
+                error_message += ", "
+            error_message += data["error"]
+
+        return data, error_message
+
+    def create_fork(self, credentials: Dict):
+        fork_url = "{}/fork".format(credentials["url"])
+
+        base_params = {
+            "repo": credentials["slug"],
+            "wait": True,
+        }
+
+        if credentials["owner"]:
+            # We have no information whether the URL part is namespace
+            # or username, try both
+            params = [
+                {"namespace": credentials["owner"]},
+                {"username": credentials["owner"]},
+            ]
+        else:
+            params = [{}]
+
+        for param in params:
+            param.update(base_params)
+            response, error = self.request("post", credentials, fork_url, param)
+            if '" cloned to "' in error or "already exists" in error:
+                break
+
+        if '" cloned to "' not in error and "already exists" not in error:
+            raise RepositoryException(0, error or "Failed to create fork")
+
+        url = "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials)
+        self.configure_fork_remote(url, credentials["username"])
+
+    def create_pull_request(
+        self, credentials: Dict, origin_branch: str, fork_remote: str, fork_branch: str
+    ):
+        """Create pull request.
+
+        Use to merge branch in forked repository into branch of remote repository.
+        """
+        if fork_remote == "origin":
+            if credentials["owner"]:
+                pr_url = "{url}/{owner}/{slug}/pull-request/new".format(**credentials)
+            else:
+                pr_url = "{url}/{slug}/pull-request/new".format(**credentials)
+        else:
+            pr_url = "{url}/fork/{username}/{slug}/pull-request/new".format(
+                **credentials
+            )
+        title, description = self.get_merge_message()
+        request = {
+            "branch_from": fork_branch,
+            "branch_to": origin_branch,
+            "title": title,
+            "initial_comment": description,
+        }
+        response, error_message = self.request("post", credentials, pr_url, request)
+
+        if "id" not in response:
+            raise RepositoryException(0, error_message or "Pull request failed")

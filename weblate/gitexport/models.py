@@ -30,6 +30,7 @@ SUPPORTED_VCS = {
     "gerrit",
     "github",
     "gitlab",
+    "pagure",
     "subversion",
     "local",
     "git-force-push",

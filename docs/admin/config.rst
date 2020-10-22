@@ -1425,6 +1425,63 @@ NEARBY_MESSAGES
 
 How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
 
+.. setting:: PAGURE_CREDENTIALS
+
+PAGURE_CREDENTIALS
+------------------
+
+.. versionadded:: 4.3.2
+
+List for credentials for Pagure servers.
+
+.. hint::
+
+    Use this in case you want Weblate to interact with more of them, for single
+    Pagure endpoint stick with :setting:`PAGURE_USERNAME` and :setting:`PAGURE_TOKEN`.
+
+.. code-block:: python
+
+    PAGURE_CREDENTIALS = {
+        "pagure.io": {
+            "username": "weblate",
+            "token": "your-api-token",
+        },
+        "pagure.example.com": {
+            "username": "weblate",
+            "token": "another-api-token",
+        },
+    }
+
+.. setting:: PAGURE_USERNAME
+
+PAGURE_USERNAME
+---------------
+
+.. versionadded:: 4.3.2
+
+Pagure username used to send merge requests for translation updates.
+
+.. seealso::
+
+   :setting:`PAGURE_CREDENTIALS`,
+   :ref:`vcs-pagure`
+
+.. setting:: PAGURE_TOKEN
+
+PAGURE_TOKEN
+------------
+
+.. versionadded:: 4.3.2
+
+Pagure personal access token used to make API calls for translation updates.
+
+.. seealso::
+
+   :setting:`PAGURE_CREDENTIALS`,
+   :ref:`vcs-pagure`,
+   `Pagure API <https://pagure.io/api/0/>`_
+
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS

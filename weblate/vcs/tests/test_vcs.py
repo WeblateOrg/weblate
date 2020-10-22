@@ -39,6 +39,7 @@ from weblate.vcs.git import (
     GitRepository,
     GitWithGerritRepository,
     LocalRepository,
+    PagureRepository,
     SubversionRepository,
 )
 from weblate.vcs.mercurial import HgRepository
@@ -50,6 +51,11 @@ class GithubFakeRepository(GithubRepository):
 
 
 class GitLabFakeRepository(GitLabRepository):
+    _is_supported = None
+    _version = None
+
+
+class PagureFakeRepository(PagureRepository):
     _is_supported = None
     _version = None
 
@@ -856,6 +862,81 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
         super().test_push(branch)
         mock_push_to_fork.stop()
+
+
+@override_settings(PAGURE_USERNAME="test", PAGURE_TOKEN="token")
+class VCSPagureTest(VCSGitUpstreamTest):
+    _class = PagureFakeRepository
+    _vcs = "git"
+    _sets_push = False
+
+    def mock_responses(self, pr_response):
+        """Mock response helper function."""
+        responses.add(
+            responses.POST,
+            "https://pagure.io/api/0/fork",
+            json=pr_response,
+            status=200,
+        )
+        responses.add(
+            responses.POST,
+            "https://pagure.io/api/0/fork/test/testrepo/pull-request/new",
+            json={"id": 1},
+            status=200,
+        )
+        responses.add(
+            responses.POST,
+            "https://pagure.io/api/0/testrepo/pull-request/new",
+            json={"id": 1},
+            status=200,
+        )
+
+    @responses.activate
+    def test_push(self, branch=""):
+        self.repo.component.repo = "https://pagure.io/testrepo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock post, put and get requests for both the fork and PR requests sent.
+        self.mock_responses(
+            {"message": 'Repo "im-chooser" cloned to "nijel/im-chooser"'}
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+    @responses.activate
+    def test_push_with_existing_fork(self, branch=""):
+        self.repo.component.repo = "https://pagure.io/testrepo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock post, put and get requests for both the fork and PR requests sent.
+        self.mock_responses(
+            {
+                "error": 'Repo "forks/nijel/im-chooser" already exists',
+                "error_code": "ENOCODE",
+            }
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+        # Test that the POST request to create a new fork was not called
+        call_count = len(
+            [1 for call in responses.calls if call.request.method == "POST"]
+        )
+        self.assertEqual(call_count, 2)
 
 
 class VCSGerritTest(VCSGitUpstreamTest):

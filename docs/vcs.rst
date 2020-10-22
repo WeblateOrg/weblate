@@ -325,6 +325,44 @@ You need to configure API credentials to make this work.
 
 .. _GitLab API: https://docs.gitlab.com/ee/api/
 
+.. _vcs-pagure:
+
+Pagure
+------
+
+.. versionadded:: 4.3.2
+
+This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to allow
+pushing translation changes as merge requests instead of
+pushing directly to the repository.
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-pagure` creates merge request.
+
+.. seealso::
+
+   :ref:`push-changes`
+
+.. _pagure-push:
+
+Pushing changes to Pagure as merge requests
++++++++++++++++++++++++++++++++++++++++++++
+
+If not wanting to push translations to a Pagure repository, they can be sent as either
+one or many merge requests instead.
+
+You need to configure API credentials to make this work.
+
+.. seealso::
+
+   :setting:`PAGURE_USERNAME`,
+   :setting:`PAGURE_TOKEN`,
+   :setting:`PAGURE_CREDENTIALS`
+
+.. _Pagure API: https://pagure.io/api/0/
+
 .. _vcs-gerrit:
 
 Gerrit
