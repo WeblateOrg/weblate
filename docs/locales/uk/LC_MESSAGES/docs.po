@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-22 13:55+0200\n"
-"PO-Revision-Date: 2020-10-21 11:14+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2020-10-22 20:04+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -6114,67 +6114,46 @@ msgstr ""
 "допомогою :ref:`user-profile`."
 
 #: ../../admin/config.rst:1431
-#, fuzzy
-#| msgid "GITHUB_CREDENTIALS"
 msgid "PAGURE_CREDENTIALS"
-msgstr "GITHUB_CREDENTIALS"
+msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1435
-#, fuzzy
-#| msgid "List for credentials for GitLab servers."
 msgid "List for credentials for Pagure servers."
-msgstr "Список реєстраційних даних для серверів GitLab."
+msgstr "Список реєстраційних даних для серверів Pagure."
 
 #: ../../admin/config.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:"
-#| "`GITHUB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "Pagure endpoint stick with :setting:`PAGURE_USERNAME` and :setting:"
 "`PAGURE_TOKEN`."
 msgstr ""
 "Скористайтеся цією змінною, якщо Weblate має взаємодіяти із декількома "
-"серверами. Для одинарної кінцевої точки GitHub скористайтеся :setting:"
-"`GITHUB_USERNAME` і :setting:`GITHUB_TOKEN`."
+"серверами. Для одинарної кінцевої точки Pagure скористайтеся "
+":setting:`PAGURE_USERNAME` і :setting:`PAGURE_TOKEN`."
 
 #: ../../admin/config.rst:1458
-#, fuzzy
-#| msgid "GITHUB_USERNAME"
 msgid "PAGURE_USERNAME"
-msgstr "GITHUB_USERNAME"
+msgstr "PAGURE_USERNAME"
 
 #: ../../admin/config.rst:1462
-#, fuzzy
-#| msgid "GitLab username used to send merge requests for translation updates."
 msgid "Pagure username used to send merge requests for translation updates."
 msgstr ""
-"Ім'я користувача GitLab, яке буде використано для надсилання запитів щодо "
+"Ім'я користувача Pagure, яке буде використано для надсилання запитів щодо "
 "об'єднання для оновлень перекладів."
 
 #: ../../admin/config.rst:1466
-#, fuzzy
-#| msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
-msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
+msgstr ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
 
 #: ../../admin/config.rst:1472
-#, fuzzy
-#| msgid "GITHUB_TOKEN"
 msgid "PAGURE_TOKEN"
-msgstr "GITHUB_TOKEN"
+msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1476
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Pagure personal access token used to make API calls for translation updates."
 msgstr ""
-"Особистий жетон доступу GitLab, який використовується для створення викликів "
+"Особистий жетон доступу Pagure, який використовується для створення викликів "
 "програмного інтерфейсу для оновлень перекладу."
 
 #: ../../admin/config.rst:1480
@@ -6182,6 +6161,8 @@ msgid ""
 ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
 "pagure.io/api/0/>`_"
 msgstr ""
+":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `програмний інтерфейс "
+"Pagure <https://pagure.io/api/0/>`_"
 
 #: ../../admin/config.rst:1488
 msgid "RATELIMIT_ATTEMPTS"
@@ -7175,13 +7156,6 @@ msgstr ""
 "знайти у цьому розділі."
 
 #: ../../admin/continuous.rst:267
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by choosing :guilabel:`GitHub`, :guilabel:"
-#| "`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or :ref:"
@@ -7191,9 +7165,9 @@ msgid ""
 msgstr ""
 "Якщо вам не потрібне безпосереднє записування до сховища від Weblate, "
 "передбачено підтримку запитів щодо об'єднання :ref:`vcs-github`, :ref:`vcs-"
-"gitlab` або рецензувань :ref:`vcs-gerrit`. Ви можете активувати їх вибором :"
-"guilabel:`GitHub`, :guilabel:`GitLab` або :guilabel:`Gerrit` як :ref:"
-"`component-vcs` у розділі :ref:`component`."
+"gitlab`, :ref:`vcs-pagure` або рецензувань :ref:`vcs-gerrit`. Ви можете "
+"активувати їх вибором :guilabel:`GitHub`, :guilabel:`GitLab` або "
+":guilabel:`Gerrit` як :ref:`component-vcs` у розділі :ref:`component`."
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -7279,23 +7253,17 @@ msgid "GitLab merge request from branch"
 msgstr "Запит щодо злиття на GitLab з гілки"
 
 #: ../../admin/continuous.rst:291
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "Pagure merge request from fork"
-msgstr "Запит щодо злиття на GitLab з відгалуження"
+msgstr "Запит щодо злиття на Pagure з відгалуження"
 
 #: ../../admin/continuous.rst:291 ../../admin/continuous.rst:293
 #: ../../admin/install/docker.rst:508 ../../admin/install/docker.rst:517
-#, fuzzy
-#| msgid ":ref:`vcs-repos`"
 msgid ":ref:`vcs-pagure`"
-msgstr ":ref:`vcs-repos`"
+msgstr ":ref:`vcs-pagure`"
 
 #: ../../admin/continuous.rst:293
-#, fuzzy
-#| msgid "GitLab merge request from branch"
 msgid "Pagure merge request from branch"
-msgstr "Запит щодо злиття на GitLab з гілки"
+msgstr "Запит щодо злиття на Pagure з гілки"
 
 #: ../../admin/continuous.rst:296
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -10661,29 +10629,21 @@ msgstr ""
 "`GITLAB_TOKEN`"
 
 #: ../../admin/install/docker.rst:503
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab username for GitLab merge-requests by changing :setting:"
-#| "`GITLAB_USERNAME`"
 msgid ""
 "Configures Pagure username for Pagure merge-requests by changing :setting:"
 "`PAGURE_USERNAME`"
 msgstr ""
-"Налаштовує ім'я користувача GitLab для запитів щодо об'єднання GitLab "
-"зміною :setting:`GITLAB_USERNAME`"
+"Налаштовує ім'я користувача Pagure для запитів щодо об'єднання Pagure зміною "
+":setting:`PAGURE_USERNAME`"
 
 #: ../../admin/install/docker.rst:512
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab personal access token for GitLab merge-requests via API "
-#| "by changing :setting:`GITLAB_TOKEN`"
 msgid ""
 "Configures Pagure personal access token for Pagure merge-requests via API by "
 "changing :setting:`PAGURE_TOKEN`"
 msgstr ""
-"Налаштовує особистий жетон доступу GitLab для запитів щодо об'єднання на "
-"GitLab з використанням програмного інтерфейсу шляхом зміни :setting:"
-"`GITLAB_TOKEN`"
+"Налаштовує особистий жетон доступу Pagure для запитів щодо об'єднання на "
+"Pagure з використанням програмного інтерфейсу шляхом зміни "
+":setting:`PAGURE_TOKEN`"
 
 #: ../../admin/install/docker.rst:521
 msgid ""
@@ -19303,34 +19263,26 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.3.1"
 msgid "Weblate 4.3.2"
-msgstr "Weblate 4.3.1"
+msgstr "Weblate 4.3.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed crash on displaying some checks."
 msgid "Fixed crash on certain component filemasks."
 msgstr ""
-"Виправлено аварійне завершення роботи при показі результатів деяких "
-"перевірок."
+"Виправлено аварійне завершення роботи при використанні певних масок файлів "
+"компонентів."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Skip the \"Consecutive duplicated words\" quality check."
 msgid "Improved accurancy of the consecutive duplicated words check."
-msgstr "Пропустити перевірку якості «Послідовне дублювання слів»."
+msgstr "Удосконалено точність перевірки на послідовне дублювання слів."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added support for GitLab merge requests."
 msgid "Added support for Pagure pull requests."
-msgstr "Додано підтримку запитів щодо об'єднання GitLab."
+msgstr "Додано підтримку запитів щодо об'єднання Pagure."
 
 #: ../../changes.rst:11
 msgid "Weblate 4.3.1"
@@ -29753,19 +29705,14 @@ msgid "Android specific file format for translating applications."
 msgstr "Специфічний для Android формат файлів для перекладу програм."
 
 #: ../../formats.rst:602
-#, fuzzy
-#| msgid ""
-#| "Android string resources are monolingual, the :guilabel:`Monolingual base "
-#| "language file` file is stored in a different location from the others :"
-#| "file:`res/values/strings.xml`."
 msgid ""
 "Android string resources are monolingual, the :ref:`component-template` file "
 "is stored in a different location from the others :file:`res/values/strings."
 "xml`."
 msgstr ""
-"Рядкові ресурси Android є одномовними. Файл :guilabel:`Одномовний базовий "
-"мовний файл` зберігається у іншому місці, якщо порівнювати із іншими :file:"
-"`res/values/strings.xml`."
+"Рядкові ресурси Android є одномовними. Файл :ref:`component-template` "
+"зберігається у іншому місці, якщо порівнювати із іншими :file:`res/values/"
+"strings.xml`."
 
 #: ../../formats.rst:608
 msgid "``res/values-*/strings.xml``"
@@ -30641,32 +30588,22 @@ msgstr ""
 "перекладів. Усі наявні переклади буде вилучено з файла, коли ви так зробите."
 
 #: ../../formats.rst:1358
-#, fuzzy
-#| msgid ""
-#| "When :guilabel:`Template for new translations` is empty and the file "
-#| "format supports it, an empty file is created where new strings will be "
-#| "added once they are translated."
 msgid ""
 "When :ref:`component-new_base` is empty and the file format supports it, an "
 "empty file is created where new strings will be added once they are "
 "translated."
 msgstr ""
-"Якщо вміст поля :guilabel:`Шаблон для нових перекладів` є порожнім і у "
-"форматі файлів передбачено підтримку відповідних файлів, буде створено "
-"порожній файл, до якого додаватимуться нові рядки, щойно буде отримано їхній "
-"переклад."
+"Якщо вміст поля :ref:`component-new_base` є порожнім, і у форматі файлів "
+"передбачено підтримку відповідних файлів, буде створено порожній файл, до "
+"якого додаватимуться нові рядки, щойно буде отримано їхній переклад."
 
 #: ../../formats.rst:1362
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Language code style` allows you to customize language code "
-#| "used in generated filenames:"
 msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames:"
 msgstr ""
-"За допомогою поля :guilabel:`Стиль коду мови` ви можете налаштувати код "
-"мови, який буде використано у назвах створених файлів:"
+"За допомогою поля :ref:`component-language_code_style` ви можете налаштувати "
+"код мови, який буде використано у назвах створених файлів:"
 
 #: ../../formats.rst:1365
 msgid "Default based on the file format"
@@ -30682,74 +30619,57 @@ msgid "POSIX style using underscore as a separator"
 msgstr "Стиль POSIX з підкресленням як роздільником"
 
 #: ../../formats.rst:1368
-#, fuzzy
-#| msgid ""
-#| "Typically used by gettext and related tools, produces language codes like "
-#| "`pt_BR`."
 msgid ""
 "Typically used by gettext and related tools, produces language codes like "
 "``pt_BR``."
 msgstr ""
 "Типово, використовується у gettext і пов'язаних інструментів. Створює коди "
-"мов, подібні до `pt_BR`."
+"мов, подібні до ``pt_BR``."
 
 #: ../../formats.rst:1371
 msgid "POSIX style using underscore as a separator, including country code"
 msgstr "Стиль POSIX з підкресленням як роздільником, включно із кодом країни"
 
 #: ../../formats.rst:1371
-#, fuzzy
-#| msgid ""
-#| "POSIX style language code including the country code even when not "
-#| "necessary (for example 'cs_CZ')."
 msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(for example ``cs_CZ``)."
 msgstr ""
 "Код мови у стилі POSIX. Включає код країни, навіть якщо у цьому немає "
-"потреби (наприклад, 'cs_CZ')."
+"потреби (наприклад, ``cs_CZ``)."
 
 #: ../../formats.rst:1374
 msgid "BCP style using hyphen as a separator"
 msgstr "Стиль BCP з дефісом як роздільником"
 
 #: ../../formats.rst:1374
-#, fuzzy
-#| msgid ""
-#| "Typically used on web platforms, produces language codes like `pt-BR`."
 msgid ""
 "Typically used on web platforms, produces language codes like ``pt-BR``."
 msgstr ""
-"Типово, використовується на вебплатформах. Створює коди мов, подібні до `pt-"
-"BR`."
+"Типово, використовується на вебплатформах. Створює коди мов, подібні до ``pt-"
+"BR``."
 
 #: ../../formats.rst:1377
 msgid "BCP style using hyphen as a separator, including country code"
 msgstr "Стиль BCP з дефісом як роздільником, включно з кодом країни"
 
 #: ../../formats.rst:1377
-#, fuzzy
-#| msgid ""
-#| "BCP style language code including the country code even when not "
-#| "necessary (for example 'cs-CZ')."
 msgid ""
 "BCP style language code including the country code even when not necessary "
 "(for example ``cs-CZ``)."
 msgstr ""
-"Код мови у стилі BCP. Включає код країни, навіть якщо у цьому немає потреби "
-"(наприклад, 'cs-CZ')."
+"Код мови у стилі BCP. Включає код країни, навіть якщо у цьому немає потреби ("
+"наприклад, ``cs-CZ``)."
 
 #: ../../formats.rst:1380
 msgid "Android style"
 msgstr "Стиль Android"
 
 #: ../../formats.rst:1380
-#, fuzzy
-#| msgid "Only used in Android apps, produces language codes like `pt-rBR`."
 msgid "Only used in Android apps, produces language codes like ``pt-rBR``."
 msgstr ""
-"Використовується лише у програмах Android. Створює коди мов, подібні до `pt-"
-"rBR`."
+"Використовується лише у програмах Android. Створює коди мов, подібні до ``pt-"
+"rBR``."
 
 #: ../../formats.rst:1383
 msgid "Java style"
@@ -35069,30 +34989,19 @@ msgstr ""
 
 #: ../../vcs.rst:331
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: ../../vcs.rst:335
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to "
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Це просто додає тонкий шар над :ref:`vcs-git` з використанням інструмента "
-"`GitLab API`_, щоб уможливити запис змін у перекладах як запитів щодо "
+"Це просто додає тонкий шар над :ref:`vcs-git` з використанням інструмента `"
+"Pagure API`_, щоб уможливити запис змін у перекладах як запитів щодо "
 "об'єднання, замість безпосереднього запису до сховища."
 
 #: ../../vcs.rst:339
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitlab` creates merge request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
@@ -35102,37 +35011,27 @@ msgstr ""
 "Потреби у використання цього інструмента для доступу до сховищ Git, "
 "звичайний :ref:`vcs-git` працює так само. Єдиною відмінністю є спосіб "
 "обробки запису до сховища. З :ref:`vcs-git` зміни записуються безпосередньо "
-"до сховища, а :ref:`vcs-gitlab` створює запит щодо об'єднання."
+"до сховища, а :ref:`vcs-pagure` створює запит щодо об'єднання."
 
 #: ../../vcs.rst:351
-#, fuzzy
-#| msgid "Pushing changes to GitLab as merge requests"
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "Записування змін до GitLab у формі запитів щодо злиття"
+msgstr "Записування змін до Pagure у формі запитів щодо злиття"
 
 #: ../../vcs.rst:353
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitLab repository, they can be "
-#| "sent as either one or many merge requests instead."
 msgid ""
 "If not wanting to push translations to a Pagure repository, they can be sent "
 "as either one or many merge requests instead."
 msgstr ""
-"Якщо ви не хочете записувати переклади до сховища GitLab, їх може бути "
+"Якщо ви не хочете записувати переклади до сховища Pagure, їх може бути "
 "надіслано до одного або багатьох запитів щодо об'єднання."
 
 #: ../../vcs.rst:360
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-#| "`GITHUB_CREDENTIALS`"
 msgid ""
 ":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
 "`PAGURE_CREDENTIALS`"
 msgstr ""
-":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-"`GITHUB_CREDENTIALS`"
+":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, "
+":setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:369
 msgid "Gerrit"
