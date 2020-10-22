@@ -974,7 +974,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             elif char == "*":
                 append("([^/]*)")
             else:
-                append(char)
+                raw.append(char)
         append(None)
         regex = "".join(result)
         return re.compile(f"^{regex}$")

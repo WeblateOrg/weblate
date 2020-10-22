@@ -786,6 +786,14 @@ class ComponentValidationTest(RepoTestCase):
             "el",
         )
 
+    def test_lang_code_plus(self):
+        component = Component(project=Project())
+        component.filemask = "po/*/master/pages/C_and_C++.po"
+        self.assertEqual(
+            component.get_lang_code("po/cs/master/pages/C_and_C++.po"),
+            "cs",
+        )
+
 
 class ComponentErrorTest(RepoTestCase):
     """Test for error handling."""
