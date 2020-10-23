@@ -54,12 +54,13 @@ from weblate.vcs.base import RepositoryException
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
 )
-def perform_update(cls, pk, auto=False):
+def perform_update(cls, pk, auto=False, obj=None):
     try:
-        if cls == "Project":
-            obj = Project.objects.get(pk=pk)
-        else:
-            obj = Component.objects.get(pk=pk)
+        if obj is None:
+            if cls == "Project":
+                obj = Project.objects.get(pk=pk)
+            else:
+                obj = Component.objects.get(pk=pk)
         if settings.AUTO_UPDATE in ("full", True) or not auto:
             obj.do_update()
         else:
@@ -189,13 +190,11 @@ def cleanup_suggestions():
 @app.task(trail=False)
 def update_remotes():
     """Update all remote branches (without attempt to merge)."""
-    non_linked = Component.objects.with_repo()
-
     if settings.AUTO_UPDATE not in ("full", "remote", True, False):
         return
 
-    for component_id in non_linked.values_list("id", flat=True):
-        perform_update.delay("Component", component_id, auto=True)
+    for component in Component.objects.with_repo().prefetch():
+        perform_update("Component", -1, auto=True, obj=component)
 
 
 @app.task(trail=False)
