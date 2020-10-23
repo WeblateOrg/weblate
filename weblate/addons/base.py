@@ -91,7 +91,7 @@ class BaseAddon:
             if cls.repo_scope and component.linked_component:
                 component = component.linked_component
             # Clear addon cache
-            component.addons_cache = None
+            component.drop_addons_cache()
         return Addon(
             component=component,
             name=cls.name,

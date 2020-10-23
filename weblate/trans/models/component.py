@@ -2543,6 +2543,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if "repository" in self.__dict__:
             del self.__dict__["repository"]
 
+    def drop_addons_cache(self):
+        if "addons_cache" in self.__dict__:
+            del self.__dict__["addons_cache"]
+
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
         return self.file_format_cls.parse(self.get_intermediate_filename())
