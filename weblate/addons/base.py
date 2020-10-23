@@ -329,7 +329,6 @@ class UpdateBaseAddon(BaseAddon):
         raise NotImplementedError()
 
     def post_update(self, component, previous_head):
-        component.commit_pending("addon", None, skip_push=True)
         try:
             self.update_translations(component, previous_head)
         except FileParseError:

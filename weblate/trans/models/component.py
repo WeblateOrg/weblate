@@ -1191,10 +1191,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     def uses_changed_files(self, changed):
         """Detect whether list of changed files matches configuration."""
-        if self.template and self.template in changed:
-            return True
-        if self.intermediate and self.intermediate in changed:
-            return True
+        for filename in [self.template, self.intermediate, self.new_base]:
+            if filename and filename in changed:
+                return True
         for path in changed:
             if self.filemask_re.match(path):
                 return True
