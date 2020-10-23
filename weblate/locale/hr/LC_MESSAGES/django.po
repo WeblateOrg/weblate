@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-23 07:43+0000\n"
-"PO-Revision-Date: 2020-10-15 22:11+0000\n"
+"PO-Revision-Date: 2020-10-23 13:11+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -886,18 +886,16 @@ msgstr ""
 "Za dodavanje jednog drugog identiteta, najprije potvrdi tvoju e-adresu."
 
 #: weblate/accounts/views.py:1144
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "Could not complete registration."
-msgstr "Ne možeš završiti registraciju dok si prijavljen/a."
+msgstr "Nije moguće završiti registraciju."
 
 #: weblate/accounts/views.py:1147
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Potvrdi ako već imaš račun."
 
 #: weblate/accounts/views.py:1149
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr ""
+msgstr "Ako se ne sjećaš podataka za prijavu, zatraži novu lozinku."
 
 #: weblate/accounts/views.py:1159
 msgid ""
@@ -939,30 +937,16 @@ msgid "The server does not allow authentication."
 msgstr "Poslužitelj ne dozvoljava autentifikaciju."
 
 #: weblate/accounts/views.py:1253
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr ""
-"Nije bilo moguće završiti registraciju. Priložena autentifikacija, e-adresa "
-"ili korisničko ime koriste se već za jedan drugi račun."
+msgstr "Navedena e-adresa koristi se već za jedan drugi račun."
 
 #: weblate/accounts/views.py:1257
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "Ovo se korisničko ime već koristi. Odaberi drugo ime."
+msgstr "Navedeno korisničko ime koristi se već za jedan drugi račun."
 
 #: weblate/accounts/views.py:1262
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Nije bilo moguće završiti registraciju. Priložena autentifikacija, e-adresa "
-"ili korisničko ime koriste se već za jedan drugi račun."
+msgstr "Naveden korisnički identitet koristi se već za jedan drugi račun."
 
 #: weblate/accounts/views.py:1285 weblate/accounts/views.py:1298
 msgid "Notification settings adjusted."
@@ -2407,7 +2391,7 @@ msgstr "Zadnji prijevod bio je „%s”."
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
-msgstr "Uzastopne duple riječi"
+msgstr "Uzastopne jednake riječi"
 
 #: weblate/checks/duplicate.py:46
 msgid "Text contains the same word twice in a row:"
@@ -3482,7 +3466,7 @@ msgstr "Privatnost"
 
 #: weblate/legal/templates/legal/contracts.html:15 weblate/legal/views.py:36
 msgid "Subcontractors"
-msgstr ""
+msgstr "Podkooperanti"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
@@ -3918,15 +3902,11 @@ msgid "Most active commenters"
 msgstr "Najaktivniji komentatori"
 
 #: weblate/templates/about/stats.html:84
-#, fuzzy
-#| msgid "Projects"
 msgctxt "Number of projects"
 msgid "Projects"
 msgstr "Projekti"
 
 #: weblate/templates/about/stats.html:88
-#, fuzzy
-#| msgid "Components"
 msgctxt "Number of components"
 msgid "Components"
 msgstr "Komponente"
@@ -6978,12 +6958,9 @@ msgid "Not yet signed in"
 msgstr "Još nema prijave"
 
 #: weblate/templates/manage-access.html:57
-#, fuzzy, python-format
-#| msgid "This will permanently delete %(count)s entry from the glossary."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the glossary."
+#, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
-msgstr "Ovo će zauvijek ukloniti %(count)s zapis iz glosara."
+msgstr "Ovo će ukloniti <b>%(user)s</b> pristup ovom projektu."
 
 #: weblate/templates/manage-access.html:71
 msgid "Resend invitation"
@@ -7946,53 +7923,39 @@ msgid "Sort By"
 msgstr "Razvrstaj prema"
 
 #: weblate/templates/snippets/stats.html:6
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Number of used languages"
 msgid "Languages"
 msgstr "Jezici"
 
 #: weblate/templates/snippets/stats.html:11
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of source strings"
 msgid "Source strings"
-msgstr "Izrazi izvornog jezika"
+msgstr "Izvorni izrazi"
 
 #: weblate/templates/snippets/stats.html:16
-#, fuzzy
-#| msgid "Source words"
 msgctxt "Number of source words"
 msgid "Source words"
 msgstr "Izvorne riječi"
 
 #: weblate/templates/snippets/stats.html:21
-#, fuzzy
-#| msgid "Special characters"
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Posebni znakovi"
+msgstr "Izvorni znakovi"
 
 #: weblate/templates/snippets/stats.html:27
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Prevedeni izrazi"
+msgstr "Spremljeni izrazi"
 
 #: weblate/templates/snippets/stats.html:32
-#, fuzzy
-#| msgid "Untranslated words"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Neprevedene riječi"
+msgstr "Spremljene riječi"
 
 #: weblate/templates/snippets/stats.html:37
-#, fuzzy
-#| msgid "Control characters"
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Kontrolni znakovi"
+msgstr "Spremljeni znakovi"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -8261,15 +8224,13 @@ msgstr "Jezični kodovi"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
-msgstr "Komponenta sadrži nekoliko duplih izraza."
+msgstr "Komponenta sadrži nekoliko duplih prevodilačkih izraza."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
-msgstr ""
-"Ispravi ovo uklanjanjem jednog duplog izraza s istim identifikatorom iz "
-"prevodilačkih datoteka."
+msgstr "Ukloni duple izraze s istim identifikatorom u prevodilačkim datotekama."
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
@@ -10000,7 +9961,7 @@ msgstr "Komponenta otključana"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:261
 msgid "Found duplicated string"
-msgstr "Pronađen dupli izraz"
+msgstr "Pronađen je dupli izraz"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:263
@@ -10110,7 +10071,7 @@ msgstr "Uklonjeni projekt"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:309
 msgid "Found duplicated language"
-msgstr "Pronađen dupli jezik"
+msgstr "Pronađen je dupli jezik"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:311
