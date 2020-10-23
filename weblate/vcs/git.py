@@ -513,7 +513,7 @@ class SubversionRepository(GitRepository):
         self.clean_revision_cache()
 
     @classmethod
-    def _clone(cls, source, target, branch=None):
+    def _clone(cls, source: str, target: str, branch: Optional[str] = None):
         """Clone svn repository with git-svn."""
         args, revision = cls.get_remote_args(source, target)
         if revision:

@@ -238,12 +238,14 @@ class Repository:
         )
 
     @classmethod
-    def _clone(cls, source, target, branch=None):
+    def _clone(cls, source: str, target: str, branch: Optional[str] = None):
         """Clone repository."""
         raise NotImplementedError()
 
     @classmethod
-    def clone(cls, source, target, branch=None, component=None):
+    def clone(
+        cls, source: str, target: str, branch: Optional[str] = None, component=None
+    ):
         """Clone repository and return object for cloned repository."""
         SSH_WRAPPER.create()
         cls._clone(source, target, branch)
