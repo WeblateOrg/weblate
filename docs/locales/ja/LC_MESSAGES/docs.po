@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-23 09:44+0200\n"
-"PO-Revision-Date: 2020-10-22 10:58+0000\n"
-"Last-Translator: 日陰のコスモス <baffclan@yahoo.co.jp>\n"
+"PO-Revision-Date: 2020-10-23 13:11+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -4611,10 +4611,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:727
-#, fuzzy
-#| msgid "Push is turned off for %s."
 msgid "This is turned off by default."
-msgstr "%s に対する送信は無効化されています。"
+msgstr "デフォルトで無効化されています。"
 
 #: ../../admin/config.rst:732
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -5391,11 +5389,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1431
 msgid "PAGURE_CREDENTIALS"
-msgstr ""
+msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1435
 msgid "List for credentials for Pagure servers."
-msgstr ""
+msgstr "Pagure サーバーの資格情報の一覧です。"
 
 #: ../../admin/config.rst:1439
 msgid ""
@@ -5405,43 +5403,33 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1458
-#, fuzzy
-#| msgid "ANONYMOUS_USER_NAME"
 msgid "PAGURE_USERNAME"
-msgstr "ANONYMOUS_USER_NAME"
+msgstr "PAGURE_USERNAME"
 
 #: ../../admin/config.rst:1462
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid "Pagure username used to send merge requests for translation updates."
-msgstr "翻訳の更新に使用する API 呼び出しの GitLab 個人用アクセス トークン。"
+msgstr "翻訳を更新するマージ リクエストを送信するために使用する Pagure のユーザー名。"
 
 #: ../../admin/config.rst:1466
-#, fuzzy
-#| msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
-msgstr ":setting:`GITHUB_CREDENTIALS`、:ref:`vcs-github`"
+msgstr ":setting:`PAGURE_CREDENTIALS`、:ref:`vcs-pagure`"
 
 #: ../../admin/config.rst:1472
 msgid "PAGURE_TOKEN"
-msgstr ""
+msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1476
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Pagure personal access token used to make API calls for translation updates."
-msgstr "翻訳の更新に使用する API 呼び出しの GitLab 個人用アクセス トークン。"
+msgstr "翻訳の更新に使用する API 呼び出し Pagure の個人用アクセス トークン。"
 
 #: ../../admin/config.rst:1480
 msgid ""
 ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`, `Pagure API <https://"
 "pagure.io/api/0/>`_"
 msgstr ""
+":setting:`PAGURE_CREDENTIALS`、:ref:`vcs-pagure`、`Pagure API <https://pagure."
+"io/api/0/>`_"
 
 #: ../../admin/config.rst:1488
 msgid "RATELIMIT_ATTEMPTS"
@@ -6116,7 +6104,7 @@ msgstr ":http:post:`/hooks/gitlab/`、:ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:178
 msgid "Automatically receiving changes from Pagure"
-msgstr ""
+msgstr "Pagure からの変更を自動的に受信"
 
 #: ../../admin/continuous.rst:182
 msgid ""
@@ -6125,6 +6113,9 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate は、Pagure フックに対応しているので、あなたの Weblate のインストール上の ``/hooks/pagure/`` URL "
+"に宛先を持つ WEB フックを追加します（例えば ``https://hosted.weblate.org/hooks/pagure/``）。これは、"
+"次の手順で行う :guilabel:`Project options` の中の :guilabel:`Activate Web-hooks`:"
 
 #: ../../admin/continuous.rst:191
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -6324,10 +6315,8 @@ msgstr ""
 
 #: ../../admin/continuous.rst:291 ../../admin/continuous.rst:293
 #: ../../admin/install/docker.rst:508 ../../admin/install/docker.rst:517
-#, fuzzy
-#| msgid ":ref:`push-changes`"
 msgid ":ref:`vcs-pagure`"
-msgstr ":ref:`push-changes`"
+msgstr ":ref:`vcs-pagure`"
 
 #: ../../admin/continuous.rst:293
 msgid "Pagure merge request from branch"
@@ -16291,10 +16280,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.3.1"
 msgid "Weblate 4.3.2"
-msgstr "Weblate 4.3.1"
+msgstr "Weblate 4.3.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -16305,16 +16292,12 @@ msgid "Fixed crash on certain component filemasks."
 msgstr ""
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Skip the \"Consecutive duplicated words\" quality check."
 msgid "Improved accurancy of the consecutive duplicated words check."
-msgstr "「重複した単語の繰り返し」の品質検査を無効にする。"
+msgstr "「重複した単語の繰り返し」の検査精度の改善。"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "Added support for Pagure pull requests."
-msgstr "翻訳に合わせたスクリーンショットに対応。"
+msgstr "ページのプル要求の対応の追加。"
 
 #: ../../changes.rst:9
 msgid "Improved error messages on failed registraiton."
@@ -16333,16 +16316,12 @@ msgid "Improved automatic translation performance."
 msgstr "自動翻訳の性能の改善。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Fixed session expiry for authenticated users."
-msgstr "非認証ユーザーのアクセス権を定義する。"
+msgstr "認証したユーザーのセッションの有効期限の修正。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Add support for hiding version information."
-msgstr "文字列整形のグループ化のサポートを追加しました。"
+msgstr "バージョン情報の非表示の対応の追加。"
 
 #: ../../changes.rst:19
 msgid "Improve hooks compatibility with Bitbucket Server."
@@ -16361,10 +16340,8 @@ msgid "Improved performance of matrix view."
 msgstr "対応表の表示機能の改善。"
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Added confirmation before removing user from a project."
-msgstr "このプロジェクトからユーザーを削除しました。"
+msgstr "プロジェクトからユーザーを削除する前の確認を追加。"
 
 #: ../../changes.rst:26
 msgid "Weblate 4.3"
@@ -30484,67 +30461,42 @@ msgid "Pagure"
 msgstr ""
 
 #: ../../vcs.rst:335
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to "
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`GitLab API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、翻訳の変更をプル リクエストと"
-"してプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`Pagure API`_ を使用して 、薄いレイヤーを :ref:`vcs-git` に追加して、"
+"翻訳の変更をプル リクエストとしてプッシュできるようになります。"
 
 #: ../../vcs.rst:339
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitlab` creates merge request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"Gitリポジトリにアクセスするためにこれを使う必要はありません。通常 :ref:`vcs-"
-"git` は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い方で"
-"す。:ref:`vcs-git` では、変更はリポジトリに直接プッシュされますが、:ref:`vcs-"
-"gitlab` ではマージ リクエストが作成されます。"
+"Gitリポジトリにアクセスするためにこれを使う必要はありません。通常 :ref:`vcs-git` "
+"は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い方です。:ref:`vcs-git` "
+"では、変更はリポジトリに直接プッシュされますが、:ref:`vcs-pagure` ではマージ リクエストが作成されます。"
 
 #: ../../vcs.rst:351
-#, fuzzy
-#| msgid "Pushing changes to GitLab as merge requests"
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "GitLab への変更をマージ リクエストとしてプッシュする"
+msgstr "マージ リクエストとしてページに変更をプッシュする"
 
 #: ../../vcs.rst:353
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitLab repository, they can be "
-#| "sent as either one or many merge requests instead."
 msgid ""
 "If not wanting to push translations to a Pagure repository, they can be sent "
 "as either one or many merge requests instead."
-msgstr ""
-"変換を GitLab リポジトリにプッシュしたくない場合は、代わりに 1 つまたは複数の"
-"マージ リクエストとして送信できます。"
+msgstr "翻訳を Pagure リポジトリにプッシュしたくない場合は、代わりに 1 つまたは複数のマージ リクエストとして送信できます。"
 
 #: ../../vcs.rst:360
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-#| "`GITHUB_CREDENTIALS`"
 msgid ""
 ":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
 "`PAGURE_CREDENTIALS`"
 msgstr ""
-":setting:`GITHUB_USERNAME`、 :setting:`GITHUB_TOKEN`、 :setting:"
-"`GITHUB_CREDENTIALS`"
+":setting:`PAGURE_USERNAME`、:setting:`PAGURE_TOKEN`、:setting:`PAGURE_CREDENTIA"
+"LS`"
 
 #: ../../vcs.rst:369
 msgid "Gerrit"
