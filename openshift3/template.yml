@@ -76,13 +76,14 @@ parameters:
     name: DATABASE_PASSWORD
     from: "[a-zA-Z0-9]{12}"
     generate: expression
-  - name: POSTGRESQL_VERSION
-    description: The version of the PostgreSQL database.
-    value: "9.5"
     required: true
-  - name: REDIS_VERSION
-    description: The version of the Redis cache.
-    value: "3.2"
+  - name: POSTGRESQL_IMAGE
+    description: Link to the PostgreSQL image.
+    value: "docker-registry.default.svc:5000/openshift/postgresql:9.6"
+    required: true
+  - name: REDIS_IMAGE
+    description: Link to the Redis Cache image.
+    value: "docker-registry.default.svc:5000/openshift/redis:3.2"
     required: true
   - name: REDIS_PASSWORD
     description: Password for the Redis connection user.
@@ -177,15 +178,6 @@ objects:
         type: Recreate
       triggers:
         - type: ConfigChange
-        - type: ImageChange
-          imageChangeParams:
-            automatic: true
-            containerNames:
-              - postgresql
-            from:
-              kind: ImageStreamTag
-              namespace: openshift
-              name: postgresql:${POSTGRESQL_VERSION}
       replicas: 1
       selector:
         org.weblate.service: "${APPLICATION_NAME}-postgresql"
@@ -200,7 +192,7 @@ objects:
                 claimName: "${APPLICATION_NAME}-postgresql-data"
           containers:
             - name: postgresql
-              image: postgresql
+              image: "${POSTGRESQL_IMAGE}"
               ports:
                 - containerPort: 5432
                   protocol: TCP
@@ -247,15 +239,6 @@ objects:
         type: Recreate
       triggers:
         - type: ConfigChange
-        - type: ImageChange
-          imageChangeParams:
-            automatic: true
-            containerNames:
-              - redis
-            from:
-              kind: ImageStreamTag
-              namespace: openshift
-              name: redis:${REDIS_VERSION}
       replicas: 1
       selector:
         org.weblate.service: "${APPLICATION_NAME}-cache"
@@ -270,7 +253,7 @@ objects:
                 claimName: "${APPLICATION_NAME}-redis-data"
           containers:
             - name: redis
-              image: " "
+              image: "${REDIS_IMAGE}"
               imagePullPolicy: IfNotPresent
               ports:
                 - containerPort: 6379
