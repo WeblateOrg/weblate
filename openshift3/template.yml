@@ -95,7 +95,7 @@ objects:
     metadata:
       name: "${APPLICATION_NAME}"
       labels:
-        app: "${APPLICATION_NAME}"
+        component: "web"
     spec:
       strategy:
         type: "${WEBLATE_DEPLOYMENT_STRATEGY}"
@@ -103,13 +103,12 @@ objects:
         - type: ConfigChange
       replicas: 1
       selector:
-        app: "${APPLICATION_NAME}"
-        deploymentconfig: "${APPLICATION_NAME}"
+        org.weblate.service: "${APPLICATION_NAME}-web"
       template:
         metadata:
           labels:
-            app: "${APPLICATION_NAME}"
-            deploymentconfig: "${APPLICATION_NAME}"
+            component: "web"
+            org.weblate.service: "${APPLICATION_NAME}-web"
         spec:
           volumes:
             - name: data
@@ -171,7 +170,8 @@ objects:
     metadata:
       name: "${APPLICATION_NAME}-db"
       labels:
-        app: "${APPLICATION_NAME}"
+        component: postgresql
+        org.weblate.service: "${APPLICATION_NAME}-postgresql"
     spec:
       strategy:
         type: Recreate
@@ -188,13 +188,11 @@ objects:
               name: postgresql:${POSTGRESQL_VERSION}
       replicas: 1
       selector:
-        app: "${APPLICATION_NAME}"
-        deploymentconfig: "${APPLICATION_NAME}-db"
+        org.weblate.service: "${APPLICATION_NAME}-postgresql"
       template:
         metadata:
           labels:
-            app: "${APPLICATION_NAME}"
-            deploymentconfig: "${APPLICATION_NAME}-db"
+            org.weblate.service: "${APPLICATION_NAME}-postgresql"
         spec:
           volumes:
             - name: data
@@ -242,7 +240,8 @@ objects:
     metadata:
       name: "${APPLICATION_NAME}-cache"
       labels:
-        app: "${APPLICATION_NAME}"
+        component: redis
+        org.weblate.service: "${APPLICATION_NAME}-cache"
     spec:
       strategy:
         type: Recreate
@@ -259,13 +258,11 @@ objects:
               name: redis:${REDIS_VERSION}
       replicas: 1
       selector:
-        app: "${APPLICATION_NAME}"
-        deploymentconfig: "${APPLICATION_NAME}-cache"
+        org.weblate.service: "${APPLICATION_NAME}-cache"
       template:
         metadata:
           labels:
-            app: "${APPLICATION_NAME}"
-            deploymentconfig: "${APPLICATION_NAME}-cache"
+            org.weblate.service: "${APPLICATION_NAME}-cache"
         spec:
           volumes:
             - name: data
@@ -328,14 +325,12 @@ objects:
           port: 8080
           targetPort: 8080
       selector:
-        app: "${APPLICATION_NAME}"
-        deploymentconfig: "${APPLICATION_NAME}"
+        org.weblate.service: "${APPLICATION_NAME}-web"
   - kind: Service
     apiVersion: v1
     metadata:
-      name: "${APPLICATION_NAME}-db"
       labels:
-        app: "${APPLICATION_NAME}"
+        org.weblate.service: "${APPLICATION_NAME}-postgresql"
     spec:
       ports:
         - name: 5432-tcp
@@ -343,14 +338,13 @@ objects:
           port: 5432
           targetPort: 5432
       selector:
-        app: "${APPLICATION_NAME}"
-        deploymentconfig: "${APPLICATION_NAME}-db"
+        org.weblate.service: "${APPLICATION_NAME}-postgresql"
   - kind: Service
     apiVersion: v1
     metadata:
       name: "${APPLICATION_NAME}-cache"
       labels:
-        app: "${APPLICATION_NAME}"
+        org.weblate.service: "${APPLICATION_NAME}-cache"
     spec:
       ports:
         - name: 6379-tcp
@@ -358,8 +352,7 @@ objects:
           port: 6379
           targetPort: 6379
       selector:
-        app: "${APPLICATION_NAME}"
-        deploymentconfig: "${APPLICATION_NAME}-cache"
+        org.weblate.service: "${APPLICATION_NAME}-cache"
   - kind: Route
     apiVersion: v1
     metadata:
