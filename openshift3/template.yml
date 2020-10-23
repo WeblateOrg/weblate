@@ -136,15 +136,11 @@ objects:
                   value: "${APPLICATION_NAME}-cache"
                 - name: REDIS_PORT
                   value: "6379"
-                - name: WEBLATE_DEBUG
-                  value: "0"
-                - name: WEBLATE_SERVER_EMAIL
-                  value: "${WEBLATE_SERVER_EMAIL}"
-                - name: WEBLATE_DEFAULT_FROM_EMAIL
-                  value: "${WEBLATE_SERVER_EMAIL}"
               envFrom:
                 - secretRef:
                     name: weblate-secret
+                - configMapRef:
+                    name: weblate-config
               volumeMounts:
                 - name: data
                   mountPath: "/app/data"
@@ -270,6 +266,15 @@ objects:
                     secretKeyRef:
                       key: REDIS_PASSWORD
                       name: "${APPLICATION_NAME}-secret"
+  - kind: ConfigMap
+    apiVersion: v1
+    metadata:
+      name: "${APPLICATION_NAME}-config"
+    data:
+      WEBLATE_DEBUG: "0"
+      WEBLATE_SERVER_EMAIL: "${WEBLATE_SERVER_EMAIL}"
+      WEBLATE_DEFAULT_FROM_EMAIL: "${WEBLATE_SERVER_EMAIL}"
+      WEBLATE_SITE_DOMAIN: "${WEBLATE_SITE_DOMAIN}"
   - apiVersion: v1
     kind: Secret
     metadata:
