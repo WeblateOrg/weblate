@@ -93,7 +93,7 @@ objects:
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
-      name: "${APPLICATION_NAME}"
+      name: "${APPLICATION_NAME}-web"
       labels:
         component: "web"
     spec:
@@ -115,7 +115,7 @@ objects:
               persistentVolumeClaim:
                 claimName: "${APPLICATION_NAME}-weblate-data"
           containers:
-            - name: weblate
+            - name: weblate-web
               image: weblate/weblate:${WEBLATE_VERSION}
               imagePullPolicy: Always
               ports:
@@ -144,7 +144,7 @@ objects:
                       key: db-password
                       name: weblate
                 - name: POSTGRES_HOST
-                  value: "${APPLICATION_NAME}-db"
+                  value: "${APPLICATION_NAME}-postgresql"
                 - name: POSTGRES_PORT
                   value: "5432"
                 - name: REDIS_HOST
@@ -168,7 +168,7 @@ objects:
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
-      name: "${APPLICATION_NAME}-db"
+      name: "${APPLICATION_NAME}-postgresql"
       labels:
         component: postgresql
         org.weblate.service: "${APPLICATION_NAME}-postgresql"
@@ -329,6 +329,7 @@ objects:
   - kind: Service
     apiVersion: v1
     metadata:
+      name: "${APPLICATION_NAME}-postgresql"
       labels:
         org.weblate.service: "${APPLICATION_NAME}-postgresql"
     spec:
