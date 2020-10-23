@@ -106,6 +106,7 @@ from weblate.accounts.notifications import (
     SCOPE_PROJECT,
     send_notification_email,
 )
+from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 from weblate.logger import LOGGER
@@ -1139,6 +1140,18 @@ def auth_fail(request, message):
     return redirect(reverse("login"))
 
 
+def registration_fail(request, message):
+    messages.error(request, _("Could not complete registration.") + " " + message)
+    messages.info(
+        request,
+        _("Please check if you have already registered an account.")
+        + " "
+        + _("You can also request a new password, if you have lost your credentials."),
+    )
+
+    return redirect(reverse("login"))
+
+
 def auth_redirect_token(request):
     return auth_fail(
         request,
@@ -1172,7 +1185,7 @@ def handle_missing_parameter(request, backend, error):
 
 @csrf_exempt
 @never_cache
-def social_complete(request, backend):
+def social_complete(request, backend):  # noqa: C901
     """Wrapper around social_django.views.complete.
 
     - Handles backend errors gracefully
@@ -1234,13 +1247,19 @@ def social_complete(request, backend):
     except AuthForbidden:
         report_error()
         return auth_fail(request, _("The server does not allow authentication."))
-    except AuthAlreadyAssociated:
-        return auth_fail(
+    except EmailAlreadyAssociated:
+        return registration_fail(
             request,
-            _(
-                "Could not complete registration. The supplied authentication, "
-                "e-mail address or username is already in use for another account."
-            ),
+            _("The supplied e-mail address is already in use for another account."),
+        )
+    except UsernameAlreadyAssociated:
+        return registration_fail(
+            request, _("The supplied username is already in use for another account.")
+        )
+    except AuthAlreadyAssociated:
+        return registration_fail(
+            request,
+            _("The supplied user identity is already in use for another account."),
         )
 
 

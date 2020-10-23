@@ -49,6 +49,14 @@ STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
 
 
+class UsernameAlreadyAssociated(AuthAlreadyAssociated):
+    pass
+
+
+class EmailAlreadyAssociated(AuthAlreadyAssociated):
+    pass
+
+
 def get_github_email(access_token):
     """Get real e-mail from GitHub."""
     response = request(
@@ -254,7 +262,7 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs):
     if user or not username:
         return
     if User.objects.filter(username=username).exists():
-        raise AuthAlreadyAssociated(backend, "Username exists")
+        raise UsernameAlreadyAssociated(backend, "Username exists")
     return
 
 
@@ -334,7 +342,7 @@ def ensure_valid(
 
         if same.exists():
             AuditLog.objects.create(same[0].social.user, strategy.request, "connect")
-            raise AuthAlreadyAssociated(backend, "E-mail exists")
+            raise EmailAlreadyAssociated(backend, "E-mail exists")
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):

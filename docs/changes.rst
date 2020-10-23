@@ -6,6 +6,7 @@ Not yet released.
 * Fixed crash on certain component filemasks.
 * Improved accurancy of the consecutive duplicated words check.
 * Added support for Pagure pull requests.
+* Improved error messages on failed registraiton.
 
 Weblate 4.3.1
 -------------
