@@ -1,22 +1,21 @@
----
 kind: Template
 apiVersion: v1
 labels:
-  app: "weblate"
-  part-of: "weblate-on-premise"
-  template: "weblate-on-premise"
+  app: weblate
+  part-of: weblate-on-premise
+  template: weblate-on-premise
 metadata:
   name: weblate
   annotations:
     openshift.io/display-name: Weblate (Persistent / PostgreSQL)
-    openshift.io/documentation-url: https://github.com/WeblateOrg/weblate
-    description:
-      Creates a Weblate installation with separate PostgreSQL database
-      instance. Requires that two persistent volumes be available. If a ReadWriteMany
-      persistent volume type is available and used, Weblate can be scaled to multiple
-      replicas and the deployment strategy switched to Rolling to permit rolling deployments
-      on restarts.
-    tags: quickstart,python,weblate,localization,translation
+    openshift.io/documentation-url: "https://github.com/WeblateOrg/weblate"
+    description: >-
+      Creates a Weblate installation with separate PostgreSQL database instance.
+      Requires that two persistent volumes be available. If a ReadWriteMany
+      persistent volume type is available and used, Weblate can be scaled to
+      multiple replicas and the deployment strategy switched to Rolling to
+      permit rolling deployments on restarts.
+    tags: "quickstart,python,weblate,localization,translation"
     iconClass: icon-python
 parameters:
   - name: APPLICATION_NAME
@@ -25,7 +24,9 @@ parameters:
     from: "[a-zA-Z0-9]"
     required: true
   - name: WEBLATE_VERSION
-    description: "Weblate docker image version (see: https://hub.docker.com/r/weblate/weblate/tags)"
+    description: >-
+      Weblate docker image version (see:
+      https://hub.docker.com/r/weblate/weblate/tags)
     value: latest
     required: true
   - name: WEBLATE_VOLUME_SIZE
@@ -62,7 +63,9 @@ parameters:
     required: true
   - name: WEBLATE_SITE_DOMAIN
     displayName: Weblate Domain
-    description: "Domain of the application. The hostname can't be changed after the route is created."
+    description: >-
+      Domain of the application. The hostname can't be changed after the route
+      is created.
     value: weblate.app-openshift.example.com
     required: true
   - name: CACHE_VOLUME_SIZE
@@ -81,8 +84,8 @@ parameters:
     description: The name of the database user.
     value: weblate
     required: true
-  - description: The password for the database user.
-    name: DATABASE_PASSWORD
+  - name: DATABASE_PASSWORD
+    description: The password for the database user.
     from: "[a-zA-Z0-9]{12}"
     generate: expression
     required: true
@@ -110,7 +113,7 @@ objects:
     metadata:
       name: "${APPLICATION_NAME}-web"
       labels:
-        component: "web"
+        component: web
     spec:
       strategy:
         type: "${WEBLATE_DEPLOYMENT_STRATEGY}"
@@ -122,7 +125,7 @@ objects:
       template:
         metadata:
           labels:
-            component: "web"
+            component: web
             org.weblate.service: "${APPLICATION_NAME}-web"
         spec:
           initContainers:
@@ -132,23 +135,23 @@ objects:
                 - name: REDIS_HOST
                   value: "${APPLICATION_NAME}-cache"
               command:
-                [
-                  "sh",
-                  "-c",
-                  "until nslookup $(REDIS_HOST); do echo waiting for redis; sleep 2; done;",
-                ]
+                - sh
+                - "-c"
+                - >-
+                  until nslookup $(REDIS_HOST); do echo waiting for redis; sleep
+                  2; done;
             - name: init-postgresql
               image: "busybox:1.28.4"
               env:
                 - name: PGHOST
                   value: "${APPLICATION_NAME}-postgresql"
               command:
-                [
-                  "sh",
-                  "-c",
-                  "until nslookup $(PGHOST); do echo waiting for postgres; sleep 2; done;",
-                ]
-            - name: "init-postgresql-superuser"
+                - sh
+                - "-c"
+                - >-
+                  until nslookup $(PGHOST); do echo waiting for postgres; sleep
+                  2; done;
+            - name: init-postgresql-superuser
               image: "${POSTGRESQL_IMAGE}"
               env:
                 - name: PGHOST
@@ -168,20 +171,20 @@ objects:
                     secretKeyRef:
                       key: POSTGRES_USER
                       name: "${APPLICATION_NAME}-secret"
-              command: [
-                  "sh",
-                  "-i",
-                  "-c",
-                  "until psql -c 'SELECT 1;'; do echo waiting for postgres; sleep 2; done;
-                  psql -c 'ALTER USER $(POSTGRES_USER) WITH SUPERUSER;'",
-                ]
+              command:
+                - sh
+                - "-i"
+                - "-c"
+                - >-
+                  until psql -c 'SELECT 1;'; do echo waiting for postgres; sleep
+                  2; done; psql -c 'ALTER USER $(POSTGRES_USER) WITH SUPERUSER;'
           volumes:
             - name: data
               persistentVolumeClaim:
                 claimName: "${APPLICATION_NAME}-weblate-data"
           containers:
             - name: weblate-web
-              image: weblate/weblate:${WEBLATE_VERSION}
+              image: "weblate/weblate:${WEBLATE_VERSION}"
               imagePullPolicy: Always
               ports:
                 - containerPort: 8080
@@ -211,7 +214,7 @@ objects:
                     name: weblate-config
               volumeMounts:
                 - name: data
-                  mountPath: "/app/data"
+                  mountPath: /app/data
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -250,12 +253,12 @@ objects:
                 initialDelaySeconds: 5
                 exec:
                   command:
-                    [
-                      "sh",
-                      "-i",
-                      "-c",
-                      "psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c 'SELECT 1'",
-                    ]
+                    - sh
+                    - "-i"
+                    - "-c"
+                    - >-
+                      psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d
+                      $POSTGRESQL_DATABASE -c 'SELECT 1'
               livenessProbe:
                 timeoutSeconds: 1
                 initialDelaySeconds: 30
@@ -281,7 +284,7 @@ objects:
                       name: "${APPLICATION_NAME}-secret"
               volumeMounts:
                 - name: data
-                  mountPath: "/var/lib/pgsql/data"
+                  mountPath: /var/lib/pgsql/data
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -321,10 +324,12 @@ objects:
               readinessProbe:
                 exec:
                   command:
-                    - "/bin/sh"
+                    - /bin/sh
                     - "-i"
                     - "-c"
-                    - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
+                    - >-
+                      test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)"
+                      == "PONG"
                 failureThreshold: 3
                 initialDelaySeconds: 5
                 periodSeconds: 10
@@ -332,7 +337,7 @@ objects:
                 timeoutSeconds: 1
               volumeMounts:
                 - name: data
-                  mountPath: "/var/lib/redis/data"
+                  mountPath: /var/lib/redis/data
               capabilities: {}
               env:
                 - name: REDIS_PASSWORD
@@ -349,15 +354,15 @@ objects:
       WEBLATE_SERVER_EMAIL: "${WEBLATE_SERVER_EMAIL}"
       WEBLATE_DEFAULT_FROM_EMAIL: "${WEBLATE_SERVER_EMAIL}"
       WEBLATE_SITE_DOMAIN: "${WEBLATE_SITE_DOMAIN}"
-  - apiVersion: v1
-    kind: Secret
+  - kind: Secret
+    apiVersion: v1
     metadata:
       annotations:
         template.openshift.io/expose-password: "{.data['redis-password']}"
       name: "${APPLICATION_NAME}-secret"
     stringData:
       POSTGRESQL_ADMIN_PASSWORD: "${POSTGRESQL_ADMIN_PASSWORD}"
-      POSTGRESQL_ADMIN_USER: "postgres"
+      POSTGRESQL_ADMIN_USER: postgres
       POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
       POSTGRES_USER: "${DATABASE_USERNAME}"
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
