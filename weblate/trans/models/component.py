@@ -1530,6 +1530,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
+        user = request.user if request else self.acting_user
         # run pre update hook
         vcs_pre_update.send(sender=self.__class__, component=self)
         for component in self.linked_childs:
@@ -1574,7 +1575,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         component=self,
                         action=action_failed,
                         target=error,
-                        user=request.user if request else self.acting_user,
+                        user=user,
                         details={"error": error, "status": status},
                     )
                     self.add_alert("MergeFailure", error=error)
@@ -1591,7 +1592,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 Change.objects.create(
                     component=self,
                     action=action,
-                    user=request.user if request else self.acting_user,
+                    user=user,
                 )
 
                 # The files have been updated and the signal receivers (addons)
