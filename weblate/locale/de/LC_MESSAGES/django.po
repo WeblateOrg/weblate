@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-23 07:43+0000\n"
-"PO-Revision-Date: 2020-10-21 11:14+0000\n"
+"PO-Revision-Date: 2020-10-23 13:11+0000\n"
 "Last-Translator: nautilusx <mail.ka@mailbox.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -940,21 +940,18 @@ msgstr ""
 "bestätigen."
 
 #: weblate/accounts/views.py:1144
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "Could not complete registration."
-msgstr ""
-"Sie können die Registrierung nicht abschließen, während Sie angemeldet sind."
+msgstr "Registrierung konnte nicht abgeschlossen werden."
 
 #: weblate/accounts/views.py:1147
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Bitte prüfen Sie, ob Sie bereits ein Konto registriert haben."
 
 #: weblate/accounts/views.py:1149
-#, fuzzy
-#| msgid "You can not change password to the one you were using!"
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr "Das neue Passwort muss sich vom alten unterscheiden!"
+msgstr ""
+"Sie können auch ein neues Passwort anfordern, wenn Sie Ihre Anmeldedaten "
+"vergessen haben."
 
 #: weblate/accounts/views.py:1159
 msgid ""
@@ -1000,34 +997,19 @@ msgid "The server does not allow authentication."
 msgstr "Der Server lässt keine Authentifizierung zu."
 
 #: weblate/accounts/views.py:1253
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
 msgstr ""
-"Die Registrierung konnte nicht abgeschlossen werden. Die angegebene "
-"Authentifizierung, E-Mail-Adresse oder Benutzername wird bereits für ein "
-"anderes Konto verwendet."
+"Die angegebene E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
 #: weblate/accounts/views.py:1257
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
 msgstr ""
-"Dieser Benutzername wird bereits verwendet. Bitte wählen Sie einen anderen "
-"Benutzernamen."
+"Der angegebene Benutzername wird bereits für ein anderes Konto verwendet."
 
 #: weblate/accounts/views.py:1262
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
 msgstr ""
-"Die Registrierung konnte nicht abgeschlossen werden. Die angegebene "
-"Authentifizierung, E-Mail-Adresse oder Benutzername wird bereits für ein "
-"anderes Konto verwendet."
+"Die angegebene Benutzerkennung wird bereits für ein anderes Konto verwendet."
 
 #: weblate/accounts/views.py:1285 weblate/accounts/views.py:1298
 msgid "Notification settings adjusted."
@@ -4056,15 +4038,11 @@ msgid "Most active commenters"
 msgstr "Aktivste Kommentatoren"
 
 #: weblate/templates/about/stats.html:84
-#, fuzzy
-#| msgid "Projects"
 msgctxt "Number of projects"
 msgid "Projects"
 msgstr "Projekte"
 
 #: weblate/templates/about/stats.html:88
-#, fuzzy
-#| msgid "Components"
 msgctxt "Number of components"
 msgid "Components"
 msgstr "Komponenten"
@@ -7185,10 +7163,10 @@ msgid "Not yet signed in"
 msgstr "Noch nicht angemeldet"
 
 #: weblate/templates/manage-access.html:57
-#, fuzzy, python-format
-#| msgid "This will permanently remove %(user)s from this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
-msgstr "Dadurch wird %(user)s dauerhaft aus diesem Projekt entfernt."
+msgstr ""
+"Dadurch wird für <b>%(user)s</b> der Zugriff auf dieses Projekt entfernt."
 
 #: weblate/templates/manage-access.html:71
 msgid "Resend invitation"
@@ -8165,53 +8143,39 @@ msgid "Sort By"
 msgstr "Sortieren nach"
 
 #: weblate/templates/snippets/stats.html:6
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Number of used languages"
 msgid "Languages"
 msgstr "Sprachen"
 
 #: weblate/templates/snippets/stats.html:11
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of source strings"
 msgid "Source strings"
 msgstr "Ausgangszeichenketten"
 
 #: weblate/templates/snippets/stats.html:16
-#, fuzzy
-#| msgid "Source words"
 msgctxt "Number of source words"
 msgid "Source words"
 msgstr "Ausgangswörter"
 
 #: weblate/templates/snippets/stats.html:21
-#, fuzzy
-#| msgid "Special characters"
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Sonderzeichen"
+msgstr "Ausgangszeichen"
 
 #: weblate/templates/snippets/stats.html:27
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Übersetzte Zeichenketten"
+msgstr "Gehostete Zeichenketten"
 
 #: weblate/templates/snippets/stats.html:32
-#, fuzzy
-#| msgid "Untranslated words"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Nicht übersetzte Wörter"
+msgstr "Gehostete Wörter"
 
 #: weblate/templates/snippets/stats.html:37
-#, fuzzy
-#| msgid "Control characters"
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Steuerzeichen"
+msgstr "Gehostete Zeichen"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
