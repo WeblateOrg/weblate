@@ -20,7 +20,7 @@
 import os
 import re
 import time
-from collections import Counter
+from collections import Counter, defaultdict
 from contextlib import contextmanager
 from copy import copy
 from datetime import datetime
@@ -708,7 +708,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         super().__init__(*args, **kwargs)
         self._file_format = None
         self.stats = ComponentStats(self)
-        self.addons_cache = None
         self.needs_cleanup = False
         self.alerts_trigger = {}
         self.updated_sources = {}
@@ -2715,3 +2714,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         from weblate.trans.guide import GUIDELINES
 
         return [guide(self) for guide in GUIDELINES]
+
+    @cached_property
+    def addons_cache(self):
+        from weblate.addons.models import Addon
+
+        result = defaultdict(list)
+        for addon in Addon.objects.filter_component(self):
+            for installed in addon.event_set.all():
+                result[installed.event].append(addon)
+        return result

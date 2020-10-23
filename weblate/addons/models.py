@@ -17,9 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-from collections import defaultdict
-
 from appconf import AppConf
 from django.db import models
 from django.db.models import Q
@@ -74,11 +71,6 @@ class AddonQuerySet(models.QuerySet):
         )
 
     def filter_event(self, component, event):
-        if component.addons_cache is None:
-            component.addons_cache = defaultdict(list)
-            for addon in self.filter_component(component):
-                for installed in addon.event_set.all():
-                    component.addons_cache[installed.event].append(addon)
         return component.addons_cache[event]
 
 
