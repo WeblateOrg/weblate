@@ -126,24 +126,8 @@ objects:
                 limits:
                   memory: "${WEBLATE_MEMORY_LIMIT}"
               env:
-                - name: WEBLATE_ADMIN_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: weblate-admin-password
-                      name: weblate
-                - name: WEBLATE_ADMIN_EMAIL
-                  value: "${WEBLATE_ADMIN_EMAIL}"
-                - name: WEBLATE_ADMIN_NAME
-                  value: "${WEBLATE_ADMIN_EMAIL}"
                 - name: POSTGRES_DATABASE
                   value: weblate
-                - name: POSTGRES_USER
-                  value: "${DATABASE_USERNAME}"
-                - name: POSTGRES_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: db-password
-                      name: weblate
                 - name: POSTGRES_HOST
                   value: "${APPLICATION_NAME}-postgresql"
                 - name: POSTGRES_PORT
@@ -152,17 +136,15 @@ objects:
                   value: "${APPLICATION_NAME}-cache"
                 - name: REDIS_PORT
                   value: "6379"
-                - name: REDIS_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: redis-password
-                      name: weblate
                 - name: WEBLATE_DEBUG
                   value: "0"
                 - name: WEBLATE_SERVER_EMAIL
                   value: "${WEBLATE_SERVER_EMAIL}"
                 - name: WEBLATE_DEFAULT_FROM_EMAIL
                   value: "${WEBLATE_SERVER_EMAIL}"
+              envFrom:
+                - secretRef:
+                    name: weblate-secret
               volumeMounts:
                 - name: data
                   mountPath: "/app/data"
@@ -218,12 +200,15 @@ objects:
                 - name: POSTGRESQL_DATABASE
                   value: weblate
                 - name: POSTGRESQL_USER
-                  value: "${DATABASE_USERNAME}"
+                  valueFrom:
+                    secretKeyRef:
+                      key: POSTGRES_USER
+                      name: "${APPLICATION_NAME}-secret"
                 - name: POSTGRESQL_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      key: db-password
-                      name: weblate
+                      key: POSTGRES_PASSWORD
+                      name: "${APPLICATION_NAME}-secret"
               volumeMounts:
                 - name: data
                   mountPath: "/var/lib/pgsql/data"
@@ -283,18 +268,21 @@ objects:
                 - name: REDIS_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      key: redis-password
-                      name: weblate
+                      key: REDIS_PASSWORD
+                      name: "${APPLICATION_NAME}-secret"
   - apiVersion: v1
     kind: Secret
     metadata:
       annotations:
         template.openshift.io/expose-password: "{.data['redis-password']}"
-      name: weblate
+      name: "${APPLICATION_NAME}-secret"
     stringData:
-      weblate-admin-password: "${WEBLATE_ADMIN_PASSWORD}"
-      db-password: "${DATABASE_PASSWORD}"
-      redis-password: "${REDIS_PASSWORD}"
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
+      POSTGRES_USER: "${DATABASE_USERNAME}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      WEBLATE_ADMIN_PASSWORD: "${WEBLATE_ADMIN_PASSWORD}"
+      WEBLATE_ADMIN_NAME: "${WEBLATE_ADMIN_EMAIL}"
+      WEBLATE_ADMIN_EMAIL: "${WEBLATE_ADMIN_EMAIL}"
   - kind: Service
     apiVersion: v1
     metadata:
