@@ -155,7 +155,7 @@ class Command(BaseCommand):
         # Initialize git repository
         self.logger.info("Cloning git repository...")
         try:
-            gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir)
+            gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir, branch)
         except RepositoryException as error:
             raise CommandError("Failed clone: {}".format(error))
         self.logger.info("Updating working copy in git repository...")
