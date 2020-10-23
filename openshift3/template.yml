@@ -73,13 +73,18 @@ parameters:
     description: Amount of memory available to the database.
     value: 8Gi
     required: true
-  - description: The name of the database user.
-    name: DATABASE_USERNAME
-    from: user[0-9]{6}
-    generate: expression
+  - name: DATABASE_USERNAME
+    description: The name of the database user.
+    value: weblate
+    required: true
   - description: The password for the database user.
     name: DATABASE_PASSWORD
     from: "[a-zA-Z0-9]{12}"
+    generate: expression
+    required: true
+  - name: POSTGRESQL_ADMIN_PASSWORD
+    description: The password of postgres admin account
+    from: "[a-zA-Z0-9]{16}"
     generate: expression
     required: true
   - name: POSTGRESQL_IMAGE
@@ -138,6 +143,33 @@ objects:
                   "sh",
                   "-c",
                   "until nslookup $(PGHOST); do echo waiting for postgres; sleep 2; done;",
+                ]
+            - name: "init-postgresql-superuser"
+              image: "${POSTGRESQL_IMAGE}"
+              env:
+                - name: PGHOST
+                  value: "${APPLICATION_NAME}-postgresql"
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: POSTGRESQL_ADMIN_PASSWORD
+                      name: "${APPLICATION_NAME}-secret"
+                - name: PGUSER
+                  valueFrom:
+                    secretKeyRef:
+                      key: POSTGRESQL_ADMIN_USER
+                      name: "${APPLICATION_NAME}-secret"
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: POSTGRES_USER
+                      name: "${APPLICATION_NAME}-secret"
+              command: [
+                  "sh",
+                  "-i",
+                  "-c",
+                  "until psql -c 'SELECT 1;'; do echo waiting for postgres; sleep 2; done;
+                  psql -c 'ALTER USER $(POSTGRES_USER) WITH SUPERUSER;'",
                 ]
           volumes:
             - name: data
@@ -222,6 +254,11 @@ objects:
                 tcpSocket:
                   port: 5432
               env:
+                - name: POSTGRESQL_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: POSTGRESQL_ADMIN_PASSWORD
+                      name: "${APPLICATION_NAME}-secret"
                 - name: POSTGRESQL_DATABASE
                   value: weblate
                 - name: POSTGRESQL_USER
@@ -311,6 +348,8 @@ objects:
         template.openshift.io/expose-password: "{.data['redis-password']}"
       name: "${APPLICATION_NAME}-secret"
     stringData:
+      POSTGRESQL_ADMIN_PASSWORD: "${POSTGRESQL_ADMIN_PASSWORD}"
+      POSTGRESQL_ADMIN_USER: "postgres"
       POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
       POSTGRES_USER: "${DATABASE_USERNAME}"
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
