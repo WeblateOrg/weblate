@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-22 13:55+0200\n"
-"PO-Revision-Date: 2020-10-21 11:14+0000\n"
+"PO-Revision-Date: 2020-10-23 07:43+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -5587,63 +5587,42 @@ msgstr ""
 "profile`中调整。"
 
 #: ../../admin/config.rst:1431
-#, fuzzy
-#| msgid "GITHUB_CREDENTIALS"
 msgid "PAGURE_CREDENTIALS"
-msgstr "GITHUB_CREDENTIALS"
+msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1435
-#, fuzzy
-#| msgid "List for credentials for GitLab servers."
 msgid "List for credentials for Pagure servers."
-msgstr "用于 GitLab 服务器的证明列表。"
+msgstr "Pagure服务器凭据列表。"
 
 #: ../../admin/config.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:"
-#| "`GITHUB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "Pagure endpoint stick with :setting:`PAGURE_USERNAME` and :setting:"
 "`PAGURE_TOKEN`."
 msgstr ""
-"在想要 Weblate 与它们中的更多进行交互的情况下，使用这个，对于单一的 GitHub 终"
-"点，紧跟 :setting:`GITHUB_USERNAME` and :setting:`GITHUB_TOKEN`。"
+"如果您希望Weblate与更多端点互动，请使用此功能，对于单个Pagure端点，保持设置项 :setting:`PAGURE_USERNAME`和 "
+":setting:`PAGURE_TOKEN`不变即可。"
 
 #: ../../admin/config.rst:1458
-#, fuzzy
-#| msgid "GITHUB_USERNAME"
 msgid "PAGURE_USERNAME"
-msgstr "GITHUB_USERNAME"
+msgstr "PAGURE_USERNAME"
 
 #: ../../admin/config.rst:1462
-#, fuzzy
-#| msgid "GitLab username used to send merge requests for translation updates."
 msgid "Pagure username used to send merge requests for translation updates."
-msgstr "GitLab 用户名，用于发送翻译更新的和并请求。"
+msgstr "Pagure用户名，用于发送翻译更新的合并请求。"
 
 #: ../../admin/config.rst:1466
-#, fuzzy
-#| msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
-msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
+msgstr ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
 
 #: ../../admin/config.rst:1472
-#, fuzzy
-#| msgid "GITHUB_TOKEN"
 msgid "PAGURE_TOKEN"
-msgstr "GITHUB_TOKEN"
+msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1476
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Pagure personal access token used to make API calls for translation updates."
-msgstr "使用 GitLab 个人访问令牌，用于翻译更新的 API 进行调用。"
+msgstr "Pagure个人访问令牌，用于进行翻译更新的API调用。"
 
 #: ../../admin/config.rst:1480
 msgid ""
@@ -6538,13 +6517,6 @@ msgid ""
 msgstr "推送选项根据使用的 :ref:`vcs` 而不同，更多细节可以在那个章节中找到。"
 
 #: ../../admin/continuous.rst:267
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by choosing :guilabel:`GitHub`, :guilabel:"
-#| "`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or :ref:"
@@ -6552,10 +6524,10 @@ msgid ""
 "`GitHub`, :guilabel:`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` "
 "in :ref:`component`."
 msgstr ""
-"在不想由 Weblate 直接推送的情况下，对 :ref:`vcs-github` 、 :ref:`vcs-gitlab` "
-"的拉取请求或 :ref:`vcs-gerrit` 复查有支持，可以通过选择 :guilabel:"
-"`GitHub` 、 :guilabel:`GitLab` 或 :guilabel:`Gerrit` 作为 :ref:`component` 中"
-"的 :ref:`component-vcs` 来激活。"
+"在不想由 Weblate 直接推送的情况下，对 :ref:`vcs-github` 、 :ref:`vcs-gitlab`、 :ref:`vcs-"
+"pagure`的拉取请求或 :ref:`vcs-gerrit` 复查有支持，可以通过选择 :guilabel:`GitHub` 、 "
+":guilabel:`GitLab` 或 :guilabel:`Gerrit` 作为 :ref:`component` 中的 :ref"
+":`component-vcs` 来激活。"
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -6641,23 +6613,17 @@ msgid "GitLab merge request from branch"
 msgstr "来自分支的 GitLab 结合请求"
 
 #: ../../admin/continuous.rst:291
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "Pagure merge request from fork"
-msgstr "来自叉子的 GitLab 结合请求"
+msgstr "来自分叉的Pargue合并请求"
 
 #: ../../admin/continuous.rst:291 ../../admin/continuous.rst:293
 #: ../../admin/install/docker.rst:508 ../../admin/install/docker.rst:517
-#, fuzzy
-#| msgid ":ref:`vcs-repos`"
 msgid ":ref:`vcs-pagure`"
-msgstr ":ref:`vcs-repos`"
+msgstr ":ref:`vcs-pagure`"
 
 #: ../../admin/continuous.rst:293
-#, fuzzy
-#| msgid "GitLab merge request from branch"
 msgid "Pagure merge request from branch"
-msgstr "来自分支的 GitLab 结合请求"
+msgstr "来自分支的 Pagure合并请求"
 
 #: ../../admin/continuous.rst:296
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -9710,28 +9676,16 @@ msgstr ""
 "GitLab 的个人访问令牌"
 
 #: ../../admin/install/docker.rst:503
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab username for GitLab merge-requests by changing :setting:"
-#| "`GITLAB_USERNAME`"
 msgid ""
 "Configures Pagure username for Pagure merge-requests by changing :setting:"
 "`PAGURE_USERNAME`"
-msgstr ""
-"通过更改 :setting:`GITLAB_USERNAME` 来配置用于 GitLab 合并请求的 GitLab 用户"
-"名"
+msgstr "通过更改 :setting:`PARGUE_USERNAME` 来配置用于 Pagure 合并请求的 Pagure 用户名"
 
 #: ../../admin/install/docker.rst:512
-#, fuzzy
-#| msgid ""
-#| "Configures GitLab personal access token for GitLab merge-requests via API "
-#| "by changing :setting:`GITLAB_TOKEN`"
 msgid ""
 "Configures Pagure personal access token for Pagure merge-requests via API by "
 "changing :setting:`PAGURE_TOKEN`"
-msgstr ""
-"通过更改 :setting:`GITLAB_TOKEN` ，为 GitLab 通过 API 的合并请求来配置 "
-"GitLab 的个人访问令牌"
+msgstr "通过更改 :setting:`PAGURE_TOKEN` ，为通过API的Pagure合并请求配置Pagure个人访问令牌"
 
 #: ../../admin/install/docker.rst:521
 msgid ""
@@ -17684,10 +17638,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.3.1"
 msgid "Weblate 4.3.2"
-msgstr "Weblate 4.3.1"
+msgstr "Weblate 4.3.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -17698,16 +17650,12 @@ msgid "Fixed crash on certain component filemasks."
 msgstr ""
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Skip the \"Consecutive duplicated words\" quality check."
 msgid "Improved accurancy of the consecutive duplicated words check."
-msgstr "跳过“连续重复的单词”质量检查。"
+msgstr "改进了连续重复单词检查的精度。"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added support for GitLab merge requests."
 msgid "Added support for Pagure pull requests."
-msgstr "增加了对 GitLab Merge Request 的支持。"
+msgstr "增加了对 Pagure拉取请求的支持。"
 
 #: ../../changes.rst:11
 msgid "Weblate 4.3.1"
@@ -31195,10 +31143,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:351
-#, fuzzy
-#| msgid "Push changes into upstream repository."
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "推动更改到上游的仓库。"
+msgstr "将作为合并请求的更改推送到Pagure"
 
 #: ../../vcs.rst:353
 msgid ""
