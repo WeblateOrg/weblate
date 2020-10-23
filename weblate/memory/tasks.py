@@ -45,7 +45,7 @@ def import_memory(project_id):
 
 
 @app.task(trail=False)
-def import_memory_unit(unit_id, user_id=None):
+def handle_unit_translation_change(unit_id, user_id=None):
     from weblate.auth.models import User
     from weblate.trans.models import Unit
 
