@@ -56,6 +56,11 @@ parameters:
     description: Email address for outgoing emails.
     value: noreply@example.com
     required: true
+  - name: WEBLATE_SITE_DOMAIN
+    displayName: Weblate Domain
+    description: "Domain of the application. The hostname can't be changed after the route is created."
+    value: weblate.app-openshift.example.com
+    required: true
   - name: CACHE_VOLUME_SIZE
     description: Size of the persistent volume for Redis Cache.
     value: 10Gi
@@ -361,7 +366,7 @@ objects:
       labels:
         app: "${APPLICATION_NAME}"
     spec:
-      host: ""
+      host: "${WEBLATE_SITE_DOMAIN}"
       to:
         kind: Service
         name: "${APPLICATION_NAME}"
