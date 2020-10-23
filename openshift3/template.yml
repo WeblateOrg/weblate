@@ -40,6 +40,10 @@ parameters:
     description: Type of the deployment strategy for Weblate.
     value: Recreate
     required: true
+  - name: WEBLATE_CPU_LIMIT
+    description: Amount of cpu cores available to Weblate.
+    value: "4"
+    required: true
   - name: WEBLATE_MEMORY_LIMIT
     description: Amount of memory available to Weblate.
     value: 8Gi
@@ -184,7 +188,11 @@ objects:
                   protocol: TCP
               resources:
                 limits:
+                  cpu: "${WEBLATE_CPU_LIMIT}"
                   memory: "${WEBLATE_MEMORY_LIMIT}"
+                requests:
+                  cpu: 100m
+                  memory: 2Gi
               env:
                 - name: POSTGRES_DATABASE
                   value: weblate
