@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-23 09:44+0200\n"
-"PO-Revision-Date: 2020-10-23 13:29+0000\n"
+"PO-Revision-Date: 2020-10-25 19:37+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3.1\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -8996,6 +8996,8 @@ msgid ""
 "Configures Pagure personal access token for Pagure merge-requests via API by "
 "changing :setting:`PAGURE_TOKEN`"
 msgstr ""
+":setting:`PAGURE_TOKEN` を変更して、API 経由の Pagure のマージ リクエストに対して、Pagure の個人用アクセス "
+"トークンを構成する"
 
 #: ../../admin/install/docker.rst:521
 msgid ""
@@ -12077,7 +12079,7 @@ msgstr ":ref:`user-rate`、:ref:`reverse-proxy`"
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
-msgstr "翻訳のプロジェクト"
+msgstr "翻訳プロジェクト"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
@@ -16134,23 +16136,23 @@ msgstr ""
 msgid ""
 "Special hook for handling Pagure notifications and automatically updating "
 "matching components."
-msgstr ""
+msgstr "Pagure 通知を処理し、一致するコンポーネントを自動的に更新するための特別なフック。"
 
 #: ../../api.rst:2428
 msgid ":ref:`pagure-setup`"
-msgstr ""
+msgstr ":ref:`pagure-setup`"
 
 #: ../../api.rst:2429
 msgid "For instruction on setting up Pagure integration"
-msgstr ""
+msgstr "Pagure 統合の設定手順について"
 
 #: ../../api.rst:2430
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
-msgstr ""
+msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2431
 msgid "Generic information about Pagure Webhooks"
-msgstr ""
+msgstr "Pagure WEB フックに関する一般的な情報"
 
 #: ../../api.rst:2439
 msgid ""
@@ -16302,7 +16304,7 @@ msgstr "「重複した単語の繰り返し」の検査精度の改善。"
 
 #: ../../changes.rst:8
 msgid "Added support for Pagure pull requests."
-msgstr "ページのプル要求の対応の追加。"
+msgstr "Pagure のプル リクエストの対応の追加。"
 
 #: ../../changes.rst:9
 msgid "Improved error messages on failed registraiton."
@@ -29266,7 +29268,7 @@ msgstr ""
 
 #: ../../user/translating.rst:35
 msgid "Translation links"
-msgstr "翻訳のリンク"
+msgstr "翻訳リンク"
 
 #: ../../user/translating.rst:37
 msgid ""
@@ -29277,11 +29279,10 @@ msgid ""
 "available. Alternatively you can use the search field to find a specific "
 "string or term."
 msgstr ""
-"コンポーネントには、実際の翻訳画面に移動するリンクのセットがあります。さらに"
-"翻訳は、次のような個別の検査に分かれています、例えば :guilabel:`未翻訳の文字"
-"列` または :guilabel:`作業が必要な文字列`。プロジェクト全体を不合格とならずに"
-"翻訳できた場合でも、:guilabel:`すべての文字列` を使用できます。また、検索"
-"フィールドを使用して、特定の文字列または用語の検索もできます。"
+"コンポーネントでは、翻訳の編集画面に移動できるリンクの一覧があります。さらに翻訳は、次のような個別の検査結果に分類されています、例えば "
+":guilabel:`未翻訳の文字列` または "
+":guilabel:`作業が必要な文字列`。プロジェクト全体で不合格とならずに翻訳できた場合であっても、:guilabel:`すべての文字列` "
+"が使用できます。また、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -30463,7 +30464,7 @@ msgstr ""
 
 #: ../../vcs.rst:331
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: ../../vcs.rst:335
 msgid ""
@@ -30471,8 +30472,8 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`Pagure API`_ を使用して 、薄いレイヤーを :ref:`vcs-git` に追加して、"
-"翻訳の変更をプル リクエストとしてプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`Pagure API`_ を使用して 、薄いレイヤーを :ref:`vcs-git` "
+"に追加するだけで、翻訳の変更をプル リクエストとしてプッシュできます。"
 
 #: ../../vcs.rst:339
 msgid ""
@@ -30481,13 +30482,13 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"Gitリポジトリにアクセスするためにこれを使う必要はありません。通常 :ref:`vcs-git` "
+"Git リポジトリにアクセスするために、これを使う必要はありません。通常 :ref:`vcs-git` "
 "は同じように動作しますが、唯一の違いはリポジトリへのプッシュの扱い方です。:ref:`vcs-git` "
 "では、変更はリポジトリに直接プッシュされますが、:ref:`vcs-pagure` ではマージ リクエストが作成されます。"
 
 #: ../../vcs.rst:351
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "マージ リクエストとしてページに変更をプッシュする"
+msgstr "マージ リクエストとして Pagure に変更をプッシュする"
 
 #: ../../vcs.rst:353
 msgid ""
