@@ -235,7 +235,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        if not component.new_base or find_command("msgmerge") is None:
+        if find_command("msgmerge") is None:
             return False
         return super().can_install(component, user)
 
