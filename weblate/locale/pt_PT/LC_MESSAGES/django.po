@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-10-23 07:43+0000\n"
-"PO-Revision-Date: 2020-10-14 07:10+0000\n"
+"PO-Revision-Date: 2020-10-25 19:37+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_PT/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -903,18 +903,18 @@ msgstr ""
 "Adicione outra identidade para confirmar o seu endereço de e-mail primeiro."
 
 #: weblate/accounts/views.py:1144
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "Could not complete registration."
-msgstr "Não pode concluir o registo com a sessão iniciada."
+msgstr "Não foi possível concluir o registo."
 
 #: weblate/accounts/views.py:1147
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Por favor, verifique se já tem uma conta registada."
 
 #: weblate/accounts/views.py:1149
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
+"Também pode solicitar uma nova palavra-passe, caso tenha perdido as suas "
+"credenciais."
 
 #: weblate/accounts/views.py:1159
 msgid ""
@@ -957,31 +957,16 @@ msgid "The server does not allow authentication."
 msgstr "O servidor não permite autenticação."
 
 #: weblate/accounts/views.py:1253
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr ""
-"Não foi possível concluir o registo. A autenticação, o endereço e-mail ou "
-"nome de utilizador fornecido já está a ser utilizado noutra conta."
+msgstr "O endereço de e-mail fornecido já está em uso por outra conta."
 
 #: weblate/accounts/views.py:1257
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr ""
-"Este nome de utilizador já está a ser utilizado. Por favor, escolha outro."
+msgstr "O nome de utilizador fornecido já está em uso por outra conta."
 
 #: weblate/accounts/views.py:1262
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Não foi possível concluir o registo. A autenticação, o endereço e-mail ou "
-"nome de utilizador fornecido já está a ser utilizado noutra conta."
+msgstr "A identidade de utilizador fornecida já está em uso por outra conta."
 
 #: weblate/accounts/views.py:1285 weblate/accounts/views.py:1298
 msgid "Notification settings adjusted."
@@ -3511,7 +3496,7 @@ msgstr "Privacidade"
 
 #: weblate/legal/templates/legal/contracts.html:15 weblate/legal/views.py:36
 msgid "Subcontractors"
-msgstr ""
+msgstr "Subcontratantes"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
@@ -3948,15 +3933,11 @@ msgid "Most active commenters"
 msgstr "Comentadores mais ativos"
 
 #: weblate/templates/about/stats.html:84
-#, fuzzy
-#| msgid "Projects"
 msgctxt "Number of projects"
 msgid "Projects"
 msgstr "Projetos"
 
 #: weblate/templates/about/stats.html:88
-#, fuzzy
-#| msgid "Components"
 msgctxt "Number of components"
 msgid "Components"
 msgstr "Componentes"
@@ -7007,12 +6988,9 @@ msgid "Not yet signed in"
 msgstr "Sem sessão iniciada"
 
 #: weblate/templates/manage-access.html:57
-#, fuzzy, python-format
-#| msgid "This will permanently delete %(count)s entry from the glossary."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the glossary."
+#, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
-msgstr "Isto irá apagar permanentemente %(count)s entrada do glossário."
+msgstr "Isto removerá <b>%(user)s</b> acesso a este projeto."
 
 #: weblate/templates/manage-access.html:71
 msgid "Resend invitation"
@@ -7983,53 +7961,39 @@ msgid "Sort By"
 msgstr "Ordenar por"
 
 #: weblate/templates/snippets/stats.html:6
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Number of used languages"
 msgid "Languages"
 msgstr "Idiomas"
 
 #: weblate/templates/snippets/stats.html:11
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of source strings"
 msgid "Source strings"
 msgstr "Cadeias fonte"
 
 #: weblate/templates/snippets/stats.html:16
-#, fuzzy
-#| msgid "Source words"
 msgctxt "Number of source words"
 msgid "Source words"
-msgstr "Palavras-fonte"
+msgstr "Palavras de origem"
 
 #: weblate/templates/snippets/stats.html:21
-#, fuzzy
-#| msgid "Special characters"
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Carateres especiais"
+msgstr "Caracteres de origem"
 
 #: weblate/templates/snippets/stats.html:27
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Cadeias traduzidas"
+msgstr "Cadeias hospedadas"
 
 #: weblate/templates/snippets/stats.html:32
-#, fuzzy
-#| msgid "Untranslated words"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Palavras não traduzidas"
+msgstr "Palavras hospedadas"
 
 #: weblate/templates/snippets/stats.html:37
-#, fuzzy
-#| msgid "Control characters"
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Carateres de controle"
+msgstr "Caracteres hospedados"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
