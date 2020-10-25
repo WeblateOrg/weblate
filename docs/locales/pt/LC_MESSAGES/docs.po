@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-23 09:44+0200\n"
-"PO-Revision-Date: 2020-10-17 09:26+0000\n"
+"PO-Revision-Date: 2020-10-25 19:37+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.1-dev\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -1364,7 +1364,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:213
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Atualizar variável ALL_LINGUAS no ficheiro \"configure\""
+msgstr "Atualizar a variável ALL_LINGUAS no ficheiro \"configure\""
 
 #: ../../admin/addons.rst:215
 msgid ""
@@ -5167,10 +5167,8 @@ msgid "This is turned on by default."
 msgstr "Isso está ativado por predefinição."
 
 #: ../../admin/config.rst:714
-#, fuzzy
-#| msgid "MT_DEEPL_API_VERSION"
 msgid "HIDE_VERSION"
-msgstr "MT_DEEPL_API_VERSION"
+msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:718
 msgid ""
@@ -5184,12 +5182,12 @@ msgid ""
 "Hiding version is recommended security practice in some corporations, but it "
 "doesn't prevent attacker to figure out version by probing the behavior."
 msgstr ""
+"Ocultar a versão é uma prática de segurança recomendada em algumas empresas, "
+"mas não prevê invasores de descobrir a versão a sondar o comportamento."
 
 #: ../../admin/config.rst:727
-#, fuzzy
-#| msgid "This is turned on by default."
 msgid "This is turned off by default."
-msgstr "Isso está ativado por predefinição."
+msgstr "Isto está desativado por predefinição."
 
 #: ../../admin/config.rst:732
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -5342,7 +5340,7 @@ msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:856
 msgid "Setting this to blank value now disables license alert."
-msgstr ""
+msgstr "A configurar este para valor em branco desativa o alerta de licença."
 
 #: ../../admin/config.rst:858
 msgid ""
@@ -5356,7 +5354,7 @@ msgstr "Este filtro usa os nomes de licença curtos."
 
 #: ../../admin/config.rst:871
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "O seguinte desativa o alerta de licença:"
 
 #: ../../admin/config.rst:879 ../../admin/config.rst:1635
 msgid ":ref:`alerts`"
@@ -6073,67 +6071,46 @@ msgstr ""
 "`user-profile`."
 
 #: ../../admin/config.rst:1431
-#, fuzzy
-#| msgid "GITHUB_CREDENTIALS"
 msgid "PAGURE_CREDENTIALS"
-msgstr "GITHUB_CREDENTIALS"
+msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1435
-#, fuzzy
-#| msgid "List for credentials for GitLab servers."
 msgid "List for credentials for Pagure servers."
-msgstr "Lista para credenciais para servidores de GitLab."
+msgstr "Lista para credenciais para servidores de Pagure."
 
 #: ../../admin/config.rst:1439
-#, fuzzy
-#| msgid ""
-#| "Use this in case you want Weblate to interact with more of them, for "
-#| "single GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:"
-#| "`GITHUB_TOKEN`."
 msgid ""
 "Use this in case you want Weblate to interact with more of them, for single "
 "Pagure endpoint stick with :setting:`PAGURE_USERNAME` and :setting:"
 "`PAGURE_TOKEN`."
 msgstr ""
 "Use isto no caso de querer que o Weblate interaja com mais deles, para um "
-"único ponto final do GitHub com :setting:`GITHUB_USERNAME` e :setting:"
-"`GITHUB_TOKEN`."
+"único ponto final do Pagure com :setting:`PAGURE_USERNAME` e "
+":setting:`PAGURE_TOKEN`."
 
 #: ../../admin/config.rst:1458
-#, fuzzy
-#| msgid "GITHUB_USERNAME"
 msgid "PAGURE_USERNAME"
-msgstr "GITHUB_USERNAME"
+msgstr "PAGURE_USERNAME"
 
 #: ../../admin/config.rst:1462
-#, fuzzy
-#| msgid "GitLab username used to send merge requests for translation updates."
 msgid "Pagure username used to send merge requests for translation updates."
 msgstr ""
-"O nome de utilizador GitLab para enviar merge requests para atualizações de "
-"tradução."
+"O nome de utilizador no Pagure para enviar merge requests para atualizações "
+"de tradução."
 
 #: ../../admin/config.rst:1466
-#, fuzzy
-#| msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
-msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
+msgstr ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
 
 #: ../../admin/config.rst:1472
-#, fuzzy
-#| msgid "GITHUB_TOKEN"
 msgid "PAGURE_TOKEN"
-msgstr "GITHUB_TOKEN"
+msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1476
-#, fuzzy
-#| msgid ""
-#| "GitLab personal access token used to make API calls for translation "
-#| "updates."
 msgid ""
 "Pagure personal access token used to make API calls for translation updates."
 msgstr ""
-"Token de acesso pessoal do GitLab usado para fazer chamadas API para "
+"Token de acesso pessoal do Pagure usado para fazer chamadas API para "
 "atualizações de tradução."
 
 #: ../../admin/config.rst:1480
@@ -6288,7 +6265,8 @@ msgstr "Permite filtrar quais endereços de e-mail podem ser registados."
 #: ../../admin/config.rst:1591
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
-"A predfinição é ``.*``, que permite que registar qualquer endereço de e-mail."
+"A predefinição é ``.*``, que permite que registar qualquer endereço de "
+"e-mail."
 
 #: ../../admin/config.rst:1593
 msgid "You can use it to restrict registration to a single e-mail domain:"
@@ -6349,19 +6327,23 @@ msgstr ""
 
 #: ../../admin/config.rst:1640
 msgid "REQUIRE_LOGIN"
-msgstr ""
+msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1644
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require login for all API endpoints."
 msgstr ""
+"Isso ativa :configuração`URLS_DE_LOGIN_NECESSÁRIOS` e configura o framework "
+"REST a requisitar login para todos os pontos finais da API."
 
 #: ../../admin/config.rst:1649
 msgid ""
 "This is in implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"Isto é implementado no: ref:`sample-configuration`. Para Docker, use "
+":envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/config.rst:1655
 msgid "SENTRY_DSN"
@@ -7112,13 +7094,6 @@ msgstr ""
 "encontrados nesse capítulo."
 
 #: ../../admin/continuous.rst:267
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by choosing :guilabel:`GitHub`, :guilabel:"
-#| "`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:"
-#| "`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or :ref:"
@@ -7126,10 +7101,11 @@ msgid ""
 "`GitHub`, :guilabel:`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` "
 "in :ref:`component`."
 msgstr ""
-"No caso de não querer pushes diretos pelo Weblate, há suporte para :ref:`vcs-"
-"github`, pull requests do :ref:`vcs-gitlab` ou reviews do :ref:`vcs-gerrit`, "
-"pode ativá-los escolhendo :guilabel:`GitHub`, :guilabel:`GitLab` ou :"
-"guilabel:`Gerrit` como :ref:`component-vcs` em :ref:`component`."
+"No caso de não querer pushes diretos pelo Weblate, há suporte para pull "
+"requests do :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` ou "
+"reviews do :ref:`vcs-gerrit`, pode ativá-los a escolher :guilabel:`GitHub`, "
+":guilabel:`GitLab` ou :guilabel:`Gerrit` como :ref:`component-vcs` em "
+":ref:`component`."
 
 #: ../../admin/continuous.rst:272
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -7216,23 +7192,17 @@ msgid "GitLab merge request from branch"
 msgstr "Merge request de GitLab do ramo"
 
 #: ../../admin/continuous.rst:291
-#, fuzzy
-#| msgid "GitLab merge request from fork"
 msgid "Pagure merge request from fork"
-msgstr "Merge request de GitLab do fork"
+msgstr "Merge request de Pagure do fork"
 
 #: ../../admin/continuous.rst:291 ../../admin/continuous.rst:293
 #: ../../admin/install/docker.rst:508 ../../admin/install/docker.rst:517
-#, fuzzy
-#| msgid ":ref:`vcs-repos`"
 msgid ":ref:`vcs-pagure`"
-msgstr ":ref:`vcs-repos`"
+msgstr ":ref:`vcs-pagure`"
 
 #: ../../admin/continuous.rst:293
-#, fuzzy
-#| msgid "GitLab merge request from branch"
 msgid "Pagure merge request from branch"
-msgstr "Merge request de GitLab do ramo"
+msgstr "Merge request de Pagure do ramo"
 
 #: ../../admin/continuous.rst:296
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
@@ -8352,6 +8322,11 @@ msgid ""
 "migration (``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" does "
 "not exist``)."
 msgstr ""
+"O código de migração assume que o nome da função combina com o nome de "
+"usuário enquanto autentica, caso não combine, por favor configure "
+"``ALTER_ROLE``. Caso o contrário, recebe um erro do PostrgreSQL sobre função "
+"não existente durante a migração do banco de dados ``psycopg2.errors."
+"UndefinedObject: função \"weblate@nomedominio\" não existe``)."
 
 #: ../../admin/install.rst:389
 msgid "MySQL and MariaDB"
@@ -9555,13 +9530,15 @@ msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1212
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Configuração de amostra para Apache"
 
 #: ../../admin/install.rst:1214
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "mod_wsgi (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"A configuração seguinte executa Weblate como WSGI, precisa ter mod_wsgi "
+"ativado (disponível como :file:`weblate/examples/apache.conf`):"
 
 #: ../../admin/install.rst:1222
 msgid ""
@@ -9576,21 +9553,23 @@ msgstr ""
 
 #: ../../admin/install.rst:1234
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Configuração de amostra para Apache and Gunicorn"
 
 #: ../../admin/install.rst:1236
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"A configuração seguinte executa o Weblate em Gunicorn and Apache 2.4 ("
+"disponível como :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1244
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1248
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "A executar o Weblate sob o caminho"
 
 #: ../../admin/install.rst:1252
 msgid "This is supported since Weblate 1.3."
@@ -9608,7 +9587,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1269
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Tarefas de fundo a usar o Celery"
 
 #: ../../admin/install.rst:1273
 msgid ""
@@ -10401,10 +10380,8 @@ msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "Configura :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:587
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr "Configura :setting:`LICENSE_FILTER`."
+msgstr "Configura :setting:`HIDE_VERSION`."
 
 #: ../../admin/install/docker.rst:590
 msgid "Machine translation settings"
@@ -17588,10 +17565,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3.2"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -17602,74 +17577,57 @@ msgid "Fixed crash on certain component filemasks."
 msgstr ""
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Skip the \"Consecutive duplicated words\" quality check."
 msgid "Improved accurancy of the consecutive duplicated words check."
-msgstr "Pular a verificação de qualidade \"Palavras consecutivas duplicadas\"."
+msgstr ""
+"Melhoria da precisão da verificação das palavras duplicadas consecutivas."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "Added support for Pagure pull requests."
-msgstr "Suporte adicional para capturas de ecrã localizadas."
+msgstr "Suporte adicional para solicitações de Pagure."
 
 #: ../../changes.rst:9
 msgid "Improved error messages on failed registraiton."
 msgstr ""
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3.1"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3.1"
 
 #: ../../changes.rst:14
 msgid "Released on October 21st 2020."
 msgstr ""
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Improved automatic translation performance."
-msgstr "Fonte da tradução automática"
+msgstr "Melhoria do desempenho da tradução automática."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Fixed session expiry for authenticated users."
-msgstr "Define permissões para utilizadores não autenticados."
+msgstr "Expiração da sessão para utilizadores autenticados corrigida."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Add support for hiding version information."
-msgstr "Suporte adicionado para agrupar formas de cadeias."
+msgstr "Suporte para ocultar informações da versão adicionado."
 
 #: ../../changes.rst:19
 msgid "Improve hooks compatibility with Bitbucket Server."
 msgstr ""
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Import translation memory"
 msgid "Improved translation memory updates performance."
-msgstr "Importar memória de tradução"
+msgstr "Desempenho de atualizações da memória de tradução melhorada."
 
 #: ../../changes.rst:21
 msgid "Reduced memory usage."
 msgstr ""
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved performance of matrix view."
-msgstr "Resumo do desempenho"
+msgstr "Melhor desempenho da visão matriz."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Added confirmation before removing user from a project."
-msgstr "O utilizador foi removido deste projeto."
+msgstr "Confirmação antes de remover o utilizador de um projeto adicionada."
 
 #: ../../changes.rst:26
 msgid "Weblate 4.3"
@@ -31535,10 +31493,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:351
-#, fuzzy
-#| msgid "Push changes into upstream repository."
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "Submeter as alterações para o repositório principal."
+msgstr "Enviar alterações para o Pagure como solicitações de mesclagem"
 
 #: ../../vcs.rst:353
 msgid ""
