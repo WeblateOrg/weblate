@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-26 20:24+0100\n"
-"PO-Revision-Date: 2020-10-23 09:38+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2020-10-28 06:38+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3.1\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -1437,10 +1437,6 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "Оновити файли po, порівнявши із pot (msgmerge)"
 
 #: ../../admin/addons.rst:256
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository and updates all "
@@ -1449,7 +1445,9 @@ msgid ""
 msgstr ""
 "Оновлює всі файли po, порівнявши з відповідним файлом pot за допомогою "
 "msgmerge. Це спрацьовує щоразу, коли нові зміни витягуються із основного "
-"сховища даних."
+"сховища даних та оновлюються всі файли перекладу, щоб вони відповідали ref"
+":`component-new_base`. Ви можете налаштувати більшість параметрів командного "
+"рядка msgmerge за допомогою конфігурації додатка."
 
 #: ../../admin/addons.rst:264
 msgid "Squash Git commits"
@@ -19295,32 +19293,29 @@ msgstr "Удосконалено повідомлення про помилку 
 
 #: ../../changes.rst:10
 msgid "Reverted rendering developer comments as markdown."
-msgstr ""
+msgstr "Скасовано показ коментарів розробника розміткою."
 
 #: ../../changes.rst:11
 msgid ""
 "Simplified setup of Git repositories with different default branch than "
 "master."
-msgstr ""
+msgstr "Спрощено налаштування сховищ Git з типовою гілкою, іншою ніж master."
 
 #: ../../changes.rst:12
 msgid "Newly created internal repositories now use main as default branch."
-msgstr ""
+msgstr "Гілка main тепер є типовою для новостворених внутрішніх сховищ."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Reduced false negatives for unchanged translation check."
 msgid ""
 "Reduced false positives rate of unchanged translation while translating "
 "reStructuredText."
 msgstr ""
-"Зменшено частину помилкових результатів у перевірках незмінених перекладів."
+"Знижено частоту помилкових спрацьовувань незмінених перекладів під час "
+"перекладу reStructuredText."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Fixed running testsuite in some specific situations."
 msgid "Fixed CodeMirror display issues is some situations."
-msgstr "Виправлено роботу комплексу тестування у певних ситуаціях."
+msgstr "Виправлено проблеми показу CodeMirror у деяких ситуаціях."
 
 #: ../../changes.rst:17
 msgid "Weblate 4.3.1"
