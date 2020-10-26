@@ -31,7 +31,7 @@ git rebase --onto weblate/master
 # Fix Report-Msgid-Bugs-To as it gets removed
 sed \
     -i \
-    -e 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' \
+    -e 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\\n"/' \
     -e 's/"Project-Id-Version:.*/"Project-Id-Version: Weblate '$version'\\n"/' \
     weblate/locale/*/*/*.po weblate/locale/*.pot
 
