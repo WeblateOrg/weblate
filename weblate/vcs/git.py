@@ -82,12 +82,17 @@ class GitRepository(Repository):
         filename = os.path.join(self.path, ".git", "config")
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
+                if isinstance(value, list):
+                    accepted_values = value
+                    value = value[0]
+                else:
+                    accepted_values = [value]
                 try:
                     old = config.get(section, key)
                     if value is None:
                         config.remove_option(section, key)
                         continue
-                    if old == value:
+                    if old in accepted_values:
                         continue
                 except (NoSectionError, NoOptionError):
                     pass
@@ -312,7 +317,10 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
+                [
+                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
+                    "+refs/heads/*:refs/remotes/origin/*",
+                ],
             ),
             # Disable fetching tags
             ('remote "origin"', "tagOpt", "--no-tags"),
