@@ -308,8 +308,12 @@ class GitRepository(Repository):
             ('remote "origin"', "url", pull_url),
             # Push URL, None remove it
             ('remote "origin"', "pushurl", push_url or None),
-            # Fetch all branches (needed for clone branch)
-            ('remote "origin"', "fetch", "+refs/heads/*:refs/remotes/origin/*"),
+            # Fetch only current branch, others are fetched later in post_configure
+            (
+                'remote "origin"',
+                "fetch",
+                f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
+            ),
             # Disable fetching tags
             ('remote "origin"', "tagOpt", "--no-tags"),
             # Set branch to track
@@ -317,6 +321,12 @@ class GitRepository(Repository):
             (f'branch "{branch}"', "merge", f"refs/heads/{branch}"),
         )
         self.branch = branch
+
+    def post_configure(self):
+        self.config_update(
+            # Fetch all branches (needed for clone branch)
+            ('remote "origin"', "fetch", "+refs/heads/*:refs/remotes/origin/*"),
+        )
 
     def list_branches(self, *args):
         cmd = ["branch", "--list"]

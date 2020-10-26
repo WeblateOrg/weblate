@@ -422,6 +422,11 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.configure_remote("pullurl", "pushurl", "branch")
             self.assertEqual(
                 self.repo.get_config("remote.origin.fetch"),
+                "+refs/heads/branch:refs/remotes/origin/branch",
+            )
+            self.repo.post_configure()
+            self.assertEqual(
+                self.repo.get_config("remote.origin.fetch"),
                 "+refs/heads/*:refs/remotes/origin/*",
             )
 
@@ -455,6 +460,16 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertIn("msgid", self.repo.get_file("po/cs.po", self.repo.last_revision))
 
     def test_remote_branches(self):
+        # The initial setup clones just single branch
+        self.assertEqual(
+            [self._remote_branch] if self._remote_branches else [],
+            self.repo.list_remote_branches(),
+        )
+
+        # Post configure adds all other branches
+        with self.repo.lock:
+            self.repo.post_configure()
+            self.repo.update_remote()
         self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
 
     def test_remote_branch(self):

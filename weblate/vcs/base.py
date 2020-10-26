@@ -255,6 +255,9 @@ class Repository:
         cls._clone(source, target, branch)
         return cls(target, branch, component)
 
+    def post_configure(self):
+        return
+
     def update_remote(self):
         """Update remote repository."""
         raise NotImplementedError()
