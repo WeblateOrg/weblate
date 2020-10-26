@@ -7,6 +7,7 @@ Not yet released.
 * Improved accurancy of the consecutive duplicated words check.
 * Added support for Pagure pull requests.
 * Improved error messages on failed registraiton.
+* Reverted rendering developer comments as markdown.
 
 Weblate 4.3.1
 -------------

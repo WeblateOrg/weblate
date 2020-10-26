@@ -128,7 +128,7 @@
         <!-- note -->
         <div class="form-group help-block">
         <label>{% trans "Source string comment" %}</label>
-        {{ unit.note|markdown }}
+        {{ unit.note }}
         </div>
     {% endif %}
 
@@ -569,7 +569,7 @@
     <h5>
     {% trans "Source string comment" %}
     </h5>
-    {{ unit.note|markdown }}
+    {{ unit.note }}
     </div>
     {% endif %}
     {% if unit.all_labels or user_can_edit_source %}
