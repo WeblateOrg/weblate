@@ -63,6 +63,7 @@
       lineNumbers: false,
       lineWrapping: true,
       viewportMargin: Infinity,
+      autoRefresh: true,
     });
 
     codemirror.on("change", function (cm, event) {
