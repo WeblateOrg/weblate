@@ -1938,6 +1938,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.configure_repo(validate)
         if self.id:
             self.commit_pending("sync", None, skip_push=skip_push)
+
+            # Perform repository configuration (fetches all branches)
+            self.repository.post_configure()
         self.configure_branch()
         if self.id:
             # Update existing repo
@@ -2315,9 +2318,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.progress_step(0)
         # Configure git repo if there were changes
         if changed_git:
-            # Perform repository configuration (fetches all branches)
-            self.repository.post_configure()
-
             # Bring VCS repo in sync with current model
             self.sync_git_repo(skip_push=skip_push)
 
