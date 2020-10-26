@@ -184,7 +184,7 @@ class SameCheckTest(CheckTestCase):
                 "",
             ),
         )
-        self.do_test(True, ("File/directory", "File/directory", ""))
+        self.do_test(True, ("File/path/directory", "File/path/directory", ""))
 
     def test_same_template(self):
         self.do_test(
