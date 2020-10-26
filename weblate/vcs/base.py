@@ -253,9 +253,6 @@ class Repository:
         cls._clone(source, target, branch)
         return cls(target, branch, component)
 
-    def post_configure(self):
-        return
-
     def update_remote(self):
         """Update remote repository."""
         raise NotImplementedError()
@@ -420,7 +417,9 @@ class Repository:
 
         return objhash.hexdigest()
 
-    def configure_remote(self, pull_url, push_url, branch):
+    def configure_remote(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ):
         """Configure remote repository."""
         raise NotImplementedError()
 

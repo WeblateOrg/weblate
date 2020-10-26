@@ -127,9 +127,12 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def fixup_repo(self, repo):
         return
 
+    def get_remote_repo_url(self):
+        return self.format_local_path(getattr(self, "{0}_repo_path".format(self._vcs)))
+
     def clone_repo(self, path):
         return self._class.clone(
-            self.format_local_path(getattr(self, "{0}_repo_path".format(self._vcs))),
+            self.get_remote_repo_url(),
             path,
             self._remote_branch,
             component=Component(
@@ -424,7 +427,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 self.repo.get_config("remote.origin.fetch"),
                 "+refs/heads/branch:refs/remotes/origin/branch",
             )
-            self.repo.post_configure()
+            self.repo.configure_remote("pullurl", "pushurl", "branch", fast=False)
             self.assertEqual(
                 self.repo.get_config("remote.origin.fetch"),
                 "+refs/heads/*:refs/remotes/origin/*",
@@ -466,9 +469,11 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.list_remote_branches(),
         )
 
-        # Post configure adds all other branches
+        # Full configure adds all other branches
         with self.repo.lock:
-            self.repo.post_configure()
+            self.repo.configure_remote(
+                self.get_remote_repo_url(), "", self.repo.branch, fast=False
+            )
             self.repo.update_remote()
         self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
 

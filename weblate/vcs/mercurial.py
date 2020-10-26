@@ -283,7 +283,9 @@ class HgRepository(Repository):
         self.execute(["remove", "--force", "--"] + files)
         self.commit(message, author)
 
-    def configure_remote(self, pull_url, push_url, branch):
+    def configure_remote(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ):
         """Configure remote repository."""
         old_pull = self.get_config("paths.default")
         old_push = self.get_config("paths.default-push")

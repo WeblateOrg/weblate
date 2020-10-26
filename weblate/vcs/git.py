@@ -82,17 +82,12 @@ class GitRepository(Repository):
         filename = os.path.join(self.path, ".git", "config")
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
-                if isinstance(value, list):
-                    accepted_values = value
-                    value = value[0]
-                else:
-                    accepted_values = [value]
                 try:
                     old = config.get(section, key)
                     if value is None:
                         config.remove_option(section, key)
                         continue
-                    if old in accepted_values:
+                    if old == value:
                         continue
                 except (NoSectionError, NoOptionError):
                     pass
@@ -306,7 +301,9 @@ class GitRepository(Repository):
         self.execute(["rm", "--force", "--"] + files)
         self.commit(message, author)
 
-    def configure_remote(self, pull_url, push_url, branch):
+    def configure_remote(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ):
         """Configure remote repository."""
         self.config_update(
             # Pull url
@@ -317,10 +314,9 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                [
-                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
-                    "+refs/heads/*:refs/remotes/origin/*",
-                ],
+                f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
+                if fast
+                else "+refs/heads/*:refs/remotes/origin/*",
             ),
             # Disable fetching tags
             ('remote "origin"', "tagOpt", "--no-tags"),
@@ -329,12 +325,6 @@ class GitRepository(Repository):
             (f'branch "{branch}"', "merge", f"refs/heads/{branch}"),
         )
         self.branch = branch
-
-    def post_configure(self):
-        self.config_update(
-            # Fetch all branches (needed for clone branch)
-            ('remote "origin"', "fetch", "+refs/heads/*:refs/remotes/origin/*"),
-        )
 
     def list_branches(self, *args):
         cmd = ["branch", "--list"]
@@ -514,7 +504,9 @@ class SubversionRepository(GitRepository):
 
         return result, revision
 
-    def configure_remote(self, pull_url, push_url, branch):
+    def configure_remote(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ):
         """Initialize the git-svn repository.
 
         This does not support switching remote as it's quite complex:
@@ -818,7 +810,9 @@ class LocalRepository(GitRepository):
     identifier = "local"
     default_branch = "main"
 
-    def configure_remote(self, pull_url, push_url, branch):
+    def configure_remote(
+        self, pull_url: str, push_url: str, branch: str, fast: bool = True
+    ):
         return
 
     def get_remote_branch_name(self):

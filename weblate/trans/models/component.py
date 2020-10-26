@@ -1175,7 +1175,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return
 
         with self.repository.lock:
-            self.repository.configure_remote(self.repo, self.push, self.branch)
+            self.repository.configure_remote(
+                self.repo, self.push, self.branch, fast=not self.id
+            )
             self.repository.set_committer(self.committer_name, self.committer_email)
 
             if pull:
@@ -1938,9 +1940,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.configure_repo(validate)
         if self.id:
             self.commit_pending("sync", None, skip_push=skip_push)
-
-            # Perform repository configuration (fetches all branches)
-            self.repository.post_configure()
         self.configure_branch()
         if self.id:
             # Update existing repo
