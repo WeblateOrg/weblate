@@ -18,7 +18,7 @@
 #
 
 # We ignore some words which are usually not translated
-SAME_BLACKLIST = {
+IGNORE_WORDS = {
     "abc",
     "accelerator",
     "account",
