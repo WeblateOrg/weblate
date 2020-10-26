@@ -128,10 +128,10 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         return
 
     def clone_repo(self, path):
-
         return self._class.clone(
             self.format_local_path(getattr(self, "{0}_repo_path".format(self._vcs))),
             path,
+            self._remote_branch,
             component=Component(
                 slug="test", name="Test", project=Project(name="Test", slug="test")
             ),
