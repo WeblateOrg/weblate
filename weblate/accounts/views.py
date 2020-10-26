@@ -552,6 +552,7 @@ def hosting(request):
 
         if "extend" in request.POST and request.user.is_superuser:
             billing.expiry = timezone.now() + timedelta(days=14)
+            billing.removal = None
             billing.save(update_fields=["expiry"])
             return redirect("hosting")
 
