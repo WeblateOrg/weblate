@@ -12,6 +12,8 @@
       {% trans "If you like Weblate and you want to continue using it, just request an approval of your libre plan." %}
     {% endif %}
   </p>
+{% elif final_removal %}
+  <p>{% trans "Your billing plan has expired and all its projects have been removed." %}</p>
 {% else %}
   <p>{% trans "Your billing plan has expired, if you want to continue using the service, please renew it." %}</p>
 {% endif %}
