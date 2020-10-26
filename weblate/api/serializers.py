@@ -498,6 +498,7 @@ class ComponentSerializer(RemovableSerializer):
             data["filemask"] = fake.filemask
             data["repo"] = "local:"
             data["vcs"] = "local"
+            data["branch"] = "main"
             data.pop("docfile")
         if "zipfile" in data:
             fake_data = data.copy()
@@ -508,6 +509,7 @@ class ComponentSerializer(RemovableSerializer):
                 raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
             data["repo"] = "local:"
             data["vcs"] = "local"
+            data["branch"] = "main"
             data.pop("zipfile")
         # DRF processing
         result = super().to_internal_value(data)

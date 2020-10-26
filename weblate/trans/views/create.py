@@ -332,6 +332,7 @@ class CreateFromZip(CreateComponent):
         self.initial = form.cleaned_data
         self.initial["vcs"] = "local"
         self.initial["repo"] = "local:"
+        self.initial["branch"] = "main"
         self.initial.pop("zipfile")
         self.request.method = "GET"
         return self.get(self, self.request)
@@ -351,6 +352,7 @@ class CreateFromDoc(CreateComponent):
         self.initial = form.cleaned_data
         self.initial["vcs"] = "local"
         self.initial["repo"] = "local:"
+        self.initial["branch"] = "main"
         self.initial.pop("docfile")
         self.request.method = "GET"
         return self.get(self, self.request)

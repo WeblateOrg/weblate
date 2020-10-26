@@ -9,6 +9,7 @@ Not yet released.
 * Improved error messages on failed registraiton.
 * Reverted rendering developer comments as markdown.
 * Simplified setup of Git repositories with different default branch than master.
+* Newly created internal repositories now use main as default branch.
 
 Weblate 4.3.1
 -------------

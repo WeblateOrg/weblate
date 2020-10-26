@@ -827,7 +827,7 @@ class LocalRepository(GitRepository):
     def _clone(cls, source, target, branch=None):
         if not os.path.exists(target):
             os.makedirs(target)
-        cls._popen(["init", target])
+        cls._popen(["init", "--initial-branch", "main", target])
         with open(os.path.join(target, "README.md"), "w") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
