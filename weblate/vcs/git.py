@@ -835,6 +835,10 @@ class LocalRepository(GitRepository):
         return []
 
     @classmethod
+    def get_remote_branch(cls, repo: str):
+        return cls.default_branch
+
+    @classmethod
     def _clone(cls, source: str, target: str, branch: str):
         if not os.path.exists(target):
             os.makedirs(target)
@@ -855,7 +859,7 @@ class LocalRepository(GitRepository):
     def from_zip(cls, target, zipfile):
         # Create empty repo
         if not os.path.exists(target):
-            cls._clone("local:", target, "main")
+            cls._clone("local:", target, cls.default_branch)
         # Extract zip file content
         ZipFile(zipfile).extractall(target)
         # Add to repository
@@ -869,7 +873,7 @@ class LocalRepository(GitRepository):
     def from_files(cls, target, files):
         # Create empty repo
         if not os.path.exists(target):
-            cls._clone("local:", target, "main")
+            cls._clone("local:", target, cls.default_branch)
         # Create files
         for name, content in files.items():
             fullname = os.path.join(target, name)
