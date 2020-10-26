@@ -10,6 +10,7 @@ Not yet released.
 * Reverted rendering developer comments as markdown.
 * Simplified setup of Git repositories with different default branch than master.
 * Newly created internal repositories now use main as default branch.
+* Reduced false positives rate of unchanged translation while translating reStructuredText.
 
 Weblate 4.3.1
 -------------
