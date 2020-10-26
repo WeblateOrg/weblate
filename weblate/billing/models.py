@@ -205,7 +205,12 @@ class Billing(models.Model):
         skip_limits=False,
     ):
         if not skip_limits and self.pk:
-            self.check_limits(save=False)
+            if self.check_limits(save=False) and update_fields:
+                update_fields = set(update_fields)
+                update_fields.update(
+                    ("state", "expiry", "removal", "paid", "in_limits")
+                )
+
         super().save(
             force_insert=force_insert,
             force_update=force_update,
@@ -382,6 +387,8 @@ class Billing(models.Model):
 
         if save and modified:
             self.save(skip_limits=True)
+
+        return modified
 
     def is_active(self):
         return self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
