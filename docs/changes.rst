@@ -8,6 +8,7 @@ Not yet released.
 * Added support for Pagure pull requests.
 * Improved error messages on failed registraiton.
 * Reverted rendering developer comments as markdown.
+* Simplified setup of Git repositories with different default branch than master.
 
 Weblate 4.3.1
 -------------

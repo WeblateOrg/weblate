@@ -1952,7 +1952,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def set_default_branch(self):
         """Set default VCS branch if empty."""
         if not self.branch and not self.is_repo_link:
-            self.branch = VCS_REGISTRY[self.vcs].default_branch
+            self.branch = VCS_REGISTRY[self.vcs].get_remote_branch(self.repo)
 
     def clean_repo_link(self):
         """Validate repository link."""

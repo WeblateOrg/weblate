@@ -65,6 +65,19 @@ class GitRepository(Repository):
         """Initialize the repository."""
         self._popen(["init", self.path])
 
+    @classmethod
+    def get_remote_branch(cls, repo: str):
+        if not repo:
+            return super().get_remote_branch(repo)
+        result = cls._popen(["ls-remote", "--symref", repo, "HEAD"])
+        for line in result.splitlines():
+            if not line.startswith("ref: "):
+                continue
+            # Parses 'ref: refs/heads/master\tHEAD'
+            return line.split("\t")[0].split("refs/heads/")[1]
+
+        raise RepositoryException(0, "Failed to figure out remote branch")
+
     def config_update(self, *updates):
         filename = os.path.join(self.path, ".git", "config")
         with GitConfigParser(file_or_files=filename, read_only=False) as config:

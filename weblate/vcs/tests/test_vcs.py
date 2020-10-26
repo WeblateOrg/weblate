@@ -111,6 +111,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _vcs = "git"
     _sets_push = True
     _remote_branches = ["master", "translations"]
+    _remote_branch = "master"
 
     def setUp(self):
         super().setUp()
@@ -455,6 +456,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
     def test_remote_branches(self):
         self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
+
+    def test_remote_branch(self):
+        self.assertEqual(self._remote_branch, self.repo.get_remote_branch(self.tempdir))
 
 
 class VCSGitForcePushTest(VCSGitTest):
@@ -1008,6 +1012,7 @@ class VCSHgTest(VCSGitTest):
     _class = HgRepository
     _vcs = "mercurial"
     _remote_branches = []
+    _remote_branch = "default"
 
     def test_configure_remote(self):
         with self.repo.lock:

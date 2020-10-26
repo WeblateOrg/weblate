@@ -95,6 +95,10 @@ class Repository:
                 self.init()
 
     @classmethod
+    def get_remote_branch(cls, repo: str):
+        return cls.default_branch
+
+    @classmethod
     def add_breadcrumb(cls, message, **data):
         # Add breadcrumb only if settings are already loaded,
         # we do not want to force loading settings early
