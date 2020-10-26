@@ -254,7 +254,9 @@ Update PO files to match POT (msgmerge)
 ---------------------------------------
 
 Updates all PO files to match the POT file using msgmerge. Triggered whenever
-new changes are pulled from the upstream repository.
+new changes are pulled from the upstream repository and updates all translation
+files to match :ref:`component-new_base`. You can configure most of the
+msgmerge command line options through the addon configuration.
 
 .. _addon-weblate.git.squash:
 
