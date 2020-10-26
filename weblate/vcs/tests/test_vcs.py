@@ -1051,6 +1051,7 @@ class VCSLocalTest(VCSGitTest):
     _class = LocalRepository
     _vcs = "local"
     _remote_branches = []
+    _remote_branch = "main"
 
     @classmethod
     def setUpClass(cls):
@@ -1061,7 +1062,7 @@ class VCSLocalTest(VCSGitTest):
     def test_status(self):
         status = self.repo.status()
         # Older git print up-to-date, newer up to date
-        self.assertIn("On branch master", status)
+        self.assertIn("On branch main", status)
 
     def test_upstream_changes(self):
         raise SkipTest("Not supported")

@@ -798,6 +798,7 @@ class LocalRepository(GitRepository):
 
     name = gettext_lazy("No remote repository")
     identifier = "local"
+    default_branch = "main"
 
     def configure_remote(self, pull_url, push_url, branch):
         return
