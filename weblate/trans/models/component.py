@@ -2316,7 +2316,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Configure git repo if there were changes
         if changed_git:
             # Perform repository configuration (fetches all branches)
-            self.repo.post_configure()
+            self.repository.post_configure()
 
             # Bring VCS repo in sync with current model
             self.sync_git_repo(skip_push=skip_push)
