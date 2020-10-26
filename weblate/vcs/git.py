@@ -105,9 +105,9 @@ class GitRepository(Repository):
         return []
 
     @classmethod
-    def _clone(cls, source, target, branch=None):
+    def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
-        cls._popen(["clone"] + cls.get_depth() + ["--no-single-branch", source, target])
+        cls._popen(["clone"] + cls.get_depth() + ["--branch", branch, source, target])
 
     def get_config(self, path):
         """Read entry from configuration."""
@@ -536,7 +536,7 @@ class SubversionRepository(GitRepository):
         self.clean_revision_cache()
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: Optional[str] = None):
+    def _clone(cls, source: str, target: str, branch: str):
         """Clone svn repository with git-svn."""
         args, revision = cls.get_remote_args(source, target)
         if revision:
@@ -835,10 +835,10 @@ class LocalRepository(GitRepository):
         return []
 
     @classmethod
-    def _clone(cls, source, target, branch=None):
+    def _clone(cls, source: str, target: str, branch: str):
         if not os.path.exists(target):
             os.makedirs(target)
-        cls._popen(["init", "--initial-branch", "main", target])
+        cls._popen(["init", "--initial-branch", branch, target])
         with open(os.path.join(target, "README.md"), "w") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
@@ -855,7 +855,7 @@ class LocalRepository(GitRepository):
     def from_zip(cls, target, zipfile):
         # Create empty repo
         if not os.path.exists(target):
-            cls._clone("local:", target)
+            cls._clone("local:", target, "main")
         # Extract zip file content
         ZipFile(zipfile).extractall(target)
         # Add to repository
@@ -869,7 +869,7 @@ class LocalRepository(GitRepository):
     def from_files(cls, target, files):
         # Create empty repo
         if not os.path.exists(target):
-            cls._clone("local:", target)
+            cls._clone("local:", target, "main")
         # Create files
         for name, content in files.items():
             fullname = os.path.join(target, name)

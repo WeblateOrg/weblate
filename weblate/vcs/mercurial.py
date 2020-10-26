@@ -68,12 +68,9 @@ class HgRepository(Repository):
         self.set_config("ui.ssh", SSH_WRAPPER.filename)
 
     @classmethod
-    def _clone(cls, source: str, target: str, branch: Optional[str] = None):
+    def _clone(cls, source: str, target: str, branch: str):
         """Clone repository."""
-        if branch:
-            cls._popen(["clone", "--branch", branch, source, target])
-        else:
-            cls._popen(["clone", source, target])
+        cls._popen(["clone", "--branch", branch, source, target])
 
     def get_config(self, path):
         """Read entry from configuration."""
