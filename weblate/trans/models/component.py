@@ -1168,6 +1168,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         if self.vcs == "local":
             if not os.path.exists(os.path.join(self.full_path, ".git")):
+                if validate and not self.template:
+                    raise ValidationError({"template": _("File does not exist.")})
                 LocalRepository.from_files(
                     self.full_path,
                     {self.template: self.file_format_cls.get_new_file_content()},
