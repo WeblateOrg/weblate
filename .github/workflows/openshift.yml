@@ -1,0 +1,31 @@
+name: OpenShift
+
+on:
+  push:
+    branches-ignore:
+      - "dependabot/**"
+      - weblate
+    paths:
+      - "openshift3/**"
+      - .github/workflows/openshift.yml
+  pull_request:
+    paths:
+      - "openshift3/**"
+      - .github/workflows/openshift.yml
+  schedule:
+    - cron: "0 4 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup OpenShift
+        uses: manusa/actions-setup-openshift@v1.1.2
+        with:
+          oc version: "v3.11.0"
+          github token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create project
+        run: oc new-project weblate-test
+      - name: Create Weblate
+        run: oc create -f openshift3/persistent-postgresql.json -n weblate-test
