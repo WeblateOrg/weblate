@@ -67,7 +67,7 @@ def update_memory(user, unit, component=None, project=None):
 
     add_project = True
     add_shared = project.contribute_shared_tm
-    add_user = bool(user)
+    add_user = user is not None
 
     # Check matching entries in memory
     for matching in Memory.objects.filter(from_file=False, **params):
@@ -78,11 +78,15 @@ def update_memory(user, unit, component=None, project=None):
         ):
             add_project = False
         elif (
-            matching.user_id is None and matching.project_id is None and matching.shared
+            add_shared
+            and matching.user_id is None
+            and matching.project_id is None
+            and matching.shared
         ):
             add_shared = False
         elif (
-            matching.user_id == user.id
+            add_user
+            and matching.user_id == user.id
             and matching.project_id is None
             and not matching.shared
         ):
