@@ -132,9 +132,13 @@ class MemoryModelTest(FixtureTestCase):
     def test_import_project(self):
         import_memory(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
+        import_memory(self.project.id)
+        self.assertEqual(Memory.objects.count(), 4)
 
     def test_import_unit(self):
         unit = self.get_unit()
+        handle_unit_translation_change(unit.id, self.user.id)
+        self.assertEqual(Memory.objects.count(), 3)
         handle_unit_translation_change(unit.id, self.user.id)
         self.assertEqual(Memory.objects.count(), 3)
 
