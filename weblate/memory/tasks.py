@@ -65,14 +65,38 @@ def update_memory(user, unit, component=None, project=None):
         "origin": component.full_slug,
     }
 
-    Memory.objects.update_entry(
-        user=None, project=project, from_file=False, shared=False, **params
-    )
-    if project.contribute_shared_tm:
-        Memory.objects.update_entry(
+    add_project = True
+    add_shared = project.contribute_shared_tm
+    add_user = bool(user)
+
+    # Check matching entries in memory
+    for matching in Memory.objects.filter(from_file=False, **params):
+        if (
+            matching.user_id is None
+            and matching.project_id == project.id
+            and not matching.shared
+        ):
+            add_project = False
+        elif (
+            matching.user_id is None and matching.project_id is None and matching.shared
+        ):
+            add_shared = False
+        elif (
+            matching.user_id == user.id
+            and matching.project_id is None
+            and not matching.shared
+        ):
+            add_user = False
+
+    if add_project:
+        Memory.objects.create(
+            user=None, project=project, from_file=False, shared=False, **params
+        )
+    if add_shared:
+        Memory.objects.create(
             user=None, project=None, from_file=False, shared=True, **params
         )
-    if user:
-        Memory.objects.update_entry(
+    if add_user:
+        Memory.objects.create(
             user=user, project=None, from_file=False, shared=False, **params
         )
