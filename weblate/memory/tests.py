@@ -30,6 +30,7 @@ from weblate_schemas import load_schema
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
+from weblate.memory.tasks import handle_unit_translation_change, import_memory
 from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
@@ -127,6 +128,15 @@ class MemoryModelTest(FixtureTestCase):
         with self.assertRaises(CommandError):
             call_command("import_memory", get_test_file("memory-empty.json"))
         self.assertEqual(Memory.objects.count(), 0)
+
+    def test_import_project(self):
+        import_memory(self.project.id)
+        self.assertEqual(Memory.objects.count(), 4)
+
+    def test_import_unit(self):
+        unit = self.get_unit()
+        handle_unit_translation_change(unit.id, self.user.id)
+        self.assertEqual(Memory.objects.count(), 3)
 
 
 class MemoryViewTest(FixtureTestCase):
