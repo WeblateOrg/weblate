@@ -1004,7 +1004,7 @@ class Translation(
     def invalidate_cache(self):
         """Invalidate any cached stats."""
         # Invalidate summary stats
-        transaction.on_commit(lambda: self.stats.invalidate())
+        transaction.on_commit(self.stats.invalidate)
 
     @property
     def keys_cache_key(self):
