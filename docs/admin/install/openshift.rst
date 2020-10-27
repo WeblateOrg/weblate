@@ -1,3 +1,5 @@
+.. _quick-openshift:
+
 Installing on OpenShift
 =======================
 
