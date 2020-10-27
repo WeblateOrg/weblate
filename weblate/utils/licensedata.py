@@ -1725,7 +1725,7 @@ LICENSES = (
         "OLDAP-2.8",
         "Open LDAP Public License v2.8",
         "http://www.openldap.org/software/release/license.html",
-        False,
+        True,
     ),
     (
         "OML",
