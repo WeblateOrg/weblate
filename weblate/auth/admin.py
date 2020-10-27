@@ -84,7 +84,7 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
         self.fields["email"].required = True
 
 
-class WeblateUserAdmin(UserAdmin):
+class WeblateUserAdmin(WeblateModelAdmin, UserAdmin):
     """Custom UserAdmin class.
 
     Used to add listing of group membership and whether user is active.
