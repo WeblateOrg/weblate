@@ -33,7 +33,7 @@ from weblate.utils.celery import app
 
 @app.task(trail=False)
 def billing_check():
-    Billing.objects.check_limits()
+    Billing.objects.check_limits(settings.BILLING_GRACE_PERIOD)
 
 
 @app.task(trail=False)
@@ -116,9 +116,9 @@ def trial_expired():
 
 @app.task(trail=False)
 def schedule_removal():
-    removal = timezone.now() + timedelta(days=15)
+    removal = timezone.now() + timedelta(days=settings.BILLING_REMOVAL_PERIOD)
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE, removal=None):
-        if bill.check_payment_status(15):
+        if bill.check_payment_status(settings.BILLING_GRACE_PERIOD):
             continue
         bill.removal = removal
         bill.save(update_fields=["removal"])

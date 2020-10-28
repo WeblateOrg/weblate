@@ -20,6 +20,7 @@
 import os.path
 from datetime import timedelta
 
+from appconf import AppConf
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -373,7 +374,9 @@ class Billing(models.Model):
         if self.check_expiry():
             self.state = Billing.STATE_EXPIRED
             self.expiry = None
-            self.removal = timezone.now() + timedelta(days=30)
+            self.removal = timezone.now() + timedelta(
+                days=settings.BILLING_REMOVAL_PERIOD
+            )
             modified = True
 
         if self.state not in Billing.EXPIRING_STATES and self.expiry:
@@ -551,3 +554,11 @@ def change_billing_projects(sender, instance, action, **kwargs):
     if not action.startswith("post_"):
         return
     instance.check_limits()
+
+
+class WeblateConf(AppConf):
+    GRACE_PERIOD = 15
+    REMOVAL_PERIOD = 15
+
+    class Meta:
+        prefix = "BILLING"
