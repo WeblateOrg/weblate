@@ -22,6 +22,7 @@ from glob import glob
 from time import time
 from typing import List, Optional
 
+from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
@@ -327,7 +328,9 @@ def auto_translate(
         user = None
     with override(user.profile.language if user else "en"):
         translation = Translation.objects.get(pk=translation_id)
-        translation.log_info("starting automatic translation")
+        translation.log_info(
+            "starting automatic translation %s", current_task.request.id
+        )
         auto = AutoTranslate(user, translation, filter_type, mode)
         if auto_source == "mt":
             auto.process_mt(engines, threshold)
