@@ -101,7 +101,6 @@ class AutoTranslate:
         units = (
             self.get_units(False)
             .filter(source__in=translations.keys())
-            .prefetch()
             .select_for_update()
         )
         self.total = len(units)
@@ -122,7 +121,7 @@ class AutoTranslate:
     def fetch_mt(self, engines, threshold):
         """Get the translations."""
         translations = {}
-        units = self.get_units().prefetch()
+        units = self.get_units()
         self.total = len(units)
 
         for pos, unit in enumerate(units):
