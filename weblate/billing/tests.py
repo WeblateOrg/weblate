@@ -363,3 +363,9 @@ class BillingTest(TestCase):
         self.assertEqual(
             mail.outbox.pop().subject, "Your translation project was removed"
         )
+
+    def test_free_trial(self):
+        self.plan.price = 0
+        self.plan.yearly_price = 0
+        self.plan.save()
+        self.test_trial()

@@ -71,7 +71,7 @@ def notify_expired():
         Q(state=Billing.STATE_ACTIVE) | Q(removal__isnull=False)
     ).exclude(projects__isnull=True)
     for bill in possible_billings:
-        if bill.state != Billing.STATE_TRIAL and bill.check_payment_status():
+        if bill.state != Billing.STATE_EXPIRED and bill.check_payment_status():
             continue
 
         for user in bill.get_notify_users():
