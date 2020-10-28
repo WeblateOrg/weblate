@@ -23,4 +23,14 @@
 </ul>
 {% endif %}
 
+{% if toremove %}
+<p>Following billings are scheduled for removal:</p>
+
+<ul>
+{% for bill in toremove %}
+<li><a href="{{ bill.get_absolute_url }}">{{ bill }}</a> [{{ bill.removal }}]</li>
+{% endfor %}
+</ul>
+{% endif %}
+
 {% endblock %}
