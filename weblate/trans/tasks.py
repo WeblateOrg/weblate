@@ -326,13 +326,14 @@ def auto_translate(
     else:
         user = None
     with override(user.profile.language if user else "en"):
-        auto = AutoTranslate(
-            user, Translation.objects.get(pk=translation_id), filter_type, mode
-        )
+        translation = Translation.objects.get(pk=translation_id)
+        translation.log_info("starting automatic translation")
+        auto = AutoTranslate(user, translation, filter_type, mode)
         if auto_source == "mt":
             auto.process_mt(engines, threshold)
         else:
             auto.process_others(component)
+        translation.log_info("completed automatic translation")
 
         if auto.updated == 0:
             return _("Automatic translation completed, no strings were updated.")
