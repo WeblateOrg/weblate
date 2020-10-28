@@ -899,9 +899,12 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             # PO file header is missing ASCII encoding is assumed)
             if "warning:" in result.stderr:
                 raise UpdateError(" ".join(cmd), result.stderr)
-        except (OSError, subprocess.CalledProcessError) as error:
+        except OSError as error:
             report_error(cause="Failed msgmerge")
-            raise UpdateError(" ".join(cmd), getattr(error, "output", str(error)))
+            raise UpdateError(" ".join(cmd), error)
+        except subprocess.CalledProcessError as error:
+            report_error(cause="Failed msgmerge")
+            raise UpdateError(" ".join(cmd), error.output + error.stderr)
 
 
 class PoFormat(BasePoFormat):
