@@ -328,6 +328,7 @@ class BillingTest(TestCase):
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_EXPIRED)
         self.assertEqual(self.billing.projects.count(), 1)
+        self.assertIsNone(self.billing.expiry)
         self.assertIsNotNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
@@ -336,7 +337,14 @@ class BillingTest(TestCase):
         )
 
         # There should be notification sent when removal is scheduled
+        billing_check()
         notify_expired()
+        trial_expired()
+        perform_removal()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_EXPIRED)
+        self.assertEqual(self.billing.projects.count(), 1)
+        self.assertIsNotNone(self.billing.removal)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox.pop().subject,
