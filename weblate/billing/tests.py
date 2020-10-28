@@ -335,6 +335,14 @@ class BillingTest(TestCase):
             "Your translation project is scheduled for removal",
         )
 
+        # There should be notification sent when removal is scheduled
+        notify_expired()
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox.pop().subject,
+            "Your translation project is scheduled for removal",
+        )
+
         # Removal
         self.billing.removal = timezone.now() - timedelta(days=1)
         self.billing.save(skip_limits=True)
