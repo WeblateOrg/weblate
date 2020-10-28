@@ -512,7 +512,7 @@ def hosting(request):
 
     billings = (
         Billing.objects.for_user(request.user)
-        .filter(state=Billing.STATE_TRIAL)
+        .filter(state__in=(Billing.STATE_TRIAL, Billing.STATE_EXPIRED))
         .order_by("-payment", "expiry")
     )
     form = HostingForm()
@@ -551,9 +551,10 @@ def hosting(request):
                     return redirect("hosting")
 
         if "extend" in request.POST and request.user.is_superuser:
+            billing.state = Billing.STATE_TRIAL
             billing.expiry = timezone.now() + timedelta(days=14)
             billing.removal = None
-            billing.save(update_fields=["expiry", "removal"])
+            billing.save(update_fields=["expiry", "removal", "state"])
             return redirect("hosting")
 
     return render(

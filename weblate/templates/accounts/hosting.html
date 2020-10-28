@@ -22,6 +22,7 @@
         {% if billing.projects_display %}{{ billing.projects_display }},{% endif %}
         {{ billing.plan }}
         {% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %}
+        {% if billing.removal %}{% blocktrans with removal=billing.removal|naturaltime %}, will be removed {{ removal }}{% endblocktrans %}{% endif %}
         {% if billing.payment.libre_request %}
           <span class="badge">{% trans "Pending approval" %}</span>
         {% endif %}
