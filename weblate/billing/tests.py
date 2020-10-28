@@ -261,7 +261,7 @@ class BillingTest(TestCase):
 
         # Final removal
         self.billing.removal = timezone.now() - timedelta(days=30)
-        self.billing.save()
+        self.billing.save(skip_limits=True)
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
@@ -274,7 +274,7 @@ class BillingTest(TestCase):
     @override_settings(EMAIL_SUBJECT_PREFIX="")
     def test_trial(self):
         self.billing.state = Billing.STATE_TRIAL
-        self.billing.save()
+        self.billing.save(skip_limits=True)
         self.billing.invoice_set.all().delete()
         self.add_project()
 
@@ -291,7 +291,7 @@ class BillingTest(TestCase):
 
         # Future expiry
         self.billing.expiry = timezone.now() + timedelta(days=30)
-        self.billing.save()
+        self.billing.save(skip_limits=True)
         billing_check()
         notify_expired()
         trial_expired()
@@ -304,7 +304,7 @@ class BillingTest(TestCase):
 
         # Close expiry
         self.billing.expiry = timezone.now() + timedelta(days=1)
-        self.billing.save()
+        self.billing.save(skip_limits=True)
         billing_check()
         notify_expired()
         trial_expired()
@@ -320,7 +320,7 @@ class BillingTest(TestCase):
 
         # Past expiry
         self.billing.expiry = timezone.now() - timedelta(days=1)
-        self.billing.save()
+        self.billing.save(skip_limits=True)
         billing_check()
         notify_expired()
         trial_expired()
@@ -336,8 +336,8 @@ class BillingTest(TestCase):
         )
 
         # Removal
-        self.billing.removal = timezone.now() - timedelta(days=30)
-        self.billing.save()
+        self.billing.removal = timezone.now() - timedelta(days=1)
+        self.billing.save(skip_limits=True)
         billing_check()
         perform_removal()
         self.refresh_from_db()
