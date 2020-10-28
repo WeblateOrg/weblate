@@ -63,7 +63,7 @@ class BillingAdmin(WeblateModelAdmin):
         "last_invoice",
     )
     list_filter = ("plan", "state", "paid", "in_limits")
-    search_fields = ("projects__name",)
+    search_fields = ("projects__name", "owners__email")
     filter_horizontal = ("projects", "owners")
 
     def get_queryset(self, request):
