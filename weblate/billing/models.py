@@ -100,9 +100,9 @@ class Plan(models.Model):
 
 
 class BillingManager(models.Manager):
-    def check_limits(self, grace=30):
+    def check_limits(self):
         for bill in self.iterator():
-            bill.check_limits(grace)
+            bill.check_limits()
 
 
 class BillingQuerySet(models.QuerySet):
@@ -176,9 +176,6 @@ class Billing(models.Model):
     # Translators: Whether the package is inside actual (hard) limits
     in_limits = models.BooleanField(
         default=True, verbose_name=_("In limits"), editable=False
-    )
-    grace_period = models.IntegerField(
-        default=0, verbose_name=_("Grace period for payments")
     )
     # Payment detailed information, used for integration
     # with payment processor
@@ -353,22 +350,24 @@ class Billing(models.Model):
     # Translators: Whether the package is inside displayed (soft) limits
     in_display_limits.short_description = _("In display limits")
 
-    def check_payment_status(self, grace=None):
+    def check_payment_status(self, now: bool = False):
         """Check current payment status.
 
         Compared to paid attribute, this does not include grace period.
         """
-        end = timezone.now() - timedelta(days=grace or self.grace_period)
+        end = timezone.now()
+        if not now:
+            end -= timedelta(days=settings.BILLING_GRACE_PERIOD)
         return (
             (self.plan.is_free and self.state == Billing.STATE_ACTIVE)
             or self.invoice_set.filter(end__gte=end).exists()
             or self.state == Billing.STATE_TRIAL
         )
 
-    def check_limits(self, grace=30, save=True):
+    def check_limits(self, save=True):
         self.flush_cache()
         in_limits = self.check_in_limits()
-        paid = self.check_payment_status(grace)
+        paid = self.check_payment_status()
         modified = False
 
         if self.check_expiry():

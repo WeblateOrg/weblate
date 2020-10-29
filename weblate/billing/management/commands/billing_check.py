@@ -29,7 +29,6 @@ class Command(BaseCommand):
     help = "checks billing limits"
 
     def add_arguments(self, parser):
-        parser.add_argument("--grace", type=int, default=30, help="grace period")
         parser.add_argument("--valid", action="store_true", help="list valid ones")
         parser.add_argument(
             "--notify", action="store_true", help="send email notifications"
@@ -39,7 +38,7 @@ class Command(BaseCommand):
         if options["notify"]:
             billing_notify()
             return
-        Billing.objects.check_limits(options["grace"])
+        Billing.objects.check_limits()
         if options["valid"]:
             for bill in Billing.objects.get_valid():
                 self.stdout.write(" * {0}".format(bill))
