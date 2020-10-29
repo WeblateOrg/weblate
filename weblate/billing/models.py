@@ -360,7 +360,7 @@ class Billing(models.Model):
         """
         end = timezone.now() - timedelta(days=grace or self.grace_period)
         return (
-            self.plan.is_free
+            (self.plan.is_free and self.state == Billing.STATE_ACTIVE)
             or self.invoice_set.filter(end__gte=end).exists()
             or self.state == Billing.STATE_TRIAL
         )
@@ -374,6 +374,7 @@ class Billing(models.Model):
         if self.check_expiry():
             self.state = Billing.STATE_EXPIRED
             self.expiry = None
+            paid = False
             self.removal = timezone.now() + timedelta(
                 days=settings.BILLING_REMOVAL_PERIOD
             )
