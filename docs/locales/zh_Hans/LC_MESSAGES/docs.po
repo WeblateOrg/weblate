@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 20:24+0100\n"
+"POT-Creation-Date: 2020-10-29 11:00+0100\n"
 "PO-Revision-Date: 2020-10-29 09:59+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1311,8 +1311,9 @@ msgid ""
 "translation files to match :ref:`component-new_base`. You can configure most "
 "of the msgmerge command line options through the addon configuration."
 msgstr ""
-"使用msgmerge更新所有PO文件以匹配POT文件。每当从上游存储库拉取新更改并更新所有翻译文件以匹配:ref:`component-"
-"new_base`时触发该动作。您可以通过附加配置设定大多数msgmerge命令行选项。"
+"使用msgmerge更新所有PO文件以匹配POT文件。每当从上游存储库拉取新更改并更新所有"
+"翻译文件以匹配:ref:`component-new_base`时触发该动作。您可以通过附加配置设定大"
+"多数msgmerge命令行选项。"
 
 #: ../../admin/addons.rst:264
 msgid "Squash Git commits"
@@ -2283,7 +2284,8 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
-"第一步通过 CAS 揭示了用户电子邮箱字段。这必须在 CAS 服务器自身来配置，并需要至少运行 CAS v2 ，因为 CAS v1 不支持属性。"
+"第一步通过 CAS 揭示了用户电子邮箱字段。这必须在 CAS 服务器自身来配置，并需要"
+"至少运行 CAS v2 ，因为 CAS v1 不支持属性。"
 
 #: ../../admin/auth.rst:540
 msgid "Step two is updating Weblate to use your CAS server and attributes."
@@ -2308,8 +2310,9 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
-"最后，可以使用信号将电子邮箱字段投射到用户对象上。为了生效，必须将信号从 `django-cas-ng` "
-"软件包导入，并将你的代码与这个信号连接。在设置文件中这样做可能产生问题，这样建议将它放进去："
+"最后，可以使用信号将电子邮箱字段投射到用户对象上。为了生效，必须将信号从 "
+"`django-cas-ng` 软件包导入，并将你的代码与这个信号连接。在设置文件中这样做可"
+"能产生问题，这样建议将它放进去："
 
 #: ../../admin/auth.rst:574
 msgid ""
@@ -3814,10 +3817,11 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
-"1. 在项目和组件字段用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic component list "
-"assignment` ，如这张图所示："
+"1. 在项目和组件字段用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic "
+"component list assignment` ，如这张图所示："
 
-#: ../../admin/config.rst:4 ../../faq.rst:5
+#: ../../admin/config.rst:4 ../../admin/install/openshift.rst:97
+#: ../../faq.rst:5
 msgid "Configuration"
 msgstr "配置"
 
@@ -7794,9 +7798,11 @@ msgid ""
 "most usual setups, but you might need to adjust :setting:`IP_PROXY_HEADER` "
 "and :setting:`IP_PROXY_OFFSET` as well."
 msgstr ""
-"在运行反向代理的情况下，这个字段很可能包含其地址。需要配置 Weblate 来信任附加的 HTTP 标头，并从中解析 IP "
-"地址。这不能默认允许，因为在不使用反向代理的安装时，这会允许 IP 地址欺骗。允许 :setting:`IP_BEHIND_REVERSE_PROXY` "
-"对多数常见设置就足够了，但你还必须调整 :setting:`IP_PROXY_HEADER` 和 :setting:`IP_PROXY_OFFSET` 。"
+"在运行反向代理的情况下，这个字段很可能包含其地址。需要配置 Weblate 来信任附加"
+"的 HTTP 标头，并从中解析 IP 地址。这不能默认允许，因为在不使用反向代理的安装"
+"时，这会允许 IP 地址欺骗。允许 :setting:`IP_BEHIND_REVERSE_PROXY` 对多数常见"
+"设置就足够了，但你还必须调整 :setting:`IP_PROXY_HEADER` 和 :setting:"
+"`IP_PROXY_OFFSET` 。"
 
 #: ../../admin/install.rst:456
 msgid ""
@@ -9139,7 +9145,7 @@ msgid ""
 "the size of the translations managed in it."
 msgstr "根据 Weblate 中管理的翻译大小，安装 Weblate 的实际要求差异很大。"
 
-#: ../../admin/install/docker.rst:15
+#: ../../admin/install/docker.rst:15 ../../admin/install/openshift.rst:12
 #: ../../admin/install/steps/install-system-devel.rst:2
 #: ../../admin/optionals.rst:16 ../../admin/optionals.rst:64
 #: ../../admin/optionals.rst:129 ../../../README.rst:46 ../../python.rst:11
@@ -10465,21 +10471,131 @@ msgstr ""
 msgid "Installing on OpenShift"
 msgstr "在 OpenShift 上安装"
 
-#: ../../admin/install/openshift.rst:8
+#: ../../admin/install/openshift.rst:6
+#, fuzzy
+#| msgid ""
+#| "With dockerized Weblate deployment you can get your personal Weblate "
+#| "instance up and running in seconds. All of Weblate's dependencies are "
+#| "already included. PostgreSQL is set up as the default database."
 msgid ""
-"This guide is looking for contributors experienced with OpenShift, see "
-"<https://github.com/WeblateOrg/weblate/issues/2889>."
+"With the OpenShift Weblate template you can get your personal Weblate "
+"instance up and running in seconds. All of Weblate’s dependencies are "
+"already included. PostgreSQL is set up as the default database and "
+"persistent volume claims are used."
 msgstr ""
-"本手册寻找有 OpenShift 经验的贡献者，请参见 <https://github.com/WeblateOrg/"
-"weblate/issues/2889> 。"
+"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate 实"
+"例。Weblate 的所有依赖项已包含在内。PostgreSQL 被新建为默认数据库。"
 
-#: ../../admin/install/openshift.rst:11
+#: ../../admin/install/openshift.rst:14
+#, fuzzy
+#| msgid ""
+#| "The following examples assume you have a working Docker environment, with "
+#| "``docker-compose`` installed. Please check the Docker documentation for "
+#| "instructions."
 msgid ""
-"Weblate supports OpenShift, the needed integration files are in main "
-"repository in the :file:`openshift3` directory."
+"The following examples assume you have a working OpenShift v3.x environment, "
+"with ``oc`` client tool installed. Please check the OpenShift documentation "
+"for instructions."
 msgstr ""
-"Weblate 支持 OpenShift ，所需的集成文件在 :file:`openshift3` 文件夹内的主仓库"
-"中。"
+"以下示例假设您拥有一个工作正常的 Docker 环境，并安装了 ``docker-compose`` 。"
+"请查看 Docker 文档以获取说明。"
+
+#: ../../admin/install/openshift.rst:19
+msgid "Web Console"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:21
+msgid ""
+"Copy the raw content from :file:`template.yml` and import them into your "
+"project, then use the ``Create`` button in the OpenShift web console to "
+"create your application. The web console will prompt you for the values for "
+"all of the parameters used by the template."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:27
+msgid "CLI"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:29
+msgid ""
+"To upload the Weblate template to your current project’s template library, "
+"pass the :file:`template.yml` file with the following command:"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:37
+msgid ""
+"The template is now available for selection using the web console or the CLI."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:41 ../../api.rst:0 ../../python.rst:0
+msgid "Parameters"
+msgstr "参数"
+
+#: ../../admin/install/openshift.rst:43
+msgid ""
+"The list of parameters that you can override are listed in the parameters "
+"section of the template. You can list them with the CLI by using the "
+"following command and specifying the file to be used:"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:55
+#, fuzzy
+#| msgid "Permission checking"
+msgid "Provisioning"
+msgstr "权限检查"
+
+#: ../../admin/install/openshift.rst:57
+msgid ""
+"You can also use the CLI to process templates and use the configuration that "
+"is generated to create objects immediately."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:70
+msgid ""
+"The Weblate instance should be available after successful migration and "
+"deployment at the specified ``WEBLATE_SITE_DOMAIN`` parameter."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:73
+#, fuzzy
+#| msgid ""
+#| "After container setup, you can sign in as `admin` user with password "
+#| "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password "
+#| "generated on first start if that was not set."
+msgid ""
+"After container setup, you can sign in as `admin` user with password "
+"provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
+"first start if that was not set."
+msgstr ""
+"设置容器之后，您可以使用 :envvar:`WEBLATE_ADMIN_PASSWORD` 中提供的密码以 `管"
+"理员` 用户身份登录，或者如果未设置该密码，则在首次启动时生成随机密码。"
+
+#: ../../admin/install/openshift.rst:77
+#, fuzzy
+#| msgid ""
+#| "To reset `admin` password, restart the container with :envvar:"
+#| "`WEBLATE_ADMIN_PASSWORD` set to new password."
+msgid ""
+"To reset `admin` password, restart the container with "
+"``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
+msgstr ""
+"要重置 `管理员` 密码，请在 :envvar:`WEBLATE_ADMIN_PASSWORD` 设置为新密码的情"
+"况下重启容器。"
+
+#: ../../admin/install/openshift.rst:81
+#, fuzzy
+#| msgid "Terminated"
+msgid "Eliminate"
+msgstr "已终止"
+
+#: ../../admin/install/openshift.rst:99
+msgid ""
+"By processing the template a respective ``ConfigMap`` will be created and "
+"which can be used to customize the Weblate image. The ``ConfigMap`` is "
+"directly mounted as environment variables and triggers a new deployment "
+"every time it is changed. For further configuration options, see :ref:"
+"`docker-environment` for full list of environment variables."
+msgstr ""
 
 #: ../../admin/install/source.rst:4
 msgid "Installing from sources"
@@ -10757,8 +10873,9 @@ msgid ""
 "properties, Java properties or Qt Linguist files, see :ref:`formats` for "
 "more details."
 msgstr ""
-"这里重要的字段是：部件名称、版本控制系统（VCS ）仓库地址和找到的翻译文件的掩码。 Weblate 支持大范围的格式，包括 PO 文件、安卓资源字符串、"
-" IOS 字符串属性， Java 属性或 Qt Linguist 文件，更多细节请参看： :ref:`formats` 。"
+"这里重要的字段是：部件名称、版本控制系统（VCS ）仓库地址和找到的翻译文件的掩"
+"码。 Weblate 支持大范围的格式，包括 PO 文件、安卓资源字符串、 IOS 字符串属"
+"性， Java 属性或 Qt Linguist 文件，更多细节请参看： :ref:`formats` 。"
 
 #: ../../admin/install/steps/install-after.rst:29
 msgid ""
@@ -10863,7 +10980,9 @@ msgid ""
 "While editing, make sure all fields are correct (especially plurals and text "
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
-msgstr "当编辑时，确认所有字段都是正确的（特别是复数和正文方向），否则译者将不能正常编辑这些翻译。"
+msgstr ""
+"当编辑时，确认所有字段都是正确的（特别是复数和正文方向），否则译者将不能正常"
+"编辑这些翻译。"
 
 #: ../../admin/languages.rst:50
 msgid "Each language consists of following fields:"
@@ -12021,7 +12140,8 @@ msgid ""
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
 "导入的 JSON 文件结构非常符合组件对象（请参见 :http:get:`/api/components/"
-"(string:project)/(string:component)/` ）。您必须包括 ``name`` 和 ``filemask`` 字段。"
+"(string:project)/(string:component)/` ）。您必须包括 ``name`` 和 "
+"``filemask`` 字段。"
 
 #: ../../admin/management.rst:306
 msgid "Specifies where the components will be imported from."
@@ -15145,7 +15265,9 @@ msgstr ""
 msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
-msgstr "用户数据库上的用户名和电子邮件字段现在应该不因为大小写敏感而不同。它之前错误地没有被 PostgreSQL 强制。"
+msgstr ""
+"用户数据库上的用户名和电子邮件字段现在应该不因为大小写敏感而不同。它之前错误"
+"地没有被 PostgreSQL 强制。"
 
 #: ../../admin/upgrade.rst:152
 msgid "Upgrade from 4.2 to 4.3"
@@ -15571,10 +15693,6 @@ msgstr "用户对象属性被归档在 :http:get:`/api/users/(str:username)/`。
 #: ../../api.rst:225
 msgid "Creates a new user."
 msgstr "创建新用户。"
-
-#: ../../api.rst:0 ../../python.rst:0
-msgid "Parameters"
-msgstr "参数"
 
 #: ../../api.rst:227
 msgid "Username"
@@ -17700,7 +17818,9 @@ msgid ""
 msgstr "降低了翻译重构文本时未更改译文的误报率。"
 
 #: ../../changes.rst:14
-msgid "Fixed CodeMirror display issues is some situations."
+#, fuzzy
+#| msgid "Fixed CodeMirror display issues is some situations."
+msgid "Fixed CodeMirror display issues in some situations."
 msgstr "修复了一些情况下的 Codemirror 显示问题。"
 
 #: ../../changes.rst:17
@@ -29734,7 +29854,9 @@ msgid ""
 "All of the fields on this page are optional and can be deleted at any time, "
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
-msgstr "本页的所有字段都是可选的，并且可以在任何时间删除，通过填写这些字段，您同意我们在您的用户资料出现的任何地方分享这些数据。"
+msgstr ""
+"本页的所有字段都是可选的，并且可以在任何时间删除，通过填写这些字段，您同意我"
+"们在您的用户资料出现的任何地方分享这些数据。"
 
 #: ../../user/profile.rst:116
 msgid ""
@@ -32003,6 +32125,20 @@ msgstr ""
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid ""
+#~ "This guide is looking for contributors experienced with OpenShift, see "
+#~ "<https://github.com/WeblateOrg/weblate/issues/2889>."
+#~ msgstr ""
+#~ "本手册寻找有 OpenShift 经验的贡献者，请参见 <https://github.com/"
+#~ "WeblateOrg/weblate/issues/2889> 。"
+
+#~ msgid ""
+#~ "Weblate supports OpenShift, the needed integration files are in main "
+#~ "repository in the :file:`openshift3` directory."
+#~ msgstr ""
+#~ "Weblate 支持 OpenShift ，所需的集成文件在 :file:`openshift3` 文件夹内的主"
+#~ "仓库中。"
 
 #~ msgid "Optional addition of licenses to show."
 #~ msgstr "用于显示的许可以外的选项。"

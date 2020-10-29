@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 20:24+0100\n"
+"POT-Creation-Date: 2020-10-29 11:00+0100\n"
 "PO-Revision-Date: 2020-10-28 06:38+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -1445,8 +1445,8 @@ msgid ""
 msgstr ""
 "Оновлює всі файли po, порівнявши з відповідним файлом pot за допомогою "
 "msgmerge. Це спрацьовує щоразу, коли нові зміни витягуються із основного "
-"сховища даних та оновлюються всі файли перекладу, щоб вони відповідали ref"
-":`component-new_base`. Ви можете налаштувати більшість параметрів командного "
+"сховища даних та оновлюються всі файли перекладу, щоб вони відповідали ref:"
+"`component-new_base`. Ви можете налаштувати більшість параметрів командного "
 "рядка msgmerge за допомогою конфігурації додатка."
 
 #: ../../admin/addons.rst:264
@@ -4185,7 +4185,8 @@ msgstr ""
 "значення ``^.*$`` як формальний вираз для полів проєкту і складника, як "
 "показано на цьому зображенні:"
 
-#: ../../admin/config.rst:4 ../../faq.rst:5
+#: ../../admin/config.rst:4 ../../admin/install/openshift.rst:97
+#: ../../faq.rst:5
 msgid "Configuration"
 msgstr "Налаштування"
 
@@ -10034,7 +10035,7 @@ msgstr ""
 "Реальні вимоги до встановленого вами Weblate значно залежать від розміру "
 "перекладів, які ним керуються."
 
-#: ../../admin/install/docker.rst:15
+#: ../../admin/install/docker.rst:15 ../../admin/install/openshift.rst:12
 #: ../../admin/install/steps/install-system-devel.rst:2
 #: ../../admin/optionals.rst:16 ../../admin/optionals.rst:64
 #: ../../admin/optionals.rst:129 ../../../README.rst:46 ../../python.rst:11
@@ -11475,22 +11476,136 @@ msgstr ""
 msgid "Installing on OpenShift"
 msgstr "Встановлення на OpenShift"
 
-#: ../../admin/install/openshift.rst:8
+#: ../../admin/install/openshift.rst:6
+#, fuzzy
+#| msgid ""
+#| "With dockerized Weblate deployment you can get your personal Weblate "
+#| "instance up and running in seconds. All of Weblate's dependencies are "
+#| "already included. PostgreSQL is set up as the default database."
 msgid ""
-"This guide is looking for contributors experienced with OpenShift, see "
-"<https://github.com/WeblateOrg/weblate/issues/2889>."
+"With the OpenShift Weblate template you can get your personal Weblate "
+"instance up and running in seconds. All of Weblate’s dependencies are "
+"already included. PostgreSQL is set up as the default database and "
+"persistent volume claims are used."
 msgstr ""
-"Для написання цієї частини підручника нам потрібні автори, які мають досвід "
-"роботи із OpenShift, див. <https://github.com/WeblateOrg/weblate/"
-"issues/2889>."
+"Якщо Weblate розгорнуто у середовищі Docker, ви зможете отримати ваш "
+"працездатний і запущений особистий екземпляр Weblate за декілька секунд. Усі "
+"залежності Weblate вже включено. Типовим засобом роботи із базою даних у "
+"таких екземплярах є PostgreSQL."
 
-#: ../../admin/install/openshift.rst:11
+#: ../../admin/install/openshift.rst:14
+#, fuzzy
+#| msgid ""
+#| "The following examples assume you have a working Docker environment, with "
+#| "``docker-compose`` installed. Please check the Docker documentation for "
+#| "instructions."
 msgid ""
-"Weblate supports OpenShift, the needed integration files are in main "
-"repository in the :file:`openshift3` directory."
+"The following examples assume you have a working OpenShift v3.x environment, "
+"with ``oc`` client tool installed. Please check the OpenShift documentation "
+"for instructions."
 msgstr ""
-"У Weblate передбачено підтримку OpenShift. Потрібні для інтеграції файли "
-"зберігаються в основному сховищі коду у підкаталозі :file:`openshift3`."
+"У наведених нижче прикладах припускається, що у вас є працездатне середовище "
+"Docker із встановленим ``docker-compose``. Будь ласка, ознайомтеся із "
+"документацією до Docker, щоб отримати додаткові настанови."
+
+#: ../../admin/install/openshift.rst:19
+msgid "Web Console"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:21
+msgid ""
+"Copy the raw content from :file:`template.yml` and import them into your "
+"project, then use the ``Create`` button in the OpenShift web console to "
+"create your application. The web console will prompt you for the values for "
+"all of the parameters used by the template."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:27
+msgid "CLI"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:29
+msgid ""
+"To upload the Weblate template to your current project’s template library, "
+"pass the :file:`template.yml` file with the following command:"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:37
+msgid ""
+"The template is now available for selection using the web console or the CLI."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:41 ../../api.rst:0 ../../python.rst:0
+msgid "Parameters"
+msgstr "Параметри"
+
+#: ../../admin/install/openshift.rst:43
+msgid ""
+"The list of parameters that you can override are listed in the parameters "
+"section of the template. You can list them with the CLI by using the "
+"following command and specifying the file to be used:"
+msgstr ""
+
+#: ../../admin/install/openshift.rst:55
+#, fuzzy
+#| msgid "Permission checking"
+msgid "Provisioning"
+msgstr "Перевірка прав доступу"
+
+#: ../../admin/install/openshift.rst:57
+msgid ""
+"You can also use the CLI to process templates and use the configuration that "
+"is generated to create objects immediately."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:70
+msgid ""
+"The Weblate instance should be available after successful migration and "
+"deployment at the specified ``WEBLATE_SITE_DOMAIN`` parameter."
+msgstr ""
+
+#: ../../admin/install/openshift.rst:73
+#, fuzzy
+#| msgid ""
+#| "After container setup, you can sign in as `admin` user with password "
+#| "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password "
+#| "generated on first start if that was not set."
+msgid ""
+"After container setup, you can sign in as `admin` user with password "
+"provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
+"first start if that was not set."
+msgstr ""
+"Після налаштовування контейнера ви можете увійти до системи від імені "
+"користувача `admin` із використанням пароля, який надається у змінній :"
+"envvar:`WEBLATE_ADMIN_PASSWORD`, або випадкового пароля, який створено під "
+"час першого запуску, якщо пароль не було встановлено за допомогою змінної."
+
+#: ../../admin/install/openshift.rst:77
+#, fuzzy
+#| msgid ""
+#| "To reset `admin` password, restart the container with :envvar:"
+#| "`WEBLATE_ADMIN_PASSWORD` set to new password."
+msgid ""
+"To reset `admin` password, restart the container with "
+"``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
+msgstr ""
+"Щоб скинути пароль `admin`, перезапустіть контейнер зі змінною :envvar:"
+"`WEBLATE_ADMIN_PASSWORD`, значенням якої є новий пароль."
+
+#: ../../admin/install/openshift.rst:81
+#, fuzzy
+#| msgid "Terminated"
+msgid "Eliminate"
+msgstr "Завершено"
+
+#: ../../admin/install/openshift.rst:99
+msgid ""
+"By processing the template a respective ``ConfigMap`` will be created and "
+"which can be used to customize the Weblate image. The ``ConfigMap`` is "
+"directly mounted as environment variables and triggers a new deployment "
+"every time it is changed. For further configuration options, see :ref:"
+"`docker-environment` for full list of environment variables."
+msgstr ""
 
 #: ../../admin/install/source.rst:4
 msgid "Installing from sources"
@@ -17104,10 +17219,6 @@ msgstr ""
 msgid "Creates a new user."
 msgstr "Створює обліковий запис користувача."
 
-#: ../../api.rst:0 ../../python.rst:0
-msgid "Parameters"
-msgstr "Параметри"
-
 #: ../../api.rst:227
 msgid "Username"
 msgstr "Ім'я користувача"
@@ -19314,7 +19425,9 @@ msgstr ""
 "перекладу reStructuredText."
 
 #: ../../changes.rst:14
-msgid "Fixed CodeMirror display issues is some situations."
+#, fuzzy
+#| msgid "Fixed CodeMirror display issues is some situations."
+msgid "Fixed CodeMirror display issues in some situations."
 msgstr "Виправлено проблеми показу CodeMirror у деяких ситуаціях."
 
 #: ../../changes.rst:17
@@ -35985,6 +36098,21 @@ msgstr ""
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid ""
+#~ "This guide is looking for contributors experienced with OpenShift, see "
+#~ "<https://github.com/WeblateOrg/weblate/issues/2889>."
+#~ msgstr ""
+#~ "Для написання цієї частини підручника нам потрібні автори, які мають "
+#~ "досвід роботи із OpenShift, див. <https://github.com/WeblateOrg/weblate/"
+#~ "issues/2889>."
+
+#~ msgid ""
+#~ "Weblate supports OpenShift, the needed integration files are in main "
+#~ "repository in the :file:`openshift3` directory."
+#~ msgstr ""
+#~ "У Weblate передбачено підтримку OpenShift. Потрібні для інтеграції файли "
+#~ "зберігаються в основному сховищі коду у підкаталозі :file:`openshift3`."
 
 #~ msgid "Optional addition of licenses to show."
 #~ msgstr "Необов'язкове додавання до показаних умов ліцензування."
