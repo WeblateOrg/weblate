@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-29 11:00+0100\n"
-"PO-Revision-Date: 2020-10-23 09:37+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-10-31 19:26+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.1\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -2597,11 +2597,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:228
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Datos volcados para las copias de respaldo"
 
 #: ../../admin/backup.rst:230
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "Almacenados en :setting:`DATA_DIR` ``/backups``."
 
 #: ../../admin/backup.rst:232
 msgid ""
@@ -2628,7 +2628,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:243
 msgid "Version control repositories"
-msgstr ""
+msgstr "Repositorios de control de versiones"
 
 #: ../../admin/backup.rst:245
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
@@ -2645,7 +2645,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:254
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "Claves SSH y GPG"
 
 #: ../../admin/backup.rst:256
 msgid ""
@@ -2715,19 +2715,19 @@ msgstr ""
 
 #: ../../admin/backup.rst:299
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "Restaurar una copia de respaldo manual"
 
 #: ../../admin/backup.rst:301
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Restaure todos los datos de los que ha hecho copia de respaldo."
 
 #: ../../admin/backup.rst:303
 msgid "Update all repositories using :djadmin:`updategit`."
-msgstr ""
+msgstr "Actualice todos los repositorios mediante :djadmin:`updategit`."
 
 #: ../../admin/backup.rst:310
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Trasladar una instalación de Weblate"
 
 #: ../../admin/backup.rst:312
 msgid ""
@@ -2745,7 +2745,7 @@ msgstr "Comprobaciones y correcciones"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Correcciones automáticas personalizadas"
 
 #: ../../admin/checks.rst:9
 msgid ""
@@ -9670,10 +9670,13 @@ msgid ""
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
 msgstr ""
+"Los ejemplos siguientes presuponen que cuenta con un entorno OpenShift "
+"versión 3.x en funcionamiento y la herramienta de cliente ``oc`` instalada. "
+"Consulte la documentación de OpenShift para obtener instrucciones."
 
 #: ../../admin/install/openshift.rst:19
 msgid "Web Console"
-msgstr ""
+msgstr "Consola web"
 
 #: ../../admin/install/openshift.rst:21
 msgid ""
@@ -9700,7 +9703,7 @@ msgstr ""
 
 #: ../../admin/install/openshift.rst:41 ../../api.rst:0 ../../python.rst:0
 msgid "Parameters"
-msgstr ""
+msgstr "Parámetros"
 
 #: ../../admin/install/openshift.rst:43
 msgid ""
@@ -9741,10 +9744,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/openshift.rst:81
-#, fuzzy
-#| msgid "Terminated"
 msgid "Eliminate"
-msgstr "Finalizado"
+msgstr "Eliminar"
 
 #: ../../admin/install/openshift.rst:99
 msgid ""
@@ -9757,11 +9758,12 @@ msgstr ""
 
 #: ../../admin/install/source.rst:4
 msgid "Installing from sources"
-msgstr ""
+msgstr "Instalar desde el código fuente"
 
 #: ../../admin/install/source.rst:6
 msgid "Please follow the installation instructions for your system first:"
 msgstr ""
+"Siga las instrucciones de instalación correspondientes a su sistema primero:"
 
 #: ../../admin/install/source.rst:8
 msgid ":doc:`venv-debian`"
@@ -16402,14 +16404,12 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3.2"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
-msgstr "No publicado aún."
+msgstr "No publicada aún."
 
 #: ../../changes.rst:6
 msgid "Fixed crash on certain component filemasks."
@@ -16429,24 +16429,28 @@ msgid "Added support for Pagure pull requests."
 msgstr "Se permite agrupar las formas de las cadenas."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Improved sign in and registration pages."
 msgid "Improved error messages on failed registraiton."
-msgstr "Se mejoraron las páginas de alta y acceso."
+msgstr "Se mejoraron los mensajes de error al producirse errores en el alta."
 
 #: ../../changes.rst:10
 msgid "Reverted rendering developer comments as markdown."
 msgstr ""
+"Se revirtió la representación de los comentarios de los programadores como "
+"Markdown."
 
 #: ../../changes.rst:11
 msgid ""
 "Simplified setup of Git repositories with different default branch than "
 "master."
 msgstr ""
+"Se simplificó la puesta en marcha de los repositorios Git con ramas "
+"predeterminadas distintas de «master»."
 
 #: ../../changes.rst:12
 msgid "Newly created internal repositories now use main as default branch."
 msgstr ""
+"Los repositorios internos de nueva creación ahora utilizan «main» como rama "
+"predeterminada."
 
 #: ../../changes.rst:13
 msgid ""
@@ -16465,24 +16469,16 @@ msgid "Weblate 4.3.1"
 msgstr "Weblate 4.2.1"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Released on October 28th 2019."
 msgid "Released on October 21st 2020."
-msgstr "Publicada el 28 de octubre de 2019."
+msgstr "Publicada el 21 de octubre de 2020."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Improved data cleanup performance."
 msgid "Improved automatic translation performance."
-msgstr "Se mejoró el desempeño de la limpieza de datos."
+msgstr "Se mejoró el desempeño de la traducción automática."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Fixed login redirect for some authentication configurations."
 msgid "Fixed session expiry for authenticated users."
-msgstr ""
-"Se arregló la redirección al acceder a la cuenta en determinadas "
-"configuraciones de autenticación."
+msgstr "Se arregló la caducidad de la sesión para usuarios autenticados."
 
 #: ../../changes.rst:23
 #, fuzzy
@@ -17100,15 +17096,15 @@ msgstr ""
 
 #: ../../changes.rst:174
 msgid "API now supports filtering of changes."
-msgstr ""
+msgstr "La API ahora admite filtrar los cambios."
 
 #: ../../changes.rst:175
 msgid "Added support for sharing glossaries between projects."
-msgstr ""
+msgstr "Se agregó la posibilidad de compartir glosarios entre proyectos."
 
 #: ../../changes.rst:178
 msgid "Weblate 4.0.4"
-msgstr ""
+msgstr "Weblate 4.0.4"
 
 #: ../../changes.rst:180
 msgid "Released on May 07th 2020."
@@ -17117,6 +17113,8 @@ msgstr "Publicada el 7 de mayo de 2020."
 #: ../../changes.rst:182
 msgid "Fixed testsuite execution on some Python 3.8 environments."
 msgstr ""
+"Se arregló la ejecución del conjunto de pruebas en determinados entornos con "
+"Python 3.8."
 
 #: ../../changes.rst:183
 msgid "Typo fixes in the documentation."
@@ -17163,6 +17161,8 @@ msgstr ""
 #: ../../changes.rst:197
 msgid "User mentions in comments are now case insensitive."
 msgstr ""
+"Las menciones a usuarios en los comentarios ya no distinguen entre "
+"mayúsculas y minúsculas."
 
 #: ../../changes.rst:198
 msgid "Fixed PostgreSQL migration for non superusers."
@@ -17175,6 +17175,8 @@ msgstr ""
 #: ../../changes.rst:200
 msgid "Fixed crash when upstream repository is gone."
 msgstr ""
+"Se arregló un cierre inesperado cuando el repositorio de origen ascendente "
+"desaparece."
 
 #: ../../changes.rst:203
 msgid "Weblate 4.0.2"
@@ -26583,16 +26585,12 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:1362
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Language code style` allows you to customize language code "
-#| "used in generated filenames:"
 msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames:"
 msgstr ""
-"La opción :guilabel:`Estilo de código de idioma` le permite personalizados "
-"los códigos de idioma que se utilizarán en los nombres de archivo generados:"
+"La opción :ref:`component-language_code_style` le permite personalizar los "
+"códigos de idioma que se utilizarán en los nombres de archivo generados:"
 
 #: ../../formats.rst:1365
 msgid "Default based on the file format"
@@ -30301,22 +30299,16 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:351
-#, fuzzy
-#| msgid "Pushing changes to GitLab as merge requests"
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "Enviar cambios a GitLab como solicitudes de fusión"
+msgstr "Enviar cambios a Pagure como solicitudes de fusión"
 
 #: ../../vcs.rst:353
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitLab repository, they can be "
-#| "sent as either one or many merge requests instead."
 msgid ""
 "If not wanting to push translations to a Pagure repository, they can be sent "
 "as either one or many merge requests instead."
 msgstr ""
 "Si no se desea enviar las traducciones directamente a un repositorio en "
-"GitLab, estas pueden enviarse como una o múltiples solicitudes de fusión."
+"Pagure, estas pueden enviarse como una o múltiples solicitudes de fusión."
 
 #: ../../vcs.rst:360
 msgid ""
