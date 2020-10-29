@@ -67,36 +67,29 @@ def billing_notify():
 
 @app.task(trail=False)
 def notify_expired():
+    # Notify about expired billings
     possible_billings = Billing.objects.filter(
-        Q(state=Billing.STATE_ACTIVE) | Q(removal__isnull=False)
+        # Active without payment (checked later)
+        Q(state=Billing.STATE_ACTIVE)
+        # Scheduled removal
+        | Q(removal__isnull=False)
+        # Trials expiring soon
+        | Q(state=Billing.STATE_TRIAL, expiry__lte=timezone.now() + timedelta(days=7))
     ).exclude(projects__isnull=True)
     for bill in possible_billings:
-        if bill.state != Billing.STATE_EXPIRED and bill.check_payment_status(now=True):
+        if bill.state == Billing.STATE_ACTIVE and bill.check_payment_status(now=True):
             continue
-
-        for user in bill.get_notify_users():
-            send_notification_email(
-                user.profile.language,
-                [user.email],
-                "billing_expired",
-                context={
-                    "billing": bill,
-                    "payment_enabled": getattr(settings, "PAYMENT_ENABLED", False),
-                    "unsubscribe_note": _(
-                        "You will stop receiving this notification once "
-                        "you pay the bills or the project is removed."
-                    ),
-                },
-                info=bill,
+        if bill.plan.price:
+            note = _(
+                "You will stop receiving this notification once "
+                "you pay the bills or the project is removed."
+            )
+        else:
+            note = _(
+                "You will stop receiving this notification once "
+                "you change to regular subscription or the project is removed."
             )
 
-
-@app.task(trail=False)
-def trial_expired():
-    billings = Billing.objects.filter(
-        state=Billing.STATE_TRIAL, expiry__lte=timezone.now() + timedelta(days=7)
-    ).exclude(projects__isnull=True)
-    for bill in billings:
         for user in bill.get_notify_users():
             send_notification_email(
                 user.profile.language,
@@ -105,10 +98,7 @@ def trial_expired():
                 context={
                     "billing": bill,
                     "payment_enabled": getattr(settings, "PAYMENT_ENABLED", False),
-                    "unsubscribe_note": _(
-                        "You will stop receiving this notification once "
-                        "you change to regular subscription or the project is removed."
-                    ),
+                    "unsubscribe_note": note,
                 },
                 info=bill,
             )
@@ -167,9 +157,4 @@ def setup_periodic_tasks(sender, **kwargs):
         crontab(hour=2, minute=30, day_of_week="monday,thursday"),
         notify_expired.s(),
         name="notify-expired",
-    )
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="monday,thursday"),
-        trial_expired.s(),
-        name="trial-expired",
     )

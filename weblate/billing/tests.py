@@ -37,7 +37,6 @@ from weblate.billing.tasks import (
     notify_expired,
     perform_removal,
     schedule_removal,
-    trial_expired,
 )
 from weblate.trans.models import Project
 from weblate.trans.tests.utils import create_test_billing
@@ -285,7 +284,6 @@ class BillingTest(TestCase):
         # No expiry set
         billing_check()
         notify_expired()
-        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
@@ -299,7 +297,6 @@ class BillingTest(TestCase):
         self.billing.save(skip_limits=True)
         billing_check()
         notify_expired()
-        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
@@ -313,7 +310,6 @@ class BillingTest(TestCase):
         self.billing.save(skip_limits=True)
         billing_check()
         notify_expired()
-        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
@@ -330,7 +326,6 @@ class BillingTest(TestCase):
         self.billing.save(skip_limits=True)
         billing_check()
         notify_expired()
-        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_EXPIRED)
@@ -347,7 +342,6 @@ class BillingTest(TestCase):
         # There should be notification sent when removal is scheduled
         billing_check()
         notify_expired()
-        trial_expired()
         perform_removal()
         self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_EXPIRED)
