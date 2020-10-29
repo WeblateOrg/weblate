@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('billing', '0001_squashed_0020_auto_20200320_1007'),
+        ("billing", "0001_squashed_0020_auto_20200320_1007"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='billing',
-            name='grace_period',
+            model_name="billing",
+            name="grace_period",
         ),
     ]
