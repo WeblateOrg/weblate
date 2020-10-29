@@ -261,10 +261,9 @@ users.
     Can manage screenshots - add or remove them, and associate them to source
     strings.
 
-.. describe:: Template
+.. describe:: Sources
 
-    Can edit translation templates in :ref:`monolingual` and source string
-    info.
+    Can edit source strings in :ref:`monolingual` and source string info.
 
 .. describe:: Translate
 

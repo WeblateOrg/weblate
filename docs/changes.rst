@@ -12,6 +12,7 @@ Not yet released.
 * Newly created internal repositories now use main as default branch.
 * Reduced false positives rate of unchanged translation while translating reStructuredText.
 * Fixed CodeMirror display issues in some situations.
+* Renamed Template group to Sources to clarify its meaning.
 
 Weblate 4.3.1
 -------------

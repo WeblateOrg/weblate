@@ -221,7 +221,7 @@ GROUPS = (
 # Per project group definitions
 ACL_GROUPS = {
     pgettext("Per project access control group", "Translate"): "Translate",
-    pgettext("Per project access control group", "Template"): "Edit source",
+    pgettext("Per project access control group", "Sources"): "Edit source",
     pgettext("Per project access control group", "Languages"): "Manage languages",
     pgettext("Per project access control group", "Glossary"): "Manage glossary",
     pgettext("Per project access control group", "Memory"): "Manage translation memory",
