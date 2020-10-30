@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.27.1 (1db89cc) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.27.2 (7d683ba) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3855,9 +3855,10 @@ var Sentry = (function (exports) {
          * @param event event instance to be enhanced
          */
         BaseClient.prototype._applyClientOptions = function (event) {
-            var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b;
-            if (event.environment === undefined && environment !== undefined) {
-                event.environment = environment;
+            var options = this.getOptions();
+            var environment = options.environment, release = options.release, dist = options.dist, _a = options.maxValueLength, maxValueLength = _a === void 0 ? 250 : _a;
+            if (!('environment' in event)) {
+                event.environment = 'environment' in options ? environment : 'production';
             }
             if (event.release === undefined && release !== undefined) {
                 event.release = release;
@@ -5955,7 +5956,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.27.1';
+    var SDK_VERSION = '5.27.2';
 
     /**
      * The Sentry Browser SDK Client.
