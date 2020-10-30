@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-29 11:00+0100\n"
-"PO-Revision-Date: 2020-10-30 09:30+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"PO-Revision-Date: 2020-10-31 19:26+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -10472,31 +10472,21 @@ msgid "Installing on OpenShift"
 msgstr "在 OpenShift 上安装"
 
 #: ../../admin/install/openshift.rst:6
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database."
 msgid ""
 "With the OpenShift Weblate template you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate’s dependencies are "
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
-"通过 Openshift Weblate 模板，可以在几秒钟内启动并运行您的个人 Weblate 实例。Weblate 的所有依赖项已包含在内。"
-"PostgreSQL 被新建为默认数据库，并且使用持久化卷声明。"
+"使用OpenShift Weblate模板，您可以在几秒钟内启动并运行您的个人Weblate实例。Weblate的所有依赖项都已经包含在内。Postgre"
+"SQL被设置为默认数据库，并且使用持久化卷声明。"
 
 #: ../../admin/install/openshift.rst:14
-#, fuzzy
-#| msgid ""
-#| "The following examples assume you have a working Docker environment, with "
-#| "``docker-compose`` installed. Please check the Docker documentation for "
-#| "instructions."
 msgid ""
 "The following examples assume you have a working OpenShift v3.x environment, "
 "with ``oc`` client tool installed. Please check the OpenShift documentation "
 "for instructions."
-msgstr "以下示例假设有一个工作正常的 OpenShift v3.x 环境，并安装了 ``oc``客户端 。请查看 Openshift 文档以获取说明。"
+msgstr "下面的示例假设您有一个正常运作的OpenShift v3.x环境，它已经安装``oc``客户端工具。请查看OpenShift文档中的说明。"
 
 #: ../../admin/install/openshift.rst:19
 msgid "Web Console"
@@ -10539,10 +10529,8 @@ msgid ""
 msgstr "可以覆盖的参数列表列在模板的参数部分。可以通过使用后面的命令并指定要使用的文件通过 CLI 列出它们："
 
 #: ../../admin/install/openshift.rst:55
-#, fuzzy
-#| msgid "Permission checking"
 msgid "Provisioning"
-msgstr "置备"
+msgstr "服务开通"
 
 #: ../../admin/install/openshift.rst:57
 msgid ""
@@ -10557,32 +10545,21 @@ msgid ""
 msgstr "在成功地迁移并部署特定的``WEBLATE_SITE_DOMAIN``参数后，Weblate 事件就应该可用了。"
 
 #: ../../admin/install/openshift.rst:73
-#, fuzzy
-#| msgid ""
-#| "After container setup, you can sign in as `admin` user with password "
-#| "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password "
-#| "generated on first start if that was not set."
 msgid ""
 "After container setup, you can sign in as `admin` user with password "
 "provided in ``WEBLATE_ADMIN_PASSWORD``, or a random password generated on "
 "first start if that was not set."
 msgstr ""
 "设置容器之后，您可以使用 ``WEBLATE_ADMIN_PASSWORD`` 中提供的密码以 `管理员` "
-"用户身份登录，或者如果未设置该密码，则在首次启动时生成随机密码。"
+"用户身份登录，或者如果未设置密码，则使用首次启动时生成的随机密码。"
 
 #: ../../admin/install/openshift.rst:77
-#, fuzzy
-#| msgid ""
-#| "To reset `admin` password, restart the container with :envvar:"
-#| "`WEBLATE_ADMIN_PASSWORD` set to new password."
 msgid ""
 "To reset `admin` password, restart the container with "
 "``WEBLATE_ADMIN_PASSWORD`` set to new password in the respective ``Secret``."
-msgstr "要重置 `管理员` 密码，使用``WEBLATE_ADMIN_PASSWORD``在各自的``Secret``中设置新密码的情况下重启容器。"
+msgstr "要重置 `管理员` 密码，请在将``WEBLATE_ADMIN_PASSWORD``设置为相应的“Secret”中的新密码的情况下，重启容器。"
 
 #: ../../admin/install/openshift.rst:81
-#, fuzzy
-#| msgid "Terminated"
 msgid "Eliminate"
 msgstr "消除"
 
