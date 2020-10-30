@@ -127,6 +127,9 @@ class BaseExporter:
 
     def add_unit(self, unit):
         output = self.build_unit(unit)
+        # Propagate source language
+        if hasattr(output, "setsource"):
+            output.setsource(output.source, sourcelang=self.source_language.code)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
         for location in unit.location.split():
@@ -230,6 +233,12 @@ class PoExporter(BaseExporter):
 
 class XMLExporter(BaseExporter):
     """Wrapper for XML based exporters to strip control characters."""
+
+    def get_storage(self):
+        return self.storage_class(
+            sourcelanguage=self.source_language.code,
+            targetlanguage=self.language.code,
+        )
 
     def string_filter(self, text):
         return text.translate(_CHARMAP)
