@@ -81,7 +81,7 @@ Per project access control
 
 .. note::
  
-    This feature is not available for projects running Hosted Libre plan.
+    This feature is not available for projects running the Hosted Libre plan.
 
 You can limit user's access to individual projects. This feature is turned on by
 :guilabel:`Access control` in the configuration of each respective project.
