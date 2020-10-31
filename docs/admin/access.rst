@@ -41,11 +41,19 @@ all projects configured as `Public` (see :ref:`acl`).
 Per project permissions
 +++++++++++++++++++++++
 
+.. note::
+
+    This feature is not available for projects running the Hosted Libre plan.
+
 Set your projects to `Protected` or `Private`, and manage users per
 project in the Weblate interface.
 
 Adding permissions to languages, components or projects
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. note::
+
+    This feature is not available for projects running the Hosted Libre plan.
 
 You can additionally grant permissions to any user based on project, component or language
 set. To achieve this, create a new group (e.g. `Czech translators`) and
@@ -70,6 +78,10 @@ Per project access control
 
     By enabling ACL, all users are prohibited from accessing anything within a given
     project, unless you add the permissions for them to do just that.
+
+.. note::
+
+    This feature is not available for projects running the Hosted Libre plan.
 
 You can limit user's access to individual projects. This feature is turned on by
 :guilabel:`Access control` in the configuration of each respective project.
