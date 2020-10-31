@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-10-29 09:59+0000\n"
-"PO-Revision-Date: 2020-10-28 06:38+0000\n"
-"Last-Translator: Stanisław Stefan Krukowski <pet209a1@riseup.net>\n"
+"PO-Revision-Date: 2020-10-31 19:26+0000\n"
+"Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -970,14 +970,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Ta nazwa użytkownika jest już zajęta."
 
 #: weblate/accounts/views.py:1264
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
 msgstr ""
-"Nie można ukończyć rejestracji. Podane uwierzytelnienie, adres e-mail lub "
-"nazwa użytkownika są już używane dla innego konta."
+"Dostarczony identyfikator użytkownika jest już używany dla innego konta."
 
 #: weblate/accounts/views.py:1287 weblate/accounts/views.py:1300
 msgid "Notification settings adjusted."
@@ -3510,10 +3505,8 @@ msgid "Privacy"
 msgstr "Prywatność"
 
 #: weblate/legal/templates/legal/contracts.html:15 weblate/legal/views.py:36
-#, fuzzy
-#| msgid "contact"
 msgid "Subcontractors"
-msgstr "kontakt"
+msgstr "Podwykonawcy"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
@@ -3957,18 +3950,14 @@ msgid "Most active commenters"
 msgstr "Najbardziej aktywni komentatorzy"
 
 #: weblate/templates/about/stats.html:84
-#, fuzzy
-#| msgid "Projects"
 msgctxt "Number of projects"
 msgid "Projects"
 msgstr "Projekty"
 
 #: weblate/templates/about/stats.html:88
-#, fuzzy
-#| msgid "Components"
 msgctxt "Number of components"
 msgid "Components"
-msgstr "Komponenty"
+msgstr "Składniki"
 
 #: weblate/templates/about/stats.html:93
 msgid "Registered users"
@@ -4127,7 +4116,7 @@ msgstr ", wygaśnięcie %(expires)s"
 #: weblate/templates/accounts/hosting.html:25
 #, python-format
 msgid ", will be removed %(removal)s"
-msgstr ""
+msgstr ", zostaną usunięte %(removal)s"
 
 #: weblate/templates/accounts/hosting.html:27
 msgid "Pending approval"
@@ -4140,10 +4129,8 @@ msgid "Check user access"
 msgstr "Kontrola dostępu użytkownika"
 
 #: weblate/templates/accounts/hosting.html:61
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Unmet guidelines from the community localization checklist:"
-msgstr "Niepoznane wytyczne z listy kontrolnej lokalizacji społeczności:"
+msgstr "Niezaspokojone wytyczne z listy kontrolnej lokalizacji społeczności:"
 
 #: weblate/templates/accounts/hosting.html:74
 #: weblate/templates/component_info.html:56
@@ -6420,10 +6407,8 @@ msgid "Commit pending changes to the Weblate repository"
 msgstr "Zatwierdź oczekujące zmiany w repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "W lokalnym repozytorium znajdują się nowe zmiany."
+msgstr "Wychodzące zatwierdzenia w repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6438,10 +6423,8 @@ msgid "Missing commits in the Weblate repository"
 msgstr "Brak zatwierdzeń w repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "Pobierz zmiany ze zdalnego repozytorium"
+msgstr "Zaktualizuj za pomocą zmian ze zdalnego repozytorium"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
@@ -6670,10 +6653,9 @@ msgstr ""
 "zatwierdzenie darmowego planu."
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Your billing plan has expired and all its projects have been removed."
-msgstr "Twój abonament przekroczył swoje granice."
+msgstr ""
+"Twój plan rozliczeniowy wygasł, a wszystkie jego projekty zostały usunięte."
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
@@ -7055,12 +7037,9 @@ msgid "Not yet signed in"
 msgstr "Jeszcze nie zalogowany"
 
 #: weblate/templates/manage-access.html:57
-#, fuzzy, python-format
-#| msgid "This will permanently delete %(count)s entry from the glossary."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the glossary."
+#, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
-msgstr "Spowoduje to trwałe usunięcie %(count)s wpisu ze słownika."
+msgstr "Spowoduje to usunięcie <b>%(user)s</b> dostępu do tego projektu."
 
 #: weblate/templates/manage-access.html:71
 msgid "Resend invitation"
@@ -8028,53 +8007,39 @@ msgid "Sort By"
 msgstr "Sortuj po"
 
 #: weblate/templates/snippets/stats.html:6
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Number of used languages"
 msgid "Languages"
 msgstr "Języki"
 
 #: weblate/templates/snippets/stats.html:11
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of source strings"
 msgid "Source strings"
-msgstr "Teksty źródłowe"
+msgstr "Źródłowe ciągi znaków"
 
 #: weblate/templates/snippets/stats.html:16
-#, fuzzy
-#| msgid "Source words"
 msgctxt "Number of source words"
 msgid "Source words"
-msgstr "Wyrazy źródłowe"
+msgstr "Słowa źródłowe"
 
 #: weblate/templates/snippets/stats.html:21
-#, fuzzy
-#| msgid "Special characters"
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Znaki specjalne"
+msgstr "Znaki źródłowe"
 
 #: weblate/templates/snippets/stats.html:27
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Ciągi przetłumaczone"
+msgstr "Hostowane ciągi znaków"
 
 #: weblate/templates/snippets/stats.html:32
-#, fuzzy
-#| msgid "Untranslated words"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Nieprzetłumaczone słowa"
+msgstr "Hostowane słowa"
 
 #: weblate/templates/snippets/stats.html:37
-#, fuzzy
-#| msgid "Control characters"
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Kontrola znaków"
+msgstr "Hostowane znaki"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
