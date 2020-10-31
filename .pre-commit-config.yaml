@@ -41,8 +41,8 @@ repos:
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
-  - repo: https://github.com/prettier/prettier
-    rev: 2.1.2
+  - repo: https://github.com/prettier/pre-commit
+    rev: 83c5da9dc412f5a2294d6c67ab349e9d30caca31
     hooks:
       - id: prettier
         files: "\\.(\
@@ -56,7 +56,7 @@ repos:
           |yaml|yml\
           )$"
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.12.0
+    rev: v7.12.1
     hooks:
       - id: eslint
         args: ["--format=compact"]
