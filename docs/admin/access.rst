@@ -42,7 +42,7 @@ Per project permissions
 +++++++++++++++++++++++
 
 .. note::
- 
+
     This feature is not available for projects running the Hosted Libre plan.
 
 Set your projects to `Protected` or `Private`, and manage users per
@@ -52,7 +52,7 @@ Adding permissions to languages, components or projects
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. note::
- 
+
     This feature is not available for projects running the Hosted Libre plan.
 
 You can additionally grant permissions to any user based on project, component or language
@@ -80,7 +80,7 @@ Per project access control
     project, unless you add the permissions for them to do just that.
 
 .. note::
- 
+
     This feature is not available for projects running the Hosted Libre plan.
 
 You can limit user's access to individual projects. This feature is turned on by
