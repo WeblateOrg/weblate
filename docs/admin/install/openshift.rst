@@ -31,7 +31,7 @@ library, pass the :file:`template.yml` file with the following command:
 
 .. code:: bash
 
-   $ oc create -f https://raw.githubusercontent.com/WeblateOrg/weblate/master/openshift3/template.yml \
+   $ oc create -f https://raw.githubusercontent.com/WeblateOrg/openshift/main/template.yml \
       -n <PROJECT>
 
 The template is now available for selection using the web console or the
@@ -46,7 +46,7 @@ using the following command and specifying the file to be used:
 
 .. code:: bash
 
-   $ oc process --parameters -f https://raw.githubusercontent.com/WeblateOrg/weblate/master/openshift3/template.yml
+   $ oc process --parameters -f https://raw.githubusercontent.com/WeblateOrg/openshift/main/template.yml
 
    # If the template is already uploaded
    $ oc process --parameters -n <PROJECT> weblate
@@ -59,7 +59,7 @@ that is generated to create objects immediately.
 
 .. code:: bash
 
-   $ oc process -f https://raw.githubusercontent.com/WeblateOrg/weblate/master/openshift3/template.yml \
+   $ oc process -f https://raw.githubusercontent.com/WeblateOrg/openshift/main/template.yml \
        -p APPLICATION_NAME=weblate \
        -p WEBLATE_VERSION=4.3.1-1 \
        -p WEBLATE_SITE_DOMAIN=weblate.app-openshift.example.com \
