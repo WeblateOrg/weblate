@@ -43,7 +43,7 @@ Per project permissions
 
 .. note::
  
-    This feature is not available for projects running Hosted Libre plan.
+    This feature is not available for projects running the Hosted Libre plan.
 
 Set your projects to `Protected` or `Private`, and manage users per
 project in the Weblate interface.
