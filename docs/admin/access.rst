@@ -53,7 +53,7 @@ Adding permissions to languages, components or projects
 
 .. note::
  
-    This feature is not available for projects running Hosted Libre plan.
+    This feature is not available for projects running the Hosted Libre plan.
 
 You can additionally grant permissions to any user based on project, component or language
 set. To achieve this, create a new group (e.g. `Czech translators`) and
