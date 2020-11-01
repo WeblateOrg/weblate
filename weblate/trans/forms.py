@@ -1643,7 +1643,9 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
                 discovered.append(item)
             return discovered
         self.clean_instance(kwargs["initial"])
-        discovered = discover(self.instance.full_path)
+        discovered = discover(
+            self.instance.full_path, source_language=self.instance.source_language.code
+        )
         request.session["create_discovery"] = discovered
         request.session["create_discovery_meta"] = [x.meta for x in discovered]
         return discovered
