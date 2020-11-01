@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-29 11:00+0100\n"
-"PO-Revision-Date: 2020-10-23 09:38+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-11-02 14:29+0000\n"
+"Last-Translator: Stanisław Stefan Krukowski <pet209a1@riseup.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3.1\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -78,19 +78,14 @@ msgid "Locking down Weblate"
 msgstr "Blokowanie Weblate"
 
 #: ../../admin/access.rst:30
-#, fuzzy
-#| msgid ""
-#| "To completely lock down your Weblate installation, you can use :setting:"
-#| "`LOGIN_REQUIRED_URLS` to force users to sign in and :setting:"
-#| "`REGISTRATION_OPEN` to prevent new registrations."
 msgid ""
 "To completely lock down your Weblate installation, you can use :setting:"
 "`REQUIRE_LOGIN` to force users to sign in and :setting:`REGISTRATION_OPEN` "
 "to prevent new registrations."
 msgstr ""
-"Aby całkowicie zablokować instalację Weblate, możesz użyć :"
-"ustawienie:'LOGIN_REQUIRED_URLS', aby zmusić użytkowników do logowania się "
-"i :REGISTRATION_OPEN', aby zapobiec nowym rejestracjom."
+"Aby całkowicie zablokować instalację Weblate, możesz użyć ustawienia: "
+"`REQUIRE_LOGIN`aby zmusić użytkowników do logowania się i "
+"ustawienia:`REGISTRATION_OPEN`, aby zapobiec nowym rejestracjom."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -145,7 +140,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:62
-#, fuzzy
 msgid ":ref:`perm-check`"
 msgstr ":ref:`perm-check`"
 
@@ -534,10 +528,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:321
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Delete comment [`Administration`]"
-msgstr "Administracja Weblate"
+msgstr "Usuń komentarz [`Administration`]"
 
 #: ../../admin/access.rst:326
 msgid "Component"
@@ -548,10 +540,8 @@ msgid "Edit component settings [`Administration`]"
 msgstr "Edytuj ustawienia komponentu[`Administration`]"
 
 #: ../../admin/access.rst:326
-#, fuzzy
-#| msgid "Lock component, preventing translations"
 msgid "Lock component, preventing it from being translated [`Administration`]"
-msgstr "Blokuj komponent, uniemożliwiając tłumaczenia"
+msgstr "Zablokuj komponent, aby zapobiec jego tłumaczeniu [`Administration`]"
 
 #: ../../admin/access.rst:335 ../../api.rst:2139 ../../user/translating.rst:216
 #: ../../user/translating.rst:253
@@ -581,26 +571,20 @@ msgid "Automatic suggestions"
 msgstr "Automatyczne sugestie"
 
 #: ../../admin/access.rst:338
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Use automatic suggestions [`Administration`, `Power user`]"
-msgstr "Rozpocznij nowe tłumaczenie na więcej języków"
+msgstr "Użyj sugestii automatycznych [`Administration`, `Power user`]"
 
 #: ../../admin/access.rst:343 ../../api.rst:736
 msgid "Projects"
 msgstr "Projekty"
 
 #: ../../admin/access.rst:341
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Edit project settings [`Administration`]"
-msgstr "Edytuj ustawienia projektu"
+msgstr "Edytuj ustawienia projektu [`Administration`]"
 
 #: ../../admin/access.rst:343
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage project access [`Administration`]"
-msgstr "Zarządzaj dostępem do projektu"
+msgstr "Zarządzaj dostępem do projektu [`Administration`]"
 
 #: ../../admin/access.rst:346
 msgid "Reports"
@@ -639,10 +623,8 @@ msgid "Strings"
 msgstr "Teksty"
 
 #: ../../admin/access.rst:359
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Add new strings [`Administration`]"
-msgstr "Dodaj nowy ciąg tłumaczenia"
+msgstr "Dodaj nowe ciągi znaków [`Administration`]"
 
 #: ../../admin/access.rst:361
 msgid ""
@@ -661,12 +643,12 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr ""
 
 #: ../../admin/access.rst:367
-#, fuzzy
-#| msgid "Edit string when suggestions are enforced"
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
-msgstr "Edytuj ciąg po wymuszeniu sugestii"
+msgstr ""
+"Edytuj ciąg znaków, gdy sugestie są wymuszone [`Administration`, `Review "
+"strings`]"
 
 #: ../../admin/access.rst:369
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
@@ -690,10 +672,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:376
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Delete suggestions [`Administration`]"
-msgstr "Usuń sugestię"
+msgstr "Usuń sugestie [`Administration`]"
 
 #: ../../admin/access.rst:378
 msgid ""
@@ -706,11 +686,11 @@ msgid "Translations"
 msgstr "Tłumaczenia"
 
 #: ../../admin/access.rst:381
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 "Start new translation [`Administration`, `Manage languages`, `Power user`]"
-msgstr "Rozpocznij nowe tłumaczenie na więcej języków"
+msgstr ""
+"Rozpocznij nowe tłumaczenie [`Administration`, `Manage languages`, `Power "
+"user`]"
 
 #: ../../admin/access.rst:383
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
@@ -721,21 +701,18 @@ msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgstr ""
 
 #: ../../admin/access.rst:387
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 "Start translation into a new language [`Administration`, `Manage languages`]"
-msgstr "Rozpocznij nowe tłumaczenie na więcej języków"
+msgstr ""
+"Rozpocznij tłumaczenie w nowym jezyku [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:394
 msgid "Uploads"
 msgstr ""
 
 #: ../../admin/access.rst:390
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "Define author of translation upload [`Administration`]"
-msgstr "Zdefiniuj autora przesyłającego tłumaczenie"
+msgstr "Określ autora wczytanego tłumaczenia [`Administration`]"
 
 #: ../../admin/access.rst:392
 msgid ""
@@ -760,28 +737,28 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:399
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid ""
 "Commit changes to the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "Zatwierdź zmiany w wewnętrznym repozytorium"
+msgstr ""
+"Prześlij zmiany do repozytorium wewnętrznego [`Administration`, `Manage "
+"repository`]"
 
 #: ../../admin/access.rst:401
-#, fuzzy
-#| msgid "Push change from the internal repository"
 msgid ""
 "Push change from the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "Przekaż zmianę z wewnętrznego repozytorium"
+msgstr ""
+"Wypchnij (ang. push) zmianę z wewnętrznego repozytorium [`Administration`, `"
+"Manage repository`]"
 
 #: ../../admin/access.rst:403
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
 msgid ""
 "Reset changes in the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "Zresetuj zmiany w wewnętrznym repozytorium"
+msgstr ""
+"Zresetuj zmiany w repozytorium wewnętrznym [`Administration`, `Manage "
+"repository`]"
 
 #: ../../admin/access.rst:405
 msgid ""
@@ -790,10 +767,9 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:407
-#, fuzzy
-#| msgid "Update the internal repository"
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
-msgstr "Zaktualizuj wewnętrzne repozytorium"
+msgstr ""
+"Zaktualizuj wewnętrzne repozytorium [`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:428
 msgid "Site wide privileges"
@@ -1278,10 +1254,6 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "Zaktualizuj pliki PO, aby dopasować POT (msgmerge)"
 
 #: ../../admin/addons.rst:256
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository and updates all "
@@ -1290,7 +1262,9 @@ msgid ""
 msgstr ""
 "Aktualizuje wszystkie pliki PO, aby pasowały do pliku POT przy użyciu "
 "msgmerge. Wywoływane za każdym razem, gdy nowe zmiany są pobierane z "
-"repozytorium nadrzędnego."
+"repozytorium nadrzędnego (ang. upstream) i aktualizuje wszystkie pliki "
+"tłumaczenia, aby pasowały do :ref:`component-new_base` . Większość opcji "
+"wiersza poleceń msgmerge można skonfigurować poprzez konfigurację dodatku."
 
 #: ../../admin/addons.rst:264
 msgid "Squash Git commits"
@@ -1321,17 +1295,13 @@ msgid "Per author"
 msgstr "Dla autora"
 
 #: ../../admin/addons.rst:280
-#, fuzzy
-#| msgid ""
-#| "Original commit messages are kept, but authorship is lost unless \"Per "
-#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 "Oryginalne komunikaty zatwierdzenia są zachowywane, ale autorstwo zostaje "
-"utracone, chyba że wybrano opcję „Na autora” lub dostosowano komunikat "
-"zatwierdzenia, aby go uwzględnić."
+"utracone, chyba że wybrano dla autora opcję :guilabel:`Per author`lub "
+"dostosowano komunikat zatwierdzenia, aby go uwzględnić."
 
 #: ../../admin/addons.rst:285
 msgid ""
@@ -2150,10 +2120,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:496
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "Active Directory integration"
-msgstr "Testuj integrację Sentry"
+msgstr "Integracja Active Directory"
 
 #: ../../admin/auth.rst:525
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
@@ -2391,10 +2359,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:113
-#, fuzzy
-#| msgid "Run backup"
 msgid "Remote backups"
-msgstr "Uruchom kopię zapasową"
+msgstr "Zdalne kopie zapasowe"
 
 #: ../../admin/backup.rst:115
 msgid ""
