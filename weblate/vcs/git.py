@@ -1107,15 +1107,10 @@ class PagureRepository(GitMergeRequestBase):
 
         Use to merge branch in forked repository into branch of remote repository.
         """
-        if fork_remote == "origin":
-            if credentials["owner"]:
-                pr_url = "{url}/{owner}/{slug}/pull-request/new".format(**credentials)
-            else:
-                pr_url = "{url}/{slug}/pull-request/new".format(**credentials)
+        if credentials["owner"]:
+            pr_url = "{url}/{owner}/{slug}/pull-request/new".format(**credentials)
         else:
-            pr_url = "{url}/fork/{username}/{slug}/pull-request/new".format(
-                **credentials
-            )
+            pr_url = "{url}/{slug}/pull-request/new".format(**credentials)
         title, description = self.get_merge_message()
         request = {
             "branch_from": fork_branch,
@@ -1123,6 +1118,10 @@ class PagureRepository(GitMergeRequestBase):
             "title": title,
             "initial_comment": description,
         }
+        if fork_remote != "origin":
+            request["repo_from"] = credentials["slug"]
+            request["repo_from_username"] = credentials["username"]
+
         response, error_message = self.request("post", credentials, pr_url, request)
 
         if "id" not in response:
