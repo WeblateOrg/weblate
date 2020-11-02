@@ -636,6 +636,10 @@ class DashboardTest(ViewTestCase):
         response = self.client.get(reverse("projects"))
         self.assertContains(response, "Test")
 
+    def test_view_projects_slash(self):
+        response = self.client.get("/projects")
+        self.assertRedirects(response, reverse("projects"), status_code=301)
+
     def test_home_with_announcement(self):
         msg = Announcement(message="test_message")
         msg.save()

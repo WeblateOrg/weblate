@@ -23,7 +23,8 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
 from django.http import Http404, HttpResponsePermanentRedirect
-from django.urls import reverse
+from django.urls import is_valid_path, reverse
+from django.utils.http import escape_leading_slashes
 
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
@@ -83,7 +84,24 @@ class RedirectMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        return self.get_response(request)
+        response = self.get_response(request)
+        # This is based on APPEND_SLASH handling in Django
+        if response.status_code == 404:
+            if self.should_redirect_with_slash(request):
+                new_path = request.get_full_path(force_append_slash=True)
+                # Prevent construction of scheme relative urls.
+                new_path = escape_leading_slashes(new_path)
+                return HttpResponsePermanentRedirect(new_path)
+        return response
+
+    def should_redirect_with_slash(self, request):
+        path = request.path_info
+        # Avoid redirecting non GET requests, these would fail anyway
+        if path.endswith("/") or request.method != "GET":
+            return False
+        urlconf = getattr(request, "urlconf", None)
+        slash_path = f"{path}/"
+        return not is_valid_path(path, urlconf) and is_valid_path(slash_path, urlconf)
 
     def fixup_language(self, lang):
         return Language.objects.fuzzy_get(code=lang, strict=True)
