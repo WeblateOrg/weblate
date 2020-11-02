@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-02 14:29+0000\n"
-"PO-Revision-Date: 2020-10-31 19:26+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2020-11-02 17:24+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -1952,11 +1952,9 @@ msgid "Translate"
 msgstr "Traduire"
 
 #: weblate/auth/data.py:224
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per project access control group"
 msgid "Sources"
-msgstr "Source"
+msgstr "Sources"
 
 #: weblate/auth/data.py:225
 msgctxt "Per project access control group"
@@ -3762,7 +3760,7 @@ msgstr "Image"
 
 #: weblate/screenshots/models.py:56
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr "Téléverser des images JPEG ou PNG jusqu’à 2000 × 2000 pixels."
+msgstr "Téléverser des images JPEG ou PNG jusqu’à 2000 × 2000 pixels."
 
 #: weblate/screenshots/views.py:99
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
@@ -4091,6 +4089,8 @@ msgstr "S’inscrire"
 #: weblate/templates/accounts/email-sent.html:12
 msgid "Please check your mailbox for the confirmation link."
 msgstr ""
+"Veuillez vérifier votre boîte aux lettres électronique pour le lien de "
+"confirmation."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4144,10 +4144,7 @@ msgstr ""
 "l’utilisiez, veuillez vous inscrire de nouveau."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please contact us."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
@@ -4155,7 +4152,7 @@ msgid ""
 msgstr ""
 "Si vous ne le recevez pas rapidement, veuillez vérifier votre dossier des "
 "pourriels ou réessayer de vous inscrire. Si le problème persiste, veuillez "
-"nous contacter."
+"<a href=\"%(contact_url)s\">nous contacter</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6560,12 +6557,13 @@ msgid ""
 "Reset removes all changes in Weblate and resets the repository to match "
 "upstream. Use with caution."
 msgstr ""
+"La réinitialisation supprime tous les changements dans Weblate et "
+"réinitialise le dépôt pour qu’il corresponde à celui en amont. À utiliser "
+"avec prudence."
 
 #: weblate/templates/js/git-status.html:104
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Maintenance"
-msgstr "Maintenance du dépôt"
+msgstr "Maintenance"
 
 #: weblate/templates/js/git-status.html:109
 msgid "Reset all changes in the Weblate repository"
@@ -6790,15 +6788,12 @@ msgstr ""
 "facturation seront supprimés le %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Si vous ne procédez pas au règlement, tous les projets dans ce plan de "
+"Si votre essai libre n’est pas approuvé, tous les projets dans ce plan de "
 "facturation seront supprimés le %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
