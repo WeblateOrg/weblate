@@ -34,7 +34,11 @@
     <p><strong>{% trans "All projects covered by this billing plan have been removed." %}</strong></p>
 {% else %}
     {% if billing.removal %}
+      {% if billing.plan.price %}
         <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
+      {% else %}
+        <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If your libre trial will not be approved, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
+      {% endif %}
     {% endif %}
 
     {% if payment_enabled %}
