@@ -194,7 +194,7 @@ def update_remotes():
     if settings.AUTO_UPDATE not in ("full", "remote", True, False):
         return
 
-    for component in Component.objects.with_repo().prefetch():
+    for component in Component.objects.with_repo().iterator():
         perform_update("Component", -1, auto=True, obj=component)
 
 
