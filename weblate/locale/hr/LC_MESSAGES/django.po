@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-10-29 09:59+0000\n"
-"PO-Revision-Date: 2020-10-28 06:38+0000\n"
+"PO-Revision-Date: 2020-11-02 14:29+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -353,7 +353,7 @@ msgstr "Račun i svi privatni podaci su uklonjeni."
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "Ugovor o uvjetima pružanja usluge {date}."
+msgstr "Ugovor o uvjetima usluge {date}."
 
 #: weblate/accounts/models.py:99
 #, python-brace-format
@@ -3431,8 +3431,8 @@ msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
-"Imamo novu verziju dokumenta uvjeta usluge. Pročitaj ga i potvrdi da se "
-"slažeš s uvjetima."
+"Objavljena je nova verzija dokumenta uvjeta usluge. Pročitaj dokument i "
+"potvrdi da se slažeš s uvjetima."
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/contracts.html:6
@@ -3483,7 +3483,7 @@ msgid ""
 "should still read the original documents to fully understand them:"
 msgstr ""
 "Ova se stranica zasniva na uvjetima usluge i politike privatnosti. Za bolje "
-"razumijevanje, pročitaj originalni dokument:"
+"razumijevanje, pročitaj izvorni dokument:"
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:23
@@ -3530,7 +3530,7 @@ msgstr "Za analiziranje prometa na web stranicama koristimo Google Analytics."
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
-msgstr "Pregled pravnih pojmova"
+msgstr "Pregled pravnih uvjeta"
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:34
 msgid "Security"
@@ -3656,7 +3656,7 @@ msgstr "Slika"
 
 #: weblate/screenshots/models.py:56
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr "Prenesi JPEG ili PNG slike do 2000 × 2000 piksela."
+msgstr "Prenesi JPEG ili PNG slike veličine do 2000 × 2000 piksela."
 
 #: weblate/screenshots/views.py:99
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
@@ -3801,8 +3801,7 @@ msgstr "Hosting prijevoda"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
-"Ova Weblate instanca sadrži hosting prijevoda raznih projekata slobodnog "
-"softvera."
+"Ova Weblate instalacija sadrži prijevode raznih projekata slobodnog softvera."
 
 #: weblate/templates/about/index.html:29
 msgid "Weblate can host your project as well, please get in touch."
@@ -3854,8 +3853,8 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"Weblate koristi SSH ključ za pristup udaljenom repozitoriju. Dolje naveden "
-"javni ključ možeš koristiti za dozvoljavanje Weblateu pristup repozitoriju."
+"Weblate koristi SSH ključ za pristup udaljenom repozitoriju. Ispod navedenim "
+"javnim ključem možeš dozvoliti Weblateu pristup repozitoriju."
 
 #: weblate/templates/about/keys.html:27
 msgid "SSH key not available."
@@ -3871,8 +3870,8 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Sve izmjene napravljene s Weblateom potpisuju se s GPG ključem "
-"%(gpg_key_id)s, čiji se odgovarajući javni ključ nalazi ispod."
+"Sve napravljene izmjene s Weblateom potpisuju se s GPG ključem %(gpg_key_id)"
+"s, čiji se odgovarajući javni ključ nalazi ispod."
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
@@ -3948,7 +3947,7 @@ msgstr ""
 
 #: weblate/templates/accounts/contact.html:14
 msgid "You can contact maintainers of this server here."
-msgstr "Ovdje možeš kontaktirati održavatelja poslužitelja."
+msgstr "Ovdje možeš kontaktirati održavatelje poslužitelja."
 
 #: weblate/templates/accounts/contact.html:15
 #, python-format
@@ -4068,7 +4067,7 @@ msgstr ", isteče %(expires)s"
 #: weblate/templates/accounts/hosting.html:25
 #, python-format
 msgid ", will be removed %(removal)s"
-msgstr ""
+msgstr ", uklonit će se %(removal)s"
 
 #: weblate/templates/accounts/hosting.html:27
 msgid "Pending approval"
@@ -5162,11 +5161,11 @@ msgstr ""
 
 #: weblate/templates/billing/status.html:8
 msgid "Current plan"
-msgstr "Trenutačni plan"
+msgstr "Trenutačna tarifa"
 
 #: weblate/templates/billing/status.html:13
 msgid "Change plan"
-msgstr "Promijeni plan"
+msgstr "Promijeni tarifu"
 
 #: weblate/templates/billing/status.html:19
 msgid "Monthly price"
@@ -5296,16 +5295,15 @@ msgstr "Podaci"
 msgid ""
 "Customizable quality checks will help you improve the quality of "
 "translations."
-msgstr ""
-"Prilagodljive provjere kvalitete će ti pomoći poboljšati kvalitetu prijevoda."
+msgstr "Prilagodljive provjere kvalitete pomažu poboljšati kvalitetu prijevoda."
 
 #: weblate/templates/checks.html:45
 msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Provjere ti mogu pomoći prepoznati problematične prijevode ili izvorne "
-"izraze koje je teško prevesti."
+"Provjere pomažu prepoznati problematične prijevode ili izvorne izraze koje "
+"je teško prevesti."
 
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:55
 #: weblate/templates/language-project.html:31
@@ -5564,8 +5562,8 @@ msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Možeš zamijeniti sve slučajeve izraza. Pretraživanje je jednostavna pretraga "
-"podnizova, osjetljiva na velika/mala slova."
+"Možeš zamijeniti sve slučajeve izraza. Pretražuju se podnizovi izraza uz "
+"razlikovanje velikih/malih slova."
 
 #: weblate/templates/component.html:202 weblate/templates/project.html:100
 #: weblate/templates/replace.html:52 weblate/templates/translation.html:267
@@ -5875,27 +5873,26 @@ msgstr ""
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
-msgstr "Obavještajne petlje"
+msgstr "Pokretači obavijesti"
 
 #: weblate/templates/data.html:96
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
 msgstr ""
-"S obavještajnim petljama će Weblate automatski uvesti promjene koje su "
-"napravili tvoji programeri i na taj način omogućuje kontinuiranu "
-"lokalizaciju."
+"S pokretačima obavijesti Weblate automatski uvozi promjene koje su napravili "
+"tvoji programeri te omogućuje kontinuiranu lokalizaciju."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
-msgstr "Petlja"
+msgstr "Pokretač"
 
 #: weblate/templates/data.html:123
 msgid ""
 "As an example, telling Weblate to pull from a remote repository can be done "
 "thusly:"
 msgstr ""
-"Na primjer, naredba Webplateu za preuzimanje s udaljenog repozitorija, može "
+"Na primjer, naredba Webplateu za preuzimanje s udaljenog repozitorija može "
 "se obaviti na sljedeći način:"
 
 #: weblate/templates/data.html:132
@@ -6034,7 +6031,7 @@ msgid ""
 "to contribute please get in touch with the project maintainers."
 msgstr ""
 "Ovaj je prijevod otvoren samo ograničenoj grupi prevodilaca. Ako želiš "
-"doprinijeti, obrati se voditeljima projekta."
+"doprinijeti, obrati se održavateljima projekta."
 
 #: weblate/templates/engage.html:56
 msgid ""
@@ -7366,8 +7363,8 @@ msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
 msgstr ""
-"Održavatelji projekata se obaviještavaju o ovom zahtjevu, kako bi ručno "
-"dodali jezik."
+"Održavatelji projekta se obavještavaju o ovom zahtjevu, kako bi ručno dodali "
+"jezik."
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
@@ -7602,7 +7599,7 @@ msgstr ""
 #: weblate/templates/snippets/about.html:5
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
-msgstr "Daljnje informacije o Weblateu nađi na %(weblate_link)s."
+msgstr "Nađi daljnje informacije o Weblateu na %(weblate_link)s."
 
 #: weblate/templates/snippets/about.html:7
 msgid "Weblate is libre software created by volunteers, and accepts donations."
@@ -10169,7 +10166,7 @@ msgstr "%(action)s u %(time)s za %(translation)s od %(user)s"
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:115
 msgid "Contact maintainers"
-msgstr "Obrati se odgovornima"
+msgstr "Obrati se održavateljima"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:117
@@ -11305,7 +11302,7 @@ msgstr "Uključi se u {0}!"
 #: weblate/trans/views/basic.py:413
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr "Voditeljima projekta je poslan zahtjev za novim prijevodom."
+msgstr "Održavateljima projekta je poslan zahtjev za novim prijevodom."
 
 #: weblate/trans/views/changes.py:74
 #, python-format
