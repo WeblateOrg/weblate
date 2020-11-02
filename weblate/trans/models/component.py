@@ -914,6 +914,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             }
         self._sources_prefetched = True
 
+    def unload_sources(self):
+        self._sources = {}
+        self._sources_prefetched = False
+
     def get_source(self, id_hash, create=None):
         """Cached access to source info."""
         from weblate.trans.models import Unit
@@ -1761,7 +1765,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.store_background_task()
         # Ensure we start from fresh template
         self.drop_template_store_cache()
-        self._sources_prefetched = False
+        self.unload_sources()
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
@@ -1898,6 +1902,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if was_change:
             self.update_variants()
             component_post_update.send(sender=self.__class__, component=self)
+
+        self.unload_sources()
 
         self.log_info("updating completed")
         return was_change
