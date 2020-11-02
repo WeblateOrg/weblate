@@ -216,6 +216,9 @@ class Flags:
 
     @staticmethod
     def format_value(value):
+        # Regexp objects
+        if hasattr(value, "pattern"):
+            value = value.pattern
         if any(c in value for c in SYNTAXCHARS):
             return '"{}"'.format(value.replace('"', r"\""))
         return value
