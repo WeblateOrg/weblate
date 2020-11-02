@@ -23,26 +23,26 @@ class NotifyLexicon(BaseAddon):
 
     def post_commit(self, component, translation=None):
         """Notify Lexicon after committing changes."""
-        env = os.environ.get("ENVIRONMENT", "prod")
         component_name = "{}/{}".format(component.project.slug, component.slug)
 
         for translation in component.translation_set.iterator():
-            language_code = translation.language.code
-            url = self.lexicon_url_template.format(
-                env=env, component_name=component_name, language_code=language_code,
-            )
-            response = request(
-                "get",
-                url,
-                headers={
-                    "Authorization": "Token {}".format(
-                        os.environ.get("WEBLATE_ADMIN_API_TOKEN")
-                    )
-                },
-            )
-            if response.status_code != requests.codes.ok:
-                LOGGER.error(
-                    "Unable to notify lexicon of changes to (%s, %s)",
-                    component_name,
-                    language_code,
+            for env in ('demo', 'prod'):
+                language_code = translation.language.code
+                url = self.lexicon_url_template.format(
+                    env=env, component_name=component_name, language_code=language_code,
                 )
+                response = request(
+                    "get",
+                    url,
+                    headers={
+                        "Authorization": "Token {}".format(
+                            os.environ.get("WEBLATE_ADMIN_API_TOKEN")
+                        )
+                    },
+                )
+                if response.status_code != requests.codes.ok:
+                    LOGGER.error(
+                        "Unable to notify lexicon of changes to (%s, %s)",
+                        component_name,
+                        language_code,
+                    )
