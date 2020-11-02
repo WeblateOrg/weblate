@@ -12,13 +12,14 @@
 # Michal Čihař <michal@cihar.com>, 2020.
 # José Elias Júnior <jose.elias.0703@gmail.com>, 2020.
 # Marvin SIlc <marvinsilc@protonmail.ch>, 2020.
+# Igor Benek-Lins <beneklins@protonmail.ch>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-02 14:29+0000\n"
-"PO-Revision-Date: 2020-10-22 05:59+0000\n"
-"Last-Translator: Marvin SIlc <marvinsilc@protonmail.ch>\n"
+"PO-Revision-Date: 2020-11-03 12:16+0000\n"
+"Last-Translator: Igor Benek-Lins <beneklins@protonmail.ch>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -26,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.1\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -900,20 +901,18 @@ msgstr ""
 "Adicione outra identidade para confirmar seu endereço de e-mail primeiro."
 
 #: weblate/accounts/views.py:1146
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "Could not complete registration."
-msgstr "Você não pode concluir o registro estando autenticado."
+msgstr "Impossível de concluir o registro."
 
 #: weblate/accounts/views.py:1149
 msgid "Please check if you have already registered an account."
 msgstr ""
 
 #: weblate/accounts/views.py:1151
-#, fuzzy
-#| msgid "You can not change password to the one you were using!"
 msgid "You can also request a new password, if you have lost your credentials."
-msgstr "Você não pode alterar a senha para a que já está usando!"
+msgstr ""
+"Se você perdeu as suas credenciais, você também pode solicitar uma nova "
+"senha."
 
 #: weblate/accounts/views.py:1161
 msgid ""
@@ -4078,17 +4077,15 @@ msgstr ""
 "novamente."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please contact us."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
-"Caso você não tenha recebido o e-mail, verifique a pasta de spam ou tente o "
-"registro novamente. Se o problema persistir, entre em contato."
+"Caso você não o receba rapidamente, por favor verifique a sua pasta de spam "
+"ou tente se registrar novamente. Se o problema persistir, <a href=\""
+"%(contact_url)s\">contate-nos</a><a>.</a>"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
