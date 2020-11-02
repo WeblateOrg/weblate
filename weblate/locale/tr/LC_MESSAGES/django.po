@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-02 14:29+0000\n"
-"PO-Revision-Date: 2020-11-02 14:29+0000\n"
+"PO-Revision-Date: 2020-11-03 12:16+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -1895,11 +1895,9 @@ msgid "Translate"
 msgstr "Çevir"
 
 #: weblate/auth/data.py:224
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per project access control group"
 msgid "Sources"
-msgstr "Kaynak"
+msgstr "Kaynaklar"
 
 #: weblate/auth/data.py:225
 msgctxt "Per project access control group"
@@ -3991,7 +3989,7 @@ msgstr "Kayıt"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "Please check your mailbox for the confirmation link."
-msgstr ""
+msgstr "Onay bağlantısı için lütfen posta kutunuzu gözden geçirin."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4042,10 +4040,7 @@ msgid ""
 msgstr "Onaylama bağlantısı siz kullanamadan eskirse, yeniden kaydolun."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please contact us."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
@@ -4053,7 +4048,7 @@ msgid ""
 msgstr ""
 "Eğer kısa sürede almazsanız, lütfen gereksiz/istenmeyen iletiler klasörünü "
 "gözden geçirin ya da yeniden kaydolmayı deneyin. Eğer sorun sürerse, lütfen "
-"bizimle iletişime geçin."
+"<a href=\"%(contact_url)s\">bize ulaşın</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6417,12 +6412,12 @@ msgid ""
 "Reset removes all changes in Weblate and resets the repository to match "
 "upstream. Use with caution."
 msgstr ""
+"Sıfırla, Weblate'teki tüm değişiklikleri kaldırır ve depoyu yukarı akışla "
+"eşleşecek şekilde sıfırlar. Dikkatle kullanın."
 
 #: weblate/templates/js/git-status.html:104
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Maintenance"
-msgstr "Depo bakımı"
+msgstr "Bakım"
 
 #: weblate/templates/js/git-status.html:109
 msgid "Reset all changes in the Weblate repository"
@@ -6642,16 +6637,13 @@ msgstr ""
 "tarihinde kaldırılacaktır."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Ödemeyi yapmazsanız, bu faturalandırma planındaki tüm projeler %(date)s "
-"tarihinde kaldırılacaktır."
+"Eğer özgür deneme süreniz onaylanmayacaksa, bu faturalandırma planındaki tüm "
+"projeler %(date)s tarihinde kaldırılacaktır."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
