@@ -1072,8 +1072,8 @@ class Translation(
                     user=user,
                     author=user,
                 )
-            self.component.create_translations(request=request)
             self.git_commit(user, user.get_author_name())
+        self.component.create_translations(request=request)
 
     def delete_unit(self, request, unit):
         from weblate.auth.models import get_anonymous
