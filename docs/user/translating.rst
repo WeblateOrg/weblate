@@ -152,9 +152,21 @@ The following keyboard shortcuts can be utilized during translation:
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt End`                            | Navigate to last translation in current search.                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt PageUp`                         | Navigate to previous translation in current search.                   |
+| :kbd:`Alt PageUp` or                      | Navigate to previous translation in current search.                   |
+|                                           |                                                                       |
+| :kbd:`Ctrl ↑` or                          |                                                                       |
+|                                           |                                                                       |
+| :kbd:`Alt ↑` or                           |                                                                       |
+|                                           |                                                                       |
+| :kbd:`Cmd ↑`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt PageDown`                       | Navigate to next translation in current search.                       |
+| :kbd:`Alt PageDown` or                    | Navigate to next translation in current search.                       |
+|                                           |                                                                       |
+| :kbd:`Ctrl ↓` or                          |                                                                       |
+|                                           |                                                                       |
+| :kbd:`Alt ↓` or                           |                                                                       |
+|                                           |                                                                       |
+| :kbd:`Cmd ↓`                              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt Enter` or                       | Save current translation.                                             |
 |                                           |                                                                       |

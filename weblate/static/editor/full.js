@@ -40,11 +40,13 @@
       window.location = $("#button-end").attr("href");
       return false;
     });
-    Mousetrap.bindGlobal("alt+pagedown", function (e) {
+    Mousetrap.bindGlobal(["alt+pagedown", "mod+down", "alt+down"], function (
+      e
+    ) {
       window.location = $("#button-next").attr("href");
       return false;
     });
-    Mousetrap.bindGlobal("alt+pageup", function (e) {
+    Mousetrap.bindGlobal(["alt+pageup", "mod+up", "alt+up"], function (e) {
       window.location = $("#button-prev").attr("href");
       return false;
     });
