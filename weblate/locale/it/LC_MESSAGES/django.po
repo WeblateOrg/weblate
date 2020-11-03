@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-02 14:29+0000\n"
-"PO-Revision-Date: 2020-10-31 19:26+0000\n"
+"PO-Revision-Date: 2020-11-03 12:16+0000\n"
 "Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -1421,7 +1421,7 @@ msgid ""
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
 "Quando viene aggiunta una nuova traduzione, aggiorna la variabile "
-"ALL_LINGUAS nei file \"configure\", \"configure.in\" o in \"configure.ac\"."
+"ALL_LINGUAS nei file \"configure\", \"configure.in\" o \"configure.ac\"."
 
 #: weblate/addons/gettext.py:228
 msgid "Update PO files to match POT (msgmerge)"
@@ -1921,11 +1921,9 @@ msgid "Translate"
 msgstr "Traduci"
 
 #: weblate/auth/data.py:224
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per project access control group"
 msgid "Sources"
-msgstr "Sorgente"
+msgstr "Sorgenti"
 
 #: weblate/auth/data.py:225
 msgctxt "Per project access control group"
@@ -2186,7 +2184,7 @@ msgstr "Numero modifiche"
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
-msgstr "Stringhe sorgenti"
+msgstr "Stringhe sorgente"
 
 #: weblate/billing/models.py:277 weblate/trans/admin.py:100
 msgid "Source words"
@@ -4026,7 +4024,7 @@ msgstr "Registrazione"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "Please check your mailbox for the confirmation link."
-msgstr ""
+msgstr "Controlla la tua casella di posta per il link di conferma."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4081,17 +4079,15 @@ msgstr ""
 "nuovo."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please contact us."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
 "Se non la ricevi a breve, controlla la cartella della posta indesiderata o "
-"riprova la registrazione. Se il problema persiste, contattaci."
+"riprova la registrazione. Se il problema persiste, <a href=\"%(contact_url)"
+"s\">contattaci</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6473,12 +6469,12 @@ msgid ""
 "Reset removes all changes in Weblate and resets the repository to match "
 "upstream. Use with caution."
 msgstr ""
+"Reset rimuove tutte le modifiche in Weblate ed azzera il repository per "
+"farlo combaciare con il sorgente. Usare con cautela."
 
 #: weblate/templates/js/git-status.html:104
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Maintenance"
-msgstr "Manutenzione del repository"
+msgstr "Manutenzione"
 
 #: weblate/templates/js/git-status.html:109
 msgid "Reset all changes in the Weblate repository"
@@ -6701,16 +6697,13 @@ msgstr ""
 "fatturazione saranno rimossi il %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Se non esegui il pagamento, tutti i progetti all'interno di questo piano di "
-"fatturazione saranno rimossi il %(date)s."
+"Se la prova gratuita non verrà approvata, tutti i progetti all'interno di "
+"questo piano di fatturazione saranno rimossi il %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
