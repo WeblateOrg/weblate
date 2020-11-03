@@ -1726,6 +1726,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
+        retry_async: bool = True,
     ):
         """Load translations from VCS."""
         try:
@@ -1734,6 +1735,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     force, langs, request, changed_template, from_link
                 )
         except ComponentLockTimeout:
+            if not retry_async:
+                self.create_translations(
+                    force, langs, request, changed_template, from_link, retry_async
+                )
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 # Retry will not address anything
                 raise
@@ -2641,36 +2646,24 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         )
         fullname = os.path.join(self.full_path, filename)
 
-        # Ignore request if file exists (possibly race condition as
-        # the processing of new language can take some time and user
-        # can submit again)
-        if os.path.exists(fullname):
-            with transaction.atomic():
-                translation = Translation.objects.check_sync(
-                    self, language, format_code, filename, request=request
-                )
-                self.update_source_checks()
-                translation.invalidate_cache()
-                translation.notify_new(request)
+        with self.repository.lock, transaction.atomic():
+            # Ignore request if file exists (possibly race condition as
+            # the processing of new language can take some time and user
+            # can submit again)
+            if os.path.exists(fullname):
                 messages.error(request, _("Translation file already exists!"))
-                return translation
+            else:
+                file_format.add_language(fullname, language, base_filename)
 
-        file_format.add_language(fullname, language, base_filename)
+            # We need this to happen synchronously
+            self.create_translations(request=request, retry_async=False)
 
-        with transaction.atomic():
-            self.preload_sources()
-            translation = Translation.objects.create(
-                component=self,
-                language=language,
-                plural=language.plural,
-                filename=filename,
-                language_code=format_code,
-            )
+            translation = self.translation_set.get(filename=filename)
+
             if send_signal:
                 translation_post_add.send(
                     sender=self.__class__, translation=translation
                 )
-            translation.check_sync(force=True, request=request)
             translation.git_commit(
                 request.user if request else None,
                 request.user.get_author_name()
@@ -2678,9 +2671,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 else "Weblate <noreply@weblate.org>",
                 template=self.add_message,
             )
-            self.update_source_checks()
-            translation.invalidate_cache()
-            translation.notify_new(request)
             return translation
 
     def do_lock(self, user, lock: bool = True, auto: bool = False):
