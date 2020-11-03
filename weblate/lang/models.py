@@ -429,8 +429,9 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
 def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
-    with transaction.atomic():
-        Language.objects.setup(False)
+    if settings.UPDATE_LANGUAGES:
+        with transaction.atomic():
+            Language.objects.setup(False)
 
 
 class Language(models.Model, CacheKeyMixin):
@@ -703,6 +704,9 @@ class Plural(models.Model):
 
 class WeblateLanguagesConf(AppConf):
     """Languages settings."""
+
+    # Update languages on migration
+    UPDATE_LANGUAGES = True
 
     # Use simple language codes for default language/country combinations
     SIMPLIFY_LANGUAGES = True

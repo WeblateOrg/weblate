@@ -1802,6 +1802,21 @@ SUGGESTION_CLEANUP_DAYS
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
 
+.. setting:: UPDATE_LANGUAGES
+
+UPDATE_LANGUAGES
+----------------
+
+.. versionadded:: 4.3.2
+
+Controls whether languages database should be updated when running database
+migration and is enabled by default. This setting has not effect on invocation
+of :djadmin:`setuplang`.
+
+.. seealso::
+
+    :ref:`included-languages`
+
 .. setting:: URL_PREFIX
 
 URL_PREFIX

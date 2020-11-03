@@ -1156,6 +1156,9 @@ DATABASE_BACKUP = os.environ.get("WEBLATE_DATABASE_BACKUP", "plain")
 # Enable auto updating
 AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
 
+# Update languages on migration
+UPDATE_LANGUAGES = get_env_bool("WEBLATE_UPDATE_LANGUAGES", True)
+
 # Default access control
 DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
 
