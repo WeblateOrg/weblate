@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from copy import copy
 from datetime import timedelta
 from itertools import chain
@@ -350,7 +349,11 @@ class TranslationStats(BaseStats):
         self, language: Optional[Language] = None, childs: bool = False
     ):
         result = super().get_invalidate_keys(language, childs)
-        result.update(self._object.language.stats.get_invalidate_keys())
+        try:
+            result.update(self._object.language.stats.get_invalidate_keys())
+        except ObjectDoesNotExist:
+            # Happens when deleting language from the admin interface
+            pass
         result.update(
             self._object.component.stats.get_invalidate_keys(
                 language=self._object.language
