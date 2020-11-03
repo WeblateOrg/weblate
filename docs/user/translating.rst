@@ -143,38 +143,69 @@ Keyboard shortcuts
 
 The following keyboard shortcuts can be utilized during translation:
 
-:kbd:`Alt+Home`
-    Navigate to first translation in current search.
-:kbd:`Alt+End`
-    Navigate to last translation in current search.
-:kbd:`Alt+PageUp`
-    Navigate to previous translation in current search.
-:kbd:`Alt+PageDown`
-    Navigate to next translation in current search.
-:kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`
-    Save current translation.
-:kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`
-    Unmarks translation as fuzzy and submits it.
-:kbd:`Ctrl+E` or :kbd:`Cmd+E`
-    Focus translation editor.
-:kbd:`Ctrl+U` or :kbd:`Cmd+U`
-    Focus comment editor.
-:kbd:`Ctrl+M` or :kbd:`Cmd+M`
-    Shows machine translation tab.
-:kbd:`Ctrl+<NUMBER>` or :kbd:`Cmd+<NUMBER>`
-    Copies placeable of given number from source string.
-:kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`
-    Copy the machine translation of given number to current translation.
-:kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`
-    Ignore one item in the list of failing checks.
-:kbd:`Ctrl+J` or :kbd:`Cmd+J`
-    Shows the :guilabel:`Nearby strings` tab.
-:kbd:`Ctrl+S` or :kbd:`Cmd+S`
-    Focuses search field.
-:kbd:`Ctrl+O` or :kbd:`Cmd+O`
-    Copies source string.
-:kbd:`Ctrl+Y` or :kbd:`Cmd+Y`
-    Toggles the :guilabel:`Needs editing` flag.
++-------------------------------------------+-----------------------------------------------------------------------+
+| Keyboard shortcut                         | Description                                                           |
++===========================================+=======================================================================+
+| :kbd:`Alt Home`                           | Navigate to first translation in current search.                      |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt Home`                           | Navigate to first translation in current search.                      |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt End`                            | Navigate to last translation in current search.                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt PageUp`                         | Navigate to previous translation in current search.                   |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt PageDown`                       | Navigate to next translation in current search.                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Alt Enter` or                       | Save current translation.                                             |
+|                                           |                                                                       |
+| :kbd:`Ctrl Enter` or                      |                                                                       |
+|                                           |                                                                       |
+| :kbd:`Cmd Enter`                          |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl Shift Enter` or                | Unmarks translation as fuzzy and submits it.                          |
+|                                           |                                                                       |
+| :kbd:`Cmd Shift Enter`                    |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl E` or                          | Focus translation editor.                                             |
+|                                           |                                                                       |
+| :kbd:`Cmd E`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl U` or                          | Focus comment editor.                                                 |
+|                                           |                                                                       |
+| :kbd:`Cmd U`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl M` or                          | Shows :guilabel:`Automatic suggestions` tab,                          |
+|                                           | see :ref:`machine-translation`.                                       |
+| :kbd:`Cmd M`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl 1` to :kbd:`Ctrl 9` or         | Copies placeable of given number from source string.                  |
+|                                           |                                                                       |
+| :kbd:`Cmd 1` to :kbd:`Cmd 9`              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl M` :kbd:`1` to :kbd:`9` or     | Copy the machine translation of given number to current translation.  |
+|                                           |                                                                       |
+| :kbd:`Cmd M` :kbd:`1` to :kbd:`9`         |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl I` :kbd:`1` to :kbd:`9`  or    | Ignore one item in the list of failing checks.                        |
+|                                           |                                                                       |
+| :kbd:`Cmd I` :kbd:`1` to :kbd:`9`         |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl J` or                          | Shows the :guilabel:`Nearby strings` tab.                             |
+|                                           |                                                                       |
+| :kbd:`Cmd J`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl S` or                          | Focuses search field.                                                 |
+|                                           |                                                                       |
+| :kbd:`Cmd S`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl O` or                          | Copies source string.                                                 |
+|                                           |                                                                       |
+| :kbd:`Cmd O`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl Y` or                          | Toggles the :guilabel:`Needs editing` flag.                           |
+|                                           |                                                                       |
+| :kbd:`Cmd Y`                              |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
 
 .. _visual-keyboard:
 
