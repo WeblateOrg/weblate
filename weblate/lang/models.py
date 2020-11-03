@@ -86,7 +86,7 @@ def get_plural_type(base_code, plural_formula):
 def get_default_lang():
     """Return object ID for English language."""
     try:
-        return Language.objects.default.id
+        return Language.objects.default_language.id
     except (Language.DoesNotExist, OperationalError):
         return -1
 
@@ -323,7 +323,7 @@ class LanguageQuerySet(models.QuerySet):
     def get(self, *args, **kwargs):
         """Customized get caching getting of English language."""
         if not args and not kwargs.pop("skip_cache", False):
-            default = Language.objects.default
+            default = Language.objects.default_language
             if kwargs in (
                 {"code": settings.DEFAULT_LANGUAGE},
                 {"pk": default.pk},
@@ -337,11 +337,11 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
 
     def flush_object_cache(self):
-        if "default" in self.__dict__:
-            del self.__dict__["default"]
+        if "default_language" in self.__dict__:
+            del self.__dict__["default_language"]
 
     @cached_property
-    def default(self):
+    def default_language(self):
         """Return English language object."""
         return self.get(code=settings.DEFAULT_LANGUAGE, skip_cache=True)
 
