@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-02 14:29+0000\n"
-"PO-Revision-Date: 2020-10-15 22:11+0000\n"
+"PO-Revision-Date: 2020-11-03 23:06+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.3.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -104,10 +104,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "Aktivointisähköposti lähetetään tähän osoitteeseen."
 
 #: weblate/accounts/forms.py:385
-#, fuzzy
-#| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "Liian monta rekisteröitymisyritystä tästä sijainnista!"
+msgstr "Liian monta epäonnistunutta rekisteröitymisyritystä tästä sijainnista."
 
 #: weblate/accounts/forms.py:392
 msgid "New password"
@@ -252,26 +250,21 @@ msgstr ""
 "järjestelmänvalvojan oikeudet."
 
 #: weblate/accounts/forms.py:718
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
+"Saat näitä ilmoituksia vain kääntämistäsi kielistä projektissa %(project)s."
 
 #: weblate/accounts/forms.py:722
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
+"Saat näitä ilmoituksia vain kääntämistäsi kielistä komponentissa "
+"%(component)s."
 
 #: weblate/accounts/forms.py:762 weblate/auth/models.py:301
 #: weblate/templates/manage-access.html:24 weblate/utils/forms.py:43
@@ -568,6 +561,8 @@ msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr ""
+"Liberapay on alusta, jolla voi lahjoittaa rahaa tiimeille, organisaatioille "
+"ja yksittäisille ihmisille."
 
 #: weblate/accounts/models.py:429
 msgid "Fediverse URL"
@@ -828,7 +823,7 @@ msgstr "Viestiä ei voitu lähettää ylläpitäjälle."
 
 #: weblate/accounts/views.py:241
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "Pyyntösi on lähetetty, palaamme pian asiaan."
 
 #: weblate/accounts/views.py:354
 msgid "Your profile has been updated."
@@ -913,14 +908,12 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "Lisää uusi henkilöllisyys vahvistamalla ensin sähköpostiosoitteesi."
 
 #: weblate/accounts/views.py:1146
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "Could not complete registration."
-msgstr "Et voi tehdä rekisteröitymistä loppuun kirjautuneena."
+msgstr "Rekisteröitymistä ei voitu tehdä loppuun."
 
 #: weblate/accounts/views.py:1149
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Tarkista oletko jo rekisteröinyt tilin."
 
 #: weblate/accounts/views.py:1151
 #, fuzzy
@@ -969,21 +962,12 @@ msgid "The server does not allow authentication."
 msgstr "Palvelin ei salli tunnistautumista."
 
 #: weblate/accounts/views.py:1255
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr ""
-"Rekisteröityminen epäonnistui. Antamasi tunnistautuminen, sähköpostiosoite "
-"tai käyttäjänimi on jo käytössä toisella käyttäjätilillä."
+msgstr "Antamasi sähköpostiosoite on jo käytössä toisella käyttäjätilillä."
 
 #: weblate/accounts/views.py:1259
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr ""
-"Tämä käyttäjänimi on jo käytössä. Ole hyvä ja valitse toinen käyttäjänimi."
+msgstr "Antamasi käyttäjänimi on jo käytössä toisella käyttäjätilillä."
 
 #: weblate/accounts/views.py:1264
 #, fuzzy
@@ -1738,10 +1722,8 @@ msgstr "Lisää uusi teksti"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:92
-#, fuzzy
-#| msgid "Review strings"
 msgid "Remove a string"
-msgstr "Tarkista tekstejä"
+msgstr "Poista teksti"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:94
@@ -1959,11 +1941,9 @@ msgid "Translate"
 msgstr "Käännä"
 
 #: weblate/auth/data.py:224
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per project access control group"
 msgid "Sources"
-msgstr "Lähde"
+msgstr "Lähteet"
 
 #: weblate/auth/data.py:225
 msgctxt "Per project access control group"
@@ -2776,10 +2756,8 @@ msgid "Placeholders"
 msgstr "Plassholdere"
 
 #: weblate/checks/placeholders.py:42
-#, fuzzy
-#| msgid "Translation is missing some placeholders:"
 msgid "Translation is missing some placeholders"
-msgstr "Käännöksestä puuttuu joitain paikkamerkkejä:"
+msgstr "Käännöksestä puuttuu joitakin paikanvaraajia"
 
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
@@ -4018,18 +3996,14 @@ msgid "Most active commenters"
 msgstr "Aktiivisimmat kommentoijat"
 
 #: weblate/templates/about/stats.html:84
-#, fuzzy
-#| msgid "Projects"
 msgctxt "Number of projects"
 msgid "Projects"
-msgstr "Projektit"
+msgstr "Projekteja"
 
 #: weblate/templates/about/stats.html:88
-#, fuzzy
-#| msgid "Components"
 msgctxt "Number of components"
 msgid "Components"
-msgstr "Komponentit"
+msgstr "Komponentteja"
 
 #: weblate/templates/about/stats.html:93
 msgid "Registered users"
@@ -4094,7 +4068,7 @@ msgstr "Rekisteröinti"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "Please check your mailbox for the confirmation link."
-msgstr ""
+msgstr "Vahvistuslinkin pitäisi löytyä sähköpostistasi."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4147,17 +4121,15 @@ msgstr ""
 "rekisteröidy uudelleen."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please contact us."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
-"Jos et saa sitä pian, tarkista roskapostikansiosi tai rekisteröidy "
-"uudelleen. Jos ongelma vain toistuu, ota meihin yhteyttä."
+"Jos et saa sitä pian, tarkista roskapostikansiosi tai yritä rekisteröityä "
+"uudelleen. Jos ongelma toistuu, <a href=\"%(contact_url)s\">ota meihin "
+"yhteyttä</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -5089,10 +5061,9 @@ msgid "Failed checks in %(project)s"
 msgstr "Virheitä löytynyt projektin %(project)s tarkistuksissa"
 
 #: weblate/templates/base.html:168
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s"
+#, python-format
 msgid "Failed checks in %(project)s — %(language)s"
-msgstr "Virheitä löytynyt projektin %(project)s tarkistuksissa"
+msgstr "Virheitä löytynyt: %(project)s – %(language)s"
 
 #: weblate/templates/base.html:173
 msgid "Checks overview"
@@ -6140,13 +6111,12 @@ msgstr[1] ""
 "strong>."
 
 #: weblate/templates/engage.html:46
-#, fuzzy, python-format
-#| msgid "Get involved in <strong>%(project)s</strong>"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "Tule mukaan kääntämään projektia <strong>%(project)s</strong>"
-msgstr[1] "Tule mukaan kääntämään projektia <strong>%(project)s</strong>"
+msgstr[0] "Sitä käännetään <strong>yhdelle kielelle</strong>."
+msgstr[1] "Sitä käännetään <strong>%(count)s kielelle</strong>."
 
 #: weblate/templates/engage.html:48
 #, python-format
@@ -6752,16 +6722,12 @@ msgid "Your trial period is going to expire in less than a week."
 msgstr "Kokeilujaksosi päättyy alle viikon kuluessa."
 
 #: weblate/templates/mail/billing_expired.html:10
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it."
 msgid ""
 "If you like Weblate and you want to continue using it, please purchase the "
 "subscription. If not, tell us what you are missing."
 msgstr ""
-"Laskutussuunnitelmasi on päättynyt. Jos haluat jatkaa palvelun käyttöä, ole "
-"hyvä ja uusi se."
+"Jos pidät Weblatesta ja haluat jatkaa sen käyttöä, osta tilaus. Jos et, "
+"kerro mitä kaipaat."
 
 #: weblate/templates/mail/billing_expired.html:12
 #, fuzzy
@@ -7476,10 +7442,8 @@ msgid "No matching user found."
 msgstr "Vastaavia käyttäjiä ei löytynyt."
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "matriisi"
+msgstr "Matriisi"
 
 #: weblate/templates/matrix.html:37
 msgid "Displayed languages"
@@ -8126,10 +8090,8 @@ msgid "All untranslated strings added the past month"
 msgstr "Kaikki viimeisen kuukauden aikana lisätyt kääntämättömät tekstit"
 
 #: weblate/templates/snippets/query-builder.html:105
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings in a certain language"
-msgstr "Automaattitarkistuksen hylkäämät tekstit"
+msgstr "Tietyn kielen käännetyt tekstit"
 
 #: weblate/templates/snippets/query-field.html:9
 msgid "Custom Search"
@@ -8149,32 +8111,24 @@ msgid "Sort By"
 msgstr "Lajitteluperuste"
 
 #: weblate/templates/snippets/stats.html:6
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Number of used languages"
 msgid "Languages"
-msgstr "Kielet"
+msgstr "Kieliä"
 
 #: weblate/templates/snippets/stats.html:11
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of source strings"
 msgid "Source strings"
-msgstr "Lähdetekstit"
+msgstr "Lähdetekstejä"
 
 #: weblate/templates/snippets/stats.html:16
-#, fuzzy
-#| msgid "Source words"
 msgctxt "Number of source words"
 msgid "Source words"
-msgstr "Lähdetekstin sanat"
+msgstr "Lähdetekstien sanoja"
 
 #: weblate/templates/snippets/stats.html:21
-#, fuzzy
-#| msgid "Special characters"
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Erikoismerkit"
+msgstr "Lähdetekstien merkkejä"
 
 #: weblate/templates/snippets/stats.html:27
 #, fuzzy
@@ -8267,20 +8221,15 @@ msgid "Untranslated"
 msgstr "Kääntämättä"
 
 #: weblate/templates/snippets/unit-state.html:12
-#, fuzzy
-#| msgid "Failed check: {}"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "Tarkistus löysi virheen: {}"
+msgstr "Tarkistus löysi virheitä:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Failed checks"
-msgstr "Virheitä löytynyt tarkistuksessa"
+msgstr "Tarkistus löysi virheitä"
 
 #: weblate/templates/snippets/unit-state.html:19
 msgctxt "String state"
@@ -8992,18 +8941,12 @@ msgid "List of recent changes done in Weblate"
 msgstr "Luettelo tuoreista muutoksista Weblatessa"
 
 #: weblate/templates/translate.html:283
-#, fuzzy
-#| msgid "Following string has same context and same source."
-#| msgid_plural "Following strings have same context and same source."
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
-msgstr[0] "Seuraavalla tekstillä on sama asiayhteys ja sama lähdeteksti."
-msgstr[1] "Seuraavilla teksteillä on sama asiayhteys ja sama lähdeteksti."
+msgstr[0] "Seuraavalla tekstillä on sama asiayhteys ja lähdeteksti."
+msgstr[1] "Seuraavilla teksteillä on sama asiayhteys ja lähdeteksti."
 
 #: weblate/templates/translate.html:291
-#, fuzzy
-#| msgid "Following string has different context but same source."
-#| msgid_plural "Following strings have different contexts but same source."
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
@@ -9011,14 +8954,11 @@ msgstr[0] "Seuraavalla tekstillä on eri asiayhteys, mutta sama lähdeteksti."
 msgstr[1] "Seuraavilla teksteillä on eri asiayhteydet, mutta sama lähdeteksti."
 
 #: weblate/templates/translate.html:299
-#, fuzzy
-#| msgid "Following string has different source but same context."
-#| msgid_plural "Following strings have different sources but same context."
 msgid "The following string has a different source, but the same context."
 msgid_plural ""
 "The following strings have different sources, but the same context."
-msgstr[0] "Seuraavalla tekstillä on eri lähdeteksti mutta sama asiayhteys."
-msgstr[1] "Seuraavilla teksteillä on eri lähdetekstit mutta sama asiayhteys."
+msgstr[0] "Seuraavalla tekstillä on eri lähdeteksti, mutta sama asiayhteys."
+msgstr[1] "Seuraavilla teksteillä on eri lähdetekstit, mutta sama asiayhteys."
 
 #: weblate/templates/translate.html:335
 msgid "Origin"
@@ -11030,10 +10970,8 @@ msgid "Component with this URL slug already exists in the project."
 msgstr "Projektissa ({0}) on jo samantapainen käännös!"
 
 #: weblate/trans/models/component.py:2234
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already exists in the project."
-msgstr "Projektissa ({0}) on jo samantapainen käännös!"
+msgstr "Tässä projektissa on jo tämän niminen komponentti."
 
 #: weblate/trans/models/component.py:2259
 msgid "Can not validate file matches due to invalid regular expression."
@@ -12149,10 +12087,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Tämä sähköpostiosoite ei ole sallittu."
 
 #: weblate/utils/validators.py:195
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "Monikkoyhtälön laskeminen epäonnistui: {}"
+msgstr "Monikkokaavan laskeminen epäonnistui: {}"
 
 #: weblate/utils/validators.py:201
 msgid "The filename can not contain reference to a parent directory."
