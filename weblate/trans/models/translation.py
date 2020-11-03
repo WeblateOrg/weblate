@@ -1060,16 +1060,10 @@ class Translation(
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
             if batch:
-                for batch_key, batch_value in batch.items():
-                    self.store.new_unit(batch_key, batch_value)
-                    Change.objects.create(
-                        translation=self,
-                        action=Change.ACTION_NEW_UNIT,
-                        target=batch_value,
-                        user=user,
-                        author=user,
-                    )
+                items = batch.items()
             else:
+                items = [(key, value)]
+            for key, value in items:
                 self.store.new_unit(key, value)
                 Change.objects.create(
                     translation=self,
