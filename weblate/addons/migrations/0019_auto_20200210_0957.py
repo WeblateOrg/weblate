@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
                     (7, "store post load"),
                     (11, "daily"),
                     (12, "component update"),
+                    (13, "update remote branch"),
                 ]
             ),
         )

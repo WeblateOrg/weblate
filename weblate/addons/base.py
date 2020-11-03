@@ -208,6 +208,9 @@ class BaseAddon:
     def component_update(self, component):
         return
 
+    def update_remote_branch(self, component):
+        return
+
     def execute_process(self, component, cmd, env=None):
         component.log_debug("%s addon exec: %s", self.name, " ".join(cmd))
         try:
