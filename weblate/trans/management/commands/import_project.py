@@ -120,7 +120,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--source-language",
-            default="en",
+            default=settings.DEFAULT_LANGUAGE,
             help="Source language code",
         )
         parser.add_argument("project", help="Existing project slug")
