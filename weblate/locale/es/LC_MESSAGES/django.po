@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-02 14:29+0000\n"
-"PO-Revision-Date: 2020-10-25 19:37+0000\n"
+"PO-Revision-Date: 2020-11-03 15:25+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1764,7 +1764,7 @@ msgstr "Deshacer los cambios del repositorio interno"
 #. Translators: Permission name
 #: weblate/auth/data.py:118
 msgid "View upstream repository location"
-msgstr "Ver la ubicación del repositorio aguas arriba"
+msgstr "Ver la ubicación del repositorio originario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:120
@@ -1917,11 +1917,9 @@ msgid "Translate"
 msgstr "Traducir"
 
 #: weblate/auth/data.py:224
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per project access control group"
 msgid "Sources"
-msgstr "Original"
+msgstr "Orígenes"
 
 #: weblate/auth/data.py:225
 msgctxt "Per project access control group"
@@ -4037,7 +4035,7 @@ msgstr "Registro"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "Please check your mailbox for the confirmation link."
-msgstr ""
+msgstr "Revise su buzón de correo para encontrar el enlace de confirmación."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4091,18 +4089,15 @@ msgstr ""
 "regístrese de nuevo."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please contact us."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
 "Si no lo recibe en breve, revise su carpeta de correo no deseado o intente "
-"registrarse nuevamente. Si el problema persiste, póngase en contacto con "
-"nosotros."
+"registrarse nuevamente. Si el problema persiste, <a href=\"%(contact_url)s\""
+">póngase en contacto con nosotros</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -4138,7 +4133,7 @@ msgstr ", caduca el %(expires)s"
 #: weblate/templates/accounts/hosting.html:25
 #, python-format
 msgid ", will be removed %(removal)s"
-msgstr ""
+msgstr ", se eliminará el %(removal)s"
 
 #: weblate/templates/accounts/hosting.html:27
 msgid "Pending approval"
@@ -6495,12 +6490,13 @@ msgid ""
 "Reset removes all changes in Weblate and resets the repository to match "
 "upstream. Use with caution."
 msgstr ""
+"El restablecimiento elimina todos los cambios en Weblate y restablece el "
+"repositorio para que coincida con el originario. Utilice esta opción con "
+"prudencia."
 
 #: weblate/templates/js/git-status.html:104
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Maintenance"
-msgstr "Mantenimiento de repositorio"
+msgstr "Mantenimiento"
 
 #: weblate/templates/js/git-status.html:109
 msgid "Reset all changes in the Weblate repository"
@@ -6687,10 +6683,10 @@ msgstr ""
 "la aprobación de su plan libre."
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Your billing plan has expired and all its projects have been removed."
-msgstr "Su plan de facturación ha excedido sus límites."
+msgstr ""
+"Su plan de facturación ha caducado y se han eliminado todos los proyectos en "
+"este."
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
@@ -6724,20 +6720,17 @@ msgstr ""
 "facturación serán borrados en %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Si no realiza el pago, todos los proyectos dentro de este plan de "
-"facturación serán borrados en %(date)s."
+"Si no se aprobare su prueba libre, todos los proyectos de este plan de "
+"facturación se eliminarán el %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
-msgstr "Tu proyecto de traducción se ha eliminado"
+msgstr "Se eliminó su proyecto de traducción"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
@@ -7060,7 +7053,7 @@ msgstr "Cadena de origen"
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:538
 msgid "Screenshot context"
-msgstr "Contexto de captura de pantalla"
+msgstr "Captura de pantalla de contexto"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, python-format
@@ -8409,7 +8402,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate no pudo enviar cambios al repositorio fuente."
+msgstr "Weblate no pudo enviar los cambios al repositorio originario."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -8665,7 +8658,7 @@ msgstr "Fusione los cambios de Weblate y resuelva cualquier conflicto."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
-msgstr "Envíe los cambios al repositorio fuente."
+msgstr "Envíe los cambios al repositorio originario."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
