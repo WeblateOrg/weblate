@@ -55,14 +55,15 @@ class DuplicateCheck(TargetCheck):
         else:
             ignored = {}
         for word in NON_WORD.split(text):
-            if not word or word in ignored or len(word) < 2:
+            if not word:
                 continue
-            if previous == word:
-                group += 1
-            elif group > 1:
-                groups.append(group)
-                words.append(previous)
-                group = 1
+            if word not in ignored and len(word) >= 2:
+                if previous == word:
+                    group += 1
+                elif group > 1:
+                    groups.append(group)
+                    words.append(previous)
+                    group = 1
             previous = word
         if group > 1:
             groups.append(group)

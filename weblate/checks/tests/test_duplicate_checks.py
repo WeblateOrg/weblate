@@ -78,6 +78,14 @@ class DuplicateCheckTest(CheckTestCase):
             self._run_check("ХАХ ХАХ ХАХ! ХЕ ХЕ ХЕ!", source="HAH HAH! HEH HEH HEH!")
         )
 
+    def test_duplicate_conjunction(self):
+        self.assertFalse(
+            self._run_check(
+                "Zalomit řádky na 77 znacích a znacích nových řádků",
+                source="Wrap lines at 77 chars and at newlines",
+            )
+        )
+
     def test_check_duplicated_language_ignore(self):
         self.assertFalse(self._run_check("Si vous vous interrogez", lang="fr"))
 
