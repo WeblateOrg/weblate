@@ -486,7 +486,7 @@ Committer name for created translation components defaulting to ``Weblate``.
 DEFAULT_LANGUAGE
 ----------------
 
-.. versionadded:: 3.4.3
+.. versionadded:: 4.3.2
 
 Default source language to use for example in :ref:`component-source_language`.
 
