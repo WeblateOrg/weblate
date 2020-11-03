@@ -39,8 +39,8 @@ from weblate.utils.site import get_site_url
 
 
 def get_machinery_language(language):
-    if language.code == "en_devel":
-        return Language.objects.english
+    if language.code.endswith("_devel"):
+        return Language.objects.get(code=language.code[:-6])
     return language
 
 

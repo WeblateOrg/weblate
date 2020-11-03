@@ -298,7 +298,7 @@ def download_glossary(request, project, lang):
         language=lang,
         source_language=terms[0].glossary.source_language
         if terms
-        else Language.objects.english,
+        else Language.objects.default_language,
         url=get_site_url(
             reverse("show_glossary", kwargs={"project": prj.slug, "lang": lang.code})
         ),

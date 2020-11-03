@@ -1483,7 +1483,7 @@ class ComponentProjectForm(ComponentNameForm):
             kwargs.pop("instance")
         super().__init__(*args, **kwargs)
         # It might be overriden based on preset project
-        self.fields["source_language"].initial = Language.objects.english
+        self.fields["source_language"].initial = Language.objects.default_language
         self.request = request
         self.helper = FormHelper()
         self.helper.form_tag = False
