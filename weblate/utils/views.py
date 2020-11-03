@@ -182,7 +182,7 @@ def create_component_from_doc(data):
         "*",
         data["source_language"].code
         if "source_language" in data
-        else settings.DEFAULT_LANGAUAGE,
+        else settings.DEFAULT_LANGUAGE,
     )
     # Create fake component (needed to calculate path)
     fake = Component(
