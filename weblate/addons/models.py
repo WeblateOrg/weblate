@@ -42,6 +42,7 @@ from weblate.addons.events import (
     EVENT_STORE_POST_LOAD,
     EVENT_UNIT_POST_SAVE,
     EVENT_UNIT_PRE_CREATE,
+    EVENT_UPDATE_REMOTE_BRANCH,
 )
 from weblate.trans.models import Component, Unit
 from weblate.trans.signals import (
@@ -49,6 +50,7 @@ from weblate.trans.signals import (
     store_post_load,
     translation_post_add,
     unit_pre_create,
+    update_remote_branch,
     vcs_post_commit,
     vcs_post_push,
     vcs_post_update,
@@ -250,3 +252,10 @@ def store_post_load_handler(sender, translation, store, **kwargs):
     for addon in addons:
         translation.log_debug("running store_post_load addon: %s", addon.name)
         addon.addon.store_post_load(translation, store)
+
+
+@receiver(update_remote_branch)
+def update_remote_branch_handler(sender, component, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_UPDATE_REMOTE_BRANCH):
+        component.log_debug("running update_remote_branch addon: %s", addon.name)
+        addon.addon.update_remote_branch(component)

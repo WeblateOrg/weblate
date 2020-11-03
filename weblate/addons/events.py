@@ -32,6 +32,9 @@ EVENT_PRE_PUSH = 10
 EVENT_DAILY = 11
 EVENT_COMPONENT_UPDATE = 12
 
+# Vendasta events
+EVENT_UPDATE_REMOTE_BRANCH = 13
+
 EVENT_CHOICES = (
     (EVENT_PRE_PUSH, "pre push"),
     (EVENT_POST_PUSH, "post push"),
@@ -45,4 +48,5 @@ EVENT_CHOICES = (
     (EVENT_STORE_POST_LOAD, "store post load"),
     (EVENT_DAILY, "daily"),
     (EVENT_COMPONENT_UPDATE, "component update"),
+    (EVENT_UPDATE_REMOTE_BRANCH, "update remote branch")
 )

@@ -4,7 +4,7 @@ import os
 import requests
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_POST_COMMIT, EVENT_POST_UPDATE
+from weblate.addons.events import EVENT_POST_COMMIT, EVENT_UPDATE_REMOTE_BRANCH
 from weblate.logger import LOGGER
 from weblate.utils.requests import request
 
@@ -14,7 +14,7 @@ class NotifyLexicon(BaseAddon):
 
     events = (
         EVENT_POST_COMMIT,
-        EVENT_POST_UPDATE,
+        EVENT_UPDATE_REMOTE_BRANCH,
     )
     name = "weblate.vendasta.notifylexicon"
     verbose = "Notify Lexicon"
@@ -24,7 +24,7 @@ class NotifyLexicon(BaseAddon):
         "?componentName={component_name}&languageCode={language_code}"
     )
 
-    def post_update(self, component, previous_head):
+    def update_remote_branch(self, component):
         """Notify Lexicon after updating component from vcs."""
         self.notify_lexicon(component)
 

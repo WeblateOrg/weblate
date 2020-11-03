@@ -61,6 +61,7 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.signals import (
     component_post_update,
     translation_post_add,
+    update_remote_branch,
     vcs_post_commit,
     vcs_post_push,
     vcs_post_update,
@@ -874,6 +875,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     self.log_debug("update: %s", line)
                 if self.id:
                     self.delete_alert("UpdateFailure")
+            update_remote_branch.send(sender=self.__class__, component=self)
             return True
         except RepositoryException as error:
             report_error(error, prefix="Could not update the repository")
