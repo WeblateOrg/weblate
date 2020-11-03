@@ -48,5 +48,5 @@ EVENT_CHOICES = (
     (EVENT_STORE_POST_LOAD, "store post load"),
     (EVENT_DAILY, "daily"),
     (EVENT_COMPONENT_UPDATE, "component update"),
-    (EVENT_UPDATE_REMOTE_BRANCH, "update remote branch")
+    (EVENT_UPDATE_REMOTE_BRANCH, "update remote branch"),
 )
