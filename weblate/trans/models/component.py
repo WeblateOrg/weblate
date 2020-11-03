@@ -47,7 +47,7 @@ from redis_lock import Lock, NotAcquired
 
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
-from weblate.lang.models import Language, get_english_lang
+from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
@@ -571,7 +571,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         Language,
         verbose_name=gettext_lazy("Source language"),
         help_text=gettext_lazy("Language used for source strings in all components"),
-        default=get_english_lang,
+        default=get_default_lang,
         on_delete=models.deletion.CASCADE,
     )
     language_regex = RegexField(

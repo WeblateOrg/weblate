@@ -481,6 +481,21 @@ Committer name for created translation components defaulting to ``Weblate``.
    :ref:`component`,
    :ref:`component-committer_name`
 
+.. setting:: DEFAULT_LANGUAGE
+
+DEFAULT_LANGUAGE
+----------------
+
+.. versionadded:: 3.4.3
+
+Default source language to use for example in :ref:`component-source_language`.
+
+Defaults to `en`. The matching language object needs to exist in the database.
+
+.. seealso::
+
+   :ref:`languages`
+
 .. setting:: DEFAULT_MERGE_STYLE
 
 DEFAULT_MERGE_STYLE

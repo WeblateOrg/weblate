@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             model_name="glossary",
             name="source_language",
             field=models.ForeignKey(
-                default=weblate.lang.models.get_english_lang,
+                default=weblate.lang.models.get_default_lang,
                 on_delete=django.db.models.deletion.CASCADE,
                 to="lang.Language",
                 verbose_name="Source language",

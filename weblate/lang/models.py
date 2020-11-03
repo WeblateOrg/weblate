@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import gettext
 import re
 from collections import defaultdict
@@ -84,10 +83,10 @@ def get_plural_type(base_code, plural_formula):
     return data.PLURAL_UNKNOWN
 
 
-def get_english_lang():
+def get_default_lang():
     """Return object ID for English language."""
     try:
-        return Language.objects.english.id
+        return Language.objects.default.id
     except (Language.DoesNotExist, OperationalError):
         return -1
 
@@ -324,9 +323,13 @@ class LanguageQuerySet(models.QuerySet):
     def get(self, *args, **kwargs):
         """Customized get caching getting of English language."""
         if not args and not kwargs.pop("skip_cache", False):
-            english = Language.objects.english
-            if kwargs in ({"code": "en"}, {"pk": english.pk}, {"id": english.id}):
-                return english
+            default = Language.objects.default
+            if kwargs in (
+                {"code": settings.DEFAULT_LANGUAGE},
+                {"pk": default.pk},
+                {"id": default.id},
+            ):
+                return default
         return super().get(*args, **kwargs)
 
 
@@ -334,13 +337,13 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
 
     def flush_object_cache(self):
-        if "english" in self.__dict__:
-            del self.__dict__["english"]
+        if "default" in self.__dict__:
+            del self.__dict__["default"]
 
     @cached_property
-    def english(self):
+    def default(self):
         """Return English language object."""
-        return self.get(code="en", skip_cache=True)
+        return self.get(code=settings.DEFAULT_LANGUAGE, skip_cache=True)
 
     def setup(self, update, logger=lambda x: x):
         """Create basic set of languages.
@@ -703,6 +706,9 @@ class WeblateLanguagesConf(AppConf):
 
     # Use simple language codes for default language/country combinations
     SIMPLIFY_LANGUAGES = True
+
+    # Default source languaage
+    DEFAULT_LANGUAGE = "en"
 
     class Meta:
         prefix = ""

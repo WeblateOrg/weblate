@@ -26,7 +26,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from weblate.glossary.models import Glossary, Term
-from weblate.lang.models import get_english_lang
+from weblate.lang.models import get_default_lang
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 
@@ -422,7 +422,7 @@ class GlossaryTest(FixtureTestCase):
             {
                 "name": "GlossaryName",
                 "color": "navy",
-                "source_language": get_english_lang(),
+                "source_language": get_default_lang(),
             },
         )
         self.assertEqual(Glossary.objects.count(), 2)
@@ -443,7 +443,7 @@ class GlossaryTest(FixtureTestCase):
             {
                 "name": "OtherName",
                 "color": "navy",
-                "source_language": get_english_lang(),
+                "source_language": get_default_lang(),
                 "edit_glossary": glossary.pk,
             },
         )

@@ -234,7 +234,7 @@ class Migration(migrations.Migration):
                 (
                     "source_language",
                     models.ForeignKey(
-                        default=weblate.lang.models.get_english_lang,
+                        default=weblate.lang.models.get_default_lang,
                         help_text="Language used for source strings in all components",
                         on_delete=django.db.models.deletion.CASCADE,
                         to="lang.Language",

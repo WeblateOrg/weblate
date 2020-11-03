@@ -23,7 +23,7 @@
 from django.test.utils import modify_settings
 from django.urls import reverse
 
-from weblate.lang.models import get_english_lang
+from weblate.lang.models import get_default_lang
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
@@ -118,7 +118,7 @@ class CreateTest(ViewTestCase):
             "new_base": "po/project.pot",
             "new_lang": "add",
             "language_regex": "^[^.]+$",
-            "source_language": get_english_lang(),
+            "source_language": get_default_lang(),
         }
         params.update(kwargs)
         response = self.client.post(reverse("create-component-vcs"), params)
@@ -178,7 +178,7 @@ class CreateTest(ViewTestCase):
             "project": self.project.pk,
             "vcs": "git",
             "repo": self.component.repo,
-            "source_language": get_english_lang(),
+            "source_language": get_default_lang(),
         }
         response = self.client.post(reverse("create-component-vcs"), params)
         self.assertContains(response, self.component.get_repo_link_url())
@@ -262,7 +262,7 @@ class CreateTest(ViewTestCase):
                     "name": "Create Component",
                     "slug": "create-component",
                     "project": self.project.pk,
-                    "source_language": get_english_lang(),
+                    "source_language": get_default_lang(),
                 },
             )
         self.assertContains(response, "Failed to parse uploaded ZIP file.")
@@ -279,7 +279,7 @@ class CreateTest(ViewTestCase):
                     "name": "Create Component",
                     "slug": "create-component",
                     "project": self.project.pk,
-                    "source_language": get_english_lang(),
+                    "source_language": get_default_lang(),
                 },
             )
         self.assertContains(response, "*.po")
@@ -293,7 +293,7 @@ class CreateTest(ViewTestCase):
                 "vcs": "local",
                 "repo": "local:",
                 "discovery": "0",
-                "source_language": get_english_lang(),
+                "source_language": get_default_lang(),
             },
         )
         self.assertContains(response, "Adding new translation")
@@ -311,7 +311,7 @@ class CreateTest(ViewTestCase):
                     "name": "Create Component",
                     "slug": "create-component",
                     "project": self.project.pk,
-                    "source_language": get_english_lang(),
+                    "source_language": get_default_lang(),
                 },
             )
         self.assertContains(response, "*.html")
@@ -325,7 +325,7 @@ class CreateTest(ViewTestCase):
                 "vcs": "local",
                 "repo": "local:",
                 "discovery": "0",
-                "source_language": get_english_lang(),
+                "source_language": get_default_lang(),
             },
         )
         self.assertContains(response, "Adding new translation")
@@ -342,7 +342,7 @@ class CreateTest(ViewTestCase):
                     "slug": "create-component",
                     "project": self.project.pk,
                     "file_format": "po-mono",
-                    "source_language": get_english_lang(),
+                    "source_language": get_default_lang(),
                 },
                 follow=True,
             )
@@ -371,7 +371,7 @@ class CreateTest(ViewTestCase):
                 "slug": "create-component",
                 "project": self.project.pk,
                 "file_format": "aresource",
-                "source_language": get_english_lang(),
+                "source_language": get_default_lang(),
             },
             follow=True,
         )
@@ -391,7 +391,7 @@ class CreateTest(ViewTestCase):
                 "slug": "create-component",
                 "project": self.project.pk,
                 "file_format": "po",
-                "source_language": get_english_lang(),
+                "source_language": get_default_lang(),
             },
             follow=True,
         )
@@ -411,7 +411,7 @@ class CreateTest(ViewTestCase):
                 "slug": "create-component",
                 "project": self.project.pk,
                 "file_format": "strings",
-                "source_language": get_english_lang(),
+                "source_language": get_default_lang(),
             },
             follow=True,
         )

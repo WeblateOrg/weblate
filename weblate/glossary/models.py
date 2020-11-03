@@ -36,7 +36,7 @@ from whoosh.lang import NoStopWords
 
 from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
-from weblate.lang.models import Language, get_english_lang
+from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import GLOSSARY_LENGTH, PROJECT_NAME_LENGTH
 from weblate.trans.models.component import Component
 from weblate.trans.models.project import Project
@@ -84,7 +84,7 @@ class Glossary(models.Model):
     source_language = models.ForeignKey(
         Language,
         verbose_name=gettext_lazy("Source language"),
-        default=get_english_lang,
+        default=get_default_lang,
         on_delete=models.deletion.CASCADE,
     )
 
