@@ -22,6 +22,7 @@ import os
 from time import mktime
 from zipfile import ZipFile
 
+from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
 from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -178,7 +179,10 @@ def create_component_from_doc(data):
     ext = os.path.splitext(os.path.basename(uploaded.name))[1]
     filemask = "{}/{}{}".format(data["slug"], "*", ext)
     filename = filemask.replace(
-        "*", data["source_language"].code if "source_language" in data else "en"
+        "*",
+        data["source_language"].code
+        if "source_language" in data
+        else settings.DEFAULT_LANGAUAGE,
     )
     # Create fake component (needed to calculate path)
     fake = Component(
