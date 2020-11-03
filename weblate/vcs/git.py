@@ -613,10 +613,14 @@ class GitMergeRequestBase(GitForcePushRepository):
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
         slug = parts[-1].replace(".git", "")
-        owner = parts[-2]
+        owner = "/".join(part for part in parts[:-1] if part)
         return (
             self.API_TEMPLATE.format(
-                host=self.format_api_host(host), owner=owner, slug=slug
+                host=self.format_api_host(host),
+                owner=owner,
+                slug=slug,
+                owner_url=urllib.parse.quote_plus(owner),
+                slug_url=urllib.parse.quote_plus(slug),
             ),
             owner,
             slug,
@@ -899,7 +903,7 @@ class GitLabRepository(GitMergeRequestBase):
 
     name = "GitLab"
     _version = None
-    API_TEMPLATE = "https://{host}/api/v4/projects/{owner}%2F{slug}"
+    API_TEMPLATE = "https://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
 
     def get_forked_url(self, credentials: Dict) -> str:
         """Gitlab MR needs the API URL for the forked repository.

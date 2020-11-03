@@ -13,6 +13,7 @@ Not yet released.
 * Reduced false positives rate of unchanged translation while translating reStructuredText.
 * Fixed CodeMirror display issues in some situations.
 * Renamed Template group to Sources to clarify its meaning.
+* Fixed GitLab pull requests on repos with longer path.
 
 Weblate 4.3.1
 -------------
