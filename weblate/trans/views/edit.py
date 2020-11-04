@@ -97,15 +97,16 @@ def get_other_units(unit):
     result = {"total": 0, "same": [], "matching": [], "context": [], "source": []}
 
     translation = unit.translation
+    component = translation.component
 
     query = Q(source=unit.source)
-    if unit.context:
+    if unit.context and component.has_template():
         query |= Q(context=unit.context)
 
     units = (
         Unit.objects.prefetch_full()
         .filter(
-            translation__component__project=translation.component.project,
+            translation__component__project=component.project,
             translation__language=translation.language,
         )
         .exclude(source="")
