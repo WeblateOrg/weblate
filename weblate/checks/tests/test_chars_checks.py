@@ -121,6 +121,11 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(False, ("Text:", "Text՝", ""), "hy")
         self.do_test(True, ("Text.", "Text", ""), "hy")
 
+    def test_santali(self):
+        self.do_test(False, ("Text.", "Text.", ""), "sat")
+        self.do_test(False, ("Text.", "Text᱾", ""), "sat")
+        self.do_test(True, ("Text.", "Text", ""), "sat")
+
 
 class EndColonCheckTest(CheckTestCase):
     check = EndColonCheck()

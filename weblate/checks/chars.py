@@ -195,6 +195,9 @@ class EndStopCheck(TargetCheck):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual
             return self.check_chars(source, target, -1, (".", "।", "|"))
+        if self.is_language(unit, ("sat",)):
+            # Santali uses "᱾" as full stop
+            return self.check_chars(source, target, -1, (".", "᱾"))
         return self.check_chars(
             source, target, -1, (".", "。", "।", "۔", "։", "·", "෴", "។")
         )
