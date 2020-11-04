@@ -1047,23 +1047,13 @@ class Translation(
             author=user,
         )
 
-    def new_unit(
-        self,
-        request,
-        key: Optional[str],
-        value: Optional[Union[str, List[str]]],
-        batch: Optional[Dict[str, Union[str, List[str]]]] = None,
-    ):
+    def add_units(self, request, batch: Dict[str, Union[str, List[str]]]):
         from weblate.auth.models import get_anonymous
 
         user = request.user if request else get_anonymous()
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
-            if batch:
-                items = batch.items()
-            else:
-                items = [(key, value)]
-            for key, value in items:
+            for key, value in batch.items():
                 self.store.new_unit(key, value)
                 Change.objects.create(
                     translation=self,

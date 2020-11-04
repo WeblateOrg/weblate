@@ -68,11 +68,9 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
 
     # Actually create units
     if units:
-        source_translation.new_unit(
-            request=None,
-            key=None,
-            value=None,
-            batch={calculate_checksum(text): text for text in units},
+        source_translation.add_units(
+            None,
+            {calculate_checksum(text): text for text in units},
         )
 
     if errors:
