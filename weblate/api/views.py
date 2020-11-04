@@ -1142,7 +1142,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                     "Translation with this key seem to already exist!"
                 )
 
-            obj.new_unit(request, key, value)
+            obj.add_units(request, {key: value})
             serializer = self.serializer_class(obj, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 

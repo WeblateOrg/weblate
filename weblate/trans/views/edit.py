@@ -835,7 +835,7 @@ def new_unit(request, project, component, lang):
                 request, _("Translation with this key seem to already exist!")
             )
         else:
-            translation.new_unit(request, key, value)
+            translation.add_units(request, {key: value})
             messages.success(request, _("New string has been added."))
 
     return redirect(translation)

@@ -31,9 +31,9 @@ class VariantTest(ViewTestCase):
     def add_variants(self):
         request = self.get_request()
         translation = self.component.source_translation
-        translation.new_unit(request, "bar", "Default string")
-        translation.new_unit(request, "barMin", "Min string")
-        translation.new_unit(request, "barShort", "Short string")
+        translation.add_units(request, {"bar": "Default string"})
+        translation.add_units(request, {"barMin": "Min string"})
+        translation.add_units(request, {"barShort": "Short string"})
 
     def test_edit_component(self):
         self.add_variants()
