@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-04 17:08+0100\n"
-"PO-Revision-Date: 2020-11-03 12:16+0000\n"
+"PO-Revision-Date: 2020-11-04 22:27+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -4924,28 +4924,25 @@ msgstr ""
 "committer_name`"
 
 #: ../../admin/config.rst:487
-#, fuzzy
-#| msgid "DEFAULT_ADDONS"
 msgid "DEFAULT_LANGUAGE"
-msgstr "DEFAULT_ADDONS"
+msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:491
 msgid ""
 "Default source language to use for example in :ref:`component-"
 "source_language`."
-msgstr ""
+msgstr "Типова початкова мова, наприклад, у :ref:`component-source_language`."
 
 #: ../../admin/config.rst:493
 msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
+"Типовим значенням є `en`. Відповідний об'єкт мови має існувати у базі даних."
 
 #: ../../admin/config.rst:497
-#, fuzzy
-#| msgid ":ref:`labels`"
 msgid ":ref:`languages`"
-msgstr ":ref:`labels`"
+msgstr ":ref:`languages`"
 
 #: ../../admin/config.rst:502
 msgid "DEFAULT_MERGE_STYLE"
@@ -6605,10 +6602,8 @@ msgstr ""
 "значення ``None``, тобто пропозиції не вилучаються."
 
 #: ../../admin/config.rst:1808
-#, fuzzy
-#| msgid "SIMPLIFY_LANGUAGES"
 msgid "UPDATE_LANGUAGES"
-msgstr "SIMPLIFY_LANGUAGES"
+msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1812
 msgid ""
@@ -6616,12 +6611,13 @@ msgid ""
 "migration and is enabled by default. This setting has not effect on "
 "invocation of :djadmin:`setuplang`."
 msgstr ""
+"Керує тим, чи слід оновлювати базу даних мови при виконанні перенесення бази "
+"даних. Типово увімкнено. Цей параметр не впливає на результати виклику "
+":djadmin:`setuplang`."
 
 #: ../../admin/config.rst:1818
-#, fuzzy
-#| msgid ":ref:`invoke-manage`"
 msgid ":ref:`included-languages`"
-msgstr ":ref:`invoke-manage`"
+msgstr ":ref:`included-languages`"
 
 #: ../../admin/config.rst:1823
 msgid "URL_PREFIX"
@@ -12007,18 +12003,12 @@ msgid "Language definitions"
 msgstr "Визначення мов"
 
 #: ../../admin/languages.rst:6
-#, fuzzy
-#| msgid ""
-#| "To present different translations properly, info about language name, "
-#| "text direction, plural definitions and language code is needed. "
-#| "Definitions for about 350 languages are included."
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code is needed."
 msgstr ""
 "Для належного представлення різних перекладів потрібні дані щодо назви мови, "
-"напрямку запису тексту, визначення форм множини та коду мови. До типового "
-"пакунка включено визначення для близько 350 мов."
+"напрямку запису тексту, визначення форм множини та коду мови."
 
 #: ../../admin/languages.rst:12
 msgid "Parsing language codes"
@@ -12099,10 +12089,8 @@ msgstr ""
 "переклади."
 
 #: ../../admin/languages.rst:50
-#, fuzzy
-#| msgid "Changing language definitions"
 msgid "Built-in language definitions"
-msgstr "Зміна визначень мов"
+msgstr "Вбудовані визначення мов"
 
 #: ../../admin/languages.rst:52
 msgid ""
@@ -12112,6 +12100,11 @@ msgid ""
 "`generic-upgrade-instructions`) the database of languages is updated to "
 "include all language definitions shipped in Weblate."
 msgstr ""
+"До пакунка Weblate включено понад 550 мов. Кожного випуску список мов "
+"зростає. Під час оновлення Weblate (якщо бути точнішим, під час виконання "
+"команди :program:`weblate migrate`, див. :ref:`generic-upgrade-instructions`)"
+" виконується оновлення бази даних мов для включення усіх визначень мов, які "
+"є у новому пакунку Weblate."
 
 #: ../../admin/languages.rst:58
 msgid ""
@@ -12119,6 +12112,9 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :djadmin:"
 "`setuplang`."
 msgstr ""
+"Оновлення можна вимкнути за допомогою параметра :setting:`UPDATE_LANGUAGES`. "
+"Ви також можете примусово оновити базу даних так, щоб вона відповідала "
+"вбудованим до Weblate даним, за допомогою команди :djadmin:`setuplang`."
 
 #: ../../admin/languages.rst:65
 msgid "Each language consists of following fields:"
@@ -19513,6 +19509,8 @@ msgstr ""
 #: ../../changes.rst:16
 msgid "Fixed GitLab pull requests on repos with longer path."
 msgstr ""
+"Виправлено обробку запитів щодо об'єднання у GitLab для сховищ із довгими "
+"шляхами."
 
 #: ../../changes.rst:19
 msgid "Weblate 4.3.1"
@@ -34161,197 +34159,155 @@ msgstr ""
 "Під час перекладу можна користуватися такими клавіатурними скороченнями:"
 
 #: ../../user/translating.rst:147
-#, fuzzy
-#| msgid "Keyboard shortcuts"
 msgid "Keyboard shortcut"
-msgstr "Клавіатурні скорочення"
+msgstr "Клавіатурне скорочення"
 
 #: ../../user/translating.rst:147 ../../wlc.rst:94
 msgid "Description"
 msgstr "Опис"
 
 #: ../../user/translating.rst:149 ../../user/translating.rst:151
-#, fuzzy
-#| msgid ":kbd:`Alt+Home`"
 msgid ":kbd:`Alt Home`"
-msgstr ":kbd:`Alt+Home`"
+msgstr ":kbd:`Alt Home`"
 
 #: ../../user/translating.rst:149 ../../user/translating.rst:151
 msgid "Navigate to first translation in current search."
 msgstr "Перейти до першого перекладу у поточних результатах пошуку."
 
 #: ../../user/translating.rst:153
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Alt End`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Alt End`"
 
 #: ../../user/translating.rst:153
 msgid "Navigate to last translation in current search."
 msgstr "Перейти до останнього перекладу у поточних результатах пошуку."
 
 #: ../../user/translating.rst:155
-#, fuzzy
-#| msgid ":kbd:`Alt+PageUp`"
 msgid ":kbd:`Alt PageUp` or"
-msgstr ":kbd:`Alt+PageUp`"
+msgstr ":kbd:`Alt PageUp` або"
 
 #: ../../user/translating.rst:157
 msgid ":kbd:`Ctrl ↑` or"
-msgstr ""
+msgstr ":kbd:`Ctrl ↑` або"
 
 #: ../../user/translating.rst:159
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Alt ↑` or"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Alt ↑` або"
 
 #: ../../user/translating.rst:161
 msgid ":kbd:`Cmd ↑`"
-msgstr ""
+msgstr ":kbd:`Cmd ↑`"
 
 #: ../../user/translating.rst:155
 msgid "Navigate to previous translation in current search."
 msgstr "Перейти до попереднього перекладу у поточних результатах пошуку."
 
 #: ../../user/translating.rst:163
-#, fuzzy
-#| msgid ":kbd:`Alt+PageDown`"
 msgid ":kbd:`Alt PageDown` or"
-msgstr ":kbd:`Alt+PageDown`"
+msgstr ":kbd:`Alt PageDown` або"
 
 #: ../../user/translating.rst:165
 msgid ":kbd:`Ctrl ↓` or"
-msgstr ""
+msgstr ":kbd:`Ctrl ↓` вбо"
 
 #: ../../user/translating.rst:167
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Alt ↓` or"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Alt ↓` вбо"
 
 #: ../../user/translating.rst:169
 msgid ":kbd:`Cmd ↓`"
-msgstr ""
+msgstr ":kbd:`Cmd ↓`"
 
 #: ../../user/translating.rst:163
 msgid "Navigate to next translation in current search."
 msgstr "Перейти до наступного перекладу у поточних результатах пошуку."
 
 #: ../../user/translating.rst:171
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Alt Enter` or"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Alt Enter` вбо"
 
 #: ../../user/translating.rst:173
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl Enter` or"
-msgstr ":kbd:`Ctrl+E` або :kbd:`Cmd+E`"
+msgstr ":kbd:`Ctrl Enter` вбо"
 
 #: ../../user/translating.rst:175
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd Enter`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd Enter`"
 
 #: ../../user/translating.rst:171
 msgid "Save current translation."
 msgstr "Зберегти поточний переклад."
 
 #: ../../user/translating.rst:177
-#, fuzzy
-#| msgid ":kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`"
 msgid ":kbd:`Ctrl Shift Enter` or"
-msgstr ":kbd:`Ctrl+Shift+Enter` або :kbd:`Cmd+Shift+Enter`"
+msgstr ":kbd:`Ctrl Shift Enter` або"
 
 #: ../../user/translating.rst:179
 msgid ":kbd:`Cmd Shift Enter`"
-msgstr ""
+msgstr ":kbd:`Cmd Shift Enter`"
 
 #: ../../user/translating.rst:177
 msgid "Unmarks translation as fuzzy and submits it."
 msgstr "Скасовує позначення перекладу як неточного і надсилає його до сховища."
 
 #: ../../user/translating.rst:181
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl E` or"
-msgstr ":kbd:`Ctrl+E` або :kbd:`Cmd+E`"
+msgstr ":kbd:`Ctrl E`або"
 
 #: ../../user/translating.rst:183
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd E`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd E`"
 
 #: ../../user/translating.rst:181
 msgid "Focus translation editor."
 msgstr "Фокусує поле редактора перекладу."
 
 #: ../../user/translating.rst:185
-#, fuzzy
-#| msgid ":kbd:`Ctrl+U` or :kbd:`Cmd+U`"
 msgid ":kbd:`Ctrl U` or"
-msgstr ":kbd:`Ctrl+U` або :kbd:`Cmd+U`"
+msgstr ":kbd:`Ctrl U` або"
 
 #: ../../user/translating.rst:187
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd U`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd U`"
 
 #: ../../user/translating.rst:185
 msgid "Focus comment editor."
 msgstr "Фокусує поле редагування коментаря."
 
 #: ../../user/translating.rst:189
-#, fuzzy
-#| msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
 msgid ":kbd:`Ctrl M` or"
-msgstr ":kbd:`Ctrl+M` або :kbd:`Cmd+M`"
+msgstr ":kbd:`Ctrl M` або"
 
 #: ../../user/translating.rst:191
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd M`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd M`"
 
 #: ../../user/translating.rst:189
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ""
 "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ""
+"Показує вкладку :guilabel:`Автоматичні пропозиції`, див. :ref:`machine-"
+"translation`."
 
 #: ../../user/translating.rst:193
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl 1` to :kbd:`Ctrl 9` or"
-msgstr ":kbd:`Ctrl+E` або :kbd:`Cmd+E`"
+msgstr "Від :kbd:`Ctrl 1` до :kbd:`Ctrl 9` або"
 
 #: ../../user/translating.rst:195
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Cmd 1` to :kbd:`Cmd 9`"
-msgstr ":kbd:`Ctrl+E` або :kbd:`Cmd+E`"
+msgstr "Від :kbd:`Cmd 1` до :kbd:`Cmd 9`"
 
 #: ../../user/translating.rst:193
 msgid "Copies placeable of given number from source string."
 msgstr "Копіює замінник із вказаним номером з початкового рядка."
 
 #: ../../user/translating.rst:197
-#, fuzzy
-#| msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
 msgid ":kbd:`Ctrl M` :kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl+M` або :kbd:`Cmd+M`"
+msgstr ":kbd:`Ctrl M` від :kbd:`1` до :kbd:`9` або"
 
 #: ../../user/translating.rst:199
-#, fuzzy
-#| msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
 msgid ":kbd:`Cmd M` :kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Ctrl+M` або :kbd:`Cmd+M`"
+msgstr ":kbd:`Cmd M` від :kbd:`1` до :kbd:`9`"
 
 #: ../../user/translating.rst:197
 msgid "Copy the machine translation of given number to current translation."
@@ -34359,78 +34315,60 @@ msgstr ""
 "Копіює комп'ютерний переклад із вказаним номером до поточного перекладу."
 
 #: ../../user/translating.rst:201
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl I` :kbd:`1` to :kbd:`9`  or"
-msgstr ":kbd:`Ctrl+E` або :kbd:`Cmd+E`"
+msgstr ":kbd:`Ctrl I` від :kbd:`1` до :kbd:`9` або"
 
 #: ../../user/translating.rst:203
 msgid ":kbd:`Cmd I` :kbd:`1` to :kbd:`9`"
-msgstr ""
+msgstr ":kbd:`Cmd I` від :kbd:`1` до :kbd:`9`"
 
 #: ../../user/translating.rst:201
 msgid "Ignore one item in the list of failing checks."
 msgstr "Ігнорувати один запис у списку непройдених перевірок."
 
 #: ../../user/translating.rst:205
-#, fuzzy
-#| msgid ":kbd:`Ctrl+J` or :kbd:`Cmd+J`"
 msgid ":kbd:`Ctrl J` or"
-msgstr ":kbd:`Ctrl+J` або :kbd:`Cmd+J`"
+msgstr ":kbd:`Ctrl J` або"
 
 #: ../../user/translating.rst:207
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd J`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd J`"
 
 #: ../../user/translating.rst:205
 msgid "Shows the :guilabel:`Nearby strings` tab."
 msgstr "Показує вкладку :guilabel:`Сусідні рядки`."
 
 #: ../../user/translating.rst:209
-#, fuzzy
-#| msgid ":kbd:`Ctrl+S` or :kbd:`Cmd+S`"
 msgid ":kbd:`Ctrl S` or"
-msgstr ":kbd:`Ctrl+S` або :kbd:`Cmd+S`"
+msgstr ":kbd:`Ctrl S` або"
 
 #: ../../user/translating.rst:211
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd S`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd S`"
 
 #: ../../user/translating.rst:209
 msgid "Focuses search field."
 msgstr "Передає фокусування до поля пошуку."
 
 #: ../../user/translating.rst:213
-#, fuzzy
-#| msgid ":kbd:`Ctrl+O` or :kbd:`Cmd+O`"
 msgid ":kbd:`Ctrl O` or"
-msgstr ":kbd:`Ctrl+O` або :kbd:`Cmd+O`"
+msgstr ":kbd:`Ctrl O` або"
 
 #: ../../user/translating.rst:215
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd O`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd O`"
 
 #: ../../user/translating.rst:213
 msgid "Copies source string."
 msgstr "Копіює початковий рядок."
 
 #: ../../user/translating.rst:217
-#, fuzzy
-#| msgid ":kbd:`Ctrl+Y` or :kbd:`Cmd+Y`"
 msgid ":kbd:`Ctrl Y` or"
-msgstr ":kbd:`Ctrl+Y` або :kbd:`Cmd+Y`"
+msgstr ":kbd:`Ctrl Y`або"
 
 #: ../../user/translating.rst:219
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Cmd Y`"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Cmd Y`"
 
 #: ../../user/translating.rst:217
 msgid "Toggles the :guilabel:`Needs editing` flag."
