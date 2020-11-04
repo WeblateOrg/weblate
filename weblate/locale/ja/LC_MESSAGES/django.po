@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-11-02 14:29+0000\n"
+"POT-Creation-Date: 2020-11-04 16:07+0000\n"
 "PO-Revision-Date: 2020-11-03 12:16+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -1999,7 +1999,7 @@ msgid "All languages"
 msgstr "すべての言語"
 
 #: weblate/auth/models.py:148 weblate/billing/models.py:290
-#: weblate/lang/models.py:457 weblate/lang/views.py:56
+#: weblate/lang/models.py:462 weblate/lang/views.py:56
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
@@ -2253,91 +2253,91 @@ msgstr "終止符の不一致"
 msgid "Source and translation do not both end with a full stop"
 msgstr "原文と翻訳文で一致しない文末の終止符"
 
-#: weblate/checks/chars.py:207
+#: weblate/checks/chars.py:210
 msgid "Mismatched colon"
 msgstr "コロンの不一致"
 
-#: weblate/checks/chars.py:208
+#: weblate/checks/chars.py:211
 msgid "Source and translation do not both end with a colon"
 msgstr "原文と翻訳文で一致しない文末のコロン"
 
-#: weblate/checks/chars.py:238
+#: weblate/checks/chars.py:241
 msgid "Mismatched question mark"
 msgstr "疑問符の不一致"
 
-#: weblate/checks/chars.py:239
+#: weblate/checks/chars.py:242
 msgid "Source and translation do not both end with a question mark"
 msgstr "原文と翻訳文で一致しない文末の疑問符"
 
-#: weblate/checks/chars.py:271
+#: weblate/checks/chars.py:274
 msgid "Mismatched exclamation mark"
 msgstr "感嘆符の不一致"
 
-#: weblate/checks/chars.py:272
+#: weblate/checks/chars.py:275
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "原文と翻訳文で一致しない文末の感嘆符"
 
-#: weblate/checks/chars.py:295
+#: weblate/checks/chars.py:298
 msgid "Mismatched ellipsis"
 msgstr "省略記号の不一致"
 
-#: weblate/checks/chars.py:296
+#: weblate/checks/chars.py:299
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "原文と翻訳文で一致しない文末の省略記号"
 
-#: weblate/checks/chars.py:314
+#: weblate/checks/chars.py:317
 msgid "Mismatched \\n"
 msgstr "\\n 数の不一致"
 
-#: weblate/checks/chars.py:315
+#: weblate/checks/chars.py:318
 msgid "Number of \\n in translation does not match source"
 msgstr "改行 (\\n) の数が原文と一致しないもの"
 
-#: weblate/checks/chars.py:323
+#: weblate/checks/chars.py:326
 msgid "Mismatching line breaks"
 msgstr "改行数の不一致"
 
-#: weblate/checks/chars.py:324
+#: weblate/checks/chars.py:327
 msgid "Number of new lines in translation does not match source"
 msgstr "改行の数が原文と一致しないもの"
 
-#: weblate/checks/chars.py:331 weblate/trans/autofixes/chars.py:43
+#: weblate/checks/chars.py:334 weblate/trans/autofixes/chars.py:43
 msgid "Zero-width space"
 msgstr "ゼロ幅スペース"
 
-#: weblate/checks/chars.py:332
+#: weblate/checks/chars.py:335
 msgid "Translation contains extra zero-width space character"
 msgstr "ゼロ幅のスペース文字が含まれている翻訳"
 
-#: weblate/checks/chars.py:349 weblate/checks/flags.py:66
+#: weblate/checks/chars.py:352 weblate/checks/flags.py:66
 msgid "Maximum length of translation"
 msgstr "翻訳文の最大長"
 
-#: weblate/checks/chars.py:350
+#: weblate/checks/chars.py:353
 msgid "Translation should not exceed given length"
 msgstr "指定された長さを超えている翻訳文"
 
-#: weblate/checks/chars.py:366
+#: weblate/checks/chars.py:369
 msgid "Mismatched semicolon"
 msgstr "セミコロンの不一致"
 
-#: weblate/checks/chars.py:367
+#: weblate/checks/chars.py:370
 msgid "Source and translation do not both end with a semicolon"
 msgstr "原文と翻訳文で一致しない文末のセミコロン"
 
-#: weblate/checks/chars.py:378
+#: weblate/checks/chars.py:381
 msgid "Kashida letter used"
 msgstr "Kashida 文字の使用"
 
-#: weblate/checks/chars.py:379
+#: weblate/checks/chars.py:382
 msgid "The decorative kashida letters should not be used"
 msgstr "装飾的なカシーダが使用されている翻訳文"
 
-#: weblate/checks/chars.py:390
+#: weblate/checks/chars.py:393
 msgid "Punctuation spacing"
 msgstr "句読点のスペース"
 
-#: weblate/checks/chars.py:391
+#: weblate/checks/chars.py:394
 msgid "Missing non breakable space before double punctuation sign"
 msgstr "二重句読点の前に、改行できないスペースがありません"
 
@@ -2445,7 +2445,7 @@ msgid "Font spacing"
 msgstr "フォント間隔"
 
 #: weblate/checks/flags.py:64 weblate/trans/models/component.py:600
-#: weblate/utils/views.py:95
+#: weblate/utils/views.py:96
 msgid "Priority"
 msgstr "優先順位"
 
@@ -2453,22 +2453,22 @@ msgstr "優先順位"
 msgid "Replacements while rendering"
 msgstr "表示処理中の代替"
 
-#: weblate/checks/flags.py:242
+#: weblate/checks/flags.py:245
 #, python-format
 msgid "Invalid translation flag: \"%s\""
 msgstr "翻訳フラグが正しくありません: \"%s\""
 
-#: weblate/checks/flags.py:246
+#: weblate/checks/flags.py:249
 #, python-format
 msgid "Translation flag has no parameters: \"%s\""
 msgstr "翻訳フラグに、パラメータがありません: \"%s\""
 
-#: weblate/checks/flags.py:252
+#: weblate/checks/flags.py:255
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "翻訳フラグのパラメータが間違っています: \"%s\""
 
-#: weblate/checks/flags.py:256
+#: weblate/checks/flags.py:259
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "翻訳フラグにパラメータがありません: \"%s\""
@@ -2798,7 +2798,7 @@ msgstr ""
 msgid "Font"
 msgstr "フォント"
 
-#: weblate/fonts/models.py:137 weblate/lang/models.py:456
+#: weblate/fonts/models.py:137 weblate/lang/models.py:461
 #: weblate/templates/component.html:135
 #: weblate/templates/js/translations.html:7 weblate/templates/languages.html:11
 #: weblate/templates/project.html:61
@@ -3178,7 +3178,7 @@ msgstr[0] "アップロードしたファイルから %d 個の用語をイン�
 msgid "File upload has failed: %s"
 msgstr "ファイルのアップロードに失敗しました: %s"
 
-#: weblate/glossary/views.py:270 weblate/trans/views/edit.py:581
+#: weblate/glossary/views.py:270 weblate/trans/views/edit.py:582
 #: weblate/trans/views/search.py:86 weblate/trans/views/search.py:234
 msgid "Failed to process form!"
 msgstr "フォームの処理に失敗しました！"
@@ -3187,217 +3187,217 @@ msgstr "フォームの処理に失敗しました！"
 msgid "Weblate languages"
 msgstr "Weblate 言語"
 
-#: weblate/lang/data.py:183
+#: weblate/lang/data.py:149
 msgctxt "Plural form description"
 msgid "Singular"
 msgstr "単数形"
 
-#: weblate/lang/data.py:184
+#: weblate/lang/data.py:150
 msgctxt "Plural form description"
 msgid "Plural"
 msgstr "複数形"
 
-#: weblate/lang/data.py:187 weblate/lang/data.py:193 weblate/lang/data.py:201
-#: weblate/lang/data.py:205 weblate/lang/data.py:210 weblate/lang/data.py:215
-#: weblate/lang/data.py:221 weblate/lang/data.py:228 weblate/lang/data.py:233
-#: weblate/lang/data.py:238 weblate/lang/data.py:244 weblate/lang/data.py:256
+#: weblate/lang/data.py:153 weblate/lang/data.py:159 weblate/lang/data.py:167
+#: weblate/lang/data.py:171 weblate/lang/data.py:176 weblate/lang/data.py:181
+#: weblate/lang/data.py:187 weblate/lang/data.py:194 weblate/lang/data.py:199
+#: weblate/lang/data.py:204 weblate/lang/data.py:210 weblate/lang/data.py:222
 msgctxt "Plural form description"
 msgid "One"
 msgstr "1 つ"
 
-#: weblate/lang/data.py:188 weblate/lang/data.py:195 weblate/lang/data.py:223
-#: weblate/lang/data.py:230 weblate/lang/data.py:239 weblate/lang/data.py:246
-#: weblate/lang/data.py:258
+#: weblate/lang/data.py:154 weblate/lang/data.py:161 weblate/lang/data.py:189
+#: weblate/lang/data.py:196 weblate/lang/data.py:205 weblate/lang/data.py:212
+#: weblate/lang/data.py:224
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "少数"
 
-#: weblate/lang/data.py:189 weblate/lang/data.py:197 weblate/lang/data.py:202
-#: weblate/lang/data.py:207 weblate/lang/data.py:211 weblate/lang/data.py:218
-#: weblate/lang/data.py:224 weblate/lang/data.py:227 weblate/lang/data.py:234
-#: weblate/lang/data.py:241 weblate/lang/data.py:248 weblate/lang/data.py:252
-#: weblate/lang/data.py:260
+#: weblate/lang/data.py:155 weblate/lang/data.py:163 weblate/lang/data.py:168
+#: weblate/lang/data.py:173 weblate/lang/data.py:177 weblate/lang/data.py:184
+#: weblate/lang/data.py:190 weblate/lang/data.py:193 weblate/lang/data.py:200
+#: weblate/lang/data.py:207 weblate/lang/data.py:214 weblate/lang/data.py:218
+#: weblate/lang/data.py:226
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "その他"
 
-#: weblate/lang/data.py:192 weblate/lang/data.py:200 weblate/lang/data.py:235
-#: weblate/lang/data.py:255
+#: weblate/lang/data.py:158 weblate/lang/data.py:166 weblate/lang/data.py:201
+#: weblate/lang/data.py:221
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "ゼロ"
 
-#: weblate/lang/data.py:194 weblate/lang/data.py:206 weblate/lang/data.py:212
-#: weblate/lang/data.py:216 weblate/lang/data.py:222 weblate/lang/data.py:229
-#: weblate/lang/data.py:245 weblate/lang/data.py:251 weblate/lang/data.py:257
+#: weblate/lang/data.py:160 weblate/lang/data.py:172 weblate/lang/data.py:178
+#: weblate/lang/data.py:182 weblate/lang/data.py:188 weblate/lang/data.py:195
+#: weblate/lang/data.py:211 weblate/lang/data.py:217 weblate/lang/data.py:223
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "2 つ"
 
-#: weblate/lang/data.py:196 weblate/lang/data.py:240 weblate/lang/data.py:247
-#: weblate/lang/data.py:259
+#: weblate/lang/data.py:162 weblate/lang/data.py:206 weblate/lang/data.py:213
+#: weblate/lang/data.py:225
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "多数"
 
-#: weblate/lang/data.py:217
+#: weblate/lang/data.py:183
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "3 つ"
 
-#: weblate/lang/models.py:437 weblate/templates/addons/generate_help.html:12
+#: weblate/lang/models.py:442 weblate/templates/addons/generate_help.html:12
 #: weblate/templates/language.html:52
 msgid "Language code"
 msgstr "言語コード"
 
-#: weblate/lang/models.py:440 weblate/templates/addons/generate_help.html:10
+#: weblate/lang/models.py:445 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
 msgstr "言語名"
 
-#: weblate/lang/models.py:443 weblate/templates/language.html:61
+#: weblate/lang/models.py:448 weblate/templates/language.html:61
 msgid "Text direction"
 msgstr "テキストの方向"
 
-#: weblate/lang/models.py:448
+#: weblate/lang/models.py:453
 msgid "Left to right"
 msgstr "左から右"
 
-#: weblate/lang/models.py:449
+#: weblate/lang/models.py:454
 msgid "Right to left"
 msgstr "右から左"
 
-#: weblate/lang/models.py:519
+#: weblate/lang/models.py:524
 msgctxt "Plural type"
 msgid "None"
 msgstr "なし"
 
-#: weblate/lang/models.py:522
+#: weblate/lang/models.py:527
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
 msgstr "1つ/その他 (古典複数形)"
 
-#: weblate/lang/models.py:526
+#: weblate/lang/models.py:531
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
 msgstr "1つ/少数/その他 (スラヴ系言語)"
 
-#: weblate/lang/models.py:528
+#: weblate/lang/models.py:533
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "アラビア系言語"
 
-#: weblate/lang/models.py:529
+#: weblate/lang/models.py:534
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "ゼロ/1つ/その他"
 
-#: weblate/lang/models.py:530
+#: weblate/lang/models.py:535
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "1つ/2つ/その他"
 
-#: weblate/lang/models.py:531
+#: weblate/lang/models.py:536
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "1つ/その他/2つ"
 
-#: weblate/lang/models.py:534
+#: weblate/lang/models.py:539
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "1つ/2つ/少数/その他"
 
-#: weblate/lang/models.py:538
+#: weblate/lang/models.py:543
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "その他/1つ/2つ/少数"
 
-#: weblate/lang/models.py:542
+#: weblate/lang/models.py:547
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "1つ/2つ/3つ/その他"
 
-#: weblate/lang/models.py:544
+#: weblate/lang/models.py:549
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "1つ/その他/ゼロ"
 
-#: weblate/lang/models.py:547
+#: weblate/lang/models.py:552
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "1つ/少数/多数/その他"
 
-#: weblate/lang/models.py:549
+#: weblate/lang/models.py:554
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "2つ/その他"
 
-#: weblate/lang/models.py:552
+#: weblate/lang/models.py:557
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "1つ/2つ/少数/多数/その他"
 
-#: weblate/lang/models.py:556
+#: weblate/lang/models.py:561
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
 msgstr "ゼロ/ 1 つ/ 2 つ/少数/多数/その他"
 
-#: weblate/lang/models.py:558
+#: weblate/lang/models.py:563
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "未知"
 
-#: weblate/lang/models.py:565
+#: weblate/lang/models.py:570
 msgid "Plural definition source"
 msgstr "複数形の定義元"
 
-#: weblate/lang/models.py:567
+#: weblate/lang/models.py:572
 msgid "Default plural"
 msgstr "複数形のデフォルト"
 
-#: weblate/lang/models.py:568
+#: weblate/lang/models.py:573
 msgid "Plural gettext formula"
 msgstr "複数の gettext 式"
 
-#: weblate/lang/models.py:569
+#: weblate/lang/models.py:574
 msgid "Manually entered formula"
 msgstr "手動で入力した数式"
 
-#: weblate/lang/models.py:573 weblate/templates/language.html:76
+#: weblate/lang/models.py:578 weblate/templates/language.html:76
 msgid "Number of plurals"
 msgstr "複数形の数"
 
-#: weblate/lang/models.py:580 weblate/templates/language.html:99
+#: weblate/lang/models.py:585 weblate/templates/language.html:99
 #: weblate/templates/snippets/plural-formula.html:4
 msgid "Plural formula"
 msgstr "複数形判別式"
 
-#: weblate/lang/models.py:585 weblate/templates/language.html:80
+#: weblate/lang/models.py:590 weblate/templates/language.html:80
 msgid "Plural type"
 msgstr "複数形タイプ"
 
-#: weblate/lang/models.py:593
+#: weblate/lang/models.py:598
 msgid "Plural form"
 msgstr "複数形"
 
-#: weblate/lang/models.py:594
+#: weblate/lang/models.py:599
 msgid "Plural forms"
 msgstr "複数形"
 
 #. Translators: Label for plurals with example counts
-#: weblate/lang/models.py:676
+#: weblate/lang/models.py:681
 #, python-brace-format
 msgid "For example: {0}"
 msgstr "例: {0}"
 
-#: weblate/lang/models.py:687
+#: weblate/lang/models.py:692
 msgid "Singular"
 msgstr "単数形"
 
-#: weblate/lang/models.py:689
+#: weblate/lang/models.py:694
 msgid "Plural"
 msgstr "複数形"
 
-#: weblate/lang/models.py:690
+#: weblate/lang/models.py:695
 #, python-format
 msgid "Plural form %d"
 msgstr "複数形 %d"
@@ -4026,8 +4026,9 @@ msgid ""
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
-"メールはすぐに届くはずですが、届かない場合は迷惑メールフォルダを確認するか再登録してください。どうしても問題が解決しない場合は、<a href=\""
-"%(contact_url)s\">連絡</a>してください。"
+"メールはすぐに届くはずですが、届かない場合は迷惑メールフォルダを確認するか再"
+"登録してください。どうしても問題が解決しない場合は、<a href=\"%(contact_url)s"
+"\">連絡</a>してください。"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6368,10 +6369,16 @@ msgid "Lock"
 msgstr "ロック"
 
 #: weblate/templates/js/git-status.html:99
+#, fuzzy
+#| msgid ""
+#| "Reset removes all changes in Weblate and resets the repository to match "
+#| "upstream. Use with caution."
 msgid ""
-"Reset removes all changes in Weblate and resets the repository to match "
+"Resetting removes all changes in Weblate so that the repository matches "
 "upstream. Use with caution."
-msgstr "リセットすると、Webrate のすべての変更を削除し、アップストリームに合わせてリポジトリをリセットします。注意して使用してください。"
+msgstr ""
+"リセットすると、Webrate のすべての変更を削除し、アップストリームに合わせてリ"
+"ポジトリをリセットします。注意して使用してください。"
 
 #: weblate/templates/js/git-status.html:104
 msgid "Maintenance"
@@ -6599,7 +6606,9 @@ msgstr ""
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
-msgstr "リブレ トライアルを承認されない場合、料金プランに含まれるすべてのプロジェクトを %(date)s 日に削除します。"
+msgstr ""
+"リブレ トライアルを承認されない場合、料金プランに含まれるすべてのプロジェクト"
+"を %(date)s 日に削除します。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -7395,7 +7404,7 @@ msgstr "要編集"
 #: weblate/templates/project-labels.html:9
 #: weblate/templates/snippets/project-nav.html:123
 #: weblate/templates/translate.html:580 weblate/trans/models/unit.py:296
-#: weblate/utils/views.py:96
+#: weblate/utils/views.py:97
 msgid "Labels"
 msgstr "ラベル"
 
@@ -8620,9 +8629,9 @@ msgstr "この翻訳に貢献するにあたっては、貢献者同意条項へ
 msgid "Insufficient privileges for editing source strings."
 msgstr "原文を編集する権限はありません。"
 
-#: weblate/templates/translate.html:194 weblate/trans/views/edit.py:305
-#: weblate/trans/views/edit.py:325 weblate/trans/views/edit.py:343
-#: weblate/trans/views/edit.py:791
+#: weblate/templates/translate.html:194 weblate/trans/views/edit.py:306
+#: weblate/trans/views/edit.py:326 weblate/trans/views/edit.py:344
+#: weblate/trans/views/edit.py:792
 msgid "Insufficient privileges for saving translations."
 msgstr "翻訳を保存する権限がありません。"
 
@@ -9025,7 +9034,7 @@ msgstr "画像 URL"
 msgid "Open in full editor"
 msgstr "フル エディタで開く"
 
-#: weblate/templates/zen-units.html:123 weblate/trans/views/edit.py:454
+#: weblate/templates/zen-units.html:123 weblate/trans/views/edit.py:455
 msgid "The translation has come to an end."
 msgstr "翻訳は最後まで完了しました。"
 
@@ -10483,8 +10492,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "リポジトリを取得できません: %s"
 
 #: weblate/trans/models/component.py:1176
-#: weblate/trans/models/component.py:2094
-#: weblate/trans/models/component.py:2139
+#: weblate/trans/models/component.py:2099
+#: weblate/trans/models/component.py:2154
 msgid "File does not exist."
 msgstr "ファイルが存在しません。"
 
@@ -10518,44 +10527,44 @@ msgstr "ローカル ブランチをリモート ブランチ %s にリベース
 msgid "Could not merge remote branch into %s."
 msgstr "リモート ブランチを %s にマージできませんでした。"
 
-#: weblate/trans/models/component.py:1976
+#: weblate/trans/models/component.py:1981
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Weblate プロジェクトへのリンクが間違っています。リンク済みのリポジトリへはリ"
 "ンクできません！"
 
-#: weblate/trans/models/component.py:1985
+#: weblate/trans/models/component.py:1990
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Weblate プロジェクトへのリンクが間違っています。自分自身へはリンクできませ"
 "ん！"
 
-#: weblate/trans/models/component.py:1994
+#: weblate/trans/models/component.py:1999
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Weblate プロジェクトに対するリンクが正しくありません。 weblate://プロジェク"
 "ト/コンポーネント の形式で指定してください。"
 
-#: weblate/trans/models/component.py:2003
+#: weblate/trans/models/component.py:2008
 msgid "Option is not available for linked repositories."
 msgstr "オプションはリンク済みのリポジトリには使用できません。"
 
-#: weblate/trans/models/component.py:2012
+#: weblate/trans/models/component.py:2017
 msgid "The filemask did not match any files."
 msgstr "ファイルマスクは、どのファイルにも一致しません。"
 
-#: weblate/trans/models/component.py:2021
+#: weblate/trans/models/component.py:2026
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr ""
 "%s の言語コードは設定されていません。ファイルマスクを確認してください。"
 
-#: weblate/trans/models/component.py:2028
+#: weblate/trans/models/component.py:2033
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "言語コード \"%s\" は長すぎます。ファイルマスクを確認してください。"
 
-#: weblate/trans/models/component.py:2035
+#: weblate/trans/models/component.py:2040
 #, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
@@ -10564,21 +10573,21 @@ msgstr ""
 "単一言語 (%s) に複数のファイルが存在しています。ファイルマスクを調整し、違う"
 "リソースを翻訳するためのコンポーネントを使用してください。"
 
-#: weblate/trans/models/component.py:2049
+#: weblate/trans/models/component.py:2054
 msgid "Could not find any matching language, please check the filemask."
 msgstr "一致する言語が見つかりません。ファイルマスクを確認してください。"
 
-#: weblate/trans/models/component.py:2068
+#: weblate/trans/models/component.py:2073
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "%d 個の一致ファイルを解析できません。"
 
-#: weblate/trans/models/component.py:2092
+#: weblate/trans/models/component.py:2097
 msgid "Unrecognized base file for new translations."
 msgstr "新しい翻訳用の、未使用の基本ファイル。"
 
-#: weblate/trans/models/component.py:2096
+#: weblate/trans/models/component.py:2101
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -10586,40 +10595,49 @@ msgstr ""
 "Weblate に新しい翻訳ファイルを追加する設定をしましたが、基本ファイルがありま"
 "せん。"
 
-#: weblate/trans/models/component.py:2109
+#: weblate/trans/models/component.py:2114
 msgid "You can not use a base file for bilingual translation."
 msgstr "バイリンガル翻訳では基本ファイルを使用できません。"
 
-#: weblate/trans/models/component.py:2115
-#: weblate/trans/models/component.py:2121
+#: weblate/trans/models/component.py:2120
+#: weblate/trans/models/component.py:2136
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "編集テンプレートなしでは、中間言語ファイルを使用できません。"
 
 #: weblate/trans/models/component.py:2128
+#, fuzzy
+#| msgid ""
+#| "An intermediate language file can not be used without an editing template."
+msgid ""
+"An intermediate language file has to be different from monolingual base "
+"language file. You can probably keep it empty."
+msgstr "編集テンプレートなしでは、中間言語ファイルを使用できません。"
+
+#: weblate/trans/models/component.py:2143
 msgid "Using a .pot file as base file is unsupported."
 msgstr ".pot ファイルを基本ファイルにすることは未対応です。"
 
-#: weblate/trans/models/component.py:2144
+#: weblate/trans/models/component.py:2159
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "翻訳ファイルを解析できません: %s"
 
-#: weblate/trans/models/component.py:2152
+#: weblate/trans/models/component.py:2167
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "ひな形となる言語 ({0}) が翻訳元言語 ({1}) と一致していません！"
 
-#: weblate/trans/models/component.py:2157
+#: weblate/trans/models/component.py:2172
 msgid "You can not use a monolingual translation without a base file."
 msgstr "基本ファイルがないと、単一言語の翻訳はできません。"
 
-#: weblate/trans/models/component.py:2173
+#: weblate/trans/models/component.py:2188
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "リポジトリを更新できません: %s"
 
-#: weblate/trans/models/component.py:2190
+#: weblate/trans/models/component.py:2205
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -10627,37 +10645,37 @@ msgstr ""
 "新しい言語を追加するには、手順の URL を指定するか、異なるオプションを使用して"
 "ください。"
 
-#: weblate/trans/models/component.py:2221
+#: weblate/trans/models/component.py:2236
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "原文の言語を変更できません。代わりにコンポーネントを再作成してください。"
 
-#: weblate/trans/models/component.py:2229
+#: weblate/trans/models/component.py:2244
 msgid "Component with this URL slug already exists in the project."
 msgstr "この URL スラッグを持つコンポーネントは既にプロジェクトに存在します。"
 
-#: weblate/trans/models/component.py:2234
+#: weblate/trans/models/component.py:2249
 msgid "Component with this name already exists in the project."
 msgstr "この名前のコンポーネントは既にプロジェクトに存在します。"
 
-#: weblate/trans/models/component.py:2259
+#: weblate/trans/models/component.py:2274
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "正規表現が正しくないため、ファイルマッチを検証できません。"
 
-#: weblate/trans/models/component.py:2269
+#: weblate/trans/models/component.py:2284
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "提案の自動採用は、投票機能が有効の場合のみ自動採用されます。"
 
-#: weblate/trans/models/component.py:2622
+#: weblate/trans/models/component.py:2637
 msgid "Could not add new translation file."
 msgstr "新しい翻訳ファイルを追加できません。"
 
-#: weblate/trans/models/component.py:2633
+#: weblate/trans/models/component.py:2648
 msgid "The given language is filtered by the language filter."
 msgstr "指定した言語は、言語フィルタで除外されました。"
 
-#: weblate/trans/models/component.py:2655
+#: weblate/trans/models/component.py:2664
 msgid "Translation file already exists!"
 msgstr "翻訳ファイルはすでに存在しています！"
 
@@ -10667,7 +10685,7 @@ msgid "Context"
 msgstr "コンテキスト"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2726 weblate/utils/views.py:101
+#: weblate/trans/models/component.py:2726 weblate/utils/views.py:102
 msgctxt "Translation key"
 msgid "Key"
 msgstr "キー"
@@ -11280,99 +11298,99 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "ユーザー情報でフル ネームとメールアドレスを設定してください。"
 
-#: weblate/trans/views/edit.py:190 weblate/trans/views/edit.py:449
+#: weblate/trans/views/edit.py:191 weblate/trans/views/edit.py:450
 msgid "No string matched your search!"
 msgstr "該当する文字列が見つかりませんでした！"
 
-#: weblate/trans/views/edit.py:214
+#: weblate/trans/views/edit.py:215
 msgid "Your suggestion is empty!"
 msgstr "提案内容がありません！"
 
-#: weblate/trans/views/edit.py:219
+#: weblate/trans/views/edit.py:220
 msgid "You don't have privileges to add suggestions!"
 msgstr "提案を追加できる権限がありません！"
 
-#: weblate/trans/views/edit.py:225
+#: weblate/trans/views/edit.py:226
 msgid "Your suggestion has been identified as spam!"
 msgstr "あなたからの提案は迷惑投稿と判断されています！"
 
-#: weblate/trans/views/edit.py:236
+#: weblate/trans/views/edit.py:237
 msgid "Your suggestion already exists!"
 msgstr "すでに提案済みです！"
 
-#: weblate/trans/views/edit.py:259
+#: weblate/trans/views/edit.py:260
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "以下の修正が翻訳に適用されます: %s"
 
-#: weblate/trans/views/edit.py:276
+#: weblate/trans/views/edit.py:277
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "翻訳の保存後、新たに検査で不合格となった項目: {0}"
 
-#: weblate/trans/views/edit.py:319
+#: weblate/trans/views/edit.py:320
 msgid "Invalid merge request!"
 msgstr "マージリクエストが正しくありません！"
 
-#: weblate/trans/views/edit.py:337
+#: weblate/trans/views/edit.py:338
 msgid "Invalid revert request!"
 msgstr "差し戻し要求が正しくありません！"
 
-#: weblate/trans/views/edit.py:347
+#: weblate/trans/views/edit.py:348
 msgid "Can not revert to empty translation!"
 msgstr "翻訳を空に戻すことはできません！"
 
-#: weblate/trans/views/edit.py:366
+#: weblate/trans/views/edit.py:367
 msgid "You do not have privilege to accept suggestions!"
 msgstr "提案を採用する権限がありません！"
 
-#: weblate/trans/views/edit.py:372
+#: weblate/trans/views/edit.py:373
 msgid "You do not have privilege to delete suggestions!"
 msgstr "提案を削除する権限がありません！"
 
-#: weblate/trans/views/edit.py:378
+#: weblate/trans/views/edit.py:379
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "提案に投票する権限がありません！"
 
-#: weblate/trans/views/edit.py:402
+#: weblate/trans/views/edit.py:403
 msgid "Invalid suggestion!"
 msgstr "無効な提案です！"
 
-#: weblate/trans/views/edit.py:464
+#: weblate/trans/views/edit.py:465
 msgid "Invalid search string!"
 msgstr "無効な検索文字列です！"
 
-#: weblate/trans/views/edit.py:601
+#: weblate/trans/views/edit.py:602
 msgid "Automatic translation in progress"
 msgstr "自動翻訳中"
 
-#: weblate/trans/views/edit.py:637
+#: weblate/trans/views/edit.py:638
 msgid "Source needs review"
 msgstr "原文の査読が必要"
 
-#: weblate/trans/views/edit.py:640
+#: weblate/trans/views/edit.py:641
 msgid "Posted new comment"
 msgstr "新しいコメントを投稿しました"
 
-#: weblate/trans/views/edit.py:642
+#: weblate/trans/views/edit.py:643
 msgid "Failed to add comment!"
 msgstr "コメントの追加に失敗しました！"
 
-#: weblate/trans/views/edit.py:661
+#: weblate/trans/views/edit.py:662
 msgid "Translation comment has been deleted."
 msgstr "翻訳文へのコメントを削除しました。"
 
-#: weblate/trans/views/edit.py:679
+#: weblate/trans/views/edit.py:680
 msgid "Translation comment has been resolved."
 msgstr "翻訳文へのコメントを解決しました。"
 
-#: weblate/trans/views/edit.py:834
+#: weblate/trans/views/edit.py:835
 msgid "Translation with this key seem to already exist!"
 msgstr "このキーの翻訳はすでに存在しているようです！"
 
-#: weblate/trans/views/edit.py:838
+#: weblate/trans/views/edit.py:839
 msgid "New string has been added."
 msgstr "新しい文字列を追加しました。"
 
@@ -11740,31 +11758,31 @@ msgstr "この名前は禁止されています"
 msgid "Syntax error in language aliases."
 msgstr "言語の別名に構文エラーがあります。"
 
-#: weblate/utils/views.py:93 weblate/utils/views.py:110
+#: weblate/utils/views.py:94 weblate/utils/views.py:111
 msgid "Position and priority"
 msgstr "位置と優先順位"
 
-#: weblate/utils/views.py:94
+#: weblate/utils/views.py:95
 msgid "Position"
 msgstr "位置"
 
-#: weblate/utils/views.py:97
+#: weblate/utils/views.py:98
 msgid "Age of string"
 msgstr "文字列の保存日時"
 
-#: weblate/utils/views.py:98
+#: weblate/utils/views.py:99
 msgid "Number of words"
 msgstr "単語の数"
 
-#: weblate/utils/views.py:99
+#: weblate/utils/views.py:100
 msgid "Number of comments"
 msgstr "コメント数"
 
-#: weblate/utils/views.py:100
+#: weblate/utils/views.py:101
 msgid "Number of failing checks"
 msgstr "検査不合格数"
 
-#: weblate/utils/views.py:308
+#: weblate/utils/views.py:312
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "パラメータ %(field)s 内でエラー: %(error)s"
@@ -11773,7 +11791,7 @@ msgstr "パラメータ %(field)s 内でエラー: %(error)s"
 msgid "Git with force push"
 msgstr "Git に強制プッシュ"
 
-#: weblate/vcs/git.py:809
+#: weblate/vcs/git.py:813
 msgid "No remote repository"
 msgstr "リモート リポジトリなし"
 
