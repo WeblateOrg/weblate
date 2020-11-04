@@ -37,6 +37,7 @@ from weblate_language_data.aliases import ALIASES
 from weblate_language_data.countries import DEFAULT_LANGS
 from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import EXTRAPLURALS
+from weblate_language_data.rtl import RTL_LANGS
 
 from weblate.lang import data
 from weblate.logger import LOGGER
@@ -470,7 +471,7 @@ class Language(models.Model, CacheKeyMixin):
     def save(self, *args, **kwargs):
         """Set default direction for language."""
         if not self.direction:
-            if self.base_code in data.RTL_LANGS or self.code in data.RTL_LANGS:
+            if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
                 self.direction = "rtl"
             else:
                 self.direction = "ltr"
