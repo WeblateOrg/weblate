@@ -693,6 +693,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-SA-2.0-UK",
+        "Creative Commons Attribution Share Alike 2.0 England and Wales",
+        "https://creativecommons.org/licenses/by-sa/2.0/uk/legalcode",
+        False,
+    ),
+    (
         "CC-BY-SA-2.0",
         "Creative Commons Attribution Share Alike 2.0 Generic",
         "https://creativecommons.org/licenses/by-sa/2.0/legalcode",
@@ -2154,7 +2160,7 @@ LICENSES = (
         "Unicode-DFS-2016",
         "Unicode License Agreement - Data Files and Software (2016)",
         "http://www.unicode.org/copyright.html",
-        False,
+        True,
     ),
     (
         "Unicode-TOU",
