@@ -2121,6 +2121,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 "without an editing template."
             )
             raise ValidationError({"template": msg, "intermediate": msg})
+        if self.intermediate and self.intermediate == self.template:
+            raise ValidationError(
+                {
+                    "intermediate": _(
+                        "An intermediate language file has to be different from "
+                        "monolingual base language file. You can probably keep it "
+                        "empty."
+                    )
+                }
+            )
         if self.intermediate and not self.edit_template:
             msg = _(
                 "An intermediate language file can not be used "
