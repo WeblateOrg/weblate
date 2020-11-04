@@ -588,9 +588,6 @@ class RubyFormatCheckTest(CheckTestCase):
     check = RubyFormatCheck()
     flag = "ruby-format"
 
-    def setUp(self):
-        super().setUp()
-
     def test_check_highlight(self):
         self.test_highlight = (self.flag, "%dstring%s", [(0, 2, "%d"), (8, 10, "%s")])
         super().test_check_highlight()
