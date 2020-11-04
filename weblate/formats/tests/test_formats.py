@@ -657,9 +657,6 @@ class PoXliffFormatTest2(PoXliffFormatTest):
     MATCH = '<file original="cs.po"'
     FIND_MATCH = "Ahoj světe!\n"
 
-    def test_save(self, edit=False):
-        super().test_save(edit)
-
 
 class RESXFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = RESXFormat
