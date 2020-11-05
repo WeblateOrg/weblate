@@ -969,8 +969,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                         continue
             # Trigger source checks on target check update (multiple failing checks)
             if not self.is_source:
-                self.source_unit.is_batch_update = self.is_batch_update
-                self.source_unit.run_checks()
+                if self.is_batch_update:
+                    self.translation.component.updated_sources[
+                        self.source_unit.id
+                    ] = self.source_unit
+                else:
+                    self.source_unit.run_checks()
 
         # Delete no longer failing checks
         if old_checks:
