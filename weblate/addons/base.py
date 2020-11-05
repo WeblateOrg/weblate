@@ -186,7 +186,7 @@ class BaseAddon:
     def pre_update(self, component):
         return
 
-    def post_update(self, component, previous_head):
+    def post_update(self, component, previous_head: str, skip_push: bool):
         return
 
     def post_commit(self, component):
@@ -243,7 +243,9 @@ class BaseAddon:
         else:
             component.delete_alert(self.alert)
 
-    def commit_and_push(self, component, files: Optional[List[str]] = None):
+    def commit_and_push(
+        self, component, files: Optional[List[str]] = None, skip_push: bool = False
+    ):
         if files is None:
             files = list(
                 chain.from_iterable(
@@ -258,6 +260,7 @@ class BaseAddon:
                 template=component.addon_message,
                 extra_context={"addon_name": self.verbose},
                 files=files,
+                skip_push=skip_push,
             )
 
     def render_repo_filename(self, template, translation):
@@ -329,13 +332,13 @@ class UpdateBaseAddon(BaseAddon):
     def update_translations(self, component, previous_head):
         raise NotImplementedError()
 
-    def post_update(self, component, previous_head):
+    def post_update(self, component, previous_head: str, skip_push: bool):
         try:
             self.update_translations(component, previous_head)
         except FileParseError:
             # Ignore file parse error, it will be properly tracked as an alert
             pass
-        self.commit_and_push(component)
+        self.commit_and_push(component, skip_push=skip_push)
 
 
 class TestException(Exception):

@@ -1254,7 +1254,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
 
             # update local branch
-            ret = self.update_branch(request, method=method)
+            ret = self.update_branch(request, method=method, skip_push=True)
 
         # create translation objects for all files
         try:
@@ -1533,7 +1533,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         raise FileParseError(error_message)
 
     @perform_on_link
-    def update_branch(self, request=None, method=None):
+    def update_branch(
+        self, request=None, method: Optional[str] = None, skip_push: bool = False
+    ):
         """Update current branch to match remote (if possible)."""
         if method is None:
             method = self.merge_style
@@ -1609,7 +1611,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # Run post update hook, this should be done with repo lock held
                 # to avoid posssible race with another update
                 vcs_post_update.send(
-                    sender=self.__class__, component=self, previous_head=previous_head
+                    sender=self.__class__,
+                    component=self,
+                    previous_head=previous_head,
+                    skip_push=skip_push,
                 )
                 self.delete_alert("MergeFailure")
                 self.delete_alert("RepositoryOutdated")
@@ -1619,6 +1624,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         component=component,
                         previous_head=previous_head,
                         child=True,
+                        skip_push=skip_push,
                     )
         return True
 
@@ -1956,7 +1962,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.configure_branch()
         if self.id:
             # Update existing repo
-            self.update_branch()
+            self.update_branch(skip_push=skip_push)
         else:
             # Reset to upstream in case not yet saved model (this is called
             # from the clean method only)

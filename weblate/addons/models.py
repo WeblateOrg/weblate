@@ -193,13 +193,20 @@ def post_push(sender, component, **kwargs):
 
 
 @receiver(vcs_post_update)
-def post_update(sender, component, previous_head, child=False, **kwargs):
+def post_update(
+    sender,
+    component,
+    previous_head: str,
+    child: bool = False,
+    skip_push: bool = False,
+    **kwargs
+):
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
         if child and addon.repo_scope:
             continue
         component.log_debug("running post_update addon: %s", addon.name)
         try:
-            addon.addon.post_update(component, previous_head)
+            addon.addon.post_update(component, previous_head, skip_push)
         except Exception:
             handle_addon_error(addon, component)
 

@@ -41,7 +41,7 @@ class DiscoveryAddon(BaseAddon):
     repo_scope = True
     trigger_update = True
 
-    def post_update(self, component, previous_head):
+    def post_update(self, component, previous_head: str, skip_push: bool):
         self.discovery.perform(
             remove=self.instance.configuration["remove"], background=True
         )
