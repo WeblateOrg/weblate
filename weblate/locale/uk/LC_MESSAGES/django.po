@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-04 22:27+0000\n"
-"PO-Revision-Date: 2020-11-05 14:54+0000\n"
-"Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
+"PO-Revision-Date: 2020-11-05 15:00+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -624,8 +624,8 @@ msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
 msgstr ""
-"Ви не зможете відправити переклади, коли у вас не має жодної прикріпленої "
-"адреси електронної пошти."
+"Ви не зможете надіслати переклади, коли у вас не має жодної пов'язаної із "
+"обліковим записом адреси електронної пошти."
 
 #: weblate/accounts/notifications.py:54
 msgid "Do not notify"
@@ -1085,7 +1085,7 @@ msgid ""
 msgstr ""
 "Щоразу, коли новий джерельний рядок імпортується з VCS, він позначається, що "
 "потребує правлення в Weblate. Таким чином, ви можете легко фільтрувати та "
-"правити джерельні рядки, написані розробниками."
+"редагувати початкові рядки, написані розробниками."
 
 #: weblate/addons/flags.py:61
 msgid "Flag new translations as \"Needs editing\""
@@ -1099,7 +1099,8 @@ msgid ""
 msgstr ""
 "Кожного разу, коли новий перекладний рядок імпортується з VCS, він "
 "позначається як такий, що потребує правлення в Weblate. Таким чином, ви "
-"можете легко фільтрувати та правити джерельні рядки, створені розробниками."
+"можете легко фільтрувати та редагувати джерельні рядки, створені "
+"розробниками."
 
 #: weblate/addons/flags.py:75
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -1903,7 +1904,7 @@ msgstr "Рецензенти"
 #: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Managers"
-msgstr "Управителі"
+msgstr "Керівники"
 
 #: weblate/auth/data.py:223
 msgctxt "Per project access control group"
@@ -5785,11 +5786,11 @@ msgstr "Цей переклад використовує одномовні фа
 
 #: weblate/templates/component_info.html:30
 msgid "The translation base language is editable."
-msgstr "Основну мову перекладу можна правити."
+msgstr "Основну мову перекладу можна редагувати."
 
 #: weblate/templates/component_info.html:32
 msgid "The translation base language can not be edited."
-msgstr "Основну мову перекладу не можна правити."
+msgstr "Основну мову перекладу не можна редагувати."
 
 #: weblate/templates/component_info.html:35
 msgid "The translation uses bilingual files."
@@ -7359,7 +7360,7 @@ msgstr ""
 #: weblate/templates/manage/users.html:17
 #: weblate/templates/manage/users.html:24
 msgid "Django admin interface"
-msgstr "Інтерфейс управителя Django"
+msgstr "Інтерфейс адміністратора Django"
 
 #: weblate/templates/manage/tools.html:39
 #: weblate/templates/manage/users.html:21
@@ -7367,8 +7368,8 @@ msgid ""
 "The Django admin interface might be useful to perform certain management "
 "operations."
 msgstr ""
-"Інтерфейс управителя Django може бути корисним для виконання певних оруд "
-"управління."
+"Інтерфейс адміністратора Django може бути корисним для виконання певних дій "
+"з керування."
 
 #: weblate/templates/manage/tools.html:49
 msgid "Send test e-mail"
@@ -8397,7 +8398,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate не зміг відправити поточні зміни у вище сховище."
+msgstr "Weblate не зміг записати поточні зміни у основне сховище."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -9061,7 +9062,7 @@ msgid ""
 msgstr ""
 "Автоматичний переклад бере наявні переклади в проєкті і застосовує їх до "
 "поточного складника. При цьому можна відсилати переклади в іншу гілку, щоб "
-"поправити відповідні переклади або перекласти новий складник за допомогою "
+"виправити відповідні переклади або перекласти новий складник за допомогою "
 "пам'яті перекладу."
 
 #: weblate/templates/translation.html:244
@@ -9226,7 +9227,7 @@ msgstr "Оновити перевірку якості"
 
 #: weblate/trans/admin.py:90
 msgid "Administrators"
-msgstr "Управителі"
+msgstr "Адміністратори"
 
 #: weblate/trans/admin.py:111
 msgid "VCS repositories"
@@ -9787,7 +9788,8 @@ msgstr "Текст мовою первини"
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
-"Ви можете пізніше поправити це, як і будь-який інший рядок мовою первини."
+"Ви можете виконати редагування пізніше, як і будь-якого іншого початкового "
+"рядка."
 
 #: weblate/trans/forms.py:1906
 msgid "State to set"
@@ -9922,7 +9924,7 @@ msgstr "Не вдалося оновити сховище."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:202
 msgid "Could not push the repository."
-msgstr "Не вдалося відправити сховище."
+msgstr "Не вдалося записати до сховища."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:209
@@ -10440,8 +10442,8 @@ msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr ""
-"Чи будуть користувачі мати можливість правити основний файл для одномовних "
-"перекладів."
+"Чи будуть користувачі мати можливість редагувати основний файл для "
+"одномовних перекладів."
 
 #: weblate/trans/models/component.py:363
 msgid "Intermediate language file"
@@ -10666,7 +10668,7 @@ msgid ""
 "interface."
 msgstr ""
 "Не вдалося перевірити SSH-ключ вузла. Будь ласка, додайте їх на сторінці SSH "
-"в інтерфейсі управителя."
+"в інтерфейсі адміністратора."
 
 #: weblate/trans/models/component.py:1122
 msgid ""
