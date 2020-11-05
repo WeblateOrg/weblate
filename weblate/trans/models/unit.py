@@ -320,7 +320,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self,
         same_content: bool = False,
         run_checks: bool = True,
-        propagate_checks: bool = True,
+        propagate_checks: Optional[bool] = None,
         force_insert: bool = False,
         force_update: bool = False,
         using=None,
@@ -704,7 +704,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 False,
                 change_action=change_action,
                 author=None,
-                propagate_checks=False,
+                run_checks=False,
             )
             result = True
         return result
@@ -716,6 +716,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         change_action=None,
         author=None,
         run_checks: bool = True,
+        propagate_checks: bool = True,
     ):
         """Stores unit to backend.
 
@@ -759,10 +760,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.state = STATE_TRANSLATED
         self.original_state = self.state
 
-        # Save updated unit to database
+        # Save updated unit to database, skip running checks
         self.save(
             update_fields=update_fields,
             run_checks=run_checks,
+            propagate_checks=propagate,
         )
 
         # Generate Change object for this change
@@ -914,9 +916,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self, propagate: bool = True):
+    def run_checks(self, propagate: Optional[bool] = None):
         """Update checks for this unit."""
-        needs_propagate = False
+        needs_propagate = bool(propagate)
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -945,6 +947,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)
+                    # Propagation is handled in
+                    # weblate.checks.models.remove_complimentary_checks
                 else:
                     # Create new check
                     create.append(Check(unit=self, dismissed=False, check=check))
@@ -953,10 +957,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
             # Propagate checks which need it (for example consistency)
-            if propagate and needs_propagate:
+            if needs_propagate and propagate is not False:
                 for unit in self.same_source_units:
                     try:
-                        unit.run_checks()
+                        unit.run_checks(False)
                     except Unit.DoesNotExist:
                         # This can happen in some corner cases like changing
                         # source language of a project - the source language is
