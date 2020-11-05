@@ -320,6 +320,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self,
         same_content: bool = False,
         run_checks: bool = True,
+        propagate_checks: bool = True,
         force_insert: bool = False,
         force_update: bool = False,
         using=None,
@@ -349,7 +350,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if run_checks:
-            self.run_checks()
+            self.run_checks(propagate_checks)
 
     def get_absolute_url(self):
         return "{0}?checksum={1}".format(
@@ -699,7 +700,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             unit.target = self.target
             unit.state = self.state
             unit.save_backend(
-                user, False, change_action=change_action, author=None, run_checks=False
+                user,
+                False,
+                change_action=change_action,
+                author=None,
+                propagate_checks=False,
             )
             result = True
         return result
@@ -731,7 +736,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Propagate to other projects
         # This has to be done before changing source for template
         if propagate:
-            propagate = self.propagate(user, change_action, author=author)
+            self.propagate(user, change_action, author=author)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -755,7 +760,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.original_state = self.state
 
         # Save updated unit to database
-        self.save(update_fields=update_fields, run_checks=run_checks and not propagate)
+        self.save(
+            update_fields=update_fields,
+            run_checks=run_checks,
+        )
 
         # Generate Change object for this change
         self.generate_change(user or author, author, change_action)
@@ -774,10 +782,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit.target != self.target:
             self.update_source_units(self.old_unit.target, user or author, author)
-
-        # Propagate checks, this is is skipped during propagation
-        if propagate and run_checks:
-            self.run_checks(True)
 
         return True
 
@@ -910,9 +914,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self, propagate: bool = False):
+    def run_checks(self, propagate: bool = True):
         """Update checks for this unit."""
-        run_propagate = propagate
+        needs_propagate = False
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -944,12 +948,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 else:
                     # Create new check
                     create.append(Check(unit=self, dismissed=False, check=check))
-                    run_propagate |= check_obj.propagates
+                    needs_propagate |= check_obj.propagates
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
             # Propagate checks which need it (for example consistency)
-            if run_propagate:
+            if propagate and needs_propagate:
                 for unit in self.same_source_units:
                     try:
                         unit.run_checks()
@@ -1019,10 +1023,14 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         new_target,
         new_state,
         change_action=None,
-        propagate=True,
+        propagate: bool = True,
         author=None,
     ):
-        """Store new translation of a unit."""
+        """
+        Store new translation of a unit.
+
+        Propagation is currently disabled on import.
+        """
         # Fetch current copy from database and lock it for update
         self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
 
