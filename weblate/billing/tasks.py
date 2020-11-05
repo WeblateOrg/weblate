@@ -55,13 +55,21 @@ def billing_notify():
     limit = Billing.objects.get_out_of_limits()
     due = Billing.objects.get_unpaid()
     toremove = Billing.objects.exclude(removal=None).order_by("removal")
+    trial = Billing.objects.filter(removal=None, state=Billing.STATE_TRIAL).order_by(
+        "expiry"
+    )
 
-    if limit or due or toremove:
+    if limit or due or toremove or trial:
         send_notification_email(
             "en",
             [a[1] for a in settings.ADMINS] + settings.ADMINS_BILLING,
             "billing_check",
-            context={"limit": limit, "due": due, "toremove": toremove},
+            context={
+                "limit": limit,
+                "due": due,
+                "toremove": toremove,
+                "trial": trial,
+            },
         )
 
 

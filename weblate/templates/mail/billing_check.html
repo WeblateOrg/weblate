@@ -33,4 +33,14 @@
 </ul>
 {% endif %}
 
+{% if trial %}
+<p>Following trials are active:</p>
+
+<ul>
+{% for bill in trial %}
+<li><a href="{{ bill.get_absolute_url }}">{{ bill }}</a> [{{ bill.expiry }}]</li>
+{% endfor %}
+</ul>
+{% endif %}
+
 {% endblock %}
