@@ -776,7 +776,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.update_source_units(self.old_unit.target, user or author, author)
 
         # Propagate checks, this is is skipped during propagation
-        if propagate:
+        if propagate and run_checks:
             self.run_checks(True)
 
         return True
