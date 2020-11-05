@@ -193,7 +193,8 @@ def check_post_save(sender, instance, created, **kwargs):
 @disable_for_loaddata
 def remove_complimentary_checks(sender, instance, **kwargs):
     """Remove propagate checks from all units."""
-    instance.unit.translation.invalidate_cache()
+    unit = instance.unit
+    unit.translation.invalidate_cache()
     check_obj = instance.check_obj
     if not check_obj:
         return
@@ -201,14 +202,13 @@ def remove_complimentary_checks(sender, instance, **kwargs):
     # Handle propagating checks - remove on other units
     if check_obj.propagates:
         Check.objects.filter(
-            unit__in=instance.unit.same_source_units, check=instance.check
+            unit__in=unit.same_source_units, check=instance.check
         ).delete()
-        for unit in instance.unit.same_source_units:
-            unit.translation.invalidate_cache()
+        for other in unit.same_source_units:
+            other.translation.invalidate_cache()
 
     # Update source checks if needed
     if check_obj.target:
-        unit = instance.unit
         source_unit = unit.source_unit
         if unit.is_batch_update:
             unit.translation.component.updated_sources[source_unit.id] = source_unit
