@@ -167,16 +167,22 @@ class Repository:
         if not fullcmd:
             args = [cls._cmd] + list(args)
         text_cmd = " ".join(args)
+        kwargs = {}
+        # These are mutually exclusive, on Python 3.7+ it is posible
+        # to pass stdin = None, but on 3.6 stdin has to be omitted
+        if stdin is None:
+            kwargs["input"] = stdin
+        else:
+            kwargs["stdin"] = subprocess.PIPE
         process = subprocess.run(
             args,
             cwd=cwd,
             env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
-            stdin=None if stdin else subprocess.PIPE,
             universal_newlines=not raw,
             check=False,
-            input=stdin,
+            **kwargs,
         )
         cls.add_breadcrumb(
             text_cmd,
