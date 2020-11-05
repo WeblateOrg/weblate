@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.27.2 (7d683ba) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.27.3 (e0be154) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2514,6 +2514,7 @@ var Sentry = (function (exports) {
          * @hidden
          */
         Scope.prototype.applyToEvent = function (event, hint) {
+            var _a;
             if (this._extra && Object.keys(this._extra).length) {
                 event.extra = __assign(__assign({}, this._extra), event.extra);
             }
@@ -2537,6 +2538,10 @@ var Sentry = (function (exports) {
             // errors with transaction and it relys on that.
             if (this._span) {
                 event.contexts = __assign({ trace: this._span.getTraceContext() }, event.contexts);
+                var transactionName = (_a = this._span.transaction) === null || _a === void 0 ? void 0 : _a.name;
+                if (transactionName) {
+                    event.tags = __assign({ transaction: transactionName }, event.tags);
+                }
             }
             this._applyFingerprint(event);
             event.breadcrumbs = __spread((event.breadcrumbs || []), this._breadcrumbs);
@@ -3038,7 +3043,7 @@ var Sentry = (function (exports) {
             var _a = this.getStackTop(), scope = _a.scope, client = _a.client;
             if (!scope)
                 return;
-            var session = scope.getSession();
+            var session = scope.getSession && scope.getSession();
             if (session) {
                 session.close();
                 if (client && client.captureSession) {
@@ -3961,7 +3966,7 @@ var Sentry = (function (exports) {
                 if (processedEvent === null) {
                     throw new SentryError('`beforeSend` returned `null`, will not send event.');
                 }
-                var session = scope && scope.getSession();
+                var session = scope && scope.getSession && scope.getSession();
                 if (!isTransaction && session) {
                     _this._updateSessionFromEvent(session, processedEvent);
                 }
@@ -4691,7 +4696,7 @@ var Sentry = (function (exports) {
         }
         if (isDOMError(exception) || isDOMException(exception)) {
             // If it is a DOMError or DOMException (which are legacy APIs, but still supported in some browsers)
-            // then we just extract the name and message, as they don't provide anything else
+            // then we just extract the name, code, and message, as they don't provide anything else
             // https://developer.mozilla.org/en-US/docs/Web/API/DOMError
             // https://developer.mozilla.org/en-US/docs/Web/API/DOMException
             var domException = exception;
@@ -4699,6 +4704,9 @@ var Sentry = (function (exports) {
             var message = domException.message ? name_1 + ": " + domException.message : name_1;
             event = eventFromString(message, syntheticException, options);
             addExceptionTypeValue(event, message);
+            if ('code' in domException) {
+                event.tags = __assign(__assign({}, event.tags), { 'DOMException.code': "" + domException.code });
+            }
             return event;
         }
         if (isError(exception)) {
@@ -5519,8 +5527,9 @@ var Sentry = (function (exports) {
                     }), options);
                 };
             });
-            fill(proto, 'removeEventListener', function (original) {
+            fill(proto, 'removeEventListener', function (originalRemoveEventListener) {
                 return function (eventName, fn, options) {
+                    var _a;
                     /**
                      * There are 2 possible scenarios here:
                      *
@@ -5538,13 +5547,17 @@ var Sentry = (function (exports) {
                      * then we have to detach both of them. Otherwise, if we'd detach only wrapped one, it'd be impossible
                      * to get rid of the initial handler and it'd stick there forever.
                      */
+                    var wrappedEventHandler = fn;
                     try {
-                        original.call(this, eventName, fn.__sentry_wrapped__, options);
+                        var originalEventHandler = (_a = wrappedEventHandler) === null || _a === void 0 ? void 0 : _a.__sentry_wrapped__;
+                        if (originalEventHandler) {
+                            originalRemoveEventListener.call(this, eventName, originalEventHandler, options);
+                        }
                     }
                     catch (e) {
                         // ignore, accessing __sentry_wrapped__ will throw in some Selenium environments
                     }
-                    return original.call(this, eventName, fn, options);
+                    return originalRemoveEventListener.call(this, eventName, wrappedEventHandler, options);
                 };
             });
         };
@@ -5956,7 +5969,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.27.2';
+    var SDK_VERSION = '5.27.3';
 
     /**
      * The Sentry Browser SDK Client.
