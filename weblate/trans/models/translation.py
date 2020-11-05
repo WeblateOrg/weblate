@@ -429,6 +429,7 @@ class Translation(
 
         # Invalidate keys cache
         transaction.on_commit(self.invalidate_keys)
+        self.log_info("updating completed")
 
         # Use up to date list as prefetch for source
         if self.is_source:
