@@ -154,7 +154,7 @@ class BaseAddon:
         if EVENT_POST_UPDATE in self.events:
             for component in components:
                 component.commit_pending("addon", None)
-                self.post_update(component, "")
+                self.post_update(component, "", False)
         if EVENT_COMPONENT_UPDATE in self.events:
             for component in components:
                 self.component_update(component)
