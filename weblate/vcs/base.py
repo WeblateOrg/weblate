@@ -170,7 +170,7 @@ class Repository:
         kwargs = {}
         # These are mutually exclusive, on Python 3.7+ it is posible
         # to pass stdin = None, but on 3.6 stdin has to be omitted
-        if stdin is None:
+        if stdin is not None:
             kwargs["input"] = stdin
         else:
             kwargs["stdin"] = subprocess.PIPE
