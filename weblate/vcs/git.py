@@ -284,7 +284,7 @@ class GitRepository(Repository):
             return
 
         # Build the commit command
-        cmd = ["commit", "--message", message]
+        cmd = ["commit", "--file", "-"]
         if author:
             cmd.extend(["--author", author])
         if timestamp is not None:
@@ -292,7 +292,7 @@ class GitRepository(Repository):
         cmd.extend(self.get_gpg_sign_args())
 
         # Execute it
-        self.execute(cmd)
+        self.execute(cmd, stdin=message)
         # Clean cache
         self.clean_revision_cache()
 

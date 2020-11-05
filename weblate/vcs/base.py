@@ -159,6 +159,7 @@ class Repository:
         fullcmd: bool = False,
         raw: bool = False,
         local: bool = False,
+        stdin: Optional[str] = None,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -172,9 +173,10 @@ class Repository:
             env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
-            stdin=subprocess.PIPE,
+            stdin=None if stdin else subprocess.PIPE,
             universal_newlines=not raw,
             check=False,
+            input=stdin,
         )
         cls.add_breadcrumb(
             text_cmd,
@@ -195,6 +197,7 @@ class Repository:
         needs_lock: bool = True,
         fullcmd: bool = False,
         merge_err: bool = True,
+        stdin: Optional[str] = None,
     ):
         """Execute command and caches its output."""
         if needs_lock:
@@ -205,7 +208,12 @@ class Repository:
         is_status = args[0] == self._cmd_status[0]
         try:
             self.last_output = self._popen(
-                args, self.path, fullcmd=fullcmd, local=self.local, merge_err=merge_err
+                args,
+                self.path,
+                fullcmd=fullcmd,
+                local=self.local,
+                merge_err=merge_err,
+                stdin=stdin,
             )
         except RepositoryException as error:
             if not is_status:
