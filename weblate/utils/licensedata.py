@@ -549,6 +549,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-3.0-US",
+        "Creative Commons Attribution 3.0 United States",
+        "https://creativecommons.org/licenses/by/3.0/us/legalcode",
+        False,
+    ),
+    (
         "CC-BY-3.0",
         "Creative Commons Attribution 3.0 Unported",
         "https://creativecommons.org/licenses/by/3.0/legalcode",
