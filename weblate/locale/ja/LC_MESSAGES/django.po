@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-04 22:27+0000\n"
-"PO-Revision-Date: 2020-11-03 12:16+0000\n"
+"PO-Revision-Date: 2020-11-07 22:26+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -823,7 +823,7 @@ msgstr "アカウントを削除しました。"
 
 #: weblate/accounts/views.py:476
 msgid "Too many messages sent, please try again later."
-msgstr "メッセージを送りすぎです。しばらくしてから再送信してください。"
+msgstr "メッセージを送りすぎです。時間をおいて送信してください。"
 
 #: weblate/accounts/views.py:499 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:256
@@ -6369,16 +6369,10 @@ msgid "Lock"
 msgstr "ロック"
 
 #: weblate/templates/js/git-status.html:99
-#, fuzzy
-#| msgid ""
-#| "Reset removes all changes in Weblate and resets the repository to match "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream. Use with caution."
-msgstr ""
-"リセットすると、Webrate のすべての変更を削除し、アップストリームに合わせてリ"
-"ポジトリをリセットします。注意して使用してください。"
+msgstr "リセットすると、リポジトリをアップストリームと一致させ、Weblate のすべての変更を削除します。注意して使用してください。"
 
 #: weblate/templates/js/git-status.html:104
 msgid "Maintenance"
@@ -7609,9 +7603,7 @@ msgstr "このプロジェクトのロック解除時に、通知を受け取る
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
-msgstr ""
-"メンテナンスのため、一時的に翻訳を停止しています、しばらくしてからアクセスを"
-"お願いします。"
+msgstr "メンテナンスのため、一時的に翻訳を停止しています、時間をおいてアクセスしてください。"
 
 #: weblate/templates/snippets/component/lock.html:21
 msgid "The translation was automatically locked due to following alerts:"
@@ -9215,9 +9207,7 @@ msgstr "翻訳したい文字列は使用できなくなりました。"
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
-msgstr ""
-"原文が変更されると、対応する文字列に要編集フラグが設定されるほか、必要に応じ"
-"て手作業で設定される場合もあります。"
+msgstr "通常、原文が変更されると要編集フラグが設定されます、また手動で設定される場合もあります。"
 
 #: weblate/trans/forms.py:443
 msgid "Review state"
@@ -10606,13 +10596,10 @@ msgid ""
 msgstr "編集テンプレートなしでは、中間言語ファイルを使用できません。"
 
 #: weblate/trans/models/component.py:2128
-#, fuzzy
-#| msgid ""
-#| "An intermediate language file can not be used without an editing template."
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
-msgstr "編集テンプレートなしでは、中間言語ファイルを使用できません。"
+msgstr "中間言語ファイルは、単一言語の基本言語ファイルと同一にしないでください。中間言語ファイルの中身は、空でもかまいません。"
 
 #: weblate/trans/models/component.py:2143
 msgid "Using a .pot file as base file is unsupported."
@@ -11484,7 +11471,7 @@ msgstr "%s の検索"
 
 #: weblate/trans/views/search.py:214
 msgid "Too many search queries, please try again later."
-msgstr "問い合わせ回数が多すぎます。しばらくしてから再度お試しください。"
+msgstr "問い合わせ回数が多すぎます。時間をおいて実行してください。"
 
 #: weblate/trans/views/search.py:216
 msgid "Invalid search query!"
