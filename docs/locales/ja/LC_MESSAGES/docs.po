@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-04 23:28+0100\n"
-"PO-Revision-Date: 2020-11-05 15:00+0000\n"
-"Last-Translator: 日陰のコスモス <baffclan@yahoo.co.jp>\n"
+"PO-Revision-Date: 2020-11-07 22:26+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.3.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -509,12 +509,8 @@ msgid ""
 msgstr "スクリーンショットを管理できる - 追加または削除、原文への関連付け。"
 
 #: ../../admin/access.rst:278
-#, fuzzy
-#| msgid ""
-#| "Can edit translation templates in :ref:`monolingual` and source string "
-#| "info."
 msgid "Can edit source strings in :ref:`monolingual` and source string info."
-msgstr ":ref:`monolingual` の翻訳テンプレートと原文情報を編集できる。"
+msgstr "原文を :ref:`monolingual` と原文情報で編集できる。"
 
 #: ../../admin/access.rst:282
 msgid "Can translate the project, and upload translations made offline."
@@ -1031,6 +1027,8 @@ msgid ""
 "management is available from the :guilabel:`Manage` ↓ `Addons` menu of each "
 "respective translation component for admins."
 msgstr ""
+"アドオンを使用すると、翻訳ワークフローをカスタマイズできます。アドオンは翻訳コンポーネント画面にインストールして、バックグラウンドで動作します。アドオン管"
+"理は、管理者用の各翻訳コンポーネントの :guilabel:`管理` ↓ `アドオン` メニューから実行します。"
 
 #: ../../admin/addons.rst:16
 msgid "Built-in addons"
@@ -1050,7 +1048,7 @@ msgstr "自動翻訳または他のコンポーネントを使用して文字列
 #: ../../admin/addons.rst:27
 msgid ""
 "This addon is triggered automatically when new strings appear in a component."
-msgstr ""
+msgstr "このアドオンは、コンポーネントに新しい文字列が表示されると自動的に実行します。"
 
 #: ../../admin/addons.rst:31
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -1068,7 +1066,7 @@ msgstr "JavaScript または HTML の現地語化用に CDN を追加します�
 msgid ""
 "It can be used to localize static HTML pages or used to load localization in "
 "the JavaScript code."
-msgstr ""
+msgstr "静的な HTML ページを現地語化したり、JavaScript コードで翻訳を読み込むために使用できます。"
 
 #: ../../admin/addons.rst:46
 msgid ""
@@ -1076,6 +1074,8 @@ msgid ""
 "you can include in the HTML documents to get them localized. See :ref:"
 "`weblate-cdn` for more details."
 msgstr ""
+"アドオンをインストールすると、コンポーネント専用の URL が生成されます。この URL を HTML "
+"ドキュメントに含めると、コンポーネントを現地語化できます。詳細は :ref:`weblate-cdn` を参照してください。"
 
 #: ../../admin/addons.rst:52
 msgid ""
@@ -1113,23 +1113,23 @@ msgstr ""
 #: ../../admin/addons.rst:74
 msgid ""
 "It creates empty translations in languages that have unadded components."
-msgstr ""
+msgstr "コンポーネントを追加していない言語では、空の翻訳を作成します。"
 
 #: ../../admin/addons.rst:77
 msgid ""
 "Missing languages are checked once every 24 hours and when a new language is "
 "added in Weblate."
-msgstr ""
+msgstr "存在しない言語は、24 時間ごとに 1 回、および新しい言語を Weblate に追加したときに確認します。"
 
 #: ../../admin/addons.rst:80
 msgid "Unlike most others, this addon affects the whole project."
-msgstr ""
+msgstr "他のほとんどのアドオンとは異なり、このアドオンはプロジェクト全体に影響します。"
 
 #: ../../admin/addons.rst:84
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
-msgstr ""
+msgstr "新しく追加した文字列を :ref:`addon-weblate.autotranslate.autotranslate` で自動翻訳します。"
 
 #: ../../admin/addons.rst:90
 msgid "Component discovery"
@@ -1149,6 +1149,8 @@ msgid ""
 "`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
+"これは VCS を更新するたびに起動し、その他は、:djadmin:`import_project` 管理コマンドと同じです。この方法で、1 つの "
+"VCS 内で複数の変換コンポーネントを追跡できます。"
 
 #: ../../admin/addons.rst:99
 msgid ""
@@ -1156,6 +1158,8 @@ msgid ""
 "others will employ :ref:`internal-urls` to it as a VCS configuration, and "
 "configure it to find all components in it."
 msgstr ""
+"今後消える可能性が最も低いメイン コンポーネントを 1 つ作成します。他のコンポーネントは、:ref:`internal-urls` を VCS "
+"設定として使用し、その中のすべてのコンポーネントを検索するように設定します。"
 
 #: ../../admin/addons.rst:103
 msgid ""
@@ -1163,13 +1167,15 @@ msgid ""
 "for complexity in configuration. Some examples for common use cases can be "
 "found in the addon help section."
 msgstr ""
+"コンポーネントの照合は正規表現を使用するが、この場合、性能は設定の複雑さとトレードオフになります。一般的な使用例については、アドオンのヘルプ "
+"セクションを参照してください。"
 
 #: ../../admin/addons.rst:107
 msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
-msgstr ""
+msgstr ":guilabel:`保存` をクリックすると、一致するコンポーネントのプレビューを表示し、設定が実際のニーズに合っているか確認できます:"
 
 #: ../../admin/addons.rst:114 ../../admin/addons.rst:191
 msgid ":ref:`markup`"
@@ -1190,6 +1196,9 @@ msgid ""
 "labeled). You can also carry out any other automated operations for Weblate "
 "metadata."
 msgstr ""
+"新しい文字列のラベル付けを自動化すると便利です (まず ``NOT has:label`` "
+"という検索クエリから開始し、すべての文字列に適切なラベルが付けられるまで必要なラベルを追加します)。Weblate "
+"メタデータに対するその他の自動操作も実行できます。"
 
 #: ../../admin/addons.rst:131
 msgid ":ref:`bulk-edit`"
@@ -1251,10 +1260,11 @@ msgid ""
 "You can use Django template in both filename and content, see :ref:`markup` "
 "for a detailed markup description."
 msgstr ""
+"Django テンプレートは、ファイル名とコンテンツの両方で使用できます。マークアップの詳細については、:ref:`マークアップ` を参照してください。"
 
 #: ../../admin/addons.rst:173
 msgid "For example generating summary file for each translation:"
-msgstr ""
+msgstr "たとえば、各翻訳の概要ファイルを生成する:"
 
 #: ../../admin/addons.rst:175
 msgid "Name of generated file"
@@ -1262,11 +1272,11 @@ msgstr "生成ファイルの名前"
 
 #: ../../admin/addons.rst:176
 msgid "``locale/{{ language_code }}.json``"
-msgstr ""
+msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:187
 msgid "Content"
-msgstr ""
+msgstr "内容"
 
 #: ../../admin/addons.rst:196
 msgid "Contributors in comment"
@@ -1281,7 +1291,7 @@ msgstr "PO ファイルヘッダのコメントを更新し、貢献者名と貢
 #: ../../admin/addons.rst:201
 msgid ""
 "The PO file header will contain a list of contributors and years contributed:"
-msgstr ""
+msgstr "PO ファイル ヘッダーには、貢献者と貢献年の一覧を含みます。"
 
 #: ../../admin/addons.rst:213
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1292,6 +1302,8 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"新しい翻訳を追加すると、:file:`configure`、:file:`configure.in`、または任意の :file:`configure."
+"ac` ファイルの ALL_LINGUAS 変数を更新します。"
 
 #: ../../admin/addons.rst:221
 msgid "Customize gettext output"
@@ -1345,18 +1357,15 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "POT に一致する PO ファイルの更新 (msgmerge)"
 
 #: ../../admin/addons.rst:256
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository and updates all "
 "translation files to match :ref:`component-new_base`. You can configure most "
 "of the msgmerge command line options through the addon configuration."
 msgstr ""
-"msgmerge を使用して、POT ファイルと一致するすべての PO ファイルを更新します。"
-"上流のリポジトリから新しい変更が取得されるたびに実行されます。"
+"msgmerge を使用して、すべての PO ファイルが POT ファイルと一致するように更新します。アップストリームのリポジトリから新しい変更を "
+"pull するたびに実行され、すべての翻訳ファイルが :ref:`component-new_base` と一致するように更新されます。msgmerge "
+"のコマンド ライン オプションの大部分はアドオンの設定で設定できます。"
 
 #: ../../admin/addons.rst:264
 msgid "Squash Git commits"
@@ -3005,9 +3014,7 @@ msgstr "``strict-same``"
 msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
-msgstr ""
-"「未翻訳の翻訳」には、組み込みまれたブラックリストの単語を使用しないようにす"
-"る、参考 :ref:`check-same`。"
+msgstr "「未翻訳の翻訳」には、内蔵したブラックリストの単語を使用しないようにする、参考 :ref:`check-same`。"
 
 #: ../../admin/checks.rst:89
 msgid "``ignore-bbcode``"
@@ -4081,10 +4088,9 @@ msgid ""
 "configuration` so that default values are used. New checks then carried out "
 "for each new Weblate version."
 msgstr ""
-"デフォルトでは、すべての内蔵の :ref:`checks` が有効なっているので、ここで設定"
-"を変更できます。デフォルトでは、:ref:`sample-configuration` でコメント化され"
-"ているため、デフォルト値が使用されます。その後は、Weblate の新しいバージョン"
-"のリリースのたびに新しい検査が行われます。"
+"デフォルトでは、内蔵したすべての :ref:`checks` が有効なっているので、ここで設定を変更できます。デフォルトでは、:ref:`sample-"
+"configuration` でコメント化されているため、デフォルト値が使用されます。その後は、Weblate "
+"の新しいバージョンのリリースのたびに新しい検査が行われます。"
 
 #: ../../admin/config.rst:248
 msgid "You can turn off all checks:"
@@ -9815,10 +9821,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/openshift.rst:55
-#, fuzzy
-#| msgid "Permission checking"
 msgid "Provisioning"
-msgstr "アクセス権の確認"
+msgstr "プロビジョニング"
 
 #: ../../admin/install/openshift.rst:57
 msgid ""
@@ -9846,10 +9850,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/openshift.rst:81
-#, fuzzy
-#| msgid "Terminated"
 msgid "Eliminate"
-msgstr "終了"
+msgstr "削除方法"
 
 #: ../../admin/install/openshift.rst:99
 msgid ""
@@ -10192,10 +10194,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/languages.rst:50
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Built-in language definitions"
-msgstr "言語定義の追加"
+msgstr "内蔵の言語設定"
 
 #: ../../admin/languages.rst:52
 msgid ""
@@ -16486,12 +16486,10 @@ msgid "Newly created internal repositories now use main as default branch."
 msgstr ""
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Reduced false negatives for unchanged translation check."
 msgid ""
 "Reduced false positives rate of unchanged translation while translating "
 "reStructuredText."
-msgstr "未翻訳の翻訳検査の誤検知を減らしました。"
+msgstr "reStructuredText を翻訳中の、未変更の翻訳の誤検知の減少。"
 
 #: ../../changes.rst:14
 msgid "Fixed CodeMirror display issues in some situations."
@@ -28289,11 +28287,9 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
-"この検査のデフォルトの動作では、組み込みのブラックリストから単語を検査対象か"
-"ら除外します。これは頻繁に翻訳されない単語です。これは、複数の言語で同じ 1 つ"
-"の単語だけで構成される短い文字列での誤検出を避けるために便利です。このブラッ"
-"クリストを無効にするには、文字列またはコンポーネントに ``strict-same`` フラグ"
-"を追加します。"
+"この検査のデフォルトの動作では、内蔵したブラックリストから単語を検査対象から除外します。これは頻繁に翻訳されない単語です。これは、複数の言語で同じ 1 "
+"つの単語だけで構成される短い文字列での誤検出を避けるために便利です。このブラックリストを無効にするには、文字列またはコンポーネントに ``strict-"
+"same`` フラグを追加します。"
 
 #: ../../user/checks.rst:874
 msgid ":ref:`component`, :ref:`custom-checks`"
@@ -29668,7 +29664,7 @@ msgstr ":kbd:`Alt Home`"
 
 #: ../../user/translating.rst:149 ../../user/translating.rst:151
 msgid "Navigate to first translation in current search."
-msgstr "現在の検索の最初の翻訳に移動する。"
+msgstr "検索した、先頭の翻訳に移動する。"
 
 #: ../../user/translating.rst:153
 msgid ":kbd:`Alt End`"
@@ -29676,67 +29672,55 @@ msgstr ":kbd:`Alt End`"
 
 #: ../../user/translating.rst:153
 msgid "Navigate to last translation in current search."
-msgstr "現在の検索で最後の翻訳に移動する。"
+msgstr "検索した、末尾の翻訳に移動する。"
 
 #: ../../user/translating.rst:155
-#, fuzzy
-#| msgid ":kbd:`Alt+PageUp`"
 msgid ":kbd:`Alt PageUp` or"
-msgstr ":kbd:`Alt+PageUp`"
+msgstr ":kbd:`Alt PageUp` or"
 
 #: ../../user/translating.rst:157
 msgid ":kbd:`Ctrl ↑` or"
-msgstr ""
+msgstr ":kbd:`Ctrl ↑` or"
 
 #: ../../user/translating.rst:159
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Alt ↑` or"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Alt ↑` or"
 
 #: ../../user/translating.rst:161
 msgid ":kbd:`Cmd ↑`"
-msgstr ""
+msgstr ":kbd:`Cmd ↑`"
 
 #: ../../user/translating.rst:155
 msgid "Navigate to previous translation in current search."
-msgstr "現在の検索で前の翻訳に移動する。"
+msgstr "検索した、1 つ前の翻訳に移動する。"
 
 #: ../../user/translating.rst:163
-#, fuzzy
-#| msgid ":kbd:`Alt+PageDown`"
 msgid ":kbd:`Alt PageDown` or"
-msgstr ":kbd:`Alt+PageDown`"
+msgstr ":kbd:`Alt PageDown` or"
 
 #: ../../user/translating.rst:165
 msgid ":kbd:`Ctrl ↓` or"
-msgstr ""
+msgstr ":kbd:`Ctrl ↓` or"
 
 #: ../../user/translating.rst:167
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Alt ↓` or"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Alt ↓` or"
 
 #: ../../user/translating.rst:169
 msgid ":kbd:`Cmd ↓`"
-msgstr ""
+msgstr ":kbd:`Cmd ↓`"
 
 #: ../../user/translating.rst:163
 msgid "Navigate to next translation in current search."
-msgstr "現在の検索で次の翻訳に移動する。"
+msgstr "検索した、次の翻訳に移動する。"
 
 #: ../../user/translating.rst:171
-#, fuzzy
-#| msgid ":kbd:`Alt+End`"
 msgid ":kbd:`Alt Enter` or"
-msgstr ":kbd:`Alt+End`"
+msgstr ":kbd:`Alt Enter` or"
 
 #: ../../user/translating.rst:173
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl Enter` or"
-msgstr ":kbd:`Ctrl+E` または :kbd:`Cmd+E`"
+msgstr ":kbd:`Ctrl Enter` or"
 
 #: ../../user/translating.rst:175
 msgid ":kbd:`Cmd Enter`"
@@ -29747,24 +29731,20 @@ msgid "Save current translation."
 msgstr "現在の翻訳を保存する。"
 
 #: ../../user/translating.rst:177
-#, fuzzy
-#| msgid ":kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`"
 msgid ":kbd:`Ctrl Shift Enter` or"
-msgstr ":kbd:`Ctrl+Shift+Enter` または :kbd:`Cmd+Shift+Enter`"
+msgstr ":kbd:`Ctrl Shift Enter` or"
 
 #: ../../user/translating.rst:179
 msgid ":kbd:`Cmd Shift Enter`"
-msgstr ""
+msgstr ":kbd:`Cmd Shift Enter`"
 
 #: ../../user/translating.rst:177
 msgid "Unmarks translation as fuzzy and submits it."
 msgstr "翻訳のあいまいのマークを解除して送信する。"
 
 #: ../../user/translating.rst:181
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl E` or"
-msgstr ":kbd:`Ctrl+E` または :kbd:`Cmd+E`"
+msgstr ":kbd:`Ctrl E` or"
 
 #: ../../user/translating.rst:183
 msgid ":kbd:`Cmd E`"
@@ -29775,10 +29755,8 @@ msgid "Focus translation editor."
 msgstr "翻訳フォームにフォーカスを移動する。"
 
 #: ../../user/translating.rst:185
-#, fuzzy
-#| msgid ":kbd:`Ctrl+U` or :kbd:`Cmd+U`"
 msgid ":kbd:`Ctrl U` or"
-msgstr ":kbd:`Ctrl+U` または :kbd:`Cmd+U`"
+msgstr ":kbd:`Ctrl U` or"
 
 #: ../../user/translating.rst:187
 msgid ":kbd:`Cmd U`"
@@ -29789,73 +29767,57 @@ msgid "Focus comment editor."
 msgstr "コメント フィールドにフォーカスを移動する。"
 
 #: ../../user/translating.rst:189
-#, fuzzy
-#| msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
 msgid ":kbd:`Ctrl M` or"
-msgstr ":kbd:`Ctrl+M` または :kbd:`Cmd+M`"
+msgstr ":kbd:`Ctrl M` or"
 
 #: ../../user/translating.rst:191
 msgid ":kbd:`Cmd M`"
 msgstr ":kbd:`Cmd M`"
 
 #: ../../user/translating.rst:189
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ""
 "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
-msgstr ":ref:`machine-translation-setup`、:ref:`machine-translation`"
+msgstr ":guilabel:`自動提案` タブの表示、参照 :ref:`machine-translation`。"
 
 #: ../../user/translating.rst:193
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl 1` to :kbd:`Ctrl 9` or"
-msgstr ":kbd:`Ctrl+E` または :kbd:`Cmd+E`"
+msgstr ":kbd:`Ctrl 1` ～ :kbd:`Ctrl 9` or"
 
 #: ../../user/translating.rst:195
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Cmd 1` to :kbd:`Cmd 9`"
-msgstr ":kbd:`Ctrl+E` または :kbd:`Cmd+E`"
+msgstr ":kbd:`Cmd 1` ～ :kbd:`Cmd 9`"
 
 #: ../../user/translating.rst:193
 msgid "Copies placeable of given number from source string."
-msgstr "原文の指定した番号のプレースホルダを、翻訳にコピーする。"
+msgstr "番号を指定して、原文に設定されたプレースホルダを、翻訳にコピーする。"
 
 #: ../../user/translating.rst:197
-#, fuzzy
-#| msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
 msgid ":kbd:`Ctrl M` :kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl+M` または :kbd:`Cmd+M`"
+msgstr ":kbd:`Ctrl M` :kbd:`1` ～ :kbd:`9` or"
 
 #: ../../user/translating.rst:199
-#, fuzzy
-#| msgid ":kbd:`Ctrl+M` or :kbd:`Cmd+M`"
 msgid ":kbd:`Cmd M` :kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Ctrl+M` または :kbd:`Cmd+M`"
+msgstr ":kbd:`Cmd M` :kbd:`1` ～ :kbd:`9`"
 
 #: ../../user/translating.rst:197
 msgid "Copy the machine translation of given number to current translation."
-msgstr "指定した番号の機械翻訳を、現在の翻訳にコピーする。"
+msgstr "番号を指定して、機械翻訳を翻訳にコピーする。"
 
 #: ../../user/translating.rst:201
-#, fuzzy
-#| msgid ":kbd:`Ctrl+E` or :kbd:`Cmd+E`"
 msgid ":kbd:`Ctrl I` :kbd:`1` to :kbd:`9`  or"
-msgstr ":kbd:`Ctrl+E` または :kbd:`Cmd+E`"
+msgstr ":kbd:`Ctrl I` :kbd:`1` ～ :kbd:`9`  or"
 
 #: ../../user/translating.rst:203
 msgid ":kbd:`Cmd I` :kbd:`1` to :kbd:`9`"
-msgstr ""
+msgstr ":kbd:`Cmd I` :kbd:`1` to :kbd:`9`"
 
 #: ../../user/translating.rst:201
 msgid "Ignore one item in the list of failing checks."
-msgstr "検査で不合格となった項目の中から 1 つ除外します。"
+msgstr "番号を指定して、検査不合格の 1 項目を除外する。"
 
 #: ../../user/translating.rst:205
-#, fuzzy
-#| msgid ":kbd:`Ctrl+J` or :kbd:`Cmd+J`"
 msgid ":kbd:`Ctrl J` or"
-msgstr ":kbd:`Ctrl+J` または :kbd:`Cmd+J`"
+msgstr ":kbd:`Ctrl J` or"
 
 #: ../../user/translating.rst:207
 msgid ":kbd:`Cmd J`"
@@ -29866,10 +29828,8 @@ msgid "Shows the :guilabel:`Nearby strings` tab."
 msgstr ":guilabel:`前後の文字列` タブの表示。"
 
 #: ../../user/translating.rst:209
-#, fuzzy
-#| msgid ":kbd:`Ctrl+S` or :kbd:`Cmd+S`"
 msgid ":kbd:`Ctrl S` or"
-msgstr ":kbd:`Ctrl+S` または :kbd:`Cmd+S`"
+msgstr ":kbd:`Ctrl S` or"
 
 #: ../../user/translating.rst:211
 msgid ":kbd:`Cmd S`"
@@ -29880,10 +29840,8 @@ msgid "Focuses search field."
 msgstr "翻訳メモリの検索にフォーカス移動。"
 
 #: ../../user/translating.rst:213
-#, fuzzy
-#| msgid ":kbd:`Ctrl+O` or :kbd:`Cmd+O`"
 msgid ":kbd:`Ctrl O` or"
-msgstr ":kbd:`Ctrl+O` または :kbd:`Cmd+O`"
+msgstr ":kbd:`Ctrl O` or"
 
 #: ../../user/translating.rst:215
 msgid ":kbd:`Cmd O`"
@@ -29894,10 +29852,8 @@ msgid "Copies source string."
 msgstr "原文を、翻訳に複製する。"
 
 #: ../../user/translating.rst:217
-#, fuzzy
-#| msgid ":kbd:`Ctrl+Y` or :kbd:`Cmd+Y`"
 msgid ":kbd:`Ctrl Y` or"
-msgstr ":kbd:`Ctrl+Y` または :kbd:`Cmd+Y`"
+msgstr ":kbd:`Ctrl Y` or"
 
 #: ../../user/translating.rst:219
 msgid ":kbd:`Cmd Y`"
@@ -31033,10 +30989,9 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
-"Weblate クライアントは Python ライブラリであり、:ref:`api` を使用して "
-"Weblate をリモートで管理するためのコマンドライン ユーティリティです。コマンド"
-"ライン ユーティリティは、:command:`wlc` として呼び出すことができ、:mod:`wlc` "
-"に組み込まれています。"
+"Weblate クライアントは Python ライブラリであり、:ref:`api` を使用して Weblate "
+"をリモートで管理するためのコマンドライン ユーティリティです。コマンドライン ユーティリティは、:command:`wlc` "
+"として呼び出すことができ、:mod:`wlc` に内蔵しています。"
 
 #: ../../wlc.rst:101
 msgid "Arguments"
