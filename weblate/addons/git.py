@@ -222,4 +222,5 @@ class GitSquashAddon(BaseAddon):
                 template=component.addon_message,
                 extra_context={"addon_name": self.verbose},
                 signals=False,
+                skip_push=True,
             )
