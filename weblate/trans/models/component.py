@@ -2085,29 +2085,40 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
             )
 
-    def is_valid_base_for_new(self):
+    def is_valid_base_for_new(self, errors: Optional[List] = None):
         filename = self.get_new_base_filename()
         template = self.has_template()
-        return self.file_format_cls.is_valid_base_for_new(filename, template)
+        return self.file_format_cls.is_valid_base_for_new(filename, template, errors)
 
     def clean_new_lang(self):
         """Validate new language choices."""
         # Validate if new base is configured or language adding is set
         if (not self.new_base and self.new_lang != "add") or not self.file_format:
             return
-        if not self.is_valid_base_for_new():
-            filename = self.get_new_base_filename()
-            if filename:
-                if os.path.exists(filename):
-                    raise ValidationError(
-                        {"new_base": _("Unrecognized base file for new translations.")}
-                    )
-                raise ValidationError({"new_base": _("File does not exist.")})
+        # File is valid or no file is needed
+        errors = []
+        if self.is_valid_base_for_new(errors):
+            return
+        # File is needed, but not present
+        if not self.new_base:
             message = _(
                 "You have set up Weblate to add new translation "
                 "files, but did not provide a base file to do that."
             )
             raise ValidationError({"new_base": message, "new_lang": message})
+        filename = self.get_new_base_filename()
+        # File is present, but does not exist
+        if not os.path.exists(filename):
+            raise ValidationError({"new_base": _("File does not exist.")})
+        # File is present, but is not valid
+        if errors:
+            message = _(
+                "Failed to parse base file for new translations: %s"
+            ) % ", ".join(str(error) for error in errors)
+            raise ValidationError({"new_base": message})
+        raise ValidationError(
+            {"new_base": _("Unrecognized base file for new translations.")}
+        )
 
     def clean_template(self):
         """Validate template value."""

@@ -376,14 +376,16 @@ class TTKitFormat(TranslationFormat):
                 output.write(cls.get_new_file_content())
 
     @classmethod
-    def is_valid_base_for_new(cls, base, monolingual):
+    def is_valid_base_for_new(cls, base, monolingual, errors: Optional[List] = None):
         """Check whether base is valid."""
         if not base:
             return monolingual and cls.new_translation is not None
         try:
             cls.parse_store(base)
             return True
-        except Exception:
+        except Exception as exception:
+            if errors is not None:
+                errors.append(exception)
             report_error(cause="File parse error")
             return False
 
