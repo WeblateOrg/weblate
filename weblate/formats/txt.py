@@ -218,7 +218,7 @@ class AppStoreFormat(TranslationFormat):
         return None
 
     @classmethod
-    def is_valid_base_for_new(cls, base, monolingual):
+    def is_valid_base_for_new(cls, base, monolingual, errors: Optional[List] = None):
         """Check whether base is valid."""
         if not base:
             return True

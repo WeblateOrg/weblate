@@ -21,7 +21,7 @@
 import codecs
 import shutil
 from io import BytesIO
-from typing import List, Union
+from typing import List, Optional, Union
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -121,7 +121,7 @@ class ConvertFormat(TranslationFormat):
         shutil.copy(base, filename)
 
     @classmethod
-    def is_valid_base_for_new(cls, base, monolingual):
+    def is_valid_base_for_new(cls, base, monolingual, errors: Optional[List] = None):
         """Check whether base is valid."""
         if not base:
             return False
