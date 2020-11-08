@@ -1297,6 +1297,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             from weblate.trans.tasks import perform_push
 
+            self.log_info("scheduling push")
             perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
 
     @perform_on_link
