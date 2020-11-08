@@ -85,7 +85,7 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+m", function (e) {
-      $('.nav [href="#machine"]').click();
+      $('.nav [href="#machinery"]').click();
       return false;
     });
   }
