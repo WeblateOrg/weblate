@@ -17,12 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from datetime import timedelta
 
 from celery.schedules import crontab
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
@@ -54,8 +53,12 @@ def billing_notify():
 
     limit = Billing.objects.get_out_of_limits()
     due = Billing.objects.get_unpaid()
-    toremove = Billing.objects.exclude(removal=None).order_by("removal")
-    trial = Billing.objects.filter(removal=None, state=Billing.STATE_TRIAL).order_by(
+
+    with_project = Billing.objects.annotate(Count("projects")).filter(
+        projects__count__gt=0
+    )
+    toremove = with_project.exclude(removal=None).order_by("removal")
+    trial = with_project.filter(removal=None, state=Billing.STATE_TRIAL).order_by(
         "expiry"
     )
 
