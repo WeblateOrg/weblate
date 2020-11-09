@@ -1951,7 +1951,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return self.source_language.code
         return code
 
-    def sync_git_repo(self, validate=False, skip_push=None):
+    def sync_git_repo(self, validate: bool = False, skip_push: bool = False):
         """Bring VCS repo in sync with current model."""
         if self.is_repo_link:
             return
@@ -2201,7 +2201,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         # Validate VCS repo
         try:
-            self.sync_git_repo(True)
+            self.sync_git_repo(validate=True, skip_push=True)
         except RepositoryException as exc:
             msg = _("Could not update repository: %s") % self.error_text(exc)
             raise ValidationError({"repo": msg})
