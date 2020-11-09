@@ -39,8 +39,8 @@
 {% if language %}
   {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% else %}
-  {% comment %}This is split into sentectes to allow proper localization of plurals.{% endcomment %}
-  {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% endblocktrans %}
+  {% comment %}This is split into sentences to allow proper localization of plurals.{% endcomment %}
+  {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation.{% endblocktrans %}
 
   {% blocktrans count cnt=languages with count=languages|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktrans %}
 
