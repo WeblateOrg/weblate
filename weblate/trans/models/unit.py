@@ -1104,7 +1104,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def get_secondary_units(self, user):
         """Return list of secondary units."""
         secondary_langs = user.profile.secondary_languages.exclude(
-            id=self.translation.language.id
+            id__in=[
+                self.translation.language_id,
+                self.translation.component.source_language_id,
+            ]
         )
         result = get_distinct_translations(
             self.source_unit.unit_set.filter(
