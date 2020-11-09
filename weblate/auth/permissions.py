@@ -268,15 +268,26 @@ def check_contribute(user, permission, translation):
 
 @register_perm("machinery.view")
 def check_machinery(user, permission, obj):
+    # No permission in case there are no machinery services enabled
     if not MACHINE_TRANSLATION_SERVICES.exists():
         return False
+
+    # No machinery for source without intermediate language
     if (
         isinstance(obj, Translation)
         and obj.is_source
         and not obj.component.intermediate
     ):
         return False
-    return check_contribute(user, permission, obj)
+
+    # Check the actual machinery.view permission
+    if not check_permission(user, permission, obj):
+        return False
+
+    # Only show machinery to users allowed to translate or suggest
+    return check_edit_approved(user, "unit.edit", obj) or check_suggestion_add(
+        user, "suggestion.add", obj
+    )
 
 
 @register_perm("translation.delete")
