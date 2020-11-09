@@ -165,6 +165,18 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.3 to 4.4
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There is a change in :setting:`django:INSTALLED_APPS`.
+* Django 3.1 is now required.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3

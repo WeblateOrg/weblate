@@ -564,6 +564,7 @@ INSTALLED_APPS = [
     "weblate.screenshots",
     "weblate.fonts",
     "weblate.accounts",
+    "weblate.configuration",
     "weblate.utils",
     "weblate.vcs",
     "weblate.wladmin",

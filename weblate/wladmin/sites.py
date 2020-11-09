@@ -37,6 +37,8 @@ from weblate.auth.admin import RoleAdmin, WeblateGroupAdmin, WeblateUserAdmin
 from weblate.auth.models import Group, Role, User
 from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
+from weblate.configuration.admin import SettingAdmin
+from weblate.configuration.models import Setting
 from weblate.fonts.admin import FontAdmin, FontGroupAdmin
 from weblate.fonts.models import Font, FontGroup
 from weblate.glossary.admin import GlossaryAdmin, TermAdmin
@@ -118,6 +120,9 @@ class WeblateAdminSite(AdminSite):
         self.register(ComponentList, ComponentListAdmin)
         self.register(ContributorAgreement, ContributorAgreementAdmin)
         self.register(Glossary, GlossaryAdmin)
+
+        # Settings
+        self.register(Setting, SettingAdmin)
 
         # Show some controls only in debug mode
         if settings.DEBUG:

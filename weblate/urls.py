@@ -61,6 +61,7 @@ import weblate.utils.urls
 import weblate.wladmin.sites
 import weblate.wladmin.views
 from weblate.auth.decorators import management_access
+from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import (
     ChangesFeed,
@@ -958,6 +959,11 @@ real_patterns = [
         "js/glossary/<int:unit_id>/",
         weblate.glossary.views.add_glossary_term,
         name="js-add-glossary",
+    ),
+    path(
+        "css/custom.css",
+        CustomCSSView.as_view(),
+        name="css-custom",
     ),
     # Admin interface
     path(
