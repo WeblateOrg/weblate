@@ -2350,7 +2350,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             )
 
     def after_save(
-        self, changed_git, changed_setup, changed_template, changed_variant, skip_push
+        self,
+        changed_git: bool,
+        changed_setup: bool,
+        changed_template: bool,
+        changed_variant: bool,
+        skip_push: bool,
     ):
         self.store_background_task()
         self.translations_progress = 0
@@ -2360,9 +2365,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if changed_git:
             # Bring VCS repo in sync with current model
             self.sync_git_repo(skip_push=skip_push)
-
-            # Push in case the push URL was changed
-            self.push_if_needed()
 
         # Create template in case intermediate file is present
         self.create_template_if_missing()
