@@ -2,8 +2,7 @@ version: "3"
 
 services:
   database:
-    # Use older MySQL to avoid hitting https://code.djangoproject.com/ticket/29480
-    image: mysql:5.6
+    image: mysql:8
     ports:
       - 60000:3306
     environment:

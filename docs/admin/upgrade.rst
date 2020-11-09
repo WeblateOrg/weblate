@@ -174,6 +174,7 @@ Notable configuration or dependencies changes:
 
 * There is a change in :setting:`django:INSTALLED_APPS`.
 * Django 3.1 is now required.
+* In case you are using MySQL or MariaDB, the minimal required versions have increased, see :ref:`mysql`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

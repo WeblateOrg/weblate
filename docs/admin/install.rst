@@ -385,12 +385,16 @@ authenticating, in case it is not, please setting ``ALTER_ROLE``. Otherwise you
 get PostgreSQL error about not existing role during the database migration
 (``psycopg2.errors.UndefinedObject: role "weblate@hostname" does not exist``).
 
+.. _mysql:
+
 MySQL and MariaDB
 +++++++++++++++++
 
 Weblate can be also used with MySQL or MariaDB, please see
 :ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
 Django with those.
+
+Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7.
 
 .. hint::
 
