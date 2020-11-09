@@ -207,7 +207,7 @@ class GitSquashAddon(BaseAddon):
         repository = component.repository
         with repository.lock:
             if component.repo_needs_merge() and not component.update_branch(
-                method="rebase"
+                method="rebase", skip_push=True
             ):
                 return
             if not repository.needs_push():
