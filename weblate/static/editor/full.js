@@ -272,7 +272,7 @@
         $(this)
           .find(".machinery-number")
           .html(' <kbd title="' + title + '">' + key + "</kbd>");
-        Mousetrap.bindGlobal("mod+m " + key, function () {
+        Mousetrap.bindGlobal(["mod+m " + key, "mod+m mod+" + key], function () {
           $translationRows.eq(idx).find(".js-copy-machinery").click();
           return false;
         });
@@ -364,7 +364,9 @@
           .find(".check-number")
           .html(' <kbd title="' + title + '">' + key + "</kbd>");
 
-        Mousetrap.bindGlobal("mod+i " + key, function (e) {
+        Mousetrap.bindGlobal(["mod+i " + key, "mod+i mod+" + key], function (
+          e
+        ) {
           $this.find(".check-dismiss-single").click();
           return false;
         });
