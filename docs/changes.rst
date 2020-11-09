@@ -4,6 +4,7 @@ Weblate 4.4
 Not yet released.
 
 * Improved validation when creating component.
+* Weblate now requires Django 3.1.
 
 Weblate 4.3.2
 -------------
