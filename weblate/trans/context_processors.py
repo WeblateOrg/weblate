@@ -28,6 +28,7 @@ from django.utils.translation import gettext as _
 
 import weblate
 import weblate.screenshots.views
+from weblate.configuration.views import CustomCSSView
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.wladmin.models import ConfigurationError
 
@@ -171,6 +172,7 @@ def weblate_context(request):
             ignored=False
         ).order_by("-timestamp"),
         "preconnect_list": get_preconnect_list(),
+        "custom_css_hash": CustomCSSView.get_hash(request),
     }
 
     add_error_logging_context(context)

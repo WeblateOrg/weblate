@@ -373,8 +373,6 @@ def design(request):
 
             # Flush cache
             CustomCSSView.drop_cache()
-            # TODO: set flag for customize
-            messages.success(request, _("User has been invited to this project."))
             return redirect("manage-design")
 
     return render(
