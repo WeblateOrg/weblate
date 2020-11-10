@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.core.checks import run_checks
 from django.core.mail import send_mail
 from django.db.models import Count, Q
@@ -30,6 +29,8 @@ from django.utils.translation import gettext_lazy
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm
 from weblate.auth.models import User
+from weblate.configuration.models import Setting
+from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.utils import messages
@@ -49,6 +50,7 @@ from weblate.vcs.ssh import (
 from weblate.wladmin.forms import (
     ActivateForm,
     BackupForm,
+    DesignForm,
     SSHAddForm,
     TestMailForm,
     UserSearchForm,
@@ -65,6 +67,7 @@ MENU = (
     ("alerts", "manage-alerts", gettext_lazy("Alerts")),
     ("repos", "manage-repos", gettext_lazy("Repositories")),
     ("users", "manage-users", gettext_lazy("Users")),
+    ("design", "manage-design", gettext_lazy("Design")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
 )
 
@@ -336,4 +339,50 @@ def users_check(request):
         request,
         "manage/users_check.html",
         {"menu_items": MENU, "menu_page": "users", "form": form, "users": user_list},
+    )
+
+
+@management_access
+def design(request):
+
+    current = Setting.objects.get_settings_dict(Setting.CATEGORY_UI)
+    form = DesignForm(initial=current)
+
+    if request.method == "POST":
+        # TODO: Add support for reset
+        form = DesignForm(request.POST)
+        if form.is_valid():
+            for name, value in form.cleaned_data.items():
+                if name not in current:
+                    # New setting previously not set
+                    Setting.objects.create(
+                        category=Setting.CATEGORY_UI, name=name, value=value
+                    )
+                else:
+                    if value != current[name]:
+                        # Update setting
+                        Setting.objects.filter(
+                            category=Setting.CATEGORY_UI, name=name
+                        ).update(value=value)
+                    current.pop(name)
+            # Drop stale settings
+            if current:
+                Setting.objects.filter(
+                    category=Setting.CATEGORY_UI, name__in=current.keys()
+                ).delete()
+
+            # Flush cache
+            CustomCSSView.drop_cache()
+            # TODO: set flag for customize
+            messages.success(request, _("User has been invited to this project."))
+            return redirect("manage-design")
+
+    return render(
+        request,
+        "manage/design.html",
+        {
+            "menu_items": MENU,
+            "menu_page": "design",
+            "form": form,
+        },
     )

@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.utils.translation import gettext_lazy as _
@@ -67,3 +66,12 @@ class BackupForm(forms.ModelForm):
 
 class UserSearchForm(forms.Form):
     email = forms.CharField(label=_("User e-mail"))
+
+
+class DesignForm(forms.Form):
+    hide_footer = forms.BooleanField(label=_("Hide page footer"), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False

@@ -39,9 +39,8 @@ class CustomCSSView(TemplateView):
         response = cache.get(self.cache_key)
         if response is None:
             response = super().get(request, *args, **kwargs)
-            response.add_post_render_callback(
-                lambda r: cache.set(self.cache_key, r, 3600)
-            )
+            response.render()
+            cache.set(self.cache_key, response, 3600)
         return response
 
     @classmethod

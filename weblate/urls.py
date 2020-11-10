@@ -987,6 +987,7 @@ real_patterns = [
     path("manage/ssh/", weblate.wladmin.views.ssh, name="manage-ssh"),
     path("manage/ssh/key/", weblate.wladmin.views.ssh_key, name="manage-ssh-key"),
     path("manage/backup/", weblate.wladmin.views.backups, name="manage-backups"),
+    path("manage/design/", weblate.wladmin.views.design, name="manage-design"),
     path(
         "manage/performance/",
         weblate.wladmin.views.performance,
