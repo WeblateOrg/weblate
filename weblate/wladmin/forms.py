@@ -70,6 +70,9 @@ class UserSearchForm(forms.Form):
 
 class DesignForm(forms.Form):
     hide_footer = forms.BooleanField(label=_("Hide page footer"), required=False)
+    enforce_hamburger = forms.BooleanField(
+        label=_("Persistent hamburger navigation"), required=False
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
