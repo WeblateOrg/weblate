@@ -68,7 +68,16 @@ class UserSearchForm(forms.Form):
     email = forms.CharField(label=_("User e-mail"))
 
 
+class FontField(forms.CharField):
+    def __init__(self, **kwargs):
+        super().__init__(
+            help_text=_("Please provide font family suitable for CSS."), **kwargs
+        )
+
+
 class DesignForm(forms.Form):
+    page_font = FontField(label=_("Page font"), required=False)
+    brand_font = FontField(label=_("Header font"), required=False)
     hide_footer = forms.BooleanField(label=_("Hide page footer"), required=False)
     enforce_hamburger = forms.BooleanField(
         label=_("Persistent hamburger navigation"), required=False

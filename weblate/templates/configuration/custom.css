@@ -94,3 +94,14 @@
     display: none;
   }
 {% endif %}
+
+{% if page_font %}
+  body {
+    font-family: {{ page_font }};
+  }
+{% endif %}
+{% if brand_font %}
+  .navbar-brand {
+    font-family: {{ brand_font }};
+  }
+{% endif %}
