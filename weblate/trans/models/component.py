@@ -2193,17 +2193,27 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def clean_repo(self):
         self.clean_repo_link()
 
-        self.set_default_branch()
-
         # Baild out on failed repo validation
         if self.repo is None:
             return
 
         # Validate VCS repo
         try:
+            self.set_default_branch()
+
             self.sync_git_repo(validate=True, skip_push=True)
         except RepositoryException as exc:
-            msg = _("Could not update repository: %s") % self.error_text(exc)
+            text = self.error_text(exc)
+            if "terminal prompts disabled" in text:
+                raise ValidationError(
+                    {
+                        "repo": _(
+                            "Your push URL seems to miss credentials. Either provide "
+                            "them in the URL or use SSH with key based authentication."
+                        )
+                    }
+                )
+            msg = _("Could not update repository: %s") % text
             raise ValidationError({"repo": msg})
 
     def clean_unique_together(self, field: str, msg: str, lookup: str):
