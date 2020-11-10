@@ -44,7 +44,7 @@ class CustomCSSView(TemplateView):
         if css is None:
             css = render_to_string(
                 "configuration/custom.css",
-                {"settings": Setting.objects.get_settings_dict(Setting.CATEGORY_UI)},
+                Setting.objects.get_settings_dict(Setting.CATEGORY_UI),
             ).strip()
             cache.set(cls.cache_key, css, 24 * 3600)
         request._weblate_custom_css = css

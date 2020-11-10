@@ -1,4 +1,4 @@
-{% if settings.enforce_hamburger %}
+{% if enforce_hamburger %}
   {% comment %}From https://stackoverflow.com/a/56229201/225718{% endcomment %}
   .navbar-header {
     float: none;
@@ -89,8 +89,8 @@
   }
 
 {% endif %}
-{% if settings.hide_footer %}
-    footer {
-        display: none;
-    }
+{% if hide_footer %}
+  footer {
+    display: none;
+  }
 {% endif %}
