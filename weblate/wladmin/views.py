@@ -349,31 +349,35 @@ def design(request):
     form = DesignForm(initial=current)
 
     if request.method == "POST":
-        # TODO: Add support for reset
-        form = DesignForm(request.POST)
-        if form.is_valid():
-            for name, value in form.cleaned_data.items():
-                if name not in current:
-                    # New setting previously not set
-                    Setting.objects.create(
-                        category=Setting.CATEGORY_UI, name=name, value=value
-                    )
-                else:
-                    if value != current[name]:
-                        # Update setting
-                        Setting.objects.filter(
-                            category=Setting.CATEGORY_UI, name=name
-                        ).update(value=value)
-                    current.pop(name)
-            # Drop stale settings
-            if current:
-                Setting.objects.filter(
-                    category=Setting.CATEGORY_UI, name__in=current.keys()
-                ).delete()
-
-            # Flush cache
+        if "reset" in request.POST:
+            Setting.objects.filter(category=Setting.CATEGORY_UI).delete()
             CustomCSSView.drop_cache()
             return redirect("manage-design")
+        else:
+            form = DesignForm(request.POST)
+            if form.is_valid():
+                for name, value in form.cleaned_data.items():
+                    if name not in current:
+                        # New setting previously not set
+                        Setting.objects.create(
+                            category=Setting.CATEGORY_UI, name=name, value=value
+                        )
+                    else:
+                        if value != current[name]:
+                            # Update setting
+                            Setting.objects.filter(
+                                category=Setting.CATEGORY_UI, name=name
+                            ).update(value=value)
+                        current.pop(name)
+                # Drop stale settings
+                if current:
+                    Setting.objects.filter(
+                        category=Setting.CATEGORY_UI, name__in=current.keys()
+                    ).delete()
+
+                # Flush cache
+                CustomCSSView.drop_cache()
+                return redirect("manage-design")
 
     return render(
         request,
