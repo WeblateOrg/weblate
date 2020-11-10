@@ -163,12 +163,15 @@ def activate(request):
 @management_access
 def repos(request):
     """Provide report about Git status of all repos."""
-    context = {
-        "components": Component.objects.order_project(),
-        "menu_items": MENU,
-        "menu_page": "repos",
-    }
-    return render(request, "manage/repos.html", context)
+    return render(
+        request,
+        "manage/repos.html",
+        {
+            "components": Component.objects.order_project(),
+            "menu_items": MENU,
+            "menu_page": "repos",
+        },
+    )
 
 
 @management_access
@@ -338,7 +341,12 @@ def users_check(request):
     return render(
         request,
         "manage/users_check.html",
-        {"menu_items": MENU, "menu_page": "users", "form": form, "users": user_list},
+        {
+            "menu_items": MENU,
+            "menu_page": "users",
+            "form": form,
+            "users": user_list,
+        },
     )
 
 
