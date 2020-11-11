@@ -24,7 +24,7 @@ from datetime import datetime
 from typing import BinaryIO, Dict, List, Optional, Union
 
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
@@ -867,13 +867,26 @@ class Translation(
             temp.write(fileobj.read())
             temp.close()
 
+            # Prepare msgmerge args
+            args = ["--previous"]
+            try:
+                width = component.addon_set.get(
+                    name="weblate.gettext.customize"
+                ).configuration["width"]
+                if width != 77:
+                    args.append("--no-wrap")
+            except ObjectDoesNotExist:
+                pass
+
             try:
                 # Update translation files
                 for translation in component.translation_set.exclude(
                     language=component.source_language
                 ):
                     filename = translation.get_filename()
-                    component.file_format_cls.update_bilingual(filename, temp.name)
+                    component.file_format_cls.update_bilingual(
+                        filename, temp.name, args=args
+                    )
                     filenames.append(filename)
             finally:
                 if os.path.exists(temp.name):
