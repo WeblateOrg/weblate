@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
 """Test for search views."""
 
 import re
@@ -26,9 +25,10 @@ from django.http import QueryDict
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.ratelimit import reset_rate_limit
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 
 
 class SearchViewTest(ViewTestCase):
@@ -352,3 +352,43 @@ class BulkEditTest(ViewTestCase):
             getattr(unit.source_unit.translation.stats, "label:{}".format(label.name)),
             0,
         )
+
+    def test_source_state(self):
+        mono = Component.objects.create(
+            name="Test2",
+            slug="test2",
+            project=self.project,
+            repo="weblate://test/test",
+            file_format="json",
+            filemask="json-mono/*.json",
+            template="json-mono/en.json",
+        )
+        # Translate single unit
+        translation = mono.translation_set.get(language_code="cs")
+        translation.unit_set.get(context="hello").translate(
+            self.user, "Ahoj světe", STATE_TRANSLATED
+        )
+        self.assertEqual(translation.unit_set.filter(state=STATE_READONLY).count(), 0)
+        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 1)
+
+        url = reverse(
+            "bulk-edit", kwargs={"project": self.project.slug, "component": mono.slug}
+        )
+
+        # Mark all source strings as needing edit and that should turn all
+        # translated strings read-only
+        response = self.client.post(
+            url, {"q": "language:en", "state": STATE_FUZZY}, follow=True
+        )
+        self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
+        self.assertEqual(translation.unit_set.filter(state=STATE_READONLY).count(), 4)
+        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 0)
+
+        # Mark all source strings as needing edit and that should turn all
+        # translated strings back to translated
+        response = self.client.post(
+            url, {"q": "language:en", "state": STATE_TRANSLATED}, follow=True
+        )
+        self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
+        self.assertEqual(translation.unit_set.filter(state=STATE_READONLY).count(), 0)
+        self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 1)

@@ -57,6 +57,9 @@ def bulk_perform(
 
             can_edit_source = user is None or user.has_perm("source.edit", component)
 
+            update_unit_ids = []
+            source_units = []
+
             for unit in component_units:
                 changed = False
                 source_unit = unit.source_unit
@@ -72,6 +75,9 @@ def bulk_perform(
                         user, user, Change.ACTION_BULK_EDIT, check_new=False
                     )
                     changed = True
+                    update_unit_ids.append(unit.pk)
+                    if unit.is_source:
+                        source_units.append(unit)
 
                 if can_edit_source:
                     if add_flags or remove_flags:
@@ -99,13 +105,19 @@ def bulk_perform(
                     updated += 1
 
             if target_state != -1:
-                component_units.filter(state__in=EDITABLE_STATES).exclude(
-                    state=target_state
-                ).update(pending=True, state=target_state)
-                for unit in component_units:
-                    if unit.is_source:
-                        unit.is_bulk_edit = True
-                        update_source(Unit, unit)
+                # Bulk update state
+                Unit.objects.filter(pk__in=update_unit_ids).update(
+                    pending=True, state=target_state
+                )
+                # Fire source_change event in bulk for source units
+                for unit in source_units:
+                    # The change is already done in the database, we
+                    # need it here to recalculate state of translation
+                    # units
+                    unit.is_bulk_edit = True
+                    unit.pending = True
+                    unit.state = target_state
+                    update_source(Unit, unit)
 
         component.invalidate_stats_deep()
 

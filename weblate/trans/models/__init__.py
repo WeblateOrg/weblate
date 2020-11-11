@@ -92,7 +92,7 @@ def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
     if not instance.is_source:
         return
-    # Run checks, update state and priority if flags changed
+    # Run checks, update state and priority if flags changed or running bulk edit
     if (
         instance.old_unit.extra_flags != instance.extra_flags
         or instance.state != instance.old_unit.state

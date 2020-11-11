@@ -6,6 +6,7 @@ Not yet released.
 * Improved validation when creating component.
 * Weblate now requires Django 3.1.
 * Added support for design customization in the management interface.
+* Fixed read only state handling in bulk edit.
 
 Weblate 4.3.2
 -------------
