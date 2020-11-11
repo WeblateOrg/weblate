@@ -19,7 +19,6 @@
 
 """Test for search views."""
 
-
 import re
 
 from django.conf import settings
@@ -246,8 +245,8 @@ class ReplaceTest(ViewTestCase):
         self.do_replace_test(reverse("replace", kwargs=self.kw_component))
 
 
-class BulkStateTest(ViewTestCase):
-    """Test for mass state change functionality."""
+class BulkEditTest(ViewTestCase):
+    """Test for buld edit functionality."""
 
     def setUp(self):
         super().setUp()
@@ -255,7 +254,7 @@ class BulkStateTest(ViewTestCase):
         self.unit = self.get_unit()
         self.make_manager()
 
-    def do_mass_state_test(self, url, confirm=True):
+    def do_bulk_edit_test(self, url):
         response = self.client.post(
             url, {"q": "state:needs-editing", "state": STATE_TRANSLATED}, follow=True
         )
@@ -272,14 +271,14 @@ class BulkStateTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_FUZZY)
 
-    def test_mass_state(self):
-        self.do_mass_state_test(reverse("bulk-edit", kwargs=self.kw_translation))
+    def test_bulk_edit(self):
+        self.do_bulk_edit_test(reverse("bulk-edit", kwargs=self.kw_translation))
 
-    def test_mass_state_project(self):
-        self.do_mass_state_test(reverse("bulk-edit", kwargs=self.kw_project))
+    def test_bulk_edit_project(self):
+        self.do_bulk_edit_test(reverse("bulk-edit", kwargs=self.kw_project))
 
-    def test_mass_state_component(self):
-        self.do_mass_state_test(reverse("bulk-edit", kwargs=self.kw_component))
+    def test_bulk_edit_component(self):
+        self.do_bulk_edit_test(reverse("bulk-edit", kwargs=self.kw_component))
 
     def test_bulk_flags(self):
         response = self.client.post(
