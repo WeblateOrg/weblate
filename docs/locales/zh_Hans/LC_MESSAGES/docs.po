@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-04 23:28+0100\n"
-"PO-Revision-Date: 2020-11-05 15:00+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-11-13 11:28+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -1763,15 +1763,15 @@ msgstr "还可以使用管理界面添加："
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr "然后根据特定的上下文显示公告："
+msgstr "然后根据特定的语境显示公告："
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr "没有特定的上下文"
+msgstr "没有特定的语境"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr "显示在控制面版上（着陆页面）。"
+msgstr "显示在控制面版上（登录页面）。"
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
@@ -2139,7 +2139,7 @@ msgstr "密码不能完全是数字。"
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
-msgstr "密码不能包括单个字符或只有空格。"
+msgstr "密码不能包括单个字符或只有空白字符。"
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
@@ -4508,13 +4508,13 @@ msgstr "DEFAULT_LANGUAGE"
 msgid ""
 "Default source language to use for example in :ref:`component-"
 "source_language`."
-msgstr ""
+msgstr "例如在 :ref:`component-source_language`中使用的默认源语言。"
 
 #: ../../admin/config.rst:493
 msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
-msgstr ""
+msgstr "默认为 `en`。匹配的语言对象需要存在于数据库中。"
 
 #: ../../admin/config.rst:497
 msgid ":ref:`languages`"
@@ -5437,9 +5437,7 @@ msgstr "MT_MYMEMORY_KEY"
 msgid ""
 "MyMemory access key for private translation memory, use it with :setting:"
 "`MT_MYMEMORY_USER`."
-msgstr ""
-"MyMemory 访问密钥，用于私有翻译记忆，与 :setting:`MT_MYMEMORY_USER` 一起使"
-"用。"
+msgstr "MyMemory 访问密钥，用于私有翻译记忆库，与 :setting:`MT_MYMEMORY_USER` 一起使用。"
 
 #: ../../admin/config.rst:1303 ../../admin/config.rst:1315
 msgid ""
@@ -5459,8 +5457,7 @@ msgstr "MT_MYMEMORY_USER"
 msgid ""
 "MyMemory user ID for private translation memory, use it with :setting:"
 "`MT_MYMEMORY_KEY`."
-msgstr ""
-"MyMemory 用户 ID ，用于私有翻译记忆，与 :setting:`MT_MYMEMORY_KEY`一起使用。"
+msgstr "MyMemory 用户 ID ，用于私有翻译记忆库，与 :setting:`MT_MYMEMORY_KEY`一起使用。"
 
 #: ../../admin/config.rst:1321
 msgid "MT_NETEASE_KEY"
@@ -6036,7 +6033,7 @@ msgid ""
 "Controls whether languages database should be updated when running database "
 "migration and is enabled by default. This setting has not effect on "
 "invocation of :djadmin:`setuplang`."
-msgstr ""
+msgstr "控制当运行数据库合并时语言数据库是否更新，并且默认启动。这个设置对于:djadmin:`setuplang`的调用无效。"
 
 #: ../../admin/config.rst:1818
 msgid ":ref:`included-languages`"
@@ -7437,7 +7434,7 @@ msgstr "https://pypi.org/project/git-review/"
 
 #: ../../admin/install.rst:125
 msgid "``git-svn`` (optional for Subversion support)"
-msgstr "``git-svn`` （对 Subversion 支持是可选的）"
+msgstr "``git-svn`` （对 Subversion的支持是可选的）"
 
 #: ../../admin/install.rst:126
 msgid "https://git-scm.com/docs/git-svn"
@@ -7735,8 +7732,8 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
-"一些 Weblate 特性使用 :ref:`postgresql` 会执行得更好。这包括搜索与翻译记忆，"
-"它们都使用了数据库中的全文本特性，而 PostgreSQL 的实施更胜一筹。"
+"一些 Weblate 特性使用 :ref:`postgresql` 会执行得更好。这包括搜索与翻译记忆库，它们都使用了数据库中的全文本特性，而 "
+"PostgreSQL 的实施更胜一筹。"
 
 #: ../../admin/install.rst:401
 msgid ""
@@ -8469,7 +8466,7 @@ msgstr "更新远程分支（每晚），请参见 :setting:`AUTO_UPDATE` 。"
 
 #: ../../admin/install.rst:991
 msgid "Translation memory backup to JSON (daily), see :djadmin:`dump_memory`."
-msgstr "翻译记忆备份到 JSON （每天），请参见 :djadmin:`dump_memory` 。"
+msgstr "翻译记忆库备份到 JSON （每天），请参见 :djadmin:`dump_memory` 。"
 
 #: ../../admin/install.rst:992
 msgid ""
@@ -9227,8 +9224,7 @@ msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
-"提供的例子使 Weblate 侦听端口 80，在 :file:`docker-compose.override.yml` 文件"
-"中编辑端口映射以进行更改。"
+"提供的例子使 Weblate 侦听端口 80，在 :file:`docker-compose.override.yml` 文件中编辑端口映射来更改。"
 
 #: ../../admin/install/docker.rst:55
 msgid "Start Weblate containers:"
@@ -10623,6 +10619,9 @@ msgid ""
 "every time it is changed. For further configuration options, see :ref:"
 "`docker-environment` for full list of environment variables."
 msgstr ""
+"通过处理模板，将新建各自的 ``ConfigMap`` ，并且可以用于定制 Weblate 映像。``ConfigMap`` "
+"直接作为环境变量挂载，并且在每次更改时触发新的部署。对于更多配置选项，环境变量的完成列表请参见 :ref:`docker-environment` "
+"for full list of environment variables。"
 
 #: ../../admin/install/source.rst:4
 msgid "Installing from sources"
@@ -11020,6 +11019,9 @@ msgid ""
 "`generic-upgrade-instructions`) the database of languages is updated to "
 "include all language definitions shipped in Weblate."
 msgstr ""
+"Weblate 中包括了超过 550 种语言的定义，并且每次发布时列表都在扩大。无论何时更新 Weblate 时（更特别地是无论何时执行 "
+":program:`weblate migrate`时，请参见 :ref:`generic-upgrade-"
+"instructions`）。语言数据库都被更新，来包括 Weblate 上市时的所有语言定义。"
 
 #: ../../admin/languages.rst:58
 msgid ""
@@ -11027,6 +11029,8 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :djadmin:"
 "`setuplang`."
 msgstr ""
+"这个特性可以使用 :setting:`UPDATE_LANGUAGES`来禁止。还可以使用 :djadmin:`setuplang` 来强制更新数据库，"
+"从而匹配 Weblate 内建数据。"
 
 #: ../../admin/languages.rst:65
 msgid "Each language consists of following fields:"
@@ -12085,8 +12089,7 @@ msgid ""
 "Cleans up orphaned checks and translation suggestions. There is normally no "
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
-msgstr ""
-"清除无主的检查和翻译建议。这通常不需要手动运行，因为清楚在后台自动启动。"
+msgstr "清理无主的检查和翻译建议。这通常不需要手动运行，因为清理在后台自动启动。"
 
 #: ../../admin/management.rst:217
 msgid ":ref:`production-cron`"
@@ -12137,7 +12140,7 @@ msgstr "dump_memory"
 
 #: ../../admin/management.rst:261
 msgid "Export a JSON file containing Weblate Translation Memory content."
-msgstr "将包含 Weblate 翻译记忆内容的 JSON 文件导出。"
+msgstr "将包含 Weblate 翻译记忆库内容的 JSON 文件导出。"
 
 #: ../../admin/management.rst:265 ../../admin/management.rst:356
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
@@ -13165,7 +13168,7 @@ msgstr "频次限制"
 
 #: ../../admin/optionals.rst:239
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr "频次限制先择接受更精细的配置。"
+msgstr "频次限制先择接受更细粒度的配置。"
 
 #: ../../admin/optionals.rst:241
 msgid ""
@@ -14944,8 +14947,8 @@ msgid ""
 "files. This includes explanation, string priority, check flags, or providing "
 "visual context.  All these features can be set in the :ref:`source-review`:"
 msgstr ""
-"通过翻译文件中可用的信息来增强翻译过程。这包括解释，字符串优先，检查标记或提"
-"供可见的文本。所有这些特性可以在 :ref:`source-review` 中设置："
+"通过翻译文件中可用的信息来增强翻译过程。这包括解释，字符串优先，检查标记或提供可见的语境。所有这些特性可以在 :ref:`source-review` "
+"中设置："
 
 #: ../../admin/translating.rst:49
 msgid ""
@@ -14996,7 +14999,7 @@ msgstr "解释"
 
 #: ../../admin/translating.rst:89
 msgid "In previous version this has been called extra context."
-msgstr "在以前的版本中这被称为附加文本。"
+msgstr "在以前的版本中这被称为附加语境。"
 
 #: ../../admin/translating.rst:91
 msgid ""
@@ -15008,7 +15011,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:97
 msgid "Visual context for strings"
-msgstr "字符串的可见文本"
+msgstr "字符串的可见语境"
 
 #: ../../admin/translating.rst:101
 msgid ""
@@ -15021,7 +15024,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:105
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
-msgstr "上传的截屏在翻译文本的侧边条中显示："
+msgstr "上传的截屏在翻译语境的侧边条中显示："
 
 #: ../../admin/translating.rst:109
 msgid ""
@@ -17148,7 +17151,7 @@ msgstr "源代码中单元的位置"
 
 #: ../../api.rst:1862
 msgid "translation unit context"
-msgstr "翻译单元的上下文"
+msgstr "翻译单元的语境"
 
 #: ../../api.rst:1863
 msgid "translation unit note"
@@ -17867,11 +17870,11 @@ msgstr "修复了一些情况下的 Codemirror 显示问题。"
 
 #: ../../changes.rst:15
 msgid "Renamed Template group to Sources to clarify its meaning."
-msgstr ""
+msgstr "将模板组重命名为源，来明确其意义。"
 
 #: ../../changes.rst:16
 msgid "Fixed GitLab pull requests on repos with longer path."
-msgstr ""
+msgstr "修复了具有较长路径 repos 的 GitLab 拉取请求。"
 
 #: ../../changes.rst:19
 msgid "Weblate 4.3.1"
@@ -18081,7 +18084,7 @@ msgstr "修复了在安装资源中一些区域设置存储复数。"
 
 #: ../../changes.rst:84
 msgid "Fixed crash in the cleanup addon for some XLIFF files."
-msgstr "修复了为一些 XLIFF 文件清除插件的崩溃。"
+msgstr "修复了为一些 XLIFF 文件清理插件的崩溃。"
 
 #: ../../changes.rst:85
 msgid "Allow to configure localization CDN in Docker image."
@@ -18311,7 +18314,7 @@ msgstr "改进了词汇表中相关术语的查找。"
 
 #: ../../changes.rst:151
 msgid "Improved translation memory matches."
-msgstr "改进了翻译记忆匹配。"
+msgstr "改进了翻译记忆库匹配。"
 
 #: ../../changes.rst:152
 msgid "Group same machinery results."
@@ -18390,7 +18393,7 @@ msgstr ""
 
 #: ../../changes.rst:168
 msgid "Reintroduced support for wiping translation memory."
-msgstr "为擦除翻译记忆重新引入了支持。"
+msgstr "为擦除翻译记忆库重新引入了支持。"
 
 #: ../../changes.rst:169
 msgid "Fixed option to ignore source checks."
@@ -18416,8 +18419,7 @@ msgstr "添加了对组件层访问限制的能力。"
 msgid ""
 "Added support for whitespace and other special chars in translation flags, "
 "see :ref:`custom-checks`."
-msgstr ""
-"为翻译标记中的空白符和其它特殊字符添加了支持，请参见 :ref:`custom-checks`。"
+msgstr "为翻译标记中的空白字符和其它特殊字符添加了支持，请参见 :ref:`custom-checks`。"
 
 #: ../../changes.rst:175
 msgid "Always show rendered text check if enabled."
@@ -18523,7 +18525,7 @@ msgstr "改进了大量编辑的性能。"
 
 #: ../../changes.rst:212
 msgid "Improved translation memory performance."
-msgstr "改进了翻译记忆的性能。"
+msgstr "改进了翻译记忆库的性能。"
 
 #: ../../changes.rst:213
 msgid "Fixed possible crash on component deletion."
@@ -18641,7 +18643,7 @@ msgstr "将 Microsoft Translator 升级为版本 3 的 API。"
 
 #: ../../changes.rst:250
 msgid "Reimplemented translation memory backend."
-msgstr "重新应用翻译记忆后端。"
+msgstr "重新应用翻译记忆库后端。"
 
 #: ../../changes.rst:251
 msgid "Added support for several ``is:`` lookups in :doc:`user/search`."
@@ -18695,7 +18697,7 @@ msgstr "为源字符串复查添加支持。"
 
 #: ../../changes.rst:263
 msgid "Extended download options for platform wide translation memory."
-msgstr "扩展了平台范围的翻译记忆的下载选项。"
+msgstr "扩展了平台范围的翻译记忆库的下载选项。"
 
 #: ../../changes.rst:266
 msgid "Weblate 3.x series"
@@ -19020,7 +19022,7 @@ msgstr "与 Django 3.0 兼容。"
 
 #: ../../changes.rst:375
 msgid "Improved data cleanup performance."
-msgstr "改进了数据净化性能。"
+msgstr "改进了数据性能。"
 
 #: ../../changes.rst:376
 msgid "Added support for customizable security.txt."
@@ -19100,7 +19102,7 @@ msgstr "为所有翻译显示源语言。"
 
 #: ../../changes.rst:399
 msgid "Show context for nearby strings."
-msgstr "显示字符串附近的上下文。"
+msgstr "显示字符串附近的语境。"
 
 #: ../../changes.rst:400
 msgid "Added support for notifications on repository operations."
@@ -19417,149 +19419,149 @@ msgstr "挂起建议或未翻译字符串的新的选择使用通知。"
 
 #: ../../changes.rst:490
 msgid "Add one click unsubscribe link to notification e-mails."
-msgstr ""
+msgstr "添加了通知电子邮件的一键退订。"
 
 #: ../../changes.rst:491
 msgid "Fixed false positives with Has been translated check."
-msgstr ""
+msgstr "修复了已翻译检查的误报。"
 
 #: ../../changes.rst:492
 msgid "New management interface for admins."
-msgstr ""
+msgstr "管理员的新管理界面。"
 
 #: ../../changes.rst:493
 msgid "String priority can now be specified using flags."
-msgstr ""
+msgstr "字符串优先性现在可以使用标记来指定。"
 
 #: ../../changes.rst:494
 msgid "Added language management views."
-msgstr ""
+msgstr "添加了语言管理视图。"
 
 #: ../../changes.rst:495
 msgid "Add checks for Qt library and Ruby format strings."
-msgstr ""
+msgstr "添加了 Qt 库和 Ruby 格式字符串的检查。"
 
 #: ../../changes.rst:496
 msgid "Added configuration to better fit single project installations."
-msgstr ""
+msgstr "添加了配置来更好地符合单一项目安装。"
 
 #: ../../changes.rst:497
 msgid ""
 "Notify about new string on source string change on monolingual translations."
-msgstr ""
+msgstr "在单语言翻译中通过源字符串更改中的新字符串。"
 
 #: ../../changes.rst:498
 msgid "Added separate view for translation memory with search capability."
-msgstr ""
+msgstr "添加带有搜索功能的另外的翻译记忆库视图。"
 
 #: ../../changes.rst:501
 msgid "Weblate 3.7.1"
-msgstr ""
+msgstr "Weblate 3.7.1"
 
 #: ../../changes.rst:503
 msgid "Released on June 28th 2019."
-msgstr ""
+msgstr "发布于 2019 年 06 月 28 日。"
 
 #: ../../changes.rst:505 ../../changes.rst:1473
 msgid "Documentation updates."
-msgstr ""
+msgstr "文档更新。"
 
 #: ../../changes.rst:506
 msgid "Fixed some requirements constraints."
-msgstr ""
+msgstr "修复了一些要求限制。"
 
 #: ../../changes.rst:507
 msgid "Updated language database."
-msgstr ""
+msgstr "更新了语言数据库。"
 
 #: ../../changes.rst:508 ../../changes.rst:599 ../../changes.rst:746
 msgid "Localization updates."
-msgstr ""
+msgstr "本地化更新。"
 
 #: ../../changes.rst:509
 msgid "Various user interface tweaks."
-msgstr ""
+msgstr "各种用户界面调整。"
 
 #: ../../changes.rst:510
 msgid "Improved handling of unsupported but discovered translation files."
-msgstr ""
+msgstr "改进了对不支持但发现的翻译文件的处理。"
 
 #: ../../changes.rst:511
 msgid "More verbosely report missing file format requirements."
-msgstr ""
+msgstr "更详细地报告丢失文件格式要求。"
 
 #: ../../changes.rst:514
 msgid "Weblate 3.7"
-msgstr ""
+msgstr "Weblate 3.7"
 
 #: ../../changes.rst:516
 msgid "Released on June 21st 2019."
-msgstr ""
+msgstr "发布于 2019 年 06 月 21 日。"
 
 #: ../../changes.rst:518
 msgid "Added separate Celery queue for notifications."
-msgstr ""
+msgstr "添加了用于通知的另外的 Celery 队列。"
 
 #: ../../changes.rst:519
 msgid "Use consistent look with application for API browsing."
-msgstr ""
+msgstr "对于 API 浏览使用了与应用一致的外观。"
 
 #: ../../changes.rst:520
 msgid "Include approved stats in the reports."
-msgstr ""
+msgstr "在报告中包括了同意的统计数据。"
 
 #: ../../changes.rst:521
 msgid "Report progress when updating translation component."
-msgstr ""
+msgstr "当更新翻译组件时的报告过程。"
 
 #: ../../changes.rst:522
 msgid "Allow to abort running background component update."
-msgstr ""
+msgstr "允许终止运行背景组件更新。"
 
 #: ../../changes.rst:523
 msgid "Extend template language for filename manipulations."
-msgstr ""
+msgstr "为文件名操作扩展了模板语言。"
 
 #: ../../changes.rst:524
 msgid "Use templates for editor link and repository browser URL."
-msgstr ""
+msgstr "对于编辑器链接和仓库浏览器 URL 使用模板。"
 
 #: ../../changes.rst:525
 msgid ""
 "Indicate max length and current characters count when editing translation."
-msgstr ""
+msgstr "当编辑翻译时指示最大长度和当前字符计数。"
 
 #: ../../changes.rst:526
 msgid "Improved handling of abbreviations in unchanged translation check."
-msgstr ""
+msgstr "改进了未更改翻译检查中的缩写处理。"
 
 #: ../../changes.rst:527
 msgid "Refreshed landing page for new contributors."
-msgstr ""
+msgstr "刷新了新贡献者的登录页面。"
 
 #: ../../changes.rst:528
 msgid "Add support for configuring msgmerge addon."
-msgstr ""
+msgstr "为配置 msgmerge 插件添加支持。"
 
 #: ../../changes.rst:529
 msgid "Delay opening SMTP connection when sending notifications."
-msgstr ""
+msgstr "当发送通知时延迟打开 SMTP 连接。"
 
 #: ../../changes.rst:530
 msgid "Improved error logging."
-msgstr ""
+msgstr "改进了错误日志。"
 
 #: ../../changes.rst:531
 msgid "Allow custom location in MO generating addon."
-msgstr ""
+msgstr "允许 MO 生成插件中的客户位置。"
 
 #: ../../changes.rst:532
 msgid "Added addons to cleanup old suggestions or comments."
-msgstr ""
+msgstr "添加了插件来清理旧的建议或注释。"
 
 #: ../../changes.rst:533
 msgid "Added option to enable horizontal mode in the Zen editor."
-msgstr ""
+msgstr "添加了选项来启动禅编辑器的水平模式。"
 
 #: ../../changes.rst:534
 msgid "Improved import performance with many linked components."
@@ -19567,797 +19569,799 @@ msgstr "提高了许多被链接组件的导入性能。"
 
 #: ../../changes.rst:535
 msgid "Fixed examples installation in some cases."
-msgstr ""
+msgstr "修复了一些情况下的示例安装。"
 
 #: ../../changes.rst:536
 msgid "Improved rendering of alerts in changes."
-msgstr ""
+msgstr "改进了更改中提供提醒。"
 
 #: ../../changes.rst:537
 msgid "Added new horizontal stats widget."
-msgstr ""
+msgstr "添加了新的水平统计数据小程序。"
 
 #: ../../changes.rst:538
 msgid "Improved format strings check on plurals."
-msgstr ""
+msgstr "改进了复数的格式字符串检查。"
 
 #: ../../changes.rst:539
 msgid "Added font management tool."
-msgstr ""
+msgstr "添加了字体管理工具。"
 
 #: ../../changes.rst:540
 msgid "New check for rendered text dimensions."
-msgstr ""
+msgstr "提供文本尺寸的新检查。"
 
 #: ../../changes.rst:541
 msgid "Added support for subtitle formats."
-msgstr ""
+msgstr "为字幕格式添加了支持。"
 
 #: ../../changes.rst:542
 msgid "Include overall completion stats for languages."
-msgstr ""
+msgstr "包括了语言的全部完成统计数据。"
 
 #: ../../changes.rst:543
 msgid "Added reporting at project and global scope."
-msgstr ""
+msgstr "添加了在项目或全体范围内的报告。"
 
 #: ../../changes.rst:544
 msgid "Improved user interface when showing translation status."
-msgstr ""
+msgstr "改进了显示翻译状态时的用户界面。"
 
 #: ../../changes.rst:545
 msgid "New Weblate logo and color scheme."
-msgstr ""
+msgstr "新的 Weblate 标志和配色方案。"
 
 #: ../../changes.rst:546
 msgid "New look of bitmap badges."
-msgstr ""
+msgstr "位图徽章的新外观。"
 
 #: ../../changes.rst:549
 msgid "Weblate 3.6.1"
-msgstr ""
+msgstr "Weblate 3.6.1"
 
 #: ../../changes.rst:551
 msgid "Released on April 26th 2019."
-msgstr ""
+msgstr "发布于 2019 年 04 月 26 日。"
 
 #: ../../changes.rst:554
 msgid "Fixed digest notifications in some corner cases."
-msgstr ""
+msgstr "修复了一些极端情况下的摘要通知。"
 
 #: ../../changes.rst:555
 msgid "Fixed addon script error alert."
-msgstr ""
+msgstr "修复了插件脚本错误提醒。"
 
 #: ../../changes.rst:556 ../../changes.rst:578
 msgid "Fixed generating MO file for monolingual PO files."
-msgstr ""
+msgstr "修复了为单语言 PO 文件生成 MO 文件。"
 
 #: ../../changes.rst:557
 msgid "Fixed display of uninstalled checks."
-msgstr ""
+msgstr "修复了未安装检查的显示。"
 
 #: ../../changes.rst:558
 msgid "Indicate administered projects on project listing."
-msgstr ""
+msgstr "指示项目列表中管理的项目。"
 
 #: ../../changes.rst:559
 msgid "Allow update to recover from missing VCS repository."
-msgstr ""
+msgstr "允许更新而从丢失的版本控制系统（VCS）仓库恢复。"
 
 #: ../../changes.rst:562
 msgid "Weblate 3.6"
-msgstr ""
+msgstr "Weblate 3.6"
 
 #: ../../changes.rst:564
 msgid "Released on April 20th 2019."
-msgstr ""
+msgstr "发布于 2019 年 04 月 20 日。"
 
 #: ../../changes.rst:566
 msgid "Add support for downloading user data."
-msgstr ""
+msgstr "为下载用户数据添加了支持。"
 
 #: ../../changes.rst:567
 msgid "Addons are now automatically triggered upon installation."
-msgstr ""
+msgstr "现在在安装时自动触发插件。"
 
 #: ../../changes.rst:568
 msgid "Improved instructions for resolving merge conflicts."
-msgstr ""
+msgstr "改进了解决合并冲突的指示。"
 
 #: ../../changes.rst:569
 msgid "Cleanup addon is now compatible with app store metadata translations."
-msgstr ""
+msgstr "清理插件现在与 app 商店元数据翻译兼容。"
 
 #: ../../changes.rst:570
 msgid "Configurable language code syntax when adding new translations."
-msgstr ""
+msgstr "当添加新语言时可配置的语言代码语法。"
 
 #: ../../changes.rst:571
 msgid ""
 "Warn about using Python 2 with planned termination of support in April 2020."
-msgstr ""
+msgstr "警告 Python 2 的使用计划于 2020 年 04 月终止。"
 
 #: ../../changes.rst:572
 msgid "Extract special characters from the source string for visual keyboard."
-msgstr ""
+msgstr "为视觉键盘从源字符串中提取特定字符。"
 
 #: ../../changes.rst:573
 msgid "Extended contributor stats to reflect both source and target counts."
-msgstr ""
+msgstr "扩展了贡献者统计数据，来反映源计数和目标计数。"
 
 #: ../../changes.rst:574
 msgid ""
 "Admins and consistency addons can now add translations even if disabled for "
 "users."
-msgstr ""
+msgstr "现在即使对用户禁止，管理员和一致性插件也可以添加翻译。"
 
 #: ../../changes.rst:575
 msgid ""
 "Fixed description of toggle disabling ``Language-Team`` header manipulation."
-msgstr ""
+msgstr "修复了禁止 ``Language-Team`` 标头操作切换的描述。"
 
 #: ../../changes.rst:576
 msgid "Notify users mentioned in comments."
-msgstr ""
+msgstr "通知注释中提到的用户。"
 
 #: ../../changes.rst:577
 msgid "Removed file format autodetection from component setup."
-msgstr ""
+msgstr "从组件设置中删除了文件格式自动检查。"
 
 #: ../../changes.rst:579
 msgid "Added digest notifications."
-msgstr ""
+msgstr "添加了摘要通知。"
 
 #: ../../changes.rst:580
 msgid "Added support for muting component notifications."
-msgstr ""
+msgstr "为组件通知静音添加了支持。"
 
 #: ../../changes.rst:581
 msgid "Added notifications for new alerts, whiteboard messages or components."
-msgstr ""
+msgstr "为新的提醒、白板消息或组件添加了通知。"
 
 #: ../../changes.rst:582
 msgid "Notifications for administered projects can now be configured."
-msgstr ""
+msgstr "现在可以配置管理项目的通知。"
 
 #: ../../changes.rst:583
 msgid "Improved handling of three letter language codes."
-msgstr ""
+msgstr "改进了三字母语言编码的处理。"
 
 #: ../../changes.rst:586
 msgid "Weblate 3.5.1"
-msgstr ""
+msgstr "Weblate 3.5.1"
 
 #: ../../changes.rst:588
 msgid "Released on March 10th 2019."
-msgstr ""
+msgstr "发布于 2019 年 03 月 10 日。"
 
 #: ../../changes.rst:590
 msgid "Fixed Celery systemd unit example."
-msgstr ""
+msgstr "修复了 Celery systemd 单元例子。"
 
 #: ../../changes.rst:591
 msgid "Fixed notifications from HTTP repositories with login."
-msgstr ""
+msgstr "修复了带有登录的 HTTP 仓库的通知。"
 
 #: ../../changes.rst:592
 msgid ""
 "Fixed race condition in editing source string for monolingual translations."
-msgstr ""
+msgstr "修复了单语言翻译中编辑源字符串的竞态条件。"
 
 #: ../../changes.rst:593
 msgid "Include output of failed addon execution in the logs."
-msgstr ""
+msgstr "在日志中包括插件执行失败的输出。"
 
 #: ../../changes.rst:594
 msgid "Improved validation of choices for adding new language."
-msgstr ""
+msgstr "改进了添加新语言选择的验证。"
 
 #: ../../changes.rst:595
 msgid "Allow to edit file format in component settings."
-msgstr ""
+msgstr "在组件设置中允许编辑文件格式。"
 
 #: ../../changes.rst:596
 msgid "Update installation instructions to prefer Python 3."
-msgstr ""
+msgstr "更新安装指示为首选 Python 3。"
 
 #: ../../changes.rst:597
 msgid "Performance and consistency improvements for loading translations."
-msgstr ""
+msgstr "装入翻译时的性能与一致性改进。"
 
 #: ../../changes.rst:598
 msgid ""
 "Make Microsoft Terminology service compatible with current Zeep releases."
-msgstr ""
+msgstr "使 Microsoft Terminology 服务与当前的 Zeep 发布版本兼容。"
 
 #: ../../changes.rst:602
 msgid "Weblate 3.5"
-msgstr ""
+msgstr "Weblate 3.5"
 
 #: ../../changes.rst:604
 msgid "Released on March 3rd 2019."
-msgstr ""
+msgstr "发布于 2019 年 03 月 03 日。"
 
 #: ../../changes.rst:606
 msgid "Improved performance of built-in translation memory."
-msgstr ""
+msgstr "改进了内建翻译记忆库的性能。"
 
 #: ../../changes.rst:607
 msgid "Added interface to manage global translation memory."
-msgstr ""
+msgstr "添加了管理全体翻译记忆库的界面。"
 
 #: ../../changes.rst:608
 msgid "Improved alerting on bad component state."
-msgstr ""
+msgstr "改进了坏的组件状态的提醒。"
 
 #: ../../changes.rst:609
 msgid "Added user interface to manage whiteboard messages."
-msgstr ""
+msgstr "添加了管理白板消息的用户界面。"
 
 #: ../../changes.rst:610
 msgid "Addon commit message now can be configured."
-msgstr ""
+msgstr "现在可以配置提交消息的插件。"
 
 #: ../../changes.rst:611
 msgid "Reduce number of commits when updating upstream repository."
-msgstr ""
+msgstr "减少更新上游仓库时的提交数量。"
 
 #: ../../changes.rst:612
 msgid "Fixed possible metadata loss when moving component between projects."
-msgstr ""
+msgstr "修复了在项目之间移动组件时可能的元数据丢失。"
 
 #: ../../changes.rst:613
 msgid "Improved navigation in the Zen mode."
-msgstr ""
+msgstr "改进了缠模式的导航。"
 
 #: ../../changes.rst:614
 msgid "Added several new quality checks (Markdown related and URL)."
-msgstr ""
+msgstr "添加了几个新的质量检查（相关的标记和 URL ）。"
 
 #: ../../changes.rst:615
 msgid "Added support for app store metadata files."
-msgstr ""
+msgstr "对 app 商店元数据文件添加了支持。"
 
 #: ../../changes.rst:616
 msgid "Added support for toggling GitHub or Gerrit integration."
-msgstr ""
+msgstr "为切换 GitHub 或 Gerrit 集成添加了支持。"
 
 #: ../../changes.rst:617
 msgid "Added check for Kashida letters."
-msgstr ""
+msgstr "为卡什达字母添加了检查。"
 
 #: ../../changes.rst:618
 msgid "Added option to squash commits based on authors."
-msgstr ""
+msgstr "添加选项来根据作者压缩提交。"
 
 #: ../../changes.rst:619
 msgid "Improved support for XLSX file format."
-msgstr ""
+msgstr "改进了对 XLSX 文件格式的支持。"
 
 #: ../../changes.rst:620
 msgid "Compatibility with Tesseract 4.0."
-msgstr ""
+msgstr "与 Tesseract 4.0 兼容。"
 
 #: ../../changes.rst:621
 msgid "Billing addon now removes projects for unpaid billings after 45 days."
-msgstr ""
+msgstr "记账插件现在在未支付账单 45 天后删除项目。"
 
 #: ../../changes.rst:624
 msgid "Weblate 3.4"
-msgstr ""
+msgstr "Weblate 3.4"
 
 #: ../../changes.rst:626
 msgid "Released on January 22nd 2019."
-msgstr ""
+msgstr "发布于 2019 年 01 月 22 日。"
 
 #: ../../changes.rst:628
 msgid "Added support for XLIFF placeholders."
-msgstr ""
+msgstr "为 XLIFF 占位符添加了支持。"
 
 #: ../../changes.rst:629
 msgid "Celery can now utilize multiple task queues."
-msgstr ""
+msgstr "Celery 现在可以使用多个项目队列。"
 
 #: ../../changes.rst:630
 msgid "Added support for renaming and moving projects and components."
-msgstr ""
+msgstr "为项目与组件的重命名和移动添加了支持。"
 
 #: ../../changes.rst:631
 msgid "Include characters counts in reports."
-msgstr ""
+msgstr "在报告中包括字符计数。"
 
 #: ../../changes.rst:632
 msgid ""
 "Added guided adding of translation components with automatic detection of "
 "translation files."
-msgstr ""
+msgstr "添加了带有翻译文件自动检测的翻译组件添加向导。"
 
 #: ../../changes.rst:633
 msgid "Customizable merge commit messages for Git."
-msgstr ""
+msgstr "可定制的 Git 合并提交消息。"
 
 #: ../../changes.rst:634
 msgid "Added visual indication of component alerts in navigation."
-msgstr ""
+msgstr "在导航中添加了组件提醒的视觉指示。"
 
 #: ../../changes.rst:635
 msgid "Improved performance of loading translation files."
-msgstr ""
+msgstr "改进了装入翻译文件的性能。"
 
 #: ../../changes.rst:636
 msgid "New addon to squash commits prior to push."
-msgstr ""
+msgstr "在推送前压缩提交的新插件。"
 
 #: ../../changes.rst:637
 msgid "Improved displaying of translation changes."
-msgstr ""
+msgstr "改进了翻译更改的显示。"
 
 #: ../../changes.rst:638
 msgid "Changed default merge style to rebase and made that configurable."
-msgstr ""
+msgstr "更改了默认合并风格来 rebase 并且使之可配置。"
 
 #: ../../changes.rst:639
 msgid "Better handle private use subtags in language code."
-msgstr ""
+msgstr "更好地处理语言代码中的私用子标签。"
 
 #: ../../changes.rst:640
 msgid "Improved performance of fulltext index updates."
-msgstr ""
+msgstr "改进了全文索引更新的性能。"
 
 #: ../../changes.rst:641
 msgid "Extended file upload API to support more parameters."
-msgstr ""
+msgstr "扩展了文件上传 API 来支持更多的参数。"
 
 #: ../../changes.rst:644
 msgid "Weblate 3.3"
-msgstr ""
+msgstr "Weblate 3.3"
 
 #: ../../changes.rst:646
 msgid "Released on November 30th 2018."
-msgstr ""
+msgstr "发布于 2018 年 11 月30 日。"
 
 #: ../../changes.rst:648
 msgid "Added support for component and project removal."
-msgstr ""
+msgstr "为组件和项目删除添加了支持。"
 
 #: ../../changes.rst:649
 msgid "Improved performance for some monolingual translations."
-msgstr ""
+msgstr "改进了一些单语言翻译的性能。"
 
 #: ../../changes.rst:650
 msgid ""
 "Added translation component alerts to highlight problems with a translation."
-msgstr ""
+msgstr "添加了翻译组件提醒，使翻译的问题高亮。"
 
 #: ../../changes.rst:651
 msgid "Expose XLIFF string resname as context when available."
-msgstr ""
+msgstr "当可用时暴露 XLIFF 字符串 resname 作为语境。"
 
 #: ../../changes.rst:652
 msgid "Added support for XLIFF states."
-msgstr ""
+msgstr "为 XLIFF 状态添加支持。"
 
 #: ../../changes.rst:653
 msgid "Added check for non writable files in DATA_DIR."
-msgstr ""
+msgstr "为 DATA_DIR 中的非可写入文件添加检查。"
 
 #: ../../changes.rst:654
 msgid "Improved CSV export for changes."
-msgstr ""
+msgstr "改进了更改的 CSV 导出。"
 
 #: ../../changes.rst:657
 msgid "Weblate 3.2.2"
-msgstr ""
+msgstr "Weblate 3.2.2"
 
 #: ../../changes.rst:659
 msgid "Released on October 20th 2018."
-msgstr ""
+msgstr "发布于 2018 年 10 月 20 日。"
 
 #: ../../changes.rst:661
 msgid "Remove no longer needed Babel dependency."
-msgstr ""
+msgstr "删除了不再需要的 Babel 依赖性。"
 
 #: ../../changes.rst:662
 msgid "Updated language definitions."
-msgstr ""
+msgstr "更新了语言定义。"
 
 #: ../../changes.rst:663
 msgid "Improve documentation for addons, LDAP and Celery."
-msgstr ""
+msgstr "改进了插件、LDAP 和 Celery 的文档。"
 
 #: ../../changes.rst:664
 msgid "Fixed enabling new dos-eol and auto-java-messageformat flags."
-msgstr ""
+msgstr "修复了启动新的 dos-eol 和 auto-java-messageformat 标记。"
 
 #: ../../changes.rst:665
 msgid "Fixed running setup.py test from PyPI package."
-msgstr ""
+msgstr "修复了从 PyPI 软件包运行 setup.py 测试。"
 
 #: ../../changes.rst:666
 msgid "Improved plurals handling."
-msgstr ""
+msgstr "改进了复数处理。"
 
 #: ../../changes.rst:667
 msgid "Fixed translation upload API failure in some corner cases."
-msgstr ""
+msgstr "修复了一些极端情况下失败的翻译上传 API。"
 
 #: ../../changes.rst:668
 msgid "Fixed updating Git configuration in case it was changed manually."
-msgstr ""
+msgstr "修复了手动更改情况下更新 Git 配置。"
 
 #: ../../changes.rst:671
 msgid "Weblate 3.2.1"
-msgstr ""
+msgstr "Weblate 3.2.1"
 
 #: ../../changes.rst:673
 msgid "Released on October 10th 2018."
-msgstr ""
+msgstr "发布于 2018 年 10 月 18 日。"
 
 #: ../../changes.rst:675
 msgid "Document dependency on backports.csv on Python 2.7."
-msgstr ""
+msgstr "Python 2.7 的 backports.csv 的文档依赖性。"
 
 #: ../../changes.rst:676
 msgid "Fix running tests under root."
-msgstr ""
+msgstr "修复根下运行测试。"
 
 #: ../../changes.rst:677
 msgid "Improved error handling in gitexport module."
-msgstr ""
+msgstr "改进了 gitexport 模块中的错误处理。"
 
 #: ../../changes.rst:678
 msgid "Fixed progress reporting for newly added languages."
-msgstr ""
+msgstr "修复了报告新添加语言的过程。"
 
 #: ../../changes.rst:679
 msgid "Correctly report Celery worker errors to Sentry."
-msgstr ""
+msgstr "正确地向 Sentry 报告 Celery worker 错误。"
 
 #: ../../changes.rst:680
 msgid "Fixed creating new translations with Qt Linguist."
-msgstr ""
+msgstr "修复了用 Qt linguist 新建新的翻译。"
 
 #: ../../changes.rst:681
 msgid "Fixed occasional fulltext index update failures."
-msgstr ""
+msgstr "修复了偶发的全文索引更新失败。"
 
 #: ../../changes.rst:682
 msgid "Improved validation when creating new components."
-msgstr ""
+msgstr "改进了新建新组件时的验证。"
 
 #: ../../changes.rst:683
 msgid "Added support for cleanup of old suggestions."
-msgstr ""
+msgstr "为清理旧的建议添加了支持。"
 
 #: ../../changes.rst:686
 msgid "Weblate 3.2"
-msgstr ""
+msgstr "Weblate 3.2"
 
 #: ../../changes.rst:688
 msgid "Released on October 6th 2018."
-msgstr ""
+msgstr "发布于 2018 年 10 月 06 日。"
 
 #: ../../changes.rst:690
 msgid "Add install_addon management command for automated addon installation."
-msgstr ""
+msgstr "为自动插件安装添加 install_addon 管理命令。"
 
 #: ../../changes.rst:691
 msgid "Allow more fine grained ratelimit settings."
-msgstr ""
+msgstr "允许更细粒度的速率限制设置。"
 
 #: ../../changes.rst:692
 msgid "Added support for export and import of Excel files."
-msgstr ""
+msgstr "为 Excel 文件的导出和导入添加了支持。"
 
 #: ../../changes.rst:693
 msgid ""
 "Improve component cleanup in case of multiple component discovery addons."
-msgstr ""
+msgstr "改进了多组件发现插件情况下的组件清理。"
 
 #: ../../changes.rst:694
 msgid "Rewritten Microsoft Terminology machine translation backend."
-msgstr ""
+msgstr "重写了 Microsoft Terminology 机器翻译后端。"
 
 #: ../../changes.rst:695
 msgid "Weblate now uses Celery to offload some processing."
-msgstr ""
+msgstr "Weblate 现在使用 Celery 来卸载一些处理。"
 
 #: ../../changes.rst:696
 msgid "Improved search capabilities and added regular expression search."
-msgstr ""
+msgstr "改进了搜索功能，并添加了正则表达式搜索。"
 
 #: ../../changes.rst:697
 msgid "Added support for Youdao Zhiyun API machine translation."
-msgstr ""
+msgstr "为有道智云机器翻译添加了支持。"
 
 #: ../../changes.rst:698
 msgid "Added support for Baidu API machine translation."
-msgstr ""
+msgstr "为百度 API 机器翻译添加了支持。"
 
 #: ../../changes.rst:699
 msgid "Integrated maintenance and cleanup tasks using Celery."
-msgstr ""
+msgstr "集成了使用 Celery 的维护和清理任务。"
 
 #: ../../changes.rst:700
 msgid "Improved performance of loading translations by almost 25%."
-msgstr ""
+msgstr "改进了装入翻译的性能几乎 25%。"
 
 #: ../../changes.rst:701
 msgid "Removed support for merging headers on upload."
-msgstr ""
+msgstr "删除了对上传时合并标头的支持。"
 
 #: ../../changes.rst:702
 msgid "Removed support for custom commit messages."
-msgstr ""
+msgstr "删除了对客户提交消息的支持。"
 
 #: ../../changes.rst:703
 msgid "Configurable editing mode (zen/full)."
-msgstr ""
+msgstr "可配置的编辑模式（禅模式/全模式）。"
 
 #: ../../changes.rst:704
 msgid "Added support for error reporting to Sentry."
-msgstr ""
+msgstr "为向 Sentry 报告错误添加了支持。"
 
 #: ../../changes.rst:705
 msgid "Added support for automated daily update of repositories."
-msgstr ""
+msgstr "为每天自动更新仓库添加了支持。"
 
 #: ../../changes.rst:706
 msgid "Added support for creating projects and components by users."
-msgstr ""
+msgstr "为用户新建项目和组件添加了支持。"
 
 #: ../../changes.rst:707
 msgid "Built in translation memory now automatically stores translations done."
-msgstr ""
+msgstr "内建的翻译记忆库现在自动存储完成的翻译。"
 
 #: ../../changes.rst:708
 msgid "Users and projects can import their existing translation memories."
-msgstr ""
+msgstr "用户和项目现在可以导入他们现有的翻译记忆库。"
 
 #: ../../changes.rst:709
 msgid "Better management of related strings for screenshots."
-msgstr ""
+msgstr "更好地管理屏幕截图的相关字符串。"
 
 #: ../../changes.rst:710
 msgid "Added support for checking Java MessageFormat."
-msgstr ""
+msgstr "为检查 Java MessageFormat 添加了支持。"
 
 #: ../../changes.rst:712
 msgid ""
 "See `3.2 milestone on GitHub <https://github.com/WeblateOrg/weblate/"
 "milestone/36?closed=1>`_ for detailed list of addressed issues."
 msgstr ""
+"所提到问题的具体列表请参见 `3.2 milestone on GitHub <https://github.com/WeblateOrg/"
+"weblate/milestone/36?closed=1>`_ 。"
 
 #: ../../changes.rst:716
 msgid "Weblate 3.1.1"
-msgstr ""
+msgstr "Weblate 3.1.1"
 
 #: ../../changes.rst:718 ../../changes.rst:725
 msgid "Released on July 27th 2018."
-msgstr ""
+msgstr "发布于 2018 年 07 月 27 日。"
 
 #: ../../changes.rst:720
 msgid "Fix testsuite failure on some setups."
-msgstr ""
+msgstr "修复了一些设置中失败的测试套件。"
 
 #: ../../changes.rst:723
 msgid "Weblate 3.1"
-msgstr ""
+msgstr "Weblate 3.1"
 
 #: ../../changes.rst:727
 msgid "Upgrades from older version than 3.0.1 are not supported."
-msgstr ""
+msgstr "不再支持从早于 3.0.1 的更旧版本的升级。"
 
 #: ../../changes.rst:728
 msgid "Allow to override default commit messages from settings."
-msgstr ""
+msgstr "允许覆盖从设置中默认提交的消息。"
 
 #: ../../changes.rst:729
 msgid "Improve webhooks compatibility with self hosted environments."
-msgstr ""
+msgstr "改进 webhooks 与自主环境的兼容性。"
 
 #: ../../changes.rst:730
 msgid "Added support for Amazon Translate."
-msgstr ""
+msgstr "添加了对 Amazon Translate 的支持。"
 
 #: ../../changes.rst:731
 msgid "Compatibility with Django 2.1."
-msgstr ""
+msgstr "与 Django 2.1 兼容。"
 
 #: ../../changes.rst:732
 msgid ""
 "Django system checks are now used to diagnose problems with installation."
-msgstr ""
+msgstr "Django system 系统检查现在用于诊断安装问题。"
 
 #: ../../changes.rst:733
 msgid "Removed support for soon shutdown libravatar service."
-msgstr ""
+msgstr "删除了对很快关闭的 libravatar 服务的支持"
 
 #: ../../changes.rst:734
 msgid "New addon to mark unchanged translations as needing edit."
-msgstr ""
+msgstr "现在插件将未更改的翻译标记为需要编辑。"
 
 #: ../../changes.rst:735
 msgid "Add support for jumping to specific location while translating."
-msgstr ""
+msgstr "为翻译时跳到特定位置添加支持。"
 
 #: ../../changes.rst:736
 msgid "Downloaded translations can now be customized."
-msgstr ""
+msgstr "现在可以定制下载翻译。"
 
 #: ../../changes.rst:737
 msgid ""
 "Improved calculation of string similarity in translation memory matches."
-msgstr ""
+msgstr "改进了翻译记忆库匹配中的字符串相似性的计算。"
 
 #: ../../changes.rst:738
 msgid "Added support by signing Git commits by GnuPG."
-msgstr ""
+msgstr "添加了由 GnuPG 签发 Git 提交的支持。"
 
 #: ../../changes.rst:741
 msgid "Weblate 3.0.1"
-msgstr ""
+msgstr "Weblate 3.0.1"
 
 #: ../../changes.rst:743
 msgid "Released on June 10th 2018."
-msgstr ""
+msgstr "发布于 2018 年 06 月 10 日。"
 
 #: ../../changes.rst:745
 msgid "Fixed possible migration issue from 2.20."
-msgstr ""
+msgstr "修复了自 2.20 依赖可能的合并问题。"
 
 #: ../../changes.rst:747
 msgid "Removed obsolete hook examples."
-msgstr ""
+msgstr "删除了过时的钩子的例子。"
 
 #: ../../changes.rst:748
 msgid "Improved caching documentation."
-msgstr ""
+msgstr "改进了缓存文档。"
 
 #: ../../changes.rst:749
 msgid "Fixed displaying of admin documentation."
-msgstr ""
+msgstr "改进了管理文档的显示。"
 
 #: ../../changes.rst:750
 msgid "Improved handling of long language names."
-msgstr ""
+msgstr "改进了长语言名称的处理。"
 
 #: ../../changes.rst:753
 msgid "Weblate 3.0"
-msgstr ""
+msgstr "Weblate 3.0"
 
 #: ../../changes.rst:755
 msgid "Released on June 1st 2018."
-msgstr ""
+msgstr "发布于 2018 年 06 月 01 日。"
 
 #: ../../changes.rst:757
 msgid "Rewritten access control."
-msgstr ""
+msgstr "重写了访问控制。"
 
 #: ../../changes.rst:758
 msgid "Several code cleanups that lead to moved and renamed modules."
-msgstr ""
+msgstr "导致移动或重命名模块的一些代码清理。"
 
 #: ../../changes.rst:759
 msgid "New addon for automatic component discovery."
-msgstr ""
+msgstr "自动组件发现的新插件。"
 
 #: ../../changes.rst:760
 msgid ""
 "The import_project management command has now slightly different parameters."
-msgstr ""
+msgstr "import_project 管理命令现在有一些略微不同的参数。"
 
 #: ../../changes.rst:761
 msgid "Added basic support for Windows RC files."
-msgstr ""
+msgstr "为 Windows RC 文件添加了基本支持。"
 
 #: ../../changes.rst:762
 msgid "New addon to store contributor names in PO file headers."
-msgstr ""
+msgstr "新的插件，将贡献者姓名存储在 PO 文件标头中。"
 
 #: ../../changes.rst:763
 msgid "The per component hook scripts are removed, use addons instead."
-msgstr ""
+msgstr "删除了根据组件的钩子，转而使用插件替代。"
 
 #: ../../changes.rst:764
 msgid "Add support for collecting contributor agreements."
-msgstr ""
+msgstr "为收集贡献者协议添加支持。"
 
 #: ../../changes.rst:765
 msgid "Access control changes are now tracked in history."
-msgstr ""
+msgstr "现在在历史中跟踪访问控制更改。"
 
 #: ../../changes.rst:766
 msgid "New addon to ensure all components in a project have same translations."
-msgstr ""
+msgstr "现在插件确保项目中的所有组件具有相同的翻译。"
 
 #: ../../changes.rst:767
 msgid "Support for more variables in commit message templates."
-msgstr ""
+msgstr "在提交消息模板中支持更多变量。"
 
 #: ../../changes.rst:768
 msgid "Add support for providing additional textual context."
-msgstr ""
+msgstr "为提供另外的文本语境添加支持。"
 
 #: ../../changes.rst:771
 msgid "Weblate 2.x series"
-msgstr ""
+msgstr "Weblate 2.x 系列"
 
 #: ../../changes.rst:774
 msgid "Weblate 2.20"
-msgstr ""
+msgstr "Weblate 2.20"
 
 #: ../../changes.rst:776
 msgid "Released on April 4th 2018."
-msgstr ""
+msgstr "发布于 2018 年 04 月 04 日。"
 
 #: ../../changes.rst:778
 msgid "Improved speed of cloning subversion repositories."
-msgstr ""
+msgstr "改进了 subversion 仓库克隆的速度。"
 
 #: ../../changes.rst:779
 msgid "Changed repository locking to use third party library."
-msgstr ""
+msgstr "更改了仓库锁定来使用第三方库。"
 
 #: ../../changes.rst:780
 msgid "Added support for downloading only strings needing action."
-msgstr ""
+msgstr "为下载只需要动作的字符串添加了支持。"
 
 #: ../../changes.rst:781
 msgid "Added support for searching in several languages at once."
-msgstr ""
+msgstr "为立刻在几种语言中搜索添加了支持。"
 
 #: ../../changes.rst:782
 msgid "New addon to configure gettext output wrapping."
-msgstr ""
+msgstr "现在插件来配置 gettext 输出换行。"
 
 #: ../../changes.rst:783
 msgid "New addon to configure JSON formatting."
-msgstr ""
+msgstr "新的插件来配置 JSON 格式。"
 
 #: ../../changes.rst:784
 msgid ""
 "Added support for authentication in API using RFC 6750 compatible Bearer "
 "authentication."
-msgstr ""
+msgstr "为使用 RFC 6750 兼容的 Bearer 认证添加了 API 中认证的支持。"
 
 #: ../../changes.rst:785
 msgid ""
 "Added support for automatic translation using machine translation services."
-msgstr ""
+msgstr "未使用机器翻译服务自动翻译添加了支持。"
 
 #: ../../changes.rst:786
 msgid "Added support for HTML markup in whiteboard messages."
-msgstr ""
+msgstr "为白板消息中的 HTML 标记添加了支持。"
 
 #: ../../changes.rst:787
 msgid "Added support for mass changing state of strings."
-msgstr ""
+msgstr "为大量更改字符串的状态添加了支持。"
 
 #: ../../changes.rst:788
 msgid ""
 "Translate-toolkit at least 2.3.0 is now required, older versions are no "
 "longer supported."
-msgstr ""
+msgstr "现在至少需要 2.3.0 版本的Translate-toolkit，较老的版本不再支持。"
 
 #: ../../changes.rst:789
 msgid "Added built in translation memory."
-msgstr ""
+msgstr "添加了内建翻译记忆库。"
 
 #: ../../changes.rst:790
 msgid ""
 "Added componentlists overview to dashboard and per component list overview "
 "pages."
-msgstr ""
+msgstr "为面板添加了组件概况和根据组件的列表概况页面。"
 
 #: ../../changes.rst:791
 msgid "Added support for DeepL machine translation service."
-msgstr ""
+msgstr "为 DeepL 机器翻译服务添加了支持。"
 
 #: ../../changes.rst:792
 msgid "Machine translation results are now cached inside Weblate."
-msgstr ""
+msgstr "机器翻译结果现在缓存在 Weblate 内。"
 
 #: ../../changes.rst:793
 msgid "Added support for reordering committed changes."
@@ -20365,369 +20369,369 @@ msgstr "增加了对已提交更改重新排序的支持。"
 
 #: ../../changes.rst:796
 msgid "Weblate 2.19.1"
-msgstr ""
+msgstr "Weblate 2.19.1"
 
 #: ../../changes.rst:798
 msgid "Released on February 20th 2018."
-msgstr ""
+msgstr "发布于 2018 年 02 月 20 日。"
 
 #: ../../changes.rst:800
 msgid "Fixed migration issue on upgrade from 2.18."
-msgstr ""
+msgstr "修复了从 2.18 升级的合并问题。"
 
 #: ../../changes.rst:801
 msgid "Improved file upload API validation."
-msgstr ""
+msgstr "改进了文件上传 API 验证。"
 
 #: ../../changes.rst:804
 msgid "Weblate 2.19"
-msgstr ""
+msgstr "Weblate 2.19"
 
 #: ../../changes.rst:806
 msgid "Released on February 15th 2018."
-msgstr ""
+msgstr "发布于 2018 年 02 月 15 日。"
 
 #: ../../changes.rst:808
 msgid "Fixed imports across some file formats."
-msgstr ""
+msgstr "修复了一些文件格式之间的导入。"
 
 #: ../../changes.rst:809
 msgid "Display human friendly browser information in audit log."
-msgstr ""
+msgstr "在审查日志中显示用户友好的浏览器信息。"
 
 #: ../../changes.rst:810
 msgid "Added TMX exporter for files."
-msgstr ""
+msgstr "为文件添加了 TMX 导出程序。"
 
 #: ../../changes.rst:811
 msgid "Various performance improvements for loading translation files."
-msgstr ""
+msgstr "装入翻译文件的各种性能改进。"
 
 #: ../../changes.rst:812
 msgid ""
 "Added option to disable access management in Weblate in favor of Django one."
-msgstr ""
+msgstr "添加了选项在 Weblate 中禁止访问管理，有利于 Django。"
 
 #: ../../changes.rst:813
 msgid "Improved glossary lookup speed for large strings."
-msgstr ""
+msgstr "改进了大字符串的词汇表查询速度。"
 
 #: ../../changes.rst:814
 msgid "Compatibility with django_auth_ldap 1.3.0."
-msgstr ""
+msgstr "与 django_auth_ldap 1.3.0 兼容。"
 
 #: ../../changes.rst:815
 msgid "Configuration errors are now stored and reported persistently."
-msgstr ""
+msgstr "配置错误现在被存储并被持久地报告。"
 
 #: ../../changes.rst:816
 msgid "Honor ignore flags in whitespace autofixer."
-msgstr ""
+msgstr "在空白字符自动修复中 Honor 忽略标志。"
 
 #: ../../changes.rst:817
 msgid "Improved compatibility with some Subversion setups."
-msgstr ""
+msgstr "改进了一些 Subversion 设置的兼容性。"
 
 #: ../../changes.rst:818
 msgid "Improved built in machine translation service."
-msgstr ""
+msgstr "改进了内建机器翻译服务。"
 
 #: ../../changes.rst:819
 msgid "Added support for SAP Translation Hub service."
-msgstr ""
+msgstr "对 SAP Translation Hub 服务添加了支持。"
 
 #: ../../changes.rst:820
 msgid "Added support for Microsoft Terminology service."
-msgstr ""
+msgstr "为 Microsoft Terminology 服务添加了支持。"
 
 #: ../../changes.rst:821
 msgid "Removed support for advertisement in notification e-mails."
-msgstr ""
+msgstr "删除了对通知电子邮件中的广告的支持。"
 
 #: ../../changes.rst:822
 msgid "Improved translation progress reporting at language level."
-msgstr ""
+msgstr "改进了语言层次的翻译过程报告。"
 
 #: ../../changes.rst:823
 msgid "Improved support for different plural formulas."
-msgstr ""
+msgstr "改进了不同复数形式的支持。"
 
 #: ../../changes.rst:824
 msgid "Added support for Subversion repositories not using stdlayout."
-msgstr ""
+msgstr "添加了对不使用 stdlayout 的 Subversion 仓库的支持。"
 
 #: ../../changes.rst:825
 msgid "Added addons to customize translation workflows."
-msgstr ""
+msgstr "添加了插件类定制化翻译流程。"
 
 #: ../../changes.rst:828
 msgid "Weblate 2.18"
-msgstr ""
+msgstr "Weblate 2.18"
 
 #: ../../changes.rst:830
 msgid "Released on December 15th 2017."
-msgstr ""
+msgstr "发布于 2017 年 12 月 15 日。"
 
 #: ../../changes.rst:832
 msgid "Extended contributor stats."
-msgstr ""
+msgstr "扩展了贡献者的统计数据。"
 
 #: ../../changes.rst:833
 msgid "Improved configuration of special characters virtual keyboard."
-msgstr ""
+msgstr "改进了特殊字符可视键盘的配置。"
 
 #: ../../changes.rst:834
 msgid "Added support for DTD file format."
-msgstr ""
+msgstr "为 DTD 文件格式添加了支持。"
 
 #: ../../changes.rst:835
 msgid ""
 "Changed keyboard shortcuts to less likely collide with browser/system ones."
-msgstr ""
+msgstr "更改了键盘快捷键，较少地于浏览器/系统的快捷键冲突。"
 
 #: ../../changes.rst:836
 msgid "Improved support for approved flag in XLIFF files."
-msgstr ""
+msgstr "改进了对 XLIFF 文件中的同意标记的支持。"
 
 #: ../../changes.rst:837
 msgid "Added support for not wrapping long strings in gettext PO files."
-msgstr ""
+msgstr "添加了对 gettext PO 文件中不换行的长字符串的支持。"
 
 #: ../../changes.rst:838
 msgid "Added button to copy permalink for current translation."
-msgstr ""
+msgstr "添加了按钮为当前翻译复制永久链接。"
 
 #: ../../changes.rst:839
 msgid "Dropped support for Django 1.10 and added support for Django 2.0."
-msgstr ""
+msgstr "去掉了对 Django 1.10 的支持，而添加了对 Django 2.0 的支持。"
 
 #: ../../changes.rst:840
 msgid "Removed locking of translations while translating."
-msgstr ""
+msgstr "删除了当翻译时对翻译的锁定。"
 
 #: ../../changes.rst:841
 msgid "Added support for adding new strings to monolingual translations."
-msgstr ""
+msgstr "对于为单语言翻译添加新的字符串添加了支持。"
 
 #: ../../changes.rst:842
 msgid "Added support for translation workflows with dedicated reviewers."
-msgstr ""
+msgstr "对专门复核人员的翻译流程添加了支持。"
 
 #: ../../changes.rst:845
 msgid "Weblate 2.17.1"
-msgstr ""
+msgstr "Weblate 2.17.1"
 
 #: ../../changes.rst:847 ../../changes.rst:855
 msgid "Released on October 13th 2017."
-msgstr ""
+msgstr "发布于 2017 年 10 月 13 日。"
 
 #: ../../changes.rst:849
 msgid "Fixed running testsuite in some specific situations."
-msgstr ""
+msgstr "修复了在一些特定情况下运行测试套件的问题。"
 
 #: ../../changes.rst:850
 msgid "Locales updates."
-msgstr ""
+msgstr "区域设置更新。"
 
 #: ../../changes.rst:853
 msgid "Weblate 2.17"
-msgstr ""
+msgstr "Weblate 2.17"
 
 #: ../../changes.rst:857
 msgid "Weblate by default does shallow Git clones now."
-msgstr ""
+msgstr "现在 Weblate 默认进行 Git 浅克隆。"
 
 #: ../../changes.rst:858
 msgid "Improved performance when updating large translation files."
-msgstr ""
+msgstr "改进了更新大的翻译文件时的性能。"
 
 #: ../../changes.rst:859
 msgid "Added support for blocking certain e-mails from registration."
-msgstr ""
+msgstr "为阻挡注册的某个电子邮件地址添加了支持。"
 
 #: ../../changes.rst:860
 msgid "Users can now delete their own comments."
-msgstr ""
+msgstr "用户现在可以删除自己的注释。"
 
 #: ../../changes.rst:861
 msgid "Added preview step to search and replace feature."
-msgstr ""
+msgstr "为搜索和更换特性添加了预览步骤。"
 
 #: ../../changes.rst:862
 msgid "Client side persistence of settings in search and upload forms."
-msgstr ""
+msgstr "搜索和上传表格时客户端一侧设置的持久性。"
 
 #: ../../changes.rst:864
 msgid "More fine grained per project ACL configuration."
-msgstr ""
+msgstr "根据项目的更细粒度的 ACL 配置。"
 
 #: ../../changes.rst:865
 msgid "Default value of BASE_DIR has been changed."
-msgstr ""
+msgstr "BASE_DIR 的默认值已经更改。"
 
 #: ../../changes.rst:866
 msgid "Added two step account removal to prevent accidental removal."
-msgstr ""
+msgstr "添加了两步账户删除，来防止意外删除。"
 
 #: ../../changes.rst:867
 msgid "Project access control settings is now editable."
-msgstr ""
+msgstr "现在可以编辑项目访问控制设置。"
 
 #: ../../changes.rst:868
 msgid "Added optional spam protection for suggestions using Akismet."
-msgstr ""
+msgstr "添加了使用 Akismet 建议的可选垃圾邮件保护。"
 
 #: ../../changes.rst:871
 msgid "Weblate 2.16"
-msgstr ""
+msgstr "Weblate 2.16"
 
 #: ../../changes.rst:873
 msgid "Released on August 11th 2017."
-msgstr ""
+msgstr "发布于 2017 年 08 月 11 日。"
 
 #: ../../changes.rst:875 ../../changes.rst:1001 ../../changes.rst:1353
 msgid "Various performance improvements."
-msgstr ""
+msgstr "更重新能改进。"
 
 #: ../../changes.rst:876
 msgid "Added support for nested JSON format."
-msgstr ""
+msgstr "为嵌套 JSON 格式添加了支持。"
 
 #: ../../changes.rst:877
 msgid "Added support for WebExtension JSON format."
-msgstr ""
+msgstr "为 WebExtension JSON 格式添加了支持。"
 
 #: ../../changes.rst:878
 msgid "Fixed git exporter authentication."
-msgstr ""
+msgstr "修复了 git 导出认证。"
 
 #: ../../changes.rst:879
 msgid "Improved CSV import in certain situations."
-msgstr ""
+msgstr "改进了某些情况下的 CSV 导入。"
 
 #: ../../changes.rst:880
 msgid "Improved look of Other translations widget."
-msgstr ""
+msgstr "改进了其它翻译小程序的外观。"
 
 #: ../../changes.rst:881
 msgid "The max-length checks is now enforcing length of text in form."
-msgstr ""
+msgstr "对于表格中的文本长度现在强制进行最大长度检测。"
 
 #: ../../changes.rst:882
 msgid "Make the commit_pending age configurable per component."
-msgstr ""
+msgstr "根据组件进行 commit_pending 时间配置。"
 
 #: ../../changes.rst:883
 msgid "Various user interface cleanups."
-msgstr ""
+msgstr "各种用户界面清理。"
 
 #: ../../changes.rst:884
 msgid "Fixed component/project/site wide search for translations."
-msgstr ""
+msgstr "修复了组件/项目/网站范围的翻译搜索。"
 
 #: ../../changes.rst:887
 msgid "Weblate 2.15"
-msgstr ""
+msgstr "Weblate 2.15"
 
 #: ../../changes.rst:889
 msgid "Released on June 30th 2017."
-msgstr ""
+msgstr "发布于 2017 年 06 月 30 日。"
 
 #: ../../changes.rst:891
 msgid "Show more related translations in other translations."
-msgstr ""
+msgstr "在其它翻译中显示了更多相关的翻译。"
 
 #: ../../changes.rst:892
 msgid "Add option to see translations of current string to other languages."
-msgstr ""
+msgstr "添加了选项来查看当前字符串到其它语言的翻译。"
 
 #: ../../changes.rst:893
 msgid "Use 4 plural forms for Lithuanian by default."
-msgstr ""
+msgstr "对立陶宛语默认使用 4 种复数形式。"
 
 #: ../../changes.rst:894
 msgid "Fixed upload for monolingual files of different format."
-msgstr ""
+msgstr "修复了不同格式单语言文件的上传。"
 
 #: ../../changes.rst:895
 msgid "Improved error messages on failed authentication."
-msgstr ""
+msgstr "改进了认证失败的错误消息。"
 
 #: ../../changes.rst:896
 msgid "Keep page state when removing word from glossary."
-msgstr ""
+msgstr "当从词汇表删除单词时保持页面状态。"
 
 #: ../../changes.rst:897
 msgid "Added direct link to edit secondary language translation."
-msgstr ""
+msgstr "添加了直接链接来编辑第二语言翻译。"
 
 #: ../../changes.rst:898
 msgid "Added Perl format quality check."
-msgstr ""
+msgstr "添加了 Perl 格式质量检查。"
 
 #: ../../changes.rst:899
 msgid "Added support for rejecting reused passwords."
-msgstr ""
+msgstr "为了拒绝再次使用的密码添加了支持。"
 
 #: ../../changes.rst:900
 msgid "Extended toolbar for editing RTL languages."
-msgstr ""
+msgstr "为编辑 RTL 语言扩展了工具条。"
 
 #: ../../changes.rst:903
 msgid "Weblate 2.14.1"
-msgstr ""
+msgstr "Weblate 2.14.1"
 
 #: ../../changes.rst:905
 msgid "Released on May 24th 2017."
-msgstr ""
+msgstr "发布于 2017 年 05 月 24 日。"
 
 #: ../../changes.rst:907
 msgid "Fixed possible error when paginating search results."
-msgstr ""
+msgstr "修复了将搜索结果分页时可能的错误。"
 
 #: ../../changes.rst:908
 msgid "Fixed migrations from older versions in some corner cases."
-msgstr ""
+msgstr "修复了一些极端情况下从较老的版本合并的问题。"
 
 #: ../../changes.rst:909
 msgid "Fixed possible CSRF on project watch and unwatch."
-msgstr ""
+msgstr "修复了项目有人或无人监守时可能的 CSRF。"
 
 #: ../../changes.rst:910
 msgid "The password reset no longer authenticates user."
-msgstr ""
+msgstr "密码重置不再认证用户。"
 
 #: ../../changes.rst:911
 msgid "Fixed possible CAPTCHA bypass on forgotten password."
-msgstr ""
+msgstr "修复了忘记密码是可能的略过 CAPTCHA。"
 
 #: ../../changes.rst:914
 msgid "Weblate 2.14"
-msgstr ""
+msgstr "Weblate 2.14"
 
 #: ../../changes.rst:916
 msgid "Released on May 17th 2017."
-msgstr ""
+msgstr "发布于 2017 年 05 月 17 日。"
 
 #: ../../changes.rst:918
 msgid "Add glossary entries using AJAX."
-msgstr ""
+msgstr "使用 AJAX 添加词汇表条目。"
 
 #: ../../changes.rst:919
 msgid "The logout now uses POST to avoid CSRF."
-msgstr ""
+msgstr "登出现在使用 POST 来避免 CSRF。"
 
 #: ../../changes.rst:920
 msgid "The API key token reset now uses POST to avoid CSRF."
-msgstr ""
+msgstr "API 密钥令牌重置现在使用 POST 来避免 CSRF。"
 
 #: ../../changes.rst:921
 msgid "Weblate sets Content-Security-Policy by default."
-msgstr ""
+msgstr "Weblate 默认设置 Content-Security-Policy。"
 
 #: ../../changes.rst:922
 msgid "The local editor URL is validated to avoid self-XSS."
-msgstr ""
+msgstr "验证本地编辑器 URL 来避免 self-XSS。"
 
 #: ../../changes.rst:923
 msgid "The password is now validated against common flaws by default."
@@ -26530,7 +26534,7 @@ msgstr ""
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
-msgstr "通过调整文件头或链接到相应的源文件，可以支持存储在文件中的上下文信息。"
+msgstr "通过调整文件头或链接到相应的源文件，可以支持存储在文件中的语境信息。"
 
 #: ../../formats.rst:149
 msgid "The bilingual gettext PO file typically looks like this:"
