@@ -90,7 +90,7 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`dotnet`       | mono             | no            | yes            | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`csv`          | mono             | no            | yes            | yes           | yes            | no             | needs editing           |
+| :ref:`csv`          | both             | no            | yes            | yes           | yes            | no             | needs editing           |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`yaml`         | mono             | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
@@ -1011,6 +1011,8 @@ the following files:
   :guilabel:`Simple CSV file` as file format
 * Files with fields as defined by translate-toolkit: location, source,
   target, ID, fuzzy, context, translator_comments, developer_comments
+* Remember to define :ref:`component-template` when your files are monolingual
+  (see :ref:`bimono`)
 
 .. warning::
 
@@ -1025,7 +1027,7 @@ Example file:
     :language: text
 
 +-------------------------------------------------------------------+
-| Typical Weblate :ref:`component`                                  |
+| Typical Weblate :ref:`component` for bilingual CSV                |
 +================================+==================================+
 | Filemask                       | ``locale/*.csv``                 |
 +--------------------------------+----------------------------------+
@@ -1034,6 +1036,18 @@ Example file:
 | Template for new translations  | ``locale/en.csv``                |
 +--------------------------------+----------------------------------+
 | File format                    | `CSV file`                       |
++--------------------------------+----------------------------------+
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component` for monolingual CSV              |
++================================+==================================+
+| Filemask                       | ``locale/*.csv``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``locale/en.csv``                |
++--------------------------------+----------------------------------+
+| Template for new translations  | ``locale/en.csv``                |
++--------------------------------+----------------------------------+
+| File format                    | `Simple CSV file`                |
 +--------------------------------+----------------------------------+
 
 .. seealso:: :doc:`tt:formats/csv`
