@@ -1921,8 +1921,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return was_change
 
     def invalidate_stats_deep(self):
+        from weblate.trans.tasks import update_component_stats
+
         self.log_info("updating stats caches")
         transaction.on_commit(lambda: self.stats.invalidate(childs=True))
+        transaction.on_commit(lambda: update_component_stats.delay(self.pk))
 
     def get_lang_code(self, path, validate=False):
         """Parse language code from path."""

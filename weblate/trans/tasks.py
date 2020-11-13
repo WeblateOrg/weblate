@@ -103,6 +103,12 @@ def perform_push(pk, *args, **kwargs):
     component.do_push(*args, **kwargs)
 
 
+@app.task(trail=False)
+def update_component_stats(pk):
+    component = Component.objects.get(pk=pk)
+    component.stats.ensure_basic()
+
+
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
 )
