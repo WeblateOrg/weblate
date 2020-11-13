@@ -57,7 +57,9 @@
   CodeMirror.hint.userSuggestions.async = true;
 
   $("textarea.codemirror-markdown").each(function (idx) {
-    var codemirror = CodeMirror.fromTextArea(this, {
+    var textarea = this;
+    var maxLength = parseInt(textarea.getAttribute("maxlength"));
+    var codemirror = CodeMirror.fromTextArea(textarea, {
       mode: "text/x-markdown",
       theme: "weblate",
       lineNumbers: false,
@@ -65,9 +67,17 @@
       viewportMargin: Infinity,
       autoRefresh: true,
     });
+    var classToggle = textarea.parentElement.classList;
 
     codemirror.on("change", function (cm, event) {
       cm.save();
+      if (maxLength) {
+        if (textarea.value.length > maxLength) {
+          classToggle.add("has-error");
+        } else {
+          classToggle.remove("has-error");
+        }
+      }
     });
 
     codemirror.on("keydown", function (cm, event) {
