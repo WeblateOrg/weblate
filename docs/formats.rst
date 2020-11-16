@@ -140,8 +140,7 @@ GNU gettext
     pair: gettext; file format
     pair: PO; file format
 
-Most widely used format for translating libre software. This was first format
-supported by Weblate and still has the best support.
+Most widely used format for translating libre software.
 
 Contextual info stored in the file is supported by adjusting its
 headers or linking to corresponding source files.
