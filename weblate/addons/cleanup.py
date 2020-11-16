@@ -50,5 +50,5 @@ class CleanupAddon(BaseCleanupAddon):
 
     def update_translations(self, component, previous_head):
         for translation in self.iterate_translations(component):
-            filenames = translation.store.cleanup()
+            filenames = translation.store.cleanup_unused()
             self.extra_files.extend(filenames)

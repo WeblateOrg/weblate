@@ -469,7 +469,7 @@ class TranslationFormat:
     def delete_unit(self, ttkit_unit) -> Optional[str]:
         raise NotImplementedError()
 
-    def cleanup(self) -> List[str]:
+    def cleanup_unused(self) -> List[str]:
         """Removes unused strings, returning list of additional changed files."""
         existing = {unit.context for unit in self.template_store.mono_units}
         changed = False
