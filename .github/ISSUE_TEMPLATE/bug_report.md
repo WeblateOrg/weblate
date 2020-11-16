@@ -28,7 +28,7 @@ If applicable, add screenshots to better explain your problem.
 
 **Server configuration and status**
 
-Weblate installation: Hosted service / Docker / PyPI
+Weblate installation: weblate.org service / Docker / PyPI / other
 
 <!--
 Please paste the output of `list_versions` command over here. Depending on
