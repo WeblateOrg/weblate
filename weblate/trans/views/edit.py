@@ -53,7 +53,6 @@ from weblate.trans.forms import (
     NewUnitForm,
     PositionSearchForm,
     RevertForm,
-    SearchForm,
     TranslationForm,
     ZenTranslationForm,
 )
@@ -144,10 +143,10 @@ def cleanup_session(session):
             del session[key]
 
 
-def search(base, unit_set, request, form_class=SearchForm):
+def search(base, unit_set, request):
     """Perform search or returns cached search results."""
     # Possible new search
-    form = form_class(user=request.user, data=request.GET, show_builder=False)
+    form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
 
     # Process form
     form_valid = form.is_valid()
@@ -428,7 +427,7 @@ def translate(request, project, component, lang):
     obj, project, unit_set = parse_params(request, project, component, lang)
 
     # Search results
-    search_result = search(obj, unit_set, request, PositionSearchForm)
+    search_result = search(obj, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -743,6 +742,7 @@ def zen(request, project, component, lang):
             "search_url": search_result["url"],
             "offset": search_result["offset"],
             "search_form": search_result["form"].reset_offset(),
+            "is_zen": True,
         },
     )
 
