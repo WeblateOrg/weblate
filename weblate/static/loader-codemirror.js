@@ -56,7 +56,7 @@
 
   CodeMirror.hint.userSuggestions.async = true;
 
-  function weblateCodeMirror(textarea, mode) {
+  CodeMirror.weblateEditor = (textarea, mode) => {
     var maxLength = parseInt(textarea.getAttribute("maxlength"));
     var counter = textarea.parentElement.querySelector(".length-indicator");
     var codemirror = CodeMirror.fromTextArea(textarea, {
@@ -66,6 +66,8 @@
       lineWrapping: true,
       viewportMargin: Infinity,
       autoRefresh: true,
+      tabIndex: textarea.getAttribute("tabindex"),
+      extraKeys: { Tab: false },
     });
     var classToggle = textarea.parentElement.classList;
 
@@ -108,9 +110,9 @@
     codemirror.getWrapperElement().classList.add("form-control");
 
     return codemirror;
-  }
+  };
 
   $("textarea.codemirror-markdown").each((idx, textarea) => {
-    weblateCodeMirror(textarea, "text/x-markdown");
+    CodeMirror.weblateEditor(textarea, "text/x-markdown");
   });
 })(CodeMirror);
