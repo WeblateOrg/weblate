@@ -17,42 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import UpdateBaseAddon
 
 
 class BaseCleanupAddon(UpdateBaseAddon):
-    @cached_property
-    def template_store(self):
-        return self.instance.component.template_store.store
-
-    @staticmethod
-    def build_index(storage):
-        index = {}
-
-        for unit in storage.units:
-            index[unit.getid()] = unit
-
-        return index
-
-    def build_indexes(self):
-        index = self.build_index(self.template_store)
-        if self.instance.component.intermediate:
-            intermediate = self.build_index(
-                self.instance.component.intermediate_store.store
-            )
-        else:
-            intermediate = {}
-        return index, intermediate
-
-    @staticmethod
-    def get_index(index, intermediate, translation):
-        if intermediate and translation.is_source:
-            return intermediate
-        return index
-
     @staticmethod
     def iterate_translations(component):
         yield from (
