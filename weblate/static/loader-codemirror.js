@@ -56,11 +56,11 @@
 
   CodeMirror.hint.userSuggestions.async = true;
 
-  $("textarea.codemirror-markdown").each(function (idx) {
-    var textarea = this;
+  function weblateCodeMirror(textarea, mode) {
     var maxLength = parseInt(textarea.getAttribute("maxlength"));
+    var counter = textarea.parentElement.querySelector(".length-indicator");
     var codemirror = CodeMirror.fromTextArea(textarea, {
-      mode: "text/x-markdown",
+      mode: mode,
       theme: "weblate",
       lineNumbers: false,
       lineWrapping: true,
@@ -69,27 +69,48 @@
     });
     var classToggle = textarea.parentElement.classList;
 
-    codemirror.on("change", function (cm, event) {
-      cm.save();
+    codemirror.on("change", () => {
+      codemirror.save();
+      var length = textarea.value.length;
+
+      /* Check maximal length limit */
       if (maxLength) {
-        if (textarea.value.length > maxLength) {
+        if (length > maxLength) {
+          classToggle.remove("has-warning");
           classToggle.add("has-error");
+        } else if (length > maxLength - 10) {
+          classToggle.add("has-warning");
+          classToggle.remove("has-error");
         } else {
+          classToggle.remove("has-warning");
           classToggle.remove("has-error");
         }
       }
-    });
 
-    codemirror.on("keydown", function (cm, event) {
-      if (event.key === "@") {
-        CodeMirror.showHint(cm, CodeMirror.hint.userSuggestions, {
-          completeSingle: false,
-        });
+      /* Update chars counter */
+      if (counter) {
+        counter.textContent = length;
       }
     });
-  });
+    CodeMirror.signal(codemirror, "change");
 
-  // Add weblate bootstrap styling on the textarea
-  $(".CodeMirror").addClass("form-control");
-  $(".CodeMirror textarea").addClass("form-control");
+    if (mode === "text/x-markdown") {
+      codemirror.on("keydown", function (cm, event) {
+        if (event.key === "@") {
+          CodeMirror.showHint(cm, CodeMirror.hint.userSuggestions, {
+            completeSingle: false,
+          });
+        }
+      });
+    }
+
+    // Add weblate bootstrap styling on the textarea
+    codemirror.getWrapperElement().classList.add("form-control");
+
+    return codemirror;
+  }
+
+  $("textarea.codemirror-markdown").each((idx, textarea) => {
+    weblateCodeMirror(textarea, "text/x-markdown");
+  });
 })(CodeMirror);
