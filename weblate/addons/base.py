@@ -329,6 +329,14 @@ class UpdateBaseAddon(BaseAddon):
         super().__init__(storage)
         self.extra_files = []
 
+    @staticmethod
+    def iterate_translations(component):
+        yield from (
+            translation
+            for translation in component.translation_set.iterator()
+            if not translation.is_source or component.intermediate
+        )
+
     def update_translations(self, component, previous_head):
         raise NotImplementedError()
 

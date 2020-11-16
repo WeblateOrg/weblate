@@ -139,6 +139,7 @@ class AddonsConf(AppConf):
         "weblate.addons.gettext.GettextCustomizeAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
+        "weblate.addons.cleanup.RemoveBlankAddon",
         "weblate.addons.consistency.LangaugeConsistencyAddon",
         "weblate.addons.discovery.DiscoveryAddon",
         "weblate.addons.autotranslate.AutoTranslateAddon",

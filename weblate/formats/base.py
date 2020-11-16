@@ -488,6 +488,29 @@ class TranslationFormat:
             self.save()
         return result
 
+    def cleanup_blank(self) -> List[str]:
+        """
+        Removes strings without translations.
+
+        Returning list of additional changed files.
+        """
+        changed = False
+
+        result = []
+
+        for ttkit_unit in self.all_store_units:
+            target = self.unit_class(self, ttkit_unit, ttkit_unit).target
+            if not target or (isinstance(target, list) and not any(target)):
+                item = self.delete_unit(ttkit_unit)
+                if item is not None:
+                    result.append(item)
+                else:
+                    changed = True
+
+        if changed:
+            self.save()
+        return result
+
     def remove_unit(self, ttkit_unit) -> List[str]:
         """High level wrapper for unit removal."""
         changed = False

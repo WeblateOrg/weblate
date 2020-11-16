@@ -54,6 +54,19 @@ for more details.
     :ref:`cdn-addon-extract`,
     :ref:`cdn-addon-html`
 
+.. _addon-weblate.cleanup.blank:
+
+Remove blank strings
+--------------------
+
+.. versionadded:: 4.4
+
+Removes strings without a translation from translation files.
+
+Use this if you do not want empty strings to appear in translation files (for
+example when your localization library displays them as empty strings instead
+of falling back to the source string).
+
 .. _addon-weblate.cleanup.generic:
 
 Cleanup translation files

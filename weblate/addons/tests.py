@@ -31,7 +31,7 @@ from django.utils import timezone
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import TestAddon, TestCrashAddon, TestException
 from weblate.addons.cdn import CDNJSAddon
-from weblate.addons.cleanup import CleanupAddon
+from weblate.addons.cleanup import CleanupAddon, RemoveBlankAddon
 from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
@@ -383,6 +383,17 @@ class CSVAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("csv-mono/cs.csv", commit)
 
+    def test_remove_blank(self):
+        self.assertTrue(RemoveBlankAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = RemoveBlankAddon.create(self.component)
+        addon.post_update(
+            self.component, "da07dc0dc7052dc44eadfa8f3a2f2609ec634303", False
+        )
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("csv-mono/cs.csv", commit)
+
 
 class JsonAddonTest(ViewTestCase):
     def create_component(self):
@@ -392,6 +403,17 @@ class JsonAddonTest(ViewTestCase):
         self.assertTrue(CleanupAddon.can_install(self.component, None))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(self.component)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        rev = self.component.repository.last_revision
+        addon.post_update(self.component, "", False)
+        self.assertEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("json-mono-sync/cs.json", commit)
+
+    def test_remove_blank(self):
+        self.assertTrue(RemoveBlankAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = RemoveBlankAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False)

@@ -8,6 +8,7 @@ Not yet released.
 * Added support for design customization in the management interface.
 * Fixed read only state handling in bulk edit.
 * Improved CodeMirror integration.
+* Added addon to remove blank strings from translation files.
 
 Weblate 4.3.2
 -------------
