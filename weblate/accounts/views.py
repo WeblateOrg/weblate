@@ -523,6 +523,7 @@ def hosting(request):
             if "approve" in request.POST and request.user.is_superuser:
                 billing.state = Billing.STATE_ACTIVE
                 billing.plan = Plan.objects.get(slug="libre")
+                billing.removal = None
                 billing.save(update_fields=["state", "plan"])
                 return redirect("hosting")
 
