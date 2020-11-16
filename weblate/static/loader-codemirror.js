@@ -66,7 +66,6 @@
       lineWrapping: true,
       viewportMargin: Infinity,
       autoRefresh: true,
-      tabIndex: textarea.getAttribute("tabindex"),
       extraKeys: { Tab: false },
     });
     var classToggle = textarea.parentElement.classList;
