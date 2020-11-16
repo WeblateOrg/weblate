@@ -524,7 +524,7 @@ def hosting(request):
                 billing.state = Billing.STATE_ACTIVE
                 billing.plan = Plan.objects.get(slug="libre")
                 billing.removal = None
-                billing.save(update_fields=["state", "plan"])
+                billing.save(update_fields=["state", "plan", "removal"])
                 return redirect("hosting")
 
             if "request" in request.POST:
