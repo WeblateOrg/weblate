@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.27.3 (e0be154) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.27.4 (2500631) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2615,10 +2615,12 @@ var Sentry = (function (exports) {
      * Retruns the global event processors.
      */
     function getGlobalEventProcessors() {
+        /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access  */
         var global = getGlobalObject();
         global.__SENTRY__ = global.__SENTRY__ || {};
         global.__SENTRY__.globalEventProcessors = global.__SENTRY__.globalEventProcessors || [];
         return global.__SENTRY__.globalEventProcessors;
+        /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
     }
     /**
      * Add a EventProcessor to be kept globally.
@@ -5969,7 +5971,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.27.3';
+    var SDK_VERSION = '5.27.4';
 
     /**
      * The Sentry Browser SDK Client.
