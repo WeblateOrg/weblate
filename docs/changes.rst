@@ -9,6 +9,7 @@ Not yet released.
 * Fixed read only state handling in bulk edit.
 * Improved CodeMirror integration.
 * Added addon to remove blank strings from translation files.
+* The CodeMirror editor is now used for translations.
 
 Weblate 4.3.2
 -------------

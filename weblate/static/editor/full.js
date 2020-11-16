@@ -20,8 +20,9 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.val(text).change();
-      autosize.update(this.$translationArea);
+      this.$translationArea.each((idx, textarea) => {
+        textarea.CodeMirror.getDoc().setValue(text);
+      });
       WLT.Utils.markFuzzy(this.$translationForm);
     });
 
@@ -30,8 +31,9 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.val(text).change();
-      autosize.update(this.$translationArea);
+      this.$translationArea.each((idx, textarea) => {
+        textarea.CodeMirror.getDoc().setValue(text);
+      });
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
     });
@@ -67,7 +69,7 @@
       return submitForm(e);
     });
     Mousetrap.bindGlobal("mod+e", () => {
-      this.$translationArea.get(0).focus();
+      this.$translationArea[0].CodeMirror.focus();
       return false;
     });
     Mousetrap.bindGlobal("mod+s", function (e) {
@@ -120,7 +122,6 @@
         var target = document.getElementById(restoreArea.id);
         if (target) {
           target.value = restoreArea.value;
-          autosize.update(target);
         }
       });
       localStorage.removeItem(restoreKey);
@@ -323,11 +324,13 @@
     this.$editor.on("click", "[data-check-fixup]", (e) => {
       var $el = $(e.currentTarget);
       var fixups = $el.data("check-fixup");
-      this.$translationArea.each(function () {
-        var $this = $(this);
-        $.each(fixups, function (key, value) {
+      this.$translationArea.each((e) => {
+        $.each(fixups, (key, value) => {
           var re = new RegExp(value[0], value[2]);
-          $this.val($this.val().replace(re, value[1]));
+          this.$translationArea.each((idx, textarea) => {
+            var doc = textarea.CodeMirror.getDoc();
+            doc.setValue(doc.getValue().replace(re, value[1]));
+          });
         });
       });
       return false;
@@ -381,7 +384,7 @@
     this.$editor.on("click", ".glossary-embed", (e) => {
       var text = $(e.currentTarget).find(".target").text();
 
-      this.insertIntoTranslation(text);
+      this.insertEditor(text);
       e.preventDefault();
     });
 
@@ -422,10 +425,6 @@
       });
       return false;
     });
-  };
-
-  FullEditor.prototype.insertIntoTranslation = function (text) {
-    this.$translationArea.insertAtCaret($.trim(text)).change();
   };
 
   class Machinery {
