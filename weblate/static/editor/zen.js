@@ -35,25 +35,6 @@
       }
     });
 
-    /*
-     * Ensure current editor is reasonably located in the window
-     * - show whole element if moving back
-     * - scroll down if in bottom half of the window
-     */
-    $document.on("focus", ".zen .translation-editor", function () {
-      var current = $window.scrollTop();
-      var rowOffset = $(this).closest("tbody").offset().top;
-      if (rowOffset < current || rowOffset - current > $window.height() / 2) {
-        $([document.documentElement, document.body]).animate(
-          {
-            scrollTop: rowOffset,
-          },
-          100
-        );
-      }
-    });
-
-    $document.on("change", ".translation-editor", handleTranslationChange);
     $document.on("change", ".fuzzy_checkbox", handleTranslationChange);
     $document.on("change", ".review_radio", handleTranslationChange);
 
@@ -110,28 +91,68 @@
 
     /* Minimal height for side-by-side editor */
     $(".zen-horizontal .translator").each(function () {
+      if (this.ZenInitDone) {
+        return;
+      }
       var $this = $(this);
       var tdHeight = $this.height();
       var editorHeight = 0;
       var contentHeight = $this.find("form").height();
       var $editors = $this.find(".translation-editor");
-      $editors.each(function () {
-        var $editor = $(this);
+      $editors.each(function (idx, textarea) {
+        var codemirror = textarea.CodeMirror;
+        var $editor = $(codemirror.getWrapperElement());
+        /* Calculate editor height */
         editorHeight += $editor.height();
+
+        /*
+         * Ensure current editor is reasonably located in the window
+         * - show whole element if moving back
+         * - scroll down if in bottom half of the window
+         */
+        codemirror.on("focus", function () {
+          var current = $window.scrollTop();
+          var rowOffset = $editor.closest("tbody").offset().top;
+          if (
+            rowOffset < current ||
+            rowOffset - current > $window.height() / 2
+          ) {
+            $([document.documentElement, document.body]).animate(
+              {
+                scrollTop: rowOffset,
+              },
+              100
+            );
+          }
+        });
+
+        codemirror.on("blur", handleTranslationChange);
       });
-      /* There is 10px padding */
-      $editors.css(
-        "min-height",
-        (tdHeight - (contentHeight - editorHeight - 10)) / $editors.length +
-          "px"
-      );
+
+      $editors.each(function (idx, textarea) {
+        let height =
+          (tdHeight - (contentHeight - editorHeight)) / $editors.length;
+        textarea.CodeMirror.getScrollerElement().style.minHeight =
+          height + "px";
+      });
+      this.ZenInitDone = true;
     });
   };
 
   /* Handlers */
 
-  function handleTranslationChange() {
-    var $this = $(this);
+  function handleTranslationChange(cm) {
+    var $this;
+    if (typeof cm.getWrapperElement !== "undefined") {
+      let doc = cm.getDoc();
+      if (doc.isClean()) {
+        return;
+      }
+      doc.markClean();
+      $this = $(cm.getWrapperElement());
+    } else {
+      $this = $(this);
+    }
     var $row = $this.closest("tr");
     var checksum = $row.find("[name=checksum]").val();
 

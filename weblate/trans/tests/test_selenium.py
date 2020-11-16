@@ -102,6 +102,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         yield
         WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
 
+    def find_codemirror(self, htmlid):
+        return self.driver.find_element(
+            By.XPATH,
+            f"//textarea[@id='{htmlid}']"
+            "/following-sibling::div[contains(@class, 'CodeMirror')]",
+        )
+
     @classmethod
     def setUpClass(cls):
         # Screenshots storage
@@ -226,9 +233,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.actions.move_to_element(element).perform()
             element.click()
 
-    def clear_field(self, element):
-        element.send_keys(Keys.CONTROL + "a")
-        element.send_keys(Keys.DELETE)
+    def clear_field(self, element, codemirror: bool = False):
+        if codemirror:
+            self.actions.move_to_element(element).click(element).perform()
+            # Wait for the CodeMirror transition completes
+            time.sleep(1)
+            self.actions.send_keys(Keys.CONTROL + "a").perform()
+            self.actions.send_keys(Keys.DELETE).perform()
+        else:
+            element.send_keys(Keys.CONTROL + "a")
+            element.send_keys(Keys.DELETE)
         return element
 
     def do_login(self, create=True, superuser=False):
@@ -906,10 +920,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         # Trigger check
-        self.clear_field(self.driver.find_element(By.ID, "id_a2a808c8ccbece08_0"))
-        element = self.driver.find_element(By.ID, "id_a2a808c8ccbece08_1")
-        self.clear_field(element)
-        element.send_keys("několik slov")
+        element = self.find_codemirror("id_a2a808c8ccbece08_0")
+        self.clear_field(element, codemirror=True)
+        element = self.find_codemirror("id_a2a808c8ccbece08_1")
+        self.clear_field(element, codemirror=True)
+        self.actions.send_keys("několik slov").perform()
         with self.wait_for_page_load():
             element.submit()
         self.screenshot("checks.png")

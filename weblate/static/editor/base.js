@@ -37,82 +37,58 @@ WLT.Editor = (function () {
     this.$editor = $(".js-editor");
     this.$translationArea = $(translationAreaSelector);
 
-    this.$editor.on("change", translationAreaSelector, testChangeHandler);
-    this.$editor.on("keypress", translationAreaSelector, testChangeHandler);
-    this.$editor.on("keydown", translationAreaSelector, testChangeHandler);
-    this.$editor.on("paste", translationAreaSelector, testChangeHandler);
-    this.$editor.on("focusin", translationAreaSelector, function () {
-      lastEditor = $(this);
-    });
-
-    /* Count characters */
-    this.$editor.on("keyup", translationAreaSelector, function () {
-      var $this = $(this);
-      var counter = $this.parent().find(".length-indicator");
-      var limit = parseInt(counter.data("max"));
-      var length = $this.val().length;
-      counter.text(length);
-      if (length >= limit) {
-        counter.parent().addClass("badge-danger").removeClass("badge-warning");
-      } else if (length + 10 >= limit) {
-        counter.parent().addClass("badge-warning").removeClass("badge-danger");
-      } else {
-        counter
-          .parent()
-          .removeClass("badge-warning")
-          .removeClass("badge-danger");
-      }
-    });
-
     /* Copy source text */
     this.$editor.on("click", ".copy-text", function (e) {
       var $this = $(this);
-
-      $this.button("loading");
-      $this
-        .closest(".translation-item")
-        .find(".translation-editor")
-        .val($.parseJSON($this.data("content")))
-        .change();
-      autosize.update($(".translation-editor"));
-      WLT.Utils.markFuzzy($this.closest("form"));
-      $this.button("reset");
       e.preventDefault();
+
+      var text = JSON.parse(this.getAttribute("data-content"));
+
+      this.closest(".translation-item")
+        .querySelector(".translation-editor")
+        .CodeMirror.getDoc()
+        .setValue(text);
+
+      WLT.Utils.markFuzzy($this.closest("form"));
     });
 
     /* Direction toggling */
-    this.$editor.on("change", ".direction-toggle", function () {
-      var $this = $(this);
-
-      $this
+    this.$editor.on("change", ".direction-toggle", (e) => {
+      e.target
         .closest(".translation-item")
-        .find(".translation-editor")
-        .attr("dir", $this.find("input").val());
+        .querySelector(".translation-editor")
+        .CodeMirror.setOption("direction", e.target.value);
     });
 
     /* Special characters */
     this.$editor.on("click", ".specialchar", function (e) {
-      var $this = $(this);
-      var text = $this.data("value");
-
-      $this
-        .closest(".translation-item")
-        .find(".translation-editor")
-        .insertAtCaret(text)
-        .change();
-      autosize.update($(".translation-editor"));
       e.preventDefault();
+
+      var text = this.getAttribute("data-value");
+      this.closest(".translation-item")
+        .querySelector(".translation-editor")
+        .CodeMirror.replaceSelection(text);
     });
 
     this.initHighlight();
     this.init();
 
-    this.$translationArea[0].focus();
+    this.$translationArea[0].CodeMirror.focus();
   }
 
   EditorBase.prototype.init = function () {
-    /* Autosizing */
-    autosize(this.$translationArea);
+    $(".translation-editor").each((idx, textarea) => {
+      if (textarea.CodeMirror) {
+        return;
+      }
+      let codemirror = CodeMirror.weblateEditor(textarea, "");
+      codemirror.on("change", () => {
+        WLT.Utils.markTranslated($(textarea).closest("form"));
+      });
+      codemirror.on("focus", (cm) => {
+        lastEditor = cm.getWrapperElement();
+      });
+    });
   };
 
   EditorBase.prototype.initHighlight = function () {
@@ -126,7 +102,7 @@ WLT.Editor = (function () {
 
       text.find(hlNumberSelector).remove();
       text = text.text();
-      insertEditor(text, $this);
+      this.insertEditor(text, $this);
       e.preventDefault();
     });
 
@@ -181,14 +157,7 @@ WLT.Editor = (function () {
     );
   };
 
-  function testChangeHandler(e) {
-    if (e.key && e.key === "Tab") {
-      return;
-    }
-    WLT.Utils.markTranslated($(this).closest("form"));
-  }
-
-  function insertEditor(text, element) {
+  EditorBase.prototype.insertEditor = function (text, element) {
     var root;
 
     /* Find withing root element */
@@ -201,17 +170,16 @@ WLT.Editor = (function () {
       root = $(document);
     }
 
-    var editor = root.find(".translation-editor:focus");
+    var editor = root.find(".CodeMirror-focused");
     if (editor.length === 0) {
       editor = root.find(lastEditor);
       if (editor.length === 0) {
-        editor = root.find(".translation-editor:first");
+        editor = root.find(".CodeMirror:first");
       }
     }
 
-    editor.insertAtCaret($.trim(text)).change();
-    autosize.update(editor);
-  }
+    editor[0].CodeMirror.replaceSelection($.trim(text));
+  };
 
   return {
     Base: EditorBase,
