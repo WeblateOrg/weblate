@@ -14,13 +14,14 @@
 # Marvin SIlc <marvinsilc@protonmail.ch>, 2020.
 # Igor Benek-Lins <beneklins@protonmail.ch>, 2020.
 # Daniel de Souza Melo <jxzk@protonmail.com>, 2020.
+# Eduardo Addad de Oliveira <duduaddad@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-04 22:27+0000\n"
-"PO-Revision-Date: 2020-11-05 15:00+0000\n"
-"Last-Translator: Daniel de Souza Melo <jxzk@protonmail.com>\n"
+"PO-Revision-Date: 2020-11-18 08:23+0000\n"
+"Last-Translator: Eduardo Addad de Oliveira <duduaddad@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -963,14 +964,8 @@ msgid "The supplied username is already in use for another account."
 msgstr "O nome de usuário já está sendo usado em outra conta."
 
 #: weblate/accounts/views.py:1264
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Não foi possível ao completar o registro. A autenticação, endereço de e-mail "
-"ou nome de usuário fornecido já está em uso por outra conta."
+msgstr "A identidade do usuário fornecida já está em uso para outra conta."
 
 #: weblate/accounts/views.py:1287 weblate/accounts/views.py:1300
 msgid "Notification settings adjusted."
@@ -4071,8 +4066,8 @@ msgid ""
 "\">contact us</a>."
 msgstr ""
 "Caso você não o receba rapidamente, por favor verifique a sua pasta de spam "
-"ou tente se registrar novamente. Se o problema persistir, <a href="
-"\"%(contact_url)s\">contate-nos</a><a>.</a>"
+"ou tente se registrar novamente. Se o problema persistir, <a href=\""
+"%(contact_url)s\">contate-nos</a><a>.</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -4107,7 +4102,7 @@ msgstr ", expira em %(expires)s"
 #: weblate/templates/accounts/hosting.html:25
 #, python-format
 msgid ", will be removed %(removal)s"
-msgstr ""
+msgstr ", será removido %(removal)s"
 
 #: weblate/templates/accounts/hosting.html:27
 msgid "Pending approval"
@@ -6447,6 +6442,8 @@ msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream. Use with caution."
 msgstr ""
+"A redefinição remove todas as alterações no Weblate para que o repositório "
+"corresponda ao upstream. Use com cuidado."
 
 #: weblate/templates/js/git-status.html:104
 msgid "Maintenance"
@@ -6639,10 +6636,8 @@ msgstr ""
 "aprovação do seu plano livre."
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Your billing plan has expired and all its projects have been removed."
-msgstr "Seu plano de cobrança excedeu seus limites."
+msgstr "Seu plano de cobrança expirou e todos os seus projetos foram removidos."
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
@@ -6674,16 +6669,13 @@ msgstr ""
 "serão removidos em %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Se você não realizar o pagamento, todos os projetos neste plano de cobrança "
-"serão removidos em %(date)s."
+"Se o seu teste gratuito não for aprovado, todos os projetos neste plano de "
+"cobrança serão removidos em %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -8005,53 +7997,39 @@ msgid "Sort By"
 msgstr "Ordenar por"
 
 #: weblate/templates/snippets/stats.html:6
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Number of used languages"
 msgid "Languages"
 msgstr "Idiomas"
 
 #: weblate/templates/snippets/stats.html:11
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of source strings"
 msgid "Source strings"
-msgstr "Textos fonte"
+msgstr "Textos de origem"
 
 #: weblate/templates/snippets/stats.html:16
-#, fuzzy
-#| msgid "Source words"
 msgctxt "Number of source words"
 msgid "Source words"
-msgstr "Palavras fonte"
+msgstr "Palavras de origem"
 
 #: weblate/templates/snippets/stats.html:21
-#, fuzzy
-#| msgid "Special characters"
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Caracteres especiais"
+msgstr "Caracteres de origem"
 
 #: weblate/templates/snippets/stats.html:27
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Textos traduzidos"
+msgstr "Textos hospedados"
 
 #: weblate/templates/snippets/stats.html:32
-#, fuzzy
-#| msgid "Untranslated words"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Palavras não traduzidas"
+msgstr "Palavras hospedadas"
 
 #: weblate/templates/snippets/stats.html:37
-#, fuzzy
-#| msgid "Control characters"
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Caracteres de controle"
+msgstr "Caracteres hospedados"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -10777,15 +10755,12 @@ msgstr ""
 "edição."
 
 #: weblate/trans/models/component.py:2128
-#, fuzzy
-#| msgid ""
-#| "An intermediate language file can not be used without an editing template."
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
 msgstr ""
-"Um arquivo de idioma intermediário não pode ser usado sem um modelo de "
-"edição."
+"Um arquivo de idioma intermediário deve ser diferente do arquivo de idioma "
+"de base monolíngue. Você provavelmente pode mantê-lo vazio."
 
 #: weblate/trans/models/component.py:2143
 msgid "Using a .pot file as base file is unsupported."
