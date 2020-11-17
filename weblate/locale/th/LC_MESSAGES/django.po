@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.3.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-04 22:27+0000\n"
-"PO-Revision-Date: 2020-07-12 14:30+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-11-18 08:23+0000\n"
+"Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -29,10 +29,8 @@ msgstr "ไม่มี"
 #: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User"
 msgid "User avatar"
-msgstr "ผู้ใช้"
+msgstr "รูปประจำตัวผู้ใช้"
 
 #: weblate/accounts/forms.py:76
 msgid ""
@@ -50,10 +48,8 @@ msgid "Full name"
 msgstr "ชื่อเต็ม"
 
 #: weblate/accounts/forms.py:178 weblate/accounts/models.py:465
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "อีเมลของคุณ"
+msgstr "อีเมลสาธารณะ"
 
 #: weblate/accounts/forms.py:272 weblate/accounts/forms.py:347
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -95,10 +91,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "อีเมลการเปิดใช้งานจะถูกส่งไปที่นี่"
 
 #: weblate/accounts/forms.py:385
-#, fuzzy
-#| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "มีความพยายามในการลงทะเบียนที่ล้มเหลวมากเกินไปจากตำแหน่งที่ตั้งนี้!"
+msgstr "มีความพยายามในการลงทะเบียนที่ล้มเหลวมากเกินไปจากตำแหน่งที่ตั้งนี้"
 
 #: weblate/accounts/forms.py:392
 msgid "New password"
@@ -153,10 +147,8 @@ msgid "This account is inactive."
 msgstr "บัญชีนี้ไม่มีการเปิดใช้งาน"
 
 #: weblate/accounts/forms.py:527
-#, fuzzy
-#| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
-msgstr "มีความพยายามในการรับรองความถูกต้องมากเกินไปจากตำแหน่งที่ตั้งนี้!"
+msgstr "มีความพยายามในการรับรองความถูกต้องมากเกินไปจากตำแหน่งที่ตั้งนี้"
 
 #: weblate/accounts/forms.py:575
 msgid "Additional message"
@@ -255,7 +247,7 @@ msgstr "ชื่อผู้ใช้"
 #: weblate/accounts/forms.py:764 weblate/auth/models.py:335
 #: weblate/templates/manage/users_check.html:21
 msgid "Date joined"
-msgstr ""
+msgstr "วันที่เข้าร่วม"
 
 #: weblate/accounts/forms.py:765 weblate/templates/about/stats.html:101
 msgid "Translations made"
@@ -266,20 +258,16 @@ msgid "Suggestions made"
 msgstr "ข้อเสนอแนะ"
 
 #: weblate/accounts/forms.py:767
-#, fuzzy
-#| msgid "Comments"
 msgid "Comments made"
 msgstr "ข้อคิดเห็น"
 
 #: weblate/accounts/forms.py:768
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "ชื่อภาพหน้าจอ"
+msgstr "ภาพหน้าจอที่อัปโหลด"
 
 #: weblate/accounts/forms.py:791
 msgid "Invalid ordering"
-msgstr ""
+msgstr "การเรียงลำดับไม่ถูกต้อง"
 
 #: weblate/accounts/models.py:83
 msgid "Password changed."
@@ -311,22 +299,22 @@ msgstr "ยืนยันการตั้งค่ารหัสผ่าน
 #: weblate/accounts/models.py:89
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr ""
+msgstr "กำหนดค่าการลงชื่อเข้าโดยใช้ {method} ({name}) แล้ว"
 
 #: weblate/accounts/models.py:90
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr ""
+msgstr "เอาการลงชื่อเข้าออกโดยใช้ {method} ({name}) แล้ว"
 
 #: weblate/accounts/models.py:91
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr ""
+msgstr "ลงชื่อเข้าโดยใช้ {method} ({name}) แล้ว"
 
 #: weblate/accounts/models.py:92
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr ""
+msgstr "ลงชื่อเข้าโดยใช้ {method} ({name}) จากอุปกรณ์ใหม่แล้ว"
 
 #: weblate/accounts/models.py:93
 msgid "Somebody has attempted to register with your e-mail."
@@ -339,13 +327,11 @@ msgstr "มีใครบางคนได้พยายามที่จะ
 #: weblate/accounts/models.py:95
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr ""
+msgstr "ไม่สามารถลงชื่อเข้าโดยใช้ {method} ({name}) ได้"
 
 #: weblate/accounts/models.py:96
-#, fuzzy
-#| msgid "Administration"
 msgid "Account locked due to many failed sign in attempts."
-msgstr "การดูแลระบบ"
+msgstr "บัญชีถูกล็อกเนื่องจากมีความพยายามลงชื่อเข้าที่ล้มเหลวหลายครั้ง"
 
 #: weblate/accounts/models.py:97
 msgid "Account and all private data removed."
@@ -359,41 +345,31 @@ msgstr "การยินยอมกับเงื่อนไขการใ
 #: weblate/accounts/models.py:99
 #, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr ""
+msgstr "ถูกเชิญไปยัง Weblate โดย {username}"
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Started trial period."
-msgstr "เริ่มการแปลใหม่"
+msgstr "เริ่มช่วงเวลาทดลองใช้แล้ว"
 
 #: weblate/accounts/models.py:105
-#, fuzzy
-#| msgid "Change password"
 msgid "Configured password to sign in."
-msgstr "เปลี่ยนรหัสผ่าน"
+msgstr "กำหนดค่ารหัสผ่านที่ใช้ลงชื่อเข้าแล้ว"
 
 #: weblate/accounts/models.py:106
-#, fuzzy
-#| msgid "Change password"
 msgid "Signed in using password."
-msgstr "เปลี่ยนรหัสผ่าน"
+msgstr "ลงชื่อเข้าโดยใช้รหัสผ่านแล้ว"
 
 #: weblate/accounts/models.py:107
-#, fuzzy
-#| msgid "Change password"
 msgid "Signed in using password from a new device."
-msgstr "เปลี่ยนรหัสผ่าน"
+msgstr "ลงชื่อเข้าโดยใช้รหัสผ่านจากอุปกรณ์ใหม่แล้ว"
 
 #: weblate/accounts/models.py:108
-#, fuzzy
-#| msgid "Change password"
 msgid "Could not sign in using password."
-msgstr "เปลี่ยนรหัสผ่าน"
+msgstr "ไม่สามารถลงชื่อเข้าโดยใช้รหัสผ่านได้"
 
 #: weblate/accounts/models.py:113
 msgid "To restore access to your account, please reset your password."
-msgstr ""
+msgstr "หากต้องการคืนค่าการเข้าถึงบัญชีของคุณ โปรดตั้งค่ารหัสผ่านของคุณใหม่"
 
 #: weblate/accounts/models.py:231 weblate/templates/accounts/profile.html:227
 #: weblate/templates/manage/users_check.html:38
@@ -489,10 +465,8 @@ msgstr ""
 "โดยอาจมีประโยชน์สำหรับอักขระที่คุณใช้บ่อยซึ่งพิมพ์บนแป้นพิมพ์ของคุณได้ยาก"
 
 #: weblate/accounts/models.py:364
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of nearby strings"
-msgstr "จำนวนสตริง"
+msgstr "จำนวนสตริงที่อยู่ใกล้เคียง"
 
 #: weblate/accounts/models.py:368
 msgid "Number of nearby strings to show in each direction in the full editor."
@@ -535,13 +509,11 @@ msgstr "คุณสามารถรับการแจ้งเตือน
 
 #: weblate/accounts/models.py:417
 msgid "Website URL"
-msgstr ""
+msgstr "URL เว็บไซต์"
 
 #: weblate/accounts/models.py:421
-#, fuzzy
-#| msgid "Username"
 msgid "Liberapay username"
-msgstr "ชื่อผู้ใช้"
+msgstr "ชื่อผู้ใช้ Liberapay"
 
 #: weblate/accounts/models.py:424
 msgid ""
@@ -568,16 +540,12 @@ msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
 
 #: weblate/accounts/models.py:442
-#, fuzzy
-#| msgid "Username"
 msgid "GitHub username"
-msgstr "ชื่อผู้ใช้"
+msgstr "ชื่อผู้ใช้ GitHub"
 
 #: weblate/accounts/models.py:446
-#, fuzzy
-#| msgid "Username"
 msgid "Twitter username"
-msgstr "ชื่อผู้ใช้"
+msgstr "ชื่อผู้ใช้ Twitter"
 
 #: weblate/accounts/models.py:450
 msgid "LinkedIn profile name"
@@ -590,16 +558,12 @@ msgstr ""
 #: weblate/accounts/models.py:455
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Action"
 msgid "Location"
-msgstr "กระทำการ"
+msgstr "ตำแหน่งที่ตั้ง"
 
 #: weblate/accounts/models.py:460
-#, fuzzy
-#| msgid "Component"
 msgid "Company"
-msgstr "คอมโพเนนต์"
+msgstr "บริษัท"
 
 #: weblate/accounts/models.py:507
 msgid ""
