@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-18 08:23+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2020-11-18 12:25+0000\n"
+"Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -2821,10 +2821,8 @@ msgid "Failing checks"
 msgstr "Непройдені перевірки"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "Можлива конфігурація"
+msgstr "Конфігурація Weblate"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4864,13 +4862,10 @@ msgid "Install"
 msgstr "Встановити"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
-msgstr "Не вдалося знайти більше доповнень, сумісних з цим перекладом."
+msgstr "Не вдалося знайти більше доповнень, сумісних із цим складником."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -6093,13 +6088,7 @@ msgstr[3] ""
 "strong> для перекладу, з яких перекладено <strong>%(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -7227,19 +7216,15 @@ msgstr "Додати службу резервного копіювання"
 
 #: weblate/templates/manage/design.html:10 weblate/wladmin/views.py:70
 msgid "Design"
-msgstr ""
+msgstr "Дизайн"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "Налаштувати завантаження"
+msgstr "Підлаштування дизайну"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "Настроювання робочого процесу"
+msgstr "Скинути підлаштування"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7959,15 +7944,13 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s пропозиція"
-msgstr[1] "%(count)s пропозиції"
-msgstr[2] "%(count)s пропозицій"
-msgstr[3] "%(count)s пропозиція"
+msgstr[0] "%(count)s рядок"
+msgstr[1] "%(count)s рядка"
+msgstr[2] "%(count)s рядків"
+msgstr[3] "%(count)s рядок"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -8471,6 +8454,8 @@ msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
+"Здається, у наданій URL-адресі відсутні дані. Або надайте їх у URL-адресі, "
+"або використовуйте SSH для автентифікації на основі ключів."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10706,15 +10691,12 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Чи слід блокувати складник, якщо буде виявлено помилки зі сховищем."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
 msgstr ""
 "Регулярний вираз, який використовується для фільтрації перекладу при "
-"скануванні маски файлу."
+"скануванні маски файлів."
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
@@ -10863,10 +10845,9 @@ msgstr ""
 "основного файлу для цього."
 
 #: weblate/trans/models/component.py:2120
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Визначити основний файл для нового перекладу"
+msgstr "Не вдалося визначити основний файл для нових перекладів: %s"
 
 #: weblate/trans/models/component.py:2124
 msgid "Unrecognized base file for new translations."
@@ -12201,35 +12182,31 @@ msgstr "Адреса ел. пошти користувача"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "Будь ласка, надайте сімейство шрифтів, придатне для CSS."
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Сторінку не знайдено"
+msgstr "Шрифт сторінки"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "Додати шрифт"
+msgstr "Шрифт заголовка"
 
 #: weblate/wladmin/forms.py:92
 msgid "Focus color"
-msgstr ""
+msgstr "Колір фокусу"
 
 #: weblate/wladmin/forms.py:93
 msgid "Hover color"
-msgstr ""
+msgstr "Колір наведення"
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "Приховати нижній колонтитул сторінки"
 
 #: weblate/wladmin/forms.py:96
 msgid "Persistent hamburger navigation"
-msgstr ""
+msgstr "Постійна навігація \"гамбургером\" (значок)"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
