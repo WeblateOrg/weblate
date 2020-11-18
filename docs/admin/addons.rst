@@ -178,7 +178,7 @@ translations created by the developers.
 Statistics generator
 --------------------
 
-Generates a file containing detailed info about the translation.
+Generates a file containing detailed info about the translation status.
 
 You can use Django template in both filename and content, see :ref:`markup`
 for a detailed markup description.

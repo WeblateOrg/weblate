@@ -578,7 +578,7 @@ class Migration(migrations.Migration):
                     "language_regex",
                     weblate.trans.fields.RegexField(
                         default="^[^.]+$",
-                        help_text="Regular expression used to filter translation when scanning for filemask.",
+                        help_text="Regular expression used to filter translation files when scanning for filemask.",
                         max_length=500,
                         verbose_name="Language filter",
                     ),

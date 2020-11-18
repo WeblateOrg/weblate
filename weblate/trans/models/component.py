@@ -580,7 +580,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default="^[^.]+$",
         help_text=gettext_lazy(
             "Regular expression used to filter "
-            "translation when scanning for filemask."
+            "translation files when scanning for filemask."
         ),
     )
     variant_regex = RegexField(

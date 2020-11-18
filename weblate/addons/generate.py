@@ -30,7 +30,9 @@ class GenerateFileAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.generate.generate"
     verbose = _("Statistics generator")
-    description = _("Generates a file containing detailed info about the translation.")
+    description = _(
+        "Generates a file containing detailed info about the translation status."
+    )
     settings_form = GenerateForm
     multiple = True
     icon = "poll.svg"
