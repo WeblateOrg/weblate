@@ -512,7 +512,7 @@ def hosting(request):
 
     billings = (
         Billing.objects.for_user(request.user)
-        .filter(state__in=(Billing.STATE_TRIAL, Billing.STATE_EXPIRED))
+        .filter(state=Billing.STATE_TRIAL)
         .order_by("-payment", "expiry")
     )
     form = HostingForm()

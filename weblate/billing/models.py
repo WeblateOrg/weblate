@@ -136,7 +136,6 @@ class BillingQuerySet(models.QuerySet):
 class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
-    STATE_EXPIRED = 2
     STATE_TERMINATED = 3
 
     EXPIRING_STATES = (STATE_TRIAL,)
@@ -152,7 +151,6 @@ class Billing(models.Model):
         choices=(
             (STATE_ACTIVE, _("Active")),
             (STATE_TRIAL, _("Trial")),
-            (STATE_EXPIRED, _("Expired")),
             (STATE_TERMINATED, _("Terminated")),
         ),
         default=STATE_ACTIVE,
@@ -371,9 +369,7 @@ class Billing(models.Model):
         modified = False
 
         if self.check_expiry():
-            self.state = Billing.STATE_EXPIRED
             self.expiry = None
-            paid = False
             self.removal = timezone.now() + timedelta(
                 days=settings.BILLING_REMOVAL_PERIOD
             )
