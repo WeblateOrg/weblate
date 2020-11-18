@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-07 22:26+0000\n"
+"PO-Revision-Date: 2020-11-18 12:25+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -978,17 +978,12 @@ msgstr ""
 "משמעות הדבר היא הסרת מפתחות של תרגומים שאינם קיימים עוד בקובץ הבסיס."
 
 #: weblate/addons/cleanup.py:52
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "הסרת מחרוזת"
+msgstr "הסרת מחרוזות ריקות"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "מחרוזת חדשה לתרגום תחת %(translation)s"
+msgstr "הסרת מחרוזות ללא תרגומים מקובצי התרגום."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1269,14 +1264,10 @@ msgid "Language filter"
 msgstr "מסנן השפות"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
-msgstr "ביטויים רגולריים לסינון תרגומים כנגד סריקה אחר מסכת קובץ."
+msgstr "ביטויים רגולריים לסינון קובצי תרגומים כנגד סריקה אחר מסכת קובץ."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1339,10 +1330,8 @@ msgid "Statistics generator"
 msgstr "מחולל סטטיסטיקה"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "מייצר קובץ שמכיל פירוט נרחב על התרגום."
+msgstr "מייצר קובץ שמכיל פירוט נרחב על מצב התרגום."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2739,10 +2728,8 @@ msgid "Failing checks"
 msgstr "בדיקות שנכשלו"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "הגדרות אפשריות"
+msgstr "הגדרות Weblate"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4716,13 +4703,10 @@ msgid "Install"
 msgstr "התקנה"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
-msgstr "לא ניתן למצוא תוספים נוספים שתואמים לתרגום זה."
+msgstr "לא ניתן למצוא תוספים נוספים שתואמים לרכיב תרגום זה."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -5914,13 +5898,7 @@ msgstr[3] ""
 "לתרגום מתוכן <strong>הושלמו %(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -7030,19 +7008,15 @@ msgstr "הוספת שירות גיבוי"
 
 #: weblate/templates/manage/design.html:10 weblate/wladmin/views.py:70
 msgid "Design"
-msgstr ""
+msgstr "עיצוב"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "התאמת הורדה"
+msgstr "עיצוב מותאם אישית"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "התאמת רצף עבודה"
+msgstr "איפוס ההתאמה האישית"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7727,15 +7701,13 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "הצעה"
-msgstr[1] "%(count)s הצעות"
-msgstr[2] "%(count)s הצעות"
-msgstr[3] "%(count)s הצעות"
+msgstr[0] "מחרוזת"
+msgstr[1] "%(count)s מחרוזות"
+msgstr[2] "%(count)s מחרוזות"
+msgstr[3] "%(count)s מחרוזות"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -8226,6 +8198,8 @@ msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
+"נראה כי לכתובת הדחיפה שלך חסרים פרטי גישה. יש לספק אותם בכתובת או להשתמש ב־"
+"SSH עם זיהוי מבוסס מפתח."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10393,13 +10367,10 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "האם על הרכיב להינעל עקב שגיאות במאגר."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
-msgstr "ביטוי רגולרי שמשמש לסינון תרגומים בעת סריקה אחר מסכת קובץ."
+msgstr "ביטוי רגולרי שמשמש לסינון קובצי תרגומים בעת סריקה אחר מסכת קובץ."
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
@@ -10536,10 +10507,9 @@ msgstr ""
 "הגדרת את Weblate להוספת קובצי תרגום חדשים, אך לא סיפקת קובץ בסיס לעשות זאת."
 
 #: weblate/trans/models/component.py:2120
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "הגדרת קובץ בסיס לתרגומים חדשים"
+msgstr "פענוח קובץ הבסיס לאיתור תרגומים חדשים נכשל: %s"
 
 #: weblate/trans/models/component.py:2124
 msgid "Unrecognized base file for new translations."
@@ -11844,39 +11814,31 @@ msgstr "כתובת הדוא״ל של המשתמש"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "נא לספק משפחת גופנים שמתאימה ל־CSS."
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "העמוד לא נמצא"
+msgstr "גופן העמוד"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "הוספת גופן"
+msgstr "גופן הכותרת"
 
 #: weblate/wladmin/forms.py:92
-#, fuzzy
-#| msgid "Focus comment editor"
 msgid "Focus color"
-msgstr "התמקדות על עורך ההערות"
+msgstr "צבע התמקדות"
 
 #: weblate/wladmin/forms.py:93
 msgid "Hover color"
-msgstr ""
+msgstr "צבע ריחוף"
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "הסתרת הכותרת התחתונה של העמוד"
 
 #: weblate/wladmin/forms.py:96
-#, fuzzy
-#| msgid "Strings navigation"
 msgid "Persistent hamburger navigation"
-msgstr "ניווט בין מחרוזות"
+msgstr "ניווט המבורגר עוקב"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
