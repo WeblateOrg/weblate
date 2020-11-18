@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-18 09:24+0100\n"
-"PO-Revision-Date: 2020-10-23 09:38+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-11-19 14:53+0000\n"
+"Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/"
 "documentation/th/>\n"
 "Language: th\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3.1\n"
+"X-Generator: Weblate 4.4-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -1100,10 +1100,8 @@ msgid ":ref:`markup`"
 msgstr ""
 
 #: ../../admin/addons.rst:132 ../../user/translating.rst:384
-#, fuzzy
-#| msgid "Fulltext"
 msgid "Bulk edit"
-msgstr "ข้อความเต็ม (fulltext)"
+msgstr "การแก้ไขแบบปริมาณมาก"
 
 #: ../../admin/addons.rst:136
 msgid "Bulk edit flags, labels or state for strings."
@@ -1122,10 +1120,8 @@ msgid ":ref:`bulk-edit`"
 msgstr ""
 
 #: ../../admin/addons.rst:150
-#, fuzzy
-#| msgid "Administration"
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "การดูแลระบบ"
+msgstr "ติดธงคำแปลที่ยังไม่ถูกเปลี่ยนว่า \"จำเป็นต้องมีการแก้ไข\""
 
 #: ../../admin/addons.rst:154
 msgid ""
@@ -1134,12 +1130,13 @@ msgid ""
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
+"เมื่อใดก็ตามที่สตริงที่แปลได้ใหม่ถูกนำเข้าจาก VCS และตรงกับสตริงต้นฉบับ "
+"สตริงนั้นจะถูกติดธงว่าจำเป็นต้องมีการแก้ไขใน Weblate ซึ่งมีประโยชน์โดยเฉพาะอย"
+"่างยิ่งสำหรับรูปแบบไฟล์ที่มีสตริงทั้งหมดแม้จะยังไม่ได้แปลก็ตาม"
 
 #: ../../admin/addons.rst:161
-#, fuzzy
-#| msgid "Administration"
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "การดูแลระบบ"
+msgstr "ติดธงสตริงต้นฉบับใหม่ว่า \"จำเป็นต้องมีการแก้ไข\""
 
 #: ../../admin/addons.rst:163
 msgid ""
@@ -1147,12 +1144,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"เมื่อใดก็ตามที่สตริงต้นฉบับใหม่ถูกนำเข้าจาก VCS "
+"สตริงนั้นจะถูกติดธงว่าจำเป็นต้องมีการแก้ไขใน Weblate คุณสามารถกรองและแก้ไขสตร"
+"ิงต้นฉบับที่เขียนโดยนักพัฒนาได้อย่างง่ายดายด้วยวิธีนี้"
 
 #: ../../admin/addons.rst:170
-#, fuzzy
-#| msgid "Administration"
 msgid "Flag new translations as \"Needs editing\""
-msgstr "การดูแลระบบ"
+msgstr "ติดธงคำแปลใหม่ว่า \"จำเป็นต้องมีการแก้ไข\""
 
 #: ../../admin/addons.rst:172
 msgid ""
@@ -1160,6 +1158,9 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"เมื่อใดก็ตามที่สตริงที่แปลได้ใหม่ถูกนำเข้าจาก VCS "
+"สตริงนั้นจะถูกติดธงว่าจำเป็นต้องมีการแก้ไขใน Weblate "
+"คุณสามารถกรองและแก้ไขคำแปลที่สร้างโดยนักพัฒนาได้อย่างง่ายดายด้วยวิธีนี้"
 
 #: ../../admin/addons.rst:179
 msgid "Statistics generator"
@@ -1182,10 +1183,8 @@ msgid "For example generating summary file for each translation:"
 msgstr ""
 
 #: ../../admin/addons.rst:188
-#, fuzzy
-#| msgid "Generate"
 msgid "Name of generated file"
-msgstr "สร้าง"
+msgstr "ชื่อของไฟล์ที่ถูกสร้าง"
 
 #: ../../admin/addons.rst:189
 msgid "``locale/{{ language_code }}.json``"
@@ -1197,7 +1196,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:209
 msgid "Contributors in comment"
-msgstr ""
+msgstr "ผู้มีส่วนร่วมในข้อคิดเห็น"
 
 #: ../../admin/addons.rst:211
 msgid ""
@@ -1222,12 +1221,14 @@ msgstr ""
 
 #: ../../admin/addons.rst:234
 msgid "Customize gettext output"
-msgstr ""
+msgstr "กำหนดการเอาต์พุตของ gettext เอง"
 
 #: ../../admin/addons.rst:236
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
+"อนุญาตการกำหนดลักษณะการทำงานของการเอาต์พุต gettext เอง ตัวอย่างเช่น "
+"การแบ่งบรรทัด"
 
 #: ../../admin/addons.rst:238
 msgid "It offers the following options:"
@@ -1239,11 +1240,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:241
 msgid "Only wrap lines at newlines"
-msgstr ""
+msgstr "แบ่งบรรทัดเมื่อมีอักขระขึ้นบรรทัดใหม่เท่านั้น"
 
 #: ../../admin/addons.rst:242
 msgid "No line wrapping"
-msgstr ""
+msgstr "ไม่แบ่งบรรทัด"
 
 #: ../../admin/addons.rst:246
 msgid ""
@@ -1253,25 +1254,23 @@ msgstr ""
 
 #: ../../admin/addons.rst:253
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "อัปเดตไฟล์ LINGUAS"
 
 #: ../../admin/addons.rst:255
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr ""
+msgstr "อัปเดตไฟล์ LINGUAS เมื่อมีคำแปลใหม่ถูกเพิ่ม"
 
 #: ../../admin/addons.rst:260
-#, fuzzy
-#| msgid "Generate"
 msgid "Generate MO files"
-msgstr "สร้าง"
+msgstr "สร้างไฟล์ MO"
 
 #: ../../admin/addons.rst:262
 msgid "Automatically generates a MO file for every changed PO file."
-msgstr ""
+msgstr "สร้างไฟล์ MO สำหรับทุกไฟล์ PO ที่ถูกเปลี่ยนแปลง"
 
 #: ../../admin/addons.rst:267
 msgid "Update PO files to match POT (msgmerge)"
-msgstr ""
+msgstr "อัปเดตไฟล์ PO เพื่อให้ตรงกับ POT (msgmerge)"
 
 #: ../../admin/addons.rst:269
 msgid ""
@@ -1283,7 +1282,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:277
 msgid "Squash Git commits"
-msgstr ""
+msgstr "ยุบรวมคอมมิต Git"
 
 #: ../../admin/addons.rst:279
 msgid "Squash Git commits prior to pushing changes."
@@ -1295,21 +1294,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:285
 msgid "All commits into one"
-msgstr ""
+msgstr "ยุบรวมคอมมิตทั้งหมดให้เป็นคอมมิตเดียว"
 
 #: ../../admin/addons.rst:286
-#, fuzzy
-#| msgid "Language"
 msgid "Per language"
-msgstr "ภาษา"
+msgstr "ต่อภาษา"
 
 #: ../../admin/addons.rst:287
 msgid "Per file"
-msgstr ""
+msgstr "ต่อไฟล์"
 
 #: ../../admin/addons.rst:291
 msgid "Per author"
-msgstr ""
+msgstr "ต่อผู้เขียน"
 
 #: ../../admin/addons.rst:293
 msgid ""
@@ -1333,7 +1330,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:308
 msgid "Customize JSON output"
-msgstr ""
+msgstr "กำหนดการเอาต์พุตของ JSON เอง"
 
 #: ../../admin/addons.rst:310
 msgid ""
@@ -1342,11 +1339,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:315
 msgid "Formats the Java properties file"
-msgstr ""
+msgstr "จัดรูปแบบไฟล์คุณสมบัติ Java"
 
 #: ../../admin/addons.rst:317
 msgid "Sorts the Java properties file."
-msgstr ""
+msgstr "เรียงลำดับไฟล์คุณสมบัติ Java"
 
 #: ../../admin/addons.rst:322
 msgid "Stale comment removal"
@@ -23897,10 +23894,8 @@ msgid "Component discovery configuration"
 msgstr "การค้นพบคอมโพเนนต์"
 
 #: ../../devel/sphinx.rst:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Regular expression to match translation files against"
-msgstr "การดูแลระบบ"
+msgstr "นิพจน์ธรรมดาที่ใช้จับคู่ไฟล์คำแปล"
 
 #: ../../devel/sphinx.rst:46
 msgid ""
@@ -23909,7 +23904,7 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:47
 msgid "Customize the component name"
-msgstr ""
+msgstr "กำหนดชื่อคอมโพเนนต์เอง"
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
@@ -23917,7 +23912,7 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:49
 msgid "Define the base file for new translations"
-msgstr ""
+msgstr "กำหนดไฟล์พื้นฐานสำหรับคำแปลใหม่"
 
 #: ../../devel/sphinx.rst:50
 msgid "``docs/locales/{{ component }}.pot``"
