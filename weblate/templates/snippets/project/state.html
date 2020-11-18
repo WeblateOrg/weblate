@@ -1,4 +1,5 @@
 {% load translations %}
+{% load permissions %}
 {% load i18n %}
 
 {% if not object.paid %}
@@ -6,11 +7,10 @@
 {% show_message "warning" msg %}
 {% endif %}
 
-{% if offer_hosting %}
-  {% for billing in object.billings %}
-    {% if billing.is_trial and billing.plan.price == 0 %}
-      {% trans "This project is in the trial period, so be cautious before you contribute. Things like license or repository can still change before being approved as a libre project." as msg %}
-      {% show_message "warning" msg %}
-    {% endif %}
-  {% endfor %}
+{% perm 'billing.view' object as user_can_view_billing %}
+
+{% if object.is_libre_trial %}
+  {% include "snippets/project/billing-libre-trial.html" %}
+{% elif object.is_trial and user_can_view_billing %}
+  {% include "snippets/project/billing-trial.html" %}
 {% endif %}

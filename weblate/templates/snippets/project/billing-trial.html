@@ -1,0 +1,10 @@
+{% extends "message.html" %}
+{% load i18n %}
+
+{% block tags %}warning{% endblock %}
+
+{% block message %}
+  <a href="{{ object.billing.get_absolute_url }}" class="btn btn-primary pull-right flip">{% trans "Manage billing" %}</a>
+  {% trans "This project is in the trial period." %}
+  <div class="clearfix"></div>
+{% endblock %}

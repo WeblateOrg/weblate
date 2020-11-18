@@ -375,11 +375,21 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             return []
         return self.billing_set.all()
 
+    @property
+    def billing(self):
+        return self.billings[0]
+
     @cached_property
     def paid(self):
-        if "weblate.billing" not in settings.INSTALLED_APPS:
-            return True
         return not self.billings or any(billing.paid for billing in self.billings)
+
+    @cached_property
+    def is_trial(self):
+        return any(billing.is_trial for billing in self.billings)
+
+    @cached_property
+    def is_libre_trial(self):
+        return any(billing.is_libre_trial for billing in self.billings)
 
     def post_create(self, user, billing=None):
         from weblate.trans.models import Change

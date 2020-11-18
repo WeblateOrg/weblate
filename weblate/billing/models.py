@@ -229,6 +229,10 @@ class Billing(models.Model):
     def is_trial(self):
         return self.state == Billing.STATE_TRIAL
 
+    @property
+    def is_libre_trial(self):
+        return self.is_trial and self.plan.price == 0
+
     @cached_property
     def can_be_paid(self):
         if self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL):
