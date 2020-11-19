@@ -14,16 +14,16 @@
 {% documentation_icon "admin/addons" addon.doc_anchor %}
 </h4>
 {% if addon.instance %}
-{% with form=addon.get_settings_form %}
-{% if form %}
-<p>{{ addon.description }}</p>
-<div>
-{% for field in form %}
-{% if not field.is_hidden and field.value %}
-<span class="format-item">{{ field.label }} <span>{{ field|choiceval }}</span></span>
-{% endif %}
-{% endfor %}
-</div>
-{% endif %}
+{% with form=addon.get_ui_form %}
+  {% if form %}
+    <p>{{ addon.description }}</p>
+    <div>
+    {% for field in form %}
+      {% if not field.is_hidden and field.value %}
+        <span class="format-item">{{ field.label }} <span>{{ field|choiceval }}</span></span>
+      {% endif %}
+    {% endfor %}
+    </div>
+  {% endif %}
 {% endwith %}
 {% endif %}

@@ -127,6 +127,9 @@ class BaseAddon:
         # pylint: disable=not-callable
         return self.settings_form(user, self, **kwargs)
 
+    def get_ui_form(self):
+        return self.get_settings_form(None)
+
     def configure(self, settings):
         """Save configuration."""
         self.instance.configuration = settings
