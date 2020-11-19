@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-09 02:26+0000\n"
+"PO-Revision-Date: 2020-11-19 14:53+0000\n"
 "Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -988,17 +988,12 @@ msgstr ""
 "에서, 이는 기본 파일에 있던 오래된 번역 키를 제거하는 것입니다."
 
 #: weblate/addons/cleanup.py:52
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "문자열을 제거"
+msgstr "빈 문자열 제거"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "%(translation)s의 번역을 할 수 있는 새로운 문자열"
+msgstr "번역 파일에서 번역이 없는 문자열을 제거합니다."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1281,14 +1276,10 @@ msgid "Language filter"
 msgstr "언어 필터"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
-msgstr "파일 마스크를 검사할 때 번역을 골라내는데 사용되는 정규식."
+msgstr "파일 마스크를 검사할 때 번역 파일을 골라내는데 사용되는 정규식."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1351,10 +1342,8 @@ msgid "Statistics generator"
 msgstr "통계 생성기"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "번역에 관한 자세한 정보를 포함한 파일을 생성합니다."
+msgstr "번역 상태에 관한 자세한 정보를 포함한 파일을 생성합니다."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2752,10 +2741,8 @@ msgid "Failing checks"
 msgstr "검사 실패"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "가능한 설정"
+msgstr "웨블레이트 설정"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4717,13 +4704,10 @@ msgid "Install"
 msgstr "설치"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
-msgstr "이 번역에 호환되는 추가 애드온을 찾을 수 없습니다."
+msgstr "이 번역 구성 요소에 호환되는 추가 애드온을 찾을 수 없습니다."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -5904,13 +5888,7 @@ msgstr[0] ""
 "strong>이 존재하고, <strong>%(percent)s%%가 완료</strong>되었습니다."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -5918,8 +5896,7 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"%(project)s의 한국어 번역 프로젝트에는 현재 번역할 <strong>%(count)s 문자열</"
-"strong>이 존재합니다."
+"%(project)s의 한국어 번역 프로젝트에는 현재 번역할 <strong>%(count)s 문자열</strong>이 존재합니다."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -7000,19 +6977,15 @@ msgstr "백업 서비스 추가"
 
 #: weblate/templates/manage/design.html:10 weblate/wladmin/views.py:70
 msgid "Design"
-msgstr ""
+msgstr "디자인"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "사용자 지정 내려받기"
+msgstr "사용자 정의 디자인"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "작업 흐름 사용자 정의"
+msgstr "사용자 정의 초기화"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7706,12 +7679,10 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s개의 제안"
+msgstr[0] "%(count)s개 문자열"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -8208,7 +8179,7 @@ msgstr "웨블레이트는 업스트림 저장소로 변경 사항을 푸시할 
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
-msgstr ""
+msgstr "올리기(Push) URL에 자격 증명이 누락됐습니다. URL에 제공하거나 SSH 키 기반 인증을 사용하십시오."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10386,13 +10357,10 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "저장소 오류에서 구성 요소를 잠글 지 여부."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
-msgstr "파일마스크를 검사할 때 번역을 골라내는데 사용되는 정규식."
+msgstr "파일마스크를 검사할 때 번역 파일을 골라내는데 사용되는 정규식."
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
@@ -10534,10 +10502,9 @@ msgstr ""
 "을 제공하지는 않았습니다."
 
 #: weblate/trans/models/component.py:2120
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "새 번역을 위한 기본 파일 정의하기"
+msgstr "새 번역의 기본 파일 구문 분석 실패: %s"
 
 #: weblate/trans/models/component.py:2124
 msgid "Unrecognized base file for new translations."
@@ -11792,39 +11759,31 @@ msgstr "사용자 전자우편"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "CSS에 적합한 글꼴 모음을 제공하십시오."
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "페이지를 찾을 수 없습니다"
+msgstr "페이지 폰트"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "폰트 추가"
+msgstr "헤더 폰트"
 
 #: weblate/wladmin/forms.py:92
-#, fuzzy
-#| msgid "Focus comment editor"
 msgid "Focus color"
-msgstr "주석 편집기에 집중함"
+msgstr "초점(Focus) 색상"
 
 #: weblate/wladmin/forms.py:93
 msgid "Hover color"
-msgstr ""
+msgstr "커서 올림(Hover) 색상"
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "페이지 하단부(Footer) 숨기기"
 
 #: weblate/wladmin/forms.py:96
-#, fuzzy
-#| msgid "Strings navigation"
 msgid "Persistent hamburger navigation"
-msgstr "문자열 탐색"
+msgstr "햄버거 네비게이션 유지"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
