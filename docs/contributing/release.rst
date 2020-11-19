@@ -1,5 +1,29 @@
 Releasing Weblate
------------------
+=================
+
+Releasing schedule
+------------------
+
+Weblate has two month release cycle for releases (x.y). These are usually
+followed by a bunch of bugfix relases to fix issues which slip into them
+(x.y.z).
+
+The change in the major version indicates that the upgrade process can not skip
+this version - you always have to upgrade to x.0 before upgrading to higher x.y
+releases.
+
+.. seealso::
+
+    :doc:`../admin/upgrade`
+
+Release planning
+----------------
+
+The features for upcoming releases are collected using GitHub milestones, you
+can see our roadmap at <https://github.com/WeblateOrg/weblate/milestones>.
+
+Release process
+---------------
 
 Things to check prior to release:
 
