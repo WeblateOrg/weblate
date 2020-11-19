@@ -186,7 +186,7 @@ class LanguageQuerySet(models.QuerySet):
             # Replace plus with underscore (for things as zh+Hant+HK on Android)
             Q(code__iexact=code.replace("+", "_")),
             # Try using name
-            Q(name__iexact=code),
+            Q(name__iexact=code) & Q(code__in=data.NO_CODE_LANGUAGES),
         ]
 
         # Country codes used without underscore (ptbr insteat of pt_BR)

@@ -235,6 +235,12 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
     def test_private_country(self):
         self.test_private_use("en-US-x-twain", "en_US-x-twain")
 
+    def test_private_fuzzy_get(self):
+        Language.objects.auto_get_or_create("cs_FOO")
+        self.run_create(
+            "czech", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False
+        )
+
 
 class CommandTest(BaseTestCase):
     """Test for management commands."""
