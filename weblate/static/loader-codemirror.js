@@ -67,7 +67,6 @@
     }
     var codemirror = CodeMirror.fromTextArea(textarea, {
       mode: mode,
-      theme: "weblate",
       lineNumbers: false,
       lineWrapping: true,
       viewportMargin: Infinity,

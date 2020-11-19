@@ -81,7 +81,11 @@ WLT.Editor = (function () {
       if (textarea.CodeMirror) {
         return;
       }
-      let codemirror = CodeMirror.weblateEditor(textarea, "");
+      console.log("Mode", textarea.getAttribute("data-mode"));
+      let codemirror = CodeMirror.weblateEditor(
+        textarea,
+        textarea.getAttribute("data-mode")
+      );
       codemirror.addOverlay({
         token: function (stream) {
           if (stream.match("  ")) {

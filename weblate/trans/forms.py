@@ -296,6 +296,7 @@ class PluralTextarea(forms.Textarea):
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
         attrs["maxlength"] = unit.get_max_length()
+        attrs["data-mode"] = unit.edit_mode
         if unit.readonly:
             attrs["readonly"] = 1
 

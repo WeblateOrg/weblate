@@ -1101,6 +1101,20 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def all_flags(self):
         return self.get_all_flags()
 
+    @cached_property
+    def edit_mode(self):
+        """Returns edit mode for CodeMirror."""
+        flags = self.all_flags
+        if "rst-text" in flags:
+            return "text/x-rst"
+        if "md-text" in flags:
+            return "text/x-markdown"
+        if "xml-text" in flags:
+            return "application/xml"
+        if "safe-html" in flags:
+            return "text/html"
+        return "null"
+
     def get_secondary_units(self, user):
         """Return list of secondary units."""
         secondary_langs = user.profile.secondary_languages.exclude(
