@@ -36,8 +36,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-18 08:23+0000\n"
-"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"PO-Revision-Date: 2020-11-20 09:37+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -972,31 +972,20 @@ msgid "The server does not allow authentication."
 msgstr "Сервер не разрешает аутентификацию."
 
 #: weblate/accounts/views.py:1256
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
 msgstr ""
-"Не удалось завершить регистрацию. Предоставленные аутентификация, адрес "
-"электронной почты или имя пользователя уже используются другой учётной "
+"Предоставленный адрес электронной почты уже используется другой учётной "
 "записью."
 
 #: weblate/accounts/views.py:1260
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "Это имя пользователя уже занято, выберите другое."
+msgstr ""
+"Предоставленное имя пользователя уже используется другой учётной записью."
 
 #: weblate/accounts/views.py:1265
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
 msgstr ""
-"Не удалось завершить регистрацию. Предоставленные аутентификация, адрес "
-"электронной почты или имя пользователя уже используются другой учётной "
+"Предоставленное удостоверение пользователя уже используется другой учётной "
 "записью."
 
 #: weblate/accounts/views.py:1288 weblate/accounts/views.py:1301
@@ -1057,17 +1046,12 @@ msgstr ""
 "переводов, которых больше нет в базовом файле."
 
 #: weblate/addons/cleanup.py:52
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Удаление строк"
+msgstr "Удаление пустых строк"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Новая строка для перевода в %(translation)s"
+msgstr "Удаляет из файлов перевода строки без перевода."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1355,16 +1339,12 @@ msgid "Language filter"
 msgstr "Языковой фильтр"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
 msgstr ""
-"Регулярное выражение для фильтрации перевода при сканировании по файловой "
-"маске."
+"Регулярное выражение для фильтрации файлов перевода при сканировании по "
+"файловой маске."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1427,10 +1407,8 @@ msgid "Statistics generator"
 msgstr "Генератор статистики"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Генерирует файл, содержащий детальную информацию о переводе."
+msgstr "Генерирует файл, содержащий детальную информацию о состоянии перевода."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2848,10 +2826,8 @@ msgid "Failing checks"
 msgstr "Неудачные проверки"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "Возможная конфигурация"
+msgstr "Конфигурация Weblate"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4883,15 +4859,12 @@ msgid "Install"
 msgstr "Установить"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
 msgstr ""
 "Не удалось найти какие-либо дополнительные надстройки, совместимые с этим "
-"переводом."
+"компонентом перевода."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -6109,13 +6082,7 @@ msgstr[2] ""
 "строк</strong> для перевода и <strong>готов на %(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -6465,20 +6432,16 @@ msgid "Repository status"
 msgstr "Статус репозитория"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Коммит ожидающих изменений в локальный репозиторий"
+msgstr "Ожидающие изменения, ещё не закоммиченные в репозиторий Weblate"
 
 #: weblate/templates/js/git-status.html:29
 msgid "Commit pending changes to the Weblate repository"
 msgstr "Коммит ожидающих изменений в репозиторий Weblate"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "В локальном репозитории есть новые коммиты."
+msgstr "Отправляемые коммиты из репозитория Weblate"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6738,10 +6701,8 @@ msgstr ""
 "одобрение вам плана для свободных проектов."
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Your billing plan has expired and all its projects have been removed."
-msgstr "Ваш тарифный план исчерпал лимиты."
+msgstr "Ваш тарифный план истёк и все его проекты были удалены."
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
