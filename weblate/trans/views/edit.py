@@ -247,11 +247,6 @@ def perform_translation(unit, form, request):
         request.user, form.cleaned_data["target"], form.cleaned_data["state"]
     )
 
-    # Should we skip to next entry
-    if not saved:
-        revert_rate_limit("translate", request)
-        return True
-
     # Warn about applied fixups
     if unit.fixups:
         messages.info(
@@ -259,6 +254,11 @@ def perform_translation(unit, form, request):
             _("Following fixups were applied to translation: %s")
             % ", ".join(force_str(f) for f in unit.fixups),
         )
+
+    # No change edit - should we skip to next entry
+    if not saved:
+        revert_rate_limit("translate", request)
+        return True
 
     # Get new set of checks
     newchecks = unit.all_checks_names
