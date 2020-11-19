@@ -1238,6 +1238,12 @@ separate strings to translate.
 | File format                    | `App store metadata files`          |
 +--------------------------------+-------------------------------------+
 
+.. hint::
+
+   In case you don't want to translate certain strings (for example
+   changelogs), mark them read-only (see :ref:`custom-checks`). This can be
+   automated by the :ref:`addon-weblate.flags.bulk`.
+
 .. _subtitles:
 
 Subtitle files

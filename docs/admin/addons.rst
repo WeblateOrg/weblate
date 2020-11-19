@@ -139,6 +139,25 @@ Automating the labeling of new strings can be useful (start out with search quer
 has:label`` and add desired labels till all strings are properly labeled).
 You can also carry out any other automated operations for Weblate metadata.
 
+**Examples:**
+
+.. list-table:: Automatically add label to new strings
+    :stub-columns: 1
+
+    * - Search query
+      - ``NOT has:label``
+    * - Labels to add
+      - *recent*
+
+.. list-table:: Marking all :ref:`appstore` changelog entries read-only
+    :stub-columns: 1
+
+    * - Search query
+      - ``language:en AND key:changelogs/``
+    * - Translation flags to add
+      - ``read-only``
+
+
 .. seealso::
 
    :ref:`bulk-edit`
