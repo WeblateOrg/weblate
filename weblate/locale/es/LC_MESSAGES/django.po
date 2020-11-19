@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-13 11:28+0000\n"
+"PO-Revision-Date: 2020-11-19 14:52+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1033,17 +1033,13 @@ msgstr ""
 "archivo base."
 
 #: weblate/addons/cleanup.py:52
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Quitar una cadena"
+msgstr "Quitar cadenas vacías"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Cadena nueva por traducir en %(translation)s"
+msgstr ""
+"Quita las cadenas que carecen de traducción de los archivos de traducción."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1335,16 +1331,12 @@ msgid "Language filter"
 msgstr "Filtro de idioma"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
 msgstr ""
-"Expresión regular para filtrar la traducción durante el análisis de nombres "
-"de archivo."
+"Expresión regular para filtrar archivos de traducción durante el análisis de "
+"nombres de archivo."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1407,10 +1399,9 @@ msgid "Statistics generator"
 msgstr "Generador de estadísticas"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Genera un archivo con información detallada sobre la traducción."
+msgstr ""
+"Genera un archivo con información detallada sobre el estado de la traducción."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2837,10 +2828,8 @@ msgid "Failing checks"
 msgstr "Comprobaciones fallidas"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "Configuración posible"
+msgstr "Configuración de Weblate"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4867,15 +4856,12 @@ msgid "Install"
 msgstr "Instalar"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
 msgstr ""
-"No se han encontrado complementos adicionales compatibles con esta "
-"traducción."
+"No se encontró ningún complemento adicional compatible con este componente "
+"de traducción."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -6099,13 +6085,7 @@ msgstr[1] ""
 "%(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -6113,11 +6093,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"El proyecto de traducción de %(project)s contiene actualmente <strong>"
-"%(count)s cadena</strong> traducible."
+"El proyecto de traducción de %(project)s contiene actualmente "
+"<strong>%(count)s cadena</strong> traducible."
 msgstr[1] ""
-"El proyecto de traducción de %(project)s contiene actualmente <strong>"
-"%(count)s cadenas</strong> traducibles."
+"El proyecto de traducción de %(project)s contiene actualmente "
+"<strong>%(count)s cadenas</strong> traducibles."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -6472,7 +6452,7 @@ msgstr "Enviar cambios al repositorio remoto"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push"
-msgstr "«Push»"
+msgstr "Envío"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Missing commits in the Weblate repository"
@@ -6492,7 +6472,7 @@ msgstr "Incorporar cambios del repositorio remoto"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull"
-msgstr "«Pull»"
+msgstr "Incorporación"
 
 #: weblate/templates/js/git-status.html:66
 msgid "Rebase Weblate changes onto the remote repository"
@@ -7223,19 +7203,15 @@ msgstr "Añadir servicio de respaldos"
 
 #: weblate/templates/manage/design.html:10 weblate/wladmin/views.py:70
 msgid "Design"
-msgstr ""
+msgstr "Diseño"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "Personalizar descarga"
+msgstr "Personalizar diseño"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "Personalización del flujo de trabajo"
+msgstr "Restablecer personalización"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7957,13 +7933,11 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s sugerencia"
-msgstr[1] "%(count)s sugerencias"
+msgstr[0] "%(count)s cadena"
+msgstr[1] "%(count)s cadenas"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -8473,6 +8447,8 @@ msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
+"Parece que faltan los datos de acceso en el URL de envío. Proporciónelos en "
+"el URL o utilice SSH con autenticación basada en claves."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10720,15 +10696,12 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Si el recurso debe bloquearse al producirse errores en el repositorio."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
 msgstr ""
-"Expresión regular utilizada para filtrar la traducción al buscar máscaras de "
-"archivo."
+"Expresión regular utilizada para filtrar archivos de traducción al analizar "
+"máscaras de archivo."
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
@@ -10879,10 +10852,9 @@ msgstr ""
 "ha proporcionado un archivo de base para hacerlo."
 
 #: weblate/trans/models/component.py:2120
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Definir el archivo de base para traducciones nuevas"
+msgstr "No se pudo analizar el archivo de base para traducciones nuevas: %s"
 
 #: weblate/trans/models/component.py:2124
 msgid "Unrecognized base file for new translations."
@@ -12192,39 +12164,31 @@ msgstr "Dirección de correo de usuario"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "Proporcione una familia tipográfica adecuada para CSS."
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Página no encontrada"
+msgstr "Tipo de letra para páginas"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "Añadir tipo de letra"
+msgstr "Tipo de letra para cabeceras"
 
 #: weblate/wladmin/forms.py:92
-#, fuzzy
-#| msgid "Focus comment editor"
 msgid "Focus color"
-msgstr "Centrar en el editor de comentarios"
+msgstr "Color de foco"
 
 #: weblate/wladmin/forms.py:93
 msgid "Hover color"
-msgstr ""
+msgstr "Color al posar el ratón"
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "Ocultar pie de página"
 
 #: weblate/wladmin/forms.py:96
-#, fuzzy
-#| msgid "Strings navigation"
 msgid "Persistent hamburger navigation"
-msgstr "Navegación por cadenas"
+msgstr "Navegación con botón de tres barras persistente"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
