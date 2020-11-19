@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-05 15:00+0000\n"
+"PO-Revision-Date: 2020-11-19 14:53+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -985,17 +985,12 @@ msgstr ""
 "除译文模版文件中不再出现的旧翻译条目。"
 
 #: weblate/addons/cleanup.py:52
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "移除一个字符串"
+msgstr "移除空白字符串"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "%(translation)s 中有新字符串需要翻译"
+msgstr "从翻译文件中删除没有翻译的字符串."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1270,14 +1265,10 @@ msgid "Language filter"
 msgstr "语言筛选"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
-msgstr "扫描文件掩码时用于筛选翻译的正则表达式。"
+msgstr "扫描文件掩码时用于筛选翻译文件的正则表达式。"
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1338,10 +1329,8 @@ msgid "Statistics generator"
 msgstr "统计数据生成器"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "生成一个包含翻译详细信息的文件。"
+msgstr "生成一个包含关于翻译状态详细信息的文件。"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2731,10 +2720,8 @@ msgid "Failing checks"
 msgstr "未通过检查"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "可能的设定"
+msgstr "Weblate 配置"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4654,13 +4641,10 @@ msgid "Install"
 msgstr "安装"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
-msgstr "找不到任何与此翻译兼容的额外的附加组件。"
+msgstr "找不到任何与此翻译组件兼容的额外的附加组件。"
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -5811,22 +5795,14 @@ msgstr[0] ""
 "<strong>%(percent)s%%</strong>。"
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
 msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
-msgstr[0] ""
-"%(project)s 翻译项目当前包含<strong>%(count)s%(count)s个字符串的翻译</"
-"strong>。"
+msgstr[0] "%(project)s 翻译项目当前包含<strong>%(count)s%(count)s个字符串的翻译</strong>。"
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -6877,19 +6853,15 @@ msgstr "添加备份服务"
 
 #: weblate/templates/manage/design.html:10 weblate/wladmin/views.py:70
 msgid "Design"
-msgstr ""
+msgstr "设计"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "自定义下载"
+msgstr "自定义设计"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "定制工作流程"
+msgstr "重置自定义"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7562,12 +7534,10 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s 个建议"
+msgstr[0] "%(count)s 个字符串"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -8048,7 +8018,7 @@ msgstr "Weblate 无法将更改推送到上游仓库。"
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
-msgstr ""
+msgstr "你的推送URL似乎缺少凭证。要么在URL中提供它们，要么通过基于密钥的身份验证使用SSH。"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10167,13 +10137,10 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "是否应该在存储库出错时锁定该组件."
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
-msgstr "正则表达式可用于在扫描文件掩码时筛选译文。"
+msgstr "扫描文件掩码时用于过滤翻译文件的正则表达式。"
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
@@ -10304,10 +10271,9 @@ msgstr ""
 "您已配置 Weblate 添加新的翻译文件，但并未提供译文模版文件来进行这一操作。"
 
 #: weblate/trans/models/component.py:2120
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "为新的翻译条目指定译文模版文件"
+msgstr "未能解析新翻译的基础文件：%s"
 
 #: weblate/trans/models/component.py:2124
 msgid "Unrecognized base file for new translations."
@@ -11548,39 +11514,31 @@ msgstr "用户电子邮箱"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "请提供适合CSS的字体家族。"
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "页面未找到"
+msgstr "页面字体"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "添加字体"
+msgstr "页眉字体"
 
 #: weblate/wladmin/forms.py:92
-#, fuzzy
-#| msgid "Focus comment editor"
 msgid "Focus color"
-msgstr "聚焦到注释编辑器"
+msgstr "聚焦色"
 
 #: weblate/wladmin/forms.py:93
 msgid "Hover color"
-msgstr ""
+msgstr "悬停色"
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "隐藏页脚"
 
 #: weblate/wladmin/forms.py:96
-#, fuzzy
-#| msgid "Strings navigation"
 msgid "Persistent hamburger navigation"
-msgstr "需要处理的字符串"
+msgstr "持续的汉堡包导航"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
