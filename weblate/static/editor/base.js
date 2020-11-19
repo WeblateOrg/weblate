@@ -82,6 +82,16 @@ WLT.Editor = (function () {
         return;
       }
       let codemirror = CodeMirror.weblateEditor(textarea, "");
+      codemirror.addOverlay({
+        token: function (stream) {
+          if (stream.match("  ")) {
+            return "doublespace";
+          }
+          stream.next();
+          stream.skipTo(" ") || stream.skipToEnd();
+        },
+      });
+
       codemirror.on("change", () => {
         WLT.Utils.markTranslated($(textarea).closest("form"));
       });
