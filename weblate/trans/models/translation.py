@@ -867,14 +867,24 @@ class Translation(
             temp.write(fileobj.read())
             temp.close()
 
-            # Prepare msgmerge args
+            # Prepare msgmerge args, this is merely a copy from
+            # weblate.addons.gettext.MsgmergeAddon and should be turned into
+            # file format parameters
             args = ["--previous"]
             try:
-                width = component.addon_set.get(
-                    name="weblate.gettext.customize"
-                ).configuration["width"]
-                if width != 77:
+                addon_config = component.addon_set.get(name="weblate.gettext.customize")
+                if addon_config["width"] != 77:
                     args.append("--no-wrap")
+            except ObjectDoesNotExist:
+                pass
+            try:
+                addon_config = component.addon_set.get(name="weblate.gettext.msgmerge")
+                if not addon_config.get("fuzzy", True):
+                    args.append("--no-fuzzy-matching")
+                if addon_config.get("previous", True):
+                    args.append("--previous")
+                if addon_config.get("no_location", False):
+                    args.append("--no-location")
             except ObjectDoesNotExist:
                 pass
 
