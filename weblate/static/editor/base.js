@@ -77,7 +77,7 @@ WLT.Editor = (function () {
   }
 
   EditorBase.prototype.init = function () {
-    $(".translation-editor").each((idx, textarea) => {
+    document.querySelectorAll(".translation-editor").forEach((textarea) => {
       if (textarea.CodeMirror) {
         return;
       }

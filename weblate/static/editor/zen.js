@@ -89,54 +89,68 @@
   ZenEditor.prototype.init = function () {
     EditorBase.prototype.init.call(this);
 
-    /* Minimal height for side-by-side editor */
-    $(".zen-horizontal .translator").each(function () {
-      if (this.ZenInitDone) {
+    var editors = document.querySelectorAll(".translation-editor");
+
+    /* Initialize zen mode events */
+    editors.forEach((textarea) => {
+      if (textarea.zenInitDone) {
         return;
       }
-      var $this = $(this);
-      var tdHeight = $this.height();
-      var editorHeight = 0;
-      var contentHeight = $this.find("form").height();
-      var $editors = $this.find(".translation-editor");
-      $editors.each(function (idx, textarea) {
-        var codemirror = textarea.CodeMirror;
-        var $editor = $(codemirror.getWrapperElement());
-        /* Calculate editor height */
-        editorHeight += $editor.height();
+      var $tbody = $(textarea.closest("tbody"));
 
-        /*
-         * Ensure current editor is reasonably located in the window
-         * - show whole element if moving back
-         * - scroll down if in bottom half of the window
-         */
-        codemirror.on("focus", function () {
-          var current = $window.scrollTop();
-          var rowOffset = $editor.closest("tbody").offset().top;
-          if (
-            rowOffset < current ||
-            rowOffset - current > $window.height() / 2
-          ) {
-            $([document.documentElement, document.body]).animate(
-              {
-                scrollTop: rowOffset,
-              },
-              100
-            );
-          }
+      /*
+       * Ensure current editor is reasonably located in the window
+       * - show whole element if moving back
+       * - scroll down if in bottom half of the window
+       */
+      textarea.CodeMirror.on("focus", function () {
+        var current = $window.scrollTop();
+        var rowOffset = $tbody.offset().top;
+        if (rowOffset < current || rowOffset - current > $window.height() / 2) {
+          $([document.documentElement, document.body]).animate(
+            {
+              scrollTop: rowOffset,
+            },
+            100
+          );
+        }
+      });
+
+      textarea.CodeMirror.on("blur", handleTranslationChange);
+      textarea.zenInitDone = true;
+    });
+
+    /* Minimal height for side-by-side editor */
+    document
+      .querySelectorAll(".zen-horizontal .translator")
+      .forEach((translator) => {
+        if (translator.zenHorizontalInitDone) {
+          return;
+        }
+        var $translator = $(translator);
+        var tdHeight = $translator.height();
+        var editorHeight = 0;
+        var contentHeight = $translator.find("form").height();
+        var editors = translator.querySelectorAll(".translation-editor");
+
+        /* Calculate editor height */
+        editors.forEach((textarea) => {
+          editorHeight += parseInt(
+            window.getComputedStyle(textarea.CodeMirror.getWrapperElement())
+              .height
+          );
         });
 
-        codemirror.on("blur", handleTranslationChange);
+        /* Adjust hight to fill in content */
+        editors.forEach((textarea) => {
+          var codemirror = textarea.CodeMirror;
+          let height =
+            (tdHeight - (contentHeight - editorHeight)) / editors.length;
+          textarea.CodeMirror.getScrollerElement().style.minHeight =
+            height + "px";
+        });
+        translator.zenHorizontalInitDone = true;
       });
-
-      $editors.each(function (idx, textarea) {
-        let height =
-          (tdHeight - (contentHeight - editorHeight)) / $editors.length;
-        textarea.CodeMirror.getScrollerElement().style.minHeight =
-          height + "px";
-      });
-      this.ZenInitDone = true;
-    });
   };
 
   /* Handlers */
