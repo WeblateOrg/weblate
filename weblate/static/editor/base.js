@@ -126,7 +126,7 @@ WLT.Editor = (function () {
 
       text.find(hlNumberSelector).remove();
       text = text.text();
-      this.insertEditor(text, $this);
+      insertEditor(text, $this);
       e.preventDefault();
     });
 
@@ -181,7 +181,7 @@ WLT.Editor = (function () {
     );
   };
 
-  EditorBase.prototype.insertEditor = function (text, element) {
+  function insertEditor(text, element) {
     var root;
 
     /* Find withing root element */
@@ -203,7 +203,7 @@ WLT.Editor = (function () {
     }
 
     editor[0].CodeMirror.replaceSelection($.trim(text));
-  };
+  }
 
   return {
     Base: EditorBase,
