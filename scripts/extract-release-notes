@@ -8,7 +8,7 @@ if len(sys.argv) != 2:
 start = "Weblate {}\n".format(sys.argv[1])
 display = False
 
-with open("docs/changes.rst", "r") as handle:
+with open("docs/changes.rst") as handle:
     for line in handle:
         if display:
             if line.startswith("Weblate "):

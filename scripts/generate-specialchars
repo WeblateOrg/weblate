@@ -372,7 +372,7 @@ CODES = {lang[0] for lang in LANGUAGES}
 
 
 # Parse CSV passed on the commad line
-with open(sys.argv[1], "r") as handle:
+with open(sys.argv[1]) as handle:
     for (
         pos,
         _change,

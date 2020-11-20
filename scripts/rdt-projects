@@ -42,7 +42,7 @@ def get_update(value):
 
 
 # Read the authorization token
-with open(os.path.expanduser("~/.config/readthedocs.token"), "r") as handle:
+with open(os.path.expanduser("~/.config/readthedocs.token")) as handle:
     TOKEN = handle.read().strip()
 
 AUTH = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
