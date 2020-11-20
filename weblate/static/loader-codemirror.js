@@ -30,45 +30,37 @@
     });
   }
 
-  CodeMirror.registerHelper(
-    "hint",
-    "userSuggestions",
-    function (
-      editor,
-      callback
-    ) {
-      var cur = editor.getCursor();
-      var curLine = editor.getLine(cur.line);
+  CodeMirror.registerHelper("hint", "userSuggestions", function (
+    editor,
+    callback
+  ) {
+    var cur = editor.getCursor();
+    var curLine = editor.getLine(cur.line);
 
-      var end = cur.ch;
-      var start = curLine.lastIndexOf("@") + 1;
-      // Extract the current word from the current line using 'start' / 'end' value pair
-      var curWord = start !== end && curLine.slice(start, end);
+    var end = cur.ch;
+    var start = curLine.lastIndexOf("@") + 1;
+    // Extract the current word from the current line using 'start' / 'end' value pair
+    var curWord = start !== end && curLine.slice(start, end);
 
-      if (curWord && curWord.length > 2) {
-        // If there is current word set, We can filter out users from the
-        // main list and display them
-        getUserList(
-          curWord,
-          CodeMirror.Pos(cur.line, start),
-          CodeMirror.Pos(cur.line, end),
-          callback
-        );
-      }
+    if (curWord && curWord.length > 2) {
+      // If there is current word set, We can filter out users from the
+      // main list and display them
+      getUserList(
+        curWord,
+        CodeMirror.Pos(cur.line, start),
+        CodeMirror.Pos(cur.line, end),
+        callback
+      );
     }
-  );
+  });
 
   CodeMirror.hint.userSuggestions.async = true;
 
   CodeMirror.weblateEditor = (textarea, mode) => {
     var maxLength = parseInt(textarea.getAttribute("maxlength"));
     var counter = textarea.parentElement.querySelector(".length-indicator");
-    var direction;
-    if (textarea.hasAttribute("dir")) {
-      direction = textarea.getAttribute("dir");
-    } else {
-      direction = document.getElementsByTagName("html")[0].getAttribute("dir");
-    }
+    var direction =
+      textarea.getAttribute("dir") || document.children[0].getAttribute("dir");
     var codemirror = CodeMirror.fromTextArea(textarea, {
       mode: mode,
       lineNumbers: false,
