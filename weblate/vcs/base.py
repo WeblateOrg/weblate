@@ -111,7 +111,7 @@ class Repository:
 
     def ensure_config_updated(self):
         """Ensures the configuration is periodically checked."""
-        cache_key = "sp-config-check-{}".format(self.component.pk)
+        cache_key = f"sp-config-check-{self.component.pk}"
         if cache.get(cache_key) is None:
             self.check_config()
             cache.set(cache_key, True, 86400)
@@ -229,7 +229,7 @@ class Repository:
 
     def log_status(self, error):
         try:
-            self.log("failure {}".format(error))
+            self.log(f"failure {error}")
             self.log(self.status())
         except RepositoryException:
             pass
@@ -334,7 +334,7 @@ class Repository:
 
     def get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
-        key = "rev-info-{}-{}".format(self.get_identifier(), revision)
+        key = f"rev-info-{self.get_identifier()}-{revision}"
         result = cache.get(key)
         if not result:
             result = self._get_revision_info(revision)
@@ -506,7 +506,7 @@ class Repository:
         )
 
     def get_remote_branch_name(self):
-        return "origin/{0}".format(self.branch)
+        return f"origin/{self.branch}"
 
     def list_remote_branches(self):
         return []

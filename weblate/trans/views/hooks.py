@@ -345,7 +345,7 @@ def bitbucket_hook_helper(data, request):
         "repo_url": repo_url,
         "repos": repos,
         "branch": bitbucket_extract_branch(data),
-        "full_name": "{}.git".format(full_name),
+        "full_name": f"{full_name}.git",
     }
 
 
@@ -378,7 +378,7 @@ def github_hook_helper(data, request):
         "repo_url": data["repository"]["url"],
         "repos": repos,
         "branch": branch,
-        "full_name": "{}/{}.git".format(owner, slug),
+        "full_name": f"{owner}/{slug}.git",
     }
 
 

@@ -66,7 +66,7 @@ class FilterRegistry:
             (
                 CHECKS[check].url_id,
                 format_lazy(_("Failed check: {}"), CHECKS[check].name),
-                "check:{}".format(check),
+                f"check:{check}",
             )
             for check in CHECKS
         )
@@ -132,7 +132,7 @@ def get_filter_choice(project=None):
     )
     if project is not None:
         result.extend(
-            ("label:{}".format(label), format_lazy(_("Labeled: {}"), label))
+            (f"label:{label}", format_lazy(_("Labeled: {}"), label))
             for label in project.label_set.values_list("name", flat=True)
         )
     return result

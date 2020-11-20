@@ -149,7 +149,7 @@ class Translation(
         verbose_name_plural = "translations"
 
     def __str__(self):
-        return "{0} — {1}".format(self.component, self.language)
+        return f"{self.component} — {self.language}"
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -754,7 +754,7 @@ class Translation(
             for label in labels:
                 result.add_if(
                     self.stats,
-                    "label:{}".format(label.name),
+                    f"label:{label.name}",
                     f"label label-{label.color}",
                 )
             result.add_if(self.stats, "unlabeled", "")
@@ -1032,7 +1032,7 @@ class Translation(
 
     @property
     def keys_cache_key(self):
-        return "translation-keys-{}".format(self.pk)
+        return f"translation-keys-{self.pk}"
 
     def invalidate_keys(self):
         cache.delete(self.keys_cache_key)
@@ -1121,7 +1121,7 @@ class GhostTranslation:
         self.is_source = False
 
     def __str__(self):
-        return "{0} — {1}".format(self.component, self.language)
+        return f"{self.component} — {self.language}"
 
     def get_absolute_url(self):
         return None

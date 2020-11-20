@@ -237,7 +237,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             "import_project",
             project.slug,
-            "weblate://{0!s}/{1!s}".format(project.slug, android.slug),
+            f"weblate://{project.slug!s}/{android.slug!s}",
             "master",
             "**/*.po",
         )
@@ -425,7 +425,7 @@ class ListTranslatorsTest(RepoTestCase):
         output = StringIO()
         call_command(
             "list_translators",
-            "{0}/{1}".format(component.project.slug, component.slug),
+            f"{component.project.slug}/{component.slug}",
             stdout=output,
         )
         self.assertEqual(output.getvalue(), "")
@@ -441,13 +441,11 @@ class LockingCommandTest(RepoTestCase):
     def test_locking(self):
         component = Component.objects.all()[0]
         self.assertFalse(Component.objects.filter(locked=True).exists())
-        call_command(
-            "lock_translation", "{0}/{1}".format(component.project.slug, component.slug)
-        )
+        call_command("lock_translation", f"{component.project.slug}/{component.slug}")
         self.assertTrue(Component.objects.filter(locked=True).exists())
         call_command(
             "unlock_translation",
-            "{0}/{1}".format(component.project.slug, component.slug),
+            f"{component.project.slug}/{component.slug}",
         )
         self.assertFalse(Component.objects.filter(locked=True).exists())
 

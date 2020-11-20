@@ -59,7 +59,7 @@ class AboutView(TemplateView):
         return context
 
     def get_template_names(self):
-        return ["about/{0}.html".format(self.page)]
+        return [f"about/{self.page}.html"]
 
 
 class StatsView(AboutView):

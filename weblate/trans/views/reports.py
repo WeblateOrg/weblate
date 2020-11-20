@@ -77,7 +77,7 @@ def get_credits(request, project=None, component=None):
         None if request.user.has_perm("reports.view", obj) else request.user,
         form.cleaned_data["start_date"],
         form.cleaned_data["end_date"],
-        **kwargs
+        **kwargs,
     )
 
     if form.cleaned_data["style"] == "json":
@@ -121,9 +121,7 @@ def get_credits(request, project=None, component=None):
 
     result.append(end)
 
-    return HttpResponse(
-        "\n".join(result), content_type="{0}; charset=utf-8".format(mime)
-    )
+    return HttpResponse("\n".join(result), content_type=f"{mime}; charset=utf-8")
 
 
 COUNT_DEFAULTS = {
@@ -229,7 +227,7 @@ def get_counts(request, project=None, component=None):
         None if request.user.has_perm("reports.view", obj) else request.user,
         form.cleaned_data["start_date"],
         form.cleaned_data["end_date"],
-        **kwargs
+        **kwargs,
     )
 
     if form.cleaned_data["style"] == "json":
@@ -265,7 +263,7 @@ def get_counts(request, project=None, component=None):
     )
 
     if form.cleaned_data["style"] == "html":
-        start = HTML_HEADING.format("".join("<th>{0}</th>".format(h) for h in headers))
+        start = HTML_HEADING.format("".join(f"<th>{h}</th>" for h in headers))
         row_start = "<tr>"
         cell_name = cell_count = "<td>{0}</td>\n"
         row_end = "</tr>"
@@ -274,8 +272,8 @@ def get_counts(request, project=None, component=None):
     else:
         start = "{0}\n{1} {2}\n{0}".format(
             RST_HEADING,
-            " ".join("{0:40}".format(h) for h in headers[:2]),
-            " ".join("{0:24}".format(h) for h in headers[2:]),
+            " ".join(f"{h:40}" for h in headers[:2]),
+            " ".join(f"{h:24}" for h in headers[2:]),
         )
         row_start = ""
         cell_name = "{0:40} "
@@ -328,6 +326,4 @@ def get_counts(request, project=None, component=None):
 
     result.append(end)
 
-    return HttpResponse(
-        "\n".join(result), content_type="{0}; charset=utf-8".format(mime)
-    )
+    return HttpResponse("\n".join(result), content_type=f"{mime}; charset=utf-8")

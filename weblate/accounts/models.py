@@ -199,9 +199,7 @@ class AuditLog(models.Model):
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
 
     def __str__(self):
-        return "{0} for {1} from {2}".format(
-            self.activity, self.user.username, self.address
-        )
+        return f"{self.activity} for {self.user.username} from {self.address}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -267,7 +265,7 @@ class VerifiedEmail(models.Model):
     email = models.EmailField(max_length=EMAIL_LENGTH)
 
     def __str__(self):
-        return "{0} - {1}".format(self.social.user.username, self.email)
+        return f"{self.social.user.username} - {self.email}"
 
     @property
     def provider(self):

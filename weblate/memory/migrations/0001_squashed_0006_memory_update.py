@@ -30,7 +30,7 @@ def create_index(apps, schema_editor):
             "memory_memory(source(255), target(255), origin(255))"
         )
     else:
-        raise Exception("Unsupported database: {}".format(vendor))
+        raise Exception(f"Unsupported database: {vendor}")
 
 
 def drop_index(apps, schema_editor):
@@ -48,7 +48,7 @@ def drop_index(apps, schema_editor):
             "ALTER TABLE memory_memory DROP INDEX memory_lookup_index"
         )
     else:
-        raise Exception("Unsupported database: {}".format(vendor))
+        raise Exception(f"Unsupported database: {vendor}")
 
 
 class Migration(migrations.Migration):

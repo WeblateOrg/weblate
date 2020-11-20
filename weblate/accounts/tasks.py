@@ -119,7 +119,7 @@ def notify_auditlog(log_id, email):
             "address": audit.address,
             "user_agent": audit.user_agent,
         },
-        info="{0} from {1}".format(audit.activity, audit.address),
+        info=f"{audit.activity} from {audit.address}",
     )
 
 
@@ -131,7 +131,7 @@ def send_mails(mails):
         filename = os.path.join(settings.STATIC_ROOT, name)
         with open(filename, "rb") as handle:
             image = MIMEImage(handle.read())
-        image.add_header("Content-ID", "<{}@cid.weblate.org>".format(name))
+        image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
         image.add_header("Content-Disposition", "inline", filename=name)
         images.append(image)
 

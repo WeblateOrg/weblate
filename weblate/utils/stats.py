@@ -63,8 +63,8 @@ BASICS = {
     "unlabeled",
 }
 BASIC_KEYS = frozenset(
-    ["{}_words".format(x) for x in BASICS if x != "languages"]
-    + ["{}_chars".format(x) for x in BASICS if x != "languages"]
+    [f"{x}_words" for x in BASICS if x != "languages"]
+    + [f"{x}_chars" for x in BASICS if x != "languages"]
     + [
         "translated_percent",
         "approved_percent",
@@ -202,7 +202,7 @@ class BaseStats:
 
     @cached_property
     def cache_key(self):
-        return "stats-{}".format(self._object.cache_key)
+        return f"stats-{self._object.cache_key}"
 
     def __getattr__(self, name):
         if self._data is None:
@@ -324,7 +324,7 @@ class DummyTranslationStats(BaseStats):
 
     @property
     def pk(self):
-        return "l-{}".format(self.language.pk)
+        return f"l-{self.language.pk}"
 
     def cache_key(self):
         return None
@@ -464,7 +464,7 @@ class TranslationStats(BaseStats):
     def get_last_change_obj(self):
         from weblate.trans.models import Change
 
-        cache_key = "last-content-change-{}".format(self._object.pk)
+        cache_key = f"last-content-change-{self._object.pk}"
         change_pk = cache.get(cache_key)
         if change_pk:
             try:
@@ -526,8 +526,8 @@ class TranslationStats(BaseStats):
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
         self.store(item, stats["strings"])
-        self.store("{}_words".format(item), stats["words"])
-        self.store("{}_chars".format(item), stats["chars"])
+        self.store(f"{item}_words", stats["words"])
+        self.store(f"{item}_chars", stats["chars"])
 
     def prefetch_checks(self):
         """Prefetch check stats."""
@@ -544,7 +544,7 @@ class TranslationStats(BaseStats):
             # Filtering here is way more effective than in SQL
             if check is None:
                 continue
-            check = "check:{}".format(check)
+            check = f"check:{check}"
             self.store(check, stat["strings"])
             self.store(check + "_words", stat["words"])
             self.store(check + "_chars", stat["chars"])
@@ -567,13 +567,13 @@ class TranslationStats(BaseStats):
             # Filtering here is way more effective than in SQL
             if label_name is None:
                 continue
-            label = "label:{}".format(label_name)
+            label = f"label:{label_name}"
             self.store(label, stat["strings"])
             self.store(label + "_words", stat["words"])
             self.store(label + "_chars", stat["chars"])
             alllabels.discard(label_name)
         for label_name in alllabels:
-            label = "label:{}".format(label_name)
+            label = f"label:{label_name}"
             self.store(label, 0)
             self.store(label + "_words", 0)
             self.store(label + "_chars", 0)
@@ -721,11 +721,11 @@ class ProjectLanguage:
 
     @cached_property
     def pk(self):
-        return "{}-{}".format(self.project.pk, self.language.pk)
+        return f"{self.project.pk}-{self.language.pk}"
 
     @cached_property
     def cache_key(self):
-        return "{}-{}".format(self.project.cache_key, self.language.pk)
+        return f"{self.project.cache_key}-{self.language.pk}"
 
     def get_absolute_url(self):
         return reverse(

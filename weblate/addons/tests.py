@@ -756,7 +756,7 @@ class ScriptsTest(ViewTestCase):
         addon.pre_commit(translation, "")
         self.assertIn(
             os.path.join(
-                self.component.full_path, "po/{}.po".format(translation.language_code)
+                self.component.full_path, f"po/{translation.language_code}.po"
             ),
             translation.addon_commit_files,
         )

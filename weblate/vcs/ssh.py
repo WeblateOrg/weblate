@@ -179,7 +179,7 @@ def add_host_key(request, host, port=""):
                 messages.error(request, _("Failed to fetch public key for a host!"))
             with open(ssh_file(KNOWN_HOSTS), "a") as handle:
                 for key in keys:
-                    handle.write("{0}\n".format(key))
+                    handle.write(f"{key}\n")
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request, _("Failed to get host key: %s") % exc.stderr or exc.stdout

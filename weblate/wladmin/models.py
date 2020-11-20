@@ -86,7 +86,7 @@ class SupportStatus(models.Model):
     objects = SupportStatusManager()
 
     def __str__(self):
-        return "{}:{}".format(self.name, self.expiry)
+        return f"{self.name}:{self.expiry}"
 
     def get_verbose(self):
         return SUPPORT_NAMES.get(self.name, self.name)
@@ -181,4 +181,4 @@ class BackupLog(models.Model):
     log = models.TextField()
 
     def __str__(self):
-        return "{}:{}".format(self.service, self.event)
+        return f"{self.service}:{self.event}"

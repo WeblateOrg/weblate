@@ -76,7 +76,7 @@ class MyMemoryTranslation(MachineTranslation):
         """Download list of possible translations from MyMemory."""
         args = {
             "q": text.split(". ")[0][:500],
-            "langpair": "{0}|{1}".format(source, language),
+            "langpair": f"{source}|{language}",
         }
         if settings.MT_MYMEMORY_EMAIL is not None:
             args["de"] = settings.MT_MYMEMORY_EMAIL

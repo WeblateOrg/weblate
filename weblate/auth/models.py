@@ -465,7 +465,7 @@ class User(AbstractBaseUser):
             try:
                 Permission.objects.get(codename=perm)
             except Permission.DoesNotExist:
-                raise ValueError("Invalid permission: {}".format(perm))
+                raise ValueError(f"Invalid permission: {perm}")
 
         # Special permission functions
         if perm in SPECIALS:
@@ -603,7 +603,7 @@ class User(AbstractBaseUser):
         # Add e-mail if we are asked for it
         if not email:
             return full_name
-        return "{0} <{1}>".format(full_name, self.email)
+        return f"{full_name} <{self.email}>"
 
 
 class AutoGroup(models.Model):
@@ -622,7 +622,7 @@ class AutoGroup(models.Model):
         verbose_name_plural = _("Automatic group assignments")
 
     def __str__(self):
-        return "Automatic rule for {0}".format(self.group)
+        return f"Automatic rule for {self.group}"
 
 
 def create_groups(update):
@@ -739,10 +739,10 @@ def setup_project_groups(sender, instance, **kwargs):
     # Create role specific groups
     handled = set()
     for group_name in groups:
-        name = "{0}@{1}".format(instance.name, group_name)
+        name = f"{instance.name}@{group_name}"
         try:
             group = instance.group_set.get(
-                internal=True, name__endswith="@{}".format(group_name)
+                internal=True, name__endswith=f"@{group_name}"
             )
             # Update exiting group (to handle rename)
             if group.name != name:

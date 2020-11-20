@@ -57,7 +57,7 @@ class Font(models.Model, UserDisplayMixin):
         unique_together = [("family", "style", "project")]
 
     def __str__(self):
-        return "{} {}".format(self.family, self.style)
+        return f"{self.family} {self.style}"
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
@@ -141,4 +141,4 @@ class FontOverride(models.Model):
         unique_together = [("group", "language")]
 
     def __str__(self):
-        return "{}:{}:{}".format(self.group, self.font, self.language)
+        return f"{self.group}:{self.font}:{self.language}"

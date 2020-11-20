@@ -213,7 +213,7 @@ class PluralTextarea(forms.Textarea):
         groups.append(GROUP_TEMPLATE.format("", "\n".join(chars)))
 
         # RTL/LTR switch
-        rtl_name = "rtl-{0}".format(fieldname)
+        rtl_name = f"rtl-{fieldname}"
         rtl_switch = [
             RADIO_TEMPLATE.format(
                 "direction-toggle active",
@@ -306,11 +306,11 @@ class PluralTextarea(forms.Textarea):
 
         # Okay we have more strings
         ret = []
-        base_id = "id_{0}".format(unit.checksum)
+        base_id = f"id_{unit.checksum}"
         for idx, val in enumerate(values):
             # Generate ID
-            fieldname = "{0}_{1}".format(name, idx)
-            fieldid = "{0}_{1}".format(base_id, idx)
+            fieldname = f"{name}_{idx}"
+            fieldid = f"{base_id}_{idx}"
             attrs["id"] = fieldid
             attrs["tabindex"] = tabindex + idx
 
@@ -347,7 +347,7 @@ class PluralTextarea(forms.Textarea):
         """Return processed plurals as a list."""
         ret = []
         for idx in range(0, 10):
-            fieldname = "{0}_{1:d}".format(name, idx)
+            fieldname = f"{name}_{idx:d}"
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ""))
@@ -465,7 +465,7 @@ class TranslationForm(UnitForm):
                 "fuzzy": unit.fuzzy,
                 "review": unit.state,
             }
-            kwargs["auto_id"] = "id_{0}_%s".format(unit.checksum)
+            kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         tabindex = kwargs.pop("tabindex", 100)
         super().__init__(unit, *args, **kwargs)
         self.user = user
@@ -610,7 +610,7 @@ class SimpleUploadForm(forms.Form):
 
     @staticmethod
     def get_field_doc(field):
-        return ("user/files", "upload-{}".format(field.name))
+        return ("user/files", f"upload-{field.name}")
 
     def remove_translation_choice(self, value):
         """Remove add as translation choice."""
@@ -1191,13 +1191,13 @@ class SelectChecksField(forms.CharField):
 class ComponentDocsMixin:
     @staticmethod
     def get_field_doc(field):
-        return ("admin/projects", "component-{}".format(field.name))
+        return ("admin/projects", f"component-{field.name}")
 
 
 class ProjectDocsMixin:
     @staticmethod
     def get_field_doc(field):
-        return ("admin/projects", "project-{}".format(field.name))
+        return ("admin/projects", f"project-{field.name}")
 
 
 class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
@@ -1778,7 +1778,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     InlineRadios(
                         "access_control",
                         template="%s/layout/radioselect_access.html",
-                        **disabled
+                        **disabled,
                     ),
                     css_id="access",
                 ),

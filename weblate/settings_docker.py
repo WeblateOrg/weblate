@@ -463,12 +463,10 @@ SOCIAL_AUTH_STRATEGY = "weblate.accounts.strategy.WeblateStrategy"
 SOCIAL_AUTH_RAISE_EXCEPTIONS = True
 
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = "weblate.accounts.pipeline.send_validation"
-SOCIAL_AUTH_EMAIL_VALIDATION_URL = "{0}/accounts/email-sent/".format(URL_PREFIX)
-SOCIAL_AUTH_LOGIN_ERROR_URL = "{0}/accounts/login/".format(URL_PREFIX)
-SOCIAL_AUTH_EMAIL_FORM_URL = "{0}/accounts/email/".format(URL_PREFIX)
-SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = "{0}/accounts/profile/#account".format(
-    URL_PREFIX
-)
+SOCIAL_AUTH_EMAIL_VALIDATION_URL = f"{URL_PREFIX}/accounts/email-sent/"
+SOCIAL_AUTH_LOGIN_ERROR_URL = f"{URL_PREFIX}/accounts/login/"
+SOCIAL_AUTH_EMAIL_FORM_URL = f"{URL_PREFIX}/accounts/email/"
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = f"{URL_PREFIX}/accounts/profile/#account"
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ("email",)
 SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 SOCIAL_AUTH_SLUGIFY_FUNCTION = "weblate.accounts.pipeline.slugify_username"
@@ -846,13 +844,13 @@ if WEBLATE_SECURE_PROXY_SSL_HEADER:
     SECURE_PROXY_SSL_HEADER = WEBLATE_SECURE_PROXY_SSL_HEADER
 
 # URL of login
-LOGIN_URL = "{0}/accounts/login/".format(URL_PREFIX)
+LOGIN_URL = f"{URL_PREFIX}/accounts/login/"
 
 # URL of logout
-LOGOUT_URL = "{0}/accounts/logout/".format(URL_PREFIX)
+LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 
 # Default location for login
-LOGIN_REDIRECT_URL = "{0}/".format(URL_PREFIX)
+LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
 
 # Anonymous user name
 ANONYMOUS_USER_NAME = "anonymous"
@@ -866,7 +864,7 @@ IP_PROXY_OFFSET = 0
 EMAIL_SEND_HTML = True
 
 # Subject of emails includes site title
-EMAIL_SUBJECT_PREFIX = "[{0}] ".format(SITE_TITLE)
+EMAIL_SUBJECT_PREFIX = f"[{SITE_TITLE}] "
 
 # Enable remote hooks
 ENABLE_HOOKS = True
@@ -1125,7 +1123,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER", False)
 CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
     REDIS_PROTO,
-    ":{}@".format(REDIS_PASSWORD) if REDIS_PASSWORD else "",
+    f":{REDIS_PASSWORD}@" if REDIS_PASSWORD else "",
     os.environ.get("REDIS_HOST", "cache"),
     os.environ.get("REDIS_PORT", "6379"),
     os.environ.get("REDIS_DB", "1"),

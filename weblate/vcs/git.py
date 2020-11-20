@@ -168,7 +168,7 @@ class GitRepository(Repository):
             cmd = [
                 "merge",
                 "--message",
-                message or "Merge branch '{}' into Weblate".format(remote),
+                message or f"Merge branch '{remote}' into Weblate",
             ]
             cmd.extend(self.get_gpg_sign_args())
             cmd.append(self.branch)
@@ -206,7 +206,7 @@ class GitRepository(Repository):
     def get_gpg_sign_args():
         sign_key = get_gpg_sign_key()
         if sign_key:
-            return ["--gpg-sign={}".format(sign_key)]
+            return [f"--gpg-sign={sign_key}"]
         return []
 
     def _get_revision_info(self, revision):
@@ -236,8 +236,8 @@ class GitRepository(Repository):
                     result[name] = value
                     if "<" in value:
                         parsed = value.split("<", 1)
-                        result["{0}_name".format(name)] = parsed[0].strip()
-                        result["{0}_email".format(name)] = parsed[1].rstrip(">")
+                        result[f"{name}_name"] = parsed[0].strip()
+                        result[f"{name}_email"] = parsed[1].rstrip(">")
             else:
                 message.append(line.strip())
 
@@ -343,10 +343,10 @@ class GitRepository(Repository):
         """Configure repository branch."""
         # Add branch
         if not self.has_branch(branch):
-            self.execute(["checkout", "-b", branch, "origin/{0}".format(branch)])
+            self.execute(["checkout", "-b", branch, f"origin/{branch}"])
         else:
             # Ensure it tracks correct upstream
-            self.config_update(('branch "{0}"'.format(branch), "remote", "origin"))
+            self.config_update((f'branch "{branch}"', "remote", "origin"))
 
         # Checkout
         self.execute(["checkout", branch])
@@ -376,7 +376,7 @@ class GitRepository(Repository):
                     "config",
                     "--global",
                     "merge.weblate-merge-gettext-po.driver",
-                    "{0} %O %A %B".format(merge_driver),
+                    f"{merge_driver} %O %A %B",
                 ]
             )
         cls._popen(
@@ -387,7 +387,7 @@ class GitRepository(Repository):
     def get_file(self, path, revision):
         """Return content of file at given revision."""
         return self.execute(
-            ["show", "{0}:{1}".format(revision, path)],
+            ["show", f"{revision}:{path}"],
             needs_lock=False,
             merge_err=False,
         )
@@ -500,7 +500,7 @@ class SubversionRepository(GitRepository):
         else:
             revision = cls.get_last_repo_revision(source)
         if revision:
-            revision = "--revision={}:HEAD".format(revision)
+            revision = f"--revision={revision}:HEAD"
 
         return result, revision
 
@@ -580,7 +580,7 @@ class SubversionRepository(GitRepository):
                 return "origin/trunk"
             if "origin/git-svn" in fetch:
                 return "origin/git-svn"
-        return "origin/{0}".format(self.branch)
+        return f"origin/{self.branch}"
 
     def list_remote_branches(self):
         return []
@@ -664,7 +664,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 "push",
                 "--force",
                 credentials["username"],
-                "{0}:{1}".format(local_branch, fork_branch),
+                f"{local_branch}:{fork_branch}",
             ]
         )
 
@@ -672,7 +672,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         """Configure fork remote repository."""
         self.config_update(
             # Push url
-            ('remote "{}"'.format(remote_name), "pushurl", push_url),
+            (f'remote "{remote_name}"', "pushurl", push_url),
         )
 
     def fork(self, credentials: Dict):
@@ -696,11 +696,11 @@ class GitMergeRequestBase(GitForcePushRepository):
             fork_remote = credentials["username"]
             self.fork(credentials)
             if self.component is not None:
-                fork_branch = "weblate-{0}-{1}".format(
-                    self.component.project.slug, self.component.slug
+                fork_branch = (
+                    f"weblate-{self.component.project.slug}-{self.component.slug}"
                 )
             else:
-                fork_branch = "weblate-{0}".format(self.branch)
+                fork_branch = f"weblate-{self.branch}"
             self.push_to_fork(credentials, self.branch, fork_branch)
         self.create_pull_request(credentials, self.branch, fork_remote, fork_branch)
 
@@ -781,7 +781,7 @@ class GithubRepository(GitMergeRequestBase):
         if fork_remote == "origin":
             head = fork_branch
         else:
-            head = "{0}:{1}".format(fork_remote, fork_branch)
+            head = f"{fork_remote}:{fork_branch}"
         pr_url = "{}/pulls".format(credentials["url"])
         title, description = self.get_merge_message()
         request = {

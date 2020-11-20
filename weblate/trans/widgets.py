@@ -157,7 +157,7 @@ class BitmapWidget(ContentWidget):
     def get_column_fonts(self):
         return [
             Pango.FontDescription("Source Sans Pro {}".format(self.font_size * 1.5)),
-            Pango.FontDescription("Source Sans Pro {}".format(self.font_size)),
+            Pango.FontDescription(f"Source Sans Pro {self.font_size}"),
         ]
 
     def render_additional(self, ctx):

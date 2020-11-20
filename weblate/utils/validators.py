@@ -76,7 +76,7 @@ def validate_re(value, groups=None, allow_empty=True):
                 _(
                     'Regular expression is missing named group "{0}", '
                     "the simplest way to define it is {1}."
-                ).format(group, "(?P<{}>.*)".format(group))
+                ).format(group, f"(?P<{group}>.*)")
             )
 
 

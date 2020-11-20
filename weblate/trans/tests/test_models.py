@@ -240,9 +240,9 @@ class TranslationTest(RepoTestCase):
         # Translation from other author should trigger commmit
         for i, unit in enumerate(translation.unit_set.iterator()):
             user = User.objects.create(
-                full_name="User {}".format(unit.pk),
-                username="user-{}".format(unit.pk),
-                email="{}@example.com".format(unit.pk),
+                full_name=f"User {unit.pk}",
+                username=f"user-{unit.pk}",
+                email=f"{unit.pk}@example.com",
             )
             # Fetch current pending state, it might have been
             # updated by background commit
@@ -327,7 +327,7 @@ class SourceUnitTest(ModelTestCase):
         unit = check.unit
         self.assertEqual(self.component.stats.allchecks, 3)
         source = unit.source_unit
-        source.extra_flags = "ignore-{0}".format(check.check)
+        source.extra_flags = f"ignore-{check.check}"
         source.save()
         self.assertEqual(Check.objects.count(), 0)
         self.assertEqual(Component.objects.get(pk=self.component.pk).stats.allchecks, 0)
@@ -401,7 +401,7 @@ class UnitTest(ModelTestCase):
             ).order_by_request({"sort_by": order_option})
             ordered_desc_unit = Unit.objects.filter(
                 translation__language_code="cs"
-            ).order_by_request({"sort_by": "-{}".format(order_option)})
+            ).order_by_request({"sort_by": f"-{order_option}"})
             self.assertEqual(len(ordered_unit), 4)
             self.assertEqual(len(ordered_desc_unit), 4)
 

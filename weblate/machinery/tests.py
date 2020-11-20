@@ -315,11 +315,11 @@ class BaseMachineTranslationTest(TestCase):
             for key, value in result.items():
                 if key == "quality":
                     self.assertIsInstance(
-                        value, int, "'{}' is supposed to be a integer".format(key)
+                        value, int, f"'{key}' is supposed to be a integer"
                     )
                 else:
                     self.assertIsInstance(
-                        value, str, "'{}' is supposed to be a string".format(key)
+                        value, str, f"'{key}' is supposed to be a string"
                     )
 
     def mock_empty(self):

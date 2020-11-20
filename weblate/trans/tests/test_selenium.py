@@ -157,13 +157,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self):
         if self.driver is None:
-            print("Selenium error: {}".format(self.driver_error))
-            raise SkipTest("Webdriver not available: {}".format(self.driver_error))
+            print(f"Selenium error: {self.driver_error}")
+            raise SkipTest(f"Webdriver not available: {self.driver_error}")
         super().setUp()
         self.driver.get("{0}{1}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1200, 1024)
         self.site_domain = settings.SITE_DOMAIN
-        settings.SITE_DOMAIN = "{}:{}".format(self.host, self.server_thread.port)
+        settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"
 
     def tearDown(self):
         super().tearDown()
@@ -361,7 +361,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             except WebDriverException as error:
                 # This usually happens when browser fails to delete some
                 # of the cookies for whatever reason.
-                print("Ignoring: {0}".format(error))
+                print(f"Ignoring: {error}")
 
         # Confirm account
         self.driver.get(url)
@@ -515,9 +515,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         def capture_unit(name, tab):
             unit = Unit.objects.get(source=text, translation__language=language)
             with self.wait_for_page_load():
-                self.driver.get(
-                    "{0}{1}".format(self.live_server_url, unit.get_absolute_url())
-                )
+                self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
             self.click(htmlid=tab)
             self.screenshot(name)
             with self.wait_for_page_load():
@@ -560,7 +558,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element(By.ID, "search-input").send_keys("'{}'".format(text))
+        self.driver.find_element(By.ID, "search-input").send_keys(f"'{text}'")
         self.click(htmlid="screenshots-search")
         wait_search()
         self.click(self.driver.find_element(By.CLASS_NAME, "add-string"))

@@ -49,7 +49,7 @@ class LegalView(TemplateView):
         return context
 
     def get_template_names(self):
-        return ["legal/{0}.html".format(self.page)]
+        return [f"legal/{self.page}.html"]
 
 
 class TermsView(LegalView):

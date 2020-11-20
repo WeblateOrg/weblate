@@ -190,7 +190,7 @@ class Billing(models.Model):
             base = ", ".join(x.get_author_name(False) for x in owners)
         else:
             base = "Unassigned"
-        return "{0} ({1})".format(base, self.plan)
+        return f"{base} ({self.plan})"
 
     def save(
         self,
@@ -256,7 +256,7 @@ class Billing(models.Model):
         return len(self.all_projects)
 
     def display_projects(self):
-        return "{0} / {1}".format(self.count_projects, self.plan.display_limit_projects)
+        return f"{self.count_projects} / {self.plan.display_limit_projects}"
 
     display_projects.short_description = _("Projects")
 
@@ -265,7 +265,7 @@ class Billing(models.Model):
         return sum(p.stats.source_strings for p in self.all_projects)
 
     def display_strings(self):
-        return "{0} / {1}".format(self.count_strings, self.plan.display_limit_strings)
+        return f"{self.count_strings} / {self.plan.display_limit_strings}"
 
     display_strings.short_description = _("Source strings")
 
@@ -274,7 +274,7 @@ class Billing(models.Model):
         return sum(p.stats.source_words for p in self.all_projects)
 
     def display_words(self):
-        return "{0}".format(self.count_words)
+        return f"{self.count_words}"
 
     display_words.short_description = _("Source words")
 
@@ -285,9 +285,7 @@ class Billing(models.Model):
         return max(p.stats.languages for p in self.all_projects)
 
     def display_languages(self):
-        return "{0} / {1}".format(
-            self.count_languages, self.plan.display_limit_languages
-        )
+        return f"{self.count_languages} / {self.plan.display_limit_languages}"
 
     display_languages.short_description = _("Languages")
 
@@ -324,7 +322,7 @@ class Billing(models.Model):
     def last_invoice(self):
         try:
             invoice = self.invoice_set.order_by("-start")[0]
-            return "{0} - {1}".format(invoice.start, invoice.end)
+            return f"{invoice.start} - {invoice.end}"
         except IndexError:
             return _("N/A")
 
@@ -487,14 +485,14 @@ class Invoice(models.Model):
     objects = InvoiceQuerySet.as_manager()
 
     def __str__(self):
-        return "{0} - {1}: {2}".format(
+        return "{} - {}: {}".format(
             self.start, self.end, self.billing if self.billing_id else None
         )
 
     @cached_property
     def filename(self):
         if self.ref:
-            return "{0}.pdf".format(self.ref)
+            return f"{self.ref}.pdf"
         return None
 
     @cached_property

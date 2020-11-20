@@ -172,9 +172,9 @@ def cleanup_repo_url(url, text=None):
         # The URL can not be parsed, so avoid stripping
         return text
     if parsed.username and parsed.password:
-        return text.replace("{0}:{1}@".format(parsed.username, parsed.password), "")
+        return text.replace(f"{parsed.username}:{parsed.password}@", "")
     if parsed.username:
-        return text.replace("{0}@".format(parsed.username), "")
+        return text.replace(f"{parsed.username}@", "")
     return text
 
 

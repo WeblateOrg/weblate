@@ -82,7 +82,7 @@ def check_permission(user, permission, obj):
             for permissions, langs in user.component_permissions[obj.component_id]
         )
     raise ValueError(
-        "Not supported type for permission check: {}".format(obj.__class__.__name__)
+        f"Not supported type for permission check: {obj.__class__.__name__}"
     )
 
 

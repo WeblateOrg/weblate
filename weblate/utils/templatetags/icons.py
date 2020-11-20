@@ -58,7 +58,7 @@ def icon(name):
 def loading_icon(name=None, hidden=True):
     return mark_safe(
         SPIN.format(
-            'id="loading-{}"'.format(name) if name else "",
+            f'id="loading-{name}"' if name else "",
             'style="display: none"' if hidden else "",
             icon("loading.svg"),
         )

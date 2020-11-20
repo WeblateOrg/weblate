@@ -34,7 +34,7 @@ class LanguageForm(forms.ModelForm):
 
     @staticmethod
     def get_field_doc(field):
-        return ("admin/languages", "language-{}".format(field.name))
+        return ("admin/languages", f"language-{field.name}")
 
 
 class PluralForm(forms.ModelForm):
@@ -49,4 +49,4 @@ class PluralForm(forms.ModelForm):
 
     @staticmethod
     def get_field_doc(field):
-        return ("admin/languages", "plural-{}".format(field.name))
+        return ("admin/languages", f"plural-{field.name}")

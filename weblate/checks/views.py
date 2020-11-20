@@ -20,7 +20,6 @@
 from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
-from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 
@@ -194,7 +193,7 @@ def show_check_project(request, name, project):
         "check_project.html",
         {
             "components": components,
-            "title": "{0}/{1}".format(force_str(prj), check.name),
+            "title": f"{prj}/{check.name}",
             "check": check,
             "project": prj,
             "url_params": encode_optional(url_params),
@@ -236,7 +235,7 @@ def show_check_component(request, name, project, component):
         "check_component.html",
         {
             "translations": translations,
-            "title": "{0}/{1}".format(force_str(component), check.name),
+            "title": f"{component}/{check.name}",
             "check": check,
             "component": component,
         },

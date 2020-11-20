@@ -332,7 +332,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_comment_mention(self):
         self.test_notify_new_comment(
-            2, "Hello @{} and @invalid".format(self.anotheruser.username)
+            2, f"Hello @{self.anotheruser.username} and @invalid"
         )
 
     def test_notify_new_comment_author(self):
@@ -435,7 +435,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Trigger notification
         notify()
-        self.validate_notifications(1, "[Weblate] Digest: {}".format(subj))
+        self.validate_notifications(1, f"[Weblate] Digest: {subj}")
         content = mail.outbox[0].alternatives[0][0]
         self.assertNotIn('img src="/', content)
 
@@ -463,7 +463,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Trigger notification
         notify()
-        self.validate_notifications(1, "[Weblate] {}".format(subj))
+        self.validate_notifications(1, f"[Weblate] {subj}")
 
     def test_reminder_weekly(self):
         self.test_reminder(FREQ_WEEKLY, notify_weekly)

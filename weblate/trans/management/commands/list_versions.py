@@ -31,7 +31,7 @@ class Command(BaseCommand):
     help = "lists versions of required software components"
 
     def write_item(self, prefix, value):
-        self.stdout.write(" * {}: {}".format(prefix, value))
+        self.stdout.write(f" * {prefix}: {value}")
 
     def handle(self, *args, **options):
         """Print versions of dependencies."""
@@ -49,7 +49,7 @@ class Command(BaseCommand):
             ),
         )
         self.write_item(
-            "Email setup", "{}: {}".format(settings.EMAIL_BACKEND, settings.EMAIL_HOST)
+            "Email setup", f"{settings.EMAIL_BACKEND}: {settings.EMAIL_HOST}"
         )
         self.write_item(
             "OS encoding",

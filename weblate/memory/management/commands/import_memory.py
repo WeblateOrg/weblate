@@ -50,4 +50,4 @@ class Command(BaseCommand):
         try:
             Memory.objects.import_file(None, options["file"], langmap)
         except MemoryImportError as error:
-            raise CommandError("Import failed: {}".format(error))
+            raise CommandError(f"Import failed: {error}")

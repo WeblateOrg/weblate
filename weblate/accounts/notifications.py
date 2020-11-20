@@ -295,14 +295,18 @@ class Notification:
         references = None
         unit = context.get("unit")
         if unit:
-            references = "{0}/{1}/{2}/{3}".format(
-                unit.translation.component.project.slug,
-                unit.translation.component.slug,
-                unit.translation.language.code,
-                unit.id,
+            translation = unit.translation
+            component = translation.component
+            references = "/".join(
+                (
+                    component.project.slug,
+                    component.slug,
+                    translation.language.code,
+                    unit.id,
+                )
             )
         if references is not None:
-            references = "<{0}@{1}>".format(references, get_site_domain())
+            references = f"<{references}@{get_site_domain()}>"
             headers["In-Reply-To"] = references
             headers["References"] = references
         return headers
@@ -761,7 +765,7 @@ def get_notification_emails(
 
     with override("en" if language is None else language):
         # Template name
-        context["subject_template"] = "mail/{0}_subject.txt".format(notification)
+        context["subject_template"] = f"mail/{notification}_subject.txt"
         context["LANGUAGE_CODE"] = get_language()
         context["LANGUAGE_BIDI"] = get_language_bidi()
 
@@ -774,7 +778,7 @@ def get_notification_emails(
         context["subject"] = subject
 
         # Render body
-        body = render_to_string("mail/{0}.html".format(notification), context)
+        body = render_to_string(f"mail/{notification}.html", context)
 
         # Define headers
         headers["Auto-Submitted"] = "auto-generated"

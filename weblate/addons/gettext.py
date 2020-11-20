@@ -115,7 +115,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         # Add missing codes
         if codes:
             for code in codes:
-                lines.append("{}\n".format(code))
+                lines.append(f"{code}\n")
             changed = True
 
         return changed, lines
@@ -188,7 +188,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
             .values_list("language_code", flat=True)
             .order_by("language_code")
         )
-        expected = 'ALL_LINGUAS="{}"\n'.format(codes)
+        expected = f'ALL_LINGUAS="{codes}"\n'
         for path in paths:
             with open(path, "r") as handle:
                 lines = handle.readlines()

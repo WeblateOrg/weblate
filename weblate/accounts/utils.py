@@ -40,8 +40,8 @@ def remove_user(user, request):
     invalidate_reset_codes(user)
 
     # Change username
-    user.username = "deleted-{0}".format(user.pk)
-    user.email = "noreply+{}@weblate.org".format(user.pk)
+    user.username = f"deleted-{user.pk}"
+    user.email = f"noreply+{user.pk}@weblate.org"
     while User.objects.filter(username=user.username).exists():
         user.username = "deleted-{0}-{1}".format(user.pk, os.urandom(5).hex())
     while User.objects.filter(email=user.email).exists():

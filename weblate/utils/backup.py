@@ -80,7 +80,7 @@ def borg(cmd, env=None):
         )
     except EnvironmentError as error:
         report_error()
-        raise BackupError("Could not execute borg program: {}".format(error))
+        raise BackupError(f"Could not execute borg program: {error}")
     except subprocess.CalledProcessError as error:
         report_error(extra_data={"stdout": error.stdout})
         raise BackupError(error.stdout)
@@ -118,7 +118,7 @@ def backup(location, passphrase):
             "*/.config/borg",
             "--compression",
             "auto,zstd",
-            "{}::{{now}}".format(location),
+            f"{location}::{{now}}",
             settings.DATA_DIR,
         ],
         {"BORG_PASSPHRASE": passphrase},

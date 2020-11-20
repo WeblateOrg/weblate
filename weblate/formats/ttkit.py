@@ -252,7 +252,7 @@ class TTKitFormat(TranslationFormat):
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
         if "." not in module_name:
-            module_name = "translate.storage.{0}".format(module_name)
+            module_name = f"translate.storage.{module_name}"
         module = importlib.import_module(module_name)
 
         # Get the class
@@ -701,8 +701,7 @@ class WebExtensionJSONUnit(JSONUnit):
             return ""
         return "placeholders:{}".format(
             ":".join(
-                Flags.format_value("${}$".format(key.upper()))
-                for key in placeholders.keys()
+                Flags.format_value(f"${key.upper()}$") for key in placeholders.keys()
             )
         )
 
@@ -715,8 +714,7 @@ class ARBJSONUnit(JSONUnit):
             return ""
         return "placeholders:{}".format(
             ":".join(
-                Flags.format_value("{{{}}}".format(key.upper()))
-                for key in placeholders.keys()
+                Flags.format_value(f"{{{key.upper()}}}") for key in placeholders.keys()
             )
         )
 
@@ -859,7 +857,7 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
 
     def update_header(self, **kwargs):
         """Update store header if available."""
-        kwargs["x_generator"] = "Weblate {0}".format(weblate.VERSION)
+        kwargs["x_generator"] = f"Weblate {weblate.VERSION}"
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()

@@ -41,7 +41,7 @@ class URLMixin:
         if name is None:
             urlname = self._reverse_url_name
         else:
-            urlname = "{0}_{1}".format(name, self._reverse_url_name)
+            urlname = f"{name}_{self._reverse_url_name}"
         return reverse(urlname, kwargs=self.get_reverse_url_kwargs())
 
     def get_absolute_url(self):
@@ -155,4 +155,4 @@ class UserDisplayMixin:
 class CacheKeyMixin:
     @cached_property
     def cache_key(self):
-        return "{}-{}".format(self.__class__.__name__, self.pk)
+        return f"{self.__class__.__name__}-{self.pk}"

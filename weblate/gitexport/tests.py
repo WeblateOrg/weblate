@@ -40,7 +40,7 @@ class GitExportTest(ViewTestCase):
         self.client.logout()
 
     def get_auth_string(self, code):
-        encoded = b64encode("{0}:{1}".format(self.user.username, code).encode())
+        encoded = b64encode(f"{self.user.username}:{code}".encode())
         return "basic " + encoded.decode("ascii")
 
     def test_authenticate_invalid(self):
@@ -97,7 +97,7 @@ class GitExportTest(ViewTestCase):
             self.get_git_url("info/refs"),
             QUERY_STRING="?service=git-upload-pack",
             CONTENT_TYPE="application/x-git-upload-pack-advertisement",
-            **kwargs
+            **kwargs,
         )
 
     def test_redirect_link(self):
@@ -180,9 +180,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
                 .replace("http://example.com", self.live_server_url)
                 .replace(
                     "http://",
-                    "http://{0}:{1}@".format(
-                        self.user.username, self.user.auth_token.key
-                    ),
+                    f"http://{self.user.username}:{self.user.auth_token.key}@",
                 )
             )
             process = subprocess.Popen(
@@ -198,7 +196,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
             remove_tree(testdir)
 
         check = self.assertEqual if self.acl else self.assertNotEqual
-        check(retcode, 0, "Failed: {0}".format(output))
+        check(retcode, 0, f"Failed: {output}")
 
 
 class GitCloneFailTest(GitCloneTest):

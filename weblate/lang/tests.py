@@ -198,26 +198,23 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
         self.assertEqual(
             create,
             not bool(lang.pk),
-            "Failed to assert creation for {}: {}".format(original, create),
+            f"Failed to assert creation for {original}: {create}",
         )
         # Create language
         lang = Language.objects.auto_get_or_create(original)
         # Check language code
         self.assertEqual(
-            lang.code, expected, "Invalid code for {0}: {1}".format(original, lang.code)
+            lang.code, expected, f"Invalid code for {original}: {lang.code}"
         )
         # Check direction
-        self.assertEqual(
-            lang.direction, direction, "Invalid direction for {0}".format(original)
-        )
+        self.assertEqual(lang.direction, direction, f"Invalid direction for {original}")
         # Check plurals
         plural_obj = lang.plural_set.get(source=Plural.SOURCE_DEFAULT)
         self.assertEqual(
             plural_obj.formula,
             plural,
-            "Invalid plural for {0} (expected {1}, got {2})".format(
-                original, plural, plural_obj.formula
-            ),
+            f"Invalid plural for {original} "
+            f"(expected {plural}, got {plural_obj.formula})",
         )
         # Check whether html contains both language code and direction
         self.assertIn(direction, lang.get_html())
@@ -282,7 +279,7 @@ class VerifyPluralsTest(TestCase):
             self.assertNotEqual(
                 get_plural_type(code.replace("_", "-").split("-")[0], plural_formula),
                 data.PLURAL_UNKNOWN,
-                "Can not guess plural type for {0} ({1})".format(code, plural_formula),
+                f"Can not guess plural type for {code} ({plural_formula})",
             )
 
     def test_formula(self):

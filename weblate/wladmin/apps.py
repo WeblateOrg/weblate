@@ -58,7 +58,7 @@ def check_backups(app_configs, **kwargs):
             errors.append(
                 weblate_check(
                     "weblate.C029",
-                    "There was error while performing backups: {}".format(last_log),
+                    f"There was error while performing backups: {last_log}",
                 )
             )
             break

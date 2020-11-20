@@ -184,10 +184,8 @@ class BaseExporter:
             extension=self.extension,
         )
 
-        response = HttpResponse(
-            content_type="{0}; charset=utf-8".format(self.content_type)
-        )
-        response["Content-Disposition"] = "attachment; filename={0}".format(filename)
+        response = HttpResponse(content_type=f"{self.content_type}; charset=utf-8")
+        response["Content-Disposition"] = f"attachment; filename={filename}"
 
         # Save to response
         response.write(self.serialize())
@@ -221,12 +219,10 @@ class PoExporter(BaseExporter):
         store.updateheader(
             add=True,
             language=self.language.code,
-            x_generator="Weblate {0}".format(weblate.VERSION),
-            project_id_version="{0} ({1})".format(
-                self.language.name, self.project.name
-            ),
+            x_generator=f"Weblate {weblate.VERSION}",
+            project_id_version=f"{self.language.name} ({self.project.name})",
             plural_forms=plural.plural_form,
-            language_team="{0} <{1}>".format(self.language.name, self.url),
+            language_team=f"{self.language.name} <{self.url}>",
         )
         return store
 

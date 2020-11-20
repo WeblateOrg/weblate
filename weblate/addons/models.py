@@ -89,7 +89,7 @@ class Addon(models.Model):
         verbose_name_plural = "add-ons"
 
     def __str__(self):
-        return "{}: {}".format(self.addon.verbose, self.component)
+        return f"{self.addon.verbose}: {self.component}"
 
     def get_absolute_url(self):
         return reverse(
@@ -127,7 +127,7 @@ class Event(models.Model):
         verbose_name_plural = "add-on events"
 
     def __str__(self):
-        return "{}: {}".format(self.addon, self.get_event_display())
+        return f"{self.addon}: {self.get_event_display()}"
 
 
 class AddonsConf(AppConf):
@@ -200,7 +200,7 @@ def post_update(
     previous_head: str,
     child: bool = False,
     skip_push: bool = False,
-    **kwargs
+    **kwargs,
 ):
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
         if child and addon.repo_scope:

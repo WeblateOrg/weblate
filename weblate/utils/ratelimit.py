@@ -51,10 +51,10 @@ def reset_rate_limit(scope, request=None, address=None, user=None):
 
 
 def get_rate_setting(scope, suffix):
-    key = "RATELIMIT_{}_{}".format(scope.upper(), suffix)
+    key = f"RATELIMIT_{scope.upper()}_{suffix}"
     if hasattr(settings, key):
         return getattr(settings, key)
-    return getattr(settings, "RATELIMIT_{}".format(suffix))
+    return getattr(settings, f"RATELIMIT_{suffix}")
 
 
 def revert_rate_limit(scope, request):

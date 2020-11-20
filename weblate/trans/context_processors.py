@@ -82,8 +82,8 @@ def add_settings_context(context):
 
 def add_optional_context(context):
     for name in CONTEXT_APPS:
-        appname = "weblate.{}".format(name)
-        context["has_{}".format(name)] = appname in settings.INSTALLED_APPS
+        appname = f"weblate.{name}"
+        context[f"has_{name}"] = appname in settings.INSTALLED_APPS
 
 
 def get_preconnect_list():
@@ -139,7 +139,7 @@ def weblate_context(request):
         )
 
     context = {
-        "cache_param": "?v={}".format(weblate.GIT_VERSION)
+        "cache_param": f"?v={weblate.GIT_VERSION}"
         if not settings.COMPRESS_ENABLED
         else "",
         "version": weblate.VERSION,

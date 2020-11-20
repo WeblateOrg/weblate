@@ -40,7 +40,7 @@ class Agreement(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{0}:{1}".format(self.user.username, self.tos)
+        return f"{self.user.username}:{self.tos}"
 
     def is_current(self):
         return self.tos == TOS_DATE

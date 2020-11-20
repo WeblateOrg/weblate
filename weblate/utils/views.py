@@ -291,7 +291,7 @@ def download_translation_file(translation, fmt=None, units=None):
         )
 
         # Fill in response headers
-        response["Content-Disposition"] = "attachment; filename={0}".format(filename)
+        response["Content-Disposition"] = f"attachment; filename={filename}"
 
     if translation.stats.last_changed:
         response["Last-Modified"] = http_date(

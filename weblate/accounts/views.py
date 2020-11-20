@@ -681,7 +681,7 @@ def user_avatar(request, user, size):
 
     if user.email == "noreply@weblate.org":
         return redirect(get_fallback_avatar_url(size))
-    if user.email == "noreply+{}@weblate.org".format(user.pk):
+    if user.email == f"noreply+{user.pk}@weblate.org":
         return redirect(os.path.join(settings.STATIC_URL, "state/ghost.svg"))
 
     response = HttpResponse(

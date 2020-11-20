@@ -134,7 +134,7 @@ class MemoryManager(models.Manager):
                     source=entry["source"],
                     target=entry["target"],
                     origin=origin,
-                    **kwargs
+                    **kwargs,
                 )
                 found += 1
             except Language.DoesNotExist:
@@ -187,7 +187,7 @@ class MemoryManager(models.Manager):
                     source=source,
                     target=text,
                     origin=origin,
-                    **kwargs
+                    **kwargs,
                 )
                 found += 1
         return found
@@ -231,7 +231,7 @@ class Memory(models.Model):
     objects = MemoryManager.from_queryset(MemoryQuerySet)()
 
     def __str__(self):
-        return "Memory: {}:{}".format(self.source_language, self.target_language)
+        return f"Memory: {self.source_language}:{self.target_language}"
 
     def get_origin_display(self):
         if self.project:

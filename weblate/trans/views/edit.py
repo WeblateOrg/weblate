@@ -168,7 +168,7 @@ def search(base, unit_set, request):
         "form": form,
         "offset": cleaned_data.get("offset", 1),
     }
-    session_key = "search_{0}_{1}".format(base.cache_key, search_url)
+    session_key = f"search_{base.cache_key}_{search_url}"
 
     if (
         session_key in request.session
@@ -598,7 +598,7 @@ def auto_translation(request, project, component, lang):
     else:
         task = auto_translate.delay(*args)
         messages.success(
-            request, _("Automatic translation in progress"), "task:{}".format(task.id)
+            request, _("Automatic translation in progress"), f"task:{task.id}"
         )
 
     return redirect(translation)

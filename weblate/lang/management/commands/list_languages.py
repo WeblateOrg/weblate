@@ -42,7 +42,5 @@ class Command(BaseCommand):
             name = gettext(language.name)
             if options["lower"]:
                 name = name[0].lower() + name[1:]
-            self.stdout.write(
-                "| {0} || {1} || {2}".format(language.code, language.name, name)
-            )
+            self.stdout.write(f"| {language.code} || {language.name} || {name}")
             self.stdout.write("|-")

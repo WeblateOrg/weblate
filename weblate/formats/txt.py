@@ -42,7 +42,7 @@ class TextItem:
 
     @cached_property
     def location(self):
-        return "{}:{}".format(self.filename, self.line)
+        return f"{self.filename}:{self.line}"
 
     def getid(self):
         return self.location

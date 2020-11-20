@@ -382,7 +382,7 @@ class BasePrintfCheck(BaseFormatCheck):
         return [m for m in matches if m != "%"]
 
     def format_string(self, string):
-        return "%{}".format(string)
+        return f"%{string}"
 
     def cleanup_string(self, text):
         """Remove locale specific code from format string."""

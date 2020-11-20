@@ -130,7 +130,7 @@ def get_view_description(view, html=False):
     if hasattr(getattr(view, "serializer_class", "None"), "Meta"):
         doc_url = get_doc_url(
             "api",
-            "{0}s".format(view.serializer_class.Meta.model.__name__.lower()),
+            f"{view.serializer_class.Meta.model.__name__.lower()}s",
             user=view.request.user,
         )
     else:
@@ -185,7 +185,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             with open(filename, "rb") as handle:
                 response = HttpResponse(handle.read(), content_type=content_type)
             filename = os.path.basename(filename)
-        response["Content-Disposition"] = 'attachment; filename="{0}"'.format(filename)
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
         return response
 
 
@@ -1384,7 +1384,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
-                raise ParseError("Missing {param} parameter".format(param=param))
+                raise ParseError(f"Missing {param} parameter")
 
         try:
             translation = Translation.objects.get(

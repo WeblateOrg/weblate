@@ -57,7 +57,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         if settings.MT_MICROSOFT_REGION is None:
             region = ""
         else:
-            region = "{}.".format(settings.MT_MICROSOFT_REGION)
+            region = f"{settings.MT_MICROSOFT_REGION}."
 
         self._cognitive_token_url = TOKEN_URL.format(
             region,
@@ -70,7 +70,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
     @staticmethod
     def get_url(suffix):
-        return "https://{}/{}".format(settings.MT_MICROSOFT_BASE_URL, suffix)
+        return f"https://{settings.MT_MICROSOFT_BASE_URL}/{suffix}"
 
     def is_token_expired(self):
         """Check whether token is about to expire."""
@@ -78,7 +78,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
-        return {"Authorization": "Bearer {0}".format(self.access_token)}
+        return {"Authorization": f"Bearer {self.access_token}"}
 
     @property
     def access_token(self):

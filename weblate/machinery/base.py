@@ -74,8 +74,8 @@ class MachineTranslation:
     def __init__(self):
         """Create new machine translation object."""
         self.mtid = self.name.lower().replace(" ", "-")
-        self.rate_limit_cache = "{}-rate-limit".format(self.mtid)
-        self.languages_cache = "{}-languages".format(self.mtid)
+        self.rate_limit_cache = f"{self.mtid}-rate-limit"
+        self.languages_cache = f"{self.mtid}-languages"
         self.comparer = Comparer()
         self.supported_languages_error = None
 
@@ -304,7 +304,7 @@ class MachineTranslation:
             raise MachineTranslationError(self.get_error_message(exc))
 
     def get_error_message(self, exc):
-        return "{0}: {1}".format(exc.__class__.__name__, str(exc))
+        return f"{exc.__class__.__name__}: {exc}"
 
     def signed_salt(self, appid, secret, text):
         """Generates salt and sign as used by Chinese services."""

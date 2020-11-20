@@ -814,7 +814,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     @cached_property
     def update_key(self):
-        return "component-update-{}".format(self.pk)
+        return f"component-update-{self.pk}"
 
     def store_background_task(self, task=None):
         if task is None:
@@ -853,9 +853,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 return
         self.logs.append("{}: {}".format(slug, msg % args))
         if current_task:
-            cache.set(
-                "task-log-{}".format(current_task.request.id), self.logs, 2 * 3600
-            )
+            cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
     def log_hook(self, level, msg, *args):
         self.store_log(self.full_slug, msg, *args)
@@ -865,7 +863,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if task is None:
             return 100, []
         progress = get_task_progress(task)
-        return (progress, cache.get("task-log-{}".format(task.id), []))
+        return (progress, cache.get(f"task-log-{task.id}", []))
 
     def in_progress(self):
         return (
@@ -1089,7 +1087,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         def add(repo):
             parsed = urlparse(repo)
             if not parsed.hostname:
-                parsed = urlparse("ssh://{}".format(repo))
+                parsed = urlparse(f"ssh://{repo}")
             if parsed.hostname:
                 try:
                     port = parsed.port
@@ -1436,7 +1434,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return True
 
     def get_repo_link_url(self):
-        return "weblate://{0}/{1}".format(self.project.slug, self.slug)
+        return f"weblate://{self.project.slug}/{self.slug}"
 
     @cached_property
     def linked_childs(self):
@@ -1573,7 +1571,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
             except RepositoryException as error:
                 # Report error
-                report_error(cause="Failed {}".format(method))
+                report_error(cause=f"Failed {method}")
 
                 # In case merge has failer recover
                 error = self.error_text(error)
@@ -1838,7 +1836,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 lang = Language.objects.auto_get_or_create(code=code)
                 if lang.code in languages:
                     codes = "{}, {}".format(code, languages[lang.code])
-                    detail = "{} ({})".format(lang.code, codes)
+                    detail = f"{lang.code} ({codes})"
                     self.log_warning("duplicate language found: %s", detail)
                     Change.objects.create(
                         component=self,
@@ -2075,7 +2073,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     os.path.join(dir_path, match), self.template_store
                 ).check_valid()
             except Exception as error:
-                errors.append("{0}: {1}".format(match, str(error)))
+                errors.append(f"{match}: {error}")
         if errors:
             raise ValidationError(
                 "{0}\n{1}".format(

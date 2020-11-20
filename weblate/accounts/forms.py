@@ -638,7 +638,7 @@ class NotificationForm(forms.Form):
     @staticmethod
     def notification_fields():
         for notification_cls in NOTIFICATIONS:
-            yield ("notify-{}".format(notification_cls.get_name()), notification_cls)
+            yield (f"notify-{notification_cls.get_name()}", notification_cls)
 
     @staticmethod
     def get_initial(notification_cls, subscriptions, show_default):

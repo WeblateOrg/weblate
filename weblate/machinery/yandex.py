@@ -65,7 +65,7 @@ class YandexTranslation(MachineTranslation):
             params={
                 "key": settings.MT_YANDEX_KEY,
                 "text": text,
-                "lang": "{0}-{1}".format(source, language),
+                "lang": f"{source}-{language}",
                 "target": language,
             },
         )

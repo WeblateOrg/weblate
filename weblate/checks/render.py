@@ -69,9 +69,9 @@ class MaxSizeCheck(TargetCheckParametrized):
             return "sans"
         try:
             override = group.fontoverride_set.get(language=language)
-            return "{} {}".format(override.font.family, override.font.style)
+            return f"{override.font.family} {override.font.style}"
         except ObjectDoesNotExist:
-            return "{} {}".format(group.font.family, group.font.style)
+            return f"{group.font.family} {group.font.style}"
 
     def check_target_params(self, sources, targets, unit, value):
         if len(value) == 2:
@@ -107,7 +107,7 @@ class MaxSizeCheck(TargetCheckParametrized):
         )
         return mark_safe(
             "\n".join(
-                IMAGE.format("{}?pos={}".format(url, i))
+                IMAGE.format(f"{url}?pos={i}")
                 for i in range(len(check_obj.unit.get_target_plurals()))
             )
         )

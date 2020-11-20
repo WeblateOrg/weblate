@@ -62,7 +62,7 @@ def get_github_email(access_token):
     response = request(
         "get",
         "https://api.github.com/user/emails",
-        headers={"Authorization": "token {0}".format(access_token)},
+        headers={"Authorization": f"token {access_token}"},
         timeout=10.0,
     )
     data = response.json()
@@ -291,7 +291,7 @@ def ensure_valid(
     weblate_expires,
     new_association,
     details,
-    **kwargs
+    **kwargs,
 ):
     """Ensure the activation link is still."""
     # Didn't the link expire?
@@ -390,7 +390,7 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
             last_name = details.get("last_name", "")
 
             if first_name and first_name not in last_name:
-                full_name = "{0} {1}".format(first_name, last_name)
+                full_name = f"{first_name} {last_name}"
             elif first_name:
                 full_name = first_name
             else:

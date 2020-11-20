@@ -68,10 +68,8 @@ class MultiRepoTest(ViewTestCase):
     def setUp(self):
         super().setUp()
         if self._vcs not in VCS_REGISTRY:
-            raise SkipTest("VCS {0} not available!".format(self._vcs))
-        repo = push = self.format_local_path(
-            getattr(self, "{0}_repo_path".format(self._vcs))
-        )
+            raise SkipTest(f"VCS {self._vcs} not available!")
+        repo = push = self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
         self.component2 = Component.objects.create(
             name="Test 2",
             slug="test-2",

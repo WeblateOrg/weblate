@@ -56,11 +56,11 @@ from weblate.vcs.models import VCS_REGISTRY
 
 def scratch_create_component(project, name, slug, source_language, file_format):
     format_cls = FILE_FORMATS[file_format]
-    template = "{}.{}".format(source_language.code, format_cls.extension())
+    template = f"{source_language.code}.{format_cls.extension()}"
     # Create component
     return Component.objects.create(
         file_format=file_format,
-        filemask="*.{}".format(format_cls.extension()),
+        filemask=f"*.{format_cls.extension()}",
         template=template,
         vcs="local",
         repo="local:",

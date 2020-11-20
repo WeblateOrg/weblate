@@ -47,7 +47,7 @@ elif CI_DATABASE == "postgresql":
     DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
     default_user = "postgres"
 else:
-    raise ValueError("Not supported database: {}".format(CI_DATABASE))
+    raise ValueError(f"Not supported database: {CI_DATABASE}")
 
 DATABASES["default"]["HOST"] = os.environ.get("CI_DB_HOST", "")
 DATABASES["default"]["NAME"] = os.environ.get("CI_DB_NAME", default_name)

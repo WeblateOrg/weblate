@@ -72,8 +72,8 @@ class GitSquashAddon(BaseAddon):
         if not commit_message:
             command = [
                 "log",
-                "--format={}".format(log_format),
-                "{}..HEAD".format(remote),
+                f"--format={log_format}",
+                f"{remote}..HEAD",
             ]
             if filenames:
                 command += ["--"] + filenames
@@ -84,7 +84,7 @@ class GitSquashAddon(BaseAddon):
             command = [
                 "log",
                 "--format=%(trailers)%nCo-authored-by: %an <%ae>",
-                "{}..HEAD".format(remote),
+                f"{remote}..HEAD",
             ]
             if filenames:
                 command += ["--"] + filenames
@@ -152,7 +152,7 @@ class GitSquashAddon(BaseAddon):
             x.split(None, 1)
             for x in reversed(
                 repository.execute(
-                    ["log", "--format=%H %aE", "{}..HEAD".format(remote)]
+                    ["log", "--format=%H %aE", f"{remote}..HEAD"]
                 ).splitlines()
             )
         ]

@@ -29,7 +29,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """List installed addons."""
         for _unused, obj in sorted(ADDONS.items()):
-            self.stdout.write(".. _addon-{}:".format(obj.name))
+            self.stdout.write(f".. _addon-{obj.name}:")
             self.stdout.write("\n")
             self.stdout.write(obj.verbose)
             self.stdout.write("-" * len(obj.verbose))

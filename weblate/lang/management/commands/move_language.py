@@ -35,7 +35,7 @@ class Command(BaseCommand):
         for translation in source.translation_set.iterator():
             other = translation.component.translation_set.filter(language=target)
             if other.exists():
-                self.stderr.write("Already exists: {}".format(translation))
+                self.stderr.write(f"Already exists: {translation}")
                 continue
             translation.language = target
             translation.save()

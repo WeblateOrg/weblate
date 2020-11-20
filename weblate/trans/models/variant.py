@@ -34,4 +34,4 @@ class Variant(models.Model):
         verbose_name_plural = "variant definitions"
 
     def __str__(self):
-        return "{}: {}".format(self.component, self.key)
+        return f"{self.component}: {self.key}"

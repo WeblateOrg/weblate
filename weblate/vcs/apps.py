@@ -38,7 +38,7 @@ def check_vcs(app_configs, **kwargs):
     message = "Failure in loading VCS module for {}: {}"
     return [
         weblate_check(
-            "weblate.W033.{}".format(key), message.format(key, value.strip()), Warning
+            f"weblate.W033.{key}", message.format(key, value.strip()), Warning
         )
         for key, value in VCS_REGISTRY.errors.items()
     ]

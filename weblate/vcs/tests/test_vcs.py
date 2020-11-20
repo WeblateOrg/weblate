@@ -128,7 +128,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         return
 
     def get_remote_repo_url(self):
-        return self.format_local_path(getattr(self, "{0}_repo_path".format(self._vcs)))
+        return self.format_local_path(getattr(self, f"{self._vcs}_repo_path"))
 
     def clone_repo(self, path):
         return self._class.clone(
@@ -188,7 +188,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         elif self._vcs == "local":
             dirname = ".git"
         else:
-            dirname = ".{}".format(self._vcs)
+            dirname = f".{self._vcs}"
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, dirname)))
 
     def test_revision(self):
@@ -342,7 +342,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertEqual(self.repo.get_config("user.email"), "foo@example.net")
 
     def test_commit(self, committer="Foo Bar"):
-        committer_email = "{} <foo@example.com>".format(committer)
+        committer_email = f"{committer} <foo@example.com>"
         with self.repo.lock:
             self.repo.set_committer(committer, "foo@example.net")
         # Create test file
@@ -377,7 +377,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
     def test_delete(self, committer="Foo Bar"):
         self.test_commit(committer)
-        committer_email = "{} <foo@example.com>".format(committer)
+        committer_email = f"{committer} <foo@example.com>"
 
         # Delete the file created before
         oldrev = self.repo.last_revision

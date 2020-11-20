@@ -39,7 +39,7 @@ class PlanAdmin(WeblateModelAdmin):
 
 
 def format_user(obj):
-    return "{}: {} <{}>".format(obj.username, obj.full_name, obj.email)
+    return f"{obj.username}: {obj.full_name} <{obj.email}>"
 
 
 class BillingAdmin(WeblateModelAdmin):

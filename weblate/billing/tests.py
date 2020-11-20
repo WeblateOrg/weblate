@@ -64,7 +64,7 @@ class BillingTest(TestCase):
         self.billing = Billing.objects.get(pk=self.billing.pk)
 
     def add_project(self):
-        name = "test{0}".format(self.projectnum)
+        name = f"test{self.projectnum}"
         self.projectnum += 1
         project = Project.objects.create(
             name=name, slug=name, access_control=Project.ACCESS_PROTECTED

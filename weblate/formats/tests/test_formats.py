@@ -181,7 +181,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         super().setUp()
         self.create_temp()
         if self.FORMAT.format_id not in FILE_FORMATS:
-            raise SkipTest("File format {0!r} is not supported!".format(self.FORMAT))
+            raise SkipTest(f"File format {self.FORMAT!r} is not supported!")
 
     def tearDown(self):
         super().tearDown()
@@ -252,7 +252,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
     def test_add(self):
         self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE, True))
-        out = os.path.join(self.tempdir, "test.{0}".format(self.EXT))
+        out = os.path.join(self.tempdir, f"test.{self.EXT}")
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), self.BASE)
         if self.MATCH is None:
             self.assertTrue(os.path.isdir(out))
@@ -278,7 +278,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
             testdata = handle.read()
 
         # Create test file
-        testfile = os.path.join(self.tempdir, "test.{0}".format(self.EXT))
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
 
         # Write test data to file
         with open(testfile, "wb") as handle:
@@ -536,7 +536,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
             testdata = handle.read()
 
         # Create test file
-        testfile = os.path.join(self.tempdir, "test.{0}".format(self.EXT))
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
 
         # Write test data to file
         with open(testfile, "wb") as handle:

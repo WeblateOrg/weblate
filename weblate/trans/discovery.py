@@ -219,8 +219,8 @@ class ComponentDiscovery:
             base_slug = get_val("slug", 4)
 
             for i in range(1, 1000):
-                name = "{} {}".format(base_name, i)
-                slug = "{}-{}".format(base_slug, i)
+                name = f"{base_name} {i}"
+                slug = f"{base_slug}-{i}"
 
                 if components.filter(
                     Q(slug__iexact=slug) | Q(name__iexact=name)

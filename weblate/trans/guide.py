@@ -52,7 +52,7 @@ class Guideline:
     def get_url(self):
         url = reverse(self.url, kwargs=self.component.get_reverse_url_kwargs())
         if self.anchor:
-            url = "{}#{}".format(url, self.anchor)
+            url = f"{url}#{self.anchor}"
         return url
 
     def get_doc_url(self, user=None):

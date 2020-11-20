@@ -78,5 +78,5 @@ class LicenseTest(SimpleTestCase):
             self.assertEqual(
                 expected,
                 convert_license(source),
-                "License conversion failed for {}".format(source),
+                f"License conversion failed for {source}",
             )

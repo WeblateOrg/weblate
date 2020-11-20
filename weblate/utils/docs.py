@@ -44,7 +44,7 @@ def get_doc_url(page, anchor="", user=None):
     ):
         version = "latest"
     else:
-        version = "weblate-{0}".format(weblate.VERSION)
+        version = f"weblate-{weblate.VERSION}"
     # Language variant
     code = LANGMAP.get(get_language(), "en")
     # Generate URL

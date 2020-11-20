@@ -101,7 +101,7 @@ class HgRepository(Repository):
 
     def set_committer(self, name, mail):
         """Configure commiter name."""
-        self.set_config("ui.username", "{0} <{1}>".format(name, mail))
+        self.set_config("ui.username", f"{name} <{mail}>")
 
     def reset(self):
         """Reset working copy to match remote branch."""
@@ -237,7 +237,7 @@ class HgRepository(Repository):
         output = cls._popen(["version", "-q"], merge_err=False)
         matches = cls.VERSION_RE.match(output)
         if matches is None:
-            raise OSError("Failed to parse version string: {0}".format(output))
+            raise OSError(f"Failed to parse version string: {output}")
         return matches.group(1)
 
     def commit(

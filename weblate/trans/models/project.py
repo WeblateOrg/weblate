@@ -250,7 +250,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
     def get_group(self, group):
-        return self.group_set.get(name="{0}{1}".format(self.name, group))
+        return self.group_set.get(name=f"{self.name}{group}")
 
     def add_user(self, user, group=None):
         """Add user based on username or email address."""

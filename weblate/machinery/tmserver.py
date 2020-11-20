@@ -54,7 +54,7 @@ class TMServerTranslation(MachineTranslation):
         """Download list of supported languages from a service."""
         try:
             # This will raise exception in DEBUG mode
-            response = self.request("get", "{0}/languages/".format(self.url))
+            response = self.request("get", f"{self.url}/languages/")
             data = response.json()
         except HTTPError as error:
             if error.response.status_code == 404:

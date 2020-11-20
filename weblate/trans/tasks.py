@@ -134,7 +134,7 @@ def commit_pending(hours=None, pks=None, logger=None):
             continue
 
         if logger:
-            logger("Committing {0}".format(component))
+            logger(f"Committing {component}")
 
         perform_commit.delay(component.pk, "commit_pending", None)
 

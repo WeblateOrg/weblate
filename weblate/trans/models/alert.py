@@ -103,7 +103,7 @@ class BaseAlert:
 
     def render(self, user):
         return render_to_string(
-            "trans/alert/{}.html".format(self.__class__.__name__.lower()),
+            f"trans/alert/{self.__class__.__name__.lower()}.html",
             self.get_context(user),
         )
 

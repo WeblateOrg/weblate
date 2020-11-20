@@ -111,7 +111,7 @@ def fmt_whitespace(value):
     value = value.replace("\t", SPACE_TAB.format(gettext("Tab character")))
 
     # Highlight whitespace inside tags (ins/del)
-    value = value.replace("> <", ">{}<".format(SPACE_SPACE))
+    value = value.replace("> <", f">{SPACE_SPACE}<")
 
     return value
 
@@ -155,7 +155,7 @@ def fmt_search(value, search_match, match):
             )
         if match in ("replacement", "replaced"):
             return value.replace(
-                search_match, '<span class="{0}">{1}</span>'.format(match, search_match)
+                search_match, f'<span class="{match}">{search_match}</span>'
             )
     return value
 
@@ -459,12 +459,12 @@ def global_stats(obj, stats, parent):
 
 def translation_progress_data(readonly, approved, translated, fuzzy, checks):
     return {
-        "readonly": "{0:.1f}".format(readonly),
-        "approved": "{0:.1f}".format(approved),
-        "good": "{0:.1f}".format(max(translated - checks - approved - readonly, 0)),
-        "checks": "{0:.1f}".format(checks),
-        "fuzzy": "{0:.1f}".format(fuzzy),
-        "percent": "{0:.1f}".format(translated),
+        "readonly": f"{readonly:.1f}",
+        "approved": f"{approved:.1f}",
+        "good": "{:.1f}".format(max(translated - checks - approved - readonly, 0)),
+        "checks": f"{checks:.1f}",
+        "fuzzy": f"{fuzzy:.1f}",
+        "percent": f"{translated:.1f}",
     }
 
 
@@ -583,7 +583,7 @@ def announcements(context, project=None, component=None, language=None):
 @register.simple_tag(takes_context=True)
 def active_tab(context, slug):
     active = "active" if slug == context["active_tab_slug"] else ""
-    return mark_safe('class="tab-pane {0}" id="{1}"'.format(active, slug))
+    return mark_safe(f'class="tab-pane {active}" id="{slug}"')
 
 
 @register.simple_tag(takes_context=True)

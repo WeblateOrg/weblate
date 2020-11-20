@@ -453,7 +453,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
-        component.check_flags = "ignore-{0}".format(check.check)
+        component.check_flags = f"ignore-{check.check}"
         component.save()
         self.assertEqual(Check.objects.count(), 0)
 

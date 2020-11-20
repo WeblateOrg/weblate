@@ -212,14 +212,14 @@ class LanguageQuerySet(models.QuerySet):
         if country is not None:
             if "@" in country:
                 region, variant = country.split("@", 1)
-                country = "{0}@{1}".format(region.upper(), variant.lower())
+                country = f"{region.upper()}@{variant.lower()}"
             elif "_" in country:
                 # Xliff way of defining variants
                 region, variant = country.split("_", 1)
-                country = "{0}@{1}".format(region.upper(), variant.lower())
+                country = f"{region.upper()}@{variant.lower()}"
             else:
                 country = country.upper()
-            newcode = "{0}_{1}".format(lang.lower(), country)
+            newcode = f"{lang.lower()}_{country}"
         else:
             newcode = lang.lower()
 
@@ -256,7 +256,7 @@ class LanguageQuerySet(models.QuerySet):
         It is based on code and best guess of parameters.
         """
         # Create standard language
-        name = "{0} (generated)".format(code)
+        name = f"{code} (generated)"
         if create:
             lang = self.get_or_create(code=code, defaults={"name": name})[0]
         else:
@@ -363,12 +363,12 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 lang = languages[code]
             else:
                 languages[code] = lang = self.create(code=code, name=name)
-                logger("Created language {}".format(code))
+                logger(f"Created language {code}")
 
             # Should we update existing?
             if update and lang.name != name:
                 lang.name = name
-                logger("Updated language {}".format(code))
+                logger(f"Updated language {code}")
                 lang.save()
 
             plural_data = {
@@ -425,7 +425,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     formula=plural_formula,
                     type=get_plural_type(lang.base_code, plural_formula),
                 )
-                logger("Created plural {} for language {}".format(plural_formula, code))
+                logger(f"Created plural {plural_formula} for language {code}")
 
 
 def setup_lang(sender, **kwargs):
@@ -497,7 +497,7 @@ class Language(models.Model, CacheKeyMixin):
 
         Includes language and direction HTML.
         """
-        return mark_safe('lang="{0}" dir="{1}"'.format(self.code, self.direction))
+        return mark_safe(f'lang="{self.code}" dir="{self.direction}"')
 
     @cached_property
     def base_code(self):
@@ -621,7 +621,7 @@ class Plural(models.Model):
 
     @cached_property
     def plural_form(self):
-        return "nplurals={0:d}; plural={1};".format(self.number, self.formula)
+        return f"nplurals={self.number:d}; plural={self.formula};"
 
     @cached_property
     def plural_function(self):

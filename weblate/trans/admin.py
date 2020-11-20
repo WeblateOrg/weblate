@@ -32,7 +32,7 @@ class RepoAdminMixin:
         for obj in queryset:
             obj.commit_pending("admin", request)
         self.message_user(
-            request, "Flushed changes in {0:d} git repos.".format(queryset.count())
+            request, f"Flushed changes in {queryset.count():d} git repos."
         )
 
     force_commit.short_description = _("Commit pending changes")
@@ -41,7 +41,7 @@ class RepoAdminMixin:
         """Update selected components from git."""
         for obj in queryset:
             obj.do_update(request)
-        self.message_user(request, "Updated {0:d} git repos.".format(queryset.count()))
+        self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
     update_from_git.short_description = _("Update VCS repository")
 

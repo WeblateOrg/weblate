@@ -224,6 +224,4 @@ class Vote(models.Model):
         verbose_name_plural = "suggestion votes"
 
     def __str__(self):
-        return "{0:+d} for {1} by {2}".format(
-            self.value, self.suggestion, self.user.username
-        )
+        return f"{self.value:+d} for {self.suggestion} by {self.user.username}"

@@ -66,9 +66,7 @@ def handle_machinery(request, service, unit, search=None):
             response["responseDetails"] = str(exc)
         except Exception as error:
             report_error()
-            response["responseDetails"] = "{0}: {1}".format(
-                error.__class__.__name__, str(error)
-            )
+            response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     return JsonResponse(data=response)
 

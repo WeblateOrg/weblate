@@ -44,10 +44,10 @@ class Check:
 
     def __init__(self):
         id_dash = self.check_id.replace("_", "-")
-        self.url_id = "check:{0}".format(self.check_id)
-        self.doc_id = "check-{0}".format(id_dash)
+        self.url_id = f"check:{self.check_id}"
+        self.doc_id = f"check-{id_dash}"
         self.enable_string = id_dash
-        self.ignore_string = "ignore-{0}".format(id_dash)
+        self.ignore_string = f"ignore-{id_dash}"
 
     def should_skip(self, unit):
         """Check whether we should skip processing this unit."""

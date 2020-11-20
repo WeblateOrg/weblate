@@ -84,13 +84,13 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         if rqtype.startswith("check:"):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
-                raise ValueError("Unknown check: {}".format(check_id))
+                raise ValueError(f"Unknown check: {check_id}")
             return self.filter(check__check=check_id, check__dismissed=False)
         if rqtype.startswith("label:"):
             return self.filter(labels__name=rqtype[6:])
         if rqtype == "all":
             return self.all()
-        raise ValueError("Unknown filter: {}".format(rqtype))
+        raise ValueError(f"Unknown filter: {rqtype}")
 
     def prefetch(self):
         return self.prefetch_related(
@@ -313,7 +313,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if self.translation.is_template:
             return self.context
         if self.context:
-            return "[{}] {}".format(self.context, self.source)
+            return f"[{self.context}] {self.source}"
         return self.source
 
     def save(
@@ -438,7 +438,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def check_valid(texts):
         for text in texts:
             if any(char in text for char in CONTROLCHARS):
-                raise ValueError("String contains control char: {!r}".format(text))
+                raise ValueError(f"String contains control char: {text!r}")
 
     def update_source_unit(
         self, component, source, context, pos, note, location, flags

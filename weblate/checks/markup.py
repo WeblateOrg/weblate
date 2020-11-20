@@ -113,7 +113,7 @@ class BaseXMLCheck(TargetCheck):
                 return self.parse_xml(text, False), False
         text = strip_entities(text)
         if wrap:
-            text = "<weblate>{}</weblate>".format(text)
+            text = f"<weblate>{text}</weblate>"
 
         return parse_xml(text.encode() if "encoding" in text else text)
 

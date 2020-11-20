@@ -203,7 +203,7 @@ class TermExpr:
         if text == "pending":
             return Q(pending=True)
 
-        raise ValueError("Unsupported is lookup: {}".format(text))
+        raise ValueError(f"Unsupported is lookup: {text}")
 
     def has_field(self, text):
         if text == "plural":
@@ -238,7 +238,7 @@ class TermExpr:
         if text == "flags":
             return ~Q(source_unit__extra_flags="")
 
-        raise ValueError("Unsupported has lookup: {}".format(text))
+        raise ValueError(f"Unsupported has lookup: {text}")
 
     def field_extra(self, field, query, match):
         from weblate.trans.models import Change
@@ -344,7 +344,7 @@ class TermExpr:
             suffix = OPERATOR_MAP[self.operator]
 
         if field in PLAIN_FIELDS:
-            return "{}__{}".format(field, suffix)
+            return f"{field}__{suffix}"
         if field in STRING_FIELD_MAP:
             return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
         if field in EXACT_FIELD_MAP:

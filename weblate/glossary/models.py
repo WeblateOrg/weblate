@@ -277,9 +277,7 @@ class Term(models.Model):
         verbose_name_plural = "glossary terms"
 
     def __str__(self):
-        return "{0}/{1}: {2} -> {3}".format(
-            self.glossary, self.language, self.source, self.target
-        )
+        return f"{self.glossary}/{self.language}: {self.source} -> {self.target}"
 
     def get_absolute_url(self):
         return reverse("edit_glossary", kwargs={"pk": self.id})
@@ -326,7 +324,7 @@ def create_glossary(sender, instance, created, **kwargs):
         return
 
     if glossaries:
-        base_name = "{}: {}".format(project, instance.source_language.name)
+        base_name = f"{project}: {instance.source_language.name}"
     else:
         base_name = project.name
 

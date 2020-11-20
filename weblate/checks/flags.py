@@ -161,7 +161,7 @@ class Flags:
                 yield tuple(value)
                 state = 0
             else:
-                raise ValueError("Unexpected token: {}, state={}".format(token, state))
+                raise ValueError(f"Unexpected token: {token}, state={state}")
 
         # With state 0 there was nothing parsed yet
         if state > 0:

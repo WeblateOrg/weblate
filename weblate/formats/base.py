@@ -356,7 +356,7 @@ class TranslationFormat:
         """Do any possible formatting needed for language code."""
         if not language_format:
             language_format = cls.language_format
-        return getattr(cls, "get_language_{}".format(language_format))(code)
+        return getattr(cls, f"get_language_{language_format}")(code)
 
     @staticmethod
     def get_language_posix(code: str):

@@ -43,7 +43,7 @@ class Command(BaseCommand):
             response.raise_for_status()
             ref = response.json()["object"]["sha"]
 
-        sentry_auth = {"Authorization": "Bearer {}".format(settings.SENTRY_TOKEN)}
+        sentry_auth = {"Authorization": f"Bearer {settings.SENTRY_TOKEN}"}
         sentry_base = RELEASES_API.format(settings.SENTRY_ORGANIZATION)
         release_url = sentry_base + version + "/"
 
@@ -57,7 +57,7 @@ class Command(BaseCommand):
                 "refs": [{"repository": "WeblateOrg/weblate", "commit": ref}],
             }
             response = requests.post(sentry_base, json=data, headers=sentry_auth)
-            self.stdout.write("Created new release {}".format(version))
+            self.stdout.write(f"Created new release {version}")
         response.raise_for_status()
 
         # Track the deploy
