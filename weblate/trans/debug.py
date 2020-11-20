@@ -36,7 +36,7 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
             else:
                 meta["WEBLATE_LANGUAGE"] = ""
 
-            for version in get_versions_list():
-                meta["WEBLATE_VERSION:{0}".format(version[0])] = version[2]
+            for name, _url, version in get_versions_list():
+                meta[f"WEBLATE_VERSION:{name}"] = version
 
         return super().get_post_parameters(request)
