@@ -154,7 +154,7 @@ SAPTRANSLATIONHUB_JSON = {
     ]
 }
 
-TERMINOLOGY_LANGUAGES = """
+TERMINOLOGY_LANGUAGES = b"""
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body>
     <GetLanguagesResponse xmlns="http://api.terminology.microsoft.com/terminology">
@@ -217,8 +217,8 @@ TERMINOLOGY_LANGUAGES = """
     </GetLanguagesResponse>
   </s:Body>
 </s:Envelope>
-""".encode()
-TERMINOLOGY_TRANSLATE = """
+"""
+TERMINOLOGY_TRANSLATE = b"""
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body>
     <GetTranslationsResponse xmlns="http://api.terminology.microsoft.com/terminology">
@@ -257,7 +257,7 @@ TERMINOLOGY_TRANSLATE = """
     </GetTranslationsResponse>
   </s:Body>
 </s:Envelope>
-""".encode()
+"""
 TERMINOLOGY_WDSL = get_test_file("microsoftterminology.wsdl")
 
 GOOGLEV3_KEY = get_test_file("googlev3.json")
