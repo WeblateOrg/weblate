@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-03 12:16+0000\n"
+"PO-Revision-Date: 2020-11-20 18:29+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1005,17 +1005,12 @@ msgstr ""
 "prevedenih izraza koji više nisu prisutni u osnovnoj datoteci."
 
 #: weblate/addons/cleanup.py:52
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Ukloni izraz"
+msgstr "Ukloni prazne izraze"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Novi izraz za prevođenje u %(translation)s"
+msgstr "Uklanja neprevedene izraze iz provodilačke datoteke."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1471,7 +1466,7 @@ msgstr "Uklanjanje zastarjelog komentara"
 
 #: weblate/addons/removal.py:52
 msgid "Set a timeframe for removal of comments."
-msgstr "Postavi vremensko razdoblje za uklanjanje komentara."
+msgstr "Postavi vrijeme za uklanjanje komentara."
 
 #: weblate/addons/removal.py:65
 msgid "Stale suggestion removal"
@@ -6542,7 +6537,7 @@ msgstr "Nema odgovarajuće radnje."
 
 #: weblate/templates/list-comments.html:13
 msgid "Resolved comment"
-msgstr "Razriješeni komentar"
+msgstr "Riješeni komentar"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -6557,7 +6552,7 @@ msgstr "Komentar za prijevod"
 
 #: weblate/templates/list-comments.html:29
 msgid "Resolve"
-msgstr "Razriješi"
+msgstr "Riješi"
 
 #: weblate/templates/list-comments.html:36
 #: weblate/templates/snippets/suggestions.html:39
@@ -8612,7 +8607,7 @@ msgstr "Aktiviraj dodatak:"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
-msgstr "Tipičan radni proces za ispravljanje sukoba pri sjedinjavanju"
+msgstr "Tipičan radni proces za ispravljanje spornih sjedinjavanja"
 
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
@@ -8627,7 +8622,7 @@ msgstr "Dodaj Weblate izvezeni repozitorij kao udaljeni."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr "Sjedini Weblate promjene i riješi moguće sukobe."
+msgstr "Sjedini Weblate promjene i riješi moguće sporne slučajeve."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
@@ -9430,7 +9425,7 @@ msgstr "Uvezi kao prevedeno"
 
 #: weblate/trans/forms.py:622
 msgid "Conflict handling"
-msgstr "Rješavanje konflikata"
+msgstr "Rješavanje sporova"
 
 #: weblate/trans/forms.py:624
 msgid ""
@@ -9519,11 +9514,11 @@ msgstr ""
 
 #: weblate/trans/forms.py:908
 msgid "Source string comment, suggestions for changes to this string"
-msgstr "Komentar za izvorni izraz, prijedlozi za promjene u ovom izrazu"
+msgstr "Komentar za izvorni izraz, prijedlozi za mijenjanje ovog izraza"
 
 #: weblate/trans/forms.py:912
 msgid "Translation comment, discussions with other translators"
-msgstr "Komentar za prijevod, prijedlozi promjena za ovaj izraz"
+msgstr "Komentar za prijevod, rasprave s drugim prevodiocima"
 
 #: weblate/trans/forms.py:919 weblate/trans/models/announcement.py:79
 #: weblate/trans/models/project.py:103
@@ -10760,10 +10755,9 @@ msgstr ""
 "osnovna dataoteka nije pridružena."
 
 #: weblate/trans/models/component.py:2120
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Odredi osnovnu datoteku za nove prijevode"
+msgstr "Neuspjela obrada osnovne datoteke za nove prijevode: %s"
 
 #: weblate/trans/models/component.py:2124
 msgid "Unrecognized base file for new translations."
