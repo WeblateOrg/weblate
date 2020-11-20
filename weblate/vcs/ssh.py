@@ -74,7 +74,7 @@ def get_host_keys():
     """Return list of host keys."""
     try:
         result = []
-        with open(ssh_file(KNOWN_HOSTS), "r") as handle:
+        with open(ssh_file(KNOWN_HOSTS)) as handle:
             for line in handle:
                 line = line.strip()
                 if is_key_line(line):

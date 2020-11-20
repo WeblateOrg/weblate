@@ -276,7 +276,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertTrue(GettextAuthorComments.can_install(translation.component, None))
         addon = GettextAuthorComments.create(translation.component)
         addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>")
-        with open(translation.get_filename(), "r") as handle:
+        with open(translation.get_filename()) as handle:
             content = handle.read()
         self.assertIn("Stojan Jakotyc", content)
 
@@ -1021,7 +1021,7 @@ class CDNJSAddonTest(ViewTestCase):
         self.component.commit_pending("test", None)
 
         # Check translation files
-        with open(jsname, "r") as handle:
+        with open(jsname) as handle:
             content = handle.read()
             self.assertIn(".l10n", content)
             self.assertIn('"cs"', content)

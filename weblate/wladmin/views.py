@@ -243,7 +243,7 @@ def performance(request):
 
 @management_access
 def ssh_key(request):
-    with open(ssh_file(RSA_KEY), "r") as handle:
+    with open(ssh_file(RSA_KEY)) as handle:
         data = handle.read()
     response = HttpResponse(data, content_type="text/plain")
     response["Content-Disposition"] = f"attachment; filename={RSA_KEY}"

@@ -123,7 +123,7 @@ def filter_lines(lines):
 
 def format_file(filename):
     """Format single properties file."""
-    with open(filename, "r") as handle:
+    with open(filename) as handle:
         lines = handle.readlines()
 
     result = sorted(lines, key=sort_key)

@@ -174,7 +174,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate/examples/generate-secret-key
-with open("/app/data/secret", "r") as handle:
+with open("/app/data/secret") as handle:
     SECRET_KEY = handle.read()
 
 _TEMPLATE_LOADERS = [
@@ -295,9 +295,9 @@ if "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS" in os.environ:
 if "WEBLATE_SAML_IDP_URL" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
     # The keys are generated on container startup if missing
-    with open("/app/data/ssl/saml.crt", "r") as handle:
+    with open("/app/data/ssl/saml.crt") as handle:
         SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
-    with open("/app/data/ssl/saml.key", "r") as handle:
+    with open("/app/data/ssl/saml.key") as handle:
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {

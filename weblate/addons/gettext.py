@@ -121,7 +121,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return changed, lines
 
     def sync_linguas(self, component, path):
-        with open(path, "r") as handle:
+        with open(path) as handle:
             lines = handle.readlines()
 
         codes = set(
@@ -190,7 +190,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
         )
         expected = f'ALL_LINGUAS="{codes}"\n'
         for path in paths:
-            with open(path, "r") as handle:
+            with open(path) as handle:
                 lines = handle.readlines()
 
             for i, line in enumerate(lines):

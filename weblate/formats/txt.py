@@ -52,7 +52,7 @@ class TextParser:
     """Simple text parser returning all content as single unit."""
 
     def __init__(self, storefile, filename=None, flags=None):
-        with open(storefile, "r") as handle:
+        with open(storefile) as handle:
             content = handle.read()
         if filename:
             self.filename = filename

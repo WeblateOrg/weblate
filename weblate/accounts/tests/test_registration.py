@@ -54,9 +54,9 @@ SAML_BACKENDS = (
     "social_core.backends.saml.SAMLAuth",
     "weblate.accounts.auth.WeblateUserBackend",
 )
-with open(get_test_file("saml.crt"), "r") as handle:
+with open(get_test_file("saml.crt")) as handle:
     SAML_CERT = handle.read()
-with open(get_test_file("saml.key"), "r") as handle:
+with open(get_test_file("saml.key")) as handle:
     SAML_KEY = handle.read()
 
 

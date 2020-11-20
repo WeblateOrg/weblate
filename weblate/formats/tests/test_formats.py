@@ -321,7 +321,7 @@ class PoFormatTest(AutoFormatTest):
     def test_add_encoding(self):
         out = os.path.join(self.tempdir, "test.po")
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), TEST_POT_UNICODE)
-        with open(out, "r") as handle:
+        with open(out) as handle:
             data = handle.read()
         self.assertTrue("Michal Čihař" in data)
 
@@ -351,19 +351,19 @@ class PoFormatTest(AutoFormatTest):
 
         # Test file content is updated
         self.FORMAT.update_bilingual(test_file, TEST_POT)
-        with open(test_file, "r") as handle:
+        with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
         # Backup flag is not compatible with others
         with self.assertRaises(UpdateError):
             self.FORMAT.update_bilingual(test_file, TEST_POT, args=["--backup=none"])
-        with open(test_file, "r") as handle:
+        with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
         # Test warning in ouput (used Unicode POT file without charset specified)
         with self.assertRaises(UpdateError):
             self.FORMAT.update_bilingual(test_file, TEST_POT_UNICODE)
-        with open(test_file, "r") as handle:
+        with open(test_file) as handle:
             self.assertEqual(len(handle.read()), 340)
 
 
@@ -550,7 +550,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         storage.save()
 
         # Verify the state is set
-        with open(testfile, "r") as handle:
+        with open(testfile) as handle:
             self.assertIn("<target>test</target>", handle.read())
 
         # Update first unit as fuzzy
@@ -561,7 +561,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         storage.save()
 
         # Verify the state is set
-        with open(testfile, "r") as handle:
+        with open(testfile) as handle:
             self.assertIn(
                 '<target state="needs-translation">test</target>', handle.read()
             )

@@ -37,7 +37,7 @@ class VersionTest(SimpleTestCase):
 
     @staticmethod
     def mock_pypi():
-        with open(get_test_file("pypi.json"), "r") as handle:
+        with open(get_test_file("pypi.json")) as handle:
             responses.add(responses.GET, PYPI, body=handle.read())
 
     @responses.activate
