@@ -42,7 +42,7 @@ repos:
       - id: check-hooks-apply
       - id: check-useless-excludes
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.1.2
+    rev: v2.2.0
     hooks:
       - id: prettier
         files: "\\.(\
@@ -61,7 +61,7 @@ repos:
       - id: eslint
         args: ["--format=compact"]
         additional_dependencies:
-          - prettier@2.1.2
+          - prettier@2.2.0
           - eslint@>=6.2.2
           - eslint-plugin-import@>=2.18.0
           - eslint-plugin-node@>=9.1.0
@@ -78,7 +78,7 @@ repos:
           - stylelint@latest
           - stylelint-config-prettier@latest
           - stylelint-prettier@latest
-          - prettier@2.1.2
+          - prettier@2.2.0
 
 exclude: "^.*\\.(\
   csv|\
