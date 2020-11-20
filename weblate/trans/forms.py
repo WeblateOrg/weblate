@@ -300,7 +300,7 @@ class PluralTextarea(forms.Textarea):
         attrs["rows"] = 3
         attrs["maxlength"] = unit.get_max_length()
         attrs["data-mode"] = unit.edit_mode
-        attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables)
+        attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables if pl)
         if unit.readonly:
             attrs["readonly"] = 1
 
