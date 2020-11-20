@@ -32,5 +32,5 @@ def check_avatars(app_configs, **kwargs):
     try:
         download_avatar_image("noreply@weblate.org", 32)
         return []
-    except (IOError, CertificateError) as error:
+    except (OSError, CertificateError) as error:
         return [weblate_check("weblate.E018", f"Failed to download avatar: {error}")]

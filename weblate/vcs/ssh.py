@@ -79,7 +79,7 @@ def get_host_keys():
                 line = line.strip()
                 if is_key_line(line):
                     result.append(parse_hosts_line(line))
-    except IOError:
+    except OSError:
         return []
 
     return result

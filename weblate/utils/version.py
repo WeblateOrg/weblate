@@ -66,7 +66,7 @@ def get_latest_version():
 def check_version(app_configs=None, **kwargs):
     try:
         latest = get_latest_version()
-    except (ValueError, IOError):
+    except (ValueError, OSError):
         return []
     if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
         # With release every two months, this get's triggered after three releases

@@ -49,7 +49,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
             else:
                 with open(os.path.join(component.full_path, filename), "r") as handle:
                     content = handle.read()
-        except IOError as error:
+        except OSError as error:
             errors.append({"filename": filename, "error": str(error)})
             continue
 

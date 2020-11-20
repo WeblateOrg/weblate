@@ -78,7 +78,7 @@ def borg(cmd, env=None):
             env=get_clean_env(env),
             universal_newlines=True,
         )
-    except EnvironmentError as error:
+    except OSError as error:
         report_error()
         raise BackupError(f"Could not execute borg program: {error}")
     except subprocess.CalledProcessError as error:

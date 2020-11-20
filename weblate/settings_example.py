@@ -401,7 +401,7 @@ if platform.system() != "Windows":
         handler = SysLogHandler(address="/dev/log", facility=SysLogHandler.LOG_LOCAL2)
         handler.close()
         HAVE_SYSLOG = True
-    except IOError:
+    except OSError:
         HAVE_SYSLOG = False
 
 if DEBUG or not HAVE_SYSLOG:
