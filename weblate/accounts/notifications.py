@@ -297,13 +297,11 @@ class Notification:
         if unit:
             translation = unit.translation
             component = translation.component
-            references = "/".join(
-                (
-                    component.project.slug,
-                    component.slug,
-                    translation.language.code,
-                    unit.id,
-                )
+            references = "{}/{}/{}/{}".format(
+                component.project.slug,
+                component.slug,
+                translation.language.code,
+                unit.id,
             )
         if references is not None:
             references = f"<{references}@{get_site_domain()}>"
