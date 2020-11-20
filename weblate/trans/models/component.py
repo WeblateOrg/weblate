@@ -1816,7 +1816,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.translations_count != -1:
             self.translations_progress = 0
             self.translations_count = len(matches) + sum(
-                (c.translation_set.count() for c in self.linked_childs)
+                c.translation_set.count() for c in self.linked_childs
             )
         for pos, path in enumerate(matches):
             if not self._sources_prefetched and path != source_file:

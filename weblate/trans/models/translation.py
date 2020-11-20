@@ -1048,7 +1048,7 @@ class Translation(
         self.log_info("removing %s as %s", self.filenames, author)
 
         # Remove file from VCS
-        if any((os.path.exists(name) for name in self.filenames)):
+        if any(os.path.exists(name) for name in self.filenames):
             with self.component.repository.lock:
                 self.component.repository.remove(
                     self.filenames,

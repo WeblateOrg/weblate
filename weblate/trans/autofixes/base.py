@@ -33,4 +33,4 @@ class AutoFix:
     def fix_target(self, target, unit):
         """Return a target translation array with a single fix applied."""
         results = [self.fix_single_target(t, unit.source_string, unit) for t in target]
-        return [r[0] for r in results], max((r[1] for r in results))
+        return [r[0] for r in results], max(r[1] for r in results)

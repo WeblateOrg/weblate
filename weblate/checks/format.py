@@ -291,7 +291,7 @@ class BaseFormatCheck(TargetCheck):
         # Calculate value
         src_matches = self.extract_matches(source)
         if src_matches:
-            uses_position = any((self.is_position_based(x) for x in src_matches))
+            uses_position = any(self.is_position_based(x) for x in src_matches)
 
         tgt_matches = self.extract_matches(target)
 

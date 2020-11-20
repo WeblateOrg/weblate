@@ -359,7 +359,7 @@ class MaxLengthCheck(TargetCheckParametrized):
 
     def check_target_params(self, sources, targets, unit, value):
         replace = self.get_replacement_function(unit)
-        return any((len(replace(target)) > value for target in targets))
+        return any(len(replace(target)) > value for target in targets)
 
 
 class EndSemicolonCheck(TargetCheck):
@@ -382,7 +382,7 @@ class KashidaCheck(TargetCheck):
     description = _("The decorative kashida letters should not be used")
 
     def check_single(self, source, target, unit):
-        return any((x in target for x in KASHIDA_CHARS))
+        return any(x in target for x in KASHIDA_CHARS)
 
     def get_fixup(self, unit):
         return [("[{}]".format("".join(KASHIDA_CHARS)), "", "gu")]

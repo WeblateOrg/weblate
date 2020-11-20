@@ -330,10 +330,8 @@ def bitbucket_hook_helper(data, request):
         # Construct possible repository URLs
         for repo in templates:
             repos.extend(
-                (
-                    repo.format(full_name=full_name, server=server)
-                    for server in repo_servers
-                )
+                repo.format(full_name=full_name, server=server)
+                for server in repo_servers
             )
 
     if not repos:
