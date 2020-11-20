@@ -38,5 +38,5 @@ class Command(BaseCommand):
 
         for item in results:
             self.stdout.write(
-                "{0:5d} {1}".format(item["unit__source__count"], item["unit__source"])
+                "{:5d} {}".format(item["unit__source__count"], item["unit__source"])
             )

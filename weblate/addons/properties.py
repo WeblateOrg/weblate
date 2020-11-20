@@ -43,7 +43,7 @@ def sort_key(line):
 
 def unicode_format(match):
     """Callback for re.sub for formatting unicode chars."""
-    return "\\u{0}".format(match.group(0)[2:].upper())
+    return "\\u{}".format(match.group(0)[2:].upper())
 
 
 def fix_newlines(lines):

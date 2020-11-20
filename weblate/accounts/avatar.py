@@ -43,7 +43,7 @@ def avatar_for_email(email, size=80):
 
     mail_hash = hashlib.md5(email.lower().encode()).hexdigest()  # nosec
 
-    return "{0}avatar/{1}?d={2}&s={3}".format(
+    return "{}avatar/{}?d={}&s={}".format(
         settings.AVATAR_URL_PREFIX,
         mail_hash,
         quote(settings.AVATAR_DEFAULT_IMAGE),

@@ -317,7 +317,7 @@ class LanguageQuerySet(models.QuerySet):
 
     def as_choices(self):
         return sort_choices(
-            (code, "{0} ({1})".format(_(name), code))
+            (code, "{} ({})".format(_(name), code))
             for name, code in self.values_list("name", "code")
         )
 
@@ -465,7 +465,7 @@ class Language(models.Model, CacheKeyMixin):
 
     def __str__(self):
         if self.show_language_code:
-            return "{0} ({1})".format(_(self.name), self.code)
+            return "{} ({})".format(_(self.name), self.code)
         return _(self.name)
 
     def save(self, *args, **kwargs):

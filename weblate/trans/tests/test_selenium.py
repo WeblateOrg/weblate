@@ -160,7 +160,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             print(f"Selenium error: {self.driver_error}")
             raise SkipTest(f"Webdriver not available: {self.driver_error}")
         super().setUp()
-        self.driver.get("{0}{1}".format(self.live_server_url, reverse("home")))
+        self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1200, 1024)
         self.site_domain = settings.SITE_DOMAIN
         settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"

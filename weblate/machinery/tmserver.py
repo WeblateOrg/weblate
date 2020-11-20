@@ -76,7 +76,7 @@ class TMServerTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
-        url = "{0}/{1}/{2}/unit/{3}".format(
+        url = "{}/{}/{}/unit/{}".format(
             self.url,
             quote(source, b""),
             quote(language, b""),

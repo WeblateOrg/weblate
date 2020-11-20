@@ -447,7 +447,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.post(
             reverse("confirm"), {"password": "1pa$$word!"}, follow=True
         )
-        self.assertRedirects(response, "{0}#account".format(reverse("profile")))
+        self.assertRedirects(response, "{}#account".format(reverse("profile")))
 
         # Check database models
         user = User.objects.get(username="username")

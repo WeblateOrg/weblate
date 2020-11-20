@@ -388,7 +388,7 @@ class CSVExporter(CVSBaseExporter):
         Reverse for this is in weblate.formats.ttkit.CSVUnit.unescape_csv
         """
         if text and text[0] in ("=", "+", "-", "@", "|", "%"):
-            return "'{0}'".format(text.replace("|", "\\|"))
+            return "'{}'".format(text.replace("|", "\\|"))
         return text
 
 

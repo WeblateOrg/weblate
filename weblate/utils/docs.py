@@ -51,6 +51,6 @@ def get_doc_url(page, anchor="", user=None):
     url = f"https://docs.weblate.org/{code}/{version}/{page}.html"
     # Optionally append anchor
     if anchor != "":
-        url += "#{0}".format(anchor.replace("_", "-"))
+        url += "#{}".format(anchor.replace("_", "-"))
 
     return url

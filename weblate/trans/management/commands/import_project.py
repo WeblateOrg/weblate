@@ -190,13 +190,11 @@ class Command(BaseCommand):
 
         # Is file format supported?
         if self.file_format not in FILE_FORMATS:
-            raise CommandError(
-                "Invalid file format: {0}".format(options["file_format"])
-            )
+            raise CommandError("Invalid file format: {}".format(options["file_format"]))
 
         # Is vcs supported?
         if self.vcs not in VCS_REGISTRY:
-            raise CommandError("Invalid vcs: {0}".format(options["vcs"]))
+            raise CommandError("Invalid vcs: {}".format(options["vcs"]))
 
         # Do we have correct mask?
         # - if there is **, then it's simple mask (it's invalid in regexp)
@@ -237,7 +235,7 @@ class Command(BaseCommand):
             project = Project.objects.get(slug=options["project"])
         except Project.DoesNotExist:
             raise CommandError(
-                'Project "{0}" not found, please create it first!'.format(
+                'Project "{}" not found, please create it first!'.format(
                     options["project"]
                 )
             )

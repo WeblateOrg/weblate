@@ -44,7 +44,7 @@ class YandexTranslation(MachineTranslation):
             return
         if "message" in response:
             raise MachineTranslationError(response["message"])
-        raise MachineTranslationError("Error: {0}".format(response["code"]))
+        raise MachineTranslationError("Error: {}".format(response["code"]))
 
     def download_languages(self):
         """Download list of supported languages from a service."""

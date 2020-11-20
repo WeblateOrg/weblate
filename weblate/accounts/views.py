@@ -222,7 +222,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
         return
 
     mail = EmailMultiAlternatives(
-        "{0}{1}".format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
+        "{}{}".format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
         "{}\n{}".format(
             message % context,
             TEMPLATE_FOOTER.format(

@@ -69,7 +69,7 @@ class NaturalTimeTest(SimpleTestCase):
         for diff, expected in TEST_DATA:
             testdate = now + datetime.timedelta(seconds=diff)
             result = naturaltime(testdate, now)
-            expected = '<span title="{0}">{1}</span>'.format(
+            expected = '<span title="{}">{}</span>'.format(
                 testdate.replace(microsecond=0).isoformat(), expected
             )
             self.assertEqual(

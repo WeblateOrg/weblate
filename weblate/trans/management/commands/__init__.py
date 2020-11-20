@@ -67,7 +67,7 @@ class WeblateComponentCommand(BaseCommand):
 
         # Iterate over chunks
         while current < last:
-            self.stdout.write("Processing {0:.1f}%".format(done * 100.0 / count))
+            self.stdout.write("Processing {:.1f}%".format(done * 100.0 / count))
             with transaction.atomic():
                 step_units = units.filter(pk__gt=current)[:step].prefetch()
                 for unit in step_units:

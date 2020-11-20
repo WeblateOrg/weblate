@@ -240,7 +240,7 @@ class Translation(
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
         return get_site_url(
-            "{0}?lang={1}&component={2}".format(
+            "{}?lang={}&component={}".format(
                 reverse("widgets", kwargs={"project": self.component.project.slug}),
                 self.language.code,
                 self.component.slug,
@@ -676,7 +676,7 @@ class Translation(
 
         # Optionally store language team with link to website
         if self.component.project.set_language_team:
-            headers["language_team"] = "{0} <{1}>".format(
+            headers["language_team"] = "{} <{}>".format(
                 self.language.name, get_site_url(self.get_absolute_url())
             )
 

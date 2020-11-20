@@ -81,7 +81,7 @@ class Comment(models.Model, UserDisplayMixin):
         verbose_name_plural = "string comments"
 
     def __str__(self):
-        return "comment for {0} by {1}".format(
+        return "comment for {} by {}".format(
             self.unit, self.user.username if self.user else "unknown"
         )
 

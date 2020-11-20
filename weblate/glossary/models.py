@@ -230,7 +230,7 @@ class TermQuerySet(models.QuerySet):
         if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
             # Use regex as that is utilizing pg_trgm index
             results = self.filter(
-                source__iregex=r"(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])".format(
+                source__iregex=r"(^|[ \t\n\r\f\v])({})($|[ \t\n\r\f\v])".format(
                     "|".join(re_escape(word) for word in words)
                 ),
             )

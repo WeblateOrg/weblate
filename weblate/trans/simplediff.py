@@ -30,9 +30,9 @@ def html_diff(old, new):
     result = []
     for op, data in diff:
         if op == dmp.DIFF_DELETE:
-            result.append("<del>{0}</del>".format(escape(data)))
+            result.append("<del>{}</del>".format(escape(data)))
         elif op == dmp.DIFF_INSERT:
-            result.append("<ins>{0}</ins>".format(escape(data)))
+            result.append("<ins>{}</ins>".format(escape(data)))
         elif op == dmp.DIFF_EQUAL:
             result.append(escape(data))
     return "".join(result)

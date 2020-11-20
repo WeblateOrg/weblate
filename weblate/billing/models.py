@@ -523,7 +523,7 @@ class Invoice(models.Model):
 
         if overlapping.exists():
             raise ValidationError(
-                "Overlapping invoices exist: {0}".format(
+                "Overlapping invoices exist: {}".format(
                     ", ".join(str(x) for x in overlapping)
                 )
             )

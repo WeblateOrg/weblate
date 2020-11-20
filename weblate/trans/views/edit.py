@@ -468,7 +468,7 @@ def translate(request, project, component, lang):
     locked = unit.translation.component.locked
 
     # Some URLs we will most likely use
-    base_unit_url = "{0}?{1}&offset=".format(
+    base_unit_url = "{}?{}&offset=".format(
         obj.get_translate_url(), search_result["url"]
     )
     this_unit_url = base_unit_url + str(offset)

@@ -222,7 +222,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(
             translated,
             expected_translated,
-            "Did not found expected number of translations ({0} != {1}).".format(
+            "Did not found expected number of translations ({} != {}).".format(
                 translated, expected_translated
             ),
         )

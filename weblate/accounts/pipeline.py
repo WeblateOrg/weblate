@@ -133,7 +133,7 @@ def send_validation(strategy, backend, code, partial_token):
         session.create()
     session["registration-email-sent"] = True
 
-    url = "{0}?verification_code={1}&partial_token={2}".format(
+    url = "{}?verification_code={}&partial_token={}".format(
         reverse("social:complete", args=(backend.name,)), code.code, partial_token
     )
 

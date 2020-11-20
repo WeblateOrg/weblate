@@ -140,7 +140,7 @@ class Command(BaseCommand):
                     raise CommandError("Component failed validation!")
                 component.save(force_insert=True)
                 self.stdout.write(
-                    "Imported {0} with {1} translations".format(
+                    "Imported {} with {} translations".format(
                         component, component.translation_set.count()
                     )
                 )

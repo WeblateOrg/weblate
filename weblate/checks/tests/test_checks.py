@@ -129,12 +129,10 @@ class CheckTestCase(SimpleTestCase):
         )
         if expected:
             self.assertTrue(
-                result, 'Check did not fire for "{0}"/"{1}" ({2})'.format(*data)
+                result, 'Check did not fire for "{}"/"{}" ({})'.format(*data)
             )
         else:
-            self.assertFalse(
-                result, 'Check did fire for "{0}"/"{1}" ({2})'.format(*data)
-            )
+            self.assertFalse(result, 'Check did fire for "{}"/"{}" ({})'.format(*data))
 
     def test_single_good_matching(self):
         self.do_test(False, self.test_good_matching)

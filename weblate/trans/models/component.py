@@ -991,7 +991,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
         return get_site_url(
-            "{0}?component={1}".format(
+            "{}?component={}".format(
                 reverse("widgets", kwargs={"project": self.project.slug}), self.slug
             )
         )
@@ -2076,7 +2076,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 errors.append(f"{match}: {error}")
         if errors:
             raise ValidationError(
-                "{0}\n{1}".format(
+                "{}\n{}".format(
                     ngettext(
                         "Could not parse %d matched file.",
                         "Could not parse %d matched files.",

@@ -162,7 +162,7 @@ def home(request):
         messages.warning(
             request,
             mark_safe(
-                '<a href="{0}">{1}</a>'.format(
+                '<a href="{}">{}</a>'.format(
                     reverse("profile") + "#account",
                     escape(_("Please set your full name and e-mail in your profile.")),
                 )

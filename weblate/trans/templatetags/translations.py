@@ -435,7 +435,7 @@ def naturaltime(value, now=None):
     else:
         text = naturaltime_future(value, now)
     return mark_safe(
-        '<span title="{0}">{1}</span>'.format(
+        '<span title="{}">{}</span>'.format(
             escape(value.replace(microsecond=0).isoformat()), escape(text)
         )
     )

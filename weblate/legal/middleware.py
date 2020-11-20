@@ -59,7 +59,7 @@ class RequireTOSMiddleware:
                 ),
             )
             return redirect(
-                "{0}?{1}".format(
+                "{}?{}".format(
                     reverse("legal:confirm"),
                     urlencode({"next": request.get_full_path()}),
                 )

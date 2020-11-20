@@ -353,7 +353,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.run_checks(propagate_checks)
 
     def get_absolute_url(self):
-        return "{0}?checksum={1}".format(
+        return "{}?checksum={}".format(
             self.translation.get_translate_url(), self.checksum
         )
 

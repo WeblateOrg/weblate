@@ -30,7 +30,7 @@ def get_site_domain():
 
 def get_site_url(url=""):
     """Return root url of current site with domain."""
-    return "{0}://{1}{2}".format(
+    return "{}://{}{}".format(
         "https" if settings.ENABLE_HTTPS else "http", get_site_domain(), url
     )
 

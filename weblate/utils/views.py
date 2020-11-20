@@ -283,7 +283,7 @@ def download_translation_file(translation, fmt=None, units=None):
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)
-        filename = "{0}-{1}-{2}.{3}".format(
+        filename = "{}-{}-{}.{}".format(
             translation.component.project.slug,
             translation.component.slug,
             translation.language.code,
