@@ -11,6 +11,7 @@ Not yet released.
 * Added addon to remove blank strings from translation files.
 * The CodeMirror editor is now used for translations.
 * Syntax highlighting in translation editor for XML, HTML, Markdown and reStructuredText.
+* Highlight placeables in translation editor.
 
 Weblate 4.3.2
 -------------

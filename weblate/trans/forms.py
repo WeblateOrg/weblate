@@ -19,6 +19,7 @@
 
 import copy
 import json
+import re
 from datetime import date, datetime, timedelta
 from typing import Dict, List
 
@@ -45,6 +46,7 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
+from weblate.checks.utils import highlight_string
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
@@ -288,6 +290,7 @@ class PluralTextarea(forms.Textarea):
         lang = unit.translation.language
         plural = unit.translation.plural
         tabindex = self.attrs["tabindex"]
+        placeables = [hl[2] for hl in highlight_string(unit.source_string, unit)]
 
         # Need to add extra class
         attrs["class"] = "translation-editor form-control"
@@ -297,6 +300,7 @@ class PluralTextarea(forms.Textarea):
         attrs["rows"] = 3
         attrs["maxlength"] = unit.get_max_length()
         attrs["data-mode"] = unit.edit_mode
+        attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables)
         if unit.readonly:
             attrs["readonly"] = 1
 

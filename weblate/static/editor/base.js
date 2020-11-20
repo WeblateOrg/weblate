@@ -81,7 +81,6 @@ WLT.Editor = (function () {
       if (textarea.CodeMirror) {
         return;
       }
-      console.log("Mode", textarea.getAttribute("data-mode"));
       let codemirror = CodeMirror.weblateEditor(
         textarea,
         textarea.getAttribute("data-mode")
@@ -95,6 +94,17 @@ WLT.Editor = (function () {
           stream.skipTo(" ") || stream.skipToEnd();
         },
       });
+      let placeables = textarea.getAttribute("data-placeables");
+      if (placeables) {
+        codemirror.addOverlay({
+          token: function (stream) {
+            if (stream.match(placeables)) {
+              return "placeable";
+            }
+            stream.next();
+          },
+        });
+      }
 
       codemirror.on("change", () => {
         WLT.Utils.markTranslated($(textarea).closest("form"));
