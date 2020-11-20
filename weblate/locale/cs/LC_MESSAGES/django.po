@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-05 15:00+0000\n"
+"PO-Revision-Date: 2020-11-20 09:48+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1007,17 +1007,12 @@ msgstr ""
 "překladu, které se už nevyskytují v originálu."
 
 #: weblate/addons/cleanup.py:52
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Odstranit řetězec"
+msgstr "Odstranit prázdné řetězce"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Nový řetězec k překladu v %(translation)s"
+msgstr "Odstraní řetězece bez překladu z překladových souborů."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1305,15 +1300,10 @@ msgid "Language filter"
 msgstr "Filtr jazyků"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
-msgstr ""
-"Regulární výraz kterým můžete omezit jazyky při hledání souborů maskou."
+msgstr "Regulární výraz kterým můžete omezit jazyky při hledání souborů maskou."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1376,10 +1366,8 @@ msgid "Statistics generator"
 msgstr "Vytváření statistik"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Vytváří soubor obsahující podrobné údaje o překladu."
+msgstr "Vytváří soubor obsahující podrobné údaje o stavu překladu."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2790,10 +2778,8 @@ msgid "Failing checks"
 msgstr "Kontroly které nedopadly dobře"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "Možné nastavení"
+msgstr "Nastavení Weblate"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4800,13 +4786,11 @@ msgid "Install"
 msgstr "Nainstalovat"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
-msgstr "Nepodařilo se najít žádné další doplňky slučitelné s tímto překladem."
+msgstr ""
+"Nepodařilo se najít žádné další doplňky použitelné s touto součástí překladu."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -7146,19 +7130,15 @@ msgstr "Přidat zálohovací službu"
 
 #: weblate/templates/manage/design.html:10 weblate/wladmin/views.py:70
 msgid "Design"
-msgstr ""
+msgstr "Vzhled"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "Přizpůsobit stahování"
+msgstr "Přizpůsobit vzhled"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "Přizpůsobení pracovního postupu"
+msgstr "Zrušit přizpůsobení"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7864,14 +7844,12 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s návrh"
-msgstr[1] "%(count)s návrhy"
-msgstr[2] "%(count)s návrhů"
+msgstr[0] "%(count)s řetězec"
+msgstr[1] "%(count)s řetězec"
+msgstr[2] "%(count)s řetězců"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -10732,10 +10710,9 @@ msgstr ""
 "kterého se mají vytvářet."
 
 #: weblate/trans/models/component.py:2120
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Určit základní soubor pro nové překlady"
+msgstr "Nepodařilo se načíst základní soubor pro nové překlady: %s"
 
 #: weblate/trans/models/component.py:2124
 msgid "Unrecognized base file for new translations."
