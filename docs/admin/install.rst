@@ -475,8 +475,9 @@ environment. The recommended approach is to define proxy settings in
 .. code-block:: python
 
    import os
-   os.environ['http_proxy'] = "http://proxy.example.com:8080"
-   os.environ['HTTPS_PROXY'] = "http://proxy.example.com:8080"
+
+   os.environ["http_proxy"] = "http://proxy.example.com:8080"
+   os.environ["HTTPS_PROXY"] = "http://proxy.example.com:8080"
 
 .. seealso::
 
@@ -515,13 +516,13 @@ options:
 
     .. code-block:: python
 
-        ALLOWED_HOSTS = ['demo.weblate.org']
+        ALLOWED_HOSTS = ["demo.weblate.org"]
 
     Alternatively you can include wildcard:
 
     .. code-block:: python
 
-        ALLOWED_HOSTS = ['*']
+        ALLOWED_HOSTS = ["*"]
 
     .. seealso::
 
@@ -543,7 +544,7 @@ options:
 
     .. code-block:: python
 
-         SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+         SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
     .. seealso::
 
@@ -682,9 +683,7 @@ e-mails in case something goes wrong on the server, for example:
 
 .. code-block:: python
 
-    ADMINS = (
-        ('Your Name', 'your_email@example.com'),
-    )
+    ADMINS = (("Your Name", "your_email@example.com"),)
 
 .. seealso::
 
@@ -782,16 +781,16 @@ variable, for example:
 .. code-block:: python
 
     CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379/0',
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379/0",
             # If redis is running on same host as Weblate, you might
             # want to use unix sockets instead:
             # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-                'PARSER_CLASS': 'redis.connection.HiredisParser',
-            }
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "PARSER_CLASS": "redis.connection.HiredisParser",
+            },
         }
     }
 
@@ -811,23 +810,24 @@ recommended to use a separate, file-backed cache for this purpose:
 .. code-block:: python
 
     CACHES = {
-        'default': {
+        "default": {
             # Default caching backend setup, see above
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'unix:///var/run/redis/redis.sock?db=0',
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-                'PARSER_CLASS': 'redis.connection.HiredisParser',
-            }
-        },
-        'avatar': {
-            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-            'LOCATION': os.path.join(DATA_DIR, 'avatar-cache'),
-            'TIMEOUT': 604800,
-            'OPTIONS': {
-                'MAX_ENTRIES': 1000,
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "unix:///var/run/redis/redis.sock?db=0",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "PARSER_CLASS": "redis.connection.HiredisParser",
             },
-        }
+        },
+        "avatar": {
+            "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+            "LOCATION": os.path.join(DATA_DIR, "avatar-cache"),
+            "TIMEOUT": 604800,
+            "OPTIONS": {
+                "MAX_ENTRIES": 1000,
+            },
+        },
+    }
 
 .. seealso::
 
@@ -848,8 +848,8 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
 
 .. code-block:: python
 
-    SERVER_EMAIL = 'admin@example.org'
-    DEFAULT_FROM_EMAIL = 'weblate@example.org'
+    SERVER_EMAIL = "admin@example.org"
+    DEFAULT_FROM_EMAIL = "weblate@example.org"
 
 
 .. note::
@@ -925,7 +925,7 @@ example to set it to ``configuration`` directory under the Weblate tree:
 
 .. code-block:: python
 
-    os.environ['HOME'] = os.path.join(BASE_DIR, 'configuration')
+    os.environ["HOME"] = os.path.join(BASE_DIR, "configuration")
 
 .. note::
 
@@ -952,25 +952,28 @@ configure it using the following snippet (the ``loaders`` setting is important h
 
     TEMPLATES = [
         {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [
-                os.path.join(BASE_DIR, 'templates'),
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+            "DIRS": [
+                os.path.join(BASE_DIR, "templates"),
             ],
-            'OPTIONS': {
-                'context_processors': [
-                    'django.contrib.auth.context_processors.auth',
-                    'django.template.context_processors.debug',
-                    'django.template.context_processors.i18n',
-                    'django.template.context_processors.request',
-                    'django.template.context_processors.csrf',
-                    'django.contrib.messages.context_processors.messages',
-                    'weblate.trans.context_processors.weblate_context',
+            "OPTIONS": {
+                "context_processors": [
+                    "django.contrib.auth.context_processors.auth",
+                    "django.template.context_processors.debug",
+                    "django.template.context_processors.i18n",
+                    "django.template.context_processors.request",
+                    "django.template.context_processors.csrf",
+                    "django.contrib.messages.context_processors.messages",
+                    "weblate.trans.context_processors.weblate_context",
                 ],
-                'loaders': [
-                    ('django.template.loaders.cached.Loader', [
-                        'django.template.loaders.filesystem.Loader',
-                        'django.template.loaders.app_directories.Loader',
-                    ]),
+                "loaders": [
+                    (
+                        "django.template.loaders.cached.Loader",
+                        [
+                            "django.template.loaders.filesystem.Loader",
+                            "django.template.loaders.app_directories.Loader",
+                        ],
+                    ),
                 ],
             },
         },
@@ -1044,6 +1047,7 @@ snippet to :file:`settings.py` (the path is Debian specific):
 .. code-block:: python
 
     import os
+
     os.environ["REQUESTS_CA_BUNDLE"] = "/etc/ssl/certs/ca-certificates.crt"
 
 
@@ -1265,7 +1269,7 @@ Additionally, you will have to adjust :file:`weblate/settings.py`:
 
 .. code-block:: python
 
-    URL_PREFIX = '/weblate'
+    URL_PREFIX = "/weblate"
 
 .. _celery:
 
@@ -1283,7 +1287,7 @@ A typical setup using Redis as a backend looks like this:
 .. code-block:: python
 
    CELERY_TASK_ALWAYS_EAGER = False
-   CELERY_BROKER_URL = 'redis://localhost:6379'
+   CELERY_BROKER_URL = "redis://localhost:6379"
    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 You should also start the Celery worker to process the tasks and start
@@ -1397,16 +1401,16 @@ In short, you need to adjust :file:`settings.py`:
     # Add rollbar as last middleware:
     MIDDLEWARE = [
         # … other middleware classes …
-        'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
+        "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
     ]
 
     # Configure client access
     ROLLBAR = {
-        'access_token': 'POST_SERVER_ITEM_ACCESS_TOKEN',
-        'client_token': 'POST_CLIENT_ITEM_ACCESS_TOKEN',
-        'environment': 'development' if DEBUG else 'production',
-        'branch': 'master',
-        'root': '/absolute/path/to/code/root',
+        "access_token": "POST_SERVER_ITEM_ACCESS_TOKEN",
+        "client_token": "POST_CLIENT_ITEM_ACCESS_TOKEN",
+        "environment": "development" if DEBUG else "production",
+        "branch": "master",
+        "root": "/absolute/path/to/code/root",
     }
 
 Everything else is integrated automatically, you will now collect both server

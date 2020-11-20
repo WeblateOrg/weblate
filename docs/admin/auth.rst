@@ -71,11 +71,11 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.email.EmailAuth',
-        'social_core.backends.suse.OpenSUSEOpenId',
-        'social_core.backends.ubuntu.UbuntuOpenId',
-        'social_core.backends.fedora.FedoraOpenId',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.email.EmailAuth",
+        "social_core.backends.suse.OpenSUSEOpenId",
+        "social_core.backends.ubuntu.UbuntuOpenId",
+        "social_core.backends.fedora.FedoraOpenId",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
 .. seealso::
@@ -93,15 +93,15 @@ You need to register an application on GitHub and then tell Weblate all its secr
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.github.GithubOAuth2',
-        'social_core.backends.email.EmailAuth',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.github.GithubOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_GITHUB_KEY = 'GitHub Client ID'
-    SOCIAL_AUTH_GITHUB_SECRET = 'GitHub Client Secret'
-    SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+    SOCIAL_AUTH_GITHUB_KEY = "GitHub Client ID"
+    SOCIAL_AUTH_GITHUB_SECRET = "GitHub Client Secret"
+    SOCIAL_AUTH_GITHUB_SCOPE = ["user:email"]
 
 The GitHub should be configured to have callback URL as
 ``https://example.com/accounts/complete/github/``.
@@ -123,14 +123,14 @@ You need to register an application on Bitbucket and then tell Weblate all its s
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.bitbucket.BitbucketOAuth',
-        'social_core.backends.email.EmailAuth',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.bitbucket.BitbucketOAuth",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_BITBUCKET_KEY = 'Bitbucket Client ID'
-    SOCIAL_AUTH_BITBUCKET_SECRET = 'Bitbucket Client Secret'
+    SOCIAL_AUTH_BITBUCKET_KEY = "Bitbucket Client ID"
+    SOCIAL_AUTH_BITBUCKET_SECRET = "Bitbucket Client Secret"
     SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
 
 .. include:: /snippets/oauth-site.rst
@@ -153,14 +153,14 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.google.GoogleOAuth2',
-        'social_core.backends.email.EmailAuth',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.google.GoogleOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
-    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "Client ID"
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "Client secret"
 
 .. include:: /snippets/oauth-site.rst
 
@@ -182,15 +182,15 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.facebook.FacebookOAuth2',
-        'social_core.backends.email.EmailAuth',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.facebook.FacebookOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_FACEBOOK_KEY = 'key'
-    SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
-    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+    SOCIAL_AUTH_FACEBOOK_KEY = "key"
+    SOCIAL_AUTH_FACEBOOK_SECRET = "secret"
+    SOCIAL_AUTH_FACEBOOK_SCOPE = ["email", "public_profile"]
 
 .. include:: /snippets/oauth-site.rst
 
@@ -214,15 +214,15 @@ ensure you mark the `read_user` scope.
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.gitlab.GitLabOAuth2',
-        'social_core.backends.email.EmailAuth',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.gitlab.GitLabOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_GITLAB_KEY = 'Application ID'
-    SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
-    SOCIAL_AUTH_GITLAB_SCOPE = ['read_user']
+    SOCIAL_AUTH_GITLAB_KEY = "Application ID"
+    SOCIAL_AUTH_GITLAB_SECRET = "Secret"
+    SOCIAL_AUTH_GITLAB_SCOPE = ["read_user"]
 
     # If you are using your own GitLab
     # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
@@ -296,14 +296,14 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.slack.SlackOAuth2',
-        'social_core.backends.email.EmailAuth',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.slack.SlackOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_SLACK_KEY = ''
-    SOCIAL_AUTH_SLACK_SECRET = ''
+    SOCIAL_AUTH_SLACK_KEY = ""
+    SOCIAL_AUTH_SLACK_SECRET = ""
 
 .. include:: /snippets/oauth-site.rst
 
@@ -332,8 +332,8 @@ using the following:
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social_core.backends.suse.OpenSUSEOpenId',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "social_core.backends.suse.OpenSUSEOpenId",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
 Password authentication
@@ -438,15 +438,15 @@ Once you have the package installed, you can hook it into the Django authenticat
     # Add LDAP backed, keep Django one if you want to be able to login
     # even without LDAP for admin account
     AUTHENTICATION_BACKENDS = (
-        'django_auth_ldap.backend.LDAPBackend',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "django_auth_ldap.backend.LDAPBackend",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # LDAP server address
-    AUTH_LDAP_SERVER_URI = 'ldaps://ldap.example.net'
+    AUTH_LDAP_SERVER_URI = "ldaps://ldap.example.net"
 
     # DN to use for authentication
-    AUTH_LDAP_USER_DN_TEMPLATE = 'cn=%(user)s,o=Example'
+    AUTH_LDAP_USER_DN_TEMPLATE = "cn=%(user)s,o=Example"
     # Depending on your LDAP server, you might use a different DN
     # like:
     # AUTH_LDAP_USER_DN_TEMPLATE = 'ou=users,dc=example,dc=com'
@@ -454,13 +454,13 @@ Once you have the package installed, you can hook it into the Django authenticat
     # List of attributes to import from LDAP upon login
     # Weblate stores full name of the user in the full_name attribute
     AUTH_LDAP_USER_ATTR_MAP = {
-        'full_name': 'name',
+        "full_name": "name",
         # Use the following if your LDAP server does not have full name
         # Weblate will merge them later
         # 'first_name': 'givenName',
         # 'last_name': 'sn',
         # Email is required for Weblate (used in VCS commits)
-        'email': 'mail',
+        "email": "mail",
     }
 
     # Hide the registration form
@@ -489,8 +489,9 @@ and provide a user to bind for the search. For example:
 
    AUTH_LDAP_BIND_DN = ""
    AUTH_LDAP_BIND_PASSWORD = ""
-   AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
-       ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+   AUTH_LDAP_USER_SEARCH = LDAPSearch(
+       "ou=users,dc=example,dc=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
+   )
 
 Active Directory integration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -504,7 +505,9 @@ Active Directory integration
     AUTH_LDAP_BIND_PASSWORD = "password"
 
     # User and group search objects and types
-    AUTH_LDAP_USER_SEARCH = LDAPSearch("CN=Users,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)")
+    AUTH_LDAP_USER_SEARCH = LDAPSearch(
+        "CN=Users,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)"
+    )
 
     # Make selected group a superuser in Weblate
     AUTH_LDAP_USER_FLAGS_BY_GROUP = {
@@ -513,7 +516,9 @@ Active Directory integration
     }
 
     # Map groups from AD to Weblate
-    AUTH_LDAP_GROUP_SEARCH = LDAPSearch("OU=Groups,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)")
+    AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+        "OU=Groups,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)"
+    )
     AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
     AUTH_LDAP_FIND_GROUP_PERMS = True
 
@@ -553,18 +558,15 @@ authentication system by modifying the :file:`settings.py` file:
     # Add CAS backed, keep the Django one if you want to be able to sign in
     # even without LDAP for the admin account
     AUTHENTICATION_BACKENDS = (
-        'django_cas_ng.backends.CASBackend',
-        'weblate.accounts.auth.WeblateUserBackend',
+        "django_cas_ng.backends.CASBackend",
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
     # CAS server address
-    CAS_SERVER_URL = 'https://cas.example.net/cas/'
+    CAS_SERVER_URL = "https://cas.example.net/cas/"
 
     # Add django_cas_ng somewhere in the list of INSTALLED_APPS
-    INSTALLED_APPS = (
-        ...,
-        'django_cas_ng'
-    )
+    INSTALLED_APPS = (..., "django_cas_ng")
 
 Finally, a signal can be used to map the e-mail field to the user object. For
 this to work you have to import the signal from the `django-cas-ng` package and
@@ -578,11 +580,13 @@ cause problems, therefore it's suggested to put it:
 
     from django_cas_ng.signals import cas_user_authenticated
     from django.dispatch import receiver
+
+
     @receiver(cas_user_authenticated)
     def update_user_email_address(sender, user=None, attributes=None, **kwargs):
         # If your CAS server does not always include the email attribute
         # you can wrap the next two lines of code in a try/catch block.
-        user.email = attributes['email']
+        user.email = attributes["email"]
         user.save()
 
 .. seealso::
@@ -609,11 +613,9 @@ there is any) into :setting:`django:INSTALLED_APPS`:
 
     AUTHENTICATION_BACKENDS = (
         # Add authentication backend here
-        'weblate.accounts.auth.WeblateUserBackend',
+        "weblate.accounts.auth.WeblateUserBackend",
     )
 
-    INSTALLED_APPS = (
-        ...
-        'weblate',
+    INSTALLED_APPS += (
         # Install authentication app here
     )

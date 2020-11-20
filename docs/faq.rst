@@ -396,7 +396,7 @@ It needs to contain all hostnames you want to access on your Weblate. For exampl
 
 .. code-block:: python
 
-    ALLOWED_HOSTS = ['weblate.example.com', 'weblate', 'localhost']
+    ALLOWED_HOSTS = ["weblate.example.com", "weblate", "localhost"]
 
 .. seealso::
 

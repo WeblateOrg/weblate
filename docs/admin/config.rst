@@ -180,8 +180,8 @@ You can select which ones to use:
 .. code-block:: python
 
     AUTOFIX_LIST = (
-        'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
-        'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+        "weblate.trans.autofixes.whitespace.SameBookendingWhitespace",
+        "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
     )
 
 .. seealso::
@@ -256,9 +256,9 @@ You can turn on only a few:
 .. code-block:: python
 
     CHECK_LIST = (
-        'weblate.checks.chars.BeginNewlineCheck',
-        'weblate.checks.chars.EndNewlineCheck',
-        'weblate.checks.chars.MaxLengthCheck',
+        "weblate.checks.chars.BeginNewlineCheck",
+        "weblate.checks.chars.EndNewlineCheck",
+        "weblate.checks.chars.MaxLengthCheck",
     )
 
 .. note::
@@ -433,18 +433,17 @@ Example:
 .. code-block:: python
 
    DEFAULT_ADDONS = {
-        # Addon with no parameters
-        "weblate.flags.target_edit": {},
-
-        # Addon with parameters
-        "weblate.autotranslate.autotranslate": {
-            "mode": "suggest",
-            "filter_type": "todo",
-            "auto_source": "mt",
-            "component": "",
-            "engines": ["weblate-translation-memory"],
-            "threshold": "80",
-        }
+       # Addon with no parameters
+       "weblate.flags.target_edit": {},
+       # Addon with parameters
+       "weblate.autotranslate.autotranslate": {
+           "mode": "suggest",
+           "filter_type": "todo",
+           "auto_source": "mt",
+           "component": "",
+           "engines": ["weblate-translation-memory"],
+           "threshold": "80",
+       },
    }
 
 .. seealso::
@@ -952,9 +951,7 @@ A list of URLs you want to require logging into. (Besides the standard rules bui
 
     .. code-block:: python
 
-        LOGIN_REQUIRED_URLS = (
-            r'/(.*)$',
-        )
+        LOGIN_REQUIRED_URLS = (r"/(.*)$",)
         REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
             "rest_framework.permissions.IsAuthenticated"
         ]
@@ -976,13 +973,13 @@ Some of exceptions you might want to include:
 .. code-block:: python
 
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r'/accounts/(.*)$', # Required for login
-        r'/static/(.*)$',   # Required for development mode
-        r'/widgets/(.*)$',  # Allowing public access to widgets
-        r'/data/(.*)$',     # Allowing public access to data exports
-        r'/hooks/(.*)$',    # Allowing public access to notification hooks
-        r'/api/(.*)$',      # Allowing access to API
-        r'/js/i18n/$',      # JavaScript localization
+        r"/accounts/(.*)$",  # Required for login
+        r"/static/(.*)$",  # Required for development mode
+        r"/widgets/(.*)$",  # Allowing public access to widgets
+        r"/data/(.*)$",  # Allowing public access to data exports
+        r"/hooks/(.*)$",  # Allowing public access to notification hooks
+        r"/api/(.*)$",  # Allowing access to API
+        r"/js/i18n/$",  # JavaScript localization
     )
 
 .. setting:: PIWIK_SITE_ID
@@ -1047,19 +1044,19 @@ List of enabled machine translation services to use.
 .. code-block:: python
 
     MT_SERVICES = (
-        'weblate.machinery.apertium.ApertiumAPYTranslation',
-        'weblate.machinery.deepl.DeepLTranslation',
-        'weblate.machinery.glosbe.GlosbeTranslation',
-        'weblate.machinery.google.GoogleTranslation',
-        'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
-        'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
-        'weblate.machinery.mymemory.MyMemoryTranslation',
-        'weblate.machinery.tmserver.AmagamaTranslation',
-        'weblate.machinery.tmserver.TMServerTranslation',
-        'weblate.machinery.yandex.YandexTranslation',
-        'weblate.machinery.weblatetm.WeblateTranslation',
-        'weblate.machinery.saptranslationhub.SAPTranslationHub',
-        'weblate.memory.machine.WeblateMemory',
+        "weblate.machinery.apertium.ApertiumAPYTranslation",
+        "weblate.machinery.deepl.DeepLTranslation",
+        "weblate.machinery.glosbe.GlosbeTranslation",
+        "weblate.machinery.google.GoogleTranslation",
+        "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+        "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+        "weblate.machinery.mymemory.MyMemoryTranslation",
+        "weblate.machinery.tmserver.AmagamaTranslation",
+        "weblate.machinery.tmserver.TMServerTranslation",
+        "weblate.machinery.yandex.YandexTranslation",
+        "weblate.machinery.weblatetm.WeblateTranslation",
+        "weblate.machinery.saptranslationhub.SAPTranslationHub",
+        "weblate.memory.machine.WeblateMemory",
     )
 
 .. seealso::
@@ -1609,7 +1606,7 @@ You can use it to restrict registration to a single e-mail domain:
 
 .. code-block:: python
 
-    REGISTRATION_EMAIL_MATCH = r'^.*@weblate\.org$'
+    REGISTRATION_EMAIL_MATCH = r"^.*@weblate\.org$"
 
 .. setting:: REGISTRATION_OPEN
 
@@ -1760,7 +1757,7 @@ The default value is:
 
 .. code-block:: python
 
-    SPECIAL_CHARS = ('\t', '\n', '…')
+    SPECIAL_CHARS = ("\t", "\n", "…")
 
 .. setting:: SINGLE_PROJECT
 
@@ -1838,7 +1835,7 @@ Example:
 
 .. code-block:: python
 
-   URL_PREFIX = '/translations'
+   URL_PREFIX = "/translations"
 
 .. note::
 
@@ -1862,9 +1859,7 @@ Configuration of available VCS backends.
 
 .. code-block:: python
 
-   VCS_BACKENDS = (
-      'weblate.vcs.git.GitRepository',
-   )
+   VCS_BACKENDS = ("weblate.vcs.git.GitRepository",)
 
 .. seealso::
 
@@ -1933,7 +1928,6 @@ example:
         "weblate.addons.autotranslate.AutoTranslateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
-
         # Addon you want to include
         "weblate.addons.example.ExampleAddon",
     )
@@ -1984,7 +1978,7 @@ Identity used by Weblate to sign Git commits, for example:
 
 .. code-block:: python
 
-    WEBLATE_GPG_IDENTITY = 'Weblate <weblate@example.com>'
+    WEBLATE_GPG_IDENTITY = "Weblate <weblate@example.com>"
 
 The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` under
 :setting:`DATA_DIR`). If not found, a key is generated, please check

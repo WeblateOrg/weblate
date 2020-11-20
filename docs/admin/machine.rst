@@ -306,7 +306,7 @@ amaGama server, which is an enhanced version of tmserver.
 
 .. code-block:: python
 
-    MT_TMSERVER = 'http://localhost:8888/tmserver/'
+    MT_TMSERVER = "http://localhost:8888/tmserver/"
 
 .. seealso::
 

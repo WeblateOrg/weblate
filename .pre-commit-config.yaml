@@ -37,6 +37,11 @@ repos:
         entry: flake8
         language: system
         types: [python]
+      - id: blacken-docs
+        name: blacken-docs
+        entry: blacken-docs
+        language: system
+        files: '\.(rst|md|markdown|py|tex)$'
   - repo: meta
     hooks:
       - id: check-hooks-apply

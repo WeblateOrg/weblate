@@ -19,9 +19,7 @@ Installation
 
 .. code-block:: python
 
-    INSTALLED_APPS += (
-        'weblate.gitexport',
-    )
+    INSTALLED_APPS += ("weblate.gitexport",)
 
 2. Export existing repositories by migrating your database after installation:
 
@@ -68,9 +66,7 @@ Installation
 
 .. code-block:: python
 
-    INSTALLED_APPS += (
-        'weblate.billing',
-    )
+    INSTALLED_APPS += ("weblate.billing",)
 
 2. Run the database migration to optionally install additional database structures for the module:
 
@@ -133,20 +129,16 @@ Installation
 
 .. code-block:: python
 
-    INSTALLED_APPS += (
-        'weblate.legal',
-    )
+    INSTALLED_APPS += ("weblate.legal",)
 
     # Optional:
 
     # Social auth pipeline to confirm TOS upon registration/subsequent login
-    SOCIAL_AUTH_PIPELINE += (
-        'weblate.legal.pipeline.tos_confirm',
-    )
+    SOCIAL_AUTH_PIPELINE += ("weblate.legal.pipeline.tos_confirm",)
 
     # Middleware to enforce TOS confirmation of signed in users
     MIDDLEWARE += [
-        'weblate.legal.middleware.RequireTOSMiddleware',
+        "weblate.legal.middleware.RequireTOSMiddleware",
     ]
 
 2. Run the database migration to optionally install additional database structures for the module:

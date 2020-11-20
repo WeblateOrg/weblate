@@ -40,14 +40,14 @@ Better yet, turn your customization into a proper Python package:
         from setuptools import setup
 
         setup(
-            name = "weblate_customization",
-            version = "0.0.1",
-            author = "Your name",
-            author_email = "yourname@example.com",
-            description = "Sample Custom check for Weblate.",
-            license = "GPLv3+",
-            keywords = "Weblate check example",
-            packages=['weblate_customization'],
+            name="weblate_customization",
+            version="0.0.1",
+            author="Your name",
+            author_email="yourname@example.com",
+            description="Sample Custom check for Weblate.",
+            license="GPLv3+",
+            keywords="Weblate check example",
+            packages=["weblate_customization"],
         )
 
 3. Create a folder for the Python module (also called ``weblate_customization``)
@@ -83,10 +83,9 @@ Changing the logo
 .. code-block:: python
 
    INSTALLED_APPS = (
-      # Add your customization as first
-      'weblate_customization',
-
-      # Weblate apps are here…
+       # Add your customization as first
+       "weblate_customization",
+       # Weblate apps are here…
    )
 
 Branding appears in the following files:
@@ -127,19 +126,13 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
 .. code-block:: python
 
     # Checks
-    CHECK_LIST += (
-        'weblate_customization.checks.FooCheck',
-    )
+    CHECK_LIST += ("weblate_customization.checks.FooCheck",)
 
     # Autofixes
-    AUTOFIX_LIST += (
-      'weblate_customization.autofix.FooFixer',
-    )
+    AUTOFIX_LIST += ("weblate_customization.autofix.FooFixer",)
 
     # Addons
-    WEBLATE_ADDONS += (
-      'weblate_customization.addons.ExamplePreAddon',
-    )
+    WEBLATE_ADDONS += ("weblate_customization.addons.ExamplePreAddon",)
 
 .. seealso::
 
