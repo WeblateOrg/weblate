@@ -1526,7 +1526,7 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
     def save_content(self, handle):
         if self.store.root is None:
             self.store.root = self.template_store.store.root
-        super(XWikiPagePropertiesFormat, self).save_content(handle)
+        super().save_content(handle)
 
 
 class XWikiFullPageFormat(XWikiPagePropertiesFormat):
