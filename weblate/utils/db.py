@@ -39,7 +39,7 @@ class PostgreSQLSearchLookup(PatternLookup):
         lhs, lhs_params = self.process_lhs(qn, connection)
         rhs, rhs_params = self.process_rhs(qn, connection)
         params = lhs_params + rhs_params
-        return "%s %%%% %s = true" % (lhs, rhs), params
+        return f"{lhs} %% {rhs} = true", params
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -49,7 +49,7 @@ class MySQLSearchLookup(models.Lookup):
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
-        return "MATCH (%s) AGAINST (%s IN NATURAL LANGUAGE MODE)" % (lhs, rhs), params
+        return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
 class MySQLSubstringLookup(MySQLSearchLookup):
@@ -70,7 +70,7 @@ class PostgreSQLSubstringLookup(PatternLookup):
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
-        return "%s ILIKE %s" % (lhs, rhs), params
+        return f"{lhs} ILIKE {rhs}", params
 
 
 def table_has_row(connection, table, rowname):
