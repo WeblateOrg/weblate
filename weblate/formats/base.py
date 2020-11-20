@@ -533,7 +533,7 @@ class EmptyFormat(TranslationFormat):
 
     @classmethod
     def load(cls, storefile, template_store):
-        return type(str(""), (object,), {"units": []})()
+        return type("", (object,), {"units": []})()
 
     def save(self):
         return
