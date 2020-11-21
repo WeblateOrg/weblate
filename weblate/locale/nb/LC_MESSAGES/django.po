@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-20 18:29+0000\n"
-"Last-Translator: Kurt Eilertsen <kurt@kheds.com>\n"
+"PO-Revision-Date: 2020-11-21 22:26+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
 "Language: nb\n"
@@ -1201,8 +1201,8 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
-"Trailerlinjer er linjer som ligner på RFC 822 e-postoverskrifter, på slutten "
-"av den ellers frie formdelen av en forpliktende melding, for eksempel 'Co-"
+"Sluttlinjer er linjer som ligner på RFC 822 e-postoverskrifter, på slutten "
+"av den ellers frie formdelen av en innsjekksmelding, for eksempel 'Co-"
 "authored-by: ...'."
 
 #: weblate/addons/forms.py:168
@@ -3196,10 +3196,8 @@ msgid "Glossary was not found."
 msgstr "Ordliste ble ikke funnet."
 
 #: weblate/glossary/views.py:259
-#, fuzzy
-#| msgid "No words to import found in file."
 msgid "No terms to import found in file."
-msgstr "Ingen ord å importere funnet i filen."
+msgstr "Fant ingen termer å importere i filen."
 
 #: weblate/glossary/views.py:261
 #, python-format
@@ -3489,10 +3487,8 @@ msgid "Privacy"
 msgstr "Personvern"
 
 #: weblate/legal/templates/legal/contracts.html:15 weblate/legal/views.py:36
-#, fuzzy
-#| msgid "Use contact form"
 msgid "Subcontractors"
-msgstr "Bruk kontaktskjema"
+msgstr "Underleverandører"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
@@ -3637,10 +3633,8 @@ msgid "Failed to parse TMX file!"
 msgstr "Klarte ikke å tolke TMX-fil!"
 
 #: weblate/memory/models.py:161
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
-msgstr "Kunne ikke finne tilsvarende språk!"
+msgstr "Kunne ikke finne kildespråk!"
 
 #: weblate/memory/models.py:238
 msgctxt "Translation memory category"
@@ -6451,7 +6445,7 @@ msgstr "Send ventende endringer til det lokale pakkelageret"
 
 #: weblate/templates/js/git-status.html:38
 msgid "Outgoing commits in the Weblate repository"
-msgstr "Utgående forplikter i Weblate-depotet"
+msgstr "Utgående innsjekkinger i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6463,7 +6457,7 @@ msgstr "Skyv"
 
 #: weblate/templates/js/git-status.html:51
 msgid "Missing commits in the Weblate repository"
-msgstr "Mangler forpliktelser i Weblate-depotet"
+msgstr "Mangler innsjekkinger i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:56
 #, fuzzy
@@ -12509,11 +12503,12 @@ msgid "Activation completed."
 msgstr "Aktivering fullført."
 
 #: weblate/wladmin/views.py:154
-#, fuzzy
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
-msgstr "Aktivering mislyktes. Sjekk ditt aktiveringssymbol."
+msgstr ""
+"Klarte ikke aktivere installasjonen din. Sjekk at din aktiveringsverdi er "
+"korrekt."
 
 #: weblate/wladmin/views.py:199
 msgid "Backup process triggered"
