@@ -40,6 +40,7 @@ class VariantTest(ViewTestCase):
         self.component.variant_regex = "(Min|Short|Max)$"
         self.component.save()
         self.assertEqual(Variant.objects.count(), 1)
+        self.assertEqual(Variant.objects.get().unit_set.count(), 6)
         self.component.variant_regex = ""
         self.component.save()
         self.assertEqual(Variant.objects.count(), 0)
@@ -50,9 +51,28 @@ class VariantTest(ViewTestCase):
         self.assertEqual(Variant.objects.count(), 0)
         self.add_variants(suffix)
         self.assertEqual(Variant.objects.count(), 1)
+        self.assertEqual(Variant.objects.get().unit_set.count(), 6)
 
     def test_edit_component_suffix(self):
         self.test_edit_component("Max")
 
     def test_add_units_suffix(self):
         self.test_add_units("Max")
+
+    def test_variants_inner(self):
+        self.component.variant_regex = (
+            "//(SCRTEXT_S|SCRTEXT_M|SCRTEXT_L|REPTEXT|DDTEXT)"
+        )
+        self.component.save()
+        units = (
+            "DTEL///ABSD/DE_INTEND_POSTBACKGR//SCRTEXT_M 00001",
+            "DTEL///ABSD/DE_INTEND_POSTBACKGR//REPTEXT 00001",
+            "DTEL///ABSD/DE_INTEND_POSTBACKGR//SCRTEXT_L 00001",
+            "DTEL///ABSD/DE_INTEND_POSTBACKGR//SCRTEXT_S 00001",
+            "DTEL///ABSD/DE_INTEND_POSTBACKGR//DDTEXT 00001",
+        )
+        request = self.get_request()
+        translation = self.component.source_translation
+        translation.add_units(request, {key: "Test string" for key in units})
+        self.assertEqual(Variant.objects.count(), 1)
+        self.assertEqual(Variant.objects.get().unit_set.count(), 10)
