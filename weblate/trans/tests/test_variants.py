@@ -19,7 +19,6 @@
 
 """Test for variants."""
 
-
 from weblate.trans.models import Variant
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -28,26 +27,32 @@ class VariantTest(ViewTestCase):
     def create_component(self):
         return self.create_android()
 
-    def add_variants(self):
+    def add_variants(self, suffix: str = ""):
         request = self.get_request()
         translation = self.component.source_translation
-        translation.add_units(request, {"bar": "Default string"})
+        translation.add_units(request, {f"bar{suffix}": "Default string"})
         translation.add_units(request, {"barMin": "Min string"})
         translation.add_units(request, {"barShort": "Short string"})
 
-    def test_edit_component(self):
+    def test_edit_component(self, suffix: str = ""):
         self.add_variants()
         self.assertEqual(Variant.objects.count(), 0)
-        self.component.variant_regex = "(Min|Short)$"
+        self.component.variant_regex = "(Min|Short|Max)$"
         self.component.save()
         self.assertEqual(Variant.objects.count(), 1)
         self.component.variant_regex = ""
         self.component.save()
         self.assertEqual(Variant.objects.count(), 0)
 
-    def test_add_units(self):
-        self.component.variant_regex = "(Min|Short)$"
+    def test_add_units(self, suffix: str = ""):
+        self.component.variant_regex = "(Min|Short|Max)$"
         self.component.save()
         self.assertEqual(Variant.objects.count(), 0)
-        self.add_variants()
+        self.add_variants(suffix)
         self.assertEqual(Variant.objects.count(), 1)
+
+    def test_edit_component_suffix(self):
+        self.test_edit_component("Max")
+
+    def test_add_units_suffix(self):
+        self.test_add_units("Max")
