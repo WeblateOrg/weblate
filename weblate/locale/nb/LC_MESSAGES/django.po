@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
 "PO-Revision-Date: 2020-11-21 22:26+0000\n"
-"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
 "Language: nb\n"
@@ -1102,10 +1102,10 @@ msgid ""
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"Hver gang en ny oversettbar streng importeres fra VCS og den samsvarer med "
-"en kildestreng, blir den flagget som behov for redigering i Weblate. Dette "
-"er spesielt nyttig for filformater som inkluderer alle strenger, selv om de "
-"ikke er oversatt."
+"Hver gang en ny oversettbar streng importeres fra VKS og den samsvarer med "
+"en kildestreng, blir dens behov for redigering flagget som sådan i Weblate. "
+"Dette er spesielt nyttig for filformater som inkluderer alle strenger, selv "
+"om de ikke er oversatt."
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:70
 #: weblate/templates/component.html:213 weblate/templates/project.html:111
@@ -2450,6 +2450,7 @@ msgid "Read only"
 msgstr "Skrivebeskyttet"
 
 #: weblate/checks/flags.py:54
+#, fuzzy
 msgid "Strict unchanged check"
 msgstr "Streng uendret sjekk"
 
@@ -2508,7 +2509,7 @@ msgstr "Følgende formatstrenger mangler: %s"
 #: weblate/checks/format.py:347 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
-msgstr "Følgende formatstrenger er ekstra: %s"
+msgstr "Følgende formatstrenger er overflødige: %s"
 
 #: weblate/checks/format.py:398
 msgid "Python format"
@@ -2595,12 +2596,14 @@ msgid "The i18next interpolation does not match source"
 msgstr "I18neste-interpolasjonen samsvarer ikke med kilden"
 
 #: weblate/checks/format.py:525
+#, fuzzy
 msgid "ECMAScript template literals"
-msgstr "ECMA Skriptmal litteraler"
+msgstr "ECMASkript-mallitteraler"
 
 #: weblate/checks/format.py:526
+#, fuzzy
 msgid "ECMAScript template literals do not match source"
-msgstr "ECMAScript malbokstaver samsvarer ikke med kilden"
+msgstr "ECMAScript-mallitteraler samsvarer ikke med kilden"
 
 #: weblate/checks/format.py:538
 msgid "Percent placeholders"
@@ -2608,7 +2611,7 @@ msgstr "Prosentplassholdere"
 
 #: weblate/checks/format.py:539
 msgid "The percent placeholders do not match source"
-msgstr "De prosentvise plassholderne stemmer ikke overens med kilden"
+msgstr "Prosent-plassholderne stemmer ikke overens med kilden"
 
 #: weblate/checks/format.py:545
 msgid "Vue I18n formatting"
@@ -2773,7 +2776,7 @@ msgstr "Oversettelsene til flere språk har kontroller som feiler"
 
 #: weblate/checks/source.py:76
 msgid "Long untranslated"
-msgstr "Langt uoversatt"
+msgstr "Lang uoversatt"
 
 #: weblate/checks/source.py:77
 msgid "The string has not been translated for a long time"
@@ -2790,7 +2793,7 @@ msgstr "Kontroller som feilet"
 
 #: weblate/configuration/apps.py:26
 msgid "Weblate configuration"
-msgstr "Weblate konfigurasjon"
+msgstr "Weblate-oppsett"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -2855,7 +2858,7 @@ msgstr "Oppføring med samme navn finnes allerede."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
-msgstr "Opprettelsen mislyktes. Løs feilene nedenfor."
+msgstr "Opprettelse mislyktes. Løs feilene nedenfor."
 
 #: weblate/fonts/views.py:96
 msgid "Font deleted."
@@ -2875,7 +2878,7 @@ msgstr "Klarte ikke å laste strenger fra fil, prøv å velge et annet format."
 
 #: weblate/formats/convert.py:147
 msgid "HTML file"
-msgstr "HTML fil"
+msgstr "HTML-fil"
 
 #: weblate/formats/convert.py:204
 msgid "OpenDocument file"
@@ -2883,7 +2886,7 @@ msgstr "OpenDocument-fil"
 
 #: weblate/formats/convert.py:264
 msgid "IDML file"
-msgstr "IDML fil"
+msgstr "IDML-fil"
 
 #: weblate/formats/convert.py:318
 msgid "RC file"
@@ -2987,7 +2990,7 @@ msgstr "PHP-strenger"
 
 #: weblate/formats/ttkit.py:1098
 msgid "Laravel PHP strings"
-msgstr "Laravel PHP-strenger"
+msgstr "PHP-strenger for Laravel"
 
 #: weblate/formats/ttkit.py:1104
 msgid ".NET resource file"
@@ -3063,7 +3066,7 @@ msgstr "Flat XML-fil"
 
 #: weblate/formats/ttkit.py:1399
 msgid "INI file"
-msgstr "INI fil"
+msgstr "INI-fil"
 
 #: weblate/formats/ttkit.py:1434
 msgid "Inno Setup INI file"
