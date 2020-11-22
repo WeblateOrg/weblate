@@ -162,6 +162,7 @@ Notable configuration or dependencies changes:
 * There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which complements :setting:`django:SESSION_COOKIE_AGE`.
 * In case you were using :command:`hub` or :command:`lab` to integrate with GitHub or GitLab, you will need to reconfigure this, see :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
 * **Changed in 4.3.1:** The Celery configuration was changed to add ``memory`` queue. Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting.
+* **Changed in 4.3.2:** The ``post_update`` method of addons now takes extra ``skip_push`` parameter.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
