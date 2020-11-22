@@ -19,15 +19,15 @@ jobs:
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
-      - name: Set up Python 3.8
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2.1.4
         with:
-          python-version: 3.8
+          python-version: 3.9
       - name: Install apt dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y graphviz
-      - name: Install pip dependencies
+        run: sudo ./ci/apt-install
+      - name: Install Weblate
+        run: pip install .
+      - name: Install Sphinx
         run: pip install -r docs/requirements.txt
       - name: Sphinx build
         run: |
@@ -50,11 +50,15 @@ jobs:
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
-      - name: Set up Python 3.8
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2.1.4
         with:
-          python-version: 3.8
-      - name: Install pip dependencies
+          python-version: 3.9
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install
+      - name: Install Weblate
+        run: pip install .
+      - name: Install Sphinx
         run: pip install -r docs/requirements.txt
       - name: Sphinx linkcheck
         run: |
