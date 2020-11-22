@@ -57,6 +57,14 @@
 {{ object.code }}
 </td>
 </tr>
+{% with object.get_aliases_names as aliases %}
+  {% if aliases %}
+    <tr>
+    <th>{% trans "Aliased language codes" %}</th>
+    <td colspan="2">{{ aliases|join:", " }}</td>
+    </tr>
+  {% endif %}
+{% endwith %}
 <tr>
 <th>{% trans "Text direction" %}</th>
 <td colspan="2">{{ object.get_direction_display }}</td>
