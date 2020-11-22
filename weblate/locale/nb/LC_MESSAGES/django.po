@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-18 08:23+0000\n"
-"PO-Revision-Date: 2020-11-21 22:26+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2020-11-23 10:29+0000\n"
+"Last-Translator: Kurt Eilertsen <kurt@kheds.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
 "Language: nb\n"
@@ -2450,7 +2450,6 @@ msgid "Read only"
 msgstr "Skrivebeskyttet"
 
 #: weblate/checks/flags.py:54
-#, fuzzy
 msgid "Strict unchanged check"
 msgstr "Streng uendret sjekk"
 
@@ -2509,7 +2508,7 @@ msgstr "Følgende formatstrenger mangler: %s"
 #: weblate/checks/format.py:347 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
-msgstr "Følgende formatstrenger er overflødige: %s"
+msgstr "Følgende formatstrenger er ekstra: %s"
 
 #: weblate/checks/format.py:398
 msgid "Python format"
@@ -2596,14 +2595,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "I18neste-interpolasjonen samsvarer ikke med kilden"
 
 #: weblate/checks/format.py:525
-#, fuzzy
 msgid "ECMAScript template literals"
-msgstr "ECMASkript-mallitteraler"
+msgstr "ECMASkript-mal litteraler"
 
 #: weblate/checks/format.py:526
-#, fuzzy
 msgid "ECMAScript template literals do not match source"
-msgstr "ECMAScript-mallitteraler samsvarer ikke med kilden"
+msgstr "ECMA Script-mal litteraler samsvarer ikke med kilden"
 
 #: weblate/checks/format.py:538
 msgid "Percent placeholders"
@@ -3066,7 +3063,7 @@ msgstr "Flat XML-fil"
 
 #: weblate/formats/ttkit.py:1399
 msgid "INI file"
-msgstr "INI-fil"
+msgstr "INI fil"
 
 #: weblate/formats/ttkit.py:1434
 msgid "Inno Setup INI file"
@@ -3924,21 +3921,15 @@ msgid "Most active screenshot uploaders"
 msgstr "Mest aktive skjermavbildningsopplastere"
 
 #: weblate/templates/about/stats.html:64
-#, fuzzy
-#| msgid "Most active suggesters"
 msgid "Most active commenters"
 msgstr "Mest aktive forslagsstillere"
 
 #: weblate/templates/about/stats.html:84
-#, fuzzy
-#| msgid "Projects"
 msgctxt "Number of projects"
 msgid "Projects"
 msgstr "Prosjekter"
 
 #: weblate/templates/about/stats.html:88
-#, fuzzy
-#| msgid "Components"
 msgctxt "Number of components"
 msgid "Components"
 msgstr "Komponenter"
@@ -3952,11 +3943,8 @@ msgid "Failing checks found"
 msgstr "Mislykkede kontroller funnet"
 
 #: weblate/templates/about/stats.html:109
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgid "Dismissed checks"
-msgstr "Kontrollfeil"
+msgstr "Avviste sjekker"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4033,14 +4021,10 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
 msgstr ""
-"Hvis bekreftelseslenken utløper før du rekker å bruke den, registrer deg "
-"igjen."
+"Hvis bekreftelseskoblingen utløper før du kan bruke den, kan du be om en ny."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
@@ -4098,10 +4082,8 @@ msgid "Register"
 msgstr "Registrer"
 
 #: weblate/templates/accounts/hosting.html:17
-#, fuzzy
-#| msgid "Subscriptions"
 msgid "Trial subscriptions"
-msgstr "Abonnementer"
+msgstr "Prøveabonnement"
 
 #: weblate/templates/accounts/hosting.html:24
 #: weblate/templates/billing/status.html:9
@@ -4115,18 +4097,14 @@ msgid ", will be removed %(removal)s"
 msgstr ", vil bli fjernet %(removal)s"
 
 #: weblate/templates/accounts/hosting.html:27
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending approval"
-msgstr "Ventende streng"
+msgstr "Ventende godkjenning"
 
 #: weblate/templates/accounts/hosting.html:44
 #: weblate/templates/manage/users.html:43
 #: weblate/templates/manage/users_check.html:63
-#, fuzzy
-#| msgid "Check details"
 msgid "Check user access"
-msgstr "Sjekk detaljer"
+msgstr "Sjekk brukertilgang"
 
 #: weblate/templates/accounts/hosting.html:61
 msgid "Unmet guidelines from the community localization checklist:"
@@ -4141,30 +4119,22 @@ msgid "Contributor agreement"
 msgstr "Bidragsyteravtale"
 
 #: weblate/templates/accounts/hosting.html:85
-#, fuzzy
-#| msgid "Please read following contributor agreement:"
 msgid "Please check that following conditions are met:"
-msgstr "Les følgende bidragsyteroverensstemmelse:"
+msgstr "Kontroller at følgende vilkår er oppfylt:"
 
 #: weblate/templates/accounts/hosting.html:87
 #: weblate/templates/accounts/hosting.html:124
-#, fuzzy
-#| msgid ""
-#| "Source code has to be publicly available in a supported version control "
-#| "system."
 msgid ""
 "All the source code has to be publicly available in a supported version "
 "control system."
 msgstr ""
-"Kildekoden må være offentlig tilgjengelig i et støttet "
-"versjonskontrollsystem."
+"All kildekoden må være offentlig tilgjengelig i et versjonskontrollsystem "
+"som støttes."
 
 #: weblate/templates/accounts/hosting.html:88
 #: weblate/templates/accounts/hosting.html:125
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Brukeren er fjernet fra prosjektet."
+msgstr "Bruk av Weblate er godkjent av oppstrøms-prosjektet."
 
 #: weblate/templates/accounts/hosting.html:89
 #: weblate/templates/accounts/hosting.html:126
@@ -4172,10 +4142,8 @@ msgid "The project has had active development for at least three months."
 msgstr "Prosjektet har vært i aktiv utvikling i minst tre måneder."
 
 #: weblate/templates/accounts/hosting.html:92
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Approve as libre"
-msgstr "Godkjente strenger"
+msgstr "Godkjenn som fri"
 
 #: weblate/templates/accounts/hosting.html:95
 #: weblate/templates/billing/detail.html:31
@@ -4201,16 +4169,12 @@ msgid "Translate your libre project"
 msgstr "Oversett libre-prosjektet ditt"
 
 #: weblate/templates/accounts/hosting.html:119
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please check in advance whether your project is eligible for gratis project "
 "hosting on this site."
 msgstr ""
-"Sjekk på forhånd om prosjektet ditt er berettiget til å huses på dette "
-"nettstedet."
+"Vennligst sjekk på forhånd om prosjektet ditt er kvalifisert for gratis "
+"prosjektvert på dette nettstedet."
 
 #: weblate/templates/accounts/hosting.html:123
 msgid ""
@@ -4233,16 +4197,12 @@ msgid "Unapproved projects will be removed."
 msgstr "Prosjekter som ikke godkjennes blir fjernet."
 
 #: weblate/templates/accounts/hosting.html:130
-#, fuzzy
-#| msgid "There is no guarantee for service availability, nor quality."
 msgid "There is no guarantee of service availability, nor quality."
-msgstr "Det er ingen garanti for tjenestens tilgjengelighet eller kvalitet."
+msgstr "Det er ingen garanti for tjenestetilgjengelighet eller kvalitet."
 
 #: weblate/templates/accounts/hosting.html:135
-#, fuzzy
-#| msgid "Get support"
 msgid "Get started"
-msgstr "Få støtte"
+msgstr "Kom igang"
 
 #: weblate/templates/accounts/hosting.html:141
 msgid "Looking for commercial hosting?"
@@ -4454,10 +4414,8 @@ msgid "Download user data"
 msgstr "Last ned brukerdata"
 
 #: weblate/templates/accounts/profile.html:190
-#, fuzzy
-#| msgid "Your public profile"
 msgid "Public profile"
-msgstr "Din offentlige profil"
+msgstr "Offentlig profil"
 
 #: weblate/templates/accounts/profile.html:194
 msgid ""
@@ -4661,10 +4619,8 @@ msgid "Thank you for your interest in trying Weblate!"
 msgstr "Takk for interessen din for å prøve Weblate!"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "Din profil"
+msgstr "Prøvetilbudet ditt"
 
 #: weblate/templates/accounts/trial.html:23
 msgid "Your trial will last 14 days."
@@ -4729,28 +4685,22 @@ msgstr[0] "%(count)s ventende forslag"
 msgstr[1] "%(count)s ventende forslag"
 
 #: weblate/templates/accounts/user.html:54
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "%(count)s skjermbilde"
+msgstr[1] "%(count)s skjermbilder"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "%(count)s kommentar"
+msgstr[1] "%(count)s kommentarer"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Project Information"
 msgid "Projects contributions"
-msgstr "Prosjektinformasjon"
+msgstr "Prosjektbidrag"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4771,17 +4721,13 @@ msgid "Browse all changes for user"
 msgstr "Bla gjennom alle endringer for bruker"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
-#, fuzzy
-#| msgid "Last activity"
 msgid "Daily activity"
-msgstr "Siste aktivitet"
+msgstr "Daglig aktivitet"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
-#, fuzzy
-#| msgid "Last activity"
 msgid "Weekly activity"
-msgstr "Siste aktivitet"
+msgstr "Ukentlig aktivitet"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -4847,23 +4793,19 @@ msgid "Install"
 msgstr "Installer"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
-msgstr "Fant ingen ytterligere tillegg kompatible med denne oversettelsen."
+msgstr ""
+"Fant ikke flere tillegg som er kompatible med denne oversettelseskomponenten."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
 msgstr "Noen tillegg vil spørre om ytterligere oppsett under installasjon."
 
 #: weblate/templates/addons/cdnjs.html:5
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Integration instructions"
-msgstr "Oversettelsesinstruksjoner"
+msgstr "Integrasjonsinstruksjoner"
 
 #: weblate/templates/addons/cdnjs.html:7
 msgid "Include following snippet to load the localization from the CDN:"
@@ -5234,16 +5176,12 @@ msgid "No subscriptions or due payments."
 msgstr "Ingen abonnementer eller utestående betalinger."
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "If you miss access to billing of your project, please contact its project "
-#| "maintainers to grant you access."
 msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
 msgstr ""
-"Hvis du savner tilgang til fakturering for ditt prosjekt, kontakt dets "
-"administratorer for å innvilge deg tilgang."
+"Hvis du savner tilgang til fakturering av prosjektet ditt, kan du be "
+"administratorene om å gi deg tilgang."
 
 #: weblate/templates/billing/status.html:8
 msgid "Current plan"
@@ -5351,10 +5289,8 @@ msgstr "Totalt"
 
 #: weblate/templates/check.html:21 weblate/templates/check_component.html:23
 #: weblate/templates/check_project.html:22 weblate/templates/checks.html:20
-#, fuzzy
-#| msgid "Dismiss"
 msgid "Dismissed"
-msgstr "Avvis"
+msgstr "Avvist"
 
 #: weblate/templates/check.html:23 weblate/templates/check_component.html:25
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
@@ -5498,10 +5434,8 @@ msgstr "Oversettelsesrapporter"
 
 #: weblate/templates/component.html:58
 #: weblate/templates/snippets/project-nav.html:64
-#, fuzzy
-#| msgid "Download original translation files as ZIP file"
 msgid "Download translation files as ZIP file"
-msgstr "Last ned originale oversettelsesfiler som ZIP-fil"
+msgstr "Last ned oversettelsesfiler som ZIP fil"
 
 #: weblate/templates/component.html:63
 #: weblate/templates/language-project.html:39
@@ -5631,8 +5565,6 @@ msgid "You don't have permission to start a new translation"
 msgstr "Du har ikke tilgang til å starte ny oversettelse"
 
 #: weblate/templates/component.html:141
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to start new translation"
 msgstr "Logg inn for å starte ny oversettelse"
 
@@ -5649,8 +5581,6 @@ msgid "Dismiss"
 msgstr "Avvis"
 
 #: weblate/templates/component.html:168
-#, fuzzy
-#| msgid "Please log in to see the alerts."
 msgid "Please sign in to see the alerts."
 msgstr "Logg inn for å se varslene."
 
@@ -5865,10 +5795,6 @@ msgstr ""
 "programvareprosjektene listet nedenfor."
 
 #: weblate/templates/dashboard/anonymous.html:10
-#, fuzzy
-#| msgid ""
-#| "You need to be logged in to translate, otherwise you can only make "
-#| "suggestions."
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
@@ -5887,10 +5813,8 @@ msgid "Configure dashboard"
 msgstr "Sett opp oversikt"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Recent additions"
-msgstr "Nylige endringer"
+msgstr "Nylige tillegg"
 
 #: weblate/templates/dashboard/user.html:56
 msgid ""
@@ -6073,13 +5997,7 @@ msgstr[1] ""
 "strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -6087,11 +6005,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"Oversettelsesprosjektet for %(project)s inneholder for tiden <strong>"
-"%(count)s streng</strong> som kan oversettes."
+"Oversettelsesprosjektet for %(project)s inneholder for tiden <strong>%(count)"
+"s streng</strong> som kan oversettes."
 msgstr[1] ""
-"Oversettelsesprosjektet for %(project)s inneholder for tiden <strong>"
-"%(count)s strenger</strong> som kan oversettes."
+"Oversettelsesprosjektet for %(project)s inneholder for tiden <strong>%(count)"
+"s strenger</strong> som kan oversettes."
 
 #: weblate/templates/engage.html:46
 #, python-format
@@ -6156,10 +6074,8 @@ msgstr "Filstørrelse"
 
 #: weblate/templates/fonts/font_detail.html:21
 #: weblate/templates/screenshots/screenshot_detail.html:116
-#, fuzzy
-#| msgid "Created on"
 msgid "Created"
-msgstr "Opprettet den"
+msgstr "Opprettet"
 
 #: weblate/templates/fonts/font_detail.html:22
 #: weblate/templates/screenshots/screenshot_detail.html:117
@@ -6271,10 +6187,8 @@ msgstr[0] "Dette vil slette %(count)s oppføring fra ordlisten for godt."
 msgstr[1] "Dette vil slette %(count)s oppføringer fra ordlisten for godt."
 
 #: weblate/templates/glossaries.html:73
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new glossary"
-msgstr "Administrer ordbøker"
+msgstr "Opprett ny ordbok"
 
 #: weblate/templates/glossary.html:21
 #: weblate/templates/snippets/list-objects.html:45
@@ -6435,16 +6349,12 @@ msgid "Repository status"
 msgstr "Pakkelagerstatus"
 
 #: weblate/templates/js/git-status.html:24
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Send ventende endringer til det lokale pakkelageret"
+msgstr "Ventende endringer som ennå ikke er forpliktet til Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:29
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Send ventende endringer til det lokale pakkelageret"
+msgstr "Forplikt ventende endringer i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:38
 msgid "Outgoing commits in the Weblate repository"
@@ -6463,10 +6373,8 @@ msgid "Missing commits in the Weblate repository"
 msgstr "Mangler innsjekkinger i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:56
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "Update with changes from the remote repository"
-msgstr "Hente endringer fra fjernpakkelageret"
+msgstr "Oppdater med endringer fra det eksterne depotet"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
@@ -6481,10 +6389,8 @@ msgid "Pull"
 msgstr "Hent"
 
 #: weblate/templates/js/git-status.html:66
-#, fuzzy
-#| msgid "Rebase local changes onto the remote repository"
 msgid "Rebase Weblate changes onto the remote repository"
-msgstr "Rebaser lokale endringer til fjernlageret"
+msgstr "Rebase Weblate endres til det eksterne depotet"
 
 #: weblate/templates/js/git-status.html:66
 #: weblate/trans/models/component.py:141
@@ -6496,10 +6402,8 @@ msgid "Locking prevents translators from doing changes"
 msgstr "Låsing forhindrer oversettere fra å gjøre endringer"
 
 #: weblate/templates/js/git-status.html:86
-#, fuzzy
-#| msgid "Allow changes to the local repository"
 msgid "Allow changes to the Weblate repository"
-msgstr "Tillat endringer i den lokale pakkebrønnen"
+msgstr "Tillat endringer i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:86
 #: weblate/templates/snippets/component/lock.html:11
@@ -6507,38 +6411,28 @@ msgid "Unlock"
 msgstr "Åpne"
 
 #: weblate/templates/js/git-status.html:88
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
 msgid "Prevent any changes in the Weblate repository"
-msgstr "Forhindre eventuelle endringer i pakkelageret"
+msgstr "Forhindre endringer i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:88
 msgid "Lock"
 msgstr "Lås"
 
 #: weblate/templates/js/git-status.html:99
-#, fuzzy
-#| msgid ""
-#| "Reset removes all changes in Weblate and resets the repository to match "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream. Use with caution."
 msgstr ""
-"Tilbakestilling fjerner alle endringer i Weblate og tilbakestiller kodelager "
-"for å passe med det oppstrøms. Bruk med omhu."
+"Tilbakestilling fjerner alle endringer i Weblate slik at depotet samsvarer "
+"med oppstrøms. Bruk med forsiktighet."
 
 #: weblate/templates/js/git-status.html:104
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Maintenance"
-msgstr "Vedlikehold av kodelager"
+msgstr "Vedlikehold"
 
 #: weblate/templates/js/git-status.html:109
-#, fuzzy
-#| msgid "Reset all changes in the local repository"
 msgid "Reset all changes in the Weblate repository"
-msgstr "Tilbakestill alle forandringer i det lokale pakkelageret"
+msgstr "Tilbakestill alle endringer i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:109
 #: weblate/templates/translate.html:429
@@ -6546,10 +6440,8 @@ msgid "Reset"
 msgstr "Tilbakestill"
 
 #: weblate/templates/js/git-status.html:112
-#, fuzzy
-#| msgid "Cleanup all untracked files in the local repository"
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr "Rens opp alle usporede filer i det lokale pakkelageret"
+msgstr "Rydd opp alle usporede filer i Weblate-depotet"
 
 #: weblate/templates/js/git-status.html:112
 msgid "Cleanup"
@@ -6559,7 +6451,7 @@ msgstr "Opprydding"
 #, fuzzy, python-format
 #| msgid "Repository failure in %(component)s"
 msgid "Repository for %(component)s"
-msgstr "Kodelagersvikt i %(component)s"
+msgstr "Datalager for %(komponent)s"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Repository details"
@@ -6610,13 +6502,11 @@ msgstr "Gjenopprett"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:51
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s stemme"
-msgstr[1] "%(count)s stemmer"
+msgstr[0] "%(count)s tegn redigert"
+msgstr[1] "%(count)s tegn redigerte"
 
 #: weblate/templates/last-changes-content.html:78
 msgid "No matching activity found."
@@ -6676,10 +6566,9 @@ msgid "Your registration on %(site_title)s"
 msgstr "Din registrering på %(site_title)s"
 
 #: weblate/templates/mail/approved_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New translation in %(translation)s"
+#, python-format
 msgid "Approved translation in %(translation)s"
-msgstr "Ny oversettelse i %(translation)s"
+msgstr "Godkjent oversettelse i %(translation)s"
 
 #: weblate/templates/mail/base.html:258
 msgid "Translation Info"
@@ -6727,10 +6616,8 @@ msgstr ""
 "godkjenning av libre-planen din."
 
 #: weblate/templates/mail/billing_expired.html:16
-#, fuzzy
-#| msgid "Your billing plan has exceeded its limits."
 msgid "Your billing plan has expired and all its projects have been removed."
-msgstr "Din faktureringsplan er oversteget."
+msgstr "Faktureringsplanen din har utløpt, og alle prosjektene er fjernet."
 
 #: weblate/templates/mail/billing_expired.html:18
 msgid ""
@@ -6745,10 +6632,8 @@ msgid "This billing plan covers following projects:"
 msgstr "Vertsplanen dekker følgende prosjekter:"
 
 #: weblate/templates/mail/billing_expired.html:28
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "Fjernet prosjekt"
+msgstr "Fjern prosjektet"
 
 #: weblate/templates/mail/billing_expired.html:34
 msgid "All projects covered by this billing plan have been removed."
@@ -6764,16 +6649,13 @@ msgstr ""
 "bli fjernet %(date)s."
 
 #: weblate/templates/mail/billing_expired.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't perform the payment, all projects within this billing plan "
-#| "will be removed on %(date)s."
+#, python-format
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Hvis du ikke utsteder betaling, vil alle prosjekter i denne betalingsplanen "
-"bli fjernet %(date)s."
+"Hvis din libre-prøveperiode ikke blir godkjent, vil alle prosjekter innenfor "
+"denne faktureringsplanen bli fjernet den %(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -6841,16 +6723,14 @@ msgid "Contributor agreement was removed."
 msgstr "Bidragsyteravtalen ble fjernet."
 
 #: weblate/templates/mail/component_license_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Component %(component)s license changed to %(target)s"
+#, python-format
 msgid "%(component)s was re-licensed to %(target)s"
-msgstr "Komponenten %(component)s endret lisens til %(target)s"
+msgstr "%(component)s ble lisensiert til %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component %(component)s was locked"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "Komponenten %(component)s ble låst"
+msgstr "Bidragsyteravtale for %(component)s ble endret"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -7122,8 +7002,6 @@ msgid "Last login"
 msgstr "Siste innlogging"
 
 #: weblate/templates/manage-access.html:39
-#, fuzzy
-#| msgid "Not yet logged in"
 msgid "Not yet signed in"
 msgstr "Ennå ikke logget inn"
 
@@ -7170,10 +7048,8 @@ msgid "Component alerts"
 msgstr "Komponentvarsler"
 
 #: weblate/templates/manage/alerts.html:22
-#, fuzzy
-#| msgid "Dismiss"
 msgid "dismissed"
-msgstr "Avvis"
+msgstr "Avvist"
 
 #: weblate/templates/manage/alerts.html:33
 msgid "Projects without components"
@@ -7238,16 +7114,12 @@ msgid "Design"
 msgstr "Design"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "Tilpass nedlasting"
+msgstr "Tilpass design"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "Tilpasning av arbeidsflyt"
+msgstr "Tilbakestill tilpasning"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7306,9 +7178,8 @@ msgid "System checks"
 msgstr "Systemkontroller"
 
 #: weblate/templates/manage/performance.html:100
-#, fuzzy
 msgid "Celery queues"
-msgstr "Celery-oppgavekø"
+msgstr "Celery køer"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7438,10 +7309,8 @@ msgid "Send test e-mail"
 msgstr "Send test-e-post"
 
 #: weblate/templates/manage/tools.html:63
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "Versjonskontrollintegrasjon"
+msgstr "Test Sentry integrasjon"
 
 #: weblate/templates/manage/tools.html:66
 msgid "Generate a test event to test Sentry integration."
@@ -7452,10 +7321,8 @@ msgid "No matching user found."
 msgstr "Ingen samsvarende bruker funnet."
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "matrise"
+msgstr "Matrise"
 
 #: weblate/templates/matrix.html:37
 msgid "Displayed languages"
@@ -7489,10 +7356,8 @@ msgid "Number of entries for %(project)s"
 msgstr "Antall oppføringer for %(project)s"
 
 #: weblate/templates/memory/index.html:59
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of uploaded shared entries"
-msgstr "Antall delte oppføringer"
+msgstr "Antall opplastede delte oppføringer"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
@@ -7566,16 +7431,13 @@ msgstr "Be om ny oversettelse"
 
 #: weblate/templates/paginator.html:9
 #: weblate/templates/snippets/position-field.html:10
-#, fuzzy
-#| msgid "Go to position"
 msgid "Click to edit position"
-msgstr "Gå til posisjon"
+msgstr "Klikk for å redigere posisjon"
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid "%(position)s / %(total)s"
-msgstr "%(position)s / %(total)s"
+msgstr "%(position)s/%(total)s"
 
 #: weblate/templates/paginator.html:12
 #: weblate/templates/snippets/position-field.html:17
@@ -7584,10 +7446,8 @@ msgstr "Gå til posisjon"
 
 #: weblate/templates/paginator.html:19
 #: weblate/templates/snippets/position-field.html:19
-#, fuzzy
-#| msgid "Jump"
 msgid "Jump to"
-msgstr "Hopp"
+msgstr "Hopp til"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
@@ -7689,8 +7549,6 @@ msgstr ""
 "operasjoner."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please log in and try again later."
 msgid "You have been signed out, please sign in and try again later."
 msgstr "Du har blitt utlogget, logg inn og prøv igjen senere."
 
@@ -7716,10 +7574,8 @@ msgstr "Tildelte kildestrenger"
 
 #: weblate/templates/screenshots/screenshot_detail.html:30
 #: weblate/templates/screenshots/screenshot_detail.html:58
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Assigned screenshots"
-msgstr "Legg til skjermbilde"
+msgstr "Tildelte skjermbilder"
 
 #: weblate/templates/screenshots/screenshot_detail.html:31
 #: weblate/templates/screenshots/screenshot_detail.html:59
@@ -7871,10 +7727,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "%(author)s forfattet %(date)s"
 
 #: weblate/templates/snippets/git-info.html:43
-#, fuzzy
-#| msgid "Rebased repository"
 msgid "Weblate repository"
-msgstr "Rebasert kodelager"
+msgstr "Weblate oppbevaringssted"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -7932,10 +7786,8 @@ msgid "Comments"
 msgstr "Kommentarer"
 
 #: weblate/templates/snippets/list-objects.html:39
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Create translation"
-msgstr "Weblate-oversettelser"
+msgstr "Opprett oversettelse"
 
 #: weblate/templates/snippets/list-objects.html:106
 msgid "Nothing to list here."
@@ -8027,10 +7879,8 @@ msgid "Target strings"
 msgstr "Målstrenger"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Context strings"
 msgid "Key/Context strings"
-msgstr "Kontekststrenger"
+msgstr "Nøkkel/Kontekst strenger"
 
 #: weblate/templates/snippets/query-builder.html:18
 msgid "Comment strings"
@@ -8115,22 +7965,16 @@ msgid "Approved strings with suggestions"
 msgstr "Godkjente strenger med forslag"
 
 #: weblate/templates/snippets/query-builder.html:100
-#, fuzzy
-#| msgid "All untranslated strings added in the past month"
 msgid "All untranslated strings added the past month"
 msgstr "Alle uoversatte strenger lagt til den siste måneden"
 
 #: weblate/templates/snippets/query-builder.html:105
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings in a certain language"
-msgstr "Strenger med kontroller som feiler"
+msgstr "Oversatte strenger på et bestemt språk"
 
 #: weblate/templates/snippets/query-field.html:9
-#, fuzzy
-#| msgid "Search"
 msgid "Custom Search"
-msgstr "Søk"
+msgstr "Tilpasset søk"
 
 #: weblate/templates/snippets/query-field.html:19
 #: weblate/templates/snippets/user-query-field.html:5
@@ -8146,53 +7990,39 @@ msgid "Sort By"
 msgstr "Sorter etter"
 
 #: weblate/templates/snippets/stats.html:6
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Number of used languages"
 msgid "Languages"
 msgstr "Språk"
 
 #: weblate/templates/snippets/stats.html:11
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of source strings"
 msgid "Source strings"
-msgstr "Kildestrenger"
+msgstr "Kilde strenger"
 
 #: weblate/templates/snippets/stats.html:16
-#, fuzzy
-#| msgid "Source words"
 msgctxt "Number of source words"
 msgid "Source words"
-msgstr "Kildeord"
+msgstr "Kilde ord"
 
 #: weblate/templates/snippets/stats.html:21
-#, fuzzy
-#| msgid "Special characters"
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Spesialtegn"
+msgstr "Kilde tegn"
 
 #: weblate/templates/snippets/stats.html:27
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Number of hosted strings"
 msgid "Hosted strings"
-msgstr "Oversatte strenger"
+msgstr "Vertstrenger"
 
 #: weblate/templates/snippets/stats.html:32
-#, fuzzy
-#| msgid "Untranslated words"
 msgctxt "Number of hosted words"
 msgid "Hosted words"
-msgstr "Uoversatte ord"
+msgstr "Vert ord"
 
 #: weblate/templates/snippets/stats.html:37
-#, fuzzy
-#| msgid "Control characters"
 msgctxt "Number of hosted characters"
 msgid "Hosted characters"
-msgstr "Kontrolltegn"
+msgstr "Vert tegn"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -8232,10 +8062,8 @@ msgid "Failing checks:"
 msgstr "Feilende kontroller:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source in review"
-msgstr "Gjennomgang av kildestrenger"
+msgstr "Kilde i gjennomgang"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:31
@@ -8244,11 +8072,9 @@ msgid "Needs editing"
 msgstr "Trenger redigering"
 
 #: weblate/templates/snippets/unit-state.html:6 weblate/utils/state.py:34
-#, fuzzy
-#| msgid "Created on"
 msgctxt "String state"
 msgid "Read only"
-msgstr "Skrivebeskyttet"
+msgstr "Kun lesbar"
 
 #: weblate/templates/snippets/unit-state.html:7
 #: weblate/trans/templatetags/translations.py:505 weblate/utils/state.py:33
@@ -8274,31 +8100,21 @@ msgstr "Feilende kontroll:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Failed checks"
-msgstr "Kontrollfeil"
+msgstr "Mislykkede kontroller"
 
 #: weblate/templates/snippets/unit-state.html:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Dismissed checks"
-msgstr "Kontrollfeil"
+msgstr "Avviste sjekker"
 
 #: weblate/templates/snippets/unit-state.html:24
-#, fuzzy
-#| msgid "Commented"
 msgctxt "String state"
 msgid "Commented"
 msgstr "Kommentert"
 
 #: weblate/templates/snippets/unit-state.html:25
-#, fuzzy
-#| msgid "Suggested"
 msgctxt "String state"
 msgid "Suggested"
 msgstr "Foreslått"
@@ -8325,16 +8141,13 @@ msgid "Mute notifications for %(object)s"
 msgstr "Forstum varslinger for %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
-#, fuzzy
-#| msgid "Watching"
 msgid "Not watching"
-msgstr "Følger"
+msgstr "Ser ikke på"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
-#, fuzzy, python-format
-#| msgid "Unwatch project %(project)s"
+#, python-format
 msgid "Watch project %(project)s"
-msgstr "Slutt å holde oppsyn med %(project)s"
+msgstr "Se prosjektet %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
 #, fuzzy, python-format
