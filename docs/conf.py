@@ -13,6 +13,7 @@
 import os
 import sys
 
+import django
 import sphinx.transforms.i18n
 import sphinx.util.i18n
 
@@ -21,6 +22,9 @@ import sphinx.util.i18n
 # sys.path.insert(0, os.path.abspath('.'))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
 
+os.environ["DJANGO_SETTINGS_MODULE"] = "weblate.settings_test"
+os.environ["CI_DATABASE"] = "postgresql"
+
 # Hacky way to have all localized content in single domain
 sphinx.transforms.i18n.docname_to_domain = (
     sphinx.util.i18n.docname_to_domain
@@ -28,6 +32,7 @@ sphinx.transforms.i18n.docname_to_domain = (
 
 
 def setup(app):
+    django.setup()
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-pro.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     app.add_css_file("docs.css")
@@ -58,6 +63,7 @@ release = "4.4"
 extensions = [
     "djangodocs",
     "sphinxcontrib.httpdomain",
+    "sphinx.ext.autodoc",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
     "sphinx-jsonschema",

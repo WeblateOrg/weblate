@@ -181,33 +181,52 @@ class BaseAddon:
         return True
 
     def pre_push(self, component):
+        """Hook triggered before repository is pushed upstream."""
         return
 
     def post_push(self, component):
+        """Hook triggered after repository is pushed upstream."""
         return
 
     def pre_update(self, component):
+        """Hook triggered before repository is updated from upstream."""
         return
 
     def post_update(self, component, previous_head: str, skip_push: bool):
-        return
+        """
+        Hook triggered after repository is updated from upstream.
 
-    def post_commit(self, component):
+        :param str previous_head: HEAD of the repository prior to update, can
+                                  be blank on initial clone
+        :param bool skip_push: Whether the addon operation should skip pushing
+                               changes upstream. Usually you can pass this to
+                               underlying methods as commit_and_push or
+                               commit_pending.
+        """
         return
 
     def pre_commit(self, translation, author):
+        """Hook triggered before changes are comitted to the repository."""
+        return
+
+    def post_commit(self, component):
+        """Hook triggered after changes are comitted to the repository."""
         return
 
     def post_add(self, translation):
+        """Hook triggered after new translation is added."""
         return
 
     def unit_pre_create(self, unit):
+        """Hook triggered before new unit is created."""
         return
 
     def store_post_load(self, translation, store):
+        """Hook triggered after file is parsed and storage class contructed."""
         return
 
     def daily(self, component):
+        """Hook triggered daily."""
         return
 
     def component_update(self, component):
