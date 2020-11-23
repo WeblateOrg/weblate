@@ -7,3 +7,8 @@ Developing addons
 
 .. autoclass:: BaseAddon
     :members:
+
+Here is an example addon:
+
+.. literalinclude:: ../../weblate/addons/example.py
+    :language: python

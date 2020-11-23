@@ -398,13 +398,13 @@ To add another addon, simply include class absolute name in this setting.
 Writing addon
 +++++++++++++
 
-You can write your own addons too, all you need to do is subclass ``BaseAddon``,
-define the addon metadata and implement a callback which will do the processing.
+You can write your own addons too, all you need to do is subclass
+:class:`weblate.addons.base.BaseAddon`, define the addon metadata and implement
+a callback which will do the processing.
 
-Here is an example addon:
+.. seealso::
 
-.. literalinclude:: ../../weblate/addons/example.py
-    :language: python
+   :doc:`../contributing/addons`
 
 .. _addon-script:
 
