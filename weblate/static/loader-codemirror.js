@@ -70,6 +70,7 @@
       autoRefresh: true,
       extraKeys: { Tab: false },
       direction: direction,
+      readOnly: textarea.hasAttribute("readonly"),
     });
     var classToggle = textarea.parentElement.classList;
 
