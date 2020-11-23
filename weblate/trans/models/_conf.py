@@ -17,11 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os.path
 
 from appconf import AppConf
-from django.conf import settings
 
 
 class WeblateConf(AppConf):
@@ -29,7 +27,7 @@ class WeblateConf(AppConf):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # Data directory
-    DATA_DIR = os.path.join(settings.BASE_DIR, "data")
+    DATA_DIR = os.path.join(BASE_DIR, "data")
 
     # Akismet API key
     AKISMET_API_KEY = None
