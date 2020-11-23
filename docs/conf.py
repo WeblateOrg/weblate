@@ -13,17 +13,16 @@
 import os
 import sys
 
-import django
 import sphinx.transforms.i18n
 import sphinx.util.i18n
 
 # -- Path setup --------------------------------------------------------------
 
 # sys.path.insert(0, os.path.abspath('.'))
+# Our extension
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
-
-os.environ["DJANGO_SETTINGS_MODULE"] = "weblate.settings_test"
-os.environ["CI_DATABASE"] = "postgresql"
+# Weblate code
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Hacky way to have all localized content in single domain
 sphinx.transforms.i18n.docname_to_domain = (
@@ -32,7 +31,6 @@ sphinx.transforms.i18n.docname_to_domain = (
 
 
 def setup(app):
-    django.setup()
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-pro.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     app.add_css_file("docs.css")
@@ -229,3 +227,26 @@ linkcheck_ignore = ["http://127.0.0.1:8080/"]
 # HTTP docs
 http_index_ignore_prefixes = ["/api/"]
 http_strict_mode = True
+
+# Autodocs
+autodoc_mock_imports = [
+    "django",
+    "celery",
+    "sentry_sdk",
+    "crispy_forms",
+    "weblate.trans.discovery",
+    "weblate.checks.models",
+    "weblate.trans.forms",
+    "weblate.addons.forms",
+    "weblate.trans.tasks",
+    "dateutil",
+    "filelock",
+    "lxml",
+    "translate",
+    "siphashc",
+    "git",
+    "PIL",
+    "weblate.addons.models",
+    "weblate.trans.models",
+    "weblate.lang.models",
+]
