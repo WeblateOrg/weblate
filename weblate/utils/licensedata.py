@@ -138,6 +138,12 @@ LICENSES = (
         False,
     ),
     (
+        "ANTLR-PD-fallback",
+        "ANTLR Software Rights Notice with license fallback",
+        "http://www.antlr2.org/license.html",
+        False,
+    ),
+    (
         "Apache-1.0",
         "Apache License 1.0",
         "http://www.apache.org/licenses/LICENSE-1.0",
