@@ -1219,6 +1219,8 @@ Configuration for uWSGI (also available as :file:`weblate/examples/weblate.uwsgi
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
 
+It is recommended to use prefork MPM when using WSGI with Weblate.
+
 The following configuration runs Weblate as WSGI, you need to have enabled
 mod_wsgi (available as :file:`weblate/examples/apache.conf`):
 
@@ -1258,6 +1260,8 @@ Running Weblate under path
 .. versionchanged:: 1.3
 
     This is supported since Weblate 1.3.
+
+It is recommended to use prefork MPM when using WSGI with Weblate.
 
 A sample Apache configuration to serve Weblate under ``/weblate``. Again using
 mod_wsgi (also available as :file:`weblate/examples/apache-path.conf`):
