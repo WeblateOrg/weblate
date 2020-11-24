@@ -135,6 +135,10 @@ class LanguageQuerySet(models.QuerySet):
         if code.startswith("b+"):
             code = code[2:]
 
+        # Replace -r from Android by _
+        if len(code) == 6 and "-r" in code:
+            code = code.replace("-r", "_")
+
         # Handle duplicate language files for example "cs (2)"
         code = COPY_RE.sub("", code)
 

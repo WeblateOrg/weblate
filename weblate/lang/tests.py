@@ -238,6 +238,16 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
             "czech", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False
         )
 
+    def test_chinese_fuzzy_get(self):
+        """Test handling of manually created zh_CN language."""
+        language = Language.objects.create(code="zh_CN", name="Chinese")
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create("zh-rCN", "zh_CN", "ltr", "0", "Chinese (zh_CN)", False)
+
 
 class CommandTest(BaseTestCase):
     """Test for management commands."""
