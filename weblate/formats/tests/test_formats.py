@@ -69,6 +69,7 @@ TEST_JSON = get_test_file("cs.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
 TEST_PHP = get_test_file("cs.php")
+TEST_LARAVEL = get_test_file("laravel.php")
 TEST_JOOMLA = get_test_file("cs.joomla.ini")
 TEST_INI = get_test_file("cs.ini")
 TEST_PROPERTIES = get_test_file("swing.properties")
@@ -489,6 +490,11 @@ class PhpFormatTest(AutoFormatTest):
 
 class LaravelPhpFormatTest(PhpFormatTest):
     FORMAT = LaravelPhpFormat
+    FILE = TEST_LARAVEL
+    FIND = "return[]->'apples'"
+    FIND_CONTEXT = "return[]->'apples'"
+    FIND_MATCH = "There is one apple\x1e\x1eThere are many apples"
+    COUNT = 2
 
 
 class AndroidFormatTest(XMLMixin, AutoFormatTest):

@@ -172,15 +172,15 @@ class KeyValueUnit(TTKitUnit):
     def source(self):
         """Return source string from a Translate Toolkit unit."""
         if self.template is not None:
-            return self.template.value
-        return self.unit.name
+            return get_string(self.template.value)
+        return get_string(self.unit.name)
 
     @cached_property
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ""
-        return self.unit.value
+        return get_string(self.unit.value)
 
     @cached_property
     def context(self):
@@ -789,14 +789,14 @@ class PHPUnit(KeyValueUnit):
     @cached_property
     def source(self):
         if self.template is not None:
-            return self.template.source
+            return get_string(self.template.source)
         return self.unit.getid()
 
     @cached_property
     def target(self):
         if self.unit is None:
             return ""
-        return self.unit.source
+        return get_string(self.unit.source)
 
 
 class INIUnit(TTKitUnit):

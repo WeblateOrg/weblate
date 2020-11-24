@@ -715,12 +715,8 @@ Laravel PHP strings
 
 The Laravel PHP localization files are supported as well with plurals:
 
-.. code-block:: php
-
-    <?php
-    return [
-        'apples' => 'There is one apple|There are many apples',
-    ];
+.. literalinclude:: ../weblate/trans/tests/data/laravel.php
+    :language: php
 
 .. seealso::
 
