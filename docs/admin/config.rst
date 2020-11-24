@@ -696,7 +696,7 @@ translation updates.
 
    :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`,
-   `Creating a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_
+   `Creating a personal access token <https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -1227,7 +1227,7 @@ Client key for the Microsoft Cognitive Services Translator API.
 
 .. seealso::
     :ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
-    `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
+    `Cognitive Services - Text Translation API <https://azure.microsoft.com/en-us/services/cognitive-services/translator/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 
 .. setting:: MT_MICROSOFT_REGION
@@ -1317,7 +1317,7 @@ MyMemory user ID for private translation memory, use it with :setting:`MT_MYMEMO
 MT_NETEASE_KEY
 --------------
 
-App key for NetEase Sight API, you can register at https://sight.netease.com/
+App key for NetEase Sight API, you can register at https://sight.youdao.com/
 
 .. seealso::
 
@@ -1328,7 +1328,7 @@ App key for NetEase Sight API, you can register at https://sight.netease.com/
 MT_NETEASE_SECRET
 -----------------
 
-App secret for the NetEase Sight API, you can register at https://sight.netease.com/
+App secret for the NetEase Sight API, you can register at https://sight.youdao.com/
 
 .. seealso::
 

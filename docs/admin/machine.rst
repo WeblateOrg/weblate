@@ -196,7 +196,7 @@ With new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` to loca
 .. seealso::
 
     :setting:`MT_MICROSOFT_COGNITIVE_KEY`, :setting:`MT_MICROSOFT_REGION`,
-    `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
+    `Cognitive Services - Text Translation API <https://azure.microsoft.com/en-us/services/cognitive-services/translator/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 
 .. _ms-terminology:
@@ -274,7 +274,7 @@ Turn on this service by adding ``weblate.machinery.youdao.NeteaseSightTranslatio
 
     :setting:`MT_NETEASE_KEY`,
     :setting:`MT_NETEASE_SECRET`
-    `Netease Sight Translation Platform <https://sight.netease.com/>`_
+    `Netease Sight Translation Platform <https://sight.youdao.com/>`_
 
 .. _tmserver:
 

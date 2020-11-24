@@ -298,7 +298,7 @@ Perl format
 
 .. seealso::
 
-    `Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_,
+    `Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_,
     `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
 
 PHP format

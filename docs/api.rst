@@ -2383,7 +2383,7 @@ update individual repositories; see
 
         :ref:`github-setup`
             For instruction on setting up GitHub integration
-        https://docs.github.com/en/github/extending-github/about-webhooks
+        https://docs.github.com/en/free-pro-team@latest/github/extending-github/about-webhooks
             Generic information about GitHub Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
@@ -2411,7 +2411,7 @@ update individual repositories; see
 
         :ref:`bitbucket-setup`
             For instruction on setting up Bitbucket integration
-        https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html
+        https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/
             Generic information about Bitbucket Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
@@ -2443,7 +2443,7 @@ update individual repositories; see
 
         :ref:`azure-setup`
             For instruction on setting up Azure integration
-        https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks
+        https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops
             Generic information about Azure Repos Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
