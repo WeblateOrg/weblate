@@ -41,7 +41,7 @@ cryptographic function):
    Optionally used by Weblate
 `Git <https://git-scm.com/>`_
    Optionally used by Weblate
-`curl <https://curl.haxx.se/>`_
+`curl <https://curl.se/>`_
    Used by Git
 `OpenSSL <https://www.openssl.org/>`_
    Used by Python and cURL
