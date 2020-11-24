@@ -326,6 +326,7 @@ def check_upload_method_permissions(user, translation, method: str):
             translation.is_source
             and not translation.filename
             and user.has_perm("upload.perform", translation)
+            and hasattr(translation.component.file_format_cls, "update_bilingual")
         )
     if method in ("translate", "fuzzy"):
         return user.has_perm("unit.edit", translation)
