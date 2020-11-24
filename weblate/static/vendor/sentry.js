@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.27.4 (2500631) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.27.6 (480d177) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2579,14 +2579,15 @@ var Sentry = (function (exports) {
          */
         Scope.prototype._notifyScopeListeners = function () {
             var _this = this;
+            // We need this check for this._notifyingListeners to be able to work on scope during updates
+            // If this check is not here we'll produce endless recursion when something is done with the scope
+            // during the callback.
             if (!this._notifyingListeners) {
                 this._notifyingListeners = true;
-                setTimeout(function () {
-                    _this._scopeListeners.forEach(function (callback) {
-                        callback(_this);
-                    });
-                    _this._notifyingListeners = false;
+                this._scopeListeners.forEach(function (callback) {
+                    callback(_this);
                 });
+                this._notifyingListeners = false;
             }
         };
         /**
@@ -5971,7 +5972,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.27.4';
+    var SDK_VERSION = '5.27.6';
 
     /**
      * The Sentry Browser SDK Client.
