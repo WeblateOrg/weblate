@@ -53,10 +53,17 @@ The detailed listing is a per language overview:
 
 .. image:: /images/source-review-detail.png
 
-String comments
----------------
+.. _report-source:
 
-Translators can comment on both translation and source strings.
-Each :ref:`component` can be configured to receive such comments to an e-mail
-address, and using the developers mailing list is usually the best approach.
-This way you can keep an eye on when problems arise in translation, take care of them, and fix them quickly.
+Receiving source string feedback
+--------------------------------
+
+Translators can comment on both translation and source strings. Each
+:ref:`component` can be configured to receive such comments to an e-mail
+address (see :ref:`component-report_source_bugs`), and using the developers
+mailing list is usually the best approach.  This way you can keep an eye on
+when problems arise in translation, take care of them, and fix them quickly.
+
+.. seealso::
+
+    :ref:`user-comments`

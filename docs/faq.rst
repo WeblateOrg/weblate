@@ -270,6 +270,11 @@ How do I provide feedback on a source string?
 On context tabs below translation, you can use the :guilabel:`Comments` tab to
 provide feedback on a source string, or discuss it with other translators.
 
+.. seealso::
+
+    :ref:`report-source`,
+    :ref:`user-comments`
+
 How can I use existing translations while translating?
 ------------------------------------------------------
 

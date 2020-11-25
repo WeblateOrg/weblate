@@ -56,6 +56,8 @@ arises, which will prompt another translator to review it.
 The suggestions are scanned on a daily basis to remove duplicate ones or
 suggestions that match the current translation.
 
+.. _user-comments:
+
 Comments
 --------
 
@@ -66,6 +68,10 @@ be rephrased or it is confusing.
 
 You can use Markdown syntax in the comments and mention other users using
 ``@mention``.
+
+.. seealso::
+
+   :ref:`report-source`
 
 Variants
 --------
