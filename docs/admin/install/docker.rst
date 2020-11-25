@@ -955,6 +955,8 @@ instance when running Weblate in Docker.
 
     Can be used to disable SSL certificate verification for Redis connection.
 
+.. _docker-mail:
+
 Email server setup
 ~~~~~~~~~~~~~~~~~~
 

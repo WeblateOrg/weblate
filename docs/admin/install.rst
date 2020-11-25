@@ -426,15 +426,27 @@ server.
 
 The mail server setup is configured using these settings:
 :setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`,
+:setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_TLS`,
 :setting:`django:EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their
 names are quite self-explanatory, but you can find more info in the
 Django documentation.
+
+.. hint::
+
+    In case you get error about not supported authentication (for example
+    ``SMTP AUTH extension not supported by server``), it is most likely caused
+    by using insecure connection and server refuses to authenticate this way.
+    Try enabling :setting:`django:EMAIL_USE_TLS` in such case.
 
 .. note::
 
    You can verify whether outgoing e-mail is working correctly by using the
    :djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage`
    for instructions on how to invoke it in different environments).
+
+.. seealso::
+
+   :ref:`docker-mail` for cofiguring outgoing e-mail in Docker container.
 
 .. _reverse-proxy:
 
