@@ -355,6 +355,7 @@ LICENSES = (
         "http://www.freebsd.org/copyright/license.html",
         False,
     ),
+    ("BUSL-1.1", "Business Source License 1.1", "https://mariadb.com/bsl11/", False),
     (
         "bzip2-1.0.5",
         "bzip2 and libbzip2 License v1.0.5",
@@ -1212,6 +1213,12 @@ LICENSES = (
         "HPND-sell-variant",
         "Historical Permission Notice and Disclaimer - sell variant",
         "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/sunrpc/auth_gss/gss_generic_token.c?h=v4.19",
+        False,
+    ),
+    (
+        "HTMLTIDY",
+        "HTML Tidy License",
+        "https://github.com/htacg/tidy-html5/blob/next/README/LICENSE.md",
         False,
     ),
     (
