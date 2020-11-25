@@ -384,6 +384,18 @@ operation again.
 The default limits are described in the administrative manual in
 :ref:`rate-limit`, but can be tweaked by configuration.
 
+Search and replace
+------------------
+
+In case you want to change a terminology or perform some bulk fixing of the
+strings, :guilabel:`Search and replace` is a feature for you. You can find it
+in the :guilabel:`Tools` menu.
+
+.. hint::
+
+    Don't worry about messing up the strings. This is a two step process which
+    will show you a preview of the edits before the actual change is done.
+
 .. _bulk-edit:
 
 Bulk edit
