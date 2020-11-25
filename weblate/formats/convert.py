@@ -154,9 +154,7 @@ class HTMLFormat(ConvertFormat):
     def convertfile(storefile, template_store):
         store = pofile()
         # Fake input file with a blank filename
-        htmlparser = htmlfile(
-            includeuntaggeddata=False, inputfile=BytesIOMode("", storefile.read())
-        )
+        htmlparser = htmlfile(inputfile=BytesIOMode("", storefile.read()))
         for htmlunit in htmlparser.units:
             locations = htmlunit.getlocations()
             if template_store:
