@@ -398,7 +398,7 @@ class Billing(models.Model):
         users = self.owners.distinct()
         for project in self.projects.iterator():
             users |= User.objects.having_perm("billing.view", project)
-        return users
+        return users.exclude(is_superuser=True)
 
     def _get_libre_checklist(self):
         yield LibreCheck(
