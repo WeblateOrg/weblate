@@ -109,12 +109,13 @@ class AutoTranslate:
             # Get update
             state, target = translations[unit.source]
 
+            self.set_progress(pos)
+
             # No save if translation is same or unit does not exist
             if unit.state == state and unit.target == target:
                 continue
             # Copy translation
             self.update(unit, state, target)
-            self.set_progress(pos)
 
         self.post_process()
 
