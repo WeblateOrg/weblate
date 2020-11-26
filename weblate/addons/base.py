@@ -119,7 +119,7 @@ class BaseAddon:
         return cls.settings_form(user, instance, **kwargs)
 
     def get_settings_form(self, user, **kwargs):
-        """Return configuration for for this addon."""
+        """Return configuration form for this addon."""
         if self.settings_form is None:
             return None
         if "data" not in kwargs:
