@@ -268,7 +268,10 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
     def test_get_language_filename(self):
         self.assertEqual(
-            self.FORMAT.get_language_filename(self.MASK, "cs_CZ"), self.EXPECTED_PATH
+            self.FORMAT.get_language_filename(
+                self.MASK, self.FORMAT.get_language_code("cs_CZ")
+            ),
+            self.EXPECTED_PATH,
         )
 
     def test_new_unit(self):
@@ -514,7 +517,9 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
 
     def test_get_language_filename(self):
         self.assertEqual(
-            self.FORMAT.get_language_filename(self.MASK, "sr_Latn"),
+            self.FORMAT.get_language_filename(
+                self.MASK, self.FORMAT.get_language_code("sr_Latn")
+            ),
             "res/values-b+sr+Latn/strings.xml",
         )
 
@@ -865,7 +870,10 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
 
     def test_get_language_filename(self):
         self.assertEqual(
-            self.FORMAT.get_language_filename(self.MASK, "cs"), self.EXPECTED_PATH
+            self.FORMAT.get_language_filename(
+                self.MASK, self.FORMAT.get_language_code("cs")
+            ),
+            self.EXPECTED_PATH,
         )
 
     def test_save(self, edit=False):
@@ -977,7 +985,10 @@ class XWikiFullPageFormatTest(AutoFormatTest):
 
     def test_get_language_filename(self):
         self.assertEqual(
-            self.FORMAT.get_language_filename(self.MASK, "cs"), self.EXPECTED_PATH
+            self.FORMAT.get_language_filename(
+                self.MASK, self.FORMAT.get_language_code("cs")
+            ),
+            self.EXPECTED_PATH,
         )
 
     def test_new_unit(self):

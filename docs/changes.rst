@@ -12,6 +12,7 @@ Not yet released.
 * The CodeMirror editor is now used for translations.
 * Syntax highlighting in translation editor for XML, HTML, Markdown and reStructuredText.
 * Highlight placeables in translation editor.
+* Improved support for non standard language codes.
 
 Weblate 4.3.2
 -------------

@@ -249,6 +249,13 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
 
+    def get_language_alias(self, code):
+        if code in self.language_aliases_dict:
+            return self.language_aliases_dict[code]
+        if code in ("source", "src", "default"):
+            return self.source_language.code
+        return code
+
     def get_group(self, group):
         return self.group_set.get(name=f"{self.name}{group}")
 

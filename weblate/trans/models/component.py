@@ -1833,7 +1833,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.log_info(
                     "checking %s (%s) [%d/%d]", path, code, pos + 1, len(matches)
                 )
-                lang = Language.objects.auto_get_or_create(code=code)
+                lang = Language.objects.auto_get_or_create(
+                    code=self.project.get_language_alias(code)
+                )
                 if lang.code in languages:
                     codes = "{}, {}".format(code, languages[lang.code])
                     detail = f"{lang.code} ({codes})"
@@ -1941,15 +1943,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Use longest matched code
         code = max(matches.groups(), key=len)
 
-        # Language code aliases
-        if code in self.project.language_aliases_dict:
-            return self.project.language_aliases_dict[code]
-
         # Remove possible encoding part
         if "." in code and (".utf" in code.lower() or ".iso" in code.lower()):
             return code.split(".")[0]
-        if code in ("source", "src", "default"):
-            return self.source_language.code
         return code
 
     def sync_git_repo(self, validate: bool = False, skip_push: bool = False):
@@ -2035,24 +2031,26 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     % match
                 )
                 raise ValidationError({"filemask": message})
-            lang = Language.objects.auto_get_or_create(code, create=False)
+            lang = Language.objects.auto_get_or_create(
+                self.project.get_language_alias(code), create=False
+            )
             if len(code) > LANGUAGE_CODE_LENGTH:
                 message = (
                     _('The language code "%s" is too long, please check the filemask.')
                     % code
                 )
                 raise ValidationError({"filemask": message})
-            if code in langs:
+            if lang.code in langs:
                 message = (
                     _(
                         "There are more files for the single language (%s), please "
                         "adjust the filemask and use components for translating "
                         "different resources."
                     )
-                    % code
+                    % lang.code
                 )
                 raise ValidationError({"filemask": message})
-            langs.add(code)
+            langs.add(lang.code)
             if lang.id:
                 existing_langs.add(lang.code)
 
@@ -2180,7 +2178,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             code = self.get_lang_code(self.template, validate=True)
             if code:
-                lang = Language.objects.auto_get_or_create(code=code).base_code
+                lang = Language.objects.auto_get_or_create(
+                    code=self.project.get_language_alias(code)
+                ).base_code
                 if lang != self.source_language.base_code:
                     msg = _(
                         "Template language ({0}) does not match source language ({1})!"
@@ -2669,12 +2669,17 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return None
 
         file_format = self.file_format_cls
-        # Language code from Weblate
-        code = language.code
-        # Language code used for file
-        format_code = file_format.get_language_code(code, self.language_code_style)
 
-        if re.match(self.language_regex, format_code) is None:
+        # Language code used for file
+        code = file_format.get_language_code(language.code, self.language_code_style)
+
+        # Apply language aliases
+        language_aliases = {v: k for k, v in self.project.language_aliases_dict.items()}
+        if code in language_aliases:
+            code = language_aliases[code]
+
+        # Check if valuid
+        if re.match(self.language_regex, code) is None:
             messages.error(
                 request, _("The given language is filtered by the language filter.")
             )
@@ -2682,9 +2687,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         base_filename = self.get_new_base_filename()
 
-        filename = file_format.get_language_filename(
-            self.filemask, code, self.language_code_style
-        )
+        filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
         with self.repository.lock, transaction.atomic():

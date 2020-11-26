@@ -215,11 +215,14 @@ Language aliases
 
 Define language codes mapping when importing translations into Weblate. Use
 this when language codes are inconsistent in your repositories and you want to
-get a consistent view in Weblate.
+get a consistent view in Weblate or in case you want to use non-standard naming
+of your translation files.
 
 The typical use case might be mapping American English to English: ``en_US:en``
 
 Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``
+
+Using non standard code: ``ia_FOO:ia``
 
 .. hint::
 
