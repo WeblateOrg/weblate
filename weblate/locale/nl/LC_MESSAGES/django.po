@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 16:27+0000\n"
-"PO-Revision-Date: 2020-11-19 14:52+0000\n"
+"PO-Revision-Date: 2020-11-26 20:58+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -4211,14 +4211,14 @@ msgid ""
 "Translations have to be in the same repository, or under the same repository "
 "project/organization as the source code."
 msgstr ""
+"Vertalingen dienen in dezelfde opslagruimte als de broncode te worden "
+"geplaatst of die van het project/de organisatie."
 
 #: weblate/templates/accounts/hosting.html:128
 msgid "You will have 14 days to set up your project."
 msgstr "U heeft 14 dagen de tijd om uw project op te zetten."
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finnish the setup."
 msgstr "Verzoek projectgoedkeuring zodra uw project is opgezet."
 
@@ -4227,18 +4227,21 @@ msgid "Unapproved projects will be removed."
 msgstr "Niet-goedgekeurde projecten worden verwijderd."
 
 #: weblate/templates/accounts/hosting.html:131
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
-msgstr "Er is geen garantie op beschikbaarheid of kwaliteit van de dienst."
+msgstr ""
+"Er is geen garantie op beschikbaarheid of kwaliteit van de dienst van het "
+"vrije pakket."
 
 #: weblate/templates/accounts/hosting.html:132
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll help Weblate "
 "to be free for more projects and attract new translators."
 msgstr ""
+"Vermeld het gebruik van Weblate in het leesmijbestand (README). Zo helpt u "
+"om Weblate gratis te houden voor vrije software en nieuwe vertalers te "
+"werven."
 
 #: weblate/templates/accounts/hosting.html:137
 msgid "Get started"
@@ -6550,10 +6553,8 @@ msgid "Browse all language changes"
 msgstr "Alle taalwijzigingen tonen"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "Taalcodes"
+msgstr "Verkorte taalcodes"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -7014,8 +7015,8 @@ msgstr "Opslagruimtebewerking in %(component)s"
 #, python-format
 msgid "There was a request to reset your Weblate password at %(site_title)s."
 msgstr ""
-"Er was een vraag om uw Weblate-wachtwoord opnieuw in te stellen op "
-"%(site_title)s."
+"Er is een verzoek ingediend om uw Weblate-wachtwoord op %(site_title)s "
+"opnieuw in te stellen."
 
 #: weblate/templates/mail/reset_subject.txt:4
 #, python-format
@@ -7043,6 +7044,8 @@ msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
+"Als de bevestigingsurl verlopen is, kunt u wachtwoordherstel gebruiken om "
+"toegang te krijgen tot uw account."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7958,20 +7961,15 @@ msgid ""
 "a libre project."
 msgstr ""
 "Dit project geniet een proefperiode, dus wees terughoudend met bijdragen "
-"aangezien dingen als licenties en opslagruimten nog gewijzigd kunnen worden."
+"aangezien de licentie en opslagruimte nog aangepast kunnen worden."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Talen beheren"
+msgstr "Facturatie beheren"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Dit project is onjuist opgezet."
+msgstr "Dit project geniet een proefperiode."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8286,20 +8284,21 @@ msgid "Error"
 msgstr "Fout"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "Het onderdeel bevat een vertaalbestand van de brontaal."
+msgstr ""
+"De vertaalbestanden van het onderdeel gebruiken een dubbelzinnige taalcode."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
 msgstr ""
+"Deze taalcodes duiden op een macrotaal. Het is doorgaans beter om codes van "
+"individuele talen te gebruiken."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "Aanbevolen individuele taalcodes"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -10066,10 +10065,8 @@ msgstr "Ongebruikte schermfoto"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Taalcode"
+msgstr "Dubbelzinnige taalcode."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
