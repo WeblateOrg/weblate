@@ -206,11 +206,11 @@ class BaseAddon:
         return
 
     def pre_commit(self, translation, author):
-        """Hook triggered before changes are comitted to the repository."""
+        """Hook triggered before changes are committed to the repository."""
         return
 
     def post_commit(self, component):
-        """Hook triggered after changes are comitted to the repository."""
+        """Hook triggered after changes are committed to the repository."""
         return
 
     def post_add(self, translation):
@@ -222,7 +222,7 @@ class BaseAddon:
         return
 
     def store_post_load(self, translation, store):
-        """Hook triggered after file is parsed and storage class contructed."""
+        """Hook triggered after file is parsed and storage class constructed."""
         return
 
     def daily(self, component):

@@ -5,7 +5,7 @@ Releasing schedule
 ------------------
 
 Weblate has two month release cycle for releases (x.y). These are usually
-followed by a bunch of bugfix relases to fix issues which slip into them
+followed by a bunch of bugfix releases to fix issues which slip into them
 (x.y.z).
 
 The change in the major version indicates that the upgrade process can not skip
