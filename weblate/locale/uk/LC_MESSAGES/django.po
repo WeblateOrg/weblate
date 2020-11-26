@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 16:27+0000\n"
-"PO-Revision-Date: 2020-11-19 14:52+0000\n"
+"PO-Revision-Date: 2020-11-26 20:58+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -4225,36 +4225,38 @@ msgid ""
 "Translations have to be in the same repository, or under the same repository "
 "project/organization as the source code."
 msgstr ""
+"Переклади мають зберігатися у тому самому сховищі або у проєкті або "
+"організації того самого сховища, що і початковий код."
 
 #: weblate/templates/accounts/hosting.html:128
 msgid "You will have 14 days to set up your project."
 msgstr "Ви маєте 14 днів, щоб налаштувати свій проєкт."
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finnish the setup."
 msgstr ""
-"Будь ласка, попросіть про схвалення проєкту щойно налаштовування проєкту "
-"буде завершено."
+"Будь ласка, попросіть про схвалення проєкту після завершення налаштовування."
 
 #: weblate/templates/accounts/hosting.html:130
 msgid "Unapproved projects will be removed."
 msgstr "Незатверджені проєкти буде вилучено."
 
 #: weblate/templates/accounts/hosting.html:131
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
-msgstr "Відсутня гарантія доступності або якості служби."
+msgstr ""
+"Для безкоштовного плану обслуговування не передбачено гарантій доступності "
+"служби."
 
 #: weblate/templates/accounts/hosting.html:132
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll help Weblate "
 "to be free for more projects and attract new translators."
 msgstr ""
+"Згадайте про те, що ви користуєтеся Weblate для перекладу у файлі README. Це "
+"допоможе Weblate надавати безкоштовні послути ширшому колу проєктів і "
+"залучити нових перекладачів."
 
 #: weblate/templates/accounts/hosting.html:137
 msgid "Get started"
@@ -6581,10 +6583,8 @@ msgid "Browse all language changes"
 msgstr "Перегляд змін для усіх мов"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "Код мов"
+msgstr "Альтернативні коди мов"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -7075,6 +7075,8 @@ msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
+"Якщо адреса для підтвердження застаріла, ви можете скористатися можливістю "
+"скидання пароля для отримання доступу до вашого облікового запису."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7999,17 +8001,12 @@ msgstr ""
 "умови ліцензування або сховище проєкту."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Керування мовами"
+msgstr "Керування рахунками"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Цей проєкт налаштовано неправильно."
+msgstr "Цей проєкт перебуває у періоді тестування."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8326,20 +8323,20 @@ msgid "Error"
 msgstr "Помилка"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "У складнику міститься файл перекладу для початкової мови."
+msgstr "Файли перекладів цього складника використовують неоднозначний код мови."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
 msgstr ""
+"Ці коди мов вказують на макромову. Замість таких кодів, зазвичай, варто "
+"використовувати коди окремих мов."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "Пропоновані коди окремих мов"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -10090,10 +10087,8 @@ msgstr "Невикористаний знімок екрана"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Код мови"
+msgstr "Неоднозначний код мови."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
