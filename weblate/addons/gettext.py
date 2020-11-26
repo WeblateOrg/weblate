@@ -307,6 +307,8 @@ class GettextAuthorComments(GettextBaseAddon):
     )
 
     def pre_commit(self, translation, author):
+        if "noreply@weblate.org" in author:
+            return
         if "<" in author:
             name, email = author.split("<")
             name = name.strip()
