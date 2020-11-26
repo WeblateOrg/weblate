@@ -22,6 +22,7 @@
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.lang.models import Language
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -102,6 +103,20 @@ class AlertTest(ViewTestCase):
         self.assertFalse(
             component.alert_set.filter(name="MonolingualTranslation").exists()
         )
+
+
+class LanguageAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def test_ambiguous_language(self):
+        component = self.component
+        self.assertFalse(component.alert_set.filter(name="AmbiguousLanguage").exists())
+        self.component.add_new_language(
+            Language.objects.get(code="ku"), self.get_request()
+        )
+        self.component.update_alerts()
+        self.assertTrue(component.alert_set.filter(name="AmbiguousLanguage").exists())
 
 
 class MonolingualAlertTest(ViewTestCase):

@@ -17,13 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.utils.fields import JSONField
@@ -82,6 +82,8 @@ class BaseAlert:
     on_import = False
     link_wide = False
     dismissable = False
+    doc_page = ""
+    doc_anchor = ""
 
     def __init__(self, instance):
         self.instance = instance
@@ -303,3 +305,20 @@ class BrokenProjectURL(BaseAlert):
 class UnusedScreenshot(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Unused screenshot")
+
+
+@register
+class AmbiguousLanguage(BaseAlert):
+    # Translators: Name of an alert
+    verbose = _("Ambiguous language code.")
+    dismissable = True
+    doc_page = "admin/languages"
+    doc_anchor = "ambiguous-languages"
+
+    def get_context(self, user):
+        result = super().get_context(user)
+        ambgiuous = self.instance.component.get_ambiguous_translations().values_list(
+            "language__code", flat=True
+        )
+        result["ambiguous"] = {code: AMBIGUOUS[code] for code in ambgiuous}
+        return result

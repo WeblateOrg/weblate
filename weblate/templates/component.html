@@ -148,7 +148,12 @@
 {% if user.is_authenticated %}
 {% for alert in alerts %}
 <div class="panel panel-default">
-<div class="panel-heading">{{ alert }}</div>
+<div class="panel-heading">
+  {% if alert.obj.doc_page %}
+    {% documentation_icon alert.obj.doc_page alert.obj.doc_anchor right=True %}
+  {% endif %}
+  {{ alert }}
+</div>
 <div class="panel-body">{% render_alert alert %}</div>
 <form action="{% url "dismiss-alert" project=object.project.slug component=object.slug %}" method="post">
 <div class="panel-footer">

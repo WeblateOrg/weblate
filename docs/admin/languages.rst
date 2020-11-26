@@ -59,6 +59,22 @@ This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also
 enforce updating the database to match Weblate built-in data using
 :djadmin:`setuplang`.
 
+.. _ambiguous-languages:
+
+Abiguous language codes and macrolanguages
+------------------------------------------
+
+In many cases it is not a good idea to use macro language code for a
+translation. The typical problematic case might be Kurdish language, which
+might be written in Arabic or Latin script, depending on actual variant. To get
+correct behavior in Weblate, it is recommended to use individual language codes
+only and avoid macro languages.
+
+.. seealso::
+
+   `Macrolangauges definition <https://iso639-3.sil.org/about/scope#Macrolanguages>`,
+   `List of macrolanguages <https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data>`
+
 Language definitions
 --------------------
 

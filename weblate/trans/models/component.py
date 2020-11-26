@@ -44,6 +44,7 @@ from django.utils.translation import gettext_lazy, ngettext, pgettext
 from django_redis.cache import RedisCache
 from filelock import FileLock, Timeout
 from redis_lock import Lock, NotAcquired
+from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
@@ -2438,7 +2439,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("DuplicateFilemask")
 
-    def update_alerts(self):
+    def update_alerts(self):  # noqa: C901
         if (
             self.project.access_control == self.project.ACCESS_PUBLIC
             and not self.license
@@ -2529,7 +2530,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("UnusedScreenshot")
 
+        if self.get_ambiguous_translations().exists():
+            self.add_alert("AmbiguousLanguage")
+        else:
+            self.delete_alert("AmbiguousLanguage")
+
         self.update_link_alerts()
+
+    def get_ambiguous_translations(self):
+        return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
 
     @property
     def count_pending_units(self):

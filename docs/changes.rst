@@ -13,6 +13,7 @@ Not yet released.
 * Syntax highlighting in translation editor for XML, HTML, Markdown and reStructuredText.
 * Highlight placeables in translation editor.
 * Improved support for non standard language codes.
+* Added alert on using ambiguous language codes.
 
 Weblate 4.3.2
 -------------
