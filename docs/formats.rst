@@ -1397,6 +1397,9 @@ Android style
 Java style
    Used by Java—mostly BCP with legacy codes for Chinese.
 
+Additionally, any mappings defined in :ref:`project-language_aliases` are
+applied in reverse.
+
 .. note::
 
    Weblate recognizes any of these when parsing translation files, the above
