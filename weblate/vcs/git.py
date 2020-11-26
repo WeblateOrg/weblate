@@ -394,7 +394,7 @@ class GitRepository(Repository):
 
     def cleanup(self):
         """Remove not tracked files from the repository."""
-        self.execute(["clean", "-f"])
+        self.execute(["clean", "-f", "-d"])
         # Remove possible stale branches
         for branch in self.list_branches():
             if branch != self.branch:
