@@ -369,9 +369,14 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 languages[code] = lang = self.create(code=code, name=name)
                 logger(f"Created language {code}")
 
+            if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
+                direction = "rtl"
+            else:
+                direction = "ltr"
             # Should we update existing?
-            if update and lang.name != name:
+            if update and (lang.name != name or lang.direction != direction):
                 lang.name = name
+                lang.direction = direction
                 logger(f"Updated language {code}")
                 lang.save()
 
