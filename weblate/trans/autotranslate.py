@@ -155,11 +155,12 @@ class AutoTranslate:
                 if max_quality == 100:
                     break
 
+            self.set_progress(pos / 2)
+
             if translation is None:
                 continue
 
             translations[unit.pk] = translation
-            self.set_progress(pos / 2)
 
         return translations
 
