@@ -61,8 +61,8 @@ enforce updating the database to match Weblate built-in data using
 
 .. _ambiguous-languages:
 
-Abiguous language codes and macrolanguages
-------------------------------------------
+Ambiguous language codes and macrolanguages
+-------------------------------------------
 
 In many cases it is not a good idea to use macro language code for a
 translation. The typical problematic case might be Kurdish language, which
@@ -72,7 +72,7 @@ only and avoid macro languages.
 
 .. seealso::
 
-   `Macrolangauges definition <https://iso639-3.sil.org/about/scope#Macrolanguages>`,
+   `Macrolanguages definition <https://iso639-3.sil.org/about/scope#Macrolanguages>`,
    `List of macrolanguages <https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data>`
 
 Language definitions

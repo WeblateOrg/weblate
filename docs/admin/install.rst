@@ -446,7 +446,7 @@ Django documentation.
 
 .. seealso::
 
-   :ref:`docker-mail` for cofiguring outgoing e-mail in Docker container.
+   :ref:`docker-mail` for configuring outgoing e-mail in Docker container.
 
 .. _reverse-proxy:
 
