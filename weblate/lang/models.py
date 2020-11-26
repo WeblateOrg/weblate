@@ -369,10 +369,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 languages[code] = lang = self.create(code=code, name=name)
                 logger(f"Created language {code}")
 
-            if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
-                direction = "rtl"
-            else:
-                direction = "ltr"
+            direction = lang.guess_direction()
             # Should we update existing?
             if update and (lang.name != name or lang.direction != direction):
                 lang.name = name
@@ -480,10 +477,7 @@ class Language(models.Model, CacheKeyMixin):
     def save(self, *args, **kwargs):
         """Set default direction for language."""
         if not self.direction:
-            if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
-                self.direction = "rtl"
-            else:
-                self.direction = "ltr"
+            self.direction = self.guess_direction()
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -496,6 +490,11 @@ class Language(models.Model, CacheKeyMixin):
         super().__init__(*args, **kwargs)
         self._plural_examples = {}
         self.stats = LanguageStats(self)
+
+    def guess_direction(self):
+        if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
+            return "rtl"
+        return "ltr"
 
     @property
     def show_language_code(self):
