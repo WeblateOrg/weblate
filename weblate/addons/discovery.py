@@ -47,7 +47,7 @@ class DiscoveryAddon(BaseAddon):
         )
 
     def get_settings_form(self, user, **kwargs):
-        """Return configuration for for this addon."""
+        """Return configuration form for this addon."""
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration
             kwargs["data"]["confirm"] = False
