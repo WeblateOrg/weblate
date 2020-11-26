@@ -33,7 +33,7 @@ class AutoTranslate:
         self.filter_type = filter_type
         self.mode = mode
         self.updated = 0
-        self.total = 0
+        self.progress_steps = 0
         self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
 
     def get_units(self, filter_mode=True):
@@ -43,9 +43,10 @@ class AutoTranslate:
         return units.filter_type(self.filter_type)
 
     def set_progress(self, current):
-        if current_task and current_task.request.id and self.total:
+        if current_task and current_task.request.id and self.progress_steps:
             current_task.update_state(
-                state="PROGRESS", meta={"progress": 100 * current // self.total}
+                state="PROGRESS",
+                meta={"progress": 100 * current // self.progress_steps},
             )
 
     def update(self, unit, state, target):
@@ -103,7 +104,7 @@ class AutoTranslate:
             .filter(source__in=translations.keys())
             .select_for_update()
         )
-        self.total = len(units)
+        self.progress_steps = len(units)
 
         for pos, unit in enumerate(units):
             # Get update
@@ -123,7 +124,7 @@ class AutoTranslate:
         """Get the translations."""
         translations = {}
         units = self.get_units()
-        self.total = len(units)
+        self.progress_steps = 2 * len(units)
 
         for pos, unit in enumerate(units):
             # a list to store all found translations
@@ -156,7 +157,7 @@ class AutoTranslate:
                 if max_quality == 100:
                     break
 
-            self.set_progress(pos / 2)
+            self.set_progress(pos)
 
             if translation is None:
                 continue
@@ -169,6 +170,10 @@ class AutoTranslate:
         """Perform automatic translation based on machine translation."""
         translations = self.fetch_mt(engines, int(threshold))
 
+        # Adjust total number to show correct progress
+        offset = self.progress_steps / 2
+        self.progress_steps = offset + len(translations)
+
         with transaction.atomic():
             # Perform the translation
             for pos, unit in enumerate(
@@ -178,6 +183,6 @@ class AutoTranslate:
             ):
                 # Copy translation
                 self.update(unit, self.target_state, translations[unit.pk])
-                self.set_progress((self.total / 2) + (pos / 2))
+                self.set_progress(offset + pos)
 
             self.post_process()
