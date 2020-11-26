@@ -1449,6 +1449,12 @@ LICENSES = (
     ),
     ("MIT", "MIT License", "https://opensource.org/licenses/MIT", True),
     ("MIT-0", "MIT No Attribution", "https://github.com/aws/mit-0", True),
+    (
+        "MIT-open-group",
+        "MIT Open Group variant",
+        "https://gitlab.freedesktop.org/xorg/app/iceauth/-/blob/master/COPYING",
+        False,
+    ),
     ("Motosoto", "Motosoto License", "https://opensource.org/licenses/Motosoto", True),
     (
         "MPL-1.0",
