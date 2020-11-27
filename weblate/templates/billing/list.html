@@ -8,9 +8,6 @@
       <th>{% trans "Owners" %}</th>
       <th>{% trans "Projects" %}</th>
       <th>{% trans "Plan" %}</th>
-      {% if show_state %}
-        <th>{% trans "State" %}</th>
-      {% endif %}
       <th class="number">{% trans "Hosted words" %}</th>
       {% if show_expiry %}
         <th>{% trans "Trial expiry date" %}</th>
@@ -38,10 +35,20 @@
             <em>{% trans "No projects currently assigned!" %}</em>
           {% endfor %}
         </td>
-        <td>{{ object.plan }}</td>
-        {% if show_state %}
-          <td>{{ object.get_state_display }}</td>
-        {% endif %}
+        <td>
+          {{ object.plan }}
+          {% if object.is_libre_trial and object.payment.libre_request %}
+            <span class="badge">{% trans "Pending approval" %}</span>
+          {% elif object.is_trial %}
+            <span class="badge">{% trans "Trial" %}</span>
+          {% elif object.is_terminated %}
+            <span class="badge">{% trans "Terminated" %}</span>
+          {% elif not object.paid %}
+            <span class="badge">{% trans "Awaiting payment" %}</span>
+          {% elif object.removal %}
+            <span class="badge">{% trans "Scheduled removal" %}</span>
+          {% endif %}
+        </td>
         <td class="number" data-value="{{ object.hosted_words }}">{{ object.hosted_words|intcomma }}</td>
         {% if show_expiry %}
           <td data-value="{{ object.expiry.timestamp }}">{{ object.expiry|naturaltime }}</td>

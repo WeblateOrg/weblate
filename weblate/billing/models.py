@@ -234,6 +234,10 @@ class Billing(models.Model):
         return self.state == Billing.STATE_TRIAL
 
     @property
+    def is_terminated(self):
+        return self.state == Billing.STATE_TERMINATED
+
+    @property
     def is_libre_trial(self):
         return self.is_trial and self.plan.price == 0
 
