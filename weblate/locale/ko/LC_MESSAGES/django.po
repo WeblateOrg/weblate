@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-11-19 14:53+0000\n"
+"PO-Revision-Date: 2020-11-27 14:43+0000\n"
 "Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -4121,35 +4121,33 @@ msgstr ""
 msgid ""
 "Translations have to be in the same repository, or under the same repository "
 "project/organization as the source code."
-msgstr ""
+msgstr "번역은 동일한 저장소 또는 소스 코드와 동일한 저장소 프로젝트/조직 저장소에 있어야 합니다."
 
 #: weblate/templates/accounts/hosting.html:128
 msgid "You will have 14 days to set up your project."
 msgstr "프로젝트를 설정하는 데 14일이 주어집니다."
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
-msgstr "프로젝트 설정이 완료되면 프로젝트 승인을 요청하십시오."
+msgstr "설정이 완료되면 프로젝트 승인을 요청하십시오."
 
 #: weblate/templates/accounts/hosting.html:130
 msgid "Unapproved projects will be removed."
 msgstr "승인되지 않은 프로젝트는 제거됩니다."
 
 #: weblate/templates/accounts/hosting.html:131
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
-msgstr "서비스 유효성 또는 품질에 대한 보증을 하지 않습니다."
+msgstr "무료 서비스 플랜에 대한 서비스 유효성 또는 품질 보증을 하지 않습니다."
 
 #: weblate/templates/accounts/hosting.html:132
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll help Weblate "
 "to be free for more projects and attract new translators."
 msgstr ""
+"README에서 번역을 위해 웨블레이트(Weblate)를 사용한다고 언급하십시오. 웨블레이트가 더 많은 프로젝트에 무료로 제공되고 새로운 "
+"번역가를 유치하는 데 도움이 될 것입니다."
 
 #: weblate/templates/accounts/hosting.html:137
 msgid "Get started"
@@ -6375,10 +6373,8 @@ msgid "Browse all language changes"
 msgstr "모든 언어 변경 사항 찾아보기"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "언어 코드"
+msgstr "별칭이 지정된 언어 코드"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -6851,7 +6847,7 @@ msgstr[0] "확인 URL은 %(count)s시간 후에 만료됩니다."
 msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
-msgstr ""
+msgstr "확인 URL이 만료된 경우 비밀번호 재설정을 사용하여 계정에 액세스할 수 있습니다."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7739,17 +7735,12 @@ msgstr ""
 "소와 같은 것은 자유 프로젝트로 승인되기 전에 여전히 변경 될 수 있습니다."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "언어 관리"
+msgstr "청구 관리"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "프로젝트의 설정이 올바르지 않습니다."
+msgstr "이 프로젝트는 시험판 사용 기간에 있습니다."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8063,20 +8054,18 @@ msgid "Error"
 msgstr "오류"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "구성 요소가 원본 언어에 대한 번역 파일을 포함합니다."
+msgstr "모호한 언어 코드를 사용하는 구성 요소 번역 파일입니다."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
-msgstr ""
+msgstr "이러한 언어 코드는 매크로 언어를 나타내며 일반적으로는 개별 언어 코드를 사용하는 것이 좋습니다."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "제안된 개별 언어 코드"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -9783,10 +9772,8 @@ msgstr "갈무리가 사용되지 않음"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "언어 코드"
+msgstr "모호한 언어 코드입니다."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
