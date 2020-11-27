@@ -155,7 +155,7 @@ def setup_periodic_tasks(sender, **kwargs):
         name="billing-notify",
     )
     sender.add_periodic_task(
-        crontab(hour=1, minute=0, day_of_week="monday,thursday"),
+        crontab(hour=1, minute=0),
         perform_removal.s(),
         name="perform-removal",
     )
