@@ -33,12 +33,8 @@ def download_invoice(request, pk):
     if not invoice.ref:
         raise Http404("No reference!")
 
-    allowed_billing = Billing.objects.for_user(request.user).filter(
-        pk=invoice.billing.pk
-    )
-
-    if not allowed_billing.exists():
-        raise PermissionDenied("Not an owner!")
+    if not request.user.has_perm("billing.view", invoice.billing):
+        raise PermissionDenied()
 
     if not invoice.filename_valid:
         raise Http404(f"File {invoice.filename} does not exist!")
