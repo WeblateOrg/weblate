@@ -715,6 +715,10 @@ class ProjectLanguage:
     def __str__(self):
         return f"{self.project} - {self.language}"
 
+    @property
+    def full_slug(self):
+        return f"{self.project.slug}/{self.language.code}"
+
     @cached_property
     def stats(self):
         return ProjectLanguageStats(self)
@@ -733,6 +737,12 @@ class ProjectLanguage:
             kwargs={"lang": self.language.code, "project": self.project.slug},
         )
 
+    def get_remove_url(self):
+        return reverse(
+            "remove-project-language",
+            kwargs={"lang": self.language.code, "project": self.project.slug},
+        )
+
     def get_reverse_url_kwargs(self):
         return {
             "lang": self.language.code,
@@ -745,6 +755,18 @@ class ProjectLanguage:
             "translate",
             kwargs=self.get_reverse_url_kwargs(),
         )
+
+    @cached_property
+    def translation_set(self):
+        return (
+            self.language.translation_set.prefetch()
+            .filter(component__project=self.project)
+            .order_by("component__priority", "component__name")
+        )
+
+    @cached_property
+    def is_source(self):
+        return any(translation.is_source for translation in self.translation_set)
 
 
 class ProjectLanguageStats(LanguageStats):
@@ -764,12 +786,8 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def translation_set(self):
-        from weblate.trans.models import Translation
-
         return prefetch_stats(
-            Translation.objects.filter(
-                component__in=self.component_set, language_id=self.language.pk
-            )
+            self.language.translation_set.filter(component__in=self.component_set)
         )
 
     def calculate_source(self, stats_obj, stats):

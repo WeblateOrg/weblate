@@ -58,14 +58,9 @@ from weblate.utils.views import (
     get_component,
     get_project,
     get_translation,
+    optional_form,
     try_set_language,
 )
-
-
-def optional_form(form, perm_user, perm, perm_obj, **kwargs):
-    if not perm_user.has_perm(perm, perm_obj):
-        return None
-    return form(**kwargs)
 
 
 @never_cache

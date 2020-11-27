@@ -40,6 +40,10 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="{% url 'checks' %}?lang={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
+      {% if delete_form %}
+      <li role="separator" class="divider"></li>
+      <li><a href="#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
+      {% endif %}
     </ul>
    </li>
 {% include "snippets/watch-dropdown.html" %}
@@ -77,6 +81,10 @@
 </form>
 
 </div>
+
+{% if delete_form %}
+{% include "trans/delete-form.html" %}
+{% endif %}
 
 
 </div>

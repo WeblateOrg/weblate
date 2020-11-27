@@ -38,6 +38,12 @@ from weblate.utils import messages
 from weblate.vcs.git import LocalRepository
 
 
+def optional_form(form, perm_user, perm, perm_obj, **kwargs):
+    if not perm_user.has_perm(perm, perm_obj):
+        return None
+    return form(**kwargs)
+
+
 def get_percent_color(percent):
     if percent >= 85:
         return "#2eccaa"

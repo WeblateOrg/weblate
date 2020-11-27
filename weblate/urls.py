@@ -611,6 +611,11 @@ real_patterns = [
         name="remove_component",
     ),
     path(
+        "remove/<name:project>/-/<name:lang>/",
+        weblate.trans.views.settings.remove_project_language,
+        name="remove-project-language",
+    ),
+    path(
         "remove/<name:project>/<name:component>/<name:lang>/",
         weblate.trans.views.settings.remove_translation,
         name="remove_translation",
