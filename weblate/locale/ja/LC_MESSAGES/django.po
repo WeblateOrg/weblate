@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-11-19 14:52+0000\n"
+"PO-Revision-Date: 2020-11-27 21:50+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -4167,35 +4167,33 @@ msgstr ""
 msgid ""
 "Translations have to be in the same repository, or under the same repository "
 "project/organization as the source code."
-msgstr ""
+msgstr "翻訳は、ソース コードと同じリポジトリにあるか、ソース コードと同じリポジトリのプロジェクトの組織の中になければなりません。"
 
 #: weblate/templates/accounts/hosting.html:128
 msgid "You will have 14 days to set up your project."
 msgstr "プロジェクトの設定には 14 日間必要です。"
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
-msgstr "設定が完了したら、プロジェクトの承認を依頼してください。"
+msgstr "設定が完了したら、プロジェクトの承認を申請してください。"
 
 #: weblate/templates/accounts/hosting.html:130
 msgid "Unapproved projects will be removed."
 msgstr "未承認のプロジェクトは削除されます。"
 
 #: weblate/templates/accounts/hosting.html:131
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
-msgstr "サービスの可用性と品質に保証はありません。"
+msgstr "無料サービス プランの可用性や品質の保証はありません。"
 
 #: weblate/templates/accounts/hosting.html:132
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll help Weblate "
 "to be free for more projects and attract new translators."
 msgstr ""
+"README で翻訳に Weblate を使用していることを明記してください。これにより、Weblate "
+"は多くの無料のプロジェクトを助け、新しい翻訳者を引き寄せます。"
 
 #: weblate/templates/accounts/hosting.html:137
 msgid "Get started"
@@ -6462,10 +6460,8 @@ msgid "Browse all language changes"
 msgstr "言語の変更をすべて表示"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "言語コード"
+msgstr "エイリアスを使用した言語コード"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -6947,7 +6943,7 @@ msgstr[0] "確認 URL は、%(count)s 時間後に期限が切れます。"
 msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
-msgstr ""
+msgstr "確認用の URL の有効期限が切れた場合は、パスワード リセット機能を使用してアカウントにアクセスできます。"
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7846,17 +7842,12 @@ msgstr ""
 "ます。"
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "言語の管理"
+msgstr "請求の管理"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "プロジェクトの設定が間違っています。"
+msgstr "このプロジェクトは試用期間中です。"
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8170,20 +8161,18 @@ msgid "Error"
 msgstr "エラー"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "コンポーネントには、原語の翻訳ファイルが含まれています。"
+msgstr "あいまいな言語コードを使用したコンポーネント翻訳ファイル。"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
-msgstr ""
+msgstr "これらの言語コードはマクロ言語であり、通常は個別の言語のコードを使用をお勧めします。"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "推奨する個別の言語コード"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -9903,10 +9892,8 @@ msgstr "使われていないスクリーンショット"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "言語コード"
+msgstr "あいまいな言語コード。"
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
