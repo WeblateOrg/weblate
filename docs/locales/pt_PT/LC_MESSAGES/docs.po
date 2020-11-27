@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-26 22:25+0100\n"
-"PO-Revision-Date: 2020-11-27 16:46+0000\n"
-"Last-Translator: Eduardo Rebelo <eduardo77mrebelo@gmail.com>\n"
+"PO-Revision-Date: 2020-11-27 21:50+0000\n"
+"Last-Translator: Diogo Marques <diogofrmarques98@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
 "Language: pt_PT\n"
@@ -1312,14 +1312,14 @@ msgid "*recent*"
 msgstr "*recent*"
 
 #: ../../admin/addons.rst:152
-#, fuzzy
 msgid "Marking all :ref:`appstore` changelog entries read-only"
 msgstr ""
-"Marcando todas as entradas do changelog: ref: `appstore` como somente leitura"
+"A marcar todas as entradas do changelog: ref: `appstore` como apenas para "
+"leitura"
 
 #: ../../admin/addons.rst:156
 msgid "``language:en AND key:changelogs/``"
-msgstr ""
+msgstr "``língua:en E chave:changelogs/``"
 
 #: ../../admin/addons.rst:157
 msgid "Translation flags to add"
@@ -1499,10 +1499,6 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "Atualizar ficheiros PO para coincidir com POT (msgmerge)"
 
 #: ../../admin/addons.rst:288
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository and updates all "
@@ -1511,7 +1507,9 @@ msgid ""
 msgstr ""
 "Atualiza todos os ficheiros PO para corresponderem ao ficheiro POT, "
 "utilizando msgmerge. É ativado quando as novas alterações são integradas do "
-"repositório principal."
+"repositório principal e atualiza todos os ficheiro para igualar :ref"
+":`component-new_base`. Configurar a maior parte das opções de linha de "
+"comandos msgmerge através da configuração addon."
 
 #: ../../admin/addons.rst:296
 msgid "Squash Git commits"
@@ -1676,25 +1674,19 @@ msgid "Writing addon"
 msgstr "Escrever extensões"
 
 #: ../../admin/addons.rst:401
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, all you need to do is subclass "
-#| "``BaseAddon``, define the addon metadata and implement a callback which "
-#| "will do the processing."
 msgid ""
 "You can write your own addons too, all you need to do is subclass :class:"
 "`weblate.addons.base.BaseAddon`, define the addon metadata and implement a "
 "callback which will do the processing."
 msgstr ""
 "Tambem pode escrever a sua própria extensão. Tudo o que precisa fazer é "
-"subclassear o `BaseAddon`, definir os metadados da extensão e implementar "
-"uma função de retorno que irá fazer o processamento."
+"subclassear o :class:`weblate.addons.base.BaseAddon`, definir os metadados "
+"da extensão e implementar uma função de retorno que irá fazer o "
+"processamento."
 
 #: ../../admin/addons.rst:407
-#, fuzzy
-#| msgid ":ref:`contributing`"
 msgid ":doc:`../contributing/addons`"
-msgstr ":ref:`contributing`"
+msgstr ":doc:`../contribuir/addons`"
 
 #: ../../admin/addons.rst:412
 msgid "Executing scripts from addon"
@@ -4977,10 +4969,8 @@ msgstr ""
 "committer_name`"
 
 #: ../../admin/config.rst:486
-#, fuzzy
-#| msgid "DEFAULT_ADDONS"
 msgid "DEFAULT_LANGUAGE"
-msgstr "DEFAULT_ADDONS"
+msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:490
 msgid ""
@@ -4995,10 +4985,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:496
-#, fuzzy
-#| msgid ":ref:`labels`"
 msgid ":ref:`languages`"
-msgstr ":ref:`labels`"
+msgstr ":ref:`línguas`"
 
 #: ../../admin/config.rst:501
 msgid "DEFAULT_MERGE_STYLE"
@@ -5220,19 +5208,14 @@ msgstr ""
 "pull requests de tradução."
 
 #: ../../admin/config.rst:697
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
-#| "access token <https://docs.github.com/en/github/authenticating-to-github/"
-#| "creating-a-personal-access-token>`_"
 msgid ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
 "access token <https://docs.github.com/en/free-pro-team@latest/github/"
 "authenticating-to-github/creating-a-personal-access-token>`_"
 msgstr ""
 ":setting:`GITHUB_CREDENTIALS`,:ref:`vcs-github`, `Criar um token de acesso "
-"pessoal <https://docs.github.com/en/github/authenticating-to-github/creating-"
-"a-personal-access-token>`_"
+"pessoal <https://docs.github.com/free-pro-team@latest/en/github/"
+"authenticating-to-github/creating-a-personal-access-token>` _"
 
 #: ../../admin/config.rst:704
 msgid "GOOGLE_ANALYTICS_ID"
@@ -5877,22 +5860,16 @@ msgstr ""
 "Chave do cliente para a API do Microsoft Cognitive Services Translator."
 
 #: ../../admin/config.rst:1229
-#, fuzzy
-#| msgid ""
-#| ":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:"
-#| "`machine-translation`, `Cognitive Services - Text Translation API "
-#| "<https://azure.microsoft.com/services/cognitive-services/translator-text-"
-#| "api/>`_, `Microsoft Azure Portal <https://portal.azure.com/>`_"
 msgid ""
 ":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:"
 "`machine-translation`, `Cognitive Services - Text Translation API <https://"
 "azure.microsoft.com/en-us/services/cognitive-services/translator/>`_, "
 "`Microsoft Azure Portal <https://portal.azure.com/>`_"
 msgstr ""
-":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:"
-"`machine-translation`, `Cognitive Services - API de tradução de "
-"texto<https://azure.microsoft.com/services/cognitive-services/translator-"
-"text-api/>`_, `Microsoft Azure Portal <https://portal.azure.com/>`_"
+":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref"
+":`machine-translation`, `Cognitive Services - API de tradução de "
+"texto<https://azure.microsoft.com/en-us/services/cognitive-services/"
+"translator/>`_, `Microsoft Azure Portal <https://portal.azure.com/>`_"
 
 #: ../../admin/config.rst:1236
 msgid "MT_MICROSOFT_REGION"
@@ -6022,15 +5999,11 @@ msgid "MT_NETEASE_KEY"
 msgstr "MT_NETEASE_KEY"
 
 #: ../../admin/config.rst:1320
-#, fuzzy
-#| msgid ""
-#| "App key for NetEase Sight API, you can register at https://sight.netease."
-#| "com/"
 msgid ""
 "App key for NetEase Sight API, you can register at https://sight.youdao.com/"
 msgstr ""
 "Chave de app para API da NetEase Sight, pode registar-se em https://sight."
-"netease.com/"
+"youdao.com/"
 
 #: ../../admin/config.rst:1324 ../../admin/config.rst:1335
 msgid ""
@@ -6045,16 +6018,12 @@ msgid "MT_NETEASE_SECRET"
 msgstr "MT_NETEASE_SECRET"
 
 #: ../../admin/config.rst:1331
-#, fuzzy
-#| msgid ""
-#| "App secret for the NetEase Sight API, you can register at https://sight."
-#| "netease.com/"
 msgid ""
 "App secret for the NetEase Sight API, you can register at https://sight."
 "youdao.com/"
 msgstr ""
-"Segredo de app para a API da NetEase Sight, pode registar-se em https://"
-"sight.netease.com/"
+"Segredo de app para a API da NetEase Sight, pode registar-se em https://sight"
+".youdao.com/"
 
 #: ../../admin/config.rst:1340
 msgid "MT_TMSERVER"
