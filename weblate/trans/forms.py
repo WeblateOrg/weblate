@@ -2017,6 +2017,15 @@ class ProjectDeleteForm(BaseDeleteForm):
     warning_template = "trans/delete-project.html"
 
 
+class ProjectLanguageDeleteForm(BaseDeleteForm):
+    confirm = forms.CharField(
+        label=_("Removal confirmation"),
+        help_text=_("Please type in the slug of the project and language to confirm."),
+        required=True,
+    )
+    warning_template = "trans/delete-project-language.html"
+
+
 class AnnouncementForm(forms.ModelForm):
     """Component base form."""
 

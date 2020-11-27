@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, JsonResponse
@@ -26,6 +25,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
+from weblate.lang.models import Language
 from weblate.trans.forms import (
     AnnouncementForm,
     ComponentDeleteForm,
@@ -33,6 +33,7 @@ from weblate.trans.forms import (
     ComponentRenameForm,
     ComponentSettingsForm,
     ProjectDeleteForm,
+    ProjectLanguageDeleteForm,
     ProjectRenameForm,
     ProjectSettingsForm,
     TranslationDeleteForm,
@@ -41,6 +42,7 @@ from weblate.trans.models import Announcement, Change, Component
 from weblate.trans.tasks import component_removal, project_removal
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import (
     get_component,
     get_project,
@@ -188,6 +190,28 @@ def remove_project(request, project):
     project_removal.delay(obj.pk, request.user.pk)
     messages.success(request, _("Project was scheduled for removal."))
     return redirect("home")
+
+
+@login_required
+@require_POST
+def remove_project_language(request, project, lang):
+    project_object = get_project(request, project)
+    language_object = get_object_or_404(Language, code=lang)
+    obj = ProjectLanguage(project_object, language_object)
+
+    if not request.user.has_perm("translation.delete", obj):
+        raise PermissionDenied()
+
+    form = ProjectLanguageDeleteForm(obj, request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect_param(obj, "#delete")
+
+    for translation in obj.translation_set:
+        translation.remove(request.user)
+
+    messages.success(request, _("Language of the project was removed."))
+    return redirect(project_object)
 
 
 def perform_rename(form_cls, request, obj, perm: str):

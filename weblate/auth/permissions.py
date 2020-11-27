@@ -27,6 +27,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.utils.stats import ProjectLanguage
 
 SPECIALS = {}
 
@@ -51,6 +52,8 @@ def check_permission(user, permission, obj):
     """Generic permission check for base classes."""
     if user.is_superuser:
         return True
+    if isinstance(obj, ProjectLanguage):
+        obj = obj.project
     if isinstance(obj, Project):
         return any(
             permission in permissions

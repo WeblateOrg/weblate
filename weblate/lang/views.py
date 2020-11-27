@@ -28,7 +28,7 @@ from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
-from weblate.trans.forms import SearchForm
+from weblate.trans.forms import ProjectLanguageDeleteForm, SearchForm
 from weblate.trans.models import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import sort_objects
@@ -39,7 +39,7 @@ from weblate.utils.stats import (
     ProjectLanguageStats,
     prefetch_stats,
 )
-from weblate.utils.views import get_project
+from weblate.utils.views import get_project, optional_form
 
 
 def show_languages(request):
@@ -104,39 +104,45 @@ def show_language(request, lang):
 
 def show_project(request, lang, project):
     try:
-        obj = Language.objects.get(code=lang)
+        language_object = Language.objects.get(code=lang)
     except Language.DoesNotExist:
-        obj = Language.objects.fuzzy_get(lang)
-        if isinstance(obj, Language):
-            return redirect(obj)
+        language_object = Language.objects.fuzzy_get(lang)
+        if isinstance(language_object, Language):
+            return redirect(language_object)
         raise Http404("No Language matches the given query.")
 
-    pobj = get_project(request, project)
+    project_object = get_project(request, project)
+    obj = ProjectLanguage(project_object, language_object)
+    user = request.user
 
-    last_changes = Change.objects.last_changes(request.user).filter(
-        language=obj, project=pobj
+    last_changes = Change.objects.last_changes(user).filter(
+        language=language_object, project=project_object
     )[:10]
-
-    translation_list = (
-        obj.translation_set.prefetch()
-        .filter(component__project=pobj)
-        .order_by("component__priority", "component__name")
-    )
 
     return render(
         request,
         "language-project.html",
         {
             "allow_index": True,
-            "language": obj,
-            "project": pobj,
+            "language": language_object,
+            "project": project_object,
+            "object": obj,
             "last_changes": last_changes,
-            "last_changes_url": urlencode({"lang": obj.code, "project": pobj.slug}),
-            "translations": translation_list,
-            "title": f"{pobj} - {obj}",
-            "search_form": SearchForm(request.user, language=obj),
-            "licenses": pobj.component_set.exclude(license="").order_by("license"),
-            "language_stats": pobj.stats.get_single_language_stats(obj),
+            "last_changes_url": urlencode(
+                {"lang": language_object.code, "project": project_object.slug}
+            ),
+            "translations": obj.translation_set,
+            "title": f"{project_object} - {language_object}",
+            "search_form": SearchForm(user, language=language_object),
+            "licenses": project_object.component_set.exclude(license="").order_by(
+                "license"
+            ),
+            "language_stats": project_object.stats.get_single_language_stats(
+                language_object
+            ),
+            "delete_form": optional_form(
+                ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
+            ),
         },
     )
 
