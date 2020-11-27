@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load humanize %}
+{% load translations %}
 
 <table class="sort table progress-table autocolspan table-listing">
   <thead>
@@ -7,6 +8,12 @@
       <th>{% trans "Owners" %}</th>
       <th>{% trans "Projects" %}</th>
       <th>{% trans "Plan" %}</th>
+      {% if show_expiry %}
+        <th>{% trans "Trial expiry date" %}</th>
+      {% endif %}
+      {% if show_removal %}
+        <th>{% trans "Scheduled removal" %}</th>
+      {% endif %}
       <th class="number">{% trans "" %}</th>
     </tr>
   </thead>
@@ -28,6 +35,12 @@
           {% endfor %}
         </td>
         <td>{{ object.plan }}</td>
+        {% if show_expiry %}
+          <td>{{ object.expiry|naturaltime }}</td>
+        {% endif %}
+        {% if show_removal %}
+          <td>{{ object.removal|naturaltime }}</td>
+        {% endif %}
       </tr>
     {% endfor %}
   </tbody>

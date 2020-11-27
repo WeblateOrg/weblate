@@ -14,12 +14,12 @@
   <li role="presentation"><a href="#paid" role="tab" data-toggle="tab">{% trans "Commerial" %} <span class="badge">{{ paid|length|intcomma }}</span></a></li>
   <li role="presentation"><a href="#free" role="tab" data-toggle="tab">{% trans "Libre" %} <span class="badge">{{ free|length|intcomma }}</span></a></li>
   <li role="presentation"><a href="#removal" role="tab" data-toggle="tab">{% trans "Scheduled removal" %} <span class="badge">{{ removal|length|intcomma }}</span></a></li>
-  <li role="presentation"><a href="#terminated" role="tab" data-toggle="tab">{% trans "Terminate" %} <span class="badge">{{ terminated|length|intcomma }}</span></a></li>
+  <li role="presentation"><a href="#terminated" role="tab" data-toggle="tab">{% trans "Terminated" %} <span class="badge">{{ terminated|length|intcomma }}</span></a></li>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane active" id="trial">
-    {% include "billing/list.html" with objects=trial %}
+    {% include "billing/list.html" with objects=trial show_expiry=1 %}
   </div>
   <div class="tab-pane" id="paid">
     {% include "billing/list.html" with objects=paid %}
@@ -28,7 +28,7 @@
     {% include "billing/list.html" with objects=free %}
   </div>
   <div class="tab-pane" id="removal">
-    {% include "billing/list.html" with objects=removal %}
+    {% include "billing/list.html" with objects=removal show_removal=1%}
   </div>
   <div class="tab-pane" id="terminated">
     {% include "billing/list.html" with objects=terminated %}
