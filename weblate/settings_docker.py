@@ -877,6 +877,10 @@ if "WEBLATE_LICENSE_FILTER" in os.environ:
     LICENSE_FILTER = set(get_env_list("WEBLATE_LICENSE_FILTER"))
     LICENSE_FILTER.discard("")
 
+# Language filter
+if "WEBLATE_BASIC_LANGUAGES" in os.environ:
+    BASIC_LANGUAGES = set(get_env_list("WEBLATE_BASIC_LANGUAGES"))
+
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
 # translations (up to 10.000 characters)

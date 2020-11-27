@@ -48,6 +48,7 @@ from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
+from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
@@ -957,13 +958,15 @@ class NewLanguageOwnerForm(forms.Form):
         label=_("Languages"), choices=[], widget=SortedSelectMultiple
     )
 
-    def get_lang_filter(self):
-        return Q(translation__component=self.component) | Q(component=self.component)
+    def get_lang_objects(self):
+        return Language.objects.exclude(
+            Q(translation__component=self.component) | Q(component=self.component)
+        )
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.component = component
-        languages = Language.objects.exclude(self.get_lang_filter())
+        languages = self.get_lang_objects()
         self.fields["lang"].choices = languages.as_choices()
 
 
@@ -971,6 +974,9 @@ class NewLanguageForm(NewLanguageOwnerForm):
     """Form for requesting new language."""
 
     lang = forms.ChoiceField(label=_("Language"), choices=[], widget=SortedSelect)
+
+    def get_lang_objects(self):
+        return super().get_lang_objects().filter(code__in=BASIC_LANGUAGES)
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(component, *args, **kwargs)

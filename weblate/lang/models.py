@@ -723,5 +723,8 @@ class WeblateLanguagesConf(AppConf):
     # Default source languaage
     DEFAULT_LANGUAGE = "en"
 
+    # List of basic languages to show for user when adding new translation
+    BASIC_LANGUAGES = None
+
     class Meta:
         prefix = ""

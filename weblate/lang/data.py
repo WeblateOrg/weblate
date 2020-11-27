@@ -18,11 +18,30 @@
 #
 # pylint: disable=line-too-long
 
-
+from django.conf import settings
 from django.utils.translation import pgettext_lazy
 from weblate_language_data import languages
+from weblate_language_data.ambiguous import AMBIGUOUS
 
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
+
+UNDERSCORE_EXCEPTIONS = {"nb_NO", "zh_Hant", "zh_Hans", "be_Latn", "ro_MD"}
+AT_EXCEPTIONS = {"ca@valencia"}
+
+
+def is_basic(code):
+    # AppConf is not yet applied at this point
+    config = getattr(settings, "BASIC_LANGUAGES", None)
+    if config is not None:
+        return code in config
+    if code in AMBIGUOUS:
+        return False
+    if "_" in code:
+        return code in UNDERSCORE_EXCEPTIONS
+    return "@" not in code or code in AT_EXCEPTIONS
+
+
+BASIC_LANGUAGES = {lang for lang in NO_CODE_LANGUAGES if is_basic(lang)}
 
 # Following variables are used to map Gettext plural formulas
 # to one/few/may/other like rules

@@ -200,6 +200,35 @@ Used to derive several other paths by default:
 
 Default value: Top level directory of Weblate sources.
 
+.. setting:: BASIC_LANGUAGES
+
+BASIC_LANGUAGES
+---------------
+
+.. versionadded:: 4.4
+
+List of languages to offer users for starting new translation. When not
+specified built in list is used which includes all commonly used languages, but
+without country specific variants.
+
+This only limits non privileged users to add unwanted languages. The project
+admins are still presented with full selection of languages defined in Weblate.
+
+.. note::
+
+   This does not define new languages for Weblate, it only filters existing ones
+   in the database.
+
+**Example:**
+
+.. code-block:: python
+
+   BASIC_LANGUAGES = {"cs", "it", "ja", "en"}
+
+.. seealso::
+
+    :ref:`languages`
+
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
 .. setting:: CSP_CONNECT_SRC
@@ -215,7 +244,7 @@ automatically generated based on enabled integrations with third-party services
 
 All these default to empty list.
 
-** Example:: **
+**Example:**
 
 .. code-block:: python
 

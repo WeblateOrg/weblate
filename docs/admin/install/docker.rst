@@ -586,6 +586,10 @@ Generic settings
 
     Configures :setting:`HIDE_VERSION`.
 
+.. envvar:: WEBLATE_BASIC_LANGUAGES
+
+    Configures :setting:`BASIC_LANGUAGES`.
+
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

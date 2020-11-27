@@ -11,6 +11,7 @@
 
 {% block content %}
 {% perm 'translation.add' object as user_can_add_translation %}
+{% perm 'translation.add_more' object as user_can_add_more_translation %}
 
 {% if object.can_add_language and user_can_add_translation %}
 
@@ -29,7 +30,11 @@
 <p>{% trans "Project maintainers are notified of this request, which prompts them to add the language manually." %}</p>
 {% endif %}
 {{ form|crispy }}
-<p class="help-block"><a href="{% url 'contact' %}?t=lang">{% trans "Can't find your language in the list above?" %}</a></p>
+{% if user_can_add_more_translation %}
+  <p class="help-block"><a href="{% url 'contact' %}?t=lang">{% trans "Can't find your language in the list above?" %}</a></p>
+{% else %}
+  <p class="help-block">{% trans "This list includes only basic languages. Please contact project maintainers for adding another one." %}</p>
+{% endif %}
 </div>
 <div class="panel-footer">
 {% if object.new_lang == 'contact' %}
