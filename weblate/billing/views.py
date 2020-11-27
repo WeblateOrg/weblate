@@ -41,7 +41,7 @@ Message:
 
 %(message)s
 
-Please review at https://hosted.weblate.org{{ billing.get_absolute_url }}
+Please review at https://hosted.weblate.org%(billing_url)s
 """
 
 
@@ -105,7 +105,7 @@ def handle_post(request, billing):
                         "project": project,
                         "url": project.web,
                         "message": form.cleaned_data["message"],
-                        "billing_id": billing.pk,
+                        "billing_url": billing.get_absolute_url(),
                     },
                     request.user.email,
                     settings.ADMINS_HOSTING,
