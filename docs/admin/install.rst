@@ -390,20 +390,18 @@ get PostgreSQL error about not existing role during the database migration
 MySQL and MariaDB
 +++++++++++++++++
 
-Weblate can be also used with MySQL or MariaDB, please see
-:ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
-Django with those.
-
-Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7.
-
 .. hint::
 
     Some Weblate features will perform better with :ref:`postgresql`. This
     includes searching and translation memory, which both utilize full-text
     features in the database and PostgreSQL implementation is superior.
 
-    Because of this it is recommended to use :ref:`postgresql` for new
-    installations.
+Weblate can be also used with MySQL or MariaDB, please see
+:ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
+Django with those. Because of the limitations it is recommended to use
+:ref:`postgresql` for new installations.
+
+Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7.
 
 Following configuration is recommended for Weblate:
 
