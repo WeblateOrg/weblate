@@ -322,3 +322,9 @@ class AmbiguousLanguage(BaseAlert):
         )
         result["ambiguous"] = {code: AMBIGUOUS[code] for code in ambgiuous}
         return result
+
+
+@register
+class NoLibreConditions(BaseAlert):
+    # Translators: Name of an alert
+    verbose = _("Does not meet libre hosting conditions.")

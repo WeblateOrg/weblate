@@ -2535,6 +2535,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("AmbiguousLanguage")
 
+        if (
+            settings.OFFER_HOSTING
+            and self.project.billing.plan.price == 0
+            and not self.project.billing.valid_libre
+        ):
+            self.add_alert("NoLibreConditions")
+        else:
+            self.delete_alert("NoLibreConditions")
+
         self.update_link_alerts()
 
     def get_ambiguous_translations(self):
