@@ -218,8 +218,12 @@ class Billing(models.Model):
         return "{}#billing-{}".format(reverse("billing"), self.pk)
 
     @cached_property
+    def ordered_projects(self):
+        return self.projects.order()
+
+    @cached_property
     def all_projects(self):
-        return prefetch_stats(self.projects.order())
+        return prefetch_stats(self.ordered_projects)
 
     @cached_property
     def projects_display(self):

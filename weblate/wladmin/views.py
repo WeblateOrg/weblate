@@ -17,9 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.core.checks import run_checks
 from django.core.mail import send_mail
-from django.db.models import Count, Q
+from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -70,6 +71,8 @@ MENU = (
     ("design", "manage-design", gettext_lazy("Design")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
 )
+if "weblate.billing" in settings.INSTALLED_APPS:
+    MENU += (("billing", "manage-billing", gettext_lazy("Billing")),)
 
 
 @management_access
@@ -393,5 +396,54 @@ def design(request):
             "menu_items": MENU,
             "menu_page": "design",
             "form": form,
+        },
+    )
+
+
+@management_access
+def billing(request):
+    from weblate.billing.models import Billing
+
+    trial = []
+    removal = []
+    free = []
+    paid = []
+    terminated = []
+
+    # We will list all billings anyway, so fetch  them at once
+    billings = Billing.objects.all().prefetch_related(
+        "owners",
+        "owners__profile",
+        "plan",
+        Prefetch(
+            "projects",
+            queryset=Project.objects.order(),
+            to_attr="ordered_projects",
+        ),
+    )
+
+    for billing in billings:
+        if billing.removal:
+            removal.append(billing)
+        elif billing.state == Billing.STATE_TRIAL:
+            trial.append(billing)
+        elif billing.state == Billing.STATE_TERMINATED:
+            terminated.append(billing)
+        elif billing.plan.price:
+            paid.append(billing)
+        else:
+            free.append(billing)
+
+    return render(
+        request,
+        "manage/billing.html",
+        {
+            "menu_items": MENU,
+            "menu_page": "billing",
+            "trial": trial,
+            "removal": removal,
+            "free": free,
+            "paid": paid,
+            "terminated": terminated,
         },
     )

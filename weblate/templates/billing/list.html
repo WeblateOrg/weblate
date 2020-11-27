@@ -1,0 +1,34 @@
+{% load i18n %}
+{% load humanize %}
+
+<table class="sort table progress-table autocolspan table-listing">
+  <thead>
+    <tr>
+      <th>{% trans "Owners" %}</th>
+      <th>{% trans "Projects" %}</th>
+      <th>{% trans "Plan" %}</th>
+      <th class="number">{% trans "" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in objects %}
+      <tr>
+        <td>
+          {% for user in object.owners.all %}
+            {{ user.profile.get_user_display_link }}
+          {% empty %}
+            <em>{% trans "No projects currently assigned!" %}</em>
+          {% endfor %}
+        </td>
+        <td>
+          {% for project in object.all_projects %}
+            <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+          {% empty %}
+            <em>{% trans "No projects currently assigned!" %}</em>
+          {% endfor %}
+        </td>
+        <td>{{ object.plan }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
