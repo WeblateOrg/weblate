@@ -10,8 +10,6 @@
 
 {% block content %}
 
-<div class="container">
-
 {% if billings %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Trial subscriptions" %}</h4></div>
@@ -60,8 +58,6 @@
   <div class="panel-footer">
     <a class="btn btn-primary" href="{% url 'trial' %}">{% trans "Gratis trial" %}</a>
   </div>
-</div>
-
 </div>
 
 {% endblock %}
