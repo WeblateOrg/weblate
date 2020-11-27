@@ -25,7 +25,7 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 
-UNDERSCORE_EXCEPTIONS = {"nb_NO", "zh_Hant", "zh_Hans", "be_Latn", "ro_MD"}
+UNDERSCORE_EXCEPTIONS = {"nb_NO", "zh_Hant", "zh_Hans", "be_Latn", "ro_MD", "pt_BR"}
 AT_EXCEPTIONS = {"ca@valencia"}
 
 
