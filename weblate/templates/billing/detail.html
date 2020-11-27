@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load translations %}
 {% load icons %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 
 {% block breadcrumbs %}
@@ -35,9 +36,6 @@
   <div class="panel-footer">
   <form method="post">
   {% csrf_token %}
-  {% if offer_hosting and billing.is_trial and billing.plan.price == 0 %}
-    <a href="{{ billing.get_absolute_url }}" class="btn btn-primary">{% trans "Request approval for libre hosting" %}</a>
-  {% endif %}
   {% if payment_enabled and billing.can_be_paid %}
     <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary">
     {% trans "Change plan or payment method" %}
@@ -100,7 +98,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         {% trans "Libre hosting" %}
-        {% if billing.payment.libre_request %}
+        {% if billing.is_libre_trial and billing.payment.libre_request %}
           <span class="badge">{% trans "Pending approval" %}</span>
         {% endif %}
       </h4>
@@ -108,6 +106,32 @@
     <div class="panel-body">
       {% include "snippets/libre-checklist.html" %}
     </div>
+    {% if billing.is_libre_trial %}
+      <div class="panel-footer">
+        <form method="POST">
+          {% csrf_token %}
+          {% if billing.valid_libre %}
+            {% if user.is_superuser or not billing.payment.libre_request %}
+              <p>{% trans "Please check that following conditions are met:" %}<p>
+              <ul>
+                <li>{% trans "All the source code has to be publicly available in a supported version control system." %}</li>
+                <li>{% trans "Using Weblate has been approved by the upstream project." %}</li>
+                <li>{% trans "The project has had active development for at least three months." %}</li>
+                <li>{% trans "Mention you use Weblate for translations in the README. It’ll help Weblate to be free for more projects and attract new translators." %}</li>
+              </ul>
+              {% if user.is_superuser %}
+                <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
+              {% else %}
+                {{ hosting_form|crispy }}
+                <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for libre hosting" %}" />
+              {% endif %}
+            {% endif %}
+          {% else %}
+            <p>{% trans "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}</p>
+          {% endif %}
+        </form>
+      </div>
+    {% endif %}
   </div>
 {% endif %}
 

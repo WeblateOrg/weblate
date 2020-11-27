@@ -2537,6 +2537,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         if (
             settings.OFFER_HOSTING
+            and self.project.billings
             and self.project.billing.plan.price == 0
             and not self.project.billing.valid_libre
         ):

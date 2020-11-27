@@ -30,7 +30,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import User
-from weblate.billing.models import Billing, Invoice
+from weblate.billing.models import Billing, Invoice, Plan
 from weblate.billing.tasks import (
     billing_alert,
     billing_check,
@@ -39,6 +39,7 @@ from weblate.billing.tasks import (
     schedule_removal,
 )
 from weblate.trans.models import Project
+from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import create_test_billing
 
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data")
@@ -86,14 +87,15 @@ class BillingTest(TestCase):
 
         # Owner
         self.client.login(username="bill", password="kill")
-        response = self.client.get(reverse("billing"))
+        response = self.client.get(reverse("billing"), follow=True)
+        self.assertRedirects(response, self.billing.get_absolute_url())
         self.assertContains(response, "Current plan")
 
         # Admin
         self.user.is_superuser = True
         self.user.save()
         response = self.client.get(reverse("billing"))
-        self.assertContains(response, "Current plan")
+        self.assertContains(response, "Owners")
 
     def test_limit_projects(self):
         self.assertTrue(self.billing.in_limits)
@@ -373,3 +375,96 @@ class BillingTest(TestCase):
         self.plan.yearly_price = 0
         self.plan.save()
         self.test_trial()
+
+
+class HostingTest(RepoTestCase):
+    def get_user(self):
+        user = User.objects.create_user(
+            username="testuser", password="testpassword", full_name="Test User"
+        )
+        user.full_name = "First Second"
+        user.email = "noreply@example.com"
+        user.save()
+        return user
+
+    @override_settings(
+        OFFER_HOSTING=True,
+        ADMINS_HOSTING=["noreply@example.com"],
+    )
+    def test_hosting(self):
+        """Test for hosting form with enabled hosting."""
+        Plan.objects.create(price=0, slug="libre", name="Libre")
+        user = self.get_user()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("hosting"))
+        self.assertContains(response, "trial")
+
+        # Creating a trial
+        response = self.client.post(reverse("trial"), {"plan": "libre"}, follow=True)
+        self.assertContains(response, "Create project")
+        # Flush outbox
+        mail.outbox = []
+
+        # Add component to a trial
+        component = self.create_component()
+        billing = user.billing_set.get()
+        billing.projects.add(component.project)
+
+        # Not valid for libre
+        self.assertFalse(billing.valid_libre)
+        response = self.client.post(
+            billing.get_absolute_url(),
+            {"request": "1", "message": "msg"},
+            follow=True,
+        )
+        self.assertNotContains(response, "Pending approval")
+
+        # Add missing license info
+        component.license = "GPL-3.0-or-later"
+        component.save()
+        billing = user.billing_set.get()
+
+        # Valid for libre
+        self.assertTrue(billing.valid_libre)
+        response = self.client.post(
+            billing.get_absolute_url(),
+            {"request": "1", "message": "msg"},
+            follow=True,
+        )
+        self.assertContains(response, "Pending approval")
+
+        # Verify message
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject, "[Weblate] Hosting request for Test (Libre)"
+        )
+        self.assertIn("testuser", mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
+
+        # Non-admin approval
+        response = self.client.post(
+            billing.get_absolute_url(),
+            {"approve": "1"},
+            follow=True,
+        )
+        self.assertContains(response, "Pending approval")
+
+        # Admin extension
+        user.is_superuser = True
+        user.save()
+        response = self.client.post(
+            billing.get_absolute_url(),
+            {"extend": "1"},
+            follow=True,
+        )
+        self.assertContains(response, "Pending approval")
+
+        # Admin approval
+        user.is_superuser = True
+        user.save()
+        response = self.client.post(
+            billing.get_absolute_url(),
+            {"approve": "1"},
+            follow=True,
+        )
+        self.assertNotContains(response, "Pending approval")

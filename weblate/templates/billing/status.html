@@ -1,27 +1,53 @@
 {% load i18n %}
 {% load translations %}
 {% load humanize %}
+{% load icons %}
 
   {% with billing.plan as plan %}
   <table class="table">
   <tr>
     <th>{% trans "Current plan" %}</th>
-    <td>{{ plan.name }} ({{ billing.get_state_display }}{% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %})</td>
     <td>
-        {% if not hide_buttons and payment_enabled and billing.can_be_paid %}
+      {{ plan.name }} ({{ billing.get_state_display }})
+
+    </td>
+    <td>
+        {% if  payment_enabled and billing.can_be_paid %}
         <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary pull-right flip">
         {% trans "Change plan" %}
         </a>
         {% endif %}
     </td>
   </tr>
+  {% if billing.expiry %}
+    <tr>
+      <th>{% trans "Trial expiry date" %}</th>
+      <td>{{ billing.expiry|naturaltime }}</td>
+      <td>
+        {% if user.is_superuser %}
+          <a href="{{ billing.get_absolute_url }}" class="btn btn-primary pull-right flip link-post" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endif %}
+  {% if billing.removal %}
+    <tr>
+      <th>{% trans "Scheduled removal" %}</th>
+      <td>{{ billing.removal|naturaltime }}</td>
+      <td>
+        {% if billing.is_trial and user.is_superuser %}
+          <a href="{{ billing.get_absolute_url }}" class="btn btn-primary pull-right flip link-post" data-params='{"extend": 1}'>{% trans "Extend trial" %}</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endif %}
   <tr>
     <th>{% trans "Monthly price" %}</th>
     <td>
         {{ plan.price|intcomma }} EUR
     </td>
     <td>
-        {% if payment_enabled and billing.can_be_paid and plan.price and not hide_buttons %}
+        {% if payment_enabled and billing.can_be_paid and plan.price %}
         <form class="form-inline" method="post" action="{% url 'create-billing' %}">
         {% csrf_token %}
         <input type="hidden" name="plan" value="{{ plan.id }}" />
@@ -36,7 +62,7 @@
     <th>{% trans "Yearly price" %}</th>
     <td>{{ plan.yearly_price|intcomma }} EUR</td>
     <td>
-        {% if payment_enabled and billing.can_be_paid and plan.yearly_price and not hide_buttons %}
+        {% if payment_enabled and billing.can_be_paid and plan.yearly_price %}
         <form class="form-inline" method="post" action="{% url 'create-billing' %}">
         {% csrf_token %}
         <input type="hidden" name="plan" value="{{ plan.id }}" />
@@ -77,5 +103,31 @@
   {% endfor %}
   </div></td>
   </tr>
+  {% if user.is_superuser %}
+    <tr>
+      <th>{% trans "Owners" %}</th>
+      <td colspan="2">
+        {% for owner in billing.owners.all %}
+          <p>
+            <span class="profile-icon">{% icon "account.svg" %}</span>
+            <span class="middle-dot-divider">
+              {{ owner }}
+            </span>
+            <span class="middle-dot-divider">
+              <a href="{{ owner.get_absolute_url }}">@{{ owner.username }}</a>
+            </span>
+            <span class="middle-dot-divider">
+              <a href="mailto:{{ owner.email }}">{{ owner.email }}</a>
+            </span>
+            {% if user.is_superuser %}
+            <span class="middle-dot-divider">
+              <a href="{% url "manage-users-check" %}?email={{ owner.email|urlencode }}">{% trans "Check user access" %}</a>
+            </span>
+            {% endif %}
+          </p>
+        {% endfor %}
+      </td>
+    </tr>
+  {% endif %}
   </table>
   {% endwith %}

@@ -568,21 +568,6 @@ class AdminLoginForm(LoginForm):
         return data
 
 
-class HostingForm(forms.Form):
-    """Form for asking for hosting."""
-
-    message = forms.CharField(
-        label=_("Additional message"),
-        required=True,
-        widget=forms.Textarea,
-        max_length=1000,
-        help_text=_(
-            "Please describe the project and your relation to it, "
-            "preferably in English."
-        ),
-    )
-
-
 class NotificationForm(forms.Form):
     scope = forms.ChoiceField(
         choices=SCOPE_CHOICES, widget=forms.HiddenInput, required=True
