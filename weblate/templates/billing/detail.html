@@ -51,6 +51,8 @@
 </div>
 
 <div class="col-lg-6">
+{% with invoices=billing.invoice_set.order %}
+{% if invoices %}
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Invoices" %}</h4></div>
 <table class="table table-striped">
@@ -82,7 +84,12 @@
 </tbody>
 </table>
 </div>
+{% endif %}
+{% endwith %}
+
 </div>
+
+
 </div>
 
 {% endwith %}
