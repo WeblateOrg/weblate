@@ -405,27 +405,38 @@ def billing(request):
     from weblate.billing.models import Billing
 
     trial = []
+    pending = []
     removal = []
     free = []
     paid = []
     terminated = []
 
     # We will list all billings anyway, so fetch  them at once
-    billings = Billing.objects.all().prefetch_related(
-        "owners",
-        "owners__profile",
-        "plan",
-        Prefetch(
-            "projects",
-            queryset=Project.objects.order(),
-            to_attr="ordered_projects",
-        ),
+    billings = (
+        Billing.objects.all()
+        .order_by("-expiry", "-removal", "id")
+        .prefetch_related(
+            "owners",
+            "owners__profile",
+            "plan",
+            Prefetch(
+                "projects",
+                queryset=Project.objects.order(),
+                to_attr="ordered_projects",
+            ),
+        )
     )
 
     for billing in billings:
         if billing.removal:
             removal.append(billing)
         elif billing.state == Billing.STATE_TRIAL:
+            if (
+                billing.plan
+                and billing.plan.price == 0
+                and billing.payment.get("libre_request")
+            ):
+                pending.append(billing)
             trial.append(billing)
         elif billing.state == Billing.STATE_TERMINATED:
             terminated.append(billing)
@@ -445,5 +456,6 @@ def billing(request):
             "free": free,
             "paid": paid,
             "terminated": terminated,
+            "pending": pending,
         },
     )
