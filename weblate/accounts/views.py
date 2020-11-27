@@ -140,7 +140,7 @@ Message:
 
 %(message)s
 
-Please review at https://hosted.weblate.org/hosting/#billing-%(billing_id)s
+Please review at https://hosted.weblate.org{{ billing.get_absolute_url }}
 """
 
 TEMPLATE_FOOTER = """
