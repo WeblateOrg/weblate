@@ -8,13 +8,13 @@
       <th>{% trans "Owners" %}</th>
       <th>{% trans "Projects" %}</th>
       <th>{% trans "Plan" %}</th>
+      <th class="number">{% trans "Hosted words" %}</th>
       {% if show_expiry %}
         <th>{% trans "Trial expiry date" %}</th>
       {% endif %}
       {% if show_removal %}
         <th>{% trans "Scheduled removal" %}</th>
       {% endif %}
-      <th class="number">{% trans "" %}</th>
     </tr>
   </thead>
   <tbody>
@@ -35,11 +35,12 @@
           {% endfor %}
         </td>
         <td>{{ object.plan }}</td>
+        <td class="number" data-value="{{ object.hosted_words }}">{{ object.hosted_words|intcomma }}</td>
         {% if show_expiry %}
-          <td>{{ object.expiry|naturaltime }}</td>
+          <td data-value="{{ object.expiry.timestamp }}">{{ object.expiry|naturaltime }}</td>
         {% endif %}
         {% if show_removal %}
-          <td>{{ object.removal|naturaltime }}</td>
+          <td data-value="{{ object.removal.timestamp }}">{{ object.removal|naturaltime }}</td>
         {% endif %}
       </tr>
     {% endfor %}

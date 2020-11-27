@@ -277,6 +277,10 @@ class Billing(models.Model):
     def count_words(self):
         return sum(p.stats.source_words for p in self.all_projects)
 
+    @cached_property
+    def hosted_words(self):
+        return sum(p.stats.all_words for p in self.all_projects)
+
     def display_words(self):
         return f"{self.count_words}"
 
