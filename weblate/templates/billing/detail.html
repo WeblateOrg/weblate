@@ -87,6 +87,22 @@
 {% endif %}
 {% endwith %}
 
+{% if offer_hosting and billing.plan.price == 0 %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% trans "Libre hosting" %}
+        {% if billing.payment.libre_request %}
+          <span class="badge">{% trans "Pending approval" %}</span>
+        {% endif %}
+      </h4>
+    </div>
+    <div class="panel-body">
+      {% include "snippets/libre-checklist.html" %}
+    </div>
+  </div>
+{% endif %}
+
 </div>
 
 
