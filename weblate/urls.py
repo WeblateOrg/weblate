@@ -1104,6 +1104,7 @@ if "weblate.billing" in settings.INSTALLED_APPS:
             name="invoice-download",
         ),
         path("billing/", weblate.billing.views.overview, name="billing"),
+        path("billing/<int:pk>/", weblate.billing.views.detail, name="billing-detail"),
         path("manage/billing/", weblate.wladmin.views.billing, name="manage-billing"),
     ]
 

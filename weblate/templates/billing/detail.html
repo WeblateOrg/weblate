@@ -1,6 +1,14 @@
-{% load i18n %}
+{% extends "base.html" %}
 {% load translations %}
 {% load icons %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
+<li><a href="{% url 'billing' %}">{% trans "Billing" %}</a></li>
+{% endblock %}
+
+{% block content %}
 
 <div class="row">
 
@@ -25,7 +33,7 @@
   {% include "billing/status.html" %}
 {% if billing.is_active %}
   <div class="panel-footer">
-  <form method="post" action="{% url 'billing' %}">
+  <form method="post">
   {% csrf_token %}
   {% if offer_hosting and billing.is_trial and billing.plan.price == 0 %}
     <a href="{% url 'hosting' %}#billing-{{ billing.pk }}" class="btn btn-primary">{% trans "Request approval for libre hosting" %}</a>
@@ -106,3 +114,4 @@
 </div>
 
 </div>
+{% endblock %}

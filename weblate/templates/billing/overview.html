@@ -8,20 +8,21 @@
 
 {% block content %}
 
-{% for billing in billings %}
-{% include "billing/detail.html" %}
-{% empty %}
-<p>
+{% include "billing/list.html" with objects=billings show_state=1 %}
+
+{% if not billings %}
+  <p>
     {% trans "No subscriptions or due payments." %}
     {% trans "If you miss access to billing of your project, please ask its admins to grant you access." %}
-</p>
+  </p>
 
-{% if offer_hosting %}
-<a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+  {% if offer_hosting %}
+    <a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
+  {% endif %}
 {% endif %}
-{% endfor %}
+
 {% if payment_enabled and not active_billing_count %}
-<a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
+  <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
 {% endif %}
 
 {% endblock %}

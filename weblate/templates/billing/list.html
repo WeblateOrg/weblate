@@ -8,6 +8,9 @@
       <th>{% trans "Owners" %}</th>
       <th>{% trans "Projects" %}</th>
       <th>{% trans "Plan" %}</th>
+      {% if show_state %}
+        <th>{% trans "State" %}</th>
+      {% endif %}
       <th class="number">{% trans "Hosted words" %}</th>
       {% if show_expiry %}
         <th>{% trans "Trial expiry date" %}</th>
@@ -15,6 +18,7 @@
       {% if show_removal %}
         <th>{% trans "Scheduled removal" %}</th>
       {% endif %}
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -24,7 +28,7 @@
           {% for user in object.owners.all %}
             {{ user.profile.get_user_display_link }}
           {% empty %}
-            <em>{% trans "No projects currently assigned!" %}</em>
+            <em>{% trans "No users currently assigned!" %}</em>
           {% endfor %}
         </td>
         <td>
@@ -35,6 +39,9 @@
           {% endfor %}
         </td>
         <td>{{ object.plan }}</td>
+        {% if show_state %}
+          <td>{{ object.get_state_display }}</td>
+        {% endif %}
         <td class="number" data-value="{{ object.hosted_words }}">{{ object.hosted_words|intcomma }}</td>
         {% if show_expiry %}
           <td data-value="{{ object.expiry.timestamp }}">{{ object.expiry|naturaltime }}</td>
@@ -42,6 +49,7 @@
         {% if show_removal %}
           <td data-value="{{ object.removal.timestamp }}">{{ object.removal|naturaltime }}</td>
         {% endif %}
+        <td><a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% trans "View" %}</a></td>
       </tr>
     {% endfor %}
   </tbody>

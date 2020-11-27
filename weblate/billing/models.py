@@ -215,7 +215,7 @@ class Billing(models.Model):
         )
 
     def get_absolute_url(self):
-        return "{}#billing-{}".format(reverse("billing"), self.pk)
+        return reverse("billing-detail", kwargs={"pk": self.pk})
 
     @cached_property
     def ordered_projects(self):

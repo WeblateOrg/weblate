@@ -49,7 +49,7 @@ def download_invoice(request, pk):
     return response
 
 
-def handle_post(request, billings):
+def handle_post(request, billing):
     def get(name):
         try:
             return int(request.POST[name])
@@ -59,10 +59,6 @@ def handle_post(request, billings):
     recurring = get("recurring")
     terminate = get("terminate")
     if not recurring and not terminate:
-        return
-    try:
-        billing = billings.get(pk=recurring or terminate)
-    except Billing.DoesNotExist:
         return
     if recurring:
         if "recurring" in billing.payment:
@@ -78,9 +74,8 @@ def overview(request):
     billings = Billing.objects.for_user(request.user).prefetch_related(
         "plan", "projects", "invoice_set"
     )
-    if request.method == "POST":
-        handle_post(request, billings)
-        return redirect("billing")
+    if len(billings) == 1:
+        return redirect(billings[0])
     return render(
         request,
         "billing/overview.html",
@@ -89,5 +84,25 @@ def overview(request):
             "active_billing_count": billings.filter(
                 state__in=(Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
             ).count(),
+        },
+    )
+
+
+@login_required
+def detail(request, pk):
+    billing = get_object_or_404(Billing, pk=pk)
+
+    if not request.user.has_perm("billing.view", billing):
+        raise PermissionDenied()
+
+    if request.method == "POST":
+        handle_post(request, billing)
+        return redirect(billing)
+
+    return render(
+        request,
+        "billing/detail.html",
+        {
+            "billing": billing,
         },
     )
