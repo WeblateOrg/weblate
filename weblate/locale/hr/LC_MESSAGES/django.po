@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-11-27 15:47+0000\n"
+"PO-Revision-Date: 2020-11-27 21:50+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1297,15 +1297,12 @@ msgid "Language filter"
 msgstr "Filtar jezika"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
 msgstr ""
-"Regularni izraz za filtriranje prijevoda prilikom traženja maske datoteke."
+"Regularni izraz za filtriranje prevodilačke datoteke prilikom traženja maske "
+"datoteke."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1368,10 +1365,8 @@ msgid "Statistics generator"
 msgstr "Generator statistike"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Izrađuje datoteku s detaljnim podacima o prijevodu."
+msgstr "Izrađuje datoteku s detaljnim podacima o stanju prijevoda."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2775,10 +2770,8 @@ msgid "Failing checks"
 msgstr "Neuspjele provjere"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "Moguća konfiguracija"
+msgstr "Konfiguracija Weblatea"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -4179,34 +4172,34 @@ msgid ""
 "Translations have to be in the same repository, or under the same repository "
 "project/organization as the source code."
 msgstr ""
+"Prijevodi moraju biti u istom repozitoriju ili pod istim projektom/"
+"organizacije repozitorija kao i izvorni kod."
 
 #: weblate/templates/accounts/hosting.html:128
 msgid "You will have 14 days to set up your project."
 msgstr "Imat ćeš 14 dana za postavljanje projekta."
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
-msgstr "Zatraži odobrenje za projekt nakon postavljanja projekta."
+msgstr "Zatraži odobrenje za projekt nakon postavljanja."
 
 #: weblate/templates/accounts/hosting.html:130
 msgid "Unapproved projects will be removed."
 msgstr "Neodobreni projekti bit će uklonjeni."
 
 #: weblate/templates/accounts/hosting.html:131
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
-msgstr "Ne postoji jamstvo za dostupnost usluge, niti za kvalitetu."
+msgstr "Besplatna tarifa ne jamči dostupnost niti kvalitetu usluge."
 
 #: weblate/templates/accounts/hosting.html:132
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll help Weblate "
 "to be free for more projects and attract new translators."
 msgstr ""
+"Navedi u README datoteci da koristiš Weblate. To će pomoći slobodnu upotrebu "
+"Weblatea u drugim projektima te privući nove prevodioce."
 
 #: weblate/templates/accounts/hosting.html:137
 msgid "Get started"
@@ -4803,14 +4796,12 @@ msgid "Install"
 msgstr "Instaliraj"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
 msgstr ""
-"Nije bilo moguće naći dodatne dodatke koji su kompatibilni s ovim prijevodom."
+"Nije bilo moguće pronaći dodatne dodatke koji su kompatibilni s ovom "
+"prevodilačkom komponentom."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -6031,13 +6022,7 @@ msgstr[2] ""
 "strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -6458,16 +6443,12 @@ msgid "Lock"
 msgstr "Zaključaj"
 
 #: weblate/templates/js/git-status.html:99
-#, fuzzy
-#| msgid ""
-#| "Reset removes all changes in Weblate and resets the repository to match "
-#| "upstream. Use with caution."
 msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream. Use with caution."
 msgstr ""
-"Resetiranje uklanja sve promjene u Weblateu i resetira repozitorij tako da "
-"se poklapa s izvornim repozitorijem. Koristi s oprezom."
+"Resetiranje uklanja sve promjene u Weblateu, tako da se repozitorij poklapa "
+"s izvornim repozitorijem. Koristi s oprezom."
 
 #: weblate/templates/js/git-status.html:104
 msgid "Maintenance"
@@ -7000,6 +6981,8 @@ msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
+"U slučaju isteka potvrdne URL adrese, možeš koristitit funkciju ponovnog "
+"postavljanja lozinke za pristupanje tvom računu."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7161,7 +7144,7 @@ msgstr "Dodaj uslugu za izradu sigurnosnih kopija"
 
 #: weblate/templates/manage/design.html:10 weblate/wladmin/views.py:70
 msgid "Design"
-msgstr ""
+msgstr "Dizajn"
 
 #: weblate/templates/manage/design.html:18
 #, fuzzy
@@ -7949,7 +7932,7 @@ msgstr "Izrazi ciljnog jezika"
 
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
-msgstr "Ključni izrazi"
+msgstr "Ključne riječi/kontekstualni izrazi"
 
 #: weblate/templates/snippets/query-builder.html:18
 msgid "Comment strings"
@@ -8259,10 +8242,12 @@ msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
 msgstr ""
+"Ovi jezični kodovi označavaju makrojezik. Umjesto toga je bolje koristiti "
+"određeni jezični kod."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "Predloži određene jezične kodove"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -8429,6 +8414,8 @@ msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
+"Čini se da tvoja URL adresa za slanje podataka nema podatke za prijavu. "
+"Navedi ih u URL-u ili koristi SSH autentifikaciju s ključem."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10007,10 +9994,8 @@ msgstr "Neupotrijebljena snimka ekrana"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Jezični kod"
+msgstr "Nejedinstven jezični kod."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -12135,35 +12120,31 @@ msgstr "E-adresa korisnika"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "Navedi obitelj fontova za CSS."
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Stranica nije pronađena"
+msgstr "Font stranice"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "Dodaj font"
+msgstr "Font zaglavlja"
 
 #: weblate/wladmin/forms.py:92
 msgid "Focus color"
-msgstr ""
+msgstr "Boja pri fokusiranju elementa"
 
 #: weblate/wladmin/forms.py:93
 msgid "Hover color"
-msgstr ""
+msgstr "Boja pri prelaženju preko elementa"
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "Sakrij podnožje stranice"
 
 #: weblate/wladmin/forms.py:96
 msgid "Persistent hamburger navigation"
-msgstr ""
+msgstr "Stalni bočni izbornik"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
