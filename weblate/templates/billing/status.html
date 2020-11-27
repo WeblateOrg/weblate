@@ -60,13 +60,13 @@
   <tr><th>{% trans "Last invoice" %}</th>
   <td colspan="2">{{ billing.last_invoice }}</td></tr>
   <tr><th>{% trans "Projects limit" %}</th>
-  {% with plan.limit_projects as max and plan.display_limit_projects as total and projects|length as used %}
+  {% with plan.limit_projects as max and plan.display_limit_projects as total and billing.all_projects|length as used %}
   {% include "billing/used.html" %}
   {% endwith %}
   </tr>
   <tr><th>{% trans "Projects" %}</th>
   <td colspan="2"><div class="list-group">
-  {% for project in projects %}
+  {% for project in billing.all_projects %}
   <a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
   {% empty %}
   {% trans "No projects currently assigned!" as msg %}

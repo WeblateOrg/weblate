@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load translations %}
 {% load icons %}
-{% with projects=billing.projects.all %}
+
 <div class="row">
 
 <div class="col-lg-6" id="billing-{{ billing.pk }}">
@@ -39,7 +39,7 @@
   <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">{% trans "Terminate recurring payment" %}</button>
   {% endif %}
   <button type="submit" name="terminate" value="{{ billing.pk }}" class="btn btn-danger"
-  {% if projects %}
+  {% if billing.all_projects %}
   title="{% trans "To terminate billing you have to remove all projects first." %}"
   disabled
   {% endif %}
@@ -105,7 +105,4 @@
 
 </div>
 
-
 </div>
-
-{% endwith %}
