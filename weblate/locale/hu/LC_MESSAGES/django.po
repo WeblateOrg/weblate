@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-11-20 09:37+0000\n"
+"PO-Revision-Date: 2020-11-27 12:46+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -4234,35 +4234,37 @@ msgid ""
 "Translations have to be in the same repository, or under the same repository "
 "project/organization as the source code."
 msgstr ""
+"A fordításoknak ugyanabban a tárolóban kell lenniük, vagy ugyanazon "
+"tárolóprojekt vagy tárolószervezet alatt, ahol a forráskód van."
 
 #: weblate/templates/accounts/hosting.html:128
 msgid "You will have 14 days to set up your project."
 msgstr "14 napja lesz a projektje beállításához."
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
-msgstr "Kérjen projektjóváhagyást, ha a projekt beállítása befejeződött."
+msgstr "Kérjen projektjóváhagyást, ha befejezte a beállítást."
 
 #: weblate/templates/accounts/hosting.html:130
 msgid "Unapproved projects will be removed."
 msgstr "A nem jóváhagyott projektek el lesznek távolítva."
 
 #: weblate/templates/accounts/hosting.html:131
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
 msgstr ""
-"Nincs garancia se a szolgáltatás rendelkezésre állására, se a minőségre."
+"Nincs garancia se a szolgáltatás rendelkezésre állására, se a minőségre az "
+"ingyenes szolgáltatási csomagnál."
 
 #: weblate/templates/accounts/hosting.html:132
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll help Weblate "
 "to be free for more projects and attract new translators."
 msgstr ""
+"Említse meg a README fájlban, hogy Weblate-et használ a fordításokhoz. Ezzel "
+"segít, hogy a Weblate ingyenes maradjon még több projektnél, és új "
+"fordítókat szerezhet."
 
 #: weblate/templates/accounts/hosting.html:137
 msgid "Get started"
@@ -4618,7 +4620,7 @@ msgstr "Közreműködőként elfogadta a következőket:"
 
 #: weblate/templates/accounts/profile.html:342
 msgid "Licenses for individual translations"
-msgstr "Licencek az egyéni fordításokhoz"
+msgstr "Licencek az egyedi fordításokhoz"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6572,10 +6574,8 @@ msgid "Browse all language changes"
 msgstr "Az összes nyelvi változtatás böngészése"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "Nyelvkódok"
+msgstr "Álnevesített nyelvkódok"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -7065,6 +7065,8 @@ msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
+"A megerősítő URL lejárata esetén használhatja a jelszó-visszaállítási "
+"funkciót, hogy hozzáférést szerezzen a fiókjához."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7965,7 +7967,7 @@ msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
 msgstr ""
-"Verziókövető vagy lefordítandó fájlok vannak beállítva az egyéni "
+"Verziókövető vagy lefordítandó fájlok vannak beállítva az egyedi "
 "összetevőknél:"
 
 #: weblate/templates/snippets/project-nav.html:37
@@ -7989,17 +7991,12 @@ msgstr ""
 "mielőtt szabad szoftveres projektként jóváhagyásra kerül."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Nyelvek kezelése"
+msgstr "Számlázás kezelése"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Ez a projekt helytelenül van beállítva."
+msgstr "Ez a projekt a próbaidőszakban van."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8314,20 +8311,20 @@ msgid "Error"
 msgstr "Hiba"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "Az összetevő fordítási fájlt tartalmaz a forrásnyelvhez."
+msgstr "Az összetevő fordítási fájljai kétértelmű nyelvkódot használnak."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
 msgstr ""
+"Ezek a nyelvkódok egy makronyelvet jelölnek, és általában jobb az egyedi "
+"nyelv kódját használni inkább."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "Javasolt egyedi nyelvkódok"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -10102,10 +10099,8 @@ msgstr "Nem használt képernyőkép"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Nyelvkód"
+msgstr "Kétértelmű nyelvkód."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -10546,9 +10541,9 @@ msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Fordítandó fájlok útvonala relatívan a tároló gyökeréhez képest. Használjon "
-"* karaktert nyelvi kód helyett, például po/*.po vagy locale/*/LC_MESSAGES/"
-"django.po."
+"Fordítandó fájlok útvonala relatívan a tároló gyökeréhez képest. Használjon *"
+" karaktert nyelvkód helyett, például po/*.po vagy locale/*/LC_MESSAGES/django"
+".po."
 
 #: weblate/trans/models/component.py:349
 msgid ""
@@ -10674,7 +10669,7 @@ msgstr "Hogyan kell kezelni az új fordítások létrehozásának kéréseit."
 
 #: weblate/trans/models/component.py:471
 msgid "Language code style"
-msgstr "Nyelvi kód stílusa"
+msgstr "Nyelvkód stílusa"
 
 #: weblate/trans/models/component.py:477
 msgid ""
@@ -10682,7 +10677,7 @@ msgid ""
 "created by Weblate."
 msgstr ""
 "A Weblate által létrehozott fordítások fájlnevének előállításához használt "
-"nyelvi kód személyre szabása."
+"nyelvkód személyre szabása."
 
 #: weblate/trans/models/component.py:484
 msgid "Merge style"
@@ -10879,12 +10874,12 @@ msgstr "A fájlmaszk egy fájlra sem illeszkedik."
 #: weblate/trans/models/component.py:2031
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
-msgstr "Üres a nyelvi kódja \"%s\", kérem ellenőrizze a fájlmaszkot."
+msgstr "A(z) %s nyelvkódja üres volt, ellenőrizze a fájlmaszkot."
 
 #: weblate/trans/models/component.py:2040
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
-msgstr "A nyelvi kód \"%s\" túl hosszú, kérem ellenőrizze a fájlmaszkot."
+msgstr "A(z) „%s” nyelvkód túl hosszú, ellenőrizze a fájlmaszkot."
 
 #: weblate/trans/models/component.py:2047
 #, python-format
@@ -10892,8 +10887,8 @@ msgid ""
 "There are more files for the single language (%s), please adjust the "
 "filemask and use components for translating different resources."
 msgstr ""
-"Több fájl is elérhető, ehhez a nyelvhez (%s). Kérem állítson a fájlmaszkon "
-"és használja az összetevőket a különböző fájlok fordításához."
+"Több fájl is elérhető az önálló nyelvhez (%s). Állítsa be a fájlmaszkot, és "
+"használja az összetevőket a különböző erőforrások fordításához."
 
 #: weblate/trans/models/component.py:2061
 msgid "Could not find any matching language, please check the filemask."
@@ -11061,7 +11056,7 @@ msgstr ""
 
 #: weblate/trans/models/componentlist.py:101
 msgid "Component list to assign"
-msgstr "Összetevőlistához hozzárendelni"
+msgstr "Hozzárendelendő összetevőlista"
 
 #: weblate/trans/models/componentlist.py:107
 msgid "Automatic component list assignments"
@@ -11085,7 +11080,7 @@ msgstr "Egyéni"
 
 #: weblate/trans/models/project.py:92
 msgid "Main website of translated project."
-msgstr "A lefordított projekt főoldala."
+msgstr "A lefordított projekt fő weboldala."
 
 #: weblate/trans/models/project.py:95
 msgid "Mailing list"
@@ -11101,13 +11096,13 @@ msgstr "Fordítási utasítások"
 
 #: weblate/trans/models/project.py:107
 msgid "Set \"Language-Team\" header"
-msgstr "\"Language-Team\" beállítása a fejlécben"
+msgstr "A „Language-Team” fejléc beállítása"
 
 #: weblate/trans/models/project.py:110
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
-"Lehetővé teszi, hogy a Weblate frissítse a fájlok fejléceiben a \"Language-"
-"Team\"."
+"Lehetővé teszi, hogy a Weblate frissítse a projektje „Language-Team” "
+"fájlfejléceit."
 
 #: weblate/trans/models/project.py:114
 msgid "Use shared translation memory"
