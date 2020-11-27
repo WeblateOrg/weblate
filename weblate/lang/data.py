@@ -18,7 +18,6 @@
 #
 # pylint: disable=line-too-long
 
-from django.conf import settings
 from django.utils.translation import pgettext_lazy
 from weblate_language_data import languages
 from weblate_language_data.ambiguous import AMBIGUOUS
@@ -30,10 +29,6 @@ AT_EXCEPTIONS = {"ca@valencia"}
 
 
 def is_basic(code):
-    # AppConf is not yet applied at this point
-    config = getattr(settings, "BASIC_LANGUAGES", None)
-    if config is not None:
-        return code in config
     if code in AMBIGUOUS:
         return False
     if "_" in code:

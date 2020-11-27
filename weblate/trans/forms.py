@@ -976,7 +976,10 @@ class NewLanguageForm(NewLanguageOwnerForm):
     lang = forms.ChoiceField(label=_("Language"), choices=[], widget=SortedSelect)
 
     def get_lang_objects(self):
-        return super().get_lang_objects().filter(code__in=BASIC_LANGUAGES)
+        codes = BASIC_LANGUAGES
+        if settings.BASIC_LANGUAGES is not None:
+            codes = settings.BASIC_LANGUAGES
+        return super().get_lang_objects().filter(code__in=codes)
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(component, *args, **kwargs)
