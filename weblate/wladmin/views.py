@@ -414,7 +414,7 @@ def billing(request):
     # We will list all billings anyway, so fetch  them at once
     billings = (
         Billing.objects.all()
-        .order_by("-expiry", "-removal", "id")
+        .order_by("expiry", "removal", "id")
         .prefetch_related(
             "owners",
             "owners__profile",
