@@ -16,6 +16,7 @@ Not yet released.
 * Added alert on using ambiguous language codes.
 * User is now presented filtered list of languages when adding new translation.
 * Extended search capabilities for changes history.
+* Improved billing detail pages and libre hosting workflow.
 
 Weblate 4.3.2
 -------------

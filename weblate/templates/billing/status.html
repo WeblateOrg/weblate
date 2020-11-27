@@ -90,19 +90,23 @@
   {% include "billing/used.html" %}
   {% endwith %}
   </tr>
-  <tr><th>{% trans "Projects" %}</th>
-  <td colspan="2"><div class="list-group">
-  {% for project in billing.all_projects %}
-  <a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
-  {% empty %}
-  {% trans "No projects currently assigned!" as msg %}
-  {% show_message "warning" msg %}
-{% if billing.is_active %}
-  <a class="btn btn-primary billing-add-project" href="{% url 'create-project' %}?billing={{ billing.pk }}">{% trans "Add new translation project" %}</a>
-{% endif %}
-  {% endfor %}
-  </div></td>
-  </tr>
+  {% if billing.all_projects %}
+    <tr>
+      <td colspan="3">
+        {% include "snippets/list-objects.html" with objects=billing.all_projects hide_details=1 %}
+      </td>
+    </tr>
+  {% else %}
+    <tr>
+      <th>{% trans "Projects" %}</th>
+      <td><em>{% trans "No projects currently assigned!" %}</em></td>
+      <td>
+        {% if billing.is_active %}
+          <a class="btn btn-primary billing-add-project pull-right flip" href="{% url 'create-project' %}?billing={{ billing.pk }}">{% trans "Add new translation project" %}</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endif %}
   {% if user.is_superuser %}
     <tr>
       <th>{% trans "Owners" %}</th>
