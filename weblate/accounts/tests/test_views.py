@@ -132,6 +132,9 @@ class ViewTest(RepoTestCase):
         """Test for hosting form with enabled hosting."""
         from weblate.billing.models import Plan
 
+        self.get_user()
+        self.client.login(username="testuser", password="testpassword")
+
         Plan.objects.create(price=0, slug="libre", name="Libre")
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("hosting"))
