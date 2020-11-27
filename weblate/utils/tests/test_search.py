@@ -146,6 +146,23 @@ class QueryParserTest(TestCase):
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
+    def test_change_action(self):
+        expected = (
+            Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
+            & Q(
+                change__timestamp__lte=datetime(
+                    2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
+                )
+            )
+            & Q(change__action=Change.ACTION_MARKED_EDIT)
+        )
+        self.assert_query(
+            "change_time:2018 AND change_action:marked-for-edit", expected
+        )
+        self.assert_query(
+            "change_time:2018 AND change_action:'Marked for edit'", expected
+        )
+
     def test_dates(self):
         action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
         self.assert_query(

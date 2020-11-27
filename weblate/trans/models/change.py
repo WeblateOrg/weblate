@@ -341,6 +341,10 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
+    ACTION_STRINGS = {
+        name.lower().replace(" ", "-"): value for value, name in ACTION_CHOICES
+    }
+    ACTION_NAMES = {str(name): value for value, name in ACTION_CHOICES}
 
     # Actions which can be reverted
     ACTIONS_REVERTABLE = {

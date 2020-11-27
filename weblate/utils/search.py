@@ -73,7 +73,9 @@ NONTEXT_FIELDS = {
     "state": "state",
     "pending": "pending",
     "changed": "change__timestamp",
+    "change_time": "change__timestamp",
     "added": "timestamp",
+    "change_action": "change__action",
 }
 STRING_FIELD_MAP = {
     "suggestion": "suggestion__target",
@@ -332,6 +334,17 @@ class TermExpr:
                 result.replace(hour=23, minute=59, second=59, microsecond=999999),
             )
         return result
+
+    def convert_change_action(self, text):
+        from weblate.trans.models import Change
+
+        try:
+            return Change.ACTION_NAMES[text]
+        except KeyError:
+            return Change.ACTION_STRINGS[text]
+
+    def convert_change_time(self, text):
+        return self.convert_datetime(text)
 
     def convert_changed(self, text):
         return self.convert_datetime(text)

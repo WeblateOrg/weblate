@@ -57,7 +57,16 @@ Fields
 ``changed_by:TEXT``
    String was changed by author with given username.
 ``changed:DATETIME``
-   String was changed on date, supports :ref:`search-operators`.
+   String content was changed on date, supports :ref:`search-operators`.
+``change_time:DATEIME``
+   String was changed on date, supports :ref:`search-operators`, unlike
+   ``changed`` this includes event which don't change content and you can apply
+   custom action filtering using ``change_action``.
+``change_action:TEXT``
+   Filters on change action, useful together with ``change_time``. Accepts
+   English name of the change action, either quoted and with spaces or
+   lowercase and spaces replaced by dash. See :ref:`search-changes` for
+   examples.
 ``check:TEXT``
    String has failing check.
 ``dismissed_check:TEXT``
@@ -98,6 +107,20 @@ You can do an exact match query on different string fields using ``=`` operator.
 search for all source strings exactly matching ``hello world``, use: ``source:="hello world"``.
 For searching single word expressions, you can skip quotes. For example, to search for all source strings
 matching ``hello``, you can use: ``source:=hello``.
+
+.. _search-changes:
+
+Searching for changes
+---------------------
+
+.. versionadded:: 4.4
+
+Searching for history events can be done using ``change_action`` and
+``change_time`` operators.
+
+For example, searching for strings marked for edit in 2018 can be entered as
+``change_time:2018 AND change_action:marked-for-edit`` or
+``change_time:2018 AND change_action:"Marked for edit"``.
 
 
 Regular expressions

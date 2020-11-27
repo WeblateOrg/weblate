@@ -15,6 +15,7 @@ Not yet released.
 * Improved support for non standard language codes.
 * Added alert on using ambiguous language codes.
 * User is now presented filtered list of languages when adding new translation.
+* Extended search capabilities for changes history.
 
 Weblate 4.3.2
 -------------
