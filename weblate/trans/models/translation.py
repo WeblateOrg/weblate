@@ -1057,6 +1057,7 @@ class Translation(
                     ),
                     author,
                 )
+                self.component.push_if_needed()
 
         # Delete from the database
         self.stats.invalidate()
