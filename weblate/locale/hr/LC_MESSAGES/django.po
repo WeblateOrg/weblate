@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-11-27 21:50+0000\n"
+"PO-Revision-Date: 2020-11-28 12:29+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -6498,10 +6498,8 @@ msgid "Browse all language changes"
 msgstr "Pregledaj sve jezične promjene"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "Jezični kodovi"
+msgstr "Alternativni kodovi jezika"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -7147,16 +7145,12 @@ msgid "Design"
 msgstr "Dizajn"
 
 #: weblate/templates/manage/design.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize design"
-msgstr "Prilagodi preuzimanje"
+msgstr "Prilagodi dizajn"
 
 #: weblate/templates/manage/design.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "Prilagođavanje radnog procesa"
+msgstr "Obnovi prilagođavanje"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7855,14 +7849,12 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s prijedlog"
-msgstr[1] "%(count)s prijedloga"
-msgstr[2] "%(count)s prijedloga"
+msgstr[0] "%(count)s izraz"
+msgstr[1] "%(count)s izraza"
+msgstr[2] "%(count)s izraza"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -7906,17 +7898,12 @@ msgstr ""
 "prije nego što se odobri kao slobodan projekt."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Upravljaj jezicima"
+msgstr "Upravljaj naplatom"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Ovaj je projekt krivo postavljen."
+msgstr "Ovaj se projekt nalazi u probnom razdoblju."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8232,10 +8219,9 @@ msgid "Error"
 msgstr "Greška"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "Komponenta sadržava prevodilačku datoteku za izvorni jezik."
+msgstr ""
+"Prevodilačke datoteke komponente koriste jezični kod koji nije jednoznačan."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
@@ -10650,15 +10636,12 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Treba li se komponenta zaključati prilikom greške repozitorija."
 
 #: weblate/trans/models/component.py:583
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
 msgstr ""
-"Regularni izraz korišten za filtriranje prijevoda prilikom traženja maske "
-"datoteke."
+"Regularni izraz korišten za filtriranje prevodilačkih datoteka prilikom "
+"traženja maske datoteke."
 
 #: weblate/trans/models/component.py:588
 msgid "Variants regular expression"
@@ -10824,13 +10807,12 @@ msgid ""
 msgstr "Jezična međudatoteka ne može se koristiti bez predloška za uređivanje."
 
 #: weblate/trans/models/component.py:2146
-#, fuzzy
-#| msgid ""
-#| "An intermediate language file can not be used without an editing template."
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
-msgstr "Jezična međudatoteka ne može se koristiti bez predloška za uređivanje."
+msgstr ""
+"Jezična međudatoteka mora se razlikovati od jednojezične osnovne jezične "
+"datoteke. Vjerojatno je možeš ostaviti praznom."
 
 #: weblate/trans/models/component.py:2161
 msgid "Using a .pot file as base file is unsupported."
