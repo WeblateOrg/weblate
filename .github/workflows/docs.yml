@@ -66,6 +66,7 @@ jobs:
           echo "::add-matcher::.github/matchers/sphinx-linkcheck-warn.json"
           sed 's@^@docs/@' docs/_build/linkcheck/output.txt
           echo "::remove-matcher owner=sphinx::"
+          echo "::remove-matcher owner=sphinx-warn::"
       - uses: actions/upload-artifact@v2.2.1
         if: always()
         with:
