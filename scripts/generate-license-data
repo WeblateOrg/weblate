@@ -60,6 +60,15 @@ TEMPLATE = """    (
     ),
 """
 
+# Some licenses are not classified as libre in SPDX
+EXCEPTIONS = {
+    # DFSG compatible, see https://wiki.debian.org/DFSGLicenses
+    "CC-BY-3.0",
+    "CC-BY-SA-3.0",
+    # Public domain, see https://fedoraproject.org/wiki/Licensing/Beerware
+    "Beerware",
+}
+
 with open("scripts/spdx-license-list/json/licenses.json") as handle:
     data = json.load(handle)
 
@@ -69,7 +78,11 @@ with open("weblate/utils/licensedata.py", "w") as output:
     for license in sorted(data["licenses"], key=lambda x: x["name"].lower()):
         if license["isDeprecatedLicenseId"]:
             continue
-        libre = license.get("isFsfLibre", False) or license["isOsiApproved"]
+        libre = (
+            license.get("isFsfLibre", False)
+            or license["isOsiApproved"]
+            or license["licenseId"] in EXCEPTIONS
+        )
         output.write(
             TEMPLATE.format(
                 license["licenseId"],

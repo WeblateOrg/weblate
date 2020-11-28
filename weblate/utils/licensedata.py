@@ -232,7 +232,7 @@ LICENSES = (
         "Beerware",
         "Beerware License",
         "https://fedoraproject.org/wiki/Licensing/Beerware",
-        False,
+        True,
     ),
     (
         "BitTorrent-1.0",
@@ -565,7 +565,7 @@ LICENSES = (
         "CC-BY-3.0",
         "Creative Commons Attribution 3.0 Unported",
         "https://creativecommons.org/licenses/by/3.0/legalcode",
-        False,
+        True,
     ),
     (
         "CC-BY-4.0",
@@ -727,7 +727,7 @@ LICENSES = (
         "CC-BY-SA-3.0",
         "Creative Commons Attribution Share Alike 3.0 Unported",
         "https://creativecommons.org/licenses/by-sa/3.0/legalcode",
-        False,
+        True,
     ),
     (
         "CC-BY-SA-4.0",
