@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-11-22 06:03+0000\n"
+"PO-Revision-Date: 2020-11-29 06:10+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
@@ -4242,14 +4242,14 @@ msgid ""
 "Translations have to be in the same repository, or under the same repository "
 "project/organization as the source code."
 msgstr ""
+"Les traduccions han de ser al mateix dipòsit o sota el mateix projecte/"
+"organització que el dipòsit del codi font."
 
 #: weblate/templates/accounts/hosting.html:128
 msgid "You will have 14 days to set up your project."
 msgstr "Disposareu de 14 dies per a configurar el projecte."
 
 #: weblate/templates/accounts/hosting.html:129
-#, fuzzy
-#| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
 msgstr ""
 "Quan hàgiu acabat de configurar el projecte, sol·liciteu-ne l'aprovació."
@@ -4259,18 +4259,21 @@ msgid "Unapproved projects will be removed."
 msgstr "Els projectes que no s'aprovin se suprimiran."
 
 #: weblate/templates/accounts/hosting.html:131
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
-msgstr "No hi ha garanties de disponibilitat o qualitat del servei."
+msgstr ""
+"No hi ha garanties de disponibilitat o qualitat del servei per al pla "
+"gratuït."
 
 #: weblate/templates/accounts/hosting.html:132
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll help Weblate "
 "to be free for more projects and attract new translators."
 msgstr ""
+"Esmenteu que feu servir el Weblate per a les traduccions al fitxer \"Llegiu-"
+"me\". Ajudareu a fer que el Weblate sigui gratuït per a més projectes i "
+"atraureu traductors nous."
 
 #: weblate/templates/accounts/hosting.html:137
 msgid "Get started"
@@ -6585,10 +6588,8 @@ msgid "Browse all language changes"
 msgstr "Explora tots els canvis de la llengua"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "Codis de llengua"
+msgstr "Codis de llengua amb àlies"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -7078,6 +7079,8 @@ msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
+"En cas que l'URL de confirmació caduqui, podeu fer servir la funcionalitat "
+"de restabliment de la contrasenya per a obtenir accés al compte."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -8008,17 +8011,12 @@ msgstr ""
 "abans que s'aprovi com a projecte lliure."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Gestiona les llengües"
+msgstr "Gestiona la facturació"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Aquest projecte està configurat de manera incorrecta."
+msgstr "Aquest projecte és dins del període de prova."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8333,20 +8331,21 @@ msgid "Error"
 msgstr "Error"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "El component conté un fitxer de traducció per a la llengua d'origen."
+msgstr ""
+"Els fitxers de traducció del component fan servir un codi de llengua ambigu."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
 msgstr ""
+"Aquests codis de llengua indiquen una macrollengua i normalment és millor "
+"fer servir el codi d'una llengua individual."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "Codis de llengua individuals suggerits"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -10107,10 +10106,8 @@ msgstr "Captura de pantalla no utilitzada"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Codi de llengua"
+msgstr "Codi de llengua ambigu."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
