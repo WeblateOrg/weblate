@@ -30,13 +30,8 @@
 <th>{% trans "Billing" %}</th>
 <td class="full-cell">
 {% for billing in object.billings %}
-  <a href="{{ billing.get_absolute_url }}">{{ billing.plan }}
-    {% if billing.is_trial %}
-      <span class="badge">{% trans "Trial" %}</span>
-    {% endif %}
-    {% if not billing.is_active %}
-      <span class="badge">{% trans "Expired" %}</span>
-    {% endif %}
+  <a href="{{ billing.get_absolute_url }}">
+    {% include "billing/state-snippet.html" with object=billing %}
   </a>
 {% endfor %}
 </td>
