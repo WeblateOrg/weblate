@@ -120,13 +120,13 @@ WLT.Editor = (function () {
     var hlNumberSelector = ".highlight-number";
 
     /* Copy from source text highlight check */
-    this.$editor.on("click", hlSelector, function (e) {
-      var $this = $(this);
+    this.$editor.on("click", hlSelector, (e) => {
+      var $this = $(e.target);
       var text = $this.clone();
 
       text.find(hlNumberSelector).remove();
       text = text.text();
-      insertEditor(text, $this);
+      this.insertEditor(text, $this);
       e.preventDefault();
     });
 
@@ -181,7 +181,7 @@ WLT.Editor = (function () {
     );
   };
 
-  function insertEditor(text, element) {
+  EditorBase.prototype.insertEditor = function (text, element) {
     var root;
 
     /* Find withing root element */
@@ -203,7 +203,7 @@ WLT.Editor = (function () {
     }
 
     editor[0].CodeMirror.replaceSelection($.trim(text));
-  }
+  };
 
   return {
     Base: EditorBase,
