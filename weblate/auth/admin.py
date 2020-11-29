@@ -25,13 +25,20 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UniqueUsernameField
 from weblate.accounts.utils import remove_user
+from weblate.auth.data import ROLES
 from weblate.auth.models import AutoGroup, Group, User
 from weblate.wladmin.models import WeblateModelAdmin
+
+BUILT_IN_ROLES = {role[0] for role in ROLES}
 
 
 def block_group_edit(obj):
     """Whether to allo user editing of an group."""
     return obj and obj.internal and "@" in obj.name
+
+
+def block_role_edit(obj):
+    return obj and obj.name in BUILT_IN_ROLES
 
 
 class InlineAutoGroupAdmin(admin.TabularInline):
@@ -57,6 +64,16 @@ class InlineAutoGroupAdmin(admin.TabularInline):
 class RoleAdmin(WeblateModelAdmin):
     list_display = ("name",)
     filter_horizontal = ("permissions",)
+
+    def has_change_permission(self, request, obj=None):
+        if block_role_edit(obj):
+            return False
+        return super().has_change_permission(request, obj)
+
+    def has_delete_permission(self, request, obj=None):
+        if block_role_edit(obj):
+            return False
+        return super().has_delete_permission(request, obj)
 
 
 class WeblateUserChangeForm(UserChangeForm):
