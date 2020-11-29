@@ -418,7 +418,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     def all_alerts(self):
         from weblate.trans.models import Alert
 
-        result = Alert.objects.filter(component__project=self)
+        result = Alert.objects.filter(component__project=self, dismissed=False)
         list(result)
         return result
 
