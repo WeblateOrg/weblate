@@ -240,7 +240,9 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return super().can_install(component, user)
 
     def update_translations(self, component, previous_head):
-        if previous_head:
+        # Run always when there is an alerts, there is a chance that
+        # the update clears it.
+        if previous_head and component.alert_set.filter(name=self.alert).exists():
             changes = component.repository.list_changed_files(
                 component.repository.ref_to_remote.format(previous_head)
             )
