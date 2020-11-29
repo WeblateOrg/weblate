@@ -41,6 +41,7 @@ MD_LINK = re.compile(
     r"""\s*(<)?([\s\S]*?)(?(2)>)(?:\s+['"]([\s\S]*?)['"])?\s*"""
     r"\)"
 )
+MD_BROKEN_LINK = re.compile(r"\] +\(")
 MD_REFLINK = re.compile(
     r"!?\[("  # leading [
     r"(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*"  # link text
@@ -260,6 +261,11 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         tgt_anchors = {x[2] for x in tgt_match if x[2] and x[2][0] in link_start}
         src_anchors = {x[2] for x in src_match if x[2] and x[2][0] in link_start}
         return tgt_anchors != src_anchors
+
+    def get_fixup(self, unit):
+        if MD_BROKEN_LINK.findall(unit.target):
+            return [(MD_BROKEN_LINK.pattern, "](")]
+        return None
 
 
 class MarkdownSyntaxCheck(MarkdownBaseCheck):

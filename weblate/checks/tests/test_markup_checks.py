@@ -31,6 +31,7 @@ from weblate.checks.markup import (
     XMLValidityCheck,
 )
 from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.trans.models import Unit
 
 
 class BBCodeCheckTest(CheckTestCase):
@@ -184,6 +185,31 @@ class MarkdownLinkCheckTest(CheckTestCase):
                 "md-text",
             ),
         )
+
+    def test_spacing(self):
+        self.do_test(
+            True,
+            (
+                "[My Home Page](http://example.com)",
+                "[Moje stránka] (http://example.com)",
+                "md-text",
+            ),
+        )
+
+    def test_fixup(self):
+        unit = Unit(
+            source="[My Home Page](http://example.com)",
+            target="[Moje stránka] (http://example.com)",
+        )
+
+        self.assertEqual(self.check.get_fixup(unit), [(r"\] +\(", "](")])
+
+        unit = Unit(
+            source="[My Home Page](http://example.com)",
+            target="[Moje stránka]",
+        )
+
+        self.assertEqual(self.check.get_fixup(unit), None)
 
 
 class MarkdownLinkCheckMultipleOrderIndependentLinksTest(CheckTestCase):
