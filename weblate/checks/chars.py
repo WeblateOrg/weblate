@@ -373,7 +373,9 @@ class EndSemicolonCheck(TargetCheck):
         if self.is_language(unit, ("el",)) and source and source[-1] == "?":
             # Complement to question mark check
             return False
-        return self.check_chars(source, target, -1, [";"])
+        return self.check_chars(
+            strip_entities(source), strip_entities(target), -1, [";"]
+        )
 
 
 class KashidaCheck(TargetCheck):

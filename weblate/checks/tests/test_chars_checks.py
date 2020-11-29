@@ -307,6 +307,9 @@ class EndSemicolonCheckTest(CheckTestCase):
     def test_greek(self):
         self.do_test(False, ("Text?", "Texte;", ""), "el")
 
+    def test_xml(self):
+        self.do_test(False, ("Text", "Texte&amp;", ""))
+
 
 class KashidaCheckTest(CheckTestCase):
     check = KashidaCheck()
