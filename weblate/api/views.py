@@ -61,13 +61,11 @@ from weblate.api.serializers import (
     MonolingualUnitSerializer,
     NotificationSerializer,
     ProjectSerializer,
-    ReadonlySourceUnitWriteSerializer,
     RepoRequestSerializer,
     RoleSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
-    SourceUnitWriteSerializer,
     StatisticsSerializer,
     TermSerializer,
     TranslationSerializer,
@@ -1235,11 +1233,6 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         # Get correct serializer based on action and instance
         if self.action in ("list", "retrieve"):
             serializer_class = UnitSerializer
-        elif isinstance(instance, Unit) and instance.is_source:
-            if instance.readonly:
-                serializer_class = ReadonlySourceUnitWriteSerializer
-            else:
-                serializer_class = SourceUnitWriteSerializer
         else:
             serializer_class = UnitWriteSerializer
         kwargs["context"] = self.get_serializer_context()
@@ -1260,10 +1253,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         new_state = data.get("state", None)
 
         # Sanity and permission checks
-        if do_source and not user.has_perm("source.edit", translation):
+        if do_source and (
+            not unit.is_source or not user.has_perm("source.edit", translation)
+        ):
             raise PermissionDenied()
 
         if do_translate:
+            if unit.readonly:
+                raise PermissionDenied()
             if not new_target or new_state is None:
                 raise ParseError(
                     "Please provide both state and target for a partial update"

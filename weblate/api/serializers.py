@@ -880,18 +880,7 @@ class UnitSerializer(serializers.ModelSerializer):
         extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
 
 
-class ReadonlySourceUnitWriteSerializer(serializers.ModelSerializer):
-    """Serializer for updating readonly source unit."""
-
-    class Meta:
-        model = Unit
-        fields = (
-            "explanation",
-            "extra_flags",
-        )
-
-
-class SourceUnitWriteSerializer(serializers.ModelSerializer):
+class UnitWriteSerializer(serializers.ModelSerializer):
     """Serializer for updating source unit."""
 
     target = PluralField()
@@ -903,19 +892,6 @@ class SourceUnitWriteSerializer(serializers.ModelSerializer):
             "state",
             "explanation",
             "extra_flags",
-        )
-
-
-class UnitWriteSerializer(serializers.ModelSerializer):
-    """Serializer for updating target unit."""
-
-    target = PluralField()
-
-    class Meta:
-        model = Unit
-        fields = (
-            "target",
-            "state",
         )
 
 

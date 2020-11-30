@@ -2439,12 +2439,12 @@ class UnitAPITest(APIBaseTest):
         unit = Unit.objects.get(
             translation__language_code="en", source="Hello, world!\n"
         )
-        # The params are silently ignored here
+        # The params are rejected here
         self.do_request(
             "api:unit-detail",
             kwargs={"pk": unit.pk},
             method="patch",
-            code=200,
+            code=403,
             request={"state": "20", "target": "Test translation"},
         )
         unit = Unit.objects.get(pk=unit.pk)
@@ -2468,6 +2468,38 @@ class UnitAPITest(APIBaseTest):
         )
         unit = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit.explanation, "This is good explanation")
+
+    def test_unit_flags(self):
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        unit.translate(self.user, "Hello, world!\n", STATE_TRANSLATED)
+        self.assertEqual(unit.all_checks_names, {"same"})
+
+        # Edit on translation will fail
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=403,
+            superuser=True,
+            request={"extra_flags": "ignore-same"},
+        )
+
+        # Edit on source will work
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"extra_flags": "ignore-same"},
+        )
+
+        # Checks and flags should be now updated
+        unit = Unit.objects.get(pk=unit.id)
+        self.assertEqual(unit.all_flags.format(), "c-format, ignore-same")
+        self.assertEqual(unit.all_checks_names, set())
 
     def test_translate_plural_unit(self):
         unit = Unit.objects.get(
