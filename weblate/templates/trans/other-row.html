@@ -13,7 +13,7 @@
 {% format_translation item.target item.translation.language item.translation.plural simple=True %}
 </td>
 <td>
-  {% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %}
+  {% if item.translated and item.target != unit.target %}
     {% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
   {% endif %}
 </td>
