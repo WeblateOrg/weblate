@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -107,6 +108,7 @@ def get_unit_translations(request, unit_id):
 
 
 @require_POST
+@login_required
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
 
@@ -120,6 +122,7 @@ def ignore_check(request, check_id):
 
 
 @require_POST
+@login_required
 def ignore_check_source(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
     unit = obj.unit.source_unit
@@ -159,6 +162,7 @@ def git_status_shared(request, obj, changes, repositories):
     )
 
 
+@login_required
 def git_status_project(request, project):
     obj = get_project(request, project)
 
@@ -172,6 +176,7 @@ def git_status_project(request, project):
     )
 
 
+@login_required
 def git_status_component(request, project, component):
     obj = get_component(request, project, component)
 
@@ -189,6 +194,7 @@ def git_status_component(request, project, component):
     )
 
 
+@login_required
 def git_status_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
