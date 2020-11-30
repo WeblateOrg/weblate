@@ -65,9 +65,12 @@ class LanguageGlossary:
 
     def __init__(self, project, post_data, user):
         self.project = project
-        self.glossaries = (
-            Glossary.objects.for_project(project).order_by("name").distinct()
+        # The for_project can contain duplicates and we need to avoid that
+        # for the annotate query later
+        glossary_ids = set(
+            Glossary.objects.for_project(project).values_list("id", flat=True)
         )
+        self.glossaries = Glossary.objects.filter(pk__in=glossary_ids).order_by("name")
         self.data = {
             (item["term__language"], item["pk"]): item["term__count"]
             for item in self.glossaries.values("term__language", "pk").annotate(
