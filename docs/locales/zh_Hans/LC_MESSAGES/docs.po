@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-26 22:25+0100\n"
-"PO-Revision-Date: 2020-11-27 12:46+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-12-01 06:29+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1185,7 +1185,7 @@ msgstr "搜索条目"
 
 #: ../../admin/addons.rst:148
 msgid "``NOT has:label``"
-msgstr ""
+msgstr "``NOT has:label``"
 
 #: ../../admin/addons.rst:149
 msgid "Labels to add"
@@ -1197,11 +1197,11 @@ msgstr "*近期*"
 
 #: ../../admin/addons.rst:152
 msgid "Marking all :ref:`appstore` changelog entries read-only"
-msgstr ""
+msgstr "将所有 :ref:`appstore` 更改日志条目标记为只读"
 
 #: ../../admin/addons.rst:156
 msgid "``language:en AND key:changelogs/``"
-msgstr ""
+msgstr "``language:en AND key:changelogs/``"
 
 #: ../../admin/addons.rst:157
 msgid "Translation flags to add"
@@ -7863,6 +7863,9 @@ msgid ""
 "insecure connection and server refuses to authenticate this way. Try "
 "enabling :setting:`django:EMAIL_USE_TLS` in such case."
 msgstr ""
+"在得到有关不支持的认证的情况下（例如 ``SMTP AUTH extension not supported by "
+"server``），这最可能因为使用不安全的链接并且服务器拒绝以这种方式认证而导致。在这种情况下尝试启动 "
+":setting:`django:EMAIL_USE_TLS`。"
 
 #: ../../admin/install.rst:443
 msgid ""
@@ -7876,7 +7879,7 @@ msgstr ""
 
 #: ../../admin/install.rst:449
 msgid ":ref:`docker-mail` for configuring outgoing e-mail in Docker container."
-msgstr ""
+msgstr ":ref:`docker-mail` 用于在 Docker 容器中配置外发的电子邮件。"
 
 #: ../../admin/install.rst:454
 msgid "Running behind reverse proxy"
@@ -8890,7 +8893,7 @@ msgstr "Apache 的配置例子"
 
 #: ../../admin/install.rst:1234 ../../admin/install.rst:1276
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr ""
+msgstr "推荐当 Weblate 使用 WSGI 时使用 prefork MPM。"
 
 #: ../../admin/install.rst:1236
 msgid ""
@@ -11127,6 +11130,8 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macro languages."
 msgstr ""
+"在很多情况下，为翻译使用宏语言代码不是个好主意。典型出问题的情况会是库尔德语，会根据实际的变体以阿拉伯语或拉丁语脚本撰写。为了在 Weblate "
+"中得到正确的行为，推荐只使用单独的语言代码，并且避免宏语言。"
 
 #: ../../admin/languages.rst:75
 msgid ""
@@ -11134,6 +11139,9 @@ msgid ""
 "scope#Macrolanguages>`, `List of macrolanguages <https://iso639-3.sil.org/"
 "code_tables/macrolanguage_mappings/data>`"
 msgstr ""
+"`Macrolanguages definition <https://iso639-3.sil.org/about/"
+"scope#Macrolanguages>`，`List of macrolanguages <https://iso639-3.sil.org/"
+"code_tables/macrolanguage_mappings/data>`"
 
 #: ../../admin/languages.rst:81
 msgid "Each language consists of following fields:"
@@ -13765,7 +13773,7 @@ msgstr "由逗号分隔的多个映射：``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:225
 msgid "Using non standard code: ``ia_FOO:ia``"
-msgstr ""
+msgstr "使用非标准编码：``ia_FOO:ia``"
 
 #: ../../admin/projects.rst:229
 msgid ""
@@ -15484,7 +15492,7 @@ msgstr ""
 msgid ""
 "**Changed in 4.3.2:** The ``post_update`` method of addons now takes extra "
 "``skip_push`` parameter."
-msgstr ""
+msgstr "**在 4.3.2 版本中更改：** 插件的``post_update``方法现在采用另外的``skip_push``参数。"
 
 #: ../../admin/upgrade.rst:170
 msgid "Upgrade from 4.3 to 4.4"
@@ -18001,7 +18009,7 @@ msgstr "CodeMirror编辑器现在用于翻译。"
 msgid ""
 "Syntax highlighting in translation editor for XML, HTML, Markdown and "
 "reStructuredText."
-msgstr ""
+msgstr "为 XML、HTML、Markdown 和 reStructuredText 在翻译编辑器中语法高亮。"
 
 #: ../../changes.rst:14
 msgid "Highlight placeables in translation editor."
@@ -22489,7 +22497,7 @@ msgstr "改进了对 RTL 语言的支持。"
 
 #: ../../changes.rst:1430
 msgid "Weblate 1.2"
-msgstr ""
+msgstr "Weblate 1.2"
 
 #: ../../changes.rst:1432
 msgid "Released on August 14th 2012."
@@ -22499,453 +22507,453 @@ msgstr "发布于 2012 年 08 月 14 日。"
 msgid ""
 "Weblate now uses South for database migration, please check upgrade "
 "instructions if you are upgrading."
-msgstr ""
+msgstr "Weblate 现在为数据库迁移使用 South，如果升级的话请检查升级的指示。"
 
 #: ../../changes.rst:1435
 msgid "Fixed minor issues with linked git repos."
-msgstr ""
+msgstr "修复了连接 git repos 的小问题。"
 
 #: ../../changes.rst:1436
 msgid ""
 "New introduction page for engaging people with translating using Weblate."
-msgstr ""
+msgstr "现在将人员与翻译建立联系的简介页面使用 Weblate。"
 
 #: ../../changes.rst:1437
 msgid "Added widgets which can be used for promoting translation projects."
-msgstr ""
+msgstr "添加了小程序，可以用于推动翻译项目。"
 
 #: ../../changes.rst:1438
 msgid "Added option to reset repository to origin (for privileged users)."
-msgstr ""
+msgstr "添加了选项将仓库重置为原始状态（对于有特权的用户）。"
 
 #: ../../changes.rst:1439
 msgid "Project or component can now be locked for translations."
-msgstr ""
+msgstr "现在可以为翻译锁定项目和组件。"
 
 #: ../../changes.rst:1440
 msgid "Possibility to disable some translations."
-msgstr ""
+msgstr "禁止一些翻译的可能性。"
 
 #: ../../changes.rst:1441
 msgid "Configurable options for adding new translations."
-msgstr ""
+msgstr "添加新翻译的可配置选项。"
 
 #: ../../changes.rst:1442
 msgid "Configuration of git commits per project."
-msgstr ""
+msgstr "每个项目的 git 提交的配置。"
 
 #: ../../changes.rst:1443
 msgid "Simple antispam protection."
-msgstr ""
+msgstr "简单的防垃圾邮件保护。"
 
 #: ../../changes.rst:1444
 msgid "Better layout of main page."
-msgstr ""
+msgstr "主页面更好的布局。"
 
 #: ../../changes.rst:1445
 msgid "Support for automatically pushing changes on every commit."
-msgstr ""
+msgstr "支持每次提交时自动推送更改。"
 
 #: ../../changes.rst:1446
 msgid "Support for e-mail notifications of translators."
-msgstr ""
+msgstr "支持译者电子邮件通知。"
 
 #: ../../changes.rst:1447
 msgid "List only used languages in preferences."
-msgstr ""
+msgstr "在配置编辑器中只列出使用的语言。"
 
 #: ../../changes.rst:1448
 msgid "Improved handling of not known languages when importing project."
-msgstr ""
+msgstr "改进了当导入项目时对未知语言的处理。"
 
 #: ../../changes.rst:1449
 msgid "Support for locking translation by translator."
-msgstr ""
+msgstr "支持翻译者锁定翻译。"
 
 #: ../../changes.rst:1450
 msgid "Optionally maintain ``Language-Team`` header in po file."
-msgstr ""
+msgstr "可选地维护 po 文件中的 ``Language-Team`` 标头。"
 
 #: ../../changes.rst:1451
 msgid "Include some statistics in about page."
-msgstr ""
+msgstr "在 about 页面中包括一些统计数据。"
 
 #: ../../changes.rst:1452
 msgid "Supports (and requires) django-registration 0.8."
-msgstr ""
+msgstr "支持（并且需要）django-registration 0.8。"
 
 #: ../../changes.rst:1453
 msgid "Caching of counted strings with failing checks."
-msgstr ""
+msgstr "缓存检查失败计数的字符串。"
 
 #: ../../changes.rst:1454
 msgid "Checking of requirements during setup."
-msgstr ""
+msgstr "在设置中检查要求。"
 
 #: ../../changes.rst:1458
 msgid "Weblate 1.1"
-msgstr ""
+msgstr "Weblate 1.1"
 
 #: ../../changes.rst:1460
 msgid "Released on July 4th 2012."
-msgstr ""
+msgstr "发布于 2012 年 07 月 04 日。"
 
 #: ../../changes.rst:1462
 msgid "Improved several translations."
-msgstr ""
+msgstr "改进了几个翻译。"
 
 #: ../../changes.rst:1463 ../../changes.rst:1498
 msgid "Better validation while creating component."
-msgstr ""
+msgstr "新建组件时更好的验证。"
 
 #: ../../changes.rst:1464
 msgid "Added support for shared git repositories across components."
-msgstr ""
+msgstr "为在组件之间分享 git 仓库添加了支持。"
 
 #: ../../changes.rst:1465
 msgid "Do not necessary commit on every attempt to pull remote repo."
-msgstr ""
+msgstr "不必每次尝试都提交来拉取远程 repo。"
 
 #: ../../changes.rst:1466
 msgid "Added support for offloading indexing."
-msgstr ""
+msgstr "为卸载索引添加了支持。"
 
 #: ../../changes.rst:1469
 msgid "Weblate 1.0"
-msgstr ""
+msgstr "Weblate 1.0"
 
 #: ../../changes.rst:1471
 msgid "Released on May 10th 2012."
-msgstr ""
+msgstr "发布于 2012 年 05 月 10 日。"
 
 #: ../../changes.rst:1473
 msgid "Improved validation while adding/saving component."
-msgstr ""
+msgstr "改进了添加/存储组件时的验证。"
 
 #: ../../changes.rst:1474
 msgid "Experimental support for Android component files (needs patched ttkit)."
-msgstr ""
+msgstr "试验支持安卓组件文件（需要打补丁的 ttkit）。"
 
 #: ../../changes.rst:1475
 msgid "Updates from hooks are run in background."
-msgstr ""
+msgstr "来自钩子的更新在背景运行。"
 
 #: ../../changes.rst:1476
 msgid "Improved installation instructions."
-msgstr ""
+msgstr "改进了安装指示。"
 
 #: ../../changes.rst:1477
 msgid "Improved navigation in dictionary."
-msgstr ""
+msgstr "改进了字典中的导航。"
 
 #: ../../changes.rst:1480
 msgid "Weblate 0.x series"
-msgstr ""
+msgstr "Weblate 0.x 系列"
 
 #: ../../changes.rst:1483
 msgid "Weblate 0.9"
-msgstr ""
+msgstr "Weblate 0.9"
 
 #: ../../changes.rst:1485
 msgid "Released on April 18th 2012."
-msgstr ""
+msgstr "发布于 2012 年 04 月 18 日。"
 
 #: ../../changes.rst:1487
 msgid "Fixed import of unknown languages."
-msgstr ""
+msgstr "修复了未知语言的导入。"
 
 #: ../../changes.rst:1488
 msgid "Improved listing of nearby messages."
-msgstr ""
+msgstr "改进了附近消息的列表。"
 
 #: ../../changes.rst:1489
 msgid "Improved several checks."
-msgstr ""
+msgstr "改进了几项检查。"
 
 #: ../../changes.rst:1491
 msgid "Added definition for several more languages."
-msgstr ""
+msgstr "为更多的几种语言添加了定义。"
 
 #: ../../changes.rst:1492
 msgid "Various code cleanups."
-msgstr ""
+msgstr "各种编码清理。"
 
 #: ../../changes.rst:1494
 msgid "Changed file layout."
-msgstr ""
+msgstr "更改了文件布局。"
 
 #: ../../changes.rst:1495
 msgid "Update helper scripts to Django 1.4."
-msgstr ""
+msgstr "将帮助脚本更新为 Django 1.4。"
 
 #: ../../changes.rst:1496
 msgid "Improved navigation while translating."
-msgstr ""
+msgstr "改进了翻译时的导航。"
 
 #: ../../changes.rst:1497
 msgid "Better handling of po file renames."
-msgstr ""
+msgstr "更好地处理 po 文件的重命名。"
 
 #: ../../changes.rst:1499
 msgid "Integrated full setup into syncdb."
-msgstr ""
+msgstr "将完全设置集成到 syncdb 中。"
 
 #: ../../changes.rst:1500
 msgid "Added list of recent changes to all translation pages."
-msgstr ""
+msgstr "为所有翻译页面添加了最近更改的列表。"
 
 #: ../../changes.rst:1501
 msgid "Check for not translated strings ignores format string only messages."
-msgstr ""
+msgstr "检查未翻译的字符串，忽略格式字符串只检查消息。"
 
 #: ../../changes.rst:1504
 msgid "Weblate 0.8"
-msgstr ""
+msgstr "Weblate 0.8"
 
 #: ../../changes.rst:1506
 msgid "Released on April 3rd 2012."
-msgstr ""
+msgstr "发布于 2012 年 04 月 03 日。"
 
 #: ../../changes.rst:1508
 msgid "Replaced own full text search with Whoosh."
-msgstr ""
+msgstr "用 Whoosh 代替自己的全文搜索。"
 
 #: ../../changes.rst:1509
 msgid "Various fixes and improvements to checks."
-msgstr ""
+msgstr "对检查的各种修改和改进。"
 
 #: ../../changes.rst:1510
 msgid "New command updatechecks."
-msgstr ""
+msgstr "新的命令更新检查。"
 
 #: ../../changes.rst:1511
 msgid "Lot of translation updates."
-msgstr ""
+msgstr "很多翻译更新。"
 
 #: ../../changes.rst:1512
 msgid "Added dictionary for storing most frequently used terms."
-msgstr ""
+msgstr "添加了字典，来存储最常用的术语。"
 
 #: ../../changes.rst:1513
 msgid "Added /admin/report/ for overview of repositories status."
-msgstr ""
+msgstr "为仓库状态的概况添加了 /admin/report/。"
 
 #: ../../changes.rst:1514
 msgid "Machine translation services no longer block page loading."
-msgstr ""
+msgstr "机器翻译页面不再阻碍装入页面。"
 
 #: ../../changes.rst:1515
 msgid "Management interface now contains also useful actions to update data."
-msgstr ""
+msgstr "管理界面现在也包含有用的行为来更新数据。"
 
 #: ../../changes.rst:1516
 msgid "Records log of changes made by users."
-msgstr ""
+msgstr "记录用户所做更改的日志。"
 
 #: ../../changes.rst:1517
 msgid ""
 "Ability to postpone commit to Git to generate less commits from single user."
-msgstr ""
+msgstr "推至提交给 Git 的能力，来产生来自单一用户的更少的提交。"
 
 #: ../../changes.rst:1518
 msgid "Possibility to browse failing checks."
-msgstr ""
+msgstr "浏览失败检查的可能性。"
 
 #: ../../changes.rst:1519
 msgid "Automatic translation using already translated strings."
-msgstr ""
+msgstr "使用已经翻译的字符串来自动翻译。"
 
 #: ../../changes.rst:1520
 msgid "New about page showing used versions."
-msgstr ""
+msgstr "新的显示使用的版本的页面。"
 
 #: ../../changes.rst:1521
 msgid "Django 1.4 compatibility."
-msgstr ""
+msgstr "Django 1.4 的兼容性。"
 
 #: ../../changes.rst:1522
 msgid "Ability to push changes to remote repo from web interface."
-msgstr ""
+msgstr "从 web 界面将更改推送给远程 repo 的能力。"
 
 #: ../../changes.rst:1523
 msgid "Added review of translations done by others."
-msgstr ""
+msgstr "添加了对其他人完成的翻译进行复查。"
 
 #: ../../changes.rst:1526
 msgid "Weblate 0.7"
-msgstr ""
+msgstr "Weblate 0.7"
 
 #: ../../changes.rst:1528
 msgid "Released on February 16th 2012."
-msgstr ""
+msgstr "发布于 2012 年 02 月 16 日。"
 
 #: ../../changes.rst:1530
 msgid "Direct support for GitHub notifications."
-msgstr ""
+msgstr "对 GitHub 通知的直接支持。"
 
 #: ../../changes.rst:1531
 msgid "Added support for cleaning up orphaned checks and translations."
-msgstr ""
+msgstr "添加了对清洁孤立的检查与翻译的支持。"
 
 #: ../../changes.rst:1532
 msgid "Displays nearby strings while translating."
-msgstr ""
+msgstr "翻译时显示附近的字符串。"
 
 #: ../../changes.rst:1533
 msgid "Displays similar strings while translating."
-msgstr ""
+msgstr "翻译时显示相似的字符串。"
 
 #: ../../changes.rst:1534
 msgid "Improved searching for string."
-msgstr ""
+msgstr "改进了字符串的搜索。"
 
 #: ../../changes.rst:1537
 msgid "Weblate 0.6"
-msgstr ""
+msgstr "Weblate 0.6"
 
 #: ../../changes.rst:1539
 msgid "Released on February 14th 2012."
-msgstr ""
+msgstr "发布于 2012 年 02 月 14 日。"
 
 #: ../../changes.rst:1541
 msgid "Added various checks for translated messages."
-msgstr ""
+msgstr "添加了对翻译的消息的各种检查。"
 
 #: ../../changes.rst:1542
 msgid "Tunable access control."
-msgstr ""
+msgstr "可调整的访问控制。"
 
 #: ../../changes.rst:1543
 msgid "Improved handling of translations with new lines."
-msgstr ""
+msgstr "改进了对新一行翻译的处理。"
 
 #: ../../changes.rst:1544
 msgid "Added client side sorting of tables."
-msgstr ""
+msgstr "添加了客户端一侧表格的排序。"
 
 #: ../../changes.rst:1545
 msgid "Please check upgrading instructions in case you are upgrading."
-msgstr ""
+msgstr "在升级时请检查升级指示。"
 
 #: ../../changes.rst:1548
 msgid "Weblate 0.5"
-msgstr ""
+msgstr "Weblate 0.5"
 
 #: ../../changes.rst:1550
 msgid "Released on February 12th 2012."
-msgstr ""
+msgstr "发布于 2012 年 02 月 12 日。"
 
 #: ../../changes.rst:1554
 msgid "Support for machine translation using following online services:"
-msgstr ""
+msgstr "通过使用后面的服务对机器翻译的支持。"
 
 #: ../../changes.rst:1554
 msgid "Microsoft Translator"
-msgstr ""
+msgstr "微软的 Translator"
 
 #: ../../changes.rst:1556
 msgid "Several new translations."
-msgstr ""
+msgstr "几个新的翻译。"
 
 #: ../../changes.rst:1557
 msgid "Improved merging of upstream changes."
-msgstr ""
+msgstr "改进了上游更改的合并。"
 
 #: ../../changes.rst:1558
 msgid "Better handle concurrent git pull and translation."
-msgstr ""
+msgstr "更好地处理并发的 git 拉取与翻译。"
 
 #: ../../changes.rst:1559
 msgid "Propagating works for fuzzy changes as well."
-msgstr ""
+msgstr "传播那些同样用于模糊更改的工作。"
 
 #: ../../changes.rst:1560
 msgid "Propagating works also for file upload."
-msgstr ""
+msgstr "传播那些同样用于文件上传的工作。"
 
 #: ../../changes.rst:1561
 msgid "Fixed file downloads while using FastCGI (and possibly others)."
-msgstr ""
+msgstr "修复了使用 FastCGI（也可能是其它）时的文件下载。"
 
 #: ../../changes.rst:1564
 msgid "Weblate 0.4"
-msgstr ""
+msgstr "Weblate 0.4"
 
 #: ../../changes.rst:1566 ../../changes.rst:1574
 msgid "Released on February 8th 2012."
-msgstr ""
+msgstr "发布于 2012 年 02 月 08 日。"
 
 #: ../../changes.rst:1568
 msgid "Added usage guide to documentation."
-msgstr ""
+msgstr "将使用向导添加到文档中。"
 
 #: ../../changes.rst:1569
 msgid "Fixed API hooks not to require CSRF protection."
-msgstr ""
+msgstr "修复了不需要 CSRF 保护的 API 钩子。"
 
 #: ../../changes.rst:1572
 msgid "Weblate 0.3"
-msgstr ""
+msgstr "Weblate 0.3"
 
 #: ../../changes.rst:1576
 msgid "Better display of source for plural translations."
-msgstr ""
+msgstr "对于复数翻译更海底显示源。"
 
 #: ../../changes.rst:1577
 msgid "New documentation in Sphinx format."
-msgstr ""
+msgstr "Sphinx 格式的新文档。"
 
 #: ../../changes.rst:1578
 msgid "Displays secondary languages while translating."
-msgstr ""
+msgstr "翻译时显示第二语言。"
 
 #: ../../changes.rst:1579
 msgid "Improved error page to give list of existing projects."
-msgstr ""
+msgstr "改进了错误页面，来给出现有项目的列表。"
 
 #: ../../changes.rst:1580
 msgid "New per language stats."
-msgstr ""
+msgstr "新的每种语言的统计数据。"
 
 #: ../../changes.rst:1583
 msgid "Weblate 0.2"
-msgstr ""
+msgstr "Weblate 0.2"
 
 #: ../../changes.rst:1585
 msgid "Released on February 7th 2012."
-msgstr ""
+msgstr "发布于 2012 年 02 月 07 日。"
 
 #: ../../changes.rst:1587
 msgid "Improved validation of several forms."
-msgstr ""
+msgstr "改进了几种形式的验证。"
 
 #: ../../changes.rst:1588
 msgid "Warn users on profile upgrade."
-msgstr ""
+msgstr "在个人资料升级时警告用户。"
 
 #: ../../changes.rst:1589
 msgid "Remember URL for login."
-msgstr ""
+msgstr "记住 URL 用于登录。"
 
 #: ../../changes.rst:1590
 msgid "Naming of text areas while entering plural forms."
-msgstr ""
+msgstr "输入复数形式时对文本区域的命名。"
 
 #: ../../changes.rst:1591
 msgid "Automatic expanding of translation area."
-msgstr ""
+msgstr "自动扩大翻译区域。"
 
 #: ../../changes.rst:1594
 msgid "Weblate 0.1"
-msgstr ""
+msgstr "Weblate 0.1"
 
 #: ../../changes.rst:1596
 msgid "Released on February 6th 2012."
-msgstr ""
+msgstr "发布于 2012 年 02 月 06 日。"
 
 #: ../../changes.rst:1598
 msgid "Initial release."
-msgstr ""
+msgstr "初始发布。"
 
 #: ../../contributing/about.rst:2
 msgid "About Weblate"
@@ -22953,17 +22961,17 @@ msgstr "关于 Weblate"
 
 #: ../../contributing/about.rst:5
 msgid "Project goals"
-msgstr ""
+msgstr "项目目标"
 
 #: ../../contributing/about.rst:7
 msgid ""
 "Web-based continuous localization tool with tight :ref:`vcs` supporting a "
 "wide range of :ref:`formats`, making it easy for translators to contribute."
-msgstr ""
+msgstr "基于 Web 的连续本地化工具，通过 :ref:`vcs` 紧密支持广大范围的 :ref:`formats`，使翻译者容易地做出贡献。"
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
-msgstr ""
+msgstr "\"Weblate\" 由单词\"web\"和\"translate\"融合而来"
 
 #: ../../contributing/about.rst:18
 msgid ""
@@ -22971,34 +22979,36 @@ msgid ""
 "<https://hosted.weblate.org/>. This documentation can be found on <https://"
 "docs.weblate.org/>."
 msgstr ""
+"着陆页面是 <https://weblate.org/> 而云在<https://hosted.weblate.org/> 上作为服务的主机。"
+"本文档可以在 <https://docs.weblate.org/> 找到。"
 
 #: ../../contributing/about.rst:23
 msgid "Project logos"
-msgstr ""
+msgstr "项目标识"
 
 #: ../../contributing/about.rst:25
 msgid ""
 "The project logos and other graphics is available in <https://github.com/"
 "WeblateOrg/graphics/> repository."
-msgstr ""
+msgstr "项目标识和其它图片在 <https://github.com/WeblateOrg/graphics/> 仓库中得到。"
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
-msgstr ""
+msgstr "领导"
 
 #: ../../contributing/about.rst:31
 msgid "This project is maintained by Michal Čihař <michal@cihar.com>."
-msgstr ""
+msgstr "本项目由 Michal Čihař <michal@cihar.com> 来维护。"
 
 #: ../../contributing/about.rst:34
 msgid "Authors"
-msgstr ""
+msgstr "作者"
 
 #: ../../contributing/about.rst:36
 msgid ""
 "Weblate was started by Michal Čihař <michal@cihar.com>. Since its inception "
 "in 2012, thousands of people have contributed."
-msgstr ""
+msgstr "Weblate 由 Michal Čihař <michal@cihar.com> 启动。自 2012 年创始以来，上千名人员做出了贡献。"
 
 #: ../../contributing/addons.rst:2
 msgid "Developing addons"
@@ -23021,7 +23031,7 @@ msgstr "保存配置"
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
 msgid "Hook triggered daily."
-msgstr ""
+msgstr "每日触发钩子。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_add_form:1
@@ -23046,12 +23056,12 @@ msgstr "更改提交到仓库后触发钩子。"
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
 msgid "Hook triggered after repository is pushed upstream."
-msgstr "仓库被推送到上游后触发钩子。"
+msgstr "仓库推送到上游之后触发钩子。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
 msgid "Hook triggered after repository is updated from upstream."
-msgstr ""
+msgstr "在仓库从上游更新之后触发钩子。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
@@ -23073,12 +23083,12 @@ msgstr "更改被提交到仓库前触发钩子。"
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_push:1
 msgid "Hook triggered before repository is pushed upstream."
-msgstr ""
+msgstr "在仓库推送上游之前触发钩子。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_update:1
 msgid "Hook triggered before repository is updated from upstream."
-msgstr ""
+msgstr "在仓库从上游更新之前触发钩子。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
@@ -23106,7 +23116,7 @@ msgstr "这里是一个插件的例子："
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
-msgstr ""
+msgstr "Weblate 源代码"
 
 #: ../../contributing/code.rst:4
 msgid ""
@@ -23131,13 +23141,13 @@ msgstr ""
 
 #: ../../contributing/code.rst:23
 msgid "Coding standard"
-msgstr ""
+msgstr "编程标准"
 
 #: ../../contributing/code.rst:25
 msgid ""
 "The code should follow PEP-8 coding guidelines and should be formatted "
 "using :program:`black` code formatter."
-msgstr ""
+msgstr "代码应该符合 PEP-8 变成指南，并且应该使用 :program:`black` 代码格式化程序来格式化。"
 
 #: ../../contributing/code.rst:28
 msgid ""
@@ -23157,11 +23167,11 @@ msgstr ""
 
 #: ../../contributing/code.rst:38
 msgid "You can also trigger check manually, to check all files run:"
-msgstr ""
+msgstr "还能够手动触发检查，来检查所有文件的运行："
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
-msgstr ""
+msgstr "调试 Weblate"
 
 #: ../../contributing/debugging.rst:4
 msgid ""
@@ -23202,7 +23212,7 @@ msgstr ""
 #: ../../contributing/debugging.rst:32
 msgid ""
 ":ref:`sample-configuration` contains :setting:`django:LOGGING` configuration."
-msgstr ""
+msgstr ":ref:`sample-configuration` 包含 :setting:`django:LOGGING` 配置。"
 
 #: ../../contributing/debugging.rst:35
 msgid "Analyzing application crashes"
