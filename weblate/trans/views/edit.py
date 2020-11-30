@@ -95,8 +95,12 @@ def get_other_units(unit):
     """Returns other units to show while translating."""
     result = {"total": 0, "same": [], "matching": [], "context": [], "source": []}
 
+    allow_merge = False
+    untranslated = False
     translation = unit.translation
     component = translation.component
+    propagation = component.allow_translation_propagation
+    same = None
 
     query = Q(source=unit.source)
     if unit.context and component.has_template():
@@ -117,7 +121,16 @@ def get_other_units(unit):
         return result
 
     for item in units:
+        item.allow_merge = item.differently_translated = (
+            item.translated and item.target != unit.target
+        )
+        item.is_propagated = (
+            propagation and item.source == unit.source and item.context == unit.context
+        )
+        untranslated |= not item.translated
+        allow_merge |= item.allow_merge
         if item.pk == unit.pk:
+            same = item
             result["same"].append(item)
         elif item.source == unit.source and item.context == unit.context:
             result["matching"].append(item)
@@ -126,7 +139,13 @@ def get_other_units(unit):
         elif item.context == unit.context:
             result["context"].append(item)
 
+    # Slightly different logic to allow applying current translation to
+    # the propagated strings
+    same.allow_merge = (untranslated or allow_merge) and same.translated and propagation
+    allow_merge |= same.allow_merge
+
     result["total"] = sum(len(result[x]) for x in ("matching", "source", "context"))
+    result["allow_merge"] = allow_merge
 
     return result
 
@@ -314,7 +333,7 @@ def handle_translate(request, unit, this_unit_url, next_unit_url):
 
 def handle_merge(unit, request, next_unit_url):
     """Handle unit merging."""
-    mergeform = MergeForm(unit, request.GET)
+    mergeform = MergeForm(unit, request.POST)
     if not mergeform.is_valid():
         messages.error(request, _("Invalid merge request!"))
         return None
@@ -479,7 +498,7 @@ def translate(request, project, component, lang):
     # Any form submitted?
     if "skip" in request.POST:
         return redirect(next_unit_url)
-    if request.method == "POST":
+    if request.method == "POST" and "merge" not in request.POST:
         if (
             not locked
             and "accept" not in request.POST
@@ -496,7 +515,7 @@ def translate(request, project, component, lang):
             response = handle_suggestions(request, unit, this_unit_url, next_unit_url)
 
     # Handle translation merging
-    elif "merge" in request.GET and not locked:
+    elif "merge" in request.POST and not locked:
         response = handle_merge(unit, request, next_unit_url)
 
     # Handle reverting

@@ -268,13 +268,15 @@
 
 {% if others.total %}
 <div class="tab-pane" id="others">
-<table class="table table-condensed">
+<form method="POST" action="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
+  {% csrf_token %}
+  <table class="table table-condensed">
     <thead>
     <tr>
+      <th></th>
       <th>{% trans "Component" %}</th>
       <th>{% trans "Translation" %}</th>
       <th>{% trans "Difference to current string" %}</th>
-      <th></th>
     </tr>
     </thead>
     {% if others.same %}
@@ -308,7 +310,15 @@
     {% endfor %}
     </tbody>
     {% endif %}
-    </table>
+  </table>
+  {% if user_can_translate and others.allow_merge %}
+    {% if object.component.allow_translation_propagation %}
+      <input type="submit" value="{% trans "Apply selected translation to all propagated strings" %}" class="btn btn-primary" />
+    {% else %}
+      <input type="submit" value="{% trans "Apply selected translation to current string" %}" class="btn btn-primary" />
+    {% endif %}
+  {% endif %}
+</form>
 </div>
 {% endif %}
 

@@ -2,25 +2,29 @@
 {% load translations %}
 
 <tr>
-<td class="vertical-badge">
-{% if item.pk == unit.pk %}
-<span class="badge pull-right flip">{% trans "This translation" %}</span>
-{% endif %}
-{% get_state_badge item %}
-<a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
-</td>
 <td>
-{% format_translation item.target item.translation.language item.translation.plural simple=True %}
-</td>
-<td>
-  {% if item.translated and item.target != unit.target %}
-    {% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
+  {% if item.allow_merge %}
+  <input type="radio" name="merge" required="required" id="merge_{{ item.pk }}" value="{{ item.pk }}">
   {% endif %}
 </td>
-
+<td class="vertical-badge">
+  {% if item.pk == unit.pk %}
+    <span class="badge pull-right flip">{% trans "This translation" %}</span>
+  {% endif %}
+  {% if item.is_propagated %}
+    <span class="badge pull-right flip">{% trans "Propagated" %}</span>
+  {% endif %}
+  {% get_state_badge item %}
+  <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
+</td>
 <td>
-{% if user_can_translate and item.translated %}
-<a class="mergebutton btn btn-primary" href="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}">{% trans "Use this translation" %}</a>
-{% endif %}
+  <label for="merge_{{ item.pk }}">
+    {% format_translation item.target item.translation.language item.translation.plural simple=True %}
+  </label>
+</td>
+<td>
+  {% if item.differently_translated %}
+    {% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
+  {% endif %}
 </td>
 </tr>
