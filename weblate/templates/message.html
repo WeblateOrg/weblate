@@ -4,7 +4,7 @@
     data-action="{% url 'announcement-delete' pk=announcement.pk %}"
 {% endif %}
 {% if task_id %}
-    data-task="{% url 'js_task_progress' task_id=task_id %}"
+    data-task="{% url 'api:task-detail' pk=task_id %}"
 {% endif %}
 >
 {% if can_delete %}

@@ -372,6 +372,25 @@ class RepoField(serializers.CharField):
         return cleanup_repo_url(url)
 
 
+class RelatedTaskField(serializers.HyperlinkedRelatedField):
+    def __init__(self, **kwargs):
+        super().__init__(
+            "api:task-detail",
+            read_only=True,
+            allow_null=True,
+            lookup_url_kwarg="pk",
+            **kwargs,
+        )
+
+    def get_attribute(self, instance):
+        return instance
+
+    def get_url(self, obj, view_name, request, format):
+        if not obj.in_progress():
+            return None
+        return super().get_url(obj, view_name, request, format)
+
+
 class ComponentSerializer(RemovableSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     project = ProjectSerializer(read_only=True)
@@ -402,6 +421,8 @@ class ComponentSerializer(RemovableSerializer):
     zipfile = serializers.FileField(required=False)
     docfile = serializers.FileField(required=False)
 
+    task_url = RelatedTaskField(lookup_field="background_task_id")
+
     class Meta:
         model = Component
         fields = (
@@ -431,6 +452,7 @@ class ComponentSerializer(RemovableSerializer):
             "statistics_url",
             "lock_url",
             "changes_list_url",
+            "task_url",
             "new_lang",
             "language_code_style",
             "push",

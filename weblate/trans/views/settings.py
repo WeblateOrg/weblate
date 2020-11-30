@@ -350,23 +350,3 @@ def component_progress(request, project, component):
             "return_url": return_url,
         },
     )
-
-
-@require_POST
-@login_required
-def component_progress_terminate(request, project, component):
-    obj = get_component(request, project, component)
-
-    if obj.in_progress and request.user.has_perm("component.edit", obj):
-        obj.background_task.revoke(terminate=True)
-
-    return redirect(obj)
-
-
-@login_required
-def component_progress_js(request, project, component):
-    obj = get_component(request, project, component)
-    progress, log = obj.get_progress()
-    return JsonResponse(
-        {"in_progress": obj.in_progress(), "progress": progress, "log": "\n".join(log)}
-    )

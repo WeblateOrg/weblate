@@ -817,6 +817,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def update_key(self):
         return f"component-update-{self.pk}"
 
+    def delete_background_task(self):
+        cache.delete(self.update_key)
+
     def store_background_task(self, task=None):
         if task is None:
             if not current_task:
@@ -825,8 +828,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         cache.set(self.update_key, task.id, 6 * 3600)
 
     @cached_property
+    def background_task_id(self):
+        return cache.get(self.update_key)
+
+    @cached_property
     def background_task(self):
-        task_id = cache.get(self.update_key)
+        task_id = self.background_task_id
         if not task_id:
             return None
         return AsyncResult(task_id)

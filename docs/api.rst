@@ -908,6 +908,12 @@ Projects
 
     Creates translation components in the given project.
 
+    .. hint::
+
+        Most of the component creation happens in the background. Check the
+        ``task_url`` attribute of created component and follow the progress
+        there.
+
     :param project: Project URL slug
     :type project: string
     :<json file zipfile: ZIP file to upload into Weblate for translations initialization
@@ -1104,6 +1110,7 @@ Components
     :>json string translations_url: URL to translations list; see :http:get:`/api/components/(string:project)/(string:component)/translations/`
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
+    :>json string task_url: URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`
 
     **Example JSON data:**
 
@@ -2335,6 +2342,26 @@ Glossary
     :type id: int
     :param term_id: ID of term
     :type term_id: int
+
+Tasks
++++++
+
+.. versionadded:: 4.4
+
+.. http:get:: /api/tasks/
+
+    Listing of the tasks is currently not available.
+
+.. http:get:: /api/tasks/(str:uuid)/
+
+    Returns information about a task
+
+    :param uuid: Task UUID
+    :type uuid: string
+    :>json boolean completed: Whether task has completed
+    :>json int progress: Task progress in percent
+    :>json object result: Task result or progress details
+    :>json string log: Task log
 
 .. _hooks:
 

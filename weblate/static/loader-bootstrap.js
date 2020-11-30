@@ -792,16 +792,18 @@ $(function () {
   $("[data-progress-url]").each(function () {
     var $progress = $(this);
     var $pre = $progress.find("pre"),
-      $bar = $progress.find(".progress-bar");
+      $bar = $progress.find(".progress-bar"),
+      url = $progress.data("progress-url");
+    var $form = $("#link-post");
 
     $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
 
     var progress_interval = setInterval(function () {
-      $.get($progress.data("progress-url"), function (data) {
+      $.get(url, function (data) {
         $bar.width(data.progress + "%");
         $pre.text(data.log);
         $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
-        if (!data.in_progress) {
+        if (data.completed) {
           clearInterval(progress_interval);
           if ($("#progress-redirect").prop("checked")) {
             window.location = $("#progress-return").attr("href");
@@ -809,6 +811,19 @@ $(function () {
         }
       });
     }, 1000);
+
+    $("#terminate-task-button").click((e) => {
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "X-CSRFToken": $form.find("input").val(),
+        },
+      }).then((data) => {
+        window.location = $("#progress-return").attr("href");
+      });
+      e.preventDefault();
+    });
   });
 
   /* Generic messages progress */
@@ -821,7 +836,7 @@ $(function () {
         $bar.width(data.progress + "%");
         if (data.completed) {
           clearInterval(task_interval);
-          $message.text(data.result);
+          $message.text(data.result.message);
         }
       });
     }, 1000);

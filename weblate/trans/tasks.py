@@ -284,6 +284,7 @@ def component_after_save(
     component.after_save(
         changed_git, changed_setup, changed_template, changed_variant, skip_push
     )
+    return {"component": pk}
 
 
 @app.task(trail=False)
@@ -345,16 +346,17 @@ def auto_translate(
         translation.log_info("completed automatic translation")
 
         if auto.updated == 0:
-            return _("Automatic translation completed, no strings were updated.")
-
-        return (
-            ngettext(
-                "Automatic translation completed, %d string was updated.",
-                "Automatic translation completed, %d strings were updated.",
-                auto.updated,
+            message = _("Automatic translation completed, no strings were updated.")
+        else:
+            message = (
+                ngettext(
+                    "Automatic translation completed, %d string was updated.",
+                    "Automatic translation completed, %d strings were updated.",
+                    auto.updated,
+                )
+                % auto.updated
             )
-            % auto.updated
-        )
+        return {"translation": translation_id, "message": message}
 
 
 @app.task(trail=False)

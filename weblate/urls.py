@@ -568,16 +568,6 @@ real_patterns = [
         weblate.trans.views.settings.component_progress,
         name="component_progress",
     ),
-    path(
-        "progress/<name:project>/<name:component>/terminate/",
-        weblate.trans.views.settings.component_progress_terminate,
-        name="component_progress_terminate",
-    ),
-    path(
-        "js/progress/<name:project>/<name:component>/",
-        weblate.trans.views.settings.component_progress_js,
-        name="component_progress_js",
-    ),
     # Announcements
     path(
         "announcement/<name:project>/",
@@ -904,11 +894,6 @@ real_patterns = [
         "js/ignore-check/<int:check_id>/source/",
         weblate.trans.views.js.ignore_check_source,
         name="js-ignore-check-source",
-    ),
-    path(
-        "js/task/<uuid:task_id>/",
-        weblate.trans.views.js.task_progress,
-        name="js_task_progress",
     ),
     path(
         "js/i18n/",

@@ -18,10 +18,12 @@
 #
 
 import os.path
-from typing import Tuple
+from typing import Optional, Tuple
 
+from celery.result import AsyncResult
 from django.conf import settings
 from django.contrib.messages import get_messages
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Q
@@ -41,6 +43,7 @@ from rest_framework.settings import api_settings
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
@@ -91,7 +94,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.stats import get_project_stats
 from weblate.trans.tasks import auto_translate, component_removal, project_removal
-from weblate.utils.celery import get_queue_stats
+from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.state import (
@@ -1543,3 +1546,53 @@ class Metrics(APIView):
                 "name": settings.SITE_TITLE,
             }
         )
+
+
+class TasksViewSet(ViewSet):
+    def get_task(self, request, pk, permission: Optional[str] = None) -> AsyncResult:
+        task = AsyncResult(str(pk))
+        if task.state == "PENDING":
+            component = None
+        else:
+            result = task.result
+            if result is None:
+                raise Http404("Task not found")
+
+            # Extract related object for permission check
+            if "translation" in result:
+                obj = get_object_or_404(Translation, pk=result["translation"])
+                component = obj.component
+            elif "component" in result:
+                component = obj = get_object_or_404(Component, pk=result["component"])
+            else:
+                raise Http404("Invalid task")
+
+            # Check access or permission
+            if permission:
+                if not request.user.has_perm(permission, obj):
+                    raise PermissionDenied()
+            elif not request.user.can_access_component(component):
+                raise PermissionDenied()
+
+        return task, component
+
+    def retrieve(self, request, pk=None):
+        task, _component = self.get_task(request, pk)
+        result = task.result
+        return Response(
+            {
+                "completed": is_task_ready(task),
+                "progress": get_task_progress(task),
+                "result": str(result) if isinstance(result, Exception) else result,
+                "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
+            }
+        )
+
+    def destroy(self, request, pk=None):
+        task, component = self.get_task(request, pk, "component.edit")
+        if not is_task_ready(task) and component is not None:
+            task.revoke(terminate=True)
+            # Unlink task from component
+            if component.background_task_id == pk:
+                component.delete_background_task()
+        return Response(status=HTTP_204_NO_CONTENT)
