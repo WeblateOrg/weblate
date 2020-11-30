@@ -144,9 +144,9 @@ class EditValidationTest(ViewTestCase):
     def test_merge(self):
         """Merging with invalid parameter."""
         unit = self.get_unit()
-        response = self.client.get(
-            unit.translation.get_translate_url(),
-            {"checksum": unit.checksum, "merge": "invalid"},
+        response = self.client.post(
+            unit.translation.get_translate_url() + "?checksum=" + unit.checksum,
+            {"merge": "invalid"},
             follow=True,
         )
         self.assertContains(response, "Invalid merge request!")
@@ -156,9 +156,9 @@ class EditValidationTest(ViewTestCase):
         unit = self.get_unit()
         trans = self.component.translation_set.exclude(language_code="cs")[0]
         other = trans.unit_set.get(source=unit.source, context=unit.context)
-        response = self.client.get(
-            unit.translation.get_translate_url(),
-            {"checksum": unit.checksum, "merge": other.pk},
+        response = self.client.post(
+            unit.translation.get_translate_url() + "?checksum=" + unit.checksum,
+            {"merge": other.pk},
             follow=True,
         )
         self.assertContains(response, "Invalid merge request!")
@@ -533,8 +533,8 @@ class EditComplexTest(ViewTestCase):
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         unit = self.get_unit()
         # Try the merge
-        response = self.client.get(
-            self.translate_url, {"checksum": unit.checksum, "merge": unit.id}
+        response = self.client.post(
+            self.translate_url + "?checksum=" + unit.checksum, {"merge": unit.id}
         )
         self.assert_backend(1)
         # We should stay on same message
@@ -542,8 +542,8 @@ class EditComplexTest(ViewTestCase):
 
         # Test error handling
         unit2 = self.translation.unit_set.get(source="Thank you for using Weblate.")
-        response = self.client.get(
-            self.translate_url, {"checksum": unit.checksum, "merge": unit2.id}
+        response = self.client.post(
+            self.translate_url + "?checksum=" + unit.checksum, {"merge": unit2.id}
         )
         self.assertContains(response, "Invalid merge request!")
 
