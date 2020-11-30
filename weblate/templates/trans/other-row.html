@@ -2,7 +2,7 @@
 {% load translations %}
 
 <tr>
-<td{% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %} rowspan="2"{% endif %} class="vertical-badge">
+<td class="vertical-badge">
 {% if item.pk == unit.pk %}
 <span class="badge pull-right flip">{% trans "This translation" %}</span>
 {% endif %}
@@ -12,17 +12,15 @@
 <td>
 {% format_translation item.target item.translation.language item.translation.plural simple=True %}
 </td>
-<td{% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %}  rowspan="2"{% endif %}>
+<td>
+  {% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %}
+    {% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
+  {% endif %}
+</td>
+
+<td>
 {% if user_can_translate and item.translated %}
 <a class="mergebutton btn btn-primary" href="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}">{% trans "Use this translation" %}</a>
 {% endif %}
 </td>
 </tr>
-{% if item.translated and item.translation.component != unit.translation.component and item.target != unit.target %}
-<tr>
-<td>
-<p class="help-block">{% trans "Change compared to this translation:" %}</p>
-{% format_translation item.target item.translation.language item.translation.plural unit.target simple=True %}
-</td>
-</tr>
-{% endif %}
