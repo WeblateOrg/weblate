@@ -883,6 +883,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         list(result)
         return result
 
+    def clear_checks_cache(self):
+        if "all_checks" in self.__dict__:
+            del self.__dict__["all_checks"]
+
     @property
     def all_checks_names(self):
         return {check.check for check in self.all_checks}
@@ -925,8 +929,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # Ensure we get a fresh copy of checks
         # It might be modified meanwhile by propagating to other units
-        if "all_checks" in self.__dict__:
-            del self.__dict__["all_checks"]
+        self.clear_checks_cache()
 
         old_checks = self.all_checks_names
         create = []
@@ -981,7 +984,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             Check.objects.filter(unit=self, check__in=old_checks).delete()
 
         # This is always preset as it is used in top of this method
-        del self.__dict__["all_checks"]
+        self.clear_checks_cache()
 
     def nearby(self, count):
         """Return list of nearby messages based on location."""
