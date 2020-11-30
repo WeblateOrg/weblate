@@ -334,6 +334,19 @@ in the font family is converted to underscore, so ``Source Sans Pro`` becomes
 ``Source_Sans_Pro``, please keep that in mind when naming the font group (see
 :ref:`fonts`).
 
+Unit keys or context
+++++++++++++++++++++
+
+Weblate identifies the units in the XLIFF file by ``resname`` attribute in case
+it is present and falls back to ``id`` (together with ``file`` tag if present).
+
+The ``resname`` attribute is supposed to be human friendly identifier of the
+unit making it more suitable for Weblate to display instead of ``id``. The
+``resname`` has to be unique in the whole XLIFF file. This is required by
+Weblate and is not covered by the XLIFF standard - it does not put any
+uniqueness restrictions on this attribute.
+
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for bilingual XLIFF              |
 +================================+==================================+
