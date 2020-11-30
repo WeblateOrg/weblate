@@ -845,7 +845,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.translations_progress += 1
             progress = 100 * self.translations_progress // self.translations_count
         # Store task state
-        current_task.update_state(state="PROGRESS", meta={"progress": progress})
+        current_task.update_state(
+            state="PROGRESS", meta={"progress": progress, "component": self.pk}
+        )
 
     def store_log(self, slug, msg, *args):
         if self.translations_count == -1:
