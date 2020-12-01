@@ -141,8 +141,11 @@ def get_other_units(unit):
 
     # Slightly different logic to allow applying current translation to
     # the propagated strings
-    same.allow_merge = (untranslated or allow_merge) and same.translated and propagation
-    allow_merge |= same.allow_merge
+    if same is not None:
+        same.allow_merge = (
+            (untranslated or allow_merge) and same.translated and propagation
+        )
+        allow_merge |= same.allow_merge
 
     result["total"] = sum(len(result[x]) for x in ("matching", "source", "context"))
     result["allow_merge"] = allow_merge
