@@ -1548,10 +1548,10 @@ class Metrics(APIView):
 class TasksViewSet(ViewSet):
     def get_task(self, request, pk, permission: Optional[str] = None) -> AsyncResult:
         task = AsyncResult(str(pk))
-        if task.state == "PENDING":
+        result = task.result
+        if task.state == "PENDING" or isinstance(result, Exception):
             component = None
         else:
-            result = task.result
             if result is None:
                 raise Http404("Task not found")
 
