@@ -102,18 +102,16 @@ def get_other_units(unit):
     propagation = component.allow_translation_propagation
     same = None
 
-    query = Q(source=unit.source)
+    query = Q()
+    if unit.source:
+        query |= Q(source=unit.source)
     if unit.context and component.has_template():
         query |= Q(context=unit.context)
 
-    units = (
-        Unit.objects.prefetch_full()
-        .filter(
-            translation__component__project=component.project,
-            translation__language=translation.language,
-        )
-        .exclude(source="")
-        .filter(query)
+    units = Unit.objects.prefetch_full().filter(
+        query,
+        translation__component__project=component.project,
+        translation__language=translation.language,
     )
 
     # Is it only this unit?
