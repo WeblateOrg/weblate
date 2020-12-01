@@ -18,6 +18,8 @@ Not yet released.
 * Extended search capabilities for changes history.
 * Improved billing detail pages and libre hosting workflow.
 * Extended translation statistics API.
+* Improved other translations tab while translating.
+* Added tasks API.
 
 Weblate 4.3.2
 -------------
