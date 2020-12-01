@@ -76,7 +76,7 @@ AZURE_REPOS = (
     "https://dev.azure.com/{organization}/{projectId}/_git/{repositoryId}"
     "git@ssh.dev.azure.com:v3/{organization}/{project}/{repository}",
     "https://{organization}.visualstudio.com/{project}/_git/{repository}",
-    "{organization}@vs-ssh.visualstudio.com:v3/{organization}/{project}/{repository}"
+    "{organization}@vs-ssh.visualstudio.com:v3/{organization}/{project}/{repository}",
 )
 
 HOOK_HANDLERS = {}
@@ -477,26 +477,42 @@ def azure_hook_helper(data, request):
     http_url = data["resource"]["repository"]["remoteUrl"]
     branch = re.sub(r"^refs/heads/", "", data["resource"]["refUpdates"][0]["name"])
     project = ["resource"]["repository"]["project"]["name"]
-    projectId = ["resource"]["repository"]["project"]["id"]
+    projectid = ["resource"]["repository"]["project"]["id"]
     repository = data["resource"]["repository"]["name"]
-    repositoryId = data["resource"]["repository"]["id"]
+    repositoryid = data["resource"]["repository"]["id"]
 
-    m = re.match('^https?:\/\/dev.azure.com\/(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9])', http_url)
+    m = re.match(
+        r"^https?:\/\/dev\.azure\.com\/"
+        r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9])",
+        http_url,
+    )
 
-    # Fallback to support old url structure {organization}.visualstudio.com 
-    if m == None:
-        m = re.match('^https?:\/\/(?<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]).visualstudio.com', http_url)
-    
+    # Fallback to support old url structure {organization}.visualstudio.com
+    if m is None:
+        m = re.match(
+            r"^https?:\/\/"
+            r"(?<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9])"
+            r"\.visualstudio\.com",
+            http_url,
+        )
     organization = None
 
-    if m != None:
-        organization = m.group('organization')
+    if m is not None:
+        organization = m.group("organization")
 
-    if organization != None:
-        repos = [repo.format(organization=organization, project=project, projectId=projectId, repository=repository, repositoryId=repositoryId) for repo in AZURE_REPOS]
+    if organization is not None:
+        repos = [
+            repo.format(
+                organization=organization,
+                project=project,
+                projectId=projectid,
+                repository=repository,
+                repositoryId=repositoryid,
+            )
+            for repo in AZURE_REPOS
+        ]
     else:
         repos = [http_url]
-    
 
     return {
         "service_long_name": "Azure",

@@ -771,7 +771,7 @@ AZURE_PAYLOAD_NEW = r"""
           "date": "2015-02-25T19:01:00Z"
         },
         "comment": "Fixed bug in web.config file",
-        "url": "https://dev.azure.com/Fabrikam-Fiber/_apis/git/repositories/278d5cd2-584d-4b63-824a-2ba458937249/commits/7d85491a4f0289f2ffcf70939b7c7160e8ce2865"
+        "url": "https://f.visualstudio.com/c/_git/ATEST/commit/33b55f7cb7e7e2453239"
       }
     ],
     "refUpdates": [
@@ -784,26 +784,26 @@ AZURE_PAYLOAD_NEW = r"""
     "repository": {
       "id": "278d5cd2-584d-4b63-824a-2ba458937249",
       "name": "ATEST",
-      "url": "https://dev.azure.com/Fabrikam-Fiber/_apis/git/repositories/278d5cd2-584d-4b63-824a-2ba458937249",
+      "url": "https://dev.azure.com/f/_apis/git/repositories/278d5cd2-584d-4b63",
       "project": {
         "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f",
-        "name": "Fabrikam-Fiber-Project",
-        "url": "https://dev.azure.com/Fabrikam-Fiber/_apis/projects/be9b3917-87e6-42a4-a549-2bc06a7a878f",
+        "name": "p",
+        "url": "https://dev.azure.com/f/_apis/projects/be9b3917-87e6-42a4",
         "state": "wellFormed",
         "visibility": "unchanged",
         "lastUpdateTime": "0001-01-01T00:00:00"
       },
       "defaultBranch": "refs/heads/master",
-      "remoteUrl": "https://dev.azure.com/Fabrikam-Fiber/Fabrikam-Fiber-Project/_git/ATEST"
+      "remoteUrl": "https://dev.azure.com/f/p/_git/ATEST"
     },
     "pushedBy": {
       "displayName": "Jamal Hartnett",
       "id": "00067FFED5C7AF52@Live.com",
       "uniqueName": "fabrikamfiber4@hotmail.com"
     },
-    "pushId": 14,
+    "pushId": 1,
     "date": "2014-05-02T19:17:13.3309587Z",
-    "url": "https://dev.azure.com/Fabrikam-Fiber/_apis/git/repositories/278d5cd2-584d-4b63-824a-2ba458937249/pushes/14"
+    "url": "https://dev.azure.com/f/_apis/git/repositories/278d5cd2-584d-4b63/pushes/1"
   },
   "resourceVersion": "1.0",
   "resourceContainers": {
@@ -1653,10 +1653,11 @@ class AzureBackendTest(HookBackendTestCase):
                 "repo_url": url,
                 "repos": [
                     "https://dev.azure.com/f/c/_git/ATEST",
-                    "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
+                    "_git/278d5cd2-584d-4b63-824a-2ba458937249"
                     "git@ssh.dev.azure.com:v3/f/c/ATEST",
                     "https://f.visualstudio.com/c/_git/ATEST",
-                    "f@vs-ssh.visualstudio.com:v3/f/c/ATEST"
+                    "f@vs-ssh.visualstudio.com:v3/f/c/ATEST",
                 ],
                 "service_long_name": "Azure",
             },
@@ -1668,13 +1669,14 @@ class AzureBackendTest(HookBackendTestCase):
             {
                 "branch": "feat/localization",
                 "full_name": "ATEST",
-                "repo_url": "https://dev.azure.com/Fabrikam-Fiber/Fabrikam-Fiber-Project/_git/ATEST",
+                "repo_url": "https://dev.azure.com/f/p/_git/ATEST",
                 "repos": [
-                    "https://dev.azure.com/Fabrikam-Fiber/Fabrikam-Fiber-Project/_git/ATEST",
-                    "https://dev.azure.com/Fabrikam-Fiber/be9b3917-87e6-42a4-a549-2bc06a7a878f/_git/278d5cd2-584d-4b63-824a-2ba458937249"
-                    "git@ssh.dev.azure.com:v3/Fabrikam-Fiber/Fabrikam-Fiber-Project/ATEST",
-                    "https://Fabrikam-Fiber.visualstudio.com/Fabrikam-Fiber-Project/_git/ATEST",
-                    "Fabrikam-Fiber@vs-ssh.visualstudio.com:v3/Fabrikam-Fiber/Fabrikam-Fiber-Project/ATEST"
+                    "https://dev.azure.com/f/p/_git/ATEST",
+                    "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
+                    "_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    "git@ssh.dev.azure.com:v3/f/p/ATEST",
+                    "https://f.visualstudio.com/p/_git/ATEST",
+                    "f@vs-ssh.visualstudio.com:v3/f/p/ATEST",
                 ],
                 "service_long_name": "Azure",
             },
