@@ -21,7 +21,7 @@ Weblate 4.3.2
 Released on November 4th 2020.
 
 * Fixed crash on certain component filemasks.
-* Improved accurancy of the consecutive duplicated words check.
+* Improved accuracy of the consecutive duplicated words check.
 * Added support for Pagure pull requests.
 * Improved error messages on failed registraiton.
 * Reverted rendering developer comments as markdown.
