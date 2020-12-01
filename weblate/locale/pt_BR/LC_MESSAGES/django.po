@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-11-27 21:50+0000\n"
-"Last-Translator: Daniel de Souza Melo <jxzk@protonmail.com>\n"
+"PO-Revision-Date: 2020-12-01 22:09+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -1029,11 +1029,8 @@ msgid "Remove blank strings"
 msgstr "Remover textos vazios"
 
 #: weblate/addons/cleanup.py:53
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Novo texto para traduzir em %(translation)s"
+msgstr "Remove textos sem tradução dos arquivos de tradução."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1322,16 +1319,12 @@ msgid "Language filter"
 msgstr "Filtro de idioma"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
 msgstr ""
-"Expressão regular para filtrar tradução ao examinar por uma máscara de "
-"arquivo."
+"Expressão regular para filtrar arquivos de tradução ao examinar por uma "
+"máscara de arquivo."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -6065,13 +6058,7 @@ msgstr[1] ""
 "strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -8275,20 +8262,21 @@ msgid "Error"
 msgstr "Erro"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files using ambiguous language code."
-msgstr "O componente contém arquivo de tradução para o idioma de origem."
+msgstr ""
+"Os arquivos de tradução do componente estão usando código de idioma ambíguo."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
 msgstr ""
+"Estes códigos de idioma indicam um macroidioma e é geralmente melhor usar o "
+"código do idioma individual."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "Sugestão de códigos de idioma individuais"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -8460,6 +8448,8 @@ msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
+"Sua URL de push parece não ter as credenciais. Forneça-as na URL ou use SSH "
+"com autenticação baseada em chaves."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10044,10 +10034,8 @@ msgstr "Captura de tela não usada"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:313
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Código do idioma"
+msgstr "Código do idioma ambíguo."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -10704,14 +10692,11 @@ msgid "Whether the component should be locked on repository errors."
 msgstr "Define se o componente deve ser bloqueado em erros de repositório."
 
 #: weblate/trans/models/component.py:583
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
 msgstr ""
-"Expressão regular usada para filtrar as traduções ao examinar por uma "
+"Expressão regular usada para filtrar arquivos traduções ao examinar por uma "
 "máscara de arquivo."
 
 #: weblate/trans/models/component.py:588
@@ -10863,10 +10848,9 @@ msgstr ""
 "forneceu um arquivo base para fazer isto."
 
 #: weblate/trans/models/component.py:2117
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Defina o arquivo base para novas traduções"
+msgstr "Falha ao analisar o arquivo base para novas traduções: %s"
 
 #: weblate/trans/models/component.py:2121
 msgid "Unrecognized base file for new translations."
@@ -12158,39 +12142,31 @@ msgstr "E-mail do usuário"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
-msgstr ""
+msgstr "Forneça uma família de fonte adequada para CSS."
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Página não encontrada"
+msgstr "Fonte da página"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "Adicionar fonte"
+msgstr "Fonte do cabeçalho"
 
 #: weblate/wladmin/forms.py:92
-#, fuzzy
-#| msgid "Focus comment editor"
 msgid "Focus color"
-msgstr "Foca no editor de comentário"
+msgstr "Cor do foco"
 
 #: weblate/wladmin/forms.py:93
 msgid "Hover color"
-msgstr ""
+msgstr "Cor ao passar o cursor do mouse"
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "Ocultar rodapé da página"
 
 #: weblate/wladmin/forms.py:96
-#, fuzzy
-#| msgid "Strings navigation"
 msgid "Persistent hamburger navigation"
-msgstr "Navegação dos textos"
+msgstr "Navegação com botão de três barras persistente"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
