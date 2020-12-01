@@ -18,7 +18,6 @@
 #
 """Translate Toolkit based file format wrappers."""
 
-
 import importlib
 import inspect
 import os
@@ -512,6 +511,12 @@ class XliffUnit(TTKitUnit):
     def set_target(self, target):
         """Set translation unit target."""
         self._invalidate_target()
+        # Delete the empty target element
+        if not target:
+            xmlnode = self.unit.getlanguageNode(lang=None, index=1)
+            if xmlnode is not None:
+                xmlnode.getparent().remove(xmlnode)
+            return
         try:
             converted = xliff_string_to_rich(target)
         except (XMLSyntaxError, KeyError):
