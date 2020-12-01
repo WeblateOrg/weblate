@@ -81,6 +81,12 @@ def export_stats(request, project, component):
             "last_change",
             "last_author",
             "recent_changes",
+            "readonly",
+            "readonly_percent",
+            "approved",
+            "approved_percent",
+            "suggestions",
+            "comments",
         ),
         StatisticsSerializer(translations, many=True).data,
     )
