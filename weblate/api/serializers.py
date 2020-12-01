@@ -799,6 +799,12 @@ class StatisticsSerializer(ReadOnlySerializer):
             "fuzzy_percent": stats.fuzzy_percent,
             "failing": stats.allchecks,
             "failing_percent": stats.allchecks_percent,
+            "approved": stats.approved,
+            "approved_percent": stats.approved_percent,
+            "readonly": stats.readonly,
+            "readonly_percent": stats.readonly_percent,
+            "suggestions": stats.suggestions,
+            "comments": stats.comments,
         }
         if hasattr(instance, "language"):
             result["code"] = instance.language.code

@@ -17,6 +17,7 @@ Not yet released.
 * User is now presented filtered list of languages when adding new translation.
 * Extended search capabilities for changes history.
 * Improved billing detail pages and libre hosting workflow.
+* Extended translation statistics API.
 
 Weblate 4.3.2
 -------------

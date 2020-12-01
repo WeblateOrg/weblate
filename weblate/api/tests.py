@@ -2210,6 +2210,12 @@ class TranslationAPITest(APIBaseTest):
                 "fuzzy": 0,
                 "total": 4,
                 "recent_changes": 0,
+                "approved": 0,
+                "approved_percent": 0.0,
+                "comments": 0,
+                "suggestions": 0,
+                "readonly": 0,
+                "readonly_percent": 0.0,
             },
             skip=("last_change",),
         )
