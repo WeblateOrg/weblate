@@ -476,8 +476,8 @@ def azure_hook_helper(data, request):
 
     http_url = data["resource"]["repository"]["remoteUrl"]
     branch = re.sub(r"^refs/heads/", "", data["resource"]["refUpdates"][0]["name"])
-    project = ["resource"]["repository"]["project"]["name"]
-    projectid = ["resource"]["repository"]["project"]["id"]
+    project = data["resource"]["repository"]["project"]["name"]
+    projectid = data["resource"]["repository"]["project"]["id"]
     repository = data["resource"]["repository"]["name"]
     repositoryid = data["resource"]["repository"]["id"]
 
@@ -491,7 +491,7 @@ def azure_hook_helper(data, request):
     if m is None:
         m = re.match(
             r"^https?:\/\/"
-            r"(?<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9])"
+            r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9])"
             r"\.visualstudio\.com",
             http_url,
         )
