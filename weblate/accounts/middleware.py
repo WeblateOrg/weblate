@@ -111,7 +111,10 @@ class RequireLoginMiddleware:
 
     def get_setting_re(self, setting):
         """Grab regexp list from settings and compiles them."""
-        return tuple(re.compile(url) for url in setting)
+        return tuple(
+            re.compile(url.replace("{URL_PREFIX}", settings.URL_PREFIX))
+            for url in setting
+        )
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         """Check request whether it needs to enforce login for this URL."""
