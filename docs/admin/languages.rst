@@ -72,8 +72,8 @@ only and avoid macro languages.
 
 .. seealso::
 
-   `Macrolanguages definition <https://iso639-3.sil.org/about/scope#Macrolanguages>`,
-   `List of macrolanguages <https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data>`
+   `Macrolanguages definition <https://iso639-3.sil.org/about/scope#Macrolanguages>`_,
+   `List of macrolanguages <https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data>`_
 
 Language definitions
 --------------------
