@@ -96,6 +96,7 @@ WLT.Editor = (function () {
       });
       let placeables = textarea.getAttribute("data-placeables");
       if (placeables) {
+        placeables = new RegExp("^" + placeables);
         codemirror.addOverlay({
           token: function (stream) {
             if (stream.match(placeables)) {
