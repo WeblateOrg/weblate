@@ -73,7 +73,7 @@ PAGURE_REPOS = (
 
 AZURE_REPOS = (
     "https://dev.azure.com/{organization}/{project}/_git/{repository}",
-    "https://dev.azure.com/{organization}/{projectId}/_git/{repositoryId}"
+    "https://dev.azure.com/{organization}/{projectId}/_git/{repositoryId}",
     "git@ssh.dev.azure.com:v3/{organization}/{project}/{repository}",
     "https://{organization}.visualstudio.com/{project}/_git/{repository}",
     "{organization}@vs-ssh.visualstudio.com:v3/{organization}/{project}/{repository}",

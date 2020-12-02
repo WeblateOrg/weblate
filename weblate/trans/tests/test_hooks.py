@@ -1653,8 +1653,10 @@ class AzureBackendTest(HookBackendTestCase):
                 "repo_url": url,
                 "repos": [
                     "https://dev.azure.com/f/c/_git/ATEST",
-                    "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
-                    "_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    (
+                        "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
+                        "_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    ),
                     "git@ssh.dev.azure.com:v3/f/c/ATEST",
                     "https://f.visualstudio.com/c/_git/ATEST",
                     "f@vs-ssh.visualstudio.com:v3/f/c/ATEST",
@@ -1672,8 +1674,10 @@ class AzureBackendTest(HookBackendTestCase):
                 "repo_url": "https://dev.azure.com/f/p/_git/ATEST",
                 "repos": [
                     "https://dev.azure.com/f/p/_git/ATEST",
-                    "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
-                    "_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    (
+                        "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
+                        "_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    ),
                     "git@ssh.dev.azure.com:v3/f/p/ATEST",
                     "https://f.visualstudio.com/p/_git/ATEST",
                     "f@vs-ssh.visualstudio.com:v3/f/p/ATEST",
