@@ -693,17 +693,17 @@ class WeblateAccountsConf(AppConf):
     # Login required URLs
     LOGIN_REQUIRED_URLS = []
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r"/accounts/(.*)$",  # Required for login
-        r"/admin/login/(.*)$",  # Required for admin login
-        r"/static/(.*)$",  # Required for development mode
-        r"/widgets/(.*)$",  # Allowing public access to widgets
-        r"/data/(.*)$",  # Allowing public access to data exports
-        r"/hooks/(.*)$",  # Allowing public access to notification hooks
-        r"/healthz/$",  # Allowing public access to health check
-        r"/api/(.*)$",  # Allowing access to API
-        r"/js/i18n/$",  # JavaScript localization
-        r"/contact/$",  # Optional for contact form
-        r"/legal/(.*)$",  # Optional for legal app
+        r"{URL_PREFIX}/accounts/(.*)$",  # Required for login
+        r"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
+        r"{URL_PREFIX}/static/(.*)$",  # Required for development mode
+        r"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
+        r"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
+        r"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notification hooks
+        r"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
+        r"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
+        r"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
+        r"{URL_PREFIX}/contact/$",  # Optional for contact form
+        r"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
     )
 
     class Meta:
