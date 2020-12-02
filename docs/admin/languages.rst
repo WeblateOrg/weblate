@@ -31,6 +31,11 @@ and report it to the issue tracker (see :ref:`contributing`).
    :ref:`component-language_regex` to ignore such file when parsing
    translations.
 
+.. seealso::
+
+    :ref:`language-code`,
+    :ref:`new-translations`
+
 
 .. _changing-languages:
 
@@ -94,7 +99,8 @@ have two letter code. It can also support extended codes as defined by `BCP 47
 
 .. seealso::
 
-   :ref:`language-parsing-codes`
+   :ref:`language-parsing-codes`,
+   :ref:`new-translations`
 
 .. _language-name:
 
