@@ -481,24 +481,24 @@ def azure_hook_helper(data, request):
     repository = data["resource"]["repository"]["name"]
     repositoryid = data["resource"]["repository"]["id"]
 
-    m = re.match(
+    match = re.match(
         r"^https?:\/\/dev\.azure\.com\/"
-        r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9])",
+        r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]*)",
         http_url,
     )
 
     # Fallback to support old url structure {organization}.visualstudio.com
-    if m is None:
-        m = re.match(
+    if match is None:
+        match = re.match(
             r"^https?:\/\/"
-            r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9])"
+            r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]*)"
             r"\.visualstudio\.com",
             http_url,
         )
     organization = None
 
-    if m is not None:
-        organization = m.group("organization")
+    if match is not None:
+        organization = match.group("organization")
 
     if organization is not None:
         repos = [
@@ -517,7 +517,7 @@ def azure_hook_helper(data, request):
     return {
         "service_long_name": "Azure",
         "repo_url": http_url,
-        "repos": [repos],
+        "repos": repos,
         "branch": branch,
         "full_name": repository,
     }
