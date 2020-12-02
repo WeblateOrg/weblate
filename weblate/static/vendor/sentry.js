@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.27.6 (480d177) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.28.0 (705af78) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3440,6 +3440,9 @@ var Sentry = (function (exports) {
             var encodedOptions = [];
             encodedOptions.push("dsn=" + dsn.toString());
             for (var key in dialogOptions) {
+                if (key === 'dsn') {
+                    continue;
+                }
                 if (key === 'user') {
                     if (!dialogOptions.user) {
                         continue;
@@ -4119,8 +4122,6 @@ var Sentry = (function (exports) {
         if (useEnvelope) {
             var envelopeHeaders = JSON.stringify({
                 event_id: event.event_id,
-                // We need to add * 1000 since we divide it by 1000 by default but JS works with ms precision
-                // The reason we use timestampWithMs here is that all clocks across the SDK use the same clock
                 sent_at: new Date().toISOString(),
             });
             var itemHeaders = JSON.stringify({
@@ -4354,7 +4355,7 @@ var Sentry = (function (exports) {
     // gecko regex: `(?:bundle|\d+\.js)`: `bundle` is for react native, `\d+\.js` also but specifically for ram bundles because it
     // generates filenames without a prefix like `file://` the filenames in the stacktrace are just 42.js
     // We need this specific case for now because we want no other regex to match.
-    var gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)?((?:file|https?|blob|chrome|webpack|resource|moz-extension|capacitor).*?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js))(?::(\d+))?(?::(\d+))?\s*$/i;
+    var gecko = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)?((?:file|https?|blob|chrome|webpack|resource|moz-extension|capacitor).*?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js)|\/[\w\-. /=]+)(?::(\d+))?(?::(\d+))?\s*$/i;
     var winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
     var geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
     var chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/;
@@ -5972,7 +5973,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.27.6';
+    var SDK_VERSION = '5.28.0';
 
     /**
      * The Sentry Browser SDK Client.
