@@ -317,6 +317,11 @@ want to turn this on for all projects by default, please configure the
 Default groups and roles
 ------------------------
 
+These roles and groups are created upon installation. The built-in roles are
+always kept up to date by the databsae migration on upgrade and any custom
+changes will be lost. In case you want to define own set of permissions, please
+define a new role for that.
+
 List of privileges
 ++++++++++++++++++
 
@@ -448,7 +453,8 @@ List of groups
 ++++++++++++++
 
 The following groups are created upon installation (or after executing
-:djadmin:`setupgroups`):
+:djadmin:`setupgroups`) and you are free to modify them. The migration will
+however re-create them if you delete or rename them.
 
 `Guests`
     Defines permissions for non authenticated users.
