@@ -555,7 +555,13 @@ Language code style
 +++++++++++++++++++
 
 Customize language code used to generate the filename for translations
-created by Weblate, see :ref:`new-translations` for more details.
+created by Weblate.
+
+.. seealso::
+
+    :ref:`new-translations`,
+    :ref:`language-code`,
+    :ref:`language-parsing-codes`
 
 .. _component-merge_style:
 
