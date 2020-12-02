@@ -9,7 +9,7 @@ on:
 
 jobs:
   setup:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
@@ -58,7 +58,7 @@ jobs:
         run: ./ci/services-down ${{ matrix.database }}
 
   dist:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       CI_DATABASE: postgresql

@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Sphinx
 
     steps:
@@ -40,7 +40,7 @@ jobs:
           path: docs/_build/html
 
   linkcheck:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Linkcheck
 
     steps:
