@@ -26,7 +26,6 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
-from methodtools import lru_cache
 
 from weblate.checks.base import SourceCheck, TargetCheck
 
@@ -277,7 +276,6 @@ class BaseFormatCheck(TargetCheck):
     def normalize(self, matches):
         return matches
 
-    @lru_cache(maxsize=1024)
     def extract_matches(self, string):
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
