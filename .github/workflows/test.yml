@@ -61,8 +61,6 @@ jobs:
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Set up Python ${{ matrix.python-version }}
