@@ -24,6 +24,9 @@ the default configuration it uses syslog and that makes the log appear either in
 :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on your syslog
 daemon configuration).
 
+The Celery process (see :ref:`celery`) usually produces own logs as well. The
+example system-wide setups log to several files under :file:`/var/log/celery/`.
+
 Docker containers log to their output (as usual in the Docker world), so
 you can look at the logs using ``docker-compose logs``.
 
