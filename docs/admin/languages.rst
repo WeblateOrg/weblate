@@ -138,3 +138,66 @@ Gettext compatible plural formula used to determine which plural form is used fo
    `Language Plural Rules by the Unicode Consortium`_
 
 .. _Language Plural Rules by the Unicode Consortium: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
+
+.. _new-translations:
+
+Adding new translations
+-----------------------
+
+.. versionchanged:: 2.18
+
+    In versions prior to 2.18 the behaviour of adding new translations was file
+    format specific.
+
+Weblate can automatically start new translation for all of the file
+formats.
+
+Some formats expect to start with an empty file and only translated
+strings to be included (for example :ref:`aresource`), while others expect to have all
+keys present (for example :ref:`gettext`). In some situations this really doesn't depend
+on the format, but rather on the framework you use to handle the translation (for example with
+:ref:`json`).
+
+When you specify :ref:`component-new_base` in :ref:`component`, Weblate will
+use this file to start new translations. Any exiting translations will be
+removed from the file when doing so.
+
+When :ref:`component-new_base` is empty and the file format
+supports it, an empty file is created where new strings will be added once they are
+translated.
+
+The :ref:`component-language_code_style` allows you to customize language code used
+in generated filenames:
+
+Default based on the file format
+   Dependent on file format, for most of them POSIX is used.
+POSIX style using underscore as a separator
+   Typically used by gettext and related tools, produces language codes like
+   ``pt_BR``.
+POSIX style using underscore as a separator, including country code
+   POSIX style language code including the country code even when not necessary
+   (for example ``cs_CZ``).
+BCP style using hyphen as a separator
+   Typically used on web platforms, produces language codes like
+   ``pt-BR``.
+BCP style using hyphen as a separator, including country code
+   BCP style language code including the country code even when not necessary
+   (for example ``cs-CZ``).
+Android style
+   Only used in Android apps, produces language codes like
+   ``pt-rBR``.
+Java style
+   Used by Java—mostly BCP with legacy codes for Chinese.
+
+Additionally, any mappings defined in :ref:`project-language_aliases` are
+applied in reverse.
+
+.. note::
+
+   Weblate recognizes any of these when parsing translation files, the above
+   settings only influences how new files are created.
+
+.. seealso::
+
+    :ref:`language-code`,
+    :ref:`language-parsing-codes`
