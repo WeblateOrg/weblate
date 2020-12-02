@@ -130,15 +130,6 @@ def prefetch_stats(queryset):
     return result
 
 
-class ParentStats:
-    def __init__(self, stats, parent):
-        self.translated_percent = stats.calculate_percents(
-            "translated_percent", parent.source_strings
-        )
-        self.all = parent.source_strings
-        self.translated = stats.translated
-
-
 class BaseStats:
     """Caching statistics calculator."""
 
@@ -181,9 +172,6 @@ class BaseStats:
 
     def get_data(self):
         return copy(self._data)
-
-    def get_parent_stats(self, parent):
-        return ParentStats(self, parent)
 
     @staticmethod
     def prefetch_many(stats):

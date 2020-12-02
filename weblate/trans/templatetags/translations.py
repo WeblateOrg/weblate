@@ -441,20 +441,10 @@ def naturaltime(value, now=None):
     )
 
 
-def get_stats_parent(obj, parent):
-    if not isinstance(obj, BaseStats):
-        obj = obj.stats
-    if parent is None:
+def get_stats(obj):
+    if isinstance(obj, BaseStats):
         return obj
-    return obj.get_parent_stats(parent)
-
-
-@register.simple_tag
-def global_stats(obj, stats, parent):
-    """Return attribute from global stats."""
-    if isinstance(parent, str):
-        parent = getattr(obj, parent)
-    return get_stats_parent(stats, parent)
+    return obj.stats
 
 
 def translation_progress_data(readonly, approved, translated, fuzzy, checks):
@@ -469,8 +459,8 @@ def translation_progress_data(readonly, approved, translated, fuzzy, checks):
 
 
 @register.inclusion_tag("progress.html")
-def translation_progress(obj, parent=None):
-    stats = get_stats_parent(obj, parent)
+def translation_progress(obj):
+    stats = get_stats(obj)
     return translation_progress_data(
         stats.readonly_percent,
         stats.approved_percent,
@@ -481,8 +471,8 @@ def translation_progress(obj, parent=None):
 
 
 @register.inclusion_tag("progress.html")
-def words_progress(obj, parent=None):
-    stats = get_stats_parent(obj, parent)
+def words_progress(obj):
+    stats = get_stats(obj)
     return translation_progress_data(
         stats.readonly_words_percent,
         stats.approved_words_percent,
@@ -722,6 +712,8 @@ def indicate_alerts(context, obj):
     component = None
     project = None
 
+    global_base = context.get("global_base")
+
     if isinstance(obj, (Translation, GhostTranslation)):
         translation = obj
         component = obj.component
@@ -751,6 +743,25 @@ def indicate_alerts(context, obj):
         result.append(
             ("state/ghost.svg", gettext("This translation does not yet exist."), None)
         )
+    elif global_base:
+        if isinstance(global_base, str):
+            global_base = getattr(obj, global_base)
+        stats = get_stats(obj)
+
+        count = global_base.source_strings - stats.all
+        if count:
+            result.append(
+                (
+                    "state/ghost.svg",
+                    ngettext(
+                        "%(count)s string is not being translated here.",
+                        "%(count)s strings are not being translated here.",
+                        count,
+                    )
+                    % {"count": count},
+                    None,
+                )
+            )
 
     return {"icons": result, "component": component, "project": project}
 

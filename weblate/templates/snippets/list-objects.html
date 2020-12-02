@@ -14,9 +14,6 @@
 <th class="sort-skip"></th>
 <th>{{ label|default:_("Project") }}</th>
 <th class="number">{% trans "Translated" %}</th>
-{% if global_base %}
-<th class="number zero-width-1000">{% trans "Strings of total" %}</th><!-- TODO: Rename? -->
-{% endif %}
 <th class="number zero-width-640">{% trans "Untranslated" %}</th>
 <th class="number zero-width-720">{% trans "Untranslated words" %}</th>
 <th class="number zero-width-768">{% trans "Checks" %}</th>
@@ -89,10 +86,6 @@
 </th>
 {% include "snippets/list-objects-percent.html" with percent=object.stats.translated_percent value=object.stats.translated all=object.stats.all %}
 {% if not hide_details %}
-{% if global_base %}
-    {% global_stats object object.stats global_base as global_stats %}
-    {% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
-{% endif %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo query="q=state:<translated" class="zero-width-640" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.todo_words query="q=state:<translated" class="zero-width-720" %}
 {% include "snippets/list-objects-number.html" with value=object.stats.allchecks query="q=has:check" class="zero-width-768" %}
@@ -101,7 +94,7 @@
 {% endif %}
 </tr>
 <tr data-parent="{{ row_id }}">
-<td colspan="{% if global_base %}8{% else %}7{% endif %}" class="progress-row autocolspan">{% translation_progress object.stats %}</td>
+<td colspan="7" class="progress-row autocolspan">{% translation_progress object.stats %}</td>
 </tr>
 {% endfor %}
 </tbody>
