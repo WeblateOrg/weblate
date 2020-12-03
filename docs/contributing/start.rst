@@ -10,6 +10,74 @@ Starting with our codebase
 If looking for some bugs to familiarize yourself with the Weblate
 codebase, look for ones labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_.
 
+Running Weblate locally
+-----------------------
+
+The most comfortable approach to get started with Weblate development is to
+follow :ref:`quick-source`. It will get you a virtual env with editable Weblate
+sources.
+
+To install all dependencies useful for development, do:
+
+.. code-block:: sh
+
+   pip install -r requirements-dev.txt
+
+To start a development server run:
+
+.. code-block:: sh
+
+   weblate runserver
+
+Depending on your configuration you might also want to start Celery workers:
+
+.. code-block:: sh
+
+   ./weblate/examples/celery start
+
+.. _dev-docker:
+
+Running Weblate locally in Docker
+---------------------------------
+
+If you have Docker and docker-compose installed, you can spin up the development
+environment simply by running:
+
+.. code-block:: sh
+
+   ./rundev.sh
+
+It will create development Docker image and start it. Weblate is running on
+<http://127.0.0.1:8080/> and you can sign in with ``admin`` user and ``admin``
+password. The new installation is empty, so you might want to continue with
+:ref:`adding-projects`.
+
+The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in
+:file:`dev-docker` directory.
+
+The script also accepts some parameters, to execute tests run it with ``test``
+parameter and then specify any :djadmin:`django:test` parameters, for example:
+
+.. code-block:: sh
+
+   ./rundev.sh test --failfast weblate.trans
+
+Be careful that your Docker containers are up and running before running the tests.
+You can check that by running the ``docker ps`` command.
+
+To stop the background containers run:
+
+.. code-block:: sh
+
+   ./rundev.sh stop
+
+Running the script without args will recreate Docker container and restart it.
+
+.. note::
+
+   This is not suitable setup for production, it includes several hacks which
+   are insecure, but make development easier.
+
 Coding Weblate with PyCharm
 ---------------------------
 
@@ -53,73 +121,6 @@ if you modify some files, but the debugger will be stopped on the breakpoint you
 
 
 
-Running Weblate locally
------------------------
-
-The most comfortable approach to get started with Weblate development is to
-follow :ref:`quick-source`. It will get you a virtual env with editable Weblate
-sources.
-
-To install all dependencies useful for development, do:
-
-.. code-block:: sh
-
-   pip install -r requirements-dev.txt
-
-To start a development server run:
-
-.. code-block:: sh
-
-   weblate runserver
-
-Depending on your configuration you might also want to start Celery workers:
-
-.. code-block:: sh
-
-   ./weblate/examples/celery start
-
-.. _dev-docker:
-
-Running Weblate locally in Docker
-+++++++++++++++++++++++++++++++++
-
-If you have Docker and docker-compose installed, you can spin up the development
-environment simply by running:
-
-.. code-block:: sh
-
-   ./rundev.sh
-
-It will create development Docker image and start it. Weblate is running on
-<http://127.0.0.1:8080/> and you can sign in with ``admin`` user and ``admin``
-password. The new installation is empty, so you might want to continue with
-:ref:`adding-projects`.
-
-The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in
-:file:`dev-docker` directory.
-
-The script also accepts some parameters, to execute tests run it with ``test``
-parameter and then specify any :djadmin:`django:test` parameters, for example:
-
-.. code-block:: sh
-
-   ./rundev.sh test --failfast weblate.trans
-
-Be careful that your Docker containers are up and running before running the tests.
-You can check that by running the ``docker ps`` command.
-
-To stop the background containers run:
-
-.. code-block:: sh
-
-   ./rundev.sh stop
-
-Running the script without args will recreate Docker container and restart it.
-
-.. note::
-
-   This is not suitable setup for production, it includes several hacks which
-   are insecure, but make development easier.
 
 
 Bootstraping your devel instance
