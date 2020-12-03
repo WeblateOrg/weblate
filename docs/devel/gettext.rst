@@ -25,9 +25,40 @@ As a widely spread tool, it has many wrappers which make its usage really
 simple, instead of manual invoking of Gettext described below, you might want
 to try one of them, for example `intltool`_.
 
+Workflow overview
++++++++++++++++++
+
+The GNU Gettext uses several files to manage the localization:
+
+* :file:`PACKAGE.pot` contains strings extracted from your source code, typically using `xgettext`_ or some high level wrappers such as `intltool`_.
+* :file:`LANGUAGE.po` contains strings with a translation to single language. It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. You can create new language files using `msginit`_ or within Weblate.
+* :file:`LANGUAGE.mo` contains binary representation of :file:`LANGUAGE.po` and is used at application runtime. Typically it is not kept under version control, but generated at compilation time using `msgfmt`_. In case you want to have it in the version control, you can generate it in Weblate using :ref:`addon-weblate.gettext.mo` addon.
+
+Overall the GNU Gettext workflow looks like this:
+
+.. graphviz::
+
+    digraph translations {
+        graph [fontname = "sans-serif"];
+        node [fontname = "sans-serif"];
+        edge [fontname = "monospace"];
+
+        "Source code" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+        "PACKAGE.pot" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+        "LANGUAGE.po" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+        "LANGUAGE.mo" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+
+        "Source code" -> "PACKAGE.pot" [label=" xgettext "];
+        "PACKAGE.pot" -> "LANGUAGE.po" [label=" msgmerge "];
+        "LANGUAGE.po" -> "LANGUAGE.mo" [label=" msgfmt "];
+    }
+
+
+
+
 .. seealso::
 
-   `Overview of GNU gettext <https://www.gnu.org/software/gettext/manual/html_node/Overview.html>`_
+   `Overview of GNU Gettext <https://www.gnu.org/software/gettext/manual/html_node/Overview.html>`_
 
 Sample program
 ++++++++++++++
@@ -62,7 +93,7 @@ The simple program in C using Gettext might look like following:
 Extracting translatable strings
 +++++++++++++++++++++++++++++++
 
-Once you have code using the gettext calls, you can use :program:`xgettext` to
+Once you have code using the gettext calls, you can use `xgettext`_ to
 extract messages from it and store them into a `.pot
 <https://www.gnu.org/software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:
 
@@ -76,8 +107,8 @@ extract messages from it and store them into a `.pot
     `pybabel`_.
 
 This creates a template file, which you can use for starting new translations
-(using :program:`msginit`) or updating existing ones after code change (you
-would use :program:`msgmerge` for that). The resulting file is simply
+(using `msginit`_) or updating existing ones after code change (you
+would use `msgmerge`_ for that). The resulting file is simply
 a structured text file:
 
 .. code-block:: po
@@ -172,7 +203,7 @@ Updating strings
 ++++++++++++++++
 
 Once you add more strings or change some strings in your program, you execute again
-:program:`xgettext` which regenerates the template file:
+`xgettext`_ which regenerates the template file:
 
 .. code-block:: console
 
@@ -214,5 +245,9 @@ And that's it, you're now ready to start translating your software!
     GitHub: <https://github.com/WeblateOrg/hello>.
 
 .. _GNU Gettext: https://www.gnu.org/software/gettext/
+.. _xgettext: https://www.gnu.org/software/gettext/manual/html_node/xgettext-Invocation.html
+.. _msgmerge: https://www.gnu.org/software/gettext/manual/html_node/msgmerge-Invocation.html
+.. _msgfmt: https://www.gnu.org/software/gettext/manual/html_node/msgfmt-Invocation.html
+.. _msginit: https://www.gnu.org/software/gettext/manual/html_node/msginit-Invocation.html
 .. _intltool: https://freedesktop.org/wiki/Software/intltool/
 .. _pybabel: http://babel.pocoo.org/
