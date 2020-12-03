@@ -22,7 +22,9 @@
 import gettext
 from io import StringIO
 from itertools import chain
+from unittest import SkipTest
 
+from django.conf import settings
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
@@ -247,6 +249,39 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
             source=Plural.SOURCE_DEFAULT,
         )
         self.run_create("zh-rCN", "zh_CN", "ltr", "0", "Chinese (zh_CN)", False)
+
+    def test_case_sensitive_fuzzy_get(self):
+        """Test handling of manually created zh-TW, zh-TW and zh_TW languages."""
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            raise SkipTest("Not supported on MySQL")
+
+        language = Language.objects.create(
+            code="zh_TW", name="Chinese (Taiwan)"
+        )
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create("zh_TW", "zh_TW", "ltr", "0", "Chinese (Taiwan) (zh_TW)", False)
+        language = Language.objects.create(code="zh-TW", name="Chinese Taiwan")
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create("zh-TW", "zh-TW", "ltr", "0", "Chinese Taiwan (zh-TW)", False)
+        language = Language.objects.create(
+            code="zh-tw", name="Traditional Chinese"
+        )
+        language.plural_set.create(
+            number=0,
+            formula="0",
+            source=Plural.SOURCE_DEFAULT,
+        )
+        self.run_create(
+            "zh-tw", "zh-tw", "ltr", "0", "Traditional Chinese (zh-tw)", False
+        )
 
 
 class CommandTest(BaseTestCase):

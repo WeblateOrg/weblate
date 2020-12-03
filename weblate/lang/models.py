@@ -183,7 +183,9 @@ class LanguageQuerySet(models.QuerySet):
         expanded_code = None
 
         lookups = [
-            # First try getting language as is
+            # First try getting language as is (case-sensitive)
+            Q(code=code),
+            # Then try getting language as is (case-insensitive)
             Q(code__iexact=code),
             # Replace dash with underscore (for things as zh_Hant)
             Q(code__iexact=code.replace("-", "_")),
