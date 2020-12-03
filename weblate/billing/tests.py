@@ -436,7 +436,7 @@ class HostingTest(RepoTestCase):
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
-            mail.outbox[0].subject, "[Weblate] Hosting request for Test (Libre)"
+            mail.outbox[0].subject, "[Weblate] Hosting request for Test (Libre, trial)"
         )
         self.assertIn("testuser", mail.outbox[0].body)
         self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
