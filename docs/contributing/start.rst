@@ -93,8 +93,16 @@ parameter and then specify any :djadmin:`django:test` parameters, for example:
 
    ./rundev.sh test --failfast weblate.trans
 
-Be careful that your Docker containers are up and running before running the tests.
-You can check that by running the ``docker ps`` command.
+.. note::
+
+   Be careful that your Docker containers are up and running before running the
+   tests. You can check that by running the ``docker ps`` command.
+
+To display the logs:
+
+.. code-block:: sh
+
+   ./rundev.sh logs
 
 To stop the background containers run:
 

@@ -13,8 +13,7 @@ services:
   weblate:
     image: weblate-dev:latest
     build:
-      context: ../
-      dockerfile: dev-docker/Dockerfile
+      context: ./weblate-dev/
       args:
         USER_ID: ${USER_ID}
         GROUP_ID: ${GROUP_ID}
@@ -37,7 +36,7 @@ services:
     env_file:
       - ./environment
   database:
-    image: postgres:11-alpine
+    image: postgres:12-alpine
     env_file:
       - ./environment
     volumes:
@@ -45,7 +44,7 @@ services:
       - ./postgres-init:/docker-entrypoint-initdb.d
     restart: always
   cache:
-    image: redis:4-alpine
+    image: redis:6-alpine
     restart: always
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
