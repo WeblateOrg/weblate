@@ -175,34 +175,28 @@ translators to translate into additional languages.
 .. graphviz::
 
     digraph translations {
-        graph [fontname = "sans-serif"];
-        node [fontname = "sans-serif"];
-        edge [fontname = "sans-serif"];
+        graph [fontname = "sans-serif", fontsize=10];
+        node [fontname = "sans-serif", fontsize=10, margin=0.1, height=0, style=filled, fillcolor=white, shape=note];
+        edge [fontname = "sans-serif", fontsize=10];
 
         subgraph cluster_dev {
             style=filled;
             color=lightgrey;
-            node [style=filled,fillcolor=white];
 
             label = "Development process";
 
-            "Developers" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+            "Developers" [shape=box, fillcolor="#144d3f", fontcolor=white];
             "Developers" -> "Intermediate file";
-            "Intermediate file" [shape=note];
         }
 
         subgraph cluster_l10n {
             style=filled;
             color=lightgrey;
-            node [style=filled,fillcolor=white];
 
             label = "Localization process";
 
-            "Translators" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
-            "Editors" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
-
-            "Monolingual base language file" [shape=note];
-            "Translation language file" [shape=note];
+            "Translators" [shape=box, fillcolor="#144d3f", fontcolor=white];
+            "Editors" [shape=box, fillcolor="#144d3f", fontcolor=white];
 
             "Editors" -> "Monolingual base language file";
             "Translators" -> "Translation language file";

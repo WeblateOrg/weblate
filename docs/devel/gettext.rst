@@ -39,14 +39,9 @@ Overall the GNU Gettext workflow looks like this:
 .. graphviz::
 
     digraph translations {
-        graph [fontname = "sans-serif"];
-        node [fontname = "sans-serif"];
-        edge [fontname = "monospace"];
-
-        "Source code" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
-        "PACKAGE.pot" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
-        "LANGUAGE.po" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
-        "LANGUAGE.mo" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+        graph [fontname = "sans-serif", fontsize=10];
+        node [fontname = "sans-serif", fontsize=10, shape=note, margin=0.1, height=0];
+        edge [fontname = "monospace", fontsize=10];
 
         "Source code" -> "PACKAGE.pot" [label=" xgettext "];
         "PACKAGE.pot" -> "LANGUAGE.po" [label=" msgmerge "];

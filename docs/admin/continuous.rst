@@ -19,12 +19,12 @@ This is the process:
 .. graphviz::
 
     digraph translations {
-        graph [fontname = "sans-serif"];
-        node [fontname = "sans-serif"];
-        edge [fontname = "sans-serif"];
+        graph [fontname = "sans-serif", fontsize=10];
+        node [fontname = "sans-serif", fontsize=10, margin=0.1, height=0];
+        edge [fontname = "sans-serif", fontsize=10];
 
-        "Developers" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
-        "Translators" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+        "Developers" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
+        "Translators" [shape=box, fillcolor="#144d3f", fontcolor=white, style=filled];
 
         "Developers" -> "VCS repository" [label=" 1. Push "];
 
