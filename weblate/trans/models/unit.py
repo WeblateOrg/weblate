@@ -203,6 +203,14 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             choice
         )
 
+    @cached_property
+    def source_context_lookup(self):
+        return {(unit.context, unit.source): unit for unit in self}
+
+    @cached_property
+    def source_lookup(self):
+        return {unit.source: unit for unit in self}
+
     def get_unit(self, ttunit):
         """Find unit matching translate-toolkit unit.
 
@@ -211,21 +219,28 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         source = ttunit.source
         context = ttunit.context
 
-        params = [{"source": source, "context": context}, {"source": source}]
-        # Try empty context first before matching any context
-        if context != "":
-            params.insert(1, {"source": source, "context": ""})
-        # Special case for XLIFF
+        contexts = [context]
+        # Special case for XLIFF, strip file
         if "///" in context:
-            params.insert(1, {"source": source, "context": context.split("///", 1)[1]})
+            contexts.append(context.split("///", 1)[1])
 
-        for param in params:
+        # Try with empty context if exact context is not found, useful for importing
+        # monolingual to bilingual
+        if context:
+            contexts.append("")
+
+        # Lookups based on context
+        for match in contexts:
             try:
-                return self.get(**param)
-            except (Unit.DoesNotExist, Unit.MultipleObjectsReturned):
+                return self.source_context_lookup[(match, source)]
+            except KeyError:
                 continue
 
-        raise Unit.DoesNotExist("No matching unit found!")
+        # Fallback to source string only lookup
+        try:
+            return self.source_lookup[source]
+        except KeyError:
+            raise Unit.DoesNotExist("No matching unit found!")
 
     def order(self):
         return self.order_by("-priority", "position")

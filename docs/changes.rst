@@ -20,6 +20,7 @@ Not yet released.
 * Extended translation statistics API.
 * Improved other translations tab while translating.
 * Added tasks API.
+* Improved file upload performance.
 
 Weblate 4.3.2
 -------------

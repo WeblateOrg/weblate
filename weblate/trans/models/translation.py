@@ -774,9 +774,11 @@ class Translation(
         add_fuzzy = method == "fuzzy"
         add_approve = method == "approve"
 
+        unit_set = self.unit_set.all()
+
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
-                unit = self.unit_set.get_unit(unit2)
+                unit = unit_set.get_unit(unit2)
             except Unit.DoesNotExist:
                 not_found += 1
                 continue
@@ -825,10 +827,12 @@ class Translation(
         skipped = 0
         accepted = 0
 
+        unit_set = self.unit_set.all()
+
         for _unused, unit in store.iterate_merge(fuzzy):
             # Grab database unit
             try:
-                dbunit = self.unit_set.get_unit(unit)
+                dbunit = unit_set.get_unit(unit)
             except Unit.DoesNotExist:
                 not_found += 1
                 continue
