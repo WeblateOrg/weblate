@@ -190,7 +190,8 @@ class Billing(models.Model):
             base = ", ".join(x.get_author_name(False) for x in owners)
         else:
             base = "Unassigned"
-        return f"{base} ({self.plan})"
+        trial = ", trial" if self.is_trial else ""
+        return f"{base} ({self.plan}{trial})"
 
     def save(
         self,
