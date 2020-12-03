@@ -106,7 +106,7 @@ class MultiParser:
 
 class AppStoreParser(MultiParser):
     filenames = (
-        ("title.txt", "max-length:30"),
+        ("title.txt", "max-length:50"),
         ("short[_-]description.txt", "max-length:80"),
         ("full[_-]description.txt", "max-length:4000"),
         ("subtitle.txt", "max-length:80"),
