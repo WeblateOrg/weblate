@@ -324,7 +324,6 @@ def check_upload_method_permissions(user, translation, method: str):
     if method == "source":
         return (
             translation.is_source
-            and not translation.filename
             and user.has_perm("upload.perform", translation)
             and hasattr(translation.component.file_format_cls, "update_bilingual")
         )
