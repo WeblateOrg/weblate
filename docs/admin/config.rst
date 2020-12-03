@@ -477,7 +477,8 @@ Example:
 
 .. seealso::
 
-   :djadmin:`install_addon`
+   :djadmin:`install_addon`,
+   :setting:`WEBLATE_ADDONS`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
 
@@ -1961,9 +1962,16 @@ example:
         "weblate.addons.example.ExampleAddon",
     )
 
+.. note::
+
+    Removing the addon from the list does not uninstall it from the components.
+    Weblate will crash in that case. Please uninstall addon form all components
+    prior to removing it from this list.
+
 .. seealso::
 
-    :ref:`addons`
+    :ref:`addons`,
+    :setting:`DEFAULT_ADDONS`
 
 .. setting:: WEBLATE_EXPORTERS
 
