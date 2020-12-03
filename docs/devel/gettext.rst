@@ -25,6 +25,10 @@ As a widely spread tool, it has many wrappers which make its usage really
 simple, instead of manual invoking of Gettext described below, you might want
 to try one of them, for example `intltool`_.
 
+.. seealso::
+
+   `Overview of GNU gettext <https://www.gnu.org/software/gettext/manual/html_node/Overview.html>`_
+
 Sample program
 ++++++++++++++
 
