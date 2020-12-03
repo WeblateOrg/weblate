@@ -17,23 +17,54 @@ The most comfortable approach to get started with Weblate development is to
 follow :ref:`quick-source`. It will get you a virtual env with editable Weblate
 sources.
 
-To install all dependencies useful for development, do:
+1. Clone Weblate source:
 
-.. code-block:: sh
+   .. code-block:: sh
 
-   pip install -r requirements-dev.txt
+      git clone https://github.com/WeblateOrg/weblate.git
+      cd weblate
 
-To start a development server run:
+2. Create an virtualenv:
 
-.. code-block:: sh
+   .. code-block:: sh
 
-   weblate runserver
+      virtualenv .venv
+      .venv/bin/activate
 
-Depending on your configuration you might also want to start Celery workers:
+3. Install Weblate (this will need some system deps, see :ref:`quick-source`):
 
-.. code-block:: sh
+   .. code-block:: sh
 
-   ./weblate/examples/celery start
+      pip install -e .
+
+3. Install all dependencies useful for development:
+
+   .. code-block:: sh
+
+      pip install -r requirements-dev.txt
+
+4. Start a development server run:
+
+   .. code-block:: sh
+
+      weblate runserver
+
+5. Depending on your configuration you might also want to start Celery workers:
+
+   .. code-block:: sh
+
+      ./weblate/examples/celery start
+
+6. To run test (see :ref:`local-tests` for more details):
+
+   .. code-block:: sh
+
+      . scripts/test-database
+      ./manage.py test
+
+.. seealso::
+
+   :ref:`quick-source`
 
 .. _dev-docker:
 

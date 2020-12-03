@@ -40,6 +40,8 @@ The simple execution can look like:
    ./ci/run-docs
    ./ci/run-setup
 
+.. _local-tests:
+
 Local testing
 +++++++++++++
 
