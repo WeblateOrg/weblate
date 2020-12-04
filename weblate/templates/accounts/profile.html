@@ -261,10 +261,6 @@
 <td>
     {{ user.auth_token.key }}
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
-</td>
-</tr>
-<tr>
-<td colspan="2">
     <a class="pull-right flip btn btn-primary link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
 </tr>
@@ -273,7 +269,7 @@
 <td><a href="{{ site_url }}{% url 'api:api-root' %}">{{ site_url }}{% url 'api:api-root' %}</a></td>
 </tr>
 <tr>
-<th colspan="2">{% trans "API usage example:" %}</th>
+<th colspan="2">{% documentation_icon 'api' right=True %}{% trans "API usage example:" %}</th>
 </tr>
 <tr>
 <td colspan="2">
@@ -285,7 +281,7 @@ curl \
 </td>
 </tr>
 <tr>
-<th colspan="2">{% trans "CLI usage example:" %}</th>
+<th colspan="2">{% documentation_icon 'wlc' right=True %}{% trans "CLI usage example:" %}</th>
 </tr>
 <tr>
 <td colspan="2">
