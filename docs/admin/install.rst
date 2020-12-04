@@ -410,6 +410,11 @@ Following configuration is recommended for Weblate:
 * Set the isolation level to ``READ COMMITTED``.
 * The SQL mode should be set to ``STRICT_TRANS_TABLES``.
 
+.. hint::
+
+   In case you are getting ``#1071 - Specified key was too long; max key length
+   is 767 bytes`` error, please set ``Innodb_large_prefix`` as described above.
+
 Other configurations
 --------------------
 
