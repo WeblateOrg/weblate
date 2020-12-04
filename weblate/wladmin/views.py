@@ -427,23 +427,23 @@ def billing(request):
         )
     )
 
-    for billing in billings:
-        if billing.removal:
-            removal.append(billing)
-        elif billing.state == Billing.STATE_TRIAL:
+    for currrent in billings:
+        if currrent.removal:
+            removal.append(currrent)
+        elif currrent.state == Billing.STATE_TRIAL:
             if (
-                billing.plan
-                and billing.plan.price == 0
-                and billing.payment.get("libre_request")
+                currrent.plan
+                and currrent.plan.price == 0
+                and currrent.payment.get("libre_request")
             ):
-                pending.append(billing)
-            trial.append(billing)
-        elif billing.state == Billing.STATE_TERMINATED:
-            terminated.append(billing)
-        elif billing.plan.price:
-            paid.append(billing)
+                pending.append(currrent)
+            trial.append(currrent)
+        elif currrent.state == Billing.STATE_TERMINATED:
+            terminated.append(currrent)
+        elif currrent.plan.price:
+            paid.append(currrent)
         else:
-            free.append(billing)
+            free.append(currrent)
 
     return render(
         request,
