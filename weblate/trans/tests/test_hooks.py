@@ -739,8 +739,136 @@ PAGURE_PAYLOAD = r"""
 }
 """
 
+AZURE_PAYLOAD_FALLBACK = """
+{
+  "subscriptionId": "e40cce28-7b73-4d33-ada2-2f5bd5e070ce",
+  "notificationId": 18,
+  "id": "108f81f3-fc7a-4aef-b990-14a8a31de20f",
+  "eventType": "git.push",
+  "publisherId": "tfs",
+  "resource": {
+    "refUpdates": [
+      {
+        "name": "refs/heads/feat/localization",
+        "oldObjectId": "9e219f8adc6d2f42e9228d33aeacb227e74439de",
+        "newObjectId": "7d85491a4f0289f2ffcf70939b7c7160e8ce2865"
+      }
+    ],
+    "repository": {
+      "id": "278d5cd2-584d-4b63-824a-2ba458937249",
+      "name": "ATEST",
+      "url": "https://dev.azure.com/f/_apis/git/repositories/278d5cd2-584d-4b63",
+      "project": {
+        "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f",
+        "name": "p",
+        "url": "https://dev.azure.com/f/_apis/projects/be9b3917-87e6-42a4"
+      },
+      "defaultBranch": "refs/heads/master",
+      "remoteUrl": "https://devops.azure.com/f/p/_git/ATEST"
+    },
+    "pushId": 1,
+    "date": "2014-05-02T19:17:13.3309587Z",
+    "url": "https://dev.azure.com/f/_apis/git/repositories/278d5cd2-584d-4b63/pushes/1"
+  },
+  "resourceVersion": "1.0",
+  "resourceContainers": {
+    "collection": {
+      "id": "ce901e71-c714-4dcc-a641-7e73281fd0d5"
+    },
+    "account": {
+      "id": "f60924c9-19b8-461e-9c85-fab350512c61"
+    },
+    "project": {
+      "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f"
+    }
+  },
+  "createdDate": "2014-05-02T20:45:11.5664246Z"
+}
+"""
 
-AZURE_PAYLOAD = r"""
+AZURE_PAYLOAD_NEW = """
+{
+  "subscriptionId": "e40cce28-7b73-4d33-ada2-2f5bd5e070ce",
+  "notificationId": 18,
+  "id": "108f81f3-fc7a-4aef-b990-14a8a31de20f",
+  "eventType": "git.push",
+  "publisherId": "tfs",
+  "message": {
+    "text": "Jamal Hartnett pushed updates to ATEST:master.",
+    "html": "Jamal Hartnett pushed updates to ATEST:master.",
+    "markdown": "Jamal Hartnett pushed updates to `ATEST`:`master`."
+  },
+  "detailedMessage": {
+    "text": "Jamal Hartnett pushed a commit to ATEST:master.",
+    "html": "Jamal Hartnett pushed a commit to ",
+    "markdown": "Jamal Hartnett pushed a commit to [ATEST])"
+  },
+  "resource": {
+    "commits": [
+      {
+        "commitId": "33b55f7cb7e7e245323987634f960cf4a6e6bc74",
+        "author": {
+          "name": "Jamal Hartnett",
+          "email": "fabrikamfiber4@hotmail.com",
+          "date": "2015-02-25T19:01:00Z"
+        },
+        "committer": {
+          "name": "Jamal Hartnett",
+          "email": "fabrikamfiber4@hotmail.com",
+          "date": "2015-02-25T19:01:00Z"
+        },
+        "comment": "Fixed bug in web.config file",
+        "url": "https://f.visualstudio.com/c/_git/ATEST/commit/33b55f7cb7e7e2453239"
+      }
+    ],
+    "refUpdates": [
+      {
+        "name": "refs/heads/feat/localization",
+        "oldObjectId": "9e219f8adc6d2f42e9228d33aeacb227e74439de",
+        "newObjectId": "7d85491a4f0289f2ffcf70939b7c7160e8ce2865"
+      }
+    ],
+    "repository": {
+      "id": "278d5cd2-584d-4b63-824a-2ba458937249",
+      "name": "ATEST",
+      "url": "https://dev.azure.com/f/_apis/git/repositories/278d5cd2-584d-4b63",
+      "project": {
+        "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f",
+        "name": "p",
+        "url": "https://dev.azure.com/f/_apis/projects/be9b3917-87e6-42a4",
+        "state": "wellFormed",
+        "visibility": "unchanged",
+        "lastUpdateTime": "0001-01-01T00:00:00"
+      },
+      "defaultBranch": "refs/heads/master",
+      "remoteUrl": "https://dev.azure.com/f/p/_git/ATEST"
+    },
+    "pushedBy": {
+      "displayName": "Jamal Hartnett",
+      "id": "00067FFED5C7AF52@Live.com",
+      "uniqueName": "fabrikamfiber4@hotmail.com"
+    },
+    "pushId": 1,
+    "date": "2014-05-02T19:17:13.3309587Z",
+    "url": "https://dev.azure.com/f/_apis/git/repositories/278d5cd2-584d-4b63/pushes/1"
+  },
+  "resourceVersion": "1.0",
+  "resourceContainers": {
+    "collection": {
+      "id": "ce901e71-c714-4dcc-a641-7e73281fd0d5"
+    },
+    "account": {
+      "id": "f60924c9-19b8-461e-9c85-fab350512c61"
+    },
+    "project": {
+      "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f"
+    }
+  },
+  "createdDate": "2014-05-02T20:45:11.5664246Z"
+}
+"""
+
+AZURE_PAYLOAD_OLD = """
 {
   "subscriptionId": "00000000-0000-0000-0000-000000000000",
   "notificationId": 1,
@@ -787,8 +915,8 @@ AZURE_PAYLOAD = r"""
       "name": "ATEST",
       "url": "https://f.visualstudio.com/c/_apis/git/repositories/278d5cd2-584d-4b63",
       "project": {
-        "id": "6ce954b1-ce1f-45d1-b94d-e6bf2464ba2c",
-        "name": "ATEST",
+        "id": "be9b3917-87e6-42a4-a549-2bc06a7a878f",
+        "name": "c",
         "url": "https://f.visualstudio.com/c/_apis/projects/6ce954b1-ce1f-45d1",
         "state": "wellFormed",
         "visibility": "unchanged",
@@ -1562,15 +1690,58 @@ class AzureBackendTest(HookBackendTestCase):
     def test_ping(self):
         self.assert_hook('{"diagnostics": "ping"}', None)
 
-    def test_git(self):
+    def test_git_old(self):
         url = "https://f.visualstudio.com/c/_git/ATEST"
         self.assert_hook(
-            AZURE_PAYLOAD,
+            AZURE_PAYLOAD_OLD,
             {
                 "branch": "master",
                 "full_name": "ATEST",
                 "repo_url": url,
-                "repos": [url],
+                "repos": [
+                    "https://dev.azure.com/f/c/_git/ATEST",
+                    (
+                        "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
+                        "_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    ),
+                    "git@ssh.dev.azure.com:v3/f/c/ATEST",
+                    "https://f.visualstudio.com/c/_git/ATEST",
+                    "f@vs-ssh.visualstudio.com:v3/f/c/ATEST",
+                ],
+                "service_long_name": "Azure",
+            },
+        )
+
+    def test_git_new(self):
+        self.assert_hook(
+            AZURE_PAYLOAD_NEW,
+            {
+                "branch": "feat/localization",
+                "full_name": "ATEST",
+                "repo_url": "https://dev.azure.com/f/p/_git/ATEST",
+                "repos": [
+                    "https://dev.azure.com/f/p/_git/ATEST",
+                    (
+                        "https://dev.azure.com/f/be9b3917-87e6-42a4-a549-2bc06a7a878f/"
+                        "_git/278d5cd2-584d-4b63-824a-2ba458937249"
+                    ),
+                    "git@ssh.dev.azure.com:v3/f/p/ATEST",
+                    "https://f.visualstudio.com/p/_git/ATEST",
+                    "f@vs-ssh.visualstudio.com:v3/f/p/ATEST",
+                ],
+                "service_long_name": "Azure",
+            },
+        )
+
+    def test_git_fallback(self):
+        http_url = "https://devops.azure.com/f/p/_git/ATEST"
+        self.assert_hook(
+            AZURE_PAYLOAD_FALLBACK,
+            {
+                "branch": "feat/localization",
+                "full_name": "ATEST",
+                "repo_url": http_url,
+                "repos": [http_url],
                 "service_long_name": "Azure",
             },
         )

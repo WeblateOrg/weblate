@@ -71,6 +71,14 @@ PAGURE_REPOS = (
     "ssh://git@{server}/{project}.git",
 )
 
+AZURE_REPOS = (
+    "https://dev.azure.com/{organization}/{project}/_git/{repository}",
+    "https://dev.azure.com/{organization}/{projectId}/_git/{repositoryId}",
+    "git@ssh.dev.azure.com:v3/{organization}/{project}/{repository}",
+    "https://{organization}.visualstudio.com/{project}/_git/{repository}",
+    "{organization}@vs-ssh.visualstudio.com:v3/{organization}/{project}/{repository}",
+)
+
 HOOK_HANDLERS = {}
 
 
@@ -465,11 +473,51 @@ def pagure_hook_helper(data, request):
 def azure_hook_helper(data, request):
     if data.get("eventType") != "git.push":
         return None
+
     http_url = data["resource"]["repository"]["remoteUrl"]
+    branch = re.sub(r"^refs/heads/", "", data["resource"]["refUpdates"][0]["name"])
+    project = data["resource"]["repository"]["project"]["name"]
+    projectid = data["resource"]["repository"]["project"]["id"]
+    repository = data["resource"]["repository"]["name"]
+    repositoryid = data["resource"]["repository"]["id"]
+
+    match = re.match(
+        r"^https?:\/\/dev\.azure\.com\/"
+        r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]*)",
+        http_url,
+    )
+
+    # Fallback to support old url structure {organization}.visualstudio.com
+    if match is None:
+        match = re.match(
+            r"^https?:\/\/"
+            r"(?P<organization>[a-zA-Z0-9]+[a-zA-Z0-9-]*[a-zA-Z0-9]*)"
+            r"\.visualstudio\.com",
+            http_url,
+        )
+    organization = None
+
+    if match is not None:
+        organization = match.group("organization")
+
+    if organization is not None:
+        repos = [
+            repo.format(
+                organization=organization,
+                project=project,
+                projectId=projectid,
+                repository=repository,
+                repositoryId=repositoryid,
+            )
+            for repo in AZURE_REPOS
+        ]
+    else:
+        repos = [http_url]
+
     return {
         "service_long_name": "Azure",
         "repo_url": http_url,
-        "repos": [http_url],
-        "branch": data["resource"]["refUpdates"][0]["name"].rsplit("/")[-1],
-        "full_name": data["resource"]["repository"]["name"],
+        "repos": repos,
+        "branch": branch,
+        "full_name": repository,
     }
