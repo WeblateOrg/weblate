@@ -876,7 +876,8 @@ class Translation(
             # file format parameters
             args = ["--previous"]
             try:
-                addon_config = component.addon_set.get(name="weblate.gettext.customize")
+                addon = component.addon_set.get(name="weblate.gettext.customize")
+                addon_config = addon.configuration
                 if addon_config["width"] != 77:
                     args.append("--no-wrap")
             except ObjectDoesNotExist:
