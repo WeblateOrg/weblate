@@ -33,22 +33,6 @@ LICENSE_URLS = {
     name: url
     for name, _verbose, url, _is_libre in chain(LICENSES, settings.LICENSE_EXTRA)
 }
-LOWER_LICENSES = {license[0].lower(): license[0] for license in LICENSES}
-
-FIXUPS = (
-    ("polymer license", "bsd-3-clause"),
-    ("apache license", "apache"),
-    ("bsd beerware derivative", "beerware"),
-    ("gnu general public licence", "gpl-2.0-or-later"),
-    ("mit like license", "mit"),
-    ("-2+", "-2.0+"),
-    ("v2", "-2.0"),
-    ("v3", "-3.0"),
-    ("+", "-or-later"),
-    ("gnu ", ""),
-    (" ", "-"),
-    ("--", "-"),
-)
 
 
 def is_libre(name):
@@ -77,37 +61,3 @@ def get_license_choices():
         result.append((name, verbose))
 
     return result
-
-
-def convert_license(license):
-    """Convert license to SPDX identifier, used in migration."""
-    license = license.strip().lower()
-
-    if not license:
-        return ""
-
-    if " or " in license:
-        license = license.split(" or ")[0]
-
-    if license in LOWER_LICENSES:
-        return LOWER_LICENSES[license]
-
-    # Simply tokenize
-    for token in license.split():
-        token = token.strip("+")
-        if license in LOWER_LICENSES:
-            return LOWER_LICENSES[license]
-
-    # Some replacements
-    for fixup, replacement in FIXUPS:
-        if fixup in license:
-            license = license.replace(fixup, replacement)
-            if license in LOWER_LICENSES:
-                return LOWER_LICENSES[license]
-
-    # Append only
-    license += "-only"
-    if license in LOWER_LICENSES:
-        return LOWER_LICENSES[license]
-
-    return "proprietary"
