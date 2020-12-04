@@ -13,9 +13,6 @@
 import os
 import sys
 
-import sphinx.transforms.i18n
-import sphinx.util.i18n
-
 # -- Path setup --------------------------------------------------------------
 
 # sys.path.insert(0, os.path.abspath('.'))
@@ -23,11 +20,6 @@ import sphinx.util.i18n
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
 # Weblate code
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-# Hacky way to have all localized content in single domain
-sphinx.transforms.i18n.docname_to_domain = (
-    sphinx.util.i18n.docname_to_domain
-) = lambda docname, compact: "docs"
 
 
 def setup(app):
@@ -250,3 +242,6 @@ autodoc_mock_imports = [
     "weblate.trans.models",
     "weblate.lang.models",
 ]
+
+# Gettext / i18n
+gettext_compact = "docs"
