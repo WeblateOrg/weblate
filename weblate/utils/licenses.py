@@ -24,9 +24,14 @@ from django.conf import settings
 
 from weblate.utils.licensedata import LICENSES
 
-LIBRE_IDS = {license[0] for license in LICENSES if license[3]}
+LIBRE_IDS = {
+    name
+    for name, _verbose, _url, is_libre in chain(LICENSES, settings.LICENSE_EXTRA)
+    if is_libre
+}
 LICENSE_URLS = {
-    license[0]: license[2] for license in chain(LICENSES, settings.LICENSE_EXTRA)
+    name: url
+    for name, _verbose, url, _is_libre in chain(LICENSES, settings.LICENSE_EXTRA)
 }
 LOWER_LICENSES = {license[0].lower(): license[0] for license in LICENSES}
 
@@ -46,13 +51,13 @@ FIXUPS = (
 )
 
 
-def is_libre(license):
-    return license in LIBRE_IDS
+def is_libre(name):
+    return name in LIBRE_IDS
 
 
-def get_license_url(license):
+def get_license_url(name):
     try:
-        return LICENSE_URLS[license]
+        return LICENSE_URLS[name]
     except KeyError:
         return None
 
@@ -63,13 +68,13 @@ def get_license_choices():
         result = [("proprietary", "Proprietary")]
     else:
         result = []
-    for license in LICENSES:
-        if license_filter is not None and license[0] not in license_filter:
+    for name, verbose, _url, _is_libre in LICENSES:
+        if license_filter is not None and name not in license_filter:
             continue
-        result.append((license[0], license[1]))
+        result.append((name, verbose))
 
-    for license in settings.LICENSE_EXTRA:
-        result.append((license[0], license[1]))
+    for name, verbose, _url, _is_libre in settings.LICENSE_EXTRA:
+        result.append((name, verbose))
 
     return result
 
