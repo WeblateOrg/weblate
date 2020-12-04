@@ -8,6 +8,8 @@ instance up and running in seconds. All of Weblate’s dependencies are
 already included. PostgreSQL is set up as the default database and
 persistent volume claims are used.
 
+You can find the teplate at <https://github.com/WeblateOrg/helm/tree/master/charts/weblate>.
+
 Installation
 ------------
 
