@@ -30,6 +30,7 @@ class WeblateManagementUtility(ManagementUtility):
         self.developer_mode = developer_mode
 
     def fetch_command(self, subcommand):
+        # Block usage of some commands
         if not self.developer_mode and subcommand in RESTRICTED_COMMANDS:
             sys.stderr.write("Blocked command: %r\n" % subcommand)
             sys.stderr.write("This command is restricted for developers only.\n")
@@ -38,4 +39,18 @@ class WeblateManagementUtility(ManagementUtility):
                 "using manage.py from the Weblate source code.\n"
             )
             sys.exit(1)
-        return super().fetch_command(subcommand)
+
+        # Fetch command class
+        command = super().fetch_command(subcommand)
+
+        # Monkey patch it's output
+        original_notice = command.style.NOTICE
+
+        def patched_notice(txt):
+            return original_notice(
+                txt.replace("python manage.py migrate", "weblate migrate")
+            )
+
+        command.style.NOTICE = patched_notice
+
+        return command
