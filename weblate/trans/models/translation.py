@@ -883,7 +883,8 @@ class Translation(
             except ObjectDoesNotExist:
                 pass
             try:
-                addon_config = component.addon_set.get(name="weblate.gettext.msgmerge")
+                addon = component.addon_set.get(name="weblate.gettext.msgmerge")
+                addon_config = addon.configuration
                 if not addon_config.get("fuzzy", True):
                     args.append("--no-fuzzy-matching")
                 if addon_config.get("previous", True):
