@@ -51,8 +51,8 @@ class AutoTranslateAddon(BaseAddon):
         for translation in component.translation_set.iterator():
             if translation.is_source:
                 continue
-            transaction.on_commit(
-                lambda: auto_translate.delay(
-                    None, translation.pk, **self.instance.configuration
-                )
-            )
+
+            def callback(pk=translation.pk):
+                auto_translate.delay(None, pk, **self.instance.configuration)
+
+            transaction.on_commit(callback)
