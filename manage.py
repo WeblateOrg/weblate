@@ -29,4 +29,4 @@ if __name__ == "__main__":
 
     from weblate.runner import main
 
-    main()
+    main(developer_mode=True)
