@@ -51,33 +51,20 @@ discover all others.
 
 .. hint::
 
-    Would you prefer Sphinx to generate just single PO file? There is a hacky
-    way to achieve this (used by Weblate documentation) by overriding Sphinx
-    way to get a Gettext domain of a document. Place following snippet to your
-    Sphinx configuration in :file:`conf.py`:
+   Would you prefer Sphinx to generate just single PO file? Since Sphinx 3.3.0
+   you can achieve this using:
 
-    .. code-block:: python
+   .. code-block:: python
 
-        import sphinx.transforms.i18n
-        import sphinx.util.i18n
-
-        # Hacky way to have all localized content in single domain
-        sphinx.transforms.i18n.docname_to_domain = (
-            sphinx.util.i18n.docname_to_domain
-        ) = lambda docname, compact: "docs"
+      gettext_compact = "docs"
 
 
-    This might be directly supported by Sphinx in future releases, see
-    <https://github.com/sphinx-doc/sphinx/issues/784>.
+You can find several documentation projects being translated using this approach:
 
+* `Weblate documentation <https://docs.weblate.org/>`_ (you are reading that now)
+* `Godot engine documentation <https://docs.godotengine.org/en/stable/>`_
+* `Gallette documentation <https://doc.galette.eu/>`_
+* `phpMyAdmin documentation <https://docs.phpmyadmin.net/>`_
 
-.. seealso::
-
-    The `Odorik`_ python module documentation is built using Sphinx, Read the
-    Docs and translated using Weblate.
-
-
-
-.. _Odorik: https://github.com/nijel/odorik/
 .. _Sphinx: https://www.sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.org/
