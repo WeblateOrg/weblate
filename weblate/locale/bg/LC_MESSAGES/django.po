@@ -7,13 +7,14 @@
 # Anonymous <noreply@weblate.org>, 2020.
 # Whod <whodizhod@gmail.com>, 2020.
 # Пламен <plamen_mbx@yahoo.com>, 2020.
+# Любомир Василев <lyubomirv@gmx.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-10-17 09:26+0000\n"
-"Last-Translator: Пламен <plamen_mbx@yahoo.com>\n"
+"PO-Revision-Date: 2020-12-05 22:09+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.1-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -207,16 +208,12 @@ msgid "Managed projects"
 msgstr "Управлявани проекти"
 
 #: weblate/accounts/forms.py:681
-#, fuzzy
-#| msgid "Project"
 msgid "Project: {}"
-msgstr "Проект"
+msgstr "Проект: {}"
 
 #: weblate/accounts/forms.py:682
-#, fuzzy
-#| msgid "Component"
 msgid "Component: {}"
-msgstr "Компонент"
+msgstr "Компонент: {}"
 
 #: weblate/accounts/forms.py:688
 #, fuzzy
@@ -436,10 +433,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Съгласие с документа за „Условията на услугата“ — {date}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Дарете на Weblate на {0}"
+msgstr "Поканен в Weblate от {username}."
 
 #: weblate/accounts/models.py:100
 #, fuzzy
@@ -535,22 +531,15 @@ msgid "Editor link"
 msgstr "Връзка към редактора"
 
 #: weblate/accounts/models.py:327
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
 "Въведете свой адрес, който да бъде използван като връзка за достъп до "
-"изходния код. Можете да използвате {{ branch }} за клона, {{ filename }} за "
-"файла и {{ line }} за името, а те ще бъдат заместени с истинските "
-"стойности.. Обикновено нещо като: editor://open/?file={{ filename }}"
-"&line={{ line }} е добър вариант."
+"изходния код. Можете да използвате {{branch}} за клона, {{filename}} за "
+"файла и {{line}} за номера на ред, а те ще бъдат заместени с истинските "
+"стойности."
 
 #: weblate/accounts/models.py:336
 #, fuzzy
@@ -2822,20 +2811,16 @@ msgid "Translation contains double space"
 msgstr "Коментарът към превода беше изтрит."
 
 #: weblate/checks/chars.py:168
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "Несъответствие на знака „\\n“"
+msgstr "Несъответстваща точка"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "Един от текстовете — оригиналният или преводът — не завършва с точка"
 
 #: weblate/checks/chars.py:210
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "Несъответствие на знака „\\n“"
+msgstr "Несъответстващо двоеточие"
 
 #: weblate/checks/chars.py:211
 #, fuzzy
@@ -2872,10 +2857,8 @@ msgstr ""
 "запетая"
 
 #: weblate/checks/chars.py:298
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "Несъответствие на знака „\\n“"
+msgstr "Несъответстващо многоточие"
 
 #: weblate/checks/chars.py:299
 msgid "Source and translation do not both end with an ellipsis"
@@ -2896,11 +2879,10 @@ msgid "Mismatching line breaks"
 msgstr ""
 
 #: weblate/checks/chars.py:327
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
 msgstr ""
-"Броят на знаците „\\n“ в превода не е същият като този в оригиналния текст"
+"Броят на знаците за нов ред в превода не е същият като този в оригиналния "
+"текст"
 
 #: weblate/checks/chars.py:334 weblate/trans/autofixes/chars.py:43
 msgid "Zero-width space"
@@ -2919,10 +2901,8 @@ msgid "Translation should not exceed given length"
 msgstr "Преводът не трябва да превишава зададената дължина"
 
 #: weblate/checks/chars.py:369
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "Несъответствие на знака „\\n“"
+msgstr "Несъответстваща точка и запетая"
 
 #: weblate/checks/chars.py:370
 msgid "Source and translation do not both end with a semicolon"
@@ -3611,10 +3591,8 @@ msgid "TMX"
 msgstr ""
 
 #: weblate/formats/exporters.py:306
-#, fuzzy
-#| msgid "Gettext (PO)"
 msgid "gettext MO"
-msgstr "gettext (MO)"
+msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:378
 #, fuzzy
@@ -4555,21 +4533,15 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF проверката се провали. Заявката прекратена."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "You are seeing this message because this HTTPS site requires a 'Referer "
-#| "header' to be sent by your Web browser, but none was sent. This header is "
-#| "required for security reasons, to ensure that your browser is not being "
-#| "hijacked by third parties."
 msgid ""
 "This HTTPS site requires a 'Referer header' to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "that your browser is not being hijacked by third-parties."
 msgstr ""
-"Вие виждате това съобщение, защото този HTTPS сайт изисква 'Referer header' "
-"да бъде изпратен от вашият WEB браузър, но такъв не бе изпратен. Този "
-"header  е задължителен от съображения за сигурност, за да се гарантира, че "
-"вашият браузър не е компрометиран от трети страни."
+"Този уеб сайт използва HTTPS и съответно изисква заглавката „Referer header“ "
+"да бъде изпратена от браузъра, но такава не бе изпратена. Тази заглавка е "
+"задължителна от съображения за сигурност, за да се гарантира, че браузърът "
+"Ви не е превзет от недоброжелател."
 
 #: weblate/templates/403_csrf.html:13
 #, fuzzy
@@ -4916,18 +4888,15 @@ msgstr ""
 "регистрирайте се отново."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please contact us."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
-"Ако не получите е-писмото скоро, моля, проверете папката си с нежелана поща "
-"или се регистрирайте отново. Ако проблемът се повтори, моля, свържете се с "
-"нас."
+"Ако не го получите скоро, моля, проверете папката си с нежелана поща или се "
+"регистрирайте отново. Ако проблемът се повтори, моля, <a href=\""
+"%(contact_url)s\">свържете се с нас</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -5112,10 +5081,8 @@ msgid "Get started"
 msgstr "Състояние на услугата"
 
 #: weblate/templates/accounts/hosting.html:143
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Свържете се с нас за платен хостинг"
+msgstr "Търсите ли платен хостинг?"
 
 #: weblate/templates/accounts/hosting.html:146
 #, python-format
@@ -6379,10 +6346,8 @@ msgid "Progress"
 msgstr ""
 
 #: weblate/templates/component-progress.html:17
-#, fuzzy
-#| msgid "Component list name"
 msgid "Component is being updated…"
-msgstr "Име на списъка с компоненти"
+msgstr "Компонентът се обновява…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:63
 #, fuzzy
@@ -7084,11 +7049,7 @@ msgid "%(percent)s%%"
 msgstr "Проценти"
 
 #: weblate/templates/engage.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation and is <strong>%(percent)s%% complete</"
@@ -7098,18 +7059,16 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"<a href=\"%(url)s\">Проектът за превод на „%(project)s“</a> на български в "
-"момента съдържа %(total)s текста за превод и е завършен на %(percent)s%%."
+"Проектът за превод на „%(project)s“ в момента съдържа <strong>%(count)s "
+"текст</strong> за превод и е завършен на <strong>%(percent)s%% "
+"процента</strong>."
 msgstr[1] ""
-"<a href=\"%(url)s\">Проектът за превод на „%(project)s“</a> на български в "
-"момента съдържа %(total)s текста за превод и е завършен на %(percent)s%%."
+"Проектът за превод на „%(project)s“ в момента съдържа <strong>%(count)s "
+"текста</strong> за превод и е завършен на <strong>%(percent)s%% "
+"процента</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -7117,11 +7076,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"<a href=\"%(url)s\">Проектът за превод на „%(project)s“</a> на български в "
-"момента съдържа %(total)s текста за превод и е завършен на %(percent)s%%."
+"Проектът за превод на „%(project)s“ в момента съдържа <strong>%(count)s "
+"текст</strong> за превод."
 msgstr[1] ""
-"<a href=\"%(url)s\">Проектът за превод на „%(project)s“</a> на български в "
-"момента съдържа %(total)s текста за превод и е завършен на %(percent)s%%."
+"Проектът за превод на „%(project)s“ в момента съдържа <strong>%(count)s "
+"текста</strong> за превод."
 
 #: weblate/templates/engage.html:46
 #, fuzzy, python-format
@@ -8238,10 +8197,9 @@ msgid "Not yet signed in"
 msgstr ""
 
 #: weblate/templates/manage-access.html:57
-#, fuzzy, python-format
-#| msgid "User has been removed from this project."
+#, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
-msgstr "Потребителят беше премахнат от този проект."
+msgstr "Това ще отнеме достъпа на <b>%(user)s</b> до този проект."
 
 #: weblate/templates/manage-access.html:71
 #, fuzzy
@@ -9284,10 +9242,8 @@ msgid "String changed by"
 msgstr "Оригиналният текст е променен"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "Търсене на %s"
+msgstr "Търсене…"
 
 #: weblate/templates/snippets/query-builder.html:27
 #, fuzzy
@@ -13204,10 +13160,8 @@ msgid "This translation is locked."
 msgstr "Този превод в момента е заключен."
 
 #: weblate/trans/templatetags/translations.py:699
-#, fuzzy
-#| msgid "Other translation components"
 msgid "Updating translation component…"
-msgstr "Други компоненти на превода"
+msgstr "Обновяване на компонента за преводи…"
 
 #: weblate/trans/templatetags/translations.py:709
 msgid "Some of the components within this project have alerts."
@@ -13441,12 +13395,11 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "Към превода бяха приложени следните поправки: %s"
 
 #: weblate/trans/views/edit.py:276
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "В преводите на няколко езика има неуспешни проверки"
+msgstr "Преводът беше запазен, но не преминава някои проверки: {0}"
 
 #: weblate/trans/views/edit.py:319
 msgid "Invalid merge request!"
@@ -13857,10 +13810,9 @@ msgid "Empty"
 msgstr "Празно"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Компонент"
+msgstr "Грешка при компилирането: {0}"
 
 #: weblate/utils/validators.py:69
 #, fuzzy
