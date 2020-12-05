@@ -255,9 +255,7 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
         if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
             raise SkipTest("Not supported on MySQL")
 
-        language = Language.objects.create(
-            code="zh_TW", name="Chinese (Taiwan)"
-        )
+        language = Language.objects.create(code="zh_TW", name="Chinese (Taiwan)")
         language.plural_set.create(
             number=0,
             formula="0",
