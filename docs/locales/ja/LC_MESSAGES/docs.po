@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-26 22:25+0100\n"
-"PO-Revision-Date: 2020-11-27 21:50+0000\n"
+"PO-Revision-Date: 2020-12-05 22:09+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -16601,7 +16601,7 @@ msgstr ""
 
 #: ../../api.rst:2601
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`RSS Wikipedia 参照 <https://ja.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 4.4"
@@ -21907,17 +21907,17 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
-msgstr ""
+msgstr "Weblate フロントエンド"
 
 #: ../../contributing/frontend.rst:4
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
-msgstr ""
+msgstr "フロントエンドは、現在 Bootstrap、jQuery、およびサード パーティの数少ないライブラリを使用して構築されています。"
 
 #: ../../contributing/frontend.rst:7
 msgid "Dependency management"
-msgstr ""
+msgstr "依存関係の管理"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
@@ -21927,24 +21927,27 @@ msgid ""
 "correct locations in :file:`weblate/static/vendor`, where all third partly "
 "frontend code is located."
 msgstr ""
+"yarn パッケージ マネージャーは、サード パーティのライブラリを更新するために使用します。設定は :file:`scripts/yarn` にあり、"
+"これはライブラリを更新するラッパ スクリプト :file:`scripts/yarn-update` であり、ビルドして正しい場所 :file:`"
+"weblate/static/vendor` にコピーするためのものです。この場所には、すべてサードパーティーのフロントエンドのコードが配置されています。"
 
 #: ../../contributing/frontend.rst:16
 msgid "Coding style"
-msgstr ""
+msgstr "コーディング スタイル"
 
 #: ../../contributing/frontend.rst:18
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
-msgstr ""
+msgstr "Weblate は、JavaScript ファイルと CSS ファイルの両方のコード フォーマットに `Prettier`_を使用しています。"
 
 #: ../../contributing/frontend.rst:20
 msgid "We also use `ESLint`_ to check the JavaScript code."
-msgstr ""
+msgstr "また `ESLint`_ を使用して JavaScript コードを検査します。"
 
 #: ../../contributing/frontend.rst:27
 msgid "Localization"
-msgstr "翻訳"
+msgstr "現地語化"
 
 #: ../../contributing/frontend.rst:29
 msgid ""
@@ -21952,16 +21955,20 @@ msgid ""
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
+"る：フロントエンドのコードでユーザーに表示するテキストが必要な場合は、現地語化ができる必要があります。ほとんどの場合、テキストを ``gettext`` "
+"関数内でラップするだけだが、もっと複雑な機能も利用できる："
 
 #: ../../contributing/frontend.rst:48
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
+":doc:`Translation topic in the Django documentation <django:topics/i18n/"
+"translation>`"
 
 #: ../../contributing/frontend.rst:51
 msgid "Icons"
-msgstr ""
+msgstr "アイコン"
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -21977,6 +21984,8 @@ msgid ""
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
 msgstr ""
+"また、ほとんどのアイコンが HTML に埋め込まれていて、パスをスタイルで設定できるため、SVG のサイズを小さくする :file:'scripts/"
+"optimize-svg' を用意しました。"
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
@@ -21992,19 +22001,19 @@ msgstr ""
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
-msgstr ""
+msgstr ":doc:`issues`"
 
 #: ../../contributing/index.rst:11
 msgid ":doc:`start`"
-msgstr ""
+msgstr ":doc:`start`"
 
 #: ../../contributing/index.rst:12
 msgid ":ref:`translating-weblate`"
-msgstr ""
+msgstr ":ref:`translating-weblate`"
 
 #: ../../contributing/index.rst:13
 msgid ":ref:`funding-weblate`"
-msgstr ""
+msgstr ":ref:`funding-weblate`"
 
 #: ../../contributing/index.rst:18
 msgid "Translating Weblate"
@@ -22016,6 +22025,8 @@ msgid ""
 "itself, feel free to take part in the effort of making Weblate available in "
 "as many human languages as possible."
 msgstr ""
+"Weblate は、Weblate 自体を用いて `翻訳されています <https://hosted.weblate.org/>`_。"
+"できるだけ多くの人間の言語で Weblate を利用できるようにする取り組みに気軽に参加してください。"
 
 #: ../../contributing/index.rst:27
 msgid "Funding Weblate development"
@@ -22028,6 +22039,9 @@ msgid ""
 "and further development of Weblate. Please check the `donate page` for "
 "details, such as funding goals and rewards you can get for being a funder."
 msgstr ""
+"`donate page`_から Weblate の開発を前進させる資金を提供できます。集められた資金は、Libre ソフトウェア "
+"プロジェクトの無料ホスティング、および Weblate の開発を前進させるために使用されます。資金提供の目標や資金提供者への報酬などの詳細は "
+"`寄付ページ` をご覧ください。"
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
@@ -22071,7 +22085,7 @@ msgstr "GNU Solidario (GNU Health)"
 
 #: ../../../BACKERS.rst:14
 msgid "`BallotReady <https://www.ballotready.org>`_"
-msgstr ""
+msgstr "`BallotReady <https://www.ballotready.org>`_"
 
 #: ../../../BACKERS.rst:16
 msgid ""
@@ -22309,8 +22323,7 @@ msgid ""
 "Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub:"
 msgstr ""
-"私たちの `課題管理ツール <https://github.com/WeblateOrg/weblate/issues>`_ は "
-"GitHub で管理しています:"
+"私たちの `課題管理ツール <https://github.com/WeblateOrg/weblate/issues>`_ は GitHub で管理中："
 
 #: ../../contributing/issues.rst:8
 msgid ""
@@ -23816,9 +23829,7 @@ msgid ""
 "Using Weblate is a process that brings your users closer to you, by bringing "
 "you closer to your translators. It is up to you to decide how many of its "
 "features you want to make use of."
-msgstr ""
-"Weblate を使用すると、翻訳者との距離を近づけ、ユーザーとの距離も近くなりま"
-"す。その機能をどこまで利用するかはあなた次第です。"
+msgstr "Weblate を使用すると、翻訳者との距離を近づけ、ユーザーとの距離も近くなります。機能をどこまで利用するかはあなた次第です。"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -25676,11 +25687,11 @@ msgid ""
 "weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
 "weblate.gettext.msgmerge`"
 msgstr ""
-":doc:`devel/gettext`、:doc:`devel/sphinx`、`Gettext on Wikipedia <https://en."
+":doc:`devel/gettext`、:doc:`devel/sphinx`、`Gettext Wikipedia 参照 <https://ja."
 "wikipedia.org/wiki/Gettext>`_ 、:doc:`tt:formats/po`、:ref:`addon-weblate."
-"gettext.configure`、:ref:`addon-weblate.gettext.customize`、:ref:`addon-"
-"weblate.gettext.linguas`、:ref:`addon-weblate.gettext.mo`、:ref:`addon-"
-"weblate.gettext.msgmerge`"
+"gettext.configure`、:ref:`addon-weblate.gettext.customize`、:ref:`addon-weblate"
+".gettext.linguas`、:ref:`addon-weblate.gettext.mo`、:ref:`addon-weblate.gettext"
+".msgmerge`"
 
 #: ../../formats.rst:192
 msgid "Monolingual gettext"
@@ -25852,7 +25863,7 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
 "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
-"`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_ 、:doc:`tt:"
+"`XLIFF Wikipedia 参照 <https://ja.wikipedia.org/wiki/XLIFF>`_ 、:doc:`tt:"
 "formats/xliff`、`font attribute in XLIFF 1.2 <http://docs.oasis-open.org/"
 "xliff/v1.2/os/xliff-core.html#font>`_ 、`maxwidth attribute in XLIFF 1.2 "
 "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
@@ -25902,9 +25913,9 @@ msgid ""
 "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate.properties."
 "sort`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
-"properties>`_ 、:doc:`tt:formats/properties`、:ref:`addon-weblate.properties."
-"sort`、:ref:`addon-weblate.cleanup.generic`"
+"`Java properties Wikipedia 参照 <https://en.wikipedia.org/wiki/.properties>`_ "
+"、:doc:`tt:formats/properties`、:ref:`addon-weblate.properties.sort`、:ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:412
 msgid "GWT properties"
@@ -28157,7 +28168,9 @@ msgstr ""
 
 #: ../../user/checks.rst:486
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
-msgstr "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
+msgstr ""
+"`Kashida Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E3%82%AB%E3%82%B7%E3%83%BC%E3%83%80>`_"
 
 #: ../../user/checks.rst:491
 msgid "Markdown links"
@@ -28332,7 +28345,8 @@ msgstr ""
 msgid ""
 "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 msgstr ""
-"`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
+"`コロン Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E3%82%B3%E3%83%AD%E3%83%B3_(%E8%A8%98%E5%8F%B7)>`_"
 
 #: ../../user/checks.rst:625
 msgid "Mismatched ellipsis"
@@ -28361,7 +28375,9 @@ msgstr ""
 
 #: ../../user/checks.rst:636 ../../user/checks.rst:972
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
-msgstr "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
+msgstr ""
+"`省略記号 Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E7%9C%81%E7%95%A5%E8%A8%98%E5%8F%B7>`_"
 
 #: ../../user/checks.rst:642
 msgid "Mismatched exclamation mark"
@@ -28387,8 +28403,8 @@ msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
 msgstr ""
-"`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
-"Exclamation_mark>`_"
+"`感嘆符 Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E6%84%9F%E5%98%86%E7%AC%A6>`_"
 
 #: ../../user/checks.rst:658
 msgid "Mismatched full stop"
@@ -28410,7 +28426,9 @@ msgstr ""
 
 #: ../../user/checks.rst:668
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
-msgstr "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
+msgstr ""
+"`終止符 Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E7%B5%82%E6%AD%A2%E7%AC%A6>`_"
 
 #: ../../user/checks.rst:673
 msgid "Mismatched question mark"
@@ -28435,7 +28453,8 @@ msgstr ""
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
 msgstr ""
-"`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
+"`疑問符 Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E7%96%91%E5%95%8F%E7%AC%A6>`_"
 
 #: ../../user/checks.rst:689
 msgid "Mismatched semicolon"
@@ -28456,7 +28475,9 @@ msgstr ""
 
 #: ../../user/checks.rst:698
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
-msgstr "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
+msgstr ""
+"`セミコロン Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E3%82%BB%E3%83%9F%E3%82%B3%E3%83%AD%E3%83%B3>`_"
 
 #: ../../user/checks.rst:703
 msgid "Mismatching line breaks"
@@ -28525,7 +28546,7 @@ msgstr ""
 msgid ""
 "In case you have some syntax for placeholders, you can use an regular "
 "expression:"
-msgstr ""
+msgstr "プレースホルダに構文がある場合は、正規表現が使用できる："
 
 #: ../../user/checks.rst:753
 msgid ":ref:`custom-checks`"
@@ -28555,7 +28576,7 @@ msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
-"`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
+"`フランス語と英語における 文の間隔の歴史 Wikipedia 参照 <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:779
@@ -28808,8 +28829,8 @@ msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
-"`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
-"width_space>`_"
+"`ゼロ幅スペース Wikipedia 参照 <https://ja.wikipedia.org/wiki/"
+"%E3%82%BC%E3%83%AD%E5%B9%85%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9>`_"
 
 #: ../../user/checks.rst:954
 msgid "Source checks"
@@ -28933,7 +28954,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1029
 msgid "For example with Gettext in Python it could be:"
-msgstr "たとえば、Python の Gettext を使用すると次のようになります。"
+msgstr "Python を使用した Gettext の例："
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -29644,7 +29665,7 @@ msgstr "``changed_by:TEXT``"
 
 #: ../../user/search.rst:58
 msgid "String was changed by author with given username."
-msgstr "文字列は、ユーザー名を設定している翻訳者に変更されました。"
+msgstr "文字列は、ユーザー名を設定している翻訳者に変更された。"
 
 #: ../../user/search.rst:59
 msgid "``changed:DATETIME``"
@@ -29928,7 +29949,7 @@ msgstr ":ref:`report-source`"
 
 #: ../../user/translating.rst:77
 msgid "Variants"
-msgstr "バリアント"
+msgstr "関連性"
 
 #: ../../user/translating.rst:79
 msgid ""
@@ -30591,12 +30612,13 @@ msgid ""
 "strings, :guilabel:`Search and replace` is a feature for you. You can find "
 "it in the :guilabel:`Tools` menu."
 msgstr ""
+"用語を変更したり、文字列を一括修正する場合は、:guilabel:`検索と置換` で行います。これは :guilabel:`ツール` メニューにあります。"
 
 #: ../../user/translating.rst:396
 msgid ""
 "Don't worry about messing up the strings. This is a two step process which "
 "will show you a preview of the edits before the actual change is done."
-msgstr ""
+msgstr "文字列の破壊を心配する必要はありません。実行は 2 段階で行われ、実際に変更する前に編集画面で確認をします。"
 
 #: ../../user/translating.rst:404
 msgid ""
@@ -31111,7 +31133,7 @@ msgstr ""
 
 #: ../../vcs.rst:280 ../../vcs.rst:318 ../../vcs.rst:356
 msgid "You need to configure API credentials to make this work."
-msgstr ""
+msgstr "この機能の動作には、API 認証情報の設定が必要です。"
 
 #: ../../vcs.rst:284
 msgid ""
@@ -31618,7 +31640,7 @@ msgstr "アップロード時に既存の翻訳を上書きする。"
 #: ../../wlc.rst:260
 msgid ""
 "File from which content is read, if left unspecified it is read from stdin."
-msgstr "内容を読み込むファイル。指定しない場合は、stdin から読み込まれる。"
+msgstr "内容を読み込むファイル。指定しない場合は、stdin から読み込む。"
 
 #: ../../wlc.rst:264
 msgid ""
@@ -31774,9 +31796,8 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user that has a :guilabel:`Translate` permission for the project."
 msgstr ""
-"以降の章では、*すべてのユーザー* とは翻訳にアクセスできるユーザーのことです。"
-"プロジェクトを公開している場合は認証済みのユーザー、または :guilabel:"
-"`Translate` 権限を持つユーザーを指定できます。"
+"以降の章では、*すべてのユーザー* とは翻訳にアクセスできるユーザーのことです。プロジェクトを公開している場合は認証済みのユーザー、または "
+":guilabel:`翻訳` 権限を持つユーザーを指定できます。"
 
 #: ../../workflows.rst:26
 msgid "Each translated string can be in one of following states:"
@@ -31880,7 +31901,7 @@ msgstr "on"
 
 #: ../../workflows.rst:60 ../../workflows.rst:127
 msgid "It is useful for users to be able to suggest when they are not sure."
-msgstr "ユーザーが確信が持てない場合に提案できると便利です。"
+msgstr "ユーザーが確信が持てない場合に提案できると便利。"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Translators group"
@@ -31888,7 +31909,7 @@ msgstr "翻訳者グループ"
 
 #: ../../workflows.rst:67 ../../workflows.rst:98 ../../workflows.rst:134
 msgid "Or `Translate` with :ref:`privileges`."
-msgstr "または :ref:`privileges` で `Translate` 。"
+msgstr "または :ref:`privileges` で `翻訳` 。"
 
 #: ../../workflows.rst:70 ../../workflows.rst:101 ../../workflows.rst:137
 msgid "Reviewers group"
@@ -31982,9 +32003,8 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → `Settings` menu):"
 msgstr ""
-"査読は、プロジェクトの設定で有効にできます、場所はプロジェクトの設定の :"
-"guilabel:`Workflow` サブページ（ :guilabel:`Manage` → `Settings` メニューにあ"
-"る）:"
+"査読は、プロジェクトの設定で有効にできます、場所はプロジェクトの設定の :guilabel:`ワークフロー` サブページ（ :guilabel:`管理` "
+"→ `設定` メニューにある）:"
 
 #: ../../workflows.rst:152
 msgid ""
@@ -32051,8 +32071,8 @@ msgid ""
 "ref:`reviews` - once issue is reported on the source string, it is marked "
 "as :guilabel:`Needs editing`."
 msgstr ""
-"単一言語形式の場合、原文の査読は :ref:`reviews`と同じように動作します - 原文"
-"で問題が報告されると、:guilabel:`要編集` が設定される。"
+"単一言語形式の場合、原文の査読は :ref:`reviews` と同じように動作します - 原文で問題が報告されると、:guilabel:`Needs "
+"editing` が設定される。"
 
 #: ../../workflows.rst:236
 msgid ""
@@ -32062,10 +32082,8 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source or remove the label."
 msgstr ""
-"バイリンガル形式では、原文を直接編集できません（通常はソース コードから直接抽"
-"出します)。この場合、 翻訳者から報告された文字列には :guilabel:`Source needs "
-"review` というラベルが付きます。この文字列を確認して、ソースで編集するか、ラ"
-"ベルを削除するかの処理が必要です。"
+"バイリンガル形式では、原文を直接編集できません（通常はソース コードから直接抽出します)。この場合、 翻訳者から報告された文字列には "
+":guilabel:`査読が必要な原文` というラベルが付きます。この文字列を確認して、ソースで編集するか、ラベルを削除するかの処理が必要です。"
 
 #: ../../workflows.rst:244
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
