@@ -354,7 +354,14 @@ class WindowsRCFormat(ConvertFormat):
         if hasattr(templatename, "name"):
             templatename = templatename.name
         with open(templatename, "rb") as templatefile:
-            convertor = rerc(templatefile, lang=lang, sublang=sublang)
+            bom = templatefile.read(2)
+            templatefile.seek(0)
+            convertor = rerc(
+                templatefile,
+                lang=lang,
+                sublang=sublang,
+                charset="utf-16-le" if bom == codecs.BOM_UTF16_LE else "utf-8",
+            )
             outputrclines = convertor.convertstore(self.store)
             try:
                 handle.write(outputrclines.encode("cp1252"))
