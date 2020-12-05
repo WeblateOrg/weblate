@@ -269,9 +269,7 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
             source=Plural.SOURCE_DEFAULT,
         )
         self.run_create("zh-TW", "zh-TW", "ltr", "0", "Chinese Taiwan (zh-TW)", False)
-        language = Language.objects.create(
-            code="zh-tw", name="Traditional Chinese"
-        )
+        language = Language.objects.create(code="zh-tw", name="Traditional Chinese")
         language.plural_set.create(
             number=0,
             formula="0",
