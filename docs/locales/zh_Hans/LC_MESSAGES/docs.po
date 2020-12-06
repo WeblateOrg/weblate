@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-26 22:25+0100\n"
-"PO-Revision-Date: 2020-12-03 13:29+0000\n"
+"PO-Revision-Date: 2020-12-06 20:26+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -23198,11 +23198,11 @@ msgid ""
 "Turning on debug mode will make the exceptions show in the browser. This is "
 "useful to debug issues in the web interface, but not suitable for production "
 "environment as it has performance consequences and might leak private data."
-msgstr ""
+msgstr "打开调试模式将在浏览器中显示例外。这在 web 界面上调试问题非常有用，但不适于生产环境，因为这回导致性能问题，并泄露私有数据。"
 
 #: ../../contributing/debugging.rst:20
 msgid "Weblate logs"
-msgstr ""
+msgstr "Weblate 日志"
 
 #: ../../contributing/debugging.rst:22
 msgid ""
@@ -23211,12 +23211,15 @@ msgid ""
 "in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on your "
 "syslog daemon configuration)."
 msgstr ""
+"Weblate 可以生成关于后台什么在运行的具体日志。在默认配置中，它使用 syslog，并使日志出现在 :file:`/var/log/"
+"messages` 或 :file:`/var/log/syslog` 中（依赖于您的 syslog 守护程序配置）。"
 
 #: ../../contributing/debugging.rst:27
 msgid ""
 "Docker containers log to their output (as usual in the Docker world), so you "
 "can look at the logs using ``docker-compose logs``."
 msgstr ""
+"Docker 容器将其输入记入日志（如同 Docker 世界中通常的那样），因此可以使用 ``docker-compose logs`` 来查看日志。"
 
 #: ../../contributing/debugging.rst:32
 msgid ""
@@ -23225,7 +23228,7 @@ msgstr ":ref:`sample-configuration` 包含 :setting:`django:LOGGING` 配置。"
 
 #: ../../contributing/debugging.rst:35
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "分析应用的崩溃"
 
 #: ../../contributing/debugging.rst:37
 msgid ""
@@ -23234,10 +23237,12 @@ msgid ""
 "party services which can collect such info automatically. You can find info "
 "on how to set this up in :ref:`collecting-errors`."
 msgstr ""
+"在应用崩溃的情况下，尽可能多地收集与崩溃有关的信息是非常有用的。最容易的方式是使用第三方服务来实现，这些服务会自动收集这样的信息。可以在 :ref"
+":`collecting-errors`找到如何设置的信息。"
 
 #: ../../contributing/debugging.rst:43
 msgid "Silent failures"
-msgstr ""
+msgstr "无报告的故障"
 
 #: ../../contributing/debugging.rst:45
 msgid ""
@@ -23246,17 +23251,19 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
+"很多任务写在到 Celery 进行后台处理。故障不显示在用户界面上，但出现在 Celery 的日志中。配置 :ref:`collecting-"
+"errors` 会帮助您更容易地注意到这样的故障。"
 
 #: ../../contributing/debugging.rst:51
 msgid "Performance issues"
-msgstr ""
+msgstr "性能问题"
 
 #: ../../contributing/debugging.rst:53
 msgid ""
 "In case Weblate performs badly in some situation, please collect the "
 "relevant logs showing the issue, and anything that might help figuring out "
 "where the code might be improved."
-msgstr ""
+msgstr "Weblate 在这样的情形性能很差的情况下，请收集显示问题的相关日志，以及有助于找到从哪里改进代码的任何事物。"
 
 #: ../../contributing/debugging.rst:57
 msgid ""
@@ -23265,20 +23272,22 @@ msgid ""
 "`collecting-errors` and get pinpointed and detailed tracebacks in the error "
 "collection tool."
 msgstr ""
+"在一些请求耗费很长时间没有任何指示的情况下，您会想要安装 `dogslow <https://pypi.org/project/dogslow/>` "
+"以及 :ref:`collecting-errors` 并在错误收集工具中得到精确定位且具体的追溯。"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
-msgstr ""
+msgstr "Weblate 前端"
 
 #: ../../contributing/frontend.rst:4
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
-msgstr ""
+msgstr "前端当前使用 Bootstrap、jQuery 和一些第三方库来构建。"
 
 #: ../../contributing/frontend.rst:7
 msgid "Dependency management"
-msgstr ""
+msgstr "依赖性管理"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
@@ -23288,20 +23297,22 @@ msgid ""
 "correct locations in :file:`weblate/static/vendor`, where all third partly "
 "frontend code is located."
 msgstr ""
+"yarn 软件包管理工具用于更新第三方库。配置在 :file:`scripts/yarn` 中，并且有个打包脚本 :file:`scripts/yarn-"
+"update` 来更新库，构建它们，并复制到 :file:`weblate/static/vendor` 中的正确位置上，所有的第三方前端膘满都位于那里。"
 
 #: ../../contributing/frontend.rst:16
 msgid "Coding style"
-msgstr ""
+msgstr "编码风格"
 
 #: ../../contributing/frontend.rst:18
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
-msgstr ""
+msgstr "Weblate 依赖于 `Prettier`_ 来进行JavaScript 和 CSS 文件的代码格式化。"
 
 #: ../../contributing/frontend.rst:20
 msgid "We also use `ESLint`_ to check the JavaScript code."
-msgstr ""
+msgstr "我们还是用 `ESLint`_ 来检查 JavaScript 代码。"
 
 #: ../../contributing/frontend.rst:27
 msgid "Localization"
@@ -23313,59 +23324,65 @@ msgid ""
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
+"如果在前端代码中需要任何用户可见的文本，那么应该将其本地化。在多数情况下，所有需要的是将文本打包到 ``gettext`` "
+"函数内部，但也有更复杂的特性来使用："
 
 #: ../../contributing/frontend.rst:48
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
+":doc:`Translation topic in the Django documentation <django:topics/i18n/"
+"translation>`"
 
 #: ../../contributing/frontend.rst:51
 msgid "Icons"
-msgstr ""
+msgstr "图标"
 
 #: ../../contributing/frontend.rst:53
 msgid ""
 "Weblate currently uses material design icons, in case you are looking for "
 "new one, check <https://materialdesignicons.com/>."
 msgstr ""
+"Weblate 当前使用 material design 图标，在寻找照新图标的情况下，请查看 <https://materialdesignicons."
+"com/>。"
 
 #: ../../contributing/frontend.rst:56
 msgid ""
 "Additionally, there is :file:`scripts/optimize-svg` to reduce size of the "
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
-msgstr ""
+msgstr "此外，有 :file:`scripts/optimize-svg` 来减小 SVG 的大小，因为多数图标嵌入在 HTML 中，而使路径有风格。"
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
-msgstr ""
+msgstr "为 Weblate 做贡献"
 
 #: ../../contributing/index.rst:7
 msgid ""
 "There are dozens of ways to contribute in Weblate. Any help is welcomed, be "
 "it coding, graphics design, documentation or sponsorship:"
-msgstr ""
+msgstr "有十多种方法来为 Weblate 做出贡献。任何帮助都是受欢迎的，编写代码、图片设计、文档或赞助："
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
-msgstr ""
+msgstr ":doc:`issues`"
 
 #: ../../contributing/index.rst:11
 msgid ":doc:`start`"
-msgstr ""
+msgstr ":doc:`start`"
 
 #: ../../contributing/index.rst:12
 msgid ":ref:`translating-weblate`"
-msgstr ""
+msgstr ":ref:`translating-weblate`"
 
 #: ../../contributing/index.rst:13
 msgid ":ref:`funding-weblate`"
-msgstr ""
+msgstr ":ref:`funding-weblate`"
 
 #: ../../contributing/index.rst:18
 msgid "Translating Weblate"
-msgstr ""
+msgstr "翻译 Weblate"
 
 #: ../../contributing/index.rst:20
 msgid ""
@@ -23373,10 +23390,12 @@ msgid ""
 "itself, feel free to take part in the effort of making Weblate available in "
 "as many human languages as possible."
 msgstr ""
+"Weblate 使用自身来翻译 `translated <https://hosted.weblate.org/>`_，请随意加入，使 Weblate "
+"以尽可能多的人类语言来提供使用。"
 
 #: ../../contributing/index.rst:27
 msgid "Funding Weblate development"
-msgstr ""
+msgstr "为 Weblate 开发提供资金"
 
 #: ../../contributing/index.rst:29
 msgid ""
@@ -23385,277 +23404,283 @@ msgid ""
 "and further development of Weblate. Please check the `donate page` for "
 "details, such as funding goals and rewards you can get for being a funder."
 msgstr ""
+"可以在 `donate page`_上资助 Weblate 进一步开发。收集的资金用于资助免费主办自由软件项目，以及 Weblate "
+"的进一步开发。具体内容如自主目标和资助者的回报，请查看 `donate page`。"
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
-msgstr ""
+msgstr "资助 Weblate 的支持者"
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
-msgstr ""
+msgstr "Weblate 支持者列表："
 
 #: ../../../BACKERS.rst:6
 msgid "Yashiro Ccs"
-msgstr ""
+msgstr "Yashiro Ccs"
 
 #: ../../../BACKERS.rst:7
 msgid "Cheng-Chia Tseng"
-msgstr ""
+msgstr "Cheng-Chia Tseng"
 
 #: ../../../BACKERS.rst:8
 msgid "Timon Reinhard"
-msgstr ""
+msgstr "Timon Reinhard"
 
 #: ../../../BACKERS.rst:9
 msgid "`Cassidy James <https://cassidyjames.com/>`_"
-msgstr ""
+msgstr "`Cassidy James <https://cassidyjames.com/>`_"
 
 #: ../../../BACKERS.rst:10
 msgid "Loic Dachary"
-msgstr ""
+msgstr "Loic Dachary"
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
-msgstr ""
+msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
-msgstr ""
+msgstr "https://freedombox.org/"
 
 #: ../../../BACKERS.rst:13
 msgid "GNU Solidario (GNU Health)"
-msgstr ""
+msgstr "GNU Solidario (GNU Health)"
 
 #: ../../../BACKERS.rst:14
 msgid "`BallotReady <https://www.ballotready.org>`_"
-msgstr ""
+msgstr "`BallotReady <https://www.ballotready.org>`_"
 
 #: ../../../BACKERS.rst:16
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
-msgstr ""
+msgstr "想要加入列表中吗？请查看 `Donate to Weblate <https://weblate.org/donate/>`_ 上的选项。"
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
-msgstr ""
+msgstr "Weblate 内部"
 
 #: ../../contributing/internals.rst:8
 msgid "This chapter will give you basic overview of Weblate internals."
-msgstr ""
+msgstr "这一章将给出 Weblate 内部的基本概况。"
 
 #: ../../contributing/internals.rst:10
 msgid ""
 "Weblate derives most of its code structure from, and is based on `Django`_."
-msgstr ""
+msgstr "Weblate 从 `Django`_ 得到其多数代码架构，并基于它。"
 
 #: ../../contributing/internals.rst:13
 msgid "Directory structure"
-msgstr ""
+msgstr "目录结构"
 
 #: ../../contributing/internals.rst:15
 msgid "Quick overview of directory structure of Weblate main repository:"
-msgstr ""
+msgstr "Weblate 主仓库目录结构的速览："
 
 #: ../../contributing/internals.rst:17
 msgid "``docs``"
-msgstr ""
+msgstr "``docs``"
 
 #: ../../contributing/internals.rst:18
 msgid ""
 "Source code for this documentation, built using `Sphinx <https://www.sphinx-"
 "doc.org/>`_."
-msgstr ""
+msgstr "本文档的源码，使用 `Sphinx <https://www.sphinx-doc.org/>`_ 来构建。"
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
-msgstr ""
+msgstr "``dev-docker``"
 
 #: ../../contributing/internals.rst:20
 msgid "Docker code to run development server, see :ref:`dev-docker`."
-msgstr ""
+msgstr "运行开发服务器的 Docker 代码，请参见 :ref:`dev-docker`。"
 
 #: ../../contributing/internals.rst:21
 msgid "``weblate``"
-msgstr ""
+msgstr "``weblate``"
 
 #: ../../contributing/internals.rst:22
 msgid ""
 "Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ "
 "application, see :ref:`internals`."
 msgstr ""
+"Weblate `Django <https://www.djangoproject.com/>`_ 应用的的源代码作为，请参见 "
+":ref:`internals`。"
 
 #: ../../contributing/internals.rst:24
 msgid "``weblate/static``"
-msgstr ""
+msgstr "``weblate/static``"
 
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
-msgstr ""
+msgstr "客户端文件（CSS、Javascript 和图片），请参见 :doc:`frontend`。"
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
-msgstr ""
+msgstr "模块"
 
 #: ../../contributing/internals.rst:29
 msgid ""
 "Weblate consists of several Django applications (some optional, see :doc:`/"
 "admin/optionals`):"
-msgstr ""
+msgstr "Weblate 包括几个 Django 应用（一些是可选的，请参见 :doc:`/admin/optionals`）："
 
 #: ../../contributing/internals.rst:32
 msgid "``accounts``"
-msgstr ""
+msgstr "``accounts``"
 
 #: ../../contributing/internals.rst:34
 msgid "User account, profiles and notifications."
-msgstr ""
+msgstr "用户账户、简介和通知。"
 
 #: ../../contributing/internals.rst:36
 msgid "``addons``"
-msgstr ""
+msgstr "``addons``"
 
 #: ../../contributing/internals.rst:38
 msgid "Addons to tweak Weblate behavior, see :ref:`addons`."
-msgstr ""
+msgstr "微调 Weblate 行为的插件，请参见 :ref:`addons。"
 
 #: ../../contributing/internals.rst:40
 msgid "``api``"
-msgstr ""
+msgstr "``api``"
 
 #: ../../contributing/internals.rst:42
 msgid "API based on `Django REST framework`_."
-msgstr ""
+msgstr "基于 `Django REST framework`_ 的 API。"
 
 #: ../../contributing/internals.rst:44
 msgid "``auth``"
-msgstr ""
+msgstr "``auth``"
 
 #: ../../contributing/internals.rst:46
 msgid "Authentication and permissions."
-msgstr ""
+msgstr "认证和权限。"
 
 #: ../../contributing/internals.rst:48
 msgid "``billing``"
-msgstr ""
+msgstr "``billing``"
 
 #: ../../contributing/internals.rst:50
 msgid "The optional :ref:`billing` module."
-msgstr ""
+msgstr "可选的 :ref:`billing` 模块。"
 
 #: ../../contributing/internals.rst:52
 msgid "``checks``"
-msgstr ""
+msgstr "``checks``"
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
-msgstr ""
+msgstr "翻译字符串 :ref:`checks` 模块。"
 
 #: ../../contributing/internals.rst:56
 msgid "``fonts``"
-msgstr ""
+msgstr "``fonts``"
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
-msgstr ""
+msgstr "字体提供检查模块。"
 
 #: ../../contributing/internals.rst:60
 msgid "``formats``"
-msgstr ""
+msgstr "``formats``"
 
 #: ../../contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
-msgstr ""
+msgstr "基于 translate-toolkit 的文件格式抽象层。"
 
 #: ../../contributing/internals.rst:64
 msgid "``gitexport``"
-msgstr ""
+msgstr "``gitexport``"
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
-msgstr ""
+msgstr "可选的 :ref:`git-exporter` 模块。"
 
 #: ../../contributing/internals.rst:68
 msgid "``lang``"
-msgstr ""
+msgstr "``lang``"
 
 #: ../../contributing/internals.rst:70
 msgid "Module defining language and plural models."
-msgstr ""
+msgstr "定义语言和复数模型的模块。"
 
 #: ../../contributing/internals.rst:72
 msgid "``legal``"
-msgstr ""
+msgstr "``legal``"
 
 #: ../../contributing/internals.rst:74
 msgid "The optional :ref:`legal` module."
-msgstr ""
+msgstr "可选的 :ref:`legal` 模块。"
 
 #: ../../contributing/internals.rst:76
 msgid "``machinery``"
-msgstr ""
+msgstr "``machinery``"
 
 #: ../../contributing/internals.rst:78
 msgid "Integration of machine translation services."
-msgstr ""
+msgstr "机器翻译服务的集成。"
 
 #: ../../contributing/internals.rst:80
 msgid "``memory``"
-msgstr ""
+msgstr "``memory``"
 
 #: ../../contributing/internals.rst:82
 msgid "Built in translation memory, see :ref:`translation-memory`."
-msgstr ""
+msgstr "内置的翻译记忆库，请参见 :ref:`translation-memory`。"
 
 #: ../../contributing/internals.rst:84
 msgid "``screenshots``"
-msgstr ""
+msgstr "``screenshots``"
 
 #: ../../contributing/internals.rst:86
 msgid "Screenshots management and OCR module."
-msgstr ""
+msgstr "屏幕截图管理与 OCR 模块。"
 
 #: ../../contributing/internals.rst:88
 msgid "``trans``"
-msgstr ""
+msgstr "``trans``"
 
 #: ../../contributing/internals.rst:90
 msgid "Main module handling translations."
-msgstr ""
+msgstr "处理翻译的主模块。"
 
 #: ../../contributing/internals.rst:92
 msgid "``utils``"
-msgstr ""
+msgstr "``utils``"
 
 #: ../../contributing/internals.rst:94
 msgid "Various helper utilities."
-msgstr ""
+msgstr "各种帮助功能。"
 
 #: ../../contributing/internals.rst:96
 msgid "``vcs``"
-msgstr ""
+msgstr "``vcs``"
 
 #: ../../contributing/internals.rst:98
 msgid "Version control system abstraction."
-msgstr ""
+msgstr "版本控制系统抽象概念。"
 
 #: ../../contributing/internals.rst:100
 msgid "``wladmin``"
-msgstr ""
+msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:102
 msgid "Django admin interface customization."
-msgstr ""
+msgstr "Django 管理界面定制化。"
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
-msgstr ""
+msgstr "在 Weblate 中汇报问题。"
 
 #: ../../contributing/issues.rst:6
 msgid ""
 "Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub:"
 msgstr ""
+"我们的 `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ 在 GitHub "
+"上提供主机："
 
 #: ../../contributing/issues.rst:8
 msgid ""
@@ -23663,6 +23688,8 @@ msgid ""
 "there. If what you have found is a security issue in Weblate, please consult "
 "the \"Security issues\" section below."
 msgstr ""
+"欢迎报告Weblate 的任何问题，或改进建议。如果您所发现的是 Weblate 中的安全问题，请咨询下面的 \"Security issues\" "
+"章节。"
 
 #: ../../contributing/issues.rst:15
 msgid "Security issues"
@@ -23675,12 +23702,14 @@ msgid ""
 "security issues, and can be reported directly at `HackerOne <https://"
 "hackerone.com/weblate>`_."
 msgstr ""
+"为了给予社区实践来响应并升级，强烈敦促您私下汇报所有的安全问题。HackerOne 用于处理安全问题，并且而可以在 `HackerOne "
+"<https://hackerone.com/weblate>`_ 直接汇报。"
 
 #: ../../contributing/issues.rst:21
 msgid ""
 "Alternatively, report to security@weblate.org, which ends up on HackerOne as "
 "well."
-msgstr ""
+msgstr "另外，可以汇报给 security@weblate.org，最后也会到 HackerOne 上。"
 
 #: ../../contributing/issues.rst:24
 msgid ""
@@ -23689,30 +23718,34 @@ msgid ""
 "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. You can "
 "also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
+"如果因为任何原因不想使用 HackerOne，可以将报告通过电子邮件发送给 michal@cihar.com。可以选择使用这个 PGP 密钥 `3CB "
+"1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D` 来加密。还以从 `Keybase "
+"<https://keybase.io/nijel>`_ 得到密钥。"
 
 #: ../../contributing/issues.rst:31
 msgid ""
 "Weblate depends on third party components for many things.  In case you find "
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
-msgstr ""
+msgstr "Weblate 在很多部分上依赖于第三方组件。在发现通常影响这些组件之一的漏洞的情况下，请直接会报告给各自的项目。"
 
 #: ../../contributing/issues.rst:35
 msgid "Some of these are:"
-msgstr ""
+msgstr "这些中的一些是："
 
 #: ../../contributing/issues.rst:37
 msgid ":doc:`Django <django:internals/security>`"
-msgstr ""
+msgstr ":doc:`Django <django:internals/security>`"
 
 #: ../../contributing/issues.rst:38
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 
 #: ../../contributing/issues.rst:39
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
-msgstr ""
+msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../contributing/license.rst:2 ../../../README.rst:60
 msgid "License"
@@ -23720,7 +23753,7 @@ msgstr "许可协议"
 
 #: ../../contributing/license.rst:4
 msgid "Copyright (C) 2012 - 2020 Michal Čihař <michal@cihar.com>"
-msgstr ""
+msgstr "版权所有（C）2012 - 2020 Michal Čihař <michal@cihar.com>"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -23729,6 +23762,7 @@ msgid ""
 "Software Foundation, either version 3 of the License, or (at your option) "
 "any later version."
 msgstr ""
+"本程序是自由软件：您可以在自由软件基金会发布的 GNU 一般公共许可的第三版许可，或（您选择的）更新版本的条款之下，将其重新发布并且/或者修改。"
 
 #: ../../contributing/license.rst:11 ../../../README.rst:69
 msgid ""
@@ -23736,35 +23770,35 @@ msgid ""
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
 "FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
 "more details."
-msgstr ""
+msgstr "发布本程序希望它有用，但不具有任何质保；甚至没有应用可销售性或适于特定目的的质保。更多细节请参见 GNU 一般公共许可。"
 
 #: ../../contributing/license.rst:15
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
-msgstr ""
+msgstr "您应该与本程序一起收到 GNU 一般公共许可的副本。如果没有的话，请参见 <https://www.gnu.org/licenses/>。"
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
-msgstr ""
+msgstr "发布 Weblate"
 
 #: ../../contributing/release.rst:5
 msgid "Releasing schedule"
-msgstr ""
+msgstr "发布日程"
 
 #: ../../contributing/release.rst:7
 msgid ""
 "Weblate has two month release cycle for releases (x.y). These are usually "
 "followed by a bunch of bugfix releases to fix issues which slip into them (x."
 "y.z)."
-msgstr ""
+msgstr "Weblate 有两个月的发布周期，版本（x.y）。"
 
 #: ../../contributing/release.rst:11
 msgid ""
 "The change in the major version indicates that the upgrade process can not "
 "skip this version - you always have to upgrade to x.0 before upgrading to "
 "higher x.y releases."
-msgstr ""
+msgstr "主要版本的更改指示了升级过程不能跳过这个版本——在升级到更高版本的版本 x.y 之前总是必须升级到版本 x.0。"
 
 #: ../../contributing/release.rst:17
 msgid ":doc:`../admin/upgrade`"
@@ -23772,7 +23806,7 @@ msgstr ":doc:`../admin/upgrade`"
 
 #: ../../contributing/release.rst:20
 msgid "Release planning"
-msgstr ""
+msgstr "发布计划"
 
 #: ../../contributing/release.rst:22
 msgid ""
@@ -23780,106 +23814,108 @@ msgid ""
 "you can see our roadmap at <https://github.com/WeblateOrg/weblate/"
 "milestones>."
 msgstr ""
+"到来的版本的特性使用 Github 里程碑来收集，可以在 <https://github.com/WeblateOrg/weblate/"
+"milestones> 看到路线图。"
 
 #: ../../contributing/release.rst:26
 msgid "Release process"
-msgstr ""
+msgstr "发布过程"
 
 #: ../../contributing/release.rst:28
 msgid "Things to check prior to release:"
-msgstr ""
+msgstr "发布前要检查的事情："
 
 #: ../../contributing/release.rst:30
 msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages`."
-msgstr ""
+msgstr "由 :command:`./scripts/list-translated-languages` 来检查新翻译的语言。"
 
 #: ../../contributing/release.rst:31
 msgid "Set final version by :command:`./scripts/prepare-release`."
-msgstr ""
+msgstr "由 :command:`./scripts/prepare-release` 来设置最终版本。"
 
 #: ../../contributing/release.rst:32
 msgid ""
 "Make sure screenshots are up to date :command:`make -C docs update-"
 "screenshots`"
-msgstr ""
+msgstr "由 :command:`make -C docs update-screenshots` 确定屏幕截图是最新的"
 
 #: ../../contributing/release.rst:34
 msgid "Perform the release:"
-msgstr ""
+msgstr "执行发布："
 
 #: ../../contributing/release.rst:36
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)"
-msgstr ""
+msgstr "创建发布 :command:`./scripts/create-release --tag` （要求请参见下面）"
 
 #: ../../contributing/release.rst:38
 msgid "Post release manual steps:"
-msgstr ""
+msgstr "张贴发布手动步骤："
 
 #: ../../contributing/release.rst:40
 msgid "Update Docker image."
-msgstr ""
+msgstr "更新 Docker 图像。"
 
 #: ../../contributing/release.rst:41
 msgid "Close GitHub milestone."
-msgstr ""
+msgstr "管理 GitHub 里程碑。"
 
 #: ../../contributing/release.rst:42
 msgid "Once the Docker image is tested, add a tag and push it."
-msgstr ""
+msgstr "一旦检测到 Docker 图像，则添加标志并推送。"
 
 #: ../../contributing/release.rst:43
 msgid "Update Helm chart to new version."
-msgstr ""
+msgstr "将 Helm 图表更新到新的版本。"
 
 #: ../../contributing/release.rst:44
 msgid ""
 "Include new version in :file:`.github/workflows/migrations.yml` to cover it "
 "in migration testing."
-msgstr ""
+msgstr "在 :file:`.github/workflows/migrations.yml` 中包含新的版本，从而在合并监测中覆盖它。"
 
 #: ../../contributing/release.rst:45
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
-msgstr ""
+msgstr "由 :command:`./scripts/set-version` 在仓库中增加版本。"
 
 #: ../../contributing/release.rst:47
 msgid ""
 "To create tags using the :command:`./scripts/create-release` script you will "
 "need following:"
-msgstr ""
+msgstr "要使用 :command:`./scripts/create-release` 脚本来创建标记的话，需要后面的："
 
 #: ../../contributing/release.rst:49
 msgid "GnuPG with private key used to sign the release"
-msgstr ""
+msgstr "带有私钥的 GnuPG 用于为发布签名"
 
 #: ../../contributing/release.rst:50
 msgid "Push access to Weblate git repositories (it pushes tags)"
-msgstr ""
+msgstr "推送访问 Weblate git 仓库（它推送标志）"
 
 #: ../../contributing/release.rst:51
 msgid ""
 "Configured :command:`hub` tool and access to create releases on the Weblate "
 "repo"
-msgstr ""
+msgstr "配置的 :command:`hub` 工具和访问，在 Weblate repo 上创建发布版本"
 
 #: ../../contributing/release.rst:52
 msgid ""
 "SSH access to Weblate download server (the Website downloads are copied "
 "there)"
-msgstr ""
+msgstr "SSH 访问 Weblate 下载服务器（Weblate 下载复制到那里）"
 
 #: ../../contributing/schemas.rst:2
 msgid "Data schemas"
-msgstr ""
+msgstr "数据架构"
 
 #: ../../contributing/schemas.rst:4
 msgid ""
 "Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of "
 "external JSON files."
-msgstr ""
+msgstr "Weblate 使用 `JSON Schema <https://json-schema.org/>`_ 来定义外部 JSON 文件的输入。"
 
 #: ../../contributing/schemas.rst:None
 msgid "Weblate Translation Memory Schema"
@@ -23887,7 +23923,7 @@ msgstr "Weblate 翻译记忆库概要"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "type"
@@ -23895,11 +23931,11 @@ msgstr "类型"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*array*"
-msgstr ""
+msgstr "*array*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "items"
-msgstr ""
+msgstr "项目"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Translation Memory Item*"
@@ -23925,11 +23961,11 @@ msgstr "*字符串类别*"
 msgid ""
 "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user "
 "specific"
-msgstr ""
+msgstr "1 是全局的，2 是共享的，10000000+ 是项目特定的，20000000+ 使用户特定的"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "*integer*"
-msgstr ""
+msgstr "*整数*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "examples"
@@ -23938,17 +23974,17 @@ msgstr "例子"
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../workflows.rst:95
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../../contributing/schemas.rst:9
 msgid "minimum"
-msgstr ""
+msgstr "最小"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
 #: ../../workflows.rst:65 ../../workflows.rst:132
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "default"
@@ -23960,7 +23996,7 @@ msgstr "**来源**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The String Origin*"
-msgstr ""
+msgstr "*字符串源头*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Filename or component name"
@@ -23972,19 +24008,19 @@ msgstr "*字符串*"
 
 #: ../../contributing/schemas.rst:9
 msgid "test"
-msgstr ""
+msgstr "检测"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "pattern"
-msgstr ""
+msgstr "模式"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.\\*)$"
-msgstr ""
+msgstr "^(.\\*)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
-msgstr ""
+msgstr "**源**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Source String*"
@@ -23996,7 +24032,7 @@ msgstr "你好"
 
 #: ../../contributing/schemas.rst:9
 msgid "^(.+)$"
-msgstr ""
+msgstr "^(.+)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source\\_language**"
@@ -24008,7 +24044,7 @@ msgstr "*源语言*"
 
 #: ../../contributing/schemas.rst:9
 msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
-msgstr ""
+msgstr "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 
 #: ../../contributing/schemas.rst:9
 msgid "en"
@@ -24016,11 +24052,11 @@ msgstr "英语"
 
 #: ../../contributing/schemas.rst:9
 msgid "^([^ ]+)$"
-msgstr ""
+msgstr "^([^ ]+)$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
-msgstr ""
+msgstr "**目标**"
 
 #: ../../contributing/schemas.rst:9
 msgid "*The Target String*"
@@ -24028,7 +24064,7 @@ msgstr "*目标字符串*"
 
 #: ../../contributing/schemas.rst:9
 msgid "Ahoj"
-msgstr ""
+msgstr "Ahoj"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target\\_language**"
@@ -24040,7 +24076,7 @@ msgstr "*目标语言*"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
-msgstr ""
+msgstr "cs"
 
 #: ../../contributing/schemas.rst:9
 msgid "additionalProperties"
@@ -24048,7 +24084,7 @@ msgstr "额外属性"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
-msgstr ""
+msgstr "假"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "definitions"
@@ -24058,6 +24094,7 @@ msgstr "定义"
 msgid ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 msgstr ""
+":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:None
 msgid "Weblate user data export"
@@ -24069,7 +24106,7 @@ msgstr "https://weblate.org/schemas/weblate-userdata.schema.json"
 
 #: ../../contributing/schemas.rst:19
 msgid "**basic**"
-msgstr ""
+msgstr "**基本**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Basic*"
@@ -24089,7 +24126,7 @@ msgstr "管理员"
 
 #: ../../contributing/schemas.rst:19
 msgid "^.\\*$"
-msgstr ""
+msgstr "^.\\*$"
 
 #: ../../contributing/schemas.rst:19
 msgid "**full\\_name**"
@@ -24105,7 +24142,7 @@ msgstr "Weblate 管理员"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
-msgstr ""
+msgstr "**电子邮箱**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*E-mail*"
@@ -24113,7 +24150,7 @@ msgstr "*电子邮件*"
 
 #: ../../contributing/schemas.rst:19
 msgid "noreply@example.com"
-msgstr ""
+msgstr "noreply@example.com"
 
 #: ../../contributing/schemas.rst:19
 msgid "**date\\_joined**"
@@ -24125,7 +24162,7 @@ msgstr "*加入日期*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
-msgstr ""
+msgstr "2019-11-18T18:53:54.862Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "**profile**"
@@ -24162,7 +24199,7 @@ msgstr "*已翻译字符串数量*"
 #: ../../contributing/schemas.rst:19 ../../devel/reporting-example.rst:4
 #: ../../devel/reporting-example.rst:5
 msgid "24"
-msgstr ""
+msgstr "24"
 
 #: ../../contributing/schemas.rst:19
 msgid "**uploaded**"
@@ -24174,7 +24211,7 @@ msgstr "*已上传的截屏数*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
-msgstr ""
+msgstr "**hide\\_completed**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide completed translations on the dashboard*"
@@ -24182,15 +24219,15 @@ msgstr "*在控制面板上隐藏已完成的翻译*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*boolean*"
-msgstr ""
+msgstr "*布尔值*"
 
 #: ../../contributing/schemas.rst:19
 msgid "True"
-msgstr ""
+msgstr "真"
 
 #: ../../contributing/schemas.rst:19
 msgid "**secondary\\_in\\_zen**"
-msgstr ""
+msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Show secondary translations in the Zen mode*"
@@ -24198,7 +24235,7 @@ msgstr "*在禅模式下显示第二翻译*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
-msgstr ""
+msgstr "**hide\\_source\\_secondary**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Hide source if a secondary translation exists*"
@@ -24222,7 +24259,7 @@ msgstr "*翻译编辑器模式*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**zen\\_mode**"
-msgstr ""
+msgstr "**zen\\_mode**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Zen editor mode*"
@@ -24246,7 +24283,7 @@ msgstr "*控制面板默认视图*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**dashboard\\_component\\_list**"
-msgstr ""
+msgstr "**dashboard\\_component\\_list**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Default component list*"
@@ -24258,11 +24295,11 @@ msgstr "无"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
-msgstr ""
+msgstr "anyOf"
 
 #: ../../contributing/schemas.rst:19
 msgid "*null*"
-msgstr ""
+msgstr "*空*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**languages**"
@@ -24286,7 +24323,7 @@ msgstr "*第二语言*"
 
 #: ../../contributing/schemas.rst:19
 msgid "sk"
-msgstr ""
+msgstr "sk"
 
 #: ../../contributing/schemas.rst:19
 msgid "**watched**"
@@ -24314,7 +24351,7 @@ msgstr "*审计日志*"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Items*"
-msgstr ""
+msgstr "*项目*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**address**"
@@ -24326,7 +24363,7 @@ msgstr "*IP 地址*"
 
 #: ../../contributing/schemas.rst:19
 msgid "127.0.0.1"
-msgstr ""
+msgstr "127.0.0.1"
 
 #: ../../contributing/schemas.rst:19
 msgid "**user\\_agent**"
@@ -24338,19 +24375,19 @@ msgstr "*用户代理*"
 
 #: ../../contributing/schemas.rst:19
 msgid "PC / Linux / Firefox 70.0"
-msgstr ""
+msgstr "PC / Linux / Firefox 70.0"
 
 #: ../../contributing/schemas.rst:19
 msgid "**timestamp**"
-msgstr ""
+msgstr "**时间戳**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Timestamp*"
-msgstr ""
+msgstr "*时间戳*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:58:30.845Z"
-msgstr ""
+msgstr "2019-11-18T18:58:30.845Z"
 
 #: ../../contributing/schemas.rst:19
 msgid "**activity**"
@@ -24366,21 +24403,21 @@ msgstr "登录"
 
 #: ../../contributing/schemas.rst:22
 msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
-msgstr ""
+msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr ""
+msgstr "开始为 Weblate 贡献代码"
 
 #: ../../contributing/start.rst:4
 msgid ""
 "To understand Weblate source code, please first look into :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
-msgstr ""
+msgstr "为了理解 Weblate 源代码，请首先查看 :doc:`code`、:doc:`frontend` 和 :doc:`internals`。"
 
 #: ../../contributing/start.rst:8
 msgid "Starting with our codebase"
-msgstr ""
+msgstr "用我们的代码库开始"
 
 #: ../../contributing/start.rst:10
 msgid ""
@@ -24388,29 +24425,31 @@ msgid ""
 "look for ones labelled `good first issue <https://github.com/WeblateOrg/"
 "weblate/labels/good%20first%20issue>`_."
 msgstr ""
+"如果查找一些缺陷来是自己熟悉 Weblate 代码库，那么请查看标记 `good first issue <https://github.com/"
+"WeblateOrg/weblate/labels/good%20first%20issue>`_ 的那些。"
 
 #: ../../contributing/start.rst:14
 msgid "Coding Weblate with PyCharm"
-msgstr ""
+msgstr "使用 PyCharm 为 Weblate 编写代码"
 
 #: ../../contributing/start.rst:16
 msgid ""
 "PyCharm is a known IDE for Python, here's some guidelines to help you setup "
 "Weblate project in it."
-msgstr ""
+msgstr "PyCharm 是 Python 的著名 IDE，这里是一些指示，帮助您在其中设置 Weblate 项目。"
 
 #: ../../contributing/start.rst:19
 msgid ""
 "Considering you have just cloned the Github repository, just open the folder "
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
 "to specify the interpreter you want:"
-msgstr ""
+msgstr "考虑当当克隆了 Github 仓库，只是在 PyCharm 中打开将其克隆进去的文件夹。一旦打开 IDE，第一步是指定想要的解释程序："
 
 #: ../../contributing/start.rst:25
 msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
-msgstr ""
+msgstr "可以或者选择让 PyCharm 为您创建 virtualenv（虚拟环境），或者选择已经存在的："
 
 #: ../../contributing/start.rst:30
 msgid ""
