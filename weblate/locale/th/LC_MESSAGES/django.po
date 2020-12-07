@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-11-26 21:25+0000\n"
-"PO-Revision-Date: 2020-12-06 20:25+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-12-08 08:52+0000\n"
+"Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -470,7 +470,7 @@ msgstr "จำนวนสตริงที่อยู่ใกล้เคี
 
 #: weblate/accounts/models.py:366
 msgid "Number of nearby strings to show in each direction in the full editor."
-msgstr ""
+msgstr "จำนวนสตริงใกล้เคียงที่จะแสดงในแต่ละทิศทางในตัวแก้ไขแบบเต็ม"
 
 #: weblate/accounts/models.py:376 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1189,19 +1189,19 @@ msgstr "การเยื้อง YAML"
 
 #: weblate/addons/forms.py:198
 msgid "Wrap lines at 80 chars"
-msgstr ""
+msgstr "แบ่งบรรทัดที่ 80 อักขระ"
 
 #: weblate/addons/forms.py:199
 msgid "Wrap lines at 100 chars"
-msgstr ""
+msgstr "แบ่งบรรทัดที่ 100 อักขระ"
 
 #: weblate/addons/forms.py:200
 msgid "Wrap lines at 120 chars"
-msgstr ""
+msgstr "แบ่งบรรทัดที่ 120 อักขระ"
 
 #: weblate/addons/forms.py:201
 msgid "Wrap lines at 180 chars"
-msgstr ""
+msgstr "แบ่งบรรทัดที่ 180 อักขระ"
 
 #: weblate/addons/forms.py:208
 msgid "Line breaks"
@@ -1868,12 +1868,12 @@ msgstr "การเรียกเก็บเงิน"
 #: weblate/auth/data.py:211
 msgctxt "Access control group"
 msgid "Guests"
-msgstr ""
+msgstr "แขก"
 
 #: weblate/auth/data.py:215
 msgctxt "Access control group"
 msgid "Viewers"
-msgstr ""
+msgstr "ผู้ชม"
 
 #: weblate/auth/data.py:216
 msgctxt "Access control group"
@@ -1881,16 +1881,14 @@ msgid "Users"
 msgstr "ผู้ใช้"
 
 #: weblate/auth/data.py:217
-#, fuzzy
-#| msgid "Overview"
 msgctxt "Access control group"
 msgid "Reviewers"
-msgstr "ภาพรวม"
+msgstr "ผู้ตรวจทาน"
 
 #: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Managers"
-msgstr ""
+msgstr "ผู้จัดการ"
 
 #: weblate/auth/data.py:223
 msgctxt "Per project access control group"
@@ -1947,10 +1945,8 @@ msgid "Billing"
 msgstr "การเรียกเก็บเงิน"
 
 #: weblate/auth/models.py:72
-#, fuzzy
-#| msgid "Versions"
 msgid "Permission"
-msgstr "รุ่น"
+msgstr "สิทธิ์"
 
 #: weblate/auth/models.py:78
 #, fuzzy, python-format
@@ -1967,25 +1963,23 @@ msgstr "ชื่อ"
 
 #: weblate/auth/models.py:88
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "เลือกสิทธิ์ที่มอบให้กับบทบาทนี้"
 
 #: weblate/auth/models.py:111
 msgid "Roles"
-msgstr ""
+msgstr "บทบาท"
 
 #: weblate/auth/models.py:113
 msgid "Choose roles granted to this group."
-msgstr ""
+msgstr "เลือกบทบาทที่มอบให้กับกลุ่มนี้"
 
 #: weblate/auth/models.py:117
-#, fuzzy
-#| msgid "Versions"
 msgid "Project selection"
-msgstr "รุ่น"
+msgstr "การเลือกโครงการ"
 
 #: weblate/auth/models.py:119 weblate/auth/models.py:142
 msgid "As defined"
-msgstr ""
+msgstr "ตามที่กำหนด"
 
 #: weblate/auth/models.py:120
 msgid "All projects"
@@ -1993,17 +1987,15 @@ msgstr "โครงการทั้งหมด"
 
 #: weblate/auth/models.py:121
 msgid "All public projects"
-msgstr ""
+msgstr "โครงการสาธารณะทั้งหมด"
 
 #: weblate/auth/models.py:122
 msgid "All protected projects"
-msgstr ""
+msgstr "โครงการที่มีการป้องกันทั้งหมด"
 
 #: weblate/auth/models.py:123
-#, fuzzy
-#| msgid "Language"
 msgid "From component list"
-msgstr "ภาษา"
+msgstr "จากรายการคอมโพเนนต์"
 
 #: weblate/auth/models.py:128 weblate/billing/admin.py:77
 #: weblate/billing/models.py:261 weblate/templates/base.html:126
@@ -2020,13 +2012,11 @@ msgstr "โครงการ"
 #: weblate/templates/snippets/project-nav.html:19 weblate/trans/forms.py:837
 #: weblate/trans/forms.py:1797 weblate/trans/models/component.py:625
 msgid "Components"
-msgstr ""
+msgstr "คอมโพเนนต์"
 
 #: weblate/auth/models.py:140
-#, fuzzy
-#| msgid "Language"
 msgid "Language selection"
-msgstr "ภาษา"
+msgstr "การเลือกภาษา"
 
 #: weblate/auth/models.py:143 weblate/trans/forms.py:938
 msgid "All languages"
@@ -2049,10 +2039,8 @@ msgid "Languages"
 msgstr "ภาษา"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Administration"
 msgid "Weblate internal group"
-msgstr "การดูแลระบบ"
+msgstr "กลุ่มภายในของ Weblate"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:40
 #: weblate/utils/validators.py:173
@@ -2063,7 +2051,7 @@ msgstr "ชื่อผู้ใช้สามารถมีได้เพี
 
 #: weblate/auth/models.py:309
 msgid "A user with that username already exists."
-msgstr ""
+msgstr "มีผู้ใช้ชื่อนี้อยู่แล้ว"
 
 #: weblate/auth/models.py:326
 #, fuzzy
@@ -2085,38 +2073,36 @@ msgstr "ใช้งานอยู่"
 
 #: weblate/auth/models.py:333
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "ทำเครื่องหมายผู้ใช้ว่าไม่ได้ใช้งานแทนการเอาออก"
 
 #: weblate/auth/models.py:338
 msgid "Groups"
-msgstr ""
+msgstr "กลุ่ม"
 
 #: weblate/auth/models.py:341
 msgid ""
 "The user is granted all permissions included in membership of these groups."
-msgstr ""
+msgstr "ผู้ใช้ได้รับสิทธิ์ทั้งหมดที่รวมอยู่ในการเป็นสมาชิกของกลุ่มเหล่านี้"
 
 #: weblate/auth/models.py:611
 msgid "E-mail regular expression"
-msgstr ""
+msgstr "นิพจน์ปกติของอีเมล"
 
 #: weblate/auth/models.py:614
-#, fuzzy
-#| msgid "Administration"
 msgid "Regular expression used to match user e-mail."
-msgstr "การดูแลระบบ"
+msgstr "นิพจน์ปกติที่ใช้จับคู่อีเมลผู้ใช้"
 
 #: weblate/auth/models.py:617
 msgid "Group to assign"
-msgstr ""
+msgstr "กลุ่มที่จะกำหนด"
 
 #: weblate/auth/models.py:621
 msgid "Automatic group assignment"
-msgstr ""
+msgstr "การกำหนดกลุ่มอัตโนมัติ"
 
 #: weblate/auth/models.py:622
 msgid "Automatic group assignments"
-msgstr ""
+msgstr "การกำหนดกลุ่มอัตโนมัติ"
 
 #: weblate/billing/admin.py:82
 msgid "Owners"
@@ -2128,13 +2114,11 @@ msgstr "แผนการเรียกเก็บเงิน"
 
 #: weblate/billing/models.py:147
 msgid "Billed projects"
-msgstr ""
+msgstr "โครงการที่เรียกเก็บเงิน"
 
 #: weblate/billing/models.py:149
-#, fuzzy
-#| msgid "Administration"
 msgid "Billing owners"
-msgstr "การดูแลระบบ"
+msgstr "เจ้าของการเรียกเก็บเงิน"
 
 #: weblate/billing/models.py:153 weblate/templates/project_info.html:35
 msgid "Trial"
@@ -2142,29 +2126,27 @@ msgstr "การทดลองใช้"
 
 #: weblate/billing/models.py:154
 msgid "Terminated"
-msgstr ""
+msgstr "สิ้นสุด"
 
 #: weblate/billing/models.py:157
-#, fuzzy
-#| msgid "Administration"
 msgid "Billing state"
-msgstr "การดูแลระบบ"
+msgstr "สถานะการเรียกเก็บเงิน"
 
 #: weblate/billing/models.py:163
 msgid "Trial expiry date"
-msgstr ""
+msgstr "วันหมดอายุการเรียกเก็บเงิน"
 
 #: weblate/billing/models.py:170
 msgid "Scheduled removal"
-msgstr ""
+msgstr "การเอาออกที่จัดกำหนดการ"
 
 #: weblate/billing/models.py:173
 msgid "Paid"
-msgstr ""
+msgstr "ชำระเงินแล้ว"
 
 #: weblate/billing/models.py:176
 msgid "In limits"
-msgstr ""
+msgstr "ในขีดจำกัด"
 
 #: weblate/billing/models.py:246
 msgid "Changes in last month"
@@ -2286,29 +2268,23 @@ msgstr "ทั้งต้นฉบับและการแปลไม่ไ
 
 #: weblate/checks/chars.py:146
 msgid "Double space"
-msgstr ""
+msgstr "เว้นระยะห่างบรรทัดสองเท่า"
 
 #: weblate/checks/chars.py:147
-#, fuzzy
-#| msgid "Administration"
 msgid "Translation contains double space"
-msgstr "การดูแลระบบ"
+msgstr "การแปลมีการเว้นระยะห่างบรรทัดสองเท่า"
 
 #: weblate/checks/chars.py:168
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "จำนวน \\n ไม่ตรงกัน"
+msgstr "มหัพภาคไม่ตรงกัน"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายมหัพภาค"
 
 #: weblate/checks/chars.py:210
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "จำนวน \\n ไม่ตรงกัน"
+msgstr "ทวิภาคไม่ตรงกัน"
 
 #: weblate/checks/chars.py:211
 msgid "Source and translation do not both end with a colon"
@@ -2468,7 +2444,7 @@ msgstr "ข้อความ XML"
 
 #: weblate/checks/flags.py:48
 msgid "DOS line endings"
-msgstr ""
+msgstr "ตัวจบบรรทัดของ DOS"
 
 #: weblate/checks/flags.py:49 weblate/checks/markup.py:302
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
@@ -2478,7 +2454,7 @@ msgstr "URL"
 
 #: weblate/checks/flags.py:51
 msgid "Automatically detect Java MessageFormat"
-msgstr ""
+msgstr "ตรวจหา Java MessageFormat โดยอัตโนมัติ"
 
 #: weblate/checks/flags.py:53 weblate/templates/progress.html:5
 #: weblate/templates/snippets/unit-readonly-badge.html:6
@@ -2520,10 +2496,9 @@ msgid "Replacements while rendering"
 msgstr ""
 
 #: weblate/checks/flags.py:245
-#, fuzzy, python-format
-#| msgid "Administration"
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "การดูแลระบบ"
+msgstr "ค่าสถานะการแปลไม่ถูกต้อง: \"%s\""
 
 #: weblate/checks/flags.py:249
 #, fuzzy, python-format
@@ -2732,24 +2707,20 @@ msgid "Markdown syntax does not match source"
 msgstr ""
 
 #: weblate/checks/markup.py:303
-#, fuzzy
-#| msgid "Administration"
 msgid "The translation does not contain an URL"
-msgstr "การดูแลระบบ"
+msgstr "การแปลไม่มี URL"
 
 #: weblate/checks/markup.py:322 weblate/trans/autofixes/html.py:32
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "HTML ที่ไม่ปลอดภัย"
 
 #: weblate/checks/markup.py:323
-#, fuzzy
-#| msgid "Administration"
 msgid "The translation uses unsafe HTML markup"
-msgstr "การดูแลระบบ"
+msgstr "การแปลนี้ใช้มาร์กอัป HTML ที่ไม่ปลอดภัย"
 
 #: weblate/checks/placeholders.py:41
 msgid "Placeholders"
-msgstr ""
+msgstr "ตัวยึดตำแหน่ง"
 
 #: weblate/checks/placeholders.py:42
 #, fuzzy
@@ -2760,23 +2731,19 @@ msgstr "การดูแลระบบ"
 #: weblate/checks/placeholders.py:108
 #: weblate/templates/addons/discovery_help.html:8
 msgid "Regular expression"
-msgstr ""
+msgstr "นิพจน์ปกติ"
 
 #: weblate/checks/placeholders.py:109
-#, fuzzy
-#| msgid "Administration"
 msgid "Translation does not match regular expression:"
-msgstr "การดูแลระบบ"
+msgstr "การแปลไม่ตรงกับนิพจน์ปกติ:"
 
 #: weblate/checks/qt.py:49
-#, fuzzy
-#| msgid "Information"
 msgid "Qt format"
-msgstr "ข้อมูล"
+msgstr "รูปแบบ Qt"
 
 #: weblate/checks/qt.py:50
 msgid "Qt format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ Qt ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/qt.py:62
 msgid "Qt plural format"
@@ -2899,7 +2866,7 @@ msgstr ""
 
 #: weblate/fonts/models.py:134 weblate/templates/fonts/font_detail.html:16
 msgid "Font"
-msgstr ""
+msgstr "แบบอักษร"
 
 #: weblate/fonts/models.py:137 weblate/lang/models.py:467
 #: weblate/templates/component.html:135
@@ -2910,15 +2877,13 @@ msgstr ""
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:973 weblate/trans/forms.py:2028
 #: weblate/trans/models/announcement.py:97
-#, fuzzy
-#| msgid "Language"
 msgid "Language"
 msgstr "ภาษา"
 
 #: weblate/fonts/validators.py:32 weblate/fonts/validators.py:36
 #: weblate/utils/validators.py:163
 msgid "Unsupported file format."
-msgstr ""
+msgstr "รูปแบบไฟล์ที่ไม่สนับสนุน"
 
 #: weblate/fonts/views.py:72 weblate/fonts/views.py:134
 #: weblate/fonts/views.py:146 weblate/trans/forms.py:1503
@@ -4003,7 +3968,7 @@ msgstr "ผู้เสนอแนะที่มีความเคลื่
 
 #: weblate/templates/about/stats.html:48
 msgid "Most active screenshot uploaders"
-msgstr ""
+msgstr "ผู้อัปโหลดภาพหน้าจอที่มีความเคลื่อนไหวมากที่สุด"
 
 #: weblate/templates/about/stats.html:64
 #, fuzzy
@@ -4017,8 +3982,6 @@ msgid "Projects"
 msgstr "โครงการ"
 
 #: weblate/templates/about/stats.html:88
-#, fuzzy
-#| msgid "Component"
 msgctxt "Number of components"
 msgid "Components"
 msgstr "คอมโพเนนต์"
@@ -4172,7 +4135,7 @@ msgstr "คำอธิบาย"
 #: weblate/templates/billing/status.html:9
 #, python-format
 msgid ", expires %(expires)s"
-msgstr ""
+msgstr "หมดอายุใน %(expires)s"
 
 #: weblate/templates/accounts/hosting.html:25
 #, python-format
@@ -5472,35 +5435,29 @@ msgstr "ดาวน์โหลดสำหรับแปลออฟไลน
 
 #: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#, fuzzy
-#| msgid "Administration"
 msgid "Download original translation files as ZIP file"
-msgstr "การดูแลระบบ"
+msgstr "ดาวน์โหลดไฟล์การแปลดั้งเดิมเป็นไฟล์ ZIP"
 
 #: weblate/templates/component-list.html:35
-#, fuzzy
-#| msgid "Language"
 msgid "Number of components"
-msgstr "ภาษา"
+msgstr "จำนวนคอมโพเนนต์"
 
 #: weblate/templates/component-list.html:41
 #: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
-msgstr ""
+msgstr "การกำหนดรายการคอมโพเนนต์อัตโนมัติ"
 
 #: weblate/templates/component-progress.html:9
 msgid "Progress"
-msgstr ""
+msgstr "ความคืบหน้า"
 
 #: weblate/templates/component-progress.html:17
 msgid "Component is being updated…"
 msgstr ""
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:63
-#, fuzzy
-#| msgid "Delete"
 msgid "Return to the component"
-msgstr "ลบ"
+msgstr "กลับไปยังคอมโพเนนต์"
 
 #: weblate/templates/component-progress.html:33
 msgid "Abort the update"
@@ -5522,11 +5479,11 @@ msgstr "การแปล"
 #: weblate/templates/snippets/project-nav.html:21
 #: weblate/templates/translation.html:35
 msgid "Info"
-msgstr ""
+msgstr "ข้อมูล"
 
 #: weblate/templates/component.html:35 weblate/wladmin/views.py:67
 msgid "Alerts"
-msgstr ""
+msgstr "การแจ้งเตือน"
 
 #: weblate/templates/component.html:41 weblate/templates/dashboard/user.html:31
 #: weblate/templates/language-project.html:22
