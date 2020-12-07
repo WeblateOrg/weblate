@@ -17,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Count
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -130,6 +130,25 @@ def get_user_translations(request, user, user_has_languages):
     return result
 
 
+def redirect_single_project(user):
+    if isinstance(settings.SINGLE_PROJECT, str):
+        target = project = Project.objects.get(slug=settings.SINGLE_PROJECT)
+    elif Component.objects.count() == 1:
+        target = Component.objects.get()
+        project = target.project
+    elif Project.objects.count() == 1:
+        target = project = Project.objects.get()
+    else:
+        raise ImproperlyConfigured("SINGLE_PROJECT enabled, but no project found")
+
+    print(
+        user.is_authenticated, user.can_access_project(project), project.access_control
+    )
+    if not user.is_authenticated and not user.can_access_project(project):
+        return redirect(f"{settings.LOGIN_URL}?next={target.get_absolute_url()}")
+    return redirect(target)
+
+
 @never_cache
 def home(request):
     """Home page handler serving different views based on user."""
@@ -170,14 +189,8 @@ def home(request):
         )
 
     # Redirect to single project or component
-    if isinstance(settings.SINGLE_PROJECT, str):
-        return redirect(Project.objects.get(slug=settings.SINGLE_PROJECT))
     if settings.SINGLE_PROJECT:
-        if Component.objects.count() == 1:
-            return redirect(Component.objects.first())
-
-        if Project.objects.count() == 1:
-            return redirect(Project.objects.first())
+        return redirect_single_project(user)
 
     if not user.is_authenticated:
         return dashboard_anonymous(request)
