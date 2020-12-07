@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
