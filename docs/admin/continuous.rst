@@ -359,7 +359,7 @@ fulfilled:
 * Somebody else changes an already changed string.
 * A merge from upstream occurs.
 * An explicit commit is requested.
-* Change is older than period defined as :guilabel:`Age of changes to commit` on :ref:`component`.
+* Change is older than period defined as :ref:`component-commit_pending_age` on :ref:`component`.
 
 .. hint::
 

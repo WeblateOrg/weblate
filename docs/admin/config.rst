@@ -523,7 +523,8 @@ Defaults to `en`. The matching language object needs to exist in the database.
 
 .. seealso::
 
-   :ref:`languages`
+   :ref:`languages`,
+   :ref:`component-source_language`
 
 .. setting:: DEFAULT_MERGE_STYLE
 

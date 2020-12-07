@@ -688,7 +688,7 @@ You can either define which project or component to update (for example
 
 .. note::
 
-    Weblate pushes changes automatically if :guilabel:`Push on commit` in
+    Weblate pushes changes automatically if :ref:`component-push_on_commit` in
     :ref:`component` is turned on, which is the default.
 
 unlock_translation
