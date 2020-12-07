@@ -19,6 +19,7 @@
 #
 
 import os
+from distutils import log
 from distutils.command.build import build
 from distutils.core import Command
 from distutils.dep_util import newer
@@ -80,7 +81,7 @@ class BuildMo(Command):
             output = os.path.splitext(name)[0] + ".mo"
             if not newer(name, output):
                 continue
-            print(f"compiling {name} -> {output}")
+            self.announce(f"compiling {name} -> {output}", level=log.INFO)
             with open(name, "rb") as pofile, open(output, "wb") as mofile:
                 convertmo(pofile, mofile, None)
 
