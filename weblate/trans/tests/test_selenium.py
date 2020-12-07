@@ -17,10 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import math
 import os
 import time
+import warnings
 from contextlib import contextmanager
 from datetime import timedelta
 from io import BytesIO
@@ -157,7 +157,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self):
         if self.driver is None:
-            print(f"Selenium error: {self.driver_error}")
+            warnings.warn(f"Selenium error: {self.driver_error}")
             raise SkipTest(f"Webdriver not available: {self.driver_error}")
         super().setUp()
         self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
@@ -361,7 +361,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             except WebDriverException as error:
                 # This usually happens when browser fails to delete some
                 # of the cookies for whatever reason.
-                print(f"Ignoring: {error}")
+                warnings.warn(f"Ignoring: {error}")
 
         # Confirm account
         self.driver.get(url)
