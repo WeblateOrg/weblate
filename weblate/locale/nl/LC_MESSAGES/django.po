@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-08 08:53+0000\n"
-"PO-Revision-Date: 2020-12-06 20:25+0000\n"
+"PO-Revision-Date: 2020-12-08 11:30+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -3852,7 +3852,7 @@ msgstr "Hosting van vertalingen"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
-"Deze Weblate-instantie host vertalingen voor verschillende "
+"Deze Weblate-instantie host vertalingen van verschillende "
 "vrijesoftwareprojecten."
 
 #: weblate/templates/about/index.html:29
@@ -4184,17 +4184,12 @@ msgstr ""
 "vrije pakket."
 
 #: weblate/templates/accounts/hosting.html:41
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
-"Vermeld het gebruik van Weblate in het leesmijbestand (README). Zo helpt u "
-"om Weblate gratis te houden voor vrije software en nieuwe vertalers te "
-"werven."
+"Vermeld het gebruik van Weblate in het leesmijbestand (README). Zo werft u "
+"nieuwe vertalers en helpt u om Weblate gratis te houden voor vrije software."
 
 #: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
@@ -5196,10 +5191,8 @@ msgid "No invoices found."
 msgstr "Geen facturen gevonden."
 
 #: weblate/templates/billing/detail.html:100
-#, fuzzy
-#| msgid "hosting"
 msgid "Libre hosting"
-msgstr "Huisvesting"
+msgstr "Vrijesoftwarehosting"
 
 #: weblate/templates/billing/detail.html:102
 #: weblate/templates/billing/state-snippet.html:5
@@ -5222,7 +5215,7 @@ msgstr ""
 
 #: weblate/templates/billing/detail.html:123
 msgid "Approve as libre"
-msgstr "Vrijesoftwaregoedkeuring"
+msgstr "Vrijesoftwarehosting-goedkeuring"
 
 #: weblate/templates/billing/detail.html:126
 #: weblate/templates/mail/billing_expired.html:49
@@ -5241,20 +5234,15 @@ msgstr ""
 
 #: weblate/templates/billing/list.html:10
 msgid "Plan"
-msgstr ""
+msgstr "Pakket"
 
 #: weblate/templates/billing/list.html:11
-#, fuzzy
-#| msgctxt "Number of hosted words"
-#| msgid "Hosted words"
 msgid "Hosted words"
 msgstr "Gehoste woorden"
 
 #: weblate/templates/billing/list.html:28
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No users currently assigned!"
-msgstr "Geen projecten toegewezen op dit moment!"
+msgstr "Er zijn momenteel geen gebruikers toegewezen!"
 
 #: weblate/templates/billing/list.html:35
 #: weblate/templates/billing/status.html:102
@@ -5288,10 +5276,8 @@ msgstr ""
 "toegang te verschaffen."
 
 #: weblate/templates/billing/state-snippet.html:11
-#, fuzzy
-#| msgid "Recurring payment"
 msgid "Awaiting payment"
-msgstr "Terugkerende betaling"
+msgstr "In afwachting van betaling"
 
 #: weblate/templates/billing/status.html:9
 msgid "Current plan"
@@ -6786,8 +6772,9 @@ msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
 msgstr ""
-"Als de proefperiode van het vrije pakket niet wordt goedgekeurd, zullen alle "
-"projecten binnen dit facturatiepakket verwijderd worden op %(date)s."
+"Als de proefperiode van het vrijesoftwarepakket niet wordt goedgekeurd, "
+"zullen alle projecten binnen dit facturatiepakket verwijderd worden op "
+"%(date)s."
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -7202,11 +7189,9 @@ msgstr "Proficiat, uw setup lijkt te werken."
 
 #: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:71
 msgid "Appearance"
-msgstr ""
+msgstr "Vormgeving"
 
 #: weblate/templates/manage/appearance.html:18
-#, fuzzy
-#| msgid "Customize design"
 msgid "Customize appearance"
 msgstr "Vormgeving aanpassen"
 
@@ -7263,14 +7248,12 @@ msgid "Add backup service"
 msgstr "Back-updienst toevoegen"
 
 #: weblate/templates/manage/billing.html:15
-#, fuzzy
-#| msgid "Commercial hosting"
 msgid "Commerial"
-msgstr "Commerciële hosting"
+msgstr "Commercieel"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
-msgstr ""
+msgstr "Vrije software"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7580,6 +7563,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "for adding another one."
 msgstr ""
+"Deze lijst bevat alleen basistalen. Neem contact op met de projectbeheerders "
+"als u een andere taal wenst."
 
 #: weblate/templates/new-language.html:41
 msgid "Request new translation"
@@ -8023,8 +8008,8 @@ msgid ""
 "Things like license or repository can still change before being approved as "
 "a libre project."
 msgstr ""
-"Dit project geniet een proefperiode, dus wees terughoudend met bijdragen "
-"aangezien de licentie en opslagruimte nog aangepast kunnen worden."
+"Dit project geniet een proefperiode, dus wees voorzichtig met bijdragen: de "
+"licentie en opslagruimte kunnen nog worden aangepast."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
 msgid "Manage billing"
@@ -8347,8 +8332,6 @@ msgid "Error"
 msgstr "Fout"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files using ambiguous language code."
 msgid "The component translation files are using ambiguous language code."
 msgstr ""
 "De vertaalbestanden van het onderdeel gebruiken een dubbelzinnige taalcode."
@@ -8516,6 +8499,7 @@ msgstr "Voeg een enkeltalig basistaalbestand toe in de onderdeel-instellingen."
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This projects does no longer fit into libre hosting conditions."
 msgstr ""
+"Dit project voldoet niet meer aan de voorwaarden van vrijesoftwarehosting."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8730,28 +8714,21 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Ik begrijp de gevolgen. Verwijder deze vertaling"
 
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
-"Deze handeling kan niet ongedaan worden gemaakt. De vertaling '%(object)s' "
-"en alle bijbehorende inhoud wordt permanent verwijderd."
+"Deze handeling kan niet ongedaan worden gemaakt. De vertalingen '%(object)s' "
+"en alle bijbehorende inhoud worden permanent verwijderd."
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "De volgende vertaalonderdelen worden verwijderd:"
+msgstr "De volgende vertalingen worden verwijderd:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "Te verwijderen project"
+msgstr "Te verwijderen projecttaal"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8839,10 +8816,8 @@ msgid "This translation"
 msgstr "Deze vertaling"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Vertaald"
+msgstr "Voortgezet"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9008,10 +8983,8 @@ msgid "List of recent changes done in Weblate"
 msgstr "Lijst met recente wijzigingen in Weblate"
 
 #: weblate/templates/translate.html:279
-#, fuzzy
-#| msgid "Different context"
 msgid "Difference to current string"
-msgstr "Vertaalcontext bij schermafbeelding"
+msgstr "Verschil met huidige tekenreeks"
 
 #: weblate/templates/translate.html:290
 msgid "The following string has the same context and source."
@@ -9038,16 +9011,12 @@ msgstr[1] ""
 "De volgende tekenreeksen hebben een andere bron, maar dezelfde context."
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Sta propageren van vertalingen toe"
+msgstr "Geselecteerde vertaling toepassen op voortgezette tekenreeksen"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Upload translation strings"
 msgid "Apply selected translation to current string"
-msgstr "Vertaaltekenreeksen uploaden"
+msgstr "Geselecteerde vertaling toepassen op huidige tekenreeks"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -10025,10 +9994,9 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Typ de naam van de slug van het project om te bevestigen."
 
 #: weblate/trans/forms.py:2026
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Typ de naam van de slug van het project om te bevestigen."
+msgstr ""
+"Voer de naam in van de slug van het project en de taal om te bevestigen."
 
 #: weblate/trans/forms.py:2053
 msgid "Author username"
@@ -10182,7 +10150,7 @@ msgstr "Dubbelzinnige taalcode."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:330
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "Voldoet niet aan de voorwaarden van vrijesoftwarehosting."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -11556,13 +11524,11 @@ msgid "This translation does not yet exist."
 msgstr "Deze vertaling bestaat nog niet."
 
 #: weblate/trans/templatetags/translations.py:759
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s te behandelen tekenreeks"
-msgstr[1] "%(count)s te behandelen tekenreeksen"
+msgstr[0] "%(count)s tekenreeks wordt elders vertaald."
+msgstr[1] "%(count)s tekenreeksen worden elders vertaald."
 
 #: weblate/trans/templatetags/translations.py:786
 msgid "enabled"
@@ -11969,10 +11935,8 @@ msgid "Project was scheduled for removal."
 msgstr "Het project werd gepland voor verwijdering."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "Taal %s verwijderd."
+msgstr "De projecttaal is verwijderd."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -12343,6 +12307,8 @@ msgid ""
 "Use hamburger menu in the top navigation regardless the screen resolution. "
 "When disabled the hamburger navigation is used on small screens only."
 msgstr ""
+"Gebruik het hamburgermenu op de bovenste balk, ongeacht de schermresolutie. "
+"Schakel uit om alleen te gebruiken op kleine schermen."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
