@@ -93,7 +93,7 @@ PERM_TEMPLATE = """
 
 SOURCE_LINK = """
 <a href="{0}" target="_blank" rel="noopener noreferrer"
-    class="long-filename" dir="ltr">{1}</a>
+    class="wrap-text" dir="ltr">{1}</a>
 """
 
 

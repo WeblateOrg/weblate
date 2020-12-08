@@ -122,12 +122,12 @@ class LocationLinksTest(TestCase):
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
             """
-            <a class="long-filename"
+            <a class="wrap-text"
                 href="http://example.net/foo.bar#L123" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
-            <a class="long-filename"
+            <a class="wrap-text"
                 href="http://example.net/bar.foo#L321" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             bar.foo:321
@@ -143,7 +143,7 @@ class LocationLinksTest(TestCase):
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
             """
-            <a class="long-filename"
+            <a class="wrap-text"
                 href="http://example.net/foo.bar#L123" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
@@ -160,7 +160,7 @@ class LocationLinksTest(TestCase):
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
             """
-            <a class="long-filename"
+            <a class="wrap-text"
                 href="editor://open/?file=foo.bar&amp;line=123" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
