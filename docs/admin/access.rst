@@ -318,7 +318,7 @@ Default groups and roles
 ------------------------
 
 These roles and groups are created upon installation. The built-in roles are
-always kept up to date by the databsae migration on upgrade and any custom
+always kept up to date by the database migration on upgrade and any custom
 changes will be lost. In case you want to define own set of permissions, please
 define a new role for that.
 

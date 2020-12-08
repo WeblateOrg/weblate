@@ -1966,7 +1966,7 @@ example:
 .. note::
 
     Removing the addon from the list does not uninstall it from the components.
-    Weblate will crash in that case. Please uninstall addon form all components
+    Weblate will crash in that case. Please uninstall addon from all components
     prior to removing it from this list.
 
 .. seealso::
