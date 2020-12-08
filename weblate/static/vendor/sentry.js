@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.28.0 (705af78) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.29.0 (93392f0) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4799,7 +4799,7 @@ var Sentry = (function (exports) {
              */
             var limited = this._handleRateLimit(headers);
             if (limited)
-                logger.warn("Too many requests, backing off till: " + this._disabledUntil(requestType));
+                logger.warn("Too many requests, backing off until: " + this._disabledUntil(requestType));
             if (status === exports.Status.Success) {
                 resolve({ status: status });
                 return;
@@ -4828,6 +4828,16 @@ var Sentry = (function (exports) {
             var raHeader = headers['retry-after'];
             if (rlHeader) {
                 try {
+                    // rate limit headers are of the form
+                    //     <header>,<header>,..
+                    // where each <header> is of the form
+                    //     <retry_after>: <categories>: <scope>: <reason_code>
+                    // where
+                    //     <retry_after> is a delay in ms
+                    //     <categories> is the event type(s) (error, transaction, etc) being rate limited and is of the form
+                    //         <category>;<category>;...
+                    //     <scope> is what's being limited (org, project, or key) - ignored by SDK
+                    //     <reason_code> is an arbitrary string like "org_quota" - ignored by SDK
                     for (var _c = __values(rlHeader.trim().split(',')), _d = _c.next(); !_d.done; _d = _c.next()) {
                         var limit = _d.value;
                         var parameters = limit.split(':', 2);
@@ -4922,7 +4932,13 @@ var Sentry = (function (exports) {
                         'x-sentry-rate-limits': response.headers.get('X-Sentry-Rate-Limits'),
                         'retry-after': response.headers.get('Retry-After'),
                     };
-                    _this._handleResponse({ requestType: sentryRequest.type, response: response, headers: headers, resolve: resolve, reject: reject });
+                    _this._handleResponse({
+                        requestType: sentryRequest.type,
+                        response: response,
+                        headers: headers,
+                        resolve: resolve,
+                        reject: reject,
+                    });
                 })
                     .catch(reject);
             }));
@@ -5973,7 +5989,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.28.0';
+    var SDK_VERSION = '5.29.0';
 
     /**
      * The Sentry Browser SDK Client.
