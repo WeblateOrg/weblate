@@ -50,8 +50,8 @@ from weblate.vcs.ssh import (
 )
 from weblate.wladmin.forms import (
     ActivateForm,
+    AppearanceForm,
     BackupForm,
-    DesignForm,
     SSHAddForm,
     TestMailForm,
     UserSearchForm,
@@ -68,7 +68,7 @@ MENU = (
     ("alerts", "manage-alerts", gettext_lazy("Alerts")),
     ("repos", "manage-repos", gettext_lazy("Repositories")),
     ("users", "manage-users", gettext_lazy("Users")),
-    ("design", "manage-design", gettext_lazy("Design")),
+    ("appearance", "manage-appearance", gettext_lazy("Appearance")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
 )
 if "weblate.billing" in settings.INSTALLED_APPS:
@@ -354,17 +354,17 @@ def users_check(request):
 
 
 @management_access
-def design(request):
+def appearance(request):
 
     current = Setting.objects.get_settings_dict(Setting.CATEGORY_UI)
-    form = DesignForm(initial=current)
+    form = AppearanceForm(initial=current)
 
     if request.method == "POST":
         if "reset" in request.POST:
             Setting.objects.filter(category=Setting.CATEGORY_UI).delete()
             CustomCSSView.drop_cache()
-            return redirect("manage-design")
-        form = DesignForm(request.POST)
+            return redirect("manage-appearance")
+        form = AppearanceForm(request.POST)
         if form.is_valid():
             for name, value in form.cleaned_data.items():
                 if name not in current:
@@ -387,14 +387,14 @@ def design(request):
 
             # Flush cache
             CustomCSSView.drop_cache()
-            return redirect("manage-design")
+            return redirect("manage-appearance")
 
     return render(
         request,
-        "manage/design.html",
+        "manage/appearance.html",
         {
             "menu_items": MENU,
-            "menu_page": "design",
+            "menu_page": "appearance",
             "form": form,
         },
     )

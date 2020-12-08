@@ -7,15 +7,15 @@
 
 {% block breadcrumbs %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'manage-design' %}">{% trans "Design" %}</a></li>
+<li><a href="{% url 'manage-appearance' %}">{% trans "Appearance" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
-<form method="POST" action="{% url "manage-design" %}">
+<form method="POST" action="{% url "manage-appearance" %}">
 {% csrf_token %}
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Customize design" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Customize appearance" %}</h4></div>
   <div class="panel-body">
   {% crispy form %}
   </div>

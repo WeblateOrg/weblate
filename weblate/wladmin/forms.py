@@ -80,7 +80,7 @@ class ColorField(forms.CharField):
         super().__init__(widget=forms.TextInput(attrs={"type": "color"}), **kwargs)
 
 
-class DesignForm(forms.Form):
+class AppearanceForm(forms.Form):
     page_font = FontField(label=_("Page font"), required=False)
     brand_font = FontField(label=_("Header font"), required=False)
     header_color = ColorField(

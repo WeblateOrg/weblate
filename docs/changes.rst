@@ -5,7 +5,7 @@ Not yet released.
 
 * Improved validation when creating component.
 * Weblate now requires Django 3.1.
-* Added support for design customization in the management interface.
+* Added support for appearance customization in the management interface.
 * Fixed read only state handling in bulk edit.
 * Improved CodeMirror integration.
 * Added addon to remove blank strings from translation files.
