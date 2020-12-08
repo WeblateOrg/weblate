@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-08 08:53+0000\n"
-"PO-Revision-Date: 2020-12-08 12:02+0000\n"
+"PO-Revision-Date: 2020-12-08 14:07+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -8841,10 +8841,8 @@ msgid "This translation"
 msgstr "Цей переклад"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Перекладено"
+msgstr "Розповсюдження"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9007,7 +9005,7 @@ msgstr "Список останніх змін у Weblate"
 
 #: weblate/templates/translate.html:279
 msgid "Difference to current string"
-msgstr ""
+msgstr "Відмінність від поточного рядка"
 
 #: weblate/templates/translate.html:290
 msgid "The following string has the same context and source."
@@ -9036,16 +9034,12 @@ msgstr[2] "Наступні рядки мають інше джерело, ал�
 msgstr[3] "Наступний рядок має інше джерело, але той самий контекст."
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Дозволити поширення перекладу"
+msgstr "Застосувати вибраний переклад до всіх розповсюджених рядків"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Apply selected translation to current string"
-msgstr "Додати новий рядок перекладу"
+msgstr "Застосувати вибраний переклад до поточного рядка"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -10023,10 +10017,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Будь ласка, введіть ідентифікатор проєкту для підтвердження."
 
 #: weblate/trans/forms.py:2026
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Будь ласка, введіть ідентифікатор проєкту для підтвердження."
+msgstr "Введіть ідентифікатор проєкту та мови для підтвердження."
 
 #: weblate/trans/forms.py:2053
 msgid "Author username"
@@ -10177,7 +10169,7 @@ msgstr "Неоднозначний код мови."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:330
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "Не відповідає умовам вільного розміщення."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -11577,15 +11569,13 @@ msgid "This translation does not yet exist."
 msgstr "Цього перекладу ще не існує."
 
 #: weblate/trans/templatetags/translations.py:759
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s рядок, який потребує дій"
-msgstr[1] "%(count)s рядки, які потребують дій"
-msgstr[2] "%(count)s рядків, які потребують дій"
-msgstr[3] "%(count)s рядок, який потребує дій"
+msgstr[0] "%(count)s рядок тут не перекладається."
+msgstr[1] "%(count)s рядки тут не перекладаються."
+msgstr[2] "%(count)s рядків тут не перекладаються."
+msgstr[3] "%(count)s рядок тут не перекладається."
 
 #: weblate/trans/templatetags/translations.py:786
 msgid "enabled"
@@ -11997,10 +11987,8 @@ msgid "Project was scheduled for removal."
 msgstr "Проєкт запланований до вилучення."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "Видалено мову %s."
+msgstr "Мову проєкту вилучено."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -12370,6 +12358,9 @@ msgid ""
 "Use hamburger menu in the top navigation regardless the screen resolution. "
 "When disabled the hamburger navigation is used on small screens only."
 msgstr ""
+"Використовувати гамбургер-меню у верхній панелі переходів незалежно від "
+"роздільної здатності екрана. Якщо вимкнено, гамбургер-меню використовується "
+"лише на маликих екранах."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
