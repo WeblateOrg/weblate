@@ -33,7 +33,7 @@ GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 class GoogleBaseTranslation(MachineTranslation):
     # Map codes used by Google to the ones used by Weblate
     language_map = {
-        "nb": "no",
+        "nb_no": "no",
         "fil": "tl",
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
