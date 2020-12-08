@@ -52,7 +52,5 @@ class AutoTranslateAddon(BaseAddon):
 
     def daily(self, component):
         # Translate every component once in a week to reduce load
-        if component.id % 7 != date.today().weekday():
-            return
-
-        self.component_update(component)
+        if component.id % 7 == date.today().weekday():
+            self.component_update(component)
