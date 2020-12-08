@@ -964,7 +964,7 @@ Example file:
 .. seealso::
 
     :doc:`tt:formats/json`,
-    `Google chrome.i18n <https://developer.chrome.com/extensions/i18n>`_,
+    `Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/i18n/>`_,
     `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_
 
 .. _dotnet:
