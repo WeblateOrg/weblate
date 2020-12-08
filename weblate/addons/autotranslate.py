@@ -41,13 +41,6 @@ class AutoTranslateAddon(BaseAddon):
     icon = "language.svg"
 
     def component_update(self, component):
-        self.daily(component)
-
-    def daily(self, component):
-        # Translate every component once in a week to reduce load
-        if component.id % 7 != date.today().weekday():
-            return
-
         for translation in component.translation_set.iterator():
             if translation.is_source:
                 continue
@@ -56,3 +49,10 @@ class AutoTranslateAddon(BaseAddon):
                 auto_translate.delay(None, pk, **self.instance.configuration)
 
             transaction.on_commit(callback)
+
+    def daily(self, component):
+        # Translate every component once in a week to reduce load
+        if component.id % 7 != date.today().weekday():
+            return
+
+        self.component_update(component)
