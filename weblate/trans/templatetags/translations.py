@@ -168,6 +168,7 @@ def format_translation(
     diff=None,
     search_match=None,
     simple=False,
+    wrap=False,
     num_plurals=2,
     unit=None,
     match="search",
@@ -235,6 +236,7 @@ def format_translation(
 
     return {
         "simple": simple,
+        "wrap": wrap,
         "items": parts,
         "language": language,
         "unit": unit,

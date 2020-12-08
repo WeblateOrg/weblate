@@ -2,7 +2,7 @@
 {% load icons %}
 
 {% if simple %}
-<span lang="{{ language.code }}" dir="{{ language.direction }}">{{ items.0.content }}</span>
+<span lang="{{ language.code }}" dir="{{ language.direction }}" {% if wrap %}class="wrap-text"{% endif %}>{{ items.0.content }}</span>
 {% elif has_content %}
 <div class="list-group">
   {% for item in items %}
