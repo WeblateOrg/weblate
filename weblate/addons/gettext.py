@@ -252,6 +252,17 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 )
                 return
         template = component.get_new_base_filename()
+        if not template or not os.path.exists(template):
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "msgmerge",
+                    "output": template,
+                    "error": "Template for new translations not found",
+                }
+            )
+            self.trigger_alerts(component)
+            return
         args = []
         if not self.instance.configuration.get("fuzzy", True):
             args.append("--no-fuzzy-matching")
