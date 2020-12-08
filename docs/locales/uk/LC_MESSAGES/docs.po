@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-08 09:54+0100\n"
-"PO-Revision-Date: 2020-12-08 14:07+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2020-12-08 20:03+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -6847,8 +6847,6 @@ msgstr ""
 "вилучте додаток з усіх складників, перш ніж вилучати його зі списку."
 
 #: ../../admin/config.rst:1974
-#, fuzzy
-#| msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 
@@ -7558,16 +7556,12 @@ msgid "An explicit commit is requested."
 msgstr "Надіслано запит на явний внесок."
 
 #: ../../admin/continuous.rst:362
-#, fuzzy
-#| msgid ""
-#| "Change is older than period defined as :guilabel:`Age of changes to "
-#| "commit` on :ref:`component`."
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
-"Зміна є старішою за часовий проміжок, визначений як :guilabel:`Вік змін для "
-"подання` у :ref:`component`."
+"Зміна є старішою за часовий проміжок, визначений як :ref:`component-"
+"commit_pending_age` у :ref:`component`."
 
 #: ../../admin/continuous.rst:366
 msgid ""
@@ -8599,11 +8593,6 @@ msgstr ""
 "PostgreSQL є найкращою."
 
 #: ../../admin/install.rst:399
-#, fuzzy
-#| msgid ""
-#| "Weblate can be also used with MySQL or MariaDB, please see :ref:`django:"
-#| "mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django "
-#| "with those."
 msgid ""
 "Weblate can be also used with MySQL or MariaDB, please see :ref:`django:"
 "mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with "
@@ -8613,7 +8602,9 @@ msgstr ""
 "Weblate можна також користуватися із MySQL або MariaDB. Будь ласка, "
 "ознайомтеся із розділами :ref:`django:mysql-notes` і :ref:`django:mariadb-"
 "notes`, щоб дізнатися більше про можливі проблеми із використанням Django "
-"разом із цими серверами баз даних."
+"разом із цими серверами баз даних. Через обмеження, які накладаються "
+"використанням інших баз даних, рекомендуємо використовувати для "
+"нововстановлених екземплярів :ref:`postgresql`."
 
 #: ../../admin/install.rst:404
 msgid "Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7."
@@ -8654,6 +8645,9 @@ msgid ""
 "In case you are getting ``#1071 - Specified key was too long; max key length "
 "is 767 bytes`` error, please set ``Innodb_large_prefix`` as described above."
 msgstr ""
+"Якщо ви бачите повідомлення про помилку ``#1071 - Specified key was too long;"
+" max key length is 767 bytes``, будь ласка, встановіть "
+"``Innodb_large_prefix``, як це описано вище."
 
 #: ../../admin/install.rst:419
 msgid "Other configurations"
@@ -11691,10 +11685,8 @@ msgstr ""
 "томів."
 
 #: ../../admin/install/openshift.rst:11
-#, fuzzy
-#| msgid "See <https://github.com/WeblateOrg/weblate/issues/2149>"
 msgid "You can find the teplate at <https://github.com/WeblateOrg/openshift/>."
-msgstr "Див. <https://github.com/WeblateOrg/weblate/issues/2149>"
+msgstr "Шаблон можна знайти тут: <https://github.com/WeblateOrg/openshift/>."
 
 #: ../../admin/install/openshift.rst:16
 msgid ""
@@ -14204,17 +14196,13 @@ msgstr ""
 "Примусово вносить до сховища усі зміни з черги до надсилання змін до сховища."
 
 #: ../../admin/management.rst:691
-#, fuzzy
-#| msgid ""
-#| "Weblate pushes changes automatically if :guilabel:`Push on commit` in :"
-#| "ref:`component` is turned on, which is the default."
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` in :"
 "ref:`component` is turned on, which is the default."
 msgstr ""
-"Weblate записує зміни до сховища автоматично, якщо позначено пункт :guilabel:"
-"`Відправляти при поданні` у налаштуваннях :ref:`складника <component>` "
-"(типові налаштування)."
+"Weblate записує зміни до сховища автоматично, якщо позначено пункт :ref"
+":`component-push_on_commit` у налаштуваннях :ref:`складника <component>` ("
+"типові налаштування)."
 
 #: ../../admin/management.rst:695
 msgid "unlock_translation"
@@ -18379,6 +18367,9 @@ msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
 msgstr ""
+"Більша частина дій зі створення складника виконується у фоновому режимі. "
+"Ознайомтеся із документацією до атрибута ``task_url`` створеного складника і "
+"стежте за поступом за його допомогою."
 
 #: ../../api.rst:926
 msgid "ZIP file to upload into Weblate for translations initialization"
@@ -18624,13 +18615,11 @@ msgstr ""
 "component)/changes/`"
 
 #: ../../api.rst:1120
-#, fuzzy
-#| msgid ""
-#| "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
 msgid ""
 "URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`"
 msgstr ""
-"адреса для отримання файла; див. :http:get:`/api/screenshots/(int:id)/file/`"
+"Адреса фонового завдання (якщо таке виконується); див. :http:get:`/api/tasks/"
+"(str:uuid)/`"
 
 #: ../../api.rst:1166
 msgid "Edit a component by a patch request."
@@ -19996,12 +19985,10 @@ msgid "Added alert on using ambiguous language codes."
 msgstr "Додано попередження щодо використання неоднозначних кодів мов."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Configurable language code syntax when adding new translations."
 msgid ""
 "User is now presented filtered list of languages when adding new translation."
 msgstr ""
-"Реалізовано придатний до налаштовування синтаксис коду мови при додаванні "
+"Реалізовано показу користувачеві фільтрованого списку мов при додаванні "
 "нових перекладів."
 
 #: ../../changes.rst:18
@@ -20009,10 +19996,10 @@ msgid "Extended search capabilities for changes history."
 msgstr "Розширено можливості пошуку для дієпису."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Improved user pages and added listing of users."
 msgid "Improved billing detail pages and libre hosting workflow."
-msgstr "Удосконалено сторінки користувачів і додано список користувачів."
+msgstr ""
+"Удосконалено сторінки подробиць щодо рахунків та процедуру розміщення "
+"вільних проєктів."
 
 #: ../../changes.rst:20
 msgid "Extended translation statistics API."
@@ -25758,6 +25745,9 @@ msgid ""
 "The example system-wide setups log to several files under :file:`/var/log/"
 "celery/`."
 msgstr ""
+"Процес Celery (див. :ref:`celery`) зазвичай створює власний журнал. У "
+"прикладі загальносистемного налаштовування журнал записується до декількох "
+"файлів у каталозі :file:`/var/log/celery/`."
 
 #: ../../contributing/debugging.rst:30
 msgid ""
@@ -27092,6 +27082,8 @@ msgstr "Створіть virtualenv:"
 msgid ""
 "Install Weblate (this will need some system deps, see :ref:`quick-source`):"
 msgstr ""
+"Встановіть Weblate (це потребуватиме декількох залежностей у системі, див. "
+":ref:`quick-source`):"
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
@@ -27108,12 +27100,8 @@ msgstr ""
 "Залежно від ваших налаштувань, вам може знадобитися запуск обробників Celery:"
 
 #: ../../contributing/start.rst:58
-#, fuzzy
-#| msgid "VCS to use, see :ref:`vcs` for details."
 msgid "To run test (see :ref:`local-tests` for more details):"
-msgstr ""
-"Система керування версіями, якою слід скористатися. Див. докладний опис у "
-"розділі :ref:`vcs`."
+msgstr "Для запуску тестування (див. :ref:`local-tests`, щоб дізнатися більше):"
 
 #: ../../contributing/start.rst:67
 msgid ":ref:`quick-source`"
@@ -27592,12 +27580,16 @@ msgstr "Огляд робочого процесу"
 #: ../../devel/gettext.rst:31
 msgid "The GNU Gettext uses several files to manage the localization:"
 msgstr ""
+"Для керування локалізацією у GNU Gettext використовують декілька файлів:"
 
 #: ../../devel/gettext.rst:33
 msgid ""
 ":file:`PACKAGE.pot` contains strings extracted from your source code, "
 "typically using `xgettext`_ or some high level wrappers such as `intltool`_."
 msgstr ""
+":file:`ПАКУНОК.pot` містить рядки, які було видобуто з початкового коду, "
+"типово, за допомогою `xgettext`_ або якихось обгорток вищого рівня, зокрема "
+"`intltool`_."
 
 #: ../../devel/gettext.rst:34
 msgid ""
@@ -27605,6 +27597,10 @@ msgid ""
 "It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. "
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
+":file:`МОВА.po` містить рядки із перекладами окремою мовою. Оновлення цього "
+"файла відбувається за допомогою `msgmerge`_ після оновлення файла "
+":file:`ПАКУНОК.pot`. Створити файл для нової мови можна за допомогою "
+"програми `msginit`_ або самого Weblate."
 
 #: ../../devel/gettext.rst:35
 msgid ""
@@ -27614,6 +27610,12 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` addon."
 msgstr ""
+":file:`МОВА.mo` містить двійкове представлення вмісту файла :file:`МОВА.po` "
+"і використовується під час роботи програми. Типово, такі файли не "
+"розміщуються у системі керування версіями, а створюються під час збирання "
+"пакунка з програмою за допомогою `msgfmt`_. Якщо ви хочете зберігати ці "
+"файли у системі керування версіями, ви можете створити їх за допомогою "
+"додатка Weblate :ref:`addon-weblate.gettext.mo`."
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU Gettext workflow looks like this:"
@@ -28604,12 +28606,16 @@ msgid ""
 "Would you prefer Sphinx to generate just single PO file? Since Sphinx 3.3.0 "
 "you can achieve this using:"
 msgstr ""
+"Хочете скористатися Sphinx для створення лише одного файла PO? Починаючи зі "
+"Sphinx 3.3.0, цього можна досягти так:"
 
 #: ../../devel/sphinx.rst:62
 msgid ""
 "You can find several documentation projects being translated using this "
 "approach:"
 msgstr ""
+"За допомогою цього підходу виконується переклад декількох проєктів з "
+"документування:"
 
 #: ../../devel/sphinx.rst:64
 msgid ""
@@ -28619,12 +28625,8 @@ msgstr ""
 "`Документація Weblate <https://docs.weblate.org/>`_ (ви зараз її читаєте)"
 
 #: ../../devel/sphinx.rst:65
-#, fuzzy
-#| msgid ""
-#| "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
-msgstr ""
-"`Документація з томів Docker <https://docs.docker.com/storage/volumes/>`_"
+msgstr "`Документування рушія Godot <https://docs.godotengine.org/en/stable/>`_"
 
 #: ../../devel/sphinx.rst:66
 msgid "`Gallette documentation <https://doc.galette.eu/>`_"
@@ -30468,7 +30470,7 @@ msgstr ""
 
 #: ../../formats.rst:338
 msgid "Unit keys or context"
-msgstr ""
+msgstr "Ключі до модуля або контекст"
 
 #: ../../formats.rst:340
 msgid ""
@@ -30476,6 +30478,9 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
+"Weblate визначає модулі у файлі XLIFF за допомогою атрибута ``resname``, "
+"якщо його вказано у файлі, і використовує резервний атрибут ``id`` (разом із "
+"теґом ``file``, якщо такий вказано)."
 
 #: ../../formats.rst:343
 msgid ""
@@ -30485,6 +30490,10 @@ msgid ""
 "Weblate and is not covered by the XLIFF standard - it does not put any "
 "uniqueness restrictions on this attribute."
 msgstr ""
+"Вмістом``resname`` має бути зручний для читання ідентифікатор модуля, який "
+"варто показати у Weblate замість ``id``. Вміст ``resname`` не повинен "
+"повторюватися у межах файла XLIFF. Це вимога Weblate, яка не є частиною "
+"стандарту XLIFF. Стандарт не накладає вимоги унікальності на цей атрибут."
 
 #: ../../formats.rst:351
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
@@ -34475,6 +34484,10 @@ msgid ""
 "``changed`` this includes event which don't change content and you can apply "
 "custom action filtering using ``change_action``."
 msgstr ""
+"Рядок було змінено у вказаний момент часу. Передбачено підтримку :ref"
+":`search-operators`. На відміну від ``changed`` включає подію, яка не змінює "
+"вмісту рядка. Ви також можете застосовувати нетипове фільтрування за діями "
+"за допомогою ``change_action``."
 
 #: ../../user/search.rst:68
 msgid "``change_action:TEXT``"
@@ -34487,6 +34500,10 @@ msgid ""
 "lowercase and spaces replaced by dash. See :ref:`search-changes` for "
 "examples."
 msgstr ""
+"Фільтрує за дією зі зміни. Корисний у поєднанні із ``change_time``. Приймає "
+"назву дії із внесення змін англійською, у лапках із пробілами або літерами "
+"нижнього регістру із пробілами, які замінено дефісами. Див. приклади для :ref"
+":`search-changes`."
 
 #: ../../user/search.rst:70
 msgid "``check:TEXT``"
@@ -34614,6 +34631,8 @@ msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
 msgstr ""
+"Пошук у журналі подій можна виконувати за допомогою операторів "
+"``change_action`` і ``change_time``."
 
 #: ../../user/search.rst:121
 msgid ""
@@ -34621,6 +34640,9 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
+"Наприклад, пошук рядків, які було позначено для редагування у 2018 році, "
+"можна виконати за допомогою ``change_time:2018 AND change_action:marked-for-"
+"edit`` або ``change_time:2018 AND change_action:\"Marked for edit\"``."
 
 #: ../../user/search.rst:127
 msgid "Regular expressions"
@@ -36696,11 +36718,6 @@ msgid "Translation workflows"
 msgstr "Процеси перекладу"
 
 #: ../../workflows.rst:6
-#, fuzzy
-#| msgid ""
-#| "Using Weblate is a process that brings your users closer to you, by "
-#| "bringing you closer to your translators. It is up to you to decide how "
-#| "many of its features you want to make use of."
 msgid ""
 "Using Weblate is a process that brings your users closer to you, by bringing "
 "you closer to your translators.  It is up to you to decide how many of its "
