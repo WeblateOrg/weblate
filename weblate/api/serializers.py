@@ -356,6 +356,13 @@ class ProjectSerializer(serializers.ModelSerializer):
             "statistics_url",
             "changes_list_url",
             "languages_url",
+            "translation_review",
+            "source_review",
+            "set_language_team",
+            "instructions",
+            "mail",
+            "enable_hooks",
+            "language_aliases",
         )
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}

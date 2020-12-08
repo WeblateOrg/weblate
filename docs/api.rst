@@ -768,6 +768,13 @@ Projects
     :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`
+    :>json boolean translation_review: :ref:`project-translation_review`
+    :>json boolean source_review: :ref:`project-source_review`
+    :>json boolean set_language_team: :ref:`project-set_language_team`
+    :>json boolean enable_hooks: :ref:`project-enable_hooks`
+    :>json string instructions: :ref:`project-instructions`
+    :>json string mail: :ref:`project-mail`
+    :>json string language_aliases: :ref:`project-language_aliases`
 
     **Example JSON data:**
 
