@@ -7,7 +7,7 @@ Importing localization project into Weblate
 +++++++++++++++++++++++++++++++++++++++++++
 
 Weblate was developed with VCS integration in mind. The easiest approach to
-integrate with it is to grant acces to your VCS repository. The import process
+integrate with it is to grant access to your VCS repository. The import process
 will guide you through configuring components with your translations.
 
 In case you do not use VCS or do not want to grant access to your VCS at all,
