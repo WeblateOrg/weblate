@@ -90,6 +90,9 @@ class HookGuideline(Guideline):
     def is_passing(self):
         return self.component.change_set.filter(action=Change.ACTION_HOOK).exists()
 
+    def is_relevant(self):
+        return not self.component.is_repo_link
+
     def get_url(self):
         return self.get_doc_url()
 
