@@ -57,6 +57,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
 )
 from weblate.vcs.ssh import get_key_data
+from weblate.wladmin.models import ConfigurationError
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -568,6 +569,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def test_admin(self):
         """Test admin interface."""
+        ConfigurationError.objects.create(
+            name="test", message="Testing configuration error"
+        )
         self.do_login(superuser=True)
         self.screenshot("admin-wrench.png")
         self.create_component()
