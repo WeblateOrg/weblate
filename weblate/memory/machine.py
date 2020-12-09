@@ -17,11 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.machinery.base import MachineTranslation, get_machinery_language
+from typing import Set
+
+from weblate.machinery.base import BatchStringMachineTranslation, get_machinery_language
 from weblate.memory.models import Memory
 
 
-class WeblateMemory(MachineTranslation):
+class WeblateMemory(BatchStringMachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
     name = "Weblate Translation Memory"
@@ -71,3 +73,16 @@ class WeblateMemory(MachineTranslation):
                 "origin": result.get_origin_display(),
                 "source": result.source,
             }
+
+    def download_batch_strings(
+        self, source, language, units, texts: Set[str], user=None, threshold: int = 75
+    ):
+        project = units[0].translation.component.project
+        return Memory.objects.lookup(
+            source,
+            language,
+            texts,
+            user,
+            project,
+            project.use_shared_tm,
+        ).values_list("source", "target")

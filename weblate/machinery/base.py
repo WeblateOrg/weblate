@@ -19,8 +19,9 @@
 """Base code for machine translation services."""
 
 import random
+from difflib import get_close_matches
 from hashlib import md5
-from typing import Dict
+from typing import Dict, Set
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
@@ -380,3 +381,30 @@ class MachineTranslation:
                     continue
                 result["best"] = item["quality"]
                 result["translation"] = item["text"]
+
+
+class BatchStringMachineTranslation(MachineTranslation):
+    def download_batch_strings(
+        self, source, language, units, texts: Set[str], user=None, threshold: int = 75
+    ):
+        raise NotImplementedError()
+
+    def _batch_translate(self, source, language, units, user=None, threshold: int = 75):
+        # Get strings we need to translate
+        lookups = {
+            unit.source_string: unit
+            for unit in units
+            if unit.machinery["best"] < self.max_score
+        }
+        lookup_strings = set(lookups.keys())
+        cutoff = threshold / 100
+
+        for source_str, translation in self.download_batch_strings(
+            source, language, units, lookup_strings, user, threshold
+        ):
+            for match in get_close_matches(source_str, lookup_strings, cutoff=cutoff):
+                quality = self.comparer.similarity(match, source_str)
+                result = lookups[match].machinery
+                if quality > result["best"]:
+                    result["best"] = quality
+                    result["translation"] = translation
