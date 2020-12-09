@@ -83,6 +83,7 @@ class MockUnit:
         self.state = 20
         self.note = note
         self.check_cache = {}
+        self.machinery = {"best": -1}
 
     @property
     def all_flags(self):
