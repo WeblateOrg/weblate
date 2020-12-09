@@ -493,6 +493,12 @@ class Language(models.Model, CacheKeyMixin):
         self._plural_examples = {}
         self.stats = LanguageStats(self)
 
+    def get_name(self):
+        """Not localized version of __str__."""
+        if self.show_language_code:
+            return f"{self.name} ({self.code})"
+        return self.name
+
     def guess_direction(self):
         if self.base_code in RTL_LANGS or self.code in RTL_LANGS:
             return "rtl"
