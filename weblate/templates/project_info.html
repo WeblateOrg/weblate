@@ -38,3 +38,14 @@
 </tr>
 {% endif %}
 {% endif %}
+
+{% if object.all_admins %}
+<tr>
+  <th>{% trans "Project maintainers" %}</th>
+  <td class="full-cell">
+    {% for admin in object.all_admins %}
+      {{ admin.profile.get_user_display_link }}
+    {% endfor %}
+  </td>
+</tr>
+{% endif %}

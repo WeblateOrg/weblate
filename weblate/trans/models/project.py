@@ -425,3 +425,9 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     @cached_property
     def has_alerts(self):
         return self.all_alerts.exists()
+
+    @cached_property
+    def all_admins(self):
+        from weblate.auth.models import User
+
+        return User.objects.all_admins(self).select_related("profile")
