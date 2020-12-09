@@ -69,6 +69,7 @@ class MachineTranslation:
     language_map: Dict[str, str] = {}
     same_languages = False
     do_cleanup = True
+    batch_size = 100
 
     @classmethod
     def get_rank(cls):
@@ -298,6 +299,11 @@ class MachineTranslation:
         except UnsupportedLanguage:
             return []
 
+        return self._translate(source, language, unit, user, search, threshold)
+
+    def _translate(
+        self, source, language, unit, user=None, search=None, threshold: int = 75
+    ):
         if search:
             replacements = {}
             text = search
@@ -350,3 +356,27 @@ class MachineTranslation:
         digest = md5(payload.encode()).hexdigest()  # nosec
 
         return salt, digest
+
+    def batch_translate(self, units, user=None, threshold: int = 75):
+        try:
+            source, language = self.get_languages(
+                units[0].translation.component.source_language,
+                units[0].translation.language,
+            )
+        except (UnsupportedLanguage, IndexError):
+            return
+
+        self._batch_translate(source, language, units, user=user, threshold=threshold)
+
+    def _batch_translate(self, source, language, units, user=None, threshold: int = 75):
+        for unit in units:
+            result = unit.machinery
+            if result["best"] >= self.max_score:
+                continue
+            for item in self._translate(
+                source, language, unit, user=user, threshold=threshold
+            ):
+                if result["best"] > item["quality"]:
+                    continue
+                result["best"] = item["quality"]
+                result["translation"] = item["text"]
