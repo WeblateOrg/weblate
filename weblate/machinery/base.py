@@ -269,6 +269,12 @@ class MachineTranslation:
 
         raise UnsupportedLanguage("Not supported")
 
+    def get_cached(self, source, language, text):
+        cache_key = self.translate_cache_key(source, language, text)
+        if cache_key:
+            return cache_key, cache.get(cache_key)
+        return cache_key, None
+
     def translate(self, unit, user=None, search=None):
         """Return list of machine translations."""
         try:
@@ -287,11 +293,9 @@ class MachineTranslation:
         if not text or self.is_rate_limited():
             return []
 
-        cache_key = self.translate_cache_key(source, language, text)
-        if cache_key:
-            result = cache.get(cache_key)
-            if result is not None:
-                return result
+        cache_key, result = self.get_cached(source, language, text)
+        if result is not None:
+            return result
 
         try:
             result = list(
