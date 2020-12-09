@@ -231,7 +231,7 @@ text needs font to be loaded into Weblate and selected using a translation flag
 (see :ref:`custom-checks`).
 
 Weblate font management tool in :guilabel:`Fonts` under the :guilabel:`Manage`
-menu of your translation project provide interface to upload and manage fonts.
+menu of your translation project provides interface to upload and manage fonts.
 TrueType or OpenType fonts can be uploaded, set up font-groups and use those in
 the check.
 
