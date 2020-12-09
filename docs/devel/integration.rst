@@ -14,7 +14,7 @@ changes (see :ref:`lazy-commit`). This can be achieved in the user interface
 (in the :guilabel:`Repository maintenance`) or from command line using :ref:`wlc`.
 
 This can be automated if you grant Weblate push access to your repository and
-configure :guilabel:`Push URL` in the :ref:`component`.
+configure :ref:`component-push` in the :ref:`component`.
 
 .. seealso::
 
