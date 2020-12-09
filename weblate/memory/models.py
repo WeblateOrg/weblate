@@ -17,13 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import json
 import os
 from functools import reduce
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
@@ -61,16 +61,21 @@ class MemoryQuerySet(models.QuerySet):
     def filter_type(self, user=None, project=None, use_shared=False, from_file=False):
         query = []
         if from_file:
-            query.append(models.Q(from_file=from_file))
+            query.append(Q(from_file=from_file))
         if use_shared:
-            query.append(models.Q(shared=use_shared))
+            query.append(Q(shared=use_shared))
         if project:
-            query.append(models.Q(project=project))
+            query.append(Q(project=project))
         if user:
-            query.append(models.Q(user=user))
+            query.append(Q(user=user))
         return self.filter(reduce(lambda x, y: x | y, query))
 
     def lookup(self, source_language, target_language, text, user, project, use_shared):
+        if isinstance(text, str):
+            search_query = Q(source__search=text)
+        else:
+            search_query = reduce(lambda x, y: x | Q(source__search=y), text, Q())
+
         return self.filter_type(
             # Type filtering
             user=user,
@@ -78,11 +83,11 @@ class MemoryQuerySet(models.QuerySet):
             use_shared=use_shared,
             from_file=True,
         ).filter(
+            # Full-text search on source
+            search_query,
             # Language filtering
             source_language=source_language,
             target_language=target_language,
-            # Full-text search on source
-            source__search=text,
         )[
             :50
         ]
