@@ -280,10 +280,13 @@ class MachineTranslation:
 
         raise UnsupportedLanguage("Not supported")
 
-    def get_cached(self, source, language, text, threshold):
+    def get_cached(self, source, language, text, threshold, replacements):
         cache_key = self.translate_cache_key(source, language, text, threshold)
         if cache_key:
-            return cache_key, cache.get(cache_key)
+            result = cache.get(cache_key)
+            if result and replacements:
+                self.uncleanup_results(replacements, result)
+            return cache_key, result
         return cache_key, None
 
     def translate(self, unit, user=None, search=None, threshold: int = 75):
@@ -304,7 +307,9 @@ class MachineTranslation:
         if not text or self.is_rate_limited():
             return []
 
-        cache_key, result = self.get_cached(source, language, text, threshold)
+        cache_key, result = self.get_cached(
+            source, language, text, threshold, replacements
+        )
         if result is not None:
             return result
 
