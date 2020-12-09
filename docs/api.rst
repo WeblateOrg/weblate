@@ -143,8 +143,10 @@ form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
         -H "Authorization: Token TOKEN" \
         http://example.com/api/components/hello/weblate/repository/
 
-Rate limiting
-~~~~~~~~~~~~~
+.. _api-rate:
+
+API rate limiting
+~~~~~~~~~~~~~~~~~
 
 The API requests are rate limited; the default configuration limits it to 100
 requests per day for anonymous users and 5000 requests per hour for authenticated
@@ -167,6 +169,11 @@ The status of rate limiting is reported in following headers:
 .. versionchanged:: 4.1
 
     Added ratelimiting status headers.
+
+.. seealso::
+
+   :ref:`rate-limit`,
+   :ref:`user-rate`
 
 
 API Entry Point

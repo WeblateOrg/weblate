@@ -254,7 +254,10 @@ The following operations are subject to rate limiting:
 
 If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
 
+The API has separate rate limiting settings, see :ref:`api-rate`.
+
 .. seealso::
 
    :ref:`user-rate`,
-   :ref:`reverse-proxy`
+   :ref:`reverse-proxy`,
+   :ref:`api-rate`
