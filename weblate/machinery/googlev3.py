@@ -52,7 +52,16 @@ class GoogleV3Translation(GoogleBaseTranslation):
         response = self.client.get_supported_languages(request={"parent": self.parent})
         return [language.language_code for language in response.languages]
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         request = {
             "parent": self.parent,

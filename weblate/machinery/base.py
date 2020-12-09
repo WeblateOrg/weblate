@@ -18,7 +18,6 @@
 #
 """Base code for machine translation services."""
 
-
 import random
 from hashlib import md5
 from typing import Dict
@@ -124,7 +123,16 @@ class MachineTranslation:
         """Download list of supported languages from a service."""
         return []
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service.
 
         Should return dict with translation text, translation quality, source of
@@ -205,11 +213,14 @@ class MachineTranslation:
             return True
         return False
 
-    def translate_cache_key(self, source, language, text):
+    def translate_cache_key(self, source, language, text, threshold):
         if not self.cache_translations:
             return None
-        return "mt:{}:{}:{}".format(
-            self.mtid, calculate_hash(source, language), calculate_hash(text)
+        return "mt:{}:{}:{}:{}".format(
+            self.mtid,
+            calculate_hash(source, language),
+            calculate_hash(text),
+            threshold,
         )
 
     def cleanup_text(self, unit):
@@ -269,13 +280,13 @@ class MachineTranslation:
 
         raise UnsupportedLanguage("Not supported")
 
-    def get_cached(self, source, language, text):
-        cache_key = self.translate_cache_key(source, language, text)
+    def get_cached(self, source, language, text, threshold):
+        cache_key = self.translate_cache_key(source, language, text, threshold)
         if cache_key:
             return cache_key, cache.get(cache_key)
         return cache_key, None
 
-    def translate(self, unit, user=None, search=None):
+    def translate(self, unit, user=None, search=None, threshold: int = 75):
         """Return list of machine translations."""
         try:
             source, language = self.get_languages(
@@ -293,14 +304,20 @@ class MachineTranslation:
         if not text or self.is_rate_limited():
             return []
 
-        cache_key, result = self.get_cached(source, language, text)
+        cache_key, result = self.get_cached(source, language, text, threshold)
         if result is not None:
             return result
 
         try:
             result = list(
                 self.download_translations(
-                    source, language, text, unit, user, search=bool(search)
+                    source,
+                    language,
+                    text,
+                    unit,
+                    user,
+                    search=bool(search),
+                    threshold=threshold,
                 )
             )
             if replacements:

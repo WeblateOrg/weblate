@@ -68,7 +68,16 @@ class GoogleTranslation(GoogleBaseTranslation):
 
         return [d["language"] for d in payload["data"]["languages"]]
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         response = self.request(
             "get",

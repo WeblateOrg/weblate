@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from weblate.machinery.base import MachineTranslation
 
 
@@ -30,7 +29,16 @@ class DummyTranslation(MachineTranslation):
         """Dummy translation supports just Czech language."""
         return ("en", "cs")
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Dummy translation supports just single phrase."""
         if source == "en" and text.strip() == "Hello, world!":
             yield {

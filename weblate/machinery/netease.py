@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import random
 import time
 from hashlib import sha1
@@ -71,7 +70,16 @@ class NeteaseSightTranslation(MachineTranslation):
             "signature": sign,
         }
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         response = self.request(
             "post", NETEASE_API_ROOT, json={"lang": source, "content": text}
