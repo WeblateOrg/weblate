@@ -381,6 +381,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.source_updated = False
         self.check_cache = {}
         self.fixups = []
+        # Data for machinery integration
+        self.machinery = {"best": -1}
 
     @property
     def approved(self):

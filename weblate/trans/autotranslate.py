@@ -125,51 +125,34 @@ class AutoTranslate:
 
     def fetch_mt(self, engines, threshold):
         """Get the translations."""
-        translations = {}
         units = self.get_units()
-        self.progress_steps = 2 * len(units)
+        num_units = len(units)
 
-        for pos, unit in enumerate(units):
-            # a list to store all found translations
-            max_quality = threshold - 1
-            translation = None
+        engines = sorted(
+            engines,
+            key=lambda x: MACHINE_TRANSLATION_SERVICES[x].get_rank(),
+            reverse=True,
+        )
 
-            # Run engines with higher maximal score first
-            engines = sorted(
-                engines,
-                key=lambda x: MACHINE_TRANSLATION_SERVICES[x].get_rank(),
-                reverse=True,
-            )
-            for engine in engines:
-                translation_service = MACHINE_TRANSLATION_SERVICES[engine]
+        self.progress_steps = 2 * (len(engines) + num_units)
 
-                # Skip service if it can not provide better results.
-                # Typically we skip machine translation when we have
-                # a terminology match.
-                if max_quality >= translation_service.max_score:
-                    continue
+        for pos, engine in enumerate(engines):
+            translation_service = MACHINE_TRANSLATION_SERVICES[engine]
+            batch_size = translation_service.batch_size
 
-                result = translation_service.translate(
-                    unit, self.user, threshold=threshold
+            for batch_start in range(0, num_units, batch_size):
+                translation_service.batch_translate(
+                    units[batch_start : batch_start + batch_size],
+                    self.user,
+                    threshold=threshold,
                 )
+                self.set_progress(pos * num_units + batch_start)
 
-                for item in result:
-                    if item["quality"] > max_quality:
-                        max_quality = item["quality"]
-                        translation = item["text"]
-
-                # Break if we can't get better match
-                if max_quality == 100:
-                    break
-
-            self.set_progress(pos)
-
-            if translation is None:
-                continue
-
-            translations[unit.pk] = translation
-
-        return translations
+        return {
+            unit.id: unit.machinery["translation"]
+            for unit in units
+            if unit.machinery["best"] >= threshold
+        }
 
     def process_mt(self, engines, threshold):
         """Perform automatic translation based on machine translation."""
