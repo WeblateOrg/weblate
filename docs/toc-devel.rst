@@ -3,6 +3,7 @@
     :maxdepth: 1
 
     devel/starting
+    devel/integration
     devel/gettext
     devel/sphinx
     devel/html

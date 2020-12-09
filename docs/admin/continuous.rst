@@ -7,6 +7,11 @@ There is infrastructure in place so that your translation closely follows
 development. This way translators can work on translations the entire time,
 instead of working through huge amount of new text just prior to release.
 
+.. seealso::
+
+   :doc:`/devel/integration` describes basic ways to integrate your development
+   with Weblate.
+
 This is the process:
 
 1. Developers make changes and push them to the VCS repository.
