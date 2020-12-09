@@ -56,6 +56,10 @@ class MachineryRateLimit(MachineTranslationError):
     """Raised when rate limiting is detected."""
 
 
+class UnsupportedLanguage(MachineTranslationError):
+    """Raised when language is not supported."""
+
+
 class MachineTranslation:
     """Generic object for machine translation services."""
 
@@ -239,13 +243,40 @@ class MachineTranslation:
                     text = text.replace(source, target)
                 result[key] = text
 
-    def translate(self, unit, user=None, search=None, language=None, source=None):
+    def get_languages(self, source_language, target_language):
+        def get_variants(language):
+            code = self.convert_language(language)
+            yield code
+            if not isinstance(code, str):
+                return
+            code = code.replace("-", "_")
+            if "_" in code:
+                yield code.split("_")[0]
+
+        if source_language == target_language and not self.same_languages:
+            raise UnsupportedLanguage("Same languages")
+
+        source_variants = get_variants(source_language)
+        target_variants = get_variants(target_language)
+
+        for source in source_variants:
+            for target in target_variants:
+                if self.is_supported(source, target):
+                    return source, target
+
+        if self.supported_languages_error:
+            raise MachineTranslationError(repr(self.supported_languages_error))
+
+        raise UnsupportedLanguage("Not supported")
+
+    def translate(self, unit, user=None, search=None):
         """Return list of machine translations."""
-        # source and language are set only for recursive calls when
-        # tweaking the language codes
-        if source is None:
-            language = self.convert_language(unit.translation.language)
-            source = self.convert_language(unit.translation.component.source_language)
+        try:
+            source, language = self.get_languages(
+                unit.translation.component.source_language, unit.translation.language
+            )
+        except UnsupportedLanguage:
+            return []
 
         if search:
             replacements = {}
@@ -253,29 +284,7 @@ class MachineTranslation:
         else:
             text, replacements = self.cleanup_text(unit)
 
-        if (
-            not text
-            or self.is_rate_limited()
-            or (source == language and not self.same_languages)
-        ):
-            return []
-
-        if not self.is_supported(source, language):
-            # Try without country code
-            source = source.replace("-", "_")
-            if "_" in source:
-                source = source.split("_")[0]
-                return self.translate(
-                    unit, user=user, search=search, language=language, source=source
-                )
-            language = language.replace("-", "_")
-            if "_" in language:
-                language = language.split("_")[0]
-                return self.translate(
-                    unit, user=user, search=search, language=language, source=source
-                )
-            if self.supported_languages_error:
-                raise MachineTranslationError(repr(self.supported_languages_error))
+        if not text or self.is_rate_limited():
             return []
 
         cache_key = self.translate_cache_key(source, language, text)
