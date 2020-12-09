@@ -51,10 +51,9 @@ class WeblateTranslation(MachineTranslation):
             base = Unit.objects.filter_access(user)
         else:
             base = Unit.objects.all()
-        source_language_id = unit.translation.component.source_language_id
         matching_units = base.filter(
             source__search=text,
-            translation__component__source_language_id=source_language_id,
+            translation__component__source_language=source,
             translation__language=language,
             state__gte=STATE_TRANSLATED,
         )
