@@ -112,6 +112,10 @@ components in the same project share suggestions and their dictionary; the
 translations are also automatically propagated through all components in a single
 project (unless turned off in the component configuration), see :ref:`memory`.
 
+.. seealso::
+
+   :doc:`/devel/integration`
+
 These basic attributes set up and inform translators of a project:
 
 .. _project-name:
@@ -242,6 +246,10 @@ Component configuration
 A component is a grouping of something for translation. You enter a VCS repository location
 and file mask for which files you want translated, and Weblate automatically fetches from this VCS,
 and finds all matching translatable files.
+
+.. seealso::
+
+   :doc:`/devel/integration`
 
 You can find some examples of typical configurations in the :ref:`formats`.
 
