@@ -3,6 +3,21 @@ Integrating with Weblate
 
 .. include:: /snippets/basics.rst
 
+Importing localization project into Weblate
++++++++++++++++++++++++++++++++++++++++++++
+
+Weblate was developed with VCS integration in mind. The easiest approach to
+integrate with it is to grant acces to your VCS repository. The import process
+will guide you through configuring components with your translations.
+
+In case you do not use VCS or do not want to grant access to your VCS at all,
+you can use Weblate without a remote VCS repository - it will create local
+repository with all the translations.
+
+.. seealso::
+
+   :ref:`adding-projects`,
+   :ref:`faq-submodule`
 
 Getting translations updates from Weblate
 +++++++++++++++++++++++++++++++++++++++++
@@ -29,6 +44,9 @@ maintenance`) or from command line using :ref:`wlc`.
 
 This can be automated by installing a webhook on your repository to trigger
 Weblate whenever there is a new commit, see :ref:`update-vcs` for more details.
+
+When not using a VCS integration, you can use UI or :doc:`/api` to update
+translations to match your code base.
 
 .. seealso::
 

@@ -207,6 +207,8 @@ Here are examples of some workflows used with Weblate:
 
 Of course you are free to mix all of these as you wish.
 
+.. _faq-submodule:
+
 How can I limit Weblate access to only translations, without exposing source code to it?
 ----------------------------------------------------------------------------------------
 
