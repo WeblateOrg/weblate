@@ -18,7 +18,7 @@ recommended.
 
 The typical database storage usage is around 300 MB per 1 million hosted words.
 Storage space needed for cloned repositories varies, but Weblate tries to keep
-their size minimal by doing swallow clones.
+their size minimal by doing shallow clones.
 
 .. note::
 
