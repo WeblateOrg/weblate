@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-09 15:26+0000\n"
-"PO-Revision-Date: 2020-12-08 08:52+0000\n"
+"PO-Revision-Date: 2020-12-09 22:23+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -42,7 +42,7 @@ msgstr "Ova se e-adresa već koristi. Upiši jednu drugu e-adresu."
 
 #: weblate/accounts/forms.py:116
 msgid "This username is already taken. Please choose another."
-msgstr "Ovo se korisničko ime već koristi. Odaberi drugo ime."
+msgstr "Ovo se korisničko ime već koristi. Odaberi jedno drugo ime."
 
 #: weblate/accounts/forms.py:127 weblate/accounts/forms.py:748
 #: weblate/auth/models.py:312 weblate/templates/manage-access.html:25
@@ -5092,10 +5092,8 @@ msgid "No invoices found."
 msgstr "Nema računa."
 
 #: weblate/templates/billing/detail.html:100
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Libre hosting"
-msgstr "Pogledaj planove za hosting"
+msgstr "Slobodni hosting"
 
 #: weblate/templates/billing/detail.html:102
 #: weblate/templates/billing/state-snippet.html:5
@@ -5128,25 +5126,20 @@ msgstr ""
 
 #: weblate/templates/billing/list.html:10
 msgid "Plan"
-msgstr ""
+msgstr "Tarifa"
 
 #: weblate/templates/billing/list.html:11
-#, fuzzy
-#| msgctxt "Number of hosted words"
-#| msgid "Hosted words"
 msgid "Hosted words"
 msgstr "Spremljene riječi"
 
 #: weblate/templates/billing/list.html:28
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No users currently assigned!"
-msgstr "Nema trenutačno dodijeljenih projekata!"
+msgstr "Trenutačno nema dodijeljenih korisnika!"
 
 #: weblate/templates/billing/list.html:35
 #: weblate/templates/billing/status.html:102
 msgid "No projects currently assigned!"
-msgstr "Nema trenutačno dodijeljenih projekata!"
+msgstr "Trenutačno nema dodijeljenih projekata!"
 
 #: weblate/templates/billing/list.html:48
 #: weblate/templates/component_info.html:58 weblate/templates/data.html:71
@@ -5175,10 +5168,8 @@ msgstr ""
 "administratorima za dobivanje dozvole pristupa."
 
 #: weblate/templates/billing/state-snippet.html:11
-#, fuzzy
-#| msgid "Recurring payment"
 msgid "Awaiting payment"
-msgstr "Ponavljajuća plaćanja"
+msgstr "Nepodmireno"
 
 #: weblate/templates/billing/status.html:9
 msgid "Current plan"
@@ -7080,13 +7071,11 @@ msgstr "Čestitamo! Čini se da tvoja instalacija radi."
 
 #: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:71
 msgid "Appearance"
-msgstr ""
+msgstr "Izgled"
 
 #: weblate/templates/manage/appearance.html:18
-#, fuzzy
-#| msgid "Customize design"
 msgid "Customize appearance"
-msgstr "Prilagodi dizajn"
+msgstr "Prilagodi izgled"
 
 #: weblate/templates/manage/appearance.html:24
 msgid "Reset customization"
@@ -7142,14 +7131,12 @@ msgid "Add backup service"
 msgstr "Dodaj uslugu za izradu sigurnosnih kopija"
 
 #: weblate/templates/manage/billing.html:15
-#, fuzzy
-#| msgid "Commit"
 msgid "Commercial"
-msgstr "Spremi"
+msgstr "Komercijalno"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
-msgstr ""
+msgstr "Slobodno"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7458,6 +7445,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "for adding another one."
 msgstr ""
+"Ovaj popis uključuje samo osnovne jezike. Kontaktiraj održavatelje projekta "
+"za dodavanje daljnjeg jezika."
 
 #: weblate/templates/new-language.html:41
 msgid "Request new translation"
@@ -7576,10 +7565,8 @@ msgid "Instructions for translators"
 msgstr "Upute za prevodioce"
 
 #: weblate/templates/project_info.html:44
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Project maintainers"
-msgstr "Obrati se održavateljima"
+msgstr "Održavatelji projekta"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -7795,32 +7782,24 @@ msgstr ""
 "verzija."
 
 #: weblate/templates/snippets/libre-basic.html:5
-#, fuzzy
-#| msgid ""
-#| "Translations have to be in the same repository, or under the same "
-#| "repository project/organization as the source code."
 msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
-"Prijevodi moraju biti u istom repozitoriju ili pod istim projektom/"
-"organizacije repozitorija kao i izvorni kod."
+"Prijevodi se moraju nalaziti u istom repozitoriju kao izvorni kod ili u "
+"istom projektu/organizaciji kao repozitorij izvornog koda."
 
 #: weblate/templates/snippets/libre-basic.html:6
 msgid "Using Weblate has been approved by the upstream project."
 msgstr "Korištenje Weblatea odobreno je od izvornog projekta."
 
 #: weblate/templates/snippets/libre-basic.html:7
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
-"Navedi u README datoteci da koristiš Weblate. To će pomoći slobodnu upotrebu "
-"Weblatea u drugim projektima te privući nove prevodioce."
+"Navedi u README datoteci da koristiš Weblate. Time ćeš privući nove "
+"prevodioce te pomoći slobodnu upotrebu Weblatea u drugim projektima."
 
 #: weblate/templates/snippets/libre-basic.html:8
 msgid "The project has had active development for at least three months."
@@ -8280,8 +8259,6 @@ msgid "Error"
 msgstr "Greška"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files using ambiguous language code."
 msgid "The component translation files are using ambiguous language code."
 msgstr ""
 "Prevodilačke datoteke komponente koriste jezični kod koji nije jednoznačan."
@@ -8447,7 +8424,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This projects does no longer fit into libre hosting conditions."
-msgstr ""
+msgstr "Ovaj projekt više ne ispunjava uvjete za hosting slobodnih projekata."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8662,28 +8639,21 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Razumijem posljedice, izbriši ovaj prijevod"
 
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
-"Ovu radnju nije moguće poništiti. Time će se trajno izbrisati prijevod za "
+"Ovu radnju nije moguće poništiti. Time će se trajno izbrisati prijevodi za "
 "%(object)s i sav povezani sadržaj."
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "Uklonit će se sljedeće prevodilačke komponente:"
+msgstr "Uklonit će se sljedeći prijevodi:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "Projekt koji se uklanja"
+msgstr "Jezik projekta koji se uklanja"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8936,10 +8906,8 @@ msgid "List of recent changes done in Weblate"
 msgstr "Popis nedavnih promjena izrađenih u Weblateu"
 
 #: weblate/templates/translate.html:279
-#, fuzzy
-#| msgid "Hide completed translations on the dashboard"
 msgid "Difference to current string"
-msgstr "Sakrij dovršene prijevode u nadzornoj ploči"
+msgstr "Razlika s trenutačnim izrazom"
 
 #: weblate/templates/translate.html:290
 msgid "The following string has the same context and source."
@@ -8971,10 +8939,8 @@ msgid "Apply selected translation to all propagated strings"
 msgstr "Dopusti propagiranje prijevoda"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Apply selected translation to current string"
-msgstr "Dodaj novi prevodilački izraz"
+msgstr "Primijeni odabrani prijevod na trenutačni izraz"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -9942,10 +9908,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Za potvrđivanje upiši URL ime projekta."
 
 #: weblate/trans/forms.py:2026
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Za potvrđivanje upiši URL ime projekta."
+msgstr "Za potvrđivanje upiši kratko ime projekta i jezika u URL adresu."
 
 #: weblate/trans/forms.py:2053
 msgid "Author username"
@@ -10095,7 +10059,7 @@ msgstr "Nejedinstven jezični kod."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:330
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "Ne ispunjava uvjete za hosting slobodnih projekata."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -11477,14 +11441,12 @@ msgid "This translation does not yet exist."
 msgstr "Ovaj prijevod još ne postoji."
 
 #: weblate/trans/templatetags/translations.py:759
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s izraz koji zahtijeva radnju"
-msgstr[1] "%(count)s izraza koji zahtijevaju radnju"
-msgstr[2] "%(count)s izraza koji zahtijevaju radnju"
+msgstr[0] "%(count)s izraz se ovdje ne prevodi."
+msgstr[1] "%(count)s izraza se ovdje ne prevode."
+msgstr[2] "%(count)s izraza se ovdje ne prevodi."
 
 #: weblate/trans/templatetags/translations.py:786
 msgid "enabled"
@@ -11894,10 +11856,8 @@ msgid "Project was scheduled for removal."
 msgstr "Planirano je uklanjanje projekta."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "%s jezik uklonjen."
+msgstr "Jezik projekta je uklonjen."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -12263,6 +12223,9 @@ msgid ""
 "Use hamburger menu in the top navigation regardless the screen resolution. "
 "When disabled the hamburger navigation is used on small screens only."
 msgstr ""
+"Koristi ikonu izbornika u gornjoj navigaciji bez obzira na razlučivost "
+"ekrana. Kad je deaktivirano, ta se navigacija koristi se samo na malim "
+"ekranima."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
