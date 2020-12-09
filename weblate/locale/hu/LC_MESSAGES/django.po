@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-11-27 12:46+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
@@ -858,7 +858,7 @@ msgstr ""
 "A próbaidőszaka most már készen áll és működik. Hozza létre a fordítási "
 "projektjét, és kezdje el a Weblate használatát!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Ingyenes próba"
@@ -2430,15 +2430,15 @@ msgstr ""
 "Ennek a szövegnek egynél több fordítása van ebben a projektben vagy nincs "
 "lefordítva néhány összetevőben."
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "Le lett fordítva"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "Ezt a szöveget a már régebben lefordították"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, python-format
 msgid "Last translation was \"%s\"."
 msgstr "Az utolsó fordítás „%s” volt."
@@ -4151,54 +4151,19 @@ msgstr ""
 "Előzetesen ellenőrizze, hogy a projektje megfelelő-e az ezen az oldalon lévő "
 "ingyenes projekt-tárhelyszolgáltatásához."
 
-#: weblate/templates/accounts/hosting.html:32
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"A lefordított tartalmat az OSI által elfogadott vagy az FSF által szabadként "
-"azonosított licenc alatt kell kiadni."
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr ""
-"Az összes forráskódnak nyilvánosan elérhetőnek kell lennie egy támogatott "
-"verziókövető rendszerben."
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-"A fordításoknak ugyanabban a tárolóban kell lenniük, vagy ugyanazon "
-"tárolóprojekt vagy tárolószervezet alatt, ahol a forráskód van."
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "A Weblate használatát jóváhagyta a távoli projekt kezelője."
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-msgid "The project has had active development for at least three months."
-msgstr "A projekt legalább három hónapja aktívan fejlesztett."
-
-#: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
 msgstr "14 napja lesz a projektje beállításához."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 msgid "Please request project approval once you finish the setup."
 msgstr "Kérjen projektjóváhagyást, ha befejezte a beállítást."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
 msgstr "A nem jóváhagyott projektek el lesznek távolítva."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
@@ -4207,27 +4172,14 @@ msgstr ""
 "ingyenes szolgáltatási csomagnál."
 
 #: weblate/templates/accounts/hosting.html:41
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-"Említse meg a README fájlban, hogy Weblate-et használ a fordításokhoz. Ezzel "
-"segít, hogy a Weblate ingyenes maradjon még több projektnél, és új "
-"fordítókat szerezhet."
-
-#: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
 msgstr "Kezdjen hozzá"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 msgid "Looking for commercial hosting?"
 msgstr "Kereskedelmi tárhelyszolgáltatást keres?"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5232,26 +5184,17 @@ msgid "Please check that following conditions are met:"
 msgstr "Ellenőrizze, hogy a következő feltételek teljesülnek-e:"
 
 #: weblate/templates/billing/detail.html:120
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-"Említse meg a README fájlban, hogy Weblate-et használ a fordításokhoz. Ezzel "
-"segít, hogy a Weblate ingyenes maradjon még több projektnél, és új "
-"fordítókat szerezhet."
-
-#: weblate/templates/billing/detail.html:123
 msgid "Approve as libre"
 msgstr "Jóváhagyás szabad szoftverként"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr "Jóváhagyás kérése szabad szoftverre vonatkozó tárhelyszolgáltatáshoz"
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7287,7 +7230,7 @@ msgstr "Biztonsági mentés szolgáltatás hozzáadása"
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commit"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "Véglegesítés"
 
 #: weblate/templates/manage/billing.html:16
@@ -7720,6 +7663,12 @@ msgstr "Levelezőlista fordítóknak"
 msgid "Instructions for translators"
 msgstr "Utasítások fordítóknak"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact maintainers"
+msgid "Project maintainers"
+msgstr "Kapcsolatfelvétel a karbantartókkal"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -7921,6 +7870,55 @@ msgstr ""
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
 msgstr "További címkéket a projekt rendszergazdái határozhatnak meg."
+
+#: weblate/templates/snippets/libre-basic.html:3
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"A lefordított tartalmat az OSI által elfogadott vagy az FSF által szabadként "
+"azonosított licenc alatt kell kiadni."
+
+#: weblate/templates/snippets/libre-basic.html:4
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr ""
+"Az összes forráskódnak nyilvánosan elérhetőnek kell lennie egy támogatott "
+"verziókövető rendszerben."
+
+#: weblate/templates/snippets/libre-basic.html:5
+#, fuzzy
+#| msgid ""
+#| "Translations have to be in the same repository, or under the same "
+#| "repository project/organization as the source code."
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+"A fordításoknak ugyanabban a tárolóban kell lenniük, vagy ugyanazon "
+"tárolóprojekt vagy tárolószervezet alatt, ahol a forráskód van."
+
+#: weblate/templates/snippets/libre-basic.html:6
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "A Weblate használatát jóváhagyta a távoli projekt kezelője."
+
+#: weblate/templates/snippets/libre-basic.html:7
+#, fuzzy
+#| msgid ""
+#| "Mention you use Weblate for translations in the README. It’ll help "
+#| "Weblate to be free for more projects and attract new translators."
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+"Említse meg a README fájlban, hogy Weblate-et használ a fordításokhoz. Ezzel "
+"segít, hogy a Weblate ingyenes maradjon még több projektnél, és új "
+"fordítókat szerezhet."
+
+#: weblate/templates/snippets/libre-basic.html:8
+msgid "The project has had active development for at least three months."
+msgstr "A projekt legalább három hónapja aktívan fejlesztett."
 
 #: weblate/templates/snippets/libre-checklist.html:17
 msgid "Unmet guidelines from the community localization checklist:"
@@ -10074,51 +10072,51 @@ msgstr ""
 "Állítson be tárolóhorgokat a Weblate-be történő frissítések automatizált "
 "folyamatához."
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
 "Állítson be felküldési URL-t a Weblate-ből származó fordítások automatizált "
 "folyamatához."
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr "Közösségépítés"
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr ""
 "Határozzon meg fordítási utasításokat, hogy iránymutatást adjon a "
 "fordítóknak."
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr "Tegye a fordításait szabad licenc alatt elérhetővé."
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr "Javítsa ezt az összetevőt a riasztásai törléséhez."
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "Biztosítson környezetet a fordítóknak"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr ""
 "Adjon hozzá képernyőképeket annak megjelenítéshez, hogy a szövegek hol "
 "vannak használva."
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr "Használjon jelzőket a különleges szövegek jelzéséhez a fordításában."
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
 "Biztonságos HTML jelző hozzáadása a veszélyes HTML elkerüléséhez a "
 "fordításokból."
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr "Munkafolyamat személyre szabása"
 
@@ -11755,7 +11753,7 @@ msgstr "A felismert licenc %s. Ellenőrizze, hogy ez helyes-e."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Nem sikerült feldolgozni a feltöltött ZIP-fájlt."
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11763,7 +11761,7 @@ msgstr ""
 "A keresett projekt el lett távolítva, azonban szívesen vesszük, ha "
 "közreműködik a többi projektben."
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11771,7 +11769,7 @@ msgstr ""
 "Aktiválta a fiókját. Most be kell állítania a jelszót, hogy legközelebb be "
 "tudjon lépni."
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Állítsa be a teljes nevét és e-mail-címét a profiljában."
 
@@ -12497,6 +12495,14 @@ msgstr "Biztonsági mentés folyamat aktiválva"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Nem sikerült eltüntetni a beállítási hibát!"
+
+#~ msgid ""
+#~ "Mention you use Weblate for translations in the README. It’ll help "
+#~ "Weblate to be free for more projects and attract new translators."
+#~ msgstr ""
+#~ "Említse meg a README fájlban, hogy Weblate-et használ a fordításokhoz. "
+#~ "Ezzel segít, hogy a Weblate ingyenes maradjon még több projektnél, és új "
+#~ "fordítókat szerezhet."
 
 #~ msgid ", expires %(expires)s"
 #~ msgstr ", lejár %(expires)s"

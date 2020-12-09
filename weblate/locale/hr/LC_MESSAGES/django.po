@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-12-08 08:52+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
@@ -829,7 +829,7 @@ msgstr ""
 "Tvoje probno razdoblje je pokrenuto; stvori prevodilački projekt i počni "
 "raditi s Weblatom!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Besplatna proba"
@@ -2385,15 +2385,15 @@ msgstr ""
 "Za ovaj izraz postoje višestruki prijevodi u ovom projektu ili nije preveden "
 "u nekim komponentama."
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "Prevedeno"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "Ovaj je izraz već prije bio preveden"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, python-format
 msgid "Last translation was \"%s\"."
 msgstr "Zadnji prijevod bio je „%s”."
@@ -4087,80 +4087,33 @@ msgstr ""
 "Unaprijed provjeri, ispunjava li tvoj projekt uvjete za besplatni hosting "
 "projekta na ovom web mjestu."
 
-#: weblate/templates/accounts/hosting.html:32
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"Prevedeni sadržaj mora biti objavljen pod licencom koju je odobrila OSI ili "
-"koju FSF prepoznaje kao slobodni."
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr ""
-"Sav izvorni kod mora biti javno dostupan u podržanom sustavu za kontrolu "
-"verzija."
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-"Prijevodi moraju biti u istom repozitoriju ili pod istim projektom/"
-"organizacije repozitorija kao i izvorni kod."
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "Korištenje Weblatea odobreno je od izvornog projekta."
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-msgid "The project has had active development for at least three months."
-msgstr "Projekt se aktivno razvija barem zadnjih tri mjeseca."
-
-#: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
 msgstr "Imat ćeš 14 dana za postavljanje projekta."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 msgid "Please request project approval once you finish the setup."
 msgstr "Zatraži odobrenje za projekt nakon postavljanja."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
 msgstr "Neodobreni projekti bit će uklonjeni."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
 msgstr "Besplatna tarifa ne jamči dostupnost niti kvalitetu usluge."
 
 #: weblate/templates/accounts/hosting.html:41
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-"Navedi u README datoteci da koristiš Weblate. To će pomoći slobodnu upotrebu "
-"Weblatea u drugim projektima te privući nove prevodioce."
-
-#: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
 msgstr "Početak rada"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 msgid "Looking for commercial hosting?"
 msgstr "Trebaš komercijalni hosting?"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5155,25 +5108,17 @@ msgid "Please check that following conditions are met:"
 msgstr "Pazi na ispunjavanje sljedećih uvjeta:"
 
 #: weblate/templates/billing/detail.html:120
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-"Navedi u README datoteci da koristiš Weblate. To će pomoći slobodnu upotrebu "
-"Weblatea u drugim projektima te privući nove prevodioce."
-
-#: weblate/templates/billing/detail.html:123
 msgid "Approve as libre"
 msgstr "Odobri kao slobodno"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr "Zatraži odobrenje za slobodni hosting"
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7199,7 +7144,7 @@ msgstr "Dodaj uslugu za izradu sigurnosnih kopija"
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commit"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "Spremi"
 
 #: weblate/templates/manage/billing.html:16
@@ -7630,6 +7575,12 @@ msgstr "Mailing lista za prevodioce"
 msgid "Instructions for translators"
 msgstr "Upute za prevodioce"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact maintainers"
+msgid "Project maintainers"
+msgstr "Obrati se održavateljima"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -7826,6 +7777,54 @@ msgstr ""
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
 msgstr "Dodatne etikete mogu definirati administratori projekta."
+
+#: weblate/templates/snippets/libre-basic.html:3
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"Prevedeni sadržaj mora biti objavljen pod licencom koju je odobrila OSI ili "
+"koju FSF prepoznaje kao slobodni."
+
+#: weblate/templates/snippets/libre-basic.html:4
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr ""
+"Sav izvorni kod mora biti javno dostupan u podržanom sustavu za kontrolu "
+"verzija."
+
+#: weblate/templates/snippets/libre-basic.html:5
+#, fuzzy
+#| msgid ""
+#| "Translations have to be in the same repository, or under the same "
+#| "repository project/organization as the source code."
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+"Prijevodi moraju biti u istom repozitoriju ili pod istim projektom/"
+"organizacije repozitorija kao i izvorni kod."
+
+#: weblate/templates/snippets/libre-basic.html:6
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "Korištenje Weblatea odobreno je od izvornog projekta."
+
+#: weblate/templates/snippets/libre-basic.html:7
+#, fuzzy
+#| msgid ""
+#| "Mention you use Weblate for translations in the README. It’ll help "
+#| "Weblate to be free for more projects and attract new translators."
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+"Navedi u README datoteci da koristiš Weblate. To će pomoći slobodnu upotrebu "
+"Weblatea u drugim projektima te privući nove prevodioce."
+
+#: weblate/templates/snippets/libre-basic.html:8
+msgid "The project has had active development for at least three months."
+msgstr "Projekt se aktivno razvija barem zadnjih tri mjeseca."
 
 #: weblate/templates/snippets/libre-checklist.html:17
 msgid "Unmet guidelines from the community localization checklist:"
@@ -9962,43 +9961,43 @@ msgstr ""
 "Konfiguriraj petlje repozitorija za automatiziran tok aktualiziranja na "
 "Webplate."
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr "Konfiguriraj URL prijenosa za automatiziran tok prijevoda s Webplatea."
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr "Stvaranje zajednice"
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr "Definiraj upute koje prevodiocima služe kao smjernice za prevođenje."
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr "Učini svoje prijevode dostupnima pod slobodnom licencom."
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr "Popravi komponentu za uklanjanje upozorenja."
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "Dodaj kontekst tvojim prijevodima"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr "Dodaj snimku ekrana za objašnjavanje gdje se izraz koristi."
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr "Koristi oznake za označavanje posebnih izraza u tvom prijevodu."
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr "Dodaj „safe-html” oznaku za izbjegavanje opasnih HTML-a u prijevodima."
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr "Prilagođavanje radnog procesa"
 
@@ -11638,14 +11637,14 @@ msgstr "Otkrivena je licenca kao %s. Provjeri je li točna."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Neuspjela obrada prenešene ZIP datoeke."
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 "Projekt koji tražiš je uklonjen, no možeš doprinijeti drugim projektima."
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11653,7 +11652,7 @@ msgstr ""
 "Aktivirao/la si račun. Sada moraš postaviti lozinku, kako bi se sljedeći put "
 "mogao/la prijaviti."
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Upiši svoje puno ime i prezime i e-adresu u tvoj profil."
 
@@ -12382,6 +12381,13 @@ msgstr "Pokrenut je proces izrade sigurnosne kopije"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Nije moguće zanemariti grešku konfiguracije!"
+
+#~ msgid ""
+#~ "Mention you use Weblate for translations in the README. It’ll help "
+#~ "Weblate to be free for more projects and attract new translators."
+#~ msgstr ""
+#~ "Navedi u README datoteci da koristiš Weblate. To će pomoći slobodnu "
+#~ "upotrebu Weblatea u drugim projektima te privući nove prevodioce."
 
 #~ msgid ", expires %(expires)s"
 #~ msgstr ", isteče %(expires)s"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-11-15 21:28+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -848,7 +848,7 @@ msgstr ""
 "Periudha juaj e provës filloi; krijoni projektin tuaj të përkthimit dhe "
 "filloni të përktheni me Weblate!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Provë falas"
@@ -2436,15 +2436,15 @@ msgstr ""
 "Ky varg ka më shumë se një përkthim në këtë projekt ose s’është i përkthyer "
 "në disa përbërës."
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "Është përkthyer"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "Ky varg është përkthyer në të kaluarën"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, python-format
 msgid "Last translation was \"%s\"."
 msgstr "Përkthimi i fundit qe \"%s\"."
@@ -4152,44 +4152,11 @@ msgstr ""
 "Ju lutemi, kontrolloni paraprakisht nëse projekti juaj i plotëson kushtet "
 "për strehim falas projektesh në këtë sajt."
 
-#: weblate/templates/accounts/hosting.html:32
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"Lënda e përkthyer duhet hedhur në qarkullim sipas një licence të miratuar "
-"nga OSI ose të njohur si libre nga FSF-ja."
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr ""
-"Krejt kodi burim duhet të jetë i passhëm publikisht, në një sistem kontrolli "
-"versionesh të mbuluar prej nesh."
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "Përdorimi i Weblate-it të jetë miratuar nga projekti mëmë."
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-msgid "The project has had active development for at least three months."
-msgstr "Projekti ka qenë në zhvillim aktiv për të paktën tre muajt e fundit."
-
-#: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
 msgstr "Do të keni 14 ditë të ujdisni projektin tuaj."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 #, fuzzy
 #| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
@@ -4197,11 +4164,11 @@ msgstr ""
 "Ju lutemi, kërkoni miratim projekti, sapo të jetë plotësuar ujdisja e "
 "projektit."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
 msgstr "Projektet e hedhur poshtë do të hiqen."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 #, fuzzy
 #| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
@@ -4210,20 +4177,14 @@ msgid ""
 msgstr "Nuk ka garanci për funksionimin e shërbimit, as cilësinë e tij."
 
 #: weblate/templates/accounts/hosting.html:41
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-
-#: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
 msgstr "Fillojani"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 msgid "Looking for commercial hosting?"
 msgstr "Po shihni për strehim komercial?"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5230,25 +5191,19 @@ msgid "Please check that following conditions are met:"
 msgstr "Ju lutemi, kontrolloni të jeni plotësuar kushtet vijuese:"
 
 #: weblate/templates/billing/detail.html:120
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-
-#: weblate/templates/billing/detail.html:123
 #, fuzzy
 #| msgid "Approved string"
 msgid "Approve as libre"
 msgstr "U miratua varg"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7293,7 +7248,7 @@ msgstr "Shtoni shërbim kopjeruajtjesh"
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commercial hosting"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "Pritës (hosting) komercial"
 
 #: weblate/templates/manage/billing.html:16
@@ -7727,6 +7682,12 @@ msgstr "Listë postimesh për përkthyesit"
 msgid "Instructions for translators"
 msgstr "Udhëzime për përkthyes"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact maintainers"
+msgid "Project maintainers"
+msgstr "Lidhuni me mirëmbajtësit"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -7926,6 +7887,42 @@ msgstr ""
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
 msgstr "Etiketa shtesë mund të përkufizohen nga përgjegjësit e projektit."
+
+#: weblate/templates/snippets/libre-basic.html:3
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"Lënda e përkthyer duhet hedhur në qarkullim sipas një licence të miratuar "
+"nga OSI ose të njohur si libre nga FSF-ja."
+
+#: weblate/templates/snippets/libre-basic.html:4
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr ""
+"Krejt kodi burim duhet të jetë i passhëm publikisht, në një sistem kontrolli "
+"versionesh të mbuluar prej nesh."
+
+#: weblate/templates/snippets/libre-basic.html:5
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+
+#: weblate/templates/snippets/libre-basic.html:6
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "Përdorimi i Weblate-it të jetë miratuar nga projekti mëmë."
+
+#: weblate/templates/snippets/libre-basic.html:7
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+
+#: weblate/templates/snippets/libre-basic.html:8
+msgid "The project has had active development for at least three months."
+msgstr "Projekti ka qenë në zhvillim aktiv për të paktën tre muajt e fundit."
 
 #: weblate/templates/snippets/libre-checklist.html:17
 msgid "Unmet guidelines from the community localization checklist:"
@@ -10066,46 +10063,46 @@ msgstr ""
 "Formësoni hook-e deposh, për rrjedhë të automatizuar përditësimesh te "
 "Weblate."
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
 "Formësoni URL push për rrjedhë pune të automatizuar të përkthimeve prej "
 "Weblate-i."
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr "Ndërtim bashkësie"
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr "Përcaktoni udhëzime përkthimi, për t’u dhënë përkthyesve një drejtim."
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr "Bëjini përkthimet tuaja të passhme sipas një licence të lirë."
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr "Që të spastrohen sinjalizimet për të, ndreqeni këtë përbërës."
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "Jepuni kontekst përkthyesve"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr "Shtoni foto ekrani, për të shfaqur se ku përdoren vargjet."
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr "Për të treguar vargje speciale te përkthimi juaj, përdorni flamurka."
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
 "Shtoni flamurkë safe-html për të shmangur HTML të rrezikshme nga përkthyesit."
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr "Përshtatje rrjedhe pune"
 
@@ -11741,7 +11738,7 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr "S’u arrit të përtypej kartela e ngarkuar ZIP."
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11749,7 +11746,7 @@ msgstr ""
 "Projekti që po kërkoni është hequr, por ndihmesa juaj është e mirëpritur te "
 "të tjerë projekte."
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11757,7 +11754,7 @@ msgstr ""
 "Keni aktivizuar llogarinë tuaj, tani duhet të caktoni fjalëkalimin, që të "
 "jeni në gjendje të bëni hyrjen herës tjetër."
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Ju lutemi, caktoni te profili juaj emrin tuaj të plotë dhe email-in."
 

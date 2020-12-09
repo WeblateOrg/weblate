@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-12-06 20:25+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -809,7 +809,7 @@ msgid ""
 "start Weblating!"
 msgstr "您的試用期已經開始且運作中；建立您的翻譯專案，並開始使用 Weblate 吧！"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "免費試用"
@@ -2353,15 +2353,15 @@ msgid ""
 "translated in some components."
 msgstr "此專案中的這個字串有一種以上的翻譯，或是在某些組件未翻譯。"
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "已經翻譯過"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "字串之前已經有翻譯過"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, python-format
 msgid "Last translation was \"%s\"."
 msgstr "上一則翻譯是「%s」。"
@@ -4035,60 +4035,25 @@ msgid ""
 "hosting on this site."
 msgstr "請先檢查您的專案是否適合在此網站上託管。"
 
-#: weblate/templates/accounts/hosting.html:32
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr "翻譯內容必須依據 OSI 核可，或是 FSF 承認為自由的授權條款發行。"
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-#, fuzzy
-#| msgid ""
-#| "Source code has to be publicly available in a supported version control "
-#| "system."
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr "程式源始碼必須以支援的版本控制系統公開發布。"
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "上游專案已核准 Weblate 的使用。"
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "The project has active development for at least three months."
-msgid "The project has had active development for at least three months."
-msgstr "專案開發活躍至少有三個月。"
-
-#: weblate/templates/accounts/hosting.html:37
 #, fuzzy
 #| msgid "You will have 14 days to setup your project."
 msgid "You will have 14 days to set up your project."
 msgstr "您有 14 天可設定您的專案。"
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 #, fuzzy
 #| msgid "Please request project approval once the setup is completed."
 msgid "Please request project approval once you finish the setup."
 msgstr "設定完成後，請申請專案核可。"
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 #, fuzzy
 #| msgid "Not approved projects will be removed."
 msgid "Unapproved projects will be removed."
 msgstr "不核可的專案會被移除。"
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 #, fuzzy
 #| msgid "There is no guarantee for service availability, nor quality."
 msgid ""
@@ -4097,20 +4062,14 @@ msgid ""
 msgstr "對於服務的可用性與品質無法給予任何保證。"
 
 #: weblate/templates/accounts/hosting.html:41
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-
-#: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
 msgstr "開始使用"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 msgid "Looking for commercial hosting?"
 msgstr "在找商業代管服務嗎？"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5067,23 +5026,17 @@ msgid "Please check that following conditions are met:"
 msgstr "請檢查是否滿足以下條件："
 
 #: weblate/templates/billing/detail.html:120
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-
-#: weblate/templates/billing/detail.html:123
 msgid "Approve as libre"
 msgstr "核准為自由軟體"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr "請求核准自由軟體專案免費代管"
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7040,7 +6993,7 @@ msgstr "加入備份服務"
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commercial hosting"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "商用託管"
 
 #: weblate/templates/manage/billing.html:16
@@ -7451,6 +7404,12 @@ msgstr "翻譯者的郵遞清單"
 msgid "Instructions for translators"
 msgstr "給翻譯者看的指示"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact maintainers"
+msgid "Project maintainers"
+msgstr "聯絡維護者"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -7635,6 +7594,44 @@ msgstr "額外標籤可以在<a href=\"%(url)s\">專案設定</a>中定義。"
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
 msgstr "專案管理員可以定義額外標籤。"
+
+#: weblate/templates/snippets/libre-basic.html:3
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr "翻譯內容必須依據 OSI 核可，或是 FSF 承認為自由的授權條款發行。"
+
+#: weblate/templates/snippets/libre-basic.html:4
+#, fuzzy
+#| msgid ""
+#| "Source code has to be publicly available in a supported version control "
+#| "system."
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr "程式源始碼必須以支援的版本控制系統公開發布。"
+
+#: weblate/templates/snippets/libre-basic.html:5
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+
+#: weblate/templates/snippets/libre-basic.html:6
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "上游專案已核准 Weblate 的使用。"
+
+#: weblate/templates/snippets/libre-basic.html:7
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+
+#: weblate/templates/snippets/libre-basic.html:8
+#, fuzzy
+#| msgid "The project has active development for at least three months."
+msgid "The project has had active development for at least three months."
+msgstr "專案開發活躍至少有三個月。"
 
 #: weblate/templates/snippets/libre-checklist.html:17
 #, fuzzy
@@ -9667,43 +9664,43 @@ msgstr "版本控制整合"
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr "為自動化更新至 Weblate 的流程設定儲存庫掛鉤。"
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr "為自動化更新至 Weblate 的流程設定推送網址。"
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr "建置社群"
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr "定義翻譯指引，以提供翻譯者指導方針。"
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr "讓您的翻譯能依自由授權條款使用。"
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr "修正此組件以清除警告。"
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "給翻譯者提供情境"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr "加入螢幕擷圖以顯示字串使用處。"
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr "使用旗標來標示翻譯中的特殊字串。"
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr "加入安全 HTML 旗標以防止翻譯者使用有危險性的 HTML。"
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr "自訂工作流程"
 
@@ -11253,19 +11250,19 @@ msgstr "偵測到的授權條款為 %s，請檢查是否正確。"
 msgid "Failed to parse uploaded ZIP file."
 msgstr "無法解析上傳的 ZIP 檔案。"
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr "您正在查看的專案已經移除；不過我們仍然歡迎您貢獻其他專案。"
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr "您已啟用您的帳號。現在您應該設定密碼以便下次登入。"
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 msgid "Please set your full name and e-mail in your profile."
 msgstr "請設定您個人檔案中的全名與電子郵件。"
 

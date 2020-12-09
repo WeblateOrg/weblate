@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-11-28 12:29+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
@@ -856,7 +856,7 @@ msgstr ""
 "Il tuo periodo di prova è ora attivo e funzionante; crea il tuo progetto di "
 "traduzione e inizia il weblating!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Prova gratuita"
@@ -2431,15 +2431,15 @@ msgstr ""
 "Questa stringa ha più di una traduzione in questo progetto o non è "
 "traducibile in alcuni componenti.."
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "È stata tradotta"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "Questa stringa è stata tradotta in passato"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, python-format
 msgid "Last translation was \"%s\"."
 msgstr "L'ultima traduzione era: \"%s\"."
@@ -4145,54 +4145,19 @@ msgstr ""
 "Assicurati che il progetto sia idoneo per essere ospitato gratuitamente in "
 "questo sito."
 
-#: weblate/templates/accounts/hosting.html:32
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"Il contenuto tradotto deve essere rilasciato sotto licenza approvata da OSI "
-"o riconosciuta come gratuita da FSF."
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr ""
-"Tutto il codice sorgente deve essere disponibile pubblicamente in un sistema "
-"di controllo delle versioni supportato."
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-"Le traduzioni devono essere nello stesso repository o nello stesso progetto/"
-"organizzazione del repository del codice sorgente."
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "L'uso di Weblate è stato approvato dal progetto upstream."
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-msgid "The project has had active development for at least three months."
-msgstr "Il progetto ha avuto uno sviluppo attivo da almeno tre mesi."
-
-#: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
 msgstr "Avrai 14 giorni per impostare il progetto."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 msgid "Please request project approval once you finish the setup."
 msgstr "Richiedi l'approvazione del progetto una volta completato il progetto."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
 msgstr "I progetti non approvati verranno rimossi."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
@@ -4201,26 +4166,14 @@ msgstr ""
 "disponibilità del servizio."
 
 #: weblate/templates/accounts/hosting.html:41
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-"Menziona che usi Weblate per le traduzioni nel README. Aiuterà Weblate a "
-"essere libero per più progetti e ad attrarre nuovi traduttori."
-
-#: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
 msgstr "Iniziamo"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 msgid "Looking for commercial hosting?"
 msgstr "Stai cercando un hosting commerciale?"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5222,25 +5175,17 @@ msgid "Please check that following conditions are met:"
 msgstr "Verifica che siano soddisfatte le seguenti condizioni:"
 
 #: weblate/templates/billing/detail.html:120
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-"Menziona che usi Weblate per le traduzioni nel README. Aiuterà Weblate a "
-"essere libero per più progetti e ad attrarre nuovi traduttori."
-
-#: weblate/templates/billing/detail.html:123
 msgid "Approve as libre"
 msgstr "Approva come gratuito"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr "Richiedi approvazione per l'hosting gratuito"
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7267,7 +7212,7 @@ msgstr "Aggiungi servizio backup"
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commercial hosting"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "Hosting a pagamento"
 
 #: weblate/templates/manage/billing.html:16
@@ -7701,6 +7646,12 @@ msgstr "Mailing list per i traduttori"
 msgid "Instructions for translators"
 msgstr "Istruzioni per i traduttori"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact maintainers"
+msgid "Project maintainers"
+msgstr "Contatta i responsabili"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -7905,6 +7856,54 @@ msgid "Additional labels can be defined by project administrators."
 msgstr ""
 "Le etichette aggiuntive possono essere definite dall'amministratore del "
 "progetto."
+
+#: weblate/templates/snippets/libre-basic.html:3
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"Il contenuto tradotto deve essere rilasciato sotto licenza approvata da OSI "
+"o riconosciuta come gratuita da FSF."
+
+#: weblate/templates/snippets/libre-basic.html:4
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr ""
+"Tutto il codice sorgente deve essere disponibile pubblicamente in un sistema "
+"di controllo delle versioni supportato."
+
+#: weblate/templates/snippets/libre-basic.html:5
+#, fuzzy
+#| msgid ""
+#| "Translations have to be in the same repository, or under the same "
+#| "repository project/organization as the source code."
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+"Le traduzioni devono essere nello stesso repository o nello stesso progetto/"
+"organizzazione del repository del codice sorgente."
+
+#: weblate/templates/snippets/libre-basic.html:6
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "L'uso di Weblate è stato approvato dal progetto upstream."
+
+#: weblate/templates/snippets/libre-basic.html:7
+#, fuzzy
+#| msgid ""
+#| "Mention you use Weblate for translations in the README. It’ll help "
+#| "Weblate to be free for more projects and attract new translators."
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+"Menziona che usi Weblate per le traduzioni nel README. Aiuterà Weblate a "
+"essere libero per più progetti e ad attrarre nuovi traduttori."
+
+#: weblate/templates/snippets/libre-basic.html:8
+msgid "The project has had active development for at least three months."
+msgstr "Il progetto ha avuto uno sviluppo attivo da almeno tre mesi."
 
 #: weblate/templates/snippets/libre-checklist.html:17
 msgid "Unmet guidelines from the community localization checklist:"
@@ -10048,47 +10047,47 @@ msgstr ""
 "Configura gli hook del repository per il flusso automatico aggiornamenti "
 "verso Weblate."
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
 "Configura l'URL push per il flusso automatizzato di traduzioni da Weblate."
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr "Costruzione comunità"
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr ""
 "Definisci le istruzioni di traduzione per fornire una linea guida ai "
 "traduttori."
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr "Rendi le tue traduzioni disponibili con una licenza gratuita."
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr "Correggi questo componente per azzerare i suoi avvisi."
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "Fornisci contesto ai traduttori"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr "Aggiungi schermate per indicare dove vengono usate le stringhe."
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr "Usa i flag per indicare stringhe speciali nella tua traduzione."
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
 "Aggiungi il flag 'safe-html' per evitare HTML pericolosi dai traduttori."
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr "Personalizza flusso lavoro"
 
@@ -11732,7 +11731,7 @@ msgstr "Licenza rilevata come %s, controlla se è corretta."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Analisi del file ZIP caricato non riuscita."
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11740,7 +11739,7 @@ msgstr ""
 "Il progetto che stavi cercando è stato rimosso. Tuttavia sei invitato a "
 "contribuire ad altri progetti."
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11748,7 +11747,7 @@ msgstr ""
 "Hai attivato il tuo account. Ora dovresti impostare la password per poter "
 "accedere la prossima volta."
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Imposta nel tuo profilo il nome completo e l'email."
 
@@ -12472,6 +12471,13 @@ msgstr "Il processo di backup è stato attivato"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Impossibile eliminare l'errore di configurazione!"
+
+#~ msgid ""
+#~ "Mention you use Weblate for translations in the README. It’ll help "
+#~ "Weblate to be free for more projects and attract new translators."
+#~ msgstr ""
+#~ "Menziona che usi Weblate per le traduzioni nel README. Aiuterà Weblate a "
+#~ "essere libero per più progetti e ad attrarre nuovi traduttori."
 
 #~ msgid ", expires %(expires)s"
 #~ msgstr ", scade il %(expires)s"

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-12-06 20:25+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -864,7 +864,7 @@ msgstr ""
 "Masa percobaan Anda sekarang sudah aktif dan berjalan; buat proyek "
 "terjemahan Anda dan mulai Weblating!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Percobaan Gratis"
@@ -2602,15 +2602,15 @@ msgstr ""
 "String ini memiliki lebih dari satu terjemahan dalam proyek ini atau tidak "
 "diterjemahkan di beberapa komponen."
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "Telah diterjemahkan"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "String ini telah diterjemahkan di masa lalu"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, fuzzy, python-format
 #| msgid "Invalid translation flag: \"%s\""
 msgid "Last translation was \"%s\"."
@@ -4472,60 +4472,19 @@ msgstr ""
 "Silakan periksa terlebih dahulu, apakah proyek Anda memenuhi syarat untuk "
 "proyek hosting di situs ini."
 
-#: weblate/templates/accounts/hosting.html:32
-#, fuzzy
-#| msgid "Translated content has to be released under free software license."
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"Konten yang diterjemahkan harus dirilis di bawah lisensi perangkat lunak "
-"bebas."
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-#, fuzzy
-#| msgid ""
-#| "Source code has to be publicly available in a supported version control "
-#| "system."
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr ""
-"Kode sumber harus tersedia bagi publik dalam sistem kontrol versi yang "
-"didukung."
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-#, fuzzy
-#| msgid "User has been removed from this project."
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "Pengguna telah dihapus dari proyek ini."
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-msgid "The project has had active development for at least three months."
-msgstr ""
-
-#: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 msgid "Please request project approval once you finish the setup."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
 msgstr ""
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 #, fuzzy
 #| msgid "There is no guarantee for service availability, nor quality."
 msgid ""
@@ -4534,24 +4493,18 @@ msgid ""
 msgstr "Tidak ada jaminan untuk ketersediaan atau kualitas layanan."
 
 #: weblate/templates/accounts/hosting.html:41
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-
-#: weblate/templates/accounts/hosting.html:46
 #, fuzzy
 #| msgid "Get support"
 msgid "Get started"
 msgstr "Dapatkan dukungan"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 #, fuzzy
 #| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
 msgstr "Hubungi kami untuk hosting komersial"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5591,25 +5544,19 @@ msgid "Please check that following conditions are met:"
 msgstr "Silakan baca perjanjian kontributor berikut:"
 
 #: weblate/templates/billing/detail.html:120
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-
-#: weblate/templates/billing/detail.html:123
 #, fuzzy
 #| msgid "Approved string"
 msgid "Approve as libre"
 msgstr "String yang disetujui"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr ""
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7728,7 +7675,7 @@ msgstr ""
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commercial hosting"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "Hosting komersial"
 
 #: weblate/templates/manage/billing.html:16
@@ -8186,6 +8133,12 @@ msgstr "Milis untuk penerjemah"
 msgid "Instructions for translators"
 msgstr "Petunjuk untuk penerjemah"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact us"
+msgid "Project maintainers"
+msgstr "Hubungi kami"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -8389,6 +8342,50 @@ msgstr ""
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
+msgstr ""
+
+#: weblate/templates/snippets/libre-basic.html:3
+#, fuzzy
+#| msgid "Translated content has to be released under free software license."
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"Konten yang diterjemahkan harus dirilis di bawah lisensi perangkat lunak "
+"bebas."
+
+#: weblate/templates/snippets/libre-basic.html:4
+#, fuzzy
+#| msgid ""
+#| "Source code has to be publicly available in a supported version control "
+#| "system."
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr ""
+"Kode sumber harus tersedia bagi publik dalam sistem kontrol versi yang "
+"didukung."
+
+#: weblate/templates/snippets/libre-basic.html:5
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+
+#: weblate/templates/snippets/libre-basic.html:6
+#, fuzzy
+#| msgid "User has been removed from this project."
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "Pengguna telah dihapus dari proyek ini."
+
+#: weblate/templates/snippets/libre-basic.html:7
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+
+#: weblate/templates/snippets/libre-basic.html:8
+msgid "The project has had active development for at least three months."
 msgstr ""
 
 #: weblate/templates/snippets/libre-checklist.html:17
@@ -10678,44 +10675,44 @@ msgstr "Pengaturan pengontol versi"
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr ""
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr ""
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr ""
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr ""
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "Memberikan konteks ke para penerjemah"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr ""
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr ""
 "Gunakan flag untuk mengindikasikan string khusus dalam terjemahan Anda."
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr ""
 
@@ -12458,7 +12455,7 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Gagal mengurai berkas ZIP yang diunggah."
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -12466,7 +12463,7 @@ msgstr ""
 "Proyek yang Anda cari telah dihapus, namun Anda dipersilakan untuk "
 "berkontribusi pada proyek lain."
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 #, fuzzy
 #| msgid ""
 #| "You have activated your account, now you should set the password to be "
@@ -12478,7 +12475,7 @@ msgstr ""
 "Anda telah mengaktifkan akun Anda, sekarang Anda harus mengatur kata sandi "
 "untuk bisa masuk saat berikutnya."
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 #, fuzzy
 #| msgid "Please set your full name in your profile."
 msgid "Please set your full name and e-mail in your profile."

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-12-04 20:11+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -840,7 +840,7 @@ msgstr ""
 "Din prøveperiode er nå i gang; opprett ditt oversettelsesprosjekt og start "
 "oversettingen!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Gratis prøveperiode"
@@ -2399,15 +2399,15 @@ msgstr ""
 "Denne strengen har mer enn én oversettelse i dette prosjektet eller er ikke "
 "oversatt i noen komponenter."
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "Har blitt oversatt"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "Denne strengen er oversatt tidligere"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, python-format
 msgid "Last translation was \"%s\"."
 msgstr "Siste oversettelse var «%s»."
@@ -4102,56 +4102,21 @@ msgstr ""
 "Vennligst sjekk på forhånd om prosjektet ditt er kvalifisert for gratis "
 "prosjektvert på dette nettstedet."
 
-#: weblate/templates/accounts/hosting.html:32
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"Oversatt innhold må være sluppet under en fri programvarelisens godkjent av "
-"OSI eller anerkjent som fri av FSF."
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr ""
-"All kildekoden må være offentlig tilgjengelig i et versjonskontrollsystem "
-"som støttes."
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-"Oversettelser må være i samme kodelager, eller under samme "
-"kodelagerprosjekt/-organisasjon som kildekoden."
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "Bruk av Weblate er godkjent av oppstrøms-prosjektet."
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-msgid "The project has had active development for at least three months."
-msgstr "Prosjektet har vært i aktiv utvikling i minst tre måneder."
-
-#: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
 msgstr "Du har 14 dager til å sette opp prosjektet ditt."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 #, fuzzy
 #| msgid "Please request project approval once project setup is completed."
 msgid "Please request project approval once you finish the setup."
 msgstr "Forespør prosjektgodkjennelse når prosjektoppsettet er fullført."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
 msgstr "Prosjekter som ikke godkjennes blir fjernet."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 #, fuzzy
 #| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
@@ -4160,23 +4125,14 @@ msgid ""
 msgstr "Det er ingen garanti for tjenestetilgjengelighet eller kvalitet."
 
 #: weblate/templates/accounts/hosting.html:41
-#, fuzzy
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-"Nevn at du bruker Weblate for oversettelser i README-filen. Det vil hjelpe "
-"Weblate for flere prosjekter og tiltrekke flere oversettelser."
-
-#: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
 msgstr "Kom igang"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 msgid "Looking for commercial hosting?"
 msgstr "Leter du etter kommersiell vertstjenester?"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5165,26 +5121,17 @@ msgid "Please check that following conditions are met:"
 msgstr "Kontroller at følgende vilkår er oppfylt:"
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-"Nevn at du bruker Weblate for oversettelser i README-filen. Det vil hjelpe "
-"Weblate for flere prosjekter og tiltrekke flere oversettelser."
-
-#: weblate/templates/billing/detail.html:123
 msgid "Approve as libre"
 msgstr "Godkjenn som fri"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr "Forespør godkjennelse for fri vertstjening"
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7200,7 +7147,7 @@ msgstr "Legg til sikkerhetskopitjeneste"
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commercial hosting"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "Kommersiell vertstjeneste"
 
 #: weblate/templates/manage/billing.html:16
@@ -7632,6 +7579,12 @@ msgstr "E-postliste for oversettere"
 msgid "Instructions for translators"
 msgstr "Instruksjoner for oversettere"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact maintainers"
+msgid "Project maintainers"
+msgstr "Kontakt vedlikeholdere"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -7828,6 +7781,51 @@ msgstr ""
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
 msgstr "Ytterligere etiketter kan defineres av prosjektadministratorer."
+
+#: weblate/templates/snippets/libre-basic.html:3
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"Oversatt innhold må være sluppet under en fri programvarelisens godkjent av "
+"OSI eller anerkjent som fri av FSF."
+
+#: weblate/templates/snippets/libre-basic.html:4
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr ""
+"All kildekoden må være offentlig tilgjengelig i et versjonskontrollsystem "
+"som støttes."
+
+#: weblate/templates/snippets/libre-basic.html:5
+#, fuzzy
+#| msgid ""
+#| "Translations have to be in the same repository, or under the same "
+#| "repository project/organization as the source code."
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+"Oversettelser må være i samme kodelager, eller under samme "
+"kodelagerprosjekt/-organisasjon som kildekoden."
+
+#: weblate/templates/snippets/libre-basic.html:6
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "Bruk av Weblate er godkjent av oppstrøms-prosjektet."
+
+#: weblate/templates/snippets/libre-basic.html:7
+#, fuzzy
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+"Nevn at du bruker Weblate for oversettelser i README-filen. Det vil hjelpe "
+"Weblate for flere prosjekter og tiltrekke flere oversettelser."
+
+#: weblate/templates/snippets/libre-basic.html:8
+msgid "The project has had active development for at least three months."
+msgstr "Prosjektet har vært i aktiv utvikling i minst tre måneder."
 
 #: weblate/templates/snippets/libre-checklist.html:17
 msgid "Unmet guidelines from the community localization checklist:"
@@ -10066,43 +10064,43 @@ msgstr "Versjonskontrollintegrasjon"
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr "Sett opp kodelagerhaker for automatisert oppdateringsflyt til Weblate."
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr "Konfigurer push-URL for automatisk flyt av oversettelser fra Weblate."
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr "Bygger fellesskap"
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr "Definer oversetterinstruksjoner for å gi oversetterne rettledning."
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr "Gjør oversettelsene dine tilgjengelig under en fri lisens."
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr "Fiks denne komponenten for å fjerne dens varsler."
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "Angi bindeleddsinfo for oversettere"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr "Legg til skjermavbildninger for å vise hvor strenger blir brukt."
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr "Bruk flagg for å indikere spesielle strenger i din oversettelse."
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr "Legg til «safe-html»-flagg for å unngå farlig HTML fra oversettere."
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr "Tilpasning av arbeidsflyt"
 
@@ -11768,7 +11766,7 @@ msgstr "Oppdaget lisens er %s, sjekk at dette stemmer."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Klarte ikke å tolke opplastet ZIP-fil."
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11776,7 +11774,7 @@ msgstr ""
 "Prosjektet du så etter har blitt fjernet, men bidra gjerne til andre "
 "prosjekter."
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 #, fuzzy
 #| msgid ""
 #| "You have activated your account, now you should set the password to be "
@@ -11788,7 +11786,7 @@ msgstr ""
 "Du har aktivert kontoen din nå. Nå bør du sette et passord for å kunne logge "
 "inn neste gang."
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Angi hele navnet og e-posten i profilen din."
 
@@ -12548,6 +12546,14 @@ msgstr "Sikkerhetskopieringsprosess utløst"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Klarte ikke å avvise oppsettfeil!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Mention you use Weblate for translations in the README. It’ll help "
+#~ "Weblate to be free for more projects and attract new translators."
+#~ msgstr ""
+#~ "Nevn at du bruker Weblate for oversettelser i README-filen. Det vil "
+#~ "hjelpe Weblate for flere prosjekter og tiltrekke flere oversettelser."
 
 #~ msgid ", expires %(expires)s"
 #~ msgstr ", utløper %(expires)s"

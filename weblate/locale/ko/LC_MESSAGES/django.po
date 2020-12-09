@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2020-12-08 08:53+0000\n"
+"POT-Creation-Date: 2020-12-09 15:26+0000\n"
 "PO-Revision-Date: 2020-11-27 14:43+0000\n"
 "Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -824,7 +824,7 @@ msgid ""
 msgstr ""
 "시험판을 사용 중입니다; 번역 프로젝트를 생성하고 웨블레이팅을 시작하세요!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:59
+#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "무료 시험판"
@@ -2352,15 +2352,15 @@ msgstr ""
 "이 문자열은 이 프로젝트에서 하나 이상의 번역을 가지고 있거나 일부 컴포넌트에"
 "서 번역되지 않았습니다."
 
-#: weblate/checks/consistency.py:96
+#: weblate/checks/consistency.py:98
 msgid "Has been translated"
 msgstr "번역됨"
 
-#: weblate/checks/consistency.py:97
+#: weblate/checks/consistency.py:99
 msgid "This string has been translated in the past"
 msgstr "이 문자열은 과거에 번역되었습니다"
 
-#: weblate/checks/consistency.py:105
+#: weblate/checks/consistency.py:107
 #, python-format
 msgid "Last translation was \"%s\"."
 msgstr "마지막 번역: \"%s\"."
@@ -4041,79 +4041,33 @@ msgstr ""
 "당신의 프로젝트가 이 사이트에서 무료로 프로젝트를 호스팅할 수 있는지 미리 확"
 "인하십시오."
 
-#: weblate/templates/accounts/hosting.html:32
-msgid ""
-"Translated content has to be released under a license approved by OSI or "
-"recognized as libre by FSF."
-msgstr ""
-"번역된 콘텐츠는 OSI가 승인하거나 FSF에 의해 libre로 인정된 라이센스에 따라 배"
-"포돼야 합니다."
-
 #: weblate/templates/accounts/hosting.html:33
-#: weblate/templates/billing/detail.html:117
-msgid ""
-"All the source code has to be publicly available in a supported version "
-"control system."
-msgstr "모든 소스 코드는 지원하는 버전 관리 시스템에 공개되어야 합니다."
-
-#: weblate/templates/accounts/hosting.html:34
-msgid ""
-"Translations have to be in the same repository, or under the same repository "
-"project/organization as the source code."
-msgstr ""
-"번역은 동일한 저장소 또는 소스 코드와 동일한 저장소 프로젝트/조직 저장소에 있"
-"어야 합니다."
-
-#: weblate/templates/accounts/hosting.html:35
-#: weblate/templates/billing/detail.html:118
-msgid "Using Weblate has been approved by the upstream project."
-msgstr "업스트림 프로젝트에 웨블레이트가 승인됐습니다."
-
-#: weblate/templates/accounts/hosting.html:36
-#: weblate/templates/billing/detail.html:119
-msgid "The project has had active development for at least three months."
-msgstr "그 프로젝트는 적어도 3개월 동안 활발한 개발을 해왔습니다."
-
-#: weblate/templates/accounts/hosting.html:37
 msgid "You will have 14 days to set up your project."
 msgstr "프로젝트를 설정하는 데 14일이 주어집니다."
 
-#: weblate/templates/accounts/hosting.html:38
+#: weblate/templates/accounts/hosting.html:34
 msgid "Please request project approval once you finish the setup."
 msgstr "설정이 완료되면 프로젝트 승인을 요청하십시오."
 
-#: weblate/templates/accounts/hosting.html:39
+#: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
 msgstr "승인되지 않은 프로젝트는 제거됩니다."
 
-#: weblate/templates/accounts/hosting.html:40
+#: weblate/templates/accounts/hosting.html:36
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
 msgstr "무료 서비스 플랜에 대한 서비스 유효성 또는 품질 보증을 하지 않습니다."
 
 #: weblate/templates/accounts/hosting.html:41
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll attract new "
-"translators and also help Weblate to be free for more projects."
-msgstr ""
-"README에서 번역을 위해 웨블레이트(Weblate)를 사용한다고 언급하십시오. 웨블레"
-"이트가 더 많은 프로젝트에 무료로 제공되고 새로운 번역가를 유치하는 데 도움이 "
-"될 것입니다."
-
-#: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
 msgstr "시작하기"
 
-#: weblate/templates/accounts/hosting.html:52
+#: weblate/templates/accounts/hosting.html:47
 msgid "Looking for commercial hosting?"
 msgstr "영리 목적의 호스팅을 찾으시나요?"
 
-#: weblate/templates/accounts/hosting.html:55
+#: weblate/templates/accounts/hosting.html:50
 #, python-format
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
@@ -5076,26 +5030,17 @@ msgid "Please check that following conditions are met:"
 msgstr "다음 조건 충족을 확인요망:"
 
 #: weblate/templates/billing/detail.html:120
-msgid ""
-"Mention you use Weblate for translations in the README. It’ll help Weblate "
-"to be free for more projects and attract new translators."
-msgstr ""
-"README에서 번역을 위해 웨블레이트(Weblate)를 사용한다고 언급하십시오. 웨블레"
-"이트가 더 많은 프로젝트에 무료로 제공되고 새로운 번역가를 유치하는 데 도움이 "
-"될 것입니다."
-
-#: weblate/templates/billing/detail.html:123
 msgid "Approve as libre"
 msgstr "리브르로 승인"
 
-#: weblate/templates/billing/detail.html:126
+#: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr "리브르 호스팅 승인 요청"
 
-#: weblate/templates/billing/detail.html:130
+#: weblate/templates/billing/detail.html:127
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
@@ -7067,7 +7012,7 @@ msgstr "백업 서비스 추가"
 #: weblate/templates/manage/billing.html:15
 #, fuzzy
 #| msgid "Commercial hosting"
-msgid "Commerial"
+msgid "Commercial"
 msgstr "상업적 호스팅"
 
 #: weblate/templates/manage/billing.html:16
@@ -7489,6 +7434,12 @@ msgstr "번역가 메일링 리스트"
 msgid "Instructions for translators"
 msgstr "번역자에 대한 지침"
 
+#: weblate/templates/project_info.html:44
+#, fuzzy
+#| msgid "Contact maintainers"
+msgid "Project maintainers"
+msgstr "담당자에게 연락하십시오"
+
 #: weblate/templates/ratelimit.html:5
 msgid ""
 "Your request was rejected because you have performed too many operations "
@@ -7679,6 +7630,53 @@ msgstr ""
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
 msgstr "프로젝트 관리자가 추가 레이블을 정의할 수 있습니다."
+
+#: weblate/templates/snippets/libre-basic.html:3
+msgid ""
+"Translated content has to be released under a license approved by OSI or "
+"recognized as libre by FSF."
+msgstr ""
+"번역된 콘텐츠는 OSI가 승인하거나 FSF에 의해 libre로 인정된 라이센스에 따라 배"
+"포돼야 합니다."
+
+#: weblate/templates/snippets/libre-basic.html:4
+msgid ""
+"All the source code has to be publicly available in a supported version "
+"control system."
+msgstr "모든 소스 코드는 지원하는 버전 관리 시스템에 공개되어야 합니다."
+
+#: weblate/templates/snippets/libre-basic.html:5
+#, fuzzy
+#| msgid ""
+#| "Translations have to be in the same repository, or under the same "
+#| "repository project/organization as the source code."
+msgid ""
+"Translations have to be in the same repository as the source code, or under "
+"the same project/organization as the source code repository."
+msgstr ""
+"번역은 동일한 저장소 또는 소스 코드와 동일한 저장소 프로젝트/조직 저장소에 있"
+"어야 합니다."
+
+#: weblate/templates/snippets/libre-basic.html:6
+msgid "Using Weblate has been approved by the upstream project."
+msgstr "업스트림 프로젝트에 웨블레이트가 승인됐습니다."
+
+#: weblate/templates/snippets/libre-basic.html:7
+#, fuzzy
+#| msgid ""
+#| "Mention you use Weblate for translations in the README. It’ll help "
+#| "Weblate to be free for more projects and attract new translators."
+msgid ""
+"Mention you use Weblate for translations in the README. It’ll attract new "
+"translators and also help Weblate to be free for more projects."
+msgstr ""
+"README에서 번역을 위해 웨블레이트(Weblate)를 사용한다고 언급하십시오. 웨블레"
+"이트가 더 많은 프로젝트에 무료로 제공되고 새로운 번역가를 유치하는 데 도움이 "
+"될 것입니다."
+
+#: weblate/templates/snippets/libre-basic.html:8
+msgid "The project has had active development for at least three months."
+msgstr "그 프로젝트는 적어도 3개월 동안 활발한 개발을 해왔습니다."
 
 #: weblate/templates/snippets/libre-checklist.html:17
 msgid "Unmet guidelines from the community localization checklist:"
@@ -9762,43 +9760,43 @@ msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
 "웨블레이트에 대한 업데이트의 자동 흐름을 위한 저장소 후크를 구성하십시오."
 
-#: weblate/trans/guide.py:103
+#: weblate/trans/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr "웨블레이트에서 자동 번역 흐름을 위해 푸시 URL을 구성하십시오."
 
-#: weblate/trans/guide.py:117
+#: weblate/trans/guide.py:120
 msgid "Building community"
 msgstr "커뮤니티 구축"
 
-#: weblate/trans/guide.py:125
+#: weblate/trans/guide.py:128
 msgid "Define translation instructions to give translators a guideline."
 msgstr "번역가에게 제공할 번역 지침을 정의하십시오."
 
-#: weblate/trans/guide.py:141
+#: weblate/trans/guide.py:144
 msgid "Make your translations available under a libre license."
 msgstr "자유(Libre) 라이선스 하에 번역을 사용할 수 있도록 합니다."
 
-#: weblate/trans/guide.py:154 weblate/trans/templatetags/translations.py:681
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:681
 msgid "Fix this component to clear its alerts."
 msgstr "경고를 지우려면 이 구성 요소를 수정하십시오."
 
-#: weblate/trans/guide.py:167
+#: weblate/trans/guide.py:170
 msgid "Provide context to the translators"
 msgstr "번역가에게 문맥 제공"
 
-#: weblate/trans/guide.py:175
+#: weblate/trans/guide.py:178
 msgid "Add screenshots to show where strings are being used."
 msgstr "갈무리를 추가하여 문자열이 사용되는 위치를 표시하십시오."
 
-#: weblate/trans/guide.py:189
+#: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr "번역에서 특수 문자열을 나타내려면 플래그를 사용하십시오."
 
-#: weblate/trans/guide.py:207
+#: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr "safe-HTML 플래그를 추가하여 번역가의 안전하지 않은 HTML을 방지합니다."
 
-#: weblate/trans/guide.py:230
+#: weblate/trans/guide.py:233
 msgid "Workflow customization"
 msgstr "작업 흐름 사용자 정의"
 
@@ -11372,7 +11370,7 @@ msgstr "%s 라이선스가 감지되었습니다. 올바른지 확인하십시�
 msgid "Failed to parse uploaded ZIP file."
 msgstr "올려진 ZIP 파일을 구문 분석하지 못했습니다."
 
-#: weblate/trans/views/dashboard.py:163
+#: weblate/trans/views/dashboard.py:160
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11380,7 +11378,7 @@ msgstr ""
 "귀하가 찾으시는 프로젝트는 제거되었습니다만, 대신 다른 프로젝트에 참여하실 "
 "수 있습니다."
 
-#: weblate/trans/views/dashboard.py:172
+#: weblate/trans/views/dashboard.py:169
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11388,7 +11386,7 @@ msgstr ""
 "귀하의 계정이 활성화되었습니다, 다음 번에 로그인을 할 수 있도록 지금 비밀번호"
 "를 설정하십시오."
 
-#: weblate/trans/views/dashboard.py:186
+#: weblate/trans/views/dashboard.py:183
 msgid "Please set your full name and e-mail in your profile."
 msgstr "프로필에서 귀하의 이름과 전자우편을 입력하십시오."
 
@@ -12099,6 +12097,14 @@ msgstr "백업 프로세스가 트리거됨"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "구성 오류를 해제할 수 없습니다!"
+
+#~ msgid ""
+#~ "Mention you use Weblate for translations in the README. It’ll help "
+#~ "Weblate to be free for more projects and attract new translators."
+#~ msgstr ""
+#~ "README에서 번역을 위해 웨블레이트(Weblate)를 사용한다고 언급하십시오. 웨블"
+#~ "레이트가 더 많은 프로젝트에 무료로 제공되고 새로운 번역가를 유치하는 데 도"
+#~ "움이 될 것입니다."
 
 #~ msgid ", expires %(expires)s"
 #~ msgstr ", %(expires)s 만기됨"
