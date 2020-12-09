@@ -195,8 +195,8 @@ case as it's not straightforward to upgrade the database, see `GitHub issue <htt
 
 .. _docker-admin-login:
 
-Admin login
------------
+Admin sign in
+-------------
 
 After container setup, you can sign in as `admin` user with password provided
 in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated on first
@@ -439,7 +439,7 @@ Generic settings
 
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
-    Configures login required for the whole of the Weblate installation using :setting:`LOGIN_REQUIRED_URLS`.
+    Configures sign in required for the whole of the Weblate installation using :setting:`LOGIN_REQUIRED_URLS`.
 
     **Example:**
 
@@ -452,7 +452,7 @@ Generic settings
 .. envvar:: WEBLATE_ADD_LOGIN_REQUIRED_URLS_EXCEPTIONS
 .. envvar:: WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS
 
-    Adds URL exceptions for login required for the whole Weblate installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`.
+    Adds URL exceptions for sign in required for the whole Weblate installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`.
 
     You can either replace whole settings, or modify default value using ``ADD`` and ``REMOVE`` variables.
 

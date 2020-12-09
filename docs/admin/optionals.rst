@@ -133,7 +133,7 @@ Installation
 
     # Optional:
 
-    # Social auth pipeline to confirm TOS upon registration/subsequent login
+    # Social auth pipeline to confirm TOS upon registration/subsequent sign in
     SOCIAL_AUTH_PIPELINE += ("weblate.legal.pipeline.tos_confirm",)
 
     # Middleware to enforce TOS confirmation of signed in users
@@ -243,7 +243,7 @@ The following operations are subject to rate limiting:
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Sending message to admins         | ``MESSAGE``        |                5 |              300 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
-| Password authentication on login  | ``LOGIN``          |                5 |              300 |            600 |
+| Password authentication on sign in| ``LOGIN``          |                5 |              300 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Sitewide search                   | ``SEARCH``         |                6 |               60 |             60 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+

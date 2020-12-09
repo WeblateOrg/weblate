@@ -126,8 +126,10 @@ For example, searching for strings marked for edit in 2018 can be entered as
 Regular expressions
 -------------------
 
-Anywhere text is accepted you can also specify a regular expression as ``r"regexp"``. For instance, to search for all source strings which contain any digit between 2 and 5, use:
-``source:r"[2-5]"``
+Anywhere text is accepted you can also specify a regular expression as ``r"regexp"``.
+
+For example, to search for all source strings which contain any digit between 2
+and 5, use ``source:r"[2-5]"``.
 
 Predefined queries
 ------------------

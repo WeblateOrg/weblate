@@ -76,30 +76,30 @@ Changing the logo
 -----------------
 
 1. Create a simple Django app containing the static files you want to overwrite
-(see :ref:`custom-module`).
+   (see :ref:`custom-module`).
+
+   Branding appears in the following files:
+
+   :file:`icons/weblate.svg`
+       Logo shown in the navigation bar.
+   :file:`logo-*.png`
+       Web icons depending on screen resolution and web-browser.
+   :file:`favicon.ico`
+       Web icon used by legacy browsers.
+   :file:`weblate-*.png`
+       Avatars for bots or anonymous users. Some web-browsers use these as shortcut icons.
+   :file:`email-logo.png`
+       Used in notifications e-mails.
 
 2. Add it to :setting:`django:INSTALLED_APPS`:
 
-.. code-block:: python
+   .. code-block:: python
 
-   INSTALLED_APPS = (
-       # Add your customization as first
-       "weblate_customization",
-       # Weblate apps are here…
-   )
-
-Branding appears in the following files:
-
-:file:`icons/weblate.svg`
-    Logo shown in the navigation bar.
-:file:`logo-*.png`
-    Web icons depending on screen resolution and web-browser.
-:file:`favicon.ico`
-    Web icon used by legacy browsers.
-:file:`weblate-*.png`
-    Avatars for bots or anonymous users. Some web-browsers use these as shortcut icons.
-:file:`email-logo.png`
-    Used in notifications e-mails.
+      INSTALLED_APPS = (
+          # Add your customization as first
+          "weblate_customization",
+          # Weblate apps are here…
+      )
 
 3. Run :samp:`weblate collectstatic --noinput`, to collect static files served to
    clients.

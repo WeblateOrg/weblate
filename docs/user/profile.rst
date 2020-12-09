@@ -150,7 +150,7 @@ separated in the settings.
 
 You can toggle notifications for watched projects and administered projects and it
 can be further tweaked (or muted) per project and component. Visit the component
-page and select appropriate choice from the :guilabel:`Watching` menu.
+overview page and select appropriate choice from the :guilabel:`Watching` menu.
 
 .. note::
 

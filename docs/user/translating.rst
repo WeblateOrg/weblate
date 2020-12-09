@@ -344,8 +344,9 @@ tab of each translation page.
 Automatic translation
 ---------------------
 
-You can use automatic translation to bootstrap translation based on external sources.
-This tool is called :guilabel:`Automatic translation` accessible in the :guilabel:`Tools` menu, once you have selected a component and a language:
+You can use automatic translation to bootstrap translation based on external
+sources.  This tool is called :guilabel:`Automatic translation` accessible in
+the :guilabel:`Tools` menu, once you have selected a component and a language:
 
 .. image:: /images/automatic-translation.png
 

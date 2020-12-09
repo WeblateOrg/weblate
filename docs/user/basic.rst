@@ -12,6 +12,6 @@ organize component into logical sets (for example to group all translations
 used within one application).
 
 Internally, each project has translations to common strings propagated across
-other components within it by default.  This lightens the burden of repetitive
-and multi version translation.  Disable it as per :ref:`component`, still
-producing errors for seemingly inconsistent resulting translations.
+other components within it by default. This lightens the burden of repetitive
+and multi version translation. The translation propagation can be disabled per
+:ref:`component` in case the translations should diverge.

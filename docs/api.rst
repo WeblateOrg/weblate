@@ -2262,7 +2262,7 @@ Glossary
 
 .. http:delete:: /api/glossary/(int:id)/
 
-    Deletes the Glossary.
+    Deletes the glossary.
 
     :param id: Glossary id
     :type id: int

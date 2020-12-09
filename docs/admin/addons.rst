@@ -285,10 +285,12 @@ Automatically generates a MO file for every changed PO file.
 Update PO files to match POT (msgmerge)
 ---------------------------------------
 
-Updates all PO files to match the POT file using msgmerge. Triggered whenever
-new changes are pulled from the upstream repository and updates all translation
-files to match :ref:`component-new_base`. You can configure most of the
-msgmerge command line options through the addon configuration.
+Updates all PO files (as configured :ref:`component-filemask`) to match the POT
+file (as configured by :ref:`component-new_base`) using msgmerge.
+
+This addon is triggered whenever new changes are pulled from the upstream
+repository. You can configure most of the msgmerge command line options through
+the addon configuration.
 
 .. _addon-weblate.git.squash:
 

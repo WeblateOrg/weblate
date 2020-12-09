@@ -42,7 +42,7 @@ Additional info on source strings
 
 Enhance the translation process with info available in the translation files.
 This includes explanation, string priority, check flags, or providing visual
-context.  All these features can be set in the :ref:`source-review`:
+context. All these features can be set while editing additional string info:
 
 .. image:: /images/source-review-edit.png
 
@@ -106,7 +106,7 @@ The uploaded screenshot is shown in the translation context sidebar:
 
 .. image:: /images/screenshot-context.png
 
-In addition to :ref:`source-review`, screenshots have a separate management
+In addition to :ref:`additional`, screenshots have a separate management
 interface under the :guilabel:`Tools` menu.
 Upload screenshots, assign them to source strings manually, or use
 optical character recognition to do so.

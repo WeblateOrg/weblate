@@ -289,7 +289,7 @@ Weblate should be now ready to run from the PostgreSQL database.
 
 .. _pgloader-migration:
 
-Migrating to PotsgreSQL using pgloader
+Migrating to PostgreSQL using pgloader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You can use it to migrate Weblate database.

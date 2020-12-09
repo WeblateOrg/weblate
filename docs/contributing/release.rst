@@ -29,11 +29,11 @@ Things to check prior to release:
 
 1. Check newly translated languages by :command:`./scripts/list-translated-languages`.
 2. Set final version by :command:`./scripts/prepare-release`.
-3. Make sure screenshots are up to date :command:`make -C docs update-screenshots`
+3. Make sure screenshots are up to date :command:`make -C docs update-screenshots`.
 
 Perform the release:
 
-4. Create a release :command:`./scripts/create-release --tag` (see below for requirements)
+4. Create a release :command:`./scripts/create-release --tag` (see below for requirements).
 
 Post release manual steps:
 

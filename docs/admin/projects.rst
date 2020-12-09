@@ -486,7 +486,7 @@ Whether translation suggestions are accepted for this component.
 Suggestion voting
 +++++++++++++++++
 
-Turns on votecasting for suggestions, see :ref:`voting`.
+Turns on vote casting for suggestions, see :ref:`voting`.
 
 .. _component-suggestion_autoaccept:
 
@@ -655,7 +655,7 @@ something else than English.
 
    In case you are translating bilingual files from English, but want to be
    able to do fixes in the English translation as well, you might want to
-   choose :guilabel:`English (Developer)` as a source language. To avoid
+   choose :guilabel:`English (Developer)` as a source language to avoid
    conflict between name of the source language and existing translation.
 
    For monolingual translations, you can use intermediate translation in this

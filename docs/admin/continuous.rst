@@ -265,9 +265,10 @@ under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 
 In case you do not want direct pushes by Weblate, there is support for
-:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or :ref:`vcs-gerrit`
-reviews, you can activate these by choosing :guilabel:`GitHub`,
-:guilabel:`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`.
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or
+:ref:`vcs-gerrit` reviews, you can activate these by choosing
+:guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or
+:guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 
 Overall, following options are available with Git, GitHub and GitLab:
 

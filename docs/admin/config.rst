@@ -741,9 +741,9 @@ Google Analytics ID to turn on monitoring of Weblate using Google Analytics.
 HIDE_REPO_CREDENTIALS
 ---------------------
 
-Hide repository credentials from appearing in the web interface.
-In case you have repository URL with user and password, Weblate will hide it
-when related info is shown to users.
+Hide repository credentials from the web interface. In case you have repository
+URL with user and password, Weblate will hide it when related info is shown to
+users.
 
 For example instead of ``https://user:password@git.example.com/repo.git`` it
 will show just ``https://git.example.com/repo.git``. It tries to clean up VCS
@@ -997,14 +997,14 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS
 ------------------------------
 
 List of exceptions for :setting:`LOGIN_REQUIRED_URLS`.
-If not specified, users are allowed to access the login page.
+If not specified, users are allowed to access the sign in page.
 
 Some of exceptions you might want to include:
 
 .. code-block:: python
 
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r"/accounts/(.*)$",  # Required for login
+        r"/accounts/(.*)$",  # Required for sign in
         r"/static/(.*)$",  # Required for development mode
         r"/widgets/(.*)$",  # Allowing public access to widgets
         r"/data/(.*)$",  # Allowing public access to data exports
@@ -1685,11 +1685,11 @@ REQUIRE_LOGIN
 .. versionadded:: 4.1
 
 This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to
-require login for all API endpoints.
+require sign in for all API endpoints.
 
 .. note::
 
-    This is in implemented in the :ref:`sample-configuration`. For Docker, use
+    This is implemented in the :ref:`sample-configuration`. For Docker, use
     :envvar:`WEBLATE_REQUIRE_LOGIN`.
 
 .. setting:: SENTRY_DSN
@@ -1838,7 +1838,7 @@ UPDATE_LANGUAGES
 .. versionadded:: 4.3.2
 
 Controls whether languages database should be updated when running database
-migration and is enabled by default. This setting has not effect on invocation
+migration and is enabled by default. This setting has no effect on invocation
 of :djadmin:`setuplang`.
 
 .. seealso::

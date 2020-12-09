@@ -435,7 +435,7 @@ Once you have the package installed, you can hook it into the Django authenticat
 
 .. code-block:: python
 
-    # Add LDAP backed, keep Django one if you want to be able to login
+    # Add LDAP backed, keep Django one if you want to be able to sign in
     # even without LDAP for admin account
     AUTHENTICATION_BACKENDS = (
         "django_auth_ldap.backend.LDAPBackend",
@@ -451,7 +451,7 @@ Once you have the package installed, you can hook it into the Django authenticat
     # like:
     # AUTH_LDAP_USER_DN_TEMPLATE = 'ou=users,dc=example,dc=com'
 
-    # List of attributes to import from LDAP upon login
+    # List of attributes to import from LDAP upon sign in
     # Weblate stores full name of the user in the full_name attribute
     AUTH_LDAP_USER_ATTR_MAP = {
         "full_name": "name",

@@ -22,7 +22,7 @@ to assign users roles for the whole instance (see :ref:`default-groups`). Additi
 More fine-grained configuration can be achieved using :ref:`custom-acl`.
 
 Common setups
------------------
+-------------
 
 Locking down Weblate
 ++++++++++++++++++++
@@ -71,8 +71,8 @@ users to that group (see :ref:`autogroup`).
 
 .. _acl:
 
-Per project access control
---------------------------
+Project access control
+----------------------
 
 .. note::
 
@@ -169,11 +169,11 @@ Whenever a permission is checked to decide whether one is able to perform a
 given action, the check is carried out according to scope, and the following
 checks are performed in the order:
 
-1. :guilabel:`Component list` is matched against component or project.
+1. Group :guilabel:`Component list` is matched against accessed component or project (for project level access).
 
-2. :guilabel:`Components` are matched against component or project.
+2. Group :guilabel:`Components` are matched against accessed component or project (for project level access).
 
-3. :guilabel:`Projects` are matched against project.
+3. Group :guilabel:`Projects` are matched against accessed project.
 
 As you can see, granting access to a component automatically grants user access
 to a containing project as well.
@@ -227,7 +227,7 @@ Managing per project access control
 
     This feature only works for ACL controlled projects, see :ref:`acl`.
 
-Users with the :guilabel:`Can manage ACL rules for a project` privilege (see
+Users with the :guilabel:`Manage project access` privilege (see
 :ref:`privileges`) can also manage users in projects with access control
 turned on through the project page. The interface allows you to:
 
@@ -266,12 +266,12 @@ users.
 
 .. describe:: Languages
 
-    Can manage translated languages - add or remove translations.
+    Can manage translated languages (add or remove translations).
 
 .. describe:: Screenshots
 
-    Can manage screenshots - add or remove them, and associate them to source
-    strings.
+    Can manage screenshots (add or remove them, and associate them to source
+    strings).
 
 .. describe:: Sources
 

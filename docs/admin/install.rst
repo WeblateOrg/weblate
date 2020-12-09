@@ -129,10 +129,10 @@ Pango, Cairo and related header files and gir introspection data
 ``licensee`` (optional for detecting license when creating component)
     https://github.com/licensee/licensee
 
-Compile time dependencies
-+++++++++++++++++++++++++
+Build-time dependencies
++++++++++++++++++++++++
 
-To compile some of the :ref:`python-deps` you might need to install their
+To build some of the :ref:`python-deps` you might need to install their
 dependencies. This depends on how you install them, so please consult
 individual packages for documentation. You won't need those if using prebuilt
 ``Wheels`` while installing using ``pip`` or when you use distribution packages.
@@ -381,7 +381,7 @@ The :file:`settings.py` snippet for PostgreSQL:
     }
 
 The migration code assumes that the role name matches username used while
-authenticating, in case it is not, please setting ``ALTER_ROLE``. Otherwise you
+authenticating, in case it is not, please set ``ALTER_ROLE``. Otherwise you
 get PostgreSQL error about not existing role during the database migration
 (``psycopg2.errors.UndefinedObject: role "weblate@hostname" does not exist``).
 
