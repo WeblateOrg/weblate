@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-08 08:53+0000\n"
-"PO-Revision-Date: 2020-11-28 12:29+0000\n"
+"PO-Revision-Date: 2020-12-09 08:34+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -4038,16 +4038,10 @@ msgid ""
 msgstr "我们不确保免费服务计划的可用性和质量。"
 
 #: weblate/templates/accounts/hosting.html:41
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
-msgstr ""
-"在README中提到您使用Weblate进行翻译。它将帮助Weblate为更多的项目提供免费服"
-"务，并吸引新的译者。"
+msgstr "请在 README 中提到您使用Weblate进行翻译。它将吸引新的译员，并帮助 Weblate 为更多项目提供免费服务。"
 
 #: weblate/templates/accounts/hosting.html:46
 msgid "Get started"
@@ -4988,10 +4982,8 @@ msgid "No invoices found."
 msgstr "未找到发票。"
 
 #: weblate/templates/billing/detail.html:100
-#, fuzzy
-#| msgid "Hostname"
 msgid "Libre hosting"
-msgstr "主机名"
+msgstr "自由软件项目托管"
 
 #: weblate/templates/billing/detail.html:102
 #: weblate/templates/billing/state-snippet.html:5
@@ -5030,20 +5022,15 @@ msgstr "订阅不符合开源计划，请改正上面的错误或购买订阅。
 
 #: weblate/templates/billing/list.html:10
 msgid "Plan"
-msgstr ""
+msgstr "计划"
 
 #: weblate/templates/billing/list.html:11
-#, fuzzy
-#| msgctxt "Number of hosted words"
-#| msgid "Hosted words"
 msgid "Hosted words"
 msgstr "托管的单词"
 
 #: weblate/templates/billing/list.html:28
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No users currently assigned!"
-msgstr "当前没有指派的项目！"
+msgstr "当前未指派用户！"
 
 #: weblate/templates/billing/list.html:35
 #: weblate/templates/billing/status.html:102
@@ -5075,10 +5062,8 @@ msgid ""
 msgstr "如果您无法访问自己项目的账单，请联系项目管理员授予权限。"
 
 #: weblate/templates/billing/state-snippet.html:11
-#, fuzzy
-#| msgid "Recurring payment"
 msgid "Awaiting payment"
-msgstr "定期付款"
+msgstr "待付款"
 
 #: weblate/templates/billing/status.html:9
 msgid "Current plan"
@@ -6878,13 +6863,11 @@ msgstr "恭喜！您的设置似乎可以正常工作。"
 
 #: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:71
 msgid "Appearance"
-msgstr ""
+msgstr "外观"
 
 #: weblate/templates/manage/appearance.html:18
-#, fuzzy
-#| msgid "Customize design"
 msgid "Customize appearance"
-msgstr "自定义设计"
+msgstr "自定义外观"
 
 #: weblate/templates/manage/appearance.html:24
 msgid "Reset customization"
@@ -6936,14 +6919,12 @@ msgid "Add backup service"
 msgstr "添加备份服务"
 
 #: weblate/templates/manage/billing.html:15
-#, fuzzy
-#| msgid "Commercial hosting"
 msgid "Commerial"
-msgstr "收费托管"
+msgstr "商业托管"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
-msgstr ""
+msgstr "自由软件项目"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7235,7 +7216,7 @@ msgstr "列表中找不到您的语言？"
 msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "for adding another one."
-msgstr ""
+msgstr "这个列表只包括基本语言。请联系项目维护人员添加另一种。"
 
 #: weblate/templates/new-language.html:41
 msgid "Request new translation"
@@ -7972,10 +7953,8 @@ msgid "Error"
 msgstr "出错"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files using ambiguous language code."
 msgid "The component translation files are using ambiguous language code."
-msgstr "组件翻译文件使用歧义语言代码。"
+msgstr "组件的翻译文件正使用歧义语言代码。"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
@@ -8118,7 +8097,7 @@ msgstr "请在组件设置中添加单语言基本语言文件。"
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This projects does no longer fit into libre hosting conditions."
-msgstr ""
+msgstr "这个项目不再符合自由软件项目托管条件。"
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8308,26 +8287,19 @@ msgid "I understand the consequences, delete this translation"
 msgstr "我明白后果，删除这个翻译"
 
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
-msgstr "这个动作是不能撤消的。这将永久删除 %(object)s 翻译及其所有相关内容。"
+msgstr "这个动作不能被撤消。这将永久删除 %(object)s 翻译及所有相关内容。"
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "以下翻译组件将被删除："
+msgstr "以下翻译将被删除："
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "要删除的项目"
+msgstr "要删除的项目语言"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8404,10 +8376,8 @@ msgid "This translation"
 msgstr "此翻译"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "已翻译"
+msgstr "已传播"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -8565,10 +8535,8 @@ msgid "List of recent changes done in Weblate"
 msgstr "在 Weblate 中最近所做的修改"
 
 #: weblate/templates/translate.html:279
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Difference to current string"
-msgstr "屏幕截图上下文"
+msgstr "与当前字符串之间的差异"
 
 #: weblate/templates/translate.html:290
 msgid "The following string has the same context and source."
@@ -8588,16 +8556,12 @@ msgid_plural ""
 msgstr[0] "下列字符串来源不同，但上下文相同。"
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "允许同步翻译"
+msgstr "将选定的翻译应用于所有传播的字符串"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Upload translation strings"
 msgid "Apply selected translation to current string"
-msgstr "上传翻译字符串"
+msgstr "将选中的翻译应用到当前字符串"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -9529,10 +9493,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "请输入项目标识串以确认。"
 
 #: weblate/trans/forms.py:2026
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "请输入项目标识串以确认。"
+msgstr "请输入项目标称（slug）和语言进行确认。"
 
 #: weblate/trans/forms.py:2053
 msgid "Author username"
@@ -9680,7 +9642,7 @@ msgstr "歧义语言代码。"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:330
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "不满足自由软件项目托管条件。"
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -10968,12 +10930,10 @@ msgid "This translation does not yet exist."
 msgstr "此翻译尚不存在。"
 
 #: weblate/trans/templatetags/translations.py:759
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s 个需要处理的字符串"
+msgstr[0] "这里有 %(count)s 条未翻译的字符串。"
 
 #: weblate/trans/templatetags/translations.py:786
 msgid "enabled"
@@ -11362,10 +11322,8 @@ msgid "Project was scheduled for removal."
 msgstr "项目已安排移除。"
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "已删除语言 %s。"
+msgstr "项目的语言被删除了。"
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -11727,7 +11685,7 @@ msgstr "持续的汉堡包导航"
 msgid ""
 "Use hamburger menu in the top navigation regardless the screen resolution. "
 "When disabled the hamburger navigation is used on small screens only."
-msgstr ""
+msgstr "不管屏幕分辨率如何，使用顶部导航中的汉堡包菜单。禁用后，汉堡导航只会用于小屏幕。"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
