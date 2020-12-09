@@ -1228,13 +1228,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @perform_on_link
     def do_update(self, request=None, method=None):
         """Wrapper for doing repository update."""
-        self.store_background_task()
         self.translations_progress = 0
         self.translations_count = 0
-        self.progress_step(0)
         # Hold lock all time here to avoid somebody writing between commit
         # and merge/rebase.
         with self.repository.lock:
+            self.store_background_task()
+            self.progress_step(0)
             self.configure_repo(pull=False)
 
             # pull remote
