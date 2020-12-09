@@ -77,6 +77,8 @@ class ConsistencyCheck(TargetCheck):
     propagates = True
 
     def check_target_unit(self, sources, targets, unit):
+        if not unit.translation.component.allow_translation_propagation:
+            return False
         for other in unit.same_source_units:
             if unit.target == other.target:
                 continue
