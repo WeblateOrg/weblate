@@ -19,7 +19,6 @@
 
 from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.memory.models import Memory
-from weblate.utils.search import Comparer
 
 
 class WeblateMemory(MachineTranslation):
@@ -54,7 +53,6 @@ class WeblateMemory(MachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
-        comparer = Comparer()
         for result in Memory.objects.lookup(
             source,
             language,
@@ -63,7 +61,7 @@ class WeblateMemory(MachineTranslation):
             unit.translation.component.project,
             unit.translation.component.project.use_shared_tm,
         ).iterator():
-            quality = comparer.similarity(text, result.source)
+            quality = self.comparer.similarity(text, result.source)
             if quality < 10 or (quality < threshold and not search):
                 continue
             yield {
