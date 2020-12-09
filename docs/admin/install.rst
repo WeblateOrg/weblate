@@ -18,6 +18,7 @@ Installing Weblate
     install/venv-macos
     install/source
     install/openshift
+    install/kubernetes
 
 Depending on your setup and experience, choose an appropriate installation method for you:
 
