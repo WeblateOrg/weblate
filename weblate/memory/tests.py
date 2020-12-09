@@ -76,6 +76,14 @@ class MemoryModelTest(FixtureTestCase):
             ],
         )
 
+    def test_machine_batch(self):
+        add_document()
+        unit = self.get_unit()
+        machine_translation = WeblateMemory()
+        unit.source = "Hello"
+        machine_translation.batch_translate([unit])
+        self.assertEqual(unit.machinery, {"best": 100, "translation": "Ahoj"})
+
     def test_import_tmx_command(self):
         call_command("import_memory", get_test_file("memory.tmx"))
         self.assertEqual(Memory.objects.count(), 2)

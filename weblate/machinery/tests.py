@@ -344,6 +344,16 @@ class BaseMachineTranslationTest(TestCase):
         )
 
     @responses.activate
+    def test_batch(self, machine=None):
+        self.mock_response()
+        if machine is None:
+            machine = self.get_machine()
+        unit = MockUnit(code=self.SUPPORTED, source=self.SOURCE_TRANSLATED)
+        machine.batch_translate([unit])
+        self.assertNotEqual(unit.machinery["best"], -1)
+        self.assertIn("translation", unit.machinery)
+
+    @responses.activate
     def test_error(self):
         self.mock_error()
         with self.assertRaises(MachineTranslationError):
@@ -1022,7 +1032,6 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def mock_response(self):
         pass
 
-    @responses.activate
     def test_translate(self, **kwargs):
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
@@ -1041,6 +1050,21 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 self.EXPECTED_LEN,
                 machine=machine,
             )
+
+    def test_batch(self, machine=None):
+        if machine is None:
+            machine = self.get_machine()
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Hallo",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "de",
+                },
+                {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
+            )
+            super().test_batch(machine=machine)
 
 
 class WeblateTranslationTest(FixtureTestCase):
