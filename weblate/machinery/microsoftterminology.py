@@ -56,7 +56,16 @@ class MicrosoftTerminologyService(MachineTranslation):
             return []
         return [lang["Code"] for lang in languages]
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from the service."""
         args = {
             "text": text,

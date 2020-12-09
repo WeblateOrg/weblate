@@ -61,7 +61,16 @@ class ModernMTTranslation(MachineTranslation):
         for source, targets in payload["data"].items():
             yield from ((source, target) for target in targets)
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         response = self.request(
             "get",

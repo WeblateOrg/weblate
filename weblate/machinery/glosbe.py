@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from weblate.machinery.base import MachineTranslation
 
 
@@ -36,7 +35,16 @@ class GlosbeTranslation(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         params = {"from": source, "dest": language, "format": "json", "phrase": text}
         response = self.request(

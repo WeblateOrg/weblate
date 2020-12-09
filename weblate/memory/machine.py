@@ -43,7 +43,16 @@ class WeblateMemory(MachineTranslation):
         """This service has no rate limiting."""
         return False
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         comparer = Comparer()
         for result in Memory.objects.lookup(
@@ -55,7 +64,7 @@ class WeblateMemory(MachineTranslation):
             unit.translation.component.project.use_shared_tm,
         ).iterator():
             quality = comparer.similarity(text, result.source)
-            if quality < 10 or (quality < 75 and not search):
+            if quality < 10 or (quality < threshold and not search):
                 continue
             yield {
                 "text": result.target,

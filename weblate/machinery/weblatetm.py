@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.utils.encoding import force_str
 
 from weblate.machinery.base import MachineTranslation, get_machinery_language
@@ -45,7 +44,16 @@ class WeblateTranslation(MachineTranslation):
         """This service has no rate limiting."""
         return False
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from a service."""
         if user:
             base = Unit.objects.filter_access(user)
@@ -61,7 +69,7 @@ class WeblateTranslation(MachineTranslation):
         for munit in matching_units:
             source = munit.source_string
             quality = self.comparer.similarity(text, source)
-            if quality < 10 or (quality < 75 and not search):
+            if quality < 10 or (quality < threshold and not search):
                 continue
             yield {
                 "text": munit.get_target_plurals()[0],

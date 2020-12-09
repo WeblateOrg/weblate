@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation
@@ -72,7 +71,16 @@ class MyMemoryTranslation(MachineTranslation):
 
         return result
 
-    def download_translations(self, source, language, text, unit, user, search):
+    def download_translations(
+        self,
+        source,
+        language,
+        text: str,
+        unit,
+        user,
+        search: bool,
+        threshold: int = 75,
+    ):
         """Download list of possible translations from MyMemory."""
         args = {
             "q": text.split(". ")[0][:500],
