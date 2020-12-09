@@ -7,6 +7,7 @@ Weblate can be easily installed in your cloud. Please find detailed guide for yo
 
 * :doc:`install/docker`
 * :doc:`install/openshift`
+* :doc:`install/kubernetes`
 
 Helm Chart
 ----------

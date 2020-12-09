@@ -32,7 +32,8 @@ Depending on your setup and experience, choose an appropriate installation metho
 
 * :doc:`install/source`, recommended for development.
 
-* :doc:`install/openshift`.
+* :doc:`install/openshift`
+* :doc:`install/kubernetes`
 
 .. _requirements:
 
