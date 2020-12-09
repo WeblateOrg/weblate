@@ -1,5 +1,3 @@
-.. _quick-docker:
-
 Installing using Docker
 =======================
 

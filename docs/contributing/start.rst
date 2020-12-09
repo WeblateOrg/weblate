@@ -14,7 +14,7 @@ Running Weblate locally
 -----------------------
 
 The most comfortable approach to get started with Weblate development is to
-follow :ref:`quick-source`. It will get you a virtual env with editable Weblate
+follow :doc:`../admin/install/source`. It will get you a virtual env with editable Weblate
 sources.
 
 1. Clone Weblate source:
@@ -31,7 +31,7 @@ sources.
       virtualenv .venv
       .venv/bin/activate
 
-3. Install Weblate (this will need some system deps, see :ref:`quick-source`):
+3. Install Weblate (this will need some system deps, see :doc:`../admin/install/source`):
 
    .. code-block:: sh
 
@@ -64,7 +64,7 @@ sources.
 
 .. seealso::
 
-   :ref:`quick-source`
+   :doc:`../admin/install/source`
 
 .. _dev-docker:
 

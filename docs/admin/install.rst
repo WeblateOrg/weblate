@@ -21,7 +21,7 @@ Installing Weblate
 
 Depending on your setup and experience, choose an appropriate installation method for you:
 
-* :ref:`quick-docker`, recommended for production setups.
+* :doc:`install/docker`, recommended for production setups.
 
 * Virtualenv installation, recommended for production setups:
 
@@ -30,9 +30,9 @@ Depending on your setup and experience, choose an appropriate installation metho
    * :doc:`install/venv-redhat`
    * :doc:`install/venv-macos`
 
-* :ref:`quick-source`, recommended for development.
+* :doc:`install/source`, recommended for development.
 
-* :ref:`quick-openshift`.
+* :doc:`install/openshift`.
 
 .. _requirements:
 

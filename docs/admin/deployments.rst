@@ -5,8 +5,8 @@ Weblate deployments
 
 Weblate can be easily installed in your cloud. Please find detailed guide for your platform:
 
-* :ref:`quick-docker`
-* :ref:`quick-openshift`
+* :doc:`install/docker`
+* :doc:`install/openshift`
 
 Helm Chart
 ----------

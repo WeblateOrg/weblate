@@ -1,5 +1,3 @@
-.. _quick-source:
-
 Installing from sources
 =======================
 

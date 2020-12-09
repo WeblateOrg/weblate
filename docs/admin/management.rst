@@ -69,12 +69,11 @@ In case you need to pass it a file, you can temporary add a volume:
 
 .. seealso::
 
-    :ref:`quick-docker`,
+    :doc:`install/docker`,
     :doc:`install/venv-debian`,
     :doc:`install/venv-suse`,
-    :doc:`install/venv-redhat`
-
-* :ref:`quick-source`, recommended for development.
+    :doc:`install/venv-redhat`,
+    :doc:`install/source`
 
 
 add_suggestions
