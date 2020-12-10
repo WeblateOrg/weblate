@@ -30,7 +30,6 @@ class WeblateMemory(BatchStringMachineTranslation):
     rank_boost = 2
     cache_translations = False
     same_languages = True
-    do_cleanup = False
 
     def convert_language(self, language):
         """No conversion of language object."""

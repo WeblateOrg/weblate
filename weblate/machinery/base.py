@@ -384,6 +384,9 @@ class MachineTranslation:
 
 
 class BatchStringMachineTranslation(MachineTranslation):
+    # Cleanup is not handled in batch mode
+    do_cleanup = False
+
     def download_batch_strings(
         self, source, language, units, texts: Set[str], user=None, threshold: int = 75
     ):

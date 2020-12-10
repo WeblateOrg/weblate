@@ -34,7 +34,6 @@ class WeblateTranslation(BatchStringMachineTranslation):
     name = "Weblate"
     rank_boost = 1
     cache_translations = False
-    do_cleanup = False
 
     def convert_language(self, language):
         """No conversion of language object."""
