@@ -753,13 +753,18 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # Propagate to other projects
         # This has to be done before changing source for template
+        was_propagated = False
         if propagate:
-            self.propagate(user, change_action, author=author)
+            was_propagated = self.propagate(user, change_action, author=author)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if self.old_unit.state == self.state and self.old_unit.target == self.target:
+        if (
+            self.old_unit.state == self.state
+            and self.old_unit.target == self.target
+            and not was_propagated
+        ):
             return False
 
         update_fields = ["target", "state", "original_state", "pending"]

@@ -23,7 +23,7 @@ import time
 
 from django.urls import reverse
 
-from weblate.trans.models import Change, Component
+from weblate.trans.models import Change, Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
@@ -546,6 +546,30 @@ class EditComplexTest(ViewTestCase):
             self.translate_url + "?checksum=" + unit.checksum, {"merge": unit2.id}
         )
         self.assertContains(response, "Invalid merge request!")
+
+    def test_merge_inconsistent(self):
+        # Translate unit to have something to start with
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        units = Unit.objects.filter(
+            translation__language__code="cs", source="Hello, world!\n"
+        )
+        self.assertEqual(
+            set(units.values_list("target", flat=True)), {"Nazdar svete!\n"}
+        )
+        self.create_link_existing()
+        self.assertEqual(
+            set(units.values_list("target", flat=True)), {"Nazdar svete!\n", ""}
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.all_checks_names, {"inconsistent"})
+        self.client.post(
+            self.translate_url + "?checksum=" + unit.checksum, {"merge": unit.id}
+        )
+        self.assertEqual(
+            set(units.values_list("target", flat=True)), {"Nazdar svete!\n"}
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.all_checks_names, set())
 
     def test_revert(self):
         source = "Hello, world!\n"

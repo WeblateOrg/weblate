@@ -397,7 +397,7 @@ class RepoTestMixin:
             project=self.project,
             repo="weblate://test/test",
             file_format="po",
-            filemask="po-duplicates/*.po",
+            filemask="po-duplicates/*.dpo",
             new_lang="contact",
         )
 
