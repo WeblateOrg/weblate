@@ -97,7 +97,7 @@ class AppearanceForm(forms.Form):
         required=False,
         help_text=_(
             "Use hamburger menu in the top navigation regardless the screen "
-            "resolution. When disabled the hamburger navigation is used on "
+            "resolution. When disabled the hamburger menu is used on "
             "small screens only."
         ),
     )
