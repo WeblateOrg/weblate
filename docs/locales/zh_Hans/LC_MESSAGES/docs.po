@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-09 16:27+0100\n"
-"PO-Revision-Date: 2020-12-09 08:34+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-12-10 19:45+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -316,26 +316,20 @@ msgstr ""
 "查依次执行："
 
 #: ../../admin/access.rst:172
-#, fuzzy
-#| msgid ":guilabel:`Component list` is matched against component or project."
 msgid ""
 "Group :guilabel:`Component list` is matched against accessed component or "
 "project (for project level access)."
-msgstr ":guilabel:`Component list` 与组件或项目匹配。"
+msgstr "群组 :guilabel:`Component list` 与访问的组件或项目匹配（对于项目级的访问）。"
 
 #: ../../admin/access.rst:174
-#, fuzzy
-#| msgid ":guilabel:`Components` are matched against component or project."
 msgid ""
 "Group :guilabel:`Components` are matched against accessed component or "
 "project (for project level access)."
-msgstr ":guilabel:`Component` 与组件或项目匹配。"
+msgstr "群组 :guilabel:`Component` 与访问的组件或项目匹配（对于项目级的访问）。"
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ":guilabel:`Projects` are matched against project."
 msgid "Group :guilabel:`Projects` are matched against accessed project."
-msgstr ":guilabel:`Projects` 与项目匹配。"
+msgstr "群组 :guilabel:`Projects` 与访问的项目匹配。"
 
 #: ../../admin/access.rst:178
 msgid ""
@@ -423,18 +417,13 @@ msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgstr "这个特性只对 ACL 控制的项目起作用，请参见 :ref:`acl` 。"
 
 #: ../../admin/access.rst:230
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Can manage ACL rules for a project` privilege "
-#| "(see :ref:`privileges`) can also manage users in projects with access "
-#| "control turned on through the project page. The interface allows you to:"
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can also manage users in projects with access control turned "
 "on through the project page. The interface allows you to:"
 msgstr ""
-"具有 :guilabel:`Can manage ACL rules for a project` 特权的用户（请参见 :ref:"
-"`privileges` ）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许你："
+"具有 :guilabel:`Manage project access` 特权的用户（请参见 :ref:`privileges` "
+"）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许你："
 
 #: ../../admin/access.rst:234
 msgid "Add existing users to the project"
@@ -485,20 +474,14 @@ msgid "Can manage glossary (add or remove entries, or upload)."
 msgstr "可以管理词汇表（添加或删除权限，或上传）。"
 
 #: ../../admin/access.rst:269
-#, fuzzy
-#| msgid "Can manage translated languages - add or remove translations."
 msgid "Can manage translated languages (add or remove translations)."
-msgstr "可以管理翻译语言——添加或删除翻译。"
+msgstr "可以管理翻译语言（添加或删除翻译）。"
 
 #: ../../admin/access.rst:273
-#, fuzzy
-#| msgid ""
-#| "Can manage screenshots - add or remove them, and associate them to source "
-#| "strings."
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
-msgstr "可以管理截屏——添加或删除截屏，并将其与源字符串关联。"
+msgstr "可以管理截屏（添加或删除截屏，并将其与源字符串关联）。"
 
 #: ../../admin/access.rst:278
 msgid "Can edit source strings in :ref:`monolingual` and source string info."
@@ -559,6 +542,7 @@ msgid ""
 "changes will be lost. In case you want to define own set of permissions, "
 "please define a new role for that."
 msgstr ""
+"这些角色和群组在安装时创建。内建的角色总是在升级时由数据库合并来更新，并且任何客户更改都会丢失。在想要定义自己的一组许可的情况下，请为此定义一个新的角色。"
 
 #: ../../admin/access.rst:326
 msgid "List of privileges"
@@ -905,8 +889,8 @@ msgid ""
 "djadmin:`setupgroups`) and you are free to modify them. The migration will "
 "however re-create them if you delete or rename them."
 msgstr ""
-"下面的群组在安装时建立（或在执行 :djadmin:`setupgroups` 后），您可以随意修改"
-"它们。但是，如果您删除或重命名它们，迁移将重新创建它们。"
+"下面的群组在安装时建立（或在执行 :djadmin:`setupgroups` 后）, "
+"您可以自由修改它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
 
 #: ../../admin/access.rst:467
 msgid "`Guests`"
@@ -1403,23 +1387,15 @@ msgid ""
 "Updates all PO files (as configured :ref:`component-filemask`) to match the "
 "POT file (as configured by :ref:`component-new_base`) using msgmerge."
 msgstr ""
+"使用 msgmerge 来更新所有的 PO 文件（如配置 :ref:`component-filemask`），而与 POT 文件（如由 :ref"
+":`component-new_base`配置）匹配。"
 
 #: ../../admin/addons.rst:291
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository and updates "
-#| "all translation files to match :ref:`component-new_base`. You can "
-#| "configure most of the msgmerge command line options through the addon "
-#| "configuration."
 msgid ""
 "This addon is triggered whenever new changes are pulled from the upstream "
 "repository. You can configure most of the msgmerge command line options "
 "through the addon configuration."
-msgstr ""
-"使用msgmerge更新所有PO文件以匹配POT文件。每当从上游存储库拉取新更改并更新所有"
-"翻译文件以匹配:ref:`component-new_base`时触发该动作。您可以通过附加配置设定大"
-"多数msgmerge命令行选项。"
+msgstr "每当从上游存储库拉取新更改时，这个插件被触发。您可以通过附加配置设定大多数msgmerge命令行选项。"
 
 #: ../../admin/addons.rst:298
 msgid "Squash Git commits"
@@ -3171,10 +3147,8 @@ msgid ""
 msgstr "翻译中需要的占位字符串，请参见 :ref:`check-placeholders` 。"
 
 #: ../../admin/checks.rst:76
-#, fuzzy
-#| msgid "``replacements:FROM:TO:FROM2:TO2...```"
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
-msgstr "``replacements:FROM:TO:FROM2:TO2...```"
+msgstr "``replacements:FROM:TO:FROM2:TO2...``"
 
 #: ../../admin/checks.rst:74
 msgid ""
