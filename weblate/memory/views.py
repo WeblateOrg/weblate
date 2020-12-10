@@ -25,7 +25,6 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
@@ -98,7 +97,7 @@ class UploadView(MemoryFormView):
                 self.request, _("File processed, the entries will appear shortly.")
             )
         except MemoryImportError as error:
-            messages.error(self.request, force_str(error))
+            messages.error(self.request, str(error))  # noqa: G200
         return super().form_valid(form)
 
 

@@ -26,7 +26,6 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_str
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
@@ -120,7 +119,7 @@ def fmt_diff(value, diff, idx):
     """Format diff if there is any."""
     if diff is None:
         return escape(value)
-    return html_diff(force_str(diff[idx]), value)
+    return html_diff((diff[idx]), value)
 
 
 def fmt_highlights(raw_value, value, unit):
@@ -130,7 +129,7 @@ def fmt_highlights(raw_value, value, unit):
     highlights = highlight_string(raw_value, unit)
     start_search = 0
     for highlight in highlights:
-        htext = escape(force_str(highlight[2]))
+        htext = escape(highlight[2])
         find_highlight = value.find(htext, start_search)
         if find_highlight >= 0:
             newpart = HL_CHECK.format(htext)
@@ -200,7 +199,7 @@ def format_translation(
 
     for idx, raw_value in enumerate(plurals):
         # HTML escape
-        value = force_str(raw_value)
+        value = raw_value
 
         # Content of the Copy to clipboard button
         copy = escape(value)

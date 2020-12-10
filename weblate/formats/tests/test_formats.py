@@ -23,7 +23,6 @@ import shutil
 from io import BytesIO
 from unittest import SkipTest, TestCase
 
-from django.utils.encoding import force_str
 from lxml import etree
 from translate.storage.po import pofile
 
@@ -239,7 +238,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         This can be implemented in subclasses to implement content aware comparing of
         translation files.
         """
-        self.assertEqual(force_str(testdata).strip(), force_str(newdata).strip())
+        self.assertEqual((testdata).strip(), (newdata).strip())
 
     def test_find(self):
         storage = self.parse_file(self.FILE)
@@ -315,7 +314,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
 class XMLMixin:
     def assert_same(self, newdata, testdata):
-        self.assertXMLEqual(force_str(newdata), force_str(testdata))
+        self.assertXMLEqual(newdata.decode(), testdata.decode())
 
 
 class PoFormatTest(AutoFormatTest):
@@ -388,8 +387,8 @@ class PropertiesFormatTest(AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
-            force_str(newdata).strip().splitlines(),
-            force_str(testdata).strip().splitlines(),
+            (newdata).strip().splitlines(),
+            (testdata).strip().splitlines(),
         )
 
 
@@ -415,8 +414,8 @@ class GWTFormatTest(AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
-            force_str(newdata).strip().splitlines(),
-            force_str(testdata).strip().splitlines(),
+            (newdata).strip().splitlines(),
+            (testdata).strip().splitlines(),
         )
 
 
@@ -450,7 +449,7 @@ class JSONFormatTest(AutoFormatTest):
     EXPECTED_FLAGS = ""
 
     def assert_same(self, newdata, testdata):
-        self.assertJSONEqual(force_str(newdata), force_str(testdata))
+        self.assertJSONEqual(newdata.decode(), testdata.decode())
 
 
 class JSONNestedFormatTest(JSONFormatTest):
@@ -707,8 +706,8 @@ class YAMLFormatTest(AutoFormatTest):
         # Fixup quotes as different translate toolkit versions behave
         # differently
         self.assertEqual(
-            force_str(newdata).replace("'", '"').strip().splitlines(),
-            force_str(testdata).strip().splitlines(),
+            newdata.decode().replace("'", '"').strip().splitlines(),
+            testdata.decode().strip().splitlines(),
         )
 
 
@@ -738,8 +737,8 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         # Comparing of XML with doctype fails...
-        newdata = force_str(newdata).replace("<!DOCTYPE TS>", "")
-        testdata = force_str(testdata).replace("<!DOCTYPE TS>", "")
+        newdata = newdata.replace(b"<!DOCTYPE TS>", b"")
+        testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
         super().assert_same(newdata, testdata)
 
 
@@ -883,8 +882,8 @@ class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        with open(testfile, "rb") as handle:
-            newdata = force_str(handle.read())
+        with open(testfile) as handle:
+            newdata = handle.read()
 
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
@@ -1003,8 +1002,8 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        with open(testfile, "rb") as handle:
-            newdata = force_str(handle.read())
+        with open(testfile) as handle:
+            newdata = handle.read()
 
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)

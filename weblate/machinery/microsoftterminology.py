@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from weblate_language_data.countries import DEFAULT_LANGS
 from zeep import Client
@@ -81,12 +80,13 @@ class MicrosoftTerminologyService(MachineTranslation):
             return
 
         for item in result:
-            target = force_str(item["Translations"]["Translation"][0]["TranslatedText"])
+            target = item["Translations"]["Translation"][0]["TranslatedText"]
+            source = item["OriginalText"]
             yield {
                 "text": target,
-                "quality": self.comparer.similarity(text, target),
+                "quality": self.comparer.similarity(text, source),
                 "service": self.name,
-                "source": item["OriginalText"],
+                "source": source,
             }
 
     def map_language_code(self, code):

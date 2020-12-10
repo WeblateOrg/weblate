@@ -98,7 +98,7 @@ class MemoryQuerySet(models.QuerySet):
 
 class MemoryManager(models.Manager):
     def import_file(self, request, fileobj, langmap=None, **kwargs):
-        origin = force_str(os.path.basename(fileobj.name)).lower()
+        origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
             origin = "{}...{}".format(name[:25], extension)

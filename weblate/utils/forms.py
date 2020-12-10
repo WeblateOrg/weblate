@@ -21,7 +21,6 @@ from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.template.loader import render_to_string
-from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 
 from weblate.trans.defines import USERNAME_LENGTH
@@ -54,7 +53,7 @@ class SortedSelectMixin:
 
     def optgroups(self, name, value, attrs=None):
         groups = super().optgroups(name, value, attrs)
-        return sort_unicode(groups, lambda val: force_str(val[1][0]["label"]))
+        return sort_unicode(groups, lambda val: str(val[1][0]["label"]))
 
 
 class ColorWidget(forms.RadioSelect):

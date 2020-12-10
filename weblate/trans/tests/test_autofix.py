@@ -19,9 +19,7 @@
 
 """Tests for automatix fixups."""
 
-
 from django.test import TestCase
-from django.utils.encoding import force_str
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
@@ -112,7 +110,7 @@ class AutoFixTest(TestCase):
         fixed, fixups = fix_target(["Bar..."], unit)
         self.assertEqual(fixed, ["Bar…"])
         self.assertEqual(len(fixups), 1)
-        self.assertEqual(force_str(fixups[0]), "Trailing ellipsis")
+        self.assertEqual(str(fixups[0]), "Trailing ellipsis")
 
     def test_apostrophes(self):
         unit = MockUnit(source="Foo")

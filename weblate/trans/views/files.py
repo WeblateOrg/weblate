@@ -21,7 +21,6 @@ import os
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
 from django.views.decorators.http import require_POST
@@ -193,7 +192,7 @@ def upload_translation(request, project, component, lang):
         messages.error(
             request,
             _("File upload has failed: %s")
-            % force_str(error).replace(obj.component.full_path, ""),
+            % str(error).replace(obj.component.full_path, ""),
         )
         report_error(cause="Upload error")
 

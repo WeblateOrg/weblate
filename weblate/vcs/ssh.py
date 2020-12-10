@@ -24,7 +24,6 @@ import subprocess
 from base64 import b64decode, b64encode
 from distutils.spawn import find_executable
 
-from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 
@@ -63,7 +62,7 @@ def parse_hosts_line(line):
     """Parse single hosts line into tuple host, key fingerprint."""
     host, keytype, key = line.strip().split(None, 3)[:3]
     digest = hashlib.sha256(b64decode(key)).digest()
-    fingerprint = force_str(b64encode(digest).rstrip(b"="))
+    fingerprint = b64encode(digest).rstrip(b"=").decode()
     if host.startswith("|1|"):
         # Translators: placeholder SSH hashed hostname
         host = _("[hostname hashed]")

@@ -20,7 +20,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.template.loader import render_to_string
-from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from weblate_language_data.ambiguous import AMBIGUOUS
@@ -54,7 +53,7 @@ class Alert(models.Model):
         verbose_name_plural = "component alerts"
 
     def __str__(self):
-        return force_str(self.obj.verbose)
+        return str(self.obj.verbose)
 
     def save(self, *args, **kwargs):
         is_new = not self.id

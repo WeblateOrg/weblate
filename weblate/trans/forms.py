@@ -36,7 +36,6 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_str, smart_str
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
@@ -318,7 +317,7 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = force_str(unit.translation.language)
+            label = str(unit.translation.language)
             if len(values) != 1:
                 label = "{}, {}".format(label, plural.get_plural_label(idx))
             ret.append(
@@ -352,7 +351,7 @@ class PluralTextarea(forms.Textarea):
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ""))
-        return [smart_str(r.replace("\r", "")) for r in ret]
+        return [r.replace("\r", "") for r in ret]
 
 
 class PluralField(forms.CharField):
@@ -864,7 +863,7 @@ class AutoForm(forms.Form):
         )
 
         choices = [
-            (s.id, force_str(s))
+            (s.id, str(s))
             for s in components.order_project().prefetch_related("project")
         ]
 

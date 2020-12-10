@@ -25,7 +25,6 @@ from django.core import mail
 from django.core.signing import TimestampSigner
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
-from django.utils.encoding import force_str
 from jsonschema import validate
 from social_core.backends.utils import load_backends
 from weblate_schemas import load_schema
@@ -432,7 +431,7 @@ class ProfileTest(FixtureTestCase):
                 elif isinstance(value, list):
                     data[name] = value
                 else:
-                    data[name] = force_str(value)
+                    data[name] = str(value)
 
         # Save unchanged data
         response = self.client.post(reverse("profile"), data, follow=True)

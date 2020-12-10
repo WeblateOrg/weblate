@@ -29,7 +29,6 @@ from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
@@ -126,7 +125,7 @@ def get_view_description(view, html=False):
     the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
     """
     description = view.__doc__ or ""
-    description = formatting.dedent(smart_str(description))
+    description = formatting.dedent(description)
 
     if hasattr(getattr(view, "serializer_class", "None"), "Meta"):
         doc_url = get_doc_url(

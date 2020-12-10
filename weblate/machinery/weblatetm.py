@@ -21,7 +21,6 @@ from functools import reduce
 from typing import Set
 
 from django.db.models import Q
-from django.utils.encoding import force_str
 
 from weblate.machinery.base import BatchStringMachineTranslation, get_machinery_language
 from weblate.trans.models import Unit
@@ -78,7 +77,7 @@ class WeblateTranslation(BatchStringMachineTranslation):
                 "text": munit.get_target_plurals()[0],
                 "quality": quality,
                 "service": self.name,
-                "origin": force_str(munit.translation.component),
+                "origin": str(munit.translation.component),
                 "origin_url": munit.get_absolute_url(),
                 "source": source,
             }

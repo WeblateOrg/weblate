@@ -25,7 +25,6 @@ import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.encoding import force_str
 from django.utils.formats import number_format
 from django.utils.html import escape
 from django.utils.translation import get_language
@@ -432,7 +431,7 @@ class MultiLanguageWidget(SVGWidget):
             percent = stats.translated_percent
             if self.color == "auto":
                 color = get_percent_color(percent)
-            language_name = force_str(language)
+            language_name = str(language)
 
             language_width = max(
                 language_width,

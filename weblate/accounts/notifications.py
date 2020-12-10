@@ -29,7 +29,6 @@ from django.core.signing import TimestampSigner
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.encoding import force_str
 from django.utils.translation import get_language, get_language_bidi
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
@@ -114,7 +113,7 @@ class Notification:
 
     @classmethod
     def get_name(cls):
-        return force_str(cls.__name__)
+        return cls.__name__
 
     def filter_subscriptions(self, project, component, translation, users, lang_filter):
         from weblate.accounts.models import Subscription

@@ -18,14 +18,11 @@
 #
 
 
-from django.utils.encoding import force_str
-
-
 def get_project_stats(project):
     """Return stats for project."""
     return [
         {
-            "language": force_str(tup.language),
+            "language": str(tup.language),
             "code": tup.language.code,
             "total": tup.all,
             "translated": tup.translated,
