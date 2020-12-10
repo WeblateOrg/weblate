@@ -51,3 +51,21 @@ translations to match your code base.
 .. seealso::
 
     :ref:`continuous-translation`
+
+Adding new strings
+++++++++++++++++++
+
+In case your translation files are stored in VCS together with the code, you most
+likely have existing workflow for developers to introduce new strings. You
+might extend it by using :ref:`source-quality-gateway`.
+
+When the translation files are separate, there needs to be a way to introduce
+new strings. Weblate can add new strings on monolingual translations only (see
+:ref:`bimono`). You have three options to do that:
+
+* Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
+  menu on source language translation.
+* Programatically, using API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
+* By uploading source file as :ref:`Replace existing translation file` (this
+  overwrites existing strings, so please make sure the file includes both old
+  and new ones, see :ref:`upload-method`).
