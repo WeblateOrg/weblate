@@ -541,6 +541,18 @@ class PropertiesAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
 
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = CleanupAddon.create(self.component)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        rev = self.component.repository.last_revision
+        addon.post_update(self.component, "", False)
+        self.assertEqual(rev, self.component.repository.last_revision)
+        addon.post_update(self.component, "", False)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("java/swing_messages_cs.properties", commit)
+
 
 class CommandTest(ViewTestCase):
     """Test for management commands."""
