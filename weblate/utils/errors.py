@@ -23,7 +23,6 @@ from typing import Dict, Optional
 
 import sentry_sdk
 from django.conf import settings
-from django.utils.encoding import force_str
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
@@ -70,9 +69,9 @@ def report_error(
 
     error = sys.exc_info()[1]
 
-    log("%s: %s: %s", cause, error.__class__.__name__, force_str(error))
+    log("%s: %s: %s", cause, error.__class__.__name__, str(error))
     if extra_data:
-        log("%s: %s: %s", cause, error.__class__.__name__, force_str(extra_data))
+        log("%s: %s: %s", cause, error.__class__.__name__, str(extra_data))
     if print_tb:
         LOGGER.exception(cause)
 

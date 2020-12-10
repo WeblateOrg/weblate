@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import locale
 import os
 import sys
@@ -28,7 +27,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render as django_render
 from django.shortcuts import resolve_url
-from django.utils.encoding import force_str
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
@@ -79,7 +77,7 @@ def get_string(text):
     if hasattr(text, "strings"):
         return join_plural(text.strings)
     # We might get integer or float in some formats
-    return force_str(text)
+    return str(text)
 
 
 def is_repo_link(val):
@@ -243,7 +241,7 @@ def sort_choices(choices):
 
 def sort_objects(objects):
     """Sort objects alphabetically."""
-    return sort_unicode(objects, force_str)
+    return sort_unicode(objects, str)
 
 
 def redirect_next(next_url, fallback):

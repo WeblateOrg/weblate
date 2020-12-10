@@ -37,7 +37,6 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.urls import reverse
-from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
@@ -625,7 +624,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         verbose_name_plural = gettext_lazy("Components")
 
     def __str__(self):
-        return "/".join((force_str(self.project), self.name))
+        return "/".join((str(self.project), self.name))
 
     def save(self, *args, **kwargs):
         """Save wrapper.
@@ -1349,7 +1348,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
         if not self.can_push():
-            messages.error(request, _("Push is turned off for %s.") % force_str(self))
+            messages.error(request, _("Push is turned off for %s.") % self)
             return False
 
         # Commit any pending changes
@@ -1407,7 +1406,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 report_error(cause="Could not reset the repository")
                 messages.error(
                     request,
-                    _("Could not reset to remote branch on %s.") % force_str(self),
+                    _("Could not reset to remote branch on %s.") % self,
                 )
                 return False
 
@@ -1437,7 +1436,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 report_error(cause="Could not clean the repository")
                 messages.error(
                     request,
-                    _("Could not clean the repository on %s.") % force_str(self),
+                    _("Could not clean the repository on %s.") % self,
                 )
                 return False
 
@@ -1526,7 +1525,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Handler for parse errors."""
         error_message = getattr(error, "strerror", "")
         if not error_message:
-            error_message = force_str(error).replace(self.full_path, "")
+            error_message = str(error).replace(self.full_path, "")
         if translation is None:
             filename = self.template
         else:
@@ -1602,7 +1601,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 method_func(abort=True)
 
                 # Tell user (if there is any)
-                messages.error(request, error_msg % force_str(self))
+                messages.error(request, error_msg % self)
 
                 return False
 

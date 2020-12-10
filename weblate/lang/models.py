@@ -28,7 +28,6 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.db.utils import OperationalError
 from django.urls import reverse
-from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
@@ -702,7 +701,7 @@ class Plural(models.Model):
     def get_plural_name(self, idx):
         """Return name for plural form."""
         try:
-            return force_str(data.PLURAL_NAMES[self.type][idx])
+            return str(data.PLURAL_NAMES[self.type][idx])
         except (IndexError, KeyError):
             if idx == 0:
                 return _("Singular")

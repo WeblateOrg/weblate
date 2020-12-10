@@ -21,7 +21,6 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext_lazy
 from jellyfish import damerau_levenshtein_distance
@@ -537,8 +536,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
         if self.action in self.AUTO_ACTIONS and self.auto_status:
-            return force_str(self.AUTO_ACTIONS[self.action])
-        return force_str(self.ACTIONS_DICT.get(self.action, self.action))
+            return str(self.AUTO_ACTIONS[self.action])
+        return str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE

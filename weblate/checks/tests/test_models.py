@@ -19,9 +19,7 @@
 
 """Tests for unitdata models."""
 
-
 from django.urls import reverse
-from django.utils.encoding import force_str
 
 from weblate.checks.models import Check
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -34,10 +32,10 @@ class CheckModelTestCase(FixtureTestCase):
     def test_check(self):
         check = self.create_check("same")
         self.assertEqual(
-            force_str(check.get_description()), "Source and translation are identical"
+            str(check.get_description()), "Source and translation are identical"
         )
         self.assertTrue(check.get_doc_url().endswith("user/checks.html#check-same"))
-        self.assertEqual(force_str(check), "Unchanged translation")
+        self.assertEqual(str(check), "Unchanged translation")
 
     def test_check_nonexisting(self):
         check = self.create_check("-invalid-")
@@ -53,7 +51,7 @@ class CheckModelTestCase(FixtureTestCase):
             "render-check", kwargs={"check_id": check.check, "unit_id": unit.id}
         )
         self.assertEqual(
-            force_str(check.get_description()),
+            str(check.get_description()),
             '<a href="{0}?pos=0" class="thumbnail">'
             '<img class="img-responsive" src="{0}?pos=0" /></a>'.format(url),
         )

@@ -32,7 +32,6 @@ from django.http import (
     JsonResponse,
 )
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
@@ -218,7 +217,7 @@ def search(base, unit_set, request):
         "url": search_url,
         "items": search_items,
         "key": session_key,
-        "name": force_str(name),
+        "name": str(name),
         "ids": unit_ids,
         "ttl": int(time.time()) + 86400,
     }
@@ -272,7 +271,7 @@ def perform_translation(unit, form, request):
         messages.info(
             request,
             _("Following fixups were applied to translation: %s")
-            % ", ".join(force_str(f) for f in unit.fixups),
+            % ", ".join(str(f) for f in unit.fixups),
         )
 
     # No change edit - should we skip to next entry
@@ -295,7 +294,7 @@ def perform_translation(unit, form, request):
             _(
                 "The translation has been saved, however there "
                 "are some newly failing checks: {0}"
-            ).format(", ".join(force_str(CHECKS[check].name) for check in newchecks)),
+            ).format(", ".join(str(CHECKS[check].name) for check in newchecks)),
         )
         # Stay on same entry
         return False
