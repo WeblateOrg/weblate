@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-09 16:27+0100\n"
+"POT-Creation-Date: 2020-12-10 20:47+0100\n"
 "PO-Revision-Date: 2020-12-10 19:45+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -319,13 +319,15 @@ msgstr ""
 msgid ""
 "Group :guilabel:`Component list` is matched against accessed component or "
 "project (for project level access)."
-msgstr "群组 :guilabel:`Component list` 与访问的组件或项目匹配（对于项目级的访问）。"
+msgstr ""
+"群组 :guilabel:`Component list` 与访问的组件或项目匹配（对于项目级的访问）。"
 
 #: ../../admin/access.rst:174
 msgid ""
 "Group :guilabel:`Components` are matched against accessed component or "
 "project (for project level access)."
-msgstr "群组 :guilabel:`Component` 与访问的组件或项目匹配（对于项目级的访问）。"
+msgstr ""
+"群组 :guilabel:`Component` 与访问的组件或项目匹配（对于项目级的访问）。"
 
 #: ../../admin/access.rst:176
 msgid "Group :guilabel:`Projects` are matched against accessed project."
@@ -422,8 +424,8 @@ msgid ""
 "`privileges`) can also manage users in projects with access control turned "
 "on through the project page. The interface allows you to:"
 msgstr ""
-"具有 :guilabel:`Manage project access` 特权的用户（请参见 :ref:`privileges` "
-"）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许你："
+"具有 :guilabel:`Manage project access` 特权的用户（请参见 :ref:"
+"`privileges` ）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许你："
 
 #: ../../admin/access.rst:234
 msgid "Add existing users to the project"
@@ -542,7 +544,9 @@ msgid ""
 "changes will be lost. In case you want to define own set of permissions, "
 "please define a new role for that."
 msgstr ""
-"这些角色和群组在安装时创建。内建的角色总是在升级时由数据库合并来更新，并且任何客户更改都会丢失。在想要定义自己的一组许可的情况下，请为此定义一个新的角色。"
+"这些角色和群组在安装时创建。内建的角色总是在升级时由数据库合并来更新，并且任"
+"何客户更改都会丢失。在想要定义自己的一组许可的情况下，请为此定义一个新的角"
+"色。"
 
 #: ../../admin/access.rst:326
 msgid "List of privileges"
@@ -889,8 +893,8 @@ msgid ""
 "djadmin:`setupgroups`) and you are free to modify them. The migration will "
 "however re-create them if you delete or rename them."
 msgstr ""
-"下面的群组在安装时建立（或在执行 :djadmin:`setupgroups` 后）, "
-"您可以自由修改它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
+"下面的群组在安装时建立（或在执行 :djadmin:`setupgroups` 后）, 您可以自由修改"
+"它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
 
 #: ../../admin/access.rst:467
 msgid "`Guests`"
@@ -1073,11 +1077,18 @@ msgstr ""
 "如果不想空字符串出现在翻译文件中的话（例如当本地化库将其显示为空字符串而不是"
 "填回源字符串时），要使用这个。"
 
-#: ../../admin/addons.rst:73
+#: ../../admin/addons.rst:72 ../../admin/addons.rst:85
+#: ../../admin/addons.rst:305 ../../admin/addons.rst:395
+#, fuzzy
+#| msgid ":ref:`acl`"
+msgid ":ref:`faq-cleanup`"
+msgstr ":ref:`acl`"
+
+#: ../../admin/addons.rst:77
 msgid "Cleanup translation files"
 msgstr "清理翻译文件"
 
-#: ../../admin/addons.rst:75
+#: ../../admin/addons.rst:79
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
@@ -1086,49 +1097,49 @@ msgstr ""
 "更新所有翻译文件以匹配单语言译文模版文件。对于大多数文件格式来说，这意味着移"
 "除译文模版文件中不再出现的旧翻译条目。"
 
-#: ../../admin/addons.rst:82
+#: ../../admin/addons.rst:90
 msgid "Language consistency"
 msgstr "语言一致性"
 
-#: ../../admin/addons.rst:84
+#: ../../admin/addons.rst:92
 msgid ""
 "Ensures all components within one project have translations for every added "
 "language for translation."
 msgstr "确保一个项目中的所有组件都为每种要添加的语言进行翻译。"
 
-#: ../../admin/addons.rst:87
+#: ../../admin/addons.rst:95
 msgid ""
 "It creates empty translations in languages that have unadded components."
 msgstr "它对未添加到组件中的语言建立空的翻译。"
 
-#: ../../admin/addons.rst:90
+#: ../../admin/addons.rst:98
 msgid ""
 "Missing languages are checked once every 24 hours and when a new language is "
 "added in Weblate."
 msgstr "每24小时，和在新的语言加入 Weblate 时，检查一次丢失的语言。"
 
-#: ../../admin/addons.rst:93
+#: ../../admin/addons.rst:101
 msgid "Unlike most others, this addon affects the whole project."
 msgstr "不像其他多数附加组件，这个附加组件影响整个项目。"
 
-#: ../../admin/addons.rst:97
+#: ../../admin/addons.rst:105
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
 "用 :ref:`addon-weblate.autotranslate.autotranslate` 自动翻译新添加的字符串。"
 
-#: ../../admin/addons.rst:103
+#: ../../admin/addons.rst:111
 msgid "Component discovery"
 msgstr "组件发现"
 
-#: ../../admin/addons.rst:105
+#: ../../admin/addons.rst:113
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr "根据版本控制系统中文件更改的情况来自动添加或删除项目的组件."
 
-#: ../../admin/addons.rst:108
+#: ../../admin/addons.rst:116
 msgid ""
 "It is triggered on every VCS update, and otherwise similar to the :djadmin:"
 "`import_project` management command. This way you can track multiple "
@@ -1137,7 +1148,7 @@ msgstr ""
 "每次版本控制系统（ VCS ）升级时触发，否则与 :djadmin:`import_project` 管理命"
 "令相似。这种方式可以在一个版本控制系统（ VCS ）中跟踪多个翻译组件。"
 
-#: ../../admin/addons.rst:112
+#: ../../admin/addons.rst:120
 msgid ""
 "Create one main component least likely to disappear in the future, and "
 "others will employ :ref:`internal-urls` to it as a VCS configuration, and "
@@ -1146,7 +1157,7 @@ msgstr ""
 "建立一个至少未来不大可能会消失的主要组件，其他会采用其 :ref:`internal-urls` "
 "作为版本控制系统（ VCS ）的配置，并且配置它来找到其中的所有组件。"
 
-#: ../../admin/addons.rst:116
+#: ../../admin/addons.rst:124
 msgid ""
 "The matching is done using regular expressions, where power is a tradeoff "
 "for complexity in configuration. Some examples for common use cases can be "
@@ -1155,7 +1166,7 @@ msgstr ""
 "匹配是使用正则表达式完成的，在正则表达式中，强大的功能是配置复杂性的一种折"
 "衷。一些常见用例的例子可以在附加组件帮助部分找到。"
 
-#: ../../admin/addons.rst:120
+#: ../../admin/addons.rst:128
 msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
@@ -1164,19 +1175,19 @@ msgstr ""
 "一旦点击了 :guilabel:`Save` ，将显示匹配组件的预览，可以检查配置是否匹配于自"
 "己的需要："
 
-#: ../../admin/addons.rst:127 ../../admin/addons.rst:223
+#: ../../admin/addons.rst:135 ../../admin/addons.rst:231
 msgid ":ref:`markup`"
 msgstr ":ref:`markup`"
 
-#: ../../admin/addons.rst:132 ../../user/translating.rst:403
+#: ../../admin/addons.rst:140 ../../user/translating.rst:403
 msgid "Bulk edit"
 msgstr "批量编辑"
 
-#: ../../admin/addons.rst:136
+#: ../../admin/addons.rst:144
 msgid "Bulk edit flags, labels or state for strings."
 msgstr "批量编辑字符串标志、标签或状态。"
 
-#: ../../admin/addons.rst:138
+#: ../../admin/addons.rst:146
 msgid ""
 "Automating the labeling of new strings can be useful (start out with search "
 "query ``NOT has:label`` and add desired labels till all strings are properly "
@@ -1187,55 +1198,55 @@ msgstr ""
 "的标签，直到所有的字符串都适当地被贴上标签）。还以对 Weblate 元数据执行其他任"
 "何自动化操作。"
 
-#: ../../admin/addons.rst:142 ../../admin/config.rst:1744
+#: ../../admin/addons.rst:150 ../../admin/config.rst:1744
 msgid "**Examples:**"
 msgstr "**例子：**"
 
-#: ../../admin/addons.rst:144
+#: ../../admin/addons.rst:152
 msgid "Automatically add label to new strings"
 msgstr "自动添加标签到新的字符串"
 
-#: ../../admin/addons.rst:147 ../../admin/addons.rst:155
+#: ../../admin/addons.rst:155 ../../admin/addons.rst:163
 msgid "Search query"
 msgstr "搜索条目"
 
-#: ../../admin/addons.rst:148
+#: ../../admin/addons.rst:156
 msgid "``NOT has:label``"
 msgstr "``NOT has:label``"
 
-#: ../../admin/addons.rst:149
+#: ../../admin/addons.rst:157
 msgid "Labels to add"
 msgstr "要添加的标签"
 
-#: ../../admin/addons.rst:150
+#: ../../admin/addons.rst:158
 msgid "*recent*"
 msgstr "*近期*"
 
-#: ../../admin/addons.rst:152
+#: ../../admin/addons.rst:160
 msgid "Marking all :ref:`appstore` changelog entries read-only"
 msgstr "将所有 :ref:`appstore` 更改日志条目标记为只读"
 
-#: ../../admin/addons.rst:156
+#: ../../admin/addons.rst:164
 msgid "``language:en AND key:changelogs/``"
 msgstr "``language:en AND key:changelogs/``"
 
-#: ../../admin/addons.rst:157
+#: ../../admin/addons.rst:165
 msgid "Translation flags to add"
 msgstr "要添加的翻译标记"
 
-#: ../../admin/addons.rst:158 ../../admin/checks.rst:53
+#: ../../admin/addons.rst:166 ../../admin/checks.rst:53
 msgid "``read-only``"
 msgstr "``read-only``"
 
-#: ../../admin/addons.rst:163
+#: ../../admin/addons.rst:171
 msgid ":ref:`bulk-edit`"
 msgstr ":ref:`bulk-edit`"
 
-#: ../../admin/addons.rst:169
+#: ../../admin/addons.rst:177
 msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "将未更改的译文标记为“需要编辑”"
 
-#: ../../admin/addons.rst:173
+#: ../../admin/addons.rst:181
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. This is "
@@ -1245,11 +1256,11 @@ msgstr ""
 "每当新的翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记为"
 "需要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
 
-#: ../../admin/addons.rst:180
+#: ../../admin/addons.rst:188
 msgid "Flag new source strings as \"Needs editing\""
 msgstr "将新的源字符串标记为“需要编辑”"
 
-#: ../../admin/addons.rst:182
+#: ../../admin/addons.rst:190
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
@@ -1258,11 +1269,11 @@ msgstr ""
 "每当一个新的源字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记"
 "为需要编辑。这样就可以简单地筛选并编辑开发者编写的源字符串。"
 
-#: ../../admin/addons.rst:189
+#: ../../admin/addons.rst:197
 msgid "Flag new translations as \"Needs editing\""
 msgstr "将导入的新译文标记为“需要编辑”"
 
-#: ../../admin/addons.rst:191
+#: ../../admin/addons.rst:199
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
@@ -1271,57 +1282,57 @@ msgstr ""
 "每当一个新的可翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被"
 "标记为需要编辑。这样就可以简单地筛选并编辑开发者创建的翻译。"
 
-#: ../../admin/addons.rst:198
+#: ../../admin/addons.rst:206
 msgid "Statistics generator"
 msgstr "统计数据生成器"
 
-#: ../../admin/addons.rst:200
+#: ../../admin/addons.rst:208
 msgid "Generates a file containing detailed info about the translation status."
 msgstr "生成一个包含关于翻译状态详细信息的文件。"
 
-#: ../../admin/addons.rst:202
+#: ../../admin/addons.rst:210
 msgid ""
 "You can use Django template in both filename and content, see :ref:`markup` "
 "for a detailed markup description."
 msgstr ""
 "可以在文件名和内容中使用 Django 模板，参见 :ref:`markup` 的具体标记表述。"
 
-#: ../../admin/addons.rst:205
+#: ../../admin/addons.rst:213
 msgid "For example generating summary file for each translation:"
 msgstr "例如对每个翻译产生摘要文件："
 
-#: ../../admin/addons.rst:207
+#: ../../admin/addons.rst:215
 msgid "Name of generated file"
 msgstr "所生成文件的名称"
 
-#: ../../admin/addons.rst:208
+#: ../../admin/addons.rst:216
 msgid "``locale/{{ language_code }}.json``"
 msgstr "``locale/{{ language_code }}.json``"
 
-#: ../../admin/addons.rst:219
+#: ../../admin/addons.rst:227
 msgid "Content"
 msgstr "内容"
 
-#: ../../admin/addons.rst:228
+#: ../../admin/addons.rst:236
 msgid "Contributors in comment"
 msgstr "在注释中添加贡献信息"
 
-#: ../../admin/addons.rst:230
+#: ../../admin/addons.rst:238
 msgid ""
 "Update the comment in the PO file header to include contributor names and "
 "years of contributions."
 msgstr "在 PO 文件的头部以注释的形式添加贡献者的名字与贡献年份。"
 
-#: ../../admin/addons.rst:233
+#: ../../admin/addons.rst:241
 msgid ""
 "The PO file header will contain a list of contributors and years contributed:"
 msgstr "PO 文件头包含贡献者与贡献年份的列表："
 
-#: ../../admin/addons.rst:245
+#: ../../admin/addons.rst:253
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "更新“配置文件”中的 ALL_LINGUAS 变量"
 
-#: ../../admin/addons.rst:247
+#: ../../admin/addons.rst:255
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
@@ -1329,32 +1340,32 @@ msgstr ""
 "当新的翻译添加时，更新 :file:`configure` 、 :file:`configure.in` 或任何 :"
 "file:`configure.ac` 文件中的 ALL_LINGUAS 变量。"
 
-#: ../../admin/addons.rst:253
+#: ../../admin/addons.rst:261
 msgid "Customize gettext output"
 msgstr "自定义 gettext 输出"
 
-#: ../../admin/addons.rst:255
+#: ../../admin/addons.rst:263
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr "允许自定义 gettext 的输出行为，例如是否启用自动换行。"
 
-#: ../../admin/addons.rst:257
+#: ../../admin/addons.rst:265
 msgid "It offers the following options:"
 msgstr "提供了后面的选项："
 
-#: ../../admin/addons.rst:259
+#: ../../admin/addons.rst:267
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "在 77 个字符处和新一行时来换行"
 
-#: ../../admin/addons.rst:260
+#: ../../admin/addons.rst:268
 msgid "Only wrap lines at newlines"
 msgstr "仅在换行符处折行"
 
-#: ../../admin/addons.rst:261
+#: ../../admin/addons.rst:269
 msgid "No line wrapping"
 msgstr "不换行"
 
-#: ../../admin/addons.rst:265
+#: ../../admin/addons.rst:273
 msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, it wraps only at newlines."
@@ -1362,70 +1373,76 @@ msgstr ""
 "默认 gettext 在 77 个字符处和新一行时换行。使用 ``--no-wrap`` 参数时只在新一"
 "行时换行。"
 
-#: ../../admin/addons.rst:272
+#: ../../admin/addons.rst:280
 msgid "Update LINGUAS file"
 msgstr "更新 LINGUAS 文件"
 
-#: ../../admin/addons.rst:274
+#: ../../admin/addons.rst:282
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "添加新的翻译时更新 LINGUAS 文件。"
 
-#: ../../admin/addons.rst:279
+#: ../../admin/addons.rst:287
 msgid "Generate MO files"
 msgstr "生成 MO 文件"
 
-#: ../../admin/addons.rst:281
+#: ../../admin/addons.rst:289
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "为每个变更的 PO 文件自动生成 MO 文件。"
 
-#: ../../admin/addons.rst:286
+#: ../../admin/addons.rst:294
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "更新 PO 文件以匹配 POT 文件 (msgmerge)"
 
-#: ../../admin/addons.rst:288
+#: ../../admin/addons.rst:296
+#, fuzzy
+#| msgid ""
+#| "Updates all PO files (as configured :ref:`component-filemask`) to match "
+#| "the POT file (as configured by :ref:`component-new_base`) using msgmerge."
 msgid ""
-"Updates all PO files (as configured :ref:`component-filemask`) to match the "
-"POT file (as configured by :ref:`component-new_base`) using msgmerge."
+"Updates all PO files (as configured by :ref:`component-filemask`) to match "
+"the POT file (as configured by :ref:`component-new_base`) using msgmerge."
 msgstr ""
-"使用 msgmerge 来更新所有的 PO 文件（如配置 :ref:`component-filemask`），而与 POT 文件（如由 :ref"
-":`component-new_base`配置）匹配。"
+"使用 msgmerge 来更新所有的 PO 文件（如配置 :ref:`component-filemask`），而与 "
+"POT 文件（如由 :ref:`component-new_base`配置）匹配。"
 
-#: ../../admin/addons.rst:291
+#: ../../admin/addons.rst:299
 msgid ""
 "This addon is triggered whenever new changes are pulled from the upstream "
 "repository. You can configure most of the msgmerge command line options "
 "through the addon configuration."
-msgstr "每当从上游存储库拉取新更改时，这个插件被触发。您可以通过附加配置设定大多数msgmerge命令行选项。"
+msgstr ""
+"每当从上游存储库拉取新更改时，这个插件被触发。您可以通过附加配置设定大多数"
+"msgmerge命令行选项。"
 
-#: ../../admin/addons.rst:298
+#: ../../admin/addons.rst:310
 msgid "Squash Git commits"
 msgstr "压缩 Git 提交"
 
-#: ../../admin/addons.rst:300
+#: ../../admin/addons.rst:312
 msgid "Squash Git commits prior to pushing changes."
 msgstr "推送变更之前压缩 Git 提交。"
 
-#: ../../admin/addons.rst:302
+#: ../../admin/addons.rst:314
 msgid "You can choose one of following modes:"
 msgstr "可以选择后面的模式之一："
 
-#: ../../admin/addons.rst:306
+#: ../../admin/addons.rst:318
 msgid "All commits into one"
 msgstr "所有提交成一个"
 
-#: ../../admin/addons.rst:307
+#: ../../admin/addons.rst:319
 msgid "Per language"
 msgstr "每种语言"
 
-#: ../../admin/addons.rst:308
+#: ../../admin/addons.rst:320
 msgid "Per file"
 msgstr "每个文件"
 
-#: ../../admin/addons.rst:312
+#: ../../admin/addons.rst:324
 msgid "Per author"
 msgstr "每位作者"
 
-#: ../../admin/addons.rst:314
+#: ../../admin/addons.rst:326
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
@@ -1433,13 +1450,13 @@ msgstr ""
 "原始提交信息保留，但其作者信息丢失，除非选择 :guilabel:`Per author` ，或者定"
 "制提交信息来包括它。"
 
-#: ../../admin/addons.rst:319
+#: ../../admin/addons.rst:331
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr "原始提交信息可选地由定制的提交信息覆盖。"
 
-#: ../../admin/addons.rst:321
+#: ../../admin/addons.rst:333
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: ...``) can optionally be "
 "removed from the original commit messages and appended to the end of the "
@@ -1450,32 +1467,32 @@ msgstr ""
 "在去掉的提交信息后面。这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` 信"
 "誉。"
 
-#: ../../admin/addons.rst:329
+#: ../../admin/addons.rst:341
 msgid "Customize JSON output"
 msgstr "自定义 JSON 输出"
 
-#: ../../admin/addons.rst:331
+#: ../../admin/addons.rst:343
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr "允许调整 JSON 的输出行为，例如缩进或排序。"
 
-#: ../../admin/addons.rst:336
+#: ../../admin/addons.rst:348
 msgid "Formats the Java properties file"
 msgstr "格式化 Java 属性文件"
 
-#: ../../admin/addons.rst:338
+#: ../../admin/addons.rst:350
 msgid "Sorts the Java properties file."
 msgstr "排序 Java 属性文件。"
 
-#: ../../admin/addons.rst:343
+#: ../../admin/addons.rst:355
 msgid "Stale comment removal"
 msgstr "陈旧注释删除"
 
-#: ../../admin/addons.rst:347
+#: ../../admin/addons.rst:359
 msgid "Set a timeframe for removal of comments."
 msgstr "设置删除注释的时间。"
 
-#: ../../admin/addons.rst:349
+#: ../../admin/addons.rst:361
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comment being old does not mean they have lost their "
@@ -1484,15 +1501,15 @@ msgstr ""
 "这可以用于删除可能变得过时的陈旧注释。小心使用，因为陈旧的注释不意味着失去了"
 "重要性。"
 
-#: ../../admin/addons.rst:356
+#: ../../admin/addons.rst:368
 msgid "Stale suggestion removal"
 msgstr "陈旧建议删除"
 
-#: ../../admin/addons.rst:360
+#: ../../admin/addons.rst:372
 msgid "Set a timeframe for removal of suggestions."
 msgstr "设置删除建议的时间。"
 
-#: ../../admin/addons.rst:362
+#: ../../admin/addons.rst:374
 msgid ""
 "This can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
@@ -1501,11 +1518,11 @@ msgstr ""
 "可以用于连接建议投票（请参见 :ref:`peer-review` ），将给定时间内没有得到足够"
 "积极票数的建议删除。"
 
-#: ../../admin/addons.rst:369
+#: ../../admin/addons.rst:381
 msgid "Update RESX files"
 msgstr "更新 RESX 文件"
 
-#: ../../admin/addons.rst:373
+#: ../../admin/addons.rst:385
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
@@ -1514,27 +1531,27 @@ msgstr ""
 "更新所有翻译文件以匹配上游单语言译文模版文件。未使用的字符串将被删除，新字符"
 "串将复制源字符串添加。"
 
-#: ../../admin/addons.rst:378
+#: ../../admin/addons.rst:390
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
 "如果只想删除陈旧的翻译键，那么使用 :ref:`addon-weblate.cleanup.generic`。"
 
-#: ../../admin/addons.rst:384
+#: ../../admin/addons.rst:400
 msgid "Customize YAML output"
 msgstr "自定义 YAML 输出"
 
-#: ../../admin/addons.rst:388
+#: ../../admin/addons.rst:404
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "允许调整 YAML 的输出，例如自定义缩进或自定义换行。"
 
-#: ../../admin/addons.rst:392
+#: ../../admin/addons.rst:408
 msgid "Customizing list of addons"
 msgstr "定制附加组件列表"
 
-#: ../../admin/addons.rst:394
+#: ../../admin/addons.rst:410
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include class absolute name in this setting."
@@ -1542,11 +1559,11 @@ msgstr ""
 "附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个"
 "设置中包含类绝对名称即可。"
 
-#: ../../admin/addons.rst:401
+#: ../../admin/addons.rst:417
 msgid "Writing addon"
 msgstr "编写附加组件"
 
-#: ../../admin/addons.rst:403
+#: ../../admin/addons.rst:419
 msgid ""
 "You can write your own addons too, all you need to do is subclass :class:"
 "`weblate.addons.base.BaseAddon`, define the addon metadata and implement a "
@@ -1555,15 +1572,15 @@ msgstr ""
 "你也可以编写自己的附加组件，所需要做的是把:class:`weblate.addons.base."
 "BaseAddon`归入子类，定义附加组件的元数据，并实现一个会执行处理的回调函数。"
 
-#: ../../admin/addons.rst:409
+#: ../../admin/addons.rst:425
 msgid ":doc:`../contributing/addons`"
 msgstr ":doc:`../contributing/addons`"
 
-#: ../../admin/addons.rst:414
+#: ../../admin/addons.rst:430
 msgid "Executing scripts from addon"
 msgstr "从附加组件执行脚本"
 
-#: ../../admin/addons.rst:416
+#: ../../admin/addons.rst:432
 msgid ""
 "Addons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
@@ -1572,11 +1589,11 @@ msgstr ""
 "附加逐渐还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代"
 "码，将脚本包裹在附加组件中。"
 
-#: ../../admin/addons.rst:423
+#: ../../admin/addons.rst:439
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr "安装方法请参见 :ref:`custom-addon-modules` 。"
 
-#: ../../admin/addons.rst:425
+#: ../../admin/addons.rst:441
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
@@ -1584,85 +1601,85 @@ msgstr ""
 "对于任何给定的组件，当前路径设置为版本控制系统（ VCS ）仓库的根目录时，执行脚"
 "本。"
 
-#: ../../admin/addons.rst:428
+#: ../../admin/addons.rst:444
 msgid "Additionally, the following environment variables are available:"
 msgstr "此外，可以访问后面的环境参数："
 
-#: ../../admin/addons.rst:432
+#: ../../admin/addons.rst:448
 msgid "Version control system used."
 msgstr "使用的版本控制系统。"
 
-#: ../../admin/addons.rst:436
+#: ../../admin/addons.rst:452
 msgid "Upstream repository URL."
 msgstr "上游仓库 URL 。"
 
-#: ../../admin/addons.rst:440
+#: ../../admin/addons.rst:456
 msgid "Absolute path to VCS repository."
 msgstr "版本控制系统（ VCS ）仓库的绝对路径。"
 
-#: ../../admin/addons.rst:446
+#: ../../admin/addons.rst:462
 msgid "Repository branch configured in the current component."
 msgstr "当前组件配置的仓库分支。"
 
-#: ../../admin/addons.rst:450
+#: ../../admin/addons.rst:466
 msgid "Filemask for current component."
 msgstr "当前组件的Filemask。"
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:470
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr "单语言翻译模板的文件名（可以为空）。"
 
-#: ../../admin/addons.rst:460
+#: ../../admin/addons.rst:476
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr "建立新的翻译所使用文件的文件名（可以为空）。"
 
-#: ../../admin/addons.rst:465
+#: ../../admin/addons.rst:481
 msgid "Fileformat used in current component."
 msgstr "当前组件使用的文件格式。"
 
-#: ../../admin/addons.rst:469
+#: ../../admin/addons.rst:485
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
 msgstr "当前处理的翻译语言（对于组件水平的钩子不可获得）。"
 
-#: ../../admin/addons.rst:474
+#: ../../admin/addons.rst:490
 msgid "Previous HEAD on update (available only when running post update hook)."
 msgstr "之前更新上的 HEAD （只有当运行过去的更新钩子时可获得）。"
 
-#: ../../admin/addons.rst:480
+#: ../../admin/addons.rst:496
 msgid "Component slug used to construct URL."
 msgstr "组件标识串用于构建 URL 。"
 
-#: ../../admin/addons.rst:486
+#: ../../admin/addons.rst:502
 msgid "Project slug used to construct URL."
 msgstr "项目标识串用于构建 URL 。"
 
-#: ../../admin/addons.rst:492
+#: ../../admin/addons.rst:508
 msgid "Component name."
 msgstr "组件名称。"
 
-#: ../../admin/addons.rst:498
+#: ../../admin/addons.rst:514
 msgid "Project name."
 msgstr "项目名称。"
 
-#: ../../admin/addons.rst:504
+#: ../../admin/addons.rst:520
 msgid "Component URL."
 msgstr "组件 URL 。"
 
-#: ../../admin/addons.rst:510
+#: ../../admin/addons.rst:526
 msgid "Project engage URL."
 msgstr "项目参与 URL 。"
 
-#: ../../admin/addons.rst:514 ../../faq.rst:256
+#: ../../admin/addons.rst:530 ../../faq.rst:256
 msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
-#: ../../admin/addons.rst:517
+#: ../../admin/addons.rst:533
 msgid "Post update repository processing"
 msgstr "更新仓库后处理"
 
-#: ../../admin/addons.rst:519
+#: ../../admin/addons.rst:535
 msgid ""
 "Post update repository processing can be used to update translation files "
 "when the VCS upstream source changes. To achieve this, please remember that "
@@ -1673,21 +1690,21 @@ msgstr ""
 "了实现这个功能，请记住 Weblate 只看到提交给版本控制系统（ VCS ）的文件，所以"
 "需要同意更改作为脚本的一部分。"
 
-#: ../../admin/addons.rst:524
+#: ../../admin/addons.rst:540
 msgid "For example with Gulp you can do it using following code:"
 msgstr "例如 Gulp ，可以使用后面的代码来执行："
 
-#: ../../admin/addons.rst:534
+#: ../../admin/addons.rst:550
 msgid "Pre commit processing of translations"
 msgstr "翻译的预提交处理"
 
-#: ../../admin/addons.rst:536
+#: ../../admin/addons.rst:552
 msgid ""
 "Use the commit script to automatically make changes to the translation "
 "before it is committed to the repository."
 msgstr "使用提交脚本在提交给仓库前自动地对翻译做出更改。"
 
-#: ../../admin/addons.rst:539
+#: ../../admin/addons.rst:555
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
@@ -3711,7 +3728,7 @@ msgstr ""
 #: ../../admin/checks.rst:233
 msgid ""
 "Weblate font management tool in :guilabel:`Fonts` under the :guilabel:"
-"`Manage` menu of your translation project provide interface to upload and "
+"`Manage` menu of your translation project provides interface to upload and "
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
@@ -4212,7 +4229,7 @@ msgid ""
 "other paths by default:"
 msgstr "Weblate 源所在的基本目录。用于默认得到几个其他路径："
 
-#: ../../admin/config.rst:199 ../../faq.rst:395 ../../vcs.rst:444
+#: ../../admin/config.rst:199 ../../faq.rst:402 ../../vcs.rst:444
 msgid ":setting:`DATA_DIR`"
 msgstr ":setting:`DATA_DIR`"
 
@@ -6228,7 +6245,7 @@ msgstr "Weblate 尝试使用你所有工具支持的后端。"
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr "可以使用这个来限制选择或添加定制版本控制系统 （ VCS ）后端。"
 
-#: ../../admin/config.rst:1897 ../../faq.rst:448
+#: ../../admin/config.rst:1897 ../../faq.rst:455
 msgid ":ref:`vcs`"
 msgstr ":ref:`vcs`"
 
@@ -9397,7 +9414,7 @@ msgstr ""
 msgid ""
 "The typical database storage usage is around 300 MB per 1 million hosted "
 "words. Storage space needed for cloned repositories varies, but Weblate "
-"tries to keep their size minimal by doing swallow clones."
+"tries to keep their size minimal by doing shallow clones."
 msgstr ""
 
 #: ../../admin/install/steps/hw.rst:25
@@ -25820,7 +25837,7 @@ msgstr "开始为 Weblate 贡献代码"
 #: ../../devel/integration.rst:9
 msgid ""
 "Weblate was developed with VCS integration in mind. The easiest approach to "
-"integrate with it is to grant acces to your VCS repository. The import "
+"integrate with it is to grant access to your VCS repository. The import "
 "process will guide you through configuring components with your translations."
 msgstr ""
 
@@ -25883,6 +25900,51 @@ msgstr ""
 msgid ""
 "When not using a VCS integration, you can use UI or :doc:`/api` to update "
 "translations to match your code base."
+msgstr ""
+
+#: ../../devel/integration.rst:56
+#, fuzzy
+#| msgid "Add new string"
+msgid "Adding new strings"
+msgstr "添加新字符串"
+
+#: ../../devel/integration.rst:58
+msgid ""
+"In case your translation files are stored in VCS together with the code, you "
+"most likely have existing workflow for developers to introduce new strings. "
+"You might extend it by using :ref:`source-quality-gateway`."
+msgstr ""
+
+#: ../../devel/integration.rst:62
+msgid ""
+"When the translation files are separate, there needs to be a way to "
+"introduce new strings. Weblate can add new strings on monolingual "
+"translations only (see :ref:`bimono`). You have three options to do that:"
+msgstr ""
+
+#: ../../devel/integration.rst:66
+msgid ""
+"Manually, using :guilabel:`Add new translation string` from :guilabel:"
+"`Tools` menu on source language translation."
+msgstr ""
+
+#: ../../devel/integration.rst:68
+#, fuzzy
+#| msgid ""
+#| "URL to strings list; see :http:get:`/api/translations/(string:project)/"
+#| "(string:component)/(string:language)/units/`"
+msgid ""
+"Programatically, using API :http:post:`/api/translations/(string:project)/"
+"(string:component)/(string:language)/units/`."
+msgstr ""
+"字符串列表的 URL；请参见 :http:get:`/api/translations/(string:project)/"
+"(string:component)/(string:language)/units/`"
+
+#: ../../devel/integration.rst:69
+msgid ""
+"By uploading source file as :ref:`Replace existing translation file` (this "
+"overwrites existing strings, so please make sure the file includes both old "
+"and new ones, see :ref:`upload-method`)."
 msgstr ""
 
 #: ../../devel/reporting.rst:2
@@ -27029,11 +27091,11 @@ msgid ""
 "projects as well."
 msgstr ""
 
-#: ../../faq.rst:298
+#: ../../faq.rst:300
 msgid "Does Weblate update translation files besides translations?"
 msgstr ""
 
-#: ../../faq.rst:300
+#: ../../faq.rst:302
 msgid ""
 "Weblate tries to limit changes in translation files to a minimum. For some "
 "file formats it might unfortunately lead to reformatting the file. If you "
@@ -27041,72 +27103,75 @@ msgid ""
 "that."
 msgstr ""
 
-#: ../../faq.rst:304
+#: ../../faq.rst:306
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :guilabel:`template`, and not in actual "
 "translations. It does not however perform any automatic cleanup of stale "
 "strings as that might have unexpected outcomes. If you want to do this, "
-"please install a pre-commit hook which will handle the cleanup according to "
-"your requirements."
+"please install an appropriate addon which will handle the cleanup according "
+"to your requirements."
 msgstr ""
 
-#: ../../faq.rst:310
+#: ../../faq.rst:313
 msgid ""
 "Weblate also will not try to update bilingual files in any way, so if you "
 "need :file:`po` files being updated from :file:`pot`, you need to do it "
-"yourself."
+"yourself or using an addon."
 msgstr ""
 
-#: ../../faq.rst:315
-msgid ":ref:`processing`"
+#: ../../faq.rst:318
+msgid ""
+":ref:`processing`, :ref:`addon-weblate.cleanup.generic`, :ref:`addon-weblate."
+"cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate."
+"gettext.msgmerge`"
 msgstr ""
 
-#: ../../faq.rst:319
+#: ../../faq.rst:326
 msgid "Where do language definitions come from and how can I add my own?"
 msgstr ""
 
-#: ../../faq.rst:321
+#: ../../faq.rst:328
 msgid ""
 "The basic set of language definitions is included within Weblate and "
 "Translate-toolkit. This covers more than 150 languages and includes info "
 "about plural forms or text direction."
 msgstr ""
 
-#: ../../faq.rst:325
+#: ../../faq.rst:332
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr ""
 
-#: ../../faq.rst:329
+#: ../../faq.rst:336
 msgid "Can Weblate highlight changes in a fuzzy string?"
 msgstr ""
 
-#: ../../faq.rst:331
+#: ../../faq.rst:338
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
 msgstr ""
 
-#: ../../faq.rst:333
+#: ../../faq.rst:340
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
 
-#: ../../faq.rst:340
+#: ../../faq.rst:347
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
 msgstr ""
 
-#: ../../faq.rst:346
+#: ../../faq.rst:353
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
 msgstr ""
 
-#: ../../faq.rst:348
+#: ../../faq.rst:355
 msgid ""
 "Weblate does not try to manipulate the translation files in any way other "
 "than allowing translators to translate. So it also does not update the "
@@ -27115,70 +27180,70 @@ msgid ""
 "will then pick up the changes automatically."
 msgstr ""
 
-#: ../../faq.rst:356
+#: ../../faq.rst:363
 msgid ""
 "It is usually a good idea to merge changes done in Weblate before updating "
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
 msgstr ""
 
-#: ../../faq.rst:360
+#: ../../faq.rst:367
 msgid ""
 "For example with gettext PO files, you can update the translation files "
 "using the :command:`msgmerge` tool:"
 msgstr ""
 
-#: ../../faq.rst:367
+#: ../../faq.rst:374
 msgid ""
 "In case you want to do the update automatically, you can install addon :ref:"
 "`addon-weblate.gettext.msgmerge`."
 msgstr ""
 
-#: ../../faq.rst:372
+#: ../../faq.rst:379
 msgid "Troubleshooting"
 msgstr ""
 
-#: ../../faq.rst:375
+#: ../../faq.rst:382
 msgid "Requests sometimes fail with \"too many open files\" error"
 msgstr ""
 
-#: ../../faq.rst:377
+#: ../../faq.rst:384
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
 
-#: ../../faq.rst:380
+#: ../../faq.rst:387
 msgid "The easiest way to do this is to run:"
 msgstr ""
 
-#: ../../faq.rst:399
+#: ../../faq.rst:406
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
 msgstr ""
 
-#: ../../faq.rst:401
+#: ../../faq.rst:408
 msgid ""
 "This is most likely caused by an improperly configured :setting:"
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
 
-#: ../../faq.rst:410
+#: ../../faq.rst:417
 msgid ":ref:`production-hosts`"
 msgstr ""
 
-#: ../../faq.rst:415
+#: ../../faq.rst:422
 msgid "What does mean \"There are more files for the single language (en)\"?"
 msgstr ""
 
-#: ../../faq.rst:417
+#: ../../faq.rst:424
 msgid ""
 "This typically happens when you have translation file for source language. "
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
 
-#: ../../faq.rst:421
+#: ../../faq.rst:428
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
@@ -27186,13 +27251,13 @@ msgstr ""
 "如果需要对源语言进行翻译，请更改组件设置中的:ref:`component-"
 "source_language`。"
 
-#: ../../faq.rst:422
+#: ../../faq.rst:429
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr "如果不需要源语言的翻译文件，请从存储库中将其删除。"
 
-#: ../../faq.rst:423
+#: ../../faq.rst:430
 msgid ""
 "In case the translation file for the source language is needed, but should "
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
@@ -27201,15 +27266,15 @@ msgstr ""
 "如果需要源语言的翻译文件，但 Weblate 应该忽略它，请调整 :ref: `component-"
 "language_regex` 来排除它。"
 
-#: ../../faq.rst:426
+#: ../../faq.rst:433
 msgid "Features"
 msgstr "功能"
 
-#: ../../faq.rst:431
+#: ../../faq.rst:438
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
 msgstr ""
 
-#: ../../faq.rst:433
+#: ../../faq.rst:440
 msgid ""
 "Weblate currently does not have native support for anything other than :ref:"
 "`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit` "
@@ -27217,26 +27282,26 @@ msgid ""
 "write backends for other VCSes."
 msgstr ""
 
-#: ../../faq.rst:438
+#: ../../faq.rst:445
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr ""
 
-#: ../../faq.rst:440
+#: ../../faq.rst:447
 msgid "Weblate also supports VCS less operation, see :ref:`vcs-local`."
 msgstr ""
 
-#: ../../faq.rst:444
+#: ../../faq.rst:451
 msgid ""
 "For native support of other VCSes, Weblate requires using distributed VCS, "
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
 
-#: ../../faq.rst:451
+#: ../../faq.rst:458
 msgid "How does Weblate credit translators?"
 msgstr "Weblate 如何记录翻译者？"
 
-#: ../../faq.rst:453
+#: ../../faq.rst:460
 msgid ""
 "Every change made in Weblate is committed into VCS under the translators "
 "name. This way every single change has proper authorship, and you can track "
@@ -27246,21 +27311,21 @@ msgstr ""
 "样，每个更改都具有适当的作者身份，您可以使用用于代码的标准版本控制系统"
 "（VCS ）工具来进行跟踪。"
 
-#: ../../faq.rst:457
+#: ../../faq.rst:464
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr "此外，如果翻译文件格式支持，则文件头会更新为包含翻译者的名称。"
 
-#: ../../faq.rst:462
+#: ../../faq.rst:469
 msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 
-#: ../../faq.rst:466
+#: ../../faq.rst:473
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr ""
 
-#: ../../faq.rst:468
+#: ../../faq.rst:475
 msgid ""
 "Weblate was designed in a way that every PO file is represented as a single "
 "component. This is beneficial for translators, so they know what they are "
@@ -27269,24 +27334,24 @@ msgid ""
 "translators not using Weblate."
 msgstr ""
 
-#: ../../faq.rst:476
+#: ../../faq.rst:483
 msgid ""
 "In case there is great demand for this feature, it might be implemented in "
 "future versions."
 msgstr ""
 
-#: ../../faq.rst:482
+#: ../../faq.rst:489
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
 msgstr ""
 
-#: ../../faq.rst:484
+#: ../../faq.rst:491
 msgid ""
 "These are language codes defined by :rfc:`4646` to better indicate that they "
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
 
-#: ../../faq.rst:488
+#: ../../faq.rst:495
 msgid ""
 "Weblate still understands legacy language codes and will map them to current "
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
