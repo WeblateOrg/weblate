@@ -386,6 +386,7 @@ class EditJSONMonoTest(EditTest):
 
 class EditJavaTest(EditTest):
     has_plurals = False
+    already_translated = 1
 
     def create_component(self):
         return self.create_java()
