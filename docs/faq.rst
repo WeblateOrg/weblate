@@ -294,6 +294,8 @@ How can I use existing translations while translating?
 
    :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. _faq-cleanup:
+
 Does Weblate update translation files besides translations?
 -----------------------------------------------------------
 
@@ -305,14 +307,19 @@ For monolingual files (see :ref:`formats`) Weblate might add new translation
 strings not present in the :guilabel:`template`, and not in actual
 translations. It does not however perform any automatic cleanup of stale
 strings as that might have unexpected outcomes. If you want to do this, please
-install a pre-commit hook which will handle the cleanup according to your requirements.
+install an appropriate addon which will handle the cleanup according to your
+requirements.
 
 Weblate also will not try to update bilingual files in any way, so if you need
-:file:`po` files being updated from :file:`pot`, you need to do it yourself.
+:file:`po` files being updated from :file:`pot`, you need to do it yourself or using an addon.
 
 .. seealso::
 
-   :ref:`processing`
+   :ref:`processing`,
+   :ref:`addon-weblate.cleanup.generic`,
+   :ref:`addon-weblate.cleanup.blank`,
+   :ref:`addon-weblate.resx.update`,
+   :ref:`addon-weblate.gettext.msgmerge`
 
 
 Where do language definitions come from and how can I add my own?

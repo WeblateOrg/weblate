@@ -67,6 +67,10 @@ Use this if you do not want empty strings to appear in translation files (for
 example when your localization library displays them as empty strings instead
 of falling back to the source string).
 
+.. seealso::
+
+   :ref:`faq-cleanup`
+
 .. _addon-weblate.cleanup.generic:
 
 Cleanup translation files
@@ -75,6 +79,10 @@ Cleanup translation files
 Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
 base file.
+
+.. seealso::
+
+   :ref:`faq-cleanup`
 
 .. _addon-weblate.consistency.languages:
 
@@ -292,6 +300,10 @@ This addon is triggered whenever new changes are pulled from the upstream
 repository. You can configure most of the msgmerge command line options through
 the addon configuration.
 
+.. seealso::
+
+   :ref:`faq-cleanup`
+
 .. _addon-weblate.git.squash:
 
 Squash Git commits
@@ -377,6 +389,10 @@ Unused strings are removed, and new ones added as copies of the source string.
 
    Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale
    translation keys.
+
+.. seealso::
+
+   :ref:`faq-cleanup`
 
 .. _addon-weblate.yaml.customize:
 
