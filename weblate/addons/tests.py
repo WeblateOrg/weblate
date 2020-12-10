@@ -543,15 +543,22 @@ class PropertiesAddonTest(ViewTestCase):
 
     def test_cleanup(self):
         self.assertTrue(CleanupAddon.can_install(self.component, None))
-        rev = self.component.repository.last_revision
+        init_rev = self.component.repository.last_revision
         addon = CleanupAddon.create(self.component)
-        self.assertNotEqual(rev, self.component.repository.last_revision)
+        self.assertNotEqual(init_rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "", False)
         self.assertEqual(rev, self.component.repository.last_revision)
         addon.post_update(self.component, "", False)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
+        self.component.do_reset()
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(init_rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn("java/swing_messages_cs.properties", commit)
+        self.assertIn("-state=Stale", commit)
 
 
 class CommandTest(ViewTestCase):

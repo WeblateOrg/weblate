@@ -20,7 +20,8 @@
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import UpdateBaseAddon
-from weblate.addons.events import EVENT_POST_COMMIT, EVENT_POST_UPDATE
+from weblate.addons.events import EVENT_POST_COMMIT, EVENT_POST_UPDATE, EVENT_PRE_COMMIT
+from weblate.trans.exceptions import FileParseError
 
 
 class BaseCleanupAddon(UpdateBaseAddon):
@@ -40,11 +41,19 @@ class CleanupAddon(BaseCleanupAddon):
         "no longer present in the base file."
     )
     icon = "eraser.svg"
+    events = (EVENT_PRE_COMMIT, EVENT_POST_UPDATE)
 
     def update_translations(self, component, previous_head):
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_unused()
             self.extra_files.extend(filenames)
+
+    def pre_commit(self, translation, author):
+        try:
+            filenames = translation.store.cleanup_unused()
+        except FileParseError:
+            return
+        self.extra_files.extend(filenames)
 
 
 class RemoveBlankAddon(BaseCleanupAddon):
