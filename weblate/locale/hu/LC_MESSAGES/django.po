@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-11-27 12:46+0000\n"
+"PO-Revision-Date: 2020-12-11 14:51+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
@@ -5168,10 +5168,8 @@ msgid "No invoices found."
 msgstr "Nem találhatók számlák."
 
 #: weblate/templates/billing/detail.html:100
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Libre hosting"
-msgstr "Tárhelyszolgáltatási csomagok megtekintése"
+msgstr "Szabad szoftveres tárhelyszolgáltatás"
 
 #: weblate/templates/billing/detail.html:102
 #: weblate/templates/billing/state-snippet.html:5
@@ -5204,20 +5202,15 @@ msgstr ""
 
 #: weblate/templates/billing/list.html:10
 msgid "Plan"
-msgstr ""
+msgstr "Csomag"
 
 #: weblate/templates/billing/list.html:11
-#, fuzzy
-#| msgctxt "Number of hosted words"
-#| msgid "Hosted words"
 msgid "Hosted words"
 msgstr "Kiszolgált szavak"
 
 #: weblate/templates/billing/list.html:28
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No users currently assigned!"
-msgstr "Jelenleg nincsenek projektek hozzárendelve!"
+msgstr "Jelenleg nincsenek felhasználók hozzárendelve!"
 
 #: weblate/templates/billing/list.html:35
 #: weblate/templates/billing/status.html:102
@@ -7165,13 +7158,11 @@ msgstr "Gratulálunk, a beállítása műkőképesnek tűnik."
 
 #: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:71
 msgid "Appearance"
-msgstr ""
+msgstr "Megjelenés"
 
 #: weblate/templates/manage/appearance.html:18
-#, fuzzy
-#| msgid "Customize design"
 msgid "Customize appearance"
-msgstr "Kinézet személyre szabása"
+msgstr "Megjelenés személyre szabása"
 
 #: weblate/templates/manage/appearance.html:24
 msgid "Reset customization"
@@ -7228,14 +7219,12 @@ msgid "Add backup service"
 msgstr "Biztonsági mentés szolgáltatás hozzáadása"
 
 #: weblate/templates/manage/billing.html:15
-#, fuzzy
-#| msgid "Commit"
 msgid "Commercial"
-msgstr "Véglegesítés"
+msgstr "Kereskedelmi"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
-msgstr ""
+msgstr "Szabad szoftveres"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7545,6 +7534,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "for adding another one."
 msgstr ""
+"Ez a lista csak az alap nyelveket tartalmazza. Vegye fel a kapcsolatot a "
+"projekt karbantartóival egy másik nyelv hozzáadásához."
 
 #: weblate/templates/new-language.html:41
 msgid "Request new translation"
@@ -7664,10 +7655,8 @@ msgid "Instructions for translators"
 msgstr "Utasítások fordítóknak"
 
 #: weblate/templates/project_info.html:44
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Project maintainers"
-msgstr "Kapcsolatfelvétel a karbantartókkal"
+msgstr "Projekt karbantartói"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -7888,33 +7877,25 @@ msgstr ""
 "verziókövető rendszerben."
 
 #: weblate/templates/snippets/libre-basic.html:5
-#, fuzzy
-#| msgid ""
-#| "Translations have to be in the same repository, or under the same "
-#| "repository project/organization as the source code."
 msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
-"A fordításoknak ugyanabban a tárolóban kell lenniük, vagy ugyanazon "
-"tárolóprojekt vagy tárolószervezet alatt, ahol a forráskód van."
+"A fordításoknak ugyanabban a tárolóban kell lenniük mint a forráskód, vagy "
+"ugyanazon projekt vagy szervezet alatt, ahol a forráskód tárolója van."
 
 #: weblate/templates/snippets/libre-basic.html:6
 msgid "Using Weblate has been approved by the upstream project."
 msgstr "A Weblate használatát jóváhagyta a távoli projekt kezelője."
 
 #: weblate/templates/snippets/libre-basic.html:7
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
 "Említse meg a README fájlban, hogy Weblate-et használ a fordításokhoz. Ezzel "
-"segít, hogy a Weblate ingyenes maradjon még több projektnél, és új "
-"fordítókat szerezhet."
+"új fordítókat szerezhet, és abban is segít, hogy a Weblate ingyenes maradjon "
+"még több projektnél."
 
 #: weblate/templates/snippets/libre-basic.html:8
 msgid "The project has had active development for at least three months."
@@ -8372,8 +8353,6 @@ msgid "Error"
 msgstr "Hiba"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files using ambiguous language code."
 msgid "The component translation files are using ambiguous language code."
 msgstr "Az összetevő fordítási fájljai kétértelmű nyelvkódot használnak."
 
@@ -8544,6 +8523,8 @@ msgstr ""
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
+"Ez a projekt többé nem felel meg a szabad szoftveres tárhelyszolgáltatási "
+"feltételeknek."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8759,28 +8740,21 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Tisztában vagyok a következményekkel, törölje ezt a fordítást"
 
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
 "Ezt a műveletet nem lehet visszavonni. Ez véglegesen törli a(z) %(object)s "
-"fordítást és az összes kapcsolódó tartalmat."
+"fordításait és az összes kapcsolódó tartalmat."
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "A következő fordítási összetevők lesznek eltávolítva:"
+msgstr "A következő fordítások lesznek eltávolítva:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "Eltávolítandó projekt"
+msgstr "Eltávolítandó projektnyelv"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8868,10 +8842,8 @@ msgid "This translation"
 msgstr "Ez a fordítás"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Lefordítva"
+msgstr "Terjesztve"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9036,10 +9008,8 @@ msgid "List of recent changes done in Weblate"
 msgstr "Weblate-ben elvégzett legutóbbi változtatások listája"
 
 #: weblate/templates/translate.html:279
-#, fuzzy
-#| msgid "New source string"
 msgid "Difference to current string"
-msgstr "Új forrásszöveg"
+msgstr "Különbség a jelenlegi szöveggel"
 
 #: weblate/templates/translate.html:290
 msgid "The following string has the same context and source."
@@ -9072,16 +9042,12 @@ msgstr[1] ""
 "rendelkeznek."
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Fordítások terjedésének engedélyezése"
+msgstr "A kijelölt fordítások alkalmazása az összes terjesztett szövegre"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Upload translation strings"
 msgid "Apply selected translation to current string"
-msgstr "Fordítási szövegek feltöltése"
+msgstr "A kijelölt fordítás alkalmazása a jelenlegi szövegre"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -10053,10 +10019,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Írja be a projekt keresőbarát URL-ét a megerősítéshez."
 
 #: weblate/trans/forms.py:2025
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Írja be a projekt keresőbarát URL-ét a megerősítéshez."
+msgstr "Írja be a projekt és a nyelv keresőbarát URL-ét a megerősítéshez."
 
 #: weblate/trans/forms.py:2052
 msgid "Author username"
@@ -10214,7 +10178,7 @@ msgstr "Kétértelmű nyelvkód."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "Nem teljesíti a szabad szoftveres tárhelyszolgáltatás feltételeit."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -11594,13 +11558,11 @@ msgid "This translation does not yet exist."
 msgstr "Ez a fordítás még nem létezik."
 
 #: weblate/trans/templatetags/translations.py:758
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s műveletet igénylő szöveg"
-msgstr[1] "%(count)s műveletet igénylő szöveg"
+msgstr[0] "%(count)s szöveg nem itt van lefordítva."
+msgstr[1] "%(count)s szöveg nem itt van lefordítva."
 
 #: weblate/trans/templatetags/translations.py:785
 msgid "enabled"
@@ -12003,10 +11965,8 @@ msgid "Project was scheduled for removal."
 msgstr "A projekt eltávolításra lett ütemezve."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "%s nyelv eltávolítva."
+msgstr "A projekt nyelve el lett távolítva."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -12375,6 +12335,9 @@ msgid ""
 "Use hamburger menu in the top navigation regardless the screen resolution. "
 "When disabled the hamburger menu is used on small screens only."
 msgstr ""
+"A felső navigációban lévő hamburger menü használata a képernyő felbontásától "
+"függetlenül. Ha le van tiltva, akkor a hamburger menü csak kis képernyőknél "
+"lesz használva."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
