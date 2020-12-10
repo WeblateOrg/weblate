@@ -66,6 +66,6 @@ new strings. Weblate can add new strings on monolingual translations only (see
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
   menu on source language translation.
 * Programatically, using API :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
-* By uploading source file as :ref:`Replace existing translation file` (this
-  overwrites existing strings, so please make sure the file includes both old
-  and new ones, see :ref:`upload-method`).
+* By uploading source file as :guilabel:`Replace existing translation file`
+  (this overwrites existing strings, so please make sure the file includes both
+  old and new ones, see :ref:`upload-method`).
