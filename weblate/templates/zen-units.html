@@ -66,14 +66,8 @@
 {% if item.secondary %}
 {% for unit in item.secondary %}
 <div class="form-group">
-<label>
-    {{ unit.translation.language }}
-    {% perm 'unit.edit' unit as user_can_edit_secondary %}
-    {% if user_can_edit_secondary %}
-    <a title="{% trans "Edit string" %}"href="{{ unit.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
-    {% endif %}
-</label>
-{% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}
+  <a href="{{ unit.get_absolute_url }}" class="language">{{ unit.translation.language }}</a>
+  {% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}
 </div>
 {% endfor %}
 {% endif %}
@@ -87,12 +81,8 @@
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
 <div class="form-group">
-<label>
-    {{ item.unit.translation.component.source_language }}
-    {% perm 'unit.edit' item.unit.source_unit as user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ item.unit.source_unit.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
-</label>
-{% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
+  <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
+  {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 </div>
 {% endif %}
 
