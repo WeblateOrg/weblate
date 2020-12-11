@@ -245,27 +245,31 @@ def get_quote(code, data, name):
     return name, data["ALL"], data["ALL"]
 
 
-def format_char(char):
-    """Return verbose description of a character."""
-    display = DISPLAY_CHARS.get(char, char)
-    if char in CHAR_NAMES:
-        name = CHAR_NAMES[char]
-    elif unicodedata.category(char)[0] in ("C", "Z"):
+def get_display_char(char):
+    name = short = char
+    if unicodedata.category(char)[0] in ("C", "Z"):
         # Various control and space characters
         try:
             name = unicodedata.name(char)
-            display = "".join(
+            short = "".join(
                 x[0] for x in name.replace("-TO-", " ").replace("-", " ").split()
             )
-            name = _("Insert {0}").format(name)
         except ValueError:
             # Char now known to unicode data
             # This mostly happens for control characters < 0x20
-            display = char.encode("unicode_escape").decode("ascii")
-            name = _("Insert character {0}").format(display)
-    else:
-        name = _("Insert character {0}").format(char)
-    return name, display, char
+            name = short = char.encode("unicode_escape").decode("ascii")
+    if char in DISPLAY_CHARS:
+        short = DISPLAY_CHARS[char]
+    return name, short
+
+
+def format_char(char):
+    """Return verbose description of a character."""
+    name, short = get_display_char(char)
+    if char in CHAR_NAMES:
+        return CHAR_NAMES[char], short, char
+
+    return _("Insert character {0}").format(name), short, char
 
 
 def get_special_chars(language, additional="", source=""):  # noqa: C901
@@ -293,7 +297,8 @@ def get_special_chars(language, additional="", source=""):  # noqa: C901
         yield _("Em dash"), "—", "—"
 
     for char in additional:
-        yield _("User configured character: {}").format(char), char, char
+        name, short = get_display_char(char)
+        yield _("User configured character: {}").format(name), short, char
 
     rtl = language.direction == "rtl"
     for char in set(source):
