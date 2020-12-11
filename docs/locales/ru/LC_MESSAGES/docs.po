@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-10 21:03+0100\n"
-"PO-Revision-Date: 2020-12-09 09:54+0000\n"
+"PO-Revision-Date: 2020-12-11 14:51+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -352,35 +352,31 @@ msgid ""
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
 msgstr ""
-"Всякий раз, когда происходит проверка разрешения для выяснения того, может "
-"ли пользователь выполнить данное действие, она производится в "
-"соответствующей области, и проверяет следующие вещи в указанном порядке:"
+"При проверке прав доступа пользователя на выполнение какого-либо действия, "
+"разрешения проверяются в соответствующей области видимости, что, по сути, "
+"включает следующие проверки в указанном порядке:"
 
 #: ../../admin/access.rst:172
-#, fuzzy
-#| msgid ":guilabel:`Component list` is matched against component or project."
 msgid ""
 "Group :guilabel:`Component list` is matched against accessed component or "
 "project (for project level access)."
 msgstr ""
-"С компонентом или проектом сравнивается :guilabel:`Список компонентов` в "
-"поиске соответствия."
+"Группа :guilabel:`Список компонентов`сопоставляется компоненту (или проекту, "
+"для уровня проекта), к которому происходит доступ."
 
 #: ../../admin/access.rst:174
-#, fuzzy
-#| msgid ":guilabel:`Components` are matched against component or project."
 msgid ""
 "Group :guilabel:`Components` are matched against accessed component or "
 "project (for project level access)."
 msgstr ""
-"С компонентом или проектом сравниваются :guilabel:`Компоненты` в поиске "
-"соответствия."
+"Группа :guilabel:`Компоненты`сопоставляется компоненту (или проекту, для "
+"уровня проекта), к которому происходит доступ."
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ":guilabel:`Projects` are matched against project."
 msgid "Group :guilabel:`Projects` are matched against accessed project."
-msgstr "С проектом сравниваются :guilabel:`Проекты` в поиске соответствия."
+msgstr ""
+"Группа :guilabel:`Проекты` сопоставляется проекту, к которому происходит "
+"доступ."
 
 #: ../../admin/access.rst:178
 msgid ""
@@ -396,9 +392,9 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
-"Используется только первое сработавшее правило. Таким образом, если задать :"
-"guilabel:`Список компонентов`, :guilabel:`Компоненты` и :guilabel:`Проект`, "
-"то применится только :guilabel:`Список компонентов`."
+"Используется только первое подходящее правило. Так что, если задать "
+":guilabel:`Список компонентов`, :guilabel:`Компоненты` и :guilabel:`Проект`, "
+"то применятся будет только :guilabel:`Список компонентов`."
 
 #: ../../admin/access.rst:187
 msgid ""
@@ -481,20 +477,15 @@ msgstr ""
 "доступа, смотрите раздел :ref:`acl`."
 
 #: ../../admin/access.rst:230
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Can manage ACL rules for a project` privilege "
-#| "(see :ref:`privileges`) can also manage users in projects with access "
-#| "control turned on through the project page. The interface allows you to:"
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can also manage users in projects with access control turned "
 "on through the project page. The interface allows you to:"
 msgstr ""
-"Пользователи с привилегией :guilabel:`Может управлять списками контроля "
-"доступа для проекта` (смотрите раздел :ref:`privileges`) также могут "
-"управлять пользователями в проектах с включённым на странице проекта "
-"контролем доступа. Интерфейс позволяет вам:"
+"Пользователи с привилегией :guilabel:`Управление доступом к проекту` ("
+"смотрите раздел :ref:`privileges`) также могут управлять пользователями в "
+"проектах (eсли на странице проекта вклёчон контроль доступа). С помощью "
+"интерфейса вы можете:"
 
 #: ../../admin/access.rst:234
 msgid "Add existing users to the project"
@@ -552,22 +543,16 @@ msgstr ""
 "глоссарий)."
 
 #: ../../admin/access.rst:269
-#, fuzzy
-#| msgid "Can manage translated languages - add or remove translations."
 msgid "Can manage translated languages (add or remove translations)."
-msgstr "Может управлять языками перевода — добавлять или удалять переводы."
+msgstr "Может управлять языками перевода (добавлять или удалять переводы)."
 
 #: ../../admin/access.rst:273
-#, fuzzy
-#| msgid ""
-#| "Can manage screenshots - add or remove them, and associate them to source "
-#| "strings."
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
-"Может управлять снимками экрана — добавлять или удалять их, а также "
-"связывать их с исходными строками."
+"Может управлять снимками экрана (добавлять или удалять их, а также связывать "
+"их с исходными строками)."
 
 #: ../../admin/access.rst:278
 msgid "Can edit source strings in :ref:`monolingual` and source string info."
@@ -632,12 +617,6 @@ msgid "Default groups and roles"
 msgstr "Группы и роли по умолчанию"
 
 #: ../../admin/access.rst:320
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the databsae migration on upgrade and any "
-#| "custom changes will be lost. In case you want to define own set of "
-#| "permissions, please define a new role for that."
 msgid ""
 "These roles and groups are created upon installation. The built-in roles are "
 "always kept up to date by the database migration on upgrade and any custom "
@@ -1234,10 +1213,8 @@ msgstr ""
 
 #: ../../admin/addons.rst:72 ../../admin/addons.rst:85
 #: ../../admin/addons.rst:305 ../../admin/addons.rst:395
-#, fuzzy
-#| msgid ":ref:`acl`"
 msgid ":ref:`faq-cleanup`"
-msgstr ":ref:`acl`"
+msgstr ":ref:`faq-cleanup`"
 
 #: ../../admin/addons.rst:77
 msgid "Cleanup translation files"
@@ -1583,20 +1560,19 @@ msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using msgmerge."
 msgstr ""
+"Обновляет все PO-файлы (в соответствии с :ref:`масками файлов <component-"
+"filemask>`) так, чтобы они соответствовали POT-файлу (заданному :ref:`"
+"шаблоном для новых переводов <component-new_base>`) с помощью msgmerge."
 
 #: ../../admin/addons.rst:299
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository."
 msgid ""
 "This addon is triggered whenever new changes are pulled from the upstream "
 "repository. You can configure most of the msgmerge command line options "
 "through the addon configuration."
 msgstr ""
-"Обновляет все PO-файлы, используя msgmerge, приводя их в соответствие с POT-"
-"файлом. Это происходит всякий раз, когда новые изменения извлекаются из "
-"вышестоящего репозитория."
+"Это происходит всякий раз, когда новые изменения извлекаются из вышестоящего "
+"репозитория. Большинство параметров командной строки msgmerge можно задать в "
+"настройках."
 
 #: ../../admin/addons.rst:310
 msgid "Squash Git commits"
@@ -3571,10 +3547,8 @@ msgstr ""
 "placeholders`."
 
 #: ../../admin/checks.rst:76
-#, fuzzy
-#| msgid "``replacements:FROM:TO:FROM2:TO2...```"
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
-msgstr "``replacements:FROM:TO:FROM2:TO2...```"
+msgstr "``replacements:FROM:TO:FROM2:TO2...``"
 
 #: ../../admin/checks.rst:74
 msgid ""
@@ -4130,21 +4104,15 @@ msgid "Managing fonts"
 msgstr "Управление шрифтами"
 
 #: ../../admin/checks.rst:229
-#, fuzzy
-#| msgid ""
-#| "The :ref:`check-max-size` check used to calculate dimensions of the "
-#| "rendered text needs font info to be selected, which can be done in the "
-#| "Weblate font management tool in :guilabel:`Fonts` under the :guilabel:"
-#| "`Manage` menu of your translation project."
 msgid ""
 "The :ref:`check-max-size` check used to calculate dimensions of the rendered "
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
-"Проверке :ref:`check-max-size` для вычисления размеров отрисовываемого "
-"текста требуется предоставить информацию о шрифте, что можно сделать в "
-"Weblate’овском инструменте управления шрифтами, открываемом по ссылке :"
-"guilabel:`Шрифты` меню :guilabel:`Управлять` вашего проекта перевода."
+"Проверке :ref:`check-max-size`, которая вычисляет размер текста в пикселях "
+"после его отрисовки требуется, чтобы соответствующий шрифт был загружен в "
+"Weblate. Его также необходимо выбрать с помощью флагов перевода (см. :ref"
+":`custom-checks`)."
 
 #: ../../admin/checks.rst:233
 msgid ""
@@ -4153,6 +4121,9 @@ msgid ""
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
+"Загрузить шрифты в Weblate и управлять ими можно в пункте :guilabel:`Шрифты` "
+"меню :guilabel:`Управлять` вашего проекта перевода. Создайте группы шрифтов "
+"и используйте их в проверках. Поддерживаются шрифты TrueType и OpenType."
 
 #: ../../admin/checks.rst:238
 msgid ""
@@ -4767,8 +4738,6 @@ msgid "**Example:**"
 msgstr "**Пример:**"
 
 #: ../../admin/config.rst:230
-#, fuzzy
-#| msgid ":ref:`labels`"
 msgid ":ref:`languages`"
 msgstr ":ref:`languages`"
 
@@ -5114,8 +5083,6 @@ msgid "Example:"
 msgstr "Пример:"
 
 #: ../../admin/config.rst:480
-#, fuzzy
-#| msgid ":djadmin:`install_addon`"
 msgid ":djadmin:`install_addon`, :setting:`WEBLATE_ADDONS`"
 msgstr ":djadmin:`install_addon`, :setting:`WEBLATE_ADDONS`"
 
@@ -5159,8 +5126,6 @@ msgstr ""
 "committer_name`"
 
 #: ../../admin/config.rst:516
-#, fuzzy
-#| msgid "DEFAULT_ADDONS"
 msgid "DEFAULT_LANGUAGE"
 msgstr "DEFAULT_LANGUAGE"
 
@@ -5181,8 +5146,6 @@ msgstr ""
 "присутствовать в базе данных."
 
 #: ../../admin/config.rst:526
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-merge_style`"
 msgid ":ref:`languages`, :ref:`component-source_language`"
 msgstr ":ref:`languages`, :ref:`component-source_language`"
 
@@ -5431,19 +5394,14 @@ msgid "HIDE_REPO_CREDENTIALS"
 msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:744
-#, fuzzy
-#| msgid ""
-#| "Hide repository credentials from appearing in the web interface. In case "
-#| "you have repository URL with user and password, Weblate will hide it when "
-#| "related info is shown to users."
 msgid ""
 "Hide repository credentials from the web interface. In case you have "
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
-"Скрыть учётные данные репозитория от появления в веб-интерфейсе. В случае, "
-"если в URL репозитория содержится пользователь и пароль, Weblate спрячет их, "
-"когда соответствующая информация будет показываться пользователям."
+"Скрыть учётные данные репозитория в веб-интерфейсе. В случае, если в URL "
+"репозитория содержится пользователь и пароль, Weblate спрячет их, когда "
+"соответствующая информация будет показываться пользователям."
 
 #: ../../admin/config.rst:748
 msgid ""
@@ -5460,8 +5418,6 @@ msgid "This is turned on by default."
 msgstr "По умолчанию этот параметр включён."
 
 #: ../../admin/config.rst:759
-#, fuzzy
-#| msgid "MT_DEEPL_API_VERSION"
 msgid "HIDE_VERSION"
 msgstr "HIDE_VERSION"
 
@@ -5759,10 +5715,6 @@ msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:999
-#, fuzzy
-#| msgid ""
-#| "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
-#| "users are allowed to access the login page."
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign in page."
@@ -6393,8 +6345,6 @@ msgstr ""
 "профиле <user-profile>`."
 
 #: ../../admin/config.rst:1474
-#, fuzzy
-#| msgid "GITHUB_CREDENTIALS"
 msgid "PAGURE_CREDENTIALS"
 msgstr "PAGURE_CREDENTIALS"
 
@@ -6413,8 +6363,6 @@ msgstr ""
 "как при использовании :setting:`PAGURE_USERNAME` и :setting:`PAGURE_TOKEN`."
 
 #: ../../admin/config.rst:1501
-#, fuzzy
-#| msgid "GITHUB_USERNAME"
 msgid "PAGURE_USERNAME"
 msgstr "PAGURE_USERNAME"
 
@@ -6425,14 +6373,10 @@ msgstr ""
 "обновления перевода."
 
 #: ../../admin/config.rst:1509
-#, fuzzy
-#| msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
 msgstr ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
 
 #: ../../admin/config.rst:1515
-#, fuzzy
-#| msgid "GITHUB_TOKEN"
 msgid "PAGURE_TOKEN"
 msgstr "PAGURE_TOKEN"
 
@@ -6667,28 +6611,24 @@ msgstr ""
 "репозиториев, содержащих слишком много изменений. По умолчанию равен 25."
 
 #: ../../admin/config.rst:1683
-#, fuzzy
 msgid "REQUIRE_LOGIN"
 msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1687
-#, fuzzy
-#| msgid ""
-#| "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework "
-#| "to require login for all API endpoints."
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require sign in for all API endpoints."
 msgstr ""
-"Этот параметр включает :setting:`LOGIN_REQUIRED_URLS` и настраивает сервер "
-"так, что все он будет запрашивать авторизацию пользователя для всех REST API-"
-"вызовов."
+"Этот параметр включает :setting:`LOGIN_REQUIRED_URLS` и настраивает его так, "
+"что будет запрашиваться авторизация пользователя для всех API-вызовов REST."
 
 #: ../../admin/config.rst:1692
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"Этот параметр реализован в :ref:`примере конфигурации <sample-configuration>`"
+". В Docker'е используйте переменную. :envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/config.rst:1698
 msgid "SENTRY_DSN"
@@ -6707,7 +6647,6 @@ msgstr ""
 "django/>`_"
 
 #: ../../admin/config.rst:1711
-#, fuzzy
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
 msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
@@ -6721,8 +6660,6 @@ msgstr ""
 "используется для неаутентифицированных пользователей."
 
 #: ../../admin/config.rst:1720
-#, fuzzy
-#| msgid ":setting:`django:SECRET_KEY`"
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
 msgstr ":setting:`django:SESSION_COOKIE_AGE`"
 
@@ -6865,17 +6802,10 @@ msgstr ""
 "умолчанию установлен в ``None`, что означает отсутствие удалений."
 
 #: ../../admin/config.rst:1836
-#, fuzzy
-#| msgid "SIMPLIFY_LANGUAGES"
 msgid "UPDATE_LANGUAGES"
 msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1840
-#, fuzzy
-#| msgid ""
-#| "Controls whether languages database should be updated when running "
-#| "database migration and is enabled by default. This setting has not effect "
-#| "on invocation of :djadmin:`setuplang`."
 msgid ""
 "Controls whether languages database should be updated when running database "
 "migration and is enabled by default. This setting has no effect on "
@@ -6886,8 +6816,6 @@ msgstr ""
 "выполнение :djadmin:`setuplang`."
 
 #: ../../admin/config.rst:1846
-#, fuzzy
-#| msgid ":ref:`invoke-manage`"
 msgid ":ref:`included-languages`"
 msgstr ":ref:`included-languages`"
 
@@ -7003,11 +6931,6 @@ msgstr ""
 "то , вероятно, вы захотите оставалить эти дополнения включёнными, например:"
 
 #: ../../admin/config.rst:1968
-#, fuzzy
-#| msgid ""
-#| "Removing the addon from the list does not uninstall it from the "
-#| "components. Weblate will crash in that case. Please uninstall addon form "
-#| "all components prior to removing it from this list."
 msgid ""
 "Removing the addon from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall addon from all components "
@@ -7018,8 +6941,6 @@ msgstr ""
 "компонентов прежде чем удалять его из данного списка."
 
 #: ../../admin/config.rst:1974
-#, fuzzy
-#| msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 
@@ -27791,12 +27712,6 @@ msgstr ""
 "`pybabel`_."
 
 #: ../../devel/gettext.rst:104
-#, fuzzy
-#| msgid ""
-#| "This creates a template file, which you can use for starting new "
-#| "translations (using :program:`msginit`) or updating existing ones after "
-#| "code change (you would use :program:`msgmerge` for that). The resulting "
-#| "file is simply a structured text file:"
 msgid ""
 "This creates a template file, which you can use for starting new "
 "translations (using `msginit`_) or updating existing ones after code change "
@@ -27804,10 +27719,10 @@ msgid ""
 "structured text file:"
 msgstr ""
 "После этого вызова создастся шаблонный файл, который можно использовать для "
-"начала новых переводов (используя программу :program:`msginit`) или "
-"обновления существующих после изменения кода (для этого можно использовать "
-"программу :program:`msgmerge`). В результате получается простой "
-"структурированный текстовый файл:"
+"начала новых переводов (используя программу `msginit`_) или обновления "
+"существующих после изменения кода (для этого можно использовать программу "
+"`msgmerge`_). В результате получается простой структурированный текстовый "
+"файл:"
 
 #: ../../devel/gettext.rst:142
 msgid ""
