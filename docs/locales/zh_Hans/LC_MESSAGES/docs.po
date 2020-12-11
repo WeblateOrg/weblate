@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-10 21:03+0100\n"
 "PO-Revision-Date: 2020-12-11 14:52+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1079,10 +1079,8 @@ msgstr ""
 
 #: ../../admin/addons.rst:72 ../../admin/addons.rst:85
 #: ../../admin/addons.rst:305 ../../admin/addons.rst:395
-#, fuzzy
-#| msgid ":ref:`acl`"
 msgid ":ref:`faq-cleanup`"
-msgstr ":ref:`acl`"
+msgstr ":ref:`faq-cleanup`"
 
 #: ../../admin/addons.rst:77
 msgid "Cleanup translation files"
@@ -1394,16 +1392,12 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "更新 PO 文件以匹配 POT 文件 (msgmerge)"
 
 #: ../../admin/addons.rst:296
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files (as configured :ref:`component-filemask`) to match "
-#| "the POT file (as configured by :ref:`component-new_base`) using msgmerge."
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using msgmerge."
 msgstr ""
-"使用 msgmerge 来更新所有的 PO 文件（如配置 :ref:`component-filemask`），而与 "
-"POT 文件（如由 :ref:`component-new_base`配置）匹配。"
+"使用 msgmerge 来更新所有的 PO 文件（如 :ref:`component-filemask` 所配置），而与 POT 文件（如 :ref"
+":`component-new_base` 所配置）匹配。"
 
 #: ../../admin/addons.rst:299
 msgid ""
@@ -3710,20 +3704,13 @@ msgid "Managing fonts"
 msgstr "管理字型"
 
 #: ../../admin/checks.rst:229
-#, fuzzy
-#| msgid ""
-#| "The :ref:`check-max-size` check used to calculate dimensions of the "
-#| "rendered text needs font info to be selected, which can be done in the "
-#| "Weblate font management tool in :guilabel:`Fonts` under the :guilabel:"
-#| "`Manage` menu of your translation project."
 msgid ""
 "The :ref:`check-max-size` check used to calculate dimensions of the rendered "
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
-"用于计算提交文本尺寸的 :ref:`check-max-size` 检查，需要选择字型信息，这可以在"
-"翻译项目菜单 :guilabel:`Manage` 下的 Weblate 字型管理工具 :guilabel:`Fonts` "
-"中实现。"
+"用于计算呈现文本需要的尺寸的 :ref: ' check-max-size '检查需要字体被加载进 Weblate 并被一个翻译标识选中 (见 :ref"
+":`custom-checks`)。"
 
 #: ../../admin/checks.rst:233
 msgid ""
@@ -4873,18 +4860,11 @@ msgid "HIDE_REPO_CREDENTIALS"
 msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:744
-#, fuzzy
-#| msgid ""
-#| "Hide repository credentials from appearing in the web interface. In case "
-#| "you have repository URL with user and password, Weblate will hide it when "
-#| "related info is shown to users."
 msgid ""
 "Hide repository credentials from the web interface. In case you have "
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
-msgstr ""
-"隐藏仓库证明避免出现在 web 网站界面中。在仓库 URL 带有用户名和密码的情况下， "
-"Weblate 会在相关信息显示给用户时将其隐藏起来。"
+msgstr "隐藏仓库凭据避免出现在 web 界面中。在仓库 URL 带有用户名和密码的情况下， Weblate 会在相关信息显示给用户时将其隐藏起来。"
 
 #: ../../admin/config.rst:748
 msgid ""
@@ -5167,16 +5147,10 @@ msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:999
-#, fuzzy
-#| msgid ""
-#| "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
-#| "users are allowed to access the login page."
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign in page."
-msgstr ""
-"用于 :setting:`LOGIN_REQUIRED_URLS` 的例外列表。如果不指定，可以允许用户访问"
-"登录页。"
+msgstr "用于 :setting:`LOGIN_REQUIRED_URLS` 的例外列表。如果未指定，则允许用户访问登录页。"
 
 #: ../../admin/config.rst:1002
 msgid "Some of exceptions you might want to include:"
@@ -5999,28 +5973,18 @@ msgid "REQUIRE_LOGIN"
 msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1687
-#, fuzzy
-#| msgid ""
-#| "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework "
-#| "to require login for all API endpoints."
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require sign in for all API endpoints."
-msgstr ""
-"这启动了 :setting:`LOGIN_REQUIRED_URLS` 并配置 REST 框架，对所有 API 端点需要"
-"登录。"
+msgstr "这会启用 :setting:`LOGIN_REQUIRED_URLS` 并配置 REST 框架，对所有 API 端点都要求登录。"
 
 #: ../../admin/config.rst:1692
-#, fuzzy
-#| msgid ""
-#| "This is in implemented in the :ref:`sample-configuration`. For Docker, "
-#| "use :envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
-"这应用于 :ref:`sample-configuration`。对于 Docker，使用 :envvar:"
-"`WEBLATE_REQUIRE_LOGIN`。"
+"这实现在 :ref:`sample-configuration`中。对于 Docker，使用 "
+":envvar:`WEBLATE_REQUIRE_LOGIN`。"
 
 #: ../../admin/config.rst:1698
 msgid "SENTRY_DSN"
@@ -6179,18 +6143,11 @@ msgid "UPDATE_LANGUAGES"
 msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1840
-#, fuzzy
-#| msgid ""
-#| "Controls whether languages database should be updated when running "
-#| "database migration and is enabled by default. This setting has not effect "
-#| "on invocation of :djadmin:`setuplang`."
 msgid ""
 "Controls whether languages database should be updated when running database "
 "migration and is enabled by default. This setting has no effect on "
 "invocation of :djadmin:`setuplang`."
-msgstr ""
-"控制当运行数据库合并时语言数据库是否更新，并且默认启动。这个设置对于:djadmin:"
-"`setuplang`的调用无效。"
+msgstr "控制在运行数据库迁移时是否应该更新语言数据库并在默认情况下启用。这个设置对 :djadmin: `setuplang` 的调用没有影响。"
 
 #: ../../admin/config.rst:1846
 msgid ":ref:`included-languages`"
@@ -6734,13 +6691,6 @@ msgid ""
 msgstr "推送选项根据使用的 :ref:`vcs` 而不同，更多细节可以在那个章节中找到。"
 
 #: ../../admin/continuous.rst:272
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support for :"
-#| "ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or :"
-#| "ref:`vcs-gerrit` reviews, you can activate these by choosing :guilabel:"
-#| "`GitHub`, :guilabel:`GitLab` or :guilabel:`Gerrit` as :ref:`component-"
-#| "vcs` in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support for :ref:"
 "`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-pagure` pull requests or :ref:"
@@ -6748,10 +6698,10 @@ msgid ""
 "`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or :guilabel:`Pagure` as :"
 "ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"在不想由 Weblate 直接推送的情况下，对 :ref:`vcs-github` 、 :ref:`vcs-"
-"gitlab`、 :ref:`vcs-pagure`的拉取请求或 :ref:`vcs-gerrit` 复查有支持，可以通"
-"过选择 :guilabel:`GitHub` 、 :guilabel:`GitLab` 或 :guilabel:`Gerrit` 作为 :"
-"ref:`component` 中的 :ref:`component-vcs` 来激活。"
+"如果不想要 Weblate 的直接推送，系统也支持 :ref:`vcs-github` 、 :ref:`vcs-gitlab`、 :ref:`vcs-"
+"pagure`的拉取请求或 :ref:`vcs-gerrit` 审核。 你可以通过在 :ref:`component` 中选择 "
+":guilabel:`GitHub` 、 :guilabel:`GitLab` 、 :guilabel:`Gerrit` 或 "
+":guilabel:`Pagure` 作为 :ref:`component-vcs` 来激活这些。"
 
 #: ../../admin/continuous.rst:278
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -7160,16 +7110,10 @@ msgid "Changing the logo"
 msgstr "更改 Logo"
 
 #: ../../admin/customize.rst:78
-#, fuzzy
-#| msgid ""
-#| "1. Create a simple Django app containing the static files you want to "
-#| "overwrite (see :ref:`custom-module`)."
 msgid ""
 "Create a simple Django app containing the static files you want to overwrite "
 "(see :ref:`custom-module`)."
-msgstr ""
-"1. 建立简单的 Django app 来包含想要覆盖的静态文件（请参见 :ref:`custom-"
-"module` ）。"
+msgstr "建立简单的 Django app 来包含想要覆盖的静态文件（请参见 :ref:`custom-module` ）。"
 
 #: ../../admin/customize.rst:81
 msgid "Branding appears in the following files:"
@@ -7279,22 +7223,16 @@ msgid ""
 msgstr "Weblate 可以容易地安装到你的云中。请针对你的平台找到具体的指南："
 
 #: ../../admin/deployments.rst:8
-#, fuzzy
-#| msgid ":doc:`install/venv-debian`"
 msgid ":doc:`install/docker`"
-msgstr ":doc:`install/venv-debian`"
+msgstr ":doc:`install/docker`"
 
 #: ../../admin/deployments.rst:9 ../../admin/install.rst:36
-#, fuzzy
-#| msgid ":doc:`install/venv-redhat`"
 msgid ":doc:`install/openshift`"
-msgstr ":doc:`install/venv-redhat`"
+msgstr ":doc:`install/openshift`"
 
 #: ../../admin/deployments.rst:10 ../../admin/install.rst:37
-#, fuzzy
-#| msgid ":doc:`install/venv-redhat`"
 msgid ":doc:`install/kubernetes`"
-msgstr ":doc:`install/venv-redhat`"
+msgstr ":doc:`install/kubernetes`"
 
 #: ../../admin/deployments.rst:13
 msgid "Helm Chart"
@@ -7367,10 +7305,8 @@ msgid ""
 msgstr "根据你的设置和经验，为你选择适当的安装方法："
 
 #: ../../admin/install.rst:25
-#, fuzzy
-#| msgid ":ref:`quick-docker`, recommended for production setups."
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ":ref:`quick-docker` ， 推荐用于产品设置。"
+msgstr ":doc:`install/docker`, 推荐用于生产安装。"
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
@@ -7393,10 +7329,8 @@ msgid ":doc:`install/venv-macos`"
 msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:34
-#, fuzzy
-#| msgid ":ref:`quick-source`, recommended for development."
 msgid ":doc:`install/source`, recommended for development."
-msgstr ":ref:`quick-source` ，推荐用于开发。"
+msgstr ":doc:`install/source`, 推荐用于开发。"
 
 #: ../../admin/install.rst:42
 msgid "Software requirements"
@@ -7648,19 +7582,10 @@ msgid "https://github.com/licensee/licensee"
 msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:135
-#, fuzzy
-#| msgid "Compile time dependencies"
 msgid "Build-time dependencies"
-msgstr "编译时间依赖性"
+msgstr "构建时的依赖"
 
 #: ../../admin/install.rst:137
-#, fuzzy
-#| msgid ""
-#| "To compile some of the :ref:`python-deps` you might need to install their "
-#| "dependencies. This depends on how you install them, so please consult "
-#| "individual packages for documentation. You won't need those if using "
-#| "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
-#| "distribution packages."
 msgid ""
 "To build some of the :ref:`python-deps` you might need to install their "
 "dependencies. This depends on how you install them, so please consult "
@@ -7668,9 +7593,8 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
-"为了编译一些 :ref:`python-deps` ，会需要安装其依赖性。这依赖于如何安装它们，"
-"因此请每个独立包的文件。如果使用 ``pip`` 安装或使用发布包而使用预编译的 "
-"``Wheels`` 时不会需要那些。"
+"为了构建一些 :ref:`python-deps` ，你可能需要安装其依赖库。这取决于你如何安装它们，因此请参考单独包的文档。如果你使用预编译 "
+"``Wheels`` 并使用 ``pip`` 安装或使用分发包时，你不会需要那些。"
 
 #: ../../admin/install.rst:145
 msgid "Pango and Cairo"
@@ -7901,13 +7825,6 @@ msgid "The :file:`settings.py` snippet for PostgreSQL:"
 msgstr "PostgreSQL 的 :file:`settings.py` 片段："
 
 #: ../../admin/install.rst:385
-#, fuzzy
-#| msgid ""
-#| "The migration code assumes that the role name matches username used while "
-#| "authenticating, in case it is not, please setting ``ALTER_ROLE``. "
-#| "Otherwise you get PostgreSQL error about not existing role during the "
-#| "database migration (``psycopg2.errors.UndefinedObject: role "
-#| "\"weblate@hostname\" does not exist``)."
 msgid ""
 "The migration code assumes that the role name matches username used while "
 "authenticating, in case it is not, please set ``ALTER_ROLE``. Otherwise you "
@@ -7915,10 +7832,9 @@ msgid ""
 "(``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" does not "
 "exist``)."
 msgstr ""
-"迁移代码假定角色名称与身份验证时使用的用户名匹配，在不匹配的情况下，请设置"
-"``ALTER_ROLE``。否则会在数据库迁移过程中得到惧色不存在的 PostgreSQL 错误"
-"（``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" does not "
-"exist``）。"
+"迁移代码假定角色名称与身份验证时使用的用户名匹配，在不匹配的情况下，请设置``ALTER_ROLE``。否则会在数据库迁移过程中得到惧色不存在的 "
+"PostgreSQL 错误（``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" "
+"does not exist``）。"
 
 #: ../../admin/install.rst:393
 msgid "MySQL and MariaDB"
@@ -9647,8 +9563,6 @@ msgstr ""
 "息。"
 
 #: ../../admin/install/docker.rst:197
-#, fuzzy
-#| msgid "Admin login"
 msgid "Admin sign in"
 msgstr "管理员登录"
 
@@ -9901,27 +9815,17 @@ msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:440
-#, fuzzy
-#| msgid ""
-#| "Configures login required for the whole of the Weblate installation "
-#| "using :setting:`LOGIN_REQUIRED_URLS`."
 msgid ""
 "Configures sign in required for the whole of the Weblate installation using :"
 "setting:`LOGIN_REQUIRED_URLS`."
-msgstr ""
-"使用 :setting:`LOGIN_REQUIRED_URLS` 来配置整个 Weblate 安装所需要的登录。"
+msgstr "使用 :setting:`LOGIN_REQUIRED_URLS` 来配置整个 Weblate 安装所需要的登录。"
 
 #: ../../admin/install/docker.rst:453
-#, fuzzy
-#| msgid ""
-#| "Adds URL exceptions for login required for the whole Weblate installation "
-#| "using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgid ""
 "Adds URL exceptions for sign in required for the whole Weblate installation "
 "using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
-"使用 :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 来添加整个 Weblate 安装所需要"
-"的 URL 例外。"
+"使用 :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 来添加整个 Weblate 安装所需要的登录添加 URL 例外。"
 
 #: ../../admin/install/docker.rst:455
 msgid ""
@@ -10751,39 +10655,24 @@ msgstr ""
 "Amazon AWS，Greenhost 和许多其他提供商上创建 Weblate 部署。"
 
 #: ../../admin/install/kubernetes.rst:2
-#, fuzzy
-#| msgid "Installing on OpenShift"
 msgid "Installing on Kubernetes"
-msgstr "在 OpenShift 上安装"
+msgstr "在 Kubernetes 上安装"
 
 #: ../../admin/install/kubernetes.rst:6
-#, fuzzy
-#| msgid ""
-#| "This guide is looking for contributors experienced with OpenShift, see "
-#| "<https://github.com/WeblateOrg/weblate/issues/2889>."
 msgid ""
 "This guide is looking for contributors experienced with Kubernetes to cover "
 "the setup in more details."
-msgstr ""
-"本手册寻找有 OpenShift 经验的贡献者，请参见 <https://github.com/WeblateOrg/"
-"weblate/issues/2889> 。"
+msgstr "本手册寻找有 Kubernetes 经验的贡献者来详细介绍安装过程。"
 
 #: ../../admin/install/kubernetes.rst:9
-#, fuzzy
-#| msgid ""
-#| "With the OpenShift Weblate template you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate’s dependencies are "
-#| "already included. PostgreSQL is set up as the default database and "
-#| "persistent volume claims are used."
 msgid ""
 "With the Kubernetes Helm chart you can get your personal Weblate instance up "
 "and running in seconds. All of Weblate’s dependencies are already included. "
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
-"使用OpenShift Weblate模板，您可以在几秒钟内启动并运行您的个人Weblate实例。"
-"Weblate的所有依赖项都已经包含在内。PostgreSQL被设置为默认数据库，并且使用持久"
-"化卷声明。"
+"凭借 Kubernetes Helm 图表，您可以在几秒钟内启动并运行您的个人Weblate实例。Weblate的所有依赖项都已经包含在内。Postgre"
+"SQL被设置为默认数据库，并且使用持久化卷声明。"
 
 #: ../../admin/install/kubernetes.rst:14
 msgid ""
@@ -10807,12 +10696,9 @@ msgstr ""
 "化卷声明。"
 
 #: ../../admin/install/openshift.rst:9
-#, fuzzy
-#| msgid ""
-#| "You can find the teplate at <https://github.com/WeblateOrg/openshift/>."
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
-msgstr "你可以在 <https://github.com/WeblateOrg/openshift/> 上找到模板。"
+msgstr "你可以在 <https://github.com/WeblateOrg/openshift/> 找到模板。"
 
 #: ../../admin/install/openshift.rst:14
 msgid ""
@@ -12397,16 +12283,12 @@ msgid "In case you need to pass it a file, you can temporary add a volume:"
 msgstr "在您需要向它传递文件的情况下，您可以临时添加卷："
 
 #: ../../admin/management.rst:72
-#, fuzzy
-#| msgid ""
-#| ":ref:`quick-docker`, :doc:`install/venv-debian`, :doc:`install/venv-"
-#| "suse`, :doc:`install/venv-redhat`"
 msgid ""
 ":doc:`install/docker`, :doc:`install/venv-debian`, :doc:`install/venv-"
 "suse`, :doc:`install/venv-redhat`, :doc:`install/source`"
 msgstr ""
-":ref:`quick-docker`, :doc:`install/venv-debian`, :doc:`install/venv-suse`, :"
-"doc:`install/venv-redhat`"
+":doc:`install/docker`, :doc:`install/venv-debian`, :doc:`install/venv-suse`, "
+":doc:`install/venv-redhat`, :doc:`install/source`"
 
 #: ../../admin/management.rst:80
 msgid "add_suggestions"
@@ -13490,18 +13372,13 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "服务条款与隐私政策的简短概况"
 
 #: ../../admin/optionals.rst:118
-#, fuzzy
-#| msgid ""
-#| "Legal documents for the Hosted Weblate service is available in this Git "
-#| "repository <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/"
-#| "legal/templates/legal/documents>."
 msgid ""
 "Legal documents for the Hosted Weblate service is available in this Git "
 "repository <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/"
 "templates/legal/documents>."
 msgstr ""
-"运行 Weblate 服务的法律文档在这个 Git 仓库 <https://github.com/WeblateOrg/"
-"hosted/tree/master/wlhosted/legal/templates/legal/documents> 中获得。"
+"可以在这个 Git 仓库 <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/"
+"legal/templates/legal/documents> 中找到 Hosted Weblate 服务的法律文档。"
 
 #: ../../admin/optionals.rst:121
 msgid ""
@@ -13709,8 +13586,6 @@ msgid "``MESSAGE``"
 msgstr "``MESSAGE``"
 
 #: ../../admin/optionals.rst:246
-#, fuzzy
-#| msgid "Password authentication on login"
 msgid "Password authentication on sign in"
 msgstr "登录时的密码验证"
 
@@ -13769,10 +13644,8 @@ msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
 
 #: ../../admin/optionals.rst:261
-#, fuzzy
-#| msgid ":ref:`user-rate`, :ref:`reverse-proxy`"
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
-msgstr ":ref:`user-rate`, :ref:`reverse-proxy`"
+msgstr ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
@@ -13991,10 +13864,8 @@ msgstr ""
 "个项目中的所有组件（除非在组件配置中关闭），请参见 :ref:`memory`。"
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:252
-#, fuzzy
-#| msgid ":doc:`venv-debian`"
 msgid ":doc:`/devel/integration`"
-msgstr ":doc:`venv-debian`"
+msgstr ":doc:`/devel/integration`"
 
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
@@ -14554,8 +14425,6 @@ msgid "Suggestion voting"
 msgstr "建议投票"
 
 #: ../../admin/projects.rst:497
-#, fuzzy
-#| msgid "Turns on votecasting for suggestions, see :ref:`voting`."
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
 msgstr "为建议打开投票，请参见 :ref:`voting`。"
 
@@ -14804,21 +14673,14 @@ msgid ""
 msgstr "用于源字符串的语言。如果您要翻译的不是英语，请更改此选项。"
 
 #: ../../admin/projects.rst:664
-#, fuzzy
-#| msgid ""
-#| "In case you are translating bilingual files from English, but want to be "
-#| "able to do fixes in the English translation as well, you might want to "
-#| "choose :guilabel:`English (Developer)` as a source language. To avoid "
-#| "conflict between name of the source language and existing translation."
 msgid ""
 "In case you are translating bilingual files from English, but want to be "
 "able to do fixes in the English translation as well, you might want to "
 "choose :guilabel:`English (Developer)` as a source language to avoid "
 "conflict between name of the source language and existing translation."
 msgstr ""
-"在您翻译来自英语的双语言文件，但想要能够在英语翻译中进行修复的情况下，您会想"
-"要选择 :guilabel:`English (Developer)` 作为源语言。为了避免源语言名称与现有翻"
-"译的冲突。"
+"如果你正在从英语翻译双语文件，但又希望能够在英语翻译中进行修复，你也许会想要选择 :guilabel:`English (Developer)` "
+"作为一种源语言以避免源语言和现有翻译之间名称上的冲突。"
 
 #: ../../admin/projects.rst:669
 msgid ""
@@ -15453,20 +15315,13 @@ msgid "Additional info on source strings"
 msgstr "源字符串另外的信息"
 
 #: ../../admin/translating.rst:43
-#, fuzzy
-#| msgid ""
-#| "Enhance the translation process with info available in the translation "
-#| "files. This includes explanation, string priority, check flags, or "
-#| "providing visual context.  All these features can be set in the :ref:"
-#| "`source-review`:"
 msgid ""
 "Enhance the translation process with info available in the translation "
 "files. This includes explanation, string priority, check flags, or providing "
 "visual context. All these features can be set while editing additional "
 "string info:"
 msgstr ""
-"通过翻译文件中可用的信息来增强翻译过程。这包括解释，字符串优先，检查标记或提"
-"供可见的语境。所有这些特性可以在 :ref:`source-review` 中设置："
+"使用翻译文件中可用的信息来增强翻译过程。这包括解释、字符串优先级、检查标记或提供视觉上下文语境。所有这些特性可以在 编辑额外的字符串信息时进行设置："
 
 #: ../../admin/translating.rst:49
 msgid ""
@@ -15545,19 +15400,13 @@ msgid "The uploaded screenshot is shown in the translation context sidebar:"
 msgstr "上传的截屏在翻译语境的侧边条中显示："
 
 #: ../../admin/translating.rst:109
-#, fuzzy
-#| msgid ""
-#| "In addition to :ref:`source-review`, screenshots have a separate "
-#| "management interface under the :guilabel:`Tools` menu. Upload "
-#| "screenshots, assign them to source strings manually, or use optical "
-#| "character recognition to do so."
 msgid ""
 "In addition to :ref:`additional`, screenshots have a separate management "
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
-"除了 :ref:`source-review`，截屏在 :guilabel:`Tools` 菜单下有个分离的管理界"
-"面。上传截屏，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行。"
+"additional除了 :ref:`additional`，截屏在 :guilabel:`Tools` "
+"菜单下有个单独的管理界面。上传截屏，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行。"
 
 #: ../../admin/translating.rst:114
 msgid ""
@@ -15574,16 +15423,10 @@ msgid "Docker image upgrades"
 msgstr "Docker 映像升级"
 
 #: ../../admin/upgrade.rst:7
-#, fuzzy
-#| msgid ""
-#| "The official Docker image (see :ref:`quick-docker`) has all upgrade steps "
-#| "integrated. There are no manual step besides pulling latest version."
 msgid ""
 "The official Docker image (see :doc:`install/docker`) has all upgrade steps "
 "integrated. There are no manual step besides pulling latest version."
-msgstr ""
-"官方 Docker 映像（请参见 :ref:`quick-docker`）已经将所有升级步骤集成了。除了"
-"拉取最新的版本外没有手动步骤。"
+msgstr "官方 Docker 映像（请参见 :doc:`install/docker`）已经将所有升级步骤集成了。除了拉取最新的版本外没有手动步骤。"
 
 #: ../../admin/upgrade.rst:13
 msgid "Generic upgrade instructions"
@@ -15995,10 +15838,8 @@ msgid "Weblate should be now ready to run from the PostgreSQL database."
 msgstr "现在 Weblate 应该准备好从 PostgreSQL 数据库运行了。"
 
 #: ../../admin/upgrade.rst:293
-#, fuzzy
-#| msgid "Migrating to PotsgreSQL using pgloader"
 msgid "Migrating to PostgreSQL using pgloader"
-msgstr "使用 pgloader 来迁移到 PostgreSQL"
+msgstr "使用 pgloader 迁移到 PostgreSQL"
 
 #: ../../admin/upgrade.rst:295
 msgid ""
@@ -16214,10 +16055,8 @@ msgid "**CURL JSON example:**"
 msgstr "**CURL JSON 示例：**"
 
 #: ../../api.rst:149
-#, fuzzy
-#| msgid "Rate limiting"
 msgid "API rate limiting"
-msgstr "频次限制"
+msgstr "API 频次限制"
 
 #: ../../api.rst:151
 msgid ""
@@ -16271,10 +16110,8 @@ msgid "Added ratelimiting status headers."
 msgstr "添加速率限制状态的标头。"
 
 #: ../../api.rst:175
-#, fuzzy
-#| msgid ":ref:`rate-limit`,"
 msgid ":ref:`rate-limit`, :ref:`user-rate`"
-msgstr ":ref:`rate-limit` ，"
+msgstr ":ref:`rate-limit`, :ref:`user-rate`"
 
 #: ../../api.rst:180
 msgid "API Entry Point"
@@ -18084,10 +17921,8 @@ msgid "Changes the glossary parameters."
 msgstr "更改词汇表参数。"
 
 #: ../../api.rst:2272
-#, fuzzy
-#| msgid "Deletes the Glossary."
 msgid "Deletes the glossary."
-msgstr "删除词汇表。"
+msgstr "删除该术语。"
 
 #: ../../api.rst:2279
 msgid "Returns projects linked with a glossary."
@@ -22124,10 +21959,8 @@ msgid "Added extensive group based ACLs."
 msgstr "添加了基于 ACLs 的扩展组。"
 
 #: ../../changes.rst:1155
-#, fuzzy
-#| msgid "Clarified terminology on strings needing review (formerly fuzzy)."
 msgid "Clarified terminology on strings needing edit (formerly fuzzy)."
-msgstr "明确了需要复查的字符串的术语（以前被称为 fuzzy，即模糊）。"
+msgstr "阐明了需要编辑的字符串的术语（以前被称为 fuzzy，即模糊）。"
 
 #: ../../changes.rst:1156
 msgid ""
@@ -24416,28 +24249,20 @@ msgid "Set final version by :command:`./scripts/prepare-release`."
 msgstr "由 :command:`./scripts/prepare-release` 来设置最终版本。"
 
 #: ../../contributing/release.rst:32
-#, fuzzy
-#| msgid ""
-#| "Make sure screenshots are up to date :command:`make -C docs update-"
-#| "screenshots`"
 msgid ""
 "Make sure screenshots are up to date :command:`make -C docs update-"
 "screenshots`."
-msgstr "由 :command:`make -C docs update-screenshots` 确定屏幕截图是最新的"
+msgstr "确保截图是最新的 :command:`make -C docs update-screenshots`。"
 
 #: ../../contributing/release.rst:34
 msgid "Perform the release:"
 msgstr "执行发布："
 
 #: ../../contributing/release.rst:36
-#, fuzzy
-#| msgid ""
-#| "Create a release :command:`./scripts/create-release --tag` (see below for "
-#| "requirements)"
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)."
-msgstr "创建发布 :command:`./scripts/create-release --tag` （要求请参见下面）"
+msgstr "创建一个发布 :command:`./scripts/create-release --tag` （要求请参见下面）。"
 
 #: ../../contributing/release.rst:38
 msgid "Post release manual steps:"
@@ -25067,10 +24892,8 @@ msgid "To run test (see :ref:`local-tests` for more details):"
 msgstr "运行测试 （更多细节见：:ref:`local-tests`）"
 
 #: ../../contributing/start.rst:67
-#, fuzzy
-#| msgid ":doc:`../admin/upgrade`"
 msgid ":doc:`../admin/install/source`"
-msgstr ":doc:`../admin/upgrade`"
+msgstr ":doc:`../admin/install/source`"
 
 #: ../../contributing/start.rst:72
 msgid "Running Weblate locally in Docker"
@@ -25805,10 +25628,8 @@ msgid "Weblate basics"
 msgstr ""
 
 #: ../../snippets/basics.rst:5
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Projects and components structure"
-msgstr "没有组件的项目"
+msgstr "项目和组件架构"
 
 #: ../../snippets/basics.rst:7
 msgid ""
@@ -25829,10 +25650,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "Starting contributing code to Weblate"
 msgid "Importing localization project into Weblate"
-msgstr "开始为 Weblate 贡献代码"
+msgstr "正在将本地化项目导入 Weblate"
 
 #: ../../devel/integration.rst:9
 msgid ""
@@ -25849,10 +25668,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:19
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
-msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
+msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:23
 msgid "Getting translations updates from Weblate"
@@ -25903,10 +25720,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:56
-#, fuzzy
-#| msgid "Add new string"
 msgid "Adding new strings"
-msgstr "添加新字符串"
+msgstr "正在添加新字符串"
 
 #: ../../devel/integration.rst:58
 msgid ""
@@ -25929,16 +25744,12 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:68
-#, fuzzy
-#| msgid ""
-#| "URL to strings list; see :http:get:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/units/`"
 msgid ""
 "Programatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"字符串列表的 URL；请参见 :http:get:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/units/`"
+"程序化地使用 API :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:69
 msgid ""
@@ -26645,10 +26456,8 @@ msgid ":doc:`html`"
 msgstr ":doc:`html`"
 
 #: ../../devel/starting.rst:85
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":doc:`integration`, :ref:`continuous-translation`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ":doc:`integration`, :ref:`continuous-translation`"
 
 #: ../../devel/translations.rst:2
 msgid "Managing translations"
@@ -29315,10 +29124,8 @@ msgid "Main class for invoking commands."
 msgstr ""
 
 #: ../../user/basic.rst:5
-#, fuzzy
-#| msgid ":doc:`../admin/upgrade`"
 msgid ":doc:`../devel/integration`"
-msgstr ":doc:`../admin/upgrade`"
+msgstr ":doc:`../devel/integration`"
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -33172,20 +32979,14 @@ msgid "Needs editing"
 msgstr "需要编辑"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a fuzzy "
-#| "flag)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change. The translation is stored in the file, depending on the file format "
 "it might be marked as needing edit (for example as it gets a fuzzy flag in "
 "the Gettext file)."
 msgstr ""
-"翻译需要编辑，这通常是源字符串更改的结果。转换文件存储在文件中，具体取决于文"
-"件格式，它可能被标记为需要编辑（例如，当它获得 fuzzy 标志时）。"
+"翻译需要编辑，这通常是源字符串更改的结果。翻译存储在文件中，具体取决于文件格式，它可能被标记为需要编辑（例如，当它在 Gettext "
+"文件中获得一个fuzzy 标志）。"
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
