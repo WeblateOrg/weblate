@@ -22,6 +22,8 @@ Not yet released.
 * Added tasks API.
 * Improved file upload performance.
 * Improved display of user defined special characters.
+* Improved auto translate performance.
+* Several minor user interface improvements.
 
 Weblate 4.3.2
 -------------
