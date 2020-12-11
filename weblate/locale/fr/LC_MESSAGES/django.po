@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-12-09 08:34+0000\n"
+"PO-Revision-Date: 2020-12-11 14:51+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -5274,9 +5274,6 @@ msgid "Plan"
 msgstr "Offre"
 
 #: weblate/templates/billing/list.html:11
-#, fuzzy
-#| msgctxt "Number of hosted words"
-#| msgid "Hosted words"
 msgid "Hosted words"
 msgstr "Mots hébergés"
 
@@ -7295,8 +7292,6 @@ msgid "Add backup service"
 msgstr "Ajouter un service de sauvegarde"
 
 #: weblate/templates/manage/billing.html:15
-#, fuzzy
-#| msgid "Commerial"
 msgid "Commercial"
 msgstr "Commercial"
 
@@ -7613,6 +7608,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "for adding another one."
 msgstr ""
+"Cette liste ne comprend que les langues de base. Veuillez contacter les "
+"mainteneurs u projet pour en ajouter un autre."
 
 #: weblate/templates/new-language.html:41
 msgid "Request new translation"
@@ -7730,10 +7727,8 @@ msgid "Instructions for translators"
 msgstr "Instructions pour les traducteurs"
 
 #: weblate/templates/project_info.html:44
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Project maintainers"
-msgstr "Contacter les mainteneurs"
+msgstr "Mainteneurs du projet"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -7960,16 +7955,12 @@ msgstr ""
 "de contrôle de versions pris en charge."
 
 #: weblate/templates/snippets/libre-basic.html:5
-#, fuzzy
-#| msgid ""
-#| "Translations have to be in the same repository, or under the same "
-#| "repository project/organization as the source code."
 msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
-"Les traductions doivent être dans le même dépôt ou sous le même dépôt projet/"
-"organisation que le code source."
+"Les traductions doivent être dans le même dépôt que le code source ou dans "
+"le même projet/organisation que le code source du dépôt."
 
 #: weblate/templates/snippets/libre-basic.html:6
 msgid "Using Weblate has been approved by the upstream project."
@@ -8612,8 +8603,6 @@ msgstr ""
 "paramètres du composant."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
-#, fuzzy
-#| msgid "This projects does no longer fit into libre hosting conditions."
 msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
 "Ce projet ne respecte plus les conditions permettant de bénéficer d’un "
@@ -8938,10 +8927,8 @@ msgid "This translation"
 msgstr "Traduit ici par"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Traduit"
+msgstr "Propagé"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9106,10 +9093,8 @@ msgid "List of recent changes done in Weblate"
 msgstr "Liste des modifications récentes faites dans Weblate"
 
 #: weblate/templates/translate.html:279
-#, fuzzy
-#| msgid "Different context"
 msgid "Difference to current string"
-msgstr "Contexte différent"
+msgstr "Différence avec la chaîne actuelle"
 
 #: weblate/templates/translate.html:290
 msgid "The following string has the same context and source."
@@ -9133,10 +9118,8 @@ msgstr[1] ""
 "Les chaînes suivantes ont des sources différentes, mais le même contexte."
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Permettre la propagation de la traduction"
+msgstr "Appliquer la traduction sélectionnée à toutes les chaînes propagées"
 
 #: weblate/templates/translate.html:318
 msgid "Apply selected translation to current string"
@@ -11676,13 +11659,11 @@ msgid "This translation does not yet exist."
 msgstr "Cette traduction n’existe pas encore."
 
 #: weblate/trans/templatetags/translations.py:758
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "Il y a %(count)s chaîne nécessitant une action"
-msgstr[1] "Il y a %(count)s chaînes nécessitant une action"
+msgstr[0] "Il y a %(count)s chaîne non traduite ici."
+msgstr[1] "Il y a %(count)s chaînes non traduites ici."
 
 #: weblate/trans/templatetags/translations.py:785
 msgid "enabled"
@@ -12467,6 +12448,9 @@ msgid ""
 "Use hamburger menu in the top navigation regardless the screen resolution. "
 "When disabled the hamburger menu is used on small screens only."
 msgstr ""
+"Utilisez le menu hamburger dans la navigation supérieure quelle que soit la "
+"résolution de l’écran. Lorsqu’il est désactivé, le menu hamburger est "
+"utilisé uniquement sur les petits écrans."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
