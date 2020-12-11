@@ -42,7 +42,7 @@ from weblate.utils.views import (
 )
 
 
-def download_multi(translations, fmt=None):
+def download_multi(translations, fmt=None, name="translations"):
     filenames = set()
     components = set()
 
@@ -64,7 +64,7 @@ def download_multi(translations, fmt=None):
                 if os.path.exists(fullname):
                     filenames.add(fullname)
 
-    return zip_download(data_dir("vcs"), sorted(filenames))
+    return zip_download(data_dir("vcs"), sorted(filenames), name)
 
 
 def download_component_list(request, name):
@@ -73,14 +73,20 @@ def download_component_list(request, name):
     for component in components:
         component.commit_pending("download", None)
     return download_multi(
-        Translation.objects.filter(component__in=components), request.GET.get("format")
+        Translation.objects.filter(component__in=components),
+        request.GET.get("format"),
+        name=obj.slug,
     )
 
 
 def download_component(request, project, component):
     obj = get_component(request, project, component)
     obj.commit_pending("download", None)
-    return download_multi(obj.translation_set.all(), request.GET.get("format"))
+    return download_multi(
+        obj.translation_set.all(),
+        request.GET.get("format"),
+        name=obj.full_slug.replace("/", "-"),
+    )
 
 
 def download_project(request, project):
@@ -88,7 +94,9 @@ def download_project(request, project):
     obj.commit_pending("download", None)
     components = obj.component_set.filter_access(request.user)
     return download_multi(
-        Translation.objects.filter(component__in=components), request.GET.get("format")
+        Translation.objects.filter(component__in=components),
+        request.GET.get("format"),
+        name=obj.slug,
     )
 
 
@@ -100,6 +108,7 @@ def download_lang_project(request, lang, project):
     return download_multi(
         Translation.objects.filter(component__in=components, language=langobj),
         request.GET.get("format"),
+        name=f"{obj.slug}-{langobj.code}",
     )
 
 

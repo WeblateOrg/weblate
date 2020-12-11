@@ -243,13 +243,13 @@ def iter_files(filenames):
             yield filename
 
 
-def zip_download(root, filenames):
+def zip_download(root, filenames, name="translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
             with open(filename, "rb") as handle:
                 zipfile.writestr(os.path.relpath(filename, root), handle.read())
-    response["Content-Disposition"] = 'attachment; filename="translations.zip"'
+    response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
     return response
 
 
@@ -285,7 +285,11 @@ def download_translation_file(translation, fmt=None, units=None):
             )
         else:
             extension = "zip"
-            response = zip_download(translation.get_filename(), filenames)
+            response = zip_download(
+                translation.get_filename(),
+                filenames,
+                translation.full_slug.replace("/", "-"),
+            )
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)

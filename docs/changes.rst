@@ -24,6 +24,7 @@ Not yet released.
 * Improved display of user defined special characters.
 * Improved auto translate performance.
 * Several minor user interface improvements.
+* Improved naming of ZIP downloads.
 
 Weblate 4.3.2
 -------------
