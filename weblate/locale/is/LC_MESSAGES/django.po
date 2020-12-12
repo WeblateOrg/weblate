@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-12-11 14:51+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-12-13 10:29+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
 "Language: is\n"
@@ -354,7 +354,7 @@ msgstr "Boðið af {username} að taka þátt í Weblate."
 
 #: weblate/accounts/models.py:100
 msgid "Started trial period."
-msgstr ""
+msgstr "Prófunartímabil hafið."
 
 #: weblate/accounts/models.py:105
 msgid "Configured password to sign in."
@@ -980,17 +980,12 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/cleanup.py:61
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Fjarlægja streng"
+msgstr "Fjarlægja auða strengi"
 
 #: weblate/addons/cleanup.py:62
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Nýr strengur til að þýða í %(translation)s"
+msgstr "Fjarlægir strengi án þýðinga úr þýðingaskrám."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1211,7 +1206,7 @@ msgstr "Dagar sem á að halda"
 
 #: weblate/addons/forms.py:227
 msgid "Voting threshold"
-msgstr ""
+msgstr "Atkvæðamörk"
 
 #: weblate/addons/forms.py:231
 msgid "Threshold for removal. This field has no effect with voting turned off."
@@ -1835,11 +1830,9 @@ msgid "Translate"
 msgstr "Þýða"
 
 #: weblate/auth/data.py:224
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per project access control group"
 msgid "Sources"
-msgstr "Frumtexti"
+msgstr "Uppruni"
 
 #: weblate/auth/data.py:225
 msgctxt "Per project access control group"
@@ -2729,10 +2722,8 @@ msgid "Failing checks"
 msgstr "Fell á prófunum"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Weblate configuration"
-msgstr "Gölluð uppsetning"
+msgstr "Uppsetning Weblate"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -2749,7 +2740,7 @@ msgstr "Stuðningur er við OpenType og TrueType letur."
 
 #: weblate/fonts/models.py:102
 msgid "Font group name"
-msgstr ""
+msgstr "Heiti leturhóps"
 
 #: weblate/fonts/models.py:105
 msgid ""
@@ -3410,7 +3401,7 @@ msgstr "Þú verður að samþykkja þjónustuskilmálana"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "Lestu vel þjónustuskilmálana:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:31
@@ -4993,10 +4984,8 @@ msgid "No invoices found."
 msgstr "Engir reikningar fundust."
 
 #: weblate/templates/billing/detail.html:100
-#, fuzzy
-#| msgid "View hosting plans"
 msgid "Libre hosting"
-msgstr "Skoða hýsingarleiðir"
+msgstr "Frjáls hýsing"
 
 #: weblate/templates/billing/detail.html:102
 #: weblate/templates/billing/state-snippet.html:5
@@ -5017,7 +5006,7 @@ msgstr "Samþykkja sem frjálst"
 #: weblate/templates/project.html:43
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
-msgstr ""
+msgstr "Sendu inn beiðni um frjálsa hýsingu"
 
 #: weblate/templates/billing/detail.html:127
 msgid ""
@@ -5027,20 +5016,15 @@ msgstr ""
 
 #: weblate/templates/billing/list.html:10
 msgid "Plan"
-msgstr ""
+msgstr "Áskriftarleið"
 
 #: weblate/templates/billing/list.html:11
-#, fuzzy
-#| msgctxt "Number of hosted words"
-#| msgid "Hosted words"
 msgid "Hosted words"
 msgstr "Hýst orð"
 
 #: weblate/templates/billing/list.html:28
-#, fuzzy
-#| msgid "No labels currently set."
 msgid "No users currently assigned!"
-msgstr "Engar merkingar eru núna stilltar."
+msgstr "Engir notendur eru núna settir!"
 
 #: weblate/templates/billing/list.html:35
 #: weblate/templates/billing/status.html:102
@@ -5848,13 +5832,7 @@ msgstr[1] ""
 "strong> til þýðingar og er <strong>%(percent)s%% fullgert</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
-#| msgid_plural ""
-#| "The translation project for %(project)s currently contains <strong>"
-#| "%(count)s string</strong> for translation."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -6274,10 +6252,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:104
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Maintenance"
-msgstr "Viðhald gagnasafns"
+msgstr "Viðhald"
 
 #: weblate/templates/js/git-status.html:109
 msgid "Reset all changes in the Weblate repository"
@@ -6323,10 +6299,8 @@ msgid "Browse all language changes"
 msgstr "Skoða allar breytingar á tungumálum"
 
 #: weblate/templates/language.html:63
-#, fuzzy
-#| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "Tungumálakóðar"
+msgstr "Samheiti tungumálakóða"
 
 #: weblate/templates/language.html:79
 #, python-format
@@ -6531,7 +6505,7 @@ msgstr "Breyta þessum streng"
 #: weblate/templates/mail/changed_translation_subject.txt:4
 #, python-format
 msgid "Changed translation in %(translation)s"
-msgstr ""
+msgstr "Breytt þýðing í %(translation)s"
 
 #: weblate/templates/mail/changed_translation_subject.txt:6
 #, python-format
@@ -6821,7 +6795,7 @@ msgstr "Upprunastrengur"
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:553
 msgid "Screenshot context"
-msgstr ""
+msgstr "Samhengi skjámyndar"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, python-format
@@ -6900,19 +6874,15 @@ msgstr "Til hamingju, uppsetningin þín virðist virka."
 
 #: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:71
 msgid "Appearance"
-msgstr ""
+msgstr "Útlit"
 
 #: weblate/templates/manage/appearance.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize appearance"
-msgstr "Sérsníða niðurhal"
+msgstr "Sérsníða útlit"
 
 #: weblate/templates/manage/appearance.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "Sérsníðing vinnuferlis"
+msgstr "Frumstilla sérsníðingu"
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:64
 msgid "Backups"
@@ -6960,14 +6930,12 @@ msgid "Add backup service"
 msgstr "Bæta við öryggisafritunarþjónustu"
 
 #: weblate/templates/manage/billing.html:15
-#, fuzzy
-#| msgid "Commit"
 msgid "Commercial"
-msgstr "Senda inn"
+msgstr "Í atvinnuskyni"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
-msgstr ""
+msgstr "Frjáls"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7367,10 +7335,8 @@ msgid "Instructions for translators"
 msgstr "Leiðbeiningar fyrir þýðendur"
 
 #: weblate/templates/project_info.html:44
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Project maintainers"
-msgstr "Hafa samband við umsjónarmenn"
+msgstr "Umsjónarmenn verkefnis"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -7415,6 +7381,8 @@ msgstr "Aðgerðir"
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"Skjámynd er sýnd til að bæta vi sjónrænu samhengi fyrir alla viðkomandi "
+"upprunastrengi."
 
 #: weblate/templates/screenshots/screenshot_detail.html:50
 msgid "Assign source strings"
@@ -7430,7 +7398,7 @@ msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
 msgid "Automatically recognize"
-msgstr ""
+msgstr "Þekkja sjálfvirkt"
 
 #: weblate/templates/screenshots/screenshot_detail.html:81
 msgid "Source string search"
@@ -7443,6 +7411,7 @@ msgstr "Nánar um skjámynd"
 #: weblate/templates/screenshots/screenshot_detail.html:128
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Ef skjámynd er eytt verður hún fjarlægð af öllum tengdum upprunastrengjum."
 
 #: weblate/templates/screenshots/screenshot_list.html:23
 msgid "Add new screenshot"
@@ -7673,13 +7642,11 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "%(count)s tillaga"
-msgstr[1] "%(count)s tillögur"
+msgstr[0] "%(count)s strengur"
+msgstr[1] "%(count)s strengir"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -7718,17 +7685,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Sýsla með tungumál"
+msgstr "Sýsla með greiðslur"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Þetta verkefni er ekki rétt uppsett."
+msgstr "Þetta verkefni er í prófunartímabili."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -7903,7 +7865,7 @@ msgstr[1] "%(count)s atkvæði"
 
 #: weblate/templates/snippets/suggestions.html:30
 msgid "Vote for"
-msgstr ""
+msgstr "Greiða atkvæði með"
 
 #: weblate/templates/snippets/suggestions.html:31
 msgid "Vote against"
@@ -8096,7 +8058,7 @@ msgstr "Skráarheiti"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
-msgstr ""
+msgstr "Sumar tengdar einingar eru með sömu skráasíu."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid "Please fix this by removing one of them."
@@ -8189,7 +8151,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into libre hosting conditions."
-msgstr ""
+msgstr "Þetta verkefni uppfyllir ekki lengur skilyrði fyrir frjálsa hýsingu."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8267,7 +8229,7 @@ msgstr "Búa til þýðingarhluta"
 #: weblate/templates/trans/component_create.html:14
 #: weblate/templates/trans/component_form.html:12
 msgid "You do not have permission to create components in any projects."
-msgstr ""
+msgstr "Þú hefur ekki leyfi til að búa til þýðingareiningar í verkefnum."
 
 #: weblate/templates/trans/component_create.html:25
 msgid "From version control"
@@ -8378,28 +8340,21 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Ég skil afleiðingarnar, eyða þessari þýðingu"
 
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
 "Það er ekki hægt að afturkalla við þessa aðgerð. Þetta mun eyða endanlega "
-"%(object)s þýðingaskránni ásamt öllu tengdu efni."
+"%(object)s þýðingunni ásamt öllu tengdu efni."
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "Eftirfarandi þýðingarhlutar verða fjarlægðir:"
+msgstr "Eftirfarandi þýðingar verða fjarlægðar:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "Verkefni sem á að fjarlægja"
+msgstr "Tungumál verkefnis sem á að fjarlægja"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8480,10 +8435,8 @@ msgid "This translation"
 msgstr "Þessi þýðing"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Þýtt"
+msgstr "Flæðandi"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -8540,7 +8493,7 @@ msgstr "Breyta upprunastreng"
 
 #: weblate/templates/translate.html:162 weblate/trans/forms.py:909
 msgid "Report issue with the source string"
-msgstr ""
+msgstr "Tilkynna um vandamál með upprunastrenginn"
 
 #: weblate/templates/translate.html:180 weblate/templates/translate.html:205
 msgid "This translation is currently locked."
@@ -8571,7 +8524,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:192
 msgid "Insufficient privileges for editing source strings."
-msgstr ""
+msgstr "Ekki nægar heimildir til að breyta upprunastrengjum."
 
 #: weblate/templates/translate.html:194 weblate/trans/views/edit.py:324
 #: weblate/trans/views/edit.py:344 weblate/trans/views/edit.py:362
@@ -8664,16 +8617,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Update translated and approved strings"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Uppfæra þýdda og samþykkta strengi"
+msgstr "Beita valinni þýðingu á alla flæðandi þýðingastrengi"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Apply selected translation to current string"
-msgstr "Bæta við nýjum þýðingastreng"
+msgstr "Beita valinni þýðingu á fyrirliggjandi þýðingastreng"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -8822,6 +8771,8 @@ msgstr "Orð"
 #: weblate/templates/translation.html:151
 msgid "This translation is being used as source strings within this component."
 msgstr ""
+"Þessar þýðingar eru notaðar sem upprunastrengir innan þessarar "
+"þýðingareiningar."
 
 #: weblate/templates/translation.html:161
 msgid "Strings status"
@@ -9331,6 +9282,8 @@ msgstr ""
 #: weblate/trans/forms.py:913
 msgid "Source string comment, suggestions for changes to this string"
 msgstr ""
+"Athugasemd við upprunastreng, tillögur um hvernig ætti að breyta þessum "
+"streng"
 
 #: weblate/trans/forms.py:917
 msgid "Translation comment, discussions with other translators"
@@ -9685,7 +9638,7 @@ msgstr "Tvítekin þýðing."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:178
 msgid "Duplicated filemask."
-msgstr ""
+msgstr "Tvítekin skráasía."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:189
@@ -9710,7 +9663,7 @@ msgstr "Ekki tókst að þátta þýðingaskrár."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:222
 msgid "Your billing plan has exceeded its limits."
-msgstr ""
+msgstr "Áskriftin þín er komin að mörkum þess sem samið var um."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:228
@@ -9760,15 +9713,13 @@ msgstr "Ónotuð skjámynd"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:312
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Tungumálskóði"
+msgstr "Undarlegur tungumálskóði."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "Uppfyllir ekki skilyrði fyrir frjálsa hýsingu."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -10105,7 +10056,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:125
 msgid "POSIX style using underscore as a separator"
-msgstr ""
+msgstr "POSIX-stíll með undirstriki sem aðgreini"
 
 #: weblate/trans/models/component.py:126
 msgid "BCP style using hyphen as a separator"
@@ -10113,7 +10064,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:130
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr ""
+msgstr "POSIX-stíll með undirstriki sem aðgreini, þar með talið í landskóða"
 
 #: weblate/trans/models/component.py:135
 msgid "BCP style using hyphen as a separator, including country code"
@@ -10172,7 +10123,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:309
 msgid "Source string bug reporting address"
-msgstr ""
+msgstr "Hvar eigi að tilkynna galla á upprunastreng"
 
 #: weblate/trans/models/component.py:311
 msgid ""
@@ -10235,7 +10186,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:399
 msgid "Allow translation propagation"
-msgstr ""
+msgstr "Leyfa flæði á þýðingum"
 
 #: weblate/trans/models/component.py:403
 msgid ""
@@ -10257,7 +10208,7 @@ msgstr "Kosið um tillögu"
 
 #: weblate/trans/models/component.py:415
 msgid "Whether users can vote for suggestions."
-msgstr ""
+msgstr "Hvort notendur geti kosið um tillögur."
 
 #: weblate/trans/models/component.py:418
 msgid "Autoaccept suggestions"
@@ -10387,12 +10338,12 @@ msgid "Whether the component should be locked on repository errors."
 msgstr ""
 
 #: weblate/trans/models/component.py:582
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
-msgstr "Regluleg segð sem notuð er til að samsvara tölvupóstfangi notanda."
+msgstr ""
+"Regluleg segð sem notuð er til að sía þýðingaskrár þegar leitað er eftir "
+"skráasíu."
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
@@ -10487,7 +10438,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:2030
 msgid "The filemask did not match any files."
-msgstr ""
+msgstr "Skráasían samsvaraði ekki neinum skrám."
 
 #: weblate/trans/models/component.py:2039
 #, python-format
@@ -10497,7 +10448,7 @@ msgstr ""
 #: weblate/trans/models/component.py:2048
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
-msgstr "Tungumálskóðinn \"%s\" er of langur, athugaðu skráamaskann."
+msgstr "Tungumálskóðinn \"%s\" er of langur, athugaðu skráasíuna."
 
 #: weblate/trans/models/component.py:2055
 #, python-format
@@ -10514,8 +10465,8 @@ msgstr ""
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gat ekki þáttað %d samsvarandi skrá."
+msgstr[1] "Gat ekki þáttað %d samsvarandi skrár."
 
 #: weblate/trans/models/component.py:2114
 msgid ""
@@ -10524,10 +10475,9 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:2125
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Skilgreindu grunnskrá fyrir nýjar þýðingar"
+msgstr "Mistókst að þátta grunnskrá fyrir nýjar þýðingar: %s"
 
 #: weblate/trans/models/component.py:2129
 msgid "Unrecognized base file for new translations."
@@ -11039,7 +10989,7 @@ msgstr "Ekki þýtt"
 #: weblate/trans/templatetags/translations.py:531
 #, python-format
 msgid "string ID %s"
-msgstr ""
+msgstr "ID-strengs %s"
 
 #: weblate/trans/templatetags/translations.py:672
 #, python-format
@@ -11068,13 +11018,11 @@ msgid "This translation does not yet exist."
 msgstr "Þessi þýðing er ennþá ekki til."
 
 #: weblate/trans/templatetags/translations.py:758
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s strengur þarfnast aðgerða"
-msgstr[1] "%(count)s strengir þarfnast aðgerða"
+msgstr[0] "%(count)s strengur er ekki þýddur hér."
+msgstr[1] "%(count)s strengir eru ekki þýddir hér."
 
 #: weblate/trans/templatetags/translations.py:785
 msgid "enabled"
@@ -11333,7 +11281,7 @@ msgstr "Athugasemd við þýðingu hefur verið leyst."
 
 #: weblate/trans/views/edit.py:854
 msgid "Translation with this key seem to already exist!"
-msgstr ""
+msgstr "Þýðing með þessum lykli er þegar til staðar!"
 
 #: weblate/trans/views/edit.py:858
 msgid "New string has been added."
@@ -11472,10 +11420,8 @@ msgid "Project was scheduled for removal."
 msgstr ""
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "Tungumálið %s fjarlægt."
+msgstr "Tungumál verkefnisins var fjarlægt."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -11808,16 +11754,12 @@ msgid "Please provide font family suitable for CSS."
 msgstr ""
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Síða finnst ekki"
+msgstr "Letur á síðu"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "Bæta við letri"
+msgstr "Leturgerð á haus"
 
 #: weblate/wladmin/forms.py:92
 msgid "Focus color"
@@ -11829,7 +11771,7 @@ msgstr ""
 
 #: weblate/wladmin/forms.py:94
 msgid "Hide page footer"
-msgstr ""
+msgstr "Fela síðufót"
 
 #: weblate/wladmin/forms.py:96
 msgid "Persistent hamburger navigation"
