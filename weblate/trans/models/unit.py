@@ -757,15 +757,13 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if propagate:
             was_propagated = self.propagate(user, change_action, author=author)
 
+        changed = (
+            self.old_unit.state == self.state and self.old_unit.target == self.target
+        )
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        # The propagation avoids short cicruit here as we need to run the checks.
-        if (
-            self.old_unit.state == self.state
-            and self.old_unit.target == self.target
-            and not was_propagated
-        ):
+        if changed and not was_propagated:
             return False
 
         update_fields = ["target", "state", "original_state", "pending"]
@@ -787,7 +785,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.save(
             update_fields=update_fields,
             run_checks=run_checks,
-            propagate_checks=propagate,
+            propagate_checks=was_propagated or changed,
         )
 
         # Generate Change object for this change
@@ -982,17 +980,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
-            # Propagate checks which need it (for example consistency)
-            if needs_propagate and propagate is not False:
-                for unit in self.same_source_units:
-                    try:
-                        unit.run_checks(False)
-                    except Unit.DoesNotExist:
-                        # This can happen in some corner cases like changing
-                        # source language of a project - the source language is
-                        # changed first and then components are updated. But
-                        # not all are yet updated and this spans across them.
-                        continue
             # Trigger source checks on target check update (multiple failing checks)
             if not self.is_source:
                 if self.is_batch_update:
@@ -1001,6 +988,17 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     ] = self.source_unit
                 else:
                     self.source_unit.run_checks()
+        # Propagate checks which need it (for example consistency)
+        if (needs_propagate and propagate is not False) or propagate is True:
+            for unit in self.same_source_units:
+                try:
+                    unit.run_checks(False)
+                except Unit.DoesNotExist:
+                    # This can happen in some corner cases like changing
+                    # source language of a project - the source language is
+                    # changed first and then components are updated. But
+                    # not all are yet updated and this spans across them.
+                    continue
 
         # Delete no longer failing checks
         if old_checks:

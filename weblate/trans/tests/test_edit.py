@@ -572,6 +572,28 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, set())
 
+    def test_edit_propagated(self):
+        units = Unit.objects.filter(
+            translation__language__code="cs", source="Thank you for using Weblate."
+        )
+        self.create_link_existing()
+        self.assertEqual(set(units.values_list("target", flat=True)), {""})
+        self.edit_unit("Thank you for using Weblate.", "Díky za použití Weblate")
+        self.assertEqual(
+            set(units.values_list("target", flat=True)), {"Díky za použití Weblate"}
+        )
+        self.assertEqual(
+            [unit.all_checks_names for unit in units.iterator()],
+            [{"end_stop"}, {"end_stop"}],
+        )
+        self.edit_unit("Thank you for using Weblate.", "Díky za použití Weblate.")
+        self.assertEqual(
+            set(units.values_list("target", flat=True)), {"Díky za použití Weblate."}
+        )
+        self.assertEqual(
+            [unit.all_checks_names for unit in units.iterator()], [set(), set()]
+        )
+
     def test_revert(self):
         source = "Hello, world!\n"
         target = "Nazdar svete!\n"
