@@ -760,6 +760,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
+        # The propagation avoids short cicruit here as we need to run the checks.
         if (
             self.old_unit.state == self.state
             and self.old_unit.target == self.target
