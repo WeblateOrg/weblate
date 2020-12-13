@@ -101,7 +101,9 @@ def get_unit_translations(request, unit_id):
         "js/translations.html",
         {
             "units": sort_unicode(
-                unit.source_unit.unit_set.exclude(pk=unit.pk).prefetch_full(),
+                unit.source_unit.unit_set.exclude(pk=unit.pk)
+                .prefetch()
+                .prefetch_full(),
                 lambda unit: "{}-{}".format(
                     user.profile.get_language_order(unit.translation.language),
                     unit.translation.language,
