@@ -187,8 +187,7 @@ to a containing project as well.
 An additional step is performed if checking permission for the translation:
 
 
-4. :guilabel:`Languages` are matched against the scope of translations if set,
-if not set, this does not match any language.
+4. Group :guilabel:`Languages` are matched against accessed translations, it it ignored for component or project level access.
 
 .. hint::
 
