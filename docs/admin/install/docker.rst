@@ -1186,7 +1186,7 @@ Container settings
         environment:
           UWSGI_WORKERS: 32
 
-In case you have lot of CPU cores and hit out of memory issues, try reducing
+In case you have a lot of CPU cores and hit out of memory issues, try reducing
 number of workers:
 
 .. code-block:: yaml
