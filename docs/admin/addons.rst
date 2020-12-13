@@ -294,7 +294,7 @@ Update PO files to match POT (msgmerge)
 ---------------------------------------
 
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
-POT file (as configured by :ref:`component-new_base`) using msgmerge.
+POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
 
 This addon is triggered whenever new changes are pulled from the upstream
 repository. You can configure most of the msgmerge command line options through
