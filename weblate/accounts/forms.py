@@ -671,6 +671,11 @@ class NotificationForm(forms.Form):
 
     def get_help_component(self):
         scope = self.form_scope
+        if scope == SCOPE_ALL:
+            return _(
+                "You will receive a notification for every such event"
+                " in non-watched projects."
+            )
         if scope == SCOPE_WATCHED:
             return _(
                 "You will receive a notification for every such event"
@@ -691,6 +696,11 @@ class NotificationForm(forms.Form):
 
     def get_help_translation(self):
         scope = self.form_scope
+        if scope == SCOPE_ALL:
+            return _(
+                "You will only receive these notifications for your translated "
+                "languages in non-watched projects."
+            )
         if scope == SCOPE_WATCHED:
             return _(
                 "You will only receive these notifications for your translated "
