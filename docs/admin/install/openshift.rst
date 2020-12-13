@@ -40,9 +40,9 @@ CLI.
 Parameters
 ^^^^^^^^^^
 
-The list of parameters that you can override are listed in the
-parameters section of the template. You can list them with the CLI by
-using the following command and specifying the file to be used:
+The parameters that you can override are listed in the parameters section of
+the template. You can list them with the CLI by using the following command and
+specifying the file to be used:
 
 .. code:: bash
 
