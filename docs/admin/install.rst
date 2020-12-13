@@ -382,10 +382,15 @@ The :file:`settings.py` snippet for PostgreSQL:
         }
     }
 
-The migration code assumes that the role name matches username used while
-authenticating, in case it is not, please set ``ALTER_ROLE``. Otherwise you
-get PostgreSQL error about not existing role during the database migration
+The database migration performs `ALTER ROLE
+<https://www.postgresql.org/docs/12/sql-alterrole.html>`_ on database role used
+by Weblate. In most cases the name of the role matches username. In more
+complex setups the role name is different than username and you will get error
+about non-existing role during the database migration
 (``psycopg2.errors.UndefinedObject: role "weblate@hostname" does not exist``).
+This is known to happen with Azure Database for PostgreSQL, but it's not
+limited to this evironment. Please set ``ALTER_ROLE`` to change name of the
+role Weblate should alter during the database migration.
 
 .. _mysql:
 
