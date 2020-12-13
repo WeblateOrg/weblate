@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-10 21:03+0100\n"
-"PO-Revision-Date: 2020-12-11 14:52+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-12-13 10:29+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -3719,6 +3719,8 @@ msgid ""
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
+"在您的翻译项目 :guilabel:`Manage` 菜单下 :guilabel:`Fonts` 中的 Weblate "
+"字体管理工具提供了接口来上传并管理字体。可以上传 TrueType 或 OpenType 字体，设置 font-groups 并在检查中使用它们。"
 
 #: ../../admin/checks.rst:238
 msgid ""
@@ -4240,13 +4242,13 @@ msgid ""
 "This only limits non privileged users to add unwanted languages. The project "
 "admins are still presented with full selection of languages defined in "
 "Weblate."
-msgstr ""
+msgstr "这只是限制了非特权用户将不想要的语言添加进来。项目管理员仍然被给出 Weblate 中定义的所有语言选择。"
 
 #: ../../admin/config.rst:219
 msgid ""
 "This does not define new languages for Weblate, it only filters existing "
 "ones in the database."
-msgstr ""
+msgstr "这对 Weblate 并不定义新的语言，它只在数据库中筛选了现有的那些。"
 
 #: ../../admin/config.rst:222 ../../admin/config.rst:247
 #: ../../admin/install/docker.rst:226 ../../admin/install/docker.rst:266
@@ -5100,7 +5102,7 @@ msgstr "默认为 ``True`` 。"
 
 #: ../../admin/config.rst:957
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
+msgstr "LOCALIZE_CDN_URL 和 LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:959
 msgid ""
@@ -6029,8 +6031,8 @@ msgid ""
 "usually the desired behavior, as it simplifies listing languages for these "
 "default combinations."
 msgstr ""
-"对于默认语言/国家组合使用简单语言编码。例如， ``fr_FR`` 翻译将使用 ``fr`` 语"
-"言编码。这通常是受欢迎的特性，因为他简化了这些默认组合列出的语言。"
+"对于默认语言/国家组合使用简单语言代码。例如， ``fr_FR`` 翻译将使用 ``fr`` "
+"语言代码。这通常是受欢迎的特性，因为它简化了这些默认组合列出的语言。"
 
 #: ../../admin/config.rst:1732
 msgid "Turn this off if you want to different translations for each variant."
@@ -6254,7 +6256,7 @@ msgid ""
 "Removing the addon from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall addon from all components "
 "prior to removing it from this list."
-msgstr ""
+msgstr "从列表中删除插件并不将它从组件中卸载。Weblate 在这种情况下会崩溃。请在从这个列表中删除前从所有组件中卸载插件。"
 
 #: ../../admin/config.rst:1974
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
@@ -6325,7 +6327,7 @@ msgstr ""
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate."
-msgstr ""
+msgstr ":doc:`/devel/integration` 描述了将您的开发集成到 Weblate 中的基本方式。"
 
 #: ../../admin/continuous.rst:15
 msgid "This is the process:"
@@ -7048,9 +7050,8 @@ msgid ""
 "python3.7/site-packages/`) or in the Weblate directory, which is also added "
 "to the interpreter search path."
 msgstr ""
-"为了写出一些定制 Python 代码（被称为模块），需要一个地方进行存储，或者在系统"
-"路径（通常像 :file:`/usr/lib/python3.7/site-packages/` 的地方），或者在 "
-"Weblate 目录下，同样也添加到翻译搜索路径下。"
+"为了写出一些定制 Python 代码（被称为模块），需要一个地方进行存储，或者在系统路径（通常像 :file:`/usr/lib/python3.7/"
+"site-packages/` 的地方），或者在 Weblate 目录下，同样也添加到解释程序搜索路径下。"
 
 #: ../../admin/customize.rst:33
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -7895,6 +7896,8 @@ msgid ""
 "In case you are getting ``#1071 - Specified key was too long; max key length "
 "is 767 bytes`` error, please set ``Innodb_large_prefix`` as described above."
 msgstr ""
+"在得到 ``#1071 - Specified key was too long; max key length is 767 bytes`` "
+"错误的情况下，请如上面的描述来设置 ``Innodb_large_prefix``。"
 
 #: ../../admin/install.rst:421
 msgid "Other configurations"
@@ -9331,7 +9334,7 @@ msgid ""
 "The typical database storage usage is around 300 MB per 1 million hosted "
 "words. Storage space needed for cloned repositories varies, but Weblate "
 "tries to keep their size minimal by doing shallow clones."
-msgstr ""
+msgstr "典型的数据库存储用量大约为每 1 百万单词 300 MB。克隆仓库所需的存储空间会变化，但 Weblate 试图通过浅克隆将其大小最小化。"
 
 #: ../../admin/install/steps/hw.rst:25
 msgid ""
@@ -9965,7 +9968,7 @@ msgstr "配置 :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:585
 msgid "Configures :setting:`HIDE_VERSION`."
-msgstr "Configures :setting:`HIDE_VERSION`."
+msgstr "配置 :setting:`HIDE_VERSION`。"
 
 #: ../../admin/install/docker.rst:589
 msgid "Configures :setting:`BASIC_LANGUAGES`."
@@ -10017,11 +10020,11 @@ msgstr "设置 :setting:`MT_MICROSOFT_ENDPOINT_URL` ，请注意，这应该只�
 
 #: ../../admin/install/docker.rst:633
 msgid "Sets :setting:`MT_MICROSOFT_REGION`"
-msgstr "Sets :setting:`MT_MICROSOFT_REGION`"
+msgstr "设置 :setting:`MT_MICROSOFT_REGION`"
 
 #: ../../admin/install/docker.rst:637
 msgid "Sets :setting:`MT_MICROSOFT_BASE_URL`"
-msgstr "Sets :setting:`MT_MICROSOFT_BASE_URL`"
+msgstr "设置 :setting:`MT_MICROSOFT_BASE_URL`"
 
 #: ../../admin/install/docker.rst:641
 msgid "Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`."
@@ -10679,6 +10682,8 @@ msgid ""
 "You can find the chart at <https://github.com/WeblateOrg/helm/> and it can "
 "be displayed at <https://artifacthub.io/packages/helm/weblate/weblate>."
 msgstr ""
+"您可以在 <https://github.com/WeblateOrg/helm/> 找到图标，并且它可以在 <https://artifacthub."
+"io/packages/helm/weblate/weblate> 显示。"
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
@@ -11130,15 +11135,13 @@ msgstr ""
 
 #: ../../admin/languages.rst:12
 msgid "Parsing language codes"
-msgstr "分析语言编码"
+msgstr "分析语言代码"
 
 #: ../../admin/languages.rst:14
 msgid ""
 "While parsing translations, Weblate attempts to map language code (usually "
 "the ISO 639-1 one) to any existing language object."
-msgstr ""
-"当分析翻译时， Weblate 试图将语言编码（通常为 ISO 639-1 ）映射到现有的任何语"
-"言对象。"
+msgstr "当分析翻译时， Weblate 试图将语言代码（通常为 ISO 639-1 ）映射到现有的任何语言对象。"
 
 #: ../../admin/languages.rst:17
 msgid ""
@@ -11332,18 +11335,18 @@ msgstr ""
 
 #: ../../admin/languages.rst:145 ../../devel/translations.rst:7
 msgid "Adding new translations"
-msgstr ""
+msgstr "添加新的翻译"
 
 #: ../../admin/languages.rst:149
 msgid ""
 "In versions prior to 2.18 the behaviour of adding new translations was file "
 "format specific."
-msgstr ""
+msgstr "在 2.18 以前的版本中，添加新的翻译的行为因文件格式而不同。"
 
 #: ../../admin/languages.rst:152
 msgid ""
 "Weblate can automatically start new translation for all of the file formats."
-msgstr ""
+msgstr "Weblate 可以为所有文件格式自动开始新的翻译。"
 
 #: ../../admin/languages.rst:155
 msgid ""
@@ -11353,6 +11356,8 @@ msgid ""
 "really doesn't depend on the format, but rather on the framework you use to "
 "handle the translation (for example with :ref:`json`)."
 msgstr ""
+"一些格式希望以空文件开始，并只包含已翻译的字符串（ :ref:`aresource`），而其它希望使所有的 key 出现（例如 "
+":ref:`gettext`）。在一些情形下，这真正比依赖于格式，而更依赖于用来处理翻译的框架（例如通过 :ref:`json`）。"
 
 #: ../../admin/languages.rst:161
 msgid ""
@@ -11360,19 +11365,21 @@ msgid ""
 "use this file to start new translations. Any exiting translations will be "
 "removed from the file when doing so."
 msgstr ""
+"当在 :ref:`component` 中指定 :ref:`component-new_base` 时，Weblate "
+"将使用这个文件开始新的翻译。当执行时任何现有翻译将从文件中删除。"
 
 #: ../../admin/languages.rst:165
 msgid ""
 "When :ref:`component-new_base` is empty and the file format supports it, an "
 "empty file is created where new strings will be added once they are "
 "translated."
-msgstr ""
+msgstr "当 :ref:`component-new_base` 是空的，并且文件格式支持时，新建空文件，一旦新的字符串被翻译就添加进去。"
 
 #: ../../admin/languages.rst:169
 msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames:"
-msgstr ""
+msgstr ":ref:`component-language_code_style` 允许在生成的文件名中将语言代码个性化："
 
 #: ../../admin/languages.rst:172
 msgid "Default based on the file format"
@@ -11380,7 +11387,7 @@ msgstr "基于文件格式的默认值"
 
 #: ../../admin/languages.rst:173
 msgid "Dependent on file format, for most of them POSIX is used."
-msgstr ""
+msgstr "依赖于文件格式，对于其中的多数使用 POSIX。"
 
 #: ../../admin/languages.rst:175
 msgid "POSIX style using underscore as a separator"
@@ -11390,7 +11397,7 @@ msgstr "POSIX 风格使用下划线作为分隔"
 msgid ""
 "Typically used by gettext and related tools, produces language codes like "
 "``pt_BR``."
-msgstr ""
+msgstr "典型地由 gettext 和相关工具使用，生成像 ``pt_BR`` 那样的语言代码。"
 
 #: ../../admin/languages.rst:178
 msgid "POSIX style using underscore as a separator, including country code"
@@ -11400,7 +11407,7 @@ msgstr "POSIX 风格使用下划线作为分隔，包括国家/地区代码"
 msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(for example ``cs_CZ``)."
-msgstr ""
+msgstr "POSIX 风格的语言代码即使不必要时也包括国家代码；例如 ``cs_CZ``）。"
 
 #: ../../admin/languages.rst:181
 msgid "BCP style using hyphen as a separator"
@@ -11409,7 +11416,7 @@ msgstr "GCP 风格使用连字符作为分隔"
 #: ../../admin/languages.rst:181
 msgid ""
 "Typically used on web platforms, produces language codes like ``pt-BR``."
-msgstr ""
+msgstr "典型地在 web 平台上使用，生成像 ``pt-BR`` 那样的语言编码。"
 
 #: ../../admin/languages.rst:184
 msgid "BCP style using hyphen as a separator, including country code"
@@ -11419,7 +11426,7 @@ msgstr "GCP 风格使用连字符作为分隔，包括国家/地区代码"
 msgid ""
 "BCP style language code including the country code even when not necessary "
 "(for example ``cs-CZ``)."
-msgstr ""
+msgstr "BCP 风格的语言代码即使不必要时也包括国家代码；例如 ``cs-CZ``）。"
 
 #: ../../admin/languages.rst:187
 msgid "Android style"
@@ -11427,7 +11434,7 @@ msgstr "Android 风格"
 
 #: ../../admin/languages.rst:187
 msgid "Only used in Android apps, produces language codes like ``pt-rBR``."
-msgstr ""
+msgstr "只在安卓 apps 中使用，生成像 ``pt-rBR`` 那样的语言代码。"
 
 #: ../../admin/languages.rst:190
 msgid "Java style"
@@ -11435,19 +11442,19 @@ msgstr "Java 风格"
 
 #: ../../admin/languages.rst:190
 msgid "Used by Java—mostly BCP with legacy codes for Chinese."
-msgstr ""
+msgstr "由 Java 使用——多数 BCP 带有用于中文的遗产代码。"
 
 #: ../../admin/languages.rst:192
 msgid ""
 "Additionally, any mappings defined in :ref:`project-language_aliases` are "
 "applied in reverse."
-msgstr ""
+msgstr "此外，:ref:`project-language_aliases` 中定义的任何映射都反向应用。"
 
 #: ../../admin/languages.rst:197
 msgid ""
 "Weblate recognizes any of these when parsing translation files, the above "
 "settings only influences how new files are created."
-msgstr ""
+msgstr "Weblate 当解析翻译文件是识别所有这些，上面的设置只影响如何新建新的文件。"
 
 #: ../../admin/languages.rst:202
 msgid ":ref:`language-code`, :ref:`language-parsing-codes`"
@@ -12573,9 +12580,7 @@ msgstr "将 TMX 或 JSON 文件导入 Weblate 翻译记忆库。"
 msgid ""
 "Allows mapping languages in the TMX to the Weblate translation memory. The "
 "language codes are mapped after normalization usually done by Weblate."
-msgstr ""
-"允许将 TMX 的语言映射到 Weblate 翻译记忆库。语言编码通常在Weblate进行规范化之"
-"后映射。"
+msgstr "允许将 TMX 的语言映射到 Weblate 翻译记忆库。语言代码通常在 Weblate 进行规范化之后映射。"
 
 #: ../../admin/management.rst:347
 msgid ""
@@ -12843,7 +12848,7 @@ msgstr "list_languages"
 msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
-msgstr "以 MediaWiki 标记-语言编码、英语名称和本地化名称来列出所支持的语言。"
+msgstr "列出 MediaWiki 标记中支持的语言——语言代码、英语名称和本地化名称。"
 
 #: ../../admin/management.rst:580
 msgid ""
@@ -12862,7 +12867,7 @@ msgstr "对给定的项目列出为这种语言做出贡献的译者::"
 
 #: ../../admin/management.rst:596
 msgid "List names by language code instead of language name."
-msgstr "用语言编码而不是语言来列出名称。"
+msgstr "用语言代码而不是语言来列出名称。"
 
 #: ../../admin/management.rst:598
 msgid ""
@@ -13579,7 +13584,7 @@ msgstr "600"
 
 #: ../../admin/optionals.rst:244
 msgid "Sending message to admins"
-msgstr "Sending message to admins"
+msgstr "将消息发送给管理员"
 
 #: ../../admin/optionals.rst:244
 msgid "``MESSAGE``"
@@ -13641,7 +13646,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:257
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
-msgstr ""
+msgstr "API 具有另外的速率限制设置，请参见 :ref:`api-rate`。"
 
 #: ../../admin/optionals.rst:261
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
@@ -14021,9 +14026,7 @@ msgid ""
 "The language codes are mapped when matching the translation files and the "
 "matches are case sensitive, so make sure you use the source language codes "
 "in same form as used in the filenames."
-msgstr ""
-"当匹配翻译文件时映射语言编码，并且映射是大小写敏感的，所以您确保使用与文件名"
-"中使用的形式相同的源语言编码。"
+msgstr "当匹配翻译文件时映射语言代码，并且映射是大小写敏感的，所以您确保使用与文件名中使用的形式相同的源语言代码。"
 
 #: ../../admin/projects.rst:239
 msgid ":ref:`language-parsing-codes`"
@@ -14704,7 +14707,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:683
 msgid "You need to list language codes as they appear in the filename."
-msgstr "单出现在文件名中时，您需要列出语言编码。"
+msgstr "单出现在文件名中时，您需要列出语言代码。"
 
 #: ../../admin/projects.rst:685
 msgid "Some examples of filtering:"
@@ -14736,11 +14739,11 @@ msgstr "``^(?!(it|fr)$).+$``"
 
 #: ../../admin/projects.rst:694
 msgid "Filter two letter codes only"
-msgstr ""
+msgstr "只筛选两个字母的代码"
 
 #: ../../admin/projects.rst:694
 msgid "``^..$``"
-msgstr ""
+msgstr "``^..$``"
 
 #: ../../admin/projects.rst:696
 msgid "Exclude non language files"
@@ -16425,7 +16428,7 @@ msgstr "将语言与群组关联。"
 
 #: ../../api.rst:532 ../../api.rst:540
 msgid "The unique language code"
-msgstr "唯一的语言编码"
+msgstr "唯一的语言代码"
 
 #: ../../api.rst:536
 msgid "Delete language from a group."
@@ -16816,7 +16819,7 @@ msgstr "在给定的项目中新建翻译组件。"
 msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
-msgstr ""
+msgstr "多数组件的新建发生在后台。检查新建组件的 ``task_url`` 属性，并按照那里的步骤进行。"
 
 #: ../../api.rst:933
 msgid "ZIP file to upload into Weblate for translations initialization"
@@ -16848,7 +16851,7 @@ msgstr "语言名称"
 
 #: ../../api.rst:1040 ../../api.rst:1836
 msgid "language code"
-msgstr "语言编码"
+msgstr "语言代码"
 
 #: ../../api.rst:1050
 msgid "Returns statistics for a project."
@@ -17071,7 +17074,7 @@ msgstr "通过补丁请求编辑组件。"
 
 #: ../../api.rst:1179
 msgid "Project source language code (optional)"
-msgstr "项目源语言编码（可选）"
+msgstr "项目源语言代码（可选）"
 
 #: ../../api.rst:1181 ../../api.rst:1265
 msgid "name of component"
@@ -17115,7 +17118,7 @@ msgstr "版本控制系统"
 
 #: ../../api.rst:1276
 msgid "Deletes a component."
-msgstr "删除组件"
+msgstr "删除组件。"
 
 #: ../../api.rst:1285
 msgid ""
@@ -17160,7 +17163,7 @@ msgstr "是否锁定的布尔值。"
 
 #: ../../api.rst:1375 ../../api.rst:1798
 msgid "Returns information about VCS repository status."
-msgstr "返回版本管理系统（VCS）仓库状态的信息。"
+msgstr "返回版本控制系统（VCS）仓库状态的信息。"
 
 #: ../../api.rst:1377
 msgid ""
@@ -17217,7 +17220,7 @@ msgstr "在给定组件中新建新的翻译。"
 #: ../../api.rst:1476
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
-msgstr "翻译语言编码；请参见 :http:get:`/api/languages/(string:language)/`"
+msgstr "翻译语言代码；请参见 :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1477
 msgid "new translation object created"
@@ -17255,7 +17258,7 @@ msgstr "返回翻译的信息。"
 #: ../../api.rst:1726 ../../api.rst:1739 ../../api.rst:1767 ../../api.rst:1778
 #: ../../api.rst:1806 ../../api.rst:1819 ../../api.rst:1834
 msgid "Translation language code"
-msgstr "翻译语言编码"
+msgstr "翻译语言代码"
 
 #: ../../api.rst:1581
 msgid ""
@@ -17309,7 +17312,7 @@ msgstr "译文是否有单语基础"
 msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
-msgstr "仓库中使用的语言编码；这可以不同于语言对象中的语言编码"
+msgstr "仓库中使用的语言代码；这可以不同于语言对象中的语言代码"
 
 #: ../../api.rst:1594 ../../api.rst:1843
 msgid "name of last author"
@@ -17717,7 +17720,7 @@ msgstr "ISO 8601 格式的时间标签，列出此时间之前的更改"
 
 #: ../../api.rst:1961
 msgid "Returns information about translation change."
-msgstr "返回有关翻译更改的信息"
+msgstr "返回有关翻译更改的信息。"
 
 #: ../../api.rst:1963
 msgid "Change ID"
@@ -17766,7 +17769,7 @@ msgstr "更改的识别文字"
 
 #: ../../api.rst:1984
 msgid "Returns a list of screenshot string information."
-msgstr "返回屏幕截图字符串信息的列表"
+msgstr "返回屏幕截图字符串信息的列表。"
 
 #: ../../api.rst:1988
 msgid ""
@@ -17802,7 +17805,7 @@ msgstr "与源字符串信息相关的链接；请参见 :http:get:`/api/units/(
 
 #: ../../api.rst:2003
 msgid "Download the screenshot image."
-msgstr "下载屏幕截图的图片"
+msgstr "下载屏幕截图的图片。"
 
 #: ../../api.rst:2010
 msgid "Replace screenshot image."
@@ -17822,7 +17825,7 @@ msgstr "源字符串单元 ID"
 
 #: ../../api.rst:2048
 msgid "Creates a new screenshot."
-msgstr "新建新的屏幕截图"
+msgstr "新建新的屏幕截图。"
 
 #: ../../api.rst:2051
 msgid "Screenshot name"
@@ -17978,7 +17981,7 @@ msgstr "删除与词汇表相关的术语。"
 
 #: ../../api.rst:2361
 msgid "Tasks"
-msgstr ""
+msgstr "任务"
 
 #: ../../api.rst:2367
 msgid "Listing of the tasks is currently not available."
@@ -17990,7 +17993,7 @@ msgstr "返回任务信息"
 
 #: ../../api.rst:2373
 msgid "Task UUID"
-msgstr ""
+msgstr "任务 UUID"
 
 #: ../../api.rst:2375
 msgid "Whether task has completed"
@@ -18002,7 +18005,7 @@ msgstr "任务进度百分比"
 
 #: ../../api.rst:2377
 msgid "Task result or progress details"
-msgstr ""
+msgstr "任务结果或过程细节"
 
 #: ../../api.rst:2378
 msgid "Task log"
@@ -18040,7 +18043,7 @@ msgstr ""
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
-msgstr "触发组件的更新（从版本管理系统 VCS 拉取并扫描翻译的更改）。"
+msgstr "触发组件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）。"
 
 #: ../../api.rst:2406
 msgid ""
@@ -18054,7 +18057,7 @@ msgstr ""
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
-msgstr "触发项目中所有组件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）"
+msgstr "触发项目中所有组件的更新（从版本控制系统 VCS 拉取并扫描翻译的更改）。"
 
 #: ../../api.rst:2414
 msgid ""
@@ -18398,7 +18401,7 @@ msgstr "发布于 2020 年 11 月 4 日。"
 
 #: ../../changes.rst:30
 msgid "Fixed crash on certain component filemasks."
-msgstr "修复了某个组件文件掩码的崩溃"
+msgstr "修复了某个组件文件掩码的崩溃。"
 
 #: ../../changes.rst:31
 msgid "Improved accuracy of the consecutive duplicated words check."
@@ -18697,7 +18700,7 @@ msgstr "简化了主导航（用图表替换按钮）。"
 
 #: ../../changes.rst:123
 msgid "Improved language code handling in Google Translate integration."
-msgstr "改进了 Google Translate 集成中的语言编码处理。"
+msgstr "改进了 Google Translate 集成中的语言代码处理。"
 
 #: ../../changes.rst:124
 msgid "The Git squash addon can generate ``Co-authored-by:`` trailers."
@@ -19763,7 +19766,7 @@ msgstr "避免向邀请的和删除的用户发送通知。"
 
 #: ../../changes.rst:450
 msgid "Fix SSL connection to redis in Celery in Docker container."
-msgstr "在 Docker 容器中的 Celery 中修复了到 redis 的 SSL 连接"
+msgstr "修复了在 Docker 容器中 Celery 的到 redis 的 SSL 连接。"
 
 #: ../../changes.rst:453
 msgid "Weblate 3.9"
@@ -19803,7 +19806,7 @@ msgstr "扩展了字符计数的统计数据。"
 
 #: ../../changes.rst:464
 msgid "Improve support for Java style language codes."
-msgstr "改进了对 Java 风格语言编码的支持。"
+msgstr "改进了对 Java 风格语言代码的支持。"
 
 #: ../../changes.rst:465
 msgid "Added new generic check for placeholders."
@@ -20085,7 +20088,7 @@ msgstr "当更新翻译组件时的报告过程。"
 
 #: ../../changes.rst:546
 msgid "Allow to abort running background component update."
-msgstr "允许终止运行背景组件更新。"
+msgstr "允许终止运行后台组件的更新。"
 
 #: ../../changes.rst:547
 msgid "Extend template language for filename manipulations."
@@ -20294,7 +20297,7 @@ msgstr "现在可以配置管理项目的通知。"
 
 #: ../../changes.rst:607
 msgid "Improved handling of three letter language codes."
-msgstr "改进了三字母语言编码的处理。"
+msgstr "改进了三字母语言代码的处理。"
 
 #: ../../changes.rst:610
 msgid "Weblate 3.5.1"
@@ -21544,7 +21547,7 @@ msgstr "添加语言代码映射，来更好地支持 Microsoft Translate API。
 #: ../../changes.rst:1022
 msgid ""
 "Moved fulltext cleanup to background job to make translation removal faster."
-msgstr "将全文清理移动为背景工作，使去除翻译更快速。"
+msgstr "将全文清理移动为后台工作，使去除翻译更快速。"
 
 #: ../../changes.rst:1023
 msgid ""
@@ -21994,7 +21997,7 @@ msgstr "添加了选项将带有复制名称的组件导入 import_project。"
 
 #: ../../changes.rst:1163
 msgid "Improved support for translating PHP files"
-msgstr "改进了对翻译 PHP 文件的支持。"
+msgstr "改进了对翻译 PHP 文件的支持"
 
 #: ../../changes.rst:1164
 msgid "Added XLIFF export for dictionary."
@@ -22138,7 +22141,7 @@ msgstr "添加选项来配置默认提交者。"
 
 #: ../../changes.rst:1203
 msgid "Add hook after adding new translation."
-msgstr "在添加新翻译后添加钩子"
+msgstr "在添加新翻译后添加钩子。"
 
 #: ../../changes.rst:1204
 msgid "Add option to specify multiple files to add to commit."
@@ -23001,7 +23004,7 @@ msgstr "试验支持安卓组件文件（需要打补丁的 ttkit）。"
 
 #: ../../changes.rst:1482
 msgid "Updates from hooks are run in background."
-msgstr "来自钩子的更新在背景运行。"
+msgstr "来自钩子的更新在后台运行。"
 
 #: ../../changes.rst:1483
 msgid "Improved installation instructions."
@@ -23210,7 +23213,7 @@ msgstr "发布于 2012 年 02 月 12 日。"
 
 #: ../../changes.rst:1561
 msgid "Support for machine translation using following online services:"
-msgstr "通过使用后面的服务对机器翻译的支持。"
+msgstr "通过使用后面的服务对机器翻译的支持："
 
 #: ../../changes.rst:1561
 msgid "Microsoft Translator"
@@ -23600,6 +23603,8 @@ msgid ""
 "The example system-wide setups log to several files under :file:`/var/log/"
 "celery/`."
 msgstr ""
+"Celery 进程（请参见 :ref:`celery`）通常也产生自己的日志。示例的系统范围的设置被记录到 :file:`/var/log/celery/"
+"` 下的几个日志文件中。"
 
 #: ../../contributing/debugging.rst:30
 msgid ""
@@ -24074,7 +24079,7 @@ msgstr "Django 管理界面定制化。"
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
-msgstr "在 Weblate 中汇报问题。"
+msgstr "在 Weblate 中汇报问题"
 
 #: ../../contributing/issues.rst:6
 msgid ""
@@ -24851,7 +24856,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:14
 msgid "Running Weblate locally"
-msgstr ""
+msgstr "本地运行 Weblate"
 
 #: ../../contributing/start.rst:16
 msgid ""
@@ -24859,6 +24864,8 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a virtual env with "
 "editable Weblate sources."
 msgstr ""
+"开始 Weblate 开发的最舒适的方法是按照 :doc:`../admin/install/source`。它将给您一个带有可编辑的 Weblate "
+"源代码的虚拟环境。"
 
 #: ../../contributing/start.rst:20
 msgid "Clone Weblate source:"
@@ -24872,24 +24879,24 @@ msgstr "创建一个虚拟环境（virtualenv）:"
 msgid ""
 "Install Weblate (this will need some system deps, see :doc:`../admin/install/"
 "source`):"
-msgstr ""
+msgstr "安装 Weblate（这需要一些系统依赖性，请参见 :doc:`../admin/install/source`）："
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
-msgstr ""
+msgstr "安装用于开发的所有依赖性："
 
 #: ../../contributing/start.rst:46
 msgid "Start a development server run:"
-msgstr ""
+msgstr "开始运行开发服务器："
 
 #: ../../contributing/start.rst:52
 msgid ""
 "Depending on your configuration you might also want to start Celery workers:"
-msgstr ""
+msgstr "依赖于配置，您会想要开始 Celery workers："
 
 #: ../../contributing/start.rst:58
 msgid "To run test (see :ref:`local-tests` for more details):"
-msgstr "运行测试 （更多细节见：:ref:`local-tests`）"
+msgstr "运行测试 （更多细节请参见 :ref:`local-tests`）："
 
 #: ../../contributing/start.rst:67
 msgid ":doc:`../admin/install/source`"
@@ -24897,13 +24904,13 @@ msgstr ":doc:`../admin/install/source`"
 
 #: ../../contributing/start.rst:72
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "在 Docker 中本地运行 Weblate"
 
 #: ../../contributing/start.rst:74
 msgid ""
 "If you have Docker and docker-compose installed, you can spin up the "
 "development environment simply by running:"
-msgstr ""
+msgstr "如果安装了 Docker 和 docker-compose，您可以启动开发环境，只通过简单地运行："
 
 #: ../../contributing/start.rst:81
 msgid ""
@@ -24912,25 +24919,29 @@ msgid ""
 "``admin`` password. The new installation is empty, so you might want to "
 "continue with :ref:`adding-projects`."
 msgstr ""
+"它将新建 Docker 影响并启动它。Weblate 运行在 <http://127.0.0.1:8080/> 上，并且您可以以 ``admin`` "
+"用户和 ``admin`` 密码来登录。新的安装是空的，所以您会想要以 :ref:`adding-projects` 来继续。"
 
 #: ../../contributing/start.rst:86
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in :file:`dev-docker` directory."
 msgstr ""
+"对此，:file:`Dockerfile` 和 :file:`docker-compose.yml` 位于本地的 :file:`dev-docker` "
+"目录中。"
 
 #: ../../contributing/start.rst:89
 msgid ""
 "The script also accepts some parameters, to execute tests run it with "
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example:"
-msgstr ""
+msgstr "脚本还接受一些参数，要执行测试，以 ``test`` 参数来运行，然后指定任何 :djadmin:`django:test` 参数，例如："
 
 #: ../../contributing/start.rst:98
 msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
-msgstr ""
+msgstr "小心在运行测试前您的 Docker 容易活动并运行。您可以通过运行 ``docker ps`` 命令来检查。"
 
 #: ../../contributing/start.rst:101
 msgid "To display the logs:"
@@ -24938,19 +24949,19 @@ msgstr "展示日志："
 
 #: ../../contributing/start.rst:107
 msgid "To stop the background containers run:"
-msgstr ""
+msgstr "为了停止后台容器，运行："
 
 #: ../../contributing/start.rst:113
 msgid ""
 "Running the script without args will recreate Docker container and restart "
 "it."
-msgstr ""
+msgstr "运行没有任何参数的脚本将重建 Docker 容器并重启动它。"
 
 #: ../../contributing/start.rst:117
 msgid ""
 "This is not suitable setup for production, it includes several hacks which "
 "are insecure, but make development easier."
-msgstr ""
+msgstr "这不是用于生产的合适设置，它包括几个不安全的破解，但使开发更容易。"
 
 #: ../../contributing/start.rst:121
 msgid "Coding Weblate with PyCharm"
@@ -24968,9 +24979,7 @@ msgid ""
 "Considering you have just cloned the Github repository, just open the folder "
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
 "to specify the interpreter you want:"
-msgstr ""
-"考虑当当克隆了 Github 仓库，只是在 PyCharm 中打开将其克隆进去的文件夹。一旦打"
-"开 IDE，第一步是指定想要的解释程序："
+msgstr "考虑刚刚克隆了 Github 仓库，只是在 PyCharm 中打开将其克隆进去的文件夹。一旦打开 IDE，第一步是指定想要的解释程序："
 
 #: ../../contributing/start.rst:132
 msgid ""
@@ -24986,6 +24995,7 @@ msgid ""
 "directly use your virtualenv by default), or through the interface when you "
 "get a warning about missing dependencies."
 msgstr ""
+"一旦设置了解释程序就不要忘记安装依赖性：可以通过控制台来进行（来自 IDE 的控制台将默认直接使用虚拟环境），或者在得到丢失依赖性的警告是通过界面来进行。"
 
 #: ../../contributing/start.rst:142
 msgid ""
@@ -24994,6 +25004,8 @@ msgid ""
 "in the IDE. For that you need to specify the root path of Django and the "
 "path of one setting:"
 msgstr ""
+"第二步是设置正确的信息，在 PyCharm 内使用本地 Django：理念是能够立即触发 IDE 中的单元测试。为此需要指定 Django "
+"的根路径和一个设置的路径："
 
 #: ../../contributing/start.rst:148
 msgid ""
@@ -25002,13 +25014,15 @@ msgid ""
 "`settings_test` from the repository, but you could create your own setting "
 "and set it there."
 msgstr ""
+"要小心，`Django project root`（Dejango 项目的根）是仓库的根，而不是 weblate "
+"子目录。关于设置，我个人使用来自仓库的`settings_test`，但您可以新建自己的设置，并在那里设置。"
 
 #: ../../contributing/start.rst:152
 msgid ""
 "Last step is to be able to run the server and to put breakpoints on the code "
 "to be able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
-msgstr ""
+msgstr "最后一步是能够运行服务器，并将断点放置在代码中而能够调试它。这通过新建新的 `Django Server` 配置来完成："
 
 #: ../../contributing/start.rst:158
 msgid ""
@@ -25016,30 +25030,32 @@ msgid ""
 "server live reload if you modify some files, but the debugger will be "
 "stopped on the breakpoint you set."
 msgstr ""
+"对适当检查的 \"No reload\"（无重新载入）要小心：如果修改一些文件的话，并不会得到更多服务器现场重新载入的，而调试程序会在您设置的断点上停止。"
 
 #: ../../contributing/start.rst:166
 msgid "Bootstraping your devel instance"
-msgstr ""
+msgstr "创立引得开发实例"
 
 #: ../../contributing/start.rst:168
 msgid ""
 "You might want to use :djadmin:`import_demo` to create demo translations "
 "and :djadmin:`createadmin` to create admin user."
 msgstr ""
+"您会想要使用 :djadmin:`import_demo` 来新建演示翻译，并且使用 :djadmin:`createadmin` 来创建管理用户。"
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr ""
+msgstr "Weblate 测试套件与连续集成"
 
 #: ../../contributing/tests.rst:4
 msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
-msgstr ""
+msgstr "测试套件存在于多数当前代码，通过为任何新的功能添加测试情况来扩大覆盖范围，并确认其正常工作。"
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr ""
+msgstr "连续集成"
 
 #: ../../contributing/tests.rst:12
 msgid ""
@@ -25047,32 +25063,34 @@ msgid ""
 "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
 "codecov.io/github/WeblateOrg/weblate>`_."
 msgstr ""
+"当前的测试结果可以在 `GitHub Actions <https://github.com/WeblateOrg/weblate/actions>`_ "
+"上找到，并且覆盖范围在 `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_ 上报告。"
 
 #: ../../contributing/tests.rst:16
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "有几项工作来确认不同的方面："
 
 #: ../../contributing/tests.rst:18
 msgid "Unit tests"
-msgstr ""
+msgstr "单元测试"
 
 #: ../../contributing/tests.rst:19
 msgid "Documentation build and external links"
-msgstr ""
+msgstr "文档构建与外部链接"
 
 #: ../../contributing/tests.rst:20
 msgid "Migration testing from all supported releases"
-msgstr ""
+msgstr "来自所有支持的发布版本的合并测试"
 
 #: ../../contributing/tests.rst:21
 msgid "Code linting"
-msgstr ""
+msgstr "代码整理"
 
 #: ../../contributing/tests.rst:22
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
-msgstr ""
+msgstr "设置确认（确保生成的 dist 文件不丢失任何内容，并可以测试）"
 
 #: ../../contributing/tests.rst:24
 msgid ""
@@ -25082,18 +25100,21 @@ msgid ""
 "mostly defining Django settings file to use and database connection. The "
 "example definition of that is in :file:`scripts/test-database`:"
 msgstr ""
+"CI 的配置在 :file:`.github/workflows` 目录中。它重度使用了 :file:`ci` "
+"目录中的帮助脚本。脚本还可以手动执行，但它们需要一些环境变量，多数用来定义 Django 设置要使用的文件和数据库连接。它的示例定义在 :file:`"
+"scripts/test-database` 中："
 
 #: ../../contributing/tests.rst:33
 msgid "The simple execution can look like:"
-msgstr ""
+msgstr "简单的执行看起来可以像这样："
 
 #: ../../contributing/tests.rst:46
 msgid "Local testing"
-msgstr ""
+msgstr "本地测试"
 
 #: ../../contributing/tests.rst:48
 msgid "To run a testsuite locally, use:"
-msgstr ""
+msgstr "如果本地运行测试套件，要使用："
 
 #: ../../contributing/tests.rst:56
 msgid ""
@@ -25103,77 +25124,82 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"您会需要使用数据库（PostgreSQL）服务器来检测。Django 默认新建另外的数据库，以 ``test_`` 前缀来运行测试，"
+"因此在您的设置配置使用 ``weblate`` 的情况下，测试会使用 ``test_weblate`` 数据库。设置的指示请参见 :ref"
+":`database-setup`。"
 
 #: ../../contributing/tests.rst:62
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+":file:`weblate/settings_test.py` 也用在 CI 环境中（请参见 :ref:`ci-"
+"tests`），并且可以使用环境变量调整："
 
 #: ../../contributing/tests.rst:68
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
-msgstr ""
+msgstr "运行测试前，应该收集静态文件，因为一些测试在出现时依赖于它们："
 
 #: ../../contributing/tests.rst:74
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "您也可以指定要运行的各自测试："
 
 #: ../../contributing/tests.rst:82
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
-msgstr ""
+msgstr "测试也可以在开发者 docker 容器内执行，请参见 :ref:`dev-docker`。"
 
 #: ../../contributing/tests.rst:86
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
-msgstr ""
+msgstr "运行并为 Django写测试的更多信息请参见 :doc:`django:topics/testing/index`。"
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
-msgstr ""
+msgstr "翻译组件警告"
 
 #: ../../devel/alerts.rst:6
 msgid ""
 "Shows errors in the Weblate configuration or the translation project for any "
 "given translation component. Guidance on how to address found issues is also "
 "offered."
-msgstr ""
+msgstr "为任何给定的翻译组件在 Weblate 配置或翻译项目中显示错误。还提供了如何将找到的问题定位的指南。"
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
-msgstr ""
+msgstr "当前覆盖后面的内容："
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr ""
+msgstr "翻译文件中复制的源字符串"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr ""
+msgstr "翻译中复制的语言"
 
 #: ../../devel/alerts.rst:13
 msgid "Merge or update failures in the source repository"
-msgstr ""
+msgstr "源仓库中的合并或更新失败"
 
 #: ../../devel/alerts.rst:14
 msgid "Unused new base in component settings"
-msgstr ""
+msgstr "在组件设置中未使用的新基础"
 
 #: ../../devel/alerts.rst:15
 msgid "Parse errors in the translation files"
-msgstr ""
+msgstr "解析翻译文件中的错误"
 
 #: ../../devel/alerts.rst:16
 msgid "Duplicate filemask used for linked components"
-msgstr ""
+msgstr "复制链接的组件使用的文件掩码"
 
 #: ../../devel/alerts.rst:17
 msgid "Broken URLs"
-msgstr ""
+msgstr "破损的 URLs"
 
 #: ../../devel/alerts.rst:18
 msgid "Missing licenses"
@@ -25185,18 +25211,20 @@ msgid ""
 "If it is missing, the component clears all current checks. Alerts can not be "
 "ignored, but will disappear once the underlying problem has been fixed."
 msgstr ""
+"警告在每个各自组件页面上列为 "
+":guilabel:`Alerts`。如果丢失的话，组件会清除所有当前的检查。警告不能被忽略，但一旦潜在的问题被修复就会消失。"
 
 #: ../../devel/alerts.rst:24
 msgid "A component with both duplicated strings and languages looks like this:"
-msgstr ""
+msgstr "带有复制的字符串和语言的组件看起来像这样："
 
 #: ../../devel/alerts.rst:30
 msgid ":ref:`production-certs`"
-msgstr ""
+msgstr ":ref:`production-certs`"
 
 #: ../../devel/community.rst:2
 msgid "Building translators community"
-msgstr ""
+msgstr "构建翻译者社区"
 
 #: ../../devel/community.rst:5
 msgid "Community localization checklist"
@@ -25208,10 +25236,12 @@ msgid ""
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
+"可以在每个组件的菜单中找到的 :guilabel:`Community localization "
+"checklist`（社区本地化清单）可以给予指示，使您的本地化过程对于社区翻译者更容易。"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU Gettext"
-msgstr ""
+msgstr "使用 GNU Gettext 的翻译软件"
 
 #: ../../devel/gettext.rst:4
 msgid ""
@@ -25222,12 +25252,14 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
+"`GNU Gettext`_ 是自由软件国际化最广泛使用的工具之一。它提供了简单但灵活的方式将软件本地化。它对复数具有巨大的支持，他剋有将进一步的文本添加"
+"到翻译的字符串中，并且由非常多的工具围绕它构建。当然，它在 Weblate 中具有巨大的支持（文件格式描述请参见 :ref:`gettext` ）。"
 
 #: ../../devel/gettext.rst:12
 msgid ""
 "If you are about to use it in proprietary software, please consult licensing "
 "first, it might not be suitable for you."
-msgstr ""
+msgstr "如果打算在私有软件中使用它，那么请首先咨询许可，它可能不适合您。"
 
 #: ../../devel/gettext.rst:15
 msgid ""
@@ -25237,13 +25269,15 @@ msgid ""
 "call, which is often aliased to `_()` to make the code simpler and easier to "
 "read."
 msgstr ""
+"GNU Gettext 可以在大量语言中使用（C、Python、PHP、Ruby、JavaScript 以及更多），并且一些 UI "
+"框架通常已经为它带有一些支持。标准使用是通过 `gettext()` 函数调用，这通常具有 `_()` 别名，使代码更简单且更容易阅读。"
 
 #: ../../devel/gettext.rst:20
 msgid ""
 "Additionally it provides `pgettext()` call to provide additional context to "
 "translators and `ngettext()` which can handle plural types as defined for "
 "target language."
-msgstr ""
+msgstr "此外，它提供 `pgettext()` 调用而为翻译者提供另外的文本，以及提供 `ngettext()`，可以处理目标语言定义的附属类型。"
 
 #: ../../devel/gettext.rst:24
 msgid ""
@@ -25251,6 +25285,7 @@ msgid ""
 "simple, instead of manual invoking of Gettext described below, you might "
 "want to try one of them, for example `intltool`_."
 msgstr ""
+"作为广泛传播的工具，它具有很多封装，使其使用真正简单，除了下面描述的手动调用 Gettext，您会想要尝试其中之一，例如 `intltool`_。"
 
 #: ../../devel/gettext.rst:29
 msgid "Workflow overview"
@@ -25258,13 +25293,14 @@ msgstr "工作流程概览"
 
 #: ../../devel/gettext.rst:31
 msgid "The GNU Gettext uses several files to manage the localization:"
-msgstr ""
+msgstr "GNU Gettext 使用几个文件来管理本地化："
 
 #: ../../devel/gettext.rst:33
 msgid ""
 ":file:`PACKAGE.pot` contains strings extracted from your source code, "
 "typically using `xgettext`_ or some high level wrappers such as `intltool`_."
 msgstr ""
+":file:`PACKAGE.pot` 包含从您的源代码中提取的字符串，典型地使用 `xgettext`_ 或一些高级封装，如 `intltool`_。"
 
 #: ../../devel/gettext.rst:34
 msgid ""
@@ -25272,6 +25308,8 @@ msgid ""
 "It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. "
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
+":file:`LANGUAGE.po` 包含翻译为单一语言的字符串。一旦 :file:`PACKAGE.pot` 更新，那么必须由 `msgmerge`"
+"_ 来更新它。您可以使用 `msginit`_ 或在 Weblate 内新建新的语言文件。"
 
 #: ../../devel/gettext.rst:35
 msgid ""
@@ -25281,28 +25319,33 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` addon."
 msgstr ""
+":file:`LANGUAGE.mo` 包含 :file:`LANGUAGE.po` 的二进制表达，并且应用运行时使用。它典型地并不保持在版本控制之下，"
+"但在编译时使用 `msgfmt`_ 生成。在您想要使它处于版本控制中时，可以使用 :ref:`addon-weblate.gettext.mo` 插件在 "
+"Weblate 中生成它。"
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU Gettext workflow looks like this:"
-msgstr ""
+msgstr "整个 GNU Gettext 工作流程看起来像这样："
 
 #: ../../devel/gettext.rst:56
 msgid ""
 "`Overview of GNU Gettext <https://www.gnu.org/software/gettext/manual/"
 "html_node/Overview.html>`_"
 msgstr ""
+"`Overview of GNU Gettext <https://www.gnu.org/software/gettext/manual/"
+"html_node/Overview.html>`_"
 
 #: ../../devel/gettext.rst:59
 msgid "Sample program"
-msgstr ""
+msgstr "示例程序"
 
 #: ../../devel/gettext.rst:61
 msgid "The simple program in C using Gettext might look like following:"
-msgstr ""
+msgstr "使用 Gettext 的 C 语言简单程序看起来会像后面这样："
 
 #: ../../devel/gettext.rst:89
 msgid "Extracting translatable strings"
-msgstr ""
+msgstr "提取可翻译的字符串"
 
 #: ../../devel/gettext.rst:91
 msgid ""
@@ -25310,12 +25353,14 @@ msgid ""
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
+"一旦您具有了使用 gettext 调用的代码，您可以使用 `xgettext`_ 从中提取消息，并将它们存储在 `.pot <https://www."
+"gnu.org/software/gettext/manual/gettext.html#index-files_002c-_002epot>`_ 中："
 
 #: ../../devel/gettext.rst:101
 msgid ""
 "There are alternative programs to extract strings from the code, for example "
 "`pybabel`_."
-msgstr ""
+msgstr "有另外的程序从代码中提取字符串，例如 `pybabel`_。"
 
 #: ../../devel/gettext.rst:104
 msgid ""
@@ -25324,21 +25369,23 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
+"这新建了模板文件，您可以用它来开始新的翻译（使用`msginit`_），或在代码更改后更新现有的翻译（为此您将使用 "
+"`msgmerge`_）。结果文件是简单的结构化文本文件："
 
 #: ../../devel/gettext.rst:142
 msgid ""
 "Each ``msgid`` line defines a string to translate, the special empty string "
 "in the beginning is the file header containing metadata about the "
 "translation."
-msgstr ""
+msgstr "每个 ``msgid`` 行定义了要翻译的字符串，在开始的特殊空字符串是包含关于翻译的元数据的文件标头。"
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
-msgstr ""
+msgstr "开始新的翻译"
 
 #: ../../devel/gettext.rst:148
 msgid "With the template in place, we can start our first translation:"
-msgstr ""
+msgstr "在模板就位后，我们就可以开始我们的第一个翻译了："
 
 #: ../../devel/gettext.rst:155
 msgid ""
@@ -25346,6 +25393,8 @@ msgid ""
 "importantly it got the proper plural forms definition for chosen language "
 "and you can see number of plurals have changed according to that:"
 msgstr ""
+"刚刚新建的 :file:`cs.po` "
+"已经有一些信息填充进去了。最重要的是它获得了所选择的语言的适当复数形式定义，并且您可以看到几种复数已经根据它更改了："
 
 #: ../../devel/gettext.rst:193
 msgid ""
@@ -25353,58 +25402,60 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU Gettext`_ functions at runtime."
 msgstr ""
+"这个文件被编译为优化的二进制形式，`.mo <https://www.gnu.org/software/gettext/manual/gettext."
+"html#MO-Files>`_ 文件，由 `GNU Gettext`_ 函数在运行时使用。"
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
-msgstr ""
+msgstr "更新字符串"
 
 #: ../../devel/gettext.rst:200
 msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
-msgstr ""
+msgstr "一旦在您的程序中添加了更多的字符串或更改了一些字符串，您再次执行 `xgettext`_ ，生成模板文件："
 
 #: ../../devel/gettext.rst:207
 msgid ""
 "Then you can update individual translation files to match newly created "
 "templates (this includes reordering the strings to match new template):"
-msgstr ""
+msgstr "然后您可以更新各自的翻译文件来匹配新建的模板（这包括重新排序字符串，赖于新的模板匹配）："
 
 #: ../../devel/gettext.rst:215
 msgid "Importing to Weblate"
-msgstr ""
+msgstr "导入到 Weblate"
 
 #: ../../devel/gettext.rst:217
 msgid ""
 "To import such translation into Weblate, all you need to define are the "
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
-msgstr ""
+msgstr "为了将这样的翻译导入 Weblate，当新建组件时，所有需要您定义的是后面的字段（字段的具体描述请参见 :ref:`component`）："
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
-msgstr ""
+msgstr "字段"
 
 #: ../../devel/gettext.rst:222 ../../workflows.rst:58 ../../workflows.rst:89
 #: ../../workflows.rst:125
 msgid "Value"
-msgstr ""
+msgstr "值"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
-msgstr ""
+msgstr "您的项目的版本控制系统（VCS）仓库的 URL"
 
 #: ../../devel/gettext.rst:226 ../../formats.rst:168 ../../formats.rst:234
 msgid "``po/*.po``"
-msgstr ""
+msgstr "``po/*.po``"
 
 #: ../../devel/gettext.rst:228
 msgid "``po/hello.pot``"
-msgstr ""
+msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 msgid "Choose :guilabel:`Gettext PO file`"
-msgstr ""
+msgstr "选择 :guilabel:`Gettext PO file`"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
@@ -25412,27 +25463,29 @@ msgstr "新语言"
 
 #: ../../devel/gettext.rst:232
 msgid "Choose :guilabel:`Create new language file`"
-msgstr ""
+msgstr "选择 :guilabel:`Create new language file`（新建新语言文件）"
 
 #: ../../devel/gettext.rst:235
 msgid "And that's it, you're now ready to start translating your software!"
-msgstr ""
+msgstr "就是这样，现在您已经准备号开始翻译您的软件了！"
 
 #: ../../devel/gettext.rst:239
 msgid ""
 "You can find a Gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
+"您可以在 GitHub: <https://github.com/WeblateOrg/hello> 上的 Weblate Hello "
+"项目中找到带有很多语言的 Gettext 示例。"
 
 #: ../../devel/html.rst:4
 msgid "Translating HTML and JavaScript using Weblate CDN"
-msgstr ""
+msgstr "使用 Weblate CDN 翻译 HTML 和 JavaScript"
 
 #: ../../devel/html.rst:6
 msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` addon."
-msgstr ""
+msgstr "从 Weblate 4.2 开始能够使用 :ref:`addon-weblate.cdn.cdnjs` 插件将本地化导出到 CDN。"
 
 #: ../../devel/html.rst:11
 msgid ""
@@ -25449,6 +25502,7 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
+"在安装到您的组件中式，它将提交的翻译推送到 CND（请参见 :ref:`lazy-commit`），而这些可以在您的 web 页面上使用来将其本地化。"
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
@@ -25458,7 +25512,7 @@ msgstr "创建组件中"
 msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
-msgstr ""
+msgstr "首先您需要新建单语言组件，它将保持您的字符串，其一般指示请参见 :ref:`adding-projects`。"
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -25469,12 +25523,15 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an addon configuration."
 msgstr ""
+"在您已有仓库来开始的情况下（例如一个包含 HTML 文件的仓库），在仓库中为源语言新建空的 JSON 文件（请参见 :ref:`component-"
+"source_language`），例如 :file:`locales/en.json`。内容应该是``{}`` ，来指示空的对象。一旦具有了它，"
+"仓库就可以导入到 Weblate 中，而您可以通过配置插件来开始。"
 
 #: ../../devel/html.rst:34
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
-msgstr ""
+msgstr "在您已有翻译的情况下，您可以将其放置在语言 JSON 文件中，而那些将在 Weblate 中使用。"
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -25483,6 +25540,8 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
+"对于那些不想要使用（或不具有）现有仓库的人，当新建组件时选择 :guilabel:`Start from scratch` ，并选择 `JSON "
+"file` 作为文件格式（这是选择任何单语言格式都可以）。"
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN addon"
@@ -25491,7 +25550,7 @@ msgstr "正在配置 Weblate 内容分发网络附加组件"
 #: ../../devel/html.rst:47
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` addon provides few configuration options."
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs` 插件提供了一些配置选项。"
 
 #: ../../devel/html.rst:49
 msgid "Translation threshold"
@@ -25500,7 +25559,7 @@ msgstr "翻译阈值"
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
-msgstr ""
+msgstr "在这个阈值之上的翻译将包含在 CDN 中。"
 
 #: ../../devel/html.rst:52
 msgid "CSS selector"
@@ -25511,6 +25570,7 @@ msgid ""
 "Configures which strings from the HTML documents are translatable, see :ref:"
 "`cdn-addon-extract` and :ref:`cdn-addon-html`."
 msgstr ""
+"配置来之 HTML 文档的哪些字符串是可翻译的，请参见 :ref:`cdn-addon-extract` 和 :ref:`cdn-addon-html`。"
 
 #: ../../devel/html.rst:55
 msgid "Language cookie name"
@@ -25520,7 +25580,7 @@ msgstr "语言cookie名称"
 msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
-msgstr ""
+msgstr "包含用户所选择的语言的 cookie 的名称。在JavaScript 代码段中用于 :ref:`cdn-addon-html`。"
 
 #: ../../devel/html.rst:60
 msgid "Extract strings from HTML files"
@@ -25532,6 +25592,7 @@ msgid ""
 "translatable strings and offer them for a translation, see :ref:`cdn-addon-"
 "extract`."
 msgstr ""
+"仓库中文件的列表，或 Weblate 寻找可翻译字符串并提供它们用于翻译的 URLs，请参见 :ref:`cdn-addon-extract`。"
 
 #: ../../devel/html.rst:65
 msgid "String extraction for Weblate CDN"
@@ -25602,6 +25663,8 @@ msgid ""
 "other applications (for example choose ``django_language`` when using "
 "Django)."
 msgstr ""
+":guilabel:`Language cookie name` 可以用于与其它应用集成（例如当使用 Django 时选择 "
+"``django_language``）。"
 
 #: ../../devel/html.rst:120
 msgid "JavaScript localization"
@@ -25621,11 +25684,11 @@ msgstr "在这种情况下需要采用实际的本地化逻辑。"
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
-msgstr ""
+msgstr "与 Weblate 集成"
 
 #: ../../snippets/basics.rst:2
 msgid "Weblate basics"
-msgstr ""
+msgstr "Weblate 基础知识"
 
 #: ../../snippets/basics.rst:5
 msgid "Projects and components structure"
@@ -31600,8 +31663,7 @@ msgstr ""
 #: ../../user/translating.rst:195
 msgid ""
 "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
-msgstr ""
-"Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
+msgstr "显示 :guilabel:`Automatic suggestions` 标签，请参见 :ref:`machine-translation`。"
 
 #: ../../user/translating.rst:199
 msgid ":kbd:`Ctrl 1` to :kbd:`Ctrl 9` or"
