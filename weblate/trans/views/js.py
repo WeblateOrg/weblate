@@ -93,7 +93,8 @@ def memory(request, unit_id):
 def get_unit_translations(request, unit_id):
     """Return unit's other translations."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    request.user.check_access_component(unit.translation.component)
+    user = request.user
+    user.check_access_component(unit.translation.component)
 
     return render(
         request,
@@ -101,7 +102,10 @@ def get_unit_translations(request, unit_id):
         {
             "units": sort_unicode(
                 unit.source_unit.unit_set.exclude(pk=unit.pk).prefetch_full(),
-                lambda unit: str(unit.translation.language),
+                lambda unit: "{}-{}".format(
+                    user.profile.get_language_order(unit.translation.language),
+                    unit.translation.language,
+                ),
             )
         },
     )
