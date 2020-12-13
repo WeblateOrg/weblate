@@ -439,14 +439,14 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 8)
 
         # Remove some subscriptions
-        data["notifications__0-notify-LastAuthorCommentNotificaton"] = "0"
-        data["notifications__0-notify-MentionCommentNotificaton"] = "0"
+        data["notifications__1-notify-LastAuthorCommentNotificaton"] = "0"
+        data["notifications__1-notify-MentionCommentNotificaton"] = "0"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
         self.assertEqual(self.user.subscription_set.count(), 6)
 
         # Add some subscriptions
-        data["notifications__1-notify-ChangedStringNotificaton"] = "1"
+        data["notifications__2-notify-ChangedStringNotificaton"] = "1"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
         self.assertEqual(self.user.subscription_set.count(), 7)
