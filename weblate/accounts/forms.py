@@ -36,6 +36,7 @@ from weblate.accounts.models import AuditLog, Profile
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
     SCOPE_ADMIN,
+    SCOPE_ALL,
     SCOPE_CHOICES,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
@@ -658,6 +659,8 @@ class NotificationForm(forms.Form):
 
     def get_name(self):
         scope = self.form_scope
+        if scope == SCOPE_ALL:
+            return _("Other projects")
         if scope == SCOPE_WATCHED:
             return _("Watched projects")
         if scope == SCOPE_ADMIN:

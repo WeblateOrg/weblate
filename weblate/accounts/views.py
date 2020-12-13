@@ -100,6 +100,7 @@ from weblate.accounts.notifications import (
     FREQ_NONE,
     NOTIFICATIONS,
     SCOPE_ADMIN,
+    SCOPE_ALL,
     SCOPE_COMPONENT,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
@@ -249,8 +250,8 @@ def get_notification_forms(request):
         subscriptions = defaultdict(dict)
         initials = {}
 
-        # Ensure default and admin scopes are visible
-        for needed in (SCOPE_WATCHED, SCOPE_ADMIN):
+        # Ensure watched, admin and all scopes are visible
+        for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
             key = (needed, None, None)
             subscriptions[key] = {}
             initials[key] = {"scope": needed, "project": None, "component": None}

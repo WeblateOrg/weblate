@@ -25,6 +25,7 @@ Not yet released.
 * Improved auto translate performance.
 * Several minor user interface improvements.
 * Improved naming of ZIP downloads.
+* Added option for getting notifications on unwatched projects.
 
 Weblate 4.3.2
 -------------
