@@ -37,8 +37,8 @@ from weblate.accounts.notifications import (
     NOTIFICATIONS,
     SCOPE_ADMIN,
     SCOPE_CHOICES,
-    SCOPE_DEFAULT,
     SCOPE_PROJECT,
+    SCOPE_WATCHED,
 )
 from weblate.accounts.utils import (
     adjust_session_expiry,
@@ -646,7 +646,7 @@ class NotificationForm(forms.Form):
 
     @cached_property
     def form_scope(self):
-        return self.form_params.get("scope", SCOPE_DEFAULT)
+        return self.form_params.get("scope", SCOPE_WATCHED)
 
     @cached_property
     def form_project(self):
@@ -658,7 +658,7 @@ class NotificationForm(forms.Form):
 
     def get_name(self):
         scope = self.form_scope
-        if scope == SCOPE_DEFAULT:
+        if scope == SCOPE_WATCHED:
             return _("Watched projects")
         if scope == SCOPE_ADMIN:
             return _("Managed projects")
@@ -668,7 +668,7 @@ class NotificationForm(forms.Form):
 
     def get_help_component(self):
         scope = self.form_scope
-        if scope == SCOPE_DEFAULT:
+        if scope == SCOPE_WATCHED:
             return _(
                 "You will receive a notification for every such event"
                 " in your watched projects."
@@ -688,7 +688,7 @@ class NotificationForm(forms.Form):
 
     def get_help_translation(self):
         scope = self.form_scope
-        if scope == SCOPE_DEFAULT:
+        if scope == SCOPE_WATCHED:
             return _(
                 "You will only receive these notifications for your translated "
                 "languages in your watched projects."

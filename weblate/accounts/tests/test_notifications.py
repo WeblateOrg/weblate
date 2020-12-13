@@ -36,8 +36,8 @@ from weblate.accounts.notifications import (
     FREQ_WEEKLY,
     SCOPE_ADMIN,
     SCOPE_COMPONENT,
-    SCOPE_DEFAULT,
     SCOPE_PROJECT,
+    SCOPE_WATCHED,
     MergeFailureNotification,
 )
 from weblate.accounts.tasks import (
@@ -88,7 +88,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         for notification in notifications:
             Subscription.objects.create(
                 user=self.user,
-                scope=SCOPE_DEFAULT,
+                scope=SCOPE_WATCHED,
                 notification=notification,
                 frequency=FREQ_INSTANT,
             )
@@ -126,7 +126,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Subscription.objects.filter(notification="LockNotification").delete()
         Subscription.objects.create(
             user=self.user,
-            scope=SCOPE_DEFAULT,
+            scope=SCOPE_WATCHED,
             notification="LockNotification",
             frequency=FREQ_INSTANT,
             onetime=True,
@@ -456,7 +456,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         subj="4 strings needing action in Test/Test",
     ):
         self.user.subscription_set.create(
-            scope=SCOPE_DEFAULT, notification=notification, frequency=frequency
+            scope=SCOPE_WATCHED, notification=notification, frequency=frequency
         )
         # Check mail
         self.assertEqual(len(mail.outbox), 0)
@@ -500,7 +500,7 @@ class SubscriptionTest(ViewTestCase):
         self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
         # Default subscription
         self.user.subscription_set.create(
-            scope=SCOPE_DEFAULT,
+            scope=SCOPE_WATCHED,
             notification=self.notification.get_name(),
             frequency=FREQ_MONTHLY,
         )
@@ -561,14 +561,14 @@ class SubscriptionTest(ViewTestCase):
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
         # Default subscription
         self.user.subscription_set.create(
-            scope=SCOPE_DEFAULT,
+            scope=SCOPE_WATCHED,
             notification=self.notification.get_name(),
             frequency=FREQ_INSTANT,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 1)
         # Subscribe to parent event
         self.user.subscription_set.create(
-            scope=SCOPE_DEFAULT,
+            scope=SCOPE_WATCHED,
             notification="NewAlertNotificaton",
             frequency=FREQ_INSTANT,
         )

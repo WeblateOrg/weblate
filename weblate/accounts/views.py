@@ -101,8 +101,8 @@ from weblate.accounts.notifications import (
     NOTIFICATIONS,
     SCOPE_ADMIN,
     SCOPE_COMPONENT,
-    SCOPE_DEFAULT,
     SCOPE_PROJECT,
+    SCOPE_WATCHED,
     send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
@@ -250,11 +250,11 @@ def get_notification_forms(request):
         initials = {}
 
         # Ensure default and admin scopes are visible
-        for needed in (SCOPE_DEFAULT, SCOPE_ADMIN):
+        for needed in (SCOPE_WATCHED, SCOPE_ADMIN):
             key = (needed, None, None)
             subscriptions[key] = {}
             initials[key] = {"scope": needed, "project": None, "component": None}
-        active = (SCOPE_DEFAULT, None, None)
+        active = (SCOPE_WATCHED, None, None)
 
         # Include additional scopes from request
         if "notify_project" in request.GET:
@@ -926,7 +926,7 @@ def watch(request, project, component=None):
         # Mute project level subscriptions
         mute_real(user, scope=SCOPE_PROJECT, component=None, project=obj)
         # Manually enable component level subscriptions
-        for default_subscription in user.subscription_set.filter(scope=SCOPE_DEFAULT):
+        for default_subscription in user.subscription_set.filter(scope=SCOPE_WATCHED):
             subscription, created = user.subscription_set.get_or_create(
                 notification=default_subscription.notification,
                 scope=SCOPE_COMPONENT,

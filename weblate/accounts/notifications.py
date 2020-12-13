@@ -57,13 +57,13 @@ FREQ_CHOICES = (
     (FREQ_MONTHLY, _("Monthly digest")),
 )
 
-SCOPE_DEFAULT = 10
+SCOPE_WATCHED = 10
 SCOPE_ADMIN = 20
 SCOPE_PROJECT = 30
 SCOPE_COMPONENT = 40
 
 SCOPE_CHOICES = (
-    (SCOPE_DEFAULT, "Defaults"),
+    (SCOPE_WATCHED, "Defaults"),
     (SCOPE_ADMIN, "Admin"),
     (SCOPE_PROJECT, "Project"),
     (SCOPE_COMPONENT, "Component"),
@@ -121,7 +121,7 @@ class Notification:
         result = Subscription.objects.filter(notification=self.get_name())
         if users is not None:
             result = result.filter(user_id__in=users)
-        query = Q(scope=SCOPE_DEFAULT) | Q(scope=SCOPE_ADMIN)
+        query = Q(scope=SCOPE_WATCHED) | Q(scope=SCOPE_ADMIN)
         if component:
             query |= Q(component=component)
         if project:
@@ -203,7 +203,7 @@ class Notification:
                 )
                 # Default scope for not watched
                 or (
-                    subscription.scope == SCOPE_DEFAULT
+                    subscription.scope == SCOPE_WATCHED
                     and not self.ignore_watched
                     and project is not None
                     and not user.profile.watches_project(project)

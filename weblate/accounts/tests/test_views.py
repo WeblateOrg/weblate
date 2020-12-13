@@ -30,7 +30,7 @@ from social_core.backends.utils import load_backends
 from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
-from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_DEFAULT
+from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_WATCHED
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
@@ -542,7 +542,7 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "notification change link is no longer valid")
 
         subscription = Subscription.objects.create(
-            user=self.user, notification="x", frequency=FREQ_DAILY, scope=SCOPE_DEFAULT
+            user=self.user, notification="x", frequency=FREQ_DAILY, scope=SCOPE_WATCHED
         )
         response = self.client.get(
             reverse("unsubscribe"),
