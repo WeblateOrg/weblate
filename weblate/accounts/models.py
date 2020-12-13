@@ -71,8 +71,9 @@ class Subscription(models.Model):
         unique_together = [("notification", "scope", "project", "component", "user")]
 
     def __str__(self):
-        return "{}:{} ({},{})".format(
+        return "{}:{},{} ({},{})".format(
             self.user.username,
+            self.get_scope_display(),
             self.get_notification_display(),
             self.project,
             self.component,

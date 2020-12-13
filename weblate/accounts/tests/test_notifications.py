@@ -35,6 +35,7 @@ from weblate.accounts.notifications import (
     FREQ_NONE,
     FREQ_WEEKLY,
     SCOPE_ADMIN,
+    SCOPE_ALL,
     SCOPE_COMPONENT,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
@@ -553,6 +554,22 @@ class SubscriptionTest(ViewTestCase):
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
         self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
         self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+
+    def test_all_scope(self):
+        self.user.subscription_set.all().delete()
+        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 0)
+        self.user.subscription_set.create(
+            scope=SCOPE_ALL,
+            notification=self.notification.get_name(),
+            frequency=FREQ_MONTHLY,
+        )
+        self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
+        self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
+        self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
+        self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 1)
 
     def test_skip(self):
         self.user.profile.watched.add(self.project)
