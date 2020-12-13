@@ -240,7 +240,7 @@ def redirect_profile(page=""):
 def get_notification_forms(request):
     user = request.user
     if request.method == "POST":
-        for i in range(1000):
+        for i in range(200):
             prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
             if prefix + "-scope" in request.POST:
                 yield NotificationForm(
