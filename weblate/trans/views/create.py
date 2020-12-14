@@ -388,6 +388,7 @@ class CreateComponentSelection(CreateComponent):
             .with_repo()
             .prefetch()
             .filter(project__in=self.projects)
+            .order_project()
         )
         if self.selected_project:
             self.components = self.components.filter(project__pk=self.selected_project)
@@ -420,7 +421,7 @@ class CreateComponentSelection(CreateComponent):
         if isinstance(form, ComponentBranchForm):
             form.fields["component"].queryset = Component.objects.filter(
                 pk__in=self.branch_data.keys()
-            )
+            ).order_project()
             form.branch_data = self.branch_data
         elif isinstance(form, ComponentSelectForm):
             form.fields["component"].queryset = self.components
