@@ -288,6 +288,8 @@ Generate MO files
 
 Automatically generates a MO file for every changed PO file.
 
+The location of the generated MO file can be customized and the field for it uses :ref:`markup`.
+
 .. _addon-weblate.gettext.msgmerge:
 
 Update PO files to match POT (msgmerge)
