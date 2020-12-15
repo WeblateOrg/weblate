@@ -799,7 +799,7 @@ Projects
 
     .. versionadded:: 4.3
 
-    Edit a project by a patch request.
+    Edit a project by a :http:method:`PATCH` request.
 
     :param project: Project URL slug
     :type project: string
@@ -810,7 +810,7 @@ Projects
 
     .. versionadded:: 4.3
 
-    Edit a project by a put request.
+    Edit a project by a :http:method:`PUT` request.
 
     :param project: Project URL slug
     :type project: string
@@ -1170,7 +1170,7 @@ Components
 
 .. http:patch:: /api/components/(string:project)/(string:component)/
 
-    Edit a component by a patch request.
+    Edit a component by a :http:method:`PATCH` request.
 
     :param project: Project URL slug
     :type project: string
@@ -1253,7 +1253,7 @@ Components
 
 .. http:put:: /api/components/(string:project)/(string:component)/
 
-    Edit a component by a put request.
+    Edit a component by a :http:method:`PUT` request.
 
     :param project: Project URL slug
     :type project: string
