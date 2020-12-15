@@ -83,20 +83,45 @@ def database_backup():
         return
     ensure_backup_dir()
     database = settings.DATABASES["default"]
-    if database["ENGINE"] != "django.db.backends.postgresql":
-        return
-    cmd = ["pg_dump", "--dbname", database["NAME"]]
-    if database["HOST"]:
-        cmd += ["--host", database["HOST"]]
-    if database["PORT"]:
-        cmd += ["--port", database["PORT"]]
-    if database["USER"]:
-        cmd += ["--username", database["USER"]]
-    if settings.DATABASE_BACKUP == "compressed":
-        cmd += ["--file", data_dir("backups", "database.sql.gz")]
-        cmd += ["--compress", "6"]
+    if database["ENGINE"] == "django.db.backends.postgresql":
+        cmd = ["pg_dump", "--dbname", database["NAME"]]
+        if database["HOST"]:
+            cmd += ["--host", database["HOST"]]
+        if database["PORT"]:
+            cmd += ["--port", database["PORT"]]
+        if database["USER"]:
+            cmd += ["--username", database["USER"]]
+        if settings.DATABASE_BACKUP == "compressed":
+            cmd += ["--file", data_dir("backups", "database.sql.gz")]
+            cmd += ["--compress", "6"]
+        else:
+            cmd += ["--file", data_dir("backups", "database.sql")]
+    elif database["ENGINE"] == "django.db.backends.mysql":
+        options = data_dir("home") + "/.my.cnf"
+        f = open(options, "w")
+        if f.closed() != False:
+            f.write("[mysqldump]\n")
+            f.write("password = '" + database["PASSOWRD"] + "'\n")
+            f.close()
+        else:
+            return
+
+        cmd  = ["mysqldump", "--databases", database["NAME"]]
+        cmd += ["--defaults-extra-file", options]
+
+        if database["HOST"]:
+            cmd += ["--host", database["HOST"]]
+        if database["PORT"]:
+            cmd += ["--port", database["PORT"]]
+        if database["USER"]:
+            cmd += ["--user", database["USER"]]
+        if settings.DATABASE_BACKUP == "compressed":
+            cmd += ["--result-file", data_dir("backups", "database.sql.gz")]
+            cmd += ["--compress"]
+        else:
+            cmd += ["--result-file", data_dir("backups", "database.sql")]
     else:
-        cmd += ["--file", data_dir("backups", "database.sql")]
+        return
 
     try:
         subprocess.run(
