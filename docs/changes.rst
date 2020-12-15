@@ -1,7 +1,7 @@
 Weblate 4.4
 -----------
 
-Not yet released.
+Released on December 15th 2020.
 
 * Improved validation when creating component.
 * Weblate now requires Django 3.1.
