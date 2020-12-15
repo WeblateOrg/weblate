@@ -173,6 +173,11 @@ remove your account, or download your user data (see :ref:`schema-userdata`).
 
 .. image:: /images/authentication.png
 
+API access
+----------
+
+You can get or reset your API access token here.
+
 .. _audit-log:
 
 Audit log
