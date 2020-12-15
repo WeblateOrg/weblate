@@ -1515,18 +1515,39 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     autoload = ("*.properties",)
     new_translation = "\n"
 
+    # Ensure that not translated units are saved too as missing properties and
+    # comments are preserved as in the original source file.
     def save_content(self, handle):
         current_units = self.all_units
+        store_units = self.store.units
+
+        # We empty the store units since we want to control what we'll serialize
         self.store.units = []
-        # Ensure that not translated units are saved too as missing properties.
+
         for unit in current_units:
-            if unit.unit is None:
-                if not unit.has_content():
-                    unit.unit = unit.mainunit
+            # If the translation unit is missing and the current unit is not
+            # only about comment.
+            if unit.unit is None and unit.has_content():
+
+                # We first check if the unit has not been translated as part of a
+                # new language: in that case the unit is not linked yet.
+                found_store_unit = None
+                for store_unit in store_units:
+                    if unit.context == store_unit.name:
+                        found_store_unit = store_unit
+
+                # If we found a unit for same context not linked, we just link it.
+                if found_store_unit is not None:
+                    unit.unit = found_store_unit
+                # else it's a missing unit: we need to mark it as missing.
                 else:
                     missingunit = self.find_unit(unit.context, unit.source)[0]
                     unit.unit = missingunit.unit
                     unit.unit.missing = True
+            # if the unit was only a comment, we take back the original source file unit
+            # to avoid any change.
+            elif not unit.has_content():
+                unit.unit = unit.mainunit
             self.add_unit(unit.unit)
 
         self.store.serialize(handle)
