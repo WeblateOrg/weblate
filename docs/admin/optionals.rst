@@ -33,15 +33,17 @@ Usage
 The module automatically hooks into Weblate and sets the exported repository URL in
 the :ref:`component`.
 The repositories are accessible under the ``/git/`` part of the Weblate URL, for example
-``https://example.org/git/weblate/master/``:
+``https://example.org/git/weblate/master/``.
+
+Repositories for publicly available projects can be cloned without authentication:
 
 .. code-block:: sh
 
     git clone 'https://example.org/git/weblate/master/'
 
-Repositories are available anonymously unless :ref:`acl` is turned on.
-This requires authenticate using your API token (it can be obtained in your
-:ref:`user-profile`):
+Access to the repositories with restricted access (using :ref:`acl` or when
+:setting:`REQUIRE_LOGIN` is enabled) requires a API token which can be obtained
+in your :ref:`user-profile`:
 
 .. code-block:: sh
 
