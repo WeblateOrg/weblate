@@ -98,15 +98,12 @@ def database_backup():
             cmd += ["--file", data_dir("backups", "database.sql")]
     elif database["ENGINE"] == "django.db.backends.mysql":
         options = data_dir("home") + "/.my.cnf"
-        f = open(options, "w")
-        if f.closed() != False:
-            f.write("[mysqldump]\n")
-            f.write("password = '" + database["PASSOWRD"] + "'\n")
-            f.close()
-        else:
-            return
 
-        cmd  = ["mysqldump", "--databases", database["NAME"]]
+        with open(options, "w") as handle:
+            handle.write("[mysqldump]\n")
+            handle.write("password = '" + database["PASSOWRD"] + "'\n")
+
+        cmd = ["mysqldump", "--databases", database["NAME"]]
         cmd += ["--defaults-extra-file", options]
 
         if database["HOST"]:
