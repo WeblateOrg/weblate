@@ -7,7 +7,7 @@ Suggestion voting
 -----------------
 
 Everyone can add suggestions by default, to be accepted by signed in users.
-Suggestion voting can be used to make use of a string when more than signed in
+Suggestion voting can be used to make use of a string when more than one signed-in
 user agrees, by setting up the :ref:`component` configuration with
 :guilabel:`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept suggestions`
 to set a threshold for accepted suggestions (this includes a vote from the user
@@ -57,7 +57,7 @@ Strings prioritization
 .. versionadded:: 2.0
 
 String priority can be changed to offer higher priority strings for translation earlier by
-using the ``priority`` flag
+using the ``priority`` flag.
 
 .. hint::
 
