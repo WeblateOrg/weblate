@@ -85,6 +85,7 @@ def database_backup():
     database = settings.DATABASES["default"]
     if database["ENGINE"] == "django.db.backends.postgresql":
         cmd = ["pg_dump", "--dbname", database["NAME"]]
+
         if database["HOST"]:
             cmd += ["--host", database["HOST"]]
         if database["PORT"]:
@@ -100,7 +101,6 @@ def database_backup():
         env = get_clean_env({"PGPASSWORD": database["PASSWORD"]})
     elif database["ENGINE"] == "django.db.backends.mysql":
         cmd = ["mysqldump", "--databases", database["NAME"]]
-        cmd += ["--defaults-extra-file", options]
 
         if database["HOST"]:
             cmd += ["--host", database["HOST"]]
