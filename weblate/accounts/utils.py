@@ -21,6 +21,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
+from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
@@ -77,6 +78,9 @@ def remove_user(user, request):
     profile.company = ""
     profile.public_email = ""
     profile.save()
+
+    # Delete API tokens
+    Token.objects.filter(user=request.user).delete()
 
 
 def get_all_user_mails(user, entries=None):
