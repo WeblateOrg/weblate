@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-12-11 14:51+0000\n"
+"PO-Revision-Date: 2020-12-19 21:30+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1052,9 +1052,8 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文を VCS からインポートすると、Weblate は毎回 \"要編集\" フラグを付け"
-"ます。このため、開発者が作成した原文を簡単にフィルタしたり、編集したりできま"
-"す。"
+"新しい原文を VCS からインポートすると、Weblate は毎回 \"要編集\" "
+"フラグを付けます。このため、開発者が作成した原文を簡単にフィルターしたり、編集したりできます。"
 
 #: weblate/addons/flags.py:61
 msgid "Flag new translations as \"Needs editing\""
@@ -1066,9 +1065,8 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートすると、Weblate は毎回 \"要編集\" フ"
-"ラグを付けます。これにより、開発者が作成した翻訳文を簡単にフィルタしたり、編"
-"集したりできます。"
+"新しい翻訳可能な文章を VCS からインポートすると、Weblate は毎回 \"要編集\" "
+"フラグを付けます。これにより、開発者が作成した翻訳文を簡単にフィルターしたり、編集したりできます。"
 
 #: weblate/addons/flags.py:75
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -1123,7 +1121,7 @@ msgstr "77 文字または改行文字で改行する"
 
 #: weblate/addons/forms.py:113
 msgid "Only wrap lines at newlines"
-msgstr "改行文字でのみ改行する"
+msgstr "改行文字でのみ改行"
 
 #: weblate/addons/forms.py:114 weblate/addons/forms.py:202
 msgid "No line wrapping"
@@ -1155,23 +1153,23 @@ msgstr "スカッシュ コミット"
 
 #: weblate/addons/forms.py:146
 msgid "All commits into one"
-msgstr "すべてのコミットを 1 つにする"
+msgstr "すべてのコミットを 1 つにまとめる"
 
 #: weblate/addons/forms.py:147
 msgid "Per language"
-msgstr "言語別に"
+msgstr "言語別"
 
 #: weblate/addons/forms.py:148
 msgid "Per file"
-msgstr "ファイル別に"
+msgstr "ファイル別"
 
 #: weblate/addons/forms.py:149
 msgid "Per author"
-msgstr "翻訳者別に"
+msgstr "翻訳者別"
 
 #: weblate/addons/forms.py:155
 msgid "Append trailers to squashed commit message"
-msgstr "スカッシュしたコミット メッセージにトレーラ行を追加する"
+msgstr "簡略化したコミット メッセージに翻訳者情報を追加する"
 
 #: weblate/addons/forms.py:159
 msgid ""
@@ -1285,7 +1283,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:267 weblate/trans/models/component.py:578
 msgid "Language filter"
-msgstr "言語フィルタ"
+msgstr "言語フィルター"
 
 #: weblate/addons/forms.py:272
 msgid ""
@@ -3488,9 +3486,7 @@ msgstr "Cookie ポリシー"
 msgid ""
 "This page is based on the Terms of Service and the Privacy Policy, you "
 "should still read the original documents to fully understand them:"
-msgstr ""
-"このページはサービス利用規約とプライバシーポリシーをベースにしているもので"
-"す。詳しくお読みになりたい場合は、それぞれの文書をお読みください:"
+msgstr "このページはサービス利用規約とプライバシーポリシーをベースにしているものです。原本のドキュメントを読んで完全に理解するべき方法："
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:23
@@ -4849,8 +4845,7 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
 msgstr ""
-"元のコミット メッセージは保持されますが、「翻訳者別に」を選択するか、コミッ"
-"ト メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
+"元々のコミット メッセージは保持されますが、「翻訳者別に」を選択するか、コミット メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
 
 #: weblate/templates/base.html:113
 msgid "Toggle navigation"
@@ -5336,7 +5331,7 @@ msgstr "オフライン翻訳用にダウンロードします。"
 #: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
 msgid "Download original translation files as ZIP file"
-msgstr "オリジナルの翻訳ファイルを ZIP 形式でダウンロード"
+msgstr "原本の翻訳ファイルを ZIP 形式でダウンロード"
 
 #: weblate/templates/component-list.html:35
 msgid "Number of components"
@@ -8814,7 +8809,7 @@ msgstr "文字列のバリアント"
 
 #: weblate/templates/translate.html:222 weblate/templates/translate.html:482
 msgid "Variants"
-msgstr "関連性"
+msgstr "バリアント"
 
 #: weblate/templates/translate.html:228
 msgid "Other occurrences"
@@ -8975,7 +8970,7 @@ msgstr "%(position)s 番目の文字列"
 #: weblate/templates/translation-download.html:7
 #, python-format
 msgid "Download original translation file (%(format)s)"
-msgstr "オリジナルの翻訳ファイルのダウンロード (%(format)s)"
+msgstr "原本の翻訳ファイルのダウンロード (%(format)s)"
 
 #: weblate/templates/translation-download.html:11
 #, python-format
@@ -10623,7 +10618,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:587
 msgid "Variants regular expression"
-msgstr "バリアント正規表現"
+msgstr "つづり正規表現"
 
 #: weblate/trans/models/component.py:593
 msgid "Regular expression used to determine variants of a string."
