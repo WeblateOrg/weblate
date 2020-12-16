@@ -64,6 +64,20 @@ def remove_user(user, request):
     # Remove user translation memory
     user.memory_set.all().delete()
 
+    # Cleanup profile
+    profile = user.profile
+    profile.website = ""
+    profile.liberapay = ""
+    profile.fediverse = ""
+    profile.codesite = ""
+    profile.github = ""
+    profile.twitter = ""
+    profile.linkedin = ""
+    profile.location = ""
+    profile.company = ""
+    profile.public_email = ""
+    profile.save()
+
 
 def get_all_user_mails(user, entries=None):
     """Return all verified mails for user."""
