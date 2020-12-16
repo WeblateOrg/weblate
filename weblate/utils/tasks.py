@@ -97,7 +97,7 @@ def database_backup():
         else:
             cmd += ["--file", data_dir("backups", "database.sql")]
 
-        env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
+        env = get_clean_env({"PGPASSWORD": database["PASSWORD"]})
     elif database["ENGINE"] == "django.db.backends.mysql":
         cmd = ["mysqldump", "--databases", database["NAME"]]
         cmd += ["--defaults-extra-file", options]
@@ -114,7 +114,7 @@ def database_backup():
         else:
             cmd += ["--result-file", data_dir("backups", "database.sql")]
 
-        env=get_clean_env({"MYSQL_PWD": database["PASSWORD"]}),
+        env = get_clean_env({"MYSQL_PWD": database["PASSWORD"]})
     else:
         return
 
