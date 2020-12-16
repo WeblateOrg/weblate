@@ -96,13 +96,9 @@ def database_backup():
             cmd += ["--compress", "6"]
         else:
             cmd += ["--file", data_dir("backups", "database.sql")]
+
+        env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
     elif database["ENGINE"] == "django.db.backends.mysql":
-        options = data_dir("home") + "/.my.cnf"
-
-        with open(options, "w") as handle:
-            handle.write("[mysqldump]\n")
-            handle.write("password = '" + database["PASSOWRD"] + "'\n")
-
         cmd = ["mysqldump", "--databases", database["NAME"]]
         cmd += ["--defaults-extra-file", options]
 
@@ -117,13 +113,15 @@ def database_backup():
             cmd += ["--compress"]
         else:
             cmd += ["--result-file", data_dir("backups", "database.sql")]
+
+        env=get_clean_env({"MYSQL_PWD": database["PASSWORD"]}),
     else:
         return
 
     try:
         subprocess.run(
             cmd,
-            env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
+            env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
