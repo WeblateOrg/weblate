@@ -263,6 +263,9 @@
 
 {% if others.total %}
 <div class="tab-pane" id="others">
+{% if others.skipped %}
+  <p class="help-block">{% trans "Showing only subset of the strings as there were too many matches." %}</p>
+{% endif %}
 <form method="POST" action="{{ unit.translation.get_translate_url}}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
   {% csrf_token %}
   <table class="table table-condensed">

@@ -92,7 +92,14 @@ def parse_params(request, project, component, lang):
 
 def get_other_units(unit):
     """Returns other units to show while translating."""
-    result = {"total": 0, "same": [], "matching": [], "context": [], "source": []}
+    result = {
+        "total": 0,
+        "skipped": False,
+        "same": [],
+        "matching": [],
+        "context": [],
+        "source": [],
+    }
 
     allow_merge = False
     untranslated = False
@@ -113,11 +120,16 @@ def get_other_units(unit):
         translation__language=translation.language,
     )
 
+    units_count = units.count()
+
     # Is it only this unit?
-    if len(units) == 1:
+    if units_count == 1:
         return result
 
-    for item in units:
+    result["total"] = units_count
+    result["skipped"] = units_count > 20
+
+    for item in units[:20]:
         item.allow_merge = item.differently_translated = (
             item.translated and item.target != unit.target
         )
