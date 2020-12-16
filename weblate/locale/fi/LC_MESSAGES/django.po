@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-11-03 23:06+0000\n"
+"PO-Revision-Date: 2020-12-19 21:30+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -847,12 +847,16 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Näyttää, että olet jo pyytänyt kokeilujaksoa hiljattain. Ota yhteyttä, niin "
+"voimme etsiä sinulle parhaan ratkaisun."
 
 #: weblate/accounts/views.py:557
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Kokeilujaksosi on nyt käynnissä. Luo käännösprojekti ja aloita Weblaten "
+"käyttö!"
 
 #: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
@@ -1030,17 +1034,12 @@ msgstr ""
 "enää ole pohjatiedostossa, poistetaan."
 
 #: weblate/addons/cleanup.py:61
-#, fuzzy
-#| msgid "Remove a string"
 msgid "Remove blank strings"
-msgstr "Poista teksti"
+msgstr "Poista tyhjät tekstit"
 
 #: weblate/addons/cleanup.py:62
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Uusi teksti käännettäväksi projektissa %(translation)s"
+msgstr "Poistaa käännöstiedostoista tekstit, joilla ei ole käännöstä."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
@@ -1119,12 +1118,6 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Merkitse muuttamattomat käännökset muokkaamista vaativiksi"
 
 #: weblate/addons/flags.py:77
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches source strings, it is flagged as needing editing in Weblate. This "
-#| "is especially useful for file formats that include all strings even if "
-#| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. This is "
@@ -1132,9 +1125,9 @@ msgid ""
 "translated."
 msgstr ""
 "Aina kun uusi käännettävissä oleva teksti on tuotu versionhallinnasta "
-"Weblateen ja se täsmää lähdeteksteihin, se merkitään tarkistettavaksi. Tämä "
-"on hyödyksi erityisesti niillä käännöstiedostomuodoilla, jotka sisältävät "
-"kaikki tekstit, myös sellaiset, joita ei ole käännetty."
+"Weblateen ja se täsmää johonkin lähdetekstiin, se merkitään "
+"tarkistettavaksi. Tämä on hyödyksi erityisesti niillä tiedostomuodoilla, "
+"jotka sisältävät kaikki tekstit, myös sellaiset, joita ei ole käännetty."
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:70
 #: weblate/templates/component.html:218 weblate/templates/project.html:113
@@ -1412,10 +1405,9 @@ msgid "Statistics generator"
 msgstr "Tilastogeneraattori"
 
 #: weblate/addons/generate.py:34
-#, fuzzy
-#| msgid "Generates a file containing detailed info about the translation."
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Luo tiedoston, joka sisältää yksityiskohtaista tietoa käännöksestä."
+msgstr ""
+"Luo tiedoston, joka sisältää yksityiskohtaista tietoa käännöksen tilasta."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1634,10 +1626,8 @@ msgstr "Lataa sanastoon merkintöjä"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Use automatic suggestions"
-msgstr "Hyväksy ehdotukset automaattisesti"
+msgstr "Käytä automaattisia ehdotuksia"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -2001,10 +1991,9 @@ msgid "Permission"
 msgstr "Käyttöoikeus"
 
 #: weblate/auth/models.py:78
-#, fuzzy, python-format
-#| msgid "Filtered permissions"
+#, python-format
 msgid "%s (site wide permission)"
-msgstr "Valitut käyttöoikeudet"
+msgstr "%s (oikeus koko sivustolla)"
 
 #: weblate/auth/models.py:83 weblate/auth/models.py:108
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2416,10 +2405,8 @@ msgid "Source and translation do not both end with a semicolon"
 msgstr "Lähdeteksti ja käännös eivät molemmat pääty puolipisteeseen"
 
 #: weblate/checks/chars.py:383
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "Kashida-tasausta käytetty"
+msgstr "Kashida-kirjainta käytetty"
 
 #: weblate/checks/chars.py:384
 msgid "The decorative kashida letters should not be used"
@@ -3581,10 +3568,8 @@ msgid "Privacy"
 msgstr "Yksityisyys"
 
 #: weblate/legal/templates/legal/contracts.html:15 weblate/legal/views.py:36
-#, fuzzy
-#| msgid "contact"
 msgid "Subcontractors"
-msgstr "Ota yhteyttä"
+msgstr "Alihankkijat"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
@@ -4216,12 +4201,11 @@ msgid "Unapproved projects will be removed."
 msgstr ""
 
 #: weblate/templates/accounts/hosting.html:36
-#, fuzzy
-#| msgid "There is no guarantee of service availability, nor quality."
 msgid ""
 "There is no guarantee of service availability, nor quality for free service "
 "plan."
-msgstr "Ei takuuta palvelun saatavuudelle tai laadulle."
+msgstr ""
+"Ei takuuta palvelun saatavuudelle tai laadulle ilmaisen palvelun osalta."
 
 #: weblate/templates/accounts/hosting.html:41
 msgid "Get started"
@@ -4453,6 +4437,9 @@ msgid ""
 "and by filling them out, you're giving us consent to share this data "
 "wherever your user profile appears."
 msgstr ""
+"Kaikki tämän sivun kentät ovat vapaaehtoisia ja ne voi poistaa koska "
+"tahansa. Täyttämällä ne annat meille luvan jakaa tätä tietoa aina kun "
+"käyttäjäprofiilisi näkyy."
 
 #: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
@@ -4650,16 +4637,12 @@ msgid "Thank you for your interest in trying Weblate!"
 msgstr "Kiitoksia Weblaten kokeilemisesta!"
 
 #: weblate/templates/accounts/trial.html:20
-#, fuzzy
-#| msgid "Your profile"
 msgid "Your trial offer"
-msgstr "Profiilisi"
+msgstr "Kokeilutarjouksesi"
 
 #: weblate/templates/accounts/trial.html:23
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will last 14 days."
-msgstr "Sähköpostiosoitteesi"
+msgstr "Kokeilusi kestää 14 päivää."
 
 #: weblate/templates/accounts/trial.html:24
 msgid ""
@@ -4828,13 +4811,11 @@ msgid "Install"
 msgstr "Asenna"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid ""
 "Could not find any additional addons compatible with this translation "
 "component."
-msgstr "Tämän käännöksen kanssa yhteensopivia lisäosia ei löydy."
+msgstr ""
+"LIsää tämän käännöskomponentin kanssa yhteensopivia lisäosia ei löytynyt."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some addons will ask for additional configuration during installation."
@@ -5300,10 +5281,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/billing/state-snippet.html:11
-#, fuzzy
-#| msgid "Recurring payment"
 msgid "Awaiting payment"
-msgstr "Toistuva maksu"
+msgstr "Odottaa maksua"
 
 #: weblate/templates/billing/status.html:9
 msgid "Current plan"
@@ -5316,7 +5295,7 @@ msgstr "Vaihda maksusuunnitelmaa"
 #: weblate/templates/billing/status.html:28
 #: weblate/templates/billing/status.html:39
 msgid "Extend trial"
-msgstr ""
+msgstr "Jatka kokeilua"
 
 #: weblate/templates/billing/status.html:45
 msgid "Monthly price"
@@ -6124,13 +6103,13 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"%(project)s-suomennusprojekti sisältää tällä hetkellä <strong>%(total)s "
-"käännettävää tekstiä</strong>, joista <strong>%(percent)s%% on käännetty</"
-"strong>."
+"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
+"tekstin</strong> käännettäväksi ja on <strong>%(percent)s%-prosenttisesti "
+"käännetty</strong>."
 msgstr[1] ""
-"%(project)s-suomennusprojekti sisältää tällä hetkellä <strong>%(total)s "
-"käännettävää tekstiä</strong>, joista <strong>%(percent)s%% on käännetty</"
-"strong>."
+"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
+"tekstiä</strong> käännettäväksi ja on <strong>%(percent)s%-prosenttisesti "
+"käännetty</strong>."
 
 #: weblate/templates/engage.html:44
 #, fuzzy, python-format
@@ -6532,7 +6511,7 @@ msgstr "Nouda muutokset etäarkistosta"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Update"
-msgstr ""
+msgstr "Päivitä"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull changes from the remote repository"
@@ -6585,10 +6564,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:104
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Maintenance"
-msgstr "Arkiston ylläpito"
+msgstr "Ylläpito"
 
 #: weblate/templates/js/git-status.html:109
 #, fuzzy
@@ -7187,12 +7164,9 @@ msgid "Not yet signed in"
 msgstr "Ei vielä sisäänkirjautunut"
 
 #: weblate/templates/manage-access.html:57
-#, fuzzy, python-format
-#| msgid "This will permanently delete %(count)s entry from the glossary."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the glossary."
+#, python-format
 msgid "This will remove <b>%(user)s</b> access to this project."
-msgstr "Tämä poistaa pysyvästi yhden merkinnän sanastosta."
+msgstr "Tämä poistaa käyttäjän <b>%(user)s</b> pääsyn projektiin."
 
 #: weblate/templates/manage-access.html:71
 msgid "Resend invitation"
@@ -7247,19 +7221,15 @@ msgstr "Onnittelut, kokoonpanosi näyttää toimivan."
 
 #: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:71
 msgid "Appearance"
-msgstr ""
+msgstr "Ulkoasu"
 
 #: weblate/templates/manage/appearance.html:18
-#, fuzzy
-#| msgid "Customize download"
 msgid "Customize appearance"
-msgstr "Muokkaa latausta"
+msgstr "Mukauta ulkoasua"
 
 #: weblate/templates/manage/appearance.html:24
-#, fuzzy
-#| msgid "Workflow customization"
 msgid "Reset customization"
-msgstr "Työnkulun mukauttaminen"
+msgstr "Palauta mukautukset"
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:64
 msgid "Backups"
@@ -7652,10 +7622,8 @@ msgstr "Siirry sijaintiin"
 
 #: weblate/templates/paginator.html:19
 #: weblate/templates/snippets/position-field.html:19
-#, fuzzy
-#| msgid "Jump"
 msgid "Jump to"
-msgstr "Hyppää"
+msgstr "Siirry kohtaan"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
@@ -7748,10 +7716,8 @@ msgid "Instructions for translators"
 msgstr "Käännösohjeet"
 
 #: weblate/templates/project_info.html:44
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Project maintainers"
-msgstr "Ota yhteyttä ylläpitäjiin"
+msgstr "Projektin ylläpitäjät"
 
 #: weblate/templates/ratelimit.html:5
 msgid ""
@@ -8075,13 +8041,11 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "%(count)s suggestion"
-#| msgid_plural "%(count)s suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "Yksi ehdotus"
-msgstr[1] "%(count)s ehdotusta"
+msgstr[0] "Yksi teksti"
+msgstr[1] "%(count)s tekstiä"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -8120,17 +8084,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Hallinnoi kieliä"
+msgstr "Hallinnoi laskutusta"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Tämän projektin määritykset ovat virheelliset."
+msgstr "Tämä projekti on kokeilujaksolla."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8453,10 +8412,8 @@ msgid "Error"
 msgstr "Virhe"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files are using ambiguous language code."
-msgstr "Komponentti sisältää lähdekielen käännöstiedoston."
+msgstr "Komponentin käännöstiedostot käyttävät epäselvää kielikoodia."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
@@ -8857,16 +8814,12 @@ msgstr ""
 "%(object)s ja kaiken siihen liittyvän sisällön."
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "Seuraavat käännöskomponentit poistetaan:"
+msgstr "Seuraavat käännökset poistetaan:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "Poistettava projekti"
+msgstr "Poistettava projektin kieli"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8950,10 +8903,8 @@ msgid "This translation"
 msgstr "Tämä käännös"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Käännetty"
+msgstr "Kertautunut"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9035,14 +8986,10 @@ msgstr ""
 "käännösehdotuksen jos tekstiä pitää mielestäsi muuttaa."
 
 #: weblate/templates/translate.html:186
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions and these are approved by "
-#| "voting."
 msgid ""
 "This translation only accepts suggestions, and these are approved by voting."
 msgstr ""
-"Tähän käännökseen voi tehdä vain ehdotuksia ja ehdotukset hyväksytään "
+"Tähän käännökseen voi tehdä vain ehdotuksia. Ehdotukset hyväksytään "
 "äänestyksellä."
 
 #: weblate/templates/translate.html:188
@@ -9116,10 +9063,8 @@ msgid "Computer-aided translation suggestions"
 msgstr "Koneen kääntämät ehdotukset"
 
 #: weblate/templates/translate.html:234
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Automatic suggestions"
-msgstr "Hyväksy ehdotukset automaattisesti"
+msgstr "Automaattiset ehdotukset"
 
 #: weblate/templates/translate.html:236
 msgid "Translations of this string in the other languages"
@@ -9134,10 +9079,8 @@ msgid "List of recent changes done in Weblate"
 msgstr "Luettelo tuoreista muutoksista Weblatessa"
 
 #: weblate/templates/translate.html:279
-#, fuzzy
-#| msgid "Different context"
 msgid "Difference to current string"
-msgstr "Eri asiayhteys"
+msgstr "Ero nykyiseen tekstiin"
 
 #: weblate/templates/translate.html:290
 msgid "The following string has the same context and source."
@@ -9160,16 +9103,12 @@ msgstr[0] "Seuraavalla tekstillä on eri lähdeteksti, mutta sama asiayhteys."
 msgstr[1] "Seuraavilla teksteillä on eri lähdetekstit, mutta sama asiayhteys."
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Salli käännösten kertautuminen"
+msgstr "Käytä valittua käännöstä kaikkiin kertautuneisiin teksteihin"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Upload translation strings"
 msgid "Apply selected translation to current string"
-msgstr "Lähetä käännöstekstejä"
+msgstr "Käytä valittua käännöstä nykyiseen tekstiin"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -9641,10 +9580,8 @@ msgid "Strings without a label"
 msgstr "Merkkijono merkinnät"
 
 #: weblate/trans/filter.py:63
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Pluralized string"
-msgstr "Käännetyt tekstit"
+msgstr "Monikollinen teksti"
 
 #: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 msgid "Failed check: {}"
@@ -10315,10 +10252,8 @@ msgstr "Lisää ruudunkaappauskuva"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:312
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Kielitunnus"
+msgstr "Epäselvä kielikoodi."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
@@ -11206,7 +11141,7 @@ msgstr ""
 #: weblate/trans/models/component.py:2274
 msgid ""
 "Source language can not be changed, please recreate the component instead."
-msgstr ""
+msgstr "Lähdekieltä ei voi muuttaa. Luo komponentti sen sijaan uudelleen."
 
 #: weblate/trans/models/component.py:2282
 #, fuzzy
@@ -11862,7 +11797,7 @@ msgstr "{day}/{month}"
 #: weblate/trans/views/create.py:224
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
-msgstr ""
+msgstr "%s-lisenssi havaittu, tarkista onko se oikein."
 
 #: weblate/trans/views/create.py:327
 msgid "Failed to parse uploaded ZIP file."
@@ -12122,10 +12057,8 @@ msgid "Project was scheduled for removal."
 msgstr "Projekti oli ajastettu poistettavaksi."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "Kieli %s poistettu."
+msgstr "Projektin kieli poistettiin."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -12469,16 +12402,12 @@ msgid "Please provide font family suitable for CSS."
 msgstr ""
 
 #: weblate/wladmin/forms.py:84
-#, fuzzy
-#| msgid "Page Not Found"
 msgid "Page font"
-msgstr "Sivua ei löydy"
+msgstr "Sivun fontti"
 
 #: weblate/wladmin/forms.py:85
-#, fuzzy
-#| msgid "Add font"
 msgid "Header font"
-msgstr "Lisää fontti"
+msgstr "Otsikkofontti"
 
 #: weblate/wladmin/forms.py:92
 #, fuzzy
