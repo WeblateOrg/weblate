@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-10 21:03+0100\n"
-"PO-Revision-Date: 2020-12-14 13:29+0000\n"
-"Last-Translator: 日陰のコスモス <baffclan@yahoo.co.jp>\n"
+"PO-Revision-Date: 2020-12-19 21:30+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -263,9 +263,8 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
-"`ユーザー` グループと `閲覧者` グループの自動グループ割り当ては、移行時に常"
-"に Weblate によって作成されます。無効する場合は、正規表現を ``^$`` に設定する"
-"だけで、一致しなくなります。"
+"`ユーザー` グループと `閲覧者` グループの自動グループ割り当ては、移行時に常に Weblate によって作成されます。無効にする場合は、正規表現を "
+"``^$`` に設定するだけで、一致しなくなります。"
 
 #: ../../admin/access.rst:134
 msgid "Users, roles, groups and permissions"
@@ -1118,6 +1117,8 @@ msgid ""
 "(for example when your localization library displays them as empty strings "
 "instead of falling back to the source string)."
 msgstr ""
+"空の文字列を翻訳ファイルに表示させたくない場合（たとえば、翻訳ライブラリで原文にフォールバックさせるのではなく、空の文字列として表示させる場合）に使用しま"
+"す。"
 
 #: ../../admin/addons.rst:72 ../../admin/addons.rst:85
 #: ../../admin/addons.rst:305 ../../admin/addons.rst:395
@@ -1319,9 +1320,8 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文を VCS からインポートすると、Weblate は毎回 \"要編集\" フラグを付け"
-"ます。このため、開発者が作成した原文を簡単にフィルタしたり、編集したりできま"
-"す。"
+"新しい原文を VCS からインポートすると、Weblate は毎回 \"要編集\" "
+"フラグを付けます。このため、開発者が作成した原文を簡単にフィルターしたり、編集したりできます。"
 
 #: ../../admin/addons.rst:197
 msgid "Flag new translations as \"Needs editing\""
@@ -1333,9 +1333,8 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートすると、Weblate は毎回 \"要編集\" フ"
-"ラグを付けます。これにより、開発者が作成した翻訳文を簡単にフィルタしたり、編"
-"集したりできます。"
+"新しい翻訳可能な文章を VCS からインポートすると、Weblate は毎回 \"要編集\" "
+"フラグを付けます。これにより、開発者が作成した翻訳文を簡単にフィルターしたり、編集したりできます。"
 
 #: ../../admin/addons.rst:206
 msgid "Statistics generator"
@@ -1407,15 +1406,15 @@ msgstr "改行処理など、 gettext の出力動作をカスタマイズでき
 
 #: ../../admin/addons.rst:265
 msgid "It offers the following options:"
-msgstr "以下のオプションがあります:"
+msgstr "以下のオプションがある："
 
 #: ../../admin/addons.rst:267
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr ""
+msgstr "77 文字または改行文字で改行"
 
 #: ../../admin/addons.rst:268
 msgid "Only wrap lines at newlines"
-msgstr "改行文字でのみ改行する"
+msgstr "改行文字でのみ改行"
 
 #: ../../admin/addons.rst:269
 msgid "No line wrapping"
@@ -1426,6 +1425,8 @@ msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, it wraps only at newlines."
 msgstr ""
+"デフォルトでは、gettext は 77 文字を超えた場合や改行文字がある場合に改行します。--no-wrap "
+"パラメータを指定すると、改行文字でのみ改行します。"
 
 #: ../../admin/addons.rst:280
 msgid "Update LINGUAS file"
@@ -1452,6 +1453,8 @@ msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using msgmerge."
 msgstr ""
+"msgmerge を使用して POT ファイル（:ref:`component-filemask` で設定）に一致するように、すべての PO "
+"ファイル（:ref:`component-new_base` で設定）を更新します。"
 
 #: ../../admin/addons.rst:299
 msgid ""
@@ -1472,38 +1475,37 @@ msgstr "変更をプッシュする前に、Git コミットをスカッシュ�
 
 #: ../../admin/addons.rst:314
 msgid "You can choose one of following modes:"
-msgstr "以下のモードを選択することができます:"
+msgstr "選択できるモード："
 
 #: ../../admin/addons.rst:318
 msgid "All commits into one"
-msgstr "すべてのコミットを 1 つにする"
+msgstr "すべてのコミットを 1 つにまとめる"
 
 #: ../../admin/addons.rst:319
 msgid "Per language"
-msgstr "言語別に"
+msgstr "言語別"
 
 #: ../../admin/addons.rst:320
 msgid "Per file"
-msgstr "ファイル別に"
+msgstr "ファイル別"
 
 #: ../../admin/addons.rst:324
 msgid "Per author"
-msgstr "翻訳者別に"
+msgstr "翻訳者別"
 
 #: ../../admin/addons.rst:326
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
-"元のコミット メッセージは保持されますが、 :guilabel:`Per author` を選択する"
-"か、コミット メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われ"
-"ます。"
+"元々のコミット メッセージは保持されますが、 :guilabel:`Per author` を選択するか、コミット "
+"メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
 
 #: ../../admin/addons.rst:331
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
-msgstr ""
+msgstr "元々のコミット メッセージは、オプションで独自のコミット メッセージに上書きできます。"
 
 #: ../../admin/addons.rst:333
 msgid ""
@@ -1512,6 +1514,8 @@ msgid ""
 "squashed commit message. This also generates proper ``Co-authored-by:`` "
 "credit for every translator."
 msgstr ""
+"翻訳者情報（ ``Co-authored-by: ...``）は、オプションで元々のコミット メッセージから削除し、簡略化したコミット "
+"メッセージの末尾に追加できます。また、これはすべての翻訳者に対して適切な ``共同翻訳者：`` の明記を生成します。"
 
 #: ../../admin/addons.rst:341
 msgid "Customize JSON output"
@@ -1544,6 +1548,8 @@ msgid ""
 "Use with care as comment being old does not mean they have lost their "
 "importance."
 msgstr ""
+"これは、古くなった可能性のある古いコメントを削除する場合に便利です。コメントが古いからといって、その重要性が失われたわけではないので、注意して使用してくだ"
+"さい。"
 
 #: ../../admin/addons.rst:368
 msgid "Stale suggestion removal"
@@ -1559,6 +1565,7 @@ msgid ""
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
+"これは、与えられた時間枠内に必要な賛成票を獲得できなかった提案を、削除する提案投票（参照 :ref:`peer-review`）に関連して大変便利です。"
 
 #: ../../admin/addons.rst:381
 msgid "Update RESX files"
@@ -1578,7 +1585,7 @@ msgstr ""
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
-msgstr ""
+msgstr "古い翻訳キーのみを削除する場合は、:ref:`addon-weblate.cleanup.generic` を使用します。"
 
 #: ../../admin/addons.rst:400
 msgid "Customize YAML output"
@@ -1934,7 +1941,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr ""
+msgstr "認証の試行は、:ref:`rate-limit` の対象です。"
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
@@ -2874,9 +2881,7 @@ msgstr ""
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
-msgstr ""
-"例えば、次の自動修正は、翻訳内のすべての文字列 ``foo`` を ``bar`` に置き換え"
-"ます:"
+msgstr "例えば、次の自動修正は、翻訳内のすべての文字列 ``foo`` を ``bar`` に置き換える："
 
 #: ../../admin/checks.rst:21
 msgid ""
@@ -3640,8 +3645,8 @@ msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
-"文字列の長さを確認するためにフォントを使用するには、適切なフラグ（参照 :ref:"
-"`custom-checks`）を渡します。次の設定が必要になるはず:"
+"になる文字列の長さを確認するためにフォントを使用するには、適切なフラグ（参照 :ref:`custom-"
+"checks`）を渡します。設定が必要になるはずのもの："
 
 #: ../../admin/checks.rst:259
 msgid "``max-size:500``"
@@ -3895,11 +3900,11 @@ msgstr "AUTH_LOCK_ATTEMPTS"
 msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
-msgstr "レート制限を適用する前に失敗した認証試行の最大回数。"
+msgstr "接続制限が適用されるまでに失敗した認証試行の最大回数。"
 
 #: ../../admin/config.rst:62
 msgid "This is currently applied in the following locations:"
-msgstr "現在、以下の場所に適用しています:"
+msgstr "現在、適用している場所："
 
 #: ../../admin/config.rst:64
 msgid ""
@@ -3913,101 +3918,103 @@ msgstr ""
 msgid ""
 "Password resets. Prevents new e-mails from being sent, avoiding spamming "
 "users with too many password reset attempts."
-msgstr ""
+msgstr "パスワードのリセット。新しいメールが送信されないようにして、パスワードのリセット試行回数が多すぎるユーザーへのスパムを回避します。"
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
-msgstr ""
+msgstr "デフォルトは 10 回です。"
 
 #: ../../admin/config.rst:73
 msgid ":ref:`rate-limit`,"
-msgstr ":ref:`rate-limit`、"
+msgstr ":ref:`rate-limit`,"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
-msgstr ""
+msgstr "AUTO_UPDATE"
 
 #: ../../admin/config.rst:84
 msgid ""
 "The original on/off option was changed to differentiate which strings are "
 "accepted."
-msgstr ""
+msgstr "元々の on/off オプションを変更し、どの文字列を受け付けるかを区別するために変更しました。"
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "すべてのリポジトリを毎日更新。"
 
 #: ../../admin/config.rst:90
 msgid ""
 "Useful if you are not using :ref:`hooks` to update Weblate repositories "
 "automatically."
-msgstr ""
+msgstr "Weblate リポジトリを自動的に更新するために :ref:`hooks` を使用していない場合に便利です。"
 
 #: ../../admin/config.rst:94
 msgid ""
 "On/off options exist in addition to string selection for backward "
 "compatibility."
-msgstr ""
+msgstr "後方互換性のために、文字列選択の他に on/off のオプションがあります。"
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr ""
+msgstr "オプションtとは："
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:382
 msgid "``\"none\"``"
-msgstr ""
+msgstr "``\"none\"``"
 
 #: ../../admin/config.rst:99
 msgid "No daily updates."
-msgstr ""
+msgstr "毎日の更新はなし。"
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"remote\"`` も ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr ""
+msgstr "リモートのみを更新。"
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"full\"`` も ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "リモートを更新し、作業コピーをマージする。"
 
 #: ../../admin/config.rst:107
 msgid ""
 "This requires that :ref:`celery` is working, and will take effect after it "
 "is restarted."
-msgstr ""
+msgstr "これには、:ref:`celery` が動作している必要があり、再起動後に有効になります。"
 
 #: ../../admin/config.rst:112
 msgid "AVATAR_URL_PREFIX"
-msgstr ""
+msgstr "AVATAR_URL_PREFIX"
 
 #: ../../admin/config.rst:114
 msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
+"アバター URL を作成するための接頭辞：``${AVATAR_URL_PREFIX}/avatar/"
+"${MAIL_HASH}?${PARAMS}``。動作することが判明しているサービス："
 
 #: ../../admin/config.rst:118
 msgid "Gravatar (default), as per https://gravatar.com/"
-msgstr ""
+msgstr "Gravatar （デフォルト）、https://gravatar.com/ より"
 
 #: ../../admin/config.rst:119
 msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 
 #: ../../admin/config.rst:121
 msgid "Libravatar, as per https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar、https://www.libravatar.org/ より"
 
 #: ../../admin/config.rst:121
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
 
 #: ../../admin/config.rst:125
 msgid ""
@@ -4017,92 +4024,93 @@ msgstr ""
 
 #: ../../admin/config.rst:132
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:136
 msgid ""
 "How long the authentication token and temporary password from password reset "
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
-msgstr ""
+msgstr "パスワード リセット メールを送信してからの認証トークンと仮パスワードの有効期間。秒数で設定し、デフォルトは 172800（2 日）。"
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
-msgstr ""
+msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
-msgstr ""
+msgstr "同じパスワードを使用できる日数。"
 
 #: ../../admin/config.rst:149
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
-msgstr ""
+msgstr "Weblate 2.15 以前に行われたパスワードの変更は、このポリシーには含まれません。"
 
 #: ../../admin/config.rst:156
 msgid "AUTOFIX_LIST"
-msgstr ""
+msgstr "AUTOFIX_LIST"
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "文字列を保存するときに適用する自動修正の一覧。"
 
 #: ../../admin/config.rst:162
 msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
-msgstr ""
+msgstr "autofixer インターフェースを実装した Python クラスへの完全修飾パスを提供します。"
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "利用可能な修正："
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
-msgstr ""
+msgstr "文字列の最初と最後の空白を原文と一致させる。"
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
 msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
-msgstr ""
+msgstr "原文に省略記号（…）が付いている場合は、末尾のドット（...）を置き換える。"
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
-msgstr ""
+msgstr "原文にゼロ幅のスペース文字が含まれていない場合、ゼロ幅のスペース文字を削除する。"
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "原文に制御文字が含まれていない場合は、制御文字を削除する。"
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.html.BleachHTML``"
 
 #: ../../admin/config.rst:176
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
+"``safe-html`` のフラグが付いた文字列から安全でない HTML マークアップを削除する（参照 :ref:`check-safe-html`）。"
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "使用するものを選択する方法："
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
@@ -4110,25 +4118,25 @@ msgstr ":ref:`autofix`、:ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BASE_DIR"
-msgstr ""
+msgstr "BASE_DIR"
 
 #: ../../admin/config.rst:196
 msgid ""
 "Base directory where Weblate sources are located. Used to derive several "
 "other paths by default:"
-msgstr ""
+msgstr "Weblate ソースが配置されているベース ディレクトリ。デフォルトで他の複数のパスを派生させるために使用する方法："
 
 #: ../../admin/config.rst:199 ../../faq.rst:402 ../../vcs.rst:444
 msgid ":setting:`DATA_DIR`"
-msgstr ""
+msgstr ":setting:`DATA_DIR`"
 
 #: ../../admin/config.rst:201
 msgid "Default value: Top level directory of Weblate sources."
-msgstr ""
+msgstr "デフォルト値：Weblate ソースの最上位ディレクトリ。"
 
 #: ../../admin/config.rst:206
 msgid "BASIC_LANGUAGES"
-msgstr ""
+msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:210
 msgid ""
@@ -4136,6 +4144,8 @@ msgid ""
 "specified built in list is used which includes all commonly used languages, "
 "but without country specific variants."
 msgstr ""
+"新しい翻訳を開始するためにユーザーに提供する言語の一覧。指定しない場合は、一般的に使用されるすべての言語を含む組み込みリストが使用されますが、国別の固有の"
+"つづりは含まれません。"
 
 #: ../../admin/config.rst:214
 msgid ""
@@ -4143,12 +4153,14 @@ msgid ""
 "admins are still presented with full selection of languages defined in "
 "Weblate."
 msgstr ""
+"これは、特権のないユーザーが不要な言語を追加することを制限するだけです。プロジェクト管理者には、Weblate "
+"で定義されている言語の完全な選択が引き続き表示されます。"
 
 #: ../../admin/config.rst:219
 msgid ""
 "This does not define new languages for Weblate, it only filters existing "
 "ones in the database."
-msgstr ""
+msgstr "これは Weblate に新しい言語を定義するものではなく、データベース内の既存の言語をフィルター処理するだけです。"
 
 #: ../../admin/config.rst:222 ../../admin/config.rst:247
 #: ../../admin/install/docker.rst:226 ../../admin/install/docker.rst:266
@@ -4159,7 +4171,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:648 ../../admin/install/docker.rst:1132
 #: ../../admin/install/docker.rst:1164 ../../admin/install/docker.rst:1182
 msgid "**Example:**"
-msgstr ""
+msgstr "**例：**"
 
 #: ../../admin/config.rst:230
 msgid ":ref:`languages`"
@@ -4168,7 +4180,7 @@ msgstr ":ref:`languages`"
 #: ../../admin/config.rst:239
 msgid ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
-msgstr ""
+msgstr "CSP_SCRIPT_SRC、CSP_IMG_SRC、CSP_CONNECT_SRC、CSP_STYLE_SRC、CSP_FONT_SRC"
 
 #: ../../admin/config.rst:241
 msgid ""
@@ -4176,16 +4188,20 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, ...)."
 msgstr ""
+"Weblate の ``Content-Security-Policy`` ヘッダーをカスタマイズします。ヘッダーは、サード "
+"パーティのサービス（Matomo、Google アナリティクス、Sentry、...）との統合が有効として自動的に生成されます。"
 
 #: ../../admin/config.rst:245
 msgid "All these default to empty list."
-msgstr ""
+msgstr "これらのデフォルトはすべて空のリストになります。"
 
 #: ../../admin/config.rst:256
 msgid ""
 ":ref:`csp`, `Content Security Policy (CSP) <https://developer.mozilla.org/en-"
 "US/docs/Web/HTTP/CSP>`_"
 msgstr ""
+"、:ref:`csp`、`コンテンツ セキュリティ ポリシー（CSP） <https://developer.mozilla.org/en-US/"
+"docs/Web/HTTP/CSP>`_"
 
 #: ../../admin/config.rst:262
 msgid "CHECK_LIST"
@@ -4220,11 +4236,11 @@ msgstr ""
 
 #: ../../admin/config.rst:277
 msgid "You can turn off all checks:"
-msgstr "すべての検査を無効にする:"
+msgstr "すべての検査を無効にする方法："
 
 #: ../../admin/config.rst:283
 msgid "You can turn on only a few:"
-msgstr "指定する項目だけ有効にする:"
+msgstr "指定する項目だけ有効にする方法："
 
 #: ../../admin/config.rst:295
 msgid ""
@@ -4242,23 +4258,23 @@ msgstr ":ref:`checks`、:ref:`custom-checks`"
 
 #: ../../admin/config.rst:306
 msgid "COMMENT_CLEANUP_DAYS"
-msgstr ""
+msgstr "COMMENT_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:310
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
-msgstr ""
+msgstr "指定した日数の後にコメントを削除します。デフォルトは ``None`` で、削除は一切行いません。"
 
 #: ../../admin/config.rst:316
 msgid "COMMIT_PENDING_HOURS"
-msgstr ""
+msgstr "COMMIT_PENDING_HOURS"
 
 #: ../../admin/config.rst:320
 msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
-msgstr ""
+msgstr "バックグラウンド タスクを使用して保留中の変更をコミットするまでの時間。"
 
 #: ../../admin/config.rst:324
 msgid ""
@@ -4270,7 +4286,7 @@ msgstr ""
 
 #: ../../admin/config.rst:332
 msgid "DATA_DIR"
-msgstr ""
+msgstr "DATA_DIR"
 
 #: ../../admin/config.rst:334
 msgid ""
@@ -4278,74 +4294,78 @@ msgid ""
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
+"Weblate フォルダには、すべてのデータが格納されます。このフォルダには、VCS リポジトリへのリンク、フル テキスト "
+"インデックス、外部ツール用の各種設定ファイルが含まれています。"
 
 #: ../../admin/config.rst:337
 msgid "The following subdirectories usually exist:"
-msgstr ""
+msgstr "通常存在する、サブディレクトリ："
 
 #: ../../admin/config.rst:339
 msgid ":file:`home`"
-msgstr ""
+msgstr ":file:`home`"
 
 #: ../../admin/config.rst:340
 msgid "Home directory used for invoking scripts."
-msgstr ""
+msgstr "スクリプトを起動するためのホーム ディレクトリ。"
 
 #: ../../admin/config.rst:341
 msgid ":file:`ssh`"
-msgstr ""
+msgstr ":file:`ssh`"
 
 #: ../../admin/config.rst:342
 msgid "SSH keys and configuration."
-msgstr ""
+msgstr "SSH 鍵と設定。"
 
 #: ../../admin/config.rst:343
 msgid ":file:`static`"
-msgstr ""
+msgstr ":file:`static`"
 
 #: ../../admin/config.rst:344
 msgid "Default location for static Django files, specified by ``STATIC_ROOT``."
-msgstr ""
+msgstr "``STATIC_ROOT`` で指定する、静的 Django ファイルのデフォルトの場所。"
 
 #: ../../admin/config.rst:345
 msgid ":file:`media`"
-msgstr ""
+msgstr ":file:`media`"
 
 #: ../../admin/config.rst:346
 msgid "Default location for Django media files, specified by ``MEDIA_ROOT``."
-msgstr ""
+msgstr "``MEDIA_ROOT`` で指定する、Django メディア ファイルのデフォルトの場所。"
 
 #: ../../admin/config.rst:347
 msgid ":file:`vcs`"
-msgstr ""
+msgstr ":file:`vcs`"
 
 #: ../../admin/config.rst:348
 msgid "Version control repositories."
-msgstr ""
+msgstr "リポジトリのバージョン管理。"
 
 #: ../../admin/config.rst:350
 msgid ":file:`backups`"
-msgstr ""
+msgstr ":file:`backups`"
 
 #: ../../admin/config.rst:350
 msgid "Daily backup data, please check :ref:`backup-dumps` for details."
-msgstr ""
+msgstr "毎日のバックアップ データ、詳細は :ref:`backup-dumps` を確認してください。"
 
 #: ../../admin/config.rst:354
 msgid ""
 "This directory has to be writable by Weblate. Running it as uWSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"にあることになります。このディレクトリは、Weblate が書き込み可能である必要があります。uWSGI として実行するには、``www-data`` "
+"ユーザーには書き込み権限が必要です。"
 
 #: ../../admin/config.rst:357
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
-msgstr ""
+msgstr "これを実現する最も簡単な、ユーザーをディレクトリの所有者にする方法："
 
 #: ../../admin/config.rst:363
 msgid "Defaults to ``$BASE_DIR/data``."
-msgstr ""
+msgstr "デフォルトは ``$BASE_DIR/data`` です。"
 
 #: ../../admin/config.rst:367
 msgid ":setting:`BASE_DIR`, :doc:`backup`"
@@ -4353,25 +4373,25 @@ msgstr ":setting:`BASE_DIR`、:doc:`backup`"
 
 #: ../../admin/config.rst:373
 msgid "DATABASE_BACKUP"
-msgstr ""
+msgstr "DATABASE_BACKUP"
 
 #: ../../admin/config.rst:377
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
-msgstr ""
+msgstr "データベース バックアップをプレーン テキストとして保存するか、圧縮するか、スキップするかを指定します。許可される値："
 
 #: ../../admin/config.rst:380
 msgid "``\"plain\"``"
-msgstr ""
+msgstr "``\"plain\"``"
 
 #: ../../admin/config.rst:381
 msgid "``\"compressed\"``"
-msgstr ""
+msgstr "``\"compressed\"``"
 
 #: ../../admin/config.rst:386
 msgid ":ref:`backup`"
-msgstr ""
+msgstr ":ref:`backup`"
 
 #: ../../admin/config.rst:391
 msgid "DEFAULT_ACCESS_CONTROL"
@@ -4379,45 +4399,46 @@ msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:395
 msgid "The default access control setting for new projects:"
-msgstr ""
+msgstr "新しいプロジェクトのデフォルトのアクセス制御設定："
 
 #: ../../admin/config.rst:397
 msgid "``0``"
-msgstr ""
+msgstr "``0``"
 
 #: ../../admin/config.rst:398
 msgid ":guilabel:`Public`"
-msgstr ""
+msgstr ":guilabel:`パブリック`"
 
 #: ../../admin/config.rst:399
 msgid "``1``"
-msgstr ""
+msgstr "``1``"
 
 #: ../../admin/config.rst:400
 msgid ":guilabel:`Protected`"
-msgstr ""
+msgstr ":guilabel:`プロテクト`"
 
 #: ../../admin/config.rst:401
 msgid "``100``"
-msgstr ""
+msgstr "``100``"
 
 #: ../../admin/config.rst:402
 msgid ":guilabel:`Private`"
-msgstr ""
+msgstr ":guilabel:`プライベート`"
 
 #: ../../admin/config.rst:404
 msgid "``200``"
-msgstr ""
+msgstr "``200``"
 
 #: ../../admin/config.rst:404
 msgid ":guilabel:`Custom`"
-msgstr ""
+msgstr ":guilabel:`カスタム`"
 
 #: ../../admin/config.rst:406
 msgid ""
 "Use :guilabel:`Custom` if you are managing ACL manually, which means not "
 "relying on the internal Weblate management."
 msgstr ""
+"ACL を手動で管理する場合は、:guilabel:`Custom` を使用します。これは、Weblate の内部管理に依存しないという意味です。"
 
 #: ../../admin/config.rst:411
 msgid ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
@@ -4425,11 +4446,11 @@ msgstr ":ref:`acl`、:ref:`project-access_control`、:ref:`privileges`"
 
 #: ../../admin/config.rst:418
 msgid "DEFAULT_RESTRICTED_COMPONENT"
-msgstr ""
+msgstr "DEFAULT_RESTRICTED_COMPONENT"
 
 #: ../../admin/config.rst:422
 msgid "The default value for component restriction."
-msgstr ""
+msgstr "コンポーネント制限のデフォルト値。"
 
 #: ../../admin/config.rst:426
 msgid ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
@@ -4440,12 +4461,14 @@ msgid ""
 "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgstr ""
+"DEFAULT_ADD_MESSAGE、DEFAULT_ADDON_MESSAGE、DEFAULT_COMMIT_MESSAGE、DEFAULT_DELE"
+"TE_MESSAGE、DEFAULT_MERGE_MESSAGE"
 
 #: ../../admin/config.rst:439
 msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
-msgstr ""
+msgstr "違う操作のデフォルトのコミット メッセージです。詳細は :ref:`component` を確認してください。"
 
 #: ../../admin/config.rst:444
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
@@ -4453,15 +4476,15 @@ msgstr ":ref:`markup`、:ref:`component`、:ref:`component-commit_message`"
 
 #: ../../admin/config.rst:452
 msgid "DEFAULT_ADDONS"
-msgstr ""
+msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:454
 msgid "Default addons to install on every created component."
-msgstr ""
+msgstr "作成したすべてのコンポーネントにインストールするデフォルトのアドオン。"
 
 #: ../../admin/config.rst:458
 msgid "This setting affects only newly created components."
-msgstr ""
+msgstr "この設定は、新しく作成したコンポーネントにのみ適用されます。"
 
 #: ../../admin/config.rst:460 ../../admin/config.rst:865
 #: ../../admin/config.rst:1594 ../../admin/config.rst:1810
@@ -4469,21 +4492,21 @@ msgstr ""
 #: ../../admin/management.rst:141 ../../admin/management.rst:664
 #: ../../wlc.rst:52
 msgid "Example:"
-msgstr "例:"
+msgstr "例："
 
 #: ../../admin/config.rst:480
 msgid ":djadmin:`install_addon`, :setting:`WEBLATE_ADDONS`"
-msgstr ""
+msgstr ":djadmin:`install_addon`、:setting:`WEBLATE_ADDONS`"
 
 #: ../../admin/config.rst:486
 msgid "DEFAULT_COMMITER_EMAIL"
-msgstr ""
+msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:490
 msgid ""
 "Committer e-mail address for created translation components defaulting to "
 "``noreply@weblate.org``."
-msgstr ""
+msgstr "作成された翻訳コンポーネントのコミッターのメールアドレスのデフォルトは ``noreply@weblate.org`` です。"
 
 #: ../../admin/config.rst:494
 msgid ""
@@ -4495,12 +4518,12 @@ msgstr ""
 
 #: ../../admin/config.rst:501
 msgid "DEFAULT_COMMITER_NAME"
-msgstr ""
+msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:505
 msgid ""
 "Committer name for created translation components defaulting to ``Weblate``."
-msgstr ""
+msgstr "作成された翻訳コンポーネントのコミッター名のデフォルトは ``Weblate`` です。"
 
 #: ../../admin/config.rst:509
 msgid ""
@@ -4512,19 +4535,19 @@ msgstr ""
 
 #: ../../admin/config.rst:516
 msgid "DEFAULT_LANGUAGE"
-msgstr ""
+msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:520
 msgid ""
 "Default source language to use for example in :ref:`component-"
 "source_language`."
-msgstr ""
+msgstr ":ref:`component-source_language` などで使用するデフォルトの原文の言語。"
 
 #: ../../admin/config.rst:522
 msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
-msgstr ""
+msgstr "デフォルトは `en` です。一致する言語オブジェクトがデータベースに存在している必要があります。"
 
 #: ../../admin/config.rst:526
 msgid ":ref:`languages`, :ref:`component-source_language`"
@@ -4532,19 +4555,19 @@ msgstr ":ref:`languages`、:ref:`component-source_language`"
 
 #: ../../admin/config.rst:532
 msgid "DEFAULT_MERGE_STYLE"
-msgstr ""
+msgstr "DEFAULT_MERGE_STYLE"
 
 #: ../../admin/config.rst:536
 msgid "Merge style for any new components."
-msgstr ""
+msgstr "新しいコンポーネントのスタイルをマージします。"
 
 #: ../../admin/config.rst:538
 msgid "`rebase` - default"
-msgstr ""
+msgstr "`rebase` - デフォルト"
 
 #: ../../admin/config.rst:539
 msgid "`merge`"
-msgstr ""
+msgstr "`merge`"
 
 #: ../../admin/config.rst:543
 msgid ":ref:`component`, :ref:`component-merge_style`"
@@ -4552,11 +4575,11 @@ msgstr ":ref:`component`、:ref:`component-merge_style`"
 
 #: ../../admin/config.rst:549
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
-msgstr ""
+msgstr "DEFAULT_TRANSLATION_PROPAGATION"
 
 #: ../../admin/config.rst:553
 msgid "Default setting for translation propagation, defaults to ``True``."
-msgstr ""
+msgstr "翻訳の反映のデフォルト設定は ``True`` です。"
 
 #: ../../admin/config.rst:557
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
@@ -4564,26 +4587,26 @@ msgstr ":ref:`component`、:ref:`component-allow_translation_propagation`"
 
 #: ../../admin/config.rst:563
 msgid "DEFAULT_PULL_MESSAGE"
-msgstr ""
+msgstr "DEFAULT_PULL_MESSAGE"
 
 #: ../../admin/config.rst:565
 msgid "Title for new pull requests, defaulting to ``'Update from Weblate'``."
-msgstr ""
+msgstr "新しいプル リクエストのタイトル、デフォルトは ``'Update from Weblate'`` です。"
 
 #: ../../admin/config.rst:571
 msgid "ENABLE_AVATARS"
-msgstr ""
+msgstr "ENABLE_AVATARS"
 
 #: ../../admin/config.rst:573
 msgid ""
 "Whether to turn on Gravatar-based avatars for users. By default this is on."
-msgstr ""
+msgstr "ユーザーに対して Gravatar - ベースのアバターを有効化するかどうか。デフォルトでは、オンになっています。"
 
 #: ../../admin/config.rst:575
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
-msgstr ""
+msgstr "アバターはサーバー上で取得およびキャッシュされ、個人情報が漏洩するリスクが低くなり、ユーザー体験が高速化します。"
 
 #: ../../admin/config.rst:580
 msgid ""
@@ -4593,31 +4616,32 @@ msgstr ""
 
 #: ../../admin/config.rst:587
 msgid "ENABLE_HOOKS"
-msgstr ""
+msgstr "ENABLE_HOOKS"
 
 #: ../../admin/config.rst:589
 msgid "Whether to enable anonymous remote hooks."
-msgstr ""
+msgstr "匿名リモート フックを有効にするかどうか。"
 
 #: ../../admin/config.rst:593
 msgid ":ref:`hooks`"
-msgstr ""
+msgstr ":ref:`hooks`"
 
 #: ../../admin/config.rst:598
 msgid "ENABLE_HTTPS"
-msgstr ""
+msgstr "ENABLE_HTTPS"
 
 #: ../../admin/config.rst:600
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
+"Weblate へのリンクを HTTPS または HTTP として送信するかどうか。この設定は、送信したメールおよび生成した絶対 URL に影響します。"
 
 #: ../../admin/config.rst:605
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS."
-msgstr ""
+msgstr "デフォルトの設定では、これは HTTPS に関連する複数の Django 設定にも使用されます。"
 
 #: ../../admin/config.rst:610
 msgid ""
@@ -4631,21 +4655,22 @@ msgstr ""
 
 #: ../../admin/config.rst:618
 msgid "ENABLE_SHARING"
-msgstr ""
+msgstr "ENABLE_SHARING"
 
 #: ../../admin/config.rst:620
 msgid ""
 "Turn on/off the :guilabel:`Share` menu so users can share translation "
 "progress on social networks."
 msgstr ""
+"ユーザーが翻訳の進捗状況をソーシャルネットワーク上で共有できるように、:guilabel:`Share` メニューの on/off を切り替えます。"
 
 #: ../../admin/config.rst:625
 msgid "GITLAB_CREDENTIALS"
-msgstr ""
+msgstr "GITLAB_CREDENTIALS"
 
 #: ../../admin/config.rst:629
 msgid "List for credentials for GitLab servers."
-msgstr ""
+msgstr "GitLab サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:633
 msgid ""
@@ -4653,14 +4678,16 @@ msgid ""
 "GitLab endpoint stick with :setting:`GITLAB_USERNAME` and :setting:"
 "`GITLAB_TOKEN`."
 msgstr ""
+"Weblate を多くの GitLab エンドポイントと相互作用させたい場合、単一の GitLab エンドポイントの "
+":setting:`GITLAB_USERNAME` および :setting:`GITLAB_TOKEN` を貼り付けて使用します。"
 
 #: ../../admin/config.rst:653
 msgid "GITLAB_USERNAME"
-msgstr ""
+msgstr "GITLAB_USERNAME"
 
 #: ../../admin/config.rst:655
 msgid "GitLab username used to send merge requests for translation updates."
-msgstr ""
+msgstr "GitLab のユーザー名は、翻訳の更新のためのマージ リクエストを送信するために使用します。"
 
 #: ../../admin/config.rst:659
 msgid ":setting:`GITLAB_CREDENTIALS`, :ref:`vcs-gitlab`"
@@ -4668,7 +4695,7 @@ msgstr ":setting:`GITLAB_CREDENTIALS`、:ref:`vcs-gitlab`"
 
 #: ../../admin/config.rst:665
 msgid "GITLAB_TOKEN"
-msgstr ""
+msgstr "GITLAB_TOKEN"
 
 #: ../../admin/config.rst:669
 msgid ""
@@ -4685,11 +4712,11 @@ msgstr ""
 
 #: ../../admin/config.rst:680
 msgid "GITHUB_CREDENTIALS"
-msgstr ""
+msgstr "GITHUB_CREDENTIALS"
 
 #: ../../admin/config.rst:684
 msgid "List for credentials for GitHub servers."
-msgstr ""
+msgstr "GitHub サーバーの資格情報の一覧。"
 
 #: ../../admin/config.rst:688
 msgid ""
@@ -4697,14 +4724,16 @@ msgid ""
 "GitHub endpoint stick with :setting:`GITHUB_USERNAME` and :setting:"
 "`GITHUB_TOKEN`."
 msgstr ""
+"Weblate を多くの GitHub エンドポイントと相互作用させたい場合、単一の GitHub エンドポイントの "
+":setting:`GITHUB_USERNAME` および :setting:`GITHUB_TOKEN` を貼り付けて使用します。"
 
 #: ../../admin/config.rst:707
 msgid "GITHUB_USERNAME"
-msgstr ""
+msgstr "GITHUB_USERNAME"
 
 #: ../../admin/config.rst:709
 msgid "GitHub username used to send pull requests for translation updates."
-msgstr ""
+msgstr "GitHub のユーザー名は、翻訳の更新のためのマージ リクエストを送信するために使用されます。"
 
 #: ../../admin/config.rst:713
 msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
@@ -4712,13 +4741,13 @@ msgstr ":setting:`GITHUB_CREDENTIALS`、:ref:`vcs-github`"
 
 #: ../../admin/config.rst:719
 msgid "GITHUB_TOKEN"
-msgstr ""
+msgstr "GITHUB_TOKEN"
 
 #: ../../admin/config.rst:723
 msgid ""
 "GitHub personal access token used to make API calls to send pull requests "
 "for translation updates."
-msgstr ""
+msgstr "GitHub の個人アクセス トークンは、翻訳更新のためのプル リクエストを送信するための API コールに使用されます。"
 
 #: ../../admin/config.rst:728
 msgid ""
@@ -4732,16 +4761,16 @@ msgstr ""
 
 #: ../../admin/config.rst:735
 msgid "GOOGLE_ANALYTICS_ID"
-msgstr ""
+msgstr "GOOGLE_ANALYTICS_ID"
 
 #: ../../admin/config.rst:737
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
-msgstr ""
+msgstr "Google アナリティクス ID を使用して Weblate の監視を有効にします。"
 
 #: ../../admin/config.rst:742
 msgid "HIDE_REPO_CREDENTIALS"
-msgstr ""
+msgstr "HIDE_REPO_CREDENTIALS"
 
 #: ../../admin/config.rst:744
 msgid ""
@@ -4749,6 +4778,8 @@ msgid ""
 "repository URL with user and password, Weblate will hide it when related "
 "info is shown to users."
 msgstr ""
+"Web インターフェイスのリポジトリの認証情報を非表示にします。リポジトリの URL "
+"にユーザーとパスワードが設定されている場合、関連情報をユーザーに表示するときには、Weblate がその URL を非表示にします。"
 
 #: ../../admin/config.rst:748
 msgid ""
@@ -4756,14 +4787,16 @@ msgid ""
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
+"たとえば ``https://user:password@git.example.com/repo.git`` の代わりに ``https://git."
+"example.com/repo.git``` を表示します。VCS のエラーメッセージも同様の方法で消去を試します。"
 
 #: ../../admin/config.rst:754
 msgid "This is turned on by default."
-msgstr ""
+msgstr "これはデフォルトで有効です。"
 
 #: ../../admin/config.rst:759
 msgid "HIDE_VERSION"
-msgstr ""
+msgstr "HIDE_VERSION"
 
 #: ../../admin/config.rst:763
 msgid ""
@@ -4771,40 +4804,46 @@ msgid ""
 "documentation links point to latest version instead of the documentation "
 "matching currently installed version."
 msgstr ""
+"認証していないユーザーにはバージョン情報を表示しません。また、これにより、すべてのドキュメントリンクは、現在インストールされているバージョンに一致するドキ"
+"ュメントではなく、最新バージョンを参照します。"
 
 #: ../../admin/config.rst:767
 msgid ""
 "Hiding version is recommended security practice in some corporations, but it "
 "doesn't prevent attacker to figure out version by probing the behavior."
-msgstr ""
+msgstr "一部の企業ではバージョンの非表示が推奨されていますが、攻撃者が動作を調査してバージョンを特定することは防止できません。"
 
 #: ../../admin/config.rst:772
 msgid "This is turned off by default."
-msgstr "デフォルトで無効化されています。"
+msgstr "デフォルトで無効です。"
 
 #: ../../admin/config.rst:777
 msgid "IP_BEHIND_REVERSE_PROXY"
-msgstr ""
+msgstr "IP_BEHIND_REVERSE_PROXY"
 
 #: ../../admin/config.rst:781
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Weblate がリバース プロキシの背後で動作しているかどうかを示します。"
 
 #: ../../admin/config.rst:783
 msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
+"``True`` に設定されている場合、Weblate は :setting:`IP_PROXY_HEADER` で定義したヘッダーから IP "
+"アドレスを取得します。"
 
 #: ../../admin/config.rst:788
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
+"リバース プロキシを実際に使用していること、およびリバース プロキシがこのヘッダーを設定していることを確認します。リバース プロキシを使用していない場合、"
+"ユーザーは IP アドレスを偽装できます。"
 
 #: ../../admin/config.rst:793
 msgid "This is not on by default."
-msgstr ""
+msgstr "これはデフォルトで無効です。"
 
 #: ../../admin/config.rst:797
 msgid ""
@@ -4816,17 +4855,19 @@ msgstr ""
 
 #: ../../admin/config.rst:805
 msgid "IP_PROXY_HEADER"
-msgstr ""
+msgstr "IP_PROXY_HEADER"
 
 #: ../../admin/config.rst:809
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
+":setting:'IP_BEHIND_REVERSE_PROXY' が有効の場合、Weblate がどのヘッダーから IP "
+"アドレスを取得するかを示します。"
 
 #: ../../admin/config.rst:812
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
-msgstr ""
+msgstr "デフォルトは ``HTTP_X_FORWARDED_FOR`` です。"
 
 #: ../../admin/config.rst:816
 msgid ""
@@ -4840,13 +4881,13 @@ msgstr ""
 
 #: ../../admin/config.rst:825
 msgid "IP_PROXY_OFFSET"
-msgstr ""
+msgstr "IP_PROXY_OFFSET"
 
 #: ../../admin/config.rst:829
 msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
-msgstr ""
+msgstr "クライアントの IP アドレスとして :setting:`IP_PROXY_HEADER` のどの部分が使用されているかを示します。"
 
 #: ../../admin/config.rst:832
 msgid ""
@@ -4854,16 +4895,18 @@ msgid ""
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
+"設定により、このヘッダーが複数の IP アドレス（例 ``X-Forwarded-For: a, b, client-"
+"ip``）で構成されている場合があります。ここで、ヘッダーのどのアドレスをクライアント IP アドレスとして使用するかを設定できます。"
 
 #: ../../admin/config.rst:838
 msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
-msgstr ""
+msgstr "これを設定すると、インストールのセキュリティに影響します。IP アドレスの決定に信頼できるプロキシを使用するように設定するだけです。"
 
 #: ../../admin/config.rst:841
 msgid "Defaults to 0."
-msgstr ""
+msgstr "デフォルトは 0 です。"
 
 #: ../../admin/config.rst:845
 msgid ""
@@ -4877,98 +4920,100 @@ msgstr ""
 
 #: ../../admin/config.rst:854
 msgid "LEGAL_URL"
-msgstr ""
+msgstr "LEGAL_URL"
 
 #: ../../admin/config.rst:858
 msgid "URL where your Weblate instance shows its legal documents."
-msgstr ""
+msgstr "Weblate インスタンスが法的文書を表示する URL。"
 
 #: ../../admin/config.rst:862
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
+"Weblateの外部で法的な文書をホスティングしている場合、Weblateの内部に埋め込むのに便利です。詳細は :ref:`legal` "
+"を確認してください。"
 
 #: ../../admin/config.rst:874
 msgid "LICENSE_EXTRA"
-msgstr ""
+msgstr "LICENSE_EXTRA"
 
 #: ../../admin/config.rst:876
 msgid "Additional licenses to include in the license choices."
-msgstr ""
+msgstr "ライセンスの選択肢に含める追加ライセンス。"
 
 #: ../../admin/config.rst:880
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
-msgstr ""
+msgstr "各ライセンス定義は、短い名前、長い名前、および URL のタプルである必要があります。"
 
 #: ../../admin/config.rst:882 ../../admin/config.rst:910
 #: ../../admin/config.rst:1045 ../../formats.rst:303
 msgid "For example:"
-msgstr ""
+msgstr "例："
 
 #: ../../admin/config.rst:897
 msgid "LICENSE_FILTER"
-msgstr ""
+msgstr "LICENSE_FILTER"
 
 #: ../../admin/config.rst:901
 msgid "Setting this to blank value now disables license alert."
-msgstr ""
+msgstr "これを空の値に設定すると、ライセンス警告が無効になります。"
 
 #: ../../admin/config.rst:903
 msgid ""
 "Filter list of licenses to show. This also disables the license alert when "
 "set to empty."
-msgstr ""
+msgstr "表示するライセンスのフィルタ リスト。これにより、空に設定した場合のライセンス警告も無効になります。"
 
 #: ../../admin/config.rst:908
 msgid "This filter uses the short license names."
-msgstr ""
+msgstr "このフィルタは、短いライセンス名を使用します。"
 
 #: ../../admin/config.rst:916
 msgid "Following disables the license alert:"
-msgstr ""
+msgstr "ライセンス警告を無効にする方法："
 
 #: ../../admin/config.rst:924 ../../admin/config.rst:1678
 msgid ":ref:`alerts`"
-msgstr ""
+msgstr ":ref:`alerts`"
 
 #: ../../admin/config.rst:929
 msgid "LICENSE_REQUIRED"
-msgstr ""
+msgstr "LICENSE_REQUIRED"
 
 #: ../../admin/config.rst:931
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr ""
+msgstr ":ref:`component` のライセンス属性が必要かどうかを定義します。"
 
 #: ../../admin/config.rst:935
 msgid "This is off by default."
-msgstr ""
+msgstr "デフォルトで無効です。"
 
 #: ../../admin/config.rst:940
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
-msgstr ""
+msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 
 #: ../../admin/config.rst:942
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string * 10 characters."
-msgstr ""
+msgstr "与えられた翻訳の長さを制限するかどうか。制限は、原文の文字列の長さ * 10 文字です。"
 
 #: ../../admin/config.rst:947
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
-msgstr ""
+msgstr "これを ``False`` に設定すると、原文の長さに関係なく、より長い翻訳（10,000 文字まで）が可能になります。"
 
 #: ../../admin/config.rst:951
 msgid "Defaults to ``True``."
-msgstr ""
+msgstr "デフォルトは ``True`` です。"
 
 #: ../../admin/config.rst:957
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
-msgstr ""
+msgstr "LOCALIZE_CDN_URL および LOCALIZE_CDN_PATH"
 
 #: ../../admin/config.rst:959
 msgid ""
@@ -4977,68 +5022,72 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
+"これらの設定は :ref:`addon-weblate.cdn.cdnjs` アドオンを設定します。 "
+":setting:`LOCALIZE_CDN_URL` は現地語化 CDN が利用可能なルート URL "
+"を定義し、:setting:`LOCALIZE_CDN_PATH` は :setting:`LOCALIZE_CDN_URL` "
+"で提供される生成ファイルを Weblate がどこに保存するかパスを定義します。"
 
 #: ../../admin/config.rst:966
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr ""
+msgstr "Hosted Weblate では、``https://weblate-cdn.com/`` を使用します。"
 
 #: ../../admin/config.rst:970
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
-msgstr ""
+msgstr ":ref:`addon-weblate.cdn.cdnjs`"
 
 #: ../../admin/config.rst:975
 msgid "LOGIN_REQUIRED_URLS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS"
 
 #: ../../admin/config.rst:977
 msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
-msgstr ""
+msgstr "ログインが必要な URL の一覧。（Weblate の組み込みの標準ルールに追加する）。"
 
 #: ../../admin/config.rst:981
 msgid "This allows you to password protect a whole installation using:"
-msgstr ""
+msgstr "これにより、以下方法でインストール全体をパスワードで保護："
 
 #: ../../admin/config.rst:992
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
-msgstr ""
+msgstr "上記の例に示すように、API 接続も隔離することが望ましいです。"
 
 #: ../../admin/config.rst:997
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
-msgstr ""
+msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 
 #: ../../admin/config.rst:999
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the sign in page."
-msgstr ""
+msgstr ":setting:`LOGIN_REQUIRED_URLS` の例外リスト。指定しない場合、ユーザーはサイン イン ページにアクセスできます。"
 
 #: ../../admin/config.rst:1002
 msgid "Some of exceptions you might want to include:"
-msgstr ""
+msgstr "含められる複数の例外："
 
 #: ../../admin/config.rst:1020
 msgid "MATOMO_SITE_ID"
-msgstr ""
+msgstr "MATOMO_SITE_ID"
 
 #: ../../admin/config.rst:1022
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
-msgstr ""
+msgstr "追跡する Matomo（旧 Piwik）内のサイト ID。"
 
 #: ../../admin/config.rst:1026 ../../admin/config.rst:1043
 msgid "This integration does not support the Matomo Tag Manager."
-msgstr ""
+msgstr "この統合は、Matomo タグ マネージャーに対応していません。"
 
 #: ../../admin/config.rst:1030
 msgid ":setting:`MATOMO_URL`"
-msgstr ""
+msgstr ":setting:`MATOMO_URL`"
 
 #: ../../admin/config.rst:1036
 msgid "MATOMO_URL"
-msgstr ""
+msgstr "MATOMO_URL"
 
 #: ../../admin/config.rst:1038
 msgid ""
@@ -5046,30 +5095,36 @@ msgid ""
 "installation you want to use to track Weblate use. Please check <https://"
 "matomo.org/> for more details."
 msgstr ""
+"Weblate の使用を追跡するために使用する Matomo（以前の Piwik）インストールの完全な URL（末尾のスラッシュを含む）。詳細は "
+"<https://matomo.org/> を確認してください。"
 
 #: ../../admin/config.rst:1054
 msgid ":setting:`MATOMO_SITE_ID`"
-msgstr ""
+msgstr ":setting:`MATOMO_SITE_ID`"
 
 #: ../../admin/config.rst:1061
 msgid "MT_SERVICES"
-msgstr ""
+msgstr "MT_SERVICES"
 
 #: ../../admin/config.rst:1065
 msgid ""
 "The setting was renamed from ``MACHINE_TRANSLATION_SERVICES`` to "
 "``MT_SERVICES`` to be consistent with other machine translation settings."
 msgstr ""
+"設定名は、他の機械翻訳設定と整合性を保つため ``MACHINE_TRANSLATION_SERVICES`` から ``MT_SERVICES`` "
+"に変更しました。"
 
 #: ../../admin/config.rst:1068
 msgid "List of enabled machine translation services to use."
-msgstr ""
+msgstr "使用できる有効な機械翻訳サービスの一覧。"
 
 #: ../../admin/config.rst:1072
 msgid ""
 "Many of the services need additional configuration like API keys, please "
 "check their documentation :ref:`machine-translation-setup` for more details."
 msgstr ""
+"多くのサービスは API 鍵のような追加の設定が必要ですが、詳細については :ref:`machine-translation-setup` "
+"のドキュメントをご覧ください。"
 
 #: ../../admin/config.rst:1095 ../../faq.rst:295
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
@@ -5077,12 +5132,12 @@ msgstr ":ref:`machine-translation-setup`、:ref:`machine-translation`"
 
 #: ../../admin/config.rst:1101
 msgid "MT_APERTIUM_APY"
-msgstr ""
+msgstr "MT_APERTIUM_APY"
 
 #: ../../admin/config.rst:1103
 msgid ""
 "URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy"
-msgstr ""
+msgstr "Apertium-APy サーバーの URL、 https://wiki.apertium.org/wiki/Apertium-apy"
 
 #: ../../admin/config.rst:1107
 msgid ""
@@ -5092,11 +5147,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1112
 msgid "MT_AWS_ACCESS_KEY_ID"
-msgstr ""
+msgstr "MT_AWS_ACCESS_KEY_ID"
 
 #: ../../admin/config.rst:1114
 msgid "Access key ID for Amazon Translate."
-msgstr ""
+msgstr "Amazon 翻訳のアクセス鍵 ID。"
 
 #: ../../admin/config.rst:1118 ../../admin/config.rst:1129
 #: ../../admin/config.rst:1140
@@ -5107,29 +5162,31 @@ msgstr ""
 
 #: ../../admin/config.rst:1123
 msgid "MT_AWS_SECRET_ACCESS_KEY"
-msgstr ""
+msgstr "MT_AWS_SECRET_ACCESS_KEY"
 
 #: ../../admin/config.rst:1125
 msgid "API secret key for Amazon Translate."
-msgstr ""
+msgstr "アマゾン翻訳用の API 秘密鍵。"
 
 #: ../../admin/config.rst:1134
 msgid "MT_AWS_REGION"
-msgstr ""
+msgstr "MT_AWS_REGION"
 
 #: ../../admin/config.rst:1136
 msgid "Region name to use for Amazon Translate."
-msgstr ""
+msgstr "Amazon 翻訳に使用するリージョン名。"
 
 #: ../../admin/config.rst:1145
 msgid "MT_BAIDU_ID"
-msgstr ""
+msgstr "MT_BAIDU_ID"
 
 #: ../../admin/config.rst:1147
 msgid ""
 "Client ID for the Baidu Zhiyun API, you can register at https://api.fanyi."
 "baidu.com/api/trans/product/index"
 msgstr ""
+"Baidu Zhiyun API のクライアント ID は、https://api.fanyi.baidu.com/api/trans/product/"
+"index から登録"
 
 #: ../../admin/config.rst:1151 ../../admin/config.rst:1162
 msgid ""
@@ -5141,38 +5198,40 @@ msgstr ""
 
 #: ../../admin/config.rst:1156
 msgid "MT_BAIDU_SECRET"
-msgstr ""
+msgstr "MT_BAIDU_SECRET"
 
 #: ../../admin/config.rst:1158
 msgid ""
 "Client secret for the Baidu Zhiyun API, you can register at https://api."
 "fanyi.baidu.com/api/trans/product/index"
 msgstr ""
+"Baidu Zhiyun API のクライアント シークレットは、https://api.fanyi.baidu.com/api/trans/"
+"product/index から登録"
 
 #: ../../admin/config.rst:1167
 msgid "MT_DEEPL_API_VERSION"
-msgstr ""
+msgstr "MT_DEEPL_API_VERSION"
 
 #: ../../admin/config.rst:1171
 msgid ""
 "API version to use with DeepL service. The version limits scope of usage:"
-msgstr ""
+msgstr "DeepL サービスで使用する API のバージョン。バージョンによって利用範囲が制限されます。"
 
 #: ../../admin/config.rst:1173
 msgid "v1"
-msgstr ""
+msgstr "v1"
 
 #: ../../admin/config.rst:1174
 msgid "Is meant for CAT tools and is usable with user-based subscription."
-msgstr ""
+msgstr "CAT ツール用であり、ユーザー ベースのサブスクリプションで使用できます。"
 
 #: ../../admin/config.rst:1176
 msgid "v2"
-msgstr ""
+msgstr "v2"
 
 #: ../../admin/config.rst:1176
 msgid "Is meant for API usage and the subscription is usage based."
-msgstr ""
+msgstr "API の使用を想定しており、サブスクリプションは使用量ベースです。"
 
 #: ../../admin/config.rst:1178
 msgid ""
@@ -5181,6 +5240,9 @@ msgid ""
 "defaults to v2, and you can change it to v1 in case you have an existing CAT "
 "subscription and want Weblate to use that."
 msgstr ""
+"以前 Weblate は DeepL によって CAT ツールとして分類されていたため、v1 API を使用することになっていましたが、現在は v2 "
+"API を使用することになっています。そのため、デフォルトは v2 になっており、デフォルトの CAT サブスクリプションを持っていて Weblate "
+"がそのサブスクリプションを使用したい場合は v1 に変更できます。"
 
 #: ../../admin/config.rst:1185 ../../admin/config.rst:1196
 msgid ""
@@ -5190,22 +5252,24 @@ msgstr ""
 
 #: ../../admin/config.rst:1190
 msgid "MT_DEEPL_KEY"
-msgstr ""
+msgstr "MT_DEEPL_KEY"
 
 #: ../../admin/config.rst:1192
 msgid ""
 "API key for the DeepL API, you can register at https://www.deepl.com/pro.html"
-msgstr ""
+msgstr "DeepL API の API 鍵、https://www.deepl.com/pro.html から登録"
 
 #: ../../admin/config.rst:1201
 msgid "MT_GOOGLE_KEY"
-msgstr ""
+msgstr "MT_GOOGLE_KEY"
 
 #: ../../admin/config.rst:1203
 msgid ""
 "API key for Google Translate API v2, you can register at https://cloud."
 "google.com/translate/docs"
 msgstr ""
+"Google Translate API v2 の API 鍵、register at https://cloud.google.com/"
+"translate/docs から登録"
 
 #: ../../admin/config.rst:1207
 msgid ""
@@ -5217,7 +5281,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1212
 msgid "MT_GOOGLE_CREDENTIALS"
-msgstr ""
+msgstr "MT_GOOGLE_CREDENTIALS"
 
 #: ../../admin/config.rst:1214
 msgid ""
@@ -5226,10 +5290,13 @@ msgid ""
 "certain project. Please check https://cloud.google.com/docs/authentication/"
 "getting-started for more details."
 msgstr ""
+"Google クラウド コンソールで取得した API v3 JSON 認証情報ファイル。完全な OS のパスを指定してください。資格情報は、"
+"特定のプロジェクトと関連付けられているサービス アカウントごとに行われます。詳細は https://cloud.google.com/docs/"
+"authentication/getting-started を確認してください。"
 
 #: ../../admin/config.rst:1221
 msgid "MT_GOOGLE_PROJECT"
-msgstr ""
+msgstr "MT_GOOGLE_PROJECT"
 
 #: ../../admin/config.rst:1223
 msgid ""
@@ -5237,30 +5304,34 @@ msgid ""
 "billing activated. Please check https://cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project for more details"
 msgstr ""
+"Google クラウド API v3 プロジェクト ID で、翻訳サービスと請求が有効になっています。詳細は https://cloud.google."
+"com/appengine/docs/standard/nodejs/building-app/creating-project を確認してください"
 
 #: ../../admin/config.rst:1229
 msgid "MT_GOOGLE_LOCATION"
-msgstr ""
+msgstr "MT_GOOGLE_LOCATION"
 
 #: ../../admin/config.rst:1231
 msgid ""
 "API v3 Google Cloud App Engine may be specific to a location. Change "
 "accordingly if the default ``global`` fallback does not work for you."
 msgstr ""
+"API v3 Google クラウド アプリ エンジンは、ロケーション固有の設定があります。デフォルトの ``global`` "
+"フォールバックが機能しない場合は、状況に応じて変更してください。"
 
 #: ../../admin/config.rst:1234
 msgid ""
 "Please check https://cloud.google.com/appengine/docs/locations for more "
 "details"
-msgstr ""
+msgstr "詳細は https://cloud.google.com/appengine/docs/locations を確認してください"
 
 #: ../../admin/config.rst:1238
 msgid ":ref:`google-translate-api3`"
-msgstr ""
+msgstr ":ref:`google-translate-api3`"
 
 #: ../../admin/config.rst:1243
 msgid "MT_MICROSOFT_BASE_URL"
-msgstr ""
+msgstr "MT_MICROSOFT_BASE_URL"
 
 #: ../../admin/config.rst:1245
 msgid ""
@@ -5268,22 +5339,25 @@ msgid ""
 "docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
 "reference#base-urls>`_."
 msgstr ""
+"`\"Base URLs\" セクション <https://docs.microsoft.com/en-us/azure/"
+"cognitive-services/translator/reference/v3-0-reference#base-urls>`"
+"_で定義されているリージョン ベース URL ドメイン。"
 
 #: ../../admin/config.rst:1248
 msgid "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
-msgstr ""
+msgstr "Azure グローバルのデフォルトは ``api.cognitive.microsofttranslator.com`` です。"
 
 #: ../../admin/config.rst:1250
 msgid "For Azure China, please use ``api.translator.azure.cn``."
-msgstr ""
+msgstr "Azure China の場合は、``api.translator.azure.cn`` を使用してください。"
 
 #: ../../admin/config.rst:1255
 msgid "MT_MICROSOFT_COGNITIVE_KEY"
-msgstr ""
+msgstr "MT_MICROSOFT_COGNITIVE_KEY"
 
 #: ../../admin/config.rst:1257
 msgid "Client key for the Microsoft Cognitive Services Translator API."
-msgstr ""
+msgstr "Microsoft Cognitive Services Translator API のクライアント鍵です。"
 
 #: ../../admin/config.rst:1260
 msgid ""
@@ -5299,7 +5373,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1267
 msgid "MT_MICROSOFT_REGION"
-msgstr ""
+msgstr "MT_MICROSOFT_REGION"
 
 #: ../../admin/config.rst:1269
 msgid ""
@@ -5308,10 +5382,13 @@ msgid ""
 "translator/reference/v3-0-reference#authenticating-with-a-multi-service-"
 "resource>`_ section."
 msgstr ""
+"`\"マルチ サービス リソースによる認証\" <https://docs.microsoft.com/en-us/azure/"
+"cognitive-services/translator/reference/v3-0-reference#authenticating-with-a"
+"-multi-service-resource>`_セクションで定義されているリージョン接頭辞。"
 
 #: ../../admin/config.rst:1274
 msgid "MT_MICROSOFT_ENDPOINT_URL"
-msgstr ""
+msgstr "MT_MICROSOFT_ENDPOINT_URL"
 
 #: ../../admin/config.rst:1276
 msgid ""
@@ -5320,18 +5397,21 @@ msgid ""
 "en-us/azure/cognitive-services/translator/reference/v3-0-"
 "reference#authenticating-with-an-access-token>`_."
 msgstr ""
+"`\"アクセス トークンによる認証\" section <https://docs.microsoft.com/en-us/azure/"
+"cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
+"an-access-token>`_で定義されているアクセス トークンのリージョン エンドポイント URL ドメイン 。"
 
 #: ../../admin/config.rst:1279
 msgid "Defaults to ``api.cognitive.microsoft.com`` for Azure Global."
-msgstr ""
+msgstr "Azure グローバルのデフォルトは ``api.cognitive.microsoft.com`` です。"
 
 #: ../../admin/config.rst:1281
 msgid "For Azure China, please use your endpoint from the Azure Portal."
-msgstr ""
+msgstr "Azure China の場合は、Azure ポータルからエンドポイントを使用してください。"
 
 #: ../../admin/config.rst:1287
 msgid "MT_MODERNMT_KEY"
-msgstr ""
+msgstr "MT_MODERNMT_KEY"
 
 #: ../../admin/config.rst:1289
 msgid "API key for the ModernMT machine translation engine."
@@ -5339,30 +5419,30 @@ msgstr "ModernMT 機械翻訳エンジンの API キー。"
 
 #: ../../admin/config.rst:1293
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
-msgstr ""
+msgstr ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/config.rst:1299
 msgid "MT_MODERNMT_URL"
-msgstr ""
+msgstr "MT_MODERNMT_URL"
 
 #: ../../admin/config.rst:1301
 msgid ""
 "URL of ModernMT. It defaults to ``https://api.modernmt.com/`` for the cloud "
 "service."
-msgstr ""
+msgstr "ModernMT の URL。クラウド サービスのデフォルトは ``https://api.modernmt.com/`` です。"
 
 #: ../../admin/config.rst:1306
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_KEY`"
-msgstr ""
+msgstr ":ref:`modernmt` :setting:`MT_MODERNMT_KEY`"
 
 #: ../../admin/config.rst:1313
 msgid "MT_MYMEMORY_EMAIL"
-msgstr ""
+msgstr "MT_MYMEMORY_EMAIL"
 
 #: ../../admin/config.rst:1315
 msgid ""
 "MyMemory identification e-mail address. It permits 1000 requests per day."
-msgstr ""
+msgstr "MyMemory 識別用のメールアドレス。1 日あたり 1000 件のリクエストを許可します。"
 
 #: ../../admin/config.rst:1319
 msgid ""
@@ -5376,13 +5456,13 @@ msgstr ""
 
 #: ../../admin/config.rst:1325
 msgid "MT_MYMEMORY_KEY"
-msgstr ""
+msgstr "MT_MYMEMORY_KEY"
 
 #: ../../admin/config.rst:1327
 msgid ""
 "MyMemory access key for private translation memory, use it with :setting:"
 "`MT_MYMEMORY_USER`."
-msgstr ""
+msgstr "プライベート翻訳メモリ用の MyMemory アクセス鍵は、:setting:`MT_MYMEMORY_USER` とセットで使用します。"
 
 #: ../../admin/config.rst:1331 ../../admin/config.rst:1343
 msgid ""
@@ -5396,22 +5476,22 @@ msgstr ""
 
 #: ../../admin/config.rst:1337
 msgid "MT_MYMEMORY_USER"
-msgstr ""
+msgstr "MT_MYMEMORY_USER"
 
 #: ../../admin/config.rst:1339
 msgid ""
 "MyMemory user ID for private translation memory, use it with :setting:"
 "`MT_MYMEMORY_KEY`."
-msgstr ""
+msgstr "プライベート翻訳メモリ用の MyMemory ユーザー ID は、:setting:`MT_MYMEMORY_KEY` とセットで使用します。"
 
 #: ../../admin/config.rst:1349
 msgid "MT_NETEASE_KEY"
-msgstr ""
+msgstr "MT_NETEASE_KEY"
 
 #: ../../admin/config.rst:1351
 msgid ""
 "App key for NetEase Sight API, you can register at https://sight.youdao.com/"
-msgstr ""
+msgstr "NetEase Sight API の App key、https://sight.youdao.com/ から登録"
 
 #: ../../admin/config.rst:1355 ../../admin/config.rst:1366
 msgid ""
@@ -5423,21 +5503,21 @@ msgstr ""
 
 #: ../../admin/config.rst:1360
 msgid "MT_NETEASE_SECRET"
-msgstr ""
+msgstr "MT_NETEASE_SECRET"
 
 #: ../../admin/config.rst:1362
 msgid ""
 "App secret for the NetEase Sight API, you can register at https://sight."
 "youdao.com/"
-msgstr ""
+msgstr "NetEase Sight API の App secret、https://sight.youdao.com/ から登録"
 
 #: ../../admin/config.rst:1371
 msgid "MT_TMSERVER"
-msgstr ""
+msgstr "MT_TMSERVER"
 
 #: ../../admin/config.rst:1373
 msgid "URL where tmserver is running."
-msgstr ""
+msgstr "tmserver が実行している URL。"
 
 #: ../../admin/config.rst:1377
 msgid ""
@@ -5449,13 +5529,13 @@ msgstr ""
 
 #: ../../admin/config.rst:1383
 msgid "MT_YANDEX_KEY"
-msgstr ""
+msgstr "MT_YANDEX_KEY"
 
 #: ../../admin/config.rst:1385
 msgid ""
 "API key for the Yandex Translate API, you can register at https://yandex.com/"
 "dev/translate/"
-msgstr ""
+msgstr "Yandex Translate API の API key、https://yandex.com/dev/translate/ から登録"
 
 #: ../../admin/config.rst:1389
 msgid ""
@@ -5467,13 +5547,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1394
 msgid "MT_YOUDAO_ID"
-msgstr ""
+msgstr "MT_YOUDAO_ID"
 
 #: ../../admin/config.rst:1396
 msgid ""
 "Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao."
 "com/product-fanyi-text.s."
 msgstr ""
+"Youdao Zhiyun API のクライアント ID は、https://ai.youdao.com/product-fanyi-text.s "
+"から登録"
 
 #: ../../admin/config.rst:1400 ../../admin/config.rst:1411
 msgid ""
@@ -5485,21 +5567,23 @@ msgstr ""
 
 #: ../../admin/config.rst:1405
 msgid "MT_YOUDAO_SECRET"
-msgstr ""
+msgstr "MT_YOUDAO_SECRET"
 
 #: ../../admin/config.rst:1407
 msgid ""
 "Client secret for the Youdao Zhiyun API, you can register at https://ai."
 "youdao.com/product-fanyi-text.s."
 msgstr ""
+"Youdao Zhiyun API の Client secret は、https://ai.youdao.com/product-fanyi-"
+"text.s から登録"
 
 #: ../../admin/config.rst:1416
 msgid "MT_SAP_BASE_URL"
-msgstr ""
+msgstr "MT_SAP_BASE_URL"
 
 #: ../../admin/config.rst:1418
 msgid "API URL to the SAP Translation Hub service."
-msgstr ""
+msgstr "SAP 翻訳ハブ サービスへの API URL。"
 
 #: ../../admin/config.rst:1421 ../../admin/config.rst:1431
 #: ../../admin/config.rst:1441 ../../admin/config.rst:1451
@@ -5513,47 +5597,48 @@ msgstr ""
 
 #: ../../admin/config.rst:1426
 msgid "MT_SAP_SANDBOX_APIKEY"
-msgstr ""
+msgstr "MT_SAP_SANDBOX_APIKEY"
 
 #: ../../admin/config.rst:1428
 msgid "API key for sandbox API usage"
-msgstr ""
+msgstr "サンドボックス API 用の API key"
 
 #: ../../admin/config.rst:1436
 msgid "MT_SAP_USERNAME"
-msgstr ""
+msgstr "MT_SAP_USERNAME"
 
 #: ../../admin/config.rst:1438
 msgid "Your SAP username"
-msgstr ""
+msgstr "SAP ユーザー名"
 
 #: ../../admin/config.rst:1446
 msgid "MT_SAP_PASSWORD"
-msgstr ""
+msgstr "MT_SAP_PASSWORD"
 
 #: ../../admin/config.rst:1448
 msgid "Your SAP password"
-msgstr ""
+msgstr "SAP パスワード"
 
 #: ../../admin/config.rst:1456
 msgid "MT_SAP_USE_MT"
-msgstr ""
+msgstr "MT_SAP_USE_MT"
 
 #: ../../admin/config.rst:1458
 msgid ""
 "Whether to also use machine translation services, in addition to the term "
 "database. Possible values: ``True`` or ``False``"
-msgstr ""
+msgstr "用語データベースに追加して、機械翻訳サービスも使用するかどうか。指定できる値： ``True`` または ``False``"
 
 #: ../../admin/config.rst:1467
 msgid "NEARBY_MESSAGES"
-msgstr ""
+msgstr "NEARBY_MESSAGES"
 
 #: ../../admin/config.rst:1469
 msgid ""
 "How many strings to show around the currently translated string. This is "
 "just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
+"現在翻訳している文字列の前後に表示する文字列の数。単なるデフォルト値であり、ユーザーは :ref:`user-profile` で調整できます。"
 
 #: ../../admin/config.rst:1474
 msgid "PAGURE_CREDENTIALS"
@@ -5569,6 +5654,8 @@ msgid ""
 "Pagure endpoint stick with :setting:`PAGURE_USERNAME` and :setting:"
 "`PAGURE_TOKEN`."
 msgstr ""
+"Weblate を多くの Pagure エンドポイントと相互作用させたい場合、単一の Pagure エンドポイントの "
+":setting:`PAGURE_USERNAME` および :setting:`PAGURE_TOKEN` を貼り付けて使用します。"
 
 #: ../../admin/config.rst:1501
 msgid "PAGURE_USERNAME"
@@ -5602,16 +5689,16 @@ msgstr ""
 
 #: ../../admin/config.rst:1531
 msgid "RATELIMIT_ATTEMPTS"
-msgstr ""
+msgstr "RATELIMIT_ATTEMPTS"
 
 #: ../../admin/config.rst:1535
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
-msgstr ""
+msgstr "接続制限が適用されるまでの認証試行の最大回数。"
 
 #: ../../admin/config.rst:1537
 msgid "Defaults to 5."
-msgstr ""
+msgstr "デフォルトは 5 回です。"
 
 #: ../../admin/config.rst:1541
 msgid ""
@@ -5621,15 +5708,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1548
 msgid "RATELIMIT_WINDOW"
-msgstr ""
+msgstr "RATELIMIT_WINDOW"
 
 #: ../../admin/config.rst:1552
 msgid "How long authentication is accepted after rate limiting applies."
-msgstr ""
+msgstr "接続制限が適用された後に認証を受け入れる秒数。"
 
 #: ../../admin/config.rst:1554
 msgid "An amount of seconds defaulting to 300 (5 minutes)."
-msgstr ""
+msgstr "デフォルトは 300 秒（5 分）です。"
 
 #: ../../admin/config.rst:1558
 msgid ""
@@ -5641,15 +5728,15 @@ msgstr ""
 
 #: ../../admin/config.rst:1565
 msgid "RATELIMIT_LOCKOUT"
-msgstr ""
+msgstr "RATELIMIT_LOCKOUT"
 
 #: ../../admin/config.rst:1569
 msgid "How long authentication is locked after rate limiting applies."
-msgstr ""
+msgstr "接続制限が適用された後に認証が遮断される秒数。"
 
 #: ../../admin/config.rst:1571
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
-msgstr ""
+msgstr "デフォルトは 600 秒（10 分）です。"
 
 #: ../../admin/config.rst:1575
 msgid ""
@@ -5667,6 +5754,7 @@ msgid ""
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
 msgstr ""
+"登録を許可する認証バックエンドの一覧。これは新しい登録のみを制限し、ユーザーは設定済みのすべての認証バックエンドを使用して認証を行い、認証を追加できます。"
 
 #: ../../admin/config.rst:1590
 msgid ""
@@ -5674,10 +5762,13 @@ msgid ""
 "limiting registration backends, otherwise users will be able to register, "
 "but Weblate will not show links to register in the user interface."
 msgstr ""
+"登録バックエンドを制限しながら :setting:`REGISTRATION_OPEN` "
+"を有効にしておくことをお勧めしますが、それ以外の場合、ユーザーは登録できるが、Weblate ではユーザー "
+"インターフェイスに登録するためのリンクは表示されません。"
 
 #: ../../admin/config.rst:1602
 msgid "The backend names match names used in URL for authentication."
-msgstr ""
+msgstr "バックエンド名は、認証用の URL で使用する名前と一致させます。"
 
 #: ../../admin/config.rst:1606
 msgid ":setting:`REGISTRATION_OPEN`, :doc:`auth`"
@@ -5685,7 +5776,7 @@ msgstr ":setting:`REGISTRATION_OPEN`、:doc:`auth`"
 
 #: ../../admin/config.rst:1612
 msgid "REGISTRATION_CAPTCHA"
-msgstr ""
+msgstr "REGISTRATION_CAPTCHA"
 
 #: ../../admin/config.rst:1614
 msgid ""
@@ -5693,54 +5784,58 @@ msgid ""
 "new accounts is protected by CAPTCHA. This setting is optional, and a "
 "default of ``True`` will be assumed if it is not supplied."
 msgstr ""
+"新規アカウント登録を CAPTCHA で保護するかどうかを示す値を ``True`` または ``False`` "
+"で指定します。この設定はオプションであり、指定しなかった場合はデフォルトの ``True`` が設定されます。"
 
 #: ../../admin/config.rst:1618
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
-msgstr ""
+msgstr "有効にすると、ユーザーがメール アドレスを入力して CAPTCHA が追加されるすべてのページ："
 
 #: ../../admin/config.rst:1620
 msgid "New account registration."
-msgstr ""
+msgstr "新規アカウント登録。"
 
 #: ../../admin/config.rst:1621
 msgid "Password recovery."
-msgstr ""
+msgstr "パスワードの回復。"
 
 #: ../../admin/config.rst:1622
 msgid "Adding e-mail to an account."
-msgstr ""
+msgstr "アカウントへのメールアドレスの追加。"
 
 #: ../../admin/config.rst:1623
 msgid "Contact form for users that are not signed in."
-msgstr ""
+msgstr "サイン インしていないユーザーへの連絡フォーム。"
 
 #: ../../admin/config.rst:1628
 msgid "REGISTRATION_EMAIL_MATCH"
-msgstr ""
+msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1632
 msgid "Allows you to filter which e-mail addresses can register."
-msgstr ""
+msgstr "登録できるメール アドレスをフィルタ処理できます。"
 
 #: ../../admin/config.rst:1634
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
-msgstr ""
+msgstr "デフォルトは ``.*``、どのようなメールアドレスでも登録できます。"
 
 #: ../../admin/config.rst:1636
 msgid "You can use it to restrict registration to a single e-mail domain:"
-msgstr ""
+msgstr "登録を単一のメール アドレスドメインに制限する方法："
 
 #: ../../admin/config.rst:1645
 msgid "REGISTRATION_OPEN"
-msgstr ""
+msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1647
 msgid ""
 "Whether registration of new accounts is currently permitted. This optional "
 "setting can remain the default ``True``, or changed to ``False``."
 msgstr ""
+"現在、新規アカウントの登録を許可しているかどうか。このオプションの設定はデフォルトの ``True`` のままでも ``False`` "
+"に変更してもかまいません。"
 
 #: ../../admin/config.rst:1650
 msgid ""
@@ -5748,6 +5843,8 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
+"この設定はメールアドレスによる組み込み認証や Python Social Auth "
+"による認証に影響します（:setting:`REGISTRATION_ALLOW_BACKENDS`で特定のバックエンドをホワイトリストに登録できます）。"
 
 #: ../../admin/config.rst:1656
 msgid ""
@@ -5755,6 +5852,8 @@ msgid ""
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
+":ref:`ldap-auth` などのサード パーティ認証方法を使用している場合、登録フォームは非表示になりますが、新しいユーザーがサイン "
+"インしてアカウントを作成できることがあります。"
 
 #: ../../admin/config.rst:1662
 msgid ""
@@ -5766,61 +5865,69 @@ msgstr ""
 
 #: ../../admin/config.rst:1669
 msgid "REPOSITORY_ALERT_THRESHOLD"
-msgstr ""
+msgstr "REPOSITORY_ALERT_THRESHOLD"
 
 #: ../../admin/config.rst:1673
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
-msgstr ""
+msgstr "古くなったリポジトリや、変更が多すぎるリポジトリに対して警告を出すためのしきい値。デフォルトは 25 です。"
 
 #: ../../admin/config.rst:1683
 msgid "REQUIRE_LOGIN"
-msgstr ""
+msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1687
 msgid ""
 "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to "
 "require sign in for all API endpoints."
 msgstr ""
+"これにより :setting:`LOGIN_REQUIRED_URLS` が有効になり、REST フレームワークがすべての API "
+"エンドポイントにサイン インを要求するように設定されます。"
 
 #: ../../admin/config.rst:1692
 msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
+"これは :ref:`sample-configuration` に実装されています。Docker の場合は "
+":envvar:`WEBLATE_REQUIRE_LOGIN` を使用します。"
 
 #: ../../admin/config.rst:1698
 msgid "SENTRY_DSN"
-msgstr ""
+msgstr "SENTRY_DSN"
 
 #: ../../admin/config.rst:1702
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
-msgstr ""
+msgstr ":ref:`collecting-errors` に使用する Sentry DSN。"
 
 #: ../../admin/config.rst:1706
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "guides/django/>`_"
 msgstr ""
+"`Sentry の Django 統合 <https://docs.sentry.io/platforms/python/guides/django/"
+">`_"
 
 #: ../../admin/config.rst:1711
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
 #: ../../admin/config.rst:1715
 msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
+"認証済みユーザーのセッションの有効期限を設定します。これは認証されていないユーザーのために使用される "
+":setting:`django:SESSION_COOKIE_AGE` を補完するものです。"
 
 #: ../../admin/config.rst:1720
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
-msgstr ""
+msgstr ":setting:`django:SESSION_COOKIE_AGE`"
 
 #: ../../admin/config.rst:1725
 msgid "SIMPLIFY_LANGUAGES"
-msgstr ""
+msgstr "SIMPLIFY_LANGUAGES"
 
 #: ../../admin/config.rst:1727
 msgid ""
@@ -5829,25 +5936,29 @@ msgid ""
 "usually the desired behavior, as it simplifies listing languages for these "
 "default combinations."
 msgstr ""
+"デフォルトの言語と国の組み合わせには単純な言語コードを使用します。たとえば ``fr_FR`` の翻訳は ``fr`` "
+"の言語コードを使用します。これは通常、デフォルトの組み合わせの言語の一覧を簡単化する理想的な方法です。"
 
 #: ../../admin/config.rst:1732
 msgid "Turn this off if you want to different translations for each variant."
-msgstr ""
+msgstr "つづりごとに異なる翻訳を行う場合は、この機能を無効にします。"
 
 #: ../../admin/config.rst:1737
 msgid "SITE_DOMAIN"
-msgstr ""
+msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1739
 msgid ""
 "Configures site domain. This is necessary to produce correct absolute links "
 "in many scopes (for example activation e-mails, notifications or RSS feeds)."
 msgstr ""
+"サイト ドメインを設定します。これは、多くの範囲（たとえば、アクティベーション メールアドレス、通知、RSS "
+"フィード）で正しい絶対リンクを生成するために必要です。"
 
 #: ../../admin/config.rst:1742
 msgid ""
 "In case Weblate is running on non-standard port, include it here as well."
-msgstr ""
+msgstr "Weblate を非標準ポートで実行している場合は、ここにも含めてください。"
 
 #: ../../admin/config.rst:1756
 msgid ""
@@ -5855,12 +5966,14 @@ msgid ""
 "(enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing "
 "URL, use :setting:`URL_PREFIX`."
 msgstr ""
+"この設定には、ドメイン名だけを含めてください。プロトコルの設定（HTTPS の有効化と強制）には :setting:`ENABLE_HTTPS` "
+"を使用し、URL の変更には :setting:`URL_PREFIX` を使用します。"
 
 #: ../../admin/config.rst:1762
 msgid ""
 "On a Docker container, the site domain is configured through :envvar:"
 "`WEBLATE_ALLOWED_HOSTS`."
-msgstr ""
+msgstr "Docker コンテナ上では、サイト ドメインは :envvar:`WEBLATE_ALLOWED_HOSTS` で設定します。"
 
 #: ../../admin/config.rst:1767
 msgid ""
@@ -5872,29 +5985,29 @@ msgstr ""
 
 #: ../../admin/config.rst:1776
 msgid "SITE_TITLE"
-msgstr ""
+msgstr "SITE_TITLE"
 
 #: ../../admin/config.rst:1778
 msgid "Site title to be used for the website and sent e-mails."
-msgstr ""
+msgstr "Web サイトおよびメール送信に使用するサイト名。"
 
 #: ../../admin/config.rst:1783
 msgid "SPECIAL_CHARS"
-msgstr ""
+msgstr "SPECIAL_CHARS"
 
 #: ../../admin/config.rst:1785
 msgid ""
 "Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
-msgstr ""
+msgstr "ビジュアル キーボードに含める追加の文字、:ref:`visual-keyboard`。"
 
 #: ../../admin/config.rst:1787
 msgid "The default value is:"
-msgstr ""
+msgstr "デフォルト値："
 
 #: ../../admin/config.rst:1796
 msgid "SINGLE_PROJECT"
-msgstr ""
+msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1800
 msgid ""
@@ -5903,34 +6016,37 @@ msgid ""
 "in case there is actually only single project in Weblate. Alternatively set "
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
+"ダッシュボードを表示する代わりに、プロジェクトまたはコンポーネントにユーザーを直接リダイレクトします。``True`` に設定できるが、この場合は、"
+"実際に Weblate にプロジェクトが 1 "
+"つしか存在していない場合にのみ機能します。または、プロジェクトのスラッグを設定すると、このプロジェクトに無条件にリダイレクトされます。"
 
 #: ../../admin/config.rst:1807
 msgid ""
 "The setting now also accepts a project slug, to force displaying that single "
 "project."
-msgstr ""
+msgstr "この設定では、単一のプロジェクトを強制的に表示するために、プロジェクトのスラッグも受け付けるようになりました。"
 
 #: ../../admin/config.rst:1819
 msgid "STATUS_URL"
-msgstr ""
+msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1821
 msgid "The URL where your Weblate instance reports its status."
-msgstr ""
+msgstr "Weblate インスタンスが状況を報告する URL。"
 
 #: ../../admin/config.rst:1826
 msgid "SUGGESTION_CLEANUP_DAYS"
-msgstr ""
+msgstr "SUGGESTION_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:1830
 msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
-msgstr ""
+msgstr "指定された日数が経過すると、提案が自動的に削除されます。デフォルトは ``None`` で、削除しないことを意味します。"
 
 #: ../../admin/config.rst:1836
 msgid "UPDATE_LANGUAGES"
-msgstr ""
+msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1840
 msgid ""
@@ -5938,6 +6054,8 @@ msgid ""
 "migration and is enabled by default. This setting has no effect on "
 "invocation of :djadmin:`setuplang`."
 msgstr ""
+"データベースを移行する場合、言語データベースを更新するかどうかを判断します。デフォルトは有効。この設定は :djadmin:`setuplang` "
+"の呼び出しには影響しません。"
 
 #: ../../admin/config.rst:1846
 msgid ":ref:`included-languages`"
@@ -5951,7 +6069,7 @@ msgstr ""
 msgid ""
 "This setting allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
-msgstr ""
+msgstr "この設定では、Weblate を指定したパスで実行できます（そうでない場合は、Weblate サーバのルートからの実行に依存します）。"
 
 #: ../../admin/config.rst:1858
 msgid ""
@@ -5959,44 +6077,46 @@ msgid ""
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
+"この設定を使用するには、この接頭辞を削除してサーバーを設定してください。たとえば WSGI では、``WSGIScriptAlias`` "
+"を設定して実行できます。"
 
 #: ../../admin/config.rst:1863
 msgid "The prefix should start with a ``/``."
-msgstr ""
+msgstr "接頭辞は ``/`` で開始してください。"
 
 #: ../../admin/config.rst:1873
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
-msgstr ""
+msgstr "この設定は Django の組み込みサーバーでは動作しません。:file:`urls.py` を設定して接頭辞を含める必要があります。"
 
 #: ../../admin/config.rst:1879
 msgid "VCS_BACKENDS"
-msgstr ""
+msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1881
 msgid "Configuration of available VCS backends."
-msgstr ""
+msgstr "使用可能な VCS バックエンドの設定。"
 
 #: ../../admin/config.rst:1885
 msgid "Weblate tries to use all supported back-ends you have the tools for."
-msgstr ""
+msgstr "Weblate は、対応しているすべてのバックエンドの使用を試します。"
 
 #: ../../admin/config.rst:1889
 msgid "You can limit choices or add custom VCS back-ends by using this."
-msgstr ""
+msgstr "これを使用して、選択を制限したり、カスタム VCS バックエンドを追加できます。"
 
 #: ../../admin/config.rst:1897 ../../faq.rst:455
 msgid ":ref:`vcs`"
-msgstr ""
+msgstr ":ref:`vcs`"
 
 #: ../../admin/config.rst:1902
 msgid "VCS_CLONE_DEPTH"
-msgstr ""
+msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1906
 msgid "Configures how deep cloning of repositories Weblate should do."
-msgstr ""
+msgstr "Weblate が実行するリポジトリの深いクローン作成の深さを設定する。"
 
 #: ../../admin/config.rst:1910
 msgid ""
@@ -6006,6 +6126,9 @@ msgid ""
 "`addons`), you might want to increase the depth or turn off shallow clones "
 "completely by setting this to 0."
 msgstr ""
+"現在のところ、これは :ref:`vcs-git` でのみ対応しています。デフォルトでは、Weblate "
+"はリポジトリの浅いクローンを作成します。使い方によっては（たとえば、カスタムの :ref:`addons` を使用している場合など）、この値を 0 "
+"に設定して浅いクローンを完全に無効にしたり、深さを増やすこともできます。"
 
 #: ../../admin/config.rst:1917
 msgid ""
@@ -6013,10 +6136,12 @@ msgid ""
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
+"Weblate からプッシュするときに ``fatal: protocol error: expected old/new/ref, got "
+"'shallow <commit hash>'`` エラーが発生した場合は、以下を設定して浅いクローンを完全に無効にします。"
 
 #: ../../admin/config.rst:1927
 msgid "WEBLATE_ADDONS"
-msgstr ""
+msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:1929
 msgid ""
@@ -6025,6 +6150,8 @@ msgid ""
 "when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
+"使用可能なアドオンの一覧。これらを使用するには、特定の翻訳コンポーネントに対して有効にする必要があります。デフォルトでは、この組み込みアドオンはすべて含ま"
+"れますが、一覧を増やす場合は、デフォルトのアドオンを有効する必要があります。"
 
 #: ../../admin/config.rst:1968
 msgid ""
@@ -6032,6 +6159,8 @@ msgid ""
 "Weblate will crash in that case. Please uninstall addon from all components "
 "prior to removing it from this list."
 msgstr ""
+"Weblate一覧からアドオンを削除しても、コンポーネントからはアンインストールされません。その場合、Weblate "
+"はクラッシュします。この一覧から削除する前に、すべてのコンポーネントからアドオンをアンインストールしてください。"
 
 #: ../../admin/config.rst:1974
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
@@ -6039,38 +6168,38 @@ msgstr ":ref:`addons`、:setting:`DEFAULT_ADDONS`"
 
 #: ../../admin/config.rst:1980
 msgid "WEBLATE_EXPORTERS"
-msgstr ""
+msgstr "WEBLATE_EXPORTERS"
 
 #: ../../admin/config.rst:1984
 msgid ""
 "List of a available exporters offering downloading translations or "
 "glossaries in various file formats."
-msgstr ""
+msgstr "翻訳や用語集をさまざまなファイル形式でダウンロードできるエクスポートの一覧です。"
 
 #: ../../admin/config.rst:1989 ../../admin/config.rst:2006
 #: ../../user/files.rst:47
 msgid ":ref:`formats`"
-msgstr ""
+msgstr ":ref:`formats`"
 
 #: ../../admin/config.rst:1994
 msgid "WEBLATE_FORMATS"
-msgstr ""
+msgstr "WEBLATE_FORMATS"
 
 #: ../../admin/config.rst:1998
 msgid "List of file formats available for use."
-msgstr ""
+msgstr "使用可能なファイル形式の一覧。"
 
 #: ../../admin/config.rst:2002
 msgid "The default list already has the common formats."
-msgstr ""
+msgstr "デフォルトの一覧には、すでに一般的な形式があります。"
 
 #: ../../admin/config.rst:2011
 msgid "WEBLATE_GPG_IDENTITY"
-msgstr ""
+msgstr "WEBLATE_GPG_IDENTITY"
 
 #: ../../admin/config.rst:2015
 msgid "Identity used by Weblate to sign Git commits, for example:"
-msgstr ""
+msgstr "WeblateがGitコミットに署名するために使用するID。例："
 
 #: ../../admin/config.rst:2021
 msgid ""
@@ -6078,10 +6207,12 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
+"Weblate GPG キーリングは、一致するキーを探します（:setting:`DATA_DIR` の下で :file:`home/."
+"gnupg`）。見つからない場合はキーが生成されます、詳細は :ref:`gpg-sign` を確認してください。"
 
 #: ../../admin/config.rst:2027 ../../admin/install/docker.rst:551
 msgid ":ref:`gpg-sign`"
-msgstr ""
+msgstr ":ref:`gpg-sign`"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -7559,6 +7690,8 @@ msgid ""
 "Several features in Weblate rely on being able to get client IP address. "
 "This includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`."
 msgstr ""
+"Weblate の複数の機能は、クライアントの IP アドレスを取得できることを前提にしています。これには、:ref:`rate-limit`、:ref"
+":`spam-protection` または :ref:`audit-log` が含まれます。"
 
 #: ../../admin/install.rst:464
 msgid ""
@@ -10054,29 +10187,29 @@ msgstr ""
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr ""
+msgstr "ソースからインストール"
 
 #: ../../admin/install/source.rst:4
 msgid "Please follow the installation instructions for your system first:"
-msgstr ""
+msgstr "まずは、お使いのシステムのインストール手順に従う："
 
 #: ../../admin/install/source.rst:6
 msgid ":doc:`venv-debian`"
-msgstr ""
+msgstr ":doc:`venv-debian`"
 
 #: ../../admin/install/source.rst:7
 msgid ":doc:`venv-suse`"
-msgstr ""
+msgstr ":doc:`venv-suse`"
 
 #: ../../admin/install/source.rst:8
 msgid ":doc:`venv-redhat`"
-msgstr ""
+msgstr ":doc:`venv-redhat`"
 
 #: ../../admin/install/source.rst:11
 msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
-msgstr ""
+msgstr "Git で最新の Weblate のソースの取得（または tarball をダウンロードして解凍）："
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -10084,15 +10217,18 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"または、リリースしたアーカイブも使用できます。Web サイト <https://weblate.org/> からダウンロードできます。ダウンロード "
+"ファイルは暗号化し署名されています。:ref:`verify` を参照してください。"
 
 #: ../../admin/install/source.rst:21
 msgid "Install current Weblate code into the virtualenv:"
-msgstr ""
+msgstr "現在の Weblate コードを virtualenv にインストールする方法："
 
 #: ../../admin/install/source.rst:28
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
 msgstr ""
+":file:`weblate/settings_example.py` を :file:`weblate/settings.py` にコピーする。"
 
 #: ../../admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -10100,20 +10236,24 @@ msgid ""
 "can stick with shipped example for testing purposes, but you will want "
 "changes for production setup, see :ref:`configuration`."
 msgstr ""
+"新しい :file:`settings.py` ファイルの値を、必要に応じて調整してください。テスト用に用意された例をそのまま使用できますが、"
+"本番用のセットアップのために変更する場合は :ref:`configuration` を参照してください。"
 
 #: ../../admin/install/source.rst:33
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
-msgstr ""
+msgstr "Weblate が使用するデータベースを作成します。参照 :ref:`database-setup`。"
 
 #: ../../admin/install/source.rst:35
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
+"Django テーブル、静的ファイル、初期データのビルドの方法（参照 :ref:`tables-setup` および :ref:`static-"
+"files`）："
 
 #: ../../admin/install/source.rst:47
 msgid "This step should be repeated whenever you update the repository."
-msgstr ""
+msgstr "この手順は、リポジトリを更新するたびに繰り返す必要があります。"
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
@@ -12454,11 +12594,11 @@ msgstr ""
 
 #: ../../admin/optionals.rst:227 ../../user/translating.rst:378
 msgid "Rate limiting"
-msgstr "レート制限"
+msgstr "接続制限"
 
 #: ../../admin/optionals.rst:231
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr "レート制限では、さらに詳細な設定が可能になりました。"
+msgstr "接続制限は、さらに詳細な設定が可能になりました。"
 
 #: ../../admin/optionals.rst:233
 msgid ""
@@ -12469,10 +12609,14 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
+"Weblate の複数の操作は接続制限されています。多くても :setting:`RATELIMIT_ATTEMPTS` "
+"の試行回数は、:setting:`RATELIMIT_WINDOW` 秒以内です。その後、ユーザーは "
+":setting:`RATELIMIT_LOCKOUT` 秒遮断されます。``RATELIMIT_CONTACT_ATTEMPTS`` や "
+"``RATELIMIT_TRANSLATE_ATTEMPTS`` などの、範囲専用の設定もあります。次の表は、すべての使用可能な範囲の一覧です。"
 
 #: ../../admin/optionals.rst:237
 msgid "The following operations are subject to rate limiting:"
-msgstr "次の操作は、レート制限の対象となります。"
+msgstr "接続制限が対象の操作："
 
 #: ../../admin/optionals.rst:240 ../../devel/reporting-example.rst:2
 msgid "Name"
@@ -12484,15 +12628,15 @@ msgstr "範囲"
 
 #: ../../admin/optionals.rst:240
 msgid "Allowed attempts"
-msgstr "許可した試行回数"
+msgstr "試行回数限度"
 
 #: ../../admin/optionals.rst:240
 msgid "Ratelimit window"
-msgstr "ウィンドウ レート制限"
+msgstr "試行可能秒数"
 
 #: ../../admin/optionals.rst:240
 msgid "Lockout period"
-msgstr "ロックアウト期間"
+msgstr "接続遮断秒数"
 
 #: ../../admin/optionals.rst:242 ../../user/profile.rst:5
 msgid "Registration"
@@ -12582,7 +12726,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:257
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
-msgstr ""
+msgstr "API には、個別の接続制限があります、参照 :ref:`api-rate`。"
 
 #: ../../admin/optionals.rst:261
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
@@ -13534,7 +13678,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:676
 msgid "Language filter"
-msgstr "言語フィルタ"
+msgstr "言語フィルター"
 
 #: ../../admin/projects.rst:678
 msgid ""
@@ -13600,7 +13744,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:704
 msgid "Variants regular expression"
-msgstr "バリアント正規表現"
+msgstr "つづり正規表現"
 
 #: ../../admin/projects.rst:706
 msgid ""
@@ -13984,9 +14128,7 @@ msgstr "サンプル設定"
 msgid ""
 "The following example is shipped as :file:`weblate/settings_example.py` with "
 "Weblate:"
-msgstr ""
-"Weblate は設定例として :file:`weblate/settings_example.py` が同梱されていま"
-"す:"
+msgstr "Weblate が設定例として同梱している :file:`weblate/settings_example.py` ："
 
 #: ../../admin/support.rst:2
 msgid "Getting support for Weblate"
@@ -14371,9 +14513,7 @@ msgstr ""
 msgid ""
 "There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting "
 "of rate limiting in the API."
-msgstr ""
-"``DEFAULT_THROTTLE_CLASSES`` の設定を変更し、API でレート制限のレポート作成を"
-"可能とした。"
+msgstr "``DEFAULT_THROTTLE_CLASSES`` の設定を変更し、API で接続制限のレポート作成を可能とした。"
 
 #: ../../admin/upgrade.rst:128 ../../admin/upgrade.rst:142
 msgid "There are some new and updated requirements."
@@ -14764,7 +14904,7 @@ msgstr ""
 
 #: ../../api.rst:149
 msgid "API rate limiting"
-msgstr "API レート制限"
+msgstr "API 接続制限"
 
 #: ../../api.rst:151
 msgid ""
@@ -14772,6 +14912,8 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
+"API リクエストは接続制限されています。デフォルト設定では、匿名ユーザーの場合は 100 リクエスト / 日、認証済みユーザーの場合は 5000 "
+"リクエスト / 時間に制限されています。"
 
 #: ../../api.rst:155
 msgid ""
@@ -14779,22 +14921,25 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"接続制限は :file:`settings.py` で調整できます。詳細な設定方法は、`Throttling in Django REST "
+"framework documentation <https://www.django-rest-framework.org/api-guide/"
+"throttling/>`_を参照してください。"
 
 #: ../../api.rst:159
 msgid "The status of rate limiting is reported in following headers:"
-msgstr ""
+msgstr "ヘッダーで報告される接続制限の状態："
 
 #: ../../api.rst:162
 msgid "``X-RateLimit-Limit``"
-msgstr ""
+msgstr "``X-RateLimit-Limit``"
 
 #: ../../api.rst:162
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "実行するリクエストの接続制限回数"
 
 #: ../../api.rst:164
 msgid "``X-RateLimit-Remaining``"
-msgstr ""
+msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:164
 msgid "Remaining limit of requests"
@@ -14802,19 +14947,19 @@ msgstr ""
 
 #: ../../api.rst:166
 msgid "``X-RateLimit-Reset``"
-msgstr ""
+msgstr "``X-RateLimit-Reset``"
 
 #: ../../api.rst:166
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "接続可能秒数がリセットされるまでの秒数"
 
 #: ../../api.rst:171
 msgid "Added ratelimiting status headers."
-msgstr ""
+msgstr "接続制限状態のヘッダーの追加。"
 
 #: ../../api.rst:175
 msgid ":ref:`rate-limit`, :ref:`user-rate`"
-msgstr ":ref:`rate-limit`、:ref:`user-rate`"
+msgstr ":ref:`rate-limit`, :ref:`user-rate`"
 
 #: ../../api.rst:180
 msgid "API Entry Point"
@@ -17261,7 +17406,7 @@ msgstr "自動翻訳の進行状況のレポートのクラッシュを修正し
 
 #: ../../changes.rst:99
 msgid "Fixed Git commit squashing with trailers enabled."
-msgstr ""
+msgstr "Git コミットの簡略化の有効化の修正。"
 
 #: ../../changes.rst:100
 msgid "Fixed creating local VCS components using API."
@@ -17600,7 +17745,7 @@ msgstr ""
 
 #: ../../changes.rst:195
 msgid "API now reports rate limiting status in the HTTP headers."
-msgstr ""
+msgstr "API で、HTTP ヘッダーに接続制限状態の通知を可能にした。"
 
 #: ../../changes.rst:196
 msgid "Added support for Google Translate V3 API (Advanced)."
@@ -18371,7 +18516,7 @@ msgstr ""
 
 #: ../../changes.rst:445
 msgid "Fixed account removal hitting rate limiter."
-msgstr ""
+msgstr "アカウントの試行接続制限の削除の修正。"
 
 #: ../../changes.rst:446
 msgid "Added search based on priority."
@@ -19243,7 +19388,7 @@ msgstr ""
 
 #: ../../changes.rst:715
 msgid "Allow more fine grained ratelimit settings."
-msgstr ""
+msgstr "詳細な接続制限の許可。"
 
 #: ../../changes.rst:716
 msgid "Added support for export and import of Excel files."
@@ -19950,7 +20095,7 @@ msgstr ""
 
 #: ../../changes.rst:951
 msgid "The authentication attempts are now rate limited."
-msgstr ""
+msgstr "認証の試行は現在接続制限中です。"
 
 #: ../../changes.rst:952
 msgid "Suggestion content is stored in the history."
@@ -22919,9 +23064,7 @@ msgstr "リポジトリのバージョンを :command:`./scripts/set-version` �
 msgid ""
 "To create tags using the :command:`./scripts/create-release` script you will "
 "need following:"
-msgstr ""
-":command:`./scripts/create-release` スクリプトを使用してタグを作成するには、"
-"次のものが必要です。"
+msgstr ":command:`./scripts/create-release` スクリプトを使用してタグを作成する為に必要なもの："
 
 #: ../../contributing/release.rst:49
 msgid "GnuPG with private key used to sign the release"
@@ -23499,7 +23642,7 @@ msgstr "virtualenv の作成："
 msgid ""
 "Install Weblate (this will need some system deps, see :doc:`../admin/install/"
 "source`):"
-msgstr ""
+msgstr "Weblate のインストール（複数のシステム内のプログラムが必要、参照 :doc:`../admin/install/source`）："
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
@@ -23516,11 +23659,11 @@ msgstr "設定すると、Celery Worker を起動することもできます:"
 
 #: ../../contributing/start.rst:58
 msgid "To run test (see :ref:`local-tests` for more details):"
-msgstr ""
+msgstr "テストの実行（詳細は :ref:`local-tests` を参照してください）："
 
 #: ../../contributing/start.rst:67
 msgid ":doc:`../admin/install/source`"
-msgstr ""
+msgstr ":doc:`../admin/install/source`"
 
 #: ../../contributing/start.rst:72
 msgid "Running Weblate locally in Docker"
@@ -23560,9 +23703,8 @@ msgid ""
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example:"
 msgstr ""
-"スクリプトは、複数のパラメータを受け取り、テストを実行するために ``test`` パ"
-"ラメータを指定して実行し、次に :djadmin:`django:test` パラメータを指定しま"
-"す、たとえば:"
+"スクリプトは、複数のパラメータを受け取り、テストを実行するために ``test`` パラメータを指定して実行し、次に "
+":djadmin:`django:test` パラメータを指定します、たとえば："
 
 #: ../../contributing/start.rst:98
 msgid ""
@@ -23574,11 +23716,11 @@ msgstr ""
 
 #: ../../contributing/start.rst:101
 msgid "To display the logs:"
-msgstr ""
+msgstr "ログの表示方法："
 
 #: ../../contributing/start.rst:107
 msgid "To stop the background containers run:"
-msgstr "バックグラウンド コンテナの実行を停止するには:"
+msgstr "バックグラウンド コンテナの実行の停止方法："
 
 #: ../../contributing/start.rst:113
 msgid ""
@@ -23614,14 +23756,14 @@ msgid ""
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
 "to specify the interpreter you want:"
 msgstr ""
-"Github リポジトリをクローンした直後なので、PyCharm でクローンしたフォルダを開"
-"くだけです。IDE を開いたら、最初に必要なインタプリターを指定する:"
+"Github リポジトリをクローンした直後なので、PyCharm でクローンしたフォルダを開くだけです。IDE "
+"を開き、最初に必要なインタプリターの指定方法："
 
 #: ../../contributing/start.rst:132
 msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
-msgstr "PyCharm で virtualenv を作成するか、または既存の仮想環境を選択する:"
+msgstr "PyCharm で virtualenv を作成するか、または既存の仮想環境の選択方法："
 
 #: ../../contributing/start.rst:137
 msgid ""
@@ -23642,9 +23784,8 @@ msgid ""
 "in the IDE. For that you need to specify the root path of Django and the "
 "path of one setting:"
 msgstr ""
-"2 番目のステップは、PyCharm 内でネイティブで Django を使用するための適切な情"
-"報の設定です:　このアイデアは、IDE でユニットテストを即座に起動できるようにす"
-"ることです。そのために必要な、Django のルート パスの指定と設定用のパスの指定:"
+"2 番目のステップは、PyCharm 内でネイティブで Django を使用するための適切な情報の設定です:　このアイデアは、IDE "
+"でユニットテストを即座に起動できるようにすることです。そのために必要な、Django のルート パスの指定と設定用のパスの指定方法："
 
 #: ../../contributing/start.rst:148
 msgid ""
@@ -23664,8 +23805,8 @@ msgid ""
 "to be able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
 msgstr ""
-"最後のステップは、サーバーを実行して、コードにブレークポイントを設定してデ"
-"バッグできること。そのための、新しい `Django Server` 設定の作成:"
+"最後のステップは、サーバーを実行して、コードにブレークポイントを設定してデバッグできること。そのための、新しい `Django Server` "
+"設定の作成方法："
 
 #: ../../contributing/start.rst:158
 msgid ""
@@ -25231,7 +25372,7 @@ msgstr ""
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "よくある質問"
 
 #: ../../faq.rst:10
 msgid "How to create an automated workflow?"
@@ -28359,7 +28500,7 @@ msgstr "Python 形式"
 
 #: ../../user/checks.rst:344
 msgid "*Python format string does not match source*"
-msgstr "* Python形式の文字列が原文と一致しない*"
+msgstr "*Python形式の文字列が原文と一致しない*"
 
 #: ../../user/checks.rst:349
 msgid "``Your balance is %(amount) %(currency)``"
@@ -28718,9 +28859,9 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
-"使用するフォントは ``font-*`` ディレクティブ（参照 :ref:`custom-checks`）で設"
-"定できます。たとえば次の設定の翻訳フラグは、ubuntu のフォント サイズ 22 を"
-"使ったテキストは 2 行 500 ピクセルに収める設定:"
+"使用するフォントは ``font-*`` ディレクティブ（参照 :ref:`custom-"
+"checks`）で設定できます。たとえば、次の設定の翻訳フラグは、ubuntu のフォント サイズ 22 を使用し、テキストは 2 行 500 "
+"ピクセルに収める設定方法："
 
 #: ../../user/checks.rst:586
 msgid ""
@@ -29415,10 +29556,9 @@ msgid ""
 "guilabel:`Files` menu, producing a copy of the original file as it is stored "
 "in the upstream Version Control System."
 msgstr ""
-"プロジェクトまたはコンポーネントのダッシュボードを表示し、翻訳可能なファイル"
-"を :guilabel:`ファイル` メニューの :guilabel:`オリジナルの翻訳ファイルのダウ"
-"ンロード` からダウンロードします。オリジナルのファイルのコピーは、ファイルを "
-"upstream バージョン管理システムに保存するときに作成されます。"
+"プロジェクトまたはコンポーネントのダッシュボードを表示し、翻訳可能なファイルを :guilabel:`ファイル` メニューの "
+":guilabel:`オリジナルの翻訳ファイルのダウンロード` からダウンロードします。原本のファイルのコピーは、ファイルを upstream "
+"バージョン管理システムに保存するときに作成されます。"
 
 #: ../../user/files.rst:20
 msgid ""
@@ -29581,9 +29721,8 @@ msgid ""
 "to merge it into existing translations while properly crediting the actual "
 "author."
 msgstr ""
-"管理者権限で、アップロードしたファイルの翻訳者を設定できます。これは、他の方"
-"法でファイルを受け取り、本来の翻訳者に署名しなおして、既存の翻訳にマージする"
-"場合に便利です。"
+"管理者権限で、アップロードしたファイルの翻訳者を設定できます。これは、他の方法でファイルを受け取り、本来の翻訳者に明記しなおして、既存の翻訳にマージする場"
+"合に便利です。"
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
@@ -29595,12 +29734,11 @@ msgid ""
 "default. Only registered users are allowed to actually save changes, and are "
 "credited for every translation made."
 msgstr ""
-"デフォルトでは、誰もがプロジェクトの閲覧、翻訳の表示、翻訳の提案ができます。"
-"実際に変更を保存できるのは、登録ユーザのみであり、翻訳のたびに署名されます。"
+"デフォルトでは、誰もがプロジェクトの閲覧、翻訳の表示、翻訳の提案ができます。実際に変更を保存できるのは、登録ユーザのみであり、翻訳のたびに明記されます。"
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr "いくつかの簡単な手順に従って登録できます:"
+msgstr "いくつかの簡単な手順に従って登録する方法："
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
@@ -29752,9 +29890,7 @@ msgid ""
 "You can define which secondary languages are shown to you as a guide while "
 "translating. An example can be seen in the following image, where the Hebrew "
 "language is shown as secondarily:"
-msgstr ""
-"翻訳時に参考として表示する参考言語を設定できます。次の図では、ヘブライ語が参"
-"考として表示されています。"
+msgstr "翻訳時に参考として表示する参考言語を設定できます。ヘブライ語が参考言語として表示される例を次の図に表示："
 
 #: ../../user/profile.rst:98
 msgid "Default dashboard view"
@@ -30050,9 +30186,8 @@ msgid ""
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot`` (works only on source strings)."
 msgstr ""
-"属性を持つ文字列の検索 - ``plural``、``context``、``suggestion``、"
-"``comment``、``check``、``dismissed-check``、``translation``、``variant``、"
-"``screenshot``（原文でのみ有効）。"
+"属性を持つ文字列の検索 - ``plural``、``context``、``suggestion``、``comment``、``check"
+"``、``dismissed-check``、``translation``、``variant``、``screenshot`` （原文でのみ有効）。"
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -30113,6 +30248,8 @@ msgid ""
 "``changed`` this includes event which don't change content and you can apply "
 "custom action filtering using ``change_action``."
 msgstr ""
+"文字列の内容が変更された日付、:ref:`search-operators` に対応、``changed`` "
+"とは違い、これには内容を変更しないイベントが含まれており、``change_action`` を使用して独自のアクション フィルター処理を適用できます。"
 
 #: ../../user/search.rst:68
 msgid "``change_action:TEXT``"
@@ -30125,6 +30262,9 @@ msgid ""
 "lowercase and spaces replaced by dash. See :ref:`search-changes` for "
 "examples."
 msgstr ""
+"変更アクションでフィルターし、``change_time`` とセットで使用すると便利です。 英語の「change "
+"action」、引用符で囲まれたスペース、またはダッシュで置き換えられた小文字とスペースを受け付けます。例は、:ref:`search-changes` "
+"をご覧ください。"
 
 #: ../../user/search.rst:70
 msgid "``check:TEXT``"
@@ -30248,7 +30388,7 @@ msgstr "変更の検索"
 msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
-msgstr ""
+msgstr "履歴イベントの検索は、``change_action`` および ``change_time`` 演算子を使用して実行できます。"
 
 #: ../../user/search.rst:121
 msgid ""
@@ -30256,6 +30396,8 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
+"たとえば、2018 年に編集とマークされた文字列を検索する方法、``change_time:2018 AND change_action:marked-"
+"for-edit`` または ``change_time:2018 AND change_action:\"Marked for edit\"``。"
 
 #: ../../user/search.rst:127
 msgid "Regular expressions"
@@ -30400,10 +30542,8 @@ msgid ""
 "string comments are good for providing feedback on the original string, for "
 "example that it should be rephrased or it is confusing."
 msgstr ""
-"コメントは、原文または翻訳文の 2 つの範囲に対して投稿できます。議論のテーマに"
-"合わせて選んでください。原文のコメントは、元の文字列に対するフィードバックの"
-"提供に適しています。例えば、言い換えなければならないとか、紛らわしいなどで"
-"す。"
+"コメントは、原文または翻訳文の 2 つの範囲に対して投稿できます。議論のテーマに合わせて選んでください。原文のコメントは、原本の文字列に対するフィードバッ"
+"クの提供に適しています。例えば、言い換えなければならないとか、紛らわしいなどです。"
 
 #: ../../user/translating.rst:69
 msgid ""
@@ -30419,16 +30559,15 @@ msgstr ":ref:`report-source`"
 
 #: ../../user/translating.rst:77
 msgid "Variants"
-msgstr "関連性"
+msgstr "バリアント"
 
 #: ../../user/translating.rst:79
 msgid ""
 "Variants are used to group variants of the string in different lengths. The "
 "frontend can use different strings depending on the screen or window size."
 msgstr ""
-"バリアントは、文字列のバリアントを異なる長さでグループ化するために使用しま"
-"す。フロントエンドは、画面またはウィンドウのサイズに応じて異なる文字列を使用"
-"できます。"
+"バリアントは、文字列のつづりを異なる長さでグループ化するために使用します。フロントエンドは、画面またはウィンドウのサイズに応じて異なる文字列を使用できます"
+"。"
 
 #: ../../user/translating.rst:84
 msgid ":ref:`variants`"
@@ -30547,7 +30686,7 @@ msgstr ""
 
 #: ../../user/translating.rst:150
 msgid "The following keyboard shortcuts can be utilized during translation:"
-msgstr "翻訳中に利用できるキーボード ショートカット:"
+msgstr "翻訳中に利用できるキーボード ショートカット："
 
 #: ../../user/translating.rst:153
 msgid "Keyboard shortcut"
@@ -30639,7 +30778,7 @@ msgstr ":kbd:`Cmd Shift Enter`"
 
 #: ../../user/translating.rst:183
 msgid "Unmarks translation as fuzzy and submits it."
-msgstr "翻訳のあいまいのマークを解除して送信する。"
+msgstr "翻訳の要編集フラグを解除して送信する。"
 
 #: ../../user/translating.rst:187
 msgid ":kbd:`Ctrl E` or"
@@ -30984,10 +31123,8 @@ msgid ""
 "lead you to a page which can be used to edit, import or export the selected "
 "glossary, or view the edit history:"
 msgstr ""
-"このリストでは、管理する用語集を選択できます（現在のプロジェクトで使用してい"
-"るすべての言語が表示されます）。言語リンクをクリックすると、選択した用語集の"
-"編集、インポート、エクスポート、または編集履歴の表示に使用できるページが表示"
-"されます。"
+"このリストでは、管理する用語集を選択できます（現在のプロジェクトで使用しているすべての言語が表示されます）。言語リンクをクリックして、選択した用語集の編集"
+"、インポート、エクスポート、または編集履歴の表示に使用できるページの表示方法："
 
 #: ../../user/translating.rst:333
 msgid ""
@@ -31059,9 +31196,8 @@ msgid ""
 "are hit by this, you are blocked for a certain period until you can perform "
 "the operation again."
 msgstr ""
-"インターフェイスの悪用を避けるために、検索、連絡先フォームの送信、翻訳などの"
-"複数の操作に適用されるレート制限があります。この問題に遭遇した場合、操作を再"
-"度実行できるまで、一定期間ブロックされます。"
+"インターフェイスの悪用を避けるために、検索、連絡先フォームの送信、翻訳などの複数の操作に適用される接続制限があります。この問題に遭遇した場合、操作を再度実"
+"行できるまで、一定期間接続遮断されます。"
 
 #: ../../user/translating.rst:385
 msgid ""
@@ -31098,9 +31234,7 @@ msgid ""
 "search strings and operation to perform and all matching strings are "
 "updated. Following operations are supported:"
 msgstr ""
-"一括編集では、多くの文字列に対して操作を実行できます。検索文字列と実行する操"
-"作を定義すると、一致するすべての文字列が更新されます。次の操作に対応していま"
-"す。"
+"一括編集では、多くの文字列に対して操作を実行できます。検索文字列と実行する操作を定義すると、一致するすべての文字列が更新されます。対応している操作："
 
 #: ../../user/translating.rst:409
 msgid ""
@@ -31872,7 +32006,7 @@ msgstr ""
 
 #: ../../wlc.rst:46
 msgid "The command to launch the container uses the following syntax:"
-msgstr "コンテナは次のコマンドの構文で起動する:"
+msgstr "コンテナがコマンドで起動する構文："
 
 #: ../../wlc.rst:59
 msgid "Getting started"
@@ -31963,7 +32097,7 @@ msgstr "コマンド"
 
 #: ../../wlc.rst:131
 msgid "The following commands are available:"
-msgstr "次のコマンドを使用できます:"
+msgstr "使用できるコマンド："
 
 #: ../../wlc.rst:135
 msgid "Prints the current version."
@@ -32178,9 +32312,7 @@ msgstr ""
 msgid ""
 "Following settings can be configured in the ``[weblate]`` section (you can "
 "customize this by :option:`--config-section`):"
-msgstr ""
-"以下の設定は ``[weblate]`` セクションで設定できます（ :option:`--config-"
-"section` でカスタマイズできます）:"
+msgstr "``[weblate]`` セクションで設定可能な設定（ :option:`--config-section` でカスタマイズできる）:"
 
 #: ../../wlc.rst:296
 msgid "API KEY to access Weblate."
@@ -32280,7 +32412,7 @@ msgstr ""
 
 #: ../../workflows.rst:28
 msgid "Each translated string can be in one of following states:"
-msgstr "翻訳した各文字列は、次のいずれかの状態になります。"
+msgstr "各文字列の翻訳後に移行する状態の種類："
 
 #: ../../workflows.rst:31
 msgid "Untranslated"
@@ -32508,11 +32640,9 @@ msgid ""
 "can help you in addressing this - there is additional quality gateway for "
 "the strings between developers and translators and users."
 msgstr ""
-"多くの場合、開発者がコードを作成して初期の文字列を提供するため、開発者からオ"
-"リジナルの原文が提供されます。しかし、開発者は原文を母国語としていないことが"
-"多く、原文に求められる品質を提供できません。中間翻訳は、この問題の解決に役立"
-"ちます - 開発者と翻訳者とユーザーとの間に、追加の文字列用の品質ゲートウェイが"
-"あります。"
+"多くの場合、開発者がコードを作成して初期の文字列を提供するため、開発者から原本の原文が提供されます。しかし、開発者は原文を母国語としていないことが多く、原"
+"文に求められる品質を提供できません。中間翻訳は、この問題の解決に役立ちます - "
+"開発者と翻訳者とユーザーとの間に、追加の文字列用の品質ゲートウェイがあります。"
 
 #: ../../workflows.rst:170
 msgid ""
