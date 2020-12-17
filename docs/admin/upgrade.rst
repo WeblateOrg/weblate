@@ -173,7 +173,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
-* There is a change in :setting:`django:INSTALLED_APPS`.
+* There is a change in :setting:`django:INSTALLED_APPS`, ``weblate.configuration`` has to be added there.
 * Django 3.1 is now required.
 * In case you are using MySQL or MariaDB, the minimal required versions have increased, see :ref:`mysql`.
 
