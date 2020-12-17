@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.29.0 (93392f0) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.29.1 (39bfa10) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -39,6 +39,16 @@ var Sentry = (function (exports) {
         };
         return __assign.apply(this, arguments);
     };
+
+    function __rest(s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+                t[p[i]] = s[p[i]];
+        return t;
+    }
 
     function __values(o) {
         var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
@@ -191,6 +201,14 @@ var Sentry = (function (exports) {
         Status.fromHttpCode = fromHttpCode;
     })(exports.Status || (exports.Status = {}));
 
+    var TransactionSamplingMethod;
+    (function (TransactionSamplingMethod) {
+        TransactionSamplingMethod["Explicit"] = "explicitly_set";
+        TransactionSamplingMethod["Sampler"] = "client_sampler";
+        TransactionSamplingMethod["Rate"] = "client_rate";
+        TransactionSamplingMethod["Inheritance"] = "inheritance";
+    })(TransactionSamplingMethod || (TransactionSamplingMethod = {}));
+
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
     /**
@@ -253,7 +271,7 @@ var Sentry = (function (exports) {
         return Object.prototype.toString.call(wat) === '[object String]';
     }
     /**
-     * Checks whether given value's is a primitive (undefined, null, number, boolean, string)
+     * Checks whether given value's is a primitive (undefined, null, number, boolean, string, bigint, symbol)
      * {@link isPrimitive}.
      *
      * @param wat A value to be checked.
@@ -788,7 +806,15 @@ var Sentry = (function (exports) {
         }
         return serialized;
     }
-    /** Transforms any input value into a string form, either primitive value or a type of the input */
+    /**
+     * Transform any non-primitive, BigInt, or Symbol-type value into a string. Acts as a no-op on strings, numbers,
+     * booleans, null, and undefined.
+     *
+     * @param value The value to stringify
+     * @returns For non-primitive, BigInt, and Symbol-type values, a string denoting the value's type, type and value, or
+     *  type and `description` property, respectively. For non-BigInt, non-Symbol primitives, returns the original value,
+     *  unchanged.
+     */
     function serializeValue(value) {
         var type = Object.prototype.toString.call(value);
         // Node.js REPL notation
@@ -841,6 +867,13 @@ var Sentry = (function (exports) {
         }
         if (typeof value === 'function') {
             return "[Function: " + getFunctionName(value) + "]";
+        }
+        // symbols and bigints are considered primitives by TS, but aren't natively JSON-serilaizable
+        if (typeof value === 'symbol') {
+            return "[" + String(value) + "]";
+        }
+        if (typeof value === 'bigint') {
+            return "[BigInt: " + String(value) + "]";
         }
         return value;
     }
@@ -3320,8 +3353,11 @@ var Sentry = (function (exports) {
     }
     /**
      * Set key:value that will be sent as tags data with the event.
+     *
+     * Can also be used to unset a tag, by passing `undefined`.
+     *
      * @param key String key of tag
-     * @param value String value of tag
+     * @param value Value of tag
      */
     function setTag(key, value) {
         callOnHub('setTag', key, value);
@@ -3623,7 +3659,7 @@ var Sentry = (function (exports) {
             var _this = this;
             var eventId = hint && hint.event_id;
             var promisedEvent = isPrimitive(message)
-                ? this._getBackend().eventFromMessage("" + message, level, hint)
+                ? this._getBackend().eventFromMessage(String(message), level, hint)
                 : this._getBackend().eventFromException(message, hint);
             this._process(promisedEvent
                 .then(function (event) { return _this._captureEvent(event, hint, scope); })
@@ -4108,6 +4144,9 @@ var Sentry = (function (exports) {
     }
     /** Creates a SentryRequest from an event. */
     function eventToSentryRequest(event, api) {
+        // since JS has no Object.prototype.pop()
+        var _a = event.tags || {}, samplingMethod = _a.__sentry_samplingMethod, sampleRate = _a.__sentry_sampleRate, otherTags = __rest(_a, ["__sentry_samplingMethod", "__sentry_sampleRate"]);
+        event.tags = otherTags;
         var useEnvelope = event.type === 'transaction';
         var req = {
             body: JSON.stringify(event),
@@ -4126,6 +4165,9 @@ var Sentry = (function (exports) {
             });
             var itemHeaders = JSON.stringify({
                 type: event.type,
+                // TODO: Right now, sampleRate may or may not be defined (it won't be in the cases of inheritance and
+                // explicitly-set sampling decisions). Are we good with that?
+                sample_rates: [{ id: samplingMethod, rate: sampleRate }],
             });
             // The trailing newline is optional. We intentionally don't send it to avoid
             // sending unnecessary bytes.
@@ -5307,7 +5349,7 @@ var Sentry = (function (exports) {
                     }
                     var client = currentHub.getClient();
                     var event = isPrimitive(error)
-                        ? _this._eventFromIncompleteRejection(error)
+                        ? _this._eventFromRejectionWithPrimitive(error)
                         : eventFromUnknownInput(error, undefined, {
                             attachStacktrace: client && client.getOptions().attachStacktrace,
                             rejection: true,
@@ -5355,16 +5397,19 @@ var Sentry = (function (exports) {
             return this._enhanceEventWithInitialFrame(event, url, line, column);
         };
         /**
-         * This function creates an Event from an TraceKitStackTrace that has part of it missing.
+         * Create an event from a promise rejection where the `reason` is a primitive.
+         *
+         * @param reason: The `reason` property of the promise rejection
+         * @returns An Event object with an appropriate `exception` value
          */
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        GlobalHandlers.prototype._eventFromIncompleteRejection = function (error) {
+        GlobalHandlers.prototype._eventFromRejectionWithPrimitive = function (reason) {
             return {
                 exception: {
                     values: [
                         {
                             type: 'UnhandledRejection',
-                            value: "Non-Error promise rejection captured with value: " + error,
+                            // String() is needed because the Primitive type includes symbols (which can't be automatically stringified)
+                            value: "Non-Error promise rejection captured with value: " + String(reason),
                         },
                     ],
                 },
