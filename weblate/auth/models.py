@@ -158,6 +158,8 @@ class Group(models.Model):
         return pgettext("Access control group", self.name)
 
     def save(self, *args, **kwargs):
+        if self.is_anonymous:
+            self.is_active = False
         super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
             self.languages.set(Language.objects.all())
