@@ -158,8 +158,6 @@ class Group(models.Model):
         return pgettext("Access control group", self.name)
 
     def save(self, *args, **kwargs):
-        if self.is_anonymous:
-            self.is_active = False
         super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
             self.languages.set(Language.objects.all())
@@ -359,6 +357,8 @@ class User(AbstractBaseUser):
         return reverse("user_page", kwargs={"user": self.username})
 
     def save(self, *args, **kwargs):
+        if self.is_anonymous:
+            self.is_active = False
         # Generate full name from parts
         # This is needed with LDAP authentication when the
         # server does not contain full name
