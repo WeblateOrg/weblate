@@ -852,9 +852,10 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     def test_new_language(self):
         self.maxDiff = None
         out = os.path.join(self.tempdir, f"test_new_language.{self.EXT}")
-        self.FORMAT.add_language(out, Language.objects.get(code="cs"), self.BASE)
+        language = Language.objects.get(code="cs")
+        self.FORMAT.add_language(out, language, self.BASE)
         template_storage = self.parse_file(self.FILE)
-        new_language = self.FORMAT(out, template_storage, Language.objects.get(code="cs"))
+        new_language = self.FORMAT(out, template_storage, language.code)
         unit, add = new_language.find_unit("job.status.success")
         self.assertTrue(add)
         unit.set_target("Fait")
