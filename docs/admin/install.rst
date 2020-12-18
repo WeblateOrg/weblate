@@ -35,6 +35,7 @@ Depending on your setup and experience, choose an appropriate installation metho
 
 * :doc:`install/openshift`
 * :doc:`install/kubernetes`
+* `Installing on Cloudron <https://www.cloudron.io/store/org.weblate.cloudronapp.html>`_
 
 .. _requirements:
 
