@@ -4,6 +4,8 @@ Weblate 4.4.1
 Not yet released.
 
 * Fixed revering plural changes.
+* Fixed displaying help for project settings.
+* Improved administering of users.
 
 Weblate 4.4
 -----------
