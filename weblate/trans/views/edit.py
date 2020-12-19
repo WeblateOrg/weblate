@@ -57,7 +57,13 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
-from weblate.trans.util import get_state_css, join_plural, redirect_next, render
+from weblate.trans.util import (
+    get_state_css,
+    join_plural,
+    redirect_next,
+    render,
+    split_plural,
+)
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -380,7 +386,7 @@ def handle_revert(unit, request, next_unit_url):
     # Store unit
     unit.translate(
         request.user,
-        change.old,
+        split_plural(change.old),
         STATE_FUZZY if change.action == Change.ACTION_MARKED_EDIT else unit.state,
         change_action=Change.ACTION_REVERT,
     )

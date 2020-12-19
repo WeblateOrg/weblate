@@ -3,6 +3,8 @@ Weblate 4.4.1
 
 Not yet released.
 
+* Fixed revering plural changes.
+
 Weblate 4.4
 -----------
 
