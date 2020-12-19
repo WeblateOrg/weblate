@@ -83,6 +83,8 @@ def database_backup():
         return
     ensure_backup_dir()
     database = settings.DATABASES["default"]
+    env = get_clean_env()
+
     if database["ENGINE"] == "django.db.backends.postgresql":
         cmd = ["pg_dump", "--dbname", database["NAME"]]
 
@@ -98,7 +100,7 @@ def database_backup():
         else:
             cmd += ["--file", data_dir("backups", "database.sql")]
 
-        env = get_clean_env({"PGPASSWORD": database["PASSWORD"]})
+        env["PGPASSWORD"] = database["PASSWORD"]
     elif database["ENGINE"] == "django.db.backends.mysql":
         cmd = ["mysqldump", "--databases", database["NAME"]]
 
@@ -114,14 +116,14 @@ def database_backup():
         else:
             cmd += ["--result-file", data_dir("backups", "database.sql")]
 
-        env = get_clean_env({"MYSQL_PWD": database["PASSWORD"]})
+        env["MYSQL_PWD"] = database["PASSWORD"]
     else:
         return
 
     try:
         subprocess.run(
             cmd,
-            env,
+            env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             check=True,
