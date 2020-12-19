@@ -476,9 +476,16 @@ INI translations are usually used as monolingual translations.
 | File format                    | `INI File`                       |
 +--------------------------------+----------------------------------+
 
+.. note::
+
+   Weblate only extracts keys from sections within a INI file. In case your INI
+   file lacks sections, you might want to use :ref:`joomla` or :ref:`javaprop`
+   instead.
+
 .. seealso::
 
     :doc:`tt:formats/ini`,
+    :ref:`javaprop`,
     :ref:`joomla`,
     :ref:`islu`
 
