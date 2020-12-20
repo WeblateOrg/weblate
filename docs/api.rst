@@ -2372,7 +2372,7 @@ Tasks
 
     :param uuid: Task UUID
     :type uuid: string
-    :>json boolean completed: Whether task has completed
+    :>json boolean completed: Whether the task has completed
     :>json int progress: Task progress in percent
     :>json object result: Task result or progress details
     :>json string log: Task log

@@ -24,7 +24,7 @@ Released on December 15th 2020.
 * Improved support for non standard language codes.
 * Added alert on using ambiguous language codes.
 * User is now presented filtered list of languages when adding new translation.
-* Extended search capabilities for changes history.
+* Extended search capabilities for changes in history.
 * Improved billing detail pages and libre hosting workflow.
 * Extended translation statistics API.
 * Improved other translations tab while translating.
