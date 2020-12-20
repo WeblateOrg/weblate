@@ -8,13 +8,14 @@
 # anonymous <noreply@weblate.org>, 2019.
 # Anonymous <noreply@weblate.org>, 2020.
 # Michal Čihař <michal@cihar.com>, 2020.
+# Nemanja Pesic <nemanja992@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-12-06 20:25+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-12-21 17:29+0000\n"
+"Last-Translator: Nemanja Pesic <nemanja992@gmail.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/"
 "application/sr/>\n"
 "Language: sr\n"
@@ -33,10 +34,8 @@ msgstr "Ништа"
 #: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:228
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User comments"
 msgid "User avatar"
-msgstr "Коментари корисника"
+msgstr "Аватар корисника"
 
 #: weblate/accounts/forms.py:76
 msgid ""
@@ -54,10 +53,8 @@ msgid "Full name"
 msgstr "Пуно име"
 
 #: weblate/accounts/forms.py:178 weblate/accounts/models.py:463
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Ваша е-пошта"
+msgstr "Јавна имејл адреса"
 
 #: weblate/accounts/forms.py:272 weblate/accounts/forms.py:347
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -67,10 +64,8 @@ msgid "E-mail"
 msgstr "Е-пошта"
 
 #: weblate/accounts/forms.py:273
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "You can add another e-mail address below."
-msgstr "Можете додати друге е-адресе на језичку „Аутентификација“."
+msgstr "Можете додати другу имејл адресу испод."
 
 #: weblate/accounts/forms.py:315
 msgid "Subject"
@@ -91,24 +86,20 @@ msgid "Message"
 msgstr "Порука"
 
 #: weblate/accounts/forms.py:324
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to understand "
-#| "your request."
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
-msgstr "Контактирајте нас на енглеском јер можда нећемо разумети ваш захтев."
+msgstr ""
+"Молимо вас контактирајте нас на енглеском, у супротном можда нећемо моћи да "
+"обрадимо ваш захтев."
 
 #: weblate/accounts/forms.py:348
 msgid "Activation e-mail will be sent here."
 msgstr "Активациона порука ће бити послата овде."
 
 #: weblate/accounts/forms.py:385
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many failed registration attempts from this location."
-msgstr "Превише покушаја пријављивања!"
+msgstr "Превише неуспешних покушаја регистрације са ове локације!"
 
 #: weblate/accounts/forms.py:392
 msgid "New password"
@@ -131,10 +122,8 @@ msgstr "Колико је %s?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:455
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "That was not correct, please try again."
-msgstr "Превише порука је послато. Покушајте касније!"
+msgstr "То није било тачно, молимо покушајте касније."
 
 #: weblate/accounts/forms.py:479
 msgid "Current password"
@@ -159,24 +148,16 @@ msgid "Password"
 msgstr "Лозинка"
 
 #: weblate/accounts/forms.py:509
-#, fuzzy
-#| msgid ""
-#| "Please enter a correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Унесите исправно корисничко име и лозинку. Обратите пажњу да су оба поља "
-"осетљива на величину слова."
+msgstr "Унесите исправно корисничко име и лозинку."
 
 #: weblate/accounts/forms.py:510
 msgid "This account is inactive."
 msgstr "Овај налог је неактиван."
 
 #: weblate/accounts/forms.py:527
-#, fuzzy
-#| msgid "Too many authentication attempts!"
 msgid "Too many authentication attempts from this location."
-msgstr "Превише покушаја пријављивања!"
+msgstr "Превише покушаја пријављивања са ове локације."
 
 #: weblate/accounts/forms.py:612
 msgid "Component wide notifications"
@@ -188,7 +169,7 @@ msgstr "Обавештења о преводима"
 
 #: weblate/accounts/forms.py:636
 msgid "Use default setting"
-msgstr ""
+msgstr "Користи подразумеване поставке"
 
 #: weblate/accounts/forms.py:662 weblate/accounts/models.py:405
 #: weblate/templates/accounts/profile.html:67
@@ -201,62 +182,38 @@ msgid "Managed projects"
 msgstr "Пројекти којима управљате"
 
 #: weblate/accounts/forms.py:666
-#, fuzzy
-#| msgid "Project"
 msgid "Project: {}"
-msgstr "Пројекат"
+msgstr "Пројекат:{}"
 
 #: weblate/accounts/forms.py:667
-#, fuzzy
-#| msgid "Components"
 msgid "Component: {}"
-msgstr "Компоненте"
+msgstr "Компонентa:{}"
 
 #: weblate/accounts/forms.py:673
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
-msgstr ""
-"Примаћете обавештења за сваки означени догађај у надгледаним пројектима."
+msgstr "Примаћете обавештења за сваки такав догађај у надгледаним пројектима."
 
 #: weblate/accounts/forms.py:678
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Примаћете обавештења за сваки означени догађај у надгледаним пројектима."
+"Примаћете обавештења за сваки такав догађај у пројектима где имате "
+"администраторске дозволе."
 
 #: weblate/accounts/forms.py:683
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"Примаћете обавештења за сваки означени догађај у надгледаним пројектима."
+msgstr "Примаћете обавештења за сваки такав догађај %(project)s."
 
 #: weblate/accounts/forms.py:686
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"Примаћете обавештења за сваки означени догађај у надгледаним пројектима."
+msgstr "Примаћете обавештења за сваки такав догађај у %(component)s."
 
 #: weblate/accounts/forms.py:693
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -265,40 +222,28 @@ msgstr ""
 "пројектима."
 
 #: weblate/accounts/forms.py:698
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Примаћете ова обавештења само за језике на које преводите у надгледаним "
-"пројектима."
+"Примаћете ова обавештења само за језике на које преводите у пројектима где "
+"имате администраторске дозволе."
 
 #: weblate/accounts/forms.py:703
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Примаћете ова обавештења само за језике на које преводите у надгледаним "
-"пројектима."
+"Примаћете ова обавештења само за језике на које преводите у %(project)s."
 
 #: weblate/accounts/forms.py:707
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Примаћете ова обавештења само за језике на које преводите у надгледаним "
-"пројектима."
+"Примаћете ова обавештења само за језике на које преводите у %(component)s."
 
 #: weblate/accounts/forms.py:747 weblate/auth/models.py:301
 #: weblate/templates/manage-access.html:24 weblate/utils/forms.py:42
@@ -308,7 +253,7 @@ msgstr "Корисничко име"
 #: weblate/accounts/forms.py:749 weblate/auth/models.py:335
 #: weblate/templates/manage/users_check.html:21
 msgid "Date joined"
-msgstr ""
+msgstr "Датум придруживања"
 
 #: weblate/accounts/forms.py:750 weblate/templates/about/stats.html:101
 msgid "Translations made"
@@ -319,73 +264,58 @@ msgid "Suggestions made"
 msgstr "Сугестија дато"
 
 #: weblate/accounts/forms.py:752
-#, fuzzy
-#| msgid "Comments"
 msgid "Comments made"
-msgstr "Коментари"
+msgstr "Написани коментари"
 
 #: weblate/accounts/forms.py:753
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "Назив за снимак"
+msgstr "Отпремљени снимци екрана"
 
 #: weblate/accounts/forms.py:776
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid ordering"
-msgstr "Неисправан појам за претрагу!"
+msgstr "Неисправан редослед"
 
 #: weblate/accounts/models.py:83
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Password changed."
-msgstr "Лозинка је измењена."
+msgstr "Лозинка измењена."
 
 #: weblate/accounts/models.py:84
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Корисничко име промењено из {old} у {new}."
 
 #: weblate/accounts/models.py:85
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "Имејл адреса промењена из {old} у {new}."
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "Пуно име промењено из {old} у {new}."
 
 #: weblate/accounts/models.py:87
-#, fuzzy
-#| msgid "Password reset has been requested."
 msgid "Password reset requested."
-msgstr "Затражено је ресетовање лозинке."
+msgstr "Захтев за ресетовање лозинке је послат."
 
 #: weblate/accounts/models.py:88
-#, fuzzy
-#| msgid "Password reset has been confirmed."
 msgid "Password reset confirmed, password turned off."
-msgstr "Ресетовање лозинке је потврђено."
+msgstr "Ресетовање лозинке потврђено, лозинка је искључена."
 
 #: weblate/accounts/models.py:89
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Успешно пријављивање помоћу {method} {name}."
+msgstr "Конфигурисано пријављивање помоћу {method} {name}."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Успешно пријављивање помоћу {method} {name}."
+msgstr "Уклоњено пријављивање помоћу {method} {name}."
 
 #: weblate/accounts/models.py:91
-#, fuzzy, python-brace-format
-#| msgid "Successfully authenticated using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Успешно пријављивање помоћу {method} {name}."
+msgstr "Пријављивање помоћу {method} {name}."
 
 #: weblate/accounts/models.py:92
 #, fuzzy, python-brace-format
