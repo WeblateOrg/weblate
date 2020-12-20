@@ -456,7 +456,7 @@ class Migration(migrations.Migration):
                     "suggestion_voting",
                     models.BooleanField(
                         default=False,
-                        help_text="Whether users can vote for suggestions.",
+                        help_text="Users can only vote for suggestions and can’t make direct translations.",
                         verbose_name="Suggestion voting",
                     ),
                 ),
