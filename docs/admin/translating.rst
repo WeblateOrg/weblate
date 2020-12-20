@@ -40,9 +40,10 @@ You can combine these with :ref:`privileges` into one of the following setups:
 Additional info on source strings
 ---------------------------------
 
-Enhance the translation process with info available in the translation files.
-This includes explanation, string priority, check flags, or providing visual
-context. All these features can be set while editing additional string info:
+Enhance the translation process by adding additional info to the strings
+including explanations, string priorities, check flags and visual context. Some
+of that info may be extracted from the translation files and some may be added
+by editing the additional string info:
 
 .. image:: /images/source-review-edit.png
 
@@ -86,7 +87,7 @@ Explanation
 
 .. versionchanged:: 4.1
 
-    In previous version this has been called extra context.
+    In previous versions this has been called :guilabel:`Extra context`.
 
 Use the explanation to clarify scope or usage of the translation. You can use
 Markdown to include links and other markup.
