@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-10 21:03+0100\n"
-"PO-Revision-Date: 2020-12-19 21:30+0000\n"
-"Last-Translator: EldersJavas <eldersjavas@gmail.com>\n"
+"PO-Revision-Date: 2020-12-21 17:29+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -25703,6 +25703,8 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"在 Weblate 中， 翻译组织成为项目和组件。每个项目可以包含几个组件，并且组件包含各个语言的翻译。组件相应于一个翻译文件（例如 "
+":ref:`gettext` 或 :ref:`aresource`）。项目帮助您将组件组织为逻辑的组（例如，将一个应用中使用的所有翻译分组）。"
 
 #: ../../snippets/basics.rst:14
 msgid ""
@@ -25711,6 +25713,8 @@ msgid ""
 "repetitive and multi version translation. The translation propagation can be "
 "disabled per :ref:`component` in case the translations should diverge."
 msgstr ""
+"在每个项目内部默认具有在项目中其它组件之间传播的通用字符串的翻译。这减轻了重复的负担以及多版本的翻译。在翻译应该不同的情况下，翻译传播可以在每个 "
+":ref:`component` 中关闭。"
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -25722,6 +25726,8 @@ msgid ""
 "integrate with it is to grant access to your VCS repository. The import "
 "process will guide you through configuring components with your translations."
 msgstr ""
+"Weblate "
+"在开发时一直注意将版本管理系统（VCS）集成进来。最容易的集成方法是为您的版本控制系统（VCS）授予范文权限。导入过程将引导您配置您的翻译组件。"
 
 #: ../../devel/integration.rst:13
 msgid ""
@@ -25729,6 +25735,8 @@ msgid ""
 "all, you can use Weblate without a remote VCS repository - it will create "
 "local repository with all the translations."
 msgstr ""
+"在不使用版本管理系统（VCS）或一点也不想要为您的版本管理系统（VCS）授权的情况下，可以使用没有远程版本管理系统（VCS）仓库的 "
+"Weblate——它将创建所有翻译的本地仓库。"
 
 #: ../../devel/integration.rst:19
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
@@ -25747,12 +25755,17 @@ msgid ""
 "the :guilabel:`Repository maintenance`) or from command line using :ref:"
 "`wlc`."
 msgstr ""
+"为了从 Weblate 取回更新的字符串，可以简单地取回潜在的仓库（或者来自文件系统，或者可以通过 :ref:`git-"
+"exporter`来获得）。在这之前，您会想要提交任何挂起的更改（请参见 :ref:`lazy-commit`）。这可以在用户界面（在 "
+":guilabel:`Repository maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
 
 #: ../../devel/integration.rst:31
 msgid ""
 "This can be automated if you grant Weblate push access to your repository "
 "and configure :ref:`component-push` in the :ref:`component`."
 msgstr ""
+"如果向 Weblate 授予了对您的仓库的推送访问，并配置 :ref:`component` 中的 :ref:`component-"
+"push`，这会是自动的。"
 
 #: ../../devel/integration.rst:36 ../../devel/integration.rst:53
 msgid ":ref:`continuous-translation`"
@@ -25769,6 +25782,8 @@ msgid ""
 "repository. This can be achieved in the user interface (in the :guilabel:"
 "`Repository maintenance`) or from command line using :ref:`wlc`."
 msgstr ""
+"为了将更新的字符串推送给 Weblate，只让他从上游仓库拉取就可以了。这可以在用户界面（在 :guilabel:`Repository "
+"maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
 
 #: ../../devel/integration.rst:45
 msgid ""
@@ -25776,12 +25791,13 @@ msgid ""
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
+"这可以通过在您的仓库安装 webhook，在任何有新提交的时候来触发 Weblate，从而自动化，更多细节请参见 :ref:`update-vcs`。"
 
 #: ../../devel/integration.rst:48
 msgid ""
 "When not using a VCS integration, you can use UI or :doc:`/api` to update "
 "translations to match your code base."
-msgstr ""
+msgstr "当不适用版本管理系统（VCS）集成时，可以使用 UI 或 :doc:`/api` 来更新翻译，从而与您的代码库匹配。"
 
 #: ../../devel/integration.rst:56
 msgid "Adding new strings"
@@ -25793,6 +25809,8 @@ msgid ""
 "most likely have existing workflow for developers to introduce new strings. "
 "You might extend it by using :ref:`source-quality-gateway`."
 msgstr ""
+"在您的翻译文件与代码一起存储在版本控制系统（VCS）中的情况下，您的开发者最好已经有工作流程来引入新的字符串。可以通过使用 :ref:`source-"
+"quality-gateway` 来扩展。"
 
 #: ../../devel/integration.rst:62
 msgid ""
@@ -25800,12 +25818,15 @@ msgid ""
 "introduce new strings. Weblate can add new strings on monolingual "
 "translations only (see :ref:`bimono`). You have three options to do that:"
 msgstr ""
+"当范围文件是分开的时，需要有一种方式来引入新的字符串。Weblate 可以只添加单语言翻译的字符串（请参见 "
+":ref:`bimono`）。您有三个选择来做这件事："
 
 #: ../../devel/integration.rst:66
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu on source language translation."
 msgstr ""
+"手动使用源语言翻译的 :guilabel:`Tools` 菜单上的 :guilabel:`Add new translation string`。"
 
 #: ../../devel/integration.rst:68
 msgid ""
@@ -25821,10 +25842,12 @@ msgid ""
 "(this overwrites existing strings, so please make sure the file includes "
 "both old and new ones, see :ref:`upload-method`)."
 msgstr ""
+"通过上传源文件作为 :guilabel:`Replace existing translation "
+"file`（这覆盖了现有的字符串，因此请确定文件包括旧的和新的，请参见 :ref:`upload-method`）。"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
-msgstr ""
+msgstr "翻译进程汇报"
 
 #: ../../devel/reporting.rst:4
 msgid ""
@@ -25833,6 +25856,8 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "any translation component, project or on the dashboard:"
 msgstr ""
+"报告特性给出了给定时间内的翻译进程。提供了任何给定组件相对于时间的贡献总结。汇报工具可以在任何翻译组件、项目或面板上的 "
+":guilabel:`Insights` 中找到："
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -25841,20 +25866,22 @@ msgid ""
 "for embedding statistics into existing documentation, while JSON is useful "
 "for further processing of the data."
 msgstr ""
+"在这一页面上有几个汇报工具可用，所有工具都能够生成 HTML、reStructuredText 或 "
+"JSON格式的输出。前两个格式适于将统计数据嵌入现有的文档，而 JSON 用于进一步处理数据。"
 
 #: ../../devel/reporting.rst:19
 msgid "Translator credits"
-msgstr ""
+msgstr "翻译者信誉"
 
 #: ../../devel/reporting.rst:21
 msgid ""
 "Generates a document usable for crediting translators - sorted by language "
 "and lists all contributors to a given language:"
-msgstr ""
+msgstr "生成用于记录翻译者信誉的文档——由语言分类，并列出给定语言的所有贡献者："
 
 #: ../../devel/reporting.rst:36
 msgid "It will render as:"
-msgstr ""
+msgstr "这将呈现为："
 
 #: ../../devel/reporting.rst:38
 msgid "Czech"
@@ -25862,11 +25889,11 @@ msgstr "捷克语（čeština）"
 
 #: ../../devel/reporting.rst:40
 msgid "Michal Čihař <michal@cihar.com> (10)"
-msgstr ""
+msgstr "Michal Čihař <michal@cihar.com> (10)"
 
 #: ../../devel/reporting.rst:41
 msgid "John Doe <john@example.com> (5)"
-msgstr ""
+msgstr "John Doe <john@example.com> (5)"
 
 #: ../../devel/reporting.rst:43
 msgid "Dutch"
@@ -25874,12 +25901,12 @@ msgstr "荷兰语（Nederlands）"
 
 #: ../../devel/reporting.rst:45
 msgid "Jae Doe <jane@example.com> (42)"
-msgstr ""
+msgstr "Jae Doe <jane@example.com> (42)"
 
 #: ../../devel/reporting.rst:49
 msgid ""
 "The number in parenthesis indicates number of contributions in given period."
-msgstr ""
+msgstr "括号中的数字指示了给定时间内贡献的次数。"
 
 #: ../../devel/reporting.rst:55
 msgid "Contributor stats"
@@ -25888,11 +25915,11 @@ msgstr "贡献者统计数据"
 #: ../../devel/reporting.rst:57
 msgid ""
 "Generates the number of translated words and strings by translator name:"
-msgstr ""
+msgstr "生成根据翻译者姓名的已翻译词与字符串的数量："
 
 #: ../../devel/reporting.rst:62
 msgid "And it will get rendered as:"
-msgstr ""
+msgstr "而它将呈现为："
 
 #: ../../devel/reporting-example.rst:2
 msgid "Email"
@@ -25900,87 +25927,87 @@ msgstr "电子邮箱"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Count total"
-msgstr ""
+msgstr "总数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source words total"
-msgstr ""
+msgstr "源语言单词总数"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source chars total"
-msgstr ""
+msgstr "源语言字符总数"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target words total"
-msgstr ""
+msgstr "目标语言单词总数"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target chars total"
-msgstr ""
+msgstr "目标语言字符总数"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Count new"
-msgstr ""
+msgstr "新添加的数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source words new"
-msgstr ""
+msgstr "新添加的源语言单词数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source chars new"
-msgstr ""
+msgstr "新添加的源语言字符数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target words new"
-msgstr ""
+msgstr "新添加的目标语言单词数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target chars new"
-msgstr ""
+msgstr "新添加的目标语言字符数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Count approved"
-msgstr ""
+msgstr "批准的数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source words approved"
-msgstr ""
+msgstr "批准的源语言单词数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source chars approved"
-msgstr ""
+msgstr "批准的源语言字符数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target words approved"
-msgstr ""
+msgstr "批准的目标语言单词数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target chars approved"
-msgstr ""
+msgstr "批准的目标语言字符数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Count edited"
-msgstr ""
+msgstr "编辑的数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source words edited"
-msgstr ""
+msgstr "编辑的源语言单词数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Source chars edited"
-msgstr ""
+msgstr "编辑的源语言字符数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target words edited"
-msgstr ""
+msgstr "编辑的目标语言单词数量"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Target chars edited"
-msgstr ""
+msgstr "编辑的目标语言字符数量"
 
 #: ../../devel/reporting-example.rst:4
 msgid "Michal Čihař"
-msgstr ""
+msgstr "Michal Čihař"
 
 #: ../../devel/reporting-example.rst:4
 msgid "michal@cihar.com"
@@ -25996,7 +26023,7 @@ msgstr "21"
 
 #: ../../devel/reporting-example.rst:5
 msgid "Allan Nordhøy"
-msgstr ""
+msgstr "Allan Nordhøy"
 
 #: ../../devel/reporting-example.rst:5
 msgid "allan@example.com"
@@ -26012,142 +26039,142 @@ msgstr "25"
 
 #: ../../devel/reporting-example.rst:5
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: ../../devel/reporting-example.rst:5
 msgid "28"
-msgstr ""
+msgstr "28"
 
 #: ../../devel/reporting.rst:66
 msgid ""
 "It can be useful if you pay your translators based on amount of work, it "
 "gives you various stats on translators work."
-msgstr ""
+msgstr "如果您根据工作量来向翻译者支付报酬，这会很有用，它给出了关于翻译者工作的各种统计数据。"
 
 #: ../../devel/reporting.rst:69
 msgid "All stats are available in three variants:"
-msgstr ""
+msgstr "所有统计数据可以在三个变量中得到："
 
 #: ../../devel/reporting.rst:71
 msgid "`Total`"
-msgstr ""
+msgstr "`Total`（总计）"
 
 #: ../../devel/reporting.rst:72
 msgid "Overall number of edited strings."
-msgstr ""
+msgstr "编辑的字符串的总数。"
 
 #: ../../devel/reporting.rst:73
 msgid "`New`"
-msgstr ""
+msgstr "新添加的`New`（新添加）"
 
 #: ../../devel/reporting.rst:74
 msgid "Newly translated strings which didn't have translation before."
-msgstr ""
+msgstr "新翻译的字符串，以前没有翻译。"
 
 #: ../../devel/reporting.rst:75
 msgid "`Approved`"
-msgstr ""
+msgstr "`Approved`（批准的）"
 
 #: ../../devel/reporting.rst:76
 msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
-msgstr ""
+msgstr "在复查流程中同意的字符串数量（请参见 :ref:`reviews`）。"
 
 #: ../../devel/reporting.rst:78
 msgid "`Edited`"
-msgstr ""
+msgstr "`Edited`（编辑的）"
 
 #: ../../devel/reporting.rst:78
 msgid "Edited strings which had translation before."
-msgstr ""
+msgstr "编辑的字符串，以前没有翻译。"
 
 #: ../../devel/reporting.rst:80
 msgid "The following metrics are available for each:"
-msgstr ""
+msgstr "后面是每项内容的计量："
 
 #: ../../devel/reporting.rst:82
 msgid "`Count`"
-msgstr ""
+msgstr "`Count`（计数）"
 
 #: ../../devel/reporting.rst:83
 msgid "Number of strings."
-msgstr ""
+msgstr "字符串的数量。"
 
 #: ../../devel/reporting.rst:84
 msgid "`Edits`"
-msgstr ""
+msgstr "`Edits`（编辑）"
 
 #: ../../devel/reporting.rst:85
 msgid ""
 "Number of edits in the string, measured in Damerau–Levenshtein distance."
-msgstr ""
+msgstr "字符串中编辑的数量，以 Damerau–Levenshtein 距离来衡量。"
 
 #: ../../devel/reporting.rst:86
 msgid "`Source words`"
-msgstr ""
+msgstr "`Source words`（源语言单词）"
 
 #: ../../devel/reporting.rst:87
 msgid "Number of words in the source string."
-msgstr ""
+msgstr "源语言字符串中单词的数量。"
 
 #: ../../devel/reporting.rst:88
 msgid "`Source characters`"
-msgstr ""
+msgstr "`Source characters`（源语言字符）"
 
 #: ../../devel/reporting.rst:89
 msgid "Number of characters in the source string."
-msgstr ""
+msgstr "源语言字符串中字符的数量。"
 
 #: ../../devel/reporting.rst:90
 msgid "`Target words`"
-msgstr ""
+msgstr "`Target words`（目标语言单词）"
 
 #: ../../devel/reporting.rst:91
 msgid "Number of words in the translated string."
-msgstr ""
+msgstr "翻译的字符串中单词的数量。"
 
 #: ../../devel/reporting.rst:92
 msgid "`Target characters`"
-msgstr ""
+msgstr "`Target characters`（目标语言字符）"
 
 #: ../../devel/reporting.rst:93
 msgid "Number of characters in the translated string."
-msgstr ""
+msgstr "翻译的字符串中字符的数量。"
 
 #: ../../devel/review.rst:4
 msgid "Reviewing strings"
-msgstr ""
+msgstr "复查字符串"
 
 #: ../../devel/review.rst:9
 msgid "Activity reports"
-msgstr ""
+msgstr "活动报告"
 
 #: ../../devel/review.rst:11
 msgid ""
 "Activity reports check changes of translations, for projects, components or "
 "individual users."
-msgstr ""
+msgstr "活动报告检查项目、组件或独立用户的翻译的更改。"
 
 #: ../../devel/review.rst:13
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Insights` tab, selecting :guilabel:`Activity`."
-msgstr ""
+msgstr "项目或组件的活动报告可以从其面板上访问，在 :guilabel:`Insights` 标签上选择 :guilabel:`Activity`。"
 
 #: ../../devel/review.rst:18
 msgid ""
 "More reports are accessible on the :guilabel:`Insights` tab, selecting :"
 "guilabel:`Translation reports`."
-msgstr ""
+msgstr "更多报告可以在 :guilabel:`Insights`标签上访问，选择 :guilabel:`Translation reports`。"
 
 #: ../../devel/review.rst:21
 msgid ""
 "The activity of the currently signed in user can be seen by clicking on :"
 "guilabel:`Profile` from the user menu on the top right."
-msgstr ""
+msgstr "可以通过点击右上角用户菜单的 :guilabel:`Profile`，看到当前登录用户的活动。"
 
 #: ../../devel/review.rst:25
 msgid "Source strings checks"
-msgstr ""
+msgstr "源字符串的检查"
 
 #: ../../devel/review.rst:27
 msgid ""
@@ -26156,10 +26183,12 @@ msgid ""
 "easier to translate. All types of failing source checks are displayed on "
 "the :guilabel:`Source` tab of every component."
 msgstr ""
+"有很多 :ref:`checks`，一些聚焦在提高源字符串的质量。很多失败的检查都建议了提示，使源字符串更容易翻译。"
+"所有类型的失败的源字符串检查都显示在每个组件的 :guilabel:`Source` 标签上。"
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
-msgstr ""
+msgstr "翻译字符串的检查"
 
 #: ../../devel/review.rst:35
 msgid ""
