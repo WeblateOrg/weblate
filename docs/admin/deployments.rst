@@ -32,7 +32,7 @@ Weblate Cloudron Package
 Weblate installed with Cloudron will be automatically kept up-to-date.
 The package is maintained by the Cloudron team at their `Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_.
 
-.. image:: https://cloudron.io/img/button.svg
+.. image:: /images/cloudron.svg
              :alt: Install Weblate with Cloudron
              :target: https://cloudron.io/button.html?app=org.weblate.cloudronapp
 
