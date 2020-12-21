@@ -104,6 +104,7 @@ def database_backup():
             env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            stdin=subprocess.DEVNULL,
             check=True,
             universal_newlines=True,
         )
