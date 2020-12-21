@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-10 21:03+0100\n"
-"PO-Revision-Date: 2020-12-09 08:34+0000\n"
-"Last-Translator: Stanisław Stefan Krukowski <pet209a1@riseup.net>\n"
+"PO-Revision-Date: 2020-12-21 17:29+0000\n"
+"Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -188,6 +188,8 @@ msgstr "Chronione"
 #: ../../admin/access.rst:95
 msgid "Publicly visible, but translatable only for selected users"
 msgstr ""
+"Publicznie widoczne, ale możliwe do przetłumaczenia tylko dla wybranych "
+"użytkowników"
 
 #: ../../admin/access.rst:96
 msgid "Private"
@@ -195,7 +197,7 @@ msgstr "Prywatne"
 
 #: ../../admin/access.rst:97
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Widoczne i możliwe do przetłumaczenia tylko dla wybranych użytkowników"
 
 #: ../../admin/access.rst:99
 msgid "Custom"
@@ -203,7 +205,7 @@ msgstr "Dostosowane"
 
 #: ../../admin/access.rst:99
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
-msgstr ""
+msgstr "Weblate nie zarządza użytkownikami, zobacz :ref:`custom-acl`."
 
 #: ../../admin/access.rst:103
 msgid ""
@@ -212,12 +214,18 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
+"Aby zezwolić na dostęp do tego projektu, należy dodać uprawnienia "
+"bezpośrednio do danego użytkownika lub grupy użytkowników w interfejsie "
+"administratora Django lub za pomocą zarządzania użytkownikami na stronie "
+"projektu, zgodnie z opisem w :ref:`manage-acl`."
 
 #: ../../admin/access.rst:109
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
 msgstr ""
+"Nawet przy włączonej liście ACL będzie dostępne podsumowanie informacji o "
+"Twoim projekcie:"
 
 #: ../../admin/access.rst:111
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -238,6 +246,9 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"Możesz skonfigurować Weblate, aby automatycznie dodawać użytkowników do grup "
+"na podstawie ich adresów e-mail. Automatyczne przypisanie będzie możliwe "
+"tylko w momencie tworzenia konta."
 
 #: ../../admin/access.rst:122
 msgid ""
@@ -254,53 +265,59 @@ msgstr ""
 
 #: ../../admin/access.rst:134
 msgid "Users, roles, groups and permissions"
-msgstr ""
+msgstr "Użytkownicy, role, grupy i uprawnienia"
 
 #: ../../admin/access.rst:136
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Modele uwierzytelniania składają się z kilku obiektów:"
 
 #: ../../admin/access.rst:139
 msgid "`Permission`"
-msgstr ""
+msgstr "`Uprawnienia`"
 
 #: ../../admin/access.rst:139
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
 msgstr ""
+"Indywidualne uprawnienia zdefiniowane przez Weblate. Nie możesz przypisać "
+"indywidualnych uprawnień, można to zrobić tylko poprzez przypisanie ról."
 
 #: ../../admin/access.rst:142
 msgid "`Role`"
-msgstr ""
+msgstr "`Role`"
 
 #: ../../admin/access.rst:142
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
+"Rola definiuje zestaw uprawnień. Umożliwia to ponowne użycie tych zestawów w "
+"kilku miejscach i ułatwia administrowanie."
 
 #: ../../admin/access.rst:144
 msgid "`User`"
-msgstr ""
+msgstr "`Użytkownik`"
 
 #: ../../admin/access.rst:145
 msgid "Users can be members of several groups."
-msgstr ""
+msgstr "Użytkownicy mogą być członkami kilku grup."
 
 #: ../../admin/access.rst:148
 msgid "`Group`"
-msgstr ""
+msgstr "`Grupa`"
 
 #: ../../admin/access.rst:147
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
+"Grupy łączą role, użytkowników i obiekty uwierzytelniające (projekty, języki "
+"i listy komponentów)."
 
 #: ../../admin/access.rst:166
 msgid "Permission checking"
-msgstr ""
+msgstr "Sprawdzanie uprawnień"
 
 #: ../../admin/access.rst:168
 msgid ""
@@ -308,6 +325,9 @@ msgid ""
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
 msgstr ""
+"Za każdym razem, gdy sprawdzane jest uprawnienie, aby zdecydować, czy ktoś "
+"jest w stanie wykonać daną akcję, kontrola jest przeprowadzana zgodnie z "
+"zakresem, a następujące kontrole są przeprowadzane w kolejności:"
 
 #: ../../admin/access.rst:172
 msgid ""
@@ -357,7 +377,7 @@ msgstr ""
 
 #: ../../admin/access.rst:199
 msgid "Checking access to a project"
-msgstr ""
+msgstr "Sprawdzanie dostępu do projektu"
 
 #: ../../admin/access.rst:201
 msgid ""
@@ -369,7 +389,7 @@ msgstr ""
 
 #: ../../admin/access.rst:207
 msgid "Checking access to a component"
-msgstr ""
+msgstr "Sprawdzanie dostępu do komponentu"
 
 #: ../../admin/access.rst:209
 msgid ""
@@ -381,7 +401,7 @@ msgstr ""
 
 #: ../../admin/access.rst:216
 msgid "Managing users and groups"
-msgstr ""
+msgstr "Zarządzanie użytkownikami i grupami"
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -406,24 +426,26 @@ msgstr ""
 
 #: ../../admin/access.rst:234
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "Dodaj istniejących użytkowników do projektu"
 
 #: ../../admin/access.rst:235
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "Zaproś nowych użytkowników do projektu"
 
 #: ../../admin/access.rst:236
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "Zmień uprawnienia użytkowników"
 
 #: ../../admin/access.rst:237
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "Odwołaj dostęp dla użytkowników"
 
 #: ../../admin/access.rst:241
 msgid ""
 "Resend user email invitations, invalidating any previously sent invitation"
 msgstr ""
+"Ponownie wyślij e-maile z zaproszeniem użytkowników, unieważniając wszystkie "
+"wysłane wcześniej zaproszenia"
 
 #: ../../admin/access.rst:243
 msgid ""
@@ -432,17 +454,19 @@ msgstr ""
 
 #: ../../admin/access.rst:249
 msgid ":ref:`acl`"
-msgstr ""
+msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:254
 msgid "Predefined groups"
-msgstr ""
+msgstr "Wstępnie zdefiniowane grupy"
 
 #: ../../admin/access.rst:256
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
 msgstr ""
+"Weblate zawiera predefiniowany zestaw grup dla projektu, do których możesz "
+"przypisywać użytkowników."
 
 #: ../../admin/access.rst:261
 msgid "Has all permissions available in the project."
@@ -450,24 +474,20 @@ msgstr ""
 
 #: ../../admin/access.rst:265
 msgid "Can manage glossary (add or remove entries, or upload)."
-msgstr ""
+msgstr "Może zarządzać glosariuszem (dodawać, usuwać lub przesyłać )."
 
 #: ../../admin/access.rst:269
-#, fuzzy
-#| msgid "Add several languages for translation"
 msgid "Can manage translated languages (add or remove translations)."
-msgstr "Dodaj kilka języków do tłumaczenia"
+msgstr ""
+"Może zarządzać przetłumaczonymi językami (dodawać lub usuwać tłumaczenia)."
 
 #: ../../admin/access.rst:273
-#, fuzzy
-#| msgid ""
-#| "Deleting screenshot will remove it from all associated source strings."
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
-"Usunięcie zrzutu ekranu spowoduje wymazanie go ze wszystkich tekstów "
-"źródłowych do których został przypisany."
+"Może zarządzać zrzutami ekranu (dodawać, usuwać i kojarzyć je z ciągami "
+"źródłowymi)."
 
 #: ../../admin/access.rst:278
 msgid "Can edit source strings in :ref:`monolingual` and source string info."
@@ -475,15 +495,15 @@ msgstr ""
 
 #: ../../admin/access.rst:282
 msgid "Can translate the project, and upload translations made offline."
-msgstr ""
+msgstr "Może łumaczyć projekt i przesłać tłumaczenia wykonane w trybie offline."
 
 #: ../../admin/access.rst:286
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "Może zarządzać VCS i uzyskiwać dostęp do wyeksportowanego repozytorium."
 
 #: ../../admin/access.rst:290
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Może zatwierdzać tłumaczenia podczas recenzji."
 
 #: ../../admin/access.rst:294
 msgid "Can access billing info (see :ref:`billing`)."
@@ -491,7 +511,7 @@ msgstr ""
 
 #: ../../admin/access.rst:300
 msgid "Custom access control"
-msgstr ""
+msgstr "Niestandardowa kontrola dostępu"
 
 #: ../../admin/access.rst:302
 msgid ""
@@ -512,7 +532,7 @@ msgstr ""
 
 #: ../../admin/access.rst:318
 msgid "Default groups and roles"
-msgstr ""
+msgstr "Domyślne grupy i role"
 
 #: ../../admin/access.rst:320
 msgid ""
@@ -524,7 +544,7 @@ msgstr ""
 
 #: ../../admin/access.rst:326
 msgid "List of privileges"
-msgstr ""
+msgstr "Lista uprawnień"
 
 #: ../../admin/access.rst:329
 msgid "Billing (see :ref:`billing`)"
@@ -798,7 +818,7 @@ msgstr ""
 
 #: ../../admin/access.rst:444
 msgid "Site wide privileges"
-msgstr ""
+msgstr "Uprawnienia w całej witrynie"
 
 #: ../../admin/access.rst:426
 msgid "Use management interface"
@@ -849,7 +869,7 @@ msgstr ""
 
 #: ../../admin/access.rst:453
 msgid "List of groups"
-msgstr ""
+msgstr "Lista grup"
 
 #: ../../admin/access.rst:455
 msgid ""
@@ -860,23 +880,27 @@ msgstr ""
 
 #: ../../admin/access.rst:467
 msgid "`Guests`"
-msgstr ""
+msgstr "`Goście`"
 
 #: ../../admin/access.rst:460
 msgid "Defines permissions for non authenticated users."
-msgstr ""
+msgstr "Definiuje uprawnienia dla nieuwierzytelnionych użytkowników."
 
 #: ../../admin/access.rst:462
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Ta grupa zawiera tylko anonimowych użytkowników (patrz: setting: "
+"`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:464
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
 msgstr ""
+"Możesz usunąć role z tej grupy, aby ograniczyć uprawnienia dla "
+"nieuwierzytelnionych użytkowników."
 
 #: ../../admin/access.rst:467
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -884,13 +908,15 @@ msgstr ""
 
 #: ../../admin/access.rst:475
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Przeglądajacy`"
 
 #: ../../admin/access.rst:470
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
 msgstr ""
+"Ta rola zapewnia widoczność projektów publicznych dla wszystkich "
+"użytkowników. Domyślnie wszyscy użytkownicy są członkami tej grupy."
 
 #: ../../admin/access.rst:473
 msgid "By default all users are members of this group, using :ref:`autogroup`."
@@ -898,16 +924,16 @@ msgstr ""
 
 #: ../../admin/access.rst:475
 msgid "Default roles: none"
-msgstr ""
+msgstr "Role domyślne: brak"
 
 #: ../../admin/access.rst:482 ../../workflows.rst:69 ../../workflows.rst:100
 #: ../../workflows.rst:136
 msgid "`Users`"
-msgstr ""
+msgstr "`Użytkownicy`"
 
 #: ../../admin/access.rst:478
 msgid "Default group for all users."
-msgstr ""
+msgstr "Domyślna grupa dla wszystkich użytkowników."
 
 #: ../../admin/access.rst:480
 msgid "By default all users are members of this group using :ref:`autogroup`."
@@ -919,11 +945,11 @@ msgstr ""
 
 #: ../../admin/access.rst:487 ../../workflows.rst:139
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Recenzenci`"
 
 #: ../../admin/access.rst:485
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "Grupa dla recenzentów (patrz :ref:`workflows`)."
 
 #: ../../admin/access.rst:487
 msgid "Default roles: `Review strings`"
@@ -931,15 +957,15 @@ msgstr ""
 
 #: ../../admin/access.rst:492
 msgid "`Managers`"
-msgstr ""
+msgstr "`Menedżerowie`"
 
 #: ../../admin/access.rst:490
 msgid "Group for administrators."
-msgstr ""
+msgstr "Grupa dla administratorów."
 
 #: ../../admin/access.rst:492
 msgid "Default roles: `Administration`"
-msgstr ""
+msgstr "Role domyślne: `Administracja`"
 
 #: ../../admin/access.rst:496
 msgid ""
@@ -962,7 +988,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:16
 msgid "Built-in addons"
-msgstr ""
+msgstr "Wbudowane dodatki"
 
 #: ../../admin/addons.rst:21 ../../admin/continuous.rst:420
 #: ../../user/translating.rst:345
@@ -981,6 +1007,8 @@ msgstr ""
 msgid ""
 "This addon is triggered automatically when new strings appear in a component."
 msgstr ""
+"Ten dodatek jest wyzwalany automatycznie, gdy w składniku pojawiają się nowe "
+"ciągi."
 
 #: ../../admin/addons.rst:31
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -1030,10 +1058,8 @@ msgstr ""
 
 #: ../../admin/addons.rst:72 ../../admin/addons.rst:85
 #: ../../admin/addons.rst:305 ../../admin/addons.rst:395
-#, fuzzy
-#| msgid ":ref:`addons`"
 msgid ":ref:`faq-cleanup`"
-msgstr ":ref: `dodatki`"
+msgstr ":ref: `faq-czyszczenie`"
 
 #: ../../admin/addons.rst:77
 msgid "Cleanup translation files"
@@ -1072,10 +1098,12 @@ msgid ""
 "Missing languages are checked once every 24 hours and when a new language is "
 "added in Weblate."
 msgstr ""
+"Brakujące języki są sprawdzane raz na 24 godziny, oraz kiedy nowy język jest "
+"dodawany do Weblate."
 
 #: ../../admin/addons.rst:101
 msgid "Unlike most others, this addon affects the whole project."
-msgstr ""
+msgstr "W przeciwieństwie do większości, ten dodatek wpływa na cały projekt."
 
 #: ../../admin/addons.rst:105
 msgid ""
@@ -1148,10 +1176,8 @@ msgid "**Examples:**"
 msgstr ""
 
 #: ../../admin/addons.rst:152
-#, fuzzy
-#| msgid "Automatically add language file"
 msgid "Automatically add label to new strings"
-msgstr "Automatycznie dodaj pliki języków"
+msgstr "Automatycznie dodawaj etykiety do nowych ciągów"
 
 #: ../../admin/addons.rst:155 ../../admin/addons.rst:163
 #, fuzzy
@@ -1168,10 +1194,8 @@ msgid "Labels to add"
 msgstr "Etykiety do dodania"
 
 #: ../../admin/addons.rst:158
-#, fuzzy
-#| msgid "Percent"
 msgid "*recent*"
-msgstr "Udział procentowy"
+msgstr "*ostatnie*"
 
 #: ../../admin/addons.rst:160
 msgid "Marking all :ref:`appstore` changelog entries read-only"
@@ -1261,11 +1285,11 @@ msgstr "Nazwa wygenerowanego pliku"
 
 #: ../../admin/addons.rst:216
 msgid "``locale/{{ language_code }}.json``"
-msgstr ""
+msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:227
 msgid "Content"
-msgstr ""
+msgstr "Zawartość"
 
 #: ../../admin/addons.rst:236
 msgid "Contributors in comment"
@@ -1307,11 +1331,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:265
 msgid "It offers the following options:"
-msgstr ""
+msgstr "Oferuje następujące opcje:"
 
 #: ../../admin/addons.rst:267
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr ""
+msgstr "Zawijaj wiersze po 77 znakach i w nowej linii"
 
 #: ../../admin/addons.rst:268
 msgid "Only wrap lines at newlines"
@@ -1354,23 +1378,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:299
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files to match the POT file using msgmerge. Triggered "
-#| "whenever new changes are pulled from the upstream repository and updates "
-#| "all translation files to match :ref:`component-new_base`. You can "
-#| "configure most of the msgmerge command line options through the addon "
-#| "configuration."
 msgid ""
 "This addon is triggered whenever new changes are pulled from the upstream "
 "repository. You can configure most of the msgmerge command line options "
 "through the addon configuration."
 msgstr ""
-"Aktualizuje wszystkie pliki PO, aby pasowały do pliku POT przy użyciu "
-"msgmerge. Wywoływane za każdym razem, gdy nowe zmiany są pobierane z "
-"repozytorium nadrzędnego (ang. upstream) i aktualizuje wszystkie pliki "
-"tłumaczenia, aby pasowały do :ref:`component-new_base` . Większość opcji "
-"wiersza poleceń msgmerge można skonfigurować poprzez konfigurację dodatku."
+"Ten dodatek jest wyzwalany za każdym razem, gdy nowe zmiany są pobierane z "
+"repozytorium nadrzędnego. Większość opcji wiersza polecenia msgmerge można "
+"skonfigurować za pomocą konfiguracji dodatku."
 
 #: ../../admin/addons.rst:310
 msgid "Squash Git commits"
@@ -1382,7 +1397,7 @@ msgstr "Zatwierdzenie Squash Git przed wprowadzeniem zmian."
 
 #: ../../admin/addons.rst:314
 msgid "You can choose one of following modes:"
-msgstr ""
+msgstr "Można wybrać jeden z następujących trybów:"
 
 #: ../../admin/addons.rst:318
 msgid "All commits into one"
@@ -1414,6 +1429,8 @@ msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
+"Oryginalne komunikaty zatwierdzania można opcjonalnie zastąpić "
+"niestandardową wiadomością zatwierdzenia."
 
 #: ../../admin/addons.rst:333
 msgid ""
@@ -1456,6 +1473,9 @@ msgid ""
 "Use with care as comment being old does not mean they have lost their "
 "importance."
 msgstr ""
+"Może to być przydatne do usuwania starych komentarzy, które mogły stać się "
+"nieaktualne. Używaj ostrożnością to żeomentarz jest stary nie oznacza, że "
+"stracili swoje znaczenie."
 
 #: ../../admin/addons.rst:368
 msgid "Stale suggestion removal"
@@ -1505,7 +1525,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:408
 msgid "Customizing list of addons"
-msgstr ""
+msgstr "Dostosowywanie listy dodatków"
 
 #: ../../admin/addons.rst:410
 msgid ""
@@ -1530,7 +1550,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:430
 msgid "Executing scripts from addon"
-msgstr ""
+msgstr "Wykonywanie skryptów z dodatku"
 
 #: ../../admin/addons.rst:432
 msgid ""
@@ -1551,39 +1571,39 @@ msgstr ""
 
 #: ../../admin/addons.rst:444
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "Dodatkowo dostępne są następujące zmienne środowiskowe:"
 
 #: ../../admin/addons.rst:448
 msgid "Version control system used."
-msgstr ""
+msgstr "Używany system kontroli wersji."
 
 #: ../../admin/addons.rst:452
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "Adres URL repozytorium nadrzędnego."
 
 #: ../../admin/addons.rst:456
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Ścieżka bezwzględna do repozytorium VCS."
 
 #: ../../admin/addons.rst:462
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "Gałąź repozytorium skonfigurowana w bieżącym składniku."
 
 #: ../../admin/addons.rst:466
 msgid "Filemask for current component."
-msgstr ""
+msgstr "Maska pliku dla bieżącego komponentu."
 
 #: ../../admin/addons.rst:470
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr ""
+msgstr "Nazwa pliku szablonu dla tłumaczeń jednojęzycznych (może być pusta)."
 
 #: ../../admin/addons.rst:476
 msgid "Filename of the file used for creating new translations (can be empty)."
-msgstr ""
+msgstr "Nazwa pliku użytego do tworzenia nowych tłumaczeń (może być pusta)."
 
 #: ../../admin/addons.rst:481
 msgid "Fileformat used in current component."
-msgstr ""
+msgstr "Format pliku używany w bieżącym komponencie."
 
 #: ../../admin/addons.rst:485
 msgid ""
@@ -4479,11 +4499,11 @@ msgid "GITLAB_TOKEN"
 msgstr ""
 
 #: ../../admin/config.rst:669
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid ""
 "GitLab personal access token used to make API calls for translation updates."
-msgstr "Tłumaczenie teraz otwarte dla aktualizacji tłumaczenia."
+msgstr ""
+"Osobisty token dostępu GitLab używany do wykonywania wywołań API w celu "
+"aktualizacji tłumaczeń."
 
 #: ../../admin/config.rst:673
 msgid ""
@@ -4584,10 +4604,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:772
-#, fuzzy
-#| msgid "Push is turned off for %s."
 msgid "This is turned off by default."
-msgstr "Przesyłanie dla %s jest wyłączone."
+msgstr "Ta wartość jest domyślnie wyłączona."
 
 #: ../../admin/config.rst:777
 msgid "IP_BEHIND_REVERSE_PROXY"
@@ -5347,10 +5365,10 @@ msgid "PAGURE_USERNAME"
 msgstr ""
 
 #: ../../admin/config.rst:1505
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid "Pagure username used to send merge requests for translation updates."
-msgstr "Tłumaczenie teraz otwarte dla aktualizacji tłumaczenia."
+msgstr ""
+"Nazwa użytkownika Pagure używana do wysyłania żądań scalenia w celu "
+"aktualizacji tłumaczeń."
 
 #: ../../admin/config.rst:1509
 msgid ":setting:`PAGURE_CREDENTIALS`, :ref:`vcs-pagure`"
@@ -6233,10 +6251,8 @@ msgid "SSH URL"
 msgstr ""
 
 #: ../../admin/continuous.rst:287
-#, fuzzy
-#| msgid "Push branch"
 msgid "Push to separate branch"
-msgstr "Gałąź Push"
+msgstr "Wypychanie do oddzielnej gałęzi"
 
 #: ../../admin/continuous.rst:287 ../../admin/continuous.rst:291
 #: ../../admin/continuous.rst:295 ../../admin/continuous.rst:299
@@ -8659,10 +8675,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:197
-#, fuzzy
-#| msgid "Commit signing"
 msgid "Admin sign in"
-msgstr "Zatwierdź podpis"
+msgstr "Zaloguj się jako administrator"
 
 #: ../../admin/install/docker.rst:199
 msgid ""
@@ -8714,10 +8728,8 @@ msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
 
 #: ../../admin/install/docker.rst:248
-#, fuzzy
-#| msgid "Configured password to sign in."
 msgid "Configures the site domain."
-msgstr "Skonfigurowane hasło logowania."
+msgstr "Konfiguruje domenę witryny."
 
 #: ../../admin/install/docker.rst:252
 msgid ""
@@ -9363,8 +9375,6 @@ msgid ":setting:`django:EMAIL_PORT`"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1010
-#, fuzzy
-#| msgid "Authentication"
 msgid "E-mail authentication user."
 msgstr "Uwierzytelnienie za pomocą e-maila."
 
@@ -9501,10 +9511,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1148
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Container settings"
-msgstr "Ustawienia powiadomień"
+msgstr "Ustawienia kontenera"
 
 #: ../../admin/install/docker.rst:1157
 msgid ""
@@ -10111,10 +10119,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/languages.rst:55
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Built-in language definitions"
-msgstr "Dodaj definicje językowe"
+msgstr "Wbudowane definicje języków"
 
 #: ../../admin/languages.rst:57
 msgid ""
@@ -12555,7 +12561,7 @@ msgstr ""
 #: ../../admin/projects.rst:190 ../../workflows.rst:60 ../../workflows.rst:91
 #: ../../workflows.rst:127
 msgid "Enable reviews"
-msgstr "Włącz rewizje"
+msgstr "Włącz recenzje"
 
 #: ../../admin/projects.rst:192
 msgid "Enable review workflow for translations, see :ref:`reviews`."
@@ -14604,34 +14610,24 @@ msgid "List statistics of a user."
 msgstr ""
 
 #: ../../api.rst:325
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Number of translations by user"
-msgstr "Liczba przetłumaczonych ciągów tekstowych"
+msgstr "Liczba tłumaczeń według użytkownika"
 
 #: ../../api.rst:326
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of suggestions by user"
-msgstr "Liczba tekstów źródłowych"
+msgstr "Liczba sugestii według użytkownika"
 
 #: ../../api.rst:327
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "Number of uploads by user"
-msgstr "Liczba przesłanych udostępnionych wpisów"
+msgstr "Liczba przesłańedług użytkownika"
 
 #: ../../api.rst:328
-#, fuzzy
-#| msgid "Number of comments"
 msgid "Number of comments by user"
-msgstr "Liczba komentarzy"
+msgstr "Liczba komentarzy wedługużytkownika"
 
 #: ../../api.rst:329
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of languages user can translate"
-msgstr "Liczba języków"
+msgstr "Liczba języków, które użytkownik może przetłumaczyć"
 
 #: ../../api.rst:333
 msgid "List subscriptions of a user."
@@ -15684,22 +15680,16 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1582
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "number of strings failing checks"
-msgstr "Liczba nieudanych testów"
+msgstr "Liczba ciągów, które nie przeszły kontroli"
 
 #: ../../api.rst:1583
-#, fuzzy
-#| msgid "Translated strings with any failing checks"
 msgid "percentage of strings failing checks"
-msgstr "Przetłumaczone ciągi z wszelkimi nieudanymi kontrolami"
+msgstr "procent ciągów, które nie przeszły kontroli"
 
 #: ../../api.rst:1584
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "number of words with failing checks"
-msgstr "Liczba nieudanych testów"
+msgstr "liczba słów z nieudanymi kontrolami"
 
 #: ../../api.rst:1585
 msgid "translation filename"
@@ -16013,7 +16003,7 @@ msgstr ""
 
 #: ../../api.rst:1887
 msgid "whether the unit is fuzzy or marked for review"
-msgstr "czy jednostka jest rozmyta lub oznaczona do przeglądu"
+msgstr "czy jednostka jest rozmyta lub oznaczona do recenzji"
 
 #: ../../api.rst:1888
 #, fuzzy
@@ -16224,10 +16214,8 @@ msgid "Associate source string with screenshot."
 msgstr ""
 
 #: ../../api.rst:2039
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Remove source string association with screenshot."
-msgstr "Przegląd ciągów źródłowych w %s"
+msgstr "Usuń powiązanie zrzutu ekranu z ciągami źródłowymi."
 
 #: ../../api.rst:2043
 #, fuzzy
@@ -16250,16 +16238,12 @@ msgid "Edit partial information about screenshot."
 msgstr "Więcej informacji o Weblate"
 
 #: ../../api.rst:2073
-#, fuzzy
-#| msgid "Information about project"
 msgid "Edit full information about screenshot."
-msgstr "Informacja o projekcie"
+msgstr "Edytuj pełne informacje o zrzucie ekranu."
 
 #: ../../api.rst:2084
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Delete screenshot."
-msgstr "Usuń zrzut ekranu"
+msgstr "Usuń zrzut ekranu."
 
 #: ../../api.rst:2091
 msgid "Component lists"
@@ -16442,10 +16426,8 @@ msgid "Task UUID"
 msgstr ""
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "String has comment"
 msgid "Whether task has completed"
-msgstr "Tekst z komentarzem"
+msgstr "Określa, czy zadanie zostało ukończone"
 
 #: ../../api.rst:2376
 msgid "Task progress in percent"
@@ -16456,10 +16438,8 @@ msgid "Task result or progress details"
 msgstr ""
 
 #: ../../api.rst:2378
-#, fuzzy
-#| msgid "Last login"
 msgid "Task log"
-msgstr "Ostatnie logowanie"
+msgstr "Dziennik zadań"
 
 #: ../../api.rst:2383
 msgid "Notification hooks"
@@ -16744,16 +16724,12 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate 4.4"
-msgstr "Klucze Weblate"
+msgstr "Weblate 4.4"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Not yet released."
-msgstr "Jeszcze nie zalogowany"
+msgstr "Jeszcze nie wydano."
 
 #: ../../changes.rst:6
 msgid "Improved validation when creating component."
@@ -21134,36 +21110,38 @@ msgstr ""
 
 #: ../../changes.rst:1363
 msgid "Weblate 1.5"
-msgstr ""
+msgstr "Weblate 1.5"
 
 #: ../../changes.rst:1365
 msgid "Released on April 16th 2013."
-msgstr ""
+msgstr "Wydany 16 kwietnia 2013."
 
 #: ../../changes.rst:1368
 msgid "Added public user pages."
-msgstr ""
+msgstr "Dodano publiczne strony użytkowników."
 
 #: ../../changes.rst:1369
 msgid "Better naming of plural forms."
-msgstr ""
+msgstr "Lepsze nazewnictwo form liczby mnogiej."
 
 #: ../../changes.rst:1370
 msgid "Added support for TBX export of glossary."
-msgstr ""
+msgstr "Dodano wsparcie dla eksportu słownika TBX."
 
 #: ../../changes.rst:1371
 msgid "Added support for Bitbucket notifications."
-msgstr ""
+msgstr "Dodano wsparcie dla powiadomień Bitbucket."
 
 #: ../../changes.rst:1372
 msgid ""
 "Activity charts are now available for each translation, language or user."
 msgstr ""
+"Wykresy aktywności są teraz dostępne dla każdego tłumaczenia, języka lub "
+"użytkownika."
 
 #: ../../changes.rst:1373
 msgid "Extended options of import_project admin command."
-msgstr ""
+msgstr "Rozszerzone opcje polecenia administratora import_project."
 
 #: ../../changes.rst:1374
 msgid "Compatible with Django 1.5."
@@ -22018,7 +21996,7 @@ msgstr ""
 
 #: ../../contributing/addons.rst:11
 msgid "Here is an example addon:"
-msgstr ""
+msgstr "Oto przykładowy dodatek:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
@@ -31252,8 +31230,6 @@ msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
 
 #: ../../wlc.rst:129
-#, fuzzy
-#| msgid "Command"
 msgid "Commands"
 msgstr "Polecenia"
 
@@ -31562,7 +31538,7 @@ msgstr ""
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
-msgstr "Oczekujące na kontrolę"
+msgstr "Oczekujące na recenzję"
 
 #: ../../workflows.rst:38
 msgid ""
