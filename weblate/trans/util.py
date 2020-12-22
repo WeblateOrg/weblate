@@ -76,7 +76,7 @@ def get_string(text):
     if text is None:
         return ""
     if isinstance(text, multistring):
-        return join_plural(text.strings)
+        return join_plural(get_string(str(item)) for item in text.strings)
     if isinstance(text, str):
         return text
     # We might get integer or float in some formats
