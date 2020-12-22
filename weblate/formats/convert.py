@@ -142,6 +142,16 @@ class ConvertFormat(TranslationFormat):
     def create_unit(self, key: str, source: Union[str, List[str]]):
         raise ValueError("Not supported")
 
+    def cleanup_unused(self) -> List[str]:
+        """
+        Bring target in sync with the source.
+
+        This is done automatically on save as it reshapes translations
+        based on the template.
+        """
+        self.save()
+        return []
+
 
 class HTMLFormat(ConvertFormat):
     name = _("HTML file")

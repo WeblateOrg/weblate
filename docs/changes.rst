@@ -7,6 +7,7 @@ Not yet released.
 * Fixed displaying help for project settings.
 * Improved administering of users.
 * Improved handling of context in monolingual PO files.
+* Fixed cleanup addon behavior with HTML, ODF, IDML and Windows RC formats.
 
 Weblate 4.4
 -----------
