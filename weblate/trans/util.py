@@ -31,6 +31,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from lxml import etree
+from translate.misc.multistring import multistring
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.utils.data import data_dir
@@ -74,8 +75,10 @@ def get_string(text):
     # Check for null target (happens with XLIFF)
     if text is None:
         return ""
-    if hasattr(text, "strings"):
+    if isinstance(text, multistring):
         return join_plural(text.strings)
+    if isinstance(text, str):
+        return text
     # We might get integer or float in some formats
     return str(text)
 
