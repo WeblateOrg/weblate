@@ -6,6 +6,7 @@ Not yet released.
 * Fixed revering plural changes.
 * Fixed displaying help for project settings.
 * Improved administering of users.
+* Improved handling of context in monolingual PO files.
 
 Weblate 4.4
 -----------
