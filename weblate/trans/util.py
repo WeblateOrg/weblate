@@ -78,7 +78,11 @@ def get_string(text):
     if isinstance(text, multistring):
         return join_plural(get_string(str(item)) for item in text.strings)
     if isinstance(text, str):
-        return text
+        # Remove possible surrogates in the string. There doesn't seem to be
+        # a cheap way to detect this, so do the conversion in both cases. In
+        # case of failure, this at least fails when parsing the file instead
+        # being that later when inserting the data to the database.
+        return text.encode("utf-16", "surrogatepass").decode("utf-16")
     # We might get integer or float in some formats
     return str(text)
 

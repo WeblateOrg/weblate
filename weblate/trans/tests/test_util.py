@@ -18,8 +18,14 @@
 #
 
 from django.test import SimpleTestCase
+from translate.misc.multistring import multistring
 
-from weblate.trans.util import cleanup_path, cleanup_repo_url, translation_percent
+from weblate.trans.util import (
+    cleanup_path,
+    cleanup_repo_url,
+    get_string,
+    translation_percent,
+)
 
 
 class HideCredentialsTest(SimpleTestCase):
@@ -90,3 +96,19 @@ class CleanupPathTest(SimpleTestCase):
 
     def test_double_slash(self):
         self.assertEqual(cleanup_path("foo//*.po"), "foo/*.po")
+
+
+class TextConversionTest(SimpleTestCase):
+    def test_multistring(self):
+        self.assertEqual(get_string(multistring(["foo", "bar"])), "foo\x1e\x1ebar")
+
+    def test_surrogates(self):
+        self.assertEqual(
+            get_string("\ud83d\udc68\u200d\ud83d\udcbbАгенты"), "👨‍💻Агенты"
+        )
+
+    def test_none(self):
+        self.assertEqual(get_string(None), "")
+
+    def test_int(self):
+        self.assertEqual(get_string(42), "42")
