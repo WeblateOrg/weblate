@@ -32,9 +32,9 @@ Weblate Cloudron Package
 Weblate installed with Cloudron will be automatically kept up-to-date.
 The package is maintained by the Cloudron team at their `Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_.
 
-.. image:: /images/cloudron.svg
-             :alt: Install Weblate with Cloudron
-             :target: https://cloudron.io/button.html?app=org.weblate.cloudronapp
+.. image:: /images/cloudron.png
+   :alt: Install Weblate with Cloudron
+   :target: https://cloudron.io/button.html?app=org.weblate.cloudronapp
 
 Weblate in YunoHost
 -------------------
@@ -48,8 +48,8 @@ usages.
 You may use your administration interface, or this button (it will bring you to your server):
 
 .. image:: /images/install-with-yunohost.png
-             :alt: Install Weblate with YunoHost
-             :target: https://install-app.yunohost.org/?app=weblate
+   :alt: Install Weblate with YunoHost
+   :target: https://install-app.yunohost.org/?app=weblate
 
 It also is possible to use the commandline interface:
 
