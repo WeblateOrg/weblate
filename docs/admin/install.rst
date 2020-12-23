@@ -389,7 +389,7 @@ complex setups the role name is different than username and you will get error
 about non-existing role during the database migration
 (``psycopg2.errors.UndefinedObject: role "weblate@hostname" does not exist``).
 This is known to happen with Azure Database for PostgreSQL, but it's not
-limited to this evironment. Please set ``ALTER_ROLE`` to change name of the
+limited to this environment. Please set ``ALTER_ROLE`` to change name of the
 role Weblate should alter during the database migration.
 
 .. _mysql:
