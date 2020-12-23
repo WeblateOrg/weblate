@@ -46,7 +46,7 @@ Released on November 4th 2020.
 * Fixed crash on certain component filemasks.
 * Improved accuracy of the consecutive duplicated words check.
 * Added support for Pagure pull requests.
-* Improved error messages on failed registraiton.
+* Improved error messages on failed registration.
 * Reverted rendering developer comments as markdown.
 * Simplified setup of Git repositories with different default branch than master.
 * Newly created internal repositories now use main as default branch.
