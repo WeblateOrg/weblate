@@ -33,7 +33,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-12-14 13:29+0000\n"
+"PO-Revision-Date: 2020-12-23 11:46+0000\n"
 "Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -42,7 +42,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -8007,33 +8007,25 @@ msgstr ""
 "öffentlich zugänglich bereitgestellt werden."
 
 #: weblate/templates/snippets/libre-basic.html:5
-#, fuzzy
-#| msgid ""
-#| "Translations have to be in the same repository, or under the same "
-#| "repository project/organization as the source code."
 msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
-"Übersetzungen müssen sich im selben Repository oder unter demselben "
-"Repository-Projekt/Organisation wie der Quellcode befinden."
+"Übersetzungen müssen sich im selben Repository wie der Quellcode befinden "
+"oder unter demselben Projekt/Organisation wie das Quellcode-Repository."
 
 #: weblate/templates/snippets/libre-basic.html:6
 msgid "Using Weblate has been approved by the upstream project."
 msgstr "Die Verwendung von Weblate wurde vom Upstreamprojekt genehmigt."
 
 #: weblate/templates/snippets/libre-basic.html:7
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
 "Erwähnen Sie in der README, dass Sie Weblate für Übersetzungen verwenden. Es "
-"wird Weblate helfen, für weitere Projekte frei zu sein und neue Übersetzer "
-"zu gewinnen."
+"wird neue Übersetzer anziehen und Weblate dabei helfen, für weitere Projekte "
+"frei zu sein."
 
 #: weblate/templates/snippets/libre-basic.html:8
 msgid "The project has had active development for at least three months."
@@ -8990,10 +8982,8 @@ msgid "This translation"
 msgstr "Diese Übersetzung"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Übersetzt"
+msgstr "Weitergegeben"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9190,16 +9180,12 @@ msgstr[1] ""
 "Die folgenden Zeichenketten haben andere Quellen aber den denselben Kontext."
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Verbreitung von Übersetzungen erlauben"
+msgstr "Ausgewählte Übersetzung auf alle weitergegebenen Zeichenketten anwenden"
 
 #: weblate/templates/translate.html:318
-#, fuzzy
-#| msgid "Upload translation strings"
 msgid "Apply selected translation to current string"
-msgstr "Übersetzungszeichenketten hochladen"
+msgstr "Ausgewählte Übersetzung auf aktuelle Zeichenkette anwenden"
 
 #: weblate/templates/translate.html:350
 msgid "Origin"
@@ -10196,10 +10182,10 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Bitte geben Sie zur Bestätigung die Ausgangsform des Projekts ein."
 
 #: weblate/trans/forms.py:2025
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Bitte geben Sie zur Bestätigung die Ausgangsform des Projekts ein."
+msgstr ""
+"Bitte geben Sie zur Bestätigung die Ausgangsform des Projekts und die "
+"Sprache ein."
 
 #: weblate/trans/forms.py:2052
 msgid "Author username"
@@ -11752,13 +11738,11 @@ msgid "This translation does not yet exist."
 msgstr "Diese Übersetzung existiert noch nicht."
 
 #: weblate/trans/templatetags/translations.py:758
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s Zeichenkette mit Handlungsbedarf"
-msgstr[1] "%(count)s Zeichenketten mit Handlungsbedarf"
+msgstr[0] "%(count)s Zeichenkette wird hier nicht übersetzt."
+msgstr[1] "%(count)s Zeichenketten werden hier nicht übersetzt."
 
 #: weblate/trans/templatetags/translations.py:785
 msgid "enabled"

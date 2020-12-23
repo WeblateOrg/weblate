@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-10 20:03+0000\n"
-"PO-Revision-Date: 2020-12-21 17:29+0000\n"
+"PO-Revision-Date: 2020-12-23 11:46+0000\n"
 "Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -6454,10 +6454,9 @@ msgid "Cleanup"
 msgstr "Opprydding"
 
 #: weblate/templates/js/git-status.html:126
-#, fuzzy, python-format
-#| msgid "Repository failure in %(component)s"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Datalager for %(komponent)s"
+msgstr "Datalager for %(component)s"
 
 #: weblate/templates/js/git-status.html:132
 msgid "Repository details"
@@ -7148,7 +7147,7 @@ msgstr "Kommersiell vertstjeneste"
 
 #: weblate/templates/manage/billing.html:16
 msgid "Libre"
-msgstr ""
+msgstr "Fri programvare"
 
 #: weblate/templates/manage/index.html:23
 #: weblate/wladmin/templates/admin/weblate-index.html:14
@@ -7459,6 +7458,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "for adding another one."
 msgstr ""
+"Denne listen inneholder kun grunnleggende språk. Ta kontakt med "
+"prosjektvedlikeholderen for å legge til et språk."
 
 #: weblate/templates/new-language.html:41
 msgid "Request new translation"
@@ -8480,6 +8481,8 @@ msgstr "Legg til en ettspråklig basis-språkfil i komponentinnstillingene."
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
+"Dette prosjektet oppfyller ikke lenger fri programvarekravene for "
+"gratistjenesten."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -10191,15 +10194,13 @@ msgstr "Legg til skjermbilde"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:312
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Språkkode"
+msgstr "Tvetydig språkkode."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "Oppfyller ikke fri programvarekravene for gratistjenesten."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -11601,13 +11602,11 @@ msgid "This translation does not yet exist."
 msgstr "Oversettelsen er låst."
 
 #: weblate/trans/templatetags/translations.py:758
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s streng som trenger handling"
-msgstr[1] "%(count)s strenger som trenger handling"
+msgstr[0] "%(count)s streng blir ikke oversatt her."
+msgstr[1] "%(count)s strenger blir ikke oversatt her."
 
 #: weblate/trans/templatetags/translations.py:785
 msgid "enabled"
