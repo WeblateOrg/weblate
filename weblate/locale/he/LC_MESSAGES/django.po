@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-23 13:18+0000\n"
-"PO-Revision-Date: 2020-12-13 10:29+0000\n"
+"PO-Revision-Date: 2020-12-23 22:11+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -165,10 +165,8 @@ msgid "Use default setting"
 msgstr "שימוש בהגדרות בררת המחדל"
 
 #: weblate/accounts/forms.py:663
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "מיזמים במעקב"
+msgstr "מיזמים אחרים"
 
 #: weblate/accounts/forms.py:665 weblate/accounts/models.py:406
 #: weblate/templates/accounts/profile.html:67
@@ -189,13 +187,9 @@ msgid "Component: {}"
 msgstr "רכיב: {}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr "אליך יגיעו התרעות על כל אירוע שכזה במיזמים שברשימת המעקב שלך."
+msgstr "אליך יגיעו התראות על כל אירוע שכזה במיזמים שאינם ברשימת המעקב שלך."
 
 #: weblate/accounts/forms.py:681
 msgid ""
@@ -220,16 +214,12 @@ msgid "You will receive a notification for every such event in %(component)s."
 msgstr "תגענה אליך התראות על כל אירוע שכזה בתוך %(component)s."
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"רק ההתרעות הנבחרות יגיעו אליך עבור השפות בהן יש לך פעילות במיזמים שברשימת "
-"המעקב שלך."
+"רק ההתראות הנבחרות יגיעו אליך עבור השפות בהן יש לך פעילות במיזמים שאינם "
+"ברשימת המעקב שלך."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -3801,10 +3791,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for libre project hosting"
-msgstr "בקשת אירוח מיזם"
+msgstr "בקשת אירוח מיזם חופשי"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -3813,10 +3801,8 @@ msgstr "הצגת תכניות אירוח"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Gratis trial for commercial hosting"
-msgstr "נא ליצור אתנו קשר לצורך אירוח מסחרי"
+msgstr "ניסיון בחינם לאירוח מסחרי"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -7600,26 +7586,14 @@ msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr "Weblate הוא מיזם תכנה חופשית שנוצר על ידי מתנדבים ומקבל תרומות."
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr ""
-"יתכן שבעיה זו קרתה עקב מינוי חסר או שחלק מאמצעי החיוב שלך פגו או חרגו "
-"מהמסגרת."
+msgstr "יתכן שבעיה זו קרתה עקב מינוי חסר."
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
-msgstr ""
-"יתכן שבעיה זו קרתה עקב מינוי חסר או שחלק מאמצעי החיוב שלך פגו או חרגו "
-"מהמסגרת."
+msgstr "יתכן שבעיה זו קרתה עקב כך שחלק מאמצעי החיוב שלך פגו או חרגו מהמסגרת."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -8772,7 +8746,7 @@ msgstr "רשימת השינויים האחרונים שבוצעו ב־Weblate"
 
 #: weblate/templates/translate.html:267
 msgid "Showing only subset of the strings as there were too many matches."
-msgstr ""
+msgstr "רק חלק מהמחרוזות מוצגות כיוון שיש יותר מדי תוצאות."
 
 #: weblate/templates/translate.html:277
 msgid "Difference to current string"
@@ -10417,7 +10391,7 @@ msgstr "הצבעה על הצעות"
 
 #: weblate/trans/models/component.py:416
 msgid "Users can only vote for suggestions and can’t make direct translations."
-msgstr ""
+msgstr "משתמשים יכולים להצביע להצעות ולא יכולים לתרגם ישירות."
 
 #: weblate/trans/models/component.py:420
 msgid "Autoaccept suggestions"
