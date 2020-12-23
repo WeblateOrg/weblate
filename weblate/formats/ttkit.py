@@ -760,6 +760,10 @@ class CSVUnit(MonolingualSimpleUnit):
         return self.unescape_csv(self.mainunit.getcontext())
 
     @cached_property
+    def locations(self):
+        return self.mainunit.location
+
+    @cached_property
     def source(self):
         # Needed to avoid Translate Toolkit construct ID
         # as context\04source
