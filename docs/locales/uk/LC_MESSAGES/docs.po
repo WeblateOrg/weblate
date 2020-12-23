@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 14:19+0100\n"
-"PO-Revision-Date: 2020-12-13 10:29+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2020-12-23 17:02+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -399,16 +399,12 @@ msgstr ""
 "Під час перевірки прав доступу до перекладу виконується додатковий крок:"
 
 #: ../../admin/access.rst:190
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Components` are matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "Group :guilabel:`Languages` are matched against accessed translations, it it "
 "ignored for component or project level access."
 msgstr ""
-"Встановлюється відповідність групи :guilabel:`Складники` складнику або "
-"проєкту для доступу (на рівні доступу до проєкту)."
+"Встановлюється відповідність групи :guilabel:`Мови` щодо доступних "
+"перекладів; буде проігноровано для доступу на рівні складників або проєктів."
 
 #: ../../admin/access.rst:194
 msgid ""
@@ -1531,17 +1527,14 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"Розташування створеного файла MO можна налаштувати. У полі для нього "
+"використовується :ref:`мова розмітки<markup>`."
 
 #: ../../admin/addons.rst:296
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "Оновити файли po, порівнявши із pot (msgmerge)"
 
 #: ../../admin/addons.rst:298
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files (as configured by :ref:`component-filemask`) to "
-#| "match the POT file (as configured by :ref:`component-new_base`) using "
-#| "msgmerge."
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
@@ -1549,7 +1542,7 @@ msgid ""
 msgstr ""
 "Оновлює усі файли PO (які налаштовано у :ref:`component-filemask`) так, щоб "
 "вони відповідали файлу POT (який налаштовано у :ref:`component-new_base`), "
-"за допомогою msgmerge."
+"за допомогою :program:`msgmerge`."
 
 #: ../../admin/addons.rst:301
 msgid ""
@@ -7960,13 +7953,16 @@ msgstr ":doc:`install/kubernetes`"
 
 #: ../../admin/deployments.rst:13
 msgid "Third-party deployments for Weblate"
-msgstr ""
+msgstr "Сторонні розгортання Weblate"
 
 #: ../../admin/deployments.rst:17
 msgid ""
 "Following deployments are not developed or supported by Weblate team. Parts "
 "of the setup might vary from what is described in this documentation."
 msgstr ""
+"Вказані нижче розгорнуті версії Weblate не є розробленими або "
+"супроводжуваними командою Weblate. Частини налаштувань цих версій можуть "
+"відрізнятися від описаних у цій документації."
 
 #: ../../admin/deployments.rst:21
 msgid "Bitnami Weblate stack"
@@ -7983,10 +7979,8 @@ msgstr ""
 "документацію наведено у <https://bitnami.com/stack/weblate/README.txt>."
 
 #: ../../admin/deployments.rst:29
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Weblate Cloudron Package"
-msgstr "Початковий код Weblate"
+msgstr "Пакунок Weblate Cloudron"
 
 #: ../../admin/deployments.rst:31
 msgid ""
@@ -7995,6 +7989,11 @@ msgid ""
 "to-date. The package is maintained by the Cloudron team at their `Weblate "
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
+"`Cloudron <https://cloudron.io/>`_ — платформа для самостійного утримання "
+"вебпрограм. Актуальність версії Weblate, яку встановлено з Cloudron, "
+"підтримуватиметься автоматично. Супровід пакунка здійснює команда Cloudron "
+"за допомогою власного `сховища пакунків Weblate <https://git.cloudron.io/"
+"cloudron/weblate-app>`_."
 
 #: ../../admin/deployments.rst:40
 msgid "Weblate in YunoHost"
@@ -8630,6 +8629,16 @@ msgid ""
 "``ALTER_ROLE`` to change name of the role Weblate should alter during the "
 "database migration."
 msgstr ""
+"Під час перенесення бази даних виконується `ALTER ROLE <https://www."
+"postgresql.org/docs/12/sql-alterrole.html>`_ щодо ролі у базі даних, яку "
+"використовує Weblate. У більшості випадків назва ролі збігається із іменем "
+"користувача. У складніших випадках назва ролі відрізняється від імені "
+"користувача, і ви побачите повідомлення про помилку щодо ролі, якої не "
+"існує, під час перенесення бази даних (``psycopg2.errors.UndefinedObject: "
+"role \"weblate@hostname\" does not exist``). Таке, як відомо, трапляється із "
+"базою даних Azure для PostgreSQL, але проблеми не обмежено лише цим "
+"середовищем. Будь ласка, встановіть значення ``ALTER_ROLE``, щоб змінити "
+"назву ролі, яку Weblate має поміняти під час перенесення бази даних."
 
 #: ../../admin/install.rst:398
 msgid "MySQL and MariaDB"
@@ -11592,10 +11601,6 @@ msgid "It defaults to number of processors + 1."
 msgstr "Типовим значенням є кількість процесорів + 1."
 
 #: ../../admin/install/docker.rst:1189
-#, fuzzy
-#| msgid ""
-#| "In case you have lot of CPU cores and hit out of memory issues, try "
-#| "reducing number of workers:"
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
@@ -11843,19 +11848,14 @@ msgid "Parameters"
 msgstr "Параметри"
 
 #: ../../admin/install/openshift.rst:43
-#, fuzzy
-#| msgid ""
-#| "The list of parameters that you can override are listed in the parameters "
-#| "section of the template. You can list them with the CLI by using the "
-#| "following command and specifying the file to be used:"
 msgid ""
 "The parameters that you can override are listed in the parameters section of "
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
 msgstr ""
-"Список параметрів, значення яких ви можете перевизначити, зазначено у "
-"розділі параметрів шаблона. Ви можете вивести цей список у командному рядку "
-"за допомогою вказаної нижче команди, у якій слід зазначити файл, який буде "
+"Параметри, значення яких ви можете перевизначити, зазначено у розділі "
+"параметрів шаблона. Ви можете вивести цей список у командному рядку за "
+"допомогою вказаної нижче команди, у якій слід зазначити файл, який буде "
 "використано:"
 
 #: ../../admin/install/openshift.rst:55
@@ -12306,13 +12306,6 @@ msgstr ""
 "замість ``cs_CZ``)."
 
 #: ../../admin/languages.rst:23
-#, fuzzy
-#| msgid ""
-#| "Should that also fail, a new language definition will be created using "
-#| "the defaults (left to right text direction, one plural) and naming of the "
-#| "language as :guilabel:`xx_XX (generated)`. You might want to change this "
-#| "in the admin interface later, (see :ref:`changing-languages`) and report "
-#| "it to the issue tracker (see :ref:`contributing`)."
 msgid ""
 "Should that also fail, a new language definition will be created using the "
 "defaults (left to right text direction, one plural). The automatically "
@@ -12323,11 +12316,12 @@ msgid ""
 "Weblate release."
 msgstr ""
 "Якщо і це не допоможе, нове визначення мови буде створено за допомогою "
-"типових значень (напрям запису тексту зліва праворуч, одна форма множини) із "
-"назвою мови :guilabel:`xx_XX (generated)`. Ви можете змінити цю назву "
-"пізніше за допомогою адміністративного інтерфейсу (див. :ref:`changing-"
-"languages`) і повідомити про помилку у системі стеження за вадами (see :ref:"
-"`contributing`)."
+"типових значень (напрям запису тексту зліва праворуч, одна форма множини). "
+"Автоматично створений запис мови із кодом ``xx_XX`` матиме назву :guilabel:`"
+"xx_XX (generated)`. Ви можете змінити цю назву пізніше за допомогою "
+"адміністративного інтерфейсу (див. :ref:`changing-languages`) і повідомити "
+"про помилку у системі стеження за вадами (see :ref:`contributing`), щоб "
+"належне визначення було додано у майбутньому випуску Weblate."
 
 #: ../../admin/languages.rst:33
 msgid ""
@@ -14629,12 +14623,6 @@ msgid "Usage"
 msgstr "Користування"
 
 #: ../../admin/optionals.rst:33
-#, fuzzy
-#| msgid ""
-#| "The module automatically hooks into Weblate and sets the exported "
-#| "repository URL in the :ref:`component`. The repositories are accessible "
-#| "under the ``/git/`` part of the Weblate URL, for example ``https://"
-#| "example.org/git/weblate/master/``:"
 msgid ""
 "The module automatically hooks into Weblate and sets the exported repository "
 "URL in the :ref:`component`. The repositories are accessible under the ``/"
@@ -14644,28 +14632,24 @@ msgstr ""
 "Модуль автоматично обробляє дані Weblate і встановлює адресу експортованого "
 "сховища у :ref:`компоненті <component>`. Доступ до сховищ можна отримати за "
 "частиною ``/git/`` адреси Weblate, наприклад ``https://example.org/git/"
-"weblate/master/``:"
+"weblate/master/``."
 
 #: ../../admin/optionals.rst:38
 msgid ""
 "Repositories for publicly available projects can be cloned without "
 "authentication:"
 msgstr ""
+"Сховища для загальнодоступних проєктів можна клонувати без розпізнавання:"
 
 #: ../../admin/optionals.rst:44
-#, fuzzy
-#| msgid ""
-#| "Repositories are available anonymously unless :ref:`acl` is turned on. "
-#| "This requires authenticate using your API token (it can be obtained in "
-#| "your :ref:`user-profile`):"
 msgid ""
 "Access to the repositories with restricted access (using :ref:`acl` or when :"
 "setting:`REQUIRE_LOGIN` is enabled) requires a API token which can be "
 "obtained in your :ref:`user-profile`:"
 msgstr ""
-"Доступ до сховищ є анонімним, якщо не увімкнено :ref:`acl`. Це потребує "
-"розпізнавання за допомогою ключа програмного інтерфейсу (його можна отримати "
-"у вашому :ref:`профілі користувача <user-profile>`):"
+"Доступ до сховищ із обмеженнями доступу (за допомогою :ref:`acl` або "
+"вмикання :setting:`REQUIRE_LOGIN`) потребує жетона програмного інтерфейсу, "
+"який можна отримати у вашому :ref:`профілі користувача <user-profile>`:"
 
 #: ../../admin/optionals.rst:56
 msgid "Billing"
@@ -14781,11 +14765,6 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Короткий огляд умов надання послуг та правил конфіденційності"
 
 #: ../../admin/optionals.rst:120
-#, fuzzy
-#| msgid ""
-#| "Legal documents for the Hosted Weblate service is available in this Git "
-#| "repository <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/"
-#| "templates/legal/documents>."
 msgid ""
 "Legal documents for the Hosted Weblate service are available in this Git "
 "repository <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/"
@@ -16854,15 +16833,6 @@ msgid "Translation process"
 msgstr "Процес перекладу"
 
 #: ../../admin/translating.rst:9
-#, fuzzy
-#| msgid ""
-#| "Everyone can add suggestions by default, to be accepted by signed in "
-#| "users. Suggestion voting can be used to make use of a string when more "
-#| "than signed in user agrees, by setting up the :ref:`component` "
-#| "configuration with :guilabel:`Suggestion voting` to turn on voting, and :"
-#| "guilabel:`Autoaccept suggestions` to set a threshold for accepted "
-#| "suggestions (this includes a vote from the user making the suggestion if "
-#| "it is cast)."
 msgid ""
 "Everyone can add suggestions by default, to be accepted by signed in users. "
 "Suggestion voting can be used to make use of a string when more than one "
@@ -16874,11 +16844,12 @@ msgstr ""
 "Типово, надсилати пропозиції може кожен, а приймати пропозиції можуть "
 "зареєстровані користувачі. Можна скористатися голосуванням за пропозиції, "
 "коли рядок використовується, лише якщо за нього проголосувала більшість "
-"зареєстрованих користувачів. Для цього у налаштуваннях :ref:"
-"`складника<component>` слід увімкнути :guilabel:`Голосування за пропозиції` "
-"і встановити порогове значення :guilabel:`Автоматичне прийняття пропозиції` "
-"для визначення порогового значення для прийнятих пропозицій (до голосів буде "
-"включено голос користувача, який вніс пропозицію, якщо він може голосувати)."
+"зареєстрованих користувачів. Для цього у налаштуваннях "
+":ref:`складника<component>` слід увімкнути :guilabel:`Голосування за "
+"пропозиції` і встановити порогове значення :guilabel:`Автоматичне прийняття "
+"пропозиції` для визначення порогового значення для прийнятих пропозицій (до "
+"голосів буде включено голос користувача, який вніс пропозицію, якщо він може "
+"голосувати)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -16936,22 +16907,16 @@ msgid "Additional info on source strings"
 msgstr "Додаткові відомості щодо початкових рядків"
 
 #: ../../admin/translating.rst:43
-#, fuzzy
-#| msgid ""
-#| "Enhance the translation process with info available in the translation "
-#| "files. This includes explanation, string priority, check flags, or "
-#| "providing visual context. All these features can be set while editing "
-#| "additional string info:"
 msgid ""
 "Enhance the translation process by adding additional info to the strings "
 "including explanations, string priorities, check flags and visual context. "
 "Some of that info may be extracted from the translation files and some may "
 "be added by editing the additional string info:"
 msgstr ""
-"Удоскональте процес перекладу наданням даних, які будуть доступними у "
-"файлах, які перекладають. Ці дані включають пояснення, пріоритетність рядка, "
-"прапорці та візуальний контекст. Усі ці можливості можна налаштувати під час "
-"редагування додаткових відомостей щодо рядка:"
+"Удоскональте процес перекладу наданням даних щодо рядків, зокрема пояснень, "
+"пріоритетності рядків, прапорців перевірки та візуального контексту. Деякі з "
+"цих даних може бути видобути з файлів перекладу, а деякі можна додати під "
+"час редагування додаткових відомостей щодо рядка:"
 
 #: ../../admin/translating.rst:50
 msgid ""
@@ -16967,16 +16932,12 @@ msgid "Strings prioritization"
 msgstr "Встановлення пріоритетності рядків"
 
 #: ../../admin/translating.rst:60
-#, fuzzy
-#| msgid ""
-#| "String priority can be changed to offer higher priority strings for "
-#| "translation earlier by using the ``priority`` flag"
 msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag."
 msgstr ""
 "Пріоритетність рядків може бути змінено так, щоб рядки з вищою "
-"пріоритетністю було перекладено раніше, за допомогою прапорця ``пріоритет``"
+"пріоритетністю було перекладено раніше, за допомогою прапорця ``пріоритет``."
 
 #: ../../admin/translating.rst:65
 msgid "This can be used to order the flow of translation in a logical manner."
@@ -17009,10 +16970,8 @@ msgid "Explanation"
 msgstr "Пояснення"
 
 #: ../../admin/translating.rst:90
-#, fuzzy
-#| msgid "In previous version this has been called extra context."
 msgid "In previous versions this has been called :guilabel:`Extra context`."
-msgstr "У попередній версії це називалося додатковим контекстом."
+msgstr "У попередніх версіях це називалося :guilabel:`додатковим контекстом`."
 
 #: ../../admin/translating.rst:92
 msgid ""
@@ -17440,12 +17399,12 @@ msgid "Upgrade from 4.3 to 4.4"
 msgstr "Оновлення з 4.3 до 4.4"
 
 #: ../../admin/upgrade.rst:176
-#, fuzzy
-#| msgid "There is a change in :setting:`django:INSTALLED_APPS`."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
 "configuration`` has to be added there."
-msgstr "Змінено :setting:`django:INSTALLED_APPS`."
+msgstr ""
+"Змінено :setting:`django:INSTALLED_APPS`, тут слід додавати ``weblate."
+"configuration``."
 
 #: ../../admin/upgrade.rst:177
 msgid "Django 3.1 is now required."
@@ -17465,6 +17424,10 @@ msgid ""
 "``msgctxt`` when present. This will change IDs of units in such files. "
 "Please make sure you commit pending changes in such files prior upgrading."
 msgstr ""
+"**Змінено у 4.4.1:** :ref:`mono_gettext` у новій версії використовує одразу "
+"``msgid`` і ``msgctxt``, якщо такі поля є. Це змінює ідентифікатори модулів "
+"у відповідних файлах. Будь ласка, переконайтеся, що зміни з черги для таких "
+"файлів записано до сховища, перш ніж виконувати оновлення."
 
 #: ../../admin/upgrade.rst:186
 msgid "Upgrading from Python 2 to Python 3"
@@ -18460,10 +18423,8 @@ msgid ":ref:`project-language_aliases`"
 msgstr ":ref:`project-language_aliases`"
 
 #: ../../api.rst:802
-#, fuzzy
-#| msgid "Edit a project by a patch request."
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr "Редагувати проєкт розміщенням запиту щодо латання."
+msgstr "Редагувати проєкт розміщенням запиту :http:method:`PATCH`."
 
 #: ../../api.rst:806 ../../api.rst:1080 ../../api.rst:1177 ../../api.rst:1260
 #: ../../api.rst:1280 ../../api.rst:1290 ../../api.rst:1300 ../../api.rst:1311
@@ -18476,10 +18437,8 @@ msgid "Component URL slug"
 msgstr "Ідентифікатор адрес складника"
 
 #: ../../api.rst:813
-#, fuzzy
-#| msgid "Edit a project by a patch request."
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr "Редагувати проєкт розміщенням запиту щодо латання."
+msgstr "Редагувати проєкт розміщенням запиту :http:method:`PUT`."
 
 #: ../../api.rst:822
 msgid "Deletes a project."
@@ -18826,10 +18785,8 @@ msgstr ""
 "(str:uuid)/`"
 
 #: ../../api.rst:1173
-#, fuzzy
-#| msgid "Edit a component by a patch request."
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr "Редагувати складник розміщенням запиту щодо латання."
+msgstr "Редагувати складник розміщенням запиту :http:method:`PATCH`."
 
 #: ../../api.rst:1179
 msgid "Project source language code (optional)"
@@ -18848,10 +18805,8 @@ msgid "VCS repository URL"
 msgstr "адреса сховища системи керування версіями"
 
 #: ../../api.rst:1256
-#, fuzzy
-#| msgid "Edit a component by a patch request."
 msgid "Edit a component by a :http:method:`PUT` request."
-msgstr "Редагувати складник розміщенням запиту щодо латання."
+msgstr "Редагувати складник розміщенням запиту :http:method:`PUT`."
 
 #: ../../api.rst:1262
 msgid "VCS repository branch"
@@ -19796,8 +19751,6 @@ msgid "Task UUID"
 msgstr "UUID завдання"
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "Whether task has completed"
 msgid "Whether the task has completed"
 msgstr "Чи виконано завдання"
 
@@ -20138,59 +20091,47 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.3.1"
 msgid "Weblate 4.4.1"
-msgstr "Weblate 4.3.1"
+msgstr "Weblate 4.4.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed reverting changes from the history."
 msgid "Fixed revering plural changes."
-msgstr "Виправлення показ змін із скасуванням у журналі."
+msgstr "Виправлено скасування змін у формах множини."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed lock indication on project listing."
 msgid "Fixed displaying help for project settings."
-msgstr "Виправлено індикатор блокування у списку проєктів."
+msgstr "Виправлено показ довідки до параметрів проєкту."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved admin interface for groups."
 msgid "Improved administering of users."
-msgstr "Удосконалено адміністративний інтерфейс для груп."
+msgstr "Удосконалено адміністрування записів користувачів."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Improved handling of monolingual XLIFF files."
 msgid "Improved handling of context in monolingual PO files."
-msgstr "Удосконалено обробку одномовних файлів XLIFF."
+msgstr "Удосконалено обробку контексту у одномовних файлах PO."
 
 #: ../../changes.rst:10
 msgid ""
 "Fixed cleanup addon behavior with HTML, ODF, IDML and Windows RC formats."
 msgstr ""
+"Виправлено поведінку додатка очищення при роботі з форматами HTML, ODF, IDML "
+"і Windows RC."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Fixed listing of managed projects in profile."
 msgid "Fixed parsing of location from CSV files."
-msgstr "Виправлено побудову списку керованих проєктів у профілі."
+msgstr "Виправлено обробку місця у файлах CSV."
 
 #: ../../changes.rst:14
 msgid "Weblate 4.4"
 msgstr "Weblate 4.4"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Released on December 15th 2017."
 msgid "Released on December 15th 2020."
-msgstr "Випущено 15 грудня 2017 року."
+msgstr "Випущено 15 грудня 2020 року."
 
 #: ../../changes.rst:18
 msgid "Improved validation when creating component."
@@ -20249,10 +20190,8 @@ msgstr ""
 "нових перекладів."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Extended search capabilities for changes history."
 msgid "Extended search capabilities for changes in history."
-msgstr "Розширено можливості пошуку для дієпису."
+msgstr "Розширено можливості пошуку для змін у журналі."
 
 #: ../../changes.rst:31
 msgid "Improved billing detail pages and libre hosting workflow."
@@ -20277,34 +20216,26 @@ msgid "Improved file upload performance."
 msgstr "Вдосконалено механізми завантаження файлів."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid "Improved displaying of translation changes."
 msgid "Improved display of user defined special characters."
-msgstr "Удосконалено показ змін у перекладі."
+msgstr "Удосконалено показ визначених користувачем спеціальних символів."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Improved automatic translation performance."
 msgid "Improved auto translate performance."
 msgstr "Удосконалено швидкодію автоматизованого перекладу."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Various performance improvements."
 msgid "Several minor user interface improvements."
-msgstr "Різноманітні удосконалення швидкодії."
+msgstr "Декілька незначних удосконалень інтерфейсу користувача."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Improved performance of file downloads."
 msgid "Improved naming of ZIP downloads."
-msgstr "Поліпшено швидкодію під час отримання файлів."
+msgstr "Удосконалено схему іменування отримуваних файлів ZIP."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Added support for notifications on repository operations."
 msgid "Added option for getting notifications on unwatched projects."
-msgstr "Додано підтримку сповіщень щодо дій у сховищі."
+msgstr ""
+"Додано пункт для отримання сповіщень щодо проєктів, за якими не ведеться "
+"спостереження."
 
 #: ../../changes.rst:43
 msgid "Weblate 4.3.2"
@@ -26937,7 +26868,7 @@ msgstr "Hello"
 
 #: ../../contributing/schemas.rst:9
 msgid "minLength"
-msgstr ""
+msgstr "minLength"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source\\_language**"
@@ -26960,10 +26891,8 @@ msgid "pattern"
 msgstr "взірець"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "^([^ ]+)$"
 msgid "^[^ ]+$"
-msgstr "^([^ ]+)$"
+msgstr "^[^ ]+$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
@@ -28347,12 +28276,6 @@ msgstr ""
 "використовуються у одній програмі)."
 
 #: ../../snippets/basics.rst:14
-#, fuzzy
-#| msgid ""
-#| "Internally, each project has translations to common strings propagated "
-#| "across other components within it by default. This lightens the burden of "
-#| "repetitive and multi version translation. The translation propagation can "
-#| "be disabled per :ref:`component` in case the translations should diverge."
 msgid ""
 "Internally, each project has translations to common strings propagated "
 "across other components within it by default. This lightens the burden of "
@@ -28363,8 +28286,10 @@ msgstr ""
 "На внутрішньому рівні, у кожному проєкті містяться переклади типових рядків, "
 "які типово поширюються на усі інші складники перекладу. Це полегшує роботу, "
 "усуваючи потребу у нудному повторному перекладі та ручному перенесенні "
-"перекладів між версіями. Поширення перекладів можна вимкнути на рівні :ref:"
-"`складника <component>`, якщо переклади мають відрізнятися."
+"перекладів між версіями. Поширення перекладів можна вимкнути на рівні :ref:`"
+"складника <component>` за допомогою :ref:`налаштування поширення перекладів "
+"<component-allow_translation_propagation>`, якщо переклади мають "
+"відрізнятися."
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -31071,12 +30996,13 @@ msgid ""
 "file lacks sections, you might want to use :ref:`joomla` or :ref:`javaprop` "
 "instead."
 msgstr ""
+"Weblate видобуває ключові слова лише з розділів у файлі INI. Якщо у файлі "
+"INI немає розділів, вам варто скористатися форматом :ref:`joomla` або "
+":ref:`javaprop`."
 
 #: ../../formats.rst:487
-#, fuzzy
-#| msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`islu`"
 msgid ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
-msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`islu`"
+msgstr ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
 
 #: ../../formats.rst:495
 msgid "Inno Setup INI translations"
@@ -31685,25 +31611,18 @@ msgstr ""
 "перекладів. У Weblate передбачено підтримку таких файлів:"
 
 #: ../../formats.rst:1023
-#, fuzzy
-#| msgid ""
-#| "Files with header defining fields (source, translation, location, …). "
-#| "This is the recommended approach, as it is the least error prone."
 msgid ""
 "Files with header defining fields (``location``, ``source``, ``target``, "
 "``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:``CSV file`` as a file format."
 msgstr ""
-"Файли із визначенням полів у заголовку (початковий рядок, переклад, "
-"розташування…). Цей підхід є рекомендованим, оскільки зменшує ймовірність "
-"помилки."
+"Файли із визначенням полів у заголовку (``location``, ``source``, ``target``"
+", ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
+"``developer_comments``). Цей підхід є рекомендованим, оскільки зменшує "
+"ймовірність помилки. Виберіть формат файлів :guilabel:``файл CSV``."
 
 #: ../../formats.rst:1027
-#, fuzzy
-#| msgid ""
-#| "Files with two fields—source and translation (in this order), choose :"
-#| "guilabel:`Simple CSV file` as file format"
 msgid ""
 "Files with two fields—source and translation (in this order), choose :"
 "guilabel:`Simple CSV file` as a file format"
@@ -31712,29 +31631,22 @@ msgstr ""
 "порядку) — виберіть :guilabel:`Простий файл CSV` у полі формату файлів"
 
 #: ../../formats.rst:1029
-#, fuzzy
-#| msgid ""
-#| "Files with fields as defined by translate-toolkit: location, source, "
-#| "target, ID, fuzzy, context, translator_comments, developer_comments"
 msgid ""
 "Headerless files with fields in order defined by translate-toolkit: "
 "location, source, target, ID, fuzzy, context, translator_comments, "
 "developer_comments Choose :guilabel:``CSV file`` as a file format."
 msgstr ""
-"Файли із полями, які визначено у translate-toolkit: location, source, "
-"target, ID, fuzzy, context, translator_comments, developer_comments"
+"Файли без заголовків із полями, які визначено порядком у translate-toolkit: "
+"location, source, target, ID, fuzzy, context, translator_comments, "
+"developer_comments. Виберіть формат файлів :guilabel:``файл CSV``."
 
 #: ../../formats.rst:1032
-#, fuzzy
-#| msgid ""
-#| "Remember to define :ref:`component-template` when your files are "
-#| "monolingual (see :ref:`bimono`)"
 msgid ""
 "Remember to define :ref:`component-template` when your files are monolingual "
 "(see :ref:`bimono`)."
 msgstr ""
-"Не забудьте визначити :ref:`component-template` коли ваші файли одномовні "
-"(гляньте :ref:`bimono`)"
+"Не забудьте визначити :ref:`component-template` коли ваші файли одномовні ("
+"гляньте :ref:`bimono`)."
 
 #: ../../formats.rst:1037
 msgid ""
@@ -34697,6 +34609,8 @@ msgstr "Доступ до API"
 #: ../../user/profile.rst:179
 msgid "You can get or reset your API access token here."
 msgstr ""
+"Тут ви можете отримати або скинути ваш жетон доступу до програмного "
+"інтерфейсу."
 
 #: ../../user/profile.rst:184
 msgid "Audit log"
@@ -35476,10 +35390,10 @@ msgid ":kbd:`Cmd Shift Enter`"
 msgstr ":kbd:`Cmd Shift Enter`"
 
 #: ../../user/translating.rst:183
-#, fuzzy
-#| msgid "Unmarks translation as fuzzy and submits it."
 msgid "Unmarks translation as need edit and submits it."
-msgstr "Скасовує позначення перекладу як неточного і надсилає його до сховища."
+msgstr ""
+"Скасовує позначення перекладу як такого, що потребує редагування, і надсилає "
+"його до сховища."
 
 #: ../../user/translating.rst:187
 msgid ":kbd:`Ctrl E` or"
