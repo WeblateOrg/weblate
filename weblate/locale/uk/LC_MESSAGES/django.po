@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-23 13:18+0000\n"
-"PO-Revision-Date: 2020-12-21 17:29+0000\n"
+"PO-Revision-Date: 2020-12-23 17:01+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -179,10 +179,8 @@ msgid "Use default setting"
 msgstr "Використовувати усталене значення"
 
 #: weblate/accounts/forms.py:663
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Відстежувані проєкти"
+msgstr "Інші проєкти"
 
 #: weblate/accounts/forms.py:665 weblate/accounts/models.py:406
 #: weblate/templates/accounts/profile.html:67
@@ -203,14 +201,11 @@ msgid "Component: {}"
 msgstr "Складник: {}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Ви отримуватимете сповіщення про кожну з цих подій у відстежуваних проєктах."
+"Ви отримуватимете сповіщення про кожну з цих подій у проєктах, за якими ви "
+"не стежите."
 
 #: weblate/accounts/forms.py:681
 msgid ""
@@ -239,16 +234,12 @@ msgstr ""
 "Ви будете отримувати повідомлення про кожну таку подію у %(component)s."
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Ви отримуватимете ці сповіщення лише для мов, на які ви перекладаєте у "
-"відстежуваних вами проєктах."
+"Ви отримуватимете ці сповіщення лише для мов, якими ви перекладаєте, у "
+"проєктахд, за якими ви не стежите."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -3908,10 +3899,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for libre project hosting"
-msgstr "Запитатися про хостинг проєкту"
+msgstr "Попросити про утримання вільного проєкту"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -3920,10 +3909,8 @@ msgstr "Переглянути тарифні плани хостингу"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Gratis trial for commercial hosting"
-msgstr "Зв'яжіться з нами, що до комерційного хостингу"
+msgstr "Безкоштовне тестування для утримання комерційного проєкту"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -7824,26 +7811,16 @@ msgstr ""
 "приймає пожертви."
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr ""
-"Це може бути викликано відсутністю підписки, закінченням терміну дії деяких "
-"з ваших платежів чи перевищенням лімітів."
+msgstr "Це може бути викликано тим, що не оформлено передплату."
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
 msgstr ""
-"Це може бути викликано відсутністю підписки, закінченням терміну дії деяких "
-"з ваших платежів чи перевищенням лімітів."
+"Це може бути викликано закінченням терміну дії деяких з ваших платежів чи "
+"перевищенням лімітів."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -9044,7 +9021,7 @@ msgstr "Список останніх змін у Weblate"
 
 #: weblate/templates/translate.html:267
 msgid "Showing only subset of the strings as there were too many matches."
-msgstr ""
+msgstr "Показано лише частину рядків, оскільки відповідників надто багато."
 
 #: weblate/templates/translate.html:277
 msgid "Difference to current string"
@@ -10728,6 +10705,8 @@ msgstr "Голосування за пропозицію"
 #: weblate/trans/models/component.py:416
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
+"Користувачі можуть лише голосувати за пропозиції і не можуть виконувати "
+"безпосередній переклад."
 
 #: weblate/trans/models/component.py:420
 msgid "Autoaccept suggestions"
