@@ -1304,17 +1304,23 @@ Background tasks using Celery
 
 .. versionadded:: 3.2
 
-Weblate uses Celery to process background tasks. The example settings come with
-eager configuration, which does process all tasks in place, but you want to
-change this to something more reasonable for a production setup.
-
-A typical setup using Redis as a backend looks like this:
+Weblate uses Celery to process background tasks. A typical setup using Redis as
+a backend looks like this:
 
 .. code-block:: python
 
    CELERY_TASK_ALWAYS_EAGER = False
    CELERY_BROKER_URL = "redis://localhost:6379"
    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+For development, you might want to use eager configuration, which does process
+all tasks in place, but this will have performance impact on Weblate:
+
+.. code-block:: python
+
+   CELERY_TASK_ALWAYS_EAGER = True
+   CELERY_BROKER_URL = "memory://"
+   CELERY_TASK_EAGER_PROPAGATES = True
 
 You should also start the Celery worker to process the tasks and start
 scheduled tasks, this can be done directly on the command line (which is mostly
