@@ -180,7 +180,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd Enter`                          |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl Shift Enter` or                | Unmarks translation as fuzzy and submits it.                          |
+| :kbd:`Ctrl Shift Enter` or                | Unmarks translation as need edit and submits it.                      |
 |                                           |                                                                       |
 | :kbd:`Cmd Shift Enter`                    |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
