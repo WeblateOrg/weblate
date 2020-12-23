@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-23 13:18+0000\n"
-"PO-Revision-Date: 2020-12-14 13:29+0000\n"
+"PO-Revision-Date: 2020-12-23 17:02+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -171,10 +171,8 @@ msgid "Use default setting"
 msgstr "Standaardinstelling gebruiken"
 
 #: weblate/accounts/forms.py:663
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Gevolgde projecten"
+msgstr "Andere projecten"
 
 #: weblate/accounts/forms.py:665 weblate/accounts/models.py:406
 #: weblate/templates/accounts/profile.html:67
@@ -195,14 +193,10 @@ msgid "Component: {}"
 msgstr "Onderdeel: {}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"U ontvangt een melding bij elke gebeurtenis van dit type in uw gevolgde "
+"U ontvangt een melding bij elke gebeurtenis van dit type van niet-gevolgde "
 "projecten."
 
 #: weblate/accounts/forms.py:681
@@ -234,16 +228,12 @@ msgstr ""
 "U ontvangt een melding bij elke gebeurtenis van dit type in %(component)s."
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
 "U ontvangt deze meldingen alleen van door u toegevoegde vertalingen van de "
-"projecten die u volgt."
+"projecten die u niet volgt."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -3899,10 +3889,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for libre project hosting"
-msgstr "Aanvraag voor het hosten van een project"
+msgstr "Aanvraag voor vrijesoftwarehosting"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -3911,10 +3899,8 @@ msgstr "Hostingpakketten bekijken"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Gratis trial for commercial hosting"
-msgstr "Neem contact met ons op voor commerciële hosting"
+msgstr "Gratis proefperiode voor commerciële hosting"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -7790,28 +7776,16 @@ msgstr ""
 "aanvaardt."
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr ""
-"Dit kan veroorzaakt worden door een ontbrekend abonnement of door het feit "
-"dat sommige van uw facturen achterstallig of te lang voorbij de vervaldag "
-"zijn."
+msgstr "Dit kan veroorzaakt worden door een ontbrekend abonnement."
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
 msgstr ""
-"Dit kan veroorzaakt worden door een ontbrekend abonnement of door het feit "
-"dat sommige van uw facturen achterstallig of te lang voorbij de vervaldag "
-"zijn."
+"Dit kan veroorzaakt worden door het feit dat sommige van uw facturen "
+"achterstallig of te lang voorbij de vervaldag zijn."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -9025,6 +8999,8 @@ msgstr "Lijst met recente wijzigingen in Weblate"
 #: weblate/templates/translate.html:267
 msgid "Showing only subset of the strings as there were too many matches."
 msgstr ""
+"Er wordt slechts een deel van de tekenreeksen getoond omdat er te veel "
+"overeenkomsten waren."
 
 #: weblate/templates/translate.html:277
 msgid "Difference to current string"
@@ -10711,6 +10687,7 @@ msgstr "Stemmen voor suggesties"
 #: weblate/trans/models/component.py:416
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
+"Gebruikers kunnen alleen stemmen op suggesties en geen vertalingen doen."
 
 #: weblate/trans/models/component.py:420
 msgid "Autoaccept suggestions"
