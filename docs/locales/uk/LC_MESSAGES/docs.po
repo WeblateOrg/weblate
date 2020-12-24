@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-24 13:48+0100\n"
-"PO-Revision-Date: 2020-12-23 17:02+0000\n"
+"PO-Revision-Date: 2020-12-25 09:37+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -80,19 +80,14 @@ msgid "Locking down Weblate"
 msgstr "Блокування Weblate"
 
 #: ../../admin/access.rst:30
-#, fuzzy
-#| msgid ""
-#| "To completely lock down your Weblate installation, you can use :setting:"
-#| "`REQUIRE_LOGIN` to force users to sign in and :setting:"
-#| "`REGISTRATION_OPEN` to prevent new registrations."
 msgid ""
 "To completely lock down your Weblate, you can use :setting:`REQUIRE_LOGIN` "
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
-"Щоб повністю заблокувати встановлення Weblate, ви можете скористатися :"
-"setting:`REQUIRE_LOGIN`, щоб змусити користувачів входити до системи та :"
-"setting:`REGISTRATION_OPEN`, щоб запобігти новим реєстраціям користувачів."
+"Щоб повністю заблокувати Weblate, ви можете скористатися "
+":setting:`REQUIRE_LOGIN`, щоб змусити користувачів входити до системи та "
+":setting:`REGISTRATION_OPEN`, щоб запобігти новим реєстраціям користувачів."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -404,10 +399,6 @@ msgstr ""
 "Під час перевірки прав доступу до перекладу виконується додатковий крок:"
 
 #: ../../admin/access.rst:190
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Languages` are matched against accessed translations, it "
-#| "it ignored for component or project level access."
 msgid ""
 "Group :guilabel:`Languages` are matched against accessed translations, it is "
 "ignored for component or project level access."
@@ -8627,17 +8618,6 @@ msgid "The :file:`settings.py` snippet for PostgreSQL:"
 msgstr "Фрагмент :file:`settings.py` для PostgreSQL:"
 
 #: ../../admin/install.rst:385
-#, fuzzy
-#| msgid ""
-#| "The database migration performs `ALTER ROLE <https://www.postgresql.org/"
-#| "docs/12/sql-alterrole.html>`_ on database role used by Weblate. In most "
-#| "cases the name of the role matches username. In more complex setups the "
-#| "role name is different than username and you will get error about non-"
-#| "existing role during the database migration (``psycopg2.errors."
-#| "UndefinedObject: role \"weblate@hostname\" does not exist``). This is "
-#| "known to happen with Azure Database for PostgreSQL, but it's not limited "
-#| "to this evironment. Please set ``ALTER_ROLE`` to change name of the role "
-#| "Weblate should alter during the database migration."
 msgid ""
 "The database migration performs `ALTER ROLE <https://www.postgresql.org/"
 "docs/12/sql-alterrole.html>`_ on database role used by Weblate. In most "
@@ -9978,18 +9958,21 @@ msgid "Background tasks using Celery"
 msgstr "Фонові завдання з використанням Celery"
 
 #: ../../admin/install.rst:1307
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid ""
 "Weblate uses Celery to process background tasks. A typical setup using Redis "
 "as a backend looks like this:"
-msgstr "Типова конфігурація з використанням модуля обробки Redis виглядає так:"
+msgstr ""
+"Weblate використовує Celery для обробки фонових завдань. Типова конфігурація "
+"з використанням модуля обробки Redis виглядає так:"
 
 #: ../../admin/install.rst:1316
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place, but this will have performance impact on Weblate:"
 msgstr ""
+"Для розробки варто скористатися інтенсивнішими налаштуваннями, за яких "
+"обробка усіх завдань відбувається на місці. Втім, такі налаштування значно "
+"впливають на швидкодію Weblate:"
 
 #: ../../admin/install.rst:1325
 msgid ""
@@ -20117,8 +20100,6 @@ msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed revering plural changes."
 msgid "Fixed reverting plural changes."
 msgstr "Виправлено скасування змін у формах множини."
 
