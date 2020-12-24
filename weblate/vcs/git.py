@@ -752,11 +752,14 @@ class GithubRepository(GitMergeRequestBase):
             error_message = data["message"]
             self.log(data["message"], level=logging.INFO)
         if "errors" in data:
+            messages = []
             for error in data["errors"]:
-                self.log(error.get("message", str(error)), level=logging.WARNING)
+                line = error.get("message", str(error))
+                messages.append(line)
+                self.log(line, level=logging.WARNING)
             if error_message:
                 error_message += ": "
-            error_message += ", ".join(error["message"] for error in data["errors"])
+            error_message += ", ".join(messages)
 
         return data, error_message
 
