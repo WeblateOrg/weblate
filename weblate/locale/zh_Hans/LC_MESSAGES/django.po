@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-23 13:18+0000\n"
-"PO-Revision-Date: 2020-12-11 14:51+0000\n"
+"PO-Revision-Date: 2020-12-24 12:38+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -185,10 +185,8 @@ msgid "Use default setting"
 msgstr "使用默认设置"
 
 #: weblate/accounts/forms.py:663
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "已关注项目"
+msgstr "其他项目"
 
 #: weblate/accounts/forms.py:665 weblate/accounts/models.py:406
 #: weblate/templates/accounts/profile.html:67
@@ -209,13 +207,9 @@ msgid "Component: {}"
 msgstr "组件：{}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr "您将收到您关注的各项目的此类通知。"
+msgstr "您将收到未关注项目中每一个此类事件的通知。"
 
 #: weblate/accounts/forms.py:681
 msgid ""
@@ -240,14 +234,10 @@ msgid "You will receive a notification for every such event in %(component)s."
 msgstr "您将收到 %(component)s 的各项目的此类通知。"
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
-msgstr "您将只收到在您关注项目中您参与翻译的语言的这些通知。"
+msgstr "您将只收到未关注项目中您参与翻译的语言的这些通知。"
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -3771,10 +3761,8 @@ msgstr "我们也能提供收费托管，起价每月19欧元，更多细节请�
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for libre project hosting"
-msgstr "请求项目托管"
+msgstr "请求自由开源项目托管"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -3783,10 +3771,8 @@ msgstr "查看托管套餐"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Gratis trial for commercial hosting"
-msgstr "关于收费托管，请联系我们"
+msgstr "商业托管的免费试用"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -7432,22 +7418,14 @@ msgid "Weblate is libre software created by volunteers, and accepts donations."
 msgstr "Weblate 是由志愿者创建的自由软件，它同时接受捐赠。"
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr "这可能是因为您没有订阅，或是您的付费套餐已过期或超过限额。"
+msgstr "这可能是因为缺少订阅造成的。"
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
-msgstr "这可能是因为您没有订阅，或是您的付费套餐已过期或超过限额。"
+msgstr "这可能是由于你的一些账单过期未付或超过限额造成的。"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -8573,7 +8551,7 @@ msgstr "在 Weblate 中最近所做的修改"
 
 #: weblate/templates/translate.html:267
 msgid "Showing only subset of the strings as there were too many matches."
-msgstr ""
+msgstr "因为匹配项太多，仅显示字符串的子集。"
 
 #: weblate/templates/translate.html:277
 msgid "Difference to current string"
@@ -10183,7 +10161,7 @@ msgstr "建议投票"
 
 #: weblate/trans/models/component.py:416
 msgid "Users can only vote for suggestions and can’t make direct translations."
-msgstr ""
+msgstr "用户只能对建议进行投票，不能直接进行翻译。"
 
 #: weblate/trans/models/component.py:420
 msgid "Autoaccept suggestions"
