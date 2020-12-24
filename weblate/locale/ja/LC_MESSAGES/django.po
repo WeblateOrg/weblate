@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-23 13:18+0000\n"
-"PO-Revision-Date: 2020-12-19 21:30+0000\n"
+"PO-Revision-Date: 2020-12-24 12:38+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -180,10 +180,8 @@ msgid "Use default setting"
 msgstr "デフォルト設定の使用"
 
 #: weblate/accounts/forms.py:663
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "監視中のプロジェクト"
+msgstr "その他のプロジェクト"
 
 #: weblate/accounts/forms.py:665 weblate/accounts/models.py:406
 #: weblate/templates/accounts/profile.html:67
@@ -204,52 +202,37 @@ msgid "Component: {}"
 msgstr "コンポーネント: {}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr ""
-"監視中のプロジェクトで、これらのイベントが発生するたびに通知が届きます。"
+msgstr "監視していないプロジェクトでは、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:681
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
-msgstr ""
-"監視中のプロジェクトで、これらのイベントが発生するたびに通知が届きます。"
+msgstr "監視中のプロジェクトでは、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:686
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr ""
-"管理者権限を持っているプロジェクトで、これらのイベントが発生するたびに通知が"
-"届きます。"
+msgstr "管理者権限を持っているプロジェクトでは、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:691
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"%(project)s プロジェクトで、これらのイベントが発生するたびに通知が届きます。"
+msgstr "%(project)s プロジェクトでは、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:694
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"%(component)s コンポーネントで、これらのイベントが発生するたびに通知が届きま"
-"す。"
+msgstr "%(component)s コンポーネントでは、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
-msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
+msgstr "監視していないプロジェクトでは、翻訳の登録をした言語にのみ通知が届きます。"
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -390,7 +373,7 @@ msgstr "{username} さんから Weblate に招待されました。"
 
 #: weblate/accounts/models.py:101
 msgid "Started trial period."
-msgstr "試用期間の開始。"
+msgstr "無料体験を開始しました。"
 
 #: weblate/accounts/models.py:106
 msgid "Configured password to sign in."
@@ -854,21 +837,18 @@ msgstr "ホスティング"
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
-msgstr ""
-"先日、すでにお試し期間をご希望されているようです。ご希望の方は、お気軽にお問"
-"い合わせください。"
+msgstr "先日、すでに無料体験を申し込まれています。適切な解決策を見つけるために、お気軽にお問い合わせください。"
 
 #: weblate/accounts/views.py:558
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
-msgstr ""
-"試用期間を開始しました;　翻訳プロジェクトを作成し、Weblate を開始します！"
+msgstr "試用期間が終了しました;　翻訳プロジェクトを作成し、Weblate を開始しましょう！"
 
 #: weblate/accounts/views.py:564 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr "無料トライアル"
+msgstr "無料体験"
 
 #: weblate/accounts/views.py:658 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -1968,7 +1948,7 @@ msgstr "この役割に対して許可する権限を選択してください。
 
 #: weblate/auth/models.py:111
 msgid "Roles"
-msgstr "役割"
+msgstr "ロール"
 
 #: weblate/auth/models.py:113
 msgid "Choose roles granted to this group."
@@ -2137,7 +2117,7 @@ msgstr "請求担当者"
 #: weblate/billing/models.py:165 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:13
 msgid "Trial"
-msgstr "試用"
+msgstr "無料体験"
 
 #: weblate/billing/models.py:166 weblate/templates/billing/state-snippet.html:9
 #: weblate/templates/manage/billing.html:18
@@ -2151,7 +2131,7 @@ msgstr "請求状態"
 #: weblate/billing/models.py:175 weblate/templates/billing/list.html:13
 #: weblate/templates/billing/status.html:24
 msgid "Trial expiry date"
-msgstr "試用期限満了日"
+msgstr "無料体験有効期限"
 
 #: weblate/billing/models.py:182 weblate/templates/billing/list.html:16
 #: weblate/templates/billing/state-snippet.html:13
@@ -2350,11 +2330,11 @@ msgstr "ゼロ幅のスペース文字が含まれている翻訳"
 
 #: weblate/checks/chars.py:352 weblate/checks/flags.py:66
 msgid "Maximum length of translation"
-msgstr "翻訳文の最大長"
+msgstr "翻訳の最大文字数"
 
 #: weblate/checks/chars.py:353
 msgid "Translation should not exceed given length"
-msgstr "指定された長さを超えている翻訳文"
+msgstr "翻訳文は、設定した文字数を超えてはいけない"
 
 #: weblate/checks/chars.py:369
 msgid "Mismatched semicolon"
@@ -2490,7 +2470,7 @@ msgstr "優先順位"
 
 #: weblate/checks/flags.py:68
 msgid "Replacements while rendering"
-msgstr "表示処理中の代替"
+msgstr "表示中に置き換える"
 
 #: weblate/checks/flags.py:245
 #, python-format
@@ -2735,11 +2715,11 @@ msgstr "Qt 複数形式の文字列が原文と一致しません"
 
 #: weblate/checks/render.py:45
 msgid "Maximum size of translation"
-msgstr "翻訳の最大長"
+msgstr "翻訳の文字の最大サイズ"
 
 #: weblate/checks/render.py:46
 msgid "Translation rendered text should not exceed given size"
-msgstr "翻訳文字列は、決められた長さを超えてはいけません"
+msgstr "表示した翻訳のテキストは、設定した文字サイズを超えてはいけない"
 
 #: weblate/checks/ruby.py:68
 msgid "Ruby format"
@@ -3853,10 +3833,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for libre project hosting"
-msgstr "プロジェクトのホスティングを求める"
+msgstr "Libre プロジェクトのホスティングの依頼"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -3865,10 +3843,8 @@ msgstr "ホスティング プランの表示"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Gratis trial for commercial hosting"
-msgstr "商用ホスティングに関する連絡先"
+msgstr "商用ホスティングの無料体験"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -4101,7 +4077,7 @@ msgstr "登録"
 
 #: weblate/templates/accounts/hosting.html:15
 msgid "Trial subscriptions"
-msgstr "試用版のサブスクリプション"
+msgstr "サブスクリプションの無料体験"
 
 #: weblate/templates/accounts/hosting.html:24
 msgid "Translate your libre project"
@@ -4554,18 +4530,16 @@ msgstr "Weblate を試していただきありがとうございました！"
 
 #: weblate/templates/accounts/trial.html:20
 msgid "Your trial offer"
-msgstr "ご試用の申し込み"
+msgstr "無料体験の申し込み"
 
 #: weblate/templates/accounts/trial.html:23
 msgid "Your trial will last 14 days."
-msgstr "試用期間は残り 14 日間です。"
+msgstr "無料体験の試用期間は残り 14 日間です。"
 
 #: weblate/templates/accounts/trial.html:24
 msgid ""
 "Your trial will run the Enterprise plan, but you can choose any plan later."
-msgstr ""
-"試用版ではエンタープライズ プランとなっていますが、後でご希望のプランに変更で"
-"きます。"
+msgstr "無料体験版ではエンタープライズ プランとなっていますが、あとから希望するプランに変更できます。"
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -4577,7 +4551,7 @@ msgstr "支払いをすれば、設定は保存されます。"
 
 #: weblate/templates/accounts/trial.html:30
 msgid "Start the trial!"
-msgstr "トライアルを始める！"
+msgstr "無料体験の開始！"
 
 #: weblate/templates/accounts/user.html:8 weblate/templates/component.html:99
 #: weblate/templates/manage-access.html:19
@@ -5196,7 +5170,7 @@ msgstr "プランの変更"
 #: weblate/templates/billing/status.html:28
 #: weblate/templates/billing/status.html:39
 msgid "Extend trial"
-msgstr "トライアルの延長"
+msgstr "無料体験期間の延長"
 
 #: weblate/templates/billing/status.html:45
 msgid "Monthly price"
@@ -5555,7 +5529,7 @@ msgstr "Facebook で共有"
 #: weblate/templates/translation.html:107
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "%(share_url)s! の %%23Weblate で %(object)s を翻訳しましょう！"
+msgstr "%(share_url)s の %%23Weblate で %(object)s を翻訳しましょう！"
 
 #: weblate/templates/component.html:122 weblate/templates/translation.html:107
 msgid "Tweet this translation!"
@@ -6594,7 +6568,7 @@ msgstr "%(timestamp)s に生成。"
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "Your trial period is going to expire in less than a week."
-msgstr "試用期間は 1 週間以内に終了します。"
+msgstr "無料体験の試用期間は 1 週間以内に終了します。"
 
 #: weblate/templates/mail/billing_expired.html:10
 msgid ""
@@ -6651,9 +6625,7 @@ msgstr ""
 msgid ""
 "If your libre trial will not be approved, all projects within this billing "
 "plan will be removed on %(date)s."
-msgstr ""
-"Libre トライアルとして承認されない場合、料金プランに含まれるすべてのプロジェ"
-"クトを %(date)s 日に削除します。"
+msgstr "Libre 無料体験として承認されない場合、料金プランに含まれるすべてのプロジェクトは %(date)s 日後に削除されます。"
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
@@ -6665,7 +6637,7 @@ msgstr "翻訳プロジェクトの削除が予定されています"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your trial period is about to expire"
-msgstr "試用期間は間もなく終了します"
+msgstr "無料体験の試用期間は間もなく終了します"
 
 #: weblate/templates/mail/billing_expired_subject.txt:9
 msgid "Your billing plan has expired"
@@ -7677,26 +7649,14 @@ msgstr ""
 "しています。"
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr ""
-"サブスクリプションの登録がないか、一部の請求が期日を過ぎているか、限度額を超"
-"えていることが原因である可能性があります。"
+msgstr "サブスクリプションの契約がないと思われます。"
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
-msgstr ""
-"サブスクリプションの登録がないか、一部の請求が期日を過ぎているか、限度額を超"
-"えていることが原因である可能性があります。"
+msgstr "これは、請求書の一部が支払期日を過ぎているか、制限を超えていることなどで発生します。"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -7933,9 +7893,8 @@ msgid ""
 "Things like license or repository can still change before being approved as "
 "a libre project."
 msgstr ""
-"このプロジェクトは試用期間中であり、貢献する前に注意が必要です。ライセンスや"
-"リポジトリなどは、Libre プロジェクトとして承認される前に変更されることがあり"
-"ます。"
+"このプロジェクトは無料体験中であり、貢献する前に注意が必要です。ライセンスやリポジトリなどは、Libre "
+"プロジェクトとして承認される前に変更されることがあります。"
 
 #: weblate/templates/snippets/project/billing-trial.html:7
 msgid "Manage billing"
@@ -7943,7 +7902,7 @@ msgstr "請求の管理"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
 msgid "This project is in the trial period."
-msgstr "このプロジェクトは試用期間中です。"
+msgstr "このプロジェクトは無料体験中です。"
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8734,7 +8693,7 @@ msgstr "この翻訳"
 
 #: weblate/templates/trans/other-row.html:15
 msgid "Propagated"
-msgstr "反映"
+msgstr "反映済"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -8888,7 +8847,7 @@ msgstr "Weblate 内で行なわれた最近の変更の一覧"
 
 #: weblate/templates/translate.html:267
 msgid "Showing only subset of the strings as there were too many matches."
-msgstr ""
+msgstr "一致する文字列が多すぎたため、文字列のサブセットのみを表示しています。"
 
 #: weblate/templates/translate.html:277
 msgid "Difference to current string"
@@ -8914,7 +8873,7 @@ msgstr[0] "次の文字列の原文は異なりますが、コンテキストは
 
 #: weblate/templates/translate.html:314
 msgid "Apply selected translation to all propagated strings"
-msgstr "選択した翻訳を、反映するすべての文字列に適用"
+msgstr "選択した翻訳に対して、文字列をすべて反映させる"
 
 #: weblate/templates/translate.html:316
 msgid "Apply selected translation to current string"
@@ -9113,9 +9072,7 @@ msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
 "in this project."
-msgstr ""
-"機械翻訳を利用した自動翻訳は、様々な機械翻訳エンジンを利用して翻訳を行ない、"
-"その中から最適なものを採用してプロジェクトに適用します。"
+msgstr "機械翻訳による自動翻訳は、有望な機械翻訳エンジンを使用して最適な翻訳を取得して、プロジェクトに適用します。"
 
 #: weblate/templates/translation.html:262
 msgid ""
@@ -9540,7 +9497,7 @@ msgstr "要編集として追加"
 
 #: weblate/trans/forms.py:829
 msgid "Automatic translation source"
-msgstr "自動翻訳元"
+msgstr "自動翻訳の参照元"
 
 #: weblate/trans/forms.py:831
 msgid "Other translation components"
@@ -10506,15 +10463,13 @@ msgstr "ロックしたコンポーネントは、翻訳を更新できません
 
 #: weblate/trans/models/component.py:399
 msgid "Allow translation propagation"
-msgstr "翻訳の伝達を許可する"
+msgstr "翻訳の自動反映の有効化"
 
 #: weblate/trans/models/component.py:403
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
-msgstr ""
-"他のコンポーネント内で翻訳が更新された場合、このコンポーネント内の翻訳にも影"
-"響を与えるかどうか"
+msgstr "他のコンポーネント内で翻訳が更新された場合、このコンポーネント内の翻訳も自動的に翻訳を反映させるかどうか"
 
 #: weblate/trans/models/component.py:408
 msgid "Turn on suggestions"
@@ -10530,7 +10485,7 @@ msgstr "提案への投票"
 
 #: weblate/trans/models/component.py:416
 msgid "Users can only vote for suggestions and can’t make direct translations."
-msgstr ""
+msgstr "ユーザーは提案に投票できるだけで、翻訳を直接変更できません。"
 
 #: weblate/trans/models/component.py:420
 msgid "Autoaccept suggestions"
@@ -11140,13 +11095,13 @@ msgstr "ユーザー定義の文字: {}"
 
 #: weblate/trans/tasks.py:355
 msgid "Automatic translation completed, no strings were updated."
-msgstr "自動翻訳が完了しました。文字列は更新されていません。"
+msgstr "自動翻訳が完了しましたが、文字列は更新されませんでした。"
 
 #: weblate/trans/tasks.py:359
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "自動翻訳が完了しました。 %d 個の文字列が更新されました。"
+msgstr[0] "自動翻訳が完了し、 %d 個の文字列が更新されました。"
 
 #: weblate/trans/templatetags/translations.py:73
 msgid "Good configuration"
@@ -11880,7 +11835,7 @@ msgstr "未定義の変数: \"%s\""
 
 #: weblate/utils/render.py:122
 msgid "Failed to render template: {}"
-msgstr "テンプレートの表示に失敗しました: {}"
+msgstr "テンプレートの表示に失敗しました：{}"
 
 #: weblate/utils/render.py:165
 msgid ""
