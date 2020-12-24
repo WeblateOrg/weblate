@@ -27,9 +27,9 @@ Common setups
 Locking down Weblate
 ++++++++++++++++++++
 
-To completely lock down your Weblate installation, you can use
-:setting:`REQUIRE_LOGIN` to force users to sign in and
-:setting:`REGISTRATION_OPEN` to prevent new registrations.
+To completely lock down your Weblate, you can use :setting:`REQUIRE_LOGIN` to
+force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new
+registrations.
 
 Site wide permissions
 +++++++++++++++++++++
