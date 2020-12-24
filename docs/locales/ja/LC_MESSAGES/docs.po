@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 14:19+0100\n"
 "PO-Revision-Date: 2020-12-24 07:36+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -376,16 +376,10 @@ msgid ""
 msgstr "翻訳のアクセス権を確認する場合は、さらに次の手順を実行します:"
 
 #: ../../admin/access.rst:190
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Components` are matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "Group :guilabel:`Languages` are matched against accessed translations, it it "
 "ignored for component or project level access."
-msgstr ""
-":guilabel:`コンポーネント` のグループは、コンポーネントまたはプロジェクト（プ"
-"ロジェクト レベルでのアクセスとして）と照合されます。"
+msgstr ":guilabel:`言語` のグループは、アクセスされた翻訳と照合され、コンポーネントまたはプロジェクト レベルのアクセスでは無視されます。"
 
 #: ../../admin/access.rst:194
 msgid ""
@@ -1466,19 +1460,13 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "POT に一致する PO ファイルの更新 (msgmerge)"
 
 #: ../../admin/addons.rst:298
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files (as configured by :ref:`component-filemask`) to "
-#| "match the POT file (as configured by :ref:`component-new_base`) using "
-#| "msgmerge."
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
-"msgmerge を使用して POT ファイル（:ref:`component-filemask` で設定）に一致す"
-"るように、すべての PO ファイル（:ref:`component-new_base` で設定）を更新しま"
-"す。"
+":program:`msgmerge` を使用して POT ファイル（:ref:`component-filemask` で設定）に一致するように、"
+"すべての PO ファイル（:ref:`component-new_base` で設定）を更新します。"
 
 #: ../../admin/addons.rst:301
 msgid ""
@@ -1631,13 +1619,14 @@ msgstr "行の長さや改行など、YAML 出力の動作を調整できます�
 
 #: ../../admin/addons.rst:410
 msgid "Customizing list of addons"
-msgstr ""
+msgstr "アドオン一覧のカスタマイズ"
 
 #: ../../admin/addons.rst:412
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include class absolute name in this setting."
 msgstr ""
+"アドオンの一覧は :setting:`WEBLATE_ADDONS` で設定します。アドオンを追加するには、設定にクラスの絶対名を含めるだけです。"
 
 #: ../../admin/addons.rst:419
 msgid "Writing addon"
@@ -6288,7 +6277,7 @@ msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1906
 msgid "Configures how deep cloning of repositories Weblate should do."
-msgstr "Weblate が実行するリポジトリの深いクローン作成の深さを設定する。"
+msgstr "Weblate がリポジトリをディープ クローンする深さを設定します。"
 
 #: ../../admin/config.rst:1910
 msgid ""
@@ -7244,10 +7233,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/deployments.rst:29
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Weblate Cloudron Package"
-msgstr "Weblate のソース コード"
+msgstr "Weblate Cloudron パッケージ"
 
 #: ../../admin/deployments.rst:31
 msgid ""
@@ -13160,7 +13147,7 @@ msgstr ""
 #: ../../admin/projects.rst:131 ../../admin/projects.rst:775 ../../api.rst:761
 #: ../../api.rst:2052 ../../api.rst:2291 ../../api.rst:2299
 msgid "Project slug"
-msgstr ""
+msgstr "プロジェクトのスラッグ"
 
 #: ../../admin/projects.rst:133
 msgid "Project name suitable for URLs."
@@ -13356,7 +13343,7 @@ msgstr ""
 #: ../../admin/projects.rst:283 ../../admin/projects.rst:771 ../../api.rst:2053
 #: ../../api.rst:2156
 msgid "Component slug"
-msgstr ""
+msgstr "コンポーネントのスラッグ"
 
 #: ../../admin/projects.rst:285
 msgid "Component name suitable for URLs."
@@ -15733,7 +15720,7 @@ msgstr ""
 
 #: ../../api.rst:773
 msgid "project slug"
-msgstr ""
+msgstr "プロジェクトのスラッグ"
 
 #: ../../api.rst:774
 msgid "project website"
@@ -16130,7 +16117,7 @@ msgstr ""
 
 #: ../../api.rst:1182 ../../api.rst:1266
 msgid "slug of component"
-msgstr ""
+msgstr "コンポーネントのスラッグ"
 
 #: ../../api.rst:1183 ../../api.rst:1267
 msgid "VCS repository URL"
@@ -16881,7 +16868,7 @@ msgstr ""
 #: ../../api.rst:2107 ../../api.rst:2119 ../../api.rst:2129 ../../api.rst:2139
 #: ../../api.rst:2146 ../../api.rst:2154
 msgid "Component list slug"
-msgstr ""
+msgstr "コンポーネント リストのスラッグ"
 
 #: ../../api.rst:2109 ../../api.rst:2121 ../../api.rst:2131
 msgid "name of a component list"
@@ -16889,7 +16876,7 @@ msgstr ""
 
 #: ../../api.rst:2110 ../../api.rst:2122 ../../api.rst:2132
 msgid "slug of a component list"
-msgstr ""
+msgstr "コンポーネント リストのスラッグ"
 
 #: ../../api.rst:2111 ../../api.rst:2123 ../../api.rst:2133
 msgid "whether to show it on a dashboard"
@@ -17013,8 +17000,6 @@ msgid "Task UUID"
 msgstr ""
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "Whether task has completed"
 msgid "Whether the task has completed"
 msgstr "タスクが完了したかどうか"
 
@@ -17317,10 +17302,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS Wikipedia 参照 <https://ja.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.3.1"
 msgid "Weblate 4.4.1"
-msgstr "Weblate 4.3.1"
+msgstr "Weblate 4.4.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -17339,10 +17322,8 @@ msgid "Improved administering of users."
 msgstr ""
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "Improved handling of context in monolingual PO files."
-msgstr "翻訳は単一言語のファイルを使用しています。"
+msgstr "単一言語の PO ファイルでのコンテキスト処理の改善。"
 
 #: ../../changes.rst:10
 msgid ""
@@ -17350,10 +17331,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Fixed matching of source strings for JSON formats."
 msgid "Fixed parsing of location from CSV files."
-msgstr "JSON 形式の原文の一致を修正しました。"
+msgstr "CSV ファイルからの位置情報解析の修正。"
 
 #: ../../changes.rst:14
 msgid "Weblate 4.4"
@@ -17443,26 +17422,20 @@ msgid "Improved display of user defined special characters."
 msgstr ""
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Improved automatic translation performance."
 msgid "Improved auto translate performance."
 msgstr "自動翻訳の性能の改善。"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Search in user comments."
 msgid "Several minor user interface improvements."
-msgstr "ユーザー コメントの検索。"
+msgstr "複数のマイナーなユーザー インターフェイスの改善。"
 
 #: ../../changes.rst:39
 msgid "Improved naming of ZIP downloads."
 msgstr ""
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Additionally, email is used for notification of watched events"
 msgid "Added option for getting notifications on unwatched projects."
-msgstr "また、メールは監視中のイベントの通知に使用します"
+msgstr "監視していないプロジェクトの通知を取得するオプションの追加。"
 
 #: ../../changes.rst:43
 msgid "Weblate 4.3.2"
@@ -23541,10 +23514,8 @@ msgid "pattern"
 msgstr "パターン"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "^([^ ]+)$"
 msgid "^[^ ]+$"
-msgstr "^([^ ]+)$"
+msgstr "^[^ ]+$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
@@ -24756,8 +24727,8 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
-"内部ではデフォルトで、各プロジェクトごとに、共通する文字列の翻訳をプロジェクト内の他のコンポーネントに反映させます。これにより、反復や複数バージョンの翻訳"
-"の負担を軽減します。コンポーネント独自の翻訳が望ましい場合は、翻訳の反映を :ref:`component` ごとに無効にできます。"
+"内部ではデフォルトで、各プロジェクトごとに、共通する文字列の翻訳はプロジェクト内の他のコンポーネントに自動反映させます。これにより、反復や複数バージョンの"
+"翻訳の負担を軽減します。コンポーネント独自の翻訳が望ましい場合は、翻訳の反映を :ref:`component` ごとに無効にできます。"
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -27002,10 +26973,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:487
-#, fuzzy
-#| msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`islu`"
 msgid ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
-msgstr ":doc:`tt:formats/ini`、:ref:`joomla`、:ref:`islu`"
+msgstr ":doc:`tt:formats/ini`、:ref:`javaprop`、:ref:`joomla`、:ref:`islu`"
 
 #: ../../formats.rst:495
 msgid "Inno Setup INI translations"
@@ -30061,8 +30030,8 @@ msgid ""
 "default. Only registered users are allowed to actually save changes, and are "
 "credited for every translation made."
 msgstr ""
-"デフォルトでは、誰もがプロジェクトの閲覧、翻訳の表示、翻訳の提案ができます。"
-"実際に変更を保存できるのは、登録ユーザのみであり、翻訳のたびに明記されます。"
+"デフォルトでは、誰もがプロジェクトの閲覧、翻訳の表示、翻訳の提案ができます。実際に変更を保存できるのは、登録ユーザのみであり、翻訳ごとに翻訳者名が自動的に"
+"明記されます。"
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
@@ -31126,8 +31095,6 @@ msgid ":kbd:`Cmd Shift Enter`"
 msgstr ":kbd:`Cmd Shift Enter`"
 
 #: ../../user/translating.rst:183
-#, fuzzy
-#| msgid "Unmarks translation as fuzzy and submits it."
 msgid "Unmarks translation as need edit and submits it."
 msgstr "翻訳の要編集フラグを解除して送信する。"
 
