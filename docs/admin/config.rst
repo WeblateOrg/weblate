@@ -991,7 +991,7 @@ A list of URLs you want to require logging into. (Besides the standard rules bui
 
    It is desirable to lock down API access as well, as shown in the above example.
 
-.. sealso::
+.. seealso::
 
    :setting:`REQUIRE_LOGIN`
 
