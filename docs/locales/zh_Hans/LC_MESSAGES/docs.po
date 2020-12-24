@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-23 14:19+0100\n"
-"PO-Revision-Date: 2020-12-21 17:29+0000\n"
+"PO-Revision-Date: 2020-12-24 12:38+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -355,15 +355,10 @@ msgid ""
 msgstr "如果检查翻译许可，则会执行另外的步骤："
 
 #: ../../admin/access.rst:190
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Components` are matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "Group :guilabel:`Languages` are matched against accessed translations, it it "
 "ignored for component or project level access."
 msgstr ""
-"群组 :guilabel:`Component` 与访问的组件或项目匹配（对于项目级的访问）。"
 
 #: ../../admin/access.rst:194
 msgid ""
@@ -1401,18 +1396,13 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "更新 PO 文件以匹配 POT 文件 (msgmerge)"
 
 #: ../../admin/addons.rst:298
-#, fuzzy
-#| msgid ""
-#| "Updates all PO files (as configured by :ref:`component-filemask`) to "
-#| "match the POT file (as configured by :ref:`component-new_base`) using "
-#| "msgmerge."
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
-"使用 msgmerge 来更新所有的 PO 文件（如 :ref:`component-filemask` 所配置），而"
-"与 POT 文件（如 :ref:`component-new_base` 所配置）匹配。"
+"使用 :program:`msgmerge` 来更新所有的 PO 文件（如 :ref:`component-filemask` 所配置），而与 POT "
+"文件（如 :ref:`component-new_base` 所配置）匹配。"
 
 #: ../../admin/addons.rst:301
 msgid ""
@@ -1686,7 +1676,7 @@ msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:535
 msgid "Post update repository processing"
-msgstr "更新仓库后处理"
+msgstr "更新后存储库处理"
 
 #: ../../admin/addons.rst:537
 msgid ""
@@ -7295,10 +7285,8 @@ msgstr ""
 "txt> 。"
 
 #: ../../admin/deployments.rst:29
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Weblate Cloudron Package"
-msgstr "Weblate 源代码"
+msgstr "Weblate Cloudron 包"
 
 #: ../../admin/deployments.rst:31
 msgid ""
@@ -10581,14 +10569,10 @@ msgid "It defaults to number of processors + 1."
 msgstr "默认为处理器的数量 + 1 。"
 
 #: ../../admin/install/docker.rst:1189
-#, fuzzy
-#| msgid ""
-#| "In case you have lot of CPU cores and hit out of memory issues, try "
-#| "reducing number of workers:"
 msgid ""
 "In case you have a lot of CPU cores and hit out of memory issues, try "
 "reducing number of workers:"
-msgstr "在你有很多 CPU 核并且碰到内存用尽问题情况下，尝试减少 worker 的数量："
+msgstr "在你有很多 CPU 核心并且碰到内存用尽问题情况下，尝试减少 worker 的数量："
 
 #: ../../admin/install/docker.rst:1204
 msgid "Docker container volumes"
@@ -10811,18 +10795,11 @@ msgid "Parameters"
 msgstr "参数"
 
 #: ../../admin/install/openshift.rst:43
-#, fuzzy
-#| msgid ""
-#| "The list of parameters that you can override are listed in the parameters "
-#| "section of the template. You can list them with the CLI by using the "
-#| "following command and specifying the file to be used:"
 msgid ""
 "The parameters that you can override are listed in the parameters section of "
 "the template. You can list them with the CLI by using the following command "
 "and specifying the file to be used:"
-msgstr ""
-"可以覆盖的参数列表列在模板的参数部分。可以通过使用后面的命令并指定要使用的文"
-"件通过 CLI 列出它们："
+msgstr "模板的 parameters 部分列出了你可以覆盖的参数。你可以通过使用后面的命令并指定要使用的文件通过 CLI 列出它们："
 
 #: ../../admin/install/openshift.rst:55
 msgid "Provisioning"
@@ -11225,13 +11202,6 @@ msgstr ""
 "认国家代码——选择 ``cs`` 而不是 ``cs_CZ`` ）。"
 
 #: ../../admin/languages.rst:23
-#, fuzzy
-#| msgid ""
-#| "Should that also fail, a new language definition will be created using "
-#| "the defaults (left to right text direction, one plural) and naming of the "
-#| "language as :guilabel:`xx_XX (generated)`. You might want to change this "
-#| "in the admin interface later, (see :ref:`changing-languages`) and report "
-#| "it to the issue tracker (see :ref:`contributing`)."
 msgid ""
 "Should that also fail, a new language definition will be created using the "
 "defaults (left to right text direction, one plural). The automatically "
@@ -11241,8 +11211,9 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
-"如果仍然失败，那么需要使用默认定义（从左到右的正文方向、一个复数）和语言命名"
-"来新建新的语言定义，如 :guilabel:`xx_XX (generated)` 。"
+"如果这也失败了，将使用默认值创建一个新的语言定义 (从左到右的文本方向，一个复数)。自动创建的带有代码 ``xx_XX`` 的语言将被命名为 "
+":guilabel:`xx_XX (generated)`。您可能想稍后在管理界面中更改这个 （见 :ref:`changing-languages`），"
+"并将它报告给问题跟踪器 （见 :ref:`contributing`），这样的话，正确的定义就可以添加到即将发布的Weblate版本中。"
 
 #: ../../admin/languages.rst:33
 msgid ""
@@ -13336,21 +13307,14 @@ msgid "Usage"
 msgstr "用法"
 
 #: ../../admin/optionals.rst:33
-#, fuzzy
-#| msgid ""
-#| "The module automatically hooks into Weblate and sets the exported "
-#| "repository URL in the :ref:`component`. The repositories are accessible "
-#| "under the ``/git/`` part of the Weblate URL, for example ``https://"
-#| "example.org/git/weblate/master/``:"
 msgid ""
 "The module automatically hooks into Weblate and sets the exported repository "
 "URL in the :ref:`component`. The repositories are accessible under the ``/"
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/master/``."
 msgstr ""
-"模块自动钩入 Weblate，并且在 :ref:`component` 中设置 URL。仓库在 Weblate URL"
-"的 ``/git/`` 部分下是可以访问的，例如 ``https://example.org/git/weblate/"
-"master/``："
+"模块自动钩入 Weblate，并且在 :ref:`component` 中设置导出仓库 URL。仓库在 Weblate URL的 ``/git/`` "
+"部分下是可以访问的，例如 ``https://example.org/git/weblate/master/``。"
 
 #: ../../admin/optionals.rst:38
 msgid ""
@@ -13359,18 +13323,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/optionals.rst:44
-#, fuzzy
-#| msgid ""
-#| "Repositories are available anonymously unless :ref:`acl` is turned on. "
-#| "This requires authenticate using your API token (it can be obtained in "
-#| "your :ref:`user-profile`):"
 msgid ""
 "Access to the repositories with restricted access (using :ref:`acl` or when :"
 "setting:`REQUIRE_LOGIN` is enabled) requires a API token which can be "
 "obtained in your :ref:`user-profile`:"
 msgstr ""
-"除非 :ref:`acl` 打开，否则仓库可以匿名获取。这需要使用您的 API 令牌（可以在您"
-"的 :ref:`user-profile` 中得到）来进行身份验证："
+"对存储库的受限制访问（使用 :ref:`acl` 或在  :setting:`REQUIRE_LOGIN` 处于启用状态时）需要一个 API 令牌，"
+"获取地点在你的  :ref:`user-profile`:"
 
 #: ../../admin/optionals.rst:56
 msgid "Billing"
@@ -13475,19 +13434,13 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "服务条款与隐私政策的简短概况"
 
 #: ../../admin/optionals.rst:120
-#, fuzzy
-#| msgid ""
-#| "Legal documents for the Hosted Weblate service is available in this Git "
-#| "repository <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/"
-#| "templates/legal/documents>."
 msgid ""
 "Legal documents for the Hosted Weblate service are available in this Git "
 "repository <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/"
 "templates/legal/documents>."
 msgstr ""
-"可以在这个 Git 仓库 <https://github.com/WeblateOrg/hosted/tree/master/"
-"wlhosted/legal/templates/legal/documents> 中找到 Hosted Weblate 服务的法律文"
-"档。"
+"可以在这个 Git 仓库 <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/"
+"templates/legal/documents> 中获取 Hosted Weblate 的法律文档。"
 
 #: ../../admin/optionals.rst:123
 msgid ""
@@ -15363,15 +15316,6 @@ msgid "Translation process"
 msgstr "翻译进程"
 
 #: ../../admin/translating.rst:9
-#, fuzzy
-#| msgid ""
-#| "Everyone can add suggestions by default, to be accepted by signed in "
-#| "users. Suggestion voting can be used to make use of a string when more "
-#| "than signed in user agrees, by setting up the :ref:`component` "
-#| "configuration with :guilabel:`Suggestion voting` to turn on voting, and :"
-#| "guilabel:`Autoaccept suggestions` to set a threshold for accepted "
-#| "suggestions (this includes a vote from the user making the suggestion if "
-#| "it is cast)."
 msgid ""
 "Everyone can add suggestions by default, to be accepted by signed in users. "
 "Suggestion voting can be used to make use of a string when more than one "
@@ -15380,10 +15324,9 @@ msgid ""
 "`Autoaccept suggestions` to set a threshold for accepted suggestions (this "
 "includes a vote from the user making the suggestion if it is cast)."
 msgstr ""
-"每个人可以默认添加建议，由签名用户来接受。建议投票可以用于当超过一名签名用户"
-"同意时使用字符串，通过用 :guilabel:`Suggestion voting` 来设置 :ref:"
-"`component` 配置，来打开投票，并且通过 :guilabel:`Autoaccept suggestions` 来"
-"设置接受的建议的阈值（如果投票的化，这也包括来自提出建议的用户的投票）。"
+"每个人可以默认添加建议，由登录用户来接受。当超过一名登录用户同意时，建议投票结果可以使用字符串，通过用 :guilabel:`Suggestion "
+"voting` 来设置 :ref:`component` 配置，来打开投票，并且通过 :guilabel:`Autoaccept suggestions`"
+" 来设置接受建议的阈值（如果投票的话，这也包括来自提出建议的用户的投票）。"
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -15434,20 +15377,14 @@ msgid "Additional info on source strings"
 msgstr "源字符串另外的信息"
 
 #: ../../admin/translating.rst:43
-#, fuzzy
-#| msgid ""
-#| "Enhance the translation process with info available in the translation "
-#| "files. This includes explanation, string priority, check flags, or "
-#| "providing visual context. All these features can be set while editing "
-#| "additional string info:"
 msgid ""
 "Enhance the translation process by adding additional info to the strings "
 "including explanations, string priorities, check flags and visual context. "
 "Some of that info may be extracted from the translation files and some may "
 "be added by editing the additional string info:"
 msgstr ""
-"使用翻译文件中可用的信息来增强翻译过程。这包括解释、字符串优先级、检查标记或"
-"提供视觉上下文语境。所有这些特性可以在 编辑额外的字符串信息时进行设置："
+"通过向字符串添加额外的信息来增强翻译过程，这些信息包括解释、字符串优先级、检查标志和可视化上下文。有些信息可以从翻译文件中提取，有些可以通过编辑额外的字符"
+"串信息添加:"
 
 #: ../../admin/translating.rst:50
 msgid ""
@@ -15462,16 +15399,10 @@ msgid "Strings prioritization"
 msgstr "字符串优先级"
 
 #: ../../admin/translating.rst:60
-#, fuzzy
-#| msgid ""
-#| "String priority can be changed to offer higher priority strings for "
-#| "translation earlier by using the ``priority`` flag"
 msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag."
-msgstr ""
-"字符串优先级可以更改，通过使用 ``priority`` 标签，来提供更高优先级的字符串被"
-"更早地翻译"
+msgstr "使用 ``priority`` 标识可以更改字符串优先级来为字符串提供更高优先级，以便更早地进行翻译。"
 
 #: ../../admin/translating.rst:65
 msgid "This can be used to order the flow of translation in a logical manner."
@@ -15501,10 +15432,8 @@ msgid "Explanation"
 msgstr "解释"
 
 #: ../../admin/translating.rst:90
-#, fuzzy
-#| msgid "In previous version this has been called extra context."
 msgid "In previous versions this has been called :guilabel:`Extra context`."
-msgstr "在以前的版本中这被称为附加语境。"
+msgstr "在以前的版本中这被称为 :guilabel:`Extra context`。"
 
 #: ../../admin/translating.rst:92
 msgid ""
@@ -15889,12 +15818,12 @@ msgid "Upgrade from 4.3 to 4.4"
 msgstr "从 4.3 升级到 4.4"
 
 #: ../../admin/upgrade.rst:176
-#, fuzzy
-#| msgid "There is a change in :setting:`django:INSTALLED_APPS`."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
 "configuration`` has to be added there."
-msgstr "在 :setting:`django:INSTALLED_APPS` 中有一些更改。"
+msgstr ""
+"在 :setting:`django:INSTALLED_APPS` 中有一处更改， 必须将 ``weblate.configuration`` "
+"添加在那里。"
 
 #: ../../admin/upgrade.rst:177
 msgid "Django 3.1 is now required."
@@ -16861,10 +16790,8 @@ msgid ":ref:`project-language_aliases`"
 msgstr ":ref:`project-language_aliases`"
 
 #: ../../api.rst:802
-#, fuzzy
-#| msgid "Edit a project by a patch request."
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr "通过补丁请求来编辑项目。"
+msgstr "通过 :http:method:`PATCH` 请求来编辑一个项目。"
 
 #: ../../api.rst:806 ../../api.rst:1080 ../../api.rst:1177 ../../api.rst:1260
 #: ../../api.rst:1280 ../../api.rst:1290 ../../api.rst:1300 ../../api.rst:1311
@@ -16877,10 +16804,8 @@ msgid "Component URL slug"
 msgstr "组件 URL 标识串"
 
 #: ../../api.rst:813
-#, fuzzy
-#| msgid "Edit a project by a patch request."
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr "通过补丁请求来编辑项目。"
+msgstr "通过 :http:method:`PUT` 请求来编辑一个项目。"
 
 #: ../../api.rst:822
 msgid "Deletes a project."
@@ -17221,10 +17146,8 @@ msgid ""
 msgstr "后台任务 URL （如果有的话）；请参见 :http:get:`/api/tasks/(str:uuid)/`"
 
 #: ../../api.rst:1173
-#, fuzzy
-#| msgid "Edit a component by a patch request."
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr "通过补丁请求编辑组件。"
+msgstr "通过 :http:method:`PATCH` 请求编辑一个组件。"
 
 #: ../../api.rst:1179
 msgid "Project source language code (optional)"
@@ -17243,10 +17166,8 @@ msgid "VCS repository URL"
 msgstr "版本控制系统（VCS）仓库的URL"
 
 #: ../../api.rst:1256
-#, fuzzy
-#| msgid "Edit a component by a patch request."
 msgid "Edit a component by a :http:method:`PUT` request."
-msgstr "通过补丁请求编辑组件。"
+msgstr "通过 :http:method:`PUT` 请求编辑一个组件。"
 
 #: ../../api.rst:1262
 msgid "VCS repository branch"
@@ -18152,8 +18073,6 @@ msgid "Task UUID"
 msgstr "任务 UUID"
 
 #: ../../api.rst:2375
-#, fuzzy
-#| msgid "Whether task has completed"
 msgid "Whether the task has completed"
 msgstr "任务是否已完成"
 
@@ -18467,38 +18386,28 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.3.1"
 msgid "Weblate 4.4.1"
-msgstr "Weblate 4.3.1"
+msgstr "Weblate 4.4.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "尚未发布。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed reverting changes from the history."
 msgid "Fixed revering plural changes."
-msgstr "修复了从历史中还原更改。"
+msgstr ""
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed lock indication on project listing."
 msgid "Fixed displaying help for project settings."
-msgstr "修复了在项目列表中所定指示。"
+msgstr "修复了展示项目设置帮助。"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved admin interface for groups."
 msgid "Improved administering of users."
-msgstr "改进了群组的管理界面。"
+msgstr "改进了用户管理。"
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Improved handling of monolingual XLIFF files."
 msgid "Improved handling of context in monolingual PO files."
-msgstr "改进了单语言 XLIFF 文件的处理。"
+msgstr "改进了单语言 PO 文件中上下文的处理。"
 
 #: ../../changes.rst:10
 msgid ""
@@ -18506,20 +18415,16 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Fixed listing of managed projects in profile."
 msgid "Fixed parsing of location from CSV files."
-msgstr "修复了个人资料中管理的项目的列表。"
+msgstr "修复了从 CSV 文件解析位置的错误。"
 
 #: ../../changes.rst:14
 msgid "Weblate 4.4"
 msgstr "Weblate 4.4"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Released on December 15th 2017."
 msgid "Released on December 15th 2020."
-msgstr "发布于 2017 年 12 月 15 日。"
+msgstr "发布于 2020 年 12 月 15 日。"
 
 #: ../../changes.rst:18
 msgid "Improved validation when creating component."
@@ -18573,8 +18478,6 @@ msgid ""
 msgstr "添加新的翻译时，用户会看到过滤后的语言列表。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Extended search capabilities for changes history."
 msgid "Extended search capabilities for changes in history."
 msgstr "扩展了更改历史的搜索能力。"
 
@@ -18599,34 +18502,24 @@ msgid "Improved file upload performance."
 msgstr "改进了文件上传性能。"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid "Improved displaying of translation changes."
 msgid "Improved display of user defined special characters."
-msgstr "改进了翻译更改的显示。"
+msgstr "改进了用户定义的特殊字符的显示。"
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Improved automatic translation performance."
 msgid "Improved auto translate performance."
 msgstr "改进了自动翻译性能。"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Various performance improvements."
 msgid "Several minor user interface improvements."
-msgstr "更重新能改进。"
+msgstr "几处细小的用户界面改进。"
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Improved performance of file downloads."
 msgid "Improved naming of ZIP downloads."
-msgstr "改进了文件下载的性能。"
+msgstr "改进了 ZIP 文件下载的命名。"
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Added support for notifications on repository operations."
 msgid "Added option for getting notifications on unwatched projects."
-msgstr "为仓库操作的通知添加了支持。"
+msgstr "添加了获取未关注项目通知的选项。"
 
 #: ../../changes.rst:43
 msgid "Weblate 4.3.2"
@@ -24708,10 +24601,8 @@ msgid "pattern"
 msgstr "模式"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "^([^ ]+)$"
 msgid "^[^ ]+$"
-msgstr "^([^ ]+)$"
+msgstr "^[^ ]+$"
 
 #: ../../contributing/schemas.rst:9
 msgid "**target**"
@@ -25998,12 +25889,6 @@ msgstr ""
 "译分组）。"
 
 #: ../../snippets/basics.rst:14
-#, fuzzy
-#| msgid ""
-#| "Internally, each project has translations to common strings propagated "
-#| "across other components within it by default. This lightens the burden of "
-#| "repetitive and multi version translation. The translation propagation can "
-#| "be disabled per :ref:`component` in case the translations should diverge."
 msgid ""
 "Internally, each project has translations to common strings propagated "
 "across other components within it by default. This lightens the burden of "
@@ -26011,9 +25896,8 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
-"在每个项目内部默认具有在项目中其它组件之间传播的通用字符串的翻译。这减轻了重"
-"复的负担以及多版本的翻译。在翻译应该不同的情况下，翻译传播可以在每个 :ref:"
-"`component` 中关闭。"
+"默认情况下，每个项目内都有对跨组件传播的公共字符串的翻译。这减轻了重复和多版本翻译的负担。但假如翻译应当有所不同，可以使用 :ref"
+":`component-allow_translation_propagation` 通过 :ref:`component` 禁用翻译传播。"
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
@@ -28795,42 +28679,30 @@ msgid ""
 msgstr "CSV 文件可以包含源和翻译的简单列表。Weblate 支持以下文件："
 
 #: ../../formats.rst:1023
-#, fuzzy
-#| msgid ""
-#| "Files with header defining fields (source, translation, location, …). "
-#| "This is the recommended approach, as it is the least error prone."
 msgid ""
 "Files with header defining fields (``location``, ``source``, ``target``, "
 "``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:``CSV file`` as a file format."
 msgstr ""
-"带有标头定义字段（源，翻译，位置等）的文件。这是推荐的方法，因为它最不容易出"
-"错。"
+"带有标头定义字段（``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``"
+", ``translator_comments``, ``developer_comments``）的文件。这是推荐的方法，因为它最不容易出错。挑选 "
+":guilabel:``CSV file`` 作为一种文件格式。"
 
 #: ../../formats.rst:1027
-#, fuzzy
-#| msgid ""
-#| "Files with two fields—source and translation (in this order), choose :"
-#| "guilabel:`Simple CSV file` as file format"
 msgid ""
 "Files with two fields—source and translation (in this order), choose :"
 "guilabel:`Simple CSV file` as a file format"
-msgstr ""
-"具有两个字段的文件 —— 源和翻译（按此顺序），选择 `简单 CSV 文件` 作为文件格式"
+msgstr "具有两个字段的文件 —— 源和翻译（按此顺序），选择  :guilabel:`Simple CSV file` 作为文件格式"
 
 #: ../../formats.rst:1029
-#, fuzzy
-#| msgid ""
-#| "Files with fields as defined by translate-toolkit: location, source, "
-#| "target, ID, fuzzy, context, translator_comments, developer_comments"
 msgid ""
 "Headerless files with fields in order defined by translate-toolkit: "
 "location, source, target, ID, fuzzy, context, translator_comments, "
 "developer_comments Choose :guilabel:``CSV file`` as a file format."
 msgstr ""
-"具有 translate-toolkit 定义的字段的文件：location，source，target，ID，"
-"fuzzy，context，translator_comments，developer_comments"
+"无标头文件，字段顺序由 translate-toolkit 定义：location，source，target，ID，fuzzy，context，tran"
+"slator_comments，developer_comments; 挑选 :guilabel:``CSV file`` 作为一种文件格式。"
 
 #: ../../formats.rst:1032
 msgid ""
@@ -32000,10 +31872,8 @@ msgid ":kbd:`Cmd Shift Enter`"
 msgstr ""
 
 #: ../../user/translating.rst:183
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmarks translation as need edit and submits it."
-msgstr "添加为需要编辑的翻译"
+msgstr "取消标记翻译为“需要编辑”并提交它。"
 
 #: ../../user/translating.rst:187
 msgid ":kbd:`Ctrl E` or"
