@@ -312,8 +312,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_COMPONENT, gettext_lazy("Renamed component")),
         # Translators: Name of event in the history
         (ACTION_MOVE_COMPONENT, gettext_lazy("Moved component")),
-        # Translators: Name of event in the history
-        (ACTION_NEW_STRING, gettext_lazy("New string to translate")),
+        # Not translated, used plural instead
+        (ACTION_NEW_STRING, "New string to translate"),
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
