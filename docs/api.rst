@@ -733,8 +733,8 @@ Languages
     :>json int translated_chars: number of translated characters
     :>json int translated_chars_percent: percentage of translated characters
     :>json int total_chars: number of total characters
-    :>json int fuzzy: number of fuzzy strings
-    :>json int fuzzy_percent: percentage of fuzzy strings
+    :>json int fuzzy: number of fuzzy (marked for edit) strings
+    :>json int fuzzy_percent: percentage of fuzzy (marked for edit) strings
     :>json int failing: number of failing strings
     :>json int failing: percentage of failing strings
 
@@ -1583,9 +1583,9 @@ Translations
     :>json float failing_checks_percent: percentage of strings failing checks
     :>json int failing_checks_words: number of words with failing checks
     :>json string filename: translation filename
-    :>json int fuzzy: number of strings marked for review
-    :>json float fuzzy_percent: percentage of strings marked for review
-    :>json int fuzzy_words: number of words marked for review
+    :>json int fuzzy: number of fuzzy (marked for edit) strings
+    :>json float fuzzy_percent: percentage of fuzzy (marked for edit) strings
+    :>json int fuzzy_words: number of words in fuzzy (marked for edit) strings
     :>json int have_comment: number of strings with comment
     :>json int have_suggestion: number of strings with suggestion
     :>json boolean is_template: whether the translation has a monolingual base
@@ -1782,7 +1782,7 @@ Translations
     :form string email: Author e-mail
     :form string author: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``), see :ref:`upload-method`
-    :form string fuzzy: Fuzzy strings processing (*empty*, ``process``, ``approve``)
+    :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
 
     **CURL example:**
 
@@ -1836,8 +1836,8 @@ Translations
     :>json string code: language code
     :>json int failing: number of failing checks
     :>json float failing_percent: percentage of failing checks
-    :>json int fuzzy: number of strings needing review
-    :>json float fuzzy_percent: percentage of strings needing review
+    :>json int fuzzy: number of fuzzy (marked for edit) strings
+    :>json float fuzzy_percent: percentage of fuzzy (marked for edit) strings
     :>json int total_words: total number of words
     :>json int translated_words: number of translated words
     :>json string last_author: name of last author
