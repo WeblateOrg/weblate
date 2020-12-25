@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-25 09:38+0000\n"
-"PO-Revision-Date: 2020-12-25 09:37+0000\n"
+"PO-Revision-Date: 2020-12-26 19:29+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -7716,26 +7716,16 @@ msgstr ""
 "donationer."
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr ""
-"Detta kan orsakas av saknade abonnemang eller att några av dina betalningar "
-"har passerat förfallodatum eller över gränserna."
+msgstr "Detta kan bero på att abonnemang saknas."
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
 msgstr ""
-"Detta kan orsakas av saknade abonnemang eller att några av dina betalningar "
-"har passerat förfallodatum eller över gränserna."
+"Detta kan bero på att vissa av dina faktureringar är förfallna eller "
+"överskrider gränserna."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -7835,6 +7825,8 @@ msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
+"Översättningar måste finnas i samma arkiv som källkoden, eller under samma "
+"projekt / organisation som källkodsarkivet."
 
 #: weblate/templates/snippets/libre-basic.html:6
 msgid "Using Weblate has been approved by the upstream project."
@@ -7845,6 +7837,8 @@ msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
+"Nämn att du använder Weblate för översättningar i README. Det lockar nya "
+"översättare och hjälper också Weblate att vara gratis för fler projekt."
 
 #: weblate/templates/snippets/libre-basic.html:8
 msgid "The project has had active development for at least three months."
@@ -7981,17 +7975,12 @@ msgstr ""
 "libre-projekt."
 
 #: weblate/templates/snippets/project/billing-trial.html:7
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "Manage billing"
-msgstr "Hantera språk"
+msgstr "Hantera fakturering"
 
 #: weblate/templates/snippets/project/billing-trial.html:8
-#, fuzzy
-#| msgid "This project is set up incorrectly."
 msgid "This project is in the trial period."
-msgstr "Detta projekt är felaktigt inställt."
+msgstr "Detta projekt är i testperioden."
 
 #: weblate/templates/snippets/project/state.html:6
 msgid "Pay the bills to unlock this project."
@@ -8306,20 +8295,20 @@ msgid "Error"
 msgstr "Fel"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "The component translation files are using ambiguous language code."
-msgstr "Komponenten innehåller översättningsfil för källspråket."
+msgstr "Komponentens översättningsfiler använder tvetydig språkkod."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
 msgid ""
 "These language codes indicate a macrolanguage and it is usually better to "
 "use code of individual language instead."
 msgstr ""
+"Dessa språkkoder indikerar ett makrospråk och det är oftast bättre att "
+"använda kod för enskilt språk istället."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
-msgstr ""
+msgstr "Förslag på individuella språkkoder"
 
 #: weblate/templates/trans/alert/billinglimit.html:2
 msgid ""
@@ -8471,6 +8460,7 @@ msgstr "Lägg till en enspråkig basspråksfil i komponentinställningarna."
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
+"Detta projekt passar inte längre in i de fria (libre) hosting-villkoren."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8681,10 +8671,7 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Jag förstår konsekvenserna av detta - ta bort översättningen"
 
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
@@ -8693,16 +8680,12 @@ msgstr ""
 "översättningen %(object)s och allt relaterat innehåll."
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "Följande översättningskomponenter kommer att tas bort:"
+msgstr "Följande översättningar kommer att tas bort:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "Projekt att ta bort"
+msgstr "Projektspråk att ta bort"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8786,10 +8769,8 @@ msgid "This translation"
 msgstr "Denna översättning"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Översatt"
+msgstr "Fortplantad"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -8946,12 +8927,11 @@ msgstr "Lista av ändringar nyligt gjorda i Weblate"
 #: weblate/templates/translate.html:267
 msgid "Showing only subset of the strings as there were too many matches."
 msgstr ""
+"Visar endast delmängd av strängarna eftersom det var för många matchningar."
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Translation context"
 msgid "Difference to current string"
-msgstr "Översättningssammanhang"
+msgstr "Skillnad mot aktuell sträng"
 
 #: weblate/templates/translate.html:288
 msgid "The following string has the same context and source."
@@ -8974,16 +8954,12 @@ msgstr[0] "Följande sträng har en annan källa men samma kontext."
 msgstr[1] "Följande strängar har andra källor men samma kontext."
 
 #: weblate/templates/translate.html:314
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Tillåt spridning av översättning"
+msgstr "Tillämpa vald översättning på alla fortplantade strängar"
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Upload translation strings"
 msgid "Apply selected translation to current string"
-msgstr "Ladda upp översättningssträngar"
+msgstr "Tillämpa vald översättning på aktuell sträng"
 
 #: weblate/templates/translate.html:348
 msgid "Origin"
@@ -9950,10 +9926,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Skriv in översättningens SLUG för att bekräfta."
 
 #: weblate/trans/forms.py:2025
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Skriv in översättningens SLUG för att bekräfta."
+msgstr "Skriv in SLUG:en för projektet och språket för att bekräfta."
 
 #: weblate/trans/forms.py:2052
 msgid "Author username"
@@ -10100,15 +10074,13 @@ msgstr "Oanvänd skärmdump"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:312
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language code."
-msgstr "Språkkod"
+msgstr "Tvetydig språkkod."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "Uppfyller inte villkoren för fri hosting."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -10618,6 +10590,7 @@ msgstr "Förslagsröstning"
 #: weblate/trans/models/component.py:416
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
+"Användare kan bara rösta på förslag och kan inte göra direktöversättningar."
 
 #: weblate/trans/models/component.py:420
 msgid "Autoaccept suggestions"
@@ -11460,13 +11433,11 @@ msgid "This translation does not yet exist."
 msgstr "Denna översättning finns ännu inte."
 
 #: weblate/trans/templatetags/translations.py:758
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "En sträng behöver åtgärdas"
-msgstr[1] "%(count)s strängar behöver åtgärdas"
+msgstr[0] "%(count)s sträng översätts inte här."
+msgstr[1] "%(count)s strängar översätts inte här."
 
 #: weblate/trans/templatetags/translations.py:785
 msgid "enabled"
@@ -11869,10 +11840,8 @@ msgid "Project was scheduled for removal."
 msgstr "Projektet är schemalagd för borttagning."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "Språk %s har tagits bort."
+msgstr "Språket i projektet togs bort."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -12237,6 +12206,8 @@ msgid ""
 "Use hamburger menu in the top navigation regardless the screen resolution. "
 "When disabled the hamburger menu is used on small screens only."
 msgstr ""
+"Använd hamburgermenyn i den översta navigationen oavsett skärmupplösning. "
+"När den är inaktiverad används endast hamburgarmenyn på små skärmar."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
