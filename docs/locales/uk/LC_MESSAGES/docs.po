@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-24 13:48+0100\n"
+"POT-Creation-Date: 2020-12-25 10:38+0100\n"
 "PO-Revision-Date: 2020-12-25 09:37+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -85,9 +85,9 @@ msgid ""
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
-"Щоб повністю заблокувати Weblate, ви можете скористатися "
-":setting:`REQUIRE_LOGIN`, щоб змусити користувачів входити до системи та "
-":setting:`REGISTRATION_OPEN`, щоб запобігти новим реєстраціям користувачів."
+"Щоб повністю заблокувати Weblate, ви можете скористатися :setting:"
+"`REQUIRE_LOGIN`, щоб змусити користувачів входити до системи та :setting:"
+"`REGISTRATION_OPEN`, щоб запобігти новим реєстраціям користувачів."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -5645,6 +5645,12 @@ msgstr ""
 "Бажано заблокувати також і доступ до програмного інтерфейсу, як показано у "
 "наведеному вище прикладі."
 
+#: ../../admin/config.rst:996
+#, fuzzy
+#| msgid "REQUIRE_LOGIN"
+msgid ":setting:`REQUIRE_LOGIN`"
+msgstr "REQUIRE_LOGIN"
+
 #: ../../admin/config.rst:1001
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
@@ -7896,16 +7902,24 @@ msgid "Custom quality checks, addons and auto-fixes"
 msgstr "Нетипові перевірки якості, додатки та автоматичні виправлення"
 
 #: ../../admin/customize.rst:118
+#, fuzzy
+#| msgid ""
+#| "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
+#| "`own-addon` and in Weblate:"
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
-"`own-addon` and in Weblate:"
+"`own-addon` in Weblate:"
 msgstr ""
 "Щоб встановити ваш код для :ref:`custom-autofix`, :ref:`own-checks` або :ref:"
 "`own-addon` і у Weblate, виконайте такі дії:"
 
 #: ../../admin/customize.rst:121
+#, fuzzy
+#| msgid ""
+#| "Place the files in your Python module containing the Weblate "
+#| "customization (see :ref:`custom-module`)."
 msgid ""
-"Place the files in your Python module containing the Weblate customization "
+"Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
 "Розташуйте належним чином файли у вашому модулі Python, які містять "
@@ -17420,10 +17434,16 @@ msgstr ""
 "версій, див. :ref:`mysql`."
 
 #: ../../admin/upgrade.rst:179
+#, fuzzy
+#| msgid ""
+#| "**Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and "
+#| "``msgctxt`` when present. This will change IDs of units in such files. "
+#| "Please make sure you commit pending changes in such files prior upgrading."
 msgid ""
 "**Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and "
-"``msgctxt`` when present. This will change IDs of units in such files. "
-"Please make sure you commit pending changes in such files prior upgrading."
+"``msgctxt`` when present. This will change IDs of translation strings in "
+"such files. Please make sure you commit pending changes in such files prior "
+"upgrading."
 msgstr ""
 "**Змінено у 4.4.1:** :ref:`mono_gettext` у новій версії використовує одразу "
 "``msgid`` і ``msgctxt``, якщо такі поля є. Це змінює ідентифікатори модулів "

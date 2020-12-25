@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-24 13:48+0100\n"
+"POT-Creation-Date: 2020-12-25 10:38+0100\n"
 "PO-Revision-Date: 2020-12-25 09:37+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -76,8 +76,8 @@ msgid ""
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
-"为了完全锁定 Weblate，你可以使用 :setting:`REQUIRE_LOGIN` 强制用户登录并用 "
-":setting:`REGISTRATION_OPEN` 来防止新注册。"
+"为了完全锁定 Weblate，你可以使用 :setting:`REQUIRE_LOGIN` 强制用户登录并用 :"
+"setting:`REGISTRATION_OPEN` 来防止新注册。"
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -358,7 +358,9 @@ msgstr "如果检查翻译许可，则会执行另外的步骤："
 msgid ""
 "Group :guilabel:`Languages` are matched against accessed translations, it is "
 "ignored for component or project level access."
-msgstr "群组 :guilabel:`Languages` 与访问过的翻译进行匹配，它会被组件或项目级别的访问忽略。"
+msgstr ""
+"群组 :guilabel:`Languages` 与访问过的翻译进行匹配，它会被组件或项目级别的访问"
+"忽略。"
 
 #: ../../admin/access.rst:194
 msgid ""
@@ -5156,6 +5158,12 @@ msgid ""
 "example."
 msgstr "同样想要锁住 API 访问，如上面的例子所示。"
 
+#: ../../admin/config.rst:996
+#, fuzzy
+#| msgid "REQUIRE_LOGIN"
+msgid ":setting:`REQUIRE_LOGIN`"
+msgstr "REQUIRE_LOGIN"
+
 #: ../../admin/config.rst:1001
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr "LOGIN_REQUIRED_URLS_EXCEPTIONS"
@@ -7207,16 +7215,24 @@ msgid "Custom quality checks, addons and auto-fixes"
 msgstr "定制的质量检查、插件和自动修复"
 
 #: ../../admin/customize.rst:118
+#, fuzzy
+#| msgid ""
+#| "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
+#| "`own-addon` and in Weblate:"
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-checks` or :ref:"
-"`own-addon` and in Weblate:"
+"`own-addon` in Weblate:"
 msgstr ""
 "为了 :ref:`custom-autofix` 、 :ref:`own-checks` 或 :ref:`own-addon` 并在 "
 "Weblate 中安装你的代码："
 
 #: ../../admin/customize.rst:121
+#, fuzzy
+#| msgid ""
+#| "Place the files in your Python module containing the Weblate "
+#| "customization (see :ref:`custom-module`)."
 msgid ""
-"Place the files in your Python module containing the Weblate customization "
+"Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module`)."
 msgstr ""
 "将文件放在你的包含 Weblate 定制的 Python 模块中（请参见 :ref:`custom-"
@@ -9072,7 +9088,9 @@ msgstr "使用 Celery 的后台任务"
 msgid ""
 "Weblate uses Celery to process background tasks. A typical setup using Redis "
 "as a backend looks like this:"
-msgstr "Webate 使用 Celery 来处理后台任务。使用 Redis 作为后端的典型安装看起来像这样："
+msgstr ""
+"Webate 使用 Celery 来处理后台任务。使用 Redis 作为后端的典型安装看起来像这"
+"样："
 
 #: ../../admin/install.rst:1316
 msgid ""
@@ -15848,8 +15866,9 @@ msgstr ""
 #: ../../admin/upgrade.rst:179
 msgid ""
 "**Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and "
-"``msgctxt`` when present. This will change IDs of units in such files. "
-"Please make sure you commit pending changes in such files prior upgrading."
+"``msgctxt`` when present. This will change IDs of translation strings in "
+"such files. Please make sure you commit pending changes in such files prior "
+"upgrading."
 msgstr ""
 
 #: ../../admin/upgrade.rst:186
