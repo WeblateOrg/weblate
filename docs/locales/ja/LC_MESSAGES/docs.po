@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-24 13:48+0100\n"
-"PO-Revision-Date: 2020-12-24 12:38+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2020-12-25 09:37+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -75,19 +75,13 @@ msgid "Locking down Weblate"
 msgstr "Weblate の閉鎖"
 
 #: ../../admin/access.rst:30
-#, fuzzy
-#| msgid ""
-#| "To completely lock down your Weblate installation, you can use :setting:"
-#| "`REQUIRE_LOGIN` to force users to sign in and :setting:"
-#| "`REGISTRATION_OPEN` to prevent new registrations."
 msgid ""
 "To completely lock down your Weblate, you can use :setting:`REQUIRE_LOGIN` "
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
-"Weblate への登録を完全に封鎖するには、:setting:`REQUIRE_LOGIN` を使用してユー"
-"ザーにサイン インを強制し、:setting:`REGISTRATION_OPEN` を使用して新規登録を"
-"阻止します。"
+"Weblate を完全に封鎖するには、:setting:`REQUIRE_LOGIN` を使用してユーザーにサイン "
+"インを強制し、:setting:`REGISTRATION_OPEN` を使用して新規登録を阻止します。"
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -381,16 +375,10 @@ msgid ""
 msgstr "翻訳のアクセス権を確認する場合は、さらに次の手順を実行します:"
 
 #: ../../admin/access.rst:190
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Languages` are matched against accessed translations, it "
-#| "it ignored for component or project level access."
 msgid ""
 "Group :guilabel:`Languages` are matched against accessed translations, it is "
 "ignored for component or project level access."
-msgstr ""
-":guilabel:`言語` のグループは、アクセスされた翻訳と照合され、コンポーネントま"
-"たはプロジェクト レベルのアクセスでは無視されます。"
+msgstr ":guilabel:`言語` のグループは、アクセスされた翻訳と照合され、コンポーネントまたはプロジェクト レベルのアクセスでは無視されます。"
 
 #: ../../admin/access.rst:194
 msgid ""
@@ -458,9 +446,8 @@ msgid ""
 "`privileges`) can also manage users in projects with access control turned "
 "on through the project page. The interface allows you to:"
 msgstr ""
-":guilabel:`プロジェクトへのアクセスの管理` 権限（参照 :ref:`privileges`）を持"
-"つユーザーは、プロジェクト ページでアクセス制御が有効になっているプロジェクト"
-"内のユーザーも管理できます。このインタフェースでは、次のことができます："
+":guilabel:`プロジェクトへのアクセスの管理` 権限（参照 :ref:`privileges`）があるユーザーは、プロジェクト "
+"ページでアクセス制御が有効になっているプロジェクト内のユーザーも管理できます。このインタフェースでは、次のことができます："
 
 #: ../../admin/access.rst:233
 msgid "Add existing users to the project"
@@ -1426,7 +1413,7 @@ msgstr "改行処理など、 gettext の出力動作をカスタマイズでき
 
 #: ../../admin/addons.rst:265
 msgid "It offers the following options:"
-msgstr "以下のオプションがある："
+msgstr "使用できるオプション:"
 
 #: ../../admin/addons.rst:267
 msgid "Wrap lines at 77 characters and at newlines"
@@ -5005,9 +4992,8 @@ msgid ""
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
-"設定により、このヘッダーが複数の IP アドレス（例 ``X-Forwarded-For: a, b, "
-"client-ip``）で構成されている場合があります。ここで、ヘッダーのどのアドレスを"
-"クライアント IP アドレスとして使用するかを設定できます。"
+"設定により、このヘッダーが複数の IP アドレス（例 ``X-Forwarded-For: a, b, client-"
+"ip``）で構成されることがあります。ここで、ヘッダーのどのアドレスをクライアント IP アドレスとして使用するかどうかを設定できます。"
 
 #: ../../admin/config.rst:838
 msgid ""
@@ -6623,10 +6609,9 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``). This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
-"Weblate は、Pagure フックに対応しているので、あなたの Weblate のインストール"
-"上の ``/hooks/pagure/`` URL に宛先を持つ WEB フックを追加します（例えば "
-"``https://hosted.weblate.org/hooks/pagure/``）。これは、次の手順で行う :"
-"guilabel:`Project options` の中の :guilabel:`Activate Web-hooks`:"
+"Weblate は、Pagure フックに対応しているので、あなたの Weblate のインストール上の ``/hooks/pagure/`` URL "
+"に宛先がある WEB フックを追加します（例えば ``https://hosted.weblate.org/hooks/pagure/``）。これは、"
+"次の手順で行う :guilabel:`Project options` の中の :guilabel:`Activate Web-hooks`:"
 
 #: ../../admin/continuous.rst:196
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
@@ -17339,10 +17324,8 @@ msgid "Not yet released."
 msgstr "まだリリースしていません。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Fixed reverting plural changes."
-msgstr "変更時の警告表示の改善。"
+msgstr "複数系の変更を元に戻す修正。"
 
 #: ../../changes.rst:7
 msgid "Fixed displaying help for project settings."
@@ -23386,7 +23369,7 @@ msgstr ""
 
 #: ../../contributing/release.rst:49
 msgid "GnuPG with private key used to sign the release"
-msgstr "リリースの署名に使用する秘密鍵を持つ GnuPG"
+msgstr "リリースの署名に使用する秘密鍵がある GnuPG"
 
 #: ../../contributing/release.rst:50
 msgid "Push access to Weblate git repositories (it pushes tags)"
@@ -25786,9 +25769,8 @@ msgid ""
 "authentication. When using the built in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
-"設定によっては、Weblate リポジトリへの接続に認証が必要な場合があります。"
-"Weblate に組み込まれている :ref:`git-exporter` を使用すると、ユーザー名と "
-"API キーで認証されます。"
+"設定によっては、Weblate リポジトリへの接続に認証が必要になることあります。Weblate に組み込まれている :ref:`git-"
+"exporter` を使用すると、ユーザー名と API キーで認証されます。"
 
 #: ../../faq.rst:86
 msgid ""
@@ -29422,9 +29404,7 @@ msgstr ""
 msgid ""
 "Failing to fill in plural forms will in some cases lead to displaying "
 "nothing when the plural form is in use."
-msgstr ""
-"複数形を記入しないと、複数形が使用されているときに何も表示されない場合があり"
-"ます。"
+msgstr "複数形を記入しないと、複数形が使用されているときに何も表示されないことがあります。"
 
 #: ../../user/checks.rst:727
 msgid "Placeholders"
@@ -30537,9 +30517,8 @@ msgid ""
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot`` (works only on source strings)."
 msgstr ""
-"属性を持つ文字列の検索 - ``plural``、``context``、``suggestion``、"
-"``comment``、``check``、``dismissed-check``、``translation``、``variant``、"
-"``screenshot`` （原文でのみ有効）。"
+"属性がある文字列の検索 - ``plural``、``context``、``suggestion``、``comment``、``check"
+"``、``dismissed-check``、``translation``、``variant``、``screenshot`` （原文でのみ有効）。"
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -31423,11 +31402,10 @@ msgid ""
 "bilingual, making Weblate see translation key as source string instead of "
 "the actual source string. See :ref:`bimono` for more info."
 msgstr ""
-"デフォルトの翻訳文の長さの制限は、原文の 10 倍です。:setting:"
-"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` で、無効にできます。これに該当し"
-"た場合、単一言語翻訳がバイリンガルに設定されているために、Weblate が翻訳キー"
-"を実際の原文ではなくソース文字列として認識することが原因の場合があります。詳"
-"細は :ref:`bimono` をご覧ください。"
+"デフォルトの翻訳文の長さの制限は、原文の 10 "
+"倍です。:setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH` "
+"で、無効にできます。これに該当した場合、単一言語翻訳がバイリンガルに設定されていることが原因で、Weblate "
+"が翻訳キーを実際の原文ではなくソース文字列として認識することがあります。詳細は :ref:`bimono` をご覧ください。"
 
 #: ../../user/translating.rst:295
 msgid ""
@@ -31867,9 +31845,8 @@ msgid ""
 "finds component with matching repository setup. You can override this in "
 "last step of component configuration."
 msgstr ""
-"Weblate は、一致するリポジトリ設定を持つコンポーネントが見つかった場合、コン"
-"ポーネントを作成する際に自動的にリポジトリの URL を調整します。これは、コン"
-"ポーネント設定の最後の手順でオーバーライドできます。"
+"Weblate は、一致するリポジトリ設定があるコンポーネントが見つかった場合、コンポーネントを作成する際に自動的にリポジトリの URL "
+"を調整します。これは、コンポーネント設定の最後の手順でオーバーライドできます。"
 
 #: ../../vcs.rst:141
 msgid "Reasons to use this:"
@@ -32775,9 +32752,8 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user that has a :guilabel:`Translate` permission for the project."
 msgstr ""
-"以降の章では、*すべてのユーザー* とは翻訳にアクセスできるユーザーのことです。"
-"プロジェクトを公開している場合は認証済みのユーザー、または :guilabel:`翻訳` "
-"権限を持つユーザーを指定できます。"
+"以降の章では、*すべてのユーザー* とは翻訳にアクセスできるユーザーのことです。プロジェクトを公開している場合は認証済みのユーザー、または "
+":guilabel:`翻訳` 権限があるユーザーを指定できます。"
 
 #: ../../workflows.rst:28
 msgid "Each translated string can be in one of following states:"
