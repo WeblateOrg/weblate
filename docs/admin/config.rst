@@ -1689,7 +1689,7 @@ REQUIRE_LOGIN
 .. versionadded:: 4.1
 
 This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to
-require sign in for all API endpoints.
+require authentication for all API endpoints.
 
 .. note::
 
