@@ -93,12 +93,11 @@ class AppearanceForm(forms.Form):
     hover_color = ColorField(label=_("Hover color"), required=False, initial="#144d3f")
     hide_footer = forms.BooleanField(label=_("Hide page footer"), required=False)
     enforce_hamburger = forms.BooleanField(
-        label=_("Persistent hamburger navigation"),
+        label=_("Always show hamburger menu"),
         required=False,
         help_text=_(
-            "Use hamburger menu in the top navigation regardless the screen "
-            "resolution. When disabled the hamburger menu is used on "
-            "small screens only."
+            "Persistent navigational drop-down menu in the top right corner, "
+            "even if there is room for a full menu."
         ),
     )
 
