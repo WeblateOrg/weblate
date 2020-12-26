@@ -96,8 +96,8 @@ class AppearanceForm(forms.Form):
         label=_("Always show hamburger menu"),
         required=False,
         help_text=_(
-            "Persistent hamburger menu, even if there is "
-            "room for a full menu in the top right corner."
+            "Persistent navigational drop-down menu in the top right corner, "
+            "even if there is room for a full menu."
         ),
     )
 
