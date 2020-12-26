@@ -1062,7 +1062,7 @@ Released on Dec 15th 2016.
 * Added per language overview to project.
 * Added support for CSV export.
 * Added CSV download for stats.
-* Added matrix view for quick overview of all translations
+* Added matrix view for quick overview of all translations.
 * Added basic API for changes and strings.
 * Added support for Apertium APy server for machine translations.
 
@@ -1177,7 +1177,7 @@ Released on Mar 10th 2016.
 * Added configurable dashboard views.
 * Improved notifications on parse errors.
 * Added option to import components with duplicate name to import_project.
-* Improved support for translating PHP files
+* Improved support for translating PHP files.
 * Added XLIFF export for dictionary.
 * Added XLIFF and gettext PO export for all translations.
 * Documentation improvements.
@@ -1226,9 +1226,9 @@ Weblate 2.3
 Released on May 22nd 2015.
 
 * Dropped support for Django 1.6 and South migrations.
-* Support for adding new translations when using Java Property files
+* Support for adding new translations when using Java Property files.
 * Allow to accept suggestion without editing.
-* Improved support for Google OAuth 2.0
+* Improved support for Google OAuth 2.0.
 * Added support for Microsoft .resx files.
 * Tuned default robots.txt to disallow big crawling of translations.
 * Simplified workflow for accepting suggestions.
