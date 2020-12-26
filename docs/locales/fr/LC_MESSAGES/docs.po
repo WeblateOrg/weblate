@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-25 10:38+0100\n"
-"PO-Revision-Date: 2020-12-21 17:29+0000\n"
-"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"PO-Revision-Date: 2020-12-26 19:29+0000\n"
+"Last-Translator: Christophe Nemo <spam@teknow.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -630,6 +630,11 @@ msgid ""
 "changes will be lost. In case you want to define own set of permissions, "
 "please define a new role for that."
 msgstr ""
+"Ces rôles et groupes sont créés lors de l'installation. Les rôles natifs "
+"sont toujours conservés à jour par la migration de la base de données lors "
+"d'une mise à niveau et toute modification personnalisée sera perdue. Si vous "
+"souhaitez définir votre propre ensemble de permissions, veuillez définir un "
+"nouveau rôle pour cela."
 
 #: ../../admin/access.rst:325
 msgid "List of privileges"
@@ -1575,6 +1580,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"L'emplacement du fichier MO généré peut être personnalisé et le champ pour "
+"cela utilise :ref:`markup`."
 
 #: ../../admin/addons.rst:296
 msgid "Update PO files to match POT (msgmerge)"
@@ -1587,6 +1594,9 @@ msgid ""
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
+"Met à jour tous les fichiers PO (tels que configuré par :ref:`component-"
+"filemask`) pour correspondre au fichier POT (tel que configuré par :ref"
+":`component-new_base`) en utilisant :program:`msgmerge`."
 
 #: ../../admin/addons.rst:301
 msgid ""
@@ -3183,30 +3193,40 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate dépose diverses données ici, et vous pouvez inclure ces fichiers "
+"pour des sauvegardes plus complètes. Les fichiers sont mis à jour "
+"quotidiennement (nécessite un serveur Celery beats fonctionnel, voir "
+":ref:`celery`). Actuellement, ceci inclut :"
 
 #: ../../admin/backup.rst:236
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
 msgstr ""
+"Les paramètres Weblate comme :file:`settings.py` (il existe aussi une "
+"version étendue dans :file:`settings-expanded.py`)."
 
 #: ../../admin/backup.rst:237
 msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr ""
+"La sauvegarde de la base de données PostgreSQL comme :file:`database.sql`."
 
 #: ../../admin/backup.rst:239
 msgid ""
 "The database backups are by default saved as plain text, but they can also "
 "be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Les sauvegardes des bases de données sont par défaut en mode texte, mais "
+"elles peuvent aussi être compressées ou entièrement ignorées en utilisant "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:243
 msgid "Version control repositories"
-msgstr ""
+msgstr "Dépôts des contrôles de version"
 
 #: ../../admin/backup.rst:245
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Stockés dans :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:247
 msgid ""
