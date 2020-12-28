@@ -77,7 +77,7 @@ def get_plural_type(base_code, plural_formula):
     if base_code in ("ar",):
         return data.PLURAL_ARABIC
 
-    # Log error in case of uknown mapping
+    # Log error in case of unknown mapping
     LOGGER.error("Can not guess type of plural for %s: %s", base_code, plural_formula)
 
     return data.PLURAL_UNKNOWN
