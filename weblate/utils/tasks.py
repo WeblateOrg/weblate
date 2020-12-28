@@ -111,8 +111,7 @@ def database_backup():
         if database["USER"]:
             cmd += ["--user", database["USER"]]
         if settings.DATABASE_BACKUP == "compressed":
-            cmd += ["--result-file", data_dir("backups", "database.sql.gz")]
-            cmd += ["--compress"]
+            cmd += ["|", "gzip", ">", data_dir("backups", "database.sql.gz")]
         else:
             cmd += ["--result-file", data_dir("backups", "database.sql")]
 
