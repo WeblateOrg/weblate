@@ -9,11 +9,13 @@ Weblate can be easily installed in your cloud. Please find detailed guide for yo
 * :doc:`install/openshift`
 * :doc:`install/kubernetes`
 
-Helm Chart
-----------
+Third-party deployments for Weblate
++++++++++++++++++++++++++++++++++++
 
-You can install Weblate on Kubernetes using Helm.
-See <https://github.com/WeblateOrg/helm/tree/master/charts/weblate> for the detailed instructions.
+.. note::
+
+   Following deployments are not developed or supported by Weblate team. Parts
+   of the setup might vary from what is described in this documentation.
 
 Bitnami Weblate stack
 ---------------------
@@ -22,6 +24,17 @@ Bitnami provides a Weblate stack for many platforms at
 <https://bitnami.com/stack/weblate>. The setup will be adjusted during
 installation, see <https://bitnami.com/stack/weblate/README.txt> for more
 documentation.
+
+Weblate Cloudron Package
+------------------------
+
+`Cloudron <https://cloudron.io/>`_ is a platform for self-hosting web applications.
+Weblate installed with Cloudron will be automatically kept up-to-date.
+The package is maintained by the Cloudron team at their `Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_.
+
+.. image:: /images/cloudron.png
+   :alt: Install Weblate with Cloudron
+   :target: https://cloudron.io/button.html?app=org.weblate.cloudronapp
 
 Weblate in YunoHost
 -------------------
@@ -35,8 +48,8 @@ usages.
 You may use your administration interface, or this button (it will bring you to your server):
 
 .. image:: /images/install-with-yunohost.png
-             :alt: Install Weblate with YunoHost
-             :target: https://install-app.yunohost.org/?app=weblate
+   :alt: Install Weblate with YunoHost
+   :target: https://install-app.yunohost.org/?app=weblate
 
 It also is possible to use the commandline interface:
 

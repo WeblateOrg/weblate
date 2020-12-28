@@ -991,6 +991,10 @@ A list of URLs you want to require logging into. (Besides the standard rules bui
 
    It is desirable to lock down API access as well, as shown in the above example.
 
+.. seealso::
+
+   :setting:`REQUIRE_LOGIN`
+
 .. setting:: LOGIN_REQUIRED_URLS_EXCEPTIONS
 
 LOGIN_REQUIRED_URLS_EXCEPTIONS
@@ -1685,7 +1689,7 @@ REQUIRE_LOGIN
 .. versionadded:: 4.1
 
 This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to
-require sign in for all API endpoints.
+require authentication for all API endpoints.
 
 .. note::
 

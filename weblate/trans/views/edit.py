@@ -57,7 +57,13 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
-from weblate.trans.util import get_state_css, join_plural, redirect_next, render
+from weblate.trans.util import (
+    get_state_css,
+    join_plural,
+    redirect_next,
+    render,
+    split_plural,
+)
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -92,7 +98,14 @@ def parse_params(request, project, component, lang):
 
 def get_other_units(unit):
     """Returns other units to show while translating."""
-    result = {"total": 0, "same": [], "matching": [], "context": [], "source": []}
+    result = {
+        "total": 0,
+        "skipped": False,
+        "same": [],
+        "matching": [],
+        "context": [],
+        "source": [],
+    }
 
     allow_merge = False
     untranslated = False
@@ -113,11 +126,16 @@ def get_other_units(unit):
         translation__language=translation.language,
     )
 
+    units_count = units.count()
+
     # Is it only this unit?
-    if len(units) == 1:
+    if units_count == 1:
         return result
 
-    for item in units:
+    result["total"] = units_count
+    result["skipped"] = units_count > 20
+
+    for item in units[:20]:
         item.allow_merge = item.differently_translated = (
             item.translated and item.target != unit.target
         )
@@ -368,7 +386,7 @@ def handle_revert(unit, request, next_unit_url):
     # Store unit
     unit.translate(
         request.user,
-        change.old,
+        split_plural(change.old),
         STATE_FUZZY if change.action == Change.ACTION_MARKED_EDIT else unit.state,
         change_action=Change.ACTION_REVERT,
     )

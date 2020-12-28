@@ -301,6 +301,12 @@ def component_removal(pk, uid):
             author=user,
         )
         obj.delete()
+        if obj.allow_translation_propagation:
+            components = obj.project.component_set.filter(
+                allow_translation_propagation=True
+            )
+            for component_id in components.values_list("id", flat=True):
+                update_checks.delay(component_id)
     except Component.DoesNotExist:
         return
 

@@ -459,7 +459,11 @@ class PoMonoUnit(PoUnit):
         """
         # Monolingual PO files
         if self.template is not None:
-            return self.template.source or self.template.getcontext()
+            context = self.template.getcontext().strip()
+            source = self.template.source.strip()
+            if source and context:
+                return f"{context}.{source}"
+            return source or context
         return super().context
 
     @cached_property
@@ -754,6 +758,10 @@ class CSVUnit(MonolingualSimpleUnit):
                 return self.template.context
             return self.template.getid()
         return self.unescape_csv(self.mainunit.getcontext())
+
+    @cached_property
+    def locations(self):
+        return self.mainunit.location
 
     @cached_property
     def source(self):

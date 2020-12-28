@@ -1,0 +1,16 @@
+{% extends "message.html" %}
+{% load i18n %}
+
+{% block tags %}info{% endblock %}
+
+{% block message %}
+  {% if payment_enabled and not user_billings %}
+    <a class="btn btn-primary pull-right flip btn-spaced" href="{% url 'trial' %}">{% trans "Gratis trial for commercial hosting" %}</a>
+    <a class="btn btn-primary pull-right flip btn-spaced" href="{% url 'hosting' %}">{% trans "Ask for libre project hosting" %}</a>
+    {% trans "This might be caused by missing subscription." %}
+  {% else %}
+    <a class="btn btn-primary pull-right flip" href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>
+    {% trans "This might be caused by some of your billings are past due date or over limits." %}
+  {% endif %}
+  <div class="clearfix"></div>
+{% endblock %}

@@ -1225,6 +1225,14 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Hook working", status_code=201)
 
     @override_settings(ENABLE_HOOKS=True)
+    def test_hook_github_ping_no_slash(self):
+        response = self.client.post(
+            "/hooks/github",
+            {"payload": '{"zen": "Approachable is better than simple."}'},
+        )
+        self.assertContains(response, "Hook working", status_code=201)
+
+    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_auth(self):
         # Adjust matching repo
         self.component.repo = "https://user:pwd@github.com/defunkt/github.git"

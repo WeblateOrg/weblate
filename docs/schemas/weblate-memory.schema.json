@@ -20,7 +20,6 @@
         "default": "",
         "description": "Filename or component name",
         "examples": ["test"],
-        "pattern": "^(.*)$",
         "title": "The String Origin",
         "type": "string"
       },
@@ -28,7 +27,7 @@
         "$id": "#/items/properties/source",
         "default": "",
         "examples": ["Hello"],
-        "pattern": "^(.+)$",
+        "minLength": 1,
         "title": "The Source String",
         "type": "string"
       },
@@ -37,7 +36,7 @@
         "default": "",
         "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
         "examples": ["en"],
-        "pattern": "^([^ ]+)$",
+        "pattern": "^[^ ]+$",
         "title": "The Source Language",
         "type": "string"
       },
@@ -45,7 +44,7 @@
         "$id": "#/items/properties/target",
         "default": "",
         "examples": ["Ahoj"],
-        "pattern": "^(.+)$",
+        "minLength": 1,
         "title": "The Target String",
         "type": "string"
       },
@@ -54,7 +53,7 @@
         "default": "",
         "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
         "examples": ["cs"],
-        "pattern": "^([^ ]+)$",
+        "pattern": "^[^ ]+$",
         "title": "The Target Language",
         "type": "string"
       }

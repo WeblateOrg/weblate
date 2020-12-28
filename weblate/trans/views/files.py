@@ -54,13 +54,13 @@ def download_multi(translations, fmt=None, name="translations"):
         if translation.component_id in components:
             continue
         components.add(translation.component_id)
-        for name in (
+        for filename in (
             translation.component.template,
             translation.component.new_base,
             translation.component.intermediate,
         ):
-            if name:
-                fullname = os.path.join(translation.component.full_path, name)
+            if filename:
+                fullname = os.path.join(translation.component.full_path, filename)
                 if os.path.exists(fullname):
                     filenames.add(fullname)
 

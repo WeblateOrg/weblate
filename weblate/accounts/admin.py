@@ -26,6 +26,9 @@ class AuditLogAdmin(WeblateModelAdmin):
     date_hierarchy = "timestamp"
     ordering = ("-timestamp",)
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 class ProfileAdmin(WeblateModelAdmin):
     list_display = ["user", "full_name", "language", "suggested", "translated"]
@@ -33,9 +36,15 @@ class ProfileAdmin(WeblateModelAdmin):
     list_filter = ["language"]
     filter_horizontal = ("languages", "secondary_languages", "watched")
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 class VerifiedEmailAdmin(WeblateModelAdmin):
     list_display = ("social", "provider", "email")
     search_fields = ("email", "social__user__username", "social__user__email")
     raw_id_fields = ("social",)
     ordering = ("email",)
+
+    def has_delete_permission(self, request, obj=None):
+        return False

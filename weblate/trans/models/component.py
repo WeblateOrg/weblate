@@ -412,7 +412,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     suggestion_voting = models.BooleanField(
         verbose_name=gettext_lazy("Suggestion voting"),
         default=False,
-        help_text=gettext_lazy("Whether users can vote for suggestions."),
+        help_text=gettext_lazy(
+            "Users can only vote for suggestions and can’t make direct translations."
+        ),
     )
     suggestion_autoaccept = models.PositiveSmallIntegerField(
         verbose_name=gettext_lazy("Autoaccept suggestions"),

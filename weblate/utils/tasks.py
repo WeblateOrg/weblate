@@ -126,6 +126,7 @@ def database_backup():
             env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            stdin=subprocess.DEVNULL,
             check=True,
             universal_newlines=True,
         )

@@ -379,6 +379,10 @@ class ComponentTest(RepoTestCase):
         component = self.create_odt()
         self.verify_component(component, 2, "cs", 4, unit="Hello, world!")
 
+    def test_create_winrc(self):
+        component = self.create_winrc()
+        self.verify_component(component, 2, "cs-CZ", 4)
+
     def test_link(self):
         component = self.create_link()
         self.verify_component(component, 4, "cs", 4)

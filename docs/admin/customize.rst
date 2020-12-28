@@ -116,9 +116,9 @@ Custom quality checks, addons and auto-fixes
 --------------------------------------------
 
 To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
-:ref:`own-addon` and in Weblate:
+:ref:`own-addon` in Weblate:
 
-1. Place the files in your Python module containing the Weblate customization
+1. Place the files into your Python module containing the Weblate customization
    (see :ref:`custom-module`).
 2. Add its fully-qualified path to the Python class in the dedicated settings
    (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):

@@ -75,7 +75,7 @@ def change_project(request, project):
     return render(
         request,
         "project-settings.html",
-        {"object": obj, "settings_form": settings_form},
+        {"object": obj, "form": settings_form},
     )
 
 

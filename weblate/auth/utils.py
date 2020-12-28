@@ -95,10 +95,9 @@ def create_anonymous(model, group_model, update=True):
     )
     if user.is_active:
         raise ValueError(
-            "Anonymous user ({}) already exists and enabled, "
-            "please change ANONYMOUS_USER_NAME setting.".format(
-                settings.ANONYMOUS_USER_NAME
-            )
+            f"Anonymous user ({settings.ANONYMOUS_USER_NAME}) already exists and is "
+            "active, please change the ANONYMOUS_USER_NAME setting or mark the user "
+            "as not active in the admin interface."
         )
 
     if created or update:

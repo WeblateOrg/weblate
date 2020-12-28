@@ -24,7 +24,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -130,6 +130,18 @@ class BillingQuerySet(models.QuerySet):
             )
             .distinct()
             .order_by("state")
+        )
+
+    def prefetch(self):
+        return self.prefetch_related(
+            "owners",
+            "owners__profile",
+            "plan",
+            Prefetch(
+                "projects",
+                queryset=Project.objects.order(),
+                to_attr="ordered_projects",
+            ),
         )
 
 

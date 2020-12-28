@@ -476,9 +476,16 @@ INI translations are usually used as monolingual translations.
 | File format                    | `INI File`                       |
 +--------------------------------+----------------------------------+
 
+.. note::
+
+   Weblate only extracts keys from sections within a INI file. In case your INI
+   file lacks sections, you might want to use :ref:`joomla` or :ref:`javaprop`
+   instead.
+
 .. seealso::
 
     :doc:`tt:formats/ini`,
+    :ref:`javaprop`,
     :ref:`joomla`,
     :ref:`islu`
 
@@ -1013,14 +1020,17 @@ CSV files
 CSV files can contain a simple list of source and translation. Weblate supports
 the following files:
 
-* Files with header defining fields (source, translation, location, …). This
-  is the recommended approach, as it is the least error prone.
+* Files with header defining fields (``location``, ``source``, ``target``,
+  ``ID``, ``fuzzy``, ``context``, ``translator_comments``,
+  ``developer_comments``). This is the recommended approach, as it is the least
+  error prone. Choose :guilabel:``CSV file`` as a file format.
 * Files with two fields—source and translation (in this order), choose
-  :guilabel:`Simple CSV file` as file format
-* Files with fields as defined by translate-toolkit: location, source,
+  :guilabel:`Simple CSV file` as a file format
+* Headerless files with fields in order defined by translate-toolkit: location, source,
   target, ID, fuzzy, context, translator_comments, developer_comments
+  Choose :guilabel:``CSV file`` as a file format.
 * Remember to define :ref:`component-template` when your files are monolingual
-  (see :ref:`bimono`)
+  (see :ref:`bimono`).
 
 .. warning::
 

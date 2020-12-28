@@ -20,7 +20,7 @@
 from django.conf import settings
 from django.core.checks import run_checks
 from django.core.mail import send_mail
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -412,20 +412,7 @@ def billing(request):
     terminated = []
 
     # We will list all billings anyway, so fetch  them at once
-    billings = (
-        Billing.objects.all()
-        .order_by("expiry", "removal", "id")
-        .prefetch_related(
-            "owners",
-            "owners__profile",
-            "plan",
-            Prefetch(
-                "projects",
-                queryset=Project.objects.order(),
-                to_attr="ordered_projects",
-            ),
-        )
-    )
+    billings = Billing.objects.prefetch().order_by("expiry", "removal", "id")
 
     for currrent in billings:
         if currrent.removal:

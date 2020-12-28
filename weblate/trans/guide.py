@@ -136,7 +136,7 @@ class InstructionsGuideline(Guideline):
         )
 
     def get_doc_url(self, user=None):
-        return get_doc_url("admin/project", "project", user=user)
+        return get_doc_url("admin/projects", "project", user=user)
 
 
 @register

@@ -1,7 +1,19 @@
+Weblate 4.4.1
+-------------
+
+Not yet released.
+
+* Fixed reverting plural changes.
+* Fixed displaying help for project settings.
+* Improved administering of users.
+* Improved handling of context in monolingual PO files.
+* Fixed cleanup addon behavior with HTML, ODF, IDML and Windows RC formats.
+* Fixed parsing of location from CSV files.
+
 Weblate 4.4
 -----------
 
-Not yet released.
+Released on December 15th 2020.
 
 * Improved validation when creating component.
 * Weblate now requires Django 3.1.
@@ -15,7 +27,7 @@ Not yet released.
 * Improved support for non standard language codes.
 * Added alert on using ambiguous language codes.
 * User is now presented filtered list of languages when adding new translation.
-* Extended search capabilities for changes history.
+* Extended search capabilities for changes in history.
 * Improved billing detail pages and libre hosting workflow.
 * Extended translation statistics API.
 * Improved other translations tab while translating.
@@ -35,7 +47,7 @@ Released on November 4th 2020.
 * Fixed crash on certain component filemasks.
 * Improved accuracy of the consecutive duplicated words check.
 * Added support for Pagure pull requests.
-* Improved error messages on failed registraiton.
+* Improved error messages on failed registration.
 * Reverted rendering developer comments as markdown.
 * Simplified setup of Git repositories with different default branch than master.
 * Newly created internal repositories now use main as default branch.
@@ -1050,7 +1062,7 @@ Released on Dec 15th 2016.
 * Added per language overview to project.
 * Added support for CSV export.
 * Added CSV download for stats.
-* Added matrix view for quick overview of all translations
+* Added matrix view for quick overview of all translations.
 * Added basic API for changes and strings.
 * Added support for Apertium APy server for machine translations.
 
@@ -1165,7 +1177,7 @@ Released on Mar 10th 2016.
 * Added configurable dashboard views.
 * Improved notifications on parse errors.
 * Added option to import components with duplicate name to import_project.
-* Improved support for translating PHP files
+* Improved support for translating PHP files.
 * Added XLIFF export for dictionary.
 * Added XLIFF and gettext PO export for all translations.
 * Documentation improvements.
@@ -1214,9 +1226,9 @@ Weblate 2.3
 Released on May 22nd 2015.
 
 * Dropped support for Django 1.6 and South migrations.
-* Support for adding new translations when using Java Property files
+* Support for adding new translations when using Java Property files.
 * Allow to accept suggestion without editing.
-* Improved support for Google OAuth 2.0
+* Improved support for Google OAuth 2.0.
 * Added support for Microsoft .resx files.
 * Tuned default robots.txt to disallow big crawling of translations.
 * Simplified workflow for accepting suggestions.

@@ -20,10 +20,13 @@ If no exact match can be found, an attempt will be made
 to best fit it into an existing language (e.g. ignoring the default country code
 for a given language—choosing ``cs`` instead of ``cs_CZ``).
 
-Should that also fail, a new language definition will be created using the defaults (left
-to right text direction, one plural) and naming of the language as :guilabel:`xx_XX (generated)`.
-You might want to change this in the admin interface later, (see :ref:`changing-languages`)
-and report it to the issue tracker (see :ref:`contributing`).
+Should that also fail, a new language definition will be created using the
+defaults (left to right text direction, one plural). The automatically created
+language with code ``xx_XX`` will be named as :guilabel:`xx_XX (generated)`.
+You might want to change this in the admin interface later, (see
+:ref:`changing-languages`) and report it to the issue tracker (see
+:ref:`contributing`), so that the proper definition can be added to the
+upcoming Weblate release.
 
 .. hint::
 

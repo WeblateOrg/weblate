@@ -21,6 +21,7 @@ import os
 
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
+from rest_framework.authtoken.models import Token
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
@@ -63,6 +64,23 @@ def remove_user(user, request):
 
     # Remove user translation memory
     user.memory_set.all().delete()
+
+    # Cleanup profile
+    profile = user.profile
+    profile.website = ""
+    profile.liberapay = ""
+    profile.fediverse = ""
+    profile.codesite = ""
+    profile.github = ""
+    profile.twitter = ""
+    profile.linkedin = ""
+    profile.location = ""
+    profile.company = ""
+    profile.public_email = ""
+    profile.save()
+
+    # Delete API tokens
+    Token.objects.filter(user=request.user).delete()
 
 
 def get_all_user_mails(user, entries=None):

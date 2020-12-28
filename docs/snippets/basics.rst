@@ -14,4 +14,5 @@ used within one application).
 Internally, each project has translations to common strings propagated across
 other components within it by default. This lightens the burden of repetitive
 and multi version translation. The translation propagation can be disabled per
-:ref:`component` in case the translations should diverge.
+:ref:`component` using :ref:`component-allow_translation_propagation` in case
+the translations should diverge.
