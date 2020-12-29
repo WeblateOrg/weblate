@@ -123,8 +123,6 @@ def database_backup():
         subprocess.run(
             cmd,
             env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
             stdin=subprocess.DEVNULL,
             check=True,
             universal_newlines=True,
