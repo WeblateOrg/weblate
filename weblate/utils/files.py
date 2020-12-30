@@ -22,6 +22,7 @@ import shutil
 import stat
 
 from django.conf import settings
+from translation_finder.finder import EXCLUDES
 
 DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, "data")
 DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, "data-test")
@@ -30,6 +31,8 @@ VENV_DIR = os.path.join(settings.BASE_DIR, ".venv")
 DOCS_DIR = os.path.join(settings.BASE_DIR, "docs")
 SCRIPTS_DIR = os.path.join(settings.BASE_DIR, "scripts")
 EXAMPLES_DIR = os.path.join(settings.BASE_DIR, "weblate", "examples")
+
+PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
 
 
 def remove_readonly(func, path, excinfo):
@@ -52,6 +55,7 @@ def remove_tree(path: str, ignore_errors: bool = False):
 
 
 def should_skip(location):
+    """Check for skipping location in manage commands."""
     location = os.path.abspath(location)
     return (
         location.startswith(VENV_DIR)
@@ -63,3 +67,11 @@ def should_skip(location):
         or location.startswith(SCRIPTS_DIR)
         or location.startswith(EXAMPLES_DIR)
     )
+
+
+def is_excluded(path):
+    """Whether path should be excluded from zip extraction."""
+    for exclude in PATH_EXCLUDES:
+        if exclude in path:
+            return True
+    return False

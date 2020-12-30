@@ -34,6 +34,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
+from weblate.utils.files import is_excluded
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
@@ -872,8 +873,10 @@ class LocalRepository(GitRepository):
         # Create empty repo
         if not os.path.exists(target):
             cls._clone("local:", target, cls.default_branch)
-        # Extract zip file content
-        ZipFile(zipfile).extractall(target)
+        # Extract zip file content, ignoring some files
+        zipobj = ZipFile(zipfile)
+        names = [name for name in zipobj.namelist() if not is_excluded(name)]
+        zipobj.extractall(path=target, members=names)
         # Add to repository
         repo = cls(target)
         with repo.lock:
