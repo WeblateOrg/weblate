@@ -110,10 +110,8 @@ def database_backup():
             cmd += ["--port", database["PORT"]]
         if database["USER"]:
             cmd += ["--user", database["USER"]]
-        if settings.DATABASE_BACKUP == "compressed":
-            cmd += ["|", "gzip", ">", data_dir("backups", "database.sql.gz")]
-        else:
-            cmd += ["--result-file", data_dir("backups", "database.sql")]
+
+        cmd += ["--result-file", data_dir("backups", "database.sql")]
 
         env["MYSQL_PWD"] = database["PASSWORD"]
     else:
@@ -127,7 +125,6 @@ def database_backup():
             stderr=subprocess.PIPE,
             stdin=subprocess.DEVNULL,
             check=True,
-            shell=True,
             universal_newlines=True,
         )
     except subprocess.CalledProcessError as error:
