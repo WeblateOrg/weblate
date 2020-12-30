@@ -241,6 +241,8 @@ autodoc_mock_imports = [
     "weblate.addons.models",
     "weblate.trans.models",
     "weblate.lang.models",
+    "weblate.vcs.git",
+    "weblate.utils.files",
 ]
 
 # Gettext / i18n
