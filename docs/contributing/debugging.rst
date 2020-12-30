@@ -58,6 +58,6 @@ showing the issue, and anything that might help figuring out where the code migh
 improved.
 
 In case some requests take too long without any indication, you might
-want to install `dogslow <https://pypi.org/project/dogslow/>` along with
+want to install `dogslow <https://pypi.org/project/dogslow/>`_ along with
 :ref:`collecting-errors` and get pinpointed and detailed tracebacks in
 the error collection tool.

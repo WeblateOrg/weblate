@@ -1424,7 +1424,7 @@ Released on January 23rd 2013.
 * Added support for substring search.
 * Various quality checks improvements.
 * Support for per project ACL.
-* Basic string tests coverage.
+* Basic code coverage by unit tests.
 
 Weblate 1.3
 ~~~~~~~~~~~
@@ -1474,7 +1474,7 @@ Released on August 14th 2012.
 * Optionally maintain ``Language-Team`` header in po file.
 * Include some statistics in about page.
 * Supports (and requires) django-registration 0.8.
-* Caching of counted strings with failing checks.
+* Caching counts of strings with failing checks.
 * Checking of requirements during setup.
 * Documentation improvements.
 

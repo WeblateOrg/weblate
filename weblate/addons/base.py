@@ -197,7 +197,7 @@ class BaseAddon:
         Hook triggered after repository is updated from upstream.
 
         :param str previous_head: HEAD of the repository prior to update, can
-                                  be blank on initial clone
+                                  be blank on initial clone.
         :param bool skip_push: Whether the addon operation should skip pushing
                                changes upstream. Usually you can pass this to
                                underlying methods as commit_and_push or
@@ -222,7 +222,12 @@ class BaseAddon:
         return
 
     def store_post_load(self, translation, store):
-        """Hook triggered after file is parsed and storage class constructed."""
+        """
+        Hook triggered after a file is parsed and file format class is constructed.
+
+        This is useful to modify file format class parameters, for example adjust
+        how the file will be saved.
+        """
         return
 
     def daily(self, component):
