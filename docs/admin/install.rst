@@ -480,7 +480,7 @@ The :file:`settings.py` snippet for MySQL and MariaDB:
 You should also create the ``weblate`` user account in MySQL or MariaDB before
 you begin the install.  Use the commands below to achieve that:
 
-.. code-block:: sql
+.. code-block:: sh
 
    GRANT ALL ON weblate.* to 'weblate'@'localhost' IDENTIFIED BY 'password';
    FLUSH PRIVILEGES;
