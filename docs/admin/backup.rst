@@ -15,7 +15,7 @@ the cloud. The backups can be controlled in the management interface on the
 
 .. note::
 
-   Both PostgreSQL and MySQL/MariaDB databases are included in the automated backups. 
+   Both PostgreSQL and MySQL/MariaDB databases are included in the automated backups.
    However, the compression option is only currently available using the PostgreSQL
    database. You are recommended to migrate to PostgreSQL, see :ref:`database-setup` and
    :ref:`database-migration`.
