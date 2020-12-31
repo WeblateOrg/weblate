@@ -130,7 +130,7 @@ def download_translation(request, project, component, lang):
         )
         kwargs["fmt"] = form.cleaned_data["format"]
 
-    return download_translation_file(obj, **kwargs)
+    return download_translation_file(request, obj, **kwargs)
 
 
 @require_POST

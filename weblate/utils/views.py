@@ -30,6 +30,7 @@ from django.utils.http import http_date
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, pgettext_lazy
+from django.views.decorators.gzip import gzip_page
 from django.views.generic.edit import FormView
 
 from weblate.formats.models import EXPORTERS
@@ -253,7 +254,8 @@ def zip_download(root, filenames, name="translations"):
     return response
 
 
-def download_translation_file(translation, fmt=None, units=None):
+@gzip_page
+def download_translation_file(request, translation, fmt=None, units=None):
     if fmt is not None:
         try:
             exporter_cls = EXPORTERS[fmt]

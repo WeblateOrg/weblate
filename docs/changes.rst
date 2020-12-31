@@ -9,6 +9,7 @@ Not yet released.
 * Improved handling of context in monolingual PO files.
 * Fixed cleanup addon behavior with HTML, ODF, IDML and Windows RC formats.
 * Fixed parsing of location from CSV files.
+* Use content compression for file downloads.
 
 Weblate 4.4
 -----------
