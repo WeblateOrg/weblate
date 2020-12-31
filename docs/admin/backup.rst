@@ -13,11 +13,11 @@ Borg creates space-effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface on the
 :guilabel:`Backups` tab.
 
-.. warning::
+.. note::
 
-   Only PostgreSQL database is included in the automated backups. Other
-   database engines have to be backed up manually. You are recommended to
-   migrate to PostgreSQL, see :ref:`database-setup` and
+   Both PostgreSQL and MySQL/MariaDB databases are included in the automated backups. 
+   However, the compression option is only currently available using the PostgreSQL
+   database. You are recommended to migrate to PostgreSQL, see :ref:`database-setup` and
    :ref:`database-migration`.
 
 The backups using Borg are incremental and Weblate is configured to keep following backups:

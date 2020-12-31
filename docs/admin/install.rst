@@ -413,14 +413,77 @@ Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7.
 Following configuration is recommended for Weblate:
 
 * Use the ``utf8mb4`` charset to allow representation of higher Unicode planes (for example emojis).
-* Configure the server with ``Innodb_large_prefix`` to allow longer indices on text fields.
+* Configure the server with ``innodb_large_prefix`` to allow longer indices on text fields.
 * Set the isolation level to ``READ COMMITTED``.
 * The SQL mode should be set to ``STRICT_TRANS_TABLES``.
+
+Below is an example /etc/my.cnf.d/server.cnf for an 8GB server.  These settings should be
+sufficient for most installs.  MySQL and MariaDB have tunables that will increase the
+performance of your server that are considered not necessary unless you are planning on
+having large numbers of concurrent users accessing the system.  See the various vendors
+documentation on those details.
+
+It is absolutely critical to reduce issues when installing that the setting ``innodb_file_per_table``
+is set properly and MySQL/MariaDB restarted before you start your Weblate install.
+
+.. code-block:: sh
+
+   [mysqld]
+   character-set-server = utf8mb4
+   character-set-client = utf8mb4
+   collation-server = utf8mb4_unicode_ci
+
+   datadir=/var/lib/mysql
+
+   log-error=/var/log/mariadb/mariadb.log
+
+   innodb_large_prefix=1
+   innodb_file_format=Barracuda
+   innodb_file_per_table=1
+   innodb_buffer_pool_size=2G
+   sql_mode=STRICT_TRANS_TABLES
 
 .. hint::
 
    In case you are getting ``#1071 - Specified key was too long; max key length
-   is 767 bytes`` error, please set ``Innodb_large_prefix`` as described above.
+   is 767 bytes`` error, please update your configuration to include the ``innodb``
+   settings above and restart your install.
+
+Configuring Weblate to use MySQL/MariaDB
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The :file:`settings.py` snippet for MySQL and MariaDB:
+
+.. code-block:: python
+
+    DATABASES = {
+        "default": {
+            # Database engine
+            "ENGINE": "django.db.backends.mysql",
+            # Database name
+            "NAME": "weblate",
+            # Database user
+            "USER": "weblate",
+            # Database password
+            "PASSWORD": "password",
+            # Set to empty string for localhost
+            "HOST": "127.0.0.1",
+            # Set to empty string for default
+            "PORT": "3306",
+            # In case you wish to use additional
+            # connection options
+            "OPTIONS": {
+            },
+        }
+    }
+
+You should also create the ``weblate`` user account in MySQL or MariaDB before
+you begin the install.  Use the commands below to achieve that:
+
+.. code-block:: sql
+
+   GRANT ALL ON weblate.* to 'weblate'@'localhost' IDENTIFIED BY 'password';
+   FLUSH PRIVILEGES;
 
 Other configurations
 --------------------
