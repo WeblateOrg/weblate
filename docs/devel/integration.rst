@@ -65,7 +65,7 @@ You might extend it by using
 Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid also introducing errors.
 
-When the translation files are separate, there needs to be a way to introduce
+When the translation files are not in a upstream repository, there needs to be a way to introduce
 new strings.
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
