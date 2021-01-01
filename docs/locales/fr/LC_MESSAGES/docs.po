@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-30 19:50+0100\n"
-"PO-Revision-Date: 2020-12-30 13:29+0000\n"
+"PO-Revision-Date: 2021-01-02 21:15+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -1382,6 +1382,8 @@ msgstr "*récent*"
 #: ../../admin/addons.rst:160
 msgid "Marking all :ref:`appstore` changelog entries read-only"
 msgstr ""
+"Marquer toutes les entrées du journal des changements de :ref:`appstore` en "
+"lecture seule"
 
 #: ../../admin/addons.rst:164
 msgid "``language:en AND key:changelogs/``"
@@ -3227,6 +3229,12 @@ msgid ""
 "and you do not have to backup the repositories on the Weblate side. They can "
 "be cloned again from the upstream locations with no data loss."
 msgstr ""
+"Les dépôts de contrôle de version contiennent une copie de vos dépôts en "
+"amont avec les modifications de Weblate. Si vous avez activé la fonction de "
+"poussage après archivage pour tous vos composants de traduction, toutes les "
+"modifications de Weblate sont incluses en amont et vous n’avez pas besoin de "
+"sauvegarder les dépôts du côté de Weblate. Ils peuvent être clonés à nouveau "
+"à partir des emplacements en amont sans perte de données."
 
 #: ../../admin/backup.rst:254
 msgid "SSH and GPG keys"
@@ -3244,18 +3252,23 @@ msgid ""
 "these locations, otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Si vous utilisez des clés SSH ou GPG générées par Weblate, vous devriez "
+"sauvegarder ces emplacements, sinon vous perdrez les clés privées et devrez "
+"en regénérer de nouvelles."
 
 #: ../../admin/backup.rst:263
 msgid "User uploaded files"
-msgstr ""
+msgstr "Fichiers téléversés par les utilisateurs"
 
 #: ../../admin/backup.rst:265
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Stocké dans :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:267
 msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
+"Vous devriez sauvegarder les fichiers téléversés par les utilisateurs (p. "
+"ex. :ref:`screenshots`)."
 
 #: ../../admin/backup.rst:270
 msgid "Celery tasks"
@@ -3269,6 +3282,12 @@ msgid ""
 "repository updates upon restoring anyhow, so there is no problem in losing "
 "these."
 msgstr ""
+"La file d’attente des tâches Celery peut contenir quelques informations, "
+"mais n’est généralement pas nécessaire pour une sauvegarde. Tout au plus, "
+"vous perdrez les mises à jour qui n’ont pas encore été traitées dans le "
+"mémoire de traduction. Il est recommandé d’effectuer les mises à jour de "
+"texte intégral ou du référentiel lors de la restauration de toute façon, de "
+"sorte qu’il n’y ait aucun problème à les perdre."
 
 #: ../../admin/backup.rst:279
 msgid ":ref:`celery`"
@@ -3292,34 +3311,42 @@ msgid ""
 "for instance the amount of memory used for compression; see https://linux."
 "die.net/man/1/xz"
 msgstr ""
+"La chaîne entre guillemets après XZ_OPT vous permet de choisir vos options "
+"xz, par exemple la quantité de mémoire utilisée pour la compression ; voir "
+"https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:292
 msgid ""
 "You can adjust the list of folders and files to your needs. For instance, to "
 "avoid saving the translation memory (in backups folder), you could use:"
 msgstr ""
+"Vous pouvez ajuster la liste des dossiers et fichiers selon vos besoins. Par "
+"exemple, pour éviter de sauvegarder le mémoire de traduction (dans le "
+"dossier des sauvegardes), vous pourriez utiliser :"
 
 #: ../../admin/backup.rst:299
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "Restaurer une sauvegarde mauelle"
 
 #: ../../admin/backup.rst:301
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Restaurer toutes les données que vous avez sauvegardées."
 
 #: ../../admin/backup.rst:303
 msgid "Update all repositories using :djadmin:`updategit`."
-msgstr ""
+msgstr "Mettre à jour tous les répertoires en utilisant :djadmin:`updategit`."
 
 #: ../../admin/backup.rst:310
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Déplacer une installation Weblate"
 
 #: ../../admin/backup.rst:312
 msgid ""
 "Relocate your installation to a different system by following the backup and "
 "restore instructions above."
 msgstr ""
+"Relocaliser votre installation dans un système différent en suivant les "
+"instructions de sauvegarde et de restauration ci-dessus."
 
 #: ../../admin/backup.rst:317
 msgid ":ref:`py3`, :ref:`database-migration`"
@@ -3331,35 +3358,44 @@ msgstr "Contrôles de qualité et corrections"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Personnaliser les réparations automatiques"
 
 #: ../../admin/checks.rst:9
 msgid ""
 "You can also implement your own automatic fixup in addition to the standard "
 "ones and include them in :setting:`AUTOFIX_LIST`."
 msgstr ""
+"Vous pouvez aussi implémenter vos propres réparations automatiques en plus "
+"de celles standards et les inclure dans :setting:`AUTOFIX_LIST`."
 
 #: ../../admin/checks.rst:12
 msgid ""
 "The automatic fixes are powerful, but can also cause damage;  be careful "
 "when writing one."
 msgstr ""
+"Les réparations automatiques sont puissantes, mais peuvent aussi causer des "
+"dommages ; soyez prudent quand vous en écrivez."
 
 #: ../../admin/checks.rst:15
 msgid ""
 "For example, the following automatic fixup would replace every occurrence of "
 "the string ``foo`` in a translation with ``bar``:"
 msgstr ""
+"Par exemple, la réparation automatique suivante remplacerait chaque "
+"occurence de la chaîne ``foo`` dans une traduction par ``bar`` :"
 
 #: ../../admin/checks.rst:21
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Pour installer des contrôles personnalisés, fournissez un chemin d’accès "
+"complet à la classe Python dans le fichier :setting:`AUTOFIX_LIST`, voir :ref"
+":`custom-check-modules`."
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior"
-msgstr ""
+msgstr "Personnaliser le comportement"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -3368,6 +3404,11 @@ msgid ""
 "`component` (:ref:`component-check_flags`). Some file formats also allow to "
 "specify flags directly in the format (see :ref:`formats`)."
 msgstr ""
+"Vous pouvez affiner le comportement de Weblate (principalement les contrôles)"
+" pour chaque chaîne de caractères source (dans la revue des chaînes de "
+"caractères source, voir :ref:`additionnal`) ou dans le :ref:`component` (:ref"
+":`component-check_flags`). Certains formats de fichiers permettent également "
+"de spécifier des drapeaux directement dans le format (voir :ref:`formats`)."
 
 #: ../../admin/checks.rst:34
 msgid ""
@@ -3375,10 +3416,13 @@ msgid ""
 "can use quotes to include whitespace or special chars in the string. For "
 "example:"
 msgstr ""
+"Les drapeaux sont séparés par des virgules, les paramètres sont séparés par "
+"deux points. Vous pouvez utiliser des guillemets pour inclure des espaces ou "
+"des caractères spéciaux dans la chaîne de caractères. Par exemple :"
 
 #: ../../admin/checks.rst:41
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Voici une liste des drapeaux actuellement acceptés :"
 
 #: ../../admin/checks.rst:43 ../../devel/sphinx.rst:41
 msgid "``rst-text``"
@@ -3388,6 +3432,7 @@ msgstr "``rst-text``"
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
 msgstr ""
+"Traiter le texte comme document reStructuredText, affecte :ref:`check-same`."
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
@@ -3395,7 +3440,7 @@ msgstr "``md-text``"
 
 #: ../../admin/checks.rst:46
 msgid "Treat text as a Markdown document."
-msgstr ""
+msgstr "Traiter le texte comme document Markdown."
 
 #: ../../admin/checks.rst:47
 msgid "``dos-eol``"
@@ -3406,6 +3451,9 @@ msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
 "\\n``)."
 msgstr ""
+"Utilise les marqueurs de fin de ligne DOS au lieu de ceux d’Unix (``\\r\\n"
+"`` au lieu de ``\\n"
+"``)."
 
 #: ../../admin/checks.rst:49
 msgid "``url``"
@@ -3413,7 +3461,7 @@ msgstr "``url``"
 
 #: ../../admin/checks.rst:50
 msgid "The string should consist of only a URL."
-msgstr ""
+msgstr "La chaîne devrait consister uniquement en une URL."
 
 #: ../../admin/checks.rst:51
 msgid "``safe-html``"
@@ -3421,13 +3469,15 @@ msgstr "``safe-html``"
 
 #: ../../admin/checks.rst:52
 msgid "The string should be HTML safe, see :ref:`check-safe-html`."
-msgstr ""
+msgstr "La chaîne doit être HTML sans danger, voir :ref:`check-safe-html`."
 
 #: ../../admin/checks.rst:54
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
 msgstr ""
+"La chaîne est en lecture seule et ne devrait pas être modifiée dans Weblate, "
+"voir :ref:`read-only-strings`."
 
 #: ../../admin/checks.rst:57
 msgid "``priority:N``"
@@ -3439,6 +3489,9 @@ msgid ""
 "translation. The default priority is 100, the higher priority a string has, "
 "the earlier it is offered for translation."
 msgstr ""
+"Priorité de la chaîne. Les chaînes de priorité plus élevée sont présentées "
+"en premier lieu pour la traduction. La priorité par défaut est de 100, plus "
+"une chaîne est prioritaire, plus elle est proposée tôt pour la traduction."
 
 #: ../../admin/checks.rst:59
 msgid "``max-length:N``"
@@ -3449,6 +3502,8 @@ msgid ""
 "Limit the maximal length for a string to N characters, see :ref:`check-max-"
 "length`."
 msgstr ""
+"Limiter la longueur maximale d’une chaîne à N caractères, voir :ref:`check-"
+"max-length`."
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
@@ -3459,6 +3514,8 @@ msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
+"Traiter le texte comme document XML, affecte :ref:`check-xml-invalid` et :ref"
+":`check-xml-tags`."
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
@@ -3467,6 +3524,7 @@ msgstr "``font-family:NAME``"
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Définir la famille de polices pour les contrôles de rendu, voir :ref:`fonts`."
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
@@ -3475,6 +3533,7 @@ msgstr "``font-weight:WEIGHT``"
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Définir le poids des polices pour les contrôles de rendu, voir :ref:`fonts`."
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
@@ -3483,6 +3542,7 @@ msgstr "``font-size:SIZE``"
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Définir la taille des polices pour les contrôles de rendu, voir :ref:`fonts`."
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
@@ -3491,6 +3551,8 @@ msgstr "``font-spacing:SPACING``"
 #: ../../admin/checks.rst:70
 msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
+"Définir l’espacement des polices pour les contrôles de rendu, voir "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:71
 msgid "``placeholders:NAME``"
@@ -3500,6 +3562,8 @@ msgstr "``placeholders:NAME``"
 msgid ""
 "Placeholder strings expected in translation, see :ref:`check-placeholders`."
 msgstr ""
+"Chaînes de caractères de remplacement attendues dans la traduction, voir :ref"
+":`check-placeholders`."
 
 #: ../../admin/checks.rst:76
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
@@ -3512,6 +3576,11 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "names, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
+"Remplacements à effectuer lors de la vérification des paramètres du texte "
+"résultant (par exemple dans :ref:`check-max-size` ou :ref:`check-max-length`)"
+". Le cas d’utilisation typique est l’expansion des caractères à placer pour "
+"s’assurer que le texte s’adapte même aux noms longs, par exemple : "
+"``replacements:%s : \"John Doe\"``."
 
 #: ../../admin/checks.rst:78
 msgid "``regex:REGEX``"
@@ -3544,6 +3613,12 @@ msgid ""
 "ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-java-"
 "messageformat`, :ref:`check-same`."
 msgstr ""
+"Traite toutes les chaînes comme des chaînes de format, affecte :ref:`check-"
+"python-format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-"
+"qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref"
+":`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-"
+"javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-format`, "
+":ref:`check-java-messageformat`, :ref:`check-same`."
 
 #: ../../admin/checks.rst:87
 msgid "``strict-same``"
@@ -3554,6 +3629,8 @@ msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
 msgstr ""
+"Faire en sorte que les « Traductions inchangées » évitent d’utiliser la "
+"liste noire de mots intégrés, voir :ref:`check-same`."
 
 #: ../../admin/checks.rst:89
 msgid "``ignore-bbcode``"
@@ -3561,7 +3638,7 @@ msgstr "``ignore-bbcode``"
 
 #: ../../admin/checks.rst:90
 msgid "Skip the \"BBcode markup\" quality check."
-msgstr ""
+msgstr "Passer la vérification de qualité « balisage BBcode »."
 
 #: ../../admin/checks.rst:91
 msgid "``ignore-duplicate``"
@@ -3569,7 +3646,7 @@ msgstr "``ignore-duplicate``"
 
 #: ../../admin/checks.rst:92
 msgid "Skip the \"Consecutive duplicated words\" quality check."
-msgstr ""
+msgstr "Passer la vérification de qualité « Mots consécutifs dupliqués »."
 
 #: ../../admin/checks.rst:93
 msgid "``ignore-double-space``"
@@ -3577,7 +3654,7 @@ msgstr "``ignore-double-space``"
 
 #: ../../admin/checks.rst:94
 msgid "Skip the \"Double space\" quality check."
-msgstr ""
+msgstr "Passer la vérification de qualité « Double espace »."
 
 #: ../../admin/checks.rst:95
 msgid "``ignore-angularjs-format``"
@@ -3585,7 +3662,7 @@ msgstr "``ignore-angularjs-format``"
 
 #: ../../admin/checks.rst:96
 msgid "Skip the \"AngularJS interpolation string\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Chaîne d’interpolation AngularJS »."
 
 #: ../../admin/checks.rst:97
 msgid "``ignore-c-format``"
@@ -3593,7 +3670,7 @@ msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:98
 msgid "Skip the \"C format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « format C »."
 
 #: ../../admin/checks.rst:99
 msgid "``ignore-c-sharp-format``"
@@ -3601,7 +3678,7 @@ msgstr "``ignore-c-sharp-format``"
 
 #: ../../admin/checks.rst:100
 msgid "Skip the \"C# format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format C# »."
 
 #: ../../admin/checks.rst:101
 msgid "``ignore-es-format``"
@@ -3617,7 +3694,7 @@ msgstr "``ignore-i18next-interpolation``"
 
 #: ../../admin/checks.rst:104
 msgid "Skip the \"i18next interpolation\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Interpolation i18next »."
 
 #: ../../admin/checks.rst:105
 msgid "``ignore-java-format``"
@@ -3625,7 +3702,7 @@ msgstr "``ignore-java-format``"
 
 #: ../../admin/checks.rst:106
 msgid "Skip the \"Java format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format Java »."
 
 #: ../../admin/checks.rst:107
 msgid "``ignore-java-messageformat``"
@@ -3633,7 +3710,7 @@ msgstr "``ignore-java-messageformat``"
 
 #: ../../admin/checks.rst:108
 msgid "Skip the \"Java MessageFormat\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Java MessageFormat »."
 
 #: ../../admin/checks.rst:109
 msgid "``ignore-javascript-format``"
@@ -3641,7 +3718,7 @@ msgstr "``ignore-javascript-format``"
 
 #: ../../admin/checks.rst:110
 msgid "Skip the \"JavaScript format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format Javascript »."
 
 #: ../../admin/checks.rst:111
 msgid "``ignore-percent-placeholders``"
@@ -3649,7 +3726,7 @@ msgstr "``ignore-percent-placeholders``"
 
 #: ../../admin/checks.rst:112
 msgid "Skip the \"Percent placeholders\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Remplacement de pourcentage »."
 
 #: ../../admin/checks.rst:113
 msgid "``ignore-perl-format``"
@@ -3657,7 +3734,7 @@ msgstr "``ignore-perl-format``"
 
 #: ../../admin/checks.rst:114
 msgid "Skip the \"Perl format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format Perl »."
 
 #: ../../admin/checks.rst:115
 msgid "``ignore-php-format``"
@@ -3665,7 +3742,7 @@ msgstr "``ignore-php-format``"
 
 #: ../../admin/checks.rst:116
 msgid "Skip the \"PHP format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format PHP »."
 
 #: ../../admin/checks.rst:117
 msgid "``ignore-python-brace-format``"
@@ -3673,7 +3750,7 @@ msgstr "``ignore-python-brace-format``"
 
 #: ../../admin/checks.rst:118
 msgid "Skip the \"Python brace format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format d’accolade Python »."
 
 #: ../../admin/checks.rst:119
 msgid "``ignore-python-format``"
@@ -3681,7 +3758,7 @@ msgstr "``ignore-python-format``"
 
 #: ../../admin/checks.rst:120
 msgid "Skip the \"Python format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format Python »."
 
 #: ../../admin/checks.rst:121
 msgid "``ignore-qt-format``"
@@ -3689,7 +3766,7 @@ msgstr "``ignore-qt-format``"
 
 #: ../../admin/checks.rst:122
 msgid "Skip the \"Qt format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format Qt »."
 
 #: ../../admin/checks.rst:123
 msgid "``ignore-qt-plural-format``"
@@ -3697,7 +3774,7 @@ msgstr "``ignore-qt-plural-format``"
 
 #: ../../admin/checks.rst:124
 msgid "Skip the \"Qt plural format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format pluriel Qt »."
 
 #: ../../admin/checks.rst:125
 msgid "``ignore-ruby-format``"
@@ -3705,7 +3782,7 @@ msgstr "``ignore-ruby-format``"
 
 #: ../../admin/checks.rst:126
 msgid "Skip the \"Ruby format\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Format Ruby »."
 
 #: ../../admin/checks.rst:127
 msgid "``ignore-vue-format``"
@@ -3721,7 +3798,7 @@ msgstr "``ignore-translated``"
 
 #: ../../admin/checks.rst:130
 msgid "Skip the \"Has been translated\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « A été traduit »."
 
 #: ../../admin/checks.rst:131
 msgid "``ignore-inconsistent``"
@@ -3729,7 +3806,7 @@ msgstr "``ignore-inconsistent``"
 
 #: ../../admin/checks.rst:132
 msgid "Skip the \"Inconsistent\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Incohérent »."
 
 #: ../../admin/checks.rst:133
 msgid "``ignore-kashida``"
@@ -3737,7 +3814,7 @@ msgstr "``ignore-kashida``"
 
 #: ../../admin/checks.rst:134
 msgid "Skip the \"Kashida letter used\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Lettre Kashida utilisée »."
 
 #: ../../admin/checks.rst:135
 msgid "``ignore-md-link``"
@@ -3745,7 +3822,7 @@ msgstr "``ignore-md-link``"
 
 #: ../../admin/checks.rst:136
 msgid "Skip the \"Markdown links\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Liens Markdown »."
 
 #: ../../admin/checks.rst:137
 msgid "``ignore-md-reflink``"
@@ -3753,7 +3830,7 @@ msgstr "``ignore-md-reflink``"
 
 #: ../../admin/checks.rst:138
 msgid "Skip the \"Markdown references\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Références Markdown »."
 
 #: ../../admin/checks.rst:139
 msgid "``ignore-md-syntax``"
@@ -3761,7 +3838,7 @@ msgstr "``ignore-md-syntax``"
 
 #: ../../admin/checks.rst:140
 msgid "Skip the \"Markdown syntax\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Syntaxe Markdown »."
 
 #: ../../admin/checks.rst:141
 msgid "``ignore-max-length``"
@@ -3769,7 +3846,7 @@ msgstr "``ignore-max-length``"
 
 #: ../../admin/checks.rst:142
 msgid "Skip the \"Maximum length of translation\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Longueur maximale de la traduction »."
 
 #: ../../admin/checks.rst:143
 msgid "``ignore-max-size``"
@@ -3777,7 +3854,7 @@ msgstr "``ignore-max-size``"
 
 #: ../../admin/checks.rst:144
 msgid "Skip the \"Maximum size of translation\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Taille maximale de traduction »."
 
 #: ../../admin/checks.rst:145
 msgid "``ignore-escaped-newline``"
@@ -3786,6 +3863,8 @@ msgstr "``ignore-escaped-newline``"
 #: ../../admin/checks.rst:146
 msgid "Skip the \"Mismatched \\n\" quality check."
 msgstr ""
+"Passer le contrôle de qualité « Incohérence de \\n"
+" »."
 
 #: ../../admin/checks.rst:147
 msgid "``ignore-end-colon``"
@@ -3843,7 +3922,7 @@ msgstr "``ignore-newline-count``"
 
 #: ../../admin/checks.rst:160
 msgid "Skip the \"Mismatching line breaks\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Incohérence de retours à la ligne »."
 
 #: ../../admin/checks.rst:161
 msgid "``ignore-plurals``"
@@ -3851,7 +3930,7 @@ msgstr "``ignore-plurals``"
 
 #: ../../admin/checks.rst:162
 msgid "Skip the \"Missing plurals\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Pluriels manquants »."
 
 #: ../../admin/checks.rst:163
 msgid "``ignore-placeholders``"
@@ -3859,7 +3938,7 @@ msgstr "``ignore-placeholders``"
 
 #: ../../admin/checks.rst:164
 msgid "Skip the \"Placeholders\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Text de remplacement »."
 
 #: ../../admin/checks.rst:165
 msgid "``ignore-punctuation-spacing``"
@@ -3867,7 +3946,7 @@ msgstr "``ignore-punctuation-spacing``"
 
 #: ../../admin/checks.rst:166
 msgid "Skip the \"Punctuation spacing\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Espacement de la ponctuation »."
 
 #: ../../admin/checks.rst:167
 msgid "``ignore-regex``"
@@ -3875,7 +3954,7 @@ msgstr "``ignore-regex``"
 
 #: ../../admin/checks.rst:168
 msgid "Skip the \"Regular expression\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Expression rationnelle »."
 
 #: ../../admin/checks.rst:169
 msgid "``ignore-same-plurals``"
@@ -3883,7 +3962,7 @@ msgstr "``ignore-same-plurals``"
 
 #: ../../admin/checks.rst:170
 msgid "Skip the \"Same plurals\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Pluriels identiques »."
 
 #: ../../admin/checks.rst:171
 msgid "``ignore-begin-newline``"
@@ -3891,7 +3970,7 @@ msgstr "``ignore-begin-newline``"
 
 #: ../../admin/checks.rst:172
 msgid "Skip the \"Starting newline\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Retour à la ligne de départ »."
 
 #: ../../admin/checks.rst:173
 msgid "``ignore-begin-space``"
@@ -3899,7 +3978,7 @@ msgstr "``ignore-begin-space``"
 
 #: ../../admin/checks.rst:174
 msgid "Skip the \"Starting spaces\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Espaces de départ »."
 
 #: ../../admin/checks.rst:175
 msgid "``ignore-end-newline``"
@@ -3907,7 +3986,7 @@ msgstr "``ignore-end-newline``"
 
 #: ../../admin/checks.rst:176
 msgid "Skip the \"Trailing newline\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Retour à la ligne de fin »."
 
 #: ../../admin/checks.rst:177
 msgid "``ignore-end-space``"
@@ -3915,7 +3994,7 @@ msgstr "``ignore-end-space``"
 
 #: ../../admin/checks.rst:178
 msgid "Skip the \"Trailing space\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Espace de fin »."
 
 #: ../../admin/checks.rst:179
 msgid "``ignore-same``"
@@ -3923,7 +4002,7 @@ msgstr "``ignore-same``"
 
 #: ../../admin/checks.rst:180
 msgid "Skip the \"Unchanged translation\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Traduction inchangée »."
 
 #: ../../admin/checks.rst:181
 msgid "``ignore-safe-html``"
@@ -3931,7 +4010,7 @@ msgstr "``ignore-safe-html``"
 
 #: ../../admin/checks.rst:182
 msgid "Skip the \"Unsafe HTML\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « HTML non sécurisé »."
 
 #: ../../admin/checks.rst:183
 msgid "``ignore-url``"
@@ -3939,7 +4018,7 @@ msgstr "``ignore-url``"
 
 #: ../../admin/checks.rst:184
 msgid "Skip the \"URL\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « URL »."
 
 #: ../../admin/checks.rst:185
 msgid "``ignore-xml-tags``"
@@ -3947,7 +4026,7 @@ msgstr "``ignore-xml-tags``"
 
 #: ../../admin/checks.rst:186
 msgid "Skip the \"XML markup\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Balisage XML »."
 
 #: ../../admin/checks.rst:187
 msgid "``ignore-xml-invalid``"
@@ -3955,7 +4034,7 @@ msgstr "``ignore-xml-invalid``"
 
 #: ../../admin/checks.rst:188
 msgid "Skip the \"XML syntax\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Syntaxe XML »."
 
 #: ../../admin/checks.rst:189
 msgid "``ignore-zero-width-space``"
@@ -3963,7 +4042,7 @@ msgstr "``ignore-zero-width-space``"
 
 #: ../../admin/checks.rst:190
 msgid "Skip the \"Zero-width space\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Espace de zéro largeur »."
 
 #: ../../admin/checks.rst:191
 msgid "``ignore-ellipsis``"
@@ -3971,7 +4050,7 @@ msgstr "``ignore-ellipsis``"
 
 #: ../../admin/checks.rst:192
 msgid "Skip the \"Ellipsis\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Points de suspension »."
 
 #: ../../admin/checks.rst:193
 msgid "``ignore-long-untranslated``"
@@ -3979,7 +4058,7 @@ msgstr "``ignore-long-untranslated``"
 
 #: ../../admin/checks.rst:194
 msgid "Skip the \"Long untranslated\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Longue partie non traduite »."
 
 #: ../../admin/checks.rst:195
 msgid "``ignore-multiple-failures``"
@@ -3987,7 +4066,7 @@ msgstr "``ignore-multiple-failures``"
 
 #: ../../admin/checks.rst:196
 msgid "Skip the \"Multiple failing checks\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Multiples contrôles en échec »."
 
 #: ../../admin/checks.rst:197
 msgid "``ignore-unnamed-format``"
@@ -3995,7 +4074,7 @@ msgstr "``ignore-unnamed-format``"
 
 #: ../../admin/checks.rst:198
 msgid "Skip the \"Multiple unnamed variables\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Multiples variables non nommées »."
 
 #: ../../admin/checks.rst:200
 msgid "``ignore-optional-plural``"
@@ -4003,13 +4082,16 @@ msgstr "``ignore-optional-plural``"
 
 #: ../../admin/checks.rst:200
 msgid "Skip the \"Unpluralised\" quality check."
-msgstr ""
+msgstr "Passer le contrôle de qualité « Non pluralisé »."
 
 #: ../../admin/checks.rst:204
 msgid ""
 "Generally the rule is named ``ignore-*`` for any check, using its "
 "identifier, so you can use this even for your custom checks."
 msgstr ""
+"En général, la règle est nommée ``ignore-*`` pour tout contrôle, en "
+"utilisant son identifiant, de sorte que vous pouvez l’utiliser, même pour "
+"vos contrôles personnalisés."
 
 #: ../../admin/checks.rst:207
 msgid ""
@@ -4017,10 +4099,13 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"Ces drapeaux sont compris à la fois dans les paramètres des :ref:`component`"
+", par chaîne source et dans le fichier de traduction lui-même (par exemple "
+"dans GNU gettext)."
 
 #: ../../admin/checks.rst:213
 msgid "Enforcing checks"
-msgstr ""
+msgstr "Exécution des contrôles"
 
 #: ../../admin/checks.rst:217
 msgid ""
@@ -4032,7 +4117,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:225
 msgid "Managing fonts"
-msgstr ""
+msgstr "Gestion des polices"
 
 #: ../../admin/checks.rst:229
 msgid ""
@@ -4127,7 +4212,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:281
 msgid "Some examples:"
-msgstr ""
+msgstr "Quelques exemples :"
 
 #: ../../admin/checks.rst:283
 msgid ""
@@ -4343,7 +4428,7 @@ msgstr ""
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr ""
+msgstr "Les options sont :"
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:382
 msgid "``\"none\"``"
@@ -4355,7 +4440,7 @@ msgstr ""
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
-msgstr ""
+msgstr "``\"remote\"`` et ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
@@ -4363,7 +4448,7 @@ msgstr ""
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
-msgstr ""
+msgstr "``\"full\"`` et ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
@@ -4409,7 +4494,7 @@ msgstr ""
 
 #: ../../admin/config.rst:132
 msgid "AUTH_TOKEN_VALID"
-msgstr ""
+msgstr "AUTH_TOKEN_VALID"
 
 #: ../../admin/config.rst:136
 msgid ""
@@ -4420,7 +4505,7 @@ msgstr ""
 
 #: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
-msgstr ""
+msgstr "AUTH_PASSWORD_DAYS"
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
@@ -4450,11 +4535,11 @@ msgstr ""
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "Corrections disponibles :"
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
@@ -4462,7 +4547,7 @@ msgstr ""
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
 msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
@@ -4470,7 +4555,7 @@ msgstr ""
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
-msgstr ""
+msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
@@ -5654,7 +5739,7 @@ msgstr ":ref:`google-translate-api3`"
 
 #: ../../admin/config.rst:1247
 msgid "MT_MICROSOFT_BASE_URL"
-msgstr ""
+msgstr "MT_MICROSOFT_BASE_URL"
 
 #: ../../admin/config.rst:1249
 msgid ""
@@ -5673,7 +5758,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1259
 msgid "MT_MICROSOFT_COGNITIVE_KEY"
-msgstr ""
+msgstr "MT_MICROSOFT_COGNITIVE_KEY"
 
 #: ../../admin/config.rst:1261
 msgid "Client key for the Microsoft Cognitive Services Translator API."
@@ -5693,7 +5778,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1271
 msgid "MT_MICROSOFT_REGION"
-msgstr ""
+msgstr "MT_MICROSOFT_REGION"
 
 #: ../../admin/config.rst:1273
 msgid ""
@@ -5705,7 +5790,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1278
 msgid "MT_MICROSOFT_ENDPOINT_URL"
-msgstr ""
+msgstr "MT_MICROSOFT_ENDPOINT_URL"
 
 #: ../../admin/config.rst:1280
 msgid ""
@@ -5725,7 +5810,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1291
 msgid "MT_MODERNMT_KEY"
-msgstr ""
+msgstr "MT_MODERNMT_KEY"
 
 #: ../../admin/config.rst:1293
 msgid "API key for the ModernMT machine translation engine."
@@ -5737,7 +5822,7 @@ msgstr ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/config.rst:1303
 msgid "MT_MODERNMT_URL"
-msgstr ""
+msgstr "MT_MODERNMT_URL"
 
 #: ../../admin/config.rst:1305
 msgid ""
@@ -5751,7 +5836,7 @@ msgstr ":ref:`modernmt` :setting:`MT_MODERNMT_KEY`"
 
 #: ../../admin/config.rst:1317
 msgid "MT_MYMEMORY_EMAIL"
-msgstr ""
+msgstr "MT_MYMEMORY_EMAIL"
 
 #: ../../admin/config.rst:1319
 msgid ""
@@ -5770,7 +5855,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1329
 msgid "MT_MYMEMORY_KEY"
-msgstr ""
+msgstr "MT_MYMEMORY_KEY"
 
 #: ../../admin/config.rst:1331
 msgid ""
@@ -5790,7 +5875,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1341
 msgid "MT_MYMEMORY_USER"
-msgstr ""
+msgstr "MT_MYMEMORY_USER"
 
 #: ../../admin/config.rst:1343
 msgid ""
@@ -5800,7 +5885,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1353
 msgid "MT_NETEASE_KEY"
-msgstr ""
+msgstr "MT_NETEASE_KEY"
 
 #: ../../admin/config.rst:1355
 msgid ""
@@ -5817,7 +5902,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1364
 msgid "MT_NETEASE_SECRET"
-msgstr ""
+msgstr "MT_NETEASE_SECRET"
 
 #: ../../admin/config.rst:1366
 msgid ""
@@ -5827,7 +5912,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1375
 msgid "MT_TMSERVER"
-msgstr ""
+msgstr "MT_TMSERVER"
 
 #: ../../admin/config.rst:1377
 msgid "URL where tmserver is running."
@@ -5843,7 +5928,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1387
 msgid "MT_YANDEX_KEY"
-msgstr ""
+msgstr "MT_YANDEX_KEY"
 
 #: ../../admin/config.rst:1389
 msgid ""
@@ -5861,7 +5946,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1398
 msgid "MT_YOUDAO_ID"
-msgstr ""
+msgstr "MT_YOUDAO_ID"
 
 #: ../../admin/config.rst:1400
 msgid ""
@@ -5879,7 +5964,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1409
 msgid "MT_YOUDAO_SECRET"
-msgstr ""
+msgstr "MT_YOUDAO_SECRET"
 
 #: ../../admin/config.rst:1411
 msgid ""
@@ -5889,7 +5974,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1420
 msgid "MT_SAP_BASE_URL"
-msgstr ""
+msgstr "MT_SAP_BASE_URL"
 
 #: ../../admin/config.rst:1422
 msgid "API URL to the SAP Translation Hub service."
@@ -5907,7 +5992,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1430
 msgid "MT_SAP_SANDBOX_APIKEY"
-msgstr ""
+msgstr "MT_SAP_SANDBOX_APIKEY"
 
 #: ../../admin/config.rst:1432
 msgid "API key for sandbox API usage"
@@ -5915,7 +6000,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1440
 msgid "MT_SAP_USERNAME"
-msgstr ""
+msgstr "MT_SAP_USERNAME"
 
 #: ../../admin/config.rst:1442
 msgid "Your SAP username"
@@ -5923,7 +6008,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1450
 msgid "MT_SAP_PASSWORD"
-msgstr ""
+msgstr "MT_SAP_PASSWORD"
 
 #: ../../admin/config.rst:1452
 msgid "Your SAP password"
@@ -5931,7 +6016,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1460
 msgid "MT_SAP_USE_MT"
-msgstr ""
+msgstr "MT_SAP_USE_MT"
 
 #: ../../admin/config.rst:1462
 msgid ""
@@ -5941,7 +6026,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1471
 msgid "NEARBY_MESSAGES"
-msgstr ""
+msgstr "NEARBY_MESSAGES"
 
 #: ../../admin/config.rst:1473
 msgid ""
@@ -5951,7 +6036,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1478
 msgid "PAGURE_CREDENTIALS"
-msgstr ""
+msgstr "PAGURE_CREDENTIALS"
 
 #: ../../admin/config.rst:1482
 msgid "List for credentials for Pagure servers."
@@ -5966,7 +6051,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1505
 msgid "PAGURE_USERNAME"
-msgstr ""
+msgstr "PAGURE_USERNAME"
 
 #: ../../admin/config.rst:1509
 msgid "Pagure username used to send merge requests for translation updates."
@@ -5980,7 +6065,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1519
 msgid "PAGURE_TOKEN"
-msgstr ""
+msgstr "PAGURE_TOKEN"
 
 #: ../../admin/config.rst:1523
 msgid ""
@@ -5997,7 +6082,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1535
 msgid "RATELIMIT_ATTEMPTS"
-msgstr ""
+msgstr "RATELIMIT_ATTEMPTS"
 
 #: ../../admin/config.rst:1539
 msgid ""
@@ -6016,7 +6101,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1552
 msgid "RATELIMIT_WINDOW"
-msgstr ""
+msgstr "RATELIMIT_WINDOW"
 
 #: ../../admin/config.rst:1556
 msgid "How long authentication is accepted after rate limiting applies."
@@ -6036,7 +6121,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1569
 msgid "RATELIMIT_LOCKOUT"
-msgstr ""
+msgstr "RATELIMIT_LOCKOUT"
 
 #: ../../admin/config.rst:1573
 msgid "How long authentication is locked after rate limiting applies."
@@ -6054,7 +6139,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1586
 msgid "REGISTRATION_ALLOW_BACKENDS"
-msgstr ""
+msgstr "REGISTRATION_ALLOW_BACKENDS"
 
 #: ../../admin/config.rst:1590
 msgid ""
@@ -6080,7 +6165,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1616
 msgid "REGISTRATION_CAPTCHA"
-msgstr ""
+msgstr "REGISTRATION_CAPTCHA"
 
 #: ../../admin/config.rst:1618
 msgid ""
@@ -6101,7 +6186,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1625
 msgid "Password recovery."
-msgstr ""
+msgstr "Récupération du mot de passe."
 
 #: ../../admin/config.rst:1626
 msgid "Adding e-mail to an account."
@@ -6113,7 +6198,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1632
 msgid "REGISTRATION_EMAIL_MATCH"
-msgstr ""
+msgstr "REGISTRATION_EMAIL_MATCH"
 
 #: ../../admin/config.rst:1636
 msgid "Allows you to filter which e-mail addresses can register."
@@ -6129,7 +6214,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1649
 msgid "REGISTRATION_OPEN"
-msgstr ""
+msgstr "REGISTRATION_OPEN"
 
 #: ../../admin/config.rst:1651
 msgid ""
@@ -6159,7 +6244,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1673
 msgid "REPOSITORY_ALERT_THRESHOLD"
-msgstr ""
+msgstr "REPOSITORY_ALERT_THRESHOLD"
 
 #: ../../admin/config.rst:1677
 msgid ""
@@ -6169,7 +6254,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1687
 msgid "REQUIRE_LOGIN"
-msgstr ""
+msgstr "REQUIRE_LOGIN"
 
 #: ../../admin/config.rst:1691
 msgid ""
@@ -6185,7 +6270,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1702
 msgid "SENTRY_DSN"
-msgstr ""
+msgstr "SENTRY_DSN"
 
 #: ../../admin/config.rst:1706
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
@@ -6199,7 +6284,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1715
 msgid "SESSION_COOKIE_AGE_AUTHENTICATED"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_AUTHENTICATED"
 
 #: ../../admin/config.rst:1719
 msgid ""
@@ -6209,11 +6294,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1724
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
-msgstr ""
+msgstr ":setting:`django:SESSION_COOKIE_AGE`"
 
 #: ../../admin/config.rst:1729
 msgid "SIMPLIFY_LANGUAGES"
-msgstr ""
+msgstr "SIMPLIFY_LANGUAGES"
 
 #: ../../admin/config.rst:1731
 msgid ""
@@ -6229,7 +6314,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1741
 msgid "SITE_DOMAIN"
-msgstr ""
+msgstr "SITE_DOMAIN"
 
 #: ../../admin/config.rst:1743
 msgid ""
@@ -6265,7 +6350,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1780
 msgid "SITE_TITLE"
-msgstr ""
+msgstr "SITE_TITLE"
 
 #: ../../admin/config.rst:1782
 msgid "Site title to be used for the website and sent e-mails."
@@ -6273,7 +6358,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1787
 msgid "SPECIAL_CHARS"
-msgstr ""
+msgstr "SPECIAL_CHARS"
 
 #: ../../admin/config.rst:1789
 msgid ""
@@ -6287,7 +6372,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1800
 msgid "SINGLE_PROJECT"
-msgstr ""
+msgstr "SINGLE_PROJECT"
 
 #: ../../admin/config.rst:1804
 msgid ""
@@ -6305,7 +6390,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1823
 msgid "STATUS_URL"
-msgstr ""
+msgstr "STATUS_URL"
 
 #: ../../admin/config.rst:1825
 msgid "The URL where your Weblate instance reports its status."
@@ -6313,7 +6398,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1830
 msgid "SUGGESTION_CLEANUP_DAYS"
-msgstr ""
+msgstr "SUGGESTION_CLEANUP_DAYS"
 
 #: ../../admin/config.rst:1834
 msgid ""
@@ -6323,7 +6408,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1840
 msgid "UPDATE_LANGUAGES"
-msgstr ""
+msgstr "UPDATE_LANGUAGES"
 
 #: ../../admin/config.rst:1844
 msgid ""
@@ -6338,7 +6423,7 @@ msgstr ":ref:`included-languages`"
 
 #: ../../admin/config.rst:1855
 msgid "URL_PREFIX"
-msgstr ""
+msgstr "URL_PREFIX"
 
 #: ../../admin/config.rst:1857
 msgid ""
@@ -6365,7 +6450,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1883
 msgid "VCS_BACKENDS"
-msgstr ""
+msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1885
 msgid "Configuration of available VCS backends."
@@ -6385,7 +6470,7 @@ msgstr ":ref:`vcs`"
 
 #: ../../admin/config.rst:1906
 msgid "VCS_CLONE_DEPTH"
-msgstr ""
+msgstr "VCS_CLONE_DEPTH"
 
 #: ../../admin/config.rst:1910
 msgid "Configures how deep cloning of repositories Weblate should do."
@@ -6409,7 +6494,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1931
 msgid "WEBLATE_ADDONS"
-msgstr ""
+msgstr "WEBLATE_ADDONS"
 
 #: ../../admin/config.rst:1933
 msgid ""
@@ -6432,7 +6517,7 @@ msgstr ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
 
 #: ../../admin/config.rst:1984
 msgid "WEBLATE_EXPORTERS"
-msgstr ""
+msgstr "WEBLATE_EXPORTERS"
 
 #: ../../admin/config.rst:1988
 msgid ""
@@ -6447,7 +6532,7 @@ msgstr ":ref:`formats`"
 
 #: ../../admin/config.rst:1998
 msgid "WEBLATE_FORMATS"
-msgstr ""
+msgstr "WEBLATE_FORMATS"
 
 #: ../../admin/config.rst:2002
 msgid "List of file formats available for use."
@@ -6459,7 +6544,7 @@ msgstr ""
 
 #: ../../admin/config.rst:2015
 msgid "WEBLATE_GPG_IDENTITY"
-msgstr ""
+msgstr "WEBLATE_GPG_IDENTITY"
 
 #: ../../admin/config.rst:2019
 msgid "Identity used by Weblate to sign Git commits, for example:"
@@ -6532,7 +6617,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:50
 msgid "Updating repositories"
-msgstr ""
+msgstr "Mise à jour des dépôts"
 
 #: ../../admin/continuous.rst:52
 msgid ""
@@ -6655,7 +6740,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:149
 msgid ":http:post:`/hooks/github/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/github/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:154
 msgid "Automatically receiving changes from Bitbucket"
@@ -6671,7 +6756,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:165
 msgid ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/bitbucket/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:170
 msgid "Automatically receiving changes from GitLab"
@@ -6686,7 +6771,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:178
 msgid ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/gitlab/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:183
 msgid "Automatically receiving changes from Pagure"
@@ -6702,7 +6787,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:196
 msgid ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
-msgstr ""
+msgstr ":http:post:`/hooks/pagure/`, :ref:`hosted-push`"
 
 #: ../../admin/continuous.rst:201
 msgid "Automatically receiving changes from Azure Repos"
@@ -6808,7 +6893,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:281
 msgid "Desired setup"
-msgstr ""
+msgstr "Configuration désirée"
 
 #: ../../admin/continuous.rst:281 ../../api.rst:1085
 msgid ":ref:`component-vcs`"
@@ -6824,7 +6909,7 @@ msgstr ":ref:`component-push_branch`"
 
 #: ../../admin/continuous.rst:283
 msgid "No push"
-msgstr ""
+msgstr "Pas de push"
 
 #: ../../admin/continuous.rst:283 ../../admin/continuous.rst:285
 #: ../../admin/continuous.rst:287
@@ -6835,15 +6920,15 @@ msgstr ":ref:`vcs-git`"
 #: ../../admin/continuous.rst:289 ../../admin/continuous.rst:293
 #: ../../admin/continuous.rst:297
 msgid "`empty`"
-msgstr ""
+msgstr "`vide`"
 
 #: ../../admin/continuous.rst:285
 msgid "Push directly"
-msgstr ""
+msgstr "Pousser directement"
 
 #: ../../admin/continuous.rst:285 ../../admin/continuous.rst:287
 msgid "SSH URL"
-msgstr ""
+msgstr "URL SSH"
 
 #: ../../admin/continuous.rst:287
 msgid "Push to separate branch"
@@ -6852,7 +6937,7 @@ msgstr "Pousser dans une branche séparée"
 #: ../../admin/continuous.rst:287 ../../admin/continuous.rst:291
 #: ../../admin/continuous.rst:295 ../../admin/continuous.rst:299
 msgid "Branch name"
-msgstr ""
+msgstr "Nom de la branche"
 
 #: ../../admin/continuous.rst:289
 msgid "GitHub pull request from fork"
@@ -6916,7 +7001,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:316
 msgid "Protected branches"
-msgstr ""
+msgstr "Branches protégées"
 
 #: ../../admin/continuous.rst:318
 msgid ""
@@ -6962,7 +7047,7 @@ msgstr ":ref:`api`"
 
 #: ../../admin/continuous.rst:354
 msgid "Lazy commits"
-msgstr ""
+msgstr "Archivages lazy"
 
 #: ../../admin/continuous.rst:356
 msgid ""
@@ -7034,7 +7119,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:400
 msgid "Translation propagation"
-msgstr ""
+msgstr "Propagation des traductions"
 
 #: ../../admin/continuous.rst:402
 msgid ""
@@ -7052,7 +7137,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:413
 msgid "Consistency check"
-msgstr ""
+msgstr "Contrôle de cohérence"
 
 #: ../../admin/continuous.rst:415
 msgid ""
@@ -7072,7 +7157,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
-msgstr ""
+msgstr "Personnaliser Weblate"
 
 #: ../../admin/customize.rst:4
 msgid ""
@@ -7174,7 +7259,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:83
 msgid ":file:`icons/weblate.svg`"
-msgstr ""
+msgstr ":file:`icons/weblate.svg`"
 
 #: ../../admin/customize.rst:84
 msgid "Logo shown in the navigation bar."
@@ -7182,7 +7267,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:85
 msgid ":file:`logo-*.png`"
-msgstr ""
+msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:86
 msgid "Web icons depending on screen resolution and web-browser."
@@ -7190,7 +7275,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:87
 msgid ":file:`favicon.ico`"
-msgstr ""
+msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:88
 msgid "Web icon used by legacy browsers."
@@ -7198,7 +7283,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:89
 msgid ":file:`weblate-*.png`"
-msgstr ""
+msgstr ":file:`weblate-*.png`"
 
 #: ../../admin/customize.rst:90
 msgid ""
@@ -7208,7 +7293,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:92
 msgid ":file:`email-logo.png`"
-msgstr ""
+msgstr ":file:`email-logo.png`"
 
 #: ../../admin/customize.rst:92
 msgid "Used in notifications e-mails."
@@ -7344,11 +7429,11 @@ msgstr ""
 
 #: ../../admin/install.rst:4
 msgid "Configuration instructions"
-msgstr ""
+msgstr "Instructions de configuration"
 
 #: ../../admin/install.rst:7
 msgid "Installing Weblate"
-msgstr ""
+msgstr "Installer Weblate"
 
 #: ../../admin/install.rst:23
 msgid ""
@@ -7387,11 +7472,11 @@ msgstr ":doc:`install/source`, recommandé pour le développement."
 
 #: ../../admin/install.rst:42
 msgid "Software requirements"
-msgstr ""
+msgstr "Exigences logicielles"
 
 #: ../../admin/install.rst:45
 msgid "Operating system"
-msgstr ""
+msgstr "Système d’exploitation"
 
 #: ../../admin/install.rst:47
 msgid ""
@@ -7407,7 +7492,7 @@ msgstr ""
 
 #: ../../admin/install.rst:54
 msgid "Other services"
-msgstr ""
+msgstr "Autres services"
 
 #: ../../admin/install.rst:56
 msgid ""
@@ -7429,7 +7514,7 @@ msgstr ""
 
 #: ../../admin/install.rst:66
 msgid "Python dependencies"
-msgstr ""
+msgstr "Dépendances python"
 
 #: ../../admin/install.rst:68
 msgid ""
@@ -7444,7 +7529,7 @@ msgstr ""
 
 #: ../../admin/install.rst:74
 msgid "Django"
-msgstr ""
+msgstr "Django"
 
 #: ../../admin/install.rst:75
 msgid "https://www.djangoproject.com/"
@@ -7452,7 +7537,7 @@ msgstr "https://www.djangoproject.com/"
 
 #: ../../admin/install.rst:76
 msgid "Celery"
-msgstr ""
+msgstr "Celery"
 
 #: ../../admin/install.rst:77
 msgid "https://docs.celeryproject.org/"
@@ -7460,7 +7545,7 @@ msgstr "https://docs.celeryproject.org/"
 
 #: ../../admin/install.rst:78
 msgid "Translate Toolkit"
-msgstr ""
+msgstr "Translate Toolkit"
 
 #: ../../admin/install.rst:79
 msgid "https://toolkit.translatehouse.org/"
@@ -7468,7 +7553,7 @@ msgstr "https://toolkit.translatehouse.org/"
 
 #: ../../admin/install.rst:80
 msgid "translation-finder"
-msgstr ""
+msgstr "translation-finder"
 
 #: ../../admin/install.rst:81
 msgid "https://github.com/WeblateOrg/translation-finder"
@@ -7502,7 +7587,7 @@ msgstr ""
 
 #: ../../admin/install.rst:95
 msgid "``Mercurial`` (optional for Mercurial repositories support)"
-msgstr ""
+msgstr "``Mercurial`` (facultatif pour la prise en charge des dépôts Mercurial)"
 
 #: ../../admin/install.rst:96
 msgid "https://www.mercurial-scm.org/"
@@ -7510,7 +7595,7 @@ msgstr "https://www.mercurial-scm.org/"
 
 #: ../../admin/install.rst:97
 msgid "``phply`` (optional for PHP support)"
-msgstr ""
+msgstr "``phply`` (facultatif pour la prise en charge de PHP)"
 
 #: ../../admin/install.rst:98
 msgid "https://github.com/viraptor/phply"
@@ -7518,7 +7603,7 @@ msgstr "https://github.com/viraptor/phply"
 
 #: ../../admin/install.rst:99
 msgid "``tesserocr`` (optional for screenshots OCR)"
-msgstr ""
+msgstr "``tesserocr`` (facultatif pour la ROC des captures d’écran)"
 
 #: ../../admin/install.rst:100
 msgid "https://github.com/sirfz/tesserocr"
@@ -7526,7 +7611,7 @@ msgstr "https://github.com/sirfz/tesserocr"
 
 #: ../../admin/install.rst:101
 msgid "``akismet`` (optional for suggestion spam protection)"
-msgstr ""
+msgstr "``akismet`` (facultatif pour la protection anti-spam des suggestions)"
 
 #: ../../admin/install.rst:102
 msgid "https://github.com/ubernostrum/akismet"
@@ -7534,7 +7619,7 @@ msgstr "https://github.com/ubernostrum/akismet"
 
 #: ../../admin/install.rst:103
 msgid "``ruamel.yaml`` (optional for :ref:`yaml`)"
-msgstr ""
+msgstr "``ruamel.yaml`` (facultatif pour :ref:`yaml`)"
 
 #: ../../admin/install.rst:104
 msgid "https://pypi.org/project/ruamel.yaml/"
@@ -7542,7 +7627,7 @@ msgstr "https://pypi.org/project/ruamel.yaml/"
 
 #: ../../admin/install.rst:105
 msgid "``Zeep`` (optional for :ref:`ms-terminology`)"
-msgstr ""
+msgstr "``Zeep`` (facultatif pour :ref:`ms-terminology`)"
 
 #: ../../admin/install.rst:106
 msgid "https://docs.python-zeep.org/"
@@ -7550,7 +7635,7 @@ msgstr "https://docs.python-zeep.org/"
 
 #: ../../admin/install.rst:108
 msgid "``aeidon`` (optional for :ref:`subtitles`)"
-msgstr ""
+msgstr "``aeidon`` (facultatif pour :ref:`subtitles`)"
 
 #: ../../admin/install.rst:108
 msgid "https://pypi.org/project/aeidon/"
@@ -7576,7 +7661,7 @@ msgstr ""
 
 #: ../../admin/install.rst:121
 msgid "``Git``"
-msgstr ""
+msgstr "``Git``"
 
 #: ../../admin/install.rst:122
 msgid "https://git-scm.com/"
@@ -7593,7 +7678,7 @@ msgstr ""
 
 #: ../../admin/install.rst:125
 msgid "``git-review`` (optional for Gerrit support)"
-msgstr ""
+msgstr "``git-review`` (facultatif pour la prise en charge de Gerrit)"
 
 #: ../../admin/install.rst:126
 msgid "https://pypi.org/project/git-review/"
@@ -7601,7 +7686,7 @@ msgstr "https://pypi.org/project/git-review/"
 
 #: ../../admin/install.rst:127
 msgid "``git-svn`` (optional for Subversion support)"
-msgstr ""
+msgstr "``git-svn`` (facultatif pour la prise en charge de Subversion)"
 
 #: ../../admin/install.rst:128
 msgid "https://git-scm.com/docs/git-svn"
@@ -7610,6 +7695,7 @@ msgstr "https://git-scm.com/docs/git-svn"
 #: ../../admin/install.rst:129
 msgid "``tesseract`` and its data (optional for screenshots OCR)"
 msgstr ""
+"``tesseract`` et ses données (facultatif pour la ROC des captures d’écran)"
 
 #: ../../admin/install.rst:130
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -7618,6 +7704,8 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 #: ../../admin/install.rst:132
 msgid "``licensee`` (optional for detecting license when creating component)"
 msgstr ""
+"``licensee`` (facultatif pour la détection des licences lors de la création "
+"des composants)"
 
 #: ../../admin/install.rst:132
 msgid "https://github.com/licensee/licensee"
@@ -7730,7 +7818,7 @@ msgstr ""
 
 #: ../../admin/install.rst:274
 msgid "Filesystem permissions"
-msgstr ""
+msgstr "Permissions du système de fichiers"
 
 #: ../../admin/install.rst:276
 msgid ""
@@ -7787,7 +7875,7 @@ msgstr ""
 
 #: ../../admin/install.rst:314
 msgid "PostgreSQL"
-msgstr ""
+msgstr "PostgreSQL"
 
 #: ../../admin/install.rst:316
 msgid ""
@@ -7898,7 +7986,7 @@ msgstr ""
 
 #: ../../admin/install.rst:426
 msgid "Other configurations"
-msgstr ""
+msgstr "Autres configurations"
 
 #: ../../admin/install.rst:431
 msgid "Configuring outgoing e-mail"
@@ -7978,7 +8066,7 @@ msgstr ""
 
 #: ../../admin/install.rst:491
 msgid "HTTP proxy"
-msgstr ""
+msgstr "Proxy HTTP"
 
 #: ../../admin/install.rst:493
 msgid ""
@@ -7995,7 +8083,7 @@ msgstr ""
 
 #: ../../admin/install.rst:511
 msgid "Adjusting configuration"
-msgstr ""
+msgstr "Ajuster la configuration"
 
 #: ../../admin/install.rst:515
 msgid ":ref:`sample-configuration`"
@@ -8010,7 +8098,7 @@ msgstr ""
 
 #: ../../admin/install.rst:523
 msgid "``ADMINS``"
-msgstr ""
+msgstr "``ADMINS``"
 
 #: ../../admin/install.rst:525
 msgid ""
@@ -8020,11 +8108,11 @@ msgstr ""
 
 #: ../../admin/install.rst:530
 msgid ":setting:`django:ADMINS`"
-msgstr ""
+msgstr ":setting:`django:ADMINS`"
 
 #: ../../admin/install.rst:534
 msgid "``ALLOWED_HOSTS``"
-msgstr ""
+msgstr "``ALLOWED_HOSTS``"
 
 #: ../../admin/install.rst:536
 msgid ""
@@ -8044,7 +8132,7 @@ msgstr ""
 
 #: ../../admin/install.rst:557
 msgid "``SESSION_ENGINE``"
-msgstr ""
+msgstr "``SESSION_ENGINE``"
 
 #: ../../admin/install.rst:559
 msgid ""
@@ -8065,7 +8153,7 @@ msgstr ":ref:`django:configuring-sessions`, :setting:`django:SESSION_ENGINE`"
 
 #: ../../admin/install.rst:578
 msgid "``DATABASES``"
-msgstr ""
+msgstr "``DATABASES``"
 
 #: ../../admin/install.rst:580
 msgid ""
@@ -8083,7 +8171,7 @@ msgstr ""
 
 #: ../../admin/install.rst:591
 msgid "``DEBUG``"
-msgstr ""
+msgstr "``DEBUG``"
 
 #: ../../admin/install.rst:593
 msgid ""
@@ -8100,11 +8188,11 @@ msgstr ""
 
 #: ../../admin/install.rst:602
 msgid ":setting:`django:DEBUG`"
-msgstr ""
+msgstr ":setting:`django:DEBUG`"
 
 #: ../../admin/install.rst:606
 msgid "``DEFAULT_FROM_EMAIL``"
-msgstr ""
+msgstr "``DEFAULT_FROM_EMAIL``"
 
 #: ../../admin/install.rst:608
 msgid ""
@@ -8113,11 +8201,11 @@ msgstr ""
 
 #: ../../admin/install.rst:612
 msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:616
 msgid "``SECRET_KEY``"
-msgstr ""
+msgstr "``SECRET_KEY``"
 
 #: ../../admin/install.rst:618
 msgid ""
@@ -8127,11 +8215,11 @@ msgstr ""
 
 #: ../../admin/install.rst:623
 msgid ":setting:`django:SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`django:SECRET_KEY`"
 
 #: ../../admin/install.rst:627
 msgid "``SERVER_EMAIL``"
-msgstr ""
+msgstr "``SERVER_EMAIL``"
 
 #: ../../admin/install.rst:629
 msgid ""
@@ -8141,7 +8229,7 @@ msgstr ""
 
 #: ../../admin/install.rst:634
 msgid ":setting:`django:SERVER_EMAIL`"
-msgstr ""
+msgstr ":setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:639
 msgid "Filling up the database"
@@ -8174,7 +8262,7 @@ msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:661
 msgid "Production setup"
-msgstr ""
+msgstr "Configuration de production"
 
 #: ../../admin/install.rst:663
 msgid ""
@@ -8314,7 +8402,7 @@ msgstr ""
 
 #: ../../admin/install.rst:798
 msgid "Enable caching"
-msgstr ""
+msgstr "Activer la mise en cache"
 
 #: ../../admin/install.rst:800
 msgid ""
@@ -8421,7 +8509,7 @@ msgstr ""
 
 #: ../../admin/install.rst:929
 msgid ":setting:`SECRET_KEY`"
-msgstr ""
+msgstr ":setting:`SECRET_KEY`"
 
 #: ../../admin/install.rst:934
 msgid "Home directory"
@@ -8462,7 +8550,7 @@ msgstr ":ref:`vcs-repos`"
 
 #: ../../admin/install.rst:967
 msgid "Template loading"
-msgstr ""
+msgstr "Chargement du modèle"
 
 #: ../../admin/install.rst:969
 msgid ""
@@ -8474,7 +8562,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1006
 msgid ":py:class:`django:django.template.loaders.cached.Loader`"
-msgstr ""
+msgstr ":py:class:`django:django.template.loaders.cached.Loader`"
 
 #: ../../admin/install.rst:1011
 msgid "Running maintenance tasks"
@@ -8613,7 +8701,7 @@ msgstr ":ref:`compressor:scenarios`, :ref:`static-files`"
 
 #: ../../admin/install.rst:1115
 msgid "Running server"
-msgstr ""
+msgstr "Exécuter un serveur"
 
 #: ../../admin/install.rst:1117
 msgid ""
@@ -8713,7 +8801,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1180
 msgid ":file:`/static/`"
-msgstr ""
+msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1180
 msgid ""
@@ -8723,7 +8811,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1182
 msgid ":file:`/media/`"
-msgstr ""
+msgstr ":file:`/media/`"
 
 #: ../../admin/install.rst:1183
 msgid "Used for user media uploads (e.g. screenshots)."
@@ -8731,7 +8819,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1185
 msgid ":file:`/favicon.ico`"
-msgstr ""
+msgstr ":file:`/favicon.ico`"
 
 #: ../../admin/install.rst:1185
 msgid ""
@@ -8964,7 +9052,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1397
 msgid "Monitoring Weblate"
-msgstr ""
+msgstr "Surveiller Weblate"
 
 #: ../../admin/install.rst:1399
 msgid ""
@@ -8987,7 +9075,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1414
 msgid "Sentry"
-msgstr ""
+msgstr "Sentry"
 
 #: ../../admin/install.rst:1416
 msgid ""
@@ -8997,7 +9085,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1424
 msgid "Rollbar"
-msgstr ""
+msgstr "Rollbar"
 
 #: ../../admin/install.rst:1426
 msgid ""
@@ -9029,7 +9117,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1464
 msgid "Migrating database"
-msgstr ""
+msgstr "Migrer la base de données"
 
 #: ../../admin/install.rst:1466
 msgid ""
@@ -9060,7 +9148,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1491
 msgid "Other notes"
-msgstr ""
+msgstr "Autres notes"
 
 #: ../../admin/install.rst:1493
 msgid ""
@@ -9081,7 +9169,7 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
-msgstr ""
+msgstr "Exigences matérielles"
 
 #: ../../admin/install/steps/hw.rst:4
 msgid ""
@@ -9134,7 +9222,7 @@ msgstr ""
 #: ../../admin/optionals.rst:127 ../../../README.rst:46 ../../python.rst:11
 #: ../../wlc.rst:18
 msgid "Installation"
-msgstr ""
+msgstr "Installation"
 
 #: ../../admin/install/docker.rst:15
 msgid ""
@@ -9343,7 +9431,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:220
 msgid "Generic settings"
-msgstr ""
+msgstr "Paramètres génériques"
 
 #: ../../admin/install/docker.rst:224
 msgid "Configures Django debug mode using :setting:`DEBUG`."
@@ -9527,7 +9615,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:436
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
-msgstr ""
+msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:440
 msgid ""
@@ -9737,11 +9825,11 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:694
 msgid "Authentication settings"
-msgstr ""
+msgstr "Paramètres d’authentification"
 
 #: ../../admin/install/docker.rst:697
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:710
 msgid "LDAP authentication configuration."
@@ -9769,43 +9857,43 @@ msgstr ":ref:`ldap-auth`"
 
 #: ../../admin/install/docker.rst:765 ../../vcs.rst:256
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
 #: ../../admin/install/docker.rst:770
 msgid "Enables :ref:`github_auth`."
-msgstr ""
+msgstr "Active :ref:`github_auth`."
 
 #: ../../admin/install/docker.rst:773
 msgid "Bitbucket"
-msgstr ""
+msgstr "Bitbucket"
 
 #: ../../admin/install/docker.rst:778
 msgid "Enables :ref:`bitbucket_auth`."
-msgstr ""
+msgstr "Active :ref:`bitbucket_auth`."
 
 #: ../../admin/install/docker.rst:781
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:786
 msgid "Enables :ref:`facebook_auth`."
-msgstr ""
+msgstr "Active :ref:`facebook_auth`."
 
 #: ../../admin/install/docker.rst:789
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: ../../admin/install/docker.rst:796
 msgid "Enables :ref:`google_auth`."
-msgstr ""
+msgstr "Active :ref:`google_auth`."
 
 #: ../../admin/install/docker.rst:799 ../../vcs.rst:293
 msgid "GitLab"
-msgstr ""
+msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:805
 msgid "Enables :ref:`gitlab_auth`."
-msgstr ""
+msgstr "Active :ref:`gitlab_auth`."
 
 #: ../../admin/install/docker.rst:808
 msgid "Azure Active Directory"
@@ -9827,7 +9915,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:826
 msgid "Keycloak"
-msgstr ""
+msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:835
 msgid ""
@@ -9838,7 +9926,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:839
 msgid "Linux vendors"
-msgstr ""
+msgstr "Fournisseurs Linux"
 
 #: ../../admin/install/docker.rst:841
 msgid ""
@@ -9852,7 +9940,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:859
 msgid "SAML"
-msgstr ""
+msgstr "SAML"
 
 #: ../../admin/install/docker.rst:861
 msgid ""
@@ -9889,11 +9977,11 @@ msgstr ":ref:`database-setup`"
 
 #: ../../admin/install/docker.rst:890
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "Mot de passe PostgreSQL."
 
 #: ../../admin/install/docker.rst:894
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "Nom d’utilisateur PostgreSQL."
 
 #: ../../admin/install/docker.rst:898
 msgid "PostgreSQL database name."
@@ -10009,7 +10097,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1007
 msgid ":setting:`django:EMAIL_PORT`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_PORT`"
 
 #: ../../admin/install/docker.rst:1011
 msgid "E-mail authentication user."
@@ -10017,7 +10105,7 @@ msgstr "Utilisateur authentifié par adresse courriel."
 
 #: ../../admin/install/docker.rst:1013
 msgid ":setting:`django:EMAIL_HOST_USER`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_USER`"
 
 #: ../../admin/install/docker.rst:1017
 msgid "E-mail authentication password."
@@ -10025,7 +10113,7 @@ msgstr "Mot de passe d’authentification par adresse courriel."
 
 #: ../../admin/install/docker.rst:1019
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:1023
 msgid ""
@@ -10066,7 +10154,7 @@ msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1058
 msgid "Error reporting"
-msgstr ""
+msgstr "Déclaration d’erreurs"
 
 #: ../../admin/install/docker.rst:1060
 msgid ""
@@ -10347,7 +10435,7 @@ msgstr ""
 
 #: ../../admin/install/openshift.rst:27
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../../admin/install/openshift.rst:29
 msgid ""
@@ -10364,7 +10452,7 @@ msgstr ""
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:0 ../../python.rst:0
 msgid "Parameters"
-msgstr ""
+msgstr "Paramètres"
 
 #: ../../admin/install/openshift.rst:43
 msgid ""
@@ -10484,7 +10572,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
-msgstr ""
+msgstr "Exigences du système"
 
 #: ../../admin/install/steps/install-system-devel.rst:7
 msgid ""
@@ -10511,7 +10599,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Modules Python"
 
 #: ../../admin/install/steps/install-python.rst:6
 msgid ""
@@ -10544,7 +10632,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
-msgstr ""
+msgstr "Configurer Weblate"
 
 #: ../../admin/install/steps/install-configure.rst:6
 msgid ""
@@ -10597,7 +10685,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-after.rst:2
 msgid "After installation"
-msgstr ""
+msgstr "Après installation"
 
 #: ../../admin/install/steps/install-after.rst:4
 msgid ""
@@ -10627,7 +10715,7 @@ msgstr ""
 
 #: ../../admin/install/steps/install-after.rst:13
 msgid "Adding translation"
-msgstr ""
+msgstr "Ajouter une traduction"
 
 #: ../../admin/install/steps/install-after.rst:15
 msgid ""
@@ -10683,7 +10771,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:87
 msgid "Language definitions"
-msgstr ""
+msgstr "Définitions de langue"
 
 #: ../../admin/languages.rst:6
 msgid ""
@@ -10839,7 +10927,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:126
 msgid "Plural number"
-msgstr ""
+msgstr "Nombre pluriel"
 
 #: ../../admin/languages.rst:128
 msgid "Number of plurals used in the language."
@@ -10994,7 +11082,7 @@ msgstr ":ref:`language-code`, :ref:`language-parsing-codes`"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
-msgstr ""
+msgstr "Licence des traductions"
 
 #: ../../admin/licensing.rst:3
 msgid ""
@@ -11011,7 +11099,7 @@ msgstr ""
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
-msgstr ""
+msgstr "Informations sur la licence"
 
 #: ../../admin/licensing.rst:13
 msgid ""
@@ -11045,7 +11133,7 @@ msgstr ""
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
-msgstr ""
+msgstr "Licences utilisateur"
 
 #: ../../admin/licensing.rst:33
 msgid ""
@@ -11071,7 +11159,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
-msgstr ""
+msgstr "amaGama"
 
 #: ../../admin/machine.rst:15
 msgid "Special installation of :ref:`tmserver` run by the authors of Virtaal."
@@ -11093,7 +11181,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:29 ../../changes.rst:1577
 msgid "Apertium"
-msgstr ""
+msgstr "Apertium"
 
 #: ../../admin/machine.rst:31
 msgid ""
@@ -11121,7 +11209,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:47
 msgid "AWS"
-msgstr ""
+msgstr "AWS"
 
 #: ../../admin/machine.rst:51
 msgid ""
@@ -11141,7 +11229,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:58
 msgid "Configure Weblate."
-msgstr ""
+msgstr "Configurer Weblate."
 
 #: ../../admin/machine.rst:62
 msgid ""
@@ -11179,7 +11267,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:89
 msgid "DeepL"
-msgstr ""
+msgstr "DeepL"
 
 #: ../../admin/machine.rst:93
 msgid ""
@@ -11211,7 +11299,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:118
 msgid "Glosbe"
-msgstr ""
+msgstr "Glosbe"
 
 #: ../../admin/machine.rst:120
 msgid ""
@@ -11237,7 +11325,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:136
 msgid "Google Translate"
-msgstr ""
+msgstr "Google Translate"
 
 #: ../../admin/machine.rst:138
 msgid "Machine translation service provided by Google."
@@ -11278,11 +11366,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:162
 msgid ":setting:`MT_GOOGLE_CREDENTIALS`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_CREDENTIALS`"
 
 #: ../../admin/machine.rst:163
 msgid ":setting:`MT_GOOGLE_PROJECT`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_PROJECT`"
 
 #: ../../admin/machine.rst:165
 msgid ""
@@ -11374,7 +11462,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:223
 msgid "ModernMT"
-msgstr ""
+msgstr "ModernMT"
 
 #: ../../admin/machine.rst:228
 msgid ""
@@ -11391,7 +11479,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:240 ../../changes.rst:1579
 msgid "MyMemory"
-msgstr ""
+msgstr "MyMemory"
 
 #: ../../admin/machine.rst:242
 msgid "Huge translation memory with machine translation."
@@ -11445,7 +11533,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:282
 msgid "tmserver"
-msgstr ""
+msgstr "tmserver"
 
 #: ../../admin/machine.rst:284
 msgid ""
@@ -11481,7 +11569,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:323
 msgid "Yandex Translate"
-msgstr ""
+msgstr "Yandex Translate"
 
 #: ../../admin/machine.rst:325
 msgid "Machine translation service provided by Yandex."
@@ -11535,7 +11623,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:360
 msgid "Weblate"
-msgstr ""
+msgstr "Weblate"
 
 #: ../../admin/machine.rst:362
 msgid ""
@@ -11625,7 +11713,7 @@ msgstr ""
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
-msgstr ""
+msgstr "Commandes de gestion"
 
 #: ../../admin/management.rst:8
 msgid ""
@@ -11695,7 +11783,7 @@ msgstr ""
 
 #: ../../admin/management.rst:80
 msgid "add_suggestions"
-msgstr ""
+msgstr "add_suggestions"
 
 #: ../../admin/management.rst:86
 msgid ""
@@ -11711,7 +11799,7 @@ msgstr ""
 
 #: ../../admin/management.rst:102
 msgid "auto_translate"
-msgstr ""
+msgstr "auto_translate"
 
 #: ../../admin/management.rst:108
 msgid "Performs automatic translation based on other component translations."
@@ -11758,7 +11846,7 @@ msgstr ":ref:`auto-translation`"
 
 #: ../../admin/management.rst:152
 msgid "celery_queues"
-msgstr ""
+msgstr "celery_queues"
 
 #: ../../admin/management.rst:158
 msgid "Displays length of Celery task queues."
@@ -11766,7 +11854,7 @@ msgstr ""
 
 #: ../../admin/management.rst:161
 msgid "checkgit"
-msgstr ""
+msgstr "checkgit"
 
 #: ../../admin/management.rst:165
 msgid "Prints current state of the back-end Git repository."
@@ -11784,7 +11872,7 @@ msgstr ""
 
 #: ../../admin/management.rst:171
 msgid "commitgit"
-msgstr ""
+msgstr "commitgit"
 
 #: ../../admin/management.rst:175
 msgid "Commits any possible pending changes to the back-end Git repository."
@@ -11792,7 +11880,7 @@ msgstr ""
 
 #: ../../admin/management.rst:181
 msgid "commit_pending"
-msgstr ""
+msgstr "commit_pending"
 
 #: ../../admin/management.rst:185
 msgid "Commits pending changes older than a given age."
@@ -11817,7 +11905,7 @@ msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:207
 msgid "cleanuptrans"
-msgstr ""
+msgstr "cleanuptrans"
 
 #: ../../admin/management.rst:211
 msgid ""
@@ -11832,7 +11920,7 @@ msgstr ":ref:`production-cron`"
 
 #: ../../admin/management.rst:219
 msgid "createadmin"
-msgstr ""
+msgstr "createadmin"
 
 #: ../../admin/management.rst:223
 msgid ""
@@ -11870,7 +11958,7 @@ msgstr ""
 
 #: ../../admin/management.rst:254
 msgid "dump_memory"
-msgstr ""
+msgstr "dump_memory"
 
 #: ../../admin/management.rst:260
 msgid "Export a JSON file containing Weblate Translation Memory content."
@@ -11882,7 +11970,7 @@ msgstr ":ref:`translation-memory`, :ref:`schema-memory`"
 
 #: ../../admin/management.rst:268
 msgid "dumpuserdata"
-msgstr ""
+msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:272
 msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`"
@@ -11894,7 +11982,7 @@ msgstr ""
 
 #: ../../admin/management.rst:279
 msgid "import_demo"
-msgstr ""
+msgstr "import_demo"
 
 #: ../../admin/management.rst:285
 msgid ""
@@ -11908,7 +11996,7 @@ msgstr ""
 
 #: ../../admin/management.rst:291
 msgid "import_json"
-msgstr ""
+msgstr "import_json"
 
 #: ../../admin/management.rst:297
 msgid "Batch import of components based on JSON data."
@@ -11949,11 +12037,11 @@ msgstr ""
 
 #: ../../admin/management.rst:331 ../../admin/memory.rst:101
 msgid ":djadmin:`import_memory`"
-msgstr ""
+msgstr ":djadmin:`import_memory`"
 
 #: ../../admin/management.rst:334
 msgid "import_memory"
-msgstr ""
+msgstr "import_memory"
 
 #: ../../admin/management.rst:340
 msgid "Imports a TMX or JSON file into the Weblate translation memory."
@@ -11970,6 +12058,8 @@ msgid ""
 "``--language-map en_US:en`` will for example import all ``en_US`` strings as "
 "``en`` ones."
 msgstr ""
+"``--language-map en_US:en`` va par exemple importer toutes les chaînes "
+"``en_US`` en tant que ``en``."
 
 #: ../../admin/management.rst:350
 msgid ""
@@ -11979,7 +12069,7 @@ msgstr ""
 
 #: ../../admin/management.rst:359
 msgid "import_project"
-msgstr ""
+msgstr "import_project"
 
 #: ../../admin/management.rst:365
 msgid ""
@@ -12131,7 +12221,7 @@ msgstr ""
 
 #: ../../admin/management.rst:513
 msgid "importuserdata"
-msgstr ""
+msgstr "importuserdata"
 
 #: ../../admin/management.rst:517
 msgid "Imports user data from a file created by :djadmin:`dumpuserdata`"
@@ -12139,7 +12229,7 @@ msgstr ""
 
 #: ../../admin/management.rst:520
 msgid "importusers"
-msgstr ""
+msgstr "importusers"
 
 #: ../../admin/management.rst:524
 msgid "Imports users from JSON dump of the Django auth_users database."
@@ -12157,7 +12247,7 @@ msgstr ""
 
 #: ../../admin/management.rst:539
 msgid "install_addon"
-msgstr ""
+msgstr "install_addon"
 
 #: ../../admin/management.rst:545
 msgid "Installs an addon to a set of components."
@@ -12193,7 +12283,7 @@ msgstr ":ref:`addons`"
 
 #: ../../admin/management.rst:573
 msgid "list_languages"
-msgstr ""
+msgstr "list_languages"
 
 #: ../../admin/management.rst:577
 msgid ""
@@ -12209,7 +12299,7 @@ msgstr ""
 
 #: ../../admin/management.rst:583
 msgid "list_translators"
-msgstr ""
+msgstr "list_translators"
 
 #: ../../admin/management.rst:587
 msgid "Lists translators by contributed language for the given project::"
@@ -12228,7 +12318,7 @@ msgstr ""
 
 #: ../../admin/management.rst:603
 msgid "list_versions"
-msgstr ""
+msgstr "list_versions"
 
 #: ../../admin/management.rst:607
 msgid "Lists all Weblate dependencies and their versions."
@@ -12236,7 +12326,7 @@ msgstr ""
 
 #: ../../admin/management.rst:610
 msgid "loadpo"
-msgstr ""
+msgstr "loadpo"
 
 #: ../../admin/management.rst:614
 msgid ""
@@ -12262,7 +12352,7 @@ msgstr ""
 
 #: ../../admin/management.rst:635
 msgid "lock_translation"
-msgstr ""
+msgstr "lock_translation"
 
 #: ../../admin/management.rst:639
 msgid "Prevents further translation of a component."
@@ -12275,11 +12365,11 @@ msgstr ""
 
 #: ../../admin/management.rst:650
 msgid ":djadmin:`unlock_translation`"
-msgstr ""
+msgstr ":djadmin:`unlock_translation`"
 
 #: ../../admin/management.rst:653
 msgid "move_language"
-msgstr ""
+msgstr "move_language"
 
 #: ../../admin/management.rst:659
 msgid ""
@@ -12298,7 +12388,7 @@ msgstr ""
 
 #: ../../admin/management.rst:675
 msgid "pushgit"
-msgstr ""
+msgstr "pushgit"
 
 #: ../../admin/management.rst:679
 msgid "Pushes committed changes to the upstream VCS repository."
@@ -12316,7 +12406,7 @@ msgstr ""
 
 #: ../../admin/management.rst:694
 msgid "unlock_translation"
-msgstr ""
+msgstr "unlock_translation"
 
 #: ../../admin/management.rst:698
 msgid "Unlocks a given component, making it available for translation."
@@ -12324,11 +12414,11 @@ msgstr ""
 
 #: ../../admin/management.rst:709
 msgid ":djadmin:`lock_translation`"
-msgstr ""
+msgstr ":djadmin:`lock_translation`"
 
 #: ../../admin/management.rst:712
 msgid "setupgroups"
-msgstr ""
+msgstr "setupgroups"
 
 #: ../../admin/management.rst:716
 msgid ""
@@ -12348,7 +12438,7 @@ msgstr ""
 
 #: ../../admin/management.rst:732
 msgid "setuplang"
-msgstr ""
+msgstr "setuplang"
 
 #: ../../admin/management.rst:736
 msgid "Updates list of defined languages in Weblate."
@@ -12360,7 +12450,7 @@ msgstr ""
 
 #: ../../admin/management.rst:743
 msgid "updatechecks"
-msgstr ""
+msgstr "updatechecks"
 
 #: ../../admin/management.rst:747
 msgid "Updates all checks for all strings."
@@ -12372,7 +12462,7 @@ msgstr ""
 
 #: ../../admin/management.rst:757
 msgid "updategit"
-msgstr ""
+msgstr "updategit"
 
 #: ../../admin/management.rst:761
 msgid "Fetches remote VCS repositories and updates the internal cache."
@@ -12504,7 +12594,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:74
 msgid "User interface"
-msgstr ""
+msgstr "Interface utilisateur"
 
 #: ../../admin/memory.rst:78
 msgid ""
@@ -12532,7 +12622,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:99
 msgid ":djadmin:`dump_memory`"
-msgstr ""
+msgstr ":djadmin:`dump_memory`"
 
 #: ../../admin/memory.rst:100
 msgid "Exports the memory into JSON"
@@ -12552,7 +12642,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:9
 msgid "Git exporter"
-msgstr ""
+msgstr "Exportateur Git"
 
 #: ../../admin/optionals.rst:13
 msgid ""
@@ -12571,7 +12661,7 @@ msgstr ""
 #: ../../admin/optionals.rst:31 ../../admin/optionals.rst:80
 #: ../../admin/optionals.rst:155 ../../faq.rst:259
 msgid "Usage"
-msgstr ""
+msgstr "Utilisation"
 
 #: ../../admin/optionals.rst:33
 msgid ""
@@ -12660,7 +12750,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:111
 msgid ":file:`legal/documents/tos.html`"
-msgstr ""
+msgstr ":file:`legal/documents/tos.html`"
 
 #: ../../admin/optionals.rst:112
 msgid "Terms of service document"
@@ -12668,7 +12758,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:113
 msgid ":file:`legal/documents/privacy.html`"
-msgstr ""
+msgstr ":file:`legal/documents/privacy.html`"
 
 #: ../../admin/optionals.rst:114
 msgid "Privacy policy document"
@@ -12676,7 +12766,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:116
 msgid ":file:`legal/documents/summary.html`"
-msgstr ""
+msgstr ":file:`legal/documents/summary.html`"
 
 #: ../../admin/optionals.rst:116
 msgid "Short overview of the terms of service and privacy policy"
@@ -12713,7 +12803,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:162
 msgid "Avatars"
-msgstr ""
+msgstr "Avatars"
 
 #: ../../admin/optionals.rst:164
 msgid ""
@@ -12729,7 +12819,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:170
 msgid "`Gravatar <https://gravatar.com/>`_"
-msgstr ""
+msgstr "`Gravatar <https://gravatar.com/>`_"
 
 #: ../../admin/optionals.rst:174
 msgid ""
@@ -12741,7 +12831,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:181
 msgid "Spam protection"
-msgstr ""
+msgstr "Protection contre le spam"
 
 #: ../../admin/optionals.rst:183
 msgid ""
@@ -12799,7 +12889,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:224
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
-msgstr ""
+msgstr ":setting:`WEBLATE_GPG_IDENTITY`"
 
 #: ../../admin/optionals.rst:229 ../../user/translating.rst:378
 msgid "Rate limiting"
@@ -12833,7 +12923,7 @@ msgstr "Portée"
 
 #: ../../admin/optionals.rst:242
 msgid "Allowed attempts"
-msgstr ""
+msgstr "Tentatives autorisées"
 
 #: ../../admin/optionals.rst:242
 msgid "Ratelimit window"
@@ -12849,23 +12939,23 @@ msgstr "S’inscrire"
 
 #: ../../admin/optionals.rst:244
 msgid "``REGISTRATION``"
-msgstr ""
+msgstr "``REGISTRATION``"
 
 #: ../../admin/optionals.rst:244 ../../admin/optionals.rst:246
 #: ../../admin/optionals.rst:248 ../../devel/reporting-example.rst:5
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: ../../admin/optionals.rst:244 ../../admin/optionals.rst:246
 #: ../../admin/optionals.rst:248
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: ../../admin/optionals.rst:244 ../../admin/optionals.rst:246
 #: ../../admin/optionals.rst:248 ../../admin/optionals.rst:252
 #: ../../admin/optionals.rst:254
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: ../../admin/optionals.rst:246
 msgid "Sending message to admins"
@@ -12873,7 +12963,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:246
 msgid "``MESSAGE``"
-msgstr ""
+msgstr "``MESSAGE``"
 
 #: ../../admin/optionals.rst:248
 msgid "Password authentication on sign in"
@@ -12881,24 +12971,24 @@ msgstr "Authentification par mot de passe à la connexion"
 
 #: ../../admin/optionals.rst:248
 msgid "``LOGIN``"
-msgstr ""
+msgstr "``LOGIN``"
 
 #: ../../admin/optionals.rst:250
 msgid "Sitewide search"
-msgstr ""
+msgstr "Recherche à l’échelle du site"
 
 #: ../../admin/optionals.rst:250
 msgid "``SEARCH``"
-msgstr ""
+msgstr "``SEARCH``"
 
 #: ../../admin/optionals.rst:250
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: ../../admin/optionals.rst:250 ../../admin/optionals.rst:252
 #: ../../admin/optionals.rst:254
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: ../../admin/optionals.rst:252 ../../user/translating.rst:98
 msgid "Translating"
@@ -12906,11 +12996,11 @@ msgstr "Traduction"
 
 #: ../../admin/optionals.rst:252
 msgid "``TRANSLATE``"
-msgstr ""
+msgstr "``TRANSLATE``"
 
 #: ../../admin/optionals.rst:252 ../../admin/optionals.rst:254
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: ../../admin/optionals.rst:254
 msgid "Adding to glossary"
@@ -12918,7 +13008,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:254
 msgid "``GLOSSARY``"
-msgstr ""
+msgstr "``GLOSSARY``"
 
 #: ../../admin/optionals.rst:257
 msgid ""
@@ -13112,7 +13202,7 @@ msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
-msgstr ""
+msgstr "Configuration du projet"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -13286,7 +13376,7 @@ msgstr ":ref:`language-parsing-codes`"
 
 #: ../../admin/projects.rst:244 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr ""
+msgstr "Configuration des composants"
 
 #: ../../admin/projects.rst:246
 msgid ""
@@ -13461,7 +13551,7 @@ msgstr ""
 #: ../../admin/projects.rst:379 ../../devel/gettext.rst:226
 #: ../../formats.rst:365
 msgid "File mask"
-msgstr ""
+msgstr "Masque de fichier"
 
 #: ../../admin/projects.rst:381
 msgid ""
@@ -13910,15 +14000,15 @@ msgstr ""
 
 #: ../../admin/projects.rst:690
 msgid "``^(cs|de|es)$``"
-msgstr ""
+msgstr "``^(cs|de|es)$``"
 
 #: ../../admin/projects.rst:692
 msgid "Exclude languages"
-msgstr ""
+msgstr "Exclure des langues"
 
 #: ../../admin/projects.rst:692
 msgid "``^(?!(it|fr)$).+$``"
-msgstr ""
+msgstr "``^(?!(it|fr)$).+$``"
 
 #: ../../admin/projects.rst:694
 msgid "Filter two letter codes only"
@@ -13926,7 +14016,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:694
 msgid "``^..$``"
-msgstr ""
+msgstr "``^..$``"
 
 #: ../../admin/projects.rst:696
 msgid "Exclude non language files"
@@ -13934,7 +14024,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:696
 msgid "``^(?!(blank)$).+$``"
-msgstr ""
+msgstr "``^(?!(blank)$).+$``"
 
 #: ../../admin/projects.rst:698
 msgid "Include all files (default)"
@@ -13942,7 +14032,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:698
 msgid "``^[^.]+$``"
-msgstr ""
+msgstr "``^[^.]+$``"
 
 #: ../../admin/projects.rst:704
 msgid "Variants regular expression"
@@ -13974,7 +14064,7 @@ msgstr "Les composants prioritaires sont proposés en premier à la traduction."
 
 #: ../../admin/projects.rst:728
 msgid "Restricted access"
-msgstr ""
+msgstr "Accès restreint"
 
 #: ../../admin/projects.rst:730
 msgid ""
@@ -14022,7 +14112,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:760
 msgid "Several addons"
-msgstr ""
+msgstr "Plusieurs greffons"
 
 #: ../../admin/projects.rst:758
 msgid ":ref:`addon-weblate.discovery.discovery`"
@@ -14042,39 +14132,39 @@ msgstr ""
 
 #: ../../admin/projects.rst:764
 msgid "``{{ language_code }}``"
-msgstr ""
+msgstr "``{{ language_code }}``"
 
 #: ../../admin/projects.rst:766
 msgid "``{{ language_name }}``"
-msgstr ""
+msgstr "``{{ language_name }}``"
 
 #: ../../admin/projects.rst:768
 msgid "``{{ component_name }}``"
-msgstr ""
+msgstr "``{{ component_name }}``"
 
 #: ../../admin/projects.rst:770
 msgid "``{{ component_slug }}``"
-msgstr ""
+msgstr "``{{ component_slug }}``"
 
 #: ../../admin/projects.rst:772
 msgid "``{{ project_name }}``"
-msgstr ""
+msgstr "``{{ project_name }}``"
 
 #: ../../admin/projects.rst:774
 msgid "``{{ project_slug }}``"
-msgstr ""
+msgstr "``{{ project_slug }}``"
 
 #: ../../admin/projects.rst:776
 msgid "``{{ url }}``"
-msgstr ""
+msgstr "``{{ url }}``"
 
 #: ../../admin/projects.rst:777
 msgid "Translation URL"
-msgstr ""
+msgstr "URL de traduction"
 
 #: ../../admin/projects.rst:778
 msgid "``{{ filename }}``"
-msgstr ""
+msgstr "``{{ filename }}``"
 
 #: ../../admin/projects.rst:779
 msgid "Translation filename"
@@ -14082,7 +14172,7 @@ msgstr "Nom du fichier de traduction"
 
 #: ../../admin/projects.rst:780
 msgid "``{{ stats }}``"
-msgstr ""
+msgstr "``{{ stats }}``"
 
 #: ../../admin/projects.rst:781
 msgid "Translation stats, this has further attributes, examples below."
@@ -14090,7 +14180,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:782
 msgid "``{{ stats.all }}``"
-msgstr ""
+msgstr "``{{ stats.all }}``"
 
 #: ../../admin/projects.rst:783
 msgid "Total strings count"
@@ -14098,7 +14188,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:784
 msgid "``{{ stats.fuzzy }}``"
-msgstr ""
+msgstr "``{{ stats.fuzzy }}``"
 
 #: ../../admin/projects.rst:785
 msgid "Count of strings needing review"
@@ -14106,7 +14196,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:786
 msgid "``{{ stats.fuzzy_percent }}``"
-msgstr ""
+msgstr "``{{ stats.fuzzy_percent }}``"
 
 #: ../../admin/projects.rst:787
 msgid "Percent of strings needing review"
@@ -14114,7 +14204,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:788
 msgid "``{{ stats.translated }}``"
-msgstr ""
+msgstr "``{{ stats.translated }}``"
 
 #: ../../admin/projects.rst:789
 msgid "Translated strings count"
@@ -14122,7 +14212,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:790
 msgid "``{{ stats.translated_percent }}``"
-msgstr ""
+msgstr "``{{ stats.translated_percent }}``"
 
 #: ../../admin/projects.rst:791
 msgid "Translated strings percent"
@@ -14130,7 +14220,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:792
 msgid "``{{ stats.allchecks }}``"
-msgstr ""
+msgstr "``{{ stats.allchecks }}``"
 
 #: ../../admin/projects.rst:793
 msgid "Number of strings with failing checks"
@@ -14138,7 +14228,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:794
 msgid "``{{ stats.allchecks_percent }}``"
-msgstr ""
+msgstr "``{{ stats.allchecks_percent }}``"
 
 #: ../../admin/projects.rst:795
 msgid "Percent of strings with failing checks"
@@ -14146,7 +14236,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:796
 msgid "``{{ author }}``"
-msgstr ""
+msgstr "``{{ author }}``"
 
 #: ../../admin/projects.rst:797
 msgid "Author of current commit, available only in the commit scope."
@@ -14154,7 +14244,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:799
 msgid "``{{ addon_name }}``"
-msgstr ""
+msgstr "``{{ addon_name }}``"
 
 #: ../../admin/projects.rst:799
 msgid ""
@@ -14169,15 +14259,15 @@ msgstr ""
 
 #: ../../admin/projects.rst:803
 msgid "``{{branch}}``"
-msgstr ""
+msgstr "``{{branch}}``"
 
 #: ../../admin/projects.rst:804
 msgid "current branch"
-msgstr ""
+msgstr "branche actuelle"
 
 #: ../../admin/projects.rst:805
 msgid "``{{line}}``"
-msgstr ""
+msgstr "``{{line}}``"
 
 #: ../../admin/projects.rst:806
 msgid "line in file"
@@ -14185,7 +14275,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:808
 msgid "``{{filename}}``"
-msgstr ""
+msgstr "``{{filename}}``"
 
 #: ../../admin/projects.rst:808
 msgid ""
@@ -14219,7 +14309,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:848
 msgid "Importing speed"
-msgstr ""
+msgstr "Vitesse d’importation"
 
 #: ../../admin/projects.rst:850
 msgid ""
@@ -14229,7 +14319,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:854
 msgid "Optimize configuration"
-msgstr ""
+msgstr "Optimiser la configuration"
 
 #: ../../admin/projects.rst:856
 msgid ""
@@ -14323,7 +14413,7 @@ msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
-msgstr ""
+msgstr "Configuration d’exemple"
 
 #: ../../admin/sample.rst:6
 msgid ""
@@ -15135,7 +15225,7 @@ msgstr ""
 
 #: ../../api.rst:162
 msgid "``X-RateLimit-Limit``"
-msgstr ""
+msgstr "``X-RateLimit-Limit``"
 
 #: ../../api.rst:162
 msgid "Rate limiting limit of requests to perform"
@@ -15143,7 +15233,7 @@ msgstr ""
 
 #: ../../api.rst:164
 msgid "``X-RateLimit-Remaining``"
-msgstr ""
+msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:164
 msgid "Remaining limit of requests"
@@ -15151,7 +15241,7 @@ msgstr ""
 
 #: ../../api.rst:166
 msgid "``X-RateLimit-Reset``"
-msgstr ""
+msgstr "``X-RateLimit-Reset``"
 
 #: ../../api.rst:166
 msgid "Number of seconds until ratelimit window resets"
@@ -15343,7 +15433,7 @@ msgstr ""
 
 #: ../../api.rst:388
 msgid "int"
-msgstr ""
+msgstr "entier"
 
 #: ../../api.rst:392
 msgid "Groups"
@@ -15648,10 +15738,8 @@ msgid "number of total characters"
 msgstr ""
 
 #: ../../api.rst:736 ../../api.rst:1586 ../../api.rst:1839
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "number of fuzzy (marked for edit) strings"
-msgstr "Nombre de chaînes sources"
+msgstr "nombre de chaînes à vérifier"
 
 #: ../../api.rst:737 ../../api.rst:1587 ../../api.rst:1840
 msgid "percentage of fuzzy (marked for edit) strings"
@@ -16509,7 +16597,7 @@ msgstr ""
 
 #: ../../api.rst:1853
 msgid "Units"
-msgstr ""
+msgstr "Unités"
 
 #: ../../api.rst:1859
 msgid "Returns list of translation units."
@@ -16951,7 +17039,7 @@ msgstr ""
 
 #: ../../api.rst:2361
 msgid "Tasks"
-msgstr ""
+msgstr "Tâches"
 
 #: ../../api.rst:2367
 msgid "Listing of the tasks is currently not available."
@@ -17059,7 +17147,7 @@ msgstr ""
 #: ../../api.rst:2429 ../../api.rst:2443 ../../api.rst:2457 ../../api.rst:2473
 #: ../../api.rst:2489 ../../api.rst:2505 ../../api.rst:2521
 msgid ":setting:`ENABLE_HOOKS`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS`"
 
 #: ../../api.rst:2430 ../../api.rst:2444 ../../api.rst:2458 ../../api.rst:2474
 #: ../../api.rst:2490 ../../api.rst:2506 ../../api.rst:2522
@@ -17204,7 +17292,7 @@ msgstr ""
 
 #: ../../api.rst:2527
 msgid "Exports"
-msgstr ""
+msgstr "Exports"
 
 #: ../../api.rst:2529
 msgid ""
@@ -20746,7 +20834,7 @@ msgstr ""
 
 #: ../../changes.rst:1097
 msgid "Translations."
-msgstr ""
+msgstr "Mise à jour des traductions."
 
 #: ../../changes.rst:1098
 msgid "Updated bundled javascript libraries."
@@ -21978,10 +22066,8 @@ msgid "Supports (and requires) django-registration 0.8."
 msgstr ""
 
 #: ../../changes.rst:1477
-#, fuzzy
-#| msgid "number of strings failing checks"
 msgid "Caching counts of strings with failing checks."
-msgstr "nombre de chaînes qui échouent aux contrôles"
+msgstr "Mise en cache du nombre de chaînes avec des contrôles défaillants."
 
 #: ../../changes.rst:1478
 msgid "Checking of requirements during setup."
@@ -22511,13 +22597,11 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
-#, fuzzy
-#| msgid "Hook triggered after file is parsed and storage class constructed."
 msgid ""
 "Hook triggered after a file is parsed and file format class is constructed."
 msgstr ""
-"Crochet déclenché après que le fichier est analysé que la classe de stockage "
-"est construite."
+"Crochet déclenché après qu’un fichier soit analysé et que la classe de "
+"format de fichier soit construite."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
@@ -22747,7 +22831,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:51
 msgid "Icons"
-msgstr ""
+msgstr "Icônes"
 
 #: ../../contributing/frontend.rst:53
 msgid ""
@@ -22841,7 +22925,7 @@ msgstr ""
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
-msgstr ""
+msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
@@ -22884,7 +22968,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:17
 msgid "``docs``"
-msgstr ""
+msgstr "``docs``"
 
 #: ../../contributing/internals.rst:18
 msgid ""
@@ -22894,7 +22978,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
-msgstr ""
+msgstr "``dev-docker``"
 
 #: ../../contributing/internals.rst:20
 msgid "Docker code to run development server, see :ref:`dev-docker`."
@@ -22902,7 +22986,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:21
 msgid "``weblate``"
-msgstr ""
+msgstr "``weblate``"
 
 #: ../../contributing/internals.rst:22
 msgid ""
@@ -22912,7 +22996,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:24
 msgid "``weblate/static``"
-msgstr ""
+msgstr "``weblate/static``"
 
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
@@ -22920,7 +23004,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
-msgstr ""
+msgstr "Modules"
 
 #: ../../contributing/internals.rst:29
 msgid ""
@@ -22930,7 +23014,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:32
 msgid "``accounts``"
-msgstr ""
+msgstr "``accounts``"
 
 #: ../../contributing/internals.rst:34
 msgid "User account, profiles and notifications."
@@ -22938,7 +23022,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:36
 msgid "``addons``"
-msgstr ""
+msgstr "``addons``"
 
 #: ../../contributing/internals.rst:38
 msgid "Addons to tweak Weblate behavior, see :ref:`addons`."
@@ -22946,7 +23030,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:40
 msgid "``api``"
-msgstr ""
+msgstr "``api``"
 
 #: ../../contributing/internals.rst:42
 msgid "API based on `Django REST framework`_."
@@ -22954,7 +23038,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:44
 msgid "``auth``"
-msgstr ""
+msgstr "``auth``"
 
 #: ../../contributing/internals.rst:46
 msgid "Authentication and permissions."
@@ -22962,7 +23046,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:48
 msgid "``billing``"
-msgstr ""
+msgstr "``billing``"
 
 #: ../../contributing/internals.rst:50
 msgid "The optional :ref:`billing` module."
@@ -22970,7 +23054,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:52
 msgid "``checks``"
-msgstr ""
+msgstr "``checks``"
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
@@ -22978,7 +23062,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:56
 msgid "``fonts``"
-msgstr ""
+msgstr "``fonts``"
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
@@ -22986,7 +23070,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:60
 msgid "``formats``"
-msgstr ""
+msgstr "``formats``"
 
 #: ../../contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
@@ -22994,7 +23078,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:64
 msgid "``gitexport``"
-msgstr ""
+msgstr "``gitexport``"
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
@@ -23002,7 +23086,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:68
 msgid "``lang``"
-msgstr ""
+msgstr "``lang``"
 
 #: ../../contributing/internals.rst:70
 msgid "Module defining language and plural models."
@@ -23010,7 +23094,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:72
 msgid "``legal``"
-msgstr ""
+msgstr "``legal``"
 
 #: ../../contributing/internals.rst:74
 msgid "The optional :ref:`legal` module."
@@ -23018,7 +23102,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:76
 msgid "``machinery``"
-msgstr ""
+msgstr "``machinery``"
 
 #: ../../contributing/internals.rst:78
 msgid "Integration of machine translation services."
@@ -23026,7 +23110,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:80
 msgid "``memory``"
-msgstr ""
+msgstr "``memory``"
 
 #: ../../contributing/internals.rst:82
 msgid "Built in translation memory, see :ref:`translation-memory`."
@@ -23034,7 +23118,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:84
 msgid "``screenshots``"
-msgstr ""
+msgstr "``screenshots``"
 
 #: ../../contributing/internals.rst:86
 msgid "Screenshots management and OCR module."
@@ -23042,7 +23126,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:88
 msgid "``trans``"
-msgstr ""
+msgstr "``trans``"
 
 #: ../../contributing/internals.rst:90
 msgid "Main module handling translations."
@@ -23050,7 +23134,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:92
 msgid "``utils``"
-msgstr ""
+msgstr "``utils``"
 
 #: ../../contributing/internals.rst:94
 msgid "Various helper utilities."
@@ -23058,7 +23142,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:96
 msgid "``vcs``"
-msgstr ""
+msgstr "``vcs``"
 
 #: ../../contributing/internals.rst:98
 msgid "Version control system abstraction."
@@ -23066,7 +23150,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:100
 msgid "``wladmin``"
-msgstr ""
+msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:102
 msgid "Django admin interface customization."
@@ -23447,7 +23531,7 @@ msgstr "Bonjour"
 
 #: ../../contributing/schemas.rst:9
 msgid "minLength"
-msgstr ""
+msgstr "minLength"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source\\_language**"
@@ -24377,12 +24461,12 @@ msgstr ""
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
-msgstr ""
+msgstr "Champ"
 
 #: ../../devel/gettext.rst:222 ../../workflows.rst:58 ../../workflows.rst:89
 #: ../../workflows.rst:125
 msgid "Value"
-msgstr ""
+msgstr "Valeur"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
@@ -24390,11 +24474,11 @@ msgstr ""
 
 #: ../../devel/gettext.rst:226 ../../formats.rst:168 ../../formats.rst:234
 msgid "``po/*.po``"
-msgstr ""
+msgstr "``po/*.po``"
 
 #: ../../devel/gettext.rst:228
 msgid "``po/hello.pot``"
-msgstr ""
+msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 msgid "Choose :guilabel:`Gettext PO file`"
@@ -24825,7 +24909,7 @@ msgstr ""
 
 #: ../../devel/reporting-example.rst:2
 msgid "Email"
-msgstr ""
+msgstr "Courriel"
 
 #: ../../devel/reporting-example.rst:2
 msgid "Count total"
@@ -24913,15 +24997,15 @@ msgstr ""
 
 #: ../../devel/reporting-example.rst:4
 msgid "michal@cihar.com"
-msgstr ""
+msgstr "michal@cihar.com"
 
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
 msgid "21"
-msgstr ""
+msgstr "21"
 
 #: ../../devel/reporting-example.rst:5
 msgid "Allan Nordhøy"
@@ -24929,23 +25013,23 @@ msgstr ""
 
 #: ../../devel/reporting-example.rst:5
 msgid "allan@example.com"
-msgstr ""
+msgstr "allan@example.com"
 
 #: ../../devel/reporting-example.rst:5
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: ../../devel/reporting-example.rst:5
 msgid "25"
-msgstr ""
+msgstr "25"
 
 #: ../../devel/reporting-example.rst:5
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: ../../devel/reporting-example.rst:5
 msgid "28"
-msgstr ""
+msgstr "28"
 
 #: ../../devel/reporting.rst:66
 msgid ""
@@ -24959,7 +25043,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:71
 msgid "`Total`"
-msgstr ""
+msgstr "`Total`"
 
 #: ../../devel/reporting.rst:72
 msgid "Overall number of edited strings."
@@ -24967,7 +25051,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:73
 msgid "`New`"
-msgstr ""
+msgstr "`Nouveau`"
 
 #: ../../devel/reporting.rst:74
 msgid "Newly translated strings which didn't have translation before."
@@ -24975,7 +25059,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:75
 msgid "`Approved`"
-msgstr ""
+msgstr "`Approuvé`"
 
 #: ../../devel/reporting.rst:76
 msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
@@ -24983,7 +25067,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:78
 msgid "`Edited`"
-msgstr ""
+msgstr "`Modifié`"
 
 #: ../../devel/reporting.rst:78
 msgid "Edited strings which had translation before."
@@ -24995,7 +25079,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:82
 msgid "`Count`"
-msgstr ""
+msgstr "`Compte`"
 
 #: ../../devel/reporting.rst:83
 msgid "Number of strings."
@@ -25003,7 +25087,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:84
 msgid "`Edits`"
-msgstr ""
+msgstr "`Modifications`"
 
 #: ../../devel/reporting.rst:85
 msgid ""
@@ -25201,11 +25285,11 @@ msgstr "``Documentation``"
 
 #: ../../devel/sphinx.rst:35
 msgid "``docs/locales/*/LC_MESSAGES/index.po``"
-msgstr ""
+msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
 
 #: ../../devel/sphinx.rst:37
 msgid "``docs/locales/index.pot``"
-msgstr ""
+msgstr "``docs/locales/index.pot``"
 
 #: ../../devel/sphinx.rst:39
 msgid "`gettext PO file`"
@@ -25225,6 +25309,7 @@ msgstr ""
 msgid ""
 "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr ""
+"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../devel/sphinx.rst:47
 msgid "Customize the component name"
@@ -25232,7 +25317,7 @@ msgstr "Personnaliser le nom du composant"
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
-msgstr ""
+msgstr "``Documentation : {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:49
 msgid "Define the base file for new translations"
@@ -25240,7 +25325,7 @@ msgstr "Définit le fichier de base pour de nouvelles traductions"
 
 #: ../../devel/sphinx.rst:50
 msgid "``docs/locales/{{ component }}.pot``"
-msgstr ""
+msgstr "``docs/locales/{{ component }}.pot``"
 
 #: ../../devel/sphinx.rst:54
 msgid ""
@@ -25322,7 +25407,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:36
 msgid "Platform"
-msgstr ""
+msgstr "Plateforme"
 
 #: ../../devel/starting.rst:36
 msgid "Recommended format"
@@ -25354,7 +25439,7 @@ msgstr ":ref:`qtling`"
 
 #: ../../devel/starting.rst:44
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: ../../devel/starting.rst:44 ../../devel/starting.rst:48
 #: ../../devel/starting.rst:52 ../../formats.rst:61
@@ -25371,11 +25456,11 @@ msgstr ":ref:`gettext` [#php]_"
 
 #: ../../devel/starting.rst:48
 msgid "C/C++"
-msgstr ""
+msgstr "C/C++"
 
 #: ../../devel/starting.rst:50
 msgid "C#"
-msgstr ""
+msgstr "C#"
 
 #: ../../devel/starting.rst:50 ../../formats.rst:91
 msgid ":ref:`dotnet`"
@@ -25383,7 +25468,7 @@ msgstr ":ref:`dotnet`"
 
 #: ../../devel/starting.rst:52
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: ../../devel/starting.rst:54
 msgid "Ruby"
@@ -25411,7 +25496,7 @@ msgstr ":ref:`xliff` [#java]_"
 
 #: ../../devel/starting.rst:60
 msgid "JavaScript"
-msgstr ""
+msgstr "JavaScript"
 
 #: ../../devel/starting.rst:60
 msgid ":ref:`js-i18next` [#js]_"
@@ -25527,11 +25612,11 @@ msgstr ""
 
 #: ../../devel/translations.rst:46
 msgid "``(Short|Min)$``"
-msgstr ""
+msgstr "``(Short|Min)$``"
 
 #: ../../devel/translations.rst:46
 msgid "``monthShort``, ``monthMin``, ``month``"
-msgstr ""
+msgstr "``monthShort``, ``monthMin``, ``month``"
 
 #: ../../devel/translations.rst:48
 msgid "Inline identification"
@@ -25539,11 +25624,11 @@ msgstr ""
 
 #: ../../devel/translations.rst:48
 msgid "``#[SML]``"
-msgstr ""
+msgstr "``#[SML]``"
 
 #: ../../devel/translations.rst:48
 msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
-msgstr ""
+msgstr "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 
 #: ../../devel/translations.rst:51
 msgid "The variant is later grouped when translating:"
@@ -25999,7 +26084,7 @@ msgstr ""
 
 #: ../../faq.rst:379
 msgid "Troubleshooting"
-msgstr ""
+msgstr "Dépannage"
 
 #: ../../faq.rst:382
 msgid "Requests sometimes fail with \"too many open files\" error"
@@ -26791,11 +26876,11 @@ msgstr ""
 
 #: ../../formats.rst:353 ../../formats.rst:365
 msgid "``localizations/*.xliff``"
-msgstr ""
+msgstr "``localizations/*.xliff``"
 
 #: ../../formats.rst:357 ../../formats.rst:367 ../../formats.rst:369
 msgid "``localizations/en-US.xliff``"
-msgstr ""
+msgstr "``localizations/en-US.xliff``"
 
 #: ../../formats.rst:359 ../../formats.rst:371
 msgid "`XLIFF Translation File`"
@@ -26842,11 +26927,11 @@ msgstr ""
 
 #: ../../formats.rst:406 ../../formats.rst:437
 msgid "``src/app/Bundle_*.properties``"
-msgstr ""
+msgstr "``src/app/Bundle_*.properties``"
 
 #: ../../formats.rst:408 ../../formats.rst:439
 msgid "``src/app/Bundle.properties``"
-msgstr ""
+msgstr "``src/app/Bundle.properties``"
 
 #: ../../formats.rst:412
 msgid "`Java Properties (ISO-8859-1)`"
@@ -26896,11 +26981,11 @@ msgstr ""
 
 #: ../../formats.rst:470
 msgid "``language/*.ini``"
-msgstr ""
+msgstr "``language/*.ini``"
 
 #: ../../formats.rst:472
 msgid "``language/en.ini``"
-msgstr ""
+msgstr "``language/en.ini``"
 
 #: ../../formats.rst:476
 msgid "`INI File`"
@@ -26940,11 +27025,11 @@ msgstr ""
 
 #: ../../formats.rst:514
 msgid "``language/*.islu``"
-msgstr ""
+msgstr "``language/*.islu``"
 
 #: ../../formats.rst:516
 msgid "``language/en.islu``"
-msgstr ""
+msgstr "``language/en.islu``"
 
 #: ../../formats.rst:520
 msgid "`Inno Setup INI File`"
@@ -26974,11 +27059,11 @@ msgstr ""
 
 #: ../../formats.rst:551
 msgid "``language/*/com_foobar.ini``"
-msgstr ""
+msgstr "``language/*/com_foobar.ini``"
 
 #: ../../formats.rst:553
 msgid "``language/en-GB/com_foobar.ini``"
-msgstr ""
+msgstr "``language/en-GB/com_foobar.ini``"
 
 #: ../../formats.rst:557
 msgid "`Joomla Language File`"
@@ -27010,11 +27095,11 @@ msgstr ""
 
 #: ../../formats.rst:583 ../../formats.rst:595
 msgid "``i18n/app.*.ts``"
-msgstr ""
+msgstr "``i18n/app.*.ts``"
 
 #: ../../formats.rst:587
 msgid "``i18n/app.de.ts``"
-msgstr ""
+msgstr "``i18n/app.de.ts``"
 
 #: ../../formats.rst:589 ../../formats.rst:601
 msgid "`Qt Linguist Translation File`"
@@ -27026,7 +27111,7 @@ msgstr ""
 
 #: ../../formats.rst:597 ../../formats.rst:599
 msgid "``i18n/app.en.ts``"
-msgstr ""
+msgstr "``i18n/app.en.ts``"
 
 #: ../../formats.rst:606
 msgid ""
@@ -27051,11 +27136,11 @@ msgstr ""
 
 #: ../../formats.rst:627
 msgid "``res/values-*/strings.xml``"
-msgstr ""
+msgstr "``res/values-*/strings.xml``"
 
 #: ../../formats.rst:629
 msgid "``res/values/strings.xml``"
-msgstr ""
+msgstr "``res/values/strings.xml``"
 
 #: ../../formats.rst:633
 msgid "`Android String Resource`"
@@ -27075,7 +27160,7 @@ msgstr ""
 
 #: ../../formats.rst:653
 msgid "become:"
-msgstr ""
+msgstr "devient :"
 
 #: ../../formats.rst:664
 msgid ""
@@ -27106,13 +27191,15 @@ msgstr ""
 
 #: ../../formats.rst:685
 msgid "``Resources/*.lproj/Localizable.strings``"
-msgstr ""
+msgstr "``Resources/*.lproj/Localizable.strings``"
 
 #: ../../formats.rst:687
 msgid ""
 "``Resources/en.lproj/Localizable.strings`` or ``Resources/Base.lproj/"
 "Localizable.strings``"
 msgstr ""
+"``Resources/en.lproj/Localizable.strings`` ou ``Resources/Base.lproj/"
+"Localizable.strings``"
 
 #: ../../formats.rst:692
 msgid "`iOS Strings (UTF-8)`"
@@ -27143,11 +27230,11 @@ msgstr ""
 
 #: ../../formats.rst:720
 msgid "``lang/*/texts.php``"
-msgstr ""
+msgstr "``lang/*/texts.php``"
 
 #: ../../formats.rst:722 ../../formats.rst:724
 msgid "``lang/en/texts.php``"
-msgstr ""
+msgstr "``lang/en/texts.php``"
 
 #: ../../formats.rst:726
 msgid "`PHP strings`"
@@ -27222,11 +27309,11 @@ msgstr ""
 
 #: ../../formats.rst:803
 msgid "``langs/translation-*.json``"
-msgstr ""
+msgstr "``langs/translation-*.json``"
 
 #: ../../formats.rst:805
 msgid "``langs/translation-en.json``"
-msgstr ""
+msgstr "``langs/translation-en.json``"
 
 #: ../../formats.rst:809
 msgid "`JSON nested structure file`"
@@ -27271,11 +27358,11 @@ msgstr ""
 
 #: ../../formats.rst:851 ../../formats.rst:888
 msgid "``langs/*.json``"
-msgstr ""
+msgstr "``langs/*.json``"
 
 #: ../../formats.rst:853 ../../formats.rst:890
 msgid "``langs/en.json``"
-msgstr ""
+msgstr "``langs/en.json``"
 
 #: ../../formats.rst:857
 msgid "`i18next JSON file`"
@@ -27331,11 +27418,11 @@ msgstr ""
 
 #: ../../formats.rst:920
 msgid "``lib/l10n/intl_*.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_*.arb``"
 
 #: ../../formats.rst:922
 msgid "``lib/l10n/intl_en.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_en.arb``"
 
 #: ../../formats.rst:926
 msgid "`ARB file`"
@@ -27382,11 +27469,11 @@ msgstr ""
 
 #: ../../formats.rst:962
 msgid "``_locales/*/messages.json``"
-msgstr ""
+msgstr "``_locales/*/messages.json``"
 
 #: ../../formats.rst:964
 msgid "``_locales/en/messages.json``"
-msgstr ""
+msgstr "``_locales/en/messages.json``"
 
 #: ../../formats.rst:968
 msgid "`WebExtension JSON file`"
@@ -27418,11 +27505,11 @@ msgstr ""
 
 #: ../../formats.rst:995
 msgid "``Resources/Language.*.resx``"
-msgstr ""
+msgstr "``Resources/Language.*.resx``"
 
 #: ../../formats.rst:997
 msgid "``Resources/Language.resx``"
-msgstr ""
+msgstr "``Resources/Language.resx``"
 
 #: ../../formats.rst:1001
 msgid "`.NET resource file`"
@@ -27483,11 +27570,11 @@ msgstr ":ref:`component` typique de Weblate pour les fichiers CSV bilingues"
 
 #: ../../formats.rst:1050 ../../formats.rst:1062
 msgid "``locale/*.csv``"
-msgstr ""
+msgstr "``locale/*.csv``"
 
 #: ../../formats.rst:1054 ../../formats.rst:1064 ../../formats.rst:1066
 msgid "``locale/en.csv``"
-msgstr ""
+msgstr "``locale/en.csv``"
 
 #: ../../formats.rst:1056
 msgid "`CSV file`"
@@ -27521,11 +27608,11 @@ msgstr ""
 
 #: ../../formats.rst:1094 ../../formats.rst:1127
 msgid "``translations/messages.*.yml``"
-msgstr ""
+msgstr "``translations/messages.*.yml``"
 
 #: ../../formats.rst:1096 ../../formats.rst:1129
 msgid "``translations/messages.en.yml``"
-msgstr ""
+msgstr "``translations/messages.en.yml``"
 
 #: ../../formats.rst:1100
 msgid "`YAML file`"
@@ -27565,11 +27652,11 @@ msgstr ""
 
 #: ../../formats.rst:1156
 msgid "``locale/*.dtd``"
-msgstr ""
+msgstr "``locale/*.dtd``"
 
 #: ../../formats.rst:1158
 msgid "``locale/en.dtd``"
-msgstr ""
+msgstr "``locale/en.dtd``"
 
 #: ../../formats.rst:1162
 msgid "`DTD file`"
@@ -27589,11 +27676,11 @@ msgstr ""
 
 #: ../../formats.rst:1185
 msgid "``locale/*.xml``"
-msgstr ""
+msgstr "``locale/*.xml``"
 
 #: ../../formats.rst:1187
 msgid "``locale/en.xml``"
-msgstr ""
+msgstr "``locale/en.xml``"
 
 #: ../../formats.rst:1191
 msgid "`Flat XML file`"
@@ -27624,11 +27711,11 @@ msgstr ""
 
 #: ../../formats.rst:1220
 msgid "``lang/*.rc``"
-msgstr ""
+msgstr "``lang/*.rc``"
 
 #: ../../formats.rst:1222 ../../formats.rst:1224
 msgid "``lang/en-US.rc``"
-msgstr ""
+msgstr "``lang/en-US.rc``"
 
 #: ../../formats.rst:1226
 msgid "`RC file`"
@@ -27674,11 +27761,11 @@ msgstr ""
 
 #: ../../formats.rst:1251
 msgid "``fastlane/android/metadata/*``"
-msgstr ""
+msgstr "``fastlane/android/metadata/*``"
 
 #: ../../formats.rst:1253 ../../formats.rst:1255
 msgid "``fastlane/android/metadata/en-US``"
-msgstr ""
+msgstr "``fastlane/android/metadata/en-US``"
 
 #: ../../formats.rst:1257
 msgid "`App store metadata files`"
@@ -27717,11 +27804,11 @@ msgstr ""
 
 #: ../../formats.rst:1283
 msgid "``path/*.srt``"
-msgstr ""
+msgstr "``path/*.srt``"
 
 #: ../../formats.rst:1285 ../../formats.rst:1287
 msgid "``path/en.srt``"
-msgstr ""
+msgstr "``path/en.srt``"
 
 #: ../../formats.rst:1289
 msgid "`SubRip subtitle file`"
@@ -28087,11 +28174,11 @@ msgstr ""
 
 #: ../../python.rst:21
 msgid ":mod:`wlc`"
-msgstr ""
+msgstr ":mod:`wlc`"
 
 #: ../../python.rst:27
 msgid ":exc:`WeblateException`"
-msgstr ""
+msgstr ":exc:`WeblateException`"
 
 #: ../../python.rst:31
 msgid "Base class for all exceptions."
@@ -28099,7 +28186,7 @@ msgstr ""
 
 #: ../../python.rst:34
 msgid ":class:`Weblate`"
-msgstr ""
+msgstr ":class:`Weblate`"
 
 #: ../../python.rst:38
 msgid "User key"
@@ -28131,11 +28218,11 @@ msgstr ""
 
 #: ../../python.rst:65
 msgid ":mod:`wlc.config`"
-msgstr ""
+msgstr ":mod:`wlc.config`"
 
 #: ../../python.rst:71
 msgid ":class:`WeblateConfig`"
-msgstr ""
+msgstr ":class:`WeblateConfig`"
 
 #: ../../python.rst:75
 msgid "Configuration section to use"
@@ -28158,7 +28245,7 @@ msgstr ""
 
 #: ../../python.rst:92
 msgid ":mod:`wlc.main`"
-msgstr ""
+msgstr ":mod:`wlc.main`"
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
@@ -28184,7 +28271,7 @@ msgstr ""
 
 #: ../../python.rst:114
 msgid ":class:`Command`"
-msgstr ""
+msgstr ":class:`Commande`"
 
 #: ../../python.rst:118
 msgid "Main class for invoking commands."
@@ -28220,7 +28307,7 @@ msgstr ""
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
-msgstr ""
+msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:29
 msgid "Quality checks"
@@ -28366,7 +28453,7 @@ msgstr ""
 
 #: ../../user/checks.rst:144
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr ""
+msgstr "``Votre solde est {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:146 ../../user/checks.rst:163
 #: ../../user/checks.rst:179 ../../user/checks.rst:194
@@ -28382,7 +28469,7 @@ msgstr ""
 
 #: ../../user/checks.rst:146
 msgid "`angularjs-format`"
-msgstr ""
+msgstr "`angularjs-format`"
 
 #: ../../user/checks.rst:151
 msgid ""
@@ -28411,7 +28498,7 @@ msgstr ""
 #: ../../user/checks.rst:310 ../../user/checks.rst:347
 #: ../../user/checks.rst:395
 msgid "``There are %d apples``"
-msgstr ""
+msgstr "``Il y a %d pommes``"
 
 #: ../../user/checks.rst:161 ../../user/checks.rst:177
 #: ../../user/checks.rst:229 ../../user/checks.rst:245
@@ -28423,11 +28510,11 @@ msgstr ""
 #: ../../user/checks.rst:161 ../../user/checks.rst:229
 #: ../../user/checks.rst:294 ../../user/checks.rst:312
 msgid "``Your balance is %1$d %2$s``"
-msgstr ""
+msgstr "``Votre solde est %1$d %2$s``"
 
 #: ../../user/checks.rst:163
 msgid "`c-format`"
-msgstr ""
+msgstr "`c-format`"
 
 #: ../../user/checks.rst:168
 msgid ""
@@ -28446,11 +28533,11 @@ msgstr ""
 
 #: ../../user/checks.rst:177 ../../user/checks.rst:245
 msgid "``There are {0} apples``"
-msgstr ""
+msgstr "``Il y a {0} pommes``"
 
 #: ../../user/checks.rst:179
 msgid "`c-sharp-format`"
-msgstr ""
+msgstr "`c-sharp-format`"
 
 #: ../../user/checks.rst:184
 msgid ""
@@ -28469,11 +28556,11 @@ msgstr ""
 
 #: ../../user/checks.rst:192 ../../user/checks.rst:209
 msgid "Interpolation"
-msgstr ""
+msgstr "Interpolation"
 
 #: ../../user/checks.rst:192
 msgid "``There are ${number} apples``"
-msgstr ""
+msgstr "``Il y a ${number} pommes``"
 
 #: ../../user/checks.rst:194
 msgid "`es-format`"
@@ -28495,19 +28582,19 @@ msgstr ""
 
 #: ../../user/checks.rst:209
 msgid "``There are {{number}} apples``"
-msgstr ""
+msgstr "``Il y a {{number}} pommes``"
 
 #: ../../user/checks.rst:211
 msgid "Nesting"
-msgstr ""
+msgstr "Imbrication"
 
 #: ../../user/checks.rst:211
 msgid "``There are $t(number) apples``"
-msgstr ""
+msgstr "``Il y a $t(number) pommes``"
 
 #: ../../user/checks.rst:213
 msgid "`i18next-interpolation`"
-msgstr ""
+msgstr "`i18next-interpolation`"
 
 #: ../../user/checks.rst:218
 msgid ""
@@ -28525,7 +28612,7 @@ msgstr ""
 
 #: ../../user/checks.rst:231
 msgid "`java-format`"
-msgstr ""
+msgstr "`java-format`"
 
 #: ../../user/checks.rst:236
 msgid ""
@@ -28567,7 +28654,7 @@ msgstr ""
 
 #: ../../user/checks.rst:265
 msgid "`javascript-format`"
-msgstr ""
+msgstr "`javascript-format`"
 
 #: ../../user/checks.rst:270
 msgid ""
@@ -28585,11 +28672,11 @@ msgstr ""
 
 #: ../../user/checks.rst:280
 msgid "``There are %number% apples``"
-msgstr ""
+msgstr "``Il y a %number% pommes``"
 
 #: ../../user/checks.rst:282
 msgid "`percent-placeholders`"
-msgstr ""
+msgstr "`percent-placeholders`"
 
 #: ../../user/checks.rst:287
 msgid "Perl format"
@@ -28601,7 +28688,7 @@ msgstr ""
 
 #: ../../user/checks.rst:296
 msgid "`perl-format`"
-msgstr ""
+msgstr "`perl-format`"
 
 #: ../../user/checks.rst:301
 msgid ""
@@ -28623,7 +28710,7 @@ msgstr ""
 
 #: ../../user/checks.rst:314
 msgid "`php-format`"
-msgstr ""
+msgstr "`php-format`"
 
 #: ../../user/checks.rst:319
 msgid ""
@@ -28642,15 +28729,15 @@ msgstr ""
 
 #: ../../user/checks.rst:329
 msgid "``There are {} apples``"
-msgstr ""
+msgstr "``Il y a {} pommes``"
 
 #: ../../user/checks.rst:331
 msgid "``Your balance is {amount} {currency}``"
-msgstr ""
+msgstr "``Votre solde est {amount} {currency}``"
 
 #: ../../user/checks.rst:333
 msgid "`python-brace-format`"
-msgstr ""
+msgstr "`python-brace-format`"
 
 #: ../../user/checks.rst:338
 msgid ""
@@ -28672,11 +28759,11 @@ msgstr ""
 
 #: ../../user/checks.rst:349
 msgid "``Your balance is %(amount) %(currency)``"
-msgstr ""
+msgstr "``Votre solde est %(amount) %(currency)``"
 
 #: ../../user/checks.rst:351
 msgid "`python-format`"
-msgstr ""
+msgstr "`python-format`"
 
 #: ../../user/checks.rst:356
 msgid ""
@@ -28698,11 +28785,11 @@ msgstr ""
 
 #: ../../user/checks.rst:365
 msgid "``There are %1 apples``"
-msgstr ""
+msgstr "``Il y a %1 pommes``"
 
 #: ../../user/checks.rst:367
 msgid "`qt-format`"
-msgstr ""
+msgstr "`qt-format`"
 
 #: ../../user/checks.rst:372
 msgid "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
@@ -28722,11 +28809,11 @@ msgstr ""
 
 #: ../../user/checks.rst:380
 msgid "``There are %Ln apple(s)``"
-msgstr ""
+msgstr "``Il y a %Ln pomme(s)``"
 
 #: ../../user/checks.rst:382
 msgid "`qt-plural-format`"
-msgstr ""
+msgstr "`qt-plural-format`"
 
 #: ../../user/checks.rst:387
 msgid ""
@@ -28744,11 +28831,11 @@ msgstr ""
 
 #: ../../user/checks.rst:397
 msgid "``Your balance is %1$f %2$s``"
-msgstr ""
+msgstr "``Votre solde est %1$f %2$s``"
 
 #: ../../user/checks.rst:399
 msgid "``Your balance is %+.2<amount>f %<currency>s``"
-msgstr ""
+msgstr "``Votre solde est %+.2<amount>f %<currency>s``"
 
 #: ../../user/checks.rst:401
 msgid "Named template string"
@@ -28756,11 +28843,11 @@ msgstr ""
 
 #: ../../user/checks.rst:401
 msgid "``Your balance is %{amount} %{currency}``"
-msgstr ""
+msgstr "``Votre solde est %{amount} %{currency}``"
 
 #: ../../user/checks.rst:403
 msgid "`ruby-format`"
-msgstr ""
+msgstr "`ruby-format`"
 
 #: ../../user/checks.rst:408
 msgid ""
@@ -28782,7 +28869,7 @@ msgstr "Formatage nommé"
 
 #: ../../user/checks.rst:416
 msgid "``There are {count} apples``"
-msgstr ""
+msgstr "``Il y a {count} pommes``"
 
 #: ../../user/checks.rst:418
 msgid "Rails i18n formatting"
@@ -28790,7 +28877,7 @@ msgstr "Formatage Rails I18n"
 
 #: ../../user/checks.rst:418
 msgid "``There are %{count} apples``"
-msgstr ""
+msgstr "``Il y a %{count} pommes``"
 
 #: ../../user/checks.rst:420
 msgid "Linked locale messages"
@@ -28798,7 +28885,7 @@ msgstr "Messages de paramètres régionaux liés"
 
 #: ../../user/checks.rst:420
 msgid "``@:message.dio @:message.the_world!``"
-msgstr ""
+msgstr "``@:message.dio @:message.the_world!``"
 
 #: ../../user/checks.rst:422
 msgid "`vue-format`"
@@ -29677,6 +29764,8 @@ msgid ""
 ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
+":http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../user/files.rst:82
 msgid "Conflicts handling"
@@ -31633,7 +31722,7 @@ msgstr ""
 
 #: ../../vcs.rst:194
 msgid "Git"
-msgstr ""
+msgstr "Git"
 
 #: ../../vcs.rst:198 ../../vcs.rst:399
 msgid ""
@@ -31779,7 +31868,7 @@ msgstr ""
 
 #: ../../vcs.rst:331
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: ../../vcs.rst:335
 msgid ""
@@ -31814,7 +31903,7 @@ msgstr ""
 
 #: ../../vcs.rst:369
 msgid "Gerrit"
-msgstr ""
+msgstr "Gerrit"
 
 #: ../../vcs.rst:373
 msgid ""
@@ -31831,7 +31920,7 @@ msgstr ""
 
 #: ../../vcs.rst:385
 msgid "Mercurial"
-msgstr ""
+msgstr "Mercurial"
 
 #: ../../vcs.rst:389
 msgid "Mercurial is another VCS you can use directly in Weblate."
@@ -31846,7 +31935,7 @@ msgstr ""
 
 #: ../../vcs.rst:405
 msgid "Subversion"
-msgstr ""
+msgstr "Subversion"
 
 #: ../../vcs.rst:409
 msgid ""
@@ -31966,7 +32055,7 @@ msgstr ":ref:`wlc-config`"
 
 #: ../../wlc.rst:85
 msgid "Synopsis"
-msgstr ""
+msgstr "Synopsis"
 
 #: ../../wlc.rst:91
 msgid "Commands actually indicate which operation should be performed."
@@ -32177,7 +32266,7 @@ msgstr ""
 
 #: ../../wlc.rst:280
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
 
 #: ../../wlc.rst:281
 msgid "User configuration file on Windows."
@@ -32185,7 +32274,7 @@ msgstr ""
 
 #: ../../wlc.rst:282
 msgid ":file:`~/.config/weblate`"
-msgstr ""
+msgstr ":file:`~/.config/weblate`"
 
 #: ../../wlc.rst:283
 msgid "User configuration file"
@@ -32193,7 +32282,7 @@ msgstr ""
 
 #: ../../wlc.rst:285
 msgid ":file:`/etc/xdg/weblate`"
-msgstr ""
+msgstr ":file:`/etc/xdg/weblate`"
 
 #: ../../wlc.rst:285
 msgid "System wide configuration file"
@@ -32242,7 +32331,7 @@ msgstr ""
 
 #: ../../wlc.rst:327
 msgid "Examples"
-msgstr ""
+msgstr "Exemples"
 
 #: ../../wlc.rst:329
 msgid "Print current program version:"
@@ -32372,7 +32461,7 @@ msgstr ""
 
 #: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
 msgid "Setting"
-msgstr ""
+msgstr "Paramètre"
 
 #: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
 msgid "Note"
