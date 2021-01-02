@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-30 19:50+0100\n"
-"PO-Revision-Date: 2020-12-31 12:52+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2021-01-02 21:15+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -9877,7 +9877,7 @@ msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 #: ../../admin/install/docker.rst:440
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
-msgstr ""
+msgstr "启用 :setting:`REQUIRE_LOGIN` 而在整个 Weblate 上强制认证。"
 
 #: ../../admin/install/docker.rst:453
 msgid ""
@@ -22920,7 +22920,7 @@ msgstr "支持每个项目的 ACL。"
 
 #: ../../changes.rst:1427
 msgid "Basic code coverage by unit tests."
-msgstr ""
+msgstr "基本代码由单元测试来覆盖。"
 
 #: ../../changes.rst:1430
 msgid "Weblate 1.3"
@@ -23626,7 +23626,7 @@ msgstr "在文件被解析和文件格式类被构建以后，钩子被触发。
 msgid ""
 "This is useful to modify file format class parameters, for example adjust "
 "how the file will be saved."
-msgstr ""
+msgstr "这对修复该文件格式类参数有用，例如，调整文件如何存储。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.unit_pre_create:1
@@ -26511,6 +26511,8 @@ msgid ""
 "intl`.  It's matter of few configuration directives and invoking of the "
 "``sphinx-intl`` tool."
 msgstr ""
+"我不会聚焦在撰写文档本身，如果您需要指导的话，只需要按照 `Sphinx`_ 网站上的指示即可。一旦准备好文档，将其翻译是非常容易地，因为 Sphinx "
+"带有对此的支持，并且在其 :ref:`sphinx:intl` 中覆盖得很好。这只不过是一些配置指令并调用 ``sphinx-intl`` 工具的事。"
 
 #: ../../devel/sphinx.rst:17
 msgid ""
@@ -26519,6 +26521,8 @@ msgid ""
 "pretty much everything you need - creating another project, set its language "
 "and link it from main project as a translation."
 msgstr ""
+"如果使用 Read the Docs 服务，那么可以在 Read the Docs 上开始构建翻译的文档。它们的 "
+":doc:`rtd:localization` 几乎覆盖了您需要的每一件事——创建另一个项目，设置其语言以及从主项目上链接它作为翻译。"
 
 #: ../../devel/sphinx.rst:22
 msgid ""
@@ -26529,6 +26533,9 @@ msgid ""
 "component and then configure :ref:`addon-weblate.discovery.discovery` addon "
 "to automatically discover all others."
 msgstr ""
+"现在所有需要的是翻译文档内容。Sphinx 为每个目录或顶层文件生成 PO 文件，这导致需要翻译非常多的文件（依赖于 "
+":confval:`sphinx:gettext_compact` 设置）。可以将 :file:`index.po` 导入 Weblate 作为初始组件，"
+"然后配置 :ref:`addon-weblate.discovery.discovery` 插件，来自动发现所有其它的。"
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -26536,11 +26543,11 @@ msgstr "``文档``"
 
 #: ../../devel/sphinx.rst:35
 msgid "``docs/locales/*/LC_MESSAGES/index.po``"
-msgstr ""
+msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
 
 #: ../../devel/sphinx.rst:37
 msgid "``docs/locales/index.pot``"
-msgstr ""
+msgstr "``docs/locales/index.pot``"
 
 #: ../../devel/sphinx.rst:39
 msgid "`gettext PO file`"
@@ -26558,6 +26565,7 @@ msgstr "用于匹配翻译文件的正则表达式"
 msgid ""
 "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr ""
+"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../devel/sphinx.rst:47
 msgid "Customize the component name"
@@ -26565,7 +26573,7 @@ msgstr "自定义组件名称"
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
-msgstr ""
+msgstr "``Documentation: {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:49
 msgid "Define the base file for new translations"
@@ -26579,19 +26587,19 @@ msgstr "``docs/locales/{{ component }}.pot``"
 msgid ""
 "Would you prefer Sphinx to generate just single PO file? Since Sphinx 3.3.0 "
 "you can achieve this using:"
-msgstr ""
+msgstr "您希望 Sphinx 生成只是单一的 PO 文件吗？从 Sphinx 3.3.0 开始可以实现，使用："
 
 #: ../../devel/sphinx.rst:62
 msgid ""
 "You can find several documentation projects being translated using this "
 "approach:"
-msgstr ""
+msgstr "使用这种方法可以发现正在翻译的几个文档项目："
 
 #: ../../devel/sphinx.rst:64
 msgid ""
 "`Weblate documentation <https://docs.weblate.org/>`_ (you are reading that "
 "now)"
-msgstr ""
+msgstr "`Weblate documentation <https://docs.weblate.org/>`_ （您现在可以读到）"
 
 #: ../../devel/sphinx.rst:65
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
@@ -26603,18 +26611,18 @@ msgstr "`Gallette 文档 <https://doc.galette.eu/>`_"
 
 #: ../../devel/sphinx.rst:67
 msgid "`phpMyAdmin documentation <https://docs.phpmyadmin.net/>`_"
-msgstr ""
+msgstr "`phpMyAdmin documentation <https://docs.phpmyadmin.net/>`_"
 
 #: ../../devel/starting.rst:4
 msgid "Starting with internationalization"
-msgstr ""
+msgstr "通过国际化来开始"
 
 #: ../../devel/starting.rst:6
 msgid ""
 "Have a project and want to translate it into several languages? This guide "
 "will help you do so. Several typical situations are showcased, but most of "
 "the examples are generic and can be applied to other scenarios as well."
-msgstr ""
+msgstr "有个项目，并想要将其翻译为几种语言？这个向导会帮您进行。几种典型的情况展示出来，而多数示例是通用的，并且也可以用于其它情景。"
 
 #: ../../devel/starting.rst:11
 msgid ""
@@ -26625,6 +26633,8 @@ msgid ""
 "handle plural forms because many languages have complex rules for that and "
 "the internationalization framework you end up using should support this."
 msgstr ""
+"在翻译任何软件之前，要认识到世界各处的语言真正不同，而您不应该根据自己的经验做出任何假设。对于多数语言，如果尝试从翻译的段落中连接出句子，看起来会很奇怪。"
+"应该正常滴处理复数形式，因为很多语言对此具有复杂的规则，最终使用的国际化框架应该支持它。"
 
 #: ../../devel/starting.rst:18
 msgid ""
@@ -26633,10 +26643,12 @@ msgid ""
 "translate. Without context most people would translate that as our closest "
 "star, but it might be actually used as an abbreviation for Sunday."
 msgstr ""
+"最后但并非不重要的，有时将一些文本添加到翻译的字符串中是必要的。想象一下翻译者要翻译字符串``Sun`` "
+"。没有上下文的话多数人会将它翻译为我们最近的恒星，但它实际上也会用作星期天的缩写。"
 
 #: ../../devel/starting.rst:24
 msgid "Choosing internationalization framework"
-msgstr ""
+msgstr "选择国家化框架"
 
 #: ../../devel/starting.rst:26
 msgid ""
@@ -26645,13 +26657,15 @@ msgid ""
 "supports most of the widely used frameworks, see :ref:`formats` for more "
 "information (especially :ref:`fmt_capabs`)."
 msgstr ""
+"选择您的平台上任何标准化的，尝试通过创建自己的框架来处理本地化，来避免重新发明轮子。Weblate 支持大多数广泛使用的框架，更多信息请参见 "
+":ref:`formats`（特别是 :ref:`fmt_capabs`）。"
 
 #: ../../devel/starting.rst:31
 msgid ""
 "Our personal recommendation for some platforms is in the following table. "
 "This is based on our experience, but that can not cover all use cases, so "
 "always consider your environment when doing the choice."
-msgstr ""
+msgstr "我们对一些平台的个人推荐在下面的表格中。这基于我们的经验，但这无法覆盖所有的使用情况，因此做选择时总是要考虑您的环境。"
 
 #: ../../devel/starting.rst:36
 msgid "Platform"
@@ -26659,7 +26673,7 @@ msgstr "平台"
 
 #: ../../devel/starting.rst:36
 msgid "Recommended format"
-msgstr ""
+msgstr "推荐的格式"
 
 #: ../../devel/starting.rst:38
 msgid "Android"
@@ -26667,7 +26681,7 @@ msgstr "Android"
 
 #: ../../devel/starting.rst:38 ../../formats.rst:75
 msgid ":ref:`aresource`"
-msgstr ""
+msgstr ":ref:`aresource`"
 
 #: ../../devel/starting.rst:40
 msgid "iOS"
@@ -26675,7 +26689,7 @@ msgstr "iOS"
 
 #: ../../devel/starting.rst:40 ../../formats.rst:77
 msgid ":ref:`apple`"
-msgstr ""
+msgstr ":ref:`apple`"
 
 #: ../../devel/starting.rst:42
 msgid "Qt"
@@ -26683,7 +26697,7 @@ msgstr "Qt"
 
 #: ../../devel/starting.rst:42 ../../formats.rst:73
 msgid ":ref:`qtling`"
-msgstr ""
+msgstr ":ref:`qtling`"
 
 #: ../../devel/starting.rst:44
 msgid "Python"
@@ -26692,7 +26706,7 @@ msgstr "Python"
 #: ../../devel/starting.rst:44 ../../devel/starting.rst:48
 #: ../../devel/starting.rst:52 ../../formats.rst:61
 msgid ":ref:`gettext`"
-msgstr ""
+msgstr ":ref:`gettext`"
 
 #: ../../devel/starting.rst:46
 msgid "PHP"
@@ -26700,7 +26714,7 @@ msgstr "PHP"
 
 #: ../../devel/starting.rst:46
 msgid ":ref:`gettext` [#php]_"
-msgstr ""
+msgstr ":ref:`gettext` [#php]_"
 
 #: ../../devel/starting.rst:48
 msgid "C/C++"
@@ -26712,7 +26726,7 @@ msgstr "C#"
 
 #: ../../devel/starting.rst:50 ../../formats.rst:91
 msgid ":ref:`dotnet`"
-msgstr ""
+msgstr ":ref:`dotnet`"
 
 #: ../../devel/starting.rst:52
 msgid "Perl"
@@ -26724,11 +26738,11 @@ msgstr "Ruby"
 
 #: ../../devel/starting.rst:54 ../../formats.rst:97
 msgid ":ref:`ryaml`"
-msgstr ""
+msgstr ":ref:`ryaml`"
 
 #: ../../devel/starting.rst:56
 msgid "Web extensions"
-msgstr ""
+msgstr "Web 扩展"
 
 #: ../../devel/starting.rst:56 ../../formats.rst:89 ../../formats.rst:777
 msgid ":ref:`webex`"
@@ -26740,7 +26754,7 @@ msgstr "Java"
 
 #: ../../devel/starting.rst:58
 msgid ":ref:`xliff` [#java]_"
-msgstr ""
+msgstr ":ref:`xliff` [#java]_"
 
 #: ../../devel/starting.rst:60
 msgid "JavaScript"
@@ -26748,7 +26762,7 @@ msgstr "JavaScript"
 
 #: ../../devel/starting.rst:60
 msgid ":ref:`js-i18next` [#js]_"
-msgstr ""
+msgstr ":ref:`js-i18next` [#js]_"
 
 #: ../../devel/starting.rst:65
 msgid ""
@@ -26756,24 +26770,26 @@ msgid ""
 "builds, it is recommended to use third party library `motranslator <https://"
 "github.com/phpmyadmin/motranslator>`_ instead."
 msgstr ""
+"PHP 对 Gettext 的本地支持故障比较多，并且通常缺乏 Windows 构建，推荐替代使用第三方库 `motranslator "
+"<https://github.com/phpmyadmin/motranslator>`_。"
 
 #: ../../devel/starting.rst:71
 msgid "You can also use :ref:`javaprop` if plurals are not needed."
-msgstr ""
+msgstr "如果不需要复数的话还可以使用 :ref:`javaprop`。"
 
 #: ../../devel/starting.rst:75
 msgid "You can also use plain :ref:`json` if plurals are not needed."
-msgstr ""
+msgstr "如果不需要复数的话还可以使用简单的 :ref:`json`。"
 
 #: ../../devel/starting.rst:77
 msgid ""
 "The more detailed workflow for some formats is described in following "
 "chapters:"
-msgstr ""
+msgstr "一些格式更具体的工作流程在后面的章节中描述："
 
 #: ../../devel/starting.rst:79
 msgid ":doc:`gettext`"
-msgstr ""
+msgstr ":doc:`gettext`"
 
 #: ../../devel/starting.rst:80
 msgid ":doc:`sphinx`"
@@ -26789,7 +26805,7 @@ msgstr ":doc:`integration`, :ref:`continuous-translation`"
 
 #: ../../devel/translations.rst:2
 msgid "Managing translations"
-msgstr ""
+msgstr "管理翻译"
 
 #: ../../devel/translations.rst:9
 msgid ""
@@ -26799,6 +26815,8 @@ msgid ""
 "case with most monolingual translation flows, you can start with blank "
 "files)."
 msgstr ""
+"新的字符串当出现在基础文件中式可以用于翻译，被称为 :guilabel:`Template for new translations`（请参见 "
+":ref:`component`）。如果您的文件格式不需要这个的文件，如在多数单语言翻译流程的情况下，可以用空白文件来开始。"
 
 #: ../../devel/translations.rst:14
 msgid ""
