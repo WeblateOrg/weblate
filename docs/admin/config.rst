@@ -167,7 +167,7 @@ Available fixes:
 ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
     Matches whitespace at the start and end of the string to the source.
 ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
-    Replaces trailing dots (...) if the source string has ellipsis (…).
+    Replaces trailing dots (...) if the source string has a corresponding ellipsis (…).
 ``weblate.trans.autofixes.chars.RemoveZeroSpace``
     Removes zero-width space characters if the source does not contain any.
 ``weblate.trans.autofixes.chars.RemoveControlChars``
@@ -240,7 +240,7 @@ CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC
 
 Customize ``Content-Security-Policy`` header for Weblate. The header is
 automatically generated based on enabled integrations with third-party services
-(Matomo, Google Analytics, Sentry, ...).
+(Matomo, Google Analytics, Sentry, …).
 
 All these default to empty list.
 
