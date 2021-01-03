@@ -5,9 +5,6 @@ set -e -x
 # Update package lists
 apt-get update
 
-# Remove MySQL 8.x client, use older MariaDB one to ensure compatibility with older servers
-apt-get purge 'mysql-client.*'
-
 # Install dependencies
 apt-get install -y \
     gir1.2-pango-1.0 \
@@ -17,7 +14,6 @@ apt-get install -y \
     gnupg \
     subversion \
     postgresql-client \
-    mariadb-client \
     pkg-config \
     python3-dev \
     libxml2-dev \
@@ -36,3 +32,9 @@ apt-get install -y \
     gir1.2-pango-1.0 \
     cython \
     tesseract-ocr
+
+# Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
+if [ "$CI_DATABASE" = "mariadb" ] ; then
+    apt-get purge 'mysql-client.*'
+    apt-get install -y mariadb-client
+fi
