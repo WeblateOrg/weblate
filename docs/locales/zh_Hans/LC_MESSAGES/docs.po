@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-30 19:50+0100\n"
-"PO-Revision-Date: 2021-01-03 11:53+0000\n"
+"PO-Revision-Date: 2021-01-04 16:11+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -27235,13 +27235,13 @@ msgstr "在翻译视图底部有个复查工具，可以在那里选择浏览给
 
 #: ../../faq.rst:270
 msgid "How do I provide feedback on a source string?"
-msgstr ""
+msgstr "如何提供源字符串的反馈？"
 
 #: ../../faq.rst:272
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
-msgstr ""
+msgstr "在翻译下面的文本标签上，可以使用 :guilabel:`Comments` 标签来提供源字符串的反馈，或者与其他翻译者讨论。"
 
 #: ../../faq.rst:277
 msgid ":ref:`report-source`, :ref:`user-comments`"
@@ -27249,32 +27249,32 @@ msgstr ":ref:`report-source`, :ref:`user-comments`"
 
 #: ../../faq.rst:281
 msgid "How can I use existing translations while translating?"
-msgstr ""
+msgstr "翻译时如何使用现有的翻译？"
 
 #: ../../faq.rst:283
 msgid ""
 "Use the import functionality to load compendium as translations, suggestions "
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
-msgstr ""
+msgstr "使用导入功能将概要导入作为翻译、建议或需要复查的翻译。这是使用概要或相似的翻译数据库一次性翻译的最好方法。"
 
 #: ../../faq.rst:286
 msgid ""
 "You can set up :ref:`tmserver` with all databases you have and let Weblate "
 "use it. This is good when you want to use it several times during "
 "translation."
-msgstr ""
+msgstr "可以使用您所具有的所有数据库来设置 :ref:`tmserver`。在翻译时多次使用的时候这种方法很好。"
 
 #: ../../faq.rst:289
 msgid ""
 "Another option is to translate all related projects in a single Weblate "
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
-msgstr ""
+msgstr "另一个选项是在单一 Weblate 事件中翻译所有相关项目，这样同样可以从其它项目中自动地拾取翻译。"
 
 #: ../../faq.rst:300
 msgid "Does Weblate update translation files besides translations?"
-msgstr ""
+msgstr "Weblate 除了更新翻译，还更新翻译文件吗？"
 
 #: ../../faq.rst:302
 msgid ""
@@ -27283,6 +27283,8 @@ msgid ""
 "want to keep the file formatted your way, please use a pre-commit hook for "
 "that."
 msgstr ""
+"Weblate "
+"尝试将翻译文件中的更改限制为最小。对于有些文件格式，很不幸会导致将文件重新格式化。如果想要将文件保持为自己的格式化方式，请为其使用预提交钩子。"
 
 #: ../../faq.rst:306
 msgid ""
@@ -27293,6 +27295,8 @@ msgid ""
 "please install an appropriate addon which will handle the cleanup according "
 "to your requirements."
 msgstr ""
+"对于单语言文件（请参见 :ref:`formats`），Weblate 会将没有出现的新翻译的字符串添加在 :guilabel:`template` "
+"中，而不是在实际的翻译中。然而它不会对任何旧的字符串执行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装适当的插件，来根据您的要求处理清理工作。"
 
 #: ../../faq.rst:313
 msgid ""
@@ -27300,6 +27304,8 @@ msgid ""
 "need :file:`po` files being updated from :file:`pot`, you need to do it "
 "yourself or using an addon."
 msgstr ""
+"Weblate 也不会尝试以任何方式更新双语言文件，所以如果需要 :file:`po` 文件从 :file:`pot` "
+"更新的话，需要您自己去做或使用插件。"
 
 #: ../../faq.rst:318
 msgid ""
@@ -27307,10 +27313,13 @@ msgid ""
 "cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate."
 "gettext.msgmerge`"
 msgstr ""
+":ref:`processing`，:ref:`addon-weblate.cleanup.generic`，:ref:`addon-weblate."
+"cleanup.blank`，:ref:`addon-weblate.resx.update`，:ref:`addon-weblate.gettext."
+"msgmerge`"
 
 #: ../../faq.rst:326
 msgid "Where do language definitions come from and how can I add my own?"
-msgstr ""
+msgstr "语言定义来自何处以及如何添加自己的语言定义？"
 
 #: ../../faq.rst:328
 msgid ""
@@ -27318,39 +27327,41 @@ msgid ""
 "Translate-toolkit. This covers more than 150 languages and includes info "
 "about plural forms or text direction."
 msgstr ""
+"语言定义的基本组包括在 Weblate 和 Translate-toolkit 中。这覆盖了超过 150 种语言，并且包括了复数形式和文本方向的信息。"
 
 #: ../../faq.rst:332
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
-msgstr ""
+msgstr "您可以在管理界面自由定义自己的语言，只需要提供与之相关的信息。"
 
 #: ../../faq.rst:336
 msgid "Can Weblate highlight changes in a fuzzy string?"
-msgstr ""
+msgstr "Weblate 能将模糊字符串中的更改高亮吗？"
 
 #: ../../faq.rst:338
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
-msgstr ""
+msgstr "Weblate 支持这个功能，然而它需要数据来显示差异。"
 
 #: ../../faq.rst:340
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
+"对于 Gettext PO 文件，更新 PO 文件时，必须将参数 ``--previous`` 传递给 :command:`msgmerge`，例如："
 
 #: ../../faq.rst:347
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
-msgstr ""
+msgstr "对于单语言翻译，Weblate 可以通过 ID 找到之前的字符串，因此可以自动显示差异。"
 
 #: ../../faq.rst:353
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
-msgstr ""
+msgstr "当已经更新了模板时，为什么 Weblate 仍然显示旧的字符串？"
 
 #: ../../faq.rst:355
 msgid ""
@@ -27360,54 +27371,57 @@ msgid ""
 "simply have to do this manually and push changes to the repository, Weblate "
 "will then pick up the changes automatically."
 msgstr ""
+"Weblate "
+"除了允许翻译者翻译之外，不会尝试以任何方式操作翻译文件。因此当模板或源代码更改时，它也同样不会更新翻译文件。您必须简单地手动去做，并将更改推送到仓库，"
+"然后 Weblate 会自动拾取更改。"
 
 #: ../../faq.rst:363
 msgid ""
 "It is usually a good idea to merge changes done in Weblate before updating "
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
-msgstr ""
+msgstr "在更新翻译文件之前在 Weblate 中完成更改合并，这通常是个好主意，因为否则的话通常会以一些合并冲突来结束。"
 
 #: ../../faq.rst:367
 msgid ""
 "For example with gettext PO files, you can update the translation files "
 "using the :command:`msgmerge` tool:"
-msgstr ""
+msgstr "例如对于 gettext PO 文件，可以使用 :command:`msgmerge` 工具来更新翻译文件："
 
 #: ../../faq.rst:374
 msgid ""
 "In case you want to do the update automatically, you can install addon :ref:"
 "`addon-weblate.gettext.msgmerge`."
-msgstr ""
+msgstr "在想要进行自动更新的情况下，可以安装插件 :ref:`addon-weblate.gettext.msgmerge`。"
 
 #: ../../faq.rst:379
 msgid "Troubleshooting"
-msgstr ""
+msgstr "故障排除"
 
 #: ../../faq.rst:382
 msgid "Requests sometimes fail with \"too many open files\" error"
-msgstr ""
+msgstr "请求有时失败，错误信息为“too many open files”（打开文件过多）"
 
 #: ../../faq.rst:384
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
-msgstr ""
+msgstr "有时当您的 Git 仓库增长太多并您有太多仓库时会发生。压缩 Git 仓库会改善这种情况。"
 
 #: ../../faq.rst:387
 msgid "The easiest way to do this is to run:"
-msgstr ""
+msgstr "这样做的最容易方式是运行："
 
 #: ../../faq.rst:406
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
-msgstr ""
+msgstr "当访问网站时，“Bad Request (400)”（错误的请求）错误信息"
 
 #: ../../faq.rst:408
 msgid ""
 "This is most likely caused by an improperly configured :setting:"
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
-msgstr ""
+msgstr "这很可能因为 :setting:`ALLOWED_HOSTS` 配置不当而产生。需要包含在 Weblate 上访问的所有主机名。例如："
 
 #: ../../faq.rst:417
 msgid ":ref:`production-hosts`"
@@ -27416,13 +27430,14 @@ msgstr ":ref:`production-hosts`"
 #: ../../faq.rst:422
 msgid "What does mean \"There are more files for the single language (en)\"?"
 msgstr ""
+"“There are more files for the single language (en)”（单一语言‘英语’有多个文件）是什么意思？"
 
 #: ../../faq.rst:424
 msgid ""
 "This typically happens when you have translation file for source language. "
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
-msgstr ""
+msgstr "当源语言有翻译时这会典型发生。Weblate 跟踪源字符串，并为此保留源字符串。相同语言的附加字符串不会被处理。"
 
 #: ../../faq.rst:428
 msgid ""
@@ -27453,7 +27468,7 @@ msgstr "功能"
 
 #: ../../faq.rst:438
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
-msgstr ""
+msgstr "Weblate 支持 Git 和 Mercurial 意外的 VCS 吗？"
 
 #: ../../faq.rst:440
 msgid ""
@@ -27462,14 +27477,16 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
+"Weblate 当前不支持 :ref:`vcs-git` （扩展支持 :ref:`vcs-github`、:ref:`vcs-gerrit` 和 :ref"
+":`vcs-git-svn`）和 :ref:`vcs-mercurial` 以外的任何 VCSes，但能够对其它 VCSes 写后端。"
 
 #: ../../faq.rst:445
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
-msgstr ""
+msgstr "还可以在 Git 中使用 :ref:`vcs-git-helpers` 来访问其它 VCSes。"
 
 #: ../../faq.rst:447
 msgid "Weblate also supports VCS less operation, see :ref:`vcs-local`."
-msgstr ""
+msgstr "Weblate 还支持无 VCS 的操作，请参见 :ref:`vcs-local`。"
 
 #: ../../faq.rst:451
 msgid ""
@@ -27477,6 +27494,8 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
+"为了本地支持其它 VCSes，Weblate 需要使用分布式 VCS，并可能能够调整来与 Git 和 Mercurial 以外的其它任何 VCSes "
+"工作，但必须有人应用这项支持。"
 
 #: ../../faq.rst:458
 msgid "How does Weblate credit translators?"
@@ -27504,7 +27523,7 @@ msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:473
 msgid "Why does Weblate force showing all PO files in a single tree?"
-msgstr ""
+msgstr "为什么 Weblate 强制在单一树中显示所有 PO 文件？"
 
 #: ../../faq.rst:475
 msgid ""
@@ -27514,12 +27533,14 @@ msgid ""
 "consider merging these po files. It will make life easier even for "
 "translators not using Weblate."
 msgstr ""
+"Weblate 以每个 PO 文件表似乎成单一组件来设计。这对翻译者有好处，使他们指导真正在翻译什么。如果您认为自己的项目因作为一个整体来翻译，"
+"那么考虑合并这些 PO 文件。对那些即使不使用 Weblate 的翻译者也更容易一些。"
 
 #: ../../faq.rst:483
 msgid ""
 "In case there is great demand for this feature, it might be implemented in "
 "future versions."
-msgstr ""
+msgstr "在对这个特性有大量需求的情况下，它可能会应用与将来的版本中。"
 
 #: ../../faq.rst:489
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
