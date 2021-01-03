@@ -2,8 +2,7 @@ version: "3"
 
 services:
   database:
-    # use version 10 to be compatible with pg_dump used in GitHub Actions
-    image: postgres:10
+    image: postgres:12
     ports:
       - 60000:5432
     volumes:
