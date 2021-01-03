@@ -10,13 +10,14 @@
 # Ecron <ecron_89@hotmail.com>, 2020.
 # Carles Sadurní <sadurbnd@gmail.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
+# Guillem <guillemglez@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-30 18:49+0000\n"
-"PO-Revision-Date: 2020-12-09 22:22+0000\n"
-"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
+"PO-Revision-Date: 2021-01-04 03:37+0000\n"
+"Last-Translator: Guillem <guillemglez@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -24,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -171,10 +172,8 @@ msgid "Use default setting"
 msgstr "Utilitza la configuració per defecte"
 
 #: weblate/accounts/forms.py:663
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Projectes en seguiment"
+msgstr "Altres projectes"
 
 #: weblate/accounts/forms.py:665 weblate/accounts/models.py:406
 #: weblate/templates/accounts/profile.html:67
@@ -195,15 +194,11 @@ msgid "Component: {}"
 msgstr "Component: {}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
 "Rebreu una notificació per cada esdeveniment d'aquest tipus als projectes "
-"que seguiu."
+"que no seguiu."
 
 #: weblate/accounts/forms.py:681
 msgid ""
@@ -234,16 +229,12 @@ msgstr ""
 "Rebreu una notificació per cada esdeveniment d'aquest tipus a %(component)s."
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
 "Només rebreu aquestes notificacions per a les llengües de traducció dels "
-"projectes que seguiu."
+"projectes que no seguiu."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -3925,10 +3916,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for libre project hosting"
-msgstr "Demana allotjament per a un projecte"
+msgstr "Demana allotjament per a un projecte de programari lliure"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -3937,10 +3926,8 @@ msgstr "Mostra els plans d'allotjament"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Gratis trial for commercial hosting"
-msgstr "Contacta per a allotjament comercial"
+msgstr "Prova gratuïta per allotjament comercial"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -7576,6 +7563,8 @@ msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "for adding another one."
 msgstr ""
+"Aquesta llista només inclou les llengües de base. Si us plau, contacteu a "
+"administració de projecte per afegir-ne un altre."
 
 #: weblate/templates/new-language.html:41
 msgid "Request new translation"
@@ -7695,10 +7684,8 @@ msgid "Instructions for translators"
 msgstr "Instruccions per als traductors"
 
 #: weblate/templates/project_info.html:44
-#, fuzzy
-#| msgid "Contact maintainers"
 msgid "Project maintainers"
-msgstr "Contacta amb els mantenidors"
+msgstr "Manteniment de projecte"
 
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
@@ -7830,26 +7817,16 @@ msgstr ""
 "El Weblate és programari lliure creat per voluntaris, i accepta donatius."
 
 #: weblate/templates/snippets/billing-failure.html:10
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid "This might be caused by missing subscription."
-msgstr ""
-"Pot ser que sigui a causa de subscripcions pendents o que algun dels vostres "
-"pagaments hagin passat de la data de venciment o estan per sobre dels límits."
+msgstr "Pot ser que sigui a causa de subscripcions pendents."
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
 msgstr ""
-"Pot ser que sigui a causa de subscripcions pendents o que algun dels vostres "
-"pagaments hagin passat de la data de venciment o estan per sobre dels límits."
+"Pot ser que sigui a causa de que algun dels vostres pagaments hagin passat "
+"de la data de venciment o estiguin per sobre dels límits."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -7946,33 +7923,25 @@ msgstr ""
 "de versions admès."
 
 #: weblate/templates/snippets/libre-basic.html:5
-#, fuzzy
-#| msgid ""
-#| "Translations have to be in the same repository, or under the same "
-#| "repository project/organization as the source code."
 msgid ""
 "Translations have to be in the same repository as the source code, or under "
 "the same project/organization as the source code repository."
 msgstr ""
-"Les traduccions han de ser al mateix dipòsit o sota el mateix projecte/"
-"organització que el dipòsit del codi font."
+"Les traduccions han de ser al mateix dipòsit on es troba el codi font o sota "
+"el mateix projecte/organització que el dipòsit del codi font."
 
 #: weblate/templates/snippets/libre-basic.html:6
 msgid "Using Weblate has been approved by the upstream project."
 msgstr "L'ús del Weblate ha estat aprovat pel projecte font."
 
 #: weblate/templates/snippets/libre-basic.html:7
-#, fuzzy
-#| msgid ""
-#| "Mention you use Weblate for translations in the README. It’ll help "
-#| "Weblate to be free for more projects and attract new translators."
 msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
 "Esmenteu que feu servir el Weblate per a les traduccions al fitxer \"Llegiu-"
-"me\". Ajudareu a fer que el Weblate sigui gratuït per a més projectes i "
-"atraureu traductors nous."
+"me\". Atraureu traductors nous i ajudareu a fer que el Weblate sigui gratuït "
+"per a més projectes."
 
 #: weblate/templates/snippets/libre-basic.html:8
 msgid "The project has had active development for at least three months."
@@ -8434,8 +8403,6 @@ msgid "Error"
 msgstr "Error"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files using ambiguous language code."
 msgid "The component translation files are using ambiguous language code."
 msgstr ""
 "Els fitxers de traducció del component fan servir un codi de llengua ambigu."
@@ -8604,6 +8571,8 @@ msgstr ""
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
+"Aquest projecte ja no compleix amb les condicions d'allotjament de "
+"programari lliure."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8815,28 +8784,21 @@ msgid "I understand the consequences, delete this translation"
 msgstr "N'entenc les conseqüències, suprimeix aquesta traducció"
 
 #: weblate/templates/trans/delete-project-language.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
-"Aquesta acció no es pot desfer. Se suprimirà permanentment la traducció "
+"Aquesta acció no es pot desfer. Se suprimiran permanentment les traduccions "
 "%(object)s i tot el contingut relacionat."
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following translations will be removed:"
-msgstr "Se suprimiran els següents components:"
+msgstr "Se suprimiran les següents traduccions:"
 
 #: weblate/templates/trans/delete-project-language.html:14
-#, fuzzy
-#| msgid "Project to remove"
 msgid "Project language to remove"
-msgstr "Projecte que se suprimirà"
+msgstr "Llengua a suprimir"
 
 #: weblate/templates/trans/delete-project.html:5
 #, python-format
@@ -8922,10 +8884,8 @@ msgid "This translation"
 msgstr "Aquesta traducció"
 
 #: weblate/templates/trans/other-row.html:15
-#, fuzzy
-#| msgid "Translated"
 msgid "Propagated"
-msgstr "Traduït"
+msgstr "Propagada"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9083,12 +9043,11 @@ msgstr "Llista dels canvis recents fets al Weblate"
 #: weblate/templates/translate.html:267
 msgid "Showing only subset of the strings as there were too many matches."
 msgstr ""
+"Mostrant només una part de les cadenes, ja que hi ha massa coincidències."
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "View source string"
 msgid "Difference to current string"
-msgstr "Mostra la cadena d'origen"
+msgstr "Mostra les diferències amb la cadena actual"
 
 #: weblate/templates/translate.html:288
 msgid "The following string has the same context and source."
@@ -9113,16 +9072,12 @@ msgstr[1] ""
 "Les següents cadenes tenen orígens diferents, però el mateix context."
 
 #: weblate/templates/translate.html:314
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid "Apply selected translation to all propagated strings"
-msgstr "Permet la propagació de traduccions"
+msgstr "Aplica la traducció sel·leccionada a totes les cadenes propagades"
 
 #: weblate/templates/translate.html:316
-#, fuzzy
-#| msgid "Upload translation strings"
 msgid "Apply selected translation to current string"
-msgstr "Puja cadenes de traducció"
+msgstr "Aplica la traducció sel·leccionada a la cadena actual"
 
 #: weblate/templates/translate.html:348
 msgid "Origin"
@@ -10098,10 +10053,10 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Escriviu l'URL amigable complet del projecte per a confirmar-ho."
 
 #: weblate/trans/forms.py:2025
-#, fuzzy
-#| msgid "Please type in the slug of the project to confirm."
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Escriviu l'URL amigable complet del projecte per a confirmar-ho."
+msgstr ""
+"Escriviu l'URL amigable complet del projecte i de la llengua per a confirmar-"
+"ho."
 
 #: weblate/trans/forms.py:2052
 msgid "Author username"
@@ -10259,7 +10214,7 @@ msgstr "Codi de llengua ambigu."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:329
 msgid "Does not meet libre hosting conditions."
-msgstr ""
+msgstr "No compleix amb les condicions d'allotjament de programari lliure."
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -10778,6 +10733,8 @@ msgstr "Vots als suggeriments"
 #: weblate/trans/models/component.py:416
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
+"Els usuaris només poden votar suggerències i no poden fer traduccions "
+"directes."
 
 #: weblate/trans/models/component.py:420
 msgid "Autoaccept suggestions"
@@ -11638,13 +11595,11 @@ msgid "This translation does not yet exist."
 msgstr "Aquesta traducció encara no existeix."
 
 #: weblate/trans/templatetags/translations.py:758
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s cadena pendent"
-msgstr[1] "%(count)s cadenes pendents"
+msgstr[0] "%(count)s cadena no s'està traduint."
+msgstr[1] "%(count)s cadenes que no s'estan traduint."
 
 #: weblate/trans/templatetags/translations.py:785
 msgid "enabled"
@@ -12049,10 +12004,8 @@ msgid "Project was scheduled for removal."
 msgstr "S'ha programat la supressió del projecte."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language %s removed."
 msgid "Language of the project was removed."
-msgstr "S'ha suprimit la llengua %s."
+msgstr "S'ha suprimit la llengua %s del projecte."
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
@@ -12415,13 +12368,15 @@ msgstr "Amaga el peu de la pàgina"
 
 #: weblate/wladmin/forms.py:96
 msgid "Always show hamburger menu"
-msgstr ""
+msgstr "Mostra sempre el menú d'hamburguesa"
 
 #: weblate/wladmin/forms.py:99
 msgid ""
 "Persistent navigational drop-down menu in the top right corner, even if "
 "there is room for a full menu."
 msgstr ""
+"Mostra sempre el menú desplegable a la cantonada superior dreta, encara que "
+"hi càpiga un menú sencer."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
