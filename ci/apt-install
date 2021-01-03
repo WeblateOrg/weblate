@@ -5,6 +5,9 @@ set -e -x
 # Update package lists
 apt-get update
 
+# Remove MySQL 8.x client, use older MariaDB one to ensure compatibility with older servers
+apt-get purge 'mysql-client.*'
+
 # Install dependencies
 apt-get install -y \
     gir1.2-pango-1.0 \
