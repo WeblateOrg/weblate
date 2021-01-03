@@ -11,13 +11,14 @@
 # Anonymous <noreply@weblate.org>, 2020.
 # Kornelijus Tvarijanavičius <kornelitvari@protonmail.com>, 2020.
 # Andi Chandler <andi@gowling.com>, 2020.
+# Allan Nordhøy <epost@anotheragency.no>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2020-12-30 18:49+0000\n"
-"PO-Revision-Date: 2020-12-06 20:25+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-01-03 09:03+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: English (United Kingdom) <https://hosted.weblate.org/projects/"
 "weblate/application/en_GB/>\n"
 "Language: en_GB\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.4.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -240,24 +241,14 @@ msgstr ""
 "projects."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"You will receive a notification for every such event in your watched "
-"projects."
+msgstr "You will receive a notification for every such event in %(project)s."
 
 #: weblate/accounts/forms.py:694
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"You will receive a notification for every such event in your watched "
-"projects."
+msgstr "You will receive a notification for every such event in %(component)s."
 
 #: weblate/accounts/forms.py:701
 #, fuzzy
@@ -292,28 +283,22 @@ msgstr ""
 "your watched projects."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
 "You will only receive these notifications for your translated languages in "
-"your watched projects."
+"%(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
 "You will only receive these notifications for your translated languages in "
-"your watched projects."
+"%(component)s."
 
 #: weblate/accounts/forms.py:760 weblate/auth/models.py:301
 #: weblate/templates/manage-access.html:24 weblate/utils/forms.py:42
@@ -432,10 +417,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Agreement with Terms of Service {date}."
 
 #: weblate/accounts/models.py:100
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Donate to Weblate at {0}"
+msgstr "Invited to Weblate by {username}."
 
 #: weblate/accounts/models.py:101
 #, fuzzy
@@ -523,12 +507,6 @@ msgid "Editor link"
 msgstr "Editor link"
 
 #: weblate/accounts/models.py:328
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -536,8 +514,7 @@ msgid ""
 msgstr ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-"placeholders. Usually something like editor://open/?file={{filename}}"
-"&line={{line}} is a good option."
+"placeholders."
 
 #: weblate/accounts/models.py:337
 msgid "Translation editor mode"
@@ -6671,11 +6648,7 @@ msgid "%(percent)s%%"
 msgstr "Percent"
 
 #: weblate/templates/engage.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation and is <strong>%(percent)s%% complete</"
@@ -6685,20 +6658,16 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-"currently contains %(total)s strings for translation and is %(percent)s%% "
-"complete."
+"The translation project for %(project)s currently contains <strong>%(count)s "
+"string</strong> for translation and is <strong>%(percent)s%% "
+"complete</strong>."
 msgstr[1] ""
-"<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-"currently contains %(total)s strings for translation and is %(percent)s%% "
-"complete."
+"The translation project for %(project)s currently contains <strong>%(count)s "
+"strings</strong> for translation and is <strong>%(percent)s%% "
+"complete</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -6706,13 +6675,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-"currently contains %(total)s strings for translation and is %(percent)s%% "
-"complete."
+"The translation project for %(project)s currently contains <strong>%(count)s "
+"string</strong> for translation."
 msgstr[1] ""
-"<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-"currently contains %(total)s strings for translation and is %(percent)s%% "
-"complete."
+"The translation project for %(project)s currently contains <strong>%(count)s "
+"strings</strong> for translation."
 
 #: weblate/templates/engage.html:46
 #, fuzzy, python-format
@@ -13076,12 +13043,13 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "Following fix-ups were applied to translation: %s"
 
 #: weblate/trans/views/edit.py:313
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "The translations in several languages have failing checks"
+msgstr ""
+"The translation has been saved, however there are some newly failing checks: "
+"{0}"
 
 #: weblate/trans/views/edit.py:356
 msgid "Invalid merge request!"
@@ -13494,10 +13462,9 @@ msgid "Empty"
 msgstr "Empty"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Component: {}"
+msgstr "Compilation failed: {0}"
 
 #: weblate/utils/validators.py:69
 #, fuzzy
