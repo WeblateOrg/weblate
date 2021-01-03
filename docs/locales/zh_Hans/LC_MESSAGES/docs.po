@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-30 19:50+0100\n"
-"PO-Revision-Date: 2021-01-03 09:04+0000\n"
+"PO-Revision-Date: 2021-01-03 11:53+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -26991,6 +26991,9 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
+"在翻译文件在 Weblate 和上游仓库同时更改时，合并冲突不时发生。通常可以通过在对翻译文件进行更改前（例如在运行 msgmerge "
+"前）合并仓库来避免发生这个情况。只要告诉 Weblate 执行挂起所有的翻译（可以在 :guilabel:`Manage` 菜单中的 "
+":guilabel:`Repository maintenance` 中去做），并合并仓库即可（如果自动推送没有打开的话）。"
 
 #: ../../faq.rst:45
 msgid ""
@@ -27000,6 +27003,8 @@ msgid ""
 "changes back, Weblate will be able to use the merged version without any "
 "other special actions."
 msgstr ""
+"如果已经进入了合并冲突，那么最容易的方式是在您自己的工作站上本地解决所有冲突——就是简单地将 Weblate "
+"添加为远程仓库，将它合并到上游，并修复任何冲突。一旦将更改推送回去，Weblate 就将能够使用合并的版本而无需任何其它特殊动作。"
 
 #: ../../faq.rst:53
 msgid ""
@@ -27007,18 +27012,20 @@ msgid ""
 "authentication. When using the built in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
+"依赖于您的设置，访问 Weblate仓库会需要认证。当在 Weblate 中使用 :ref:`git-exporter` 中的构建时，要以用户名和 "
+"API 密钥认证。"
 
 #: ../../faq.rst:86
 msgid ""
 "If you're using multiple branches in Weblate, you can do the same to all of "
 "them:"
-msgstr ""
+msgstr "如果在 Weblate 中使用多个分支，那么可以对所有的分支做相同的事："
 
 #: ../../faq.rst:110
 msgid ""
 "In case of gettext PO files, there is a way to merge conflicts in a semi-"
 "automatic way:"
-msgstr ""
+msgstr "在 gettext PO 文件的情况下，有一种方式以半自动方式来合并冲突："
 
 #: ../../faq.rst:112
 msgid ""
@@ -27026,16 +27033,19 @@ msgid ""
 "second fresh local clone of the upstream Git repository (i. e. you need two "
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
+"取回并保存 Weblate Git 仓库的本地克隆。还要得到上游 Git 仓库的第二个新的本地克隆（也就是需要上游 Git "
+"仓库的两份复件：完整的复件和工作复件）："
 
 #: ../../faq.rst:143
 msgid ""
 ":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
 "conflicts`"
 msgstr ""
+":ref:`git-export`，:ref:`continuous-translation`，:ref:`avoid-merge-conflicts`"
 
 #: ../../faq.rst:146
 msgid "How do I translate several branches at once?"
-msgstr ""
+msgstr "如何立刻翻译几个分支？"
 
 #: ../../faq.rst:148
 msgid ""
@@ -27046,12 +27056,14 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
+"Weblate 支持在一个 :ref:`project` 内推送翻译更改。对于每个将其打开的 :ref:`component` "
+"（默认行为），所作的更改自动传递给其它组件。即使分支本身已经非常多样化了，也能以这种方式保持同步，并且不能在他们之间简单地合并翻译更改。"
 
 #: ../../faq.rst:154
 msgid ""
 "Once you merge changes from Weblate, you might have to merge these branches "
 "(depending on your development workflow) discarding differences:"
-msgstr ""
+msgstr "一旦从 Weblate 合并了更改，就会不得不合并这些分支（依赖于您的开发工作流程），而丢弃差异："
 
 #: ../../faq.rst:163 ../../faq.rst:178 ../../user/checks.rst:469
 #: ../../user/translating.rst:373
@@ -27060,13 +27072,13 @@ msgstr ":ref:`translation-consistency`"
 
 #: ../../faq.rst:166
 msgid "How to translate multi-platform projects?"
-msgstr ""
+msgstr "如何翻译多平台项目？"
 
 #: ../../faq.rst:168
 msgid ""
 "Weblate supports a wide range of file formats (see :doc:`formats`) and the "
 "easiest approach is to use the native format for each platform."
-msgstr ""
+msgstr "Weblate 支持大范围的文件格式（请参见 :doc:`formats`），而最容易的方式时对每个平台使用本地格式。"
 
 #: ../../faq.rst:171
 msgid ""
@@ -27075,10 +27087,12 @@ msgid ""
 "propagation feature (turned on by default, and can be turned off in the :ref:"
 "`component`) to translate strings for all platforms at once."
 msgstr ""
+"一旦在一个项目中将所有平台的翻译文件作为组件添加（请参见 :ref:`adding-projects`），就可以立刻使用翻译传播特性（默认打开，"
+"并且可以在 :ref:`component` 中关闭），来翻译所有平台的字符串了。"
 
 #: ../../faq.rst:183
 msgid "How to export the Git repository that Weblate uses?"
-msgstr ""
+msgstr "如何导出 Weblate 使用的 Git 仓库？"
 
 #: ../../faq.rst:185
 msgid ""
@@ -27086,94 +27100,96 @@ msgid ""
 "`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you "
 "have SSH access to this machine, you can use the repository directly."
 msgstr ""
+"仓库没有什么特殊的，它存在于 :setting:`DATA_DIR` 目录下面，并被命名为 :file:`vcs/"
+"<project>/<component>/`。如果有 SSH 范文这台机器，那么可以直接使用仓库。"
 
 #: ../../faq.rst:189
 msgid ""
 "For anonymous access, you might want to run a Git server and let it serve "
 "the repository to the outside world."
-msgstr ""
+msgstr "对于匿名访问，您会想要运行 Git 服务器，并让它为外部世界提供仓库服务。"
 
 #: ../../faq.rst:192
 msgid ""
 "Alternatively, you can use :ref:`git-exporter` inside Weblate to automate "
 "this."
-msgstr ""
+msgstr "此外，可以在 Weblate 内替代使用 :ref:`git-exporter` 而使其自动化。"
 
 #: ../../faq.rst:195
 msgid "What are the options for pushing changes back upstream?"
-msgstr ""
+msgstr "将更改推送回上游的选项是什么？"
 
 #: ../../faq.rst:197
 msgid ""
 "This heavily depends on your setup, Weblate is quite flexible in this area. "
 "Here are examples of some workflows used with Weblate:"
-msgstr ""
+msgstr "这严重依赖于您的设置，Weblate 在这个领域是非常灵活的。这里是使用 Weblate 的一些工作流程的例子："
 
 #: ../../faq.rst:200
 msgid ""
 "Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)."
-msgstr ""
+msgstr "Weblate 自动推送并合并更改（请参见 :ref:`auto-workflow`）。"
 
 #: ../../faq.rst:201
 msgid ""
 "You manually tell Weblate to push (it needs push access to the upstream "
 "repository)."
-msgstr ""
+msgstr "您需要手动告诉 Weblate 去推送（推送需要访问上游仓库）。"
 
 #: ../../faq.rst:202
 msgid ""
 "Somebody manually merges changes from the Weblate git repository into the "
 "upstream repository."
-msgstr ""
+msgstr "一些人将 Weblate git 仓库的更改手动合并到上游仓库中。"
 
 #: ../../faq.rst:204
 msgid ""
 "Somebody rewrites history produced by Weblate (e.g. by eliminating merge "
 "commits), merges changes, and tells Weblate to reset the content in the "
 "upstream repository."
-msgstr ""
+msgstr "一些人重写由 Weblate 生成的历史（例如通过删除合并提交），合并更改，并告诉 Weblate 重置上游仓库中的内容。"
 
 #: ../../faq.rst:208
 msgid "Of course you are free to mix all of these as you wish."
-msgstr ""
+msgstr "当然您可以按您的意愿自由混用所有这些方法。"
 
 #: ../../faq.rst:213
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
-msgstr ""
+msgstr "如何限制 Weblate 只访问翻译，而不向它暴露源代码？"
 
 #: ../../faq.rst:215
 msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
-msgstr ""
+msgstr "可以使用 `git submodule`_ 将翻译从源代码中分离出来，而仍将它们至于版本控制之下。"
 
 #: ../../faq.rst:218
 msgid "Create a repository with your translation files."
-msgstr ""
+msgstr "以您的文艺文件创建仓库。"
 
 #: ../../faq.rst:219
 msgid "Add this as a submodule to your code:"
-msgstr ""
+msgstr "将其作为子模块添加到您的代码中："
 
 #: ../../faq.rst:225
 msgid ""
 "Link Weblate to this repository, it no longer needs access to the repository "
 "containing your source code."
-msgstr ""
+msgstr "将 Weblate 连接到这个仓库上，它不再需要访问包含您源代码的仓库。"
 
 #: ../../faq.rst:227
 msgid "You can update the main repository with translations from Weblate by:"
-msgstr ""
+msgstr "可以从 Weblate 更新带有翻译的主仓库，通过："
 
 #: ../../faq.rst:233
 msgid "Please consult the `git submodule`_ documentation for more details."
-msgstr ""
+msgstr "更多细节请咨询 `git submodule`_ 文档。"
 
 #: ../../faq.rst:238
 msgid "How can I check whether my Weblate is set up properly?"
-msgstr ""
+msgstr "如何检查 Weblate 是否被正确地设置？"
 
 #: ../../faq.rst:240
 msgid ""
@@ -27181,39 +27197,41 @@ msgid ""
 "admin interface, just follow the :guilabel:`Performance report` link in the "
 "admin interface, or open the ``/manage/performance/`` URL directly."
 msgstr ""
+"Weblate 包括一组配置检查，可以在管理面板中看到，只需按照管理面板中的 :guilabel:`Performance report` 连接，"
+"或直接打开 ``/manage/performance/`` URL 即可。"
 
 #: ../../faq.rst:246
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
-msgstr ""
+msgstr "为什么所有提价由 Weblate <noreply@weblate.org> 执行？"
 
 #: ../../faq.rst:248
 msgid ""
 "This is the default committer name, configured when you create a translation "
 "component. You can change it in the administration at any time."
-msgstr ""
+msgstr "这是默认的提交者的名称，当创建翻译组件时配置。可以在任何时间在管理时将其更改。"
 
 #: ../../faq.rst:251
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
-msgstr ""
+msgstr "（如果下层的版本管理系统 VCS 支持它的话），每个提交的作者仍会被正确地记录为进行翻译的用户。"
 
 #: ../../faq.rst:262
 msgid "How do I review the translations of others?"
-msgstr ""
+msgstr "如何复查其他人的翻译？"
 
 #: ../../faq.rst:264
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
-msgstr ""
+msgstr "可以订阅 :ref:`subscriptions` 中做出的任何更改，然后检查当它们通过电子邮件进入时检查其他人的贡献。"
 
 #: ../../faq.rst:266
 msgid ""
 "There is a review tool available at the bottom of the translation view, "
 "where you can choose to browse translations made by others since a given "
 "date."
-msgstr ""
+msgstr "在翻译视图底部有个复查工具，可以在那里选择浏览给定时间以来其他人进行的翻译。"
 
 #: ../../faq.rst:270
 msgid "How do I provide feedback on a source string?"
