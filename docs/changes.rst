@@ -10,6 +10,7 @@ Not yet released.
 * Fixed cleanup addon behavior with HTML, ODF, IDML and Windows RC formats.
 * Fixed parsing of location from CSV files.
 * Use content compression for file downloads.
+* Improved user experience on importing from ZIP file.
 
 Weblate 4.4
 -----------
