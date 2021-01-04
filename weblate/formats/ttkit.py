@@ -1038,11 +1038,12 @@ class PropertiesUtf8Format(PropertiesBaseFormat):
     language_format = "java"
 
 
-class PropertiesUtf16Format(PropertiesUtf8Format):
+class PropertiesUtf16Format(PropertiesBaseFormat):
     name = _("Java Properties (UTF-16)")
     format_id = "properties-utf16"
     loader = ("properties", "javafile")
     language_format = "java"
+    new_translation = "\n"
 
     @classmethod
     def fixup(cls, store):
@@ -1053,12 +1054,13 @@ class PropertiesUtf16Format(PropertiesUtf8Format):
         store.encoding = "utf-16"
 
 
-class PropertiesFormat(PropertiesUtf8Format):
+class PropertiesFormat(PropertiesBaseFormat):
     name = _("Java Properties (ISO 8859-1)")
     format_id = "properties"
     loader = ("properties", "javafile")
-    autoload = ("*.properties",)
     language_format = "java"
+    new_translation = "\n"
+    autoload = ("*.properties",)
 
     @classmethod
     def fixup(cls, store):
