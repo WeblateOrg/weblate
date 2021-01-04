@@ -448,7 +448,7 @@ Site wide privileges
 .. note::
 
    Site-wide privileges are not granted to any default role. These are
-   powerful and quite analogous to superuser status—most affect all projects
+   powerful and quite analogous to superuser status. Most of them affect all projects
    in your Weblate installation.
 
 List of groups
