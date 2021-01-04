@@ -683,7 +683,7 @@ def change_componentlist(sender, instance, action, **kwargs):
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def auto_group_upon_save(sender, instance, created=False, **kwargs):
-    """Automatically add user to \"Users\" group."""
+    """Automatically add user to "Users" group."""
     if created:
         auto_assign_group(instance)
 
