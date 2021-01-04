@@ -11,6 +11,7 @@ Not yet released.
 * Fixed parsing of location from CSV files.
 * Use content compression for file downloads.
 * Improved user experience on importing from ZIP file.
+* Improved file format detection on upload.
 
 Weblate 4.4
 -----------

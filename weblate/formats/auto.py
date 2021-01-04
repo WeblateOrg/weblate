@@ -48,7 +48,7 @@ def try_load(filename, content, original_format, template_store):
         # is in the original format (for example if component is monolingual PO file,
         # the uploaded PO file is more likely to be monolingual as well).
         formats.insert(
-            1 if detected_format.extension == original_format.extension else 0,
+            1 if detected_format.extension() == original_format.extension() else 0,
             detected_format,
         )
     failure = Exception("Bug!")
