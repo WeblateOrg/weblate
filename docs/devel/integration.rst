@@ -58,10 +58,8 @@ repository and configuring :ref:`component-push` in the :ref:`component`.
 Adding new strings
 ++++++++++++++++++
 
-In case your translation files are stored in VCS together with the code,
+In case your translation files are stored in a VCS together with the code,
 you most likely have existing workflow for developers to introduce new strings.
-You might extend it by using 
-
 Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid also introducing errors.
 
