@@ -341,7 +341,7 @@ Comments
 Component
     Edit component settings [`Administration`]
 
-    Lock component, preventing it from being translated [`Administration`]
+    Lock component, prevents it from being translated [`Administration`]
 
 Glossary
     Add glossary entry [`Administration`, `Manage glossary`, `Power user`]
@@ -382,7 +382,7 @@ Strings
 
     Review strings [`Administration`, `Review strings`]
 
-    Edit string when suggestions are enforced [`Administration`, `Review strings`]
+    Edit strings when suggestions are enforced [`Administration`, `Review strings`]
 
     Edit source strings [`Administration`, `Edit source`, `Power user`]
 
@@ -396,7 +396,7 @@ Suggestions
     Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translations
-    Start new translation [`Administration`, `Manage languages`, `Power user`]
+    Start new translations [`Administration`, `Manage languages`, `Power user`]
 
     Perform automatic translation [`Administration`, `Manage languages`]
 
@@ -405,7 +405,7 @@ Translations
     Start translation into a new language [`Administration`, `Manage languages`]
 
 Uploads
-    Define author of translation upload [`Administration`]
+    Define the author of uploaded translation [`Administration`]
 
     Overwrite existing strings with an upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
@@ -416,7 +416,7 @@ VCS
 
     Commit changes to the internal repository [`Administration`, `Manage repository`]
 
-    Push change from the internal repository [`Administration`, `Manage repository`]
+    Push changes from the internal repository [`Administration`, `Manage repository`]
 
     Reset changes in the internal repository [`Administration`, `Manage repository`]
 
@@ -447,7 +447,7 @@ Site wide privileges
 
 .. note::
 
-   The site-wide privileges are not granted to any default role. These are
+   Site-wide privileges are not granted to any default role. These are
    powerful and quite analogous to superuser status—most affect all projects
    in your Weblate installation.
 
@@ -459,12 +459,12 @@ The following groups are created upon installation (or after executing
 however re-create them if you delete or rename them.
 
 `Guests`
-    Defines permissions for non authenticated users.
+    Defines permissions for non-authenticated users.
 
-    This group contains only anonymous users (see :setting:`ANONYMOUS_USER_NAME`).
+    This group only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`).
 
-    You can remove roles from this group to limit permissions for non
-    authenticated users.
+    You can remove roles from this group to limit permissions for
+    non-authenticated users.
 
     Default roles: `Add suggestion`, `Access repository`
 
@@ -472,14 +472,14 @@ however re-create them if you delete or rename them.
     This role ensures visibility of public projects for all users. By default
     all users are members of this group.
 
-    By default all users are members of this group, using :ref:`autogroup`.
+    By default :ref:`autogroup` makes all new accounts members of this group when they join.
 
     Default roles: none
 
 `Users`
     Default group for all users.
 
-    By default all users are members of this group using :ref:`autogroup`.
+    By default :ref:`autogroup` makes all new accounts members of this group when they join.
 
     Default roles: `Power user`
 
@@ -496,5 +496,5 @@ however re-create them if you delete or rename them.
 .. warning::
 
     Never remove the predefined Weblate groups and users, as this can lead to
-    unexpected problems. If you do not want to use these features, just remove
-    all privileges from them.
+    unexpected problems. Removing all their privileges is a much better idea if
+    you have no use for them.
