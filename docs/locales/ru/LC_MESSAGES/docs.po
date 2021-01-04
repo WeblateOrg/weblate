@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-30 19:50+0100\n"
-"PO-Revision-Date: 2021-01-03 09:04+0000\n"
+"PO-Revision-Date: 2021-01-04 16:11+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -10977,24 +10977,21 @@ msgstr ""
 "будет требоваться для всего Weblate."
 
 #: ../../admin/install/docker.rst:453
-#, fuzzy
-#| msgid ""
-#| "Adds URL exceptions for sign in required for the whole Weblate "
-#| "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
-"Добавляет исключения URL-адресов для логина, необходимого для установки "
-"Weblate, используя параметр :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
+"Добавляет исключения из URL-адресов (для которых требование аутентификации "
+"установлено глобально для всего Weblate) с помощью параметра "
+":setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 
 #: ../../admin/install/docker.rst:456
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr ""
-"Вы можете либо заменить параметры астройки целиком, либо изменить значение "
-"по умолчанию с помощью переменных ``ADD`` и ``REMOVE``."
+"Вы можете либо заменить все настройки целиком, либо изменить значение по "
+"умолчанию с помощью переменных ``ADD`` и ``REMOVE``."
 
 #: ../../admin/install/docker.rst:460
 msgid ""
@@ -26056,13 +26053,11 @@ msgstr "Базовый класс для всех надстроек Weblate."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
-#, fuzzy
-#| msgid "Hook triggered after repository is updated from upstream."
 msgid ""
 "Hook triggered after a file is parsed and file format class is constructed."
 msgstr ""
-"Обработчик, вызываемый после того, как локальный репозиторий будет обновлён "
-"из вышестоящего."
+"Обработчик, вызываемый после того, как файл будет разобран и будет создан "
+"объект класса формата файла."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
@@ -26070,6 +26065,8 @@ msgid ""
 "This is useful to modify file format class parameters, for example adjust "
 "how the file will be saved."
 msgstr ""
+"Это может быть полезно для модификации параметров класса формата файла, "
+"например, изменить , как именно данный файл будет сохраняться."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.unit_pre_create:1
@@ -26277,12 +26274,6 @@ msgstr ""
 "также всё, что поможет выяснить, как и в каком месте можно улучшить код."
 
 #: ../../contributing/debugging.rst:60
-#, fuzzy
-#| msgid ""
-#| "In case some requests take too long without any indication, you might "
-#| "want to install `dogslow <https://pypi.org/project/dogslow/>` along with :"
-#| "ref:`collecting-errors` and get pinpointed and detailed tracebacks in the "
-#| "error collection tool."
 msgid ""
 "In case some requests take too long without any indication, you might want "
 "to install `dogslow <https://pypi.org/project/dogslow/>`_ along with :ref:"
@@ -26373,6 +26364,9 @@ msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
+"В данный момент Weblate использует иконки в стиле Material Design. Если вам "
+"нужны какие-то дополнительные эмблемки, то обратите внимание на `Material "
+"Design Icons`_ или на `Material Design Resources`_."
 
 #: ../../contributing/frontend.rst:56
 msgid ""
@@ -26448,35 +26442,35 @@ msgstr ""
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
-msgstr ""
+msgstr "Те, кто уже оказал финансовую поддержку Weblate"
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
-msgstr ""
+msgstr "Список спонсоров Weblate:"
 
 #: ../../../BACKERS.rst:6
 msgid "Yashiro Ccs"
-msgstr ""
+msgstr "Yashiro Ccs"
 
 #: ../../../BACKERS.rst:7
 msgid "Cheng-Chia Tseng"
-msgstr ""
+msgstr "Cheng-Chia Tseng"
 
 #: ../../../BACKERS.rst:8
 msgid "Timon Reinhard"
-msgstr ""
+msgstr "Timon Reinhard"
 
 #: ../../../BACKERS.rst:9
 msgid "`Cassidy James <https://cassidyjames.com/>`_"
-msgstr ""
+msgstr "`Cassidy James <https://cassidyjames.com/>`_"
 
 #: ../../../BACKERS.rst:10
 msgid "Loic Dachary"
-msgstr ""
+msgstr "Loic Dachary"
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
-msgstr ""
+msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
@@ -26484,40 +26478,43 @@ msgstr "https://freedombox.org/"
 
 #: ../../../BACKERS.rst:13
 msgid "GNU Solidario (GNU Health)"
-msgstr ""
+msgstr "GNU Solidario (GNU Health)"
 
 #: ../../../BACKERS.rst:14
-#, fuzzy
-#| msgid "`OpenSSL <https://www.openssl.org/>`_"
 msgid "`BallotReady <https://www.ballotready.org>`_"
-msgstr "`OpenSSL <https://www.openssl.org/>`_"
+msgstr "`BallotReady <https://www.ballotready.org>`_"
 
 #: ../../../BACKERS.rst:16
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
 msgstr ""
+"Хотите оказаться в этом списке? Тогда посмотрите свои опции на странице «`"
+"Пожертвовать для Weblate <https://weblate.org/donate/>`_»."
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
-msgstr ""
+msgstr "Внутреннее устройство Weblate"
 
 #: ../../contributing/internals.rst:8
 msgid "This chapter will give you basic overview of Weblate internals."
 msgstr ""
+"Эта глава даст вам базовое представление о внутреннем устройстве Weblate."
 
 #: ../../contributing/internals.rst:10
 msgid ""
 "Weblate derives most of its code structure from, and is based on `Django`_."
 msgstr ""
+"Большую часть структуры своего кода Weblate наследует от `Django`_, так как "
+"основывается на оном."
 
 #: ../../contributing/internals.rst:13
 msgid "Directory structure"
-msgstr ""
+msgstr "Структура каталогов"
 
 #: ../../contributing/internals.rst:15
 msgid "Quick overview of directory structure of Weblate main repository:"
-msgstr ""
+msgstr "Быстрый обзор структуры каталогов главного репозитория Weblate:"
 
 #: ../../contributing/internals.rst:17
 msgid "``docs``"
@@ -26528,6 +26525,8 @@ msgid ""
 "Source code for this documentation, built using `Sphinx <https://www.sphinx-"
 "doc.org/>`_."
 msgstr ""
+"Исходный код данной документации, который можно собрать с помощью `Sphinx "
+"<https://www.sphinx-doc.org/>`_."
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
