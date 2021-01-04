@@ -57,6 +57,7 @@ from weblate.trans.util import (
 from weblate.utils.errors import report_error
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
+PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
 SUPPORTS_FUZZY = (pounit, tsunit)
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
 
@@ -448,6 +449,17 @@ class PoUnit(TTKitUnit):
         if not self.is_fuzzy():
             return ""
         return get_string(self.unit.prev_source)
+
+    @cached_property
+    def locations(self):
+        """
+        Return comma separated list of locations.
+
+        Here we cleanup Sphinx generated "docstring of ..." part.
+        """
+        locations = " ".join(self.mainunit.getlocations())
+        locations = PO_DOCSTRING_LOCATION.sub("", locations)
+        return ", ".join(locations.split())
 
 
 class PoMonoUnit(PoUnit):
