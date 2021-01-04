@@ -613,7 +613,7 @@ class AutoGroup(models.Model):
         verbose_name=_("Regular expression for e-mail address"),
         max_length=200,
         default="^.*$",
-        help_text=_("Regular expression used to match user e-mail address."),
+        help_text=_("Users with matching e-mail address will be added to this group."),
     )
     group = models.ForeignKey(
         Group, verbose_name=_("Group to assign"), on_delete=models.deletion.CASCADE
