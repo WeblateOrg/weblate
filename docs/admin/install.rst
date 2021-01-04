@@ -472,8 +472,7 @@ The :file:`settings.py` snippet for MySQL and MariaDB:
             "PORT": "3306",
             # In case you wish to use additional
             # connection options
-            "OPTIONS": {
-            },
+            "OPTIONS": {},
         }
     }
 
