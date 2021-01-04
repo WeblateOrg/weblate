@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-30 19:50+0100\n"
-"PO-Revision-Date: 2020-12-31 04:26+0000\n"
+"PO-Revision-Date: 2021-01-04 16:11+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "documentation/nb_NO/>\n"
@@ -100,6 +100,10 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"Legg til brukere i `Users` for å håndtere tilganger for hele instansen ("
+"dette gjøres som forvalg ved bruk av :ref:`autogroup`), `Reviewers` og "
+"`Managers`-gruppene. Behold alle programmer satt opp som `Public` (see "
+":ref:`acl`)."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
@@ -110,6 +114,8 @@ msgstr "Tilgang per prosjekt"
 msgid ""
 "This feature is not available for projects running the Hosted Libre plan."
 msgstr ""
+"Denne funksjonen er ikke tilgjengelig for programmer som kjører fri "
+"vertstjent plan."
 
 #: ../../admin/access.rst:48
 msgid ""
@@ -124,20 +130,30 @@ msgid "Adding permissions to languages, components or projects"
 msgstr "Tillegg av tilganger for språk, komponenter eller prosjekter"
 
 #: ../../admin/access.rst:58
+#, fuzzy
 msgid ""
 "You can additionally grant permissions to any user based on project, "
 "component or language set. To achieve this, create a new group (e.g. `Czech "
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
+"Du kan ytterligere innvilge tilganger til enhver bruker basert på prosjekt, "
+"komponent eller språksett. For å oppnå dette, opprett en ny gruppe (f.eks `"
+"Norske oversettere`) og sett den opp for en gitt ressurs. Enhver tildelt "
+"tilgang vil innvilges medlemmer av denne gruppen for dens valgte ressurser."
 
 #: ../../admin/access.rst:63
+#, fuzzy
 msgid ""
 "This will work just fine without additional setup, if using per project "
 "permissions. For permissions on the whole instance, you will probably also "
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
+"Dette fungerer helt fint uten ytterligere oppsett, hvis man bruker tilganger "
+"per prosjekt. For tilganger på hele instansen, vil du antagelig også fjerne "
+"disse tilgangene fra `Users`-gruppen, eller endre automatisk tildeling av "
+"alle brukere til den gruppen (sjekk :ref:`autogroup`)."
 
 #: ../../admin/access.rst:70
 msgid ":ref:`perm-check`"
@@ -222,6 +238,7 @@ msgstr ""
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
 msgstr ""
+"Språksammendrag for hele instansen, inkludert opptelling for alle prosjekter."
 
 #: ../../admin/access.rst:117
 msgid "Automatic group assignments"
@@ -233,6 +250,9 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"Du kan sette opp Weblate til å automatisk legge til brukere i grupper basert "
+"på e-postadressen deres. Denne automatiske tildelingen skjer kun ved "
+"kontoopprettelse."
 
 #: ../../admin/access.rst:122
 msgid ""
@@ -253,11 +273,11 @@ msgstr "Brukere, roller, grupper og tilganger"
 
 #: ../../admin/access.rst:136
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Identitetbekreftelsesmodellene består av flere objekter:"
 
 #: ../../admin/access.rst:139
 msgid "`Permission`"
-msgstr ""
+msgstr "`Tilgang`"
 
 #: ../../admin/access.rst:139
 msgid ""
@@ -267,17 +287,20 @@ msgstr ""
 
 #: ../../admin/access.rst:142
 msgid "`Role`"
-msgstr ""
+msgstr "`Rolle`"
 
 #: ../../admin/access.rst:142
+#, fuzzy
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
+"Rollen definerer et sett tilganger. Dette tillater gjenbruk av disse flere "
+"steder, og letter administrasjonen."
 
 #: ../../admin/access.rst:144
 msgid "`User`"
-msgstr ""
+msgstr "`Bruker`"
 
 #: ../../admin/access.rst:145
 msgid "Users can be members of several groups."
@@ -285,17 +308,19 @@ msgstr "Brukere kan være medlemmer av flere grupper."
 
 #: ../../admin/access.rst:148
 msgid "`Group`"
-msgstr ""
+msgstr "`Gruppe`"
 
 #: ../../admin/access.rst:147
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
+"Grupper knytter sammen roller, brukere og identitetbekreftelsesobjekter ("
+"prosjekter, språk, og komponentlister)."
 
 #: ../../admin/access.rst:166
 msgid "Permission checking"
-msgstr ""
+msgstr "Tilgangssjekking"
 
 #: ../../admin/access.rst:168
 msgid ""
@@ -412,7 +437,7 @@ msgstr ""
 
 #: ../../admin/access.rst:233
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "Legg til eksisterende bruker i prosjektet"
 
 #: ../../admin/access.rst:234
 msgid "Invite new users to the project"
@@ -420,11 +445,12 @@ msgstr "Inviter nye brukere til prosjektet"
 
 #: ../../admin/access.rst:235
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "Endre tilgangen for brukerne"
 
 #: ../../admin/access.rst:236
+#, fuzzy
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "Tilbakekall tilgang for brukerne"
 
 #: ../../admin/access.rst:240
 msgid ""
@@ -438,7 +464,7 @@ msgstr ""
 
 #: ../../admin/access.rst:248
 msgid ":ref:`acl`"
-msgstr ""
+msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:253
 msgid "Predefined groups"
