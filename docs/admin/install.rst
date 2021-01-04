@@ -275,7 +275,7 @@ Filesystem permissions
 
 The Weblate process needs to be able to read and write to the directory where
 it keeps data - :setting:`DATA_DIR`. All files within this directory should be
-owned and writable by the user running Weblate.
+owned and writable by the user running all Weblate processes (typically WSGI and Celery, see :ref:`server` and :ref:`celery`).
 
 The default configuration places them in the same tree as the Weblate sources, however
 you might prefer to move these to a better location such as:
@@ -1119,7 +1119,7 @@ You will need several services to run Weblate, the recommended setup consists of
 * Database server (see :ref:`database-setup`)
 * Cache server (see :ref:`production-cache`)
 * Frontend web server for static files and SSL termination (see :ref:`static-files`)
-* Wsgi server for dynamic content (see :ref:`uwsgi`)
+* WSGI server for dynamic content (see :ref:`uwsgi`)
 * Celery for executing background tasks (see :ref:`celery`)
 
 .. note::
@@ -1131,6 +1131,14 @@ In most cases, you will run all services on single (virtual) server, but in
 case your installation is heavy loaded, you can split up the services. The only
 limitation on this is that Celery and Wsgi servers need access to
 :setting:`DATA_DIR`.
+
+.. note::
+
+   The WSGI process has to be executed under the same user the Celery
+   process, otherwise files in the :setting:`DATA_DIR` will be stored with
+   mixed ownership, leading to runtime issues.
+
+   See also :ref:`file-permissions` and :ref:`celery`.
 
 Running web server
 ++++++++++++++++++
@@ -1331,6 +1339,14 @@ useful when debugging or developing):
    ./weblate/examples/celery start
    ./weblate/examples/celery stop
 
+.. note::
+
+   The Celery process has to be executed under the same user as the WSGI
+   process, otherwise files in the :setting:`DATA_DIR` will be stored with
+   mixed ownership, leading to runtime issues.
+
+   See also :ref:`file-permissions` and :ref:`server`.
+
 
 Running Celery as system service
 ++++++++++++++++++++++++++++++++
@@ -1354,12 +1370,6 @@ Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
 
 .. literalinclude:: ../../weblate/examples/celery-weblate.logrotate
     :language: text
-
-.. note::
-
-   The Celery process has to be executed under the same user as Weblate and the WSGI
-   process, otherwise files in the :setting:`DATA_DIR` will be stored with
-   mixed ownership, leading to runtime issues.
 
 Periodic tasks using Celery beat
 ++++++++++++++++++++++++++++++++
