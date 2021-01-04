@@ -265,7 +265,7 @@ def download_translation_file(request, translation, fmt=None, units=None):
             raise Http404("File format not supported")
         exporter = exporter_cls(translation=translation)
         if units is None:
-            units = translation.unit_set.prefetch_full()
+            units = translation.unit_set.prefetch_full().order_by("position")
         exporter.add_units(units)
         response = exporter.get_response(
             "{{project}}-{0}-{{language}}.{{extension}}".format(
