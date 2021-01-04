@@ -223,10 +223,12 @@ class BaseAddon:
 
     def store_post_load(self, translation, store):
         """
-        Hook triggered after a file is parsed and file format class is constructed.
+        Hook triggered after a file is parsed.
 
-        This is useful to modify file format class parameters, for example adjust
-        how the file will be saved.
+        It recevies an instance of a file format class as a argument.
+
+        This is useful to modify file format class parameters, for example
+        adjust how the file will be saved.
         """
         return
 
