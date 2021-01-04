@@ -20,7 +20,7 @@ translations.
    :ref:`faq-submodule`
 
 Send string changes to Weblate
-+++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++
 
 Your Weblate project should already be set up to pull changes from the upstream
 repository. If not, it can be done in the user interface
@@ -43,7 +43,7 @@ Fetch changes made in Weblate
 Weblate represents a branch from your VCS upstream that you can fetch changed
 strings from just like any other.
 
-Either fetch the filesystem, or use :ref:`git-exporter`). Commit any pending
+Either fetch the filesystem, or use :ref:`git-exporter`. Commit any pending
 changes first (see :ref:`lazy-commit`) from the user interface
 (in the :guilabel:`Repository maintenance`) or from the command-line
 using :ref:`wlc`.
@@ -72,8 +72,8 @@ new strings.
   menu on the translation language used as the source for others.
   (Only works for monolingual translations :ref:`bimono`)
 * Alternatively, you can use the API
-:http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
+  :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
 * It is also possible to just upload a new source file as
-:guilabel:`Replace existing translation file`
- (this overwrites existing strings, so make sure the file includes both old
+  :guilabel:`Replace existing translation file`
+  (this overwrites existing strings, so make sure the file includes both old
  and new ones, see :ref:`upload-method`).
