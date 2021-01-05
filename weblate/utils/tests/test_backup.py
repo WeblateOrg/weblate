@@ -20,7 +20,7 @@
 import os
 
 from django.conf import settings
-from django.test import SimpleTestCase
+from django.test import TransactionTestCase
 from django.test.utils import override_settings
 
 from weblate.utils.backup import backup, get_paper_key, initialize, prune
@@ -29,7 +29,7 @@ from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.unittest import tempdir_setting
 
 
-class BackupTest(SimpleTestCase):
+class BackupTest(TransactionTestCase):
     @tempdir_setting("DATA_DIR")
     def test_settings_backup(self):
         settings_backup()
