@@ -89,16 +89,16 @@ def database_backup():
         cmd = ["pg_dump", "--dbname", database["NAME"]]
 
         if database["HOST"]:
-            cmd += ["--host", database["HOST"]]
+            cmd.extend(["--host", database["HOST"]])
         if database["PORT"]:
-            cmd += ["--port", database["PORT"]]
+            cmd.extend(["--port", database["PORT"]])
         if database["USER"]:
-            cmd += ["--username", database["USER"]]
+            cmd.extend(["--username", database["USER"]])
         if settings.DATABASE_BACKUP == "compressed":
-            cmd += ["--file", data_dir("backups", "database.sql.gz")]
-            cmd += ["--compress", "6"]
+            cmd.extend(["--file", data_dir("backups", "database.sql.gz")])
+            cmd.extend(["--compress", "6"])
         else:
-            cmd += ["--file", data_dir("backups", "database.sql")]
+            cmd.extend(["--file", data_dir("backups", "database.sql")])
 
         env["PGPASSWORD"] = database["PASSWORD"]
     elif database["ENGINE"] == "django.db.backends.mysql":
@@ -111,13 +111,13 @@ def database_backup():
         ]
 
         if database["HOST"]:
-            cmd += ["--host", database["HOST"]]
+            cmd.extend(["--host", database["HOST"]])
         if database["PORT"]:
-            cmd += ["--port", database["PORT"]]
+            cmd.extend(["--port", database["PORT"]])
         if database["USER"]:
-            cmd += ["--user", database["USER"]]
+            cmd.extend(["--user", database["USER"]])
 
-        cmd += ["--databases", database["NAME"]]
+        cmd.extend(["--databases", database["NAME"]])
 
         env["MYSQL_PWD"] = database["PASSWORD"]
     else:
