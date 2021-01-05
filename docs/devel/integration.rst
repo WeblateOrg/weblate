@@ -40,16 +40,17 @@ translations to match the latest version of what it is you want to translate.
 Fetch changes made in Weblate
 +++++++++++++++++++++++++++++
 
-Weblate represents a branch from your VCS upstream that you can fetch changed
-strings from just like any other.
+Weblate represents a branch from your version control system upstream that
+you can fetch changed strings from just like any other.
 
 Either fetch the filesystem, or use :ref:`git-exporter`. Commit any pending
 changes first (see :ref:`lazy-commit`) from the user interface
 (in the :guilabel:`Repository maintenance`) or from the command-line
 using :ref:`wlc`.
 
-Automation is possible by granting the Weblate user push access to your
-repository and configuring :ref:`component-push` in the :ref:`component`.
+Automation is possible by granting the Weblate user (available for various
+version control systems) push access to your repository and configuring
+:ref:`component-push` in the :ref:`component`.
 
 .. seealso::
 
@@ -58,8 +59,8 @@ repository and configuring :ref:`component-push` in the :ref:`component`.
 Adding new strings
 ++++++++++++++++++
 
-In case your translation files are stored in a VCS together with the code,
-you most likely have existing workflow for developers to introduce new strings.
+In case your translation files are stored in a version control system together with the code,
+you most likely have an existing workflow for developers to introduce new strings.
 Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid also introducing errors.
 
@@ -71,7 +72,9 @@ new strings.
   (Only works for monolingual translations :ref:`bimono`)
 * Alternatively, you can use the API
   :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/units/`.
+  (Only works for monolingual translations :ref:`bimono`)
 * It is also possible to just upload a new source file as
   :guilabel:`Replace existing translation file`
   (this overwrites existing strings, so make sure the file includes both old
- and new ones, see :ref:`upload-method`).
+  and new ones, see :ref:`upload-method`).
+  
