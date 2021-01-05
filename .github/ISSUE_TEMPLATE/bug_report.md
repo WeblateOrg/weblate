@@ -1,15 +1,23 @@
 ---
+# This file is maintained in https://github.com/WeblateOrg/meta/
 name: Bug report
 about: Create a report to help us improve
 ---
 
-**Describe the bug**
+**Describe the issue**
 
-A clear and concise description of what the bug is.
+<!--
+A clear and concise description of the problem you are facing.
+-->
 
-**To Reproduce the bug**
+**I already tried**
 
-Description should look similar to this:
+Describe the steps you tried to solve the problem yourself.
+
+- [ ] I've read and searched [the docs](https://docs.weblate.org/) and did not find the answer there.
+      If you didn’t try already, try to search there what you wrote above.
+
+**To Reproduce the issue**
 
 Steps to reproduce the behavior:
 
@@ -20,11 +28,23 @@ Steps to reproduce the behavior:
 
 **Expected behavior**
 
+<!--
 A clear and concise description of what you expected to happen.
+-->
 
 **Screenshots**
 
+<!--
 If applicable, add screenshots to better explain your problem.
+-->
+
+**Exception traceback**
+
+<!--
+In case you observed server error or crash, please see
+<https://docs.weblate.org/en/latest/contributing/debugging.html>
+for information how to obtain that.
+-->
 
 **Server configuration and status**
 
@@ -45,7 +65,7 @@ On Git checkout:
 
 Using docker-compose:
 
-docker-compose exec weblate weblate list_versions
+docker-compose exec --user weblate weblate weblate list_versions
 -->
 
 **Weblate deploy checks**
@@ -68,14 +88,8 @@ Using docker-compose:
 docker-compose exec --user weblate weblate weblate check --deploy
 -->
 
-**Exception traceback**
-
-<!--
-In case you observed server error or crash, please see
-<https://docs.weblate.org/en/latest/contributing/debugging.html>
-for information how to obtain that.
--->
-
 **Additional context**
 
+<!--
 Add any other context about the problem here.
+-->
