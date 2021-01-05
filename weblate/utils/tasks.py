@@ -102,7 +102,13 @@ def database_backup():
 
         env["PGPASSWORD"] = database["PASSWORD"]
     elif database["ENGINE"] == "django.db.backends.mysql":
-        cmd = ["mysqldump", "--result-file", data_dir("backups", "database.sql")]
+        cmd = [
+            "mysqldump",
+            "--result-file",
+            data_dir("backups", "database.sql"),
+            "--single-transaction",
+            "--skip-lock-tables",
+        ]
 
         if database["HOST"]:
             cmd += ["--host", database["HOST"]]
