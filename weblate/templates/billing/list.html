@@ -2,8 +2,10 @@
 {% load humanize %}
 {% load translations %}
 
+{% if not hide_table_tag %}
 <table class="sort table progress-table autocolspan table-listing">
   <thead>
+{% endif %}
     <tr>
       <th>{% trans "Owners" %}</th>
       <th>{% trans "Projects" %}</th>
@@ -17,8 +19,10 @@
       {% endif %}
       <th></th>
     </tr>
+{% if not hide_table_tag %}
   </thead>
   <tbody>
+{% endif %}
     {% for object in objects %}
       <tr>
         <td>
@@ -48,5 +52,7 @@
         <td><a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% trans "View" %}</a></td>
       </tr>
     {% endfor %}
+{% if not hide_table_tag %}
   </tbody>
 </table>
+{% endif %}
