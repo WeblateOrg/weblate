@@ -83,25 +83,50 @@ def database_backup():
         return
     ensure_backup_dir()
     database = settings.DATABASES["default"]
-    if database["ENGINE"] != "django.db.backends.postgresql":
-        return
-    cmd = ["pg_dump", "--dbname", database["NAME"]]
-    if database["HOST"]:
-        cmd += ["--host", database["HOST"]]
-    if database["PORT"]:
-        cmd += ["--port", database["PORT"]]
-    if database["USER"]:
-        cmd += ["--username", database["USER"]]
-    if settings.DATABASE_BACKUP == "compressed":
-        cmd += ["--file", data_dir("backups", "database.sql.gz")]
-        cmd += ["--compress", "6"]
+    env = get_clean_env()
+
+    if database["ENGINE"] == "django.db.backends.postgresql":
+        cmd = ["pg_dump", "--dbname", database["NAME"]]
+
+        if database["HOST"]:
+            cmd += ["--host", database["HOST"]]
+        if database["PORT"]:
+            cmd += ["--port", database["PORT"]]
+        if database["USER"]:
+            cmd += ["--username", database["USER"]]
+        if settings.DATABASE_BACKUP == "compressed":
+            cmd += ["--file", data_dir("backups", "database.sql.gz")]
+            cmd += ["--compress", "6"]
+        else:
+            cmd += ["--file", data_dir("backups", "database.sql")]
+
+        env["PGPASSWORD"] = database["PASSWORD"]
+    elif database["ENGINE"] == "django.db.backends.mysql":
+        cmd = [
+            "mysqldump",
+            "--result-file",
+            data_dir("backups", "database.sql"),
+            "--single-transaction",
+            "--skip-lock-tables",
+        ]
+
+        if database["HOST"]:
+            cmd += ["--host", database["HOST"]]
+        if database["PORT"]:
+            cmd += ["--port", database["PORT"]]
+        if database["USER"]:
+            cmd += ["--user", database["USER"]]
+
+        cmd += ["--databases", database["NAME"]]
+
+        env["MYSQL_PWD"] = database["PASSWORD"]
     else:
-        cmd += ["--file", data_dir("backups", "database.sql")]
+        return
 
     try:
         subprocess.run(
             cmd,
-            env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
+            env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             stdin=subprocess.DEVNULL,
