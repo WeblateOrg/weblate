@@ -15,7 +15,11 @@
 {% if users is not None %}
 {% for user in users %}
 <div class="panel panel-default">
-    <div class="panel-heading"><h4 class="panel-title">{{ user.username }} &mdash; {{ user.full_name }} &mdash; {{ user.email }}</h4></div>
+    <div class="panel-heading">
+      <a href="{% url "admin:weblate_auth_user_change" object_id=user.id %}" class="btn btn-primary pull-right flip">{% trans "Edit" %}</a>
+      <h4 class="panel-title">{{ user.username }} &mdash; {{ user.full_name }} &mdash; {{ user.email }}</h4>
+      <div class="clearfix"></div>
+    </div>
     <table class="table">
     <tr><th>{% trans "Last login" %}</th><td colspan="3">{{ user.last_login|date:"DATETIME_FORMAT" }}</td></tr>
     <tr><th>{% trans "Date joined" %}</th><td colspan="3">{{ user.date_joined|date:"DATETIME_FORMAT" }}</td></tr>
@@ -48,9 +52,6 @@
     </tr>
     {% endfor %}
     </table>
-    <div class="panel-footer">
-        <a href="{% url "admin:weblate_auth_user_change" object_id=user.id %}" class="btn btn-primary">{% trans "Edit" %}</a>
-    </div>
 </div>
 {% empty %}
 {% trans "No matching user found." as msg %}
