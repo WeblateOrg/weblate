@@ -143,7 +143,7 @@ CONTACT_SUBJECTS = {
     "reg": "Registration problems",
     "hosting": "Commercial hosting",
     "account": "Suspicious account activity",
-    "trial": "Trial request",
+    "trial": "Trial extension request",
 }
 
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
