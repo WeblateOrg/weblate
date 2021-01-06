@@ -40,15 +40,18 @@ class AutoTranslateAddon(BaseAddon):
     multiple = True
     icon = "language.svg"
 
+    def make_callback(self, translation):
+        def callback():
+            auto_translate.delay(None, translation.pk, **self.instance.configuration)
+
+        return callback
+
     def component_update(self, component):
         for translation in component.translation_set.iterator():
             if translation.is_source:
                 continue
 
-            def callback(pk=translation.pk):
-                auto_translate.delay(None, pk, **self.instance.configuration)
-
-            transaction.on_commit(callback)
+            transaction.on_commit(self.make_callback(translation))
 
     def daily(self, component):
         # Translate every component once in a week to reduce load
