@@ -1055,7 +1055,14 @@ class PagureRepository(GitMergeRequestBase):
     _version = None
     API_TEMPLATE = "https://{host}/api/0"
 
-    def request(self, method: str, credentials: Dict, url: str, data: Dict):
+    def request(
+        self,
+        method: str,
+        credentials: Dict,
+        url: str,
+        data: Optional[Dict] = None,
+        params: Optional[Dict] = None,
+    ):
         response = requests.request(
             method,
             url,
@@ -1064,21 +1071,22 @@ class PagureRepository(GitMergeRequestBase):
                 "Authorization": "token {}".format(credentials["token"]),
             },
             data=data,
+            params=params,
         )
-        data = response.json()
+        response_data = response.json()
 
         # Log and parase all errors. Sometimes GitHub returns the error
         # messages in an errors list instead of the message. Sometimes, there
         # is no errors list. Hence the different logics
         error_message = ""
-        if "message" in data:
-            error_message = data["message"]
-        if "error" in data:
+        if "message" in response_data:
+            error_message = response_data["message"]
+        if "error" in response_data:
             if error_message:
                 error_message += ", "
-            error_message += data["error"]
+            error_message += response_data["error"]
 
-        return data, error_message
+        return response_data, error_message
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/fork".format(credentials["url"])
@@ -1100,7 +1108,7 @@ class PagureRepository(GitMergeRequestBase):
 
         for param in params:
             param.update(base_params)
-            response, error = self.request("post", credentials, fork_url, param)
+            response, error = self.request("post", credentials, fork_url, data=param)
             if '" cloned to "' in error or "already exists" in error:
                 break
 
@@ -1118,9 +1126,21 @@ class PagureRepository(GitMergeRequestBase):
         Use to merge branch in forked repository into branch of remote repository.
         """
         if credentials["owner"]:
-            pr_url = "{url}/{owner}/{slug}/pull-request/new".format(**credentials)
+            pr_base_url = "{url}/{owner}/{slug}/pull-request".format(**credentials)
         else:
-            pr_url = "{url}/{slug}/pull-request/new".format(**credentials)
+            pr_base_url = "{url}/{slug}/pull-request".format(**credentials)
+
+        # List existing pull requests
+        response, error_message = self.request(
+            "get", credentials, pr_base_url, params={"author": credentials["username"]}
+        )
+        if error_message:
+            raise RepositoryException(0, error_message or "Pull request listing failed")
+
+        if response["total_requests"] > 0:
+            # Open pull request from us is already there
+            return
+
         title, description = self.get_merge_message()
         request = {
             "branch_from": fork_branch,
@@ -1132,7 +1152,9 @@ class PagureRepository(GitMergeRequestBase):
             request["repo_from"] = credentials["slug"]
             request["repo_from_username"] = credentials["username"]
 
-        response, error_message = self.request("post", credentials, pr_url, request)
+        response, error_message = self.request(
+            "post", credentials, f"{pr_base_url}/new", data=request
+        )
 
         if "id" not in response:
             raise RepositoryException(0, error_message or "Pull request failed")
