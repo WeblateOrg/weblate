@@ -12,6 +12,7 @@ Not yet released.
 * Use content compression for file downloads.
 * Improved user experience on importing from ZIP file.
 * Improved file format detection on upload.
+* Avoid duplicate pull requests on Pagure.
 
 Weblate 4.4
 -----------

@@ -20,6 +20,7 @@
 import os.path
 import shutil
 import tempfile
+from typing import Dict
 from unittest import SkipTest
 from unittest.mock import patch
 
@@ -899,7 +900,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
     _vcs = "git"
     _sets_push = False
 
-    def mock_responses(self, pr_response):
+    def mock_responses(self, pr_response: Dict, existing_response: Dict):
         """Mock response helper function."""
         responses.add(
             responses.POST,
@@ -911,6 +912,12 @@ class VCSPagureTest(VCSGitUpstreamTest):
             responses.POST,
             "https://pagure.io/api/0/fork/test/testrepo/pull-request/new",
             json={"id": 1},
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            "https://pagure.io/api/0/testrepo/pull-request",
+            json=existing_response,
             status=200,
         )
         responses.add(
@@ -934,7 +941,8 @@ class VCSPagureTest(VCSGitUpstreamTest):
 
         # Mock post, put and get requests for both the fork and PR requests sent.
         self.mock_responses(
-            {"message": 'Repo "im-chooser" cloned to "nijel/im-chooser"'}
+            {"message": 'Repo "im-chooser" cloned to "nijel/im-chooser"'},
+            {"total_requests": 0},
         )
         super().test_push(branch)
         mock_push_to_fork.stop()
@@ -956,7 +964,8 @@ class VCSPagureTest(VCSGitUpstreamTest):
             {
                 "error": 'Repo "forks/nijel/im-chooser" already exists',
                 "error_code": "ENOCODE",
-            }
+            },
+            {"total_requests": 0},
         )
         super().test_push(branch)
         mock_push_to_fork.stop()
@@ -966,6 +975,36 @@ class VCSPagureTest(VCSGitUpstreamTest):
             [1 for call in responses.calls if call.request.method == "POST"]
         )
         self.assertEqual(call_count, 2)
+
+    @responses.activate
+    def test_push_with_existing_request(self, branch=""):
+        self.repo.component.repo = "https://pagure.io/testrepo.git"
+
+        # Patch push_to_fork() function because we don't want to actually
+        # make a git push request
+        mock_push_to_fork_patcher = patch(
+            "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
+        )
+        mock_push_to_fork = mock_push_to_fork_patcher.start()
+        mock_push_to_fork.return_value = ""
+
+        # Mock post, put and get requests for both the fork and PR requests sent.
+        self.mock_responses(
+            {
+                "error": 'Repo "forks/nijel/im-chooser" already exists',
+                "error_code": "ENOCODE",
+            },
+            {"total_requests": 1},
+        )
+        super().test_push(branch)
+        mock_push_to_fork.stop()
+
+        # Test that the POST request to create a new fork and pull request were
+        # not called
+        call_count = len(
+            [1 for call in responses.calls if call.request.method == "POST"]
+        )
+        self.assertEqual(call_count, 1)
 
 
 class VCSGerritTest(VCSGitUpstreamTest):
