@@ -43,7 +43,7 @@ sources.
 
       pip install -r requirements-dev.txt
 
-4. Start a development server run:
+4. Start a development server:
 
    .. code-block:: sh
 
