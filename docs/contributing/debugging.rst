@@ -16,6 +16,8 @@ as it has performance consequences and might leak private data.
 
     :ref:`production-debug`
 
+.. _weblate-logs:
+
 Weblate logs
 ------------
 
@@ -33,6 +35,20 @@ you can look at the logs using ``docker-compose logs``.
 .. seealso::
 
    :ref:`sample-configuration` contains :setting:`django:LOGGING` configuration.
+
+Not processing background tasks
+-------------------------------
+
+Lot of things happen in background Celery workers. In case things like sending
+out e-mails or component removal does not work, there might be some issue with
+it.
+
+Things to check in that case:
+
+* Check Celery process is running, see :ref:`celery`
+* Check Celery queue status either in :ref:`management-interface` or using :djadmin:`celery_queues`
+* Look into Celery logs for errors (see :ref:`weblate-logs`)
+
 
 Analyzing application crashes
 -----------------------------
