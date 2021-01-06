@@ -258,8 +258,8 @@ def get_display_char(char):
             # Char now known to unicode data
             # This mostly happens for control characters < 0x20
             name = short = char.encode("unicode_escape").decode("ascii")
-    if char in DISPLAY_CHARS:
-        short = DISPLAY_CHARS[char]
+    # Use display short name if avilable
+    short = DISPLAY_CHARS.get(char, short)
     return name, short
 
 
