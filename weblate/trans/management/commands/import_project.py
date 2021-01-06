@@ -137,6 +137,7 @@ class Command(BaseCommand):
         self.license = None
         self.main_component = None
         self.name_template = None
+        self.source_language = None
         self.base_file_template = None
         self.new_base_template = None
         self.vcs = None
