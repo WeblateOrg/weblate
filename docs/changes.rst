@@ -13,6 +13,7 @@ Not yet released.
 * Improved user experience on importing from ZIP file.
 * Improved detection of file format for uploads.
 * Avoid duplicate pull requests on Pagure.
+* Improved performance when displaying ghost translations.
 
 Weblate 4.4
 -----------

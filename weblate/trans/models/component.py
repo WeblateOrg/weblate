@@ -2096,10 +2096,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
             )
 
-    def is_valid_base_for_new(self, errors: Optional[List] = None):
+    def is_valid_base_for_new(self, errors: Optional[List] = None, fast: bool = False):
         filename = self.get_new_base_filename()
         template = self.has_template()
-        return self.file_format_cls.is_valid_base_for_new(filename, template, errors)
+        return self.file_format_cls.is_valid_base_for_new(
+            filename, template, errors, fast=fast
+        )
 
     def clean_new_lang(self):
         """Validate new language choices."""
@@ -2672,7 +2674,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Return parsed list of flags."""
         return Flags(self.file_format_cls.check_flags, self.check_flags)
 
-    def can_add_new_language(self, user):
+    def can_add_new_language(self, user, fast: bool = False):
         """Wrapper to check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
@@ -2689,7 +2691,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         ):
             return False
 
-        return self.is_valid_base_for_new()
+        return self.is_valid_base_for_new(fast=fast)
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
