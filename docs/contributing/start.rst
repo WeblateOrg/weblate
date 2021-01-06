@@ -155,11 +155,13 @@ to debug it. This is done by creating a new `Django Server` configuration:
 .. image:: /images/pycharm-4.png
 .. image:: /images/pycharm-5.png
 
-Be careful to properly checked "No reload": you won't get anymore the server live reload
-if you modify some files, but the debugger will be stopped on the breakpoint you set.
 
+.. hint::
 
-
+   Be careful with the property called :guilabel:`No reload`: if you check it,
+   the server live reloads won't happend when you modify files. This allows the
+   existing debugger breakpoints to persist as these would be discarded on
+   reload.
 
 
 Bootstraping your devel instance
