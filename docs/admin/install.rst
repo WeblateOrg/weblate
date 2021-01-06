@@ -510,15 +510,10 @@ Django documentation.
     by using insecure connection and server refuses to authenticate this way.
     Try enabling :setting:`django:EMAIL_USE_TLS` in such case.
 
-.. note::
-
-   You can verify whether outgoing e-mail is working correctly by using the
-   :djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage`
-   for instructions on how to invoke it in different environments).
-
 .. seealso::
 
-   :ref:`docker-mail` for configuring outgoing e-mail in Docker container.
+   :ref:`debug-mails`,
+   :ref:`Configuring outgoing e-mail in Docker container <docker-mail>`
 
 .. _reverse-proxy:
 
