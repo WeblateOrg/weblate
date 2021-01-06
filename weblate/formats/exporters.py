@@ -107,9 +107,12 @@ class BaseExporter:
     def add(self, unit, word):
         unit.target = word
 
+    def create_unit(self, source):
+        return self.storage.UnitClass(source)
+
     def add_glossary_term(self, word):
         """Add glossary term."""
-        unit = self.storage.UnitClass(self.string_filter(word.source))
+        unit = self.create_unit(self.string_filter(word.source))
         self.add(unit, self.string_filter(word.target))
         self.storage.addunit(unit)
 
@@ -118,7 +121,7 @@ class BaseExporter:
             self.add_unit(unit)
 
     def build_unit(self, unit):
-        output = self.storage.UnitClass(self.handle_plurals(unit.get_source_plurals()))
+        output = self.create_unit(self.handle_plurals(unit.get_source_plurals()))
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
 
@@ -351,7 +354,7 @@ class MoExporter(PoExporter):
             source = self.handle_plurals(unit.get_source_plurals())
             context = unit.context
         # Actually create the unit and set attributes
-        output = self.storage.UnitClass(source)
+        output = self.create_unit(source)
         output.target = self.handle_plurals(unit.get_target_plurals())
         if context:
             # The setcontext doesn't work on mounit
@@ -411,7 +414,7 @@ class MonolingualExporter(BaseExporter):
         return translation.component.has_template()
 
     def build_unit(self, unit):
-        output = self.storage.UnitClass(unit.context)
+        output = self.create_unit(unit.context)
         output.setid(unit.context)
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
@@ -455,3 +458,6 @@ class StringsExporter(MonolingualExporter):
     content_type = "text/plain"
     extension = "strings"
     verbose = _("iOS strings")
+
+    def create_unit(self, source):
+        return self.storage.UnitClass(source, self.storage.personality.name)
