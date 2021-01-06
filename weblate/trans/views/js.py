@@ -150,9 +150,11 @@ def ignore_check_source(request, check_id):
     return HttpResponse("ok")
 
 
-def git_status_shared(request, obj, changes, repositories):
+def git_status_shared(request, obj, repositories):
     if not request.user.has_perm("meta:vcs.status", obj):
         raise PermissionDenied()
+
+    changes = obj.change_set.filter(action__in=Change.ACTIONS_REPOSITORY).order()[:10]
 
     return render(
         request,
@@ -172,14 +174,7 @@ def git_status_shared(request, obj, changes, repositories):
 def git_status_project(request, project):
     obj = get_project(request, project)
 
-    return git_status_shared(
-        request,
-        obj,
-        Change.objects.filter(
-            project=obj, action__in=Change.ACTIONS_REPOSITORY
-        ).order()[:10],
-        obj.all_repo_components,
-    )
+    return git_status_shared(request, obj, obj.all_repo_components)
 
 
 @login_required
@@ -190,14 +185,7 @@ def git_status_component(request, project, component):
     if target.is_repo_link:
         target = target.linked_component
 
-    return git_status_shared(
-        request,
-        obj,
-        Change.objects.filter(
-            action__in=Change.ACTIONS_REPOSITORY, component=target
-        ).order()[:10],
-        [obj],
-    )
+    return git_status_shared(request, obj, [obj])
 
 
 @login_required
@@ -208,14 +196,7 @@ def git_status_translation(request, project, component, lang):
     if target.is_repo_link:
         target = target.linked_component
 
-    return git_status_shared(
-        request,
-        obj,
-        Change.objects.filter(
-            action__in=Change.ACTIONS_REPOSITORY, component=target
-        ).order()[:10],
-        [obj.component],
-    )
+    return git_status_shared(request, obj, [obj.component])
 
 
 @cache_control(max_age=3600)

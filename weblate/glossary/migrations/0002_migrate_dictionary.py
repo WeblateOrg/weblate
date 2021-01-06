@@ -6,7 +6,6 @@ from django.db import migrations
 def migrate_dictionary(apps, schema_editor):
     Dictionary = apps.get_model("trans", "Dictionary")
     Project = apps.get_model("trans", "Project")
-    Change = apps.get_model("trans", "Change")
     Glossary = apps.get_model("glossary", "Glossary")
     Term = apps.get_model("glossary", "Term")
     db_alias = schema_editor.connection.alias
@@ -30,7 +29,7 @@ def migrate_dictionary(apps, schema_editor):
         )
 
         # Adjust change links to terms
-        Change.objects.filter(dictionary=dictionary).update(glossary_term=term)
+        dictionary.change_set.update(glossary_term=term)
 
 
 class Migration(migrations.Migration):

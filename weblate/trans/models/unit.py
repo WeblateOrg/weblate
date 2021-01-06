@@ -853,12 +853,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def generate_change(self, user, author, change_action, check_new=True):
         """Create Change entry for saving unit."""
         # Notify about new contributor
-        if (
-            check_new
-            and not Change.objects.filter(
-                translation=self.translation, user=user
-            ).exists()
-        ):
+        if check_new and not self.translation.change_set.filter(user=user).exists():
             Change.objects.create(
                 unit=self,
                 action=Change.ACTION_NEW_CONTRIBUTOR,
