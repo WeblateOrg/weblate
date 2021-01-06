@@ -218,12 +218,15 @@ class AppStoreFormat(TranslationFormat):
         return None
 
     @classmethod
-    def is_valid_base_for_new(cls, base, monolingual, errors: Optional[List] = None):
+    def is_valid_base_for_new(
+        cls, base, monolingual, errors: Optional[List] = None, fast: bool = False
+    ):
         """Check whether base is valid."""
         if not base:
             return True
         try:
-            AppStoreParser(base)
+            if not fast:
+                AppStoreParser(base)
             return True
         except Exception:
             report_error(cause="File parse error")
