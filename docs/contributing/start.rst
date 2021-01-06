@@ -14,7 +14,7 @@ Running Weblate locally
 -----------------------
 
 The most comfortable approach to get started with Weblate development is to
-follow :doc:`../admin/install/source`. It will get you a virtual env with editable Weblate
+follow :doc:`../admin/install/source`. It will get you a virtualenv with editable Weblate
 sources.
 
 1. Clone Weblate source:
