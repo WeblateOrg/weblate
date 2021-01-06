@@ -150,6 +150,12 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         # Ensure we've picked up all mails
         self.assertEqual(len(mail.outbox), 0)
 
+        # Ensure the audit log matches expectations
+        self.assertEqual(
+            set(user.auditlog_set.values_list("activity", flat=True)),
+            {"sent-email", "password"},
+        )
+
 
 class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_CAPTCHA=True)

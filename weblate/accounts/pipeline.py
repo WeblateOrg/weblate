@@ -38,7 +38,7 @@ from weblate.accounts.utils import (
     cycle_session_keys,
     invalidate_reset_codes,
 )
-from weblate.auth.models import User
+from weblate.auth.models import User, get_anonymous
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.requests import request
@@ -147,6 +147,15 @@ def send_validation(strategy, backend, code, partial_token):
         template = "invite"
         context.update(session["invitation_context"])
 
+    # Create audit log, it might be for anonymous at this point for new registrations
+    AuditLog.objects.create(
+        strategy.request.user,
+        strategy.request,
+        "sent-email",
+        email=code.email,
+    )
+
+    # Send actual confirmation
     send_notification_email(None, [code.email], template, info=url, context=context)
 
 
@@ -357,9 +366,22 @@ def store_email(strategy, backend, user, social, details, **kwargs):
 
 
 def notify_connect(
-    strategy, backend, user, social, new_association=False, is_new=False, **kwargs
+    strategy,
+    details,
+    backend,
+    user,
+    social,
+    new_association=False,
+    is_new=False,
+    **kwargs,
 ):
     """Notify about adding new link."""
+    # Adjust possibly pending email confirmation audit logs
+    AuditLog.objects.filter(
+        user=get_anonymous(),
+        activity="sent-email",
+        params={"email": details["email"]},
+    ).update(user=user)
     if user and not is_new:
         if new_association:
             action = "auth-connect"

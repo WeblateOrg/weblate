@@ -99,6 +99,7 @@ ACCOUNT_ACTIVITY = {
     "tos": _("Agreement with Terms of Service {date}."),
     "invited": _("Invited to Weblate by {username}."),
     "trial": _("Started trial period."),
+    "sent-email": _("Sent confirmation mail to {email}."),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
