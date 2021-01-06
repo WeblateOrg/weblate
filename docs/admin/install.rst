@@ -878,6 +878,11 @@ variable, for example:
         }
     }
 
+.. hint::
+
+   In case you change Redis settings for the cache, you might need to adjust
+   them for Celery as well, see :ref:`celery`.
+
 .. seealso::
 
     :ref:`production-cache-avatar`,
@@ -1382,6 +1387,10 @@ a backend looks like this:
    CELERY_TASK_ALWAYS_EAGER = False
    CELERY_BROKER_URL = "redis://localhost:6379"
    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+.. seealso::
+
+   :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
 
 For development, you might want to use eager configuration, which does process
 all tasks in place, but this will have performance impact on Weblate:

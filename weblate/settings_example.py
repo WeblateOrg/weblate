@@ -779,6 +779,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PARSER_CLASS": "redis.connection.HiredisParser",
+            # If you set password here, adjust CELERY_BROKER_URL as well
             "PASSWORD": None,
             "CONNECTION_POOL_KWARGS": {},
         },
