@@ -141,7 +141,7 @@ dependencies.
 
 The second step is to set the right information to use natively Django inside PyCharm:
 the idea is to be able to immediately trigger the unit tests in the IDE.
-For that you need to specify the root path of Django and the path of one setting:
+For that you need to specify the root path of the Django project and the path to its settings:
 
 .. image:: /images/pycharm-3.png
 
