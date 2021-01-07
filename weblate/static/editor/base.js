@@ -46,21 +46,25 @@ WLT.Editor = (function () {
     });
 
     /* Count characters */
-    this.$editor.on("keyup", translationAreaSelector, function () {
-      var $this = $(this);
-      var counter = $this.parent().find(".length-indicator");
-      var limit = parseInt(counter.data("max"));
-      var length = $this.val().length;
-      counter.text(length);
-      if (length >= limit) {
-        counter.parent().addClass("badge-danger").removeClass("badge-warning");
-      } else if (length + 10 >= limit) {
-        counter.parent().addClass("badge-warning").removeClass("badge-danger");
+    this.$editor.on("input", translationAreaSelector, (e) => {
+      var textarea = e.target;
+      var editor = textarea.parentElement;
+      var counter = editor.querySelector(".length-indicator");
+      var classToggle = editor.classList;
+
+      var limit = parseInt(counter.getAttribute("data-max"));
+      var length = textarea.value.length;
+
+      counter.textContent = length;
+      if (length > limit) {
+        classToggle.remove("has-warning");
+        classToggle.add("has-error");
+      } else if (length > limit - 10) {
+        classToggle.add("has-warning");
+        classToggle.remove("has-error");
       } else {
-        counter
-          .parent()
-          .removeClass("badge-warning")
-          .removeClass("badge-danger");
+        classToggle.remove("has-warning");
+        classToggle.remove("has-error");
       }
     });
 
