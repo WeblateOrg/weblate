@@ -341,7 +341,7 @@ function quoteSearch(value) {
 }
 
 function initHighlight(root) {
-  root.querySelectorAll(".highlight-editor").forEach((editor) => {
+  root.querySelectorAll(".highlight-editor").forEach(function (editor) {
     var parent = editor.parentElement;
 
     if (parent.classList.contains("editor-wrap")) {
@@ -366,19 +366,15 @@ function initHighlight(root) {
     /* Add editor to wrapper */
     wrapper.appendChild(editor);
 
-    /* Content synchronisation */
+    /* Content synchronisation and highlighting */
+    var languageMode = Prism.languages[mode];
+    if (editor.classList.contains("translation-editor")) {
+      languageMode = Prism.languages.extend(mode, {
+        hlspace: /  +/,
+      });
+    }
     var syncContent = function () {
-      if (mode) {
-        highlight.innerHTML = Prism.highlight(
-          editor.value,
-          Prism.languages[mode],
-          mode
-        );
-      } else {
-        highlight.textContent = editor.value;
-      }
-      // hljs.highlightBlock(highlight);
-      //Prism.highlightElement(highlight,
+      highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
     };
     syncContent();
     editor.addEventListener("input", syncContent);
@@ -1168,6 +1164,7 @@ $(function () {
   });
 
   /* Textarea higlighting */
+  Prism.languages.none = {};
   initHighlight(document);
 
   /* Warn users that they do not want to use developer console in most cases */

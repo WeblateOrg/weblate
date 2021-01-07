@@ -1132,7 +1132,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return "xml"
         if "safe-html" in flags:
             return "html"
-        return ""
+        return "none"
 
     def get_secondary_units(self, user):
         """Return list of secondary units."""
