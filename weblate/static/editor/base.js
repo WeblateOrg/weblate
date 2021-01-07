@@ -37,83 +37,82 @@ WLT.Editor = (function () {
     this.$editor = $(".js-editor");
     this.$translationArea = $(translationAreaSelector);
 
+    this.$editor.on("change", translationAreaSelector, testChangeHandler);
+    this.$editor.on("keypress", translationAreaSelector, testChangeHandler);
+    this.$editor.on("keydown", translationAreaSelector, testChangeHandler);
+    this.$editor.on("paste", translationAreaSelector, testChangeHandler);
+    this.$editor.on("focusin", translationAreaSelector, function () {
+      lastEditor = $(this);
+    });
+
+    /* Count characters */
+    this.$editor.on("keyup", translationAreaSelector, function () {
+      var $this = $(this);
+      var counter = $this.parent().find(".length-indicator");
+      var limit = parseInt(counter.data("max"));
+      var length = $this.val().length;
+      counter.text(length);
+      if (length >= limit) {
+        counter.parent().addClass("badge-danger").removeClass("badge-warning");
+      } else if (length + 10 >= limit) {
+        counter.parent().addClass("badge-warning").removeClass("badge-danger");
+      } else {
+        counter
+          .parent()
+          .removeClass("badge-warning")
+          .removeClass("badge-danger");
+      }
+    });
+
     /* Copy source text */
     this.$editor.on("click", ".copy-text", function (e) {
       var $this = $(this);
-      e.preventDefault();
 
-      var text = JSON.parse(this.getAttribute("data-content"));
-
-      this.closest(".translation-item")
-        .querySelector(".translation-editor")
-        .CodeMirror.getDoc()
-        .setValue(text);
-
+      $this.button("loading");
+      $this
+        .closest(".translation-item")
+        .find(".translation-editor")
+        .val($.parseJSON($this.data("content")))
+        .change();
+      autosize.update($(".translation-editor"));
       WLT.Utils.markFuzzy($this.closest("form"));
+      $this.button("reset");
+      e.preventDefault();
     });
 
     /* Direction toggling */
-    this.$editor.on("change", ".direction-toggle", (e) => {
-      e.target
+    this.$editor.on("change", ".direction-toggle", function () {
+      var $this = $(this);
+
+      $this
         .closest(".translation-item")
-        .querySelector(".translation-editor")
-        .CodeMirror.setOption("direction", e.target.value);
+        .find(".translation-editor")
+        .attr("dir", $this.find("input").val());
     });
 
     /* Special characters */
     this.$editor.on("click", ".specialchar", function (e) {
-      e.preventDefault();
+      var $this = $(this);
+      var text = $this.data("value");
 
-      var text = this.getAttribute("data-value");
-      this.closest(".translation-item")
-        .querySelector(".translation-editor")
-        .CodeMirror.replaceSelection(text);
+      $this
+        .closest(".translation-item")
+        .find(".translation-editor")
+        .insertAtCaret(text)
+        .change();
+      autosize.update($(".translation-editor"));
+      e.preventDefault();
     });
 
     this.initHighlight();
     this.init();
 
-    this.$translationArea[0].CodeMirror.focus();
+    this.$translationArea[0].focus();
   }
 
   EditorBase.prototype.init = function () {
-    document.querySelectorAll(".translation-editor").forEach((textarea) => {
-      if (textarea.CodeMirror) {
-        return;
-      }
-      let codemirror = CodeMirror.weblateEditor(
-        textarea,
-        textarea.getAttribute("data-mode")
-      );
-      codemirror.addOverlay({
-        token: function (stream) {
-          if (stream.match("  ")) {
-            return "doublespace";
-          }
-          stream.next();
-          stream.skipTo(" ") || stream.skipToEnd();
-        },
-      });
-      let placeables = textarea.getAttribute("data-placeables");
-      if (placeables) {
-        placeables = new RegExp("^" + placeables);
-        codemirror.addOverlay({
-          token: function (stream) {
-            if (stream.match(placeables)) {
-              return "placeable";
-            }
-            stream.next();
-          },
-        });
-      }
-
-      codemirror.on("change", () => {
-        WLT.Utils.markTranslated($(textarea).closest("form"));
-      });
-      codemirror.on("focus", (cm) => {
-        lastEditor = cm.getWrapperElement();
-      });
-    });
+    /* Autosizing */
+    autosize(this.$translationArea);
   };
 
   EditorBase.prototype.initHighlight = function () {
@@ -121,13 +120,13 @@ WLT.Editor = (function () {
     var hlNumberSelector = ".highlight-number";
 
     /* Copy from source text highlight check */
-    this.$editor.on("click", hlSelector, (e) => {
-      var $this = $(e.target);
+    this.$editor.on("click", hlSelector, function (e) {
+      var $this = $(this);
       var text = $this.clone();
 
       text.find(hlNumberSelector).remove();
       text = text.text();
-      this.insertEditor(text, $this);
+      insertEditor(text, $this);
       e.preventDefault();
     });
 
@@ -182,7 +181,14 @@ WLT.Editor = (function () {
     );
   };
 
-  EditorBase.prototype.insertEditor = function (text, element) {
+  function testChangeHandler(e) {
+    if (e.key && e.key === "Tab") {
+      return;
+    }
+    WLT.Utils.markTranslated($(this).closest("form"));
+  }
+
+  function insertEditor(text, element) {
     var root;
 
     /* Find withing root element */
@@ -195,16 +201,17 @@ WLT.Editor = (function () {
       root = $(document);
     }
 
-    var editor = root.find(".CodeMirror-focused");
+    var editor = root.find(".translation-editor:focus");
     if (editor.length === 0) {
       editor = root.find(lastEditor);
       if (editor.length === 0) {
-        editor = root.find(".CodeMirror:first");
+        editor = root.find(".translation-editor:first");
       }
     }
 
-    editor[0].CodeMirror.replaceSelection($.trim(text));
-  };
+    editor.insertAtCaret($.trim(text)).change();
+    autosize.update(editor);
+  }
 
   return {
     Base: EditorBase,
