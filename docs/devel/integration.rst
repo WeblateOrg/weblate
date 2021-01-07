@@ -6,9 +6,9 @@ Integrating with Weblate
 Importing localization project into Weblate
 +++++++++++++++++++++++++++++++++++++++++++
 
-You can either use a version-control system to hold your translations,
-by granting Weblate access to it, and letting it guide you through configuring your
-components and translations.
+You can use a version-control system to hold your translations by grant Weblate
+access to it. The process of importing you project into Weblate will guide
+you through configuring your components and translations.
 
 Alternatively, you can use Weblate to set up a local repository containing all the
 translations.
