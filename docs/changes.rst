@@ -14,6 +14,7 @@ Not yet released.
 * Improved detection of file format for uploads.
 * Avoid duplicate pull requests on Pagure.
 * Improved performance when displaying ghost translations.
+* Reimplemented translation editor to use native browser textarea.
 
 Weblate 4.4
 -----------

@@ -1122,7 +1122,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     @cached_property
     def edit_mode(self):
-        """Returns edit mode for CodeMirror."""
+        """Returns syntax higlighting mode for Prismjs."""
         flags = self.all_flags
         if "rst-text" in flags:
             return "rest"
