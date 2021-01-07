@@ -107,6 +107,15 @@ EDITOR_TEMPLATE = """
 COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
 
+class MarkdownTextarea(forms.Textarea):
+    def __init__(self, **kwargs):
+        kwargs["attrs"] = {
+            "dir": "auto",
+            "class": "markdown-editor",
+        }
+        super().__init__(**kwargs)
+
+
 class WeblateDateInput(forms.DateInput):
     def __init__(self, datepicker=True, **kwargs):
         attrs = {"type": "date"}
@@ -919,7 +928,7 @@ class CommentForm(forms.Form):
         ),
     )
     comment = forms.CharField(
-        widget=forms.Textarea(attrs={"dir": "auto", "class": "markdown-editor"}),
+        widget=MarkdownTextarea,
         label=_("New comment"),
         help_text=_("You can use Markdown and mention users by @username."),
         max_length=1000,
@@ -1004,7 +1013,10 @@ class ContextForm(forms.ModelForm):
     class Meta:
         model = Unit
         fields = ("explanation", "labels", "extra_flags")
-        widgets = {"labels": forms.CheckboxSelectMultiple()}
+        widgets = {
+            "labels": forms.CheckboxSelectMultiple(),
+            "explanation": MarkdownTextarea,
+        }
 
     doc_links = {
         "explanation": ("admin/translating", "additional"),
@@ -1023,7 +1035,7 @@ class ContextForm(forms.ModelForm):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("explanation", css_class="markdown-editor"),
+            Field("explanation"),
             Field("labels"),
             ContextDiv(
                 template="snippets/labels_description.html",
@@ -1733,7 +1745,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
         )
         widgets = {
             "access_control": forms.RadioSelect(),
-            "instructions": forms.Textarea(attrs={"class": "markdown-editor"}),
+            "instructions": MarkdownTextarea,
         }
 
     def clean(self):
@@ -2058,7 +2070,7 @@ class AnnouncementForm(forms.ModelForm):
         fields = ["message", "category", "expiry", "notify"]
         widgets = {
             "expiry": WeblateDateInput(),
-            "message": forms.Textarea(attrs={"class": "markdown-editor"}),
+            "message": MarkdownTextarea,
         }
 
 
