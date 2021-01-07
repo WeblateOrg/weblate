@@ -6,12 +6,11 @@ Integrating with Weblate
 Importing localization project into Weblate
 +++++++++++++++++++++++++++++++++++++++++++
 
-You can either use a version control system to hold your translations,
-by granting Weblate access to it, and run through the guide to configure your
-components
-and translations.
+You can either use a version-control system to hold your translations,
+by granting Weblate access to it, and follow the guide to configure your
+components and translations.
 
-Alternatively, you can use Weblate to set up a local repository with all the
+Alternatively, you can use Weblate to set up a local repository containing all the
 translations.
 
 .. seealso::
@@ -24,14 +23,14 @@ Send string changes to Weblate
 
 Your Weblate project should already be set up to pull changes from the upstream
 repository. If not, it can be done in the user interface
-(in the :guilabel:`Repository
-maintenance`) or from command line using :ref:`wlc`.
+(in the :guilabel:`Repository maintenance`) or from the command-line
+using :ref:`wlc`.
 
 This can be automated by installing a webhook on your repository to trigger
 Weblate whenever there is a new commit, see :ref:`update-vcs` for more details.
 
-Alternateively, you can use the UI or :doc:`/api` to update
-translations to match the latest version of what it is you want to translate.
+Alternateively, you can use the UI or :doc:`/api` to update translations
+to match the latest version of what it is you want to translate.
 
 .. seealso::
 
@@ -40,7 +39,7 @@ translations to match the latest version of what it is you want to translate.
 Fetch changes made in Weblate
 +++++++++++++++++++++++++++++
 
-Weblate represents a branch from your version control system upstream that
+Weblate represents a branch from your version-control system upstream that
 you can fetch changed strings from just like any other.
 
 Either fetch the filesystem, or use :ref:`git-exporter`. Commit any pending
@@ -49,7 +48,7 @@ changes first (see :ref:`lazy-commit`) from the user interface
 using :ref:`wlc`.
 
 Automation is possible by granting the Weblate user (available for various
-version control systems) push access to your repository and configuring
+code-hosting websites) push access to your repository and configuring
 :ref:`component-push` in the :ref:`component`.
 
 .. seealso::
@@ -59,7 +58,7 @@ version control systems) push access to your repository and configuring
 Adding new strings
 ++++++++++++++++++
 
-In case your translation files are stored in a version control system together with the code,
+In case your translation files are stored in a version-control system together with the code,
 you most likely have an existing workflow for developers to introduce new strings.
 Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid also introducing errors.
