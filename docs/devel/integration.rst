@@ -35,7 +35,6 @@ to match the latest version of what it is you want to translate.
 .. seealso::
 
     :ref:`continuous-translation`
-    
 Fetch changes made in Weblate
 +++++++++++++++++++++++++++++
 
