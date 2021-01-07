@@ -76,4 +76,3 @@ new strings.
   :guilabel:`Replace existing translation file`
   (this overwrites existing strings, so make sure the file includes both old
   and new ones, see :ref:`upload-method`).
-  
