@@ -38,7 +38,7 @@ JavaScript localization CDN
 
 .. versionadded:: 4.2
 
-Adds localization CDN for JavaScript or HTML localization.
+Publishes translations into content delivery network for use in JavaScript or HTML localization.
 
 It can be used to localize static HTML pages or used to load localization in
 the JavaScript code.
