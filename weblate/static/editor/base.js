@@ -48,7 +48,7 @@ WLT.Editor = (function () {
     /* Count characters */
     this.$editor.on("input", translationAreaSelector, (e) => {
       var textarea = e.target;
-      var editor = textarea.parentElement;
+      var editor = textarea.parentElement.parentElement;
       var counter = editor.querySelector(".length-indicator");
       var classToggle = editor.classList;
 

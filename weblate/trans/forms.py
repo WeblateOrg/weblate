@@ -111,7 +111,8 @@ class MarkdownTextarea(forms.Textarea):
     def __init__(self, **kwargs):
         kwargs["attrs"] = {
             "dir": "auto",
-            "class": "markdown-editor",
+            "class": "markdown-editor highlight-editor",
+            "data-mode": "markdown",
         }
         super().__init__(**kwargs)
 
@@ -302,7 +303,7 @@ class PluralTextarea(forms.Textarea):
         placeables = [hl[2] for hl in highlight_string(unit.source_string, unit)]
 
         # Need to add extra class
-        attrs["class"] = "translation-editor form-control"
+        attrs["class"] = "translation-editor form-control highlight-editor"
         attrs["tabindex"] = tabindex
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction

@@ -66,6 +66,10 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/modernizr.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/slugify.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/tribute.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-core.js' %}{{ cache_param }}" data-manual></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markup.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-rest.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markdown.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 
@@ -275,7 +279,7 @@ var _rollbarConfig = {
 {% endblock %}
 </header>
 
-<div class="content {% block content_class %}{% endblock %}">
+<div class="main-content {% block content_class %}{% endblock %}">
 
 {% if messages %}
 {% for message in messages %}
