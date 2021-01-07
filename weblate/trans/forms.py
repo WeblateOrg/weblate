@@ -1261,7 +1261,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
-        if settings.OFFER_HOSTING:
+        if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
         self.helper.layout = Layout(
             TabHolder(
@@ -1270,6 +1270,11 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                     Fieldset(_("Name"), "name"),
                     Fieldset(_("License"), "license", "agreement"),
                     Fieldset(_("Upstream links"), "report_source_bugs"),
+                    Fieldset(
+                        _("Listing and access"),
+                        "priority",
+                        "restricted",
+                    ),
                     css_id="basic",
                 ),
                 Tab(
@@ -1286,8 +1291,6 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "check_flags",
                         "variant_regex",
                         "enforced_checks",
-                        "priority",
-                        "restricted",
                     ),
                     css_id="translation",
                 ),
@@ -1369,9 +1372,21 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
 
+    @property
+    def hide_restricted(self):
+        user = self.request.user
+        if user.is_superuser:
+            return False
+        if settings.OFFER_HOSTING:
+            return True
+        return not any(
+            "component.edit" in permissions
+            for permissions, _langs in user.component_permissions[self.instance.pk]
+        )
+
     def clean(self):
         data = self.cleaned_data
-        if settings.OFFER_HOSTING:
+        if self.hide_restricted:
             data["restricted"] = self.instance.restricted
 
 
