@@ -76,8 +76,7 @@ WLT.Editor = (function () {
       $this
         .closest(".translation-item")
         .find(".translation-editor")
-        .val($.parseJSON($this.data("content")))
-        .change();
+        .replaceValue($.parseJSON($this.data("content")));
       autosize.update($(".translation-editor"));
       WLT.Utils.markFuzzy($this.closest("form"));
       $this.button("reset");
@@ -102,8 +101,7 @@ WLT.Editor = (function () {
       $this
         .closest(".translation-item")
         .find(".translation-editor")
-        .insertAtCaret(text)
-        .change();
+        .insertAtCaret(text);
       autosize.update($(".translation-editor"));
       e.preventDefault();
     });
@@ -206,7 +204,7 @@ WLT.Editor = (function () {
       }
     }
 
-    editor.insertAtCaret($.trim(text)).change();
+    editor.insertAtCaret($.trim(text));
     autosize.update(editor);
   }
 

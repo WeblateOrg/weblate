@@ -20,7 +20,7 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.val(text).change();
+      this.$translationArea.replaceValue(text);
       autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
@@ -30,7 +30,7 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.val(text).change();
+      this.$translationArea.replaceValue(text);
       autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
@@ -328,7 +328,7 @@
         var $this = $(this);
         $.each(fixups, function (key, value) {
           var re = new RegExp(value[0], value[2]);
-          $this.val($this.val().replace(re, value[1]));
+          $this.replaceValue($this.val().replace(re, value[1]));
         });
       });
       return false;
@@ -427,7 +427,7 @@
   };
 
   FullEditor.prototype.insertIntoTranslation = function (text) {
-    this.$translationArea.insertAtCaret($.trim(text)).change();
+    this.$translationArea.insertAtCaret($.trim(text));
   };
 
   class Machinery {

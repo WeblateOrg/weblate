@@ -75,6 +75,14 @@ jQuery.fn.extend({
         this.value += myValue;
         this.focus();
       }
+      this.dispatchEvent(new Event("input"));
+    });
+  },
+
+  replaceValue: function (myValue) {
+    return this.each(function () {
+      this.value = myValue;
+      this.dispatchEvent(new Event("input"));
     });
   },
 });
