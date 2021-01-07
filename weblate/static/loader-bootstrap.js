@@ -369,9 +369,14 @@ function initHighlight(root) {
     /* Content synchronisation and highlighting */
     var languageMode = Prism.languages[mode];
     if (editor.classList.contains("translation-editor")) {
-      languageMode = Prism.languages.extend(mode, {
+      let placeables = editor.getAttribute("data-placeables");
+      let extension = {
         hlspace: /  +/,
-      });
+      };
+      if (placeables) {
+        extension.placeable = RegExp(placeables);
+      }
+      languageMode = Prism.languages.extend(mode, extension);
     }
     var syncContent = function () {
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);

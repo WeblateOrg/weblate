@@ -220,9 +220,13 @@ textarea#id_comment {
   height: 4em;
 }
 
-.hlcheck {
-  border: 1px dotted #aeb7cf;
+.hlcheck,
+.token.placeable {
+  outline: 1px dotted #aeb7cf;
+  outline-offset: -1px;
   background-color: #e0eaf1;
+}
+.hlcheck {
   display: inline-block;
   cursor: pointer;
 }
