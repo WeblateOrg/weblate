@@ -37,10 +37,10 @@ WLT.Editor = (function () {
     this.$editor = $(".js-editor");
     this.$translationArea = $(translationAreaSelector);
 
-    this.$editor.on("change", translationAreaSelector, testChangeHandler);
-    this.$editor.on("keypress", translationAreaSelector, testChangeHandler);
-    this.$editor.on("keydown", translationAreaSelector, testChangeHandler);
-    this.$editor.on("paste", translationAreaSelector, testChangeHandler);
+    this.$editor.on("input", translationAreaSelector, (e) => {
+      WLT.Utils.markTranslated($(e.target).closest("form"));
+    });
+
     this.$editor.on("focusin", translationAreaSelector, function () {
       lastEditor = $(this);
     });
@@ -180,13 +180,6 @@ WLT.Editor = (function () {
       "keyup"
     );
   };
-
-  function testChangeHandler(e) {
-    if (e.key && e.key === "Tab") {
-      return;
-    }
-    WLT.Utils.markTranslated($(this).closest("form"));
-  }
 
   function insertEditor(text, element) {
     var root;
