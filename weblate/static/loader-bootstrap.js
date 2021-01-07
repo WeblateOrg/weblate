@@ -1055,6 +1055,45 @@ $(function () {
     e.target.setAttribute("data-shown", true);
   });
 
+  /* Username autocompletion */
+  var tribute = new Tribute({
+    trigger: "@",
+    requireLeadingSpace: true,
+    menuShowMinLength: 2,
+    noMatchTemplate: function () {
+      return "";
+    },
+    menuItemTemplate: function (item) {
+      return `<a>${item.string}</a>`;
+    },
+    values: (text, callback) => {
+      $.ajax({
+        type: "GET",
+        url: `/api/users/?username=${text}`,
+        dataType: "json",
+        success: function (data) {
+          var userMentionList = data.results.map(function (user) {
+            return {
+              value: user.username,
+              key: `${user.full_name} (${user.username})`,
+            };
+          });
+          callback(userMentionList);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(errorThrown);
+        },
+      });
+    },
+  });
+  tribute.attach(document.querySelectorAll(".markdown-editor"));
+  document.querySelectorAll(".markdown-editor").forEach((editor) => {
+    editor.addEventListener("tribute-active-true", function (e) {
+      $(".tribute-container").addClass("open");
+      $(".tribute-container ul").addClass("dropdown-menu");
+    });
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
   console.log(
