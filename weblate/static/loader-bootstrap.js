@@ -411,15 +411,6 @@ function initHighlight(root) {
           // match the height and width of the output area to the input area
           highlight.style.height = editor.offsetHeight + "px";
           highlight.style.width = editor.offsetWidth + "px";
-
-          // provide some padding in the output area to allow for any scroll bars or other decoration in the input area
-          // offsetWidth/offsetHeight is the full width/height of the element
-          // clientWidth/clientHeight is the width/height inside any decoration, like a scrollbar
-          highlight.style.paddingRight =
-            editor.offsetWidth - editor.clientWidth + "px";
-
-          highlight.style.paddingBottom =
-            editor.offsetHeight - editor.clientHeight + "px";
         }
       }
     });
