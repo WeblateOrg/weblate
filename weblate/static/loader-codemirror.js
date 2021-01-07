@@ -60,17 +60,14 @@
   CodeMirror.weblateEditor = (textarea, mode) => {
     var maxLength = parseInt(textarea.getAttribute("maxlength"));
     var counter = textarea.parentElement.querySelector(".length-indicator");
-    var direction =
-      textarea.getAttribute("dir") || document.children[0].getAttribute("dir");
     var codemirror = CodeMirror.fromTextArea(textarea, {
       mode: mode,
+      theme: "weblate",
       lineNumbers: false,
       lineWrapping: true,
       viewportMargin: Infinity,
       autoRefresh: true,
       extraKeys: { Tab: false },
-      direction: direction,
-      readOnly: textarea.hasAttribute("readonly"),
     });
     var classToggle = textarea.parentElement.classList;
 
@@ -111,8 +108,6 @@
 
     // Add weblate bootstrap styling on the textarea
     codemirror.getWrapperElement().classList.add("form-control");
-
-    textarea.CodeMirror = codemirror;
 
     return codemirror;
   };

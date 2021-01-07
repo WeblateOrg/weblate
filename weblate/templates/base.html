@@ -56,6 +56,7 @@ var _rollbarConfig = {
 {% endif %}
   <script defer data-cfasync="false" src="{% static 'vendor/jquery.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/js.cookie.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/autosize.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap-global-bind.js' %}{{ cache_param }}"></script>
@@ -69,8 +70,6 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/codemirror/addon/display/autorefresh.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/codemirror/addon/mode/overlay.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/codemirror/mode/markdown/markdown.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/mode/rst/rst.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/mode/xml/xml.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-codemirror.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
 {% endcompress %}
