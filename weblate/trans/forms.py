@@ -298,7 +298,7 @@ class PluralTextarea(forms.Textarea):
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
-        attrs["maxlength"] = unit.get_max_length()
+        attrs["data-max"] = unit.get_max_length()
         attrs["data-mode"] = unit.edit_mode
         attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables if pl)
         if unit.readonly:
@@ -326,7 +326,7 @@ class PluralTextarea(forms.Textarea):
                     fieldid,
                     label,
                     textarea,
-                    attrs["maxlength"],
+                    attrs["data-max"],
                     len(val),
                 )
             )
