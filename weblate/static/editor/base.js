@@ -77,7 +77,6 @@ WLT.Editor = (function () {
         .closest(".translation-item")
         .find(".translation-editor")
         .replaceValue($.parseJSON($this.data("content")));
-      autosize.update($(".translation-editor"));
       WLT.Utils.markFuzzy($this.closest("form"));
       $this.button("reset");
       e.preventDefault();
@@ -102,7 +101,6 @@ WLT.Editor = (function () {
         .closest(".translation-item")
         .find(".translation-editor")
         .insertAtCaret(text);
-      autosize.update($(".translation-editor"));
       e.preventDefault();
     });
 
@@ -112,10 +110,7 @@ WLT.Editor = (function () {
     this.$translationArea[0].focus();
   }
 
-  EditorBase.prototype.init = function () {
-    /* Autosizing */
-    autosize(this.$translationArea);
-  };
+  EditorBase.prototype.init = function () {};
 
   EditorBase.prototype.initHighlight = function () {
     var hlSelector = ".hlcheck";
@@ -205,7 +200,6 @@ WLT.Editor = (function () {
     }
 
     editor.insertAtCaret($.trim(text));
-    autosize.update(editor);
   }
 
   return {
