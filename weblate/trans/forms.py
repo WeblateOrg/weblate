@@ -98,6 +98,7 @@ EDITOR_TEMPLATE = """
 <div class="clearfix"></div>
 <div class="translation-item"><label for="{1}">{2}</label>
 {0}
+<div class="clearfix"></div>
 {3}
 <span class="pull-right flip badge length">
 <span data-max="{4}" class="length-indicator">{5}</span>/{4}

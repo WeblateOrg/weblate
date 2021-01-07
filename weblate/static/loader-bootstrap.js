@@ -369,6 +369,12 @@ function initHighlight(root) {
     var highlight = document.createElement("div");
     highlight.setAttribute("class", "highlighted-output");
     highlight.setAttribute("role", "status");
+    if (editor.hasAttribute("dir")) {
+      highlight.setAttribute("dir", editor.getAttribute("dir"));
+    }
+    if (editor.hasAttribute("lang")) {
+      highlight.setAttribute("lang", editor.getAttribute("lang"));
+    }
     wrapper.appendChild(highlight);
 
     /* Add editor to wrapper */
