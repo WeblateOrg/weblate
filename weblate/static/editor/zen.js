@@ -30,6 +30,7 @@
             $(".zen tfoot").before(data);
 
             this.init();
+            initHighlight(document);
           }
         );
       }

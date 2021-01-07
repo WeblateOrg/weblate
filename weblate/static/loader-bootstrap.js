@@ -340,6 +340,79 @@ function quoteSearch(value) {
   return value;
 }
 
+function initHighlight(root) {
+  root.querySelectorAll(".highlight-editor").forEach((editor) => {
+    var parent = editor.parentElement;
+
+    if (parent.classList.contains("editor-wrap")) {
+      return;
+    }
+
+    var mode = editor.getAttribute("data-mode");
+
+    /* Create wrapper element */
+    var wrapper = document.createElement("div");
+    wrapper.setAttribute("class", "editor-wrap");
+
+    /* Inject wrapper */
+    parent.replaceChild(wrapper, editor);
+
+    /* Create highlighter */
+    var highlight = document.createElement("div");
+    highlight.setAttribute("class", "highlighted-output");
+    highlight.setAttribute("role", "status");
+    wrapper.appendChild(highlight);
+
+    /* Add editor to wrapper */
+    wrapper.appendChild(editor);
+
+    /* Content synchronisation */
+    var syncContent = function () {
+      if (mode) {
+        highlight.innerHTML = Prism.highlight(
+          editor.value,
+          Prism.languages[mode],
+          mode
+        );
+      } else {
+        highlight.textContent = editor.value;
+      }
+      // hljs.highlightBlock(highlight);
+      //Prism.highlightElement(highlight,
+    };
+    syncContent();
+    editor.addEventListener("input", syncContent);
+
+    /* Handle scrolling */
+    editor.addEventListener("scroll", (event) => {
+      highlight.scrollTop = editor.scrollTop;
+      highlight.scrollLeft = editor.scrollLeft;
+    });
+
+    /* Handle resizing */
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.target === editor) {
+          // match the height and width of the output area to the input area
+          highlight.style.height = editor.offsetHeight + "px";
+          highlight.style.width = editor.offsetWidth + "px";
+
+          // provide some padding in the output area to allow for any scroll bars or other decoration in the input area
+          // offsetWidth/offsetHeight is the full width/height of the element
+          // clientWidth/clientHeight is the width/height inside any decoration, like a scrollbar
+          highlight.style.paddingRight =
+            editor.offsetWidth - editor.clientWidth + "px";
+
+          highlight.style.paddingBottom =
+            editor.offsetHeight - editor.clientHeight + "px";
+        }
+      }
+    });
+
+    resizeObserver.observe(editor);
+  });
+}
+
 $(function () {
   var $window = $(window),
     $document = $(document);
@@ -1093,6 +1166,9 @@ $(function () {
       $(".tribute-container ul").addClass("dropdown-menu");
     });
   });
+
+  /* Textarea higlighting */
+  initHighlight(document);
 
   /* Warn users that they do not want to use developer console in most cases */
   console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");

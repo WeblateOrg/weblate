@@ -1125,14 +1125,14 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         """Returns edit mode for CodeMirror."""
         flags = self.all_flags
         if "rst-text" in flags:
-            return "text/x-rst"
+            return "rest"
         if "md-text" in flags:
-            return "text/x-markdown"
+            return "markdown"
         if "xml-text" in flags:
-            return "application/xml"
+            return "xml"
         if "safe-html" in flags:
-            return "text/html"
-        return "null"
+            return "html"
+        return ""
 
     def get_secondary_units(self, user):
         """Return list of secondary units."""
