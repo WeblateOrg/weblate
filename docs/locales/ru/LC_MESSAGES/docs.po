@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-30 19:50+0100\n"
-"PO-Revision-Date: 2021-01-06 16:44+0000\n"
+"PO-Revision-Date: 2021-01-08 09:48+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -26380,7 +26380,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
-msgstr "Внесение вклада в Weblate"
+msgstr "Как внести свой вклад в Weblate"
 
 #: ../../contributing/index.rst:7
 msgid ""
@@ -27380,6 +27380,7 @@ msgid "*Default component list*"
 msgstr "*Список компонентов по умолчанию*"
 
 #: ../../contributing/schemas.rst:19
+#, fuzzy
 msgid "None"
 msgstr "Нет"
 
@@ -27759,10 +27760,13 @@ msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
 msgstr ""
+"Тестами покрыта большая часть современного кода. Увеличьте это покрытия, "
+"добавляя новые тесты при добавлении какой-либо новой функциональности, дабы "
+"проверить, что она работает корректно."
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr ""
+msgstr "Непрерывная интеграция"
 
 #: ../../contributing/tests.rst:12
 msgid ""
@@ -27770,10 +27774,13 @@ msgid ""
 "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
 "codecov.io/github/WeblateOrg/weblate>`_."
 msgstr ""
+"Текущие результаты тестов можно найти в `GitHub Actions <https://github.com/"
+"WeblateOrg/weblate/actions>`_, а отчёты о проценте покрытия тестами на `"
+"Codecov <https://codecov.io/github/WeblateOrg/weblate>`_."
 
 #: ../../contributing/tests.rst:16
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "Есть несколько задач, которые проверяют разные аспекты:"
 
 #: ../../contributing/tests.rst:18
 msgid "Unit tests"
@@ -27781,21 +27788,23 @@ msgstr "Модульное тестирование"
 
 #: ../../contributing/tests.rst:19
 msgid "Documentation build and external links"
-msgstr ""
+msgstr "Сборка и внешние ссылки в документации"
 
 #: ../../contributing/tests.rst:20
 msgid "Migration testing from all supported releases"
-msgstr ""
+msgstr "Проверка миграции со всех поддерживаемых релизов"
 
 #: ../../contributing/tests.rst:21
 msgid "Code linting"
-msgstr ""
+msgstr "Проверка исходного кода (линтинг)"
 
 #: ../../contributing/tests.rst:22
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr ""
+"Проверка установки (гарантирует, что в сгенерированных файлах всё есть и они "
+"могут быть протестированы)"
 
 #: ../../contributing/tests.rst:24
 msgid ""
@@ -27805,18 +27814,24 @@ msgid ""
 "mostly defining Django settings file to use and database connection. The "
 "example definition of that is in :file:`scripts/test-database`:"
 msgstr ""
+"Настройки для системы непрерывной интеграции расположены в каталоге :file:`."
+"github/workflows`. Она полагается на скрипты, хранящиеся в каталоге "
+":file:`ci`. Скрипты можно также выполнить вручную, но для этого нужно "
+"установить несколько переменных среды (в основном связанных с соединением с "
+"базой данных, те, что определены в файле настроек Django). Пример, как "
+"определить эти переменные, находится в :file:`scripts/test-database`:"
 
 #: ../../contributing/tests.rst:33
 msgid "The simple execution can look like:"
-msgstr ""
+msgstr "Простой запуск может выглядеть как:"
 
 #: ../../contributing/tests.rst:46
 msgid "Local testing"
-msgstr ""
+msgstr "Запуск тестов локально"
 
 #: ../../contributing/tests.rst:48
 msgid "To run a testsuite locally, use:"
-msgstr ""
+msgstr "Чтобы запустить тесты локально, выполните:"
 
 #: ../../contributing/tests.rst:56
 msgid ""
@@ -27826,34 +27841,49 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"Вам потребуется сервер базы данных (PostgreSQL), который будет "
+"использоваться для тестов. По умолчанию Django создаёт отдельную базу данных "
+"для запуска тестов (с префиксом ``test_``). Например, если в ваших "
+"настройках используется база данных ``weblate``, то тесты будут запускаться "
+"с базой данных ``test_weblate``. Смотрите подробности по настройке в главе "
+":ref:`database-setup`."
 
 #: ../../contributing/tests.rst:62
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+"При конфигурации среды непрерывной интеграции также используется :file:`"
+"weblate/settings_test.py` (см. :ref:`ci-tests`), его параметры можно "
+"поменять через переменные среды:"
 
 #: ../../contributing/tests.rst:68
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
+"До того как запустить тесты, надо сначала собрать статические файлы, так как "
+"они нужны для некоторых из них:"
 
 #: ../../contributing/tests.rst:74
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "Вы также можете запустить только определённые тесты:"
 
 #: ../../contributing/tests.rst:82
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
 msgstr ""
+"Тесты можно также запустить внутри docker-контейнера для разработки, см. :ref"
+":`dev-docker`."
 
 #: ../../contributing/tests.rst:86
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
 msgstr ""
+"Смотрите подробности о том, как писать и запускать тесты в документации "
+"Django: :doc:`django:topics/testing/index`."
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
@@ -27871,7 +27901,7 @@ msgstr ""
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
-msgstr "В настоящее время проверяются следующие вещи:"
+msgstr "В настоящее время выполняются проверки на следующие проблемы:"
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
@@ -27899,13 +27929,11 @@ msgstr "Дублирование маски файлов, используемо
 
 #: ../../devel/alerts.rst:17
 msgid "Broken URLs"
-msgstr "Сломанные URL-адреса"
+msgstr "Битые ссылки"
 
 #: ../../devel/alerts.rst:18
-#, fuzzy
-#| msgid "Missing license"
 msgid "Missing licenses"
-msgstr "Лицензия отсутствует"
+msgstr "Отсутствующие лицензии"
 
 #: ../../devel/alerts.rst:20
 msgid ""
@@ -28012,20 +28040,23 @@ msgstr ""
 "например, `intltool`_."
 
 #: ../../devel/gettext.rst:29
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Workflow overview"
-msgstr "Обзор производительности"
+msgstr "Общий обзор последовательности действий"
 
 #: ../../devel/gettext.rst:31
 msgid "The GNU Gettext uses several files to manage the localization:"
 msgstr ""
+"GNU Gettext использует несколько файлов для того чтобы управлять процессом "
+"локализации:"
 
 #: ../../devel/gettext.rst:33
 msgid ""
 ":file:`PACKAGE.pot` contains strings extracted from your source code, "
 "typically using `xgettext`_ or some high level wrappers such as `intltool`_."
 msgstr ""
+"В :file:`PACKAGE.pot` находятся строки, извлечённые из вашего исходного кода;"
+" обычно это делается с помощью `xgettext`_ или какой-нибудь высокоуровневой "
+"обёрткой для него вроде `intltool`_."
 
 #: ../../devel/gettext.rst:34
 msgid ""
@@ -28033,6 +28064,10 @@ msgid ""
 "It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. "
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
+"В :file:`LANGUAGE.po` находятся строки с переводом на конкретный язык. Его "
+"нужно обновлять с помощью `msgmerge`_ после каждого обновления :file:`PACKAGE"
+".pot`. Вы можете создать новый файл языка с помощью `msginit`_ или прямо "
+"через Weblate."
 
 #: ../../devel/gettext.rst:35
 msgid ""
@@ -28042,22 +28077,25 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` addon."
 msgstr ""
+"В :file:`LANGUAGE.mo` находится бинарное представление :file:`LANGUAGE.po`. "
+"Он используется непосредственно при работе самого приложения. Обычно он не "
+"хранится в системе контроля версий, а генерируется при компиляции с помощью "
+"`msgfmt`_. Если вы всё же хотите хранить его в системе контроля версий, то "
+"вы можете генерировать его в Weblate с помощью :ref:`соответствующей "
+"надстройки <addon-weblate.gettext.mo>`."
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU Gettext workflow looks like this:"
 msgstr ""
+"В общем последовательность действий при работе с GNU Gettext выглядит так:"
 
 #: ../../devel/gettext.rst:56
-#, fuzzy
-#| msgid ""
-#| "`JavaScript formatting strings <https://www.gnu.org/software/gettext/"
-#| "manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Overview of GNU Gettext <https://www.gnu.org/software/gettext/manual/"
 "html_node/Overview.html>`_"
 msgstr ""
-"`Строки форматирования JavaScript <https://www.gnu.org/software/gettext/"
-"manual/html_node/javascript_002dformat.html>`_"
+"`Обзор GNU Gettext <https://www.gnu.org/software/gettext/manual/html_node/"
+"Overview.html>`_"
 
 #: ../../devel/gettext.rst:59
 msgid "Sample program"
@@ -28074,21 +28112,15 @@ msgid "Extracting translatable strings"
 msgstr "Извлечение строк для перевода"
 
 #: ../../devel/gettext.rst:91
-#, fuzzy
-#| msgid ""
-#| "Once you have code using the gettext calls, you can use :program:"
-#| "`xgettext` to extract messages from it and store them into a `.pot "
-#| "<https://www.gnu.org/software/gettext/manual/gettext.html#index-"
-#| "files_002c-_002epot>`_:"
 msgid ""
 "Once you have code using the gettext calls, you can use `xgettext`_ to "
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
-"После расстановки по коду вызовов gettext, вы можете воспользоваться "
-"программой :program:`xgettext` для извлечения из кода сообщений и записи их "
-"в `.pot-файлы <https://www.gnu.org/software/gettext/manual/gettext."
-"html#index-files_002c-_002epot>`_:"
+"После того, как вы добавите в свой код вызововы ``gettext``, вы можете "
+"извлечь сообщения из нег и записать их в `.pot-файлы <https://www.gnu.org/"
+"software/gettext/manual/gettext.html#index-files_002c-_002epot>`_ с помощью "
+"`xgettext`_ :"
 
 #: ../../devel/gettext.rst:101
 msgid ""
@@ -28155,17 +28187,13 @@ msgid "Updating strings"
 msgstr "Обновление строк"
 
 #: ../../devel/gettext.rst:200
-#, fuzzy
-#| msgid ""
-#| "Once you add more strings or change some strings in your program, you "
-#| "execute again :program:`xgettext` which regenerates the template file:"
 msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
 msgstr ""
-"После добавления в вашу программу ещё нескольких строк или после изменения "
-"старых, вы снова выполняете команду :program:`xgettext`, которая пересоздаёт "
-"файл шаблона:"
+"Если вы добавите в свою программу ещё нескольких строк или измените в ней "
+"какие-то из них, то после этого вы снова должны будете запустить `xgettext`"
+"_, который пересоздаст файл шаблона:"
 
 #: ../../devel/gettext.rst:207
 msgid ""
@@ -28244,8 +28272,8 @@ msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` addon."
 msgstr ""
-"Начиная с версии Weblate 4.2, локализацию можно экспортировать в CDN, "
-"используя надстройку :ref:`addon-weblate.cdn.cdnjs`."
+"Начиная с версии Weblate 4.2, локализацию можно экспортировать в CDN с "
+"помощью надстройки «:ref:`addon-weblate.cdn.cdnjs`»."
 
 #: ../../devel/html.rst:11
 msgid ""
@@ -28253,9 +28281,9 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and :"
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
-"Эта возможность настроена на Hosted Weblate. На вашей установке она требует "
-"дополнительной настройки, смотрите описание параметров :setting:"
-"`LOCALIZE_CDN_URL` и :setting:`LOCALIZE_CDN_PATH`."
+"Эта функциональность уже включена на Hosted Weblate. На вашей установке она "
+"требует дополнительной настройки, смотрите описание параметров "
+":setting:`LOCALIZE_CDN_URL` и :setting:`LOCALIZE_CDN_PATH`."
 
 #: ../../devel/html.rst:15
 msgid ""
@@ -28263,6 +28291,9 @@ msgid ""
 "(see :ref:`lazy-commit`) to the CDN and these can be used in your web pages "
 "to localize them."
 msgstr ""
+"При включении её в вашем компоненте она будет отправлять закоммиченные "
+"переводы (см. :ref:`lazy-commit`) в CDN; и их можно будет использовать для "
+"локализации прямо на ваших web-страницах."
 
 #: ../../devel/html.rst:20
 msgid "Creating component"
@@ -28273,6 +28304,9 @@ msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
 msgstr ""
+"Сначала вам нужно будет создать одноязычный компонент, который будет "
+"содержать ваши строки; общие инструкции по этому поводу смотрите в главе "
+"«:ref:`adding-projects`»."
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -28283,12 +28317,20 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an addon configuration."
 msgstr ""
+"Если у вас уже есть существующий репозиторий, с которого можно начать ("
+"например, тот, в котором хранятся HTML-файлы), то создайте в нём пустой JSON-"
+"файл для исходного языка (см. :ref:`component-source_language`), например, "
+":file:`locales/en.json`. В файле должна быть пара скобок ``{}``, которые "
+"обозначают пустой объект. После этого репозиторий можно импортировать в "
+"Weblate. Собственно сделать это можно на вкладке управления надстройкой."
 
 #: ../../devel/html.rst:34
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
 msgstr ""
+"Если у вас уже есть существующий перевод, то вы можете поместить его в JSON-"
+"файлы для соответствующих языков, которые будут использоваться в Weblate."
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -28297,6 +28339,10 @@ msgid ""
 "`JSON file` as a file format (it is okay to choose any monolingual format at "
 "this point)."
 msgstr ""
+"Если вы из тех, кто не хочет делать всё это с существующим репозиторием (или "
+"если у вас его нет), то при создании компонента выберите :guilabel:`Начать с "
+"нуля`, а затем `JSON-файл` в качестве формата файла (на самом деле на этом "
+"этапе можно выбрать любой одноязычный формат)."
 
 #: ../../devel/html.rst:45
 msgid "Configuring Weblate CDN addon"
@@ -28306,6 +28352,8 @@ msgstr "Настройка надстройки Weblate CDN"
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` addon provides few configuration options."
 msgstr ""
+"В :ref:`надстройка для CDN локолизации <addon-weblate.cdn.cdnjs>` есть "
+"несколько опций, которые можно настроить."
 
 #: ../../devel/html.rst:49
 msgid "Translation threshold"
@@ -28314,7 +28362,7 @@ msgstr "Порог перевода"
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
-msgstr ""
+msgstr "Переводы, достигшие данного порога будут включатьcя в CDN."
 
 #: ../../devel/html.rst:52
 msgid "CSS selector"
@@ -28325,6 +28373,8 @@ msgid ""
 "Configures which strings from the HTML documents are translatable, see :ref:"
 "`cdn-addon-extract` and :ref:`cdn-addon-html`."
 msgstr ""
+"Задаёт, какие строки из HTML-документов являются переводимыми, см. :ref:`cdn-"
+"addon-extract` и :ref:`cdn-addon-html`."
 
 #: ../../devel/html.rst:55
 msgid "Language cookie name"
@@ -28335,6 +28385,8 @@ msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
 msgstr ""
+"Имя cookie с именем выбранного языка. Используется в отрывках JavaScript для "
+":ref:`локализации HTML <cdn-addon-html>`."
 
 #: ../../devel/html.rst:60
 msgid "Extract strings from HTML files"
@@ -28346,6 +28398,8 @@ msgid ""
 "translatable strings and offer them for a translation, see :ref:`cdn-addon-"
 "extract`."
 msgstr ""
+"Список файлов в репозитории или URL'ов, в которых Weblate будет искать "
+"переводимые строки, см. :ref:`cdn-addon-extract`."
 
 #: ../../devel/html.rst:65
 msgid "String extraction for Weblate CDN"
@@ -28428,6 +28482,9 @@ msgid ""
 "other applications (for example choose ``django_language`` when using "
 "Django)."
 msgstr ""
+"Можно использовать параметр :guilabel:`Имя языковой куки` для интеграции с "
+"другими приложениями (например, выберите ``django_language`` при "
+"использовании Django)."
 
 #: ../../devel/html.rst:120
 msgid "JavaScript localization"
@@ -28444,7 +28501,7 @@ msgstr ""
 
 #: ../../devel/html.rst:131
 msgid "The actual localization logic needs to be implemented in this case."
-msgstr ""
+msgstr "В этом случае придётся собственно реализовать саму логику локализации."
 
 #: ../../devel/integration.rst:2
 msgid "Integrating with Weblate"
@@ -28455,10 +28512,8 @@ msgid "Weblate basics"
 msgstr "Основы Weblate"
 
 #: ../../snippets/basics.rst:5
-#, fuzzy
-#| msgid "Project structure"
 msgid "Projects and components structure"
-msgstr "Структура проекта"
+msgstr "Структура проектов и компонентов"
 
 #: ../../snippets/basics.rst:7
 msgid ""
@@ -28498,10 +28553,8 @@ msgstr ""
 "равно будут генерироваться ошибки."
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "Importing localization project into Weblate"
-msgstr "Импорт в Weblate"
+msgstr "Импорт проекта локализации в Weblate"
 
 #: ../../devel/integration.rst:9
 msgid ""
@@ -28509,6 +28562,10 @@ msgid ""
 "integrate with it is to grant access to your VCS repository. The import "
 "process will guide you through configuring components with your translations."
 msgstr ""
+"Weblate разрабатывался с прицелом на интеграцию с системами контроля версий "
+"(СКВ). Самый простой способ произвести такую интеграцию — дать Weblate право "
+"доступа к вашему репозиторию СКВ. Этот процесс импорта проведёт вас через "
+"процедуру настройки компонентов для вашего перевода."
 
 #: ../../devel/integration.rst:13
 msgid ""
@@ -28516,12 +28573,14 @@ msgid ""
 "all, you can use Weblate without a remote VCS repository - it will create "
 "local repository with all the translations."
 msgstr ""
+"Если вы не используете систему контроля версий или вообще не хотите давать "
+"Weblate доступ к ней, то Weblate можно использовать и без удалённого "
+"репозитория СКВ — он создаст свой собственный, локальный, содержащий все "
+"переводы."
 
 #: ../../devel/integration.rst:19
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
-msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
+msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:23
 msgid "Getting translations updates from Weblate"
@@ -28545,17 +28604,13 @@ msgstr ""
 "помощи :ref:`клиента Weblate <wlc>`."
 
 #: ../../devel/integration.rst:31
-#, fuzzy
-#| msgid ""
-#| "This can be automated if you grant Weblate push access to your repository "
-#| "and configure :guilabel:`Push URL` in the :ref:`component`."
 msgid ""
 "This can be automated if you grant Weblate push access to your repository "
 "and configure :ref:`component-push` in the :ref:`component`."
 msgstr ""
 "Эти действия можно автоматизировать, если вы предоставите Weblate доступ на "
-"отправку изменений в ваш репозиторий и настроите в :ref:`настройках "
-"компонента <component>` :guilabel:`URL для отправки`."
+"отправку изменений в ваш репозиторий и настроите ref:`URL для отправки "
+"<component-push>` в :ref:`настройках компонента <component>`."
 
 #: ../../devel/integration.rst:36 ../../devel/integration.rst:53
 msgid ":ref:`continuous-translation`"
@@ -28591,10 +28646,11 @@ msgid ""
 "When not using a VCS integration, you can use UI or :doc:`/api` to update "
 "translations to match your code base."
 msgstr ""
+"Если вы не используете интеграцию с системой контроля версий, то вы можете "
+"обновлять свои переводы в соответствии с вашей кодовой базой через "
+"пользовательский интерфейс или :doc:`/api`."
 
 #: ../../devel/integration.rst:56
-#, fuzzy
-#| msgid "Add new string"
 msgid "Adding new strings"
 msgstr "Добавление новых строк"
 
