@@ -346,8 +346,12 @@
 
     $checks.each(function (idx) {
       var $this = $(this);
+      let $number = $(this).find(".check-number");
 
       if (idx < 10) {
+        if ($number.length === 0) {
+          return;
+        }
         let key = WLT.Utils.getNumericKey(idx);
 
         var title;
@@ -361,9 +365,7 @@
             [key]
           );
         }
-        $(this)
-          .find(".check-number")
-          .html(' <kbd title="' + title + '">' + key + "</kbd>");
+        $number.html(' <kbd title="' + title + '">' + key + "</kbd>");
 
         Mousetrap.bindGlobal(
           ["mod+i " + key, "mod+i mod+" + key],
@@ -373,7 +375,7 @@
           }
         );
       } else {
-        $(this).find(".check-number").html("");
+        $number.html("");
       }
     });
   };
