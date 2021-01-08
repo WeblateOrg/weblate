@@ -1519,15 +1519,75 @@ a.language:hover {
   overflow: hidden;
 }
 
-.token.tag {
-  color: #00f;
-}
-.token.url {
-  color: #090;
-}
 .token.bold {
   color: #000;
 }
 .token.italic {
-  font-style: italic;
+  color: #888;
+}
+.token.code {
+  color: #009;
+}
+.token.hlspace {
+  display: inline;
+}
+
+/* Based on Coy theme for Prismjs */
+.token.comment,
+.token.block-comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #7d8b99;
+}
+
+.token.punctuation {
+  color: #5f6364;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.function-name,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #c92c2c;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.function,
+.token.builtin,
+.token.inserted {
+  color: #2f9c0a;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.token.variable {
+  color: #a67f59;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword,
+.token.class-name {
+  color: #1990b8;
+}
+
+.token.regex,
+.token.important {
+  color: #e90;
+}
+
+.language-css .token.string,
+.style .token.string {
+  color: #a67f59;
+  background: rgba(255, 255, 255, 0.5);
 }
