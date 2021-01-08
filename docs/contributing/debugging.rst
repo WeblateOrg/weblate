@@ -61,7 +61,7 @@ You can verify whether outgoing e-mail is working correctly by using the
 for instructions on how to invoke it in different environments) or using
 :ref:`management-interface` under the :guilabel:`Tools` tab.
 
-These send e-mail directly, so this verifies that your SMTP configration is
+These send e-mail directly, so this verifies that your SMTP configuration is
 correct (see :ref:`out-mail`). Most of the e-mails from Weblate are however
 sent in the background and there might be some issues with Celery involved as
 well, please see :ref:`debug-tasks` for debugging that.
