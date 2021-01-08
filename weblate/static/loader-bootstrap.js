@@ -368,6 +368,9 @@ function initHighlight(root) {
     /* Create highlighter */
     var highlight = document.createElement("div");
     highlight.setAttribute("class", "highlighted-output");
+    if (editor.readOnly) {
+      highlight.classList.add("readonly");
+    }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
       highlight.setAttribute("dir", editor.getAttribute("dir"));
