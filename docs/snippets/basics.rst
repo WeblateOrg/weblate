@@ -1,8 +1,8 @@
 Weblate basics
 ++++++++++++++
 
-Projects and components structure
----------------------------------
+Project and component structure
+-------------------------------
 
 In Weblate translations are organized into projects and components. Each project
 can contain number of components and those contain translations into individual
