@@ -605,7 +605,7 @@ related to HTTPS - it enables secure cookies, toggles HSTS or enables
 redirection to HTTPS URL.
 
 The HTTPS redirection might be problematic in some cases and you might hit
-issue with infite redirection in case you are using a reverse proxy doing SSL
+issue with infinite redirection in case you are using a reverse proxy doing SSL
 termination which does not correctly pass protocol headers to Django. Please
 tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` or
 ``Forwarded`` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to

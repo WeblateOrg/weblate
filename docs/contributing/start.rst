@@ -159,7 +159,7 @@ to debug it. This is done by creating a new `Django Server` configuration:
 .. hint::
 
    Be careful with the property called :guilabel:`No reload`: if you check it,
-   the server live reloads won't happend when you modify files. This allows the
+   the server live reloads won't happened when you modify files. This allows the
    existing debugger breakpoints to persist as these would be discarded on
    reload.
 

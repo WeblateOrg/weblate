@@ -56,7 +56,7 @@ Example:
     docker run --rm weblate/wlc --url https://hosted.weblate.org/api/ list-projects
 
 You might want to pass your :ref:`wlc-config` to the Docker container, the
-easies approach is to add your current directory as :file:`/home/weblate`
+easiest approach is to add your current directory as :file:`/home/weblate`
 volume:
 
 .. code-block:: sh

@@ -225,7 +225,7 @@ class BaseAddon:
         """
         Hook triggered after a file is parsed.
 
-        It recevies an instance of a file format class as a argument.
+        It receives an instance of a file format class as a argument.
 
         This is useful to modify file format class parameters, for example
         adjust how the file will be saved.
