@@ -4,7 +4,7 @@
 # Michal Čihař <michal@cihar.com>, 2012, 2018, 2019, 2020.
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018, 2019, 2020.
 # Filip Hron <filip.hron@gmail.com>, 2018, 2019.
-# Michal Čihař <michal@weblate.org>, 2020.
+# Michal Čihař <michal@weblate.org>, 2020, 2021.
 # Jonáš Loskot <ltvlcihory@gmail.com>, 2020.
 # Benjamin Alan Jamie <benjamin@weblate.org>, 2021.
 msgid ""
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-08 09:48+0000\n"
-"PO-Revision-Date: 2021-01-02 21:15+0000\n"
-"Last-Translator: Benjamin Alan Jamie <benjamin@weblate.org>\n"
+"PO-Revision-Date: 2021-01-08 12:13+0000\n"
+"Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -375,7 +375,7 @@ msgstr "Zahájeno zkušební období."
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Odesláno potvrzení na {email}."
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -1002,12 +1002,12 @@ msgid "JavaScript localization CDN"
 msgstr "Lokalizační CDN pro JavaScript"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "Přidá lokalizační CDN pro lokalizaci JavaScriptu nebo HTML."
+msgstr ""
+"Publikuje překlady do sítě pro doručování obsahu pro použití v JavaScriptu "
+"nebo HTML."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -2049,10 +2049,8 @@ msgid "Languages"
 msgstr "Jazyky"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Vnitřní chyba serveru"
+msgstr "Vnitřní skupina Weblate"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2095,14 +2093,13 @@ msgid ""
 msgstr "Uživatel získá veškerá oprávnění skupin, kterých je členem."
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr "Regulární výraz sloužící pro kontrolu uživatelova e-mailu."
+msgstr "Regulární výraz pro e-mailovou adresu"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
 msgstr ""
+"Uživatelé s odpovídající e-mailovou adresou budou přidáni do této skupiny."
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -4499,10 +4496,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Probíhá přesměrování na poskytovatele přihlašování."
 
 #: weblate/templates/accounts/register.html:32
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Register in Weblate"
-msgstr "Zpět do Weblate"
+msgstr "Zaregistrujte se do Weblate"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -4649,8 +4644,6 @@ msgstr[1] "%(count)s komentáře"
 msgstr[2] "%(count)s komentářů"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Projects with contribution"
 msgstr "Příspěvky do projektů"
 
@@ -5874,27 +5867,17 @@ msgstr ""
 "poděkování překladatelům."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
-msgstr ""
-"Z Weblate si můžete stáhnout různá data ve strojově zpracovatelném formátu."
+msgstr "Různá data z Weblate jsou k dispozici ve strojově čitelném formátu."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "RSS kanály"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
-msgstr ""
-"Překlad můžete sledovat pomocí RSS kanálů, které informují o všech "
-"důležitých změnách."
+msgstr "Sledujte průběh překladu a všechny důležité změny z RSS kanálů."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5906,10 +5889,6 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
@@ -5918,37 +5897,23 @@ msgstr ""
 "k výše uvedeným URL."
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
 msgstr ""
 "Statistiky překladů pro každou součást ve formátu JSON umožňují použít tyto "
-"údaje v jiných webové stránkách nebo nástrojích."
+"údaje v jiných webových stránkách nebo nástrojích."
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
-msgstr ""
-"Například statistiky pro všechny překlady v součásti můžete například získat "
-"takto:"
+msgstr "Statistiky pro všechny překlady v součásti můžete získat takto:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
 msgstr "Upozorňovací háčky"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
@@ -5961,10 +5926,8 @@ msgid "Hook"
 msgstr "Háček"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Vyzvednout změny ze vzdáleného repozitáře"
+msgstr "Změny ve vzdáleném repozitáři oznámíte Weblate pomocí:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -5984,8 +5947,6 @@ msgstr "Poznámka"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
 msgstr "Prohlédněte si dokumentaci pro podrobnější informace"
 
@@ -7396,10 +7357,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Vytvoří testovací událost pro Sentry."
 
 #: weblate/templates/manage/users_check.html:41
-#, fuzzy
-#| msgid "Manage billing"
 msgid "User billings"
-msgstr "Spravovat předplatné"
+msgstr "Předplatná"
 
 #: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:170
 msgid "No matching user found."
@@ -8385,10 +8344,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "URL adresa webu projektu odkazuje na neexistující umístění:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not parse HTML files using the addon."
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Weblate se nepodařilo zpracovat HTML soubory v doplňku."
+msgstr "Weblate CDN doplňku se nepodařilo zpracovat HTML soubory."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -8422,6 +8379,8 @@ msgid ""
 "You might be using monolingual translation files as bilingual. In that case "
 "please configure the monolingual base language file."
 msgstr ""
+"Možná používáte jednojazyčné překladové soubory jako dvojjazyčné. V takovém "
+"případě nakonfigurujte základní soubor pro jednojazyčné překlady."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
 msgid ""
@@ -9045,9 +9004,7 @@ msgstr[1] "Pro tento řetězec jsou %(count)s komentáře."
 msgstr[2] "Pro tento řetězec je %(count)s komentářů."
 
 #: weblate/templates/translate.html:482
-#, fuzzy, python-format
-#| msgid "There is %(count)s variant for this string."
-#| msgid_plural "There are %(count)s variants for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
 msgstr[0] "Tento řetězec má %(count)s variant."
@@ -9782,7 +9739,7 @@ msgstr "Odkazy na projekt"
 
 #: weblate/trans/forms.py:1288
 msgid "Listing and access"
-msgstr ""
+msgstr "Výpis a přístup"
 
 #: weblate/trans/forms.py:1303
 msgid "Translation settings"
@@ -12272,6 +12229,8 @@ msgid ""
 "Persistent navigational drop-down menu in the top right corner, even if "
 "there is room for a full menu."
 msgstr ""
+"Trvalá navigační rozevírací nabídka v pravém horním rohu, i když je místo "
+"pro celou nabídku."
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
