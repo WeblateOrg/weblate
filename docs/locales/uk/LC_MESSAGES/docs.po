@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-08 10:49+0100\n"
-"PO-Revision-Date: 2021-01-08 12:25+0000\n"
+"PO-Revision-Date: 2021-01-08 20:04+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -8768,6 +8768,13 @@ msgid ""
 "concurrent users accessing the system.  See the various vendors "
 "documentation on those details."
 msgstr ""
+"Нижче наведено приклад /etc/my.cnf.d/server.cnf для 8-гігабайтного сервера. "
+"Вказані параметри мають бути достатніми для більшості випадків встановлення. "
+"У MySQL і MariaDB передбачено параметри, які підвищують швидкодію вашого "
+"сервера, які ми вважаємо необов'язковими, якщо ви не плануєте одночасну "
+"роботу у системі багатьох користувачів. Докладніший опис можна знайти у "
+"документації, яка надається розробниками відповідного програмного "
+"забезпечення."
 
 #: ../../admin/install.rst:426
 msgid ""
@@ -8775,21 +8782,20 @@ msgid ""
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
 "you start your Weblate install."
 msgstr ""
+"Надзвичайно важливим для зменшення кількості проблем при встановленні є "
+"встановлення належного значення параметра ``innodb_file_per_table`` і "
+"перезапуск MySQL/MariaDB до встановлення Weblate."
 
 #: ../../admin/install.rst:448
-#, fuzzy
-#| msgid ""
-#| "In case you are getting ``#1071 - Specified key was too long; max key "
-#| "length is 767 bytes`` error, please set ``Innodb_large_prefix`` as "
-#| "described above."
 msgid ""
 "In case you are getting ``#1071 - Specified key was too long; max key length "
 "is 767 bytes`` error, please update your configuration to include the "
 "``innodb`` settings above and restart your install."
 msgstr ""
-"Якщо ви бачите повідомлення про помилку ``#1071 - Specified key was too "
-"long; max key length is 767 bytes``, будь ласка, встановіть "
-"``Innodb_large_prefix``, як це описано вище."
+"Якщо ви бачите повідомлення про помилку ``#1071 - Specified key was too long;"
+" max key length is 767 bytes``, будь ласка, оновіть ваші налаштування, "
+"включивши до них параметри ``innodb``, вказані вище, і перезапустіть "
+"встановлення."
 
 #: ../../admin/install.rst:453
 msgid "Configuring Weblate to use MySQL/MariaDB"
@@ -8804,6 +8810,9 @@ msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install.  Use the commands below to achieve that:"
 msgstr ""
+"Вам слід створити обліковий запис користувача ``weblate`` у MySQL або "
+"MariaDB до того, як буде розпочато встановлення. Для цього скористайтеся "
+"наведеними нижче командами:"
 
 #: ../../admin/install.rst:488
 msgid "Other configurations"
@@ -8852,15 +8861,12 @@ msgstr ""
 "спробувати увімкнути :setting:`django:EMAIL_USE_TLS`."
 
 #: ../../admin/install.rst:515
-#, fuzzy
-#| msgid ""
-#| ":ref:`docker-mail` for configuring outgoing e-mail in Docker container."
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 msgstr ""
-":ref:`docker-mail` щодо налаштування вихідної електронної пошти у контейнері "
-"Docker."
+":ref:`debug-mails`, :ref:`Налаштовування вихідної пошти у контейнері Docker "
+"<docker-mail>`"
 
 #: ../../admin/install.rst:521
 msgid "Running behind reverse proxy"
@@ -9181,6 +9187,8 @@ msgid ""
 "You can also review the very same checklist from the :ref:`management-"
 "interface`."
 msgstr ""
+"Ви також можете скористатися списком дій з розділу :ref:`management-"
+"interface`."
 
 #: ../../admin/install.rst:737
 msgid ":doc:`django:howto/deployment/checklist`"
@@ -9351,6 +9359,8 @@ msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
 msgstr ""
+"Якщо ви хочете змінити параметри Redis для кешування, вам, ймовірно, варто "
+"також змінити їх і для Celery, див. :ref:`celery`."
 
 #: ../../admin/install.rst:885
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
@@ -9806,7 +9816,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1205
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr ""
+msgstr "Див. також :ref:`file-permissions` і :ref:`celery`."
 
 #: ../../admin/install.rst:1208
 msgid "Running web server"
@@ -10083,6 +10093,8 @@ msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Налаштовування засобу розподілу навантаження Redis у Celery <celery"
+":broker-redis-configuration>`"
 
 #: ../../admin/install.rst:1392
 msgid ""
@@ -10115,7 +10127,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1416
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr "Див. також :ref:`file-permissions` і :ref:`server`."
 
 #: ../../admin/install.rst:1420
 msgid "Running Celery as system service"
@@ -10890,6 +10902,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:380
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr ""
+"Будь ласка, ознайомтеся із документацією до :setting:`ENABLE_HTTPS`, щоб "
+"дізнатися більше про можливі проблеми."
 
 #: ../../admin/install/docker.rst:384
 msgid ""
@@ -12328,6 +12342,9 @@ msgid ""
 "performance/`` URL or using :command:`weblate check --deploy`, see :ref:"
 "`production`."
 msgstr ""
+"Ознайомтеся із переліком можливих проблем при встановленні або за допомогою "
+"адреси ``/manage/performance/``, або за допомогою команди :command:`weblate "
+"check --deploy`, див. :ref:`production`."
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -20258,32 +20275,26 @@ msgid "Use content compression for file downloads."
 msgstr "Реалізовано використання стискання даних для отримання файлів."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved support for PHP files."
 msgid "Improved user experience on importing from ZIP file."
-msgstr "Удосконалено підтримку файлів PHP."
+msgstr "Удосконалено інтерфейс імпортування даних з файлів ZIP."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of file downloads."
 msgid "Improved detection of file format for uploads."
-msgstr "Поліпшено швидкодію під час отримання файлів."
+msgstr "Удосконалено виявлення формату файлів для вивантажених файлів."
 
 #: ../../changes.rst:15
 msgid "Avoid duplicate pull requests on Pagure."
-msgstr ""
+msgstr "Усунено дублювання запитів щодо злиття на Pagure."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improved performance when updating large translation files."
 msgid "Improved performance when displaying ghost translations."
-msgstr "Удосконалено швидкодію при оновленні великих файлів перекладу."
+msgstr "Удосконалено швидкодію при показі перекладів-привидів."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Reimplemented translation memory backend."
 msgid "Reimplemented translation editor to use native browser textarea."
-msgstr "Повторно реалізовано модуль пам'яті перекладів."
+msgstr ""
+"Переписано редактор перекладів з метою використання вбудованої текстової "
+"області браузера."
 
 #: ../../changes.rst:20
 msgid "Weblate 4.4"
@@ -20384,10 +20395,8 @@ msgid "Improved performance of auto-translation."
 msgstr "Удосконалено швидкодію автоматичного перекладу."
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "Various minor improvements in security."
 msgid "Several minor improvements in the user interface."
-msgstr "Різноманітні незначні удосконалення захисту."
+msgstr "Декілька удосконалень у інтерфейсі користувача."
 
 #: ../../changes.rst:45
 msgid "Improved naming of ZIP downloads."
@@ -25989,7 +25998,7 @@ msgstr "Скрипт обробки, який вмикається після о
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
 msgid "It recevies an instance of a file format class as a argument."
-msgstr ""
+msgstr "Отримує як аргумент екземпляр класу форматування файлів."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:5
@@ -26157,7 +26166,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:42
 msgid "Not processing background tasks"
-msgstr ""
+msgstr "Фонові завдання не обробляються"
 
 #: ../../contributing/debugging.rst:44
 msgid ""
@@ -26165,6 +26174,9 @@ msgid ""
 "sending out e-mails or component removal does not work, there might be some "
 "issue with it."
 msgstr ""
+"Значна частина даних обробляється у фоновому режимі обробниками Celery. Якщо "
+"не працює надсилання повідомлень електронної пошти або вилучення складників, "
+"можливо, проблема полягає саме у роботі обробників."
 
 #: ../../contributing/debugging.rst:48
 msgid "Things to check in that case:"
@@ -26179,10 +26191,14 @@ msgid ""
 "Check Celery queue status either in :ref:`management-interface` or using :"
 "djadmin:`celery_queues`"
 msgstr ""
+"Перевірте стан черги Celery у :ref:`management-interface` або за допомогою "
+":djadmin:`celery_queues`"
 
 #: ../../contributing/debugging.rst:52
 msgid "Look into Celery logs for errors (see :ref:`weblate-logs`)"
 msgstr ""
+"Пошукайте повідомлення про помилки у журналі Celery (див. :ref:`weblate-"
+"logs`)"
 
 #: ../../contributing/debugging.rst:57
 msgid "Not receiving e-mails from Weblate"
@@ -26208,6 +26224,11 @@ msgid ""
 "sent in the background and there might be some issues with Celery involved "
 "as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
+"Ці засоби надсилають повідомлення електронної пошти безпосередньо, тому це "
+"підтверджує, що ваші налаштування SMTP є правильними (див. :ref:`out-mail`). "
+"Втім, більшу частину повідомлень від Weblate надсилають у фоновому режимі, "
+"тому проблеми може бути пов'язано із Celery. Опис діагностики Celery "
+"наведено у розділі :ref:`debug-tasks`."
 
 #: ../../contributing/debugging.rst:70
 msgid "Analyzing application crashes"
@@ -27710,6 +27731,11 @@ msgid ""
 "existing debugger breakpoints to persist as these would be discarded on "
 "reload."
 msgstr ""
+"Будьте обережні із властивістю із назвою :guilabel:`Не перезавантажувати`: "
+"якщо ви позначите цей пункт, при внесенні змін до файлів не відбуватиметься "
+"автоматичного перезавантаження сервера. Це уможливлює збереження поточних "
+"діагностичних точок зупинення, які відкидаються у результаті "
+"перезавантаження."
 
 #: ../../contributing/start.rst:168
 msgid "Bootstraping your devel instance"
@@ -36922,6 +36948,9 @@ msgid ""
 "easies approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
+"Якщо вам хочеться передати ваш :ref:`wlc-config` до контейнера Docker, "
+"найпростішим способом буде додати ваш поточний каталог як том :file:`/home/"
+"weblate`:"
 
 #: ../../wlc.rst:68
 msgid "Getting started"
