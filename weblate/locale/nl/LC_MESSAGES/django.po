@@ -9,14 +9,14 @@
 # Ramon Bakker <ramonbakker@rambit.nl>, 2019.
 # Jaimie85 <alsemgeest@gmail.com>, 2020.
 # G <verschuren.gertjan@gmail.com>, 2020.
-# Heimen Stoffels <vistausss@outlook.com>, 2020.
+# Heimen Stoffels <vistausss@outlook.com>, 2020, 2021.
 # Feiko van Andel <feiko.vanandel@live.nl>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-08 09:48+0000\n"
-"PO-Revision-Date: 2020-12-31 04:26+0000\n"
+"PO-Revision-Date: 2021-01-08 12:13+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -385,7 +385,7 @@ msgstr "De proefperiode is ingegaan."
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Er is een bevestigingse-mail verstuurd naar {email}."
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -1017,12 +1017,11 @@ msgid "JavaScript localization CDN"
 msgstr "JavaScript-vertaling CDN"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "Voegt een vertaal-CDN toe voor JavaScript- en HTML-vertaling."
+msgstr ""
+"Publiceert vertalingen als CDN voor gebruik in JavaScript- en HTML-vertaling."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -2072,10 +2071,8 @@ msgid "Languages"
 msgstr "Talen"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Interne serverfout"
+msgstr "Interne Weblate-groep"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2120,16 +2117,14 @@ msgstr ""
 "van deze groepen."
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr ""
-"Reguliere uitdrukking (regex) gebruikt voor het controleren van het e-"
-"mailadres van gebruikers."
+msgstr "Reguliere uitdrukking (regex) gebruikt voor het e-mailadres"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
 msgstr ""
+"Gebruikers met een overeenkomend e-mailadres worden toegevoegd aan deze "
+"groep."
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -4544,10 +4539,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "U wordt doorverwezen naar de verificatieleverancier."
 
 #: weblate/templates/accounts/register.html:32
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Register in Weblate"
-msgstr "Terug naar Weblate"
+msgstr "Registreren op Weblate"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -4691,10 +4684,8 @@ msgstr[0] "%(count)s opmerking"
 msgstr[1] "%(count)s opmerkingen"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Projects with contribution"
-msgstr "Projectbijdragen"
+msgstr "Projecten met bijdragen"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -5925,27 +5916,21 @@ msgstr ""
 "vertalers te bedanken en feedback te genereren naar hen."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
 msgstr ""
-"U kunt verschillende gegevens ophalen van Weblate in machineleesbaar formaat."
+"Verschillende gegevens van Weblate zijn beschikbaar in machineleesbaar "
+"formaat."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "RSS-feeds"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"Om de vorderingen van de vertaling te volgen, kunt u de RSS-feeds die alle "
-"belangrijke wijzigingen in de vertaling bevatten, volgen."
+"Volg de vertaalvoortgang en importeer alle belangrijke wijzigingen uit rss-"
+"feeds."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5957,34 +5942,22 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
-"Er zijn ook RSS-feeds per taal beschikbaar, u kunt ze aanmaken door het "
-"toevoegen van een taalcode aan de bovenstaande URL's."
+"Er zijn ook rss-feeds per taal beschikbaar, welke u kunt aanmaken door het "
+"toevoegen van een taalcode aan bovenstaande url's."
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
 msgstr ""
-"Vertaalstatistieken voor elk onderdeel in JSON-formaat laat u toe om deze "
-"gegevens te gebruiken in andere websites of hulpmiddelen."
+"Vertaalstatistieken voor elk onderdeel in json-formaat stellen u in staat "
+"deze gegevens te gebruiken in andere websites of hulpmiddelen."
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
 msgstr ""
@@ -5996,10 +5969,6 @@ msgid "Notification hooks"
 msgstr "Melding-hooks"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
@@ -6012,10 +5981,8 @@ msgid "Hook"
 msgstr "Hook"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Wijzigingen van de externe opslagruimte ophalen"
+msgstr "Om wijzigingen van de externe opslagruimte op te halen:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -6035,10 +6002,8 @@ msgstr "Opmerking"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
-msgstr "Raadpleeg de documentatie voor gedetailleerde instructies"
+msgstr "De documentatie bevat uitgebreide instructies"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -7451,10 +7416,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Genereer een testgebeurtenis om de Sentry-integratie te testen."
 
 #: weblate/templates/manage/users_check.html:41
-#, fuzzy
-#| msgid "Manage billing"
 msgid "User billings"
-msgstr "Facturatie beheren"
+msgstr "Facturaties"
 
 #: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:170
 msgid "No matching user found."
@@ -8450,10 +8413,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "De projectwebsite-url verwijst naar een niet-bestaande locatie:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not parse HTML files using the addon."
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Weblate kan geen html-bestanden verwerken middels deze uitbreiding."
+msgstr "De Weblate CDN-uitbreiding kan geen html-bestanden verwerken."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -8486,6 +8447,8 @@ msgid ""
 "You might be using monolingual translation files as bilingual. In that case "
 "please configure the monolingual base language file."
 msgstr ""
+"U gebruikt mogelijk enkeltalige vertaalbestanden als tweetalige. In dat "
+"geval dient u het enketalige basistaalbestand in te stellen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
 msgid ""
@@ -9132,9 +9095,7 @@ msgstr[0] "Deze tekenreeks bevat %(count)s opmerking."
 msgstr[1] "Deze tekenreeks bevat %(count)s opmerkingen."
 
 #: weblate/templates/translate.html:482
-#, fuzzy, python-format
-#| msgid "There is %(count)s variant for this string."
-#| msgid_plural "There are %(count)s variants for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
 msgstr[0] "Er is %(count)s variant op deze tekenreeks."
@@ -9876,7 +9837,7 @@ msgstr "Upstreamkoppelingen"
 
 #: weblate/trans/forms.py:1288
 msgid "Listing and access"
-msgstr ""
+msgstr "Weergave en toegang"
 
 #: weblate/trans/forms.py:1303
 msgid "Translation settings"
