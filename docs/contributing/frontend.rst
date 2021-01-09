@@ -3,6 +3,17 @@ Weblate frontend
 
 The frontend is currently built using Bootstrap, jQuery and few third party libraries.
 
+Supported browsers
+------------------
+
+Weblate supports the latest, stable releases of all major browsers and
+platforms.
+
+Alternative browsers which use the latest version of WebKit, Blink, or Gecko,
+whether directly or via the platform’s web view API, are not explicitly
+supported. However, Weblate should (in most cases) display and function
+correctly in these browsers as well.
+
 Dependency management
 ---------------------
 
