@@ -14,6 +14,8 @@ whether directly or via the platform’s web view API, are not explicitly
 supported. However, Weblate should (in most cases) display and function
 correctly in these browsers as well.
 
+Older browsers might work, but some features might be limited.
+
 Dependency management
 ---------------------
 

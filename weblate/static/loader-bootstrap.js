@@ -349,6 +349,9 @@ function quoteSearch(value) {
 }
 
 function initHighlight(root) {
+  if (typeof ResizeObserver === "undefined") {
+    return;
+  }
   root.querySelectorAll(".highlight-editor").forEach(function (editor) {
     var parent = editor.parentElement;
 
