@@ -1,5 +1,5 @@
 # Jonatan Nyberg <jonatan.nyberg.karl@gmail.com>, 2018, 2019.
-# Johan Jacobsson <johan.jacobsson@telia.com>, 2018, 2019, 2020.
+# Johan Jacobsson <johan.jacobsson@telia.com>, 2018, 2019, 2020, 2021.
 # Stefan Gagner <stefan@mei-ya.se>, 2018.
 # Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2018.
 # Filip Bengtsson <filipbengtsson@live.se>, 2019.
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-08 09:48+0000\n"
-"PO-Revision-Date: 2020-12-31 12:52+0000\n"
+"PO-Revision-Date: 2021-01-10 08:03+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -376,7 +376,7 @@ msgstr "Började provperiod."
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Skickade bekräftelsemail till {email}."
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -1006,12 +1006,12 @@ msgid "JavaScript localization CDN"
 msgstr "JavaScript-lokalisering CDN"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "Lägger till lokaliserings-CDN för JavaScript- eller HTML-lokalisering."
+msgstr ""
+"Publicerar översättningar till content delivery network för användning i "
+"JavaScript eller HTML-lokalisering."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -2056,10 +2056,8 @@ msgid "Languages"
 msgstr "Språk"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Internt serverfel"
+msgstr "Intern Weblate-grupp"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2103,14 +2101,12 @@ msgstr ""
 "Användaren tilldelas alla behörigheter som finns inkluderat i dessa grupper."
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr "Reguljärt uttryck för att matcha en användares e-postadress."
+msgstr "Reguljärt uttryck för mail-adress"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
-msgstr ""
+msgstr "Användare med matchande mail-adress läggs till i denna grupp."
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -4510,10 +4506,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Omdirigerar dig till autentiseringstjänsten."
 
 #: weblate/templates/accounts/register.html:32
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Register in Weblate"
-msgstr "Tillbaka till Weblate"
+msgstr "Registrera dig i Weblate"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -4656,10 +4650,8 @@ msgstr[0] "%(count)s kommentar"
 msgstr[1] "%(count)s kommentarer"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Projects with contribution"
-msgstr "Projektbidrag"
+msgstr "Projekt med bidrag"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -5881,26 +5873,18 @@ msgstr ""
 "tacka översättare."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
-msgstr "Du kan hämta diverse data från Weblate i maskinläsbara format."
+msgstr "Olika data från Weblate finns i maskinläsbart format."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "RSS-flöden"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"För att följa översättningens framsteg kan du använda RSS-flöden som "
-"innehåller alla viktiga ändringar i översättningen."
+"Följ översättningen framsteg och alla viktiga förändringar från RSS-flöden."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5912,65 +5896,45 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
-"Det finns också RSS-flöden för varje språk. Du kan skapa dom genom att lägga "
-"till en språkkod till URL:erna ovan."
+"Det finns också RSS-flöden för varje språk. Skapa dom genom att lägga till "
+"en språkkod till URL:erna ovan."
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
 msgstr ""
-"Översättningsstatistik för varje komponent i JSON-format möjliggör för dig "
-"att använda datat på andra webbplatser eller verktyg."
+"Översättningsstatistik för varje komponent i JSON-format gör att du kan "
+"använda informationen på andra webbplatser eller verktyg."
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
-msgstr ""
-"Som exempel kan man hämta statistik för alla översättningar i en komponent "
-"genom:"
+msgstr "Du kan hämta statistik för alla översättningar i en komponent så här:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
 msgstr "Aviseringskopplingar"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
 msgstr ""
-"Med aviseringskopplingar kan Weblate automatiskt importera ändringar gjorda "
-"av utvecklarna, och erbjuda fortlöpande lokalisering."
+"Med aviseringskopplingar importerar Weblate automatiskt ändringar gjorda av "
+"utvecklarna, vilket möjliggör fortlöpande lokalisering."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
 msgstr "Krok"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Hämta ändringar från fjärrarkivet"
+msgstr "Du hämta ändringar från ett fjärrarkiv till Weblate så här:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -5988,10 +5952,8 @@ msgstr "Notis"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
-msgstr "Se detaljerade instruktioner i dokumentationen"
+msgstr "Dokumentationen har detaljerade instruktioner"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -7393,10 +7355,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Skapa ett test-event för att testa Sentry-integration."
 
 #: weblate/templates/manage/users_check.html:41
-#, fuzzy
-#| msgid "Manage billing"
 msgid "User billings"
-msgstr "Hantera fakturering"
+msgstr "Användarfakturering"
 
 #: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:170
 msgid "No matching user found."
@@ -8390,10 +8350,8 @@ msgstr ""
 "Webbadressen till projektets webbplats pekar på en plats som inte finns:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not parse HTML files using the addon."
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Weblate kunde inte tolka HTML-filer med tillägget."
+msgstr "Weblate CDN-tillägg kunde inte tolka HTML-filerna."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -8426,6 +8384,8 @@ msgid ""
 "You might be using monolingual translation files as bilingual. In that case "
 "please configure the monolingual base language file."
 msgstr ""
+"Du använder kanske enspråkiga översättningsfiler som tvåspråkiga. I så fall "
+"konfigurera den enspråkiga basspråkfilen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
 msgid ""
@@ -9054,13 +9014,11 @@ msgstr[0] "Det finns %(count)s kommentar för den här strängen."
 msgstr[1] "Det finns %(count)s kommentarer för den här strängen."
 
 #: weblate/templates/translate.html:482
-#, fuzzy, python-format
-#| msgid "There is %(count)s variant for this string."
-#| msgid_plural "There are %(count)s variants for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "Det finns %(count)s variant för den här strängen."
-msgstr[1] "Det finns %(count)s varianter för den här strängen."
+msgstr[0] "Det finns %(count)s variant av denna sträng."
+msgstr[1] "Det finns %(count)s varianter av denna sträng."
 
 #: weblate/templates/translate.html:496
 msgid "Manage glossary"
@@ -9791,7 +9749,7 @@ msgstr "Uppströmslänkar"
 
 #: weblate/trans/forms.py:1288
 msgid "Listing and access"
-msgstr ""
+msgstr "Listning och åtkomst"
 
 #: weblate/trans/forms.py:1303
 msgid "Translation settings"
