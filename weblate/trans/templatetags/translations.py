@@ -270,10 +270,12 @@ def check_description(check):
 @register.simple_tag(takes_context=True)
 def documentation(context, page, anchor=""):
     """Return link to Weblate documentation."""
+    # User might not be present on error pages
+    user = context.get("user")
     # Use object method get_doc_url if present
     if hasattr(page, "get_doc_url"):
-        return page.get_doc_url(user=context["user"])
-    return get_doc_url(page, anchor, user=context["user"])
+        return page.get_doc_url(user=user)
+    return get_doc_url(page, anchor, user=user)
 
 
 @register.inclusion_tag("documentation-icon.html", takes_context=True)
