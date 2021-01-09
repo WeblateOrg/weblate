@@ -87,7 +87,7 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-You need to register an application on GitHub and then tell Weblate all its secrets:
+You need to register an OAuth application on GitHub and then tell Weblate all its secrets:
 
 .. code-block:: python
 
