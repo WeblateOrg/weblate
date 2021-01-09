@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-08 09:48+0000\n"
-"PO-Revision-Date: 2021-01-02 21:15+0000\n"
+"PO-Revision-Date: 2021-01-10 08:04+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -364,7 +364,7 @@ msgstr "已開始試用期。"
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "寄送確認信件至 {email}。"
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -961,12 +961,10 @@ msgid "JavaScript localization CDN"
 msgstr "JavaScript 在地化 CDN"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "加入適用在地化 JavaScript 或 HTML 的在地化 CDN。"
+msgstr "將翻譯發布給內容遞交網路，供 JavaScript 或 HTML 在地化處理使用。"
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -1983,10 +1981,8 @@ msgid "Languages"
 msgstr "語言"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "伺服器內部錯誤"
+msgstr "內部 Weblate 群組"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2027,14 +2023,12 @@ msgid ""
 msgstr "使用者將獲得所有其加入群組所賦予的取用權。"
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr "用來比對使用者電子郵件的常規表述式。"
+msgstr "比對電子郵件的常規表述式"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
-msgstr ""
+msgstr "符合的電子郵件會被加入此群組中。"
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -4371,10 +4365,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "正將您重新導向至身份核對處。"
 
 #: weblate/templates/accounts/register.html:32
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Register in Weblate"
-msgstr "返回 Weblate"
+msgstr "在 Weblate 中註冊帳號"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -4505,10 +4497,8 @@ msgid_plural "%(count)s comments"
 msgstr[0] "%(count)s 則評註"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Projects with contribution"
-msgstr "專案貢獻"
+msgstr "有貢獻的專案"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -5689,25 +5679,17 @@ msgstr ""
 "謝翻譯者的貢獻並回饋他們。"
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
-msgstr "您可以從 Weblate 上以機器能讀取的格式取回各種資料。"
+msgstr "Weblate 提供數種機器能讀取的資料格式。"
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "RSS 消息來源"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
-msgstr ""
-"若要追蹤翻譯進度，您可以利用 RSS 消息來源，消息涵蓋翻譯的所有重大更動。"
+msgstr "您可以利用 RSS 消息來源追蹤翻譯進度與重大變更。"
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5719,61 +5701,39 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
-msgstr ""
-"也有提供各個語言的 RSS 消息來源，您可以在上述 URL 末端附上語言碼來建構 RSS。"
+msgstr "也有提供各語言的 RSS 消息來源。您可以在上述 URL 末端附上語言碼來建構 RSS。"
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
-msgstr ""
-"各個組件的翻譯統計數據，採 JSON 格式記錄，可讓您在其他網站或工具使這些資料。"
+msgstr "各個組件的翻譯統計數據採 JSON 格式記錄，可讓您在其他網站或工具使這些資料。"
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
-msgstr "例如，可以透過以下方式取得某一組件的所有翻譯統計數據："
+msgstr "您可以透過以下方式取得某一組件的所有翻譯統計數據："
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
 msgstr "通知掛勾"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
-msgstr ""
-"在接上通知掛勾後，Weblate 會自動匯入您開發者所做的更動，如此打造出接連不斷的"
-"持續性在地化流程。"
+msgstr "在接上通知掛勾後，Weblate 會自動匯入您開發者所做的更動，如此打造出接連不斷的持續性在地化流程。"
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
 msgstr "掛勾"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "從遠端儲存庫中拉入更動"
+msgstr "您可以透過以下方式從遠端儲存庫中拉入更動："
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -5791,10 +5751,8 @@ msgstr "備註"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
-msgstr "請瀏覽文件查看詳細指示"
+msgstr "文件有詳細步驟指示"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -7122,10 +7080,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "產生測試事件以測試 Sentry 整合。"
 
 #: weblate/templates/manage/users_check.html:41
-#, fuzzy
-#| msgid "Manage billing"
 msgid "User billings"
-msgstr "管理付款"
+msgstr "使用者帳單"
 
 #: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:170
 msgid "No matching user found."
@@ -8069,10 +8025,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "專案的網站網址指向不存在的位置："
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not parse HTML files using the addon."
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Weblate 無法使用此附加元件解析 HTML 檔案。"
+msgstr "Weblate CDN 附加元件無法解析 HTML 檔案。"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -8104,7 +8058,7 @@ msgstr "請嘗試下述步驟："
 msgid ""
 "You might be using monolingual translation files as bilingual. In that case "
 "please configure the monolingual base language file."
-msgstr ""
+msgstr "您可以使用單語翻譯檔作為雙語使用。在這類案例中，請設定單語基底語言檔。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
 msgid ""
@@ -8676,12 +8630,10 @@ msgid_plural "There are %(count)s comments for this string."
 msgstr[0] "此字串有 %(count)s 條評註。"
 
 #: weblate/templates/translate.html:482
-#, fuzzy, python-format
-#| msgid "There is %(count)s variant for this string."
-#| msgid_plural "There are %(count)s variants for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "此字串有 %(count)s 個變體。"
+msgstr[0] "此字串有 %(count)s 種變體。"
 
 #: weblate/templates/translate.html:496
 msgid "Manage glossary"
@@ -9389,7 +9341,7 @@ msgstr "上游連結"
 
 #: weblate/trans/forms.py:1288
 msgid "Listing and access"
-msgstr ""
+msgstr "列表和存取"
 
 #: weblate/trans/forms.py:1303
 msgid "Translation settings"
