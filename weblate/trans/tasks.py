@@ -383,7 +383,7 @@ def create_component(addons_from=None, in_task=False, **kwargs):
                 continue
             addon.addon.create(component, configuration=addon.configuration)
     if in_task:
-        return None
+        return {"component": component.id}
     return component
 
 
