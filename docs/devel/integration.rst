@@ -6,7 +6,7 @@ Integrating with Weblate
 Importing localization project into Weblate
 +++++++++++++++++++++++++++++++++++++++++++
 
-Weblate has been developed with VCS integration in mind as it’s core feature, so the easiest way is 
+Weblate has been developed with VCS integration in mind as it’s core feature, so the easiest way is
 to grant Weblate the access to your repository. 
 The import process will guide you through configuring your translations into components.
 
@@ -19,7 +19,7 @@ all the translations without integration.
    :ref:`faq-submodule`
 
 Fetching updated translations from Weblate
-+++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++
 
 To fetch updated strings from Weblate, you can simply fetch the underlying Git
 repository (either from filesystem, or it can be made available through
@@ -38,7 +38,7 @@ to match their latest version.
     :ref:`continuous-translation`
 
 Fetching remote changes into Weblate
-+++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 
 To fetch the strings newly updated in your repository into Weblate, just let it pull from the upstream
 repository. This can be achieved in the user interface (in the :guilabel:`Repository
