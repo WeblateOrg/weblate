@@ -7,7 +7,7 @@ Importing localization project into Weblate
 +++++++++++++++++++++++++++++++++++++++++++
 
 Weblate has been developed with VCS integration in mind as it’s core feature, so the easiest way is
-to grant Weblate the access to your repository. 
+to grant Weblate the access to your repository.
 The import process will guide you through configuring your translations into components.
 
 Alternatively, you can use Weblate to set up a local repository containing
