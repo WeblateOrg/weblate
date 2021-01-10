@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-10 09:06+0100\n"
-"PO-Revision-Date: 2021-01-09 23:22+0000\n"
+"PO-Revision-Date: 2021-01-10 14:51+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1163,12 +1163,12 @@ msgid "JavaScript localization CDN"
 msgstr "CDN локализации JavaScript’а"
 
 #: ../../admin/addons.rst:41
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "Добавляет CDN локализации для локализации JavaScript’а или HTML’я."
+msgstr ""
+"Публикует переводы в сети доставки содержимого (CDN); используется при "
+"локализации JavaScript и HTML."
 
 #: ../../admin/addons.rst:43
 msgid ""
@@ -1923,44 +1923,40 @@ msgid ""
 "manage/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
-"Интерфейс управления предлагает административные настройки по адресу :file:`/"
-"manage/`. Он доступен для пользователей, вошедших в систему с правами "
-"администратора, доступ к нему осуществляется через иконку гаечного ключа "
-"справа вверху:"
+"Интерфейс управления даёт доступ к настройкам для администраторов. Он "
+"расположен по URL-адресу :file:`/manage/`. Доступ к нему может получить "
+"только пользователь, вошедший в систему с правами администратора, через "
+"иконку гаечного ключа справа вверху:"
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr ""
+msgstr "Он включает базовый обзор вашего Weblate:"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr ""
+msgstr "Статус поддержки, см. :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr ""
+msgstr "Резервные копии, см. :doc:`backup`"
 
 #: ../../admin/admin.rst:16
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Shared translation memory, see :doc:`memory`"
-msgstr "Совместная память переводов"
+msgstr "Совместная память переводов, см. :doc:`memory`"
 
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
 msgstr ""
+"Отчёты о производительности, чтобы оценить состояние здоровья Weblate и "
+"длину очередей Celery"
 
 #: ../../admin/admin.rst:18
-#, fuzzy
-#| msgid "SSH keys management"
 msgid "SSH keys management, see :ref:`ssh-repos`"
-msgstr "Управление SSH-ключами"
+msgstr "Управление SSH-ключами, см. :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
-#, fuzzy
-#| msgid "Added management overview of component alerts."
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr "Добавлен обзор управления предупреждений компонентов."
+msgstr "Обзор предупреждений по всем компонентам, см. :ref:`alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
@@ -2299,16 +2295,12 @@ msgid "GitHub authentication"
 msgstr "Аутентификация GitHub"
 
 #: ../../admin/auth.rst:90
-#, fuzzy
-#| msgid ""
-#| "You need to register an application on GitHub and then tell Weblate all "
-#| "its secrets:"
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
-"Вам нужно будет зарегистрировать приложение в GitHub’е, а затем рассказать "
-"Weblate’у все его секреты:"
+"Вам нужно будет зарегистрировать приложение OAuth в GitHub’е, а затем "
+"передать Weblate’у все его секреты:"
 
 #: ../../admin/auth.rst:106
 msgid ""
@@ -2806,6 +2798,8 @@ msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
+"Обе базы данных: и PostgreSQL, и MySQL/MariaDB, теперь включаются в "
+"автоматические резервные копии."
 
 #: ../../admin/backup.rst:20
 msgid ""
@@ -4676,8 +4670,6 @@ msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 
 #: ../../admin/config.rst:170
-#, fuzzy
-#| msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
 msgid ""
 "Replaces trailing dots (...) if the source string has a corresponding "
 "ellipsis (…)."
@@ -4798,11 +4790,6 @@ msgstr ""
 "CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC"
 
 #: ../../admin/config.rst:241
-#, fuzzy
-#| msgid ""
-#| "Customize ``Content-Security-Policy`` header for Weblate. The header is "
-#| "automatically generated based on enabled integrations with third-party "
-#| "services (Matomo, Google Analytics, Sentry, ...)."
 msgid ""
 "Customize ``Content-Security-Policy`` header for Weblate. The header is "
 "automatically generated based on enabled integrations with third-party "
@@ -4810,7 +4797,7 @@ msgid ""
 msgstr ""
 "Настраивает заголовок ``Content-Security-Policy`` для Weblate’а. Заголовок "
 "автоматически генерируется на основе включённых интеграций со сторонними "
-"сервисами (Matomo, Google Analytics, Sentry, ...)."
+"сервисами (Matomo, Google Analytics, Sentry, …)."
 
 #: ../../admin/config.rst:245
 msgid "All these default to empty list."
@@ -5298,17 +5285,14 @@ msgstr ""
 "абсолютные URL-адреса."
 
 #: ../../admin/config.rst:603
-#, fuzzy
-#| msgid ""
-#| "In the default configuration this is also used for several Django "
-#| "settings related to HTTPS."
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS - it enables secure cookies, toggles HSTS or enables "
 "redirection to HTTPS URL."
 msgstr ""
 "В конфигурации по умолчанию он также используется для нескольких связанных с "
-"HTTPS параметров Django."
+"HTTPS параметров Django — он включает безопасные куки, переключает HSTS или "
+"включает перенаправление на HTTPS-адрес."
 
 #: ../../admin/config.rst:607
 msgid ""
