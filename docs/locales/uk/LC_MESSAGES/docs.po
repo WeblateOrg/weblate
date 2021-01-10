@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-10 09:06+0100\n"
-"PO-Revision-Date: 2021-01-10 08:04+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2021-01-10 14:51+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -2263,16 +2263,12 @@ msgid "GitHub authentication"
 msgstr "Розпізнавання за GitHub"
 
 #: ../../admin/auth.rst:90
-#, fuzzy
-#| msgid ""
-#| "You need to register an application on GitHub and then tell Weblate all "
-#| "its secrets:"
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
-"Вам слід зареєструвати програму на GitHub, а потім повідомити Weblate усі її "
-"реєстраційні дані:"
+"Вам слід зареєструвати програму OAuth на GitHub, а потім повідомити Weblate "
+"усі її реєстраційні дані:"
 
 #: ../../admin/auth.rst:106
 msgid ""
@@ -5223,14 +5219,6 @@ msgstr ""
 "HSTS або вмикає переспрямовування на адресу HTTPS."
 
 #: ../../admin/config.rst:607
-#, fuzzy
-#| msgid ""
-#| "The HTTPS redirection might be problematic in some cases and you might "
-#| "hit issue with infite redirection in case you are using a reverse proxy "
-#| "doing SSL termination which does not correctly pass protocol headers to "
-#| "Django. Please tweak your reverse proxy configuration to emit ``X-"
-#| "Forwarded-Proto`` or ``Forwarded`` headers or configure :setting:`django:"
-#| "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
 "issue with infinite redirection in case you are using a reverse proxy doing "
@@ -5244,8 +5232,8 @@ msgstr ""
 "використовуєте реверсивний проксі-сервер, який виконує обривання SSL і не "
 "передає належним чином заголовки протоколів до Django. Будь ласка, "
 "скоригуйте налаштування вашого реверсивного проксі-сервера так, щоб він "
-"надсилав заголовки ``X-Forwarded-Proto`` або ``Forwarded``, або налаштуйте :"
-"setting:`django:SECURE_PROXY_SSL_HEADER`, щоб надати Django змогу правильно "
+"надсилав заголовки ``X-Forwarded-Proto`` або ``Forwarded``, або налаштуйте "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, щоб надати Django змогу правильно "
 "визначати стан SSL."
 
 #: ../../admin/config.rst:616
@@ -26010,8 +25998,6 @@ msgstr "Скрипт обробки, який вмикається після о
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
-#, fuzzy
-#| msgid "It recevies an instance of a file format class as a argument."
 msgid "It receives an instance of a file format class as a argument."
 msgstr "Отримує як аргумент екземпляр класу форматування файлів."
 
@@ -26233,12 +26219,6 @@ msgstr ""
 "interface>` на вкладці :guilabel:`Знаряддя`."
 
 #: ../../contributing/debugging.rst:64
-#, fuzzy
-#| msgid ""
-#| "These send e-mail directly, so this verifies that your SMTP configration "
-#| "is correct (see :ref:`out-mail`). Most of the e-mails from Weblate are "
-#| "however sent in the background and there might be some issues with Celery "
-#| "involved as well, please see :ref:`debug-tasks` for debugging that."
 msgid ""
 "These send e-mail directly, so this verifies that your SMTP configuration is "
 "correct (see :ref:`out-mail`). Most of the e-mails from Weblate are however "
@@ -26324,16 +26304,16 @@ msgstr ""
 "декількох сторонніх бібліотек."
 
 #: ../../contributing/frontend.rst:7
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supported browsers"
-msgstr "Підтримувані формати файлів"
+msgstr "Підтримувані браузери"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
 msgstr ""
+"У Weblate передбачено підтримку найсвіжіших стабільних випусків усіх "
+"основних браузерів та програмних платформ."
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -26342,10 +26322,17 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
+"Підтримки альтернативних браузерів, які використовують найсвіжішу версію "
+"WebKit, Blink або Gecko безпосередньо або за допомогою програмного "
+"інтерфейсу перегляду даних інтернету платформи, явним чином не передбачено. "
+"Втім, Weblate має (у більшості випадків) показувати дані і працювати "
+"належним чином і у цих браузерах."
 
 #: ../../contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
 msgstr ""
+"Застарілі браузери можуть працювати, але працездатність деяких можливостей у "
+"них може бути обмежено."
 
 #: ../../contributing/frontend.rst:20
 msgid "Dependency management"
@@ -27421,10 +27408,8 @@ msgid "*Default component list*"
 msgstr "*Типовий список складників*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "*null*"
 msgid "null"
-msgstr "*null*"
+msgstr "null"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
@@ -27772,12 +27757,6 @@ msgstr ""
 "нових налаштувань `Django Server`:"
 
 #: ../../contributing/start.rst:161
-#, fuzzy
-#| msgid ""
-#| "Be careful with the property called :guilabel:`No reload`: if you check "
-#| "it, the server live reloads won't happend when you modify files. This "
-#| "allows the existing debugger breakpoints to persist as these would be "
-#| "discarded on reload."
 msgid ""
 "Be careful with the property called :guilabel:`No reload`: if you check it, "
 "the server live reloads won't happened when you modify files. This allows "
@@ -28557,8 +28536,6 @@ msgid "Weblate basics"
 msgstr "Основи Weblate"
 
 #: ../../snippets/basics.rst:5
-#, fuzzy
-#| msgid "Projects and components structure"
 msgid "Project and component structure"
 msgstr "Структура проєктів і складників"
 
@@ -36998,11 +36975,6 @@ msgid "The command to launch the container uses the following syntax:"
 msgstr "У команді запуску контейнера використовують такий синтаксис:"
 
 #: ../../wlc.rst:58
-#, fuzzy
-#| msgid ""
-#| "You might want to pass your :ref:`wlc-config` to the Docker container, "
-#| "the easies approach is to add your current directory as :file:`/home/"
-#| "weblate` volume:"
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container, the "
 "easiest approach is to add your current directory as :file:`/home/weblate` "
