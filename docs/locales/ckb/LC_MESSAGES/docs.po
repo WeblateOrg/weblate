@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 10:49+0100\n"
+"POT-Creation-Date: 2021-01-10 09:06+0100\n"
 "PO-Revision-Date: 2020-10-23 09:37+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Central Kurdish <https://hosted.weblate.org/projects/weblate/"
@@ -2090,8 +2090,8 @@ msgstr ""
 
 #: ../../admin/auth.rst:90
 msgid ""
-"You need to register an application on GitHub and then tell Weblate all its "
-"secrets:"
+"You need to register an OAuth application on GitHub and then tell Weblate "
+"all its secrets:"
 msgstr ""
 
 #: ../../admin/auth.rst:106
@@ -4592,7 +4592,7 @@ msgstr ""
 #: ../../admin/config.rst:607
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
-"issue with infite redirection in case you are using a reverse proxy doing "
+"issue with infinite redirection in case you are using a reverse proxy doing "
 "SSL termination which does not correctly pass protocol headers to Django. "
 "Please tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` "
 "or ``Forwarded`` headers or configure :setting:`django:"
@@ -22323,7 +22323,7 @@ msgstr "ڕەوشی وەرگێڕان"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
-msgid "It recevies an instance of a file format class as a argument."
+msgid "It receives an instance of a file format class as a argument."
 msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
@@ -22492,7 +22492,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:64
 msgid ""
-"These send e-mail directly, so this verifies that your SMTP configration is "
+"These send e-mail directly, so this verifies that your SMTP configuration is "
 "correct (see :ref:`out-mail`). Most of the e-mails from Weblate are however "
 "sent in the background and there might be some issues with Celery involved "
 "as well, please see :ref:`debug-tasks` for debugging that."
@@ -22552,10 +22552,34 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/frontend.rst:7
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Supported browsers"
+msgstr "دەربارەی وێبلەیت"
+
+#: ../../contributing/frontend.rst:9
+msgid ""
+"Weblate supports the latest, stable releases of all major browsers and "
+"platforms."
+msgstr ""
+
+#: ../../contributing/frontend.rst:12
+msgid ""
+"Alternative browsers which use the latest version of WebKit, Blink, or "
+"Gecko, whether directly or via the platform’s web view API, are not "
+"explicitly supported. However, Weblate should (in most cases) display and "
+"function correctly in these browsers as well."
+msgstr ""
+
+#: ../../contributing/frontend.rst:17
+msgid "Older browsers might work, but some features might be limited."
+msgstr ""
+
+#: ../../contributing/frontend.rst:20
 msgid "Dependency management"
 msgstr ""
 
-#: ../../contributing/frontend.rst:9
+#: ../../contributing/frontend.rst:22
 msgid ""
 "The yarn package manager is used to update third party libraries. The "
 "configuration lives in :file:`scripts/yarn` and there is a wrapper script :"
@@ -22564,48 +22588,48 @@ msgid ""
 "frontend code is located."
 msgstr ""
 
-#: ../../contributing/frontend.rst:16
+#: ../../contributing/frontend.rst:29
 msgid "Coding style"
 msgstr ""
 
-#: ../../contributing/frontend.rst:18
+#: ../../contributing/frontend.rst:31
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
 msgstr ""
 
-#: ../../contributing/frontend.rst:20
+#: ../../contributing/frontend.rst:33
 msgid "We also use `ESLint`_ to check the JavaScript code."
 msgstr ""
 
-#: ../../contributing/frontend.rst:27
+#: ../../contributing/frontend.rst:40
 msgid "Localization"
 msgstr "خۆماڵیکردن"
 
-#: ../../contributing/frontend.rst:29
+#: ../../contributing/frontend.rst:42
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
 
-#: ../../contributing/frontend.rst:48
+#: ../../contributing/frontend.rst:61
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
 
-#: ../../contributing/frontend.rst:51
+#: ../../contributing/frontend.rst:64
 msgid "Icons"
 msgstr ""
 
-#: ../../contributing/frontend.rst:53
+#: ../../contributing/frontend.rst:66
 msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
 
-#: ../../contributing/frontend.rst:56
+#: ../../contributing/frontend.rst:69
 msgid ""
 "Additionally, there is :file:`scripts/optimize-svg` to reduce size of the "
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
@@ -23604,8 +23628,8 @@ msgid "*Default component list*"
 msgstr "زمانی تۆ"
 
 #: ../../contributing/schemas.rst:19
-msgid "None"
-msgstr "هیچ کەسێک"
+msgid "null"
+msgstr ""
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
@@ -23928,8 +23952,8 @@ msgstr ""
 #: ../../contributing/start.rst:161
 msgid ""
 "Be careful with the property called :guilabel:`No reload`: if you check it, "
-"the server live reloads won't happend when you modify files. This allows the "
-"existing debugger breakpoints to persist as these would be discarded on "
+"the server live reloads won't happened when you modify files. This allows "
+"the existing debugger breakpoints to persist as these would be discarded on "
 "reload."
 msgstr ""
 
@@ -24549,7 +24573,7 @@ msgstr ""
 #: ../../snippets/basics.rst:5
 #, fuzzy
 #| msgid "Delete this account"
-msgid "Projects and components structure"
+msgid "Project and component structure"
 msgstr "سڕینەوەی ئەم هەژمارە"
 
 #: ../../snippets/basics.rst:7
@@ -31570,7 +31594,7 @@ msgstr ""
 #: ../../wlc.rst:58
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container, the "
-"easies approach is to add your current directory as :file:`/home/weblate` "
+"easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
 
@@ -32188,6 +32212,9 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ""
+
+#~ msgid "None"
+#~ msgstr "هیچ کەسێک"
 
 #, fuzzy
 #~| msgid "Suggested translations"

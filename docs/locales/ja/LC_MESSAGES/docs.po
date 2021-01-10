@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 10:49+0100\n"
+"POT-Creation-Date: 2021-01-10 09:06+0100\n"
 "PO-Revision-Date: 2021-01-10 08:04+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -1085,7 +1085,9 @@ msgstr "JavaScript 現地語化 CDN"
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "JavaScript または HTML の現地語化用に、翻訳をコンテンツ配信ネットワークに公開します。"
+msgstr ""
+"JavaScript または HTML の現地語化用に、翻訳をコンテンツ配信ネットワークに公開"
+"します。"
 
 #: ../../admin/addons.rst:43
 msgid ""
@@ -2090,8 +2092,8 @@ msgstr ""
 
 #: ../../admin/auth.rst:90
 msgid ""
-"You need to register an application on GitHub and then tell Weblate all its "
-"secrets:"
+"You need to register an OAuth application on GitHub and then tell Weblate "
+"all its secrets:"
 msgstr ""
 
 #: ../../admin/auth.rst:106
@@ -4157,7 +4159,8 @@ msgstr "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 msgid ""
 "Replaces trailing dots (...) if the source string has a corresponding "
 "ellipsis (…)."
-msgstr "原文に省略記号（…）が付いている場合は、末尾のドット（...）を置き換える。"
+msgstr ""
+"原文に省略記号（…）が付いている場合は、末尾のドット（...）を置き換える。"
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
@@ -4276,8 +4279,9 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"Weblate の ``Content-Security-Policy`` ヘッダーをカスタマイズします。ヘッダーは、サード "
-"パーティのサービス（Matomo、Google アナリティクス、Sentry、…）との統合が有効として自動的に生成されます。"
+"Weblate の ``Content-Security-Policy`` ヘッダーをカスタマイズします。ヘッダー"
+"は、サード パーティのサービス（Matomo、Google アナリティクス、Sentry、…）との"
+"統合が有効として自動的に生成されます。"
 
 #: ../../admin/config.rst:245
 msgid "All these default to empty list."
@@ -4756,13 +4760,14 @@ msgid ""
 "related to HTTPS - it enables secure cookies, toggles HSTS or enables "
 "redirection to HTTPS URL."
 msgstr ""
-"デフォルトの設定では、これは HTTPS に関連する複数の Django 設定にも使用されます - セキュアなクッキーを有効にしたり、HSTS "
-"を切り替えたり、HTTPS URL へのリダイレクションを有効にしたりします。"
+"デフォルトの設定では、これは HTTPS に関連する複数の Django 設定にも使用されま"
+"す - セキュアなクッキーを有効にしたり、HSTS を切り替えたり、HTTPS URL へのリ"
+"ダイレクションを有効にしたりします。"
 
 #: ../../admin/config.rst:607
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
-"issue with infite redirection in case you are using a reverse proxy doing "
+"issue with infinite redirection in case you are using a reverse proxy doing "
 "SSL termination which does not correctly pass protocol headers to Django. "
 "Please tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` "
 "or ``Forwarded`` headers or configure :setting:`django:"
@@ -4775,9 +4780,9 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
-":setting:`django:SESSION_COOKIE_SECURE`、:setting:`django:CSRF_COOKIE_SECURE`、"
-":setting:`django:SECURE_SSL_REDIRECT`、:setting:`django:SECURE_PROXY_SSL_HEADE"
-"R` :ref:`production-site`"
+":setting:`django:SESSION_COOKIE_SECURE`、:setting:`django:"
+"CSRF_COOKIE_SECURE`、:setting:`django:SECURE_SSL_REDIRECT`、:setting:`django:"
+"SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 
 #: ../../admin/config.rst:625
 msgid "ENABLE_SHARING"
@@ -9557,8 +9562,8 @@ msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 msgstr ""
-":setting:`ENABLE_HTTPS` :ref:`production-"
-"site`、:envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`"
+":setting:`ENABLE_HTTPS` :ref:`production-site`、:envvar:"
+"`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:402
 msgid ""
@@ -22685,7 +22690,7 @@ msgstr "ファイルが解析された後にフックを起動します。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
-msgid "It recevies an instance of a file format class as a argument."
+msgid "It receives an instance of a file format class as a argument."
 msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
@@ -22870,7 +22875,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:64
 msgid ""
-"These send e-mail directly, so this verifies that your SMTP configration is "
+"These send e-mail directly, so this verifies that your SMTP configuration is "
 "correct (see :ref:`out-mail`). Most of the e-mails from Weblate are however "
 "sent in the background and there might be some issues with Celery involved "
 "as well, please see :ref:`debug-tasks` for debugging that."
@@ -22932,10 +22937,34 @@ msgstr ""
 "ブラリを使用して構築されています。"
 
 #: ../../contributing/frontend.rst:7
+#, fuzzy
+#| msgid "Support status"
+msgid "Supported browsers"
+msgstr "サポート状況"
+
+#: ../../contributing/frontend.rst:9
+msgid ""
+"Weblate supports the latest, stable releases of all major browsers and "
+"platforms."
+msgstr ""
+
+#: ../../contributing/frontend.rst:12
+msgid ""
+"Alternative browsers which use the latest version of WebKit, Blink, or "
+"Gecko, whether directly or via the platform’s web view API, are not "
+"explicitly supported. However, Weblate should (in most cases) display and "
+"function correctly in these browsers as well."
+msgstr ""
+
+#: ../../contributing/frontend.rst:17
+msgid "Older browsers might work, but some features might be limited."
+msgstr ""
+
+#: ../../contributing/frontend.rst:20
 msgid "Dependency management"
 msgstr "依存関係の管理"
 
-#: ../../contributing/frontend.rst:9
+#: ../../contributing/frontend.rst:22
 msgid ""
 "The yarn package manager is used to update third party libraries. The "
 "configuration lives in :file:`scripts/yarn` and there is a wrapper script :"
@@ -22949,11 +22978,11 @@ msgstr ""
 "`weblate/static/vendor` にコピーするためのものです。この場所には、すべてサー"
 "ドパーティーのフロントエンドのコードが配置されています。"
 
-#: ../../contributing/frontend.rst:16
+#: ../../contributing/frontend.rst:29
 msgid "Coding style"
 msgstr "コーディング スタイル"
 
-#: ../../contributing/frontend.rst:18
+#: ../../contributing/frontend.rst:31
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
@@ -22961,15 +22990,15 @@ msgstr ""
 "Weblate は、JavaScript ファイルと CSS ファイルの両方のコード フォーマットに "
 "`Prettier`_を使用しています。"
 
-#: ../../contributing/frontend.rst:20
+#: ../../contributing/frontend.rst:33
 msgid "We also use `ESLint`_ to check the JavaScript code."
 msgstr "また `ESLint`_ を使用して JavaScript コードを検査します。"
 
-#: ../../contributing/frontend.rst:27
+#: ../../contributing/frontend.rst:40
 msgid "Localization"
 msgstr "現地語化"
 
-#: ../../contributing/frontend.rst:29
+#: ../../contributing/frontend.rst:42
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases all you need is to wrap your text inside "
@@ -22979,7 +23008,7 @@ msgstr ""
 "可能な文字列であることが必要です。ほとんどの場合、テキストを ``gettext`` 関数"
 "内でラップするだけだが、もっと複雑な機能も利用できる方法:"
 
-#: ../../contributing/frontend.rst:48
+#: ../../contributing/frontend.rst:61
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
@@ -22987,11 +23016,11 @@ msgstr ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 
-#: ../../contributing/frontend.rst:51
+#: ../../contributing/frontend.rst:64
 msgid "Icons"
 msgstr "アイコン"
 
-#: ../../contributing/frontend.rst:53
+#: ../../contributing/frontend.rst:66
 msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
@@ -23000,7 +23029,7 @@ msgstr ""
 "ル アイコンをお探しの方は `Material Design Icons`_ もしくは `Material Design "
 "Resources`_を確認してください。"
 
-#: ../../contributing/frontend.rst:56
+#: ../../contributing/frontend.rst:69
 msgid ""
 "Additionally, there is :file:`scripts/optimize-svg` to reduce size of the "
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
@@ -23150,7 +23179,9 @@ msgstr "``docs``"
 msgid ""
 "Source code for this documentation, which can be built using `Sphinx "
 "<https://www.sphinx-doc.org/>`_."
-msgstr "このドキュメントのソース コードは、`Sphinx <https://www.sphinx-doc.org/>`_ を使用して作成しています。"
+msgstr ""
+"このドキュメントのソース コードは、`Sphinx <https://www.sphinx-doc.org/>`_ を"
+"使用して作成しています。"
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
@@ -23971,8 +24002,10 @@ msgid "*Default component list*"
 msgstr "*デフォルトのコンポーネント リスト*"
 
 #: ../../contributing/schemas.rst:19
-msgid "None"
-msgstr "なし"
+#, fuzzy
+#| msgid "*null*"
+msgid "null"
+msgstr "*null*"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
@@ -24122,8 +24155,8 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a virtualenv with "
 "editable Weblate sources."
 msgstr ""
-"Weblate の開発を始める最も快適な方法は、:doc:`../admin/install/source` に従うことです。編集可能な Weblate "
-"のソースを付属した virtualenv を入手します。"
+"Weblate の開発を始める最も快適な方法は、:doc:`../admin/install/source` に従う"
+"ことです。編集可能な Weblate のソースを付属した virtualenv を入手します。"
 
 #: ../../contributing/start.rst:20
 msgid "Clone Weblate source:"
@@ -24282,8 +24315,10 @@ msgid ""
 "in the IDE. For that you need to specify the root path of the Django project "
 "and the path to its settings:"
 msgstr ""
-"2 番目のステップは、PyCharm 内でネイティブで Django を使用するための適切な情報の設定: アイデアは、IDE "
-"で単体テストをすぐに起動できるようにすることです。そのためには、Django プロジェクトのルート パスと、その設定へのパスを指定することが必要:"
+"2 番目のステップは、PyCharm 内でネイティブで Django を使用するための適切な情"
+"報の設定: アイデアは、IDE で単体テストをすぐに起動できるようにすることです。"
+"そのためには、Django プロジェクトのルート パスと、その設定へのパスを指定する"
+"ことが必要:"
 
 #: ../../contributing/start.rst:148
 msgid ""
@@ -24309,8 +24344,8 @@ msgstr ""
 #: ../../contributing/start.rst:161
 msgid ""
 "Be careful with the property called :guilabel:`No reload`: if you check it, "
-"the server live reloads won't happend when you modify files. This allows the "
-"existing debugger breakpoints to persist as these would be discarded on "
+"the server live reloads won't happened when you modify files. This allows "
+"the existing debugger breakpoints to persist as these would be discarded on "
 "reload."
 msgstr ""
 
@@ -24916,7 +24951,9 @@ msgid "Weblate basics"
 msgstr "Weblate の基本"
 
 #: ../../snippets/basics.rst:5
-msgid "Projects and components structure"
+#, fuzzy
+#| msgid "Projects and components structure"
+msgid "Project and component structure"
 msgstr "プロジェクトとコンポーネントの構造"
 
 #: ../../snippets/basics.rst:7
@@ -32554,7 +32591,7 @@ msgstr "コンテナがコマンドで起動する構文："
 #: ../../wlc.rst:58
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container, the "
-"easies approach is to add your current directory as :file:`/home/weblate` "
+"easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
 
@@ -33255,6 +33292,9 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`、:ref:`reviews`、:ref:`labels`"
+
+#~ msgid "None"
+#~ msgstr "なし"
 
 #~ msgid "Adds localization CDN for JavaScript or HTML localization."
 #~ msgstr "JavaScript または HTML の現地語化用に CDN を追加します。"

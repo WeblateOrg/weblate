@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-08 10:49+0100\n"
+"POT-Creation-Date: 2021-01-10 09:06+0100\n"
 "PO-Revision-Date: 2021-01-10 08:04+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1722,7 +1722,9 @@ msgid ""
 "The management interface offer administration settings under the :file:`/"
 "manage/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
-msgstr "管理界面在 :file:`/manage/`下面提供管理设置。它对于具有管理特权的登录用户是可用的，通过使用右上角的扳手图标来访问："
+msgstr ""
+"管理界面在 :file:`/manage/`下面提供管理设置。它对于具有管理特权的登录用户是可"
+"用的，通过使用右上角的扳手图标来访问："
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
@@ -2051,9 +2053,13 @@ msgid "GitHub authentication"
 msgstr "GitHub 身份验证"
 
 #: ../../admin/auth.rst:90
+#, fuzzy
+#| msgid ""
+#| "You need to register an application on GitHub and then tell Weblate all "
+#| "its secrets:"
 msgid ""
-"You need to register an application on GitHub and then tell Weblate all its "
-"secrets:"
+"You need to register an OAuth application on GitHub and then tell Weblate "
+"all its secrets:"
 msgstr "需要在 GitHub 上注册应用，然后告诉 Weblate 所有的秘密："
 
 #: ../../admin/auth.rst:106
@@ -4315,8 +4321,8 @@ msgid ""
 "automatically generated based on enabled integrations with third-party "
 "services (Matomo, Google Analytics, Sentry, …)."
 msgstr ""
-"为 Weblate 定制 ``Content-Security-Policy`` 标头。根据允许集成的第三方服务（ Matomo 、 Google "
-"Analytics 、 Sentry ……）来自动生成标头。"
+"为 Weblate 定制 ``Content-Security-Policy`` 标头。根据允许集成的第三方服务"
+"（ Matomo 、 Google Analytics 、 Sentry ……）来自动生成标头。"
 
 #: ../../admin/config.rst:245
 msgid "All these default to empty list."
@@ -4770,12 +4776,13 @@ msgid ""
 "related to HTTPS - it enables secure cookies, toggles HSTS or enables "
 "redirection to HTTPS URL."
 msgstr ""
-"在默认配置中，这还用于与 HTTPS 相关的几个 Django 设置 — 启用安全cookie、切换 HSTS 或允许重定向到 HTTPS URL。"
+"在默认配置中，这还用于与 HTTPS 相关的几个 Django 设置 — 启用安全cookie、切换 "
+"HSTS 或允许重定向到 HTTPS URL。"
 
 #: ../../admin/config.rst:607
 msgid ""
 "The HTTPS redirection might be problematic in some cases and you might hit "
-"issue with infite redirection in case you are using a reverse proxy doing "
+"issue with infinite redirection in case you are using a reverse proxy doing "
 "SSL termination which does not correctly pass protocol headers to Django. "
 "Please tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` "
 "or ``Forwarded`` headers or configure :setting:`django:"
@@ -4788,9 +4795,9 @@ msgid ""
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
-":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
-", :setting:`django:SECURE_SSL_REDIRECT`, "
-":setting:`django:SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:"
+"CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
+"SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 
 #: ../../admin/config.rst:625
 msgid "ENABLE_SHARING"
@@ -7805,8 +7812,9 @@ msgid ""
 "should be owned and writable by the user running all Weblate processes "
 "(typically WSGI and Celery, see :ref:`server` and :ref:`celery`)."
 msgstr ""
-"Weblate 进程需要能够读写它保存数据的目录 - setting:`DATA_DIR`。该目录下的所有文件都应该由运行所有 Weblate "
-"进程的用户拥有和可写入（通常是 WSGI 和 Celery，见 :ref:`server` and :ref:`celery`）。"
+"Weblate 进程需要能够读写它保存数据的目录 - setting:`DATA_DIR`。该目录下的所有"
+"文件都应该由运行所有 Weblate 进程的用户拥有和可写入（通常是 WSGI 和 Celery，"
+"见 :ref:`server` and :ref:`celery`）。"
 
 #: ../../admin/install.rst:280
 msgid ""
@@ -7975,7 +7983,8 @@ msgstr ""
 msgid ""
 "Configure the server with ``innodb_large_prefix`` to allow longer indices on "
 "text fields."
-msgstr "用 ``innodb_large_prefix`` 配置服务器，以允许在文本字段上有更长的索引。"
+msgstr ""
+"用 ``innodb_large_prefix`` 配置服务器，以允许在文本字段上有更长的索引。"
 
 #: ../../admin/install.rst:417
 msgid "Set the isolation level to ``READ COMMITTED``."
@@ -8008,8 +8017,8 @@ msgid ""
 "is 767 bytes`` error, please update your configuration to include the "
 "``innodb`` settings above and restart your install."
 msgstr ""
-"如遇 ``#1071 - Specified key was too long; max key length is 767 bytes`` 错误, "
-"请更新你的配置以包含上方的 ``innodb`` 设置并重新启动你的安装。"
+"如遇 ``#1071 - Specified key was too long; max key length is 767 bytes`` 错"
+"误, 请更新你的配置以包含上方的 ``innodb`` 设置并重新启动你的安装。"
 
 #: ../../admin/install.rst:453
 msgid "Configuring Weblate to use MySQL/MariaDB"
@@ -8932,7 +8941,8 @@ msgid ""
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
-"WSGI 进程和 Celery 进程必须在同一用户下被执行，否则 :setting:`DATA_DIR` 中的文件将以混合的所有权来存储，导致运行问题。"
+"WSGI 进程和 Celery 进程必须在同一用户下被执行，否则 :setting:`DATA_DIR` 中的"
+"文件将以混合的所有权来存储，导致运行问题。"
 
 #: ../../admin/install.rst:1205
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
@@ -9212,7 +9222,8 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
-"Celery 进程和 WSGI 进程必须在同一用户下被执行，否则 :setting:`DATA_DIR` 中的文件将以混合的所有权来存储，导致运行问题。"
+"Celery 进程和 WSGI 进程必须在同一用户下被执行，否则 :setting:`DATA_DIR` 中的"
+"文件将以混合的所有权来存储，导致运行问题。"
 
 #: ../../admin/install.rst:1416
 msgid "See also :ref:`file-permissions` and :ref:`server`."
@@ -9925,8 +9936,8 @@ msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 msgstr ""
-":setting:`ENABLE_HTTPS` :ref:`production-site`, "
-":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`"
+":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
+"`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:402
 msgid ""
@@ -23765,7 +23776,7 @@ msgstr "文件解析后触发钩子。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
-msgid "It recevies an instance of a file format class as a argument."
+msgid "It receives an instance of a file format class as a argument."
 msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
@@ -23954,13 +23965,13 @@ msgid ""
 "for instructions on how to invoke it in different environments) or using :"
 "ref:`management-interface` under the :guilabel:`Tools` tab."
 msgstr ""
-"可以通过使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何调用它的指示说明请参见 :ref"
-":`invoke-manage` ）或 :guilabel:`Tools` 标签下的 :ref:`management-interface` "
-"来验证向外发送的电子邮件是否正常工作。"
+"可以通过使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何调"
+"用它的指示说明请参见 :ref:`invoke-manage` ）或 :guilabel:`Tools` 标签下的 :"
+"ref:`management-interface` 来验证向外发送的电子邮件是否正常工作。"
 
 #: ../../contributing/debugging.rst:64
 msgid ""
-"These send e-mail directly, so this verifies that your SMTP configration is "
+"These send e-mail directly, so this verifies that your SMTP configuration is "
 "correct (see :ref:`out-mail`). Most of the e-mails from Weblate are however "
 "sent in the background and there might be some issues with Celery involved "
 "as well, please see :ref:`debug-tasks` for debugging that."
@@ -24030,10 +24041,34 @@ msgid ""
 msgstr "前端当前使用 Bootstrap、jQuery 和一些第三方库来构建。"
 
 #: ../../contributing/frontend.rst:7
+#, fuzzy
+#| msgid "Supported file formats"
+msgid "Supported browsers"
+msgstr "支持的文件格式"
+
+#: ../../contributing/frontend.rst:9
+msgid ""
+"Weblate supports the latest, stable releases of all major browsers and "
+"platforms."
+msgstr ""
+
+#: ../../contributing/frontend.rst:12
+msgid ""
+"Alternative browsers which use the latest version of WebKit, Blink, or "
+"Gecko, whether directly or via the platform’s web view API, are not "
+"explicitly supported. However, Weblate should (in most cases) display and "
+"function correctly in these browsers as well."
+msgstr ""
+
+#: ../../contributing/frontend.rst:17
+msgid "Older browsers might work, but some features might be limited."
+msgstr ""
+
+#: ../../contributing/frontend.rst:20
 msgid "Dependency management"
 msgstr "依赖性管理"
 
-#: ../../contributing/frontend.rst:9
+#: ../../contributing/frontend.rst:22
 msgid ""
 "The yarn package manager is used to update third party libraries. The "
 "configuration lives in :file:`scripts/yarn` and there is a wrapper script :"
@@ -24045,25 +24080,25 @@ msgstr ""
 "打包脚本 :file:`scripts/yarn-update` 来更新库，构建它们，并复制到 :file:"
 "`weblate/static/vendor` 中的正确位置上，所有的第三方前端膘满都位于那里。"
 
-#: ../../contributing/frontend.rst:16
+#: ../../contributing/frontend.rst:29
 msgid "Coding style"
 msgstr "编码风格"
 
-#: ../../contributing/frontend.rst:18
+#: ../../contributing/frontend.rst:31
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
 msgstr "Weblate 依赖于 `Prettier`_ 来进行JavaScript 和 CSS 文件的代码格式化。"
 
-#: ../../contributing/frontend.rst:20
+#: ../../contributing/frontend.rst:33
 msgid "We also use `ESLint`_ to check the JavaScript code."
 msgstr "我们还是用 `ESLint`_ 来检查 JavaScript 代码。"
 
-#: ../../contributing/frontend.rst:27
+#: ../../contributing/frontend.rst:40
 msgid "Localization"
 msgstr "本地化"
 
-#: ../../contributing/frontend.rst:29
+#: ../../contributing/frontend.rst:42
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases all you need is to wrap your text inside "
@@ -24072,7 +24107,7 @@ msgstr ""
 "如果在前端代码中需要任何用户可见的文本，那么应该将其本地化。在多数情况下，所"
 "有需要的是将文本打包到 ``gettext`` 函数内部，但也有更复杂的特性来使用："
 
-#: ../../contributing/frontend.rst:48
+#: ../../contributing/frontend.rst:61
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
@@ -24080,11 +24115,11 @@ msgstr ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 
-#: ../../contributing/frontend.rst:51
+#: ../../contributing/frontend.rst:64
 msgid "Icons"
 msgstr "图标"
 
-#: ../../contributing/frontend.rst:53
+#: ../../contributing/frontend.rst:66
 msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
@@ -24092,7 +24127,7 @@ msgstr ""
 "Weblate 目前使用 material design 图标。如果你想找新的符号，检查 `Material "
 "Design Icons`_ 或 `Material Design Resources`_。"
 
-#: ../../contributing/frontend.rst:56
+#: ../../contributing/frontend.rst:69
 msgid ""
 "Additionally, there is :file:`scripts/optimize-svg` to reduce size of the "
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
@@ -25056,8 +25091,10 @@ msgid "*Default component list*"
 msgstr "*默认组件列表*"
 
 #: ../../contributing/schemas.rst:19
-msgid "None"
-msgstr "无"
+#, fuzzy
+#| msgid "*null*"
+msgid "null"
+msgstr "*空*"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
@@ -25207,8 +25244,8 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a virtualenv with "
 "editable Weblate sources."
 msgstr ""
-"开始 Weblate 开发的最舒适的方法是按照 :doc:`../admin/install/source`。它将给您一个带有可编辑的 Weblate "
-"源代码的虚拟环境。"
+"开始 Weblate 开发的最舒适的方法是按照 :doc:`../admin/install/source`。它将给"
+"您一个带有可编辑的 Weblate 源代码的虚拟环境。"
 
 #: ../../contributing/start.rst:20
 msgid "Clone Weblate source:"
@@ -25357,8 +25394,8 @@ msgid ""
 "in the IDE. For that you need to specify the root path of the Django project "
 "and the path to its settings:"
 msgstr ""
-"第二步是设置正确的信息，在 PyCharm 内使用本地 Django：理念是能够立即触发 IDE 中的单元测试。 为此，你需要指定该 Django "
-"项目的根路径及其设置路径："
+"第二步是设置正确的信息，在 PyCharm 内使用本地 Django：理念是能够立即触发 IDE "
+"中的单元测试。 为此，你需要指定该 Django 项目的根路径及其设置路径："
 
 #: ../../contributing/start.rst:148
 msgid ""
@@ -25383,8 +25420,8 @@ msgstr ""
 #: ../../contributing/start.rst:161
 msgid ""
 "Be careful with the property called :guilabel:`No reload`: if you check it, "
-"the server live reloads won't happend when you modify files. This allows the "
-"existing debugger breakpoints to persist as these would be discarded on "
+"the server live reloads won't happened when you modify files. This allows "
+"the existing debugger breakpoints to persist as these would be discarded on "
 "reload."
 msgstr ""
 
@@ -26086,7 +26123,9 @@ msgid "Weblate basics"
 msgstr "Weblate 基础知识"
 
 #: ../../snippets/basics.rst:5
-msgid "Projects and components structure"
+#, fuzzy
+#| msgid "Projects and components structure"
+msgid "Project and component structure"
 msgstr "项目和组件架构"
 
 #: ../../snippets/basics.rst:7
@@ -33270,7 +33309,7 @@ msgstr ""
 #: ../../wlc.rst:58
 msgid ""
 "You might want to pass your :ref:`wlc-config` to the Docker container, the "
-"easies approach is to add your current directory as :file:`/home/weblate` "
+"easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
 
@@ -33929,6 +33968,9 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "None"
+#~ msgstr "无"
 
 #~ msgid "Adds localization CDN for JavaScript or HTML localization."
 #~ msgstr "添加用于JavaScript或 HTML本地化的本地化CDN。"
