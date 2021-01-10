@@ -36,7 +36,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-10 08:05+0000\n"
-"PO-Revision-Date: 2021-01-06 16:44+0000\n"
+"PO-Revision-Date: 2021-01-10 14:51+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -404,7 +404,7 @@ msgstr "Начался пробный период."
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Отправлено письмо с подтверждением на {email}."
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -1043,12 +1043,12 @@ msgid "JavaScript localization CDN"
 msgstr "CDN локализации JavaScript’а"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "Добавляет CDN локализации для локализации JavaScript’а или HTML’я."
+msgstr ""
+"Публикует переводы в сети доставки содержимого (CDN); используется при "
+"локализации JavaScript и HTML."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -2093,10 +2093,8 @@ msgid "Languages"
 msgstr "Языки"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Внутренняя ошибка сервера"
+msgstr "Внутренняя группа Weblate"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2139,15 +2137,14 @@ msgstr ""
 "Пользователь получает все разрешения, включённых в членство в этих группах."
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr ""
-"Регулярное выражение, используемое для сопоставления e-mail пользователя."
+msgstr "Регулярное выражение, для адресов электронной почты"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
 msgstr ""
+"В эту группу будут добавляться пользователи с совпадающими адресами "
+"электронной почты."
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -4569,10 +4566,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Перенаправляем к провайдеру аутентификации."
 
 #: weblate/templates/accounts/register.html:32
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Register in Weblate"
-msgstr "Вернуться к Weblate"
+msgstr "Зарегистрироваться в Weblate"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -4720,10 +4715,8 @@ msgstr[1] "%(count)s комментария"
 msgstr[2] "%(count)s комментариев"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Projects with contribution"
-msgstr "Вклад в проекты"
+msgstr "Проекты, в которые внесён вклад"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -5955,27 +5948,19 @@ msgstr ""
 "поблагодарить переводчиков и генерировать отзывы для них."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
-msgstr ""
-"Вы можете получить разнообразные данные из Weblate в машиночитаемом формате."
+msgstr "Разнообразные данные из Weblate доступны в машиночитаемом формате."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "RSS-каналы"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"Для отслеживания прогресса перевода можно использовать RSS-каналы, "
-"детализирующие все важные изменения в переводе."
+"Следите за прогрессом перевода и другими важными изменениями через "
+"RSS-каналы."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5987,65 +5972,49 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
-"Также доступны RSS-каналы по языкам, вы можете получить их, добавив код "
-"языка к вышеупомянутым URL."
+"Также доступны RSS-каналы по отдельным языкам. Вы можете получить ссылку на "
+"них, добавив код языка к вышеупомянутым URL."
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
 msgstr ""
 "Статистика перевода для каждого компонента в JSON-формате позволяет "
-"использовать эти данные на других веб-сайтах или инструментах."
+"использовать эти данные на других веб-сайтах или в других инструментах."
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
 msgstr ""
-"Например, выборку статистики по всем переводам одного компонента можно "
-"сделать таким образом:"
+"Вы можете сделать выборку статистики по всем переводам одного компонента как-"
+"то так:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
 msgstr "Обработчики уведомлений"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
 msgstr ""
 "Посредством обработчиков уведомлений Weblate автоматически импортирует "
-"изменения, сделанные разработчиками, и позволяет непрерывную локализацию."
+"изменения, сделанные разработчиками, что делает возможным непрерывную "
+"локализацию."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
 msgstr "Обработчик"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Извлечь изменения из дистанционного репозитория"
+msgstr ""
+"Извлечь изменения из дистанционного репозитория в Weblate можно как-то так:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -6065,10 +6034,8 @@ msgstr "Примечание"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
-msgstr "Обратитесь к документации за подробными инструкциями"
+msgstr "Подробная инструкция есть в документации"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -7485,10 +7452,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Сгенерировать тестовое событие для проверки интеграции с Sentry."
 
 #: weblate/templates/manage/users_check.html:41
-#, fuzzy
-#| msgid "Manage billing"
 msgid "User billings"
-msgstr "Управление тарифами"
+msgstr "Тарифы пользователя"
 
 #: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:170
 msgid "No matching user found."
@@ -8487,10 +8452,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "Ссылка на сайт проекта указывает на несуществующее расположение:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not parse HTML files using the addon."
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Weblate не удалось разобрать HTML-файлы с помощью надстройки."
+msgstr "Надстройке CDN не удалось разобрать HTML-файлы."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -8523,6 +8486,8 @@ msgid ""
 "You might be using monolingual translation files as bilingual. In that case "
 "please configure the monolingual base language file."
 msgstr ""
+"Возможно, вы используете одноязычные файлы перевода как двуязычные. В таком "
+"случае, задайте базовый одноязычный файл языка."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
 msgid ""
@@ -9145,10 +9110,8 @@ msgstr[1] "%(count)s предложения для этой строки."
 msgstr[2] "%(count)s предложений для этой строки."
 
 #: weblate/templates/translate.html:420
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Enforced"
-msgstr "Принудительные проверки"
+msgstr "Принудительно"
 
 #: weblate/templates/translate.html:433
 msgid "Fix string"
@@ -9167,14 +9130,12 @@ msgstr[1] "%(count)s комментария этой строки."
 msgstr[2] "%(count)s комментариев этой строки."
 
 #: weblate/templates/translate.html:486
-#, fuzzy, python-format
-#| msgid "There is %(count)s variant for this string."
-#| msgid_plural "There are %(count)s variants for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "Доступен %(count)s вариант для этой строки."
-msgstr[1] "Доступно %(count)s варианта для этой строки."
-msgstr[2] "Доступно %(count)s вариантов для этой строки."
+msgstr[0] "Доступен %(count)s вариант этой строки."
+msgstr[1] "Доступны %(count)s варианта этой строки."
+msgstr[2] "Доступно %(count)s вариантов этой строки."
 
 #: weblate/templates/translate.html:500
 msgid "Manage glossary"
@@ -9908,7 +9869,7 @@ msgstr "Ссылки на вышестоящий репозиторий"
 
 #: weblate/trans/forms.py:1288
 msgid "Listing and access"
-msgstr ""
+msgstr "Порядок компонентов и доступ"
 
 #: weblate/trans/forms.py:1303
 msgid "Translation settings"
