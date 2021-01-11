@@ -869,7 +869,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         with open(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE) as handle:
             expected = handle.read()
 
-        self.assertEqual(expected + '\n', newdata)
+        self.assertEqual(expected + "\n", newdata)
 
 
 class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
