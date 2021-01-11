@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-10 08:05+0000\n"
-"PO-Revision-Date: 2021-01-10 14:51+0000\n"
+"PO-Revision-Date: 2021-01-11 17:32+0000\n"
 "Last-Translator: Georgi <g.georgiev.shumen@gmail.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -33,10 +33,8 @@ msgstr "Няма"
 #: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User agent"
 msgid "User avatar"
-msgstr "Идентификатор на браузъра"
+msgstr "Потребителска снимка"
 
 #: weblate/accounts/forms.py:77
 msgid ""
@@ -55,10 +53,8 @@ msgid "Full name"
 msgstr "Пълно име"
 
 #: weblate/accounts/forms.py:179 weblate/accounts/models.py:465
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Public e-mail"
-msgstr "Вашата е-поща"
+msgstr "Публична е-поща"
 
 #: weblate/accounts/forms.py:273 weblate/accounts/forms.py:348
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:318
@@ -68,10 +64,8 @@ msgid "E-mail"
 msgstr "Е-поща"
 
 #: weblate/accounts/forms.py:274
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "You can add another e-mail address below."
-msgstr "Може да добавите друга е-поща в раздела „Удостоверяване“."
+msgstr "Може да добавите друга е-поща по-долу."
 
 #: weblate/accounts/forms.py:316
 msgid "Subject"
@@ -104,10 +98,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "Тук ще бъде изпратено е-писмото за активиране."
 
 #: weblate/accounts/forms.py:386
-#, fuzzy
-#| msgid "Too many registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "Твърде много опити за регистриране от това местоположение!"
+msgstr "Твърде много неуспешни опити за регистриране от това местоположение."
 
 #: weblate/accounts/forms.py:393
 msgid "New password"
@@ -130,18 +122,14 @@ msgstr "Какво е %s?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:456
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "That was not correct, please try again."
-msgstr "Изпратени са твърде много съобщения. Моля, опитайте отново по-късно!"
+msgstr "Отговорът е грешен, моля, опитайте отново."
 
 #: weblate/accounts/forms.py:480
 msgid "Current password"
 msgstr "Текуща парола"
 
 #: weblate/accounts/forms.py:481
-#, fuzzy
-#| msgid "Keep the field empty if you have not yet set your password."
 msgid "Leave empty if you have not yet set a password."
 msgstr "Оставете полето празно, ако все още не сте задали парола."
 
@@ -158,24 +146,16 @@ msgid "Password"
 msgstr "Парола"
 
 #: weblate/accounts/forms.py:510
-#, fuzzy
-#| msgid ""
-#| "Please enter a correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Моля, въведете правилно потребителско име и парола. Имайте предвид, че и "
-"двете полета различават малки и главни букви."
+msgstr "Моля, въведете правилно Вашето потребителско име и парола."
 
 #: weblate/accounts/forms.py:511
 msgid "This account is inactive."
 msgstr "Този акаунт е неактивен."
 
 #: weblate/accounts/forms.py:528
-#, fuzzy
-#| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
-msgstr "Твърде много опити за удостоверяване от това местоположение!"
+msgstr "Твърде много опити за удостоверяване от това местоположение."
 
 #: weblate/accounts/forms.py:613
 msgid "Component wide notifications"
@@ -187,13 +167,11 @@ msgstr "Известия за превод"
 
 #: weblate/accounts/forms.py:637
 msgid "Use default setting"
-msgstr ""
+msgstr "Използване на настройките по подразбиране"
 
 #: weblate/accounts/forms.py:663
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Следени проекти"
+msgstr "Други проекти"
 
 #: weblate/accounts/forms.py:665 weblate/accounts/models.py:407
 #: weblate/templates/accounts/profile.html:67
@@ -214,20 +192,13 @@ msgid "Component: {}"
 msgstr "Компонент: {}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Ще получавате известия за всяко подобно събитие в следените от Вас проекти."
+"Ще получавате известия за всяко подобно събитие в проектите, които не "
+"следите."
 
 #: weblate/accounts/forms.py:681
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
@@ -235,93 +206,64 @@ msgstr ""
 "Ще получавате известия за всяко подобно събитие в следените от Вас проекти."
 
 #: weblate/accounts/forms.py:686
-#, fuzzy
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Ще получавате известия за всяко подобно събитие в следените от Вас проекти."
+"Ще получавате известия за всяко подобно събитие в проектите, в които имате "
+"администраторски права."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"Ще получавате известия за всяко подобно събитие в следените от Вас проекти."
+msgstr "Ще получавате известия за всяко подобно събитие в %(project)s."
 
 #: weblate/accounts/forms.py:694
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive notification on every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"Ще получавате известия за всяко подобно събитие в следените от Вас проекти."
+msgstr "Ще получавате известия за всяко подобно събитие в %(component)s."
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Ще получавате тези известия само за езиците, на които Вие превеждате, в "
-"следените от Вас проекти."
+"Ще получавате тези известия за езиците, на които превеждате, в проектите, "
+"които не следите."
 
 #: weblate/accounts/forms.py:706
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Ще получавате тези известия само за езиците, на които Вие превеждате, в "
+"Ще получавате тези известия само за езиците, на които превеждате, в "
 "следените от Вас проекти."
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Ще получавате тези известия само за езиците, на които Вие превеждате, в "
-"следените от Вас проекти."
+"Ще получавате тези известия само за езиците, на които превеждате, в "
+"проектите, в които имате администраторски права."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Ще получавате тези известия само за езиците, на които Вие превеждате, в "
-"следените от Вас проекти."
+"Ще получавате тези известия само за езиците, на които превеждате, в "
+"%(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Ще получавате тези известия само за езиците, на които Вие превеждате, в "
-"следените от Вас проекти."
+"Ще получавате тези известия само за езиците, на които превеждате, в "
+"%(component)s."
 
 #: weblate/accounts/forms.py:760 weblate/auth/models.py:301
 #: weblate/templates/manage-access.html:24 weblate/utils/forms.py:42
@@ -331,7 +273,7 @@ msgstr "Потребителско име"
 #: weblate/accounts/forms.py:762 weblate/auth/models.py:335
 #: weblate/templates/manage/users_check.html:25
 msgid "Date joined"
-msgstr ""
+msgstr "Дата на присъединяване"
 
 #: weblate/accounts/forms.py:763 weblate/templates/about/stats.html:101
 msgid "Translations made"
@@ -342,16 +284,12 @@ msgid "Suggestions made"
 msgstr "Направени предложения"
 
 #: weblate/accounts/forms.py:765
-#, fuzzy
-#| msgid "Comment added"
 msgid "Comments made"
-msgstr "Добавяне на коментар"
+msgstr "Написани коментари"
 
 #: weblate/accounts/forms.py:766
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshots uploaded"
-msgstr "Име на екранната снимка"
+msgstr "Качени снимки"
 
 #: weblate/accounts/forms.py:789
 #, fuzzy
@@ -1035,7 +973,7 @@ msgstr "Изпратени са твърде много съобщения. Мо
 #: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:255
 #: weblate/templates/footer.html:13
 msgid "Contact"
-msgstr "Връзка"
+msgstr "За връзка"
 
 #: weblate/accounts/views.py:511 weblate/templates/accounts/hosting.html:8
 msgid "Hosting"
@@ -3639,11 +3577,8 @@ msgid "gettext MO"
 msgstr "gettext MO"
 
 #: weblate/formats/exporters.py:381
-#, fuzzy
-#| msgctxt "Per-project access-control group"
-#| msgid "VCS"
 msgid "CSV"
-msgstr "Система за контрол на версиите"
+msgstr "CSV"
 
 #: weblate/formats/exporters.py:402 weblate/formats/external.py:40
 msgid "Excel Open XML"
@@ -4674,7 +4609,7 @@ msgstr "Относно Weblate"
 #: weblate/templates/about/index.html:18 weblate/templates/base.html:260
 #: weblate/templates/footer.html:15 weblate/templates/manage/index.html:48
 msgid "Donate to Weblate"
-msgstr "Дарете на Weblate"
+msgstr "Дарение към Weblate"
 
 #: weblate/templates/about/index.html:25
 msgid "Hosting translations"
@@ -5516,12 +5451,11 @@ msgid "Joined on %(date)s"
 msgstr ""
 
 #: weblate/templates/accounts/user.html:35 weblate/templates/language.html:80
-#, fuzzy, python-format
-#| msgid "Previous translation:"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "Предишен превод:"
-msgstr[1] "Предишен превод:"
+msgstr[0] "%(count)s превод"
+msgstr[1] "%(count)s преводи"
 
 #: weblate/templates/accounts/user.html:40
 #, fuzzy, python-format
@@ -5945,7 +5879,7 @@ msgstr "Настройки"
 #: weblate/templates/base.html:242 weblate/wladmin/sites.py:195
 #: weblate/wladmin/templates/admin/base.html:14
 msgid "Sign out"
-msgstr ""
+msgstr "Излизане"
 
 #: weblate/templates/base.html:249 weblate/templates/base.html:251
 msgid "Help"
@@ -5974,7 +5908,7 @@ msgstr "Документация"
 
 #: weblate/templates/base.html:259
 msgid "Contribute to Weblate"
-msgstr "Дайте своя принос към Weblate"
+msgstr "Допринесете към Weblate"
 
 #: weblate/templates/base.html:306 weblate/templates/base.html:314
 #: weblate/templates/glossaries.html:53 weblate/templates/manage-access.html:53
@@ -8324,7 +8258,7 @@ msgstr "Администриране"
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:64
 msgid "Backups"
-msgstr ""
+msgstr "Архивиране"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
@@ -10007,10 +9941,8 @@ msgstr ""
 #: weblate/templates/trans/component_create.html:104
 #: weblate/templates/trans/component_create.html:120
 #: weblate/templates/trans/component_form.html:38
-#, fuzzy
-#| msgid "Context"
 msgid "Continue"
-msgstr "Контекст"
+msgstr "Продължаване"
 
 #: weblate/templates/trans/component_create.html:64
 msgid ""
@@ -10347,10 +10279,8 @@ msgid "Variants of the string"
 msgstr "Променено след"
 
 #: weblate/templates/translate.html:217 weblate/templates/translate.html:484
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "Баварски"
+msgstr "Варианти"
 
 #: weblate/templates/translate.html:223
 #, fuzzy
