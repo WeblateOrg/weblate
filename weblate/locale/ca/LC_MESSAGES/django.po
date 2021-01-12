@@ -11,13 +11,14 @@
 # Carles Sadurní <sadurbnd@gmail.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
 # Guillem <guillemglez@gmail.com>, 2021.
+# badlop <badlop@process-one.net>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-12 16:33+0000\n"
-"PO-Revision-Date: 2021-01-04 03:37+0000\n"
-"Last-Translator: Guillem <guillemglez@gmail.com>\n"
+"PO-Revision-Date: 2021-01-12 19:09+0000\n"
+"Last-Translator: badlop <badlop@process-one.net>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -391,7 +392,7 @@ msgstr "S'ha iniciat el període de prova."
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "S'ha enviat correu de confirmació a {email}."
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -2089,10 +2090,8 @@ msgid "Languages"
 msgstr "Llengües"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Error intern del servidor"
+msgstr "Grup intern de Weblate"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2137,15 +2136,14 @@ msgstr ""
 "següents grups."
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr ""
-"Expressió regular amb què ha de coincidir el correu electrònic dels usuaris."
+msgstr "Expressió regular per a adreces de correu electrònic"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
 msgstr ""
+"Usuaris amb adreces de correu electrònic que coincidesquin seran afegits a "
+"este grup."
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -4572,10 +4570,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Us estem redirigint al proveïdor d'autenticació."
 
 #: weblate/templates/accounts/register.html:32
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Register in Weblate"
-msgstr "Torna al Weblate"
+msgstr "Registrar al Weblate"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -4717,10 +4713,8 @@ msgstr[0] "%(count)s comentari"
 msgstr[1] "%(count)s comentaris"
 
 #: weblate/templates/accounts/user.html:120
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Projects with contribution"
-msgstr "Contribucions als projectes"
+msgstr "Projectes amb contribució"
 
 #: weblate/templates/accounts/user.html:123 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -5957,12 +5951,9 @@ msgstr ""
 "per a donar les gràcies als traductors i generar-los reaccions."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
 msgstr ""
-"Podeu recuperar diverses dades del Weblate en un format llegible per "
+"Diverses dades de Weblate estan disponibles en un format llegible per "
 "ordinadors."
 
 #: weblate/templates/data.html:17
@@ -5970,15 +5961,11 @@ msgid "RSS feeds"
 msgstr "Canal RSS"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"Per a seguir el progrés de la traducció, podeu utilitzar canals RSS que "
-"detallen tots els canvis importants en la traducció."
+"Segueix el progrés de la traducció i tots el canvis importants dels canals "
+"RSS."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5990,22 +5977,14 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
-"També hi ha disponibles canals RSS per a cada llengua, podeu generar-los "
-"afegint un codi de llengua als URL anteriors."
+"També hi ha disponibles canals RSS per a cada llengua. Genera-os afegint un "
+"codi de llengua als URL anteriors."
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
@@ -6014,42 +5993,32 @@ msgstr ""
 "utilitzar les dades en altres llocs web o eines."
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
 msgstr ""
-"Per exemple, es poden obtenir estadístiques de totes les traduccions d'un "
-"component d'aquesta manera:"
+"Pots obtenir estadístiques de totes les traduccions d'un component d'aquesta "
+"manera:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
 msgstr "Punts d'inserció de notificacions"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
 msgstr ""
-"Amb els punts d'inserció de notificacions, el Weblate importarà "
-"automàticament els canvis fets pels vostres desenvolupadors i permetrà una "
-"localització contínua."
+"Amb els punts d'inserció de notificacions, el Weblate importa automàticament "
+"els canvis fets pels vostres desenvolupadors, permetent una localització "
+"contínua."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
 msgstr "Punt d'inserció"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Obté els canvis del dipòsit remot"
+msgstr "Tu obtens els canvis d'un dipòsit remot a Weblate d'esta manera:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -6069,10 +6038,8 @@ msgstr "Nota"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
-msgstr "Exploreu la documentació per a veure'n instruccions detallades"
+msgstr "La documentació té instruccions detallades"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -7486,10 +7453,8 @@ msgstr ""
 "Genera un esdeveniment de prova per a provar la integració amb el Sentry."
 
 #: weblate/templates/manage/users_check.html:41
-#, fuzzy
-#| msgid "Manage billing"
 msgid "User billings"
-msgstr "Gestiona la facturació"
+msgstr "Facturació d'usuari"
 
 #: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:170
 msgid "No matching user found."
@@ -9157,10 +9122,8 @@ msgstr[0] "Hi ha %(count)s suggeriment per a aquesta cadena."
 msgstr[1] "Hi ha %(count)s suggeriments per a aquesta cadena."
 
 #: weblate/templates/translate.html:420
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Enforced"
-msgstr "Comprovacions forçoses"
+msgstr "Forçoses"
 
 #: weblate/templates/translate.html:433
 msgid "Fix string"
@@ -9178,13 +9141,11 @@ msgstr[0] "Hi ha %(count)s comentari per a aquesta cadena."
 msgstr[1] "Hi ha %(count)s comentaris per a aquesta cadena."
 
 #: weblate/templates/translate.html:486
-#, fuzzy, python-format
-#| msgid "There is %(count)s variant for this string."
-#| msgid_plural "There are %(count)s variants for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "Hi ha %(count)s variant per a aquesta cadena."
-msgstr[1] "Hi ha %(count)s variants per a aquesta cadena."
+msgstr[0] "Hi ha %(count)s variant d'aquesta cadena."
+msgstr[1] "Hi ha %(count)s variants d'aquesta cadena."
 
 #: weblate/templates/translate.html:500
 msgid "Manage glossary"
