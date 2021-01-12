@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-12 17:34+0100\n"
-"PO-Revision-Date: 2021-01-12 16:32+0000\n"
+"PO-Revision-Date: 2021-01-12 19:09+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -8869,6 +8869,13 @@ msgid ""
 "concurrent users accessing the system. See the various vendors documentation "
 "on those details."
 msgstr ""
+"Ниже приведён пример :file:`/etc/my.cnf.d/server.cnf` для сервера на 8ГиБ. "
+"Этих настроек должно хватить для большинства установок. У MySQL и MariaDB "
+"есть и другие настройки, которые могут улучшить производительность сервера, "
+"но обычно прибегать к ним нет смысла, если только вы не планируете, что "
+"одновременно значительное количество пользователей будут работать с вашему "
+"сервером. В таком случае смотрите подробности таких настроек в документации "
+"своей СУБД."
 
 #: ../../admin/install.rst:426
 msgid ""
@@ -8876,13 +8883,11 @@ msgid ""
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
 "you start your Weblate install."
 msgstr ""
+"Дабы при установке Weblate не возникло проблем, абсолютно критично, чтобы "
+"параметр ``innodb_file_per_table`` был включён; а также после его изменения "
+"нужно не забыть перезапустить MySQL/MariaDB."
 
 #: ../../admin/install.rst:448
-#, fuzzy
-#| msgid ""
-#| "In case you are getting ``#1071 - Specified key was too long; max key "
-#| "length is 767 bytes`` error, please set ``Innodb_large_prefix`` as "
-#| "described above."
 msgid ""
 "In case you are getting ``#1071 - Specified key was too long; max key length "
 "is 767 bytes`` error, please update your configuration to include the "
@@ -8890,19 +8895,16 @@ msgid ""
 msgstr ""
 "Если вы получаете ошибку ``#1071 - Specified key was too long; max key "
 "length is 767 bytes`` (указанный ключ слишком длинный; максимальная длина "
-"ключа - 767 байт), то установите ``Innodb_large_prefix``, как описано выше."
+"ключа - 767 байт), то убедитесь, что в конфигурации вашего сервера включены "
+"параметры ``innodb``, описанные выше."
 
 #: ../../admin/install.rst:453
-#, fuzzy
-#| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configuring Weblate to use MySQL/MariaDB"
-msgstr "Настройка Weblate для использования PostgreSQL"
+msgstr "Настройка Weblate для работы совместно с MySQL/MariaDB"
 
 #: ../../admin/install.rst:455
-#, fuzzy
-#| msgid "The :file:`settings.py` snippet for PostgreSQL:"
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
-msgstr "Фрагмент настроек :file:`settings.py` для PostgreSQL:"
+msgstr "Фрагмент файла настроек :file:`settings.py` для MySQL и MariaDB:"
 
 #: ../../admin/install.rst:479
 msgid ""
@@ -9916,24 +9918,19 @@ msgstr ""
 "Celery и Wsgi должны иметь доступ к каталогу :setting:`DATA_DIR`."
 
 #: ../../admin/install.rst:1201
-#, fuzzy
-#| msgid ""
-#| "The Celery process has to be executed under the same user as Weblate and "
-#| "the WSGI process, otherwise files in the :setting:`DATA_DIR` will be "
-#| "stored with mixed ownership, leading to runtime issues."
 msgid ""
 "The WSGI process has to be executed under the same user the Celery process, "
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
-"Процесс Celery должен выполняться под тем же пользователем, под которым "
-"работает Weblate и процесс WSGI, иначе файлы в каталоге :setting:`DATA_DIR` "
-"будут сохраняться с разными владельцами, что приведёт к проблемам во время "
+"Процесс WSGI должен выполняться под тем же пользователем, под которым "
+"работает Celery, иначе файлы в каталоге :setting:`DATA_DIR` будут "
+"сохраняться с разными владельцами, что приведёт к проблемам во время "
 "выполнения."
 
 #: ../../admin/install.rst:1205
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr ""
+msgstr "См. также :ref:`file-permissions` и :ref:`celery`."
 
 #: ../../admin/install.rst:1208
 msgid "Running web server"
@@ -10208,7 +10205,7 @@ msgid ""
 "Weblate uses Celery to process background tasks. A typical setup using Redis "
 "as a backend looks like this:"
 msgstr ""
-"Weblate использует Celery для выполнения задач в фоне. Типовая установка, "
+"Weblate использует Celery для выполнения задач в фоне. Типовая конфигурация, "
 "основанная на Redis, выглядит как-то так:"
 
 #: ../../admin/install.rst:1390
@@ -10216,6 +10213,8 @@ msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Настройка Redis в качестве брокера в Celery <celery:broker-redis-"
+"configuration>`"
 
 #: ../../admin/install.rst:1392
 msgid ""
@@ -10237,24 +10236,19 @@ msgstr ""
 "(что в основном полезно при отладке или разработке):"
 
 #: ../../admin/install.rst:1412
-#, fuzzy
-#| msgid ""
-#| "The Celery process has to be executed under the same user as Weblate and "
-#| "the WSGI process, otherwise files in the :setting:`DATA_DIR` will be "
-#| "stored with mixed ownership, leading to runtime issues."
 msgid ""
 "The Celery process has to be executed under the same user as the WSGI "
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
 "Процесс Celery должен выполняться под тем же пользователем, под которым "
-"работает Weblate и процесс WSGI, иначе файлы в каталоге :setting:`DATA_DIR` "
-"будут сохраняться с разными владельцами, что приведёт к проблемам во время "
+"работает процесс WSGI, иначе файлы в каталоге :setting:`DATA_DIR` будут "
+"сохраняться с разными владельцами, что приведёт к проблемам во время "
 "выполнения."
 
 #: ../../admin/install.rst:1416
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr "См. также :ref:`file-permissions` и :ref:`server`."
 
 #: ../../admin/install.rst:1420
 msgid "Running Celery as system service"
@@ -11037,6 +11031,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:380
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr ""
+"Смотрите возможные топкие места в документацию к параметру "
+":setting:`ENABLE_HTTPS`."
 
 #: ../../admin/install/docker.rst:384
 msgid ""
@@ -11048,14 +11044,12 @@ msgstr ""
 "раздел :ref:`docker-ssl`."
 
 #: ../../admin/install/docker.rst:396
-#, fuzzy
-#| msgid ""
-#| ":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 msgstr ""
-":setting:`ENABLE_HTTPS`, :ref:`production-hosts`, :ref:`production-site`"
+":setting:`ENABLE_HTTPS` :ref:`production-site`, "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
 #: ../../admin/install/docker.rst:402
 msgid ""
@@ -12498,6 +12492,9 @@ msgid ""
 "performance/`` URL or using :command:`weblate check --deploy`, see :ref:"
 "`production`."
 msgstr ""
+"Просмотрите список вероятных проблем с вашей установкой или по адресу ``/"
+"manage/performance/`` в URL, или с помощью команды :command:`weblate check "
+"--deploy`; см. также :ref:`production`."
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -17799,6 +17796,8 @@ msgid ""
 "**Changed in 4.4.1:** Increased minimal required version of translate-"
 "toolkit to address several file format issues."
 msgstr ""
+"**Изменено в 4.4.1:** Увеличена минимальная требуемая версия translate-"
+"toolkit, чтобы решить некоторые проблемы с форматами файлов."
 
 #: ../../admin/upgrade.rst:187
 msgid "Upgrading from Python 2 to Python 3"
@@ -18198,8 +18197,8 @@ msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
 msgstr ""
-"Атрибуты объекта пользователя задокументированы в разделе :http:get:`/api/"
-"users/(str:username)/`."
+"Атрибуты объекта-пользователя описываются в разделе :http:get:`/api/users/"
+"(str:username)/`."
 
 #: ../../api.rst:232
 msgid "Creates a new user."
@@ -18378,7 +18377,7 @@ msgstr ""
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
 msgstr ""
-"Атрибуты объекта группы задокументированы в разделе :http:get:`/api/groups/"
+"Атрибуты объекта-группы описываются в разделе :http:get:`/api/groups/"
 "(int:id)/`."
 
 #: ../../api.rst:407
@@ -18532,8 +18531,7 @@ msgstr ""
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
 msgstr ""
-"Атрибуты объекта роли задокументированы в разделе :http:get:`/api/roles/(int:"
-"id)/`."
+"Атрибуты объекта-роли описываются в разделе :http:get:`/api/roles/(int:id)/`."
 
 #: ../../api.rst:575
 msgid "Creates a new role."
@@ -18584,7 +18582,7 @@ msgid ""
 "Language object attributes are documented at :http:get:`/api/languages/"
 "(string:language)/`."
 msgstr ""
-"Атрибуты объекта языка задокументированы в разделе :http:get:`/api/languages/"
+"Атрибуты объекта-языка описываются в разделе :http:get:`/api/languages/"
 "(string:language)/`."
 
 #: ../../api.rst:643
@@ -18707,8 +18705,8 @@ msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/(string:"
 "project)/`."
 msgstr ""
-"Атрибуты объекта проекта задокументированы в разделе :http:get:`/api/"
-"projects/(string:project)/`."
+"Атрибуты объекта-проекта описываются в разделе :http:get:`/api/projects/"
+"(string:project)/`."
 
 #: ../../api.rst:757
 msgid "Creates a new project."
@@ -18960,8 +18958,8 @@ msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
-"Атрибуты объекта компонента задокументированы в разделе :http:get:`/api/"
-"components/(string:project)/(string:component)/`."
+"Атрибуты объекта-компонента описываются в разделе :http:get:`/api/components/"
+"(string:project)/(string:component)/`."
 
 #: ../../api.rst:1076
 msgid "Returns information about translation component."
@@ -19354,8 +19352,8 @@ msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
-"Атрибуты объекта перевода задокументированы в разделе :http:get:`/api/"
-"translations/(string:project)/(string:component)/(string:language)/`."
+"Атрибуты объекта-перевода описываются в разделе :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1573
 msgid "Returns information about a translation."
@@ -19656,8 +19654,8 @@ msgstr "Возвращает список единиц перевода."
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgstr ""
-"Атрибуты объекта единицы перевода задокументированы в разделе :http:get:`/"
-"api/units/(int:id)/`."
+"Атрибуты объекта единицы перевода описываются в разделе :http:get:`/api/"
+"units/(int:id)/`."
 
 #: ../../api.rst:1869
 msgid ""
@@ -19822,8 +19820,8 @@ msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
-"Атрибуты объекта изменения задокументированы в разделе :http:get:`/api/"
-"changes/(int:id)/`."
+"Атрибуты объекта-изменения описываются в разделе :http:get:`/api/changes/"
+"(int:id)/`."
 
 #: ../../api.rst:1954
 msgid "Username of user to filters"
@@ -19900,8 +19898,8 @@ msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
-"Атрибуты объекта снимка экрана перевода задокументированы в разделе :http:"
-"get:`/api/screenshots/(int:id)/`."
+"Атрибуты объекта снимка экрана описываются в разделе :http:get:`/api/"
+"screenshots/(int:id)/`."
 
 #: ../../api.rst:1992
 msgid "Returns information about screenshot information."
@@ -19974,68 +19972,47 @@ msgid "Delete screenshot."
 msgstr "Удаляет снимок экрана."
 
 #: ../../api.rst:2096
-#, fuzzy
-#| msgid "Returns a list of translations."
 msgid "Returns a list of addons."
-msgstr "Возвращает список переводов."
+msgstr "Возвращает список надстроек."
 
 #: ../../api.rst:2100
-#, fuzzy
-#| msgid ""
-#| "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgid ""
 "Addon object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
-"Атрибуты объекта единицы перевода задокументированы в разделе :http:get:`/"
-"api/units/(int:id)/`."
+"Атрибуты объекта-надстройки, описываются в разделе :http:get:`/api/units/"
+"(int:id)/`."
 
 #: ../../api.rst:2104
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Returns information about addon information."
-msgstr "Возвращает информацию о снимке экрана."
+msgstr "Возвращает информацию о надстройке."
 
 #: ../../api.rst:2106 ../../api.rst:2125 ../../api.rst:2133 ../../api.rst:2141
-#, fuzzy
-#| msgid "Addons"
 msgid "Addon ID"
-msgstr "Надстройки"
+msgstr "ID надстройки"
 
 #: ../../api.rst:2108 ../../api.rst:2118
-#, fuzzy
-#| msgid "name of a group"
 msgid "name of an addon"
-msgstr "название группы"
+msgstr "название надстройки"
 
 #: ../../api.rst:2110 ../../api.rst:2119 ../../api.rst:2127 ../../api.rst:2135
-#, fuzzy
-#| msgid "Optimize configuration"
 msgid "Optional addon configuration"
-msgstr "Оптимизация конфигурации"
+msgstr "Необязательные настройки надстройки"
 
 #: ../../api.rst:2114
-#, fuzzy
-#| msgid "Creates a new role."
 msgid "Creates a new addon."
-msgstr "Создаёт новую роль."
+msgstr "Создаёт новую надстройку."
 
 #: ../../api.rst:2123
-#, fuzzy
-#| msgid "Edit partial information about screenshot."
 msgid "Edit partial information about addon."
-msgstr "Редактирует часть информации о снимке экрана."
+msgstr "Редактирует часть информации о надстройке."
 
 #: ../../api.rst:2131
-#, fuzzy
-#| msgid "Edit full information about screenshot."
 msgid "Edit full information about addon."
-msgstr "Редактирует всю информацию о снимке экрана."
+msgstr "Редактирует всю информацию о надстройке."
 
 #: ../../api.rst:2139
-#, fuzzy
-#| msgid "Deletes a component."
 msgid "Delete addon."
-msgstr "Удаляет компонент."
+msgstr "Удаляет надстройку."
 
 #: ../../api.rst:2148
 msgid "Component lists"
@@ -20050,8 +20027,8 @@ msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
-"Атрибуты объекта списка компонентов задокументированы в разделе :http:get:`/"
-"api/component-lists/(str:slug)/`."
+"Атрибуты объекта списка компонентов описываются в разделе :http:get:`/api/"
+"component-lists/(str:slug)/`."
 
 #: ../../api.rst:2162
 msgid "Returns information about component list."
@@ -20556,8 +20533,6 @@ msgid "Fixed displaying help for project settings."
 msgstr "Исправлено отображение помощи для настроек проекта."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved administering of users."
 msgid "Improved administration of users."
 msgstr "Улучшено управление пользователями."
 
@@ -20577,22 +20552,16 @@ msgid "Fixed parsing of location from CSV files."
 msgstr "Исправлен парсинг расположения из CSV-файлов."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of file downloads."
 msgid "Use content compression for file downloads."
-msgstr "Улучшена производительность скачивания файлов."
+msgstr "Использование сжатия содержимого при скачивании файлов."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved support for PHP files."
 msgid "Improved user experience on importing from ZIP file."
-msgstr "Улучшена поддержка PHP-файлов."
+msgstr "Улучшена процедура импорта ZIP-файлов."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of file downloads."
 msgid "Improved detection of file format for uploads."
-msgstr "Улучшена производительность скачивания файлов."
+msgstr "Улучшено распознавание форматов файлов при загрузке."
 
 #: ../../changes.rst:15
 msgid "Avoid duplicate pull requests on Pagure."
@@ -28074,8 +28043,9 @@ msgid ""
 "This is not suitable setup for production, it includes several hacks which "
 "are insecure, but make development easier."
 msgstr ""
-"Такая установка не подходит для рабочей системы, она включает в себя "
-"несколько небезопасных хаков, которые, однако, упрощают разработку."
+"Такая конфигурация не подходит для использования в качестве полноценной "
+"рабочей системы: она включает в себя несколько небезопасных хаков, которые, "
+"однако, упрощают разработку."
 
 #: ../../contributing/start.rst:121
 msgid "Coding Weblate with PyCharm"
