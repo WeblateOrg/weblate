@@ -16,6 +16,7 @@ Not yet released.
 * Improved performance when displaying ghost translations.
 * Reimplemented translation editor to use native browser textarea.
 * Fixed cleanup addon breaking adding new strings.
+* Added API for addons.
 
 Weblate 4.4
 -----------
