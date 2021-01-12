@@ -344,6 +344,8 @@ def ensure_valid(
 
     # Verify if this mail is not used on other accounts
     if new_association:
+        if "email" not in details:
+            raise AuthMissingParameter(backend, "email")
         same = VerifiedEmail.objects.filter(email__iexact=details["email"])
         if user:
             same = same.exclude(social__user=user)
