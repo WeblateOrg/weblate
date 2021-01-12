@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-10 09:06+0100\n"
-"PO-Revision-Date: 2021-01-08 12:13+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2021-01-12 16:32+0000\n"
+"Last-Translator: Simon Picot <simonpicot06@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
 "Language: fr\n"
@@ -1937,52 +1937,45 @@ msgid "Management interface"
 msgstr "Interface de gestion"
 
 #: ../../admin/admin.rst:6
-#, fuzzy
-#| msgid ""
-#| "The management interface offer administration settings under the :file:`/"
-#| "management/` URL. It is available for users signed in with admin "
-#| "privileges, accessible by using the wrench icon top right:"
 msgid ""
 "The management interface offer administration settings under the :file:`/"
 "manage/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
-"L’interface de gestion offre des paramètres d’administration sous l’URL :"
-"file:`/management/`. Elle est disponible pour les utilisateurs connectés "
-"avec des privilèges d’administrateur, et est accessible en utilisant l’icône "
-"en forme de clé située en haut à droite :"
+"L’interface de gestion offre des paramètres d’administration sous l’URL "
+":file:`/manage/`. Elle est disponible pour les utilisateurs connectés avec "
+"des privilèges d’administrateur, et est accessible en utilisant l’icône en "
+"forme de clé située en haut à droite :"
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr ""
+msgstr "Elle comprend un aperçu de base de votre Weblate :"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr ""
+msgstr "Statut de l'assistance, voir :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr ""
+msgstr "Sauvegardes, voir :doc:`backup`"
 
 #: ../../admin/admin.rst:16
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Shared translation memory, see :doc:`memory`"
-msgstr "Mémoire de traduction partagé"
+msgstr "Mémoire de traduction partagé, voir :doc:`memory`"
 
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
 msgstr ""
+"Rapport de performance pour examiner l'état de Weblate et la longueur des "
+"files d’attente Celery"
 
 #: ../../admin/admin.rst:18
-#, fuzzy
-#| msgid "SSH keys management"
 msgid "SSH keys management, see :ref:`ssh-repos`"
-msgstr "Gestion des clés SSH"
+msgstr "Gestion des clés SSH, voir :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr ""
+msgstr "Vue d'ensemble des alertes pour tous les composants, voir :ref:`alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
@@ -2321,16 +2314,12 @@ msgid "GitHub authentication"
 msgstr "S’authentifier avec GitHub"
 
 #: ../../admin/auth.rst:90
-#, fuzzy
-#| msgid ""
-#| "You need to register an application on GitHub and then tell Weblate all "
-#| "its secrets:"
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
-"Vous devez créer une application sur Github et confier à Weblate tous ses "
-"petits secrets :"
+"Vous devez créer une application OAuth sur Github et confier à Weblate tous "
+"ses petits secrets :"
 
 #: ../../admin/auth.rst:106
 msgid ""
@@ -2828,6 +2817,8 @@ msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
+"Les bases de données PostgreSQL et MySQL/MariaDB sont incluses dans les "
+"sauvegardes automatisées."
 
 #: ../../admin/backup.rst:20
 msgid ""
@@ -4150,6 +4141,11 @@ msgid ""
 "be ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
+"Vous pouvez configurer une liste de contrôles qui ne peuvent être ignorés en "
+"définissant :ref:`component-enforced_checks` dans :ref:`component`. Chaque "
+"vérification listée ne peut pas être ignorée dans l'interface utilisateur et "
+"toute chaîne échouant à cette vérification est marquée comme :guilabel:`"
+"Needs editing` (voir :ref:`states`)."
 
 #: ../../admin/checks.rst:225
 msgid "Managing fonts"
@@ -4161,6 +4157,9 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
+"La vérification :ref:`check-max-size`est utilisée pour calculer les "
+"dimensions du texte rendu, la police doit être chargée dans Weblate et "
+"sélectionnée à l'aide d'une marque de traduction (voir :ref:`custom-checks`)."
 
 #: ../../admin/checks.rst:233
 msgid ""
@@ -5145,19 +5144,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:616
-#, fuzzy
-#| msgid ""
-#| ":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:"
-#| "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :ref:"
-#| "`production-site`"
 msgid ""
 ":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:"
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 msgstr ""
-":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:"
-"CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :ref:`production-"
-"site`"
+":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:CSRF_COOKIE_SECURE`"
+", :setting:`django:SECURE_SSL_REDIRECT`, "
+":setting:`django:SECURE_PROXY_SSL_HEADER` :ref:`production-site`"
 
 #: ../../admin/config.rst:625
 msgid "ENABLE_SHARING"
@@ -8059,10 +8053,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:453
-#, fuzzy
-#| msgid "Configuring Weblate"
 msgid "Configuring Weblate to use MySQL/MariaDB"
-msgstr "Configurer Weblate"
+msgstr "Configurer Weblate pour utiliser MySQL/MariaDB"
 
 #: ../../admin/install.rst:455
 msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
@@ -13062,7 +13054,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:242
 msgid "Lockout period"
-msgstr ""
+msgstr "Période de verrouillage"
 
 #: ../../admin/optionals.rst:244 ../../user/profile.rst:5
 msgid "Registration"
@@ -13162,7 +13154,7 @@ msgstr "Projets de traduction"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "Organisation de traduction"
 
 #: ../../admin/projects.rst:7
 msgid ""
@@ -13569,7 +13561,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:290
 msgid "Component project"
-msgstr ""
+msgstr "Projet du composant"
 
 #: ../../admin/projects.rst:292
 msgid ":ref:`project` where the component belongs."
@@ -14119,7 +14111,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:688
 msgid "Filter description"
-msgstr ""
+msgstr "Description du filtre"
 
 #: ../../admin/projects.rst:688 ../../user/checks.rst:777
 msgid "Regular expression"
@@ -14224,7 +14216,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:748
 msgid "Template markup"
-msgstr ""
+msgstr "Balisage de modèle"
 
 #: ../../admin/projects.rst:750
 msgid ""
@@ -14566,7 +14558,7 @@ msgstr ""
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
-msgstr ""
+msgstr "Intégration de l'assistance"
 
 #: ../../admin/support.rst:18
 msgid ""
@@ -14608,7 +14600,7 @@ msgstr ""
 
 #: ../../admin/support.rst:36
 msgid "Integration services"
-msgstr ""
+msgstr "Intégration de services"
 
 #: ../../admin/support.rst:38
 msgid "See if your support package is still valid"
@@ -14693,7 +14685,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:56
 msgid "Strings prioritization"
-msgstr ""
+msgstr "Priorité de chaînes"
 
 #: ../../admin/translating.rst:60
 msgid ""
@@ -14766,7 +14758,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
-msgstr ""
+msgstr "Mise à niveau de Weblate"
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
@@ -15203,7 +15195,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Query Parameters"
-msgstr ""
+msgstr "Paramètres de requête"
 
 #: ../../api.rst:33
 msgid ""
@@ -15214,7 +15206,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "En-têtes de requête"
 
 #: ../../api.rst:37
 msgid "the response content type depends on :http:header:`Accept` header"
@@ -15226,7 +15218,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "En-têtes de réponse"
 
 #: ../../api.rst:40
 msgid "this depends on :http:header:`Accept` header of request"
@@ -15272,7 +15264,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr ""
+msgstr "Codes d'état"
 
 #: ../../api.rst:50
 msgid "when request was correctly handled"
@@ -15292,21 +15284,21 @@ msgstr ""
 
 #: ../../api.rst:56
 msgid "Authentication examples"
-msgstr ""
+msgstr "Exemples d'authentification"
 
 #: ../../api.rst:58 ../../api.rst:186
 msgid "**Example request:**"
-msgstr ""
+msgstr "**Exemple de requête :**"
 
 #: ../../api.rst:67 ../../api.rst:195
 msgid "**Example response:**"
-msgstr ""
+msgstr "**Exemple de réponse :**"
 
 #: ../../api.rst:87 ../../api.rst:127 ../../api.rst:869 ../../api.rst:937
 #: ../../api.rst:1185 ../../api.rst:1336 ../../api.rst:1403 ../../api.rst:1479
 #: ../../api.rst:1787 ../../api.rst:2016
 msgid "**CURL example:**"
-msgstr ""
+msgstr "**Exemple CURL :**"
 
 #: ../../api.rst:96
 msgid "Passing Parameters Examples"
@@ -15424,7 +15416,7 @@ msgstr ""
 
 #: ../../api.rst:238
 msgid "User email"
-msgstr ""
+msgstr "Courriel utilisateur"
 
 #: ../../api.rst:240
 msgid "Is user superuser? (optional)"
@@ -15442,7 +15434,7 @@ msgstr ""
 #: ../../api.rst:315 ../../api.rst:323 ../../api.rst:335 ../../api.rst:342
 #: ../../api.rst:352 ../../api.rst:361 ../../api.rst:373 ../../api.rst:385
 msgid "User's username"
-msgstr ""
+msgstr "Nom d'utilisateur de l'utilisateur"
 
 #: ../../api.rst:251 ../../api.rst:284 ../../api.rst:297
 msgid "username of a user"
@@ -15492,7 +15484,7 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "Paramètres de formulaire"
 
 #: ../../api.rst:317
 msgid "The unique group ID"
@@ -15606,7 +15598,7 @@ msgstr ""
 #: ../../api.rst:521 ../../api.rst:530 ../../api.rst:538 ../../api.rst:547
 #: ../../api.rst:555
 msgid "Group's ID"
-msgstr ""
+msgstr "ID du groupe"
 
 #: ../../api.rst:422 ../../api.rst:463 ../../api.rst:473
 msgid "name of a group"
@@ -15730,7 +15722,7 @@ msgstr ""
 
 #: ../../api.rst:577 ../../api.rst:588 ../../api.rst:610 ../../api.rst:619
 msgid "Role name"
-msgstr ""
+msgstr "Nom du rôle"
 
 #: ../../api.rst:579
 msgid "List of codenames of permissions"
@@ -15742,7 +15734,7 @@ msgstr ""
 
 #: ../../api.rst:586
 msgid "Role ID"
-msgstr ""
+msgstr "ID de rôle"
 
 #: ../../api.rst:589 ../../api.rst:611 ../../api.rst:620
 msgid "list of codenames of permissions"
@@ -15754,7 +15746,7 @@ msgstr ""
 
 #: ../../api.rst:608 ../../api.rst:617 ../../api.rst:626
 msgid "Role's ID"
-msgstr ""
+msgstr "ID du rôle"
 
 #: ../../api.rst:624
 msgid "Deletes the role."
@@ -15781,7 +15773,7 @@ msgstr ""
 #: ../../api.rst:649 ../../api.rst:699 ../../api.rst:709 ../../api.rst:2257
 #: ../../api.rst:2267
 msgid "Language direction"
-msgstr ""
+msgstr "Direction de la langue"
 
 #: ../../api.rst:651
 msgid "Language plural formula and number"
@@ -15805,7 +15797,7 @@ msgstr ""
 
 #: ../../api.rst:696 ../../api.rst:706 ../../api.rst:716
 msgid "Language's code"
-msgstr ""
+msgstr "Code de la langue"
 
 #: ../../api.rst:700 ../../api.rst:710 ../../api.rst:2258 ../../api.rst:2268
 msgid "Language plural details"
@@ -15917,15 +15909,15 @@ msgstr "URL abrégée du projet"
 
 #: ../../api.rst:772
 msgid "project name"
-msgstr ""
+msgstr "Nom du projet"
 
 #: ../../api.rst:773
 msgid "project slug"
-msgstr ""
+msgstr "Projet abrégé"
 
 #: ../../api.rst:774
 msgid "project website"
-msgstr ""
+msgstr "Site Web du projet"
 
 #: ../../api.rst:775
 msgid ""
@@ -16093,11 +16085,11 @@ msgstr ""
 
 #: ../../api.rst:1039 ../../api.rst:1845
 msgid "language name"
-msgstr ""
+msgstr "Nom de la langue"
 
 #: ../../api.rst:1040 ../../api.rst:1836
 msgid "language code"
-msgstr ""
+msgstr "Code de la langue"
 
 #: ../../api.rst:1050
 msgid "Returns statistics for a project."
@@ -16506,7 +16498,7 @@ msgstr "nombre de mots avec des contrôles échoués"
 
 #: ../../api.rst:1585
 msgid "translation filename"
-msgstr ""
+msgstr "Nom du fichier de traduction"
 
 #: ../../api.rst:1588
 msgid "number of words in fuzzy (marked for edit) strings"
@@ -16674,7 +16666,7 @@ msgstr ""
 
 #: ../../api.rst:1781 ../../api.rst:2014 ../../api.rst:2050
 msgid "Uploaded file"
-msgstr ""
+msgstr "Fichier téléversé"
 
 #: ../../api.rst:1782
 msgid "Author e-mail"
@@ -16752,7 +16744,7 @@ msgstr ""
 #: ../../api.rst:1874 ../../api.rst:1908 ../../api.rst:1921 ../../api.rst:1934
 #: ../../api.rst:2031
 msgid "Unit ID"
-msgstr ""
+msgstr "ID d'unité"
 
 #: ../../api.rst:1876 ../../api.rst:1966 ../../api.rst:2033
 msgid "URL of a related translation object"
@@ -16760,7 +16752,7 @@ msgstr ""
 
 #: ../../api.rst:1877
 msgid "source string"
-msgstr ""
+msgstr "Chaîne source"
 
 #: ../../api.rst:1878
 msgid "previous source string used for fuzzy matching"
@@ -16768,7 +16760,7 @@ msgstr ""
 
 #: ../../api.rst:1879 ../../api.rst:1911 ../../api.rst:1924
 msgid "target string"
-msgstr ""
+msgstr "Chaîne cible"
 
 #: ../../api.rst:1880
 msgid "unique identifier of the unit"
@@ -16838,7 +16830,7 @@ msgstr ""
 
 #: ../../api.rst:1896
 msgid "unit identifier"
-msgstr ""
+msgstr "Identifiant d'unité"
 
 #: ../../api.rst:1897 ../../api.rst:1912 ../../api.rst:1925
 msgid "String explanation, available on source units, see :ref:`additional`"
@@ -16913,7 +16905,7 @@ msgstr ""
 
 #: ../../api.rst:1963
 msgid "Change ID"
-msgstr ""
+msgstr "ID de la modification"
 
 #: ../../api.rst:1965
 msgid "URL of a related unit object"
@@ -16938,7 +16930,7 @@ msgstr ""
 
 #: ../../api.rst:1971
 msgid "event timestamp"
-msgstr ""
+msgstr "Horodatage de l'événement"
 
 #: ../../api.rst:1972
 msgid "numeric identification of action"
@@ -16954,7 +16946,7 @@ msgstr ""
 
 #: ../../api.rst:1975
 msgid "change identifier"
-msgstr ""
+msgstr "Identifiant de l'événement"
 
 #: ../../api.rst:1984
 msgid "Returns a list of screenshot string information."
@@ -16973,7 +16965,7 @@ msgstr ""
 #: ../../api.rst:1994 ../../api.rst:2005 ../../api.rst:2012 ../../api.rst:2029
 #: ../../api.rst:2041 ../../api.rst:2064 ../../api.rst:2075 ../../api.rst:2086
 msgid "Screenshot ID"
-msgstr ""
+msgstr "ID de la capture d'écran"
 
 #: ../../api.rst:1996 ../../api.rst:2032 ../../api.rst:2055 ../../api.rst:2066
 #: ../../api.rst:2077
@@ -17085,7 +17077,7 @@ msgstr ""
 
 #: ../../api.rst:2148
 msgid "Component ID"
-msgstr ""
+msgstr "ID du composant"
 
 #: ../../api.rst:2152
 msgid "Disassociate a component from the component list."
@@ -17448,11 +17440,11 @@ msgstr ""
 
 #: ../../api.rst:2543
 msgid "**Example request**:"
-msgstr ""
+msgstr "**Exemple de requête** :"
 
 #: ../../api.rst:2551
 msgid "**Example response**:"
-msgstr ""
+msgstr "**Exemple de réponse** :"
 
 #: ../../api.rst:2616
 msgid "RSS feeds"
@@ -17503,10 +17495,8 @@ msgid "Fixed displaying help for project settings."
 msgstr ""
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Group for administrators."
 msgid "Improved administration of users."
-msgstr "Groupe pour les administrateurs."
+msgstr "Amélioration de l'administration des utilisateurs."
 
 #: ../../changes.rst:9
 msgid "Improved handling of context in monolingual PO files."
@@ -17531,20 +17521,17 @@ msgid "Improved user experience on importing from ZIP file."
 msgstr ""
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Improved detection of file format for uploads."
-msgstr "Le format de fichier détecté n’est pas pris en charge."
+msgstr "Amélioration de détection de type de fichier pour les téléversements."
 
 #: ../../changes.rst:15
 msgid "Avoid duplicate pull requests on Pagure."
 msgstr ""
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improved other translations tab while translating."
 msgid "Improved performance when displaying ghost translations."
-msgstr "Amélioration de l’onglet Autres langues lors de la traduction."
+msgstr ""
+"Amélioration des performances lors de l'affichage des traductions fantômes."
 
 #: ../../changes.rst:17
 msgid "Reimplemented translation editor to use native browser textarea."
@@ -17559,10 +17546,8 @@ msgid "Released on December 15th 2020."
 msgstr "Version publiée le 15 décembre 2020."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added option to watch a component."
 msgid "Improved validation when creating a component."
-msgstr "Ajout d’une option pour surveiller un composant."
+msgstr "Amélioration de la validation lors de la création d'un composant."
 
 #: ../../changes.rst:25
 msgid "Weblate now requires Django 3.1."
@@ -17607,10 +17592,8 @@ msgid "Improved support for non-standard language codes."
 msgstr ""
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Added alert on using ambiguous language codes."
 msgid "Added alert when using ambiguous language codes."
-msgstr "Ajout d’une alerte lors de l’utilisation de codes langue ambigus."
+msgstr "Ajout d’une alerte lors de l’utilisation de codes de langue ambigus."
 
 #: ../../changes.rst:35
 msgid ""
@@ -17631,34 +17614,26 @@ msgid "Extended translation statistics API."
 msgstr "API des statistiques de traduction étendue."
 
 #: ../../changes.rst:39
-#, fuzzy
-#| msgid "Improved other translations tab while translating."
 msgid "Improved \"other translations\" tab while translating."
-msgstr "Amélioration de l’onglet Autres langues lors de la traduction."
+msgstr "Amélioration de l’onglet \"Autres langues\" lors de la traduction."
 
 #: ../../changes.rst:40
 msgid "Added tasks API."
 msgstr ""
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Improved performance of matrix view."
 msgid "Improved performance of file upload."
-msgstr "Amélioration des performances de la vue matricielle."
+msgstr "Amélioration des performances du téléversement de fichier."
 
 #: ../../changes.rst:42
 msgid "Improved display of user defined special characters."
 msgstr ""
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid "Improved performance of matrix view."
 msgid "Improved performance of auto-translation."
-msgstr "Amélioration des performances de la vue matricielle."
+msgstr "Amélioration des performances de la traduction automatique."
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "Several minor user interface improvements."
 msgid "Several minor improvements in the user interface."
 msgstr "Plusieurs améliorations mineures de l’interface utilisateur."
 
@@ -17695,10 +17670,8 @@ msgid "Added support for Pagure pull requests."
 msgstr "Ajout de la prise en charge des demandes de fusion Pagure."
 
 #: ../../changes.rst:56
-#, fuzzy
-#| msgid "Improved CodeMirror integration."
 msgid "Improved error messages for failed registrations."
-msgstr "Amélioration de l’intégration avec CodeMirror."
+msgstr "Amélioration des messages d'erreur pour les inscriptions échouées."
 
 #: ../../changes.rst:57
 msgid "Reverted rendering developer comments as Markdown."
@@ -17741,8 +17714,6 @@ msgid "Released on October 21st 2020."
 msgstr "Version publiée le 21 octobre 2020."
 
 #: ../../changes.rst:70
-#, fuzzy
-#| msgid "Improved auto translate performance."
 msgid "Improved auto-translation performance."
 msgstr "Amélioration des performances de la traduction automatique."
 
@@ -17760,8 +17731,6 @@ msgid "Improve hooks compatibility with Bitbucket Server."
 msgstr ""
 
 #: ../../changes.rst:74
-#, fuzzy
-#| msgid "Improved translation memory updates performance."
 msgid "Improved performance of translation memory updates."
 msgstr ""
 "Amélioration des performances pour la mise à jour des mémoires de traduction."
@@ -17771,17 +17740,12 @@ msgid "Reduced memory usage."
 msgstr ""
 
 #: ../../changes.rst:76
-#, fuzzy
-#| msgid "Improved performance of matrix view."
 msgid "Improved performance of Matrix view."
 msgstr "Amélioration des performances de la vue matricielle."
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid "Added confirmation before removing user from a project."
 msgid "Added confirmation before removing a user from a project."
-msgstr ""
-"Ajout d’une confirmation avant le retrait d’un utilisateur d’un projet."
+msgstr "Ajout d’une confirmation avant de retirer un utilisateur d’un projet."
 
 #: ../../changes.rst:80
 msgid "Weblate 4.3"
@@ -17840,8 +17804,6 @@ msgstr ""
 "des balises de remplacement."
 
 #: ../../changes.rst:95
-#, fuzzy
-#| msgid "Improved look of matrix mode."
 msgid "Improved look of Matrix mode."
 msgstr "Amélioration de l’aspect du mode matriciel."
 
@@ -17876,10 +17838,8 @@ msgid "Consolidated API response status codes."
 msgstr "Consolidation des codes de statut de réponse de l’API."
 
 #: ../../changes.rst:102
-#, fuzzy
-#| msgid "Support markdown in contributor agreement."
 msgid "Support Markdown in contributor agreement."
-msgstr "Prise en charge du markdown dans l’accord de contribution."
+msgstr "Prise en charge du Markdown dans l’accord de contribution."
 
 #: ../../changes.rst:103
 msgid "Improved source strings tracking."
@@ -18900,10 +18860,8 @@ msgid "Compatibility with Django 3.0."
 msgstr ""
 
 #: ../../changes.rst:422
-#, fuzzy
-#| msgid "Improved file upload performance."
 msgid "Improved data clean-up performance."
-msgstr "Amélioration des performances lors du téléversement de fichiers."
+msgstr "Amélioration des performances lors du nettoyage des données."
 
 #: ../../changes.rst:423
 msgid "Added support for customizable security.txt."
@@ -19345,7 +19303,7 @@ msgstr "Version publiée le 28 juin 2019."
 
 #: ../../changes.rst:552 ../../changes.rst:1520
 msgid "Documentation updates."
-msgstr ""
+msgstr "Modifications de la documentation."
 
 #: ../../changes.rst:553
 msgid "Fixed some requirements constraints."
@@ -19357,7 +19315,7 @@ msgstr ""
 
 #: ../../changes.rst:555 ../../changes.rst:646 ../../changes.rst:793
 msgid "Localization updates."
-msgstr ""
+msgstr "Mises à jour de localisation."
 
 #: ../../changes.rst:556
 msgid "Various user interface tweaks."
@@ -21020,7 +20978,7 @@ msgstr "Version publiée le 31 août 2016."
 #: ../../changes.rst:1276 ../../changes.rst:1292 ../../changes.rst:1338
 #: ../../changes.rst:1485 ../../changes.rst:1523
 msgid "Documentation improvements."
-msgstr ""
+msgstr "Améliorations de la documentation."
 
 #: ../../changes.rst:1103
 msgid "Translations."
@@ -21526,7 +21484,7 @@ msgstr "Version publiée le 19 février 2015."
 
 #: ../../changes.rst:1254
 msgid "Performance improvements."
-msgstr ""
+msgstr "Amélioration des performances."
 
 #: ../../changes.rst:1255
 msgid "Fulltext search on location and comments fields."
@@ -21599,7 +21557,7 @@ msgstr ""
 
 #: ../../changes.rst:1277
 msgid "Various bugfixes."
-msgstr ""
+msgstr "Diverses corrections de bugs."
 
 #: ../../changes.rst:1278
 msgid "Automatic hiding of columns in translation listing for small screens."
@@ -22522,7 +22480,7 @@ msgstr ""
 
 #: ../../changes.rst:1584
 msgid "Microsoft Translator"
-msgstr ""
+msgstr "Microsoft Traduction"
 
 #: ../../changes.rst:1586
 msgid "Several new translations."
@@ -22626,7 +22584,7 @@ msgstr "Version publiée le 6 février 2012."
 
 #: ../../changes.rst:1628
 msgid "Initial release."
-msgstr ""
+msgstr "Première version."
 
 #: ../../contributing/about.rst:2
 msgid "About Weblate"
@@ -22787,10 +22745,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
-#, fuzzy
-#| msgid "Hook triggered after new translation is added."
 msgid "Hook triggered after a file is parsed."
-msgstr "Crochet déclenché lors de l’ajout d’une nouvelle traduction."
+msgstr "Crochet déclenché après l'analyse d'un fichier."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
@@ -22843,7 +22799,7 @@ msgstr ""
 
 #: ../../contributing/code.rst:23
 msgid "Coding standard"
-msgstr ""
+msgstr "Normes de développement"
 
 #: ../../contributing/code.rst:25
 msgid ""
@@ -22873,7 +22829,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
-msgstr ""
+msgstr "Déboguer Weblate"
 
 #: ../../contributing/debugging.rst:4
 msgid ""
@@ -22895,7 +22851,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:22
 msgid "Weblate logs"
-msgstr ""
+msgstr "Logs de Weblate"
 
 #: ../../contributing/debugging.rst:24
 msgid ""
@@ -22936,10 +22892,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/debugging.rst:48
-#, fuzzy
-#| msgid "Things to check prior to release:"
 msgid "Things to check in that case:"
-msgstr "Choses à vérifier avant publication :"
+msgstr "Choses à vérifier dans ce cas :"
 
 #: ../../contributing/debugging.rst:50
 msgid "Check Celery process is running, see :ref:`celery`"
@@ -22989,7 +22943,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:78
 msgid "Silent failures"
-msgstr ""
+msgstr "Échecs silencieux"
 
 #: ../../contributing/debugging.rst:80
 msgid ""
@@ -23001,7 +22955,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:86
 msgid "Performance issues"
-msgstr ""
+msgstr "Problèmes de performance"
 
 #: ../../contributing/debugging.rst:88
 msgid ""
@@ -23020,7 +22974,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
-msgstr ""
+msgstr "Interface de Weblate"
 
 #: ../../contributing/frontend.rst:4
 msgid ""
@@ -23029,10 +22983,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/frontend.rst:7
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supported browsers"
-msgstr "Formats de fichiers pris en charge"
+msgstr "Navigateurs pris en charge"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
@@ -24062,10 +24014,8 @@ msgid "*Default component list*"
 msgstr "*Liste de composants par défaut*"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "*null*"
 msgid "null"
-msgstr "*nul*"
+msgstr "nul"
 
 #: ../../contributing/schemas.rst:19
 msgid "anyOf"
@@ -24965,10 +24915,8 @@ msgid "Weblate basics"
 msgstr "Bases de Weblate"
 
 #: ../../snippets/basics.rst:5
-#, fuzzy
-#| msgid "Projects and components structure"
 msgid "Project and component structure"
-msgstr "Structure des projets et composants"
+msgstr "Structure du projet et des composants"
 
 #: ../../snippets/basics.rst:7
 msgid ""
