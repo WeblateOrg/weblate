@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-10 09:06+0100\n"
-"PO-Revision-Date: 2021-01-11 17:32+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2021-01-12 16:32+0000\n"
+"Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1185,7 +1185,7 @@ msgstr "批量编辑"
 
 #: ../../admin/addons.rst:144
 msgid "Bulk edit flags, labels or state for strings."
-msgstr "批量编辑字符串标志、标签或状态。"
+msgstr "批量编辑字符串标记、标签或状态。"
 
 #: ../../admin/addons.rst:146
 msgid ""
@@ -1728,15 +1728,15 @@ msgstr ""
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr ""
+msgstr "它包括您 Weblate 的基本视图："
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr ""
+msgstr "支持状态，请参见 :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr ""
+msgstr "备份，请参见 :doc:`backup`"
 
 #: ../../admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`"
@@ -1744,7 +1744,7 @@ msgstr "共享的翻译记忆库，见 :doc:`memory`"
 
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
-msgstr ""
+msgstr "性能报告，来复查 Weblate 的健康状况和 Celery 队列的长度"
 
 #: ../../admin/admin.rst:18
 msgid "SSH keys management, see :ref:`ssh-repos`"
@@ -2507,7 +2507,7 @@ msgstr ""
 msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
-msgstr ""
+msgstr "PostgreSQL 和 MySQL/MariaDB 数据库都包括在自动备份中。"
 
 #: ../../admin/backup.rst:20
 msgid ""
@@ -4784,6 +4784,10 @@ msgid ""
 "or ``Forwarded`` headers or configure :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgstr ""
+"在一些情况下 HTTPS 重定向会有问题，您可以在使用反向代理进行 SSL 终端连接的情况下碰到无限重定向的问题，使用反向代理进行 SSL "
+"终端连接不能将协议标头正确地传递给 Django。请调整自己的反向代理配置，去掉 ``X-Forwarded-Proto`` 或 "
+"``Forwarded`` 标头，或者配置 :setting:`django:SECURE_PROXY_SSL_HEADER`，让 Django "
+"正确地检测 SSL 状态。"
 
 #: ../../admin/config.rst:616
 msgid ""
@@ -7999,6 +8003,8 @@ msgid ""
 "concurrent users accessing the system.  See the various vendors "
 "documentation on those details."
 msgstr ""
+"下面是用于 8GB 服务器的 /etc/my.cnf.d/server.cnf 的例子。这些设置应该足以用于多数安装。MySQL 和 MariaDB "
+"具有来提高服务器性能的可调整部分，除非计划有大量并发用户访问系统，否则这些可调整部分被认为是不必要的。这些细节请查看各个销售商的文档。"
 
 #: ../../admin/install.rst:426
 msgid ""
@@ -8006,6 +8012,8 @@ msgid ""
 "``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before "
 "you start your Weblate install."
 msgstr ""
+"在运行您的 Weblate 前设置好 ``innodb_file_per_table`` 设置并重启 MySQL/"
+"MariaDB，这对减少安装时的问题绝对重要。"
 
 #: ../../admin/install.rst:448
 msgid ""
@@ -8028,7 +8036,7 @@ msgstr "MySQL 和 MariaDB 的 :file:`settings.py` 片段："
 msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install.  Use the commands below to achieve that:"
-msgstr ""
+msgstr "开始安装前还应该在 MySQL 或 MariaDB 中创建 ``weblate`` 用户账户。使用下面的命令来实现："
 
 #: ../../admin/install.rst:488
 msgid "Other configurations"
@@ -8370,7 +8378,7 @@ msgstr "同样也推荐查看由 Django 触发的检查（尽管可能不需要�
 msgid ""
 "You can also review the very same checklist from the :ref:`management-"
 "interface`."
-msgstr ""
+msgstr "还可以复查来自 :ref:`management-interface` 的每个检查表。"
 
 #: ../../admin/install.rst:737
 msgid ":doc:`django:howto/deployment/checklist`"
@@ -8531,7 +8539,7 @@ msgstr ""
 msgid ""
 "In case you change Redis settings for the cache, you might need to adjust "
 "them for Celery as well, see :ref:`celery`."
-msgstr ""
+msgstr "在为缓存更改 Redis 设置的情况下，也会需要为 Celery 来调整，请参见 :ref:`celery`。"
 
 #: ../../admin/install.rst:885
 msgid ":ref:`production-cache-avatar`, :doc:`django:topics/cache`"
@@ -8942,7 +8950,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1205
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr ""
+msgstr "还请参见 :ref:`file-permissions` 和 :ref:`celery`。"
 
 #: ../../admin/install.rst:1208
 msgid "Running web server"
@@ -9194,6 +9202,8 @@ msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Redis broker configuration in Celery <celery:broker-redis-"
+"configuration>`"
 
 #: ../../admin/install.rst:1392
 msgid ""
@@ -9223,7 +9233,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1416
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr "还请参见 :ref:`file-permissions` 和 :ref:`server`。"
 
 #: ../../admin/install.rst:1420
 msgid "Running Celery as system service"
@@ -9912,12 +9922,12 @@ msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
 msgstr ""
-"让 Weblate 假定在反向 HTTPS 代理后面操作，这使 Weblate 在电子邮件和 API 链接"
-"中使用 HTTPS ，或者在 cookies 上设置安全标志。"
+"让 Weblate 假定在反向 HTTPS 代理后面操作，这使 Weblate 在电子邮件和 API 链接中使用 HTTPS ，或者在 cookies "
+"上设置安全标记。"
 
 #: ../../admin/install/docker.rst:380
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
-msgstr ""
+msgstr "可能的警告请参见 :setting:`ENABLE_HTTPS` 文档。"
 
 #: ../../admin/install/docker.rst:384
 msgid ""
@@ -11236,6 +11246,8 @@ msgid ""
 "performance/`` URL or using :command:`weblate check --deploy`, see :ref:"
 "`production`."
 msgstr ""
+"在 ``/manage/performance/`` URL 上或使用 :command:`weblate check --deploy` "
+"来复查您安装的潜在问题，请参见 :ref:`production`。"
 
 #: ../../admin/install/steps/install-after.rst:14
 msgid "Adding translation"
@@ -15528,9 +15540,8 @@ msgid ""
 "Some of that info may be extracted from the translation files and some may "
 "be added by editing the additional string info:"
 msgstr ""
-"通过向字符串添加额外的信息来增强翻译过程，这些信息包括解释、字符串优先级、检"
-"查标志和可视化上下文。有些信息可以从翻译文件中提取，有些可以通过编辑额外的字"
-"符串信息添加:"
+"通过向字符串添加额外的信息来增强翻译过程，这些信息包括解释、字符串优先级、检查标记和可视化上下文。有些信息可以从翻译文件中提取，有些可以通过编辑额外的字符"
+"串信息添加:"
 
 #: ../../admin/translating.rst:50
 msgid ""
@@ -15587,9 +15598,7 @@ msgstr "在以前的版本中这被称为 :guilabel:`Extra context`。"
 msgid ""
 "Use the explanation to clarify scope or usage of the translation. You can "
 "use Markdown to include links and other markup."
-msgstr ""
-"使用解释来明确翻译的范围或翻译的 使用。你可以使用 Markdown 来包括连接和其他标"
-"志。"
+msgstr "使用解释来明确翻译的范围或翻译的 使用。您可以使用 Markdown 来包括连接和其它标志。"
 
 #: ../../admin/translating.rst:98
 msgid "Visual context for strings"
@@ -17819,7 +17828,7 @@ msgstr "翻译单元的注解"
 
 #: ../../api.rst:1885
 msgid "translation unit flags"
-msgstr "翻译单元的标志"
+msgstr "翻译单元的标记"
 
 #: ../../api.rst:1886
 msgid ""
@@ -17874,7 +17883,7 @@ msgstr "字符串的解释，可在源单元获得，请参见 :ref:`additional`
 #: ../../api.rst:1898 ../../api.rst:1913 ../../api.rst:1926
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
-msgstr "另外的字符串标志，可在源单元获得，请参见 :ref:`custom-checks`"
+msgstr "另外的字符串标记，可在源单元获得，请参见 :ref:`custom-checks`"
 
 #: ../../api.rst:1899
 msgid "URL where the unit can be edited"
@@ -18571,7 +18580,7 @@ msgstr "改进了对上传文件格式的检测。"
 
 #: ../../changes.rst:15
 msgid "Avoid duplicate pull requests on Pagure."
-msgstr ""
+msgstr "避免在 Pagure 上复制拉取请求。"
 
 #: ../../changes.rst:16
 msgid "Improved performance when displaying ghost translations."
@@ -19772,7 +19781,7 @@ msgstr "添加了选项来解决注释。"
 
 #: ../../changes.rst:380
 msgid "Added bulk editing of flags."
-msgstr "添加了标志的大量编辑。"
+msgstr "添加了标记的大量编辑。"
 
 #: ../../changes.rst:381
 msgid "Added support for :ref:`labels`."
@@ -21292,7 +21301,7 @@ msgstr "配置错误现在被存储并被持久地报告。"
 
 #: ../../changes.rst:863
 msgid "Honor ignore flags in whitespace autofixer."
-msgstr "在空白字符自动修复中 Honor 忽略标志。"
+msgstr "在空白字符自动修复中 Honor 忽略标记。"
 
 #: ../../changes.rst:864
 msgid "Improved compatibility with some Subversion setups."
@@ -23773,7 +23782,7 @@ msgstr "文件解析后触发钩子。"
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
 msgid "It receives an instance of a file format class as a argument."
-msgstr ""
+msgstr "它接收文件格式类的事件作为参数。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:5
@@ -23923,14 +23932,14 @@ msgstr ":ref:`sample-configuration` 包含 :setting:`django:LOGGING` 配置。"
 
 #: ../../contributing/debugging.rst:42
 msgid "Not processing background tasks"
-msgstr ""
+msgstr "不处理后台任务"
 
 #: ../../contributing/debugging.rst:44
 msgid ""
 "Lot of things happen in background Celery workers. In case things like "
 "sending out e-mails or component removal does not work, there might be some "
 "issue with it."
-msgstr ""
+msgstr "很多事情发生在后台 Celery workers中。像发送电子邮件或删除组件这样的事情不起作用时，可能会是它有问题。"
 
 #: ../../contributing/debugging.rst:48
 msgid "Things to check in that case:"
@@ -23945,10 +23954,12 @@ msgid ""
 "Check Celery queue status either in :ref:`management-interface` or using :"
 "djadmin:`celery_queues`"
 msgstr ""
+"或者在 :ref:`management-interface` 中或者使用 using :djadmin:`celery_queues` 检查 "
+"Celery 队列状态"
 
 #: ../../contributing/debugging.rst:52
 msgid "Look into Celery logs for errors (see :ref:`weblate-logs`)"
-msgstr ""
+msgstr "在 Celery 日志中查找错误（请参见 :ref:`weblate-logs`）"
 
 #: ../../contributing/debugging.rst:57
 msgid "Not receiving e-mails from Weblate"
@@ -23972,6 +23983,8 @@ msgid ""
 "sent in the background and there might be some issues with Celery involved "
 "as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
+"这直接发送电子邮件，所以这确定了您的SMTP配置是正确的（请参见 :ref:`out-mail`）。然而来自 Weblate 的多数电子邮件在后台发送，"
+"并且也会有 Celery 相关的问题，请参阅 :ref:`debug-tasks` 来调试。"
 
 #: ../../contributing/debugging.rst:70
 msgid "Analyzing application crashes"
@@ -24044,7 +24057,7 @@ msgstr "支持的浏览器"
 msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
-msgstr ""
+msgstr "Weblate 支持所有主要浏览器和平台的最新的、稳定的版本。"
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -24053,10 +24066,12 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
+"不明确支持使用最新版的 WebKit、Blink 或 Gecko的替换浏览器，无论是否直接还是通过平台的 web 视图 "
+"API。然而，Weblate应该（在多数情况下）页在这些浏览器中正常显示并工作。"
 
 #: ../../contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
-msgstr ""
+msgstr "其它浏览器也能工作，但一些特性会受到限制。"
 
 #: ../../contributing/frontend.rst:20
 msgid "Dependency management"
@@ -24659,7 +24674,7 @@ msgstr "管理 GitHub 里程碑。"
 
 #: ../../contributing/release.rst:42
 msgid "Once the Docker image is tested, add a tag and push it."
-msgstr "一旦检测到 Docker 图像，则添加标志并推送。"
+msgstr "一旦检测到 Docker 图像，则添加标签并推送。"
 
 #: ../../contributing/release.rst:43
 msgid "Update Helm chart to new version."
@@ -24690,7 +24705,7 @@ msgstr "带有私钥的 GnuPG 用于为发布签名"
 
 #: ../../contributing/release.rst:50
 msgid "Push access to Weblate git repositories (it pushes tags)"
-msgstr "推送访问 Weblate git 仓库（它推送标志）"
+msgstr "推送访问 Weblate git 仓库（它推送标记）"
 
 #: ../../contributing/release.rst:51
 msgid ""
@@ -25416,6 +25431,8 @@ msgid ""
 "the existing debugger breakpoints to persist as these would be discarded on "
 "reload."
 msgstr ""
+"小心被称为 :guilabel:`No "
+"reload`的属性，如果勾选了，那么当修改文件时服务器的现场重载不会发生。这允许现有的调试断点被持续保留，因为它们将在重载时丢弃。"
 
 #: ../../contributing/start.rst:168
 msgid "Bootstraping your devel instance"
@@ -27842,7 +27859,7 @@ msgstr "在对这个特性有大量需求的情况下，它可能会应用与将
 
 #: ../../faq.rst:489
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
-msgstr ""
+msgstr "Weblate 为什么使用 sr_Latn 或 zh_Hant 这样的语言编码？"
 
 #: ../../faq.rst:491
 msgid ""
@@ -27850,6 +27867,8 @@ msgid ""
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
+"这些语言编码由 :rfc:`4646` 定义，来更好地指示它们是真正不同的语言而不是之前错误使用修饰符（ ``@latin`` "
+"变体）或国家代码（对于中文）。"
 
 #: ../../faq.rst:495
 msgid ""
@@ -27857,6 +27876,8 @@ msgid ""
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
+"Weblate 仍然理解传统的语言编码并将它们映射到当前的便马上——例如 ``sr@latin`` 将被处理为 ``sr_Latn`` 或者 "
+"``zh@CN`` 处理为 ``zh_Hans``。"
 
 #: ../../formats.rst:4 ../../user/files.rst:39
 msgid "Supported file formats"
@@ -27975,7 +27996,7 @@ msgstr "位置 [#l]_"
 
 #: ../../formats.rst:59
 msgid "Flags [#f]_"
-msgstr "标志 [#f]_"
+msgstr "标记 [#f]_"
 
 #: ../../formats.rst:59
 msgid "Additional states [#a]_"
@@ -27997,12 +28018,12 @@ msgstr "支持"
 
 #: ../../formats.rst:61 ../../formats.rst:63
 msgid "yes [#po]_"
-msgstr ""
+msgstr "是 [#po]_"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:73
 #: ../../formats.rst:93 ../../formats.rst:105
 msgid "needs editing"
-msgstr ""
+msgstr "需要编辑"
 
 #: ../../formats.rst:63
 msgid ":ref:`mono_gettext`"
@@ -28017,7 +28038,7 @@ msgstr ":ref:`mono_gettext`"
 #: ../../formats.rst:109 ../../formats.rst:111 ../../formats.rst:113
 #: ../../formats.rst:115 ../../formats.rst:117 ../../formats.rst:119
 msgid "mono"
-msgstr ""
+msgstr "单一"
 
 #: ../../formats.rst:65
 msgid ":ref:`xliff`"
@@ -28026,16 +28047,16 @@ msgstr ":ref:`xliff`"
 #: ../../formats.rst:65 ../../formats.rst:67 ../../formats.rst:73
 #: ../../formats.rst:93
 msgid "both"
-msgstr ""
+msgstr "二者"
 
 #: ../../formats.rst:65 ../../formats.rst:73 ../../formats.rst:75
 #: ../../formats.rst:91 ../../formats.rst:101
 msgid "yes [#xl]_"
-msgstr ""
+msgstr "是 [#xl]_"
 
 #: ../../formats.rst:65
 msgid "needs editing, approved"
-msgstr ""
+msgstr "需要编辑，已同意"
 
 #: ../../formats.rst:67
 msgid ":ref:`javaprop`"
@@ -28063,7 +28084,7 @@ msgstr ":ref:`joomla`"
 
 #: ../../formats.rst:75
 msgid "yes [#x]_"
-msgstr ""
+msgstr "是 [#x]_"
 
 #: ../../formats.rst:79
 msgid ":ref:`php`"
@@ -28071,7 +28092,7 @@ msgstr ":ref:`php`"
 
 #: ../../formats.rst:79
 msgid "no [#lp]_"
-msgstr ""
+msgstr "否 [#lp]_"
 
 #: ../../formats.rst:81
 msgid ":ref:`json`"
@@ -28095,97 +28116,97 @@ msgstr ":ref:`csv`"
 
 #: ../../formats.rst:95
 msgid ":ref:`yaml`"
-msgstr ""
+msgstr ":ref:`yaml`"
 
 #: ../../formats.rst:99
 msgid ":ref:`dtd`"
-msgstr ""
+msgstr ":ref:`dtd`"
 
 #: ../../formats.rst:101
 msgid ":ref:`flatxml`"
-msgstr ""
+msgstr ":ref:`flatxml`"
 
 #: ../../formats.rst:103
 msgid ":ref:`winrc`"
-msgstr ""
+msgstr ":ref:`winrc`"
 
 #: ../../formats.rst:105
 msgid ":ref:`xlsx`"
-msgstr ""
+msgstr ":ref:`xlsx`"
 
 #: ../../formats.rst:107
 msgid ":ref:`appstore`"
-msgstr ""
+msgstr ":ref:`appstore`"
 
 #: ../../formats.rst:109
 msgid ":ref:`subtitles`"
-msgstr ""
+msgstr ":ref:`subtitles`"
 
 #: ../../formats.rst:111
 msgid ":ref:`html`"
-msgstr ""
+msgstr ":ref:`html`"
 
 #: ../../formats.rst:113
 msgid ":ref:`odf`"
-msgstr ""
+msgstr ":ref:`odf`"
 
 #: ../../formats.rst:115
 msgid ":ref:`idml`"
-msgstr ""
+msgstr ":ref:`idml`"
 
 #: ../../formats.rst:117
 msgid ":ref:`ini`"
-msgstr ""
+msgstr ":ref:`ini`"
 
 #: ../../formats.rst:119
 msgid ":ref:`islu`"
-msgstr ""
+msgstr ":ref:`islu`"
 
 #: ../../formats.rst:122
 msgid "See :ref:`bimono`"
-msgstr ""
+msgstr "请参见 :ref:`bimono`"
 
 #: ../../formats.rst:123
 msgid "Plurals are necessary to properly localize strings with variable count."
-msgstr ""
+msgstr "将带有不同数量的字符串正确本地化时复数是必要的。"
 
 #: ../../formats.rst:124
 msgid ""
 "Comments can be used to pass additional info about the string to translate."
-msgstr ""
+msgstr "注释能够用户传递要翻译的字符串的附加信息。"
 
 #: ../../formats.rst:125
 msgid ""
 "Context is used to differentiate identical strings used in different scopes "
 "(for example `Sun` can be used as an abbreviated name of the day \"Sunday\" "
 "or as the name of our closest star)."
-msgstr ""
+msgstr "文本用于却别不同范围中使用的相同字符串（例如`Sun`可以用作 \"Sunday\" 名称的缩写，或用作我们最近的恒星）。"
 
 #: ../../formats.rst:126
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
-msgstr ""
+msgstr "源代码中字符串的位置会帮助熟练的译者识别出字符串如何使用。"
 
 #: ../../formats.rst:127
 msgid ""
 "Additional states supported by the file format in addition to \"Not "
 "translated\" and \"Translated\"."
-msgstr ""
+msgstr "除了 \"Not translated\" （未翻译）和 \"Translated\" （已翻译），文件格式支持的其它状态。"
 
 #: ../../formats.rst:128
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a developer "
 "comment."
-msgstr ""
+msgstr "放在 ``<string>`` 元素前的 XML 注释，解析为开发者的注释。"
 
 #: ../../formats.rst:129
 msgid "See :ref:`custom-checks`"
-msgstr ""
+msgstr "请参见 :ref:`custom-checks`"
 
 #: ../../formats.rst:130
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "gettext 类型的注释用作标记。"
 
 #: ../../formats.rst:131
 msgid ""
@@ -28195,12 +28216,15 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
+"对于基于格式所有 XML，标记从非标准的属性 ``weblate-flags`` 中提取。此外，``max-length:N`` 通过 "
+"``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core."
+"html#maxwidth>`_如在 XLIFF 标准中定义的，请参见 :ref:`xliff-flags`。"
 
 #: ../../formats.rst:132
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
-msgstr ""
+msgstr "只对于 Laravel 来支持复数，在字符串语法中使用来定义它们，请参见 `Localization in Laravel`_。"
 
 #: ../../formats.rst:137
 msgid "GNU gettext"
@@ -28252,15 +28276,15 @@ msgstr "文件掩码"
 #: ../../formats.rst:999 ../../formats.rst:1052 ../../formats.rst:1098
 #: ../../formats.rst:1131 ../../formats.rst:1160 ../../formats.rst:1189
 msgid "`Empty`"
-msgstr ""
+msgstr "`Empty`"
 
 #: ../../formats.rst:172 ../../formats.rst:238
 msgid "``po/messages.pot``"
-msgstr ""
+msgstr "``po/messages.pot``"
 
 #: ../../formats.rst:174
 msgid "`Gettext PO file`"
-msgstr ""
+msgstr "`Gettext PO file`"
 
 #: ../../formats.rst:179
 msgid ""
@@ -28270,6 +28294,11 @@ msgid ""
 "weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
 "weblate.gettext.msgmerge`"
 msgstr ""
+":doc:`devel/gettext`、:doc:`devel/sphinx`、`Gettext on Wikipedia <https://en."
+"wikipedia.org/wiki/Gettext>`_、 :doc:`tt:formats/po`、 :ref:`addon-weblate."
+"gettext.configure`、 :ref:`addon-weblate.gettext.customize`、 :ref:`addon-"
+"weblate.gettext.linguas`、 :ref:`addon-weblate.gettext.mo`、 :ref:`addon-"
+"weblate.gettext.msgmerge`"
 
 #: ../../formats.rst:192
 msgid "Monolingual gettext"
@@ -28296,7 +28325,7 @@ msgstr "基本语言文件将是："
 
 #: ../../formats.rst:236
 msgid "``po/en.po``"
-msgstr ""
+msgstr "``po/en.po``"
 
 #: ../../formats.rst:240
 msgid "`Gettext PO file (monolingual)`"
@@ -28319,10 +28348,12 @@ msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
+"`XML Localization Interchange File Format (XLIFF)` 通常用作双语言格式，但 Weblate "
+"也支持其作为单语言格式。"
 
 #: ../../formats.rst:258
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
-msgstr ""
+msgstr "`XML Localization Interchange File Format (XLIFF)` 规范"
 
 #: ../../formats.rst:264 ../../workflows.rst:26
 msgid "Translation states"
@@ -28330,7 +28361,7 @@ msgstr "翻译状态"
 
 #: ../../formats.rst:268
 msgid "Weblate ignored the state attribute prior to the 3.3 release."
-msgstr ""
+msgstr "Weblate 忽略 3.3 发布版本之前的状态属性。"
 
 #: ../../formats.rst:270
 msgid ""
@@ -28341,6 +28372,10 @@ msgid ""
 "attribute be missing, a string is considered translated as soon as a "
 "``<target>`` element exists."
 msgstr ""
+"文件中的 ``state`` 属性在 Weblate 中被部分处理并映射为 \"Needs edit\" "
+"（需要编辑）的状态（如果出现目标的话，后面的状态用于将字符串标记为需要编辑： ``new`` 、 ``needs-translation`` 、 "
+"``needs-adaptation`` 、 ``needs-l10n`` ）。如果应该省略 ``state`` 属性，只要 ``<target>`` "
+"元素存在，那么字符串被认为需要翻译。"
 
 #: ../../formats.rst:277
 msgid ""
@@ -28348,38 +28383,40 @@ msgid ""
 "into Weblate as \"Approved\", anything else will be imported as \"Waiting "
 "for review\" (which matches the XLIFF specification)."
 msgstr ""
+"如果翻译字符串具有 ``approved=\"yes\"``，那么它还将被导入 Weblate 作为 \"Approved\"（同意的），"
+"任何其它内容被导入作为 \"Waiting for review\" （等待复核，这与 XLIFF 规范匹配）。"
 
 #: ../../formats.rst:281
 msgid "While saving, Weblate doesn't add those attributes unless necessary:"
-msgstr ""
+msgstr "当存储时，Weblate 如无必要不会添加其它属性："
 
 #: ../../formats.rst:283
 msgid ""
 "The ``state`` attribute is only added in case string is marked as needing "
 "edit."
-msgstr ""
+msgstr "``state`` 属性只在字符串标记为需要编辑的情况下添加。"
 
 #: ../../formats.rst:284
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
-msgstr ""
+msgstr "``approved`` 属性只在字符串已经被复查的情况下添加。"
 
 #: ../../formats.rst:285
 msgid ""
 "In other cases the attributes are not added, but they are updated in case "
 "they are present."
-msgstr ""
+msgstr "在其它情况下不添加属性，但在它们出现的情况下更新。"
 
 #: ../../formats.rst:287
 msgid ""
 "That means that when using the XLIFF format, it is strongly recommended to "
 "turn on the Weblate review process, in order to see and change the approved "
 "state of strings."
-msgstr ""
+msgstr "那意味着当使用 XLIFF 格式时，强烈推荐打开 Weblate 复查过程，从而能看到并更改字符串的同意状态。"
 
 #: ../../formats.rst:290
 msgid "See :ref:`reviews`."
-msgstr ""
+msgstr "请参见 :ref:`reviews`。"
 
 #: ../../formats.rst:292
 msgid ""
@@ -28387,10 +28424,12 @@ msgid ""
 "guilabel:`Import as translated` under :guilabel:`Processing of strings "
 "needing edit`."
 msgstr ""
+"相似地在导入这样的文件时（在上传表格中），应该选择 :guilabel:`Processing of strings needing edit` 之下的 "
+":guilabel:`Import as translated`。"
 
 #: ../../formats.rst:297
 msgid "Whitespace and newlines in XLIFF"
-msgstr ""
+msgstr "XLIFF 中的空白字符和新行符"
 
 #: ../../formats.rst:299
 msgid ""
@@ -28398,10 +28437,11 @@ msgid ""
 "XML formats. If you want to keep it, you have to add the ``xml:space="
 "\"preserve\"`` flag to the string."
 msgstr ""
+"在 XML 格式中不区分通常类型或量的空白字符。如果想要保留，必须将 ``xml:space=\"preserve\"`` 标记添加到字符串中。"
 
 #: ../../formats.rst:316
 msgid "Specifying translation flags"
-msgstr ""
+msgstr "指定翻译标记"
 
 #: ../../formats.rst:318
 msgid ""
@@ -28409,6 +28449,8 @@ msgid ""
 "using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` "
 "and ``font`` attributes from the XLIFF specification:"
 msgstr ""
+"还可以通过使用 ``weblate-flags`` 属性指定附加的翻译标记（请参见 :ref:`custom-checks`）。Weblate "
+"还理解来自 XLIFF 规范的 ``maxwidth`` 和 ``font`` 属性："
 
 #: ../../formats.rst:331
 msgid ""
@@ -28418,10 +28460,12 @@ msgid ""
 "Pro`` becomes ``Source_Sans_Pro``, please keep that in mind when naming the "
 "font group (see :ref:`fonts`)."
 msgstr ""
+"解析 ``font`` 属性用于字体集、尺寸和粗细，上面的示例显示了全部，尽管只需要字符集。字符集中的任何空白字符被转换为下划线，所以 ``Source "
+"Sans Pro`` 变成 ``Source_Sans_Pro`` ，当命名字符集时请记住这些请参见 :ref:`fonts`）。"
 
 #: ../../formats.rst:338
 msgid "Unit keys or context"
-msgstr ""
+msgstr "单元键或上下文"
 
 #: ../../formats.rst:340
 msgid ""
@@ -28429,6 +28473,8 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
+"Weblate 通过 ``resname`` 属性在它出线的情况下识别 XLIFF 文件中的单元，并退回到 ``id`` （如果出现的话与 "
+"``file`` 标签一起）。"
 
 #: ../../formats.rst:343
 msgid ""
@@ -28438,26 +28484,28 @@ msgid ""
 "Weblate and is not covered by the XLIFF standard - it does not put any "
 "uniqueness restrictions on this attribute."
 msgstr ""
+"``resname`` 属性被认为是人类友好的单元识别符，对 Weblate 比 ``id`` 更适于显示。在整个 XLIFF 文件中 "
+"``resname`` 具有一致性。这是 Weblate 需要的，并且不被 XLIFF 标准覆盖——它不在这个属性上放入任何独特性限制。"
 
 #: ../../formats.rst:351
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
-msgstr ""
+msgstr "用于双语言 XLIFF 的典型 Weblate :ref:`component`"
 
 #: ../../formats.rst:353 ../../formats.rst:365
 msgid "``localizations/*.xliff``"
-msgstr ""
+msgstr "``localizations/*.xliff``"
 
 #: ../../formats.rst:357 ../../formats.rst:367 ../../formats.rst:369
 msgid "``localizations/en-US.xliff``"
-msgstr ""
+msgstr "``localizations/en-US.xliff``"
 
 #: ../../formats.rst:359 ../../formats.rst:371
 msgid "`XLIFF Translation File`"
-msgstr ""
+msgstr "`XLIFF Translation File`"
 
 #: ../../formats.rst:363
 msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
-msgstr ""
+msgstr "用于单语言 XLIFF 的典型 Weblate :ref:`component`"
 
 #: ../../formats.rst:376
 msgid ""
@@ -28466,18 +28514,22 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
 "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
+"`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_、:doc:`tt:formats/"
+"xliff`、`font attribute in XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/"
+"os/xliff-core.html#font>`_、`maxwidth attribute in XLIFF 1.2 <http://docs."
+"oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats.rst:384
 msgid "Java properties"
-msgstr ""
+msgstr "Java 属性"
 
 #: ../../formats.rst:389
 msgid "Native Java format for translations."
-msgstr ""
+msgstr "用于翻译的本地 Java 格式。"
 
 #: ../../formats.rst:391
 msgid "Java properties are usually used as monolingual translations."
-msgstr ""
+msgstr "Java 属性通常用作单语言翻译。"
 
 #: ../../formats.rst:393
 msgid ""
@@ -28487,20 +28539,23 @@ msgid ""
 "example ``zkou\\u0161ka``), all others encode characters directly either in "
 "UTF-8 or UTF-16."
 msgstr ""
+"Weblate 支持这个格式的 ISO-8859-1、UTF-8 和 UTF-16 变体。它们所有都支持存储 Unicode 字符，只是编码不同。在 "
+"ISO-8859-1 中，使用了 Unicode 转义序列（例如 ``zkou\\u0161ka``），所有其它编码字符直接或者在 UTF-8 中或者在 "
+"UTF-16 中。"
 
 #: ../../formats.rst:400
 msgid ""
 "Loading escape sequences works in UTF-8 mode as well, so please be careful "
 "choosing the correct encoding set to match your application needs."
-msgstr ""
+msgstr "加载转义序列也在 UTF-8 模式中工作，因此请小心选择正确的编码组，与您应用的需要匹配。"
 
 #: ../../formats.rst:406 ../../formats.rst:437
 msgid "``src/app/Bundle_*.properties``"
-msgstr ""
+msgstr "``src/app/Bundle_*.properties``"
 
 #: ../../formats.rst:408 ../../formats.rst:439
 msgid "``src/app/Bundle.properties``"
-msgstr ""
+msgstr "``src/app/Bundle.properties``"
 
 #: ../../formats.rst:412
 msgid "`Java Properties (ISO-8859-1)`"
@@ -33705,8 +33760,8 @@ msgid ""
 "it might be marked as needing edit (for example as it gets a fuzzy flag in "
 "the Gettext file)."
 msgstr ""
-"翻译需要编辑，这通常是源字符串更改的结果。翻译存储在文件中，具体取决于文件格"
-"式，它可能被标记为需要编辑（例如，当它在 Gettext 文件中获得一个fuzzy 标志）。"
+"翻译需要编辑，这通常是源字符串更改的结果。翻译存储在文件中，具体取决于文件格式，它可能被标志为需要编辑（例如，当它在 Gettext "
+"文件中获得一个fuzzy 标记）。"
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
