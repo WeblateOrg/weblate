@@ -46,7 +46,9 @@ from rest_framework.viewsets import ViewSet
 
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
+from weblate.addons.models import Addon
 from weblate.api.serializers import (
+    AddonSerializer,
     BasicUserSerializer,
     ChangeSerializer,
     ComponentListSerializer,
@@ -977,6 +979,20 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @action(detail=True, methods=["post"])
+    def addons(self, request, **kwargs):
+        obj = self.get_object()
+
+        if not request.user.has_perm("component.edit", obj):
+            self.permission_denied(request, "Can not create addon")
+
+        serializer = AddonSerializer(
+            data=request.data, context={"request": request, "component": obj}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save(component=obj)
+        return Response(serializer.data, status=HTTP_201_CREATED)
+
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):
         obj = self.get_object()
@@ -1592,3 +1608,23 @@ class TasksViewSet(ViewSet):
             if component.background_task_id == pk:
                 component.delete_background_task()
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
+
+    queryset = Addon.objects.all()
+    serializer_class = AddonSerializer
+
+    def perm_check(self, request, instance: Addon):
+        if not request.user.has_perm("component.edit", instance.component):
+            self.permission_denied(request, "Can not manage addons")
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        return super().destroy(request, *args, **kwargs)

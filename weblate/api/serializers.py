@@ -23,6 +23,7 @@ from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
+from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language, Plural
@@ -430,6 +431,13 @@ class ComponentSerializer(RemovableSerializer):
 
     task_url = RelatedTaskField(lookup_field="background_task_id")
 
+    addons = serializers.HyperlinkedIdentityField(
+        view_name="api:addon-detail",
+        source="addon_set",
+        many=True,
+        read_only=True,
+    )
+
     class Meta:
         model = Component
         fields = (
@@ -486,6 +494,7 @@ class ComponentSerializer(RemovableSerializer):
             "variant_regex",
             "zipfile",
             "docfile",
+            "addons",
         )
         extra_kwargs = {
             "url": {
@@ -1031,3 +1040,64 @@ class ComponentListSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
         }
+
+
+class AddonSerializer(serializers.ModelSerializer):
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("component__project__slug", "component__slug"),
+        read_only=True,
+        strip_parts=1,
+    )
+    configuration = serializers.JSONField(required=False)
+
+    class Meta:
+        model = Addon
+        fields = (
+            "component",
+            "name",
+            "id",
+            "configuration",
+            "url",
+        )
+        extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
+
+    def validate(self, attrs):
+        instance = self.instance
+        try:
+            name = attrs["name"]
+        except KeyError:
+            if self.partial and self.instance:
+                name = self.instance.name
+            else:
+                raise serializers.ValidationError("Can not change addon name")
+        if instance:
+            # Update
+            component = instance.component
+        else:
+            # Create
+            component = self._context["component"]
+        # This could probably work, but it safer not to allow it
+        if instance and instance.name != name:
+            raise serializers.ValidationError("Can not change addon name")
+        try:
+            addon_class = ADDONS[name]
+        except KeyError:
+            raise serializers.ValidationError(f"Addon not found: {name}")
+        addon = addon_class()
+        if not addon.can_install(component, None):
+            raise serializers.ValidationError(
+                f"could not enable addon {name}, not compatible"
+            )
+        if addon.has_settings and "configuration" in attrs:
+            form = addon.get_add_form(None, component, data=attrs["configuration"])
+            form.is_valid()
+            if not form.is_valid():
+                for error in form.non_field_errors():
+                    raise serializers.ValidationError(error)
+                for field in form:
+                    for error in field.errors:
+                        raise serializers.ValidationError(
+                            f"Error in {field.name}: {error}"
+                        )
+        return attrs
