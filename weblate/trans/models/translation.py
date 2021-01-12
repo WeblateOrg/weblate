@@ -1096,6 +1096,7 @@ class Translation(
                     user=user,
                     author=user,
                 )
+            self.component.drop_template_store_cache()
             self.git_commit(user, user.get_author_name())
         self.component.create_translations(request=request)
 

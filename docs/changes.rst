@@ -15,6 +15,7 @@ Not yet released.
 * Avoid duplicate pull requests on Pagure.
 * Improved performance when displaying ghost translations.
 * Reimplemented translation editor to use native browser textarea.
+* Fixed cleanup addon breaking adding new strings.
 
 Weblate 4.4
 -----------
