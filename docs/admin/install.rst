@@ -417,14 +417,16 @@ Following configuration is recommended for Weblate:
 * Set the isolation level to ``READ COMMITTED``.
 * The SQL mode should be set to ``STRICT_TRANS_TABLES``.
 
-Below is an example /etc/my.cnf.d/server.cnf for an 8GB server. These settings should be
-sufficient for most installs. MySQL and MariaDB have tunables that will increase the
-performance of your server that are considered not necessary unless you are planning on
-having large numbers of concurrent users accessing the system. See the various vendors
-documentation on those details.
+Below is an example :file:`/etc/my.cnf.d/server.cnf` for a server with 8 GB of
+RAM. These settings should be sufficient for most installs. MySQL and MariaDB
+have tunables that will increase the performance of your server that are
+considered not necessary unless you are planning on having large numbers of
+concurrent users accessing the system. See the various vendors documentation on
+those details.
 
-It is absolutely critical to reduce issues when installing that the setting ``innodb_file_per_table``
-is set properly and MySQL/MariaDB restarted before you start your Weblate install.
+It is absolutely critical to reduce issues when installing that the setting
+``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before
+you start your Weblate install.
 
 .. code-block:: sh
 
