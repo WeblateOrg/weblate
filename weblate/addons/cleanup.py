@@ -49,6 +49,8 @@ class CleanupAddon(BaseCleanupAddon):
             self.extra_files.extend(filenames)
 
     def pre_commit(self, translation, author):
+        if translation.is_source and not translation.component.intermediate:
+            return
         try:
             filenames = translation.store.cleanup_unused()
         except FileParseError:
