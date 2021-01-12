@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-12 17:34+0100\n"
-"PO-Revision-Date: 2021-01-10 14:51+0000\n"
+"PO-Revision-Date: 2021-01-12 19:09+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -8761,14 +8761,6 @@ msgid "The SQL mode should be set to ``STRICT_TRANS_TABLES``."
 msgstr "Режим SQL має бути встановлено у значення ``STRICT_TRANS_TABLES``."
 
 #: ../../admin/install.rst:420
-#, fuzzy
-#| msgid ""
-#| "Below is an example /etc/my.cnf.d/server.cnf for an 8GB server.  These "
-#| "settings should be sufficient for most installs.  MySQL and MariaDB have "
-#| "tunables that will increase the performance of your server that are "
-#| "considered not necessary unless you are planning on having large numbers "
-#| "of concurrent users accessing the system.  See the various vendors "
-#| "documentation on those details."
 msgid ""
 "Below is an example /etc/my.cnf.d/server.cnf for an 8GB server. These "
 "settings should be sufficient for most installs. MySQL and MariaDB have "
@@ -8814,10 +8806,6 @@ msgid "The :file:`settings.py` snippet for MySQL and MariaDB:"
 msgstr "Фрагмент :file:`settings.py` для MySQL і MariaDB:"
 
 #: ../../admin/install.rst:479
-#, fuzzy
-#| msgid ""
-#| "You should also create the ``weblate`` user account in MySQL or MariaDB "
-#| "before you begin the install.  Use the commands below to achieve that:"
 msgid ""
 "You should also create the ``weblate`` user account in MySQL or MariaDB "
 "before you begin the install. Use the commands below to achieve that:"
@@ -17602,6 +17590,8 @@ msgid ""
 "**Changed in 4.4.1:** Increased minimal required version of translate-"
 "toolkit to address several file format issues."
 msgstr ""
+"**Змінено у 4.4.1:** збільшено мінімальну обов'язкову версію translate-"
+"toolkit для виправлення декількох проблем із форматами файлів."
 
 #: ../../admin/upgrade.rst:187
 msgid "Upgrading from Python 2 to Python 3"
@@ -19758,67 +19748,46 @@ msgid "Delete screenshot."
 msgstr "Вилучити знімок."
 
 #: ../../api.rst:2096
-#, fuzzy
-#| msgid "Returns a list of translations."
 msgid "Returns a list of addons."
-msgstr "Повертає список перекладів."
+msgstr "Повертає список додатків."
 
 #: ../../api.rst:2100
-#, fuzzy
-#| msgid ""
-#| "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgid ""
 "Addon object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
-"Атрибути об'єкта модуля документовано у :http:get:`/api/units/(int:id)/`."
+"Атрибути об'єкта додатка документовано у :http:get:`/api/addons/(int:id)/`."
 
 #: ../../api.rst:2104
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Returns information about addon information."
-msgstr "Повертає дані щодо даних знімка вікна."
+msgstr "Повертає дані щодо додатка."
 
 #: ../../api.rst:2106 ../../api.rst:2125 ../../api.rst:2133 ../../api.rst:2141
-#, fuzzy
-#| msgid "Addons"
 msgid "Addon ID"
-msgstr "Доповнення"
+msgstr "Ідентифікатор додатка"
 
 #: ../../api.rst:2108 ../../api.rst:2118
-#, fuzzy
-#| msgid "name of a group"
 msgid "name of an addon"
-msgstr "назва групи"
+msgstr "назва додатка"
 
 #: ../../api.rst:2110 ../../api.rst:2119 ../../api.rst:2127 ../../api.rst:2135
-#, fuzzy
-#| msgid "Optimize configuration"
 msgid "Optional addon configuration"
-msgstr "Оптимізація налаштувань"
+msgstr "Необов'язкові налаштування додатка"
 
 #: ../../api.rst:2114
-#, fuzzy
-#| msgid "Creates a new role."
 msgid "Creates a new addon."
-msgstr "Створює роль."
+msgstr "Створює додаток."
 
 #: ../../api.rst:2123
-#, fuzzy
-#| msgid "Edit partial information about screenshot."
 msgid "Edit partial information about addon."
-msgstr "Редагувати часткові відомості щодо знімка вікна."
+msgstr "Редагувати часткові відомості щодо додатка."
 
 #: ../../api.rst:2131
-#, fuzzy
-#| msgid "Edit full information about screenshot."
 msgid "Edit full information about addon."
-msgstr "Редагувати повні відомості щодо знімка вікна."
+msgstr "Редагувати повні відомості щодо додатка."
 
 #: ../../api.rst:2139
-#, fuzzy
-#| msgid "Deletes a component."
 msgid "Delete addon."
-msgstr "Вилучає складник."
+msgstr "Вилучити додаток."
 
 #: ../../api.rst:2148
 msgid "Component lists"
@@ -20380,12 +20349,12 @@ msgstr ""
 #: ../../changes.rst:18
 msgid "Fixed cleanup addon breaking adding new strings."
 msgstr ""
+"Виправлено помилку, пов'язану із тим, що додаток чищення заважав додаванню "
+"нових рядків."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added bulk edit addon."
 msgid "Added API for addons."
-msgstr "Додано додаток пакетного редагування."
+msgstr "Додано програмний інтерфейс для роботи із додатками."
 
 #: ../../changes.rst:22
 msgid "Weblate 4.4"
@@ -28667,12 +28636,6 @@ msgid "Importing localization project into Weblate"
 msgstr "Імпортування проєкту з локалізації до Weblate"
 
 #: ../../devel/integration.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate was developed with VCS integration in mind. The easiest approach "
-#| "to integrate with it is to grant access to your VCS repository. The "
-#| "import process will guide you through configuring components with your "
-#| "translations."
 msgid ""
 "Weblate has been developed with VCS integration in mind as it’s core "
 "feature, so the easiest way is to grant Weblate the access to your "
@@ -28680,35 +28643,28 @@ msgid ""
 "translations into components."
 msgstr ""
 "Weblate розроблено з урахуванням можливості інтеграції із системами "
-"керування версіями. Найпростішим підходом до інтерграції є надання Weblate "
-"доступу до вашого сховища керування версіями. У процесі імпортування Weblate "
-"допоможе вам у налаштуванні складників із вашими перекладами."
+"керування версіями, як його основної можливості, тому найпростішим підходом "
+"до інтеграції є надання Weblate доступу до вашого сховища керування "
+"версіями. У процесі імпортування Weblate допоможе вам у налаштуванні "
+"складників із вашими перекладами."
 
 #: ../../devel/integration.rst:13
 msgid ""
 "Alternatively, you can use Weblate to set up a local repository containing "
 "all the translations without integration."
 msgstr ""
+"Крім того, ви можете скористатися Weblate для налаштовування локального "
+"сховища, у якому міститимуться усі переклади, без інтеграції."
 
 #: ../../devel/integration.rst:18
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
 msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:22
-#, fuzzy
-#| msgid "Getting translations updates from Weblate"
 msgid "Fetching updated translations from Weblate"
 msgstr "Отримання оновлень перекладів з Weblate"
 
 #: ../../devel/integration.rst:24
-#, fuzzy
-#| msgid ""
-#| "To fetch updated strings from Weblate you can simply fetch the underlying "
-#| "repository (either from filesystem or it can be made available through :"
-#| "ref:`git-exporter`). Prior to this, you might want to commit any pending "
-#| "changes (see :ref:`lazy-commit`). This can be achieved in the user "
-#| "interface (in the :guilabel:`Repository maintenance`) or from command "
-#| "line using :ref:`wlc`."
 msgid ""
 "To fetch updated strings from Weblate, you can simply fetch the underlying "
 "Git repository (either from filesystem, or it can be made available through :"
@@ -28718,8 +28674,8 @@ msgid ""
 "`wlc`."
 msgstr ""
 "Щоб отримати оновлені рядки з Weblate в можете просто отримати базове "
-"сховище (або з файлової системи, або за допомогою :ref:`git-exporter`). До "
-"цього, вам, можливо, варто внести усі зміни з черги (див. :ref:`lazy-"
+"сховище git (або з файлової системи, або за допомогою :ref:`git-exporter`). "
+"До цього, вам, можливо, варто внести усі зміни з черги (див. :ref:`lazy-"
 "commit`). Досягти цього можна за допомогою графічного інтерфейсу користувача "
 "(розділ :guilabel:`Супровід сховища`) або інтерфейсу командного рядка за "
 "допомогою :ref:`wlc`."
@@ -28734,65 +28690,44 @@ msgstr ""
 "перекладу<component>`."
 
 #: ../../devel/integration.rst:33
-#, fuzzy
-#| msgid ""
-#| "When not using a VCS integration, you can use UI or :doc:`/api` to update "
-#| "translations to match your code base."
 msgid ""
 "Alternateively, you can use :doc:`/api` to update translations to match "
 "their latest version."
 msgstr ""
-"Якщо ви не використовуєте інтеграцію із системою керування версіями, ви "
-"можете скористатися інтерфейсом користувача або :doc:`/api` для оновлення "
-"перекладів у відповідності зі змінами у вашому коді."
+"Крім того, ви можете скористатися :doc:`/api` для оновлення перекладів у "
+"відповідності з найсвіжішою версією."
 
 #: ../../devel/integration.rst:38 ../../devel/integration.rst:55
 msgid ":ref:`continuous-translation`"
 msgstr ":ref:`continuous-translation`"
 
 #: ../../devel/integration.rst:41
-#, fuzzy
-#| msgid "Pushing string changes to Weblate"
 msgid "Fetching remote changes into Weblate"
-msgstr "Надсилання змін у рядках на Weblate"
+msgstr "Отримання зовнішніх змін у Weblate"
 
 #: ../../devel/integration.rst:43
-#, fuzzy
-#| msgid ""
-#| "To push newly updated strings to Weblate, just let it pull from the "
-#| "upstream repository. This can be achieved in the user interface (in the :"
-#| "guilabel:`Repository maintenance`) or from command line using :ref:`wlc`."
 msgid ""
 "To fetch the strings newly updated in your repository into Weblate, just let "
 "it pull from the upstream repository. This can be achieved in the user "
 "interface (in the :guilabel:`Repository maintenance`), or from the command "
 "line using :ref:`wlc`."
 msgstr ""
-"Щоб записати щойно оновлені рядки до Weblate, просто надайте програмі "
-"можливість отримання даних основного сховища. Досягти цього можна за "
-"допомогою графічного інтерфейсу користувача (розділ :guilabel:`Супровід "
-"сховища`) або інтерфейсу командного рядка за допомогою :ref:`wlc`."
+"Щоб отримати рядки, які було оновлено у вашому сховищі у Weblate, просто "
+"надайте програмі можливість отримання даних основного сховища. Досягти цього "
+"можна за допомогою графічного інтерфейсу користувача (розділ :guilabel:`"
+"Супровід сховища`) або інтерфейсу командного рядка за допомогою :ref:`wlc`."
 
 #: ../../devel/integration.rst:47
-#, fuzzy
-#| msgid ""
-#| "This can be automated by installing a webhook on your repository to "
-#| "trigger Weblate whenever there is a new commit, see :ref:`update-vcs` for "
-#| "more details."
 msgid ""
 "This can be automated by setting a webhook in your repository to trigger "
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
 "Процедуру можна автоматизувати за допомогою скрипту стеження для вашого "
-"сховища, який викликатиме Weblate при кожному внеску, див. :ref:`update-"
-"vcs`, щоб дізнатися більше."
+"сховища, який викликатиме Weblate при кожному внеску, див. :ref:`update-vcs`"
+", щоб дізнатися більше."
 
 #: ../../devel/integration.rst:50
-#, fuzzy
-#| msgid ""
-#| "When not using a VCS integration, you can use UI or :doc:`/api` to update "
-#| "translations to match your code base."
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
@@ -28806,11 +28741,6 @@ msgid "Adding new strings"
 msgstr "Додавання нових рядків"
 
 #: ../../devel/integration.rst:60
-#, fuzzy
-#| msgid ""
-#| "In case your translation files are stored in VCS together with the code, "
-#| "you most likely have existing workflow for developers to introduce new "
-#| "strings. You might extend it by using :ref:`source-quality-gateway`."
 msgid ""
 "In case your translation files are stored in a VCS together with the code, "
 "you most likely have an existing workflow for developers to introduce new "
@@ -28818,35 +28748,28 @@ msgid ""
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
 "Якщо ваші файли перекладу зберігаються в VCS разом з кодом, ви, швидше за "
-"все, маєте наявний робочий процес для розробників, щоб ввести нові рядки. Ви "
-"можете розширити його за допомогою :ref:`source-quality-gateway`."
+"все, маєте наявний робочий процес для розробників, щоб ввести нові рядки. "
+"Яким би не був спосіб отримання доданих рядків, скористайтеся :ref:`source-"
+"quality-gateway`, щоб уникнути помилок."
 
 #: ../../devel/integration.rst:65
-#, fuzzy
-#| msgid ""
-#| "When the translation files are separate, there needs to be a way to "
-#| "introduce new strings. Weblate can add new strings on monolingual "
-#| "translations only (see :ref:`bimono`). You have three options to do that:"
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate. For now, Weblate can intorduce "
 "new strings only to monolingual translations (check :ref:`bimono`)."
 msgstr ""
-"Коли файли перекладу є окремими, повинен бути спосіб ввести нові рядки. "
-"Weblate може додавати нові рядки лише для одномовних перекладів (див. :ref:"
-"`bimono`). У вас є три шляхи:"
+"Коли файли перекладу є окремими від коду, можна скористатися описаними нижче "
+"способами ввести нові рядки у Weblate. У поточній версії, Weblate може "
+"додавати нові рядки лише для одномовних перекладів (див. :ref:`bimono`)."
 
 #: ../../devel/integration.rst:68
-#, fuzzy
-#| msgid ""
-#| "Manually, using :guilabel:`Add new translation string` from :guilabel:"
-#| "`Tools` menu on source language translation."
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the language used as the source for translations."
 msgstr ""
-"Власноруч, застосувавши :guilabel:` Додати новий рядок перекладу` з меню :"
-"guilabel:`Знаряддя` у перекладі джерельної мови."
+"Власноруч, застосувавши :guilabel:` Додати новий рядок перекладу` з меню "
+":guilabel:`Знаряддя` у розділі мови, яка використовується як початкова мова "
+"для перекладів."
 
 #: ../../devel/integration.rst:70
 msgid ""
@@ -28857,19 +28780,14 @@ msgstr ""
 "(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:71
-#, fuzzy
-#| msgid ""
-#| "By uploading source file as :guilabel:`Replace existing translation file` "
-#| "(this overwrites existing strings, so please make sure the file includes "
-#| "both old and new ones, see :ref:`upload-method`)."
 msgid ""
 "By uploading source file as :guilabel:`Replace existing translation file` "
 "(this overwrites existing strings, so please make sure the file includes "
 "both old and new strings, see :ref:`upload-method`)."
 msgstr ""
-"Завантаживши початковий файл як :guilabel:`Замінити наявний файл перекладу` "
-"(це замінює наявні рядки, тому переконайтесь, що файл містить як старі, так "
-"і нові, перегляньте :ref:`upload-method`)."
+"Завантаживши початковий файл як :guilabel:`Замінити наявний файл перекладу` ("
+"це замінює наявні рядки, тому переконайтесь, що файл містить як старі, так і "
+"нові рядки, перегляньте :ref:`upload-method`)."
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
