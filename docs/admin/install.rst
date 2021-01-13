@@ -428,7 +428,7 @@ It is absolutely critical to reduce issues when installing that the setting
 ``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before
 you start your Weblate install.
 
-.. code-block:: sh
+.. code-block:: ini
 
    [mysqld]
    character-set-server = utf8mb4
