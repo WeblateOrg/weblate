@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-12 20:15+0100\n"
-"PO-Revision-Date: 2021-01-13 03:55+0000\n"
-"Last-Translator: 知者无涯 <wasd_jkl@outlook.com>\n"
+"PO-Revision-Date: 2021-01-13 08:07+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -18090,50 +18090,36 @@ msgid ""
 msgstr "附加组件对象属性记录在 :http:get:`/api/units/(int:id)/`。"
 
 #: ../../api.rst:2104
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Returns information about addon information."
-msgstr "返回与组件信息有关的信息。"
+msgstr "返回有关附加组件的信息。"
 
 #: ../../api.rst:2106 ../../api.rst:2125 ../../api.rst:2133 ../../api.rst:2141
-#, fuzzy
-#| msgid "Addons"
 msgid "Addon ID"
-msgstr "附加组件"
+msgstr "附加组件 ID"
 
 #: ../../api.rst:2108 ../../api.rst:2118
 msgid "name of an addon"
 msgstr "组件名称"
 
 #: ../../api.rst:2110 ../../api.rst:2119 ../../api.rst:2127 ../../api.rst:2135
-#, fuzzy
-#| msgid "Optimize configuration"
 msgid "Optional addon configuration"
-msgstr "组件配置"
+msgstr "最优附加组件配置"
 
 #: ../../api.rst:2114
-#, fuzzy
-#| msgid "Creates a new role."
 msgid "Creates a new addon."
-msgstr "创建新角色。"
+msgstr "创建新附加组件。"
 
 #: ../../api.rst:2123
-#, fuzzy
-#| msgid "Edit partial information about screenshot."
 msgid "Edit partial information about addon."
-msgstr "编辑截屏的部分信息。"
+msgstr "编辑附加组件的部分信息。"
 
 #: ../../api.rst:2131
-#, fuzzy
-#| msgid "Edit full information about screenshot."
 msgid "Edit full information about addon."
-msgstr "编辑截屏的完整信息。"
+msgstr "编辑附加组件的完整信息。"
 
 #: ../../api.rst:2139
-#, fuzzy
-#| msgid "Deletes a component."
 msgid "Delete addon."
-msgstr "删除组件。"
+msgstr "删除附加组件。"
 
 #: ../../api.rst:2148
 msgid "Component lists"
@@ -18662,10 +18648,8 @@ msgid "Fixed cleanup addon breaking adding new strings."
 msgstr ""
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added bulk edit addon."
 msgid "Added API for addons."
-msgstr "添加了大量编辑插件。"
+msgstr "添加了附加组件 API。"
 
 #: ../../changes.rst:22
 msgid "Weblate 4.4"
@@ -26247,20 +26231,14 @@ msgid "Importing localization project into Weblate"
 msgstr "正在将本地化项目导入 Weblate"
 
 #: ../../devel/integration.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate was developed with VCS integration in mind. The easiest approach "
-#| "to integrate with it is to grant access to your VCS repository. The "
-#| "import process will guide you through configuring components with your "
-#| "translations."
 msgid ""
 "Weblate has been developed with VCS integration in mind as it’s core "
 "feature, so the easiest way is to grant Weblate the access to your "
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
-"Weblate 在开发时一直注意将版本管理系统（VCS）集成进来。最容易的集成方法是为您"
-"的版本控制系统（VCS）授予范文权限。导入过程将引导您配置您的翻译组件。"
+"Weblate 在开发时一直注意将版本管理系统（VCS）作为核心功能。因此，最简单的方法是授予 Weblate "
+"访问存储库的权限。导入过程将指导您将翻译配置进组件。"
 
 #: ../../devel/integration.rst:13
 msgid ""
@@ -26273,20 +26251,10 @@ msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
 msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:22
-#, fuzzy
-#| msgid "Getting translations updates from Weblate"
 msgid "Fetching updated translations from Weblate"
-msgstr "从Weblate获得翻译更新"
+msgstr "正从 Weblate 获取更新的翻译"
 
 #: ../../devel/integration.rst:24
-#, fuzzy
-#| msgid ""
-#| "To fetch updated strings from Weblate you can simply fetch the underlying "
-#| "repository (either from filesystem or it can be made available through :"
-#| "ref:`git-exporter`). Prior to this, you might want to commit any pending "
-#| "changes (see :ref:`lazy-commit`). This can be achieved in the user "
-#| "interface (in the :guilabel:`Repository maintenance`) or from command "
-#| "line using :ref:`wlc`."
 msgid ""
 "To fetch updated strings from Weblate, you can simply fetch the underlying "
 "Git repository (either from filesystem, or it can be made available through :"
@@ -26295,10 +26263,9 @@ msgid ""
 "the :guilabel:`Repository maintenance`) or from the command line using :ref:"
 "`wlc`."
 msgstr ""
-"为了从 Weblate 取回更新的字符串，可以简单地取回潜在的仓库（或者来自文件系统，"
-"或者可以通过 :ref:`git-exporter`来获得）。在这之前，您会想要提交任何挂起的更"
-"改（请参见 :ref:`lazy-commit`）。这可以在用户界面（在 :guilabel:`Repository "
-"maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
+"为了从 Weblate 取回更新的字符串，可以简单地取回基础的Git仓库（要么来自文件系统，要么可以通过 :ref:`git-"
+"exporter`来获得）。在这之前，您会想要提交任何挂起的更改（请参见 :ref:`lazy-commit`）。这可以通过（在 :guilabel:`"
+"Repository maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -26309,88 +26276,57 @@ msgstr ""
 "`component-push`，这会是自动的。"
 
 #: ../../devel/integration.rst:33
-#, fuzzy
-#| msgid ""
-#| "When not using a VCS integration, you can use UI or :doc:`/api` to update "
-#| "translations to match your code base."
 msgid ""
 "Alternateively, you can use :doc:`/api` to update translations to match "
 "their latest version."
-msgstr ""
-"当不适用版本管理系统（VCS）集成时，可以使用 UI 或 :doc:`/api` 来更新翻译，从"
-"而与您的代码库匹配。"
+msgstr "或者，您可以使用 doc:`/api` 来更新翻译以匹配最新版本。"
 
 #: ../../devel/integration.rst:38 ../../devel/integration.rst:55
 msgid ":ref:`continuous-translation`"
 msgstr ":ref:`continuous-translation`"
 
 #: ../../devel/integration.rst:41
-#, fuzzy
-#| msgid "Pushing string changes to Weblate"
 msgid "Fetching remote changes into Weblate"
-msgstr "将字符串更改推送至 Weblate"
+msgstr "正获取远程更改到 Webate"
 
 #: ../../devel/integration.rst:43
-#, fuzzy
-#| msgid ""
-#| "To push newly updated strings to Weblate, just let it pull from the "
-#| "upstream repository. This can be achieved in the user interface (in the :"
-#| "guilabel:`Repository maintenance`) or from command line using :ref:`wlc`."
 msgid ""
 "To fetch the strings newly updated in your repository into Weblate, just let "
 "it pull from the upstream repository. This can be achieved in the user "
 "interface (in the :guilabel:`Repository maintenance`), or from the command "
 "line using :ref:`wlc`."
 msgstr ""
-"为了将更新的字符串推送给 Weblate，只让他从上游仓库拉取就可以了。这可以在用户"
-"界面（在 :guilabel:`Repository maintenance` 中）或使用 :ref:`wlc` 从命令行来"
-"实现。"
+"为了将仓库中更新的字符串获取到 Weblate，只要从上游仓库拉取就可以了。这可以在用户界面（在 :guilabel:`Repository "
+"maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
 
 #: ../../devel/integration.rst:47
-#, fuzzy
-#| msgid ""
-#| "This can be automated by installing a webhook on your repository to "
-#| "trigger Weblate whenever there is a new commit, see :ref:`update-vcs` for "
-#| "more details."
 msgid ""
 "This can be automated by setting a webhook in your repository to trigger "
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
-"这可以通过在您的仓库安装 webhook，在任何有新提交的时候来触发 Weblate，从而自"
-"动化，更多细节请参见 :ref:`update-vcs`。"
+"这可以通过在你的存储库中设置一个 webhook 来自动实现，每当有新的提交时，webhook 就会触发 Webate。更多细节请参见 :ref"
+":`update-vcs`。"
 
 #: ../../devel/integration.rst:50
-#, fuzzy
-#| msgid ""
-#| "When not using a VCS integration, you can use UI or :doc:`/api` to update "
-#| "translations to match your code base."
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
-msgstr ""
-"当不适用版本管理系统（VCS）集成时，可以使用 UI 或 :doc:`/api` 来更新翻译，从"
-"而与您的代码库匹配。"
+msgstr "如果你没在用一个版本管理系统（VCS）集成，可以使用 UI 或 :doc:`/api` 来更新翻译，从而与您的码基匹配。"
 
 #: ../../devel/integration.rst:58
 msgid "Adding new strings"
 msgstr "正在添加新字符串"
 
 #: ../../devel/integration.rst:60
-#, fuzzy
-#| msgid ""
-#| "In case your translation files are stored in VCS together with the code, "
-#| "you most likely have existing workflow for developers to introduce new "
-#| "strings. You might extend it by using :ref:`source-quality-gateway`."
 msgid ""
 "In case your translation files are stored in a VCS together with the code, "
 "you most likely have an existing workflow for developers to introduce new "
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
-"在您的翻译文件与代码一起存储在版本控制系统（VCS）中的情况下，您的开发者最好已"
-"经有工作流程来引入新的字符串。可以通过使用 :ref:`source-quality-gateway` 来扩"
-"展。"
+"如您的翻译文件与代码一起存储在一个版本控制系统（VCS）中，您很可能有一个现有的工作流供开发人员引入新的字符串。任何添加字符串的方法都将被采用，"
+"但请考虑使用 :ref:`source-quality-gateway` 以避免引入错误。"
 
 #: ../../devel/integration.rst:65
 msgid ""
@@ -26402,16 +26338,12 @@ msgstr ""
 ":ref:`bimono`）。"
 
 #: ../../devel/integration.rst:68
-#, fuzzy
-#| msgid ""
-#| "Manually, using :guilabel:`Add new translation string` from :guilabel:"
-#| "`Tools` menu on source language translation."
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the language used as the source for translations."
 msgstr ""
-"手动使用源语言翻译的 :guilabel:`Tools` 菜单上的 :guilabel:`Add new "
-"translation string`。"
+"手动操作，使用被用作翻译源的语言的 :guilabel:`Tools` 菜单中的 :guilabel:`Add new translation "
+"string`。"
 
 #: ../../devel/integration.rst:70
 msgid ""
@@ -26422,18 +26354,13 @@ msgstr ""
 "component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:71
-#, fuzzy
-#| msgid ""
-#| "By uploading source file as :guilabel:`Replace existing translation file` "
-#| "(this overwrites existing strings, so please make sure the file includes "
-#| "both old and new ones, see :ref:`upload-method`)."
 msgid ""
 "By uploading source file as :guilabel:`Replace existing translation file` "
 "(this overwrites existing strings, so please make sure the file includes "
 "both old and new strings, see :ref:`upload-method`)."
 msgstr ""
-"通过上传源文件作为 :guilabel:`Replace existing translation file`（这覆盖了现"
-"有的字符串，因此请确定文件包括旧的和新的，请参见 :ref:`upload-method`）。"
+"通过上传源文件作为 :guilabel:`Replace existing translation "
+"file`（这覆盖了现有的字符串，因此请确定文件包括旧的和新的字符串，请参见 :ref:`upload-method`）。"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
