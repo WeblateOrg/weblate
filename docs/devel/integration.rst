@@ -63,7 +63,7 @@ Any way of adding strings will be picked up, but consider using
 :ref:`source-quality-gateway` to avoid introducing errors.
 
 When the translation files are separate from the code, there are following ways to introduce
-new strings into Weblate. For now, Weblate can intorduce new strings only to monolingual translations (check :ref:`bimono`).
+new strings into Weblate. For now, Weblate can introduce new strings only to monolingual translations (check :ref:`bimono`).
 
 * Manually, using :guilabel:`Add new translation string` from :guilabel:`Tools`
   menu in the language used as the source for translations.
