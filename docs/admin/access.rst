@@ -140,7 +140,7 @@ The authentication models consist of several objects:
 
 `Permission`
     Individual permissions defined by Weblate. Permissions can not be
-    assigned to single users. This can only be done through assignment of roles.
+    assigned to individual users. This can only be done through assignment of roles.
 `Role`
     A Role defines a set of permissions. This allows reuse of these sets in
     several places, easing administration.
