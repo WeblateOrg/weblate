@@ -1,7 +1,7 @@
 Weblate 4.4.1
 -------------
 
-Not yet released.
+Released on January 13th 2021.
 
 * Fixed reverting plural changes.
 * Fixed displaying help for project settings.
