@@ -422,10 +422,10 @@ Intermediate language file for :ref:`monolingual`. In most cases this is a
 translation file provided by developers and is used when creating actual source
 strings.
 
-When set, the source translation is based on this file, but all others are
-based on :ref:`component-template`. In case the string is not translated in
-source translation, translating to other languages is prohibited. This provides
-:ref:`source-quality-gateway`.
+When set, the source strings are based on this file, but all other languagess
+are based on :ref:`component-template`. In case the string is not translated
+into the source lanugage, translating to other languages is prohibited. This
+provides :ref:`source-quality-gateway`.
 
 .. seealso::
 
