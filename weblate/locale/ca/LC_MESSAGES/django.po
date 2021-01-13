@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Joan Montané <joan@montane.cat>, 2018, 2019, 2020.
-# Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2019, 2020.
+# Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2019, 2020, 2021.
 # Eduard Ereza Martínez <eduard@ereza.cat>, 2019, 2020.
 # Marc Riera <marc.riera.irigoyen@gmail.com>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019.
@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.4.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-12 19:14+0000\n"
-"PO-Revision-Date: 2021-01-12 19:09+0000\n"
-"Last-Translator: badlop <badlop@process-one.net>\n"
+"PO-Revision-Date: 2021-01-13 08:07+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -392,7 +392,7 @@ msgstr "S'ha iniciat el període de prova."
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr "S'ha enviat correu de confirmació a {email}."
+msgstr "S'ha enviat un missatge de confirmació a {email}."
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -1034,13 +1034,12 @@ msgid "JavaScript localization CDN"
 msgstr "CDN de localització de JavaScript"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Afegeix un CDN de localització per a la localització de JavaScript o HTML."
+"Publica les traduccions en una xarxa de lliurament de continguts per al seu "
+"ús en la localització de JavaScript o HTML."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -4571,7 +4570,7 @@ msgstr "Us estem redirigint al proveïdor d'autenticació."
 
 #: weblate/templates/accounts/register.html:32
 msgid "Register in Weblate"
-msgstr "Registrar al Weblate"
+msgstr "Registreu-vos al Weblate"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -5964,8 +5963,8 @@ msgstr "Canal RSS"
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"Segueix el progrés de la traducció i tots el canvis importants dels canals "
-"RSS."
+"Seguiu el progrés de la traducció i tots el canvis importants mitjançant els "
+"canals RSS."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5981,8 +5980,8 @@ msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
-"També hi ha disponibles canals RSS per a cada llengua. Genera-os afegint un "
-"codi de llengua als URL anteriors."
+"També hi ha disponibles canals RSS per a cada llengua. Genereu-los afegint "
+"un codi de llengua als URL anteriors."
 
 #: weblate/templates/data.html:56
 msgid ""
@@ -5996,8 +5995,8 @@ msgstr ""
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
 msgstr ""
-"Pots obtenir estadístiques de totes les traduccions d'un component d'aquesta "
-"manera:"
+"Podeu obtenir estadístiques de totes les traduccions d'un component "
+"d'aquesta manera:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
@@ -6018,13 +6017,13 @@ msgstr "Punt d'inserció"
 
 #: weblate/templates/data.html:123
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Tu obtens els canvis d'un dipòsit remot a Weblate d'esta manera:"
+msgstr "Per a incorporar els canvis d'un dipòsit remot en el Weblate:"
 
 #: weblate/templates/data.html:132
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
 msgstr ""
-"El Weblate també suporta notificacions directes de diversos llocs "
+"El Weblate també admet notificacions directes de diversos llocs "
 "d'allotjament de codi:"
 
 #: weblate/templates/data.html:137
@@ -6048,7 +6047,7 @@ msgstr "Canvia el mot"
 #: weblate/templates/engage.html:14
 #, python-format
 msgid "Get involved in <strong>%(project)s</strong>"
-msgstr "Involucreu-vos amb <strong>%(project)s</strong>"
+msgstr "Involucreu-vos amb el projecte <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
 msgid "Hello and thank you for your interest"
@@ -8462,11 +8461,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "L'URL del lloc web d'aquest projecte apunta a una ubicació inexistent:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not parse HTML files using the addon."
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr ""
-"El Weblate no ha pogut analitzar els fitxers HTML fent servir el complement."
+msgstr "El complement CDN del Weblate no ha pogut analitzar els fitxers HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -8499,6 +8495,9 @@ msgid ""
 "You might be using monolingual translation files as bilingual. In that case "
 "please configure the monolingual base language file."
 msgstr ""
+"Potser esteu fent servir fitxers de traducció monolingües com si fossin "
+"bilingües. Si aquest és el cas, configureu el fitxer de llengua de base "
+"monolingüe."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
 msgid ""
@@ -9881,7 +9880,7 @@ msgstr "Enllaços a la font"
 
 #: weblate/trans/forms.py:1288
 msgid "Listing and access"
-msgstr ""
+msgstr "Catalogació i accés"
 
 #: weblate/trans/forms.py:1303
 msgid "Translation settings"
