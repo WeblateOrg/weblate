@@ -107,7 +107,7 @@ def handle_post(request, billing):
                         "message": form.cleaned_data["message"],
                         "billing_url": billing.get_absolute_url(),
                     },
-                    request.user.email,
+                    request.user.get_author_name(),
                     settings.ADMINS_HOSTING,
                 )
             else:
