@@ -429,6 +429,17 @@ The additional file for same language is not processed.
 * In case the translation file for the source language is not needed, please remove it from the repository.
 * In case the translation file for the source language is needed, but should be ignored by Weblate, please adjust the :ref:`component-language_regex` to exclude it.
 
+.. hint::
+
+   You might get similar error message for other languages as well. In that
+   case the most likely reason is that several files map to single language in
+   Weblate.
+
+   This can be caused by using obsolete language codes together with new one
+   (``ja`` and ``jp`` for Japanese) or including both country specific and
+   generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for
+   more details.
+
 Features
 ++++++++
 

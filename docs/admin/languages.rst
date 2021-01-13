@@ -17,8 +17,13 @@ While parsing translations, Weblate attempts to map language code
 You can further adjust this mapping at project level by :ref:`project-language_aliases`.
 
 If no exact match can be found, an attempt will be made
-to best fit it into an existing language (e.g. ignoring the default country code
-for a given language—choosing ``cs`` instead of ``cs_CZ``).
+to best fit it into an existing language. Following steps are tried:
+
+* Case insensitive lookups.
+* Normalizing underscores and dashes.
+* Looking up built in language aliaes.
+* Looking up by language name.
+* Ignoring the default country code for a given language—choosing ``cs`` instead of ``cs_CZ``.
 
 Should that also fail, a new language definition will be created using the
 defaults (left to right text direction, one plural). The automatically created
