@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-12 20:15+0100\n"
-"PO-Revision-Date: 2021-01-11 17:32+0000\n"
+"PO-Revision-Date: 2021-01-13 13:40+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -996,6 +996,8 @@ msgstr ""
 msgid ""
 "This addon is triggered automatically when new strings appear in a component."
 msgstr ""
+"Este complemento se desencadena automáticamente siempre que aparecen cadenas "
+"nuevas en un componente."
 
 #: ../../admin/addons.rst:31
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -6167,7 +6169,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:66
 msgid "Avoiding merge conflicts"
-msgstr ""
+msgstr "Evitar conflictos de fusión"
 
 #: ../../admin/continuous.rst:68
 msgid ""
@@ -7532,6 +7534,13 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
+"El siguiente es un :archivo:`/etc/my.cnf.d/server.cnf` de ejemplo para un "
+"servidor con 8 GB de RAM. Esta configuración debería bastar en la mayoría de "
+"las instalaciones. MySQL y MariaDB poseen configuraciones que optimizarán el "
+"rendimiento de su servidor, las cuales no es necesario ajustar a menos que "
+"espere tener cantidades elevadas de usuarios accediendo al sistema en "
+"simultáneo. Consulte la documentación del proveedor de su base de datos para "
+"obtener más información al respecto."
 
 #: ../../admin/install.rst:427
 msgid ""
@@ -16689,51 +16698,35 @@ msgid "Delete screenshot."
 msgstr "Eliminar captura de pantalla."
 
 #: ../../api.rst:2096
-#, fuzzy
-#| msgid "Returns a list of translations."
 msgid "Returns a list of addons."
-msgstr "Devuelve un listado de traducciones."
+msgstr "Devuelve un listado de complementos."
 
 #: ../../api.rst:2100
-#, fuzzy
-#| msgid ""
-#| "Project object attributes are documented at :http:get:`/api/projects/"
-#| "(string:project)/`."
 msgid ""
 "Addon object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
-"Los atributos de objeto de proyecto se documentan en :http:get:`/api/"
-"projects/(string:project)/`."
+"Los atributos de objeto de complemento se documentan en :http:get:`/api/"
+"addons/(int:id)/`."
 
 #: ../../api.rst:2104
-#, fuzzy
-#| msgid "Returns information about screenshot information."
 msgid "Returns information about addon information."
-msgstr "Devuelve información relativa a los datos de una captura de pantalla."
+msgstr "Devuelve información relativa a los datos de un complemento."
 
 #: ../../api.rst:2106 ../../api.rst:2125 ../../api.rst:2133 ../../api.rst:2141
-#, fuzzy
-#| msgid "Addons"
 msgid "Addon ID"
-msgstr "Complementos"
+msgstr "Id. de complemento"
 
 #: ../../api.rst:2108 ../../api.rst:2118
-#, fuzzy
-#| msgid "name of a group"
 msgid "name of an addon"
-msgstr "nombre de un grupo"
+msgstr "nombre de un complemento"
 
 #: ../../api.rst:2110 ../../api.rst:2119 ../../api.rst:2127 ../../api.rst:2135
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Optional addon configuration"
-msgstr "Configuración errónea"
+msgstr "Configuración opcional del complemento"
 
 #: ../../api.rst:2114
-#, fuzzy
-#| msgid "Creates a new language."
 msgid "Creates a new addon."
-msgstr "Crea un idioma nuevo."
+msgstr "Crea un complemento nuevo."
 
 #: ../../api.rst:2123
 #, fuzzy
@@ -16778,7 +16771,7 @@ msgstr ""
 
 #: ../../api.rst:2166 ../../api.rst:2178 ../../api.rst:2188
 msgid "name of a component list"
-msgstr ""
+msgstr "nombre de una lista de componentes"
 
 #: ../../api.rst:2167 ../../api.rst:2179 ../../api.rst:2189
 msgid "slug of a component list"
@@ -16790,15 +16783,15 @@ msgstr ""
 
 #: ../../api.rst:2170
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "reglas de asignación automáticas"
 
 #: ../../api.rst:2174 ../../api.rst:2184
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "Cambia los parámetros de la lista de componentes."
 
 #: ../../api.rst:2194
 msgid "Deletes the component list."
-msgstr ""
+msgstr "Elimina la lista de componentes."
 
 #: ../../api.rst:2201
 msgid "Associate component with a component list."
@@ -16828,34 +16821,24 @@ msgstr "Devuelve información relativa a un idioma."
 #: ../../api.rst:2338 ../../api.rst:2346 ../../api.rst:2354 ../../api.rst:2362
 #: ../../api.rst:2369 ../../api.rst:2379 ../../api.rst:2388 ../../api.rst:2400
 #: ../../api.rst:2412
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary id"
-msgstr "Glosario"
+msgstr "Id. de glosario"
 
 #: ../../api.rst:2309 ../../api.rst:2319
-#, fuzzy
-#| msgid "Changes the group parameters."
 msgid "Changes the glossary parameters."
-msgstr "Cambia los parámetros del grupo."
+msgstr "Cambia los parámetros del glosario."
 
 #: ../../api.rst:2329
-#, fuzzy
-#| msgid "Deletes the group."
 msgid "Deletes the glossary."
-msgstr "Elimina el grupo."
+msgstr "Elimina el glosario."
 
 #: ../../api.rst:2336
 msgid "Returns projects linked with a glossary."
-msgstr ""
+msgstr "Devuelve los proyectos vinculados a un glosario."
 
 #: ../../api.rst:2340
-#, fuzzy
-#| msgid ""
-#| "the translation project; see :http:get:`/api/projects/(string:project)/`"
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
-"el proyecto de traducción; vea :http:get:`/api/projects/(string:project)/`"
+msgstr "proyectos asociados; vea :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:2344
 msgid "Associate project with a glossary."
@@ -16880,10 +16863,8 @@ msgid "Associate terms with a glossary."
 msgstr "Añadir término al glosario"
 
 #: ../../api.rst:2371 ../../api.rst:2392 ../../api.rst:2404
-#, fuzzy
-#| msgid "Language filter"
 msgid "Language of the term"
-msgstr "Filtro de idioma"
+msgstr "Idioma del término"
 
 #: ../../api.rst:2372 ../../api.rst:2393 ../../api.rst:2405
 #, fuzzy
@@ -16905,7 +16886,7 @@ msgstr "Evite los años asociados con usted."
 
 #: ../../api.rst:2381 ../../api.rst:2390 ../../api.rst:2402 ../../api.rst:2414
 msgid "ID of term"
-msgstr ""
+msgstr "Id. del término"
 
 #: ../../api.rst:2386 ../../api.rst:2398
 #, fuzzy
@@ -16919,7 +16900,7 @@ msgstr ""
 
 #: ../../api.rst:2418
 msgid "Tasks"
-msgstr ""
+msgstr "Tareas"
 
 #: ../../api.rst:2424
 #, fuzzy
@@ -16935,7 +16916,7 @@ msgstr "Devuelve información relativa a una traducción."
 
 #: ../../api.rst:2430
 msgid "Task UUID"
-msgstr ""
+msgstr "UUID de la tarea"
 
 #: ../../api.rst:2432
 #, fuzzy
@@ -17246,77 +17227,61 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.4.1"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.4.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "No publicada aún."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Fixed reverting changes from the history."
 msgid "Fixed reverting plural changes."
-msgstr "Se corrigió la reversión de cambios desde el historial."
+msgstr "Se corrigió la reversión de cambios con plurales."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Fixed searching for certain string states."
 msgid "Fixed displaying help for project settings."
-msgstr "Se solucionó la búsqueda de determinados estados de cadenas."
+msgstr ""
+"Se arregló la visualización de la ayuda en la configuración del proyecto."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Improved user pages and added listing of users."
 msgid "Improved administration of users."
-msgstr "Páginas de usuario mejoradas y adición de listados de usuarios."
+msgstr "Se perfeccionó la administración de usuarios."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "Improved handling of context in monolingual PO files."
-msgstr "La traducción utiliza archivos monolingües."
+msgstr "Se manipulan mejor los contextos de los archivos PO monolingües."
 
 #: ../../changes.rst:10
 msgid ""
 "Fixed cleanup addon behavior with HTML, ODF, IDML and Windows RC formats."
 msgstr ""
+"El comportamiento del complemento de limpieza es ahora el esperable al "
+"tratar archivos HTML, ODF, IDML y RC de Windows."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed parsing of location from CSV files."
-msgstr "No se encontró ninguna cadena original que coincidiera."
+msgstr "Se arregló el procesamiento de la ubicación en los archivos CSV."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of loading translation files."
 msgid "Use content compression for file downloads."
-msgstr "Se mejoró el rendimiento al cargar los archivos de traducción."
+msgstr "Se utiliza compresión de contenido en las descargas de archivos."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved performance of loading translation files."
 msgid "Improved user experience on importing from ZIP file."
-msgstr "Se mejoró el rendimiento al cargar los archivos de traducción."
+msgstr ""
+"Se mejoró la experiencia de usuario al importar a partir de un archivo ZIP."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of loading translation files."
 msgid "Improved detection of file format for uploads."
-msgstr "Se mejoró el rendimiento al cargar los archivos de traducción."
+msgstr "Se mejoró la detección de formato de archivo durante las cargas."
 
 #: ../../changes.rst:15
 msgid "Avoid duplicate pull requests on Pagure."
 msgstr "Se evita la duplicación de las solicitudes de incorporación en Pagure."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improved performance of loading translation files."
 msgid "Improved performance when displaying ghost translations."
-msgstr "Se mejoró el rendimiento al cargar los archivos de traducción."
+msgstr "Se mejoró el rendimiento al mostrar traducciones fantasma."
 
 #: ../../changes.rst:17
 msgid "Reimplemented translation editor to use native browser textarea."
@@ -17347,39 +17312,34 @@ msgid "Weblate now requires Django 3.1."
 msgstr "Weblate ahora requiere Django 3.1."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for Slack authentication in Docker container."
 msgid "Added support for appearance customization in the management interface."
-msgstr "Se permite la autenticación con Slack en contenedores Docker."
+msgstr "Ahora es posible personalizar la apariencia en la interfaz de gestión."
 
 #: ../../changes.rst:29
 msgid "Fixed read-only state handling in bulk edit."
 msgstr ""
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Improved Matomo integration."
 msgid "Improved CodeMirror integration."
-msgstr "Se mejoró la integración con Matomo."
+msgstr "Se mejoró la integración con CodeMirror."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Added addon to remove blank strings from translation files."
-msgstr "Cadena nueva por traducir en %(translation)s"
+msgstr ""
+"Se creó un complemento para quitar las cadenas vacías de los archivos de "
+"traducción."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid "Component is now open for translation updates."
 msgid "The CodeMirror editor is now used for translations."
-msgstr "El componente acepta la actualización de traducciones."
+msgstr "Ahora se utiliza el editor CodeMirror para las traducciones."
 
 #: ../../changes.rst:33
 msgid ""
 "Syntax highlighting in translation editor for XML, HTML, Markdown and "
 "reStructuredText."
 msgstr ""
+"Coloración sintáctica en el editor de traducciones para XML, HTML, Markdown "
+"y reStructuredText."
 
 #: ../../changes.rst:34
 #, fuzzy
@@ -25089,10 +25049,8 @@ msgid ":ref:`continuous-translation`"
 msgstr ""
 
 #: ../../devel/integration.rst:41
-#, fuzzy
-#| msgid "Pushing changes from Weblate"
 msgid "Fetching remote changes into Weblate"
-msgstr "Enviar cambios efectuados en Weblate"
+msgstr "Recuperar cambios remotos hacia Weblate"
 
 #: ../../devel/integration.rst:43
 msgid ""
@@ -25116,10 +25074,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:58
-#, fuzzy
-#| msgid "Add new string"
 msgid "Adding new strings"
-msgstr "Añadir nueva cadena"
+msgstr "Añadir cadenas nuevas"
 
 #: ../../devel/integration.rst:60
 msgid ""
