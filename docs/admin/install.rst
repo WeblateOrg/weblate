@@ -451,6 +451,11 @@ you start your Weblate install.
    is 767 bytes`` error, please update your configuration to include the ``innodb``
    settings above and restart your install.
 
+.. hint::
+
+   In case you are getting ``#2006 - MySQL server has gone away`` error,
+   configuring :setting:`django:CONN_MAX_AGE` might help.
+
 Configuring Weblate to use MySQL/MariaDB
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
