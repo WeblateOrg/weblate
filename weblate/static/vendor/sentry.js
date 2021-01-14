@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.29.2 (6b4f304) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.30.0 (6de2dd4) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -633,7 +633,7 @@ var Sentry = (function (exports) {
      * Truncates given string to the maximum characters count
      *
      * @param str An object that contains serializable values
-     * @param max Maximum number of characters in truncated string
+     * @param max Maximum number of characters in truncated string (0 = unlimited)
      * @returns string Encoded
      */
     function truncate(str, max) {
@@ -690,15 +690,16 @@ var Sentry = (function (exports) {
      *
      * @param source An object that contains a method to be wrapped.
      * @param name A name of method to be wrapped.
-     * @param replacement A function that should be used to wrap a given method.
+     * @param replacementFactory A function that should be used to wrap a given method, returning the wrapped method which
+     * will be substituted in for `source[name]`.
      * @returns void
      */
-    function fill(source, name, replacement) {
+    function fill(source, name, replacementFactory) {
         if (!(name in source)) {
             return;
         }
         var original = source[name];
-        var wrapped = replacement(original);
+        var wrapped = replacementFactory(original);
         // Make sure it's a function first, as we need to attach an empty prototype for `defineProperties` to work
         // otherwise it'll throw "TypeError: Object.defineProperties called on non-object"
         if (typeof wrapped === 'function') {
@@ -730,10 +731,10 @@ var Sentry = (function (exports) {
             .join('&');
     }
     /**
-     * Transforms any object into an object literal with all it's attributes
+     * Transforms any object into an object literal with all its attributes
      * attached to it.
      *
-     * @param value Initial source that we have to transform in order to be usable by the serializer
+     * @param value Initial source that we have to transform in order for it to be usable by the serializer
      */
     function getWalkSource(value) {
         if (isError(value)) {
@@ -3982,7 +3983,7 @@ var Sentry = (function (exports) {
             // 0.0 === 0% events are sent
             // Sampling for transaction happens somewhere else
             if (!isTransaction && typeof sampleRate === 'number' && Math.random() > sampleRate) {
-                return SyncPromise.reject(new SentryError('This event has been sampled, will not send event.'));
+                return SyncPromise.reject(new SentryError("Discarding event because it's not included in the random sample (sampling rate = " + sampleRate + ")"));
             }
             return this._prepareEvent(event, scope, hint)
                 .then(function (prepared) {
@@ -6034,7 +6035,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.29.2';
+    var SDK_VERSION = '5.30.0';
 
     /**
      * The Sentry Browser SDK Client.
