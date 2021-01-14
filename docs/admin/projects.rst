@@ -742,6 +742,20 @@ Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`.
    This applies to project managers as well - please make sure you will not
    loose access to the component after toggling the status.
 
+.. _component-links:
+
+Share in projects
++++++++++++++++++
+
+You can choose additional projects where the component will be visible. This
+can be useful for shared libraries which you use in several projects.
+
+.. note::
+
+   Sharing component doesn't change it's access control. It makes it only
+   visible when browsing other projects. User still need to have access to the
+   actual component in order to be able to browse or translate it.
+
 .. _markup:
 
 Template markup

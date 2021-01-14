@@ -614,6 +614,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         ),
     )
 
+    links = models.ManyToManyField(
+        "Project",
+        verbose_name=gettext_lazy("Share in projects"),
+        blank=True,
+        related_name="shared_components",
+        help_text=gettext_lazy(
+            "Choose additional projects where this component will be listed."
+        ),
+    )
+
     objects = ComponentQuerySet.as_manager()
 
     is_lockable = True

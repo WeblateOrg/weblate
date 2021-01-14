@@ -3,6 +3,8 @@ Weblate 4.5
 
 Not yet released.
 
+* Added support for sharing a component between projects.
+
 Weblate 4.4.2
 -------------
 

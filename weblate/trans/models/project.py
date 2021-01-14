@@ -431,3 +431,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         from weblate.auth.models import User
 
         return User.objects.all_admins(self).select_related("profile")
+
+    @cached_property
+    def child_components(self):
+        return self.component_set.all() | self.shared_components.all()

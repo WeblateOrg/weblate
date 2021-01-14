@@ -1266,6 +1266,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "variant_regex",
             "restricted",
             "auto_lock_error",
+            "links",
         )
         widgets = {
             "enforced_checks": SelectChecksWidget,
@@ -1277,6 +1278,9 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
         super().__init__(request, *args, **kwargs)
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
+        self.fields["links"].queryset = request.user.owned_projects.exclude(
+            pk=self.instance.pk
+        )
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -1288,6 +1292,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         _("Listing and access"),
                         "priority",
                         "restricted",
+                        "links",
                     ),
                     css_id="basic",
                 ),
@@ -1488,7 +1493,7 @@ class ComponentBranchForm(ComponentSelectForm):
         component = data.get("component")
         if not component or any(field not in data for field in form_fields):
             return
-        kwargs = model_to_dict(component, exclude=["id"])
+        kwargs = model_to_dict(component, exclude=["id", "links"])
         # We need a object, not integer here
         kwargs["source_language"] = component.source_language
         kwargs["project"] = component.project

@@ -27,7 +27,7 @@ from uuid import uuid4
 import sentry_sdk
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count, Sum
+from django.db.models import Count, Q, Sum
 from django.db.models.functions import Length
 from django.urls import reverse
 from django.utils import timezone
@@ -748,7 +748,9 @@ class ProjectLanguage:
     def translation_set(self):
         return (
             self.language.translation_set.prefetch()
-            .filter(component__project=self.project)
+            .filter(
+                Q(component__project=self.project) | Q(component__links=self.project)
+            )
             .order_by("component__priority", "component__name")
         )
 

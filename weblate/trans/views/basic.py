@@ -140,10 +140,12 @@ def show_project(request, project):
         .filter(project=obj, action=Change.ACTION_ANNOUNCEMENT)[:10]
     )
 
+    all_components = obj.child_components.filter_access(user).prefetch().order()
+
     language_stats = obj.stats.get_language_stats()
     # Show ghost translations for user languages
     component = None
-    for component in obj.component_set.filter_access(user).all():
+    for component in all_components:
         if component.can_add_new_language(user, fast=True):
             break
     if component:
@@ -158,7 +160,6 @@ def show_project(request, project):
         ),
     )
 
-    all_components = obj.component_set.filter_access(user).prefetch().order()
     components = prefetch_tasks(prefetch_stats(all_components))
 
     return render(
@@ -200,7 +201,10 @@ def show_project(request, project):
                 auto_id="id_bulk_%s",
             ),
             "components": components,
-            "licenses": obj.component_set.exclude(license="").order_by("license"),
+            "licenses": sorted(
+                (component for component in all_components if component.license),
+                key=lambda component: component.license,
+            ),
         },
     )
 
@@ -302,7 +306,7 @@ def show_translation(request, project, component, lang):
     # adds quick way to create translations in other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(obj.component.slug)
-    for test_component in obj.component.project.component_set.filter_access(
+    for test_component in obj.component.project.child_components.filter_access(
         user
     ).exclude(slug__in=existing):
         if test_component.can_add_new_language(user, fast=True):
@@ -362,7 +366,7 @@ def data_project(request, project):
         "data.html",
         {
             "object": obj,
-            "components": obj.component_set.filter_access(request.user).order(),
+            "components": obj.child_components.filter_access(request.user).order(),
             "project": obj,
         },
     )
