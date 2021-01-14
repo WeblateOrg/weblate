@@ -303,23 +303,9 @@ Weblate tries to limit changes in translation files to a minimum. For some file
 formats it might unfortunately lead to reformatting the file. If you want to
 keep the file formatted your way, please use a pre-commit hook for that.
 
-For monolingual files (see :ref:`formats`) Weblate might add new translation
-strings not present in the :guilabel:`template`, and not in actual
-translations. It does not however perform any automatic cleanup of stale
-strings as that might have unexpected outcomes. If you want to do this, please
-install an appropriate addon which will handle the cleanup according to your
-requirements.
-
-Weblate also will not try to update bilingual files in any way, so if you need
-:file:`po` files being updated from :file:`pot`, you need to do it yourself or using an addon.
-
 .. seealso::
 
-   :ref:`processing`,
-   :ref:`addon-weblate.cleanup.generic`,
-   :ref:`addon-weblate.cleanup.blank`,
-   :ref:`addon-weblate.resx.update`,
-   :ref:`addon-weblate.gettext.msgmerge`
+   :ref:`updating-target-files`
 
 
 Where do language definitions come from and how can I add my own?

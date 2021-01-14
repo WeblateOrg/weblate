@@ -71,3 +71,28 @@ new strings into Weblate. For now, Weblate can introduce new strings only to mon
 * By uploading source file as :guilabel:`Replace existing translation file`
   (this overwrites existing strings, so please make sure the file includes both
   old and new strings, see :ref:`upload-method`).
+
+.. _updating-target-files:
+
+Updating target language files
+++++++++++++++++++++++++++++++
+
+For monolingual files (see :ref:`formats`) Weblate might add new translation
+strings not present in the :guilabel:`template`, and not in actual
+translations. It does not however perform any automatic cleanup of stale
+strings as that might have unexpected outcomes. If you want to do this, please
+install :ref:`addon-weblate.cleanup.generic` addon which will handle the
+cleanup according to your requirements.
+
+Weblate also will not try to update bilingual files in any way, so if you need
+:file:`po` files being updated from :file:`pot`, you need to do it yourself
+using :ref:`Update source strings` or using
+:ref:`addon-weblate.gettext.msgmerge` addon.
+
+.. seealso::
+
+   :ref:`processing`,
+   :ref:`addon-weblate.cleanup.generic`,
+   :ref:`addon-weblate.cleanup.blank`,
+   :ref:`addon-weblate.resx.update`,
+   :ref:`addon-weblate.gettext.msgmerge`
