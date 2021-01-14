@@ -86,7 +86,7 @@ cleanup according to your requirements.
 
 Weblate also will not try to update bilingual files in any way, so if you need
 :file:`po` files being updated from :file:`pot`, you need to do it yourself
-using :ref:`Update source strings` or using
+using :guilabel:`Update source strings` :ref:`upload-method` or using
 :ref:`addon-weblate.gettext.msgmerge` addon.
 
 .. seealso::

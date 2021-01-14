@@ -261,10 +261,15 @@ Usage
 How do I review the translations of others?
 ---------------------------------------------
 
+- There are several review based workflows available in Weblate, see :ref:`workflows`.
 - You can subscribe to any changes made in :ref:`subscriptions` and then check
   others contributions as they come in by e-mail.
 - There is a review tool available at the bottom of the translation view, where you can
   choose to browse translations made by others since a given date.
+
+.. seealso::
+
+   :ref:`workflows`
 
 How do I provide feedback on a source string?
 ---------------------------------------------
@@ -280,6 +285,8 @@ provide feedback on a source string, or discuss it with other translators.
 How can I use existing translations while translating?
 ------------------------------------------------------
 
+- All translations within Weblate can be used thanks to shared translation memory.
+- You can import existing translation memory files into Weblate.
 - Use the import functionality to load compendium as translations,
   suggestions or translations needing review. This is the best approach for a one-time
   translation using a compendium or a similar translation database.
@@ -292,7 +299,9 @@ How can I use existing translations while translating?
 
 .. seealso::
 
-   :ref:`machine-translation-setup`, :ref:`machine-translation`
+   :ref:`machine-translation-setup`,
+   :ref:`machine-translation`,
+   :ref:`memory`
 
 .. _faq-cleanup:
 
@@ -317,6 +326,10 @@ about plural forms or text direction.
 
 You are free to define your own languages in the administrative interface, you just need
 to provide info about it.
+
+.. seealso::
+
+   :ref:`languages`
 
 Can Weblate highlight changes in a fuzzy string?
 ------------------------------------------------
@@ -359,6 +372,10 @@ the :command:`msgmerge` tool:
 
 In case you want to do the update automatically, you can install
 addon :ref:`addon-weblate.gettext.msgmerge`.
+
+.. seealso::
+
+   :ref:`updating-target-files`
 
 
 Troubleshooting
@@ -471,14 +488,11 @@ Why does Weblate force showing all PO files in a single tree?
 
 Weblate was designed in a way that every PO file is represented as a single
 component. This is beneficial for translators, so they know what they are
-actually translating. If you feel your project should be translated as one,
-consider merging these po files. It will make life easier even for translators
-not using Weblate.
+actually translating.
 
-.. note::
+.. versionchanged:: 4.2
 
-    In case there is great demand for this feature, it might be implemented
-    in future versions.
+   You can translate all components in a single language since Weblate 4.2.
 
 .. _faq-codes:
 
@@ -492,3 +506,7 @@ are really different languages instead previously wrongly used modifiers (for
 Weblate still understands legacy language codes and will map them to
 current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
 ``zh@CN`` as ``zh_Hans``.
+
+.. seealso::
+
+   :ref:`languages`
