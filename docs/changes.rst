@@ -3,6 +3,8 @@ Weblate 4.4.2
 
 Not yet released.
 
+* Fixed corruption of one distributed MO file.
+
 Weblate 4.4.1
 -------------
 
