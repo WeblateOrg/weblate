@@ -25,6 +25,19 @@ configuration lives in :file:`scripts/yarn` and there is a wrapper script
 correct locations in :file:`weblate/static/vendor`, where all third partly
 frontend code is located.
 
+Adding new third-party library typically consists of:
+
+.. code-block:: sh
+
+   # Add a yarn package
+   yarn --cwd scripts/yarn add PACKAGE
+   # Edit the script to copy package to the static folder
+   edit scripts/yarn-update
+   # Run the update script
+   ./scripts/yarn-update
+   # Add files to git
+   git add .
+
 Coding style
 ------------
 
