@@ -18,6 +18,10 @@ if [ "x$1" = "x--tag" ] ; then
     shift
 fi
 
+# Start with clean build environment
+./setup.py clean
+rm -rf build
+
 # Grab version
 . scripts/test-database
 version=`python -c 'import weblate; print(weblate.VERSION_BASE)'`
