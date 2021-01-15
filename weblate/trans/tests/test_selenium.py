@@ -647,7 +647,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "1"
         )
         self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
-        self.driver.find_element(By.ID, "id_mail").send_keys("weblate@lists.cihar.com")
         self.driver.find_element(By.ID, "id_instructions").send_keys(
             "https://weblate.org/contribute/"
         )
@@ -969,7 +968,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Add project
         self.driver.find_element(By.ID, "id_name").send_keys("WeblateOrg")
         self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
-        self.driver.find_element(By.ID, "id_mail").send_keys("weblate@lists.cihar.com")
         self.driver.find_element(By.ID, "id_instructions").send_keys(
             "https://weblate.org/contribute/"
         )
