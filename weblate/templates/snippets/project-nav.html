@@ -8,6 +8,7 @@
 {% perm 'vcs.commit' object as user_can_commit_translation %}
 {% perm 'project.permissions' object as user_can_manage_acl %}
 {% perm 'project.edit' object as user_can_edit_project %}
+{% perm 'billing.view' object as user_can_view_billing %}
 
 <ul class="nav nav-pills">
     {% if request.path != project_url %}
@@ -115,6 +116,9 @@
                 <li><a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
             {% endif %}
         {% endif %}
+        {% if user_can_edit_project %}
+          <li><a href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a></li>
+        {% endif %}
         {% if user_can_manage_acl %}
         <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
         {% endif %}
@@ -123,6 +127,13 @@
         <li><a href="{% url 'labels' project=object.slug %}">{% trans "Labels" %}</a></li>
         <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
         {% endif %}
+
+        {% if user_can_view_billing and object.billings %}
+          {% for billing in object.billings %}
+            <li><a href="{{ billing.get_absolute_url }}">{% trans "Billing" %}</a></li>
+          {% endfor %}
+        {% endif %}
+
         {% if delete_form or rename_form %}
         <li role="separator" class="divider"></li>
         {% if request.path != project_url %}
