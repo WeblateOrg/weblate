@@ -492,7 +492,7 @@ actually translating.
 
 .. versionchanged:: 4.2
 
-   You can translate all components in a single language since Weblate 4.2.
+   Translators can translate all components within a project in single run.
 
 .. _faq-codes:
 
