@@ -78,7 +78,7 @@ Updating target language files
 ++++++++++++++++++++++++++++++
 
 For monolingual files (see :ref:`formats`) Weblate might add new translation
-strings not present in the :guilabel:`template`, and not in actual
+strings not present in the :ref:`component-template`, and not in actual
 translations. It does not however perform any automatic cleanup of stale
 strings as that might have unexpected outcomes. If you want to do this, please
 install :ref:`addon-weblate.cleanup.generic` addon which will handle the
