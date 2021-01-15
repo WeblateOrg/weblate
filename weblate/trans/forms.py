@@ -1739,7 +1739,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
         fields = (
             "name",
             "web",
-            "mail",
             "instructions",
             "set_language_team",
             "use_shared_tm",
@@ -1821,7 +1820,13 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             disabled = {}
         self.helper.layout = Layout(
             TabHolder(
-                Tab(_("Basic"), "name", "web", "mail", "instructions", css_id="basic"),
+                Tab(
+                    _("Basic"),
+                    "name",
+                    "web",
+                    "instructions",
+                    css_id="basic",
+                ),
                 Tab(
                     _("Access"),
                     InlineRadios(
@@ -1889,7 +1894,7 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "mail", "instructions")
+        fields = ("name", "slug", "web", "instructions")
 
 
 class ReplaceForm(forms.Form):

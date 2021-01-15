@@ -5,6 +5,7 @@ Not yet released.
 
 * Added support for sharing a component between projects.
 * Fixed multiple unnamed variables check behavior with multiple format flags.
+* Dropped mailing list field on project in favor of generic instructions for translators.
 
 Weblate 4.4.2
 -------------

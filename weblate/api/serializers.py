@@ -361,7 +361,6 @@ class ProjectSerializer(serializers.ModelSerializer):
             "source_review",
             "set_language_team",
             "instructions",
-            "mail",
             "enable_hooks",
             "language_aliases",
         )

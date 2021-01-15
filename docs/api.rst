@@ -780,7 +780,6 @@ Projects
     :>json boolean set_language_team: :ref:`project-set_language_team`
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
     :>json string instructions: :ref:`project-instructions`
-    :>json string mail: :ref:`project-mail`
     :>json string language_aliases: :ref:`project-language_aliases`
 
     **Example JSON data:**

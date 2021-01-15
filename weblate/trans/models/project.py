@@ -91,12 +91,6 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         verbose_name=gettext_lazy("Project website"),
         help_text=gettext_lazy("Main website of translated project."),
     )
-    mail = models.EmailField(
-        verbose_name=gettext_lazy("Mailing list"),
-        blank=True,
-        max_length=254,
-        help_text=gettext_lazy("Mailing list for translators."),
-    )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
         blank=True,
