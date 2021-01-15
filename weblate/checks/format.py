@@ -558,11 +558,11 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         rules = [FLAG_RULES[flag] for flag in unit.all_flags if flag in FLAG_RULES]
         if not rules:
             return False
-        found = 0
+        found = set()
         for regexp, is_position_based in rules:
-            for match in regexp.findall(source[0]):
-                if is_position_based(match[0]):
-                    found += 1
-                    if found >= 2:
+            for match in regexp.finditer(source[0]):
+                if is_position_based(match[1]):
+                    found.add((match.start(0), match.end(0)))
+                    if len(found) >= 2:
                         return True
         return False

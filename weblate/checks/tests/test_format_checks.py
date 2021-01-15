@@ -1049,3 +1049,10 @@ class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
         self.assertTrue(
             self.check.check_source(["{} {}"], MockUnit(flags="python-brace-format"))
         )
+
+    def test_good_multi_format(self):
+        self.assertFalse(
+            self.check.check_source(
+                ["Test %s"], MockUnit(flags="c-format,python-format")
+            )
+        )

@@ -4,6 +4,7 @@ Weblate 4.5
 Not yet released.
 
 * Added support for sharing a component between projects.
+* Fixed multiple unnamed variables check behavior with multiple format flags.
 
 Weblate 4.4.2
 -------------
