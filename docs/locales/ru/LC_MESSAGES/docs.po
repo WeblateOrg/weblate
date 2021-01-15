@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 11:47+0100\n"
 "PO-Revision-Date: 2021-01-15 20:05+0000\n"
-"Last-Translator: Igor Polyakov <igorpolyakov@protonmail.com>\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -3591,21 +3591,15 @@ msgid "``replacements:FROM:TO:FROM2:TO2...``"
 msgstr "``replacements:FROM:TO:FROM2:TO2...``"
 
 #: ../../admin/checks.rst:74
-#, fuzzy
-#| msgid ""
-#| "Replacements to perform when checking resulting text parameters (for "
-#| "example in :ref:`check-max-size` or :ref:`check-max-length`). The typical "
-#| "use case for this is to expand placeables to ensure that the text fits "
-#| "even with long names, for example: ``replacements:%s:\"John Doe\"``."
 msgid ""
 "Replacements to perform when checking resulting text parameters (for example "
 "in :ref:`check-max-size` or :ref:`check-max-length`). The typical use case "
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"Замены, выполняемые при проверке параметров результирующего текста "
-"(например, в проверках :ref:`check-max-size` или :ref:`check-max-length`). "
-"Типивым случаем использования этого флага является подстановка конкретных "
+"Замены, выполняемые при проверке параметров результирующего текста ("
+"например, в проверках :ref:`check-max-size` или :ref:`check-max-length`). "
+"Типовой случай для использования этого флага — подстановка конкретных "
 "значений вместо заполнителей, чтобы гарантировать, что текст впишется в "
 "отведённые ему границы даже при использовании длинных строк, например: "
 "``replacements:%s:\"John Doe\"``."
@@ -8911,6 +8905,9 @@ msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
 msgstr ""
+"В случае, если вы получаете ошибку ``#2006 - MySQL server has gone away`` ("
+"сервер MySQL более недоступен), то может помочь настройка параметра "
+":setting:`django:CONN_MAX_AGE`."
 
 #: ../../admin/install.rst:460
 msgid "Configuring Weblate to use MySQL/MariaDB"
@@ -12619,56 +12616,37 @@ msgstr ""
 "с помощью :ref:`псевдонимов языков <project-language_aliases>`."
 
 #: ../../admin/languages.rst:19
-#, fuzzy
-#| msgid ""
-#| "If no exact match can be found, an attempt will be made to best fit it "
-#| "into an existing language (e.g. ignoring the default country code for a "
-#| "given language—choosing ``cs`` instead of ``cs_CZ``)."
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
 msgstr ""
 "Если точное совпадение не может быть найдено, будет сделана попытка "
-"подогнать его под наиболее подходящий существующий язык (например, путём "
-"игнорирования умолчательного для данного языка кода страны — и выбором "
-"``ru`` вместо ``ru_RU``)."
+"подогнать его под наиболее подходящий существующий язык. Следующие попытки "
+"будут предприняты:"
 
 #: ../../admin/languages.rst:22
-#, fuzzy
-#| msgid "Key string case insensitive search."
 msgid "Case insensitive lookups."
-msgstr "Регистронезависимый поиск по строке ключа."
+msgstr "Регистронезависимый поиск."
 
 #: ../../admin/languages.rst:23
 msgid "Normalizing underscores and dashes."
-msgstr ""
+msgstr "Нормализация подчёркиваний и дефисов."
 
 #: ../../admin/languages.rst:24
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Looking up built in language aliaes."
-msgstr "Синтаксическая ошибка в псевдонимах языка."
+msgstr "Поиск по встроенным псевдонимам языка."
 
 #: ../../admin/languages.rst:25
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Looking up by language name."
-msgstr "Одноязычный базовый файл"
+msgstr "Поиск по названию языка."
 
 #: ../../admin/languages.rst:26
-#, fuzzy
-#| msgid ""
-#| "If no exact match can be found, an attempt will be made to best fit it "
-#| "into an existing language (e.g. ignoring the default country code for a "
-#| "given language—choosing ``cs`` instead of ``cs_CZ``)."
 msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
 msgstr ""
-"Если точное совпадение не может быть найдено, будет сделана попытка "
-"подогнать его под наиболее подходящий существующий язык (например, путём "
-"игнорирования умолчательного для данного языка кода страны — и выбором "
-"``ru`` вместо ``ru_RU``)."
+"Игнорирование кода страны по умолчанию для данного языка — выбором ``ru`` "
+"вместо ``ru_RU``."
 
 #: ../../admin/languages.rst:28
 msgid ""
@@ -16198,23 +16176,17 @@ msgstr ""
 "языки."
 
 #: ../../admin/projects.rst:425
-#, fuzzy
-#| msgid ""
-#| "When set, the source translation is based on this file, but all others "
-#| "are based on :ref:`component-template`. In case the string is not "
-#| "translated in source translation, translating to other languages is "
-#| "prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other "
 "languagess are based on :ref:`component-template`. In case the string is not "
 "translated into the source lanugage, translating to other languages is "
 "prohibited. This provides :ref:`source-quality-gateway`."
 msgstr ""
-"Если он задан, то «перевод» на исходный язык основывается на этом файле, "
-"тогда как все остальные — на :ref:`одноязычном базовом файле <component-"
-"template>`. В случае, если строка в исходном файле не переведена, перевод на "
-"другие языки запрещается. Этот запрет можно использовать для :ref:`контроля "
-"качества исходных строк <source-quality-gateway>`."
+"Если он задан, то исходные строки будут взяты из этого файла, а переводы на "
+"все остальные языки — из :ref:`одноязычных базовых файлов <component-"
+"template>`. В случае, если строка не «переведена» на исходный язык, перевод "
+"на другие языки запрещается. Этот запрет можно использовать для :ref:`"
+"контроля качества исходных строк <source-quality-gateway>`."
 
 #: ../../admin/projects.rst:432
 msgid ""
@@ -16573,22 +16545,16 @@ msgid "Age of changes to commit"
 msgstr "Возраст изменений для коммита"
 
 #: ../../admin/projects.rst:635
-#, fuzzy
-#| msgid ""
-#| "Sets how old changes (in hours) are to get before they are committed by "
-#| "background task or :djadmin:`commit_pending` management command.  All "
-#| "changes in a component are committed once there is at least one older "
-#| "than this period."
 msgid ""
 "Sets how old changes (in hours) are to get before they are committed by "
 "background task or :djadmin:`commit_pending` management command. All changes "
 "in a component are committed once there is at least one older than this "
 "period."
 msgstr ""
-"Устанавливает, насколько старые (в часах) изменения должны коммититься "
-"фоновой задачей или командой управления :djadmin:`commit_pending`.  В "
-"компоненте коммитятся все изменения, если хотя бы одно из них старше этого "
-"периода."
+"Устанавливает, сколько должно пройти времени (в часах) с момента изменения "
+"до того как оно будет закоммичено фоновой задачей или командой управления "
+":djadmin:`commit_pending`. Все изменения в одном компоненте коммитятся, если "
+"хотя бы одно из них старше указанного возраста."
 
 #: ../../admin/projects.rst:640
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -16796,16 +16762,17 @@ msgstr ""
 "после переключения статуса вы не потеряете доступ к компоненту."
 
 #: ../../admin/projects.rst:748
-#, fuzzy
-#| msgid "Other projects"
 msgid "Share in projects"
-msgstr "Другие проекты"
+msgstr "Разделяемые компоненты"
 
 #: ../../admin/projects.rst:750
 msgid ""
 "You can choose additional projects where the component will be visible. This "
 "can be useful for shared libraries which you use in several projects."
 msgstr ""
+"Вы можете выбрать дополнительные проекты в которых какой-либо компонент "
+"будет отображаться. Это может быть полезно для разделяемых библиотек, "
+"которые используются в нескольких проектах."
 
 #: ../../admin/projects.rst:755
 msgid ""
@@ -16813,6 +16780,10 @@ msgid ""
 "visible when browsing other projects. User still need to have access to the "
 "actual component in order to be able to browse or translate it."
 msgstr ""
+"Такое разделение компонентов между проектами не влияет на контроль доступа к "
+"ним. Оно только делает их видимыми при просмотре других проектов. Чтобы "
+"просматривать или переводить эти компоненты, пользователям всё равно "
+"необходим доступ к ним."
 
 #: ../../admin/projects.rst:762
 msgid "Template markup"
@@ -20601,57 +20572,51 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.4"
 msgid "Weblate 4.5"
-msgstr "Weblate 4.4"
+msgstr "Weblate 4.5"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ещё не выпущен."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for sharing glossaries between projects."
 msgid "Added support for sharing a component between projects."
-msgstr "Добавлена поддержка обмена глоссариями между проектами."
+msgstr "Добавлена поддержка разделяемых компонентов между проектами."
 
 #: ../../changes.rst:7
 msgid ""
 "Fixed multiple unnamed variables check behavior with multiple format flags."
 msgstr ""
+"Исправлено поведение проверки «несколько переменных без названий» в случае, "
+"если использовались разные флаги форматирования."
 
 #: ../../changes.rst:8
 msgid ""
 "Dropped mailing list field on project in favor of generic instructions for "
 "translators."
 msgstr ""
+"Из проектов удалено поле «список рассылки»; вместо него рекомендуется "
+"использовать общие инструкции для переводчиков."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Weblate 4.4.1"
 msgid "Weblate 4.4.2"
-msgstr "Weblate 4.4.1"
+msgstr "Weblate 4.4.2"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Released on January 18th 2020."
 msgid "Released on January 14th 2021."
-msgstr "Выпущен 18 января 2020 года."
+msgstr "Выпущен 14 января 2021 года."
 
 #: ../../changes.rst:15
 msgid "Fixed corruption of one distributed MO file."
-msgstr ""
+msgstr "В дистрибутиве исправлен один повреждённый MO-файл."
 
 #: ../../changes.rst:18
 msgid "Weblate 4.4.1"
 msgstr "Weblate 4.4.1"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Released on January 18th 2020."
 msgid "Released on January 13th 2021."
-msgstr "Выпущен 18 января 2020 года."
+msgstr "Выпущен 13 января 2021 года."
 
 #: ../../changes.rst:22
 msgid "Fixed reverting plural changes."
@@ -26786,7 +26751,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:28
 msgid "Adding new third-party library typically consists of:"
-msgstr ""
+msgstr "Добавление новой сторонней библиотеки обычно заключается в:"
 
 #: ../../contributing/frontend.rst:42
 msgid "Coding style"
@@ -29183,20 +29148,10 @@ msgstr ""
 "файле есть и старые и новые строки; см. :ref:`upload-method`)."
 
 #: ../../devel/integration.rst:78
-#, fuzzy
-#| msgid "String target language"
 msgid "Updating target language files"
-msgstr "Целевой язык строки"
+msgstr "Обновление файлов целевых языков"
 
 #: ../../devel/integration.rst:80
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :guilabel:`template`, and not in "
-#| "actual translations. It does not however perform any automatic cleanup of "
-#| "stale strings as that might have unexpected outcomes. If you want to do "
-#| "this, please install an appropriate addon which will handle the cleanup "
-#| "according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :guilabel:`template`, and not in actual "
@@ -29209,16 +29164,11 @@ msgstr ""
 "строки перевода, отсутствующие как в :guilabel:`шаблоне`, так и в реальных "
 "переводах. Однако он не выполняет какую-либо автоматическую очистку "
 "устаревших строк, так как это может привести к неожиданным результатам. Если "
-"же вы хотите, чтобы она выполнялась, то установите соответствующую "
-"надстройку, которая будет производить такую очистку в соответствии с вашими "
-"требованиями."
+"же вы хотите, чтобы она выполнялась, то установите :ref:`соответствующую "
+"надстройку <addon-weblate.cleanup.generic>`, которая и будет производить "
+"такую очистку в соответствии с вашими требованиями."
 
 #: ../../devel/integration.rst:87
-#, fuzzy
-#| msgid ""
-#| "Weblate also will not try to update bilingual files in any way, so if you "
-#| "need :file:`po` files being updated from :file:`pot`, you need to do it "
-#| "yourself or using an addon."
 msgid ""
 "Weblate also will not try to update bilingual files in any way, so if you "
 "need :file:`po` files being updated from :file:`pot`, you need to do it "
@@ -29226,9 +29176,10 @@ msgid ""
 "using :ref:`addon-weblate.gettext.msgmerge` addon."
 msgstr ""
 "Weblate также не будет пытаться каким-либо образом обновлять двуязычные "
-"файлы, так что, если вам нужны файлы :file:`po`, обновляемые из файлов :file:"
-"`pot`, вам нужно делать это самостоятельно или использовать надстройку для "
-"этого."
+"файлы, так что, если вам нужно, чтобы :file:`po`-файлы обновлялись из "
+":file:`pot`-файлов, то вам нужно будет делать это самостоятельно через "
+":guilabel:`Обновить исходные строки` (см. :ref:`upload-method`) или "
+"использовать для этого надстройку «:ref:`addon-weblate.gettext.msgmerge`»."
 
 #: ../../devel/integration.rst:94
 msgid ""
@@ -30131,12 +30082,6 @@ msgstr ""
 "выражение для группировки строк в :ref:`настройках компонента <component>`:"
 
 #: ../../devel/translations.rst:36
-#, fuzzy
-#| msgid ""
-#| "In case the :guilabel:`Key` matches the expression, the matching part is "
-#| "removed to generate root key of the variant. All strings with same root "
-#| "key are then part of single variants group, including the translation "
-#| "exactly matching the root key and not matching the expression."
 msgid ""
 "In case the :guilabel:`Key` matches the expression, the matching part is "
 "removed to generate root key of the variant. Then all the strings with the "
@@ -30585,6 +30530,8 @@ msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
 msgstr ""
+"В Weblate доступно на выбор несколько вариантов рабочего процесса, "
+"основанные на рецензировании, см. :ref:`workflows`."
 
 #: ../../faq.rst:265
 msgid ""
@@ -30606,10 +30553,8 @@ msgstr ""
 "пользователями с заданной даты."
 
 #: ../../faq.rst:272
-#, fuzzy
-#| msgid ":ref:`hooks`"
 msgid ":ref:`workflows`"
-msgstr ":ref:`hooks`"
+msgstr ":ref:`workflows`"
 
 #: ../../faq.rst:275
 msgid "How do I provide feedback on a source string?"
@@ -30633,20 +30578,18 @@ msgid "How can I use existing translations while translating?"
 msgstr "Как я могу использовать при переводе уже существующие переводы?"
 
 #: ../../faq.rst:288
-#, fuzzy
-#| msgid "Allow to configure contributing to shared translation memory."
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
-msgstr "Разрешение настройки внесения вклада в общую память переводов."
+msgstr ""
+"Благодаря разделяемой памяти переводов могут быть использованы все переводы, "
+"загруженные в Weblate."
 
 #: ../../faq.rst:289
-#, fuzzy
-#| msgid "Users and projects can import their existing translation memories."
 msgid "You can import existing translation memory files into Weblate."
 msgstr ""
-"Пользователи и проекты могут импортировать свои уже существующие памяти "
-"переводов."
+"Вы можете импортировать в Weblate свою уже существующую память переводов из "
+"файлов."
 
 #: ../../faq.rst:290
 msgid ""
@@ -30679,11 +30622,10 @@ msgstr ""
 "Weblate, что позволит автоматически подбирать переводы из других проектов."
 
 #: ../../faq.rst:302
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ""
 ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ""
+":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 
 #: ../../faq.rst:309
 msgid "Does Weblate update translation files besides translations?"
@@ -30702,10 +30644,8 @@ msgstr ""
 "вашему, пожалуйста, используйте для этого перехватчик pre-commit."
 
 #: ../../faq.rst:317 ../../faq.rst:378
-#, fuzzy
-#| msgid ":ref:`static-files`"
 msgid ":ref:`updating-target-files`"
-msgstr ":ref:`static-files`"
+msgstr ":ref:`updating-target-files`"
 
 #: ../../faq.rst:321
 msgid "Where do language definitions come from and how can I add my own?"
@@ -30894,6 +30834,9 @@ msgid ""
 "case the most likely reason is that several files map to single language in "
 "Weblate."
 msgstr ""
+"Вы также можете получить аналогичное сообщение об ошибке и для других "
+"языков. В таком случае, скорее всего, причина будет в том, что несколько "
+"разных файлов отображаются на один язык в Weblate."
 
 #: ../../faq.rst:441
 msgid ""
@@ -30902,6 +30845,10 @@ msgid ""
 "generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for "
 "more details."
 msgstr ""
+"Это может быть вызвано тем, что используются устаревшие коды языков "
+"одновременно с новыми (``ja`` и ``jp`` для японского) или используется "
+"одновременно код, привязанный к стране, и основной (``ru`` и ``ru_RU``). "
+"Смотрите подробности в разделе «:ref:`language-parsing-codes`»."
 
 #: ../../faq.rst:447
 msgid "Features"
@@ -30980,13 +30927,6 @@ msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr "Почему Weblate принудительно показывает все PO-файлы в одном дереве?"
 
 #: ../../faq.rst:489
-#, fuzzy
-#| msgid ""
-#| "Weblate was designed in a way that every PO file is represented as a "
-#| "single component. This is beneficial for translators, so they know what "
-#| "they are actually translating. If you feel your project should be "
-#| "translated as one, consider merging these po files. It will make life "
-#| "easier even for translators not using Weblate."
 msgid ""
 "Weblate was designed in a way that every PO file is represented as a single "
 "component. This is beneficial for translators, so they know what they are "
@@ -30994,9 +30934,7 @@ msgid ""
 msgstr ""
 "Weblate был спроектирован таким образом, что каждый PO-файл представляется "
 "одним компонентом. Это выгодно переводчиками, поскольку они знают, что они "
-"переводят на самом деле. Если вы считаете, что ваш проект должен "
-"переводиться как один компонент, подумайте об объединении этих po-файлов. "
-"Это облегчит жизнь даже переводчикам, не использующим Weblate."
+"переводят на самом деле."
 
 #: ../../faq.rst:495
 #, fuzzy
