@@ -523,7 +523,7 @@
       var $translations = $("#machinery-translations");
       translations.forEach((translation) => {
         var service = this.renderService(translation);
-        var insertBefore;
+        var insertBefore = null;
         var done = false;
 
         /* This is the merging and insert sort logic */
@@ -540,7 +540,7 @@
             current.append(service.html());
             done = true;
             return false;
-          } else if (base.quality <= translation.quality) {
+          } else if (base.quality <= translation.quality && !insertBefore) {
             // Insert match before lower quality one
             insertBefore = $this;
           }
