@@ -154,8 +154,6 @@ The following keyboard shortcuts can be utilized during translation:
 +===========================================+=======================================================================+
 | :kbd:`Alt Home`                           | Navigate to first translation in current search.                      |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Alt Home`                           | Navigate to first translation in current search.                      |
-+-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt End`                            | Navigate to last translation in current search.                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt PageUp` or                      | Navigate to previous translation in current search.                   |
