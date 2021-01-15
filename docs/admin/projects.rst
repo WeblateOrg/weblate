@@ -422,9 +422,9 @@ Intermediate language file for :ref:`monolingual`. In most cases this is a
 translation file provided by developers and is used when creating actual source
 strings.
 
-When set, the source strings are based on this file, but all other languagess
+When set, the source strings are based on this file, but all other languages
 are based on :ref:`component-template`. In case the string is not translated
-into the source lanugage, translating to other languages is prohibited. This
+into the source langugage, translating to other languages is prohibited. This
 provides :ref:`source-quality-gateway`.
 
 .. seealso::
@@ -752,7 +752,7 @@ can be useful for shared libraries which you use in several projects.
 
 .. note::
 
-   Sharing component doesn't change it's access control. It makes it only
+   Sharing component doesn't change its access control. It makes it only
    visible when browsing other projects. User still need to have access to the
    actual component in order to be able to browse or translate it.
 

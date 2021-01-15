@@ -21,7 +21,7 @@ to best fit it into an existing language. Following steps are tried:
 
 * Case insensitive lookups.
 * Normalizing underscores and dashes.
-* Looking up built in language aliaes.
+* Looking up built in language aliases.
 * Looking up by language name.
 * Ignoring the default country code for a given language—choosing ``cs`` instead of ``cs_CZ``.
 
