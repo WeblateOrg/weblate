@@ -633,7 +633,7 @@ Age of changes to commit
 ++++++++++++++++++++++++
 
 Sets how old changes (in hours) are to get before they are committed by
-background task or :djadmin:`commit_pending` management command.  All
+background task or :djadmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one older than
 this period.
 

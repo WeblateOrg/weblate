@@ -58,7 +58,7 @@ Fields
    String was changed by author with given username.
 ``changed:DATETIME``
    String content was changed on date, supports :ref:`search-operators`.
-``change_time:DATEIME``
+``change_time:DATETIME``
    String was changed on date, supports :ref:`search-operators`, unlike
    ``changed`` this includes event which don't change content and you can apply
    custom action filtering using ``change_action``.

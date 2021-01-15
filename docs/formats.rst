@@ -3,7 +3,7 @@
 Supported file formats
 ======================
 
-Weblate supports most translation format understood by translate-toolkit,
+Weblate supports most translation format understood by `translate-toolkit`_,
 however each format being slightly different, some issues with
 formats that are not well tested can arise.
 
@@ -287,11 +287,13 @@ While saving, Weblate doesn't add those attributes unless necessary:
 That means that when using the XLIFF format, it is strongly recommended to turn on the
 Weblate review process, in order to see and change the approved state of strings.
 
-See :ref:`reviews`.
-
 Similarly upon importing such files (in the upload form), you should choose
 :guilabel:`Import as translated` under
 :guilabel:`Processing of strings needing edit`.
+
+.. seealso::
+
+   :ref:`reviews`
 
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
@@ -334,8 +336,8 @@ in the font family is converted to underscore, so ``Source Sans Pro`` becomes
 ``Source_Sans_Pro``, please keep that in mind when naming the font group (see
 :ref:`fonts`).
 
-Unit keys or context
-++++++++++++++++++++
+String keys
++++++++++++
 
 Weblate identifies the units in the XLIFF file by ``resname`` attribute in case
 it is present and falls back to ``id`` (together with ``file`` tag if present).
@@ -478,7 +480,7 @@ INI translations are usually used as monolingual translations.
 
 .. note::
 
-   Weblate only extracts keys from sections within a INI file. In case your INI
+   Weblate only extracts keys from sections within an INI file. In case your INI
    file lacks sections, you might want to use :ref:`joomla` or :ref:`javaprop`
    instead.
 
@@ -618,7 +620,7 @@ Android string resources
 
 Android specific file format for translating applications.
 
-Android string resources are monolingual, the :ref:`component-template` file is
+Android string resources are monolingual, the :ref:`component-template` is
 stored in a different location from the others :file:`res/values/strings.xml`.
 
 +-------------------------------------------------------------------+
@@ -757,7 +759,7 @@ JSON files
 
 .. versionchanged:: 2.16
 
-    Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested
+    Since Weblate 2.16 and with `translate-toolkit`_ at-least 2.2.4, nested
     structure JSON files are supported as well.
 
 .. versionchanged:: 4.3
@@ -793,9 +795,20 @@ Nested files are supported as well (see above for requirements), such a file can
 .. hint::
 
    The :guilabel:`JSON file` and :guilabel:`JSON nested structure file` can
-   both handle same type of files. The only difference between them is when
-   adding new strings. The nested variant tries to parse the key and insert the
-   new string into the matching structure.
+   both handle same type of files. Both preserve existing JSON structure when
+   translating.
+
+   The only difference between them is when adding new strings using Weblate.
+   The nested structure format parses the newly added key and inserts the new
+   string into the matching structure. For example ``app.name`` key is inserted as:
+
+   .. code-block:: json
+
+      {
+         "app": {
+            "name": "Weblate"
+         }
+      }
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -825,7 +838,7 @@ JSON i18next files
 
 .. versionchanged:: 2.17
 
-    Since Weblate 2.17 and with translate-toolkit at-least 2.2.5, i18next
+    Since Weblate 2.17 and with `translate-toolkit`_ at-least 2.2.5, i18next
     JSON files with plurals are supported as well.
 
 `i18next <https://www.i18next.com/>`_ is an internationalization framework
@@ -941,7 +954,7 @@ WebExtension JSON
 
 .. versionadded:: 2.16
 
-    This is supported since Weblate 2.16 and with translate-toolkit at-least 2.2.4.
+    This is supported since Weblate 2.16 and with `translate-toolkit`_ at-least 2.2.4.
 
 File format used when translating extensions for Mozilla Firefox or Google Chromium.
 
@@ -1026,8 +1039,8 @@ the following files:
   error prone. Choose :guilabel:``CSV file`` as a file format.
 * Files with two fields—source and translation (in this order), choose
   :guilabel:`Simple CSV file` as a file format
-* Headerless files with fields in order defined by translate-toolkit: location, source,
-  target, ID, fuzzy, context, translator_comments, developer_comments
+* Headerless files with fields in order defined by the `translate-toolkit`_: ``location``, ``source``,
+  ``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, ``developer_comments``
   Choose :guilabel:``CSV file`` as a file format.
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
@@ -1361,10 +1374,10 @@ The translatable content is extracted from the Adobe InDesign Markup Language fi
 Others
 ------
 
-Most formats supported by translate-toolkit which support serializing can be
+Most formats supported by `translate-toolkit`_ which support serializing can be
 easily supported, but they did not (yet) receive any testing. In most cases
 some thin layer is needed in Weblate to hide differences in behavior of
-different translate-toolkit storages.
+different `translate-toolkit`_ storages.
 
 .. seealso::
 
@@ -1381,3 +1394,5 @@ Read-only strings from translation files will be included, but
 can not be edited in Weblate. This feature is natively supported by few formats
 (:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a
 ``read-only`` flag, see :ref:`custom-checks`.
+
+.. _translate-toolkit: https://toolkit.translatehouse.org/
