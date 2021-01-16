@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 11:47+0100\n"
-"PO-Revision-Date: 2021-01-13 08:07+0000\n"
+"PO-Revision-Date: 2021-01-19 07:16+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.4.1-dev\n"
+"X-Generator: Weblate 4.5-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -3195,21 +3195,14 @@ msgid "``replacements:FROM:TO:FROM2:TO2...``"
 msgstr "``replacements:FROM:TO:FROM2:TO2...``"
 
 #: ../../admin/checks.rst:74
-#, fuzzy
-#| msgid ""
-#| "Replacements to perform when checking resulting text parameters (for "
-#| "example in :ref:`check-max-size` or :ref:`check-max-length`). The typical "
-#| "use case for this is to expand placeables to ensure that the text fits "
-#| "even with long names, for example: ``replacements:%s:\"John Doe\"``."
 msgid ""
 "Replacements to perform when checking resulting text parameters (for example "
 "in :ref:`check-max-size` or :ref:`check-max-length`). The typical use case "
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"当检查结果文本参数时执行替换（例如在 :ref:`check-max-size` 或 :ref:`check-"
-"max-length` 中）。这一典型应用的情况拓展了非译元素，确保匹配那些即使使用了长"
-"名称的文本，例如 ``replacements:%s:\"John Doe\"`` 。"
+"当检查结果文本参数时执行替换（例如在 :ref:`check-max-size` 或 :ref:`check-max-length` "
+"中）。这一典型应用的情况拓展了非译元素，确保匹配那些即使使用了长值的文本，例如 placements:%s:\"John Doe\"`` 。"
 
 #: ../../admin/checks.rst:78
 msgid "``regex:REGEX``"
@@ -11366,17 +11359,10 @@ msgstr ""
 "您可以通过 :ref:`project-language_aliases` 在项目层次来进一步调整这种映射。"
 
 #: ../../admin/languages.rst:19
-#, fuzzy
-#| msgid ""
-#| "If no exact match can be found, an attempt will be made to best fit it "
-#| "into an existing language (e.g. ignoring the default country code for a "
-#| "given language—choosing ``cs`` instead of ``cs_CZ``)."
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
-msgstr ""
-"如果不能找到完全匹配，将尝试将其最好地适配到现有语言（例如对给定的语言忽略默"
-"认国家代码——选择 ``cs`` 而不是 ``cs_CZ`` ）。"
+msgstr "如果无法找到精确的匹配，将尝试把其融入一种现有的语言。已尝试以下措施："
 
 #: ../../admin/languages.rst:22
 msgid "Case insensitive lookups."
@@ -11387,29 +11373,18 @@ msgid "Normalizing underscores and dashes."
 msgstr ""
 
 #: ../../admin/languages.rst:24
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Looking up built in language aliaes."
-msgstr "语言别名中的语法错误。"
+msgstr "正在查询内置的语言别名。"
 
 #: ../../admin/languages.rst:25
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Looking up by language name."
-msgstr "单语言译文模版语言文件"
+msgstr "按语言名称查找。"
 
 #: ../../admin/languages.rst:26
-#, fuzzy
-#| msgid ""
-#| "If no exact match can be found, an attempt will be made to best fit it "
-#| "into an existing language (e.g. ignoring the default country code for a "
-#| "given language—choosing ``cs`` instead of ``cs_CZ``)."
 msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
-msgstr ""
-"如果不能找到完全匹配，将尝试将其最好地适配到现有语言（例如对给定的语言忽略默"
-"认国家代码——选择 ``cs`` 而不是 ``cs_CZ`` ）。"
+msgstr "忽略给定语言的默认国家代码 — 选择 ``cs`` 而非 ``cs_CZ``。"
 
 #: ../../admin/languages.rst:28
 msgid ""
@@ -14576,21 +14551,14 @@ msgstr ""
 "件，并且在新建真正的源字符串时使用。"
 
 #: ../../admin/projects.rst:425
-#, fuzzy
-#| msgid ""
-#| "When set, the source translation is based on this file, but all others "
-#| "are based on :ref:`component-template`. In case the string is not "
-#| "translated in source translation, translating to other languages is "
-#| "prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other "
 "languagess are based on :ref:`component-template`. In case the string is not "
 "translated into the source lanugage, translating to other languages is "
 "prohibited. This provides :ref:`source-quality-gateway`."
 msgstr ""
-"当设置时，源翻译基于这个文件，但所有其它的基于 :ref:`component-template`。在"
-"字符串在源翻译中没有被翻译的情况下，会禁止翻译为其它语言。这提供了 :ref:"
-"`source-quality-gateway`。"
+"设置时，源字符串基于此文件，但所有其他语言都基于 :ref:`component-template`。如果字符串没有被翻译成源语言，则禁止翻译成其他语言。"
+"这提供了 :ref:`source-quality-gateway`。"
 
 #: ../../admin/projects.rst:432
 msgid ""
@@ -14909,21 +14877,14 @@ msgid "Age of changes to commit"
 msgstr "对变更进行提交的延时时间"
 
 #: ../../admin/projects.rst:635
-#, fuzzy
-#| msgid ""
-#| "Sets how old changes (in hours) are to get before they are committed by "
-#| "background task or :djadmin:`commit_pending` management command.  All "
-#| "changes in a component are committed once there is at least one older "
-#| "than this period."
 msgid ""
 "Sets how old changes (in hours) are to get before they are committed by "
 "background task or :djadmin:`commit_pending` management command. All changes "
 "in a component are committed once there is at least one older than this "
 "period."
 msgstr ""
-"在它们由后台任务或由 :djadmin:`commit_pending` 管理命令提交前，设置如何得到旧"
-"的更改（几个小时内）。一旦有至少一个比这个时间段更旧，组件中所有的更改就会提"
-"交。"
+"在它们由后台任务或由 :djadmin:`commit_pending` "
+"管理命令提交前，设置如何得到旧的更改（几个小时内）。一旦有至少一个比这个时间段更旧，组件中所有的更改就会提交。"
 
 #: ../../admin/projects.rst:640
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -15107,10 +15068,8 @@ msgid ""
 msgstr "这也应用于项目管理——请确认切换状态后，您不会丢失对组件的访问。"
 
 #: ../../admin/projects.rst:748
-#, fuzzy
-#| msgid "Other projects"
 msgid "Share in projects"
-msgstr "其他项目"
+msgstr "在项目中分享"
 
 #: ../../admin/projects.rst:750
 msgid ""
@@ -18667,20 +18626,16 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.4"
 msgid "Weblate 4.5"
-msgstr "Weblate 4.4"
+msgstr "Weblate 4.5"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "尚未发布。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for sharing glossaries between projects."
 msgid "Added support for sharing a component between projects."
-msgstr "为项目之间分享词汇表添加了支持。"
+msgstr "新增支持在项目间共享一个组件。"
 
 #: ../../changes.rst:7
 msgid ""
@@ -18694,16 +18649,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Weblate 4.4.1"
 msgid "Weblate 4.4.2"
-msgstr "Weblate 4.4.1"
+msgstr "Weblate 4.4.2"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Released on January 18th 2020."
 msgid "Released on January 14th 2021."
-msgstr "发布于 2020 年 01 月 18 日。"
+msgstr "发布于 2021 年 1 月 14 日。"
 
 #: ../../changes.rst:15
 msgid "Fixed corruption of one distributed MO file."
@@ -18714,10 +18665,8 @@ msgid "Weblate 4.4.1"
 msgstr "Weblate 4.4.1"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Released on January 18th 2020."
 msgid "Released on January 13th 2021."
-msgstr "发布于 2020 年 01 月 18 日。"
+msgstr "发布于 2021 年 1 月 13 日。"
 
 #: ../../changes.rst:22
 msgid "Fixed reverting plural changes."
@@ -26498,20 +26447,10 @@ msgstr ""
 "method`）。"
 
 #: ../../devel/integration.rst:78
-#, fuzzy
-#| msgid "String target language"
 msgid "Updating target language files"
-msgstr "字符串目标语言"
+msgstr "正在更新目标语言文件"
 
 #: ../../devel/integration.rst:80
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :guilabel:`template`, and not in "
-#| "actual translations. It does not however perform any automatic cleanup of "
-#| "stale strings as that might have unexpected outcomes. If you want to do "
-#| "this, please install an appropriate addon which will handle the cleanup "
-#| "according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :guilabel:`template`, and not in actual "
@@ -26520,25 +26459,20 @@ msgid ""
 "please install :ref:`addon-weblate.cleanup.generic` addon which will handle "
 "the cleanup according to your requirements."
 msgstr ""
-"对于单语言文件（请参见 :ref:`formats`），Weblate 会将没有出现的新翻译的字符串"
-"添加在 :guilabel:`template` 中，而不是在实际的翻译中。然而它不会对任何旧的字"
-"符串执行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装适当的插"
-"件，来根据您的要求处理清理工作。"
+"对于单语言文件（请参见 :ref:`formats`），Weblate 会将没有出现的新翻译的字符串添加在 :guilabel:`template` "
+"中，而不是在实际的翻译中。然而它不会对任何旧的字符串执行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装附加组件 :ref:`addon-"
+"weblate.cleanup.generic` 根据您的要求处理清理工作。"
 
 #: ../../devel/integration.rst:87
-#, fuzzy
-#| msgid ""
-#| "Weblate also will not try to update bilingual files in any way, so if you "
-#| "need :file:`po` files being updated from :file:`pot`, you need to do it "
-#| "yourself or using an addon."
 msgid ""
 "Weblate also will not try to update bilingual files in any way, so if you "
 "need :file:`po` files being updated from :file:`pot`, you need to do it "
 "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
 "using :ref:`addon-weblate.gettext.msgmerge` addon."
 msgstr ""
-"Weblate 也不会尝试以任何方式更新双语言文件，所以如果需要 :file:`po` 文件从 :"
-"file:`pot` 更新的话，需要您自己去做或使用插件。"
+"Weblate 也不会尝试以任何方式更新双语言文件，所以如果需要 :file:`po` 文件从 :file:`pot` 更新的话，需要您自己通过使用 "
+":guilabel:`Update source strings` :ref:`upload-method` 或附加组件 :ref:`addon-"
+"weblate.gettext.msgmerge`来实现。"
 
 #: ../../devel/integration.rst:94
 msgid ""
@@ -27369,21 +27303,14 @@ msgstr ""
 "有变量。在 :ref:`component` 中可以定义正则表达式将字符串分组："
 
 #: ../../devel/translations.rst:36
-#, fuzzy
-#| msgid ""
-#| "In case the :guilabel:`Key` matches the expression, the matching part is "
-#| "removed to generate root key of the variant. All strings with same root "
-#| "key are then part of single variants group, including the translation "
-#| "exactly matching the root key and not matching the expression."
 msgid ""
 "In case the :guilabel:`Key` matches the expression, the matching part is "
 "removed to generate root key of the variant. Then all the strings with the "
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
-"在 :guilabel:`Key` 匹配表达式的情况下，匹配的部分被去除来产生变量的根键。然后"
-"带有相同根键的所有字符串是单一变量组的一部分，包括与根键完全匹配而与表达式不"
-"匹配的翻译。"
+"如果 :guilabel:`Key` "
+"匹配表达式，那么匹配部分被删除以生成变体的根键。然后，具有相同根键的所有字符串将成为单个变体组的一部分，也包括具有与根键完全匹配的键的字符串。"
 
 #: ../../devel/translations.rst:41
 msgid "The following table lists some usage examples:"
@@ -27787,10 +27714,8 @@ msgstr ""
 "在翻译视图底部有个复查工具，可以在那里选择浏览给定时间以来其他人进行的翻译。"
 
 #: ../../faq.rst:272
-#, fuzzy
-#| msgid ":ref:`hooks`"
 msgid ":ref:`workflows`"
-msgstr ":ref:`hooks`"
+msgstr ":ref:`workflows`"
 
 #: ../../faq.rst:275
 msgid "How do I provide feedback on a source string?"
@@ -27813,18 +27738,14 @@ msgid "How can I use existing translations while translating?"
 msgstr "翻译时如何使用现有的翻译？"
 
 #: ../../faq.rst:288
-#, fuzzy
-#| msgid "Allow to configure contributing to shared translation memory."
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
-msgstr "允许配置来为分享的翻译记忆库做出贡献。"
+msgstr "得益于共享的翻译记忆库，Webate 中的所有翻译都可以使用。"
 
 #: ../../faq.rst:289
-#, fuzzy
-#| msgid "Users and projects can import their existing translation memories."
 msgid "You can import existing translation memory files into Weblate."
-msgstr "用户和项目现在可以导入他们现有的翻译记忆库。"
+msgstr "你可以将现有翻译记忆库导入 Weblate。"
 
 #: ../../faq.rst:290
 msgid ""
@@ -27854,11 +27775,10 @@ msgstr ""
 "动地拾取翻译。"
 
 #: ../../faq.rst:302
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ""
 ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ""
+":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 
 #: ../../faq.rst:309
 msgid "Does Weblate update translation files besides translations?"
@@ -27875,10 +27795,8 @@ msgstr ""
 "件重新格式化。如果想要将文件保持为自己的格式化方式，请为其使用预提交钩子。"
 
 #: ../../faq.rst:317 ../../faq.rst:378
-#, fuzzy
-#| msgid ":ref:`static-files`"
 msgid ":ref:`updating-target-files`"
-msgstr ":ref:`static-files`"
+msgstr ":ref:`updating-target-files`"
 
 #: ../../faq.rst:321
 msgid "Where do language definitions come from and how can I add my own?"
@@ -28120,28 +28038,16 @@ msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr "为什么 Weblate 强制在单一树中显示所有 PO 文件？"
 
 #: ../../faq.rst:489
-#, fuzzy
-#| msgid ""
-#| "Weblate was designed in a way that every PO file is represented as a "
-#| "single component. This is beneficial for translators, so they know what "
-#| "they are actually translating. If you feel your project should be "
-#| "translated as one, consider merging these po files. It will make life "
-#| "easier even for translators not using Weblate."
 msgid ""
 "Weblate was designed in a way that every PO file is represented as a single "
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
-msgstr ""
-"Weblate 以每个 PO 文件表似乎成单一组件来设计。这对翻译者有好处，使他们指导真"
-"正在翻译什么。如果您认为自己的项目因作为一个整体来翻译，那么考虑合并这些 PO "
-"文件。对那些即使不使用 Weblate 的翻译者也更容易一些。"
+msgstr "Weblate 的设计方式是将每个 PO 文件表示为单个组件。这对翻译人员来说是有好处的，这样他们就知道他们实际上在翻译什么。"
 
 #: ../../faq.rst:495
-#, fuzzy
-#| msgid "Allow translating all components a language at once."
 msgid ""
 "You can translate all components in a single language since Weblate 4.2."
-msgstr "允许使用同一种语言同时翻译所有组件。"
+msgstr "自 Weblate 4.2 版本起，你可以用一种语言翻译所有的组件。"
 
 #: ../../faq.rst:500
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
@@ -28170,18 +28076,12 @@ msgid "Supported file formats"
 msgstr "支持的文件格式"
 
 #: ../../formats.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate supports most translation format understood by translate-toolkit, "
-#| "however each format being slightly different, some issues with formats "
-#| "that are not well tested can arise."
 msgid ""
 "Weblate supports most translation format understood by `translate-toolkit`_, "
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
 msgstr ""
-"Weblate 支持 translate-toolkit 理解的大多数翻译格式，但是每种格式都略有不同，"
-"可能会出现未经良好测试的格式问题。"
+"Weblate 支持 `translate-toolkit`_ 理解的大多数翻译格式，但是每种格式都略有不同，可能会出现未经良好测试的格式问题。"
 
 #: ../../formats.rst:12 ../../formats.rst:1384
 msgid ":doc:`tt:formats/index`"
@@ -28726,10 +28626,8 @@ msgstr ""
 "strings needing edit` 之下的 :guilabel:`Import as translated`。"
 
 #: ../../formats.rst:296
-#, fuzzy
-#| msgid "See :ref:`reviews`."
 msgid ":ref:`reviews`"
-msgstr "请参见 :ref:`reviews`。"
+msgstr ":ref:`reviews`"
 
 #: ../../formats.rst:299
 msgid "Whitespace and newlines in XLIFF"
@@ -28770,10 +28668,8 @@ msgstr ""
 "``Source_Sans_Pro`` ，当命名字符集时请记住这些请参见 :ref:`fonts`）。"
 
 #: ../../formats.rst:340
-#, fuzzy
-#| msgid "Strings"
 msgid "String keys"
-msgstr "字符串"
+msgstr "字符串键"
 
 #: ../../formats.rst:342
 msgid ""
@@ -29470,20 +29366,15 @@ msgstr ""
 "作为文件格式"
 
 #: ../../formats.rst:1042
-#, fuzzy
-#| msgid ""
-#| "Headerless files with fields in order defined by translate-toolkit: "
-#| "location, source, target, ID, fuzzy, context, translator_comments, "
-#| "developer_comments Choose :guilabel:``CSV file`` as a file format."
 msgid ""
 "Headerless files with fields in order defined by the `translate-toolkit`_: "
 "``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
 "``translator_comments``, ``developer_comments`` Choose :guilabel:``CSV "
 "file`` as a file format."
 msgstr ""
-"无标头文件，字段顺序由 translate-toolkit 定义：location，source，target，ID，"
-"fuzzy，context，translator_comments，developer_comments; 挑选 :guilabel:"
-"``CSV file`` 作为一种文件格式。"
+"无标头文件字段顺序由 `translate-toolkit`_: ``location``、 ``source``、``target``、 ``ID``、"
+" ``fuzzy``、 ``context``、``translator_comments``、 ``developer_comments`` 所定义。"
+"选择 :guilabel:``CSV file`` 作为一种文件格式。"
 
 #: ../../formats.rst:1045
 msgid ""
@@ -32183,10 +32074,8 @@ msgid "String content was changed on date, supports :ref:`search-operators`."
 msgstr ""
 
 #: ../../user/search.rst:63
-#, fuzzy
-#| msgid "``change_action:TEXT``"
 msgid "``change_time:DATETIME``"
-msgstr "``change_action:TEXT``"
+msgstr "``change_time:DATETIME``"
 
 #: ../../user/search.rst:62
 msgid ""
