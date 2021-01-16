@@ -354,6 +354,7 @@ function initHighlight(root) {
   }
   root.querySelectorAll(".highlight-editor").forEach(function (editor) {
     var parent = editor.parentElement;
+    var hasFocus = editor == document.activeElement;
 
     if (parent.classList.contains("editor-wrap")) {
       return;
@@ -385,6 +386,9 @@ function initHighlight(root) {
 
     /* Add editor to wrapper */
     wrapper.appendChild(editor);
+    if (hasFocus) {
+      editor.focus();
+    }
 
     /* Content synchronisation and highlighting */
     var languageMode = Prism.languages[mode];
