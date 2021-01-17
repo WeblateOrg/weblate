@@ -742,7 +742,7 @@ separated with colon, strings with space can be quoted:
 
    placeholders:$URL$:$TARGET$:"some long text"
 
-In case you have some syntax for placeholders, you can use an regular expression:
+In case you have some syntax for placeholders, you can use a regular expression:
 
 .. code-block:: text
 
