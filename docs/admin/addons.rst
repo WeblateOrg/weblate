@@ -230,6 +230,23 @@ Content
 
     :ref:`markup`
 
+.. _addon-weblate.generate.pseudolocale:
+
+Generate pseudolocale
+---------------------
+
+Automatically generates a pseudolocale translation by adding prefix and suffix
+to source strings.
+
+Pseudolocales are useful for testing localization in the application. You will
+easily spot which strings are not being properly localized (they do not contain
+generated strings) or where localized strings might not fit into layout.
+
+.. hint::
+
+   You can use real languages for testing, but there are dedicated
+   pseudolocales available in Weblate - `en_XA` and `ar_XB`.
+
 .. _addon-weblate.gettext.authors:
 
 Contributors in comment

@@ -148,6 +148,7 @@ class AddonsConf(AppConf):
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
+        "weblate.addons.generate.PseudolocaleAddon",
         "weblate.addons.json.JSONCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",

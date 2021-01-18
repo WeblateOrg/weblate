@@ -682,7 +682,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return singular
         return plurals[1]
 
-    def get_target_plurals(self):
+    def get_target_plurals(self, plurals=None):
         """Return target plurals in array."""
         # Is this plural?
         if not self.is_plural:
@@ -691,8 +691,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Split plurals
         ret = split_plural(self.target)
 
+        if plurals is None:
+            plurals = self.translation.plural.number
+
         # Check if we have expected number of them
-        plurals = self.translation.plural.number
         if len(ret) == plurals:
             return ret
 

@@ -42,7 +42,7 @@ from weblate.addons.flags import (
     SourceEditAddon,
     TargetEditAddon,
 )
-from weblate.addons.generate import GenerateFileAddon
+from weblate.addons.generate import GenerateFileAddon, PseudolocaleAddon
 from weblate.addons.gettext import (
     GenerateMoAddon,
     GettextAuthorComments,
@@ -279,6 +279,25 @@ class GettextAddonTest(ViewTestCase):
         with open(translation.get_filename()) as handle:
             content = handle.read()
         self.assertIn("Stojan Jakotyc", content)
+
+    def test_pseudolocale(self):
+        self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
+        PseudolocaleAddon.create(
+            self.component,
+            configuration={
+                "source": self.component.translation_set.get(language_code="en").pk,
+                "target": self.component.translation_set.get(language_code="de").pk,
+                "prefix": "@@@",
+                "suffix": "!!!",
+            },
+        )
+        translation = self.component.translation_set.get(language_code="de")
+        self.assertEqual(translation.stats.translated, translation.stats.all)
+        for unit in translation.unit_set.all():
+            for text in unit.get_target_plurals():
+                self.assertTrue(text.startswith("@@@"))
+                # We need to deal with automated fixups
+                self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
 
 
 class AppStoreAddonTest(ViewTestCase):

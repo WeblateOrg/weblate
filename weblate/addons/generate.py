@@ -17,13 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_PRE_COMMIT
-from weblate.addons.forms import GenerateForm
+from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY, EVENT_PRE_COMMIT
+from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
+from weblate.trans.models import Change
 from weblate.utils.render import render_template
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class GenerateFileAddon(BaseAddon):
@@ -55,3 +57,56 @@ class GenerateFileAddon(BaseAddon):
         with open(filename, "w") as handle:
             handle.write(content)
         translation.addon_commit_files.append(filename)
+
+
+class PseudolocaleAddon(BaseAddon):
+    events = (EVENT_COMPONENT_UPDATE, EVENT_DAILY)
+    name = "weblate.generate.pseudolocale"
+    verbose = _("Generate pseudolocale")
+    description = _(
+        "Automatically generates a pseudolocale translation by adding prefix and "
+        "suffix to source strings."
+    )
+    settings_form = PseudolocaleAddonForm
+    icon = "language.svg"
+
+    def fetch_strings(self, component, key: str, query):
+        translation = component.translation_set.get(pk=self.instance.configuration[key])
+        return translation, {
+            unit.source_unit_id: unit for unit in translation.unit_set.filter(query)
+        }
+
+    def do_update(self, component, query):
+        updated = 0
+        prefix = self.instance.configuration["prefix"]
+        suffix = self.instance.configuration["suffix"]
+        _source_translation, sources = self.fetch_strings(
+            component, "source", Q(state__gte=STATE_TRANSLATED)
+        )
+        target_translation, targets = self.fetch_strings(component, "target", query)
+        for source_id, unit in targets.items():
+            if source_id not in sources:
+                continue
+            source_strings = sources[source_id].get_target_plurals(
+                target_translation.plural.number
+            )
+            new_strings = [f"{prefix}{source}{suffix}" for source in source_strings]
+            target_strings = unit.get_target_plurals()
+            if new_strings != target_strings or unit.state < STATE_TRANSLATED:
+                unit.translate(
+                    None,
+                    new_strings,
+                    STATE_TRANSLATED,
+                    change_action=Change.ACTION_AUTO,
+                )
+                updated += 1
+        if updated > 0:
+            target_translation.invalidate_cache()
+
+    def daily(self, component):
+        # Check all strings
+        self.do_update(component, Q(state__lte=STATE_TRANSLATED))
+
+    def component_update(self, component):
+        # Update only non translated strings
+        self.do_update(component, Q(state__lt=STATE_TRANSLATED))
