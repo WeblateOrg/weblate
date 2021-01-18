@@ -1228,6 +1228,7 @@ def subscribe(request):
             notification=request.POST["onetime"],
             scope=SCOPE_COMPONENT,
             frequency=FREQ_INSTANT,
+            project=component.project,
             component=component,
             onetime=True,
         )
