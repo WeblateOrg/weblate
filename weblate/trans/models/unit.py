@@ -47,7 +47,11 @@ from weblate.trans.util import (
     split_plural,
 )
 from weblate.trans.validators import validate_check_flags
-from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
+from weblate.utils.db import (
+    FastDeleteModelMixin,
+    FastDeleteQuerySetMixin,
+    get_nokey_args,
+)
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.search import parse_query
@@ -1119,7 +1123,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         Propagation is currently disabled on import.
         """
         # Fetch current copy from database and lock it for update
-        self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        self.old_unit = Unit.objects.select_for_update(**get_nokey_args()).get(
+            pk=self.pk
+        )
 
         # Handle simple string units
         if isinstance(new_target, str):
