@@ -53,7 +53,11 @@ from weblate.trans.models.unit import (
 from weblate.trans.signals import store_post_load, vcs_pre_commit
 from weblate.trans.util import split_plural
 from weblate.trans.validators import validate_check_flags
-from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
+from weblate.utils.db import (
+    FastDeleteModelMixin,
+    FastDeleteQuerySetMixin,
+    get_nokey_args,
+)
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
@@ -363,7 +367,10 @@ class Translation(
             self.was_new = 0
 
             # Select all current units for update
-            dbunits = {unit.id_hash: unit for unit in self.unit_set.select_for_update()}
+            dbunits = {
+                unit.id_hash: unit
+                for unit in self.unit_set.select_for_update(**get_nokey_args())
+            }
 
             # Process based on intermediate store if available
             if self.component.intermediate:

@@ -18,6 +18,7 @@
 #
 """Database specific code to extend Django."""
 
+import django
 from django.db import connection, models, router
 from django.db.models import Case, IntegerField, Sum, When
 from django.db.models.deletion import Collector
@@ -35,6 +36,17 @@ MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
 def conditional_sum(value=1, **cond):
     """Wrapper to generate SUM on boolean/enum values."""
     return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
+
+
+def get_nokey_args():
+    """
+    Returns key locking disable arg for select_for_update.
+
+    This can be inlined once we support Django 3.2 only.
+    """
+    if django.VERSION < (3, 2, 0):
+        return {}
+    return {"no_key": True}
 
 
 def adjust_similarity_threshold(value: float):

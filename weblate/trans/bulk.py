@@ -22,6 +22,7 @@ from django.db import transaction
 
 from weblate.checks.flags import Flags
 from weblate.trans.models import Change, Component, Unit
+from weblate.utils.db import get_nokey_args
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
@@ -53,7 +54,7 @@ def bulk_perform(
             component.commit_pending("bulk edit", user)
             component_units = matching.filter(
                 translation__component=component
-            ).select_for_update()
+            ).select_for_update(**get_nokey_args())
 
             can_edit_source = user is None or user.has_perm("source.edit", component)
 

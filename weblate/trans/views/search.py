@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -39,6 +38,7 @@ from weblate.trans.forms import (
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
+from weblate.utils.db import get_nokey_args
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import (
     get_component,
@@ -119,7 +119,7 @@ def search_replace(request, project, component=None, lang=None):
         matching = confirm.cleaned_data["units"]
 
         with transaction.atomic():
-            for unit in matching.select_for_update():
+            for unit in matching.select_for_update(**get_nokey_args()):
                 if not request.user.has_perm("unit.edit", unit):
                     continue
                 unit.translate(
