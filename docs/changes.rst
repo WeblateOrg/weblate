@@ -7,6 +7,7 @@ Not yet released.
 * Fixed multiple unnamed variables check behavior with multiple format flags.
 * Dropped mailing list field on project in favor of generic instructions for translators.
 * Added pseudolocale generation addon.
+* Added support for Term Base eXchange files.
 
 Weblate 4.4.2
 -------------

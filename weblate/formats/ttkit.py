@@ -36,6 +36,7 @@ from translate.storage.lisa import LISAfile
 from translate.storage.po import pofile, pounit
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
+from translate.storage.tbx import tbxfile
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import ID_SEPARATOR, xlifffile
 
@@ -1591,3 +1592,11 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
     format_id = "xwiki-fullpage"
     loader = ("properties", "XWikiFullPage")
     language_format = "java"
+
+
+class TBXFormat(TTKitFormat):
+    name = _("Term Base eXchange file")
+    format_id = "tbx"
+    loader = tbxfile
+    autoload: Tuple[str, ...] = ("*.tbx",)
+    new_translation = tbxfile.XMLskeleton

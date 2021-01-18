@@ -118,6 +118,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`islu`         | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`tbx`          | bilingual        | no            | yes            | no            | no             | yes [#xl]_     |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -1369,6 +1371,31 @@ IDML Format
    Support for this format is currently in beta, feedback from testing is welcome.
 
 The translatable content is extracted from the Adobe InDesign Markup Language files and offered for the translation.
+
+Term Base eXchange format
+-------------------------
+
+.. versionadded:: 4.5
+
+TBX is an XML format for the exchange of terminology data.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``tbx/*.tbx``                    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Term Base eXchange file`        |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    `TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_,
+    :doc:`tt:formats/tbx`,
+    :ref:`glossary`
 
 
 Others

@@ -48,6 +48,7 @@ from weblate.formats.ttkit import (
     PropertiesFormat,
     RESXFormat,
     RubyYAMLFormat,
+    TBXFormat,
     TSFormat,
     WebExtensionJSONFormat,
     XliffFormat,
@@ -84,6 +85,7 @@ TEST_TS = get_test_file("cs.ts")
 TEST_YAML = get_test_file("cs.pyml")
 TEST_RUBY_YAML = get_test_file("cs.ryml")
 TEST_DTD = get_test_file("cs.dtd")
+TEST_TBX = get_test_file("cs.tbx")
 TEST_HE_CLDR = get_test_file("he-cldr.po")
 TEST_HE_CUSTOM = get_test_file("he-custom.po")
 TEST_HE_SIMPLE = get_test_file("he-simple.po")
@@ -1096,3 +1098,19 @@ class XWikiFullPageFormatTest(AutoFormatTest):
 
         # Check if content matches
         self.assert_same(testdata, newdata)
+
+
+class TBXFormatTest(AutoFormatTest):
+    FORMAT = TBXFormat
+    FILE = TEST_TBX
+    BASE = ""
+    MIME = "application/x-tbx"
+    EXT = "tbx"
+    COUNT = 4
+    MASK = "tbx/*.tbx"
+    EXPECTED_PATH = "tbx/cs_CZ.tbx"
+    MATCH = "<martif"
+    FIND = "address bar"
+    FIND_MATCH = "adresní řádek"
+    NEW_UNIT_MATCH = b"<term>Source string</term>"
+    EXPECTED_FLAGS = ""

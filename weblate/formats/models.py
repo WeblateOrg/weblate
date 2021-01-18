@@ -134,6 +134,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.XWikiPropertiesFormat",
         "weblate.formats.ttkit.XWikiPagePropertiesFormat",
         "weblate.formats.ttkit.XWikiFullPageFormat",
+        "weblate.formats.ttkit.TBXFormat",
     )
 
     class Meta:

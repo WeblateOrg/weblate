@@ -383,6 +383,10 @@ class ComponentTest(RepoTestCase):
         component = self.create_winrc()
         self.verify_component(component, 2, "cs-CZ", 4)
 
+    def test_create_tbx(self):
+        component = self.create_tbx()
+        self.verify_component(component, 2, "cs", 4, unit="address bar")
+
     def test_link(self):
         component = self.create_link()
         self.verify_component(component, 4, "cs", 4)

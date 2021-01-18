@@ -381,6 +381,9 @@ class RepoTestMixin:
     def create_winrc(self):
         return self._create_component("rc", "winrc/*.rc", "winrc/en-US.rc")
 
+    def create_tbx(self):
+        return self._create_component("tbx", "tbx/*.tbx")
+
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
         return Component.objects.create(
