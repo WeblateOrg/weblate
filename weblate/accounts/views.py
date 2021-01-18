@@ -253,16 +253,16 @@ def get_notification_forms(request):
 
         # Ensure watched, admin and all scopes are visible
         for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
-            key = (needed, None, None)
+            key = (needed, -1, -1)
             subscriptions[key] = {}
             initials[key] = {"scope": needed, "project": None, "component": None}
-        active = (SCOPE_WATCHED, None, None)
+        active = (SCOPE_WATCHED, -1, -1)
 
         # Include additional scopes from request
         if "notify_project" in request.GET:
             try:
                 project = user.allowed_projects.get(pk=request.GET["notify_project"])
-                active = key = (SCOPE_PROJECT, project.pk, None)
+                active = key = (SCOPE_PROJECT, project.pk, -1)
                 subscriptions[key] = {}
                 initials[key] = {
                     "scope": SCOPE_PROJECT,
@@ -276,7 +276,7 @@ def get_notification_forms(request):
                 component = Component.objects.filter_access(user).get(
                     pk=request.GET["notify_component"],
                 )
-                active = key = (SCOPE_COMPONENT, None, component.pk)
+                active = key = (SCOPE_COMPONENT, component.project_id, component.pk)
                 subscriptions[key] = {}
                 initials[key] = {
                     "scope": SCOPE_COMPONENT,
@@ -289,8 +289,8 @@ def get_notification_forms(request):
         for subscription in user.subscription_set.iterator():
             key = (
                 subscription.scope,
-                subscription.project_id,
-                subscription.component_id,
+                subscription.project_id or -1,
+                subscription.component_id or -1,
             )
             subscriptions[key][subscription.notification] = subscription.frequency
             initials[key] = {
