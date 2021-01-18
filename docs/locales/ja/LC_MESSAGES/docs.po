@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 11:47+0100\n"
-"PO-Revision-Date: 2021-01-14 21:50+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2021-01-19 06:16+0000\n"
+"Last-Translator: Takaki Iekura <tacostea@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -1645,7 +1645,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:419
 msgid "Writing addon"
-msgstr ""
+msgstr "アドオンの作成"
 
 #: ../../admin/addons.rst:421
 msgid ""
@@ -1653,14 +1653,17 @@ msgid ""
 "`weblate.addons.base.BaseAddon`, define the addon metadata and implement a "
 "callback which will do the processing."
 msgstr ""
+"自分でアドオンを作成することもでき、必要となるのは :class:`weblate.addons.base.BaseAddon` "
+"をサブクラス化し、アドオンのメタデータを定義し、処理を行うコールバックを実装することだけです。"
 
 #: ../../admin/addons.rst:427
+#, fuzzy
 msgid ":doc:`../contributing/addons`"
-msgstr ""
+msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:432
 msgid "Executing scripts from addon"
-msgstr ""
+msgstr "アドオンからのスクリプト実行"
 
 #: ../../admin/addons.rst:434
 msgid ""
@@ -1668,86 +1671,88 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
 msgstr ""
+"アドオンは外部スクリプトを実行するためにも使用できます。これは以前は Weblate "
+"に統合されていましたが、現在はスクリプトをアドオンでラップするコードを書かなければなりません。"
 
 #: ../../admin/addons.rst:441
 msgid "For installation instructions see :ref:`custom-addon-modules`."
-msgstr ""
+msgstr "インストール方法については :ref:`custom-addon-modules` を参照してください。"
 
 #: ../../admin/addons.rst:443
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
-msgstr ""
+msgstr "スクリプトは、任意のコンポーネントの VCS リポジトリのルートをカレントディレクトリとして実行されます。"
 
 #: ../../admin/addons.rst:446
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "加えて、以下の環境変数が利用可能です。"
 
 #: ../../admin/addons.rst:450
 msgid "Version control system used."
-msgstr ""
+msgstr "使用されているバージョン管理システム。"
 
 #: ../../admin/addons.rst:454
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "アップストリームリポジトリURL。"
 
 #: ../../admin/addons.rst:458
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "VCSリポジトリへの絶対パス。"
 
 #: ../../admin/addons.rst:464
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "現在のコンポーネントで設定されたリポジトリのブランチ。"
 
 #: ../../admin/addons.rst:468
 msgid "Filemask for current component."
-msgstr ""
+msgstr "現在のコンポーネントのファイルマスク。"
 
 #: ../../admin/addons.rst:472
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr ""
+msgstr "モノリンガル翻訳のためのファイル名テンプレート（空欄でも構いません）。"
 
 #: ../../admin/addons.rst:478
 msgid "Filename of the file used for creating new translations (can be empty)."
-msgstr ""
+msgstr "新規翻訳を作成する際のファイル名（空欄でも構いません）。"
 
 #: ../../admin/addons.rst:483
 msgid "Fileformat used in current component."
-msgstr ""
+msgstr "現在のコンポーネントで使われるファイル形式。"
 
 #: ../../admin/addons.rst:487
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
-msgstr ""
+msgstr "現在処理されている翻訳の言語（コンポーネントレベルのフックでは利用できません）。"
 
 #: ../../admin/addons.rst:492
 msgid "Previous HEAD on update (available only when running post update hook)."
-msgstr ""
+msgstr "以前のHEADのアップデート（アップデート後のフックを実行している場合のみ利用可能）。"
 
 #: ../../admin/addons.rst:498
 msgid "Component slug used to construct URL."
-msgstr ""
+msgstr "URLを構築する際に使用するコンポーネントスラッグ。"
 
 #: ../../admin/addons.rst:504
 msgid "Project slug used to construct URL."
-msgstr ""
+msgstr "URLを構築する際に使用するプロジェクトスラッグ。"
 
 #: ../../admin/addons.rst:510
 msgid "Component name."
-msgstr ""
+msgstr "コンポーネント名。"
 
 #: ../../admin/addons.rst:516
 msgid "Project name."
-msgstr ""
+msgstr "プロジェクト名。"
 
 #: ../../admin/addons.rst:522
 msgid "Component URL."
-msgstr ""
+msgstr "コンポーネントURL。"
 
 #: ../../admin/addons.rst:528
 msgid "Project engage URL."
-msgstr ""
+msgstr "プロジェクトエンゲージURL。"
 
 #: ../../admin/addons.rst:532 ../../faq.rst:256
 msgid ":ref:`component`"
