@@ -304,7 +304,7 @@ Glossary
 Each project can have an assigned glossary for any language as a shorthand for storing
 terminology. Consistency is more easily maintained this way.
 Terms from the glossary containing words from the currently translated string can be
-displayed in the bottom tabs.
+displayed in the sidebar.
 
 Managing glossaries
 +++++++++++++++++++
@@ -381,8 +381,8 @@ operations like searching, sending contact forms or translating. If affected by
 it, you are blocked for a certain period until you can perform the
 operation again.
 
-The default limits are described in the administrative manual in
-:ref:`rate-limit`, but can be fine-tuned in the Weblate configuration.
+Default limits and fine-tuning is described in the administrative manual, see
+:ref:`rate-limit`.
 
 Search and replace
 ------------------
