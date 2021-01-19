@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-15 10:46+0000\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
+"PO-Revision-Date: 2021-01-20 01:31+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
@@ -1471,7 +1471,7 @@ msgstr ""
 
 #: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
-msgstr ""
+msgstr "ชื่อส่วนเสริมที่ระบุไม่ถูกต้อง!"
 
 #: weblate/addons/views.py:97
 msgid "Addon installed, please review integration instructions."
@@ -1726,12 +1726,12 @@ msgstr "ตั้งค่าการเปลี่ยนแปลงในค
 #. Translators: Permission name
 #: weblate/auth/data.py:118
 msgid "View upstream repository location"
-msgstr ""
+msgstr "ดูตำแหน่งที่ตั้งที่เก็บต้นน้ำ"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:120
 msgid "Update the internal repository"
-msgstr ""
+msgstr "ปรับปรุงที่เก็บภายใน"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
@@ -3215,22 +3215,24 @@ msgid ""
 "You can upload any format understood by Translate Toolkit (including TBX, "
 "CSV or gettext PO files)."
 msgstr ""
+"คุณสามารถอัปโหลดในรูปแบบใดก็ได้ที่ Translate Toolkit เข้าใจ (รวมถึงไฟล์ TBX, "
+"CSV หรือ gettext PO)"
 
 #: weblate/glossary/forms.py:110
 msgid "Merge method"
-msgstr ""
+msgstr "วิธีการผสาน"
 
 #: weblate/glossary/forms.py:112
 msgid "Keep current"
-msgstr ""
+msgstr "คงค่าปัจจุบันไว้"
 
 #: weblate/glossary/forms.py:113
 msgid "Overwrite existing"
-msgstr ""
+msgstr "เขียนทับค่าที่มีอยู่"
 
 #: weblate/glossary/forms.py:114
 msgid "Add as other translation"
-msgstr ""
+msgstr "เพิ่มเป็นคำแปลอื่น ๆ"
 
 #: weblate/glossary/forms.py:119 weblate/glossary/models.py:260
 #: weblate/templates/glossary.html:10 weblate/templates/glossary.html:60
@@ -3242,11 +3244,11 @@ msgstr "อภิธานศัพท์"
 #: weblate/glossary/forms.py:135
 msgctxt "Choose starting letter in glossary"
 msgid "Any"
-msgstr ""
+msgstr "ทั้งหมด"
 
 #: weblate/glossary/forms.py:137
 msgid "Starting letter"
-msgstr ""
+msgstr "ตัวอักษรที่ขึ้นต้น"
 
 #: weblate/glossary/models.py:65
 #, fuzzy
@@ -3272,7 +3274,7 @@ msgstr ""
 #: weblate/glossary/models.py:86 weblate/trans/forms.py:1523
 #: weblate/trans/models/component.py:574
 msgid "Source language"
-msgstr ""
+msgstr "ภาษาต้นฉบับ"
 
 #: weblate/glossary/models.py:266 weblate/templates/glossary.html:58
 #: weblate/templates/trans/alert/duplicatestring.html:10
@@ -3298,7 +3300,7 @@ msgstr "ภาษา"
 
 #: weblate/glossary/views.py:136 weblate/glossary/views.py:151
 msgid "Glossary was not found."
-msgstr ""
+msgstr "ไม่พบอภิธานศัพท์"
 
 #: weblate/glossary/views.py:261
 msgid "No terms to import found in file."
@@ -3313,7 +3315,7 @@ msgstr[0] ""
 #: weblate/glossary/views.py:270 weblate/trans/views/files.py:204
 #, python-format
 msgid "File upload has failed: %s"
-msgstr ""
+msgstr "การอัปโหลดไฟล์ล้มเหลว: %s"
 
 #: weblate/glossary/views.py:272 weblate/trans/views/edit.py:618
 #: weblate/trans/views/search.py:86 weblate/trans/views/search.py:234
@@ -3327,12 +3329,12 @@ msgstr "ภาษา Weblate"
 #: weblate/lang/data.py:163
 msgctxt "Plural form description"
 msgid "Singular"
-msgstr ""
+msgstr "เอกพจน์"
 
 #: weblate/lang/data.py:164
 msgctxt "Plural form description"
 msgid "Plural"
-msgstr ""
+msgstr "พหูพจน์"
 
 #: weblate/lang/data.py:167 weblate/lang/data.py:173 weblate/lang/data.py:181
 #: weblate/lang/data.py:185 weblate/lang/data.py:190 weblate/lang/data.py:195
@@ -3549,10 +3551,9 @@ msgid "Remove all translations using this language first."
 msgstr "การดูแลระบบ"
 
 #: weblate/lang/views.py:78
-#, fuzzy, python-format
-#| msgid "Language"
+#, python-format
 msgid "Language %s removed."
-msgstr "ภาษา"
+msgstr "เอาภาษา %s ออกแล้ว"
 
 #: weblate/legal/forms.py:27
 msgid "I agree with the Terms of Service document"
@@ -3592,7 +3593,7 @@ msgstr "ส่ง"
 #: weblate/legal/templates/legal/contracts.html:7
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:35
 msgid "Privacy"
-msgstr ""
+msgstr "ความเป็นส่วนตัว"
 
 #: weblate/legal/templates/legal/contracts.html:15 weblate/legal/views.py:36
 msgid "Subcontractors"
@@ -3612,6 +3613,8 @@ msgid ""
 "This page is based on the Terms of Service and the Privacy Policy, you "
 "should still read the original documents to fully understand them:"
 msgstr ""
+"หน้านี้ขึ้นอยู่กับข้อกำหนดในการให้บริการและนโยบายความเป็นส่วนตัว "
+"คุณยังควรอ่านเอกสารต้นฉบับเพื่อให้เข้าใจได้อย่างเต็มที่:"
 
 #: weblate/legal/templates/legal/cookies.html:22
 #: weblate/legal/templates/legal/index.html:23
@@ -3625,31 +3628,35 @@ msgstr "ข้อกำหนดการใช้บริการ"
 #: weblate/legal/templates/legal/privacy.html:15
 #: weblate/templates/snippets/login-info.html:15
 msgid "Privacy Policy"
-msgstr ""
+msgstr "นโยบายความเป็นส่วนตัว"
 
 #: weblate/legal/templates/legal/cookies.html:27
 msgid "Cookies are used on this site for the following:"
-msgstr ""
+msgstr "ไซต์นี้มีการใช้คุกกี้สำหรับรายการต่อไปนี้:"
 
 #: weblate/legal/templates/legal/cookies.html:31
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"คุกกี้การรับรองความถูกต้องซึ่งจำเป็นสำหรับการรู้จำผู้ใช้ที่ผ่านการรับรองความถ"
+"ูกต้องแล้ว"
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr ""
+msgstr "คุกกี้ค่ากำหนดสำหรับเก็บค่ากำหนดผู้ใช้ในบางสถานการณ์"
 
 #: weblate/legal/templates/legal/cookies.html:34
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not Track"
 "\" settings in your browser."
 msgstr ""
+"ไซต์นี้ใช้ Matomo เพื่อวิเคราะห์ปริมาณการใช้งานของเว็บไซต์ "
+"โดยจะทำงานตามการตั้งค่า \"อย่าติดตาม\" ในเบราว์เซอร์ของคุณ"
 
 #: weblate/legal/templates/legal/cookies.html:37
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
+msgstr "ไซต์นี้ใช้ Google Analytics ในการวิเคราะห์ปริมาณการใช้งานของเว็บไซต์"
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
@@ -3678,7 +3685,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/security.html:37
 msgid "Security FAQ"
-msgstr ""
+msgstr "คำถามที่พบบ่อยเกี่ยวกับความปลอดภัย"
 
 #: weblate/legal/templates/legal/security.html:40
 #, fuzzy
@@ -3709,29 +3716,27 @@ msgstr "ภาพรวม"
 
 #: weblate/memory/forms.py:32
 msgid "You can upload a TMX or JSON file."
-msgstr ""
+msgstr "คุณสามารถอัปโหลดไฟล์ TMX หรือ JSON ได้"
 
 #: weblate/memory/forms.py:38
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Confirm deleting all translation memory entries"
-msgstr "ลบหน่วยความจำคำแปล"
+msgstr "ยืนยันการลบรายการหน่วยความจำคำแปลทั้งหมด"
 
 #: weblate/memory/models.py:111
 msgid "Unsupported file!"
-msgstr ""
+msgstr "ไม่รองรับไฟล์นี้!"
 
 #: weblate/memory/models.py:113
 msgid "No valid entries found in the uploaded file!"
-msgstr ""
+msgstr "ไม่พบรายการใดที่ถูกต้องในไฟล์ที่อัปโหลด!"
 
 #: weblate/memory/models.py:122 weblate/memory/models.py:127
 msgid "Failed to parse JSON file: {!s}"
-msgstr ""
+msgstr "ไม่สามารถแยกวิเคราะห์ไฟล์ JSON ได้: {!s}"
 
 #: weblate/memory/models.py:156
 msgid "Failed to parse TMX file!"
-msgstr ""
+msgstr "ไม่สามารถแยกวิเคราะห์ไฟล์ TMX ได้!"
 
 #: weblate/memory/models.py:166
 msgid "Failed to find source language!"
@@ -3740,32 +3745,30 @@ msgstr ""
 #: weblate/memory/models.py:243
 msgctxt "Translation memory category"
 msgid "Project: {}"
-msgstr ""
+msgstr "โครงการ: {}"
 
 #: weblate/memory/models.py:245
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
-msgstr "ข้อมูลส่วนบุคคล"
+msgstr "ข้อมูลส่วนตัว: {}"
 
 #: weblate/memory/models.py:247
 msgctxt "Translation memory category"
 msgid "Shared: {}"
-msgstr ""
+msgstr "ใช้ร่วมกัน: {}"
 
 #: weblate/memory/models.py:249
 msgctxt "Translation memory category"
 msgid "File: {}"
-msgstr ""
+msgstr "ไฟล์: {}"
 
 #: weblate/memory/views.py:82
 msgid "Entries deleted."
-msgstr ""
+msgstr "ลบรายการแล้ว"
 
 #: weblate/memory/views.py:97
 msgid "File processed, the entries will appear shortly."
-msgstr ""
+msgstr "ประมวลผลไฟล์แล้ว รายการจะปรากฏในอีกสักครู่"
 
 #: weblate/screenshots/models.py:53
 #: weblate/templates/screenshots/screenshot_list.html:37
@@ -3824,14 +3827,12 @@ msgstr "แดชบอร์ด"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
 #: weblate/templates/base.html:136
-#, fuzzy
-#| msgid "Language"
 msgid "Browse all projects"
-msgstr "ภาษา"
+msgstr "เรียกดูโครงการทั้งหมด"
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
-msgstr ""
+msgstr "การตรวจสอบ CSRF ล้มเหลว คำขอถูกยกเลิก"
 
 #: weblate/templates/403_csrf.html:12
 msgid ""
@@ -3891,6 +3892,7 @@ msgstr "เซิร์ฟเวอร์มีปัญหาร้ายแร
 #, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
 msgstr ""
+"ถ้าคุณต้องการความช่วยเหลือ คุณสามารถอ้างอิงข้อผิดพลาดนี้เป็น %(error_id)s ได้"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
@@ -3954,12 +3956,12 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:103
 msgid "Weblate keys"
-msgstr ""
+msgstr "คีย์ Weblate"
 
 #: weblate/templates/about/keys.html:16
 #: weblate/templates/manage/snippets/backup-credentials.html:14
 msgid "SSH key"
-msgstr ""
+msgstr "คีย์ SSH"
 
 #: weblate/templates/about/keys.html:22
 msgid ""
@@ -3969,13 +3971,11 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:27
 msgid "SSH key not available."
-msgstr ""
+msgstr "คีย์ SSH ไม่พร้อมใช้งาน"
 
 #: weblate/templates/about/keys.html:36
-#, fuzzy
-#| msgid "Comments"
 msgid "Commit signing"
-msgstr "หมายเหตุ"
+msgstr "การลงลายเซ็นคอมมิต"
 
 #: weblate/templates/about/keys.html:42
 #, python-format
@@ -3986,7 +3986,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
-msgstr ""
+msgstr "ไม่ได้กำหนดค่าการลงลายเซ็นคอมมิต"
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:80
 #: weblate/templates/dashboard/user.html:37 weblate/templates/data.html:51
@@ -4227,17 +4227,15 @@ msgstr "ไม่พบชื่อผู้ใช้/รหัสผ่าน�
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "ลงชื่อเข้าด้วย:"
 
 #: weblate/templates/accounts/login.html:59
-#, fuzzy
-#| msgid "Change password"
 msgid "Forgot your password?"
-msgstr "เปลี่ยนรหัสผ่าน"
+msgstr "ลืมรหัสผ่านของคุณใช่หรือไม่?"
 
 #: weblate/templates/accounts/login.html:64
 msgid "Register new account"
-msgstr ""
+msgstr "ลงทะเบียนบัญชีใหม่"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
