@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 11:47+0100\n"
-"PO-Revision-Date: 2021-01-15 20:05+0000\n"
+"PO-Revision-Date: 2021-01-19 07:16+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -231,10 +231,10 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
-"Чтобы разрешить доступ к этому проекту, вы должны добавить привилегию либо "
-"непосредственно данному пользователю, либо группе пользователей в "
-"административном интерфейсе Django, либо с помощью системы управления "
-"пользователями на странице проекта, как описано в разделе :ref:`manage-acl`."
+"Чтобы разрешить доступ к этому проекту, вы должны дать привилегию либо "
+"непосредственно данному пользователю, либо группе пользователей в интерфейсе "
+"администратора Django, либо с помощью системы управления пользователями на "
+"странице проекта, как описано в разделе :ref:`manage-acl`."
 
 #: ../../admin/access.rst:109
 msgid ""
@@ -267,17 +267,18 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
-"Вы можете настроить Weblate для автоматического добавления пользователей в "
-"группы на основе их адреса электронной почты. Это автоматическое назначение "
-"происходит только в момент создания учётной записи."
+"Вы можете настроить Weblate таким образом, чтобы пользователи автоматически "
+"добавлялись в определённые группы в зависимости от адреса их электронной "
+"почты. Такое автоматическое добавление происходит только в момент создания "
+"новой учётной записи."
 
 #: ../../admin/access.rst:122
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
 msgstr ""
-"Оно может быть настроено в административном интерфейсе Django отдельно для "
-"каждой группы (в разделе :guilabel:`Аутентификация`)."
+"Это можно настроить в интерфейсе администратора Django отдельно для каждой "
+"группы (в разделе :guilabel:`Аутентификация`)."
 
 #: ../../admin/access.rst:127
 msgid ""
@@ -591,14 +592,15 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"При выборе в графе :guilabel:`Управление доступом` пункта :guilabel:"
-"`Настраиваемый`, Weblate прекратит управление доступом для данного проекта и "
-"всеми пользователями и группами можно будет управлять с помощью "
-"административного интерфейса Django. Этот пункт можно использовать для "
-"определения более сложного контроля доступа, либо для настройки политики "
-"общего доступа для всех проектов на одном экземпляре Weblate. Если вы хотите "
-"включить его для всех проектов по умолчанию, пожалуйста, задайте параметр :"
-"setting:`DEFAULT_ACCESS_CONTROL`."
+"При выборе в графе :guilabel:`Управление доступом` пункта "
+":guilabel:`Настраиваемый`, Weblate прекратит управление доступом данного "
+"конкретного проекта и всеми пользователями и группами можно будет управлять "
+"с помощью интерфейса администратора Django. Это можно использовать, чтобы "
+"создать систему с более сложной логикой контроля доступа, либо чтобы "
+"установить политику «общего доступа» для всех проектов на одном экземпляре "
+"Weblate. Если вы хотите установить такой тип доступа для всех проектов по "
+"умолчанию, то сделайте это с помощью параметра "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:310
 msgid ""
@@ -1593,7 +1595,7 @@ msgstr "Склеивание Git-коммитов"
 
 #: ../../admin/addons.rst:314
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Склеивает Git-коммиты до отправки изменений."
+msgstr "Склеивает (squash) Git-коммиты перед отправкой изменений."
 
 #: ../../admin/addons.rst:316
 msgid "You can choose one of following modes:"
@@ -25425,7 +25427,7 @@ msgstr "Добавлена поддержка Google Translate API."
 
 #: ../../changes.rst:1396
 msgid "Added support for managing SSH host keys."
-msgstr "Добавлена поддержка управления SSH-ключами."
+msgstr "Добавлена поддержка управления SSH-ключами серверов."
 
 #: ../../changes.rst:1397
 msgid "Various form validation improvements."
@@ -27148,7 +27150,7 @@ msgstr "``wladmin``"
 
 #: ../../contributing/internals.rst:102
 msgid "Django admin interface customization."
-msgstr "Настройка административного интерфейса Django."
+msgstr "Настройка интерфейса администра Django."
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -30668,8 +30670,8 @@ msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr ""
-"Вы вольны определять в административном интерфейсе свои собственные языки, "
-"для этого вам просто необходимо предоставить о них необходимую информацию."
+"Вы можете определять свои собственные языки в интерфейсе администратора. Для "
+"этого вам нужно просто ввести необходимую информацию о них."
 
 #: ../../faq.rst:335
 msgid "Can Weblate highlight changes in a fuzzy string?"
@@ -30972,19 +30974,14 @@ msgid "Supported file formats"
 msgstr "Поддерживаемые форматы файлов"
 
 #: ../../formats.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate supports most translation format understood by translate-toolkit, "
-#| "however each format being slightly different, some issues with formats "
-#| "that are not well tested can arise."
 msgid ""
 "Weblate supports most translation format understood by `translate-toolkit`_, "
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
 msgstr ""
-"Weblate поддерживает большинство форматов перевода, понимаемых translate-"
-"toolkit, однако понимание любого из них чем-нибудь да отличаются, поэтому "
-"могут возникнуть некоторые проблемы с форматами, которые были протестированы "
+"Weblate поддерживает большинство форматов перевода, понимаемых `translate-"
+"toolkit`_, однако у каждого формата есть свои особенности, поэтому могут "
+"возникнуть некоторые проблемы с форматами, которые были протестированы "
 "недостаточно тщательно."
 
 #: ../../formats.rst:12 ../../formats.rst:1384
@@ -31571,10 +31568,8 @@ msgstr ""
 "guilabel:`Обработка строк, отмеченных «На правку»`."
 
 #: ../../formats.rst:296
-#, fuzzy
-#| msgid "See :ref:`reviews`."
 msgid ":ref:`reviews`"
-msgstr "Смотрите раздел :ref:`reviews`."
+msgstr ":ref:`reviews`"
 
 #: ../../formats.rst:299
 msgid "Whitespace and newlines in XLIFF"
@@ -31621,10 +31616,8 @@ msgstr ""
 "это в виду."
 
 #: ../../formats.rst:340
-#, fuzzy
-#| msgid "Strings"
 msgid "String keys"
-msgstr "Строки"
+msgstr "Ключи строк"
 
 #: ../../formats.rst:342
 msgid ""
@@ -31798,11 +31791,6 @@ msgid "`INI File`"
 msgstr "`INI-файл`"
 
 #: ../../formats.rst:483
-#, fuzzy
-#| msgid ""
-#| "Weblate only extracts keys from sections within a INI file. In case your "
-#| "INI file lacks sections, you might want to use :ref:`joomla` or :ref:"
-#| "`javaprop` instead."
 msgid ""
 "Weblate only extracts keys from sections within an INI file. In case your "
 "INI file lacks sections, you might want to use :ref:`joomla` or :ref:"
@@ -31957,11 +31945,6 @@ msgid "Android specific file format for translating applications."
 msgstr "Специфичный для Android формат файла для перевода приложений."
 
 #: ../../formats.rst:623
-#, fuzzy
-#| msgid ""
-#| "Android string resources are monolingual, the :ref:`component-template` "
-#| "file is stored in a different location from the others :file:`res/values/"
-#| "strings.xml`."
 msgid ""
 "Android string resources are monolingual, the :ref:`component-template` is "
 "stored in a different location from the others :file:`res/values/strings."
@@ -32113,16 +32096,12 @@ msgid "JSON files"
 msgstr "JSON-файлы"
 
 #: ../../formats.rst:762
-#, fuzzy
-#| msgid ""
-#| "Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested "
-#| "structure JSON files are supported as well."
 msgid ""
 "Since Weblate 2.16 and with `translate-toolkit`_ at-least 2.2.4, nested "
 "structure JSON files are supported as well."
 msgstr ""
-"Начиная с Weblate версии 2.16 и translate-toolkit версии не ниже 2.2.4 также "
-"поддерживаются JSON-файлы с вложенной структурой."
+"Начиная с Weblate версии 2.16 и `translate-toolkit`_ версии не ниже 2.2.4 "
+"также поддерживаются JSON-файлы с вложенной структурой."
 
 #: ../../formats.rst:767
 msgid ""
@@ -32173,17 +32152,13 @@ msgstr ""
 "выше), такой файл может выглядеть следующим образом:"
 
 #: ../../formats.rst:797
-#, fuzzy
 msgid ""
 "The :guilabel:`JSON file` and :guilabel:`JSON nested structure file` can "
 "both handle same type of files. Both preserve existing JSON structure when "
 "translating."
 msgstr ""
 "И формат :guilabel:`JSON-файл`, и :guilabel:`JSON-файл с вложенной "
-"структурой` могут обрабатывать одни и теже файлы. Единственная разница между "
-"ними проявляется при добавлении новых строк: при выборе варианта «со "
-"вложенной структурой» он будет пытаться разобрать ключи и вставить новые "
-"строки в соот"
+"структурой` могут обрабатывать одни и теже файлы."
 
 #: ../../formats.rst:801
 msgid ""
@@ -32192,6 +32167,10 @@ msgid ""
 "string into the matching structure. For example ``app.name`` key is inserted "
 "as:"
 msgstr ""
+"Единственная разница между ними проявляется при добавлении новых строк через "
+"Weblate: варианта формата «со вложенной структурой» разбирает ключи вновь "
+"добавленных строк и вставляет их в файл в виде соответствующей структуры. "
+"Например, ключ ``app.name`` будет вставлен как:"
 
 #: ../../formats.rst:816
 msgid "``langs/translation-*.json``"
@@ -32218,16 +32197,12 @@ msgid "JSON i18next files"
 msgstr "JSON -файлы i18next"
 
 #: ../../formats.rst:841
-#, fuzzy
-#| msgid ""
-#| "Since Weblate 2.17 and with translate-toolkit at-least 2.2.5, i18next "
-#| "JSON files with plurals are supported as well."
 msgid ""
 "Since Weblate 2.17 and with `translate-toolkit`_ at-least 2.2.5, i18next "
 "JSON files with plurals are supported as well."
 msgstr ""
-"Начиная с Weblate версии 2.17 и translate-toolkit версии не ниже 2.2.5 также "
-"поддерживаются JSON-файлы i18next с множественными формами."
+"Начиная с Weblate версии 2.17 и `translate-toolkit`_ версии не ниже 2.2.5 "
+"также поддерживаются JSON-файлы i18next с формами множественного числа."
 
 #: ../../formats.rst:844
 msgid ""
@@ -32356,16 +32331,12 @@ msgid "WebExtension JSON"
 msgstr "JSON-файлы WebExtension"
 
 #: ../../formats.rst:957
-#, fuzzy
-#| msgid ""
-#| "This is supported since Weblate 2.16 and with translate-toolkit at-least "
-#| "2.2.4."
 msgid ""
 "This is supported since Weblate 2.16 and with `translate-toolkit`_ at-least "
 "2.2.4."
 msgstr ""
-"Поддерживаются с версии Weblate 2.16 и translate-toolkit версии не ниже "
-"2.2.4."
+"Поддерживаются с версии Weblate 2.16 и `translate-toolkit`_ версии не ниже 2."
+"2.4."
 
 #: ../../formats.rst:959
 msgid ""
@@ -32478,20 +32449,16 @@ msgstr ""
 "качестве формата файла выберите :guilabel:`Простой CSV файл`"
 
 #: ../../formats.rst:1042
-#, fuzzy
-#| msgid ""
-#| "Headerless files with fields in order defined by translate-toolkit: "
-#| "location, source, target, ID, fuzzy, context, translator_comments, "
-#| "developer_comments Choose :guilabel:``CSV file`` as a file format."
 msgid ""
 "Headerless files with fields in order defined by the `translate-toolkit`_: "
 "``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
 "``translator_comments``, ``developer_comments`` Choose :guilabel:``CSV "
 "file`` as a file format."
 msgstr ""
-"Файлы без заголовка, с полями в порядке, определённом translate-toolkit: "
-"location, source, target, ID, fuzzy, context, translator_comments, "
-"developer_comments. Выберите :guilabel:``CSV-файл`` в качестве формата."
+"Файлы без заголовка, с полями в порядке, определённом `translate-toolkit`_: "
+"``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
+"``translator_comments``, ``developer_comments``. Выберите "
+":guilabel:``CSV-файл`` в качестве формата."
 
 #: ../../formats.rst:1045
 msgid ""
@@ -32863,12 +32830,6 @@ msgid "Others"
 msgstr "Другие"
 
 #: ../../formats.rst:1377
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by translate-toolkit which support serializing can "
-#| "be easily supported, but they did not (yet) receive any testing. In most "
-#| "cases some thin layer is needed in Weblate to hide differences in "
-#| "behavior of different translate-toolkit storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) receive any testing. In most "
@@ -32876,10 +32837,10 @@ msgid ""
 "of different `translate-toolkit`_ storages."
 msgstr ""
 "Большинство форматов, которые поддерживают сериализацию и которые "
-"поддерживает translate-toolkit, могут быть легко поддержаны, но они (пока) "
-"не прошли никакого тестирования. В большинстве случаев, чтобы скрыть "
-"различия в поведении различных хранилищ translate-toolkit, для Weblate "
-"требуется тонкая прослойка."
+"поддерживает `translate-toolkit`_, могут поддерживаться с лёгкостью, но они "
+"(пока) ни как не тестировались. В большинстве случаев, чтобы скрыть различия "
+"в поведении различных хранилищ `translate-toolkit`_, в Weblate приходится "
+"добавлять тонкую прослойку."
 
 #: ../../formats.rst:1389
 msgid "Read only strings"
@@ -33152,27 +33113,36 @@ msgid ""
 "the third party components it interacts with, but in any decent setup it "
 "will include all export restricted cryptographic functions:"
 msgstr ""
+"Стойкость ключей шифрования зависит от настроек Weblate и сторонних "
+"компонентов, с которыми он взаимодействует, но в любой приличной "
+"конфигурации он будет включать различную функциональность, на которую "
+"накладываются ограничения связанные с криптографией:"
 
 #: ../../legal.rst:53
 msgid "In excess of 56 bits for a symmetric algorithm"
-msgstr ""
+msgstr "Симметричные алгоритмы с ключом превышающем 56 бит"
 
 #: ../../legal.rst:54
 msgid ""
 "Factorisation of integers in excess of 512 bits for an asymmetric algorithm"
 msgstr ""
+"Факторизация целых чисел превышающих 512 бит (в асимметричных алгоритмах)"
 
 #: ../../legal.rst:55
 msgid ""
 "Computation of discrete logarithms in a multiplicative group of a finite "
 "field of size greater than 512 bits for an asymmetric algorithm"
 msgstr ""
+"Вычисление дискретных логарифмов в мультипликативной группе конечного поля "
+"размерностью больше 512 бит для асимметричных алгоритмов"
 
 #: ../../legal.rst:56
 msgid ""
 "Discrete logarithms in a group different than above in excess of 112 bits "
 "for an asymmetric algorithm"
 msgstr ""
+"Дискретные логарифмы в группах отличных от вышеперечисленных и превышающие "
+"112 бит для асимметричных алгоритмов"
 
 #: ../../legal.rst:58
 msgid ""
@@ -33180,10 +33150,13 @@ msgid ""
 "configured in a way where no cryptography code would be involved. The "
 "cryptographic features include:"
 msgstr ""
+"В Weblate нет ни каких механизмов дезактивации криптографии, но он может "
+"быть настроен таким образом, чтобы никакой криптографический код не "
+"вовлекался. Криптографические функции включают:"
 
 #: ../../legal.rst:62
 msgid "Accessing remote servers using secure protocols (HTTPS)"
-msgstr ""
+msgstr "Доступ к удалённым серверам по безопасным протоколам (HTTPS)"
 
 #: ../../legal.rst:63
 msgid "Generating signatures for code commits (PGP)"
@@ -33194,6 +33167,8 @@ msgid ""
 "`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
 "blog/ear/>`_"
 msgstr ""
+"`Ограничения экспорта (EAR) свободного ПО <https://www.magicsplat.com/blog/"
+"ear/>`_"
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
@@ -33323,10 +33298,8 @@ msgid "Main class for invoking commands."
 msgstr "Главный класс для вызова команд."
 
 #: ../../user/basic.rst:5
-#, fuzzy
-#| msgid ":doc:`../customize`"
 msgid ":doc:`../devel/integration`"
-msgstr ":doc:`../customize`"
+msgstr ":doc:`../devel/integration`"
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -33805,18 +33778,13 @@ msgid "`perl-format`"
 msgstr "`perl-format`"
 
 #: ../../user/checks.rst:301
-#, fuzzy
-#| msgid ""
-#| "`Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_, `Perl "
-#| "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
-#| "perl_002dformat.html>`_"
 msgid ""
 "`Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_, `Perl Format "
 "Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "perl_002dformat.html>`_"
 msgstr ""
-"`Функция sprintf Perl’а <https://perldoc.perl.org/functions/sprintf.html>`_, "
-"`Строки формата Perl’а <https://www.gnu.org/software/gettext/manual/"
+"`Функция sprintf Perl’а <https://perldoc.perl.org/functions/sprintf>`_, `"
+"Строки форматирования Perl’а <https://www.gnu.org/software/gettext/manual/"
 "html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:305
@@ -34007,11 +33975,11 @@ msgstr "``There are %{count} apples``"
 
 #: ../../user/checks.rst:420
 msgid "Linked locale messages"
-msgstr "Связанные сообщения локали"
+msgstr "Связанные сообщения локализации"
 
 #: ../../user/checks.rst:420
 msgid "``@:message.dio @:message.the_world!``"
-msgstr ""
+msgstr "``@:message.dio @:message.the_world!``"
 
 #: ../../user/checks.rst:422
 msgid "`vue-format`"
@@ -34023,6 +33991,12 @@ msgid ""
 "html>`_, `Vue I18n Linked locale messages <https://kazupon.github.io/vue-"
 "i18n/guide/messages.html#linked-locale-messages>`_"
 msgstr ""
+"`Формат сообщений локализации Vue I18n <https://kazupon.github.io/vue-i18n/"
+"ru/guide/formatting.html>`_, `Связанные сообщения локализации Vue "
+"I18n<https://kazupon.github.io/vue-i18n/ru/guide/messages.html#%D1%81%D0%B2%D"
+"1%8F%D0%B7%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-%D1%81%D0%BE%D0%BE%D0%B1%D1%89%D0%B5"
+"%D0%BD%D0%B8%D1%8F-n%D0%BE%D0%BA%D0%B0n"
+"%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8>`_"
 
 #: ../../user/checks.rst:433
 msgid "Has been translated"
@@ -34501,6 +34475,8 @@ msgid ""
 "In case you have some syntax for placeholders, you can use an regular "
 "expression:"
 msgstr ""
+"Если у вас есть регулярный синтаксис для имён заполнителей, то вы можете "
+"применить регулярные выражения:"
 
 #: ../../user/checks.rst:753
 msgid ":ref:`custom-checks`"
@@ -35438,12 +35414,6 @@ msgstr ""
 "слияния). Эти две группы уведомлений в настройках визуально разделены."
 
 #: ../../user/profile.rst:151
-#, fuzzy
-#| msgid ""
-#| "You can toggle notifications for watched projects and administered "
-#| "projects and it can be further tweaked (or muted) per project and "
-#| "component. Visit the component page and select appropriate choice from "
-#| "the :guilabel:`Watching` menu."
 msgid ""
 "You can toggle notifications for watched projects and administered projects "
 "and it can be further tweaked (or muted) per project and component. Visit "
@@ -35452,8 +35422,8 @@ msgid ""
 msgstr ""
 "Вы можете включать или отключать уведомления для отслеживаемых и управляемых "
 "проектов, а в дальнейшем их можно настроить (или полностью отключить) для "
-"каждого проекта и компонента. Посетите страницу компонента и выберите "
-"соответствующий пункт в меню :guilabel:`Отслеживание`."
+"каждого отдельного проекта или компонента. Посетите страницу компонента и "
+"выберите соответствующий пункт в меню :guilabel:`Отслеживание`."
 
 #: ../../user/profile.rst:157
 msgid "You will not receive notifications for your own actions."
@@ -35490,7 +35460,7 @@ msgstr "Доступ к API"
 
 #: ../../user/profile.rst:179
 msgid "You can get or reset your API access token here."
-msgstr ""
+msgstr "Вы можете получить или пересоздать свой токен доступа здесь."
 
 #: ../../user/profile.rst:184
 msgid "Audit log"
@@ -35683,7 +35653,7 @@ msgstr "``project:ТЕКСТ``"
 
 #: ../../user/search.rst:56
 msgid "Project slug, see :ref:`project-slug`."
-msgstr ""
+msgstr "Плашка проекта, см. :ref:`project-slug`."
 
 #: ../../user/search.rst:57
 msgid "``changed_by:TEXT``"
@@ -35698,14 +35668,12 @@ msgid "``changed:DATETIME``"
 msgstr "``changed:ДАТА_И_ВРЕМЯ``"
 
 #: ../../user/search.rst:60
-#, fuzzy
-#| msgid "String was changed on date, supports :ref:`search-operators`."
 msgid "String content was changed on date, supports :ref:`search-operators`."
-msgstr "Дата изменения строки, поддерживает :ref:`search-operators`."
+msgstr ""
+"Дата изменения содержимого строки, поддерживает :ref:`операторы поиска по "
+"полям <search-operators>`."
 
 #: ../../user/search.rst:63
-#, fuzzy
-#| msgid "``change_time:DATEIME``"
 msgid "``change_time:DATETIME``"
 msgstr "``change_time:ДАТА_И_ВРЕМЯ``"
 
@@ -35715,12 +35683,14 @@ msgid ""
 "``changed`` this includes event which don't change content and you can apply "
 "custom action filtering using ``change_action``."
 msgstr ""
+"Дата изменения строки, поддерживает :ref:`операторы поиска по полям <search-"
+"operators>`; в отличии от ``changed`` это также включает и те события, "
+"которые не изменяют само содержимое строки, а также вы можете фильтровать "
+"события по конкретным действиям с помощью ``change_action``."
 
 #: ../../user/search.rst:68
-#, fuzzy
-#| msgid "``changed_by:TEXT``"
 msgid "``change_action:TEXT``"
-msgstr "``changed_by:ТЕКСТ``"
+msgstr "``change_action:ТЕКСТ``"
 
 #: ../../user/search.rst:66
 msgid ""
@@ -35729,6 +35699,10 @@ msgid ""
 "lowercase and spaces replaced by dash. See :ref:`search-changes` for "
 "examples."
 msgstr ""
+"Фильтр по действиям, вызвавшим изменения, полезно для использования "
+"совместно с ``change_time``. Принимает название действия на английском или в "
+"кавычках и с пробелами или в нижнем регистре и с подчёркиваниями заменёнными "
+"на дефисы. Смотрите примеры в разделе «:ref:`search-changes`»."
 
 #: ../../user/search.rst:70
 msgid "``check:TEXT``"
@@ -35848,16 +35822,16 @@ msgstr ""
 "вы можете использовать запрос ``source:=hello``."
 
 #: ../../user/search.rst:114
-#, fuzzy
-#| msgid "Number of changes"
 msgid "Searching for changes"
-msgstr "Количество изменений"
+msgstr "Поиск по изменениям"
 
 #: ../../user/search.rst:118
 msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
 msgstr ""
+"Поиск по истории событий можно сделать с помощью операторов ``change_action``"
+" и ``change_time``."
 
 #: ../../user/search.rst:121
 msgid ""
@@ -35865,38 +35839,29 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
+"Например, поиск по строкам, отмеченным для правки (*marked for edit*) в 2018 "
+"году, можно сделать с помощью: ``change_time:2018 AND change_action:marked-"
+"for-edit`` или ``change_time:2018 AND change_action:\"Marked for edit\"``."
 
 #: ../../user/search.rst:127
 msgid "Regular expressions"
 msgstr "Регулярные выражения"
 
 #: ../../user/search.rst:129
-#, fuzzy
-#| msgid ""
-#| "Anywhere text is accepted you can also specify a regular expression as ``r"
-#| "\"regexp\"``. For instance, to search for all source strings which "
-#| "contain any digit between 2 and 5, use: ``source:r\"[2-5]\"``"
 msgid ""
 "Anywhere text is accepted you can also specify a regular expression as ``r"
 "\"regexp\"``."
 msgstr ""
-"Везде, где принимается текст, вы также можете указать регулярное выражение в "
-"виде ``r\"выражение\"``. Например, для поиска по исходным строкам, "
-"содержащим любую цифру от 2 до 5, используйте запрос ``source:r\"[2-5]\"``"
+"Везде, где принимается текст, вы также можете задать и регулярное выражение "
+"в виде ``r\"выражение\"``."
 
 #: ../../user/search.rst:131
-#, fuzzy
-#| msgid ""
-#| "Anywhere text is accepted you can also specify a regular expression as ``r"
-#| "\"regexp\"``. For instance, to search for all source strings which "
-#| "contain any digit between 2 and 5, use: ``source:r\"[2-5]\"``"
 msgid ""
 "For example, to search for all source strings which contain any digit "
 "between 2 and 5, use ``source:r\"[2-5]\"``."
 msgstr ""
-"Везде, где принимается текст, вы также можете указать регулярное выражение в "
-"виде ``r\"выражение\"``. Например, для поиска по исходным строкам, "
-"содержащим любую цифру от 2 до 5, используйте запрос ``source:r\"[2-5]\"``"
+"Например, для поиска по исходным строкам, содержащим любую цифру от 2 до 5, "
+"используйте запрос ``source:r\"[2-5]\"``."
 
 #: ../../user/search.rst:135
 msgid "Predefined queries"
@@ -35987,14 +35952,6 @@ msgid "Translation links"
 msgstr "Ссылки на перевод"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Strings needing "
-#| "action`.  If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to actual translation. "
 "The translation is further divided into individual checks, like :guilabel:"
@@ -36003,12 +35960,13 @@ msgid ""
 "available. Alternatively you can use the search field to find a specific "
 "string or term."
 msgstr ""
-"В компоненте находится набор ссылок, которые ведут к реальному переводу. "
-"Далее перевод подразделяется на отдельные проверки, такие как  :guilabel:"
-"`Непереведённые строки` или :guilabel:`Строки, требующие действий`. Если "
-"весь проект переведён без ошибок, у него всё равно доступна ссылка :guilabel:"
-"`Все строки`. В качестве альтернативы вы можете воспользоваться полем поиска "
-"для поиска определённой строки или термина."
+"Когда вы зайдёте в компонент, там будет список со ссылками, которые ведут к "
+"собственно переводу. Далее перевод подразделяется на отдельные проверки, "
+"такие как :guilabel:`Непереведённые строки` или :guilabel:`Строки, требующие "
+"действий`. Если весь проект переведён и в нём не обнаружено ошибок, то в нём "
+"всё равно будет доступна ссылка :guilabel:`Все строки`. Также вы можете "
+"воспользоваться полем поиска для того чтобы найти определённую строку или "
+"термин."
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
@@ -36017,20 +35975,16 @@ msgstr ""
 "Weblate."
 
 #: ../../user/translating.rst:52
-#, fuzzy
-#| msgid ""
-#| "Anonymous users can only (if permitted) forward suggestions.  Doing so is "
-#| "still available to signed in users, in cases where uncertainty about the "
-#| "translation arises, which will prompt another translator to review it."
 msgid ""
 "Anonymous users can only (if permitted) forward suggestions. Doing so is "
 "still available to signed in users, in cases where uncertainty about the "
 "translation arises, which will prompt another translator to review it."
 msgstr ""
-"Анонимные пользователи могут только (если это разрешено) вносить "
-"предложения. При этом, в случае возникновения в переводе неопределённости, "
-"он всё равно будет доступен для зарегистрированных пользователей, что "
-"подтолкнёт другого переводчика его отрецензировать."
+"Анонимные пользователи могут только вносить предложения (если это разрешено "
+"настройками перевода). Тоже самое могут делать и зарегистрированные "
+"пользователи, если у них возникает неуверенность в собственном переводе. Эти "
+"предложения в дальнейшем сможет просмотреть и отрецензировать другой "
+"переводчик."
 
 #: ../../user/translating.rst:56
 msgid ""
@@ -36062,10 +36016,8 @@ msgstr ""
 "пользователей, используя синтаксис ``@упоминаний``."
 
 #: ../../user/translating.rst:74
-#, fuzzy
-#| msgid ":ref:`aresource`"
 msgid ":ref:`report-source`"
-msgstr ":ref:`aresource`"
+msgstr ":ref:`report-source`"
 
 #: ../../user/translating.rst:77
 msgid "Variants"
@@ -36153,15 +36105,6 @@ msgid "Plurals"
 msgstr "Формы множественного числа"
 
 #: ../../user/translating.rst:120
-#, fuzzy
-#| msgid ""
-#| "Words that change form to account of their numeric designation are called "
-#| "plurals.  Each language has its own definition of plurals. English, for "
-#| "example, supports one plural.  In the singular definition of for example "
-#| "\"car\", implicitly one car is referenced, in the plural definition, "
-#| "\"cars\" two or more cars are referenced, or the concept of cars as a "
-#| "noun.  Languages like for example Czech or Arabic have more plurals and "
-#| "also their rules for plurals are different."
 msgid ""
 "Words that change form to account of their numeric designation are called "
 "plurals. Each language has its own definition of plurals. English, for "
@@ -36171,15 +36114,16 @@ msgid ""
 "like for example Czech or Arabic have more plurals and also their rules for "
 "plurals are different."
 msgstr ""
-"Слова, изменяющие свою форму в связи с их числовым обозначением, называются "
-"формами множественного числа.  Каждый язык имеет своё определение "
-"множественного числа. В английском языке, например, существует одна форма "
-"множественного числа.  В единичном определении, к примеру «автомобиля» — "
-"«car» — неявно подразумевается одна машина, а во множественном определении "
-"«автомобили» — «cars» — подразумеваются уже две или более машины, либо же "
-"понятие автомобилей как существительное.  Такие языки, как, например, "
-"чешский, арабский или русский, имеют больше форм множественного числа, а их "
-"правила для этих форм отличаются от правил для английского языка."
+"Слова, изменяющие свою форму в зависимости от того, какое число находится "
+"рядом с ними, называются в Weblate «формами множественного числа». Каждый "
+"язык имеет своё определение множественного числа. В английском языке, "
+"например, существует всего одна форма множественного числа. Если слово стоит "
+"в единичном числе, к примеру, «автомобиль» — «car» — неявно подразумевается "
+"именно одна машина, а во множественном — «автомобили» — «cars» — "
+"подразумеваются уже две или более машины, либо же просто понятие «автомобили»"
+" как существительное. Такие языки, как, например, чешский, арабский или "
+"русский, имеют больше форм множественного числа, а правила употребления этих "
+"форм отличаются от правил английского языка."
 
 #: ../../user/translating.rst:128
 msgid ""
@@ -36373,10 +36317,8 @@ msgid "Copy the machine translation of given number to current translation."
 msgstr "Копирование в текущий перевод машинного перевода с заданным номером."
 
 #: ../../user/translating.rst:207
-#, fuzzy
-#| msgid ":kbd:`Ctrl I` :kbd:`1` to :kbd:`9`  or"
 msgid ":kbd:`Ctrl I` :kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl I` :kbd:`1` — :kbd:`9`  или"
+msgstr ":kbd:`Ctrl I` :kbd:`1` — :kbd:`9` или"
 
 #: ../../user/translating.rst:209
 msgid ":kbd:`Cmd I` :kbd:`1` to :kbd:`9`"
@@ -36786,12 +36728,18 @@ msgid ""
 "strings, :guilabel:`Search and replace` is a feature for you. You can find "
 "it in the :guilabel:`Tools` menu."
 msgstr ""
+"Если вы хотите изменить какой-то термин или произвести какое-то массовое "
+"исправление в строках, то :guilabel:`Поиск и замена` — тот инструмент, "
+"который вам нужен. Он расположен в меню :guilabel:`Инструменты`."
 
 #: ../../user/translating.rst:397
 msgid ""
 "Don't worry about messing up the strings. This is a two step process which "
 "will show you a preview of the edits before the actual change is done."
 msgstr ""
+"Не волнуйтесь о том, что вы можете запортить строки. Этот процесс проходит в "
+"два шага: сначала он выведет вам предварительный просмотр изменений и только "
+"потом они будут применены."
 
 #: ../../user/translating.rst:405
 msgid ""
@@ -36860,7 +36808,7 @@ msgstr ""
 "быть доступен для Weblate. При использовании общедоступного репозитория вам "
 "просто надо указать правильный URL-адрес (например, ``https://github.com/"
 "WeblateOrg/weblate.git``), но для частных репозиториев или для URL-адресов "
-"отправки изменений настройка будет более сложной и требует аутентификации."
+"отправки изменений настройка будет более сложной и потребует аутентификации."
 
 #: ../../vcs.rst:24
 msgid "Accessing repositories from Hosted Weblate"
@@ -36878,13 +36826,13 @@ msgid ""
 msgstr ""
 "Для Hosted Weblate существует выделенный пользователь для отправки "
 "изменений, зарегистрированный на GitHub, Bitbucket, Codeberg и GitLab (с "
-"именем пользователя :guilabel:`weblate`, известный также под именем :"
-"guilabel:`Weblate push user`). Вам необходимо добавить этого пользователя в "
-"качестве сотрудника и дать ему в вашем репозитории соответствующее "
-"разрешение (для клонирования подойдет только чтение, отправки изменений "
-"требуется запись). В зависимости от сервиса и настроек вашей организации, "
-"это произойдёт или немедленно, или потребует подтверждения со стороны "
-"Weblate."
+"именем пользователя :guilabel:`weblate` и полным именем :guilabel:`Weblate "
+"push user`). Вам необходимо добавить этого пользователя в качестве "
+"сотрудника и дать ему в вашем репозитории соответствующее права (для "
+"клонирования будет достаточно только чтения, а отправка изменений потребует "
+"права на запись). В зависимости от конкретного сервиса и настроек вашей "
+"организации, это произойдёт или сразу, или потребует подтверждения со "
+"стороны Weblate."
 
 #: ../../vcs.rst:34
 msgid ""
@@ -36892,8 +36840,8 @@ msgid ""
 "other services manual processing might be needed, so please be patient."
 msgstr ""
 "Приглашения на GitHub принимаются автоматически в течение пяти минут, на "
-"другие сервисы может потребоваться ручная обработка, поэтому, пожалуйста, "
-"наберитесь терпения."
+"других сервисах может потребоваться ручная обработка, поэтому, наберитесь "
+"терпения."
 
 #: ../../vcs.rst:37
 msgid ""
@@ -36915,10 +36863,9 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
-"Наиболее часто используемый метод доступа к частным репозиториям основан на "
-"SSH. Чтобы получить таким образом доступ к вышестоящему репозиторию, "
-"авторизуйте публичный SSH-ключ Weblate (смотрите раздел :ref:`weblate-ssh-"
-"key`)."
+"Наиболее часто используемый метод доступа к частным репозиториям — доступ по "
+"SSH. Чтобы дать Weblate такой доступ к вышестоящему репозиторию, авторизуйте "
+"его публичный SSH-ключ (смотрите раздел :ref:`weblate-ssh-key`)."
 
 #: ../../vcs.rst:52
 msgid ""
@@ -36934,15 +36881,15 @@ msgid ""
 "fails to connect to the host should it be changed later (see :ref:`verify-"
 "ssh`)."
 msgstr ""
-"Weblate также сохраняет при первом подключении отпечаток ключа хоста и не "
-"сможет подключиться к хосту, если позже ключ будет изменён (смотрите раздел :"
-"ref:`verify-ssh`)."
+"Weblate также сохраняет отпечаток ключа сервера при первом подключении и не "
+"сможет подключиться к нему, если в дальнейшем ключ будет изменён (смотрите "
+"раздел :ref:`verify-ssh`)."
 
 #: ../../vcs.rst:58
 msgid "In case adjustment is needed, do so from the Weblate admin interface:"
 msgstr ""
-"В случае необходимости его изменения это можно сделать из интерфейса "
-"администратора Weblate:"
+"В случае, если его будет необходимо изменить, это можно сделать из "
+"интерфейса администратора Weblate:"
 
 #: ../../vcs.rst:66
 msgid "Weblate SSH key"
@@ -36980,15 +36927,15 @@ msgstr "Сделайте резервную копию сгенерирован�
 
 #: ../../vcs.rst:85
 msgid "Verifying SSH host keys"
-msgstr "Проверка SSH-ключей хоста"
+msgstr "Проверка SSH-ключей сервера"
 
 #: ../../vcs.rst:87
 msgid ""
 "Weblate automatically remembers the SSH host keys on first access and "
 "remembers them for further use."
 msgstr ""
-"Weblate автоматически запоминает SSH-ключи хостов при первом к ним обращении "
-"и запоминает их для дальнейшего использования."
+"Weblate автоматически запоминает для дальнейшего использования SSH-ключи "
+"серверов при первом обращении к ним."
 
 #: ../../vcs.rst:90
 msgid ""
@@ -36999,13 +36946,14 @@ msgid ""
 "`Submit`.  Verify its fingerprint matches the server you added. They are "
 "shown in the confirmation message:"
 msgstr ""
-"В случае, если вы хотите проверить их перед подключением к репозиторию, "
-"проверьте SSH-ключи хостов серверов, к которым вы собираетесь получить "
-"доступ через пункт :guilabel:`Добавить ключ хоста`, в том же разделе "
-"административного интерфейса. Введите имя хоста, к которому вы собираетесь "
-"получить доступ (например, ``gitlab.com``), и нажмите :guilabel:"
-"`Подтвердить`.  Убедитесь, что его отпечаток совпадает с отпечатком "
-"добавленного вами сервера. Они отображаются в сообщении о подтверждении:"
+"В случае, если вы хотите, подтвердить подлинность серверов до первого "
+"подключения к репозиторию, добавьте SSH-ключи своих серверов, к которым вы "
+"собираетесь подключаться, через пункт :guilabel:`Добавить ключ хоста`, в том "
+"же разделе интерфейса администратора. Введите имя хоста, к которому вы "
+"собираетесь получить доступ (например, ``gitlab.com``), и нажмите "
+":guilabel:`Подтвердить`. Убедитесь, что этот отпечаток совпадает с "
+"отпечатком ключа сервера, который вы добавили. Они отображаются в сообщении "
+"о подтверждении:"
 
 #: ../../vcs.rst:102
 msgid "GitHub repositories"
@@ -37038,9 +36986,10 @@ msgid ""
 "token and your GitHub account, see `Creating an access token for command-"
 "line use`_."
 msgstr ""
-"Для небольших развёртываний используйте HTTPS-аутентификацию с персональным "
-"токеном доступа и вашей GitHub’овской учётной записью, смотрите документ "
-"`Создание токена доступа для использования из командной строки`_."
+"Для небольших проектов используйте HTTPS-аутентификацию с персональным "
+"токеном доступа и вашей GitHub’овской учётной записью, смотрите подробности "
+"в документации GitHub'а: `Создание токена доступа для использования из "
+"командной строки`_."
 
 #: ../../vcs.rst:117
 msgid ""
@@ -37050,11 +36999,12 @@ msgid ""
 "translate. This approach is also used for Hosted Weblate, there is "
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
-"Для более крупных установок обычно лучше создать для Weblate специального "
-"пользователя, назначить ему сгенерированный в Weblate открытый SSH ключ "
-"(смотрите раздел :ref:`weblate-ssh-key`) и предоставить ему доступ ко всем "
-"репозиториям, которые вы хотите переводить. Этот подход также используется в "
-"Hosted Weblate, для этого есть выделенный пользователь :guilabel:`weblate`."
+"Для более крупных конфигураций обычно лучше создать для Weblate специального "
+"пользователя, назначить ему открытый SSH-ключ, сгенерированный Weblate ("
+"смотрите раздел :ref:`weblate-ssh-key`), и предоставить ему доступ ко всем "
+"репозиториям, которые вы собираетесь переводить. Этот подход также "
+"используется и наоблачном хостинге Weblate, для него на GitHub есть "
+"специальный пользователь :guilabel:`weblate`."
 
 #: ../../vcs.rst:125
 msgid ":ref:`hosted-push`"
@@ -37071,11 +37021,11 @@ msgid ""
 "the VCS repository configuration with the referenced component (``project/"
 "component`` in the example)."
 msgstr ""
-"Для совместного использования одного репозитория между различными "
-"компонентами можно использовать специальный URL-адрес вида ``weblate://"
-"проект/компонент``. Таким образом, компонент будет совместно использовать "
-"конфигурацию репозитория системы контроля версий с соответствующим "
-"компонентом (в примере это ``проект/компонент``)."
+"Для совместного использования одного репозитория различными компонентами "
+"можно использовать специальный URL-адрес вида ``weblate://проект/компонент``"
+". В таком случае, этот компонент будет совместно использовать один и тот же "
+"репозитарий совместно со вторым компонентом, на который он ссылается (в "
+"примере это ``проект/компонент``)."
 
 #: ../../vcs.rst:137
 msgid ""
@@ -37083,23 +37033,24 @@ msgid ""
 "finds component with matching repository setup. You can override this in "
 "last step of component configuration."
 msgstr ""
-"Weblate при создании компонента автоматически корректирует URL-адрес "
-"репозитория, когда находит компонент с подходящей настройкой репозитория. Вы "
-"можете переопределить эту настройку на последнем этапе конфигурации "
-"компонента."
+"При создании компонента, если Weblate находит другой компонент с таким же "
+"репозиторием, то он автоматически заменяет его на разделяемый репозиторий с "
+"внутренним URL-адресом. Вы можете переопределить это позже, на последнем "
+"этапе настройки компонента."
 
 #: ../../vcs.rst:141
 msgid "Reasons to use this:"
-msgstr "Причины для использования такого поведения:"
+msgstr "Зачем это нужно:"
 
 #: ../../vcs.rst:143
 msgid "Saves disk space on the server, the repository is stored just once."
 msgstr ""
-"Экономия дискового пространства на сервере, репозиторий хранится всего один."
+"Экономия дискового пространства на сервере: хранится только одна копия "
+"репозитория."
 
 #: ../../vcs.rst:144
 msgid "Makes the updates faster, only one repository is updated."
-msgstr "Ускорение обновлений, обновляется только один репозиторий."
+msgstr "Ускорение обновлений: обновляется только один репозиторий."
 
 #: ../../vcs.rst:145
 msgid ""
@@ -37115,8 +37066,7 @@ msgid ""
 "example :ref:`addon-weblate.git.squash`."
 msgstr ""
 "Некоторые надстройки могут работать с несколькими компонентами, совместно "
-"использующими один репозиторий, например, надстройка :ref:`addon-weblate.git."
-"squash`."
+"использующими один репозиторий, например, «:ref:`addon-weblate.git.squash`»."
 
 #: ../../vcs.rst:150
 msgid "HTTPS repositories"
@@ -37128,19 +37078,19 @@ msgid ""
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
-"Для доступа к защищённым HTTPS репозиториям включите в URL-адрес имя "
+"Для доступа к защищённым HTTPS-репозиториям включите в URL-адрес имя "
 "пользователя и пароль. Не волнуйтесь, Weblate обрежет эту информацию, когда "
-"адрес будет показываться пользователям (даже если им разрешено видеть адрес "
-"репозитория)."
+"адрес будет показываться пользователям (если им вообще будет разрешено "
+"просматривать адрес репозитория)."
 
 #: ../../vcs.rst:156
 msgid ""
 "For example the GitHub URL with authentication added might look like: "
 "``https://user:your_access_token@github.com/WeblateOrg/weblate.git``."
 msgstr ""
-"Например, URL-адрес GitHub с добавленной аутентификацией может выглядеть "
-"следующим образом: ``https://пользователь:ваш_токен_доступа@github.com/"
-"WeblateOrg/weblate.git``."
+"Например, URL-адрес GitHub с добавленной аутентификацией будет выглядеть "
+"примерно следующим образом: ``https://пользователь:ваш_токен_доступа@github."
+"com/WeblateOrg/weblate.git``."
 
 #: ../../vcs.rst:161
 msgid ""
@@ -37165,12 +37115,6 @@ msgstr ""
 "по HTTP/HTTPS через прокси-сервер, настройте СКВ на его использование."
 
 #: ../../vcs.rst:171
-#, fuzzy
-#| msgid ""
-#| "This can be done using the ``http_proxy``, ``https_proxy``, and "
-#| "``all_proxy`` environment variables, (as described in the `cURL "
-#| "documentation <https://curl.haxx.se/docs/>`_) or by enforcing it in the "
-#| "VCS configuration, for example:"
 msgid ""
 "This can be done using the ``http_proxy``, ``https_proxy``, and "
 "``all_proxy`` environment variables, (as described in the `cURL "
@@ -37178,8 +37122,8 @@ msgid ""
 "configuration, for example:"
 msgstr ""
 "Это можно сделать с помощью установки переменных окружения ``http_proxy``, "
-"``https_proxy`` и ``all_proxy`` (как описано в `документации cURL <https://"
-"curl.haxx.se/docs/>`_) или принудительно включив его использование в "
+"``https_proxy`` и ``all_proxy`` (как описано в `документации cURL "
+"<https://curl.se/docs/>`_) или принудительно включив его использование в "
 "конфигурации системы контроля версий, например:"
 
 #: ../../vcs.rst:181
@@ -37188,22 +37132,18 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
-"Настройка прокси должна выполняться под пользователем, запустившим Weblate "
-"(смотрите также раздел :ref:`file-permissions`) и с ``HOME=$DATA_DIR/home`` "
-"(смотрите :setting:`DATA_DIR`), иначе Git, запускаемый Weblate, не будет его "
-"использовать."
+"Настройка прокси должна выполняться под тем пользователем, от имени которого "
+"работает Weblate (смотрите также раздел :ref:`file-permissions`) и с ``HOME=$"
+"DATA_DIR/home`` (смотрите :setting:`DATA_DIR`), иначе процесс Git, "
+"запускаемый Weblate, не будет его использовать."
 
 #: ../../vcs.rst:187
-#, fuzzy
-#| msgid ""
-#| "`The cURL manpage <https://curl.haxx.se/docs/manpage.html>`_, `Git config "
-#| "documentation <https://git-scm.com/docs/git-config>`_"
 msgid ""
 "`The cURL manpage <https://curl.se/docs/manpage.html>`_, `Git config "
 "documentation <https://git-scm.com/docs/git-config>`_"
 msgstr ""
-"`Страница руководства по cURL <https://curl.haxx.se/docs/manpage.html>`_, "
-"`Документация по команде git config <https://git-scm.com/docs/git-config>`_"
+"`Man-страница cURL <https://curl.se/docs/manpage.html>`_, `Документация "
+"команды git config <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:194
 msgid "Git"
@@ -37315,9 +37255,10 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"Он добавляет с помощью `API Github’а`_ тонкий слой логики поверх :ref:`vcs-"
-"git`, который позволяет отправлять изменения перевода в виде запросов на "
-"извлечение, вместо того, чтобы отправлять их непосредственно в репозиторий."
+"Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `API "
+"Github'а`_, что позволяет отправлять изменения в переводе в виде запросов на "
+"извлечение вместо того, чтобы выполнять ``push`` непосредственно в "
+"репозиторий."
 
 #: ../../vcs.rst:263
 msgid ""
@@ -37348,7 +37289,7 @@ msgstr ""
 
 #: ../../vcs.rst:280 ../../vcs.rst:318 ../../vcs.rst:356
 msgid "You need to configure API credentials to make this work."
-msgstr ""
+msgstr "Чтобы это заработало, нужно будет настроить учётные данные API."
 
 #: ../../vcs.rst:284
 msgid ""
@@ -37364,9 +37305,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Просто добавляет с помощью `API GitLab’а`_ тонкий слой логики поверх :ref:"
-"`vcs-git`, который позволяет отправлять изменения перевода в виде запросов "
-"на слияние вместо того, чтобы отправлять их непосредственно в репозиторий."
+"Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `API "
+"GitLab'а`_, что позволяет отправлять изменения в переводе в виде запросов на "
+"слияние вместо того, чтобы выполнять ``push`` непосредственно в репозиторий."
 
 #: ../../vcs.rst:301
 msgid ""
@@ -37406,19 +37347,14 @@ msgid "Pagure"
 msgstr "Pagure"
 
 #: ../../vcs.rst:335
-#, fuzzy
-#| msgid ""
-#| "This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ "
-#| "to allow pushing translation changes as merge requests instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to "
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"Просто добавляет с помощью `API GitLab’а`_ тонкий слой логики поверх :ref:"
-"`vcs-git`, который позволяет отправлять изменения перевода в виде запросов "
-"на слияние вместо того, чтобы отправлять их непосредственно в репозиторий."
+"Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `API "
+"Pagure`_, что позволяет отправлять изменения в переводе в виде запросов на "
+"слияние вместо того, чтобы выполнять ``push`` непосредственно в репозиторий."
 
 #: ../../vcs.rst:339
 #, fuzzy
@@ -37458,16 +37394,12 @@ msgstr ""
 "их можно отправить в виде одного или нескольких запросов на слияние."
 
 #: ../../vcs.rst:360
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-#| "`GITHUB_CREDENTIALS`"
 msgid ""
 ":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
 "`PAGURE_CREDENTIALS`"
 msgstr ""
-":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
-"`GITHUB_CREDENTIALS`"
+":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, "
+":setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:369
 msgid "Gerrit"
@@ -37930,7 +37862,7 @@ msgstr "Проектный файл конфигурации"
 
 #: ../../wlc.rst:289
 msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\weblate.ini`"
-msgstr ""
+msgstr ":file:`C:\\\\Users\\\\ИМЯ\\\\AppData\\\\weblate.ini`"
 
 #: ../../wlc.rst:290
 msgid "User configuration file on Windows."
