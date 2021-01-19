@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-15 10:46+0000\n"
-"PO-Revision-Date: 2021-01-15 20:05+0000\n"
+"PO-Revision-Date: 2021-01-19 07:16+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -1498,7 +1498,7 @@ msgstr "Склеивание Git-коммитов"
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Склеивает Git-коммиты до отправки изменений."
+msgstr "Склеивает (squash) Git-коммиты перед отправкой изменений."
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -7172,7 +7172,7 @@ msgid ""
 "Django admin interface."
 msgstr ""
 "Управление пользователями Weblate отключено, вы можете изменить права в "
-"административной панели Django."
+"интерфейсе администратора Django."
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -7400,7 +7400,7 @@ msgstr ""
 
 #: weblate/templates/manage/ssh.html:60
 msgid "Known host keys"
-msgstr "Известные ключи хоста"
+msgstr "Известные ключи серверов"
 
 #: weblate/templates/manage/ssh.html:67 weblate/wladmin/forms.py:40
 msgid "Hostname"
@@ -7416,15 +7416,15 @@ msgstr "Отпечаток"
 
 #: weblate/templates/manage/ssh.html:86
 msgid "Add host key"
-msgstr "Добавить ключ хоста"
+msgstr "Добавить ключ сервера"
 
 #: weblate/templates/manage/ssh.html:90
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
-"Чтобы получить доступ к SSH-узлам, их ключи хоста нужно проверить. Ключ "
-"хоста можно получить, набрав в поле внизу имя домена или IP-адрес узла в "
+"Чтобы получить доступ к SSH-узлам, ключи этих серверов нужно сначала "
+"проверить. Эти ключи можно получить, набрав имя домена или IP-адрес узла в "
 "нижеприведённой форме."
 
 #: weblate/templates/manage/tools.html:35
@@ -10923,8 +10923,8 @@ msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
-"Не удалось проверить SSH-ключ хоста, добавьте его на странице SSH "
-"административного интерфейса."
+"Не удалось проверить SSH-ключ сервера, добавьте его на странице SSH "
+"интерфейса администратора."
 
 #: weblate/trans/models/component.py:1141
 msgid ""
@@ -12330,17 +12330,17 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Добавлен ключ хоста для %(host)s с отпечатком %(fingerprint)s (%(keytype)s). "
-"Проверьте, всё ли правильно."
+"Добавлен ключ сервера для %(host)s с отпечатком %(fingerprint)s (%(keytype)s)"
+". Проверьте, что он является подлинным."
 
 #: weblate/vcs/ssh.py:178
 msgid "Failed to fetch public key for a host!"
-msgstr "Не удалось извлечь открытый ключ для узла!"
+msgstr "Не удалось получить открытый ключ сервера!"
 
 #: weblate/vcs/ssh.py:184 weblate/vcs/ssh.py:187
 #, python-format
 msgid "Failed to get host key: %s"
-msgstr "Ошибка получения ключа хоста: %s"
+msgstr "Ошибка получения ключа сервера: %s"
 
 #: weblate/wladmin/forms.py:30
 msgid "Activation token"
