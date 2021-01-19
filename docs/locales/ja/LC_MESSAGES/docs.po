@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 11:47+0100\n"
-"PO-Revision-Date: 2021-01-19 06:16+0000\n"
+"PO-Revision-Date: 2021-01-19 07:16+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1610,9 +1610,8 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"アップストリームの単一言語の基本ファイルに合わせて、すべての翻訳ファイルを更"
-"新します。使われていない文字列は削除し、新しい文字列は原文のコピーとして追加"
-"します。"
+"すべての翻訳ファイルを更新して、単一言語の upstream ベース "
+"ファイルと一致させます。未使用の文字列は削除され、新しい文字列は原文のコピーとして追加されます。"
 
 #: ../../admin/addons.rst:392
 msgid ""
@@ -1653,17 +1652,16 @@ msgid ""
 "`weblate.addons.base.BaseAddon`, define the addon metadata and implement a "
 "callback which will do the processing."
 msgstr ""
-"自分でアドオンを作成することもでき、必要となるのは :class:`weblate.addons.base.BaseAddon` "
-"をサブクラス化し、アドオンのメタデータを定義し、処理を行うコールバックを実装することだけです。"
+"独自のアドオンも作成できます。必要なことは :class:`weblate.addons.base.BaseAddon` "
+"をサブクラス化し、アドオンのメタデータを定義し、処理を行うコールバックの実装だけです。"
 
 #: ../../admin/addons.rst:427
-#, fuzzy
 msgid ":doc:`../contributing/addons`"
 msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:432
 msgid "Executing scripts from addon"
-msgstr "アドオンからのスクリプト実行"
+msgstr "アドオンから実行するスクリプト"
 
 #: ../../admin/addons.rst:434
 msgid ""
@@ -1671,38 +1669,38 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
 msgstr ""
-"アドオンは外部スクリプトを実行するためにも使用できます。これは以前は Weblate "
-"に統合されていましたが、現在はスクリプトをアドオンでラップするコードを書かなければなりません。"
+"アドオンは、外部スクリプトを実行するためにも使用できます。以前は Weblate "
+"に統合されていましたが、現在はスクリプトをアドオンでラップするコードの記述が必要です。"
 
 #: ../../admin/addons.rst:441
 msgid "For installation instructions see :ref:`custom-addon-modules`."
-msgstr "インストール方法については :ref:`custom-addon-modules` を参照してください。"
+msgstr "インストールの方法は :ref:`custom-addon-modules` を確認してください。"
 
 #: ../../admin/addons.rst:443
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
-msgstr "スクリプトは、任意のコンポーネントの VCS リポジトリのルートをカレントディレクトリとして実行されます。"
+msgstr "スクリプトは、指定したコンポーネントの VCS リポジトリのルートを、カレント ディレクトリとして実行されます。"
 
 #: ../../admin/addons.rst:446
 msgid "Additionally, the following environment variables are available:"
-msgstr "加えて、以下の環境変数が利用可能です。"
+msgstr "さらに利用可能な環境変数:"
 
 #: ../../admin/addons.rst:450
 msgid "Version control system used."
-msgstr "使用されているバージョン管理システム。"
+msgstr "使用中のバージョン管理システム。"
 
 #: ../../admin/addons.rst:454
 msgid "Upstream repository URL."
-msgstr "アップストリームリポジトリURL。"
+msgstr "Upstream リポジトリの URL。"
 
 #: ../../admin/addons.rst:458
 msgid "Absolute path to VCS repository."
-msgstr "VCSリポジトリへの絶対パス。"
+msgstr "VCS リポジトリへの絶対パス。"
 
 #: ../../admin/addons.rst:464
 msgid "Repository branch configured in the current component."
-msgstr "現在のコンポーネントで設定されたリポジトリのブランチ。"
+msgstr "現在のコンポーネントに設定したリポジトリのブランチ。"
 
 #: ../../admin/addons.rst:468
 msgid "Filemask for current component."
@@ -1710,33 +1708,33 @@ msgstr "現在のコンポーネントのファイルマスク。"
 
 #: ../../admin/addons.rst:472
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr "モノリンガル翻訳のためのファイル名テンプレート（空欄でも構いません）。"
+msgstr "単一言語翻訳用のテンプレートのファイル名（空欄でも可）。"
 
 #: ../../admin/addons.rst:478
 msgid "Filename of the file used for creating new translations (can be empty)."
-msgstr "新規翻訳を作成する際のファイル名（空欄でも構いません）。"
+msgstr "新しい翻訳の作成用のファイル名（空欄でも可）。"
 
 #: ../../admin/addons.rst:483
 msgid "Fileformat used in current component."
-msgstr "現在のコンポーネントで使われるファイル形式。"
+msgstr "現在のコンポーネントで使用するファイル形式。"
 
 #: ../../admin/addons.rst:487
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
-msgstr "現在処理されている翻訳の言語（コンポーネントレベルのフックでは利用できません）。"
+msgstr "現在実行中の翻訳言語（コンポーネント レベルのフックでは利用できません）。"
 
 #: ../../admin/addons.rst:492
 msgid "Previous HEAD on update (available only when running post update hook)."
-msgstr "以前のHEADのアップデート（アップデート後のフックを実行している場合のみ利用可能）。"
+msgstr "更新時の以前の HEAD（更新後フックを実行している場合にのみ使用可能）。"
 
 #: ../../admin/addons.rst:498
 msgid "Component slug used to construct URL."
-msgstr "URLを構築する際に使用するコンポーネントスラッグ。"
+msgstr "コンポーネント URL の設定時に使用するスラッグ。"
 
 #: ../../admin/addons.rst:504
 msgid "Project slug used to construct URL."
-msgstr "URLを構築する際に使用するプロジェクトスラッグ。"
+msgstr "プロジェクト URL の設定時に使用するスラッグ。"
 
 #: ../../admin/addons.rst:510
 msgid "Component name."
@@ -1748,11 +1746,11 @@ msgstr "プロジェクト名。"
 
 #: ../../admin/addons.rst:522
 msgid "Component URL."
-msgstr "コンポーネントURL。"
+msgstr "コンポーネント URL。"
 
 #: ../../admin/addons.rst:528
 msgid "Project engage URL."
-msgstr "プロジェクトエンゲージURL。"
+msgstr "プロジェクト参加 URL。"
 
 #: ../../admin/addons.rst:532 ../../faq.rst:256
 msgid ":ref:`component`"
@@ -1760,7 +1758,7 @@ msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:535
 msgid "Post update repository processing"
-msgstr ""
+msgstr "更新後のリポジトリ処理"
 
 #: ../../admin/addons.rst:537
 msgid ""
@@ -32429,9 +32427,8 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
-"プライベート リポジトリに接続するために最もよく使用される方法は、SSH による接"
-"続です。この方法でアップストリーム リポジトリに接続するために、Weblate SSH 公"
-"開鍵（参照: :ref:`weblate-ssh-key`）を承認します。"
+"プライベート リポジトリに接続するために最もよく使用される方法は、SSH による接続です。SSH で upstream リポジトリに接続するために、"
+"Weblate SSH 公開鍵（参照: :ref:`weblate-ssh-key`）を承認します。"
 
 #: ../../vcs.rst:52
 msgid ""
