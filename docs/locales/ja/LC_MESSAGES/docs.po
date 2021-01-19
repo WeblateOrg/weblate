@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 11:47+0100\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
+"PO-Revision-Date: 2021-01-20 01:31+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -9007,6 +9007,8 @@ msgid ""
 "only limitation on this is that Celery and Wsgi servers need access to :"
 "setting:`DATA_DIR`."
 msgstr ""
+"ほとんどの場合、すべてのサービスを単一の（仮想）サーバー上で実行しますが、インストールの負荷が高い場合は、サービスを分割できます。唯一の制限は、"
+"Celery サーバーと Wsgi サーバーは :setting:`DATA_DIR` へのアクセスが必要なことです。"
 
 #: ../../admin/install.rst:1208
 msgid ""
@@ -9014,14 +9016,16 @@ msgid ""
 "otherwise files in the :setting:`DATA_DIR` will be stored with mixed "
 "ownership, leading to runtime issues."
 msgstr ""
+"WSGI プロセスは、Celery プロセスと同じユーザーとして実行することが必要です。異なると、:setting:`DATA_DIR` "
+"内のファイルの所有権は混在した状態で保存され、実行時に問題が発生します。"
 
 #: ../../admin/install.rst:1212
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr ""
+msgstr ":ref:`file-permissions` および :ref:`celery` も確認してください。"
 
 #: ../../admin/install.rst:1215
 msgid "Running web server"
-msgstr ""
+msgstr "Web サーバーの実行"
 
 #: ../../admin/install.rst:1217
 msgid ""
@@ -9029,10 +9033,12 @@ msgid ""
 "program. Django is usually executed as uWSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
+"Weblate の実行は、他の Django ベースのプログラムの実行と同じことです。通常 Django は uWSGI または fcgi "
+"として実行されます（次の Web サーバー例の確認）。"
 
 #: ../../admin/install.rst:1221
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr ""
+msgstr "テスト目的での、Django の組み込み Web サーバーの使用方法:"
 
 #: ../../admin/install.rst:1229
 msgid ""
@@ -9040,6 +9046,8 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
+"このサーバーを運用環境では使用しないでください。セキュリティ監査や性能試験を受けていません。 :djadmin:`django:runserver` の "
+"Django ドキュメントも確認してください。"
 
 #: ../../admin/install.rst:1235
 msgid ""
@@ -9048,16 +9056,19 @@ msgid ""
 "see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
+"Django 組み込みサーバーは開発専用であるため、:setting:`DEBUG` "
+"が有効な場合にのみ静的ファイルが提供されます。運用環境で使用するには、:ref:`uwsgi`、:ref:`apache`、:ref:`apache-"
+"gunicorn`、および :ref:`static-files` の設定を確認してください。"
 
 #: ../../admin/install.rst:1243
 msgid "Serving static files"
-msgstr ""
+msgstr "静的ファイルの提供"
 
 #: ../../admin/install.rst:1247
 msgid ""
 "Prior to version 2.4, Weblate didn't properly use the Django static files "
 "framework and the setup was more complex."
-msgstr ""
+msgstr "バージョン 2.4 以前では、Weblate が Django 静的ファイル フレームワークを適切に使用せず設定が難解でした。"
 
 #: ../../admin/install.rst:1250
 msgid ""
@@ -9066,39 +9077,43 @@ msgid ""
 "files into a directory specified by the :setting:`django:STATIC_ROOT` "
 "setting (this defaults to a ``static`` directory inside :setting:`DATA_DIR`)."
 msgstr ""
+"Django は、静的ファイルを 1 つのディレクトリーに集約することが必要です。実現には、:samp:`weblate collectstatic "
+"--noinput` を実行します。これにより、:setting:`django:STATIC_ROOT` "
+"設定に指定したディレクトリに静的ファイルがコピーされます（デフォルトでは、 :setting:`DATA_DIR` 内の ``static`` "
+"ディレクトリ）。"
 
 #: ../../admin/install.rst:1255
 msgid ""
 "It is recommended to serve static files directly from your web server, you "
 "should use that for the following paths:"
-msgstr ""
+msgstr "静的ファイルは、Web サーバーから直接提供することをお勧めします。静的ファイルが必要なパス:"
 
 #: ../../admin/install.rst:1259
 msgid ":file:`/static/`"
-msgstr ""
+msgstr ":file:`/static/`"
 
 #: ../../admin/install.rst:1259
 msgid ""
 "Serves static files for Weblate and the admin interface (from defined by "
 "``STATIC_ROOT``)."
-msgstr ""
+msgstr "Weblate および管理インタフェースの静的ファイルの提供（``STATIC_ROOT`` に設定済）。"
 
 #: ../../admin/install.rst:1261
 msgid ":file:`/media/`"
-msgstr ""
+msgstr ":file:`/media/`"
 
 #: ../../admin/install.rst:1262
 msgid "Used for user media uploads (e.g. screenshots)."
-msgstr ""
+msgstr "ユーザーメディアのアップロードに使用する（例: スクリーンショット）。"
 
 #: ../../admin/install.rst:1264
 msgid ":file:`/favicon.ico`"
-msgstr ""
+msgstr ":file:`/favicon.ico`"
 
 #: ../../admin/install.rst:1264
 msgid ""
 "Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`."
-msgstr ""
+msgstr ":file:`/static/favicon.ico` を提供するようにルールを書き直すことが必要。"
 
 #: ../../admin/install.rst:1268
 msgid ""
@@ -9110,7 +9125,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1275
 msgid "Content security policy"
-msgstr ""
+msgstr "コンテンツ セキュリティ ポリシー"
 
 #: ../../admin/install.rst:1277
 msgid ""
@@ -9120,6 +9135,9 @@ msgid ""
 "default set up to work with Weblate and its configuration, but this might "
 "need customization for your environment."
 msgstr ""
+"Weblate のデフォルト設定では、``weblate.middleware.SecurityMiddleware`` ミドルウェアが有効となり"
+"、``Content-Security-Policy`` または ``X-XSS-Protection`` などのセキュリティ関連の HTTP "
+"ヘッダーが設定されます。デフォルトでは、これらは Weblate の設定で動作するように設定されていますが、環境によっては変更が必要です。"
 
 #: ../../admin/install.rst:1284
 msgid ""
@@ -9131,7 +9149,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1293
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr ""
+msgstr "NGINX および uWSGI の設定例"
 
 #: ../../admin/install.rst:1296
 msgid ""
@@ -9141,41 +9159,47 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
+"運用環境の WEB サーバーを実行するには、Weblate とセットでインストールされた wsgi ラッパーを使用します（virtual env "
+"の場合、:file:`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py` "
+"としてインストールされる）。 Python 検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で ``"
+"virtualenv = /home/user/weblate-env`` の使用）。"
 
 #: ../../admin/install.rst:1302
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
-msgstr ""
+msgstr "次の設定では、NGINX WEB サーバーの下で Weblate を uWSGI として実行します。"
 
 #: ../../admin/install.rst:1304
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
-msgstr ""
+msgstr "NGINX の設定（ :file:`weblate/examples/weblate.nginx.conf` に設定可能）:"
 
 #: ../../admin/install.rst:1309
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
-msgstr ""
+msgstr "uWSGI の設定（ :file:`weblate/examples/weblate.uwsgi.ini` に設定可能）。"
 
 #: ../../admin/install.rst:1316
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1321
 msgid "Sample configuration for Apache"
-msgstr ""
+msgstr "Apache の設定例"
 
 #: ../../admin/install.rst:1323 ../../admin/install.rst:1365
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
-msgstr ""
+msgstr "Weblate で WSGI を使用する場合は、prefork MPM の使用をお勧めします。"
 
 #: ../../admin/install.rst:1325
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "mod_wsgi (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
+"次の設定では、Weblate は WSGI として実行されます。有効化が必要な mod_wsgi の設定方法（:file:`weblate/"
+"examples/apache.conf` に設定可能）:"
 
 #: ../../admin/install.rst:1333
 msgid ""
@@ -9183,6 +9207,8 @@ msgid ""
 "variant of the modwsgi. Usually it is available as a separate package, for "
 "example ``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate には Python3 が必要なので、modwsgi で Python 3 variant "
+"が実行されていることを確認してください。通常、``libapache2-mod-wsgi-py3`` のように、個別のパッケージとして入手できます。"
 
 #: ../../admin/install.rst:1339
 msgid ":ref:`production-encoding`, :doc:`django:howto/deployment/wsgi/modwsgi`"
@@ -9191,57 +9217,63 @@ msgstr ""
 
 #: ../../admin/install.rst:1345
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr ""
+msgstr "Apache と Gunicorn の設定例"
 
 #: ../../admin/install.rst:1347
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
+"次の設定は、Gunicorn および Apache 2.4 で Weblate を実行する方法（:file:`weblate/examples/"
+"apache.gunicorn.conf` に設定可能）:"
 
 #: ../../admin/install.rst:1355
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
-msgstr ""
+msgstr ":doc:`django:howto/deployment/wsgi/gunicorn`"
 
 #: ../../admin/install.rst:1359
 msgid "Running Weblate under path"
-msgstr ""
+msgstr "パスの下での Weblate の実行"
 
 #: ../../admin/install.rst:1363
 msgid "This is supported since Weblate 1.3."
-msgstr ""
+msgstr "これは、Weblate 1.3 から対応。"
 
 #: ../../admin/install.rst:1367
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using mod_wsgi (also available as :file:`weblate/examples/apache-path.conf`):"
 msgstr ""
+"``/weblate`` 内で Weblate を提供する Apache の設定例。再び mod_wsgi の設定方法（also available "
+"as :file:`weblate/examples/apache-path.conf` に設定可能）:"
 
 #: ../../admin/install.rst:1373
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
-msgstr ""
+msgstr "さらに、:file:`weblate/settings.py` の変更が必要です。"
 
 #: ../../admin/install.rst:1382
 msgid "Background tasks using Celery"
-msgstr ""
+msgstr "Celery を使用するバックグラウンド タスク"
 
 #: ../../admin/install.rst:1386
 msgid ""
 "Weblate uses Celery to process background tasks. A typical setup using Redis "
 "as a backend looks like this:"
-msgstr ""
+msgstr "Weblate は Celery を使ってバックグラウンド タスクを処理します。Redis をバックエンドとして使用する一般的な設定例:"
 
 #: ../../admin/install.rst:1397
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
 msgstr ""
+":ref:`Redis broker configuration in Celery <celery:broker-redis-"
+"configuration>`"
 
 #: ../../admin/install.rst:1399
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place, but this will have performance impact on Weblate:"
-msgstr ""
+msgstr "開発で使用できる、すべてのタスクを適切に処理する Eager の設定例。Weblate の性能に影響を与えます:"
 
 #: ../../admin/install.rst:1408
 msgid ""
@@ -9249,6 +9281,8 @@ msgid ""
 "scheduled tasks, this can be done directly on the command line (which is "
 "mostly useful when debugging or developing):"
 msgstr ""
+"また、Celery ワーカーを起動してタスクを処理し、スケジュールしたタスクを開始することが必要です。コマンド "
+"ラインから直接実行する方法（これはデバッグや開発の際に便利です）:"
 
 #: ../../admin/install.rst:1419
 msgid ""
@@ -9256,14 +9290,16 @@ msgid ""
 "process, otherwise files in the :setting:`DATA_DIR` will be stored with "
 "mixed ownership, leading to runtime issues."
 msgstr ""
+"Celery プロセスは、WSGI プロセスと同じユーザーとして実行することが必要です。異なると、:setting:`DATA_DIR` "
+"内のファイルの所有権は混在した状態で保存され、実行時に問題が発生します。"
 
 #: ../../admin/install.rst:1423
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr ""
+msgstr ":ref:`file-permissions` および :ref:`server` も確認してください。"
 
 #: ../../admin/install.rst:1427
 msgid "Running Celery as system service"
-msgstr ""
+msgstr "システム サービスとして実行する Celery"
 
 #: ../../admin/install.rst:1429
 msgid ""
@@ -9272,27 +9308,31 @@ msgid ""
 "systemd, you can use the example files shipped in the :file:`examples` "
 "folder listed below."
 msgstr ""
+"多くの場合、Celery をデーモンとして実行しますが、これは :doc:`celery:userguide/daemonizing` でカバーされます。"
+"systemd を使用した最も一般的な Linux の設定では、次に示す :file:`examples` フォルダに付属のサンプル "
+"ファイルを使用できます。"
 
 #: ../../admin/install.rst:1434
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-weblate."
 "service`:"
 msgstr ""
+":file:`/etc/systemd/system/celery-weblate.service` に記述する Systemd ユニットの設定方法:"
 
 #: ../../admin/install.rst:1439
 msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
-msgstr ""
+msgstr ":file:`/etc/default/celery-weblate` に記述する環境の設定方法:"
 
 #: ../../admin/install.rst:1444
 msgid ""
 "Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:"
-msgstr ""
+msgstr ":file:`/etc/logrotate.d/celery` に記述する Logrotate の設定方法:"
 
 #: ../../admin/install.rst:1450
 msgid "Periodic tasks using Celery beat"
-msgstr ""
+msgstr "Celery beat を使用した定期的なタスク"
 
 #: ../../admin/install.rst:1452
 msgid ""
@@ -9300,6 +9340,8 @@ msgid ""
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
 "commit`."
 msgstr ""
+"Weblate には、スケジュール済みのタスク用の設定が組み込まれています。または、:file:`settings.py` "
+"で追加のタスクを設定できます。:ref:`lazy-commit` の例を確認してください。"
 
 #: ../../admin/install.rst:1455
 msgid ""
@@ -9307,10 +9349,13 @@ msgid ""
 "not working properly, it might not be running or its database was corrupted. "
 "Check the Celery startup logs in such case to figure out root cause."
 msgstr ""
+"タスクは Celery beats "
+"デーモンによって実行されることになっています。正常に動作していない場合は、実行していないか、データベースが破損していることがあります。このような場合は、"
+"Celery の起動ログを調べて、根本的な原因を突き止めます。"
 
 #: ../../admin/install.rst:1460
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Celery の状態の監視"
 
 #: ../../admin/install.rst:1462
 msgid ""
@@ -9318,6 +9363,8 @@ msgid ""
 "queues. In case the queue will get too long, you will also get configuration "
 "error in the admin interface."
 msgstr ""
+":djadmin:`celery_queues` を使用して、Celery タスク "
+"キューの現在の長さを確認できます。キューが長くなりすぎると、管理インターフェイスでも設定エラーが発生します。"
 
 #: ../../admin/install.rst:1468
 msgid ""
@@ -9325,6 +9372,8 @@ msgid ""
 "visible to user. In case you want to have overview on such failures, it is "
 "recommended to configure :ref:`collecting-errors`."
 msgstr ""
+"デフォルトでは、Celery エラーは Celery ログにのみ記録され、ユーザーには表示されません。このような障害の概要を知りたいときは、:ref"
+":`collecting-errors` の設定をお勧めします。"
 
 #: ../../admin/install.rst:1474
 msgid ""
@@ -9338,17 +9387,17 @@ msgstr ""
 
 #: ../../admin/install.rst:1482
 msgid "Monitoring Weblate"
-msgstr ""
+msgstr "Weblate の監視"
 
 #: ../../admin/install.rst:1484
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes."
-msgstr ""
+msgstr "Weblate は、例えば Kubernetes を使った簡単なシステム診断で使用する ``/healthz/`` URLを提供します。"
 
 #: ../../admin/install.rst:1490
 msgid "Collecting error reports"
-msgstr ""
+msgstr "エラー レポートの収集"
 
 #: ../../admin/install.rst:1492
 msgid ""
@@ -9358,20 +9407,25 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
+"Weblate は、他のソフトウェアと同じように失敗することがあります。有用な障害状態を収集するには、サードパーティのサービスを使用して、そのような情報を"
+"収集することをお勧めします。これは、Celery "
+"タスクが失敗した場合にとても便利です。失敗した場合、ログにエラーが報告されるだけで、ログには通知されません。Weblate が対応するサービス:"
 
 #: ../../admin/install.rst:1499
 msgid "Sentry"
-msgstr ""
+msgstr "Sentry"
 
 #: ../../admin/install.rst:1501
 msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
+"Weblate には、`Sentry <https://sentry.io/>`_への対応が組み込み済みです。使用方法、:file:`settings."
+"py` への :setting:`SENTRY_DSN` 設定のみ:"
 
 #: ../../admin/install.rst:1509
 msgid "Rollbar"
-msgstr ""
+msgstr "Rollbar"
 
 #: ../../admin/install.rst:1511
 msgid ""
@@ -9379,20 +9433,22 @@ msgid ""
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
+"Weblate には `Rollbar <https://rollbar.com/>`_への対応が組み込み済みです。使用方法は、 `Rollbar "
+"notifier for Python <https://docs.rollbar.com/docs/python/>`_の指示に従うだけです。"
 
 #: ../../admin/install.rst:1514
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr ""
+msgstr "つまり、:file:`settings.py` に設定が必要:"
 
 #: ../../admin/install.rst:1533
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
-msgstr ""
+msgstr "他のすべてが自動的に統合して、サーバー側とクライアント側の両方のエラーを収集します。"
 
 #: ../../admin/install.rst:1542
 msgid "Migrating Weblate to another server"
-msgstr ""
+msgstr "Weblate を別のサーバーに移行"
 
 #: ../../admin/install.rst:1544
 msgid ""
@@ -9400,10 +9456,12 @@ msgid ""
 "data in few locations which you should migrate carefully. The best approach "
 "is to stop Weblate for the migration."
 msgstr ""
+"Weblate を別のサーバーに移行するのは非常に簡単ですが、慎重に移行することが必要な少数の場所にデータが保存されています。最適な方法は、移行のために "
+"Weblate を停止することです。"
 
 #: ../../admin/install.rst:1549
 msgid "Migrating database"
-msgstr ""
+msgstr "データベースの移行"
 
 #: ../../admin/install.rst:1551
 msgid ""
@@ -9412,6 +9470,8 @@ msgid ""
 "on one server and import it on the new one. Alternatively you can use "
 "replication in case your database supports it."
 msgstr ""
+"データベースのバックエンドによっては、データベースを移行するオプションが複数あります。最も簡単な方法は、1 つのサーバーにデータベースをダンプし、新しいサ"
+"ーバーにインポートすることです。データベースがレプリケーションに対応している場合は、レプリケーションを使用できます。"
 
 #: ../../admin/install.rst:1556
 msgid ""
@@ -9420,10 +9480,13 @@ msgid ""
 "want to migrate between different databases, the only option might be to use "
 "Django management to dump and import the database:"
 msgstr ""
+"最良の方法は、データベースの標準機能を使用することです。これらは通常、最も効果的です（例: :command:`mysqldump`もしくは "
+":command:`pg_dump`）。異なるデータベース間で移行する場合の、Django "
+"管理を使用してデータベースのダンプとインポートを行う唯一の方法:"
 
 #: ../../admin/install.rst:1569
 msgid "Migrating VCS repositories"
-msgstr ""
+msgstr "VCS リポジトリの移行"
 
 #: ../../admin/install.rst:1571
 msgid ""
@@ -9431,20 +9494,23 @@ msgid ""
 "well. You can simply copy them or use :command:`rsync` to do the migration "
 "more effectively."
 msgstr ""
+":setting:`DATA_DIR` に保存されている VCS リポジトリーも移行することが必要です。これをコピーするか、または "
+":command:`rsync` コマンドを使用して、より効率的に移行できます。"
 
 #: ../../admin/install.rst:1576
 msgid "Other notes"
-msgstr ""
+msgstr "その他の注意事項"
 
 #: ../../admin/install.rst:1578
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
 msgstr ""
+"Redis や Cron ジョブ、カスタム認証バックエンドなど、Weblate が使用していた可能性のある他のサービスの移動を忘れないでください。"
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
-msgstr ""
+msgstr "Docker を使用したインストール"
 
 #: ../../admin/install/docker.rst:4
 msgid ""
@@ -14824,7 +14890,7 @@ msgstr ":ref:`manage`、:ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
-msgstr "サンプル設定"
+msgstr "設定例"
 
 #: ../../admin/sample.rst:6
 msgid ""
