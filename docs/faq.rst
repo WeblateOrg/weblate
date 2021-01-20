@@ -492,7 +492,8 @@ actually translating.
 
 .. versionchanged:: 4.2
 
-   Translators can translate all components within a project in single run.
+   Translators can translate all the components of a project into a specific
+   language as a whole.
 
 .. _faq-codes:
 
