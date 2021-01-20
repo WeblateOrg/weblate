@@ -2431,26 +2431,46 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def update_variants(self):
         from weblate.trans.models import Unit
 
-        Variant.objects.filter(component=self).exclude(
+        # Delete stale regex variants
+        Variant.objects.filter(component=self).exclude(variant_regex="").exclude(
             variant_regex=self.variant_regex
         ).delete()
-        if not self.variant_regex:
-            return
-        variant_re = re.compile(self.variant_regex)
-        units = Unit.objects.filter(
-            translation__component=self, context__regex=self.variant_regex, variant=None
-        )
-        for unit in units.iterator():
-            if variant_re.findall(unit.context):
-                key = variant_re.sub("", unit.context)
-                unit.variant = Variant.objects.get_or_create(
-                    key=key, component=self, variant_regex=self.variant_regex
-                )[0]
-                unit.save(update_fields=["variant"])
+
+        # Handle regex based variants
+        if self.variant_regex:
+            variant_re = re.compile(self.variant_regex)
+            units = Unit.objects.filter(
+                translation__component=self,
+                context__regex=self.variant_regex,
+                variant=None,
+            )
+            for unit in units.iterator():
+                if variant_re.findall(unit.context):
+                    key = variant_re.sub("", unit.context)
+                    unit.variant = Variant.objects.get_or_create(
+                        key=key, component=self, variant_regex=self.variant_regex
+                    )[0]
+                    unit.save(update_fields=["variant"])
+
+        # Update variant links
         for variant in Variant.objects.filter(component=self).iterator():
-            Unit.objects.filter(
-                translation__component=self, variant=None, context=variant.key
-            ).update(variant=variant)
+            if variant.variant_regex:
+                Unit.objects.filter(
+                    translation__component=self, variant=None, context=variant.key
+                ).update(variant=variant)
+            else:
+                # Link based on source string
+                Unit.objects.filter(
+                    translation__component=self, variant=None, source=variant.key
+                ).update(variant=variant)
+                # Link defining units
+                Unit.objects.filter(
+                    translation__component=self,
+                    variant=None,
+                    id_hash__in=variant.defining_units.values_list(
+                        "id_hash", flat=True
+                    ),
+                ).update(variant=variant)
 
     def update_link_alerts(self, noupdate: bool = False):
         base = self.linked_component if self.is_repo_link else self
