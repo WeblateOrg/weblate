@@ -206,6 +206,7 @@ def remove_complimentary_checks(sender, instance, **kwargs):
         ).delete()
         for other in unit.same_source_units:
             other.translation.invalidate_cache()
+            other.clear_checks_cache()
 
     # Update source checks if needed
     if check_obj.target:

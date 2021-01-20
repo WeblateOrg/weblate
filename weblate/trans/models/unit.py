@@ -1001,10 +1001,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
 
-        # Ensure we get a fresh copy of checks
-        # It might be modified meanwhile by propagating to other units
-        self.clear_checks_cache()
-
         old_checks = self.all_checks_names
         create = []
 
@@ -1045,6 +1041,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if (needs_propagate and propagate is not False) or propagate is True:
             for unit in self.same_source_units:
                 try:
+                    # Ensure we get a fresh copy of checks
+                    # It might be modified meanwhile by propagating to other units
+                    unit.clear_checks_cache()
+
                     unit.run_checks(False)
                 except Unit.DoesNotExist:
                     # This can happen in some corner cases like changing
