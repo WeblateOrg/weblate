@@ -8,6 +8,7 @@ Not yet released.
 * Dropped mailing list field on project in favor of generic instructions for translators.
 * Added pseudolocale generation addon.
 * Added support for Term Base eXchange files.
+* Added support for manually defining string variants using a flag.
 
 Weblate 4.4.2
 -------------

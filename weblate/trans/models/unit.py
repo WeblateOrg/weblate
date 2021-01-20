@@ -38,6 +38,7 @@ from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
     get_distinct_translations,
@@ -369,6 +370,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if self.is_source:
             self.source_unit_save()
 
+        # Update manual variants
+        self.update_variants()
+
     def get_absolute_url(self):
         return "{}?checksum={}".format(
             self.translation.get_translate_url(), self.checksum
@@ -442,6 +446,40 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 unit.run_checks()
             if not self.is_bulk_edit and not self.is_batch_update:
                 self.translation.component.invalidate_stats_deep()
+
+    def update_variants(self):
+        old_flags = Flags(self.old_unit.extra_flags, self.old_unit.flags)
+        new_flags = Flags(self.extra_flags, self.flags)
+
+        old_variant = None
+        if old_flags.has_value("variant"):
+            old_variant = old_flags.get_value("variant")
+        new_variant = None
+        if new_flags.has_value("variant"):
+            new_variant = new_flags.get_value("variant")
+
+        # Check for relevant changes
+        if old_variant == new_variant:
+            return
+
+        # Delete stale variant
+        if old_variant:
+            for variant in self.defined_variants.all():
+                variant.defining_units.remove(self)
+                if variant.defining_units.count() == 0:
+                    variant.delete()
+                else:
+                    variant.unit_set.filter(id_hash=self.id_hash).update(variant=None)
+
+        # Add new variant
+        if new_variant:
+            variant = Variant.objects.get_or_create(
+                key=new_variant, component=self.translation.component
+            )[0]
+            variant.defining_units.add(self)
+
+        # Update variant links
+        self.translation.component.update_variants()
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
