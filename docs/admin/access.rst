@@ -16,7 +16,7 @@ The permission system is built around definable roles carrying a
 certain set of permissions. These roles can be applied between groups for one or more projects or
 one or more components between projects. See :ref:`auth-model` for more details.
 
-After installation a default set of groups is created, and you can use those
+After installation a default set of groups are created, and you can use those
 to assign users roles for the whole instance (see :ref:`default-groups`). Additionally when
 :ref:`acl` is turned on, you can assign users to specific translation projects.
 More fine-grained configuration can be achieved using :ref:`custom-acl`.
@@ -172,11 +172,11 @@ Whenever a permission is checked to decide whether one is able to perform a
 given action, the check is carried out according to scope, and the following
 checks are performed in this order:
 
-1. Group :guilabel:`Component list` is matched against accessed component or project (for project-level access).
+1. The group :guilabel:`Component list` is matched against accessed component or project (for project-level access).
 
-2. Group :guilabel:`Components` are matched against accessed component or project (for project-level access).
+2. The group :guilabel:`Components` is matched against accessed component or project (for project-level access).
 
-3. Group :guilabel:`Projects` are matched against accessed project.
+3. The group :guilabel:`Projects` is matched against accessed project.
 
 Thus, granting access to a component gives the user access to the project it is in too.
 
@@ -189,7 +189,7 @@ Thus, granting access to a component gives the user access to the project it is 
 An additional step is performed if checking permission for the translation:
 
 
-4. Group :guilabel:`Languages` are matched against accessed translations, it is ignored for component- or project-level access.
+4. The group :guilabel:`Languages` is matched against accessed translations, it is ignored for component- or project-level access.
 
 .. hint::
 
