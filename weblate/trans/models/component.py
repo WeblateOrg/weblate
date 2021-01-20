@@ -733,6 +733,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.translations_count = None
         self.translations_progress = 0
         self.acting_user = None
+        self.batch_checks = False
+        self.batched_checks = set()
 
     def generate_changes(self, old):
         def getvalue(base, attribute):
@@ -1805,6 +1807,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
+        self.batch_checks = True
+        self.batched_checks = set()
         was_change = False
         translations = {}
         languages = {}
@@ -1942,6 +1946,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             component_post_update.send(sender=self.__class__, component=self)
 
         self.unload_sources()
+
+        # Batch checks
+        if self.batched_checks:
+            from weblate.checks.tasks import batch_update_checks
+
+            transaction.on_commit(
+                lambda: batch_update_checks.delay(self.id, list(self.batched_checks))
+            )
+        self.batch_checks = False
+        self.batched_checks = set()
 
         self.log_info("updating completed")
         return was_change
