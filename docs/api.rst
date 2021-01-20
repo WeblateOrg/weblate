@@ -2480,7 +2480,7 @@ update individual repositories; see
 
         :ref:`github-setup`
             For instruction on setting up GitHub integration
-        https://docs.github.com/en/free-pro-team@latest/github/extending-github/about-webhooks
+        https://docs.github.com/en/github/extending-github/about-webhooks
             Generic information about GitHub Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
