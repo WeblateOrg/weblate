@@ -1750,7 +1750,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             "source_review",
         )
         widgets = {
-            "access_control": forms.RadioSelect(),
+            "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
         }
 
