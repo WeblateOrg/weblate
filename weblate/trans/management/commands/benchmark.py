@@ -18,6 +18,7 @@
 #
 
 import cProfile
+import os
 import pstats
 
 from weblate.trans.models import Component, Project
@@ -31,11 +32,16 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
+        prefix = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        )
         parser.add_argument(
             "--profile-sort", default="cumulative", help="sort order for profile stats"
         )
         parser.add_argument(
-            "--profile-filter", default="/weblate", help="filter for profile stats"
+            "--profile-filter",
+            default=prefix,
+            help=f"filter for profile stats, defaults to {prefix}",
         )
         parser.add_argument(
             "--profile-count",
