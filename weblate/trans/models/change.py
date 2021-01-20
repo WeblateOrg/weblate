@@ -372,18 +372,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_MARKED_EDIT,
     }
 
-    # Actions considered as being translated in consistency check
-    ACTIONS_TRANSLATED = {
-        ACTION_CHANGE,
-        ACTION_NEW,
-        ACTION_AUTO,
-        ACTION_ACCEPT,
-        ACTION_REVERT,
-        ACTION_UPLOAD,
-        ACTION_REPLACE,
-        ACTION_APPROVE,
-    }
-
     # Actions shown on the repository management page
     ACTIONS_REPOSITORY = {
         ACTION_COMMIT,

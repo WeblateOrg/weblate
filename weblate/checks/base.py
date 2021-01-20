@@ -173,6 +173,48 @@ class Check:
 
         return lambda text: pattern.sub(lambda m: replacements[m.group(0)], text)
 
+    def handle_batch(self, unit, component):
+        component.batched_checks.add(self.check_id)
+        return self.check_id in unit.all_checks_names
+
+    def check_component(self, component):
+        return []
+
+    def perform_batch(self, component):
+        from weblate.checks.models import Check
+
+        handled = set()
+        changed = False
+        create = []
+        for unit in self.check_component(component):
+            # Handle ignore flags
+            if self.should_skip(unit):
+                continue
+            handled.add(unit.pk)
+
+            # Check is already there
+            if self.check_id in unit.all_checks_names:
+                continue
+
+            create.append(Check(unit=unit, dismissed=False, check=self.check_id))
+            changed = True
+
+        Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
+
+        # Delete stale checks
+        changed |= (
+            Check.objects.filter(
+                unit__translation__component=component,
+                check=self.check_id,
+            )
+            .exclude(unit_id__in=handled)
+            .delete()[0]
+        )
+
+        # Invalidate stats in case there were changes
+        if changed:
+            component.invalidate_stats_deep()
+
 
 class TargetCheck(Check):
     """Basic class for target checks."""

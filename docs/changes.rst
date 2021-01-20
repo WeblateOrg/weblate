@@ -9,6 +9,7 @@ Not yet released.
 * Added pseudolocale generation addon.
 * Added support for Term Base eXchange files.
 * Added support for manually defining string variants using a flag.
+* Improved performance of consistency checks.
 
 Weblate 4.4.2
 -------------
