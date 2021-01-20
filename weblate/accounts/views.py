@@ -105,7 +105,6 @@ from weblate.accounts.notifications import (
     SCOPE_COMPONENT,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
-    send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
@@ -552,12 +551,6 @@ def trial(request):
         )
         billing.owners.add(request.user)
         AuditLog.objects.create(request.user, request, "trial")
-        send_notification_email(
-            "en",
-            [a[1] for a in settings.ADMINS] + settings.ADMINS_BILLING,
-            "new_trial",
-            context={"user": request.user, "billing": billing},
-        )
         messages.info(
             request,
             _(
