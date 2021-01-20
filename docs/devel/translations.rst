@@ -29,9 +29,12 @@ Removing existing translations
 
 Components or the projects they are in can be removed in their entirety
 from :guilabel:`Removal` found in the administration tab shown to administrators
-of each project or component.
-A list of components to remove is shown, and typing in either the respective
-project or component slated for removal will confirm its deletion.
+of each project or component. Languages can be removed by navigating to the
+one to delete and finding the menu under Tools > Removal.
+
+A list of components to remove is shown, and typing in the entire name of
+the respective project, component or language slated for removal will
+confirm its deletion.
 
 If you want to remove single strings, removing them in the source file also
 removes them from translations.
