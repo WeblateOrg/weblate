@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-15 20:05+0000\n"
+"PO-Revision-Date: 2021-01-21 08:51+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -1396,28 +1396,20 @@ msgid "Source strings"
 msgstr "Kaynak dizgiler"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Çeviri oluştur"
+msgstr "Hedef çeviri"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Dizgi yaşı"
+msgstr "Dizgi öneki"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Dizgiler"
+msgstr "Dizgi soneki"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "Source and target have to be different translations."
-msgstr "Çevirileri kaydedebilmek için oturum açmanız gerekli!"
+msgstr "Kaynak ve hedef farklı çeviriler olmak zorundadır."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1429,13 +1421,15 @@ msgstr "Çeviri durumu hakkında ayrıntılı bilgi içeren bir dosya oluşturur
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Sözde yerel oluşturma"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Kaynak dizgilere önek ve sonek ekleyerek otomatik olarak bir sözde yerel "
+"çeviri oluşturur."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2545,10 +2539,8 @@ msgid "Replacements while rendering"
 msgstr "İşleme sırasında değiştirmeler"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Çeşitleri olan dizgiler"
+msgstr "Dizgi çeşidi"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3142,10 +3134,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI dosyası"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Term Base eXchange dosyası"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3812,35 +3802,25 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF doğrulaması başarısız oldu. İstek iptal edildi."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Bu HTTPS sitesi, web tarayıcınız tarafından gönderilmesi için bir 'Gönderen "
-"üstbilgisi' gerektiriyor, ancak hiçbiri gönderilmedi. Bu üstbilgi, "
+"Bu HTTPS sitesi, web tarayıcınız tarafından gönderilmesi için bir 'Gönderen' "
+"üstbilgisi gerektiriyor, ancak hiçbiri gönderilmedi. Bu üstbilgi, "
 "tarayıcınızın üçüncü şahıslar tarafından ele geçirilmemesini sağlamak için "
 "güvenlik nedeniyle gereklidir."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"Eğer tarayıcınızı 'Gönderen' üstbilgilerini göndermeyecek şekilde "
-"ayarladıysanız, lütfen bunu en azından bu site, HTTPS bağlantıları ya da "
-"'aynı kaynaklı' istekler için açın."
+"Eğer web tarayıcınızı 'Gönderen' üstbilgilerini göndermeyecek şekilde "
+"ayarladıysanız, lütfen bunu açın (en azından bu site için, HTTPS "
+"bağlantıları ya da 'aynı kaynaklı' istekler için) ."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3853,16 +3833,13 @@ msgstr ""
 "güvenlik nedeniyle gereklidir."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"Tarayıcınızı tanımlama bilgilerini kaydetmemesi için ayarladıysanız, lütfen "
-"en azından bu site veya 'aynı kaynaklı' istekler için yeniden açın."
+"Eğer tarayıcınızı tanımlama bilgilerini kaydetmemesi için ayarladıysanız, "
+"lütfen bunları yeniden açın (en azından bu site için ya da 'aynı kaynaklı' "
+"istekler için)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5334,7 +5311,7 @@ msgstr "Kimliği doğrulanmış her kullanıcı katkıda bulunabilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "VCS deposu herkese açık olabilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5344,10 +5321,8 @@ msgstr "Yalnızca seçilmiş kullanıcılar katkıda bulunabilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "Yalnızca seçilmiş kullanıcılar katkıda bulunabilir."
+msgstr "Yalnızca seçilen kullanıcılar VCS deposuna erişebilir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -10955,15 +10930,12 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini gözden geçirin."
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for atranslating different resources."
 msgstr ""
-"Tek dil (%s) için daha fazla dosya var, lütfen dosya düzenini ayarlayın ve "
+"%s dili için birden fazla dosya var, lütfen dosya maskesini ayarlayın ve "
 "farklı kaynakları çevirmek için bileşenleri kullanın."
 
 #: weblate/trans/models/component.py:2100
