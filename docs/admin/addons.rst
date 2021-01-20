@@ -232,8 +232,8 @@ Content
 
 .. _addon-weblate.generate.pseudolocale:
 
-Generate pseudolocale
----------------------
+Pseudolocale generation
+-----------------------
 
 Automatically generates a pseudolocale translation by adding prefix and suffix
 to source strings.

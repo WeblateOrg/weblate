@@ -62,7 +62,7 @@ class GenerateFileAddon(BaseAddon):
 class PseudolocaleAddon(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE, EVENT_DAILY)
     name = "weblate.generate.pseudolocale"
-    verbose = _("Generate pseudolocale")
+    verbose = _("Pseudolocale generation")
     description = _(
         "Automatically generates a pseudolocale translation by adding prefix and "
         "suffix to source strings."
