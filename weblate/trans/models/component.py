@@ -643,6 +643,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         It updates the back-end repository and regenerates translation data.
         """
+        from weblate.trans.tasks import component_after_save, update_checks
+
         self.set_default_branch()
 
         # Linked component cache
@@ -703,8 +705,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # the newsly created component
         bool(self.source_translation)
 
-        from weblate.trans.tasks import component_after_save
-
         task = component_after_save.delay(
             self.pk,
             changed_git,
@@ -714,6 +714,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             skip_push=kwargs.get("force_insert", False),
         )
         self.store_background_task(task)
+
+        if self.old_component.check_flags != self.check_flags:
+            update_checks.delay(self.pk)
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
