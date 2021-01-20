@@ -17,10 +17,32 @@ This can be done using :guilabel:`Start new translation` in :ref:`component`.
 
 .. note::
 
-    Project admins can always start translation within Weblate directly.
+    Project admins can always start translations within Weblate directly.
 
 Language files added manually to the VCS are added to the component when Weblate updates
-the repository. About repository update settings, see :ref:`update-vcs`.
+the repository. ref:`update-vcs` has info on updating repository settings.
+
+.. _removing-translation:
+
+Removing existing translations
+------------------------------
+
+Components or the projects they are in can be removed in their entirety
+from :guilabel:`Removal` found in the administration tab shown to administrators
+of each project or component.
+A list of components to remove is shown, and typing in either the respective
+project or component slated for removal will confirm its deletion.
+
+If you want to remove single strings, removing them in the source file also
+removes them from translations.
+
+.. note::
+
+    Project admins can always remove translations within Weblate directly.
+
+Language files deleted manually from the VCS are removed from the component when Weblate updates
+the repository. ref:`update-vcs` has info on updating repository settings.
+
 
 .. _variants:
 
