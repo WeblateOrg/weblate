@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-15 11:47+0100\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
-"Last-Translator: Igor Polyakov <igorpolyakov@protonmail.com>\n"
+"PO-Revision-Date: 2021-01-20 01:31+0000\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -37166,17 +37166,17 @@ msgid ""
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
 msgstr ""
-"Ведёт себя точно так же, как и сам Git, с той лишь разницей, что он всегда "
-"выполняет принудительную отправку. Он предназначен только для случая "
-"использования для переводов отдельного репозитория."
+"Этот вариант ведёт себя точно так же, как и Git, с той лишь разницей, что он "
+"всегда выполняет принудительную отправку. Он предназначен только для тех "
+"случаев, когда вы используете отдельный репозиторий для переводов."
 
 #: ../../vcs.rst:209
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
 msgstr ""
-"Используйте с осторожностью, поскольку он легко может потерять коммиты в "
-"вашем репозитории."
+"Используйте с осторожностью, поскольку это может привести к потере коммитов "
+"в вашем репозитории."
 
 #: ../../vcs.rst:213
 msgid "Customizing Git configuration"
@@ -37188,9 +37188,9 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
-"Weblate выполняет все команды системы контроля версий с установкой ``HOME="
-"$DATA_DIR/home`` (смотрите :setting:`DATA_DIR`), поэтому изменение "
-"конфигурации пользователя должно выполняться в ``DATA_DIR/home/.git``."
+"Weblate выполняет все команды системы контроля версий с установкой ``HOME=$"
+"DATA_DIR/home`` (смотрите :setting:`DATA_DIR`), поэтому изменение "
+"пользовательских настроек нужно выполнять в ``DATA_DIR/home/.git``."
 
 #: ../../vcs.rst:222
 msgid "Git remote helpers"
@@ -37201,9 +37201,9 @@ msgid ""
 "You can also use Git `remote helpers`_ for additionally supporting other "
 "version control systems, but be prepared to debug problems this may lead to."
 msgstr ""
-"Вы также можете использовать `удалённых помощников`_ Git для дополнительной "
-"поддержки других систем управления версиями, но будьте готовы к отладке "
-"проблем, которые могут за этим последовать."
+"Вы также можете использовать `удалённых помощников`_ Git, чтобы получить "
+"поддержку других систем контроля версий, но будьте готовы самостоятельно "
+"отлаживать проблемы, которые это может вызвать."
 
 #: ../../vcs.rst:227
 msgid ""
@@ -37213,19 +37213,18 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
-"В настоящее время помощники для Bazaar и Mercurial доступны в отдельных "
-"GitHub’овских репозиториях: `git-remote-hg`_ и `git-remote-bzr`_. Скачайте "
-"их вручную и поместите куда-нибудь в пути поиска (например, в :file:`~/"
-"bin`). Убедитесь, что у вас установлены соответствующие системы контроля "
-"версий."
+"В настоящее время в отдельных GitHub’овских репозиторияхдоступны помощники "
+"для Bazaar и Mercurial: `git-remote-hg`_ и `git-remote-bzr`_. Скачайте их "
+"вручную и поместите куда-нибудь в пути поиска (например, в :file:`~/bin`). "
+"Убедитесь, что у вас установлены соответствующие системы контроля версий."
 
 #: ../../vcs.rst:233
 msgid ""
 "Once you have these installed, such remotes can be used to specify a "
 "repository in Weblate."
 msgstr ""
-"После их установки такие удалённые репозитории можно будет использовать при "
-"указании репозитория в Weblate."
+"После их установки ссылки на такие удалённые репозитории можно будет "
+"указывать в качестве репозитория в Weblate."
 
 #: ../../vcs.rst:236
 msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar::"
@@ -37244,9 +37243,9 @@ msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
-"Неудобство использования удалённых помощников Git’а заключается в, на "
-"примере Mercurial, том, что удалённый помощник иногда создаёт новую "
-"оконечную фиксацию при обратном проталкивании изменений."
+"Неудобство использования удалённых помощников Git’а заключается , на примере "
+"Mercurial, в том, что удалённый помощник иногда создаёт новую оконечную "
+"фиксацию (tip) при отправке изменений обратно."
 
 #: ../../vcs.rst:260
 msgid ""
@@ -37356,40 +37355,28 @@ msgstr ""
 "слияние вместо того, чтобы выполнять ``push`` непосредственно в репозиторий."
 
 #: ../../vcs.rst:339
-#, fuzzy
-#| msgid ""
-#| "There is no need to use this to access Git repositories, ordinary :ref:"
-#| "`vcs-git` works the same, the only difference is how pushing to a "
-#| "repository is handled. With :ref:`vcs-git` changes are pushed directly to "
-#| "the repository, while :ref:`vcs-gitlab` creates merge request."
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"Нет необходимости использовать его для доступа к Git-репозиториям, обычный :"
-"ref:`vcs-git` работает так же, единственная разница заключается в том, как "
+"Нет необходимости использовать его для доступа к Git-репозиториям, обычный "
+":ref:`vcs-git` работает так же, единственная разница заключается в том, как "
 "выполняется отправка изменений в репозиторий. С помощью :ref:`vcs-git` "
-"изменения отправляются непосредственно в репозиторий, в то время как :ref:"
-"`vcs-gitlab` создаёт запрос на слияние."
+"изменения отправляются непосредственно в репозиторий, в то время как :ref"
+":`vcs-pagure` создаёт запрос на слияние."
 
 #: ../../vcs.rst:351
-#, fuzzy
-#| msgid "Pushing changes to GitLab as merge requests"
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "Отправка изменений в GitLab в виде запросов на слияние"
+msgstr "Отправка изменений в Pagure в виде запросов на слияние"
 
 #: ../../vcs.rst:353
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitLab repository, they can be "
-#| "sent as either one or many merge requests instead."
 msgid ""
 "If not wanting to push translations to a Pagure repository, they can be sent "
 "as either one or many merge requests instead."
 msgstr ""
-"Если вы не хотите отправлять переводы непосредственно в репозиторий GitLab, "
+"Если вы не хотите отправлять переводы непосредственно в репозиторий Pagure, "
 "их можно отправить в виде одного или нескольких запросов на слияние."
 
 #: ../../vcs.rst:360
@@ -37410,18 +37397,18 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
-"Добавляет с помощью инструмента `git-review`_ тонкий слой логики поверх :ref:"
-"`vcs-git`, который позволяет отправлять изменения перевода в виде запросов "
-"на рецензирование Gerrit, вместо того, чтобы отправлять их непосредственно в "
-"репозиторий."
+"Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `git-"
+"review`_ , что позволяет отправлять изменения в переводе в виде запросов на "
+"рецензирование Gerrit вместо того, чтобы выполнять ``push`` непосредственно "
+"в репозиторий."
 
 #: ../../vcs.rst:377
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories."
 msgstr ""
-"В документации Gerrit подробно описана конфигурация, необходимая для "
-"настройки таких репозиториев."
+"В документации Gerrit подробно описаны те настройки, которые необходимо "
+"сделать для использования таких репозиториев."
 
 #: ../../vcs.rst:385
 msgid "Mercurial"
@@ -37456,7 +37443,7 @@ msgstr ""
 "Для взаимодействия с хранилищем `subversion`_ Weblate использует команду "
 "`git-svn`_. Это Perl-скрипт, который позволяет использовать subversion из "
 "клиента Git’а, позволяя пользователям поддерживать полный клон внутреннего "
-"хранилища и фиксировать в него локально."
+"хранилища и коммитить в него локально."
 
 #: ../../vcs.rst:415
 msgid ""
@@ -37495,8 +37482,8 @@ msgid ""
 msgstr ""
 "Weblate ожидает, что вы заранее приняли сертификат и, если необходимо, свои "
 "учётные данные. Он будет искать возможность поместить их в каталог DATA_DIR. "
-"Примите сертификат, используя команду `svn` один раз с переменной окружения `"
-"$HOME`, установленной в каталог DATA_DIR:"
+"Один раз примите сертификат, используя команду `svn` с переменной окружения "
+"`$HOME`, установленной в значение DATA_DIR:"
 
 #: ../../vcs.rst:450
 msgid "Local files"
@@ -37522,10 +37509,11 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"В фоне Weblate создаст Git-репозиторий, и будет отслеживать все изменения. В "
-"случае, если вы позже решите использовать для хранения переводов систему "
-"контроля версий, у вас уже будет репозиторий внутри Weblate, на основе "
-"которого вы сможете настроить свою интеграцию."
+"Weblate создаст свой внутренний Git-репозиторий, в котором будут "
+"отслеживаться все изменения. В случае, если вы позже решите использовать "
+"систему контроля версий для хранения переводов, у вас уже будет готовый "
+"репозиторий внутри Weblate, на основе которого можно будет создать свой "
+"собственный."
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
@@ -37549,20 +37537,18 @@ msgstr ""
 "использования нижеприведённых команд необходимо установить модуль :mod:`wlc`:"
 
 #: ../../wlc.rst:30
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "Docker usage"
-msgstr "Опытный пользователь"
+msgstr "Использование Docker"
 
 #: ../../wlc.rst:32
 msgid "The Weblate Client is also available as a Docker image."
-msgstr ""
+msgstr "Клиент Weblate также доступен в виде образа Docker."
 
 #: ../../wlc.rst:34
 msgid ""
 "The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
 msgstr ""
+"Этот образ публикуется на Docker Hub: https://hub.docker.com/r/weblate/wlc"
 
 #: ../../wlc.rst:36
 msgid "Installing:"
@@ -37574,10 +37560,13 @@ msgid ""
 "deployed in localhost. The API URL and API_KEY can be configured through the "
 "arguments accepted by Weblate."
 msgstr ""
+"Контейнер Docker использует настройки по умолчанию Weblate и соединяется с "
+"API, развёрнутом на локальной машине. URL-адрес API и API_KEY можно "
+"настроить через параметры, принимаемые Weblate."
 
 #: ../../wlc.rst:46
 msgid "The command to launch the container uses the following syntax:"
-msgstr ""
+msgstr "У команды запуска контейнера следующий синтаксис:"
 
 #: ../../wlc.rst:58
 msgid ""
@@ -37585,6 +37574,9 @@ msgid ""
 "easiest approach is to add your current directory as :file:`/home/weblate` "
 "volume:"
 msgstr ""
+"Также вы можете передать :ref:`файлы конфигурации <wlc-config>` контейнеру "
+"Docker. Проще всего будет добавить текущий каталог в качестве тома :file:`/"
+"home/weblate`:"
 
 #: ../../wlc.rst:68
 msgid "Getting started"
@@ -37842,6 +37834,8 @@ msgid ""
 "You can get more detailed information on invoking individual commands by "
 "passing ``--help``, for example: ``wlc ls --help``."
 msgstr ""
+"Более подробную информацию по выполнению конкретных команд можно получить, "
+"передав параметр ``--help``, например, ``wlc ls --help``."
 
 #: ../../wlc.rst:279
 msgid "Configuration files"
@@ -37849,11 +37843,11 @@ msgstr "Файлы конфигурации"
 
 #: ../../wlc.rst:285
 msgid ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
-msgstr ""
+msgstr ":file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`"
 
 #: ../../wlc.rst:284
 msgid "The files with `.ini` extension are accepted as well."
-msgstr ""
+msgstr "Также допустимы и файлы с расширением `.ini`."
 
 #: ../../wlc.rst:286
 msgid "Per project configuration file"
@@ -37963,11 +37957,6 @@ msgid "Translation workflows"
 msgstr "Рабочие процессы перевода"
 
 #: ../../workflows.rst:6
-#, fuzzy
-#| msgid ""
-#| "Using Weblate is a process that brings your users closer to you, by "
-#| "bringing you closer to your translators. It is up to you to decide how "
-#| "many of its features you want to make use of."
 msgid ""
 "Using Weblate is a process that brings your users closer to you, by bringing "
 "you closer to your translators.  It is up to you to decide how many of its "
@@ -38034,22 +38023,16 @@ msgid "Needs editing"
 msgstr "На правку"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a fuzzy "
-#| "flag)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change. The translation is stored in the file, depending on the file format "
 "it might be marked as needing edit (for example as it gets a fuzzy flag in "
 "the Gettext file)."
 msgstr ""
-"Перевод нуждается в редактировании, обычно это результат изменения исходной "
+"Перевод нуждается в редактировании; обычно это результат изменения исходной "
 "строки. Перевод хранится в файле, в зависимости от формата файла он может "
-"быть помечен как нуждающийся в редактировании (например, получить флаг "
-"неточного перевода)."
+"быть помечен как нуждающийся в редактировании (например, ему будет присвоен "
+"флаг ``fuzzy`` (*неточный*) в Gettext-файле)."
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
