@@ -303,6 +303,8 @@ class Translation(
             is_new = False
         except KeyError:
             newunit = Unit(translation=self, id_hash=id_hash, state=-1)
+            # Avoid fetching empty list of checks from the database
+            newunit.all_checks = []
             is_new = True
 
         newunit.update_from_unit(unit, pos, is_new)

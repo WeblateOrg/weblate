@@ -969,6 +969,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
                 # Create source unit
                 source = source_units.create(id_hash=id_hash, **create)
+                # Avoid fetching empty list of checks from the database
+                source.all_checks = []
                 source.source_updated = True
                 Change.objects.create(
                     action=Change.ACTION_NEW_SOURCE, unit=source, user=self.acting_user
