@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.30.0 (6de2dd4) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.0.0 (22de19a) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3409,11 +3409,17 @@ var Sentry = (function (exports) {
     }
 
     var SENTRY_API_VERSION = '7';
-    /** Helper class to provide urls to different Sentry endpoints. */
+    /**
+     * Helper class to provide urls, headers and metadata that can be used to form
+     * different types of requests to Sentry endpoints.
+     * Supports both envelopes and regular event requests.
+     **/
     var API = /** @class */ (function () {
         /** Create a new instance of API */
-        function API(dsn) {
+        function API(dsn, metadata) {
+            if (metadata === void 0) { metadata = {}; }
             this.dsn = dsn;
+            this.metadata = metadata;
             this._dsnObject = new Dsn(dsn);
         }
         /** Returns the Dsn object. */
@@ -3457,6 +3463,7 @@ var Sentry = (function (exports) {
          * This is needed for node and the old /store endpoint in sentry
          */
         API.prototype.getRequestHeaders = function (clientName, clientVersion) {
+            // CHANGE THIS to use metadata but keep clientName and clientVersion compatible
             var dsn = this._dsnObject;
             var header = ["Sentry sentry_version=" + SENTRY_API_VERSION];
             header.push("sentry_client=" + clientName + "/" + clientVersion);
@@ -4129,11 +4136,36 @@ var Sentry = (function (exports) {
         return BaseBackend;
     }());
 
+    /** Extract sdk info from from the API metadata */
+    function getSdkMetadataForEnvelopeHeader(api) {
+        if (!api.metadata || !api.metadata.sdk) {
+            return;
+        }
+        var _a = api.metadata.sdk, name = _a.name, version = _a.version;
+        return { name: name, version: version };
+    }
+    /**
+     * Apply SdkInfo (name, version, packages, integrations) to the corresponding event key.
+     * Merge with existing data if any.
+     **/
+    function enhanceEventWithSdkInfo(event, sdkInfo) {
+        if (!sdkInfo) {
+            return event;
+        }
+        event.sdk = event.sdk || {
+            name: sdkInfo.name,
+            version: sdkInfo.version,
+        };
+        event.sdk.name = event.sdk.name || sdkInfo.name;
+        event.sdk.version = event.sdk.version || sdkInfo.version;
+        event.sdk.integrations = __spread((event.sdk.integrations || []), (sdkInfo.integrations || []));
+        event.sdk.packages = __spread((event.sdk.packages || []), (sdkInfo.packages || []));
+        return event;
+    }
     /** Creates a SentryRequest from an event. */
     function sessionToSentryRequest(session, api) {
-        var envelopeHeaders = JSON.stringify({
-            sent_at: new Date().toISOString(),
-        });
+        var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
+        var envelopeHeaders = JSON.stringify(__assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })));
         var itemHeaders = JSON.stringify({
             type: 'session',
         });
@@ -4148,10 +4180,12 @@ var Sentry = (function (exports) {
         // since JS has no Object.prototype.pop()
         var _a = event.tags || {}, samplingMethod = _a.__sentry_samplingMethod, sampleRate = _a.__sentry_sampleRate, otherTags = __rest(_a, ["__sentry_samplingMethod", "__sentry_sampleRate"]);
         event.tags = otherTags;
-        var useEnvelope = event.type === 'transaction';
+        var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
+        var eventType = event.type || 'event';
+        var useEnvelope = eventType === 'transaction';
         var req = {
-            body: JSON.stringify(event),
-            type: event.type || 'event',
+            body: JSON.stringify(sdkInfo ? enhanceEventWithSdkInfo(event, api.metadata.sdk) : event),
+            type: eventType,
             url: useEnvelope ? api.getEnvelopeEndpointWithUrlEncodedAuth() : api.getStoreEndpointWithUrlEncodedAuth(),
         };
         // https://develop.sentry.dev/sdk/envelopes/
@@ -4160,10 +4194,7 @@ var Sentry = (function (exports) {
         // deserialization. Instead, we only implement a minimal subset of the spec to
         // serialize events inline here.
         if (useEnvelope) {
-            var envelopeHeaders = JSON.stringify({
-                event_id: event.event_id,
-                sent_at: new Date().toISOString(),
-            });
+            var envelopeHeaders = JSON.stringify(__assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })));
             var itemHeaders = JSON.stringify({
                 type: event.type,
                 // TODO: Right now, sampleRate may or may not be defined (it won't be in the cases of inheritance and
@@ -4195,6 +4226,8 @@ var Sentry = (function (exports) {
         var client = new clientClass(options);
         hub.bindClient(client);
     }
+
+    var SDK_VERSION = '6.0.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4814,7 +4847,7 @@ var Sentry = (function (exports) {
             this._buffer = new PromiseBuffer(30);
             /** Locks transport after receiving rate limits in a response */
             this._rateLimits = {};
-            this._api = new API(this.options.dsn);
+            this._api = new API(options.dsn, options._metadata);
             // eslint-disable-next-line deprecation/deprecation
             this.url = this._api.getStoreEndpointWithUrlEncodedAuth();
         }
@@ -5083,7 +5116,7 @@ var Sentry = (function (exports) {
                 // We return the noop transport here in case there is no Dsn.
                 return _super.prototype._setupTransport.call(this);
             }
-            var transportOptions = __assign(__assign({}, this._options.transportOptions), { dsn: this._options.dsn });
+            var transportOptions = __assign(__assign({}, this._options.transportOptions), { dsn: this._options.dsn, _metadata: this._options._metadata });
             if (this._options.transport) {
                 return new this._options.transport(transportOptions);
             }
@@ -6034,9 +6067,6 @@ var Sentry = (function (exports) {
         UserAgent: UserAgent
     });
 
-    var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.30.0';
-
     /**
      * The Sentry Browser SDK Client.
      *
@@ -6077,12 +6107,6 @@ var Sentry = (function (exports) {
          */
         BrowserClient.prototype._prepareEvent = function (event, scope, hint) {
             event.platform = event.platform || 'javascript';
-            event.sdk = __assign(__assign({}, event.sdk), { name: SDK_NAME, packages: __spread(((event.sdk && event.sdk.packages) || []), [
-                    {
-                        name: 'npm:@sentry/browser',
-                        version: SDK_VERSION,
-                    },
-                ]), version: SDK_VERSION });
             return _super.prototype._prepareEvent.call(this, event, scope, hint);
         };
         /**
@@ -6177,8 +6201,19 @@ var Sentry = (function (exports) {
             }
         }
         if (options.autoSessionTracking === undefined) {
-            options.autoSessionTracking = false;
+            options.autoSessionTracking = true;
         }
+        options._metadata = options._metadata || {};
+        options._metadata.sdk = {
+            name: 'sentry.javascript.browser',
+            packages: [
+                {
+                    name: 'npm:@sentry/browser',
+                    version: SDK_VERSION,
+                },
+            ],
+            version: SDK_VERSION,
+        };
         initAndBind(BrowserClient, options);
         if (options.autoSessionTracking) {
             startSessionTracking();
@@ -6311,7 +6346,22 @@ var Sentry = (function (exports) {
             fcpResolved = true;
             possiblyEndSession();
         }
+        // We want to create a session for every navigation as well
+        addInstrumentationHandler({
+            callback: function () {
+                var _a;
+                if (!((_a = getCurrentHub()
+                    .getScope()) === null || _a === void 0 ? void 0 : _a.getSession())) {
+                    hub.startSession();
+                    hub.endSession();
+                }
+            },
+            type: 'history',
+        });
     }
+
+    // TODO: Remove in the next major release and rely only on @sentry/core SDK_VERSION and SdkInfo metadata
+    var SDK_NAME = 'sentry.javascript.browser';
 
     var windowIntegrations = {};
     // This block is needed to add compatibility with the integrations packages when used with a CDN
