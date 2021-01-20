@@ -367,20 +367,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if run_checks:
             self.run_checks(propagate_checks)
         if self.is_source:
-            # Run checks, update state and priority if flags changed
-            # or running bulk edit
-            if (
-                self.old_unit.extra_flags != self.extra_flags
-                or self.state != self.old_unit.state
-            ):
-                # We can not exclude current unit here as we need to trigger
-                # the updates below
-                for unit in self.unit_set.prefetch_full():
-                    unit.update_state()
-                    unit.update_priority()
-                    unit.run_checks()
-                if not self.is_bulk_edit and not self.is_batch_update:
-                    self.translation.component.invalidate_stats_deep()
+            self.source_unit_save()
 
     def get_absolute_url(self):
         return "{}?checksum={}".format(
@@ -439,6 +426,22 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 str(self.pk),
             )
         )
+
+    def source_unit_save(self):
+        # Run checks, update state and priority if flags changed
+        # or running bulk edit
+        if (
+            self.old_unit.extra_flags != self.extra_flags
+            or self.state != self.old_unit.state
+        ):
+            # We can not exclude current unit here as we need to trigger
+            # the updates below
+            for unit in self.unit_set.prefetch_full():
+                unit.update_state()
+                unit.update_priority()
+                unit.run_checks()
+            if not self.is_bulk_edit and not self.is_batch_update:
+                self.translation.component.invalidate_stats_deep()
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
