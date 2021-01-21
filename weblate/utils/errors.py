@@ -92,7 +92,11 @@ def init_error_collection(celery=False):
         )
         # Ignore Weblate logging, those are reported using capture_exception
         ignore_logger(ERROR_LOGGER)
+        LOGGER.info(
+            "configured Sentry error collection, extras: %s", settings.SENTRY_EXTRA_ARGS
+        )
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)
         rollbar.BASE_DATA_HOOK = celery_base_data_hook
+        LOGGER.info("configured Rollbar error collection")
