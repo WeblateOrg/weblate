@@ -61,7 +61,7 @@ Manual variants
 .. versionadded:: 4.5
 
 You can manually link specific strings using ``variant:SOURCE`` flag. This can
-be useful for bilingual transaltions which do not have keys to group strings
+be useful for bilingual translations which do not have keys to group strings
 automatically, or to group strings which do not have matching string, but
 should be considered together when translating.
 

@@ -30,7 +30,7 @@ changes (see :ref:`lazy-commit`). You can do so in the user interface
 This can be automated if you grant Weblate push access to your repository and
 configure :ref:`component-push` in the :ref:`component`.
 
-Alternateively, you can use :doc:`/api` to update translations
+Alternatively, you can use :doc:`/api` to update translations
 to match their latest version.
 
 .. seealso::
