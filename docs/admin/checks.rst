@@ -79,13 +79,13 @@ Here is a list of flags currently accepted:
     Mark this string as a variant of string with matching source. See :ref:`variants`.
 ``regex:REGEX``
     Regular expression to match translation, see :ref:`check-regex`.
-``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``, ``vue-format``
+``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``lua-format``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``, ``vue-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
     :ref:`check-qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:`check-vue-format`,
     :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
     :ref:`check-c-sharp-format`, :ref:`check-java-format`,
-    :ref:`check-java-messageformat`, :ref:`check-same`.
+    :ref:`check-java-messageformat`, :ref:`check-lua-format`, :ref:`check-same`.
 ``strict-same``
     Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
 ``ignore-bbcode``
@@ -110,6 +110,8 @@ Here is a list of flags currently accepted:
     Skip the "Java MessageFormat" quality check.
 ``ignore-javascript-format``
     Skip the "JavaScript format" quality check.
+``ignore-lua-format``
+    Skip the "Lua format" quality check.
 ``ignore-percent-placeholders``
     Skip the "Percent placeholders" quality check.
 ``ignore-perl-format``
