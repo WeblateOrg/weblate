@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
+"PO-Revision-Date: 2021-01-21 11:52+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -1408,28 +1408,20 @@ msgid "Source strings"
 msgstr "Brontekenreeksen"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Vertaling toevoegen"
+msgstr "Doelvertaling"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Ouderdom van tekenreeks"
+msgstr "Voorvoegsel van tekenreeks"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Tekenreeksen"
+msgstr "Achtervoegsel van tekenreeks"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "Source and target have to be different translations."
-msgstr "U moet zich aanmelden om vertalingen te kunnen opslaan!"
+msgstr "De bron en het doel dienen anders vertaald te zijn."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1442,13 +1434,15 @@ msgstr ""
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Pseudotaal genereren"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Genereert automatisch een pseudotaal door een voor- en achtervoegsel toe te "
+"kennen aan brontekenreeksen."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2559,10 +2553,8 @@ msgid "Replacements while rendering"
 msgstr "Vervangingen tijdens het laden"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Tekenreeksen met varianten"
+msgstr "Tekenreeksvariant"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3162,10 +3154,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI-bestand"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Term Base eXchange-bestand"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3833,34 +3823,24 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF-verificatie mislukt. Aanvraag afgebroken."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Deze HTTPS-website vereist dat uw webbrowser een 'doorverwijskop' meestuurt, "
+"Deze https-website vereist dat uw webbrowser een 'doorverwijskop' meestuurt, "
 "maar deze ontbreekt. Deze kop is om veiligheidsredenen vereist om er zeker "
 "van te zijn dat uw browser niet door derden wordt gekaapt."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
 "Als u uw webbrowser hebt ingesteld om geen 'doorverwijskoppen' mee te "
-"sturen, schakelt u deze dan weer in, op zijn minst voor deze website, of "
-"voor HTTPS-verbindingen, of voor 'same-origin'-aanvragen."
+"sturen, schakel deze dan weer in, op zijn minst voor deze website, of voor "
+"https-verbindingen, of voor 'same-origin'-aanvragen."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3873,10 +3853,6 @@ msgstr ""
 "van te zijn dat uw browser niet door derden wordt gekaapt."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
@@ -5375,7 +5351,7 @@ msgstr "Elke geverifieerde gebruiker kan bijdragen."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "De vcs-opslagruimte is mogelijk publiekelijk toegankelijk."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5385,10 +5361,8 @@ msgstr "Enkel gekozen gebruikers kunnen bijdragen."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "Enkel gekozen gebruikers kunnen bijdragen."
+msgstr "Enkel gekozen gebruikers hebben toegang tot de vcs-opslagruimte."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -11056,10 +11030,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Taalcode \"%s\" is te lang. Kijk het bestandsmasker na."
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for atranslating different resources."
