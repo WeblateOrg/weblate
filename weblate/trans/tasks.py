@@ -342,7 +342,10 @@ def auto_translate(
     with override(user.profile.language if user else "en"):
         translation = Translation.objects.get(pk=translation_id)
         translation.log_info(
-            "starting automatic translation %s", current_task.request.id
+            "starting automatic translation %s: %s: %s",
+            current_task.request.id,
+            auto_source,
+            engines,
         )
         auto = AutoTranslate(user, translation, filter_type, mode)
         if auto_source == "mt":
