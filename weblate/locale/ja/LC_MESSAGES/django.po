@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-21 12:42+0000\n"
+"PO-Revision-Date: 2021-01-21 13:20+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1401,7 +1401,7 @@ msgstr "文字列の接尾辞"
 
 #: weblate/addons/forms.py:478
 msgid "Source and target have to be different translations."
-msgstr "原文と翻訳対象は、異なる翻訳言語とすること。"
+msgstr "原文と翻訳対象は、別の言語にしてください。"
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1413,13 +1413,13 @@ msgstr "翻訳状況の詳細情報ファイルを生成します。"
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "疑似言語の生成"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
-msgstr ""
+msgstr "原文に接頭辞と接尾辞を追加して、疑似言語変換を自動的に生成します。"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2521,10 +2521,8 @@ msgid "Replacements while rendering"
 msgstr "表示中に置き換える"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "バリアントを含む文字列"
+msgstr "文字列の種類"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3115,10 +3113,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI ファイル"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Term Base eXchange ファイル"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3783,34 +3779,22 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF検証に失敗したため、リクエストは中断されました。"
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"この HTTPS サイトでは、Web ブラウザーからリファラ ヘッダを送信する必要があり"
-"ますが、何も送信されていません。このヘッダは、セキュリティ上の理由から、ブラ"
-"ウザが第三者に乗っ取られていないことを確かめるために必要です。"
+"この HTTPS サイトでは、Web ブラウザーから 'Referer' ヘッダを送信することが必要ですが、送信されていません。このヘッダは、セキュリティ"
+"上の理由から、ブラウザが第三者に乗っ取られていないことを確かめるために必要です。"
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"リファラ ヘッダを送信しないようにブラウザーを設定している場合は、少なくともこ"
-"のサイトの HTTPS 接続、または同一生成元の要求に対しては、ヘッダを ON にしてく"
-"ださい。"
+"'Referer' ヘッダを送信しないようにブラウザーを設定している場合は、設定を許可にしてください（少なくともこのサイトの HTTPS "
+"接続、または同一生成元の要求に対しては）。"
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3823,16 +3807,12 @@ msgstr ""
 "に必要です。"
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"Cookie を保存しないようにブラウザーを設定している場合は、少なくともこのサイト"
-"または同一生成元の要求に対しては、Cookie を再度有効にしてください。"
+"Cookie を保存しないようにブラウザーを設定している場合は、再度 Cookie "
+"を許可にしてください（少なくともこのサイトまたは同一生成元の要求に対しては）。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5306,7 +5286,7 @@ msgstr "認証済みの任意のユーザーが貢献できます。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "VCS リポジトリは、すべてのユーザーに公開されることがあります。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5316,10 +5296,8 @@ msgstr "選ばれたユーザーのみ貢献できます。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "選ばれたユーザーのみ貢献できます。"
+msgstr "選択したユーザーのみが、VCS リポジトリにアクセスできます。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -10853,16 +10831,11 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "言語コード \"%s\" は長すぎます。ファイルマスクを確認してください。"
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for atranslating different resources."
-msgstr ""
-"単一言語 (%s) に複数のファイルが存在しています。ファイルマスクを調整し、違う"
-"リソースを翻訳するためのコンポーネントを使用してください。"
+msgstr "%s 言語に複数のファイルがあります。ファイルマスクを変更し、違うリソースを翻訳するためのコンポーネントを使用してください。"
 
 #: weblate/trans/models/component.py:2100
 msgid "Could not find any matching language, please check the filemask."
@@ -11271,7 +11244,7 @@ msgstr[0] "%(count)s 日前"
 #: weblate/trans/templatetags/translations.py:344
 #: weblate/trans/templatetags/translations.py:401
 msgid "now"
-msgstr "今"
+msgstr "たった今"
 
 #: weblate/trans/templatetags/translations.py:347
 msgid "a second ago"
