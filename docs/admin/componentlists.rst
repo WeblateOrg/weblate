@@ -41,4 +41,4 @@ Add components to the list automatically based on their slug by creating
 in both the project and the component fields, as shown on this image:
 
 .. image:: /images/componentlist-add.png
-   :alt: Image showing the Weblate aministration panel with the above configuration filled in.
+   :alt: Image showing the Weblate administration panel with the above configuration filled in.
