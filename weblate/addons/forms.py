@@ -475,5 +475,5 @@ class PseudolocaleAddonForm(BaseAddonForm):
     def clean(self):
         if self.cleaned_data["source"] == self.cleaned_data["target"]:
             raise forms.ValidationError(
-                _("Source and target have to be different translations.")
+                _("Source and target have to be a different languages.")
             )
