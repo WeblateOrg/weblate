@@ -238,9 +238,11 @@ Pseudolocale generation
 Automatically generates a pseudolocale translation by adding prefix and suffix
 to source strings.
 
-Pseudolocales are useful for testing localization in the application. You will
-easily spot which strings are not being properly localized (they do not contain
-generated strings) or where localized strings might not fit into layout.
+Pseudolocales are useful for testing if all strings that should be localized
+are actually prepared for localization. This is done by altering source strings
+so it would be easy to spot a string which has not been altered and running the
+application with those strings as a translation. Also it would be find strings
+which localized counterparts might not fit into the layout.
 
 .. hint::
 

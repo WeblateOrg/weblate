@@ -67,8 +67,8 @@ Here is a list of flags currently accepted:
 ``font-size:SIZE``
     Define font-size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
-    Define font-spacing for rendering checks, see :ref:`fonts`.
-``placeholders:NAME``
+    Define letter spacing for rendering checks, see :ref:`fonts`.
+``placeholders:NAME:NAME2:...``
     Placeholder strings expected in translation, see :ref:`check-placeholders`.
 ``replacements:FROM:TO:FROM2:TO2...``
     Replacements to perform when checking resulting text parameters (for

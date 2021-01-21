@@ -87,12 +87,13 @@ Verifying SSH host keys
 Weblate automatically stores the SSH host keys on first access and remembers
 them for further use.
 
-In case you want to verify the key fingerpring before connecting to the repository, verify the
-SSH host keys of the servers you are going to access in :guilabel:`Add host
-key`, from the same section of the admin interface. Enter the hostname you are
-going to access (e.g. ``gitlab.com``), and press :guilabel:`Submit`.  Verify
-its fingerprint matches the server you added. They are shown in the
-confirmation message:
+In case you want to verify the key fingerprint before connecting to the
+repository, add the SSH host keys of the servers you are going to access in
+:guilabel:`Add host key`, from the same section of the admin interface. Enter
+the hostname you are going to access (e.g. ``gitlab.com``), and press
+:guilabel:`Submit`. Verify its fingerprint matches the server you added.
+
+The added keys with fingerprints are shown in the confirmation message:
 
 .. image:: images/ssh-keys-added.png
 

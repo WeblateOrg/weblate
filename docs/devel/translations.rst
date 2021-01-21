@@ -62,7 +62,7 @@ Manual variants
 
 You can manually link specific strings using ``variant:SOURCE`` flag. This can
 be useful for bilingual translations which do not have keys to group strings
-automatically, or to group strings which do not have matching string, but
+automatically, or to group strings which keys are not matching, but
 should be considered together when translating.
 
 .. note::
