@@ -2085,7 +2085,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     _(
                         "There is more than one file for %s language, "
                         "please adjust the filemask and use components "
-                        "for atranslating different resources."
+                        "for translating a different resources."
                     )
                     % lang
                 )
