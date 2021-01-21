@@ -9,7 +9,7 @@
 
     <ul>
     {% if not analysis.monolingual %}
-      <li>{% trans "You might be using a monolingual translation file as a bilingual one. If that is the case, please set the monolingual base language file origin." %} {% documentation_icon "formats" "bimono" %}</li>
+      <li>{% trans "You might be using a monolingual translation file as a bilingual one. If that is the case, please set the monolingual base language file location." %} {% documentation_icon "formats" "bimono" %}</li>
     {% endif %}
     <li>{% trans "In case translation to the source language is desired, please change the source language in the component settings." %} {% documentation_icon "admin/projects" "component-source_language" %}</li>
     <li>{% trans "If the translation file for the source language is not needed, please remove it from the repository." %}</li>
