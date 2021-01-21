@@ -25,12 +25,7 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import IGNORE_WORDS
-from weblate.checks.format import (
-    C_PRINTF_MATCH,
-    PHP_PRINTF_MATCH,
-    PYTHON_BRACE_MATCH,
-    PYTHON_PRINTF_MATCH,
-)
+from weblate.checks.format import FLAG_RULES
 from weblate.checks.languages import LANGUAGES
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
@@ -80,15 +75,11 @@ def strip_format(msg, flags):
 
     These are quite often not changed by translators.
     """
-    if "python-format" in flags:
-        regex = PYTHON_PRINTF_MATCH
-    elif "python-brace-format" in flags:
-        regex = PYTHON_BRACE_MATCH
-    elif "php-format" in flags:
-        regex = PHP_PRINTF_MATCH
-    elif "c-format" in flags:
-        regex = C_PRINTF_MATCH
-    elif "qt-format" in flags:
+    for format_flag, (regex, _is_position_based) in FLAG_RULES.items():
+        if format_flag in flags:
+            return regex.sub("", msg)
+
+    if "qt-format" in flags:
         regex = QT_FORMAT_MATCH
     elif "qt-plural-format" in flags:
         regex = QT_PLURAL_MATCH
