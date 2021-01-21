@@ -85,11 +85,11 @@ WLT.Editor = (function () {
     /* Direction toggling */
     this.$editor.on("change", ".direction-toggle", function () {
       var $this = $(this);
+      var direction = $this.find("input").val();
+      var container = $this.closest(".translation-item");
 
-      $this
-        .closest(".translation-item")
-        .find(".translation-editor")
-        .attr("dir", $this.find("input").val());
+      container.find(".translation-editor").attr("dir", direction);
+      container.find(".highlighted-output").attr("dir", direction);
     });
 
     /* Special characters */
