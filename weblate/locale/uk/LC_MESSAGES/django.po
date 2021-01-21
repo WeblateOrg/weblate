@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-20 15:19+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2021-01-21 08:51+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -1416,26 +1416,20 @@ msgid "Source strings"
 msgstr "Джерельні рядки"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Створити переклад"
+msgstr "Цільовий переклад"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Вік рядків"
+msgstr "Префікс рядка"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Рядки"
+msgstr "Суфікс рядка"
 
 #: weblate/addons/forms.py:478
 msgid "Source and target have to be different translations."
-msgstr ""
+msgstr "Джерело та ціль мають бути різними перекладами."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1447,13 +1441,15 @@ msgstr "Створює файл з докладними відомостями �
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Створення псевдолокалей"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Автоматично створює псевдолокаль перекладу, додавши префікс і суфікс до "
+"джерельних рядків."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2567,10 +2563,8 @@ msgid "Replacements while rendering"
 msgstr "Заміни під час обробки"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Рядки з варіантами"
+msgstr "Варіант рядка"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3164,10 +3158,8 @@ msgid "Inno Setup INI file"
 msgstr "Файл INI Inno Setup"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "Intermediate language file"
 msgid "Term Base eXchange file"
-msgstr "Проміжний мовний файл"
+msgstr "Файл Term Base eXchange"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3840,36 +3832,24 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Помилка перевірки CSRF. Запит відхилений."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Ви бачите це повідомлення, тому що даний сайт використовує захищене "
-"з'єднання і вимагає, щоб заголовок «Referer» був переданий вашим браузером, "
-"але він не був ним переданий. Даний заголовок необхідний з міркувань "
-"безпеки, щоб переконатися, що ваш браузер не був зламаний третьою стороною."
+"Цей сайт з HTTPS вимагає надсилання вашим браузером заголовка «Referer», але "
+"його не було надіслано. Цей заголовок необхідний з міркувань безпеки, щоб "
+"переконатися, що ваш браузер не зламано сторонніми особами."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"Якщо ви налаштували свій браузер таким чином, щоб заборонити йому передавати "
-"заголовок «Referer», будь ласка, дозвольте йому відсилати даний заголовок "
-"принаймні для даного сайту, або для всіх HTTPS-з'єднань, або для подібних "
-"запитів."
+"Якщо ви заборонили своєму браузеру надсилати заголовок «Referer», дозвольте "
+"йому надсилати цей заголовок принаймні для цього сайту, або для всіх HTTPS-"
+"з'єднань, або для запитів спільного походження."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3882,17 +3862,13 @@ msgstr ""
 "щоб переконатися, що ваш браузер не було зламано сторонніми особами."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"Якщо ви налаштували веб-переглядач не зберігати файли cookie, будь ласка, "
-"увімкніть їх ще раз, принаймні для цього веб-сайту або для запитів \"того "
-"самого походження\"."
+"Якщо ви налаштували переглядач мережі не зберігати файли cookie, увімкніть "
+"їх ще раз (принаймні для цього вебсайту або для запитів «спільного "
+"походження»)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5395,7 +5371,7 @@ msgstr "Будь-який авторизований користувач мож
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "Сховище VCS може бути відкритим для всіх."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5405,10 +5381,8 @@ msgstr "Тільки обрані користувачі можуть брати
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "Тільки обрані користувачі можуть брати участь."
+msgstr "Лише вибрані користувачі можуть отримати доступ до сховища VCS."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -11068,16 +11042,13 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Мовний код \"%s\" надто довгий. Будь ласка, перевірте маску файлу."
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for atranslating different resources."
 msgstr ""
-"Знайдено кілька файлів для однієї мови (%s). Будь ласка, відрегулюйте маску "
-"і використовуйте складники для перекладу різних файлів."
+"Існує більше одного файлу для мови %s. Налаштуйте маску файлу та "
+"використовуйте складники для перекладу різних ресурсів."
 
 #: weblate/trans/models/component.py:2100
 msgid "Could not find any matching language, please check the filemask."
