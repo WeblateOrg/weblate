@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-20 20:05+0100\n"
-"PO-Revision-Date: 2021-01-20 15:19+0000\n"
+"PO-Revision-Date: 2021-01-21 08:51+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1477,13 +1477,15 @@ msgstr "Содержимое"
 
 #: ../../admin/addons.rst:236
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Генератор псевдолокалей"
 
 #: ../../admin/addons.rst:238
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Автоматически генерирует псевдолокаль, добавляя префикс и суффикс к исходным "
+"строкам."
 
 #: ../../admin/addons.rst:241
 msgid ""
@@ -1492,12 +1494,17 @@ msgid ""
 "contain generated strings) or where localized strings might not fit into "
 "layout."
 msgstr ""
+"Псевдолокали полезны для проверки локализации в самом приложении. Вы с "
+"лёгкостью заметите, какие строки не локализуется корректно (в них не будет "
+"строк) или где локализованные строки могут не уместится в разметку."
 
 #: ../../admin/addons.rst:247
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Хотя вы и можете использовать настоящие языки для проверки, но для этой цели "
+"в Weblate уже есть специальные псевдолокали: `en_XA` и `ar_XB`."
 
 #: ../../admin/addons.rst:253
 msgid "Contributors in comment"
@@ -3562,7 +3569,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
-msgstr "``font-family:NAME``"
+msgstr "``font-family:ШРИФТ``"
 
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
@@ -3572,17 +3579,17 @@ msgstr ""
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
-msgstr "``font-weight:WEIGHT``"
+msgstr "``font-weight:НАСЫЩЕННОСТЬ``"
 
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
 msgstr ""
-"Определяет вес шрифта (свойство ``font-weight``) для проверок отрисовки "
-"текста, смотрите раздел :ref:`fonts`."
+"Определяет насыщенность шрифта (свойство ``font-weight``) для проверок "
+"отрисовки текста, смотрите раздел :ref:`fonts`."
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
-msgstr "``font-size:SIZE``"
+msgstr "``font-size:РАЗМЕР``"
 
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
@@ -3592,17 +3599,17 @@ msgstr ""
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
-msgstr "``font-spacing:SPACING``"
+msgstr "``font-spacing:ШИРИНА``"
 
 #: ../../admin/checks.rst:70
 msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
-"Определяет разрядку шрифта (свойство ``font-spacing``) для проверок "
-"отрисовки текста, смотрите раздел :ref:`fonts`."
+"Определяет ширину межбуквенных интервалов (свойство ``font-spacing``) для "
+"проверок отрисовки текста, смотрите раздел :ref:`fonts`."
 
 #: ../../admin/checks.rst:71
 msgid "``placeholders:NAME``"
-msgstr "``placeholders:NAME``"
+msgstr "``placeholders:СТРОКА``"
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -3613,7 +3620,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:76
 msgid "``replacements:FROM:TO:FROM2:TO2...``"
-msgstr "``replacements:FROM:TO:FROM2:TO2...``"
+msgstr "``replacements:С:НА:С2:НА2...``"
 
 #: ../../admin/checks.rst:74
 msgid ""
@@ -3622,32 +3629,28 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"Замены, выполняемые при проверке параметров результирующего текста "
-"(например, в проверках :ref:`check-max-size` или :ref:`check-max-length`). "
-"Типичный случай использования этого флага — подстановка конкретных значений "
+"Замены, выполняемые при проверке параметров результирующего текста ("
+"например, в проверках :ref:`check-max-size` или :ref:`check-max-length`). "
+"Типовой случай использования этот флага — подстановка конкретных значений "
 "вместо заполнителей, чтобы гарантировать, что текст впишется в отведённые "
-"ему границы даже при использовании длинных строк, например: ``replacements:"
-"%s:\"John Doe\"``."
+"ему границы даже при использовании длинных строк, например: "
+"``replacements:%s:\"Джон Доу\"``."
 
 #: ../../admin/checks.rst:78
 msgid "``variants:SOURCE``"
-msgstr ""
+msgstr "``variants:ИСТОЧНИК``"
 
 #: ../../admin/checks.rst:79
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to determine the variants of a string, see :ref:"
-#| "`variants`."
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
 msgstr ""
-"Регулярное выражение, используемое для определения вариантов строки, "
-"смотрите раздел :ref:`variants`."
+"Добавить отметку, что данная строка является вариантом строки, указанной в "
+"качестве источника. Смотрите раздел «:ref:`variants`»."
 
 #: ../../admin/checks.rst:80
 msgid "``regex:REGEX``"
-msgstr "``regex:REGEX``"
+msgstr "``regex:РЕГУЛЯРНОЕ_ВЫРАЖЕНИЕ``"
 
 #: ../../admin/checks.rst:81
 msgid "Regular expression to match translation, see :ref:`check-regex`."
@@ -5473,19 +5476,14 @@ msgstr ""
 "необходимых для отправки запросов на извлечение для обновления перевода."
 
 #: ../../admin/config.rst:735
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
-#| "access token <https://docs.github.com/en/free-pro-team@latest/github/"
-#| "authenticating-to-github/creating-a-personal-access-token>`_"
 msgid ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
 "access token <https://docs.github.com/en/github/authenticating-to-github/"
 "creating-a-personal-access-token>`_"
 msgstr ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Создание персонального "
-"токена доступа <https://docs.github.com/en/free-pro-team@latest/github/"
-"authenticating-to-github/creating-a-personal-access-token>`_"
+"токена доступа <https://docs.github.com/en/github/authenticating-to-github/"
+"creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:742
 msgid "GOOGLE_ANALYTICS_ID"
@@ -12678,8 +12676,6 @@ msgid "Normalizing underscores and dashes."
 msgstr "Нормализация подчёркиваний и дефисов."
 
 #: ../../admin/languages.rst:24
-#, fuzzy
-#| msgid "Looking up built in language aliaes."
 msgid "Looking up built in language aliases."
 msgstr "Поиск по встроенным псевдонимам языка."
 
@@ -15065,6 +15061,9 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
+"По умолчанию у членов группы :guilabel:`Пользователи` и анонимных "
+"пользователей есть доступ к репозиториям публичных проектов через роли "
+":guilabel:`Доступ к репозиторию` и :guilabel:`Опытный пользователь`."
 
 #: ../../admin/optionals.rst:62
 msgid "Billing"
@@ -16231,12 +16230,6 @@ msgstr ""
 "языки."
 
 #: ../../admin/projects.rst:425
-#, fuzzy
-#| msgid ""
-#| "When set, the source strings are based on this file, but all other "
-#| "languagess are based on :ref:`component-template`. In case the string is "
-#| "not translated into the source lanugage, translating to other languages "
-#| "is prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
 "are based on :ref:`component-template`. In case the string is not translated "
@@ -16246,8 +16239,8 @@ msgstr ""
 "Если он задан, то исходные строки будут взяты из этого файла, а переводы на "
 "все остальные языки — из :ref:`одноязычных базовых файлов <component-"
 "template>`. В случае, если строка не «переведена» на исходный язык, перевод "
-"на другие языки запрещается. Этот запрет можно использовать для :ref:"
-"`контроля качества исходных строк <source-quality-gateway>`."
+"на другие языки запрещается. Этот запрет можно использовать для :ref:`"
+"контроля качества исходных строк <source-quality-gateway>`."
 
 #: ../../admin/projects.rst:432
 msgid ""
@@ -16836,11 +16829,6 @@ msgstr ""
 "которые используются в нескольких проектах."
 
 #: ../../admin/projects.rst:755
-#, fuzzy
-#| msgid ""
-#| "Sharing component doesn't change it's access control. It makes it only "
-#| "visible when browsing other projects. User still need to have access to "
-#| "the actual component in order to be able to browse or translate it."
 msgid ""
 "Sharing component doesn't change its access control. It makes it only "
 "visible when browsing other projects. User still need to have access to the "
@@ -20396,14 +20384,8 @@ msgid "For instruction on setting up GitHub integration"
 msgstr "Инструкция по настройке интеграции с GitHub"
 
 #: ../../api.rst:2483
-#, fuzzy
-#| msgid ""
-#| "https://docs.github.com/en/free-pro-team@latest/github/extending-github/"
-#| "about-webhooks"
 msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
-msgstr ""
-"https://docs.github.com/en/free-pro-team@latest/github/extending-github/"
-"about-webhooks"
+msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2484
 msgid "Generic information about GitHub Webhooks"
@@ -20667,28 +20649,22 @@ msgstr ""
 "использовать общие инструкции для переводчиков."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added bulk edit addon."
 msgid "Added pseudolocale generation addon."
-msgstr "Добавлена надстройка «Массовая правка»."
+msgstr "Добавлена надстройка «Генерация псевдолокалей»."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added support for app store metadata files."
 msgid "Added support for Term Base eXchange files."
-msgstr "Добавлена поддержка файлов метаданных app store."
+msgstr "Добавлена поддержка файлов формата Term Base eXchange."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Added support for manually defining string variants using a flag."
-msgstr "Добавлена поддержка группировки строковых форм."
+msgstr ""
+"Добавлена поддержка ручного объявления вариантов строк с помощью флага "
+"``variants``."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of changing labels."
 msgid "Improved performance of consistency checks."
-msgstr "Улучшена производительность смены меток."
+msgstr "Улучшена производительность проверок согласованности."
 
 #: ../../changes.rst:15
 msgid "Weblate 4.4.2"
@@ -29245,14 +29221,6 @@ msgid "Updating target language files"
 msgstr "Обновление файлов целевых языков"
 
 #: ../../devel/integration.rst:80
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :guilabel:`template`, and not in "
-#| "actual translations. It does not however perform any automatic cleanup of "
-#| "stale strings as that might have unexpected outcomes. If you want to do "
-#| "this, please install :ref:`addon-weblate.cleanup.generic` addon which "
-#| "will handle the cleanup according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :ref:`component-template`, and not in actual "
@@ -29262,12 +29230,13 @@ msgid ""
 "the cleanup according to your requirements."
 msgstr ""
 "Для одноязычных файлов (см. :ref:`formats`) Weblate может добавлять новые "
-"строки перевода, отсутствующие как в :guilabel:`шаблоне`, так и в реальных "
-"переводах. Однако он не выполняет какую-либо автоматическую очистку "
-"устаревших строк, так как это может привести к неожиданным результатам. Если "
-"же вы хотите, чтобы она выполнялась, то установите :ref:`соответствующую "
-"надстройку <addon-weblate.cleanup.generic>`, которая и будет производить "
-"такую очистку в соответствии с вашими требованиями."
+"строки перевода, отсутствующие как в ref:`базовом файле <component-template>`"
+", так и в реальных переводах. Однако он не выполняет какую-либо "
+"автоматическую очистку устаревших строк, так как это может привести к "
+"неожиданным результатам. Если же вы хотите, чтобы она выполнялась, то "
+"установите :ref:`соответствующую надстройку <addon-weblate.cleanup.generic>`"
+", которая и будет производить такую очистку в соответствии с вашими "
+"требованиями."
 
 #: ../../devel/integration.rst:87
 msgid ""
@@ -30173,28 +30142,25 @@ msgid "String variants"
 msgstr "Варианты строк"
 
 #: ../../devel/translations.rst:30
-#, fuzzy
-#| msgid ""
-#| "Variants are useful to group several strings together so that translators "
-#| "can see all variants of the string at one place. You can define regular "
-#| "expression to group the strings in the :ref:`component`:"
 msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
 msgstr ""
 "Варианты полезны для группировки нескольких строк, чтобы переводчики могли "
-"видеть все варианты строки в одном месте. Вы можете задать регулярное "
-"выражение для группировки строк в :ref:`настройках компонента <component>`:"
+"видеть все варианты строки в одном месте."
 
 #: ../../devel/translations.rst:34
 msgid "Automated key based variants"
-msgstr ""
+msgstr "Автоматическая группировка вариантов на основе ключевых строк"
 
 #: ../../devel/translations.rst:38
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolignual translations in the :ref:`component`:"
 msgstr ""
+"Вы можете задать регулярное выражение для группировки строк на основе "
+"ключевых строк одноязычных переводов в :ref:`настройках компонента "
+"<component>`:"
 
 #: ../../devel/translations.rst:43
 msgid ""
@@ -30250,10 +30216,8 @@ msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 msgstr "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 
 #: ../../devel/translations.rst:59
-#, fuzzy
-#| msgid "String variants"
 msgid "Manual variants"
-msgstr "Варианты строк"
+msgstr "Назначение вариантов вручную"
 
 #: ../../devel/translations.rst:63
 msgid ""
@@ -30262,22 +30226,28 @@ msgid ""
 "strings automatically, or to group strings which do not have matching "
 "string, but should be considered together when translating."
 msgstr ""
+"Вы можете вручную связать определённые строки с помощью флага "
+"``variant:ИСТОЧНИК``. Это может быть полезно, если у вас двуязычный перевод, "
+"в котором соответственно нет ключевых строк, на основе которых можно было бы "
+"сгруппировать строки автоматически; или чтобы сгрупировать строки между "
+"ключами которых нет ничего общего, но они всё же должны переводится вместе."
 
 #: ../../devel/translations.rst:70
 msgid ""
 "There the variant source string has to at most 768 characters long. This is "
 "technical limitation due to compatibility with MySQL database."
 msgstr ""
+"В данном случае строка-источник варианта не должна превышать 768 символов. "
+"Это чисто техническое ограничение, которое вызванно обеспечением "
+"совместимости с базой данных MySQL."
 
 #: ../../devel/translations.rst:75 ../../user/checks.rst:753
 msgid ":ref:`custom-checks`"
 msgstr ":ref:`custom-checks`"
 
 #: ../../devel/translations.rst:78
-#, fuzzy
-#| msgid "Improved navigation while translating."
 msgid "Variants while translating"
-msgstr "Улучшение навигации во время перевода."
+msgstr "Как варианты выглядят при переводе"
 
 #: ../../devel/translations.rst:80
 msgid "The variant is later grouped when translating:"
@@ -31082,15 +31052,12 @@ msgstr ""
 "переводят на самом деле."
 
 #: ../../faq.rst:495
-#, fuzzy
-#| msgid ""
-#| "You can translate all components in a single language since Weblate 4.2."
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
 msgstr ""
-"Вы можете переводить все компоненты одного проекта на один конкретный язык "
-"как единое целое."
+"Переводчики могут переводить все компоненты одного проекта на один "
+"конкретный язык как единое целое."
 
 #: ../../faq.rst:501
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
@@ -31414,10 +31381,8 @@ msgid ":ref:`islu`"
 msgstr ":ref:`islu`"
 
 #: ../../formats.rst:121
-#, fuzzy
-#| msgid ":ref:`webex`"
 msgid ":ref:`tbx`"
-msgstr ":ref:`webex`"
+msgstr ":ref:`tbx`"
 
 #: ../../formats.rst:124
 msgid "See :ref:`bimono`"
@@ -31764,12 +31729,12 @@ msgid ""
 "font group (see :ref:`fonts`)."
 msgstr ""
 "Из атрибута ``font`` извлекается название семейства шрифтов, а также размер "
-"и вес шрифта. Приведённый выше пример показывает использование всех трёх "
-"параметров, хотя обязательным к указанию является только семейство шрифта. "
-"Любые пробельные символы в наименовании семейства шрифта преобразуются в "
-"подчёркивания, так что ``Source Sans Pro`` становится ``Source_Sans_Pro``, "
-"поэтому при указании группы шрифтов (смотрите раздел :ref:`fonts`) имейте "
-"это в виду."
+"и насыщенность шрифта. Приведённый выше пример показывает использование всех "
+"трёх параметров, хотя обязательным к указанию является только семейство "
+"шрифта. Любые пробельные символы в наименовании семейства шрифта "
+"преобразуются в подчёркивания, так что ``Source Sans Pro`` становится "
+"``Source_Sans_Pro``, поэтому при указании группы шрифтов (смотрите раздел "
+":ref:`fonts`) имейте это в виду."
 
 #: ../../formats.rst:342
 msgid "String keys"
@@ -32982,32 +32947,28 @@ msgstr ""
 "предлагается для перевода."
 
 #: ../../formats.rst:1376
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange format"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Формат Term Base eXchange"
 
 #: ../../formats.rst:1380
 msgid "TBX is an XML format for the exchange of terminology data."
-msgstr ""
+msgstr "TBX — это XML-формат для обмена терминологическими данными."
 
 #: ../../formats.rst:1385
 msgid "``tbx/*.tbx``"
-msgstr ""
+msgstr "``tbx/*.tbx``"
 
 #: ../../formats.rst:1391
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "`Term Base eXchange file`"
-msgstr "TermBase eXchange (TBX)"
+msgstr "`Файл TermBase eXchange`"
 
 #: ../../formats.rst:1396
-#, fuzzy
-#| msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
 msgid ""
 "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
 "`tt:formats/tbx`, :ref:`glossary`"
-msgstr "`Кашида в Википедии <https://ru.wikipedia.org/wiki/Кашида>`_"
+msgstr ""
+"`TBX в английской Википедии <https://en.wikipedia.org/wiki/"
+"TermBase_eXchange>`_, :doc:`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats.rst:1402
 msgid "Others"
@@ -34651,14 +34612,10 @@ msgid ""
 msgstr ""
 "В переводе пропущены некоторые символы-заполнители. Эти символы либо "
 "извлекаются из файла перевода, либо определяются вручную с помощью флага "
-"``placeholders`; если их несколько, они разделяются двоеточием, а строки с "
+"``placeholders``; если их несколько, они разделяются двоеточием, а строки с "
 "пробелами могут быть заключены в кавычки:"
 
 #: ../../user/checks.rst:745
-#, fuzzy
-#| msgid ""
-#| "In case you have some syntax for placeholders, you can use an regular "
-#| "expression:"
 msgid ""
 "In case you have some syntax for placeholders, you can use a regular "
 "expression:"
@@ -37052,16 +37009,12 @@ msgstr ""
 "его публичный SSH-ключ (смотрите раздел :ref:`weblate-ssh-key`)."
 
 #: ../../vcs.rst:52
-#, fuzzy
-#| msgid ""
-#| "On GitHub, each key can be added to only one repository, see :ref:`vcs-"
-#| "repos-github` and :ref:`hosted-push`."
 msgid ""
 "On GitHub, each key can be use only once, see :ref:`vcs-repos-github` and :"
 "ref:`hosted-push`."
 msgstr ""
-"На GitHub каждый ключ может быть добавлен только в один репозиторий, "
-"смотрите разделы :ref:`vcs-repos-github` и :ref:`hosted-push`."
+"На GitHub каждый ключ может быть использован только один раз, смотрите "
+"разделы :ref:`vcs-repos-github` и :ref:`hosted-push`."
 
 #: ../../vcs.rst:55
 msgid ""
@@ -37118,26 +37071,14 @@ msgid "Verifying SSH host keys"
 msgstr "Проверка SSH-ключей сервера"
 
 #: ../../vcs.rst:87
-#, fuzzy
-#| msgid ""
-#| "Weblate automatically remembers the SSH host keys on first access and "
-#| "remembers them for further use."
 msgid ""
 "Weblate automatically stores the SSH host keys on first access and remembers "
 "them for further use."
 msgstr ""
-"Weblate автоматически запоминает для дальнейшего использования SSH-ключи "
+"Weblate автоматически сохраняет для дальнейшего использования SSH-ключи "
 "серверов при первом обращении к ним."
 
 #: ../../vcs.rst:90
-#, fuzzy
-#| msgid ""
-#| "In case you want to verify them before connecting to the repository, "
-#| "verify the SSH host keys of the servers you are going to access in :"
-#| "guilabel:`Add host key`, from the same section of the admin interface. "
-#| "Enter the hostname you are going to access (e.g. ``gitlab.com``), and "
-#| "press :guilabel:`Submit`.  Verify its fingerprint matches the server you "
-#| "added. They are shown in the confirmation message:"
 msgid ""
 "In case you want to verify the key fingerpring before connecting to the "
 "repository, verify the SSH host keys of the servers you are going to access "
@@ -37146,24 +37087,20 @@ msgid ""
 "guilabel:`Submit`.  Verify its fingerprint matches the server you added. "
 "They are shown in the confirmation message:"
 msgstr ""
-"В случае, если вы хотите, подтвердить подлинность серверов до первого "
-"подключения к репозиторию, добавьте SSH-ключи своих серверов, к которым вы "
+"В случае, если вы хотите, подтвердить подлинность отпечатков ключей до "
+"первого подключения к репозиторию, запросите SSH-ключ сервера, к которым вы "
 "собираетесь подключаться, через пункт :guilabel:`Добавить ключ хоста`, в том "
 "же разделе интерфейса администратора. Введите имя хоста, к которому вы "
-"собираетесь получить доступ (например, ``gitlab.com``), и нажмите :guilabel:"
-"`Подтвердить`. Убедитесь, что этот отпечаток совпадает с отпечатком ключа "
-"сервера, который вы добавили. Они отображаются в сообщении о подтверждении:"
+"собираетесь получить доступ (например, ``gitlab.com``), и нажмите "
+":guilabel:`Подтвердить`. После этого вы сможете убедится, что отпечаток "
+"этого ключа соответствует тому серверу, который вы добавляете. Сервер м ключ "
+"будут отображаться в сообщении о подтверждении:"
 
 #: ../../vcs.rst:102
 msgid "GitHub repositories"
 msgstr "Репозитории GitHub"
 
 #: ../../vcs.rst:104
-#, fuzzy
-#| msgid ""
-#| "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need "
-#| "to access more than one repository, you will hit a GitHub limitation on "
-#| "allowed SSH key usage (since one key can be used only for one repository)."
 msgid ""
 "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to "
 "access more than one repository, you will hit a GitHub limitation on allowed "
@@ -37172,7 +37109,7 @@ msgstr ""
 "Доступ по SSH возможен (смотрите раздел. :ref:`ssh-repos`), но в случае, "
 "если вам необходимо получить доступ к более чем одному репозиторию, вы "
 "столкнётесь с ограничением GitHub’а по разрешённому использованию ключей SSH "
-"(поскольку один ключ может быть использован только для одного репозитория)."
+"(поскольку один ключ может быть использован только один раз)."
 
 #: ../../vcs.rst:108
 msgid ""
@@ -37679,12 +37616,6 @@ msgid "Subversion credentials"
 msgstr "Учётные данные Subversion"
 
 #: ../../vcs.rst:433
-#, fuzzy
-#| msgid ""
-#| "Weblate expects you to have accepted the certificate up-front and if "
-#| "needed, your credentials. It will look to insert them into the DATA_DIR "
-#| "directory. Accept the certificate by using `svn` once with the `$HOME` "
-#| "environment variable set to the DATA_DIR:"
 msgid ""
 "Weblate expects you to have accepted the certificate up-front and if needed, "
 "your credentials. It will look to insert them into the :setting:`DATA_DIR` "
@@ -37692,9 +37623,10 @@ msgid ""
 "environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 "Weblate ожидает, что вы заранее приняли сертификат и, если необходимо, свои "
-"учётные данные. Он будет искать возможность поместить их в каталог DATA_DIR. "
-"Один раз примите сертификат, используя команду `svn` с переменной окружения `"
-"$HOME`, установленной в значение DATA_DIR:"
+"учётные данные. Он будет искать возможность поместить их в каталог, "
+"указанный в :setting:`DATA_DIR`. Один раз примите сертификат, используя "
+"команду `svn` с переменной окружения `$HOME`, установленной в значение "
+":setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:451
 msgid "Local files"
@@ -38234,12 +38166,6 @@ msgid "Needs editing"
 msgstr "На правку"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a fuzzy "
-#| "flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change. The translation is stored in the file, depending on the file format "
