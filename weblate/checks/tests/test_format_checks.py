@@ -29,6 +29,7 @@ from weblate.checks.format import (
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
     PercentPlaceholdersCheck,
     PerlFormatCheck,
@@ -265,6 +266,11 @@ class CFormatCheckTest(CheckTestCase):
 
     def test_parenthesis(self):
         self.assertFalse(self.check.check_format("(%.0lf%%)", "(%%%.0lf)", False))
+
+
+class LuaFormatCheckTest(CFormatCheckTest):
+    check = LuaFormatCheck()
+    flag = "lua-format"
 
 
 class PerlFormatCheckTest(CFormatCheckTest):
