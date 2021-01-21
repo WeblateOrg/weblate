@@ -37,8 +37,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
-"Last-Translator: Igor Polyakov <igorpolyakov@protonmail.com>\n"
+"PO-Revision-Date: 2021-01-21 08:51+0000\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -1430,26 +1430,20 @@ msgid "Source strings"
 msgstr "Исходные строки"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Создать перевод"
+msgstr "Целевой перевод"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Возраст строки"
+msgstr "Префикс строки"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Строки"
+msgstr "Суффикс строки"
 
 #: weblate/addons/forms.py:478
 msgid "Source and target have to be different translations."
-msgstr ""
+msgstr "Язык исходных строк и целевого перевода не может быть одним и тем же."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1461,13 +1455,15 @@ msgstr "Генерирует файл, содержащий детальную �
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Генератор псевдолокалей"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Автоматически генерирует псевдолокаль, добавляя префикс и суффикс к исходным "
+"строкам."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2582,10 +2578,8 @@ msgid "Replacements while rendering"
 msgstr "Замены при отрисовке"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Строки с вариантами"
+msgstr "Вариант строки"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3183,10 +3177,8 @@ msgid "Inno Setup INI file"
 msgstr "INI-файл Inno Setup"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Файл Term Base eXchange"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3856,28 +3848,18 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Ошибка проверки CSRF. Запрос отклонён."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
 "Данный сайт использует защищённое соединение HTTPS и требует, чтобы ваш "
-"браузер передавал заголовок «Referer» в своём запросе, но он этого не "
-"сделал. Данный заголовок необходим по соображениям безопасности, чтобы "
+"браузер передавал заголовок «Referer» в своём запросе, но он не был "
+"отправлен. Данный заголовок необходим по соображениям безопасности, чтобы "
 "убедиться, что ваш браузер не был взломан, а запрос к серверу не был "
 "перехвачен или подменён."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
@@ -3885,8 +3867,8 @@ msgid ""
 msgstr ""
 "Если вы настроили свой браузер таким образом, чтобы запретить ему передавать "
 "заголовок 'Referer', пожалуйста, разрешите ему отсылать данный заголовок по "
-"крайней мере для HTTPS-соединений c данным сайтом, или для запросов ли "
-"запроса из того же источника 'same-origin'."
+"крайней мере для HTTPS-соединений c данным сайтом, или для запросов из того "
+"же источника 'same-origin'."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3899,10 +3881,6 @@ msgstr ""
 "взломан третьими лицами."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
@@ -5406,7 +5384,7 @@ msgstr "Любой аутентифицированный пользовател
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "Возможно, репозиторий системы контроля версий будет доступен всем."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5416,10 +5394,10 @@ msgstr "Только избранные пользователи могут уч
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "Только избранные пользователи могут участвовать."
+msgstr ""
+"Только избранные пользователи могут получить доступ к репозиторию системы "
+"контроля версий."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -11078,15 +11056,12 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Код языка «%s» слишком длинный, проверьте маску файла."
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for atranslating different resources."
 msgstr ""
-"Есть больше файлов для одного языка (%s), настройте маску файла и "
+"Найдено больше одного файла для языка «%s», настройте маску файла и "
 "используйте компоненты для перевода разных ресурсов."
 
 #: weblate/trans/models/component.py:2100
