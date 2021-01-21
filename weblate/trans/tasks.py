@@ -49,6 +49,7 @@ from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
+from weblate.utils.stats import prefetch_stats
 from weblate.vcs.base import RepositoryException
 
 
@@ -118,7 +119,7 @@ def commit_pending(hours=None, pks=None, logger=None):
     else:
         components = Component.objects.filter(translation__pk__in=pks).distinct()
 
-    for component in components.prefetch():
+    for component in prefetch_stats(components.prefetch()):
         if hours is None:
             age = timezone.now() - timedelta(hours=component.commit_pending_age)
         else:
