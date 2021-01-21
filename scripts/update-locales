@@ -53,9 +53,7 @@ done
 make -C docs update-po
 
 # Commit changes
-git add weblate/locale/*/*/*.po
-git add weblate/locale/*.pot
-git add $(find docs/locales/ -name '*.po' -o -name '*.pot')
+git add $(find weblate/locale/ docs/locales/ -name '*.po' -o -name '*.pot')
 
 git commit -n -m "i18n: Update PO files"
 
