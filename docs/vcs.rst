@@ -257,7 +257,7 @@ GitHub
 
 .. versionadded:: 2.3
 
-This adds a thin layer atop :ref:`vcs-git` using the `Github API`_ to allow pushing
+This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow pushing
 translation changes as pull requests, instead of pushing directly to the repository.
 
 :ref:`vcs-git` pushes changes directly to a repository, while
@@ -285,7 +285,7 @@ You need to configure API credentials to make this work.
    :setting:`GITHUB_TOKEN`,
    :setting:`GITHUB_CREDENTIALS`
 
-.. _Github API: https://docs.github.com/en/free-pro-team@latest/rest
+.. _GitHub API: https://docs.github.com/en/rest
 
 .. _vcs-gitlab:
 

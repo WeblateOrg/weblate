@@ -123,7 +123,7 @@ Coding Weblate with PyCharm
 PyCharm is a known IDE for Python, here's some guidelines to help you setup Weblate
 project in it.
 
-Considering you have just cloned the Github repository, just open the folder in which
+Considering you have just cloned the GitHub repository, just open the folder in which
 you cloned it in PyCharm. Once the IDE is open, the first step is to specify the
 interpreter you want:
 
