@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-20 20:05+0100\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
+"PO-Revision-Date: 2021-01-21 07:51+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1448,13 +1448,15 @@ msgstr "Вміст"
 
 #: ../../admin/addons.rst:236
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Створення псевдолокалей"
 
 #: ../../admin/addons.rst:238
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Автоматично створює псевдолокаль перекладу, додавши префікс і суфікс до "
+"джерельних рядків."
 
 #: ../../admin/addons.rst:241
 msgid ""
@@ -1463,12 +1465,17 @@ msgid ""
 "contain generated strings) or where localized strings might not fit into "
 "layout."
 msgstr ""
+"Псевдолокалі корисні для перевірки локалізації в застосунку. Ви легко "
+"помітите, які рядки не буде локалізовано належним чином (вони не містять "
+"створені рядки) або де локалізовані рядки не помщаються в макет."
 
 #: ../../admin/addons.rst:247
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Ви можете використовувати справжні мови для перевірки, але у Weblate "
+"доступні виділені псевдолокалі — `en_XA` and `ar_XB`."
 
 #: ../../admin/addons.rst:253
 msgid "Contributors in comment"
@@ -3577,19 +3584,15 @@ msgstr ""
 
 #: ../../admin/checks.rst:78
 msgid "``variants:SOURCE``"
-msgstr ""
+msgstr "``variants:ДЖЕРЕЛО``"
 
 #: ../../admin/checks.rst:79
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to determine the variants of a string, see :ref:"
-#| "`variants`."
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
 msgstr ""
-"Формальний вираз, який використовується для визначення варіантів рядка, "
-"див. :ref:`variants`."
+"Позначити цей рядок варіантом рядка з тим самим джерелом. Див. "
+":ref:`variants`."
 
 #: ../../admin/checks.rst:80
 msgid "``regex:REGEX``"
@@ -5396,19 +5399,14 @@ msgstr ""
 "перекладу."
 
 #: ../../admin/config.rst:735
-#, fuzzy
-#| msgid ""
-#| ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
-#| "access token <https://docs.github.com/en/free-pro-team@latest/github/"
-#| "authenticating-to-github/creating-a-personal-access-token>`_"
 msgid ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a personal "
 "access token <https://docs.github.com/en/github/authenticating-to-github/"
 "creating-a-personal-access-token>`_"
 msgstr ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Створення особистого "
-"жетона доступу <https://docs.github.com/en/free-pro-team@latest/github/"
-"authenticating-to-github/creating-a-personal-access-token>`_"
+"жетона доступу <https://docs.github.com/en/github/authenticating-to-github/"
+"creating-a-personal-access-token>`_"
 
 #: ../../admin/config.rst:742
 msgid "GOOGLE_ANALYTICS_ID"
@@ -12522,8 +12520,6 @@ msgid "Normalizing underscores and dashes."
 msgstr "Нормалізація підкреслень та дефісів."
 
 #: ../../admin/languages.rst:24
-#, fuzzy
-#| msgid "Looking up built in language aliaes."
 msgid "Looking up built in language aliases."
 msgstr "Пошук вбудованих альтернативних назв мов."
 
@@ -14891,6 +14887,9 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
+"Типово учасники або групи :guilabel:`Користувач` та анонімний користувач "
+"мають доступ до сховищ для загальнодоступних проєктів за допомогою ролей "
+":guilabel:`Доступ до сховища` та :guilabel:`Досвідчений користувач`."
 
 #: ../../admin/optionals.rst:62
 msgid "Billing"
@@ -16035,12 +16034,6 @@ msgstr ""
 "для перекладу."
 
 #: ../../admin/projects.rst:425
-#, fuzzy
-#| msgid ""
-#| "When set, the source strings are based on this file, but all other "
-#| "languagess are based on :ref:`component-template`. In case the string is "
-#| "not translated into the source lanugage, translating to other languages "
-#| "is prohibited. This provides :ref:`source-quality-gateway`."
 msgid ""
 "When set, the source strings are based on this file, but all other languages "
 "are based on :ref:`component-template`. In case the string is not translated "
@@ -16049,8 +16042,8 @@ msgid ""
 msgstr ""
 "Якщо встановлено, початкові рядки засновано на цьому файлі, але усі інші "
 "переклади засновано на :ref:`component-template`. Якщо рядок не перекладено "
-"мовою джерела, переклад іншими мовами заборонено. Цей параметр надає :ref:"
-"`source-quality-gateway`."
+"мовою джерела, переклад іншими мовами заборонено. Цей параметр надає :ref"
+":`source-quality-gateway`."
 
 #: ../../admin/projects.rst:432
 msgid ""
@@ -16633,18 +16626,13 @@ msgstr ""
 "проєктів."
 
 #: ../../admin/projects.rst:755
-#, fuzzy
-#| msgid ""
-#| "Sharing component doesn't change it's access control. It makes it only "
-#| "visible when browsing other projects. User still need to have access to "
-#| "the actual component in order to be able to browse or translate it."
 msgid ""
 "Sharing component doesn't change its access control. It makes it only "
 "visible when browsing other projects. User still need to have access to the "
 "actual component in order to be able to browse or translate it."
 msgstr ""
 "Спільне використання складника не змінює параметрів доступу до нього. Він "
-"лише стає видимим під час навігації іншими проєктами. Користувачеві усе одно "
+"лише стає видимим під час навігації іншими проєктами. Користувачеві все одно "
 "потрібен буде доступ до самого складника, щоб здійснювати навігацію ним або "
 "перекладати його."
 
@@ -20162,14 +20150,8 @@ msgid "For instruction on setting up GitHub integration"
 msgstr "Настанови щодо налаштовування інтеграції із GitHub"
 
 #: ../../api.rst:2483
-#, fuzzy
-#| msgid ""
-#| "https://docs.github.com/en/free-pro-team@latest/github/extending-github/"
-#| "about-webhooks"
 msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
-msgstr ""
-"https://docs.github.com/en/free-pro-team@latest/github/extending-github/"
-"about-webhooks"
+msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2484
 msgid "Generic information about GitHub Webhooks"
@@ -20432,28 +20414,22 @@ msgstr ""
 "настанов для перекладачів."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added bulk edit addon."
 msgid "Added pseudolocale generation addon."
-msgstr "Додано додаток пакетного редагування."
+msgstr "Додано додаток створення псевдолокалей."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added support for app store metadata files."
 msgid "Added support for Term Base eXchange files."
-msgstr "Додано підтримку файлів метаданих крамниць програм."
+msgstr "Додано підтримку файлів Term Base eXchange."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Added support for manually defining string variants using a flag."
-msgstr "Додано підтримку групування форм рядків."
+msgstr ""
+"Додано підтримку власноручного визначення варіантів рядків за допомогою "
+"позначки."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance of changing labels."
 msgid "Improved performance of consistency checks."
-msgstr "Удосконалено швидкодію при зміні міток."
+msgstr "Вдосконалено швидкодію перевірки узгодженості."
 
 #: ../../changes.rst:15
 msgid "Weblate 4.4.2"
@@ -28982,14 +28958,6 @@ msgid "Updating target language files"
 msgstr "Оновлення файлів мови перекладу"
 
 #: ../../devel/integration.rst:80
-#, fuzzy
-#| msgid ""
-#| "For monolingual files (see :ref:`formats`) Weblate might add new "
-#| "translation strings not present in the :guilabel:`template`, and not in "
-#| "actual translations. It does not however perform any automatic cleanup of "
-#| "stale strings as that might have unexpected outcomes. If you want to do "
-#| "this, please install :ref:`addon-weblate.cleanup.generic` addon which "
-#| "will handle the cleanup according to your requirements."
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :ref:`component-template`, and not in actual "
@@ -28999,11 +28967,10 @@ msgid ""
 "the cleanup according to your requirements."
 msgstr ""
 "Для одномовних файлів (див. :ref:`formats`) Weblate може додавати нові рядки "
-"перекладу, яких немає у :guilabel:`шаблоні`, а не у самих перекладах. Втім, "
-"він не виконує ніякого автоматичного вилучення застарілих рядків, як можна "
-"було б очікувати. Якщо вам потрібне таке очищення, встановіть :ref:`addon-"
-"weblate.cleanup.generic`, який виконає чищення перекладу відповідно до ваших "
-"вимог."
+"перекладу, яких немає в :ref:`component-template`, а не в самих перекладах. "
+"Втім, він не вилучає застарілих рядків автоматичного, як можна було б "
+"очікувати. Якщо вам потрібне таке очищення, встановіть :ref:`addon-weblate."
+"cleanup.generic`, який виконає чищення перекладу відповідно до ваших вимог."
 
 #: ../../devel/integration.rst:87
 msgid ""
@@ -29901,28 +29868,24 @@ msgid "String variants"
 msgstr "Варіанти рядків"
 
 #: ../../devel/translations.rst:30
-#, fuzzy
-#| msgid ""
-#| "Variants are useful to group several strings together so that translators "
-#| "can see all variants of the string at one place. You can define regular "
-#| "expression to group the strings in the :ref:`component`:"
 msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
 msgstr ""
-"Варіанти корисні для групування декількох рядків разом, щоб перекладачі "
-"могли бачити усі варіанти рядка одразу. Ви можете визначити формальний вираз "
-"для групування рядків у :ref:`складнику<component>`:"
+"Варіанти корисні для групування кількох рядків разом, щоб перекладачі могли "
+"бачити всі варіанти рядка одразу."
 
 #: ../../devel/translations.rst:34
 msgid "Automated key based variants"
-msgstr ""
+msgstr "Автоматизовані варіанти на основі ключових рядків"
 
 #: ../../devel/translations.rst:38
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolignual translations in the :ref:`component`:"
 msgstr ""
+"Ви можете визначити регулярний вираз для групування рядків на основі "
+"ключових рядків одномовних перекладів у налаштуваннях :ref:`складника`:"
 
 #: ../../devel/translations.rst:43
 msgid ""
@@ -29977,10 +29940,8 @@ msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 msgstr "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 
 #: ../../devel/translations.rst:59
-#, fuzzy
-#| msgid "String variants"
 msgid "Manual variants"
-msgstr "Варіанти рядків"
+msgstr "Власноручні варіанти"
 
 #: ../../devel/translations.rst:63
 msgid ""
@@ -29989,22 +29950,27 @@ msgid ""
 "strings automatically, or to group strings which do not have matching "
 "string, but should be considered together when translating."
 msgstr ""
+"Ви можете вручну пов'язати певні рядки за допомогою позначки "
+"``variant:ДЖЕРЕЛО``. Це може бути корисним для двомовних перекладів, які не "
+"отримали ключів до групових рядків автоматично, або для групування рядків, "
+"які не мають відповідного рядка, але повинні розглядатися разом під час "
+"перекладу."
 
 #: ../../devel/translations.rst:70
 msgid ""
 "There the variant source string has to at most 768 characters long. This is "
 "technical limitation due to compatibility with MySQL database."
 msgstr ""
+"Варіант джерельного рядка не повинен містити більш як 768 символів. Це "
+"технічне обмеження через сумісність з базою даних MySQL."
 
 #: ../../devel/translations.rst:75 ../../user/checks.rst:753
 msgid ":ref:`custom-checks`"
 msgstr ":ref:`custom-checks`"
 
 #: ../../devel/translations.rst:78
-#, fuzzy
-#| msgid "Improved navigation while translating."
 msgid "Variants while translating"
-msgstr "Удосконалено навігацію під час перекладу."
+msgstr "Варіанти під час перекладу"
 
 #: ../../devel/translations.rst:80
 msgid "The variant is later grouped when translating:"
@@ -30808,13 +30774,11 @@ msgstr ""
 "саме перекладають."
 
 #: ../../faq.rst:495
-#, fuzzy
-#| msgid ""
-#| "You can translate all components in a single language since Weblate 4.2."
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
-msgstr "З версії Weblate 4.2 ви можете перекладати усі складники однією мовою."
+msgstr ""
+"Перекладачі можуть перекласти всі складники проєкту певною мовою в цілому."
 
 #: ../../faq.rst:501
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
@@ -31138,10 +31102,8 @@ msgid ":ref:`islu`"
 msgstr ":ref:`islu`"
 
 #: ../../formats.rst:121
-#, fuzzy
-#| msgid ":ref:`webex`"
 msgid ":ref:`tbx`"
-msgstr ":ref:`webex`"
+msgstr ":ref:`tbx`"
 
 #: ../../formats.rst:124
 msgid "See :ref:`bimono`"
@@ -32678,32 +32640,28 @@ msgstr ""
 "InDesign і запропоновано до перекладу."
 
 #: ../../formats.rst:1376
-#, fuzzy
-#| msgid "Intermediate language file"
 msgid "Term Base eXchange format"
-msgstr "Проміжний мовний файл"
+msgstr "Формат Term Base eXchange"
 
 #: ../../formats.rst:1380
 msgid "TBX is an XML format for the exchange of terminology data."
-msgstr ""
+msgstr "TBX — це формат XML для обміну термінологічними даними."
 
 #: ../../formats.rst:1385
 msgid "``tbx/*.tbx``"
-msgstr ""
+msgstr "``tbx/*.tbx``"
 
 #: ../../formats.rst:1391
-#, fuzzy
-#| msgid "Intermediate language file"
 msgid "`Term Base eXchange file`"
-msgstr "Проміжний мовний файл"
+msgstr "`Файл Term Base eXchange`"
 
 #: ../../formats.rst:1396
-#, fuzzy
-#| msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
 msgid ""
 "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
 "`tt:formats/tbx`, :ref:`glossary`"
-msgstr "`Кашида у Вікіпедії <https://en.wikipedia.org/wiki/Kashida>`_"
+msgstr ""
+"`TBX у Вікіпедії <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, "
+":doc:`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats.rst:1402
 msgid "Others"
@@ -34336,16 +34294,12 @@ msgstr ""
 "двокрапкою, рядки з пробілами слід вказувати у лапках:"
 
 #: ../../user/checks.rst:745
-#, fuzzy
-#| msgid ""
-#| "In case you have some syntax for placeholders, you can use an regular "
-#| "expression:"
 msgid ""
 "In case you have some syntax for placeholders, you can use a regular "
 "expression:"
 msgstr ""
-"Якщо ви знаєте певну синтаксичну конструкцію для замінників, ви можете "
-"скористатися формальним виразом:"
+"Якщо ви знаєте синтаксичну конструкцію для замінників, ви можете "
+"скористатися регулярним виразом:"
 
 #: ../../user/checks.rst:758
 msgid "Punctuation spacing"
@@ -36709,15 +36663,11 @@ msgstr ""
 "на доступ до основного сховища у цей спосіб."
 
 #: ../../vcs.rst:52
-#, fuzzy
-#| msgid ""
-#| "On GitHub, each key can be added to only one repository, see :ref:`vcs-"
-#| "repos-github` and :ref:`hosted-push`."
 msgid ""
 "On GitHub, each key can be use only once, see :ref:`vcs-repos-github` and :"
 "ref:`hosted-push`."
 msgstr ""
-"На GitHub кожен ключ може бути додано лише до одного сховища, див. :ref:`vcs-"
+"На GitHub кожен ключ може бути використано лише один раз, див. :ref:`vcs-"
 "repos-github` і :ref:`hosted-push`."
 
 #: ../../vcs.rst:55
@@ -36775,26 +36725,14 @@ msgid "Verifying SSH host keys"
 msgstr "Перевірка ключів SSH вузла"
 
 #: ../../vcs.rst:87
-#, fuzzy
-#| msgid ""
-#| "Weblate automatically remembers the SSH host keys on first access and "
-#| "remembers them for further use."
 msgid ""
 "Weblate automatically stores the SSH host keys on first access and remembers "
 "them for further use."
 msgstr ""
-"Weblate автоматично запам'ятовує ключів SSH вузла при першому доступі і "
+"Weblate автоматично зберігає ключі SSH вузла за першого доступу та "
 "використовує їх у подальшому."
 
 #: ../../vcs.rst:90
-#, fuzzy
-#| msgid ""
-#| "In case you want to verify them before connecting to the repository, "
-#| "verify the SSH host keys of the servers you are going to access in :"
-#| "guilabel:`Add host key`, from the same section of the admin interface. "
-#| "Enter the hostname you are going to access (e.g. ``gitlab.com``), and "
-#| "press :guilabel:`Submit`.  Verify its fingerprint matches the server you "
-#| "added. They are shown in the confirmation message:"
 msgid ""
 "In case you want to verify the key fingerpring before connecting to the "
 "repository, verify the SSH host keys of the servers you are going to access "
@@ -36803,33 +36741,28 @@ msgid ""
 "guilabel:`Submit`.  Verify its fingerprint matches the server you added. "
 "They are shown in the confirmation message:"
 msgstr ""
-"Якщо вам захочеться перевірити їх до встановлення з'єднання зі сховищем, "
-"перевірте ключі SSH вузлів серверів, до яких ви збираєтеся отримати доступ у "
-"пункті :guilabel:`Додати ключ вузла` того самого розділу адміністративного "
-"інтерфейсу. Введіть назву вузла, до якого ви маєте намір отримати доступ "
-"(наприклад, ``gitlab.com``), і натисніть кнопку :guilabel:`Надіслати`. "
-"Перевірте, чи відбиток відповідає доданому вами серверу. Дані буде показано "
-"у повідомленні підтвердження:"
+"Якщо вам захочеться перевірити відтиск ключа до встановлення з'єднання зі "
+"сховищем, перевірте ключі SSH вузлів серверів, до яких ви збираєтеся "
+"отримати доступ у пункті :guilabel:`Додати ключ вузла` того самого розділу "
+"адміністративного інтерфейсу. Введіть назву вузла, до якого ви маєте намір "
+"отримати доступ (наприклад, ``gitlab.com``) і натисніть кнопку "
+":guilabel:`Надіслати`. Перевірте, чи відтиск збігається з доданим вами "
+"сервером. Дані буде показано у повідомленні підтвердження:"
 
 #: ../../vcs.rst:102
 msgid "GitHub repositories"
 msgstr "Сховища GitHub"
 
 #: ../../vcs.rst:104
-#, fuzzy
-#| msgid ""
-#| "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need "
-#| "to access more than one repository, you will hit a GitHub limitation on "
-#| "allowed SSH key usage (since one key can be used only for one repository)."
 msgid ""
 "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to "
 "access more than one repository, you will hit a GitHub limitation on allowed "
 "SSH key usage (since each key can be used only once)."
 msgstr ""
 "Можливий доступ з використанням SSH (див. :ref:`ssh-repos`), але якщо вам "
-"потрібен доступ до декількох сховищ, ви зіткнетеся із обмеженням GitHub на "
-"використання ключів SSH (оскільки один ключ можна використовувати лише для "
-"одного сховища)."
+"потрібен доступ до кількох сховищ, ви зіткнетеся із обмеженням GitHub на "
+"використання ключів SSH (оскільки кожен ключ можна використати лише один "
+"раз)."
 
 #: ../../vcs.rst:108
 msgid ""
@@ -37324,22 +37257,16 @@ msgid "Subversion credentials"
 msgstr "Реєстраційні дані Subversion"
 
 #: ../../vcs.rst:433
-#, fuzzy
-#| msgid ""
-#| "Weblate expects you to have accepted the certificate up-front and if "
-#| "needed, your credentials. It will look to insert them into the DATA_DIR "
-#| "directory. Accept the certificate by using `svn` once with the `$HOME` "
-#| "environment variable set to the DATA_DIR:"
 msgid ""
 "Weblate expects you to have accepted the certificate up-front and if needed, "
 "your credentials. It will look to insert them into the :setting:`DATA_DIR` "
 "directory. Accept the certificate by using `svn` once with the `$HOME` "
 "environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
-"Weblate очікує, що вами було прийнято сертифікат і, якщо потрібно, вказано "
-"ваші реєстраційні дані. Weblate вставить їх до каталогу DATA_DIR. Прийміть "
-"сертифікат за допомогою одноразового запуску `svn` із змінною середовища `"
-"$HOME`, яка збігається за значенням із DATA_DIR:"
+"Weblate очікує, що ви прийняли сертифікат і, якщо потрібно, вказали ваші "
+"реєстраційні дані. Weblate вставить їх до каталогу :setting:`DATA_DIR`. "
+"Прийміть сертифікат за допомогою одноразового запуску `svn` зі змінною "
+"середовища `$HOME`, яка збігається за значенням з :setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:451
 msgid "Local files"
@@ -37877,12 +37804,6 @@ msgid "Needs editing"
 msgstr "Потребує редагування"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a fuzzy "
-#| "flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change. The translation is stored in the file, depending on the file format "
@@ -37890,9 +37811,9 @@ msgid ""
 "in the Gettext file)."
 msgstr ""
 "Переклад потребує редагування, зазвичай, у результаті внесення змін до "
-"початкового рядка. Переклад зберігається у файлі. Залежно від формату файла, "
-"його може бути позначено як таки, що потребує редагування (наприклад, "
-"встановлено прапорець неточного перекладу у файлі Gettext)."
+"початкового рядка. Переклад зберігається у файлі. Залежно від формату файлу, "
+"його може бути позначено таким, що потребує редагування (наприклад, "
+"встановлено прапорець ``неточного`` перекладу у файлі Gettext)."
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
