@@ -345,7 +345,7 @@ def auto_translate(
             "starting automatic translation %s: %s: %s",
             current_task.request.id,
             auto_source,
-            engines,
+            ", ".join(engines) if engines else component,
         )
         auto = AutoTranslate(user, translation, filter_type, mode)
         if auto_source == "mt":
