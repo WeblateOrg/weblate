@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-11 17:32+0000\n"
+"PO-Revision-Date: 2021-01-22 23:25+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4.1-dev\n"
+"X-Generator: Weblate 4.5-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1422,28 +1422,20 @@ msgid "Source strings"
 msgstr "Cadenas de origen"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Crear traducción"
+msgstr "Traducción de destino"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Antigüedad de cadena"
+msgstr "Prefijo de cadena"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Cadenas"
+msgstr "Sufijo de cadena"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "Source and target have to be different translations."
-msgstr "¡Necesita inciar sesión para poder guardar traducciones!"
+msgstr "El origen y el destino deben ser traducciones diferentes."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1456,13 +1448,15 @@ msgstr ""
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Generación de pseudorregiones"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Genera automáticamente una pseudotraducción mediante la adición de un "
+"prefijo y un sufijo a las cadenas de origen."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2580,10 +2574,8 @@ msgid "Replacements while rendering"
 msgstr "Reemplazos al representar"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Cadenas con variantes"
+msgstr "Variante de cadena"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3185,10 +3177,8 @@ msgid "Inno Setup INI file"
 msgstr "Archivo INI de Inno Setup"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Archivo TermBase eXchange"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3862,11 +3852,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "Falló la verificación de CSRF. Se interrumpió la petición."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
@@ -3878,17 +3863,12 @@ msgstr ""
 "terceros."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"Si ha configurado el navegador para que no envíe cabeceras «Referer», "
+"Si ha configurado el navegador web para que no envíe cabeceras «Referer», "
 "vuélvalas a activar, por lo menos para este sitio, para las conexiones HTTPS "
 "o para las peticiones «same-origin»."
 
@@ -3903,10 +3883,6 @@ msgstr ""
 "navegador no esté siendo suplantado por terceros."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
@@ -5410,7 +5386,7 @@ msgstr "Cualquier usuario autenticado puede contribuir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "El repositorio VCS podría quedar expuesto a cualquiera."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5420,10 +5396,8 @@ msgstr "Solo determinados usuarios pueden contribuir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "Solo determinados usuarios pueden contribuir."
+msgstr "Solo determinados usuarios pueden acceder al repositorio VCS."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -10991,10 +10965,8 @@ msgstr ""
 "explícitamente."
 
 #: weblate/trans/models/component.py:619
-#, fuzzy
-#| msgid "Other projects"
 msgid "Share in projects"
-msgstr "Otros proyectos"
+msgstr "Compartir en proyectos"
 
 #: weblate/trans/models/component.py:623
 #, fuzzy
