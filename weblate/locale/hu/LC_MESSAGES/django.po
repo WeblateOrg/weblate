@@ -18,13 +18,14 @@
 # Andras Timar <andras.timar@collabora.com>, 2020.
 # ovari <ovari123@zoho.com>, 2020.
 # Újvári Marcell <mmarci72@gmail.com>, 2021.
+# WALKTHROUGH RAYMAND LEGENDS <mestermc594@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-21 08:51+0000\n"
-"Last-Translator: Athoss <athoss@citromail.hu>\n"
+"PO-Revision-Date: 2021-01-22 22:55+0000\n"
+"Last-Translator: WALKTHROUGH RAYMAND LEGENDS <mestermc594@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -201,14 +202,11 @@ msgid "Component: {}"
 msgstr "Összetevő: {}"
 
 #: weblate/accounts/forms.py:676
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Minden ilyen eseményről értesítést fog kapni a megfigyelt projektekben."
+"Értesítést kap minden olyan eseményről, amelyet nem figyelt projektek "
+"végeznek.."
 
 #: weblate/accounts/forms.py:681
 msgid ""
@@ -238,16 +236,12 @@ msgstr ""
 "Minden ilyen eseményről értesítést fog kapni a(z) %(component)s összetevőben."
 
 #: weblate/accounts/forms.py:701
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Ezeket az értesítéseket csak a megfigyelt projektjeiben lefordított "
-"nyelvekre fogja megkapni."
+"Ezeket az értesítéseket csak lefordított nyelvekre kapja meg, nem megnézett "
+"projektekben."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -398,7 +392,7 @@ msgstr "Próbaidőszak megkezdve."
 #: weblate/accounts/models.py:102
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Megerősítő levelet küldtünk a(z) {email} címre."
 
 #: weblate/accounts/models.py:107
 msgid "Configured password to sign in."
@@ -1041,12 +1035,12 @@ msgid "JavaScript localization CDN"
 msgstr "JavaScript honosítási CDN"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "Honosítási CDN-t ad hozzá a JavaScript vagy HTML honosításhoz."
+msgstr ""
+"Fordításokat tesz közzé tartalomszolgáltató hálózatba, JavaScript vagy HTML "
+"lokalizációhoz."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -1431,26 +1425,20 @@ msgid "Source strings"
 msgstr "Forrásszövegek"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Fordítás létrehozása"
+msgstr "Célfordítás"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Szöveg életkora"
+msgstr "Szöveg előtagja"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Szövegek"
+msgstr "Szöveg utótag"
 
 #: weblate/addons/forms.py:478
 msgid "Source and target have to be different translations."
-msgstr ""
+msgstr "A forrásnak és a célnak különböző fordításoknak kell lenniük."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1463,13 +1451,15 @@ msgstr ""
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Pseudolocale generáció"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Automatikusan létrehoz egy pszeudolokális fordítást úgy, hogy előtagot és "
+"utótagot ad hozzá a forrás karakterláncokhoz."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2135,10 +2125,8 @@ msgid "Languages"
 msgstr "Nyelvek"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Belső kiszolgálóhiba"
+msgstr "Belső Weblate csoport"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2183,16 +2171,14 @@ msgstr ""
 "tartalmaz."
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr ""
-"Reguláris kifejezés, amelyet a felhasználó e-mail-címének illesztéséhez "
-"használnak."
+msgstr "Az e-mail cím reguláris kifejezése"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
 msgstr ""
+"A megfelelő e-mail címmel rendelkező felhasználókat hozzáadjuk ehhez a "
+"csoporthoz."
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -2587,10 +2573,8 @@ msgid "Replacements while rendering"
 msgstr "Cserék megjelenítés közben"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Változatokkal rendelkező szövegek"
+msgstr "Karakterváltozat"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3187,10 +3171,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI-fájl"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Term Base eXchange fájl"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3863,34 +3845,25 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "A CSRF-ellenőrzés sikertelen. Kérés megszakítva."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Ez a HTTPS oldal egy „Referer” fejléc küldését igényli a böngészőtől, "
-"azonban ilyen nem érkezett. Erre a fejlécre biztonsági okból van szükség "
-"annak ellenőrzéséhez, hogy harmadik felek nem térítették-e el a böngészőjét."
+"Ehhez a HTTPS-webhelyhez 'Referer' fejléc szükséges, amelyet a webböngésző "
+"küld, de egyiket sem küldték el. Erre a fejlécre biztonsági okokból van "
+"szükség, annak biztosítása érdekében, hogy harmadik felek ne eltérítsék "
+"böngészőjét."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"Ha úgy állította be a böngészőjét, hogy ne küldjön „Referer” fejléceket, "
-"akkor kapcsolja be legalább erre a weboldalra vagy a HTTPS kapcsolatokhoz, "
-"illetve az azonos forrásból („same-origin”) származó kérésekhez."
+"Ha úgy állította be a webböngészőjét, hogy ne küldjön „Referer” fejléceket, "
+"kérjük, kapcsolja be ezt (legalábbis ezen a webhelyen, HTTPS-kapcsolatoknál "
+"vagy „azonos eredetű” kéréseknél)."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3903,17 +3876,12 @@ msgstr ""
 "térítették-e el a böngészőjét."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"Ha úgy állította be a böngészőjét, hogy ne mentse a sütiket, akkor kapcsolja "
-"be azokat újra legalább erre a weboldalra vagy az azonos forrásból („same-"
-"origin”) származó kérésekhez."
+"Ha úgy állította be böngészőjét, hogy ne mentse a sütiket, kérjük, kapcsolja "
+"be újra (legalábbis ezen a webhelyen, vagy „azonos eredetű” kérések esetén)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
