@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-20 19:04+0000\n"
+"PO-Revision-Date: 2021-01-22 22:55+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1128,7 +1128,7 @@ msgstr "Skupno uređivanje oznaka, etiketa ili stanja izraza."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
-msgstr "Staza generirane MO datoteke"
+msgstr "Staza stvorene MO datoteke"
 
 #: weblate/addons/forms.py:56
 msgid "If not specified, the location of the PO file will be used."
@@ -1136,11 +1136,11 @@ msgstr "Ako nije zadano, koristit će se mjesto PO datoteke."
 
 #: weblate/addons/forms.py:79
 msgid "Name of generated file"
-msgstr "Ime generirane datoteke"
+msgstr "Ime stvorene datoteke"
 
 #: weblate/addons/forms.py:81
 msgid "Content of generated file"
-msgstr "Sadržaj generirane datoteke"
+msgstr "Sadržaj stvorene datoteke"
 
 #: weblate/addons/forms.py:110 weblate/addons/forms.py:196
 msgid "Long lines wrapping"
@@ -1384,29 +1384,23 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
-msgstr "Izrazi izvornog jezika"
+msgstr "Izvorni izrazi"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Stvori prijevodi"
+msgstr "Ciljani prijevod"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Starost izraza"
+msgstr "Prefiks izraza"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Izrazi"
+msgstr "Sufiks izraza"
 
 #: weblate/addons/forms.py:478
 msgid "Source and target have to be different translations."
-msgstr ""
+msgstr "Izvor i cilj moraju biti različiti prijevodi."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1418,13 +1412,15 @@ msgstr "Izrađuje datoteku s detaljnim podacima o stanju prijevoda."
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Izrada pseudolokalnog prijevoda"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
 msgstr ""
+"Automatski generira pseudolokalni prijevod dodavanjem prefiksa i sufiksa "
+"izvornim izrazima."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2531,10 +2527,8 @@ msgid "Replacements while rendering"
 msgstr "Zamjene tijekom iscrtavanja"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Izrazi s varijantama"
+msgstr "Varijanta izraza"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3127,10 +3121,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI datoteka"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Term Base eXchange datoteka"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3795,11 +3787,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF potvrda nije uspjela. Zahtjev je prekinut."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
@@ -3811,19 +3798,14 @@ msgstr ""
 "internetskim preglednikom."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
 "Ako je internetski preglednik postavljen da ne šalje adrese stranica, "
-"aktiviraj slanje barem za ovu stranicu, za HTTPS veze ili za zahtjeve „istog "
-"podrijetla”."
+"aktiviraj slanje (barem za ovu stranicu, za HTTPS veze ili za zahtjeve „"
+"istog podrijetla”)."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3836,16 +3818,12 @@ msgstr ""
 "tvojim internetskim preglednikom."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
 "Ako je internetski preglednik postavljen da ne sprema kolačiće, ponovo ih "
-"uključi barem za ovu stranicu ili za zahtjeve „istog podrijetla”."
+"uključi (barem za ovu stranicu ili za zahtjeve „istog podrijetla”)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5319,7 +5297,7 @@ msgstr "Doprinijeti može svaki autentificirani korisnik."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "VCS repozitorij smiju vidjeti svi korisnici."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5329,10 +5307,8 @@ msgstr "Doprinijeti mogu samo odabrani korisnici."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "Doprinijeti mogu samo odabrani korisnici."
+msgstr "VCS repozitoriju mogu pristupiti samo odabrani korisnici."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -10958,15 +10934,12 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Jezični kod „%s” je predugačak, provjeri masku datoteke."
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for atranslating different resources."
 msgstr ""
-"Za jezik (%s) postoji više datoteka. Za prevođenje različitih resursa, "
+"Za (%s) jezik postoji više datoteka. Za prevođenje različitih resursa, "
 "prilagodi masku datoteke i koristi komponente."
 
 #: weblate/trans/models/component.py:2100
