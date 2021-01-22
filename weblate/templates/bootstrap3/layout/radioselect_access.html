@@ -35,7 +35,7 @@
                 </p>
                 {% if has_gitexport %}
                   <p>
-                    {% trans "VCS repository might be exposed to everybody." %}
+                    {% trans "VCS repository might be exposed to everybody." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
                   </p>
                 {% endif %}
             {% elif choice_str == "1" %}
@@ -47,7 +47,7 @@
                 </p>
                 {% if has_gitexport %}
                   <p>
-                    {% trans "Only chosen users can access VCS repository." %}
+                    {% trans "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
                   </p>
                 {% endif %}
             {% elif choice_str == "100" %}
@@ -59,7 +59,7 @@
                 </p>
                 {% if has_gitexport %}
                   <p>
-                    {% trans "Only chosen users can access VCS repository." %}
+                    {% trans "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
                   </p>
                 {% endif %}
             {% elif choice_str == "200" %}
