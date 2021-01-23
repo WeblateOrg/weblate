@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-20 20:05+0100\n"
-"PO-Revision-Date: 2021-01-22 05:01+0000\n"
+"PO-Revision-Date: 2021-01-24 17:32+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -11258,29 +11258,29 @@ msgstr "言語の定義"
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code is needed."
-msgstr ""
+msgstr "異なる翻訳を適切に提供するには、言語名、テキストの文字順、複数形の定義、および言語コードに関する情報が必要です。"
 
 #: ../../admin/languages.rst:12
 msgid "Parsing language codes"
-msgstr ""
+msgstr "言語コードの解析"
 
 #: ../../admin/languages.rst:14
 msgid ""
 "While parsing translations, Weblate attempts to map language code (usually "
 "the ISO 639-1 one) to any existing language object."
-msgstr ""
+msgstr "翻訳の解析時に、Weblate は言語コード（通常は ISO 639-1 ）を既存の言語オブジェクトにマップしようとします。"
 
 #: ../../admin/languages.rst:17
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
-msgstr ""
+msgstr ":ref:`project-language_aliases` を使用して、このマッピングをプロジェクト レベルで設定できます。"
 
 #: ../../admin/languages.rst:19
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
-msgstr ""
+msgstr "完全に一致するものが見つからないときには、既存の言語に最適化されます。検索項目:"
 
 #: ../../admin/languages.rst:22
 msgid "Case insensitive lookups."
@@ -11288,7 +11288,7 @@ msgstr "大文字と小文字を区別しない検索。"
 
 #: ../../admin/languages.rst:23
 msgid "Normalizing underscores and dashes."
-msgstr ""
+msgstr "アンダースコアとダッシュの正規化。"
 
 #: ../../admin/languages.rst:24
 msgid "Looking up built in language aliases."
@@ -11302,7 +11302,7 @@ msgstr "言語名での検索。"
 msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
-msgstr ""
+msgstr "指定する言語の既定の国コードの無視 -- ``cs_CZ`` ではなく ``cs`` の選択。"
 
 #: ../../admin/languages.rst:28
 msgid ""
@@ -11314,12 +11314,18 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
+"これらにも一致しないときは、デフォルト（左から右へのテキスト順、1 つの複数形）を使用して新しい言語定義が作成されます。自動作成されるコード "
+"``xx_XX`` の言語は、:guilabel:`xx_XX (generated)` と命名されます。後で管理インターフェイスでこれを変更し（参照: "
+":ref:`changing-languages` ）、課題管理ツールに報告して（参照: :ref:`contributing` ）、適切な定義を今後の "
+"Weblate リリースに追加できます。"
 
 #: ../../admin/languages.rst:38
 msgid ""
 "In case you see something unwanted as a language, you might want to adjust :"
 "ref:`component-language_regex` to ignore such file when parsing translations."
 msgstr ""
+"間違ったものが言語として認識された場合は、:ref:`component-language_regex` "
+"を設定して、翻訳の解析時にそのようなファイルを無視することをお勧めします。"
 
 #: ../../admin/languages.rst:44
 msgid ":ref:`language-code`, :ref:`new-translations`"
@@ -11327,24 +11333,24 @@ msgstr ":ref:`language-code`、:ref:`new-translations`"
 
 #: ../../admin/languages.rst:51
 msgid "Changing language definitions"
-msgstr ""
+msgstr "言語定義の変更"
 
 #: ../../admin/languages.rst:53
 msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
-msgstr ""
+msgstr "言語の定義は、言語インターフェイス（:file:`/languages/` URL）で変更できます。"
 
 #: ../../admin/languages.rst:56
 msgid ""
 "While editing, make sure all fields are correct (especially plurals and text "
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
-msgstr ""
+msgstr "編集中は、すべてのフィールドが正しいことを確認してください（特に複数形とテキスト順）)。正しくないと、翻訳者は翻訳文を適切に編集できません。"
 
 #: ../../admin/languages.rst:63
 msgid "Built-in language definitions"
-msgstr "内蔵の言語設定"
+msgstr "組み込みの言語定義"
 
 #: ../../admin/languages.rst:65
 msgid ""
@@ -11354,6 +11360,9 @@ msgid ""
 "`generic-upgrade-instructions`) the database of languages is updated to "
 "include all language definitions shipped in Weblate."
 msgstr ""
+"550 以上の言語の定義が Weblate に含まれており、リストはリリースごとに拡張されます。Weblate がアップグレードされるたびに（具体的には "
+":program:`weblate migrate` が実行されるたびに。参照: :ref:`generic-upgrade-instructions` "
+"）、言語のデータベースが更新され、Weblate に付属するすべての言語定義が拡張されます。"
 
 #: ../../admin/languages.rst:71
 msgid ""
@@ -11361,6 +11370,8 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :djadmin:"
 "`setuplang`."
 msgstr ""
+"この機能は :setting:`UPDATE_LANGUAGES` を使用して無効にできます。:djadmin:`setuplang` を使用して、"
+"Weblate の組み込みデータと一致するようにデータベースを更新することもできます。"
 
 #: ../../admin/languages.rst:78
 msgid "Ambiguous language codes and macrolanguages"
@@ -11374,6 +11385,8 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macro languages."
 msgstr ""
+"多くの場合、翻訳にマクロ言語コードを使用することはお勧めできません。典型的な問題のあるケースはクルド語であり、アラビア語やラテン語のスクリプトで書かれてい"
+"ることがあります。Weblate で正しく動作させるには、個々の言語コードのみを使用し、マクロ言語は使用しないことをお勧めします。"
 
 #: ../../admin/languages.rst:88
 msgid ""
@@ -11381,10 +11394,12 @@ msgid ""
 "scope#Macrolanguages>`_, `List of macrolanguages <https://iso639-3.sil.org/"
 "code_tables/macrolanguage_mappings/data>`_"
 msgstr ""
+"`マクロ言語の定義 <https://iso639-3.sil.org/about/scope#Macrolanguages>`_、`マクロ言語一覧 "
+"<https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data>`_"
 
 #: ../../admin/languages.rst:94
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "各言語を構成するフィールド:"
 
 #: ../../admin/languages.rst:99 ../../admin/projects.rst:779 ../../api.rst:658
 #: ../../api.rst:660 ../../api.rst:723 ../../api.rst:2053 ../../api.rst:2232
@@ -11400,6 +11415,11 @@ msgid ""
 "letter code. It can also support extended codes as defined by `BCP 47 "
 "<https://tools.ietf.org/html/bcp47>`_."
 msgstr ""
+"言語を識別するコード。Weblate は、`ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`"
+"_で定義された 2 つの文字コードを優先しますが、2 つの文字コードを持たない言語には `ISO 639-2 <https://en.wikipedia."
+"org/wiki/ISO_639-2>`_または `ISO 639-3 <https://en.wikipedia.org/wiki/"
+"ISO_639-3>`_コードを使用します。`BCP 47 <https://tools.ietf.org/html/"
+"bcp47>`_で定義された拡張コードにも対応できます。"
 
 #: ../../admin/languages.rst:110
 msgid ":ref:`language-parsing-codes`, :ref:`new-translations`"
@@ -11415,25 +11435,25 @@ msgstr "言語名"
 msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
-msgstr ""
+msgstr "表示する言語名。Weblate に含まれる言語名も、ユーザーインターフェイスの言語に合わせて現地語化されます。"
 
 #: ../../admin/languages.rst:123 ../../api.rst:661 ../../api.rst:2233
 msgid "Text direction"
-msgstr "テキストの方向"
+msgstr "テキスト順"
 
 #: ../../admin/languages.rst:125
 msgid ""
 "Determines whether language is written right to left or left to right. This "
 "property is autodetected correctly for most of the languages."
-msgstr ""
+msgstr "言語を右から左に書くか、左から右に書くかを指定します。このプロパティは、ほとんどの言語で正しく自動検出されます。"
 
 #: ../../admin/languages.rst:131
 msgid "Plural number"
-msgstr ""
+msgstr "複数形の数"
 
 #: ../../admin/languages.rst:133
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "言語で使用する複数形の数。"
 
 #: ../../admin/languages.rst:138
 msgid "Plural formula"
@@ -11443,7 +11463,7 @@ msgstr "複数形判別式"
 msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
-msgstr ""
+msgstr "与えられたカウントに、どの複数形を使用するかを決定するために使用する Gettext 互換の複数形式。"
 
 #: ../../admin/languages.rst:144
 msgid ""
@@ -11451,21 +11471,24 @@ msgid ""
 "software/gettext/manual/html_node/Plural-forms.html>`_, `Language Plural "
 "Rules by the Unicode Consortium`_"
 msgstr ""
+":ref:`plurals`、`GNU gettext utilities: Plural forms <https://www.gnu.org/"
+"software/gettext/manual/html_node/Plural-forms.html>`_、`Language Plural "
+"Rules by the Unicode Consortium`_"
 
 #: ../../admin/languages.rst:153 ../../devel/translations.rst:7
 msgid "Adding new translations"
-msgstr ""
+msgstr "新しい翻訳の追加"
 
 #: ../../admin/languages.rst:157
 msgid ""
 "In versions prior to 2.18 the behaviour of adding new translations was file "
 "format specific."
-msgstr ""
+msgstr "2.18 以前のバージョンでは、新しい翻訳の追加の動作はファイル形式別でした。"
 
 #: ../../admin/languages.rst:160
 msgid ""
 "Weblate can automatically start new translation for all of the file formats."
-msgstr ""
+msgstr "Weblate では、すべてのファイル形式の新しい翻訳を自動的に開始できます。"
 
 #: ../../admin/languages.rst:163
 msgid ""
@@ -11475,6 +11498,9 @@ msgid ""
 "really doesn't depend on the format, but rather on the framework you use to "
 "handle the translation (for example with :ref:`json`)."
 msgstr ""
+"形式によっては、空のファイルで始まり、翻訳した文字列のみを含むことを想定しているものもあれば（例: :ref:`aresource` "
+"）、すべてのキーが存在することを想定しているものもあります（例: :ref:`gettext` "
+"）。場合によっては、実際には形式に依存せず、翻訳を処理するために使用するフレームワークに依存します（例: :ref:`json` ）。"
 
 #: ../../admin/languages.rst:169
 msgid ""
@@ -11482,6 +11508,8 @@ msgid ""
 "use this file to start new translations. Any exiting translations will be "
 "removed from the file when doing so."
 msgstr ""
+":ref:`component` で :ref:`component-new_base` を指定すると、Weblate "
+"はこのファイルを使用して新しい翻訳を開始します。既存の翻訳文は、ファイルから削除されます。"
 
 #: ../../admin/languages.rst:173
 msgid ""
@@ -11489,12 +11517,14 @@ msgid ""
 "empty file is created where new strings will be added once they are "
 "translated."
 msgstr ""
+":ref:`component-new_base` "
+"が空で、ファイル形式が対応している場合、空のファイルが作成され、新しい文字列を翻訳するとそこに追加されます。"
 
 #: ../../admin/languages.rst:177
 msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames:"
-msgstr ""
+msgstr ":ref:`component-language_code_style` で変更できる、生成したファイル名で使用する言語コード:"
 
 #: ../../admin/languages.rst:180
 msgid "Default based on the file format"
@@ -11502,17 +11532,17 @@ msgstr "ファイル形式から導き出されるデフォルト"
 
 #: ../../admin/languages.rst:181
 msgid "Dependent on file format, for most of them POSIX is used."
-msgstr ""
+msgstr "ファイル形式によって異なるが、ほぼ POSIX が使用される。"
 
 #: ../../admin/languages.rst:183
 msgid "POSIX style using underscore as a separator"
-msgstr "下線を区切り文字とする POSIX 形式"
+msgstr "アンダースコアを区切り文字とする POSIX 形式"
 
 #: ../../admin/languages.rst:183
 msgid ""
 "Typically used by gettext and related tools, produces language codes like "
 "``pt_BR``."
-msgstr ""
+msgstr "通常、gettext および関連ツールで使用され、``pt_BR`` のような言語コードを生成する。"
 
 #: ../../admin/languages.rst:186
 msgid "POSIX style using underscore as a separator, including country code"
@@ -11522,7 +11552,7 @@ msgstr "国コードを含む、下線を区切り文字とする POSIX 形式"
 msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(for example ``cs_CZ``)."
-msgstr ""
+msgstr "必要でない場合でも国コードを含む POSIX 形式の言語コード（例: ``cs_CZ`` ）。"
 
 #: ../../admin/languages.rst:189
 msgid "BCP style using hyphen as a separator"
@@ -11531,7 +11561,7 @@ msgstr "ハイフンを区切り文字とする BCP 形式"
 #: ../../admin/languages.rst:189
 msgid ""
 "Typically used on web platforms, produces language codes like ``pt-BR``."
-msgstr ""
+msgstr "通常、Web プラットフォームで使用し、``pt-BR`` などの言語コードを生成する。"
 
 #: ../../admin/languages.rst:192
 msgid "BCP style using hyphen as a separator, including country code"
@@ -11541,7 +11571,7 @@ msgstr "国コードを含む、ハイフンを区切り文字とする BCP 形�
 msgid ""
 "BCP style language code including the country code even when not necessary "
 "(for example ``cs-CZ``)."
-msgstr ""
+msgstr "必要でない場合でも国コードを含む BCP 形式の言語コード（例: ``cs-CZ`` ）。"
 
 #: ../../admin/languages.rst:195
 msgid "Android style"
@@ -11549,7 +11579,7 @@ msgstr "Android 形式"
 
 #: ../../admin/languages.rst:195
 msgid "Only used in Android apps, produces language codes like ``pt-rBR``."
-msgstr ""
+msgstr "Android アプリでのみ使用し、``pt-rBR`` のような言語コードを生成する。"
 
 #: ../../admin/languages.rst:198
 msgid "Java style"
@@ -11557,19 +11587,20 @@ msgstr "Java 形式"
 
 #: ../../admin/languages.rst:198
 msgid "Used by Java—mostly BCP with legacy codes for Chinese."
-msgstr ""
+msgstr "Java で使用—主に中国語用のレガシー コードを使用する BCP。"
 
 #: ../../admin/languages.rst:200
 msgid ""
 "Additionally, any mappings defined in :ref:`project-language_aliases` are "
 "applied in reverse."
-msgstr ""
+msgstr "さらに、:ref:`project-language_aliases` で定義したマッピングはすべて逆に適用する。"
 
 #: ../../admin/languages.rst:205
 msgid ""
 "Weblate recognizes any of these when parsing translation files, the above "
 "settings only influences how new files are created."
 msgstr ""
+"Weblate は翻訳ファイルを解析するときに、これらのいずれかを認識しますが、上記の設定は新しいファイルがどのように作成されるかにのみ影響します。"
 
 #: ../../admin/languages.rst:210
 msgid ":ref:`language-code`, :ref:`language-parsing-codes`"
@@ -23399,6 +23430,8 @@ msgid ""
 "collect info on any such issue and submit it to the `issue tracker <https://"
 "github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
+"バグは、アプリケーションのクラッシュまたは不正行為として現れることがあります。このような問題に関する情報を収集し、`課題解決ツール "
+"<https://github.com/WeblateOrg/weblate/issues>`_で報告してください。"
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
