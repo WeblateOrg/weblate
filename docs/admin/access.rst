@@ -43,7 +43,7 @@ Per project permissions
 
 .. note::
 
-    This feature is unavailable for the projects running Libre plan on Hosted Weblate.
+    This feature is unavailable for projects using the Libre plan on Hosted Weblate.
 
 Set your projects to `Protected` or `Private`, and manage users per
 project in the Weblate interface.
@@ -53,11 +53,11 @@ Adding permissions to languages, components or projects
 
 .. note::
 
-    This feature is unavailable for the projects running Libre plan on Hosted Weblate.
+    This feature is unavailable for projects using the Libre plan on Hosted Weblate.
 
 Members are granted any permissions assigned to groups they are in, so you can
-grant the user multiple permissions at once. Create groups and attach them to project,
-component or language access. You can put users in multiple groups, and permissions
+grant the user multiple permissions at once. Create groups and attach them to a project,
+component, or language. You can put users in multiple groups, and permissions
 can overlap between them.
 
 Granting any selected permissions based on project, component or language
@@ -304,7 +304,7 @@ Custom access control
 
 To gain more access control adjustments in a project, you can set
 :guilabel:`Access control` to :guilabel:`Custom` to switch over to
-using the Django admin-interface instead of the Weblate built-in one.
+using the Django admin-interface instead of the one in Weblate.
 
 If you want to do this by default for all current and new projects, configure the
 :setting:`DEFAULT_ACCESS_CONTROL` to administrate all permissions and relations using
@@ -322,8 +322,8 @@ Default groups and roles
 ------------------------
 These roles and groups are created upon installation. The built-in roles are always 
 kept up to date by the database migration when upgrading.
-Custom changes are not lost. To define your own set of permissions, please
-define a new role for that. 
+Custom changes are not lost. Please define a new role if you want to define your
+own set of permissions. 
 
 List of privileges
 ++++++++++++++++++
@@ -383,7 +383,7 @@ Strings
 
     Review strings [`Administration`, `Review strings`]
 
-    Edit string when suggestions are enforced [`Administration`, `Review strings`]
+    Edit strings when suggestions are enforced [`Administration`, `Review strings`]
 
     Edit source strings [`Administration`, `Edit source`, `Power user`]
 
@@ -397,7 +397,7 @@ Suggestions
     Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translations
-    Start new translation [`Administration`, `Manage languages`, `Power user`]
+    Start new translations [`Administration`, `Manage languages`, `Power user`]
 
     Perform automatic translation [`Administration`, `Manage languages`]
 
@@ -406,7 +406,7 @@ Translations
     Start translation into a new language [`Administration`, `Manage languages`]
 
 Uploads
-    Define author of translation upload [`Administration`]
+    Define author of uploaded translations [`Administration`]
 
     Overwrite existing strings with an upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
@@ -417,7 +417,7 @@ VCS
 
     Commit changes to the internal repository [`Administration`, `Manage repository`]
 
-    Push change from the internal repository [`Administration`, `Manage repository`]
+    Push changes from the internal repository [`Administration`, `Manage repository`]
 
     Reset changes in the internal repository [`Administration`, `Manage repository`]
 
@@ -449,7 +449,7 @@ Site wide privileges
 .. note::
 
    Site-wide privileges are not granted to any default role. These are
-   powerful and quite close to the superuser status. Most of them affect all projects
+   powerful and quite close to superuser status. Most of them affect all projects
    in your Weblate installation.
 
 List of groups
@@ -497,5 +497,5 @@ however re-create them if you delete or rename them.
 .. warning::
 
     Never remove the predefined Weblate groups and users, as this can lead to
-    unexpected problems. Removing all their privileges is a thing to do if
-    you have no use for them.
+    unexpected problems. If you have no use for them, you can removing all their
+    privileges instead.
