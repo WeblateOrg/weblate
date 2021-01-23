@@ -320,7 +320,7 @@ the Django admin interface.
 
 Default groups and roles
 ------------------------
-These roles and groups are created upon installation. The built-in roles are always 
+These roles and groups are created upon installation. The built-in roles are always
 kept up to date by the database migration when upgrading.
 Custom changes are not lost. Please define a new role if you want to define your
 own set of permissions.
