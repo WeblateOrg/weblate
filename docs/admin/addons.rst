@@ -113,12 +113,12 @@ Triggered each time the VCS is updated, and otherwise similar to
 the :djadmin:`import_project` management command. This way you can track
 multiple translation components within one VCS.
 
-Create one main component least likely to disappear in the future, and others
-will employ :ref:`internal-urls` to it as a VCS configuration, and configure it
+Create one main component (least likely to disappear in the future) and others
+will employ :ref:`internal-urls` to it as a their VCS configuration, and configure it
 to find all components in it.
 
-The matching is done using regular expressions, where its power is a trade-off
-for reduced complexity in configuration. Some examples for common use-cases can
+Matching is done using powerful regular expressions, which means reduced
+complexity in configuration. Some examples for common use-cases can
 be found in the addon help section.
 
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
