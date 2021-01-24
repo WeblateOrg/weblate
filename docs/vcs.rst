@@ -28,7 +28,7 @@ Bitbucket, Codeberg and GitLab (with username :guilabel:`weblate` named
 :guilabel:`Weblate push user`). You need to add this user as a collaborator and
 give it appropriate permission to your repository (read-only is okay for
 cloning, write is required for pushing). Depending on service and your
-organization settings, this happens immediately, or requires confirmation on
+organization settings, this happens immediately, or requires confirmation on the
 Weblate side.
 
 Added users are accepted within five minutes GitHub, on other services
