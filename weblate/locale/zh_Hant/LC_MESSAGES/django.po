@@ -11,13 +11,14 @@
 # Michal Čihař <michal@cihar.com>, 2020.
 # WCK <wck317@pchome.com.tw>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
+# 01qwasa10 <a090889eric@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-20 19:04+0000\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
+"PO-Revision-Date: 2021-01-24 17:32+0000\n"
+"Last-Translator: 01qwasa10 <a090889eric@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -1327,28 +1328,20 @@ msgid "Source strings"
 msgstr "來源字串"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "建立翻譯"
+msgstr "目標翻譯"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "字串年齡"
+msgstr "字串前綴"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "字串"
+msgstr "字串後綴"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "Source and target have to be different translations."
-msgstr "您需要先登入，然後才能儲存翻譯！"
+msgstr "來源與目標須是不同的翻譯。"
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1359,14 +1352,16 @@ msgid "Generates a file containing detailed info about the translation status."
 msgstr "生成內含翻譯狀態詳細資訊的檔案。"
 
 #: weblate/addons/generate.py:65
+#, fuzzy
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "偽在地化生成"
 
 #: weblate/addons/generate.py:67
+#, fuzzy
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
-msgstr ""
+msgstr "透過將來源字串添加前綴與後綴來自動生成一個偽在地化翻譯。"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2455,10 +2450,8 @@ msgid "Replacements while rendering"
 msgstr "繪製時的取代項目"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "有變體的字串"
+msgstr "字串變體"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -3046,10 +3039,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI 檔"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "TermBase eXchange 文件"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3704,32 +3695,21 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF 驗證失敗。已中止請求。"
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"這個 HTTPS 網站要求您的網頁瀏覽器送出一個「Referer 標頭」，但卻沒有送出。這個"
-"標頭基於安全因素而要求送出，可確保您的瀏覽器不被第三方挾持。"
+"這個 HTTPS 網站要求您的網頁瀏覽器送出一個“Referer 標頭”，但卻沒有送出。這個標頭基於安全因素而要求送出，以確保您的瀏覽器不被第三方挾持。"
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"若您的瀏覽器設定成不傳送「Referer」標頭，請至少為這個網站、HTTPS 連線、或"
-"「same-origin」請求開啟這個功能。"
+"若您的網路瀏覽器設定成不傳送 “Referer” 標頭，請至少針對這個網站、HTTPS 連線、或是同源請求 (same-origin requests) "
+"開啟這個功能。"
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3741,16 +3721,10 @@ msgstr ""
 "保您的瀏覽器不被第三方挾持。"
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
-msgstr ""
-"若您的瀏覽器設置成不儲存 cookie，請至少重新為這個網站，或對「same-origin」請"
-"求啟用。"
+msgstr "若您的瀏覽器設置成不儲存 cookies，請至少針對這個網站，或對同源請求 (same-origin requests) 啟用。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5165,7 +5139,7 @@ msgstr "任何通過身份核對的使用者都可以貢獻。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "所有人都可能可以存取VCS 儲存庫。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5175,10 +5149,8 @@ msgstr "只有選定的使用者可以貢獻。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "只有選定的使用者可以貢獻。"
+msgstr "只有選定的使用者可以存取 VCS 儲存庫。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -10493,14 +10465,11 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "「%s」語言代碼過長，請檢查檔案遮罩。"
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for atranslating different resources."
-msgstr "有單一語言的更多檔案 (%s)，請調整檔案遮罩並使用組件翻譯不同的資源。"
+msgstr "%s語言具有多個檔案，請調整檔案遮罩並使用組件翻譯不同的資源。"
 
 #: weblate/trans/models/component.py:2100
 msgid "Could not find any matching language, please check the filemask."
