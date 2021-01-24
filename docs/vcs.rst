@@ -5,7 +5,7 @@ Version control integration
 
 Weblate currently supports :ref:`vcs-git` (with extended support for
 :ref:`vcs-github`, :ref:`vcs-gerrit` and :ref:`vcs-git-svn`) and
-:ref:`vcs-mercurial` as version control backends.
+:ref:`vcs-mercurial` as version control back-ends.
 
 .. _vcs-repos:
 
@@ -26,16 +26,16 @@ Accessing repositories from Hosted Weblate
 For Hosted Weblate there is a dedicated push user registered on GitHub,
 Bitbucket, Codeberg and GitLab (with username :guilabel:`weblate` named
 :guilabel:`Weblate push user`). You need to add this user as a collaborator and
-give it appropriate permission to your repository (read only is okay for
+give it appropriate permission to your repository (read-only is okay for
 cloning, write is required for pushing). Depending on service and your
-organization settings, this happens immediately or requires confirmation from
+organization settings, this happens immediately, or requires confirmation on
 Weblate side.
 
-The invitations on GitHub are accepted automatically within five minutes, on
-other services manual processing might be needed, so please be patient.
+Added users are accepted within five minutes GitHub, on other services
+manual processing might be needed, so please be patient.
 
 Once the :guilabel:`weblate` user is added, you can configure
-:ref:`component-repo` and :ref:`component-push` using SSH protocol (for example
+:ref:`component-repo` and :ref:`component-push` using the SSH protocol (for example
 ``git@github.com:WeblateOrg/weblate.git``).
 
 .. _ssh-repos:
@@ -49,7 +49,7 @@ repository this way.
 
 .. warning::
 
-    On GitHub, each key can be use only once, see :ref:`vcs-repos-github` and
+    On GitHub, each key can only be used once, see :ref:`vcs-repos-github` and
     :ref:`hosted-push`.
 
 Weblate also stores the host key fingerprint upon first connection, and fails to
@@ -130,14 +130,17 @@ approach is also used for Hosted Weblate, there is dedicated
 Weblate internal URLs
 +++++++++++++++++++++
 
-To share one repository between different components you can use a special URL
-like ``weblate://project/component``. This way, the component will share the
-VCS repository configuration with the referenced component
-(``project/component`` in the example).
+Share one repository setup between different components by reffering to
+its placement as ``weblate://project/component``. This way other components
+use the VCS repository configuration of the referenced component.
 
-Weblate automatically adjusts repository URL when creating component when it
-finds component with matching repository setup. You can override this in last
-step of component configuration.
+.. hint::
+
+   Make sure not to delete components others point to for their setup.
+
+Weblate automatically adjusts the repository URL when creating a component when it
+finds a component with a matching repository setup. You can override this in
+the last step of the component configuration.
 
 Reasons to use this:
 
@@ -431,8 +434,8 @@ users to maintain a full clone of the internal repository and commit locally.
 Subversion credentials
 ++++++++++++++++++++++
 
-Weblate expects you to have accepted the certificate up-front and if needed,
-your credentials. It will look to insert them into the :setting:`DATA_DIR`
+Weblate expects you to have accepted the certificate up-front (and your
+credentials if needed). It will look to insert them into the :setting:`DATA_DIR`
 directory. Accept the certificate by using `svn` once with the `$HOME`
 environment variable set to the :setting:`DATA_DIR`:
 
