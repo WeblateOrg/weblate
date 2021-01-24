@@ -24,7 +24,7 @@ Accessing repositories from Hosted Weblate
 ++++++++++++++++++++++++++++++++++++++++++
 
 For Hosted Weblate there is a dedicated push user registered on GitHub,
-Bitbucket, Codeberg and GitLab (with username :guilabel:`weblate` named
+Bitbucket, Codeberg and GitLab (with the username :guilabel:`weblate` named
 :guilabel:`Weblate push user`). You need to add this user as a collaborator and
 give it appropriate permission to your repository (read-only is okay for
 cloning, write is required for pushing). Depending on service and your
@@ -147,7 +147,7 @@ Reasons to use this:
 * Saves disk space on the server, the repository is stored just once.
 * Makes the updates faster, only one repository is updated.
 * There is just single exported repository with Weblate translations (see :ref:`git-exporter`).
-* Some addons can operate on more components sharing single repository, for example :ref:`addon-weblate.git.squash`.
+* Some addons can operate on multiple components sharing one repository, for example :ref:`addon-weblate.git.squash`.
 
 
 HTTPS repositories
@@ -425,7 +425,7 @@ users to maintain a full clone of the internal repository and commit locally.
 
 .. versionchanged:: 2.19
 
-    Before this, there was only support for standard layout repositories.
+    Before this, only repositories using the standard layout were supported.
 
 .. _git-svn: https://git-scm.com/docs/git-svn
 
