@@ -113,13 +113,8 @@ Triggered each time the VCS is updated, and otherwise similar to
 the :djadmin:`import_project` management command. This way you can track
 multiple translation components within one VCS.
 
-Create one main component (least likely to disappear in the future) and others
-will employ :ref:`internal-urls` to it as a their VCS configuration, and configure it
-to find all components in it.
-
-Matching is done using powerful regular expressions, which means reduced
-complexity in configuration. Some examples for common use-cases can
-be found in the addon help section.
+Matching is done using powerful regular expressions, reducing configuration
+complexity. Some examples for common use-cases can be found in the addon help section.
 
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
@@ -129,6 +124,13 @@ from where you can check whether the configuration actually matches your needs:
 .. seealso::
 
     :ref:`markup`
+    
+.. hint::
+
+   With :ref:`internal-urls` you can populate the VCS configuration of other components
+   from your main component by pointing to it as weblate://projectname/themaincomponent
+   from the :ref:`component-repo` field (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓
+   :guilabel:`Version control system`) of each resective component.
 
 .. _addon-weblate.flags.bulk:
 
