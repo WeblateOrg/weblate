@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-20 20:05+0100\n"
-"PO-Revision-Date: 2021-01-24 17:32+0000\n"
+"PO-Revision-Date: 2021-01-24 20:00+0000\n"
 "Last-Translator: 01qwasa10 <a090889eric@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hant/>\n"
@@ -38,14 +38,15 @@ msgstr ""
 msgid ""
 "Weblate comes with a fine grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
-msgstr "Weblate 具有一個仔細的權利系統，可以為整個實例或在有限範圍內分配用戶權限。"
+msgstr "Weblate 具有一個精細的權利系統，可以為整個實例或在有限範圍內分配用戶權限。"
 
 #: ../../admin/access.rst:15
 msgid ""
 "The permission system based on groups and roles, where roles define a set of "
 "permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
-msgstr "權限系統由組別與角色建構而成。其中角色定義了一組權限，而組別將其分配給用戶和翻譯。請參見：ref：`auth-model`獲得更多詳細資訊。"
+msgstr ""
+"權限系統由群組與角色建構而成。其中角色定義了一組權限，而群組將其分配給用戶和翻譯。請參見 :ref:`auth-model` 獲得更多詳細資訊。"
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -55,14 +56,16 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`."
 msgstr ""
+"在安裝後將會建立一組預設的群組。您可以使用這些群組為整個實例分配使用者角色（請參考 :ref:`default-groups`）。此外，當開啟 "
+":ref:`acl` 時，您可以指派使用者到特定的翻譯專案。使用 :ref:`custom-acl` 可以做到更精細的設定。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
-msgstr "常見設置"
+msgstr "常見設定"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
-msgstr ""
+msgstr "鎖定 Weblate"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -70,10 +73,12 @@ msgid ""
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
+"若要完全鎖定您的 Weblate，您可以使用 :setting:`REQUIRE_LOGIN` 來要求使用者登入，並使用 "
+":setting:`REGISTRATION_OPEN` 來阻止新的註冊。"
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
-msgstr ""
+msgstr "全網站權限"
 
 #: ../../admin/access.rst:37
 msgid ""
@@ -81,26 +86,28 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"若要管理整個實例權限，只需將使用者添加到 `Users` （預設使用 :ref:`autogroup`）、 `Reviewers` 或 "
+"`Managers` 群組。請將所有專案配置為 `Public` （請參閱 :ref:`acl`）。"
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr ""
+msgstr "單一專案權限"
 
 #: ../../admin/access.rst:46 ../../admin/access.rst:56
 #: ../../admin/access.rst:84
 msgid ""
 "This feature is not available for projects running the Hosted Libre plan."
-msgstr ""
+msgstr "此功能不適用於運行 Hosted Libre 方案的專案。"
 
 #: ../../admin/access.rst:48
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
-msgstr ""
+msgstr "將專案設定為 `Protected` 或 `Privited` ，並在 Weblate 介面中管理每個專案的使用者。"
 
 #: ../../admin/access.rst:52
 msgid "Adding permissions to languages, components or projects"
-msgstr ""
+msgstr "為語言、組件或專案添加權限"
 
 #: ../../admin/access.rst:58
 msgid ""
@@ -109,6 +116,8 @@ msgid ""
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
+"您還可以根據專案、組件或語言集為任何用戶授予權限。若要使用此功能，請為一個指定的資源建立一個新群組（例如「捷克語翻譯」）並進行配置。任何分配的權限都將授予"
+"所有指定資源的群組成員。"
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -117,10 +126,12 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
+"如果您使用單一專案權限，則無需額外設定即可正常運作。對於整個實例的權限，您可能還希望從 `User` "
+"群組中刪除這些權限，或更改自動分配所有用戶到該群組的設定（請參閱 :ref:`autogroup`）。"
 
 #: ../../admin/access.rst:70
 msgid ":ref:`perm-check`"
-msgstr ""
+msgstr ":ref:`perm-check`"
 
 #: ../../admin/access.rst:75
 msgid "Project access control"
@@ -130,7 +141,7 @@ msgstr "專案存取控制"
 msgid ""
 "By enabling ACL, all users are prohibited from accessing anything within a "
 "given project, unless you add the permissions for them to do just that."
-msgstr ""
+msgstr "啟用 ACL 後，所有使用者將被禁止存取指定專案中的任何內容，除非您添加允許他們執行此操作的權限。"
 
 #: ../../admin/access.rst:86
 msgid ""
@@ -139,10 +150,12 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
+"您可以透過啟用在個別專案設定中的 :guilabel:`Access control` 來限制使用者存取個別專案。這會為這個專案自動建立數個群組，請參閱 "
+":ref:`groups`。"
 
 #: ../../admin/access.rst:90
 msgid "The following choices exist for :guilabel:`Access control`:"
-msgstr ""
+msgstr ":guilabel:`Access control`存在以下幾種選擇："
 
 #: ../../admin/access.rst:92
 msgid "Public"
@@ -150,15 +163,15 @@ msgstr "公開"
 
 #: ../../admin/access.rst:93
 msgid "Publicly visible and translatable"
-msgstr "公開，並可翻譯"
+msgstr "公開可見並可翻譯"
 
 #: ../../admin/access.rst:94
 msgid "Protected"
-msgstr "保護"
+msgstr "受保護"
 
 #: ../../admin/access.rst:95
 msgid "Publicly visible, but translatable only for selected users"
-msgstr ""
+msgstr "公開可見，但僅選定使用者可翻譯"
 
 #: ../../admin/access.rst:96
 msgid "Private"
@@ -166,7 +179,7 @@ msgstr "私人"
 
 #: ../../admin/access.rst:97
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "僅選定使用者可見與翻譯"
 
 #: ../../admin/access.rst:99
 msgid "Custom"
@@ -174,7 +187,7 @@ msgstr "自訂"
 
 #: ../../admin/access.rst:99
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
-msgstr ""
+msgstr "Weblate 並不會管理使用者，請見 :ref:`custom-acl`。"
 
 #: ../../admin/access.rst:103
 msgid ""
@@ -183,21 +196,23 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
+"若要允許存取此專案，你必須將權利直接添加給指定使用者或是 Django 管理介面中的群組。你也可以將 :ref:`manage-acl` "
+"中的描述作為參考，來使用專案頁面的使用者管理 。"
 
 #: ../../admin/access.rst:109
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
-msgstr ""
+msgstr "即使啟用 ACL 也可以看到一些關於你的專案的摘要資訊："
 
 #: ../../admin/access.rst:111
 msgid "Statistics for the whole instance, including counts for all projects."
-msgstr ""
+msgstr "整個實例的統計數據，包含所有專案計數。"
 
 #: ../../admin/access.rst:112
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
-msgstr ""
+msgstr "整個實例的語言摘要，包含所有專案計數。"
 
 #: ../../admin/access.rst:117
 msgid "Automatic group assignments"
@@ -208,13 +223,13 @@ msgid ""
 "You can set up Weblate to automatically add users to groups based on their e-"
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
-msgstr ""
+msgstr "您可以讓 Weblate 根據使用者的電子郵件地址自動將使用者添加到群組。此自動分配僅在建立帳戶時發生。"
 
 #: ../../admin/access.rst:122
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
-msgstr ""
+msgstr "這可以在每個群組的 Django 管理介面中的 :guilabel:`Authentication` 設定。"
 
 #: ../../admin/access.rst:127
 msgid ""
