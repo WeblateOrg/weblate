@@ -604,6 +604,18 @@ class GitMergeRequestBase(GitForcePushRepository):
     identifier = None
     API_TEMPLATE = ""
 
+    def merge(self, abort=False, message=None):
+        """Merge remote branch or reverts the merge."""
+        # This reverts merge behavior of pure git backend
+        # as we're expecting there will be an additional merge
+        # commmit created from the merge request.
+        if abort:
+            self.execute(["merge", "--abort"])
+            # Needed for compatibility with original merge code
+            self.execute(["checkout", self.branch])
+        else:
+            self.execute(["merge", f"origin/{self.branch}"])
+
     def get_api_url(self) -> Tuple[str, str, str]:
         repo = self.component.repo
         parsed = urllib.parse.urlparse(repo)
