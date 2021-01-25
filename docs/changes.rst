@@ -11,6 +11,7 @@ Not yet released.
 * Added support for Term Base eXchange files.
 * Added support for manually defining string variants using a flag.
 * Improved performance of consistency checks.
+* Improved performance of translation memory for long strings.
 
 Weblate 4.4.2
 -------------
