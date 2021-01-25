@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-25 13:04+0100\n"
-"PO-Revision-Date: 2021-01-22 22:55+0000\n"
+"PO-Revision-Date: 2021-01-26 02:42+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1466,6 +1466,12 @@ msgid ""
 "running the application with those strings as a translation. Also it would "
 "be find strings which localized counterparts might not fit into the layout."
 msgstr ""
+"Псевдолокалі корисні для перевірки того, чи усі рядки, які має бути "
+"перекладено, насправді готові до локалізації. Результат досягається зміною "
+"початкових рядків таким чином, щоб рядок, який не змінено, було просто "
+"виявити під час запуску програми із відповідними рядками «перекладу». Також "
+"псевдолокалі корисні для виявлення рядків, чиї перекладені варіанти можуть "
+"не вписуватися у компонування вікон програми."
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -3549,16 +3555,13 @@ msgid "``font-spacing:SPACING``"
 msgstr "``font-spacing:ІНТЕРВАЛ``"
 
 #: ../../admin/checks.rst:70
-#, fuzzy
-#| msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
-msgstr "Визначити інтервал шрифту для перевірок обробки, див. :ref:`fonts`."
+msgstr ""
+"Визначити інтервал між літерами для перевірок обробки, див. :ref:`fonts`."
 
 #: ../../admin/checks.rst:71
-#, fuzzy
-#| msgid "``placeholders:NAME``"
 msgid "``placeholders:NAME:NAME2:...``"
-msgstr "``placeholders:НАЗВА``"
+msgstr "``placeholders:НАЗВА:НАЗВА2:...``"
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -3606,12 +3609,6 @@ msgstr ""
 "Формальний вираз для зіставлення файлів перекладу, див. :ref:`check-regex`."
 
 #: ../../admin/checks.rst:87
-#, fuzzy
-#| msgid ""
-#| "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
-#| "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-#| "messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-#| "format``, ``ruby-format``, ``vue-format``"
 msgid ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
@@ -3620,18 +3617,10 @@ msgid ""
 msgstr ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-"messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-"format``, ``ruby-format``, ``vue-format``"
+"messageformat``, ``lua-format``, ``auto-java-messageformat``, ``qt-format``, "
+"``qt-plural-format``, ``ruby-format``, ``vue-format``"
 
 #: ../../admin/checks.rst:83
-#, fuzzy
-#| msgid ""
-#| "Treats all strings like format strings, affects :ref:`check-python-"
-#| "format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-#| "format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-#| "`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-"
-#| "javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-"
-#| "format`, :ref:`check-java-messageformat`, :ref:`check-same`."
 msgid ""
 "Treats all strings like format strings, affects :ref:`check-python-format`, :"
 "ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-format`, :ref:"
@@ -3642,10 +3631,10 @@ msgid ""
 msgstr ""
 "Обробляти усі рядки як рядки форматування, впливає на :ref:`check-python-"
 "format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-"format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-"`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-javascript-"
-"format`, :ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-"
-"java-messageformat`, :ref:`check-same`."
+"format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref"
+":`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-"
+"javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-format`, "
+":ref:`check-java-messageformat`, :ref:`check-lua-format`, :ref:`check-same`."
 
 #: ../../admin/checks.rst:89
 msgid "``strict-same``"
@@ -3748,16 +3737,12 @@ msgid "Skip the \"JavaScript format\" quality check."
 msgstr "Пропустити перевірку якості «Форматування JavaScript»."
 
 #: ../../admin/checks.rst:113
-#, fuzzy
-#| msgid "``ignore-vue-format``"
 msgid "``ignore-lua-format``"
-msgstr "``ignore-vue-format``"
+msgstr "``ignore-lua-format``"
 
 #: ../../admin/checks.rst:114
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the \"Lua format\" quality check."
-msgstr "Пропустити перевірку якості «Форматування C»."
+msgstr "Пропустити перевірку якості «Формат Lua»."
 
 #: ../../admin/checks.rst:115
 msgid "``ignore-percent-placeholders``"
@@ -20423,11 +20408,8 @@ msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for ``javascript-format`` used in gettext PO."
 msgid "Added support for ``lua-format`` used in gettext PO."
-msgstr ""
-"Додано підтримку ``javascript-format``, що використовується у PO gettext."
+msgstr "Додано підтримку ``lua-format``, що використовується у PO gettext."
 
 #: ../../changes.rst:7
 msgid "Added support for sharing a component between projects."
@@ -27952,17 +27934,12 @@ msgstr ""
 "Weblate."
 
 #: ../../contributing/start.rst:126
-#, fuzzy
-#| msgid ""
-#| "Considering you have just cloned the Github repository, just open the "
-#| "folder in which you cloned it in PyCharm. Once the IDE is open, the first "
-#| "step is to specify the interpreter you want:"
 msgid ""
 "Considering you have just cloned the GitHub repository, just open the folder "
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
 "to specify the interpreter you want:"
 msgstr ""
-"Припустімо, що ви вже створили клон сховища Github і відкрили теку, до якої "
+"Припустімо, що ви вже створили клон сховища GitHub і відкрили теку, до якої "
 "було клоновано код, у PyCharm. Після відкриття вікна середовища розробки "
 "першим кроком є визначення потрібного вам інтерпретатора:"
 
@@ -28894,10 +28871,6 @@ msgstr ""
 "перекладу<component>`."
 
 #: ../../devel/integration.rst:33
-#, fuzzy
-#| msgid ""
-#| "Alternateively, you can use :doc:`/api` to update translations to match "
-#| "their latest version."
 msgid ""
 "Alternatively, you can use :doc:`/api` to update translations to match their "
 "latest version."
@@ -29101,10 +29074,8 @@ msgid "Dutch"
 msgstr "нідерландська"
 
 #: ../../devel/reporting.rst:45
-#, fuzzy
-#| msgid "Jae Doe <jane@example.com> (42)"
 msgid "Jane Doe <jane@example.com> (42)"
-msgstr "Jae Doe <jane@example.com> (42)"
+msgstr "Jane Doe <jane@example.com> (42)"
 
 #: ../../devel/reporting.rst:49
 msgid ""
@@ -29990,22 +29961,17 @@ msgid "Manual variants"
 msgstr "Власноручні варіанти"
 
 #: ../../devel/translations.rst:63
-#, fuzzy
-#| msgid ""
-#| "You can manually link specific strings using ``variant:SOURCE`` flag. "
-#| "This can be useful for bilingual transaltions which do not have keys to "
-#| "group strings automatically, or to group strings which do not have "
-#| "matching string, but should be considered together when translating."
 msgid ""
 "You can manually link specific strings using ``variant:SOURCE`` flag. This "
 "can be useful for bilingual translations which do not have keys to group "
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
-"Ви можете вручну пов'язати певні рядки за допомогою позначки ``variant:"
-"ДЖЕРЕЛО``. Це може бути корисним для двомовних перекладів, які не отримали "
-"ключів до групових рядків автоматично, або для групування рядків, які не "
-"мають відповідного рядка, але повинні розглядатися разом під час перекладу."
+"Ви можете вручну пов'язати певні рядки за допомогою позначки "
+"``variant:ДЖЕРЕЛО``. Це може бути корисним для двомовних перекладів, які не "
+"отримали ключів до групових рядків автоматично, або для групування рядків, "
+"чиї ключі не збігаються, але які повинні розглядатися разом під час "
+"перекладу."
 
 #: ../../devel/translations.rst:70
 msgid ""
@@ -33631,34 +33597,24 @@ msgstr ""
 "html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:274
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "Формат C"
+msgstr "Формат Lua"
 
 #: ../../user/checks.rst:276
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*Lua format string does not match source*"
-msgstr "Рядок, формату C, не відповідає джерелу"
+msgstr "*Рядок, формату Lua, не відповідає джерелу*"
 
 #: ../../user/checks.rst:281
-#, fuzzy
-#| msgid "`vue-format`"
 msgid "`lua-format`"
-msgstr "`vue-format`"
+msgstr "`lua-format`"
 
 #: ../../user/checks.rst:286
-#, fuzzy
-#| msgid ""
-#| "`JavaScript formatting strings <https://www.gnu.org/software/gettext/"
-#| "manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Lua formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-"`Рядки форматування JavaScript <https://www.gnu.org/software/gettext/manual/"
-"html_node/javascript_002dformat.html>`_"
+"`Рядки форматування Lua <https://www.gnu.org/software/gettext/manual/"
+"html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:289
 msgid "Percent placeholders"
@@ -36814,14 +36770,6 @@ msgstr ""
 "використовує їх у подальшому."
 
 #: ../../vcs.rst:90
-#, fuzzy
-#| msgid ""
-#| "In case you want to verify the key fingerpring before connecting to the "
-#| "repository, verify the SSH host keys of the servers you are going to "
-#| "access in :guilabel:`Add host key`, from the same section of the admin "
-#| "interface. Enter the hostname you are going to access (e.g. ``gitlab."
-#| "com``), and press :guilabel:`Submit`.  Verify its fingerprint matches the "
-#| "server you added. They are shown in the confirmation message:"
 msgid ""
 "In case you want to verify the key fingerprint before connecting to the "
 "repository, add the SSH host keys of the servers you are going to access in :"
@@ -36830,16 +36778,16 @@ msgid ""
 "guilabel:`Submit`. Verify its fingerprint matches the server you added."
 msgstr ""
 "Якщо вам захочеться перевірити відбиток ключа до встановлення з'єднання зі "
-"сховищем, перевірте ключі SSH вузлів серверів, до яких ви збираєтеся "
-"отримати доступ у пункті :guilabel:`Додати ключ вузла` того самого розділу "
+"сховищем, додайте ключі SSH вузлів серверів, до яких ви збираєтеся отримати "
+"доступ у пункті :guilabel:`Додати ключ вузла` того самого розділу "
 "адміністративного інтерфейсу. Введіть назву вузла, до якого ви маєте намір "
-"отримати доступ (наприклад, ``gitlab.com``) і натисніть кнопку :guilabel:"
-"`Надіслати`. Перевірте, чи відбиток збігається з доданим вами сервером. Дані "
-"буде показано у повідомленні підтвердження:"
+"отримати доступ (наприклад, ``gitlab.com``) і натисніть кнопку "
+":guilabel:`Надіслати`. Перевірте, чи відбиток збігається з доданим вами "
+"сервером."
 
 #: ../../vcs.rst:96
 msgid "The added keys with fingerprints are shown in the confirmation message:"
-msgstr ""
+msgstr "Додані ключі із відбитками буде показано у повідомленні підтвердження:"
 
 #: ../../vcs.rst:103
 msgid "GitHub repositories"
@@ -37127,17 +37075,12 @@ msgstr ""
 "пункт при записі змін до основної сховища."
 
 #: ../../vcs.rst:261
-#, fuzzy
-#| msgid ""
-#| "This adds a thin layer atop :ref:`vcs-git` using the `Github API`_ to "
-#| "allow pushing translation changes as pull requests, instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow "
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"Це додає тонкий шар над :ref:`vcs-git` з використанням інструмента `Github "
+"Це додає тонкий шар над :ref:`vcs-git` з використанням інструмента `GitHub "
 "API`_, щоб уможливити запис змін у перекладах як запитів щодо об'єднання, "
 "замість безпосереднього запису до сховища."
 
