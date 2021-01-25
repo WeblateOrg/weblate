@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-01-20 19:04+0000\n"
+"POT-Creation-Date: 2021-01-25 12:03+0000\n"
 "PO-Revision-Date: 2021-01-24 17:32+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -1400,7 +1400,9 @@ msgid "String suffix"
 msgstr "文字列の接尾辞"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be different translations."
+#, fuzzy
+#| msgid "Source and target have to be different translations."
+msgid "Source and target have to be a different languages."
 msgstr "原文と翻訳対象は、別の言語にしてください。"
 
 #: weblate/addons/generate.py:34
@@ -2544,129 +2546,141 @@ msgstr "翻訳フラグのパラメータが間違っています: \"%s\""
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "翻訳フラグにパラメータがありません: \"%s\""
 
-#: weblate/checks/format.py:341 weblate/checks/placeholders.py:93
+#: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
 #, python-format
 msgid "Following format strings are missing: %s"
 msgstr "次のフォーマット文字列が足りません: %s"
 
-#: weblate/checks/format.py:345 weblate/checks/placeholders.py:98
+#: weblate/checks/format.py:346 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
 msgstr "次のフォーマット文字列は余分です: %s"
 
-#: weblate/checks/format.py:396
+#: weblate/checks/format.py:397
 msgid "Python format"
 msgstr "Python 形式"
 
-#: weblate/checks/format.py:397
+#: weblate/checks/format.py:398
 msgid "Python format string does not match source"
 msgstr "原文と Python の書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:404
+#: weblate/checks/format.py:405
 msgid "PHP format"
 msgstr "PHP 形式"
 
-#: weblate/checks/format.py:405
+#: weblate/checks/format.py:406
 msgid "PHP format string does not match source"
 msgstr "原文と PHP の書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:412
+#: weblate/checks/format.py:413
 msgid "C format"
 msgstr "C 言語書式"
 
-#: weblate/checks/format.py:413
+#: weblate/checks/format.py:414
 msgid "C format string does not match source"
 msgstr "原文と C 言語の書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:420
+#: weblate/checks/format.py:421
 msgid "Perl format"
 msgstr "Perl 形式"
 
-#: weblate/checks/format.py:421
+#: weblate/checks/format.py:422
 msgid "Perl format string does not match source"
 msgstr "原文と Perl の書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:428
+#: weblate/checks/format.py:429
 msgid "JavaScript format"
 msgstr "JavaScript 形式"
 
-#: weblate/checks/format.py:429
+#: weblate/checks/format.py:430
 msgid "JavaScript format string does not match source"
 msgstr "原文と JavaScript の書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:436
+#: weblate/checks/format.py:437
+#, fuzzy
+#| msgid "C format"
+msgid "Lua format"
+msgstr "C 言語書式"
+
+#: weblate/checks/format.py:438
+#, fuzzy
+#| msgid "C format string does not match source"
+msgid "Lua format string does not match source"
+msgstr "原文と C 言語の書式文字列が合致していないもの"
+
+#: weblate/checks/format.py:445
 msgid "Python brace format"
 msgstr "Python のブレース書式"
 
-#: weblate/checks/format.py:437
+#: weblate/checks/format.py:446
 msgid "Python brace format string does not match source"
 msgstr "原文と Python のブレース書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:451
+#: weblate/checks/format.py:460
 msgid "C# format"
 msgstr "C# 言語形式"
 
-#: weblate/checks/format.py:452
+#: weblate/checks/format.py:461
 msgid "C# format string does not match source"
 msgstr "原文と C# 言語の書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:466
+#: weblate/checks/format.py:475
 msgid "Java format"
 msgstr "Java 形式"
 
-#: weblate/checks/format.py:467
+#: weblate/checks/format.py:476
 msgid "Java format string does not match source"
 msgstr "原文と Java 言語の書式文字列が合致していないもの"
 
-#: weblate/checks/format.py:474
+#: weblate/checks/format.py:483
 msgid "Java MessageFormat"
 msgstr "Java MessageFormat"
 
-#: weblate/checks/format.py:475
+#: weblate/checks/format.py:484
 msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat 文字列は原文と一致しません"
 
-#: weblate/checks/format.py:505
+#: weblate/checks/format.py:514
 msgid "You need to pair up an apostrophe with another one."
 msgstr "引用符は、ペアで用いる必要があります。"
 
-#: weblate/checks/format.py:511
+#: weblate/checks/format.py:520
 msgid "i18next interpolation"
 msgstr "i18next 補間"
 
-#: weblate/checks/format.py:512
+#: weblate/checks/format.py:521
 msgid "The i18next interpolation does not match source"
 msgstr "i18next の補間が原文と不一致"
 
-#: weblate/checks/format.py:523
+#: weblate/checks/format.py:532
 msgid "ECMAScript template literals"
 msgstr "ECMAScript テンプレート リテラル"
 
-#: weblate/checks/format.py:524
+#: weblate/checks/format.py:533
 msgid "ECMAScript template literals do not match source"
 msgstr "ECMAScript テンプレート リテラルが一致していない"
 
-#: weblate/checks/format.py:536
+#: weblate/checks/format.py:545
 msgid "Percent placeholders"
 msgstr "パーセントのプレースホルダー"
 
-#: weblate/checks/format.py:537
+#: weblate/checks/format.py:546
 msgid "The percent placeholders do not match source"
 msgstr "%（記号）プレースホルダー（補完）が原文と不一致"
 
-#: weblate/checks/format.py:543
+#: weblate/checks/format.py:552
 msgid "Vue I18n formatting"
 msgstr "Vue I18n 書式"
 
-#: weblate/checks/format.py:544
+#: weblate/checks/format.py:553
 msgid "The Vue I18n formatting does not match source"
 msgstr "Vue I18n 書式が原文と一致しません"
 
-#: weblate/checks/format.py:550
+#: weblate/checks/format.py:559
 msgid "Multiple unnamed variables"
 msgstr "複数の無名変数"
 
-#: weblate/checks/format.py:552
+#: weblate/checks/format.py:561
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -2781,11 +2795,11 @@ msgstr "Ruby 形式"
 msgid "Ruby format string does not match source"
 msgstr "Ruby 書式の文字列が原文と一致しません"
 
-#: weblate/checks/same.py:164
+#: weblate/checks/same.py:155
 msgid "Unchanged translation"
 msgstr "未翻訳の翻訳文"
 
-#: weblate/checks/same.py:165
+#: weblate/checks/same.py:156
 msgid "Source and translation are identical"
 msgstr "原文と翻訳文が同一"
 
@@ -3784,8 +3798,9 @@ msgid ""
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"この HTTPS サイトでは、Web ブラウザーから 'Referer' ヘッダを送信することが必要ですが、送信されていません。このヘッダは、セキュリティ"
-"上の理由から、ブラウザが第三者に乗っ取られていないことを確かめるために必要です。"
+"この HTTPS サイトでは、Web ブラウザーから 'Referer' ヘッダを送信することが必"
+"要ですが、送信されていません。このヘッダは、セキュリティ上の理由から、ブラウ"
+"ザが第三者に乗っ取られていないことを確かめるために必要です。"
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -3793,8 +3808,9 @@ msgid ""
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"'Referer' ヘッダを送信しないようにブラウザーを設定している場合は、設定を許可にしてください（少なくともこのサイトの HTTPS "
-"接続、または同一生成元の要求に対しては）。"
+"'Referer' ヘッダを送信しないようにブラウザーを設定している場合は、設定を許可"
+"にしてください（少なくともこのサイトの HTTPS 接続、または同一生成元の要求に対"
+"しては）。"
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3811,8 +3827,8 @@ msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"Cookie を保存しないようにブラウザーを設定している場合は、再度 Cookie "
-"を許可にしてください（少なくともこのサイトまたは同一生成元の要求に対しては）。"
+"Cookie を保存しないようにブラウザーを設定している場合は、再度 Cookie を許可に"
+"してください（少なくともこのサイトまたは同一生成元の要求に対しては）。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -10831,11 +10847,16 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "言語コード \"%s\" は長すぎます。ファイルマスクを確認してください。"
 
 #: weblate/trans/models/component.py:2086
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for atranslating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for atranslating different resources."
-msgstr "%s 言語に複数のファイルがあります。ファイルマスクを変更し、違うリソースを翻訳するためのコンポーネントを使用してください。"
+"use components for translating a different resources."
+msgstr ""
+"%s 言語に複数のファイルがあります。ファイルマスクを変更し、違うリソースを翻訳"
+"するためのコンポーネントを使用してください。"
 
 #: weblate/trans/models/component.py:2100
 msgid "Could not find any matching language, please check the filemask."
@@ -11171,11 +11192,11 @@ msgstr "em ダッシュ"
 msgid "User configured character: {}"
 msgstr "ユーザー定義の文字: {}"
 
-#: weblate/trans/tasks.py:355
+#: weblate/trans/tasks.py:359
 msgid "Automatic translation completed, no strings were updated."
 msgstr "自動翻訳が完了しましたが、文字列は更新されませんでした。"
 
-#: weblate/trans/tasks.py:359
+#: weblate/trans/tasks.py:363
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."

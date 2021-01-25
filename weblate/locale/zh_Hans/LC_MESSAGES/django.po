@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-01-20 19:04+0000\n"
+"POT-Creation-Date: 2021-01-25 12:03+0000\n"
 "PO-Revision-Date: 2021-01-24 17:32+0000\n"
 "Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1357,7 +1357,9 @@ msgid "String suffix"
 msgstr "字符串后缀"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be different translations."
+#, fuzzy
+#| msgid "Source and target have to be different translations."
+msgid "Source and target have to be a different languages."
 msgstr "源和目标必须是不同的翻译。"
 
 #: weblate/addons/generate.py:34
@@ -2488,129 +2490,141 @@ msgstr "错误的翻译标记：“%s”"
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "缺少的翻译标记：“%s”"
 
-#: weblate/checks/format.py:341 weblate/checks/placeholders.py:93
+#: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
 #, python-format
 msgid "Following format strings are missing: %s"
 msgstr "下面的格式字符串缺失：%s"
 
-#: weblate/checks/format.py:345 weblate/checks/placeholders.py:98
+#: weblate/checks/format.py:346 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
 msgstr "以下格式字符串是多出来的：%s"
 
-#: weblate/checks/format.py:396
+#: weblate/checks/format.py:397
 msgid "Python format"
 msgstr "Python 格式"
 
-#: weblate/checks/format.py:397
+#: weblate/checks/format.py:398
 msgid "Python format string does not match source"
 msgstr "Python 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:404
+#: weblate/checks/format.py:405
 msgid "PHP format"
 msgstr "PHP 格式"
 
-#: weblate/checks/format.py:405
+#: weblate/checks/format.py:406
 msgid "PHP format string does not match source"
 msgstr "PHP 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:412
+#: weblate/checks/format.py:413
 msgid "C format"
 msgstr "C 格式"
 
-#: weblate/checks/format.py:413
+#: weblate/checks/format.py:414
 msgid "C format string does not match source"
 msgstr "C 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:420
+#: weblate/checks/format.py:421
 msgid "Perl format"
 msgstr "Perl 格式"
 
-#: weblate/checks/format.py:421
+#: weblate/checks/format.py:422
 msgid "Perl format string does not match source"
 msgstr "Perl 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:428
+#: weblate/checks/format.py:429
 msgid "JavaScript format"
 msgstr "JavaScript 格式"
 
-#: weblate/checks/format.py:429
+#: weblate/checks/format.py:430
 msgid "JavaScript format string does not match source"
 msgstr "JavaScript 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:436
+#: weblate/checks/format.py:437
+#, fuzzy
+#| msgid "C format"
+msgid "Lua format"
+msgstr "C 格式"
+
+#: weblate/checks/format.py:438
+#, fuzzy
+#| msgid "C format string does not match source"
+msgid "Lua format string does not match source"
+msgstr "C 格式的字符串与源文不匹配"
+
+#: weblate/checks/format.py:445
 msgid "Python brace format"
 msgstr "Python brace 格式"
 
-#: weblate/checks/format.py:437
+#: weblate/checks/format.py:446
 msgid "Python brace format string does not match source"
 msgstr "Python 大括号格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:451
+#: weblate/checks/format.py:460
 msgid "C# format"
 msgstr "C# 格式"
 
-#: weblate/checks/format.py:452
+#: weblate/checks/format.py:461
 msgid "C# format string does not match source"
 msgstr "C# 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:466
+#: weblate/checks/format.py:475
 msgid "Java format"
 msgstr "Java 格式"
 
-#: weblate/checks/format.py:467
+#: weblate/checks/format.py:476
 msgid "Java format string does not match source"
 msgstr "Java 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:474
+#: weblate/checks/format.py:483
 msgid "Java MessageFormat"
 msgstr "Java MessageFormat"
 
-#: weblate/checks/format.py:475
+#: weblate/checks/format.py:484
 msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat 格式的字符串与源文不匹配"
 
-#: weblate/checks/format.py:505
+#: weblate/checks/format.py:514
 msgid "You need to pair up an apostrophe with another one."
 msgstr "您需要将一个撇号 ' 对应另一个撇号。"
 
-#: weblate/checks/format.py:511
+#: weblate/checks/format.py:520
 msgid "i18next interpolation"
 msgstr "i18next 插补"
 
-#: weblate/checks/format.py:512
+#: weblate/checks/format.py:521
 msgid "The i18next interpolation does not match source"
 msgstr "提供的 i18next 插补和原文不一致"
 
-#: weblate/checks/format.py:523
+#: weblate/checks/format.py:532
 msgid "ECMAScript template literals"
 msgstr "ECMAScript 模板文字"
 
-#: weblate/checks/format.py:524
+#: weblate/checks/format.py:533
 msgid "ECMAScript template literals do not match source"
 msgstr "ECMAScript模板文字和源文件不匹配"
 
-#: weblate/checks/format.py:536
+#: weblate/checks/format.py:545
 msgid "Percent placeholders"
 msgstr "百分比占位符"
 
-#: weblate/checks/format.py:537
+#: weblate/checks/format.py:546
 msgid "The percent placeholders do not match source"
 msgstr "提供的百分比占位符与原文不一致"
 
-#: weblate/checks/format.py:543
+#: weblate/checks/format.py:552
 msgid "Vue I18n formatting"
 msgstr "Vue I18n 格式"
 
-#: weblate/checks/format.py:544
+#: weblate/checks/format.py:553
 msgid "The Vue I18n formatting does not match source"
 msgstr "Vue I18n 格式和源不匹配"
 
-#: weblate/checks/format.py:550
+#: weblate/checks/format.py:559
 msgid "Multiple unnamed variables"
 msgstr "多个未命名的变量"
 
-#: weblate/checks/format.py:552
+#: weblate/checks/format.py:561
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -2725,11 +2739,11 @@ msgstr "Ruby 格式"
 msgid "Ruby format string does not match source"
 msgstr "Ruby 格式的字符串与源文不匹配"
 
-#: weblate/checks/same.py:164
+#: weblate/checks/same.py:155
 msgid "Unchanged translation"
 msgstr "未更改的翻译"
 
-#: weblate/checks/same.py:165
+#: weblate/checks/same.py:156
 msgid "Source and translation are identical"
 msgstr "源字符串与翻译字符串完全相同"
 
@@ -3708,8 +3722,8 @@ msgid ""
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"这个HTTPS站点需要浏览器发送 ‘Referer "
-"HTTP头‘，但是目前没有被发送。出于安全考虑，浏览器必须发送该HTTP头，以确保您的浏览器没有被第三方劫持。"
+"这个HTTPS站点需要浏览器发送 ‘Referer HTTP头‘，但是目前没有被发送。出于安全考"
+"虑，浏览器必须发送该HTTP头，以确保您的浏览器没有被第三方劫持。"
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -3717,8 +3731,8 @@ msgid ""
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"如果您已经设置网络浏览器不发送 ‘Referer’ 头，请至少针对这个站点，全部 HTTPS 请求，或者同源请求（same-origin）启用发送该 "
-"HTTP 头。"
+"如果您已经设置网络浏览器不发送 ‘Referer’ 头，请至少针对这个站点，全部 HTTPS "
+"请求，或者同源请求（same-origin）启用发送该 HTTP 头。"
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3734,7 +3748,8 @@ msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"如果您已经设置浏览器不保存 cookies，请至少针对这个站点，全部 HTTPS 请求，或者同源请求（same-origin）启用 cookies。"
+"如果您已经设置浏览器不保存 cookies，请至少针对这个站点，全部 HTTPS 请求，或者"
+"同源请求（same-origin）启用 cookies。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -10465,10 +10480,13 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "\"%s\" 语言代码过长，请检查文件掩码。"
 
 #: weblate/trans/models/component.py:2086
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for atranslating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for atranslating different resources."
+"use components for translating a different resources."
 msgstr "%s 语言有不止一个文件，请调整文件掩码并使用组件来翻译不同的资源。"
 
 #: weblate/trans/models/component.py:2100
@@ -10792,11 +10810,11 @@ msgstr "长破折号"
 msgid "User configured character: {}"
 msgstr "用户配置字符串：{}"
 
-#: weblate/trans/tasks.py:355
+#: weblate/trans/tasks.py:359
 msgid "Automatic translation completed, no strings were updated."
 msgstr "自动翻译已完成，没有字符串被更新。"
 
-#: weblate/trans/tasks.py:359
+#: weblate/trans/tasks.py:363
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."

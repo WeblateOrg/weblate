@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-01-20 19:04+0000\n"
+"POT-Creation-Date: 2021-01-25 12:03+0000\n"
 "PO-Revision-Date: 2021-01-22 07:35+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
@@ -1461,7 +1461,9 @@ msgid "String suffix"
 msgstr "Suffixe de la chaîne"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be different translations."
+#, fuzzy
+#| msgid "Source and target have to be different translations."
+msgid "Source and target have to be a different languages."
 msgstr "La source et la cible doivent être différentes."
 
 #: weblate/addons/generate.py:34
@@ -2643,131 +2645,143 @@ msgstr "Paramètres erronés pour la marque de traduction : « %s »"
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Paramètres manquants pour la marque de traduction : « %s »"
 
-#: weblate/checks/format.py:341 weblate/checks/placeholders.py:93
+#: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
 #, python-format
 msgid "Following format strings are missing: %s"
 msgstr "Les chaînes de format suivant sont manquantes : %s"
 
-#: weblate/checks/format.py:345 weblate/checks/placeholders.py:98
+#: weblate/checks/format.py:346 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
 msgstr "Les chaînes de format suivant sont en trop : %s"
 
-#: weblate/checks/format.py:396
+#: weblate/checks/format.py:397
 msgid "Python format"
 msgstr "Format Python"
 
-#: weblate/checks/format.py:397
+#: weblate/checks/format.py:398
 msgid "Python format string does not match source"
 msgstr "La chaîne de format Python ne correspond pas à celle de la source"
 
-#: weblate/checks/format.py:404
+#: weblate/checks/format.py:405
 msgid "PHP format"
 msgstr "Format PHP"
 
-#: weblate/checks/format.py:405
+#: weblate/checks/format.py:406
 msgid "PHP format string does not match source"
 msgstr "La chaîne de format PHP ne correspond pas à celle de la source"
 
-#: weblate/checks/format.py:412
+#: weblate/checks/format.py:413
 msgid "C format"
 msgstr "Format C"
 
-#: weblate/checks/format.py:413
+#: weblate/checks/format.py:414
 msgid "C format string does not match source"
 msgstr "La chaîne de format C ne correspond pas à celle de la source"
 
-#: weblate/checks/format.py:420
+#: weblate/checks/format.py:421
 msgid "Perl format"
 msgstr "Format Perl"
 
-#: weblate/checks/format.py:421
+#: weblate/checks/format.py:422
 msgid "Perl format string does not match source"
 msgstr "La chaîne au format Perl ne correspond pas à la source"
 
-#: weblate/checks/format.py:428
+#: weblate/checks/format.py:429
 msgid "JavaScript format"
 msgstr "Format JavaScript"
 
-#: weblate/checks/format.py:429
+#: weblate/checks/format.py:430
 msgid "JavaScript format string does not match source"
 msgstr "La chaîne de format JavaScript ne correspond pas à celle de la source"
 
-#: weblate/checks/format.py:436
+#: weblate/checks/format.py:437
+#, fuzzy
+#| msgid "C format"
+msgid "Lua format"
+msgstr "Format C"
+
+#: weblate/checks/format.py:438
+#, fuzzy
+#| msgid "C format string does not match source"
+msgid "Lua format string does not match source"
+msgstr "La chaîne de format C ne correspond pas à celle de la source"
+
+#: weblate/checks/format.py:445
 msgid "Python brace format"
 msgstr "Format d’accolade Python"
 
-#: weblate/checks/format.py:437
+#: weblate/checks/format.py:446
 msgid "Python brace format string does not match source"
 msgstr "La chaîne de format python ne correspond pas à celui de la source"
 
-#: weblate/checks/format.py:451
+#: weblate/checks/format.py:460
 msgid "C# format"
 msgstr "Format C#"
 
-#: weblate/checks/format.py:452
+#: weblate/checks/format.py:461
 msgid "C# format string does not match source"
 msgstr "La chaîne au format C# ne correspond pas à celle de la source"
 
-#: weblate/checks/format.py:466
+#: weblate/checks/format.py:475
 msgid "Java format"
 msgstr "Format Java"
 
-#: weblate/checks/format.py:467
+#: weblate/checks/format.py:476
 msgid "Java format string does not match source"
 msgstr "La chaîne au format Java ne correspond pas à celle de la source"
 
-#: weblate/checks/format.py:474
+#: weblate/checks/format.py:483
 msgid "Java MessageFormat"
 msgstr "MessageFormat Java"
 
-#: weblate/checks/format.py:475
+#: weblate/checks/format.py:484
 msgid "Java MessageFormat string does not match source"
 msgstr "La chaîne MessageFormat Java ne correspond pas à celle de la source"
 
-#: weblate/checks/format.py:505
+#: weblate/checks/format.py:514
 msgid "You need to pair up an apostrophe with another one."
 msgstr "Une apostrophe est manquante (les apostrophes fonctionnent par paire)."
 
-#: weblate/checks/format.py:511
+#: weblate/checks/format.py:520
 msgid "i18next interpolation"
 msgstr "Interpolation i18next"
 
-#: weblate/checks/format.py:512
+#: weblate/checks/format.py:521
 msgid "The i18next interpolation does not match source"
 msgstr "L’interpolation i18next ne correspond pas à la source"
 
-#: weblate/checks/format.py:523
+#: weblate/checks/format.py:532
 msgid "ECMAScript template literals"
 msgstr "Modèle de littéraux ECMAScript"
 
-#: weblate/checks/format.py:524
+#: weblate/checks/format.py:533
 msgid "ECMAScript template literals do not match source"
 msgstr "Les modèles littéraux ECMAScript ne correspondent pas à la source"
 
-#: weblate/checks/format.py:536
+#: weblate/checks/format.py:545
 msgid "Percent placeholders"
 msgstr "Balises de remplacement par caractères pour cent"
 
-#: weblate/checks/format.py:537
+#: weblate/checks/format.py:546
 msgid "The percent placeholders do not match source"
 msgstr ""
 "Les balises de remplacement par caractères pour cent ne correspondent pas à "
 "la source"
 
-#: weblate/checks/format.py:543
+#: weblate/checks/format.py:552
 msgid "Vue I18n formatting"
 msgstr "Formatage Vue I18n"
 
-#: weblate/checks/format.py:544
+#: weblate/checks/format.py:553
 msgid "The Vue I18n formatting does not match source"
 msgstr "Le formatage Vue I18n ne correspond pas à celui de la source"
 
-#: weblate/checks/format.py:550
+#: weblate/checks/format.py:559
 msgid "Multiple unnamed variables"
 msgstr "Multiples variables non nommées"
 
-#: weblate/checks/format.py:552
+#: weblate/checks/format.py:561
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -2884,11 +2898,11 @@ msgstr "Format Ruby"
 msgid "Ruby format string does not match source"
 msgstr "La chaîne de format Ruby ne correspond pas à la source"
 
-#: weblate/checks/same.py:164
+#: weblate/checks/same.py:155
 msgid "Unchanged translation"
 msgstr "Traduction inchangée"
 
-#: weblate/checks/same.py:165
+#: weblate/checks/same.py:156
 msgid "Source and translation are identical"
 msgstr "La chaîne source et la chaîne traduite sont identiques"
 
@@ -11162,10 +11176,13 @@ msgstr ""
 "fichier."
 
 #: weblate/trans/models/component.py:2086
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for atranslating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for atranslating different resources."
+"use components for translating a different resources."
 msgstr ""
 "Il existe plusieurs fichiers pour la langue %s. Veuillez corriger le motif "
 "de fichier et utiliser des composants pour traduire des ressources "
@@ -11530,11 +11547,11 @@ msgstr "Tiret cadratin"
 msgid "User configured character: {}"
 msgstr "Caractère défini par l’utilisateur : {}"
 
-#: weblate/trans/tasks.py:355
+#: weblate/trans/tasks.py:359
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Traduction automatique terminée, aucune chaîne n’a été modifiée."
 
-#: weblate/trans/tasks.py:359
+#: weblate/trans/tasks.py:363
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."

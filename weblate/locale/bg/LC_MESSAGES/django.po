@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-01-20 19:04+0000\n"
+"POT-Creation-Date: 2021-01-25 12:03+0000\n"
 "PO-Revision-Date: 2021-01-20 15:19+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -1670,7 +1670,7 @@ msgid "String suffix"
 msgstr "Текстове"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be different translations."
+msgid "Source and target have to be a different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3095,159 +3095,171 @@ msgstr "Грешен ключ за проверка: „%s“"
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Грешен ключ за проверка: „%s“"
 
-#: weblate/checks/format.py:341 weblate/checks/placeholders.py:93
+#: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
 #, fuzzy, python-format
 #| msgid "Following fixups were applied to translation: %s"
 msgid "Following format strings are missing: %s"
 msgstr "Към превода бяха приложени следните поправки: %s"
 
-#: weblate/checks/format.py:345 weblate/checks/placeholders.py:98
+#: weblate/checks/format.py:346 weblate/checks/placeholders.py:98
 #, fuzzy, python-format
 #| msgid "Following fixups were applied to translation: %s"
 msgid "Following format strings are extra: %s"
 msgstr "Към превода бяха приложени следните поправки: %s"
 
-#: weblate/checks/format.py:396
+#: weblate/checks/format.py:397
 msgid "Python format"
 msgstr "Форматиране на Python"
 
-#: weblate/checks/format.py:397
+#: weblate/checks/format.py:398
 msgid "Python format string does not match source"
 msgstr "Форматиращият низ на Python не съвпада с оригинала"
 
-#: weblate/checks/format.py:404
+#: weblate/checks/format.py:405
 msgid "PHP format"
 msgstr "Форматиране на PHP"
 
-#: weblate/checks/format.py:405
+#: weblate/checks/format.py:406
 msgid "PHP format string does not match source"
 msgstr "Форматиращият низ на PHP не съвпада с оригинала"
 
-#: weblate/checks/format.py:412
+#: weblate/checks/format.py:413
 msgid "C format"
 msgstr "Форматиране на C"
 
-#: weblate/checks/format.py:413
+#: weblate/checks/format.py:414
 msgid "C format string does not match source"
 msgstr "Форматиращият низ на C не съвпада с оригинала"
 
-#: weblate/checks/format.py:420
+#: weblate/checks/format.py:421
 msgid "Perl format"
 msgstr "Форматиране на Perl"
 
-#: weblate/checks/format.py:421
+#: weblate/checks/format.py:422
 msgid "Perl format string does not match source"
 msgstr "Форматиращият низ на Perl не съвпада с оригинала"
 
-#: weblate/checks/format.py:428
+#: weblate/checks/format.py:429
 msgid "JavaScript format"
 msgstr "Форматиране на JavaScript"
 
-#: weblate/checks/format.py:429
+#: weblate/checks/format.py:430
 msgid "JavaScript format string does not match source"
 msgstr "Форматиращият низ на JavaScript не съвпада с оригинала"
 
-#: weblate/checks/format.py:436
+#: weblate/checks/format.py:437
+#, fuzzy
+#| msgid "C format"
+msgid "Lua format"
+msgstr "Форматиране на C"
+
+#: weblate/checks/format.py:438
+#, fuzzy
+#| msgid "C format string does not match source"
+msgid "Lua format string does not match source"
+msgstr "Форматиращият низ на C не съвпада с оригинала"
+
+#: weblate/checks/format.py:445
 msgid "Python brace format"
 msgstr "Форматиране с къдрави скоби на Python"
 
-#: weblate/checks/format.py:437
+#: weblate/checks/format.py:446
 msgid "Python brace format string does not match source"
 msgstr "Форматиращият низ с къдрави скоби на Python не съвпада с оригинала"
 
-#: weblate/checks/format.py:451
+#: weblate/checks/format.py:460
 #, fuzzy
 #| msgid "C format"
 msgid "C# format"
 msgstr "Форматиране на C"
 
-#: weblate/checks/format.py:452
+#: weblate/checks/format.py:461
 #, fuzzy
 #| msgid "C format string does not match source"
 msgid "C# format string does not match source"
 msgstr "Форматиращият низ на C не съвпада с оригинала"
 
-#: weblate/checks/format.py:466
+#: weblate/checks/format.py:475
 #, fuzzy
 #| msgid "JavaScript format"
 msgid "Java format"
 msgstr "Форматиране на JavaScript"
 
-#: weblate/checks/format.py:467
+#: weblate/checks/format.py:476
 #, fuzzy
 #| msgid "C format string does not match source"
 msgid "Java format string does not match source"
 msgstr "Форматиращият низ на C не съвпада с оригинала"
 
-#: weblate/checks/format.py:474
+#: weblate/checks/format.py:483
 #, fuzzy
 #| msgid "JavaScript format"
 msgid "Java MessageFormat"
 msgstr "Форматиране на JavaScript"
 
-#: weblate/checks/format.py:475
+#: weblate/checks/format.py:484
 #, fuzzy
 #| msgid "C format string does not match source"
 msgid "Java MessageFormat string does not match source"
 msgstr "Форматиращият низ на C не съвпада с оригинала"
 
-#: weblate/checks/format.py:505
+#: weblate/checks/format.py:514
 msgid "You need to pair up an apostrophe with another one."
 msgstr ""
 
-#: weblate/checks/format.py:511
+#: weblate/checks/format.py:520
 #, fuzzy
 #| msgid "Machine translation"
 msgid "i18next interpolation"
 msgstr "Машинен превод"
 
-#: weblate/checks/format.py:512
+#: weblate/checks/format.py:521
 #, fuzzy
 #| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
 msgstr "Кодът на BBcode в превода е различен от този в оригинала"
 
-#: weblate/checks/format.py:523
+#: weblate/checks/format.py:532
 #, fuzzy
 #| msgid "Cached template loader"
 msgid "ECMAScript template literals"
 msgstr "Зареждане на кеширани шаблони"
 
-#: weblate/checks/format.py:524
+#: weblate/checks/format.py:533
 #, fuzzy
 #| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
 msgstr "Форматиращият низ на JavaScript не съвпада с оригинала"
 
-#: weblate/checks/format.py:536
+#: weblate/checks/format.py:545
 #, fuzzy
 #| msgid "Percents translated"
 msgid "Percent placeholders"
 msgstr "Преведени проценти"
 
-#: weblate/checks/format.py:537
+#: weblate/checks/format.py:546
 #, fuzzy
 #| msgid "BBcode in translation does not match source"
 msgid "The percent placeholders do not match source"
 msgstr "Кодът на BBcode в превода е различен от този в оригинала"
 
-#: weblate/checks/format.py:543
+#: weblate/checks/format.py:552
 #, fuzzy
 #| msgid "Information"
 msgid "Vue I18n formatting"
 msgstr "Информация"
 
-#: weblate/checks/format.py:544
+#: weblate/checks/format.py:553
 #, fuzzy
 #| msgid "C format string does not match source"
 msgid "The Vue I18n formatting does not match source"
 msgstr "Форматиращият низ на C не съвпада с оригинала"
 
-#: weblate/checks/format.py:550
+#: weblate/checks/format.py:559
 msgid "Multiple unnamed variables"
 msgstr ""
 
-#: weblate/checks/format.py:552
+#: weblate/checks/format.py:561
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -3402,11 +3414,11 @@ msgstr "Форматиране на C"
 msgid "Ruby format string does not match source"
 msgstr "Форматиращият низ на C не съвпада с оригинала"
 
-#: weblate/checks/same.py:164
+#: weblate/checks/same.py:155
 msgid "Unchanged translation"
 msgstr "Непроменен превод"
 
-#: weblate/checks/same.py:165
+#: weblate/checks/same.py:156
 msgid "Source and translation are identical"
 msgstr "Оригиналният текст и преводът са еднакви"
 
@@ -12686,7 +12698,7 @@ msgstr "Кодът на езика „%s“ е твърде дълъг. Моля
 #| "use components for translating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for atranslating different resources."
+"use components for translating a different resources."
 msgstr ""
 "Има повече файлове за един език (%s). Моля, настройте маската и използвайте "
 "компоненти за превеждане на различни материали."
@@ -13098,11 +13110,11 @@ msgstr "Дълго тире"
 msgid "User configured character: {}"
 msgstr "Потребителски знак: {}"
 
-#: weblate/trans/tasks.py:355
+#: weblate/trans/tasks.py:359
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Автоматичният превод е завършен. Няма обновени текстове."
 
-#: weblate/trans/tasks.py:359
+#: weblate/trans/tasks.py:363
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-01-20 19:04+0000\n"
+"POT-Creation-Date: 2021-01-25 12:03+0000\n"
 "PO-Revision-Date: 2021-01-24 20:00+0000\n"
 "Last-Translator: 01qwasa10 <a090889eric@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1340,7 +1340,9 @@ msgid "String suffix"
 msgstr "字串後綴"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be different translations."
+#, fuzzy
+#| msgid "Source and target have to be different translations."
+msgid "Source and target have to be a different languages."
 msgstr "來源與目標須是不同的翻譯。"
 
 #: weblate/addons/generate.py:34
@@ -2473,129 +2475,141 @@ msgstr "翻譯旗標的參數有錯：「%s」"
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "翻譯旗標遺失參數：「%s」"
 
-#: weblate/checks/format.py:341 weblate/checks/placeholders.py:93
+#: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
 #, python-format
 msgid "Following format strings are missing: %s"
 msgstr "缺少下列格式字串：%s"
 
-#: weblate/checks/format.py:345 weblate/checks/placeholders.py:98
+#: weblate/checks/format.py:346 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
 msgstr "多出下列格式字串：%s"
 
-#: weblate/checks/format.py:396
+#: weblate/checks/format.py:397
 msgid "Python format"
 msgstr "Python 格式"
 
-#: weblate/checks/format.py:397
+#: weblate/checks/format.py:398
 msgid "Python format string does not match source"
 msgstr "Python 格式字串與來源不符"
 
-#: weblate/checks/format.py:404
+#: weblate/checks/format.py:405
 msgid "PHP format"
 msgstr "PHP 格式"
 
-#: weblate/checks/format.py:405
+#: weblate/checks/format.py:406
 msgid "PHP format string does not match source"
 msgstr "PHP 格式字串與來源不符"
 
-#: weblate/checks/format.py:412
+#: weblate/checks/format.py:413
 msgid "C format"
 msgstr "C 格式"
 
-#: weblate/checks/format.py:413
+#: weblate/checks/format.py:414
 msgid "C format string does not match source"
 msgstr "C 格式字串與來源不符"
 
-#: weblate/checks/format.py:420
+#: weblate/checks/format.py:421
 msgid "Perl format"
 msgstr "Perl 格式"
 
-#: weblate/checks/format.py:421
+#: weblate/checks/format.py:422
 msgid "Perl format string does not match source"
 msgstr "Perl 格式字串與來源不符"
 
-#: weblate/checks/format.py:428
+#: weblate/checks/format.py:429
 msgid "JavaScript format"
 msgstr "JavaScript 格式"
 
-#: weblate/checks/format.py:429
+#: weblate/checks/format.py:430
 msgid "JavaScript format string does not match source"
 msgstr "JavaScript 格式字串與來源不符"
 
-#: weblate/checks/format.py:436
+#: weblate/checks/format.py:437
+#, fuzzy
+#| msgid "C format"
+msgid "Lua format"
+msgstr "C 格式"
+
+#: weblate/checks/format.py:438
+#, fuzzy
+#| msgid "C format string does not match source"
+msgid "Lua format string does not match source"
+msgstr "C 格式字串與來源不符"
+
+#: weblate/checks/format.py:445
 msgid "Python brace format"
 msgstr "Python 大括號格式"
 
-#: weblate/checks/format.py:437
+#: weblate/checks/format.py:446
 msgid "Python brace format string does not match source"
 msgstr "Python 大括號格式字串與來源不符"
 
-#: weblate/checks/format.py:451
+#: weblate/checks/format.py:460
 msgid "C# format"
 msgstr "C# 格式"
 
-#: weblate/checks/format.py:452
+#: weblate/checks/format.py:461
 msgid "C# format string does not match source"
 msgstr "C# 格式字串與來源不符"
 
-#: weblate/checks/format.py:466
+#: weblate/checks/format.py:475
 msgid "Java format"
 msgstr "Java 格式"
 
-#: weblate/checks/format.py:467
+#: weblate/checks/format.py:476
 msgid "Java format string does not match source"
 msgstr "Java 格式字串與來源不符"
 
-#: weblate/checks/format.py:474
+#: weblate/checks/format.py:483
 msgid "Java MessageFormat"
 msgstr "Java MessageFormat"
 
-#: weblate/checks/format.py:475
+#: weblate/checks/format.py:484
 msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat 字串與來源不符"
 
-#: weblate/checks/format.py:505
+#: weblate/checks/format.py:514
 msgid "You need to pair up an apostrophe with another one."
 msgstr "您需要將撇號 ' 與另一個撇號配對。"
 
-#: weblate/checks/format.py:511
+#: weblate/checks/format.py:520
 msgid "i18next interpolation"
 msgstr "i18next 插補"
 
-#: weblate/checks/format.py:512
+#: weblate/checks/format.py:521
 msgid "The i18next interpolation does not match source"
 msgstr "i18next 插補與來源不符"
 
-#: weblate/checks/format.py:523
+#: weblate/checks/format.py:532
 msgid "ECMAScript template literals"
 msgstr "ECMAScript 模板字面值"
 
-#: weblate/checks/format.py:524
+#: weblate/checks/format.py:533
 msgid "ECMAScript template literals do not match source"
 msgstr "ECMAScript 模板字面值與來源不相符"
 
-#: weblate/checks/format.py:536
+#: weblate/checks/format.py:545
 msgid "Percent placeholders"
 msgstr "百分比佔位符"
 
-#: weblate/checks/format.py:537
+#: weblate/checks/format.py:546
 msgid "The percent placeholders do not match source"
 msgstr "百分比佔位符與來源不符"
 
-#: weblate/checks/format.py:543
+#: weblate/checks/format.py:552
 msgid "Vue I18n formatting"
 msgstr "Vue I18n 格式"
 
-#: weblate/checks/format.py:544
+#: weblate/checks/format.py:553
 msgid "The Vue I18n formatting does not match source"
 msgstr "Vue I18n 格式與來源不符"
 
-#: weblate/checks/format.py:550
+#: weblate/checks/format.py:559
 msgid "Multiple unnamed variables"
 msgstr "多個未命名變數"
 
-#: weblate/checks/format.py:552
+#: weblate/checks/format.py:561
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -2710,11 +2724,11 @@ msgstr "Ruby 格式"
 msgid "Ruby format string does not match source"
 msgstr "Ruby 格式字串與來源不符"
 
-#: weblate/checks/same.py:164
+#: weblate/checks/same.py:155
 msgid "Unchanged translation"
 msgstr "未更動的翻譯"
 
-#: weblate/checks/same.py:165
+#: weblate/checks/same.py:156
 msgid "Source and translation are identical"
 msgstr "翻譯與來源文字相同"
 
@@ -3700,7 +3714,8 @@ msgid ""
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"這個 HTTPS 網站要求您的網頁瀏覽器送出一個“Referer 標頭”，但卻沒有送出。這個標頭基於安全因素而要求送出，以確保您的瀏覽器不被第三方挾持。"
+"這個 HTTPS 網站要求您的網頁瀏覽器送出一個“Referer 標頭”，但卻沒有送出。這個標"
+"頭基於安全因素而要求送出，以確保您的瀏覽器不被第三方挾持。"
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -3708,8 +3723,8 @@ msgid ""
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"若您的網路瀏覽器設定成不傳送 “Referer” 標頭，請至少針對這個網站、HTTPS 連線、或是同源請求 (same-origin requests) "
-"開啟這個功能。"
+"若您的網路瀏覽器設定成不傳送 “Referer” 標頭，請至少針對這個網站、HTTPS 連線、"
+"或是同源請求 (same-origin requests) 開啟這個功能。"
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3724,7 +3739,9 @@ msgstr ""
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
-msgstr "若您的瀏覽器設置成不儲存 cookies，請至少針對這個網站，或對同源請求 (same-origin requests) 啟用。"
+msgstr ""
+"若您的瀏覽器設置成不儲存 cookies，請至少針對這個網站，或對同源請求 (same-"
+"origin requests) 啟用。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -10465,10 +10482,13 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "「%s」語言代碼過長，請檢查檔案遮罩。"
 
 #: weblate/trans/models/component.py:2086
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for atranslating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for atranslating different resources."
+"use components for translating a different resources."
 msgstr "%s語言具有多個檔案，請調整檔案遮罩並使用組件翻譯不同的資源。"
 
 #: weblate/trans/models/component.py:2100
@@ -10791,11 +10811,11 @@ msgstr "長破折號"
 msgid "User configured character: {}"
 msgstr "使用者自訂字元：{}"
 
-#: weblate/trans/tasks.py:355
+#: weblate/trans/tasks.py:359
 msgid "Automatic translation completed, no strings were updated."
 msgstr "自動翻譯已完成，未更新任何字串。"
 
-#: weblate/trans/tasks.py:359
+#: weblate/trans/tasks.py:363
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
