@@ -62,7 +62,7 @@ from weblate.addons.yaml import YAMLCustomizeAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -458,17 +458,28 @@ class JsonAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
 
-    def test_unit(self):
+    def test_unit_flags(self):
         self.assertTrue(SourceEditAddon.can_install(self.component, None))
         self.assertTrue(TargetEditAddon.can_install(self.component, None))
         self.assertTrue(SameEditAddon.can_install(self.component, None))
         SourceEditAddon.create(self.component)
         TargetEditAddon.create(self.component)
         SameEditAddon.create(self.component)
+
+        Unit.objects.filter(translation__language__code="cs").delete()
+        self.component.create_translations(force=True)
+        self.assertFalse(
+            Unit.objects.filter(translation__language__code="cs")
+            .exclude(state__in=(STATE_FUZZY, STATE_EMPTY))
+            .exists()
+        )
+
         Unit.objects.all().delete()
         self.component.create_translations(force=True)
         self.assertFalse(
-            Unit.objects.exclude(state__in=(STATE_FUZZY, STATE_EMPTY)).exists()
+            Unit.objects.exclude(
+                state__in=(STATE_FUZZY, STATE_EMPTY, STATE_READONLY)
+            ).exists()
         )
 
     def test_customize(self):
