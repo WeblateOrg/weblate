@@ -587,7 +587,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # Calculate state
         state = self.get_unit_state(unit, flags)
-        self.original_state = self.get_unit_state(unit, None)
+        original_state = self.get_unit_state(unit, None)
 
         # Has source changed
         same_source = source == self.source and context == self.context
@@ -626,6 +626,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and same_source
             and same_target
             and same_state
+            and original_state == self.original_state
             and location == self.location
             and flags == self.flags
             and note == self.note
@@ -637,6 +638,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return
 
         # Store updated values
+        self.original_state = original_state
         self.position = pos
         self.location = location
         self.flags = flags
