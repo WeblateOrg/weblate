@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-25 12:03+0000\n"
-"PO-Revision-Date: 2021-01-19 07:16+0000\n"
+"PO-Revision-Date: 2021-01-26 02:41+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -1348,28 +1348,20 @@ msgid "Source strings"
 msgstr "מחרוזות מקור"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "יצירת תרגום"
+msgstr "תרגום יעד"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "גיל המחרוזת"
+msgstr "קידומת למחרוזת"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "מחרוזות"
+msgstr "סיומת למחרוזת"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "Source and target have to be a different languages."
-msgstr "עליך להיכנס כדי לשמור תרגומים!"
+msgstr "המקור והיעד חייבים להיות בשפות שונות."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1381,13 +1373,13 @@ msgstr "מייצר קובץ שמכיל פירוט נרחב על מצב התרג�
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "יצירת שפה מדומה"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
-msgstr ""
+msgstr "מייצר שפה מדומה אוטומטית על ידי הוספת קידומת וסיומת למחרוזות המקור."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2483,10 +2475,8 @@ msgid "Replacements while rendering"
 msgstr "החלפות בעת עיבוד"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "מחרוזות עם הגוונים"
+msgstr "הגוונים של מחרוזת"
 
 #: weblate/checks/flags.py:247
 #, python-format
@@ -2559,16 +2549,12 @@ msgid "JavaScript format string does not match source"
 msgstr "המחרוזת בתבנית JavaScript אינה תואמת למקור"
 
 #: weblate/checks/format.py:437
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "תבנית C"
+msgstr "תבנית Lua"
 
 #: weblate/checks/format.py:438
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Lua format string does not match source"
-msgstr "המחרוזת בתבנית C אינה תואמת למקור"
+msgstr "המחרוזת בתבנית Lua אינה תואמת למקור"
 
 #: weblate/checks/format.py:445
 msgid "Python brace format"
@@ -3088,10 +3074,8 @@ msgid "Inno Setup INI file"
 msgstr "קובץ INI בתצורת Inno Setup"
 
 #: weblate/formats/ttkit.py:1598
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Term Base eXchange file"
-msgstr "TermBase eXchange (TBX)‎"
+msgstr "קובץ Term Base eXchange"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3752,33 +3736,23 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "אימות CSRF נכשל. הבקשה בוטלה."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"אתר HTTPS זה דורש שליחת ‚Referer header’ (כותרת הפניה) על ידי הדפדפן שלך, "
-"אשר לא נשלחה. הדבר נדרש מסיבות אבטחה, כדי לוודא שהדפדפן שלך לא נחטף על ידי "
-"אחרים."
+"אתר HTTPS זה דורש שליחת כותרת ‚Referer’ (הפניה) על ידי הדפדפן שלך, אשר לא "
+"נשלחה. הדבר נדרש מסיבות אבטחה, כדי לוודא שהדפדפן שלך לא נחטף על ידי גורמים "
+"עוינים."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
 "אם הגדרת את הדפדפן שלך שלא לשלוח כותרות מסוג ‚‎Referer’ (מפנה), נא להפעיל "
-"אותה, לפחות לאתר הזה, לחיבורי HTTPS או לבקשות ‚same-origin’ (מאותו המקור)."
+"אותה (לפחות לאתר הזה, לחיבורי HTTPS או לבקשות ‚same-origin’ - מאותו המקור)."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3790,16 +3764,12 @@ msgstr ""
 "נדרשת מטעמי אבטחה, כדי לוודא שהדפדפן שלך לא נחטף על ידי גורמי צד־שלישי."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
-"אם הגדרת את הדפדפן שלך שלא לשמור עוגיות, נא להפעיל אותן שוב, לפחות עבור אתר "
-"זה או לבקשות ‚same-origin’ (מאותו המקור)."
+"אם הגדרת את הדפדפן שלך שלא לשמור עוגיות, נא להפעיל אותן שוב (לפחות עבור אתר "
+"זה או לבקשות ‚same-origin’ - מאותו המקור)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5247,7 +5217,7 @@ msgstr "כל משתמש שעבר אימות יכול לתרום."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "מאגר מערכת בקרת גרסאות עשוי להיות חשוף לכולם."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5257,10 +5227,8 @@ msgstr "רק משתמשים נבחרים יכולים לתרום."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "רק משתמשים נבחרים יכולים לתרום."
+msgstr "רק משתמשים נבחרים יכולים לגשת למאגר מערכת בקרת הגרסאות."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -10742,16 +10710,13 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "קוד השפה „%s” ארוך מדי, נא לבדוק את מסכת הקובץ."
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating a different resources."
 msgstr ""
-"יש קבצים נוספים לשפה הבודדת (%s), נא להתאים את המסכה לשימוש ברכיבים לצורך "
-"תרגום של משאבים שונים."
+"יש יותר מקובץ אחד לשפה %s, נא להתאים את מסכת הקבצים ולהשתמש ברכיבים כדי "
+"לתרגם משאבים שונים."
 
 #: weblate/trans/models/component.py:2100
 msgid "Could not find any matching language, please check the filemask."
