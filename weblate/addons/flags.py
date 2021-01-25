@@ -50,6 +50,9 @@ class SourceEditAddon(FlagBase):
         "flagged as needing editing in Weblate. This way you can easily "
         "filter and edit source strings written by the developers."
     )
+    compat = {
+        "edit_template": {True},
+    }
 
     def unit_pre_create(self, unit):
         if (
