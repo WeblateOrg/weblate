@@ -52,7 +52,11 @@ class SourceEditAddon(FlagBase):
     )
 
     def unit_pre_create(self, unit):
-        if unit.translation.is_template and unit.state >= STATE_TRANSLATED:
+        if (
+            unit.translation.is_template
+            and unit.state >= STATE_TRANSLATED
+            and not unit.readonly
+        ):
             unit.state = STATE_FUZZY
 
 
@@ -66,7 +70,11 @@ class TargetEditAddon(FlagBase):
     )
 
     def unit_pre_create(self, unit):
-        if not unit.translation.is_template and unit.state >= STATE_TRANSLATED:
+        if (
+            not unit.translation.is_template
+            and unit.state >= STATE_TRANSLATED
+            and not unit.readonly
+        ):
             unit.state = STATE_FUZZY
 
 
@@ -86,6 +94,7 @@ class SameEditAddon(FlagBase):
             and unit.source == unit.target
             and "ignore-same" not in unit.all_flags
             and unit.state >= STATE_TRANSLATED
+            and not unit.readonly
         ):
             unit.state = STATE_FUZZY
 
