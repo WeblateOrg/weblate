@@ -23,23 +23,10 @@
 import os
 
 import requests
+from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
 
 # List of translations
-LOCALES = {
-    "en",
-    "zh_CN",
-    "es",
-    "no",
-    "pt",
-    "pt_BR",
-    "ru",
-    "uk",
-    "ja",
-    "fr",
-    "pl",
-    "sq",
-    "tr",
-}
+LOCALES = set(DOCUMENTATION_LANGUAGES.values())
 
 # Default values
 FIELDS = {

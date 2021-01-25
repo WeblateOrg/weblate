@@ -19,21 +19,9 @@
 
 from django.conf import settings
 from django.utils.translation import get_language
+from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
 
 import weblate
-
-# Enabled languages in the docs
-LANGMAP = {
-    "zh-hans": "zh_CN",
-    "pt-br": "pt_BR",
-    "uk": "uk",
-    "ru": "ru",
-    "es": "es",
-    "pt": "pt",
-    "nb": "no",
-    "ja": "ja",
-    "fr": "fr",
-}
 
 
 def get_doc_url(page, anchor="", user=None):
@@ -46,7 +34,7 @@ def get_doc_url(page, anchor="", user=None):
     else:
         version = f"weblate-{weblate.VERSION}"
     # Language variant
-    code = LANGMAP.get(get_language(), "en")
+    code = DOCUMENTATION_LANGUAGES.get(get_language(), "en")
     # Generate URL
     url = f"https://docs.weblate.org/{code}/{version}/{page}.html"
     # Optionally append anchor
