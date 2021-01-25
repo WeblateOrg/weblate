@@ -206,7 +206,7 @@ var _rollbarConfig = {
         {# Adding new translations #}
         {% if user.is_authenticated %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} {% trans "Add" %} <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
