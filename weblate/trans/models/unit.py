@@ -695,7 +695,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if not self.readonly:
                 self.state = STATE_READONLY
                 self.save(same_content=True, run_checks=False, update_fields=["state"])
-        elif self.readonly:
+        elif self.readonly and self.state != self.original_state:
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
 
