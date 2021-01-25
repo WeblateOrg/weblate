@@ -1204,14 +1204,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         )
         result = get_distinct_translations(
             self.source_unit.unit_set.filter(
-                state__gte=STATE_TRANSLATED,
-                translation__language__in=secondary_langs,
-            )
-            .exclude(
-                target="",
-                pk=self.pk,
-            )
-            .select_related(
+                Q(translation__language__in=secondary_langs)
+                & Q(state__gte=STATE_TRANSLATED)
+                & Q(state__lt=STATE_READONLY)
+                & ~Q(target="")
+                & ~Q(pk=self.pk)
+            ).select_related(
                 "source_unit",
                 "translation__language",
                 "translation__plural",
