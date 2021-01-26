@@ -369,7 +369,7 @@ class WindowsRCFormat(ConvertFormat):
         encoding = "utf-8"
         with open(templatename, "rb") as templatefile:
             bom = templatefile.read(2)
-            if bom == codecs.BOM_UTF16_LE:
+            if bom == codecs.BOM_UTF16_LE or b"\000" in bom:
                 encoding = "utf-16-le"
             templatefile.seek(0)
             convertor = rerc(
