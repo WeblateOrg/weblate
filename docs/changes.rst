@@ -12,7 +12,7 @@ Not yet released.
 * Added support for manually defining string variants using a flag.
 * Improved performance of consistency checks.
 * Improved performance of translation memory for long strings.
-* Added support for seraching in explanations.
+* Added support for searching in explanations.
 
 Weblate 4.4.2
 -------------
