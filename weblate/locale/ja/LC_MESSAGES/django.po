@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-25 12:03+0000\n"
-"PO-Revision-Date: 2021-01-26 02:41+0000\n"
-"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
+"PO-Revision-Date: 2021-01-26 18:33+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -2560,7 +2560,7 @@ msgstr "Python 形式"
 
 #: weblate/checks/format.py:398
 msgid "Python format string does not match source"
-msgstr "原文と Python の書式文字列が合致していないもの"
+msgstr "Python 書式文字列が原文と一致していない"
 
 #: weblate/checks/format.py:405
 msgid "PHP format"
@@ -2568,7 +2568,7 @@ msgstr "PHP 形式"
 
 #: weblate/checks/format.py:406
 msgid "PHP format string does not match source"
-msgstr "原文と PHP の書式文字列が合致していないもの"
+msgstr "PHP の書式文字列が原文と一致していない"
 
 #: weblate/checks/format.py:413
 msgid "C format"
@@ -2576,7 +2576,7 @@ msgstr "C 言語書式"
 
 #: weblate/checks/format.py:414
 msgid "C format string does not match source"
-msgstr "原文と C 言語の書式文字列が合致していないもの"
+msgstr "C 言語の書式文字列が原文と一致していない"
 
 #: weblate/checks/format.py:421
 msgid "Perl format"
@@ -2584,7 +2584,7 @@ msgstr "Perl 形式"
 
 #: weblate/checks/format.py:422
 msgid "Perl format string does not match source"
-msgstr "原文と Perl の書式文字列が合致していないもの"
+msgstr "Perl の書式文字列が原文と一致していない"
 
 #: weblate/checks/format.py:429
 msgid "JavaScript format"
@@ -2592,7 +2592,7 @@ msgstr "JavaScript 形式"
 
 #: weblate/checks/format.py:430
 msgid "JavaScript format string does not match source"
-msgstr "原文と JavaScript の書式文字列が合致していないもの"
+msgstr "JavaScript の書式文字列が原文と一致していない"
 
 #: weblate/checks/format.py:437
 #, fuzzy
@@ -10845,16 +10845,11 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "言語コード \"%s\" は長すぎます。ファイルマスクを確認してください。"
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for atranslating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating a different resources."
-msgstr ""
-"%s 言語に複数のファイルがあります。ファイルマスクを変更し、違うリソースを翻訳"
-"するためのコンポーネントを使用してください。"
+msgstr "%s 言語用のファイルが複数あります。ファイルマスクを変更し、別のリソースを翻訳するためのコンポーネントを使用してください。"
 
 #: weblate/trans/models/component.py:2100
 msgid "Could not find any matching language, please check the filemask."
