@@ -38,7 +38,11 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
+from weblate.trans.util import (
+    check_upload_method_permissions,
+    cleanup_repo_url,
+    join_plural,
+)
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
@@ -483,6 +487,7 @@ class ComponentSerializer(RemovableSerializer):
             "merge_message",
             "addon_message",
             "allow_translation_propagation",
+            "new_unit",
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
@@ -522,6 +527,8 @@ class ComponentSerializer(RemovableSerializer):
             )
         if "project" in self._context:
             data["project"] = self._context["project"]
+        if "new_unit" not in data:
+            data["new_unit"] = bool(data.get("template"))
 
     def to_internal_value(self, data):
         # Preprocess to inject params based on content
@@ -919,6 +926,31 @@ class UnitWriteSerializer(serializers.ModelSerializer):
 class MonolingualUnitSerializer(serializers.Serializer):
     key = serializers.CharField()
     value = PluralField()
+
+    def as_tuple(self):
+        return (self.validated_data["key"], self.validated_data["value"], None)
+
+    def unit_exists(self, obj):
+        return obj.unit_set.filter(context=self.validated_data["key"]).exists()
+
+
+class BilingualUnitSerializer(serializers.Serializer):
+    context = serializers.CharField(required=False)
+    source = PluralField()
+    target = PluralField()
+
+    def as_tuple(self):
+        return (
+            self.validated_data.get("context", ""),
+            self.validated_data["source"],
+            self.validated_data["target"],
+        )
+
+    def unit_exists(self, obj):
+        return obj.unit_set.filter(
+            context=self.validated_data.get("context", ""),
+            source=join_plural(self.validated_data["source"]),
+        ).exists()
 
 
 class ScreenshotSerializer(RemovableSerializer):

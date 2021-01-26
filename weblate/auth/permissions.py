@@ -208,10 +208,20 @@ def check_unit_delete(user, permission, obj):
 
 @register_perm("unit.add")
 def check_unit_add(user, permission, translation):
-    if not translation.is_source or translation.is_readonly:
+    component = translation.component
+    # Check if adding is generally allowed
+    if not component.new_unit or translation.is_readonly:
         return False
-    if not translation.component.file_format_cls.can_add_unit:
+    source = translation.is_source
+    template = component.has_template()
+    # Add to source in monolingual and to translations in bilingual
+    if (source and not template) or (not source and template):
         return False
+
+    # Does file format support adding?
+    if not component.file_format_cls.can_add_unit:
+        return False
+
     return check_can_edit(user, permission, translation)
 
 

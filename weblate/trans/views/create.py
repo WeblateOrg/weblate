@@ -228,6 +228,7 @@ class CreateComponent(BaseCreateView):
 
     def form_valid(self, form):
         if self.stage == "create":
+            form.instance.new_unit = bool(form.instance.template)
             result = super().form_valid(form)
             self.object.post_create(self.request.user)
             return result

@@ -2311,6 +2311,70 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
 
+    def test_add_bilingual(self):
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=403,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=403,
+        )
+        self.component.new_unit = True
+        self.component.save()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=200,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target", "context": "Another"},
+            code=200,
+        )
+
     def test_delete(self):
         self.assertEqual(Translation.objects.count(), 4)
         self.do_request(

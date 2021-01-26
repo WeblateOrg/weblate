@@ -1727,6 +1727,11 @@ Translations
     :<json string key: Name of translation unit
     :<json string value: The translation unit value
 
+    .. seealso::
+
+       :ref:`component-new_unit`,
+       :ref:`adding-new-strings`
+
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
 
     Trigger automatic translation.

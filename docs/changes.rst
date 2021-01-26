@@ -13,6 +13,7 @@ Not yet released.
 * Improved performance of consistency checks.
 * Improved performance of translation memory for long strings.
 * Added support for searching in explanations.
+* New strings can now be added in bilingual formats as well.
 
 Weblate 4.4.2
 -------------

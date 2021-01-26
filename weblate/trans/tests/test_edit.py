@@ -20,6 +20,7 @@
 """Test for translation views."""
 
 import time
+from unittest import SkipTest
 
 from django.urls import reverse
 
@@ -115,6 +116,56 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, self.target)
         # Should have was translated check
         self.assertTrue(unit.has_failing_check)
+
+    def add_unit(self, key):
+        if self.component.has_template():
+            args = {"key": key, "value_0": "Source string" * 100000}
+            language = "en"
+        else:
+            args = {"source_0": key, "target_0": "Translation string"}
+            language = "cs"
+        return self.client.post(
+            reverse(
+                "new-unit",
+                kwargs={
+                    "project": self.component.project.slug,
+                    "component": self.component.slug,
+                    "lang": language,
+                },
+            ),
+            args,
+            follow=True,
+        )
+
+    def test_new_unit(self):
+        # No permissions
+        response = self.add_unit("key")
+        self.assertEqual(response.status_code, 403)
+
+        self.make_manager()
+
+        # No adding
+        self.component.new_unit = False
+        self.component.save()
+        response = self.add_unit("key")
+        self.assertEqual(response.status_code, 403)
+
+        # Adding allowed (if format supports that)
+        self.component.new_unit = True
+        self.component.save()
+        response = self.add_unit("key")
+        if not self.component.file_format_cls.can_add_unit:
+            self.assertEqual(response.status_code, 403)
+            return
+        self.assertContains(response, "New string has been added")
+
+        # Duplicate string
+        response = self.add_unit("key")
+        self.assertContains(response, "This string seems to already exist.")
+
+        # Invalid params
+        response = self.add_unit("")
+        self.assertContains(response, "Error in parameter ")
 
 
 class EditValidationTest(ViewTestCase):
@@ -296,27 +347,6 @@ class EditPoMonoTest(EditTest):
     def create_component(self):
         return self.create_po_mono()
 
-    def test_new_unit(self):
-        def add(key):
-            return self.client.post(
-                reverse(
-                    "new-unit",
-                    kwargs={"project": "test", "component": "test", "lang": "en"},
-                ),
-                {"key": key, "value_0": "Source string" * 100000},
-                follow=True,
-            )
-
-        response = add("key")
-        self.assertEqual(response.status_code, 403)
-        self.make_manager()
-        response = add("key")
-        self.assertContains(response, "New string has been added")
-        response = add("key")
-        self.assertContains(response, "Translation with this key seem to already exist")
-        response = add("")
-        self.assertContains(response, "Error in parameter key")
-
     def test_remove_unit(self):
         self.assertEqual(self.component.stats.all, 16)
         unit = self.get_unit()
@@ -349,6 +379,11 @@ class EditIphoneTest(EditTest):
     def create_component(self):
         return self.create_iphone()
 
+    def test_new_unit(self):
+        # Most likely the test is wrong here it is using monolingual format as bilingual
+        # and duplicates source into context
+        raise SkipTest("Not supported")
+
 
 class EditJSONTest(EditTest):
     has_plurals = False
@@ -376,6 +411,10 @@ class EditDTDTest(EditTest):
 
     def create_component(self):
         return self.create_dtd()
+
+    def test_new_unit(self):
+        # Most likely there is a bug in the format and adding is broken
+        raise SkipTest("Not supported")
 
 
 class EditJSONMonoTest(EditTest):
@@ -414,6 +453,11 @@ class EditXliffComplexTest(EditTest):
         self.edit_unit("Hello, world!\n", "Nazdar & svete!\n")
         self.assert_backend(1)
 
+    def test_new_unit(self):
+        # The group handling is broken, see
+        # https://github.com/translate/translate/issues/4186
+        raise SkipTest("Not supported")
+
 
 class EditXliffResnameTest(EditTest):
     has_plurals = False
@@ -434,6 +478,11 @@ class EditXliffMonoTest(EditTest):
 
     def create_component(self):
         return self.create_xliff_mono()
+
+    def test_new_unit(self):
+        # The group handling is broken, see
+        # https://github.com/translate/translate/issues/4186
+        raise SkipTest("Not supported")
 
 
 class EditLinkTest(EditTest):
