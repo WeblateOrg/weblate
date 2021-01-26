@@ -171,7 +171,7 @@ def is_celery_queue_long():
     thresholds = defaultdict(lambda: 50)
     # Set the limit to avoid trigger on auto-translating all components
     # nightly.
-    thresholds["translate"] = Component.objects.count() / 30
+    thresholds["translate"] = max(1000, Component.objects.count() / 30)
     return any(
         stat > thresholds[key] and base.get(key, 0) > thresholds[key]
         for key, stat in stats.items()
