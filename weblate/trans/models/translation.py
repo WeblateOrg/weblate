@@ -21,7 +21,7 @@ import codecs
 import os
 import tempfile
 from datetime import datetime
-from typing import BinaryIO, Dict, List, Optional, Union
+from typing import BinaryIO, List, Optional, Tuple, Union
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -574,6 +574,7 @@ class Translation(
         skip_push=False,
         signals=True,
         template: Optional[str] = None,
+        store_hash: bool = True,
     ):
         """Wrapper for committing translation to git."""
         repository = self.component.repository
@@ -599,7 +600,8 @@ class Translation(
                 )
 
             # Store updated hash
-            self.store_hash()
+            if store_hash:
+                self.store_hash()
             self.addon_commit_files = []
 
         return True
@@ -864,6 +866,8 @@ class Translation(
     def drop_store_cache(self):
         if "store" in self.__dict__:
             del self.__dict__["store"]
+        if self.is_source:
+            self.component.drop_template_store_cache()
 
     def handle_source(self, request, fileobj):
         """Replace source translations with uploaded one."""
@@ -1090,24 +1094,31 @@ class Translation(
             author=user,
         )
 
-    def add_units(self, request, batch: Dict[str, Union[str, List[str]]]):
+    def add_units(
+        self,
+        request,
+        batch: List[Tuple[Union[str, List[str]], Union[str, List[str]], Optional[str]]],
+    ):
         from weblate.auth.models import get_anonymous
 
         user = request.user if request else get_anonymous()
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
-            for key, value in batch.items():
-                self.store.new_unit(key, value)
+            for context, source, target in batch:
+                self.store.new_unit(context, source, target)
                 Change.objects.create(
                     translation=self,
                     action=Change.ACTION_NEW_UNIT,
-                    target=value,
+                    target=source,
                     user=user,
                     author=user,
                 )
-            self.component.drop_template_store_cache()
-            self.git_commit(user, user.get_author_name())
-        self.component.create_translations(request=request)
+            self.drop_store_cache()
+            self.git_commit(user, user.get_author_name(), store_hash=False)
+        if self.is_source:
+            self.component.create_translations(request=request)
+        else:
+            self.check_sync(request=request, force=True)
 
     def delete_unit(self, request, unit):
         from weblate.auth.models import get_anonymous

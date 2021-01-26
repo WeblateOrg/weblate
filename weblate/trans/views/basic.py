@@ -36,7 +36,6 @@ from weblate.trans.forms import (
     ComponentMoveForm,
     ComponentRenameForm,
     DownloadForm,
-    NewUnitForm,
     ProjectDeleteForm,
     ProjectRenameForm,
     ReplaceForm,
@@ -44,6 +43,7 @@ from weblate.trans.forms import (
     SearchForm,
     TranslationDeleteForm,
     get_new_language_form,
+    get_new_unit_form,
     get_upload_form,
 )
 from weblate.trans.models import Change, ComponentList, Translation, Unit
@@ -317,6 +317,8 @@ def show_translation(request, project, component, lang):
         other_translations, key=lambda t: t.stats.translated_percent
     )[:10]
 
+    fake_unit = Unit(translation=obj, id_hash=-1)
+
     return render(
         request,
         "translation.html",
@@ -341,8 +343,9 @@ def show_translation(request, project, component, lang):
                 project=obj.component.project,
                 auto_id="id_bulk_%s",
             ),
-            "new_unit_form": NewUnitForm(
-                user, initial={"value": Unit(translation=obj, id_hash=-1)}
+            "new_unit_form": get_new_unit_form(obj)(
+                user,
+                initial={"value": fake_unit, "source": fake_unit, "target": fake_unit},
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj

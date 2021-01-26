@@ -54,7 +54,11 @@ from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
-from weblate.trans.util import check_upload_method_permissions, is_repo_link
+from weblate.trans.util import (
+    check_upload_method_permissions,
+    is_repo_link,
+    join_plural,
+)
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.forms import (
@@ -381,7 +385,7 @@ class PluralField(forms.CharField):
 
     def clean(self, value):
         value = super().clean(value)
-        if not value:
+        if not value or (self.required and not any(value)):
             raise ValidationError(_("Missing translated string!"))
         return value
 
@@ -1267,6 +1271,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "restricted",
             "auto_lock_error",
             "links",
+            "new_unit",
         )
         widgets = {
             "enforced_checks": SelectChecksWidget,
@@ -1307,6 +1312,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                     Fieldset(
                         _("Translation settings"),
                         "allow_translation_propagation",
+                        "new_unit",
                         "check_flags",
                         "variant_regex",
                         "enforced_checks",
@@ -1934,7 +1940,7 @@ class MatrixLanguageForm(forms.Form):
         self.fields["lang"].choices = languages.as_choices()
 
 
-class NewUnitForm(forms.Form):
+class NewMonolingualUnitForm(forms.Form):
     key = forms.CharField(
         label=_("Translation key"),
         help_text=_(
@@ -1957,6 +1963,58 @@ class NewUnitForm(forms.Form):
         self.fields["key"].widget.attrs["tabindex"] = 99
         self.fields["value"].widget.attrs["tabindex"] = 100
         self.fields["value"].widget.profile = user.profile
+
+    def as_tuple(self):
+        return (self.cleaned_data["key"], self.cleaned_data["value"], None)
+
+    def unit_exists(self, obj):
+        return obj.unit_set.filter(context=self.cleaned_data["key"]).exists()
+
+
+class NewBilingualUnitForm(forms.Form):
+    context = forms.CharField(
+        label=_("Translation key"),
+        help_text=_("Optional context to clarify the source strings."),
+        required=False,
+    )
+    source = PluralField(
+        label=_("Source string"),
+        required=True,
+    )
+    target = PluralField(
+        label=_("Translated string"),
+        help_text=_(
+            "You can edit this later, as with any other string in " "the translation."
+        ),
+        required=True,
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["context"].widget.attrs["tabindex"] = 99
+        self.fields["source"].widget.attrs["tabindex"] = 100
+        self.fields["source"].widget.profile = user.profile
+        self.fields["target"].widget.attrs["tabindex"] = 101
+        self.fields["target"].widget.profile = user.profile
+
+    def as_tuple(self):
+        return (
+            self.cleaned_data.get("context", ""),
+            self.cleaned_data["source"],
+            self.cleaned_data["target"],
+        )
+
+    def unit_exists(self, obj):
+        return obj.unit_set.filter(
+            context=self.cleaned_data.get("context", ""),
+            source=join_plural(self.cleaned_data["source"]),
+        ).exists()
+
+
+def get_new_unit_form(translation):
+    if translation.component.has_template():
+        return NewMonolingualUnitForm
+    return NewBilingualUnitForm
 
 
 class BulkEditForm(forms.Form):

@@ -50,6 +50,7 @@ from weblate.addons.models import Addon
 from weblate.api.serializers import (
     AddonSerializer,
     BasicUserSerializer,
+    BilingualUnitSerializer,
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
@@ -1144,21 +1145,21 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def units(self, request, **kwargs):
         obj = self.get_object()
 
+        if obj.component.template:
+            serializer_class = MonolingualUnitSerializer
+        else:
+            serializer_class = BilingualUnitSerializer
+
         if request.method == "POST":
             if not request.user.has_perm("unit.add", obj):
                 self.permission_denied(request, "Can not add unit")
-            serializer = MonolingualUnitSerializer(data=request.data)
+            serializer = serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
 
-            key = serializer.validated_data["key"]
-            value = serializer.validated_data["value"]
+            if serializer.unit_exists(obj):
+                raise ValidationError("This this string already exists!")
 
-            if obj.unit_set.filter(context=key).exists():
-                raise ValidationError(
-                    "Translation with this key seem to already exist!"
-                )
-
-            obj.add_units(request, {key: value})
+            obj.add_units(request, [serializer.as_tuple()])
             serializer = self.serializer_class(obj, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 

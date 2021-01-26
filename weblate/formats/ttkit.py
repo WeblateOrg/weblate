@@ -27,9 +27,11 @@ from typing import List, Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from lxml import etree
 from lxml.etree import XMLSyntaxError
 from translate.misc import quote
 from translate.misc.multistring import multistring
+from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
 from translate.storage.csvl10n import csv
 from translate.storage.lisa import LISAfile
@@ -214,6 +216,7 @@ class KeyValueUnit(TTKitUnit):
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
     loader = ("", "")
+    set_context_bilingual = True
 
     def __init__(
         self, storefile, template_store=None, language_code=None, is_template=False
@@ -326,15 +329,37 @@ class TTKitFormat(TranslationFormat):
     def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
         return key
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         if isinstance(source, list):
-            unit = self.construct_unit(source[0])
-            source = multistring(source)
+            context = source[0]
+            unit = self.construct_unit(context)
+            if len(source) == 1:
+                source = context
+            else:
+                source = multistring(source)
         else:
             unit = self.construct_unit(source)
-        unit.setid(key)
-        unit.source = self.create_unit_key(key, source)
-        unit.target = source
+        if isinstance(target, list):
+            if len(target) == 1:
+                target = target[0]
+            else:
+                target = multistring(target)
+        if key:
+            unit.setid(key)
+        elif target is not None and self.set_context_bilingual:
+            unit.setid(context)
+            unit.context = context
+        if target is None:
+            unit.source = self.create_unit_key(key, source)
+            unit.target = source
+        else:
+            unit.source = source
+            unit.target = target
         return unit
 
     @classmethod
@@ -992,9 +1017,24 @@ class XliffFormat(TTKitFormat):
     autoload: Tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
     language_format = "bcp"
+    set_context_bilingual = False
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
-        unit = super().create_unit(key, source)
+    def construct_unit(self, source: str):
+        unit = self.store.UnitClass(source)
+        # Make sure new unit is using same namespace as the original
+        # file (xliff 1.1/1.2)
+        unit.namespace = self.store.namespace
+        unit.xmlelement = etree.Element(unit.namespaced(unit.rootNode))
+        setXMLspace(unit.xmlelement, "preserve")
+        return unit
+
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
+        unit = super().create_unit(key, source, target)
         unit.marktranslated()
         unit.markapproved(False)
         return unit
@@ -1453,8 +1493,13 @@ class INIFormat(TTKitFormat):
             unit.rich_target = unit.rich_source
         return store
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
-        unit = super().create_unit(key, source)
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
+        unit = super().create_unit(key, source, target)
         unit.location = key
         return unit
 

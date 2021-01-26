@@ -449,12 +449,22 @@ class TranslationFormat:
 
             yield set_fuzzy, unit
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         raise NotImplementedError()
 
-    def new_unit(self, key: str, source: Union[str, List[str]]):
+    def new_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         """Add new unit to monolingual store."""
-        unit = self.create_unit(key, source)
+        unit = self.create_unit(key, source, target)
         self.add_unit(unit)
         self.save()
 
