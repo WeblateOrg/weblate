@@ -57,5 +57,5 @@ class AutoTranslateAddon(BaseAddon):
         # Translate every component once in a month to reduce load.
         # The translation is anyway triggered on update, so it should
         # not matter that much that we run this less often.
-        if component.id % 30 == date.today().dat:
+        if component.id % 30 == date.today().date:
             self.component_update(component)
