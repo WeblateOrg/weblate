@@ -23,12 +23,20 @@ from django.core import mail
 from django.urls import reverse
 
 from weblate.auth.models import Permission, Role
+from weblate.utils.ratelimit import reset_rate_limit
 
 from .test_views import ViewTestCase
 
 
 class NewLangTest(ViewTestCase):
     expected_lang_code = "pt_BR"
+
+    def setUp(self):
+        super().setUp()
+        self.reset_rate()
+
+    def reset_rate(self):
+        reset_rate_limit("language", user=self.user)
 
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
@@ -121,12 +129,14 @@ class NewLangTest(ViewTestCase):
         )
 
         # Not selected language
+        self.reset_rate()
         response = self.client.post(
             reverse("new-language", kwargs=self.kw_component), {"lang": ""}, follow=True
         )
         self.assertContains(response, "Please fix errors in the form")
 
         # Existing language
+        self.reset_rate()
         response = self.client.post(
             reverse("new-language", kwargs=self.kw_component),
             {"lang": "af"},
@@ -142,6 +152,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(response, "Please fix errors in the form")
         # One chosen
+        self.reset_rate()
         response = self.client.post(
             reverse("new-language", kwargs=self.kw_component),
             {"lang": "af"},
@@ -149,6 +160,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertNotContains(response, "Please fix errors in the form")
         # More chosen
+        self.reset_rate()
         response = self.client.post(
             reverse("new-language", kwargs=self.kw_component),
             {"lang": ["nl", "fr", "uk"]},
@@ -185,6 +197,7 @@ class NewLangTest(ViewTestCase):
                 self.component.translation_set.filter(language__code=code).exists(),
                 f"Translation with code {code} already exists",
             )
+            self.reset_rate()
             self.client.post(
                 reverse("new-language", kwargs=self.kw_component), {"lang": code}
             )
