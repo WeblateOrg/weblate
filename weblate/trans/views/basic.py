@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -53,6 +52,7 @@ from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
+from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.stats import GhostProjectLanguageStats, prefetch_stats
 from weblate.utils.views import (
     get_component,
@@ -374,6 +374,7 @@ def data_project(request, project):
 
 @never_cache
 @login_required
+@session_ratelimit_post("language")
 def new_language(request, project, component):
     obj = get_component(request, project, component)
 
