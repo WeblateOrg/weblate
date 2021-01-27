@@ -505,7 +505,7 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.order()
-        return Project.objects.filter(pk__in=self.allowed_project_ids)
+        return Project.objects.filter(pk__in=self.allowed_project_ids).order()
 
     @cached_property
     def allowed_project_ids(self):
