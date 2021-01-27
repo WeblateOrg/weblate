@@ -17,7 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.exceptions import ObjectDoesNotExist
+from collections import defaultdict
+
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
@@ -130,17 +131,26 @@ class MultiAlert(BaseAlert):
         from weblate.trans.models import Unit
 
         processors = (
-            ("language_code", "language", Language, "code"),
-            ("unit_pk", "unit", Unit, "pk"),
+            ("language_code", "language", Language.objects.all(), "code"),
+            ("unit_pk", "unit", Unit.objects.prefetch(), "pk"),
         )
-        for occurrence in occurrences:
-            for key, target, obj, lookup in processors:
+        for key, target, base, lookup in processors:
+            # Extract list to fetch
+            updates = defaultdict(list)
+            for occurrence in occurrences:
                 if key not in occurrence:
                     continue
-                try:
-                    occurrence[target] = obj.objects.get(**{lookup: occurrence[key]})
-                except ObjectDoesNotExist:
-                    occurrence[target] = None
+
+                updates[occurrence[key]].append(occurrence)
+
+            if not updates:
+                continue
+
+            result = base.filter(**{f"{lookup}__in": updates.keys()})
+            for match in result:
+                for occurrence in updates[getattr(match, lookup)]:
+                    occurrence[target] = match
+
         return occurrences
 
 
