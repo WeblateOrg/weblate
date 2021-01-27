@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-25 13:04+0100\n"
-"PO-Revision-Date: 2021-01-26 18:58+0000\n"
+"PO-Revision-Date: 2021-01-28 08:54+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1798,10 +1798,8 @@ msgid ""
 "Weblate only sees files committed to the VCS, so you need to commit changes "
 "as a part of the script."
 msgstr ""
-"更新後のリポジトリ処理は、 VCS のアップストリームソースが変更されたときに翻訳"
-"ファイルを更新するために使用することができます。これを実現するには、 Weblate "
-"は VCS にコミットされたファイルしか見ないので、スクリプトの一部として変更をコ"
-"ミットする必要があることを覚えておいてください。"
+"更新後のリポジトリ処理は、 VCS の upstream ソースが変更されたときに翻訳ファイルを更新するために使用できます。これを実現するには、 "
+"Weblate は VCS にコミットされたファイルだけを確認するので、スクリプトの一部として変更をコミットする必要があることに注意してください。"
 
 #: ../../admin/addons.rst:561
 msgid "For example with Gulp you can do it using following code:"
@@ -3140,16 +3138,12 @@ msgid "``font-spacing:SPACING``"
 msgstr "``font-spacing:SPACING``"
 
 #: ../../admin/checks.rst:70
-#, fuzzy
-#| msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
-msgstr "検査結果を表示するフォント間隔の定義。参照: :ref:`fonts`。"
+msgstr "表示確認用の文字間隔の設定。参照: :ref:`fonts`。"
 
 #: ../../admin/checks.rst:71
-#, fuzzy
-#| msgid "``placeholders:NAME``"
 msgid "``placeholders:NAME:NAME2:...``"
-msgstr "``placeholders:NAME``"
+msgstr "``placeholders:NAME:NAME2:...``"
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -3175,13 +3169,13 @@ msgstr ""
 
 #: ../../admin/checks.rst:78
 msgid "``variants:SOURCE``"
-msgstr ""
+msgstr "``variants:SOURCE``"
 
 #: ../../admin/checks.rst:79
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
-msgstr ""
+msgstr "この文字列を、原文と一致する文字列の異なる表記としてマークします。参照: :ref:`variants`。"
 
 #: ../../admin/checks.rst:80
 msgid "``regex:REGEX``"
@@ -3192,32 +3186,18 @@ msgid "Regular expression to match translation, see :ref:`check-regex`."
 msgstr "翻訳ファイルを照合する正規表現。参照: :ref:`check-regex`。"
 
 #: ../../admin/checks.rst:87
-#, fuzzy
-#| msgid ""
-#| "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
-#| "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-#| "messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-#| "format``, ``ruby-format``, ``vue-format``"
 msgid ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
 "messageformat``, ``lua-format``, ``auto-java-messageformat``, ``qt-format``, "
 "``qt-plural-format``, ``ruby-format``, ``vue-format``"
 msgstr ""
-"``python-format``、 ``c-format``、 ``php-format``、 ``python-brace-"
-"format``、 ``javascript-format``、 ``c-sharp-format``、 ``java-format``、 "
-"``java-messageformat``、 ``auto-java-messageformat``、 ``qt-format``、 ``qt-"
-"plural-format``、 ``ruby-format``、 ``vue-format``"
+"``python-format``、``c-format``、``php-format``、``python-brace-format"
+"``、``javascript-format``、``c-sharp-format``、``java-format``、``java-"
+"messageformat``、``lua-format``、``auto-java-messageformat``、``qt-format"
+"``、``qt-plural-format``、``ruby-format``、``vue-format``"
 
 #: ../../admin/checks.rst:83
-#, fuzzy
-#| msgid ""
-#| "Treats all strings like format strings, affects :ref:`check-python-"
-#| "format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-#| "format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-#| "`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-"
-#| "javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-"
-#| "format`, :ref:`check-java-messageformat`, :ref:`check-same`."
 msgid ""
 "Treats all strings like format strings, affects :ref:`check-python-format`, :"
 "ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-format`, :ref:"
@@ -3226,12 +3206,12 @@ msgid ""
 "ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-java-"
 "messageformat`, :ref:`check-lua-format`, :ref:`check-same`."
 msgstr ""
-"すべての文字列をフォーマット文字列のように扱う、関連項目: :ref:`check-python-"
-"format`、:ref:`check-c-format`、:ref:`check-php-format`、:ref:`check-qt-"
-"format`、:ref:`check-qt-plural-format`、:ref:`check-ruby-format`、:ref:"
-"`check-vue-format`、:ref:`check-python-brace-format`、:ref:`check-javascript-"
+"すべての文字列を書式文字列のように扱う、関連項目: :ref:`check-python-format`, "
+":ref:`check-c-format`、:ref:`check-php-format`、:ref:`check-qt-format`、:ref"
+":`check-qt-plural-format`、:ref:`check-ruby-format`、:ref:`check-vue-"
+"format`、:ref:`check-python-brace-format`、:ref:`check-javascript-"
 "format`、:ref:`check-c-sharp-format`、:ref:`check-java-format`、:ref:`check-"
-"java-messageformat`、:ref:`check-same`。"
+"java-messageformat`、:ref:`check-lua-format`、:ref:`check-same`。"
 
 #: ../../admin/checks.rst:89
 msgid "``strict-same``"
@@ -3334,16 +3314,12 @@ msgid "Skip the \"JavaScript format\" quality check."
 msgstr "「JavaScript 形式」の品質検査を無効にする。"
 
 #: ../../admin/checks.rst:113
-#, fuzzy
-#| msgid "``ignore-vue-format``"
 msgid "``ignore-lua-format``"
-msgstr "``ignore-vue-format``"
+msgstr "``ignore-lua-format``"
 
 #: ../../admin/checks.rst:114
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the \"Lua format\" quality check."
-msgstr "「C 形式」の品質検査を無効にする。"
+msgstr "「Lua 形式」の品質検査を無効にする。"
 
 #: ../../admin/checks.rst:115
 msgid "``ignore-percent-placeholders``"
@@ -3647,7 +3623,7 @@ msgstr "``ignore-xml-tags``"
 
 #: ../../admin/checks.rst:190
 msgid "Skip the \"XML markup\" quality check."
-msgstr "「XMLマークアップ」の品質検査を無効にする。"
+msgstr "「XML マークアップ」の品質検査を無効にする。"
 
 #: ../../admin/checks.rst:191
 msgid "``ignore-xml-invalid``"
@@ -4309,9 +4285,8 @@ msgid ""
 "specified built in list is used which includes all commonly used languages, "
 "but without country specific variants."
 msgstr ""
-"新しい翻訳を開始するためにユーザーに提供する言語の一覧。指定しない場合は、一"
-"般的に使用されるすべての言語を含む組み込みリストが使用されますが、国別の固有"
-"のつづりは含まれません。"
+"新しい翻訳を開始するためにユーザーに提供する言語の一覧。指定しない場合は、一般的に使用されているすべての言語を含む組み込みリストを使用するが、国別の固有の"
+"異なる表記は含みません。"
 
 #: ../../admin/config.rst:214
 msgid ""
@@ -4319,9 +4294,8 @@ msgid ""
 "admins are still presented with full selection of languages defined in "
 "Weblate."
 msgstr ""
-"これは、特権のないユーザーが不要な言語を追加することを制限するだけです。プロ"
-"ジェクト管理者には、Weblate で定義されている言語の完全な選択が引き続き表示さ"
-"れます。"
+"これは、特権のないユーザーが不要な言語を追加することを制限するだけです。プロジェクト管理者には、選択肢にすべての Weblate "
+"に設定済みの言語が引き続き表示されます。"
 
 #: ../../admin/config.rst:219
 msgid ""
@@ -4839,9 +4813,8 @@ msgid ""
 "related to HTTPS - it enables secure cookies, toggles HSTS or enables "
 "redirection to HTTPS URL."
 msgstr ""
-"デフォルトの設定では、これは HTTPS に関連する複数の Django 設定にも使用されま"
-"す - セキュアなクッキーを有効にしたり、HSTS を切り替えたり、HTTPS URL へのリ"
-"ダイレクションを有効にしたりします。"
+"デフォルトの設定では、これは HTTPS に関連する複数の Django 設定にも使用されます - セキュアな Cookie を有効にしたり、HSTS "
+"を切り替えたり、HTTPS URL へのリダイレクションを有効にしたりします。"
 
 #: ../../admin/config.rst:607
 msgid ""
@@ -6528,7 +6501,7 @@ msgstr ":ref:`gpg-sign`"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr "Web サービスを連携して翻訳"
+msgstr "Web サービスを連携した翻訳"
 
 #: ../../admin/continuous.rst:6
 msgid ""
@@ -7451,11 +7424,11 @@ msgstr "セットアップと経験に応じて、適切なインストール方
 
 #: ../../admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ":doc:`install/docker`、運用環境として推奨。"
+msgstr ":doc:`install/docker`、本番環境として推奨。"
 
 #: ../../admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr "Virtualenv のインストール、推奨する運用環境:"
+msgstr "Virtualenv のインストール、推奨する本番環境:"
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
@@ -8369,9 +8342,8 @@ msgid ""
 "show backtraces in case of error to users, when you disable it, errors will "
 "be sent per e-mail to ``ADMINS`` (see above)."
 msgstr ""
-"すべての運用サーバーでこの機能を無効にします。デバッグ モードを有効にすると、"
-"Django はユーザーにエラーが発生した場合にバックトレースを表示します。無効にす"
-"ると、エラーはメールごとに ``ADMINS`` （上記参照）に送信されます。"
+"すべての本番環境サーバーでこの機能を無効にします。デバッグ モードを有効にすると、Django "
+"はユーザーにエラーが発生した場合にバックトレースを表示します。無効にすると、エラーはメールごとに ``ADMINS`` （上記参照）に送信されます。"
 
 #: ../../admin/install.rst:661
 msgid ""
@@ -8470,7 +8442,7 @@ msgstr ":ref:`config`, :ref:`privileges`"
 
 #: ../../admin/install.rst:725
 msgid "Production setup"
-msgstr "運用環境の設定"
+msgstr "本番環境の設定"
 
 #: ../../admin/install.rst:727
 msgid ""
@@ -8479,9 +8451,8 @@ msgid ""
 "is indicated by an exclamation mark in the top bar if signed in as a "
 "superuser:"
 msgstr ""
-"運用環境のセットアップでは、以下のセクションで説明する設定が必要です。最重要"
-"の設定では警告が発生します。スーパーユーザーとしてサインインしている場合、上"
-"部バーに感嘆符で警告:"
+"本番環境のセットアップでは、以下のセクションで説明する設定が必要です。最重要の設定では警告が発生します。スーパーユーザーとしてサインインしている場合、上部"
+"バーに感嘆符で警告:"
 
 #: ../../admin/install.rst:733
 msgid ""
@@ -8514,9 +8485,8 @@ msgid ""
 "With debug mode on, Django stores all executed queries and shows users "
 "backtraces of errors, which is not desired in a production setup."
 msgstr ""
-"デバッグ モードを有効にすると、Django は実行したすべてのクエリーを保管し、"
-"ユーザーにエラーのバック トレースを表示しますが、これは運用環境では望ましくあ"
-"りません。"
+"デバッグ モードを有効にすると、Django は実行したすべてのクエリーを保管し、ユーザーにエラーのバック "
+"トレースを表示しますが、これは本番環境では望ましくありません。"
 
 #: ../../admin/install.rst:762 ../../admin/install.rst:778
 msgid ":ref:`configuration`"
@@ -8633,9 +8603,7 @@ msgstr "強力なデータベース エンジンの使用"
 msgid ""
 "Please use PostgreSQL for a production environment, see :ref:`database-"
 "setup` for more info."
-msgstr ""
-"運用環境では PostgreSQL を使用してください。詳しいことは、:ref:`database-"
-"setup` を確認してください。"
+msgstr "本番環境では PostgreSQL を使用してください。詳しいことは、:ref:`database-setup` を確認してください。"
 
 #: ../../admin/install.rst:856
 msgid ""
@@ -9124,9 +9092,8 @@ msgid ""
 "security audits or performance tests. See also Django documentation on :"
 "djadmin:`django:runserver`."
 msgstr ""
-"このサーバーを運用環境では使用しないでください。セキュリティ監査や性能試験を"
-"受けていません。 :djadmin:`django:runserver` の Django ドキュメントも確認して"
-"ください。"
+"このサーバーを本番環境では使用しないでください。セキュリティ監査や性能試験を受けていません。 :djadmin:`django:runserver` の "
+"Django ドキュメントも確認してください。"
 
 #: ../../admin/install.rst:1235
 msgid ""
@@ -9135,10 +9102,9 @@ msgid ""
 "see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
-"Django 組み込みサーバーは開発専用であるため、:setting:`DEBUG` が有効な場合に"
-"のみ静的ファイルが提供されます。運用環境で使用するには、:ref:`uwsgi`、:ref:"
-"`apache`、:ref:`apache-gunicorn`、および :ref:`static-files` の設定を確認して"
-"ください。"
+"Django 組み込みサーバーは開発専用であるため、:setting:`DEBUG` "
+"が有効な場合にのみ静的ファイルが提供されます。本番環境で使用するには、:ref:`uwsgi`、:ref:`apache`、:ref:`apache-"
+"gunicorn`、および :ref:`static-files` の設定を確認してください。"
 
 #: ../../admin/install.rst:1243
 msgid "Serving static files"
@@ -9249,11 +9215,10 @@ msgid ""
 "your virtualenv as well (for example using ``virtualenv = /home/user/weblate-"
 "env`` in uWSGI)."
 msgstr ""
-"運用環境の WEB サーバーを実行するには、Weblate とセットでインストールされた "
-"wsgi ラッパーを使用します（virtual env の場合、:file:`~/weblate-env/lib/"
-"python3.7/site-packages/weblate/wsgi.py` としてインストールされる）。 Python "
-"検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で "
-"``virtualenv = /home/user/weblate-env`` の使用）。"
+"本番環境の WEB サーバーを実行するには、Weblate とセットでインストールされた wsgi ラッパーを使用します（virtual env "
+"の場合、:file:`~/weblate-env/lib/python3.7/site-packages/weblate/wsgi.py` "
+"としてインストールされる）。 Python 検索パスも virtualenv に設定することを忘れないでください（例: uWSGI で ``"
+"virtualenv = /home/user/weblate-env`` の使用）。"
 
 #: ../../admin/install.rst:1302
 msgid ""
@@ -14706,19 +14671,19 @@ msgstr ""
 
 #: ../../admin/projects.rst:704
 msgid "Variants regular expression"
-msgstr "つづり正規表現"
+msgstr "異なる表記を特定する正規表現"
 
 #: ../../admin/projects.rst:706
 msgid ""
 "Regular expression used to determine the variants of a string, see :ref:"
 "`variants`."
-msgstr ""
+msgstr "文字列の異なる表記を特定するために使用する正規表現。参照: :ref:`variants`。"
 
 #: ../../admin/projects.rst:711
 msgid ""
 "Most of the fields can be edited by project owners or managers, in the "
 "Weblate interface."
-msgstr ""
+msgstr "ほとんどのフィールドは、Weblate インターフェイスでプロジェクトの所有者または管理者が編集できます。"
 
 #: ../../admin/projects.rst:716
 msgid ":ref:`faq-vcs`, :ref:`alerts`"
@@ -14735,7 +14700,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:728
 msgid "Restricted access"
-msgstr ""
+msgstr "アクセス制限"
 
 #: ../../admin/projects.rst:730
 msgid ""
@@ -14743,6 +14708,8 @@ msgid ""
 "project, even if the person can not perform any changes in the component. "
 "This makes it easier to keep translation consistency within the project."
 msgstr ""
+"デフォルトでは、コンポーネントに変更を加えることができない場合でも、プロジェクトにアクセスできるすべてのユーザーにコンポーネントが表示されます。これにより"
+"、プロジェクト内での翻訳の一貫性が維持しやすくなります。"
 
 #: ../../admin/projects.rst:734
 msgid ""
@@ -14750,17 +14717,19 @@ msgid ""
 "the project level permissions will not apply and you will have to specify "
 "component or component list level permission in order to grant access."
 msgstr ""
+"コンポーネントへのアクセス権限を明確に許可する場合は、これを有効にします。プロジェクト レベルの権限は適用されず、アクセス権を許可するには、"
+"コンポーネントまたはコンポーネント リスト レベルの権限を指定することが必要です。"
 
 #: ../../admin/projects.rst:738
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
-msgstr ""
+msgstr "デフォルト値は :setting:`DEFAULT_RESTRICTED_COMPONENT` で変更できます。"
 
 #: ../../admin/projects.rst:742
 msgid ""
 "This applies to project managers as well - please make sure you will not "
 "loose access to the component after toggling the status."
-msgstr ""
+msgstr "これはプロジェクト管理者にも適用されます - 権限を切り替えた後、コンポーネントにアクセスできなくならないように注意してください。"
 
 #: ../../admin/projects.rst:748
 msgid "Share in projects"
@@ -14770,7 +14739,7 @@ msgstr "プロジェクトで共有"
 msgid ""
 "You can choose additional projects where the component will be visible. This "
 "can be useful for shared libraries which you use in several projects."
-msgstr ""
+msgstr "コンポーネントを表示するプロジェクトを選択して追加できます。これは、複数のプロジェクトで使用する共有ライブラリの場合は便利です。"
 
 #: ../../admin/projects.rst:755
 msgid ""
@@ -14778,10 +14747,12 @@ msgid ""
 "visible when browsing other projects. User still need to have access to the "
 "actual component in order to be able to browse or translate it."
 msgstr ""
+"共有コンポーネントは、アクセス制御を変更しません。他のプロジェクトを表示するときにのみ表示します。ユーザーが実際のコンポーネントを確認または翻訳するには、"
+"そのコンポーネントにアクセスすることが必要です。"
 
 #: ../../admin/projects.rst:762
 msgid "Template markup"
-msgstr ""
+msgstr "テンプレート用のマークアップ"
 
 #: ../../admin/projects.rst:764
 msgid ""
@@ -14789,49 +14760,48 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
-"Weblate では、テキストのレンダリングが必要な複数の場所で、分かりやすいマーク"
-"アップ言語を使用します。これは :doc:`django:ref/templates/language` に基づい"
-"ているので、非常に強力です。"
+"Weblate では、テキストのレンダリングが必要な複数の場所で、分かりやすいマークアップ言語を使用しています。これは :doc:`django:ref/"
+"templates/language` に基づいているので、非常に強力です。"
 
 #: ../../admin/projects.rst:768
 msgid "Currently it is used in:"
-msgstr ""
+msgstr "現在使用している場所:"
 
 #: ../../admin/projects.rst:770
 msgid "Commit message formatting, see :ref:`component`"
-msgstr ""
+msgstr "コミット メッセージの書式設定。参照: :ref:`component`"
 
 #: ../../admin/projects.rst:774
 msgid "Several addons"
-msgstr ""
+msgstr "複数のアドオン"
 
 #: ../../admin/projects.rst:772
 msgid ":ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/projects.rst:773
 msgid ":ref:`addon-weblate.generate.generate`"
-msgstr ""
+msgstr ":ref:`addon-weblate.generate.generate`"
 
 #: ../../admin/projects.rst:774
 msgid ":ref:`addon-script`"
-msgstr ""
+msgstr ":ref:`addon-script`"
 
 #: ../../admin/projects.rst:776
 msgid "There following variables are available in the component templates:"
-msgstr ""
+msgstr "コンポーネントのテンプレートで使用できる変数:"
 
 #: ../../admin/projects.rst:778
 msgid "``{{ language_code }}``"
-msgstr ""
+msgstr "``{{ language_code }}``"
 
 #: ../../admin/projects.rst:780
 msgid "``{{ language_name }}``"
-msgstr ""
+msgstr "``{{ language_name }}``"
 
 #: ../../admin/projects.rst:782
 msgid "``{{ component_name }}``"
-msgstr ""
+msgstr "``{{ component_name }}``"
 
 #: ../../admin/projects.rst:784
 msgid "``{{ component_slug }}``"
@@ -14839,7 +14809,7 @@ msgstr "``{{ component_slug }}``"
 
 #: ../../admin/projects.rst:786
 msgid "``{{ project_name }}``"
-msgstr ""
+msgstr "``{{ project_name }}``"
 
 #: ../../admin/projects.rst:788
 msgid "``{{ project_slug }}``"
@@ -14851,7 +14821,7 @@ msgstr "``{{ url }}``"
 
 #: ../../admin/projects.rst:791
 msgid "Translation URL"
-msgstr ""
+msgstr "翻訳 URL"
 
 #: ../../admin/projects.rst:792
 msgid "``{{ filename }}``"
@@ -14867,7 +14837,7 @@ msgstr "``{{ stats }}``"
 
 #: ../../admin/projects.rst:795
 msgid "Translation stats, this has further attributes, examples below."
-msgstr ""
+msgstr "翻訳統計、これにはさらに属性があります。以下は例です。"
 
 #: ../../admin/projects.rst:796
 msgid "``{{ stats.all }}``"
@@ -14875,7 +14845,7 @@ msgstr "``{{ stats.all }}``"
 
 #: ../../admin/projects.rst:797
 msgid "Total strings count"
-msgstr ""
+msgstr "文字列の総数"
 
 #: ../../admin/projects.rst:798
 msgid "``{{ stats.fuzzy }}``"
@@ -14883,7 +14853,7 @@ msgstr "``{{ stats.fuzzy }}``"
 
 #: ../../admin/projects.rst:799
 msgid "Count of strings needing review"
-msgstr ""
+msgstr "査読が必要な文字列数"
 
 #: ../../admin/projects.rst:800
 msgid "``{{ stats.fuzzy_percent }}``"
@@ -14891,7 +14861,7 @@ msgstr "``{{ stats.fuzzy_percent }}``"
 
 #: ../../admin/projects.rst:801
 msgid "Percent of strings needing review"
-msgstr ""
+msgstr "査読が必要な文字列の割合"
 
 #: ../../admin/projects.rst:802
 msgid "``{{ stats.translated }}``"
@@ -14899,7 +14869,7 @@ msgstr "``{{ stats.translated }}``"
 
 #: ../../admin/projects.rst:803
 msgid "Translated strings count"
-msgstr ""
+msgstr "翻訳済みの文字列数"
 
 #: ../../admin/projects.rst:804
 msgid "``{{ stats.translated_percent }}``"
@@ -14907,7 +14877,7 @@ msgstr "``{{ stats.translated_percent }}``"
 
 #: ../../admin/projects.rst:805
 msgid "Translated strings percent"
-msgstr ""
+msgstr "翻訳済みの文字列の割合"
 
 #: ../../admin/projects.rst:806
 msgid "``{{ stats.allchecks }}``"
@@ -14915,7 +14885,7 @@ msgstr "``{{ stats.allchecks }}``"
 
 #: ../../admin/projects.rst:807
 msgid "Number of strings with failing checks"
-msgstr ""
+msgstr "検査不合格の文字列数"
 
 #: ../../admin/projects.rst:808
 msgid "``{{ stats.allchecks_percent }}``"
@@ -14923,7 +14893,7 @@ msgstr "``{{ stats.allchecks_percent }}``"
 
 #: ../../admin/projects.rst:809
 msgid "Percent of strings with failing checks"
-msgstr ""
+msgstr "検査不合格の文字列の割合"
 
 #: ../../admin/projects.rst:810
 msgid "``{{ author }}``"
@@ -14931,7 +14901,7 @@ msgstr "``{{ author }}``"
 
 #: ../../admin/projects.rst:811
 msgid "Author of current commit, available only in the commit scope."
-msgstr ""
+msgstr "現在のコミットの作成者。コミット範囲でのみ使用できる。"
 
 #: ../../admin/projects.rst:813
 msgid "``{{ addon_name }}``"
@@ -14940,13 +14910,13 @@ msgstr "``{{ addon_name }}``"
 #: ../../admin/projects.rst:813
 msgid ""
 "Name of currently executed addon, available only in the addon commit message."
-msgstr ""
+msgstr "現在実行しているアドオンの名前。アドオンのコミット メッセージでのみ使用できる。"
 
 #: ../../admin/projects.rst:815
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
-msgstr ""
+msgstr "リポジトリのブラウザまたはエディタのテンプレートで使用できる変数:"
 
 #: ../../admin/projects.rst:817
 msgid "``{{branch}}``"
@@ -14954,7 +14924,7 @@ msgstr "``{{branch}}``"
 
 #: ../../admin/projects.rst:818
 msgid "current branch"
-msgstr ""
+msgstr "現在のブランチ"
 
 #: ../../admin/projects.rst:819
 msgid "``{{line}}``"
@@ -14962,7 +14932,7 @@ msgstr "``{{line}}``"
 
 #: ../../admin/projects.rst:820
 msgid "line in file"
-msgstr ""
+msgstr "ファイル内の行"
 
 #: ../../admin/projects.rst:822
 msgid "``{{filename}}``"
@@ -14973,44 +14943,45 @@ msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
+"ファイル名、``parentdir`` フィルタを使用して、先頭の部分の削除もできます。例: ``{{filename|parentdir}}``"
 
 #: ../../admin/projects.rst:824
 msgid "You can combine them with filters:"
-msgstr ""
+msgstr "フィルタと組み合わせる方法:"
 
 #: ../../admin/projects.rst:830
 msgid "You can use conditions:"
-msgstr ""
+msgstr "条件の使用方法:"
 
 #: ../../admin/projects.rst:836
 msgid "There is additional tag available for replacing characters:"
-msgstr ""
+msgstr "文字の置換に使用できる追加のタグ:"
 
 #: ../../admin/projects.rst:842
 msgid "You can combine it with filters:"
-msgstr ""
+msgstr "フィルターと組み合わせる方法:"
 
 #: ../../admin/projects.rst:848
 msgid "There are also additional filter to manipulate with filenames:"
-msgstr ""
+msgstr "追加された、ファイル名を操作するためのフィルター:"
 
 #: ../../admin/projects.rst:857
 msgid "...and other Django template features."
-msgstr ""
+msgstr "...および、その他の Django テンプレート機能。"
 
 #: ../../admin/projects.rst:862
 msgid "Importing speed"
-msgstr ""
+msgstr "インポート速度"
 
 #: ../../admin/projects.rst:864
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
-msgstr ""
+msgstr "VCS リポジトリの取得と Weblate への翻訳のインポートは、翻訳のサイズにもよりますが、時間のかかる処理になります。解決のヒント:"
 
 #: ../../admin/projects.rst:868
 msgid "Optimize configuration"
-msgstr ""
+msgstr "設定の最適化"
 
 #: ../../admin/projects.rst:870
 msgid ""
@@ -15019,50 +14990,53 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
+"デフォルトの設定は、Weblate のテストとデバッグには便利ですが、本番環境のセットアップでは、いくつかの調整が必要です。その多くは、パフォーマンスに大"
+"きな影響を与えます。詳細については、ref:`production` を確認してください。特に確認が必要なもの:"
 
 #: ../../admin/projects.rst:875
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
-msgstr ""
+msgstr "バックグラウンド タスクの実行に必要な Celery の設定（参照: :ref:`celery` ）"
 
 #: ../../admin/projects.rst:877
 msgid ":ref:`production-database`"
-msgstr ""
+msgstr ":ref:`production-database`"
 
 #: ../../admin/projects.rst:878 ../../contributing/debugging.rst:17
 msgid ":ref:`production-debug`"
-msgstr ""
+msgstr ":ref:`production-debug`"
 
 #: ../../admin/projects.rst:881
 msgid "Check resource limits"
-msgstr ""
+msgstr "リソース制限の確認"
 
 #: ../../admin/projects.rst:883
 msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
-msgstr ""
+msgstr "大量の翻訳やリポジトリをインポートする場合は、サーバーのリソース制限の影響を受けます。"
 
 #: ../../admin/projects.rst:886
 msgid ""
 "Check the amount of free memory, having translation files cached by the "
 "operating system will greatly improve performance."
-msgstr ""
+msgstr "メモリの空き容量を確認します。オペレーティング システムに翻訳ファイルをキャッシュさせると、パフォーマンスが大幅に向上します。"
 
 #: ../../admin/projects.rst:887
 msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
 msgstr ""
+"処理する文字列が多数ある場合、ディスク操作がボトルネックになることがあります—ディスクは Weblate とデータベースの両方から書き込まれます。"
 
 #: ../../admin/projects.rst:888
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
-msgstr ""
+msgstr "CPU コアを追加すると、バックグラウンド タスクのパフォーマンスが向上することがあります（参照: :ref:`celery` ）。"
 
 #: ../../admin/projects.rst:891
 msgid "Disable unneeded checks"
-msgstr ""
+msgstr "不要な検査の無効"
 
 #: ../../admin/projects.rst:893
 msgid ""
@@ -15070,10 +15044,12 @@ msgid ""
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
 msgstr ""
+"一部の品質検査は非常にコストがかかる場合があり、不要な場合は省略するとインポート中の時間を短縮できます。 設定の詳細については "
+":setting:`CHECK_LIST` を確認してください。"
 
 #: ../../admin/projects.rst:900
 msgid "Automatic creation of components"
-msgstr ""
+msgstr "コンポーネントの自動生成"
 
 #: ../../admin/projects.rst:902
 msgid ""
@@ -15083,6 +15059,10 @@ msgid ""
 "djadmin:`import_project` or :djadmin:`import_json`, or by installing the :"
 "ref:`addon-weblate.discovery.discovery` addon."
 msgstr ""
+"プロジェクトに多くの翻訳ファイル（例: 異なる gettext ドメインまたは Android "
+"アプリの一部）がある場合は、それらを自動的に読み込みたくなります。これは、コマンド行から :djadmin:`import_project` または "
+":djadmin:`import_json` を使用するか、:ref:`addon-weblate.discovery.discovery` "
+"アドオンをインストールすることで実行できます。"
 
 #: ../../admin/projects.rst:908
 msgid ""
@@ -15090,6 +15070,8 @@ msgid ""
 "file (choose the one that is the least likely to be renamed or removed in "
 "future), and install the addon on this component."
 msgstr ""
+"アドオンを使用するには、まず 1 つの翻訳ファイル（将来的に名前変更または削除する可能性が最も低いものを選択）用のコンポーネントを作成し、このコンポーネン"
+"トにアドオンをインストールすることが必要です。"
 
 #: ../../admin/projects.rst:912
 msgid ""
@@ -15097,6 +15079,8 @@ msgid ""
 "all components and then run :djadmin:`import_project` or :djadmin:"
 "`import_json`."
 msgstr ""
+"管理コマンドの場合は、すべてのコンポーネントを含むプロジェクトを作成してから、:djadmin:`import_project` または "
+":djadmin:`import_json` の実行が必要です。"
 
 #: ../../admin/projects.rst:918
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
@@ -18119,10 +18103,8 @@ msgid "Not yet released."
 msgstr "まだリリースしていません。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for Term Base eXchange files."
 msgid "Added support for ``lua-format`` used in gettext PO."
-msgstr "Term Base eXchange ファイル対応の追加。"
+msgstr "gettext PO で使用する ``lua-format`` への対応の追加。"
 
 #: ../../changes.rst:7
 msgid "Added support for sharing a component between projects."
@@ -18149,7 +18131,7 @@ msgstr "Term Base eXchange ファイル対応の追加。"
 
 #: ../../changes.rst:12
 msgid "Added support for manually defining string variants using a flag."
-msgstr "フラグを使用して文字列の種類を手作業で設定する対応の追加。"
+msgstr "フラグを使用して文字列の異なる表記を手動で設定する機能の追加。"
 
 #: ../../changes.rst:13
 msgid "Improved performance of consistency checks."
@@ -18897,7 +18879,7 @@ msgstr ""
 
 #: ../../changes.rst:236
 msgid "Renamed shapings to more generic name variants."
-msgstr ""
+msgstr "シェーピングをより一般的な名前のバリエーションに変更。"
 
 #: ../../changes.rst:237
 msgid ""
@@ -19181,7 +19163,7 @@ msgstr ""
 
 #: ../../changes.rst:326
 msgid "Improved LINGUAS update addon to handle more syntax variants."
-msgstr ""
+msgstr "LINGUAS 更新アドオンを改良し、より多くの構文の異なる表記を処理できるようにした。"
 
 #: ../../changes.rst:327
 msgid "Fixed editing monolingual XLIFF source file."
@@ -22690,7 +22672,7 @@ msgstr ""
 
 #: ../../changes.rst:1447
 msgid "Show code snippets for widgets in more variants."
-msgstr ""
+msgstr "ウィジェットのコード スニペットに、より多くの種類を表示。"
 
 #: ../../changes.rst:1448
 msgid "Indicate failing checks or fuzzy strings in progress bars."
@@ -25022,18 +25004,13 @@ msgstr ""
 "トをセットアップするためのガイドラインがあります。"
 
 #: ../../contributing/start.rst:126
-#, fuzzy
-#| msgid ""
-#| "Considering you have just cloned the Github repository, just open the "
-#| "folder in which you cloned it in PyCharm. Once the IDE is open, the first "
-#| "step is to specify the interpreter you want:"
 msgid ""
 "Considering you have just cloned the GitHub repository, just open the folder "
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
 "to specify the interpreter you want:"
 msgstr ""
-"Github リポジトリをクローンした直後なので、PyCharm でクローンしたフォルダを開"
-"くだけです。IDE を開き、最初に必要なインタプリターの指定方法："
+"GitHub リポジトリをクローンした直後なので、PyCharm でクローンしたフォルダを開くだけです。IDE "
+"を開いて、最初に必要なインタプリターの指定方法:"
 
 #: ../../contributing/start.rst:132
 msgid ""
@@ -26083,7 +26060,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:69
 msgid "All stats are available in three variants:"
-msgstr ""
+msgstr "すべての統計で使用できる 3 種類:"
 
 #: ../../devel/reporting.rst:71
 msgid "`Total`"
@@ -26615,17 +26592,17 @@ msgstr ""
 
 #: ../../devel/translations.rst:28
 msgid "String variants"
-msgstr ""
+msgstr "文字列の異なる表記"
 
 #: ../../devel/translations.rst:30
 msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
-msgstr ""
+msgstr "文字列の異なる表記は、複数の文字列をグループ化して、翻訳者が文字列のすべての異なる表記を 1 つの場所で確認できて便利です。"
 
 #: ../../devel/translations.rst:34
 msgid "Automated key based variants"
-msgstr ""
+msgstr "自動化されたキーを元にした異なる表記"
 
 #: ../../devel/translations.rst:38
 msgid ""
@@ -28449,6 +28426,7 @@ msgid ""
 "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
 "mostly compatible, with exception of how plurals are handled."
 msgstr ""
+"Weblate は i18next JSON v3 形式に対応しています。v2 と v1 の違いは、複数形の処理方法を除いて、ほぼ互換性があります。"
 
 #: ../../formats.rst:866 ../../formats.rst:903
 msgid "``langs/*.json``"
@@ -29469,8 +29447,7 @@ msgstr "翻訳時の検査"
 msgid ""
 "Executed upon every translation change, helping translators maintain good "
 "quality translations."
-msgstr ""
-"翻訳を変更するたびに検査をするため、翻訳者は高品質な翻訳を維持できます。"
+msgstr "翻訳文を変更するたびに検査をするため、翻訳者は高品質な翻訳を維持できます。"
 
 #: ../../user/checks.rst:48
 msgid "BBcode markup"
@@ -29478,19 +29455,17 @@ msgstr "BBcode マークアップ"
 
 #: ../../user/checks.rst:50
 msgid "*BBcode in translation does not match source*"
-msgstr "*翻訳の BBcode が原文と一致しない*"
+msgstr "*翻訳文の BBcode が原文と不一致*"
 
 #: ../../user/checks.rst:52
 msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
-msgstr ""
-"BBCode は、メッセージの重要な部分をボールド フォントやイタリックで強調するな"
-"どの表示を、単純なマークアップで記述します。"
+msgstr "BBCode は、メッセージの重要な部分を太字フォントや斜体で強調するなどの表示を、単純なマークアップで記述します。"
 
 #: ../../user/checks.rst:55
 msgid "This check ensures they are also found in translation."
-msgstr "この検査は、それらが翻訳にも含まれていることを確認します。"
+msgstr "この検査は、それらが翻訳文にも含まれていることを確認します。"
 
 #: ../../user/checks.rst:59
 msgid ""
@@ -29512,7 +29487,7 @@ msgstr "*テキストには同じ単語が 2 回連続したものを含む:*"
 msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
-msgstr "翻訳に重複する単語が連続してないか検査します。通常は、翻訳ミスです。"
+msgstr "翻訳文に重複する単語が連続してないか検査します。通常は、翻訳ミスです。"
 
 #: ../../user/checks.rst:76
 msgid ""
@@ -29528,15 +29503,13 @@ msgstr "連続スペース"
 
 #: ../../user/checks.rst:85
 msgid "*Translation contains double space*"
-msgstr "*翻訳に 2 回連続したスペースが含まれている*"
+msgstr "*翻訳文に 2 回連続したスペースが含まれている*"
 
 #: ../../user/checks.rst:87
 msgid ""
 "Checks that double space is present in translation to avoid false positives "
 "on other space-related checks."
-msgstr ""
-"翻訳に連続したスペースが存在するか検査し、ほかのスペース関連の検査での誤検出"
-"を防ぎます。"
+msgstr "翻訳文に連続したスペースが存在するか検査し、ほかのスペース関連の検査での誤検出を防ぎます。"
 
 #: ../../user/checks.rst:89
 msgid ""
@@ -29556,9 +29529,8 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
-"原文から翻訳に文字列の書式指定が複製されているか検査します。翻訳で書式指定文"
-"字列を省略すると、通常は深刻な問題が発生するので、文字列の書式指定は、通常は"
-"原文と一致していなければなりません。"
+"原文から翻訳文に文字列の書式指定が複製されているか検査します。翻訳文で書式指定文字列を省略すると、通常は深刻な問題が発生するので、文字列の書式指定は、通常"
+"は原文と一致していなければなりません。"
 
 #: ../../user/checks.rst:118
 msgid ""
@@ -29608,12 +29580,12 @@ msgstr "AngularJS 補間文字列"
 
 #: ../../user/checks.rst:142
 msgid "*AngularJS interpolation strings do not match source*"
-msgstr "*AngularJS 補間文字列が原文と一致しない*"
+msgstr "*AngularJS 補間文字列が原文と不一致*"
 
 #: ../../user/checks.rst:145 ../../user/checks.rst:347
 #: ../../user/checks.rst:365 ../../user/checks.rst:415
 msgid "Named format string"
-msgstr "名前付きフォーマット文字列"
+msgstr "名前付き書式文字列"
 
 #: ../../user/checks.rst:145
 msgid "``Your balance is {{amount}} {{ currency }}``"
@@ -29649,7 +29621,7 @@ msgstr "C 言語書式"
 
 #: ../../user/checks.rst:157
 msgid "*C format string does not match source*"
-msgstr "*C フォーマット文字列が原文と一致しない*"
+msgstr "*C 言語形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:160 ../../user/checks.rst:228
 #: ../../user/checks.rst:264 ../../user/checks.rst:279
@@ -29698,7 +29670,7 @@ msgstr "C# 形式"
 
 #: ../../user/checks.rst:175
 msgid "*C# format string does not match source*"
-msgstr "*C# 形式の文字列が原文と一致しない*"
+msgstr "*C# 形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:178 ../../user/checks.rst:246
 msgid "``There are {0} apples``"
@@ -29722,7 +29694,7 @@ msgstr "ECMAScript テンプレート リテラル"
 
 #: ../../user/checks.rst:190
 msgid "*ECMAScript template literals do not match source*"
-msgstr "*ECMAScript テンプレート リテラルが原文と一致しない*"
+msgstr "*ECMAScript テンプレート リテラルが原文と不一致*"
 
 #: ../../user/checks.rst:193 ../../user/checks.rst:210
 msgid "Interpolation"
@@ -29750,7 +29722,7 @@ msgstr "i18next 補間"
 
 #: ../../user/checks.rst:205
 msgid "*The i18next interpolation does not match source*"
-msgstr "*i18next 補間が原文と一致しない*"
+msgstr "*i18next 補間が原文と不一致*"
 
 #: ../../user/checks.rst:210
 msgid "``There are {{number}} apples``"
@@ -29782,7 +29754,7 @@ msgstr "Java 形式"
 
 #: ../../user/checks.rst:225
 msgid "*Java format string does not match source*"
-msgstr "*Java フォーマット文字列が原文と一致しない*"
+msgstr "*Java 形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:232
 msgid "`java-format`"
@@ -29802,7 +29774,7 @@ msgstr "Java MessageFormat"
 
 #: ../../user/checks.rst:243
 msgid "*Java MessageFormat string does not match source*"
-msgstr "*Java メッセージ フォーマット文字列が原文と一致しない*"
+msgstr "*Java メッセージ フォーマット文字列が原文と不一致*"
 
 #: ../../user/checks.rst:248
 msgid "`java-messageformat` enables the check unconditionally"
@@ -29830,7 +29802,7 @@ msgstr "JavaScript 形式"
 
 #: ../../user/checks.rst:261
 msgid "*JavaScript format string does not match source*"
-msgstr "*JavaScript 書式指定文字列が原文と一致しない*"
+msgstr "*JavaScript 書式指定文字列が原文と不一致*"
 
 #: ../../user/checks.rst:266
 msgid "`javascript-format`"
@@ -29849,28 +29821,20 @@ msgid "Lua format"
 msgstr "Lua 形式"
 
 #: ../../user/checks.rst:276
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*Lua format string does not match source*"
-msgstr "原文と C 言語の書式文字列が合致していないもの"
+msgstr "*Lua 形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:281
-#, fuzzy
-#| msgid "`vue-format`"
 msgid "`lua-format`"
-msgstr "`vue-format`"
+msgstr "`lua-format`"
 
 #: ../../user/checks.rst:286
-#, fuzzy
-#| msgid ""
-#| "`JavaScript formatting strings <https://www.gnu.org/software/gettext/"
-#| "manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Lua formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-"`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
-"html_node/javascript_002dformat.html>`_"
+"`Lua 形式の文字列 <https://www.gnu.org/software/gettext/manual/html_node/"
+"lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:289
 msgid "Percent placeholders"
@@ -29878,7 +29842,7 @@ msgstr "パーセントのプレースホルダー"
 
 #: ../../user/checks.rst:291
 msgid "*The percent placeholders do not match source*"
-msgstr "*パーセントのプレースホルダーが原文と一致しない*"
+msgstr "*パーセントのプレースホルダーが原文と不一致*"
 
 #: ../../user/checks.rst:296
 msgid "``There are %number% apples``"
@@ -29894,7 +29858,7 @@ msgstr "Perl 形式"
 
 #: ../../user/checks.rst:305
 msgid "*Perl format string does not match source*"
-msgstr "*Perl 書式指定文字列が原文と一致しない*"
+msgstr "*Perl 書式指定文字列が原文と不一致*"
 
 #: ../../user/checks.rst:312
 msgid "`perl-format`"
@@ -29916,7 +29880,7 @@ msgstr "PHP 形式"
 
 #: ../../user/checks.rst:323
 msgid "*PHP format string does not match source*"
-msgstr "*PHP フォーマット文字列が原文と一致しない*"
+msgstr "*PHP 形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:330
 msgid "`php-format`"
@@ -29938,7 +29902,7 @@ msgstr "Python ブレース書式"
 
 #: ../../user/checks.rst:342
 msgid "*Python brace format string does not match source*"
-msgstr "*Python ブレース形式文字列が原文と一致しない*"
+msgstr "*Python ブレース形式文字列が原文と不一致*"
 
 #: ../../user/checks.rst:345
 msgid "``There are {} apples``"
@@ -29968,7 +29932,7 @@ msgstr "Python 形式"
 
 #: ../../user/checks.rst:360
 msgid "*Python format string does not match source*"
-msgstr "*Python形式の文字列が原文と一致しない*"
+msgstr "*Python 形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:365
 msgid "``Your balance is %(amount) %(currency)``"
@@ -29994,7 +29958,7 @@ msgstr "Qt 形式"
 
 #: ../../user/checks.rst:378
 msgid "*Qt format string does not match source*"
-msgstr "*Qt 形式の文字列が原文と一致しない*"
+msgstr "*Qt 形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:381
 msgid "``There are %1 apples``"
@@ -30014,7 +29978,7 @@ msgstr "Qt 複数形式"
 
 #: ../../user/checks.rst:393
 msgid "*Qt plural format string does not match source*"
-msgstr "*Qt 複数形の書式指定文字列が原文と一致しない*"
+msgstr "*Qt 複数形の書式指定文字列が原文と不一致*"
 
 #: ../../user/checks.rst:396
 msgid "Plural format string"
@@ -30042,7 +30006,7 @@ msgstr "Ruby 形式"
 
 #: ../../user/checks.rst:408
 msgid "*Ruby format string does not match source*"
-msgstr "*Ruby 書式指定文字列が原文と一致しない*"
+msgstr "*Ruby 書式指定文字列が原文と不一致*"
 
 #: ../../user/checks.rst:413
 msgid "``Your balance is %1$f %2$s``"
@@ -30078,7 +30042,7 @@ msgstr "Vue I18n 書式"
 
 #: ../../user/checks.rst:429
 msgid "*The Vue I18n formatting does not match source*"
-msgstr "*Vue I18n 書式が原文と一致しない*"
+msgstr "*Vue I18n 書式が原文と不一致*"
 
 #: ../../user/checks.rst:432
 msgid "Named formatting"
@@ -30216,7 +30180,7 @@ msgstr "Markdown のリンク"
 
 #: ../../user/checks.rst:509
 msgid "*Markdown links do not match source*"
-msgstr "*Markdown リンクが原文と一致しない*"
+msgstr "*Markdown リンクが原文と不一致*"
 
 #: ../../user/checks.rst:513
 msgid "Markdown links do not match source."
@@ -30232,7 +30196,7 @@ msgstr "Markdown の参照"
 
 #: ../../user/checks.rst:525
 msgid "*Markdown link references do not match source*"
-msgstr "*Markdown リンクの参照が原文と一致しない*"
+msgstr "*Markdown リンクの参照が原文と不一致*"
 
 #: ../../user/checks.rst:529
 msgid "Markdown link references do not match source."
@@ -30244,11 +30208,11 @@ msgstr "Markdown 構文"
 
 #: ../../user/checks.rst:540
 msgid "*Markdown syntax does not match source*"
-msgstr "*Markdown 構文が原文と一致しない*"
+msgstr "*Markdown 構文が原文と不一致*"
 
 #: ../../user/checks.rst:544
 msgid "Markdown syntax does not match source"
-msgstr "Markdown 構文が原文と不一致"
+msgstr "Markdown 構文が原文と一致しません"
 
 #: ../../user/checks.rst:548
 msgid "`Markdown span elements`_"
@@ -30351,7 +30315,9 @@ msgstr "\\\\n の不一致"
 
 #: ../../user/checks.rst:618
 msgid "*Number of \\\\n in translation does not match source*"
-msgstr "*\\\\n の数が原文と一致しないもの*"
+msgstr ""
+"*翻訳文の \\\\n"
+" の数が原文と不一致*"
 
 #: ../../user/checks.rst:620
 msgid ""
@@ -30368,7 +30334,7 @@ msgstr "コロンの不一致"
 
 #: ../../user/checks.rst:628
 msgid "*Source and translation do not both end with a colon*"
-msgstr "*原文と翻訳の一方の末尾がコロンではない*"
+msgstr "*原文と翻訳文の一方の末尾がコロンではない*"
 
 #: ../../user/checks.rst:630
 msgid ""
@@ -30400,8 +30366,8 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
-"原文から翻訳に末尾の省略記号が複製されているか検査します。これは、3 つのドッ"
-"ト (``…``) ではなく、実際の省略記号 (``...``) のみを検査します。"
+"原文から翻訳文に末尾の省略記号が複製されているか検査します。これは、3 つのドット (``…``) ではなく、実際の省略記号 (``...``) "
+"のみを検査します。"
 
 #: ../../user/checks.rst:648
 msgid ""
@@ -30423,7 +30389,7 @@ msgstr "感嘆符の不一致"
 
 #: ../../user/checks.rst:660
 msgid "*Source and translation do not both end with an exclamation mark*"
-msgstr "*原文と翻訳の一方が感嘆符で終わっていない*"
+msgstr "*原文と翻訳文の一方が感嘆符で終わっていない*"
 
 #: ../../user/checks.rst:662
 msgid ""
@@ -30450,7 +30416,7 @@ msgstr "終止符の不一致"
 
 #: ../../user/checks.rst:676
 msgid "*Source and translation do not both end with a full stop*"
-msgstr "*原文と翻訳の一方が終止符で終わっていない*"
+msgstr "*原文と翻訳文の一方が終止符で終わっていない*"
 
 #: ../../user/checks.rst:678
 msgid ""
@@ -30474,7 +30440,7 @@ msgstr "疑問符の不一致"
 
 #: ../../user/checks.rst:691
 msgid "*Source and translation do not both end with a question mark*"
-msgstr "*原文と翻訳の一方が疑問符で終わっていない*"
+msgstr "*原文と翻訳文の一方が疑問符で終わっていない*"
 
 #: ../../user/checks.rst:693
 msgid ""
@@ -30483,8 +30449,7 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
-"原文から翻訳に疑問符が複製されているか検査します。疑問符の有無は、疑問符を持"
-"たない複数の言語（アルメニア語、アラビア語、中国語、韓国語、日本語、エチオピ"
+"原文から翻訳文に疑問符が複製されているか検査します。疑問符の有無は、疑問符を持たない複数の言語（アルメニア語、アラビア語、中国語、韓国語、日本語、エチオピ"
 "ア語、ヴァイ語またはコプト語）についても検査します。"
 
 #: ../../user/checks.rst:700
@@ -30500,7 +30465,7 @@ msgstr "セミコロンの不一致"
 
 #: ../../user/checks.rst:707
 msgid "*Source and translation do not both end with a semicolon*"
-msgstr "*原文と翻訳の一方がセミコロンで終わってない*"
+msgstr "*原文と翻訳文の一方がセミコロンで終わってない*"
 
 #: ../../user/checks.rst:709
 msgid ""
@@ -30523,7 +30488,7 @@ msgstr "改行数の不一致"
 
 #: ../../user/checks.rst:721
 msgid "*Number of new lines in translation does not match source*"
-msgstr "*翻訳の改行数が原文と一致しない*"
+msgstr "*翻訳文の改行数が原文と一致しない*"
 
 #: ../../user/checks.rst:723
 msgid ""
@@ -30564,7 +30529,7 @@ msgstr "プレースホルダー"
 
 #: ../../user/checks.rst:745
 msgid "*Translation is missing some placeholders:*"
-msgstr "*翻訳にはいくつかのプレースホルダーが足りない*"
+msgstr "*翻訳文にはいくつかのプレースホルダーが足りない*"
 
 #: ../../user/checks.rst:751
 msgid "You can use regular expression as placeholder."
@@ -30615,15 +30580,13 @@ msgstr ""
 
 #: ../../user/checks.rst:795
 msgid "*Translation does not match regular expression:*"
-msgstr "*翻訳は正規表現に一致しない*"
+msgstr "*翻訳文は正規表現に一致しない*"
 
 #: ../../user/checks.rst:799
 msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
-msgstr ""
-"翻訳は正規表現に一致しません。式は、翻訳ファイルから抽出するか、``regex`` フ"
-"ラグを使用して手動で定義します。"
+msgstr "翻訳文は正規表現に一致しません。式は、翻訳ファイルから抽出するか、``regex`` フラグを使用して手動で定義します。"
 
 #: ../../user/checks.rst:811
 msgid "Same plurals"
@@ -30647,7 +30610,7 @@ msgstr "文頭の改行"
 
 #: ../../user/checks.rst:823
 msgid "*Source and translation do not both start with a newline*"
-msgstr "*原文と翻訳の一方が改行で開始していない*"
+msgstr "*原文と翻訳文の一方が改行で開始していない*"
 
 #: ../../user/checks.rst:825 ../../user/checks.rst:849
 msgid ""
@@ -30668,7 +30631,7 @@ msgstr "先頭の空白"
 
 #: ../../user/checks.rst:837
 msgid "*Source and translation do not both start with same number of spaces*"
-msgstr "*原文と翻訳の先頭のスペースの数が異なる*"
+msgstr "*原文と翻訳文の先頭のスペースの数が異なる*"
 
 #: ../../user/checks.rst:839
 msgid ""
@@ -30684,7 +30647,7 @@ msgstr "文末の改行"
 
 #: ../../user/checks.rst:847
 msgid "*Source and translation do not both end with a newline*"
-msgstr "*原文と翻訳の文末の改行が一致しない*"
+msgstr "*原文と翻訳文の文末の改行数が不一致*"
 
 #: ../../user/checks.rst:854
 msgid ":ref:`check-begin-newline`"
@@ -30696,7 +30659,7 @@ msgstr "文末の空白"
 
 #: ../../user/checks.rst:861
 msgid "*Source and translation do not both end with a space*"
-msgstr "*原文と翻訳の文末のスペースが一致しない*"
+msgstr "*原文と翻訳文の文末のスペースが不一致*"
 
 #: ../../user/checks.rst:863
 msgid ""
@@ -30718,7 +30681,7 @@ msgstr "未翻訳の翻訳文"
 
 #: ../../user/checks.rst:873
 msgid "*Source and translation are identical*"
-msgstr "*原文と翻訳は同一です*"
+msgstr "*原文と翻訳文は同一です*"
 
 #: ../../user/checks.rst:875
 msgid ""
@@ -30760,7 +30723,7 @@ msgstr "安全でない HTML"
 
 #: ../../user/checks.rst:898
 msgid "*The translation uses unsafe HTML markup*"
-msgstr "*翻訳には安全でない HTML マークアップが含まれている*"
+msgstr "*翻訳文には安全でない HTML マークアップが含まれている*"
 
 #: ../../user/checks.rst:902
 msgid ""
@@ -30786,7 +30749,7 @@ msgstr "URL"
 
 #: ../../user/checks.rst:918
 msgid "*The translation does not contain an URL*"
-msgstr "*翻訳に URL が含まれていない*"
+msgstr "*翻訳文に URL が含まれていない*"
 
 #: ../../user/checks.rst:922
 msgid ""
@@ -30794,8 +30757,8 @@ msgid ""
 "unit is marked as containing URL. In that case the translation has to be a "
 "valid URL."
 msgstr ""
-"翻訳に URL が含まれていません。これは、ユニットが URL を含むとマークされてい"
-"る場合にのみ起動します。その場合、翻訳は有効な URL であることが必要です。"
+"翻訳文に URL が含まれていません。これは、ユニットが URL を含むとマークされている場合にのみ起動します。その場合、翻訳は有効な URL "
+"であることが必要です。"
 
 #: ../../user/checks.rst:929
 msgid "XML markup"
@@ -30803,7 +30766,7 @@ msgstr "XML マークアップ"
 
 #: ../../user/checks.rst:931
 msgid "*XML tags in translation do not match source*"
-msgstr "*翻訳内の XML が原文と一致しない*"
+msgstr "*翻訳文の XML タグが原文と不一致*"
 
 #: ../../user/checks.rst:933
 msgid ""
@@ -30818,7 +30781,7 @@ msgstr ""
 #: ../../user/checks.rst:936
 msgid ""
 "Checks that XML tags are replicated between both source and translation."
-msgstr "原文から翻訳に XML タグが複製されているか検査します。"
+msgstr "原文から翻訳文に XML タグが複製されているか検査します。"
 
 #: ../../user/checks.rst:943
 msgid "XML syntax"
@@ -30826,7 +30789,7 @@ msgstr "XML 構文"
 
 #: ../../user/checks.rst:945
 msgid "*The translation is not valid XML*"
-msgstr "*翻訳は有効な XML ではない*"
+msgstr "*翻訳文は有効な XML ではない*"
 
 #: ../../user/checks.rst:949
 msgid "The XML markup is not valid."
@@ -30838,7 +30801,7 @@ msgstr "ゼロ幅スペース"
 
 #: ../../user/checks.rst:956
 msgid "*Translation contains extra zero-width space character*"
-msgstr "*翻訳には余分なゼロ幅のスペース文字が含まれている*"
+msgstr "*翻訳文には余分なゼロ幅のスペース文字が含まれている*"
 
 #: ../../user/checks.rst:958
 msgid ""
@@ -32048,16 +32011,14 @@ msgstr ":ref:`report-source`"
 
 #: ../../user/translating.rst:77
 msgid "Variants"
-msgstr "つづり"
+msgstr "異なる表記"
 
 #: ../../user/translating.rst:79
 msgid ""
 "Variants are used to group variants of the string in different lengths. The "
 "frontend can use different strings depending on the screen or window size."
 msgstr ""
-"バリアントは、文字列のつづりを異なる長さでグループ化するために使用します。フ"
-"ロントエンドは、画面またはウィンドウのサイズに応じて異なる文字列を使用できま"
-"す。"
+"異なる表記は、文字列の異なる表記を長さでグループ化するために使用します。フロントエンドは、画面またはウィンドウのサイズに応じて異なる文字列を使用できます。"
 
 #: ../../user/translating.rst:84
 msgid ":ref:`variants`"
@@ -32907,14 +32868,6 @@ msgstr ""
 "記録します。"
 
 #: ../../vcs.rst:90
-#, fuzzy
-#| msgid ""
-#| "In case you want to verify the key fingerpring before connecting to the "
-#| "repository, verify the SSH host keys of the servers you are going to "
-#| "access in :guilabel:`Add host key`, from the same section of the admin "
-#| "interface. Enter the hostname you are going to access (e.g. ``gitlab."
-#| "com``), and press :guilabel:`Submit`.  Verify its fingerprint matches the "
-#| "server you added. They are shown in the confirmation message:"
 msgid ""
 "In case you want to verify the key fingerprint before connecting to the "
 "repository, add the SSH host keys of the servers you are going to access in :"
@@ -32922,15 +32875,13 @@ msgid ""
 "the hostname you are going to access (e.g. ``gitlab.com``), and press :"
 "guilabel:`Submit`. Verify its fingerprint matches the server you added."
 msgstr ""
-"リポジトリに接続する前に公開鍵の指紋を確認する場合は、管理画面の同じセクショ"
-"ンの :guilabel:`Add host key` で接続するサーバーの SSH ホスト認証鍵を確認して"
-"ください。接続するホスト名（例: ``gitlab.com``）を入力し、:guilabel:`Submit` "
-"を押します。フィンガープリントが追加したサーバーと一致しているか確認します。"
-"これは確認メッセージに表示されます。"
+"リポジトリに接続する前に公開鍵の指紋を確認する場合は、管理画面の同じセクションから :guilabel:`Add host key` "
+"で接続するサーバーの SSH ホスト認証鍵を追加してください。接続するホスト名（例: ``gitlab."
+"com``）を入力し、:guilabel:`Submit` を押します。公開鍵の指紋が追加したサーバーと一致しているかどうかを確認します。"
 
 #: ../../vcs.rst:96
 msgid "The added keys with fingerprints are shown in the confirmation message:"
-msgstr ""
+msgstr "確認メッセージに表示される、追加した公開鍵の指紋:"
 
 #: ../../vcs.rst:103
 msgid "GitHub repositories"
@@ -33131,9 +33082,8 @@ msgid ""
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
 msgstr ""
-"これは Git 本体とまったく同じように動作しますが、唯一の違いは、常に強制的に"
-"プッシュされることです。これは、翻訳に別のリポジトリを使用する場合にのみ使用"
-"します。"
+"これは Git "
+"自体とまったく同じように動作しますが、唯一の違いは、常に強制的にプッシュすることです。これは、翻訳に別のリポジトリを使用する場合にのみ使用します。"
 
 #: ../../vcs.rst:210
 msgid ""
@@ -33208,19 +33158,13 @@ msgstr ""
 "元に戻すときにリモート ヘルパーが新しい tip を作成してしまうことがあります。"
 
 #: ../../vcs.rst:261
-#, fuzzy
-#| msgid ""
-#| "This adds a thin layer atop :ref:`vcs-git` using the `Github API`_ to "
-#| "allow pushing translation changes as pull requests, instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow "
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`Github API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、翻訳の変更をプル リクエストと"
-"してプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_を使用して 、薄いレイヤーを :ref:`vcs-git` に追加して、"
+"翻訳の変更をプル リクエストとしてプッシュできるようになります。"
 
 #: ../../vcs.rst:264
 msgid ""
