@@ -1594,9 +1594,22 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
     language_format = "java"
 
 
+class TBXUnit(TTKitUnit):
+    @cached_property
+    def notes(self):
+        """Return notes or notes from units."""
+        notes = []
+        for origin in ("pos", "definition", "developer"):
+            note = self.unit.getnotes(origin)
+            if note:
+                notes.append(note)
+        return "\n".join(notes)
+
+
 class TBXFormat(TTKitFormat):
     name = _("Term Base eXchange file")
     format_id = "tbx"
     loader = tbxfile
     autoload: Tuple[str, ...] = ("*.tbx",)
     new_translation = tbxfile.XMLskeleton
+    unit_class = TBXUnit
