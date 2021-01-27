@@ -1,7 +1,7 @@
 Hardware requirements
 ---------------------
 
-Weblate should run on all contemporary hardware without problems, the following is
+Weblate should run on any contemporary hardware without problems, the following is
 the minimal configuration required to run Weblate on a single host (Weblate, database
 and webserver):
 

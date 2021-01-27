@@ -1439,7 +1439,8 @@ Environment configuration to be placed as :file:`/etc/default/celery-weblate`:
 .. literalinclude:: ../../weblate/examples/celery-weblate.conf
     :language: sh
 
-Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
+Additional configuration to rotate Celery logs using :command:`logrotate` to be
+placed as :file:`/etc/logrotate.d/celery`:
 
 .. literalinclude:: ../../weblate/examples/celery-weblate.logrotate
     :language: text
