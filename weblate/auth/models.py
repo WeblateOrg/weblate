@@ -526,7 +526,7 @@ class User(AbstractBaseUser):
         Ensure ACL filtering applies (the user could have been removed
         from the project meanwhile)
         """
-        return self.profile.watched.filter(id__in=self.allowed_project_ids)
+        return self.profile.watched.filter(id__in=self.allowed_project_ids).order()
 
     @cached_property
     def owned_projects(self):
