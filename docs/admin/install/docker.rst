@@ -1239,8 +1239,8 @@ Custom configuration files
 
 You can additionally override the configuration in
 :file:`/app/data/settings-override.py` (see :ref:`docker-volume`). This is
-executed after all environment settings are loaded, so it gets completely set
-up, and can be used to customize anything.
+executed at the end of built-in settings, after all environment settings
+are loaded, and you can adjust or override them.
 
 Replacing logo and other static files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
