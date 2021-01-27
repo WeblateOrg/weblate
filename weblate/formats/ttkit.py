@@ -1605,6 +1605,10 @@ class TBXUnit(TTKitUnit):
                 notes.append(note)
         return "\n".join(notes)
 
+    @cached_property
+    def context(self):
+        return self.unit.xmlelement.get("id") or ""
+
 
 class TBXFormat(TTKitFormat):
     name = _("Term Base eXchange file")
