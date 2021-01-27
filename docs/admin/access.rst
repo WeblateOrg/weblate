@@ -83,9 +83,10 @@ Project access control
 
     This feature is not available for projects running the Hosted Libre plan.
 
-You can limit user's access to individual projects. This feature is turned on by
-:guilabel:`Access control` in the configuration of each respective project.
-This automatically creates several groups for this project, see :ref:`groups`.
+You can limit user's access to individual projects. This feature can be enabled
+on the :guilabel:`Access` tab of each respective project's
+:guilabel:`Settings`. This automatically creates several groups for this
+project, see :ref:`groups`.
 
 The following choices exist for :guilabel:`Access control`:
 
