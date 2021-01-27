@@ -1323,7 +1323,7 @@ Sample configuration for Apache
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 The following configuration runs Weblate as WSGI, you need to have enabled
-mod_wsgi (available as :file:`weblate/examples/apache.conf`):
+``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):
 
 .. literalinclude:: ../../weblate/examples/apache.conf
     :language: apache
@@ -1363,7 +1363,7 @@ Running Weblate under path
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 A sample Apache configuration to serve Weblate under ``/weblate``. Again using
-mod_wsgi (also available as :file:`weblate/examples/apache-path.conf`):
+``mod_wsgi`` (also available as :file:`weblate/examples/apache-path.conf`):
 
 .. literalinclude:: ../../weblate/examples/apache-path.conf
     :language: apache
