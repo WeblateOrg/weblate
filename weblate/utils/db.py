@@ -25,6 +25,12 @@ from django.db.models.lookups import PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
+PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops)"
+PG_DROP = "DROP INDEX {0}_{1}_fulltext"
+
+MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
+MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
+
 
 def conditional_sum(value=1, **cond):
     """Wrapper to generate SUM on boolean/enum values."""
