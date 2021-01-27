@@ -24,6 +24,10 @@ git remote update weblate
 # Pull changes from GitHub
 git rebase --onto weblate/master
 
+# Cleanup locale dirs
+find weblate/locale -name '*.mo' -o -name '*~' -delete
+find weblate/locale -type d -empty -delete
+
 # Update po files itself
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*'
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs
@@ -49,9 +53,7 @@ done
 make -C docs update-po
 
 # Commit changes
-git add weblate/locale/*/*/*.po
-git add weblate/locale/*.pot
-git add $(find docs/locales/ -name '*.po' -o -name '*.pot')
+git add $(find weblate/locale/ docs/locales/ -name '*.po' -o -name '*.pot')
 
 git commit -n -m "i18n: Update PO files"
 

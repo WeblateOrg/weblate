@@ -97,6 +97,7 @@ Check is false when double space is found in source meaning double space is inte
 .. _check-java-format:
 .. _check-java-messageformat:
 .. _check-javascript-format:
+.. _check-lua-format:
 .. _check-percent-placeholders:
 .. _check-perl-format:
 .. _check-php-format:
@@ -268,6 +269,21 @@ JavaScript format
 .. seealso::
 
     `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
+
+Lua format
+*****************
+
+*Lua format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `lua-format`                                               |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Lua formatting strings <https://www.gnu.org/software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_
 
 Percent placeholders
 ********************
@@ -742,7 +758,7 @@ separated with colon, strings with space can be quoted:
 
    placeholders:$URL$:$TARGET$:"some long text"
 
-In case you have some syntax for placeholders, you can use an regular expression:
+In case you have some syntax for placeholders, you can use a regular expression:
 
 .. code-block:: text
 

@@ -15,17 +15,8 @@ var multi = (function() {
     el.dispatchEvent(e);
   };
 
-  // Toggles the target option on the select
-  var toggle_option = function(select, event, settings) {
-    var option = select.options[event.target.getAttribute("multi-index")];
-
-    if (option.disabled) {
-      return;
-    }
-
-    option.selected = !option.selected;
-
-    // Check if there is a limit and if is reached
+   // Check if there is a limit and if is reached
+   var check_limit = function (select, settings) {
     var limit = settings.limit;
     if (limit > -1) {
       // Count current selected
@@ -66,6 +57,19 @@ var multi = (function() {
         this.disabled_limit = false;
       }
     }
+  };
+
+  // Toggles the target option on the select
+  var toggle_option = function(select, event, settings) {
+    var option = select.options[event.target.getAttribute("multi-index")];
+
+    if (option.disabled) {
+      return;
+    }
+
+    option.selected = !option.selected;
+
+    check_limit(select, settings);
 
     trigger_event("change", select);
   };
@@ -276,6 +280,9 @@ var multi = (function() {
       var option = select.options[i];
       option.setAttribute("data-origin-disabled", option.disabled);
     }
+
+    // Check limit on initialization
+    check_limit(select, settings);
 
     // Initialize selector with values from select element
     refresh_select(select, settings);

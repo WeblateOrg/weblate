@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -81,6 +81,7 @@ STRING_FIELD_MAP = {
     "suggestion": "suggestion__target",
     "comment": "comment__comment",
     "key": "context",
+    "explanation": "source_unit__explanation",
 }
 EXACT_FIELD_MAP = {
     "check": "check__check",
@@ -212,6 +213,8 @@ class TermExpr:
             return Q(source__contains=PLURAL_SEPARATOR)
         if text == "suggestion":
             return Q(suggestion__isnull=False)
+        if text == "explanation":
+            return ~Q(source_unit__explanation="")
         if text == "comment":
             return Q(comment__resolved=False)
         if text in ("resolved-comment", "resolved_comment"):

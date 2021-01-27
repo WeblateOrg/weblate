@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -36,7 +36,11 @@ class CDNJSAddon(BaseAddon):
     events = (EVENT_DAILY, EVENT_POST_COMMIT, EVENT_POST_UPDATE)
     name = "weblate.cdn.cdnjs"
     verbose = _("JavaScript localization CDN")
-    description = _("Adds localization CDN for JavaScript or HTML localization.")
+    description = _(
+        "Publishes translations into content delivery network "
+        "for use in JavaScript or HTML localization."
+    )
+
     settings_form = CDNJSForm
     icon = "cloud-upload.svg"
     stay_on_create = True

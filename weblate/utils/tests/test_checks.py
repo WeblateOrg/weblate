@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -28,6 +28,8 @@ from ..checks import is_celery_queue_long
 
 
 class CeleryQueueTest(SimpleTestCase):
+    databases = ["default"]
+
     @staticmethod
     def set_cache(value):
         cache.set("celery_queue_stats", value)

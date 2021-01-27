@@ -10,7 +10,7 @@
 {% block content %}
 
 <p>
-{% trans "You can retrieve various data from Weblate in machine readable format." %}
+{% trans "Various data from Weblate is available in machine-readable format." %}
 </p>
 
 <h3>
@@ -19,7 +19,7 @@
 </h3>
 
 <p>
-{% trans "To follow translation progress you can use RSS feeds, detailing all important translation changes." %}
+{% trans "Follow the translation progress and all important changes from RSS feeds." %}
 </p>
 
 <table class="table">
@@ -45,7 +45,7 @@
 </tbody>
 </table>
 
-<p>{% trans "Per language RSS feeds are also available, you can construct them by appending a language code to the above URLs." %}</p>
+<p>{% trans "Per language RSS feeds are also available. Construct them by appending a language code to the URLs above." %}</p>
 
 <h3>
 {% trans "Statistics" %}
@@ -53,7 +53,7 @@
 </h3>
 
 <p>
-{% blocktrans %}Translation statistics for every component in the JSON format allows you to use the data in other websites or tools.{% endblocktrans %}
+{% blocktrans %}Translation statistics for every component in JSON format lets you use the data in other websites or tools.{% endblocktrans %}
 </p>
 
 <table class="table">
@@ -76,7 +76,7 @@
 
 {% with components.0 as component %}
 {% if component %}
-<p>{% trans "As an example, fetching stats for all translations in one component can be done thusly:" %}</p>
+<p>{% trans "You can fetch statistics for all translations in one component like this:" %}</p>
 
 <pre>
 curl \
@@ -93,7 +93,7 @@ curl \
 </h3>
 
 <p>
-{% blocktrans %}With notification hooks, Weblate will automatically import changes made by your developers, and allows continuous localization.{% endblocktrans %}
+{% blocktrans %}With notification hooks, Weblate automatically imports changes made by your developers, allowing continuous localization.{% endblocktrans %}
 </p>
 {% endif %}
 
@@ -120,7 +120,7 @@ curl \
 </tbody>
 </table>
 
-<p>{% trans "As an example, telling Weblate to pull from a remote repository can be done thusly:" %}</p>
+<p>{% trans "You pull changes from a remote repository to Weblate like this:" %}</p>
 
 <pre>
 curl \
@@ -143,32 +143,32 @@ curl \
 <tr>
 <th><a href="https://github.com/">GitHub</a></th>
 <td>{{ site_url }}{% url 'webhook' service='github' %}</td>
-<td><a href="{% documentation "admin/continuous" "github-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+<td><a href="{% documentation "admin/continuous" "github-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://about.gitlab.com/">GitLab</a></th>
 <td>{{ site_url }}{% url 'webhook' service='gitlab' %}</td>
-<td><a href="{% documentation "admin/continuous" "gitlab-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+<td><a href="{% documentation "admin/continuous" "gitlab-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://bitbucket.org/">Bitbucket</a></th>
 <td>{{ site_url }}{% url 'webhook' service='bitbucket' %}</td>
-<td><a href="{% documentation "admin/continuous" "bitbucket-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+<td><a href="{% documentation "admin/continuous" "bitbucket-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://docs.pagure.org/pagure/">Pagure</a></th>
 <td>{{ site_url }}{% url 'webhook' service='pagure' %}</td>
-<td><a href="{% documentation "admin/continuous" "pagure-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+<td><a href="{% documentation "admin/continuous" "pagure-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://azure.microsoft.com/services/devops/repos/">Azure Repos</a></th>
 <td>{{ site_url }}{% url 'webhook' service='azure' %}</td>
-<td><a href="{% documentation "admin/continuous" "azure-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+<td><a href="{% documentation "admin/continuous" "azure-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://gitea.io/">Gitea</a></th>
 <td>{{ site_url }}{% url 'webhook' service='gitea' %}</td>
-<td><a href="{% documentation "admin/continuous" "gitea-setup" %}">{% trans "Browse the documentation for detailed instructions" %}</a></td>
+<td><a href="{% documentation "admin/continuous" "gitea-setup" %}">{% trans "The documentation has detailed instructions" %}</a></td>
 </tr>
 </tbody>
 </table>

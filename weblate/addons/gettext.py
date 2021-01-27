@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -242,7 +242,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     def update_translations(self, component, previous_head):
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
-        if previous_head and component.alert_set.filter(name=self.alert).exists():
+        if previous_head and not component.alert_set.filter(name=self.alert).exists():
             changes = component.repository.list_changed_files(
                 component.repository.ref_to_remote.format(previous_head)
             )

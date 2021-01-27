@@ -14,7 +14,7 @@ Running Weblate locally
 -----------------------
 
 The most comfortable approach to get started with Weblate development is to
-follow :doc:`../admin/install/source`. It will get you a virtual env with editable Weblate
+follow :doc:`../admin/install/source`. It will get you a virtualenv with editable Weblate
 sources.
 
 1. Clone Weblate source:
@@ -43,7 +43,7 @@ sources.
 
       pip install -r requirements-dev.txt
 
-4. Start a development server run:
+4. Start a development server:
 
    .. code-block:: sh
 
@@ -123,7 +123,7 @@ Coding Weblate with PyCharm
 PyCharm is a known IDE for Python, here's some guidelines to help you setup Weblate
 project in it.
 
-Considering you have just cloned the Github repository, just open the folder in which
+Considering you have just cloned the GitHub repository, just open the folder in which
 you cloned it in PyCharm. Once the IDE is open, the first step is to specify the
 interpreter you want:
 
@@ -141,7 +141,7 @@ dependencies.
 
 The second step is to set the right information to use natively Django inside PyCharm:
 the idea is to be able to immediately trigger the unit tests in the IDE.
-For that you need to specify the root path of Django and the path of one setting:
+For that you need to specify the root path of the Django project and the path to its settings:
 
 .. image:: /images/pycharm-3.png
 
@@ -155,11 +155,13 @@ to debug it. This is done by creating a new `Django Server` configuration:
 .. image:: /images/pycharm-4.png
 .. image:: /images/pycharm-5.png
 
-Be careful to properly checked "No reload": you won't get anymore the server live reload
-if you modify some files, but the debugger will be stopped on the breakpoint you set.
 
+.. hint::
 
-
+   Be careful with the property called :guilabel:`No reload`: if you check it,
+   the server live reloads won't happened when you modify files. This allows the
+   existing debugger breakpoints to persist as these would be discarded on
+   reload.
 
 
 Bootstraping your devel instance

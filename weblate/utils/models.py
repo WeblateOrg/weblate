@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -47,6 +47,14 @@ class WeblateConf(AppConf):
 
     RATELIMIT_GLOSSARY_ATTEMPTS = 30
     RATELIMIT_GLOSSARY_WINDOW = 60
+
+    RATELIMIT_LANGUAGE_ATTEMPTS = 2
+    RATELIMIT_LANGUAGE_WINDOW = 300
+    RATELIMIT_LANGUAGE_LOCKOUT = 600
+
+    RATELIMIT_TRIAL_ATTEMPTS = 1
+    RATELIMIT_TRIAL_WINDOW = 60
+    RATELIMIT_TRIAL_LOCKOUT = 600
 
     SENTRY_DSN = None
     SENTRY_SECURITY = None

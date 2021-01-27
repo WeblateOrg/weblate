@@ -38,7 +38,7 @@ JavaScript localization CDN
 
 .. versionadded:: 4.2
 
-Adds localization CDN for JavaScript or HTML localization.
+Publishes translations into content delivery network for use in JavaScript or HTML localization.
 
 It can be used to localize static HTML pages or used to load localization in
 the JavaScript code.
@@ -229,6 +229,25 @@ Content
 .. seealso::
 
     :ref:`markup`
+
+.. _addon-weblate.generate.pseudolocale:
+
+Pseudolocale generation
+-----------------------
+
+Automatically generates a pseudolocale translation by adding prefix and suffix
+to source strings.
+
+Pseudolocales are useful for testing if all strings that should be localized
+are actually prepared for localization. This is done by altering source strings
+so it would be easy to spot a string which has not been altered and running the
+application with those strings as a translation. Also it would be easier to find strings
+which localized counterparts might not fit into the layout.
+
+.. hint::
+
+   You can use real languages for testing, but there are dedicated
+   pseudolocales available in Weblate - `en_XA` and `ar_XB`.
 
 .. _addon-weblate.gettext.authors:
 

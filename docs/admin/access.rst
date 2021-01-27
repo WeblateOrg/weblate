@@ -89,7 +89,7 @@ Project access control
     This feature is unavailable for the projects running Libre plan on Hosted Weblate.
 
 Limit user's access to individual projects by turning on
-:guilabel:`Access control` in the configuration of each respective project.
+:guilabel:`Access` in the :guilabel:`Settings` of each respective project.
 This automatically creates several groups for the project in question, see :ref:`groups`.
 
 :guilabel:`Access control` can be set to:

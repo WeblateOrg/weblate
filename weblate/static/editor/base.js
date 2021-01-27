@@ -37,97 +37,93 @@ WLT.Editor = (function () {
     this.$editor = $(".js-editor");
     this.$translationArea = $(translationAreaSelector);
 
+    this.$editor.on("input", translationAreaSelector, (e) => {
+      WLT.Utils.markTranslated($(e.target).closest("form"));
+    });
+
+    this.$editor.on("focusin", translationAreaSelector, function () {
+      lastEditor = $(this);
+    });
+
+    /* Count characters */
+    this.$editor.on("input", translationAreaSelector, (e) => {
+      var textarea = e.target;
+      var editor = textarea.parentElement.parentElement;
+      var counter = editor.querySelector(".length-indicator");
+      var classToggle = editor.classList;
+
+      var limit = parseInt(counter.getAttribute("data-max"));
+      var length = textarea.value.length;
+
+      counter.textContent = length;
+      if (length > limit) {
+        classToggle.remove("has-warning");
+        classToggle.add("has-error");
+      } else if (length > limit - 10) {
+        classToggle.add("has-warning");
+        classToggle.remove("has-error");
+      } else {
+        classToggle.remove("has-warning");
+        classToggle.remove("has-error");
+      }
+    });
+
     /* Copy source text */
     this.$editor.on("click", ".copy-text", function (e) {
       var $this = $(this);
-      e.preventDefault();
 
-      var text = JSON.parse(this.getAttribute("data-content"));
-
-      this.closest(".translation-item")
-        .querySelector(".translation-editor")
-        .CodeMirror.getDoc()
-        .setValue(text);
-
+      $this.button("loading");
+      $this
+        .closest(".translation-item")
+        .find(".translation-editor")
+        .replaceValue($.parseJSON($this.data("content")));
       WLT.Utils.markFuzzy($this.closest("form"));
+      $this.button("reset");
+      e.preventDefault();
     });
 
     /* Direction toggling */
-    this.$editor.on("change", ".direction-toggle", (e) => {
-      e.target
-        .closest(".translation-item")
-        .querySelector(".translation-editor")
-        .CodeMirror.setOption("direction", e.target.value);
+    this.$editor.on("change", ".direction-toggle", function () {
+      var $this = $(this);
+      var direction = $this.find("input").val();
+      var container = $this.closest(".translation-item");
+
+      container.find(".translation-editor").attr("dir", direction);
+      container.find(".highlighted-output").attr("dir", direction);
     });
 
     /* Special characters */
     this.$editor.on("click", ".specialchar", function (e) {
-      e.preventDefault();
+      var $this = $(this);
+      var text = $this.data("value");
 
-      var text = this.getAttribute("data-value");
-      this.closest(".translation-item")
-        .querySelector(".translation-editor")
-        .CodeMirror.replaceSelection(text);
+      $this
+        .closest(".translation-item")
+        .find(".translation-editor")
+        .insertAtCaret(text);
+      e.preventDefault();
     });
 
     this.initHighlight();
     this.init();
 
-    this.$translationArea[0].CodeMirror.focus();
+    this.$translationArea[0].focus();
   }
 
-  EditorBase.prototype.init = function () {
-    document.querySelectorAll(".translation-editor").forEach((textarea) => {
-      if (textarea.CodeMirror) {
-        return;
-      }
-      let codemirror = CodeMirror.weblateEditor(
-        textarea,
-        textarea.getAttribute("data-mode")
-      );
-      codemirror.addOverlay({
-        token: function (stream) {
-          if (stream.match("  ")) {
-            return "doublespace";
-          }
-          stream.next();
-          stream.skipTo(" ") || stream.skipToEnd();
-        },
-      });
-      let placeables = textarea.getAttribute("data-placeables");
-      if (placeables) {
-        placeables = new RegExp("^" + placeables);
-        codemirror.addOverlay({
-          token: function (stream) {
-            if (stream.match(placeables)) {
-              return "placeable";
-            }
-            stream.next();
-          },
-        });
-      }
-
-      codemirror.on("change", () => {
-        WLT.Utils.markTranslated($(textarea).closest("form"));
-      });
-      codemirror.on("focus", (cm) => {
-        lastEditor = cm.getWrapperElement();
-      });
-    });
-  };
+  EditorBase.prototype.init = function () {};
 
   EditorBase.prototype.initHighlight = function () {
     var hlSelector = ".hlcheck";
     var hlNumberSelector = ".highlight-number";
 
     /* Copy from source text highlight check */
-    this.$editor.on("click", hlSelector, (e) => {
-      var $this = $(e.target);
+    this.$editor.on("click", hlSelector, function (e) {
+      var $this = $(this);
       var text = $this.clone();
 
       text.find(hlNumberSelector).remove();
       text = text.text();
-      this.insertEditor(text, $this);
+      insertEditor(text, $this);
       e.preventDefault();
     });
 
@@ -182,7 +178,7 @@ WLT.Editor = (function () {
     );
   };
 
-  EditorBase.prototype.insertEditor = function (text, element) {
+  function insertEditor(text, element) {
     var root;
 
     /* Find withing root element */
@@ -195,16 +191,16 @@ WLT.Editor = (function () {
       root = $(document);
     }
 
-    var editor = root.find(".CodeMirror-focused");
+    var editor = root.find(".translation-editor:focus");
     if (editor.length === 0) {
       editor = root.find(lastEditor);
       if (editor.length === 0) {
-        editor = root.find(".CodeMirror:first");
+        editor = root.find(".translation-editor:first");
       }
     }
 
-    editor[0].CodeMirror.replaceSelection($.trim(text));
-  };
+    editor.insertAtCaret($.trim(text));
+  }
 
   return {
     Base: EditorBase,

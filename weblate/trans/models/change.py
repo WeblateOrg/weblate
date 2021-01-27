@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -370,18 +370,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_BULK_EDIT,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
-    }
-
-    # Actions considered as being translated in consistency check
-    ACTIONS_TRANSLATED = {
-        ACTION_CHANGE,
-        ACTION_NEW,
-        ACTION_AUTO,
-        ACTION_ACCEPT,
-        ACTION_REVERT,
-        ACTION_UPLOAD,
-        ACTION_REPLACE,
-        ACTION_APPROVE,
     }
 
     # Actions shown on the repository management page

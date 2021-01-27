@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -51,12 +51,12 @@ class Check:
 
     def should_skip(self, unit):
         """Check whether we should skip processing this unit."""
-        # Is this disabled by default
-        if self.default_disabled and self.enable_string not in unit.all_flags:
-            return True
-
         # Is this check ignored
         if self.ignore_string in unit.all_flags:
+            return True
+
+        # Is this disabled by default
+        if self.default_disabled and self.enable_string not in unit.all_flags:
             return True
 
         return False
@@ -172,6 +172,48 @@ class Check:
         pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
 
         return lambda text: pattern.sub(lambda m: replacements[m.group(0)], text)
+
+    def handle_batch(self, unit, component):
+        component.batched_checks.add(self.check_id)
+        return self.check_id in unit.all_checks_names
+
+    def check_component(self, component):
+        return []
+
+    def perform_batch(self, component):
+        from weblate.checks.models import Check
+
+        handled = set()
+        changed = False
+        create = []
+        for unit in self.check_component(component):
+            # Handle ignore flags
+            if self.should_skip(unit):
+                continue
+            handled.add(unit.pk)
+
+            # Check is already there
+            if self.check_id in unit.all_checks_names:
+                continue
+
+            create.append(Check(unit=unit, dismissed=False, check=self.check_id))
+            changed = True
+
+        Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
+
+        # Delete stale checks
+        changed |= (
+            Check.objects.filter(
+                unit__translation__component=component,
+                check=self.check_id,
+            )
+            .exclude(unit_id__in=handled)
+            .delete()[0]
+        )
+
+        # Invalidate stats in case there were changes
+        if changed:
+            component.invalidate_stats_deep()
 
 
 class TargetCheck(Check):

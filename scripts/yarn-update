@@ -12,6 +12,9 @@ yarn run build --scripts-prepend-node-path
 cp node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ../../weblate/static/vendor/bootstrap/css/
 cp node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js ../../weblate/static/vendor/bootstrap/js/
 
+# Autosize
+cp node_modules/autosize/dist/autosize.js ../../weblate/static/vendor/
+
 # Mousetrap
 cp node_modules/mousetrap/mousetrap.js ../../weblate/static/vendor/
 
@@ -24,17 +27,14 @@ cp node_modules/js-cookie/src/js.cookie.js ../../weblate/static/vendor/
 # jQuery
 cp node_modules/jquery/dist/jquery.js ../../weblate/static/vendor/
 
-# Codemirror
-cp node_modules/codemirror/lib/codemirror.css ../../weblate/static/vendor/codemirror/lib/
-cp node_modules/codemirror/lib/codemirror.js ../../weblate/static/vendor/codemirror/lib/
-cp node_modules/codemirror/addon/hint/show-hint.css ../../weblate/static/vendor/codemirror/addon/hint/
-cp node_modules/codemirror/addon/hint/show-hint.js ../../weblate/static/vendor/codemirror/addon/hint/
-cp node_modules/codemirror/addon/display/autorefresh.js ../../weblate/static/vendor/codemirror/addon/display/
-# Needed by rst mode
-cp node_modules/codemirror/addon/mode/overlay.js ../../weblate/static/vendor/codemirror/addon/mode/
-cp node_modules/codemirror/mode/markdown/markdown.js ../../weblate/static/vendor/codemirror/mode/markdown/
-cp node_modules/codemirror/mode/rst/rst.js ../../weblate/static/vendor/codemirror/mode/rst/
-cp node_modules/codemirror/mode/xml/xml.js ../../weblate/static/vendor/codemirror/mode/xml/
+# Tribute
+cp node_modules/tributejs/dist/tribute.js ../../weblate/static/vendor/
+
+# Prismjs
+cp node_modules/prismjs/components/prism-core.js ../../weblate/static/vendor/prism/
+cp node_modules/prismjs/components/prism-markup.js ../../weblate/static/vendor/prism/
+cp node_modules/prismjs/components/prism-rest.js ../../weblate/static/vendor/prism/
+cp node_modules/prismjs/components/prism-markdown.js ../../weblate/static/vendor/prism/
 
 # Clipboard
 cp node_modules/clipboard/dist/clipboard.js ../../weblate/static/vendor/

@@ -28,15 +28,22 @@ String variants
 ---------------
 
 Variants are useful to group several strings together so that translators can
-see all variants of the string at one place. You can define regular expression
-to group the strings in the :ref:`component`:
+see all variants of the string at one place.
+
+Automated key based variants
+++++++++++++++++++++++++++++
+
+.. versionadded:: 3.11
+
+You can define regular expression to group the strings based on the key of
+monolignual translations in the :ref:`component`:
 
 .. image:: /images/variants-settings.png
 
 In case the :guilabel:`Key` matches the expression, the matching part is
-removed to generate root key of the variant. All strings with same root key are
-then part of single variants group, including the translation exactly matching
-the root key and not matching the expression.
+removed to generate root key of the variant. Then all the strings with the same
+root key become part of a single variant group, also including the string with
+the key exactly matching the root key.
 
 The following table lists some usage examples:
 
@@ -47,6 +54,28 @@ The following table lists some usage examples:
 +---------------------------+-------------------------------+-----------------------------------------------+
 | Inline identification     | ``#[SML]``                    | ``dial#S.key``, ``dial#M.key``, ``dial.key``  |
 +---------------------------+-------------------------------+-----------------------------------------------+
+
+Manual variants
++++++++++++++++
+
+.. versionadded:: 4.5
+
+You can manually link specific strings using ``variant:SOURCE`` flag. This can
+be useful for bilingual translations which do not have keys to group strings
+automatically, or to group strings which keys are not matching, but
+should be considered together when translating.
+
+.. note::
+
+   There the variant source string has to at most 768 characters long. This is
+   technical limitation due to compatibility with MySQL database.
+
+.. seealso::
+
+   :ref:`custom-checks`
+
+Variants while translating
+++++++++++++++++++++++++++
 
 The variant is later grouped when translating:
 

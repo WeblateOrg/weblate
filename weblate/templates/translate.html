@@ -109,7 +109,7 @@
             <!-- editing template -->
             <div class="form-group">
             <label>{{ unit.translation.component.context_label }}</label>
-            {% format_translation unit.context unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
+            {% format_translation unit.context unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number wrap=True %}
             </div>
         {% endif %}
         {% if unit.translation.component.intermediate %}
@@ -149,7 +149,7 @@
             {% if unit.context %}
                 <div class="pull-right flip">
                 <label>{{ unit.translation.component.context_label }}</label>
-                {{ unit.context }}
+                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True %}
                 </div>
             {% endif %}
             <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
@@ -416,7 +416,11 @@
             {% documentation_icon 'user/checks' check.check_obj.doc_id right=True %}
             <span class="red">{% icon "alert.svg" %}</span>
             {{ check.get_name }}
-            <span class="check-number"></span>
+            {% if check.is_enforced %}
+              <span class="badge">{% trans "Enforced" %}</span>
+            {% else %}
+              <span class="check-number"></span>
+            {% endif %}
         </h5>
         <p class="list-group-item-text check-description">{{ check.get_description }}</p>
         {% with fixup=check.get_fixup_json %}

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 #
 """Git based version control system abstraction for Weblate needs."""
 
+import json
 import logging
 import os
 import os.path
@@ -34,7 +35,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
-from weblate.utils.files import is_excluded
+from weblate.utils.files import is_excluded, remove_tree
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
@@ -306,6 +307,7 @@ class GitRepository(Repository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
         """Configure remote repository."""
+        escaped_branch = json.dumps(branch)
         self.config_update(
             # Pull url
             ('remote "origin"', "url", pull_url),
@@ -315,15 +317,15 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
+                json.dumps(f"+refs/heads/{branch}:refs/remotes/origin/{branch}")
                 if fast
                 else "+refs/heads/*:refs/remotes/origin/*",
             ),
             # Disable fetching tags
             ('remote "origin"', "tagOpt", "--no-tags"),
             # Set branch to track
-            (f'branch "{branch}"', "remote", "origin"),
-            (f'branch "{branch}"', "merge", f"refs/heads/{branch}"),
+            (f"branch {escaped_branch}", "remote", "origin"),
+            (f"branch {escaped_branch}", "merge", json.dumps(f"refs/heads/{branch}")),
         )
         self.branch = branch
 
@@ -602,6 +604,18 @@ class GitMergeRequestBase(GitForcePushRepository):
     identifier = None
     API_TEMPLATE = ""
 
+    def merge(self, abort=False, message=None):
+        """Merge remote branch or reverts the merge."""
+        # This reverts merge behavior of pure git backend
+        # as we're expecting there will be an additional merge
+        # commmit created from the merge request.
+        if abort:
+            self.execute(["merge", "--abort"])
+            # Needed for compatibility with original merge code
+            self.execute(["checkout", self.branch])
+        else:
+            self.execute(["merge", f"origin/{self.branch}"])
+
     def get_api_url(self) -> Tuple[str, str, str]:
         repo = self.component.repo
         parsed = urllib.parse.urlparse(repo)
@@ -683,7 +697,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.create_fork(credentials)
 
     def push(self, branch: str):
-        """Fork repository on Github and push changes.
+        """Fork repository on GitHub and push changes.
 
         Pushes changes to *-weblate branch on fork and creates pull request against
         original repository.
@@ -871,8 +885,9 @@ class LocalRepository(GitRepository):
     @classmethod
     def from_zip(cls, target, zipfile):
         # Create empty repo
-        if not os.path.exists(target):
-            cls._clone("local:", target, cls.default_branch)
+        if os.path.exists(target):
+            remove_tree(target)
+        cls._clone("local:", target, cls.default_branch)
         # Extract zip file content, ignoring some files
         zipobj = ZipFile(zipfile)
         names = [name for name in zipobj.namelist() if not is_excluded(name)]
@@ -887,8 +902,9 @@ class LocalRepository(GitRepository):
     @classmethod
     def from_files(cls, target, files):
         # Create empty repo
-        if not os.path.exists(target):
-            cls._clone("local:", target, cls.default_branch)
+        if os.path.exists(target):
+            remove_tree(target)
+        cls._clone("local:", target, cls.default_branch)
         # Create files
         for name, content in files.items():
             fullname = os.path.join(target, name)
@@ -912,11 +928,12 @@ class GitLabRepository(GitMergeRequestBase):
     API_TEMPLATE = "https://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
 
     def get_forked_url(self, credentials: Dict) -> str:
-        """Gitlab MR needs the API URL for the forked repository.
+        """
+        Returns GitLab API URL for the forked repository.
 
-        To send a MR to Gitlab via API, one needs to send request to
+        To send a MR to GitLab via API, one needs to send request to
         API URL of the forked repository along with the target project ID
-        unlike Github where the PR is sent to the target project's API URL.
+        unlike GitHub where the PR is sent to the target project's API URL.
         """
         target_path = credentials["url"].split("/")[-1]
         cmd = ["remote", "get-url", "--push", credentials["username"]]
@@ -958,7 +975,7 @@ class GitLabRepository(GitMergeRequestBase):
     def disable_fork_features(self, credentials: Dict, forked_url: str):
         """Disable features in fork.
 
-        Gitlab initializes a lot of the features in the fork
+        GitLab initializes a lot of the features in the fork
         that are not desirable, such as merge requests, issues, etc.
         This function is intended to disable all such features by
         editing the forked repo.
@@ -1026,7 +1043,7 @@ class GitLabRepository(GitMergeRequestBase):
         target_project_id = None
         pr_url = "{}/merge_requests".format(credentials["url"])
         if fork_remote != "origin":
-            # Gitlab MR works a little different from Github. The MR needs
+            # GitLab MR works a little different from GitHub. The MR needs
             # to be sent with the fork's API URL along with a parameter mentioning
             # the target project id
             target_project_id = self.get_target_project_id(credentials)
@@ -1055,7 +1072,14 @@ class PagureRepository(GitMergeRequestBase):
     _version = None
     API_TEMPLATE = "https://{host}/api/0"
 
-    def request(self, method: str, credentials: Dict, url: str, data: Dict):
+    def request(
+        self,
+        method: str,
+        credentials: Dict,
+        url: str,
+        data: Optional[Dict] = None,
+        params: Optional[Dict] = None,
+    ):
         response = requests.request(
             method,
             url,
@@ -1064,21 +1088,22 @@ class PagureRepository(GitMergeRequestBase):
                 "Authorization": "token {}".format(credentials["token"]),
             },
             data=data,
+            params=params,
         )
-        data = response.json()
+        response_data = response.json()
 
         # Log and parase all errors. Sometimes GitHub returns the error
         # messages in an errors list instead of the message. Sometimes, there
         # is no errors list. Hence the different logics
         error_message = ""
-        if "message" in data:
-            error_message = data["message"]
-        if "error" in data:
+        if "message" in response_data:
+            error_message = response_data["message"]
+        if "error" in response_data:
             if error_message:
                 error_message += ", "
-            error_message += data["error"]
+            error_message += response_data["error"]
 
-        return data, error_message
+        return response_data, error_message
 
     def create_fork(self, credentials: Dict):
         fork_url = "{}/fork".format(credentials["url"])
@@ -1100,7 +1125,7 @@ class PagureRepository(GitMergeRequestBase):
 
         for param in params:
             param.update(base_params)
-            response, error = self.request("post", credentials, fork_url, param)
+            response, error = self.request("post", credentials, fork_url, data=param)
             if '" cloned to "' in error or "already exists" in error:
                 break
 
@@ -1118,9 +1143,21 @@ class PagureRepository(GitMergeRequestBase):
         Use to merge branch in forked repository into branch of remote repository.
         """
         if credentials["owner"]:
-            pr_url = "{url}/{owner}/{slug}/pull-request/new".format(**credentials)
+            pr_base_url = "{url}/{owner}/{slug}/pull-request".format(**credentials)
         else:
-            pr_url = "{url}/{slug}/pull-request/new".format(**credentials)
+            pr_base_url = "{url}/{slug}/pull-request".format(**credentials)
+
+        # List existing pull requests
+        response, error_message = self.request(
+            "get", credentials, pr_base_url, params={"author": credentials["username"]}
+        )
+        if error_message:
+            raise RepositoryException(0, error_message or "Pull request listing failed")
+
+        if response["total_requests"] > 0:
+            # Open pull request from us is already there
+            return
+
         title, description = self.get_merge_message()
         request = {
             "branch_from": fork_branch,
@@ -1132,7 +1169,9 @@ class PagureRepository(GitMergeRequestBase):
             request["repo_from"] = credentials["slug"]
             request["repo_from_username"] = credentials["username"]
 
-        response, error_message = self.request("post", credentials, pr_url, request)
+        response, error_message = self.request(
+            "post", credentials, f"{pr_base_url}/new", data=request
+        )
 
         if "id" not in response:
             raise RepositoryException(0, error_message or "Pull request failed")

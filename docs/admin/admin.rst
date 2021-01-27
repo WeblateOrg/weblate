@@ -4,11 +4,19 @@ Management interface
 ====================
 
 The management interface offer administration settings under the
-:file:`/management/` URL. It is available for users signed in with admin
+:file:`/manage/` URL. It is available for users signed in with admin
 privileges, accessible by using the wrench icon top right:
 
 .. image:: /images/support.png
 
+It includes basic overview of your Weblate:
+
+* Support status, see :doc:`support`
+* Backups, see :doc:`backup`
+* Shared translation memory, see :doc:`memory`
+* Performance report to review Weblate health and length of Celery queues
+* SSH keys management, see :ref:`ssh-repos`
+* Alerts overview for all components, see :ref:`alerts`
 
 .. _admin-interface:
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,7 @@ from django.urls import include, path
 
 from weblate.api.routers import WeblateRouter
 from weblate.api.views import (
+    AddonViewSet,
     ChangeViewSet,
     ComponentListViewSet,
     ComponentViewSet,
@@ -53,6 +54,7 @@ router.register("units", UnitViewSet)
 router.register("screenshots", ScreenshotViewSet)
 router.register("glossary", GlossaryViewSet)
 router.register("tasks", TasksViewSet, "task")
+router.register("addons", AddonViewSet)
 
 
 # Wire up our API using automatic URL routing.

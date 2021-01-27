@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,8 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+import gzip
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -83,25 +84,55 @@ def database_backup():
         return
     ensure_backup_dir()
     database = settings.DATABASES["default"]
-    if database["ENGINE"] != "django.db.backends.postgresql":
-        return
-    cmd = ["pg_dump", "--dbname", database["NAME"]]
-    if database["HOST"]:
-        cmd += ["--host", database["HOST"]]
-    if database["PORT"]:
-        cmd += ["--port", database["PORT"]]
-    if database["USER"]:
-        cmd += ["--username", database["USER"]]
-    if settings.DATABASE_BACKUP == "compressed":
-        cmd += ["--file", data_dir("backups", "database.sql.gz")]
-        cmd += ["--compress", "6"]
+    env = get_clean_env()
+    compress = settings.DATABASE_BACKUP == "compressed"
+
+    out_compressed = data_dir("backups", "database.sql.gz")
+    out_plain = data_dir("backups", "database.sql")
+
+    if database["ENGINE"] == "django.db.backends.postgresql":
+        cmd = ["pg_dump", "--dbname", database["NAME"]]
+
+        if database["HOST"]:
+            cmd.extend(["--host", database["HOST"]])
+        if database["PORT"]:
+            cmd.extend(["--port", database["PORT"]])
+        if database["USER"]:
+            cmd.extend(["--username", database["USER"]])
+        if settings.DATABASE_BACKUP == "compressed":
+            cmd.extend(["--file", out_compressed])
+            cmd.extend(["--compress", "6"])
+            compress = False
+        else:
+            cmd.extend(["--file", out_plain])
+
+        env["PGPASSWORD"] = database["PASSWORD"]
+    elif database["ENGINE"] == "django.db.backends.mysql":
+        cmd = [
+            "mysqldump",
+            "--result-file",
+            out_plain,
+            "--single-transaction",
+            "--skip-lock-tables",
+        ]
+
+        if database["HOST"]:
+            cmd.extend(["--host", database["HOST"]])
+        if database["PORT"]:
+            cmd.extend(["--port", database["PORT"]])
+        if database["USER"]:
+            cmd.extend(["--user", database["USER"]])
+
+        cmd.extend(["--databases", database["NAME"]])
+
+        env["MYSQL_PWD"] = database["PASSWORD"]
     else:
-        cmd += ["--file", data_dir("backups", "database.sql")]
+        return
 
     try:
         subprocess.run(
             cmd,
-            env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
+            env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             stdin=subprocess.DEVNULL,
@@ -111,6 +142,12 @@ def database_backup():
     except subprocess.CalledProcessError as error:
         report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
         raise
+
+    if compress:
+        with open(out_plain, "rb") as f_in:
+            with gzip.open(out_compressed, "wb") as f_out:
+                shutil.copyfileobj(f_in, f_out)
+        os.unlink(out_plain)
 
 
 @app.on_after_finalize.connect

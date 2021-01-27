@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -86,26 +86,6 @@ def component_post_delete(sender, instance, **kwargs):
         delete_object_dir(instance)
 
 
-@receiver(post_save, sender=Unit)
-@disable_for_loaddata
-def update_source(sender, instance, **kwargs):
-    """Update unit priority or checks based on source change."""
-    if not instance.is_source:
-        return
-    # Run checks, update state and priority if flags changed or running bulk edit
-    if (
-        instance.old_unit.extra_flags != instance.extra_flags
-        or instance.state != instance.old_unit.state
-    ):
-        # We can not exclude current unit here as we need to trigger the updates below
-        for unit in instance.unit_set.prefetch_full():
-            unit.update_state()
-            unit.update_priority()
-            unit.run_checks()
-        if not instance.is_bulk_edit and not instance.is_batch_update:
-            instance.translation.component.invalidate_stats_deep()
-
-
 @receiver(m2m_changed, sender=Unit.labels.through)
 @disable_for_loaddata
 def change_labels(sender, instance, action, pk_set, **kwargs):
@@ -167,16 +147,6 @@ def auto_project_componentlist(sender, instance, **kwargs):
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.iterator():
         auto.check_match(instance)
-
-
-@receiver(post_save, sender=Component)
-@disable_for_loaddata
-def post_save_update_checks(sender, instance, **kwargs):
-    from weblate.trans.tasks import update_checks
-
-    if instance.old_component.check_flags == instance.check_flags:
-        return
-    update_checks.delay(instance.pk)
 
 
 @receiver(post_delete, sender=Component)

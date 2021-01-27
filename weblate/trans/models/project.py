@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -90,12 +90,6 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     web = models.URLField(
         verbose_name=gettext_lazy("Project website"),
         help_text=gettext_lazy("Main website of translated project."),
-    )
-    mail = models.EmailField(
-        verbose_name=gettext_lazy("Mailing list"),
-        blank=True,
-        max_length=254,
-        help_text=gettext_lazy("Mailing list for translators."),
     )
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
@@ -365,13 +359,14 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     def all_repo_components(self):
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
-        included = {component.get_repo_link_url() for component in result}
+        included = {component.get_repo_link_url().lower() for component in result}
 
         linked = self.component_set.filter(repo__startswith="weblate:")
         for other in linked:
-            if other.repo in included:
+            repo_url = other.repo.lower()
+            if repo_url in included:
                 continue
-            included.add(other.repo)
+            included.add(repo_url)
             result.append(other)
 
         return result
@@ -431,3 +426,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         from weblate.auth.models import User
 
         return User.objects.all_admins(self).select_related("profile")
+
+    @cached_property
+    def child_components(self):
+        return self.component_set.all() | self.shared_components.all()

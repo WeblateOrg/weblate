@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -38,6 +38,7 @@ from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.suggestion import Suggestion
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
     get_distinct_translations,
@@ -366,6 +367,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Update checks if content or fuzzy flag has changed
         if run_checks:
             self.run_checks(propagate_checks)
+        if self.is_source:
+            self.source_unit_save()
+
+        # Update manual variants
+        self.update_variants()
 
     def get_absolute_url(self):
         return "{}?checksum={}".format(
@@ -424,6 +430,56 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 str(self.pk),
             )
         )
+
+    def source_unit_save(self):
+        # Run checks, update state and priority if flags changed
+        # or running bulk edit
+        if (
+            self.old_unit.extra_flags != self.extra_flags
+            or self.state != self.old_unit.state
+        ):
+            # We can not exclude current unit here as we need to trigger
+            # the updates below
+            for unit in self.unit_set.prefetch_full():
+                unit.update_state()
+                unit.update_priority()
+                unit.run_checks()
+            if not self.is_bulk_edit and not self.is_batch_update:
+                self.translation.component.invalidate_stats_deep()
+
+    def update_variants(self):
+        old_flags = Flags(self.old_unit.extra_flags, self.old_unit.flags)
+        new_flags = Flags(self.extra_flags, self.flags)
+
+        old_variant = None
+        if old_flags.has_value("variant"):
+            old_variant = old_flags.get_value("variant")
+        new_variant = None
+        if new_flags.has_value("variant"):
+            new_variant = new_flags.get_value("variant")
+
+        # Check for relevant changes
+        if old_variant == new_variant:
+            return
+
+        # Delete stale variant
+        if old_variant:
+            for variant in self.defined_variants.all():
+                variant.defining_units.remove(self)
+                if variant.defining_units.count() == 0:
+                    variant.delete()
+                else:
+                    variant.unit_set.filter(id_hash=self.id_hash).update(variant=None)
+
+        # Add new variant
+        if new_variant:
+            variant = Variant.objects.get_or_create(
+                key=new_variant, component=self.translation.component
+            )[0]
+            variant.defining_units.add(self)
+
+        # Update variant links
+        self.translation.component.update_variants()
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
@@ -531,7 +587,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # Calculate state
         state = self.get_unit_state(unit, flags)
-        self.original_state = self.get_unit_state(unit, None)
+        original_state = self.get_unit_state(unit, None)
 
         # Has source changed
         same_source = source == self.source and context == self.context
@@ -570,6 +626,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and same_source
             and same_target
             and same_state
+            and original_state == self.original_state
             and location == self.location
             and flags == self.flags
             and note == self.note
@@ -581,6 +638,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return
 
         # Store updated values
+        self.original_state = original_state
         self.position = pos
         self.location = location
         self.flags = flags
@@ -639,7 +697,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if not self.readonly:
                 self.state = STATE_READONLY
                 self.save(same_content=True, run_checks=False, update_fields=["state"])
-        elif self.readonly:
+        elif self.readonly and self.state != self.original_state:
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
 
@@ -682,7 +740,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return singular
         return plurals[1]
 
-    def get_target_plurals(self):
+    def get_target_plurals(self, plurals=None):
         """Return target plurals in array."""
         # Is this plural?
         if not self.is_plural:
@@ -691,8 +749,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Split plurals
         ret = split_plural(self.target)
 
+        if plurals is None:
+            plurals = self.translation.plural.number
+
         # Check if we have expected number of them
-        plurals = self.translation.plural.number
         if len(ret) == plurals:
             return ret
 
@@ -853,12 +913,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def generate_change(self, user, author, change_action, check_new=True):
         """Create Change entry for saving unit."""
         # Notify about new contributor
-        if (
-            check_new
-            and not Change.objects.filter(
-                translation=self.translation, user=user
-            ).exists()
-        ):
+        if check_new and not self.translation.change_set.filter(user=user).exists():
             Change.objects.create(
                 unit=self,
                 action=Change.ACTION_NEW_CONTRIBUTOR,
@@ -948,10 +1003,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
 
-        # Ensure we get a fresh copy of checks
-        # It might be modified meanwhile by propagating to other units
-        self.clear_checks_cache()
-
         old_checks = self.all_checks_names
         create = []
 
@@ -992,6 +1043,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if (needs_propagate and propagate is not False) or propagate is True:
             for unit in self.same_source_units:
                 try:
+                    # Ensure we get a fresh copy of checks
+                    # It might be modified meanwhile by propagating to other units
+                    unit.clear_checks_cache()
+
                     unit.run_checks(False)
                 except Unit.DoesNotExist:
                     # This can happen in some corner cases like changing
@@ -1127,17 +1182,17 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     @cached_property
     def edit_mode(self):
-        """Returns edit mode for CodeMirror."""
+        """Returns syntax higlighting mode for Prismjs."""
         flags = self.all_flags
         if "rst-text" in flags:
-            return "text/x-rst"
+            return "rest"
         if "md-text" in flags:
-            return "text/x-markdown"
+            return "markdown"
         if "xml-text" in flags:
-            return "application/xml"
+            return "xml"
         if "safe-html" in flags:
-            return "text/html"
-        return "null"
+            return "html"
+        return "none"
 
     def get_secondary_units(self, user):
         """Return list of secondary units."""
@@ -1149,14 +1204,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         )
         result = get_distinct_translations(
             self.source_unit.unit_set.filter(
-                state__gte=STATE_TRANSLATED,
-                translation__language__in=secondary_langs,
-            )
-            .exclude(
-                target="",
-                pk=self.pk,
-            )
-            .select_related(
+                Q(translation__language__in=secondary_langs)
+                & Q(state__gte=STATE_TRANSLATED)
+                & Q(state__lt=STATE_READONLY)
+                & ~Q(target="")
+                & ~Q(pk=self.pk)
+            ).select_related(
                 "source_unit",
                 "translation__language",
                 "translation__plural",

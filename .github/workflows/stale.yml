@@ -17,10 +17,10 @@ jobs:
     steps:
       - uses: actions/stale@v3
         with:
-          # Ideal setup would be 10/4 for issues and 30/14 for PRs, but not supported, see
-          # https://github.com/actions/stale/issues/214
-          days-before-stale: 20
-          days-before-close: 8
+          days-before-stale: 30
+          days-before-close: 14
+          days-before-issue-stale: 10
+          days-before-issue-close: 4
           exempt-issue-labels: bug,enhancement,documentation,security
           stale-issue-label: wontfix
           repo-token: ${{ secrets.GITHUB_TOKEN }}

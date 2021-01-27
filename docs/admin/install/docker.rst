@@ -375,6 +375,10 @@ Generic settings
     Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes
     Weblate use HTTPS in e-mail and API links or set secure flags on cookies.
 
+    .. hint::
+
+        Please see :setting:`ENABLE_HTTPS` documentation for possible caveats.
+
     .. note::
 
         This does not make the Weblate container accept HTTPS connections, you
@@ -389,7 +393,9 @@ Generic settings
 
     .. seealso::
 
-        :ref:`production-site`
+      :setting:`ENABLE_HTTPS`
+      :ref:`production-site`,
+      :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 

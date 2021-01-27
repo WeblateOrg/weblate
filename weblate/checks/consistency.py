@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,9 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from functools import reduce
+
+from django.db.models import Count, Prefetch, Q
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheck(TargetCheck):
@@ -77,8 +81,14 @@ class ConsistencyCheck(TargetCheck):
     propagates = True
 
     def check_target_unit(self, sources, targets, unit):
-        if not unit.translation.component.allow_translation_propagation:
+        component = unit.translation.component
+        if not component.allow_translation_propagation:
             return False
+
+        # Use last result if checks are batched
+        if component.batch_checks:
+            return self.handle_batch(unit, component)
+
         for other in unit.same_source_units:
             if unit.target == other.target:
                 continue
@@ -89,6 +99,41 @@ class ConsistencyCheck(TargetCheck):
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
         return False
+
+    def check_component(self, component):
+        from weblate.trans.models import Unit
+
+        units = Unit.objects.filter(
+            translation__component__project=component.project,
+            translation__component__allow_translation_propagation=True,
+        )
+
+        # List strings with different targets
+        matches = (
+            units.values("source", "context", "translation__language")
+            .annotate(Count("target", distinct=True))
+            .filter(target__count__gt=1)
+        )
+
+        if not matches:
+            return []
+
+        return (
+            units.filter(
+                reduce(
+                    lambda x, y: x
+                    | (
+                        Q(source=y["source"])
+                        & Q(context=y["context"])
+                        & Q(translation__language=y["translation__language"])
+                    ),
+                    matches,
+                    Q(),
+                )
+            )
+            .prefetch()
+            .prefetch_full()
+        )
 
 
 class TranslatedCheck(TargetCheck):
@@ -104,18 +149,28 @@ class TranslatedCheck(TargetCheck):
         target = self.check_target_unit(unit.source, unit.target, unit)
         if not target:
             return super().get_description(check_obj)
-        return _('Last translation was "%s".') % target
+        return _('Previous translation was "%s".') % target
+
+    @property
+    def change_states(self):
+        from weblate.trans.models import Change
+
+        states = {Change.ACTION_SOURCE_CHANGE}
+        states.update(Change.ACTIONS_CONTENT)
+        return states
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
             return False
 
+        component = unit.translation.component
+
+        if component.batch_checks:
+            return self.handle_batch(unit, component)
+
         from weblate.trans.models import Change
 
-        states = {Change.ACTION_SOURCE_CHANGE}
-        states.update(Change.ACTIONS_CONTENT)
-
-        changes = unit.change_set.filter(action__in=states).order()
+        changes = unit.change_set.filter(action__in=self.change_states).order()
 
         for action, target in changes.values_list("action", "target"):
             if action in Change.ACTIONS_CONTENT and target:
@@ -134,3 +189,32 @@ class TranslatedCheck(TargetCheck):
         if not target:
             return None
         return [(".*", target, "u")]
+
+    def check_component(self, component):
+        from weblate.trans.models import Change, Unit
+
+        units = (
+            Unit.objects.filter(
+                translation__component=component,
+                change__action__in=self.change_states,
+                state__lt=STATE_TRANSLATED,
+            )
+            .prefetch_related(
+                Prefetch(
+                    "change_set",
+                    queryset=Change.objects.filter(
+                        action__in=self.change_states
+                    ).order(),
+                    to_attr="recent_consistency_changes",
+                )
+            )
+            .prefetch()
+            .prefetch_full()
+        )
+
+        for unit in units:
+            for change in unit.recent_consistency_changes:
+                if change.action in Change.ACTIONS_CONTENT and change.target:
+                    yield unit
+                if change.action == Change.ACTION_SOURCE_CHANGE:
+                    break

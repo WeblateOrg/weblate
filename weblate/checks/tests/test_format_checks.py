@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -29,6 +29,7 @@ from weblate.checks.format import (
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
     PercentPlaceholdersCheck,
     PerlFormatCheck,
@@ -265,6 +266,11 @@ class CFormatCheckTest(CheckTestCase):
 
     def test_parenthesis(self):
         self.assertFalse(self.check.check_format("(%.0lf%%)", "(%%%.0lf)", False))
+
+
+class LuaFormatCheckTest(CFormatCheckTest):
+    check = LuaFormatCheck()
+    flag = "lua-format"
 
 
 class PerlFormatCheckTest(CFormatCheckTest):
@@ -1048,4 +1054,11 @@ class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
     def test_bad_python(self):
         self.assertTrue(
             self.check.check_source(["{} {}"], MockUnit(flags="python-brace-format"))
+        )
+
+    def test_good_multi_format(self):
+        self.assertFalse(
+            self.check.check_source(
+                ["Test %s"], MockUnit(flags="c-format,python-format")
+            )
         )

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -614,6 +614,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         ),
     )
 
+    links = models.ManyToManyField(
+        "Project",
+        verbose_name=gettext_lazy("Share in projects"),
+        blank=True,
+        related_name="shared_components",
+        help_text=gettext_lazy(
+            "Choose additional projects where this component will be listed."
+        ),
+    )
+
     objects = ComponentQuerySet.as_manager()
 
     is_lockable = True
@@ -633,6 +643,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         It updates the back-end repository and regenerates translation data.
         """
+        from weblate.trans.tasks import component_after_save, update_checks
+
         self.set_default_branch()
 
         # Linked component cache
@@ -693,8 +705,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # the newsly created component
         bool(self.source_translation)
 
-        from weblate.trans.tasks import component_after_save
-
         task = component_after_save.delay(
             self.pk,
             changed_git,
@@ -704,6 +714,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             skip_push=kwargs.get("force_insert", False),
         )
         self.store_background_task(task)
+
+        if self.old_component.check_flags != self.check_flags:
+            update_checks.delay(self.pk)
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -720,6 +733,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.translations_count = None
         self.translations_progress = 0
         self.acting_user = None
+        self.batch_checks = False
+        self.batched_checks = set()
 
     def generate_changes(self, old):
         def getvalue(base, attribute):
@@ -956,6 +971,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
                 # Create source unit
                 source = source_units.create(id_hash=id_hash, **create)
+                # Avoid fetching empty list of checks from the database
+                source.all_checks = []
                 source.source_updated = True
                 Change.objects.create(
                     action=Change.ACTION_NEW_SOURCE, unit=source, user=self.acting_user
@@ -1790,6 +1807,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
+        self.batch_checks = True
+        self.batched_checks = set()
         was_change = False
         translations = {}
         languages = {}
@@ -1928,6 +1947,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         self.unload_sources()
 
+        # Batch checks
+        if self.batched_checks:
+            from weblate.checks.tasks import batch_update_checks
+
+            transaction.on_commit(
+                lambda: batch_update_checks.delay(self.id, list(self.batched_checks))
+            )
+        self.batch_checks = False
+        self.batched_checks = set()
+
         self.log_info("updating completed")
         return was_change
 
@@ -2054,11 +2083,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             if lang.code in langs:
                 message = (
                     _(
-                        "There are more files for the single language (%s), please "
-                        "adjust the filemask and use components for translating "
-                        "different resources."
+                        "There is more than one file for %s language, "
+                        "please adjust the filemask and use components "
+                        "for translating a different resources."
                     )
-                    % lang.code
+                    % lang
                 )
                 raise ValidationError({"filemask": message})
             langs.add(lang.code)
@@ -2096,10 +2125,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
             )
 
-    def is_valid_base_for_new(self, errors: Optional[List] = None):
+    def is_valid_base_for_new(self, errors: Optional[List] = None, fast: bool = False):
         filename = self.get_new_base_filename()
         template = self.has_template()
-        return self.file_format_cls.is_valid_base_for_new(filename, template, errors)
+        return self.file_format_cls.is_valid_base_for_new(
+            filename, template, errors, fast=fast
+        )
 
     def clean_new_lang(self):
         """Validate new language choices."""
@@ -2416,26 +2447,46 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def update_variants(self):
         from weblate.trans.models import Unit
 
-        Variant.objects.filter(component=self).exclude(
+        # Delete stale regex variants
+        Variant.objects.filter(component=self).exclude(variant_regex="").exclude(
             variant_regex=self.variant_regex
         ).delete()
-        if not self.variant_regex:
-            return
-        variant_re = re.compile(self.variant_regex)
-        units = Unit.objects.filter(
-            translation__component=self, context__regex=self.variant_regex, variant=None
-        )
-        for unit in units.iterator():
-            if variant_re.findall(unit.context):
-                key = variant_re.sub("", unit.context)
-                unit.variant = Variant.objects.get_or_create(
-                    key=key, component=self, variant_regex=self.variant_regex
-                )[0]
-                unit.save(update_fields=["variant"])
+
+        # Handle regex based variants
+        if self.variant_regex:
+            variant_re = re.compile(self.variant_regex)
+            units = Unit.objects.filter(
+                translation__component=self,
+                context__regex=self.variant_regex,
+                variant=None,
+            )
+            for unit in units.iterator():
+                if variant_re.findall(unit.context):
+                    key = variant_re.sub("", unit.context)
+                    unit.variant = Variant.objects.get_or_create(
+                        key=key, component=self, variant_regex=self.variant_regex
+                    )[0]
+                    unit.save(update_fields=["variant"])
+
+        # Update variant links
         for variant in Variant.objects.filter(component=self).iterator():
-            Unit.objects.filter(
-                translation__component=self, variant=None, context=variant.key
-            ).update(variant=variant)
+            if variant.variant_regex:
+                Unit.objects.filter(
+                    translation__component=self, variant=None, context=variant.key
+                ).update(variant=variant)
+            else:
+                # Link based on source string
+                Unit.objects.filter(
+                    translation__component=self, variant=None, source=variant.key
+                ).update(variant=variant)
+                # Link defining units
+                Unit.objects.filter(
+                    translation__component=self,
+                    variant=None,
+                    id_hash__in=variant.defining_units.values_list(
+                        "id_hash", flat=True
+                    ),
+                ).update(variant=variant)
 
     def update_link_alerts(self, noupdate: bool = False):
         base = self.linked_component if self.is_repo_link else self
@@ -2672,7 +2723,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Return parsed list of flags."""
         return Flags(self.file_format_cls.check_flags, self.check_flags)
 
-    def can_add_new_language(self, user):
+    def can_add_new_language(self, user, fast: bool = False):
         """Wrapper to check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
@@ -2689,7 +2740,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         ):
             return False
 
-        return self.is_valid_base_for_new()
+        return self.is_valid_base_for_new(fast=fast)
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -121,12 +121,15 @@ class ConvertFormat(TranslationFormat):
         shutil.copy(base, filename)
 
     @classmethod
-    def is_valid_base_for_new(cls, base, monolingual, errors: Optional[List] = None):
+    def is_valid_base_for_new(
+        cls, base, monolingual, errors: Optional[List] = None, fast: bool = False
+    ):
         """Check whether base is valid."""
         if not base:
             return False
         try:
-            cls.load(base, None)
+            if not fast:
+                cls.load(base, None)
             return True
         except Exception:
             report_error(cause="File parse error")
@@ -366,7 +369,7 @@ class WindowsRCFormat(ConvertFormat):
         encoding = "utf-8"
         with open(templatename, "rb") as templatefile:
             bom = templatefile.read(2)
-            if bom == codecs.BOM_UTF16_LE:
+            if bom == codecs.BOM_UTF16_LE or b"\000" in bom:
                 encoding = "utf-16-le"
             templatefile.seek(0)
             convertor = rerc(

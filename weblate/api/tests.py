@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -1825,8 +1825,8 @@ class LanguageAPITest(APIBaseTest):
         # Check plural exists
         self.assertEqual(response.data["plural"]["type"], 2)
         self.assertEqual(response.data["plural"]["number"], 3)
-        # Check for aliases
-        self.assertEqual(len(response.data["aliases"]), 2)
+        # Check for aliases, with recent language-data there are 3
+        self.assertGreaterEqual(len(response.data["aliases"]), 2)
 
     def test_create(self):
         self.do_request("api:language-list", method="post", code=403)
@@ -3000,3 +3000,81 @@ class ComponentListAPITest(APIBaseTest):
             request={"name": "other"},
         )
         self.assertEqual(ComponentList.objects.get().name, "other")
+
+
+class AddonAPITest(APIBaseTest):
+    def create_addon(
+        self, superuser=True, code=201, name="weblate.gettext.linguas", **request
+    ):
+        request["name"] = name
+        return self.do_request(
+            "api:component-addons",
+            kwargs=self.component_kwargs,
+            method="post",
+            code=code,
+            superuser=superuser,
+            format="json",
+            request=request,
+        )
+
+    def test_create(self):
+        # Not authenticated user
+        response = self.create_addon(code=403, superuser=False)
+        self.assertFalse(self.component.addon_set.exists())
+        # Non existing addon
+        response = self.create_addon(name="invalid.addon", code=400)
+        self.assertFalse(self.component.addon_set.exists())
+        # Not compatible addon
+        response = self.create_addon(name="weblate.resx.update", code=400)
+        self.assertFalse(self.component.addon_set.exists())
+        # Success
+        response = self.create_addon()
+        self.assertTrue(
+            self.component.addon_set.filter(pk=response.data["id"]).exists()
+        )
+
+    def test_delete(self):
+        response = self.create_addon()
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+    def test_configuration(self):
+        self.create_addon(
+            name="weblate.gettext.mo", configuration={"path": "{{var}}"}, code=400
+        )
+
+    def test_edit(self):
+        initial = {"path": "{{ filename|stripext }}.mo"}
+        expected = {"path": "{{ language_code }}.mo"}
+        response = self.create_addon(name="weblate.gettext.mo", configuration=initial)
+        self.assertEqual(self.component.addon_set.get().configuration, initial)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="patch",
+            code=403,
+            format="json",
+            request={"configuration": expected},
+        )
+        self.assertEqual(self.component.addon_set.get().configuration, initial)
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": response.data["id"]},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"configuration": expected},
+        )
+        self.assertEqual(self.component.addon_set.get().configuration, expected)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -95,7 +95,7 @@ class WeblateBuild(build):
 
 setup(
     name="Weblate",
-    version="4.4.1",
+    version="4.5",
     python_requires=">=3.6",
     packages=find_packages(),
     include_package_data=True,

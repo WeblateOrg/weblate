@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -149,6 +149,12 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
         # Ensure we've picked up all mails
         self.assertEqual(len(mail.outbox), 0)
+
+        # Ensure the audit log matches expectations
+        self.assertEqual(
+            set(user.auditlog_set.values_list("activity", flat=True)),
+            {"sent-email", "password"},
+        )
 
 
 class RegistrationTest(BaseRegistrationTest):

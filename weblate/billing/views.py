@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -107,7 +107,7 @@ def handle_post(request, billing):
                         "message": form.cleaned_data["message"],
                         "billing_url": billing.get_absolute_url(),
                     },
-                    request.user.email,
+                    request.user.get_author_name(),
                     settings.ADMINS_HOSTING,
                 )
             else:

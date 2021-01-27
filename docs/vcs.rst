@@ -49,8 +49,8 @@ repository this way.
 
 .. warning::
 
-    On GitHub, each key can be added to only one repository, see
-    :ref:`vcs-repos-github` and :ref:`hosted-push`.
+    On GitHub, each key can be use only once, see :ref:`vcs-repos-github` and
+    :ref:`hosted-push`.
 
 Weblate also stores the host key fingerprint upon first connection, and fails to
 connect to the host should it be changed later (see :ref:`verify-ssh`).
@@ -84,15 +84,16 @@ Admins can generate or display the public key currently used by Weblate in the c
 Verifying SSH host keys
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Weblate automatically remembers the SSH host keys on first access and remembers
+Weblate automatically stores the SSH host keys on first access and remembers
 them for further use.
 
-In case you want to verify them before connecting to the repository, verify the
-SSH host keys of the servers you are going to access in :guilabel:`Add host
-key`, from the same section of the admin interface. Enter the hostname you are
-going to access (e.g. ``gitlab.com``), and press :guilabel:`Submit`.  Verify
-its fingerprint matches the server you added. They are shown in the
-confirmation message:
+In case you want to verify the key fingerprint before connecting to the
+repository, add the SSH host keys of the servers you are going to access in
+:guilabel:`Add host key`, from the same section of the admin interface. Enter
+the hostname you are going to access (e.g. ``gitlab.com``), and press
+:guilabel:`Submit`. Verify its fingerprint matches the server you added.
+
+The added keys with fingerprints are shown in the confirmation message:
 
 .. image:: images/ssh-keys-added.png
 
@@ -103,7 +104,7 @@ GitHub repositories
 
 Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to
 access more than one repository, you will hit a GitHub limitation on allowed
-SSH key usage (since one key can be used only for one repository).
+SSH key usage (since each key can be used only once).
 
 In case the :ref:`component-push_branch` is not set, the project is forked and
 changes pushed through a fork. In case it is set, changes are pushed to the
@@ -112,7 +113,7 @@ upstream repository and chosen branch.
 For smaller deployments, use HTTPS authentication with a personal access
 token and your GitHub account, see `Creating an access token for command-line use`_.
 
-.. _Creating an access token for command-line use: https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token
+.. _Creating an access token for command-line use: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 
 For bigger setups, it is usually better to create a dedicated user for Weblate,
 assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)
@@ -257,7 +258,7 @@ GitHub
 
 .. versionadded:: 2.3
 
-This adds a thin layer atop :ref:`vcs-git` using the `Github API`_ to allow pushing
+This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow pushing
 translation changes as pull requests, instead of pushing directly to the repository.
 
 :ref:`vcs-git` pushes changes directly to a repository, while
@@ -285,7 +286,7 @@ You need to configure API credentials to make this work.
    :setting:`GITHUB_TOKEN`,
    :setting:`GITHUB_CREDENTIALS`
 
-.. _Github API: https://docs.github.com/en/free-pro-team@latest/rest
+.. _GitHub API: https://docs.github.com/en/rest
 
 .. _vcs-gitlab:
 
@@ -431,8 +432,9 @@ Subversion credentials
 ++++++++++++++++++++++
 
 Weblate expects you to have accepted the certificate up-front and if needed,
-your credentials. It will look to insert them into the DATA_DIR directory.
-Accept the certificate by using `svn` once with the `$HOME` environment variable set to the DATA_DIR:
+your credentials. It will look to insert them into the :setting:`DATA_DIR`
+directory. Accept the certificate by using `svn` once with the `$HOME`
+environment variable set to the :setting:`DATA_DIR`:
 
 .. code-block:: sh
 

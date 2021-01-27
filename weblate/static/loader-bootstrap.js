@@ -75,6 +75,14 @@ jQuery.fn.extend({
         this.value += myValue;
         this.focus();
       }
+      this.dispatchEvent(new Event("input"));
+    });
+  },
+
+  replaceValue: function (myValue) {
+    return this.each(function () {
+      this.value = myValue;
+      this.dispatchEvent(new Event("input"));
     });
   },
 });
@@ -338,6 +346,90 @@ function quoteSearch(value) {
   }
   /* We should do some escaping here */
   return value;
+}
+
+function initHighlight(root) {
+  if (typeof ResizeObserver === "undefined") {
+    return;
+  }
+  root.querySelectorAll(".highlight-editor").forEach(function (editor) {
+    var parent = editor.parentElement;
+    var hasFocus = editor == document.activeElement;
+
+    if (parent.classList.contains("editor-wrap")) {
+      return;
+    }
+
+    var mode = editor.getAttribute("data-mode");
+
+    /* Create wrapper element */
+    var wrapper = document.createElement("div");
+    wrapper.setAttribute("class", "editor-wrap");
+
+    /* Inject wrapper */
+    parent.replaceChild(wrapper, editor);
+
+    /* Create highlighter */
+    var highlight = document.createElement("div");
+    highlight.setAttribute("class", "highlighted-output");
+    if (editor.readOnly) {
+      highlight.classList.add("readonly");
+    }
+    highlight.setAttribute("role", "status");
+    if (editor.hasAttribute("dir")) {
+      highlight.setAttribute("dir", editor.getAttribute("dir"));
+    }
+    if (editor.hasAttribute("lang")) {
+      highlight.setAttribute("lang", editor.getAttribute("lang"));
+    }
+    wrapper.appendChild(highlight);
+
+    /* Add editor to wrapper */
+    wrapper.appendChild(editor);
+    if (hasFocus) {
+      editor.focus();
+    }
+
+    /* Content synchronisation and highlighting */
+    var languageMode = Prism.languages[mode];
+    if (editor.classList.contains("translation-editor")) {
+      let placeables = editor.getAttribute("data-placeables");
+      let extension = {
+        hlspace: /  +/,
+      };
+      if (placeables) {
+        extension.placeable = RegExp(placeables);
+      }
+      languageMode = Prism.languages.extend(mode, extension);
+    }
+    var syncContent = function () {
+      highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
+      autosize.update(editor);
+    };
+    syncContent();
+    editor.addEventListener("input", syncContent);
+
+    /* Handle scrolling */
+    editor.addEventListener("scroll", (event) => {
+      highlight.scrollTop = editor.scrollTop;
+      highlight.scrollLeft = editor.scrollLeft;
+    });
+
+    /* Handle resizing */
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.target === editor) {
+          // match the height and width of the output area to the input area
+          highlight.style.height = editor.offsetHeight + "px";
+          highlight.style.width = editor.offsetWidth + "px";
+        }
+      }
+    });
+
+    resizeObserver.observe(editor);
+    /* Autosizing */
+    autosize(editor);
+  });
 }
 
 $(function () {
@@ -1054,6 +1146,49 @@ $(function () {
     }
     e.target.setAttribute("data-shown", true);
   });
+
+  /* Username autocompletion */
+  var tribute = new Tribute({
+    trigger: "@",
+    requireLeadingSpace: true,
+    menuShowMinLength: 2,
+    noMatchTemplate: function () {
+      return "";
+    },
+    menuItemTemplate: function (item) {
+      return `<a>${item.string}</a>`;
+    },
+    values: (text, callback) => {
+      $.ajax({
+        type: "GET",
+        url: `/api/users/?username=${text}`,
+        dataType: "json",
+        success: function (data) {
+          var userMentionList = data.results.map(function (user) {
+            return {
+              value: user.username,
+              key: `${user.full_name} (${user.username})`,
+            };
+          });
+          callback(userMentionList);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(errorThrown);
+        },
+      });
+    },
+  });
+  tribute.attach(document.querySelectorAll(".markdown-editor"));
+  document.querySelectorAll(".markdown-editor").forEach((editor) => {
+    editor.addEventListener("tribute-active-true", function (e) {
+      $(".tribute-container").addClass("open");
+      $(".tribute-container ul").addClass("dropdown-menu");
+    });
+  });
+
+  /* Textarea higlighting */
+  Prism.languages.none = {};
+  initHighlight(document);
 
   /* Warn users that they do not want to use developer console in most cases */
   console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");

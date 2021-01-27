@@ -52,6 +52,7 @@ jobs:
       CI_SELENIUM: "1"
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+      PYTHONUNBUFFERED: 1
     steps:
       - uses: actions/checkout@v2
       - name: Start services
@@ -62,7 +63,7 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
-        run: sudo ./ci/apt-install
+        run: sudo ./ci/apt-install $CI_DATABASE
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2.2.1
         with:
@@ -103,7 +104,7 @@ jobs:
         run: |
           curl https://deepsource.io/cli | sh
           ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
-      - uses: actions/upload-artifact@v2.2.1
+      - uses: actions/upload-artifact@v2.2.2
         if: always()
         with:
           name: Screenshots

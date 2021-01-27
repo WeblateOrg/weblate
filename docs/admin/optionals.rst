@@ -49,6 +49,12 @@ in your :ref:`user-profile`:
 
     git clone 'https://user:KEY@example.org/git/weblate/master/'
 
+.. hint::
+
+   By default members or :guilabel:`Users` group and anonymous user have access
+   to the repositories for public projects via :guilabel:`Access repository`
+   and :guilabel:`Power user` roles.
+
 
 .. _billing:
 
@@ -252,6 +258,9 @@ The following operations are subject to rate limiting:
 | Translating                       | ``TRANSLATE``      |               30 |               60 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Adding to glossary                | ``GLOSSARY``       |               30 |               60 |            600 |
++-----------------------------------+--------------------+------------------+------------------+----------------+
+| Starting translation in new       | ``LANGUAGE``       |                2 |              300 |            600 |
+| language                          |                    |                  |                  |                |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 
 If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.

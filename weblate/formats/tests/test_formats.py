@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -48,6 +48,7 @@ from weblate.formats.ttkit import (
     PropertiesFormat,
     RESXFormat,
     RubyYAMLFormat,
+    TBXFormat,
     TSFormat,
     WebExtensionJSONFormat,
     XliffFormat,
@@ -84,11 +85,13 @@ TEST_TS = get_test_file("cs.ts")
 TEST_YAML = get_test_file("cs.pyml")
 TEST_RUBY_YAML = get_test_file("cs.ryml")
 TEST_DTD = get_test_file("cs.dtd")
+TEST_TBX = get_test_file("cs.tbx")
 TEST_HE_CLDR = get_test_file("he-cldr.po")
 TEST_HE_CUSTOM = get_test_file("he-custom.po")
 TEST_HE_SIMPLE = get_test_file("he-simple.po")
 TEST_HE_THREE = get_test_file("he-three.po")
 TEST_XWIKI_PROPERTIES = get_test_file("xwiki.properties")
+TEST_XWIKI_PROPERTIES_NEW_LANGUAGE = get_test_file("xwiki_new_language.properties")
 TEST_XWIKI_PAGE_PROPERTIES = get_test_file("XWikiPageProperties.xml")
 TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml")
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
@@ -848,6 +851,28 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     EXPECTED_FLAGS = ""
     EDIT_TARGET = "[{0}] تىپتىكى خىزمەتنى باشلاش"
 
+    def test_new_language(self):
+        self.maxDiff = None
+        out = os.path.join(self.tempdir, f"test_new_language.{self.EXT}")
+        language = Language.objects.get(code="cs")
+        self.FORMAT.add_language(out, language, self.BASE)
+        template_storage = self.parse_file(self.FILE)
+        new_language = self.FORMAT(out, template_storage, language.code)
+        unit, add = new_language.find_unit("job.status.success")
+        self.assertTrue(add)
+        unit.set_target("Fait")
+        new_language.add_unit(unit.unit)
+        new_language.save()
+
+        # Read new content
+        with open(out) as handle:
+            newdata = handle.read()
+
+        with open(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE) as handle:
+            expected = handle.read()
+
+        self.assertEqual(expected + "\n", newdata)
+
 
 class XWikiPagePropertiesFormatTest(PropertiesFormatTest):
     FORMAT = XWikiPagePropertiesFormat
@@ -1073,3 +1098,19 @@ class XWikiFullPageFormatTest(AutoFormatTest):
 
         # Check if content matches
         self.assert_same(testdata, newdata)
+
+
+class TBXFormatTest(AutoFormatTest):
+    FORMAT = TBXFormat
+    FILE = TEST_TBX
+    BASE = ""
+    MIME = "application/x-tbx"
+    EXT = "tbx"
+    COUNT = 4
+    MASK = "tbx/*.tbx"
+    EXPECTED_PATH = "tbx/cs_CZ.tbx"
+    MATCH = "<martif"
+    FIND = "address bar"
+    FIND_MATCH = "adresní řádek"
+    NEW_UNIT_MATCH = b"<term>Source string</term>"
+    EXPECTED_FLAGS = ""

@@ -56,6 +56,7 @@ var _rollbarConfig = {
 {% endif %}
   <script defer data-cfasync="false" src="{% static 'vendor/jquery.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/js.cookie.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/autosize.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/multi.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/mousetrap-global-bind.js' %}{{ cache_param }}"></script>
@@ -64,14 +65,11 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'vendor/bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/modernizr.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'vendor/slugify.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/lib/codemirror.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/addon/hint/show-hint.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/addon/display/autorefresh.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/addon/mode/overlay.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/mode/markdown/markdown.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/mode/rst/rst.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'vendor/codemirror/mode/xml/xml.js' %}{{ cache_param }}"></script>
-  <script defer data-cfasync="false" src="{% static 'loader-codemirror.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/tribute.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-core.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markup.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-rest.js' %}{{ cache_param }}"></script>
+  <script defer data-cfasync="false" src="{% static 'vendor/prism/prism-markdown.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 
@@ -208,7 +206,7 @@ var _rollbarConfig = {
         {# Adding new translations #}
         {% if user.is_authenticated %}
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} {% trans "Add" %} <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% icon "plus.svg" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'create-project' %}">{% trans "Add new translation project" %}</a></li>
             <li><a href="{% url 'create-component' %}">{% trans "Add new translation component" %}</a></li>
@@ -233,9 +231,8 @@ var _rollbarConfig = {
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-header" id="profile-name"><b>{{ user }}</b><br />@{{ user.username }}</li>
+            <li id="profile-name"><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}"><b>{{ user }}</b><br />@{{ user.username }}</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="button" id="profile-button" href="{% url 'user_page' user=user.username %}">{% trans "Profile" %}</a></li>
             {% if has_billing %}
             <li><a class="button" id="billing-button" href="{% url 'billing' %}">{% trans "Billing overview" %}</a></li>
             {% endif %}
@@ -282,7 +279,7 @@ var _rollbarConfig = {
 {% endblock %}
 </header>
 
-<div class="content {% block content_class %}{% endblock %}">
+<div class="main-content {% block content_class %}{% endblock %}">
 
 {% if messages %}
 {% for message in messages %}

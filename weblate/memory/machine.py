@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,13 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from typing import Set
-
-from weblate.machinery.base import BatchStringMachineTranslation, get_machinery_language
+from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.memory.models import Memory
 
 
-class WeblateMemory(BatchStringMachineTranslation):
+class WeblateMemory(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
     name = "Weblate Translation Memory"
@@ -72,16 +70,3 @@ class WeblateMemory(BatchStringMachineTranslation):
                 "origin": result.get_origin_display(),
                 "source": result.source,
             }
-
-    def download_batch_strings(
-        self, source, language, units, texts: Set[str], user=None, threshold: int = 75
-    ):
-        project = units[0].translation.component.project
-        return Memory.objects.lookup(
-            source,
-            language,
-            texts,
-            user,
-            project,
-            project.use_shared_tm,
-        ).values_list("source", "target")

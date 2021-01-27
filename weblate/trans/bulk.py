@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,7 +21,7 @@
 from django.db import transaction
 
 from weblate.checks.flags import Flags
-from weblate.trans.models import Change, Component, Unit, update_source
+from weblate.trans.models import Change, Component, Unit
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
@@ -117,7 +117,7 @@ def bulk_perform(
                     unit.is_bulk_edit = True
                     unit.pending = True
                     unit.state = target_state
-                    update_source(Unit, unit)
+                    unit.source_unit_save()
 
         component.invalidate_stats_deep()
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.db import models
 
 from weblate.trans.fields import RegexField
@@ -25,8 +24,11 @@ from weblate.trans.fields import RegexField
 
 class Variant(models.Model):
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
-    variant_regex = RegexField(max_length=190)
-    key = models.CharField(max_length=190, db_index=True)
+    variant_regex = RegexField(max_length=190, blank=True)
+    # This really should be a TextField, but it does not work with unique
+    # index and MySQL
+    key = models.CharField(max_length=768)
+    defining_units = models.ManyToManyField("Unit", related_name="defined_variants")
 
     class Meta:
         unique_together = (("key", "component", "variant_regex"),)

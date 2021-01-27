@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -274,6 +274,7 @@ class QueryParserTest(TestCase):
             Q(screenshots__isnull=False) | Q(source_unit__screenshots__isnull=False),
         )
         self.assert_query("has:flags", ~Q(source_unit__extra_flags=""))
+        self.assert_query("has:explanation", ~Q(source_unit__explanation=""))
 
     def test_is(self):
         self.assert_query("is:pending", Q(pending=True))
@@ -288,6 +289,11 @@ class QueryParserTest(TestCase):
             "changed_by:nijel",
             Q(change__author__username__iexact="nijel")
             & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
+    def test_explanation(self):
+        self.assert_query(
+            "explanation:text", Q(source_unit__explanation__substring="text")
         )
 
     def test_suggestions(self):

@@ -422,10 +422,10 @@ Intermediate language file for :ref:`monolingual`. In most cases this is a
 translation file provided by developers and is used when creating actual source
 strings.
 
-When set, the source translation is based on this file, but all others are
-based on :ref:`component-template`. In case the string is not translated in
-source translation, translating to other languages is prohibited. This provides
-:ref:`source-quality-gateway`.
+When set, the source strings are based on this file, but all other languages
+are based on :ref:`component-template`. In case the string is not translated
+into the source langugage, translating to other languages is prohibited. This
+provides :ref:`source-quality-gateway`.
 
 .. seealso::
 
@@ -633,7 +633,7 @@ Age of changes to commit
 ++++++++++++++++++++++++
 
 Sets how old changes (in hours) are to get before they are committed by
-background task or :djadmin:`commit_pending` management command.  All
+background task or :djadmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one older than
 this period.
 
@@ -741,6 +741,20 @@ Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
    This applies to project managers as well - please make sure you will not
    loose access to the component after toggling the status.
+
+.. _component-links:
+
+Share in projects
++++++++++++++++++
+
+You can choose additional projects where the component will be visible. This
+can be useful for shared libraries which you use in several projects.
+
+.. note::
+
+   Sharing component doesn't change its access control. It makes it only
+   visible when browsing other projects. User still need to have access to the
+   actual component in order to be able to browse or translate it.
 
 .. _markup:
 

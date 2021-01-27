@@ -13,6 +13,7 @@ import weblate.utils.fields
 import weblate.utils.render
 import weblate.utils.validators
 from weblate.formats.models import FILE_FORMATS
+from weblate.utils.db import MY_DROP, MY_FTX, PG_DROP, PG_TRGM
 from weblate.utils.licenses import get_license_choices
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -26,12 +27,6 @@ FIELDS = (
     ("comment", "comment"),
     ("dictionary", "source"),
 )
-
-PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops)"
-PG_DROP = "DROP INDEX {0}_{1}_fulltext"
-
-MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
-MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
 
 
 def create_index(apps, schema_editor):

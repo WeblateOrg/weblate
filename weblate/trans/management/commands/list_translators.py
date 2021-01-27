@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,7 +18,6 @@
 #
 
 from weblate.trans.management.commands import WeblateComponentCommand
-from weblate.trans.models.change import Change
 
 
 class Command(WeblateComponentCommand):
@@ -38,7 +37,7 @@ class Command(WeblateComponentCommand):
         data = []
         for component in self.get_components(*args, **options):
             for translation in component.translation_set.iterator():
-                authors = Change.objects.filter(translation=translation).authors_list()
+                authors = translation.change_set.authors_list()
                 if not authors:
                     continue
                 if options["code"]:

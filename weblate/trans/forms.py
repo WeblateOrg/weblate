@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -98,6 +98,7 @@ EDITOR_TEMPLATE = """
 <div class="clearfix"></div>
 <div class="translation-item"><label for="{1}">{2}</label>
 {0}
+<div class="clearfix"></div>
 {3}
 <span class="pull-right flip badge length">
 <span data-max="{4}" class="length-indicator">{5}</span>/{4}
@@ -105,6 +106,16 @@ EDITOR_TEMPLATE = """
 </div>
 """
 COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
+
+
+class MarkdownTextarea(forms.Textarea):
+    def __init__(self, **kwargs):
+        kwargs["attrs"] = {
+            "dir": "auto",
+            "class": "markdown-editor highlight-editor",
+            "data-mode": "markdown",
+        }
+        super().__init__(**kwargs)
 
 
 class WeblateDateInput(forms.DateInput):
@@ -293,12 +304,12 @@ class PluralTextarea(forms.Textarea):
         placeables = [hl[2] for hl in highlight_string(unit.source_string, unit)]
 
         # Need to add extra class
-        attrs["class"] = "translation-editor form-control"
+        attrs["class"] = "translation-editor form-control highlight-editor"
         attrs["tabindex"] = tabindex
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
-        attrs["maxlength"] = unit.get_max_length()
+        attrs["data-max"] = unit.get_max_length()
         attrs["data-mode"] = unit.edit_mode
         attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables if pl)
         if unit.readonly:
@@ -326,7 +337,7 @@ class PluralTextarea(forms.Textarea):
                     fieldid,
                     label,
                     textarea,
-                    attrs["maxlength"],
+                    attrs["data-max"],
                     len(val),
                 )
             )
@@ -919,7 +930,7 @@ class CommentForm(forms.Form):
         ),
     )
     comment = forms.CharField(
-        widget=forms.Textarea(attrs={"dir": "auto", "class": "codemirror-markdown"}),
+        widget=MarkdownTextarea,
         label=_("New comment"),
         help_text=_("You can use Markdown and mention users by @username."),
         max_length=1000,
@@ -1004,7 +1015,10 @@ class ContextForm(forms.ModelForm):
     class Meta:
         model = Unit
         fields = ("explanation", "labels", "extra_flags")
-        widgets = {"labels": forms.CheckboxSelectMultiple()}
+        widgets = {
+            "labels": forms.CheckboxSelectMultiple(),
+            "explanation": MarkdownTextarea,
+        }
 
     doc_links = {
         "explanation": ("admin/translating", "additional"),
@@ -1023,7 +1037,7 @@ class ContextForm(forms.ModelForm):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("explanation", css_class="codemirror-markdown"),
+            Field("explanation"),
             Field("labels"),
             ContextDiv(
                 template="snippets/labels_description.html",
@@ -1252,6 +1266,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "variant_regex",
             "restricted",
             "auto_lock_error",
+            "links",
         )
         widgets = {
             "enforced_checks": SelectChecksWidget,
@@ -1261,8 +1276,11 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
-        if settings.OFFER_HOSTING:
+        if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
+        self.fields["links"].queryset = request.user.owned_projects.exclude(
+            pk=self.instance.pk
+        )
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -1270,6 +1288,12 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                     Fieldset(_("Name"), "name"),
                     Fieldset(_("License"), "license", "agreement"),
                     Fieldset(_("Upstream links"), "report_source_bugs"),
+                    Fieldset(
+                        _("Listing and access"),
+                        "priority",
+                        "restricted",
+                        "links",
+                    ),
                     css_id="basic",
                 ),
                 Tab(
@@ -1286,8 +1310,6 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "check_flags",
                         "variant_regex",
                         "enforced_checks",
-                        "priority",
-                        "restricted",
                     ),
                     css_id="translation",
                 ),
@@ -1369,9 +1391,21 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
 
+    @property
+    def hide_restricted(self):
+        user = self.request.user
+        if user.is_superuser:
+            return False
+        if settings.OFFER_HOSTING:
+            return True
+        return not any(
+            "component.edit" in permissions
+            for permissions, _langs in user.component_permissions[self.instance.pk]
+        )
+
     def clean(self):
         data = self.cleaned_data
-        if settings.OFFER_HOSTING:
+        if self.hide_restricted:
             data["restricted"] = self.instance.restricted
 
 
@@ -1459,7 +1493,7 @@ class ComponentBranchForm(ComponentSelectForm):
         component = data.get("component")
         if not component or any(field not in data for field in form_fields):
             return
-        kwargs = model_to_dict(component, exclude=["id"])
+        kwargs = model_to_dict(component, exclude=["id", "links"])
         # We need a object, not integer here
         kwargs["source_language"] = component.source_language
         kwargs["project"] = component.project
@@ -1656,12 +1690,19 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
                 discovered.append(item)
             return discovered
         self.clean_instance(kwargs["initial"])
-        discovered = discover(
-            self.instance.full_path, source_language=self.instance.source_language.code
-        )
+        discovered = self.discover()
+        if not discovered:
+            discovered = self.discover(eager=True)
         request.session["create_discovery"] = discovered
         request.session["create_discovery_meta"] = [x.meta for x in discovered]
         return discovered
+
+    def discover(self, eager: bool = False):
+        return discover(
+            self.instance.full_path,
+            source_language=self.instance.source_language.code,
+            eager=eager,
+        )
 
     def clean(self):
         super().clean()
@@ -1698,7 +1739,6 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
         fields = (
             "name",
             "web",
-            "mail",
             "instructions",
             "set_language_team",
             "use_shared_tm",
@@ -1710,8 +1750,8 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             "source_review",
         )
         widgets = {
-            "access_control": forms.RadioSelect(),
-            "instructions": forms.Textarea(attrs={"class": "codemirror-markdown"}),
+            "access_control": forms.RadioSelect,
+            "instructions": MarkdownTextarea,
         }
 
     def clean(self):
@@ -1780,7 +1820,13 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             disabled = {}
         self.helper.layout = Layout(
             TabHolder(
-                Tab(_("Basic"), "name", "web", "mail", "instructions", css_id="basic"),
+                Tab(
+                    _("Basic"),
+                    "name",
+                    "web",
+                    "instructions",
+                    css_id="basic",
+                ),
                 Tab(
                     _("Access"),
                     InlineRadios(
@@ -1848,7 +1894,7 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "mail", "instructions")
+        fields = ("name", "slug", "web", "instructions")
 
 
 class ReplaceForm(forms.Form):
@@ -2036,7 +2082,7 @@ class AnnouncementForm(forms.ModelForm):
         fields = ["message", "category", "expiry", "notify"]
         widgets = {
             "expiry": WeblateDateInput(),
-            "message": forms.Textarea(attrs={"class": "codemirror-markdown"}),
+            "message": MarkdownTextarea,
         }
 
 

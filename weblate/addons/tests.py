@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -42,7 +42,7 @@ from weblate.addons.flags import (
     SourceEditAddon,
     TargetEditAddon,
 )
-from weblate.addons.generate import GenerateFileAddon
+from weblate.addons.generate import GenerateFileAddon, PseudolocaleAddon
 from weblate.addons.gettext import (
     GenerateMoAddon,
     GettextAuthorComments,
@@ -62,7 +62,7 @@ from weblate.addons.yaml import YAMLCustomizeAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -280,6 +280,25 @@ class GettextAddonTest(ViewTestCase):
             content = handle.read()
         self.assertIn("Stojan Jakotyc", content)
 
+    def test_pseudolocale(self):
+        self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
+        PseudolocaleAddon.create(
+            self.component,
+            configuration={
+                "source": self.component.translation_set.get(language_code="en").pk,
+                "target": self.component.translation_set.get(language_code="de").pk,
+                "prefix": "@@@",
+                "suffix": "!!!",
+            },
+        )
+        translation = self.component.translation_set.get(language_code="de")
+        self.assertEqual(translation.stats.translated, translation.stats.all)
+        for unit in translation.unit_set.all():
+            for text in unit.get_target_plurals():
+                self.assertTrue(text.startswith("@@@"))
+                # We need to deal with automated fixups
+                self.assertTrue(text.endswith("!!!") or text.endswith("!!!\n"))
+
 
 class AppStoreAddonTest(ViewTestCase):
     def create_component(self):
@@ -439,17 +458,28 @@ class JsonAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("json-mono-sync/cs.json", commit)
 
-    def test_unit(self):
+    def test_unit_flags(self):
         self.assertTrue(SourceEditAddon.can_install(self.component, None))
         self.assertTrue(TargetEditAddon.can_install(self.component, None))
         self.assertTrue(SameEditAddon.can_install(self.component, None))
         SourceEditAddon.create(self.component)
         TargetEditAddon.create(self.component)
         SameEditAddon.create(self.component)
+
+        Unit.objects.filter(translation__language__code="cs").delete()
+        self.component.create_translations(force=True)
+        self.assertFalse(
+            Unit.objects.filter(translation__language__code="cs")
+            .exclude(state__in=(STATE_FUZZY, STATE_EMPTY))
+            .exists()
+        )
+
         Unit.objects.all().delete()
         self.component.create_translations(force=True)
         self.assertFalse(
-            Unit.objects.exclude(state__in=(STATE_FUZZY, STATE_EMPTY)).exists()
+            Unit.objects.exclude(
+                state__in=(STATE_FUZZY, STATE_EMPTY, STATE_READONLY)
+            ).exists()
         )
 
     def test_customize(self):

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -446,4 +446,34 @@ class CDNJSForm(BaseAddonForm):
                     template="addons/cdnjs.html",
                     context={"url": self._addon.cdn_js_url, "user": self.user},
                 ),
+            )
+
+
+class PseudolocaleAddonForm(BaseAddonForm):
+    source = forms.ChoiceField(label=_("Source strings"), required=True)
+    target = forms.ChoiceField(label=_("Target translation"), required=True)
+    prefix = forms.CharField(
+        label=_("String prefix"),
+        required=False,
+        initial="",
+    )
+    suffix = forms.CharField(
+        label=_("String suffix"),
+        required=False,
+        initial="",
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        choices = [
+            (translation.pk, str(translation.language))
+            for translation in self._addon.instance.component.translation_set.all()
+        ]
+        self.fields["source"].choices = choices
+        self.fields["target"].choices = choices
+
+    def clean(self):
+        if self.cleaned_data["source"] == self.cleaned_data["target"]:
+            raise forms.ValidationError(
+                _("Source and target have to be a different languages.")
             )

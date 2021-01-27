@@ -780,7 +780,6 @@ Projects
     :>json boolean set_language_team: :ref:`project-set_language_team`
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
     :>json string instructions: :ref:`project-instructions`
-    :>json string mail: :ref:`project-mail`
     :>json string language_aliases: :ref:`project-language_aliases`
 
     **Example JSON data:**
@@ -2086,6 +2085,63 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
 
+Addons
+++++++
+
+.. versionadded:: 4.4.1
+
+.. http:get:: /api/addons/
+
+    Returns a list of addons.
+
+    .. seealso::
+
+        Addon object attributes are documented at :http:get:`/api/addons/(int:id)/`.
+
+.. http:get:: /api/addons/(int:id)/
+
+    Returns information about addon information.
+
+    :param id: Addon ID
+    :type id: int
+    :>json string name: name of an addon
+    :>json string component: URL of a related component object
+    :>json object configuration: Optional addon configuration
+
+.. http:post:: /api/components/(string:project)/(string:component)/addons/
+
+    Creates a new addon.
+
+    :param string project_slug: Project slug
+    :param string component_slug: Component slug
+    :<json string name: name of an addon
+    :<json object configuration: Optional addon configuration
+
+.. http:patch:: /api/addons/(int:id)/
+
+    Edit partial information about addon.
+
+    :param id: Addon ID
+    :type id: int
+    :>json object configuration: Optional addon configuration
+
+.. http:put:: /api/addons/(int:id)/
+
+    Edit full information about addon.
+
+    :param id: Addon ID
+    :type id: int
+    :>json object configuration: Optional addon configuration
+
+.. http:delete:: /api/addons/(int:id)/
+
+    Delete addon.
+
+    :param id: Addon ID
+    :type id: int
+
+
+
 
 Component lists
 +++++++++++++++
@@ -2424,7 +2480,7 @@ update individual repositories; see
 
         :ref:`github-setup`
             For instruction on setting up GitHub integration
-        https://docs.github.com/en/free-pro-team@latest/github/extending-github/about-webhooks
+        https://docs.github.com/en/github/extending-github/about-webhooks
             Generic information about GitHub Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

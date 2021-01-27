@@ -20,9 +20,8 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.each((idx, textarea) => {
-        textarea.CodeMirror.getDoc().setValue(text);
-      });
+      this.$translationArea.replaceValue(text);
+      autosize.update(this.$translationArea);
       WLT.Utils.markFuzzy(this.$translationForm);
     });
 
@@ -31,9 +30,8 @@
       var $el = $(e.target);
       var text = $el.parent().parent().data("raw").text;
 
-      this.$translationArea.each((idx, textarea) => {
-        textarea.CodeMirror.getDoc().setValue(text);
-      });
+      this.$translationArea.replaceValue(text);
+      autosize.update(this.$translationArea);
       WLT.Utils.markTranslated(this.$translationForm);
       submitForm({ target: this.$translationArea });
     });
@@ -70,7 +68,7 @@
       return submitForm(e);
     });
     Mousetrap.bindGlobal("mod+e", () => {
-      this.$translationArea[0].CodeMirror.focus();
+      this.$translationArea.get(0).focus();
       return false;
     });
     Mousetrap.bindGlobal("mod+s", function (e) {
@@ -123,6 +121,7 @@
         var target = document.getElementById(restoreArea.id);
         if (target) {
           target.value = restoreArea.value;
+          autosize.update(target);
         }
       });
       localStorage.removeItem(restoreKey);
@@ -325,13 +324,11 @@
     this.$editor.on("click", "[data-check-fixup]", (e) => {
       var $el = $(e.currentTarget);
       var fixups = $el.data("check-fixup");
-      this.$translationArea.each((e) => {
-        $.each(fixups, (key, value) => {
+      this.$translationArea.each(function () {
+        var $this = $(this);
+        $.each(fixups, function (key, value) {
           var re = new RegExp(value[0], value[2]);
-          this.$translationArea.each((idx, textarea) => {
-            var doc = textarea.CodeMirror.getDoc();
-            doc.setValue(doc.getValue().replace(re, value[1]));
-          });
+          $this.replaceValue($this.val().replace(re, value[1]));
         });
       });
       return false;
@@ -349,8 +346,12 @@
 
     $checks.each(function (idx) {
       var $this = $(this);
+      let $number = $(this).find(".check-number");
 
       if (idx < 10) {
+        if ($number.length === 0) {
+          return;
+        }
         let key = WLT.Utils.getNumericKey(idx);
 
         var title;
@@ -364,9 +365,7 @@
             [key]
           );
         }
-        $(this)
-          .find(".check-number")
-          .html(' <kbd title="' + title + '">' + key + "</kbd>");
+        $number.html(' <kbd title="' + title + '">' + key + "</kbd>");
 
         Mousetrap.bindGlobal(
           ["mod+i " + key, "mod+i mod+" + key],
@@ -376,7 +375,7 @@
           }
         );
       } else {
-        $(this).find(".check-number").html("");
+        $number.html("");
       }
     });
   };
@@ -386,7 +385,7 @@
     this.$editor.on("click", ".glossary-embed", (e) => {
       var text = $(e.currentTarget).find(".target").text();
 
-      this.insertEditor(text);
+      this.insertIntoTranslation(text);
       e.preventDefault();
     });
 
@@ -427,6 +426,10 @@
       });
       return false;
     });
+  };
+
+  FullEditor.prototype.insertIntoTranslation = function (text) {
+    this.$translationArea.insertAtCaret($.trim(text));
   };
 
   class Machinery {
@@ -520,7 +523,7 @@
       var $translations = $("#machinery-translations");
       translations.forEach((translation) => {
         var service = this.renderService(translation);
-        var insertBefore;
+        var insertBefore = null;
         var done = false;
 
         /* This is the merging and insert sort logic */
@@ -537,7 +540,7 @@
             current.append(service.html());
             done = true;
             return false;
-          } else if (base.quality <= translation.quality) {
+          } else if (base.quality <= translation.quality && !insertBefore) {
             // Insert match before lower quality one
             insertBefore = $this;
           }

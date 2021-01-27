@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -224,7 +224,7 @@ def fetch_componentlists(user, user_translations):
                 if (
                     component.slug,
                     language.code,
-                ) in existing or not component.can_add_new_language(user):
+                ) in existing or not component.can_add_new_language(user, fast=True):
                     continue
                 translations.append(GhostTranslation(component, language))
 

@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -915,6 +915,7 @@ CHECK_LIST = [
     "weblate.checks.format.CFormatCheck",
     "weblate.checks.format.PerlFormatCheck",
     "weblate.checks.format.JavaScriptFormatCheck",
+    "weblate.checks.format.LuaFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",

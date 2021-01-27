@@ -16,6 +16,8 @@ as it has performance consequences and might leak private data.
 
     :ref:`production-debug`
 
+.. _weblate-logs:
+
 Weblate logs
 ------------
 
@@ -33,6 +35,36 @@ you can look at the logs using ``docker-compose logs``.
 .. seealso::
 
    :ref:`sample-configuration` contains :setting:`django:LOGGING` configuration.
+
+.. _debug-tasks:
+
+Not processing background tasks
+-------------------------------
+
+Lot of things happen in background Celery workers. In case things like sending
+out e-mails or component removal does not work, there might be some issue with
+it.
+
+Things to check in that case:
+
+* Check Celery process is running, see :ref:`celery`
+* Check Celery queue status either in :ref:`management-interface` or using :djadmin:`celery_queues`
+* Look into Celery logs for errors (see :ref:`weblate-logs`)
+
+.. _debug-mails:
+
+Not receiving e-mails from Weblate
+----------------------------------
+
+You can verify whether outgoing e-mail is working correctly by using the
+:djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage`
+for instructions on how to invoke it in different environments) or using
+:ref:`management-interface` under the :guilabel:`Tools` tab.
+
+These send e-mail directly, so this verifies that your SMTP configuration is
+correct (see :ref:`out-mail`). Most of the e-mails from Weblate are however
+sent in the background and there might be some issues with Celery involved as
+well, please see :ref:`debug-tasks` for debugging that.
 
 Analyzing application crashes
 -----------------------------

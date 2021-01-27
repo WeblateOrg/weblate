@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -167,10 +167,10 @@ TRANSLATE_PERMS = {
 
 # Default set of roles
 ROLES = (
-    (pgettext("Access control role", "Add suggestion"), {"suggestion.add"}),
-    (pgettext("Access control role", "Access repository"), {"vcs.access", "vcs.view"}),
+    (pgettext("Access-control role", "Add suggestion"), {"suggestion.add"}),
+    (pgettext("Access-control role", "Access repository"), {"vcs.access", "vcs.view"}),
     (
-        pgettext("Access control role", "Power user"),
+        pgettext("Access-control role", "Power user"),
         TRANSLATE_PERMS
         | {
             "translation.add",
@@ -181,53 +181,53 @@ ROLES = (
         }
         | filter_perms("glossary."),
     ),
-    (pgettext("Access control role", "Translate"), TRANSLATE_PERMS),
+    (pgettext("Access-control role", "Translate"), TRANSLATE_PERMS),
     (
-        pgettext("Access control role", "Edit source"),
+        pgettext("Access-control role", "Edit source"),
         TRANSLATE_PERMS | {"unit.template", "source.edit"},
     ),
-    (pgettext("Access control role", "Manage languages"), filter_perms("translation.")),
-    (pgettext("Access control role", "Manage glossary"), filter_perms("glossary.")),
+    (pgettext("Access-control role", "Manage languages"), filter_perms("translation.")),
+    (pgettext("Access-control role", "Manage glossary"), filter_perms("glossary.")),
     (
-        pgettext("Access control role", "Manage translation memory"),
+        pgettext("Access-control role", "Manage translation memory"),
         filter_perms("memory."),
     ),
     (
-        pgettext("Access control role", "Manage screenshots"),
+        pgettext("Access-control role", "Manage screenshots"),
         filter_perms("screenshot."),
     ),
     (
-        pgettext("Access control role", "Review strings"),
+        pgettext("Access-control role", "Review strings"),
         TRANSLATE_PERMS | {"unit.review", "unit.override"},
     ),
-    (pgettext("Access control role", "Manage repository"), filter_perms("vcs.")),
-    (pgettext("Access control role", "Administration"), [x[0] for x in PERMISSIONS]),
-    (pgettext("Access control role", "Billing"), filter_perms("billing.")),
+    (pgettext("Access-control role", "Manage repository"), filter_perms("vcs.")),
+    (pgettext("Access-control role", "Administration"), [x[0] for x in PERMISSIONS]),
+    (pgettext("Access-control role", "Billing"), filter_perms("billing.")),
 )
 
 # Default set of roles for groups
 GROUPS = (
     (
-        pgettext("Access control group", "Guests"),
+        pgettext("Access-control group", "Guests"),
         ("Add suggestion", "Access repository"),
         SELECTION_ALL_PUBLIC,
     ),
-    (pgettext("Access control group", "Viewers"), (), SELECTION_ALL_PROTECTED),
-    (pgettext("Access control group", "Users"), ("Power user",), SELECTION_ALL_PUBLIC),
-    (pgettext("Access control group", "Reviewers"), ("Review strings",), SELECTION_ALL),
-    (pgettext("Access control group", "Managers"), ("Administration",), SELECTION_ALL),
+    (pgettext("Access-control group", "Viewers"), (), SELECTION_ALL_PROTECTED),
+    (pgettext("Access-control group", "Users"), ("Power user",), SELECTION_ALL_PUBLIC),
+    (pgettext("Access-control group", "Reviewers"), ("Review strings",), SELECTION_ALL),
+    (pgettext("Access-control group", "Managers"), ("Administration",), SELECTION_ALL),
 )
 
 # Per project group definitions
 ACL_GROUPS = {
-    pgettext("Per project access control group", "Translate"): "Translate",
-    pgettext("Per project access control group", "Sources"): "Edit source",
-    pgettext("Per project access control group", "Languages"): "Manage languages",
-    pgettext("Per project access control group", "Glossary"): "Manage glossary",
-    pgettext("Per project access control group", "Memory"): "Manage translation memory",
-    pgettext("Per project access control group", "Screenshots"): "Manage screenshots",
-    pgettext("Per project access control group", "Review"): "Review strings",
-    pgettext("Per project access control group", "VCS"): "Manage repository",
-    pgettext("Per project access control group", "Administration"): "Administration",
-    pgettext("Per project access control group", "Billing"): "Billing",
+    pgettext("Per-project access-control group", "Translate"): "Translate",
+    pgettext("Per-project access-control group", "Sources"): "Edit source",
+    pgettext("Per-project access-control group", "Languages"): "Manage languages",
+    pgettext("Per-project access-control group", "Glossary"): "Manage glossary",
+    pgettext("Per-project access-control group", "Memory"): "Manage translation memory",
+    pgettext("Per-project access-control group", "Screenshots"): "Manage screenshots",
+    pgettext("Per-project access-control group", "Review"): "Review strings",
+    pgettext("Per-project access-control group", "VCS"): "Manage repository",
+    pgettext("Per-project access-control group", "Administration"): "Administration",
+    pgettext("Per-project access-control group", "Billing"): "Billing",
 }

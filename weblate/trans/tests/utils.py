@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -380,6 +380,9 @@ class RepoTestMixin:
 
     def create_winrc(self):
         return self._create_component("rc", "winrc/*.rc", "winrc/en-US.rc")
+
+    def create_tbx(self):
+        return self._create_component("tbx", "tbx/*.tbx")
 
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)

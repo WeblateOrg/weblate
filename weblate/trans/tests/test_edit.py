@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -617,7 +617,7 @@ class EditComplexTest(ViewTestCase):
         # check that we cannot revert to string from another translation
         self.edit_unit("Thank you for using Weblate.", "Kiitoksia Weblaten kaytosta.")
         unit2 = self.get_unit(source="Thank you for using Weblate.")
-        change = Change.objects.filter(unit=unit2).order()[0]
+        change = unit2.change_set.order()[0]
         response = self.client.get(
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )

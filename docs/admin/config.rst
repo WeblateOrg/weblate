@@ -600,16 +600,23 @@ ENABLE_HTTPS
 Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent
 e-mails and generated absolute URLs.
 
-.. hint::
+In the default configuration this is also used for several Django settings
+related to HTTPS - it enables secure cookies, toggles HSTS or enables
+redirection to HTTPS URL.
 
-   In the default configuration this is also used for several Django settings
-   related to HTTPS.
+The HTTPS redirection might be problematic in some cases and you might hit
+issue with infinite redirection in case you are using a reverse proxy doing SSL
+termination which does not correctly pass protocol headers to Django. Please
+tweak your reverse proxy configuration to emit ``X-Forwarded-Proto`` or
+``Forwarded`` headers or configure :setting:`django:SECURE_PROXY_SSL_HEADER` to
+let Django correctly detect the SSL status.
 
 .. seealso::
 
     :setting:`django:SESSION_COOKIE_SECURE`,
     :setting:`django:CSRF_COOKIE_SECURE`,
     :setting:`django:SECURE_SSL_REDIRECT`,
+    :setting:`django:SECURE_PROXY_SSL_HEADER`
     :ref:`production-site`
 
 .. setting:: ENABLE_SHARING
@@ -727,7 +734,7 @@ translation updates.
 
    :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`,
-   `Creating a personal access token <https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token>`_
+   `Creating a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_
 
 .. setting:: GOOGLE_ANALYTICS_ID
 

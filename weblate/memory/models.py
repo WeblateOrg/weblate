@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 #
 
 import json
+import math
 import os
 from functools import reduce
 
@@ -40,6 +41,7 @@ from weblate.memory.utils import (
     CATEGORY_SHARED,
     CATEGORY_USER_OFFSET,
 )
+from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.errors import report_error
 
 
@@ -70,12 +72,18 @@ class MemoryQuerySet(models.QuerySet):
             query.append(Q(user=user))
         return self.filter(reduce(lambda x, y: x | y, query))
 
-    def lookup(self, source_language, target_language, text, user, project, use_shared):
-        if isinstance(text, str):
-            search_query = Q(source__search=text)
-        else:
-            search_query = reduce(lambda x, y: x | Q(source__search=y), text, Q())
-
+    def lookup(
+        self, source_language, target_language, text: str, user, project, use_shared
+    ):
+        # Basic similarity for short strings
+        length = len(text)
+        threshold = 0.5
+        # Adjust similarity based on string length to get more relevant matches
+        # for long strings
+        if length > 50:
+            threshold = 1 - 28.1838 * math.log(0.0443791 * length) / length
+        adjust_similarity_threshold(threshold)
+        # Actual database query
         return self.filter_type(
             # Type filtering
             user=user,
@@ -84,7 +92,7 @@ class MemoryQuerySet(models.QuerySet):
             from_file=True,
         ).filter(
             # Full-text search on source
-            search_query,
+            source__search=text,
             # Language filtering
             source_language=source_language,
             target_language=target_language,

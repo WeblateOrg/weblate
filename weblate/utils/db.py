@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,17 +18,43 @@
 #
 """Database specific code to extend Django."""
 
-from django.db import models, router
+from django.db import connection, models, router
 from django.db.models import Case, IntegerField, Sum, When
 from django.db.models.deletion import Collector
 from django.db.models.lookups import PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
+PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops)"
+PG_DROP = "DROP INDEX {0}_{1}_fulltext"
+
+MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
+MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
+
 
 def conditional_sum(value=1, **cond):
     """Wrapper to generate SUM on boolean/enum values."""
     return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
+
+
+def adjust_similarity_threshold(value: float):
+    """
+    Adjusts pg_trgm.similarity_threshold for the % operator.
+
+    Ideally we would use directly similarity() in the search, but that doesn't seem
+    to use index, while using % does.
+    """
+    if connection.vendor != "postgresql":
+        return
+    with connection.cursor() as cursor:
+        # The SELECT has to be executed first as othervise the trgm extension
+        # might not yet be loaded and GUC setting not possible.
+        if not hasattr(connection, "weblate_similarity"):
+            cursor.execute("SELECT show_limit()")
+            connection.weblate_similarity = cursor.fetchone()[0]
+        # Change setting only for reasonably big difference
+        if abs(connection.weblate_similarity - value) > 0.01:
+            cursor.execute("SELECT set_limit(%s)", [value])
 
 
 class PostgreSQLSearchLookup(PatternLookup):

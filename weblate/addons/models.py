@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -148,6 +148,7 @@ class AddonsConf(AppConf):
         "weblate.addons.flags.SameEditAddon",
         "weblate.addons.flags.BulkEditAddon",
         "weblate.addons.generate.GenerateFileAddon",
+        "weblate.addons.generate.PseudolocaleAddon",
         "weblate.addons.json.JSONCustomizeAddon",
         "weblate.addons.properties.PropertiesSortAddon",
         "weblate.addons.git.GitSquashAddon",

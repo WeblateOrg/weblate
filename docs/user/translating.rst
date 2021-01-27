@@ -36,7 +36,7 @@ Translation links
 
 Having navigated to a component, a set of links lead to actual translation.
 The translation is further divided into individual checks, like
-:guilabel:`Not translated strings` or :guilabel:`Strings needing action`.  If the whole project
+:guilabel:`Not translated strings` or :guilabel:`Strings needing action`. If the whole project
 is translated, without error, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
@@ -49,7 +49,7 @@ Suggestions
 
     Actual permissions might vary depending on your Weblate configuration.
 
-Anonymous users can only (if permitted) forward suggestions.  Doing so is still
+Anonymous users can only (if permitted) forward suggestions. Doing so is still
 available to signed in users, in cases where uncertainty about the translation
 arises, which will prompt another translator to review it.
 
@@ -118,10 +118,10 @@ Plurals
 +++++++
 
 Words that change form to account of their numeric designation are called
-plurals.  Each language has its own definition of plurals. English, for
-example, supports one plural.  In the singular definition of for example "car",
+plurals. Each language has its own definition of plurals. English, for
+example, supports one plural. In the singular definition of for example "car",
 implicitly one car is referenced, in the plural definition, "cars" two or more
-cars are referenced, or the concept of cars as a noun.  Languages like for
+cars are referenced, or the concept of cars as a noun. Languages like for
 example Czech or Arabic have more plurals and also their rules for plurals are
 different.
 
@@ -152,8 +152,6 @@ The following keyboard shortcuts can be utilized during translation:
 +-------------------------------------------+-----------------------------------------------------------------------+
 | Keyboard shortcut                         | Description                                                           |
 +===========================================+=======================================================================+
-| :kbd:`Alt Home`                           | Navigate to first translation in current search.                      |
-+-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt Home`                           | Navigate to first translation in current search.                      |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt End`                            | Navigate to last translation in current search.                       |
@@ -204,7 +202,7 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd M` :kbd:`1` to :kbd:`9`         |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl I` :kbd:`1` to :kbd:`9`  or    | Ignore one item in the list of failing checks.                        |
+| :kbd:`Ctrl I` :kbd:`1` to :kbd:`9` or     | Ignore one item in the list of failing checks.                        |
 |                                           |                                                                       |
 | :kbd:`Cmd I` :kbd:`1` to :kbd:`9`         |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
@@ -345,7 +343,7 @@ Automatic translation
 ---------------------
 
 You can use automatic translation to bootstrap translation based on external
-sources.  This tool is called :guilabel:`Automatic translation` accessible in
+sources. This tool is called :guilabel:`Automatic translation` accessible in
 the :guilabel:`Tools` menu, once you have selected a component and a language:
 
 .. image:: /images/automatic-translation.png

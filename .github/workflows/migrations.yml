@@ -33,7 +33,7 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
-        run: sudo ./ci/apt-install
+        run: sudo ./ci/apt-install $CI_DATABASE
       - name: Set up Python 3.7
         uses: actions/setup-python@v2.2.1
         with:

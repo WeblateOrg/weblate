@@ -42,7 +42,7 @@ It will render as:
 
     * Dutch
 
-        * Jae Doe <jane@example.com> (42)
+        * Jane Doe <jane@example.com> (42)
 
 .. hint::
 

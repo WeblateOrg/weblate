@@ -3,6 +3,19 @@ Weblate frontend
 
 The frontend is currently built using Bootstrap, jQuery and few third party libraries.
 
+Supported browsers
+------------------
+
+Weblate supports the latest, stable releases of all major browsers and
+platforms.
+
+Alternative browsers which use the latest version of WebKit, Blink, or Gecko,
+whether directly or via the platform’s web view API, are not explicitly
+supported. However, Weblate should (in most cases) display and function
+correctly in these browsers as well.
+
+Older browsers might work, but some features might be limited.
+
 Dependency management
 ---------------------
 
@@ -11,6 +24,19 @@ configuration lives in :file:`scripts/yarn` and there is a wrapper script
 :file:`scripts/yarn-update` to upgrade the libraries, build them and copy to
 correct locations in :file:`weblate/static/vendor`, where all third partly
 frontend code is located.
+
+Adding new third-party library typically consists of:
+
+.. code-block:: sh
+
+   # Add a yarn package
+   yarn --cwd scripts/yarn add PACKAGE
+   # Edit the script to copy package to the static folder
+   edit scripts/yarn-update
+   # Run the update script
+   ./scripts/yarn-update
+   # Add files to git
+   git add .
 
 Coding style
 ------------

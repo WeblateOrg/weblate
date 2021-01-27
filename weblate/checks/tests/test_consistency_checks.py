@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -109,5 +109,6 @@ class TranslatedCheckTest(ViewTestCase):
         self.test_untranslated()
         check = Check(unit=self.get_unit())
         self.assertEqual(
-            self.check.get_description(check), 'Last translation was "Nazdar svete!\n".'
+            self.check.get_description(check),
+            'Previous translation was "Nazdar svete!\n".',
         )

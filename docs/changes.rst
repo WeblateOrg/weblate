@@ -1,42 +1,72 @@
-Weblate 4.4.1
--------------
+Weblate 4.5
+-----------
 
 Not yet released.
 
+* Added support for ``lua-format`` used in gettext PO.
+* Added support for sharing a component between projects.
+* Fixed multiple unnamed variables check behavior with multiple format flags.
+* Dropped mailing list field on project in favor of generic instructions for translators.
+* Added pseudolocale generation addon.
+* Added support for Term Base eXchange files.
+* Added support for manually defining string variants using a flag.
+* Improved performance of consistency checks.
+* Improved performance of translation memory for long strings.
+* Added support for searching in explanations.
+
+Weblate 4.4.2
+-------------
+
+Released on January 14th 2021.
+
+* Fixed corruption of one distributed MO file.
+
+Weblate 4.4.1
+-------------
+
+Released on January 13th 2021.
+
 * Fixed reverting plural changes.
 * Fixed displaying help for project settings.
-* Improved administering of users.
+* Improved administration of users.
 * Improved handling of context in monolingual PO files.
 * Fixed cleanup addon behavior with HTML, ODF, IDML and Windows RC formats.
 * Fixed parsing of location from CSV files.
 * Use content compression for file downloads.
+* Improved user experience on importing from ZIP file.
+* Improved detection of file format for uploads.
+* Avoid duplicate pull requests on Pagure.
+* Improved performance when displaying ghost translations.
+* Reimplemented translation editor to use native browser textarea.
+* Fixed cleanup addon breaking adding new strings.
+* Added API for addons.
 
 Weblate 4.4
 -----------
 
 Released on December 15th 2020.
 
-* Improved validation when creating component.
+* Improved validation when creating a component.
 * Weblate now requires Django 3.1.
 * Added support for appearance customization in the management interface.
-* Fixed read only state handling in bulk edit.
+* Fixed read-only state handling in bulk edit.
 * Improved CodeMirror integration.
 * Added addon to remove blank strings from translation files.
 * The CodeMirror editor is now used for translations.
 * Syntax highlighting in translation editor for XML, HTML, Markdown and reStructuredText.
 * Highlight placeables in translation editor.
-* Improved support for non standard language codes.
-* Added alert on using ambiguous language codes.
-* User is now presented filtered list of languages when adding new translation.
+* Improved support for non-standard language codes.
+* Added alert when using ambiguous language codes.
+* The user is now presented with a filtered list of languages when adding a new translation.
 * Extended search capabilities for changes in history.
 * Improved billing detail pages and libre hosting workflow.
 * Extended translation statistics API.
-* Improved other translations tab while translating.
+* Improved "other translations" tab while translating.
 * Added tasks API.
-* Improved file upload performance.
+* Improved performance of file upload.
 * Improved display of user defined special characters.
-* Improved auto translate performance.
-* Several minor user interface improvements.
+* Improved performance of auto-translation.
+* Several minor improvements in the user interface.
 * Improved naming of ZIP downloads.
 * Added option for getting notifications on unwatched projects.
 
@@ -48,28 +78,28 @@ Released on November 4th 2020.
 * Fixed crash on certain component filemasks.
 * Improved accuracy of the consecutive duplicated words check.
 * Added support for Pagure pull requests.
-* Improved error messages on failed registration.
-* Reverted rendering developer comments as markdown.
-* Simplified setup of Git repositories with different default branch than master.
-* Newly created internal repositories now use main as default branch.
+* Improved error messages for failed registrations.
+* Reverted rendering developer comments as Markdown.
+* Simplified setup of Git repositories with different default branch than "master".
+* Newly created internal repositories now use main as the default branch.
 * Reduced false positives rate of unchanged translation while translating reStructuredText.
 * Fixed CodeMirror display issues in some situations.
-* Renamed Template group to Sources to clarify its meaning.
-* Fixed GitLab pull requests on repos with longer path.
+* Renamed Template group to "Sources" to clarify its meaning.
+* Fixed GitLab pull requests on repositories with longer paths.
 
 Weblate 4.3.1
 -------------
 
 Released on October 21st 2020.
 
-* Improved automatic translation performance.
+* Improved auto-translation performance.
 * Fixed session expiry for authenticated users.
 * Add support for hiding version information.
 * Improve hooks compatibility with Bitbucket Server.
-* Improved translation memory updates performance.
+* Improved performance of translation memory updates.
 * Reduced memory usage.
-* Improved performance of matrix view.
-* Added confirmation before removing user from a project.
+* Improved performance of Matrix view.
+* Added confirmation before removing a user from a project.
 
 Weblate 4.3
 -----------
@@ -87,14 +117,14 @@ Released on October 15th 2020.
 * Moved source language attribute from project to a component.
 * Add Vue I18n formatting check.
 * Generic placeholders check now supports regular expressions.
-* Improved look of matrix mode.
+* Improved look of Matrix mode.
 * Machinery is now called automatic suggestions.
 * Added support for interacting with multiple GitLab or GitHub instances.
 * Extended API to cover project updates, unit updates and removals and glossaries.
 * Unit API now properly handles plural strings.
 * Component creation can now handle ZIP file or document upload.
 * Consolidated API response status codes.
-* Support markdown in contributor agreement.
+* Support Markdown in contributor agreement.
 * Improved source strings tracking.
 * Improved JSON, YAML and CSV formats compatibility.
 * Added support for removing strings.
@@ -124,7 +154,7 @@ Released on August 21st 2020.
 
 * Fixed saving plurals for some locales in Android resources.
 * Fixed crash in the cleanup addon for some XLIFF files.
-* Allow to configure localization CDN in Docker image.
+* Allow setting up localization CDN in Docker image.
 
 Weblate 4.2
 -----------
@@ -414,7 +444,7 @@ Released on January 9th 2020.
 * Extended API with translation creation.
 * Fixed several corner cases in data migrations.
 * Compatibility with Django 3.0.
-* Improved data cleanup performance.
+* Improved data clean-up performance.
 * Added support for customizable security.txt.
 * Improved breadcrumbs in changelog.
 * Improved translations listing on dashboard.

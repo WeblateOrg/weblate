@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -347,7 +347,9 @@ class TranslationFormat:
         return True
 
     @classmethod
-    def is_valid_base_for_new(cls, base, monolingual, errors: Optional[List] = None):
+    def is_valid_base_for_new(
+        cls, base, monolingual, errors: Optional[List] = None, fast: bool = False
+    ):
         """Check whether base is valid."""
         raise NotImplementedError()
 

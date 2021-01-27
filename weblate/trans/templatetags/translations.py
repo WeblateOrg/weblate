@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -270,10 +270,12 @@ def check_description(check):
 @register.simple_tag(takes_context=True)
 def documentation(context, page, anchor=""):
     """Return link to Weblate documentation."""
+    # User might not be present on error pages
+    user = context.get("user")
     # Use object method get_doc_url if present
     if hasattr(page, "get_doc_url"):
-        return page.get_doc_url(user=context["user"])
-    return get_doc_url(page, anchor, user=context["user"])
+        return page.get_doc_url(user=user)
+    return get_doc_url(page, anchor, user=user)
 
 
 @register.inclusion_tag("documentation-icon.html", takes_context=True)
@@ -785,13 +787,7 @@ def choiceval(boundfield):
         return gettext("enabled")
     if not hasattr(boundfield.field, "choices"):
         return value
-    choices = list(boundfield.field.choices)
-    if choices and hasattr(choices[0][0], "value"):
-        # Django 3.1+ yields ModelChoiceIteratorValue
-        choices = {choice.value: value for choice, value in choices}
-    else:
-        # Django 3.0
-        choices = dict(choices)
+    choices = {str(choice): value for choice, value in boundfield.field.choices}
     if isinstance(value, list):
         return ", ".join(choices.get(val, val) for val in value)
     return choices.get(value, value)

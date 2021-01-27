@@ -38,11 +38,11 @@ def setup(app):
 # -- Project information -----------------------------------------------------
 
 project = "Weblate"
-copyright = "2012 - 2020 Michal Čihař"
+copyright = "2012 - 2021 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.4.1"
+release = "4.5"
 
 
 # -- General configuration ---------------------------------------------------

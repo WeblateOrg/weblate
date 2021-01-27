@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,6 +21,7 @@ import os
 import re
 from collections import defaultdict
 from datetime import timedelta
+from email.headerregistry import Address
 from importlib import import_module
 
 import social_django.utils
@@ -104,7 +105,6 @@ from weblate.accounts.notifications import (
     SCOPE_COMPONENT,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
-    send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
@@ -143,7 +143,7 @@ CONTACT_SUBJECTS = {
     "reg": "Registration problems",
     "hosting": "Commercial hosting",
     "account": "Suspicious account activity",
-    "trial": "Trial request",
+    "trial": "Trial extension request",
 }
 
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
@@ -252,16 +252,16 @@ def get_notification_forms(request):
 
         # Ensure watched, admin and all scopes are visible
         for needed in (SCOPE_WATCHED, SCOPE_ADMIN, SCOPE_ALL):
-            key = (needed, None, None)
+            key = (needed, -1, -1)
             subscriptions[key] = {}
             initials[key] = {"scope": needed, "project": None, "component": None}
-        active = (SCOPE_WATCHED, None, None)
+        active = (SCOPE_WATCHED, -1, -1)
 
         # Include additional scopes from request
         if "notify_project" in request.GET:
             try:
                 project = user.allowed_projects.get(pk=request.GET["notify_project"])
-                active = key = (SCOPE_PROJECT, project.pk, None)
+                active = key = (SCOPE_PROJECT, project.pk, -1)
                 subscriptions[key] = {}
                 initials[key] = {
                     "scope": SCOPE_PROJECT,
@@ -275,7 +275,7 @@ def get_notification_forms(request):
                 component = Component.objects.filter_access(user).get(
                     pk=request.GET["notify_component"],
                 )
-                active = key = (SCOPE_COMPONENT, None, component.pk)
+                active = key = (SCOPE_COMPONENT, component.project_id, component.pk)
                 subscriptions[key] = {}
                 initials[key] = {
                     "scope": SCOPE_COMPONENT,
@@ -288,8 +288,8 @@ def get_notification_forms(request):
         for subscription in user.subscription_set.iterator():
             key = (
                 subscription.scope,
-                subscription.project_id,
-                subscription.component_id,
+                subscription.project_id or -1,
+                subscription.component_id or -1,
             )
             subscriptions[key][subscription.notification] = subscription.frequency
             initials[key] = {
@@ -469,7 +469,12 @@ def contact(request):
                 "%(subject)s",
                 CONTACT_TEMPLATE,
                 form.cleaned_data,
-                form.cleaned_data["email"],
+                str(
+                    Address(
+                        display_name=form.cleaned_data["name"],
+                        addr_spec=form.cleaned_data["email"],
+                    )
+                ),
                 settings.ADMINS_CONTACT,
             )
             return redirect("home")
@@ -539,19 +544,13 @@ def trial(request):
     if request.method == "POST":
         from weblate.billing.models import Billing, Plan
 
+        AuditLog.objects.create(request.user, request, "trial")
         billing = Billing.objects.create(
             plan=Plan.objects.get(slug=plan),
             state=Billing.STATE_TRIAL,
             expiry=timezone.now() + timedelta(days=14),
         )
         billing.owners.add(request.user)
-        AuditLog.objects.create(request.user, request, "trial")
-        send_notification_email(
-            "en",
-            [a[1] for a in settings.ADMINS] + settings.ADMINS_BILLING,
-            "new_trial",
-            context={"user": request.user, "billing": billing},
-        )
         messages.info(
             request,
             _(
@@ -1222,6 +1221,7 @@ def subscribe(request):
             notification=request.POST["onetime"],
             scope=SCOPE_COMPONENT,
             frequency=FREQ_INSTANT,
+            project=component.project,
             component=component,
             onetime=True,
         )

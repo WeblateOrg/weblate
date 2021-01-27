@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -137,6 +137,7 @@ class Command(BaseCommand):
         self.license = None
         self.main_component = None
         self.name_template = None
+        self.source_language = None
         self.base_file_template = None
         self.new_base_template = None
         self.vcs = None

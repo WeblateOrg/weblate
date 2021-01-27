@@ -8,13 +8,6 @@
 <td class="full-cell"><a href="{{ object.web }}">{{ object.web | urlformat }}</a></td>
 </tr>
 
-{% if object.mail %}
-<tr>
-<th>{% trans "Mailing list for translators" %}</th>
-<td class="full-cell"><a href="mailto:{{ object.mail }}">{{ object.mail }}</a></td>
-</tr>
-{% endif %}
-
 {% if object.instructions %}
 <tr>
 <th>{% trans "Instructions for translators" %}</th>

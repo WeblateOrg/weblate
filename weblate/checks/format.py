@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -211,6 +211,7 @@ FLAG_RULES = {
     "c-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "perl-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "javascript-format": (C_PRINTF_MATCH, c_format_is_position_based),
+    "lua-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "python-brace-format": (PYTHON_BRACE_MATCH, name_format_is_position_based),
     "c-sharp-format": (C_SHARP_MATCH, name_format_is_position_based),
     "java-format": (JAVA_MATCH, c_format_is_position_based),
@@ -218,7 +219,7 @@ FLAG_RULES = {
 
 
 class BaseFormatCheck(TargetCheck):
-    """Base class for fomat string checks."""
+    """Base class for format string checks."""
 
     regexp: Optional[Pattern[str]] = None
     default_disabled = True
@@ -233,7 +234,7 @@ class BaseFormatCheck(TargetCheck):
             yield self.check_format(sources[1], targets[0], False)
             return
 
-        # Use plural as source in case singlular misses format string and plural has it
+        # Use plural as source in case singular misses format string and plural has it
         if (
             len(sources) > 1
             and not self.extract_matches(sources[0])
@@ -429,6 +430,14 @@ class JavaScriptFormatCheck(CFormatCheck):
     description = _("JavaScript format string does not match source")
 
 
+class LuaFormatCheck(BasePrintfCheck):
+    """Check for Lua format string."""
+
+    check_id = "lua_format"
+    name = _("Lua format")
+    description = _("Lua format string does not match source")
+
+
 class PythonBraceFormatCheck(BaseFormatCheck):
     """Check for Python format string."""
 
@@ -558,11 +567,11 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         rules = [FLAG_RULES[flag] for flag in unit.all_flags if flag in FLAG_RULES]
         if not rules:
             return False
-        found = 0
+        found = set()
         for regexp, is_position_based in rules:
-            for match in regexp.findall(source[0]):
-                if is_position_based(match[0]):
-                    found += 1
-                    if found >= 2:
+            for match in regexp.finditer(source[0]):
+                if is_position_based(match[1]):
+                    found.add((match.start(0), match.end(0)))
+                    if len(found) >= 2:
                         return True
         return False

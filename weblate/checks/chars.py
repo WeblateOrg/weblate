@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -193,8 +193,9 @@ class EndStopCheck(TargetCheck):
             )
         if self.is_language(unit, ("hi", "bn", "or")):
             # Using | instead of । is not typographically correct, but
-            # seems to be quite usual
-            return self.check_chars(source, target, -1, (".", "।", "|"))
+            # seems to be quite usual. \u0964 is correct, but \u09F7
+            # is also sometimes used instead in some popular editors.
+            return self.check_chars(source, target, -1, (".", "\u0964", "\u09F7", "|"))
         if self.is_language(unit, ("sat",)):
             # Santali uses "᱾" as full stop
             return self.check_chars(source, target, -1, (".", "᱾"))

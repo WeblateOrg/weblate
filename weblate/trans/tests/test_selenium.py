@@ -1,5 +1,5 @@
 #
-# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2021 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -102,13 +102,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         old_page = self.driver.find_element(By.TAG_NAME, "html")
         yield
         WebDriverWait(self.driver, timeout).until(staleness_of(old_page))
-
-    def find_codemirror(self, htmlid):
-        return self.driver.find_element(
-            By.XPATH,
-            f"//textarea[@id='{htmlid}']"
-            "/following-sibling::div[contains(@class, 'CodeMirror')]",
-        )
 
     @classmethod
     def setUpClass(cls):
@@ -234,16 +227,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.actions.move_to_element(element).perform()
             element.click()
 
-    def clear_field(self, element, codemirror: bool = False):
-        if codemirror:
-            self.actions.move_to_element(element).click(element).perform()
-            # Wait for the CodeMirror transition completes
-            time.sleep(1)
-            self.actions.send_keys(Keys.CONTROL + "a").perform()
-            self.actions.send_keys(Keys.DELETE).perform()
-        else:
-            element.send_keys(Keys.CONTROL + "a")
-            element.send_keys(Keys.DELETE)
+    def clear_field(self, element):
+        element.send_keys(Keys.CONTROL + "a")
+        element.send_keys(Keys.DELETE)
         return element
 
     def do_login(self, create=True, superuser=False):
@@ -661,7 +647,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "1"
         )
         self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
-        self.driver.find_element(By.ID, "id_mail").send_keys("weblate@lists.cihar.com")
         self.driver.find_element(By.ID, "id_instructions").send_keys(
             "https://weblate.org/contribute/"
         )
@@ -922,11 +907,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
 
         # Trigger check
-        element = self.find_codemirror("id_a2a808c8ccbece08_0")
-        self.clear_field(element, codemirror=True)
-        element = self.find_codemirror("id_a2a808c8ccbece08_1")
-        self.clear_field(element, codemirror=True)
-        self.actions.send_keys("několik slov").perform()
+        self.clear_field(self.driver.find_element(By.ID, "id_a2a808c8ccbece08_0"))
+        element = self.driver.find_element(By.ID, "id_a2a808c8ccbece08_1")
+        self.clear_field(element)
+        element.send_keys("několik slov")
         with self.wait_for_page_load():
             element.submit()
         self.screenshot("checks.png")
@@ -984,7 +968,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Add project
         self.driver.find_element(By.ID, "id_name").send_keys("WeblateOrg")
         self.driver.find_element(By.ID, "id_web").send_keys("https://weblate.org/")
-        self.driver.find_element(By.ID, "id_mail").send_keys("weblate@lists.cihar.com")
         self.driver.find_element(By.ID, "id_instructions").send_keys(
             "https://weblate.org/contribute/"
         )

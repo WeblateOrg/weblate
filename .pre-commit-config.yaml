@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.3.0
+    rev: v3.4.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -66,12 +66,12 @@ repos:
           |yaml|yml\
           )$"
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.14.0
+    rev: v7.18.0
     hooks:
       - id: eslint
         args: ["--format=compact"]
         additional_dependencies:
-          - prettier@2.2.0
+          - prettier@2.2.1
           - eslint@>=6.2.2
           - eslint-plugin-import@>=2.18.0
           - eslint-plugin-node@>=9.1.0
@@ -88,7 +88,7 @@ repos:
           - stylelint@latest
           - stylelint-config-prettier@latest
           - stylelint-prettier@latest
-          - prettier@2.2.0
+          - prettier@2.2.1
 
 exclude: "^.*\\.(\
   csv|\
