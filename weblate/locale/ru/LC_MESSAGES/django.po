@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-25 12:03+0000\n"
-"PO-Revision-Date: 2021-01-22 07:35+0000\n"
+"PO-Revision-Date: 2021-01-28 08:54+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -1094,8 +1094,8 @@ msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Автоматически добавляет или удаляет компоненты проекта, основываясь на "
-"изменениях файлов в системе контроля версий."
+"Автоматически добавляет или удаляет компоненты проекта в соответствии с "
+"изменениями файлов в системе контроля версий."
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
@@ -1442,8 +1442,6 @@ msgid "String suffix"
 msgstr "Суффикс строки"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "Source and target have to be different translations."
 msgid "Source and target have to be a different languages."
 msgstr "Язык исходных строк и целевого перевода не может быть одним и тем же."
 
@@ -2654,16 +2652,12 @@ msgid "JavaScript format string does not match source"
 msgstr "Строка в формате JavaScript не соответствует источнику"
 
 #: weblate/checks/format.py:437
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "C-формат"
+msgstr "Lua-формат"
 
 #: weblate/checks/format.py:438
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Lua format string does not match source"
-msgstr "Строка в формате C не соответствует источнику"
+msgstr "Строка в формате Lua не соответствует источнику"
 
 #: weblate/checks/format.py:445
 msgid "Python brace format"
@@ -8613,7 +8607,7 @@ msgstr ""
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
-"Weblate не смог объединить вышестоящие изменения с локальным при обновлении "
+"Weblate не смог объединить вышестоящие изменения с локальными при обновлении "
 "данного репозитория."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
@@ -8910,12 +8904,14 @@ msgstr "Включить надстройку:"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
-msgstr "Типичный рабочий процесс для устранения конфликтов слияния"
+msgstr "Обычная последовательность действий для устранения конфликтов слияния"
 
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "Коммит всех ожидающих изменений и блокировка переводимого компонента."
+msgstr ""
+"Зафиксировать все ожидающие изменения в Weblate и заблокировать компонент "
+"перевода."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
@@ -11070,10 +11066,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Код языка «%s» слишком длинный, проверьте маску файла."
 
 #: weblate/trans/models/component.py:2086
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for atranslating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating a different resources."
