@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-25 12:03+0000\n"
-"PO-Revision-Date: 2021-01-28 08:54+0000\n"
+"PO-Revision-Date: 2021-01-28 10:35+0000\n"
 "Last-Translator: Слободан Симић(Slobodan Simić) <slsimic@gmail.com>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/"
 "application/sr/>\n"
@@ -6138,10 +6138,8 @@ msgid "Progress"
 msgstr ""
 
 #: weblate/templates/component-progress.html:17
-#, fuzzy
-#| msgid "Component is now open for translation updates."
 msgid "Component is being updated…"
-msgstr "Компонента је сада отворена за ажурирања."
+msgstr "Компонента се ажурира…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:63
 #, fuzzy
@@ -6787,11 +6785,7 @@ msgid "%(percent)s%%"
 msgstr "Проценат"
 
 #: weblate/templates/engage.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
-#| "currently contains %(total)s strings for translation and is %(percent)s%% "
-#| "complete."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation and is <strong>%(percent)s%% complete</"
@@ -6801,13 +6795,13 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(total)s "
+"„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(count)s "
 "порука</strong> за превођење и <strong>завршен је %(percent)s%%</strong>."
 msgstr[1] ""
-"„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(total)s "
+"„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(count)s "
 "порука</strong> за превођење и <strong>завршен је %(percent)s%%</strong>."
 msgstr[2] ""
-"„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(total)s "
+"„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(count)s "
 "порука</strong> за превођење и <strong>завршен је %(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:44
@@ -6820,10 +6814,10 @@ msgid_plural ""
 "strings</strong> for translation."
 msgstr[0] ""
 "„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(count)s "
-"порука</strong> за превођење."
+"поруку</strong> за превођење."
 msgstr[1] ""
 "„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(count)s "
-"порука</strong> за превођење."
+"поруке</strong> за превођење."
 msgstr[2] ""
 "„%(project)s“ пројекат превођења на српски тренутно садржи <strong>%(count)s "
 "порука</strong> за превођење."
@@ -8947,13 +8941,12 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr ""
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "Strings with suggestions"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "Низови са предлозима"
-msgstr[1] "Низови са предлозима"
-msgstr[2] "Низови са предлозима"
+msgstr[0] "%(count)s низ"
+msgstr[1] "%(count)s низа"
+msgstr[2] "%(count)s низова"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -9062,10 +9055,8 @@ msgid "String changed by"
 msgstr "Старост изворне ниске"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "Тражи %s"
+msgstr "Тражи…"
 
 #: weblate/templates/snippets/query-builder.html:27
 msgctxt "Exact search toggle"
@@ -12878,10 +12869,8 @@ msgid "This translation is locked."
 msgstr "Превод није тренутно закључан."
 
 #: weblate/trans/templatetags/translations.py:692
-#, fuzzy
-#| msgid "Merge translation comments"
 msgid "Updating translation component…"
-msgstr "Споји коментаре превода"
+msgstr "Ажурирам компоненту превода…"
 
 #: weblate/trans/templatetags/translations.py:702
 msgid "Some of the components within this project have alerts."
@@ -13531,10 +13520,9 @@ msgid "Empty"
 msgstr ""
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Components"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Компоненте"
+msgstr "Неуспело компајлирање: {0}"
 
 #: weblate/utils/validators.py:69
 #, fuzzy
