@@ -200,7 +200,7 @@ class Migration(migrations.Migration):
                     "match",
                     weblate.trans.fields.RegexField(
                         default="^.*$",
-                        help_text="Users with matching e-mail address will be added to this group.",
+                        help_text="Users with e-mail addresses found to match will be added to this group.",
                         max_length=200,
                         verbose_name="Regular expression for e-mail address",
                     ),
