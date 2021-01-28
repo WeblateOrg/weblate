@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-25 13:04+0100\n"
-"PO-Revision-Date: 2021-01-22 07:35+0000\n"
+"PO-Revision-Date: 2021-01-28 08:54+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -180,10 +180,10 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
-"Вы можете ограничить доступ пользователей к отдельным проектам. Эта функция "
-"включается в блоке :guilabel:`Управление доступом` конфигурации каждого "
-"соответствующего проекта. Она автоматически создаёт для этого проекта "
-"несколько групп, смотрите раздел :ref:`groups`."
+"Вы можете ограничить доступ пользователей к определённым проектам. Это можно "
+"сделать на вкладке :guilabel:`Доступ` параметров каждого отдельного проекта. "
+"Это автоматически создаст для этого проекта несколько групп, смотрите раздел "
+":ref:`groups`."
 
 #: ../../admin/access.rst:90
 msgid "The following choices exist for :guilabel:`Access control`:"
@@ -894,7 +894,7 @@ msgstr ""
 
 #: ../../admin/access.rst:422
 msgid "VCS"
-msgstr "Система контроля версий (VCS)"
+msgstr "СКВ (VCS)"
 
 #: ../../admin/access.rst:412
 msgid ""
@@ -1280,8 +1280,8 @@ msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Автоматически добавляет или удаляет компоненты проекта, основываясь на "
-"изменениях файлов в системе контроля версий."
+"Автоматически добавляет или удаляет компоненты проекта в соответствии с "
+"изменениями файлов в системе контроля версий."
 
 #: ../../admin/addons.rst:116
 msgid ""
@@ -1289,10 +1289,10 @@ msgid ""
 "`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
-"Она срабатывает при каждом обновлении репозитория системы контроля версий, а "
-"в остальном её работа аналогична команде управления :djadmin:"
-"`import_project`. Таким образом, внутри одной системы контроля версий вы "
-"можете отслеживать несколько компонентов перевода."
+"Она срабатывает при каждом обновлении репозитория СКВ, а в остальном её "
+"работа аналогична команде управления :djadmin:`import_project`. Таким "
+"образом, внутри одной системы контроля версий вы можете отслеживать "
+"несколько компонентов перевода."
 
 #: ../../admin/addons.rst:120
 msgid ""
@@ -1300,11 +1300,11 @@ msgid ""
 "others will employ :ref:`internal-urls` to it as a VCS configuration, and "
 "configure it to find all components in it."
 msgstr ""
-"Создайте один основной компонент, который в будущем исчезнет с наименьшей "
-"вероятностью; другие компоненты в своей настройке адресов репозитория "
-"системы контроля версий будут использовать ведущие на него :ref:`внутренние "
-"адреса Weblate’а <internal-urls>`; настройте надстройку так, чтобы она нашла "
-"все компоненты."
+"Создайте один основной компонент, который, скорей всего, никуда не исчезнет "
+"в будущем и настройте в нём эту надстройку, чтобы она нашла все остальные "
+"компоненты. В качестве своих адресов репозитория СКВ они в сою очередь будут "
+"использовать уже :ref:`внутренние адреса Weblate’а <internal-urls>`, ведущие "
+"на данный компонент."
 
 #: ../../admin/addons.rst:124
 msgid ""
@@ -1323,7 +1323,7 @@ msgid ""
 "matches your needs:"
 msgstr ""
 "Когда вы нажмёте :guilabel:`Сохранить`, надстройка предварительно покажет "
-"найденные компоненты, так что вы сможете проверить, действительно ли "
+"найденные компоненты, так что вы сможете проверить, действительно ли такая "
 "конфигурация соответствует вашим потребностям:"
 
 #: ../../admin/addons.rst:135 ../../admin/addons.rst:231
@@ -1494,6 +1494,13 @@ msgid ""
 "running the application with those strings as a translation. Also it would "
 "be find strings which localized counterparts might not fit into the layout."
 msgstr ""
+"Псевдолокали могут быть полезны для проверки, все ли строки, которые должны "
+"быть локализованы, корректно подготовлены для локализации. Это делается по "
+"средствам автоматического изменения исходных строк и запуска приложения с "
+"ними в качестве перевода, дабы те строки, которые не были изменены, было "
+"достаточно просто заметить. Также с помощью этого возможно отследить те "
+"строки, чьи локализованные версии могут не уместиться в отведённое под них "
+"место и ломать вёрстку."
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -2259,9 +2266,8 @@ msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
 msgstr ""
-"Для получения общих инструкций по конфигурации ознакомьтесь, пожалуйста, с "
-"их документацией в разделе :doc:`Фреймворк Django <psa:configuration/"
-"django>`."
+"Для получения общих инструкций по настройке ознакомьтесь с их документацией "
+"в разделе :doc:`Фреймворк Django <psa:configuration/django>`."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -2336,8 +2342,8 @@ msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
-"GitHub должен быть сконфигурирован так, чтобы URL-адрес обратного вызова "
-"указывал на ``https://example.com/accounts/complete/github/``."
+"На GitHub нужно задать URL-адрес обратного вызова, указывающий на "
+"``https://example.com/accounts/complete/github/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -2612,7 +2618,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:375
 msgid "Example configuration:"
-msgstr "Пример конфигурации:"
+msgstr "Пример настроек:"
 
 #: ../../admin/auth.rst:402
 msgid ""
@@ -2827,8 +2833,8 @@ msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
-"Обе базы данных: и PostgreSQL, и MySQL/MariaDB, теперь включаются в "
-"автоматические резервные копии."
+"Теперь обе поддерживаемые базы данных: и PostgreSQL, и MySQL/MariaDB, "
+"включаются в автоматические резервные копии."
 
 #: ../../admin/backup.rst:20
 msgid ""
@@ -2836,7 +2842,7 @@ msgid ""
 "following backups:"
 msgstr ""
 "Резервные копии, которые делает Borg, являются инкрементальными, и Weblate "
-"настроен на сохранение следующих резервных копий:"
+"настроен на хранение этих копий по следующим периодам:"
 
 #: ../../admin/backup.rst:22
 msgid "14 daily backups"
@@ -3068,9 +3074,9 @@ msgid ""
 "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
 "dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
-"Скопируйте конфигурацию Weblate (:file:`backups/settings.py`, смотрите "
-"раздел :ref:`backup-dumps`) в нужное место, смотрите раздел :ref:"
-"`configuration`."
+"Скопируйте файл настроек Weblate (:file:`backups/settings.py`, смотрите "
+"раздел :ref:`backup-dumps`) в нужное место, смотрите раздел "
+":ref:`configuration`."
 
 #: ../../admin/backup.rst:134
 msgid ""
@@ -3599,18 +3605,14 @@ msgid "``font-spacing:SPACING``"
 msgstr "``font-spacing:ШИРИНА``"
 
 #: ../../admin/checks.rst:70
-#, fuzzy
-#| msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
-"Определяет ширину межбуквенных интервалов (свойство ``font-spacing``) для "
+"Определяет ширину межбуквенных интервалов (свойство ``letter-spacing``) для "
 "проверок отрисовки текста, смотрите раздел :ref:`fonts`."
 
 #: ../../admin/checks.rst:71
-#, fuzzy
-#| msgid "``placeholders:NAME``"
 msgid "``placeholders:NAME:NAME2:...``"
-msgstr "``placeholders:СТРОКА``"
+msgstr "``placeholders:СТРОКА:СТРОКА2:...``"
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -3660,12 +3662,6 @@ msgstr ""
 "`check-regex`."
 
 #: ../../admin/checks.rst:87
-#, fuzzy
-#| msgid ""
-#| "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
-#| "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-#| "messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-#| "format``, ``ruby-format``, ``vue-format``"
 msgid ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
@@ -3674,18 +3670,10 @@ msgid ""
 msgstr ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-"messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-"format``, ``ruby-format``, ``vue-format``"
+"messageformat``, ``lua-format``, ``auto-java-messageformat``, ``qt-format``, "
+"``qt-plural-format``, ``ruby-format``, ``vue-format``"
 
 #: ../../admin/checks.rst:83
-#, fuzzy
-#| msgid ""
-#| "Treats all strings like format strings, affects :ref:`check-python-"
-#| "format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-#| "format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-#| "`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-"
-#| "javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-"
-#| "format`, :ref:`check-java-messageformat`, :ref:`check-same`."
 msgid ""
 "Treats all strings like format strings, affects :ref:`check-python-format`, :"
 "ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-format`, :ref:"
@@ -3694,12 +3682,13 @@ msgid ""
 "ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-java-"
 "messageformat`, :ref:`check-lua-format`, :ref:`check-same`."
 msgstr ""
-"Рассматривает все строки как строки формата, влияет на проверки :ref:`check-"
-"python-format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-"
-"qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-"`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-javascript-"
-"format`, :ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-"
-"java-messageformat` и :ref:`check-same`."
+"Рассматривает все строки как строки формата, влияет на следующие проверки: "
+":ref:`check-python-format`, :ref:`check-c-format`, :ref:`check-php-format`, "
+":ref:`check-qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-"
+"format`, :ref:`check-vue-format`, :ref:`check-python-brace-format`, :ref"
+":`check-javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-"
+"format`, :ref:`check-java-messageformat`, :ref:`check-lua-format` и :ref"
+":`check-same`."
 
 #: ../../admin/checks.rst:89
 msgid "``strict-same``"
@@ -3802,16 +3791,12 @@ msgid "Skip the \"JavaScript format\" quality check."
 msgstr "Пропускает проверку качества «JavaScript-формат»."
 
 #: ../../admin/checks.rst:113
-#, fuzzy
-#| msgid "``ignore-vue-format``"
 msgid "``ignore-lua-format``"
-msgstr "``ignore-vue-format``"
+msgstr "``ignore-lua-format``"
 
 #: ../../admin/checks.rst:114
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the \"Lua format\" quality check."
-msgstr "Пропускает проверку качества «C-формат»."
+msgstr "Пропускает проверку качества «Lua-формат»."
 
 #: ../../admin/checks.rst:115
 msgid "``ignore-percent-placeholders``"
@@ -4204,12 +4189,12 @@ msgid ""
 "be ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-"Вы можете настроить список проверок, которые нельзя проигнорировать, задав "
-"в :ref:`конфигурации компонента <component>` параметр :ref:`component-"
+"Вы можете настроить список проверок, которые нельзя проигнорировать, задав в "
+":ref:`настройках компонента <component>` параметр :ref:`component-"
 "enforced_checks`. Все перечисленные проверки не смогут быть проигнорированы "
 "из пользовательского интерфейса, а любая строка, для которой такая проверка "
-"сработала, помечается флагом :guilabel:`На правку` (смотрите раздел :ref:"
-"`states`)."
+"сработала, помечается флагом :guilabel:`На правку` (смотрите раздел "
+":ref:`states`)."
 
 #: ../../admin/checks.rst:229
 msgid "Managing fonts"
@@ -4911,7 +4896,7 @@ msgid ""
 "for each new Weblate version."
 msgstr ""
 "По умолчанию включены все встроенные :ref:`проверки <checks>`, оттуда вы "
-"можете изменить эти настройки. В :ref:`примере конфигурации <sample-"
+"можете изменить эти настройки. В :ref:`примере файла настроек <sample-"
 "configuration>` они по умолчанию закомментированы, так что используются "
 "значения по умолчанию. В каждой новой версии Weblate’а туда добавляются "
 "новые проверки, если таковые появляются."
@@ -4981,7 +4966,7 @@ msgid ""
 msgstr ""
 "Каталог, в котором Weblate хранит все свои данные. Он содержит ссылки на "
 "репозитории систем контроля версий, индекс для полнотекстового поиска и "
-"различные конфигурационные файлы для внешних инструментов."
+"различные файлы настроек для внешних инструментов."
 
 #: ../../admin/config.rst:337
 msgid "The following subdirectories usually exist:"
@@ -6609,7 +6594,7 @@ msgstr ""
 "Список методов аутентификации (backends), с помощью которых доступна "
 "регистрация. Это вводит ограничения только на новые регистрации. Независимо "
 "от данного параметра пользователи смогут добавлять и использовать любые "
-"включенные в конфигурации и настроенные методы аутентификации."
+"разрешённые в параметрах и настроенные методы аутентификации."
 
 #: ../../admin/config.rst:1601
 msgid ""
@@ -6765,9 +6750,9 @@ msgid ""
 "This is implemented in the :ref:`sample-configuration`. For Docker, use :"
 "envvar:`WEBLATE_REQUIRE_LOGIN`."
 msgstr ""
-"Этот параметр реализован в :ref:`примере конфигурации <sample-"
-"configuration>`. В Docker'е используйте переменную. :envvar:"
-"`WEBLATE_REQUIRE_LOGIN`."
+"Этот параметр реализован в :ref:`примере файла настроек <sample-"
+"configuration>`. В Docker'е используйте переменную. "
+":envvar:`WEBLATE_REQUIRE_LOGIN`."
 
 #: ../../admin/config.rst:1709
 msgid "SENTRY_DSN"
@@ -6998,7 +6983,7 @@ msgstr "VCS_BACKENDS"
 
 #: ../../admin/config.rst:1892
 msgid "Configuration of available VCS backends."
-msgstr "Конфигурация доступных систем контроля версий."
+msgstr "Настройка доступных систем контроля версий."
 
 #: ../../admin/config.rst:1896
 msgid "Weblate tries to use all supported back-ends you have the tools for."
@@ -8020,8 +8005,8 @@ msgid ""
 "Once installed, the module can be used in the Weblate configuration (for "
 "example ``weblate_customization.checks.FooCheck``)."
 msgstr ""
-"После установки модуль можно использовать в конфигурации Weblate’а "
-"(например, ``weblate_customization.checks.FooCheck``)."
+"После установки этот модуль можно использовать в настройках Weblate’а ("
+"например, ``weblate_customization.checks.FooCheck``)."
 
 #: ../../admin/customize.rst:60
 msgid "Your module structure should look like this:"
@@ -9110,9 +9095,9 @@ msgid ""
 "environment. The recommended approach is to define proxy settings in :file:"
 "`settings.py`:"
 msgstr ""
-"Weblate выполняет команды системы контроля версий, а те принимают "
-"конфигурацию прокси из окружения. Рекомендуемый подход заключается в "
-"определении настроек прокси в файле :file:`settings.py`:"
+"Weblate запускает команды системы контроля версий, а те берут настройки "
+"прокси из переменных окружения. Для их настройки рекомендуемый подход — "
+"определить необходимые параметры прокси в файле :file:`settings.py`:"
 
 #: ../../admin/install.rst:570
 msgid ""
@@ -9124,7 +9109,7 @@ msgstr ""
 
 #: ../../admin/install.rst:575
 msgid "Adjusting configuration"
-msgstr "Настройка конфигурации"
+msgstr "Изменение конфигурации под свои нужды"
 
 #: ../../admin/install.rst:579
 msgid ":ref:`sample-configuration`"
@@ -9335,10 +9320,10 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
-"После того, как вы закончите, вы также должны проверить :guilabel:`Отчёт о "
-"производительности` в интерфейсе администратора, который может дать вам "
-"подсказки по исправлению потенциально неоптимальной конфигурации вашего "
-"сайта."
+"После того, как вы закончите, вам также стоит проверить :guilabel:`Отчёт о "
+"производительности` в интерфейсе администратора. Информация оттуда может "
+"дать вам подсказки по исправлению потенциально не оптимальной конфигурации "
+"вашего сайта."
 
 #: ../../admin/install.rst:719
 msgid ":ref:`config`, :ref:`privileges`"
@@ -9538,8 +9523,8 @@ msgid ""
 "If possible, use Redis from Django by adjusting the ``CACHES`` configuration "
 "variable, for example:"
 msgstr ""
-"Если возможно, используйте Redis из Django, настроив конфигурационную "
-"переменную ``CACHES``, например:"
+"Если возможно, используйте Redis из Django, настроив переменную ``CACHES`` в "
+"файле настроек, например:"
 
 #: ../../admin/install.rst:887
 msgid ""
@@ -9557,7 +9542,7 @@ msgstr ""
 
 #: ../../admin/install.rst:898
 msgid "Avatar caching"
-msgstr "Кеширование аватара"
+msgstr "Кеширование аватаров"
 
 #: ../../admin/install.rst:900
 msgid ""
@@ -9812,8 +9797,8 @@ msgid ""
 "and Weblate already comes with proper configuration, see :ref:`celery`."
 msgstr ""
 "Начиная с версии 3.2, по умолчанию эти задачи выполняются через Celery и "
-"Weblate уже поставляется с правильной конфигурацией, смотрите раздел :ref:"
-"`celery`."
+"Weblate уже поставляется с соответствующей конфигурацией, смотрите раздел "
+":ref:`celery`."
 
 #: ../../admin/install.rst:1102
 msgid "System locales and encoding"
@@ -9896,7 +9881,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1150
 msgid "Compressing client assets"
-msgstr "Сжатие клиентских активов"
+msgstr "Сжатие клиентских ресурсов"
 
 #: ../../admin/install.rst:1152
 msgid ""
@@ -9907,12 +9892,12 @@ msgid ""
 "needs to be done in the configuration and the compression has to be "
 "triggered on every Weblate upgrade."
 msgstr ""
-"Weblate поставляется с кучей JavaScript и CSS файлов. Из соображений "
-"производительности хорошо бы их сжать перед отправкой клиенту. В "
-"конфигурации по умолчанию это делается на лету ценой небольших накладных "
-"расходов. В больших установках рекомендуется включить автономный режим "
-"сжатия. Это должно быть сделано в конфигурации, и сжатие должно запускаться "
-"при каждом обновлении Weblate."
+"Weblate поставляется с кучей файлов JavaScript и CSS. Из соображений "
+"производительности хорошей практикой будет сжимать их перед отправкой "
+"клиенту. В конфигурации по умолчанию это делается на лету ценой небольших "
+"накладных расходов. В больших же установках рекомендуется включить режим "
+"предварительного сжатия. Это можно сделать в настройках, а повторное сжатие "
+"файлов должно запускаться при каждом обновлении Weblate."
 
 #: ../../admin/install.rst:1159
 msgid ""
@@ -9921,10 +9906,10 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
-"Переключение конфигурации выполняется простым включением параметра :attr:"
-"`compressor:django.conf.settings.COMPRESS_OFFLINE` и настройкой параметра :"
-"attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` (последний "
-"уже включён в пример конфигурации):"
+"Такое переключение режима выполняется простым включением параметра "
+":attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` и заданием "
+"соответствующих настроек в параметре :attr:`compressor:django.conf.settings."
+"COMPRESS_OFFLINE_CONTEXT` (последний уже включён в пример файла настроек):"
 
 #: ../../admin/install.rst:1168
 msgid "On each deploy you need to compress the files to match current version:"
@@ -10144,11 +10129,12 @@ msgid ""
 "default set up to work with Weblate and its configuration, but this might "
 "need customization for your environment."
 msgstr ""
-"Конфигурация Weblate по умолчанию включает промежуточное ПО ``weblate."
-"middleware.SecurityMiddleware`` , которое устанавливает связанные с "
-"безопасностью заголовки HTTP, такие как ``Content-Security-Policy`` или ``X-"
-"XSS-Protection``. По умолчанию они настроены для работы с Weblate и его "
-"конфигурацией, но для этого может потребоваться настройка вашего окружения."
+"В конфигурации Weblate по умолчанию уже включено использование "
+"промежуточного ПО ``weblate.middleware.SecurityMiddleware``, которое "
+"устанавливает связанные с безопасностью заголовки HTTP, такие как ``Content-"
+"Security-Policy`` или ``X-XSS-Protection``. По умолчанию они настроены для "
+"работы с Weblate и его конфигурацией, но для этого может потребоваться "
+"настройка вашего окружения."
 
 #: ../../admin/install.rst:1284
 msgid ""
@@ -10160,7 +10146,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1293
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr "Пример конфигурации для NGINX и uWSGI"
+msgstr "Примеры файлов настроек NGINX и uWSGI"
 
 #: ../../admin/install.rst:1296
 msgid ""
@@ -10180,24 +10166,24 @@ msgstr ""
 msgid ""
 "The following configuration runs Weblate as uWSGI under the NGINX webserver."
 msgstr ""
-"Следующая конфигурация запускает Weblate как uWSGI-приложение под веб-"
-"сервером NGINX."
+"Со следующими файлами настроек Weblate будет запускаться как uWSGI-"
+"приложение под веб-сервером NGINX."
 
 #: ../../admin/install.rst:1304
 msgid ""
 "Configuration for NGINX (also available as :file:`weblate/examples/weblate."
 "nginx.conf`):"
 msgstr ""
-"Конфигурация для NGINX (пример конфигурации взят из файла :file:`weblate/"
-"examples/weblate.nginx.conf`):"
+"Файл настроек NGINX (этот же пример есть в :file:`weblate/examples/weblate."
+"nginx.conf`):"
 
 #: ../../admin/install.rst:1309
 msgid ""
 "Configuration for uWSGI (also available as :file:`weblate/examples/weblate."
 "uwsgi.ini`):"
 msgstr ""
-"Конфигурация для uWSGI (пример конфигурации взят из файла :file:`weblate/"
-"examples/weblate.uwsgi.ini`):"
+"Файл настроек uWSGI (этот же пример есть в :file:`weblate/examples/weblate."
+"uwsgi.ini`):"
 
 #: ../../admin/install.rst:1316
 msgid ":doc:`django:howto/deployment/wsgi/uwsgi`"
@@ -10207,7 +10193,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1321
 msgid "Sample configuration for Apache"
-msgstr "Пример конфигурации для Apache"
+msgstr "Пример файла настроек Apache"
 
 #: ../../admin/install.rst:1323 ../../admin/install.rst:1365
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
@@ -10220,8 +10206,8 @@ msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "mod_wsgi (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
-"Следующая конфигурация запускает Weblate как WSGI-приложение, вам нужно "
-"включить модуль mod_wsgi (пример конфигурации взят из файла :file:`weblate/"
+"Со следующим файлом настроек Weblate будет запускаться как WSGI-приложение, "
+"вам нужно включить модуль mod_wsgi (этот же пример есть в :file:`weblate/"
 "examples/apache.conf`):"
 
 #: ../../admin/install.rst:1333
@@ -10242,15 +10228,15 @@ msgstr ""
 
 #: ../../admin/install.rst:1345
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr "Пример конфигурации для Apache и Gunicorn"
+msgstr "Пример файла настроек Apache и Gunicorn"
 
 #: ../../admin/install.rst:1347
 msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(available as :file:`weblate/examples/apache.gunicorn.conf`):"
 msgstr ""
-"Следующая конфигурация запускает Weblate в Gunicorn и Apache 2.4 (пример "
-"конфигурации взят из файла :file:`weblate/examples/apache.gunicorn.conf`):"
+"Со следующим файлом настроек Weblate будет запускаться в Gunicorn и Apache "
+"2.4 (этот же пример есть в :file:`weblate/examples/apache.gunicorn.conf`):"
 
 #: ../../admin/install.rst:1355
 msgid ":doc:`django:howto/deployment/wsgi/gunicorn`"
@@ -10260,7 +10246,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1359
 msgid "Running Weblate under path"
-msgstr "Запуск Weblate по пути"
+msgstr "Запуск Weblate по определённому пути в URL"
 
 #: ../../admin/install.rst:1363
 msgid "This is supported since Weblate 1.3."
@@ -10271,9 +10257,9 @@ msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using mod_wsgi (also available as :file:`weblate/examples/apache-path.conf`):"
 msgstr ""
-"Пример конфигурации Apache для обслуживания Weblate по пути ``/weblate`. "
-"Снова используя модуль mod_wsgi (пример конфигурации взят из файла :file:"
-"`weblate/examples/apache-path.conf`):"
+"Пример файла настроек Apache для предоставления доступу к Weblate по пути "
+"``/weblate``. Снова используя модуль ``mod_wsgi`` (этот же пример есть в "
+":file:`weblate/examples/apache-path.conf`):"
 
 #: ../../admin/install.rst:1373
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -10306,7 +10292,7 @@ msgid ""
 msgstr ""
 "При разработке Weblate или модулей для него вы можете использовать "
 "«нетерпеливую» конфигурацию, тогда все задачи будут выполнятся "
-"непосредственно при их вызове, хотя это ударит по производительности:"
+"непосредственно при их вызове, хотя это и ударит по производительности:"
 
 #: ../../admin/install.rst:1408
 msgid ""
@@ -10363,14 +10349,14 @@ msgid ""
 "Environment configuration to be placed as :file:`/etc/default/celery-"
 "weblate`:"
 msgstr ""
-"Конфигурация окружения, размещаемая по пути :file:`/etc/default/celery-"
-"weblate`:"
+"Файл настроек переменных окружения должен быть размещён в :file:`/etc/"
+"default/celery-weblate`:"
 
 #: ../../admin/install.rst:1444
 msgid ""
 "Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
-"Конфигурация ротации журналов, размещаемая по пути :file:`/etc/logrotate.d/"
+"Файл настроек ``logrotate`` должен быть размещён в :file:`/etc/logrotate.d/"
 "celery`:"
 
 #: ../../admin/install.rst:1450
@@ -10429,11 +10415,11 @@ msgid ""
 "`celery:userguide/daemonizing`, :doc:`celery:userguide/monitoring`, :djadmin:"
 "`celery_queues`"
 msgstr ""
-":doc:`Конфигурация и настройки по умолчанию <celery:userguide/"
-"configuration>`, :doc:`Руководство по рабочим <celery:userguide/workers>`, :"
-"doc:`Демонизация <celery:userguide/daemonizing>`, :doc:`Руководство по "
-"мониторингу и управлению <celery:userguide/monitoring>`, :djadmin:"
-"`celery_queues`"
+":doc:`Конфигурация и настройки по умолчанию <celery:userguide/configuration>`"
+", :doc:`Руководство по обработчикам <celery:userguide/workers>`, :doc:`"
+"Демонизация <celery:userguide/daemonizing>`, :doc:`Руководство по "
+"мониторингу и управлению <celery:userguide/monitoring>`, "
+":djadmin:`celery_queues`"
 
 #: ../../admin/install.rst:1482
 msgid "Monitoring Weblate"
@@ -10602,9 +10588,9 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
-"Weblate должен без проблем работать на всём современном оборудовании, ниже "
+"Weblate должен без проблем работать на любом современном оборудовании, ниже "
 "приведена минимальная конфигурация, необходимая для запуска Weblate на одном "
-"узле (сам Weblate, база данных и веб-сервер):"
+"сервере (сам Weblate, база данных и веб-сервер):"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -10940,8 +10926,8 @@ msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using "
 "environment variables:"
 msgstr ""
-"Многие :ref:`конфигурационные настройки <config>` Weblate в контейнере "
-"Docker могут быть установлены через переменные окружения:"
+"Многие :ref:`параметры конфигурации <config>` Weblate в контейнере Docker "
+"могут быть установлены через переменные окружения:"
 
 #: ../../admin/install/docker.rst:220
 msgid "Generic settings"
@@ -11031,10 +11017,10 @@ msgid ""
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
 msgstr ""
-"Хранение пароля в файле конфигурации может представлять собой угрозу "
-"безопасности. Подумайте об использовании этой переменной только для "
-"начальной установки (или пусть Weblate сгенерирует при начальной загрузке "
-"случайный пароль) или для восстановления пароля."
+"Хранение пароля в файле настроек может представлять из себя угрозу "
+"безопасности. Используйте эту переменную только для начальной установки (или "
+"пусть Weblate сгенерирует при начальной загрузке случайный пароль) или для "
+"восстановления пароля."
 
 #: ../../admin/install/docker.rst:300
 msgid ""
@@ -11471,7 +11457,7 @@ msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:716
 msgid "LDAP authentication configuration."
-msgstr "Конфигурация аутентификации через LDAP."
+msgstr "Настройка аутентификации через LDAP."
 
 #: ../../admin/install/docker.rst:718
 msgid "**Example for direct bind:**"
@@ -11930,7 +11916,7 @@ msgid ""
 "adjusted by the following variables:"
 msgstr ""
 "Встроенную конфигурация включённых проверок, надстроек или автоматических "
-"исправлений можно настроить с помощью следующих переменных:"
+"исправлений можно изменить с помощью следующих переменных:"
 
 #: ../../admin/install/docker.rst:1149
 msgid ""
@@ -12016,10 +12002,10 @@ msgid ""
 "weblate-docker_weblate-data/_data/`. In the container it is mounted as :file:"
 "`/app/data`."
 msgstr ""
-"Размещение тома Docker’а на хост-системе зависит от конфигурации Docker’а, "
-"но обычно он хранится в каталоге :file:`/var/lib/docker/volumes/weblate-"
-"docker_weblate-data/_data/`. В контейнере он монтируется под именем :file:`/"
-"app/data`."
+"Непосредственное размещение этого тома в хост-системе зависит от настроек "
+"самого Docker’а, но обычно он хранится в каталоге :file:`/var/lib/docker/"
+"volumes/weblate-docker_weblate-data/_data/`. В контейнере он монтируется под "
+"именем :file:`/app/data`."
 
 #: ../../admin/install/docker.rst:1227
 msgid ""
@@ -12029,7 +12015,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1230
 msgid "Further configuration customization"
-msgstr "Дальнейшая настройка конфигурации"
+msgstr "Дальнейшая настройка"
 
 #: ../../admin/install/docker.rst:1232
 msgid ""
@@ -12050,10 +12036,11 @@ msgid ""
 "environment settings are loaded, so it gets completely set up, and can be "
 "used to customize anything."
 msgstr ""
-"Дополнительно вы можете переопределить конфигурацию в файле :file:`/app/data/"
-"settings-override.py` (смотрите раздел :ref:`docker-volume`). Этот файл "
-"выполняется после загрузки всех настроек окружения, так что оно полностью "
-"готово к работе и может быть использовано для настройки чего угодно."
+"В дополнителнение ко всему вы можете переопределить параметры в файле "
+":file:`/app/data/settings-override.py` (смотрите раздел :ref:`docker-volume`)"
+". Этот файл выполняется после загрузки всех настроек из переменных "
+"окружения, и, так как он выполняется после всего этого, он может быть "
+"использовано для настройки чего угодно."
 
 #: ../../admin/install/docker.rst:1246
 msgid "Replacing logo and other static files"
@@ -12099,9 +12086,9 @@ msgid ""
 "using :ref:`docker-custom-config`."
 msgstr ""
 "Собственные модули Python вы можете разместить в каталоге :file:`/app/data/"
-"python/` (смотрите раздел :ref:`docker-volume`) — Weblate их затем загрузит, "
-"скорее всего, через :ref:`пользовательские файлы конфигурации <docker-custom-"
-"config>`."
+"python/` (смотрите раздел :ref:`docker-volume`) — в дальнейшем они могут "
+"быть загружены в Weblate, скорее всего, через :ref:`пользовательские файлы "
+"настроек <docker-custom-config>`."
 
 #: ../../admin/install/docker.rst:1283
 msgid ":doc:`../customize`"
@@ -13174,7 +13161,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
-msgstr "Исходный язык можно настроить в :ref:`конфигурации проекта <project>`."
+msgstr "Исходный язык можно настроить в :ref:`настройках проекта <project>`."
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
@@ -14106,7 +14093,7 @@ msgid ""
 "`component` is used."
 msgstr ""
 "Возраст в часах для коммита. Если не указан, то используется значение, "
-"настроенное в :ref:`конфигурации компонента <component>`."
+"заданное в :ref:`настройках компонента <component>`."
 
 #: ../../admin/management.rst:197
 msgid ""
@@ -15735,7 +15722,7 @@ msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
-msgstr "Конфигурация проекта"
+msgstr "Настройки проекта"
 
 #: ../../admin/projects.rst:109
 msgid ""
@@ -15746,12 +15733,12 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
-"Создайте проект перевода, а затем добавьте в него новый компонент для "
-"перевода. Проект похож на полку, на которую укладываются реальные переводы. "
-"Все компоненты одного проекта разделяют между собой общие предложения и "
-"глоссарий; переводы также автоматически распространяются во все компоненты "
-"одного проекта (если только оно не отключено в конфигурации компонентов), "
-"смотрите раздел :ref:`memory`."
+"Создайте проект перевода, а затем добавьте в него новый компонент, в котором "
+"вы и будете непосредственно делать перевод. Проект здесь похож на полку, на "
+"которую укладываются реальные переводы. Все компоненты одного проекта "
+"разделяют между собой общие предложения и глоссарий; переводы также "
+"автоматически распространяются во все компоненты одного проекта (если только "
+"оно не отключено в настройках компонентов), смотрите раздел :ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:252
 msgid ":doc:`/devel/integration`"
@@ -15949,7 +15936,7 @@ msgstr ":ref:`language-parsing-codes`"
 
 #: ../../admin/projects.rst:244 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr "Конфигурация компонента"
+msgstr "Настройки компонента"
 
 #: ../../admin/projects.rst:246
 msgid ""
@@ -17106,7 +17093,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:868
 msgid "Optimize configuration"
-msgstr "Оптимизация конфигурации"
+msgstr "Оптимизация настроек"
 
 #: ../../admin/projects.rst:870
 msgid ""
@@ -17229,7 +17216,7 @@ msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
-msgstr "Пример конфигурации"
+msgstr "Пример файла настроек"
 
 #: ../../admin/sample.rst:6
 msgid ""
@@ -17338,13 +17325,14 @@ msgid ""
 "includes a vote from the user making the suggestion if it is cast)."
 msgstr ""
 "По умолчанию кто угодно может добавлять предложения, которые могут быть "
-"приняты зарегистрированными пользователями. Если с предложением согласны не "
-"только зарегистрированные пользователи, для утверждения строки может "
-"использоваться голосование по предложениям, которое можно включить в :ref:"
-"`конфигурации компонента <component>` параметром :guilabel:`Голосование по "
-"предложению` и настроить порог голосов для принятия предложения в параметре :"
-"guilabel:`Автоматическое принятие предложений` (считается также голос "
-"пользователя, сделавшего предложение)."
+"приняты зарегистрированными пользователями. Если вы хотите, чтобы для "
+"принятия предложения требовалось, чтобы с ним были согласны более одного "
+"зарегистрированного пользователя, то можно использовать систему голосования "
+"по предложениям, которое можно включить в :ref:`настройках компонента "
+"<component>` параметром :guilabel:`Голосование по предложению` и настроить "
+"порог голосов, которые требуются для собственно принятия предложения в "
+"параметре :guilabel:`Автоматическое принятие предложений` (считается также "
+"голос пользователя, сделавшего это предложение)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -17549,9 +17537,9 @@ msgstr ""
 "Перед обновлением, пожалуйста, проверьте текущие :ref:`зависимости "
 "программного обеспечения <requirements>`, поскольку они могли измениться. "
 "После того, как все зависимости будут установлены или обновлены, пожалуйста, "
-"приведите свой :file:`settings.py` в соответствие с изменениями в "
-"конфигурации (правильные значения смотрите в файле :file:`settings_example."
-"py`)."
+"приведите свой файл настроек :file:`settings.py` в соответствие с "
+"изменениями в конфигурации (правильные значения смотрите в "
+":file:`settings_example.py`)."
 
 #: ../../admin/upgrade.rst:20
 msgid ""
@@ -17609,9 +17597,9 @@ msgid ""
 "Upgrade configuration file, refer to :file:`settings_example.py` or :ref:"
 "`version-specific-instructions` for needed steps."
 msgstr ""
-"Обновите файл конфигурации, пример смотрите в файле :file:`settings_example."
-"py` или обратитесь к разделу :ref:`version-specific-instructions` для "
-"получения информации о необходимых шагах."
+"Обновите файл настроек, пример смотрите в :file:`settings_example.py` или "
+"обратитесь к разделу :ref:`version-specific-instructions` для получения "
+"информации о необходимых шагах."
 
 #: ../../admin/upgrade.rst:56
 msgid "Upgrade database structure:"
@@ -20657,11 +20645,9 @@ msgid "Not yet released."
 msgstr "Ещё не выпущен."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for ``javascript-format`` used in gettext PO."
 msgid "Added support for ``lua-format`` used in gettext PO."
 msgstr ""
-"Добавлена поддержка формата ``javascript-format``, используемого в PO-файлах "
+"Добавлена поддержка формата ``lua-format``, используемого в PO-файлах "
 "gettext."
 
 #: ../../changes.rst:7
@@ -21046,7 +21032,7 @@ msgstr "Расширен общедоступный профиль пользо�
 
 #: ../../changes.rst:113
 msgid "Fixed configuration of enforced checks."
-msgstr "Исправлена конфигурация принудительных проверок."
+msgstr "Исправлены настройки принудительных проверок."
 
 #: ../../changes.rst:114
 msgid "Improve documentation about built-in backups."
@@ -21788,8 +21774,8 @@ msgid ""
 "Project access control and workflow configuration integrated to project "
 "settings."
 msgstr ""
-"Управление доступом к проекту и конфигурация рабочего процесса интегрированы "
-"в настройки проекта."
+"Управление доступом к проекту и настройки рабочего процесса интегрированы в "
+"настройки проекта."
 
 #: ../../changes.rst:315
 msgid "Added check and highlighter for i18next interpolation and nesting."
@@ -26529,9 +26515,9 @@ msgid ""
 "You are welcome to fork the code and open pull requests. Patches in any "
 "other form are welcome too."
 msgstr ""
-"Weblate разрабатывается на `GitHub’е <https://github.com/WeblateOrg/"
-"weblate>`_. Вы вольны форкать код и открывать запросы на извлечение. "
-"Заплатки в любой другой форме также приветствуются."
+"Weblate разрабатывается на `GitHub’е <https://github.com/WeblateOrg/weblate>`"
+"_. Вы можете создавать форки и открывать запросы на извлечение. Патчи в "
+"любой другой форме также приветствуются."
 
 #: ../../contributing/code.rst:10
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
@@ -26548,8 +26534,8 @@ msgid ""
 "Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
 msgstr ""
-"Любой код для Weblate’а должен писаться с оглядкой на документ `Принципы "
-"«безопасности по проектированию»`_."
+"Любой код для Weblate’а должен писаться с оглядкой на `Принципы «"
+"безопасности по проектированию»`_ (*Security by Design*)."
 
 #: ../../contributing/code.rst:23
 msgid "Coding standard"
@@ -26571,8 +26557,8 @@ msgid ""
 "is placed in :file:`setup.cfg`."
 msgstr ""
 "Для проверки качества кода можно использовать :program:`flake8`, "
-"рекомендуемые плагины перечислены в файле :file:``.pre-commit-config.yaml`, "
-"а их конфигурация размещена в файле :file:`setup.cfg`."
+"рекомендуемые плагины перечислены в :file:``.pre-commit-config.yaml`, а их "
+"настройки находятся в :file:`setup.cfg`."
 
 #: ../../contributing/code.rst:32
 msgid ""
@@ -26582,12 +26568,13 @@ msgid ""
 "`requirements-lint.txt`) turn it on by running ``pre-commit install`` in "
 "Weblate checkout. This way all your changes will be automatically checked."
 msgstr ""
-"Самый простой подход к внедрению всего этого заключается в установке `pre-"
-"commit`_. Репозиторий Weblate содержит для него конфигурацию для проверки "
-"вменяемости зафиксированных файлов. После его установки (он уже включен в "
-"список зависимостей в :file:`requirements-lint.txt`) включите его, запустив "
-"``pre-commit install`` в каталоге с рабочей копией Weblate. Таким образом "
-"все ваши изменения будут проверяться автоматически."
+"Самый простой способ принудить себя к выполнению всех этих соглашений — "
+"установить `pre-commit`_. Репозиторий Weblate содержит настройки для него, в "
+"соответствии с которыми он будет проверять, что закоммиченные файлы "
+"минимально вменяемы. После его установки (он уже есть в списке зависимостей "
+"в :file:`requirements-lint.txt`) включите его, запустив ``pre-commit "
+"install`` в каталоге с рабочей копией Weblate. Таким образом все ваши "
+"изменения будут проверяться автоматически."
 
 #: ../../contributing/code.rst:38
 msgid "You can also trigger check manually, to check all files run:"
@@ -26666,7 +26653,7 @@ msgstr ""
 msgid ""
 ":ref:`sample-configuration` contains :setting:`django:LOGGING` configuration."
 msgstr ""
-":setting:`django:LOGGING` в :ref:`примере конфигурации <sample-"
+":setting:`django:LOGGING` в :ref:`примере файла настроек <sample-"
 "configuration>`."
 
 #: ../../contributing/debugging.rst:42
@@ -28104,8 +28091,8 @@ msgstr "Запустите сервер разработки:"
 msgid ""
 "Depending on your configuration you might also want to start Celery workers:"
 msgstr ""
-"В зависимости от вашей конфигурации, возможно, вы захотите запустить "
-"обработчики Celery:"
+"В зависимости от ваших настроек, возможно, вы захотите запустить обработчики "
+"Celery:"
 
 #: ../../contributing/start.rst:58
 msgid "To run test (see :ref:`local-tests` for more details):"
@@ -28203,11 +28190,6 @@ msgstr ""
 "рекомендации, как настроить ваш проект Weblate внутри неё."
 
 #: ../../contributing/start.rst:126
-#, fuzzy
-#| msgid ""
-#| "Considering you have just cloned the Github repository, just open the "
-#| "folder in which you cloned it in PyCharm. Once the IDE is open, the first "
-#| "step is to specify the interpreter you want:"
 msgid ""
 "Considering you have just cloned the GitHub repository, just open the folder "
 "in which you cloned it in PyCharm. Once the IDE is open, the first step is "
@@ -28215,7 +28197,7 @@ msgid ""
 msgstr ""
 "Допустим, вы только что склонировали репозиторий c GitHub'а, тогда просто "
 "откройте ту папку, куда вы его склонировали, в PyCharm. Как только IDE "
-"откроется первым шагом будет указать интерпретатор, который вы хотите "
+"откроется, первым шагом будет указать интерпретатор, который вы хотите "
 "использовать:"
 
 #: ../../contributing/start.rst:132
@@ -28441,9 +28423,9 @@ msgid ""
 "given translation component. Guidance on how to address found issues is also "
 "offered."
 msgstr ""
-"Показывает ошибки в конфигурации Weblate или в проекте перевода для любого "
-"компонента перевода. Также предлагает руководство по решению найденных "
-"проблем."
+"Показывает ошибки в настройках Weblate или в проекте перевода для любого "
+"компонента перевода. Также надстройка предлагает кое-какие инструкции по "
+"решению некоторых найденных проблем."
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
@@ -29154,10 +29136,6 @@ msgstr ""
 "<component-push>` в :ref:`настройках компонента <component>`."
 
 #: ../../devel/integration.rst:33
-#, fuzzy
-#| msgid ""
-#| "Alternateively, you can use :doc:`/api` to update translations to match "
-#| "their latest version."
 msgid ""
 "Alternatively, you can use :doc:`/api` to update translations to match their "
 "latest version."
@@ -29368,10 +29346,8 @@ msgid "Dutch"
 msgstr "Нидерландский"
 
 #: ../../devel/reporting.rst:45
-#, fuzzy
-#| msgid "Jae Doe <jane@example.com> (42)"
 msgid "Jane Doe <jane@example.com> (42)"
-msgstr "Jae Doe <jane@example.com> (42)"
+msgstr "Jane Doe <jane@example.com> (42)"
 
 #: ../../devel/reporting.rst:49
 msgid ""
@@ -29732,13 +29708,12 @@ msgid ""
 "list is usually the best approach.  This way you can keep an eye on when "
 "problems arise in translation, take care of them, and fix them quickly."
 msgstr ""
-"Переводчики могут комментировать как перевод, так и исходные строки. В :ref:"
-"`конфигурации <component>` каждого компонента можно настроить отправку таких "
+"Переводчики могут комментировать как перевод, так и исходные строки. В :ref:`"
+"настройках <component>` каждого компонента можно задать отправку таких "
 "комментариев на электронную почту (см. :ref:`component-report_source_bugs`); "
-"как правило, наилучшим подходом будет использовать для этого адрес списка "
-"рассылки для разработчиков. Таким образом, вы сможете следить за "
-"возникновением проблем в переводе, вовремя о них узнавать и быстро их "
-"устранять."
+"как правило, наилучшим подходом будет указать здесь адрес списка рассылки "
+"для разработчиков. Таким образом, вы сможете следить за возникновением "
+"проблем в переводе, вовремя о них узнавать и быстро их устранять."
 
 #: ../../devel/review.rst:69
 msgid ":ref:`user-comments`"
@@ -29856,7 +29831,7 @@ msgstr "`PO-файл gettext`"
 
 #: ../../devel/sphinx.rst:43
 msgid "Component discovery configuration"
-msgstr "Конфигурация обнаружения компонентов"
+msgstr "Настройка обнаружения компонентов"
 
 #: ../../devel/sphinx.rst:45
 msgid "Regular expression to match translation files against"
@@ -30231,7 +30206,7 @@ msgstr "Пример использования"
 
 #: ../../devel/translations.rst:51
 msgid "Regular expression variant"
-msgstr "Регулярное выражение варианта"
+msgstr "Регулярное выражение"
 
 #: ../../devel/translations.rst:51
 msgid "Matched translation keys"
@@ -30266,23 +30241,17 @@ msgid "Manual variants"
 msgstr "Назначение вариантов вручную"
 
 #: ../../devel/translations.rst:63
-#, fuzzy
-#| msgid ""
-#| "You can manually link specific strings using ``variant:SOURCE`` flag. "
-#| "This can be useful for bilingual transaltions which do not have keys to "
-#| "group strings automatically, or to group strings which do not have "
-#| "matching string, but should be considered together when translating."
 msgid ""
 "You can manually link specific strings using ``variant:SOURCE`` flag. This "
 "can be useful for bilingual translations which do not have keys to group "
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
-"Вы можете вручную связать определённые строки с помощью флага ``variant:"
-"ИСТОЧНИК``. Это может быть полезно, если у вас двуязычный перевод, в котором "
-"соответственно нет ключевых строк, на основе которых можно было бы "
-"сгруппировать строки автоматически; или чтобы сгрупировать строки между "
-"ключами которых нет ничего общего, но они всё же должны переводится вместе."
+"Вы можете вручную связать определённые строки с помощью флага "
+"``variant:ИСТОЧНИК``. Это может быть полезно, если у вас двуязычный перевод, "
+"в котором, соответственно, нет ключевых строк, на основе которых можно было "
+"бы сгруппировать их автоматически; или чтобы сгрупировать строки между "
+"ключами которых нет ничего общего, хотя они всё же должны переводится вместе."
 
 #: ../../devel/translations.rst:70
 msgid ""
@@ -30315,7 +30284,7 @@ msgid ""
 "the project configuration."
 msgstr ""
 "Разбивают переводимые строки компонента на категории по тексту и цвету, "
-"настроенным в конфигурации проекта."
+"указанным в настройках проекта."
 
 #: ../../devel/translations.rst:95
 msgid ""
@@ -33947,34 +33916,24 @@ msgstr ""
 "manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:274
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "C-формат"
+msgstr "Lua-формат"
 
 #: ../../user/checks.rst:276
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*Lua format string does not match source*"
-msgstr "Строка в формате C не соответствует источнику"
+msgstr "*Строка в формате Lua не соответствует источнику*"
 
 #: ../../user/checks.rst:281
-#, fuzzy
-#| msgid "`vue-format`"
 msgid "`lua-format`"
-msgstr "`vue-format`"
+msgstr "`lua-format`"
 
 #: ../../user/checks.rst:286
-#, fuzzy
-#| msgid ""
-#| "`JavaScript formatting strings <https://www.gnu.org/software/gettext/"
-#| "manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Lua formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-"`Строки форматирования JavaScript <https://www.gnu.org/software/gettext/"
-"manual/html_node/javascript_002dformat.html>`_"
+"`Строки форматирования Lua <https://www.gnu.org/software/gettext/manual/"
+"html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:289
 msgid "Percent placeholders"
@@ -37161,14 +37120,6 @@ msgstr ""
 "серверов при первом обращении к ним."
 
 #: ../../vcs.rst:90
-#, fuzzy
-#| msgid ""
-#| "In case you want to verify the key fingerpring before connecting to the "
-#| "repository, verify the SSH host keys of the servers you are going to "
-#| "access in :guilabel:`Add host key`, from the same section of the admin "
-#| "interface. Enter the hostname you are going to access (e.g. ``gitlab."
-#| "com``), and press :guilabel:`Submit`.  Verify its fingerprint matches the "
-#| "server you added. They are shown in the confirmation message:"
 msgid ""
 "In case you want to verify the key fingerprint before connecting to the "
 "repository, add the SSH host keys of the servers you are going to access in :"
@@ -37177,17 +37128,18 @@ msgid ""
 "guilabel:`Submit`. Verify its fingerprint matches the server you added."
 msgstr ""
 "В случае, если вы хотите, подтвердить подлинность отпечатков ключей до "
-"первого подключения к репозиторию, запросите SSH-ключ сервера, к которым вы "
-"собираетесь подключаться, через пункт :guilabel:`Добавить ключ хоста`, в том "
-"же разделе интерфейса администратора. Введите имя хоста, к которому вы "
-"собираетесь получить доступ (например, ``gitlab.com``), и нажмите :guilabel:"
-"`Подтвердить`. После этого вы сможете убедится, что отпечаток этого ключа "
-"соответствует тому серверу, который вы добавляете. Сервер м ключ будут "
-"отображаться в сообщении о подтверждении:"
+"первого подключения к репозиторию, добавьте SSH-ключ тех серверов, к которым "
+"вы собираетесь подключаться, через пункт :guilabel:`Добавить ключ хоста`, в "
+"том же разделе интерфейса администратора. Введите имя хоста, к которому вы "
+"собираетесь получить доступ (например, ``gitlab.com``), и нажмите "
+":guilabel:`Подтвердить`. После этого вы сможете убедится, что отпечаток "
+"этого ключа соответствует тому серверу, который вы добавляете."
 
 #: ../../vcs.rst:96
 msgid "The added keys with fingerprints are shown in the confirmation message:"
 msgstr ""
+"Добавленные ключи и их отпечатки будут отображаться в сообщении о "
+"подтверждении:"
 
 #: ../../vcs.rst:103
 msgid "GitHub repositories"
@@ -37483,18 +37435,13 @@ msgstr ""
 "фиксацию (tip) при отправке изменений обратно."
 
 #: ../../vcs.rst:261
-#, fuzzy
-#| msgid ""
-#| "This adds a thin layer atop :ref:`vcs-git` using the `Github API`_ to "
-#| "allow pushing translation changes as pull requests, instead of pushing "
-#| "directly to the repository."
 msgid ""
 "This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow "
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
 "Это просто добавляет тонкий слой логики поверх :ref:`vcs-git` с помощью `API "
-"Github'а`_, что позволяет отправлять изменения в переводе в виде запросов на "
+"GitHub'а`_, что позволяет отправлять изменения в переводе в виде запросов на "
 "извлечение вместо того, чтобы выполнять ``push`` непосредственно в "
 "репозиторий."
 
