@@ -56,6 +56,7 @@ BASICS = {
     "allchecks",
     "translated_checks",
     "suggestions",
+    "nosuggestions",
     "comments",
     "approved_suggestions",
     "languages",
@@ -414,6 +415,9 @@ class TranslationStats(BaseStats):
             suggestions=conditional_sum(1, suggestion_count__gt=0),
             suggestions_words=conditional_sum("num_words", suggestion_count__gt=0),
             suggestions_chars=conditional_sum(Length("source"), suggestion_count__gt=0),
+            nosuggestions=conditional_sum(1, suggestion_count=0),
+            nosuggestions_words=conditional_sum("num_words", suggestion_count=0),
+            nosuggestions_chars=conditional_sum(Length("source"), suggestion_count=0),
             approved_suggestions=conditional_sum(
                 1, state__gte=STATE_APPROVED, suggestion_count__gt=0
             ),
