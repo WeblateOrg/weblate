@@ -245,11 +245,7 @@ Generic settings
 
 .. envvar:: WEBLATE_SITE_DOMAIN
 
-    Configures the site domain.
-
-    .. hint::
-
-        In case it is not set, the first item from :envvar:`WEBLATE_ALLOWED_HOSTS` is used.
+    Configures the site domain. This parameter is required.
 
     .. seealso::
 
