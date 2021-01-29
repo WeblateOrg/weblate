@@ -197,11 +197,25 @@ def check_edit_approved(user, permission, obj):
     return check_can_edit(user, permission, obj)
 
 
+def check_manage_units(translation: Translation, component: Component) -> bool:
+    # Check if adding is generally allowed
+    if not component.manage_units or translation.is_readonly:
+        return False
+    source = translation.is_source
+    template = component.has_template()
+    # Add to source in monolingual and to translations in bilingual
+    if (source and not template) or (not source and template):
+        return False
+    return True
+
+
 @register_perm("unit.delete")
 def check_unit_delete(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
-    if not obj.is_source or obj.is_readonly:
+    component = obj.component
+    # Check if removing is generally allowed
+    if not check_manage_units(obj, component):
         return False
     return check_can_edit(user, permission, obj)
 
@@ -210,12 +224,7 @@ def check_unit_delete(user, permission, obj):
 def check_unit_add(user, permission, translation):
     component = translation.component
     # Check if adding is generally allowed
-    if not component.manage_units or translation.is_readonly:
-        return False
-    source = translation.is_source
-    template = component.has_template()
-    # Add to source in monolingual and to translations in bilingual
-    if (source and not template) or (not source and template):
+    if not check_manage_units(translation, component):
         return False
 
     # Does file format support adding?
