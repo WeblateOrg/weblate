@@ -13,15 +13,15 @@
 # Tuomas Lähteenmäki <lahtis@gmail.com>, 2020.
 # Michal Čihař <michal@cihar.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
-# Riku Viitanen <riku.viitanen@protonmail.com>, 2020.
+# Riku Viitanen <riku.viitanen@protonmail.com>, 2020, 2021.
 # Jussi Timperi <bane@iki.fi>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-25 12:03+0000\n"
-"PO-Revision-Date: 2021-01-28 08:54+0000\n"
-"Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
+"PO-Revision-Date: 2021-01-29 22:40+0000\n"
+"Last-Translator: Riku Viitanen <riku.viitanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -1378,14 +1378,12 @@ msgid "Threshold for inclusion of translations."
 msgstr "Kynnysarvo käännösten sisällyttämiselle."
 
 #: weblate/addons/forms.py:412
-#, fuzzy
-#| msgid "Select"
 msgid "CSS selector"
-msgstr "Valitse"
+msgstr "CSS-valitsin"
 
 #: weblate/addons/forms.py:415
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "CSS-valitsin käännettävien elementtien tunnistamiseen."
 
 #: weblate/addons/forms.py:418
 msgid "Language cookie name"
@@ -1397,7 +1395,7 @@ msgstr "Kieliasetuksen säilyttävän evästeen nimi."
 
 #: weblate/addons/forms.py:425
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Tuo merkkijonot HTML-tiedostoista"
 
 #: weblate/addons/forms.py:428
 msgid ""
@@ -1413,28 +1411,20 @@ msgid "Source strings"
 msgstr "Lähdetekstit"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Luo käännös"
+msgstr "Kohdekäännös"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Tekstin ikä"
+msgstr "Tekstin etuliite"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Tekstit"
+msgstr "Tekstin loppuliite"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "Source and target have to be a different languages."
-msgstr "Sinun pitää kirjautua tallentaaksesi käännöksen!"
+msgstr "Lähteen ja kohteen täytyy olla erikieliset."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1489,15 +1479,11 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "Päivitä PO-tiedostot vastaamaan POT-tiedostoa (msgmerge)"
 
 #: weblate/addons/gettext.py:230
-#, fuzzy
-#| msgid ""
-#| "Update all PO files to match the POT file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Päivitä kaikki PO-tiedostot vastaamaan POT-tiedostoa käyttämällä msgmergeä. "
+"Päivittää kaikki PO-tiedostot vastaamaan POT-tiedostoa msgmergeä käyttäen. "
 "Tämä tehdään aina kun uusia muutoksia haetaan versionhallinnasta."
 
 #: weblate/addons/gettext.py:303
@@ -1536,15 +1522,11 @@ msgid "Customize JSON output"
 msgstr "Muokkaa JSON-tulostusta"
 
 #: weblate/addons/json.py:31
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Salli muokata JSON-tulostuksen toimintaa, esimerkiksi sisennyksiä tai "
-"lajittelua."
+"Salli JSON-tulostuksen muotoilun säätäminen, esimerkiksi sisennysten tai "
+"lajittelun."
 
 #: weblate/addons/properties.py:143
 msgid "Formats the Java properties file"
@@ -2127,10 +2109,8 @@ msgid "Languages"
 msgstr "Kielet"
 
 #: weblate/auth/models.py:152
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Palvelimen sisäinen virhe"
+msgstr "Sisäinen Weblate-ryhmä"
 
 #: weblate/auth/models.py:305 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2173,14 +2153,12 @@ msgid ""
 msgstr "Käyttäjälle on myönnetty kaikki näihin ryhmiin sisältyvät oikeudet."
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr "Säännöllinen lauseke käyttäjän sähköpostiosoiteen tarkistamiseen."
+msgstr "Säännöllinen lauseke sähköpostiosoitteille"
 
 #: weblate/auth/models.py:616
 msgid "Users with matching e-mail address will be added to this group."
-msgstr ""
+msgstr "Täsmäävät sähköpostiosoiteet lisätään tähän ryhmään."
 
 #: weblate/auth/models.py:619
 msgid "Group to assign"
@@ -2308,14 +2286,12 @@ msgid ""
 msgstr "Tämä ilmoitus lakkaa kun maksat laskut tai projekti poistetaan."
 
 #: weblate/billing/tasks.py:100
-#, fuzzy
-#| msgid ""
-#| "You will stop receiving this notification once you pay the bills or the "
-#| "project is removed."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
-msgstr "Tämä ilmoitus lakkaa kun maksat laskut tai projekti poistetaan."
+msgstr ""
+"Tämä ilmoitus lakkaa kun vaihdat säännölliseen tilaukseen tai projekti "
+"poistetaan."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -2500,10 +2476,9 @@ msgid "This string has been translated in the past"
 msgstr "Tämä teksti on käännetty aiemmin"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Last translation was \"%s\"."
-msgstr "Epäkelpo käännösehto: \"%s\""
+msgstr "Edellinen käännös oli \"%s\"."
 
 #: weblate/checks/duplicate.py:45
 #, fuzzy
@@ -6092,10 +6067,6 @@ msgstr ""
 "kielikoodin edellä olevaan URL-osoitteen loppuun."
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
@@ -6231,11 +6202,7 @@ msgstr[1] ""
 "käännetty</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is <strong>"
-#| "%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -6243,13 +6210,11 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
-"%(project)s-suomennusprojekti sisältää tällä hetkellä <strong>%(total)s "
-"käännettävää tekstiä</strong>, joista <strong>%(percent)s%% on käännetty</"
-"strong>."
+"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
+"käännettävää tekstiä</strong>."
 msgstr[1] ""
-"%(project)s-suomennusprojekti sisältää tällä hetkellä <strong>%(total)s "
-"käännettävää tekstiä</strong>, joista <strong>%(percent)s%% on käännetty</"
-"strong>."
+"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
+"käännettävää tekstiä</strong>."
 
 #: weblate/templates/engage.html:46
 #, python-format
