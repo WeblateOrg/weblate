@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-25 12:03+0000\n"
-"PO-Revision-Date: 2021-01-29 22:40+0000\n"
+"PO-Revision-Date: 2021-01-31 12:14+0000\n"
 "Last-Translator: Riku Viitanen <riku.viitanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -2523,10 +2523,8 @@ msgid "Read only"
 msgstr "Vain luku"
 
 #: weblate/checks/flags.py:54
-#, fuzzy
-#| msgid "String changed by"
 msgid "Strict unchanged check"
-msgstr "Tekstiä muuttanut"
+msgstr "Tarkista onko teksti muuttamaton"
 
 #: weblate/checks/flags.py:56 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2584,16 +2582,14 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Parametrit puuttuvat käännösehdolle: \"%s\""
 
 #: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
-#, fuzzy, python-format
-#| msgid "Following format strings are wrong: %s"
+#, python-format
 msgid "Following format strings are missing: %s"
-msgstr "Seuraavat muotoilumerkkijonot ovat virheellisiä: %s"
+msgstr "Seuraavat muotoilumerkkijonot puutuvat: %s"
 
 #: weblate/checks/format.py:346 weblate/checks/placeholders.py:98
-#, fuzzy, python-format
-#| msgid "Following format strings are wrong: %s"
+#, python-format
 msgid "Following format strings are extra: %s"
-msgstr "Seuraavat muotoilumerkkijonot ovat virheellisiä: %s"
+msgstr "Seuraavat muotoilumerkkijonot ovat ylimääräisiä: %s"
 
 #: weblate/checks/format.py:397
 msgid "Python format"
@@ -2636,16 +2632,12 @@ msgid "JavaScript format string does not match source"
 msgstr "JavaScript-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:437
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "C-muoto"
+msgstr "Lua-muoto"
 
 #: weblate/checks/format.py:438
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Lua format string does not match source"
-msgstr "C-muotoinen teksti ei vastaa lähdettä"
+msgstr "Lua-muotoinen muotoilumerkkijono ei vastaa lähdettä"
 
 #: weblate/checks/format.py:445
 msgid "Python brace format"
@@ -2684,10 +2676,8 @@ msgid "You need to pair up an apostrophe with another one."
 msgstr "Heittomerkki vaatii toisen heittomerkin."
 
 #: weblate/checks/format.py:520
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "Konekäännös"
+msgstr "i18next-interpolointi"
 
 #: weblate/checks/format.py:521
 msgid "The i18next interpolation does not match source"
@@ -2898,10 +2888,8 @@ msgid "Failing checks"
 msgstr "Virheitä löytynyt tarkistuksessa"
 
 #: weblate/configuration/apps.py:26
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Weblate configuration"
-msgstr "Mahdollinen kokoonpano"
+msgstr "Weblaten kokoonpano"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -3099,10 +3087,8 @@ msgid "PHP strings"
 msgstr "PHP-tekstit"
 
 #: weblate/formats/ttkit.py:1127
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Laravel PHP strings"
-msgstr "PHP-tekstit"
+msgstr "Laravel PHP-tekstit"
 
 #: weblate/formats/ttkit.py:1133
 msgid ".NET resource file"
@@ -3875,19 +3861,14 @@ msgstr ""
 "etteivät kolmannet osapuolet ole ottaneet selaintasi haltuun."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
 "Jos olet estänyt selaimessasi Referer-otsakkeen lähettämisen, kytke se "
-"takaisin päälle ainakin tälle sivulle, HTTPS-yhteyksille tai saman lähteen "
-"(\"same-origin\") pyynnöille."
+"takaisin päälle (ainakin tälle sivulle, HTTPS-yhteyksille tai saman lähteen "
+"\"same-origin\" pyynnöille)."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3900,16 +3881,12 @@ msgstr ""
 "ottaneet selaintasi haltuun."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
 "Jos olet estänyt selaintasi tallentamasta evästeitä, kytke evästeet takaisin "
-"päälle ainakin tälle sivulle tai saman lähteen (\"same-origin\") pyynnöille."
+"päälle (ainakin tälle sivulle tai saman lähteen \"same-origin\" pyynnöille)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -3983,10 +3960,8 @@ msgstr ""
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/snippets/billing-failure.html:9
-#, fuzzy
-#| msgid "Ask for project hosting"
 msgid "Ask for libre project hosting"
-msgstr "Pyydä projektillesi hosting-palvelua"
+msgstr "Pyydä vapaalle projektillesi hosting-palvelua"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -3995,10 +3970,8 @@ msgstr "Katso hosting-palvelupaketit"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/snippets/billing-failure.html:8
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Gratis trial for commercial hosting"
-msgstr "Ota yhteyttä kaupallisten palvelujen hostaukseen liittyen"
+msgstr "Kaupallisen hostauksen ilmainen kokeilujakso"
 
 #: weblate/templates/about/index.html:41
 msgid "Contact us for commercial hosting"
@@ -4236,16 +4209,12 @@ msgid "Translate your libre project"
 msgstr "Käännä vapaa projektisi"
 
 #: weblate/templates/accounts/hosting.html:28
-#, fuzzy
-#| msgid ""
-#| "Please check in advance whether your project is eligible for project "
-#| "hosting on this site."
 msgid ""
 "Please check in advance whether your project is eligible for gratis project "
 "hosting on this site."
 msgstr ""
-"Ole hyvä ja tarkista etukäteen onko projektisi oikeutettu isännöitäväksi "
-"tällä sivustolla."
+"Ole hyvä ja tarkista etukäteen onko projektisi oikeutettu ilmaiseen "
+"isännöintiin tällä sivustolla."
 
 #: weblate/templates/accounts/hosting.html:33
 msgid "You will have 14 days to set up your project."
@@ -4257,7 +4226,7 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:35
 msgid "Unapproved projects will be removed."
-msgstr ""
+msgstr "Hyväksymättömät projektit poistetaan."
 
 #: weblate/templates/accounts/hosting.html:36
 msgid ""
@@ -4271,10 +4240,8 @@ msgid "Get started"
 msgstr "Aloita"
 
 #: weblate/templates/accounts/hosting.html:47
-#, fuzzy
-#| msgid "Contact us for commercial hosting"
 msgid "Looking for commercial hosting?"
-msgstr "Ota yhteyttä kaupallisten palvelujen hostaukseen liittyen"
+msgstr "Etsitkö kaupallista hostausta?"
 
 #: weblate/templates/accounts/hosting.html:50
 #, python-format
@@ -4505,10 +4472,9 @@ msgid "Your avatar"
 msgstr "Kuvasi"
 
 #: weblate/templates/accounts/profile.html:206
-#, fuzzy, python-format
-#| msgid "Avatars are provided using Gravatar."
+#, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Käyttäjien kuvat tarjoaa Gravatar."
+msgstr "Käyttäjien kuvat tarjoaa %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:215
 #: weblate/templates/addons/discovery_help.html:10
@@ -4633,10 +4599,8 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Sinut ohjataan tunnistautumispalvelun tarjoajalle."
 
 #: weblate/templates/accounts/register.html:32
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Register in Weblate"
-msgstr "Palaa Weblateen"
+msgstr "Rekisteröidy Weblateen"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
@@ -4712,7 +4676,7 @@ msgstr ""
 
 #: weblate/templates/accounts/trial.html:25
 msgid "No credit card is needed, but you can set the payment method anytime."
-msgstr ""
+msgstr "Luottokorttia ei vaadita, mutta voit asettaa maksutavan milloin vain."
 
 #: weblate/templates/accounts/trial.html:26
 msgid "All configuration will stay once you start paying."
@@ -4761,13 +4725,11 @@ msgstr[0] "Yksi odottava ehdotus"
 msgstr[1] "%(count)s odottavaa ehdotusta"
 
 #: weblate/templates/accounts/user.html:54
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s annettu ääni"
-msgstr[1] "%(count)s annettua ääntä"
+msgstr[0] "%(count)s ruutukaappaus"
+msgstr[1] "%(count)s ruutukaappausta"
 
 #: weblate/templates/accounts/user.html:59
 #, python-format
@@ -5260,10 +5222,8 @@ msgid "No invoices found."
 msgstr "Yhtään laskua ei löytynyt."
 
 #: weblate/templates/billing/detail.html:100
-#, fuzzy
-#| msgid "Hostname"
 msgid "Libre hosting"
-msgstr "Isäntänimi"
+msgstr "Vapaa hostaus"
 
 #: weblate/templates/billing/detail.html:102
 #: weblate/templates/billing/state-snippet.html:5
@@ -5303,10 +5263,8 @@ msgid "Hosted words"
 msgstr "Kääntämättömiä sanoja"
 
 #: weblate/templates/billing/list.html:32
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No users currently assigned!"
-msgstr "Yhtään projektia ei ole juuri nyt osoitettu!"
+msgstr "Yhtään käyttäjää ei ole juuri nyt osoitettu!"
 
 #: weblate/templates/billing/list.html:39
 #: weblate/templates/billing/status.html:102
