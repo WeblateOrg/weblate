@@ -860,7 +860,7 @@ def new_unit(request, project, component, lang):
     if not request.user.has_perm("unit.add", translation):
         raise PermissionDenied()
 
-    form = get_new_unit_form(translation)(request.user, request.POST)
+    form = get_new_unit_form(translation, request.user, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
     else:

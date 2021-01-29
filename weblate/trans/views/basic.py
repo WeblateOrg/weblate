@@ -46,7 +46,7 @@ from weblate.trans.forms import (
     get_new_unit_form,
     get_upload_form,
 )
-from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.models import Change, ComponentList, Translation
 from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
@@ -319,9 +319,6 @@ def show_translation(request, project, component, lang):
         other_translations, key=lambda t: t.stats.translated_percent
     )[:10]
 
-    fake_source_unit = Unit(translation=component.source_translation, id_hash=-1)
-    fake_target_unit = Unit(translation=obj, id_hash=-1)
-
     return render(
         request,
         "translation.html",
@@ -346,14 +343,7 @@ def show_translation(request, project, component, lang):
                 project=project,
                 auto_id="id_bulk_%s",
             ),
-            "new_unit_form": get_new_unit_form(obj)(
-                user,
-                initial={
-                    "value": fake_target_unit,
-                    "source": fake_source_unit,
-                    "target": fake_target_unit,
-                },
-            ),
+            "new_unit_form": get_new_unit_form(obj, user),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj
             ),

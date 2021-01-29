@@ -1959,11 +1959,12 @@ class NewMonolingualUnitForm(forms.Form):
         required=True,
     )
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, translation, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["key"].widget.attrs["tabindex"] = 99
         self.fields["value"].widget.attrs["tabindex"] = 100
         self.fields["value"].widget.profile = user.profile
+        self.fields["value"].initial = Unit(translation=translation, id_hash=0)
 
     def as_tuple(self):
         return (self.cleaned_data["key"], self.cleaned_data["value"], None)
@@ -1990,13 +1991,17 @@ class NewBilingualUnitForm(forms.Form):
         required=True,
     )
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, translation, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = 99
         self.fields["source"].widget.attrs["tabindex"] = 100
         self.fields["source"].widget.profile = user.profile
         self.fields["target"].widget.attrs["tabindex"] = 101
         self.fields["target"].widget.profile = user.profile
+        self.fields["source"].initial = Unit(
+            translation=translation.component.source_translation, id_hash=0
+        )
+        self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
     def as_tuple(self):
         return (
@@ -2012,10 +2017,10 @@ class NewBilingualUnitForm(forms.Form):
         ).exists()
 
 
-def get_new_unit_form(translation):
+def get_new_unit_form(translation, user, data=None):
     if translation.component.has_template():
-        return NewMonolingualUnitForm
-    return NewBilingualUnitForm
+        return NewMonolingualUnitForm(translation, user, data)
+    return NewBilingualUnitForm(translation, user, data)
 
 
 class BulkEditForm(forms.Form):
