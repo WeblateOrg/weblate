@@ -262,17 +262,18 @@ class PluralTextarea(forms.Textarea):
         else:
             source = plurals[0]
         # Copy button
-        groups.append(
-            GROUP_TEMPLATE.format(
-                "",
-                BUTTON_TEMPLATE.format(
-                    "copy-text",
-                    gettext("Fill in with source string"),
-                    COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
-                    "{} {}".format(icon("clone.svg"), gettext("Clone source")),
-                ),
+        if source:
+            groups.append(
+                GROUP_TEMPLATE.format(
+                    "",
+                    BUTTON_TEMPLATE.format(
+                        "copy-text",
+                        gettext("Fill in with source string"),
+                        COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
+                        "{} {}".format(icon("clone.svg"), gettext("Clone source")),
+                    ),
+                )
             )
-        )
 
         # Special chars
         chars = [
