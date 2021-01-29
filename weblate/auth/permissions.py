@@ -210,7 +210,7 @@ def check_unit_delete(user, permission, obj):
 def check_unit_add(user, permission, translation):
     component = translation.component
     # Check if adding is generally allowed
-    if not component.new_unit or translation.is_readonly:
+    if not component.manage_units or translation.is_readonly:
         return False
     source = translation.is_source
     template = component.has_template()

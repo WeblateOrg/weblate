@@ -76,7 +76,7 @@ new strings into Weblate.
 
 .. note::
 
-   Availability of adding strings in Weblate depends on :ref:`component-new_unit`.
+   Availability of adding strings in Weblate depends on :ref:`component-manage_units`.
 
 .. _updating-target-files:
 

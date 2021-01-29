@@ -2336,7 +2336,7 @@ class TranslationAPITest(APIBaseTest):
             request={"source": "Source", "target": "Target"},
             code=403,
         )
-        self.component.new_unit = True
+        self.component.manage_units = True
         self.component.save()
         self.do_request(
             "api:translation-units",

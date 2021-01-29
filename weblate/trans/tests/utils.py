@@ -212,8 +212,8 @@ class RepoTestMixin:
             kwargs["name"] = "Test"
         kwargs["slug"] = kwargs["name"].lower()
 
-        if "new_unit" not in kwargs and template:
-            kwargs["new_unit"] = True
+        if "manage_units" not in kwargs and template:
+            kwargs["manage_units"] = True
 
         if branch is None:
             branch = VCS_REGISTRY[vcs].default_branch

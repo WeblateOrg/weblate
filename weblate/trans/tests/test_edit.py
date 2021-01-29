@@ -145,13 +145,13 @@ class EditTest(ViewTestCase):
         self.make_manager()
 
         # No adding
-        self.component.new_unit = False
+        self.component.manage_units = False
         self.component.save()
         response = self.add_unit("key")
         self.assertEqual(response.status_code, 403)
 
         # Adding allowed (if format supports that)
-        self.component.new_unit = True
+        self.component.manage_units = True
         self.component.save()
         response = self.add_unit("key")
         if not self.component.file_format_cls.can_add_unit:

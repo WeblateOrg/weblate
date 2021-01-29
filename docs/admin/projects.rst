@@ -557,21 +557,25 @@ Disable adding new translations
 
    :ref:`adding-translation`.
 
-.. _component-new_unit:
+.. _component-manage_units:
 
-Adding new strings
-++++++++++++++++++
+Manage strings
+++++++++++++++
 
-Configures whether users in Weblate will be allowed to add new strings. Adjust
-this to match your localization workflow - how the new strings are supposed to
-be introduced.
+Configures whether users in Weblate will be allowed to add new strings and
+remove existing ones. Adjust this to match your localization workflow - how the
+new strings are supposed to be introduced.
 
 For bilingual formats, the strings are typically extracted from the source code
 (for example by using :program:`xgettext`) and adding new strings in Weblate
-should be disabled (they would be discarded next time you update the translation files).
+should be disabled (they would be discarded next time you update the
+translation files). In Weblate you can manage strings for every translation and
+it does not enfornce the strings in all translations to be consistent.
 
 For monolingual formats, the strings are added to the source language and that
-makes it automatically translatable in all the translations.
+makes it automatically translatable in all the translations. The strings are
+managed only on source language and are automatically added or removed in the
+translations.
 
 .. seealso::
 

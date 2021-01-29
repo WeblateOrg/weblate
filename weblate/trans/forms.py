@@ -1271,7 +1271,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "restricted",
             "auto_lock_error",
             "links",
-            "new_unit",
+            "manage_units",
         )
         widgets = {
             "enforced_checks": SelectChecksWidget,
@@ -1312,7 +1312,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                     Fieldset(
                         _("Translation settings"),
                         "allow_translation_propagation",
-                        "new_unit",
+                        "manage_units",
                         "check_flags",
                         "variant_regex",
                         "enforced_checks",

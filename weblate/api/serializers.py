@@ -487,7 +487,7 @@ class ComponentSerializer(RemovableSerializer):
             "merge_message",
             "addon_message",
             "allow_translation_propagation",
-            "new_unit",
+            "manage_units",
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
@@ -527,8 +527,8 @@ class ComponentSerializer(RemovableSerializer):
             )
         if "project" in self._context:
             data["project"] = self._context["project"]
-        if "new_unit" not in data:
-            data["new_unit"] = bool(data.get("template"))
+        if "manage_units" not in data:
+            data["manage_units"] = bool(data.get("template"))
 
     def to_internal_value(self, data):
         # Preprocess to inject params based on content

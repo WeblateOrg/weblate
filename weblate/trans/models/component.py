@@ -479,12 +479,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             "translations created by Weblate."
         ),
     )
-    new_unit = models.BooleanField(
-        verbose_name=gettext_lazy("Adding new strings"),
+    manage_units = models.BooleanField(
+        verbose_name=gettext_lazy("Manage strings"),
         default=False,
         help_text=gettext_lazy(
-            "Disable adding new strings in Weblate in case the strings "
-            "are automatically extracted from the source."
+            "Disable adding and removing strings in Weblate in case these "
+            "are automatically extracted from the source code or managed externally."
         ),
     )
 

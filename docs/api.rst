@@ -1729,7 +1729,7 @@ Translations
 
     .. seealso::
 
-       :ref:`component-new_unit`,
+       :ref:`component-manage_units`,
        :ref:`adding-new-strings`
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
