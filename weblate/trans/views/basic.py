@@ -284,6 +284,8 @@ def show_component(request, project, component):
 @never_cache
 def show_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
+    component = obj.component
+    project = component.project
     obj.stats.ensure_all()
     last_changes = obj.change_set.prefetch().order()[:10]
     user = request.user
@@ -297,7 +299,7 @@ def show_translation(request, project, component, lang):
     other_translations = prefetch_stats(
         list(
             Translation.objects.prefetch()
-            .filter(component__project=obj.component.project, language=obj.language)
+            .filter(component__project=project, language=obj.language)
             .exclude(pk=obj.pk)
         )
     )
@@ -305,10 +307,10 @@ def show_translation(request, project, component, lang):
     # Include ghost translations for other components, this
     # adds quick way to create translations in other components
     existing = {translation.component.slug for translation in other_translations}
-    existing.add(obj.component.slug)
-    for test_component in obj.component.project.child_components.filter_access(
-        user
-    ).exclude(slug__in=existing):
+    existing.add(component.slug)
+    for test_component in project.child_components.filter_access(user).exclude(
+        slug__in=existing
+    ):
         if test_component.can_add_new_language(user, fast=True):
             other_translations.append(GhostTranslation(test_component, obj.language))
 
@@ -317,7 +319,7 @@ def show_translation(request, project, component, lang):
         other_translations, key=lambda t: t.stats.translated_percent
     )[:10]
 
-    fake_source_unit = Unit(translation=obj.component.source_translation, id_hash=-1)
+    fake_source_unit = Unit(translation=component.source_translation, id_hash=-1)
     fake_target_unit = Unit(translation=obj, id_hash=-1)
 
     return render(
@@ -326,11 +328,11 @@ def show_translation(request, project, component, lang):
         {
             "allow_index": True,
             "object": obj,
-            "project": obj.component.project,
+            "project": project,
             "form": form,
             "download_form": DownloadForm(auto_id="id_dl_%s"),
             "autoform": optional_form(
-                AutoForm, user, "translation.auto", obj, obj=obj.component
+                AutoForm, user, "translation.auto", obj, obj=component
             ),
             "search_form": search_form,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
@@ -341,7 +343,7 @@ def show_translation(request, project, component, lang):
                 obj,
                 user=user,
                 obj=obj,
-                project=obj.component.project,
+                project=project,
                 auto_id="id_bulk_%s",
             ),
             "new_unit_form": get_new_unit_form(obj)(
