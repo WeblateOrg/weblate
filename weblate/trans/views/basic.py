@@ -317,7 +317,8 @@ def show_translation(request, project, component, lang):
         other_translations, key=lambda t: t.stats.translated_percent
     )[:10]
 
-    fake_unit = Unit(translation=obj, id_hash=-1)
+    fake_source_unit = Unit(translation=obj.component.source_translation, id_hash=-1)
+    fake_target_unit = Unit(translation=obj, id_hash=-1)
 
     return render(
         request,
@@ -345,7 +346,11 @@ def show_translation(request, project, component, lang):
             ),
             "new_unit_form": get_new_unit_form(obj)(
                 user,
-                initial={"value": fake_unit, "source": fake_unit, "target": fake_unit},
+                initial={
+                    "value": fake_target_unit,
+                    "source": fake_source_unit,
+                    "target": fake_target_unit,
+                },
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj
