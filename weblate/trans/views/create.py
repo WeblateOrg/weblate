@@ -228,7 +228,9 @@ class CreateComponent(BaseCreateView):
 
     def form_valid(self, form):
         if self.stage == "create":
-            form.instance.manage_units = bool(form.instance.template)
+            form.instance.manage_units = (
+                bool(form.instance.template) or form.instance.file_format == "tbx"
+            )
             result = super().form_valid(form)
             self.object.post_create(self.request.user)
             return result
