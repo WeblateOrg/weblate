@@ -138,7 +138,7 @@ def is_celery_queue_long():
     filtered out, and no warning need be issued for big operations (for example
     site-wide autotranslation).
     """
-    from weblate.trans.models import Component
+    from weblate.trans.models import Translation
 
     cache_key = "celery_queue_stats"
     queues_data = cache.get(cache_key, {})
@@ -171,7 +171,7 @@ def is_celery_queue_long():
     thresholds = defaultdict(lambda: 50)
     # Set the limit to avoid trigger on auto-translating all components
     # nightly.
-    thresholds["translate"] = max(1000, Component.objects.count() / 30)
+    thresholds["translate"] = max(1000, Translation.objects.count() / 30)
     return any(
         stat > thresholds[key] and base.get(key, 0) > thresholds[key]
         for key, stat in stats.items()
