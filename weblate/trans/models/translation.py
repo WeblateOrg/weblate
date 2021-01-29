@@ -1100,8 +1100,10 @@ class Translation(
         if self.is_source:
             self.component.create_translations(request=request)
         else:
-            self.check_sync(request=request, force=True)
+            self.check_sync(request=request)
+            self.invalidate_cache()
 
+    @transaction.atomic
     def add_units(
         self,
         request,
@@ -1121,8 +1123,9 @@ class Translation(
                     user=user,
                     author=user,
                 )
-        self.handle_store_change(request, user)
+            self.handle_store_change(request, user)
 
+    @transaction.atomic
     def delete_unit(self, request, unit):
         from weblate.auth.models import get_anonymous
 
@@ -1138,7 +1141,7 @@ class Translation(
                 return
             extra_files = self.store.remove_unit(pounit.unit)
             self.addon_commit_files.extend(extra_files)
-        self.handle_store_change(request, user)
+            self.handle_store_change(request, user)
 
 
 class GhostTranslation:
