@@ -607,7 +607,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     priority = models.IntegerField(
         default=100,
         choices=PRIORITY_CHOICES,
-        verbose_name=_("Priority"),
+        verbose_name=gettext_lazy("Priority"),
         help_text=_(
             "Components with higher priority are offered first to translators."
         ),
