@@ -428,7 +428,7 @@ class TranslationStats(BaseStats):
                 Length("source"), state__gte=STATE_APPROVED, suggestion_count__gt=0
             ),
             # Comments
-            comments=conditional_sum("id", comment_count__gt=0),
+            comments=conditional_sum(1, comment_count__gt=0),
             comments_words=conditional_sum("num_words", comment_count__gt=0),
             comments_chars=conditional_sum(Length("source"), comment_count__gt=0),
         )
