@@ -49,11 +49,11 @@ from weblate.trans.forms import (
     CommentForm,
     ContextForm,
     MergeForm,
-    NewUnitForm,
     PositionSearchForm,
     RevertForm,
     TranslationForm,
     ZenTranslationForm,
+    get_new_unit_form,
 )
 from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
@@ -860,19 +860,14 @@ def new_unit(request, project, component, lang):
     if not request.user.has_perm("unit.add", translation):
         raise PermissionDenied()
 
-    form = NewUnitForm(request.user, request.POST)
+    form = get_new_unit_form(translation, request.user, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
     else:
-        key = form.cleaned_data["key"]
-        value = form.cleaned_data["value"][0]
-
-        if translation.unit_set.filter(context=key).exists():
-            messages.error(
-                request, _("Translation with this key seem to already exist!")
-            )
+        if form.unit_exists(translation):
+            messages.error(request, _("This string seems to already exist."))
         else:
-            translation.add_units(request, {key: value})
+            translation.add_units(request, [form.as_tuple()])
             messages.success(request, _("New string has been added."))
 
     return redirect(translation)

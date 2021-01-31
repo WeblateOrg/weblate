@@ -1372,6 +1372,8 @@ IDML Format
 
 The translatable content is extracted from the Adobe InDesign Markup Language files and offered for the translation.
 
+.. _tbx:
+
 Term Base eXchange format
 -------------------------
 

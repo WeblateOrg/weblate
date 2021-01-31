@@ -45,7 +45,7 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot`` (works only on source strings).
+   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``
 ``is:TEXT``
    Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
@@ -79,6 +79,8 @@ Fields
    Search in suggestions.
 ``suggestion_author:TEXT``
    Filter by suggestion author.
+``explanation:TEXT``
+   Search in explanations.
 
 Boolean operators
 -----------------

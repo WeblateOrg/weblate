@@ -51,12 +51,12 @@ class Check:
 
     def should_skip(self, unit):
         """Check whether we should skip processing this unit."""
-        # Is this disabled by default
-        if self.default_disabled and self.enable_string not in unit.all_flags:
-            return True
-
         # Is this check ignored
         if self.ignore_string in unit.all_flags:
+            return True
+
+        # Is this disabled by default
+        if self.default_disabled and self.enable_string not in unit.all_flags:
             return True
 
         return False

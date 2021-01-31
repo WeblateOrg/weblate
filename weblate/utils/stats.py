@@ -19,7 +19,6 @@
 
 from copy import copy
 from datetime import timedelta
-from itertools import chain
 from types import GeneratorType
 from typing import Optional
 from uuid import uuid4
@@ -57,6 +56,7 @@ BASICS = {
     "allchecks",
     "translated_checks",
     "suggestions",
+    "nosuggestions",
     "comments",
     "approved_suggestions",
     "languages",
@@ -358,9 +358,11 @@ class TranslationStats(BaseStats):
         return self._object.enable_review
 
     def _prefetch_basic(self):
-        from weblate.trans.models import Unit
-
-        base = self._object.unit_set
+        base = self._object.unit_set.annotate(
+            active_checks_count=Count("check", filter=Q(check__dismissed=False)),
+            suggestion_count=Count("suggestion"),
+            comment_count=Count("comment", filter=Q(comment__resolved=False)),
+        )
         stats = base.aggregate(
             all=Count("id"),
             all_words=Sum("num_words"),
@@ -382,9 +384,11 @@ class TranslationStats(BaseStats):
             nottranslated=conditional_sum(1, state=STATE_EMPTY),
             nottranslated_words=conditional_sum("num_words", state=STATE_EMPTY),
             nottranslated_chars=conditional_sum(Length("source"), state=STATE_EMPTY),
+            # Review workflow
             approved=conditional_sum(1, state=STATE_APPROVED),
             approved_words=conditional_sum("num_words", state=STATE_APPROVED),
             approved_chars=conditional_sum(Length("source"), state=STATE_APPROVED),
+            # Labels
             unlabeled=conditional_sum(1, source_unit__labels__isnull=True),
             unlabeled_words=conditional_sum(
                 "num_words", source_unit__labels__isnull=True
@@ -392,52 +396,43 @@ class TranslationStats(BaseStats):
             unlabeled_chars=conditional_sum(
                 Length("source"), source_unit__labels__isnull=True
             ),
-        )
-        check_stats = Unit.objects.filter(
-            id__in=set(base.filter(check__dismissed=False).values_list("id", flat=True))
-        ).aggregate(
-            allchecks=Count("id"),
-            allchecks_words=Sum("num_words"),
-            allchecks_chars=Sum(Length("source")),
-            translated_checks=conditional_sum(1, state=STATE_TRANSLATED),
+            # Checks
+            allchecks=conditional_sum(1, active_checks_count__gt=0),
+            allchecks_words=conditional_sum("num_words", active_checks_count__gt=0),
+            allchecks_chars=conditional_sum(
+                Length("source"), active_checks_count__gt=0
+            ),
+            translated_checks=conditional_sum(
+                1, state=STATE_TRANSLATED, active_checks_count__gt=0
+            ),
             translated_checks_words=conditional_sum(
-                "num_words", state=STATE_TRANSLATED
+                "num_words", state=STATE_TRANSLATED, active_checks_count__gt=0
             ),
             translated_checks_chars=conditional_sum(
-                Length("source"), state=STATE_TRANSLATED
+                Length("source"), state=STATE_TRANSLATED, active_checks_count__gt=0
             ),
-        )
-        suggestion_stats = Unit.objects.filter(
-            id__in=set(
-                base.filter(suggestion__isnull=False).values_list("id", flat=True)
-            )
-        ).aggregate(
-            suggestions=Count("id"),
-            suggestions_words=Sum("num_words"),
-            suggestions_chars=Sum(Length("source")),
-            approved_suggestions=conditional_sum(1, state__gte=STATE_APPROVED),
+            # Suggestions
+            suggestions=conditional_sum(1, suggestion_count__gt=0),
+            suggestions_words=conditional_sum("num_words", suggestion_count__gt=0),
+            suggestions_chars=conditional_sum(Length("source"), suggestion_count__gt=0),
+            nosuggestions=conditional_sum(1, suggestion_count=0),
+            nosuggestions_words=conditional_sum("num_words", suggestion_count=0),
+            nosuggestions_chars=conditional_sum(Length("source"), suggestion_count=0),
+            approved_suggestions=conditional_sum(
+                1, state__gte=STATE_APPROVED, suggestion_count__gt=0
+            ),
             approved_suggestions_words=conditional_sum(
-                "num_words", state__gte=STATE_APPROVED
+                "num_words", state__gte=STATE_APPROVED, suggestion_count__gt=0
             ),
             approved_suggestions_chars=conditional_sum(
-                Length("source"), state__gte=STATE_APPROVED
+                Length("source"), state__gte=STATE_APPROVED, suggestion_count__gt=0
             ),
+            # Comments
+            comments=conditional_sum(1, comment_count__gt=0),
+            comments_words=conditional_sum("num_words", comment_count__gt=0),
+            comments_chars=conditional_sum(Length("source"), comment_count__gt=0),
         )
-        comment_stats = Unit.objects.filter(
-            id__in=set(
-                base.filter(comment__resolved=False).values_list("id", flat=True)
-            )
-        ).aggregate(
-            comments=Count("id"),
-            comments_words=Sum("num_words"),
-            comments_chars=Sum(Length("source")),
-        )
-        for key, value in chain(
-            stats.items(),
-            check_stats.items(),
-            suggestion_stats.items(),
-            comment_stats.items(),
-        ):
+        for key, value in stats.items():
             self.store(key, value)
 
         # Calculate some values

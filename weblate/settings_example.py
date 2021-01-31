@@ -139,6 +139,9 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+# Type of automatic primary key, introduced in Django 3.2
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # URL prefix to use, please see documentation for more details
 URL_PREFIX = ""
 

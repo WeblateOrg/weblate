@@ -22,7 +22,7 @@ from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, ngettext_lazy
+from django.utils.translation import gettext_lazy, ngettext_lazy, pgettext
 from jellyfish import damerau_levenshtein_distance
 
 from weblate.lang.models import Language
@@ -554,6 +554,17 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
 
+        if self.action == self.ACTION_LICENSE_CHANGE:
+            not_available = pgettext("License information not available", "N/A")
+            return _(
+                "License for component %(component)s was changed "
+                "from %(old)s to %(target)s."
+            ) % {
+                "component": self.component,
+                "old": self.old or not_available,
+                "target": self.target or not_available,
+            }
+
         # Following rendering relies on details present
         if not self.details:
             return ""
@@ -562,7 +573,6 @@ class Change(models.Model, UserDisplayMixin):
             self.ACTION_INVITE_USER,
             self.ACTION_REMOVE_USER,
         }
-
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
                 if number == self.details["access_control"]:

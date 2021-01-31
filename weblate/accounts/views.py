@@ -544,13 +544,13 @@ def trial(request):
     if request.method == "POST":
         from weblate.billing.models import Billing, Plan
 
+        AuditLog.objects.create(request.user, request, "trial")
         billing = Billing.objects.create(
             plan=Plan.objects.get(slug=plan),
             state=Billing.STATE_TRIAL,
             expiry=timezone.now() + timedelta(days=14),
         )
         billing.owners.add(request.user)
-        AuditLog.objects.create(request.user, request, "trial")
         messages.info(
             request,
             _(

@@ -270,10 +270,10 @@ def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
 @app.task(trail=False)
 def component_alerts(component_ids=None):
     if component_ids:
-        components = Component.objects.filter(pk__in=component_ids).iterator()
+        components = Component.objects.filter(pk__in=component_ids)
     else:
-        components = Component.objects.iterator()
-    for component in components:
+        components = Component.objects.all()
+    for component in components.prefetch():
         component.update_alerts()
 
 

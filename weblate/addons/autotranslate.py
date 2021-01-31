@@ -54,6 +54,8 @@ class AutoTranslateAddon(BaseAddon):
             transaction.on_commit(self.make_callback(translation))
 
     def daily(self, component):
-        # Translate every component once in a week to reduce load
-        if component.id % 7 == date.today().weekday():
+        # Translate every component once in a month to reduce load.
+        # The translation is anyway triggered on update, so it should
+        # not matter that much that we run this less often.
+        if component.id % 30 == date.today().day:
             self.component_update(component)

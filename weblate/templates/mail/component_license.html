@@ -5,7 +5,7 @@
 {% block content %}
 {% if change.action == 55 %}
   <p>
-    {% blocktrans %}License for component {{ component }} was changed from {{ old }} to {{ target }}.{% endblocktrans %}
+    {{ change.get_details_display }}
   </p>
 {% else %}
   <p>

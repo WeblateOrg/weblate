@@ -24,6 +24,7 @@ from django.db.models import Q
 
 from weblate.machinery.base import BatchStringMachineTranslation, get_machinery_language
 from weblate.trans.models import Unit
+from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -68,6 +69,9 @@ class WeblateTranslation(BatchStringMachineTranslation):
             state__gte=STATE_TRANSLATED,
         )
 
+        # We want only close matches here
+        adjust_similarity_threshold(0.95)
+
         for munit in matching_units:
             source = munit.source_string
             quality = self.comparer.similarity(text, source)
@@ -96,6 +100,9 @@ class WeblateTranslation(BatchStringMachineTranslation):
             translation__language=language,
             state__gte=STATE_TRANSLATED,
         ).only("source", "target")
+
+        # We want only close matches here
+        adjust_similarity_threshold(0.95)
 
         for unit in matching_units:
             yield unit.source_string, unit.get_target_plurals()[0]

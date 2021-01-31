@@ -149,7 +149,7 @@ class TranslatedCheck(TargetCheck):
         target = self.check_target_unit(unit.source, unit.target, unit)
         if not target:
             return super().get_description(check_obj)
-        return _('Last translation was "%s".') % target
+        return _('Previous translation was "%s".') % target
 
     @property
     def change_states(self):

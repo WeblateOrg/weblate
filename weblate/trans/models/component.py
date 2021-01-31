@@ -479,6 +479,14 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             "translations created by Weblate."
         ),
     )
+    manage_units = models.BooleanField(
+        verbose_name=gettext_lazy("Manage strings"),
+        default=False,
+        help_text=gettext_lazy(
+            "Disable adding and removing strings in Weblate in case these "
+            "are automatically extracted from the source code or managed externally."
+        ),
+    )
 
     # VCS config
     merge_style = models.CharField(
@@ -599,7 +607,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     priority = models.IntegerField(
         default=100,
         choices=PRIORITY_CHOICES,
-        verbose_name=_("Priority"),
+        verbose_name=gettext_lazy("Priority"),
         help_text=_(
             "Components with higher priority are offered first to translators."
         ),

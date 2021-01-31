@@ -47,7 +47,11 @@ from weblate.trans.util import (
     split_plural,
 )
 from weblate.trans.validators import validate_check_flags
-from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
+from weblate.utils.db import (
+    FastDeleteModelMixin,
+    FastDeleteQuerySetMixin,
+    get_nokey_args,
+)
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.search import parse_query
@@ -587,7 +591,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # Calculate state
         state = self.get_unit_state(unit, flags)
-        self.original_state = self.get_unit_state(unit, None)
+        original_state = self.get_unit_state(unit, None)
 
         # Has source changed
         same_source = source == self.source and context == self.context
@@ -626,6 +630,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and same_source
             and same_target
             and same_state
+            and original_state == self.original_state
             and location == self.location
             and flags == self.flags
             and note == self.note
@@ -637,6 +642,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             return
 
         # Store updated values
+        self.original_state = original_state
         self.position = pos
         self.location = location
         self.flags = flags
@@ -695,7 +701,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if not self.readonly:
                 self.state = STATE_READONLY
                 self.save(same_content=True, run_checks=False, update_fields=["state"])
-        elif self.readonly:
+        elif self.readonly and self.state != self.original_state:
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
 
@@ -1117,7 +1123,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         Propagation is currently disabled on import.
         """
         # Fetch current copy from database and lock it for update
-        self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        self.old_unit = Unit.objects.select_for_update(**get_nokey_args()).get(
+            pk=self.pk
+        )
 
         # Handle simple string units
         if isinstance(new_target, str):
@@ -1202,14 +1210,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         )
         result = get_distinct_translations(
             self.source_unit.unit_set.filter(
-                state__gte=STATE_TRANSLATED,
-                translation__language__in=secondary_langs,
-            )
-            .exclude(
-                target="",
-                pk=self.pk,
-            )
-            .select_related(
+                Q(translation__language__in=secondary_langs)
+                & Q(state__gte=STATE_TRANSLATED)
+                & Q(state__lt=STATE_READONLY)
+                & ~Q(target="")
+                & ~Q(pk=self.pk)
+            ).select_related(
                 "source_unit",
                 "translation__language",
                 "translation__plural",

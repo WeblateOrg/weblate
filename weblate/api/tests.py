@@ -1825,8 +1825,8 @@ class LanguageAPITest(APIBaseTest):
         # Check plural exists
         self.assertEqual(response.data["plural"]["type"], 2)
         self.assertEqual(response.data["plural"]["number"], 3)
-        # Check for aliases
-        self.assertEqual(len(response.data["aliases"]), 2)
+        # Check for aliases, with recent language-data there are 3
+        self.assertGreaterEqual(len(response.data["aliases"]), 2)
 
     def test_create(self):
         self.do_request("api:language-list", method="post", code=403)
@@ -2308,6 +2308,70 @@ class TranslationAPITest(APIBaseTest):
             superuser=True,
             format="json",
             request={"key": "plural", "value": ["Source Language", "Source Lanugages"]},
+            code=200,
+        )
+
+    def test_add_bilingual(self):
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=403,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=403,
+        )
+        self.component.manage_units = True
+        self.component.save()
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=200,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target"},
+            code=400,
+        )
+        self.do_request(
+            "api:translation-units",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "test",
+            },
+            method="post",
+            superuser=True,
+            request={"source": "Source", "target": "Target", "context": "Another"},
             code=200,
         )
 

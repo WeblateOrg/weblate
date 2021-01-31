@@ -70,7 +70,7 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
     if units:
         source_translation.add_units(
             None,
-            {calculate_checksum(text): text for text in units},
+            [(calculate_checksum(text), text, None) for text in units],
         )
 
     if errors:

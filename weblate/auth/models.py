@@ -505,7 +505,7 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.order()
-        return Project.objects.filter(pk__in=self.allowed_project_ids)
+        return Project.objects.filter(pk__in=self.allowed_project_ids).order()
 
     @cached_property
     def allowed_project_ids(self):
@@ -526,7 +526,7 @@ class User(AbstractBaseUser):
         Ensure ACL filtering applies (the user could have been removed
         from the project meanwhile)
         """
-        return self.profile.watched.filter(id__in=self.allowed_project_ids)
+        return self.profile.watched.filter(id__in=self.allowed_project_ids).order()
 
     @cached_property
     def owned_projects(self):
@@ -613,7 +613,9 @@ class AutoGroup(models.Model):
         verbose_name=_("Regular expression for e-mail address"),
         max_length=200,
         default="^.*$",
-        help_text=_("Users with matching e-mail address will be added to this group."),
+        help_text=_(
+            "Users with e-mail addresses found to match will be added to this group."
+        ),
     )
     group = models.ForeignKey(
         Group, verbose_name=_("Group to assign"), on_delete=models.deletion.CASCADE

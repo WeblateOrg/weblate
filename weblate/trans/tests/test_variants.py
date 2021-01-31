@@ -32,11 +32,11 @@ class VariantTest(ViewTestCase):
         translation = self.component.source_translation
         translation.add_units(
             request,
-            {
-                f"bar{suffix}": "Default string",
-                "barMin": "Min string",
-                "barShort": "Short string",
-            },
+            [
+                (f"bar{suffix}", "Default string", None),
+                ("barMin", "Min string", None),
+                ("barShort", "Short string", None),
+            ],
         )
 
     def test_edit_component(self, suffix: str = ""):
@@ -78,7 +78,7 @@ class VariantTest(ViewTestCase):
         )
         request = self.get_request()
         translation = self.component.source_translation
-        translation.add_units(request, {key: "Test string" for key in units})
+        translation.add_units(request, [(key, "Test string", None) for key in units])
         self.assertEqual(Variant.objects.count(), 1)
         self.assertEqual(Variant.objects.get().unit_set.count(), 10)
 

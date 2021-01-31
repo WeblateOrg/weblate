@@ -1323,7 +1323,7 @@ Sample configuration for Apache
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 The following configuration runs Weblate as WSGI, you need to have enabled
-mod_wsgi (available as :file:`weblate/examples/apache.conf`):
+``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):
 
 .. literalinclude:: ../../weblate/examples/apache.conf
     :language: apache
@@ -1358,14 +1358,12 @@ The following configuration runs Weblate in Gunicorn and Apache 2.4
 Running Weblate under path
 ++++++++++++++++++++++++++
 
-.. versionchanged:: 1.3
-
-    This is supported since Weblate 1.3.
+.. versionadded:: 1.3
 
 It is recommended to use prefork MPM when using WSGI with Weblate.
 
 A sample Apache configuration to serve Weblate under ``/weblate``. Again using
-mod_wsgi (also available as :file:`weblate/examples/apache-path.conf`):
+``mod_wsgi`` (also available as :file:`weblate/examples/apache-path.conf`):
 
 .. literalinclude:: ../../weblate/examples/apache-path.conf
     :language: apache
@@ -1441,7 +1439,8 @@ Environment configuration to be placed as :file:`/etc/default/celery-weblate`:
 .. literalinclude:: ../../weblate/examples/celery-weblate.conf
     :language: sh
 
-Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:
+Additional configuration to rotate Celery logs using :command:`logrotate` to be
+placed as :file:`/etc/logrotate.d/celery`:
 
 .. literalinclude:: ../../weblate/examples/celery-weblate.logrotate
     :language: text

@@ -19,9 +19,13 @@
 
 
 import re
+from collections import defaultdict
 from datetime import timedelta
 
 from django.utils import timezone
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import SourceCheck
@@ -64,11 +68,40 @@ class MultipleFailingCheck(SourceCheck):
     name = _("Multiple failing checks")
     description = _("The translations in several languages have failing checks")
 
-    def check_source_unit(self, source, unit):
+    def get_related_checks(self, unit):
         from weblate.checks.models import Check
 
-        related = Check.objects.filter(unit__in=unit.unit_set.exclude(pk=unit.id))
+        return Check.objects.filter(unit__in=unit.unit_set.exclude(pk=unit.id))
+
+    def check_source_unit(self, source, unit):
+        related = self.get_related_checks(unit)
         return related.count() >= 2
+
+    def get_description(self, check_obj):
+        related = self.get_related_checks(check_obj.unit).select_related(
+            "unit", "unit__translation", "unit__translation__language"
+        )
+        if not related:
+            return super().get_description()
+
+        checks = defaultdict(list)
+
+        for check in related:
+            checks[check.check].append(check)
+
+        output = [gettext("Following checks are failing:")]
+        for check_list in checks.values():
+            output.append(
+                "{}: {}".format(
+                    check_list[0].get_name(),
+                    ", ".join(
+                        escape(str(check.unit.translation.language))
+                        for check in check_list
+                    ),
+                )
+            )
+
+        return mark_safe("<br>".join(output))
 
 
 class LongUntranslatedCheck(SourceCheck):

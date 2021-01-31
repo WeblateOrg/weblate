@@ -395,7 +395,7 @@ function initHighlight(root) {
     if (editor.classList.contains("translation-editor")) {
       let placeables = editor.getAttribute("data-placeables");
       let extension = {
-        hlspace: /  +/,
+        hlspace: /  +| +$|^ +| +\n|\n +/,
       };
       if (placeables) {
         extension.placeable = RegExp(placeables);

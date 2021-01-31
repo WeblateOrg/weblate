@@ -28,6 +28,8 @@ from ..checks import is_celery_queue_long
 
 
 class CeleryQueueTest(SimpleTestCase):
+    databases = ["default"]
+
     @staticmethod
     def set_cache(value):
         cache.set("celery_queue_stats", value)
