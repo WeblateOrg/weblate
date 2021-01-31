@@ -554,6 +554,16 @@ class Change(models.Model, UserDisplayMixin):
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
 
+        if self.action == self.ACTION_LICENSE_CHANGE:
+            return _(
+                "License for component %(component)s was changed "
+                "from %(old)s to %(target)s."
+            ) % {
+                "component": self.component,
+                "old": self.old or "N/A",
+                "target": self.target or "N/A",
+            }
+
         # Following rendering relies on details present
         if not self.details:
             return ""
@@ -562,7 +572,6 @@ class Change(models.Model, UserDisplayMixin):
             self.ACTION_INVITE_USER,
             self.ACTION_REMOVE_USER,
         }
-
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
                 if number == self.details["access_control"]:
