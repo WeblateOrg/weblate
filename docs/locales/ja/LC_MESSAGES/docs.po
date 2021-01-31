@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-25 13:04+0100\n"
-"PO-Revision-Date: 2021-01-31 06:22+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2021-01-31 12:14+0000\n"
+"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -2064,33 +2064,36 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"認証を行うための様々なソーシャルオプションを含め、Django の組み込みソリューションを使用します。これを使うと、他の Django "
+"ベースのプロジェクトのユーザーデータベースをインポートすることができます (:ref:`pootle-migration` を参照してください)。"
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
-msgstr ""
+msgstr "Django は他の手段に対しても認証を行うように設定することができます。"
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
-msgstr ""
+msgstr ":ref:`docker-auth` で、 Docker の公式イメージで認証を設定する方法を説明します。"
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "ソーシャル認証"
 
 #: ../../admin/auth.rst:35
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
+"doc:`psa:index` のおかげで、GitLab、Ubuntu、Fedora など、多くのサードパーティサービスを利用した認証に対応しています。"
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
-msgstr ""
+msgstr "一般的な設定方法は :doc:`psa:configuration/django` のドキュメントを確認してください。"
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -2099,10 +2102,13 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"既定では、 Weblate "
+"は検証済みのメールアドレスを提供するのにサードパーティの認証サービスに依存します。使用したいサービスの中で対応していないものがある場合は、 "
+"FORCE_EMAIL_VALIDATION を設定して、 Weblate 側で電子メールの検証を強制してください。例えば、以下のようにします。"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
-msgstr ""
+msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
 msgid ""
@@ -2116,11 +2122,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:65
 msgid "OpenID authentication"
-msgstr ""
+msgstr "OpenID 認証"
 
 #: ../../admin/auth.rst:67
 msgid ""
@@ -2128,26 +2134,30 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
+"OpenID ベースのサービスの場合は、通常はそれらを有効にするだけです。次の例では、OpenSUSE、Fedora、Ubuntu で OpenID "
+"認証を有効にします。"
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
-msgstr ""
+msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:88
 msgid "GitHub authentication"
-msgstr ""
+msgstr "GitHub 認証"
 
 #: ../../admin/auth.rst:90
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
-msgstr ""
+msgstr "OAuth アプリケーションを GitHub に登録して、 Weblate に秘密をすべて伝える必要があります。"
 
 #: ../../admin/auth.rst:106
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
+"GitHub のコールバック URL を ``https://example.com/accounts/complete/github/`` "
+"に設定する必要があります。"
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -2155,67 +2165,75 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"認証時に Weblate が提供するコールバック URL には、設定されたドメインが含まれています。 URL の不一致でエラーが発生した場合、"
+"修正するには :ref:`production-site` を参照してください。"
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
-msgstr ""
+msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:118
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Bitbucket 認証"
 
 #: ../../admin/auth.rst:120
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
-msgstr ""
+msgstr "Bitbucket にアプリケーションを登録し、 Weblate にすべての秘密を伝える必要があります。"
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
-msgstr ""
+msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:145
 msgid "Google OAuth 2"
-msgstr ""
+msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:147
 msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
+"Google OAuth 2 を使用するには、 <https://console.developers.google.com/> "
+"にアプリケーションを登録し、 Google+ API を有効にする必要があります。"
 
 #: ../../admin/auth.rst:150
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
 msgstr ""
+"リダイレクト先の URL は``https://WEBLATE SERVER/accounts/complete/google-oauth2/`` です"
 
 #: ../../admin/auth.rst:169
 msgid ":doc:`psa:backends/google`"
-msgstr ""
+msgstr ":doc:`psa:backends/google`"
 
 #: ../../admin/auth.rst:174
 msgid "Facebook OAuth 2"
-msgstr ""
+msgstr "Facebook OAuth 2"
 
 #: ../../admin/auth.rst:176
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"多くの OAuth 2 サービスと同様、 Facebook にアプリケーションを登録する必要があります。登録したら、それを使用するように Weblate "
+"を設定する必要があります。"
 
 #: ../../admin/auth.rst:179
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgstr ""
+"リダイレクト先の URL は ``https://WEBLATE SERVER/accounts/complete/facebook/`` です。"
 
 #: ../../admin/auth.rst:199
 msgid ":doc:`psa:backends/facebook`"
-msgstr ""
+msgstr ":doc:`psa:backends/facebook`"
 
 #: ../../admin/auth.rst:205
 msgid "GitLab OAuth 2"
-msgstr ""
+msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:207
 msgid ""
