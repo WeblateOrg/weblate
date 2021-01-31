@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-01-31 12:14+0000\n"
+"PO-Revision-Date: 2021-01-31 17:56+0000\n"
 "Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -25,56 +25,30 @@ msgid "Access control"
 msgstr "アクセス制御"
 
 #: ../../admin/access.rst:8
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using an older version, please "
-#| "consult the documentation for that version, the information here will not "
-#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using anything older, please "
 "consult the documentation for the specific version you are using."
 msgstr ""
-"Weblate 3.0 より前の権限システムは Django をベースにしていましたが、現在は "
-"Weblate 用に独自に構築されています。古いバージョンを使用している場合は、その"
-"バージョンのドキュメントを確認してください。"
+"Weblate 3.0 より前の権限システムは Django をベースにしていましたが、現在は Weblate "
+"用に独自に構築されています。古いバージョンを使用している場合は、使用している特定のバージョンのドキュメントを確認してください。"
 
 #: ../../admin/access.rst:12
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
-msgstr ""
-"Weblate には、インスタンス全体または限定した範囲のユーザーに、アクセス権を割"
-"り当てるための詳細な権限システムを搭載しています。"
+msgstr "Weblate は、インスタンス全体または限定した範囲のユーザーに、アクセス権を割り当てるための詳細な権限システムを搭載しています。"
 
 #: ../../admin/access.rst:15
-#, fuzzy
-#| msgid ""
-#| "The permission system based on groups and roles, where roles define a set "
-#| "of permissions, and groups assign them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"グループとロールに基づくアクセス許可のシステム。ロールにアクセス権のセットを"
-"設定し、グループとユーザーと翻訳に割り当てます。詳細については :ref:`auth-"
-"model` を確認してください。"
+"権限システムは、グループとロールに基づいており、ロールにアクセス権のセットを設定し、グループとユーザーと翻訳に割り当てます。詳細は :ref:`auth-"
+"model` を参照してください。"
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`."
 msgid ""
 "After installation a default set of groups are created, and you can use "
 "those to assign users roles for the whole instance (see :ref:`default-"
@@ -82,10 +56,9 @@ msgid ""
 "specific translation projects. More fine-grained configuration can be "
 "achieved using :ref:`custom-acl`."
 msgstr ""
-"インストール後にデフォルトのグループが作成され、それを使用しインスタンス全体"
-"にユーザーの権限が割り当てられます（参照: :ref:`default-groups`）。また、:"
-"ref:`acl` を有効にすると、特定の翻訳プロジェクトにユーザーが割り当てられま"
-"す。さらに詳細な設定は :ref:`custom-acl` から設定します。"
+"インストール後にデフォルトのグループが作成され、それを使用してインスタンス全体にユーザーの権限が割り当てることができます (:ref:`default-"
+"groups` を参照)。また、 :ref:`acl` を有効にすると、特定の翻訳プロジェクトにユーザーが割り当てられます。さらに詳細な設定は :ref"
+":`custom-acl` で設定します。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -124,15 +97,10 @@ msgid "Per project permissions"
 msgstr "プロジェクト単位のアクセス権"
 
 #: ../../admin/access.rst:46 ../../admin/access.rst:56
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for projects using the Libre plan on Hosted "
 "Weblate."
-msgstr ""
-"この機能は、ホスト型 Libre プランを実行しているプロジェクトでは使用できませ"
-"ん。"
+msgstr "この機能は、 Hosted Weblate で Libre プランを使用しているプロジェクトでは利用できません。"
 
 #: ../../admin/access.rst:48
 msgid ""
@@ -153,25 +121,18 @@ msgid ""
 "them to a project, component, or language. You can put users in multiple "
 "groups, and permissions can overlap between them."
 msgstr ""
+"メンバーには、自分が所属するグループに割り当てられたすべての権限が付与されるので、一度に複数の権限を付与することができます。グループを作成して、プロジェク"
+"ト、コンポーネント、または言語に割り当てます。複数のグループにユーザーを所属させることができ、グループ間で権限を重複させることができます。"
 
 #: ../../admin/access.rst:63
-#, fuzzy
-#| msgid ""
-#| "You can additionally grant permissions to any user based on project, "
-#| "component or language set. To achieve this, create a new group (e.g. "
-#| "`Czech translators`) and configure it for a given resource. Any assigned "
-#| "permissions will be granted to members of that group for selected "
-#| "resources."
 msgid ""
 "Granting any selected permissions based on project, component or language "
 "set. To achieve this, create a new group (e.g. `Czech translators`) and "
 "configure it for a given resource. Any assigned permissions will be granted "
 "to members of that group for selected resources."
 msgstr ""
-"さらに、プロジェクト、コンポーネント、言語セットに基づいて、どのユーザーにも"
-"アクセス権を追加で設定できます。設定方法は、新しいグループ（例: `Czech "
-"translators`）を作成し、特定のリソースに対して設定します。割り当てたアクセス"
-"権は、選択したリソースのグループのメンバーに設定されます。"
+"プロジェクト、コンポーネント、言語セットに基づいて、任意の選択された権限を設定します。。設定するにはは、新しいグループ (例: `Czech "
+"translators`) を作成し、特定のリソースに対して設定します。割り当てたアクセス権は、選択したリソースのグループのメンバーに設定されます。"
 
 #: ../../admin/access.rst:68
 msgid ""
@@ -194,59 +155,39 @@ msgid "Project access control"
 msgstr "プロジェクトのアクセス制御"
 
 #: ../../admin/access.rst:84
-#, fuzzy
-#| msgid ""
-#| "By enabling ACL, all users are prohibited from accessing anything within "
-#| "a given project, unless you add the permissions for them to do just that."
 msgid ""
 "By turning on access-control lists, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
-msgstr ""
-"ACL を有効にすると、すべてのユーザーは、アクセス権を追加しない限り、該当のプ"
-"ロジェクト内へのすべてのアクセスが禁止されます。"
+msgstr "アクセス制御リストを有効にすると、すべてのユーザーは、アクセス権を追加しない限り、当該プロジェクトへのすべてのアクセスが禁止されます。"
 
 #: ../../admin/access.rst:89
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
-msgstr ""
-"この機能は、ホスト型 Libre プランを実行しているプロジェクトでは使用できませ"
-"ん。"
+msgstr "この機能は、 Hosted Weblate の Libre プランを実行しているプロジェクトでは利用できません。"
 
 #: ../../admin/access.rst:91
-#, fuzzy
-#| msgid ""
-#| "You can limit user's access to individual projects. This feature is "
-#| "turned on by :guilabel:`Access control` in the configuration of each "
-#| "respective project. This automatically creates several groups for this "
-#| "project, see :ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by turning on :guilabel:`Access` "
 "in the :guilabel:`Settings` of each respective project. This automatically "
 "creates several groups for the project in question, see :ref:`groups`."
 msgstr ""
-"個々のプロジェクトへのユーザーのアクセスを制限できます。この機能を有効にする"
-"には、各プロジェクトの設定で :guilabel:`アクセス制御` を有効にします。これに"
-"より、このプロジェクトに複数のグループが自動的に作成されます。参照: :ref:"
-"`groups`。"
+"それぞれのプロジェクトの :guilabel:`設定` にある :guilabel:`アクセス制御` "
+"を有効にすると、個々のプロジェクトでユーザーのアクセスを制限できます。これにより、そのプロジェクトに複数のグループが自動的に作成されます。 "
+":ref:`groups` を参照してください。"
 
 #: ../../admin/access.rst:95
 msgid ":guilabel:`Access control` can be set to:"
-msgstr ""
+msgstr ":guilabel:`アクセス制御` は以下の値に設定できます。"
 
 #: ../../admin/access.rst:97
 msgid "Public"
 msgstr "公開"
 
 #: ../../admin/access.rst:98
-#, fuzzy
-#| msgid "Publicly visible, only translatable for chosen users"
 msgid "Publicly visible, translatable for all logged-in users"
-msgstr "一般公開するが、翻訳は選ばれたユーザ限定"
+msgstr "一般公開で、すべてのログインユーザーが翻訳可能"
 
 #: ../../admin/access.rst:99
 msgid "Protected"
@@ -269,36 +210,23 @@ msgid "Custom"
 msgstr "カスタム"
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid "Weblate does not manage users, see :ref:`custom-acl`."
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
-msgstr "Weblate はユーザーを管理しません。参照: :ref:`custom-acl`。"
+msgstr "Weblate の代わりに Django admin がユーザーを管理します。 :ref:`custom-acl` を参照してください。"
 
 #: ../../admin/access.rst:108
-#, fuzzy
-#| msgid ""
-#| "To allow access to this project, you have to add the privilege either "
-#| "directly to the given user, or group of users in the Django admin "
-#| "interface, or by using user management on the project page, as described "
-#| "in :ref:`manage-acl`."
 msgid ""
 "Grant access to a project by adding the privilege either directly to the "
 "given user, or group of users in the Django admin-interface, or by using "
 "user management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
-"このプロジェクトへのアクセスを許可するには、Django 管理画面で、特定のユーザー"
-"またはユーザー グループに権限を直接追加するか、プロジェクト ページのユーザー"
-"管理で権限の追加が必要です、解説は :ref:`manage-acl`。"
+"プロジェクトへのアクセスを許可するには、 Django の管理画面で特定のユーザーまたはユーザーのグループに権限を直接追加するか、 :ref"
+":`manage-acl` に書かれているように、プロジェクトページのユーザー管理を使用するかします。"
 
 #: ../../admin/access.rst:114
-#, fuzzy
-#| msgid ""
-#| "Even with ACL turned on, some summary info will be available about your "
-#| "project:"
 msgid ""
 "Even with access-control lists turned on, some info will be available about "
 "your project:"
-msgstr "ACL が有効でも、入手できるプロジェクトに関する概要情報:"
+msgstr "アクセス制御リストが有効になっていても、以下のようなプロジェクトに関する一部の情報は利用できます。"
 
 #: ../../admin/access.rst:117
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -14753,10 +14681,8 @@ msgid ":ref:`adding-translation`."
 msgstr ""
 
 #: ../../admin/projects.rst:563
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "翻訳文"
+msgstr "文字列の管理"
 
 #: ../../admin/projects.rst:565
 msgid ""
