@@ -134,11 +134,11 @@ Share one repository setup between different components by referring to
 its placement as ``weblate://project/component`` in other(linked) components. This way linked components
 use the VCS repository configuration of the main(referenced) component.
 
-.. hint::
+.. warning::
 
-   Make sure not to delete components others point to for their setup.
+   Removing main component also removes linked components.
 
-Weblate automatically adjusts the repository URL when creating a component when it
+Weblate automatically adjusts the repository URL when creating a component if it
 finds a component with a matching repository setup. You can override this in
 the last step of the component configuration.
 
