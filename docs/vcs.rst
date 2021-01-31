@@ -131,8 +131,8 @@ Weblate internal URLs
 +++++++++++++++++++++
 
 Share one repository setup between different components by referring to
-its placement as ``weblate://project/component`` in other components. This way other components
-use the VCS repository configuration of the referenced component.
+its placement as ``weblate://project/component`` in other(linked) components. This way linked components
+use the VCS repository configuration of the main(referenced) component.
 
 .. hint::
 
