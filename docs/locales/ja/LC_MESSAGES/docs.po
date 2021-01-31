@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-25 13:04+0100\n"
-"PO-Revision-Date: 2021-01-29 20:41+0000\n"
-"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
+"PO-Revision-Date: 2021-01-31 06:22+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -114,9 +114,7 @@ msgstr ""
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
-msgstr ""
-"プロジェクトを `保護` または `プライベート` に設定し、Weblate インターフェイ"
-"スでプロジェクトごとにユーザーを管理します。"
+msgstr "プロジェクトを `保護` または `プライベート` に設定し、Weblate 管理画面でプロジェクトごとにユーザーを管理します。"
 
 #: ../../admin/access.rst:52
 msgid "Adding permissions to languages, components or projects"
@@ -253,9 +251,7 @@ msgstr ""
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
-msgstr ""
-"これは、各グループの Django 管理インターフェイスで設定できます（ :guilabel:`"
-"認証` セクション）。"
+msgstr "これは、各グループの Django 管理画面で設定できます（ :guilabel:`認証` セクション）。"
 
 #: ../../admin/access.rst:127
 msgid ""
@@ -449,9 +445,8 @@ msgid ""
 "`privileges`) can also manage users in projects with access control turned "
 "on through the project page. The interface allows you to:"
 msgstr ""
-":guilabel:`プロジェクトへのアクセスの管理` 権限（参照: :ref:`privileges`）が"
-"あるユーザーは、プロジェクト ページでアクセス制御が有効になっているプロジェク"
-"ト内のユーザーも管理できます。このインタフェースでは、次のことができる:"
+":guilabel:`プロジェクトへのアクセスの管理` 権限（参照: :ref:`privileges`）があるユーザーは、プロジェクト "
+"ページでアクセス制御が有効になっているプロジェクト内のユーザーも管理できます。この管理画面でできること:"
 
 #: ../../admin/access.rst:233
 msgid "Add existing users to the project"
@@ -546,13 +541,10 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-":guilabel:`アクセス制御` として :guilabel:`カスタム` を選択すると、Weblate は"
-"特定のプロジェクトのアクセス管理を停止し、すべてのユーザーとグループを "
-"Django 管理インターフェースを使って管理できます。これを使用すると、より複雑な"
-"アクセス制御を定義したり、単一の Weblate インスタンス内のすべてのプロジェクト"
-"に対して共有アクセス ポリシーを設定できます。デフォルトですべてのプロジェクト"
-"に対してこのオプションを有効にする場合は、:setting:`DEFAULT_ACCESS_CONTROL` "
-"を設定してください。"
+":guilabel:`アクセス制御` として :guilabel:`カスタム` を選択すると、Weblate は特定のプロジェクトのアクセス管理を停止し、"
+"すべてのユーザーとグループを Django 管理画面を使用して管理できます。これを使用すると、より複雑なアクセス制御を定義したり、単一の Weblate "
+"インスタンス内のすべてのプロジェクトに対して共有アクセス ポリシーを設定できます。デフォルトですべてのプロジェクトに対してこのオプションを有効にする場合は"
+"、:setting:`DEFAULT_ACCESS_CONTROL` を設定してください。"
 
 #: ../../admin/access.rst:310
 msgid ""
@@ -873,7 +865,7 @@ msgstr "サイト全体の特権"
 
 #: ../../admin/access.rst:425
 msgid "Use management interface"
-msgstr "管理インターフェイスの使用"
+msgstr "管理画面の使用"
 
 #: ../../admin/access.rst:427
 msgid "Add new projects"
@@ -1229,17 +1221,15 @@ msgid ""
 "for complexity in configuration. Some examples for common use cases can be "
 "found in the addon help section."
 msgstr ""
-"コンポーネントの照合は正規表現を使用して行われますが、この場合、性能は設定の複雑さとトレードオフになります。一般的な使用例については、アドオンのヘルプセク"
-"ションを確認してください。"
+"コンポーネントの照合は正規表現を使用して行われますが、この場合、性能は設定の複雑さとトレードオフになります。一般的な使用例については、アドオンのヘルプ "
+"セクションを確認してください。"
 
 #: ../../admin/addons.rst:128
 msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
-msgstr ""
-":guilabel:`保存` をクリックすると、一致するコンポーネントのプレビューを表示"
-"し、設定が実際のニーズに合っているか確認できます:"
+msgstr ":guilabel:`保存` をクリックすると、一致するコンポーネントのプレビューを表示し、設定が実際のニーズに合っているか確認する方法:"
 
 #: ../../admin/addons.rst:135 ../../admin/addons.rst:231
 msgid ":ref:`markup`"
@@ -1394,6 +1384,7 @@ msgid ""
 msgstr "原文に接頭辞と接尾辞を追加することで、擬似言語の変換を自動的に生成します。"
 
 #: ../../admin/addons.rst:241
+#, fuzzy
 msgid ""
 "Pseudolocales are useful for testing if all strings that should be localized "
 "are actually prepared for localization. This is done by altering source "
@@ -1409,7 +1400,7 @@ msgstr ""
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
-msgstr "テストには実際の言語を使うことができますが、 Weblate には専用の擬似言語があります。 `en_XA` と `ar_XB` です。"
+msgstr "テストには実際の言語を使用できますが、 Weblate には専用の擬似言語（ `en_XA` と `ar_XB` ）があります。"
 
 #: ../../admin/addons.rst:255
 msgid "Contributors in comment"
@@ -1805,7 +1796,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:561
 msgid "For example with Gulp you can do it using following code:"
-msgstr "Gulp による例では、以下のコードを使用することができます。"
+msgstr "以下のコードを使用した、Gulp の例:"
 
 #: ../../admin/addons.rst:571
 msgid "Pre commit processing of translations"
@@ -1815,17 +1806,17 @@ msgstr "翻訳の事前コミット処理"
 msgid ""
 "Use the commit script to automatically make changes to the translation "
 "before it is committed to the repository."
-msgstr "コミットスクリプトを使用すると、リポジトリにコミットする前に、自動的に翻訳に変更を加えることができます。"
+msgstr "コミット スクリプトを使用して、翻訳文をリポジトリにコミットする前に、自動的に翻訳を追加変更します。"
 
 #: ../../admin/addons.rst:576
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
-msgstr "これには、唯一の引数として現在の翻訳のファイル名が渡されます。"
+msgstr "これには、現在の翻訳のファイル名を元にした引数を一つ渡します。"
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:93
 msgid "Management interface"
-msgstr "管理インターフェイス"
+msgstr "管理画面"
 
 #: ../../admin/admin.rst:6
 msgid ""
@@ -1833,52 +1824,52 @@ msgid ""
 "manage/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
-"管理インターフェイスは :file:`/manage/` URL "
-"の下にある管理設定を提供します。管理者権限でログインしたユーザーは、右上のレンチのアイコンからアクセスできます。"
+"管理画面は、:file:`/manage/` URL "
+"の下に提供します。管理者権限でログインしたユーザーがアクセスできる。アクセスするには右上のスパナのアイコンから:"
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr "ここには Weblate の基本的な概要が記載されています。"
+msgstr "Weblate の基本的な概要:"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr "サポート状況。 :doc:`support` を参照"
+msgstr "サポート状況。参照: :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr "バックアップ。 :doc:`backup` を参照"
+msgstr "バックアップ。参照: :doc:`backup`"
 
 #: ../../admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`"
-msgstr "共有翻訳メモリ。 :doc:`memory` を参照"
+msgstr "共有翻訳メモリ。参照: :doc:`memory`"
 
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
-msgstr "Weblate の健康状態や Celery のキューの長さを確認するための性能レポート"
+msgstr "Weblate の正常性や Celery のキューの長さを確認する性能レポート"
 
 #: ../../admin/admin.rst:18
 msgid "SSH keys management, see :ref:`ssh-repos`"
-msgstr "SSH 鍵管理。 :ref:`ssh-repos` を参照"
+msgstr "SSH 鍵管理。参照: :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr "すべてのコンポーネントのアラートの概要。 :ref:`alerts` を参照"
+msgstr "すべてのコンポーネントのアラートの概要。参照: :ref:`alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
-msgstr "Django 管理インターフェイス"
+msgstr "Django 管理画面"
 
 #: ../../admin/admin.rst:28
 msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
-msgstr "使用は推奨されず、将来削除予定です。ほとんどの機能は Weblate で直接管理できます。"
+msgstr "使用は推奨されないので、将来削除予定です。ほとんどの機能は Weblate で直接管理できます。"
 
 #: ../../admin/admin.rst:31
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
-msgstr "ここでは、ユーザー、翻訳、その他の設定など、データベースに保存されているオブジェクトを管理することができます。"
+msgstr "ここでは、ユーザー、翻訳、その他の設定など、データベースに保存しているオブジェクトを管理できます。"
 
 #: ../../admin/admin.rst:36
 msgid ""
@@ -1886,6 +1877,8 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+":guilabel:`Reports` セクションでは、サイトの状態を確認したり、:ref:`production` 用に設定したり、:ref:`vcs-"
+"repos` へのアクセスに使用する SSH 鍵を管理できます。"
 
 #: ../../admin/admin.rst:39
 msgid ""
@@ -1893,12 +1886,16 @@ msgid ""
 "is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
+"各セクションでデータベース オブジェクトを管理します。特に興味深いのはおそらく :guilabel:`Weblate translations` "
+"であり、翻訳可能なプロジェクトを管理できます。参照: :ref:`project` および :ref:`component`。"
 
 #: ../../admin/admin.rst:43
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
+":guilabel:`Weblate languages` に言語設定を保管しています。詳細については、:ref:`languages` "
+"を確認してください。"
 
 #: ../../admin/admin.rst:47
 msgid "Adding a project"
@@ -1910,8 +1907,8 @@ msgid ""
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
 msgstr ""
-"プロジェクトを追加すると、すべてのコンポーネントのコンテナーとして働きます。通常、一つのソフトウェアや本につき一つのプロジェクトを作成します ("
-"個別の引数の情報は :ref:`project` を参照してください)。"
+"プロジェクトを追加すると、すべてのコンポーネントのコンテナとして機能します。通常の、1 つのソフトウェアやブックにつき 1 "
+"つのプロジェクトを作成する方法（個々のパラメータについては、:ref:`project` を参照）:"
 
 #: ../../admin/admin.rst:57
 msgid ":ref:`project`"
@@ -1919,15 +1916,14 @@ msgstr ":ref:`project`"
 
 #: ../../admin/admin.rst:62
 msgid "Bilingual components"
-msgstr "バイリンガルコンポーネント"
+msgstr "バイリンガル コンポーネント"
 
 #: ../../admin/admin.rst:64
 msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
-"プロジェクトを追加すると、そこに翻訳コンポーネントを追加することができます (個別の引数についての情報は :ref:`component` "
-"を参照してください)。"
+"プロジェクトを追加すると、翻訳コンポーネントをプロジェクトに追加できます（個々のパラメータについては、:ref:`component` を参照）。"
 
 #: ../../admin/admin.rst:71 ../../admin/admin.rst:87
 msgid ":ref:`component`, :ref:`bimono`"
@@ -1935,7 +1931,7 @@ msgstr ":ref:`component`、:ref:`bimono`"
 
 #: ../../admin/admin.rst:77
 msgid "Monolingual components"
-msgstr "モノリンガルコンポーネント"
+msgstr "単一言語コンポーネント"
 
 #: ../../admin/admin.rst:79
 msgid ""
@@ -1943,6 +1939,8 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"これらを簡単に翻訳するには、メッセージ ID と各ソース言語（通常は英語）とのマッピングを含めたテンプレート "
+"ファイルを用意します。（個々のパラメータについては、:ref:`component` を参照）:"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -1950,81 +1948,83 @@ msgstr "お知らせ"
 
 #: ../../admin/announcements.rst:6
 msgid "In prior releases this feature was called whiteboard messages."
-msgstr "以前のリリースでは、この機能はホワイトボードメッセージと呼ばれていました。"
+msgstr "以前のリリースでは、この機能はホワイトボード メッセージと呼んでいました。"
 
 #: ../../admin/announcements.rst:8
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
-msgstr "サイト全体、プロジェクト単位、コンポーネント単位、言語単位にお知らせを投稿して、翻訳者に情報を提供します。"
+msgstr "サイト全体、プロジェクトごと、コンポーネントごと、言語ごとにお知らせを投稿して、翻訳者に情報を提供します。"
 
 #: ../../admin/announcements.rst:10
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
-msgstr "翻訳の目的、期限、状態、目標の設定をアナウンスします。"
+msgstr "翻訳の目的、期限、状態、目標値の設定を告知します。"
 
 #: ../../admin/announcements.rst:12
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
-msgstr "ユーザーには、監視中のプロジェクトのお知らせが (オプトアウトしない限り) 通知されます。"
+msgstr "ユーザーは、監視中のプロジェクトのお知らせの通知を受け取ります（拒否しない限り）。"
 
 #: ../../admin/announcements.rst:15
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
-msgstr "ウェブサイトの目的を告知したり、翻訳の対象を指定したりと、様々なことに役立ちます。"
+msgstr "Web サイトの目的の告知から翻訳の目標の通知まで、さまざまな場面で役立ちます。"
 
 #: ../../admin/announcements.rst:18
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
-msgstr ":guilabel:`管理` メニューの :guilabel:`お知らせの投稿` で各レベルにお知らせを掲載することができます。"
+msgstr ""
+"各レベルへのお知らせを、:guilabel:`Manage` メニューの :guilabel:`Post announcement` "
+"を使用して投稿する方法:"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr "管理者インターフェースを使って追加することもできます。"
+msgstr "同じことを、管理画面を使用して追加する方法:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr "お知らせは指定されたコンテキストに基づいて表示されます。"
+msgstr "お知らせを、指定したコンテキストに基づいて表示する方法:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr "コンテキストが指定されていない場合"
+msgstr "コンテキストを指定しない場合"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr "ダッシュボード (ランディングページ) に表示されます。"
+msgstr "ダッシュボード（ランディング ページ）に表示。"
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr "プロジェクトが指定された場合"
+msgstr "プロジェクトを指定した場合"
 
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
-msgstr "プロジェクト内で、そのコンポーネントと翻訳すべてを含めて表示されます。"
+msgstr "プロジェクト内で、すべてのコンポーネントと翻訳を含めて表示。"
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr "コンポーネントが指定された場合"
+msgstr "コンポーネントを指定した場合"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr "指定されたコンポーネントと、その翻訳すべてで表示されます。"
+msgstr "指定したコンポーネントと、そのすべての翻訳に対して表示。"
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr "言語が指定された場合"
+msgstr "言語を指定した場合"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
-msgstr "言語の概要と、その言語のすべての翻訳で表示されます。"
+msgstr "言語の概要と、その言語のすべての翻訳に表示。"
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr "これは言語の概要ページでの表示方法です。"
+msgstr "言語の概要ページに表示される内容:"
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -2041,14 +2041,14 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
-"Weblate の既定の設定では、新規ユーザーの登録を処理するためにウェブサイト上のフォームである python-social-auth "
-"を使用します。電子メールを確認すると、新規ユーザーはサードパーティのサービスを利用して協力したり認証したりすることができます。"
+"Weblate のデフォルトの設定では、新規ユーザーの登録を処理するために Web サイト上のフォームである python-social-auth "
+"を使用します。メールを確認すると、新規ユーザーはサード パーティのサービスを利用して投稿したり承認したりできます。"
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
-msgstr "新規ユーザの登録は、 :setting:`REGISTRATION_OPEN` を使用することでオフにすることもできます。"
+msgstr "新規ユーザの登録は、:setting:`REGISTRATION_OPEN` を使用して無効にもできます。"
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
@@ -3904,9 +3904,7 @@ msgstr ""
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
-msgstr ""
-"管理者インターフェイスから匿名ユーザーのダッシュボード設定を変更し、認証され"
-"ていないユーザーに表示するダッシュボードを変更します。"
+msgstr "管理画面から匿名ユーザーのダッシュボード設定を変更し、認証されていないユーザーに表示するダッシュボードを変更します。"
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -4092,7 +4090,7 @@ msgstr "後方互換性のために、文字列選択の他に on/off のオプ�
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr "オプションtとは："
+msgstr "オプションとは:"
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:382
 msgid "``\"none\"``"
@@ -4104,7 +4102,7 @@ msgstr "毎日の更新はなし。"
 
 #: ../../admin/config.rst:100
 msgid "``\"remote\"`` also ``False``"
-msgstr "``\"remote\"`` も ``False``"
+msgstr "``\"remote\"`` および ``False``"
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
@@ -4112,7 +4110,7 @@ msgstr "リモートのみを更新。"
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
-msgstr "``\"full\"`` も ``True``"
+msgstr "``\"full\"`` および ``True``"
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
@@ -4135,8 +4133,8 @@ msgid ""
 "Prefix for constructing avatar URLs as: ``${AVATAR_URL_PREFIX}/avatar/"
 "${MAIL_HASH}?${PARAMS}``. The following services are known to work:"
 msgstr ""
-"アバター URL を作成するための接頭辞：``${AVATAR_URL_PREFIX}/avatar/"
-"${MAIL_HASH}?${PARAMS}``。動作することが判明しているサービス："
+"アバター URL を作成するための接頭辞: ``${AVATAR_URL_PREFIX}/avatar/"
+"${MAIL_HASH}?${PARAMS}``。動作することが判明しているサービス:"
 
 #: ../../admin/config.rst:118
 msgid "Gravatar (default), as per https://gravatar.com/"
@@ -4206,7 +4204,7 @@ msgstr ""
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr "利用可能な修正："
+msgstr "修正項目の設定方法:"
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
@@ -4259,7 +4257,7 @@ msgstr ""
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr "使用するものを選択する方法："
+msgstr "使用する項目の選択方法:"
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
@@ -4391,11 +4389,11 @@ msgstr ""
 
 #: ../../admin/config.rst:277
 msgid "You can turn off all checks:"
-msgstr "すべての検査を無効にする方法："
+msgstr "すべての検査を無効にする方法:"
 
 #: ../../admin/config.rst:283
 msgid "You can turn on only a few:"
-msgstr "指定する項目だけ有効にする方法："
+msgstr "指定する項目のみを有効にする方法:"
 
 #: ../../admin/config.rst:295
 msgid ""
@@ -4458,7 +4456,7 @@ msgstr ""
 
 #: ../../admin/config.rst:337
 msgid "The following subdirectories usually exist:"
-msgstr "通常存在する、サブディレクトリ:"
+msgstr "通常存在する、サブディレクトリ一覧:"
 
 #: ../../admin/config.rst:339
 msgid ":file:`home`"
@@ -4563,7 +4561,7 @@ msgstr "DEFAULT_ACCESS_CONTROL"
 
 #: ../../admin/config.rst:395
 msgid "The default access control setting for new projects:"
-msgstr "新しいプロジェクトのデフォルトのアクセス制御設定："
+msgstr "新しいプロジェクトのデフォルトのアクセス制御設定方法:"
 
 #: ../../admin/config.rst:397
 msgid "``0``"
@@ -5196,7 +5194,7 @@ msgstr "このフィルタは、短いライセンス名を使用します。"
 
 #: ../../admin/config.rst:923
 msgid "Following disables the license alert:"
-msgstr "ライセンス警告を無効にする方法："
+msgstr "ライセンス警告を無効にする方法:"
 
 #: ../../admin/config.rst:931 ../../admin/config.rst:1689
 msgid ":ref:`alerts`"
@@ -5301,7 +5299,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1013
 msgid "Some of exceptions you might want to include:"
-msgstr "含めることができる例外項目:"
+msgstr "含めたい例外の設定方法:"
 
 #: ../../admin/config.rst:1031
 msgid "MATOMO_SITE_ID"
@@ -5644,10 +5642,9 @@ msgid ""
 "en-us/azure/cognitive-services/translator/reference/v3-0-"
 "reference#authenticating-with-an-access-token>`_."
 msgstr ""
-"`\"アクセス トークンによる認証\" section <https://docs.microsoft.com/en-us/"
-"azure/cognitive-services/translator/reference/v3-0-reference#authenticating-"
-"with-an-access-token>`_ で定義されているアクセス トークンのリージョン エンド"
-"ポイント URL ドメイン 。"
+"`\"アクセス トークンを使用した認証\" セクション <https://docs.microsoft.com/ja-jp/azure/"
+"cognitive-services/translator/reference/v3-0-reference#authenticating-with-"
+"an-access-token>`_ で定義されているアクセス トークンのリージョン エンドポイント URL ドメイン 。"
 
 #: ../../admin/config.rst:1290
 msgid "Defaults to ``api.cognitive.microsoft.com`` for Azure Global."
@@ -5840,7 +5837,7 @@ msgstr "MT_SAP_BASE_URL"
 
 #: ../../admin/config.rst:1429
 msgid "API URL to the SAP Translation Hub service."
-msgstr "SAP 翻訳ハブ サービスへの API URL。"
+msgstr "SAP Translation Hub サービスへの API URL。"
 
 #: ../../admin/config.rst:1432 ../../admin/config.rst:1442
 #: ../../admin/config.rst:1452 ../../admin/config.rst:1462
@@ -7407,8 +7404,7 @@ msgstr ""
 msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
-msgstr ""
-"管理インターフェイスを使用するか、このボタンを使用する（サーバーに移動する）:"
+msgstr "管理画面を使用するか、このボタンの使用（サーバーに移動）:"
 
 #: ../../admin/deployments.rst:54
 msgid "It also is possible to use the commandline interface:"
@@ -9474,9 +9470,7 @@ msgstr "Weblate の監視"
 msgid ""
 "Weblate provides the ``/healthz/`` URL to be used in simple health checks, "
 "for example using Kubernetes."
-msgstr ""
-"Weblate は、例えば Kubernetes を使った簡単なシステム診断で使用する ``/"
-"healthz/`` URLを提供します。"
+msgstr "Weblate は、例えば Kubernetes を使った簡単な正常性診断で使用する ``/healthz/`` URLを提供します。"
 
 #: ../../admin/install.rst:1490
 msgid "Collecting error reports"
@@ -14693,7 +14687,7 @@ msgstr "文字列の異なる表記を特定するために使用する正規表
 msgid ""
 "Most of the fields can be edited by project owners or managers, in the "
 "Weblate interface."
-msgstr "ほとんどのフィールドは、Weblate インターフェイスでプロジェクトの所有者または管理者が編集できます。"
+msgstr "ほとんどのフィールドは、Weblate 管理画面でプロジェクトの所有者または管理者が編集できます。"
 
 #: ../../admin/projects.rst:716
 msgid ":ref:`faq-vcs`, :ref:`alerts`"
@@ -18242,7 +18236,7 @@ msgstr ""
 
 #: ../../changes.rst:49
 msgid "Added support for appearance customization in the management interface."
-msgstr "管理インターフェイスで外観の変更の対応を追加。"
+msgstr "管理画面で外観の変更の対応を追加。"
 
 #: ../../changes.rst:50
 msgid "Fixed read-only state handling in bulk edit."
@@ -29035,7 +29029,7 @@ msgid ""
 "system, used by over 1150 libre projects and companies in more than 115 "
 "countries.**"
 msgstr ""
-"**Weblate は、Web ベースの継続的な翻訳システムで、世界中の 1500 件以上の Libre ソフトウェアのプロジェクトや、115 "
+"**Weblate は、Web ベースの連携する翻訳システムで、世界中の 1500 件以上の Libre ソフトウェアのプロジェクトや、115 "
 "以上の国々の企業で使用されているコピーレフトの Libre ソフトウェアです。**"
 
 #: ../../../README.rst:9
@@ -31259,9 +31253,7 @@ msgstr ""
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
-msgstr ""
-"個人用のデフォルトのダッシュボード画面は、ユーザー情報の :guilabel:`環境設定"
-"` タブで設定できます。"
+msgstr "個人用のデフォルトのダッシュボード画面は、ユーザー情報の :guilabel:`環境設定` セクションで設定できます。"
 
 #: ../../user/profile.rst:54
 msgid ""
