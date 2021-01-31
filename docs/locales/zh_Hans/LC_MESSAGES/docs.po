@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-01-31 12:14+0000\n"
+"PO-Revision-Date: 2021-01-31 17:57+0000\n"
 "Last-Translator: tao wang <tonywang5@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -25,53 +25,28 @@ msgid "Access control"
 msgstr "访问控制"
 
 #: ../../admin/access.rst:8
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using an older version, please "
-#| "consult the documentation for that version, the information here will not "
-#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using anything older, please "
 "consult the documentation for the specific version you are using."
 msgstr ""
-"在 Weblate 3.0 之前，特权系统基于 Django，但现在是专门为 Weblate 构建的。如果"
-"使用的是旧版本，请查阅该版本的文档，此处的信息将不适用。"
+"在 Weblate 3.0 之前，特权系统基于 Django，但现在是专门为 Weblate "
+"构建的。如果使用的是更旧的版本，那么请查阅所使用的特定版本的文档。"
 
 #: ../../admin/access.rst:12
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
-msgstr ""
-"Weblate 带有细粒度的特权系统，可以为整个实例或在有限范围内分配用户权限。"
+msgstr "Weblate 带有细粒度的特权系统，可以为整个实例或在有限范围内分配用户权限。"
 
 #: ../../admin/access.rst:15
-#, fuzzy
-#| msgid ""
-#| "The permission system based on groups and roles, where roles define a set "
-#| "of permissions, and groups assign them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
-msgstr ""
-"基于组和角色的权限系统，其中角色定义了一组权限，组将它们分配给用户和翻译，请"
-"参阅 :ref:`auth-model` 以获取更多详细信息。"
+msgstr "权限系统基于组和角色，其中角色定义了一组权限，组将它们分配给用户和翻译，请参阅 :ref:`auth-model` 以获取更多详细信息。"
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`."
 msgid ""
 "After installation a default set of groups are created, and you can use "
 "those to assign users roles for the whole instance (see :ref:`default-"
@@ -79,9 +54,8 @@ msgid ""
 "specific translation projects. More fine-grained configuration can be "
 "achieved using :ref:`custom-acl`."
 msgstr ""
-"安装后，将创建一组默认的组，可以使用这些组为整个实例分配用户角色（请参阅 :"
-"ref:`default-groups` ）。此外，启用 :ref:`acl` 后，可以将用户分配给特定的翻译"
-"项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置。"
+"安装后，将创建一组默认的组，可以使用这些组为整个实例分配用户角色（请参阅 :ref:`default-groups` ）。此外，启用 :ref:`acl`"
+" 后，可以将用户分配给特定的翻译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -119,13 +93,10 @@ msgid "Per project permissions"
 msgstr "每个每个项目的权限"
 
 #: ../../admin/access.rst:46 ../../admin/access.rst:56
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for projects using the Libre plan on Hosted "
 "Weblate."
-msgstr "此功能对于运行托管自由软件计划的项目不可用。"
+msgstr "此功能对于使用 Weblate 上托管的自由软件计划的项目不可用。"
 
 #: ../../admin/access.rst:48
 msgid ""
@@ -148,22 +119,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:63
-#, fuzzy
-#| msgid ""
-#| "You can additionally grant permissions to any user based on project, "
-#| "component or language set. To achieve this, create a new group (e.g. "
-#| "`Czech translators`) and configure it for a given resource. Any assigned "
-#| "permissions will be granted to members of that group for selected "
-#| "resources."
 msgid ""
 "Granting any selected permissions based on project, component or language "
 "set. To achieve this, create a new group (e.g. `Czech translators`) and "
 "configure it for a given resource. Any assigned permissions will be granted "
 "to members of that group for selected resources."
 msgstr ""
-"可以根据项目、组件或语言向任何用户另外授予权限。为了实现这一目的，对给定的资"
-"源建立新的群组（例如“捷克语译者”）并配置。对于所选的资源，任何指定的权限可以"
-"授予群组内的成员。"
+"根据项目、组件或语言授予任何选择的权限。为了实现这一目的，对给定的资源建立新的群组（例如“捷克语译者”）并配置。对于所选的资源，任何指定的权限可以授予群组"
+"内的成员。"
 
 #: ../../admin/access.rst:68
 msgid ""
@@ -185,26 +148,17 @@ msgid "Project access control"
 msgstr "项目访问控制"
 
 #: ../../admin/access.rst:84
-#, fuzzy
-#| msgid ""
-#| "By enabling ACL, all users are prohibited from accessing anything within "
-#| "a given project, unless you add the permissions for them to do just that."
 msgid ""
 "By turning on access-control lists, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
-msgstr ""
-"通过允许 ACL ，所有用户禁止访问给定项目的任何内容，除非可以将权限授予他们去"
-"做。"
+msgstr "通过打开访问控制列表 ，所有用户禁止访问给定项目的任何内容，除非可以将权限授予他们去做。"
 
 #: ../../admin/access.rst:89
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
-msgstr "此功能对于运行托管自由软件计划的项目不可用。"
+msgstr "此功能对于运行 Weblate 上托管的自由软件计划的项目不可用。"
 
 #: ../../admin/access.rst:91
 #, fuzzy
@@ -224,7 +178,7 @@ msgstr ""
 
 #: ../../admin/access.rst:95
 msgid ":guilabel:`Access control` can be set to:"
-msgstr ""
+msgstr ":guilabel:`Access control` 可以设置为："
 
 #: ../../admin/access.rst:97
 msgid "Public"
@@ -29510,54 +29464,54 @@ msgstr ""
 
 #: ../../formats.rst:747
 msgid ":doc:`tt:formats/php`, `Localization in Laravel`_"
-msgstr ""
+msgstr ":doc:`tt:formats/php`, `Localization in Laravel`_"
 
 #: ../../formats.rst:755
 msgid "JSON files"
-msgstr ""
+msgstr "JSON 文件"
 
 #: ../../formats.rst:764
 msgid ""
 "Since Weblate 2.16 and with `translate-toolkit`_ at-least 2.2.4, nested "
 "structure JSON files are supported as well."
-msgstr ""
+msgstr "自从 Weblate 2.16 和最早 2.2.4 版本的 `translate-toolkit`_，也支持嵌套结构的 JSON 文件。"
 
 #: ../../formats.rst:769
 msgid ""
 "The structure of JSON file is properly preserved even for complex situations "
 "which were broken in prior releases."
-msgstr ""
+msgstr "即使对于在之前发布版本中中断的复杂情况，JSON 文件的结构也适当保留。"
 
 #: ../../formats.rst:772
 msgid ""
 "JSON format is used mostly for translating applications implemented in "
 "JavaScript."
-msgstr ""
+msgstr "JSON 格式主要用于翻译 Javascript 中实施的应用。"
 
 #: ../../formats.rst:775
 msgid "Weblate currently supports several variants of JSON translations:"
-msgstr ""
+msgstr "Weblate 当前支持 JSON 翻译的几个变体："
 
 #: ../../formats.rst:777
 msgid ""
 "Simple key / value files, used for example by `vue-i18n` or `react-intl`."
-msgstr ""
+msgstr "简单的键/值文件，由例如 `vue-i18n` 或 `react-intl` 使用。"
 
 #: ../../formats.rst:778
 msgid "Files with nested keys."
-msgstr ""
+msgstr "具有嵌套键的文件。"
 
 #: ../../formats.rst:784
 msgid ""
 "JSON translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
-msgstr ""
+msgstr "JSON 翻译通常是单语言的，因此推荐指定带有（最经常使用的）英语字符串的翻译模板文件。"
 
 #: ../../formats.rst:792
 msgid ""
 "Nested files are supported as well (see above for requirements), such a file "
 "can look like:"
-msgstr ""
+msgstr "也支持嵌套文件（要求请参见上面），这样的文件看起来像："
 
 #: ../../formats.rst:799
 msgid ""
@@ -29565,6 +29519,8 @@ msgid ""
 "both handle same type of files. Both preserve existing JSON structure when "
 "translating."
 msgstr ""
+":guilabel:`JSON file` 和 :guilabel:`JSON nested structure file` 都可以处理相同类型的文件。"
+"翻译时都保留现有的 JSON 架构。"
 
 #: ../../formats.rst:803
 msgid ""
