@@ -52,7 +52,7 @@ repository this way.
     On GitHub, each key can only be used once, see :ref:`vcs-repos-github` and
     :ref:`hosted-push`.
 
-Weblate also stores the fingerprint for the host key upon first connection, and fails to
+Weblate also stores the fingerprint of the host key upon first connection, and fails to
 connect to the host should it be changed later (see :ref:`verify-ssh`).
 
 In case adjustment is needed, do so from the Weblate admin interface:
