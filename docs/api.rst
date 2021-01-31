@@ -1856,6 +1856,12 @@ Translations
 Units
 +++++
 
+A `unit` is a single pieces of a translation which pairs a source string with a
+corresponding translated string and also contains some related metadata. The
+term is derived from the `Translate Toolkit
+<http://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage.base.TranslationUnit>`_
+and XLIFF.
+
 .. versionadded:: 2.10
 
 .. http:get:: /api/units/
