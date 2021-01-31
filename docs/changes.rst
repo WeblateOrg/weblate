@@ -14,6 +14,7 @@ Not yet released.
 * Improved performance of translation memory for long strings.
 * Added support for searching in explanations.
 * Strings can now be added and removed in bilingual formats as well.
+* Extend list of supported languages in Amazon Translate machine translation.
 
 Weblate 4.4.2
 -------------

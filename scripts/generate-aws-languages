@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+import re
+
+import requests
+
+URL = "https://docs.aws.amazon.com/translate/latest/dg/what-is.html"
+
+LANG_RE = re.compile(".*<td> *([a-z][a-z](-[A-Z][A-Z])?) *</td>.*")
+
+CODES = set()
+
+response = requests.get(URL)
+parse = False
+for line in response.text.splitlines():
+    if parse:
+        match = LANG_RE.match(line)
+        if match:
+            CODES.add(match[1])
+        elif "</table>" in line:
+            break
+    elif "<th>Language Code" in line:
+        parse = True
+
+
+for code in sorted(CODES):
+    print(f'            "{code}",')
