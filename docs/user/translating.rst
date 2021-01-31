@@ -404,7 +404,7 @@ Bulk editing allows performing one operation on number of strings. You define
 strings by searching for them and set up something to be done for matching ones.
 The following operations are supported:
 
-* Changing string state (for example to approve all strings waiting for review)
+* Changing string state (for example to approve all unreviewed strings).
 * Adjust translation flags (see :ref:`custom-checks`)
 * Adjust string labels (see :ref:`labels`)
 
