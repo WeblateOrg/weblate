@@ -31,8 +31,8 @@ cloning, write is required for pushing). Depending on service and your
 organization settings, this happens immediately, or requires confirmation on the
 Weblate side.
 
-Added users are accepted within five minutes GitHub, on other services
-manual processing might be needed, so please be patient.
+The :guilabel:`weblate` user on GitHub accepts invitations automatically within five minutes. 
+Manual processing might be needed on the other services, so please be patient.
 
 Once the :guilabel:`weblate` user is added, you can configure
 :ref:`component-repo` and :ref:`component-push` using the SSH protocol (for example
