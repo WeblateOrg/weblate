@@ -570,7 +570,7 @@ For bilingual formats, the strings are typically extracted from the source code
 (for example by using :program:`xgettext`) and adding new strings in Weblate
 should be disabled (they would be discarded next time you update the
 translation files). In Weblate you can manage strings for every translation and
-it does not enfornce the strings in all translations to be consistent.
+it does not enforce the strings in all translations to be consistent.
 
 For monolingual formats, the strings are added to the source language and that
 makes it automatically translatable in all the translations. The strings are
