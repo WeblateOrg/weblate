@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-01-26 02:42+0000\n"
+"PO-Revision-Date: 2021-01-31 17:57+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -25,26 +25,16 @@ msgid "Access control"
 msgstr "Erişim denetimi"
 
 #: ../../admin/access.rst:8
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using an older version, please "
-#| "consult the documentation for that version, the information here will not "
-#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using anything older, please "
 "consult the documentation for the specific version you are using."
 msgstr ""
 "Weblate 3.0'dan önce, yetki sistemi Django'ya dayanıyordu, ancak şimdi "
-"özellikle Weblate için oluşturuldu. Daha eski bir sürüm kullanıyorsanız, "
-"lütfen o sürümün belgelerine bakın, buradaki bilgiler geçerli olmayacaktır."
+"özellikle Weblate için oluşturuldu. Daha eski bir şey kullanıyorsanız, "
+"lütfen kullandığınız belirli sürüme ait belgelere bakın."
 
 #: ../../admin/access.rst:12
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
@@ -53,11 +43,6 @@ msgstr ""
 "atamak için ayrıntılı bir yetki sistemiyle birlikte gelmektedir."
 
 #: ../../admin/access.rst:15
-#, fuzzy
-#| msgid ""
-#| "The permission system based on groups and roles, where roles define a set "
-#| "of permissions, and groups assign them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups assign them to users and translations, see :ref:"
@@ -68,13 +53,6 @@ msgstr ""
 "daha fazla ayrıntı için :ref:`auth-model` bölümüne bakın."
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`."
 msgid ""
 "After installation a default set of groups are created, and you can use "
 "those to assign users roles for the whole instance (see :ref:`default-"
@@ -126,15 +104,12 @@ msgid "Per project permissions"
 msgstr "Proje başına izinler"
 
 #: ../../admin/access.rst:46 ../../admin/access.rst:56
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for projects using the Libre plan on Hosted "
 "Weblate."
 msgstr ""
-"Bu özellik, Barındırılan Özgür planını kullanan projeler için kullanılabilir "
-"değildir."
+"Bu özellik, Barındırılan Weblate üzerinde Özgür planını kullanan projeler "
+"için kullanılabilir değildir."
 
 #: ../../admin/access.rst:48
 msgid ""
@@ -155,25 +130,22 @@ msgid ""
 "them to a project, component, or language. You can put users in multiple "
 "groups, and permissions can overlap between them."
 msgstr ""
+"Üyelere, bulundukları gruplara atanan tüm izinler verilir, böylece "
+"kullanıcıya aynı anda birden fazla izin verebilirsiniz. Gruplar oluşturun ve "
+"bunları bir projeye, bileşene veya dile ekleyin. Kullanıcıları birden çok "
+"gruba koyabilirsiniz ve izinler aralarında çakışabilir."
 
 #: ../../admin/access.rst:63
-#, fuzzy
-#| msgid ""
-#| "You can additionally grant permissions to any user based on project, "
-#| "component or language set. To achieve this, create a new group (e.g. "
-#| "`Czech translators`) and configure it for a given resource. Any assigned "
-#| "permissions will be granted to members of that group for selected "
-#| "resources."
 msgid ""
 "Granting any selected permissions based on project, component or language "
 "set. To achieve this, create a new group (e.g. `Czech translators`) and "
 "configure it for a given resource. Any assigned permissions will be granted "
 "to members of that group for selected resources."
 msgstr ""
-"Ek olarak herhangi bir kullanıcıya proje, bileşen veya dil kümesine göre "
-"izinler verebilirsiniz. Bunu yapmak için yeni bir grup oluşturun (örn. "
-"`Çekçe çevirmenler`) ve belirli bir kaynak için yapılandırın. Atanan tüm "
-"izinler, seçilen kaynaklar için o grubun üyelerine verilecektir."
+"Proje, bileşen veya dil kümesine göre seçilen izinlerin verilmesi. Bunu "
+"yapmak için yeni bir grup oluşturun (örn. `Çekçe çevirmenler`) ve belirli "
+"bir kaynak için yapılandırın. Atanan tüm izinler, seçilen kaynaklar için o "
+"grubun üyelerine verilecektir."
 
 #: ../../admin/access.rst:68
 msgid ""
@@ -196,60 +168,44 @@ msgid "Project access control"
 msgstr "Proje erişim kontrolü"
 
 #: ../../admin/access.rst:84
-#, fuzzy
-#| msgid ""
-#| "By enabling ACL, all users are prohibited from accessing anything within "
-#| "a given project, unless you add the permissions for them to do just that."
 msgid ""
 "By turning on access-control lists, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
 msgstr ""
-"ACL'yi etkinleştirerek, siz onlara tam da bunu yapmaları için izinler "
-"eklemediğiniz sürece tüm kullanıcıların belirli bir proje içindeki herhangi "
-"bir şeye erişmesi engellenir."
+"Erişim denetim listelerini açtığınızda, siz onlara tam da bunu yapmaları "
+"için izinler eklemediğiniz sürece tüm kullanıcıların belirli bir proje "
+"içindeki herhangi bir şeye erişmesi engellenir."
 
 #: ../../admin/access.rst:89
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
 msgstr ""
-"Bu özellik, Barındırılan Özgür planını kullanan projeler için kullanılabilir "
-"değildir."
+"Bu özellik, Barındırılan Weblate üzerinde Özgür planını kullanan projeler "
+"için kullanılabilir değildir."
 
 #: ../../admin/access.rst:91
-#, fuzzy
-#| msgid ""
-#| "You can limit user's access to individual projects. This feature is "
-#| "turned on by :guilabel:`Access control` in the configuration of each "
-#| "respective project. This automatically creates several groups for this "
-#| "project, see :ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by turning on :guilabel:`Access` "
 "in the :guilabel:`Settings` of each respective project. This automatically "
 "creates several groups for the project in question, see :ref:`groups`."
 msgstr ""
-"Kullanıcının bireysel projelere erişimini sınırlayabilirsiniz. Bu özellik, "
-"ilgili her bir projenin yapılandırmasındaki :guilabel:`Erişim denetimi` "
-"seçeneği tarafından etkinleştirilir. Bu, proje için otomatik olarak birkaç "
-"grup oluşturur, bkz: :ref:`groups`."
+"İlgili her projenin :guilabel:`Settings` bölümünde :guilabel:`Access` açarak "
+"kullanıcının bireysel projelere erişimini sınırlayın. Bu, söz konusu proje "
+"için otomatik olarak birkaç grup oluşturur, bkz: :ref:`groups`."
 
 #: ../../admin/access.rst:95
 msgid ":guilabel:`Access control` can be set to:"
-msgstr ""
+msgstr ":guilabel:`Access control` aşağıdakilerden biri olabilir:"
 
 #: ../../admin/access.rst:97
 msgid "Public"
 msgstr "Açık"
 
 #: ../../admin/access.rst:98
-#, fuzzy
-#| msgid "Publicly visible, only translatable for chosen users"
 msgid "Publicly visible, translatable for all logged-in users"
-msgstr "Herkes görebilir, yalnızca seçilmiş kullanıcılar çevirebilir"
+msgstr "Herkes görebilir, tüm oturum açmış kullanıcılar çevirebilir"
 
 #: ../../admin/access.rst:99
 msgid "Protected"
@@ -272,10 +228,10 @@ msgid "Custom"
 msgstr "Özel"
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid "Weblate does not manage users, see :ref:`custom-acl`."
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
-msgstr "Weblate kullanıcıları yönetmez, bkz: :ref:`custom-acl`."
+msgstr ""
+"Django yöneticisi Weblate yerine kullanıcıları yönetir, bkz: :ref:`custom-"
+"acl`."
 
 #: ../../admin/access.rst:108
 msgid ""
@@ -456,10 +412,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:227
-#, fuzzy
-#| msgid "Per project access control"
 msgid "Managing per-project access control"
-msgstr "Proje başına erişim denetimi"
+msgstr "Proje başına erişim denetimini yönetme"
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -483,16 +437,12 @@ msgid "Invite new users to the project"
 msgstr ""
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Change user permissions"
-msgstr "Site çapında izinler"
+msgstr "Kullanıcı izinlerini değiştir"
 
 #: ../../admin/access.rst:240
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke user access"
-msgstr "Kullanıcı erişimini denetle"
+msgstr "Kullanıcı erişimini iptal et"
 
 #: ../../admin/access.rst:244
 msgid ""
@@ -646,9 +596,6 @@ msgid "Edit component settings [`Administration`]"
 msgstr "Bileşen ayarlarını düzenle [`Yönetim`]"
 
 #: ../../admin/access.rst:345
-#, fuzzy
-#| msgid ""
-#| "Lock component, preventing it from being translated [`Administration`]"
 msgid "Lock component, prevents it from being translated [`Administration`]"
 msgstr "Bileşeni kilitle, çevrilmesini engeller [`Yönetim`]"
 
@@ -757,16 +704,12 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr "Dizgileri gözden geçir [`Yönetim`, `Dizgileri gözden geçir`]"
 
 #: ../../admin/access.rst:386
-#, fuzzy
-#| msgid ""
-#| "Edit string when suggestions are enforced [`Administration`, `Review "
-#| "strings`]"
 msgid ""
 "Edit strings when suggestions are enforced [`Administration`, `Review "
 "strings`]"
 msgstr ""
-"Öneriler zorunlu kılındığında dizgiyi düzenle [`Yönetim`, `Dizgileri gözden "
-"geçir`]"
+"Öneriler zorunlu kılındığında dizgileri düzenle [`Yönetim`, `Dizgileri "
+"gözden geçir`]"
 
 #: ../../admin/access.rst:388
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
@@ -811,12 +754,9 @@ msgid "Translations"
 msgstr "Çeviriler"
 
 #: ../../admin/access.rst:400
-#, fuzzy
-#| msgid ""
-#| "Start new translation [`Administration`, `Manage languages`, `Power user`]"
 msgid ""
 "Start new translations [`Administration`, `Manage languages`, `Power user`]"
-msgstr "Yeni çeviri başlat [`Yönetim`, `Dilleri yönet`, `Uzman kullanıcı`]"
+msgstr "Yeni çeviriler başlat [`Yönetim`, `Dilleri yönet`, `Uzman kullanıcı`]"
 
 #: ../../admin/access.rst:402
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
@@ -836,10 +776,8 @@ msgid "Uploads"
 msgstr "Yüklemeler"
 
 #: ../../admin/access.rst:409
-#, fuzzy
-#| msgid "Define author of translation upload [`Administration`]"
 msgid "Define author of uploaded translations [`Administration`]"
-msgstr "Çeviri yüklemesinin yazarını tanımla [`Yönetim`]"
+msgstr "Yüklenen çevirilerin yazarını tanımla [`Yönetim`]"
 
 #: ../../admin/access.rst:411
 msgid ""
@@ -875,14 +813,10 @@ msgid ""
 msgstr "Değişiklikleri iç depoya işle [`Yönetim`, `Depoyu yönet`]"
 
 #: ../../admin/access.rst:420
-#, fuzzy
-#| msgid ""
-#| "Push change from the internal repository [`Administration`, `Manage "
-#| "repository`]"
 msgid ""
 "Push changes from the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "İç depodan değişikliği yolla [`Yönetim`, `Depoyu yönet`]"
+msgstr "İç depodan değişiklikleri yolla [`Yönetim`, `Depoyu yönet`]"
 
 #: ../../admin/access.rst:422
 msgid ""
@@ -947,19 +881,14 @@ msgid "Manage component lists"
 msgstr "Bileşen listelerini yönet"
 
 #: ../../admin/access.rst:451
-#, fuzzy
-#| msgid ""
-#| "The site wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to the superuser status—most of them affect all "
-#| "the projects of your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 "Site çapında yetkiler herhangi bir varsayılan role verilmez. Bunlar güçlüdür "
-"ve yetkili kullanıcı (superuser) durumuna oldukça yakındır — çoğu Weblate "
-"kurulumunuzun tüm projelerini etkiler."
+"ve yetkili kullanıcı (superuser) durumuna oldukça yakındır. Çoğu Weblate "
+"kurulumunuzdaki tüm projelerini etkiler."
 
 #: ../../admin/access.rst:456
 msgid "List of groups"
@@ -981,28 +910,18 @@ msgid "`Guests`"
 msgstr "`Konuklar`"
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Defines permissions for non-authenticated users."
 msgstr "Kimliği doğrulanmamış kullanıcılar için izinleri tanımlar."
 
 #: ../../admin/access.rst:465
-#, fuzzy
-#| msgid ""
-#| "This group contains only anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This group only contains anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
-"Bu grup yalnızca anonim kullanıcıları içerir (bkz: :setting:"
-"`ANONYMOUS_USER_NAME`)."
+"Bu grup yalnızca anonim kullanıcıları içerir (bkz: "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:467
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non "
-#| "authenticated users."
 msgid ""
 "You can remove roles from this group to limit permissions for non-"
 "authenticated users."
@@ -1074,19 +993,14 @@ msgid "Default roles: `Administration`"
 msgstr "Varsayılan roller: `Yönetim`"
 
 #: ../../admin/access.rst:499
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users, as this can lead to "
-#| "unexpected problems. If you do not want to use these features, just "
-#| "remove all privileges from them."
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
 "Önceden tanımlanmış Weblate gruplarını ve kullanıcılarını asla kaldırmayın, "
-"bu beklenmedik sorunlara yol açabilir. Bu özellikleri kullanmak "
-"istemiyorsanız, onlardan tüm yetkileri kaldırmanız yeterlidir."
+"bu beklenmedik sorunlara yol açabilir. Onları kullanmıyorsanız, bunun yerine "
+"tüm ayrıcalıklarını kaldırabilirsiniz."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2100
 msgid "Addons"
@@ -9030,10 +8944,8 @@ msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
 
 #: ../../admin/install/docker.rst:248
-#, fuzzy
-#| msgid "Configures the site domain."
 msgid "Configures the site domain. This parameter is required."
-msgstr "Site etki alanını yapılandırır."
+msgstr "Site etki alanını yapılandırır. Bu parametre gereklidir."
 
 #: ../../admin/install/docker.rst:252
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -12624,10 +12536,8 @@ msgid "``GLOSSARY``"
 msgstr ""
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Starting translation in new language"
-msgstr "Daha çok dile yeni çeviri başlat"
+msgstr "Yeni dilde çeviri başlatma"
 
 #: ../../admin/optionals.rst:262
 msgid "``LANGUAGE``"
@@ -16155,10 +16065,8 @@ msgid "The translation unit value"
 msgstr ""
 
 #: ../../api.rst:1732
-#, fuzzy
-#| msgid ":ref:`component-enable_suggestions`"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr ":ref:`component-enable_suggestions`"
+msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:1737
 msgid "Trigger automatic translation."
@@ -17137,20 +17045,16 @@ msgid "Improved performance of consistency checks."
 msgstr "Tutarlılık denetimlerinin performansı iyileştirildi."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory for long strings."
-msgstr "Çeviri belleği güncellemelerinin performansı iyileştirildi."
+msgstr "Uzun dizgiler için çeviri belleği performansı iyileştirildi."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Added support for searching in explanations."
-msgstr "Dizgi şekillerini gruplama desteği eklendi."
+msgstr "Açıklamalarda arama desteği eklendi."
 
 #: ../../changes.rst:16
 msgid "Strings can now be added and removed in bilingual formats as well."
-msgstr ""
+msgstr "Dizgiler artık iki dilli biçimlerde da eklenebilir ve kaldırılabilir."
 
 #: ../../changes.rst:19
 msgid "Weblate 4.4.2"
@@ -30231,16 +30135,12 @@ msgid "Filter by suggestion author."
 msgstr ""
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Explanation"
 msgid "``explanation:TEXT``"
-msgstr "Açıklama"
+msgstr "``explanation:METİN``"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Search in location strings"
 msgid "Search in explanations."
-msgstr "Konum satırlarında ara"
+msgstr "Açıklamalarda ara."
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
