@@ -113,8 +113,10 @@ Triggered each time the VCS is updated, and otherwise similar to
 the :djadmin:`import_project` management command. This way you can track
 multiple translation components within one VCS.
 
-Matching is done using powerful regular expressions, reducing configuration
-complexity. Some examples for common use-cases can be found in the addon help section.
+The matching is done using regular expressions 
+that enables complex configuration, but some knowledge is needed to use them conveniently. 
+Some examples for common use cases can be found in
+the addon help section.
 
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
