@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-31 13:03+0000\n"
-"PO-Revision-Date: 2021-01-31 12:14+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2021-01-31 17:56+0000\n"
+"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -2127,10 +2127,8 @@ msgid "Regular expression for e-mail address"
 msgstr "メール アドレスの正規表現"
 
 #: weblate/auth/models.py:617
-#, fuzzy
-#| msgid "Users with matching e-mail address will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this group."
-msgstr "メール アドレスが一致するユーザーは、このグループに追加されます。"
+msgstr "一致するメールアドレスを持つユーザーは、このグループに追加されます。"
 
 #: weblate/auth/models.py:621
 msgid "Group to assign"
@@ -2448,10 +2446,9 @@ msgid "This string has been translated in the past"
 msgstr "過去に翻訳済みのもの"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Last translation was \"%s\"."
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "最後の翻訳は \"%s\" です。"
+msgstr "前回の翻訳は \"%s\" でした。"
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
@@ -2826,10 +2823,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "複数の言語の翻訳文には、不合格となった検査項目があります"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "検査に不合格"
+msgstr "以下の検査は不合格です。"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -8377,52 +8372,29 @@ msgid "Please consider the following:"
 msgstr "考慮すべき事項:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
-#, fuzzy
-#| msgid ""
-#| "You might be using monolingual translation files as bilingual. In that "
-#| "case please configure the monolingual base language file."
 msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"単一言語の翻訳ファイルをバイリンガルとして使用している可能性があります。その"
-"場合は、単一言語の基本言語ファイルを設定してください。"
+"モノリンガルの翻訳ファイルをバイリンガル用として使用しているかもしれません。その場合は、モノリンガルの基本言語ファイルの位置を設定してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the component settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
-msgstr ""
-"原文の言語への翻訳が必要であれば、コンポーネントの設定で原文の言語を変更して"
-"ください。"
+msgstr "原文の言語への翻訳が必要であれば、コンポーネントの設定で原文の言語を変更してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is not needed, "
-#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
-msgstr ""
-"翻訳元言語の翻訳ファイルが不必要な場合は、リポジトリから削除してください。"
+msgstr "翻訳元言語の翻訳ファイルが不必要ならば、リポジトリから削除してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but "
-#| "should be ignored by Weblate, please adjust the language filter to "
-#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr ""
-"翻訳元言語用の翻訳ファイルが必要だが、Weblate で無効にする場合は、言語フィル"
-"タを調整して除外にしてください。"
+msgstr "原文用の翻訳ファイルが必要だが、Weblate で無効にする場合は、言語フィルタを調整して除外してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
 msgid ""
@@ -9895,17 +9867,12 @@ msgid ""
 msgstr "ソース言語内の他の文字列と同様に、後から変更することもできます。"
 
 #: weblate/trans/forms.py:1979
-#, fuzzy
-#| msgid "Additional explanation to clarify meaning or usage of the string."
 msgid "Optional context to clarify the source strings."
-msgstr "文字列の意味や使い方を明確にするための追加説明。"
+msgstr "原文を明確化するためのオプションの文脈。"
 
 #: weblate/trans/forms.py:1989
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "You can edit this later, as with any other string in the translation."
-msgstr "ソース言語内の他の文字列と同様に、後から変更することもできます。"
+msgstr "翻訳内の他の文字列と同様に、後から編集することもできます。"
 
 #: weblate/trans/forms.py:2029
 msgid "State to set"
@@ -10674,16 +10641,14 @@ msgstr ""
 "Weblate が自動生成する翻訳のファイル名の言語コードをカスタマイズします。"
 
 #: weblate/trans/models/component.py:483
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "翻訳文"
+msgstr "文字列の管理"
 
 #: weblate/trans/models/component.py:486
 msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
-msgstr ""
+msgstr "ソースコードから自動的に抽出したり、外部から管理されたりする場合に備えて、 Weblate での文字列の追加と削除を無効にします。"
 
 #: weblate/trans/models/component.py:493
 msgid "Merge style"
@@ -11711,10 +11676,8 @@ msgid "Translation comment has been resolved."
 msgstr "翻訳文へのコメントを解決しました。"
 
 #: weblate/trans/views/edit.py:868
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "このキーの翻訳はすでに存在しているようです！"
+msgstr "この文字列は既に存在しているようです。"
 
 #: weblate/trans/views/edit.py:871
 msgid "New string has been added."
