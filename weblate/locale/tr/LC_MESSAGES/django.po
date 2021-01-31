@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-31 13:03+0000\n"
-"PO-Revision-Date: 2021-01-28 08:54+0000\n"
+"PO-Revision-Date: 2021-01-31 17:56+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -2144,10 +2144,9 @@ msgid "Regular expression for e-mail address"
 msgstr "E-posta adresi için düzenli ifade"
 
 #: weblate/auth/models.py:617
-#, fuzzy
-#| msgid "Users with matching e-mail address will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this group."
-msgstr "E-posta adresi eşleşen kullanıcılar bu gruba eklenecektir."
+msgstr ""
+"E-posta adreslerinin eşleştiği bulunan kullanıcılar bu gruba eklenecektir."
 
 #: weblate/auth/models.py:621
 msgid "Group to assign"
@@ -2466,10 +2465,9 @@ msgid "This string has been translated in the past"
 msgstr "Bu dizgi geçmişte çevrilmiş"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Last translation was \"%s\"."
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "Son çeviri \"%s\" idi."
+msgstr "Önceki çeviri \"%s\" idi."
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
@@ -2846,10 +2844,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "Birkaç dildeki çevirilerin kusur denetimleri var"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Bulunan kusur denetimi"
+msgstr "Aşağıdaki denetimler başarısız oluyor:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -8442,22 +8438,15 @@ msgid "Please consider the following:"
 msgstr "Lütfen aşağıdakini göz önünde bulundurun:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
-#, fuzzy
-#| msgid ""
-#| "You might be using monolingual translation files as bilingual. In that "
-#| "case please configure the monolingual base language file."
 msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"Tek dilli çeviri dosyalarını iki dilli olarak kullanıyor olabilirsiniz. Bu "
-"durumda lütfen tek dilli temel dil dosyasını yapılandırın."
+"İki dilli bir çeviri dosyası olarak tek dilli bir çeviri dosyası kullanıyor "
+"olabilirsiniz. Bu durumda, lütfen tek dilli temel dil dosyası konumunu "
+"ayarlayın."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the component settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
@@ -8466,30 +8455,20 @@ msgstr ""
 "kaynak dili değiştirin."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is not needed, "
-#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
 msgstr ""
-"Kaynak dilin çeviri dosyasına gerek olmaması durumunda, lütfen bunu depodan "
+"Eğer kaynak dil için çeviri dosyası gerekli değilse, lütfen bunu depodan "
 "kaldırın."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but "
-#| "should be ignored by Weblate, please adjust the language filter to "
-#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
-"Kaynak dilin çeviri dosyasına ihtiyaç duyulduğu, ancak Weblate tarafından "
-"yoksayılmasının gerektiği durumda, lütfen dil süzgecini hariç tutmak için "
-"ayarlayın."
+"Eğer kaynak dil için çeviri dosyası gerekiyorsa, ancak Weblate tarafından "
+"yoksayılması gerekliyse, lütfen dil süzgecini hariç tutmak için ayarlayın."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
 msgid ""
@@ -9978,18 +9957,13 @@ msgstr ""
 "düzenleyebilirsiniz."
 
 #: weblate/trans/forms.py:1979
-#, fuzzy
-#| msgid "Additional explanation to clarify meaning or usage of the string."
 msgid "Optional context to clarify the source strings."
-msgstr "Dizginin anlamını veya kullanımını netleştirmek için ek açıklama."
+msgstr "Kaynak dizgileri netleştirmek için isteğe bağlı bağlam."
 
 #: weblate/trans/forms.py:1989
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "You can edit this later, as with any other string in the translation."
 msgstr ""
-"Kaynak dildeki herhangi bir diğer dizgide olduğu gibi bunu daha sonra "
+"Çevirideki herhangi bir diğer dizgide olduğu gibi bunu daha sonra "
 "düzenleyebilirsiniz."
 
 #: weblate/trans/forms.py:2029
@@ -10776,16 +10750,17 @@ msgstr ""
 "kullanılan dil kodunu özelleştirin."
 
 #: weblate/trans/models/component.py:483
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "Hedef dizgiler"
+msgstr "Dizgileri yönet"
 
 #: weblate/trans/models/component.py:486
 msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
 msgstr ""
+"Bunların kaynak koddan otomatik olarak çıkarılması veya harici olarak "
+"yönetilmesi durumunda Weblate'te dizgileri eklemeyi ve kaldırmayı "
+"etkisizleştirin."
 
 #: weblate/trans/models/component.py:493
 msgid "Merge style"
@@ -11831,10 +11806,8 @@ msgid "Translation comment has been resolved."
 msgstr "Çeviri yorumu çözümlendi."
 
 #: weblate/trans/views/edit.py:868
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "Bu anahtarla bir çeviri zaten var olarak görünüyor!"
+msgstr "Bu dizgi zaten var gibi görünüyor."
 
 #: weblate/trans/views/edit.py:871
 msgid "New string has been added."
