@@ -20,33 +20,48 @@ repos:
     rev: v1.26.0
     hooks:
       - id: yamllint
-  - repo: local
+  - repo: https://github.com/pycqa/isort
+    rev: 5.7.0
     hooks:
       - id: isort
-        name: isort
-        entry: isort
-        language: system
-        types: [python]
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.8.0
+    hooks:
       - id: pyupgrade
-        name: pyupgrade
-        entry: pyupgrade --py36-plus
-        language: system
-        types: [python]
+        args: [--py36-plus]
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
       - id: black
-        name: black
-        entry: black
-        language: system
-        types: [python]
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.4
+    hooks:
       - id: flake8
-        name: flake8
-        entry: flake8
-        language: system
-        types: [python]
+        additional_dependencies:
+          - flake8-black
+          - flake8-breakpoint
+          - flake8-bugbear
+          - flake8-builtins
+          - flake8-comprehensions
+          - flake8-django
+          - flake8-docstrings
+          - flake8-eradicate
+          - flake8-executable
+          - flake8-isort
+          - flake8-logging-format
+          - flake8-mutable
+          - flake8-no-u-prefixed-strings
+          - flake8-plugin-utils
+          - flake8-polyfill
+          - flake8-print
+          - flake8-return
+          - flake8-self
+          - flake8-string-format
+          - pep8-naming
+  - repo: https://github.com/asottile/blacken-docs
+    rev: v1.9.2
+    hooks:
       - id: blacken-docs
-        name: blacken-docs
-        entry: blacken-docs
-        language: system
-        files: '\.(rst|md|markdown|py|tex)$'
   - repo: meta
     hooks:
       - id: check-hooks-apply
