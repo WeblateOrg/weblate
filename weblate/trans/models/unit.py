@@ -1014,7 +1014,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         old_checks = self.all_checks_names
         create = []
 
-        if self.is_source:
+        if self.translation.component.is_glossary:
+            # We might eventually run some checks on glossary
+            checks = {}
+            meth = "check_source"
+            args = src, self
+        elif self.is_source:
             checks = CHECKS.source
             meth = "check_source"
             args = src, self
