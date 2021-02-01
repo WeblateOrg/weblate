@@ -28,6 +28,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
+from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
@@ -430,3 +431,18 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     @cached_property
     def child_components(self):
         return self.component_set.all() | self.shared_components.all()
+
+    def scratch_create_component(self, name, slug, source_language, file_format):
+        format_cls = FILE_FORMATS[file_format]
+        template = f"{source_language.code}.{format_cls.extension()}"
+        # Create component
+        return self.component_set.create(
+            file_format=file_format,
+            filemask=f"*.{format_cls.extension()}",
+            template=template,
+            vcs="local",
+            repo="local:",
+            source_language=source_language,
+            name=name,
+            slug=slug,
+        )
