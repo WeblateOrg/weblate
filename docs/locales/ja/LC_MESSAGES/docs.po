@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
 "PO-Revision-Date: 2021-02-01 20:08+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -247,21 +247,17 @@ msgid ""
 "be assigned to groups [you want this for] automatically based on their e-"
 "mail addresses. This only happens upon account creation."
 msgstr ""
+"Django 管理画面の :guilabel:`認証` "
+"から、ユーザーをメールアドレスに基づいて自動的にグループに割り当てることができます。これはアカウント作成時にのみ行われます。"
 
 #: ../../admin/access.rst:131
-#, fuzzy
-#| msgid ""
-#| "The automatic group assignment for the `Users` and `Viewers` groups will "
-#| "always be created by Weblate upon migrations, in case you want to turn it "
-#| "off, simply set the regular expression to ``^$``, which will never match."
 msgid ""
 "Automatic group assignment to `Users` and `Viewers` is always recreated "
 "during migrations. If you want to turn it off, set the regular expression to "
 "``^$`` (which will never match)."
 msgstr ""
-"`ユーザー` グループと `閲覧者` グループの自動グループ割り当ては、移行時に常"
-"に Weblate によって作成されます。無効にする場合は、正規表現を ``^$`` に設定す"
-"るだけで、一致しなくなります。"
+"`ユーザー` と `閲覧者` への自動グループ割り当ては、移行時に常に再作成されます。無効にする場合は、正規表現を ``^$`` (一致するものなし) "
+"に設定してください。"
 
 #: ../../admin/access.rst:138
 msgid "Users, roles, groups and permissions"
@@ -276,42 +272,29 @@ msgid "`Permission`"
 msgstr "`アクセス権`"
 
 #: ../../admin/access.rst:143
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. You can not assign individual "
-#| "permissions, this can only be done through assignment of roles."
 msgid ""
 "Individual permissions defined by Weblate. Permissions can not be assigned "
 "to users. This can only be done through assignment of roles."
 msgstr ""
-"Weblate が定義済みの個別のアクセス権。個別にアクセス権の割り当てはできませ"
-"ん。これは、ロールの割り当てを通じてのみ設定できます。"
+"Weblate が定義済みの個別のアクセス権です。アクセス権はユーザーに割り当てることはできません。これは、ロールの割り当てを通じてのみ設定できます。"
 
 #: ../../admin/access.rst:146
 msgid "`Role`"
 msgstr "`ロール`"
 
 #: ../../admin/access.rst:146
-#, fuzzy
-#| msgid ""
-#| "Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, and makes the administration easier."
 msgid ""
 "A Role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
-msgstr ""
-"ロールには、アクセス権のセットを定義します。これにより、このセットを複数の場"
-"所で再利用でき、管理が容易になります。"
+msgstr "ロールは、アクセス権のセットを定義します。これにより、このセットを複数の場所で再利用でき、管理が容易になります。"
 
 #: ../../admin/access.rst:148
 msgid "`User`"
 msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:149
-#, fuzzy
-#| msgid "Users can be members of several groups."
 msgid "Users can belong to several groups."
-msgstr "ユーザーは複数のグループのメンバーに参加できます。"
+msgstr "ユーザーは複数のグループに所属することができます。"
 
 #: ../../admin/access.rst:152
 msgid "`Group`"
@@ -330,60 +313,38 @@ msgid "Permission checking"
 msgstr "アクセス権の確認"
 
 #: ../../admin/access.rst:172
-#, fuzzy
-#| msgid ""
-#| "Whenever a permission is checked to decide whether one is able to perform "
-#| "a given action, the check is carried out according to scope, and the "
-#| "following checks are performed in the order:"
 msgid ""
 "Whenever a permission is checked to decide whether one is able to perform a "
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in this order:"
 msgstr ""
-"指定した操作が実行できるかどうか、毎回アクセス権を範囲に応じて検査します、確"
-"認の順番は次のとおりです:"
+"指定された操作が実行できるかどうかを判断するために許可のチェックが行われるたびに、範囲に応じてチェックが行われ、以下のチェックがこの順に行われます。"
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Component list` is matched against accessed component "
 "or project (for project-level access)."
 msgstr ""
-":guilabel:`コンポーネント リスト` のグループは、コンポーネントまたはプロジェ"
-"クト（プロジェクト レベルでのアクセスとして）と照合されます。"
+":guilabel:`コンポーネント リスト` のグループは、コンポーネントまたはプロジェクト (プロジェクト レベルでのアクセスとして) "
+"と照合されます。"
 
 #: ../../admin/access.rst:178
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Components` is matched against accessed component or "
 "project (for project-level access)."
 msgstr ""
-":guilabel:`コンポーネント リスト` のグループは、コンポーネントまたはプロジェ"
-"クト（プロジェクト レベルでのアクセスとして）と照合されます。"
+":guilabel:`コンポーネント ` グループは、アクセスされたコンポーネントまたはプロジェクト (プロジェクトレベルのアクセスの場合) "
+"に一致します。"
 
 #: ../../admin/access.rst:180
-#, fuzzy
-#| msgid "Group :guilabel:`Projects` are matched against accessed project."
 msgid "The group :guilabel:`Projects` is matched against accessed project."
-msgstr ":guilabel:`プロジェクト` のグループは、プロジェクトと照合されます。"
+msgstr ":guilabel:`プロジェクト` グループは、プロジェクトと照合されます。"
 
 #: ../../admin/access.rst:182
-#, fuzzy
-#| msgid ""
-#| "As you can see, granting access to a component automatically grants user "
-#| "access to a containing project as well."
 msgid ""
 "Thus, granting access to a component gives the user access to the project it "
 "is in too."
-msgstr ""
-"ご覧のように、コンポーネントへのアクセスを許可すると、そのコンポーネントを含"
-"むプロジェクトへのアクセスも自動的に許可されます。"
+msgstr "従って、コンポーネントへのアクセスを許可すると、ユーザーにはそれが存在するプロジェクトへのアクセス権も与えられます。"
 
 #: ../../admin/access.rst:186
 msgid ""
@@ -401,103 +362,69 @@ msgid ""
 msgstr "翻訳のアクセス権を確認する場合は、さらに次の手順を実行します:"
 
 #: ../../admin/access.rst:193
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Languages` are matched against accessed translations, it "
-#| "is ignored for component or project level access."
 msgid ""
 "The group :guilabel:`Languages` is matched against accessed translations, it "
 "is ignored for component- or project-level access."
-msgstr ""
-":guilabel:`言語` のグループは、アクセスされた翻訳と照合され、コンポーネントま"
-"たはプロジェクト レベルのアクセスでは無視されます。"
+msgstr ":guilabel:`言語` のグループは、アクセスされた翻訳と照合され、コンポーネントまたはプロジェクトのレベルのアクセスでは無視されます。"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "You can use :guilabel:`Language selection` or :guilabel:`Project "
-#| "selection` to automate inclusion of all languages or projects."
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-":guilabel:`言語の選択` または :guilabel:`プロジェクトの選択` を使用して、すべ"
-"ての言語またはプロジェクトを自動的に登録できます。"
+":guilabel:`言語の選択` または :guilabel:`プロジェクトの選択` を使用して、すべての言語またはプロジェクトを自動的に登録できます。"
 
 #: ../../admin/access.rst:201
 msgid "Checking access to a project"
 msgstr "プロジェクトへのアクセスの確認"
 
 #: ../../admin/access.rst:203
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project or any "
-#| "component inside it. Only membership is enough, no specific permissions "
-#| "are needed to access a project (this is used in the default `Viewers` "
-#| "group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a group linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to access the project (this is used in the default `Viewers` "
 "group, see :ref:`default-groups`)."
 msgstr ""
-"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクされたグ"
-"ループの登録者であることが必要です。登録者であるだけで十分で、プロジェクトに"
-"参加するための特定なアクセル権は必要ありません（これはデフォルトの `閲覧者` "
-"グループで使用します。参照: :ref:`default-groups`）。"
+"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクされたグループの登録者であることが必要です。登録者であるだけで十分で、プロジェクトに参"
+"加するための特定なアクセル権は必要ありません（これはデフォルトの `閲覧者` グループで使用します。参照: :ref:`default-groups`）。"
 
 #: ../../admin/access.rst:209
 msgid "Checking access to a component"
 msgstr "コンポーネントへのアクセスの確認"
 
 #: ../../admin/access.rst:211
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once he can access the "
-#| "containing project. With enabled :ref:`component-restricted` the access "
-#| "to the component requires explicit permission to the component (or "
-#| "containing component list)."
 msgid ""
 "A user can access the unrestricted component once able to access the "
 "containing project. With :ref:`component-restricted` turned on, access to "
 "the component requires explicit permission to that component (or a component "
 "list it is in)."
 msgstr ""
-"ユーザーは、参加しているプロジェクトにアクセスできれば、コンポーネントへ無制"
-"限にアクセスできます。 :ref:`component-restricted` を有効にすると、コンポーネ"
-"ントへのアクセスには、コンポーネント（またはコンポーネント リストを含む）への"
-"アクセス権の設定が必要となります。"
+"ユーザーは、参加しているプロジェクトにアクセスできれば、コンポーネントへ無制限にアクセスできます。 :ref:`component-restricted`"
+" を有効にした場合、コンポーネントへアクセスするにはそのコンポーネント (またはそれが含まれるコンポーネントリスト) "
+"への明示的なアクセス権が必要となります。"
 
 #: ../../admin/access.rst:218
 msgid "Managing users and groups"
 msgstr "ユーザーとグループの管理"
 
 #: ../../admin/access.rst:220
-#, fuzzy
-#| msgid ""
-#| "All users and groups can be managed using the Django admin interface, "
-#| "available under :file:`/admin/` URL."
 msgid ""
 "All users and the various groups they are in can be managed using the Django "
 "admin interface available, which you can get to by appending :file:`/admin/` "
 "to the Weblate site URL."
 msgstr ""
-"すべてのユーザーおよびグループは、Django 管理画面から管理できます、:file:`/"
-"admin/` URL から利用可能。"
+"すべてのユーザーと所属している様々なグループは、 Weblate サイトの URL に :file:`/admin/` を追加して表示される "
+"Django 管理インターフェイスを使って管理することができます。"
 
 #: ../../admin/access.rst:227
-#, fuzzy
-#| msgid "Managing per project access control"
 msgid "Managing per-project access control"
 msgstr "プロジェクトごとのアクセス制御の管理"
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgid ""
 "This feature only works for projects using access-control lists, see :ref:"
 "`acl`."
-msgstr "この機能は ACL 制御のプロジェクトでのみ動作します。参照: :ref:`acl`。"
+msgstr "この機能はアクセス制御リストを使用しているプロジェクトでのみ動作します。 :ref:`acl` を参照してください。"
 
 #: ../../admin/access.rst:233
 msgid ""
@@ -518,34 +445,23 @@ msgid "Invite new users to the project"
 msgstr "新しいユーザーをプロジェクトに招待"
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Change user permissions"
-msgstr "サイト全体のアクセス権"
+msgstr "ユーザーのアクセス権の変更"
 
 #: ../../admin/access.rst:240
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke user access"
-msgstr "ユーザー アクセスの確認"
+msgstr "ユーザーのアクセスの取り消し"
 
 #: ../../admin/access.rst:244
-#, fuzzy
-#| msgid ""
-#| "Resend user email invitations, invalidating any previously sent invitation"
 msgid ""
 "Resend the e-mail for user invitations (invalidating any previously sent "
 "invitation)"
-msgstr "ユーザーにメールの招待状を再送信して、以前に送信した招待状を無効にする"
+msgstr "ユーザーを招待するメールの再送信 (以前送信した招待は無効になります)"
 
 #: ../../admin/access.rst:246
-#, fuzzy
-#| msgid ""
-#| "The user management is available in the :guilabel:`Manage` menu of a "
-#| "project:"
 msgid ""
 "User management is available in the :guilabel:`Manage` menu of any project:"
-msgstr "ユーザー管理は、プロジェクトの :guilabel:`管理` から設定:"
+msgstr "ユーザー管理は各プロジェクトの :guilabel:`管理` メニューから行うことができます。"
 
 #: ../../admin/access.rst:252
 msgid ":ref:`acl`"
@@ -611,6 +527,8 @@ msgid ""
 "`Access control` to :guilabel:`Custom` to switch over to using the Django "
 "admin-interface instead of the one in Weblate."
 msgstr ""
+"プロジェクトでより多くのアクセス制御の調整を行うには、 :guilabel:`アクセス制御` を :guilabel:`カスタム` に設定して、 "
+"Weblate のものではなく Django の管理者インターフェースを使用するように切り替えることができます。"
 
 #: ../../admin/access.rst:309
 msgid ""
@@ -634,22 +552,14 @@ msgid "Default groups and roles"
 msgstr "デフォルトのグループとロール"
 
 #: ../../admin/access.rst:323
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration on upgrade and any "
-#| "custom changes will be lost. In case you want to define own set of "
-#| "permissions, please define a new role for that."
 msgid ""
 "These roles and groups are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. Custom "
 "changes are not lost. Please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"これらのロールとグループは、インストール時に作成されます。組み込みのロール"
-"は、アップグレード時のデータベース移行により常に最新の状態に保たれ、カスタム"
-"変更は失われます。独自の権限セットを定義する場合は、その新しいロールを定義し"
-"てください。"
+"これらのロールとグループは、インストール時に作成されます。組み込みのロールは、アップグレード時にデータベースの移行によって常に最新の状態に保たれます。独自"
+"の変更は失われません。独自のアクセス権を定義したい場合は、新しいロールを定義してください。"
 
 #: ../../admin/access.rst:329
 msgid "List of privileges"
@@ -696,11 +606,8 @@ msgid "Edit component settings [`Administration`]"
 msgstr "コンポーネント設定の編集 [`Administration`]"
 
 #: ../../admin/access.rst:345
-#, fuzzy
-#| msgid ""
-#| "Lock component, preventing it from being translated [`Administration`]"
 msgid "Lock component, prevents it from being translated [`Administration`]"
-msgstr "コンポーネントのロック、翻訳を阻止する [`Administration`]"
+msgstr "コンポーネントのロック、翻訳の防止 [`Administration`]"
 
 #: ../../admin/access.rst:354 ../../api.rst:2227 ../../user/translating.rst:263
 #: ../../user/translating.rst:300
@@ -808,10 +715,6 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr "文字列の査読 [`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:386
-#, fuzzy
-#| msgid ""
-#| "Edit string when suggestions are enforced [`Administration`, `Review "
-#| "strings`]"
 msgid ""
 "Edit strings when suggestions are enforced [`Administration`, `Review "
 "strings`]"
@@ -859,9 +762,6 @@ msgid "Translations"
 msgstr "翻訳"
 
 #: ../../admin/access.rst:400
-#, fuzzy
-#| msgid ""
-#| "Start new translation [`Administration`, `Manage languages`, `Power user`]"
 msgid ""
 "Start new translations [`Administration`, `Manage languages`, `Power user`]"
 msgstr "新しい翻訳の開始 [`Administration`, `Manage languages`, `Power user`]"
@@ -884,10 +784,8 @@ msgid "Uploads"
 msgstr "アップロード"
 
 #: ../../admin/access.rst:409
-#, fuzzy
-#| msgid "Define author of translation upload [`Administration`]"
 msgid "Define author of uploaded translations [`Administration`]"
-msgstr "アップロードする翻訳者の登録 [`Administration`]"
+msgstr "アップロードした翻訳の作者の定義 [`Administration`]"
 
 #: ../../admin/access.rst:411
 msgid ""
@@ -925,15 +823,10 @@ msgstr ""
 "内部リポジトリへの変更点のコミット [`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:420
-#, fuzzy
-#| msgid ""
-#| "Push change from the internal repository [`Administration`, `Manage "
-#| "repository`]"
 msgid ""
 "Push changes from the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr ""
-"内部リポジトリからの変更点のプッシュ [`Administration`, `Manage repository`]"
+msgstr "内部リポジトリからの変更点のプッシュ [`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:422
 msgid ""
@@ -999,19 +892,13 @@ msgid "Manage component lists"
 msgstr "コンポーネント リストの管理"
 
 #: ../../admin/access.rst:451
-#, fuzzy
-#| msgid ""
-#| "The site wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to the superuser status—most of them affect all "
-#| "the projects of your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
-"サイト全体の特権は、デフォルトのロールには与えられません。これらは強力で、"
-"スーパー ユーザーの状態に非常に近く、ほとんどの場合、インストール済みの "
-"Weblate のすべてのプロジェクトに影響します。"
+"サイト全体の特権は、デフォルトのロールには与えられません。これらは強力で、スーパー ユーザーの状態に非常に近いものです。ほとんどの場合、"
+"インストール済みの Weblate のすべてのプロジェクトに影響します。"
 
 #: ../../admin/access.rst:456
 msgid "List of groups"
@@ -1032,32 +919,20 @@ msgid "`Guests`"
 msgstr "`ゲスト`"
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Defines permissions for non-authenticated users."
-msgstr "非認証ユーザーのアクセス権を定義する。"
+msgstr "未認証ユーザーのアクセス権を定義する。"
 
 #: ../../admin/access.rst:465
-#, fuzzy
-#| msgid ""
-#| "This group contains only anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This group only contains anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
-msgstr ""
-"このグループには匿名ユーザーのみ含む（参照: :setting:"
-"`ANONYMOUS_USER_NAME`）。"
+msgstr "このグループには匿名ユーザーのみ含む (:setting:`ANONYMOUS_USER_NAME` を参照)。"
 
 #: ../../admin/access.rst:467
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non "
-#| "authenticated users."
 msgid ""
 "You can remove roles from this group to limit permissions for non-"
 "authenticated users."
-msgstr "このグループからロールを削除して、非認証ユーザーの権限を制限できる。"
+msgstr "このグループからロールを削除して、未認証ユーザーの権限を制限できる。"
 
 #: ../../admin/access.rst:470
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1079,7 +954,7 @@ msgstr ""
 msgid ""
 "By default :ref:`autogroup` makes all new accounts members of this group "
 "when they join."
-msgstr ""
+msgstr "デフォルトでは、 :ref:`autogroup` はすべての新規アカウントが参加したときにこのグループのメンバーになります。"
 
 #: ../../admin/access.rst:478
 msgid "Default roles: none"
@@ -1123,19 +998,12 @@ msgid "Default roles: `Administration`"
 msgstr "デフォルトのロール: `Administration`"
 
 #: ../../admin/access.rst:499
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users, as this can lead to "
-#| "unexpected problems. If you do not want to use these features, just "
-#| "remove all privileges from them."
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
-"定義済みの Weblate グループとユーザーを削除しないでください。削除すると、予期"
-"しない問題が発生することがあります。これらの機能を使用しない場合は、すべての"
-"権限を削除してください。"
+"予期しない問題を導く可能性があるため、定義済みのグループとユーザーを削除しないでください。使用しない場合は、代わりにすべての権限を削除してください。"
 
 #: ../../admin/addons.rst:4 ../../api.rst:2100
 msgid "Addons"
@@ -1496,7 +1364,6 @@ msgid ""
 msgstr "原文に接頭辞と接尾辞を追加することで、疑似言語の変換を自動的に生成します。"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
 msgid ""
 "Pseudolocales are useful for testing if all strings that should be localized "
 "are actually prepared for localization. This is done by altering source "
@@ -1505,11 +1372,9 @@ msgid ""
 "be easier to find strings which localized counterparts might not fit into "
 "the layout."
 msgstr ""
-"擬似言語は現地語化を行うべきすべての文字列が、現地語化の準備が完了しているこ"
-"とをテストするのに有用です。これは、原文を変更して、変更されていない文字列を"
-"特定しやすくし、それらの文字列を翻訳としてアプリケーションを実行することで行"
-"います。また、現地語化された文字列がレイアウトに合わなくなる可能性がある文字"
-"列を見つけることもできます。"
+"擬似言語は現地語化を行うべきすべての文字列が、現地語化の準備が完了していることをテストするのに有用です。これは、原文を変更して、変更されていない文字列を特"
+"定しやすくし、それらの文字列を翻訳としてアプリケーションを実行することで行います。また、現地語化された文字列がレイアウトに合わなくなる可能性がある文字列を"
+"見つけることもできます。"
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -4128,15 +3993,10 @@ msgstr ""
 "動が必要です。"
 
 #: ../../admin/config.rst:13
-#, fuzzy
-#| msgid ""
-#| "In case it is run as mod_wsgi, you need to restart Apache to reload the "
-#| "configuration."
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
-msgstr ""
-"mod_wsgi として実行する場合は、Apache を再起動して設定のリロードが必要です。"
+msgstr "``mod_wsgi`` として実行する場合は、Apache を再起動して設定のリロードが必要です。"
 
 #: ../../admin/config.rst:18
 msgid ""
@@ -9438,16 +9298,12 @@ msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr "Weblate で WSGI を使用する場合は、prefork MPM の使用をお勧めします。"
 
 #: ../../admin/install.rst:1325
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as WSGI, you need to have "
-#| "enabled mod_wsgi (available as :file:`weblate/examples/apache.conf`):"
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
-"次の設定では、Weblate は WSGI として実行されます。有効化が必要な mod_wsgi の"
-"設定方法（:file:`weblate/examples/apache.conf` に設定可能）:"
+"以下の設定は Weblate を WSGI として実行するものであり、 ``mod_wsgi`` を有効にする必要があります (:file:`"
+"weblate/examples/apache.conf` で設定可)。"
 
 #: ../../admin/install.rst:1333
 msgid ""
@@ -9485,18 +9341,13 @@ msgid "Running Weblate under path"
 msgstr "パスの下での Weblate の実行"
 
 #: ../../admin/install.rst:1365
-#, fuzzy
-#| msgid ""
-#| "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
-#| "using mod_wsgi (also available as :file:`weblate/examples/apache-path."
-#| "conf`):"
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
-"``/weblate`` 内で Weblate を提供する Apache の設定例。再び mod_wsgi の設定方"
-"法（also available as :file:`weblate/examples/apache-path.conf` に設定可能）:"
+"``/weblate`` 内で Weblate を提供する Apache の設定例です。こちらも `` mod_wsgi`` を使用します "
+"(:file:`weblate/examples/apache-path.conf` で設定可)。"
 
 #: ../../admin/install.rst:1371
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -9585,13 +9436,12 @@ msgid ""
 msgstr ":file:`/etc/default/celery-weblate` に記述する環境の設定方法:"
 
 #: ../../admin/install.rst:1442
-#, fuzzy
-#| msgid ""
-#| "Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:"
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
-msgstr ":file:`/etc/logrotate.d/celery` に記述する Logrotate の設定方法:"
+msgstr ""
+":file:`/etc/logrotate.d/celery` にある Celery ログを :command:`logrotate` "
+"でローテーションするための追加の設定です。"
 
 #: ../../admin/install.rst:1449
 msgid "Periodic tasks using Celery beat"
@@ -10084,10 +9934,8 @@ msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
 
 #: ../../admin/install/docker.rst:248
-#, fuzzy
-#| msgid "Configures the site domain."
 msgid "Configures the site domain. This parameter is required."
-msgstr "サイトのドメインを設定します。"
+msgstr "サイトのドメインを設定します。このパラメーターは必須です。"
 
 #: ../../admin/install/docker.rst:252
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -13721,11 +13569,11 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
-"Weblate の複数の操作は接続制限されています。多くても :setting:"
-"`RATELIMIT_ATTEMPTS` の試行回数は、:setting:`RATELIMIT_WINDOW` 秒以内です。そ"
-"の後、ユーザーは :setting:`RATELIMIT_LOCKOUT` 秒遮断されます。"
-"``RATELIMIT_CONTACT_ATTEMPTS`` や ``RATELIMIT_TRANSLATE_ATTEMPTS`` などの、範"
-"囲専用の設定もあります。次の表は、すべての使用可能な範囲の一覧です。"
+"Weblate のいくつかの操作は接続回数が制限されています。 :setting:`RATELIMIT_WINDOW` 秒以内で最大 "
+":setting:`RATELIMIT_ATTEMPTS` 回の試行が許可されています。その後、ユーザーは "
+":setting:`RATELIMIT_LOCKOUT` 秒間遮断されます。 ``RATELIMIT_CONTACT_ATTEMPTS`` や "
+"``RATELIMIT_TRANSLATE_ATTEMPTS`` "
+"などの、スコープを限定した設定もあります。次の表は、すべての使用可能なスコープの一覧です。"
 
 #: ../../admin/optionals.rst:245
 msgid "The following operations are subject to rate limiting:"
@@ -13829,8 +13677,6 @@ msgid "``GLOSSARY``"
 msgstr "``GLOSSARY``"
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Starting translation in new language"
 msgstr "新しい言語での翻訳の開始"
 
@@ -14694,16 +14540,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:582
-#, fuzzy
-#| msgid ""
-#| "Programatically, using API :http:post:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/units/`."
 msgid ""
 ":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`"
 msgstr ""
-"プログラムのように、 API を使用します :http:post:`/api/translations/(string:"
-"project)/(string:component)/(string:language)/units/`."
+":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../admin/projects.rst:589
 msgid "Language code style"
@@ -31937,20 +31779,14 @@ msgid "``has:TEXT``"
 msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot`` (works only on source "
-#| "strings)."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``"
 msgstr ""
-"属性がある文字列の検索 - ``plural``、``context``、``suggestion``、"
-"``comment``、``check``、``dismissed-check``、``translation``、``variant``、"
-"``screenshot`` （原文でのみ有効）。"
+"属性がある文字列の検索 - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``"
+", ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, "
+"``flags``, ``explanation``"
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
