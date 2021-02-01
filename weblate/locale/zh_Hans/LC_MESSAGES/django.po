@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-31 13:03+0000\n"
-"PO-Revision-Date: 2021-01-26 18:57+0000\n"
+"PO-Revision-Date: 2021-02-02 09:42+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -2078,8 +2078,6 @@ msgid "Regular expression for e-mail address"
 msgstr "电子邮箱地址的正则表达式"
 
 #: weblate/auth/models.py:617
-#, fuzzy
-#| msgid "Users with matching e-mail address will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr "有匹配电子邮件地址的用户将被添加到此组。"
 
@@ -2391,10 +2389,9 @@ msgid "This string has been translated in the past"
 msgstr "字符串已在过去被翻译"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Last translation was \"%s\"."
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "上次翻译是\"%s\"."
+msgstr "上个翻译是 \"%s\"。"
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
@@ -2769,10 +2766,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "在几门语言中发生翻译检查失败"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "未通过检查"
+msgstr "以下字符串未通过检查："
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -8113,48 +8108,28 @@ msgid "Please consider the following:"
 msgstr "请考虑以下操作："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
-#, fuzzy
-#| msgid ""
-#| "You might be using monolingual translation files as bilingual. In that "
-#| "case please configure the monolingual base language file."
 msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
-msgstr ""
-"你可能正将单语翻译文件作为双语文件使用。如果是这样，请配置单语基础语言文件。"
+msgstr "你可能将单语翻译文件作为双语文件使用。如果是这样，请配置单语基础语言文件位置。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the component settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr "如果源语言的翻译合意，请在组件设置中更改源语言。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is not needed, "
-#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
 msgstr "如果不需要源语言的翻译文件，请从存储库中将其删除。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but "
-#| "should be ignored by Weblate, please adjust the language filter to "
-#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr ""
-"如果需要源语言的翻译文件，但 Weblate 应该忽略该文件，请调整语言过滤器以将其排"
-"除。"
+msgstr "如果需要源语言的翻译文件，但 Weblate 应该忽略该文件，请调整语言过滤器以将其排除。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
 msgid ""
@@ -9559,17 +9534,12 @@ msgid ""
 msgstr "您可以稍后对此进行编辑，与源语言中的任何其他字符串一样。"
 
 #: weblate/trans/forms.py:1979
-#, fuzzy
-#| msgid "Additional explanation to clarify meaning or usage of the string."
 msgid "Optional context to clarify the source strings."
-msgstr "用于阐明字符串的含义或用法的其他说明。"
+msgstr "用于阐明源字符串的可选上下文。"
 
 #: weblate/trans/forms.py:1989
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "You can edit this later, as with any other string in the translation."
-msgstr "您可以稍后对此进行编辑，与源语言中的任何其他字符串一样。"
+msgstr "你可以稍后对此进行编辑，与翻译的任何其他字符串一样。"
 
 #: weblate/trans/forms.py:2029
 msgid "State to set"
@@ -10324,16 +10294,14 @@ msgid ""
 msgstr "自定义 Weblate 创建的用于生成翻译文件名的语言代码。"
 
 #: weblate/trans/models/component.py:483
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "目标字符串"
+msgstr "管理字符串"
 
 #: weblate/trans/models/component.py:486
 msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
-msgstr ""
+msgstr "禁止在 Weblate 中添加和删除字符串，如果这些字符串是从源代码中自动提取或由外部管理。"
 
 #: weblate/trans/models/component.py:493
 msgid "Merge style"
@@ -11324,10 +11292,8 @@ msgid "Translation comment has been resolved."
 msgstr "翻译评论已解决。"
 
 #: weblate/trans/views/edit.py:868
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "包含此键的翻译已存在！"
+msgstr "此字符串似乎已存在。"
 
 #: weblate/trans/views/edit.py:871
 msgid "New string has been added."
