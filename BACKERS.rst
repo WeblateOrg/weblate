@@ -12,5 +12,6 @@ List of Weblate supporters:
 * https://freedombox.org/
 * GNU Solidario (GNU Health)
 * `BallotReady <https://www.ballotready.org>`_
+* Richard Nespithal
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
