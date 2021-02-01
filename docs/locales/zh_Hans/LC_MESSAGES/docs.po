@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
 "PO-Revision-Date: 2021-02-02 05:06+0000\n"
-"Last-Translator: Renee <crystaltoffee@hotmail.com>\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -162,20 +162,13 @@ msgid ""
 msgstr "此功能对于运行 Weblate 上托管的自由软件计划的项目不可用。"
 
 #: ../../admin/access.rst:91
-#, fuzzy
-#| msgid ""
-#| "You can limit user's access to individual projects. This feature is "
-#| "turned on by :guilabel:`Access control` in the configuration of each "
-#| "respective project. This automatically creates several groups for this "
-#| "project, see :ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by turning on :guilabel:`Access` "
 "in the :guilabel:`Settings` of each respective project. This automatically "
 "creates several groups for the project in question, see :ref:`groups`."
 msgstr ""
-"可以限制用户访问独立的项目。这个特性通过每个单独项目的配置中 :guilabel:"
-"`Access control` 来打开。这会为这个项目自动建立几个群组，请参考 :ref:"
-"`groups`。"
+"开启每个项目 :guilabel:`Settings` 中的 :guilabel:`Access` "
+"来限制用户对单独项目的访问。这将自动为有问题的项目创建几个组。见 :ref:`groups`。"
 
 #: ../../admin/access.rst:95
 msgid ":guilabel:`Access control` can be set to:"
@@ -186,10 +179,8 @@ msgid "Public"
 msgstr "公开的"
 
 #: ../../admin/access.rst:98
-#, fuzzy
-#| msgid "Publicly visible, only translatable for chosen users"
 msgid "Publicly visible, translatable for all logged-in users"
-msgstr "公开可见，但只可被指定的用户翻译"
+msgstr "公开可见，且所有登录用户均可进行翻译"
 
 #: ../../admin/access.rst:99
 msgid "Protected"
@@ -212,36 +203,23 @@ msgid "Custom"
 msgstr "自定义"
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid "Weblate does not manage users, see :ref:`custom-acl`."
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
-msgstr "Weblate 不允许管理用户，请参考 :ref:`custom-acl` 。"
+msgstr "Django 管理员管理用户而非 Weblate，请参考 :ref:`custom-acl` 。"
 
 #: ../../admin/access.rst:108
-#, fuzzy
-#| msgid ""
-#| "To allow access to this project, you have to add the privilege either "
-#| "directly to the given user, or group of users in the Django admin "
-#| "interface, or by using user management on the project page, as described "
-#| "in :ref:`manage-acl`."
 msgid ""
 "Grant access to a project by adding the privilege either directly to the "
 "given user, or group of users in the Django admin-interface, or by using "
 "user management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
-"为了允许访问这个项目，必须将权限直接添加给特定用户，或在 Django 管理界面上添"
-"加给用户所在的群组，或者使用项目页面上的用户管理，如下面的描述 :ref:`manage-"
-"acl` 。"
+"授予一个项目的访问权限可以直接向给定用户或 Django admin-interface 中的用户组添加特权，或者如 :ref:`manage-acl` "
+"中所描述的那样，使用项目页上的用户管理。"
 
 #: ../../admin/access.rst:114
-#, fuzzy
-#| msgid ""
-#| "Even with ACL turned on, some summary info will be available about your "
-#| "project:"
 msgid ""
 "Even with access-control lists turned on, some info will be available about "
 "your project:"
-msgstr "即使打开 ACL ，也可以看到项目的一些概要信息："
+msgstr "即使打开了 ACL ，也可以看到项目的一些概要信息："
 
 #: ../../admin/access.rst:117
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -264,18 +242,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:131
-#, fuzzy
-#| msgid ""
-#| "The automatic group assignment for the `Users` and `Viewers` groups will "
-#| "always be created by Weblate upon migrations, in case you want to turn it "
-#| "off, simply set the regular expression to ``^$``, which will never match."
 msgid ""
 "Automatic group assignment to `Users` and `Viewers` is always recreated "
 "during migrations. If you want to turn it off, set the regular expression to "
 "``^$`` (which will never match)."
-msgstr ""
-"对于 `Users` 和 `Viewers` 用户组的自动用户组指定，总是通过 Weblate 在合并时建"
-"立，在想将其关闭的时候，简单地设置正则表达式为 ``^$`` 即可，因为永远不匹配。"
+msgstr "在迁移期间，总是会重新创建对 `用户`和`查看者` 的自动组分配。如果要关闭，请将正则表达式设置为 ``^$`` （永不匹配）。"
 
 #: ../../admin/access.rst:138
 msgid "Users, roles, groups and permissions"
@@ -290,38 +261,28 @@ msgid "`Permission`"
 msgstr "`权限`"
 
 #: ../../admin/access.rst:143
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. You can not assign individual "
-#| "permissions, this can only be done through assignment of roles."
 msgid ""
 "Individual permissions defined by Weblate. Permissions can not be assigned "
 "to users. This can only be done through assignment of roles."
-msgstr "Weblate 定义的各自权限。可以不指定各自权限，这可以只通过角色指定实现。"
+msgstr "Weblate 定义的个人权限。权限不能分配给用户。这只能通过分配角色来完成。"
 
 #: ../../admin/access.rst:146
 msgid "`Role`"
 msgstr "`Role`"
 
 #: ../../admin/access.rst:146
-#, fuzzy
-#| msgid ""
-#| "Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, and makes the administration easier."
 msgid ""
 "A Role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
-msgstr "角色定义为一组权限。这能够在几个地方重复使用这些组，并使管理更容易。"
+msgstr "角色定义为一组权限。这允许在几个地方重复使用这些组，使管理更容易。"
 
 #: ../../admin/access.rst:148
 msgid "`User`"
 msgstr "`User`"
 
 #: ../../admin/access.rst:149
-#, fuzzy
-#| msgid "Users can be members of several groups."
 msgid "Users can belong to several groups."
-msgstr "用户可以使几个用户组的成员。"
+msgstr "用户可归属于几个用户组。"
 
 #: ../../admin/access.rst:152
 msgid "`Group`"
@@ -338,57 +299,33 @@ msgid "Permission checking"
 msgstr "权限检查"
 
 #: ../../admin/access.rst:172
-#, fuzzy
-#| msgid ""
-#| "Whenever a permission is checked to decide whether one is able to perform "
-#| "a given action, the check is carried out according to scope, and the "
-#| "following checks are performed in the order:"
 msgid ""
 "Whenever a permission is checked to decide whether one is able to perform a "
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in this order:"
-msgstr ""
-"任何时候检查权限来决定是否执行给定的动作时，根据范围来执行检查，并且后面的检"
-"查依次执行："
+msgstr "任何时候检查权限来决定是否执行给定的动作时，根据范围来执行检查，并且下列检查是按照这个顺序执行的："
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Component list` is matched against accessed component "
 "or project (for project-level access)."
-msgstr ""
-"群组 :guilabel:`Component list` 与访问的组件或项目匹配（对于项目级的访问）。"
+msgstr "群组 :guilabel:`Component list` 与访问的组件或项目匹配（对于项目级别的访问）。"
 
 #: ../../admin/access.rst:178
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Components` is matched against accessed component or "
 "project (for project-level access)."
-msgstr ""
-"群组 :guilabel:`Component list` 与访问的组件或项目匹配（对于项目级的访问）。"
+msgstr "群组 :guilabel:`Components` 与访问的组件或项目匹配（对于项目级别的访问）。"
 
 #: ../../admin/access.rst:180
-#, fuzzy
-#| msgid "Group :guilabel:`Projects` are matched against accessed project."
 msgid "The group :guilabel:`Projects` is matched against accessed project."
 msgstr "群组 :guilabel:`Projects` 与访问的项目匹配。"
 
 #: ../../admin/access.rst:182
-#, fuzzy
-#| msgid ""
-#| "As you can see, granting access to a component automatically grants user "
-#| "access to a containing project as well."
 msgid ""
 "Thus, granting access to a component gives the user access to the project it "
 "is in too."
-msgstr ""
-"可以看到，为组件授予访问权限同样也会自动地授予用户所包括项目的访问权限。"
+msgstr "因此，授予对组件的访问权也使用户能够访问组件所在的项目。"
 
 #: ../../admin/access.rst:186
 msgid ""
@@ -405,99 +342,68 @@ msgid ""
 msgstr "如果检查翻译许可，则会执行另外的步骤："
 
 #: ../../admin/access.rst:193
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Languages` are matched against accessed translations, it "
-#| "is ignored for component or project level access."
 msgid ""
 "The group :guilabel:`Languages` is matched against accessed translations, it "
 "is ignored for component- or project-level access."
-msgstr ""
-"群组 :guilabel:`Languages` 与访问过的翻译进行匹配，它会被组件或项目级别的访问"
-"忽略。"
+msgstr "群组 :guilabel:`Languages` 与访问过的翻译进行匹配，它会被组件或项目级别的访问忽略。"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "You can use :guilabel:`Language selection` or :guilabel:`Project "
-#| "selection` to automate inclusion of all languages or projects."
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-"可以使用 :guilabel:`Language selection` 或 :guilabel:`Project selection` 来自"
-"动包括所有语言或项目。"
+"使用 :guilabel:`Language selection` 或 :guilabel:`Project selection` "
+"来自动包括所有语言或项目。"
 
 #: ../../admin/access.rst:201
 msgid "Checking access to a project"
 msgstr "检查项目的访问权限"
 
 #: ../../admin/access.rst:203
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project or any "
-#| "component inside it. Only membership is enough, no specific permissions "
-#| "are needed to access a project (this is used in the default `Viewers` "
-#| "group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a group linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to access the project (this is used in the default `Viewers` "
 "group, see :ref:`default-groups`)."
 msgstr ""
-"用于可以成为与项目或其中任何组件相连接的用户组的成员。只有成员即可，不需要特"
-"别许可来访问项目（这在默认的 `Viewers` 用户组中使用，请参见 :ref:`default-"
-"groups` ）。"
+"用户必须是链接到项目的组或项目中的任何组件的成员。拥有成员身份就足够了，访问项目不需要特定的权限 （这被用于默认的 `查看者` 小组，见 :ref"
+":`default-groups` ）。"
 
 #: ../../admin/access.rst:209
 msgid "Checking access to a component"
 msgstr "检查对组件的访问"
 
 #: ../../admin/access.rst:211
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once he can access the "
-#| "containing project. With enabled :ref:`component-restricted` the access "
-#| "to the component requires explicit permission to the component (or "
-#| "containing component list)."
 msgid ""
 "A user can access the unrestricted component once able to access the "
 "containing project. With :ref:`component-restricted` turned on, access to "
 "the component requires explicit permission to that component (or a component "
 "list it is in)."
 msgstr ""
-"一旦用户可以访问包含的项目，就能访问不受限制的组件。通过允许 :ref:`component-"
-"restricted` ，访问组件需要组件（或包含组件列表）的明确授权。"
+"用户一旦能够访问包含的项目，就可以不受限制地访问组件。在开启 :ref:`component-restricted` 的情况下，"
+"访问组件需要对该组件的显式权限 （或者它所在的组件列表）。"
 
 #: ../../admin/access.rst:218
 msgid "Managing users and groups"
 msgstr "管理用户和群组"
 
 #: ../../admin/access.rst:220
-#, fuzzy
-#| msgid ""
-#| "All users and groups can be managed using the Django admin interface, "
-#| "available under :file:`/admin/` URL."
 msgid ""
 "All users and the various groups they are in can be managed using the Django "
 "admin interface available, which you can get to by appending :file:`/admin/` "
 "to the Weblate site URL."
 msgstr ""
-"可以使用 :file:`/admin/` URL 下面的 Django 管理界面，来管理所有用户和用户组。"
+"可使用 Django 管理界面管理所有用户和他们所在的各种组，你可以通过附加 :file:`/admin/` 到 Weblate 站点 URL来访问它们。"
 
 #: ../../admin/access.rst:227
-#, fuzzy
-#| msgid "Managing per project access control"
 msgid "Managing per-project access control"
 msgstr "管理每个项目的访问控制"
 
 #: ../../admin/access.rst:231
-#, fuzzy
-#| msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgid ""
 "This feature only works for projects using access-control lists, see :ref:"
 "`acl`."
-msgstr "这个特性只对 ACL 控制的项目起作用，请参见 :ref:`acl` 。"
+msgstr "这个特性只对使用 ACL 的项目起作用，请参见 :ref:`acl` 。"
 
 #: ../../admin/access.rst:233
 msgid ""
@@ -517,34 +423,23 @@ msgid "Invite new users to the project"
 msgstr "邀请新用户参加到项目中"
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Change user permissions"
-msgstr "全网站范围的权限"
+msgstr "更改用户权限"
 
 #: ../../admin/access.rst:240
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke user access"
-msgstr "检查用户访问"
+msgstr "撤销用户访问"
 
 #: ../../admin/access.rst:244
-#, fuzzy
-#| msgid ""
-#| "Resend user email invitations, invalidating any previously sent invitation"
 msgid ""
 "Resend the e-mail for user invitations (invalidating any previously sent "
 "invitation)"
-msgstr "重新发送用户电子邮件邀请，使任何之前发送的要求无效"
+msgstr "重新发送用户电子邮件邀请 (使任何之前发送的邀请无效)"
 
 #: ../../admin/access.rst:246
-#, fuzzy
-#| msgid ""
-#| "The user management is available in the :guilabel:`Manage` menu of a "
-#| "project:"
 msgid ""
 "User management is available in the :guilabel:`Manage` menu of any project:"
-msgstr "可以在项目菜单的 :guilabel:`Manage` 进行用户管理："
+msgstr "可在任意项目的 :guilabel:`Manage` 菜单中看到用户管理："
 
 #: ../../admin/access.rst:252
 msgid ":ref:`acl`"
@@ -630,21 +525,12 @@ msgid "Default groups and roles"
 msgstr "默认群组和角色"
 
 #: ../../admin/access.rst:323
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration on upgrade and any "
-#| "custom changes will be lost. In case you want to define own set of "
-#| "permissions, please define a new role for that."
 msgid ""
 "These roles and groups are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. Custom "
 "changes are not lost. Please define a new role if you want to define your "
 "own set of permissions."
-msgstr ""
-"这些角色和群组在安装时创建。内建的角色总是在升级时由数据库合并来更新，并且任"
-"何客户更改都会丢失。在想要定义自己的一组许可的情况下，请为此定义一个新的角"
-"色。"
+msgstr "这些角色和组是在安装时创建的。在升级时，内置角色总是通过数据库迁移保持最新。自定义更改不会丢失。如果要定义自己的权限集，请定义新角色。"
 
 #: ../../admin/access.rst:329
 msgid "List of privileges"
@@ -691,11 +577,8 @@ msgid "Edit component settings [`Administration`]"
 msgstr "编辑组件设置[`Administration`]"
 
 #: ../../admin/access.rst:345
-#, fuzzy
-#| msgid ""
-#| "Lock component, preventing it from being translated [`Administration`]"
 msgid "Lock component, prevents it from being translated [`Administration`]"
-msgstr "锁定组件，防止被翻译[`Administration`]"
+msgstr "锁定组件，防止其被翻译 [`Administration`]"
 
 #: ../../admin/access.rst:354 ../../api.rst:2227 ../../user/translating.rst:263
 #: ../../user/translating.rst:300
@@ -801,14 +684,10 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr "复查字符串[`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:386
-#, fuzzy
-#| msgid ""
-#| "Edit string when suggestions are enforced [`Administration`, `Review "
-#| "strings`]"
 msgid ""
 "Edit strings when suggestions are enforced [`Administration`, `Review "
 "strings`]"
-msgstr "当建议被强制执行时需要编辑字符串[`Administration`, `Review strings`]"
+msgstr "当建议被强制执行时编辑字符串 [`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:388
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
@@ -852,12 +731,9 @@ msgid "Translations"
 msgstr "翻译"
 
 #: ../../admin/access.rst:400
-#, fuzzy
-#| msgid ""
-#| "Start new translation [`Administration`, `Manage languages`, `Power user`]"
 msgid ""
 "Start new translations [`Administration`, `Manage languages`, `Power user`]"
-msgstr "新建翻译[`Administration`, `Manage languages`, `Power user`]"
+msgstr "开始新翻译 [`Administration`, `Manage languages`, `Power user`]"
 
 #: ../../admin/access.rst:402
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
@@ -877,10 +753,8 @@ msgid "Uploads"
 msgstr "上传"
 
 #: ../../admin/access.rst:409
-#, fuzzy
-#| msgid "Define author of translation upload [`Administration`]"
 msgid "Define author of uploaded translations [`Administration`]"
-msgstr "定义翻译上传的作者[`Administration`]"
+msgstr "定义所上传翻译的作者 [`Administration`]"
 
 #: ../../admin/access.rst:411
 msgid ""
@@ -917,10 +791,6 @@ msgid ""
 msgstr "将更改提交到内部代码库[`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:420
-#, fuzzy
-#| msgid ""
-#| "Push change from the internal repository [`Administration`, `Manage "
-#| "repository`]"
 msgid ""
 "Push changes from the internal repository [`Administration`, `Manage "
 "repository`]"
@@ -989,18 +859,11 @@ msgid "Manage component lists"
 msgstr "管理组件列表"
 
 #: ../../admin/access.rst:451
-#, fuzzy
-#| msgid ""
-#| "The site wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to the superuser status—most of them affect all "
-#| "the projects of your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
-msgstr ""
-"全网站特权不会授予任何默认角色。这些特权特别强大，非常接近超级用户状态——多数"
-"特权会影响 Weblate 安装的所有项目。"
+msgstr "站点范围的特权不会被授予任何默认角色。它们功能强大，非常接近超级用户的地位。它们中的大多数都会影响到你的 Weblate 安装中的所有项目。"
 
 #: ../../admin/access.rst:456
 msgid "List of groups"
@@ -1020,30 +883,20 @@ msgid "`Guests`"
 msgstr "`访客`"
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Defines permissions for non-authenticated users."
-msgstr "对非授权用户确定权限。"
+msgstr "定义非授权用户的权限。"
 
 #: ../../admin/access.rst:465
-#, fuzzy
-#| msgid ""
-#| "This group contains only anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This group only contains anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
-msgstr "这个群组只包括匿名用户（请参参见 :setting:`ANONYMOUS_USER_NAME` ）。"
+msgstr "这个群组只包括匿名用户（请参见 :setting:`ANONYMOUS_USER_NAME` ）。"
 
 #: ../../admin/access.rst:467
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non "
-#| "authenticated users."
 msgid ""
 "You can remove roles from this group to limit permissions for non-"
 "authenticated users."
-msgstr "可以从群组中去掉角色，来限制非授权用户的权限。"
+msgstr "你可以从群组中去掉角色，来限制非授权用户的权限。"
 
 #: ../../admin/access.rst:470
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1107,18 +960,11 @@ msgid "Default roles: `Administration`"
 msgstr "默认角色: `Administration`"
 
 #: ../../admin/access.rst:499
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users, as this can lead to "
-#| "unexpected problems. If you do not want to use these features, just "
-#| "remove all privileges from them."
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you have no use for them, you can removing all their "
 "privileges instead."
-msgstr ""
-"永远不要删除预先定义的 Weblate 群组和用户，因为这会导致意外的错误。如果不想要"
-"使用这些特性，只去掉他们的特权即可。"
+msgstr "决不要移除预先定义的 Weblate 群组和用户，因为这会这可能会导致意想不到的问题。如果你不需要他们，你可以删除他们的所有特权。"
 
 #: ../../admin/addons.rst:4 ../../api.rst:2100
 msgid "Addons"
@@ -1456,14 +1302,6 @@ msgid ""
 msgstr "通过向源字符串添加前缀和后缀自动生成一个假语言环境翻译。"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid ""
-#| "Pseudolocales are useful for testing if all strings that should be "
-#| "localized are actually prepared for localization. This is done by "
-#| "altering source strings so it would be easy to spot a string which has "
-#| "not been altered and running the application with those strings as a "
-#| "translation. Also it would be find strings which localized counterparts "
-#| "might not fit into the layout."
 msgid ""
 "Pseudolocales are useful for testing if all strings that should be localized "
 "are actually prepared for localization. This is done by altering source "
@@ -1472,10 +1310,8 @@ msgid ""
 "be easier to find strings which localized counterparts might not fit into "
 "the layout."
 msgstr ""
-"在检测需要本地化的所有字符串是否已经真正准备好本地化方面，假语言环境是有用"
-"的。通过更改源字符串从而能容易地发现还没有更改的字符串，并通过使用作为翻译的"
-"字符串来运行应用，来实现这个作用。还会发现将对应部分本地化的字符串会在布局中"
-"不匹配。"
+"在检测需要本地化的所有字符串是否已经真正准备好本地化方面，假语言环境是有用的。通过更改源字符串从而能容易地发现还没有更改的字符串，并通过使用作为翻译的字符"
+"串来运行应用，来实现这个作用。此外，查找本地化的对应项可能不适合布局的字符串也会更容易。"
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -4154,14 +3990,10 @@ msgstr ""
 "程。"
 
 #: ../../admin/config.rst:13
-#, fuzzy
-#| msgid ""
-#| "In case it is run as mod_wsgi, you need to restart Apache to reload the "
-#| "configuration."
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
-msgstr "在它作为 mod_wsgi 运行的情况下，需要重新启动 Apache ，来重新加载配置。"
+msgstr "在它作为 ``mod_wsgi`` 运行的情况下，需要重新启动 Apache ，来重新加载配置。"
 
 #: ../../admin/config.rst:18
 msgid ""
@@ -9337,16 +9169,12 @@ msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
 msgstr "推荐当 Weblate 使用 WSGI 时使用 prefork MPM。"
 
 #: ../../admin/install.rst:1325
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as WSGI, you need to have "
-#| "enabled mod_wsgi (available as :file:`weblate/examples/apache.conf`):"
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
-"后面的配置将 Weblate 作为 WSGI 来运行，您需要允许 mod_wsgi （作为 :file:"
-"`weblate/examples/apache.conf` 来获得）："
+"后面的配置将 Weblate 作为 WSGI 来运行，您需要允许 ``mod_wsgi``（作为 :file:`weblate/examples/"
+"apache.conf` 来获得）："
 
 #: ../../admin/install.rst:1333
 msgid ""
@@ -9383,18 +9211,13 @@ msgid "Running Weblate under path"
 msgstr "在路径下运行 Weblate"
 
 #: ../../admin/install.rst:1365
-#, fuzzy
-#| msgid ""
-#| "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
-#| "using mod_wsgi (also available as :file:`weblate/examples/apache-path."
-#| "conf`):"
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
-"为``/weblate`` 下的 Weblate 提供服务的 Apache 配置的例子。再次使用 mod_wsgi "
-"（还作为 :file:`weblate/examples/apache-path.conf` 获得）："
+"为``/weblate`` 下的 Weblate 提供服务的 Apache 配置的例子。再次使用 ``mod_wsgi`` （还作为 :file:`"
+"weblate/examples/apache-path.conf` 获得）："
 
 #: ../../admin/install.rst:1371
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -9479,13 +9302,12 @@ msgid ""
 msgstr "环境配置作为 :file:`/etc/default/celery-weblate` 放置："
 
 #: ../../admin/install.rst:1442
-#, fuzzy
-#| msgid ""
-#| "Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:"
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
-msgstr "Logrotate 配置作为 :file:`/etc/logrotate.d/celery` 放置："
+msgstr ""
+"使用 :command:`logrotate` 来旋转 Celery 记录的额外配置将被放置为 :file:`/etc/logrotate.d/"
+"celery`:"
 
 #: ../../admin/install.rst:1449
 msgid "Periodic tasks using Celery beat"
@@ -9687,18 +9509,12 @@ msgid "Hardware requirements"
 msgstr "硬件要求"
 
 #: ../../admin/install/steps/hw.rst:4
-#, fuzzy
-#| msgid ""
-#| "Weblate should run on all contemporary hardware without problems, the "
-#| "following is the minimal configuration required to run Weblate on a "
-#| "single host (Weblate, database and webserver):"
 msgid ""
 "Weblate should run on any contemporary hardware without problems, the "
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
-"Weblate 应该可以在所有现代硬件上正常运行，以下是在单个主机（ Weblate ，数据库"
-"和 Web 服务器）上运行 Weblate 所需的最低配置："
+"Weblate 应该可以在任何现代硬件上正常运行，以下是在单个主机（ Weblate ，数据库和 Web 服务器）上运行 Weblate 所需的最低配置："
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -10024,10 +9840,8 @@ msgid "Changes the site-title shown in the header of all pages."
 msgstr "更改所有页面页眉上显示的站点标题。"
 
 #: ../../admin/install/docker.rst:248
-#, fuzzy
-#| msgid "Configures the site domain."
 msgid "Configures the site domain. This parameter is required."
-msgstr "配置网站域名."
+msgstr "配置站点域名。此参数为必填项。"
 
 #: ../../admin/install/docker.rst:252
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -10989,21 +10803,14 @@ msgid "Custom configuration files"
 msgstr "定制配置文件"
 
 #: ../../admin/install/docker.rst:1236
-#, fuzzy
-#| msgid ""
-#| "You can additionally override the configuration in :file:`/app/data/"
-#| "settings-override.py` (see :ref:`docker-volume`). This is executed after "
-#| "all environment settings are loaded, so it gets completely set up, and "
-#| "can be used to customize anything."
 msgid ""
 "You can additionally override the configuration in :file:`/app/data/settings-"
 "override.py` (see :ref:`docker-volume`). This is executed at the end of "
 "built-in settings, after all environment settings are loaded, and you can "
 "adjust or override them."
 msgstr ""
-"您还可以在 :file:`/app/data/settings-override.py` 中覆盖配置（请参阅 :ref:"
-"`docker-volume`）。加载所有环境设置后将执行此操作，因此完全新建它，并可用于自"
-"定义任何内容。"
+"你还可以覆盖 :file:`/app/data/settings-override.py` 中的配置 （见 :ref:`docker-"
+"volume`）。这是在所有环境设置加载之后，在内置设置末尾执行的，你可以调整或覆盖它们。"
 
 #: ../../admin/install/docker.rst:1242
 msgid "Replacing logo and other static files"
@@ -14103,16 +13910,12 @@ msgid "``GLOSSARY``"
 msgstr "``GLOSSARY``"
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Starting translation in new language"
-msgstr "开始新翻译到更多语言"
+msgstr "开始新语言的翻译"
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "``MESSAGE``"
 msgid "``LANGUAGE``"
-msgstr "``MESSAGE``"
+msgstr "``LANGUAGE``"
 
 #: ../../admin/optionals.rst:262 ../../devel/reporting-example.rst:5
 msgid "2"
@@ -15018,10 +14821,8 @@ msgid ":ref:`adding-translation`."
 msgstr ":ref:`adding-translation`."
 
 #: ../../admin/projects.rst:563
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "目标字符串"
+msgstr "管理字符串"
 
 #: ../../admin/projects.rst:565
 msgid ""
@@ -15048,16 +14849,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:582
-#, fuzzy
-#| msgid ""
-#| "Programatically, using API :http:post:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/units/`."
 msgid ""
 ":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`"
 msgstr ""
-"程序化地使用 API :http:post:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/units/`."
+":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../admin/projects.rst:589
 msgid "Language code style"
@@ -16343,7 +16140,7 @@ msgstr ""
 msgid ""
 "**Changed in 4.4.1:** Increased minimal required version of translate-"
 "toolkit to address several file format issues."
-msgstr ""
+msgstr "**4.4.1 版的更改：** 增加了 translate-toolkit 的最低需求版本，来处理几个文件格式问题。"
 
 #: ../../admin/upgrade.rst:187
 msgid "Upgrading from Python 2 to Python 3"
@@ -17970,10 +17767,8 @@ msgid "The translation unit value"
 msgstr "翻译单元值"
 
 #: ../../api.rst:1732
-#, fuzzy
-#| msgid ":ref:`component-enable_suggestions`"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr ":ref:`component-enable_suggestions`"
+msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:1737
 msgid "Trigger automatic translation."
@@ -18966,16 +18761,12 @@ msgid "Improved performance of consistency checks."
 msgstr "改进了一致性检查的性能。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory for long strings."
-msgstr "改进了翻译记忆库更新的性能。"
+msgstr "改进了长字符串翻译记忆库的性能。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for searching in several languages at once."
 msgid "Added support for searching in explanations."
-msgstr "为立刻在几种语言中搜索添加了支持。"
+msgstr "增加了在解释中搜索的支持。"
 
 #: ../../changes.rst:16
 msgid "Strings can now be added and removed in bilingual formats as well."
@@ -26745,18 +26536,10 @@ msgstr ""
 "用 :ref:`source-quality-gateway` 以避免引入错误。"
 
 #: ../../devel/integration.rst:67
-#, fuzzy
-#| msgid ""
-#| "When the translation files are separate from the code, there are "
-#| "following ways to introduce new strings into Weblate. For now, Weblate "
-#| "can introduce new strings only to monolingual translations (check :ref:"
-#| "`bimono`)."
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
-msgstr ""
-"当翻译文件与代码分离时，可以通过以下方法将新字符串引入 Webate。目前，Webate "
-"只能往单语翻译中引入新的字符串（check :ref:`bimono`）。"
+msgstr "当翻译文件与代码分离时，可以通过以下方法将新字符串引入 Weblate。"
 
 #: ../../devel/integration.rst:70
 msgid ""
@@ -32585,16 +32368,12 @@ msgid "Filter by suggestion author."
 msgstr ""
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "``change_action:TEXT``"
 msgid "``explanation:TEXT``"
-msgstr "``change_action:TEXT``"
+msgstr "``explanation:TEXT``"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Search in location strings"
 msgid "Search in explanations."
-msgstr "搜索字符串所在位置"
+msgstr "在解释中搜索。"
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
@@ -34601,18 +34380,13 @@ msgid "Turning on reviews"
 msgstr "打开审核"
 
 #: ../../workflows.rst:146
-#, fuzzy
-#| msgid ""
-#| "Reviews can be turned on in the project configuration, from the :guilabel:"
-#| "`Workflow` subpage of project settings (to be found in the :guilabel:"
-#| "`Manage` → `Settings` menu):"
 msgid ""
 "Reviews can be turned on in the project configuration, from the :guilabel:"
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
-"可以在项目设置的 :guilabel:`Workflow` 子页面中的项目配置中打开审核（位于 :"
-"guilabel:`Manage` → `Settings` 菜单中）："
+"可以在项目设置的 :guilabel:`Workflow` 子页面中的项目配置中打开审核（位于 :guilabel:`Manage` → "
+":guilabel:`Settings` 菜单中）："
 
 #: ../../workflows.rst:154
 msgid ""
