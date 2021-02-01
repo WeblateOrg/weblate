@@ -898,6 +898,7 @@ class LocalRepository(GitRepository):
             repo.execute(["add", target])
             if repo.needs_commit():
                 repo.commit("ZIP file upladed into Weblate")
+        return repo
 
     @classmethod
     def from_files(cls, target, files):
@@ -918,7 +919,8 @@ class LocalRepository(GitRepository):
         with repo.lock:
             repo.execute(["add", target])
             if repo.needs_commit():
-                repo.commit("Started tranlation using Weblate")
+                repo.commit("Started translation using Weblate")
+        return repo
 
 
 class GitLabRepository(GitMergeRequestBase):
