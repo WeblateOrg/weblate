@@ -916,11 +916,11 @@ class ProjectAPITest(APIBaseTest):
 
     def test_components(self):
         request = self.do_request("api:project-components", self.project_kwargs)
-        self.assertEqual(request.data["count"], 1)
+        self.assertEqual(request.data["count"], 2)
 
     def test_changes(self):
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 14)
+        self.assertEqual(request.data["count"], 17)
 
     def test_statistics(self):
         request = self.do_request("api:project-statistics", self.project_kwargs)
@@ -1031,7 +1031,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Project.objects.count(), 1)
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
         self.assertEqual(response.data["source_language"]["code"], "ru")
         self.assertEqual(
             Component.objects.get(slug="api-project").source_language.code, "ru"
@@ -1073,7 +1073,7 @@ class ProjectAPITest(APIBaseTest):
             request=payload,
         )
         self.assertEqual(Project.objects.count(), 1)
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
         self.assertEqual(response.data["source_language"]["code"], "ru")
         self.assertEqual(
             Component.objects.get(slug="api-project").source_language.code, "ru"
@@ -1110,7 +1110,7 @@ class ProjectAPITest(APIBaseTest):
                 "new_lang": "none",
             },
         )
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
         self.assertEqual(
             Component.objects.get(slug="api-project", project__slug="test").push,
             "https://username:password@github.com/example/push.git",
@@ -1152,7 +1152,7 @@ class ProjectAPITest(APIBaseTest):
                 "new_lang": "none",
             },
         )
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
         self.assertEqual(
             Component.objects.get(slug="api-project", project__slug="test").repo,
             repo_url,
@@ -1177,7 +1177,7 @@ class ProjectAPITest(APIBaseTest):
                 "new_lang": "none",
             },
         )
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
         self.assertEqual(
             Component.objects.get(slug="api-project", project__slug="test").repo,
             repo_url,
@@ -1200,7 +1200,7 @@ class ProjectAPITest(APIBaseTest):
                 "new_lang": "none",
             },
         )
-        self.assertEqual(Component.objects.count(), 1)
+        self.assertEqual(Component.objects.count(), 2)
         self.assertIn("filemask", response.data)
 
     def test_create_component_local(self):
@@ -1223,7 +1223,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(response.data["repo"], "local:")
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
 
     def test_patch(self):
         self.do_request(
@@ -1257,7 +1257,7 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
 
     def test_create_component_docfile_language(self):
         with open(TEST_DOC, "rb") as handle:
@@ -1278,7 +1278,7 @@ class ProjectAPITest(APIBaseTest):
             )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(response.data["template"], "local-project/cs.html")
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
 
     def test_create_component_zipfile(self):
         with open(TEST_ZIP, "rb") as handle:
@@ -1300,7 +1300,7 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(response.data["repo"], "local:")
-        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(Component.objects.count(), 3)
 
     def test_create_component_zipfile_bad_params(self):
         with open(TEST_ZIP, "rb") as handle:
@@ -1638,17 +1638,19 @@ class ComponentAPITest(APIBaseTest):
 
     def test_list_components(self):
         response = self.client.get(reverse("api:component-list"))
-        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["count"], 2)
         self.assertEqual(response.data["results"][0]["slug"], "test")
         self.assertEqual(response.data["results"][0]["project"]["slug"], "test")
+        self.assertEqual(response.data["results"][1]["slug"], "glossary")
+        self.assertEqual(response.data["results"][1]["project"]["slug"], "test")
 
     def test_list_components_acl(self):
         self.create_acl()
         response = self.client.get(reverse("api:component-list"))
-        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["count"], 2)
         self.authenticate(True)
         response = self.client.get(reverse("api:component-list"))
-        self.assertEqual(response.data["count"], 2)
+        self.assertEqual(response.data["count"], 4)
 
     def test_get_component(self):
         response = self.client.get(
@@ -1772,6 +1774,7 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["name"], "New Name")
 
     def test_delete(self):
+        self.assertEqual(Component.objects.count(), 2)
         self.do_request(
             "api:component-detail", self.component_kwargs, method="delete", code=403
         )
@@ -1782,7 +1785,7 @@ class ComponentAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Component.objects.count(), 0)
+        self.assertEqual(Component.objects.count(), 1)
 
     def test_create_translation(self):
         self.component.new_lang = "add"
@@ -2004,15 +2007,15 @@ class LanguageAPITest(APIBaseTest):
 class TranslationAPITest(APIBaseTest):
     def test_list_translations(self):
         response = self.client.get(reverse("api:translation-list"))
-        self.assertEqual(response.data["count"], 4)
+        self.assertEqual(response.data["count"], 5)
 
     def test_list_translations_acl(self):
         self.create_acl()
         response = self.client.get(reverse("api:translation-list"))
-        self.assertEqual(response.data["count"], 4)
+        self.assertEqual(response.data["count"], 5)
         self.authenticate(True)
         response = self.client.get(reverse("api:translation-list"))
-        self.assertEqual(response.data["count"], 8)
+        self.assertEqual(response.data["count"], 10)
 
     def test_get_translation(self):
         response = self.client.get(
@@ -2426,7 +2429,7 @@ class TranslationAPITest(APIBaseTest):
         )
 
     def test_delete(self):
-        self.assertEqual(Translation.objects.count(), 4)
+        self.assertEqual(Translation.objects.count(), 5)
         self.do_request(
             "api:translation-detail", self.translation_kwargs, method="delete", code=403
         )
@@ -2437,7 +2440,7 @@ class TranslationAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Translation.objects.count(), 3)
+        self.assertEqual(Translation.objects.count(), 4)
 
 
 class UnitAPITest(APIBaseTest):
@@ -2933,7 +2936,7 @@ class ScreenshotAPITest(APIBaseTest):
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self):
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 14)
+        self.assertEqual(response.data["count"], 17)
 
     def test_filter_changes_after(self):
         """Filter chanages since timestamp."""
@@ -2941,7 +2944,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 14)
+        self.assertEqual(response.data["count"], 17)
 
     def test_filter_changes_before(self):
         """Filter changes prior to timestamp."""

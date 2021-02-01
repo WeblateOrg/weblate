@@ -134,10 +134,6 @@ class ProjectTest(RepoTestCase):
                 component.translation_set.get(language_code="cs").get_filename()
             )
         )
-        # Check that glossaries were renamed
-        self.assertEqual(
-            ["Changed"], list(project.glossary_set.values_list("name", flat=True))
-        )
 
     def test_delete(self):
         project = self.create_project()
@@ -276,7 +272,7 @@ class ComponentListTest(RepoTestCase):
         AutoComponentList.objects.create(
             project_match="^.*$", component_match="^.*$", componentlist=clist
         )
-        self.assertEqual(clist.components.count(), 1)
+        self.assertEqual(clist.components.count(), 2)
 
     def test_auto_create(self):
         clist = ComponentList.objects.create(name="Name", slug="slug")
@@ -285,7 +281,7 @@ class ComponentListTest(RepoTestCase):
         )
         self.assertEqual(clist.components.count(), 0)
         self.create_component()
-        self.assertEqual(clist.components.count(), 1)
+        self.assertEqual(clist.components.count(), 2)
 
     def test_auto_nomatch(self):
         self.create_component()

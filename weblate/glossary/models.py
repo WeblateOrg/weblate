@@ -26,8 +26,6 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.functions import Lower
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
@@ -38,11 +36,9 @@ from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import GLOSSARY_LENGTH, PROJECT_NAME_LENGTH
-from weblate.trans.models.component import Component
 from weblate.trans.models.project import Project
 from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.db import re_escape
-from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
@@ -307,36 +303,3 @@ class Term(models.Model):
         return user.has_perm(perm, self.glossary.project) or any(
             user.has_perm(perm, prj) for prj in self.glossary.links.iterator()
         )
-
-
-@receiver(post_save, sender=Component)
-@disable_for_loaddata
-def create_glossary(sender, instance, created, **kwargs):
-    """Creates glossary on project creation."""
-    project = instance.project
-    glossaries = {
-        glossary.source_language_id: glossary
-        for glossary in project.glossary_set.iterator()
-    }
-
-    # Does the glossary for source language exist?
-    if instance.source_language_id in glossaries:
-        return
-
-    if glossaries:
-        base_name = f"{project}: {instance.source_language.name}"
-    else:
-        base_name = project.name
-
-    # Find unused name
-    name = base_name
-    suffix = 0
-    while Glossary.objects.filter(name=name).exists():
-        suffix += 1
-        name = f"{name} ({suffix})"
-
-    project.glossary_set.create(
-        name=name,
-        color="silver",
-        source_language=instance.source_language,
-    )

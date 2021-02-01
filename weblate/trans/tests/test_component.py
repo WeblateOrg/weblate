@@ -502,7 +502,7 @@ class ComponentDeleteTest(RepoTestCase):
         self.assertTrue(os.path.exists(component.full_path))
         component.delete()
         self.assertFalse(os.path.exists(component.full_path))
-        self.assertEqual(0, Component.objects.count())
+        self.assertEqual(1, Component.objects.count())
 
     def test_delete_link(self):
         component = self.create_link()

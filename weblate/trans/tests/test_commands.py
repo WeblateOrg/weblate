@@ -66,7 +66,7 @@ class ImportProjectTest(RepoTestCase):
     def test_import(self):
         project = self.create_project()
         self.do_import()
-        self.assertEqual(project.component_set.count(), 4)
+        self.assertEqual(project.component_set.count(), 5)
 
     def test_import_deep(self):
         project = self.create_project()
@@ -77,19 +77,19 @@ class ImportProjectTest(RepoTestCase):
             "master",
             "deep/*/locales/*/LC_MESSAGES/**.po",
         )
-        self.assertEqual(project.component_set.count(), 1)
+        self.assertEqual(project.component_set.count(), 2)
 
     def test_import_ignore(self):
         project = self.create_project()
         self.do_import()
         self.do_import()
-        self.assertEqual(project.component_set.count(), 4)
+        self.assertEqual(project.component_set.count(), 5)
 
     def test_import_duplicate(self):
         project = self.create_project()
         self.do_import()
         self.do_import(path="weblate://test/po")
-        self.assertEqual(project.component_set.count(), 4)
+        self.assertEqual(project.component_set.count(), 5)
 
     def test_import_main_1(self, name="po-mono"):
         project = self.create_project()
@@ -102,8 +102,8 @@ class ImportProjectTest(RepoTestCase):
             main_component=name,
         )
         non_linked = project.component_set.with_repo()
-        self.assertEqual(non_linked.count(), 1)
-        self.assertEqual(non_linked[0].slug, name)
+        self.assertEqual(non_linked.count(), 2)
+        self.assertEqual({c.slug for c in non_linked}, {name, "glossary"})
 
     def test_import_main_2(self):
         self.test_import_main_1("second-po")
@@ -122,8 +122,8 @@ class ImportProjectTest(RepoTestCase):
             "**/*.po",
             language_regex="cs",
         )
-        self.assertEqual(project.component_set.count(), 4)
-        for component in project.component_set.iterator():
+        self.assertEqual(project.component_set.count(), 5)
+        for component in project.component_set.filter(is_glossary=False).iterator():
             self.assertEqual(component.translation_set.count(), 2)
 
     def test_import_re(self):
@@ -135,7 +135,7 @@ class ImportProjectTest(RepoTestCase):
             "master",
             r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
         )
-        self.assertEqual(project.component_set.count(), 1)
+        self.assertEqual(project.component_set.count(), 2)
 
     def test_import_name(self):
         project = self.create_project()
@@ -147,7 +147,7 @@ class ImportProjectTest(RepoTestCase):
             r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
             name_template="Test name",
         )
-        self.assertEqual(project.component_set.count(), 1)
+        self.assertEqual(project.component_set.count(), 2)
         self.assertTrue(project.component_set.filter(name="Test name").exists())
 
     def test_import_re_missing(self):
@@ -180,7 +180,7 @@ class ImportProjectTest(RepoTestCase):
             "**/*.po",
             file_format="po",
         )
-        self.assertEqual(project.component_set.count(), 4)
+        self.assertEqual(project.component_set.count(), 5)
 
     def test_import_invalid(self):
         project = self.create_project()
@@ -206,7 +206,7 @@ class ImportProjectTest(RepoTestCase):
             file_format="aresource",
             base_file_template="android/values/strings.xml",
         )
-        self.assertEqual(project.component_set.count(), 2)
+        self.assertEqual(project.component_set.count(), 3)
 
     def test_import_aresource_format(self):
         project = self.create_project()
@@ -219,21 +219,21 @@ class ImportProjectTest(RepoTestCase):
             file_format="aresource",
             base_file_template="%s/values/strings.xml",
         )
-        self.assertEqual(project.component_set.count(), 2)
+        self.assertEqual(project.component_set.count(), 3)
 
     def test_re_import(self):
         project = self.create_project()
         call_command("import_project", "test", self.git_repo_path, "master", "**/*.po")
-        self.assertEqual(project.component_set.count(), 4)
+        self.assertEqual(project.component_set.count(), 5)
 
         call_command("import_project", "test", self.git_repo_path, "master", "**/*.po")
-        self.assertEqual(project.component_set.count(), 4)
+        self.assertEqual(project.component_set.count(), 5)
 
     def test_import_against_existing(self):
         """Test importing with a weblate:// URL."""
         android = self.create_android()
         project = android.project
-        self.assertEqual(project.component_set.count(), 1)
+        self.assertEqual(project.component_set.count(), 2)
         call_command(
             "import_project",
             project.slug,
@@ -241,7 +241,7 @@ class ImportProjectTest(RepoTestCase):
             "master",
             "**/*.po",
         )
-        self.assertEqual(project.component_set.count(), 5)
+        self.assertEqual(project.component_set.count(), 6)
 
     def test_import_missing_project(self):
         """Test of correct handling of missing project."""
@@ -284,7 +284,7 @@ class ImportProjectTest(RepoTestCase):
             "**/*.po",
             vcs="mercurial",
         )
-        self.assertEqual(project.component_set.count(), 4)
+        self.assertEqual(project.component_set.count(), 5)
 
     def test_import_mercurial_mixed(self):
         """Test importing Mercurial project with mixed component/lang."""
@@ -403,7 +403,7 @@ class ImportDemoTestCase(TestCase):
         output = StringIO()
         call_command("import_demo", stdout=output)
         self.assertEqual(output.getvalue(), "")
-        self.assertEqual(Component.objects.count(), 4)
+        self.assertEqual(Component.objects.count(), 5)
 
 
 class CleanupTestCase(TestCase):
@@ -517,8 +517,8 @@ class ImportCommandTest(RepoTestCase):
             TEST_COMPONENTS,
             stdout=output,
         )
-        self.assertEqual(self.component.project.component_set.count(), 3)
-        self.assertEqual(Translation.objects.count(), 10)
+        self.assertEqual(self.component.project.component_set.count(), 4)
+        self.assertEqual(Translation.objects.count(), 11)
         self.assertIn("Imported Test/Gettext PO with 4 translations", output.getvalue())
 
     def test_import_invalid(self):

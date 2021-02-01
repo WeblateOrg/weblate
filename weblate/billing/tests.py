@@ -420,8 +420,7 @@ class HostingTest(RepoTestCase):
         self.assertNotContains(response, "Pending approval")
 
         # Add missing license info
-        component.license = "GPL-3.0-or-later"
-        component.save()
+        component.project.component_set.update(license="GPL-3.0-or-later")
         billing = user.billing_set.get()
 
         # Valid for libre

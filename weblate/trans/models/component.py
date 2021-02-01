@@ -727,6 +727,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         if create:
             self.install_autoaddon()
+            self.create_glossary()
 
         # Ensure source translation is existing, otherwise we might
         # be hitting race conditions between background update and frontend displaying
@@ -820,6 +821,35 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             self.log_info("enabling addon %s", name)
             addon.create(self, configuration=configuration)
+
+    def create_glossary(self):
+        project = self.project
+
+        # Does glossary already exist?
+        if (
+            self.is_glossary
+            or project.glossaries
+            or "Glossary" in (component.name for component in project.child_components)
+            or "glossary" in (component.slug for component in project.child_components)
+        ):
+            return
+
+        # Create glossary component
+        component = project.scratch_create_component(
+            "Glossary",
+            "glossary",
+            self.source_language,
+            "tbx",
+            glossary_name=project.name,
+            is_glossary=True,
+            has_template=False,
+            allow_translation_propagation=False,
+            manage_units=True,
+            license=self.license,
+        )
+
+        # Make sure it is listed in project glossaries now
+        project.glossaries.append(component)
 
     @contextmanager
     def lock(self):

@@ -432,9 +432,14 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     def child_components(self):
         return self.component_set.all() | self.shared_components.all()
 
-    def scratch_create_component(self, name, slug, source_language, file_format):
+    def scratch_create_component(
+        self, name, slug, source_language, file_format, has_template=True, **kwargs
+    ):
         format_cls = FILE_FORMATS[file_format]
-        template = f"{source_language.code}.{format_cls.extension()}"
+        if has_template:
+            template = f"{source_language.code}.{format_cls.extension()}"
+        else:
+            template = ""
         # Create component
         return self.component_set.create(
             file_format=file_format,
@@ -445,4 +450,11 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             source_language=source_language,
             name=name,
             slug=slug,
+            **kwargs,
         )
+
+    @cached_property
+    def glossaries(self):
+        return [
+            component for component in self.child_components if component.is_glossary
+        ]
