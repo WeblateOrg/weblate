@@ -41,9 +41,8 @@ all projects configured as `Public` (see :ref:`acl`).
 Per project permissions
 +++++++++++++++++++++++
 
-.. note::
 
-    This feature is unavailable for projects using the Libre plan on Hosted Weblate.
+.. include:: /snippets/not-hosted-libre.rst
 
 Set your projects to `Protected` or `Private`, and manage users per
 project in the Weblate interface.
@@ -51,9 +50,7 @@ project in the Weblate interface.
 Adding permissions to languages, components or projects
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. note::
-
-    This feature is unavailable for projects using the Libre plan on Hosted Weblate.
+.. include:: /snippets/not-hosted-libre.rst
 
 Members are granted any permissions assigned to groups they are in, so you can
 grant the user multiple permissions at once. Create groups and attach them to a project,
@@ -84,9 +81,7 @@ Project access control
     By turning on access-control lists, all users are prohibited from accessing anything
     within a given project, unless you add the permissions for them to do just that.
 
-.. note::
-
-    This feature is unavailable for the projects running Libre plan on Hosted Weblate.
+.. include:: /snippets/not-hosted-libre.rst
 
 Limit user's access to individual projects by turning on
 :guilabel:`Access` in the :guilabel:`Settings` of each respective project.
