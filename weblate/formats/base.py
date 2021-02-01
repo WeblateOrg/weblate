@@ -168,6 +168,7 @@ class TranslationFormat:
     simple_filename: bool = True
     new_translation: Optional[Union[str, bytes]] = None
     autoaddon: Dict[str, Dict[str, str]] = {}
+    create_empty_bilingual: bool = False
 
     @classmethod
     def get_identifier(cls):

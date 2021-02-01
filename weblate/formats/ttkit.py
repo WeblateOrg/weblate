@@ -414,6 +414,8 @@ class TTKitFormat(TranslationFormat):
     ) -> bool:
         """Check whether base is valid."""
         if not base:
+            if cls.create_empty_bilingual:
+                return True
             return monolingual and cls.new_translation is not None
         try:
             if not fast:
@@ -1677,15 +1679,3 @@ class TBXFormat(TTKitFormat):
         super().__init__(storefile, template_store, language_code, is_template)
         # Add language header if not present
         self.store.addheader()
-
-    @classmethod
-    def is_valid_base_for_new(
-        cls,
-        base: str,
-        monolingual: bool,
-        errors: Optional[List] = None,
-        fast: bool = False,
-    ) -> bool:
-        if not base:
-            return True
-        return super().is_valid_base_for_new(base, monolingual, errors, fast)
