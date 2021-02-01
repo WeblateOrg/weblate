@@ -24,7 +24,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
+from django.db.models import Case, IntegerField, Q, When
 from django.http import (
     HttpResponse,
     HttpResponseBadRequest,
@@ -114,16 +114,32 @@ def get_other_units(unit):
     propagation = component.allow_translation_propagation
     same = None
 
-    query = Q()
-    if unit.source:
-        query |= Q(source=unit.source)
-    if unit.context and component.has_template():
-        query |= Q(context=unit.context)
+    if unit.source and unit.context:
+        match = Q(source=unit.source) & Q(context=unit.context)
+        if component.has_template():
+            query = Q(source=unit.source) | Q(context=unit.context)
+        else:
+            query = Q(source=unit.source)
+    elif unit.source:
+        match = Q(source=unit.source) & Q(context="")
+        query = Q(source=unit.source)
+    elif unit.context:
+        match = Q(context=unit.context)
+        query = Q(context=unit.context)
 
-    units = Unit.objects.prefetch_full().filter(
-        query,
-        translation__component__project=component.project,
-        translation__language=translation.language,
+    units = (
+        Unit.objects.prefetch_full()
+        .filter(
+            query,
+            translation__component__project=component.project,
+            translation__language=translation.language,
+        )
+        .annotate(
+            matches_current=Case(
+                When(condition=match, then=1), default=0, output_field=IntegerField()
+            )
+        )
+        .order_by("-matches_current")
     )
 
     units_count = units.count()
