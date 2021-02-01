@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-01-31 17:56+0000\n"
-"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
+"PO-Revision-Date: 2021-02-01 20:08+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -31,13 +31,13 @@ msgid ""
 "consult the documentation for the specific version you are using."
 msgstr ""
 "Weblate 3.0 より前の権限システムは Django をベースにしていましたが、現在は Weblate "
-"用に独自に構築されています。古いバージョンを使用している場合は、使用している特定のバージョンのドキュメントを確認してください。"
+"用に独自に構築されています。古いバージョンを使用する場合は、使用するバージョンのドキュメントを確認してください。"
 
 #: ../../admin/access.rst:12
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
-msgstr "Weblate は、インスタンス全体または限定した範囲のユーザーに、アクセス権を割り当てるための詳細な権限システムを搭載しています。"
+msgstr "Weblate には、インスタンス全体または限定した範囲のユーザーに、アクセス権を割り当てるための詳細な権限システムを搭載しています。"
 
 #: ../../admin/access.rst:15
 msgid ""
@@ -45,8 +45,8 @@ msgid ""
 "of permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"権限システムは、グループとロールに基づいており、ロールにアクセス権のセットを設定し、グループとユーザーと翻訳に割り当てます。詳細は :ref:`auth-"
-"model` を参照してください。"
+"権限システムはグループとロールに基づいています。ロールにはアクセス権のセットを設定し、グループはアクセス権をユーザーと翻訳に割り当てます。詳細については、"
+":ref:`auth-model` を確認してください。"
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -56,9 +56,9 @@ msgid ""
 "specific translation projects. More fine-grained configuration can be "
 "achieved using :ref:`custom-acl`."
 msgstr ""
-"インストール後にデフォルトのグループが作成され、それを使用してインスタンス全体にユーザーの権限が割り当てることができます (:ref:`default-"
-"groups` を参照)。また、 :ref:`acl` を有効にすると、特定の翻訳プロジェクトにユーザーが割り当てられます。さらに詳細な設定は :ref"
-":`custom-acl` で設定します。"
+"インストール後にデフォルトのグループが作成され、それを使用してインスタンス全体にユーザーの権限が割り当てることができます（参照: :ref"
+":`default-groups`）。また、 :ref:`acl` を有効にすると、指定する翻訳プロジェクトにユーザーが割り当てることができます。"
+"さらに詳細な設定は :ref:`custom-acl` で設定します。"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -100,7 +100,7 @@ msgstr "プロジェクト単位のアクセス権"
 msgid ""
 "This feature is unavailable for projects using the Libre plan on Hosted "
 "Weblate."
-msgstr "この機能は、 Hosted Weblate で Libre プランを使用しているプロジェクトでは利用できません。"
+msgstr "この機能は、 Hosted Weblate で Libre プランを使用するプロジェクトでは利用できません。"
 
 #: ../../admin/access.rst:48
 msgid ""
@@ -121,8 +121,8 @@ msgid ""
 "them to a project, component, or language. You can put users in multiple "
 "groups, and permissions can overlap between them."
 msgstr ""
-"メンバーには、自分が所属するグループに割り当てられたすべての権限が付与されるので、一度に複数の権限を付与することができます。グループを作成して、プロジェク"
-"ト、コンポーネント、または言語に割り当てます。複数のグループにユーザーを所属させることができ、グループ間で権限を重複させることができます。"
+"メンバーには、所属するグループに割り当てられたすべての権限が与えられるので、ユーザーには一度に複数の権限を与えられます。グループを作成して、プロジェクト、"
+"コンポーネント、または言語に割り当てます。ユーザーを複数のグループに所属させて、複数のアクセス権を与えることができます。"
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -131,8 +131,8 @@ msgid ""
 "configure it for a given resource. Any assigned permissions will be granted "
 "to members of that group for selected resources."
 msgstr ""
-"プロジェクト、コンポーネント、言語セットに基づいて、任意の選択された権限を設定します。。設定するにはは、新しいグループ (例: `Czech "
-"translators`) を作成し、特定のリソースに対して設定します。割り当てたアクセス権は、選択したリソースのグループのメンバーに設定されます。"
+"プロジェクト、コンポーネント、または言語セットに基づいて、選択した権限を与えます。これを実行させるには、新しいグループ（例: `Czech "
+"translators`）を作成して、指定するリソースに設定します。割り当てられたすべての権限は、選択したリソースのグループのメンバーに与えられます。"
 
 #: ../../admin/access.rst:68
 msgid ""
@@ -159,13 +159,13 @@ msgid ""
 "By turning on access-control lists, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
-msgstr "アクセス制御リストを有効にすると、すべてのユーザーは、アクセス権を追加しない限り、当該プロジェクトへのすべてのアクセスが禁止されます。"
+msgstr "アクセス制御リストを有効にすると、すべてのユーザーは、アクセス権を追加しない限り、指定したプロジェクトへのすべてのアクセスが禁止されます。"
 
 #: ../../admin/access.rst:89
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
-msgstr "この機能は、 Hosted Weblate の Libre プランを実行しているプロジェクトでは利用できません。"
+msgstr "この機能は、 Hosted Weblate で Libre プランを使用するプロジェクトでは利用できません。"
 
 #: ../../admin/access.rst:91
 msgid ""
@@ -174,12 +174,12 @@ msgid ""
 "creates several groups for the project in question, see :ref:`groups`."
 msgstr ""
 "それぞれのプロジェクトの :guilabel:`設定` にある :guilabel:`アクセス制御` "
-"を有効にすると、個々のプロジェクトでユーザーのアクセスを制限できます。これにより、そのプロジェクトに複数のグループが自動的に作成されます。 "
-":ref:`groups` を参照してください。"
+"を有効にすると、個々のプロジェクトでユーザーのアクセスを制限できます。これにより、指定したプロジェクトに複数のグループが自動的に作成されます。 参照: "
+":ref:`groups`。"
 
 #: ../../admin/access.rst:95
 msgid ":guilabel:`Access control` can be set to:"
-msgstr ":guilabel:`アクセス制御` は以下の値に設定できます。"
+msgstr "設定できる :guilabel:`アクセス制御` の値:"
 
 #: ../../admin/access.rst:97
 msgid "Public"
@@ -187,7 +187,7 @@ msgstr "公開"
 
 #: ../../admin/access.rst:98
 msgid "Publicly visible, translatable for all logged-in users"
-msgstr "一般公開で、すべてのログインユーザーが翻訳可能"
+msgstr "公開すると、ログインしたすべてのユーザーが翻訳可能"
 
 #: ../../admin/access.rst:99
 msgid "Protected"
@@ -211,7 +211,7 @@ msgstr "カスタム"
 
 #: ../../admin/access.rst:104
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
-msgstr "Weblate の代わりに Django admin がユーザーを管理します。 :ref:`custom-acl` を参照してください。"
+msgstr "Django admin が Weblate の代わりにユーザーを管理する。参照: :ref:`custom-acl`。"
 
 #: ../../admin/access.rst:108
 msgid ""
@@ -219,14 +219,14 @@ msgid ""
 "given user, or group of users in the Django admin-interface, or by using "
 "user management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
-"プロジェクトへのアクセスを許可するには、 Django の管理画面で特定のユーザーまたはユーザーのグループに権限を直接追加するか、 :ref"
-":`manage-acl` に書かれているように、プロジェクトページのユーザー管理を使用するかします。"
+"プロジェクトへのアクセスを許可するには、Django 管理画面でユーザーまたはユーザー グループにアクセス権を直接追加します。または、:ref"
+":`manage-acl` の説明にしたがい、プロジェクト ページのユーザー管理から設定します。"
 
 #: ../../admin/access.rst:114
 msgid ""
 "Even with access-control lists turned on, some info will be available about "
 "your project:"
-msgstr "アクセス制御リストが有効になっていても、以下のようなプロジェクトに関する一部の情報は利用できます。"
+msgstr "アクセス制御リストを有効にしていても、表示されるプロジェクトに関する情報:"
 
 #: ../../admin/access.rst:117
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -1487,14 +1487,13 @@ msgstr "内容"
 
 #: ../../admin/addons.rst:236
 msgid "Pseudolocale generation"
-msgstr "擬似言語の生成"
+msgstr "疑似言語の生成"
 
 #: ../../admin/addons.rst:238
 msgid ""
 "Automatically generates a pseudolocale translation by adding prefix and "
 "suffix to source strings."
-msgstr ""
-"原文に接頭辞と接尾辞を追加することで、擬似言語の変換を自動的に生成します。"
+msgstr "原文に接頭辞と接尾辞を追加することで、疑似言語の変換を自動的に生成します。"
 
 #: ../../admin/addons.rst:241
 #, fuzzy
@@ -1516,9 +1515,7 @@ msgstr ""
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
-msgstr ""
-"テストには実際の言語を使用できますが、 Weblate には専用の擬似言語（ `en_XA` "
-"と `ar_XB` ）があります。"
+msgstr "テストには実際の言語を使用できますが、 Weblate には専用の疑似言語（ `en_XA` と `ar_XB` ）があります。"
 
 #: ../../admin/addons.rst:255
 msgid "Contributors in comment"
@@ -2203,15 +2200,13 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"認証を行うための様々なソーシャルオプションを含め、Django の組み込みソリュー"
-"ションを使用します。これを使うと、他の Django ベースのプロジェクトのユーザー"
-"データベースをインポートすることができます (:ref:`pootle-migration` を参照し"
-"てください)。"
+"Django の組み込みソリューションは、認証のためのさまざまなソーシャル オプションを含む認証に使用されます。これを使用すると、他の Django "
+"ベースのプロジェクト（参照: :ref:`pootle-migration`）のユーザ データベースをインポートできます。"
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
-msgstr "Django は他の手段に対しても認証を行うように設定することができます。"
+msgstr "Django は他の手段からも認証できるように設定できます。"
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -2230,16 +2225,13 @@ msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
-"doc:`psa:index` のおかげで、GitLab、Ubuntu、Fedora など、多くのサードパーティ"
-"サービスを利用した認証に対応しています。"
+"doc:`psa:index` のおかげで、GitLab、Ubuntu、Fedora など、多くのサードパーティ　サービスを使用した認証に対応しています。"
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
-msgstr ""
-"一般的な設定方法は :doc:`psa:configuration/django` のドキュメントを確認してく"
-"ださい。"
+msgstr "一般的な設定手順については、:doc:`psa:configuration/django` のドキュメントを確認してください。"
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -2248,10 +2240,9 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"既定では、 Weblate は検証済みのメールアドレスを提供するのにサードパーティの認"
-"証サービスに依存します。使用したいサービスの中で対応していないものがある場合"
-"は、 FORCE_EMAIL_VALIDATION を設定して、 Weblate 側で電子メールの検証を強制し"
-"てください。例えば、以下のようにします。"
+"デフォルトでは、Weblate "
+"はサードパーティの認証サービスを使用して、検証済みのメールアドレスを運用します。使用するサービスの中に、認証サービスに対応していないものについては、"
+"FORCE_EMAIL_VALIDATION　を設定して、Weblate　側でメールアドレスの検証を強制してください。設定例:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -2266,6 +2257,9 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
+"それぞれのバックエンドを有効にするのは非常に簡単です。:setting:`django:AUTHENTICATION_BACKENDS`　の設定にエントリ"
+"を追加し、場合によっては特定の認証方式に必要な秘密鍵を追加するだけです。バックエンドの中には、デフォルトではユーザーのメールアドレスを公開しないものがあり"
+"、リクエストで指定することが必要なことに注意してください。そうしなければ、Weblate は適切にユーザーの貢献を署名できません。"
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -2281,8 +2275,8 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
-"OpenID ベースのサービスの場合は、通常はそれらを有効にするだけです。次の例で"
-"は、OpenSUSE、Fedora、Ubuntu で OpenID 認証を有効にします。"
+"OpenID ベースのサービスでは、通常は認証を有効にするだけで使用できます。次のセクションは、OpenSUSE、Fedora、および Ubuntu で "
+"OpenID 認証を有効にする方法:"
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
@@ -2296,17 +2290,15 @@ msgstr "GitHub 認証"
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
-msgstr ""
-"OAuth アプリケーションを GitHub に登録して、 Weblate に秘密をすべて伝える必要"
-"があります。"
+msgstr "GitHub 上で OAuth アプリケーションの登録が必要です。Weblate にすべての秘密鍵を設定する方法:"
 
 #: ../../admin/auth.rst:106
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
-"GitHub のコールバック URL を ``https://example.com/accounts/complete/github/"
-"`` に設定する必要があります。"
+"GitHub のコールバック URL を ``https://example.com/accounts/complete/github/`` "
+"に設定することが必要です。"
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -2314,9 +2306,8 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
-"認証時に Weblate が提供するコールバック URL には、設定されたドメインが含まれ"
-"ています。 URL の不一致でエラーが発生した場合、修正するには :ref:`production-"
-"site` を参照してください。"
+"認証中に Weblate 提供のコールバック URL には、設定したドメインが含まれています。URL の不一致でエラーが発生した場合の修正は、:ref"
+":`production-site` を確認してください。"
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
@@ -2330,9 +2321,7 @@ msgstr "Bitbucket 認証"
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
-msgstr ""
-"Bitbucket にアプリケーションを登録し、 Weblate にすべての秘密を伝える必要があ"
-"ります。"
+msgstr "アプリケーションを Bitbucket に登録することが必要です。Weblate にすべての秘密鍵を設定する方法:"
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
@@ -2347,8 +2336,8 @@ msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
-"Google OAuth 2 を使用するには、 <https://console.developers.google.com/> にア"
-"プリケーションを登録し、 Google+ API を有効にする必要があります。"
+"Google OAuth 2 を使用するには、<https://console.developers.google.com/> "
+"にアプリケーションを登録して、Google+API を有効にすることが必要です。"
 
 #: ../../admin/auth.rst:150
 msgid ""
@@ -2371,15 +2360,13 @@ msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
-"多くの OAuth 2 サービスと同様、 Facebook にアプリケーションを登録する必要があ"
-"ります。登録したら、それを使用するように Weblate を設定する必要があります。"
+"一般的な OAuth 2 サービスと同じように、Facebook にアプリケーションを登録することが必要です。そのあとに必要な、Webrate "
+"の設定方法:"
 
 #: ../../admin/auth.rst:179
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
-msgstr ""
-"リダイレクト先の URL は ``https://WEBLATE SERVER/accounts/complete/facebook/"
-"`` です。"
+msgstr "リダイレクト先の URL は、``https://WEBLATE SERVER/accounts/complete/facebook/``"
 
 #: ../../admin/auth.rst:199
 msgid ":doc:`psa:backends/facebook`"
@@ -13848,10 +13835,8 @@ msgid "Starting translation in new language"
 msgstr "新しい言語での翻訳の開始"
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "``MESSAGE``"
 msgid "``LANGUAGE``"
-msgstr "``MESSAGE``"
+msgstr "``LANGUAGE``"
 
 #: ../../admin/optionals.rst:262 ../../devel/reporting-example.rst:5
 msgid "2"
@@ -17465,10 +17450,8 @@ msgid "The translation unit value"
 msgstr ""
 
 #: ../../api.rst:1732
-#, fuzzy
-#| msgid ":ref:`component-enable_suggestions`"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr ":ref:`component-enable_suggestions`"
+msgstr ":ref:`component-manage_units`、:ref:`adding-new-strings`"
 
 #: ../../api.rst:1737
 msgid "Trigger automatic translation."
@@ -18445,16 +18428,12 @@ msgid "Improved performance of consistency checks."
 msgstr "一貫性の検査の性能向上。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory for long strings."
-msgstr "翻訳メモリの更新の性能の向上。"
+msgstr "長い文字列の翻訳メモリの性能の向上。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Added support for searching in explanations."
-msgstr "文字列整形のグループ化のサポートを追加しました。"
+msgstr "説明文での検索に対応。"
 
 #: ../../changes.rst:16
 msgid "Strings can now be added and removed in bilingual formats as well."
@@ -32101,16 +32080,12 @@ msgid "Filter by suggestion author."
 msgstr "提案した翻訳者でフィルターをかける。"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "``location:TEXT``"
 msgid "``explanation:TEXT``"
-msgstr "``location:TEXT``"
+msgstr "``explanation:TEXT``"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Search in suggestions."
 msgid "Search in explanations."
-msgstr "提案の検索。"
+msgstr "説明の検索。"
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
@@ -34434,19 +34409,13 @@ msgid "Turning on reviews"
 msgstr "査読の有効化"
 
 #: ../../workflows.rst:146
-#, fuzzy
-#| msgid ""
-#| "Reviews can be turned on in the project configuration, from the :guilabel:"
-#| "`Workflow` subpage of project settings (to be found in the :guilabel:"
-#| "`Manage` → `Settings` menu):"
 msgid ""
 "Reviews can be turned on in the project configuration, from the :guilabel:"
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
-"査読は、プロジェクトの設定で有効にできます、場所はプロジェクトの設定の :"
-"guilabel:`ワークフロー` サブページ（ :guilabel:`管理` → `設定` メニューにあ"
-"る）:"
+"査読は、プロジェクトの設定で有効にできます、場所はプロジェクトの設定の :guilabel:`ワークフロー` サブページ（ :guilabel:`管理` "
+"→ :guilabel:`設定` メニューにある）:"
 
 #: ../../workflows.rst:154
 msgid ""
