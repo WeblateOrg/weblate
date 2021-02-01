@@ -192,6 +192,7 @@ class TranslationFormat:
             storefile.mode = "r"
 
         self.storefile = storefile
+        self.language_code = language_code
 
         # Load store
         self.store = self.load(storefile, template_store)

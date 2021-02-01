@@ -34,7 +34,7 @@ from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
 from translate.storage.csvl10n import csv
-from translate.storage.lisa import LISAfile
+from translate.storage.lisa import LISAfile, LISAunit
 from translate.storage.po import pofile, pounit
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
@@ -355,10 +355,13 @@ class TTKitFormat(TranslationFormat):
             unit.setid(context)
             unit.context = context
         if target is None:
-            unit.source = self.create_unit_key(key, source)
-            unit.target = source
+            target = source
+            source = self.create_unit_key(key, source)
+
+        unit.source = source
+        if isinstance(unit, LISAunit):
+            unit.settarget(target, self.language_code)
         else:
-            unit.source = source
             unit.target = target
         return unit
 
@@ -1666,6 +1669,13 @@ class TBXFormat(TTKitFormat):
     autoload: Tuple[str, ...] = ("*.tbx",)
     new_translation = tbxfile.XMLskeleton
     unit_class = TBXUnit
+
+    def __init__(
+        self, storefile, template_store=None, language_code=None, is_template=False
+    ):
+        super().__init__(storefile, template_store, language_code, is_template)
+        # Add language header if not present
+        self.store.addheader()
 
     @classmethod
     def is_valid_base_for_new(
