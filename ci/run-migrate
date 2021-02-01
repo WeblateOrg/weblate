@@ -56,6 +56,10 @@ if [ -f ./weblate/trans/tests/data/memory.json ] ; then
     ./manage.py import_memory ./weblate/trans/tests/data/memory.json
     check
 fi
+# Create glossaries
+if [ "$TAG" = "weblate-4.4" ] ; then
+    ./manage.py shell -c 'from weblate.glossary.models import Glossary; from weblate.trans.models import Component; component = Component.objects.first(); glossary = Glossary.objects.create(project=component.project, name="Test Glossary", source_language=component.source_language); glossary.term_set.create(language=Language.objects.get(code="cs"), source="hello", target="ahoj")'
+fi
 git reset --hard
 check
 git checkout $HEAD_COMMIT
