@@ -130,9 +130,9 @@ from where you can check whether the configuration actually matches your needs:
 .. hint::
 
    With :ref:`internal-urls` you can populate the VCS configuration of other components
-   from your main component by pointing to it as weblate://projectname/themaincomponent
+   from your main component by pointing to it as ``weblate://projectname/themaincomponent``
    from the :ref:`component-repo` field (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓
-   :guilabel:`Version control system`) of each resective component.
+   :guilabel:`Version control system`) of each respective component.
 
 .. _addon-weblate.flags.bulk:
 
