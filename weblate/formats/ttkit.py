@@ -1672,6 +1672,7 @@ class TBXFormat(TTKitFormat):
     autoload: Tuple[str, ...] = ("*.tbx",)
     new_translation = tbxfile.XMLskeleton
     unit_class = TBXUnit
+    create_empty_bilingual: bool = True
 
     def __init__(
         self, storefile, template_store=None, language_code=None, is_template=False

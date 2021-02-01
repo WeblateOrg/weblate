@@ -1215,7 +1215,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     self.full_path,
                     {self.template: self.file_format_cls.get_new_file_content()}
                     if self.template
-                    else None,
+                    else {},
                 )
             return
 
