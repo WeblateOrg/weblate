@@ -359,7 +359,7 @@ class TTKitFormat(TranslationFormat):
             source = self.create_unit_key(key, source)
 
         unit.source = source
-        if isinstance(unit, LISAunit):
+        if isinstance(unit, LISAunit) and self.language_code:
             unit.settarget(target, self.language_code)
         else:
             unit.target = target
