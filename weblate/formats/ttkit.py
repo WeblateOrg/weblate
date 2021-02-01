@@ -1099,6 +1099,7 @@ class PropertiesUtf8Format(PropertiesBaseFormat):
     loader = ("properties", "javautf8file")
     new_translation = "\n"
     language_format = "java"
+    check_flags = ("auto-java-messageformat",)
 
 
 class PropertiesUtf16Format(PropertiesBaseFormat):
