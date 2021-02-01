@@ -85,6 +85,7 @@ from weblate.trans.validators import (
 )
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress, is_task_ready
+from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
 from weblate.utils.fields import JSONField
@@ -630,6 +631,25 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         help_text=gettext_lazy(
             "Choose additional projects where this component will be listed."
         ),
+    )
+
+    # Glossary management
+    is_glossary = models.BooleanField(
+        verbose_name=gettext_lazy("Use as a glossary"),
+        default=False,
+        db_index=True,
+    )
+    glossary_name = models.CharField(
+        verbose_name=gettext_lazy("Glossary name"),
+        max_length=PROJECT_NAME_LENGTH,
+        blank=True,
+    )
+    glossary_color = models.CharField(
+        verbose_name=gettext_lazy("Glossary color"),
+        max_length=30,
+        choices=COLOR_CHOICES,
+        blank=False,
+        default="silver",
     )
 
     objects = ComponentQuerySet.as_manager()
@@ -2278,6 +2298,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if matching.exists():
             raise ValidationError({field: msg})
 
+    def clean_glossary(self):
+        if not self.glossary_name:
+            message = _("Please define a glossary name to use component as a glossary.")
+            raise ValidationError({"is_glossary": message, "glossary_name": message})
+
     def clean(self):
         """Validator fetches repository.
 
@@ -2356,6 +2381,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             raise ValidationError(
                 _("Can not validate file matches due to invalid regular expression.")
             )
+
+        if self.is_glossary:
+            self.clean_glossary()
 
         # Suggestions
         if (

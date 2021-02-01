@@ -1274,6 +1274,9 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "auto_lock_error",
             "links",
             "manage_units",
+            "is_glossary",
+            "glossary_name",
+            "glossary_color",
         )
         widgets = {
             "enforced_checks": SelectChecksWidget,
@@ -1300,6 +1303,12 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "priority",
                         "restricted",
                         "links",
+                    ),
+                    Fieldset(
+                        _("Glossary"),
+                        "is_glossary",
+                        "glossary_name",
+                        "glossary_color",
                     ),
                     css_id="basic",
                 ),
