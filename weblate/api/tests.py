@@ -1811,6 +1811,53 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "cs"},
         )
 
+    def test_links(self):
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="get",
+            code=200,
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"project_slug": "test"},
+        )
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={"project_slug": "test"},
+        )
+        self.create_acl()
+        self.do_request(
+            "api:component-links",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={"project_slug": "acl"},
+        )
+        delete_kwargs = {"project_slug": "acl"}
+        delete_kwargs.update(self.component_kwargs)
+        self.do_request(
+            "api:component-delete-links",
+            delete_kwargs,
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:component-delete-links",
+            delete_kwargs,
+            method="delete",
+            code=204,
+            superuser=True,
+        )
+
 
 class LanguageAPITest(APIBaseTest):
     def test_list_languages(self):

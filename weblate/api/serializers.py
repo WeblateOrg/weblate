@@ -417,6 +417,9 @@ class ComponentSerializer(RemovableSerializer):
     lock_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-lock", lookup_field=("project__slug", "slug")
     )
+    links_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-links", lookup_field=("project__slug", "slug")
+    )
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-changes", lookup_field=("project__slug", "slug")
     )
@@ -469,6 +472,7 @@ class ComponentSerializer(RemovableSerializer):
             "translations_url",
             "statistics_url",
             "lock_url",
+            "links_url",
             "changes_list_url",
             "task_url",
             "new_lang",

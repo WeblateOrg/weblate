@@ -1556,6 +1556,44 @@ Components
     :type component: string
     :>json array results: array of translation statistics objects; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
+.. http:get:: /api/components/(string:project)/(string:component)/links/
+
+    Returns projects linked with a component.
+
+    .. versionadded:: 4.5
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array projects: associated projects; see :http:get:`/api/projects/(string:project)/`
+
+.. http:post:: /api/components/(string:project)/(string:component)/links/
+
+    Associate project with a component.
+
+    .. versionadded:: 4.5
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :form string project_slug: Project slug
+
+.. http:delete:: /api/components/(string:project)/(string:component)/links/(string:project_slug)/
+
+    Remove association of a project with a component.
+
+    .. versionadded:: 4.5
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param project_slug: Slug if the project to remove
+    :type project_slug: string
+
+
 Translations
 ++++++++++++
 

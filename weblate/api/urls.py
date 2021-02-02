@@ -56,7 +56,6 @@ router.register("glossary", GlossaryViewSet)
 router.register("tasks", TasksViewSet, "task")
 router.register("addons", AddonViewSet)
 
-
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
