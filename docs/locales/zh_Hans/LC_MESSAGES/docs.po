@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-01-31 17:57+0000\n"
-"Last-Translator: tao wang <tonywang5@163.com>\n"
+"PO-Revision-Date: 2021-02-02 05:06+0000\n"
+"Last-Translator: liAnGjiA <liangjia@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -18940,13 +18940,13 @@ msgstr "新增支持在项目间共享一个组件。"
 #: ../../changes.rst:8
 msgid ""
 "Fixed multiple unnamed variables check behavior with multiple format flags."
-msgstr ""
+msgstr "用多种格式标记修复了多个未命名变量检查行为。"
 
 #: ../../changes.rst:9
 msgid ""
 "Dropped mailing list field on project in favor of generic instructions for "
 "translators."
-msgstr ""
+msgstr "去掉了项目的邮件列表字段，有利于对译者的通用指示。"
 
 #: ../../changes.rst:10
 msgid "Added pseudolocale generation addon."
@@ -18990,7 +18990,7 @@ msgstr "发布于 2021 年 1 月 14 日。"
 
 #: ../../changes.rst:23
 msgid "Fixed corruption of one distributed MO file."
-msgstr ""
+msgstr "修复了一个发布的 MO 文件的崩溃问题。"
 
 #: ../../changes.rst:26
 msgid "Weblate 4.4.1"
@@ -19051,7 +19051,7 @@ msgstr "重新实现翻译编辑器，使用原生浏览器文本区。"
 
 #: ../../changes.rst:42
 msgid "Fixed cleanup addon breaking adding new strings."
-msgstr ""
+msgstr "修复了清理插件中断添加新字符串的问题。"
 
 #: ../../changes.rst:43
 msgid "Added API for addons."
@@ -24562,7 +24562,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:28
 msgid "Adding new third-party library typically consists of:"
-msgstr ""
+msgstr "添加了新的第三方库，典型包括："
 
 #: ../../contributing/frontend.rst:42
 msgid "Coding style"
@@ -26654,7 +26654,7 @@ msgstr ""
 msgid ""
 "Alternatively, you can use Weblate to set up a local repository containing "
 "all the translations without integration."
-msgstr ""
+msgstr "可以替换使用 Weblate 来设置包含所有翻译的本地仓库而不合并。"
 
 #: ../../devel/integration.rst:18
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
@@ -27643,13 +27643,13 @@ msgstr ""
 
 #: ../../devel/translations.rst:34
 msgid "Automated key based variants"
-msgstr ""
+msgstr "将基于变体的键自动化"
 
 #: ../../devel/translations.rst:38
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolignual translations in the :ref:`component`:"
-msgstr ""
+msgstr "可以定义正则表达式，基于 :ref:`component` 的单语言翻译的键将字符串分组："
 
 #: ../../devel/translations.rst:43
 msgid ""
@@ -27713,16 +27713,18 @@ msgid ""
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
+"可以使用 ``variant:SOURCE`` "
+"标记手动连接特定字符串。对于没有键将字符串自动分组，或将键不匹配的字符串分组的双语言翻译，这是有用的，但应在翻译时一起考虑。"
 
 #: ../../devel/translations.rst:70
 msgid ""
 "There the variant source string has to at most 768 characters long. This is "
 "technical limitation due to compatibility with MySQL database."
-msgstr ""
+msgstr "各种字符串必须最长 768 个字符。这是由于 MySQL 数据库的兼容而导致的技术限制。"
 
 #: ../../devel/translations.rst:75 ../../user/checks.rst:769
 msgid ":ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`custom-checks`"
 
 #: ../../devel/translations.rst:78
 msgid "Variants while translating"
@@ -28071,7 +28073,7 @@ msgstr "如何复查其他人的翻译？"
 msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
-msgstr ""
+msgstr "在 Weblate 中，基于工作流程有几种复查方式，请参见 :ref:`workflows`。"
 
 #: ../../faq.rst:265
 msgid ""
@@ -28339,7 +28341,7 @@ msgid ""
 "You might get similar error message for other languages as well. In that "
 "case the most likely reason is that several files map to single language in "
 "Weblate."
-msgstr ""
+msgstr "对于其它语言可能也会得到相似的错误信息。在这种情况下最可能的原因是在 Weblate 中几个文件映射到单语言上。"
 
 #: ../../faq.rst:441
 msgid ""
@@ -28348,6 +28350,8 @@ msgid ""
 "generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for "
 "more details."
 msgstr ""
+"这可能是由于将过时的语言编码与新的一起使用（对于日语是``ja``和``jp``），或者包括了特定国家的和通用的语言编码（``fr``和``fr_FR``"
+"）。更多细节请参见 :ref:`language-parsing-codes`。"
 
 #: ../../faq.rst:447
 msgid "Features"
@@ -29153,7 +29157,7 @@ msgstr "``src/app/Bundle.properties``"
 
 #: ../../formats.rst:416
 msgid "`Java Properties (ISO-8859-1)`"
-msgstr ""
+msgstr "`Java Properties (ISO-8859-1)`"
 
 #: ../../formats.rst:421
 msgid ""
@@ -29161,22 +29165,25 @@ msgid ""
 "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate.properties."
 "sort`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
+"`Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_, "
+":doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:429
 msgid "GWT properties"
-msgstr ""
+msgstr "GWT 属性"
 
 #: ../../formats.rst:434
 msgid "Native GWT format for translations."
-msgstr ""
+msgstr "用于翻译的本地 GWT 格式。"
 
 #: ../../formats.rst:436
 msgid "GWT properties are usually used as monolingual translations."
-msgstr ""
+msgstr "GWT 属性通常用作单语言翻译。"
 
 #: ../../formats.rst:447
 msgid "`GWT Properties`"
-msgstr ""
+msgstr "`GWT Properties`"
 
 #: ../../formats.rst:452
 msgid ""
@@ -29184,30 +29191,33 @@ msgid ""
 "html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :"
 "ref:`addon-weblate.cleanup.generic`"
 msgstr ""
+"`GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n."
+"html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, "
+":ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:460
 msgid "INI translations"
-msgstr ""
+msgstr "INI 翻译"
 
 #: ../../formats.rst:467
 msgid "INI file format for translations."
-msgstr ""
+msgstr "用于翻译的 INI 文件格式。"
 
 #: ../../formats.rst:469
 msgid "INI translations are usually used as monolingual translations."
-msgstr ""
+msgstr "INI 翻译通常用作单语言翻译。"
 
 #: ../../formats.rst:474
 msgid "``language/*.ini``"
-msgstr ""
+msgstr "``language/*.ini``"
 
 #: ../../formats.rst:476
 msgid "``language/en.ini``"
-msgstr ""
+msgstr "``language/en.ini``"
 
 #: ../../formats.rst:480
 msgid "`INI File`"
-msgstr ""
+msgstr "`INI File`"
 
 #: ../../formats.rst:485
 msgid ""
@@ -29215,10 +29225,12 @@ msgid ""
 "INI file lacks sections, you might want to use :ref:`joomla` or :ref:"
 "`javaprop` instead."
 msgstr ""
+"Weblate 只从 INI 文件内的章节中提取键。在您的 INI 文件缺乏章节的情况下，会想要替代使用 :ref:`joomla` 或 "
+":ref:`javaprop`。"
 
 #: ../../formats.rst:491
 msgid ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
-msgstr ""
+msgstr ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
 
 #: ../../formats.rst:499
 msgid "Inno Setup INI translations"
@@ -29237,15 +29249,15 @@ msgstr "Inno Setup INI 翻译，通常用作单语言翻译。"
 msgid ""
 "The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t`` "
 "placeholders for line break and tab."
-msgstr ""
+msgstr "唯一需要注意的差异是 :ref:`ini` 支持 ``%n`` 和 ``%t`` 占位符用于换行和制表符。"
 
 #: ../../formats.rst:518
 msgid "``language/*.islu``"
-msgstr ""
+msgstr "``language/*.islu``"
 
 #: ../../formats.rst:520
 msgid "``language/en.islu``"
-msgstr ""
+msgstr "``language/en.islu``"
 
 #: ../../formats.rst:524
 msgid "`Inno Setup INI File`"
@@ -29255,35 +29267,35 @@ msgstr "`Inno Setup INI 文件`"
 msgid ""
 "Only Unicode files (``.islu``) are currently supported, ANSI variant (``."
 "isl``) is currently not supported."
-msgstr ""
+msgstr "当前只支持 Unicode 文件（``.islu``），当前不支持 ANSI 变体（``.isl``）。"
 
 #: ../../formats.rst:534
 msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
-msgstr ""
+msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
 
 #: ../../formats.rst:541
 msgid "Joomla translations"
-msgstr ""
+msgstr "Joomla 翻译"
 
 #: ../../formats.rst:548
 msgid "Native Joomla format for translations."
-msgstr ""
+msgstr "用于翻译的本地 Joomla 格式。"
 
 #: ../../formats.rst:550
 msgid "Joomla translations are usually used as monolingual translations."
-msgstr ""
+msgstr "Joomla 翻译通常用作单语言翻译。"
 
 #: ../../formats.rst:555
 msgid "``language/*/com_foobar.ini``"
-msgstr ""
+msgstr "``language/*/com_foobar.ini``"
 
 #: ../../formats.rst:557
 msgid "``language/en-GB/com_foobar.ini``"
-msgstr ""
+msgstr "``language/en-GB/com_foobar.ini``"
 
 #: ../../formats.rst:561
 msgid "`Joomla Language File`"
-msgstr ""
+msgstr "`Joomla Language File`"
 
 #: ../../formats.rst:566
 msgid ""
