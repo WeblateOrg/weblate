@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.0.3 (4ba7c44) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.0.4 (44c7422) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -558,6 +558,333 @@ var Sentry = (function (exports) {
         return Dsn;
     }());
 
+    /**
+     * Checks whether we're in the Node.js or Browser environment
+     *
+     * @returns Answer to given question
+     */
+    function isNodeEnv() {
+        return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+    }
+    /**
+     * Requires a module which is protected against bundler minification.
+     *
+     * @param request The module path to resolve
+     */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    function dynamicRequire(mod, request) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        return mod.require(request);
+    }
+
+    /**
+     * Truncates given string to the maximum characters count
+     *
+     * @param str An object that contains serializable values
+     * @param max Maximum number of characters in truncated string (0 = unlimited)
+     * @returns string Encoded
+     */
+    function truncate(str, max) {
+        if (max === void 0) { max = 0; }
+        if (typeof str !== 'string' || max === 0) {
+            return str;
+        }
+        return str.length <= max ? str : str.substr(0, max) + "...";
+    }
+    /**
+     * Join values in array
+     * @param input array of values to be joined together
+     * @param delimiter string to be placed in-between values
+     * @returns Joined values
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function safeJoin(input, delimiter) {
+        if (!Array.isArray(input)) {
+            return '';
+        }
+        var output = [];
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (var i = 0; i < input.length; i++) {
+            var value = input[i];
+            try {
+                output.push(String(value));
+            }
+            catch (e) {
+                output.push('[value cannot be serialized]');
+            }
+        }
+        return output.join(delimiter);
+    }
+    /**
+     * Checks if the value matches a regex or includes the string
+     * @param value The string value to be checked against
+     * @param pattern Either a regex or a string that must be contained in value
+     */
+    function isMatchingPattern(value, pattern) {
+        if (!isString(value)) {
+            return false;
+        }
+        if (isRegExp(pattern)) {
+            return pattern.test(value);
+        }
+        if (typeof pattern === 'string') {
+            return value.indexOf(pattern) !== -1;
+        }
+        return false;
+    }
+
+    var fallbackGlobalObject = {};
+    /**
+     * Safely get global scope object
+     *
+     * @returns Global scope object
+     */
+    function getGlobalObject() {
+        return (isNodeEnv()
+            ? global
+            : typeof window !== 'undefined'
+                ? window
+                : typeof self !== 'undefined'
+                    ? self
+                    : fallbackGlobalObject);
+    }
+    /**
+     * UUID4 generator
+     *
+     * @returns string Generated UUID4.
+     */
+    function uuid4() {
+        var global = getGlobalObject();
+        var crypto = global.crypto || global.msCrypto;
+        if (!(crypto === void 0) && crypto.getRandomValues) {
+            // Use window.crypto API if available
+            var arr = new Uint16Array(8);
+            crypto.getRandomValues(arr);
+            // set 4 in byte 7
+            // eslint-disable-next-line no-bitwise
+            arr[3] = (arr[3] & 0xfff) | 0x4000;
+            // set 2 most significant bits of byte 9 to '10'
+            // eslint-disable-next-line no-bitwise
+            arr[4] = (arr[4] & 0x3fff) | 0x8000;
+            var pad = function (num) {
+                var v = num.toString(16);
+                while (v.length < 4) {
+                    v = "0" + v;
+                }
+                return v;
+            };
+            return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
+        }
+        // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
+        return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            // eslint-disable-next-line no-bitwise
+            var r = (Math.random() * 16) | 0;
+            // eslint-disable-next-line no-bitwise
+            var v = c === 'x' ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+        });
+    }
+    /**
+     * Parses string form of URL into an object
+     * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
+     * // intentionally using regex and not <a/> href parsing trick because React Native and other
+     * // environments where DOM might not be available
+     * @returns parsed URL object
+     */
+    function parseUrl(url) {
+        if (!url) {
+            return {};
+        }
+        var match = url.match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
+        if (!match) {
+            return {};
+        }
+        // coerce to undefined values to empty string so we don't get 'undefined'
+        var query = match[6] || '';
+        var fragment = match[8] || '';
+        return {
+            host: match[4],
+            path: match[5],
+            protocol: match[2],
+            relative: match[5] + query + fragment,
+        };
+    }
+    /**
+     * Extracts either message or type+value from an event that can be used for user-facing logs
+     * @returns event's description
+     */
+    function getEventDescription(event) {
+        if (event.message) {
+            return event.message;
+        }
+        if (event.exception && event.exception.values && event.exception.values[0]) {
+            var exception = event.exception.values[0];
+            if (exception.type && exception.value) {
+                return exception.type + ": " + exception.value;
+            }
+            return exception.type || exception.value || event.event_id || '<unknown>';
+        }
+        return event.event_id || '<unknown>';
+    }
+    /** JSDoc */
+    function consoleSandbox(callback) {
+        var global = getGlobalObject();
+        var levels = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
+        if (!('console' in global)) {
+            return callback();
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        var originalConsole = global.console;
+        var wrappedLevels = {};
+        // Restore all wrapped console methods
+        levels.forEach(function (level) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            if (level in global.console && originalConsole[level].__sentry_original__) {
+                wrappedLevels[level] = originalConsole[level];
+                originalConsole[level] = originalConsole[level].__sentry_original__;
+            }
+        });
+        // Perform callback manipulations
+        var result = callback();
+        // Revert restoration to wrapped state
+        Object.keys(wrappedLevels).forEach(function (level) {
+            originalConsole[level] = wrappedLevels[level];
+        });
+        return result;
+    }
+    /**
+     * Adds exception values, type and value to an synthetic Exception.
+     * @param event The event to modify.
+     * @param value Value of the exception.
+     * @param type Type of the exception.
+     * @hidden
+     */
+    function addExceptionTypeValue(event, value, type) {
+        event.exception = event.exception || {};
+        event.exception.values = event.exception.values || [];
+        event.exception.values[0] = event.exception.values[0] || {};
+        event.exception.values[0].value = event.exception.values[0].value || value || '';
+        event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
+    }
+    /**
+     * Adds exception mechanism to a given event.
+     * @param event The event to modify.
+     * @param mechanism Mechanism of the mechanism.
+     * @hidden
+     */
+    function addExceptionMechanism(event, mechanism) {
+        if (mechanism === void 0) { mechanism = {}; }
+        // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
+        try {
+            // @ts-ignore Type 'Mechanism | {}' is not assignable to type 'Mechanism | undefined'
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
+            Object.keys(mechanism).forEach(function (key) {
+                // @ts-ignore Mechanism has no index signature
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                event.exception.values[0].mechanism[key] = mechanism[key];
+            });
+        }
+        catch (_oO) {
+            // no-empty
+        }
+    }
+    /**
+     * A safe form of location.href
+     */
+    function getLocationHref() {
+        try {
+            return document.location.href;
+        }
+        catch (oO) {
+            return '';
+        }
+    }
+    var defaultRetryAfter = 60 * 1000; // 60 seconds
+    /**
+     * Extracts Retry-After value from the request header or returns default value
+     * @param now current unix timestamp
+     * @param header string representation of 'Retry-After' header
+     */
+    function parseRetryAfterHeader(now, header) {
+        if (!header) {
+            return defaultRetryAfter;
+        }
+        var headerDelay = parseInt("" + header, 10);
+        if (!isNaN(headerDelay)) {
+            return headerDelay * 1000;
+        }
+        var headerDate = Date.parse("" + header);
+        if (!isNaN(headerDate)) {
+            return headerDate - now;
+        }
+        return defaultRetryAfter;
+    }
+
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    // TODO: Implement different loggers for different environments
+    var global$1 = getGlobalObject();
+    /** Prefix for logging strings */
+    var PREFIX = 'Sentry Logger ';
+    /** JSDoc */
+    var Logger = /** @class */ (function () {
+        /** JSDoc */
+        function Logger() {
+            this._enabled = false;
+        }
+        /** JSDoc */
+        Logger.prototype.disable = function () {
+            this._enabled = false;
+        };
+        /** JSDoc */
+        Logger.prototype.enable = function () {
+            this._enabled = true;
+        };
+        /** JSDoc */
+        Logger.prototype.log = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            if (!this._enabled) {
+                return;
+            }
+            consoleSandbox(function () {
+                global$1.console.log(PREFIX + "[Log]: " + args.join(' '));
+            });
+        };
+        /** JSDoc */
+        Logger.prototype.warn = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            if (!this._enabled) {
+                return;
+            }
+            consoleSandbox(function () {
+                global$1.console.warn(PREFIX + "[Warn]: " + args.join(' '));
+            });
+        };
+        /** JSDoc */
+        Logger.prototype.error = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            if (!this._enabled) {
+                return;
+            }
+            consoleSandbox(function () {
+                global$1.console.error(PREFIX + "[Error]: " + args.join(' '));
+            });
+        };
+        return Logger;
+    }());
+    // Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
+    global$1.__SENTRY__ = global$1.__SENTRY__ || {};
+    var logger = global$1.__SENTRY__.logger || (global$1.__SENTRY__.logger = new Logger());
+
     /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -627,62 +954,6 @@ var Sentry = (function (exports) {
             // can cause a "Permission denied" exception (see raven-js#495).
             return defaultFunctionName;
         }
-    }
-
-    /**
-     * Truncates given string to the maximum characters count
-     *
-     * @param str An object that contains serializable values
-     * @param max Maximum number of characters in truncated string (0 = unlimited)
-     * @returns string Encoded
-     */
-    function truncate(str, max) {
-        if (max === void 0) { max = 0; }
-        if (typeof str !== 'string' || max === 0) {
-            return str;
-        }
-        return str.length <= max ? str : str.substr(0, max) + "...";
-    }
-    /**
-     * Join values in array
-     * @param input array of values to be joined together
-     * @param delimiter string to be placed in-between values
-     * @returns Joined values
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function safeJoin(input, delimiter) {
-        if (!Array.isArray(input)) {
-            return '';
-        }
-        var output = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
-        for (var i = 0; i < input.length; i++) {
-            var value = input[i];
-            try {
-                output.push(String(value));
-            }
-            catch (e) {
-                output.push('[value cannot be serialized]');
-            }
-        }
-        return output.join(delimiter);
-    }
-    /**
-     * Checks if the value matches a regex or includes the string
-     * @param value The string value to be checked against
-     * @param pattern Either a regex or a string that must be contained in value
-     */
-    function isMatchingPattern(value, pattern) {
-        if (!isString(value)) {
-            return false;
-        }
-        if (isRegExp(pattern)) {
-            return pattern.test(value);
-        }
-        if (typeof pattern === 'string') {
-            return value.indexOf(pattern) !== -1;
-        }
-        return false;
     }
 
     /**
@@ -1007,277 +1278,6 @@ var Sentry = (function (exports) {
         }
         return val;
     }
-
-    /**
-     * Checks whether we're in the Node.js or Browser environment
-     *
-     * @returns Answer to given question
-     */
-    function isNodeEnv() {
-        return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
-    }
-    /**
-     * Requires a module which is protected against bundler minification.
-     *
-     * @param request The module path to resolve
-     */
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    function dynamicRequire(mod, request) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return mod.require(request);
-    }
-
-    var fallbackGlobalObject = {};
-    /**
-     * Safely get global scope object
-     *
-     * @returns Global scope object
-     */
-    function getGlobalObject() {
-        return (isNodeEnv()
-            ? global
-            : typeof window !== 'undefined'
-                ? window
-                : typeof self !== 'undefined'
-                    ? self
-                    : fallbackGlobalObject);
-    }
-    /**
-     * UUID4 generator
-     *
-     * @returns string Generated UUID4.
-     */
-    function uuid4() {
-        var global = getGlobalObject();
-        var crypto = global.crypto || global.msCrypto;
-        if (!(crypto === void 0) && crypto.getRandomValues) {
-            // Use window.crypto API if available
-            var arr = new Uint16Array(8);
-            crypto.getRandomValues(arr);
-            // set 4 in byte 7
-            // eslint-disable-next-line no-bitwise
-            arr[3] = (arr[3] & 0xfff) | 0x4000;
-            // set 2 most significant bits of byte 9 to '10'
-            // eslint-disable-next-line no-bitwise
-            arr[4] = (arr[4] & 0x3fff) | 0x8000;
-            var pad = function (num) {
-                var v = num.toString(16);
-                while (v.length < 4) {
-                    v = "0" + v;
-                }
-                return v;
-            };
-            return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
-        }
-        // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
-        return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            // eslint-disable-next-line no-bitwise
-            var r = (Math.random() * 16) | 0;
-            // eslint-disable-next-line no-bitwise
-            var v = c === 'x' ? r : (r & 0x3) | 0x8;
-            return v.toString(16);
-        });
-    }
-    /**
-     * Parses string form of URL into an object
-     * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
-     * // intentionally using regex and not <a/> href parsing trick because React Native and other
-     * // environments where DOM might not be available
-     * @returns parsed URL object
-     */
-    function parseUrl(url) {
-        if (!url) {
-            return {};
-        }
-        var match = url.match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
-        if (!match) {
-            return {};
-        }
-        // coerce to undefined values to empty string so we don't get 'undefined'
-        var query = match[6] || '';
-        var fragment = match[8] || '';
-        return {
-            host: match[4],
-            path: match[5],
-            protocol: match[2],
-            relative: match[5] + query + fragment,
-        };
-    }
-    /**
-     * Extracts either message or type+value from an event that can be used for user-facing logs
-     * @returns event's description
-     */
-    function getEventDescription(event) {
-        if (event.message) {
-            return event.message;
-        }
-        if (event.exception && event.exception.values && event.exception.values[0]) {
-            var exception = event.exception.values[0];
-            if (exception.type && exception.value) {
-                return exception.type + ": " + exception.value;
-            }
-            return exception.type || exception.value || event.event_id || '<unknown>';
-        }
-        return event.event_id || '<unknown>';
-    }
-    /** JSDoc */
-    function consoleSandbox(callback) {
-        var global = getGlobalObject();
-        var levels = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
-        if (!('console' in global)) {
-            return callback();
-        }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        var originalConsole = global.console;
-        var wrappedLevels = {};
-        // Restore all wrapped console methods
-        levels.forEach(function (level) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            if (level in global.console && originalConsole[level].__sentry_original__) {
-                wrappedLevels[level] = originalConsole[level];
-                originalConsole[level] = originalConsole[level].__sentry_original__;
-            }
-        });
-        // Perform callback manipulations
-        var result = callback();
-        // Revert restoration to wrapped state
-        Object.keys(wrappedLevels).forEach(function (level) {
-            originalConsole[level] = wrappedLevels[level];
-        });
-        return result;
-    }
-    /**
-     * Adds exception values, type and value to an synthetic Exception.
-     * @param event The event to modify.
-     * @param value Value of the exception.
-     * @param type Type of the exception.
-     * @hidden
-     */
-    function addExceptionTypeValue(event, value, type) {
-        event.exception = event.exception || {};
-        event.exception.values = event.exception.values || [];
-        event.exception.values[0] = event.exception.values[0] || {};
-        event.exception.values[0].value = event.exception.values[0].value || value || '';
-        event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
-    }
-    /**
-     * Adds exception mechanism to a given event.
-     * @param event The event to modify.
-     * @param mechanism Mechanism of the mechanism.
-     * @hidden
-     */
-    function addExceptionMechanism(event, mechanism) {
-        if (mechanism === void 0) { mechanism = {}; }
-        // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
-        try {
-            // @ts-ignore Type 'Mechanism | {}' is not assignable to type 'Mechanism | undefined'
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
-            Object.keys(mechanism).forEach(function (key) {
-                // @ts-ignore Mechanism has no index signature
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                event.exception.values[0].mechanism[key] = mechanism[key];
-            });
-        }
-        catch (_oO) {
-            // no-empty
-        }
-    }
-    /**
-     * A safe form of location.href
-     */
-    function getLocationHref() {
-        try {
-            return document.location.href;
-        }
-        catch (oO) {
-            return '';
-        }
-    }
-    var defaultRetryAfter = 60 * 1000; // 60 seconds
-    /**
-     * Extracts Retry-After value from the request header or returns default value
-     * @param now current unix timestamp
-     * @param header string representation of 'Retry-After' header
-     */
-    function parseRetryAfterHeader(now, header) {
-        if (!header) {
-            return defaultRetryAfter;
-        }
-        var headerDelay = parseInt("" + header, 10);
-        if (!isNaN(headerDelay)) {
-            return headerDelay * 1000;
-        }
-        var headerDate = Date.parse("" + header);
-        if (!isNaN(headerDate)) {
-            return headerDate - now;
-        }
-        return defaultRetryAfter;
-    }
-
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    // TODO: Implement different loggers for different environments
-    var global$1 = getGlobalObject();
-    /** Prefix for logging strings */
-    var PREFIX = 'Sentry Logger ';
-    /** JSDoc */
-    var Logger = /** @class */ (function () {
-        /** JSDoc */
-        function Logger() {
-            this._enabled = false;
-        }
-        /** JSDoc */
-        Logger.prototype.disable = function () {
-            this._enabled = false;
-        };
-        /** JSDoc */
-        Logger.prototype.enable = function () {
-            this._enabled = true;
-        };
-        /** JSDoc */
-        Logger.prototype.log = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            if (!this._enabled) {
-                return;
-            }
-            consoleSandbox(function () {
-                global$1.console.log(PREFIX + "[Log]: " + args.join(' '));
-            });
-        };
-        /** JSDoc */
-        Logger.prototype.warn = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            if (!this._enabled) {
-                return;
-            }
-            consoleSandbox(function () {
-                global$1.console.warn(PREFIX + "[Warn]: " + args.join(' '));
-            });
-        };
-        /** JSDoc */
-        Logger.prototype.error = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            if (!this._enabled) {
-                return;
-            }
-            consoleSandbox(function () {
-                global$1.console.error(PREFIX + "[Error]: " + args.join(' '));
-            });
-        };
-        return Logger;
-    }());
-    // Ensure we only have a single logger instance, even if multiple versions of @sentry/utils are being used
-    global$1.__SENTRY__ = global$1.__SENTRY__ || {};
-    var logger = global$1.__SENTRY__.logger || (global$1.__SENTRY__.logger = new Logger());
 
     /**
      * Tells whether current environment supports Fetch API
@@ -1832,15 +1832,21 @@ var Sentry = (function (exports) {
             fill(proto, 'addEventListener', function (originalAddEventListener) {
                 return function (type, listener, options) {
                     if (type === 'click' || type == 'keypress') {
-                        var el = this;
-                        var handlers_1 = (el.__sentry_instrumentation_handlers__ = el.__sentry_instrumentation_handlers__ || {});
-                        var handlerForType = (handlers_1[type] = handlers_1[type] || { refCount: 0 });
-                        if (!handlerForType.handler) {
-                            var handler = makeDOMEventHandler(triggerDOMHandler);
-                            handlerForType.handler = handler;
-                            originalAddEventListener.call(this, type, handler, options);
+                        try {
+                            var el = this;
+                            var handlers_1 = (el.__sentry_instrumentation_handlers__ = el.__sentry_instrumentation_handlers__ || {});
+                            var handlerForType = (handlers_1[type] = handlers_1[type] || { refCount: 0 });
+                            if (!handlerForType.handler) {
+                                var handler = makeDOMEventHandler(triggerDOMHandler);
+                                handlerForType.handler = handler;
+                                originalAddEventListener.call(this, type, handler, options);
+                            }
+                            handlerForType.refCount += 1;
                         }
-                        handlerForType.refCount += 1;
+                        catch (e) {
+                            // Accessing dom properties is always fragile.
+                            // Also allows us to skip `addEventListenrs` calls with no proper `this` context.
+                        }
                     }
                     return originalAddEventListener.call(this, type, listener, options);
                 };
@@ -1867,7 +1873,8 @@ var Sentry = (function (exports) {
                             }
                         }
                         catch (e) {
-                            // accessing dom properties is always fragile
+                            // Accessing dom properties is always fragile.
+                            // Also allows us to skip `addEventListenrs` calls with no proper `this` context.
                         }
                     }
                     return originalRemoveEventListener.call(this, type, listener, options);
@@ -4214,12 +4221,17 @@ var Sentry = (function (exports) {
     }
     /** Creates a SentryRequest from an event. */
     function eventToSentryRequest(event, api) {
-        // since JS has no Object.prototype.pop()
-        var _a = event.tags || {}, samplingMethod = _a.__sentry_samplingMethod, sampleRate = _a.__sentry_sampleRate, otherTags = __rest(_a, ["__sentry_samplingMethod", "__sentry_sampleRate"]);
-        event.tags = otherTags;
         var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
         var eventType = event.type || 'event';
         var useEnvelope = eventType === 'transaction';
+        var _a = event.debug_meta || {}, transactionSampling = _a.transactionSampling, metadata = __rest(_a, ["transactionSampling"]);
+        var _b = transactionSampling || {}, samplingMethod = _b.method, sampleRate = _b.rate;
+        if (Object.keys(metadata).length === 0) {
+            delete event.debug_meta;
+        }
+        else {
+            event.debug_meta = metadata;
+        }
         var req = {
             body: JSON.stringify(sdkInfo ? enhanceEventWithSdkInfo(event, api.metadata.sdk) : event),
             type: eventType,
@@ -4264,7 +4276,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.0.3';
+    var SDK_VERSION = '6.0.4';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
