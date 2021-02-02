@@ -335,9 +335,7 @@ def check_upload_method_permissions(user, translation, method: str):
     if method in ("translate", "fuzzy"):
         return user.has_perm("unit.edit", translation)
     if method == "suggest":
-        return not translation.is_readonly and user.has_perm(
-            "suggestion.add", translation
-        )
+        return user.has_perm("suggestion.add", translation)
     if method == "approve":
         return user.has_perm("unit.review", translation)
     if method == "replace":

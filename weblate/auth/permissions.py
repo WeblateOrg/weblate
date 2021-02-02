@@ -262,7 +262,7 @@ def check_suggestion_vote(user, permission, obj):
 def check_suggestion_add(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
-    if not obj.component.enable_suggestions:
+    if not obj.component.enable_suggestions or obj.is_readonly:
         return False
     # Check contributor agreement
     if obj.component.agreement and not ContributorAgreement.objects.has_agreed(
