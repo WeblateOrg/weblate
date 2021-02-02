@@ -134,8 +134,8 @@ def get_user_translations(request, user, user_has_languages):
 def redirect_single_project(user):
     if isinstance(settings.SINGLE_PROJECT, str):
         target = project = Project.objects.get(slug=settings.SINGLE_PROJECT)
-    elif Component.objects.count() == 1:
-        target = Component.objects.get()
+    elif Component.objects.filter(is_glossary=False).count() == 1:
+        target = Component.objects.filter(is_glossary=False).get()
         project = target.project
     elif Project.objects.count() == 1:
         target = project = Project.objects.get()
