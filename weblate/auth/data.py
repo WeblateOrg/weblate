@@ -35,13 +35,13 @@ PERMISSIONS = (
     # Translators: Permission name
     ("change.download", _("Download changes")),
     # Translators: Permission name
-    ("component.edit", _("Edit component settings")),
-    # Translators: Permission name
-    ("component.lock", _("Lock component, preventing translations")),
-    # Translators: Permission name
     ("comment.add", _("Post comment")),
     # Translators: Permission name
     ("comment.delete", _("Delete comment")),
+    # Translators: Permission name
+    ("component.edit", _("Edit component settings")),
+    # Translators: Permission name
+    ("component.lock", _("Lock component, preventing translations")),
     # Translators: Permission name
     ("glossary.add", _("Add glossary entry")),
     # Translators: Permission name
@@ -71,6 +71,20 @@ PERMISSIONS = (
     # Translators: Permission name
     ("source.edit", _("Edit additional string info")),
     # Translators: Permission name
+    ("unit.add", _("Add new string")),
+    # Translators: Permission name
+    ("unit.delete", _("Remove a string")),
+    # Translators: Permission name
+    ("unit.check", _("Ignore failing check")),
+    # Translators: Permission name
+    ("unit.edit", _("Edit strings")),
+    # Translators: Permission name
+    ("unit.review", _("Review strings")),
+    # Translators: Permission name
+    ("unit.override", _("Edit string when suggestions are enforced")),
+    # Translators: Permission name
+    ("unit.template", _("Edit source strings")),
+    # Translators: Permission name
     ("suggestion.accept", _("Accept suggestion")),
     # Translators: Permission name
     ("suggestion.add", _("Add suggestion")),
@@ -86,20 +100,6 @@ PERMISSIONS = (
     ("translation.delete", _("Delete existing translation")),
     # Translators: Permission name
     ("translation.add_more", _("Add several languages for translation")),
-    # Translators: Permission name
-    ("unit.add", _("Add new string")),
-    # Translators: Permission name
-    ("unit.delete", _("Remove a string")),
-    # Translators: Permission name
-    ("unit.check", _("Ignore failing check")),
-    # Translators: Permission name
-    ("unit.edit", _("Edit strings")),
-    # Translators: Permission name
-    ("unit.review", _("Review strings")),
-    # Translators: Permission name
-    ("unit.override", _("Edit string when suggestions are enforced")),
-    # Translators: Permission name
-    ("unit.template", _("Edit source strings")),
     # Translators: Permission name
     ("upload.authorship", _("Define author of uploaded translation")),
     # Translators: Permission name
@@ -167,8 +167,14 @@ TRANSLATE_PERMS = {
 
 # Default set of roles
 ROLES = (
+    (pgettext("Access-control role", "Administration"), [x[0] for x in PERMISSIONS]),
+    (
+        pgettext("Access-control role", "Edit source"),
+        TRANSLATE_PERMS | {"unit.template", "source.edit"},
+    ),
     (pgettext("Access-control role", "Add suggestion"), {"suggestion.add"}),
     (pgettext("Access-control role", "Access repository"), {"vcs.access", "vcs.view"}),
+    (pgettext("Access-control role", "Manage glossary"), filter_perms("glossary.")),
     (
         pgettext("Access-control role", "Power user"),
         TRANSLATE_PERMS
@@ -181,13 +187,12 @@ ROLES = (
         }
         | filter_perms("glossary."),
     ),
-    (pgettext("Access-control role", "Translate"), TRANSLATE_PERMS),
     (
-        pgettext("Access-control role", "Edit source"),
-        TRANSLATE_PERMS | {"unit.template", "source.edit"},
+        pgettext("Access-control role", "Review strings"),
+        TRANSLATE_PERMS | {"unit.review", "unit.override"},
     ),
+    (pgettext("Access-control role", "Translate"), TRANSLATE_PERMS),
     (pgettext("Access-control role", "Manage languages"), filter_perms("translation.")),
-    (pgettext("Access-control role", "Manage glossary"), filter_perms("glossary.")),
     (
         pgettext("Access-control role", "Manage translation memory"),
         filter_perms("memory."),
@@ -196,12 +201,7 @@ ROLES = (
         pgettext("Access-control role", "Manage screenshots"),
         filter_perms("screenshot."),
     ),
-    (
-        pgettext("Access-control role", "Review strings"),
-        TRANSLATE_PERMS | {"unit.review", "unit.override"},
-    ),
     (pgettext("Access-control role", "Manage repository"), filter_perms("vcs.")),
-    (pgettext("Access-control role", "Administration"), [x[0] for x in PERMISSIONS]),
     (pgettext("Access-control role", "Billing"), filter_perms("billing.")),
 )
 

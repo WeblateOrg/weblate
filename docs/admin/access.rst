@@ -254,38 +254,43 @@ Predefined groups
 Weblate comes with a predefined set of groups for a project, wherefrom you can assign
 users.
 
-.. describe:: Administration
 
-    Has all permissions available in the project.
+.. describe:: Translate
+
+    Can translate the project, and upload translations made offline.
+
+.. describe:: Sources
+
+    Can edit source strings in :ref:`monolingual` and source string info.
+
+.. describe:: Languages
+
+    Can manage translated languages (add or remove translations).
 
 .. describe:: Glossary
 
     Can manage glossary (add or remove entries, or upload).
 
-.. describe:: Languages
+.. describe:: Memory
 
-    Can manage translated languages (add or remove translations).
+    Can manage translation memory.
 
 .. describe:: Screenshots
 
     Can manage screenshots (add or remove them, and associate them to source
     strings).
 
-.. describe:: Sources
+.. describe:: Review
 
-    Can edit source strings in :ref:`monolingual` and source string info.
-
-.. describe:: Translate
-
-    Can translate the project, and upload translations made offline.
+    Can approve translations during review.
 
 .. describe:: VCS
 
     Can manage VCS and access the exported repository.
 
-.. describe:: Review
+.. describe:: Administration
 
-    Can approve translations during review.
+    Has all permissions available in the project.
 
 .. describe:: Billing
 
@@ -323,6 +328,9 @@ own set of permissions.
 List of privileges
 ++++++++++++++++++
 
+..
+   Generated using ./manage.py list_permissions
+
 Billing (see :ref:`billing`)
     View billing info [`Administration`, `Billing`]
 
@@ -337,7 +345,7 @@ Comments
 Component
     Edit component settings [`Administration`]
 
-    Lock component, prevents it from being translated [`Administration`]
+    Lock component, preventing translations [`Administration`]
 
 Glossary
     Add glossary entry [`Administration`, `Manage glossary`, `Power user`]
@@ -349,7 +357,12 @@ Glossary
     Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
 Automatic suggestions
-    Use automatic suggestions [`Administration`, `Power user`]
+    Use automatic suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
+Translation memory
+    Edit translation memory [`Administration`, `Manage translation memory`]
+
+    Delete translation memory [`Administration`, `Manage translation memory`]
 
 Projects
     Edit project settings [`Administration`]
@@ -367,56 +380,58 @@ Screenshots
     Delete screenshot [`Administration`, `Manage screenshots`]
 
 Source strings
-    Edit source string info [`Administration`, `Edit source`]
+    Edit additional string info [`Administration`, `Edit source`]
 
 Strings
-    Add new strings [`Administration`]
+    Add new string [`Administration`]
 
-    Ignore failing checks [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Remove a string [`Administration`]
+
+    Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
     Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
     Review strings [`Administration`, `Review strings`]
 
-    Edit strings when suggestions are enforced [`Administration`, `Review strings`]
+    Edit string when suggestions are enforced [`Administration`, `Review strings`]
 
     Edit source strings [`Administration`, `Edit source`, `Power user`]
 
 Suggestions
-    Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Accept suggestion [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Add suggestions [`Add suggestion`, `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Add suggestion [`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`]
 
-    Delete suggestions [`Administration`]
+    Delete suggestion [`Administration`, `Power user`]
 
-    Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Vote on suggestion [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translations
-    Start new translations [`Administration`, `Manage languages`, `Power user`]
+    Add language for translation [`Administration`, `Power user`, `Manage languages`]
 
     Perform automatic translation [`Administration`, `Manage languages`]
 
-    Delete existing translations [`Administration`, `Manage languages`]
+    Delete existing translation [`Administration`, `Manage languages`]
 
-    Start translation into a new language [`Administration`, `Manage languages`]
+    Add several languages for translation [`Administration`, `Manage languages`]
 
 Uploads
-    Define author of uploaded translations [`Administration`]
+    Define author of uploaded translation [`Administration`]
 
-    Overwrite existing strings with an upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Overwrite existing strings with upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Upload translation strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Upload translations [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 VCS
-    Access the internal repository [`Access repository`, `Administration`, `Manage repository`, `Power user`]
+    Access the internal repository [`Administration`, `Access repository`, `Power user`, `Manage repository`]
 
     Commit changes to the internal repository [`Administration`, `Manage repository`]
 
-    Push changes from the internal repository [`Administration`, `Manage repository`]
+    Push change from the internal repository [`Administration`, `Manage repository`]
 
     Reset changes in the internal repository [`Administration`, `Manage repository`]
 
-    View upstream repository location [`Access repository`, `Administration`, `Manage repository`, `Power user`]
+    View upstream repository location [`Administration`, `Access repository`, `Power user`, `Manage repository`]
 
     Update the internal repository [`Administration`, `Manage repository`]
 
