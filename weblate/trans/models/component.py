@@ -1843,7 +1843,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             # This creates the translation when necessary
             translation = self.source_translation
 
-            if self.file_format == "po" and self.new_base.endswith(".pot"):
+            if (
+                self.file_format == "po"
+                and self.new_base.endswith(".pot")
+                and os.path.exists(self.get_new_base_filename())
+            ):
                 # Process pot file as source to include additiona metadata
                 matches = [self.new_base] + matches
                 source_file = self.new_base
