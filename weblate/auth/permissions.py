@@ -283,8 +283,17 @@ def check_contribute(user, permission, translation):
             and user.has_perm("source.edit", translation)
         )
     return check_can_edit(user, permission, translation) and (
+        # Normal upload
         check_edit_approved(user, "unit.edit", translation)
+        # Suggestion upload
         or check_suggestion_add(user, "suggestion.add", translation)
+        # Add upload
+        or check_suggestion_add(user, "unit.add", translation)
+        # Source upload
+        or (
+            translation.is_source
+            and hasattr(translation.component.file_format_cls, "update_bilingual")
+        )
     )
 
 
