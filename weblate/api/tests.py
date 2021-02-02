@@ -738,8 +738,9 @@ class RoleAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 13)
 
     def test_get_role(self):
-        response = self.client.get(reverse("api:role-detail", kwargs={"id": 1}))
-        self.assertEqual(response.data["name"], "Add suggestion")
+        role = Role.objects.get(name="Access repository")
+        response = self.client.get(reverse("api:role-detail", kwargs={"id": role.pk}))
+        self.assertEqual(response.data["name"], role.name)
 
     def test_create(self):
         self.do_request("api:role-list", method="post", code=403)
@@ -822,31 +823,33 @@ class RoleAPITest(APIBaseTest):
         )
 
     def test_patch(self):
+        role = Role.objects.get(name="Access repository")
+        self.assertEqual(role.permissions.count(), 2)
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            kwargs={"id": role.pk},
             method="patch",
             code=403,
         )
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            kwargs={"id": role.pk},
             method="patch",
             superuser=True,
             code=200,
             request={"name": "New Role"},
         )
-        self.assertEqual(Role.objects.order_by("id").all()[0].name, "New Role")
+        self.assertEqual(Role.objects.get(pk=role.pk).name, "New Role")
         self.do_request(
             "api:role-detail",
-            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            kwargs={"id": role.pk},
             method="patch",
             superuser=True,
             code=200,
             format="json",
             request={"permissions": ["comment.add"]},
         )
-        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 2)
+        self.assertEqual(Role.objects.get(pk=role.pk).permissions.count(), 3)
 
 
 class ProjectAPITest(APIBaseTest):
