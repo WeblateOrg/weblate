@@ -1696,10 +1696,13 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
                 item.meta = request.session["create_discovery_meta"][i]
                 discovered.append(item)
             return discovered
-        self.clean_instance(kwargs["initial"])
-        discovered = self.discover()
-        if not discovered:
-            discovered = self.discover(eager=True)
+        try:
+            self.clean_instance(kwargs["initial"])
+            discovered = self.discover()
+            if not discovered:
+                discovered = self.discover(eager=True)
+        except ValidationError:
+            discovered = []
         request.session["create_discovery"] = discovered
         request.session["create_discovery_meta"] = [x.meta for x in discovered]
         return discovered
