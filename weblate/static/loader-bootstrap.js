@@ -76,6 +76,8 @@ jQuery.fn.extend({
         this.focus();
       }
       this.dispatchEvent(new Event("input"));
+      /* Zen editor still relies on jQuery here */
+      $(this).change();
     });
   },
 
