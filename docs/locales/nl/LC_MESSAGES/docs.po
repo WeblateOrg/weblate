@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-02-02 09:42+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"PO-Revision-Date: 2021-02-02 22:45+0000\n"
+"Last-Translator: eol <joshua.de.clercq@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -30,12 +30,17 @@ msgid ""
 "specifically built for Weblate. If you are using anything older, please "
 "consult the documentation for the specific version you are using."
 msgstr ""
+"Vóór Weblate 3.0, was het privilege systeem gebaseerd op Django, maar het is "
+"nu het speciaal gebouwd voor Weblate. Als u nog een oudere versie gebruikt, "
+"raadpleeg dan de documentatie voor de specifieke versie die u gebruikt."
 
 #: ../../admin/access.rst:12
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
+"Weblate heeft een gedetailleerd privilege systeem om gebruikers rechten te "
+"geven tot de volledige instantie, of tot een onderdeel hiervan."
 
 #: ../../admin/access.rst:15
 msgid ""
@@ -43,6 +48,9 @@ msgid ""
 "of permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
+"Het permissie systeem is gebaseerd op groepen en rollen, waar rollen een set "
+"van permissies bepalen, en groepen om deze rollen toe te wijzen aan "
+"gebruikers en vertalingen, zie :ref:`auth-model`voor meer details."
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -52,14 +60,19 @@ msgid ""
 "specific translation projects. More fine-grained configuration can be "
 "achieved using :ref:`custom-acl`."
 msgstr ""
+"Na installatie wordt een standaard set van groepen aangemaakt, en u kan deze "
+"gebruiken om gebruikers rollen toe te wijzen voor de volledige instantie(zie "
+":ref:`def ault-groups`). Bijkomend, wanneer :ref:`acl` is geactiveerd, kan u "
+"gebruikers toewijzen aan specifieke vertaal projecten. Meer fijnmazige "
+"configuratie kan u instellen via :ref:`custom-acl`."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
-msgstr ""
+msgstr "Veelgebruikte opstellingen"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
-msgstr ""
+msgstr "Weblate vergrendelen"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -67,6 +80,10 @@ msgid ""
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
+"Om Weblate compleet te vergrendelen, kan u de :setting:`REQUIRE_LOGIN` "
+"gebruiken om gebruikers te verplichten om aan te melden en de "
+":setting:`REGISTRATION_OPEN` gebruiken om nieuwe registraties van gebruikers "
+"te verhinderen."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -78,26 +95,34 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"Om permissies voor de hele instantie te beheren, voeg je gebruikers toe aan "
+"de groepen `Gebruikers` (dit wordt vanzelf gedaan met :ref:`autogroup`), "
+"`Reviewers` en `Managers`. Houd al je projecten geconfigureerd als `Public` ("
+"zie :ref:`acl`)."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr ""
+msgstr "Per project permissies"
 
 #: ../../admin/access.rst:46 ../../admin/access.rst:56
 msgid ""
 "This feature is unavailable for projects using the Libre plan on Hosted "
 "Weblate."
 msgstr ""
+"Deze functionaliteit is onbeschikbaar voor projecten die het Libre plan van "
+"Hosted Weblate gebruiken."
 
 #: ../../admin/access.rst:48
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
 msgstr ""
+"Zet uw projecten op `Beschermd` of `Privé`, en beheer gebruikers per project "
+"in de Weblate interface."
 
 #: ../../admin/access.rst:52
 msgid "Adding permissions to languages, components or projects"
-msgstr ""
+msgstr "Permissies toevoegen aan talen, componenten of projecten"
 
 #: ../../admin/access.rst:58
 msgid ""
@@ -106,6 +131,11 @@ msgid ""
 "them to a project, component, or language. You can put users in multiple "
 "groups, and permissions can overlap between them."
 msgstr ""
+"Groepsleden krijgen de permissies van de groepen waar ze aan worden "
+"toegewezen, zodat u de gebruiker meerdere permissies tegelijk kan geven. "
+"Maak groepen aan en wijs ze toe aan projecten, componenten of talen. U kan "
+"gebruikers toewijzen aan meerdere groepen, en permissies kunnen overlappend "
+"zijn."
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -114,6 +144,11 @@ msgid ""
 "configure it for a given resource. Any assigned permissions will be granted "
 "to members of that group for selected resources."
 msgstr ""
+"Het verlenen van een geselecteerde toestemming gebaseerd op project, "
+"component of taalset. Om dit te bereiken, maakt u een nieuwe groep ("
+"bijvoorbeeld `Tsjechische vertalers`) en configureer deze voor een bepaalde "
+"bron. Alle toegewezen permissies zullen gegeven worden aan de leden van deze "
+"groep voor die geselecteerde bron."
 
 #: ../../admin/access.rst:68
 msgid ""
@@ -122,10 +157,15 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
+"Dit zal goed werken zonder bijkomende configuratie, als u per project "
+"permissies gebruikt. Om permissies voor de hele instantie in te stellen, zal "
+"u waarschijnlijk ook deze permissies willen verwijderen uit de `Gebruiker` "
+"groep, of de automatische toekenning van alle gebruikers aan deze groep "
+"wijzigen. (zie :ref: `autogroup`)."
 
 #: ../../admin/access.rst:75
 msgid ":ref:`perm-check`"
-msgstr ""
+msgstr ":ref: `perm-check`"
 
 #: ../../admin/access.rst:80
 msgid "Project access control"
@@ -137,12 +177,17 @@ msgid ""
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
 msgstr ""
+"Door toegangscontrole lijsten in te schakelen, zullen alle gebruikers "
+"verhinderd worden om iets te benaderen binnen een project, tenzij u de "
+"permissies geeft om precies dat te doen."
 
 #: ../../admin/access.rst:89
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
 msgstr ""
+"Deze functionaliteit is onbeschikbaar voor projecten gehost op het Libre "
+"plan van Hosted Weblate."
 
 #: ../../admin/access.rst:91
 msgid ""
@@ -150,20 +195,22 @@ msgid ""
 "in the :guilabel:`Settings` of each respective project. This automatically "
 "creates several groups for the project in question, see :ref:`groups`."
 msgstr ""
+"Beperk de gebruiker zijn toegang tot individuele projecten door :guilabel: "
+"`Acces` in de :guilabel: `Settings` van elk respectivelijk project aan te "
+"zetten. Dit zal automatisch enkele groepen aanmaken voor het project in "
+"kwestie, zie :ref: `groepen`."
 
 #: ../../admin/access.rst:95
 msgid ":guilabel:`Access control` can be set to:"
-msgstr ""
+msgstr ":guilabel:`Access control` kan ingesteld worden op:"
 
 #: ../../admin/access.rst:97
 msgid "Public"
 msgstr "Publiek"
 
 #: ../../admin/access.rst:98
-#, fuzzy
-#| msgid "Publicly visible, only translatable for chosen users"
 msgid "Publicly visible, translatable for all logged-in users"
-msgstr "Openbaar zichtbaar, alleen vertaalbaar voor gekozen gebruikers"
+msgstr "Openbaar zichtbaar, alleen vertaalbaar door alle ingelogde gebruikers"
 
 #: ../../admin/access.rst:99
 msgid "Protected"
@@ -172,6 +219,7 @@ msgstr "Beschermd"
 #: ../../admin/access.rst:100
 msgid "Publicly visible, but translatable only for selected users"
 msgstr ""
+"Openbaar zichtbaar, maar alleen vertaalbaar door geselecteerde gebruikers"
 
 #: ../../admin/access.rst:101
 msgid "Private"
@@ -179,7 +227,7 @@ msgstr "Privé"
 
 #: ../../admin/access.rst:102
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Alleen zichtbaar en vertaalbaar door geselecteerde gebruikers"
 
 #: ../../admin/access.rst:104
 msgid "Custom"
@@ -188,6 +236,8 @@ msgstr "Aangepast"
 #: ../../admin/access.rst:104
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
 msgstr ""
+"Django admin beheert gebruikers in de plaats van Weblate, zie :ref: `custom-"
+"acl`."
 
 #: ../../admin/access.rst:108
 msgid ""
@@ -195,21 +245,31 @@ msgid ""
 "given user, or group of users in the Django admin-interface, or by using "
 "user management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
+"Toegang geven tot een project door ofwel het privilege rechtstreeks toe te "
+"wijzen aan een gebruiker, of aan een groep, of aan gebruikers in de Django "
+"admin-interface, ofwel door het gebruikersbeheer op de project pagina te "
+"gebruiken, zoals beschreven in :ref:`manage-acl`."
 
 #: ../../admin/access.rst:114
 msgid ""
 "Even with access-control lists turned on, some info will be available about "
 "your project:"
 msgstr ""
+"Zelfs met toegangscontrole lijsten aangezet, zal sommige informatie van uw "
+"project beschikbaar zijn:"
 
 #: ../../admin/access.rst:117
 msgid "Statistics for the whole instance, including counts for all projects."
 msgstr ""
+"Statistieken van de volledige instantie, inclusief tellingen van alle "
+"projecten."
 
 #: ../../admin/access.rst:118
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
 msgstr ""
+"Taal samenvatting voor de volledige instantie, inclusief tellingen van alle "
+"projecten."
 
 #: ../../admin/access.rst:123
 msgid "Automatic group assignments"
