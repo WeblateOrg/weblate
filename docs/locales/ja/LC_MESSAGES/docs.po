@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-02-02 15:06+0000\n"
+"PO-Revision-Date: 2021-02-02 17:32+0000\n"
 "Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -2267,13 +2267,13 @@ msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:239
 msgid "Microsoft Azure Active Directory"
-msgstr ""
+msgstr "Microsoft Azure Active Directory"
 
 #: ../../admin/auth.rst:241
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
-msgstr ""
+msgstr "Weblate は、認証に共通または特定のテナントを使用するように設定することができます。"
 
 #: ../../admin/auth.rst:243
 msgid ""
@@ -2281,33 +2281,37 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant-specific authentication."
 msgstr ""
+"リダイレクト先の URL は、共通では ``https://WEBLATE SERVER/accounts/complete/"
+"azuread-oauth2/`` 、テナント固有の認証では ``https://WEBLATE SERVER/accounts/complete/"
+"azuread-tenant-oauth2/`` です。"
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
-msgstr ""
+msgstr ":doc:`psa:backends/azuread`"
 
 #: ../../admin/auth.rst:288 ../../admin/install/docker.rst:851
 msgid "Slack"
-msgstr ""
+msgstr "Slack"
 
 #: ../../admin/auth.rst:290
 msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
+"Slack OAuth 2 を使用するには、 <https://api.slack.com/apps> でアプリケーションを登録する必要があります。"
 
 #: ../../admin/auth.rst:293
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
-msgstr ""
+msgstr "リダイレクト URL は ``https://WEBLATE SERVER/accounts/complete/slack/`` です。"
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
-msgstr ""
+msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:315
 msgid "Turning off password authentication"
-msgstr ""
+msgstr "パスワード認証を無効にする"
 
 #: ../../admin/auth.rst:317
 msgid ""
@@ -2316,56 +2320,61 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"メールとパスワードの認証は、 ``social_core.backends.email.EmailAuth`` を "
+":setting:`django:AUTHENTICATION_BACKENDS` から削除することで無効にできます。ここで ``weblate."
+"accounts.auth.WeblateUserBackend`` は Weblate の基本機能に必要なので残しておいてください。"
 
 #: ../../admin/auth.rst:325
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
-msgstr ""
+msgstr "管理画面で手作業で作成したユーザーに対しては、パスワード認証を使用することができます。 ``/admin/`` に移動してください。"
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
-msgstr ""
+msgstr "例えば、認証に openSUSE Open ID プロバイダのみを使用するようにする場合は、以下のようにして実現できます。"
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
-msgstr ""
+msgstr "パスワード認証"
 
 #: ../../admin/auth.rst:342
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"デフォルトの :file:`settings.py` には、適切な :setting:`django:AUTH_PASSWORD_VALIDATORS` "
+"のセットが付属しています。"
 
 #: ../../admin/auth.rst:345
 msgid "Passwords can't be too similar to your other personal info."
-msgstr ""
+msgstr "パスワードは他の個人情報と類似していてはいけません。"
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr ""
+msgstr "パスワードは10文字以上である必要があります。"
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
-msgstr ""
+msgstr "よく使われているパスワードをパスワードとすることはできません。"
 
 #: ../../admin/auth.rst:348
 msgid "Passwords can't be entirely numeric."
-msgstr ""
+msgstr "パスワードを数字のみにすることはできません。"
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
-msgstr ""
+msgstr "パスワードは単一の文字やホワイトスペースのみであってはいけません。"
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr ""
+msgstr "パスワードは過去に使用したパスワードと一致してはいけません。"
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
-msgstr ""
+msgstr "この設定をパスワードのポリシーに合うようカスタマイズすることができます。"
 
 #: ../../admin/auth.rst:354
 msgid ""
@@ -2376,13 +2385,13 @@ msgstr ""
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
-msgstr ""
+msgstr "SAML 認証"
 
 #: ../../admin/auth.rst:366
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
-msgstr ""
+msgstr "設定は Python の Social Auth の指示に従ってください。注目すべき違いは次の通りです。"
 
 #: ../../admin/auth.rst:368
 msgid ""
@@ -2472,7 +2481,7 @@ msgstr ":doc:`ldap:index`、:doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:537
 msgid "CAS authentication"
-msgstr ""
+msgstr "CAS 認証"
 
 #: ../../admin/auth.rst:539
 msgid ""
@@ -6546,7 +6555,7 @@ msgstr ":ref:`gpg-sign`"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr "Web サービスを連携した翻訳"
+msgstr "継続的な現地語化"
 
 #: ../../admin/continuous.rst:6
 msgid ""
@@ -6616,9 +6625,7 @@ msgstr ""
 msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
-msgstr ""
-"リポジトリ管理または :ref:'api' あるいは :ref:'wlc' を使用して手動で更新を起"
-"動させる"
+msgstr "リポジトリ管理または :ref:`api` あるいは :ref:`wlc` を使用して手動で更新を起動する"
 
 #: ../../admin/continuous.rst:57
 msgid ""
@@ -31316,7 +31323,7 @@ msgstr ""
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
-msgstr "登録とユーザー情報"
+msgstr "登録とユーザープロファイル"
 
 #: ../../user/profile.rst:7
 msgid ""
@@ -31330,7 +31337,7 @@ msgstr ""
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr "簡単な手順に従って登録する方法:"
+msgstr "以下のとおり簡単な数ステップで登録することができます。"
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
