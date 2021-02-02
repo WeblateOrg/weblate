@@ -2799,7 +2799,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             # We need this to happen synchronously
             self.create_translations(request=request, retry_async=False)
 
-            translation = self.translation_set.get(filename=filename)
+            try:
+                translation = self.translation_set.get(filename=filename)
+            except ObjectDoesNotExist:
+                translation = self.translation_set.get(language=language)
 
             if send_signal:
                 translation_post_add.send(
