@@ -176,7 +176,9 @@ class Group(models.Model):
             )
         elif self.project_selection == SELECTION_COMPONENT_LIST:
             self.projects.set(
-                Project.objects.filter(component__componentlist=self.componentlist),
+                Project.objects.filter(
+                    component__componentlist__in=self.componentlists
+                ),
                 clear=True,
             )
 
