@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-02-02 17:32+0000\n"
-"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
+"PO-Revision-Date: 2021-02-02 22:45+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -529,7 +529,7 @@ msgid ""
 "admin-interface instead of the one in Weblate."
 msgstr ""
 "プロジェクトでさらに多くのアクセス制御の設定をするために、:guilabel:`アクセス制御` を :guilabel:`カスタム` に設定して、 "
-"Weblate 管理画面ではなく Django 管理画面を使用するように変更できます。"
+"Weblate 管理画面ではなく Django 管理画面を使用する設定に変更できます。"
 
 #: ../../admin/access.rst:309
 msgid ""
@@ -537,8 +537,8 @@ msgid ""
 "configure the :setting:`DEFAULT_ACCESS_CONTROL` to administrate all "
 "permissions and relations using the Django admin interface."
 msgstr ""
-"既存および新規のプロジェクトすべてについて、既定でこれを実行したい場合は、 :setting:`DEFAULT_ACCESS_CONTROL` "
-"を設定するとすべてのアクセス権とリレーションを Django 管理画面で管理できます。"
+"すべての現行および新規プロジェクトにおいて、デフォルトで多くのアクセス制御を管理画面を使用するには、:setting:`DEFAULT_ACCESS_CO"
+"NTROL` を設定して Django 管理画面からすべてのアクセス権と関係を管理します。"
 
 #: ../../admin/access.rst:315
 msgid ""
@@ -2213,8 +2213,7 @@ msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
 msgstr ""
-"リダイレクト先の URL は``https://WEBLATE SERVER/accounts/complete/google-"
-"oauth2/`` です"
+"リダイレクト先の URL は、``https://WEBLATE SERVER/accounts/complete/google-oauth2/``"
 
 #: ../../admin/auth.rst:169
 msgid ":doc:`psa:backends/google`"
@@ -2250,16 +2249,16 @@ msgid ""
 "For using GitLab OAuth 2, you need to register an application on <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
-"GitLab OAuth 2 を使用する場合は、アプリケーションを <https://gitlab.com/profile/applications> "
-"で登録する必要があります。"
+"GitLab OAuth 2 を使用するには、<https://gitlab.com/profile/applications> "
+"にアプリケーションを登録することが必要です。"
 
 #: ../../admin/auth.rst:210
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
-"リダイレクト URL は ``https://WEBLATE SERVER/accounts/complete/gitlab/`` で、 "
-"`read_user` スコープをマークすることを確認してください。"
+"リダイレクト先の URL は ``https://WEBLATE SERVER/accounts/complete/gitlab/`` であり、"
+"スコープが `read_user` に設定されているかどうかを確認してください。"
 
 #: ../../admin/auth.rst:234
 msgid ":doc:`psa:backends/gitlab`"
@@ -2273,7 +2272,7 @@ msgstr "Microsoft Azure Active Directory"
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
-msgstr "Weblate は、認証に共通または特定のテナントを使用するように設定することができます。"
+msgstr "Webrateは、認証に共通または特定のテナントを使用する設定にできます。"
 
 #: ../../admin/auth.rst:243
 msgid ""
@@ -2298,12 +2297,12 @@ msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
-"Slack OAuth 2 を使用するには、 <https://api.slack.com/apps> でアプリケーションを登録する必要があります。"
+"Slack OAuth 2 を使用するには、<https://api.slack.com/apps> にアプリケーションを登録することが必要です。"
 
 #: ../../admin/auth.rst:293
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
-msgstr "リダイレクト URL は ``https://WEBLATE SERVER/accounts/complete/slack/`` です。"
+msgstr "リダイレクト先の URL は、``https://WEBLATE SERVER/accounts/complete/slack/``"
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
@@ -2311,7 +2310,7 @@ msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:315
 msgid "Turning off password authentication"
-msgstr "パスワード認証を無効にする"
+msgstr "パスワード認証の無効化"
 
 #: ../../admin/auth.rst:317
 msgid ""
@@ -2320,21 +2319,21 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
-"メールとパスワードの認証は、 ``social_core.backends.email.EmailAuth`` を "
-":setting:`django:AUTHENTICATION_BACKENDS` から削除することで無効にできます。ここで ``weblate."
-"accounts.auth.WeblateUserBackend`` は Weblate の基本機能に必要なので残しておいてください。"
+"メールとパスワード認証は、:setting:`django:AUTHENTICATION_BACKENDS` から ``social_core."
+"backends.email.EmailAuth`` を削除すると無効にできます。``weblate.accounts.auth."
+"WeblateUserBackend`` の設定は維持してください。Weblate のコア機能に必要です。"
 
 #: ../../admin/auth.rst:325
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
-msgstr "管理画面で手作業で作成したユーザーに対しては、パスワード認証を使用することができます。 ``/admin/`` に移動してください。"
+msgstr "管理画面から手動で作成したユーザーは、まだパスワード認証をすることができます。``/admin/`` で入力するだけです。"
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
-msgstr "例えば、認証に openSUSE Open ID プロバイダのみを使用するようにする場合は、以下のようにして実現できます。"
+msgstr "openSUSE Open ID プロバイダのみを使用して認証する設定例:"
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
@@ -2345,36 +2344,36 @@ msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
-"デフォルトの :file:`settings.py` には、適切な :setting:`django:AUTH_PASSWORD_VALIDATORS` "
-"のセットが付属しています。"
+"デフォルトの :file:`settings.py` に付属する :setting:`django:AUTH_PASSWORD_VALIDATORS` "
+"の効果的な検査項目:"
 
 #: ../../admin/auth.rst:345
 msgid "Passwords can't be too similar to your other personal info."
-msgstr "パスワードは他の個人情報と類似していてはいけません。"
+msgstr "パスワードが、他の個人情報と酷似していないこと。"
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr "パスワードは10文字以上である必要があります。"
+msgstr "パスワードが、10 文字以上であること。"
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
-msgstr "よく使われているパスワードをパスワードとすることはできません。"
+msgstr "パスワードが、一般的なパスワードではないこと。"
 
 #: ../../admin/auth.rst:348
 msgid "Passwords can't be entirely numeric."
-msgstr "パスワードを数字のみにすることはできません。"
+msgstr "パスワードが、数字だけで構成されていないこと。"
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
-msgstr "パスワードは単一の文字やホワイトスペースのみであってはいけません。"
+msgstr "パスワードが、単一の文字または半角スペースのみで構成されていないこと。"
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr "パスワードは過去に使用したパスワードと一致してはいけません。"
+msgstr "パスワードが、過去に登録されていないこと。"
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
-msgstr "この設定をパスワードのポリシーに合うようカスタマイズすることができます。"
+msgstr "この設定は、パスワード ポリシーに合わせてカスタマイズできます。"
 
 #: ../../admin/auth.rst:354
 msgid ""
@@ -2382,6 +2381,8 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"さらに `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/"
+">`_ もインストールできます。これは、入力されたパスワードの難易度をかなり正確に計算できるので、一定のしきい値以下のパスワードを拒否することができます。"
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
@@ -2391,17 +2392,19 @@ msgstr "SAML 認証"
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
-msgstr "設定は Python の Social Auth の指示に従ってください。注目すべき違いは次の通りです。"
+msgstr "設定については、Python Social Auth の手順に従ってください。注意が必要な違い:"
 
 #: ../../admin/auth.rst:368
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate は、シングルサインオンの IDP に対応しているので、`SOCIAL_AUTH_SAML_ENABLED_IDPS` から "
+"`weblate` を呼び出すことが必要。"
 
 #: ../../admin/auth.rst:370
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "SAML の XML メタデータの URL は、``/accounts/metadata/saml/``。"
 
 #: ../../admin/auth.rst:371
 msgid ""
@@ -2409,10 +2412,12 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"自動的に入力される設定項目: ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, "
+"``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:375
 msgid "Example configuration:"
-msgstr ""
+msgstr "設定例:"
 
 #: ../../admin/auth.rst:402
 msgid ""
@@ -2422,19 +2427,20 @@ msgstr ""
 
 #: ../../admin/auth.rst:408
 msgid "LDAP authentication"
-msgstr ""
+msgstr "LDAP 認証"
 
 #: ../../admin/auth.rst:410
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
-msgstr ""
+msgstr "LDAP認証は、`django-auth-ldap` パッケージを使用することが最適です。通常のインストール方法:"
 
 #: ../../admin/auth.rst:423
 msgid ""
 "With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work "
 "properly for newly created users."
 msgstr ""
+"django-auth-ldap が 1.3.0 より古い場合は、新しく作成したユーザーに対して :ref:`autogroup` は正常に動作しません。"
 
 #: ../../admin/auth.rst:428
 msgid ""
@@ -2443,12 +2449,15 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"Python LDAP 3.1.0 モジュールは一部に互換性がなく、そのバージョンは使用できないことがあります。エラー `AttributeError: "
+"'module' object has no attribute '_trace_level' `_が発生した場合は、python-ldap を "
+"3.0.0 にダウングレードしてみてください。"
 
 #: ../../admin/auth.rst:434
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
-msgstr ""
+msgstr "パッケージのインストール後に、Django 認証にフックする方法:"
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -2460,20 +2469,26 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+":setting:`django:AUTHENTICATION_BACKENDS` の設定から ``'social_core.backends.email"
+".EmailAuth'`` を削除することが必要です。そうしないと、ユーザーは Weblate "
+"でパスワードを設定して使用すると認証できてしまいます。匿名ユーザーが簡単にログインできるアクセス権を作成するには、``'weblate.accounts."
+"auth.WeblateUserBackend'`` "
+"の設定を維持することが必要です。ローカル管理者アカウントが作成されている場合は、ローカル管理者アカウントを使用してサインインすることもできます（例: "
+":djadmin:`createadmin`）。"
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
-msgstr ""
+msgstr "バインド パスワードの使用"
 
 #: ../../admin/auth.rst:482
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
-msgstr ""
+msgstr "認証に直接バインドを使用できない場合は、検索を使用し、検索にバインドするユーザーを指定してください。設定例:"
 
 #: ../../admin/auth.rst:497
 msgid "Active Directory integration"
-msgstr "Active Directoryの統合"
+msgstr "Active Directory の統合"
 
 #: ../../admin/auth.rst:530
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
@@ -6555,7 +6570,7 @@ msgstr ":ref:`gpg-sign`"
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr "継続的な現地語化"
+msgstr "Web サービスを連携した翻訳"
 
 #: ../../admin/continuous.rst:6
 msgid ""
@@ -6619,25 +6634,25 @@ msgstr ""
 
 #: ../../admin/continuous.rst:55
 msgid "Use :ref:`hooks` to integrate with most of common code hosting services"
-msgstr ""
+msgstr ":ref:`hooks` を使用して、ほとんどの一般的なコード ホスティング サービスと統合させる"
 
 #: ../../admin/continuous.rst:56
 msgid ""
 "Manually trigger update either in the repository management or using :ref:"
 "`api` or :ref:`wlc`"
-msgstr "リポジトリ管理または :ref:`api` あるいは :ref:`wlc` を使用して手動で更新を起動する"
+msgstr "リポジトリ管理から、または :ref:`api` あるいは :ref:`wlc` を使用して手動で更新を起動させる"
 
 #: ../../admin/continuous.rst:57
 msgid ""
 "Enable :setting:`AUTO_UPDATE` to automatically update all components on your "
 "Weblate instance"
-msgstr ""
+msgstr ":setting:`AUTO_UPDATE` を有効にして、Weblate インスタンス上のすべてのコンポーネントを自動的に更新させる"
 
 #: ../../admin/continuous.rst:58
 msgid ""
 "Execute :djadmin:`updategit` (with selection of project or `--all` to update "
 "all)"
-msgstr ""
+msgstr ":djadmin:`updategit` の実行（プロジェクトの選択、または `--all` の選択ですべて更新）"
 
 #: ../../admin/continuous.rst:60
 msgid ""
@@ -31323,7 +31338,7 @@ msgstr ""
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
-msgstr "登録とユーザープロファイル"
+msgstr "登録とユーザー情報"
 
 #: ../../user/profile.rst:7
 msgid ""
@@ -31337,7 +31352,7 @@ msgstr ""
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr "以下のとおり簡単な数ステップで登録することができます。"
+msgstr "簡単な数ステップで登録できる手順:"
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
