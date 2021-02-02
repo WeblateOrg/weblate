@@ -766,6 +766,15 @@ def indicate_alerts(context, obj):
                 )
             )
 
+    if getattr(obj, "is_shared", False):
+        result.append(
+            (
+                "state/share.svg",
+                gettext("Shared from project %s.") % obj.is_shared,
+                None,
+            )
+        )
+
     return {"icons": result, "component": component, "project": project}
 
 

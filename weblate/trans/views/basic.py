@@ -79,14 +79,14 @@ def list_projects(request):
     )
 
 
-def add_ghost_translations(component, user, translations, generator):
+def add_ghost_translations(component, user, translations, generator, **kwargs):
     """Adds ghost translations for user languages to the list."""
     if component.can_add_new_language(user, fast=True):
         existing = {translation.language.code for translation in translations}
         for language in user.profile.languages.all():
             if language.code in existing:
                 continue
-            translations.append(generator(component, language))
+            translations.append(generator(component, language, **kwargs))
 
 
 def show_engage(request, project, lang=None):
@@ -141,6 +141,8 @@ def show_project(request, project):
     )
 
     all_components = obj.child_components.filter_access(user).prefetch().order()
+    for component in all_components:
+        component.is_shared = None if component.project == obj else component.project
 
     language_stats = obj.stats.get_language_stats()
     # Show ghost translations for user languages
@@ -150,7 +152,11 @@ def show_project(request, project):
             break
     if component:
         add_ghost_translations(
-            component, user, language_stats, GhostProjectLanguageStats
+            component,
+            user,
+            language_stats,
+            GhostProjectLanguageStats,
+            is_shared=component.is_shared,
         )
 
     language_stats = sort_unicode(
