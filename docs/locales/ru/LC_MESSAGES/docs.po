@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-01-31 12:14+0000\n"
+"PO-Revision-Date: 2021-02-02 09:42+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -26,12 +26,6 @@ msgid "Access control"
 msgstr "Управление доступом"
 
 #: ../../admin/access.rst:8
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using an older version, please "
-#| "consult the documentation for that version, the information here will not "
-#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using anything older, please "
@@ -40,14 +34,9 @@ msgstr ""
 "До версии 3.0 система привилегий Weblate была основана на системе привилегий "
 "Django, однако в данный момент она заменена на собственную, созданную "
 "специально для Weblate. Если вы используете более старую версию, то "
-"обратитесь к документации этой старой версии, сведения, приведённые в данном "
-"документе, будут неприменимы к оной."
+"обратитесь к документации той конкретной версии, которую вы используете."
 
 #: ../../admin/access.rst:12
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
@@ -57,11 +46,6 @@ msgstr ""
 "и в рамках отдельных его частей."
 
 #: ../../admin/access.rst:15
-#, fuzzy
-#| msgid ""
-#| "The permission system based on groups and roles, where roles define a set "
-#| "of permissions, and groups assign them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups assign them to users and translations, see :ref:"
@@ -69,17 +53,10 @@ msgid ""
 msgstr ""
 "Система разрешений построена на основе групп и ролей, в которой роли "
 "определяют набор разрешений, а группы назначают их пользователям и "
-"переводчикам, для получения более подробной информации смотрите раздел :ref:"
-"`auth-model`."
+"переводчикам, для получения более подробной информации смотрите раздел :ref"
+":`auth-model`."
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`."
 msgid ""
 "After installation a default set of groups are created, and you can use "
 "those to assign users roles for the whole instance (see :ref:`default-"
@@ -88,11 +65,11 @@ msgid ""
 "achieved using :ref:`custom-acl`."
 msgstr ""
 "После установки создаётся стандартный набор групп; вы можете использовать "
-"их, чтобы назначить пользователям роли в рамках всего экземпляра Weblate "
-"(смотрите раздел :ref:`default-groups`). Кроме того, если включёно :ref:"
-"`управление доступом к объекту <acl>`, вы можете назначать пользователей "
-"конкретным проектам перевода. Более тонкую настройку можно сделать с "
-"помощью :ref:`настраиваемого контроля доступа <custom-acl>`."
+"их, чтобы назначить пользователям роли в рамках всего экземпляра Weblate ("
+"смотрите раздел :ref:`default-groups`). Кроме того, если включёно :ref:`"
+"управление доступом к объекту <acl>`, вы можете назначать пользователей "
+"конкретным проектам перевода. Более тонкую настройку можно сделать с помощью "
+":ref:`настраиваемого контроля доступа <custom-acl>`."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -134,13 +111,12 @@ msgid "Per project permissions"
 msgstr "По-проектные разрешения"
 
 #: ../../admin/access.rst:46 ../../admin/access.rst:56
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for projects using the Libre plan on Hosted "
 "Weblate."
-msgstr "Эта функция недоступна на тарифном плане для свободного ПО."
+msgstr ""
+"Эта функция недоступна на тарифном плане для свободного ПО на облачный "
+"хостинг Weblate."
 
 #: ../../admin/access.rst:48
 msgid ""
@@ -161,6 +137,11 @@ msgid ""
 "them to a project, component, or language. You can put users in multiple "
 "groups, and permissions can overlap between them."
 msgstr ""
+"Членам группы доступны все разрешения, которые присвоены этим группам; таким "
+"образом вы можете дать пользователю множество разрешений разом. Создавайте "
+"группы и связывайте их с проектами компонентами или языками. Вы также можете "
+"добавлять пользователей во множество групп и разрешения между ними мугут "
+"пересекаться."
 
 #: ../../admin/access.rst:63
 #, fuzzy
@@ -204,10 +185,6 @@ msgid "Project access control"
 msgstr "Управление доступом к проекту"
 
 #: ../../admin/access.rst:84
-#, fuzzy
-#| msgid ""
-#| "By enabling ACL, all users are prohibited from accessing anything within "
-#| "a given project, unless you add the permissions for them to do just that."
 msgid ""
 "By turning on access-control lists, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
@@ -218,13 +195,12 @@ msgstr ""
 "для них соответствующие разрешения."
 
 #: ../../admin/access.rst:89
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
-msgstr "Эта функция недоступна на тарифном плане для свободного ПО."
+msgstr ""
+"Эта функция недоступна на тарифном плане для свободного ПО на облачный "
+"хостинг Weblate."
 
 #: ../../admin/access.rst:91
 #, fuzzy
@@ -1655,14 +1631,6 @@ msgstr ""
 "строкам."
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid ""
-#| "Pseudolocales are useful for testing if all strings that should be "
-#| "localized are actually prepared for localization. This is done by "
-#| "altering source strings so it would be easy to spot a string which has "
-#| "not been altered and running the application with those strings as a "
-#| "translation. Also it would be find strings which localized counterparts "
-#| "might not fit into the layout."
 msgid ""
 "Pseudolocales are useful for testing if all strings that should be localized "
 "are actually prepared for localization. This is done by altering source "
@@ -1675,7 +1643,7 @@ msgstr ""
 "быть локализованы, корректно подготовлены для локализации. Это делается по "
 "средствам автоматического изменения исходных строк и запуска приложения с "
 "ними в качестве перевода, дабы те строки, которые не были изменены, было "
-"достаточно просто заметить. Также с помощью этого возможно отследить те "
+"достаточно просто заметить. Также с помощью этого будет проще отследить те "
 "строки, чьи локализованные версии могут не уместиться в отведённое под них "
 "место и ломать вёрстку."
 
@@ -4637,15 +4605,11 @@ msgstr ""
 "Weblate — как процесс WSGI, так и процесс Celery."
 
 #: ../../admin/config.rst:13
-#, fuzzy
-#| msgid ""
-#| "In case it is run as mod_wsgi, you need to restart Apache to reload the "
-#| "configuration."
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
-"В случае, если Weblate работает через mod_wsgi, для перезагрузки "
+"В случае, если Weblate работает через ``mod_wsgi``, для перезагрузки "
 "конфигурации вам нужно перезапустить Apache."
 
 #: ../../admin/config.rst:18
@@ -10383,16 +10347,12 @@ msgstr ""
 "мультипроцессовой обработки (MPM) prefork."
 
 #: ../../admin/install.rst:1325
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate as WSGI, you need to have "
-#| "enabled mod_wsgi (available as :file:`weblate/examples/apache.conf`):"
 msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (available as :file:`weblate/examples/apache.conf`):"
 msgstr ""
 "Со следующим файлом настроек Weblate будет запускаться как WSGI-приложение, "
-"вам нужно включить модуль mod_wsgi (этот же пример есть в :file:`weblate/"
+"вам нужно включить модуль ``mod_wsgi`` (этот же пример есть в :file:`weblate/"
 "examples/apache.conf`):"
 
 #: ../../admin/install.rst:1333
@@ -10434,19 +10394,14 @@ msgid "Running Weblate under path"
 msgstr "Запуск Weblate по определённому пути в URL"
 
 #: ../../admin/install.rst:1365
-#, fuzzy
-#| msgid ""
-#| "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
-#| "using mod_wsgi (also available as :file:`weblate/examples/apache-path."
-#| "conf`):"
 msgid ""
 "A sample Apache configuration to serve Weblate under ``/weblate``. Again "
 "using ``mod_wsgi`` (also available as :file:`weblate/examples/apache-path."
 "conf`):"
 msgstr ""
-"Пример файла настроек Apache для предоставления доступу к Weblate по пути ``/"
-"weblate``. Снова используя модуль ``mod_wsgi`` (этот же пример есть в :file:"
-"`weblate/examples/apache-path.conf`):"
+"Пример файла настроек Apache для предоставления доступу к Weblate по пути "
+"``/weblate``. Снова используя модуль ``mod_wsgi`` (этот же пример есть в "
+":file:`weblate/examples/apache-path.conf`):"
 
 #: ../../admin/install.rst:1371
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
@@ -16711,10 +16666,8 @@ msgid ":ref:`adding-translation`."
 msgstr ":ref:`adding-translation`."
 
 #: ../../admin/projects.rst:563
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "Целевые строки"
+msgstr "Управление строками"
 
 #: ../../admin/projects.rst:565
 msgid ""
@@ -33319,15 +33272,15 @@ msgstr ""
 
 #: ../../toc-user.rst:1 ../../latexindex.rst:7
 msgid "User docs"
-msgstr "Пользовательская документация"
+msgstr "Руководство пользователя"
 
 #: ../../toc-admin.rst:1 ../../latexindex.rst:12
 msgid "Administrator docs"
-msgstr "Документация для администратора"
+msgstr "Руководство администратора"
 
 #: ../../toc-devel.rst:1
 msgid "Application developer guide"
-msgstr "Руководство разработчика приложений"
+msgstr "Пособие для разработчиков ПО"
 
 #: ../../toc-contrib.rst:1 ../../latexindex.rst:17
 msgid "Contributor docs"
