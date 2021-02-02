@@ -511,7 +511,7 @@ class FormTest(SimpleTestCase):
         form.remove_translation_choice("suggest")
         self.assertEqual(
             [x[0] for x in form.fields["method"].choices],
-            ["translate", "approve", "fuzzy", "replace", "source"],
+            ["translate", "approve", "fuzzy", "replace", "source", "add"],
         )
 
 
