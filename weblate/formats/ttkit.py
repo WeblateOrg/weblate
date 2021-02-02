@@ -343,6 +343,7 @@ class TTKitFormat(TranslationFormat):
             else:
                 source = multistring(source)
         else:
+            context = source
             unit = self.construct_unit(source)
         if isinstance(target, list):
             if len(target) == 1:
@@ -1673,6 +1674,7 @@ class TBXFormat(TTKitFormat):
     new_translation = tbxfile.XMLskeleton
     unit_class = TBXUnit
     create_empty_bilingual: bool = True
+    set_context_bilingual: bool = False
 
     def __init__(
         self, storefile, template_store=None, language_code=None, is_template=False
