@@ -47,8 +47,8 @@ Per project permissions
 Set your projects to `Protected` or `Private`, and manage users per
 project in the Weblate interface.
 
-Adding permissions to languages, components or projects
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Custom permissions for languages, components or projects
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. include:: /snippets/not-hosted-libre.rst
 
