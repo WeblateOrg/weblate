@@ -72,6 +72,15 @@ Update source strings (``source``)
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.
 
+    This option is supported only for some file formats.
+Add new strings (``add``)
+    Adds new strings to the translation. It skips the one which already exist.
+
+    In case you want to both add new strings and update existing translations,
+    upload the file second time with :guilabel:`Add as translation`.
+
+    This option is available only with :ref:`component-manage_units` turned on.
+
 .. seealso::
 
    :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/file/`

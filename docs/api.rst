@@ -1823,7 +1823,7 @@ Translations
     :form file file: Uploaded file
     :form string email: Author e-mail
     :form string author: Author name
-    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``), see :ref:`upload-method`
+    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
     :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
 
     **CURL example:**

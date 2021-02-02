@@ -16,6 +16,7 @@ Not yet released.
 * Strings can now be added and removed in bilingual formats as well.
 * Extend list of supported languages in Amazon Translate machine translation.
 * Automatically enable Java MessageFormat checks for Java Properties.
+* Added new upload method to add new strings to a translation.
 
 Weblate 4.4.2
 -------------

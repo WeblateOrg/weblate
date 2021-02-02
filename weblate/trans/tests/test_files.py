@@ -44,6 +44,7 @@ TEST_MO = get_test_file("cs.mo")
 TEST_XLIFF = get_test_file("cs.poxliff")
 TEST_ANDROID = get_test_file("strings-cs.xml")
 TEST_XLSX = get_test_file("cs.xlsx")
+TEST_TBX = get_test_file("terms.tbx")
 
 TRANSLATION_OURS = "Nazdar světe!\n"
 TRANSLATION_PO = "Ahoj světe!\n"
@@ -563,6 +564,44 @@ class ImportSourceTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, "")
+
+
+class ImportAddTest(ImportBaseTest):
+    """Testing of source strings update imports."""
+
+    test_file = TEST_TBX
+
+    def test_import(self):
+        """Test importing normally."""
+        response = self.do_import(method="add", follow=True)
+        self.assertRedirects(response, self.translation_url)
+        messages = [message.message for message in response.context["messages"]]
+        self.assertIn(
+            (
+                "Error in parameter method: Select a valid choice. "
+                "add is not one of the available choices."
+            ),
+            messages,
+        )
+
+        self.component.manage_units = True
+        self.component.save(update_fields=["manage_units"])
+        response = self.do_import(method="add", follow=True)
+        self.assertRedirects(response, self.translation_url)
+        messages = [message.message for message in response.context["messages"]]
+        self.assertIn(
+            (
+                "Processed 164 strings from the uploaded files "
+                "(skipped: 0, not found: 0, updated: 164)."
+            ),
+            messages,
+        )
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 164)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 168)
 
 
 class ImportSourceBrokenTest(ImportSourceTest):

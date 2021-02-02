@@ -877,7 +877,7 @@ class Translation(
             # Commit pending changes
             component.commit_pending("source update", request.user)
 
-            # Create acutal file with the file
+            # Create actual file with the uploaded content
             temp = tempfile.NamedTemporaryFile(
                 prefix="weblate-upload", dir=self.component.full_path, delete=False
             )
@@ -974,6 +974,26 @@ class Translation(
 
         return (0, 0, self.unit_set.count(), len(list(store2.content_units)))
 
+    def handle_add_upload(self, request, store, fuzzy: str = ""):
+        skipped = 0
+        accepted = 0
+        existing = set(self.unit_set.values_list("context", "source"))
+        units = []
+        for _set_fuzzy, unit in store.iterate_merge(fuzzy):
+            if (unit.context, unit.source) in existing:
+                skipped += 1
+                continue
+            units.append(
+                (
+                    unit.context,
+                    split_plural(unit.source),
+                    split_plural(unit.target),
+                )
+            )
+            accepted += 1
+        self.add_units(request, units)
+        return (0, skipped, accepted, len(list(store.content_units)))
+
     @transaction.atomic
     def merge_upload(
         self,
@@ -1040,6 +1060,9 @@ class Translation(
                     return self.merge_translations(
                         request, store, conflicts, method, fuzzy
                     )
+            elif method == "add":
+                with self.component.repository.lock:
+                    return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as sugestions
             return self.merge_suggestions(request, store, fuzzy)
@@ -1107,7 +1130,7 @@ class Translation(
     def add_units(
         self,
         request,
-        batch: List[Tuple[Union[str, List[str]], Union[str, List[str]], Optional[str]]],
+        batch: List[Tuple[str, Union[str, List[str]], Optional[Union[str, List[str]]]]],
     ):
         from weblate.auth.models import get_anonymous
 
