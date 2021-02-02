@@ -135,7 +135,10 @@ class ComponentDiscovery:
                     continue
 
                 # Check language regexp
-                if not self.language_match.match(matches.group("language")):
+                language_part = matches.group("language")
+                if language_part is None or not self.language_match.match(
+                    language_part
+                ):
                     continue
 
                 # Calculate file mask for match
