@@ -135,7 +135,10 @@
 <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
 <td rowspan="2" class="buttons-cell full-cell">
-<a href="{{ translate_url }}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="pull-right flip btn btn-primary">{% trans "Translate" %}</a>
+<div class="pull-right flip">
+  <a href="{% url "browse" project=object.component.project.slug component=object.component.slug lang=object.language.code %}" class=" btn btn-info">{% trans "Browse" %}</a>
+  <a href="{{ translate_url }}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">{% trans "Translate" %}</a>
+</div>
 </td>
 </tr>
 

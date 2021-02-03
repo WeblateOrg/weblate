@@ -167,6 +167,11 @@ real_patterns = [
         name="component-list",
     ),
     path(
+        "browse/<name:project>/<name:component>/<name:lang>/",
+        weblate.trans.views.edit.browse,
+        name="browse",
+    ),
+    path(
         "translate/<name:project>/<name:component>/<name:lang>/",
         weblate.trans.views.edit.translate,
         name="translate",

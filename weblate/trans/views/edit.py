@@ -19,6 +19,7 @@
 
 import json
 import time
+from math import ceil
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -32,6 +33,7 @@ from django.http import (
     JsonResponse,
 )
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
@@ -196,7 +198,7 @@ def cleanup_session(session):
             del session[key]
 
 
-def search(base, unit_set, request):
+def search(base, unit_set, request, blank: bool = False):
     """Perform search or returns cached search results."""
     # Possible new search
     form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
@@ -239,7 +241,7 @@ def search(base, unit_set, request):
     )
 
     # Check empty search results
-    if not unit_ids:
+    if not unit_ids and not blank:
         messages.warning(request, _("No string matched your search!"))
         return redirect(base)
 
@@ -900,3 +902,42 @@ def delete_unit(request, unit_id):
 
     unit.translation.delete_unit(request, unit)
     return redirect(unit.translation)
+
+
+def browse(request, project, component, lang):
+    """Strings browsing."""
+    obj, project, unit_set = parse_params(request, project, component, lang)
+    search_result = search(obj, unit_set, request, blank=True)
+    offset = search_result["offset"]
+    page = 20
+    units = unit_set.get_ordered(
+        search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
+    )
+
+    base_unit_url = "{}?{}&offset=".format(
+        reverse("browse", kwargs=obj.get_reverse_url_kwargs()),
+        search_result["url"],
+    )
+    num_results = ceil(len(search_result["ids"]) / page)
+    sort = get_sort_name(request)
+
+    return render(
+        request,
+        "browse.html",
+        {
+            "object": obj,
+            "project": project,
+            "units": units,
+            "search_query": search_result["query"],
+            "search_url": search_result["url"],
+            "search_form": search_result["form"].reset_offset(),
+            "filter_count": num_results,
+            "filter_pos": offset,
+            "first_unit_url": base_unit_url + "1",
+            "last_unit_url": base_unit_url + str(num_results),
+            "next_unit_url": base_unit_url + str(offset + 1),
+            "prev_unit_url": base_unit_url + str(offset - 1),
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
+        },
+    )

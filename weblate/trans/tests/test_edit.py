@@ -570,6 +570,11 @@ class ZenViewTest(ViewTestCase):
             response, "Insufficient privileges for saving translations."
         )
 
+    def test_browse(self):
+        response = self.client.get(reverse("browse", kwargs=self.kw_translation))
+        self.assertContains(response, "Thank you for using Weblate.")
+        self.assertContains(response, "Orangutan has %d banana")
+
 
 class EditComplexTest(ViewTestCase):
     """Test for complex manipulating translation."""

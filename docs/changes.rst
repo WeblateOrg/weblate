@@ -17,6 +17,7 @@ Not yet released.
 * Extend list of supported languages in Amazon Translate machine translation.
 * Automatically enable Java MessageFormat checks for Java Properties.
 * Added new upload method to add new strings to a translation.
+* Added simple interface to browse translation.
 
 Weblate 4.4.2
 -------------

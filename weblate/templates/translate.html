@@ -235,18 +235,18 @@
 <div class="tab-content">
 
 <div class="tab-pane active" id="nearby">
-{% include "snippets/embed-units.html" with current_unit=unit units=nearby %}
+{% include "snippets/embed-units.html" with current_unit=unit units=nearby translation=unit.translation %}
 </div>
 
 {% if nearby_keys %}
 <div class="tab-pane" id="keys">
-{% include "snippets/embed-units.html" with current_unit=unit units=nearby_keys %}
+{% include "snippets/embed-units.html" with current_unit=unit units=nearby_keys translation=unit.translation %}
 </div>
 {% endif %}
 
 {% if variants|length > 1 %}
 <div class="tab-pane" id="variants">
-{% include "snippets/embed-units.html" with current_unit=unit units=variants %}
+{% include "snippets/embed-units.html" with current_unit=unit units=variants translation=unit.translation %}
 </div>
 {% endif %}
 
