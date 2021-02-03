@@ -1772,7 +1772,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         request=None,
         changed_template: bool = False,
         from_link: bool = False,
-        retry_async: bool = True,
     ):
         """Load translations from VCS."""
         try:
@@ -1781,10 +1780,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     force, langs, request, changed_template, from_link
                 )
         except ComponentLockTimeout:
-            if not retry_async:
-                self.create_translations(
-                    force, langs, request, changed_template, from_link, retry_async
-                )
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 # Retry will not address anything
                 raise
@@ -2759,6 +2754,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         return self.is_valid_base_for_new(fast=fast)
 
+    @transaction.atomic
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
@@ -2787,35 +2783,41 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         filename = file_format.get_language_filename(self.filemask, code)
         fullname = os.path.join(self.full_path, filename)
 
-        with self.repository.lock, transaction.atomic():
+        # Create or get translation object
+        try:
+            translation = self.translation_set.get(language=language)
+        except ObjectDoesNotExist:
+            translation = self.translation_set.create(
+                language=language, plural=language.plural, filename=filename
+            )
+
+        # Create the file
+        if os.path.exists(fullname):
             # Ignore request if file exists (possibly race condition as
             # the processing of new language can take some time and user
             # can submit again)
-            if os.path.exists(fullname):
-                messages.error(request, _("Translation file already exists!"))
-            else:
+            messages.error(request, _("Translation file already exists!"))
+        else:
+            with self.repository.lock:
                 file_format.add_language(fullname, language, base_filename)
-
-            # We need this to happen synchronously
-            self.create_translations(request=request, retry_async=False)
-
-            try:
-                translation = self.translation_set.get(filename=filename)
-            except ObjectDoesNotExist:
-                translation = self.translation_set.get(language=language)
-
-            if send_signal:
-                translation_post_add.send(
-                    sender=self.__class__, translation=translation
+                translation.git_commit(
+                    request.user if request else None,
+                    request.user.get_author_name()
+                    if request
+                    else "Weblate <noreply@weblate.org>",
+                    template=self.add_message,
                 )
-            translation.git_commit(
-                request.user if request else None,
-                request.user.get_author_name()
-                if request
-                else "Weblate <noreply@weblate.org>",
-                template=self.add_message,
+
+        # Trigger parsing of the newly added file
+        if not self.create_translations(request=request):
+            messages.warning(
+                request, _("The translation will be updated in the background.")
             )
-            return translation
+
+        if send_signal:
+            translation_post_add.send(sender=self.__class__, translation=translation)
+
+        return translation
 
     def do_lock(self, user, lock: bool = True, auto: bool = False):
         """Lock or unlock component."""
