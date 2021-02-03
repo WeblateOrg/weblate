@@ -5,7 +5,7 @@
 <thead>
 <tr>
     <th>{{ translation.component.context_label }}</th>
-    {% if not unit.is_source %}
+    {% if not translation.is_source %}
     <th>{{ translation.component.source_language }}</th>
     {% endif %}
     <th>{{ translation.language }}</th>
