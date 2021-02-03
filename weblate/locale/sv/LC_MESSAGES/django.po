@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-31 13:03+0000\n"
-"PO-Revision-Date: 2021-01-29 20:41+0000\n"
+"PO-Revision-Date: 2021-02-04 10:51+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -2140,10 +2140,8 @@ msgid "Regular expression for e-mail address"
 msgstr "Reguljärt uttryck för mail-adress"
 
 #: weblate/auth/models.py:617
-#, fuzzy
-#| msgid "Users with matching e-mail address will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this group."
-msgstr "Användare med matchande mail-adress läggs till i denna grupp."
+msgstr "Användare med matchande mejladress läggs till i denna grupp."
 
 #: weblate/auth/models.py:621
 msgid "Group to assign"
@@ -2461,10 +2459,9 @@ msgid "This string has been translated in the past"
 msgstr "Strängen har blivit översatt tidigare"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Last translation was \"%s\"."
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "Senaste översättningen var \"%s\"."
+msgstr "Tidigare översättning var \"%s\"."
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
@@ -2841,10 +2838,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "Översättningarna för flera språk har fallerande kontroller"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Fallerande kontroller funna"
+msgstr "Följande kontroller misslyckas:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -8440,22 +8435,14 @@ msgid "Please consider the following:"
 msgstr "Tänk på följande:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
-#, fuzzy
-#| msgid ""
-#| "You might be using monolingual translation files as bilingual. In that "
-#| "case please configure the monolingual base language file."
 msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"Du använder kanske enspråkiga översättningsfiler som tvåspråkiga. I så fall "
-"konfigurera den enspråkiga basspråkfilen."
+"Du kanske använder en enspråkig översättningsfil som en tvåspråkig. Om så är "
+"fallet, ställ in platsen för enspråkig basspråkfil."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the component settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
@@ -8464,10 +8451,6 @@ msgstr ""
 "komponentinställningarna."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is not needed, "
-#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
@@ -8475,11 +8458,6 @@ msgstr ""
 "Om översättningsfilen för källspråket inte behövs, ta bort den från arkivet."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but "
-#| "should be ignored by Weblate, please adjust the language filter to "
-#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
@@ -9975,19 +9953,13 @@ msgid ""
 msgstr "Du kan ändra detta senare, som med alla strängar i källspråket."
 
 #: weblate/trans/forms.py:1979
-#, fuzzy
-#| msgid "Additional explanation to clarify meaning or usage of the string."
 msgid "Optional context to clarify the source strings."
-msgstr ""
-"Ytterligare förklaring för att klargöra innebörden eller användningen av "
-"strängen."
+msgstr "Valfri kontext för att förtydliga källsträngarna."
 
 #: weblate/trans/forms.py:1989
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "You can edit this later, as with any other string in the translation."
-msgstr "Du kan ändra detta senare, som med alla strängar i källspråket."
+msgstr ""
+"Du kan redigera detta senare, som med alla andra strängar i översättningen."
 
 #: weblate/trans/forms.py:2029
 msgid "State to set"
@@ -10766,16 +10738,16 @@ msgstr ""
 "skapats av Weblate."
 
 #: weblate/trans/models/component.py:483
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "Målsträngar"
+msgstr "Hantera strängar"
 
 #: weblate/trans/models/component.py:486
 msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
 msgstr ""
+"Inaktivera att lägga till och ta bort strängar i Weblate om dessa extraheras "
+"automatiskt från källkoden eller hanteras externt."
 
 #: weblate/trans/models/component.py:493
 msgid "Merge style"
@@ -11826,10 +11798,8 @@ msgid "Translation comment has been resolved."
 msgstr "Översättningskommentaren har lösts."
 
 #: weblate/trans/views/edit.py:868
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "Översättning med denna nyckel ser ut att redan finnas!"
+msgstr "Denna sträng verkar redan existera."
 
 #: weblate/trans/views/edit.py:871
 msgid "New string has been added."
