@@ -31,7 +31,6 @@ from weblate.formats.exporters import (
     XlsxExporter,
 )
 from weblate.formats.helpers import BytesIOMode
-from weblate.glossary.models import Term
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
@@ -70,20 +69,6 @@ class PoExporterTest(BaseTestCase):
     def check_plurals(self, result):
         self.assertIn(b"msgid_plural", result)
         self.assertIn(b"msgstr[2]", result)
-
-    def check_glossary(self, word):
-        exporter = self.get_exporter()
-        exporter.add_glossary_term(word)
-        self.check_export(exporter)
-
-    def test_glossary(self):
-        self.check_glossary(Term(source="foo", target="bar"))
-
-    def test_glossary_markup(self):
-        self.check_glossary(Term(source="<b>foo</b>", target="<b>bar</b>"))
-
-    def test_glossary_special(self):
-        self.check_glossary(Term(source="bar\x1e\x1efoo", target="br\x1eff"))
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
         if nplurals == 3:
@@ -126,6 +111,12 @@ class PoExporterTest(BaseTestCase):
 
     def test_unit_mono(self):
         self.check_unit(source="xxx", target="yyy", template="template")
+
+    def test_unit_markup(self):
+        self.check_unit(source="<b>foo</b>", target="<b>bar</b>")
+
+    def test_unit_special(self):
+        self.check_unit(source="bar\x1e\x1efoo", target="br\x1eff")
 
     def _encode(self, string):
         return string.encode("utf-8")

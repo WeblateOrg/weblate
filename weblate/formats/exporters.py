@@ -110,12 +110,6 @@ class BaseExporter:
     def create_unit(self, source):
         return self.storage.UnitClass(source)
 
-    def add_glossary_term(self, word):
-        """Add glossary term."""
-        unit = self.create_unit(self.string_filter(word.source))
-        self.add(unit, self.string_filter(word.target))
-        self.storage.addunit(unit)
-
     def add_units(self, units):
         for unit in units:
             self.add_unit(unit)
