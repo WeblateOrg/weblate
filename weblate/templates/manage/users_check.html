@@ -17,7 +17,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
       <a href="{% url "admin:weblate_auth_user_change" object_id=user.id %}" class="btn btn-primary pull-right flip">{% trans "Edit" %}</a>
-      <h4 class="panel-title">{{ user.username }} &mdash; {{ user.full_name }} &mdash; {{ user.email }}</h4>
+      <h4 class="panel-title"><a href="{{ user.get_absolute_url }}">{{ user.username }}</a> &mdash; {{ user.full_name }} &mdash; {{ user.email }}</h4>
       <div class="clearfix"></div>
     </div>
     <table class="table">
