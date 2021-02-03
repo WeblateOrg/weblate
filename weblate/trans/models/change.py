@@ -107,7 +107,6 @@ class ChangeQuerySet(models.QuerySet):
             "component",
             "project",
             "unit",
-            "glossary_term",
             "translation__language",
             "translation__component",
             "translation__component__project",
@@ -428,9 +427,6 @@ class Change(models.Model, UserDisplayMixin):
     translation = models.ForeignKey(
         "Translation", null=True, on_delete=models.deletion.CASCADE
     )
-    glossary_term = models.ForeignKey(
-        "glossary.Term", null=True, on_delete=models.deletion.CASCADE
-    )
     comment = models.ForeignKey(
         "Comment", null=True, on_delete=models.deletion.SET_NULL
     )
@@ -486,9 +482,6 @@ class Change(models.Model, UserDisplayMixin):
             self.language = self.translation.language
         if self.component:
             self.project = self.component.project
-        if self.glossary_term:
-            self.project = self.glossary_term.glossary.project
-            self.language = self.glossary_term.language
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
 
@@ -502,8 +495,6 @@ class Change(models.Model, UserDisplayMixin):
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
-        if self.glossary_term is not None:
-            return self.glossary_term.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
         return None

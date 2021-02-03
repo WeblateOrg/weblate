@@ -496,7 +496,11 @@
 <div class="panel panel-default">
   <div class="panel-heading">
   <h4 class="panel-title">
-    <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'show_glossary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
+    {% with glossaries=unit.translation.component.project.glossaries %}
+      {% if glossaries|length == 1 %}
+        <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'translation' project=glossaries.0.project.slug component=glossaries.0.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
+      {% endif %}
+    {% endwith %}
     {% loading_icon "glossary-add" %}
     {% trans "Glossary" %}
   </h4>

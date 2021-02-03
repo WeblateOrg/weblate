@@ -309,21 +309,17 @@ displayed in the sidebar.
 Managing glossaries
 +++++++++++++++++++
 
-On the :guilabel:`Glossaries` tab of each project page, you can edit existing
-glossaries.
+.. versionchanged:: 4.5
 
-.. image:: /images/project-glossaries.png
+   Glossaries are now regular translation components and you can use all
+   Weblate features on them - commenting, storing in a Git repository, or
+   adding explanations.
+
+You can use any component a glossary by turning on :ref:`component-is_glossary`.
 
 An empty glossary for a given project is automatically created with the project.
 Glossaries are shared among all components of the same project, and optionally
-with other projects you administer.
-
-On this list, you can choose which glossary to manage (all languages used in
-the current project are shown). Following any of the language links leads
-to a page to edit, import or export the selected glossary, or view its
-editing history:
-
-.. image:: /images/glossary-edit.png
+with other projects using :ref:`component-links`.
 
 .. _machine-translation:
 

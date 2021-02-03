@@ -782,6 +782,38 @@ can be useful for shared libraries which you use in several projects.
    visible when browsing other projects. User still need to have access to the
    actual component in order to be able to browse or translate it.
 
+
+.. _component-is_glossary:
+
+Use as a glossary
++++++++++++++++++
+
+Allows using this component as a glossary. You can configure how it will be
+listed using :ref:`component-glossary_name` and
+:ref:`component-glossary_color`.
+
+The glossary will be accessible in all projects define by :ref:`component-links`.
+
+It is recommended to enable :ref:`component-manage_units` on glossaries.
+
+.. seealso::
+
+   :ref:`glossary`
+
+.. _component-glossary_name:
+
+Glossary name
++++++++++++++
+
+Display name for a glossary used when showing word matches.
+
+.. _component-glossary_color:
+
+Glossary color
+++++++++++++++
+
+Display color for a glossary used when showing word matches.
+
 .. _markup:
 
 Template markup

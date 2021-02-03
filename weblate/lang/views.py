@@ -80,7 +80,6 @@ def show_language(request, lang):
 
     last_changes = Change.objects.last_changes(request.user).filter(language=obj)[:10]
     projects = request.user.allowed_projects
-    dicts = projects.filter(glossary__term__language=obj).distinct()
     projects = prefetch_project_flags(
         prefetch_stats(projects.filter(component__translation__language=obj).distinct())
     )
@@ -96,7 +95,6 @@ def show_language(request, lang):
             "object": obj,
             "last_changes": last_changes,
             "last_changes_url": urlencode({"lang": obj.code}),
-            "dicts": dicts,
             "projects": projects,
         },
     )

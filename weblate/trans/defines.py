@@ -30,10 +30,6 @@ REPO_LENGTH = 200
 # Maximal length of filename or mask
 FILENAME_LENGTH = 400
 
-# Glossary entry length
-# Note: This is currently limited by 192 to allow index on MySQL
-GLOSSARY_LENGTH = 190
-
 # User model length
 # Note: This is currently limited by 192 to allow index on MySQL
 FULLNAME_LENGTH = 150

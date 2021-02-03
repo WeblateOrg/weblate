@@ -17,17 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, Layout
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext_lazy
 
-from weblate.glossary.models import Glossary, Term
-from weblate.trans.defines import GLOSSARY_LENGTH
-from weblate.utils.forms import ColorWidget
-from weblate.utils.validators import validate_file_extension
+from weblate.trans.models import Translation, Unit
 
 
 class CommaSeparatedIntegerField(forms.Field):
@@ -41,107 +35,23 @@ class CommaSeparatedIntegerField(forms.Field):
             raise ValidationError(_("Invalid integer list!"))
 
 
-class OneTermForm(forms.Form):
-    """Simple one-term form."""
-
-    term = forms.CharField(
-        label=_("Search"), max_length=GLOSSARY_LENGTH, required=False
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.helper.disable_csrf = True
-        self.helper.layout = Layout(
-            Div(
-                Field("term", template="snippets/user-query-field.html"),
-                css_class="btn-toolbar",
-                role="toolbar",
-            ),
-        )
-
-
-class GlossaryForm(forms.ModelForm):
-    class Meta:
-        model = Glossary
-        fields = ["name", "color", "source_language", "links"]
-        widgets = {"color": ColorWidget}
-
-    def __init__(self, user, project, data=None, instance=None, **kwargs):
-        super().__init__(data=data, instance=instance, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_tag = False
-        self.fields["links"].queryset = user.owned_projects.exclude(pk=project.id)
-
-
 class TermForm(forms.ModelForm):
     """Form for adding term to a glossary."""
 
     terms = CommaSeparatedIntegerField(widget=forms.HiddenInput, required=False)
 
     class Meta:
-        model = Term
-        fields = ["source", "target", "glossary"]
+        model = Unit
+        fields = ["source", "target", "translation"]
 
-    def __init__(self, project, data=None, instance=None, initial=None, **kwargs):
-        glossaries = Glossary.objects.for_project(project).order_by("name").distinct()
+    def __init__(self, unit, data=None, instance=None, initial=None, **kwargs):
+        glossaries = Translation.objects.filter(
+            language=unit.translation.language,
+            component__in=unit.translation.component.project.glossaries,
+        )
         if not instance and not initial:
             initial = {}
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:
-            initial["glossary"] = glossaries[0]
+            initial["translation"] = glossaries[0]
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
-        self.fields["glossary"].queryset = glossaries
-
-
-class GlossaryUploadForm(forms.Form):
-    """Uploading file to a glossary."""
-
-    file = forms.FileField(
-        label=_("File"),
-        validators=[validate_file_extension],
-        help_text=_(
-            "You can upload any format understood by "
-            "Translate Toolkit (including TBX, CSV or gettext PO files)."
-        ),
-    )
-    method = forms.ChoiceField(
-        label=_("Merge method"),
-        choices=(
-            ("", _("Keep current")),
-            ("overwrite", _("Overwrite existing")),
-            ("add", _("Add as other translation")),
-        ),
-        required=False,
-    )
-    glossary = forms.ModelChoiceField(
-        label=_("Glossary"), queryset=Glossary.objects.none()
-    )
-
-    def __init__(self, project, data=None, initial=None, **kwargs):
-        glossaries = Glossary.objects.for_project(project)
-        initial = initial or {}
-        if initial is not None and "glossary" not in initial and len(glossaries) == 1:
-            initial["glossary"] = glossaries[0]
-        super().__init__(data=data, initial=initial, **kwargs)
-        self.fields["glossary"].queryset = glossaries
-
-
-class LetterForm(forms.Form):
-    """Form for choosing starting letter in a glossary."""
-
-    LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
-    any_letter = pgettext_lazy("Choose starting letter in glossary", "Any")
-    letter = forms.ChoiceField(
-        label=_("Starting letter"),
-        choices=[("", any_letter)] + LETTER_CHOICES,
-        required=False,
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.disable_csrf = True
-        self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+        self.fields["translation"].queryset = glossaries

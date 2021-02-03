@@ -18,6 +18,8 @@ Not yet released.
 * Automatically enable Java MessageFormat checks for Java Properties.
 * Added new upload method to add new strings to a translation.
 * Added simple interface to browse translation.
+* Glossaries are now stored as regular components.
+* Dropped glossaries API.
 
 Weblate 4.4.2
 -------------

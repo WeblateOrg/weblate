@@ -25,7 +25,6 @@ from rest_framework import serializers
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
@@ -591,60 +590,6 @@ class NotificationSerializer(serializers.ModelSerializer):
         )
 
 
-class TermSerializer(serializers.ModelSerializer):
-    language = LanguageSerializer(required=False)
-
-    class Meta:
-        model = Term
-        fields = (
-            "language",
-            "id",
-            "source",
-            "target",
-        )
-
-    def to_internal_value(self, data):
-        result = super().to_internal_value(data)
-        if "language" in result:
-            result["language"] = Language.objects.get(code=result["language"]["code"])
-        return result
-
-
-class GlossarySerializer(serializers.ModelSerializer):
-    project = ProjectSerializer(read_only=True)
-    source_language = LanguageSerializer(required=False)
-    projects_url = serializers.HyperlinkedIdentityField(
-        view_name="api:glossary-projects", lookup_field="id"
-    )
-    terms_url = serializers.HyperlinkedIdentityField(
-        view_name="api:glossary-terms", lookup_field="id"
-    )
-
-    class Meta:
-        model = Glossary
-        fields = (
-            "name",
-            "id",
-            "color",
-            "source_language",
-            "project",
-            "projects_url",
-            "terms_url",
-            "url",
-        )
-        extra_kwargs = {
-            "url": {"view_name": "api:glossary-detail", "lookup_field": "id"}
-        }
-
-    def to_internal_value(self, data):
-        result = super().to_internal_value(data)
-        if "source_language" in result:
-            result["source_language"] = Language.objects.get(
-                code=result["source_language"]["code"]
-            )
-        return result
-
-
 class TranslationSerializer(RemovableSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     share_url = AbsoluteURLField(source="get_share_url", read_only=True)
@@ -1039,7 +984,6 @@ class ChangeSerializer(RemovableSerializer):
             "unit",
             "component",
             "translation",
-            "glossary_term",
             "user",
             "author",
             "timestamp",

@@ -41,7 +41,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
-from weblate.glossary.models import Term
+from weblate.glossary.models import get_glossary_terms
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.forms import (
@@ -608,8 +608,8 @@ def translate(request, project, component, lang):
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": locked,
-            "glossary": Term.objects.get_terms(unit),
-            "addterm_form": TermForm(project),
+            "glossary": get_glossary_terms(unit),
+            "addterm_form": TermForm(unit),
             "last_changes": unit.change_set.prefetch().order()[:10],
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()

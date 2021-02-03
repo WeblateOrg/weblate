@@ -98,37 +98,6 @@ real_patterns = [
         weblate.trans.views.basic.show_engage,
         name="engage",
     ),
-    # Glossary pages
-    path(
-        "glossaries/<name:project>/",
-        weblate.glossary.views.show_glossaries,
-        name="show_glossaries",
-    ),
-    path(
-        "glossaries/<name:project>/<name:lang>/",
-        weblate.glossary.views.show_glossary,
-        name="show_glossary",
-    ),
-    path(
-        "upload-glossaries/<name:project>/<name:lang>/",
-        weblate.glossary.views.upload_glossary,
-        name="upload_glossary",
-    ),
-    path(
-        "delete-glossaries/<int:pk>/",
-        weblate.glossary.views.delete_glossary,
-        name="delete_glossary",
-    ),
-    path(
-        "edit-glossaries/<int:pk>/",
-        weblate.glossary.views.edit_glossary,
-        name="edit_glossary",
-    ),
-    path(
-        "download-glossaries/<name:project>/<name:lang>/",
-        weblate.glossary.views.download_glossary,
-        name="download_glossary",
-    ),
     # Subroject pages
     path(
         "projects/<name:project>/<name:component>/",
@@ -950,6 +919,7 @@ real_patterns = [
         weblate.trans.views.edit.save_zen,
         name="save_zen",
     ),
+    # Glossary add
     path(
         "js/glossary/<int:unit_id>/",
         weblate.glossary.views.add_glossary_term,

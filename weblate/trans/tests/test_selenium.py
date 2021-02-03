@@ -45,7 +45,6 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 import weblate.screenshots.views
 from weblate.fonts.tests.utils import FONT
-from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
@@ -482,20 +481,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         ).source_unit
         source.explanation = "Help text for automatic translation tool"
         source.save()
-        glossary = Glossary.objects.get()
-        Term.objects.create(
-            user=None,
-            glossary=glossary,
-            language=language,
+        glossary = source.translation.component.project.glossaries[0].add_new_language(
+            language,
+            None,
+        )
+        glossary.unit_set.create(
             source="machine translation",
             target="strojový překlad",
+            id_hash=1,
+            position=1,
         )
-        Term.objects.create(
-            user=None,
-            glossary=glossary,
-            language=language,
+        glossary.unit_set.create(
             source="project",
             target="projekt",
+            id_hash=2,
+            position=2,
         )
         source.translation.component.alert_set.all().delete()
 
@@ -769,27 +769,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("engage.png")
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
-
-        # Glossary
-        with self.wait_for_page_load():
-            self.click("Glossaries")
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Czech"))
-        self.click("Add new word")
-        self.driver.find_element(By.ID, "id_source").send_keys("language")
-        element = self.driver.find_element(By.ID, "id_target")
-        element.send_keys("jazyk")
-        with self.wait_for_page_load():
-            element.submit()
-        self.screenshot("glossary-edit.png")
-        self.click(htmlid="projects-menu")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
-        with self.wait_for_page_load():
-            self.click("Glossaries")
-        self.screenshot("project-glossaries.png")
-        with self.wait_for_page_load():
-            self.click("WeblateOrg")
 
         # Addons
         self.click("Components")

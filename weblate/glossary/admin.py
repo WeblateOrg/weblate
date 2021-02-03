@@ -16,15 +16,3 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from weblate.wladmin.models import WeblateModelAdmin
-
-
-class GlossaryAdmin(WeblateModelAdmin):
-    list_display = ["name", "color", "project"]
-    list_filter = ["links"]
-
-
-class TermAdmin(WeblateModelAdmin):
-    list_display = ["source", "target", "glossary", "language"]
-    search_fields = ["source", "target"]
-    list_filter = ["glossary", "language"]

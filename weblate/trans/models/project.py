@@ -208,9 +208,9 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
             # Update glossaries if needed
             if old.name != self.name:
-                self.glossary_set.filter(name__contains=old.name).update(
-                    name=Replace("name", Value(old.name), Value(self.name))
-                )
+                self.component_set.filter(
+                    is_glossary=True, name__contains=old.name
+                ).update(name=Replace("name", Value(old.name), Value(self.name)))
 
         # Update translation memory on enabled sharing
         if update_tm:

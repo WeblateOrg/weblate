@@ -41,8 +41,6 @@ from weblate.configuration.admin import SettingAdmin
 from weblate.configuration.models import Setting
 from weblate.fonts.admin import FontAdmin, FontGroupAdmin
 from weblate.fonts.models import Font, FontGroup
-from weblate.glossary.admin import GlossaryAdmin, TermAdmin
-from weblate.glossary.models import Glossary, Term
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
 from weblate.memory.admin import MemoryAdmin
@@ -119,7 +117,6 @@ class WeblateAdminSite(AdminSite):
         self.register(Announcement, AnnouncementAdmin)
         self.register(ComponentList, ComponentListAdmin)
         self.register(ContributorAgreement, ContributorAgreementAdmin)
-        self.register(Glossary, GlossaryAdmin)
 
         # Settings
         self.register(Setting, SettingAdmin)
@@ -131,7 +128,6 @@ class WeblateAdminSite(AdminSite):
             self.register(Suggestion, SuggestionAdmin)
             self.register(Comment, CommentAdmin)
             self.register(Check, CheckAdmin)
-            self.register(Term, TermAdmin)
             self.register(Change, ChangeAdmin)
 
         # Billing
