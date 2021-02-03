@@ -114,13 +114,13 @@ SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items(
 
 def get_sort_name(request):
     """Gets sort name."""
-    sort_params = request.GET.get("sort_by", "-priority,position").replace("-", "")
+    sort_query = request.GET.get("sort_by", "-priority,position")
+    sort_params = sort_query.replace("-", "")
     sort_name = SORT_LOOKUP.get(sort_params, _("Position and priority"))
-    result = {
-        "query": request.GET.get("sort_by", "-priority,position"),
+    return {
+        "query": sort_query,
         "name": sort_name,
     }
-    return result
 
 
 def get_translation(request, project, component, lang, skip_acl=False):
