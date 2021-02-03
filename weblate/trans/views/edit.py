@@ -130,8 +130,7 @@ def get_other_units(unit):
         query = Q(context=unit.context)
 
     units = (
-        Unit.objects.prefetch_full()
-        .filter(
+        Unit.objects.filter(
             query,
             translation__component__project=component.project,
             translation__language=translation.language,
