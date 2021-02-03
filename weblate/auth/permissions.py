@@ -182,6 +182,7 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
 
 @register_perm("unit.edit", "suggestion.accept")
 def check_edit_approved(user, permission, obj):
+    component = None
     if isinstance(obj, Unit):
         unit = obj
         obj = unit.translation
@@ -192,8 +193,14 @@ def check_edit_approved(user, permission, obj):
             and not check_unit_review(user, "unit.review", obj, skip_enabled=True)
         ):
             return False
-    if isinstance(obj, Translation) and obj.is_readonly:
-        return False
+    if isinstance(obj, Translation):
+        component = obj.component
+        if obj.is_readonly:
+            return False
+    elif isinstance(obj, Component):
+        component = obj
+    if component is not None and component.is_glossary:
+        permission = "glossary.edit"
     return check_can_edit(user, permission, obj)
 
 
@@ -217,6 +224,8 @@ def check_unit_delete(user, permission, obj):
     # Check if removing is generally allowed
     if not check_manage_units(obj, component):
         return False
+    if component.is_glossary:
+        permission = "glossary.delete"
     return check_can_edit(user, permission, obj)
 
 
@@ -230,6 +239,9 @@ def check_unit_add(user, permission, translation):
     # Does file format support adding?
     if not component.file_format_cls.can_add_unit:
         return False
+
+    if component.is_glossary:
+        permission = "glossary.add"
 
     return check_can_edit(user, permission, translation)
 
@@ -282,6 +294,8 @@ def check_contribute(user, permission, translation):
             and hasattr(translation.component.file_format_cls, "update_bilingual")
             and user.has_perm("source.edit", translation)
         )
+    if translation.component.is_glossary:
+        permission = "glossary.upload"
     return check_can_edit(user, permission, translation) and (
         # Normal upload
         check_edit_approved(user, "unit.edit", translation)
