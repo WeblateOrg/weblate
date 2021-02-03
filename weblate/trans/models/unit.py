@@ -261,6 +261,10 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             )
         )
 
+    def get_ordered(self, ids):
+        """Return list of units ordered by ID."""
+        return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
+
 
 class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
