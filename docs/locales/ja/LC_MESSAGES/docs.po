@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-02-03 18:57+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2021-02-04 10:52+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -2501,7 +2501,7 @@ msgstr "CAS 認証"
 #: ../../admin/auth.rst:539
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
-msgstr "CAS 認証は `django-cas-ng` のようなパッケージを使用して実現できます。"
+msgstr "CAS 認証は、`django-cas-ng` などのパッケージを使用して実行できます。"
 
 #: ../../admin/auth.rst:541
 msgid ""
@@ -2509,20 +2509,22 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"ステップ 1、CAS 経由でユーザーのメールアドレスの入力フィールドを表示させます。これは、CAS サーバー自体に設定することが必要です。、CAS v "
+"1 は属性に一切対応していないため、少なくとも CAS v 2 の実行が必要です。"
 
 #: ../../admin/auth.rst:545
 msgid "Step two is updating Weblate to use your CAS server and attributes."
-msgstr ""
+msgstr "ステップ 2、Weblate を更新して CAS サーバーと属性を使用します。"
 
 #: ../../admin/auth.rst:547
 msgid "To install `django-cas-ng`:"
-msgstr "`django-cas-ng` をインストールするには以下のようにします。"
+msgstr "`django-cas-ng` のインストール方法:"
 
 #: ../../admin/auth.rst:553
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
-msgstr ""
+msgstr "パッケージをインストールした後に、:file:`settings.py` ファイルを変更して Django 認証システムに接続する設定方法:"
 
 #: ../../admin/auth.rst:571
 msgid ""
@@ -2531,15 +2533,18 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"最後に、signal を使用してメールの入力フィールドをユーザー オブジェクトに設置できます。この機能を使用するには `django-cas-ng` "
+"パッケージから signal をインポートし、この signal "
+"を使用してコードに接続することが必要です。設定ファイルに設定すると問題が発生することがあります。推奨する設定方法:"
 
 #: ../../admin/auth.rst:576
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
-msgstr ""
+msgstr "アプリケーションの設定ファイル、:py:meth:`django:django.apps.AppConfig.ready` メソッドの中に記述"
 
 #: ../../admin/auth.rst:577
 msgid "In the project's :file:`urls.py` file (when no models exist)"
-msgstr ""
+msgstr "プロジェクト ファイル、 :file:`urls.py` の中に記述（モデルが存在しない場合）"
 
 #: ../../admin/auth.rst:594
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
@@ -2547,7 +2552,7 @@ msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:597
 msgid "Configuring third party Django authentication"
-msgstr ""
+msgstr "サード パーティの Django 認証の設定"
 
 #: ../../admin/auth.rst:599
 msgid ""
@@ -2555,6 +2560,8 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"通常、Django 認証プラグインは Weblate で動作します。プラグインの指示に従い、Weblate user backend "
+"をインストールした状態にしておくことに注意が必要です。"
 
 #: ../../admin/auth.rst:605
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
@@ -2566,14 +2573,16 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"通常の、認証バックエンドを :setting:`django:AUTHENTICATION_BACKENDS` "
+"に追加し、認証アプリケーション（存在する場合）を :setting:`django:INSTALLED_APPS` にインストールする方法:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr "バックアップの Weblate の引っ越し"
+msgstr "Weblate のバックアップと移動"
 
 #: ../../admin/backup.rst:7
 msgid "Automated backup using BorgBackup"
-msgstr "BorgBackup を使用した自動化バックアップ"
+msgstr "BorgBackup を使用した自動バックアップ"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2582,9 +2591,9 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface on the :guilabel:`Backups` tab."
 msgstr ""
-"Weblate は `BorgBackup`_ を使ったサービスバックアップの作成に組込みで対応しています。 Borg "
-"はスペース効率の良い暗号化されたバックアップを作成し、クラウドに安全に保存することができます。バックアップは :guilabel:`バックアップ` "
-"タブの管理インターフェイスで制御できます。"
+"Weblate は、`BorgBackup`_を使用したサービスのバックアップの作成に組み込みで対応しています。Borg "
+"はスペース効率の高い暗号化されたバックアップを作成し、クラウドに安全に保存します。バックアップは、管理画面の :guilabel:`Backups` "
+"タブから制御できます。"
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -2596,23 +2605,23 @@ msgstr "PostgreSQL と MySQL/MariaDB の両方のデータベースが自動バ�
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
-msgstr "Borg を使用したバックアップは増分で、 Weblate は以下のバックアップを保持するように設定されています。"
+msgstr "バックアップに使用する Borg は、増分バックアップ方式です。Webrate に用意されているバックアップの種類:"
 
 #: ../../admin/backup.rst:22
 msgid "14 daily backups"
-msgstr "14件の日次バックアップ"
+msgstr "14 日間の日次バックアップ"
 
 #: ../../admin/backup.rst:23
 msgid "8 weekly backups"
-msgstr "8件の週次バックアップ"
+msgstr "8 週間の週次バックアップ"
 
 #: ../../admin/backup.rst:24
 msgid "6 monthly backups"
-msgstr "6件の月次バックアップ"
+msgstr "6 か月間の月次バックアップ"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
-msgstr "Borg 暗号キー"
+msgstr "Borg 暗号鍵"
 
 #: ../../admin/backup.rst:33
 msgid ""
@@ -2676,7 +2685,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:68
 msgid "Using custom backup storage"
-msgstr "カスタムバックアップストレージの使用"
+msgstr "カスタム バックアップ ストレージの使用"
 
 #: ../../admin/backup.rst:70
 msgid ""
@@ -2691,7 +2700,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:79
 msgid "Local filesystem"
-msgstr "ローカルファイルシステム"
+msgstr "ローカル ファイルシステム"
 
 #: ../../admin/backup.rst:81
 msgid ""
@@ -2841,7 +2850,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:192
 msgid "Django database backup"
-msgstr "Django データベースバックアップ"
+msgstr "Django バックアップ データベース"
 
 #: ../../admin/backup.rst:194
 msgid ""
@@ -7718,7 +7727,7 @@ msgstr "その他のシステム要件"
 
 #: ../../admin/install.rst:119
 msgid "The following dependencies have to be installed on the system:"
-msgstr "システムにインストールすることが必要な依存関係:"
+msgstr "システムにインストールする必要がある依存関係:"
 
 #: ../../admin/install.rst:121
 msgid "``Git``"
@@ -15860,7 +15869,7 @@ msgstr ""
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "Weblate's REST API"
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
@@ -23417,7 +23426,7 @@ msgstr "プロジェクトの目標"
 msgid ""
 "Web-based continuous localization tool with tight :ref:`vcs` supporting a "
 "wide range of :ref:`formats`, making it easy for translators to contribute."
-msgstr ""
+msgstr "幅広い :ref:`formats` に対応し、:ref:`vcs` と密接に結びついた Web ベースのサービスを連携した翻訳ツールです。"
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
