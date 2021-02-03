@@ -933,6 +933,7 @@ def browse(request, project, component, lang):
             "search_form": search_result["form"].reset_offset(),
             "filter_count": num_results,
             "filter_pos": offset,
+            "filter_name": search_result["name"],
             "first_unit_url": base_unit_url + "1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_unit_url": base_unit_url + str(offset + 1),
