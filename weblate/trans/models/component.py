@@ -2771,7 +2771,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if code in language_aliases:
             code = language_aliases[code]
 
-        # Check if valuid
+        # Check if language code is valid
         if re.match(self.language_regex, code) is None:
             messages.error(
                 request, _("The given language is filtered by the language filter.")
@@ -2800,6 +2800,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             with self.repository.lock:
                 file_format.add_language(fullname, language, base_filename)
+                if send_signal:
+                    translation_post_add.send(
+                        sender=self.__class__, translation=translation
+                    )
                 translation.git_commit(
                     request.user if request else None,
                     request.user.get_author_name()
@@ -2813,9 +2817,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             messages.warning(
                 request, _("The translation will be updated in the background.")
             )
-
-        if send_signal:
-            translation_post_add.send(sender=self.__class__, translation=translation)
 
         return translation
 
