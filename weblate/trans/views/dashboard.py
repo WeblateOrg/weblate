@@ -34,6 +34,7 @@ from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
@@ -300,19 +301,15 @@ def dashboard_anonymous(request):
             prefetch_stats(request.user.allowed_projects),
             key=lambda prj: -prj.stats.monthly_changes,
         )[:20]
-        cache.set("dashboard-anonymous-projects", {p.id for p in top_projects}, 3600)
-    else:
-        # The allowed_projects is already fetched, so filter it in Python
-        # instead of doing additional query
-        top_projects = [
-            p for p in request.user.allowed_projects if p.id in top_project_ids
-        ]
+        top_project_ids = {p.id for p in top_projects}
+        cache.set("dashboard-anonymous-projects", top_project_ids, 3600)
+    top_projects = request.user.allowed_projects.filter(id__in=top_project_ids)
 
     return render(
         request,
         "dashboard/anonymous.html",
         {
-            "top_projects": top_projects,
+            "top_projects": prefetch_project_flags(top_projects),
             "all_projects": len(request.user.allowed_projects),
         },
     )
