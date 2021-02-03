@@ -170,6 +170,8 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             "num_words",
             "labels",
             "timestamp",
+            "source",
+            "target",
         ]
         countable_sort_choices = {
             "num_comments": {"order_by": "comment__count", "filter": None},

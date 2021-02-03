@@ -102,6 +102,8 @@ SORT_CHOICES = {
     "position": gettext_lazy("Position"),
     "priority": gettext_lazy("Priority"),
     "labels": gettext_lazy("Labels"),
+    "source": gettext_lazy("Source string"),
+    "target": gettext_lazy("Translation string"),
     "timestamp": gettext_lazy("Age of string"),
     "num_words": gettext_lazy("Number of words"),
     "num_comments": gettext_lazy("Number of comments"),
@@ -112,9 +114,13 @@ SORT_CHOICES = {
 SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
 
 
-def get_sort_name(request):
+def get_sort_name(request, obj=None):
     """Gets sort name."""
-    sort_query = request.GET.get("sort_by", "-priority,position")
+    if hasattr(obj, "component") and obj.component.is_glossary:
+        default = "source"
+    else:
+        default = "-priority,position"
+    sort_query = request.GET.get("sort_by", default)
     sort_params = sort_query.replace("-", "")
     sort_name = SORT_LOOKUP.get(sort_params, _("Position and priority"))
     return {

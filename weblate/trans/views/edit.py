@@ -572,7 +572,7 @@ def translate(request, project, component, lang):
 
     # Prepare form
     form = TranslationForm(request.user, unit)
-    sort = get_sort_name(request)
+    sort = get_sort_name(request, obj)
 
     return render(
         request,
@@ -774,7 +774,7 @@ def zen(request, project, component, lang):
     obj, project, unit_set = parse_params(request, project, component, lang)
 
     search_result, unitdata = get_zen_unitdata(obj, unit_set, request)
-    sort = get_sort_name(request)
+    sort = get_sort_name(request, obj)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -918,7 +918,7 @@ def browse(request, project, component, lang):
         search_result["url"],
     )
     num_results = ceil(len(search_result["ids"]) / page)
-    sort = get_sort_name(request)
+    sort = get_sort_name(request, obj)
 
     return render(
         request,
