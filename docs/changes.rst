@@ -21,6 +21,7 @@ Not yet released.
 * Glossaries are now stored as regular components.
 * Dropped glossaries API.
 * Added simplified interface to toggle some of the flags.
+* Added support for non-translatable or forbidden terms in glossary.
 
 Weblate 4.4.2
 -------------

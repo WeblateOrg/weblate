@@ -52,6 +52,7 @@ PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
 )
 PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
+PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
 
 TYPED_FLAGS["font-family"] = gettext_lazy("Font family")
 TYPED_FLAGS_ARGS["font-family"] = single_value_flag(str)

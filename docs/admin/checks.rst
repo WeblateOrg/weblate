@@ -79,6 +79,8 @@ Here is a list of flags currently accepted:
     Mark this string as a variant of string with matching source. See :ref:`variants`.
 ``regex:REGEX``
     Regular expression to match translation, see :ref:`check-regex`.
+``forbidden``
+    Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``lua-format``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``, ``vue-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,

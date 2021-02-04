@@ -33,7 +33,26 @@ this for names or other terms which should not change while translating. Such
 term is visually highlighted in the glossary sidebar.
 
 The terms can be flagged on the source language using :guilabel:`Tools` ↓
-:guilabel:`Prohibit translations`. In background this toggles the ``read-only``
+:guilabel:`Prohibit translations`. In the background this toggles the ``read-only``
+flag on the string.
+
+.. seealso::
+
+   :ref:`custom-checks`
+
+.. _glossary-forbidden:
+
+Forbidden translations
+++++++++++++++++++++++
+
+.. versionadded:: 4.5
+
+You can flag certain glossary terms as forbidden - those words should not be
+used while translating. Use this to clarify translation when some words are
+ambiguous or could have unexpected meanings.
+
+The terms can be flagged on the source language using :guilabel:`Tools` ↓
+:guilabel:`Mark as forbidden translations`. In the background this toggles the ``forbidden``
 flag on the string.
 
 .. seealso::

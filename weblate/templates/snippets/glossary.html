@@ -3,7 +3,9 @@
 {% load icons %}
 
 {% for item in glossary %}
-  {% if "read-only" in item.all_flags %}
+  {% if "forbidden" in item.all_flags %}
+    <tr class="glossary-embed danger" title="{% trans "This translation is forbidden." %}">
+  {% elif "read-only" in item.all_flags %}
     <tr class="glossary-embed warning" title="{% trans "This term should not be translated." %}">
   {% else %}
     <tr class="glossary-embed clickable-row" title="{% trans "Copy word into translation" %}">
