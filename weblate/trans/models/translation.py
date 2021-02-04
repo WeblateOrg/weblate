@@ -1118,13 +1118,17 @@ class Translation(
         )
 
     def handle_store_change(self, request, user):
-        self.drop_store_cache()
-        self.git_commit(user, user.get_author_name(), store_hash=False)
         if self.is_source:
             self.component.create_translations(request=request)
         else:
             self.check_sync(request=request)
             self.invalidate_cache()
+
+    def get_store_change_translations(self):
+        component = self.component
+        if not self.is_source or component.has_template():
+            return [self]
+        return component.translation_set.exclude(id=self.id)
 
     @transaction.atomic
     def add_units(
@@ -1137,15 +1141,18 @@ class Translation(
         user = request.user if request else get_anonymous()
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
-            for context, source, target in batch:
-                self.store.new_unit(context, source, target)
-                Change.objects.create(
-                    translation=self,
-                    action=Change.ACTION_NEW_UNIT,
-                    target=source,
-                    user=user,
-                    author=user,
-                )
+            for translation in self.get_store_change_translations():
+                for context, source, target in batch:
+                    translation.store.new_unit(context, source, target)
+                    Change.objects.create(
+                        translation=translation,
+                        action=Change.ACTION_NEW_UNIT,
+                        target=source,
+                        user=user,
+                        author=user,
+                    )
+                translation.drop_store_cache()
+                translation.git_commit(user, user.get_author_name(), store_hash=False)
             self.handle_store_change(request, user)
 
     @transaction.atomic
@@ -1156,14 +1163,17 @@ class Translation(
         user = request.user if request else get_anonymous()
         with component.repository.lock:
             component.commit_pending("delete unit", user)
-            try:
-                pounit, add = self.store.find_unit(unit.context, unit.source)
-            except UnitNotFound:
-                return
-            if add:
-                return
-            extra_files = self.store.remove_unit(pounit.unit)
-            self.addon_commit_files.extend(extra_files)
+            for translation in self.get_store_change_translations():
+                try:
+                    pounit, add = translation.store.find_unit(unit.context, unit.source)
+                except UnitNotFound:
+                    return
+                if add:
+                    return
+                extra_files = translation.store.remove_unit(pounit.unit)
+                translation.addon_commit_files.extend(extra_files)
+                translation.drop_store_cache()
+                translation.git_commit(user, user.get_author_name(), store_hash=False)
             self.handle_store_change(request, user)
 
 

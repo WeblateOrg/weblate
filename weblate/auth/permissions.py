@@ -205,13 +205,13 @@ def check_edit_approved(user, permission, obj):
 
 
 def check_manage_units(translation: Translation, component: Component) -> bool:
-    # Check if adding is generally allowed
-    if not component.manage_units or translation.is_readonly:
-        return False
     source = translation.is_source
     template = component.has_template()
-    # Add to source in monolingual and to translations in bilingual
-    if (source and not template) or (not source and template):
+    # Add only to source in monolingual
+    if not source and template:
+        return False
+    # Check if adding is generally allowed
+    if not component.manage_units or (template and not component.edit_template):
         return False
     return True
 

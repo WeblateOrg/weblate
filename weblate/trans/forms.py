@@ -1986,7 +1986,7 @@ class NewMonolingualUnitForm(forms.Form):
         return obj.unit_set.filter(context=self.cleaned_data["key"]).exists()
 
 
-class NewBilingualUnitForm(forms.Form):
+class NewBilingualSourceUnitForm(forms.Form):
     context = forms.CharField(
         label=_("Translation key"),
         help_text=_("Optional context to clarify the source strings."),
@@ -1996,31 +1996,21 @@ class NewBilingualUnitForm(forms.Form):
         label=_("Source string"),
         required=True,
     )
-    target = PluralField(
-        label=_("Translated string"),
-        help_text=_(
-            "You can edit this later, as with any other string in " "the translation."
-        ),
-        required=True,
-    )
 
     def __init__(self, translation, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = 99
         self.fields["source"].widget.attrs["tabindex"] = 100
         self.fields["source"].widget.profile = user.profile
-        self.fields["target"].widget.attrs["tabindex"] = 101
-        self.fields["target"].widget.profile = user.profile
         self.fields["source"].initial = Unit(
             translation=translation.component.source_translation, id_hash=0
         )
-        self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
     def as_tuple(self):
         return (
             self.cleaned_data.get("context", ""),
             self.cleaned_data["source"],
-            self.cleaned_data["target"],
+            self.cleaned_data.get("target", ""),
         )
 
     def unit_exists(self, obj):
@@ -2030,9 +2020,27 @@ class NewBilingualUnitForm(forms.Form):
         ).exists()
 
 
+class NewBilingualUnitForm(NewBilingualSourceUnitForm):
+    target = PluralField(
+        label=_("Translated string"),
+        help_text=_(
+            "You can edit this later, as with any other string in " "the translation."
+        ),
+        required=True,
+    )
+
+    def __init__(self, translation, user, *args, **kwargs):
+        super().__init__(translation, user, *args, **kwargs)
+        self.fields["target"].widget.attrs["tabindex"] = 101
+        self.fields["target"].widget.profile = user.profile
+        self.fields["target"].initial = Unit(translation=translation, id_hash=0)
+
+
 def get_new_unit_form(translation, user, data=None):
     if translation.component.has_template():
         return NewMonolingualUnitForm(translation, user, data)
+    if translation.is_source:
+        return NewBilingualSourceUnitForm(translation, user, data)
     return NewBilingualUnitForm(translation, user, data)
 
 
