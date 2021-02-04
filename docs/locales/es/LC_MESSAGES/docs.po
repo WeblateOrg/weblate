@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-01-23 07:18+0000\n"
+"PO-Revision-Date: 2021-02-04 10:52+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -25,12 +25,6 @@ msgid "Access control"
 msgstr "Control de acceso"
 
 #: ../../admin/access.rst:8
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using an older version, please "
-#| "consult the documentation for that version, the information here will not "
-#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using anything older, please "
@@ -42,10 +36,6 @@ msgstr ""
 "información que aquí se ofrece no será relevante."
 
 #: ../../admin/access.rst:12
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
@@ -95,7 +85,7 @@ msgstr "Configuraciones comunes"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
-msgstr "Bloquear Weblate"
+msgstr "Restringir Weblate"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -103,6 +93,9 @@ msgid ""
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
+"Para cerrar por completo su Weblate, puede servirse de "
+":setting:`REQUIRE_LOGIN`, que fuerza a los usuarios a acceder a sus cuentas, "
+"y :setting:`REGISTRATION_OPEN`, para evitar más altas."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -124,15 +117,12 @@ msgid "Per project permissions"
 msgstr "Permisos por proyecto"
 
 #: ../../admin/access.rst:46 ../../admin/access.rst:56
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for projects using the Libre plan on Hosted "
 "Weblate."
 msgstr ""
-"Esta funcionalidad no está disponible para proyectos que usan el plan Hosted "
-"Libre."
+"Esta funcionalidad no está disponible para proyectos que usan el plan Libre "
+"en Weblate alojado."
 
 #: ../../admin/access.rst:48
 msgid ""
@@ -331,8 +321,6 @@ msgid "`User`"
 msgstr "`Usuario`"
 
 #: ../../admin/access.rst:149
-#, fuzzy
-#| msgid "Users can be members of several groups."
 msgid "Users can belong to several groups."
 msgstr "Los usuarios pueden ser miembros de varios grupos."
 
@@ -482,16 +470,12 @@ msgid "Invite new users to the project"
 msgstr "Invitar usuarios nuevos al proyecto"
 
 #: ../../admin/access.rst:239
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Change user permissions"
-msgstr "Permisos para todo el sitio"
+msgstr "Cambiar permisos de usuario"
 
 #: ../../admin/access.rst:240
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke user access"
-msgstr "Comprobar acceso de usuario"
+msgstr "Revocar acceso de usuario"
 
 #: ../../admin/access.rst:244
 msgid ""
@@ -757,16 +741,12 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr ""
 
 #: ../../admin/access.rst:386
-#, fuzzy
-#| msgid ""
-#| "Edit string when suggestions are enforced [`Administration`, `Review "
-#| "strings`]"
 msgid ""
 "Edit strings when suggestions are enforced [`Administration`, `Review "
 "strings`]"
 msgstr ""
-"Editar cadena cuando son obligatorias las sugerencias [`Administración`, "
-"`Revisar cadenas`]"
+"Editar cadenas cuando son obligatorias las sugerencias [`Administración`, `"
+"Revisar cadenas`]"
 
 #: ../../admin/access.rst:388
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
@@ -819,21 +799,19 @@ msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgstr ""
 
 #: ../../admin/access.rst:406
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid ""
 "Start translation into a new language [`Administration`, `Manage languages`]"
-msgstr "Comenzar una nueva traducción en más idiomas"
+msgstr ""
+"Comenzar una traducción en un idioma nuevo [`Administración`, `Gestionar "
+"idiomas`]"
 
 #: ../../admin/access.rst:413
 msgid "Uploads"
 msgstr "Cargas"
 
 #: ../../admin/access.rst:409
-#, fuzzy
-#| msgid "Define author of translation upload [`Administration`]"
 msgid "Define author of uploaded translations [`Administration`]"
-msgstr "Definir autor/a de la traducción cargada [`Administración`]"
+msgstr "Definir autor/a de las traducciones cargadas [`Administración`]"
 
 #: ../../admin/access.rst:411
 msgid ""
@@ -959,16 +937,16 @@ msgid "`Guests`"
 msgstr ""
 
 #: ../../admin/access.rst:463
-#, fuzzy
-#| msgid "Fixed session expiry for authenticated users."
 msgid "Defines permissions for non-authenticated users."
-msgstr "Se arregló la caducidad de la sesión para usuarios autenticados."
+msgstr "Define los permisos que tendrán los usuarios no autenticados."
 
 #: ../../admin/access.rst:465
 msgid ""
 "This group only contains anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Este grupo contiene solo usuarios anónimos (vea "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:467
 msgid ""
@@ -9197,12 +9175,12 @@ msgstr ""
 #: ../../admin/install/docker.rst:244
 msgid "Changes the site-title shown in the header of all pages."
 msgstr ""
+"Modifica el título del sitio que se muestra en la cabecera de todas las "
+"páginas."
 
 #: ../../admin/install/docker.rst:248
-#, fuzzy
-#| msgid "Configures the site domain."
 msgid "Configures the site domain. This parameter is required."
-msgstr "Configura el dominio del sitio."
+msgstr "Configura el dominio del sitio. Este parámetro es obligatorio."
 
 #: ../../admin/install/docker.rst:252
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -10613,10 +10591,8 @@ msgid "Looking up built in language aliases."
 msgstr "Error de sintaxis en los alias de idiomas."
 
 #: ../../admin/languages.rst:25
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Looking up by language name."
-msgstr "Archivo de base monolingüe"
+msgstr "Búsqueda por nombre de idioma."
 
 #: ../../admin/languages.rst:26
 msgid ""
@@ -11326,16 +11302,17 @@ msgstr ""
 
 #: ../../admin/machine.rst:261
 msgid "NetEase Sight API machine translation"
-msgstr ""
+msgstr "Traducción automática por API de NetEase Sight"
 
 #: ../../admin/machine.rst:265
 msgid "Machine translation service provided by Netease."
-msgstr ""
+msgstr "Servicio de traducción automática brindado por NetEase."
 
 #: ../../admin/machine.rst:267
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Este servicio utiliza una API y debe adquirir una clave y secreto de NetEase."
 
 #: ../../admin/machine.rst:269
 msgid ""
@@ -11352,7 +11329,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:282
 msgid "tmserver"
-msgstr ""
+msgstr "tmserver"
 
 #: ../../admin/machine.rst:284
 msgid ""
@@ -11364,20 +11341,24 @@ msgstr ""
 #: ../../admin/machine.rst:288
 msgid "First you will want to import some data to the translation memory:"
 msgstr ""
+"Lo primero que querrá hacer es importar algunos datos en la memoria de "
+"traducción:"
 
 #: ../../admin/machine.rst:290
 msgid ""
 "2. Turn on this service by adding ``weblate.machinery.tmserver."
 "TMServerTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"2. Encienda este servicio añadiendo ``weblate.machinery.tmserver."
+"TMServerTranslation`` a :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:299
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "Inicie el tmserver para que escuche sus peticiones:"
 
 #: ../../admin/machine.rst:305
 msgid "Configure Weblate to talk to it:"
-msgstr ""
+msgstr "Configure Weblate para que se comunique con este:"
 
 #: ../../admin/machine.rst:313
 msgid ""
@@ -11388,11 +11369,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:323
 msgid "Yandex Translate"
-msgstr ""
+msgstr "Yandex Translate"
 
 #: ../../admin/machine.rst:325
 msgid "Machine translation service provided by Yandex."
-msgstr ""
+msgstr "Servicio de traducción automática ofrecido por Yandex."
 
 #: ../../admin/machine.rst:327
 msgid ""
@@ -12850,10 +12831,8 @@ msgid "``GLOSSARY``"
 msgstr ""
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Starting translation in new language"
-msgstr "Comenzar una nueva traducción en más idiomas"
+msgstr "Comenzar una traducción en un idioma nuevo"
 
 #: ../../admin/optionals.rst:262
 msgid "``LANGUAGE``"
@@ -13697,10 +13676,8 @@ msgid ":ref:`adding-translation`."
 msgstr ""
 
 #: ../../admin/projects.rst:563
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "Cadenas de destino"
+msgstr "Gestionar cadenas"
 
 #: ../../admin/projects.rst:565
 msgid ""
@@ -13727,16 +13704,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:582
-#, fuzzy
-#| msgid ""
-#| "URL to translations list; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/translations/`"
 msgid ""
 ":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`"
 msgstr ""
-"URL a la lista de traducciones; vea :http:get:`/api/components/(string:"
-"project)/(string:component)/translations/`"
+":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../admin/projects.rst:589
 msgid "Language code style"
@@ -13754,6 +13727,7 @@ msgstr ""
 msgid ""
 ":ref:`new-translations`, :ref:`language-code`, :ref:`language-parsing-codes`"
 msgstr ""
+":ref:`new-translations`, :ref:`language-code`, :ref:`language-parsing-codes`"
 
 #: ../../admin/projects.rst:603
 msgid "Merge style"
@@ -13773,6 +13747,7 @@ msgstr ""
 #: ../../admin/projects.rst:618
 msgid "Commit, add, delete, merge and addon messages"
 msgstr ""
+"Mensajes de consigna, de adición, de eliminación, de fusión y de complemento"
 
 #: ../../admin/projects.rst:620
 msgid "Message used when committing a translation, see :ref:`markup`."
@@ -16487,17 +16462,15 @@ msgstr ""
 
 #: ../../api.rst:1727
 msgid "Name of translation unit"
-msgstr ""
+msgstr "Nombre de la unidad de traducción"
 
 #: ../../api.rst:1728
 msgid "The translation unit value"
-msgstr ""
+msgstr "El valor de la unidad de traducción"
 
 #: ../../api.rst:1732
-#, fuzzy
-#| msgid ":ref:`component-enable_suggestions`"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr ":ref:`component-enable_suggestions`"
+msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:1737
 msgid "Trigger automatic translation."
@@ -17158,10 +17131,8 @@ msgid "Listing of the tasks is currently not available."
 msgstr "El servicio no está disponible por ahora."
 
 #: ../../api.rst:2438
-#, fuzzy
-#| msgid "Returns information about a translation."
 msgid "Returns information about a task"
-msgstr "Devuelve información relativa a una traducción."
+msgstr "Devuelve información relativa a una tarea"
 
 #: ../../api.rst:2440
 msgid "Task UUID"
@@ -17175,27 +17146,27 @@ msgstr "indica si la unidad tiene comentarios"
 
 #: ../../api.rst:2443
 msgid "Task progress in percent"
-msgstr ""
+msgstr "Progreso de la tarea expresado en porcentaje"
 
 #: ../../api.rst:2444
 msgid "Task result or progress details"
-msgstr ""
+msgstr "Resultado de la tarea o detalles de progreso"
 
 #: ../../api.rst:2445
-#, fuzzy
-#| msgid "Last login"
 msgid "Task log"
-msgstr "Última sesión"
+msgstr "Registro de tareas"
 
 #: ../../api.rst:2450
 msgid "Notification hooks"
-msgstr "Actuadores de notificaciones"
+msgstr "Actuadores de notificación"
 
 #: ../../api.rst:2452
 msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
 msgstr ""
+"Los actuadores de notificación permiten a aplicaciones externas notificar a "
+"Weblate de que se ha actualizado un repositorio de control de versiones."
 
 #: ../../api.rst:2455
 msgid ""
@@ -17471,7 +17442,7 @@ msgstr ""
 
 #: ../../api.rst:2709
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`RSS en Wikipedia <https://es.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 4.5"
@@ -17482,10 +17453,10 @@ msgid "Not yet released."
 msgstr "No publicada aún."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for customizable security.txt."
 msgid "Added support for ``lua-format`` used in gettext PO."
-msgstr "Se permite personalizar el archivo security.txt."
+msgstr ""
+"Se añadió compatibilidad con ``lua-format`` tal como se usa en los archivos "
+"PO de gettext."
 
 #: ../../changes.rst:7
 msgid "Added support for sharing a component between projects."
@@ -17507,12 +17478,8 @@ msgid "Added pseudolocale generation addon."
 msgstr ""
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for app store metadata files."
 msgid "Added support for Term Base eXchange files."
-msgstr ""
-"Se añadió compatibilidad para archivos de metadatos de tiendas de "
-"aplicaciones."
+msgstr "Se pueden utilizar ahora archivos Term Base eXchange."
 
 #: ../../changes.rst:12
 #, fuzzy
@@ -17525,47 +17492,37 @@ msgid "Improved performance of consistency checks."
 msgstr "Se mejoró el desempeño de las comprobaciones de coherencia."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory for long strings."
-msgstr ""
-"Se mejoró el desempeño de las actualizaciones a la memoria de traducción."
+msgstr "Se mejoró el desempeño de la memoria de traducción en cadenas extensas."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for searching in several languages at once."
 msgid "Added support for searching in explanations."
-msgstr "Se permite efectuar búsquedas en varios idiomas a la vez."
+msgstr "Se permite efectuar búsquedas en las explicaciones."
 
 #: ../../changes.rst:16
 msgid "Strings can now be added and removed in bilingual formats as well."
 msgstr ""
+"Ahora se pueden añadir y quitar cadenas también en los formatos bilingües."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Weblate 4.4.1"
 msgid "Weblate 4.4.2"
-msgstr "Weblate 4.4.1"
+msgstr "Weblate 4.4.2"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Released on January 18th 2020."
 msgid "Released on January 14th 2021."
-msgstr "Publicada el 18 de abril de 2020."
+msgstr "Publicada el 14 de enero de 2021."
 
 #: ../../changes.rst:23
 msgid "Fixed corruption of one distributed MO file."
-msgstr ""
+msgstr "Se arregló el daño en un archivo MO distribuido."
 
 #: ../../changes.rst:26
 msgid "Weblate 4.4.1"
 msgstr "Weblate 4.4.1"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Released on January 18th 2020."
 msgid "Released on January 13th 2021."
-msgstr "Publicada el 18 de abril de 2020."
+msgstr "Publicada el 13 de enero de 2021."
 
 #: ../../changes.rst:30
 msgid "Fixed reverting plural changes."
@@ -26309,10 +26266,13 @@ msgid ""
 "There the variant source string has to at most 768 characters long. This is "
 "technical limitation due to compatibility with MySQL database."
 msgstr ""
+"Allí, la cadena de origen de la variante debe tener como máximo 768 "
+"caracteres. Esta limitación técnica se debe a la compatibilidad con la base "
+"de datos MySQL."
 
 #: ../../devel/translations.rst:75 ../../user/checks.rst:769
 msgid ":ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`custom-checks`"
 
 #: ../../devel/translations.rst:78
 msgid "Variants while translating"
@@ -26377,7 +26337,7 @@ msgstr ""
 
 #: ../../faq.rst:28
 msgid "How to access repositories over SSH?"
-msgstr ""
+msgstr "¿Cómo se accede a repositorios a través de SSH?"
 
 #: ../../faq.rst:30
 msgid "Please see :ref:`vcs-repos` for info on setting up SSH keys."
@@ -26385,7 +26345,7 @@ msgstr ""
 
 #: ../../faq.rst:35
 msgid "How to fix merge conflicts in translations?"
-msgstr ""
+msgstr "¿Cómo se arreglan los conflictos de fusión en las traducciones?"
 
 #: ../../faq.rst:37
 msgid ""
@@ -26419,12 +26379,16 @@ msgid ""
 "If you're using multiple branches in Weblate, you can do the same to all of "
 "them:"
 msgstr ""
+"Si utiliza una multitud de ramas con Weblate, puede hacer que se efectúen "
+"los mismos cambios en todas:"
 
 #: ../../faq.rst:110
 msgid ""
 "In case of gettext PO files, there is a way to merge conflicts in a semi-"
 "automatic way:"
 msgstr ""
+"En el caso de los archivos PO de gettext, existe una forma de fusionar "
+"conflictos semiautomáticamente:"
 
 #: ../../faq.rst:112
 msgid ""
@@ -26458,21 +26422,27 @@ msgid ""
 "Once you merge changes from Weblate, you might have to merge these branches "
 "(depending on your development workflow) discarding differences:"
 msgstr ""
+"Una vez que fusione los cambios de Weblate, tal vez tenga que fusionar estas "
+"ramas (en función de su flujo de trabajo de desarrollo) y descartar "
+"cualquier diferencia:"
 
 #: ../../faq.rst:163 ../../faq.rst:178 ../../user/checks.rst:485
 #: ../../user/translating.rst:371
 msgid ":ref:`translation-consistency`"
-msgstr ""
+msgstr ":ref:`translation-consistency`"
 
 #: ../../faq.rst:166
 msgid "How to translate multi-platform projects?"
-msgstr ""
+msgstr "¿Cómo traducir proyectos multiplataforma?"
 
 #: ../../faq.rst:168
 msgid ""
 "Weblate supports a wide range of file formats (see :doc:`formats`) and the "
 "easiest approach is to use the native format for each platform."
 msgstr ""
+"Weblate admite una amplia gama de formatos de archivo (vea :doc:`formats`) y "
+"el camino más sencillo consiste en utilizar el formato nativo para cada "
+"plataforma."
 
 #: ../../faq.rst:171
 msgid ""
@@ -26484,7 +26454,7 @@ msgstr ""
 
 #: ../../faq.rst:183
 msgid "How to export the Git repository that Weblate uses?"
-msgstr ""
+msgstr "¿Cómo se exporta el repositorio Git que utiliza Weblate?"
 
 #: ../../faq.rst:185
 msgid ""
@@ -26507,13 +26477,16 @@ msgstr ""
 
 #: ../../faq.rst:195
 msgid "What are the options for pushing changes back upstream?"
-msgstr ""
+msgstr "¿Qué opciones existen para enviar los cambios al proyecto originario?"
 
 #: ../../faq.rst:197
 msgid ""
 "This heavily depends on your setup, Weblate is quite flexible in this area. "
 "Here are examples of some workflows used with Weblate:"
 msgstr ""
+"Esto en gran medida depende de su infraestructura, y Weblate es muy flexible "
+"en esta área. A continuación se proporcionan algunos ejemplos de flujos de "
+"trabajo en los que se integra Weblate:"
 
 #: ../../faq.rst:200
 msgid ""
@@ -26541,45 +26514,54 @@ msgstr ""
 
 #: ../../faq.rst:208
 msgid "Of course you are free to mix all of these as you wish."
-msgstr ""
+msgstr "Por supuesto, puede combinarlos todos como guste."
 
 #: ../../faq.rst:213
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
 msgstr ""
+"¿Cómo hago para limitar el acceso de Weblate a las traducciones solamente y "
+"no exponer el código fuente?"
 
 #: ../../faq.rst:215
 msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
 msgstr ""
+"Es posible utilizar `git submodule`_ para separar las traducciones del "
+"código fuente sin dejar de tenerlas bajo control de versiones."
 
 #: ../../faq.rst:218
 msgid "Create a repository with your translation files."
-msgstr ""
+msgstr "Cree un repositorio que contenga sus archivos de traducción."
 
 #: ../../faq.rst:219
 msgid "Add this as a submodule to your code:"
-msgstr ""
+msgstr "Añádalo como submódulo a su base de código:"
 
 #: ../../faq.rst:225
 msgid ""
 "Link Weblate to this repository, it no longer needs access to the repository "
 "containing your source code."
 msgstr ""
+"Enlace Weblate a este repositorio y ya no necesitará acceder al repositorio "
+"que contiene su código fuente."
 
 #: ../../faq.rst:227
 msgid "You can update the main repository with translations from Weblate by:"
 msgstr ""
+"Puede actualizar el repositorio principal con las traducciones provenientes "
+"de Weblate así:"
 
 #: ../../faq.rst:233
 msgid "Please consult the `git submodule`_ documentation for more details."
 msgstr ""
+"Consulte la documentación de `git submodule`_ para obtener más información."
 
 #: ../../faq.rst:238
 msgid "How can I check whether my Weblate is set up properly?"
-msgstr ""
+msgstr "¿Cómo puedo comprobar que he configurado mi Weblate adecuadamente?"
 
 #: ../../faq.rst:240
 msgid ""
@@ -26649,27 +26631,20 @@ msgstr ""
 
 #: ../../faq.rst:286
 msgid "How can I use existing translations while translating?"
-msgstr ""
+msgstr "¿Cómo puedo utilizar traducciones existentes mientras traduzco?"
 
 #: ../../faq.rst:288
-#, fuzzy
-#| msgid ""
-#| "All translation within projects with shared translation memory turned on "
-#| "are stored in a shared translation memory available to all projects."
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
 msgstr ""
-"Todas las traducciones que se realicen en proyectos con la memoria "
-"compartida activada se almacenan de modo tal que quedarán disponibles para "
-"todos los proyectos."
+"Todas las traducciones que se realicen dentro de Weblate pueden reutilizarse "
+"gracias a su memoria de traducción compartida."
 
 #: ../../faq.rst:289
-#, fuzzy
-#| msgid "Confirm deleting all translation memory entries"
 msgid "You can import existing translation memory files into Weblate."
 msgstr ""
-"Confirmar la eliminación de todos los registros de la memoria de traducción"
+"Es posible importar archivos de memoria de traducción existentes en Weblate."
 
 #: ../../faq.rst:290
 msgid ""
@@ -26708,16 +26683,20 @@ msgid ""
 "want to keep the file formatted your way, please use a pre-commit hook for "
 "that."
 msgstr ""
+"Weblate trata de limitar al mínimo los cambios efectuados en los archivos de "
+"traducción. Sin embargo, esto no es posible en ciertos tipos de archivo y se "
+"producirán cambios de formato. Si quiere mantener el formato de sus archivos "
+"según su predilección, tendrá que servirse de algún actuador preconsigna."
 
 #: ../../faq.rst:317 ../../faq.rst:378
-#, fuzzy
-#| msgid ":ref:`component-filemask`"
 msgid ":ref:`updating-target-files`"
-msgstr ":ref:`component-filemask`"
+msgstr ":ref:`updating-target-files`"
 
 #: ../../faq.rst:321
 msgid "Where do language definitions come from and how can I add my own?"
 msgstr ""
+"¿De dónde vienen las definiciones de los idiomas y cómo puedo agregar las "
+"mías propias?"
 
 #: ../../faq.rst:323
 msgid ""
@@ -29043,6 +29022,8 @@ msgid ""
 "The method for detecting BBcode is currently quite simple so this check "
 "might produce false positives."
 msgstr ""
+"El método de detección de BBcode actualmente es bastante sencillo, por lo "
+"que es posible que esta comprobación emita falsos positivos."
 
 #: ../../user/checks.rst:65
 msgid "Consecutive duplicated words"
@@ -29057,12 +29038,16 @@ msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
 msgstr ""
+"Comprueba que no haya palabras consecutivas duplicadas en una traducción. "
+"Esto a menudo señala un error en la traducción."
 
 #: ../../user/checks.rst:76
 msgid ""
 "This check includes language specific rules to avoid false positives. In "
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
 msgstr ""
+"Esta comprobación incluye algunas reglas lingüísticas para evitar falsos "
+"positivos. Si encuentra uno, háganoslo saber. Vea :ref:`report-issue`."
 
 #: ../../user/checks.rst:83
 msgid "Double space"
@@ -29086,7 +29071,7 @@ msgstr ""
 
 #: ../../user/checks.rst:112
 msgid "Formatted strings"
-msgstr ""
+msgstr "Cadenas formateadas"
 
 #: ../../user/checks.rst:114
 msgid ""
@@ -29094,6 +29079,10 @@ msgid ""
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
 msgstr ""
+"Comprueba que el formato en las cadenas esté reproducido tal cual tanto en "
+"el origen como en la traducción. Omitir el formato en las traducciones por "
+"lo general provoca problemas graves; por esta razón el formato de las "
+"cadenas casi siempre debe coincidir con el origen."
 
 #: ../../user/checks.rst:118
 msgid ""
@@ -29139,7 +29128,7 @@ msgstr ""
 
 #: ../../user/checks.rst:145
 msgid "``Your balance is {{amount}} {{ currency }}``"
-msgstr ""
+msgstr "``Su saldo es de {{amount}} {{ currency }}``"
 
 #: ../../user/checks.rst:147 ../../user/checks.rst:164
 #: ../../user/checks.rst:180 ../../user/checks.rst:195
@@ -29184,7 +29173,7 @@ msgstr ""
 #: ../../user/checks.rst:308 ../../user/checks.rst:326
 #: ../../user/checks.rst:363 ../../user/checks.rst:411
 msgid "``There are %d apples``"
-msgstr ""
+msgstr "``Hay %d manzanas``"
 
 #: ../../user/checks.rst:162 ../../user/checks.rst:178
 #: ../../user/checks.rst:230 ../../user/checks.rst:246
@@ -29219,11 +29208,11 @@ msgstr ""
 
 #: ../../user/checks.rst:178 ../../user/checks.rst:246
 msgid "``There are {0} apples``"
-msgstr ""
+msgstr "``Hay {0} manzanas``"
 
 #: ../../user/checks.rst:180
 msgid "`c-sharp-format`"
-msgstr ""
+msgstr "`c-sharp-format`"
 
 #: ../../user/checks.rst:185
 msgid ""
@@ -29350,10 +29339,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:274
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "Formato C"
+msgstr "Formato Lua"
 
 #: ../../user/checks.rst:276
 #, fuzzy
@@ -31093,16 +31080,12 @@ msgid "Filter by suggestion author."
 msgstr ""
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "``location:TEXT``"
 msgid "``explanation:TEXT``"
-msgstr "``location:TEXTO``"
+msgstr "``explanation:TEXTO``"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Search in location strings"
 msgid "Search in explanations."
-msgstr "Buscar en cadenas de ubicación"
+msgstr "Buscar en las explicaciones."
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
@@ -32345,16 +32328,13 @@ msgid "Pushing changes to GitHub as pull requests"
 msgstr "Enviar cambios a GitHub como solicitudes de incorporación"
 
 #: ../../vcs.rst:278
-#, fuzzy
-#| msgid ""
-#| "If not wanting to push translations to a GitLab repository, they can be "
-#| "sent as either one or many merge requests instead."
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
 "as either one or many pull requests instead."
 msgstr ""
 "Si no se desea enviar las traducciones directamente a un repositorio en "
-"GitLab, estas pueden enviarse como una o múltiples solicitudes de fusión."
+"GitHub, estas pueden enviarse como una o múltiples solicitudes de "
+"incorporación."
 
 #: ../../vcs.rst:281 ../../vcs.rst:319 ../../vcs.rst:357
 msgid "You need to configure API credentials to make this work."
@@ -32622,16 +32602,13 @@ msgid "Arguments"
 msgstr "Argumentos"
 
 #: ../../wlc.rst:112
-#, fuzzy
-#| msgid ""
-#| "The program accepts the following options for a whole instance, which "
-#| "must be entered before any subcommand."
 msgid ""
 "The program accepts the following arguments which define output format or "
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
-"El programa acepta las opciones siguientes que afectan a una instalación "
-"completa, las cuales deben introducirse antes de cualquier suborden."
+"El programa acepta los argumentos siguientes, que definen el formato de la "
+"salida, o bien, cuál instalación de Weblate utilizar. Deben introducirse "
+"antes de cualquier orden."
 
 #: ../../wlc.rst:117
 msgid "Specify the output format."
