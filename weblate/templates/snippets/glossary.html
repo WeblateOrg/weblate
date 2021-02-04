@@ -1,14 +1,16 @@
 {% load i18n %}
 {% load translations %}
+{% load icons %}
 
 {% for item in glossary %}
     <tr class="glossary-embed clickable-row" title="{% trans "Copy word into translation" %}">
     <td>{{ item.source }}</td>
     <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
     <td>{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>
+    <td><a href="{{ item.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
     </tr>
 {% empty %}
     <tr>
-    <td colspan="3"><em>{% trans "No related strings found in the glossary." %}</em></td>
+    <td colspan="4"><em>{% trans "No related strings found in the glossary." %}</em></td>
     </tr>
 {% endfor %}
