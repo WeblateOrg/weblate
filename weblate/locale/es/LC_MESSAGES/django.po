@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-01-31 13:03+0000\n"
-"PO-Revision-Date: 2021-01-23 07:18+0000\n"
+"PO-Revision-Date: 2021-02-04 10:51+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1434,10 +1434,8 @@ msgid "String suffix"
 msgstr "Sufijo de cadena"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "Source and target have to be different translations."
 msgid "Source and target have to be a different languages."
-msgstr "El origen y el destino deben ser traducciones diferentes."
+msgstr "El origen y el destino deben ser de idiomas diferentes."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -2174,12 +2172,10 @@ msgid "Regular expression for e-mail address"
 msgstr "Expresión regular usada para direcciones de correo electrónico"
 
 #: weblate/auth/models.py:617
-#, fuzzy
-#| msgid "Users with matching e-mail address will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
-"Aquellos usuarios que tengan direcciones de correo coincidentes se añadirán "
-"a este grupo."
+"Aquellos usuarios cuyas direcciones de correo coincidan se añadirán a este "
+"grupo."
 
 #: weblate/auth/models.py:621
 msgid "Group to assign"
@@ -2502,10 +2498,9 @@ msgid "This string has been translated in the past"
 msgstr "Esta cadena se ha traducido en el pasado"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Last translation was \"%s\"."
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "La última traducción era «%s»."
+msgstr "La traducción anterior era «%s»."
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
@@ -2653,16 +2648,12 @@ msgid "JavaScript format string does not match source"
 msgstr "La cadena en formato JavaScript no coincide con la de origen"
 
 #: weblate/checks/format.py:437
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "Formato C"
+msgstr "Formato Lua"
 
 #: weblate/checks/format.py:438
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Lua format string does not match source"
-msgstr "La cadena en formato C no coincide con la de origen"
+msgstr "La cadena en formato Lua no coincide con la de origen"
 
 #: weblate/checks/format.py:445
 msgid "Python brace format"
@@ -2893,10 +2884,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "Las traducciones en varios idiomas tienen comprobaciones fallidas"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Se encontraron comprobaciones fallidas"
+msgstr "Las comprobaciones siguientes se han incumplido:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -6071,7 +6060,7 @@ msgstr ""
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
-msgstr "Actuadores de notificaciones"
+msgstr "Actuadores de notificación"
 
 #: weblate/templates/data.html:96
 msgid ""
@@ -8549,22 +8538,15 @@ msgid "Please consider the following:"
 msgstr "Pruebe a hacer lo siguiente:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
-#, fuzzy
-#| msgid ""
-#| "You might be using monolingual translation files as bilingual. In that "
-#| "case please configure the monolingual base language file."
 msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"Posiblemente esté utilizando archivos de traducción monolingües como "
-"bilingües. En ese caso, configure el archivo de idioma de base monolingüe."
+"Posiblemente esté utilizando un archivo de traducción monolingüe como si "
+"fuese bilingüe. En ese caso, establezca la ubicación del archivo de idioma "
+"de base monolingüe."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the component settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
@@ -8573,10 +8555,6 @@ msgstr ""
 "de origen en la configuración del componente."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is not needed, "
-#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
@@ -8585,11 +8563,6 @@ msgstr ""
 "idioma de origen, elimínelo del repositorio."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but "
-#| "should be ignored by Weblate, please adjust the language filter to "
-#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
@@ -10106,20 +10079,14 @@ msgstr ""
 "de origen."
 
 #: weblate/trans/forms.py:1979
-#, fuzzy
-#| msgid "Additional explanation to clarify meaning or usage of the string."
 msgid "Optional context to clarify the source strings."
-msgstr ""
-"Explicación adicional para aclarar el significado o el uso de la cadena."
+msgstr "Contexto opcional para aclarar el sentido de las cadenas de origen."
 
 #: weblate/trans/forms.py:1989
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "You can edit this later, as with any other string in the translation."
 msgstr ""
-"Puede editarlo posteriormente, como con cualquier otra cadena en el idioma "
-"de origen."
+"Puede editarlo posteriormente, como con cualquier otra cadena en la "
+"traducción."
 
 #: weblate/trans/forms.py:2029
 msgid "State to set"
@@ -10911,16 +10878,16 @@ msgstr ""
 "de las traducciones creadas por Weblate."
 
 #: weblate/trans/models/component.py:483
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "Cadenas de destino"
+msgstr "Gestionar cadenas"
 
 #: weblate/trans/models/component.py:486
 msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
 msgstr ""
+"Desactive la adición y eliminación de cadenas en Weblate si estas se extraen "
+"automáticamente del código fuente o si se gestionan de manera externa."
 
 #: weblate/trans/models/component.py:493
 msgid "Merge style"
@@ -11135,15 +11102,12 @@ msgstr ""
 "El código de idioma «%s» es demasiado extenso; revise la máscara de archivos."
 
 #: weblate/trans/models/component.py:2094
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for the single language (%s), please adjust the "
-#| "filemask and use components for translating different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating a different resources."
 msgstr ""
-"Existen más archivos para el único idioma (%s); ajuste la máscara y utilice "
+"Existe más de un archivo para el idioma %s; ajuste la máscara y utilice "
 "componentes para traducir diferentes recursos."
 
 #: weblate/trans/models/component.py:2108
@@ -11994,10 +11958,8 @@ msgid "Translation comment has been resolved."
 msgstr "Se resolvió el comentario de la traducción."
 
 #: weblate/trans/views/edit.py:868
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "Parece que ya existe una traducción con esta clave."
+msgstr "Parece que ya existe esta cadena."
 
 #: weblate/trans/views/edit.py:871
 msgid "New string has been added."
