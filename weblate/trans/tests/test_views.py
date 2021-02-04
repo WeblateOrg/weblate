@@ -520,3 +520,35 @@ class SourceStringsTest(ViewTestCase):
             reverse("matrix-load", kwargs=self.kw_component) + "?offset=0&lang=cs"
         )
         self.assertContains(response, 'lang="cs"')
+
+    def test_toggle_flags(self):
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+
+        source = self.get_unit().source_unit
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": source.pk}), {"addflag": "read-only"}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertIn("read-only", unit.all_flags)
+
+        source = self.get_unit().source_unit
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": source.pk}), {"addflag": "read-only"}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertIn("read-only", unit.all_flags)
+
+        response = self.client.post(
+            reverse("edit_context", kwargs={"pk": source.pk}),
+            {"removeflag": "read-only"},
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertNotIn("read-only", unit.all_flags)

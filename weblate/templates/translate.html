@@ -165,15 +165,24 @@
     {% crispy form %}
   </div>
   <div class="panel-footer">
-    {% if user_can_delete %}
-      <div class="btn-group pull-right flip">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {% trans "Tools" %} <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a href="{% url "delete-unit" unit_id=unit.pk %}" class="link-post">{% trans "Delete string" %}</a></li>
-        </ul>
-      </div>
+    {% if user_can_delete or user_can_edit_source %}
+      {% with flag_actions=unit.get_flag_actions %}
+        <div class="btn-group pull-right flip">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% trans "Tools" %} <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            {% if user_can_delete %}
+              <li><a href="{% url "delete-unit" unit_id=unit.pk %}" class="link-post">{% trans "Delete string" %}</a></li>
+            {% endif %}
+            {% if user_can_edit_source %}
+              {% for action, value, name in flag_actions %}
+                <li><a href="{% url 'edit_context' pk=unit.source_unit.pk %}" class="link-post" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
+              {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+      {% endwith %}
     {% endif %}
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
     {% if locked or not user_can_translate %}

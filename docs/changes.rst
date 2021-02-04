@@ -20,6 +20,7 @@ Not yet released.
 * Added simple interface to browse translation.
 * Glossaries are now stored as regular components.
 * Dropped glossaries API.
+* Added simplified interface to toggle some of the flags.
 
 Weblate 4.4.2
 -------------

@@ -25,6 +25,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
+from weblate.checks.flags import Flags
 from weblate.lang.models import Language
 from weblate.trans.forms import ContextForm, MatrixLanguageForm
 from weblate.trans.models import Unit
@@ -43,12 +44,25 @@ def edit_context(request, pk):
     if not request.user.has_perm("source.edit", unit.translation.component):
         raise PermissionDenied()
 
+    do_add = "addflag" in request.POST
+    if do_add or "removeflag" in request.POST:
+        flag = request.POST.get("addflag", request.POST.get("removeflag"))
+        flags = Flags(unit.extra_flags)
+        if do_add:
+            flags.merge(flag)
+        else:
+            flags.remove(flag)
+        new_flags = flags.format()
+        if new_flags != unit.extra_flags:
+            unit.extra_flags = new_flags
+            unit.save(same_content=True, update_fields=["extra_flags"])
+
     form = ContextForm(request.POST, instance=unit, user=request.user)
 
     if form.is_valid():
         form.save()
     else:
-        messages.error(request, _("Failed to change a context!"))
+        messages.error(request, _("Failed to change additiona string info!"))
         show_form_errors(request, form)
 
     return redirect_next(request.POST.get("next"), unit.get_absolute_url())

@@ -27,7 +27,7 @@ from django.db import models, transaction
 from django.db.models import Count, Max, Q
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
@@ -1316,3 +1316,17 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if self.is_source:
             return self.labels.all()
         return self.source_unit.all_labels
+
+    def get_flag_actions(self):
+        flags = Flags(self.extra_flags)
+        result = []
+        if self.is_source:
+            if "read-only" in flags:
+                result.append(
+                    ("removeflag", "read-only", gettext("Allow translations"))
+                )
+            else:
+                result.append(
+                    ("addflag", "read-only", gettext("Prohibit translations"))
+                )
+        return result
