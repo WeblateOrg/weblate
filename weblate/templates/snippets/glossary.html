@@ -9,6 +9,13 @@
     <td>{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>
     <td><a href="{{ item.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
     </tr>
+    {% if item.source_unit.explanation %}
+      <tr>
+        <td colspan="4">
+          {{ item.source_unit.explanation|markdown }}
+        </td>
+      </tr>
+    {% endif %}
 {% empty %}
     <tr>
     <td colspan="4"><em>{% trans "No related strings found in the glossary." %}</em></td>

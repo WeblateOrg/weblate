@@ -52,6 +52,7 @@ def get_glossary_terms(unit):
             translation__component__source_language=source_language,
             translation__language=language,
         )
+        .select_related("source_unit")
         .order_by(Lower("source"))
     )
 
