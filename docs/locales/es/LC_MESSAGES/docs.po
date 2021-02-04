@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-02-04 10:52+0000\n"
+"PO-Revision-Date: 2021-02-04 14:25+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -226,10 +226,10 @@ msgid "Custom"
 msgstr "Personalizado"
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid "Weblate does not manage users, see :ref:`custom-acl`."
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
-msgstr "Weblate no gestiona los usuarios; vea :ref:`custom-acl`."
+msgstr ""
+"La administración de Django gestiona los usuarios, Weblate no; vea :ref"
+":`custom-acl`."
 
 #: ../../admin/access.rst:108
 msgid ""
@@ -239,16 +239,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:114
-#, fuzzy
-#| msgid ""
-#| "Even with ACL turned on, some summary info will be available about your "
-#| "project:"
 msgid ""
 "Even with access-control lists turned on, some info will be available about "
 "your project:"
 msgstr ""
-"Aunque se haya activado ACL, determinados datos de resumen sobre su proyecto "
-"estarán disponibles:"
+"Aunque se hayan activado listas de control de acceso, determinados datos "
+"sobre su proyecto estarán disponibles:"
 
 #: ../../admin/access.rst:117
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -1111,10 +1107,8 @@ msgstr ""
 
 #: ../../admin/addons.rst:72 ../../admin/addons.rst:85
 #: ../../admin/addons.rst:326 ../../admin/addons.rst:416
-#, fuzzy
-#| msgid ":ref:`acl`"
 msgid ":ref:`faq-cleanup`"
-msgstr ":ref:`acl`"
+msgstr ":ref:`faq-cleanup`"
 
 #: ../../admin/addons.rst:77
 msgid "Cleanup translation files"
@@ -1133,7 +1127,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:90
 msgid "Language consistency"
-msgstr "Consistencia del idioma"
+msgstr "Coherencia entre idiomas"
 
 #: ../../admin/addons.rst:92
 msgid ""
@@ -1409,6 +1403,9 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"Actualiza la variable ALL_LINGUAS del archivo :file:`configure`, "
+":file:`configure.in` o cualquier archivo :file:`configure.ac` siempre que se "
+"añade una traducción nueva."
 
 #: ../../admin/addons.rst:280
 msgid "Customize gettext output"
@@ -1423,11 +1420,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:284
 msgid "It offers the following options:"
-msgstr ""
+msgstr "Cuenta con las opciones siguientes:"
 
 #: ../../admin/addons.rst:286
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr ""
+msgstr "Ajustar renglones a los 77 caracteres y en saltos de renglón"
 
 #: ../../admin/addons.rst:287
 msgid "Only wrap lines at newlines"
@@ -1442,6 +1439,9 @@ msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, it wraps only at newlines."
 msgstr ""
+"De manera predeterminada, gettext ajusta los renglones a los 77 caracteres y "
+"al utilizar saltos de renglón. Con el parámetro ``--no-wrap`` , ajusta solo "
+"al encontrarse saltos."
 
 #: ../../admin/addons.rst:299
 msgid "Update LINGUAS file"
@@ -1464,6 +1464,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"La ubicación del archivo MO generado puede personalizarse y el campo "
+"correspondiente utiliza :ref:`markup`."
 
 #: ../../admin/addons.rst:315
 msgid "Update PO files to match POT (msgmerge)"
@@ -1475,6 +1477,9 @@ msgid ""
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
+"Actualiza todos los archivos PO (tal como se configuraron mediante :ref"
+":`component-filemask`) a juego con el archivo POT (según esté configurado "
+"por :ref:`component-new_base`) utilizando :program:`msgmerge`."
 
 #: ../../admin/addons.rst:320
 #, fuzzy
@@ -1532,6 +1537,8 @@ msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
+"Los mensajes de consigna originales pueden alterarse opcionalmente por un "
+"mensaje personalizado."
 
 #: ../../admin/addons.rst:354
 msgid ""
@@ -17125,10 +17132,8 @@ msgid "Tasks"
 msgstr "Tareas"
 
 #: ../../api.rst:2434
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Listing of the tasks is currently not available."
-msgstr "El servicio no está disponible por ahora."
+msgstr "La enumeración de las tareas no está disponible actualmente."
 
 #: ../../api.rst:2438
 msgid "Returns information about a task"
@@ -17139,10 +17144,8 @@ msgid "Task UUID"
 msgstr "UUID de la tarea"
 
 #: ../../api.rst:2442
-#, fuzzy
-#| msgid "whether the unit has comments"
 msgid "Whether the task has completed"
-msgstr "indica si la unidad tiene comentarios"
+msgstr "Indica si la tarea se ha completado"
 
 #: ../../api.rst:2443
 msgid "Task progress in percent"
@@ -17472,10 +17475,12 @@ msgid ""
 "Dropped mailing list field on project in favor of generic instructions for "
 "translators."
 msgstr ""
+"Se desechó el campo Lista de correo en favor de instrucciones para "
+"traductores genéricas."
 
 #: ../../changes.rst:10
 msgid "Added pseudolocale generation addon."
-msgstr ""
+msgstr "Se sumó un complemento de generación de pseudorregiones."
 
 #: ../../changes.rst:11
 msgid "Added support for Term Base eXchange files."
@@ -17576,6 +17581,8 @@ msgstr "Se mejoró el rendimiento al mostrar traducciones fantasma."
 #: ../../changes.rst:41
 msgid "Reimplemented translation editor to use native browser textarea."
 msgstr ""
+"Se reimplementó el editor de traducciones para que utilice el elemento "
+"«textarea» nativo del navegador."
 
 #: ../../changes.rst:42
 msgid "Fixed cleanup addon breaking adding new strings."
@@ -17583,7 +17590,7 @@ msgstr ""
 
 #: ../../changes.rst:43
 msgid "Added API for addons."
-msgstr ""
+msgstr "Se añadió una API para complementos."
 
 #: ../../changes.rst:46
 msgid "Weblate 4.4"
@@ -26737,6 +26744,8 @@ msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
 msgstr ""
+"¿Por qué Weblate sigue mostrando cadenas de traducción viejas luego de que "
+"he actualizado la plantilla?"
 
 #: ../../faq.rst:354
 msgid ""
@@ -26768,25 +26777,28 @@ msgstr ""
 
 #: ../../faq.rst:382
 msgid "Troubleshooting"
-msgstr ""
+msgstr "Solución de problemas"
 
 #: ../../faq.rst:385
 msgid "Requests sometimes fail with \"too many open files\" error"
 msgstr ""
+"Las peticiones a veces fallan con el error «demasiados archivos abiertos»"
 
 #: ../../faq.rst:387
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
+"Esto sucede en ocasiones cuando su repositorio Git ha crecido en demasía y "
+"tiene muchos. Comprimir los repositorios Git mejorará la situación."
 
 #: ../../faq.rst:390
 msgid "The easiest way to do this is to run:"
-msgstr ""
+msgstr "La manera más sencilla de hacerlo es ejecutar lo siguiente:"
 
 #: ../../faq.rst:409
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
-msgstr ""
+msgstr "Cuando entro en el sitio recibo un error «Petición incorrecta (400)»"
 
 #: ../../faq.rst:411
 msgid ""
@@ -26794,10 +26806,13 @@ msgid ""
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
+"Previsiblemente, esto se debe a una configuración inadecuada de "
+":setting:`ALLOWED_HOSTS`. Aquí deben figurar todos los nombres de anfitrión "
+"a los que se desea acceder en su Weblate. Por ejemplo:"
 
 #: ../../faq.rst:420
 msgid ":ref:`production-hosts`"
-msgstr ""
+msgstr ":ref:`production-hosts`"
 
 #: ../../faq.rst:425
 msgid "What does mean \"There are more files for the single language (en)\"?"
@@ -27019,11 +27034,11 @@ msgstr ""
 
 #: ../../formats.rst:56
 msgid "Capabilities of all supported formats:"
-msgstr ""
+msgstr "Capacidades de todos los formatos admitidos:"
 
 #: ../../formats.rst:59
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #: ../../formats.rst:59
 msgid "Linguality [#m]_"
@@ -27031,19 +27046,19 @@ msgstr ""
 
 #: ../../formats.rst:59
 msgid "Plurals [#p]_"
-msgstr ""
+msgstr "Plurales [#p]_"
 
 #: ../../formats.rst:59
 msgid "Comments [#n]_"
-msgstr ""
+msgstr "Comentarios [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
-msgstr ""
+msgstr "Contexto [#c]_"
 
 #: ../../formats.rst:59
 msgid "Location [#l]_"
-msgstr ""
+msgstr "Ubicación [#l]_"
 
 #: ../../formats.rst:59
 msgid "Flags [#f]_"
@@ -27051,7 +27066,7 @@ msgstr ""
 
 #: ../../formats.rst:59
 msgid "Additional states [#a]_"
-msgstr ""
+msgstr "Estados adicionales [#a]_"
 
 #: ../../formats.rst:61 ../../formats.rst:77 ../../formats.rst:121
 msgid "bilingual"
@@ -27221,16 +27236,20 @@ msgstr ":ref:`tbx`"
 
 #: ../../formats.rst:124
 msgid "See :ref:`bimono`"
-msgstr ""
+msgstr "Vea :ref:`bimono`"
 
 #: ../../formats.rst:125
 msgid "Plurals are necessary to properly localize strings with variable count."
 msgstr ""
+"Los plurales son necesarios para regionalizar adecuadamente las cadenas que "
+"tienen recuento variable."
 
 #: ../../formats.rst:126
 msgid ""
 "Comments can be used to pass additional info about the string to translate."
 msgstr ""
+"Los comentarios pueden emplearse para compartir información adicional sobre "
+"la cadena que se va a traducir."
 
 #: ../../formats.rst:127
 msgid ""
@@ -27238,12 +27257,17 @@ msgid ""
 "(for example `Sun` can be used as an abbreviated name of the day \"Sunday\" "
 "or as the name of our closest star)."
 msgstr ""
+"El contexto se utiliza para discernir cadenas idénticas que se utilizan en "
+"ámbitos distintos (por ejemplo, `Sun` puede emplearse como nombre abreviado "
+"del día «Sunday» o como el nombre de la estrella más cercana a nosotros)."
 
 #: ../../formats.rst:128
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
 msgstr ""
+"La ubicación en código fuente de una cadena puede ayudar a los traductores "
+"avezados a entender de qué manera una determinada cadena se utilizará."
 
 #: ../../formats.rst:129
 msgid ""
@@ -27282,13 +27306,11 @@ msgstr ""
 
 #: ../../formats.rst:139
 msgid "GNU gettext"
-msgstr ""
+msgstr "gettext de GNU"
 
 #: ../../formats.rst:145
-#, fuzzy
-#| msgid "file format of translations"
 msgid "Most widely used format for translating libre software."
-msgstr "Formato de archivo «Inno Setup INI» para las traducciones."
+msgstr "El formato más ampliamente utilizado para traducir sóftwer libre."
 
 #: ../../formats.rst:147
 msgid ""
@@ -27498,10 +27520,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:342
-#, fuzzy
-#| msgid "Strings"
 msgid "String keys"
-msgstr "Cadenas"
+msgstr "Claves de cadena"
 
 #: ../../formats.rst:344
 msgid ""
@@ -29144,7 +29164,7 @@ msgstr ""
 
 #: ../../user/checks.rst:147
 msgid "`angularjs-format`"
-msgstr ""
+msgstr "`angularjs-format`"
 
 #: ../../user/checks.rst:152
 msgid ""
@@ -29185,11 +29205,11 @@ msgstr ""
 #: ../../user/checks.rst:162 ../../user/checks.rst:230
 #: ../../user/checks.rst:310 ../../user/checks.rst:328
 msgid "``Your balance is %1$d %2$s``"
-msgstr ""
+msgstr "``Su saldo es de %1$d %2$s``"
 
 #: ../../user/checks.rst:164
 msgid "`c-format`"
-msgstr ""
+msgstr "`c-format`"
 
 #: ../../user/checks.rst:169
 msgid ""
