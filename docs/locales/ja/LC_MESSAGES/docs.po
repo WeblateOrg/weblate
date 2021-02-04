@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-31 14:04+0100\n"
-"PO-Revision-Date: 2021-02-04 14:25+0000\n"
-"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
+"PO-Revision-Date: 2021-02-04 18:53+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -561,8 +561,8 @@ msgid ""
 "changes are not lost. Please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"これらのロールとグループは、インストール時に作成されます。組み込みのロールは、アップグレード時にはデータベースを移行して常に最新の状態に保たれます。独自の"
-"変更は失われません。独自のアクセス権のセットを設定したい場合は、新しいロールを設定してください。"
+"これらのロールとグループは、インストール時に作成されます。標準搭載されたロールは、アップグレード時にはデータベースを移行して常に最新の状態に保たれます。変"
+"更したロールの設定は消えません。独自のアクセス権のセットを設定したい場合は、新しいロールを設定してください。"
 
 #: ../../admin/access.rst:329
 msgid "List of privileges"
@@ -1027,7 +1027,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:16
 msgid "Built-in addons"
-msgstr "内蔵アドオン"
+msgstr "標準搭載のアドオン"
 
 #: ../../admin/addons.rst:21 ../../admin/continuous.rst:420
 #: ../../user/translating.rst:343
@@ -1935,9 +1935,8 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
-"これらを簡単に翻訳するには、メッセージ ID と各ソース言語（通常は英語）との"
-"マッピングを含めたテンプレート ファイルを用意します。（個々のパラメータについ"
-"ては、:ref:`component` を参照）:"
+"これらを簡単に翻訳するには、メッセージ ID と各原文の言語（通常は英語）とのマッピングを含めたテンプレート "
+"ファイルを用意します。（個々のパラメータについては、:ref:`component` を確認）:"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -2069,8 +2068,8 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"Django の組み込みソリューションは、認証のためのさまざまなソーシャル オプションを含む認証に使用されます。これを使用すると、他の Django "
-"ベースのプロジェクト（参照: :ref:`pootle-migration`）のユーザ データベースをインポートできます。"
+"Django に標準搭載されているソリューションは、認証のためのさまざまなソーシャル オプションを含む認証に使用されます。これを使用すると、他の "
+"Django ベースのプロジェクト（参照: :ref:`pootle-migration`）のユーザ データベースをインポートできます。"
 
 #: ../../admin/auth.rst:25
 msgid ""
@@ -2450,8 +2449,9 @@ msgid ""
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
 "Python LDAP 3.1.0 モジュールは一部に互換性がなく、そのバージョンは使用できないことがあります。エラー `AttributeError: "
-"'module' object has no attribute '_trace_level' `_が発生した場合は、python-ldap を "
-"3.0.0 にダウングレードしてみてください。"
+"'module' object has no attribute '_trace_level' <https://github.com/"
+"python-ldap/python-ldap/issues/226>`_ が発生した場合は、python-ldap を 3.0.0 "
+"にダウングレードしてみてください。"
 
 #: ../../admin/auth.rst:434
 msgid ""
@@ -2591,33 +2591,33 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface on the :guilabel:`Backups` tab."
 msgstr ""
-"Weblate は `BorgBackup`_ を使用したサービスのバックアップの作成に組み込みで対応しています。Borg "
+"Weblate は `BorgBackup`_ を使用して、サービスでバックアップの作成をする機能を標準搭載しています。Borg "
 "はスペース効率の高い暗号化されたバックアップを作成し、クラウドに安全に保存します。バックアップは、管理画面の :guilabel:`バックアップ` "
-"タブから制御できます。"
+"タブから管理します。"
 
 #: ../../admin/backup.rst:18
 msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
-msgstr "PostgreSQL と MySQL/MariaDB の両方のデータベースが自動バックアップに含まれています。"
+msgstr "PostgreSQL と MySQL/MariaDB の両方のデータベースには、自動バックアップが含まれています。"
 
 #: ../../admin/backup.rst:20
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
-msgstr "Borg を使用したバックアップは増分バックアップです。 Webrate は以下のバックアップを保持します。"
+msgstr "Borg を使用したバックアップは増分バックアップです。 次は、Webrate に設定された常に実施するバックアップ:"
 
 #: ../../admin/backup.rst:22
 msgid "14 daily backups"
-msgstr "14 日間の日次バックアップ"
+msgstr "日次バックアップ、14 日間"
 
 #: ../../admin/backup.rst:23
 msgid "8 weekly backups"
-msgstr "8 週間の週次バックアップ"
+msgstr "週次バックアップ、8 週間"
 
 #: ../../admin/backup.rst:24
 msgid "6 monthly backups"
-msgstr "6 か月間の月次バックアップ"
+msgstr "月次バックアップ、6 か月間"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
@@ -3301,9 +3301,7 @@ msgstr "``strict-same``"
 msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
-msgstr ""
-"「未翻訳の翻訳」には、内蔵したブラックリストの単語を使用しないようにする。参"
-"考 :ref:`check-same`。"
+msgstr "「未翻訳の翻訳」には、標準搭載されたブラックリストの単語を使用しないようにする。参考 :ref:`check-same`。"
 
 #: ../../admin/checks.rst:91
 msgid "``ignore-bbcode``"
@@ -3883,9 +3881,9 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
-"幅広い品質検査を内蔵していますが（参照: :ref:`checks`）、検査したい項目をすべ"
-"て網羅しているとは限りません。実行する検査の内容は、:setting:`CHECK_LIST` で"
-"設定できます。また、独自の検査も追加できます。"
+"幅広い品質検査を標準搭載していますが（参照: "
+":ref:`checks`）、検査したい項目をすべて網羅しているとは限りません。実行する検査の内容は、:setting:`CHECK_LIST` "
+"で設定できます。また、独自の検査も追加できます。"
 
 #: ../../admin/checks.rst:280
 msgid "Subclass the `weblate.checks.Check`"
@@ -4455,10 +4453,9 @@ msgid ""
 "configuration` so that default values are used. New checks then carried out "
 "for each new Weblate version."
 msgstr ""
-"デフォルトでは、内蔵したすべての :ref:`checks` が有効なっているので、ここで設"
-"定を変更できます。デフォルトでは、:ref:`sample-configuration` でコメント化さ"
-"れているため、デフォルト値が使用されます。その後は、Weblate の新しいバージョ"
-"ンのリリースのたびに新しい検査が行われます。"
+"デフォルトでは、標準搭載したすべての :ref:`checks` が有効なっているので、ここで設定を変更できます。デフォルトでは、:ref"
+":`sample-configuration` でコメント化されているため、デフォルト値が使用されます。その後は、Weblate "
+"の新しいバージョンのリリースのたびに新しい検査が行われます。"
 
 #: ../../admin/config.rst:277
 msgid "You can turn off all checks:"
@@ -5684,10 +5681,10 @@ msgid ""
 "azure.microsoft.com/en-us/services/cognitive-services/translator/>`_, "
 "`Microsoft Azure Portal <https://portal.azure.com/>`_"
 msgstr ""
-":ref:`ms-cognitive-translate`、:ref:`machine-translation-setup`、:ref:"
-"`machine-translation`、 `Cognitive Services - Text Translation API <https://"
-"azure.microsoft.com/en-us/services/cognitive-services/translator/>`_ 、"
-"`Microsoft Azure Portal <https://portal.azure.com/>`_"
+":ref:`ms-cognitive-translate`、:ref:`machine-translation-setup`、:ref:`machine-"
+"translation`、`Cognitive Services - Text Translation API <https://azure."
+"microsoft.com/en-us/services/cognitive-services/translator/>`_ 、`Microsoft "
+"Azure Portal <https://portal.azure.com/>`_"
 
 #: ../../admin/config.rst:1278
 msgid "MT_MICROSOFT_REGION"
@@ -6180,9 +6177,8 @@ msgid ""
 "the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
-"この設定はメールアドレスによる組み込み認証や Python Social Auth による認証に"
-"影響します（:setting:`REGISTRATION_ALLOW_BACKENDS`で特定のバックエンドをホワ"
-"イトリストに登録できます）。"
+"この設定はメールアドレスによる標準搭載の認証や Python Social Auth "
+"による認証に影響します（:setting:`REGISTRATION_ALLOW_BACKENDS`で特定のバックエンドをホワイトリストに登録できます）。"
 
 #: ../../admin/config.rst:1667
 msgid ""
@@ -6443,9 +6439,7 @@ msgstr "接頭辞は ``/`` で開始してください。"
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
-msgstr ""
-"この設定は Django の組み込みサーバーでは動作しません。:file:`urls.py` を設定"
-"して接頭辞を含めることが必要です。"
+msgstr "この設定は Django に標準搭載されたサーバーでは動作しません。:file:`urls.py` を設定して接頭辞を含めることが必要です。"
 
 #: ../../admin/config.rst:1890
 msgid "VCS_BACKENDS"
@@ -6510,10 +6504,8 @@ msgid ""
 "when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
-"使用可能なアドオンの一覧。これらを使用するには、特定の翻訳コンポーネントに対"
-"して有効にすることが必要です。デフォルトでは、この組み込みアドオンはすべて含"
-"まれますが、一覧を増やす場合は、デフォルトのアドオンを有効することが必要で"
-"す。"
+"使用可能なアドオンの一覧。これらを使用するには、特定の翻訳コンポーネントに対して有効にすることが必要です。デフォルトでは、標準搭載のアドオンはすべて含まれ"
+"ますが、一覧を増やす場合は、デフォルトのアドオンを有効することが必要です。"
 
 #: ../../admin/config.rst:1979
 msgid ""
@@ -9152,7 +9144,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1221
 msgid "For testing purposes, you can use the built-in web server in Django:"
-msgstr "テスト目的での、Django の組み込み Web サーバーの使用方法:"
+msgstr "テスト目的での、Django に標準搭載された Web サーバーの使用方法:"
 
 #: ../../admin/install.rst:1229
 msgid ""
@@ -9171,10 +9163,9 @@ msgid ""
 "see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and :"
 "ref:`static-files`."
 msgstr ""
-"Django 組み込みサーバーは開発専用であるため、:setting:`DEBUG` が有効な場合に"
-"のみ静的ファイルが提供されます。本番環境で使用するには、:ref:`uwsgi`、:ref:"
-"`apache`、:ref:`apache-gunicorn`、および :ref:`static-files` の設定を確認して"
-"ください。"
+"Django に標準搭載されたサーバーは開発専用であるため、:setting:`DEBUG` "
+"が有効な場合にのみ静的ファイルが提供されます。本番環境で使用するには、:ref:`uwsgi`、:ref:`apache`、:ref:`apache-"
+"gunicorn`、および :ref:`static-files` の設定を確認してください。"
 
 #: ../../admin/install.rst:1243
 msgid "Serving static files"
@@ -9477,9 +9468,8 @@ msgid ""
 "define additional tasks in :file:`settings.py`, for example see :ref:`lazy-"
 "commit`."
 msgstr ""
-"Weblate には、スケジュール済みのタスク用の設定が組み込まれています。または、:"
-"file:`settings.py` で追加のタスクを設定できます。:ref:`lazy-commit` の例を確"
-"認してください。"
+"Weblate には、スケジュール済みのタスク用の設定が標準搭載されています。または、:file:`settings.py` "
+"で追加のタスクを設定できます。:ref:`lazy-commit` の例を確認してください。"
 
 #: ../../admin/install.rst:1454
 msgid ""
@@ -9561,9 +9551,8 @@ msgid ""
 "Weblate has built-in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
-"Weblate には`Sentry <https://sentry.io/>`_ への対応が組み込まれています。使用"
-"するには、 :file:`settings.py` に :setting:`SENTRY_DSN` だけを設定すれば十分"
-"です。"
+"Weblate には`Sentry <https://sentry.io/>`_ への対応が標準搭載されています。使用するには、 "
+":file:`settings.py` に :setting:`SENTRY_DSN` だけを設定すれば十分です。"
 
 #: ../../admin/install.rst:1508
 msgid "Rollbar"
@@ -9575,9 +9564,8 @@ msgid ""
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
-"Weblate には `Rollbar <https://rollbar.com/>`_への対応が組み込み済みです。使"
-"用方法は、 `Rollbar notifier for Python <https://docs.rollbar.com/docs/"
-"python/>`_の指示に従うだけです。"
+"Weblate には `Rollbar <https://rollbar.com/>`_ への対応が標準搭載されています。使用方法は、 `Rollbar "
+"notifier for Python <https://docs.rollbar.com/docs/python/>`_ の指示に従うだけです。"
 
 #: ../../admin/install.rst:1513
 msgid "In short, you need to adjust :file:`settings.py`:"
@@ -11425,7 +11413,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:63
 msgid "Built-in language definitions"
-msgstr "組み込みの言語定義"
+msgstr "標準搭載の言語定義"
 
 #: ../../admin/languages.rst:65
 msgid ""
@@ -11447,9 +11435,8 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :djadmin:"
 "`setuplang`."
 msgstr ""
-"この機能は :setting:`UPDATE_LANGUAGES` を使用して無効にできます。:djadmin:"
-"`setuplang` を使用して、Weblate の組み込みデータと一致するようにデータベース"
-"を更新することもできます。"
+"この機能は :setting:`UPDATE_LANGUAGES` を使用して無効にできます。:djadmin:`setuplang` を使用して、"
+"Weblate に標準搭載されたデータと一致するようにデータベースを更新することもできます。"
 
 #: ../../admin/languages.rst:78
 msgid "Ambiguous language codes and macrolanguages"
@@ -11472,9 +11459,8 @@ msgid ""
 "scope#Macrolanguages>`_, `List of macrolanguages <https://iso639-3.sil.org/"
 "code_tables/macrolanguage_mappings/data>`_"
 msgstr ""
-"`マクロ言語の定義 <https://iso639-3.sil.org/about/scope#Macrolanguages>`_、`"
-"マクロ言語一覧 <https://iso639-3.sil.org/code_tables/macrolanguage_mappings/"
-"data>`_"
+"`マクロ言語の定義 <https://iso639-3.sil.org/about/scope#Macrolanguages>`_ 、`マクロ言語一覧 "
+"<https://iso639-3.sil.org/code_tables/macrolanguage_mappings/data>`_"
 
 #: ../../admin/languages.rst:94
 msgid "Each language consists of following fields:"
@@ -11494,12 +11480,11 @@ msgid ""
 "letter code. It can also support extended codes as defined by `BCP 47 "
 "<https://tools.ietf.org/html/bcp47>`_."
 msgstr ""
-"言語を識別するコード。Weblate は、`ISO 639-1 <https://en.wikipedia.org/wiki/"
-"ISO_639-1>`_で定義された 2 つの文字コードを優先しますが、2 つの文字コードを持"
-"たない言語には `ISO 639-2 <https://en.wikipedia.org/wiki/ISO_639-2>`_または "
-"`ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_コードを使用します。"
-"`BCP 47 <https://tools.ietf.org/html/bcp47>`_で定義された拡張コードにも対応で"
-"きます。"
+"言語を識別するコード。Weblate は、`ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`_ "
+"で定義された 2 つの文字コードを優先しますが、2 つの文字コードを持たない言語には `ISO 639-2 <https://en.wikipedia."
+"org/wiki/ISO_639-2>`_ または `ISO 639-3 <https://en.wikipedia.org/wiki/"
+"ISO_639-3>`_ コードを使用します。`BCP 47 <https://tools.ietf.org/html/bcp47>`_ "
+"で定義された拡張コードにも対応できます。"
 
 #: ../../admin/languages.rst:110
 msgid ":ref:`language-parsing-codes`, :ref:`new-translations`"
@@ -11558,7 +11543,7 @@ msgid ""
 "Rules by the Unicode Consortium`_"
 msgstr ""
 ":ref:`plurals`、`GNU gettext utilities: Plural forms <https://www.gnu.org/"
-"software/gettext/manual/html_node/Plural-forms.html>`_、`Language Plural "
+"software/gettext/manual/html_node/Plural-forms.html>`_ 、`Language Plural "
 "Rules by the Unicode Consortium`_"
 
 #: ../../admin/languages.rst:153 ../../devel/translations.rst:7
@@ -11796,7 +11781,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
-msgstr ""
+msgstr "原文の言語は :ref:`project` で設定します。"
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
@@ -15263,8 +15248,8 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
-"購入したサポート パッケージはオプションとして Weblate `subscription management <https://weblate."
-"org/user/>`_画面からリンクを見つけて統合できます。インストールに関する基本インスタンスの詳細も、この方法で Weblate に報告されます。"
+"購入したサポート パッケージはオプションとして Weblate `サブスクリプションの管理 <https://weblate.org/user/>`_ "
+"画面からリンクを見つけて統合できます。インストールに関する基本インスタンスの詳細も、この方法で Weblate に報告されます。"
 
 #: ../../admin/support.rst:25
 msgid "Data submitted to the Weblate"
@@ -16893,7 +16878,7 @@ msgstr ":ref:`component-language_code_style`"
 #: ../../api.rst:1099 ../../api.rst:1591
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
-msgstr ""
+msgstr "原文の言語のオブジェクト。参照: :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1101 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
@@ -17014,7 +16999,7 @@ msgstr ""
 
 #: ../../api.rst:1178
 msgid "Project source language code (optional)"
-msgstr ""
+msgstr "プロジェクトの原文の言語コード（オプション）"
 
 #: ../../api.rst:1180 ../../api.rst:1264
 msgid "name of component"
@@ -18597,7 +18582,7 @@ msgstr ""
 
 #: ../../changes.rst:112
 msgid "Define source language for a glossary."
-msgstr ""
+msgstr "用語集の原文の言語の設定。"
 
 #: ../../changes.rst:113
 msgid "Rewritten support for GitHub and GitLab pull requests."
@@ -18621,7 +18606,7 @@ msgstr ""
 
 #: ../../changes.rst:118
 msgid "Moved source language attribute from project to a component."
-msgstr ""
+msgstr "原文の言語の属性を、プロジェクトからコンポーネントに移動。"
 
 #: ../../changes.rst:119
 msgid "Add Vue I18n formatting check."
@@ -18957,7 +18942,7 @@ msgstr ""
 
 #: ../../changes.rst:219
 msgid "Include source language in project creation form."
-msgstr ""
+msgstr "プロジェクト作成フォームに原文の言語を含める。"
 
 #: ../../changes.rst:220
 msgid "Include changes count in credits."
@@ -19747,7 +19732,7 @@ msgstr ""
 
 #: ../../changes.rst:467
 msgid "Add copy to clipboard for secondary languages."
-msgstr ""
+msgstr "参考言語のコピーをクリップボードに追加する。"
 
 #: ../../changes.rst:468
 msgid "Improved support for Mercurial."
@@ -19763,7 +19748,7 @@ msgstr ""
 
 #: ../../changes.rst:471
 msgid "Show source language for all translations."
-msgstr ""
+msgstr "すべての翻訳の原文の言語を表示。"
 
 #: ../../changes.rst:472
 msgid "Show context for nearby strings."
@@ -21328,7 +21313,7 @@ msgstr ""
 
 #: ../../changes.rst:970
 msgid "Added direct link to edit secondary language translation."
-msgstr ""
+msgstr "参考言語の翻訳を編集するための直接リンクの追加。"
 
 #: ../../changes.rst:971
 msgid "Added Perl format quality check."
@@ -21759,7 +21744,7 @@ msgstr ""
 
 #: ../../changes.rst:1113
 msgid "Highlight secondary language if not showing source."
-msgstr ""
+msgstr "原文を表示しない場合は、参考言語を強調表示する。"
 
 #: ../../changes.rst:1114
 msgid "Record suggestion deletion in history."
@@ -22011,7 +21996,7 @@ msgstr "サイト全体で検査で不合格となったものの検索を修正
 
 #: ../../changes.rst:1192
 msgid "Added option to specify source language."
-msgstr ""
+msgstr "原文の言語を指定するオプションの追加。"
 
 #: ../../changes.rst:1194
 msgid "Extended list of options for import_project."
@@ -22294,11 +22279,11 @@ msgstr ""
 
 #: ../../changes.rst:1272
 msgid "Allow to show secondary language in Zen mode."
-msgstr ""
+msgstr "Zen モードで参考言語の表示。"
 
 #: ../../changes.rst:1273
 msgid "Support for hiding source string in favor of secondary language."
-msgstr ""
+msgstr "参考言語での原文の言語の非表示に対応。"
 
 #: ../../changes.rst:1276
 msgid "Weblate 2.2"
@@ -23364,7 +23349,7 @@ msgstr ""
 
 #: ../../changes.rst:1634
 msgid "Displays secondary languages while translating."
-msgstr ""
+msgstr "翻訳中に参考言語の表示。"
 
 #: ../../changes.rst:1635
 msgid "Improved error page to give list of existing projects."
@@ -23676,9 +23661,8 @@ msgid ""
 "collect info on any such issue and submit it to the `issue tracker <https://"
 "github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
-"バグは、アプリケーションのクラッシュまたは不正行為として現れることがありま"
-"す。このような問題に関する情報を収集し、`課題解決ツール <https://github.com/"
-"WeblateOrg/weblate/issues>`_で報告してください。"
+"バグは、アプリケーションのクラッシュまたは不正行為として現れることがあります。このような問題に関する情報を収集し、`課題解決ツール "
+"<https://github.com/WeblateOrg/weblate/issues>`_ で報告してください。"
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -25692,11 +25676,9 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an addon configuration."
 msgstr ""
-"（例: HTML ファイルを含むファイル）で始まる既存のリポジトリがある場合、リポジ"
-"トリ内にソース言語（参照: :ref:`component-source_language` ）用の空の JSON "
-"ファイルを作成します。内容は空のオブジェクトを示す ``{}`` であるべきです。そ"
-"れができたら、リポジトリを Weblate にインポートして、アドオン設定から開始でき"
-"ます。"
+"（例: HTML ファイルを含むファイル）で始まる既存のリポジトリがある場合、リポジトリ内に原文の言語（参照: :ref:`component-"
+"source_language` ）用の空の JSON ファイルを作成します。内容は空のオブジェクトを示す ``{}`` であるべきです。それができたら、"
+"リポジトリを Weblate にインポートして、アドオン設定から開始できます。"
 
 #: ../../devel/html.rst:34
 msgid ""
@@ -27401,8 +27383,7 @@ msgstr ""
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
-msgstr ""
-"翻訳元言語の翻訳ファイルが不必要な場合は、リポジトリから削除してください。"
+msgstr "原文の言語の翻訳ファイルが不必要な場合は、リポジトリから削除してください。"
 
 #: ../../faq.rst:433
 msgid ""
@@ -27410,8 +27391,8 @@ msgid ""
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
-"翻訳元言語用の翻訳ファイルが必要だが、Weblate で無効にする場合は、:ref:"
-"`component-language_regex` で除外を設定してしてください。"
+"原文の言語の翻訳ファイルが必要だが、Weblate で無効にする場合は、:ref:`component-language_regex` "
+"で除外を設定してしてください。"
 
 #: ../../faq.rst:437
 msgid ""
@@ -28749,11 +28730,11 @@ msgstr ""
 
 #: ../../formats.rst:1010
 msgid "``Resources/Language.*.resx``"
-msgstr ""
+msgstr "``Resources/Language.*.resx``"
 
 #: ../../formats.rst:1012
 msgid "``Resources/Language.resx``"
-msgstr ""
+msgstr "``Resources/Language.resx``"
 
 #: ../../formats.rst:1016
 msgid "`.NET resource file`"
@@ -29143,8 +29124,8 @@ msgid ""
 "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
 "`tt:formats/tbx`, :ref:`glossary`"
 msgstr ""
-"`TBX Wikipedia 参照<https://en.wikipedia.org/wiki/TermBase_eXchange>`_、:doc:"
-"`tt:formats/tbx`、:ref:`glossary`"
+"`TBX Wikipedia 参照<https://en.wikipedia.org/wiki/TermBase_eXchange>`_ "
+"、:doc:`tt:formats/tbx`、:ref:`glossary`"
 
 #: ../../formats.rst:1404
 msgid "Others"
@@ -30254,8 +30235,8 @@ msgid ""
 "i18n/guide/messages.html#linked-locale-messages>`_"
 msgstr ""
 "`Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting."
-"html>`_ 、 `Vue I18n Linked locale messages <https://kazupon.github.io/vue-"
-"i18n/guide/messages.html#linked-locale-messages>`_"
+"html>`_ 、`Vue I18n Linked locale messages <https://kazupon.github.io/"
+"vue-i18n/guide/messages.html#linked-locale-messages>`_"
 
 #: ../../user/checks.rst:449
 msgid "Has been translated"
@@ -30289,7 +30270,7 @@ msgstr ""
 msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
-msgstr "Weblateは、同一の文字列についてプロジェクト内のすべての翻訳を検査し、一貫性のある翻訳を維持します。"
+msgstr "Weblate は、同一の文字列の翻訳が、一貫性を維持できるように、プロジェクト内のすべての翻訳を検査します。"
 
 #: ../../user/checks.rst:467
 msgid ""
@@ -30880,11 +30861,9 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
-"この検査のデフォルトの動作では、内蔵したブラックリストから単語を検査対象から"
-"除外します。これは頻繁に翻訳されない単語です。これは、複数の言語で同じ 1 つの"
-"単語だけで構成される短い文字列での誤検出を避けるために便利です。このブラック"
-"リストを無効にするには、文字列またはコンポーネントに ``strict-same`` フラグを"
-"追加します。"
+"この検査のデフォルトの動作では、標準搭載されたブラックリストから単語を検査対象から除外します。これは頻繁に翻訳されない単語です。これは、複数の言語で同じ "
+"1 つの単語だけで構成される短い文字列での誤検出を避けるために便利です。このブラックリストを無効にするには、文字列またはコンポーネントに "
+"``strict-same`` フラグを追加します。"
 
 #: ../../user/checks.rst:890
 msgid ":ref:`component`, :ref:`custom-checks`"
@@ -32251,10 +32230,8 @@ msgid ""
 "preferences, translation to these languages will be shown (see :ref:"
 "`secondary-languages`) above the source string."
 msgstr ""
-"このページには、さまざまな追加情報が表示されます、そのほとんどはプロジェクト"
-"の原文からのものです（コンテキスト、コメント、メッセージを使用している場所な"
-"ど）。環境設定で第 2 言語を選択すると、これらの言語への翻訳が原文の上側に表示"
-"されます（参照: :ref:`secondary-languages`）。"
+"このページには、さまざまな追加情報が表示されます、そのほとんどはプロジェクトの原文からのものです（コンテキスト、コメント、メッセージを使用している場所など"
+"）。環境設定で参考言語を選択すると、これらの言語への翻訳が原文の上側に表示されます（参照: :ref:`secondary-languages`）。"
 
 #: ../../user/translating.rst:112
 msgid ""
@@ -33345,9 +33322,8 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、翻訳の変更をプル リクエストと"
-"してプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_ を使用して 、薄いレイヤーを :ref:`vcs-git` に追加して、"
+"翻訳の変更をプル リクエストとしてプッシュできるようになります。"
 
 #: ../../vcs.rst:264
 msgid ""
@@ -33687,10 +33663,9 @@ msgid ""
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
 "as :command:`wlc` and is built-in on :mod:`wlc`."
 msgstr ""
-"Weblate クライアントは Python ライブラリであり、:ref:`api` を使用して "
-"Weblate をリモートで管理するためのコマンドライン ユーティリティです。コマンド"
-"ライン ユーティリティは、:command:`wlc` として呼び出すことができ、:mod:`wlc` "
-"に内蔵しています。"
+"Weblate クライアントは Python ライブラリであり、:ref:`api` を使用して Weblate "
+"をリモートで管理するためのコマンドライン ユーティリティです。コマンドライン ユーティリティは、:command:`wlc` "
+"として呼び出すことができ、:mod:`wlc` に標準搭載されています。"
 
 #: ../../wlc.rst:110
 msgid "Arguments"
@@ -34286,11 +34261,9 @@ msgid ""
 "can help you in addressing this - there is additional quality gateway for "
 "the strings between developers and translators and users."
 msgstr ""
-"多くの場合、開発者がコードを作成して初期の文字列を提供するため、開発者から原"
-"本の原文が提供されます。しかし、開発者は原文を母国語としていないことが多く、"
-"原文に求められる品質を提供できません。中間翻訳は、この問題の解決に役立ちます "
-"- 開発者と翻訳者とユーザーとの間に、追加の文字列用の品質ゲートウェイがありま"
-"す。"
+"多くの場合、開発者がコードを作成して初期の文字列を提供するため、開発者から原本の原文の言語が提供されます。しかし、開発者は原文の言語を母国語としていないこ"
+"とが多く、原文に求められる品質を提供できません。中間翻訳は、この問題の解決に役立ちます - "
+"開発者と翻訳者とユーザーとの間に、追加の文字列用の品質ゲートウェイがあります。"
 
 #: ../../workflows.rst:170
 msgid ""
@@ -34299,9 +34272,8 @@ msgid ""
 "Once the string is ready in the source language, it will be also available "
 "for translators to translate into additional languages."
 msgstr ""
-":ref:`component-intermediate` を設定すると、このファイルは文字列の原文として"
-"使用しますが、原文の言語で磨いて編集します。文字列が原文言語で用意されると、"
-"翻訳者は他の言語に翻訳できます。"
+":ref:`component-intermediate` を設定すると、このファイルは文字列の原文として使用しますが、原文の言語で磨いて編集します。文字"
+"列が原文の言語で用意されると、翻訳者は他の言語に翻訳できます。"
 
 #: ../../workflows.rst:214
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
