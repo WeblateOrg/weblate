@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-04 18:54+0000\n"
-"PO-Revision-Date: 2021-02-04 18:53+0000\n"
+"PO-Revision-Date: 2021-02-04 22:30+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -301,10 +301,8 @@ msgid "Screenshots uploaded"
 msgstr "アップロードしたスクリーンショット"
 
 #: weblate/accounts/forms.py:789
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Chosen sorting is not supported."
-msgstr "検出したファイル形式はサポートしていません。"
+msgstr "選択したソートには対応していません。"
 
 #: weblate/accounts/models.py:84
 msgid "Password changed."
@@ -2497,10 +2495,8 @@ msgid "Strict unchanged check"
 msgstr "厳格な変更なしの確認"
 
 #: weblate/checks/flags.py:55
-#, fuzzy
-#| msgid "Good translations"
 msgid "Forbidden translation"
-msgstr "良い翻訳"
+msgstr "翻訳禁止"
 
 #: weblate/checks/flags.py:57 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -5208,10 +5204,8 @@ msgid "Browse"
 msgstr "閲覧"
 
 #: weblate/templates/browse.html:51
-#, fuzzy
-#| msgid "No similar strings found."
 msgid "No strings found!"
-msgstr "類似翻訳が見つかりません。"
+msgstr "文字列が見つかりません！"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -7654,16 +7648,12 @@ msgid "Weblate repository"
 msgstr "Weblate のリポジトリ"
 
 #: weblate/templates/snippets/glossary.html:7
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation is forbidden."
-msgstr "この翻訳は現在ロックされています。"
+msgstr "この翻訳は禁止されています。"
 
 #: weblate/templates/snippets/glossary.html:9
-#, fuzzy
-#| msgid "Message is not translated"
 msgid "This term should not be translated."
-msgstr "翻訳されていません"
+msgstr "この用語は翻訳しないでください。"
 
 #: weblate/templates/snippets/glossary.html:11
 msgid "Copy word into translation"
@@ -7965,8 +7955,6 @@ msgid "Translated strings in a certain language"
 msgstr "特定の言語で翻訳済みの文字列"
 
 #: weblate/templates/snippets/query-field.html:9
-#, fuzzy
-#| msgid "Custom Search"
 msgid "Custom search"
 msgstr "カスタム検索"
 
@@ -8699,24 +8687,20 @@ msgid "Copy permalink"
 msgstr "パーマリンクをコピー"
 
 #: weblate/templates/translate.html:80
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Forbidden glossary term"
-msgstr "用語集への項目の追加"
+msgstr "用語集の使用禁止"
 
 #: weblate/templates/translate.html:82
-#, fuzzy
-#| msgid "Glossary name"
 msgid "Glossary term"
-msgstr "用語集の名前"
+msgstr "用語集"
 
 #: weblate/templates/translate.html:110 weblate/templates/zen-units.html:77
 msgid "Source change"
-msgstr "原文の変更点"
+msgstr "原文の変更"
 
 #: weblate/templates/translate.html:126
 msgid "Intermediate language"
-msgstr "共通中間言語"
+msgstr "中間言語"
 
 #: weblate/templates/translate.html:142 weblate/templates/translate.html:597
 #: weblate/templates/zen-units.html:44 weblate/trans/models/unit.py:307
@@ -8725,13 +8709,11 @@ msgstr "説明"
 
 #: weblate/templates/translate.html:165 weblate/trans/forms.py:926
 msgid "Report issue with the source string"
-msgstr "原文に関する問題の報告"
+msgstr "原文の問題の報告"
 
 #: weblate/templates/translate.html:184
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Delete string"
-msgstr "提案の削除"
+msgstr "文字列の削除"
 
 #: weblate/templates/translate.html:199 weblate/templates/translate.html:224
 msgid "This translation is currently locked."
@@ -9425,8 +9407,6 @@ msgid "Update source strings"
 msgstr "原文の更新"
 
 #: weblate/trans/forms.py:608
-#, fuzzy
-#| msgid "Add new string"
 msgid "Add new strings"
 msgstr "新しい文字列の追加"
 
@@ -10698,20 +10678,16 @@ msgid "Choose additional projects where this component will be listed."
 msgstr "このコンポーネントが登録されているプロジェクトを追加選択します。"
 
 #: weblate/trans/models/component.py:638
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "用語集の管理"
+msgstr "用語集として使用"
 
 #: weblate/trans/models/component.py:643
 msgid "Glossary name"
 msgstr "用語集の名前"
 
 #: weblate/trans/models/component.py:648
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary color"
-msgstr "用語集"
+msgstr "用語集の色"
 
 #: weblate/trans/models/component.py:1197
 msgid ""
@@ -10886,7 +10862,7 @@ msgstr "リポジトリを更新できません: %s"
 
 #: weblate/trans/models/component.py:2333
 msgid "Please define a glossary name to use component as a glossary."
-msgstr ""
+msgstr "コンポーネントを用語集として使用するには、用語集名を設定してください。"
 
 #: weblate/trans/models/component.py:2343
 msgid ""
@@ -10931,10 +10907,8 @@ msgid "Translation file already exists!"
 msgstr "翻訳ファイルはすでに存在しています！"
 
 #: weblate/trans/models/component.py:2883
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation will be updated in the background."
-msgstr "翻訳は最後まで完了しました。"
+msgstr "翻訳はバックグラウンドで更新されます。"
 
 #. Translators: Translation context for Gettext
 #: weblate/trans/models/component.py:2926
@@ -11112,28 +11086,20 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "文字列の意味や使い方を明確にするための追加説明。"
 
 #: weblate/trans/models/unit.py:1326
-#, fuzzy
-#| msgid "Upload translations"
 msgid "Allow translations"
-msgstr "翻訳のアップロード"
+msgstr "翻訳の許可"
 
 #: weblate/trans/models/unit.py:1330
-#, fuzzy
-#| msgid "This translation"
 msgid "Prohibit translations"
-msgstr "この翻訳"
+msgstr "翻訳の禁止"
 
 #: weblate/trans/models/unit.py:1338
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Unmark as forbidden translations"
-msgstr "新しい翻訳のテンプレート"
+msgstr "翻訳禁止としてマークの解除"
 
 #: weblate/trans/models/unit.py:1346
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Mark as forbidden translations"
-msgstr "その他の翻訳として追加"
+msgstr "禁止翻訳としてマークを付ける"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
@@ -11402,10 +11368,9 @@ msgid_plural "%(count)s strings are not being translated here."
 msgstr[0] "%(count)s 個の文字列が未翻訳です。"
 
 #: weblate/trans/templatetags/translations.py:780
-#, fuzzy, python-format
-#| msgid "Share in projects"
+#, python-format
 msgid "Shared from project %s."
-msgstr "プロジェクトで共有"
+msgstr "プロジェクト %s から共有。"
 
 #: weblate/trans/templatetags/translations.py:803
 msgid "enabled"
@@ -11815,10 +11780,8 @@ msgid "Language of the project was removed."
 msgstr "プロジェクトの言語を削除しました。"
 
 #: weblate/trans/views/source.py:65
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "Failed to change additiona string info!"
-msgstr "原文情報の追加編集"
+msgstr "追加文字列情報を変更できませんでした!"
 
 #: weblate/trans/widgets.py:247
 msgid "Big status badge"
@@ -12063,10 +12026,8 @@ msgid "Position"
 msgstr "位置"
 
 #: weblate/utils/views.py:106
-#, fuzzy
-#| msgid "Translation settings"
 msgid "Translation string"
-msgstr "翻訳設定"
+msgstr "翻訳文"
 
 #: weblate/utils/views.py:107
 msgid "Age of string"
