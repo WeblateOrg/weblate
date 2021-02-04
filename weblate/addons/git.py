@@ -18,6 +18,7 @@
 #
 
 from collections import defaultdict
+from itertools import chain
 
 from django.utils.translation import gettext_lazy as _
 
@@ -66,19 +67,19 @@ class GitSquashAddon(BaseAddon):
                 languages[code].extend(translation.filenames)
         return languages
 
+    def get_git_commit_messages(self, repository, log_format, remote, filenames):
+        command = [
+            "log",
+            f"--format={log_format}",
+            f"{remote}..HEAD",
+        ]
+        if filenames:
+            command += ["--"] + filenames
+
+        return repository.execute(command)
+
     def get_squash_commit_message(self, repository, log_format, remote, filenames=None):
         commit_message = self.instance.configuration.get("commit_message")
-
-        if not commit_message:
-            command = [
-                "log",
-                f"--format={log_format}",
-                f"{remote}..HEAD",
-            ]
-            if filenames:
-                command += ["--"] + filenames
-
-            commit_message = repository.execute(command)
 
         if self.instance.configuration.get("append_trailers", True):
             command = [
@@ -95,16 +96,33 @@ class GitSquashAddon(BaseAddon):
                 if trailer.strip()
             }
 
-            commit_message_lines_with_trailers_removed = [
-                line for line in commit_message.split("\n") if line not in trailer_lines
-            ]
-
-            commit_message = "\n\n".join(
-                [
-                    "\n".join(commit_message_lines_with_trailers_removed),
-                    "\n".join(sorted(trailer_lines)),
+            if commit_message:
+                # Predefined commit message
+                body = [commit_message]
+            else:
+                # Extract commit messages from the log
+                body = [
+                    line
+                    for line in self.get_git_commit_messages(
+                        repository, log_format, remote, filenames
+                    ).split("\n")
+                    if line not in trailer_lines
                 ]
+
+            commit_message = "\n".join(
+                chain(
+                    # Body
+                    body,
+                    # Blank line
+                    [""],
+                    # Trailers
+                    sorted(trailer_lines),
+                )
             ).strip("\n")
+        elif not commit_message:
+            commit_message = self.get_git_commit_messages(
+                repository, log_format, remote, filenames
+            )
 
         return commit_message
 
