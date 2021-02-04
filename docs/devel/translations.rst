@@ -13,7 +13,7 @@ translation flows, you can start with blank files).
 
 New languages can be added right away when requested by a user in Weblate, or a
 notification will be sent to project admins for approval and manual addition.
-This can be done using :guilabel:`Start new translation` in :ref:`component`.
+This can be done using :ref:`component-new_lang` in :ref:`component`.
 
 .. note::
 

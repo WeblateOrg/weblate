@@ -15,7 +15,7 @@ Weblate organizes translatable VCS content of project/components into a tree-lik
   the mask of files to translate.
 
 * Above :ref:`component` there are individual translations, handled automatically by Weblate as translation
-  files (which match the mask defined in :ref:`component`) appear in the VCS repository.
+  files (which match :ref:`component-filemask` defined in :ref:`component`) appear in the VCS repository.
 
 Weblate supports a wide range of translation formats (both bilingual and
 monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
