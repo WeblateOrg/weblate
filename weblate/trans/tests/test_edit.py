@@ -117,9 +117,9 @@ class EditTest(ViewTestCase):
         # Should have was translated check
         self.assertTrue(unit.has_failing_check)
 
-    def add_unit(self, key):
-        if self.component.has_template():
-            args = {"key": key, "value_0": "Source string" * 100000}
+    def add_unit(self, key, force_source: bool = False):
+        if force_source or self.component.has_template():
+            args = {"key": key, "value_0": "Source string" * 100000, "source_0": key}
             language = "en"
         else:
             args = {"source_0": key, "target_0": "Translation string"}
@@ -166,6 +166,19 @@ class EditTest(ViewTestCase):
         # Invalid params
         response = self.add_unit("")
         self.assertContains(response, "Error in parameter ")
+
+        # Adding on source in bilingual
+        if (
+            not self.component.has_template()
+            and self.component.file_format_cls.can_add_unit
+        ):
+            start = Unit.objects.count()
+            response = self.add_unit("Test string", force_source=True)
+            self.assertContains(response, "New string has been added")
+            self.assertEqual(
+                start + self.component.translation_set.count(),
+                Unit.objects.count(),
+            )
 
 
 class EditValidationTest(ViewTestCase):
