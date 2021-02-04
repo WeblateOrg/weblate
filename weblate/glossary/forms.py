@@ -19,7 +19,7 @@
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 from weblate.trans.models import Translation, Unit
 
@@ -35,6 +35,11 @@ class CommaSeparatedIntegerField(forms.Field):
             raise ValidationError(_("Invalid integer list!"))
 
 
+class GlossaryModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.component.glossary_name
+
+
 class TermForm(forms.ModelForm):
     """Form for adding term to a glossary."""
 
@@ -46,6 +51,9 @@ class TermForm(forms.ModelForm):
         widgets = {
             "source": forms.TextInput,
             "target": forms.TextInput,
+        }
+        field_classes = {
+            "translation": GlossaryModelChoiceField,
         }
 
     def __init__(self, unit, data=None, instance=None, initial=None, **kwargs):
@@ -59,3 +67,4 @@ class TermForm(forms.ModelForm):
             initial["translation"] = glossaries[0]
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
+        self.fields["translation"].label = _("Glossary")
