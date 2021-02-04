@@ -32,7 +32,9 @@ from weblate.lang.models import Language
 class AnnouncementManager(models.Manager):
     def context_filter(self, project=None, component=None, language=None):
         """Filter announcements by context."""
-        base = self.filter(Q(expiry__isnull=True) | Q(expiry__gte=timezone.now()))
+        base = self.filter(
+            Q(expiry__isnull=True) | Q(expiry__gte=timezone.now())
+        ).order()
 
         if language and project is None and component is None:
             return base.filter(project=None, component=None, language=language)
@@ -71,6 +73,11 @@ class AnnouncementManager(models.Manager):
             user=user,
         )
         return result
+
+
+class AnnouncementQuerySet(models.QuerySet):
+    def order(self):
+        return self.order_by("id")
 
 
 class Announcement(models.Model):
@@ -128,7 +135,7 @@ class Announcement(models.Model):
         verbose_name=gettext_lazy("Notify users"),
     )
 
-    objects = AnnouncementManager()
+    objects = AnnouncementManager.from_queryset(AnnouncementQuerySet)()
 
     class Meta:
         app_label = "trans"
