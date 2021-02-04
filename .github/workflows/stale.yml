@@ -15,12 +15,12 @@ jobs:
   stale-issues:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/stale@v3
+      - uses: actions/stale@v3.0.15
         with:
-          days-before-stale: 30
-          days-before-close: 14
-          days-before-issue-stale: 10
-          days-before-issue-close: 4
+          days-before-pr-stale: 30
+          days-before-pr-close: 14
+          days-before-stale: 10
+          days-before-close: 4
           exempt-issue-labels: bug,enhancement,documentation,security
           stale-issue-label: wontfix
           stale-pr-label: wontfix
