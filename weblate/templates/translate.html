@@ -75,10 +75,18 @@
   <div class="panel-heading">
   <a class="btn btn-link btn-xs pull-right flip" href="{{ site_url }}{{ unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
   <h4 class="panel-title">
-    {% if unit.is_source %}
-        {% trans "Source string" %}
+    {% if unit.translation.component.is_glossary %}
+      {% if "forbidden" in item.all_flags %}
+        {% trans "Forbidden glossary term" %}
+      {% else %}
+        {% trans "Glossary term" %}
+      {% endif %}
     {% else %}
+      {% if unit.is_source %}
+        {% trans "Source string" %}
+      {% else %}
         {% trans "Translation" %}
+      {% endif %}
     {% endif %}
     {% include "snippets/unit-readonly-badge.html" %}
   </h4></div>
