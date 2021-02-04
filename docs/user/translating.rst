@@ -296,31 +296,6 @@ translated string is not too long:
   :ref:`check-max-length`.
 * Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`.
 
-.. _glossary:
-
-Glossary
---------
-
-Each project can have an assigned glossary for any language as a shorthand for storing
-terminology. Consistency is more easily maintained this way.
-Terms from the glossary containing words from the currently translated string can be
-displayed in the sidebar.
-
-Managing glossaries
-+++++++++++++++++++
-
-.. versionchanged:: 4.5
-
-   Glossaries are now regular translation components and you can use all
-   Weblate features on them - commenting, storing in a Git repository, or
-   adding explanations.
-
-You can use any component a glossary by turning on :ref:`component-is_glossary`.
-
-An empty glossary for a given project is automatically created with the project.
-Glossaries are shared among all components of the same project, and optionally
-with other projects using :ref:`component-links`.
-
 .. _machine-translation:
 
 Automatic suggestions

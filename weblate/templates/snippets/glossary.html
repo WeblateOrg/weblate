@@ -3,7 +3,11 @@
 {% load icons %}
 
 {% for item in glossary %}
+  {% if "read-only" in item.all_flags %}
+    <tr class="glossary-embed warning" title="{% trans "This term should not be translated." %}">
+  {% else %}
     <tr class="glossary-embed clickable-row" title="{% trans "Copy word into translation" %}">
+  {% endif %}
     <td>{{ item.source }}</td>
     <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
     <td>{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>

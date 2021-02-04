@@ -6,6 +6,7 @@
     user/profile
     user/translating
     user/files
+    user/glossary
     user/checks
     user/search
     workflows

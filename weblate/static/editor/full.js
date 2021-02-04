@@ -382,7 +382,7 @@
 
   FullEditor.prototype.initGlossary = function () {
     /* Copy from glossary */
-    this.$editor.on("click", ".glossary-embed", (e) => {
+    this.$editor.on("click", ".glossary-embed.clickable-row", (e) => {
       var text = $(e.currentTarget).find(".target").text();
 
       this.insertIntoTranslation(text);

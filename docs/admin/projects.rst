@@ -794,7 +794,8 @@ listed using :ref:`component-glossary_name` and
 
 The glossary will be accessible in all projects define by :ref:`component-links`.
 
-It is recommended to enable :ref:`component-manage_units` on glossaries.
+It is recommended to enable :ref:`component-manage_units` on glossaries in
+order to allow adding new words to them.
 
 .. seealso::
 
