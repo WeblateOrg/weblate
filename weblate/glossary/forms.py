@@ -43,6 +43,10 @@ class TermForm(forms.ModelForm):
     class Meta:
         model = Unit
         fields = ["source", "target", "translation"]
+        widgets = {
+            "source": forms.TextInput,
+            "target": forms.TextInput,
+        }
 
     def __init__(self, unit, data=None, instance=None, initial=None, **kwargs):
         glossaries = Translation.objects.filter(
