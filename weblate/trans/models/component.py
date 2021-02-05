@@ -2849,12 +2849,14 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         fullname = os.path.join(self.full_path, filename)
 
         # Create or get translation object
-        try:
-            translation = self.translation_set.get(language=language)
-        except ObjectDoesNotExist:
-            translation = self.translation_set.create(
-                language=language, plural=language.plural, filename=filename
-            )
+        translation = self.translation_set.get_or_create(
+            language=language,
+            defaults={
+                "plural": language.plural,
+                "filename": filename,
+                "language_code": code,
+            },
+        )[0]
 
         # Create the file
         if os.path.exists(fullname):
