@@ -149,7 +149,7 @@ AngularJS interpolation string
 
 .. seealso::
 
-    `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
+   `AngularJS text interpolation <https://angular.io/guide/interpolation>`_
 
 C format
 ********
