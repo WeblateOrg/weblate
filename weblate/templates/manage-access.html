@@ -13,124 +13,127 @@
 {% block content %}
 
 {% if object.access_control != object.ACCESS_CUSTOM %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">
-    {% documentation_icon 'admin/access' 'groups' right=True %}
-  {% trans "Users" %}
-  </h4></div>
-  <table class="table table-striped">
-  <thead>
-  <tr>
-  <th>{% trans "Username" %}</th>
-  <th>{% trans "Full name" %}</th>
-  <th>{% trans "E-mail" %}</th>
-  <th>{% trans "Last login" %}</th>
-  {% for group in groups %}
-  <th class="vertical-text">{{ group.short_name }}</th>
-  {% endfor %}
-  </tr>
-  </thead>
-  <tbody>
-{% for user in all_users %}
-  <tr>
-  <td>{{ user.username }}</td>
-  <td>{{ user.full_name }}</td>
-  <td>{{ user.email }}</td>
-  <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
-  {% user_permissions user groups %}
-  <td>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'admin/access' 'groups' right=True %}
+        {% trans "Users" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>{% trans "Username" %}</th>
+          <th>{% trans "Full name" %}</th>
+          <th>{% trans "E-mail" %}</th>
+          <th>{% trans "Last login" %}</th>
+          {% for group in groups %}
+            <th class="vertical-text">{{ group.short_name }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in all_users %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
+            {% user_permissions user groups %}
+            <td>
+              <a href="#" data-toggle="modal" data-target="#delete_user_{{ user.id }}" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
+                {% icon 'delete.svg' %}
+              </a>
+              <form action="{% url "delete-user" project=object.slug %}" method="post" class="inlineform">
+                {% csrf_token %}
+                <input type="hidden" name="user" value="{{ user.username }}" />
+                <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ user.id }}">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+                      </div>
+                      <div class="modal-body">
+                        {% blocktrans with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktrans %}
+                      </div>
+                      <div class="modal-footer">
+                        <input type="submit" class="btn btn-danger" value="{% trans "Remove" %}" />
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+              </form>
 
-<a href="#" data-toggle="modal" data-target="#delete_user_{{ user.id }}" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
-  {% icon 'delete.svg' %}
-</a>
-<form action="{% url "delete-user" project=object.slug %}" method="post" class="inlineform">
-{% csrf_token %}
-<input type="hidden" name="user" value="{{ user.username }}" />
-<div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ user.id }}">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
-      </div>
-      <div class="modal-body">
-        {% blocktrans with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktrans %}
-      </div>
-      <div class="modal-footer">
-        <input type="submit" class="btn btn-danger" value="{% trans "Remove" %}" />
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-</form>
+              {% if not user.last_login %}
+                <form action="{% url "resend_invitation" project=object.slug %}" method="post" class="inlineform">
+                  {% csrf_token %}
+                  <input type="hidden" name="user" value="{{ user.username }}" />
+                  <button type="submit" class="btn btn-link btn-xs" title="{% trans "Resend invitation" %}">
+                  {% icon 'refresh.svg' %}
+                  </button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="panel-body">
+      <p class="help-block">{% trans "Once all its permissions are removed, the user will be removed from the project." %}</p>
+    </div>
+  </div>
 
-{% if not user.last_login %}
-<form action="{% url "resend_invitation" project=object.slug %}" method="post" class="inlineform">
-{% csrf_token %}
-<input type="hidden" name="user" value="{{ user.username }}" />
-<button type="submit" class="btn btn-link btn-xs" title="{% trans "Resend invitation" %}">
-{% icon 'refresh.svg' %}
-</button>
-</form>
-{% endif %}
-  </td>
-  </tr>
-{% endfor %}
-  </tbody>
-  </table>
-  <div class="panel-body">
-  <p class="help-block">{% trans "Once all its permissions are removed, the user will be removed from the project." %}</p>
-  </div>
-</div>
+  <form action="{% url "set-groups" project=object.slug %}" method="post" id="set_groups_form">
+    {% csrf_token %}
+  </form>
 
-<form action="{% url "set-groups" project=object.slug %}" method="post" id="set_groups_form">
-{% csrf_token %}
-</form>
-
-<div class="row">
-<div class="col-sm-6">
-<form action="{% url "add-user" project=object.slug %}" method="post">
-{% csrf_token %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">
-  {% trans "Add a user" %}
-  </h4></div>
-  <div class="panel-body">
-    {{ add_user_form|crispy }}
+  <div class="row">
+    <div class="col-sm-6">
+      <form action="{% url "add-user" project=object.slug %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+          {% trans "Add a user" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ add_user_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <form action="{% url "invite-user" project=object.slug %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+          {% trans "Invite new user" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ invite_user_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
-  </div>
-</div>
-</form>
-</div>
-<div class="col-sm-6">
-<form action="{% url "invite-user" project=object.slug %}" method="post">
-{% csrf_token %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">
-  {% trans "Invite new user" %}
-  </h4></div>
-  <div class="panel-body">
-    {{ invite_user_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
-  </div>
-</div>
-</form>
-</div>
-</div>
 {% else %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">
-    {% documentation_icon 'admin/access' 'groups' right=True %}
-  {% trans "Users" %}
-  </h4></div>
-  <div class="panel-body">
-  <p class="help-block">{% trans "Weblate user management is turned off, you can change permissions in the Django admin interface." %}</p>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'admin/access' 'groups' right=True %}
+        {% trans "Users" %}
+      </h4>
+    </div>
+    <div class="panel-body">
+      <p class="help-block">{% trans "Weblate user management is turned off, you can change permissions in the Django admin interface." %}</p>
+    </div>
   </div>
-</div>
 {% endif %}
 
 {% endblock %}
