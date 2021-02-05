@@ -792,7 +792,7 @@ Allows using this component as a glossary. You can configure how it will be
 listed using :ref:`component-glossary_name` and
 :ref:`component-glossary_color`.
 
-The glossary will be accessible in all projects define by :ref:`component-links`.
+The glossary will be accessible in all projects defined by :ref:`component-links`.
 
 It is recommended to enable :ref:`component-manage_units` on glossaries in
 order to allow adding new words to them.
