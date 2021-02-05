@@ -1590,7 +1590,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :param project_slug: Slug if the project to remove
+    :param project_slug: Slug of the project to remove
     :type project_slug: string
 
 
