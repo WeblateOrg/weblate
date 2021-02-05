@@ -900,7 +900,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Czech")
         with self.wait_for_page_load():
             self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "All strings"))
-        self.click("Other languages")
+        self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Other languages"))
         self.screenshot("secondary-language.png")
 
         # RTL translation
