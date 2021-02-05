@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.0.4 (44c7422) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.1.0 (245d11f) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -501,8 +501,8 @@ var Sentry = (function (exports) {
          */
         Dsn.prototype.toString = function (withPassword) {
             if (withPassword === void 0) { withPassword = false; }
-            var _a = this, host = _a.host, path = _a.path, pass = _a.pass, port = _a.port, projectId = _a.projectId, protocol = _a.protocol, user = _a.user;
-            return (protocol + "://" + user + (withPassword && pass ? ":" + pass : '') +
+            var _a = this, host = _a.host, path = _a.path, pass = _a.pass, port = _a.port, projectId = _a.projectId, protocol = _a.protocol, publicKey = _a.publicKey;
+            return (protocol + "://" + publicKey + (withPassword && pass ? ":" + pass : '') +
                 ("@" + host + (port ? ":" + port : '') + "/" + (path ? path + "/" : path) + projectId));
         };
         /** Parses a string into this Dsn. */
@@ -511,7 +511,7 @@ var Sentry = (function (exports) {
             if (!match) {
                 throw new SentryError(ERROR_MESSAGE);
             }
-            var _a = __read(match.slice(1), 6), protocol = _a[0], user = _a[1], _b = _a[2], pass = _b === void 0 ? '' : _b, host = _a[3], _c = _a[4], port = _c === void 0 ? '' : _c, lastPath = _a[5];
+            var _a = __read(match.slice(1), 6), protocol = _a[0], publicKey = _a[1], _b = _a[2], pass = _b === void 0 ? '' : _b, host = _a[3], _c = _a[4], port = _c === void 0 ? '' : _c, lastPath = _a[5];
             var path = '';
             var projectId = lastPath;
             var split = projectId.split('/');
@@ -525,12 +525,17 @@ var Sentry = (function (exports) {
                     projectId = projectMatch[0];
                 }
             }
-            this._fromComponents({ host: host, pass: pass, path: path, projectId: projectId, port: port, protocol: protocol, user: user });
+            this._fromComponents({ host: host, pass: pass, path: path, projectId: projectId, port: port, protocol: protocol, publicKey: publicKey });
         };
         /** Maps Dsn components into this instance. */
         Dsn.prototype._fromComponents = function (components) {
+            // TODO this is for backwards compatibility, and can be removed in a future version
+            if ('user' in components && !('publicKey' in components)) {
+                components.publicKey = components.user;
+            }
+            this.user = components.publicKey || '';
             this.protocol = components.protocol;
-            this.user = components.user;
+            this.publicKey = components.publicKey || '';
             this.pass = components.pass || '';
             this.host = components.host;
             this.port = components.port || '';
@@ -540,7 +545,7 @@ var Sentry = (function (exports) {
         /** Validates this Dsn and throws on error. */
         Dsn.prototype._validate = function () {
             var _this = this;
-            ['protocol', 'user', 'host', 'projectId'].forEach(function (component) {
+            ['protocol', 'publicKey', 'host', 'projectId'].forEach(function (component) {
                 if (!_this[component]) {
                     throw new SentryError(ERROR_MESSAGE + ": " + component + " missing");
                 }
@@ -2720,6 +2725,7 @@ var Sentry = (function (exports) {
             this.started = Date.now();
             this.duration = 0;
             this.status = SessionStatus.Ok;
+            this.init = true;
             if (context) {
                 this.update(context);
             }
@@ -2740,6 +2746,9 @@ var Sentry = (function (exports) {
             if (context.sid) {
                 // Good enough uuid validation. — Kamil
                 this.sid = context.sid.length === 32 ? context.sid : uuid4();
+            }
+            if (context.init !== undefined) {
+                this.init = context.init;
             }
             if (context.did) {
                 this.did = "" + context.did;
@@ -2788,7 +2797,7 @@ var Sentry = (function (exports) {
         Session.prototype.toJSON = function () {
             return dropUndefinedKeys({
                 sid: "" + this.sid,
-                init: true,
+                init: this.init,
                 started: new Date(this.started).toISOString(),
                 timestamp: new Date(this.timestamp).toISOString(),
                 status: this.status,
@@ -3105,32 +3114,57 @@ var Sentry = (function (exports) {
         /**
          * @inheritDoc
          */
-        Hub.prototype.startSession = function (context) {
-            // End existing session if there's one
-            this.endSession();
-            var _a = this.getStackTop(), scope = _a.scope, client = _a.client;
-            var _b = (client && client.getOptions()) || {}, release = _b.release, environment = _b.environment;
-            var session = new Session(__assign(__assign({ release: release,
-                environment: environment }, (scope && { user: scope.getUser() })), context));
-            if (scope) {
-                scope.setSession(session);
+        Hub.prototype.captureSession = function (endSession) {
+            if (endSession === void 0) { endSession = false; }
+            // both send the update and pull the session from the scope
+            if (endSession) {
+                return this.endSession();
             }
-            return session;
+            // only send the update
+            this._sendSessionUpdate();
         };
         /**
          * @inheritDoc
          */
         Hub.prototype.endSession = function () {
+            var _a, _b, _c, _d, _e;
+            (_c = (_b = (_a = this.getStackTop()) === null || _a === void 0 ? void 0 : _a.scope) === null || _b === void 0 ? void 0 : _b.getSession()) === null || _c === void 0 ? void 0 : _c.close();
+            this._sendSessionUpdate();
+            // the session is over; take it off of the scope
+            (_e = (_d = this.getStackTop()) === null || _d === void 0 ? void 0 : _d.scope) === null || _e === void 0 ? void 0 : _e.setSession();
+        };
+        /**
+         * @inheritDoc
+         */
+        Hub.prototype.startSession = function (context) {
+            var _a = this.getStackTop(), scope = _a.scope, client = _a.client;
+            var _b = (client && client.getOptions()) || {}, release = _b.release, environment = _b.environment;
+            var session = new Session(__assign(__assign({ release: release,
+                environment: environment }, (scope && { user: scope.getUser() })), context));
+            if (scope) {
+                // End existing session if there's one
+                var currentSession = scope.getSession && scope.getSession();
+                if (currentSession && currentSession.status === SessionStatus.Ok) {
+                    currentSession.update({ status: SessionStatus.Exited });
+                }
+                this.endSession();
+                // Afterwards we set the new session on the scope
+                scope.setSession(session);
+            }
+            return session;
+        };
+        /**
+         * Sends the current Session on the scope
+         */
+        Hub.prototype._sendSessionUpdate = function () {
             var _a = this.getStackTop(), scope = _a.scope, client = _a.client;
             if (!scope)
                 return;
             var session = scope.getSession && scope.getSession();
             if (session) {
-                session.close();
                 if (client && client.captureSession) {
                     client.captureSession(session);
                 }
-                scope.setSession();
             }
         };
         /**
@@ -3213,21 +3247,13 @@ var Sentry = (function (exports) {
         return getHubFromCarrier(registry);
     }
     /**
-     * Returns the active domain, if one exists
-     *
-     * @returns The domain, or undefined if there is no active domain
-     */
-    function getActiveDomain() {
-        var sentry = getMainCarrier().__SENTRY__;
-        return sentry && sentry.extensions && sentry.extensions.domain && sentry.extensions.domain.active;
-    }
-    /**
      * Try to read the hub from an active domain, and fallback to the registry if one doesn't exist
      * @returns discovered hub
      */
     function getHubFromActiveDomain(registry) {
+        var _a, _b, _c;
         try {
-            var activeDomain = getActiveDomain();
+            var activeDomain = (_c = (_b = (_a = getMainCarrier().__SENTRY__) === null || _a === void 0 ? void 0 : _a.extensions) === null || _b === void 0 ? void 0 : _b.domain) === null || _c === void 0 ? void 0 : _c.active;
             // If there's no active domain, just return global hub
             if (!activeDomain) {
                 return getHubFromCarrier(registry);
@@ -3269,6 +3295,7 @@ var Sentry = (function (exports) {
      * This will set passed {@link Hub} on the passed object's __SENTRY__.hub attribute
      * @param carrier object
      * @param hub Hub
+     * @returns A boolean indicating success or failure
      */
     function setHubOnCarrier(carrier, hub) {
         if (!carrier)
@@ -3463,8 +3490,8 @@ var Sentry = (function (exports) {
         function API(dsn, metadata) {
             if (metadata === void 0) { metadata = {}; }
             this.dsn = dsn;
-            this.metadata = metadata;
             this._dsnObject = new Dsn(dsn);
+            this.metadata = metadata;
         }
         /** Returns the Dsn object. */
         API.prototype.getDsn = function () {
@@ -3511,7 +3538,7 @@ var Sentry = (function (exports) {
             var dsn = this._dsnObject;
             var header = ["Sentry sentry_version=" + SENTRY_API_VERSION];
             header.push("sentry_client=" + clientName + "/" + clientVersion);
-            header.push("sentry_key=" + dsn.user);
+            header.push("sentry_key=" + dsn.publicKey);
             if (dsn.pass) {
                 header.push("sentry_secret=" + dsn.pass);
             }
@@ -3567,7 +3594,7 @@ var Sentry = (function (exports) {
             var auth = {
                 // We send only the minimum set of required information. See
                 // https://github.com/getsentry/sentry-javascript/issues/2572.
-                sentry_key: dsn.user,
+                sentry_key: dsn.publicKey,
                 sentry_version: SENTRY_API_VERSION,
             };
             return urlEncode(auth);
@@ -3653,7 +3680,7 @@ var Sentry = (function (exports) {
      * without a valid Dsn, the SDK will not send any events to Sentry.
      *
      * Before sending an event via the backend, it is passed through
-     * {@link BaseClient.prepareEvent} to add SDK information and scope data
+     * {@link BaseClient._prepareEvent} to add SDK information and scope data
      * (breadcrumbs and context). To add more custom information, override this
      * method and extend the resulting prepared event.
      *
@@ -3739,6 +3766,8 @@ var Sentry = (function (exports) {
             }
             else {
                 this._sendSession(session);
+                // After sending, we set init false to inidcate it's not the first occurence
+                session.update({ init: false });
             }
         };
         /**
@@ -3834,6 +3863,7 @@ var Sentry = (function (exports) {
             }
             session.update(__assign(__assign({}, (crashed && { status: SessionStatus.Crashed })), { user: user,
                 userAgent: userAgent, errors: session.errors + Number(errored || crashed) }));
+            this.captureSession(session);
         };
         /** Deliver captured session to Sentry */
         BaseClient.prototype._sendSession = function (session) {
@@ -3979,7 +4009,7 @@ var Sentry = (function (exports) {
         };
         /**
          * This function adds all used integrations to the SDK info in the event.
-         * @param sdkInfo The sdkInfo of the event that will be filled with all integrations.
+         * @param event The event that will be filled with all integrations.
          */
         BaseClient.prototype._applyIntegrationsMetadata = function (event) {
             var sdkInfo = event.sdk;
@@ -4276,7 +4306,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.0.4';
+    var SDK_VERSION = '6.1.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -6354,62 +6384,13 @@ var Sentry = (function (exports) {
             return;
         }
         var hub = getCurrentHub();
-        /**
-         * We should be using `Promise.all([windowLoaded, firstContentfulPaint])` here,
-         * but, as always, it's not available in the IE10-11. Thanks IE.
-         */
-        var loadResolved = document.readyState === 'complete';
-        var fcpResolved = false;
-        var possiblyEndSession = function () {
-            if (fcpResolved && loadResolved) {
-                hub.endSession();
-            }
-        };
-        var resolveWindowLoaded = function () {
-            loadResolved = true;
-            possiblyEndSession();
-            window.removeEventListener('load', resolveWindowLoaded);
-        };
         hub.startSession();
-        if (!loadResolved) {
-            // IE doesn't support `{ once: true }` for event listeners, so we have to manually
-            // attach and then detach it once completed.
-            window.addEventListener('load', resolveWindowLoaded);
-        }
-        try {
-            var po = new PerformanceObserver(function (entryList, po) {
-                entryList.getEntries().forEach(function (entry) {
-                    if (entry.name === 'first-contentful-paint' && entry.startTime < firstHiddenTime_1) {
-                        po.disconnect();
-                        fcpResolved = true;
-                        possiblyEndSession();
-                    }
-                });
-            });
-            // There's no need to even attach this listener if `PerformanceObserver` constructor will fail,
-            // so we do it below here.
-            var firstHiddenTime_1 = document.visibilityState === 'hidden' ? 0 : Infinity;
-            document.addEventListener('visibilitychange', function (event) {
-                firstHiddenTime_1 = Math.min(firstHiddenTime_1, event.timeStamp);
-            }, { once: true });
-            po.observe({
-                type: 'paint',
-                buffered: true,
-            });
-        }
-        catch (e) {
-            fcpResolved = true;
-            possiblyEndSession();
-        }
+        hub.captureSession();
         // We want to create a session for every navigation as well
         addInstrumentationHandler({
             callback: function () {
-                var _a;
-                if (!((_a = getCurrentHub()
-                    .getScope()) === null || _a === void 0 ? void 0 : _a.getSession())) {
-                    hub.startSession();
-                    hub.endSession();
-                }
+                hub.startSession();
+                hub.captureSession();
             },
             type: 'history',
         });
