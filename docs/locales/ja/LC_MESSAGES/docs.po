@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-04 19:55+0100\n"
-"PO-Revision-Date: 2021-02-04 23:47+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2021-02-05 06:32+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -18479,10 +18479,8 @@ msgid "Added simplified interface to toggle some of the flags."
 msgstr ""
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added support for removing strings."
 msgid "Added support for non-translatable or forbidden terms in glossary."
-msgstr "文字列の削除に対応。"
+msgstr "用語集に翻訳できない、または禁止されている用語に対応の追加。"
 
 #: ../../changes.rst:27
 msgid "Weblate 4.4.2"
@@ -31475,16 +31473,12 @@ msgstr ""
 "と似ています。"
 
 #: ../../user/files.rst:75
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "This option is supported only for some file formats."
-msgstr "未対応のファイル形式です。"
+msgstr "このオプションは、一部のファイル形式でのみ対応しています。"
 
 #: ../../user/files.rst:82
-#, fuzzy
-#| msgid "Add new string"
 msgid "Add new strings (``add``)"
-msgstr "新しい文字列の追加"
+msgstr "新しい文字列の追加 (``add``)"
 
 #: ../../user/files.rst:77
 msgid ""
@@ -31492,16 +31486,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:79
-#, fuzzy
-#| msgid ""
-#| "Be mindful that this will overwrite existing translations if employed "
-#| "with wide filters such as :guilabel:`All strings`."
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
 msgstr ""
-":guilabel:`すべての文字列` などの範囲が大きいフィルターを使用すると、既存の翻"
-"訳が上書きされてしまうことに注意してください。"
+"新しい文字列の追加、および既存の翻訳の更新の両方を行う場合は、:guilabel:`Add as translation` を使用してファイルを 2 "
+"回アップロードします。"
 
 #: ../../user/files.rst:82
 msgid ""
@@ -31555,21 +31545,14 @@ msgstr ""
 "場合に便利です。"
 
 #: ../../user/glossary.rst:6
-#, fuzzy
-#| msgid ""
-#| "Each project can have an assigned glossary for any language as a "
-#| "shorthand for storing terminology. Consistency is more easily maintained "
-#| "this way. Terms from the currently translated string can be displayed in "
-#| "the bottom tabs."
 msgid ""
 "Each project can have an assigned glossary for any language as a shorthand "
 "for storing terminology. Consistency is more easily maintained this way. "
 "Terms from the glossary containing words from the currently translated "
 "string can be displayed in the sidebar."
 msgstr ""
-"各プロジェクトには、用語を保存するための略語として、任意の言語に割り当てられ"
-"た用語集を用意できます。この方法の方が整合性を維持しやすくなります。現在翻訳"
-"した文字列の用語は、下部のタブに表示されます。"
+"各プロジェクトには、用語を保存するための略語として、任意の言語に割り当てられた用語集を設定できます。このようにすると一貫性の管理がしやすくなります。現在翻"
+"訳している文字列の単語を含む用語集の用語をサイドバーに表示できます。"
 
 #: ../../user/glossary.rst:12
 msgid "Managing glossaries"
@@ -31589,27 +31572,17 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:22
-#, fuzzy
-#| msgid ""
-#| "An empty glossary for a given project is automatically created when "
-#| "project is created. Glossaries are shared among all components of the "
-#| "same project and you can also choose to share them with another projects. "
-#| "You can do this only for projects you can administer."
 msgid ""
 "An empty glossary for a given project is automatically created with the "
 "project. Glossaries are shared among all components of the same project, and "
 "optionally with other projects using :ref:`component-links`."
 msgstr ""
-"プロジェクトの作成時に、特定のプロジェクトの空の用語集が自動的に作成されま"
-"す。用語集は同じプロジェクトのすべてのコンポーネントで共有され、別のプロジェ"
-"クトと共有することもできます。これは、管理できるプロジェクトに対してのみ実行"
-"できます。"
+"プロジェクトの作成時に、プロジェクトには空の用語集が自動的に作成されます。用語集は同じプロジェクトのすべてのコンポーネントで共有され、オプションで "
+":ref:`component-links` を使用して、別のプロジェクトと共有できます。"
 
 #: ../../user/glossary.rst:27
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Not translatable terms"
-msgstr "未翻訳の文字列"
+msgstr "翻訳できない用語"
 
 #: ../../user/glossary.rst:31
 msgid ""
@@ -31626,10 +31599,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:46
-#, fuzzy
-#| msgid "Good translations"
 msgid "Forbidden translations"
-msgstr "良い翻訳"
+msgstr "翻訳禁止"
 
 #: ../../user/glossary.rst:50
 msgid ""
@@ -32409,23 +32380,14 @@ msgid "The project accepts direct translations"
 msgstr "翻訳を直接受け付けるプロジェクト"
 
 #: ../../user/translating.rst:11
-#, fuzzy
-#| msgid ""
-#| "The project accepts only suggestions, which are automatically validated "
-#| "once a defined number of votes is reached"
 msgid ""
 "The project only accepts suggestions, which are automatically validated once "
 "a defined number of votes is reached"
-msgstr ""
-"提案のみを受け入れるプロジェクト、提案は、指定した投票数に達すると自動的に検"
-"証される"
+msgstr "提案のみを受け入れるプロジェクト、提案は、指定した投票数に達すると自動的に検証される"
 
 #: ../../user/translating.rst:13
-#, fuzzy
-#| msgid ""
-#| "Please see :ref:`workflows` for more information on translation workflow."
 msgid "Please see :ref:`workflows` for more info on translation workflow."
-msgstr "翻訳のワークフローの詳細については、:ref:`workflows` をご覧ください。"
+msgstr "翻訳のワークフローの詳細については、:ref:`workflows` を確認してください。"
 
 #: ../../user/translating.rst:15
 msgid "Options for translation project visibility:"
@@ -32444,30 +32406,16 @@ msgid ":ref:`privileges`, :ref:`workflows`"
 msgstr ":ref:`privileges`、:ref:`workflows`"
 
 #: ../../user/translating.rst:28
-#, fuzzy
-#| msgid ""
-#| "Translation projects hold related components, related to the same "
-#| "software, book, or project."
 msgid ""
 "Translation projects hold related components; resources for the same "
 "software, book, or project."
-msgstr ""
-"翻訳プロジェクトには、同じソフトウェア、書籍、またはプロジェクトに関連する関"
-"連コンポーネントが含まれます。"
+msgstr "翻訳プロジェクトには関連するコンポーネントが含まれます。同じソフトウェア、ブック、またはプロジェクトのリソース。"
 
 #: ../../user/translating.rst:35
 msgid "Translation links"
 msgstr "翻訳リンク"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Strings needing "
-#| "action`. If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -32476,50 +32424,31 @@ msgid ""
 "strings` is still available. Alternatively you can use the search field to "
 "find a specific string or term."
 msgstr ""
-"コンポーネントでは、翻訳の編集画面に移動できるリンクの一覧があります。さらに"
-"翻訳は、次のような個別の検査結果に分類されています、例えば :guilabel:`未翻訳"
-"の文字列` または :guilabel:`作業が必要な文字列`。プロジェクト全体で不合格とな"
-"らずに翻訳できた場合であっても、:guilabel:`すべての文字列` が使用できます。ま"
-"た、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
+"コンポーネントでは、翻訳の編集画面に移動できるリンクの一覧があります。さらに翻訳は、次のような個別の検査結果に分類されています、例えば "
+":guilabel:`未翻訳の文字列` または "
+":guilabel:`作業が必要な文字列`。プロジェクト全体で不合格とならずに翻訳できた場合であっても、:guilabel:`すべての文字列` "
+"が使用できます。また、検索フィールドを使用して、特定の文字列または用語の検索もできます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
 msgstr "実際の権限は、Weblate の構成によって異なります。"
 
 #: ../../user/translating.rst:52
-#, fuzzy
-#| msgid ""
-#| "Anonymous users can only (if permitted) forward suggestions. Doing so is "
-#| "still available to signed in users, in cases where uncertainty about the "
-#| "translation arises, which will prompt another translator to review it."
 msgid ""
 "Anonymous users can only (by default) forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about the "
 "translation arises, prompting other translators to review it."
 msgstr ""
-"匿名のユーザーは、（許可した場合）候補の提案しかできません。サインインしてい"
-"るユーザーは、 翻訳が適当でない場合、他の翻訳者に翻訳を確認してもらうために提"
-"案できます。"
+"匿名のユーザーは、（デフォルトでは）候補の提案しかできません。サインインしているユーザーは、 "
+"翻訳が適切でない場合は、他の翻訳者に翻訳を確認してもらうためにも使用できます。"
 
 #: ../../user/translating.rst:56
-#, fuzzy
-#| msgid ""
-#| "The suggestions are scanned on a daily basis to remove duplicate ones or "
-#| "suggestions that match the current translation."
 msgid ""
 "The suggestions are scanned on a daily basis to remove duplicates and "
 "suggestions matching the current translation."
-msgstr ""
-"提案は、現在の翻訳と一致する重複や提案を削除するために、毎日スキャンされま"
-"す。"
+msgstr "提案は、現在の翻訳と一致する重複や提案を削除するために、毎日スキャンされます。"
 
 #: ../../user/translating.rst:64
-#, fuzzy
-#| msgid ""
-#| "The comments can be posted in two scopes - source string or translation. "
-#| "Choose the one which matches the topic you want to discuss. The source "
-#| "string comments are good for providing feedback on the original string, "
-#| "for example that it should be rephrased or it is confusing."
 msgid ""
 "Three types of comments can be posted: for translations, source strings, or "
 "to report source string bugs when this functionality is turned on. Choose "
@@ -32527,22 +32456,15 @@ msgid ""
 "any event good for providing feedback on the original string, for example "
 "that it should be rephrased or to ask questions about it."
 msgstr ""
-"コメントは、原文または翻訳文の 2 つの範囲に対して投稿できます。議論のテーマに"
-"合わせて選んでください。原文のコメントは、原本の文字列に対するフィードバック"
-"の提供に適しています。例えば、言い換えなければならないとか、紛らわしいなどで"
-"す。"
+"翻訳、原文、または原文のバグを報告する機能が有効な場合の、3 種類のコメントを投稿できます。議論する内容に合わせたものを選択します。原文へのコメントは、元"
+"の文字列に関するフィードバックを提供するために、たとえば、元の文字列に対するフィードバックを提供したり、そのコメントについて質問したりするのに適しています"
+"。"
 
 #: ../../user/translating.rst:70
-#, fuzzy
-#| msgid ""
-#| "You can use Markdown syntax in the comments and mention other users using "
-#| "``@mention``."
 msgid ""
 "You can use Markdown syntax in all comments and mention other users using "
 "``@mention``."
-msgstr ""
-"コメントの中では、 Markdown 構文を用い ``@mention`` を使用して他のユーザーを"
-"指定できます。"
+msgstr "Markdown 構文はすべてのコメントに使用でき、``@mention`` を使用して他のユーザーに言及できます。"
 
 #: ../../user/translating.rst:75
 msgid ":ref:`report-source`"
@@ -32553,19 +32475,13 @@ msgid "Variants"
 msgstr "異なる表記"
 
 #: ../../user/translating.rst:80
-#, fuzzy
-#| msgid ""
-#| "Variants are used to group variants of the string in different lengths. "
-#| "The frontend can use different strings depending on the screen or window "
-#| "size."
 msgid ""
 "Variants are used to group different length variants of the a string. The "
 "frontend of your project can then use different strings depending on the "
 "screen or window size."
 msgstr ""
-"異なる表記は、文字列の異なる表記を長さでグループ化するために使用します。フロ"
-"ントエンドは、画面またはウィンドウのサイズに応じて異なる文字列を使用できま"
-"す。"
+"異なる表記は、同じ意味の単語ではあるが短縮したりしなかったりする、文字列の長さが異なる表記をグループ化するために使用します。フロントエンドでは、画面または"
+"ウィンドウのサイズに応じて異なる文字列を使用できます。"
 
 #: ../../user/translating.rst:86
 msgid ":ref:`variants`"
@@ -32576,39 +32492,24 @@ msgid "Labels"
 msgstr "ラベル"
 
 #: ../../user/translating.rst:91
-#, fuzzy
-#| msgid ""
-#| "Labels are used to categorize strings within a project. These can be used "
-#| "to further customize the localization workflow, for example to define "
-#| "categories of strings."
 msgid ""
 "Labels are used to categorize strings within a project to further customize "
 "the localization workflow (for example to define categories of strings)."
-msgstr ""
-"ラベルは、プロジェクト内の文字列を分類するために使用します。これは、現地語化"
-"のワークフローをさらにカスタマイズするために使用できます。例: 文字列のカテゴ"
-"リの定義。"
+msgstr "ラベルは、翻訳ワークフローをさらにカスタマイズするために、プロジェクト内の文字列を分類するために使用します（例: 文字列のカテゴリの設定）。"
 
 #: ../../user/translating.rst:96
 msgid ":ref:`labels`"
 msgstr ":ref:`labels`"
 
 #: ../../user/translating.rst:101
-#, fuzzy
-#| msgid ""
-#| "On the translation page, the source string and an edit area for "
-#| "translating are shown. Should the translation be plural, multiple source "
-#| "strings and edit areas are shown, each described and labeled in plural "
-#| "form."
 msgid ""
 "On the translation page, the source string and an editing area for its "
 "translattion is shown. Should the translation be plural, multiple source "
 "strings and editing areas are shown, each described and labeled in the "
 "amount of plural forms the translated language has."
 msgstr ""
-"翻訳ページでは、翻訳元の文字列と翻訳対象の編集フィールドが表示されます。翻訳"
-"が複数形である場合、複数形の原文および編集フィールドが表示され、それぞれ複数"
-"形で記述されてラベルが付けられます。"
+"翻訳ページでは、原文と翻訳のための編集入力枠が表示されます。翻訳が複数形である場合、複数形の原文および編集入力枠が表示され、それぞれが翻訳された言語の複数"
+"形の量で説明およびラベル付けされます。"
 
 #: ../../user/translating.rst:105
 msgid ""
@@ -32621,13 +32522,6 @@ msgstr ""
 "とが警告されます。"
 
 #: ../../user/translating.rst:109
-#, fuzzy
-#| msgid ""
-#| "Various bits of extra information can be shown on this page, most of "
-#| "which coming from the project source code (like context, comments or "
-#| "where the message is being used). When you choose secondary languages in "
-#| "your preferences, translation to these languages will be shown (see :ref:"
-#| "`secondary-languages`) above the source string."
 msgid ""
 "Various bits of extra info can be shown on this page, most of which coming "
 "from the project source code (like context, comments or where the message is "
@@ -32635,22 +32529,14 @@ msgid ""
 "select in the preferences will be shown (see :ref:`secondary-languages`) "
 "above the source string."
 msgstr ""
-"このページには、さまざまな追加情報が表示されます、そのほとんどはプロジェクト"
-"の原文からのものです（コンテキスト、コメント、メッセージを使用している場所な"
-"ど）。環境設定で参考言語を選択すると、これらの言語への翻訳が原文の上側に表示"
-"されます（参照: :ref:`secondary-languages`）。"
+"このページには、さまざまな追加情報が表示されます、そのほとんどはプロジェクトのソースコードからのものです（コンテキスト、コメント、メッセージを使用している"
+"場所など）。環境設定で選択した参考言語の翻訳入力枠は、原文の上に表示されます（参照: :ref:`secondary-languages`）。"
 
 #: ../../user/translating.rst:114
-#, fuzzy
-#| msgid ""
-#| "Below the translation, any suggestion made by others will be shown, which "
-#| "you can in turn accept, accept with changes, or delete."
 msgid ""
 "Below the translation, translators will find suggestion made by others, to "
 "be accepted (✓), accepted with changes (🖉), or deleted (🗑)."
-msgstr ""
-"翻訳の下側には、他のユーザの提案が表示され、提案は、採用、採用して編集、削除"
-"したりできます。"
+msgstr "翻訳者は翻訳文の下で、他の翻訳者からの提案の採用 (✓) 、採用して編集 (🖉) 、削除 (🗑) することができます。"
 
 #: ../../user/translating.rst:120
 msgid "Plurals"
@@ -32734,30 +32620,24 @@ msgid "Description"
 msgstr "解説"
 
 #: ../../user/translating.rst:157
-#, fuzzy
-#| msgid ":kbd:`Alt Home`"
 msgid ":kbd:`Alt+Home`"
-msgstr ":kbd:`Alt Home`"
+msgstr ":kbd:`Alt+Home`"
 
 #: ../../user/translating.rst:157
 msgid "Navigate to first translation in current search."
 msgstr "検索した、先頭の翻訳に移動する。"
 
 #: ../../user/translating.rst:159
-#, fuzzy
-#| msgid ":kbd:`Alt End`"
 msgid ":kbd:`Alt+End`"
-msgstr ":kbd:`Alt End`"
+msgstr ":kbd:`Alt+End`"
 
 #: ../../user/translating.rst:159
 msgid "Navigate to last translation in current search."
 msgstr "検索した、末尾の翻訳に移動する。"
 
 #: ../../user/translating.rst:161
-#, fuzzy
-#| msgid ":kbd:`Alt PageUp` or"
 msgid ":kbd:`Alt+PageUp` or"
-msgstr ":kbd:`Alt PageUp` or"
+msgstr ":kbd:`Alt+PageUp` or"
 
 #: ../../user/translating.rst:163
 msgid ":kbd:`Ctrl ↑` or"
@@ -32776,116 +32656,84 @@ msgid "Navigate to previous translation in current search."
 msgstr "検索した、1 つ前の翻訳に移動する。"
 
 #: ../../user/translating.rst:169
-#, fuzzy
-#| msgid ":kbd:`Alt PageDown` or"
 msgid ":kbd:`Alt+PageDown` or"
-msgstr ":kbd:`Alt PageDown` or"
+msgstr ":kbd:`Alt+PageDown` or"
 
 #: ../../user/translating.rst:171
-#, fuzzy
-#| msgid ":kbd:`Ctrl ↓` or"
 msgid ":kbd:`Ctrl+↓` or"
-msgstr ":kbd:`Ctrl ↓` or"
+msgstr ":kbd:`Ctrl+↓` or"
 
 #: ../../user/translating.rst:173
-#, fuzzy
-#| msgid ":kbd:`Alt ↓` or"
 msgid ":kbd:`Alt+↓` or"
-msgstr ":kbd:`Alt ↓` or"
+msgstr ":kbd:`Alt+↓` or"
 
 #: ../../user/translating.rst:175
-#, fuzzy
-#| msgid ":kbd:`Cmd ↓`"
 msgid ":kbd:`Cmd+↓`"
-msgstr ":kbd:`Cmd ↓`"
+msgstr ":kbd:`Cmd+↓`"
 
 #: ../../user/translating.rst:169
 msgid "Navigate to next translation in current search."
 msgstr "検索した、次の翻訳に移動する。"
 
 #: ../../user/translating.rst:177
-#, fuzzy
-#| msgid ":kbd:`Alt Enter` or"
 msgid ":kbd:`Alt+Enter` or"
-msgstr ":kbd:`Alt Enter` or"
+msgstr ":kbd:`Alt+Enter` or"
 
 #: ../../user/translating.rst:179
-#, fuzzy
-#| msgid ":kbd:`Ctrl Enter` or"
 msgid ":kbd:`Ctrl+Enter` or"
-msgstr ":kbd:`Ctrl Enter` or"
+msgstr ":kbd:`Ctrl+Enter` or"
 
 #: ../../user/translating.rst:181
-#, fuzzy
-#| msgid ":kbd:`Cmd Enter`"
 msgid ":kbd:`Cmd+Enter`"
-msgstr ":kbd:`Cmd Enter`"
+msgstr ":kbd:`Cmd+Enter`"
 
 #: ../../user/translating.rst:177
 msgid "Save current translation."
 msgstr "現在の翻訳を保存する。"
 
 #: ../../user/translating.rst:183
-#, fuzzy
-#| msgid ":kbd:`Ctrl Shift Enter` or"
 msgid ":kbd:`Ctrl+Shift+Enter` or"
-msgstr ":kbd:`Ctrl Shift Enter` or"
+msgstr ":kbd:`Ctrl+Shift+Enter` or"
 
 #: ../../user/translating.rst:185
-#, fuzzy
-#| msgid ":kbd:`Cmd Shift Enter`"
 msgid ":kbd:`Cmd+Shift+Enter`"
-msgstr ":kbd:`Cmd Shift Enter`"
+msgstr ":kbd:`Cmd+Shift+Enter`"
 
 #: ../../user/translating.rst:183
-#, fuzzy
-#| msgid "Unmarks translation as need edit and submits it."
 msgid "Unmark translation as needing edit and submit it."
 msgstr "翻訳の要編集フラグを解除して送信する。"
 
 #: ../../user/translating.rst:187
-#, fuzzy
-#| msgid ":kbd:`Ctrl E` or"
 msgid ":kbd:`Ctrl+E` or"
-msgstr ":kbd:`Ctrl E` or"
+msgstr ":kbd:`Ctrl+E` or"
 
 #: ../../user/translating.rst:189
-#, fuzzy
-#| msgid ":kbd:`Cmd E`"
 msgid ":kbd:`Cmd+E`"
-msgstr ":kbd:`Cmd E`"
+msgstr ":kbd:`Cmd+E`"
 
 #: ../../user/translating.rst:187
 msgid "Focus translation editor."
 msgstr "翻訳フォームにフォーカスを移動する。"
 
 #: ../../user/translating.rst:191
-#, fuzzy
-#| msgid ":kbd:`Ctrl U` or"
 msgid ":kbd:`Ctrl+U` or"
-msgstr ":kbd:`Ctrl U` or"
+msgstr ":kbd:`Ctrl+U` or"
 
 #: ../../user/translating.rst:193
-#, fuzzy
-#| msgid ":kbd:`Cmd U`"
 msgid ":kbd:`Cmd+U`"
-msgstr ":kbd:`Cmd U`"
+msgstr ":kbd:`Cmd+U`"
 
 #: ../../user/translating.rst:191
 msgid "Focus comment editor."
 msgstr "コメント フィールドにフォーカスを移動する。"
 
 #: ../../user/translating.rst:195
-#, fuzzy
-#| msgid ":kbd:`Ctrl M` or"
 msgid ":kbd:`Ctrl+M` or"
-msgstr ":kbd:`Ctrl M` or"
+msgstr ":kbd:`Ctrl+M` or"
 
 #: ../../user/translating.rst:197
-#, fuzzy
-#| msgid ":kbd:`Cmd M`"
 msgid ":kbd:`Cmd+M`"
-msgstr ":kbd:`Cmd M`"
+msgstr ":kbd:`Cmd+M`"
 
 #: ../../user/translating.rst:195
 msgid ""
@@ -32893,120 +32741,86 @@ msgid ""
 msgstr ":guilabel:`自動提案` タブの表示。参照: :ref:`machine-translation`。"
 
 #: ../../user/translating.rst:199
-#, fuzzy
-#| msgid ":kbd:`Ctrl 1` to :kbd:`Ctrl 9` or"
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
-msgstr ":kbd:`Ctrl 1` ～ :kbd:`Ctrl 9` or"
+msgstr ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
 
 #: ../../user/translating.rst:201
-#, fuzzy
-#| msgid ":kbd:`Cmd 1` to :kbd:`Cmd 9`"
 msgid ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
-msgstr ":kbd:`Cmd 1` ～ :kbd:`Cmd 9`"
+msgstr ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
 
 #: ../../user/translating.rst:199
 msgid "Copies placeable of given number from source string."
 msgstr "番号を指定して、原文に設定されたプレースホルダを、翻訳にコピーする。"
 
 #: ../../user/translating.rst:203
-#, fuzzy
-#| msgid ":kbd:`Ctrl M` :kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+M`+:kbd:`1` to :kbd:`9` or"
 msgstr ":kbd:`Ctrl M` :kbd:`1` ～ :kbd:`9` or"
 
 #: ../../user/translating.rst:205
-#, fuzzy
-#| msgid ":kbd:`Cmd M` :kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+M`+:kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd M` :kbd:`1` ～ :kbd:`9`"
+msgstr ":kbd:`Cmd+M`+:kbd:`1` to :kbd:`9`"
 
 #: ../../user/translating.rst:203
 msgid "Copy the machine translation of given number to current translation."
 msgstr "番号を指定して、機械翻訳を翻訳にコピーする。"
 
 #: ../../user/translating.rst:207
-#, fuzzy
-#| msgid ":kbd:`Ctrl I` :kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+I`+:kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl I` :kbd:`1` ～ :kbd:`9` or"
+msgstr ":kbd:`Ctrl+I`+:kbd:`1` to :kbd:`9` or"
 
 #: ../../user/translating.rst:209
-#, fuzzy
-#| msgid ":kbd:`Cmd I` :kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+I`+:kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd I` :kbd:`1` to :kbd:`9`"
+msgstr ":kbd:`Cmd+I`+:kbd:`1` to :kbd:`9`"
 
 #: ../../user/translating.rst:207
 msgid "Ignore one item in the list of failing checks."
 msgstr "番号を指定して、検査不合格の 1 項目を除外する。"
 
 #: ../../user/translating.rst:211
-#, fuzzy
-#| msgid ":kbd:`Ctrl J` or"
 msgid ":kbd:`Ctrl+J` or"
-msgstr ":kbd:`Ctrl J` or"
+msgstr ":kbd:`Ctrl+J` or"
 
 #: ../../user/translating.rst:213
-#, fuzzy
-#| msgid ":kbd:`Cmd J`"
 msgid ":kbd:`Cmd+J`"
-msgstr ":kbd:`Cmd J`"
+msgstr ":kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:211
 msgid "Shows the :guilabel:`Nearby strings` tab."
 msgstr ":guilabel:`前後の文字列` タブの表示。"
 
 #: ../../user/translating.rst:215
-#, fuzzy
-#| msgid ":kbd:`Ctrl S` or"
 msgid ":kbd:`Ctrl+S` or"
-msgstr ":kbd:`Ctrl S` or"
+msgstr ":kbd:`Ctrl+S` or"
 
 #: ../../user/translating.rst:217
-#, fuzzy
-#| msgid ":kbd:`Cmd S`"
 msgid ":kbd:`Cmd+S`"
-msgstr ":kbd:`Cmd S`"
+msgstr ":kbd:`Cmd+S`"
 
 #: ../../user/translating.rst:215
-#, fuzzy
-#| msgid "Focuses search field."
 msgid "Focus search field."
 msgstr "翻訳メモリの検索にフォーカス移動。"
 
 #: ../../user/translating.rst:219
-#, fuzzy
-#| msgid ":kbd:`Ctrl O` or"
 msgid ":kbd:`Ctrl+O` or"
-msgstr ":kbd:`Ctrl O` or"
+msgstr ":kbd:`Ctrl+O` or"
 
 #: ../../user/translating.rst:221
-#, fuzzy
-#| msgid ":kbd:`Cmd O`"
 msgid ":kbd:`Cmd+O`"
-msgstr ":kbd:`Cmd O`"
+msgstr ":kbd:`Cmd+O`"
 
 #: ../../user/translating.rst:219
-#, fuzzy
-#| msgid "Copies source string."
 msgid "Copy source string."
 msgstr "原文を、翻訳に複製する。"
 
 #: ../../user/translating.rst:223
-#, fuzzy
-#| msgid ":kbd:`Ctrl Y` or"
 msgid ":kbd:`Ctrl+Y` or"
-msgstr ":kbd:`Ctrl Y` or"
+msgstr ":kbd:`Ctrl+Y` or"
 
 #: ../../user/translating.rst:225
-#, fuzzy
-#| msgid ":kbd:`Cmd Y`"
 msgid ":kbd:`Cmd+Y`"
-msgstr ":kbd:`Cmd Y`"
+msgstr ":kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:223
-#, fuzzy
-#| msgid "Toggles the :guilabel:`Needs editing` flag."
 msgid "Toggle the :guilabel:`Needs editing` flag."
 msgstr ":guilabel:`要編集` フラグを付ける。"
 
@@ -33015,18 +32829,13 @@ msgid "Visual keyboard"
 msgstr "ビジュアル キーボード"
 
 #: ../../user/translating.rst:233
-#, fuzzy
-#| msgid ""
-#| "A small visual keyboard is shown just above the translation field. This "
-#| "can be useful for typing characters not usually found or otherwise hard "
-#| "to type."
 msgid ""
 "A small visual keyboard row is shown just above the translation field. This "
 "can be useful to keep local punctuation in mind (as the row is local to each "
 "language), or have characters otherwise hard to type handy."
 msgstr ""
-"小さなビジュアル キーボードを翻訳フィールドのすぐ上に表示しています。これは、"
-"通常は場所が分からない文字や、入力が困難な文字を入力する場合に便利です。"
+"翻訳入力枠のすぐ右上に、複数の小さな記号文字が並んで表示されます。これは、翻訳言語の句読点を明確にし（並ぶ記号文字は翻訳言語と一致）、文字を入力するのが困"
+"難な場合に使用できます。"
 
 #: ../../user/translating.rst:237
 msgid "The shown symbols factor into three categories:"
@@ -33051,10 +32860,6 @@ msgid "Translation context"
 msgstr "翻訳コンテキスト"
 
 #: ../../user/translating.rst:250
-#, fuzzy
-#| msgid ""
-#| "This contextual description provides related information about the "
-#| "current string."
 msgid ""
 "This contextual description provides related info about the current string."
 msgstr "このコンテキストの説明は、現在の文字列に関する関連情報を提供します。"
@@ -33124,16 +32929,10 @@ msgid "Project"
 msgstr "プロジェクト"
 
 #: ../../user/translating.rst:271
-#, fuzzy
-#| msgid ""
-#| "Project information like instructions for translators, or information "
-#| "about its version control system repository."
 msgid ""
 "Project info like instructions for translators, or a directory or link to "
 "the string in the version control system repository the project uses."
-msgstr ""
-"翻訳者への指示などのプロジェクト情報、またはそのバージョン管理システム リポジ"
-"トリに関する情報。"
+msgstr "翻訳者への指示や、プロジェクトが使用しているバージョン管理システムの、リポジトリ内の文字列へのディレクトリやリンクなどのプロジェクト情報。"
 
 #: ../../user/translating.rst:274
 msgid "If you want direct links, the translation format has to support it."
@@ -33158,16 +32957,10 @@ msgid "Translated string length"
 msgstr "翻訳した文字列の長さ"
 
 #: ../../user/translating.rst:286
-#, fuzzy
-#| msgid ""
-#| "Weblate can limit length of translation in several ways to ensure the "
-#| "translated string is not too long:"
 msgid ""
 "Weblate can limit the length of a translation in several ways to ensure the "
 "translated string is not too long:"
-msgstr ""
-"Weblate では、翻訳した文字列が長すぎないように、複数の方法で翻訳の長さを制限"
-"できます。"
+msgstr "Weblate では、翻訳した文字列の長さを制限するために、複数の方法で翻訳の長さを設定できます。"
 
 #: ../../user/translating.rst:289
 #, fuzzy
