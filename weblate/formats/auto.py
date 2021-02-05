@@ -20,6 +20,7 @@
 
 import os.path
 from fnmatch import fnmatch
+from typing import Optional
 
 from translate.storage import factory
 
@@ -86,7 +87,12 @@ class AutodetectFormat(TTKitFormat):
 
     @classmethod
     def parse(
-        cls, storefile, template_store=None, language_code=None, is_template=False
+        cls,
+        storefile,
+        template_store=None,
+        language_code: Optional[str] = None,
+        source_language: Optional[str] = None,
+        is_template: bool = False,
     ):
         """Parse store and returns TTKitFormat instance.
 
@@ -99,8 +105,19 @@ class AutodetectFormat(TTKitFormat):
         if filename is not None:
             storeclass = detect_filename(filename)
             if storeclass is not None:
-                return storeclass(storefile, template_store, language_code, is_template)
-        return cls(storefile, template_store, language_code, is_template)
+                return storeclass(
+                    storefile,
+                    template_store=template_store,
+                    language_code=language_code,
+                    source_language=source_language,
+                    is_template=is_template,
+                )
+        return cls(
+            storefile,
+            template_store=template_store,
+            language_code=language_code,
+            is_template=is_template,
+        )
 
     @classmethod
     def parse_store(cls, storefile):

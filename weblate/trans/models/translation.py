@@ -285,6 +285,7 @@ class Translation(
             fileobj,
             template,
             language_code=self.language_code,
+            source_language=self.component.source_language.code,
             is_template=self.is_template,
         )
         store_post_load.send(sender=self.__class__, translation=self, store=store)

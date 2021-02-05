@@ -2763,7 +2763,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
-        return self.file_format_cls.parse(self.get_intermediate_filename())
+        return self.file_format_cls.parse(
+            self.get_intermediate_filename(),
+            source_language=self.source_language.code,
+        )
 
     @cached_property
     def intermediate_store(self):
@@ -2779,7 +2782,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     def load_template_store(self):
         """Load translate-toolkit store for template."""
-        return self.file_format_cls.parse(self.get_template_filename())
+        return self.file_format_cls.parse(
+            self.get_template_filename(),
+            source_language=self.source_language.code,
+        )
 
     @cached_property
     def template_store(self):

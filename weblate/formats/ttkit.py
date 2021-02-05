@@ -219,13 +219,26 @@ class TTKitFormat(TranslationFormat):
     set_context_bilingual = True
 
     def __init__(
-        self, storefile, template_store=None, language_code=None, is_template=False
+        self,
+        storefile,
+        template_store=None,
+        language_code: Optional[str] = None,
+        source_language: Optional[str] = None,
+        is_template: bool = False,
     ):
-        super().__init__(storefile, template_store, language_code, is_template)
+        super().__init__(
+            storefile,
+            template_store=template_store,
+            language_code=language_code,
+            is_template=is_template,
+        )
         # Set language (needed for some which do not include this)
         if language_code is not None and self.store.gettargetlanguage() is None:
             # This gets already native language code, so no conversion is needed
             self.store.settargetlanguage(language_code)
+        if source_language is not None and self.store.getsourcelanguage() is None:
+            # This gets already native language code, so no conversion is needed
+            self.store.setsourcelanguage(source_language)
 
     @staticmethod
     def serialize(store):
@@ -1269,9 +1282,19 @@ class CSVFormat(TTKitFormat):
     encoding = "auto"
 
     def __init__(
-        self, storefile, template_store=None, language_code=None, is_template=False
+        self,
+        storefile,
+        template_store=None,
+        language_code: Optional[str] = None,
+        source_language: Optional[str] = None,
+        is_template: bool = False,
     ):
-        super().__init__(storefile, template_store, language_code, is_template)
+        super().__init__(
+            storefile,
+            template_store=template_store,
+            language_code=language_code,
+            is_template=is_template,
+        )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
         if "source" in self.store.fieldnames and not isinstance(
@@ -1677,8 +1700,18 @@ class TBXFormat(TTKitFormat):
     set_context_bilingual: bool = False
 
     def __init__(
-        self, storefile, template_store=None, language_code=None, is_template=False
+        self,
+        storefile,
+        template_store=None,
+        language_code: Optional[str] = None,
+        source_language: Optional[str] = None,
+        is_template: bool = False,
     ):
-        super().__init__(storefile, template_store, language_code, is_template)
+        super().__init__(
+            storefile,
+            template_store=template_store,
+            language_code=language_code,
+            is_template=is_template,
+        )
         # Add language header if not present
         self.store.addheader()
