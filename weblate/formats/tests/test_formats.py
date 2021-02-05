@@ -241,7 +241,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         This can be implemented in subclasses to implement content aware comparing of
         translation files.
         """
-        self.assertEqual((testdata).strip(), (newdata).strip())
+        self.assertEqual(testdata.strip(), newdata.strip())
 
     def test_find(self):
         storage = self.parse_file(self.FILE)
@@ -489,7 +489,7 @@ class PhpFormatTest(AutoFormatTest):
     FIND_CONTEXT = "$LANG['foo']"
     FIND_MATCH = "bar"
     BASE = ""
-    NEW_UNIT_MATCH = b"\nkey = 'Source string';\n"
+    NEW_UNIT_MATCH = b"\n$key = 'Source string';\n"
     EXPECTED_FLAGS = ""
 
 
