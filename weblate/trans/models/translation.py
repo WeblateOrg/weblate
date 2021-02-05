@@ -1155,6 +1155,9 @@ class Translation(
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
             self.handle_store_change(request, user)
 
+        if self.is_source:
+            self.component.sync_terminology()
+
     @transaction.atomic
     def delete_unit(self, request, unit):
         from weblate.auth.models import get_anonymous
@@ -1175,6 +1178,26 @@ class Translation(
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
             self.handle_store_change(request, user)
+
+    def sync_terminology(self):
+        if self.is_source:
+            return
+        store = self.store
+        missing = []
+        for source in self.component.get_all_sources():
+            if "terminology" not in source.all_flags:
+                continue
+            try:
+                _unit, add = store.find_unit(source.context, source.source)
+            except UnitNotFound:
+                add = True
+            # Unit is already present
+            if not add:
+                continue
+            missing.append((source.context, source.source, ""))
+
+        if missing:
+            self.add_units(None, missing)
 
 
 class GhostTranslation:

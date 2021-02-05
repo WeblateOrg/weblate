@@ -288,6 +288,14 @@ def component_after_save(
     return {"component": pk}
 
 
+@app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
+def sync_terminology(pk):
+    component = Component.objects.get(pk=pk)
+    for translation in component.translation_set.all():
+        translation.sync_terminology()
+    return {"component": pk}
+
+
 @app.task(trail=False)
 def component_removal(pk, uid):
     user = User.objects.get(pk=uid)
