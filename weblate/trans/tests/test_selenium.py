@@ -741,7 +741,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             element.submit()
         with self.wait_for_page_load():
-            self.click("Manage users")
+            self.click("Access control")
         self.screenshot("manage-users.png")
         # Access control setings
         self.click(htmlid="projects-menu")
