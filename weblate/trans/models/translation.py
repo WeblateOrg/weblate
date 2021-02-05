@@ -751,6 +751,9 @@ class Translation(
         if not self.is_source:
             result.add_if(self.stats, "translated_checks", "warning")
 
+        # Dismissed checks
+        result.add_if(self.stats, "dismissed_checks", "warning")
+
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]

@@ -52,6 +52,11 @@ class FilterRegistry:
                 _("Translated strings with any failing checks"),
                 "has:check AND state:>=translated",
             ),
+            (
+                "dismissed_checks",
+                _("Translated strings with dismissed checks"),
+                "has:dismissed-check",
+            ),
             ("approved", _("Approved strings"), "state:approved"),
             (
                 "approved_suggestions",

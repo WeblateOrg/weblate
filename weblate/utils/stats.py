@@ -55,6 +55,7 @@ BASICS = {
     "approved",
     "allchecks",
     "translated_checks",
+    "dismissed_checks",
     "suggestions",
     "nosuggestions",
     "comments",
@@ -360,6 +361,7 @@ class TranslationStats(BaseStats):
     def _prefetch_basic(self):
         base = self._object.unit_set.annotate(
             active_checks_count=Count("check", filter=Q(check__dismissed=False)),
+            dismissed_checks_count=Count("check", filter=Q(check__dismissed=True)),
             suggestion_count=Count("suggestion"),
             comment_count=Count("comment", filter=Q(comment__resolved=False)),
         )
@@ -410,6 +412,13 @@ class TranslationStats(BaseStats):
             ),
             translated_checks_chars=conditional_sum(
                 Length("source"), state=STATE_TRANSLATED, active_checks_count__gt=0
+            ),
+            dismissed_checks=conditional_sum(1, dismissed_checks_count__gt=0),
+            dismissed_checks_words=conditional_sum(
+                "num_words", dismissed_checks_count__gt=0
+            ),
+            dismissed_checks_chars=conditional_sum(
+                Length("source"), dismissed_checks_count__gt=0
             ),
             # Suggestions
             suggestions=conditional_sum(1, suggestion_count__gt=0),
