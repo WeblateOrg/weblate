@@ -32,7 +32,7 @@ def create_glossary(project, name, slug, glossary, license):
     )
 
 
-def migrate_glossaries(apps, schema_editor):
+def migrate_glossaries(apps, schema_editor):  # noqa: C901
     Project = apps.get_model("trans", "Project")
     Language = apps.get_model("lang", "Language")
     db_alias = schema_editor.connection.alias
@@ -96,13 +96,17 @@ def migrate_glossaries(apps, schema_editor):
             for language in languages:
                 base_filename = f"{language.code}.tbx"
                 filename = os.path.join(repo_path, base_filename)
+                is_source = language == source_translation.language
                 # Create translation object
-                translation = component.translation_set.create(
-                    language=language,
-                    plural=language.plural_set.filter(source=0)[0],
-                    filename=base_filename,
-                    language_code=language.code,
-                )
+                if is_source:
+                    translation = source_translation
+                else:
+                    translation = component.translation_set.create(
+                        language=language,
+                        plural=language.plural_set.filter(source=0)[0],
+                        filename=base_filename,
+                        language_code=language.code,
+                    )
 
                 # Create store file
                 TBXFormat.create_new_file(filename, language.code, "")
@@ -132,21 +136,26 @@ def migrate_glossaries(apps, schema_editor):
                         source_units[id_hash].save()
                     store.new_unit(context, term.source, term.target)
                     # Migrate database
-                    unit = translation.unit_set.create(
-                        context=context,
-                        source=term.source,
-                        target=term.target,
-                        state=STATE_TRANSLATED,
-                        position=position,
-                        num_words=len(term.source.split()),
-                        id_hash=id_hash,
-                        source_unit=source_units[id_hash],
-                    )
+                    if is_source:
+                        unit = source_units[id_hash]
+                        unit.target = term.target
+                        unit.save(update_fields=["target"])
+                    else:
+                        unit = translation.unit_set.create(
+                            context=context,
+                            source=term.source,
+                            target=term.target,
+                            state=STATE_TRANSLATED,
+                            position=position,
+                            num_words=len(term.source.split()),
+                            id_hash=id_hash,
+                            source_unit=source_units[id_hash],
+                        )
                     # Adjust history entries (langauge and project should be already set)
                     term.change_set.update(
                         unit=unit,
-                        translation=unit.translation,
-                        component=unit.translation.component,
+                        translation=translation,
+                        component=component,
                     )
                 store.save()
 
