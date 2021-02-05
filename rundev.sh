@@ -31,7 +31,7 @@ case $1 in
         ;;
     start|restart|"")
         # Build single requirements file
-        sed '/^-r/D' <  ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
+        sed '/^-r/D' ../requirements.txt ../requirements-optional.txt ../requirements-test.txt > weblate-dev/requirements.txt
         # Build the container
         docker-compose build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)
 
