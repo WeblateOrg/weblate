@@ -47,13 +47,32 @@ Forbidden translations
 
 .. versionadded:: 4.5
 
-You can flag certain glossary terms as forbidden - those words should not be
-used while translating. Use this to clarify translation when some words are
+You can flag certain glossary terms as forbidden - those should not be used
+while translating. Use this to clarify translation when some words are
 ambiguous or could have unexpected meanings.
 
 The terms can be flagged on the source language using :guilabel:`Tools` ↓
 :guilabel:`Mark as forbidden translations`. In the background this toggles the ``forbidden``
 flag on the string.
+
+.. seealso::
+
+   :ref:`custom-checks`
+
+.. _glossary-terminology:
+
+Terminology
++++++++++++
+
+.. versionadded:: 4.5
+
+You can flag certain glossary terms as terminology - those  will be present in
+all glossary languages. Use this to flag important terms which should be
+translated consistently.
+
+The terms can be flagged on the source language using :guilabel:`Tools` ↓
+:guilabel:`Mark as terminology`. In the background this toggles the
+``terminology`` flag on the string.
 
 .. seealso::
 

@@ -996,6 +996,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             }
         self._sources_prefetched = True
 
+    def get_all_sources(self):
+        if not self._sources_prefetched:
+            self.preload_sources()
+        return list(self._sources.values())
+
     def unload_sources(self):
         self._sources = {}
         self._sources_prefetched = False
@@ -2006,6 +2011,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if was_change:
             self.update_variants()
             component_post_update.send(sender=self.__class__, component=self)
+            self.sync_terminology()
 
         self.unload_sources()
 
@@ -2944,3 +2950,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for installed in addon.event_set.all():
                 result[installed.event].append(addon)
         return result
+
+    def sync_terminology(self):
+        """Trigger terminology sync in the background."""
+        from weblate.trans.tasks import sync_terminology
+
+        if self.is_glossary:
+            transaction.on_commit(lambda: sync_terminology.delay(self.pk))

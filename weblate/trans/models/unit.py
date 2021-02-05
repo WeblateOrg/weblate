@@ -383,6 +383,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Update manual variants
         self.update_variants()
 
+        # Update terminology
+        self.sync_terminology()
+
     def get_absolute_url(self):
         return "{}?checksum={}".format(
             self.translation.get_translate_url(), self.checksum
@@ -456,6 +459,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 unit.run_checks()
             if not self.is_bulk_edit and not self.is_batch_update:
                 self.translation.component.invalidate_stats_deep()
+
+    def sync_terminology(self):
+        new_flags = Flags(self.extra_flags, self.flags)
+
+        if "terminology" in new_flags:
+            self.translation.component.sync_terminology()
 
     def update_variants(self):
         old_flags = Flags(self.old_unit.extra_flags, self.old_unit.flags)
@@ -1344,6 +1353,22 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                             "addflag",
                             "forbidden",
                             gettext("Mark as forbidden translations"),
+                        )
+                    )
+                if "terminology" in flags:
+                    result.append(
+                        (
+                            "removeflag",
+                            "terminology",
+                            gettext("Unmark as terminology"),
+                        )
+                    )
+                else:
+                    result.append(
+                        (
+                            "addflag",
+                            "terminology",
+                            gettext("Mark as terminology"),
                         )
                     )
         return result

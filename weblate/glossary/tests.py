@@ -25,7 +25,9 @@ import json
 from django.conf import settings
 from django.urls import reverse
 
+from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.glossary.models import get_glossary_terms
+from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 
@@ -280,3 +282,27 @@ class GlossaryTest(ViewTestCase):
         )
         content = json.loads(response.content.decode())
         self.assertEqual(content["responseCode"], 200)
+
+    def test_terminology(self):
+        start = Unit.objects.count()
+
+        # Add single term
+        self.test_add()
+
+        # Verify it has been added to single language (+ source)
+        unit = self.glossary_component.source_translation.unit_set.get(source="source")
+        self.assertEqual(Unit.objects.count(), start + 2)
+        self.assertEqual(unit.unit_set.count(), 2)
+
+        # Enable language consistency
+        LangaugeConsistencyAddon.create(self.glossary_component)
+        self.assertEqual(unit.unit_set.count(), 2)
+        self.assertEqual(Unit.objects.count(), start + 2)
+
+        # Make it terminology
+        unit.extra_flags = "terminology"
+        unit.save()
+
+        # Verify it has been added to all languages
+        self.assertEqual(Unit.objects.count(), start + 4)
+        self.assertEqual(unit.unit_set.count(), 4)
