@@ -31,6 +31,7 @@ from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
+from weblate.vcs.ssh import get_key_data
 
 
 def check_user_form(request, project, verbose=False, form_class=UserManageForm):
@@ -204,5 +205,6 @@ def manage_access(request, project):
             "all_users": User.objects.for_project(obj),
             "add_user_form": UserManageForm(),
             "invite_user_form": InviteUserForm(),
+            "ssh_key": get_key_data(),
         },
     )

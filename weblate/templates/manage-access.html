@@ -7,11 +7,18 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Manage users" %}</a></li>
+<li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Access control" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
+<ul class="nav nav-pills">
+  <li class="active"><a href="#users" data-toggle="tab" id="tab_users">{% trans "Users" %}</a></li>
+  <li><a href="#api" data-toggle="tab" id="tab_api">{% trans "API access" %}</a></li>
+</ul>
+
+<div class="tab-content">
+<div class="tab-pane active" id="users">
 {% if object.access_control != object.ACCESS_CUSTOM %}
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -135,5 +142,43 @@
     </div>
   </div>
 {% endif %}
+</div>
+<div class="tab-pane" id="api">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'api' right=True %}
+        {% trans "API access" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <tr>
+        <th>{% trans "Your personal API key:" %}</th>
+        <td>
+            {{ user.auth_token.key }}
+            <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        </td>
+      </tr>
+    </table>
+    <div class="panel-footer">
+      <p class="help-block">{% trans "This is your personal API key, do not share it with anybody else." %}</p>
+    </div>
+  </div>
+  {% if ssh_key %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'vcs' right=True %}
+        {% trans "SSH key" %}
+      </h4>
+    </div>
+    <div class="panel-body">
+      {% include "snippets/ssh-key.html" %}
+    </div>
+  </div>
+  {% endif %}
+{% documentation_icon 'vcs' right=True %}
+</div>
+</div>
 
 {% endblock %}

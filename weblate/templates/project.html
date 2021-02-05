@@ -92,7 +92,8 @@
           <li><a href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a></li>
         {% endif %}
         {% if user_can_manage_acl %}
-        <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
+          <li><a href="{% url 'manage-access' project=object.slug %}#users">{% trans "Users" %}</a></li>
+          <li><a href="{% url 'manage-access' project=object.slug %}#api">{% trans "API access" %}</a></li>
         {% endif %}
         {% if user_can_edit_project %}
         <li><a href="{% url 'fonts' project=object.slug %}">{% trans "Fonts" %}</a></li>

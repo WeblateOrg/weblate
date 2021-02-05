@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load icons %}
+
+{% if ssh_key %}
+  <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ ssh_key.key }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+  <p>{% blocktrans %}Weblate uses SSH key to access remote repositories. The corresponding public key is found below, you can use it to grant Weblate access to a repository.{% endblocktrans %}</p>
+  <div class="list-group-item pre-scrollable">
+    {{ ssh_key.key|linebreaks }}
+  </div>
+{% else %}
+  <p>{% trans "SSH key not available." %}</p>
+{% endif %}
