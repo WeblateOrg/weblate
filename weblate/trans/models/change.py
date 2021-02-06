@@ -174,9 +174,6 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_ACCEPT = 7
     ACTION_REVERT = 8
     ACTION_UPLOAD = 9
-    ACTION_DICTIONARY_NEW = 10
-    ACTION_DICTIONARY_EDIT = 11
-    ACTION_DICTIONARY_UPLOAD = 12
     ACTION_NEW_SOURCE = 13
     ACTION_LOCK = 14
     ACTION_UNLOCK = 15
@@ -243,12 +240,6 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_REVERT, gettext_lazy("Translation reverted")),
         # Translators: Name of event in the history
         (ACTION_UPLOAD, gettext_lazy("Translation uploaded")),
-        # Translators: Name of event in the history
-        (ACTION_DICTIONARY_NEW, gettext_lazy("Added to glossary")),
-        # Translators: Name of event in the history
-        (ACTION_DICTIONARY_EDIT, gettext_lazy("Glossary updated")),
-        # Translators: Name of event in the history
-        (ACTION_DICTIONARY_UPLOAD, gettext_lazy("Glossary uploaded")),
         # Translators: Name of event in the history
         (ACTION_NEW_SOURCE, gettext_lazy("New source string")),
         # Translators: Name of event in the history
@@ -393,8 +384,6 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION_CLEANUP,
         ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
-        ACTION_DICTIONARY_NEW,
-        ACTION_DICTIONARY_EDIT,
     }
 
     # Actions indicating a repository merge failure
