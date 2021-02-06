@@ -44,7 +44,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
     processed = 0
 
     for processed, project in enumerate(projects):
-        component_names = set(project.component_set.values_list("slug", flat=True))
+        component_slugs = set(project.component_set.values_list("slug", flat=True))
         percent = int(100 * processed / total)
         print(f"Migrating glossaries {percent}% [{processed}/{total}]...")
         glossaries = project.glossary_set.all()
@@ -70,8 +70,9 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
             # Create component
             attempts = 0
             while True:
-                if name not in component_names:
+                if slug not in component_slugs:
                     component = create_glossary(project, name, slug, glossary, license)
+                    component_slugs.add(slug)
                     break
                 attempts += 1
                 name = f"{base_name} - {attempts}"
