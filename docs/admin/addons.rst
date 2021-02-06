@@ -125,11 +125,12 @@ from where you can check whether the configuration actually matches your needs:
 
 .. hint::
 
-   Component discovery addon uses :ref:`internal-urls`. It’s a convenient way to share VCS setup between multiple components. 
-   Linked components uses the local repository of the main component set up by filling
-   ``weblate://projectname/themaincomponent`` into the :ref:`component-repo` 
-   field (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓
-   :guilabel:`Version control system`) of each respective component. This saves time with configuration and system recources too.
+   Component discovery addon uses :ref:`internal-urls`. It’s a convenient way to share 
+   VCS setup between multiple components. Linked components uses the local repository of
+   the main component set up by filling ``weblate://projectname/themaincomponent`` 
+   into the :ref:`component-repo` field (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓
+   :guilabel:`Version control system`) of each respective component. 
+   This saves time with configuration and system recources too.
 
 .. seealso::
 
