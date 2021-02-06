@@ -38,7 +38,15 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
     Language = apps.get_model("lang", "Language")
     db_alias = schema_editor.connection.alias
 
-    for project in Project.objects.using(db_alias).all():
+    projects = Project.objects.using(db_alias).all()
+
+    total = len(projects)
+    processed = 0
+
+    for processed, project in enumerate(projects):
+        if processed % 10 == 0:
+            percent = int(100 * processed / total)
+            print(f"Updating source units {percent}% [{processed}/{total}]...")
         glossaries = project.glossary_set.all()
 
         try:
@@ -171,6 +179,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                 repo.execute(["add", repo_path])
                 if repo.needs_commit():
                     repo.commit("Migrate glossary content")
+    print(f"Updating source units completed [{total}/{total}]")
 
 
 class Migration(migrations.Migration):
