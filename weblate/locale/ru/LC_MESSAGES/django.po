@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
-"PO-Revision-Date: 2021-02-06 00:05+0000\n"
+"PO-Revision-Date: 2021-02-07 11:29+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -1152,21 +1152,15 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Пометка неизменённых переводов флагом «На правку»"
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"При импорте строки для перевода из системы контроля версий и при её "
+"При импорте новой строки для перевода из системы контроля версий и при её "
 "совпадении с исходной строкой она помечается в Weblate флагом «На правку». "
-"Особенно это полезно для тех форматов файлов, которые включают в себя все "
-"строки, даже если те не переведены."
+"Особенно это полезно для тех форматов файлов, которые для непереведённых "
+"строк хранят исходные строки вместо перевода."
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1468,16 +1462,12 @@ msgid "Pseudolocale generation"
 msgstr "Генератор псевдолокалей"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Автоматически генерирует псевдолокаль, добавляя префикс и суффикс к исходным "
-"строкам."
+"Генерирует дополнительный перевод, автоматически добавляя префикс и суффикс "
+"к исходным строкам."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1516,6 +1506,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Обновляет все PO-файлы (соответствующие «Маске файла»), используя msgmerge и "
+"приводя их в соответствие с POT-файлом (указанным в «Шаблоне для новых "
+"переводов»)."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1531,10 +1524,6 @@ msgid "Contributors in comment"
 msgstr "Участники в комментарии"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
@@ -8859,10 +8848,8 @@ msgid "Forbidden glossary term"
 msgstr "Добавление записей в глоссарий"
 
 #: weblate/templates/translate.html:82
-#, fuzzy
-#| msgid "Glossary name"
 msgid "Glossary term"
-msgstr "Название глоссария"
+msgstr "Термин глоссария"
 
 #: weblate/templates/translate.html:110 weblate/templates/zen-units.html:77
 msgid "Source change"
@@ -10885,10 +10872,8 @@ msgstr ""
 "Выберите дополнительные проекты, в которых этот компонент будет отображаться."
 
 #: weblate/trans/models/component.py:638
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "Управлять глоссарием"
+msgstr "Использовать в качестве глоссария"
 
 #: weblate/trans/models/component.py:643
 msgid "Glossary name"
@@ -11073,6 +11058,8 @@ msgstr "Не удалось обновить репозиторий: %s"
 #: weblate/trans/models/component.py:2339
 msgid "Please define a glossary name to use component as a glossary."
 msgstr ""
+"Укажите имя глоссария, чтобы использовать этот компонент в качестве "
+"глоссария."
 
 #: weblate/trans/models/component.py:2349
 msgid ""
@@ -11304,14 +11291,10 @@ msgstr ""
 "строки."
 
 #: weblate/trans/models/unit.py:1334
-#, fuzzy
-#| msgid "Allow translations"
 msgid "Allow translation"
 msgstr "Разрешить перевод"
 
 #: weblate/trans/models/unit.py:1336
-#, fuzzy
-#| msgid "Prohibit translations"
 msgid "Prohibit translation"
 msgstr "Запретить перевод"
 
