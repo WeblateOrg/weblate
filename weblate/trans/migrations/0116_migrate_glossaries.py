@@ -46,7 +46,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
     for processed, project in enumerate(projects):
         component_slugs = set(project.component_set.values_list("slug", flat=True))
         percent = int(100 * processed / total)
-        print(f"Migrating glossaries {percent}% [{processed}/{total}]...")
+        print(f"Migrating glossaries {percent}% [{processed}/{total}]...{project.name}")
         glossaries = project.glossary_set.all()
 
         try:
