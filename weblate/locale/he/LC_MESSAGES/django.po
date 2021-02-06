@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
-"PO-Revision-Date: 2021-02-06 18:06+0000\n"
+"PO-Revision-Date: 2021-02-07 11:29+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -1006,15 +1006,13 @@ msgid "Language consistency"
 msgstr "אחידות שפה"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
-msgstr "מוודא שלכל הרכיבים בתוך אותו המיזם יש תרגום לכל שפה שנוספת לתרגום."
+msgstr ""
+"מוודא שלכל הרכיבים בתוך מיזם יש תרגומים לכל שפה מתורגמת שנוספת על ידי הוספת "
+"תרגומים ריקים בשפות שלא נוספו אליהן רכיבים."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1075,20 +1073,14 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "סימון תרגומים ללא שינוי כ„טעוני שיפור”"
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "כשמחרוזת חדשה לתרגום מיובאת ממערכת ניהול הקוד והיא תואמת למחרוזת מקור, היא "
-"מסומנת כטעונת שיפור ב־Weblate. תכונה זו שימושית מאוד לתבניות קבצים שכוללות "
-"את כל המחרוזות אפילו אם אינן מתורגמות."
+"מסומנת כטעונת שיפור ב־Weblate. שימושי מאוד לתבניות קבצים שכוללות מחרוזות "
+"מקור למחרוזות שאינן מתורגמות."
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1386,14 +1378,10 @@ msgid "Pseudolocale generation"
 msgstr "יצירת שפה מדומה"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
-msgstr "מייצר שפה מדומה אוטומטית על ידי הוספת קידומת וסיומת למחרוזות המקור."
+msgstr "מייצר תרגום על ידי הוספת קידומת וסיומת למחרוזות המקור אוטומטית."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1432,6 +1420,8 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"מעדכן את כל קובצי ה־PO (כפי שמוגדר על ידי „מסכת הקובץ”) כדי שיתאימו לקובץ ה־"
+"POT (כפי שמוגדר על ידי „תבנית לתרגומים חדשים”) בעזרת msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1447,14 +1437,11 @@ msgid "Contributors in comment"
 msgstr "תורמים בתגובה"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
-msgstr "עדכון התגובה בכותרת קובץ ה־PO כדי שתכלול את שם התורם ושנות התרומה."
+msgstr ""
+"מעדכן את חלק התגובה בכותרת קובץ ה־PO כדי שתכלול את שם התורם ושנות התרומה."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
