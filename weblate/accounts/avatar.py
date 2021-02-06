@@ -101,14 +101,19 @@ def get_user_display(user, icon: bool = True, link: bool = False):
     if user is None:
         # None user, probably remotely triggered action
         username = full_name = pgettext("No known user", "None")
+        email = "noreply@weblate.org"
     else:
-        # Get full name
-        full_name = user.full_name
-
-        # Use user name if full name is empty
-        if full_name.strip() == "":
-            full_name = user.username
+        # Get basic info
         username = user.username
+        email = user.email
+        full_name = user.full_name.strip()
+
+        if not full_name:
+            # Use user name if full name is empty
+            full_name = username
+        elif username == email:
+            # Use full name in case username matches e-mail
+            username = full_name
 
     # Escape HTML
     full_name = escape(full_name)
@@ -116,7 +121,7 @@ def get_user_display(user, icon: bool = True, link: bool = False):
 
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
-        if user is None or user.email == "noreply@weblate.org":
+        if email == "noreply@weblate.org":
             avatar = get_fallback_avatar_url(32)
         else:
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
