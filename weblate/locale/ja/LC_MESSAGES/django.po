@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
 "PO-Revision-Date: 2021-02-07 11:29+0000\n"
-"Last-Translator: Masahiro Fujimoto <mfujimot@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1037,17 +1037,12 @@ msgid "Language consistency"
 msgstr "言語の一貫性"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"1 つのプロジェクト内のすべてのコンポーネントに、追加されたすべての言語の翻訳"
-"を適用します。"
+"プロジェクト内のすべてのコンポーネントにおいて、言語にコンポーネントが追加されていなくても、空の翻訳を作成して、追加した翻訳言語ごとに翻訳を行います。"
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1110,20 +1105,13 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "未翻訳の翻訳文に \"要編集\" フラグを付ける"
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、"
-"Weblate は \"要編集\" フラグを付けます。これは、文字列が翻訳されていない場合"
-"であっても、すべての文字列を含むファイル形式には特に便利です。"
+"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は \"要編集\" "
+"フラグを付けます。特に、未翻訳の文字列に原文が含まれるファイル形式では分かりやすくなります。"
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1426,15 +1414,10 @@ msgid "Pseudolocale generation"
 msgstr "疑似言語の生成"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
-msgstr ""
-"原文に接頭辞と接尾辞を追加することで、疑似言語の変換を自動的に生成します。"
+msgstr "原文に接頭辞と接尾辞を自動的に追加して、翻訳を生成します。"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1473,6 +1456,8 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"msgmerge を使用して、すべての PO ファイル（「ファイルマスク」の設定内容）を、POT "
+"ファイル（「新しい翻訳用テンプレート」の設定内容）と一致するように更新します。"
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1488,18 +1473,14 @@ msgid "Contributors in comment"
 msgstr "コメント内の貢献者情報"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
-msgstr "PO ファイルヘッダのコメントを更新し、貢献者名と貢献年を追加します。"
+msgstr "PO ファイルヘッダのコメントを更新し、貢献者名と貢献した西暦を追加します。"
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
-msgstr "Git コミットをスカッシュ"
+msgstr "Git コミットの簡略化"
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits prior to pushing changes."
@@ -9272,7 +9253,7 @@ msgstr "検査不合格の翻訳"
 
 #: weblate/trans/filter.py:57
 msgid "Translated strings with dismissed checks"
-msgstr "検査除外した翻訳"
+msgstr "検査除外の翻訳文"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -11063,10 +11044,8 @@ msgid "Allow translation"
 msgstr "翻訳の許可"
 
 #: weblate/trans/models/unit.py:1336
-#, fuzzy
-#| msgid "Prohibit translations"
 msgid "Prohibit translation"
-msgstr "翻訳の無効"
+msgstr "翻訳の不許可"
 
 #: weblate/trans/models/unit.py:1343
 msgid "Unmark as forbidden translations"
