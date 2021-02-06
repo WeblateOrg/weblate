@@ -37,7 +37,8 @@ JavaScript localization CDN
 
 .. versionadded:: 4.2
 
-Publishes translations into content delivery network for use in JavaScript or HTML localization.
+Publishes translations into content delivery network for use in JavaScript or
+HTML localization.
 
 Can be used to localize static HTML pages, or
 to load localization in the JavaScript code.
@@ -88,8 +89,8 @@ Language consistency
 --------------------
 
 Ensures all components within a project have translations for every added
-translated language by creating empty translations in languages that
-have unadded components.
+translated language by creating empty translations in languages that have
+unadded components.
 
 Missing languages are checked once every 24 hours, and when new languages
 are added in Weblate.
@@ -181,8 +182,8 @@ Flag unchanged translations as "Needs editing"
 .. versionadded:: 3.1
 
 Whenever a new translatable string is imported from the VCS and it matches a
-source string, it is flagged as needing editing in Weblate. Especially
-useful for file formats that include source strings for untranslated strings.
+source string, it is flagged as needing editing in Weblate. Especially useful
+for file formats that include source strings for untranslated strings.
 
 .. _addon-weblate.flags.source_edit:
 
@@ -237,8 +238,8 @@ Content
 Pseudolocale generation
 -----------------------
 
-Generates a translation by adding prefix and suffix
-to source strings automatically.
+Generates a translation by adding prefix and suffix to source strings
+automatically.
 
 Pseudolocales are useful to find strings that are not prepared for
 localization. This is done by altering all translatable source strings
@@ -333,6 +334,8 @@ configuration.
 
 Squash Git commits
 ------------------
+
+Squash Git commits prior to pushing changes.
 
 Git commits can be squashed prior to pushing changes
 in one of the following modes:

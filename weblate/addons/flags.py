@@ -86,9 +86,8 @@ class SameEditAddon(FlagBase):
     verbose = _('Flag unchanged translations as "Needs editing"')
     description = _(
         "Whenever a new translatable string is imported from the VCS and it matches a "
-        "source string, it is flagged as needing editing in Weblate. This is "
-        "especially useful for file formats that include all strings even if not "
-        "translated."
+        "source string, it is flagged as needing editing in Weblate. Especially "
+        "useful for file formats that include source strings for untranslated strings."
     )
 
     def unit_pre_create(self, unit):

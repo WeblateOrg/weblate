@@ -31,8 +31,9 @@ class LangaugeConsistencyAddon(BaseAddon):
     name = "weblate.consistency.languages"
     verbose = _("Language consistency")
     description = _(
-        "Ensures all components within one project have translations for every added "
-        "language for translation."
+        "Ensures all components within a project have translations for every added "
+        "translated language by creating empty translations in languages that "
+        "have unadded components."
     )
     icon = "language.svg"
     project_scope = True

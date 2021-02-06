@@ -64,8 +64,8 @@ class PseudolocaleAddon(BaseAddon):
     name = "weblate.generate.pseudolocale"
     verbose = _("Pseudolocale generation")
     description = _(
-        "Automatically generates a pseudolocale translation by adding prefix and "
-        "suffix to source strings."
+        "Generates a translation by adding prefix and suffix "
+        "to source strings automatically."
     )
     settings_form = PseudolocaleAddonForm
     icon = "language.svg"

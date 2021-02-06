@@ -227,8 +227,8 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = "weblate.gettext.msgmerge"
     verbose = _("Update PO files to match POT (msgmerge)")
     description = _(
-        "Updates all PO files to match the POT file using msgmerge. "
-        "Triggered whenever new changes are pulled from the upstream repository."
+        'Updates all PO files (as configured by "Filemask") to match the '
+        'POT file (as configured by "Template for new translations") using msgmerge.'
     )
     alert = "MsgmergeAddonError"
     settings_form = MsgmergeForm
@@ -315,8 +315,8 @@ class GettextAuthorComments(GettextBaseAddon):
     name = "weblate.gettext.authors"
     verbose = _("Contributors in comment")
     description = _(
-        "Update the comment in the PO file header to include contributor names and "
-        "years of contributions."
+        "Updates the comment part of the PO file header to include contributor names "
+        "and years of contributions."
     )
 
     def pre_commit(self, translation, author):
