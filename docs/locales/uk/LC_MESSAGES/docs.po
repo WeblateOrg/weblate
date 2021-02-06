@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 19:09+0100\n"
-"PO-Revision-Date: 2021-02-06 00:05+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2021-02-07 11:30+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -173,27 +173,16 @@ msgid "Project access control"
 msgstr "Керування доступом на рівні проєкту"
 
 #: ../../admin/access.rst:81
-#, fuzzy
-#| msgid ""
-#| "By turning on access-control lists, all users are prohibited from "
-#| "accessing anything within a given project, unless you add the permissions "
-#| "for them to do just that."
 msgid ""
 "By turning on access control, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
 msgstr ""
-"Якщо увімкнено списки керування доступом (ACL), усім користувачам буде "
-"заборонено доступ до усіх даних у вказаному проєкті, якщо ви явним чином не "
-"дозволите такий доступ."
+"Якщо увімкнено керування доступом, усім користувачам буде заборонено доступ "
+"до усіх даних у вказаному проєкті, якщо ви явним чином не дозволите такий "
+"доступ."
 
 #: ../../admin/access.rst:86
-#, fuzzy
-#| msgid ""
-#| "Limit user's access to individual projects by turning on :guilabel:"
-#| "`Access` in the :guilabel:`Settings` of each respective project. This "
-#| "automatically creates several groups for the project in question, see :"
-#| "ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by selecting a different access "
 "control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` "
@@ -201,9 +190,9 @@ msgid ""
 "the project in question, see :ref:`groups`."
 msgstr ""
 "Ви можете обмежити доступ користувача до окремих проєктів. Ця можливість "
-"вмикається пунктом :guilabel:`Доступ` у налаштуваннях відповідного проєкту. "
-"У відповідь буде автоматично створено декілька груп для цього проєкту, див. :"
-"ref:`groups`."
+"вмикається вибором іншого варіанта керування доступом на вкладці "
+":guilabel:`Доступ` у налаштуваннях відповідного проєкту. У відповідь буде "
+"автоматично створено декілька груп для цього проєкту, див. :ref:`groups`."
 
 #: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
@@ -249,32 +238,23 @@ msgstr ""
 "ref:`custom-acl`."
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid ""
-#| "Grant access to a project by adding the privilege either directly to the "
-#| "given user, or group of users in the Django admin-interface, or by using "
-#| "user management on the project page, as described in :ref:`manage-acl`."
 msgid ""
 "Grant access to a project by adding the privilege either directly to an "
 "user, or group of users in the Django admin-interface, or by using user "
 "management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
 "Щоб дозволити доступ до цього проєкту, вам слід додати права доступу або "
-"безпосередньо для запису певного користувача або групи користувачів у "
+"безпосередньо для запису користувача або групи користувачів у "
 "адміністративному інтерфейсі Django або за допомогою керування записами "
 "користувачів на сторінці проєкту, як це описано у розділі :ref:`manage-acl`."
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid ""
-#| "Even with access-control lists turned on, some info will be available "
-#| "about your project:"
 msgid ""
 "Even with access control turned on, some info will be available about your "
 "project:"
 msgstr ""
-"Навіть якщо ACL увімкнено, буде доступною деяка загальна інформація щодо "
-"вашого проєкту:"
+"Навіть якщо керування доступом увімкнено, буде доступною деяка загальна "
+"інформація щодо вашого проєкту:"
 
 #: ../../admin/access.rst:113
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -496,13 +476,11 @@ msgid "Managing per-project access control"
 msgstr "Керування правами доступу на рівні проєкту"
 
 #: ../../admin/access.rst:227
-#, fuzzy
-#| msgid ""
-#| "This feature only works for projects using access-control lists, see :ref:"
-#| "`acl`."
 msgid ""
 "This feature only works for projects using access control, see :ref:`acl`."
-msgstr "Ця можливість працює лише для керованих ACL проєктів, див. :ref:`acl`."
+msgstr ""
+"Ця можливість працює лише для проєктів із керуванням доступом, див. "
+":ref:`acl`."
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -1164,21 +1142,15 @@ msgid "Addons"
 msgstr "Доповнення"
 
 #: ../../admin/addons.rst:8
-#, fuzzy
-#| msgid ""
-#| "Addons provide ways to customize translation workflow. They can be "
-#| "installed in the translation component view, and work behind the scenes. "
-#| "Addon management is available from the :guilabel:`Manage` ↓ `Addons` menu "
-#| "of each respective translation component for admins."
 msgid ""
 "Addons provide ways to customize and automate the translation workflow. "
 "Admins can add and mangage addons from the :guilabel:`Manage` ↓ `Addons` "
 "menu of each respective translation component."
 msgstr ""
-"Додатки надають змогу налаштувати процедуру перекладу. Їх можна встановити "
-"за допомогою панелі складника перекладу, вони працюють за лаштунками. "
-"Керувати додатками можна за допомогою меню :guilabel:`Керувати` ↓ `Додатки` "
-"для кожного відповідного складника перекладу для адміністраторів."
+"Додатки надають змогу налаштувати і автоматизувати процедуру перекладу. "
+"Адміністратори можуть додавати додатки і керувати ними за допомогою меню "
+":guilabel:`Керувати` ↓ `Додатки` для кожного відповідного складника "
+"перекладу для адміністраторів."
 
 #: ../../admin/addons.rst:15
 msgid "Built-in addons"
@@ -1198,13 +1170,8 @@ msgstr ""
 "складників."
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid ""
-#| "This addon is triggered automatically when new strings appear in a "
-#| "component."
 msgid "Triggered automatically when new strings appear in a component."
-msgstr ""
-"Цей додаток автоматично вмикається, коли у складнику з'являються нові рядки."
+msgstr "Автоматично вмикається, коли у складнику з'являються нові рядки."
 
 #: ../../admin/addons.rst:30
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -1223,30 +1190,21 @@ msgstr ""
 "JavaScript або HTML."
 
 #: ../../admin/addons.rst:43
-#, fuzzy
-#| msgid ""
-#| "It can be used to localize static HTML pages or used to load localization "
-#| "in the JavaScript code."
 msgid ""
 "Can be used to localize static HTML pages, or to load localization in the "
 "JavaScript code."
 msgstr ""
-"Ним можна скористатися для локалізації статичних сторінок HTML або "
-"завантаження локалізації у коді JavaScript."
+"Можна скористатися для локалізації статичних сторінок HTML або завантаження "
+"локалізації у коді JavaScript."
 
 #: ../../admin/addons.rst:46
-#, fuzzy
-#| msgid ""
-#| "Upon installation the addon generates unique URL for your component which "
-#| "you can include in the HTML documents to get them localized. See :ref:"
-#| "`weblate-cdn` for more details."
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
-"Після встановлення додаток створює унікальну адресу для вашого складника, "
-"яку ви можете включати до документів HTML для налаштовування їхньої "
-"локалізації. Див. :ref:`weblate-cdn`, щоб дізнатися більше."
+"Створює унікальну адресу для вашого складника, яку ви можете включати до "
+"сторінок HTML для їхньої локалізації. Див. :ref:`weblate-cdn`, щоб дізнатися "
+"більше."
 
 #: ../../admin/addons.rst:51
 msgid ""
@@ -1265,19 +1223,14 @@ msgid "Removes strings without a translation from translation files."
 msgstr "Вилучає рядки без перекладу з файлів перекладу."
 
 #: ../../admin/addons.rst:65
-#, fuzzy
-#| msgid ""
-#| "Use this if you do not want empty strings to appear in translation files "
-#| "(for example when your localization library displays them as empty "
-#| "strings instead of falling back to the source string)."
 msgid ""
 "Use this to not have any empty strings in translation files (for example if "
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
 "Використовуйте це, якщо не хочете, щоб порожні рядки з'являлись у файлах "
-"перекладу (наприклад, коли у бібліотеці локалізації їх показано порожніми "
-"рядками, а не повернено до джерельного рядка)."
+"перекладу (наприклад, коли у бібліотеці локалізації їх показано як пропущені "
+"рядки, а не повернено до початкового рядка)."
 
 #: ../../admin/addons.rst:71 ../../admin/addons.rst:84
 #: ../../admin/addons.rst:331 ../../admin/addons.rst:422
@@ -1303,28 +1256,21 @@ msgid "Language consistency"
 msgstr "Мовна однорідність"
 
 #: ../../admin/addons.rst:91
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Гарантує, що всі складники в межах одного проєкту містять однаковий переклад "
-"однакових рядків."
+"Гарантує, що всі складники в межах одного проєкту містять переклад кожною "
+"доданою мовою шляхом створення порожніх перекладів для мов, які не містять "
+"доданих складників."
 
 #: ../../admin/addons.rst:95
-#, fuzzy
-#| msgid ""
-#| "Missing languages are checked once every 24 hours and when a new language "
-#| "is added in Weblate."
 msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
 msgstr ""
-"Пошук пропущених мов відбувається кожні 24 години і при додаванні нової мови "
+"Пошук пропущених мов відбувається кожні 24 години і при додаванні нових мов "
 "у Weblate."
 
 #: ../../admin/addons.rst:98
@@ -1352,11 +1298,6 @@ msgstr ""
 "системі керування версіями."
 
 #: ../../admin/addons.rst:113
-#, fuzzy
-#| msgid ""
-#| "It is triggered on every VCS update, and otherwise similar to the :"
-#| "djadmin:`import_project` management command. This way you can track "
-#| "multiple translation components within one VCS."
 msgid ""
 "Triggered each time the VCS is updated, and otherwise similar to the :"
 "djadmin:`import_project` management command. This way you can track multiple "
@@ -1368,19 +1309,15 @@ msgstr ""
 "версіями."
 
 #: ../../admin/addons.rst:117
-#, fuzzy
-#| msgid ""
-#| "The matching is done using regular expressions, where power is a tradeoff "
-#| "for complexity in configuration. Some examples for common use cases can "
-#| "be found in the addon help section."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the addon help section."
 msgstr ""
-"Відповідність встановлюватиметься за формальними виразами, перевагою яких є "
-"потужність, а недоліком — складність у визначенні. Деякі приклади для "
-"типових випадків використання можна знайти у розділі довідки щодо додатків."
+"Відповідність встановлюватиметься за регулярними виразами, що надає "
+"можливість створювати складні налаштування, але для користування ними "
+"потрібні певні знання. Деякі приклади для типових випадків використання "
+"можна знайти у розділі довідки щодо додатків."
 
 #: ../../admin/addons.rst:122
 msgid ""
@@ -1402,6 +1339,14 @@ msgid ""
 "system`) of each respective component. This saves time with configuration "
 "and system recources too."
 msgstr ""
+"Додаток виявлення складників використовує :ref:`внутрішні адреси <internal-"
+"urls>`. Це зручний спосіб використовувати однакові налаштування системи "
+"керування версіями для декількох складників одночасно. Пов'язані складники "
+"використовують локальне сховище головного складника шляхом вписування "
+"``weblate://назва_проєкту/основний_складник`` до поля :ref:`component-repo` ("
+"у :guilabel:`Керування` ↓ :guilabel:`Параметри` ↓ :guilabel:`Система "
+"керування версіями`) кожного відповідного складника. Це також надає змогу "
+"заощадити час на налаштування та ресурси системи."
 
 #: ../../admin/addons.rst:138 ../../admin/addons.rst:234
 msgid ":ref:`markup`"
@@ -1416,21 +1361,15 @@ msgid "Bulk edit flags, labels or state for strings."
 msgstr "Надає можливість пакетного редагування прапорців, міток або стану."
 
 #: ../../admin/addons.rst:149
-#, fuzzy
-#| msgid ""
-#| "Automating the labeling of new strings can be useful (start out with "
-#| "search query ``NOT has:label`` and add desired labels till all strings "
-#| "are properly labeled). You can also carry out any other automated "
-#| "operations for Weblate metadata."
 msgid ""
 "Automate labeling by starting out with the search query ``NOT has:label`` "
 "and add labels till all strings have all required labels). Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
-"Автоматизація встановлення міток для нових рядків може бути корисним "
-"(почніть з пошукового запиту ``NOT has:label`` і додавайте бажані мітки, аж "
-"доки для усіх рядків буде встановлено мітки). Ви також можете виконувати "
-"будь-які інші автоматизовані дії для метаданих Weblate."
+"Автоматизуйте встановлення міток для нових рядків — почніть з пошукового "
+"запиту ``NOT has:label`` і додавайте мітки, аж доки для усіх рядків буде "
+"встановлено потрібні мітки. Ви також можете виконувати будь-які інші "
+"автоматизовані дії для метаданих Weblate."
 
 #: ../../admin/addons.rst:153 ../../admin/config.rst:1755
 msgid "**Examples:**"
@@ -1438,7 +1377,7 @@ msgstr "**Приклади:**"
 
 #: ../../admin/addons.rst:155
 msgid "Label new strings automatically"
-msgstr ""
+msgstr "Автоматичне встановлення міток нових рядків"
 
 #: ../../admin/addons.rst:158 ../../admin/addons.rst:166
 msgid "Search query"
@@ -1483,12 +1422,6 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Позначити незмінені переклади як такі, що потребують редагування"
 
 #: ../../admin/addons.rst:184
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
@@ -1496,8 +1429,8 @@ msgid ""
 msgstr ""
 "Кожного разу, коли новий перекладний рядок імпортується з VCS, і він "
 "збігається із початковим рядком, його буде позначено як такий, що потребує "
-"редагування в Weblate. Це корисно для форматів файлів, які включають усі "
-"рядки, в тому числі й такі, що не перекладаються."
+"редагування у Weblate. Це особливо корисно для форматів файлів, які "
+"включають початкові рядки, навіть ті, які не перекладено."
 
 #: ../../admin/addons.rst:191
 msgid "Flag new source strings as \"Needs editing\""
@@ -1537,10 +1470,6 @@ msgid "Generates a file containing detailed info about the translation status."
 msgstr "Створює файл з докладними відомостями щодо стану перекладу."
 
 #: ../../admin/addons.rst:213
-#, fuzzy
-#| msgid ""
-#| "You can use Django template in both filename and content, see :ref:"
-#| "`markup` for a detailed markup description."
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
@@ -1549,8 +1478,6 @@ msgstr ""
 "Докладний опис розмітки можна знайти у розділі :ref:`markup`."
 
 #: ../../admin/addons.rst:216
-#, fuzzy
-#| msgid "For example generating summary file for each translation:"
 msgid "For example generating a summary file for each translation:"
 msgstr "Наприклад, створення файла резюме для кожного перекладу:"
 
@@ -1571,44 +1498,32 @@ msgid "Pseudolocale generation"
 msgstr "Створення псевдолокалей"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Автоматично створює псевдолокаль перекладу, додавши префікс і суфікс до "
-"джерельних рядків."
+"Автоматично створює переклад додаванням префікса і суфікса до початкових "
+"рядків."
 
 #: ../../admin/addons.rst:244
-#, fuzzy
-#| msgid ""
-#| "Pseudolocales are useful for testing if all strings that should be "
-#| "localized are actually prepared for localization. This is done by "
-#| "altering source strings so it would be easy to spot a string which has "
-#| "not been altered and running the application with those strings as a "
-#| "translation. Also it would be easier to find strings which localized "
-#| "counterparts might not fit into the layout."
 msgid ""
 "Pseudolocales are useful to find strings that are not prepared for "
 "localization. This is done by altering all translatable source strings to "
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
-"Псевдолокалі корисні для перевірки того, чи усі рядки, які має бути "
-"перекладено, насправді готові до локалізації. Результат досягається зміною "
-"початкових рядків таким чином, щоб рядок, який не змінено, було просто "
-"виявити під час запуску програми із відповідними рядками «перекладу». Також "
-"псевдолокалі корисні для виявлення рядків, чиї перекладені варіанти можуть "
-"не вписуватися у компонування вікон програми."
+"Псевдолокалі корисні для пошуку рядків, які не приготовано до локалізації. "
+"Результат досягається зміною усіх придатних до перекладу початкових рядків "
+"таким чином, щоб рядок, який не змінено, було просто виявити під час запуску "
+"програми із відповідними рядками псевдолокалі."
 
 #: ../../admin/addons.rst:249
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"Також можна виконати пошук рядків, локалізовані відповідники яких можуть не "
+"вписуватися у компонування вікна програми."
 
 #: ../../admin/addons.rst:254
 msgid ""
@@ -1623,22 +1538,16 @@ msgid "Contributors in comment"
 msgstr "Перекладачі в коментарі"
 
 #: ../../admin/addons.rst:262
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Оновлює коментар у заголовку файла PO, щоб включити імена перекладачів та "
-"роки перекладу."
+"Оновлює коментар у заголовку файла PO так, щоб до нього було включено імена "
+"перекладачів та роки перекладу."
 
 #: ../../admin/addons.rst:265
-#, fuzzy
-#| msgid "The bilingual gettext PO file typically looks like this:"
 msgid "The PO file header will look like this:"
-msgstr "Типовий двомовний файл PO gettext виглядає ось так:"
+msgstr "Заголовок файла PO виглядатиме якось так:"
 
 #: ../../admin/addons.rst:277
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1671,20 +1580,14 @@ msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Перенесення рядків на 77 символах на символах перенесення рядків"
 
 #: ../../admin/addons.rst:292
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines for newlines"
-msgstr "Перенесення рядків лише після символу нового рядку"
+msgstr "Перенесення рядків лише після символу нового рядка"
 
 #: ../../admin/addons.rst:293
 msgid "No line wrapping"
 msgstr "Без перенесення рядків"
 
 #: ../../admin/addons.rst:297
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and for newlines. With "
-#| "the ``--no-wrap`` parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done for newlines."
@@ -1732,19 +1635,14 @@ msgstr ""
 "за допомогою :program:`msgmerge`."
 
 #: ../../admin/addons.rst:325
-#, fuzzy
-#| msgid ""
-#| "This addon is triggered whenever new changes are pulled from the upstream "
-#| "repository. You can configure most of the msgmerge command line options "
-#| "through the addon configuration."
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the addon configuration."
 msgstr ""
-"Цей додаток спрацьовує щоразу, коли нові зміни витягуються із основного "
-"сховища даних, щоб вони відповідали ref:`component-new_base`. Ви можете "
-"налаштувати більшість параметрів командного рядка msgmerge за допомогою "
-"налаштувань додатка."
+"Спрацьовує щоразу, коли нові зміни витягуються із основного сховища даних, "
+"щоб вони відповідали ref:`component-new_base`. Ви можете налаштувати "
+"більшість параметрів командного рядка msgmerge за допомогою налаштувань "
+"додатка."
 
 #: ../../admin/addons.rst:336
 msgid "Squash Git commits"
@@ -1755,12 +1653,12 @@ msgid "Squash Git commits prior to pushing changes."
 msgstr "Об'єднати Git подання перед відправленням змін."
 
 #: ../../admin/addons.rst:340
-#, fuzzy
-#| msgid "Each translated string can be in one of following states:"
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
-msgstr "Кожен перекладений рядок може перебувати в одному з таких станів:"
+msgstr ""
+"Внески Git можна об'єднувати до запису змін з використанням одного з таких "
+"режимів:"
 
 #: ../../admin/addons.rst:345
 msgid "All commits into one"
@@ -1796,12 +1694,6 @@ msgstr ""
 "нетиповим повідомленням про внесок."
 
 #: ../../admin/addons.rst:360
-#, fuzzy
-#| msgid ""
-#| "Trailers (commit lines like ``Co-authored-by: ...``) can optionally be "
-#| "removed from the original commit messages and appended to the end of the "
-#| "squashed commit message. This also generates proper ``Co-authored-by:`` "
-#| "credit for every translator."
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
@@ -1840,11 +1732,6 @@ msgid "Set a timeframe for removal of comments."
 msgstr "Вказати термін вилучення застарілих коментарів."
 
 #: ../../admin/addons.rst:388
-#, fuzzy
-#| msgid ""
-#| "This can be useful to remove old comments which might have become "
-#| "outdated. Use with care as comment being old does not mean they have lost "
-#| "their importance."
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
@@ -1863,18 +1750,13 @@ msgid "Set a timeframe for removal of suggestions."
 msgstr "Встановити строк вилучення пропозицій."
 
 #: ../../admin/addons.rst:401
-#, fuzzy
-#| msgid ""
-#| "This can be very useful in connection with suggestion voting (see :ref:"
-#| "`peer-review`) to remove suggestions which don't receive enough positive "
-#| "votes in a given timeframe."
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
-"Це може бути дуже корисним у поєднанні із голосуванням за пропозиції (див. :"
-"ref:`peer-review`) для вилучення пропозицій, які не отримують достатньої "
+"Це може бути дуже корисним у поєднанні із голосуванням за пропозиції (див. "
+":ref:`peer-review`) для вилучення пропозицій, які не отримують достатньої "
 "кількості позитивних голосів протягом вказаного часового проміжку."
 
 #: ../../admin/addons.rst:408
@@ -1915,10 +1797,6 @@ msgid "Customizing list of addons"
 msgstr "Налаштовування списку додатків"
 
 #: ../../admin/addons.rst:437
-#, fuzzy
-#| msgid ""
-#| "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
-#| "another addon, simply include class absolute name in this setting."
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include the absolute class name in this setting."
@@ -1931,18 +1809,13 @@ msgid "Writing addon"
 msgstr "Написання додатка"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, all you need to do is subclass :class:"
-#| "`weblate.addons.base.BaseAddon`, define the addon metadata and implement "
-#| "a callback which will do the processing."
 msgid ""
 "You can write your own addons too, use the subclass :class:`weblate.addons."
 "base.BaseAddon` to define the addon metadata, and then implement a callback "
 "to do the processing."
 msgstr ""
-"Ви також можете створити власні додатки — усе, що потрібно, створити "
-"підклас :class:`weblate.addons.base.BaseAddon`, визначити метадані додатка і "
+"Ви також можете створити власні додатки — усе, що потрібно, створити підклас "
+":class:`weblate.addons.base.BaseAddon`, визначити метадані додатка і "
 "реалізувати зворотний виклик, який виконуватиме обробку."
 
 #: ../../admin/addons.rst:452
@@ -2011,16 +1884,10 @@ msgstr ""
 "порожньою)."
 
 #: ../../admin/addons.rst:508
-#, fuzzy
-#| msgid "Fileformat used in current component."
 msgid "File format used in current component."
 msgstr "Формат файла у поточному складнику."
 
 #: ../../admin/addons.rst:512
-#, fuzzy
-#| msgid ""
-#| "Language of currently processed translation (not available for component "
-#| "level hooks)."
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
@@ -2029,9 +1896,6 @@ msgstr ""
 "рівні складника)."
 
 #: ../../admin/addons.rst:517
-#, fuzzy
-#| msgid ""
-#| "Previous HEAD on update (available only when running post update hook)."
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
@@ -2068,44 +1932,29 @@ msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:560
-#, fuzzy
-#| msgid "Post update repository processing"
 msgid "Post-update repository processing"
 msgstr "Обробка сховища після оновлення"
 
 #: ../../admin/addons.rst:562
-#, fuzzy
-#| msgid ""
-#| "Post update repository processing can be used to update translation files "
-#| "when the VCS upstream source changes. To achieve this, please remember "
-#| "that Weblate only sees files committed to the VCS, so you need to commit "
-#| "changes as a part of the script."
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"Обробкою сховища після оновлення можна скористатися для оновлення файлів "
-"перекладу, коли міняється джерело у основному сховищі системи керування "
-"версіями. Слід пам'ятати, що Weblate «бачить» лише файли, які внесено до "
-"системи керування версіями, тому вам доведеться внести зміни до сховища у "
-"самому скрипті."
+"Можна скористатися для оновлення файлів перекладу, коли міняється джерело у "
+"основному сховищі системи керування версіями. Слід пам'ятати, що Weblate "
+"«бачить» лише файли, які внесено до системи керування версіями, тому вам "
+"доведеться внести зміни до сховища у самому скрипті."
 
 #: ../../admin/addons.rst:566
 msgid "For example with Gulp you can do it using following code:"
 msgstr "Наприклад, з Gulp ви можете зробити це за допомогою такого коду:"
 
 #: ../../admin/addons.rst:576
-#, fuzzy
-#| msgid "Pre commit processing of translations"
 msgid "Pre-commit processing of translations"
 msgstr "Обробка перекладів перед внесенням до сховища"
 
 #: ../../admin/addons.rst:578
-#, fuzzy
-#| msgid ""
-#| "Use the commit script to automatically make changes to the translation "
-#| "before it is committed to the repository."
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
@@ -18036,28 +17885,24 @@ msgstr ""
 "toolkit для виправлення декількох проблем із форматами файлів."
 
 #: ../../admin/upgrade.rst:185
-#, fuzzy
-#| msgid "Upgrade from 4.3 to 4.4"
 msgid "Upgrade from 4.4 to 4.5"
-msgstr "Оновлення з 4.3 до 4.4"
+msgstr "Оновлення з 4.4 до 4.5"
 
 #: ../../admin/upgrade.rst:191
-#, fuzzy
-#| msgid ""
-#| "Glossaries are now stored as regular components, translations and "
-#| "strings, please use respective API instead."
 msgid ""
 "Glossaries are now stored as regular components. The migration might take "
 "considerable time if you had big glossaries."
 msgstr ""
-"У нових версіях глосарії зберігаються як звичайні складники, переклади і "
-"рядки. Будь ласка, скористайтеся відповідним API."
+"У нових версіях глосарії зберігаються як звичайні складники. Перехід на нову "
+"версію може бути досить тривалим, якщо у вас доволі великі глосарії."
 
 #: ../../admin/upgrade.rst:192
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
+"Вилучено програмний інтерфейс глосаріїв. Для доступу до глосаріїв "
+"скористайтеся звичайним програмним інтерфейсом перекладів."
 
 #: ../../admin/upgrade.rst:199
 msgid "Upgrading from Python 2 to Python 3"
@@ -35391,16 +35236,12 @@ msgstr ""
 "зберігання у сховищі Git або додавання пояснень."
 
 #: ../../user/glossary.rst:20
-#, fuzzy
-#| msgid ""
-#| "You can use any component a glossary by turning on :ref:`component-"
-#| "is_glossary`."
 msgid ""
 "You can use any component as a glossary by turning on :ref:`component-"
 "is_glossary`."
 msgstr ""
-"Ви можете зробити будь-який складник глосарієм за допомогою пункту :ref:"
-"`component-is_glossary`."
+"Ви можете зробити будь-який складник глосарієм за допомогою пункту :ref"
+":`component-is_glossary`."
 
 #: ../../user/glossary.rst:22
 msgid ""
