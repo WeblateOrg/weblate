@@ -114,7 +114,7 @@ the :djadmin:`import_project` management command. This way you can track
 multiple translation components within one VCS.
 
 The matching is done using regular expressions 
-that enables complex configuration, but some knowledge is needed to use them conveniently. 
+enabling complex configuration, but some knowledge is required to do so. 
 Some examples for common use cases can be found in
 the addon help section.
 
