@@ -47,7 +47,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
         component_names = set(project.component_set.values_list("slug", flat=True))
         if processed % 10 == 0:
             percent = int(100 * processed / total)
-            print(f"Updating source units {percent}% [{processed}/{total}]...")
+            print(f"Migrating glossaries {percent}% [{processed}/{total}]...")
         glossaries = project.glossary_set.all()
 
         try:
@@ -177,7 +177,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                 repo.execute(["add", repo_path])
                 if repo.needs_commit():
                     repo.commit("Migrate glossary content")
-    print(f"Updating source units completed [{total}/{total}]")
+    print(f"Migrating glossaries completed [{total}/{total}]")
 
 
 class Migration(migrations.Migration):
