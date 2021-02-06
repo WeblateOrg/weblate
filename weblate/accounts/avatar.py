@@ -126,8 +126,6 @@ def get_user_display(user, icon: bool = True, link: bool = False):
 
     if link and user is not None:
         return mark_safe(
-            '<a href="{link}" title="{name}">{username}</a>'.format(
-                name=full_name, username=username, link=user.get_absolute_url()
-            )
+            f'<a href="{user.get_absolute_url()}" title="{full_name}">{username}</a>'
         )
     return mark_safe(f'<span title="{full_name}">{username}</span>')
