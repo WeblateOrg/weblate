@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
-"PO-Revision-Date: 2021-02-06 00:05+0000\n"
+"PO-Revision-Date: 2021-02-07 11:29+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -1053,17 +1053,14 @@ msgid "Language consistency"
 msgstr "Taalconsistentie"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Verzekert dat alle onderdelen binnen eenzelfde project vertalingen in "
-"dezelfde talen bevatten."
+"Verzekert dat alle onderdelen binnen een project vertalingen bevatten van "
+"elke toegevoegde taal door lege vertalingen aan te maken in talen die niet-"
+"toegevoegde onderdelen bevatten."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1128,12 +1125,6 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Ongewijzigde vertalingen markeren als 'Aanpassing nodig'"
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
@@ -1142,8 +1133,8 @@ msgstr ""
 "Als een nieuwe vertaalbare tekenreeks geïmporteerd wordt uit het "
 "versiecontrolesysteem en ze overeenkomt met brontekenreeksen, wordt deze "
 "door Weblate gemarkeerd als 'Aanpassing nodig'. Dit is vooral handig voor "
-"bestandsformaten die alle tekenreeksen bevatten, zelfs als ze niet vertaald "
-"zijn."
+"bestandsformaten die alle brontekenreeksen bevatten van onvertaalde "
+"tekenreeksen."
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1448,15 +1439,11 @@ msgid "Pseudolocale generation"
 msgstr "Pseudotaal genereren"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Genereert automatisch een pseudotaal door een voor- en achtervoegsel toe te "
+"Genereert een vertaling door automatisch een voor- en achtervoegsel toe te "
 "kennen aan brontekenreeksen."
 
 #: weblate/addons/gettext.py:41
@@ -1497,6 +1484,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Werkt alle po-bestanden bij (zoals ingesteld door 'Bestandsmasker') om "
+"overeen te komen met het pot-bestand (zoals ingesteld door 'Sjabloon voor "
+"nieuwe vertalingen') middels msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1513,16 +1503,12 @@ msgid "Contributors in comment"
 msgstr "Medewerkers in opmerking"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Werk de opmerking in de po-bestandskop bij om de namen van vertalers en "
-"jaartallen van hun bijdragen in te voegen."
+"Werkt de opmerking in een deel van de po-bestandskop bij en voegt de namen "
+"van vertalers en jaartallen van hun bijdragen toe."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
