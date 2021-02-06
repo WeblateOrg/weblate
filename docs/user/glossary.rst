@@ -17,7 +17,7 @@ Managing glossaries
    Weblate features on them - commenting, storing in a Git repository, or
    adding explanations.
 
-You can use any component a glossary by turning on :ref:`component-is_glossary`.
+You can use any component as a glossary by turning on :ref:`component-is_glossary`.
 
 An empty glossary for a given project is automatically created with the project.
 Glossaries are shared among all components of the same project, and optionally

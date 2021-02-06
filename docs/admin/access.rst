@@ -78,14 +78,15 @@ Project access control
 
 .. note::
 
-    By turning on access-control lists, all users are prohibited from accessing anything
+    By turning on access control, all users are prohibited from accessing anything
     within a given project, unless you add the permissions for them to do just that.
 
 .. include:: /snippets/not-hosted-libre.rst
 
-Limit user's access to individual projects by turning on
-:guilabel:`Access` in the :guilabel:`Settings` of each respective project.
-This automatically creates several groups for the project in question, see :ref:`groups`.
+Limit user's access to individual projects by selecting a different access
+control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` of
+each respective project.  This automatically creates several groups for the
+project in question, see :ref:`groups`.
 
 :guilabel:`Access control` can be set to:
 
@@ -100,14 +101,14 @@ Custom
 
 .. image:: /images/project-access.png
 
-Grant access to a project by adding the privilege either
-directly to the given user, or group of users in the Django admin-interface,
-or by using user management on the project page, as described in :ref:`manage-acl`.
+Grant access to a project by adding the privilege either directly to an user,
+or group of users in the Django admin-interface, or by using user management on
+the project page, as described in :ref:`manage-acl`.
 
 .. note::
 
-    Even with access-control lists turned on, some info will be
-    available about your project:
+    Even with access control turned on, some info will be available about your
+    project:
 
     * Statistics for the whole instance, including counts for all projects.
     * Language summary for the whole instance, including counts for all projects.
@@ -223,7 +224,7 @@ Managing per-project access control
 
 .. note::
 
-    This feature only works for projects using access-control lists, see :ref:`acl`.
+    This feature only works for projects using access control, see :ref:`acl`.
 
 Users with the :guilabel:`Manage project access` privilege (see
 :ref:`privileges`) can also manage users in projects with access control
