@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
-"PO-Revision-Date: 2021-02-06 18:06+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2021-02-07 11:29+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -1064,17 +1064,14 @@ msgid "Language consistency"
 msgstr "Мовна однорідність"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Гарантує, що всі складники в межах одного проєкту містять однаковий переклад "
-"однакових рядків."
+"Гарантує, що всі складники в межах одного проєкту містять переклад кожною "
+"доданою мовою шляхом створення порожніх перекладів для мов, які не містять "
+"доданих складників."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1138,12 +1135,6 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Позначити незмінені переклади як такі, що потребують редагування"
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
@@ -1151,8 +1142,8 @@ msgid ""
 msgstr ""
 "Кожного разу, коли новий перекладний рядок імпортується з VCS, і він "
 "збігається із початковим рядком, його буде позначено як такий, що потребує "
-"редагування в Weblate. Це корисно для форматів файлів, які включають усі "
-"рядки, в тому числі й такі, що не перекладаються."
+"редагування у Weblate. Це особливо корисно для форматів файлів, які "
+"включають початкові рядки, навіть ті, які не перекладено."
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1454,16 +1445,12 @@ msgid "Pseudolocale generation"
 msgstr "Створення псевдолокалей"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Автоматично створює псевдолокаль перекладу, додавши префікс і суфікс до "
-"джерельних рядків."
+"Автоматично створює переклад додаванням префікса і суфікса до початкових "
+"рядків."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1502,6 +1489,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Оновлює усі файли PO (відповідно до налаштування «Маски файлів»), "
+"встановлюючи відповідність файлу POT (який налаштовано параметром «Шаблон "
+"для нових перекладів») за допомогою msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1518,16 +1508,12 @@ msgid "Contributors in comment"
 msgstr "Перекладачі в коментарі"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Оновлює коментар у заголовку файла PO, щоб включити імена перекладачів та "
-"роки перекладу."
+"Оновлює коментар у заголовку файла PO так, щоб до нього було включено імена "
+"перекладачів та роки перекладу."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
