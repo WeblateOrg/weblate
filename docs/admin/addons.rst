@@ -75,7 +75,7 @@ of falling back to the source string).
 Cleanup translation files
 -------------------------
 
-Update all translation files to match the monolingual base-file. For most file
+Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
 base file.
 
