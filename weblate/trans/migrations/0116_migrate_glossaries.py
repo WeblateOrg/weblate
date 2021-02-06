@@ -4,7 +4,7 @@ import os
 from collections import defaultdict
 
 from django.conf import settings
-from django.db import IntegrityError, migrations
+from django.db import migrations
 from django.utils.text import slugify
 from translate.misc.xml_helpers import valid_chars_only
 
@@ -44,6 +44,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
     processed = 0
 
     for processed, project in enumerate(projects):
+        component_names = set(project.component_set.values_list("slug", flat=True))
         if processed % 10 == 0:
             percent = int(100 * processed / total)
             print(f"Updating source units {percent}% [{processed}/{total}]...")
@@ -70,15 +71,12 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
             # Create component
             attempts = 0
             while True:
-                try:
+                if name not in component_names:
                     component = create_glossary(project, name, slug, glossary, license)
                     break
-                except IntegrityError:
-                    attempts += 1
-                    name = f"{base_name} - {attempts}"
-                    slug = f"{base_slug}-{attempts}"
-                    if attempts > 10:
-                        raise
+                attempts += 1
+                name = f"{base_name} - {attempts}"
+                slug = f"{base_slug}-{attempts}"
 
             repo_path = os.path.join(settings.DATA_DIR, "vcs", project.slug, slug)
 
