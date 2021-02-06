@@ -113,8 +113,8 @@ Triggered each time the VCS is updated, and otherwise similar to
 the :djadmin:`import_project` management command. This way you can track
 multiple translation components within one VCS.
 
-The matching is done using regular expressions 
-enabling complex configuration, but some knowledge is required to do so. 
+The matching is done using regular expressions
+enabling complex configuration, but some knowledge is required to do so.
 Some examples for common use cases can be found in
 the addon help section.
 
@@ -125,17 +125,17 @@ from where you can check whether the configuration actually matches your needs:
 
 .. hint::
 
-   Component discovery addon uses :ref:`internal-urls`. It’s a convenient way to share 
+   Component discovery addon uses :ref:`internal-urls`. It’s a convenient way to share
    VCS setup between multiple components. Linked components uses the local repository of
-   the main component set up by filling ``weblate://projectname/themaincomponent`` 
+   the main component set up by filling ``weblate://projectname/themaincomponent``
    into the :ref:`component-repo` field (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓
-   :guilabel:`Version control system`) of each respective component. 
+   :guilabel:`Version control system`) of each respective component.
    This saves time with configuration and system recources too.
 
 .. seealso::
 
     :ref:`markup`
-    
+
 .. _addon-weblate.flags.bulk:
 
 Bulk edit
@@ -506,7 +506,7 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_LANGUAGE
 
-    Language of currently processed translation (not available for 
+    Language of currently processed translation (not available for
     component-level hooks).
 
 .. envvar:: WL_PREVIOUS_HEAD
