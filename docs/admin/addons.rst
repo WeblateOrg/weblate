@@ -147,7 +147,7 @@ Bulk edit
 Bulk edit flags, labels or state for strings.
 
 Automate labeling by starting out with the search query ``NOT has:label``
-and add labels till all strings have all required labels).
+and add labels till all strings have all required labels.
 Other automated operations for Weblate metadata can also be done.
 
 **Examples:**
