@@ -692,6 +692,8 @@ class ComponentStats(LanguageStats):
 
 
 class ProjectLanguageComponent:
+    is_glossary = False
+
     def __init__(self):
         self.slug = "-"
 
