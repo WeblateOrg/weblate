@@ -7,7 +7,7 @@ Installing on macOS
 
 .. code-block:: sh
 
-    brew install pango libjpeg python git libyaml gobject-introspection
+    brew install python pango cairo gobject-introspection libffi glib libyaml
     pip3 install virtualenv
 
 Make sure pip will be able to find the ``libffi`` version provided by homebrew
