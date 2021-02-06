@@ -6,6 +6,7 @@ from collections import defaultdict
 from django.conf import settings
 from django.db import IntegrityError, migrations
 from django.utils.text import slugify
+from translate.misc.xml_helpers import valid_chars_only
 
 from weblate.formats.ttkit import TBXFormat
 from weblate.utils.hash import calculate_hash
@@ -115,39 +116,41 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                 for position, term in enumerate(
                     glossary.term_set.filter(language=language)
                 ):
+                    source = valid_chars_only(term.source)
+                    target = valid_chars_only(term.target)
                     # Store to the file
-                    sources[term.source] += 1
-                    if sources[term.source] > 1:
-                        context = str(sources[term.source])
+                    sources[source] += 1
+                    if sources[source] > 1:
+                        context = str(sources[source])
                     else:
                         context = ""
-                    id_hash = calculate_hash(term.source, context)
+                    id_hash = calculate_hash(source, context)
                     if id_hash not in source_units:
                         source_units[id_hash] = source_translation.unit_set.create(
                             context=context,
-                            source=term.source,
-                            target=term.source,
+                            source=source,
+                            target=source,
                             state=STATE_READONLY,
                             position=position,
-                            num_words=len(term.source.split()),
+                            num_words=len(source.split()),
                             id_hash=id_hash,
                         )
                         source_units[id_hash].source_unit = source_units[id_hash]
                         source_units[id_hash].save()
-                    store.new_unit(context, term.source, term.target)
+                    store.new_unit(context, source, target)
                     # Migrate database
                     if is_source:
                         unit = source_units[id_hash]
-                        unit.target = term.target
+                        unit.target = target
                         unit.save(update_fields=["target"])
                     else:
                         unit = translation.unit_set.create(
                             context=context,
-                            source=term.source,
-                            target=term.target,
+                            source=source,
+                            target=target,
                             state=STATE_TRANSLATED,
                             position=position,
-                            num_words=len(term.source.split()),
+                            num_words=len(source.split()),
                             id_hash=id_hash,
                             source_unit=source_units[id_hash],
                         )
