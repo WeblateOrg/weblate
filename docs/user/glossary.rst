@@ -1,7 +1,7 @@
 .. _glossary:
 
 Glossary
---------
+========
 
 Each project can have an assigned glossary for any language as a shorthand for storing
 terminology. Consistency is more easily maintained this way.
@@ -9,7 +9,7 @@ Terms from the glossary containing words from the currently translated string ca
 displayed in the sidebar.
 
 Managing glossaries
-+++++++++++++++++++
+-------------------
 
 .. versionchanged:: 4.5
 
@@ -22,6 +22,12 @@ You can use any component as a glossary by turning on :ref:`component-is_glossar
 An empty glossary for a given project is automatically created with the project.
 Glossaries are shared among all components of the same project, and optionally
 with other projects using :ref:`component-links`.
+
+Glossary terms
+--------------
+
+The glossary terms are translated in a same way as regular tranlations. You can
+toggle additional features using the :guilabel:`Tools` menu on each term.
 
 Not translatable terms
 ++++++++++++++++++++++
