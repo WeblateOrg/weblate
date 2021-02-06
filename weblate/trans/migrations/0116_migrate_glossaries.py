@@ -131,6 +131,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                         offset += 1
                         context = str(offset)
                         id_hash = calculate_hash(source, context)
+                    id_hashes.add(id_hash)
                     if id_hash not in source_units:
                         source_units[id_hash] = source_translation.unit_set.create(
                             context=context,
