@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-05 20:48+0000\n"
+"POT-Creation-Date: 2021-02-06 18:09+0000\n"
 "PO-Revision-Date: 2021-02-06 18:06+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -28,7 +28,7 @@ msgctxt "No known user"
 msgid "None"
 msgstr "אין"
 
-#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
+#: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
@@ -644,7 +644,7 @@ msgstr "רישיון הוחלף"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:268
 msgid "Parse error"
 msgstr "שגיאת פענוח"
 
@@ -655,7 +655,7 @@ msgstr "מחרוזת חדשה"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:308
 msgid "New contributor"
 msgstr "מתנדב/ת חדש/ה"
 
@@ -687,6 +687,7 @@ msgstr "מחרוזת שהשתנתה"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
+#: weblate/utils/views.py:106
 msgid "Translated string"
 msgstr "תורגמה מחרוזת"
 
@@ -707,13 +708,13 @@ msgstr "רכיב תרגום חדש"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:310
 msgid "New announcement"
 msgstr "הכרזה חדשה"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:312
 msgid "New alert"
 msgstr "התראה חדשה"
 
@@ -952,7 +953,7 @@ msgstr "קישור שינוי ההתראות אינו זמין עוד, נא לה
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:242 weblate/trans/models/change.py:239
+#: weblate/templates/translation.html:242 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr "תרגום אוטומטי"
 
@@ -1005,9 +1006,14 @@ msgid "Language consistency"
 msgstr "אחידות שפה"
 
 #: weblate/addons/consistency.py:34
+#, fuzzy
+#| msgid ""
+#| "Ensures all components within one project have translations for every "
+#| "added language for translation."
 msgid ""
-"Ensures all components within one project have translations for every added "
-"language for translation."
+"Ensures all components within a project have translations for every added "
+"translated language by creating empty translations in languages that have "
+"unadded components."
 msgstr "מוודא שלכל הרכיבים בתוך אותו המיזם יש תרגום לכל שפה שנוספת לתרגום."
 
 #: weblate/addons/discovery.py:33
@@ -1069,24 +1075,29 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "סימון תרגומים ללא שינוי כ„טעוני שיפור”"
 
 #: weblate/addons/flags.py:88
+#, fuzzy
+#| msgid ""
+#| "Whenever a new translatable string is imported from the VCS and it "
+#| "matches a source string, it is flagged as needing editing in Weblate. "
+#| "This is especially useful for file formats that include all strings even "
+#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
-"source string, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if not "
-"translated."
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "כשמחרוזת חדשה לתרגום מיובאת ממערכת ניהול הקוד והיא תואמת למחרוזת מקור, היא "
 "מסומנת כטעונת שיפור ב־Weblate. תכונה זו שימושית מאוד לתבניות קבצים שכוללות "
 "את כל המחרוזות אפילו אם אינן מתורגמות."
 
-#: weblate/addons/flags.py:108 weblate/templates/component.html:69
+#: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
 #: weblate/templates/project.html:217 weblate/templates/translation.html:64
 #: weblate/templates/translation.html:281
 msgid "Bulk edit"
 msgstr "עריכה כמותית"
 
-#: weblate/addons/flags.py:109
+#: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
 msgstr "עריכה כמותית של דגלונים, תוויות או מצבים למחרוזות."
 
@@ -1375,9 +1386,13 @@ msgid "Pseudolocale generation"
 msgstr "יצירת שפה מדומה"
 
 #: weblate/addons/generate.py:67
+#, fuzzy
+#| msgid ""
+#| "Automatically generates a pseudolocale translation by adding prefix and "
+#| "suffix to source strings."
 msgid ""
-"Automatically generates a pseudolocale translation by adding prefix and "
-"suffix to source strings."
+"Generates a translation by adding prefix and suffix to source strings "
+"automatically."
 msgstr "מייצר שפה מדומה אוטומטית על ידי הוספת קידומת וסיומת למחרוזות המקור."
 
 #: weblate/addons/gettext.py:41
@@ -1414,11 +1429,9 @@ msgstr "עדכון קובצי PO כדי שיתאימו ל־POT‏ (msgmerge)"
 
 #: weblate/addons/gettext.py:230
 msgid ""
-"Updates all PO files to match the POT file using msgmerge. Triggered "
-"whenever new changes are pulled from the upstream repository."
+"Updates all PO files (as configured by \"Filemask\") to match the POT file "
+"(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"עדכון כל קובצי ה־PO כדי שתאימו לקובץ ה־POT עם msgmerge. פעולה זו מיועדת "
-"להתרחש עם קבלת שינויים חדשים ממאגר המקור."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1434,9 +1447,13 @@ msgid "Contributors in comment"
 msgstr "תורמים בתגובה"
 
 #: weblate/addons/gettext.py:318
+#, fuzzy
+#| msgid ""
+#| "Update the comment in the PO file header to include contributor names and "
+#| "years of contributions."
 msgid ""
-"Update the comment in the PO file header to include contributor names and "
-"years of contributions."
+"Updates the comment part of the PO file header to include contributor names "
+"and years of contributions."
 msgstr "עדכון התגובה בכותרת קובץ ה־PO כדי שתכלול את שם התורם ושנות התרומה."
 
 #: weblate/addons/git.py:34
@@ -5300,7 +5317,7 @@ msgstr "כלים"
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:199
 #: weblate/templates/replace.html:14 weblate/templates/translation.html:61
-#: weblate/templates/translation.html:263 weblate/trans/models/change.py:283
+#: weblate/templates/translation.html:263 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr "חיפוש והחלפה"
 
@@ -7891,7 +7908,7 @@ msgstr "תווים מתארחים"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:234
 msgid "Suggestion added"
 msgstr "נוספה הצעה"
 
@@ -9879,251 +9896,236 @@ msgid "Do not specify both component and project!"
 msgstr "אין לציין גם את הרכיב וגם את המיזם!"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:227
+#: weblate/trans/models/change.py:224
 msgid "Resource update"
 msgstr "עדכון משאב"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:226
 msgid "Translation completed"
 msgstr "תרגום הושלם"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:228
 msgid "Translation changed"
 msgstr "תרגום השתנה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:230
 msgid "New translation"
 msgstr "תרגום חדש"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:232
 msgid "Comment added"
 msgstr "נוספה הערה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:238
 msgid "Suggestion accepted"
 msgstr "הצעה התקבלה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:240
 msgid "Translation reverted"
 msgstr "התרגום שוחזר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:245
+#: weblate/trans/models/change.py:242
 msgid "Translation uploaded"
 msgstr "התרגום הועלה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:247
-msgid "Added to glossary"
-msgstr "נוספה למונחון"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:249
-msgid "Glossary updated"
-msgstr "מילון מונחים עודכן"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:251
-msgid "Glossary uploaded"
-msgstr "מילון מונחים הועלה"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:253
+#: weblate/trans/models/change.py:244
 msgid "New source string"
 msgstr "מחרוזת מקור חדשה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:255
+#: weblate/trans/models/change.py:246
 msgid "Component locked"
 msgstr "רכיב נעול"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:257
+#: weblate/trans/models/change.py:248
 msgid "Component unlocked"
 msgstr "הרכיב שוחרר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:259
+#: weblate/trans/models/change.py:250
 msgid "Found duplicated string"
 msgstr "נמצאה מחרוזת כפולה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:261
+#: weblate/trans/models/change.py:252
 msgid "Committed changes"
 msgstr "שינויים שבוצעו"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:263
+#: weblate/trans/models/change.py:254
 msgid "Pushed changes"
 msgstr "שינויים שנדחפו"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:265
+#: weblate/trans/models/change.py:256
 msgid "Reset repository"
 msgstr "איפוס המאגר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:267
+#: weblate/trans/models/change.py:258
 msgid "Merged repository"
 msgstr "מאגר שמוזג"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:269
+#: weblate/trans/models/change.py:260
 msgid "Rebased repository"
 msgstr "מאגר על בסיס שונה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:262
 msgid "Failed merge on repository"
 msgstr "המיזוג במאגר נכשל"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:264
 msgid "Failed rebase on repository"
 msgstr "החלפת הבסיס במאגר נכשלה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:275
+#: weblate/trans/models/change.py:266
 msgid "Failed push on repository"
 msgstr "הדחיפה למאגר נכשלה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:270
 msgid "Removed translation"
 msgstr "תרגום שהוסר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:272
 msgid "Suggestion removed"
 msgstr "הצעה הוסרה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:276
 msgid "Suggestion removed during cleanup"
 msgstr "ההצעה הוסרה במהלך הניקיון"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:278
 msgid "Source string changed"
 msgstr "מחרוזת המקור השתנתה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:280
 msgid "New string added"
 msgstr "נוספה מחרוזת חדשה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:282
 msgid "Bulk status change"
 msgstr "שינוי מצב כמותי"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:284
 msgid "Changed visibility"
 msgstr "מצב חשיפה השתנה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:286
 msgid "Added user"
 msgstr "נוסף משתמש"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:288
 msgid "Removed user"
 msgstr "משתמש הוסר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:290
 msgid "Translation approved"
 msgstr "תרגום אושר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:292
 msgid "Marked for edit"
 msgstr "סומנה כטעונת שיפור"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:294
 msgid "Removed component"
 msgstr "הוסר רכיב"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:296
 msgid "Removed project"
 msgstr "הוסר מיזם"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:298
 msgid "Found duplicated language"
 msgstr "נמצאה שפה כפולה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:300
 msgid "Renamed project"
 msgstr "מיזם ששמו השתנה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:302
 msgid "Renamed component"
 msgstr "רכיב ששמו השתנה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:313
+#: weblate/trans/models/change.py:304
 msgid "Moved component"
 msgstr "רכיב שהועבר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:314
 msgid "Added new language"
 msgstr "נוספה שפה חדשה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:316
 msgid "Requested new language"
 msgstr "התקבלה בקשה לשפה חדשה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:318
 msgid "Created project"
 msgstr "נוצר מיזם"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:320
 msgid "Created component"
 msgstr "נוצר רכיב"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:322
 msgid "Invited user"
 msgstr "משתמש הוזמן"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:324
 msgid "Received repository notification"
 msgstr "התקבלה התראה על מאגר"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:335
+#: weblate/trans/models/change.py:326
 msgid "Replaced file by upload"
 msgstr "הקובץ הוחלף בהעלאה"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:328
 msgid "License changed"
 msgstr "הרישיון הוחלף"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:339
+#: weblate/trans/models/change.py:330
 msgid "Contributor agreement changed"
 msgstr "הסכם תרומה התחלף"
 
-#: weblate/trans/models/change.py:409
+#: weblate/trans/models/change.py:398
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "מחרוזת חדשה לתרגום"
@@ -10132,26 +10134,26 @@ msgstr[2] "מחרוזות חדשות לתרגום"
 msgstr[3] "מחרוזות חדשות לתרגום"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:414
+#: weblate/trans/models/change.py:403
 msgid "Component automatically locked"
 msgstr "הרכיב ננעל אוטומטית"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:416
+#: weblate/trans/models/change.py:405
 msgid "Component automatically unlocked"
 msgstr "הרכיב שוחרר אוטומטית"
 
-#: weblate/trans/models/change.py:468
+#: weblate/trans/models/change.py:457
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
 
-#: weblate/trans/models/change.py:549
+#: weblate/trans/models/change.py:538
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "לא זמין"
 
-#: weblate/trans/models/change.py:551
+#: weblate/trans/models/change.py:540
 #, python-format
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
@@ -11913,10 +11915,6 @@ msgstr "מיקום ועדיפות"
 msgid "Position"
 msgstr "מיקום"
 
-#: weblate/utils/views.py:106
-msgid "Translation string"
-msgstr "מחרוזת תרגום"
-
 #: weblate/utils/views.py:107
 msgid "Age of string"
 msgstr "גיל המחרוזת"
@@ -12152,6 +12150,25 @@ msgstr "תהליך הגיבוי מתחיל"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
+
+#~ msgid ""
+#~ "Updates all PO files to match the POT file using msgmerge. Triggered "
+#~ "whenever new changes are pulled from the upstream repository."
+#~ msgstr ""
+#~ "עדכון כל קובצי ה־PO כדי שתאימו לקובץ ה־POT עם msgmerge. פעולה זו מיועדת "
+#~ "להתרחש עם קבלת שינויים חדשים ממאגר המקור."
+
+#~ msgid "Added to glossary"
+#~ msgstr "נוספה למונחון"
+
+#~ msgid "Glossary updated"
+#~ msgstr "מילון מונחים עודכן"
+
+#~ msgid "Glossary uploaded"
+#~ msgstr "מילון מונחים הועלה"
+
+#~ msgid "Translation string"
+#~ msgstr "מחרוזת תרגום"
 
 #~ msgid "Invalid ordering"
 #~ msgstr "סידור שגוי"

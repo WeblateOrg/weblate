@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-05 20:48+0000\n"
+"POT-Creation-Date: 2021-02-06 18:09+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -30,7 +30,7 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Няма"
 
-#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
+#: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
@@ -757,7 +757,7 @@ msgstr "Променено след"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:268
 msgid "Parse error"
 msgstr "Грешка при анализиране"
 
@@ -770,7 +770,7 @@ msgstr "Добавяне на нов текст"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:308
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "New contributor"
@@ -812,6 +812,7 @@ msgstr "Променено след"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
+#: weblate/utils/views.py:106
 #, fuzzy
 #| msgid "Translated strings"
 msgid "Translated string"
@@ -840,7 +841,7 @@ msgstr "Други компоненти на превода"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:310
 #, fuzzy
 #| msgid "New comment"
 msgid "New announcement"
@@ -848,7 +849,7 @@ msgstr "Нов коментар"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:312
 #, fuzzy
 #| msgid "New line"
 msgid "New alert"
@@ -1156,7 +1157,7 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:242 weblate/trans/models/change.py:239
+#: weblate/templates/translation.html:242 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr "Автоматичен превод"
 
@@ -1220,8 +1221,9 @@ msgstr "Код на езика"
 
 #: weblate/addons/consistency.py:34
 msgid ""
-"Ensures all components within one project have translations for every added "
-"language for translation."
+"Ensures all components within a project have translations for every added "
+"translated language by creating empty translations in languages that have "
+"unadded components."
 msgstr ""
 
 #: weblate/addons/discovery.py:33
@@ -1308,15 +1310,14 @@ msgstr "Отбелязване на новите преводи като нуж�
 #| "translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
-"source string, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if not "
-"translated."
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "Когато от системата за контрол на версиите бъде внесен нов текст за превод, "
 "той ще бъде отбелязан като нуждаещ се от редактиране. По този начин можете "
 "лесно да филтрирате и редактирате текстовете, написани от разработчиците."
 
-#: weblate/addons/flags.py:108 weblate/templates/component.html:69
+#: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
 #: weblate/templates/project.html:217 weblate/templates/translation.html:64
 #: weblate/templates/translation.html:281
@@ -1325,7 +1326,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Отваряне в пълния редактор"
 
-#: weblate/addons/flags.py:109
+#: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
 msgstr ""
 
@@ -1691,8 +1692,8 @@ msgstr ""
 
 #: weblate/addons/generate.py:67
 msgid ""
-"Automatically generates a pseudolocale translation by adding prefix and "
-"suffix to source strings."
+"Generates a translation by adding prefix and suffix to source strings "
+"automatically."
 msgstr ""
 
 #: weblate/addons/gettext.py:41
@@ -1737,17 +1738,10 @@ msgstr ""
 "Обновяване на файловете PO, така че да отговарят на файла POT (чрез msgmerge)"
 
 #: weblate/addons/gettext.py:230
-#, fuzzy
-#| msgid ""
-#| "Update all PO files to match the POT file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from the upstream repository."
 msgid ""
-"Updates all PO files to match the POT file using msgmerge. Triggered "
-"whenever new changes are pulled from the upstream repository."
+"Updates all PO files (as configured by \"Filemask\") to match the POT file "
+"(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Обновяване на всички файлове PO, така че да отговарят на файла POT, чрез "
-"използване на msgmerge. Това се изпълнява всеки път, когато се изтеглят "
-"промените от отдалеченото хранилище."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1770,8 +1764,8 @@ msgstr "Участници в коментар"
 #| "Update comment in the PO file header to include contributor name and "
 #| "years of contributions."
 msgid ""
-"Update the comment in the PO file header to include contributor names and "
-"years of contributions."
+"Updates the comment part of the PO file header to include contributor names "
+"and years of contributions."
 msgstr ""
 "Обновяване на коментара в заглавната част на файла PO, така че да включва "
 "името на участника и годините, в които е участвал."
@@ -6325,7 +6319,7 @@ msgstr "Инструменти"
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:199
 #: weblate/templates/replace.html:14 weblate/templates/translation.html:61
-#: weblate/templates/translation.html:263 weblate/trans/models/change.py:283
+#: weblate/templates/translation.html:263 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr "Търсене и замяна"
 
@@ -9342,7 +9336,7 @@ msgstr "Контролни символи"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:234
 msgid "Suggestion added"
 msgstr "Добавяне на предложение"
 
@@ -11681,295 +11675,278 @@ msgid "Do not specify both component and project!"
 msgstr "Не трябва да посочвате едновременно и компонент и проект!"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:227
+#: weblate/trans/models/change.py:224
 msgid "Resource update"
 msgstr "Обновяване на материал"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:226
 msgid "Translation completed"
 msgstr "Преводът е завършен"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:228
 msgid "Translation changed"
 msgstr "Промяна на превод"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:230
 msgid "New translation"
 msgstr "Нов превод"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:232
 msgid "Comment added"
 msgstr "Добавяне на коментар"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:238
 msgid "Suggestion accepted"
 msgstr "Приемане на предложение"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:240
 msgid "Translation reverted"
 msgstr "Отмяна на превод"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:245
+#: weblate/trans/models/change.py:242
 msgid "Translation uploaded"
 msgstr "Обновяване на превод"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:247
-#, fuzzy
-#| msgid "Add word to glossary"
-msgid "Added to glossary"
-msgstr "Добавяне на думата в речника"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:249
-msgid "Glossary updated"
-msgstr "Обновяване на речник"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:251
-msgid "Glossary uploaded"
-msgstr "Качване на речник"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:253
+#: weblate/trans/models/change.py:244
 msgid "New source string"
 msgstr "Нов оригинален текст"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:255
+#: weblate/trans/models/change.py:246
 msgid "Component locked"
 msgstr "Заключване на компонент"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:257
+#: weblate/trans/models/change.py:248
 msgid "Component unlocked"
 msgstr "Отключване на компонент"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:259
+#: weblate/trans/models/change.py:250
 #, fuzzy
 #| msgid "Detected duplicate string"
 msgid "Found duplicated string"
 msgstr "Засечен дублиран текст"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:261
+#: weblate/trans/models/change.py:252
 msgid "Committed changes"
 msgstr "Подаване на промени"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:263
+#: weblate/trans/models/change.py:254
 msgid "Pushed changes"
 msgstr "Изпращане на промени"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:265
+#: weblate/trans/models/change.py:256
 msgid "Reset repository"
 msgstr "Нулиране на хранилище"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:267
+#: weblate/trans/models/change.py:258
 msgid "Merged repository"
 msgstr "Сливане на хранилище"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:269
+#: weblate/trans/models/change.py:260
 msgid "Rebased repository"
 msgstr "Пребазиране на хранилище"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:262
 msgid "Failed merge on repository"
 msgstr "Неуспешно сливане на хранилище"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:264
 msgid "Failed rebase on repository"
 msgstr "Неуспешно пребазиране на хранилище"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:275
+#: weblate/trans/models/change.py:266
 msgid "Failed push on repository"
 msgstr "Неуспешно изпращане към хранилището"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:270
 msgid "Removed translation"
 msgstr "Изтриване на превод"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:272
 msgid "Suggestion removed"
 msgstr "Премахване на предложение"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:276
 msgid "Suggestion removed during cleanup"
 msgstr "Предложението е премахнато при почистване"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:278
 msgid "Source string changed"
 msgstr "Оригиналният текст е променен"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:280
 msgid "New string added"
 msgstr "Добавяне на нов текст"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:282
 #, fuzzy
 #| msgid "Mass state change"
 msgid "Bulk status change"
 msgstr "Групова промяна на състоянието"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:284
 #, fuzzy
 #| msgid "Changed since"
 msgid "Changed visibility"
 msgstr "Променено след"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:286
 #, fuzzy
 #| msgid "Add new user"
 msgid "Added user"
 msgstr "Добавяне на нов потребител"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:288
 #, fuzzy
 #| msgid "Remove"
 msgid "Removed user"
 msgstr "Премахване"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:290
 #, fuzzy
 #| msgid "Translation process"
 msgid "Translation approved"
 msgstr "Процес на превода"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:292
 #, fuzzy
 #| msgid "Strings marked for edit"
 msgid "Marked for edit"
 msgstr "Текстове, отбелязани за редактиране"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:294
 #, fuzzy
 #| msgid "Other components"
 msgid "Removed component"
 msgstr "Други компоненти"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:296
 #, fuzzy
 #| msgid "Whole project"
 msgid "Removed project"
 msgstr "Целият проект"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:298
 #, fuzzy
 #| msgid "Used languages"
 msgid "Found duplicated language"
 msgstr "Използвани езици"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:300
 #, fuzzy
 #| msgid "Whole project"
 msgid "Renamed project"
 msgstr "Целият проект"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:302
 #, fuzzy
 #| msgid "Other components"
 msgid "Renamed component"
 msgstr "Други компоненти"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:313
+#: weblate/trans/models/change.py:304
 #, fuzzy
 #| msgid "Other components"
 msgid "Moved component"
 msgstr "Други компоненти"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:314
 #, fuzzy
 #| msgid "No adding of language"
 msgid "Added new language"
 msgstr "Без добавяне на език"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:316
 #, fuzzy
 #| msgid "Requested language:"
 msgid "Requested new language"
 msgstr "Заявен език:"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:318
 #, fuzzy
 #| msgid "Watched projects"
 msgid "Created project"
 msgstr "Следени проекти"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:320
 #, fuzzy
 #| msgid "Other components"
 msgid "Created component"
 msgstr "Други компоненти"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:322
 #, fuzzy
 #| msgid "Remove"
 msgid "Invited user"
 msgstr "Премахване"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:324
 #, fuzzy
 #| msgid "Repository maintenance"
 msgid "Received repository notification"
 msgstr "Профилактика на хранилището"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:335
+#: weblate/trans/models/change.py:326
 msgid "Replaced file by upload"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:328
 #, fuzzy
 #| msgid "Last change"
 msgid "License changed"
 msgstr "Последна промяна"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:339
+#: weblate/trans/models/change.py:330
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
 msgstr "Споразумение за принос"
 
-#: weblate/trans/models/change.py:409
+#: weblate/trans/models/change.py:398
 #, fuzzy
 #| msgid "Strings to translate"
 msgid "New string to translate"
@@ -11978,30 +11955,30 @@ msgstr[0] "Текстове за превод"
 msgstr[1] "Текстове за превод"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:414
+#: weblate/trans/models/change.py:403
 #, fuzzy
 #| msgid "Component unlocked"
 msgid "Component automatically locked"
 msgstr "Отключване на компонент"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:416
+#: weblate/trans/models/change.py:405
 #, fuzzy
 #| msgid "Component unlocked"
 msgid "Component automatically unlocked"
 msgstr "Отключване на компонент"
 
-#: weblate/trans/models/change.py:468
+#: weblate/trans/models/change.py:457
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s в %(time)s в %(translation)s, от %(user)s"
 
-#: weblate/trans/models/change.py:549
+#: weblate/trans/models/change.py:538
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "Няма"
 
-#: weblate/trans/models/change.py:551
+#: weblate/trans/models/change.py:540
 #, fuzzy, python-format
 #| msgid ""
 #| "There has been a new translation on %(translation)s at %(site_title)s."
@@ -14082,12 +14059,6 @@ msgstr "Приоритет на текста"
 msgid "Position"
 msgstr "Добра настройка"
 
-#: weblate/utils/views.py:106
-#, fuzzy
-#| msgid "Translation settings"
-msgid "Translation string"
-msgstr "Настройки за превода"
-
 #: weblate/utils/views.py:107
 #, fuzzy
 #| msgid "Number of strings"
@@ -14368,6 +14339,34 @@ msgstr "Акаунтът Ви беше премахнат."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Грешката в конфигурацията не може да бъде пренебрегната!"
+
+#, fuzzy
+#~| msgid ""
+#~| "Update all PO files to match the POT file using msgmerge. This is "
+#~| "triggered whenever new changes are pulled from the upstream repository."
+#~ msgid ""
+#~ "Updates all PO files to match the POT file using msgmerge. Triggered "
+#~ "whenever new changes are pulled from the upstream repository."
+#~ msgstr ""
+#~ "Обновяване на всички файлове PO, така че да отговарят на файла POT, чрез "
+#~ "използване на msgmerge. Това се изпълнява всеки път, когато се изтеглят "
+#~ "промените от отдалеченото хранилище."
+
+#, fuzzy
+#~| msgid "Add word to glossary"
+#~ msgid "Added to glossary"
+#~ msgstr "Добавяне на думата в речника"
+
+#~ msgid "Glossary updated"
+#~ msgstr "Обновяване на речник"
+
+#~ msgid "Glossary uploaded"
+#~ msgstr "Качване на речник"
+
+#, fuzzy
+#~| msgid "Translation settings"
+#~ msgid "Translation string"
+#~ msgstr "Настройки за превода"
 
 #, fuzzy
 #~| msgid "Invalid search string!"

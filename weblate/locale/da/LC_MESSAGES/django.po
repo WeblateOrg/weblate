@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-05 20:48+0000\n"
+"POT-Creation-Date: 2021-02-06 18:09+0000\n"
 "PO-Revision-Date: 2021-02-05 18:59+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
@@ -32,7 +32,7 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Ingen"
 
-#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
+#: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
@@ -676,7 +676,7 @@ msgstr "Ændret licens"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:268
 msgid "Parse error"
 msgstr "Fortolkningsfejl"
 
@@ -687,7 +687,7 @@ msgstr "Ny streng"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:308
 msgid "New contributor"
 msgstr "Ny bidragsyder"
 
@@ -719,6 +719,7 @@ msgstr "Ændret streng"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
+#: weblate/utils/views.py:106
 msgid "Translated string"
 msgstr "Oversat streng"
 
@@ -739,13 +740,13 @@ msgstr "ny oversættelseskomponent"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:310
 msgid "New announcement"
 msgstr "Ny meddelelse"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:312
 msgid "New alert"
 msgstr "Ny alarm"
 
@@ -1009,7 +1010,7 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:242 weblate/trans/models/change.py:239
+#: weblate/templates/translation.html:242 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr "Automatisk oversættelse"
 
@@ -1075,8 +1076,9 @@ msgstr "Sproglig konsistens"
 #| "Ensure that all components within one project have translation to same "
 #| "languages."
 msgid ""
-"Ensures all components within one project have translations for every added "
-"language for translation."
+"Ensures all components within a project have translations for every added "
+"translated language by creating empty translations in languages that have "
+"unadded components."
 msgstr ""
 "Sørg for at alle komponenter inden for et projekt har oversættelse til de "
 "samme sprog."
@@ -1155,23 +1157,22 @@ msgstr "Markér uændrede oversættelser som \"Behøver redigering\""
 #| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
-"source string, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if not "
-"translated."
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "Når en ny streng som kan oversættes bliver importeret fra "
 "versionsstyringssystemet, og den matcher med kildestrenge, bliver den "
 "markeret som behøvende redigering i Weblate. Det er særligt nyttigt til "
 "filformater som inkluderer alle strenge selv hvis de ikke er oversat."
 
-#: weblate/addons/flags.py:108 weblate/templates/component.html:69
+#: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
 #: weblate/templates/project.html:217 weblate/templates/translation.html:64
 #: weblate/templates/translation.html:281
 msgid "Bulk edit"
 msgstr "Masseredigering"
 
-#: weblate/addons/flags.py:109
+#: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
 msgstr ""
 
@@ -1484,8 +1485,8 @@ msgstr ""
 
 #: weblate/addons/generate.py:67
 msgid ""
-"Automatically generates a pseudolocale translation by adding prefix and "
-"suffix to source strings."
+"Generates a translation by adding prefix and suffix to source strings "
+"automatically."
 msgstr ""
 
 #: weblate/addons/gettext.py:41
@@ -1522,11 +1523,9 @@ msgstr "Opdater PO-filerne til at matche POT (msgmerge)"
 
 #: weblate/addons/gettext.py:230
 msgid ""
-"Updates all PO files to match the POT file using msgmerge. Triggered "
-"whenever new changes are pulled from the upstream repository."
+"Updates all PO files (as configured by \"Filemask\") to match the POT file "
+"(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Opdater alle PO-filerne med msgmerge, så de matcher POT-filen. Sker hver "
-"gang nye ændringer trækkes fra opstrøm-kildekodearkivet."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1544,9 +1543,13 @@ msgid "Contributors in comment"
 msgstr "Bidragydere i kommentar"
 
 #: weblate/addons/gettext.py:318
+#, fuzzy
+#| msgid ""
+#| "Update the comment in the PO file header to include contributor names and "
+#| "years of contributions."
 msgid ""
-"Update the comment in the PO file header to include contributor names and "
-"years of contributions."
+"Updates the comment part of the PO file header to include contributor names "
+"and years of contributions."
 msgstr ""
 "Opdater kommentaren i PO-filheaderen for at inkludere bidragsyderens navne "
 "og årene som der er blevet bidraget."
@@ -5798,7 +5801,7 @@ msgstr "Værktøjer"
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:199
 #: weblate/templates/replace.html:14 weblate/templates/translation.html:61
-#: weblate/templates/translation.html:263 weblate/trans/models/change.py:283
+#: weblate/templates/translation.html:263 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr "Søg og erstat"
 
@@ -8730,7 +8733,7 @@ msgstr "Kontroltegn"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:234
 msgid "Suggestion added"
 msgstr "Forslag tilføjet"
 
@@ -11018,297 +11021,282 @@ msgid "Do not specify both component and project!"
 msgstr "Angiv ikke både komponent og projekt!"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:227
+#: weblate/trans/models/change.py:224
 msgid "Resource update"
 msgstr "Ressourceopdatering"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:226
 msgid "Translation completed"
 msgstr "Oversættelse er fuldført"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:228
 msgid "Translation changed"
 msgstr "Oversættelse er ændret"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:230
 msgid "New translation"
 msgstr "Ny oversættelse"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:232
 msgid "Comment added"
 msgstr "Kommentar tilføjet"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:238
 msgid "Suggestion accepted"
 msgstr "Forslag er accepteret"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:240
 msgid "Translation reverted"
 msgstr "Oversættelse er tilbageført"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:245
+#: weblate/trans/models/change.py:242
 msgid "Translation uploaded"
 msgstr "Oversættelsen blev uploadet"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:247
-msgid "Added to glossary"
-msgstr "Tilføjet til ordlisten"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:249
-msgid "Glossary updated"
-msgstr "Ordliste opdateret"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:251
-msgid "Glossary uploaded"
-msgstr "Ordlisten blev uploadet"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:253
+#: weblate/trans/models/change.py:244
 msgid "New source string"
 msgstr "Ny kildestreng"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:255
+#: weblate/trans/models/change.py:246
 msgid "Component locked"
 msgstr "Komponent låst"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:257
+#: weblate/trans/models/change.py:248
 msgid "Component unlocked"
 msgstr "Komponent låst op"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:259
+#: weblate/trans/models/change.py:250
 msgid "Found duplicated string"
 msgstr "Fandt dubleret streng"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:261
+#: weblate/trans/models/change.py:252
 msgid "Committed changes"
 msgstr "Indsendte ændringer"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:263
+#: weblate/trans/models/change.py:254
 msgid "Pushed changes"
 msgstr "Sendte ændringer"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:265
+#: weblate/trans/models/change.py:256
 msgid "Reset repository"
 msgstr "Nulstil arkiv"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:267
+#: weblate/trans/models/change.py:258
 msgid "Merged repository"
 msgstr "Flettet arkiv"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:269
+#: weblate/trans/models/change.py:260
 msgid "Rebased repository"
 msgstr "Flyttet arkiv"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:262
 msgid "Failed merge on repository"
 msgstr "Kunne ikke flette arkiv"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:264
 msgid "Failed rebase on repository"
 msgstr "Kunne ikke flytte arkiv"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:275
+#: weblate/trans/models/change.py:266
 msgid "Failed push on repository"
 msgstr "Kunne ikke skubbe (push) til arkiv"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:270
 msgid "Removed translation"
 msgstr "Fjernet oversættelse"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:272
 msgid "Suggestion removed"
 msgstr "Forslag fjernet"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:276
 msgid "Suggestion removed during cleanup"
 msgstr "Forslag fjernet under oprydning"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:278
 msgid "Source string changed"
 msgstr "Kildestreng ændret"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:280
 msgid "New string added"
 msgstr "Ny streng tilføjet"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:282
 msgid "Bulk status change"
 msgstr "Ændring af massestatus"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:284
 msgid "Changed visibility"
 msgstr "Ændret synlighed"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:286
 msgid "Added user"
 msgstr "Tilføjet bruger"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:288
 msgid "Removed user"
 msgstr "Fjernet bruger"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:290
 msgid "Translation approved"
 msgstr "Oversættelse godkendt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:292
 msgid "Marked for edit"
 msgstr "Markeret til redigering"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:294
 msgid "Removed component"
 msgstr "Fjernet komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:296
 msgid "Removed project"
 msgstr "Fjernet projektet"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:298
 msgid "Found duplicated language"
 msgstr "Fandt duplikeret sprog"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:300
 msgid "Renamed project"
 msgstr "Omdøbt projekt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:302
 msgid "Renamed component"
 msgstr "Omdøbt komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:313
+#: weblate/trans/models/change.py:304
 msgid "Moved component"
 msgstr "Flyttet komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:314
 #, fuzzy
 #| msgid "Add new language"
 msgid "Added new language"
 msgstr "Tilføj yt sprog"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:316
 #, fuzzy
 #| msgid "Requested language:"
 msgid "Requested new language"
 msgstr "Ønskede sprog:"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:318
 #, fuzzy
 #| msgid "Create project"
 msgid "Created project"
 msgstr "Opret projekt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:320
 #, fuzzy
 #| msgid "Create component"
 msgid "Created component"
 msgstr "Opret komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:322
 #, fuzzy
 #| msgid "Removed user"
 msgid "Invited user"
 msgstr "Fjernet bruger"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:324
 #, fuzzy
 #| msgid "Repository maintenance"
 msgid "Received repository notification"
 msgstr "Vedligeholdelse af arkiv"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:335
+#: weblate/trans/models/change.py:326
 msgid "Replaced file by upload"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:328
 #, fuzzy
 #| msgid "Last change"
 msgid "License changed"
 msgstr "Sidste ændring"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:339
+#: weblate/trans/models/change.py:330
 #, fuzzy
 #| msgid "Contributor agreement"
 msgid "Contributor agreement changed"
 msgstr "Bidragyder aftale"
 
-#: weblate/trans/models/change.py:409
+#: weblate/trans/models/change.py:398
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "Ny streng som skal oversættes"
 msgstr[1] "Nye strenge som skal oversættes"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:414
+#: weblate/trans/models/change.py:403
 #, fuzzy
 #| msgid "Component unlocked"
 msgid "Component automatically locked"
 msgstr "Komponent låst op"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:416
+#: weblate/trans/models/change.py:405
 #, fuzzy
 #| msgid "Component unlocked"
 msgid "Component automatically unlocked"
 msgstr "Komponent låst op"
 
-#: weblate/trans/models/change.py:468
+#: weblate/trans/models/change.py:457
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
 
-#: weblate/trans/models/change.py:549
+#: weblate/trans/models/change.py:538
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/trans/models/change.py:551
+#: weblate/trans/models/change.py:540
 #, fuzzy, python-format
 #| msgid ""
 #| "New component %(component)s has been added to %(project)s at "
@@ -13335,12 +13323,6 @@ msgstr "Strengens prioritet"
 msgid "Position"
 msgstr "Gå til placering"
 
-#: weblate/utils/views.py:106
-#, fuzzy
-#| msgid "Translation settings"
-msgid "Translation string"
-msgstr "Oversættelsesindstillinger"
-
 #: weblate/utils/views.py:107
 #, fuzzy
 #| msgid "Number of strings"
@@ -13615,6 +13597,27 @@ msgstr "Din konto er blevet fjernet."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Kunne ikke afvise konfigurationsfejl!"
+
+#~ msgid ""
+#~ "Updates all PO files to match the POT file using msgmerge. Triggered "
+#~ "whenever new changes are pulled from the upstream repository."
+#~ msgstr ""
+#~ "Opdater alle PO-filerne med msgmerge, så de matcher POT-filen. Sker hver "
+#~ "gang nye ændringer trækkes fra opstrøm-kildekodearkivet."
+
+#~ msgid "Added to glossary"
+#~ msgstr "Tilføjet til ordlisten"
+
+#~ msgid "Glossary updated"
+#~ msgstr "Ordliste opdateret"
+
+#~ msgid "Glossary uploaded"
+#~ msgstr "Ordlisten blev uploadet"
+
+#, fuzzy
+#~| msgid "Translation settings"
+#~ msgid "Translation string"
+#~ msgstr "Oversættelsesindstillinger"
 
 #, fuzzy
 #~| msgid "Invalid search string!"

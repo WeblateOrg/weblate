@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-05 20:48+0000\n"
+"POT-Creation-Date: 2021-02-06 18:09+0000\n"
 "PO-Revision-Date: 2020-12-06 20:25+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Colognian <https://hosted.weblate.org/projects/weblate/"
@@ -25,7 +25,7 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Keine bikannte Metmaacher"
 
-#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
+#: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
 #, fuzzy
@@ -713,7 +713,7 @@ msgstr "Änderonge"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:268
 #, fuzzy
 #| msgid "Server Error"
 msgid "Parse error"
@@ -728,7 +728,7 @@ msgstr "Ding Övversäzonge"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:308
 #, fuzzy
 #| msgid "Strings with any failing checks"
 msgid "New contributor"
@@ -771,6 +771,7 @@ msgstr "Änderonge"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
+#: weblate/utils/views.py:106
 #, fuzzy
 #| msgid "Translated strings"
 msgid "Translated string"
@@ -799,7 +800,7 @@ msgstr "Övversäzonge jemaat"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:310
 #, fuzzy
 #| msgid "Comment"
 msgid "New announcement"
@@ -807,7 +808,7 @@ msgstr "Aanmärkong"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:312
 #, fuzzy
 #| msgid "Comment"
 msgid "New alert"
@@ -1083,7 +1084,7 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:242 weblate/trans/models/change.py:239
+#: weblate/templates/translation.html:242 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr ""
 
@@ -1141,8 +1142,9 @@ msgstr "Schprohch"
 
 #: weblate/addons/consistency.py:34
 msgid ""
-"Ensures all components within one project have translations for every added "
-"language for translation."
+"Ensures all components within a project have translations for every added "
+"translated language by creating empty translations in languages that have "
+"unadded components."
 msgstr ""
 
 #: weblate/addons/discovery.py:33
@@ -1208,12 +1210,11 @@ msgstr "Donn e neu Woot derbei"
 #: weblate/addons/flags.py:88
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
-"source string, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if not "
-"translated."
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 msgstr ""
 
-#: weblate/addons/flags.py:108 weblate/templates/component.html:69
+#: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
 #: weblate/templates/project.html:217 weblate/templates/translation.html:64
 #: weblate/templates/translation.html:281
@@ -1222,7 +1223,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "Der kumplätte Nahme"
 
-#: weblate/addons/flags.py:109
+#: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
 msgstr ""
 
@@ -1547,8 +1548,8 @@ msgstr ""
 
 #: weblate/addons/generate.py:67
 msgid ""
-"Automatically generates a pseudolocale translation by adding prefix and "
-"suffix to source strings."
+"Generates a translation by adding prefix and suffix to source strings "
+"automatically."
 msgstr ""
 
 #: weblate/addons/gettext.py:41
@@ -1583,8 +1584,8 @@ msgstr ""
 
 #: weblate/addons/gettext.py:230
 msgid ""
-"Updates all PO files to match the POT file using msgmerge. Triggered "
-"whenever new changes are pulled from the upstream repository."
+"Updates all PO files (as configured by \"Filemask\") to match the POT file "
+"(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
 
 #: weblate/addons/gettext.py:303
@@ -1604,8 +1605,8 @@ msgstr "Täxschtöckscher med scheif jejange Pröövonge"
 
 #: weblate/addons/gettext.py:318
 msgid ""
-"Update the comment in the PO file header to include contributor names and "
-"years of contributions."
+"Updates the comment part of the PO file header to include contributor names "
+"and years of contributions."
 msgstr ""
 
 #: weblate/addons/git.py:34
@@ -5952,7 +5953,7 @@ msgstr "Wärkzüsch"
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:199
 #: weblate/templates/replace.html:14 weblate/templates/translation.html:61
-#: weblate/templates/translation.html:263 weblate/trans/models/change.py:283
+#: weblate/templates/translation.html:263 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr ""
 
@@ -8778,7 +8779,7 @@ msgstr "Övverhollte Täxschtöckscher"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:234
 msgid "Suggestion added"
 msgstr ""
 
@@ -11083,313 +11084,296 @@ msgid "Do not specify both component and project!"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:227
+#: weblate/trans/models/change.py:224
 msgid "Resource update"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:226
 msgid "Translation completed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:228
 msgid "Translation changed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:230
 msgid "New translation"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:232
 msgid "Comment added"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:238
 msgid "Suggestion accepted"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:240
 msgid "Translation reverted"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:245
+#: weblate/trans/models/change.py:242
 msgid "Translation uploaded"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:247
-#, fuzzy
-#| msgid "Import glossary"
-msgid "Added to glossary"
-msgstr "Donn en Wööterleß empoteere"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:249
-msgid "Glossary updated"
-msgstr ""
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:251
-msgid "Glossary uploaded"
-msgstr ""
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:253
+#: weblate/trans/models/change.py:244
 msgid "New source string"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:255
+#: weblate/trans/models/change.py:246
 #, fuzzy
 #| msgid "Project name"
 msgid "Component locked"
 msgstr "Der Projäknahme"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:257
+#: weblate/trans/models/change.py:248
 #, fuzzy
 #| msgid "Project name"
 msgid "Component unlocked"
 msgstr "Der Projäknahme"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:259
+#: weblate/trans/models/change.py:250
 #, fuzzy
 #| msgid "Translated strings"
 msgid "Found duplicated string"
 msgstr "Övversaz Täxschtöckscher"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:261
+#: weblate/trans/models/change.py:252
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Committed changes"
 msgstr "Änderonge dorschbläddere"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:263
+#: weblate/trans/models/change.py:254
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Pushed changes"
 msgstr "Änderonge dorschbläddere"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:265
+#: weblate/trans/models/change.py:256
 msgid "Reset repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:267
+#: weblate/trans/models/change.py:258
 msgid "Merged repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:269
+#: weblate/trans/models/change.py:260
 msgid "Rebased repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:262
 msgid "Failed merge on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:264
 msgid "Failed rebase on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:275
+#: weblate/trans/models/change.py:266
 msgid "Failed push on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:270
 #, fuzzy
 #| msgid "Your translations"
 msgid "Removed translation"
 msgstr "Ding Övversäzonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:272
 #, fuzzy
 #| msgid "Suggestions made"
 msgid "Suggestion removed"
 msgstr "Vörschääsch jemaat"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:276
 #, fuzzy
 #| msgid "Suggestions made"
 msgid "Suggestion removed during cleanup"
 msgstr "Vörschääsch jemaat"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:278
 #, fuzzy
 #| msgid "Your translations"
 msgid "Source string changed"
 msgstr "Ding Övversäzonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:280
 #, fuzzy
 #| msgid "Your translations"
 msgid "New string added"
 msgstr "Ding Övversäzonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:282
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Bulk status change"
 msgstr "Änderonge dorschbläddere"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:284
 #, fuzzy
 #| msgid "Changes"
 msgid "Changed visibility"
 msgstr "Änderonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:286
 #, fuzzy
 #| msgid "Add new word"
 msgid "Added user"
 msgstr "Donn e neu Woot derbei"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:288
 #, fuzzy
 #| msgid "Registered users"
 msgid "Removed user"
 msgstr "Metmaacher aanjemälldt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:290
 #, fuzzy
 #| msgid "Translations"
 msgid "Translation approved"
 msgstr "Övversäzonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:292
 #, fuzzy
 #| msgid "Strings with any failing checks"
 msgid "Marked for edit"
 msgstr "Täxschtöckscher med scheif jejange Pröövonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:294
 #, fuzzy
 #| msgid "Comment"
 msgid "Removed component"
 msgstr "Aanmärkong"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:296
 #, fuzzy
 #| msgid "Subscribed projects"
 msgid "Removed project"
 msgstr "Projäkte em Abbonnemang"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:298
 #, fuzzy
 #| msgid "Used languages"
 msgid "Found duplicated language"
 msgstr "Jebuch Schprohche"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:300
 #, fuzzy
 #| msgid "Subscribed projects"
 msgid "Renamed project"
 msgstr "Projäkte em Abbonnemang"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:302
 #, fuzzy
 #| msgid "Comment"
 msgid "Renamed component"
 msgstr "Aanmärkong"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:313
+#: weblate/trans/models/change.py:304
 #, fuzzy
 #| msgid "Comment"
 msgid "Moved component"
 msgstr "Aanmärkong"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:314
 #, fuzzy
 #| msgid "Your translations"
 msgid "Added new language"
 msgstr "Ding Övversäzonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:316
 #, fuzzy
 #| msgid "Your translations"
 msgid "Requested new language"
 msgstr "Ding Övversäzonge"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:318
 #, fuzzy
 #| msgid "Subscribed projects"
 msgid "Created project"
 msgstr "Projäkte em Abbonnemang"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:320
 #, fuzzy
 #| msgid "Comment"
 msgid "Created component"
 msgstr "Aanmärkong"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:322
 #, fuzzy
 #| msgid "Registered users"
 msgid "Invited user"
 msgstr "Metmaacher aanjemälldt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:324
 #, fuzzy
 #| msgid "Revert to this translation"
 msgid "Received repository notification"
 msgstr "Jangk retuhr_op di Övversäzong"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:335
+#: weblate/trans/models/change.py:326
 msgid "Replaced file by upload"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:328
 #, fuzzy
 #| msgid "Browse changes"
 msgid "License changed"
 msgstr "Änderonge dorschbläddere"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:339
+#: weblate/trans/models/change.py:330
 #, fuzzy
 #| msgid "Strings with any failing checks"
 msgid "Contributor agreement changed"
 msgstr "Täxschtöckscher med scheif jejange Pröövonge"
 
-#: weblate/trans/models/change.py:409
+#: weblate/trans/models/change.py:398
 #, fuzzy
 #| msgid "Strings to translate"
 msgid "New string to translate"
@@ -11399,30 +11383,30 @@ msgstr[1] "Täxschtöcke zom övversäze"
 msgstr[2] "Täxschtöcke zom övversäze"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:414
+#: weblate/trans/models/change.py:403
 #, fuzzy
 #| msgid "Project name"
 msgid "Component automatically locked"
 msgstr "Der Projäknahme"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:416
+#: weblate/trans/models/change.py:405
 #, fuzzy
 #| msgid "Project name"
 msgid "Component automatically unlocked"
 msgstr "Der Projäknahme"
 
-#: weblate/trans/models/change.py:468
+#: weblate/trans/models/change.py:457
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: weblate/trans/models/change.py:549
+#: weblate/trans/models/change.py:538
 msgctxt "License information not available"
 msgid "N/A"
 msgstr ""
 
-#: weblate/trans/models/change.py:551
+#: weblate/trans/models/change.py:540
 #, fuzzy, python-format
 #| msgid "Secondary languages"
 msgid ""
@@ -13324,12 +13308,6 @@ msgstr ""
 msgid "Position"
 msgstr "Wööterbööscher"
 
-#: weblate/utils/views.py:106
-#, fuzzy
-#| msgid "Translated strings"
-msgid "Translation string"
-msgstr "Övversaz Täxschtöckscher"
-
 #: weblate/utils/views.py:107
 #, fuzzy
 #| msgid "Fuzzy strings"
@@ -13596,6 +13574,16 @@ msgstr "Dinge Zohjang es jäz fott."
 #| msgid "Your translations"
 msgid "Could not dismiss the configuration error!"
 msgstr "Ding Övversäzonge"
+
+#, fuzzy
+#~| msgid "Import glossary"
+#~ msgid "Added to glossary"
+#~ msgstr "Donn en Wööterleß empoteere"
+
+#, fuzzy
+#~| msgid "Translated strings"
+#~ msgid "Translation string"
+#~ msgstr "Övversaz Täxschtöckscher"
 
 #, fuzzy
 #~| msgid "Songhai languages"

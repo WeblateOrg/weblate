@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-05 20:48+0000\n"
+"POT-Creation-Date: 2021-02-06 18:09+0000\n"
 "PO-Revision-Date: 2021-02-06 00:05+0000\n"
 "Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
@@ -43,7 +43,7 @@ msgctxt "No known user"
 msgid "None"
 msgstr "Żaden"
 
-#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
+#: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
@@ -686,7 +686,7 @@ msgstr "Zmieniono licencję"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:268
 msgid "Parse error"
 msgstr "Błąd przetwarzania"
 
@@ -697,7 +697,7 @@ msgstr "Nowy ciąg"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:308
 msgid "New contributor"
 msgstr "Nowy współpracownik"
 
@@ -729,6 +729,7 @@ msgstr "Zmieniony ciąg"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
+#: weblate/utils/views.py:106
 msgid "Translated string"
 msgstr "Ciągi przetłumaczone"
 
@@ -749,13 +750,13 @@ msgstr "Nowy składnik tłumaczenia"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:310
 msgid "New announcement"
 msgstr "Nowe ogłoszenie"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:312
 msgid "New alert"
 msgstr "Nowy alert"
 
@@ -1006,7 +1007,7 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:242 weblate/trans/models/change.py:239
+#: weblate/templates/translation.html:242 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr "Tłumaczenie automatyczne"
 
@@ -1067,9 +1068,14 @@ msgid "Language consistency"
 msgstr "Zgodność języka"
 
 #: weblate/addons/consistency.py:34
+#, fuzzy
+#| msgid ""
+#| "Ensures all components within one project have translations for every "
+#| "added language for translation."
 msgid ""
-"Ensures all components within one project have translations for every added "
-"language for translation."
+"Ensures all components within a project have translations for every added "
+"translated language by creating empty translations in languages that have "
+"unadded components."
 msgstr ""
 "Zapewnia, że wszystkie komponenty w ramach jednego projektu mają tłumaczenia "
 "dla każdego dodanego języka do tłumaczenia."
@@ -1135,25 +1141,30 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Oznacz niezmienione tłumaczenia jako \"Wymaga edycji\""
 
 #: weblate/addons/flags.py:88
+#, fuzzy
+#| msgid ""
+#| "Whenever a new translatable string is imported from the VCS and it "
+#| "matches a source string, it is flagged as needing editing in Weblate. "
+#| "This is especially useful for file formats that include all strings even "
+#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
-"source string, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if not "
-"translated."
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "Za każdym razem, gdy nowy, tłumaczony ciąg jest importowany z sieci VCS i "
 "jest zgodny z ciągiem źródłowym, jest oflagowany jako wymagający edycji w "
 "Weblate. Jest to szczególnie przydatne w przypadku formatów plików, które "
 "zawierają wszystkie ciągi, nawet jeśli nie są tłumaczone."
 
-#: weblate/addons/flags.py:108 weblate/templates/component.html:69
+#: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
 #: weblate/templates/project.html:217 weblate/templates/translation.html:64
 #: weblate/templates/translation.html:281
 msgid "Bulk edit"
 msgstr "Edycja zbiorcza"
 
-#: weblate/addons/flags.py:109
+#: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
 msgstr "Masowa edycja flag, etykiet lub stanu dla łańcuchów."
 
@@ -1446,9 +1457,13 @@ msgid "Pseudolocale generation"
 msgstr "Generowanie pseudo lokalizacji"
 
 #: weblate/addons/generate.py:67
+#, fuzzy
+#| msgid ""
+#| "Automatically generates a pseudolocale translation by adding prefix and "
+#| "suffix to source strings."
 msgid ""
-"Automatically generates a pseudolocale translation by adding prefix and "
-"suffix to source strings."
+"Generates a translation by adding prefix and suffix to source strings "
+"automatically."
 msgstr ""
 "Automatycznie generuje pseudo lokalizacje, dodając prefiks i sufiks do "
 "ciągów źródłowych."
@@ -1487,12 +1502,9 @@ msgstr "Zaktualizuj pliki PO, aby dopasować POT (msgmerge)"
 
 #: weblate/addons/gettext.py:230
 msgid ""
-"Updates all PO files to match the POT file using msgmerge. Triggered "
-"whenever new changes are pulled from the upstream repository."
+"Updates all PO files (as configured by \"Filemask\") to match the POT file "
+"(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Aktualizuje wszystkie pliki PO, aby pasowały do pliku POT przy użyciu "
-"msgmerge. Wywoływane za każdym razem, gdy nowe zmiany są pobierane z "
-"repozytorium nadrzędnego."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1510,9 +1522,13 @@ msgid "Contributors in comment"
 msgstr "Komentarz współautora"
 
 #: weblate/addons/gettext.py:318
+#, fuzzy
+#| msgid ""
+#| "Update the comment in the PO file header to include contributor names and "
+#| "years of contributions."
 msgid ""
-"Update the comment in the PO file header to include contributor names and "
-"years of contributions."
+"Updates the comment part of the PO file header to include contributor names "
+"and years of contributions."
 msgstr ""
 "Zaktualizuj komentarz w nagłówku pliku PO, aby zawierał nazwę autora i lata "
 "wkładu."
@@ -5451,7 +5467,7 @@ msgstr "Narzędzia"
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:199
 #: weblate/templates/replace.html:14 weblate/templates/translation.html:61
-#: weblate/templates/translation.html:263 weblate/trans/models/change.py:283
+#: weblate/templates/translation.html:263 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr "Wyszukaj i zamień"
 
@@ -8112,7 +8128,7 @@ msgstr "Hostowane znaki"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:234
 msgid "Suggestion added"
 msgstr "Dodano sugestię"
 
@@ -10165,251 +10181,236 @@ msgid "Do not specify both component and project!"
 msgstr "Nie wyszczególniaj jednocześnie komponentu i projektu!"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:227
+#: weblate/trans/models/change.py:224
 msgid "Resource update"
 msgstr "Uaktualniono zasoby"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:226
 msgid "Translation completed"
 msgstr "Zakończono tłumaczenie"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:228
 msgid "Translation changed"
 msgstr "Zmieniono tłumaczenie"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:230
 msgid "New translation"
 msgstr "Dodano tłumaczenie"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:232
 msgid "Comment added"
 msgstr "Dodano komentarz"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:238
 msgid "Suggestion accepted"
 msgstr "Zaakceptowano sugestię"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:240
 msgid "Translation reverted"
 msgstr "Przywrócono tłumaczenie"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:245
+#: weblate/trans/models/change.py:242
 msgid "Translation uploaded"
 msgstr "Wysłano tłumaczenie"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:247
-msgid "Added to glossary"
-msgstr "Dodano do słownika"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:249
-msgid "Glossary updated"
-msgstr "Uaktualniono słownik"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:251
-msgid "Glossary uploaded"
-msgstr "Wysłano słownik"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:253
+#: weblate/trans/models/change.py:244
 msgid "New source string"
 msgstr "Dodano nowy ciąg źródłowy"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:255
+#: weblate/trans/models/change.py:246
 msgid "Component locked"
 msgstr "Zablokowano komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:257
+#: weblate/trans/models/change.py:248
 msgid "Component unlocked"
 msgstr "Odblokowano komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:259
+#: weblate/trans/models/change.py:250
 msgid "Found duplicated string"
 msgstr "Znaleziono zduplikowany ciąg"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:261
+#: weblate/trans/models/change.py:252
 msgid "Committed changes"
 msgstr "Zatwierdzono zmiany"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:263
+#: weblate/trans/models/change.py:254
 msgid "Pushed changes"
 msgstr "Przesłano zmiany"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:265
+#: weblate/trans/models/change.py:256
 msgid "Reset repository"
 msgstr "Resetuj repozytorium"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:267
+#: weblate/trans/models/change.py:258
 msgid "Merged repository"
 msgstr "Połączono repozytorium"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:269
+#: weblate/trans/models/change.py:260
 msgid "Rebased repository"
 msgstr "Wykonano polecenie rebase repozytorium"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:262
 msgid "Failed merge on repository"
 msgstr "Nieudane łączenie repozytorium"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:264
 msgid "Failed rebase on repository"
 msgstr "Nieudane wykonanie polecenia rebase na repozytorium"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:275
+#: weblate/trans/models/change.py:266
 msgid "Failed push on repository"
 msgstr "Nieudane wykonanie polecenia push na repozytorium"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:270
 msgid "Removed translation"
 msgstr "Usunięto tłumaczenie"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:272
 msgid "Suggestion removed"
 msgstr "Usunięto sugestię"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:276
 msgid "Suggestion removed during cleanup"
 msgstr "Usunięto sugestię podczas czyszczenia"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:278
 msgid "Source string changed"
 msgstr "Tekst źródłowy został zmieniony"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:280
 msgid "New string added"
 msgstr "Dodano nowy ciąg"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:282
 msgid "Bulk status change"
 msgstr "Zmiana statusu zbiorczego"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:284
 msgid "Changed visibility"
 msgstr "Zmiana widoczności"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:286
 msgid "Added user"
 msgstr "Dodano użytkownika"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:288
 msgid "Removed user"
 msgstr "Usunięty użytkownik"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:290
 msgid "Translation approved"
 msgstr "Tłumaczenie zatwierdzone"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:292
 msgid "Marked for edit"
 msgstr "Oznaczono do edycji"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:294
 msgid "Removed component"
 msgstr "Usunięto komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:296
 msgid "Removed project"
 msgstr "Usunięto projekt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:298
 msgid "Found duplicated language"
 msgstr "Znaleziono zduplikowany język"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:300
 msgid "Renamed project"
 msgstr "Zmieniono nazwę projektu"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:302
 msgid "Renamed component"
 msgstr "Zmieniono nazwę komponentu"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:313
+#: weblate/trans/models/change.py:304
 msgid "Moved component"
 msgstr "Przeniesiono komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:314
 msgid "Added new language"
 msgstr "Dodano nowy język"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:316
 msgid "Requested new language"
 msgstr "Wymagany nowy język"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:318
 msgid "Created project"
 msgstr "Utworzony projekt"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:320
 msgid "Created component"
 msgstr "Utworzony komponent"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:322
 msgid "Invited user"
 msgstr "Zaproszony użytkownik"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:324
 msgid "Received repository notification"
 msgstr "Otrzymano powiadomienie o repozytorium"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:335
+#: weblate/trans/models/change.py:326
 msgid "Replaced file by upload"
 msgstr "Plik zastąpiony przez przesłanie"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:328
 msgid "License changed"
 msgstr "Zmiana licencji"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:339
+#: weblate/trans/models/change.py:330
 msgid "Contributor agreement changed"
 msgstr "Zmiana umowy uczestników"
 
-#: weblate/trans/models/change.py:409
+#: weblate/trans/models/change.py:398
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "Nowy ciąg znaków do przetłumaczenia"
@@ -10417,26 +10418,26 @@ msgstr[1] "Nowe ciągi znaków do przetłumaczenia"
 msgstr[2] "Nowe ciągi znaków do przetłumaczenia"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:414
+#: weblate/trans/models/change.py:403
 msgid "Component automatically locked"
 msgstr "Komponent automatycznie zablokowany"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:416
+#: weblate/trans/models/change.py:405
 msgid "Component automatically unlocked"
 msgstr "Komponent automatycznie odblokowany"
 
-#: weblate/trans/models/change.py:468
+#: weblate/trans/models/change.py:457
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s o %(time)s w projekcie %(translation)s przez %(user)s"
 
-#: weblate/trans/models/change.py:549
+#: weblate/trans/models/change.py:538
 msgctxt "License information not available"
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/trans/models/change.py:551
+#: weblate/trans/models/change.py:540
 #, python-format
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
@@ -12252,10 +12253,6 @@ msgstr "Pozycja i priorytet"
 msgid "Position"
 msgstr "Pozycja"
 
-#: weblate/utils/views.py:106
-msgid "Translation string"
-msgstr "Ciąg tłumaczenia"
-
 #: weblate/utils/views.py:107
 msgid "Age of string"
 msgstr "Wiek tekstu"
@@ -12495,6 +12492,26 @@ msgstr "Uruchomiono proces tworzenia kopii zapasowej"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Nie można odrzucić błędu konfiguracji!"
+
+#~ msgid ""
+#~ "Updates all PO files to match the POT file using msgmerge. Triggered "
+#~ "whenever new changes are pulled from the upstream repository."
+#~ msgstr ""
+#~ "Aktualizuje wszystkie pliki PO, aby pasowały do pliku POT przy użyciu "
+#~ "msgmerge. Wywoływane za każdym razem, gdy nowe zmiany są pobierane z "
+#~ "repozytorium nadrzędnego."
+
+#~ msgid "Added to glossary"
+#~ msgstr "Dodano do słownika"
+
+#~ msgid "Glossary updated"
+#~ msgstr "Uaktualniono słownik"
+
+#~ msgid "Glossary uploaded"
+#~ msgstr "Wysłano słownik"
+
+#~ msgid "Translation string"
+#~ msgstr "Ciąg tłumaczenia"
 
 #~ msgid "Invalid ordering"
 #~ msgstr "Nieprawidłowe polecenie"

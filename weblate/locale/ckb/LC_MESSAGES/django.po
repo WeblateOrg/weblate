@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-05 20:48+0000\n"
+"POT-Creation-Date: 2021-02-06 18:09+0000\n"
 "PO-Revision-Date: 2021-01-03 09:03+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Kurdish (Central) <https://hosted.weblate.org/projects/"
@@ -27,7 +27,7 @@ msgctxt "No known user"
 msgid "None"
 msgstr "هیچ کەسێک"
 
-#: weblate/accounts/avatar.py:124 weblate/templates/accounts/profile.html:205
+#: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
 #: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
@@ -712,7 +712,7 @@ msgstr "گۆڕانەکانی دوا ساڵ"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:268
 msgid "Parse error"
 msgstr ""
 
@@ -725,7 +725,7 @@ msgstr "وشەکانی سەرچاوە"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:478 weblate/trans/models/change.py:308
 #, fuzzy
 #| msgid "Notification on new comment"
 msgid "New contributor"
@@ -767,6 +767,7 @@ msgstr "گۆڕانەکانی دوا ساڵ"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
+#: weblate/utils/views.py:106
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translated string"
@@ -795,7 +796,7 @@ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کر�
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:310
 #, fuzzy
 #| msgid "Your languages"
 msgid "New announcement"
@@ -803,7 +804,7 @@ msgstr "زمانی تۆ"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:664 weblate/trans/models/change.py:312
 #, fuzzy
 #| msgid "Your languages"
 msgid "New alert"
@@ -1078,7 +1079,7 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:242 weblate/trans/models/change.py:239
+#: weblate/templates/translation.html:242 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr ""
 
@@ -1136,8 +1137,9 @@ msgstr "زمان"
 
 #: weblate/addons/consistency.py:34
 msgid ""
-"Ensures all components within one project have translations for every added "
-"language for translation."
+"Ensures all components within a project have translations for every added "
+"translated language by creating empty translations in languages that have "
+"unadded components."
 msgstr ""
 
 #: weblate/addons/discovery.py:33
@@ -1203,12 +1205,11 @@ msgstr "وشەیەکی نوێ زیادبکە"
 #: weblate/addons/flags.py:88
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
-"source string, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if not "
-"translated."
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 msgstr ""
 
-#: weblate/addons/flags.py:108 weblate/templates/component.html:69
+#: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
 #: weblate/templates/project.html:217 weblate/templates/translation.html:64
 #: weblate/templates/translation.html:281
@@ -1217,7 +1218,7 @@ msgstr ""
 msgid "Bulk edit"
 msgstr "ناوی تەواو"
 
-#: weblate/addons/flags.py:109
+#: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
 msgstr ""
 
@@ -1542,8 +1543,8 @@ msgstr ""
 
 #: weblate/addons/generate.py:67
 msgid ""
-"Automatically generates a pseudolocale translation by adding prefix and "
-"suffix to source strings."
+"Generates a translation by adding prefix and suffix to source strings "
+"automatically."
 msgstr ""
 
 #: weblate/addons/gettext.py:41
@@ -1580,8 +1581,8 @@ msgstr ""
 
 #: weblate/addons/gettext.py:230
 msgid ""
-"Updates all PO files to match the POT file using msgmerge. Triggered "
-"whenever new changes are pulled from the upstream repository."
+"Updates all PO files (as configured by \"Filemask\") to match the POT file "
+"(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
 
 #: weblate/addons/gettext.py:303
@@ -1601,8 +1602,8 @@ msgstr "ئاگادارکردنەوە بۆ هەر سەرنجێکی نوێ"
 
 #: weblate/addons/gettext.py:318
 msgid ""
-"Update the comment in the PO file header to include contributor names and "
-"years of contributions."
+"Updates the comment part of the PO file header to include contributor names "
+"and years of contributions."
 msgstr ""
 
 #: weblate/addons/git.py:34
@@ -5847,7 +5848,7 @@ msgstr ""
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:199
 #: weblate/templates/replace.html:14 weblate/templates/translation.html:61
-#: weblate/templates/translation.html:263 weblate/trans/models/change.py:283
+#: weblate/templates/translation.html:263 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr ""
 
@@ -8622,7 +8623,7 @@ msgstr "زمانی تۆ"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:237
+#: weblate/trans/models/change.py:234
 msgid "Suggestion added"
 msgstr ""
 
@@ -10844,299 +10845,282 @@ msgid "Do not specify both component and project!"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:227
+#: weblate/trans/models/change.py:224
 msgid "Resource update"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:226
 msgid "Translation completed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:228
 msgid "Translation changed"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:230
 msgid "New translation"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:232
 msgid "Comment added"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:238
 msgid "Suggestion accepted"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:240
 msgid "Translation reverted"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:245
+#: weblate/trans/models/change.py:242
 msgid "Translation uploaded"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:247
-#, fuzzy
-#| msgid "Import glossary"
-msgid "Added to glossary"
-msgstr "هاوردەکردنی فەرهەنگۆک"
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:249
-msgid "Glossary updated"
-msgstr ""
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:251
-msgid "Glossary uploaded"
-msgstr ""
-
-#. Translators: Name of event in the history
-#: weblate/trans/models/change.py:253
+#: weblate/trans/models/change.py:244
 msgid "New source string"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:255
+#: weblate/trans/models/change.py:246
 msgid "Component locked"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:257
+#: weblate/trans/models/change.py:248
 msgid "Component unlocked"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:259
+#: weblate/trans/models/change.py:250
 #, fuzzy
 #| msgid "Source words"
 msgid "Found duplicated string"
 msgstr "وشەکانی سەرچاوە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:261
+#: weblate/trans/models/change.py:252
 msgid "Committed changes"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:263
+#: weblate/trans/models/change.py:254
 msgid "Pushed changes"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:265
+#: weblate/trans/models/change.py:256
 msgid "Reset repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:267
+#: weblate/trans/models/change.py:258
 msgid "Merged repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:269
+#: weblate/trans/models/change.py:260
 msgid "Rebased repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:262
 msgid "Failed merge on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:264
 msgid "Failed rebase on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:275
+#: weblate/trans/models/change.py:266
 msgid "Failed push on repository"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:270
 msgid "Removed translation"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:272
 #, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestion removed"
 msgstr "دەنگدانی پێشنیار"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:276
 #, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestion removed during cleanup"
 msgstr "دەنگدانی پێشنیار"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:278
 #, fuzzy
 #| msgid "Source words"
 msgid "Source string changed"
 msgstr "وشەکانی سەرچاوە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:280
 #, fuzzy
 #| msgid "Source words"
 msgid "New string added"
 msgstr "وشەکانی سەرچاوە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:282
 #, fuzzy
 #| msgid "Your password has been changed."
 msgid "Bulk status change"
 msgstr "تێپەڕەوشەکەت گۆڕدرا."
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:284
 #, fuzzy
 #| msgid "Changes in last year"
 msgid "Changed visibility"
 msgstr "گۆڕانەکانی دوا ساڵ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:286
 msgid "Added user"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:288
 #, fuzzy
 #| msgid "Remove my account"
 msgid "Removed user"
 msgstr "هەژمارەکەم بسڕەوە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:290
 #, fuzzy
 #| msgid "Translation status"
 msgid "Translation approved"
 msgstr "ڕەوشی وەرگێڕان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:292
 msgid "Marked for edit"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:294
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Removed component"
 msgstr "سڕینەوەی ئەم هەژمارە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:296
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Removed project"
 msgstr "پڕۆژە بەڕێبراوەکان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:298
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Found duplicated language"
 msgstr "زمانە وەرگێڕدراوەکان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:300
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Renamed project"
 msgstr "پڕۆژە بەڕێبراوەکان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:302
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Renamed component"
 msgstr "سڕینەوەی ئەم هەژمارە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:313
+#: weblate/trans/models/change.py:304
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Moved component"
 msgstr "سڕینەوەی ئەم هەژمارە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:314
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Added new language"
 msgstr "زمانە وەرگێڕدراوەکان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:316
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Requested new language"
 msgstr "زمانە وەرگێڕدراوەکان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:318
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Created project"
 msgstr "پڕۆژە بەڕێبراوەکان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:320
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Created component"
 msgstr "سڕینەوەی ئەم هەژمارە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:322
 #, fuzzy
 #| msgid "Remove my account"
 msgid "Invited user"
 msgstr "هەژمارەکەم بسڕەوە"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:324
 #, fuzzy
 #| msgid "Translation"
 msgid "Received repository notification"
 msgstr "وەرگێڕان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:335
+#: weblate/trans/models/change.py:326
 msgid "Replaced file by upload"
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:337
+#: weblate/trans/models/change.py:328
 #, fuzzy
 #| msgid "License"
 msgid "License changed"
 msgstr "مۆڵەت"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:339
+#: weblate/trans/models/change.py:330
 #, fuzzy
 #| msgid "Notification on new comment"
 msgid "Contributor agreement changed"
 msgstr "ئاگادارکردنەوە بۆ هەر سەرنجێکی نوێ"
 
-#: weblate/trans/models/change.py:409
+#: weblate/trans/models/change.py:398
 #, fuzzy
 #| msgid "Translation"
 msgid "New string to translate"
@@ -11145,30 +11129,30 @@ msgstr[0] "وەرگێڕان"
 msgstr[1] "وەرگێڕان"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:414
+#: weblate/trans/models/change.py:403
 #, fuzzy
 #| msgid "Your languages"
 msgid "Component automatically locked"
 msgstr "زمانی تۆ"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:416
+#: weblate/trans/models/change.py:405
 #, fuzzy
 #| msgid "Your languages"
 msgid "Component automatically unlocked"
 msgstr "زمانی تۆ"
 
-#: weblate/trans/models/change.py:468
+#: weblate/trans/models/change.py:457
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
 
-#: weblate/trans/models/change.py:549
+#: weblate/trans/models/change.py:538
 msgctxt "License information not available"
 msgid "N/A"
 msgstr ""
 
-#: weblate/trans/models/change.py:551
+#: weblate/trans/models/change.py:540
 #, fuzzy, python-format
 #| msgid "Your languages"
 msgid ""
@@ -13015,12 +12999,6 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 msgid "Position"
 msgstr "دەستە بۆ تەرخانکردنی"
 
-#: weblate/utils/views.py:106
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation string"
-msgstr "ڕەوشی وەرگێڕان"
-
 #: weblate/utils/views.py:107
 #, fuzzy
 #| msgid "Source words"
@@ -13291,6 +13269,16 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Import glossary"
+#~ msgid "Added to glossary"
+#~ msgstr "هاوردەکردنی فەرهەنگۆک"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Translation string"
+#~ msgstr "ڕەوشی وەرگێڕان"
 
 #, fuzzy
 #~| msgid "Add new word"

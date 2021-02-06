@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-05 16:12+0100\n"
+"POT-Creation-Date: 2021-02-06 19:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -129,202 +129,203 @@ msgstr ""
 
 #: ../../admin/access.rst:81
 msgid ""
-"By turning on access-control lists, all users are prohibited from accessing "
+"By turning on access control, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
 msgstr ""
 
 #: ../../admin/access.rst:86
 msgid ""
-"Limit user's access to individual projects by turning on :guilabel:`Access` "
-"in the :guilabel:`Settings` of each respective project. This automatically "
-"creates several groups for the project in question, see :ref:`groups`."
+"Limit user's access to individual projects by selecting a different access "
+"control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` "
+"of each respective project.  This automatically creates several groups for "
+"the project in question, see :ref:`groups`."
 msgstr ""
 
-#: ../../admin/access.rst:90
+#: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
 msgstr ""
 
-#: ../../admin/access.rst:92
+#: ../../admin/access.rst:93
 msgid "Public"
 msgstr ""
 
-#: ../../admin/access.rst:93
+#: ../../admin/access.rst:94
 msgid "Publicly visible, translatable for all logged-in users"
 msgstr ""
 
-#: ../../admin/access.rst:94
+#: ../../admin/access.rst:95
 msgid "Protected"
 msgstr ""
 
-#: ../../admin/access.rst:95
+#: ../../admin/access.rst:96
 msgid "Publicly visible, but translatable only for selected users"
 msgstr ""
 
-#: ../../admin/access.rst:96
+#: ../../admin/access.rst:97
 msgid "Private"
 msgstr ""
 
-#: ../../admin/access.rst:97
+#: ../../admin/access.rst:98
 msgid "Visible and translatable only for selected users"
 msgstr ""
 
-#: ../../admin/access.rst:99
+#: ../../admin/access.rst:100
 msgid "Custom"
 msgstr ""
 
-#: ../../admin/access.rst:99
+#: ../../admin/access.rst:100
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
 msgstr ""
 
-#: ../../admin/access.rst:103
+#: ../../admin/access.rst:104
 msgid ""
-"Grant access to a project by adding the privilege either directly to the "
-"given user, or group of users in the Django admin-interface, or by using "
-"user management on the project page, as described in :ref:`manage-acl`."
+"Grant access to a project by adding the privilege either directly to an "
+"user, or group of users in the Django admin-interface, or by using user "
+"management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
 
-#: ../../admin/access.rst:109
+#: ../../admin/access.rst:110
 msgid ""
-"Even with access-control lists turned on, some info will be available about "
-"your project:"
-msgstr ""
-
-#: ../../admin/access.rst:112
-msgid "Statistics for the whole instance, including counts for all projects."
+"Even with access control turned on, some info will be available about your "
+"project:"
 msgstr ""
 
 #: ../../admin/access.rst:113
+msgid "Statistics for the whole instance, including counts for all projects."
+msgstr ""
+
+#: ../../admin/access.rst:114
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
 msgstr ""
 
-#: ../../admin/access.rst:118
+#: ../../admin/access.rst:119
 msgid "Automatic group assignments"
 msgstr ""
 
-#: ../../admin/access.rst:120
+#: ../../admin/access.rst:121
 msgid ""
 "From the :guilabel:`Authentication` in the Django admin interface, users can "
 "be assigned to groups [you want this for] automatically based on their e-"
 "mail addresses. This only happens upon account creation."
 msgstr ""
 
-#: ../../admin/access.rst:126
+#: ../../admin/access.rst:127
 msgid ""
 "Automatic group assignment to `Users` and `Viewers` is always recreated "
 "during migrations. If you want to turn it off, set the regular expression to "
 "``^$`` (which will never match)."
 msgstr ""
 
-#: ../../admin/access.rst:133
+#: ../../admin/access.rst:134
 msgid "Users, roles, groups and permissions"
 msgstr ""
 
-#: ../../admin/access.rst:135
+#: ../../admin/access.rst:136
 msgid "The authentication models consist of several objects:"
 msgstr ""
 
-#: ../../admin/access.rst:138
+#: ../../admin/access.rst:139
 msgid "`Permission`"
 msgstr ""
 
-#: ../../admin/access.rst:138
+#: ../../admin/access.rst:139
 msgid ""
 "Individual permissions defined by Weblate. Permissions can not be assigned "
 "to users. This can only be done through assignment of roles."
 msgstr ""
 
-#: ../../admin/access.rst:141
+#: ../../admin/access.rst:142
 msgid "`Role`"
 msgstr ""
 
-#: ../../admin/access.rst:141
+#: ../../admin/access.rst:142
 msgid ""
 "A Role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
 msgstr ""
 
-#: ../../admin/access.rst:143
+#: ../../admin/access.rst:144
 msgid "`User`"
 msgstr ""
 
-#: ../../admin/access.rst:144
+#: ../../admin/access.rst:145
 msgid "Users can belong to several groups."
 msgstr ""
 
-#: ../../admin/access.rst:147
+#: ../../admin/access.rst:148
 msgid "`Group`"
 msgstr ""
 
-#: ../../admin/access.rst:146
+#: ../../admin/access.rst:147
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
 
-#: ../../admin/access.rst:165
+#: ../../admin/access.rst:166
 msgid "Permission checking"
 msgstr ""
 
-#: ../../admin/access.rst:167
+#: ../../admin/access.rst:168
 msgid ""
 "Whenever a permission is checked to decide whether one is able to perform a "
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in this order:"
 msgstr ""
 
-#: ../../admin/access.rst:171
+#: ../../admin/access.rst:172
 msgid ""
 "The group :guilabel:`Component list` is matched against accessed component "
 "or project (for project-level access)."
 msgstr ""
 
-#: ../../admin/access.rst:173
+#: ../../admin/access.rst:174
 msgid ""
 "The group :guilabel:`Components` is matched against accessed component or "
 "project (for project-level access)."
 msgstr ""
 
-#: ../../admin/access.rst:175
+#: ../../admin/access.rst:176
 msgid "The group :guilabel:`Projects` is matched against accessed project."
 msgstr ""
 
-#: ../../admin/access.rst:177
+#: ../../admin/access.rst:178
 msgid ""
 "Thus, granting access to a component gives the user access to the project it "
 "is in too."
 msgstr ""
 
-#: ../../admin/access.rst:181
+#: ../../admin/access.rst:182
 msgid ""
 "Only the first rule will be used. So if you set all of :guilabel:`Component "
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
 
-#: ../../admin/access.rst:185
+#: ../../admin/access.rst:186
 msgid ""
 "An additional step is performed if checking permission for the translation:"
 msgstr ""
 
-#: ../../admin/access.rst:188
+#: ../../admin/access.rst:189
 msgid ""
 "The group :guilabel:`Languages` is matched against accessed translations, it "
 "is ignored for component- or project-level access."
 msgstr ""
 
-#: ../../admin/access.rst:192
+#: ../../admin/access.rst:193
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
 
-#: ../../admin/access.rst:196
+#: ../../admin/access.rst:197
 msgid "Checking access to a project"
 msgstr ""
 
-#: ../../admin/access.rst:198
+#: ../../admin/access.rst:199
 msgid ""
 "A user has to be a member of a group linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
@@ -332,11 +333,11 @@ msgid ""
 "group, see :ref:`default-groups`)."
 msgstr ""
 
-#: ../../admin/access.rst:204
+#: ../../admin/access.rst:205
 msgid "Checking access to a component"
 msgstr ""
 
-#: ../../admin/access.rst:206
+#: ../../admin/access.rst:207
 msgid ""
 "A user can access the unrestricted component once able to access the "
 "containing project. With :ref:`component-restricted` turned on, access to "
@@ -344,147 +345,146 @@ msgid ""
 "list it is in)."
 msgstr ""
 
-#: ../../admin/access.rst:213
+#: ../../admin/access.rst:214
 msgid "Managing users and groups"
 msgstr ""
 
-#: ../../admin/access.rst:215
+#: ../../admin/access.rst:216
 msgid ""
 "All users and the various groups they are in can be managed using the Django "
 "admin interface available, which you can get to by appending :file:`/admin/` "
 "to the Weblate site URL."
 msgstr ""
 
-#: ../../admin/access.rst:222
+#: ../../admin/access.rst:223
 msgid "Managing per-project access control"
 msgstr ""
 
-#: ../../admin/access.rst:226
+#: ../../admin/access.rst:227
 msgid ""
-"This feature only works for projects using access-control lists, see :ref:"
-"`acl`."
+"This feature only works for projects using access control, see :ref:`acl`."
 msgstr ""
 
-#: ../../admin/access.rst:228
+#: ../../admin/access.rst:229
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can also manage users in projects with access control turned "
 "on through the project page. The interface allows you to:"
 msgstr ""
 
-#: ../../admin/access.rst:232
+#: ../../admin/access.rst:233
 msgid "Add existing users to the project"
 msgstr ""
 
-#: ../../admin/access.rst:233
+#: ../../admin/access.rst:234
 msgid "Invite new users to the project"
 msgstr ""
 
-#: ../../admin/access.rst:234
+#: ../../admin/access.rst:235
 msgid "Change user permissions"
 msgstr ""
 
-#: ../../admin/access.rst:235
+#: ../../admin/access.rst:236
 msgid "Revoke user access"
 msgstr ""
 
-#: ../../admin/access.rst:239
+#: ../../admin/access.rst:240
 msgid ""
 "Resend the e-mail for user invitations (invalidating any previously sent "
 "invitation)"
 msgstr ""
 
-#: ../../admin/access.rst:241
+#: ../../admin/access.rst:242
 msgid ""
 "User management is available in the :guilabel:`Manage` menu of any project:"
 msgstr ""
 
-#: ../../admin/access.rst:247
+#: ../../admin/access.rst:248
 msgid ":ref:`acl`"
 msgstr ""
 
-#: ../../admin/access.rst:252
+#: ../../admin/access.rst:253
 msgid "Predefined groups"
 msgstr ""
 
-#: ../../admin/access.rst:254
+#: ../../admin/access.rst:255
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
 msgstr ""
 
-#: ../../admin/access.rst:260
+#: ../../admin/access.rst:261
 msgid "Can translate the project, and upload translations made offline."
 msgstr ""
 
-#: ../../admin/access.rst:264
+#: ../../admin/access.rst:265
 msgid "Can edit source strings in :ref:`monolingual` and source string info."
 msgstr ""
 
-#: ../../admin/access.rst:268
+#: ../../admin/access.rst:269
 msgid "Can manage translated languages (add or remove translations)."
 msgstr ""
 
-#: ../../admin/access.rst:272
+#: ../../admin/access.rst:273
 msgid "Can manage glossary (add or remove entries, or upload)."
 msgstr ""
 
-#: ../../admin/access.rst:276
+#: ../../admin/access.rst:277
 msgid "Can manage translation memory."
 msgstr ""
 
-#: ../../admin/access.rst:280
+#: ../../admin/access.rst:281
 msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
 
-#: ../../admin/access.rst:285
+#: ../../admin/access.rst:286
 msgid "Can approve translations during review."
 msgstr ""
 
-#: ../../admin/access.rst:289
+#: ../../admin/access.rst:290
 msgid "Can manage VCS and access the exported repository."
 msgstr ""
 
-#: ../../admin/access.rst:293
+#: ../../admin/access.rst:294
 msgid "Has all permissions available in the project."
 msgstr ""
 
-#: ../../admin/access.rst:297
+#: ../../admin/access.rst:298
 msgid "Can access billing info (see :ref:`billing`)."
 msgstr ""
 
-#: ../../admin/access.rst:303
+#: ../../admin/access.rst:304
 msgid "Custom access control"
 msgstr ""
 
-#: ../../admin/access.rst:305
+#: ../../admin/access.rst:306
 msgid ""
 "To gain more access control adjustments in a project, you can set :guilabel:"
 "`Access control` to :guilabel:`Custom` to switch over to using the Django "
 "admin-interface instead of the one in Weblate."
 msgstr ""
 
-#: ../../admin/access.rst:309
+#: ../../admin/access.rst:310
 msgid ""
 "If you want to do this by default for all current and new projects, "
 "configure the :setting:`DEFAULT_ACCESS_CONTROL` to administrate all "
 "permissions and relations using the Django admin interface."
 msgstr ""
 
-#: ../../admin/access.rst:315
+#: ../../admin/access.rst:316
 msgid ""
 "By turning this on, Weblate will remove all :ref:`acl` it has created for "
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
 msgstr ""
 
-#: ../../admin/access.rst:322
+#: ../../admin/access.rst:323
 msgid "Default groups and roles"
 msgstr ""
 
-#: ../../admin/access.rst:323
+#: ../../admin/access.rst:324
 msgid ""
 "These roles and groups are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. Custom "
@@ -492,432 +492,432 @@ msgid ""
 "own set of permissions."
 msgstr ""
 
-#: ../../admin/access.rst:329
+#: ../../admin/access.rst:330
 msgid "List of privileges"
 msgstr ""
 
-#: ../../admin/access.rst:335
+#: ../../admin/access.rst:336
 msgid "Billing (see :ref:`billing`)"
 msgstr ""
 
-#: ../../admin/access.rst:335
+#: ../../admin/access.rst:336
 msgid "View billing info [`Administration`, `Billing`]"
 msgstr ""
 
-#: ../../admin/access.rst:338 ../../api.rst:1986
+#: ../../admin/access.rst:339 ../../api.rst:1986
 msgid "Changes"
 msgstr ""
 
-#: ../../admin/access.rst:338
+#: ../../admin/access.rst:339
 msgid "Download changes [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:343 ../../user/translating.rst:62
+#: ../../admin/access.rst:344 ../../user/translating.rst:62
 msgid "Comments"
 msgstr ""
 
-#: ../../admin/access.rst:341
+#: ../../admin/access.rst:342
 msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:343
+#: ../../admin/access.rst:344
 msgid "Delete comment [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:348
+#: ../../admin/access.rst:349
 msgid "Component"
 msgstr ""
 
-#: ../../admin/access.rst:346
+#: ../../admin/access.rst:347
 msgid "Edit component settings [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:348
+#: ../../admin/access.rst:349
 msgid "Lock component, preventing translations [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:357 ../../api.rst:2264 ../../user/glossary.rst:4
+#: ../../admin/access.rst:358 ../../api.rst:2264 ../../user/glossary.rst:4
 #: ../../user/translating.rst:266
 msgid "Glossary"
 msgstr ""
 
-#: ../../admin/access.rst:351
+#: ../../admin/access.rst:352
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
 
-#: ../../admin/access.rst:353
+#: ../../admin/access.rst:354
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
 
-#: ../../admin/access.rst:355
+#: ../../admin/access.rst:356
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
 
-#: ../../admin/access.rst:357
+#: ../../admin/access.rst:358
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
 
-#: ../../admin/access.rst:360 ../../user/translating.rst:302
+#: ../../admin/access.rst:361 ../../user/translating.rst:302
 msgid "Automatic suggestions"
 msgstr ""
 
-#: ../../admin/access.rst:360
+#: ../../admin/access.rst:361
 msgid ""
 "Use automatic suggestions [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:365 ../../user/translating.rst:264
+#: ../../admin/access.rst:366 ../../user/translating.rst:264
 msgid "Translation memory"
 msgstr ""
 
-#: ../../admin/access.rst:363
+#: ../../admin/access.rst:364
 msgid "Edit translation memory [`Administration`, `Manage translation memory`]"
 msgstr ""
 
-#: ../../admin/access.rst:365
+#: ../../admin/access.rst:366
 msgid ""
 "Delete translation memory [`Administration`, `Manage translation memory`]"
 msgstr ""
 
-#: ../../admin/access.rst:370 ../../api.rst:743
+#: ../../admin/access.rst:371 ../../api.rst:743
 msgid "Projects"
 msgstr ""
 
-#: ../../admin/access.rst:368
+#: ../../admin/access.rst:369
 msgid "Edit project settings [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:370
+#: ../../admin/access.rst:371
 msgid "Manage project access [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:373
+#: ../../admin/access.rst:374
 msgid "Reports"
 msgstr ""
 
-#: ../../admin/access.rst:373
+#: ../../admin/access.rst:374
 msgid "Download reports [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:380 ../../api.rst:2025 ../../user/translating.rst:255
+#: ../../admin/access.rst:381 ../../api.rst:2025 ../../user/translating.rst:255
 msgid "Screenshots"
 msgstr ""
 
-#: ../../admin/access.rst:376
+#: ../../admin/access.rst:377
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
 msgstr ""
 
-#: ../../admin/access.rst:378
+#: ../../admin/access.rst:379
 msgid "Edit screenshot [`Administration`, `Manage screenshots`]"
 msgstr ""
 
-#: ../../admin/access.rst:380
+#: ../../admin/access.rst:381
 msgid "Delete screenshot [`Administration`, `Manage screenshots`]"
 msgstr ""
 
-#: ../../admin/access.rst:383
+#: ../../admin/access.rst:384
 msgid "Source strings"
 msgstr ""
 
-#: ../../admin/access.rst:383
+#: ../../admin/access.rst:384
 msgid "Edit additional string info [`Administration`, `Edit source`]"
 msgstr ""
 
-#: ../../admin/access.rst:398
+#: ../../admin/access.rst:399
 msgid "Strings"
 msgstr ""
 
-#: ../../admin/access.rst:386
+#: ../../admin/access.rst:387
 msgid "Add new string [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:388
+#: ../../admin/access.rst:389
 msgid "Remove a string [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:390
+#: ../../admin/access.rst:391
 msgid ""
 "Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:392
+#: ../../admin/access.rst:393
 msgid ""
 "Edit strings [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:394
+#: ../../admin/access.rst:395
 msgid "Review strings [`Administration`, `Review strings`]"
 msgstr ""
 
-#: ../../admin/access.rst:396
+#: ../../admin/access.rst:397
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
 msgstr ""
 
-#: ../../admin/access.rst:398
+#: ../../admin/access.rst:399
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgstr ""
 
-#: ../../admin/access.rst:407 ../../user/translating.rst:46
+#: ../../admin/access.rst:408 ../../user/translating.rst:46
 #: ../../workflows.rst:46
 msgid "Suggestions"
 msgstr ""
 
-#: ../../admin/access.rst:401
+#: ../../admin/access.rst:402
 msgid ""
 "Accept suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:403
+#: ../../admin/access.rst:404
 msgid ""
 "Add suggestion [`Administration`, `Edit source`, `Add suggestion`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:405
+#: ../../admin/access.rst:406
 msgid "Delete suggestion [`Administration`, `Power user`]"
 msgstr ""
 
-#: ../../admin/access.rst:407
+#: ../../admin/access.rst:408
 msgid ""
 "Vote on suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:416 ../../api.rst:1598
+#: ../../admin/access.rst:417 ../../api.rst:1598
 msgid "Translations"
 msgstr ""
 
-#: ../../admin/access.rst:410
+#: ../../admin/access.rst:411
 msgid ""
 "Add language for translation [`Administration`, `Power user`, `Manage "
 "languages`]"
 msgstr ""
 
-#: ../../admin/access.rst:412
+#: ../../admin/access.rst:413
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgstr ""
 
-#: ../../admin/access.rst:414
+#: ../../admin/access.rst:415
 msgid "Delete existing translation [`Administration`, `Manage languages`]"
 msgstr ""
 
-#: ../../admin/access.rst:416
+#: ../../admin/access.rst:417
 msgid ""
 "Add several languages for translation [`Administration`, `Manage languages`]"
 msgstr ""
 
-#: ../../admin/access.rst:423
+#: ../../admin/access.rst:424
 msgid "Uploads"
 msgstr ""
 
-#: ../../admin/access.rst:419
+#: ../../admin/access.rst:420
 msgid "Define author of uploaded translation [`Administration`]"
 msgstr ""
 
-#: ../../admin/access.rst:421
+#: ../../admin/access.rst:422
 msgid ""
 "Overwrite existing strings with upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:423
+#: ../../admin/access.rst:424
 msgid ""
 "Upload translations [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
 
-#: ../../admin/access.rst:436
+#: ../../admin/access.rst:437
 msgid "VCS"
 msgstr ""
 
-#: ../../admin/access.rst:426
+#: ../../admin/access.rst:427
 msgid ""
 "Access the internal repository [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
 
-#: ../../admin/access.rst:428
+#: ../../admin/access.rst:429
 msgid ""
 "Commit changes to the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
 
-#: ../../admin/access.rst:430
+#: ../../admin/access.rst:431
 msgid ""
 "Push change from the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
 
-#: ../../admin/access.rst:432
+#: ../../admin/access.rst:433
 msgid ""
 "Reset changes in the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
 
-#: ../../admin/access.rst:434
+#: ../../admin/access.rst:435
 msgid ""
 "View upstream repository location [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
 
-#: ../../admin/access.rst:436
+#: ../../admin/access.rst:437
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr ""
 
-#: ../../admin/access.rst:457
+#: ../../admin/access.rst:458
 msgid "Site wide privileges"
 msgstr ""
 
-#: ../../admin/access.rst:439
+#: ../../admin/access.rst:440
 msgid "Use management interface"
 msgstr ""
 
-#: ../../admin/access.rst:441
+#: ../../admin/access.rst:442
 msgid "Add new projects"
 msgstr ""
 
-#: ../../admin/access.rst:443
+#: ../../admin/access.rst:444
 msgid "Add language definitions"
 msgstr ""
 
-#: ../../admin/access.rst:445
+#: ../../admin/access.rst:446
 msgid "Manage language definitions"
 msgstr ""
 
-#: ../../admin/access.rst:447
+#: ../../admin/access.rst:448
 msgid "Manage groups"
 msgstr ""
 
-#: ../../admin/access.rst:449
+#: ../../admin/access.rst:450
 msgid "Manage users"
 msgstr ""
 
-#: ../../admin/access.rst:451
+#: ../../admin/access.rst:452
 msgid "Manage roles"
 msgstr ""
 
-#: ../../admin/access.rst:453
+#: ../../admin/access.rst:454
 msgid "Manage announcements"
 msgstr ""
 
-#: ../../admin/access.rst:455
+#: ../../admin/access.rst:456
 msgid "Manage translation memory"
 msgstr ""
 
-#: ../../admin/access.rst:457
+#: ../../admin/access.rst:458
 msgid "Manage component lists"
 msgstr ""
 
-#: ../../admin/access.rst:461
+#: ../../admin/access.rst:462
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 
-#: ../../admin/access.rst:466
+#: ../../admin/access.rst:467
 msgid "List of groups"
 msgstr ""
 
-#: ../../admin/access.rst:468
+#: ../../admin/access.rst:469
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will "
 "however re-create them if you delete or rename them."
 msgstr ""
 
-#: ../../admin/access.rst:480
+#: ../../admin/access.rst:481
 msgid "`Guests`"
 msgstr ""
 
-#: ../../admin/access.rst:473
+#: ../../admin/access.rst:474
 msgid "Defines permissions for non-authenticated users."
 msgstr ""
 
-#: ../../admin/access.rst:475
+#: ../../admin/access.rst:476
 msgid ""
 "This group only contains anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
 
-#: ../../admin/access.rst:477
+#: ../../admin/access.rst:478
 msgid ""
 "You can remove roles from this group to limit permissions for non-"
 "authenticated users."
 msgstr ""
 
-#: ../../admin/access.rst:480
+#: ../../admin/access.rst:481
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr ""
 
-#: ../../admin/access.rst:488
+#: ../../admin/access.rst:489
 msgid "`Viewers`"
 msgstr ""
 
-#: ../../admin/access.rst:483
+#: ../../admin/access.rst:484
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
 msgstr ""
 
-#: ../../admin/access.rst:486 ../../admin/access.rst:493
+#: ../../admin/access.rst:487 ../../admin/access.rst:494
 msgid ""
 "By default :ref:`autogroup` makes all new accounts members of this group "
 "when they join."
 msgstr ""
 
-#: ../../admin/access.rst:488
+#: ../../admin/access.rst:489
 msgid "Default roles: none"
 msgstr ""
 
-#: ../../admin/access.rst:495 ../../workflows.rst:69 ../../workflows.rst:100
+#: ../../admin/access.rst:496 ../../workflows.rst:69 ../../workflows.rst:100
 #: ../../workflows.rst:136
 msgid "`Users`"
 msgstr ""
 
-#: ../../admin/access.rst:491
+#: ../../admin/access.rst:492
 msgid "Default group for all users."
 msgstr ""
 
-#: ../../admin/access.rst:495
+#: ../../admin/access.rst:496
 msgid "Default roles: `Power user`"
 msgstr ""
 
-#: ../../admin/access.rst:500 ../../workflows.rst:139
+#: ../../admin/access.rst:501 ../../workflows.rst:139
 msgid "`Reviewers`"
 msgstr ""
 
-#: ../../admin/access.rst:498
+#: ../../admin/access.rst:499
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr ""
 
-#: ../../admin/access.rst:500
+#: ../../admin/access.rst:501
 msgid "Default roles: `Review strings`"
 msgstr ""
 
-#: ../../admin/access.rst:505
+#: ../../admin/access.rst:506
 msgid "`Managers`"
 msgstr ""
 
-#: ../../admin/access.rst:503
+#: ../../admin/access.rst:504
 msgid "Group for administrators."
 msgstr ""
 
-#: ../../admin/access.rst:505
+#: ../../admin/access.rst:506
 msgid "Default roles: `Administration`"
 msgstr ""
 
-#: ../../admin/access.rst:509
+#: ../../admin/access.rst:510
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you have no use for them, you can removing all their "
@@ -930,41 +930,39 @@ msgstr ""
 
 #: ../../admin/addons.rst:8
 msgid ""
-"Addons provide ways to customize translation workflow. They can be installed "
-"in the translation component view, and work behind the scenes. Addon "
-"management is available from the :guilabel:`Manage` ↓ `Addons` menu of each "
-"respective translation component for admins."
+"Addons provide ways to customize and automate the translation workflow. "
+"Admins can add and mangage addons from the :guilabel:`Manage` ↓ `Addons` "
+"menu of each respective translation component."
 msgstr ""
 
-#: ../../admin/addons.rst:16
+#: ../../admin/addons.rst:15
 msgid "Built-in addons"
 msgstr ""
 
-#: ../../admin/addons.rst:21 ../../admin/continuous.rst:420
+#: ../../admin/addons.rst:20 ../../admin/continuous.rst:420
 #: ../../user/translating.rst:315
 msgid "Automatic translation"
 msgstr ""
 
-#: ../../admin/addons.rst:25
+#: ../../admin/addons.rst:24
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
 
-#: ../../admin/addons.rst:27
-msgid ""
-"This addon is triggered automatically when new strings appear in a component."
+#: ../../admin/addons.rst:26
+msgid "Triggered automatically when new strings appear in a component."
 msgstr ""
 
-#: ../../admin/addons.rst:31
+#: ../../admin/addons.rst:30
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
 msgstr ""
 
-#: ../../admin/addons.rst:37
+#: ../../admin/addons.rst:36
 msgid "JavaScript localization CDN"
 msgstr ""
 
-#: ../../admin/addons.rst:41
+#: ../../admin/addons.rst:40
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
@@ -972,641 +970,643 @@ msgstr ""
 
 #: ../../admin/addons.rst:43
 msgid ""
-"It can be used to localize static HTML pages or used to load localization in "
-"the JavaScript code."
+"Can be used to localize static HTML pages, or to load localization in the "
+"JavaScript code."
 msgstr ""
 
 #: ../../admin/addons.rst:46
 msgid ""
-"Upon installation the addon generates unique URL for your component which "
-"you can include in the HTML documents to get them localized. See :ref:"
-"`weblate-cdn` for more details."
+"Generates a unique URL for your component you can include in HTML pages to "
+"localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
 
-#: ../../admin/addons.rst:52
+#: ../../admin/addons.rst:51
 msgid ""
 ":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref:"
 "`cdn-addon-html`"
 msgstr ""
 
-#: ../../admin/addons.rst:60
+#: ../../admin/addons.rst:59
 msgid "Remove blank strings"
 msgstr ""
 
-#: ../../admin/addons.rst:64
+#: ../../admin/addons.rst:63
 msgid "Removes strings without a translation from translation files."
 msgstr ""
 
-#: ../../admin/addons.rst:66
+#: ../../admin/addons.rst:65
 msgid ""
-"Use this if you do not want empty strings to appear in translation files "
-"(for example when your localization library displays them as empty strings "
-"instead of falling back to the source string)."
+"Use this to not have any empty strings in translation files (for example if "
+"your localization library displays them as missing instead of falling back "
+"to the source string)."
 msgstr ""
 
-#: ../../admin/addons.rst:72 ../../admin/addons.rst:85
-#: ../../admin/addons.rst:326 ../../admin/addons.rst:416
+#: ../../admin/addons.rst:71 ../../admin/addons.rst:84
+#: ../../admin/addons.rst:331 ../../admin/addons.rst:422
 msgid ":ref:`faq-cleanup`"
 msgstr ""
 
-#: ../../admin/addons.rst:77
+#: ../../admin/addons.rst:76
 msgid "Cleanup translation files"
 msgstr ""
 
-#: ../../admin/addons.rst:79
+#: ../../admin/addons.rst:78
 msgid ""
 "Update all translation files to match the monolingual base file. For most "
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
 
-#: ../../admin/addons.rst:90
+#: ../../admin/addons.rst:89
 msgid "Language consistency"
 msgstr ""
 
-#: ../../admin/addons.rst:92
+#: ../../admin/addons.rst:91
 msgid ""
-"Ensures all components within one project have translations for every added "
-"language for translation."
+"Ensures all components within a project have translations for every added "
+"translated language by creating empty translations in languages that have "
+"unadded components."
 msgstr ""
 
 #: ../../admin/addons.rst:95
 msgid ""
-"It creates empty translations in languages that have unadded components."
+"Missing languages are checked once every 24 hours, and when new languages "
+"are added in Weblate."
 msgstr ""
 
 #: ../../admin/addons.rst:98
-msgid ""
-"Missing languages are checked once every 24 hours and when a new language is "
-"added in Weblate."
-msgstr ""
-
-#: ../../admin/addons.rst:101
 msgid "Unlike most others, this addon affects the whole project."
 msgstr ""
 
-#: ../../admin/addons.rst:105
+#: ../../admin/addons.rst:102
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
 
-#: ../../admin/addons.rst:111
+#: ../../admin/addons.rst:108
 msgid "Component discovery"
 msgstr ""
 
-#: ../../admin/addons.rst:113
+#: ../../admin/addons.rst:110
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
 
-#: ../../admin/addons.rst:116
+#: ../../admin/addons.rst:113
 msgid ""
-"It is triggered on every VCS update, and otherwise similar to the :djadmin:"
-"`import_project` management command. This way you can track multiple "
+"Triggered each time the VCS is updated, and otherwise similar to the :"
+"djadmin:`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
 
-#: ../../admin/addons.rst:120
+#: ../../admin/addons.rst:117
 msgid ""
-"Create one main component least likely to disappear in the future, and "
-"others will employ :ref:`internal-urls` to it as a VCS configuration, and "
-"configure it to find all components in it."
+"The matching is done using regular expressions enabling complex "
+"configuration, but some knowledge is required to do so. Some examples for "
+"common use cases can be found in the addon help section."
 msgstr ""
 
-#: ../../admin/addons.rst:124
-msgid ""
-"The matching is done using regular expressions, where power is a tradeoff "
-"for complexity in configuration. Some examples for common use cases can be "
-"found in the addon help section."
-msgstr ""
-
-#: ../../admin/addons.rst:128
+#: ../../admin/addons.rst:122
 msgid ""
 "Once you hit :guilabel:`Save`, a preview of matching components will be "
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
 
-#: ../../admin/addons.rst:135 ../../admin/addons.rst:231
+#: ../../admin/addons.rst:129
+msgid ""
+"Component discovery addon uses :ref:`internal-urls`. It’s a convenient way "
+"to share VCS setup between multiple components. Linked components uses the "
+"local repository of the main component set up by filling ``weblate://"
+"projectname/themaincomponent`` into the :ref:`component-repo` field (in :"
+"guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
+"system`) of each respective component. This saves time with configuration "
+"and system recources too."
+msgstr ""
+
+#: ../../admin/addons.rst:138 ../../admin/addons.rst:234
 msgid ":ref:`markup`"
 msgstr ""
 
-#: ../../admin/addons.rst:140 ../../user/translating.rst:372
+#: ../../admin/addons.rst:143 ../../user/translating.rst:372
 msgid "Bulk edit"
 msgstr ""
 
-#: ../../admin/addons.rst:144
+#: ../../admin/addons.rst:147
 msgid "Bulk edit flags, labels or state for strings."
 msgstr ""
 
-#: ../../admin/addons.rst:146
+#: ../../admin/addons.rst:149
 msgid ""
-"Automating the labeling of new strings can be useful (start out with search "
-"query ``NOT has:label`` and add desired labels till all strings are properly "
-"labeled). You can also carry out any other automated operations for Weblate "
-"metadata."
+"Automate labeling by starting out with the search query ``NOT has:label`` "
+"and add labels till all strings have all required labels). Other automated "
+"operations for Weblate metadata can also be done."
 msgstr ""
 
-#: ../../admin/addons.rst:150 ../../admin/config.rst:1755
+#: ../../admin/addons.rst:153 ../../admin/config.rst:1755
 msgid "**Examples:**"
 msgstr ""
 
-#: ../../admin/addons.rst:152
-msgid "Automatically add label to new strings"
+#: ../../admin/addons.rst:155
+msgid "Label new strings automatically"
 msgstr ""
 
-#: ../../admin/addons.rst:155 ../../admin/addons.rst:163
+#: ../../admin/addons.rst:158 ../../admin/addons.rst:166
 msgid "Search query"
 msgstr ""
 
-#: ../../admin/addons.rst:156
+#: ../../admin/addons.rst:159
 msgid "``NOT has:label``"
 msgstr ""
 
-#: ../../admin/addons.rst:157
+#: ../../admin/addons.rst:160
 msgid "Labels to add"
 msgstr ""
 
-#: ../../admin/addons.rst:158
+#: ../../admin/addons.rst:161
 msgid "*recent*"
 msgstr ""
 
-#: ../../admin/addons.rst:160
+#: ../../admin/addons.rst:163
 msgid "Marking all :ref:`appstore` changelog entries read-only"
 msgstr ""
 
-#: ../../admin/addons.rst:164
+#: ../../admin/addons.rst:167
 msgid "``language:en AND key:changelogs/``"
 msgstr ""
 
-#: ../../admin/addons.rst:165
+#: ../../admin/addons.rst:168
 msgid "Translation flags to add"
 msgstr ""
 
-#: ../../admin/addons.rst:166 ../../admin/checks.rst:53
+#: ../../admin/addons.rst:169 ../../admin/checks.rst:53
 msgid "``read-only``"
 msgstr ""
 
-#: ../../admin/addons.rst:171
+#: ../../admin/addons.rst:174
 msgid ":ref:`bulk-edit`"
 msgstr ""
 
-#: ../../admin/addons.rst:177
+#: ../../admin/addons.rst:180
 msgid "Flag unchanged translations as \"Needs editing\""
 msgstr ""
 
-#: ../../admin/addons.rst:181
+#: ../../admin/addons.rst:184
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
-"source string, it is flagged as needing editing in Weblate. This is "
-"especially useful for file formats that include all strings even if not "
-"translated."
+"source string, it is flagged as needing editing in Weblate. Especially "
+"useful for file formats that include source strings for untranslated strings."
 msgstr ""
 
-#: ../../admin/addons.rst:188
+#: ../../admin/addons.rst:191
 msgid "Flag new source strings as \"Needs editing\""
 msgstr ""
 
-#: ../../admin/addons.rst:190
+#: ../../admin/addons.rst:193
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
 
-#: ../../admin/addons.rst:197
+#: ../../admin/addons.rst:200
 msgid "Flag new translations as \"Needs editing\""
 msgstr ""
 
-#: ../../admin/addons.rst:199
+#: ../../admin/addons.rst:202
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
 
-#: ../../admin/addons.rst:206
+#: ../../admin/addons.rst:209
 msgid "Statistics generator"
 msgstr ""
 
-#: ../../admin/addons.rst:208
+#: ../../admin/addons.rst:211
 msgid "Generates a file containing detailed info about the translation status."
 msgstr ""
 
-#: ../../admin/addons.rst:210
-msgid ""
-"You can use Django template in both filename and content, see :ref:`markup` "
-"for a detailed markup description."
-msgstr ""
-
 #: ../../admin/addons.rst:213
-msgid "For example generating summary file for each translation:"
-msgstr ""
-
-#: ../../admin/addons.rst:215
-msgid "Name of generated file"
+msgid ""
+"You can use a Django template in both filename and content, see :ref:"
+"`markup` for a detailed markup description."
 msgstr ""
 
 #: ../../admin/addons.rst:216
+msgid "For example generating a summary file for each translation:"
+msgstr ""
+
+#: ../../admin/addons.rst:218
+msgid "Name of generated file"
+msgstr ""
+
+#: ../../admin/addons.rst:219
 msgid "``locale/{{ language_code }}.json``"
 msgstr ""
 
-#: ../../admin/addons.rst:227
+#: ../../admin/addons.rst:230
 msgid "Content"
 msgstr ""
 
-#: ../../admin/addons.rst:236
+#: ../../admin/addons.rst:239
 msgid "Pseudolocale generation"
-msgstr ""
-
-#: ../../admin/addons.rst:238
-msgid ""
-"Automatically generates a pseudolocale translation by adding prefix and "
-"suffix to source strings."
 msgstr ""
 
 #: ../../admin/addons.rst:241
 msgid ""
-"Pseudolocales are useful for testing if all strings that should be localized "
-"are actually prepared for localization. This is done by altering source "
-"strings so it would be easy to spot a string which has not been altered and "
-"running the application with those strings as a translation. Also it would "
-"be easier to find strings which localized counterparts might not fit into "
-"the layout."
+"Generates a translation by adding prefix and suffix to source strings "
+"automatically."
+msgstr ""
+
+#: ../../admin/addons.rst:244
+msgid ""
+"Pseudolocales are useful to find strings that are not prepared for "
+"localization. This is done by altering all translatable source strings to "
+"make it easy to spot unaltered strings when running the application in the "
+"pseudolocale language."
 msgstr ""
 
 #: ../../admin/addons.rst:249
+msgid ""
+"Finding strings whose localized counterparts might not fit the layout is "
+"also possible."
+msgstr ""
+
+#: ../../admin/addons.rst:254
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
 
-#: ../../admin/addons.rst:255
+#: ../../admin/addons.rst:260
 msgid "Contributors in comment"
 msgstr ""
 
-#: ../../admin/addons.rst:257
+#: ../../admin/addons.rst:262
 msgid ""
-"Update the comment in the PO file header to include contributor names and "
-"years of contributions."
+"Updates the comment part of the PO file header to include contributor names "
+"and years of contributions."
 msgstr ""
 
-#: ../../admin/addons.rst:260
-msgid ""
-"The PO file header will contain a list of contributors and years contributed:"
+#: ../../admin/addons.rst:265
+msgid "The PO file header will look like this:"
 msgstr ""
 
-#: ../../admin/addons.rst:272
+#: ../../admin/addons.rst:277
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr ""
 
-#: ../../admin/addons.rst:274
+#: ../../admin/addons.rst:279
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
 
-#: ../../admin/addons.rst:280
+#: ../../admin/addons.rst:285
 msgid "Customize gettext output"
 msgstr ""
 
-#: ../../admin/addons.rst:282
+#: ../../admin/addons.rst:287
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
 
-#: ../../admin/addons.rst:284
+#: ../../admin/addons.rst:289
 msgid "It offers the following options:"
 msgstr ""
 
-#: ../../admin/addons.rst:286
+#: ../../admin/addons.rst:291
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr ""
 
-#: ../../admin/addons.rst:287
-msgid "Only wrap lines at newlines"
+#: ../../admin/addons.rst:292
+msgid "Only wrap lines for newlines"
 msgstr ""
 
-#: ../../admin/addons.rst:288
+#: ../../admin/addons.rst:293
 msgid "No line wrapping"
 msgstr ""
 
-#: ../../admin/addons.rst:292
+#: ../../admin/addons.rst:297
 msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
-"``--no-wrap`` parameter, it wraps only at newlines."
+"``--no-wrap`` parameter, wrapping is only done for newlines."
 msgstr ""
 
-#: ../../admin/addons.rst:299
+#: ../../admin/addons.rst:304
 msgid "Update LINGUAS file"
 msgstr ""
 
-#: ../../admin/addons.rst:301
+#: ../../admin/addons.rst:306
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr ""
 
-#: ../../admin/addons.rst:306
+#: ../../admin/addons.rst:311
 msgid "Generate MO files"
 msgstr ""
 
-#: ../../admin/addons.rst:308
+#: ../../admin/addons.rst:313
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr ""
 
-#: ../../admin/addons.rst:310
+#: ../../admin/addons.rst:315
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
 
-#: ../../admin/addons.rst:315
+#: ../../admin/addons.rst:320
 msgid "Update PO files to match POT (msgmerge)"
 msgstr ""
 
-#: ../../admin/addons.rst:317
+#: ../../admin/addons.rst:322
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
 
-#: ../../admin/addons.rst:320
+#: ../../admin/addons.rst:325
 msgid ""
-"This addon is triggered whenever new changes are pulled from the upstream "
-"repository. You can configure most of the msgmerge command line options "
-"through the addon configuration."
+"Triggered whenever new changes are pulled from the upstream repository. Most "
+"msgmerge command-line options can be set up through the addon configuration."
 msgstr ""
 
-#: ../../admin/addons.rst:331
+#: ../../admin/addons.rst:336
 msgid "Squash Git commits"
 msgstr ""
 
-#: ../../admin/addons.rst:333
+#: ../../admin/addons.rst:338
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
 
-#: ../../admin/addons.rst:335
-msgid "You can choose one of following modes:"
-msgstr ""
-
-#: ../../admin/addons.rst:339
-msgid "All commits into one"
-msgstr ""
-
 #: ../../admin/addons.rst:340
-msgid "Per language"
-msgstr ""
-
-#: ../../admin/addons.rst:341
-msgid "Per file"
+msgid ""
+"Git commits can be squashed prior to pushing changes in one of the following "
+"modes:"
 msgstr ""
 
 #: ../../admin/addons.rst:345
-msgid "Per author"
+msgid "All commits into one"
+msgstr ""
+
+#: ../../admin/addons.rst:346
+msgid "Per language"
 msgstr ""
 
 #: ../../admin/addons.rst:347
+msgid "Per file"
+msgstr ""
+
+#: ../../admin/addons.rst:351
+msgid "Per author"
+msgstr ""
+
+#: ../../admin/addons.rst:353
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 
-#: ../../admin/addons.rst:352
+#: ../../admin/addons.rst:358
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
 
-#: ../../admin/addons.rst:354
+#: ../../admin/addons.rst:360
 msgid ""
-"Trailers (commit lines like ``Co-authored-by: ...``) can optionally be "
-"removed from the original commit messages and appended to the end of the "
-"squashed commit message. This also generates proper ``Co-authored-by:`` "
-"credit for every translator."
+"Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
+"from the original commit messages and appended to the end of the squashed "
+"commit message. This also generates proper ``Co-authored-by:`` credit for "
+"every translator."
 msgstr ""
 
-#: ../../admin/addons.rst:362
+#: ../../admin/addons.rst:368
 msgid "Customize JSON output"
 msgstr ""
 
-#: ../../admin/addons.rst:364
+#: ../../admin/addons.rst:370
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
 
-#: ../../admin/addons.rst:369
+#: ../../admin/addons.rst:375
 msgid "Formats the Java properties file"
 msgstr ""
 
-#: ../../admin/addons.rst:371
+#: ../../admin/addons.rst:377
 msgid "Sorts the Java properties file."
 msgstr ""
 
-#: ../../admin/addons.rst:376
+#: ../../admin/addons.rst:382
 msgid "Stale comment removal"
 msgstr ""
 
-#: ../../admin/addons.rst:380
+#: ../../admin/addons.rst:386
 msgid "Set a timeframe for removal of comments."
 msgstr ""
 
-#: ../../admin/addons.rst:382
+#: ../../admin/addons.rst:388
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
-"Use with care as comment being old does not mean they have lost their "
+"Use with care as comments getting old does not mean they have lost their "
 "importance."
 msgstr ""
 
-#: ../../admin/addons.rst:389
+#: ../../admin/addons.rst:395
 msgid "Stale suggestion removal"
 msgstr ""
 
-#: ../../admin/addons.rst:393
+#: ../../admin/addons.rst:399
 msgid "Set a timeframe for removal of suggestions."
 msgstr ""
 
-#: ../../admin/addons.rst:395
+#: ../../admin/addons.rst:401
 msgid ""
-"This can be very useful in connection with suggestion voting (see :ref:`peer-"
+"Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
 
-#: ../../admin/addons.rst:402
+#: ../../admin/addons.rst:408
 msgid "Update RESX files"
 msgstr ""
 
-#: ../../admin/addons.rst:406
+#: ../../admin/addons.rst:412
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
 
-#: ../../admin/addons.rst:411
+#: ../../admin/addons.rst:417
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
 
-#: ../../admin/addons.rst:421
+#: ../../admin/addons.rst:427
 msgid "Customize YAML output"
-msgstr ""
-
-#: ../../admin/addons.rst:425
-msgid ""
-"Allows adjusting YAML output behavior, for example line-length or newlines."
-msgstr ""
-
-#: ../../admin/addons.rst:429
-msgid "Customizing list of addons"
 msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid ""
-"The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
-"another addon, simply include class absolute name in this setting."
+"Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
 
-#: ../../admin/addons.rst:438
+#: ../../admin/addons.rst:435
+msgid "Customizing list of addons"
+msgstr ""
+
+#: ../../admin/addons.rst:437
+msgid ""
+"The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
+"another addon, simply include the absolute class name in this setting."
+msgstr ""
+
+#: ../../admin/addons.rst:444
 msgid "Writing addon"
 msgstr ""
 
-#: ../../admin/addons.rst:440
+#: ../../admin/addons.rst:446
 msgid ""
-"You can write your own addons too, all you need to do is subclass :class:"
-"`weblate.addons.base.BaseAddon`, define the addon metadata and implement a "
-"callback which will do the processing."
+"You can write your own addons too, use the subclass :class:`weblate.addons."
+"base.BaseAddon` to define the addon metadata, and then implement a callback "
+"to do the processing."
 msgstr ""
 
-#: ../../admin/addons.rst:446
+#: ../../admin/addons.rst:452
 msgid ":doc:`../contributing/addons`"
 msgstr ""
 
-#: ../../admin/addons.rst:451
+#: ../../admin/addons.rst:457
 msgid "Executing scripts from addon"
 msgstr ""
 
-#: ../../admin/addons.rst:453
+#: ../../admin/addons.rst:459
 msgid ""
 "Addons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
 msgstr ""
 
-#: ../../admin/addons.rst:460
+#: ../../admin/addons.rst:466
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
 
-#: ../../admin/addons.rst:462
+#: ../../admin/addons.rst:468
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
 
-#: ../../admin/addons.rst:465
+#: ../../admin/addons.rst:471
 msgid "Additionally, the following environment variables are available:"
 msgstr ""
 
-#: ../../admin/addons.rst:469
+#: ../../admin/addons.rst:475
 msgid "Version control system used."
 msgstr ""
 
-#: ../../admin/addons.rst:473
+#: ../../admin/addons.rst:479
 msgid "Upstream repository URL."
 msgstr ""
 
-#: ../../admin/addons.rst:477
+#: ../../admin/addons.rst:483
 msgid "Absolute path to VCS repository."
 msgstr ""
 
-#: ../../admin/addons.rst:483
+#: ../../admin/addons.rst:489
 msgid "Repository branch configured in the current component."
 msgstr ""
 
-#: ../../admin/addons.rst:487
+#: ../../admin/addons.rst:493
 msgid "Filemask for current component."
 msgstr ""
 
-#: ../../admin/addons.rst:491
+#: ../../admin/addons.rst:497
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr ""
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:503
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
 
-#: ../../admin/addons.rst:502
-msgid "Fileformat used in current component."
+#: ../../admin/addons.rst:508
+msgid "File format used in current component."
 msgstr ""
 
-#: ../../admin/addons.rst:506
+#: ../../admin/addons.rst:512
 msgid ""
-"Language of currently processed translation (not available for component "
+"Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
 
-#: ../../admin/addons.rst:511
-msgid "Previous HEAD on update (available only when running post update hook)."
-msgstr ""
-
 #: ../../admin/addons.rst:517
-msgid "Component slug used to construct URL."
+msgid ""
+"Previous HEAD after update (only available after running the post-update "
+"hook)."
 msgstr ""
 
 #: ../../admin/addons.rst:523
-msgid "Project slug used to construct URL."
+msgid "Component slug used to construct URL."
 msgstr ""
 
 #: ../../admin/addons.rst:529
-msgid "Component name."
+msgid "Project slug used to construct URL."
 msgstr ""
 
 #: ../../admin/addons.rst:535
-msgid "Project name."
+msgid "Component name."
 msgstr ""
 
 #: ../../admin/addons.rst:541
-msgid "Component URL."
+msgid "Project name."
 msgstr ""
 
 #: ../../admin/addons.rst:547
+msgid "Component URL."
+msgstr ""
+
+#: ../../admin/addons.rst:553
 msgid "Project engage URL."
 msgstr ""
 
-#: ../../admin/addons.rst:551 ../../faq.rst:256
+#: ../../admin/addons.rst:557 ../../faq.rst:256
 msgid ":ref:`component`"
 msgstr ""
 
-#: ../../admin/addons.rst:554
-msgid "Post update repository processing"
+#: ../../admin/addons.rst:560
+msgid "Post-update repository processing"
 msgstr ""
 
-#: ../../admin/addons.rst:556
+#: ../../admin/addons.rst:562
 msgid ""
-"Post update repository processing can be used to update translation files "
-"when the VCS upstream source changes. To achieve this, please remember that "
-"Weblate only sees files committed to the VCS, so you need to commit changes "
-"as a part of the script."
+"Can be used to update translation files when the VCS upstream source "
+"changes. To achieve this, please remember Weblate only sees files committed "
+"to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
 
-#: ../../admin/addons.rst:561
+#: ../../admin/addons.rst:566
 msgid "For example with Gulp you can do it using following code:"
 msgstr ""
 
-#: ../../admin/addons.rst:571
-msgid "Pre commit processing of translations"
-msgstr ""
-
-#: ../../admin/addons.rst:573
-msgid ""
-"Use the commit script to automatically make changes to the translation "
-"before it is committed to the repository."
-msgstr ""
-
 #: ../../admin/addons.rst:576
+msgid "Pre-commit processing of translations"
+msgstr ""
+
+#: ../../admin/addons.rst:578
+msgid ""
+"Use the commit script to automatically change a translation before it is "
+"committed to the repository."
+msgstr ""
+
+#: ../../admin/addons.rst:581
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
@@ -7181,11 +7181,11 @@ msgstr ""
 msgid ":ref:`django:postgresql-notes`"
 msgstr ""
 
-#: ../../admin/install.rst:331 ../../admin/upgrade.rst:207
+#: ../../admin/install.rst:331 ../../admin/upgrade.rst:219
 msgid "Creating a database in PostgreSQL"
 msgstr ""
 
-#: ../../admin/install.rst:333 ../../admin/upgrade.rst:209
+#: ../../admin/install.rst:333 ../../admin/upgrade.rst:221
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
@@ -14208,12 +14208,14 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:120 ../../admin/upgrade.rst:137
 #: ../../admin/upgrade.rst:154 ../../admin/upgrade.rst:172
+#: ../../admin/upgrade.rst:187
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
 
 #: ../../admin/upgrade.rst:122 ../../admin/upgrade.rst:139
 #: ../../admin/upgrade.rst:156 ../../admin/upgrade.rst:174
+#: ../../admin/upgrade.rst:189
 msgid "Notable configuration or dependencies changes:"
 msgstr ""
 
@@ -14258,6 +14260,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:132 ../../admin/upgrade.rst:149
 #: ../../admin/upgrade.rst:167 ../../admin/upgrade.rst:182
+#: ../../admin/upgrade.rst:194
 msgid ":ref:`generic-upgrade-instructions`"
 msgstr ""
 
@@ -14386,11 +14389,27 @@ msgid ""
 "toolkit to address several file format issues."
 msgstr ""
 
-#: ../../admin/upgrade.rst:187
+#: ../../admin/upgrade.rst:185
+msgid "Upgrade from 4.4 to 4.5"
+msgstr ""
+
+#: ../../admin/upgrade.rst:191
+msgid ""
+"Glossaries are now stored as regular components. The migration might take "
+"considerable time if you had big glossaries."
+msgstr ""
+
+#: ../../admin/upgrade.rst:192
+msgid ""
+"The glossary API is removed, use regular translation API to access "
+"glossaries."
+msgstr ""
+
+#: ../../admin/upgrade.rst:199
 msgid "Upgrading from Python 2 to Python 3"
 msgstr ""
 
-#: ../../admin/upgrade.rst:189
+#: ../../admin/upgrade.rst:201
 msgid ""
 "Weblate no longer supports Python older than 3.5. In case you are still "
 "running on older version, please perform migration to Python 3 first on "
@@ -14399,11 +14418,11 @@ msgid ""
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
 
-#: ../../admin/upgrade.rst:198
+#: ../../admin/upgrade.rst:210
 msgid "Migrating from other databases to PostgreSQL"
 msgstr ""
 
-#: ../../admin/upgrade.rst:200
+#: ../../admin/upgrade.rst:212
 msgid ""
 "If you are running Weblate on other dabatase than PostgreSQL, you should "
 "migrate to PostgreSQL as that will be the only supported database backend in "
@@ -14412,70 +14431,70 @@ msgid ""
 "prior to the migration, otherwise you might end up with inconsistent data."
 msgstr ""
 
-#: ../../admin/upgrade.rst:223
+#: ../../admin/upgrade.rst:235
 msgid "Migrating using Django JSON dumps"
 msgstr ""
 
-#: ../../admin/upgrade.rst:225
+#: ../../admin/upgrade.rst:237
 msgid ""
 "The simplest approach for migration is to utilize Django JSON dumps. This "
 "works well for smaller installations. On bigger sites you might want to use "
 "pgloader instead, see :ref:`pgloader-migration`."
 msgstr ""
 
-#: ../../admin/upgrade.rst:227
+#: ../../admin/upgrade.rst:239
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:273
+#: ../../admin/upgrade.rst:285
 msgid "Run migrations and drop any data inserted into the tables:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:280
+#: ../../admin/upgrade.rst:292
 msgid "Dump legacy database and import to PostgreSQL"
 msgstr ""
 
-#: ../../admin/upgrade.rst:287
+#: ../../admin/upgrade.rst:299
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
 msgstr ""
 
-#: ../../admin/upgrade.rst:290
+#: ../../admin/upgrade.rst:302
 msgid "Weblate should be now ready to run from the PostgreSQL database."
 msgstr ""
 
-#: ../../admin/upgrade.rst:295
+#: ../../admin/upgrade.rst:307
 msgid "Migrating to PostgreSQL using pgloader"
 msgstr ""
 
-#: ../../admin/upgrade.rst:297
+#: ../../admin/upgrade.rst:309
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
 msgstr ""
 
-#: ../../admin/upgrade.rst:299
+#: ../../admin/upgrade.rst:311
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgstr ""
 
-#: ../../admin/upgrade.rst:301
+#: ../../admin/upgrade.rst:313
 msgid "Migrate the schema in the PostgreSQL database:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:308
+#: ../../admin/upgrade.rst:320
 msgid ""
 "Run the pgloader to transfer the data. The following script can be used to "
 "migrate the database, but you might want to learn more about `pgloader`_ to "
 "understand what it does and tweak it to match your setup:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:327
+#: ../../admin/upgrade.rst:339
 msgid "Migrating from Pootle"
 msgstr ""
 
-#: ../../admin/upgrade.rst:329
+#: ../../admin/upgrade.rst:341
 msgid ""
 "As Weblate was originally written as replacement from Pootle, it is "
 "supported to migrate user accounts from Pootle. You can dump the users from "
@@ -29407,7 +29426,7 @@ msgstr ""
 
 #: ../../user/glossary.rst:20
 msgid ""
-"You can use any component a glossary by turning on :ref:`component-"
+"You can use any component as a glossary by turning on :ref:`component-"
 "is_glossary`."
 msgstr ""
 
