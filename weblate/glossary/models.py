@@ -55,6 +55,8 @@ def get_glossary_terms(unit):
         .select_related("source_unit")
         .order_by(Lower("source"))
     )
+    if language == source_language:
+        return units.none()
 
     # Filters stop words for a language
     try:
