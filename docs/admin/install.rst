@@ -505,7 +505,7 @@ server.
 
 The mail server setup is configured using these settings:
 :setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`,
-:setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_TLS`,
+:setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`,
 :setting:`django:EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their
 names are quite self-explanatory, but you can find more info in the
 Django documentation.
