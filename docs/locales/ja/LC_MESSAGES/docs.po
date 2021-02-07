@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 19:09+0100\n"
-"PO-Revision-Date: 2021-02-05 18:59+0000\n"
+"PO-Revision-Date: 2021-02-07 11:30+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -99,7 +99,7 @@ msgstr ""
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr "プロジェクト単位のアクセス権"
+msgstr "プロジェクトごとのアクセス権"
 
 #: ../../snippets/not-hosted-libre.rst:3
 msgid ""
@@ -166,36 +166,21 @@ msgid "Project access control"
 msgstr "プロジェクトのアクセス制御"
 
 #: ../../admin/access.rst:81
-#, fuzzy
-#| msgid ""
-#| "By turning on access-control lists, all users are prohibited from "
-#| "accessing anything within a given project, unless you add the permissions "
-#| "for them to do just that."
 msgid ""
 "By turning on access control, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
-msgstr ""
-"アクセス制御リストを有効にすると、すべてのユーザーは、アクセス権を追加しない"
-"限り、指定したプロジェクトへのすべてのアクセスが禁止されます。"
+msgstr "アクセス制御を有効にすると、すべてのユーザーは、アクセス権を追加しない限り、指定したプロジェクトへのすべてのアクセスが禁止されます。"
 
 #: ../../admin/access.rst:86
-#, fuzzy
-#| msgid ""
-#| "Limit user's access to individual projects by turning on :guilabel:"
-#| "`Access` in the :guilabel:`Settings` of each respective project. This "
-#| "automatically creates several groups for the project in question, see :"
-#| "ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by selecting a different access "
 "control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` "
 "of each respective project.  This automatically creates several groups for "
 "the project in question, see :ref:`groups`."
 msgstr ""
-"それぞれのプロジェクトの :guilabel:`設定` にある :guilabel:`アクセス制御` を"
-"有効にすると、個々のプロジェクトでユーザーのアクセスを制限できます。これによ"
-"り、指定したプロジェクトに複数のグループが自動的に作成されます。 参照: :ref:"
-"`groups`。"
+"各プロジェクトの :guilabel:`設定` にある :guilabel:`アクセス` から、個別のアクセス制御を指定して、ユーザーの各プロジェクトに対"
+"してアクセス制限できます。これにより、指定したプロジェクトに複数のグループが自動的に作成されます。 参照: :ref:`groups`。"
 
 #: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
@@ -236,30 +221,19 @@ msgstr ""
 "acl`。"
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid ""
-#| "Grant access to a project by adding the privilege either directly to the "
-#| "given user, or group of users in the Django admin-interface, or by using "
-#| "user management on the project page, as described in :ref:`manage-acl`."
 msgid ""
 "Grant access to a project by adding the privilege either directly to an "
 "user, or group of users in the Django admin-interface, or by using user "
 "management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
-"プロジェクトへのアクセスを許可するには、Django 管理画面でユーザーまたはユー"
-"ザー グループにアクセス権を直接追加します。または、:ref:`manage-acl` の説明に"
-"したがい、プロジェクト ページのユーザー管理から設定します。"
+"プロジェクトへのアクセス権を与えるには、Django 管理画面でユーザーまたはユーザーのグループにアクセス権を直接追加するか、プロジェクト "
+"ページからユーザー管理を使用して、プロジェクトへのアクセスを許可します（参照: :ref:`manage-acl`）。"
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid ""
-#| "Even with access-control lists turned on, some info will be available "
-#| "about your project:"
 msgid ""
 "Even with access control turned on, some info will be available about your "
 "project:"
-msgstr ""
-"アクセス制御リストを有効にしていても、表示されるプロジェクトに関する情報:"
+msgstr "アクセス制御を有効にしていても、表示されるプロジェクトに関する情報:"
 
 #: ../../admin/access.rst:113
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -470,15 +444,9 @@ msgid "Managing per-project access control"
 msgstr "プロジェクトごとのアクセス制御の管理"
 
 #: ../../admin/access.rst:227
-#, fuzzy
-#| msgid ""
-#| "This feature only works for projects using access-control lists, see :ref:"
-#| "`acl`."
 msgid ""
 "This feature only works for projects using access control, see :ref:`acl`."
-msgstr ""
-"この機能はアクセス制御リストを使用しているプロジェクトでのみ動作します。参"
-"照: :ref:`acl`。"
+msgstr "この機能はアクセス制御を使用しているプロジェクトでのみ動作します。参照: :ref:`acl`。"
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -1105,21 +1073,13 @@ msgid "Addons"
 msgstr "アドオン"
 
 #: ../../admin/addons.rst:8
-#, fuzzy
-#| msgid ""
-#| "Addons provide ways to customize translation workflow. They can be "
-#| "installed in the translation component view, and work behind the scenes. "
-#| "Addon management is available from the :guilabel:`Manage` ↓ `Addons` menu "
-#| "of each respective translation component for admins."
 msgid ""
 "Addons provide ways to customize and automate the translation workflow. "
 "Admins can add and mangage addons from the :guilabel:`Manage` ↓ `Addons` "
 "menu of each respective translation component."
 msgstr ""
-"アドオンを使用すると、翻訳ワークフローをカスタマイズできます。アドオンは翻訳"
-"コンポーネント画面にインストールして、バックグラウンドで動作します。アドオン"
-"管理は、管理者用の各翻訳コンポーネントの :guilabel:`管理` ↓ `アドオン` メ"
-"ニューから実行します。"
+"アドオンを使用すると、翻訳ワークフローの変更および自動化ができます。管理者は各翻訳コンポーネントの :guilabel:`管理` ↓ `アドオン` "
+"メニューからアドオンの追加と管理ができます。"
 
 #: ../../admin/addons.rst:15
 msgid "Built-in addons"
@@ -1137,14 +1097,8 @@ msgid ""
 msgstr "自動翻訳または他のコンポーネントを使用して文字列を自動的に翻訳します。"
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid ""
-#| "This addon is triggered automatically when new strings appear in a "
-#| "component."
 msgid "Triggered automatically when new strings appear in a component."
-msgstr ""
-"このアドオンは、コンポーネントに新しい文字列が表示されると自動的に起動しま"
-"す。"
+msgstr "コンポーネントに新しい文字列が表示されると自動的に起動します。"
 
 #: ../../admin/addons.rst:30
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -1163,30 +1117,18 @@ msgstr ""
 "します。"
 
 #: ../../admin/addons.rst:43
-#, fuzzy
-#| msgid ""
-#| "It can be used to localize static HTML pages or used to load localization "
-#| "in the JavaScript code."
 msgid ""
 "Can be used to localize static HTML pages, or to load localization in the "
 "JavaScript code."
-msgstr ""
-"静的な HTML ページを現地語化したり、JavaScript コードで翻訳を読み込むために使"
-"用できます。"
+msgstr "静的な HTML ページを現地語化したり、JavaScript コードで翻訳を読み込むために使用できます。"
 
 #: ../../admin/addons.rst:46
-#, fuzzy
-#| msgid ""
-#| "Upon installation the addon generates unique URL for your component which "
-#| "you can include in the HTML documents to get them localized. See :ref:"
-#| "`weblate-cdn` for more details."
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
-"アドオンをインストールすると、コンポーネント専用の URL が生成されます。この "
-"URL を HTML ドキュメントに含めると、コンポーネントを現地語化できます。詳細"
-"は :ref:`weblate-cdn` を確認してください。"
+"HTML のページに挿入して、翻訳を可能にするコンポーネント専用の URL を生成します。詳細については、:ref:`weblate-cdn` "
+"を確認してください。"
 
 #: ../../admin/addons.rst:51
 msgid ""
@@ -1205,19 +1147,12 @@ msgid "Removes strings without a translation from translation files."
 msgstr "翻訳ファイルから翻訳されていない文字列を削除します。"
 
 #: ../../admin/addons.rst:65
-#, fuzzy
-#| msgid ""
-#| "Use this if you do not want empty strings to appear in translation files "
-#| "(for example when your localization library displays them as empty "
-#| "strings instead of falling back to the source string)."
 msgid ""
 "Use this to not have any empty strings in translation files (for example if "
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
-"空の文字列を翻訳ファイルに表示させたくない場合（例: 翻訳ライブラリで原文に"
-"フォールバックさせるのではなく、空の文字列として表示させる場合）に使用しま"
-"す。"
+"翻訳ファイルに空の文字列を含ませたくない場合使用します（例: 翻訳ライブラリにおいて原文に戻すのではなく、空の文字列が不足していると表示させる場合）。"
 
 #: ../../admin/addons.rst:71 ../../admin/addons.rst:84
 #: ../../admin/addons.rst:331 ../../admin/addons.rst:422
@@ -1242,29 +1177,18 @@ msgid "Language consistency"
 msgstr "言語の一貫性"
 
 #: ../../admin/addons.rst:91
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"1 つのプロジェクト内のすべてのコンポーネントに、追加されたすべての言語の翻訳"
-"を適用します。"
+"プロジェクト内のすべてのコンポーネントにおいて、言語にコンポーネントが追加されていなくても、空の翻訳を作成して、追加した翻訳言語ごとに翻訳を行います。"
 
 #: ../../admin/addons.rst:95
-#, fuzzy
-#| msgid ""
-#| "Missing languages are checked once every 24 hours and when a new language "
-#| "is added in Weblate."
 msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
-msgstr ""
-"存在しない言語は、24 時間ごとに 1 回、および新しい言語を Weblate に追加したと"
-"きに確認します。"
+msgstr "足りない言語は、24 時間ごとに 1 回、さらに新しい言語を Weblate に追加したときに確認します。"
 
 #: ../../admin/addons.rst:98
 msgid "Unlike most others, this addon affects the whole project."
@@ -1293,34 +1217,22 @@ msgstr ""
 "自動的に追加または削除します。"
 
 #: ../../admin/addons.rst:113
-#, fuzzy
-#| msgid ""
-#| "It is triggered on every VCS update, and otherwise similar to the :"
-#| "djadmin:`import_project` management command. This way you can track "
-#| "multiple translation components within one VCS."
 msgid ""
 "Triggered each time the VCS is updated, and otherwise similar to the :"
 "djadmin:`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
-"これは VCS を更新するたびに起動し、その他は、:djadmin:`import_project` 管理コ"
-"マンドと同じです。この方法で、1 つの VCS 内で複数の翻訳コンポーネントを追跡で"
-"きます。"
+"VCS を更新するたびに起動し、その他は、:djadmin:`import_project` 管理コマンドと同じです。この方法で、1 つの VCS "
+"内で複数の翻訳コンポーネントを追跡できます。"
 
 #: ../../admin/addons.rst:117
-#, fuzzy
-#| msgid ""
-#| "The matching is done using regular expressions, where power is a tradeoff "
-#| "for complexity in configuration. Some examples for common use cases can "
-#| "be found in the addon help section."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the addon help section."
 msgstr ""
-"コンポーネントの照合は正規表現を使用して行われますが、この場合、性能は設定の"
-"複雑さとトレードオフになります。一般的な使用例については、アドオンのヘルプ セ"
-"クションを確認してください。"
+"照合は、複雑な設定ができる正規表現を使用して行われますが、そのためにはある程度の知識が必要です。一般的な使用例については、アドオンのヘルプ "
+"セクションを確認してください。"
 
 #: ../../admin/addons.rst:122
 msgid ""
@@ -1355,20 +1267,13 @@ msgid "Bulk edit flags, labels or state for strings."
 msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
 
 #: ../../admin/addons.rst:149
-#, fuzzy
-#| msgid ""
-#| "Automating the labeling of new strings can be useful (start out with "
-#| "search query ``NOT has:label`` and add desired labels till all strings "
-#| "are properly labeled). You can also carry out any other automated "
-#| "operations for Weblate metadata."
 msgid ""
 "Automate labeling by starting out with the search query ``NOT has:label`` "
 "and add labels till all strings have all required labels). Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
-"新しい文字列のラベル付けを自動化すると便利です（まず ``NOT has:label`` という"
-"検索クエリから開始し、すべての文字列に適切なラベルが付けられるまで必要なラベ"
-"ルを追加します）。Weblate メタデータに対するその他の自動操作も実行できます。"
+"ラベル付けを自動化します( ``NOT has:label`` という検索クエリから開始してラベルを追加しても、すべての文字列には必要なラベルがすべて含ま"
+"れている)。Weblateメタデータに対する他の自動操作も実行できます。"
 
 #: ../../admin/addons.rst:153 ../../admin/config.rst:1755
 msgid "**Examples:**"
@@ -1419,20 +1324,13 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "未翻訳の翻訳文に \"要編集\" フラグを付ける"
 
 #: ../../admin/addons.rst:184
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、"
-"Weblate は \"要編集\" フラグを付けます。これは、文字列が翻訳されていない場合"
-"であっても、すべての文字列を含むファイル形式には特に便利です。"
+"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は \"要編集\" "
+"フラグを付けます。特に、未翻訳の文字列に原文が含まれるファイル形式では分かりやすくなります。"
 
 #: ../../admin/addons.rst:191
 msgid "Flag new source strings as \"Needs editing\""
@@ -1471,20 +1369,13 @@ msgid "Generates a file containing detailed info about the translation status."
 msgstr "翻訳状況の詳細情報ファイルを生成します。"
 
 #: ../../admin/addons.rst:213
-#, fuzzy
-#| msgid ""
-#| "You can use Django template in both filename and content, see :ref:"
-#| "`markup` for a detailed markup description."
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
-"Django テンプレートは、ファイル名とコンテンツの両方で使用できます。マークアッ"
-"プの詳細については、:ref:`マークアップ` を確認してください。"
+"Django テンプレートは、ファイル名とコンテンツの両方で使用できます。マークアップの詳細については、:ref:`マークアップ` を確認してください。"
 
 #: ../../admin/addons.rst:216
-#, fuzzy
-#| msgid "For example generating summary file for each translation:"
 msgid "For example generating a summary file for each translation:"
 msgstr "例えば、各翻訳の概要ファイルの生成:"
 
@@ -1505,36 +1396,20 @@ msgid "Pseudolocale generation"
 msgstr "疑似言語の生成"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
-msgstr ""
-"原文に接頭辞と接尾辞を追加することで、疑似言語の変換を自動的に生成します。"
+msgstr "原文に接頭辞と接尾辞を自動的に追加して、翻訳を生成します。"
 
 #: ../../admin/addons.rst:244
-#, fuzzy
-#| msgid ""
-#| "Pseudolocales are useful for testing if all strings that should be "
-#| "localized are actually prepared for localization. This is done by "
-#| "altering source strings so it would be easy to spot a string which has "
-#| "not been altered and running the application with those strings as a "
-#| "translation. Also it would be easier to find strings which localized "
-#| "counterparts might not fit into the layout."
 msgid ""
 "Pseudolocales are useful to find strings that are not prepared for "
 "localization. This is done by altering all translatable source strings to "
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
-"疑似言語は、翻訳が必要なすべての文字列が、実際に翻訳の準備ができているかどう"
-"かをテストするのに便利です。これは、原文を変更することで、変更されていない文"
-"字列を発見しやすくなり、その文字列を翻訳文としてアプリケーションを実行するこ"
-"とで実現します。また、翻訳した文字列がレイアウトに適合しないかもしれない文字"
-"列も発見しやすくなります。"
+"擬似言語は、翻訳の準備ができていない文字列を検索するのに便利です。これは、すべての翻訳可能な原文を変更したあと、アプリケーションを擬似言語で実行して、変更"
+"していない文字列を簡単に見つけ出します。"
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -1555,14 +1430,10 @@ msgid "Contributors in comment"
 msgstr "コメント内の貢献者情報"
 
 #: ../../admin/addons.rst:262
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
-msgstr "PO ファイルヘッダのコメントを更新し、貢献者名と貢献年を追加します。"
+msgstr "PO ファイルヘッダのコメントを更新し、貢献者名と貢献した西暦を追加します。"
 
 #: ../../admin/addons.rst:265
 msgid "The PO file header will look like this:"
@@ -1598,26 +1469,20 @@ msgid "Wrap lines at 77 characters and at newlines"
 msgstr "77 文字または改行文字で折り返し"
 
 #: ../../admin/addons.rst:292
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines for newlines"
-msgstr "改行文字でのみ折り返し"
+msgstr "改行の行のみを折り返す"
 
 #: ../../admin/addons.rst:293
 msgid "No line wrapping"
 msgstr "折り返ししない"
 
 #: ../../admin/addons.rst:297
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and for newlines. With "
-#| "the ``--no-wrap`` parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done for newlines."
 msgstr ""
-"デフォルトでは、gettext は 77 文字を超えた場合や改行文字がある場合に折り返し"
-"します。--no-wrap パラメータを指定すると、改行文字でのみ折り返しします。"
+"デフォルトでは、gettext は 77 文字を超えた場合や改行文字がある場合に折り返しします。--no-wrap "
+"パラメータを指定すると、改行文字でのみ折り返しします。"
 
 #: ../../admin/addons.rst:304
 msgid "Update LINGUAS file"
@@ -1658,34 +1523,26 @@ msgstr ""
 "定）を更新します。"
 
 #: ../../admin/addons.rst:325
-#, fuzzy
-#| msgid ""
-#| "This addon is triggered whenever new changes are pulled from the upstream "
-#| "repository. You can configure most of the msgmerge command line options "
-#| "through the addon configuration."
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the addon configuration."
 msgstr ""
-"このアドオンは、新しい変更が upstream リポジトリから新しい変更をプルするたび"
-"に起動します。msgmerge のコマンド ライン オプションの大部分はアドオンの設定で"
-"設定できます。"
+"新しい変更が upstream リポジトリから新しい変更をプルするたびに起動します。大部分の msgmerge のコマンド ライン "
+"オプションはアドオンの設定から設定できます。"
 
 #: ../../admin/addons.rst:336
 msgid "Squash Git commits"
-msgstr "Git コミットをスカッシュ"
+msgstr "Git コミットの簡略化"
 
 #: ../../admin/addons.rst:338
 msgid "Squash Git commits prior to pushing changes."
 msgstr "変更をプッシュする前に、Git コミットをスカッシュします。"
 
 #: ../../admin/addons.rst:340
-#, fuzzy
-#| msgid "Each translated string can be in one of following states:"
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
-msgstr "各文字列の翻訳後に移行する状態のすべて:"
+msgstr "変更をプッシュする前に Git コミットの内容を簡略化するモードの種類:"
 
 #: ../../admin/addons.rst:345
 msgid "All commits into one"
@@ -1721,21 +1578,14 @@ msgstr ""
 "きます。"
 
 #: ../../admin/addons.rst:360
-#, fuzzy
-#| msgid ""
-#| "Trailers (commit lines like ``Co-authored-by: ...``) can optionally be "
-#| "removed from the original commit messages and appended to the end of the "
-#| "squashed commit message. This also generates proper ``Co-authored-by:`` "
-#| "credit for every translator."
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"翻訳者情報（ ``Co-authored-by: ...``）は、オプションで元々のコミット メッセー"
-"ジから削除し、簡略化したコミット メッセージの末尾に追加できます。また、これは"
-"すべての翻訳者に対して適切な ``共同翻訳者：`` の明記を生成します。"
+"オプションで、元のコミット メッセージから翻訳者情報（ ``Co-authored-by: …`` のようなコミット行）を削除し、簡略化したコミット "
+"メッセージの最後に追加できます。これにより、すべての翻訳者に適切な ``Co-authored-by:`` の署名が生成されます。"
 
 #: ../../admin/addons.rst:368
 msgid "Customize JSON output"
@@ -1763,19 +1613,13 @@ msgid "Set a timeframe for removal of comments."
 msgstr "コメントを削除するまでの期間を設定します。"
 
 #: ../../admin/addons.rst:388
-#, fuzzy
-#| msgid ""
-#| "This can be useful to remove old comments which might have become "
-#| "outdated. Use with care as comment being old does not mean they have lost "
-#| "their importance."
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
 "importance."
 msgstr ""
-"これは、古くなった可能性のある古いコメントを削除する場合に便利です。コメント"
-"が古いからといって、その重要性が失われたわけではないので、注意して使用してく"
-"ださい。"
+"これは、古くなった可能性のある古いコメントを削除する場合に便利です。コメントが古いからといって、その重要性が失われたわけではないので、注意して使用してくだ"
+"さい。"
 
 #: ../../admin/addons.rst:395
 msgid "Stale suggestion removal"
@@ -1786,18 +1630,12 @@ msgid "Set a timeframe for removal of suggestions."
 msgstr "提案を削除するまでの期間を設定します。"
 
 #: ../../admin/addons.rst:401
-#, fuzzy
-#| msgid ""
-#| "This can be very useful in connection with suggestion voting (see :ref:"
-#| "`peer-review`) to remove suggestions which don't receive enough positive "
-#| "votes in a given timeframe."
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
-"これは、与えられた時間枠内に必要な賛成票を獲得できなかった提案を、削除する提"
-"案投票（参照: :ref:`peer-review`）に関連して大変便利です。"
+"与えられた時間枠内に必要な賛成票を獲得できなかった提案を、削除する提案投票（参照: :ref:`peer-review`）に関連して大変便利です。"
 
 #: ../../admin/addons.rst:408
 msgid "Update RESX files"
@@ -1835,35 +1673,24 @@ msgid "Customizing list of addons"
 msgstr "アドオン一覧のカスタマイズ"
 
 #: ../../admin/addons.rst:437
-#, fuzzy
-#| msgid ""
-#| "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
-#| "another addon, simply include class absolute name in this setting."
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include the absolute class name in this setting."
 msgstr ""
-"アドオンの一覧は :setting:`WEBLATE_ADDONS` で設定します。アドオンを追加するに"
-"は、設定にクラスの絶対名を含めるだけです。"
+"アドオンの一覧は :setting:`WEBLATE_ADDONS` で設定します。アドオンを追加するには、設定に絶対クラス名を含めるだけです。"
 
 #: ../../admin/addons.rst:444
 msgid "Writing addon"
 msgstr "アドオンの作成"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, all you need to do is subclass :class:"
-#| "`weblate.addons.base.BaseAddon`, define the addon metadata and implement "
-#| "a callback which will do the processing."
 msgid ""
 "You can write your own addons too, use the subclass :class:`weblate.addons."
 "base.BaseAddon` to define the addon metadata, and then implement a callback "
 "to do the processing."
 msgstr ""
-"独自のアドオンも作成できます。必要なことは :class:`weblate.addons.base."
-"BaseAddon` をサブクラス化し、アドオンのメタデータを定義し、処理を行うコール"
-"バックの実装だけです。"
+"独自のアドオンも作成できますが、サブクラス :class:`weblate.addons.base.BaseAddon` "
+"を使用してアドオンのメタデータを定義し、処理を行うコールバックを実装します。"
 
 #: ../../admin/addons.rst:452
 msgid ":doc:`../contributing/addons`"
@@ -1928,30 +1755,20 @@ msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr "新しい翻訳の作成用のファイル名（空欄でも可）。"
 
 #: ../../admin/addons.rst:508
-#, fuzzy
-#| msgid "Fileformat used in current component."
 msgid "File format used in current component."
 msgstr "現在のコンポーネントで使用するファイル形式。"
 
 #: ../../admin/addons.rst:512
-#, fuzzy
-#| msgid ""
-#| "Language of currently processed translation (not available for component "
-#| "level hooks)."
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
-msgstr ""
-"現在実行中の翻訳言語（コンポーネント レベルのフックでは利用できません）。"
+msgstr "現在実行中の翻訳言語（コンポーネント レベルのフックでは使用できません）。"
 
 #: ../../admin/addons.rst:517
-#, fuzzy
-#| msgid ""
-#| "Previous HEAD on update (available only when running post update hook)."
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
-msgstr "更新時の以前の HEAD（更新後フックを実行している場合にのみ使用可能）。"
+msgstr "更新前の HEAD（更新後のフックを実行した後にのみ利用可能）。"
 
 #: ../../admin/addons.rst:523
 msgid "Component slug used to construct URL."
@@ -1982,49 +1799,31 @@ msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:560
-#, fuzzy
-#| msgid "Post update repository processing"
 msgid "Post-update repository processing"
 msgstr "更新後のリポジトリ処理"
 
 #: ../../admin/addons.rst:562
-#, fuzzy
-#| msgid ""
-#| "Post update repository processing can be used to update translation files "
-#| "when the VCS upstream source changes. To achieve this, please remember "
-#| "that Weblate only sees files committed to the VCS, so you need to commit "
-#| "changes as a part of the script."
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"更新後のリポジトリ処理は、 VCS の upstream ソースが変更されたときに翻訳ファイ"
-"ルを更新するために使用できます。これを実現するには、 Weblate は VCS にコミッ"
-"トされたファイルだけを確認するので、スクリプトの一部として変更をコミットする"
-"必要があることに注意してください。"
+"VCS の upstream ソースが変更されたときに翻訳ファイルを更新するために使用できます。これを実現するには、 Weblate は VCS "
+"にコミットされたファイルだけを確認するので、スクリプトの一部として変更をコミットする必要があることに注意してください。"
 
 #: ../../admin/addons.rst:566
 msgid "For example with Gulp you can do it using following code:"
 msgstr "以下のコードを使用した、Gulp の例:"
 
 #: ../../admin/addons.rst:576
-#, fuzzy
-#| msgid "Pre commit processing of translations"
 msgid "Pre-commit processing of translations"
 msgstr "翻訳の事前コミット処理"
 
 #: ../../admin/addons.rst:578
-#, fuzzy
-#| msgid ""
-#| "Use the commit script to automatically make changes to the translation "
-#| "before it is committed to the repository."
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
-msgstr ""
-"コミット スクリプトを使用して、翻訳文をリポジトリにコミットする前に、自動的に"
-"翻訳を追加変更します。"
+msgstr "コミット スクリプトを使用して、翻訳文をリポジトリにコミットする前に、翻訳文を自動的に変更します。"
 
 #: ../../admin/addons.rst:581
 msgid ""
