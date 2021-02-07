@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 19:09+0100\n"
-"PO-Revision-Date: 2021-02-04 10:52+0000\n"
+"PO-Revision-Date: 2021-02-07 11:30+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -111,10 +111,8 @@ msgstr ""
 "户。"
 
 #: ../../admin/access.rst:51
-#, fuzzy
-#| msgid "Adding permissions to languages, components or projects"
 msgid "Custom permissions for languages, components or projects"
-msgstr "为语言、组件或项目添加语言"
+msgstr "自定义语言、组件或项目权限"
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -157,34 +155,22 @@ msgid "Project access control"
 msgstr "项目访问控制"
 
 #: ../../admin/access.rst:81
-#, fuzzy
-#| msgid ""
-#| "By turning on access-control lists, all users are prohibited from "
-#| "accessing anything within a given project, unless you add the permissions "
-#| "for them to do just that."
 msgid ""
 "By turning on access control, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
-msgstr ""
-"通过打开访问控制列表 ，所有用户禁止访问给定项目的任何内容，除非可以将权限授予"
-"他们去做。"
+msgstr "通过打开访问控制 ，所有用户均被禁止访问给定项目的任何内容，除非你授权给他们。"
 
 #: ../../admin/access.rst:86
-#, fuzzy
-#| msgid ""
-#| "Limit user's access to individual projects by turning on :guilabel:"
-#| "`Access` in the :guilabel:`Settings` of each respective project. This "
-#| "automatically creates several groups for the project in question, see :"
-#| "ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by selecting a different access "
 "control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` "
 "of each respective project.  This automatically creates several groups for "
 "the project in question, see :ref:`groups`."
 msgstr ""
-"开启每个项目 :guilabel:`Settings` 中的 :guilabel:`Access` 来限制用户对单独项"
-"目的访问。这将自动为有问题的项目创建几个组。见 :ref:`groups`。"
+"通过在每个相应项目 :guilabel:`Settings`的 "
+":guilabel:`Access`标签页上选择不同的访问控制变量来限制用户对单独项目的访问。这将自动为有问题的项目创建几个组，见 "
+":ref:`groups`。"
 
 #: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
@@ -223,28 +209,19 @@ msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
 msgstr "Django 管理员管理用户而非 Weblate，请参考 :ref:`custom-acl` 。"
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid ""
-#| "Grant access to a project by adding the privilege either directly to the "
-#| "given user, or group of users in the Django admin-interface, or by using "
-#| "user management on the project page, as described in :ref:`manage-acl`."
 msgid ""
 "Grant access to a project by adding the privilege either directly to an "
 "user, or group of users in the Django admin-interface, or by using user "
 "management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
-"授予一个项目的访问权限可以直接向给定用户或 Django admin-interface 中的用户组"
-"添加特权，或者如 :ref:`manage-acl` 中所描述的那样，使用项目页上的用户管理。"
+"授予对一个项目的访问权有下列两种方法。要么在 Django admin-interface 中，直接给用户或用户组添加特权，要么按照 :ref"
+":`manage-acl` 中所描述的使用项目页面上的用户管理。"
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid ""
-#| "Even with access-control lists turned on, some info will be available "
-#| "about your project:"
 msgid ""
 "Even with access control turned on, some info will be available about your "
 "project:"
-msgstr "即使打开了 ACL ，也可以看到项目的一些概要信息："
+msgstr "即使打开了访问控制 ，也可以看到项目的一些信息："
 
 #: ../../admin/access.rst:113
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -437,13 +414,9 @@ msgid "Managing per-project access control"
 msgstr "管理每个项目的访问控制"
 
 #: ../../admin/access.rst:227
-#, fuzzy
-#| msgid ""
-#| "This feature only works for projects using access-control lists, see :ref:"
-#| "`acl`."
 msgid ""
 "This feature only works for projects using access control, see :ref:`acl`."
-msgstr "这个特性只对使用 ACL 的项目起作用，请参见 :ref:`acl` 。"
+msgstr "这个特性只对使用访问控制的项目起作用，见 :ref:`acl` 。"
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -512,10 +485,8 @@ msgid "Can manage glossary (add or remove entries, or upload)."
 msgstr "可以管理词汇表（添加或删除权限，或上传）。"
 
 #: ../../admin/access.rst:277
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Can manage translation memory."
-msgstr "管理翻译记忆库"
+msgstr "可以管理翻译记忆库。"
 
 #: ../../admin/access.rst:281
 msgid ""
@@ -625,10 +596,8 @@ msgid "Edit component settings [`Administration`]"
 msgstr "编辑组件设置[`Administration`]"
 
 #: ../../admin/access.rst:349
-#, fuzzy
-#| msgid "Lock component, prevents it from being translated [`Administration`]"
 msgid "Lock component, preventing translations [`Administration`]"
-msgstr "锁定组件，防止其被翻译 [`Administration`]"
+msgstr "锁定组件，防止翻译 [`Administration`]"
 
 #: ../../admin/access.rst:358 ../../api.rst:2264 ../../user/glossary.rst:4
 #: ../../user/translating.rst:266
@@ -658,15 +627,11 @@ msgid "Automatic suggestions"
 msgstr "自动建议"
 
 #: ../../admin/access.rst:361
-#, fuzzy
-#| msgid ""
-#| "Vote on suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Use automatic suggestions [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
-"为建议投票[`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"使用自动建议 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
 "`Translate`]"
 
 #: ../../admin/access.rst:366 ../../user/translating.rst:264
@@ -674,17 +639,13 @@ msgid "Translation memory"
 msgstr "翻译记忆库"
 
 #: ../../admin/access.rst:364
-#, fuzzy
-#| msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgid "Edit translation memory [`Administration`, `Manage translation memory`]"
-msgstr "删除现有的翻译[`Administration`, `Manage languages`]"
+msgstr "编辑翻译记忆库 [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:366
-#, fuzzy
-#| msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgid ""
 "Delete translation memory [`Administration`, `Manage translation memory`]"
-msgstr "删除现有的翻译[`Administration`, `Manage languages`]"
+msgstr "删除翻译记忆库 [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:371 ../../api.rst:743
 msgid "Projects"
@@ -727,38 +688,28 @@ msgid "Source strings"
 msgstr "源字符串"
 
 #: ../../admin/access.rst:384
-#, fuzzy
-#| msgid "Edit source string info [`Administration`, `Edit source`]"
 msgid "Edit additional string info [`Administration`, `Edit source`]"
-msgstr "编辑源字符串信息[`Administration`, `Edit source`]"
+msgstr "编辑附加的字符串信息 [`Administration`, `Edit source`]"
 
 #: ../../admin/access.rst:399
 msgid "Strings"
 msgstr "字符串"
 
 #: ../../admin/access.rst:387
-#, fuzzy
-#| msgid "Add new strings [`Administration`]"
 msgid "Add new string [`Administration`]"
-msgstr "添加新字符串 [`管理组`]"
+msgstr "添加新字符串 [`Administration`]"
 
 #: ../../admin/access.rst:389
-#, fuzzy
-#| msgid "Add new strings [`Administration`]"
 msgid "Remove a string [`Administration`]"
-msgstr "添加新字符串 [`管理组`]"
+msgstr "移除一条字符串 [`Administration`]"
 
 #: ../../admin/access.rst:391
-#, fuzzy
-#| msgid ""
-#| "Ignore failing checks [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"忽略失败的复查[`Administration`, `Edit source`, `Power user`, `Review "
-"strings`, `Translate`]"
+"忽略失败的检查 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:393
 msgid ""
@@ -773,10 +724,6 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr "复查字符串[`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:397
-#, fuzzy
-#| msgid ""
-#| "Edit strings when suggestions are enforced [`Administration`, `Review "
-#| "strings`]"
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
@@ -792,45 +739,31 @@ msgid "Suggestions"
 msgstr "建议"
 
 #: ../../admin/access.rst:402
-#, fuzzy
-#| msgid ""
-#| "Accept suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Accept suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"接受建议[`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"接受建议 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
 "`Translate`]"
 
 #: ../../admin/access.rst:404
-#, fuzzy
-#| msgid ""
-#| "Accept suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Add suggestion [`Administration`, `Edit source`, `Add suggestion`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
-"接受建议[`Administration`, `Edit source`, `Power user`, `Review strings`, "
-"`Translate`]"
+"添加建议 [`Administration`, `Edit source`, `Add suggestion`, `Power user`, `"
+"Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:406
-#, fuzzy
-#| msgid "Use automatic suggestions [`Administration`, `Power user`]"
 msgid "Delete suggestion [`Administration`, `Power user`]"
-msgstr "使用自动建议 [`Administration`, `Power user`]"
+msgstr "删除建议 [`Administration`, `Power user`]"
 
 #: ../../admin/access.rst:408
-#, fuzzy
-#| msgid ""
-#| "Vote on suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Vote on suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"为建议投票[`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"为建议投票 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
 "`Translate`]"
 
 #: ../../admin/access.rst:417 ../../api.rst:1598
@@ -838,79 +771,59 @@ msgid "Translations"
 msgstr "翻译"
 
 #: ../../admin/access.rst:411
-#, fuzzy
-#| msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgid ""
 "Add language for translation [`Administration`, `Power user`, `Manage "
 "languages`]"
-msgstr "执行自动翻译[`Administration`, `Manage languages`]"
+msgstr "添加翻译语言 [`Administration`, `Power user`, `Manage languages`]"
 
 #: ../../admin/access.rst:413
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgstr "执行自动翻译[`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:415
-#, fuzzy
-#| msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgid "Delete existing translation [`Administration`, `Manage languages`]"
-msgstr "删除现有的翻译[`Administration`, `Manage languages`]"
+msgstr "删除现有翻译 [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:417
-#, fuzzy
-#| msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgid ""
 "Add several languages for translation [`Administration`, `Manage languages`]"
-msgstr "执行自动翻译[`Administration`, `Manage languages`]"
+msgstr "添加几种语言进行翻译 [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:424
 msgid "Uploads"
 msgstr "上传"
 
 #: ../../admin/access.rst:420
-#, fuzzy
-#| msgid "Define author of uploaded translations [`Administration`]"
 msgid "Define author of uploaded translation [`Administration`]"
 msgstr "定义所上传翻译的作者 [`Administration`]"
 
 #: ../../admin/access.rst:422
-#, fuzzy
-#| msgid ""
-#| "Overwrite existing strings with an upload [`Administration`, `Edit "
-#| "source`, `Power user`, `Review strings`, `Translate`]"
 msgid ""
 "Overwrite existing strings with upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
-"使用上传的内容覆盖现有的字符串[`Administration`, `Edit source`, `Power "
-"user`, `Review strings`, `Translate`]"
+"使用上传的内容覆盖现有的字符串[`Administration`, `Edit source`, `Power user`, `Review "
+"strings`, `Translate`]"
 
 #: ../../admin/access.rst:424
-#, fuzzy
-#| msgid ""
-#| "Upload translation strings [`Administration`, `Edit source`, `Power "
-#| "user`, `Review strings`, `Translate`]"
 msgid ""
 "Upload translations [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"上传翻译的字符串 [`Administration`, `Edit source`, `Power user`, `Review "
-"strings`, `Translate`]"
+"上传翻译 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:437
 msgid "VCS"
 msgstr "版本控制系统（VCS ）"
 
 #: ../../admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "Access the internal repository [`Access repository`, `Administration`, "
-#| "`Manage repository`, `Power user`]"
 msgid ""
 "Access the internal repository [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"访问内部仓库[`Access repository`, `Administration`, `Manage repository`, "
-"`Power user`]"
+"访问内部仓库 [`Administration`, `Access repository`, `Power user`, `Manage "
+"repository`]"
 
 #: ../../admin/access.rst:429
 msgid ""
@@ -919,14 +832,10 @@ msgid ""
 msgstr "将更改提交到内部代码库[`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:431
-#, fuzzy
-#| msgid ""
-#| "Push changes from the internal repository [`Administration`, `Manage "
-#| "repository`]"
 msgid ""
 "Push change from the internal repository [`Administration`, `Manage "
 "repository`]"
-msgstr "从内部代码库推送更改[`Administration`, `Manage repository`]"
+msgstr "从内部存储库推送更改 [`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:433
 msgid ""
@@ -935,16 +844,12 @@ msgid ""
 msgstr "重置内部代码库的更改 [`Administration`, `Manage repository`]"
 
 #: ../../admin/access.rst:435
-#, fuzzy
-#| msgid ""
-#| "View upstream repository location [`Access repository`, `Administration`, "
-#| "`Manage repository`, `Power user`]"
 msgid ""
 "View upstream repository location [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"查看上游仓库位置[`Access repository`, `Administration`, `Manage repository`, "
-"`Power user`]"
+"查看上游仓库位置 [`Administration`, `Access repository`, `Power user`, `Manage "
+"repository`]"
 
 #: ../../admin/access.rst:437
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
@@ -1111,20 +1016,13 @@ msgid "Addons"
 msgstr "附加组件"
 
 #: ../../admin/addons.rst:8
-#, fuzzy
-#| msgid ""
-#| "Addons provide ways to customize translation workflow. They can be "
-#| "installed in the translation component view, and work behind the scenes. "
-#| "Addon management is available from the :guilabel:`Manage` ↓ `Addons` menu "
-#| "of each respective translation component for admins."
 msgid ""
 "Addons provide ways to customize and automate the translation workflow. "
 "Admins can add and mangage addons from the :guilabel:`Manage` ↓ `Addons` "
 "menu of each respective translation component."
 msgstr ""
-"附加组件提供了自定义翻译工作流的方法。它们可以被安装在翻译组件视图中，并在幕"
-"后工作。管理员可从各翻译组件的:图形用户界面标签: ' 管理 '↓'附加组件'菜单中管"
-"理它们。"
+"附加组件提供了自定义和自动化翻译工作流程的方法。管理员可以从每个相应翻译组件的 :guilabel:`Manage` ↓ "
+"`Addons`菜单添加和管理附加组件。"
 
 #: ../../admin/addons.rst:15
 msgid "Built-in addons"
@@ -1142,12 +1040,8 @@ msgid ""
 msgstr "使用机器翻译或其他组件自动翻译字符串。"
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid ""
-#| "This addon is triggered automatically when new strings appear in a "
-#| "component."
 msgid "Triggered automatically when new strings appear in a component."
-msgstr "当组件中出现新字符串时，会自动触发此附加组件。"
+msgstr "当组件中出现新字符串时，会自动触发。"
 
 #: ../../admin/addons.rst:30
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -1164,29 +1058,16 @@ msgid ""
 msgstr "将译文发布到内容交付网络，以便在 JavaScript或 HTML 本地化中使用。"
 
 #: ../../admin/addons.rst:43
-#, fuzzy
-#| msgid ""
-#| "It can be used to localize static HTML pages or used to load localization "
-#| "in the JavaScript code."
 msgid ""
 "Can be used to localize static HTML pages, or to load localization in the "
 "JavaScript code."
-msgstr ""
-"它可以用于将静态 HTML 网页本地化，或者用于在 JavaScript 代码中加载本地化文"
-"件。"
+msgstr "可以用于本地化静态 HTML 网页，或者在 JavaScript 代码中加载本地化文件。"
 
 #: ../../admin/addons.rst:46
-#, fuzzy
-#| msgid ""
-#| "Upon installation the addon generates unique URL for your component which "
-#| "you can include in the HTML documents to get them localized. See :ref:"
-#| "`weblate-cdn` for more details."
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
-msgstr ""
-"在安装时，插件为你的组件产生唯一的 URL ，可以将其包括在 HTML 文件中，使它们本"
-"地化。细节请参见 `weblate-cdn` 。"
+msgstr "为你的组件生成一个唯一的 URL，你可以将其包含在 HTML 页面中以本地化它们。详情见 :ref:`weblate-cdn`。"
 
 #: ../../admin/addons.rst:51
 msgid ""
@@ -1205,18 +1086,11 @@ msgid "Removes strings without a translation from translation files."
 msgstr "从翻译文件中删除没有翻译的字符串."
 
 #: ../../admin/addons.rst:65
-#, fuzzy
-#| msgid ""
-#| "Use this if you do not want empty strings to appear in translation files "
-#| "(for example when your localization library displays them as empty "
-#| "strings instead of falling back to the source string)."
 msgid ""
 "Use this to not have any empty strings in translation files (for example if "
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
-msgstr ""
-"如果不想空字符串出现在翻译文件中的话（例如当本地化库将其显示为空字符串而不是"
-"填回源字符串时），要使用这个。"
+msgstr "使用此方法可以使翻译文件中不存在任何空字符串(例如，如果你的本地化库将它们显示为缺失，而不是退回到源字符串)。"
 
 #: ../../admin/addons.rst:71 ../../admin/addons.rst:84
 #: ../../admin/addons.rst:331 ../../admin/addons.rst:422
@@ -1241,25 +1115,17 @@ msgid "Language consistency"
 msgstr "语言一致性"
 
 #: ../../admin/addons.rst:91
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
-msgstr "确保一个项目中的所有组件都为每种要添加的语言进行翻译。"
+msgstr "通过在含有未添加组件的语言中创建空翻译，确保一个项目中的所有组件都具有对每一种添加的翻译语言的翻译。"
 
 #: ../../admin/addons.rst:95
-#, fuzzy
-#| msgid ""
-#| "Missing languages are checked once every 24 hours and when a new language "
-#| "is added in Weblate."
 msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
-msgstr "每24小时，和在新的语言加入 Weblate 时，检查一次丢失的语言。"
+msgstr "每隔24小时，和在 Weblate 中加入新语言时，会检查一次缺失的语言。"
 
 #: ../../admin/addons.rst:98
 msgid "Unlike most others, this addon affects the whole project."
@@ -1283,32 +1149,20 @@ msgid ""
 msgstr "根据版本控制系统中文件更改的情况来自动添加或删除项目的组件."
 
 #: ../../admin/addons.rst:113
-#, fuzzy
-#| msgid ""
-#| "It is triggered on every VCS update, and otherwise similar to the :"
-#| "djadmin:`import_project` management command. This way you can track "
-#| "multiple translation components within one VCS."
 msgid ""
 "Triggered each time the VCS is updated, and otherwise similar to the :"
 "djadmin:`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
-"每次版本控制系统（ VCS ）升级时触发，否则与 :djadmin:`import_project` 管理命"
-"令相似。这种方式可以在一个版本控制系统（ VCS ）中跟踪多个翻译组件。"
+"每次更新 VCS 时触发，在其他方面类似 :djadmin:`import_project`管理命令。通过这种方式，你可以在一个 VCS "
+"中跟踪多个翻译组件。"
 
 #: ../../admin/addons.rst:117
-#, fuzzy
-#| msgid ""
-#| "The matching is done using regular expressions, where power is a tradeoff "
-#| "for complexity in configuration. Some examples for common use cases can "
-#| "be found in the addon help section."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the addon help section."
-msgstr ""
-"匹配是使用正则表达式完成的，在正则表达式中，强大的功能是配置复杂性的一种折"
-"衷。一些常见用例的例子可以在附加组件帮助部分找到。"
+msgstr "该匹配是使用允许复杂配置的正则表达式完成的，但这样做需要一些知识。一些常见用例的例子可以在附加组件帮助部分找到。"
 
 #: ../../admin/addons.rst:122
 msgid ""
@@ -1343,20 +1197,13 @@ msgid "Bulk edit flags, labels or state for strings."
 msgstr "批量编辑字符串标记、标签或状态。"
 
 #: ../../admin/addons.rst:149
-#, fuzzy
-#| msgid ""
-#| "Automating the labeling of new strings can be useful (start out with "
-#| "search query ``NOT has:label`` and add desired labels till all strings "
-#| "are properly labeled). You can also carry out any other automated "
-#| "operations for Weblate metadata."
 msgid ""
 "Automate labeling by starting out with the search query ``NOT has:label`` "
 "and add labels till all strings have all required labels). Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
-"新字符串自动贴标签会有用（通过搜索查询 ``NOT has:label`` 开始，并且添加所需要"
-"的标签，直到所有的字符串都适当地被贴上标签）。还以对 Weblate 元数据执行其他任"
-"何自动化操作。"
+"要自动化标签操作，从搜索字符串 ``NOT has:label``入手，并添加标签直到所有字符串都有所需的标签为止。也可以完成 Weblate "
+"元数据的其他自动化操作。"
 
 #: ../../admin/addons.rst:153 ../../admin/config.rst:1755
 msgid "**Examples:**"
@@ -1407,19 +1254,12 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "将未更改的译文标记为“需要编辑”"
 
 #: ../../admin/addons.rst:184
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"每当新的翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记为"
-"需要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
+"每当从 VCS 导入新的可翻译字符串并与源字符串匹配时，就会在 Weblate 中标记为需要编辑。对于包含未翻译字符串的源字符串的文件格式尤其有用。"
 
 #: ../../admin/addons.rst:191
 msgid "Flag new source strings as \"Needs editing\""
@@ -1456,21 +1296,14 @@ msgid "Generates a file containing detailed info about the translation status."
 msgstr "生成一个包含关于翻译状态详细信息的文件。"
 
 #: ../../admin/addons.rst:213
-#, fuzzy
-#| msgid ""
-#| "You can use Django template in both filename and content, see :ref:"
-#| "`markup` for a detailed markup description."
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
-msgstr ""
-"可以在文件名和内容中使用 Django 模板，参见 :ref:`markup` 的具体标记表述。"
+msgstr "你可在文件名和内容中均使用一个 Django 模板，详细的标记描述见 :ref:`markup`。"
 
 #: ../../admin/addons.rst:216
-#, fuzzy
-#| msgid "For example generating summary file for each translation:"
 msgid "For example generating a summary file for each translation:"
-msgstr "例如对每个翻译产生摘要文件："
+msgstr "例如为每个翻译产生一个摘要文件："
 
 #: ../../admin/addons.rst:218
 msgid "Name of generated file"
@@ -1489,34 +1322,20 @@ msgid "Pseudolocale generation"
 msgstr "假语言环境 （Pseudolocale）生成"
 
 #: ../../admin/addons.rst:241
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
-msgstr "通过向源字符串添加前缀和后缀自动生成一个假语言环境翻译。"
+msgstr "通过向源字符串添加前缀和后缀自动生成翻译。"
 
 #: ../../admin/addons.rst:244
-#, fuzzy
-#| msgid ""
-#| "Pseudolocales are useful for testing if all strings that should be "
-#| "localized are actually prepared for localization. This is done by "
-#| "altering source strings so it would be easy to spot a string which has "
-#| "not been altered and running the application with those strings as a "
-#| "translation. Also it would be easier to find strings which localized "
-#| "counterparts might not fit into the layout."
 msgid ""
 "Pseudolocales are useful to find strings that are not prepared for "
 "localization. This is done by altering all translatable source strings to "
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
-"在检测需要本地化的所有字符串是否已经真正准备好本地化方面，假语言环境是有用"
-"的。通过更改源字符串从而能容易地发现还没有更改的字符串，并通过使用作为翻译的"
-"字符串来运行应用，来实现这个作用。此外，查找本地化的对应项可能不适合布局的字"
-"符串也会更容易。"
+"伪 locale 对于查找未准备好进行本地化的字符串很有用。这是通过修改所有可翻译的源字符串来实现的，使得在用伪 locale "
+"语言运行应用程序时很容易发现未修改的字符串。"
 
 #: ../../admin/addons.rst:249
 msgid ""
@@ -1537,20 +1356,14 @@ msgid "Contributors in comment"
 msgstr "在注释中添加贡献信息"
 
 #: ../../admin/addons.rst:262
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
-msgstr "在 PO 文件的头部以注释的形式添加贡献者的名字与贡献年份。"
+msgstr "更新 PO 文件头的注释部分，以包含贡献者姓名和贡献年份。"
 
 #: ../../admin/addons.rst:265
-#, fuzzy
-#| msgid "The bilingual gettext PO file typically looks like this:"
 msgid "The PO file header will look like this:"
-msgstr "双语 gettext PO 文件通常如下所示："
+msgstr "PO 文件头看上去是这样的："
 
 #: ../../admin/addons.rst:277
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1582,26 +1395,18 @@ msgid "Wrap lines at 77 characters and at newlines"
 msgstr "在 77 个字符处和新一行时来换行"
 
 #: ../../admin/addons.rst:292
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
 msgid "Only wrap lines for newlines"
-msgstr "仅在换行符处折行"
+msgstr "只对新行换行"
 
 #: ../../admin/addons.rst:293
 msgid "No line wrapping"
 msgstr "不换行"
 
 #: ../../admin/addons.rst:297
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and for newlines. With "
-#| "the ``--no-wrap`` parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and for newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done for newlines."
-msgstr ""
-"默认 gettext 在 77 个字符处和新一行时换行。使用 ``--no-wrap`` 参数时只在新一"
-"行时换行。"
+msgstr "默认 gettext 在 77 个字符处和新一行时换行。使用 ``--no-wrap`` 参数，换行只对新行生效。"
 
 #: ../../admin/addons.rst:304
 msgid "Update LINGUAS file"
@@ -1639,17 +1444,10 @@ msgstr ""
 "所配置），而与 POT 文件（如 :ref:`component-new_base` 所配置）匹配。"
 
 #: ../../admin/addons.rst:325
-#, fuzzy
-#| msgid ""
-#| "This addon is triggered whenever new changes are pulled from the upstream "
-#| "repository. You can configure most of the msgmerge command line options "
-#| "through the addon configuration."
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the addon configuration."
-msgstr ""
-"每当从上游存储库拉取新更改时，这个插件被触发。您可以通过附加配置设定大多数"
-"msgmerge命令行选项。"
+msgstr "每当从上游存储库中提取新的更改时都会被触发。多数 msgmerge 命令行选项可通过附加组件配置进行设置。"
 
 #: ../../admin/addons.rst:336
 msgid "Squash Git commits"
@@ -1660,12 +1458,10 @@ msgid "Squash Git commits prior to pushing changes."
 msgstr "推送变更之前压缩 Git 提交。"
 
 #: ../../admin/addons.rst:340
-#, fuzzy
-#| msgid "Each translated string can be in one of following states:"
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
-msgstr "每个翻译的字符串可以处于以下状态之一："
+msgstr "以下模式之一中，Git提交可以在推送更改之前被压缩："
 
 #: ../../admin/addons.rst:345
 msgid "All commits into one"
@@ -1698,21 +1494,14 @@ msgid ""
 msgstr "原始提交信息可选地由定制的提交信息覆盖。"
 
 #: ../../admin/addons.rst:360
-#, fuzzy
-#| msgid ""
-#| "Trailers (commit lines like ``Co-authored-by: ...``) can optionally be "
-#| "removed from the original commit messages and appended to the end of the "
-#| "squashed commit message. This also generates proper ``Co-authored-by:`` "
-#| "credit for every translator."
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"预告（提交行像 ``Co-authored-by: ...`` ）可选地从原始提交信息中去掉，并且添加"
-"在去掉的提交信息后面。这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` 信"
-"誉。"
+"预告（提交行像 ``Co-authored-by: …`` ）可选地从原始提交信息中去掉，并且添加在去掉的提交信息后面。这还可以为每一位翻译者产生适当的 "
+"``Co-authored-by:`` 信誉。"
 
 #: ../../admin/addons.rst:368
 msgid "Customize JSON output"
@@ -1740,18 +1529,11 @@ msgid "Set a timeframe for removal of comments."
 msgstr "设置删除注释的时间。"
 
 #: ../../admin/addons.rst:388
-#, fuzzy
-#| msgid ""
-#| "This can be useful to remove old comments which might have become "
-#| "outdated. Use with care as comment being old does not mean they have lost "
-#| "their importance."
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
 "importance."
-msgstr ""
-"这可以用于删除可能变得过时的陈旧注释。小心使用，因为陈旧的注释不意味着失去了"
-"重要性。"
+msgstr "这可以用于删除可能变得过时的陈旧注释。小心使用，因为陈旧的注释不意味着失去了重要性。"
 
 #: ../../admin/addons.rst:395
 msgid "Stale suggestion removal"
@@ -1762,18 +1544,11 @@ msgid "Set a timeframe for removal of suggestions."
 msgstr "设置删除建议的时间。"
 
 #: ../../admin/addons.rst:401
-#, fuzzy
-#| msgid ""
-#| "This can be very useful in connection with suggestion voting (see :ref:"
-#| "`peer-review`) to remove suggestions which don't receive enough positive "
-#| "votes in a given timeframe."
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
-msgstr ""
-"可以用于连接建议投票（请参见 :ref:`peer-review` ），将给定时间内没有得到足够"
-"积极票数的建议删除。"
+msgstr "此附加组件在与建议投票一道用来删除在给定的时间内没有得到足够的正面投票的建议方面非常有用。"
 
 #: ../../admin/addons.rst:408
 msgid "Update RESX files"
@@ -1809,34 +1584,23 @@ msgid "Customizing list of addons"
 msgstr "定制附加组件列表"
 
 #: ../../admin/addons.rst:437
-#, fuzzy
-#| msgid ""
-#| "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
-#| "another addon, simply include class absolute name in this setting."
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include the absolute class name in this setting."
-msgstr ""
-"附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个"
-"设置中包含类绝对名称即可。"
+msgstr "附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个设置中包含绝对类名称即可。"
 
 #: ../../admin/addons.rst:444
 msgid "Writing addon"
 msgstr "编写附加组件"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, all you need to do is subclass :class:"
-#| "`weblate.addons.base.BaseAddon`, define the addon metadata and implement "
-#| "a callback which will do the processing."
 msgid ""
 "You can write your own addons too, use the subclass :class:`weblate.addons."
 "base.BaseAddon` to define the addon metadata, and then implement a callback "
 "to do the processing."
 msgstr ""
-"你也可以编写自己的附加组件，所需要做的是把:class:`weblate.addons.base."
-"BaseAddon`归入子类，定义附加组件的元数据，并实现一个会执行处理的回调函数。"
+"你也可以编写自己的附加组件，使用子类 :class:`weblate.addons.base."
+"BaseAddon`来定义附加组件元数据，接着实施回调来进行处理。"
 
 #: ../../admin/addons.rst:452
 msgid ":doc:`../contributing/addons`"
@@ -15465,10 +15229,8 @@ msgstr ""
 "组件从而能够浏览或翻译它。"
 
 #: ../../admin/projects.rst:789
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "管理词汇表"
+msgstr "用作一个术语"
 
 #: ../../admin/projects.rst:791
 msgid ""
@@ -15504,10 +15266,8 @@ msgid "Display name for a glossary used when showing word matches."
 msgstr ""
 
 #: ../../admin/projects.rst:814
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary color"
-msgstr "词汇表"
+msgstr "术语颜色"
 
 #: ../../admin/projects.rst:816
 msgid "Display color for a glossary used when showing word matches."
@@ -18002,10 +17762,8 @@ msgid "Remove association of a project with a component."
 msgstr "删除项目与词汇表的关联性。"
 
 #: ../../api.rst:1593
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "Slug of the project to remove"
-msgstr "项目的语言被删除了。"
+msgstr "要移除的项目的地址"
 
 #: ../../api.rst:1602
 msgid "Returns a list of translations."
@@ -19129,10 +18887,8 @@ msgid "Glossaries are now stored as regular components."
 msgstr ""
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "glossaries"
 msgid "Dropped glossaries API."
-msgstr "词汇表"
+msgstr "废弃了术语 API。"
 
 #: ../../changes.rst:23
 #, fuzzy
@@ -32377,7 +32133,7 @@ msgstr ""
 
 #: ../../user/glossary.rst:65
 msgid "Terminology"
-msgstr ""
+msgstr "专有名词"
 
 #: ../../user/glossary.rst:69
 msgid ""
@@ -33439,10 +33195,8 @@ msgid ":kbd:`Cmd+O`"
 msgstr ""
 
 #: ../../user/translating.rst:219
-#, fuzzy
-#| msgid "Copies source string"
 msgid "Copy source string."
-msgstr "复制源字符串"
+msgstr "复制源字符串。"
 
 #: ../../user/translating.rst:223
 msgid ":kbd:`Ctrl+Y` or"
