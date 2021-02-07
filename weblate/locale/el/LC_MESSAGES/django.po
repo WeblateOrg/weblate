@@ -10,13 +10,14 @@
 # Michal Čihař <michal@cihar.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
 # jimman2003 <jim41825@gmail.com>, 2020.
+# Michalis <michalisntovas@yahoo.gr>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
-"PO-Revision-Date: 2021-02-04 23:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-07 11:29+0000\n"
+"Last-Translator: Michalis <michalisntovas@yahoo.gr>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
 "Language: el\n"
@@ -2225,19 +2226,17 @@ msgstr "Ενωμένο αποθετήριο"
 #: weblate/auth/data.py:205
 msgctxt "Access-control role"
 msgid "Billing"
-msgstr "Λογαριασμός"
+msgstr "Χρέωση"
 
 #: weblate/auth/data.py:211
 msgctxt "Access-control group"
 msgid "Guests"
-msgstr ""
+msgstr "Επισκέπτες"
 
 #: weblate/auth/data.py:215
-#, fuzzy
-#| msgid "View"
 msgctxt "Access-control group"
 msgid "Viewers"
-msgstr "Προβολή"
+msgstr "Θεατές"
 
 #: weblate/auth/data.py:216
 msgctxt "Access-control group"
@@ -2245,18 +2244,14 @@ msgid "Users"
 msgstr "Χρήστες"
 
 #: weblate/auth/data.py:217
-#, fuzzy
-#| msgid "Review"
 msgctxt "Access-control group"
 msgid "Reviewers"
-msgstr "Έλεγχος"
+msgstr "Επιθεωρητές"
 
 #: weblate/auth/data.py:218
-#, fuzzy
-#| msgid "Manage"
 msgctxt "Access-control group"
 msgid "Managers"
-msgstr "Διαχείριση"
+msgstr "Διαχειριστές"
 
 #: weblate/auth/data.py:223
 msgctxt "Per-project access-control group"
@@ -2281,7 +2276,7 @@ msgstr "Γλωσσάρι"
 #: weblate/auth/data.py:227
 msgctxt "Per-project access-control group"
 msgid "Memory"
-msgstr ""
+msgstr "Μνήμη"
 
 #: weblate/auth/data.py:228
 msgctxt "Per-project access-control group"
@@ -2306,19 +2301,16 @@ msgstr "Διαχείριση"
 #: weblate/auth/data.py:232
 msgctxt "Per-project access-control group"
 msgid "Billing"
-msgstr "Λογαριασμός"
+msgstr "Χρέωση"
 
 #: weblate/auth/models.py:72
-#, fuzzy
-#| msgid "Permissions"
 msgid "Permission"
-msgstr "Αδειοδοτήσεις"
+msgstr "Άδεια"
 
 #: weblate/auth/models.py:78
-#, fuzzy, python-format
-#| msgid "Filtered permissions"
+#, python-format
 msgid "%s (site-wide permission)"
-msgstr "%s (Φιλτραρισμένες αδειοδοτήσεις)"
+msgstr "%s (άδεια σε ολόκληρο τον ιστότοπο)"
 
 #: weblate/auth/models.py:83 weblate/auth/models.py:108
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2329,51 +2321,39 @@ msgstr "Όνομα"
 
 #: weblate/auth/models.py:88
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "Επιλέξτε δικαιώματα που εκχωρούνται σε αυτόν το ρόλο."
 
 #: weblate/auth/models.py:111
 msgid "Roles"
-msgstr ""
+msgstr "Ρόλοι"
 
 #: weblate/auth/models.py:113
-#, fuzzy
-#| msgid "Choose file format for the report"
 msgid "Choose roles granted to this group."
-msgstr "Επιλογή μορφής αρχείου για την αναφορά"
+msgstr "Επιλέξτε ρόλους που εκχωρούνται σε αυτήν την ομάδα."
 
 #: weblate/auth/models.py:117
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project selection"
-msgstr "Πληροφορίες Έργου"
+msgstr "Επιλογή έργου"
 
 #: weblate/auth/models.py:119 weblate/auth/models.py:142
-#, fuzzy
-#| msgid "Access denied."
 msgid "As defined"
-msgstr "Η πρόσβαση δεν επιτρέπεται."
+msgstr "Όπως ορίζεται"
 
 #: weblate/auth/models.py:120
 msgid "All projects"
 msgstr "Όλα τα έργα"
 
 #: weblate/auth/models.py:121
-#, fuzzy
-#| msgid "All projects"
 msgid "All public projects"
-msgstr "Όλα τα έργα"
+msgstr "Όλα τα δημόσια έργα"
 
 #: weblate/auth/models.py:122
-#, fuzzy
-#| msgid "All projects"
 msgid "All protected projects"
-msgstr "Όλα τα έργα"
+msgstr "Όλα τα προστατευόμενα έργα"
 
 #: weblate/auth/models.py:123
-#, fuzzy
-#| msgid "Component list"
 msgid "From component list"
-msgstr "Λίστα περιεχομένου"
+msgstr "Από τη λίστα στοιχείων"
 
 #: weblate/auth/models.py:128 weblate/billing/admin.py:77
 #: weblate/billing/models.py:282 weblate/templates/base.html:124
@@ -2393,10 +2373,8 @@ msgid "Components"
 msgstr "Περιεχόμενα"
 
 #: weblate/auth/models.py:140
-#, fuzzy
-#| msgid "Language code"
 msgid "Language selection"
-msgstr "Κωδικός γλώσσας"
+msgstr "Επιλογή γλώσσας"
 
 #: weblate/auth/models.py:143 weblate/trans/forms.py:955
 msgid "All languages"
@@ -5730,7 +5708,7 @@ msgstr "Επεξεργασία"
 #: weblate/templates/project_info.html:23 weblate/trans/forms.py:1909
 #: weblate/wladmin/views.py:75
 msgid "Billing"
-msgstr "Λογαριασμός"
+msgstr "Χρέωση"
 
 #: weblate/templates/billing/detail.html:23
 msgid "Recurring payment"
@@ -6398,32 +6376,34 @@ msgid "Add"
 msgstr "Προσθήκη"
 
 #: weblate/templates/component.html:270
-#, fuzzy
-#| msgid "Other components"
 msgid "Rename component"
-msgstr "Άλλα περιεχόμενα"
+msgstr "Μετονομασία στοιχείου"
 
 #: weblate/templates/component.html:273
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Η μετονομασία του στοιχείου θα αλλάξει όλες τις διευθύνσεις URL του, οι "
+"χρήστες θα πρέπει να ενημερώσουν τους σελιδοδείκτες ή τις αναφορές στα "
+"κλωνοποιημένα αποθετήρια!"
 
 #: weblate/templates/component.html:285
-#, fuzzy
-#| msgid "Other components"
 msgid "Move component"
-msgstr "Άλλα περιεχόμενα"
+msgstr "Μετακίνηση στοιχείου"
 
 #: weblate/templates/component.html:288
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Η μετακίνηση του στοιχείου θα αλλάξει όλες τις διευθύνσεις URL του, οι "
+"χρήστες θα πρέπει να ενημερώσουν τους σελιδοδείκτες ή τις αναφορές στα "
+"κλωνοποιημένα αποθετήρια!"
 
 #: weblate/templates/component.html:293
 msgid "Move"
-msgstr ""
+msgstr "Μετακίνηση"
 
 #: weblate/templates/component.html:304 weblate/templates/project.html:280
 #: weblate/templates/translate.html:348 weblate/templates/translation.html:377
@@ -6440,23 +6420,18 @@ msgstr ""
 #: weblate/templates/component.html:321
 #: weblate/templates/dashboard/user.html:108 weblate/templates/project.html:297
 msgid "Credits"
-msgstr "Συντελεστές"
+msgstr "Μνείες"
 
 #: weblate/templates/component.html:325
-#, fuzzy
-#| msgid ""
-#| "Credits list all translators who have contributed to this component in a "
-#| "given time period. It can be useful for including in your documentation "
-#| "or application to thank translators."
 msgid ""
 "Lists all translators contributing to this component in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Στους συντελεστές εμφανίζονται όλοι οι μεταφραστές που έχουν συνεισφέρει σε "
-"αυτό το περιεχόμενο στη συγκεκριμένη χρονική περίοδο. Μπορεί να είναι "
-"χρήσιμο για να το συμπεριλάβετε στην τεκμηρίωσή σας ή την εφαρμογή σας για "
-"να ευχαριστήσετε τους μεταφραστές."
+"Παραθέτει όλους τους μεταφραστές που συνεισφέρουν σε αυτό το στοιχείο σε μια "
+"δεδομένη χρονική περίοδο. Χρήσιμο για συμπερίληψη στην τεκμηρίωση ή στην "
+"ίδια την εφαρμογή, για ευχαριστίες προς τους μεταφραστές και να σχόλια προς "
+"αυτούς."
 
 #: weblate/templates/component.html:329 weblate/templates/component.html:348
 #: weblate/templates/dashboard/user.html:116
