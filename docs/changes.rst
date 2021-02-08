@@ -23,6 +23,7 @@ Not yet released.
 * Added simplified interface to toggle some of the flags.
 * Added support for non-translatable or forbidden terms in glossary.
 * Added support for defining terminology in a glossary.
+* Moved text direction toggle to get more space for visual keyboard.
 
 Weblate 4.4.2
 -------------

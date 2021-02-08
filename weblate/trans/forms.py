@@ -104,9 +104,12 @@ EDITOR_TEMPLATE = """
 {0}
 <div class="clearfix"></div>
 {3}
-<span class="pull-right flip badge length">
-<span data-max="{4}" class="length-indicator">{5}</span>/{4}
-</span>
+<div class="pull-right flip editor-footer">
+    <span class="badge length">
+    <span data-max="{4}" class="length-indicator">{5}</span>/{4}
+    </span>
+    {6}
+</div>
 </div>
 """
 COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
@@ -226,6 +229,11 @@ class PluralTextarea(forms.Textarea):
             )
 
         groups.append(GROUP_TEMPLATE.format("", "\n".join(chars)))
+        return TOOLBAR_TEMPLATE.format("\n".join(groups))
+
+    def get_rtl_toggle(self, language, fieldname):
+        if language.direction != "rtl":
+            return ""
 
         # RTL/LTR switch
         rtl_name = f"rtl-{fieldname}"
@@ -247,9 +255,7 @@ class PluralTextarea(forms.Textarea):
                 "LTR",
             ),
         ]
-        groups.append(
-            GROUP_TEMPLATE.format('data-toggle="buttons"', "\n".join(rtl_switch))
-        )
+        groups = [GROUP_TEMPLATE.format('data-toggle="buttons"', "\n".join(rtl_switch))]
         return TOOLBAR_TEMPLATE.format("\n".join(groups))
 
     def get_toolbar(self, language, fieldname, unit, idx):
@@ -344,6 +350,7 @@ class PluralTextarea(forms.Textarea):
                     textarea,
                     attrs["data-max"],
                     len(val),
+                    self.get_rtl_toggle(lang, fieldid),
                 )
             )
 
