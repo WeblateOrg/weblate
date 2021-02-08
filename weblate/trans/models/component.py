@@ -1504,6 +1504,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             )
             self.delete_alert("MergeFailure")
             self.delete_alert("RepositoryOutdated")
+            self.delete_alert("PushFailure")
 
             # create translation objects for all files
             try:
@@ -1713,6 +1714,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
                 self.delete_alert("MergeFailure")
                 self.delete_alert("RepositoryOutdated")
+                if not self.repo_needs_push():
+                    self.delete_alert("PushFailure")
                 for component in self.linked_childs:
                     vcs_post_update.send(
                         sender=component.__class__,
