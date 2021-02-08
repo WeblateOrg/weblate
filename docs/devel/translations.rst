@@ -17,7 +17,7 @@ This can be done using :guilabel:`Start new translation` in :ref:`component`.
 
 .. note::
 
-    If you add a language file in connected remote repository, respective 
+    If you add a language file in connected remote repository, respective
     translation will be added to the component when Weblate updates local repository.
      
     More info on the repository update settings can be found on the :ref:`update-vcs`.
@@ -27,27 +27,28 @@ This can be done using :guilabel:`Start new translation` in :ref:`component`.
 Removing existing translations
 ------------------------------
 
-Languages, components, or the projects they are in, can be removed (deleted from Weblate 
-and remote repository if used) from the menu :guilabel:`Manage` ↓ :guilabel:`Removal` 
+Languages, components, or the projects they are in, can be removed (deleted from Weblate
+and remote repository if used) from the menu :guilabel:`Manage` ↓ :guilabel:`Removal`
 of each project, component, or language.
 
-Initiating the :guilabel:`Removal` action shows the list of components to be removed. 
+Initiating the :guilabel:`Removal` action shows the list of components to be removed.
 You have to enter the object's `slug` to confirm the removal. The `slug` is the
 project's, language's, or component's pathname as it can be seen in the URL.
 
 If you want to remove just some specific strings, there are following ways:
 
 .. versionadded:: 4.5
-- In Weblate’s UI via button :guilabel:`Tools` ↓ :guilabel:`Remove` while editing the string.
-This has differences between file formats, see: :ref:`component-manage_units`
 
-- Manually in the source file. They will be removed from the 
-translation project as well upon Weblate's repository update.
+- In Weblate’s UI via button :guilabel:`Tools` ↓ :guilabel:`Remove` while editing the string.
+  This has differences between file formats, see: :ref:`component-manage_units`
+
+- Manually in the source file. They will be removed from the
+  translation project as well upon Weblate's repository update.
 
 
 .. note::
      
-     If you delete a language file in connected remote repository, respective 
+     If you delete a language file in connected remote repository, respective
      translation will be removed from the component when Weblate updates local repository.
      
      More info on the repository update settings can be found on the :ref:`update-vcs`.
