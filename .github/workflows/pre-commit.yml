@@ -35,8 +35,3 @@ jobs:
           fi
       - name: pre-commit
         run: pre-commit run --all
-      - uses: SOF3/octodiff@v1
-        if: always()
-        with:
-          token: ${{ secrets.PR_BOT_SECRET }}
-          prTitle: pre-commit would make changes
