@@ -434,6 +434,8 @@ class ComponentSerializer(RemovableSerializer):
     zipfile = serializers.FileField(required=False)
     docfile = serializers.FileField(required=False)
 
+    enforced_checks = serializers.JSONField(required=False)
+
     task_url = RelatedTaskField(lookup_field="background_task_id")
 
     addons = serializers.HyperlinkedIdentityField(

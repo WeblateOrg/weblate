@@ -1469,8 +1469,8 @@ class ComponentAPITest(APIBaseTest):
             "api:component-detail", self.component_kwargs, method="put", code=403
         )
         component = self.client.get(
-            reverse("api:component-detail", kwargs=self.component_kwargs)
-        ).data
+            reverse("api:component-detail", kwargs=self.component_kwargs), format="json"
+        ).json()
         component["name"] = "New Name"
         response = self.do_request(
             "api:component-detail",
