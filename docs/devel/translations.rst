@@ -27,17 +27,17 @@ the repository. ref:`update-vcs` has info on updating repository settings.
 Removing existing translations
 ------------------------------
 
-Components or the projects they are in can be removed in their entirety
-from :guilabel:`Removal` found in the administration tab shown to administrators
-of each project or component. Languages can be removed by navigating to the
-one to delete and finding the menu under Tools > Removal.
+Languages, components, or the projects they are in, can be removed (deleted from Weblate 
+and remote repository if used) from the menu :guilabel:`Manage` ↓ :guilabel:`Removal` 
+of each project, component, or language.
 
 A list of components to remove is shown, and typing in the entire name of
-the respective project, component or language slated for removal will
+the respective project, component, or language selected for removal will
 confirm its deletion.
 
 If you want to remove single strings, removing them in the source file also
 removes them from translations.
+
 
 .. note::
 
