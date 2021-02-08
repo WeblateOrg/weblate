@@ -2968,10 +2968,14 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     def sync_terminology(self):
         """Trigger terminology sync in the background."""
-        from weblate.trans.tasks import sync_terminology
+        from weblate.glossary.tasks import sync_terminology
 
         if self.is_glossary:
-            transaction.on_commit(lambda: sync_terminology.delay(self.pk))
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                # Execute directly to avoid locking issues
+                sync_terminology(self.pk, component=self)
+            else:
+                transaction.on_commit(lambda: sync_terminology.delay(self.pk))
 
     def get_unused_enforcements(self):
         from weblate.trans.models import Unit

@@ -25,7 +25,6 @@ import json
 from django.conf import settings
 from django.urls import reverse
 
-from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.glossary.models import get_glossary_terms
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -295,7 +294,6 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(unit.unit_set.count(), 2)
 
         # Enable language consistency
-        LangaugeConsistencyAddon.create(self.glossary_component)
         self.assertEqual(unit.unit_set.count(), 2)
         self.assertEqual(Unit.objects.count(), start + 2)
 

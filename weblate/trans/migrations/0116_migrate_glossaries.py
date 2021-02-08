@@ -178,7 +178,8 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                 repo.execute(["add", repo_path])
                 if repo.needs_commit():
                     repo.commit("Migrate glossary content")
-    print(f"Migrating glossaries completed [{total}/{total}]")
+    if total:
+        print(f"Migrating glossaries completed [{total}/{total}]")
 
 
 class Migration(migrations.Migration):
