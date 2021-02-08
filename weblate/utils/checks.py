@@ -404,7 +404,7 @@ def check_perms(app_configs=None, **kwargs):
     """Check that the data dir can be written to."""
     errors = []
     uid = os.getuid()
-    message = "The path {} is owned by different user, check your DATA_DIR settings."
+    message = "The path {} is owned by a different user, check your DATA_DIR settings."
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
             # Skip toplevel lost+found dir, that one is typically owned by root
