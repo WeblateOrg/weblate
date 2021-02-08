@@ -19,7 +19,7 @@ This can be done using :ref:`component-new_lang` in :ref:`component`.
 
     If you add a language file in connected remote repository, respective
     translation will be added to the component when Weblate updates local repository.
-     
+
     More info on the repository update settings can be found on the :ref:`update-vcs`.
 
 .. _removing-translation:
@@ -47,10 +47,10 @@ If you want to remove just some specific strings, there are following ways:
 
 
 .. note::
-     
+
      If you delete a language file in connected remote repository, respective
      translation will be removed from the component when Weblate updates local repository.
-     
+
      More info on the repository update settings can be found on the :ref:`update-vcs`.
 
 
