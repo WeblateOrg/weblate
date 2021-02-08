@@ -288,12 +288,9 @@ def check_suggestion_add(user, permission, obj):
 def check_contribute(user, permission, translation):
     # Bilingual source translations
     if translation.is_source and not translation.is_template:
-        return (
-            translation.is_source
-            and not translation.component.template
-            and hasattr(translation.component.file_format_cls, "update_bilingual")
-            and user.has_perm("source.edit", translation)
-        )
+        return hasattr(
+            translation.component.file_format_cls, "update_bilingual"
+        ) and user.has_perm("source.edit", translation)
     if translation.component.is_glossary:
         permission = "glossary.upload"
     return check_can_edit(user, permission, translation) and (
@@ -304,10 +301,7 @@ def check_contribute(user, permission, translation):
         # Add upload
         or check_suggestion_add(user, "unit.add", translation)
         # Source upload
-        or (
-            translation.is_source
-            and hasattr(translation.component.file_format_cls, "update_bilingual")
-        )
+        or (translation.is_source and user.has_perm("source.edit", translation))
     )
 
 
