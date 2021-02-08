@@ -35,3 +35,7 @@ jobs:
           fi
       - name: pre-commit
         run: pre-commit run --all
+      - uses: getsentry/action-git-diff-suggestions@main
+        if: github.event_name == 'pull_request'
+        with:
+          message: pre-commit
