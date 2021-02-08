@@ -124,7 +124,7 @@ class AppStoreParser(MultiParser):
         parts = filename.rsplit("changelogs/", 1)
         if len(parts) == 2:
             try:
-                return -int(parts[1].split(".")[0])
+                return "-{}".format(int(parts[1].split(".")[0]))
             except ValueError:
                 pass
         return filename
