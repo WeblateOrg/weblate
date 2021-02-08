@@ -35,7 +35,7 @@ jobs:
           fi
       - name: pre-commit
         run: pre-commit run --all
-      - uses: SOF3/octodiff@1.0.0
+      - uses: SOF3/octodiff@v1
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
