@@ -24,6 +24,7 @@ Not yet released.
 * Added support for non-translatable or forbidden terms in glossary.
 * Added support for defining terminology in a glossary.
 * Moved text direction toggle to get more space for visual keyboard.
+* Added option to automatically watch projects user contributed to.
 
 Weblate 4.4.2
 -------------

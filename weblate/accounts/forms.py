@@ -212,7 +212,10 @@ class SubscriptionForm(ProfileBaseForm):
 
     class Meta:
         model = Profile
-        fields = ("watched",)
+        fields = (
+            "auto_watch",
+            "watched",
+        )
         widgets = {"watched": forms.SelectMultiple}
 
     def __init__(self, *args, **kwargs):

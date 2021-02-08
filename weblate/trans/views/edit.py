@@ -294,6 +294,8 @@ def perform_suggestion(unit, form, request):
 def perform_translation(unit, form, request):
     """Handle translation and stores it to a backend."""
     user = request.user
+    profile = user.profile
+    project = unit.translation.component.project
     # Remember old checks
     oldchecks = unit.all_checks_names
 
@@ -316,9 +318,9 @@ def perform_translation(unit, form, request):
         return True
 
     # Auto subscribe user
-    if not user.profile.languages.exists():
+    if not profile.languages.exists():
         language = unit.translation.language
-        user.profile.languages.add(language)
+        profile.languages.add(language)
         messages.info(
             request,
             _(
@@ -326,6 +328,16 @@ def perform_translation(unit, form, request):
                 "You can adjust them in the settings."
             )
             % {"language": language},
+        )
+    if profile.auto_watch and not profile.watched.filter(pk=project.pk).exists():
+        profile.watched.add(project)
+        messages.info(
+            request,
+            _(
+                "Added %(project)s to your watched projects. "
+                "You can adjust them and this behavior in the settings."
+            )
+            % {"project": project},
         )
 
     # Get new set of checks

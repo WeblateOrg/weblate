@@ -368,6 +368,13 @@ class Profile(models.Model):
             "Number of nearby strings to show in each direction in the full editor."
         ),
     )
+    auto_watch = models.BooleanField(
+        verbose_name=_("Automatically watch projects on contribution"),
+        default=True,
+        help_text=_(
+            "Whenever you translate a string in a project, you will start watching it."
+        ),
+    )
 
     DASHBOARD_WATCHED = 1
     DASHBOARD_COMPONENT_LIST = 4
