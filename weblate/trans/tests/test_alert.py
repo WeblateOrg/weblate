@@ -48,6 +48,31 @@ class AlertTest(ViewTestCase):
             alert.details["occurrences"][0]["source"], "Thank you for using Weblate."
         )
 
+    def test_unused_enforced(self):
+        self.assertEqual(
+            set(self.component.alert_set.values_list("name", flat=True)),
+            {
+                "DuplicateLanguage",
+                "DuplicateString",
+                "MissingLicense",
+                "BrokenBrowserURL",
+                "BrokenProjectURL",
+            },
+        )
+        self.component.enforced_checks = ["es_format"]
+        self.component.save()
+        self.assertEqual(
+            set(self.component.alert_set.values_list("name", flat=True)),
+            {
+                "DuplicateLanguage",
+                "DuplicateString",
+                "MissingLicense",
+                "BrokenBrowserURL",
+                "BrokenProjectURL",
+                "UnusedEnforcedCheck",
+            },
+        )
+
     def test_dismiss(self):
         self.user.is_superuser = True
         self.user.save()

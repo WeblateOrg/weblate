@@ -2686,7 +2686,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("NoLibreConditions")
 
-        if self.get_unused_enforcements():
+        if list(self.get_unused_enforcements()):
             self.add_alert("UnusedEnforcedCheck")
         else:
             self.delete_alert("UnusedEnforcedCheck")
