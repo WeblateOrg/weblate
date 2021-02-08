@@ -46,11 +46,11 @@ translation project as well upon Weblate's repository update.
 
 
 .. note::
-
-    Project admins can always remove translations within Weblate directly.
-
-Language files deleted manually from the VCS are removed from the component when Weblate updates
-the repository. ref:`update-vcs` has info on updating repository settings.
+     
+     If you delete a language file in connected remote repository, respective 
+     translation will be removed from the component when Weblate updates local repository.
+     
+     More info on the repository update settings can be found on the :ref:`update-vcs`.
 
 
 .. _variants:
