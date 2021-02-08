@@ -38,5 +38,5 @@ jobs:
       - uses: SOF3/octodiff@v1
         if: always()
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PR_BOT_SECRET }}
           prTitle: pre-commit would make changes
