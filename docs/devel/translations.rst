@@ -35,7 +35,14 @@ Initiating the :guilabel:`Removal` action shows the list of components to be rem
 You have to enter the object's `slug` to confirm the removal. The `slug` is the
 project's, language's, or component's pathname as it can be seen in the URL.
 
-Removing single strings in the source file also removes them from Weblate translations.
+If you want to remove just some specific strings, there are following ways:
+
+.. versionadded:: 4.5
+- In Weblate’s UI via button :guilabel:`Tools` ↓ :guilabel:`Remove` while editing the string.
+This has differences between file formats, see: :ref:`component-manage_units`
+
+- Manually in the source file. They will be removed from the 
+translation project as well upon Weblate's repository update.
 
 
 .. note::
